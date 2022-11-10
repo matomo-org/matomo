@@ -329,15 +329,24 @@ class DocumentationGenerator
      */
     protected function getParametersString($class, $name)
     {
-        $aParameters = Proxy::getInstance()->getParametersList($class, $name);
+        $aParameters = Proxy::getInstance()->getParametersListWithTypes($class, $name);
         $asParameters = array();
-        foreach ($aParameters as $nameVariable => $defaultValue) {
+        foreach ($aParameters as $nameVariable => $parameter) {
             // Do not show API parameters starting with _
             // They are supposed to be used only in internal API calls
             if (strpos($nameVariable, '_') === 0) {
                 continue;
             }
-            $str = $nameVariable;
+
+            $str = '';
+
+            if(!empty($parameter['type'])) {
+                $str = '<i>' . $parameter['type'] . '</i> ';
+            }
+
+            $str .= $nameVariable;
+            $defaultValue = $parameter['default'];
+
             if (!($defaultValue instanceof NoDefaultValue)) {
                 if (is_array($defaultValue)) {
                     $str .= " = 'Array'";

@@ -167,7 +167,7 @@ class Proxy
             $this->checkMethodExists($className, $methodName);
 
             // get the list of parameters required by the method
-            $parameterNamesDefaultValuesAndTypes = $this->getParametersList($className, $methodName);
+            $parameterNamesDefaultValuesAndTypes = $this->getParametersListWithTypes($className, $methodName);
 
             // load parameters in the right order, etc.
             if ($object->usesAutoSanitizeInputParams()) {
@@ -241,7 +241,7 @@ class Proxy
 
             $apiParametersInCorrectOrder = array();
 
-            foreach ($parameterNamesDefaultValues as $name => $defaultValue) {
+            foreach ($parameterNamesDefaultValuesAndTypes as $name => $parameter) {
                 if (isset($finalParameters[$name]) || array_key_exists($name, $finalParameters)) {
                     $apiParametersInCorrectOrder[] = $finalParameters[$name];
                 }
@@ -357,6 +357,25 @@ class Proxy
      */
     public function getParametersList($class, $name)
     {
+        return array_combine(
+            array_keys($this->metadataArray[$class][$name]['parameters']),
+            array_column($this->metadataArray[$class][$name]['parameters'], 'default')
+        );
+    }
+
+    /**
+     * Returns the parameters names, default values and types for the method $name
+     * of the class $class
+     *
+     * @param string $class The class name
+     * @param string $name The method name
+     * @return array  Format array(
+     *                            'testParameter' => ['default' => null, 'type' => null], // no default value
+     *                            'life'          => ['default' => 42, 'type' => 'int'], // default value 42, type hint is int
+     *                       );
+     */
+    public function getParametersListWithTypes($class, $name)
+    {
         return $this->metadataArray[$class][$name]['parameters'];
     }
 
@@ -423,7 +442,7 @@ class Proxy
                 $type = $parameter['type'];
 
                 if ($defaultValue instanceof NoDefaultValue) {
-                    $requestValue = Common::getRequestVar($name, null, null, $parametersRequest);
+                    $requestValue = Common::getRequestVar($name, null, $type, $parametersRequest);
                 } else {
                     try {
                         if ($name == 'segment' && !empty($parametersRequest['segment'])) {
