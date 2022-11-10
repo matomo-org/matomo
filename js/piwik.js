@@ -3108,6 +3108,7 @@ if (typeof window.Matomo !== 'object') {
                 refreshConsentStatus();
                 if (!configHasConsent) {
                     consentRequestsQueue.push(request);
+                    callBackQueue.push(callback);
                     return;
                 }
 
@@ -7174,12 +7175,13 @@ if (typeof window.Matomo !== 'object') {
                 for (i = 0; i < consentRequestsQueue.length; i++) {
                     requestType = typeof consentRequestsQueue[i];
                     if (requestType === 'string') {
-                        sendRequest(consentRequestsQueue[i], configTrackerPause);
+                        sendRequest(consentRequestsQueue[i], configTrackerPause, callBackQueue[i]);
                     } else if (requestType === 'object') {
-                        sendBulkRequest(consentRequestsQueue[i], configTrackerPause);
+                        sendBulkRequest(consentRequestsQueue[i], configTrackerPause, callBackQueue[i]);
                     }
                 }
                 consentRequestsQueue = [];
+                callBackQueue = [];
 
                 // we need to enable cookies after sending the previous requests as it will make sure that we send
                 // a ping request if needed. Cookies are only set once we call `getRequest`. Above only calls sendRequest
