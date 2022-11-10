@@ -2381,6 +2381,7 @@ if (typeof window.Matomo !== 'object') {
                 // Browser client hints
                 clientHints = {},
                 clientHintsRequestQueue = [],
+                callBackQueue = [],
                 clientHintsResolved = false,
 
                 // Keeps track of previously tracked content impressions
@@ -3100,6 +3101,7 @@ if (typeof window.Matomo !== 'object') {
             function sendRequest(request, delay, callback) {
                 if (!clientHintsResolved) {
                   clientHintsRequestQueue.push(request);
+                  callBackQueue.push(callback);
                   return;
                 }
 
@@ -3255,12 +3257,13 @@ if (typeof window.Matomo !== 'object') {
                     for (i = 0; i < clientHintsRequestQueue.length; i++) {
                         requestType = typeof clientHintsRequestQueue[i];
                         if (requestType === 'string') {
-                            sendRequest(clientHintsRequestQueue[i], configTrackerPause);
+                            sendRequest(clientHintsRequestQueue[i], configTrackerPause, callBackQueue[i]);
                         } else if (requestType === 'object') {
-                            sendBulkRequest(clientHintsRequestQueue[i], configTrackerPause);
+                            sendBulkRequest(clientHintsRequestQueue[i], configTrackerPause, callBackQueue[i]);
                         }
                     }
                     clientHintsRequestQueue = [];
+                    callBackQueue = [];
                 });
 
                 // Browser Feature is disabled return empty object
