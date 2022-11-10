@@ -35,9 +35,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     /** @var Lazy */
     private $cache;
 
-    public function __construct(Lazy $cache)
+    /** @var SiteContentDetector */
+    private $siteContentDetector;
+
+    public function __construct(Lazy $cache, SiteContentDetector $siteContentDetector)
     {
         $this->cache = $cache;
+        $this->siteContentDetector = $siteContentDetector;
 
         parent::__construct();
     }
@@ -159,11 +163,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'consentManagerName' => false
         ];
 
-        $consentManager = SiteContentDetector::getInstance();
-        $consentManager->detectContent([SiteContentDetector::CONSENT_MANAGER]);
-        if ($consentManager->consentManagerId) {
-            $emailTemplateData['consentManagerName'] = $consentManager->consentManagerName;
-            $emailTemplateData['consentManagerUrl'] = $consentManager->consentManagerUrl;
+        $this->siteContentDetector->detectContent([SiteContentDetector::CONSENT_MANAGER]);
+        if ($this->siteContentDetector->consentManagerId) {
+            $emailTemplateData['consentManagerName'] = $this->siteContentDetector->consentManagerName;
+            $emailTemplateData['consentManagerUrl'] = $this->siteContentDetector->consentManagerUrl;
         }
 
         $emailContent = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', $emailTemplateData, $viewType = 'basic');
@@ -251,12 +254,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'consentManagerName' => false
         ];
 
-        $consentManager = SiteContentDetector::getInstance();
-        $consentManager->detectContent([SiteContentDetector::CONSENT_MANAGER]);
-        if ($consentManager->consentManagerId) {
-            $templateData['consentManagerName'] = $consentManager->consentManagerName;
-            $templateData['consentManagerUrl'] = $consentManager->consentManagerUrl;
-            $templateData['consentManagerIsConnected'] = $consentManager->isConnected;
+        $this->siteContentDetector->detectContent([SiteContentDetector::CONSENT_MANAGER]);
+        if ($this->siteContentDetector->consentManagerId) {
+            $templateData['consentManagerName'] = $this->siteContentDetector->consentManagerName;
+            $templateData['consentManagerUrl'] = $this->siteContentDetector->consentManagerUrl;
+            $templateData['consentManagerIsConnected'] = $this->siteContentDetector->isConnected;
         }
 
         return $this->renderTemplateAs('_siteWithoutDataTabs', $templateData, $viewType = 'basic');

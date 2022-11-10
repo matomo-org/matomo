@@ -9,6 +9,7 @@ namespace Piwik\Tests\Fixtures;
 
 use Piwik\Tests\Framework\Fixture;
 use Piwik\SiteContentDetector;
+use Piwik\Tests\Framework\Mock\FakeSiteContentDetector;
 
 /**
  * Fixture that adds one site with no visits and configures site content detection test data so that the
@@ -18,24 +19,30 @@ class EmptySiteWithSiteContentDetection extends Fixture
 {
     public $idSite = 1;
 
+    public function provideContainerConfig()
+    {
+
+        $mockData = [
+            'consentManagerId' => 'osano',
+            'consentManagerName' => 'Osano',
+            'consentManagerUrl' => 'https://matomo.org/faq/how-to/using-osano-consent-manager-with-matomo',
+            'isConnected' => true,
+            'ga3' => false,
+            'ga4' => false,
+            'gtm' => false
+        ];
+
+        return [
+            \Piwik\SiteContentDetector::class => \DI\autowire(FakeSiteContentDetector::class)
+                 ->constructorParameter('mockData', $mockData)
+        ];
+    }
+
+
     public function setUp(): void
     {
         Fixture::createSuperUser();
         $this->setUpWebsites();
-
-        $scd = SiteContentDetector::getInstance();
-
-        $scd->setTestData(
-            [
-                'consentManagerId' => 'osano',
-                'consentManagerName' => 'Osano',
-                'consentManagerUrl' => 'https://matomo.org/faq/how-to/using-osano-consent-manager-with-matomo',
-                'isConnected' => true,
-                'ga3' => false,
-                'ga4' => false,
-                'gtm' => false
-            ]);
-
     }
 
     public function tearDown(): void

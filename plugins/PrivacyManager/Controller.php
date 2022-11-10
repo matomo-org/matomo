@@ -40,10 +40,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     private $referrerAnonymizer;
 
-    public function __construct(ReferrerAnonymizer $referrerAnonymizer)
+    /** @var SiteContentDetector */
+    private $siteContentDetector;
+
+    public function __construct(ReferrerAnonymizer $referrerAnonymizer, SiteContentDetector $siteContentDetector)
     {
         parent::__construct();
         $this->referrerAnonymizer = $referrerAnonymizer;
+        $this->siteContentDetector = $siteContentDetector;
     }
 
     private function checkDataPurgeAdminSettingsIsEnabled()
@@ -167,13 +171,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $view = new View('@PrivacyManager/askingForConsent');
 
-        $consentManager = SiteContentDetector::getInstance();
-        $consentManager->detectContent([SiteContentDetector::CONSENT_MANAGER]);
+        $this->siteContentDetector->detectContent([SiteContentDetector::CONSENT_MANAGER]);
         $view->consentManagerName = null;
-        if ($consentManager->consentManagerId) {
-            $view->consentManagerName = $consentManager->consentManagerName;
-            $view->consentManagerUrl = $consentManager->consentManagerUrl;
-            $view->consentManagerIsConnected = $consentManager->isConnected;
+        if ($this->siteContentDetector->consentManagerId) {
+            $view->consentManagerName = $this->siteContentDetector->consentManagerName;
+            $view->consentManagerUrl = $this->siteContentDetector->consentManagerUrl;
+            $view->consentManagerIsConnected = $this->siteContentDetector->isConnected;
         }
         $this->setBasicVariablesView($view);
         return $view->render();

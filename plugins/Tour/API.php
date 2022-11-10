@@ -31,10 +31,14 @@ class API extends \Piwik\Plugin\API
      */
     private $levels;
 
-    public function __construct(Challenges $challenges, Levels $levels)
+    /** @var SiteContentDetector */
+    private $siteContentDetector;
+
+    public function __construct(Challenges $challenges, Levels $levels, SiteContentDetector $siteContentDetector)
     {
         $this->challenges = $challenges;
         $this->levels = $levels;
+        $this->siteContentDetector = $siteContentDetector;
     }
 
     /**
@@ -77,12 +81,11 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        $consentManager = SiteContentDetector::getInstance();
-        $consentManager->detectContent([SiteContentDetector::CONSENT_MANAGER]);
-        if ($consentManager->consentManagerId) {
-            return ['name' => $consentManager->consentManagerName,
-                    'url' => $consentManager->consentManagerUrl,
-                    'isConnected' => $consentManager->isConnected
+        $this->siteContentDetector->detectContent([SiteContentDetector::CONSENT_MANAGER]);
+        if ($this->siteContentDetector->consentManagerId) {
+            return ['name' => $this->siteContentDetector->consentManagerName,
+                    'url' => $this->siteContentDetector->consentManagerUrl,
+                    'isConnected' => $this->siteContentDetector->isConnected
                 ];
         }
 

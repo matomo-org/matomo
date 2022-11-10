@@ -15,27 +15,29 @@ use Piwik\SiteContentDetector;
 class ChallengeSetupConsentManager extends Challenge
 {
 
-    private $consentManager = null;
+    /** @var SiteContentDetector */
+    private $siteContentDetector;
 
 
     /**
-     * @param string|null $siteData    String of site content, content of the current site will be retrieved if left blank
+     * @param SiteContentDetector $siteContentDetector
+     * @param string|null         $siteData    String of site content, content of the current site will be retrieved if left blank
      */
-    public function __construct(?string $siteData = null)
+    public function __construct(SiteContentDetector $siteContentDetector, ?string $siteData = null)
     {
         parent::__construct();
-        $this->consentManager = SiteContentDetector::getInstance();
-        $this->consentManager->detectContent([SiteContentDetector::CONSENT_MANAGER], null, $siteData);
+        $this->siteContentDetector = $siteContentDetector;
+        $this->siteContentDetector->detectContent([SiteContentDetector::CONSENT_MANAGER], null, $siteData);
     }
 
     public function getName()
     {
-        return Piwik::translate('Tour_ConnectConsentManager', [$this->consentManager->consentManagerName]);
+        return Piwik::translate('Tour_ConnectConsentManager', [$this->siteContentDetector->consentManagerName]);
     }
 
     public function getDescription()
     {
-        return Piwik::translate('Tour_ConnectConsentManagerIntro', [$this->consentManager->consentManagerName]);
+        return Piwik::translate('Tour_ConnectConsentManagerIntro', [$this->siteContentDetector->consentManagerName]);
     }
 
     public function getId()
@@ -45,31 +47,31 @@ class ChallengeSetupConsentManager extends Challenge
 
     public function getConsentManagerId()
     {
-        return $this->consentManager->consentManagerId;
+        return $this->siteContentDetector->consentManagerId;
     }
 
     public function isCompleted()
     {
 
-        if (!$this->consentManager->consentManagerId) {
+        if (!$this->siteContentDetector->consentManagerId) {
             return true;
         }
 
-        return $this->consentManager->isConnected;
+        return $this->siteContentDetector->isConnected;
     }
 
     public function isDisabled()
     {
-        return ($this->consentManager->consentManagerId === null);
+        return ($this->siteContentDetector->consentManagerId === null);
     }
 
     public function getUrl()
     {
-        if ($this->consentManager->consentManagerId === null) {
+        if ($this->siteContentDetector->consentManagerId === null) {
             return '';
         }
 
-        return $this->consentManager->consentManagerUrl;
+        return $this->siteContentDetector->consentManagerUrl;
     }
 
 }
