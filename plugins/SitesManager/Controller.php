@@ -35,9 +35,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     /** @var Lazy */
     private $cache;
 
-    public function __construct(Lazy $cache)
+    /** @var SiteContentDetector */
+    private $siteContentDetector;
+
+    public function __construct(Lazy $cache, SiteContentDetector $siteContentDetector)
     {
         $this->cache = $cache;
+        $this->siteContentDetector = $siteContentDetector;
 
         parent::__construct();
     }
@@ -156,21 +160,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'showMatomoLinks' => $showMatomoLinks,
             'trackingUrl' => $trackingUrl,
             'idSite' => $this->idSite,
-            'consentManagerName' => false,
-            'ga3Used' => false,
-            'ga4Used' => false,
-            'gtmUsed' => false,
+            'consentManagerName' => false
         ];
 
-        $siteDetection = SiteContentDetector::getInstance();
-        $siteDetection->detectContent([SiteContentDetector::ALL_CONTENT]);
-        if ($siteDetection->consentManagerId) {
-            $emailTemplateData['consentManagerName'] = $siteDetection->consentManagerName;
-            $emailTemplateData['consentManagerUrl'] = $siteDetection->consentManagerUrl;
+        $this->siteContentDetector->detectContent([SiteContentDetector::CONSENT_MANAGER]);
+        if ($this->siteContentDetector->consentManagerId) {
+            $emailTemplateData['consentManagerName'] = $this->siteContentDetector->consentManagerName;
+            $emailTemplateData['consentManagerUrl'] = $this->siteContentDetector->consentManagerUrl;
         }
-        $emailTemplateData['ga3Used'] = $siteDetection->ga3;
-        $emailTemplateData['ga4Used'] = $siteDetection->ga4;
-        $emailTemplateData['gtmUsed'] = $siteDetection->gtm;
 
         $emailContent = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', $emailTemplateData, $viewType = 'basic');
 
@@ -251,24 +248,18 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'showMatomoLinks' => $showMatomoLinks,
             'siteType' => $siteType,
             'instruction' => SitesManager::getInstructionBySiteType($siteType),
-            'gtmUsed' => false,
-            'ga3Used' => false,
-            'ga4Used' => false,
+            'gtmUsed' => $gtmUsed,
             'googleAnalyticsImporterMessage' => $googleAnalyticsImporterMessage,
             'tagManagerActive' => $tagManagerActive,
             'consentManagerName' => false
         ];
 
-        $siteDetection = SiteContentDetector::getInstance();
-        $siteDetection->detectContent([SiteContentDetector::ALL_CONTENT]);
-        if ($siteDetection->consentManagerId) {
-            $templateData['consentManagerName'] = $siteDetection->consentManagerName;
-            $templateData['consentManagerUrl'] = $siteDetection->consentManagerUrl;
-            $templateData['consentManagerIsConnected'] = $siteDetection->isConnected;
+        $this->siteContentDetector->detectContent([SiteContentDetector::CONSENT_MANAGER]);
+        if ($this->siteContentDetector->consentManagerId) {
+            $templateData['consentManagerName'] = $this->siteContentDetector->consentManagerName;
+            $templateData['consentManagerUrl'] = $this->siteContentDetector->consentManagerUrl;
+            $templateData['consentManagerIsConnected'] = $this->siteContentDetector->isConnected;
         }
-        $templateData['ga3Used'] = $siteDetection->ga3;
-        $templateData['ga4Used'] = $siteDetection->ga4;
-        $templateData['gtmUsed'] = $siteDetection->gtm;
 
         return $this->renderTemplateAs('_siteWithoutDataTabs', $templateData, $viewType = 'basic');
     }

@@ -29,8 +29,6 @@ use Piwik\Container\StaticContainer;
 class SiteContentDetector
 {
 
-    const TEST_SETTINGS_OPTION_NAME = 'site_content_detector.test_settings';
-
     // Content types
     const ALL_CONTENT = 1;
     const CONSENT_MANAGER = 2;
@@ -86,11 +84,6 @@ class SiteContentDetector
     public function detectContent(array $detectContent = [SiteContentDetector::ALL_CONTENT],
                                   ?int $idSite = null, ?string $siteData = null, int $timeOut = 60)
     {
-
-        // Return test data if option set
-        if ($this->checkForTestData()) {
-            return;
-        }
 
         // If the site data was already retrieved and stored in this object and it is for the same site id and we're
         // not being passed a specific sitedata parameter then avoid making another request and just return
@@ -286,55 +279,4 @@ class SiteContentDetector
                 ],
             ];
     }
-
-    /**
-     * Check if test data should be returned instead of checking a real site
-     *
-     * The option will provide the object properties that should be set
-     *
-     * @return bool  True if test settings were used
-     */
-    private function checkForTestData() : bool
-    {
-        $testData = null;
-        try {
-            $optionValue = Option::get(self::TEST_SETTINGS_OPTION_NAME);
-            $testData = json_decode($optionValue, true);
-        } catch (\Exception $e) {
-            $optionValue = false;
-        }
-        if (!$optionValue || $testData === null) {
-            return false;
-        }
-
-        // Apply test settings
-        foreach ($testData as $property => $value) {
-            if (property_exists($this, $property)) {
-                $this->{$property} = $value;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Set test data to be returned by detect()
-     *
-     * Should be removed by clearTestData() after use
-     *
-     * @param array $testData
-     */
-    public function setTestData(array $testData) : void
-    {
-        Option::set(self::TEST_SETTINGS_OPTION_NAME, json_encode($testData));
-    }
-
-    /**
-     * Clear the test data option
-     */
-    public function clearTestData() : void
-    {
-        Option::delete(self::TEST_SETTINGS_OPTION_NAME);
-    }
-
 }
