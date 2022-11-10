@@ -167,13 +167,13 @@ class Proxy
             $this->checkMethodExists($className, $methodName);
 
             // get the list of parameters required by the method
-            $parameterNamesDefaultValues = $this->getParametersList($className, $methodName);
+            $parameterNamesDefaultValuesAndTypes = $this->getParametersList($className, $methodName);
 
             // load parameters in the right order, etc.
             if ($object->usesAutoSanitizeInputParams()) {
-                $finalParameters = $this->getSanitizedRequestParametersArray($parameterNamesDefaultValues, $request->getParameters());
+                $finalParameters = $this->getSanitizedRequestParametersArray($parameterNamesDefaultValuesAndTypes, $request->getParameters());
             } else {
-                $finalParameters = $this->getRequestParametersArray($parameterNamesDefaultValues, $request);
+                $finalParameters = $this->getRequestParametersArray($parameterNamesDefaultValuesAndTypes, $request);
             }
 
             // allow plugins to manipulate the value
@@ -417,8 +417,11 @@ class Proxy
     private function getSanitizedRequestParametersArray($requiredParameters, $parametersRequest)
     {
         $finalParameters = [];
-        foreach ($requiredParameters as $name => $defaultValue) {
+        foreach ($requiredParameters as $name => $parameter) {
             try {
+                $defaultValue = $parameter['default'];
+                $type = $parameter['type'];
+
                 if ($defaultValue instanceof NoDefaultValue) {
                     $requestValue = Common::getRequestVar($name, null, null, $parametersRequest);
                 } else {
@@ -427,7 +430,7 @@ class Proxy
                             // segment parameter is an exception: we do not want to sanitize user input or it would break the segment encoding
                             $requestValue = ($parametersRequest['segment']);
                         } else {
-                            $requestValue = Common::getRequestVar($name, $defaultValue, null, $parametersRequest);
+                            $requestValue = Common::getRequestVar($name, $defaultValue, $type, $parametersRequest);
                         }
                     } catch (Exception $e) {
                         // Special case: empty parameter in the URL, should return the empty string
@@ -459,14 +462,34 @@ class Proxy
     private function getRequestParametersArray($requiredParameters, \Piwik\Request $request): array
     {
         $finalParameters = [];
-        foreach ($requiredParameters as $name => $defaultValue) {
+        foreach ($requiredParameters as $name => $parameter) {
             try {
+                $defaultValue = $parameter['default'];
+                $type = $parameter['type'];
                 $requestValue = null;
 
+                switch (strtolower($type)) {
+                    case 'int':
+                    case 'integer':
+                        $method = 'getIntegerParameter';
+                        break;
+                    case 'string':
+                        $method = 'getStringParameter';
+                        break;
+                    case 'float':
+                        $method = 'getFloatParameter';
+                        break;
+                    case 'array':
+                        $method = 'getArrayParameter';
+                        break;
+                    default:
+                        $method = 'getParameter';
+                }
+
                 if ($defaultValue instanceof NoDefaultValue) {
-                    $requestValue = $request->getParameter($name);
+                    $requestValue = $request->$method($name);
                 } else {
-                    $requestValue = $request->getParameter($name, $defaultValue);
+                    $requestValue = $request->$method($name, $defaultValue);
                 }
             } catch (Exception $e) {
                 throw new Exception(Piwik::translate('General_PleaseSpecifyValue', [$name]));
@@ -516,7 +539,12 @@ class Proxy
                 $defaultValue = $parameter->getDefaultValue();
             }
 
-            $aParameters[$nameVariable] = $defaultValue;
+            $type = $parameter->getType();
+
+            $aParameters[$nameVariable] = [
+                'default' => $defaultValue,
+                'type' => ($type && $type->isBuiltin()) ? $type->getName() : null,
+            ];
         }
         $this->metadataArray[$class][$name]['parameters'] = $aParameters;
         $this->metadataArray[$class][$name]['numberOfRequiredParameters'] = $method->getNumberOfRequiredParameters();
