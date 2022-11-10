@@ -30,6 +30,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### Archiving
 * When posting the event `Archiving.getIdSitesToMarkArchivesAsInvalidated` started passing date, period ,segment and name parameter along with idSites parameter.
 
+### Updated commands
+* The default maximum number of archivers processes to run concurrently has changed from unlimited to three. The `--concurrent-archivers` parameter can be used to increase this limit. A value of -1 will use an unlimited number of concurrent archivers
+
 ## Matomo 4.12.0
 
 ### Breaking Changes
