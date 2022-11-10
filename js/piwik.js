@@ -2381,6 +2381,7 @@ if (typeof window.Matomo !== 'object') {
                 // Browser client hints
                 clientHints = {},
                 clientHintsRequestQueue = [],
+                callBackQueue = [],
                 clientHintsResolved = false,
 
                 // Keeps track of previously tracked content impressions
@@ -3100,12 +3101,14 @@ if (typeof window.Matomo !== 'object') {
             function sendRequest(request, delay, callback) {
                 if (!clientHintsResolved) {
                   clientHintsRequestQueue.push(request);
+                  callBackQueue.push(callback);
                   return;
                 }
 
                 refreshConsentStatus();
                 if (!configHasConsent) {
                     consentRequestsQueue.push(request);
+                    callBackQueue.push(callback);
                     return;
                 }
 
@@ -3255,12 +3258,13 @@ if (typeof window.Matomo !== 'object') {
                     for (i = 0; i < clientHintsRequestQueue.length; i++) {
                         requestType = typeof clientHintsRequestQueue[i];
                         if (requestType === 'string') {
-                            sendRequest(clientHintsRequestQueue[i], configTrackerPause);
+                            sendRequest(clientHintsRequestQueue[i], configTrackerPause, callBackQueue[i]);
                         } else if (requestType === 'object') {
                             sendBulkRequest(clientHintsRequestQueue[i], configTrackerPause);
                         }
                     }
                     clientHintsRequestQueue = [];
+                    callBackQueue = [];
                 });
 
                 // Browser Feature is disabled return empty object
@@ -7171,12 +7175,13 @@ if (typeof window.Matomo !== 'object') {
                 for (i = 0; i < consentRequestsQueue.length; i++) {
                     requestType = typeof consentRequestsQueue[i];
                     if (requestType === 'string') {
-                        sendRequest(consentRequestsQueue[i], configTrackerPause);
+                        sendRequest(consentRequestsQueue[i], configTrackerPause, callBackQueue[i]);
                     } else if (requestType === 'object') {
                         sendBulkRequest(consentRequestsQueue[i], configTrackerPause);
                     }
                 }
                 consentRequestsQueue = [];
+                callBackQueue = [];
 
                 // we need to enable cookies after sending the previous requests as it will make sure that we send
                 // a ping request if needed. Cookies are only set once we call `getRequest`. Above only calls sendRequest
