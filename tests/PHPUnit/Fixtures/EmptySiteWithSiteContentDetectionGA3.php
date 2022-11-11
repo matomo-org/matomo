@@ -9,6 +9,7 @@ namespace Piwik\Tests\Fixtures;
 
 use Piwik\Tests\Framework\Fixture;
 use Piwik\SiteContentDetector;
+use Piwik\Tests\Framework\Mock\FakeSiteContentDetector;
 
 /**
  * Fixture that adds one site with no visits and configures site content detection test data so that GA3 will be
@@ -18,24 +19,28 @@ class EmptySiteWithSiteContentDetectionGA3 extends Fixture
 {
     public $idSite = 1;
 
+    public function provideContainerConfig()
+    {
+        $mockData = [
+            'consentManagerId' => null,
+            'consentManagerName' => null,
+            'consentManagerUrl' => null,
+            'isConnected' => false,
+            'ga3' => true,
+            'ga4' => false,
+            'gtm' => false
+        ];
+
+        return [
+            SiteContentDetector::class => \DI\autowire(FakeSiteContentDetector::class)
+                 ->constructorParameter('mockData', $mockData)
+        ];
+    }
+
     public function setUp(): void
     {
         Fixture::createSuperUser();
         $this->setUpWebsites();
-
-        $scd = SiteContentDetector::getInstance();
-
-        $scd->setTestData(
-            [
-                'consentManagerId' => null,
-                'consentManagerName' => null,
-                'consentManagerUrl' => null,
-                'isConnected' => false,
-                'ga3' => true,
-                'ga4' => false,
-                'gtm' => false
-            ]);
-
     }
 
     public function tearDown(): void

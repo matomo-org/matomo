@@ -21,7 +21,6 @@ class EmptySiteWithSiteContentDetection extends Fixture
 
     public function provideContainerConfig()
     {
-
         $mockData = [
             'consentManagerId' => 'osano',
             'consentManagerName' => 'Osano',

@@ -9,6 +9,7 @@ namespace Piwik\Tests\Fixtures;
 
 use Piwik\Tests\Framework\Fixture;
 use Piwik\SiteContentDetector;
+use Piwik\Tests\Framework\Mock\FakeSiteContentDetector;
 
 /**
  * Fixture that adds one site with no visits and configures site content detection test data so that GTM will be
@@ -18,24 +19,28 @@ class EmptySiteWithSiteContentDetectionGTM extends Fixture
 {
     public $idSite = 1;
 
+    public function provideContainerConfig()
+    {
+        $mockData = [
+            'consentManagerId' => null,
+            'consentManagerName' => null,
+            'consentManagerUrl' => null,
+            'isConnected' => false,
+            'ga3' => false,
+            'ga4' => false,
+            'gtm' => true
+        ];
+
+        return [
+            SiteContentDetector::class => \DI\autowire(FakeSiteContentDetector::class)
+                 ->constructorParameter('mockData', $mockData)
+        ];
+    }
+
     public function setUp(): void
     {
         Fixture::createSuperUser();
         $this->setUpWebsites();
-
-        $scd = SiteContentDetector::getInstance();
-
-        $scd->setTestData(
-            [
-                'consentManagerId' => null,
-                'consentManagerName' => null,
-                'consentManagerUrl' => null,
-                'isConnected' => false,
-                'ga3' => false,
-                'ga4' => false,
-                'gtm' => true
-            ]);
-
     }
 
     public function tearDown(): void

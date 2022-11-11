@@ -16,6 +16,7 @@ use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Plugins\Installation\Exception\DatabaseConnectionFailedException;
 use Piwik\SettingsPiwik;
+use Piwik\SiteContentDetector;
 use Piwik\View as PiwikView;
 
 /**
@@ -92,7 +93,7 @@ class Installation extends \Piwik\Plugin
 
     protected function getInstallationController()
     {
-        return new $this->installationControllerName();
+        return new $this->installationControllerName(new SiteContentDetector());
     }
 
     /**
