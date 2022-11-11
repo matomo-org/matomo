@@ -16,7 +16,6 @@
 				<availableValues />
 				<description>If enabled, the value will be automatically refreshed depending on the specified interval</description>
 				<inlineHelp />
-				<templateFile />
 				<introduction />
 				<condition />
 				<fullWidth>0</fullWidth>
@@ -34,7 +33,6 @@
 				<availableValues />
 				<description>Defines how often the value should be updated</description>
 				<inlineHelp>Enter a number which is &gt;= 15</inlineHelp>
-				<templateFile />
 				<introduction />
 				<condition />
 				<fullWidth>0</fullWidth>
@@ -55,7 +53,6 @@
 				</availableValues>
 				<description>Pick your favourite color</description>
 				<inlineHelp />
-				<templateFile />
 				<introduction />
 				<condition />
 				<fullWidth>0</fullWidth>
@@ -78,7 +75,6 @@
 				<availableValues />
 				<description>If enabled, anonymous usage data will be tracked. For example which pages are viewed and which reports are used most often. For more information contact your system administrator.</description>
 				<inlineHelp />
-				<templateFile />
 				<introduction />
 				<condition />
 				<fullWidth>0</fullWidth>

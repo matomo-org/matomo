@@ -465,7 +465,7 @@ class PluginsTest extends IntegrationTestCase
         $this->assertSame($pluginManager->getLoadedPlugin($pluginName)->getVersion(), $plugin['currentVersion']);
         $this->assertSame($pluginManager->isPluginActivated($pluginName), $plugin['isActivated']);
         $this->assertSame([], $plugin['missingRequirements']);
-         $this->assertSame('https://github.com/piwik/plugin-TreemapVisualization/commits/1.0.1', $plugin['repositoryChangelogUrl']);
+        $this->assertSame('https://github.com/piwik/plugin-TreemapVisualization/commits/1.0.1', $plugin['repositoryChangelogUrl']);
 
         $expectedApiCalls = array(
             'plugins/checkUpdates',

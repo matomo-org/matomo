@@ -229,10 +229,6 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Link: https://github.com/symfony/Console
 	License: MIT (Expat)
 
-	Name: AngularJS
-	Link: https://github.com/angular/angular.js
-	License: MIT (Expat)
-
 	Name: Mousetrap
 	Link: https://github.com/ccampbell/mousetrap
 	License: Apache 2.0
@@ -273,11 +269,11 @@ THIRD-PARTY CONTENT
 	Notes:
 	- used in ImageGraph plugin
 
-	Name: plugins/Feedback/angularjs/ratefeature/thumbs-down.png
+	Name: plugins/Feedback/vue/src/RateFeature/thumbs-down.png
 	Link: https://www.iconfinder.com/icons/216428/down_thumbs_icon
 	License: Creative Commons (Attribution-Share Alike 3.0 Unported)
 
-	Name: plugins/Feedback/angularjs/ratefeature/thumbs-up.png
+	Name: plugins/Feedback/vue/src/RateFeature/thumbs-up.png
 	Link: https://www.iconfinder.com/icons/216429/thumbs_up_icon
 	License: Creative Commons (Attribution-Share Alike 3.0 Unported)
 

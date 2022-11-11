@@ -3,12 +3,11 @@
   @link https://matomo.org
   @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
-
 <template>
   <div
     v-expand-on-hover="{expander: 'expander'}"
     id="header_message"
-    class="piwikSelector borderedControl piwikTopControl"
+    class="piwikSelector"
     :class="{header_info: !latestVersionAvailable, update_available: latestVersionAvailable}"
   >
     <Passthrough v-if="latestVersionAvailable && !isPiwikDemo">
