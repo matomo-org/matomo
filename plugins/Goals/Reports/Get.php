@@ -184,60 +184,80 @@ class Get extends Base
             [$lastPeriodDate, $ignore] = Range::getLastDate();
             if ($lastPeriodDate !== false) {
 
-                /** @var DataTable $previousData */
-                $previousData = Request::processRequest('Goals.get', ['date' => $lastPeriodDate, 'format_metrics' => '0']);
-                $previousDataRow = $previousData->getFirstRow();
+                // Using a filter here ensures the additional request is only performed when the view is rendered
+                $view->config->filters[] = function($datatable) use ($view, $lastPeriodDate, $idSite) {
+                    /** @var DataTable $previousData */
+                    $previousData    = Request::processRequest(
+                        'Goals.get',
+                        ['date' => $lastPeriodDate, 'format_metrics' => '0']
+                    );
+                    $previousDataRow = $previousData->getFirstRow();
 
-                $currentPeriod = PeriodFactory::build(Piwik::getPeriod(), Common::getRequestVar('date'));
-                $currentPrettyDate = ($currentPeriod instanceof Month ? $currentPeriod->getLocalizedLongString() : $currentPeriod->getPrettyString());
-                $lastPeriod = PeriodFactory::build(Piwik::getPeriod(), $lastPeriodDate);
-                $lastPrettyDate = ($currentPeriod instanceof Month ? $lastPeriod->getLocalizedLongString() : $lastPeriod->getPrettyString());
+                    $currentPeriod     = PeriodFactory::build(Piwik::getPeriod(), Common::getRequestVar('date'));
+                    $currentPrettyDate = ($currentPeriod instanceof Month ? $currentPeriod->getLocalizedLongString(
+                    ) : $currentPeriod->getPrettyString());
+                    $lastPeriod        = PeriodFactory::build(Piwik::getPeriod(), $lastPeriodDate);
+                    $lastPrettyDate    = ($currentPeriod instanceof Month ? $lastPeriod->getLocalizedLongString(
+                    ) : $lastPeriod->getPrettyString());
 
-                $view->config->compute_evolution = function ($columns, $metrics) use ($currentPrettyDate, $lastPrettyDate, $previousDataRow, $idSite) {
+                    $view->config->compute_evolution = function ($columns, $metrics) use (
+                        $currentPrettyDate,
+                        $lastPrettyDate,
+                        $previousDataRow,
+                        $idSite
+                    ) {
+                        $value      = reset($columns);
+                        $columnName = key($columns);
+                        $pastValue  = $previousDataRow ? $previousDataRow->getColumn($columnName) : 0;
 
-                    $value = reset($columns);
-                    $columnName = key($columns);
-                    $pastValue = $previousDataRow ? $previousDataRow->getColumn($columnName) : 0;
-
-                    if (!is_numeric($value)) {
-                        return;
-                    }
-
-                    // Format
-                    $formatter = new MetricFormatter();
-                    $currentValueFormatted = $value;
-                    $pastValueFormatted = $pastValue;
-                    foreach ($metrics as $metric) {
-                        if ($metric->getName() === $columnName) {
-                            $pastValueFormatted = $metric->format($pastValue, $formatter);
-                            $currentValueFormatted = $metric->format($value, $formatter);
-                            break;
+                        if (!is_numeric($value)) {
+                            return;
                         }
-                    }
 
-                    if (strpos($columnName, 'revenue') !== false) {
-                        $currencySymbol = Site::getCurrencySymbolFor($idSite);
-                        $pastValueFormatted = NumberFormatter::getInstance()->formatCurrency($pastValue, $currencySymbol, GoalManager::REVENUE_PRECISION);
-                        $currentValueFormatted = NumberFormatter::getInstance()->formatCurrency($value, $currencySymbol, GoalManager::REVENUE_PRECISION);
-                    }
+                        // Format
+                        $formatter             = new MetricFormatter();
+                        $currentValueFormatted = $value;
+                        $pastValueFormatted    = $pastValue;
+                        foreach ($metrics as $metric) {
+                            if ($metric->getName() === $columnName) {
+                                $pastValueFormatted    = $metric->format($pastValue, $formatter);
+                                $currentValueFormatted = $metric->format($value, $formatter);
+                                break;
+                            }
+                        }
 
-                    $columnTranslations = Metrics::getDefaultMetricTranslations();
-                    $columnTranslation = '';
-                    if (array_key_exists($columnName, $columnTranslations)) {
-                        $columnTranslation = $columnTranslations[$columnName];
-                    }
+                        if (strpos($columnName, 'revenue') !== false) {
+                            $currencySymbol        = Site::getCurrencySymbolFor($idSite);
+                            $pastValueFormatted    = NumberFormatter::getInstance()->formatCurrency(
+                                $pastValue,
+                                $currencySymbol,
+                                GoalManager::REVENUE_PRECISION
+                            );
+                            $currentValueFormatted = NumberFormatter::getInstance()->formatCurrency(
+                                $value,
+                                $currencySymbol,
+                                GoalManager::REVENUE_PRECISION
+                            );
+                        }
 
-                    return [
-                        'currentValue' => $value,
-                        'pastValue' => $pastValue,
-                        'tooltip' => Piwik::translate('General_EvolutionSummaryGeneric', [
-                            $currentValueFormatted . ' ' . $columnTranslation,
-                            $currentPrettyDate,
-                            $pastValueFormatted . ' ' . $columnTranslation,
-                            $lastPrettyDate,
-                            CalculateEvolutionFilter::calculate($value, $pastValue, $precision = 1)
-                        ]),
-                    ];
+                        $columnTranslations = Metrics::getDefaultMetricTranslations();
+                        $columnTranslation  = '';
+                        if (array_key_exists($columnName, $columnTranslations)) {
+                            $columnTranslation = $columnTranslations[$columnName];
+                        }
+
+                        return [
+                            'currentValue' => $value,
+                            'pastValue'    => $pastValue,
+                            'tooltip'      => Piwik::translate('General_EvolutionSummaryGeneric', [
+                                $currentValueFormatted . ' ' . $columnTranslation,
+                                $currentPrettyDate,
+                                $pastValueFormatted . ' ' . $columnTranslation,
+                                $lastPrettyDate,
+                                CalculateEvolutionFilter::calculate($value, $pastValue, $precision = 1)
+                            ]),
+                        ];
+                    };
                 };
             }
         } elseif ($view->isViewDataTableId(Evolution::ID)) {
