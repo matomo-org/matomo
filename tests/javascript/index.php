@@ -3693,7 +3693,7 @@ if ($mysql) {
     });
 
     test("tracking", function() {
-        expect(182);
+        expect(183);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
@@ -3981,6 +3981,10 @@ if ($mysql) {
         equal(3, requestQueue.requests.length, "does not increase number of queued requests but send it directly");
         requestQueue.enabled = true;
 
+        var fullQueueRequest = tracker.getRequest('myQueue=bar&queue=5');
+        tracker.trackPageView('is full request');
+        tracker.queueRequest(fullQueueRequest, true);
+
         // Custom variables
         tracker.storeCustomVariablesInCookie();
         tracker.setCookieNamePrefix("PREFIX");
@@ -4266,6 +4270,8 @@ if ($mysql) {
             ok( /myQueue=bar&queue=2/.test( results ), "queueRequest sends queued requests");
             ok( /myQueue=bar&queue=3/.test( results ), "queueRequest sends queued requests");
             ok( /myQueueDisabled=bar&queue=4/.test( results ), "queueRequest sends queued requests when disabled directly");
+
+            ok( results.indexOf(fullQueueRequest + '&uadata=%7B%7D</span>') !== -1, "queueRequest does not duplicate params if isFullRequest is used queued");
 
             // Test Custom variables
             ok( /SaveCustomVariableCookie.*&cvar=%7B%222%22%3A%5B%22cookiename2PAGE%22%2C%22cookievalue2PAGE%22%5D%7D.*&_cvar=%7B%221%22%3A%5B%22cookiename%22%2C%22cookievalue%22%5D%2C%222%22%3A%5B%22cookiename2%22%2C%22cookievalue2%22%5D%7D/.test(results), "test custom vars are set");
