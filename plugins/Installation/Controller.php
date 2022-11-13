@@ -31,6 +31,7 @@ use Piwik\Plugins\UsersManager\NewsletterSignup;
 use Piwik\Plugins\UsersManager\UserUpdater;
 use Piwik\ProxyHeaders;
 use Piwik\SettingsPiwik;
+use Piwik\SiteContentDetector;
 use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\Translation\Translator;
 use Piwik\Updater;
@@ -44,6 +45,16 @@ use Zend_Db_Adapter_Exception;
  */
 class Controller extends \Piwik\Plugin\ControllerAdmin
 {
+
+    public function __construct(SiteContentDetector $siteContentDetector)
+    {
+        $this->siteContentDetector = $siteContentDetector;
+        parent::__construct();
+    }
+
+    /** @var SiteContentDetector */
+    private $siteContentDetector;
+
     public $steps = array(
         'welcome'           => 'Installation_Welcome',
         'systemCheck'       => 'Installation_SystemCheck',
@@ -389,11 +400,19 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $trackingUrl = trim(SettingsPiwik::getPiwikUrl(), '/') . '/' . $javascriptGenerator->getPhpTrackerEndpoint();
 
+        $this->siteContentDetector->detectContent([SiteContentDetector::ALL_CONTENT]);
+
         $emailBody = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', array(
             'jsTag' => $rawJsTag,
             'showMatomoLinks' => $showMatomoLinks,
             'trackingUrl' => $trackingUrl,
-            'idSite' => $idSite
+            'idSite' => $idSite,
+            'gtmUsed' => $this->siteContentDetector->gtm,
+            'ga3Used' => $this->siteContentDetector->ga3,
+            'ga4Used' => $this->siteContentDetector->ga4,
+            'consentManagerName' => $this->siteContentDetector->consentManagerName,
+            'consentManagerUrl' => $this->siteContentDetector->consentManagerUrl,
+            'consentManagerIsConnected' => $this->siteContentDetector->isConnected
         ), $viewType = 'basic');
 
         // Load the Tracking code and help text from the SitesManager
@@ -404,6 +423,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $viewTrackingHelp->idSite = $idSite;
         $viewTrackingHelp->piwikUrl = Url::getCurrentUrlWithoutFileName();
         $viewTrackingHelp->isInstall = true;
+
+        $viewTrackingHelp->gtmUsed = $this->siteContentDetector->gtm;
+        $viewTrackingHelp->ga3Used = $this->siteContentDetector->ga3;
+        $viewTrackingHelp->ga4Used = $this->siteContentDetector->ga4;
+        $viewTrackingHelp->consentManagerName = $this->siteContentDetector->consentManagerName;
+        $viewTrackingHelp->consentManagerUrl = $this->siteContentDetector->consentManagerUrl;
+        $viewTrackingHelp->consentManagerIsConnected = $this->siteContentDetector->isConnected;
 
         $view->trackingHelp = $viewTrackingHelp->render();
         $view->displaySiteName = $siteName;
