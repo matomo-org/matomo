@@ -620,7 +620,7 @@
     },
     "RowEvolution": {
         "AvailableMetrics": "可用指标",
-        "CompareDocumentation": "点击下面的链接，打开相同表格中另外一行数据的这个弹出窗口，可以比较多个记录。<br />按住 Shift 键选择用于比较的行，就不用打开这个弹出窗口。",
+        "CompareDocumentation": "点击下面的链接，打开相同表格中另外一行数据的这个弹出窗口，可以比较多个记录。<br>按住 Shift 键选择用于比较的行，就不用打开这个弹出窗口。",
         "CompareRows": "比较记录",
         "ComparingRecords": "正在比较 %s 行",
         "Documentation": "点击指标显示趋势图，按住 Shift 键点击可同时显示多个指标。",
