@@ -8,8 +8,9 @@
 
 namespace Piwik\Http;
 
+use Piwik\NoAccessException;
 
-class BadRequestException extends HttpCodeException
+class BadRequestException extends NoAccessException
 {
     public function __construct($message)
     {

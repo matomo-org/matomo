@@ -7,7 +7,11 @@
  */
 
 namespace Piwik\Http;
+use Throwable;
 
-class HttpCodeException extends \Exception
+interface HttpCodeException extends Throwable
 {
+
 }
+
+

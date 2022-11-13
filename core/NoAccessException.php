@@ -9,6 +9,7 @@
 
 namespace Piwik;
 
+use Piwik\Exception\Exception;
 use Piwik\Http\HttpCodeException;
 
 /**
@@ -16,9 +17,8 @@ use Piwik\Http\HttpCodeException;
  *
  * @api
  */
-class NoAccessException extends HttpCodeException
+class NoAccessException extends Exception implements HttpCodeException
 {
-    private $isHtmlMessage = false;
 
     public function __construct($message)
     {
