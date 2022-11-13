@@ -125,8 +125,8 @@ class WeekTest extends BasePeriodTest
     public function getLocalizedShortStrings()
     {
         return array(
-            array('en', array('Oct 7 – 13, 2024', 'Nov 25 – Dec 1, 2024', 'Dec 30, 2024 – Jan 5, 2025')),
-            array('lt', array('2024 spal. 7–13', '2024 lapkr. 25 – gruod. 1', '2024 gruod. 30 – 2025 saus. 5')),
+            array('en', array('Oct 7 – 13, 2024', 'Nov 25 – Dec 1, 2024', 'Dec 30, 2024 – Jan 5, 2025')),
+            array('lt', array('2024 spal. 7–13', '2024 lapkr. 25 – gruod. 1', '2024 gruod. 30 – 2025 saus. 5')),
             array('zh-cn', array('2024年10月7日至13日', '2024年11月25日至12月1日', '2024年12月30日至2025年01月5日')),
         );
     }
@@ -154,9 +154,9 @@ class WeekTest extends BasePeriodTest
     public function getLocalizedLongStrings()
     {
         return array(
-            array('en', array('week October 7 – 13, 2024', 'week November 25 – December 1, 2024', 'week December 30, 2024 – January 5, 2025')),
-            array('es', array('semana 7–13 de octubre de 2024', 'semana 25 de noviembre – 1 de diciembre de 2024', 'semana 30 de diciembre de 2024 – 5 de enero de 2025')),
-            array('lt', array('savaitė 2024 spalio 7–13', 'savaitė 2024 lapkričio 25 – gruodžio 1', 'savaitė 2024 gruodžio 30 – 2025 sausio 5')),
+            array('en', array('week October 7 – 13, 2024', 'week November 25 – December 1, 2024', 'week December 30, 2024 – January 5, 2025')),
+            array('es', array('semana 7–13 de octubre de 2024', 'semana 25 de noviembre – 1 de diciembre de 2024', 'semana 30 de diciembre de 2024 – 5 de enero de 2025')),
+            array('lt', array('savaitė 2024 spalio 7–13', 'savaitė 2024 lapkričio 25 – gruodžio 1', 'savaitė 2024 gruodžio 30 – 2025 sausio 5')),
             array('zh-cn', array('周 2024年10月7日至13日', '周 2024年11月25日至12月1日', '周 2024年12月30日至2025年01月5日')),
         );
     }

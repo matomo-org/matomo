@@ -198,7 +198,7 @@ class OptOutManager
                                          string $fontSize, string $fontFamily, bool $applyStyling, bool $showIntro): string
     {
         return '<div id="matomo-opt-out"></div>
-<script src="'.rtrim($matomoUrl, '/').'/index.php?module=CoreAdminHome&action=optOutJS&div=matomo-opt-out&language='.$language.($applyStyling ? '&backgroundColor='.$backgroundColor.'&fontColor='.$fontColor.'&fontSize='.$fontSize.'&fontFamily='.$fontFamily : '').'&showIntro='.($showIntro ? '1' : '0').'"></script>';
+<script src="'.rtrim($matomoUrl, '/').'/index.php?module=CoreAdminHome&action=optOutJS&divId=matomo-opt-out&language='.$language.($applyStyling ? '&backgroundColor='.$backgroundColor.'&fontColor='.$fontColor.'&fontSize='.$fontSize.'&fontFamily='.$fontFamily : '').'&showIntro='.($showIntro ? '1' : '0').'"></script>';
     }
 
     /**
@@ -356,10 +356,8 @@ HTML;
                     _paq.push(['setCookiePath', settings.cookiePath]);
                 }
                 if (this.isUserOptedOut()) {
-                    _paq.push(['forgetUserOptOut']);
                     showContent(false, null, true);
                 } else {
-                    _paq.push(['optUserOut']);
                     showContent(true, null, true);
                 }
             }]);
@@ -457,12 +455,16 @@ JS;
                 }
             },               
             hasConsent: function() {
-                var value = this.getCookie(this.CONSENT_COOKIE_NAME);
-                if (this.getCookie(this.CONSENT_REMOVED_COOKIE_NAME) && value) {                
+                var consentCookie = this.getCookie(this.CONSENT_COOKIE_NAME);
+                var removedCookie = this.getCookie(this.CONSENT_REMOVED_COOKIE_NAME);
+                if (!consentCookie && !removedCookie) {
+                    return true; // No cookies set, so opted in
+                }
+                if (removedCookie && consentCookie) {                
                     this.setCookie(this.CONSENT_COOKIE_NAME, '', -129600000);              
                     return false;
                 }                
-                return (value || value !== 0);            
+                return (consentCookie || consentCookie !== 0);            
             },        
             consentGiven: function() {                                                        
                 this.setCookie(this.CONSENT_REMOVED_COOKIE_NAME, '', -129600000);

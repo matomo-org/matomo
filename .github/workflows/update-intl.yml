@@ -115,7 +115,7 @@ jobs:
               "title":"[automatic Intl data updates from CLDR ${{ steps.cldr.outputs.cldr-version }}]",
               "body":"Updated Intl plugin data with changes from CLDR ${{ steps.cldr.outputs.cldr-version }}",
               "head":"update-intl",
-              "base":"4.x-dev"
+              "base":"5.x-dev"
               }' \
              --url https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls
         shell: bash

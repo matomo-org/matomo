@@ -5,7 +5,7 @@
         "EvolutionComparisonDay": "%1$s %2$s bu gün ile karşılaştırıldığında %3$s %2$s önceki dönem parçasına göre (%4$s) Gelişim: %5$s",
         "EvolutionComparisonIncomplete": "Şu anda seçili olan dönem %1$s tamamlandı.",
         "EvolutionComparisonMonth": "%1$s %2$s bu ay ile karşılaştırıldığında %3$s %2$s önceki dönem parçasına göre (%4$s) Gelişim: %5$s",
-        "EvolutionComparisonProportional": "Önceki dönemin de %1$s tamamlandığı zaman, öngörülen %2$s %3$s olurdu.\n (önceki dönemde toplam %4$s %3$s üzerinden).",
+        "EvolutionComparisonProportional": "Önceki dönem de %1$s tamamlandığı zaman, öngörülen %2$s %3$s olurdu \n(önceki dönemde toplam %4$s %3$s üzerinden).",
         "EvolutionComparisonWeek": "%1$s %2$s bu hafta ile karşılaştırıldığında %3$s %2$s önceki dönem parçasına göre (%4$s) Gelişim: %5$s",
         "EvolutionComparisonYear": "%1$s %2$s bu yıl ile karşılaştırıldığında %3$s %2$s önceki dönem parçasına göre (%4$s) Gelişim: %5$s",
         "LoadingWebsites": "Web siteleri yükleniyor",

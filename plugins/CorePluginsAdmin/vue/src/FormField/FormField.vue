@@ -7,7 +7,6 @@
 <template>
   <div
     class="form-group row matomo-form-field"
-    v-show="showField"
   >
     <h3
       v-if="formField.introduction"
@@ -104,7 +103,6 @@ import FieldTextArray from './FieldTextArray.vue';
 import FieldTextarea from './FieldTextarea.vue';
 import FieldTextareaArray from './FieldTextareaArray.vue';
 import { processCheckboxAndRadioAvailableValues } from './utilities';
-import FieldAngularJsTemplate from './FieldAngularJsTemplate.vue';
 
 const TEXT_CONTROLS = ['password', 'url', 'search', 'email'];
 const CONTROLS_SUPPORTING_ARRAY = ['textarea', 'checkbox', 'text'];
@@ -151,7 +149,6 @@ interface FormField {
   component: Component | ComponentReference;
   inlineHelp?: string;
   inlineHelpBind?: unknown;
-  templateFile?: string;
 }
 
 interface OptionLike {
@@ -244,7 +241,7 @@ export default defineComponent({
         if ((formField.component as ComponentReference).plugin) {
           const { plugin, name } = formField.component as ComponentReference;
           if (!plugin || !name) {
-            throw new Error('Invalid component property given to piwik-field directive, must be '
+            throw new Error('Invalid component property given to FormField directive, must be '
               + '{plugin: \'...\',name: \'...\'}');
           }
 
@@ -252,11 +249,6 @@ export default defineComponent({
         }
 
         return markRaw(component);
-      }
-
-      // backwards compatibility w/ settings that use templateFile property
-      if (formField.templateFile) {
-        return markRaw(FieldAngularJsTemplate);
       }
 
       const { uiControl } = formField;
@@ -289,25 +281,10 @@ export default defineComponent({
         && this.formField.uiControl !== 'checkbox'
         && this.formField.uiControl !== 'radio';
     },
-    /**
-     * @deprecated here for angularjs BC support. shouldn't be used directly, instead use
-     *             GroupedSetting.vue.
-     */
-    showField() {
-      if (!this.formField
-        || !this.formField.condition
-        || !(this.formField.condition instanceof Function)
-      ) {
-        return true;
-      }
-
-      return this.formField.condition();
-    },
     processedModelValue() {
       const field = this.formField as FormField;
 
-      // convert boolean values since angular 1.6 uses strict equals when determining if a model
-      // value matches the ng-value of an input.
+      // handle boolean field types
       if (field.type === 'boolean') {
         const valueIsTruthy = this.modelValue && this.modelValue > 0 && this.modelValue !== '0';
 

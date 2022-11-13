@@ -3286,7 +3286,7 @@ function PiwikTest() {
         expect(5);
 
         var tracker = Piwik.getTracker();
-        tracker.disableBrowserFeatureDetection(); // avoid client hint queue
+        // tracker.disableBrowserFeatureDetection(); // avoid client hint queue
         tracker.setTrackerUrl("matomo.php");
         tracker.setSiteId(1);
         tracker.setCustomData({ "token": '---' });

@@ -63,8 +63,11 @@ var broadcast = {
         }
         broadcast._isInit = true;
 
-        angular.element(document).injector().invoke(function (historyService) {
-            historyService.init();
+        var MatomoUrl = window.CoreHome.MatomoUrl;
+        var watchEffect = window.Vue.watchEffect;
+
+        watchEffect(() => {
+          broadcast.pageload(MatomoUrl.stringify(MatomoUrl.hashParsed.value));
         });
 
         if(noLoadingMessage != true) {
@@ -246,17 +249,14 @@ var broadcast = {
         }
 
         if (disableHistory) {
-            var $window = piwikHelper.getAngularDependency('$window');
-            var newLocation = $window.location.href.split('#')[0] + '#?' + currentHashStr;
+            var newLocation = window.location.href.split('#')[0] + '#?' + currentHashStr;
             // window.location.replace changes the current url without pushing it on the browser's history stack
-            $window.location.replace(newLocation);
+            window.location.replace(newLocation);
         }
         else {
             // Let history know about this new Hash and load it.
             broadcast.forceReload = true;
-            angular.element(document).injector().invoke(function (historyService) {
-                historyService.load(currentHashStr);
-            });
+            window.CoreHome.MatomoUrl.updateHash(currentHashStr.replace(/^[#\/?]+/, ''));
         }
     },
 
@@ -326,10 +326,8 @@ var broadcast = {
 
         var params_vals = str.split("&");
 
-        var $window = piwikHelper.getAngularDependency('$window');
-
         // available in global scope
-        var currentSearchStr = $window.location.search;
+        var currentSearchStr = window.location.search;
         var currentHashStr = broadcast.getHashFromUrl();
 
         if (!currentSearchStr) {
@@ -398,20 +396,11 @@ var broadcast = {
           newUrl = wholeNewUrl;
         }
 
-        var $rootScope = piwikHelper.getAngularDependency('$rootScope');
-        if ($rootScope) {
-            $rootScope.$on('$locationChangeStart', function (event) {
-                if (event) {
-                    event.preventDefault();
-                }
-            });
-        }
-
         if (oldUrl == newUrl) {
-            $window.location.reload();
+            window.location.reload();
         } else {
             this.forceReload = true;
-            $window.location.href = newUrl;
+            window.location.href = newUrl;
         }
         return false;
 
@@ -608,7 +597,7 @@ var broadcast = {
                 piwikHelper.hideAjaxLoading();
                 broadcast.lastUrlRequested = null;
 
-                piwikHelper.compileAngularComponents('#content');
+                piwikHelper.compileVueDirectives('#content');
             }
 
             initTopControls();

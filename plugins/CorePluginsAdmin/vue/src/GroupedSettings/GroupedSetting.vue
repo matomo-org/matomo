@@ -9,7 +9,7 @@
     <FormField
       :model-value="modelValue"
       @update:model-value="changeValue($event)"
-      :form-field="settingWithComponent"
+      :form-field="setting"
     />
   </div>
 </template>
@@ -17,7 +17,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import FormField from '../FormField/FormField.vue';
-import FieldAngularJsTemplate from '../FormField/FieldAngularJsTemplate.vue';
 import expressions from '../expressions';
 
 export default defineComponent({
@@ -37,17 +36,6 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   computed: {
-    // bc for angularjs field that uses templateFile
-    settingWithComponent() {
-      if (this.setting.templateFile) {
-        return {
-          ...this.setting,
-          component: FieldAngularJsTemplate,
-        };
-      }
-
-      return this.setting;
-    },
     showField() {
       let condition = this.setting.condition as string;
       if (!condition) {

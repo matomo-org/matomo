@@ -5,7 +5,14 @@
 -->
 
 <template>
-  <img loading="lazy" alt="" :src="sparklineUrl" :width="width" :height="height" />
+  <img
+    class="sparklineImg"
+    loading="lazy"
+    alt=""
+    :src="sparklineUrl"
+    :width="width"
+    :height="height"
+  />
 </template>
 
 <script lang="ts">

@@ -68,7 +68,7 @@
         "TagManagerTeaserHideSuperUser": "Diese Seite keinem Benutzer anzeigen",
         "TeaserExtendPiwik": "Erweitere Matomo mit Plugins und Themes",
         "TeaserExtendPiwikByPlugin": "Erweitern Sie Matomo, indem Sie %1$sPlugins aus dem Marketplace installieren%2$s oder %3$sein Plugin im .zip Format hochladen%4$s.",
-        "TeaserExtendPiwikByTheme": "Wechseln Sie das Erscheinungsbild durch die %1$sInstallation eines neuen Themes%2$s.",
+        "TeaserExtendPiwikByTheme": "Ändern Sie das Erscheinungsbild durch die %1$sInstallation eines neuen Themes%2$s.",
         "Theme": "Theme",
         "Themes": "Themen",
         "ThemesDescription": "Themes können das Aussehen der Benutzeroberfläche für Matomo Anwender ändern und bringen so ein komplett neues visuelles Erlebnis, das Ihnen die Analyse Ihrer Berichte angenehm gestaltet.",

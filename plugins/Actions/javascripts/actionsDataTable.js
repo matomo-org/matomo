@@ -283,7 +283,7 @@
 
             content.trigger('piwik:dataTableLoaded');
 
-            piwikHelper.compileAngularComponents(content);
+            piwikHelper.compileVueEntryComponents(content);
 
             piwikHelper.lazyScrollTo(content[0], 400);
 

@@ -119,15 +119,6 @@ class FieldConfig
     public $uiControl = null;
 
     /**
-     * Defines a custom template file for a UI control. This file should render a UI control and expose the value in a
-     * "formField.value" angular model. For an example see "plugins/CorePluginsAdmin/angularjs/form-field/field-text.html"
-     *
-     * @var string
-     * @deprecated set $customFieldComponent to ['plugin' => 'MyPlugin', 'component' => 'MyComponentAsItIsExported']
-     */
-    public $customUiControlTemplateFile = '';
-
-    /**
      * Defines a custom Vue component to use for the internal field UI control. This should be an array with two
      * keys:
      *

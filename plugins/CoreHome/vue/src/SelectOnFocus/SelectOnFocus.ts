@@ -7,6 +7,8 @@
 
 import { DirectiveBinding } from 'vue';
 
+const { $ } = window;
+
 interface SelectOnFocusArgs {
   // state
   focusedElement?: HTMLElement;
@@ -21,7 +23,7 @@ interface SelectOnFocusArgs {
 function onFocusHandler(binding: DirectiveBinding<SelectOnFocusArgs>, event: Event) {
   if (binding.value.focusedElement !== event.target) {
     binding.value.focusedElement = event.target as HTMLElement;
-    window.angular.element(event.target!).select();
+    $(event.target!).select();
   }
 }
 

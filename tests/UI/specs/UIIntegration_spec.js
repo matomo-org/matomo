@@ -371,7 +371,11 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             //await page.click('#pauseImage'); // prevent refreshes breaking the tests
             await page.waitForTimeout(100);
 
-            pageWrap = await page.$('.pageWrap');
+            pageWrap = await page.$('#root');
+            await page.evaluate(function() {
+              // hide navBar to skip random failed
+              $('#secondNavBar').hide();
+            });
             expect(await pageWrap.screenshot()).to.matchImage('visitors_realtime_visits');
         });
     });
@@ -392,8 +396,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         // actions pages
         it('should load the actions > pages help tooltip, including the "Report generated time"', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Pages");
-            await page.waitForSelector('[piwik-enriched-headline]');
-            elem = await page.$('[piwik-enriched-headline]');
+            await page.waitForSelector('.enrichedHeadline');
+            elem = await page.$('.enrichedHeadline');
             await elem.hover();
             await page.click('.helpIcon');
             await page.waitForTimeout(100);

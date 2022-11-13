@@ -6,12 +6,25 @@
  */
 
 import jqXHR = JQuery.jqXHR;
-import { IAngularStatic, IScope } from 'angular';
 import { ExtendedKeyboardEvent } from 'mousetrap';
 
 declare global {
+  import PlainObject = JQuery.PlainObject;
   type QueryParameterValue = string | number | null | undefined | QueryParameterValue[];
   type QueryParameters = Record<string, QueryParameterValue | QueryParameters>;
+
+  class DataTable_RowAction {
+    protected dataTable: any;
+    public actionName: string;
+    public trEventName: string;
+
+    constructor(dataTable: any);
+
+    openPopover(apiAction: string, idSubtable: string|number, extraParams: QueryParameters);
+    trigger(tr: HTMLElement|JQuery, originalEvent: Event, subTableLabel: string);
+    performAction(idSubtable: string|number, tr: HTMLElement|JQuery, originalEvent: Event);
+    doOpenPopover(urlParam: string);
+  }
 
   interface WrappedEventListener extends Function {
     wrapper?: (evt: Event) => void;
@@ -66,29 +79,20 @@ declare global {
     fixedFooter?: boolean;
   }
 
-  interface CompileAngularComponentsOptions {
-    scope?: IScope;
-    forceNewScope?: boolean;
-    params?: Record<string, unknown>;
-  }
-
   interface PiwikHelperGlobal {
     escape(text: string): string;
     redirect(params?: any);
     htmlDecode(encoded: string): string;
     htmlEntities(value: string): string;
-    modalConfirm(element: JQuery|JQLite|HTMLElement|string, callbacks?: ModalConfirmCallbacks, options?: ModalConfirmOptions);
-    getAngularDependency(eventName: string): any;
-    isAngularRenderingThePage(): boolean;
+    modalConfirm(element: JQuery|HTMLElement|string, callbacks?: ModalConfirmCallbacks, options?: ModalConfirmOptions);
     isReportingPage(): boolean;
-    setMarginLeftToBeInViewport(elementToPosition: JQuery|JQLite|Element|string): void;
-    lazyScrollTo(element: JQuery|JQLite|HTMLElement|string, time: number, forceScroll?: boolean): void;
+    setMarginLeftToBeInViewport(elementToPosition: JQuery|Element|string): void;
+    lazyScrollTo(element: JQuery|HTMLElement|string, time: number, forceScroll?: boolean): void;
     lazyScrollToContent(): void;
     registerShortcut(key: string, description: string, callback: (event: ExtendedKeyboardEvent) => void): void;
-    compileAngularComponents(selector: JQuery|JQLite|HTMLElement|string, options?: CompileAngularComponentsOptions): void;
-    compileVueEntryComponents(selector: JQuery|JQLite|HTMLElement|string, extraProps?: Record<string, unknown>): void;
-    destroyVueComponent(selector: JQuery|JQLite|HTMLElement|string): void;
-    compileVueDirectives(selector: JQuery|JQLite|HTMLElement|string): void;
+    compileVueEntryComponents(selector: JQuery|HTMLElement|string, extraProps?: Record<string, unknown>): void;
+    destroyVueComponent(selector: JQuery|HTMLElement|string): void;
+    compileVueDirectives(selector: JQuery|HTMLElement|string): void;
     calculateEvolution(currentValue: number, pastValue?: number|null): number;
     sendContentAsDownload(filename: string, content: any, mimeType?: string): void;
     showVisitorProfilePopup(visitorId: string, idSite: string|number): void;
@@ -137,6 +141,7 @@ declare global {
      */
     siteName: string;
     currentSiteName: string;
+    siteMainUrl?: string;
     period?: string;
     currentDateString?: string;
     startDateString?: string;
@@ -190,10 +195,6 @@ declare global {
 
   let widgetsHelper: WidgetsHelper;
 
-  interface AnchorLinkFix {
-    scrollToAnchorInUrl(): void;
-  }
-
   interface NumberFormatter {
     formatNumber(value?: number|string): string;
     formatPercent(value?: number|string): string;
@@ -213,8 +214,27 @@ declare global {
     show(apiMethod: string, segment: string, extraParams: Record<string|number, unknown>): void;
   }
 
+  interface RowAction {
+    name: string;
+    dataTableIcon: string;
+    order: number;
+    dataTableIconTooltip?: string[];
+    isAvailableOnReport(dataTableParams: QueryParameters, tr: HTMLElement|JQuery): boolean;
+    isAvailableOnRow(dataTableParams: QueryParameters, tr: HTMLElement|JQuery): boolean;
+    createInstance(dataTable: any, urlParam: string): DataTable_RowAction;
+  }
+
+  interface DataTableRowActionsRegisteryService {
+    register(rowAction: RowAction);
+  }
+
+  // the jquery type defs have trouble with $(HTMLElement | string | ...), so adding an overload
+  // specifically for that
+  interface JQueryStaticResolve {
+    (selector: HTMLElement | string | JQuery | PlainObject, context?: Element | Document | JQuery | JQuery.Selector): JQuery;
+  }
+
   interface Window {
-    angular: IAngularStatic;
     globalAjaxQueue: GlobalAjaxQueue;
     piwik: PiwikGlobal;
     piwikHelper: PiwikHelperGlobal;
@@ -223,12 +243,12 @@ declare global {
     piwik_translations: {[key: string]: string};
     Materialize: M;
     widgetsHelper: WidgetsHelper;
-    anchorLinkFix: AnchorLinkFix;
-    $: JQueryStatic;
+    $: JQueryStatic & JQueryStaticResolve;
     Piwik_Popover: PiwikPopoverGlobal;
     NumberFormatter: NumberFormatter;
     Piwik_Transitions: TransitionsGlobal;
     SegmentedVisitorLog: SegmentedVisitorLogService;
+    DataTable_RowActions_Registry: DataTableRowActionsRegisteryService;
 
     _pk_translate(translationStringId: string, values: (string|number|boolean)[]): string;
     require(p: string): any;

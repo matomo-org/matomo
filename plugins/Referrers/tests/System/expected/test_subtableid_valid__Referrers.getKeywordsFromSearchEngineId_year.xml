@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>free &gt; proprietary</label>
+		<nb_visits>11</nb_visits>
+		<nb_actions>11</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>11</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>11</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>referrerName==Google;referrerType==search;referrerKeyword==free+%3E+proprietary</segment>
+		<url>http://google.com/search?q=free+%3E+proprietary</url>
+	</row>
+	<row>
+		<label>justice )(&amp;^#%$ not '&quot; corruption!</label>
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>referrerName==Google;referrerType==search;referrerKeyword==justice+%29%28%26%5E%23%25%24+not+%27%22+corruption%21</segment>
+		<url>http://google.com/search?q=justice+%29%28%26%5E%23%25%24+not+%27%22+corruption%21</url>
+	</row>
+	<row>
+		<label>peace &quot;,&quot; not war</label>
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>10</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>referrerName==Google;referrerType==search;referrerKeyword==peace+%22%2C%22+not+war</segment>
+		<url>http://google.com/search?q=peace+%22%2C%22+not+war</url>
+	</row>
+</result>

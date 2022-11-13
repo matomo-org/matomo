@@ -8,8 +8,11 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### Breaking Changes
 
+* AngularJS has been completely removed from the code base, existing AngularJS code will no longer work. It is recommended to convert that code to Vue.
+* The `Common::fixLbrace()` function has been removed. It was only necessary for AngularJS and no longer needs to be used.
 * The deprecated `JSON2` API format has now been removed. We recommend switching to the `JSON` renderer, which behaves the same.
 * The javascript event `piwikPageChange`, which is triggered when a reporting page is loaded, has been renamed to `matomoPageChange`. Ensure to update your implementation if you rely on it.
+* Plugin names are now limited to 60 characters. If you used to have a plugin with a longer name, you might need to rename it.
 * When invalid token provided in the API request, the response code changed from 200 to 401.
 
 ### New APIs
@@ -24,6 +27,12 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### Other Breaking changes
 
 * Requests to ASPSMS and Clockwork API do no longer accept invalid SSL certificates. If you experience problems with mobile messaging please check your SSL setup.
+
+### Archiving
+* When posting the event `Archiving.getIdSitesToMarkArchivesAsInvalidated` started passing date, period ,segment and name parameter along with idSites parameter.
+
+### Updated commands
+* The default maximum number of archivers processes to run concurrently has changed from unlimited to three. The `--concurrent-archivers` parameter can be used to increase this limit. A value of -1 will use an unlimited number of concurrent archivers
 
 ## Matomo 4.12.0
 

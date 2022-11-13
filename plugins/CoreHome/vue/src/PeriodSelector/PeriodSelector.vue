@@ -250,13 +250,13 @@ export default defineComponent({
   },
   mounted() {
     Matomo.on('hidePeriodSelector', () => {
-      window.$(this.$refs.root as HTMLElement).hide();
+      window.$(this.$refs.root as HTMLElement).parent('#periodString').hide();
     });
 
     // some widgets might hide the period selector using the event above, so ensure it's
     // shown again when switching the page
     Matomo.on('matomoPageChange', () => {
-      window.$(this.$refs.root as HTMLElement).show();
+      window.$(this.$refs.root as HTMLElement).parent('#periodString').show();
     });
 
     this.updateSelectedValuesFromHash();
@@ -429,7 +429,7 @@ export default defineComponent({
       const compareParams = this.selectedComparisonParams;
 
       let baseParams: Record<string, unknown>;
-      if (Matomo.helper.isAngularRenderingThePage()) {
+      if (Matomo.helper.isReportingPage()) {
         this.closePeriodSelector();
         baseParams = MatomoUrl.hashParsed.value;
       } else {

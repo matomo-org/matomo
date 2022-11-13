@@ -44,6 +44,7 @@
         "Legend": "Gösterge",
         "LoadDataInfileRecommended": "Matomo sunucunuz yüksek trafikli web sitelerini izliyorsa (örneğin ayda 100.000 sayfadan fazla) bu sorunu çözmelisiniz.",
         "LoadDataInfileUnavailableHelp": "Not: PHP ve MySQL yazılımlarınızı güncelleyerek %1$s kullanmak ve veritabanı kullanıcınıza %2$s izni vermek Matomo arşivleme işlemini önemli ölçüde hızlandırır.",
+        "MatomoHttpRequestConfigInfo": "Genel yapılandırmada force_matomo_http_request seçeneği etkinleştirilmiş. Güvenlik nedeniyle bu seçeceği kapatmanız önemle önerilir. Ayrıntılı bilgi almak için %1$sSSS %2$s bölümüne bakabilirsiniz",
         "NfsFilesystemWarning": "Sunucunuz NFS dosya sistemini kullanıyor.",
         "NfsFilesystemWarningSuffixAdmin": "Bu durumda Matomo dosya temelli oturumları kullanırken çok yavaşlar.",
         "NfsFilesystemWarningSuffixInstall": "NFS üzerinde dosya temelli oturumların kullanılması çok yavaş olur. Bu nedenle Matomo veritabanı temelli oturumlar kullanacak. Çok sayıda pano kullanıcınız varsa veritabanı sunucunuzun en fazla eş zamanlı istemci bağlantısı sayısını arttırmanız gerekebilir.",

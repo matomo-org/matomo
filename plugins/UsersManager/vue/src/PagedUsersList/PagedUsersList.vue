@@ -580,12 +580,9 @@ export default defineComponent({
       });
     },
     onRowSelected() {
-      // (angularjs comment): use a timeout since the method is called after the model is updated
-      setTimeout(() => {
-        const selectedRowKeyCount = this.selectedCount;
-        this.isBulkActionsDisabled = selectedRowKeyCount === 0;
-        this.isAllCheckboxSelected = selectedRowKeyCount === this.users.length;
-      });
+      const selectedRowKeyCount = this.selectedCount;
+      this.isBulkActionsDisabled = selectedRowKeyCount === 0;
+      this.isAllCheckboxSelected = selectedRowKeyCount === this.users.length;
     },
     deleteRequestedUsers(password: string) {
       this.$emit('deleteUser', {
