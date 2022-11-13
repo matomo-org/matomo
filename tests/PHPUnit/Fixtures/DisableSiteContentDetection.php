@@ -12,20 +12,19 @@ use Piwik\SiteContentDetector;
 use Piwik\Tests\Framework\Mock\FakeSiteContentDetector;
 
 /**
- * Fixture that adds one site with no visits and configures site content detection test data so that the
- * 'Osano' consent manager will be detected on the site.
+ * Fixture that disables site content detection by returning null values and preventing a live request
+ *
  */
-class EmptySiteWithSiteContentDetection extends Fixture
+class DisableSiteContentDetection extends Fixture
 {
-    public $idSite = 1;
 
     public function provideContainerConfig()
     {
         $mockData = [
-            'consentManagerId' => 'osano',
-            'consentManagerName' => 'Osano',
-            'consentManagerUrl' => 'https://matomo.org/faq/how-to/using-osano-consent-manager-with-matomo',
-            'isConnected' => true,
+            'consentManagerId' => null,
+            'consentManagerName' => null,
+            'consentManagerUrl' => null,
+            'isConnected' => false,
             'ga3' => false,
             'ga4' => false,
             'gtm' => false
@@ -37,23 +36,14 @@ class EmptySiteWithSiteContentDetection extends Fixture
         ];
     }
 
-
     public function setUp(): void
     {
-        Fixture::createSuperUser();
-        $this->setUpWebsites();
+        // empty
     }
 
     public function tearDown(): void
     {
         // empty
-    }
-
-    private function setUpWebsites()
-    {
-        if (!self::siteCreated($idSite = 1)) {
-            self::createWebsite('2021-01-01');
-        }
     }
 
 }
