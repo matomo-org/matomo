@@ -11,7 +11,7 @@ describe("EmptySite", function () {
 
     this.fixture = "Piwik\\Tests\\Fixtures\\DisableSiteContentDetection";
 
-    const generalParams = 'idSite=4&period=day&date=2010-01-03';
+    const generalParams = 'idSite=1&period=day&date=2010-01-03';
 
     it('should show the tracking code if the website has no recorded data', async function () {
         const urlToTest = "?" + generalParams + "&module=CoreHome&action=index";
