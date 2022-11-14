@@ -250,6 +250,7 @@ class Visualization extends ViewDataTable
         $view->isWidget    = Common::getRequestVar('widget', 0, 'int');
         $view->notifications = [];
         $view->isComparing = $this->isComparing();
+        $view->rowIdentifier = $this->report->getRowIdentifier() ?: 'label';
 
         if (!$this->supportsComparison()
             && DataComparisonFilter::isCompareParamsPresent()

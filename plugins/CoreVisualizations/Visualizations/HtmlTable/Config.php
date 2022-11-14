@@ -122,6 +122,7 @@ class Config extends VisualizationConfig
             'keep_summary_row',
             'subtable_controller_action',
             'show_dimensions',
+            'row_identifier',
         ));
 
         $this->addPropertiesThatCanBeOverwrittenByQueryParams(array(
