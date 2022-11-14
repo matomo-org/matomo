@@ -52,7 +52,8 @@ class DisableSiteContentDetection extends Fixture
     private function setUpWebsites()
     {
         if (!self::siteCreated($idSite = 1)) {
-            self::createWebsite('2010-01-01');
+            // Use example.org rather than piwik.net so that wordpress isn't detected
+            self::createWebsite('2010-01-01', false, 'example.org', 'https://example.org');
         }
     }
 
