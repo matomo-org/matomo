@@ -67,6 +67,7 @@
             ajaxRequest.setCallback(function (r) {
                 if (that.options.replaceContent) {
                     $(that.element).html(r);
+                    piwikHelper.compileVueEntryComponents(that.element);
                     if (that.options.fadeInSpeed) {
                         $(that.element).effect("highlight", {}, that.options.fadeInSpeed);
                     }
