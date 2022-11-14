@@ -18,6 +18,8 @@ use Piwik\Tests\Framework\Mock\FakeSiteContentDetector;
 class DisableSiteContentDetection extends Fixture
 {
 
+    public $idSite = 1;
+
     public function provideContainerConfig()
     {
         $mockData = [
@@ -38,12 +40,22 @@ class DisableSiteContentDetection extends Fixture
 
     public function setUp(): void
     {
-        // empty
+        Fixture::createSuperUser();
+        $this->setUpWebsites();
     }
 
     public function tearDown(): void
     {
         // empty
     }
+
+    private function setUpWebsites()
+    {
+        if (!self::siteCreated($idSite = 1)) {
+            // Use example.org rather than piwik.net so that wordpress isn't detected
+            self::createWebsite('2010-01-01', false, 'example.org', 'https://example.org');
+        }
+    }
+
 
 }
