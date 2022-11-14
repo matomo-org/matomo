@@ -8,6 +8,7 @@
  */
 namespace Piwik;
 
+use Matomo\Cache\Lazy;
 use Piwik\Container\StaticContainer;
 
 /**
@@ -46,7 +47,14 @@ class SiteContentDetector
     public $gtm;                    // True if GTM was detected on the site
 
     private $siteData;
-    private $siteId;
+
+    /** @var Lazy */
+    private $cache;
+
+    public function __construct(Lazy $cache)
+    {
+        $this->cache = $cache;
+    }
 
     /**
      * @return SiteContentDetector
@@ -58,8 +66,10 @@ class SiteContentDetector
 
     /**
      * Reset the detection properties
+     *
+     * @return void
      */
-    private function resetDetectionProperties() : void
+    private function resetDetectionProperties(): void
     {
         $this->consentManagerId = null;
         $this->consentManagerUrl = null;
@@ -78,47 +88,50 @@ class SiteContentDetector
      *                                   will speed up the detection check
      * @param ?int        $idSite        Override the site ID, will use the site from the current request if null
      * @param string|null $siteData      String containing the site data to search, if blank then data will be retrieved
-     *                                   from the current request site via cURL
+     *                                   from the current request site via an http request
      * @param int         $timeOut       How long to wait for the site to response, defaults to 60 seconds
+     * @return void
      */
     public function detectContent(array $detectContent = [SiteContentDetector::ALL_CONTENT],
-                                  ?int $idSite = null, ?string $siteData = null, int $timeOut = 60)
+                                  ?int $idSite = null, ?string $siteData = null, int $timeOut = 60): void
     {
-
-        // If the site data was already retrieved and stored in this object and it is for the same site id and we're
-        // not being passed a specific sitedata parameter then avoid making another request and just return
-        if ($siteData === null && $this->siteData != null && $idSite == $this->siteId) {
-            return;
-        }
 
         $this->resetDetectionProperties();
 
-        // No site data was passed or previously retrieved, so grab the current site main page as a string
-        if ($siteData === null) {
+        // If site data was passed in, then just run the detection checks against it and return.
+        if ($siteData) {
+            $this->detectionChecks($detectContent);
+            return;
+        }
 
-
-            if ($idSite === null) {
-                if (!isset($_REQUEST['idSite'])) {
-                    return;
-                }
-                $idSite = Common::getRequestVar('idSite', null, 'int');
-                if (!$idSite) {
-                    return;
-                }
-            }
-
-            $url = Site::getMainUrlFor($idSite);
-            if (!$url) {
+        // Get the site id from the request object if not explicitly passed
+        if ($idSite === null) {
+            if (!isset($_REQUEST['idSite'])) {
                 return;
             }
-
-            try {
-                $siteData = Http::sendHttpRequestBy('curl', $url, $timeOut, null, null,
-                    null, 0, false, true);
-            } catch (\Exception $e) {
+            $idSite = Common::getRequestVar('idSite', null, 'int');
+            if (!$idSite) {
+                return;
             }
-
         }
+
+        // Check and load previously cached site content detection data if it exists
+        $scdCacheId = 'SiteContentDetector_'.$idSite;
+
+        $siteContentDetectionIsCached = $this->cache->fetch($scdCacheId);
+        if ($siteContentDetectionIsCached) {
+            $this->consentManagerId = $this->cache->fetch($scdCacheId.'_consentManagerId');
+            $this->consentManagerName = $this->cache->fetch($scdCacheId.'_consentManagerName');
+            $this->consentManagerUrl = $this->cache->fetch($scdCacheId.'_consentManagerUrl');
+            $this->isConnected = $this->cache->fetch($scdCacheId.'_isConnected');
+            $this->ga3 = $this->cache->fetch($scdCacheId.'_ga3');
+            $this->ga4 = $this->cache->fetch($scdCacheId.'_ga4');
+            $this->gtm = $this->cache->fetch($scdCacheId.'_gtm');
+            return;
+        }
+
+        // No cache hit, no passed data, so make a request for the site content
+        $siteData = $this->requestSiteData($idSite, $timeOut);
 
         // Abort if still no site data
         if ($siteData === null || $siteData === '') {
@@ -126,7 +139,31 @@ class SiteContentDetector
         }
 
         $this->siteData = $siteData;
-        $this->siteId = $idSite;
+
+        // We now have site data to analyze, so run the detection checks
+        $this->detectionChecks($detectContent);
+
+        // A request was made to get this data and it isn't currently cached, so write it to the cache now
+        $cacheLife = (60 * 60 * 24 * 7);
+        $this->cache->save($scdCacheId, 1, $cacheLife);
+        $this->cache->save($scdCacheId.'_consentManagerId', $this->consentManagerId, $cacheLife);
+        $this->cache->save($scdCacheId.'_consentManagerName', $this->consentManagerName, $cacheLife);
+        $this->cache->save($scdCacheId.'_consentManagerUrl', $this->consentManagerUrl, $cacheLife);
+        $this->cache->save($scdCacheId.'_isConnected', $this->isConnected, $cacheLife);
+        $this->cache->save($scdCacheId.'_ga3', $this->ga3, $cacheLife);
+        $this->cache->save($scdCacheId.'_ga4', $this->ga4, $cacheLife);
+        $this->cache->save($scdCacheId.'_gtm', $this->gtm, $cacheLife);
+
+    }
+
+    /**
+     * Run various detection checks for site content
+     *
+     * @param array $detectContent    Array of detection types used to filter the checks that are run
+     * @return void
+     */
+    private function detectionChecks($detectContent): void
+    {
 
         if (in_array(SiteContentDetector::CONSENT_MANAGER, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
             $this->detectConsentManager();
@@ -143,7 +180,30 @@ class SiteContentDetector
         if (in_array(SiteContentDetector::GTM, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
             $this->detectGTM();
         }
+    }
 
+    /**
+     * Retrieve data from the specified site using an HTTP request
+     *
+     * @param int $idSite
+     * @param int $timeOut
+     *
+     * @return string|null
+     */
+    private function requestSiteData(int $idSite, int $timeOut): ?string
+    {
+        $siteData = null;
+        $url = Site::getMainUrlFor($idSite);
+        if (!$url) {
+            return null;
+        }
+
+        try {
+            $siteData = Http::sendHttpRequestBy(Http::getTransportMethod(), $url, $timeOut, null, null,
+                null, 0, false, true);
+        } catch (\Exception $e) {
+        }
+        return $siteData;
     }
 
     /**
@@ -153,7 +213,7 @@ class SiteContentDetector
      *
      * @return void
      */
-    private function detectConsentManager() : void
+    private function detectConsentManager(): void
     {
 
         $defs = SiteContentDetector::getConsentManagerDefinitions();
@@ -191,7 +251,7 @@ class SiteContentDetector
      *
      * @return void
      */
-    private function detectGA3() : void
+    private function detectGA3(): void
     {
         if (strpos($this->siteData, '(i,s,o,g,r,a,m)') !== false) {
              $this->ga3 = true;
@@ -203,7 +263,7 @@ class SiteContentDetector
      *
      * @return void
      */
-    private function detectGA4() : void
+    private function detectGA4(): void
     {
         if (strpos($this->siteData, 'gtag.js') !== false) {
              $this->ga4 = true;
@@ -215,7 +275,7 @@ class SiteContentDetector
      *
      * @return void
      */
-    private function detectGTM() : void
+    private function detectGTM(): void
     {
         if (strpos($this->siteData, 'gtm.js') !== false) {
              $this->gtm = true;
@@ -228,7 +288,7 @@ class SiteContentDetector
      *
      * @return array[]
      */
-    public static function getConsentManagerDefinitions() : array
+    public static function getConsentManagerDefinitions(): array
     {
         return [
 
