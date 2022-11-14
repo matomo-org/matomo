@@ -241,7 +241,7 @@
             widgetsHelper.getWidgetNameFromUniqueId(uniqueId, function(widgetName) {
                 if (!widgetName) {
                     // when widget not found hide it.
-                    $(".sortable[widgetid="+uniqueId+"]").hide();
+                    self.destroy();
                     widgetName = _pk_translate('Dashboard_WidgetNotFound');
                 }
 
