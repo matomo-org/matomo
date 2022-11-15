@@ -165,17 +165,17 @@ class ConsoleTest extends ConsoleCommandTestCase
         $output = $this->normalizeOutput($output);
 
         $expected = <<<END
-PHP Fatal error:  Allowed memory size of X bytes exhausted (tried to allocate X bytes) in /tests/PHPUnit/System/ConsoleTest.php on line 83
+PHP Fatal error:  Allowed memory size of X bytes exhausted (tried to allocate X bytes) in /tests/PHPUnit/System/ConsoleTest.php on line 84
 
-Fatal error: Allowed memory size of X bytes exhausted (tried to allocate X bytes) in /tests/PHPUnit/System/ConsoleTest.php on line 83
+Fatal error: Allowed memory size of X bytes exhausted (tried to allocate X bytes) in /tests/PHPUnit/System/ConsoleTest.php on line 84
 *** IN SAFEMODE ***
 Matomo encountered an error: Allowed memory size of X bytes exhausted (tried to allocate X bytes) (which lead to: Error: array (
   'type' => 1,
   'message' => 'Allowed memory size of X bytes exhausted (tried to allocate X bytes)',
   'file' => '/tests/PHPUnit/System/ConsoleTest.php',
-  'line' => 83,
-  'backtrace' => ' on /tests/PHPUnit/System/ConsoleTest.php(83)
-#0 /tests/PHPUnit/System/ConsoleTest.php(70): Piwik\\\\Tests\\\\System\\\\TestCommandWithFatalError->executeImpl()
+  'line' => 84,
+  'backtrace' => ' on /tests/PHPUnit/System/ConsoleTest.php(84)
+#0 /tests/PHPUnit/System/ConsoleTest.php(71): Piwik\\\\Tests\\\\System\\\\TestCommandWithFatalError->executeImpl()
 #1 /vendor/symfony/console/Symfony/Component/Console/Command/Command.php(257): Piwik\\\\Tests\\\\System\\\\TestCommandWithFatalError->execute()
 ',
 ))
