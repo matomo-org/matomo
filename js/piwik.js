@@ -7065,12 +7065,14 @@ if (typeof window.Matomo !== 'object') {
              * requests that don't have to be replayed.
              *
              * @param request eg. "param=value&param2=value2"
+             * @param isFullRequest whether request is a full tracking request or not. If true, we don't call
+             *                      call getRequest() before pushing to the queue.
              */
-            this.queueRequest = function (request) {
-                trackCallback(function () {
-                    var fullRequest = getRequest(request);
-                    requestQueue.push(fullRequest);
-                });
+            this.queueRequest = function (request, isFullRequest) {
+              trackCallback(function () {
+                var fullRequest = isFullRequest ? request : getRequest(request);
+                requestQueue.push(fullRequest);
+              });
             };
 
             /**
