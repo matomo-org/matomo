@@ -1,6 +1,6 @@
 {
     "Live": {
-        "AveragePageGenerationTime": "هر صفحه به طور متوسط %1$s زمان می برد تا برای بیننده بارگزاری شود.",
+        "AveragePageGenerationTime": "هر صفحه به طور متوسط %1$s ثانیه زمان می برد تا برای بیننده بارگزاری شود.",
         "CalculatedOverNPageViews": "محاسبه شده بر اسا آخرید بازدیدکنندگان %1$s بازدید.",
         "ClickToViewMoreAboutVisit": "برای مشاهده اطلاعات بیشتر درباره این بازدید کلیک کنید",
         "ConvertedNGoals": "تبدیل %s اهداف",

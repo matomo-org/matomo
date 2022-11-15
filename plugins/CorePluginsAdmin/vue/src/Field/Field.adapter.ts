@@ -102,7 +102,6 @@ export default createAngularJsAdapter<[ITimeoutService]>({
     },
     autocomplete: {
       angularJsBind: '@',
-      transform: transformAngularJsBoolAttr,
     },
     condition: {
       angularJsBind: '@',

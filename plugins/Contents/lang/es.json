@@ -1,11 +1,8 @@
 {
     "Contents": {
-        "PluginDescription": "El contenido y el monitoreo de anuncios le permite medir el rendimiento (visitas, clics, CTR) de cualquier pieza de contenido en sus páginas (anuncios publicitarios, imágenes, cualquier elemento).",
-        "Impressions": "Impresiones",
         "ContentImpression": "Impresiones de contenido",
         "ContentInteraction": "Interacción con el contenido",
         "ContentInteractions": "Interacciones con el contenido",
-        "InteractionRate": "Nivel de interacción",
         "ContentName": "Nombre del contenido",
         "ContentNameReportDocumentation": "Este informe muestra los nombres del contenido que los visitantes vieron e interactuaron.",
         "ContentNames": "Nombres de contenidos",
@@ -15,8 +12,13 @@
         "ContentTarget": "Objetivo del contenido",
         "ContentTargets": "Objetivos de contenido",
         "Contents": "Contenidos",
-        "InteractionsMetricDocumentation": "El número de veces que se interactuo con un bloque de contenido (ej, un 'clic' en un banner o anuncio).",
+        "ContentsSubcategoryHelp1": "El seguimiento del contenido ayuda a determinar la popularidad cada porción de contenido de cada web o aplicación. Esta sección informa de la cantidad de impresiones e interacciones que reciben a título individual.",
+        "ContentsSubcategoryHelp2": "Obtén más información en la guía del contenido.",
+        "Impressions": "Impresiones",
         "ImpressionsMetricDocumentation": "El número de veces que un bloque de contenido, como un banner o un anuncio, fue mostrado en una página.",
-        "InteractionRateMetricDocumentation": "La proporción de impresiones de contenido a interacciones."
+        "InteractionRate": "Nivel de interacción",
+        "InteractionRateMetricDocumentation": "La proporción de impresiones de contenido a interacciones.",
+        "InteractionsMetricDocumentation": "El número de veces que se interactuo con un bloque de contenido (ej, un 'clic' en un banner o anuncio).",
+        "PluginDescription": "El contenido y el monitoreo de anuncios le permite medir el rendimiento (visitas, clics, CTR) de cualquier pieza de contenido en sus páginas (anuncios publicitarios, imágenes, cualquier elemento)."
     }
 }

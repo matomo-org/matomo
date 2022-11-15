@@ -1,5 +1,6 @@
 {
     "VisitsSummary": {
+        "AverageGenerationTime": "متوسط زمان تولید",
         "GenerateQueries": "%s پرس و جو های اجرا شده",
         "GenerateTime": "%s ثانیه برای تولید صفحه",
         "NbActionsDescription": "فعالیت ها %s",

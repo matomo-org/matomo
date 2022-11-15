@@ -38,6 +38,9 @@
                                             {% if urlParameters._icon is defined and urlParameters._icon %}<span class="icon {{ urlParameters._icon|e('html_attr') }}" style="margin-right: 5px;"></span>{% endif %}
                                             {{ name|translate|rawSafeDecoded }}
                                         </a>
+                                        {% if urlParameters._help %}
+                                            <div piwik-show-help-link name="{{ urlParameters._name }}" message="{{ urlParameters._help|e('html_attr') }}"></div>
+                                        {% endif %}
                                     </li>
                                 {% endif %}
                             {% endfor %}

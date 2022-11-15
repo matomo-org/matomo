@@ -55,6 +55,7 @@ import './Progressbar/Progressbar.adapter';
 import './ContentIntro/ContentIntro.adapter';
 import './ContentTable/ContentTable.adapter';
 import './AjaxForm/AjaxForm.adapter';
+import './ShowHelpLink/ShowHelpLink.adapter';
 
 export { default as createVueApp } from './createVueApp';
 export { default as useExternalPluginComponent } from './useExternalPluginComponent';

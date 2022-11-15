@@ -7,8 +7,8 @@
 <div class="row">
     <div class="col s12">
         <ul class="tabs">
-            <li class="tab col s3"><a {% if siteType != constant('Piwik\\Plugins\\SitesManager\\SitesManager::SITE_TYPE_UNKNOWN') %} class="active" {% endif %} href="#integrations">{{ 'SitesManager_Integrations'|translate }}</a></li>
-            <li class="tab col s3"><a {% if siteType == constant('Piwik\\Plugins\\SitesManager\\SitesManager::SITE_TYPE_UNKNOWN') %} class="active" {% endif %} href="#tracking-code">{{ 'CoreAdminHome_TrackingCode'|translate}}</a></li>
+            <li class="tab col s3"><a {% if siteType != constant('Piwik\\Plugins\\SitesManager\\SitesManager::SITE_TYPE_UNKNOWN') and (consentManagerName == false and ga3Used == false and ga4Used == false and gtmUsed == false) %} class="active" {% endif %} href="#integrations">{{ 'SitesManager_Integrations'|translate }}</a></li>
+            <li class="tab col s3"><a {% if siteType == constant('Piwik\\Plugins\\SitesManager\\SitesManager::SITE_TYPE_UNKNOWN') or consentManagerName or ga3Used or ga4Used or gtmUsed %} class="active" {% endif %} href="#tracking-code">{{ 'CoreAdminHome_TrackingCode'|translate}}</a></li>
             <li class="tab col s3"><a href="#mtm">{{ 'SitesManager_SiteWithoutDataMatomoTagManager'|translate}}</a></li>
             <li class="tab col s3"><a href="#other">{{ 'SitesManager_SiteWithoutDataOtherWays'|translate }}</a></li>
         </ul>
@@ -47,6 +47,40 @@
     </div>
 
     <div id="tracking-code" class="col s12">
+
+        {% if consentManagerName %}
+        <p></p><p></p>
+        <div class="system notification notification-info">
+            <p> {{ 'PrivacyManager_ConsentManagerDetected'|translate(consentManagerName, '<a href="' ~ consentManagerUrl ~ '" target="_blank" rel="noreferrer noopener">', '</a')|raw }}
+            </p>
+            {% if consentManagerIsConnected %}
+                <p> {{ 'PrivacyManager_ConsentManagerConnected'|translate(consentManagerName)|raw }}
+                </p>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        {% if ga3Used %}
+        <p></p><p></p>
+        <div class="system notification notification-info">
+             {{ 'SitesManager_GADetected'|translate('Google Analytics 3', 'GA', '<a href="', 'https://matomo.org/faq/how-to/migrate-from-google-analytics-3-to-matomo/', '" target="_blank" rel="noreferrer noopener">', '</a>')|raw }}
+        </div>
+        {% endif %}
+
+        {% if ga4Used %}
+        <p></p><p></p>
+        <div class="system notification notification-info">
+            {{ 'SitesManager_GADetected'|translate('Google Analytics 4', 'GA', '<a href="', 'https://matomo.org/faq/how-to/migrate-from-google-analytics-4-to-matomo/', '" target="_blank" rel="noreferrer noopener">', '</a>')|raw }}
+        </div>
+        {% endif %}
+
+        {% if gtmUsed %}
+        <p></p><p></p>
+        <div class="system notification notification-info">
+            {{ 'SitesManager_GADetected'|translate('Google Tag Manager', 'GTM', '<a href="', 'https://matomo.org/faq/tag-manager/migrating-from-google-tag-manager/', '" target="_blank" rel="noreferrer noopener">', '</a>')|raw }}
+        </div>
+        {% endif %}
+
         <h3>{{ 'CoreAdminHome_TrackingCode'|translate}}</h3>
 
         <p>{{ 'CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead'|translate("&lt;/head&gt;")|raw }}</p>

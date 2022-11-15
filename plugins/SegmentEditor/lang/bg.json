@@ -28,7 +28,7 @@
         "OperatorAND": "И",
         "OperatorOR": "ИЛИ",
         "PluginDescription": "Сегментът е набор от критерии, използвани за избор само на част от цял набор посещения. Използвайки сегменти може да се добави контекст към отчетите.",
-        "SaveAndApply": "Запази & Приложи",
+        "SaveAndApply": "Запази &amp; Приложи",
         "SegmentDisplayedAllWebsites": "всички сайтове",
         "SegmentDisplayedThisWebsiteOnly": "само този уебсайт",
         "SegmentIsDisplayedForWebsite": "и се обработват за",

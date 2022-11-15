@@ -128,6 +128,10 @@ logger_syslog_ident = 'matomo'
 ; 'chained' will chain multiple cache backends. Further configuration in [ChainedCache] is needed
 backend = chained
 
+; Configuration to switch on/off opcache_reset when general caches are cleared. This may be useful for multi-tenant installations that would rather
+; manage opcache resets by themselves. This could also be used by scripts to temporarily switch off opcache resets.
+enable_opcache_reset = 1
+
 [ChainedCache]
 ; The chained cache will always try to read from the fastest backend first (the first listed one) to avoid requesting
 ; the same cache entry from the slowest backend multiple times in one request.

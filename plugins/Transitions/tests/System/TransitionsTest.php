@@ -17,7 +17,7 @@ use Piwik\Tests\Fixtures\SomeVisitsManyPageviewsWithTransitions;
  * @group Plugins
  */
 class TransitionsTest extends SystemTestCase
-{   
+{
     public static $fixture = null; // initialized below class definition
 
     /**

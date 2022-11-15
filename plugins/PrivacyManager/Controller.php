@@ -21,6 +21,7 @@ use Piwik\Plugin\Manager;
 use Piwik\Plugins\CustomJsTracker\File;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
+use Piwik\SiteContentDetector;
 use Piwik\Scheduler\Scheduler;
 use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\View;
@@ -39,10 +40,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     private $referrerAnonymizer;
 
-    public function __construct(ReferrerAnonymizer $referrerAnonymizer)
+    /** @var SiteContentDetector */
+    private $siteContentDetector;
+
+    public function __construct(ReferrerAnonymizer $referrerAnonymizer, SiteContentDetector $siteContentDetector)
     {
         parent::__construct();
         $this->referrerAnonymizer = $referrerAnonymizer;
+        $this->siteContentDetector = $siteContentDetector;
     }
 
     private function checkDataPurgeAdminSettingsIsEnabled()
@@ -163,7 +168,18 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public function consent()
     {
         Piwik::checkUserHasSomeAdminAccess();
-        return $this->renderTemplate('askingForConsent');
+
+        $view = new View('@PrivacyManager/askingForConsent');
+
+        $this->siteContentDetector->detectContent([SiteContentDetector::CONSENT_MANAGER]);
+        $view->consentManagerName = null;
+        if ($this->siteContentDetector->consentManagerId) {
+            $view->consentManagerName = $this->siteContentDetector->consentManagerName;
+            $view->consentManagerUrl = $this->siteContentDetector->consentManagerUrl;
+            $view->consentManagerIsConnected = $this->siteContentDetector->isConnected;
+        }
+        $this->setBasicVariablesView($view);
+        return $view->render();
     }
 
     public function gdprTools()
