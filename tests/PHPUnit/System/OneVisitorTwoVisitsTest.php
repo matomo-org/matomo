@@ -13,6 +13,7 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
 use Exception;
+use Matomo\Dependencies\DI;
 
 /**
  * This use case covers many simple tracking features.
@@ -234,7 +235,7 @@ class OneVisitorTwoVisitsTest extends SystemTestCase
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\Config' => \DI\decorate(function ($previous) {
+            'Piwik\Config' => DI\decorate(function ($previous) {
                 $general = $previous->General;
                 $general['action_title_category_delimiter'] = "/";
                 $previous->General = $general;

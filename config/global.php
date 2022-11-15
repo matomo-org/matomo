@@ -1,8 +1,9 @@
 <?php
 
-use Psr\Container\ContainerInterface;
+use Matomo\Dependencies\Psr\Container\ContainerInterface;
 use Matomo\Cache\Eager;
 use Piwik\SettingsServer;
+use Matomo\Dependencies\DI;
 
 return [
 
@@ -65,7 +66,7 @@ return [
         } else {
             try {
                 $backend = $c->get('ini.Cache.backend');
-            } catch (\DI\NotFoundException $ex) {
+            } catch (DI\NotFoundException $ex) {
                 $backend = 'chained'; // happens if global.ini.php is not available
             }
         }
@@ -237,7 +238,7 @@ return [
     \Piwik\CronArchive\Performance\Logger::class => DI\autowire()
         ->constructorParameter('logger', DI\get('archiving.performance.logger')),
 
-    \Piwik\Concurrency\LockBackend::class => \DI\get(\Piwik\Concurrency\LockBackend\MySqlLockBackend::class),
+    \Piwik\Concurrency\LockBackend::class => DI\get(\Piwik\Concurrency\LockBackend\MySqlLockBackend::class),
 
     \Piwik\Segment\SegmentsList::class => function () {
         return \Piwik\Segment\SegmentsList::get();

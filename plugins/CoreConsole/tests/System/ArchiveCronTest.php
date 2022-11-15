@@ -16,7 +16,7 @@ use Piwik\Http;
 use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Site;
 use Piwik\Tests\Framework\TestingEnvironmentVariables;
-use Psr\Container\ContainerInterface;
+use Matomo\Dependencies\Psr\Container\ContainerInterface;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Common;
 use Piwik\Config;
@@ -455,7 +455,7 @@ class ArchiveCronTest extends SystemTestCase
     public static function provideContainerConfigBeforeClass()
     {
         return array(
-            'Matomo\Dependencies\Psr\Log\LoggerInterface' => \DI\get('Matomo\Dependencies\Monolog\Logger'),
+            'Matomo\Dependencies\Psr\Log\LoggerInterface' => \Matomo\Dependencies\DI\get('Matomo\Dependencies\Monolog\Logger'),
 
             // for some reason, w/o real translations archiving segments in CronArchive fails. the data returned by CliMulti
             // is a translation token, and nothing else.
@@ -465,7 +465,7 @@ class ArchiveCronTest extends SystemTestCase
 
             'Tests.log.allowAllHandlers' => true,
 
-            CronArchive\SegmentArchiving::class => \DI\object()
+            CronArchive\SegmentArchiving::class => \Matomo\Dependencies\DI\object()
                 ->constructorParameter('beginningOfTimeLastNInYears', 10)
         );
     }

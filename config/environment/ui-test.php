@@ -1,6 +1,8 @@
 <?php
 
+use Matomo\Dependencies\Psr\Container\ContainerInterface;
 use Piwik\Container\StaticContainer;
+use Matomo\Dependencies\DI;
 
 return array(
 
@@ -10,7 +12,7 @@ return array(
     'tests.ui.url_normalizer_blacklist.api' => array(),
     'tests.ui.url_normalizer_blacklist.controller' => array(),
 
-    'twig.cache' => function (\Psr\Container\ContainerInterface $container) {
+    'twig.cache' => function (ContainerInterface $container) {
         $templatesPath = $container->get('path.tmp.templates');
         return new class($templatesPath) extends \Matomo\Dependencies\Twig\Cache\FilesystemCache {
             public function write(string $key, string $content): void
@@ -35,7 +37,7 @@ return array(
         };
     },
 
-    'Piwik\Config' => \DI\decorate(function (\Piwik\Config $config) {
+    'Piwik\Config' => DI\decorate(function (\Piwik\Config $config) {
         $config->General['cors_domains'][] = '*';
         $config->General['trusted_hosts'][] = '127.0.0.1';
         $config->General['trusted_hosts'][] = $config->tests['http_host'];
@@ -43,7 +45,7 @@ return array(
         return $config;
     }),
 
-    'observers.global' => \DI\add([
+    'observers.global' => DI\add([
 
         // removes port from all URLs to the test Piwik server so UI tests will pass no matter
         // what port is used

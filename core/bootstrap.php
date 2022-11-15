@@ -44,6 +44,10 @@ require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 require_once PIWIK_VENDOR_PATH . '/autoload.php';
 if (is_file(PIWIK_INCLUDE_PATH . '/prefixAutoload.php')) {
     require_once PIWIK_INCLUDE_PATH . '/prefixAutoload.php';
+} else {
+    // do this as early as possible for dependencies that are used in matomo startup
+    require_once PIWIK_INCLUDE_PATH . '/core/Dependency/handlePrefixCommandAutoloading.php';
+    \Piwik\Dependency\handlePrefixCommandAutoloading();
 }
 
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/dev.php';

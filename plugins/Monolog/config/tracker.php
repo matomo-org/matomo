@@ -1,6 +1,7 @@
 <?php
 
-use Psr\Container\ContainerInterface;
+use Matomo\Dependencies\Psr\Container\ContainerInterface;
+use Matomo\Dependencies\DI;
 
 function isTrackerDebugEnabled(ContainerInterface $c)
 {
@@ -34,7 +35,7 @@ return array(
 
     'log.level' => DI\decorate(function ($previous, ContainerInterface $c) {
         if (isTrackerDebugEnabled($c)) {
-            return \Monolog\Logger::DEBUG;
+            return Matomo\Dependencies\Monolog\Logger::DEBUG;
         }
 
         return $previous;

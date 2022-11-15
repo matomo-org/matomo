@@ -8,7 +8,7 @@
 
 namespace Piwik\Container;
 
-use DI\Container;
+use Matomo\Dependencies\DI\Container;
 
 /**
  * This class provides a static access to the container.
@@ -54,7 +54,7 @@ class StaticContainer
      *
      * @param Container $container
      */
-    public static function push(Container $container)
+    public static function push($container) // no type specifically for prefixing dependencies the first time
     {
         self::$containerStack[] = $container;
     }
@@ -74,7 +74,7 @@ class StaticContainer
      *
      * @param string $name Container entry name.
      * @return mixed
-     * @throws \DI\NotFoundException|\DI\DependencyException
+     * @throws \Matomo\Dependencies\DI\NotFoundException|\DI\DependencyException
      */
     public static function get($name)
     {

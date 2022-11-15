@@ -14,6 +14,7 @@ use Piwik\Site;
 use Piwik\Tests\Framework\TestingEnvironmentManipulator;
 use Piwik\Tests\Framework\TestingEnvironmentVariables;
 use Piwik\Tracker;
+use Matomo\Dependencies\DI;
 
 require realpath(dirname(__FILE__)) . "/includes.php";
 
@@ -23,7 +24,7 @@ ob_start();
 
 try {
     $globalObservers = array(
-        array('Environment.bootstrapped', \DI\value(function () {
+        array('Environment.bootstrapped', DI\value(function () {
             Tracker::setTestEnvironment();
             Manager::getInstance()->deleteAll();
             Option::clearCache();

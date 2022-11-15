@@ -23,6 +23,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\TableLogAction;
 use Piwik\Plugins\SegmentEditor\API as SegmentEditorApi;
+use Matomo\Dependencies\DI;
 
 /**
  * @group Core
@@ -1891,7 +1892,7 @@ log_visit.visit_total_actions
 
         return array(
             'Piwik\Access' => new FakeAccess(),
-            'Piwik\Tracker\TableLogAction\Cache' => \DI\autowire()->constructorParameter('cache', $cacheProxy),
+            'Piwik\Tracker\TableLogAction\Cache' => DI\autowire()->constructorParameter('cache', $cacheProxy),
         );
     }
 
@@ -2044,7 +2045,7 @@ log_visit.visit_total_actions
     {
         return [
             'observers.global' => [
-                ['Segment.addSegments', \DI\value(function (Segment\SegmentsList $list) {
+                ['Segment.addSegments', DI\value(function (Segment\SegmentsList $list) {
                     $segment = new \Piwik\Plugin\Segment();
                     $segment->setSegment('customSegment');
                     $segment->setType(\Piwik\Plugin\Segment::TYPE_DIMENSION);

@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Monolog\Processor;
 
 use Piwik\Common;
+use Piwik\Container\ContainerDoesNotExistException;
 use Piwik\Db;
 use Piwik\ErrorHandler;
 use Piwik\Exception\InvalidRequestParameterException;
@@ -137,16 +138,24 @@ class ExceptionToTextProcessor
 
     private static function replaceSensitiveValues($trace)
     {
-        $dbConfig = Db::getDatabaseConfig();
+        try {
+            $dbConfig = Db::getDatabaseConfig();
 
-        $valuesToReplace = [
-            Piwik::getCurrentUserTokenAuth() => 'tokenauth',
-            SettingsPiwik::getSalt() => 'generalSalt',
-            $dbConfig['username'] => 'dbuser',
-            $dbConfig['password'] => 'dbpass',
-        ];
+            $valuesToReplace = [
+                Piwik::getCurrentUserTokenAuth() => 'tokenauth',
+                SettingsPiwik::getSalt() => 'generalSalt',
+                $dbConfig['username'] => 'dbuser',
+                $dbConfig['password'] => 'dbpass',
+            ];
 
-        return str_replace(array_keys($valuesToReplace), array_values($valuesToReplace), $trace);
+            return str_replace(array_keys($valuesToReplace), array_values($valuesToReplace), $trace);
+        } catch (ContainerDoesNotExistException $ex) {
+            if (Common::isPhpCliMode()) { // can happen when prefixing php-di
+                return $trace;
+            }
+
+            throw $ex;
+        }
     }
 
     private function getErrorContext()

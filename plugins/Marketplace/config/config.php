@@ -2,7 +2,7 @@
 
 use Piwik\Plugins\Marketplace\Api\Service;
 use Piwik\Plugins\Marketplace\LicenseKey;
-use Psr\Container\ContainerInterface;
+use Matomo\Dependencies\Psr\Container\ContainerInterface;
 
 return array(
     'MarketplaceEndpoint' => function (ContainerInterface $c) {

@@ -21,6 +21,7 @@ use Piwik\Tests\Unit\AssetManager\PluginManagerMock;
 use Piwik\Tests\Unit\AssetManager\PluginMock;
 use Piwik\Tests\Unit\AssetManager\ThemeMock;
 use Piwik\Tests\Unit\AssetManager\UIAssetCacheBusterMock;
+use Matomo\Dependencies\DI;
 
 /**
  * @group AssetManagerTest
@@ -104,7 +105,7 @@ class AssetManagerTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\Plugin\Manager' => \DI\autowire('Piwik\Tests\Unit\AssetManager\PluginManagerMock')
+            'Piwik\Plugin\Manager' => DI\autowire('Piwik\Tests\Unit\AssetManager\PluginManagerMock')
         );
     }
 

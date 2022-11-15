@@ -17,6 +17,7 @@ use Piwik\Period\Range;
 use Piwik\Period\Week;
 use Piwik\Period\Year;
 use Piwik\Tests\Framework\TestCase\UnitTestCase;
+use Matomo\Dependencies\DI;
 
 class TestPeriod
 {
@@ -164,7 +165,7 @@ class FactoryTest extends UnitTestCase
     public function provideContainerConfig()
     {
         return [
-            \Piwik\Plugin\Manager::class => \DI\autowire(MockPluginManager::class),
+            \Piwik\Plugin\Manager::class => DI\autowire(MockPluginManager::class),
         ];
     }
 }

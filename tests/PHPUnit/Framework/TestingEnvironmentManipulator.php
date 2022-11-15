@@ -8,7 +8,7 @@
 
 namespace Piwik\Tests\Framework;
 
-use Psr\Container\ContainerInterface;
+use Matomo\Dependencies\Psr\Container\ContainerInterface;
 use Piwik\Application\EnvironmentManipulator;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Application\Kernel\PluginList;
@@ -17,6 +17,7 @@ use Piwik\DbHelper;
 use Piwik\Option;
 use Piwik\Plugin;
 use Piwik\SettingsServer;
+use Matomo\Dependencies\DI;
 
 class FakePluginList extends PluginList
 {
@@ -188,9 +189,9 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
 
         $plugins = $this->getPluginsToLoadDuringTest();
         $diConfigs[] = array(
-            'observers.global' => \DI\add($this->globalObservers),
+            'observers.global' => DI\add($this->globalObservers),
 
-            'Piwik\Config' => \DI\decorate(function (Config $config, ContainerInterface $c) use ($plugins) {
+            'Piwik\Config' => DI\decorate(function (Config $config, ContainerInterface $c) use ($plugins) {
                 /** @var PluginList $pluginList */
                 $pluginList = $c->get('Piwik\Application\Kernel\PluginList');
                 $plugins = $pluginList->sortPlugins($plugins);

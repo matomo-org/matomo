@@ -8,8 +8,8 @@
 
 namespace Piwik\Tests\Framework;
 
-use DI\Definition\Source\DefinitionSource;
-use DI\Definition\ValueDefinition;
+use Matomo\Dependencies\DI\Definition\Source\DefinitionSource;
+use Matomo\Dependencies\DI\Definition\ValueDefinition;
 
 /**
  * PHP DI definition source that accesses variables defined in TestingEnvironmentVariables.

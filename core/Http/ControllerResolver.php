@@ -8,7 +8,7 @@
 
 namespace Piwik\Http;
 
-use DI\FactoryInterface;
+use Matomo\Dependencies\DI\FactoryInterface;
 use Exception;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugin\WidgetsProvider;

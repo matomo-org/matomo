@@ -150,8 +150,8 @@ class AttachedFileReportEmailGeneratorTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return [
-            'observers.global' => \DI\add([
-                ['Test.Mail.send', \DI\value(function (PHPMailer $mail) {
+            'observers.global' => \Matomo\Dependencies\DI\add([
+                ['Test.Mail.send', \Matomo\Dependencies\DI\value(function (PHPMailer $mail) {
                     $this->mail = $mail;
                     $this->mail->preSend();
                 })],

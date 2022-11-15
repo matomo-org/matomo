@@ -18,6 +18,7 @@ use Piwik\Scheduler\Timetable;
 use Piwik\SettingsPiwik;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Matomo\Dependencies\DI;
 
 /**
  * @group Core
@@ -430,7 +431,7 @@ class TrackerTest extends IntegrationTestCase
     public static function provideContainerConfigBeforeClass()
     {
         return array(
-            'Matomo\Dependencies\Psr\Log\LoggerInterface' => \DI\get('Matomo\Dependencies\Monolog\Logger'),
+            'Matomo\Dependencies\Psr\Log\LoggerInterface' => DI\get('Matomo\Dependencies\Monolog\Logger'),
             'Tests.log.allowAllHandlers' => true,
         );
     }

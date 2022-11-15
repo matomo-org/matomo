@@ -3,6 +3,7 @@
 use Piwik\Plugins\Diagnostics\Diagnostic\CronArchivingLastRunCheck;
 use Piwik\Plugins\Diagnostics\Diagnostic\RequiredPrivateDirectories;
 use Piwik\Plugins\Diagnostics\Diagnostic\RecommendedPrivateDirectories;
+use Matomo\Dependencies\DI;
 
 return array(
     // Diagnostics for everything that is required for Piwik to run

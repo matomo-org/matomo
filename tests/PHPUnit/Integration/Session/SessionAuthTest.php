@@ -19,6 +19,7 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
+use Matomo\Dependencies\DI;
 
 class SessionAuthTest extends IntegrationTestCase
 {
@@ -154,7 +155,7 @@ class SessionAuthTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return [
-            SessionAuth::class => \DI\autowire()
+            SessionAuth::class => DI\autowire()
                 ->constructorParameter('shouldDestroySession', false),
         ];
     }

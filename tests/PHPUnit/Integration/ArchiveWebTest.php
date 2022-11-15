@@ -13,6 +13,7 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Framework\Fixture;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Matomo\Dependencies\DI;
 
 /**
  * Tests to call the archive.php script via web and check there is no error.
@@ -65,15 +66,15 @@ class ArchiveWebTest extends SystemTestCase
     public static function provideContainerConfigBeforeClass()
     {
         return array(
-            'Matomo\Dependencies\Psr\Log\LoggerInterface' => \DI\get('Matomo\Dependencies\Monolog\Logger'),
+            'Matomo\Dependencies\Psr\Log\LoggerInterface' => DI\get('Matomo\Dependencies\Monolog\Logger'),
             'Tests.log.allowAllHandlers' => true,
             'observers.global' => [
-                ['API.Request.intercept', \DI\value(function (&$returnedValue, $finalParameters, $pluginName, $methodName, $parametersRequest) {
+                ['API.Request.intercept', DI\value(function (&$returnedValue, $finalParameters, $pluginName, $methodName, $parametersRequest) {
                     if ($pluginName == 'CoreAdminHome' && $methodName == 'runCronArchiving') {
                         $returnedValue = 'mock output';
                     }
                 })],
-                ['Console.doRun', \DI\value(function (&$exitCode, InputInterface $input, OutputInterface $output) {
+                ['Console.doRun', DI\value(function (&$exitCode, InputInterface $input, OutputInterface $output) {
                     if ($input->getFirstArgument() == 'core:archive') {
                         $output->writeln('mock output');
                         $exitCode = 0;

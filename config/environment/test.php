@@ -1,15 +1,16 @@
 <?php
 
 use Piwik\Piwik;
-use Psr\Container\ContainerInterface;
+use Matomo\Dependencies\Psr\Container\ContainerInterface;
 use Piwik\Common;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\Mock\TestConfig;
+use Matomo\Dependencies\DI;
 
 return array(
 
     // Disable logging
-    'Matomo\Dependencies\Psr\Log\LoggerInterface' => \DI\decorate(function ($previous, ContainerInterface $c) {
+    'Matomo\Dependencies\Psr\Log\LoggerInterface' => DI\decorate(function ($previous, ContainerInterface $c) {
         $enableLogging = $c->get('ini.tests.enable_logging') == 1 || !empty(getenv('MATOMO_TESTS_ENABLE_LOGGING'));
         if ($enableLogging) {
             return $previous;
@@ -20,7 +21,7 @@ return array(
 
     'Tests.log.allowAllHandlers' => false,
 
-    'log.handlers' => \DI\decorate(function ($previous, ContainerInterface $c) {
+    'log.handlers' => DI\decorate(function ($previous, ContainerInterface $c) {
         if ($c->get('Tests.log.allowAllHandlers')) {
             return $previous;
         }
@@ -113,7 +114,7 @@ return array(
             }
         })),
 
-        array('Updater.checkForUpdates', \DI\value(function () {
+        array('Updater.checkForUpdates', DI\value(function () {
             try {
                 @\Piwik\Filesystem::deleteAllCacheOnUpdate();
             } catch (Exception $ex) {
@@ -121,7 +122,7 @@ return array(
             }
         })),
 
-        array('Test.Mail.send', \DI\value(function (\PHPMailer\PHPMailer\PHPMailer $mail) {
+        array('Test.Mail.send', DI\value(function (\PHPMailer\PHPMailer\PHPMailer $mail) {
             $outputFile = PIWIK_INCLUDE_PATH . '/tmp/' . Piwik::getModule() . '.' . Piwik::getAction() . '.mail.json';
             $outputContent = str_replace("=\n", "", $mail->Body ?: $mail->AltBody);
             $outputContent = str_replace("=0A", "\n", $outputContent);

@@ -1,5 +1,7 @@
 <?php
 
+use Matomo\Dependencies\DI;
+
 return array(
     'observers.global' => DI\add(array(
         array('API.Tour.getChallenges.end', DI\value(function (&$challenges) {

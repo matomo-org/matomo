@@ -1,6 +1,7 @@
 <?php
 
 use Piwik\Notification;
+use Matomo\Dependencies\DI;
 
 return [
     'observers.global' => DI\add([

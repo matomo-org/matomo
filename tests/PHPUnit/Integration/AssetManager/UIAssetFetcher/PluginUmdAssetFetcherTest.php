@@ -14,6 +14,7 @@ use Piwik\AssetManager\UIAssetFetcher\PluginUmdAssetFetcher;
 use Piwik\Filesystem;
 use Piwik\Plugin\Manager;
 use Piwik\Tests\Framework\TestCase\UnitTestCase;
+use Matomo\Dependencies\DI;
 
 class PluginUmdAssetFetcherTest extends UnitTestCase
 {
@@ -498,7 +499,7 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
     protected function provideContainerConfig()
     {
         return [
-            'plugins.shouldLoadOnDemand' => \DI\add(array_keys(self::TEST_PLUGIN_DEPENDENCIES_ON_DEMAND)),
+            'plugins.shouldLoadOnDemand' => DI\add(array_keys(self::TEST_PLUGIN_DEPENDENCIES_ON_DEMAND)),
         ];
     }
 }

@@ -1509,18 +1509,18 @@ class APITest extends IntegrationTestCase
     {
         return [
             'Piwik\Access'                       => new FakeAccess(),
-            'usersmanager.user_preference_names' => \DI\add(
+            'usersmanager.user_preference_names' => \Matomo\Dependencies\DI\add(
                 [
                     'randomDoesNotExist',
                     'RandomNOTREQUESTED',
                     'preferenceName',
                 ]
             ),
-            'observers.global'                   => \DI\add(
+            'observers.global'                   => \Matomo\Dependencies\DI\add(
                 [
                     [
                         'Access.Capability.addCapabilities',
-                        \DI\value(function (&$capabilities) {
+                        \Matomo\Dependencies\DI\value(function (&$capabilities) {
                             $capabilities[] = new TestCap1();
                             $capabilities[] = new TestCap2();
                             $capabilities[] = new TestCap3();

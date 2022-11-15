@@ -19,6 +19,8 @@ class Prefixer
         'twig/twig',
         'monolog/monolog',
         'symfony/monolog-bridge',
+        'symfony/event-dispatcher',
+        'php-di/php-di',
     ];
 
     /**
@@ -262,16 +264,22 @@ EOF;
         while (!empty($dependenciesToProcess)) {
             $dependency = array_shift($dependenciesToProcess);
 
-            $dependencyComposerJson = $this->vendorPath . '/' . $dependency . '/composer.json';
+            $dependencyComposerJson = $this->getComposerJsonPath($this->vendorPath . '/' . $dependency);
             if (!is_file($dependencyComposerJson)) {
                 continue;
             }
 
             $dependencyComposerJson = json_decode(file_get_contents($dependencyComposerJson), true);
-            if (!empty($dependencyComposerJson['autoload']['psr-4'])) { // only handling psr-4 for now
+            if (!empty($dependencyComposerJson['autoload']['psr-4'])) { // only handling psr-4 and psr-0 for now
                 $this->namespacesToInclude = array_merge(
                     $this->namespacesToInclude,
                     array_keys($dependencyComposerJson['autoload']['psr-4'])
+                );
+            }
+            if (!empty($dependencyComposerJson['autoload']['psr-0'])) {
+                $this->namespacesToInclude = array_merge(
+                    $this->namespacesToInclude,
+                    array_keys($dependencyComposerJson['autoload']['psr-0'])
                 );
             }
 
@@ -314,7 +322,7 @@ EOF;
                     continue;
                 }
 
-                $composerJsonPath = "$orgPath/$depName/composer.json";
+                $composerJsonPath = $this->getComposerJsonPath("$orgPath/$depName");
                 if (!is_file($composerJsonPath)) {
                     continue;
                 }
@@ -352,5 +360,22 @@ EOF;
     public function getDependenciesToPrefix()
     {
         return $this->dependenciesToPrefix;
+    }
+
+    public function getComposerJsonPath($dependencyPath)
+    {
+        // some composer dependencies *cough*Symfony*cough* do have a root composer.json file. instead it's nested
+        // in some folders. we try to detect those here.
+        $path = $dependencyPath;
+        while (!is_file($path . '/composer.json')) {
+            $contents = scandir($path);
+            $contents = array_filter($contents, function ($p) use ($path) { return $p != '.' && $p != '..' && is_dir($path . '/' . $p); });
+            if (count($contents) > 1) {
+                return null;
+            }
+
+            $path = $path . '/' . reset($contents);
+        }
+        return $path . '/composer.json';
     }
 }

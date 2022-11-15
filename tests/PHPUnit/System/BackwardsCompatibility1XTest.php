@@ -16,6 +16,7 @@ use Piwik\Plugins\VisitFrequency\API as VisitFrequencyApi;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\SqlDump;
 use Piwik\Tests\Framework\Fixture;
+use Matomo\Dependencies\DI;
 
 /**
  * Tests that Piwik 2.0 works w/ data from Piwik 1.12.
@@ -293,7 +294,7 @@ class BackwardsCompatibility1XTest extends SystemTestCase
     public function provideContainerConfig()
     {
         return [
-            'Piwik\Config' => \DI\decorate(function ($previous) {
+            'Piwik\Config' => DI\decorate(function ($previous) {
                 $general = $previous->General;
                 $general['action_title_category_delimiter'] = "/";
                 $previous->General = $general;

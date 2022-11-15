@@ -11,6 +11,7 @@ use Piwik\Common;
 use Piwik\Db;
 use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
+use Matomo\Dependencies\DI;
 
 /**
  * The tracker inserts actions in separate SQL queries which can cause
@@ -73,7 +74,7 @@ class DuplicateActionsTest extends SystemTestCase
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\Config' => \DI\decorate(function ($previous) {
+            'Piwik\Config' => DI\decorate(function ($previous) {
                 $general = $previous->General;
                 $general['action_title_category_delimiter'] = "/";
                 $previous->General = $general;

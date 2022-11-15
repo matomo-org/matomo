@@ -1,6 +1,10 @@
 <?php
+
+use Matomo\Dependencies\Psr\Container\ContainerInterface;
+use Matomo\Dependencies\DI;
+
 return array(
-    'Piwik\Plugins\Login\SystemSettings' => DI\decorate(function ($settings, \Psr\Container\ContainerInterface $c) {
+    'Piwik\Plugins\Login\SystemSettings' => DI\decorate(function ($settings, ContainerInterface $c) {
         /** @var \Piwik\Plugins\Login\SystemSettings $settings */
 
         \Piwik\Access::doAsSuperUser(function () use ($settings, $c) {
@@ -13,7 +17,7 @@ return array(
 
         return $settings;
     }),
-    'Piwik\Plugins\Login\Security\BruteForceDetection' => DI\decorate(function ($detection, \Psr\Container\ContainerInterface $c) {
+    'Piwik\Plugins\Login\Security\BruteForceDetection' => DI\decorate(function ($detection, ContainerInterface $c) {
         /** @var \Piwik\Plugins\Login\Security\BruteForceDetection $detection */
 
         if ($c->get('test.vars.bruteForceBlockIps')) {

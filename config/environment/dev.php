@@ -1,5 +1,7 @@
 <?php
 
+use Matomo\Dependencies\DI;
+
 return array(
 
     'Matomo\Cache\Backend' => DI\autowire('Matomo\Cache\Backend\ArrayCache'),

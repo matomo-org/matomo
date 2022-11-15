@@ -1,4 +1,7 @@
 <?php
+
+use Matomo\Dependencies\DI;
+
 return array(
 
     'diagnostics.informational' => DI\add(array(

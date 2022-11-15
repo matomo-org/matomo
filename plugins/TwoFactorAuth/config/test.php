@@ -1,5 +1,7 @@
 <?php
 
+use Matomo\Dependencies\DI;
+
 return array(
     'Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretRandomGenerator' => DI\autowire('Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretStaticGenerator'),
     'Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeRandomGenerator' => DI\autowire('Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeStaticGenerator'),

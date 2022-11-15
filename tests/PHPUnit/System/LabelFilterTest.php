@@ -9,6 +9,7 @@ namespace Piwik\Tests\System;
 
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\OneVisitSeveralPageViews;
+use Matomo\Dependencies\DI;
 
 /**
  * Tests the class LabelFilter.
@@ -171,7 +172,7 @@ class LabelFilterTest extends SystemTestCase
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\Config' => \DI\decorate(function ($previous) {
+            'Piwik\Config' => DI\decorate(function ($previous) {
                 $general = $previous->General;
                 $general['action_title_category_delimiter'] = "/";
                 $previous->General = $general;

@@ -9,7 +9,7 @@
 
 namespace Piwik\Plugins\CoreAdminHome\tests\Integration\Commands;
 
-use Psr\Container\ContainerInterface;
+use Matomo\Dependencies\Psr\Container\ContainerInterface;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Config;
 use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;

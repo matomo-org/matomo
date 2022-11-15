@@ -23,7 +23,7 @@ class Transport
      *
      * @param Mail $mail
      * @return bool
-     * @throws \DI\NotFoundException
+     * @throws \Matomo\Dependencies\DI\NotFoundException
      * @throws \PHPMailer\PHPMailer\Exception
      */
     public function send(Mail $mail)

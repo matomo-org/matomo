@@ -9,6 +9,7 @@ namespace Piwik\Tests\System;
 
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
+use Matomo\Dependencies\DI;
 
 /**
  * Same as OneVisitorTwoVisits.test.php, but with cookie support, which incurs some slight changes
@@ -50,7 +51,7 @@ class OneVisitorTwoVisitsWithCookieSupportTest extends SystemTestCase
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\Config' => \DI\decorate(function ($previous) {
+            'Piwik\Config' => DI\decorate(function ($previous) {
                 $general = $previous->General;
                 $general['action_title_category_delimiter'] = "/";
                 $previous->General = $general;

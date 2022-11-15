@@ -11,6 +11,7 @@ use Piwik\Common;
 use Piwik\Db;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
+use Matomo\Dependencies\DI;
 
 /**
  * Simulates the case where there are more than 4 billion visits and pages, and check that Piwik
@@ -72,7 +73,7 @@ class SimulateAutoIncrementIntegerOverflowTest extends SystemTestCase
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\Config' => \DI\decorate(function ($previous) {
+            'Piwik\Config' => DI\decorate(function ($previous) {
                 $general = $previous->General;
                 $general['action_title_category_delimiter'] = "/";
                 $previous->General = $general;

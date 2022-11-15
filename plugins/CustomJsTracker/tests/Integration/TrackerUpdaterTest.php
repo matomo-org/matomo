@@ -236,8 +236,8 @@ var myArray = [];
     public function provideContainerConfig()
     {
         return [
-            'observers.global' => \DI\add([
-                ['CustomJsTracker.trackerJsChanged', \DI\value(function ($path) {
+            'observers.global' => \Matomo\Dependencies\DI\add([
+                ['CustomJsTracker.trackerJsChanged', \Matomo\Dependencies\DI\value(function ($path) {
                     $this->trackerJsChangedEventPath = $path;
                 })],
             ]),

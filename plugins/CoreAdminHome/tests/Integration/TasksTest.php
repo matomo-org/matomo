@@ -234,8 +234,8 @@ class TasksTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return [
-            'observers.global' => \DI\add([
-                ['Mail.send', \DI\value(function (Mail $mail) {
+            'observers.global' => \Matomo\Dependencies\DI\add([
+                ['Mail.send', \Matomo\Dependencies\DI\value(function (Mail $mail) {
                     $this->mail = $mail;
                 })],
             ]),

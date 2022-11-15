@@ -10,11 +10,13 @@ namespace Piwik\Tests\Framework;
 
 use Piwik\Common;
 use Piwik\Option;
+use Matomo\Dependencies\DI;
 
 /**
- * TODO: doc
+ * Utility functions generating xss injection strings during UI tests.
  *
- * TODO: describe need to keep strings as small as possible
+ * Note: it is important that the strings are as short as possible. Many entities truncate string properties to short
+ * lengths, so the more we can fit our xss strings into, the more we can test upfront.
  */
 class XssTesting
 {
@@ -92,7 +94,7 @@ JS;
     public static function getJavaScriptAddEvent()
     {
         $xssTesting = new XssTesting();
-        return ['Template.jsGlobalVariables', \DI\value(function (&$out) use ($xssTesting) {
+        return ['Template.jsGlobalVariables', DI\value(function (&$out) use ($xssTesting) {
             $out .= $xssTesting->getJavaScriptCode();
         })];
     }

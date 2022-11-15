@@ -2,6 +2,7 @@
 
 use \Piwik\Tracker\Request;
 use \Piwik\Tracker\Failures;
+use Matomo\Dependencies\DI;
 
 return array(
 

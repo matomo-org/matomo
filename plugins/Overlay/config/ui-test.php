@@ -1,5 +1,7 @@
 <?php
 
+use Matomo\Dependencies\DI;
+
 return array(
 
     // Overlay needs the full URLs in order to find the links in the embedded page (otherwise the %

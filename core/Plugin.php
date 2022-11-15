@@ -489,8 +489,8 @@ class Plugin
      * Note: the time frame is limited by the `[General] rearchive_reports_in_past_last_n_months`
      * INI config value.
      *
-     * @throws \DI\DependencyException
-     * @throws \DI\NotFoundException
+     * @throws \Matomo\Dependencies\DI\DependencyException
+     * @throws \Matomo\Dependencies\DI\NotFoundException
      */
     public function schedulePluginReArchiving()
     {

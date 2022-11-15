@@ -10,7 +10,7 @@
 
 namespace Piwik;
 
-use DI\DependencyException;
+use Matomo\Dependencies\DI\DependencyException;
 use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;

@@ -8,8 +8,8 @@
  */
 namespace Piwik;
 
-use DI\NotFoundException;
-use DI\DependencyException;
+use Matomo\Dependencies\DI\NotFoundException;
+use Matomo\Dependencies\DI\DependencyException;
 use Piwik\Container\StaticContainer;
 use Piwik\Email\ContentGenerator;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
@@ -53,7 +53,7 @@ class Mail
     /**
      * Sets the default sender
      *
-     * @throws \DI\NotFoundException
+     * @throws \Matomo\Dependencies\DI\NotFoundException
      */
     public function setDefaultFromPiwik()
     {
@@ -96,7 +96,7 @@ class Mail
 
     /**
      * @param View|string $body
-     * @throws \DI\NotFoundException
+     * @throws \Matomo\Dependencies\DI\NotFoundException
      */
     public function setWrappedHtmlBody($body)
     {
@@ -271,7 +271,7 @@ class Mail
      * Sends the mail
      *
      * @return bool|null returns null if sending the mail was aborted by the Mail.send event
-     * @throws \DI\NotFoundException
+     * @throws \Matomo\Dependencies\DI\NotFoundException
      */
     public function send()
     {

@@ -1,5 +1,7 @@
 <?php
 
+use Matomo\Dependencies\DI;
+
 return array(
     'Piwik\Plugins\CoreUpdater\Updater' => DI\autowire()
         ->constructorParameter('tmpPath', DI\get('path.tmp')),

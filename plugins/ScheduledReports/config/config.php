@@ -10,6 +10,7 @@
 use Piwik\Plugins\ScheduledReports\ReportEmailGenerator;
 use Piwik\Plugins\ScheduledReports\ReportEmailGenerator\AttachedFileReportEmailGenerator;
 use Piwik\Plugins\ScheduledReports\ReportEmailGenerator\HtmlReportEmailGenerator;
+use Matomo\Dependencies\DI;
 
 return [
     ReportEmailGenerator::class . '.pdf' => DI\autowire(AttachedFileReportEmailGenerator::class)

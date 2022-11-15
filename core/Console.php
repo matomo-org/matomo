@@ -13,6 +13,7 @@ use Monolog\Handler\FingersCrossedHandler;
 use Piwik\Application\Environment;
 use Piwik\Config\ConfigNotFoundException;
 use Piwik\Container\StaticContainer;
+use Piwik\Dependency\PrefixRemovingAutoloader;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\CoreConsole\Commands\PrefixDependency;
 use Piwik\Plugins\Monolog\Handler\FailureLogMessageDetector;
@@ -99,8 +100,6 @@ class Console extends Application
 
     private function doRunImpl(InputInterface $input, OutputInterface $output)
     {
-        $this->handlePrefixCommandAutoloading($input);
-
         if ($input->hasParameterOption('--xhprof')) {
             Profiler::setupProfilerXHProf(true, true);
         }
@@ -311,47 +310,6 @@ class Console extends Application
                         Plugins[] = Login
                         under the [Plugins] section in your config/config.ini.php";
             StaticContainer::get(LoggerInterface::class)->warning($message);
-        }
-    }
-
-    private function handlePrefixCommandAutoloading(InputInterface $input)
-    {
-        global $argv;
-
-        $commandName = $input->getFirstArgument();
-
-        // dependencies may not be prefixed yet, so we want to make sure they can still be loaded during this command
-        if ($commandName == PrefixDependency::NAME) {
-            $isForPlugin = false;
-            foreach ($argv as $arg) {
-                if (strpos($arg, '--plugin') !== false) {
-                    $isForPlugin = true;
-                    break;
-                }
-            }
-
-            if (!$isForPlugin) { // running as core, core dependencies not prefixed
-                \spl_autoload_register(function ($name) {
-                    $prefix = 'Matomo\\Dependencies\\';
-
-                    $name = ltrim($name, '\\');
-                    if (substr($name, 0, strlen($prefix)) === $prefix) {
-                        $unprefixedName = substr($name, strlen($prefix));
-                        class_alias($unprefixedName, $name);
-
-                        // also alias all base classes/interfaces, since they don't get loaded when checking
-                        // function parameter types
-                        foreach (\class_parents($unprefixedName) as $parentClassName) {
-                            class_alias($parentClassName, $prefix . $parentClassName);
-                        }
-                        foreach (\class_implements($unprefixedName) as $implementedName) {
-                            class_alias($implementedName, $prefix . $implementedName);
-                        }
-
-                        return true;
-                    }
-                }, true, true);
-            }
         }
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+use Matomo\Dependencies\DI;
+
 return array(
 
     'Piwik\Plugins\CoreHome\Tracker\VisitRequestProcessor' => DI\autowire()

@@ -16,6 +16,7 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeLogger;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugins\SegmentEditor\API as SegmentAPI;
+use Matomo\Dependencies\DI;
 
 /**
  * @group Archiver
@@ -91,8 +92,8 @@ class CronArchiveInvalidSegmentTest extends IntegrationTestCase
         Date::$now = strtotime('2020-02-03 04:05:06');
 
         return array(
-            'observers.global' => \DI\add([
-                ['API.CoreAdminHome.archiveReports', \DI\value(function (&$result) {
+            'observers.global' => DI\add([
+                ['API.CoreAdminHome.archiveReports', DI\value(function (&$result) {
                     Manager::getInstance()->deactivatePlugin('UserLanguage');
                 })]
             ]),

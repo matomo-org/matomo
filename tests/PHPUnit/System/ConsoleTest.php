@@ -19,6 +19,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
+use Matomo\Dependencies\DI;
 
 class TestCommandWithWarning extends ConsoleCommand
 {
@@ -222,17 +223,17 @@ END;
     public static function provideContainerConfigBeforeClass()
     {
         return [
-            'log.handlers' => [\DI\get(FailureLogMessageDetector::class)],
-            LoggerInterface::class => \DI\create(Logger::class)
-                ->constructor('piwik', \DI\get('log.handlers'), \DI\get('log.processors')),
+            'log.handlers' => [DI\get(FailureLogMessageDetector::class)],
+            LoggerInterface::class => DI\create(Logger::class)
+                ->constructor('piwik', DI\get('log.handlers'), DI\get('log.processors')),
 
-            'observers.global' => \DI\add([
-                ['Console.filterCommands', \DI\value(function (&$commands) {
+            'observers.global' => DI\add([
+                ['Console.filterCommands', DI\value(function (&$commands) {
                     $commands[] = TestCommandWithFatalError::class;
                     $commands[] = TestCommandWithException::class;
                 })],
 
-                ['Request.dispatch', \DI\value(function ($module, $action) {
+                ['Request.dispatch', DI\value(function ($module, $action) {
                     if ($module === 'CorePluginsAdmin' && $action === 'safemode') {
                         print "*** IN SAFEMODE ***\n"; // will appear in output
                     }

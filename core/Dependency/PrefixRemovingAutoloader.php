@@ -18,7 +18,9 @@ class PrefixRemovingAutoloader
 
     public function __construct()
     {
-        spl_autoload_register(array($this, 'loadClass'), true, $prepend = false);
+        spl_autoload_register(array($this, 'loadClass'), true, $prepend = true);
+
+        $this->loadFunctionAdapters();
     }
 
     public function loadClass($class)
@@ -40,5 +42,10 @@ class PrefixRemovingAutoloader
         }
 
         return null;
+    }
+
+    private function loadFunctionAdapters()
+    {
+        require_once __DIR__ . '/function-adapters/php-di.php';
     }
 }

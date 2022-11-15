@@ -8,9 +8,9 @@
 
 namespace Piwik\Container;
 
-use DI\Definition\Exception\InvalidDefinition;
-use DI\Definition\Source\DefinitionSource;
-use DI\Definition\ValueDefinition;
+use Matomo\Dependencies\DI\Definition\Exception\InvalidDefinition;
+use Matomo\Dependencies\DI\Definition\Source\DefinitionSource;
+use Matomo\Dependencies\DI\Definition\ValueDefinition;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 
 /**

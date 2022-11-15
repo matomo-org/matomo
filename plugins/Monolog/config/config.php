@@ -1,10 +1,11 @@
 <?php
 
-use Psr\Container\ContainerInterface;
+use Matomo\Dependencies\Psr\Container\ContainerInterface;
 use Matomo\Dependencies\Monolog\Logger;
 use Piwik\Log;
 use Piwik\Plugins\Monolog\Handler\FileHandler;
 use Piwik\Plugins\Monolog\Handler\LogCaptureHandler;
+use Matomo\Dependencies\DI;
 
 return array(
 
@@ -20,7 +21,7 @@ return array(
         'errorlog' => 'Matomo\Dependencies\Monolog\Handler\ErrorLogHandler',
         'syslog' => 'Matomo\Dependencies\Monolog\Handler\SyslogHandler',
     ),
-    'log.handlers' => DI\factory(function (\DI\Container $c) {
+    'log.handlers' => DI\factory(function (DI\Container $c) {
         if ($c->has('ini.log.log_writers')) {
             $writerNames = $c->get('ini.log.log_writers');
         } else {
@@ -53,18 +54,18 @@ return array(
             if (isset($classes[$writerName])) {
                 // wrap the handler in FingersCrossedHandler if we can and this isn't the screen handler
 
-                /** @var \Monolog\Handler\HandlerInterface $handler */
+                /** @var \Matomo\Dependencies\Monolog\Handler\HandlerInterface $handler */
                 $handler = $c->make($classes[$writerName]);
                 if ($enableFingersCrossed
                     && $writerName !== 'screen'
-                    && $handler instanceof \Monolog\Handler\AbstractHandler
+                    && $handler instanceof \Matomo\Dependencies\Monolog\Handler\AbstractHandler
                     && $isLogBufferingAllowed
                 ) {
                     $passthruLevel = $handler->getLevel();
 
                     $handler->setLevel(Logger::DEBUG);
 
-                    $handler = new \Monolog\Handler\FingersCrossedHandler($handler, $activationStrategy = null, $bufferSize = 0,
+                    $handler = new \Matomo\Dependencies\Monolog\Handler\FingersCrossedHandler($handler, $activationStrategy = null, $bufferSize = 0,
                         $bubble = true, $fingersCrossedStopBuffering, $passthruLevel);
                 }
 

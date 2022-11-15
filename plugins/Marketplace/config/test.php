@@ -4,7 +4,8 @@ use Piwik\Plugins\Marketplace\Input\PurchaseType;
 use Piwik\Plugins\Marketplace\LicenseKey;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Consumer as MockConsumer;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Service as MockService;
-use Psr\Container\ContainerInterface;
+use Matomo\Dependencies\Psr\Container\ContainerInterface;
+use Matomo\Dependencies\DI;
 
 return array(
     'MarketplaceEndpoint' => function (ContainerInterface $c) {
