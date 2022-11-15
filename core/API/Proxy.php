@@ -488,8 +488,10 @@ class Proxy
                 $requestValue = null;
 
                 switch (strtolower($type)) {
+                    case 'bool':
+                        $method = 'getBoolParameter';
+                        break;
                     case 'int':
-                    case 'integer':
                         $method = 'getIntegerParameter';
                         break;
                     case 'string':
