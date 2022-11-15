@@ -259,7 +259,7 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
                 return $previous;
             }),
 
-            SegmentArchiving::class => \Matomo\Dependencies\DI\object()
+            SegmentArchiving::class => \Matomo\Dependencies\DI\autowire()
                 ->constructorParameter('beginningOfTimeLastNInYears', 15)
         ];
     }
