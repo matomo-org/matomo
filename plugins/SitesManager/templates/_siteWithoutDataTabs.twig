@@ -51,7 +51,7 @@
         {% if consentManagerName %}
         <p></p><p></p>
         <div class="system notification notification-info">
-            <p> {{ 'PrivacyManager_ConsentManagerDetected'|translate(consentManagerName, '<a href="', consentManagerUrl, '" target="_blank" rel="noreferrer noopener">', '</a')|raw }}
+            <p> {{ 'PrivacyManager_ConsentManagerDetected'|translate(consentManagerName, '<a href="' ~ consentManagerUrl ~ '" target="_blank" rel="noreferrer noopener">', '</a')|raw }}
             </p>
             {% if consentManagerIsConnected %}
                 <p> {{ 'PrivacyManager_ConsentManagerConnected'|translate(consentManagerName)|raw }}
