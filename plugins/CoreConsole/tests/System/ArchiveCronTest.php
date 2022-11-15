@@ -465,7 +465,7 @@ class ArchiveCronTest extends SystemTestCase
 
             'Tests.log.allowAllHandlers' => true,
 
-            CronArchive\SegmentArchiving::class => \Matomo\Dependencies\DI\object()
+            CronArchive\SegmentArchiving::class => \Matomo\Dependencies\DI\autowire()
                 ->constructorParameter('beginningOfTimeLastNInYears', 10)
         );
     }
