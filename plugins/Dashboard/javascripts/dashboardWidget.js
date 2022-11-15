@@ -241,8 +241,8 @@
             widgetsHelper.getWidgetNameFromUniqueId(uniqueId, function(widgetName) {
                 if (!widgetName) {
                     // when widget not found hide it.
-                    $('[widgetId="' + uniqueId + '"]').remove();
-                    return;
+                    $('[widgetId="' + uniqueId + '"]').hide();
+                    widgetName = _pk_translate('Dashboard_WidgetNotFound');
                 }
 
                 var title = self.options.title === null ? $('<span/>').text(widgetName) : self.options.title;
