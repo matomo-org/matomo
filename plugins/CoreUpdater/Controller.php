@@ -153,33 +153,46 @@ class Controller extends \Piwik\Plugin\Controller
     public function oneClickUpdate()
     {
         Piwik::checkUserHasSuperUserAccess();
+        print "1<br/>";@ob_flush();
 
         if (!SettingsPiwik::isAutoUpdateEnabled()) {
             throw new Exception('Auto updater is disabled');
         }
+        print "2<br/>";@ob_flush();
 
         Nonce::checkNonce('oneClickUpdate');
+        print "3<br/>";@ob_flush();
 
         $view = new OneClickDone(Piwik::getCurrentUserTokenAuth());
+        print "4<br/>";@ob_flush();
 
         $useHttps = Common::getRequestVar('https', 1, 'int');
+        print "5<br/>";@ob_flush();
 
         try {
             $messages = $this->updater->updatePiwik($useHttps);
+            print "6<br/>";@ob_flush();
         } catch (ArchiveDownloadException $e) {
+            print "7<br/>";@ob_flush();
             $view->httpsFail = $useHttps;
             $view->error = $e->getMessage();
             $messages = $e->getUpdateLogMessages();
         } catch (UpdaterException $e) {
+            print "8<br/>";@ob_flush();
             $view->error = $e->getMessage();
             $messages = $e->getUpdateLogMessages();
         }
+        print "9<br/>";@ob_flush();
 
         $view->feedbackMessages = $messages;
+        print "10<br/>";@ob_flush();
         $this->addCustomLogoInfo($view);
+        print "11<br/>";@ob_flush();
         $result = $view->render();
+        print "12<br/>";@ob_flush();
 
         Filesystem::deleteAllCacheOnUpdate();
+        print "13<br/>";@ob_flush();
 
         return $result;
     }
