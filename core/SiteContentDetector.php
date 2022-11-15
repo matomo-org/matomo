@@ -9,7 +9,6 @@
 namespace Piwik;
 
 use Matomo\Cache\Lazy;
-use Piwik\Container\StaticContainer;
 
 /**
  * This class provides detection functions for specific content on a site. It can be used to easily detect the
