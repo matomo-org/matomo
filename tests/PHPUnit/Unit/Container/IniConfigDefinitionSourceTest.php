@@ -8,7 +8,7 @@
 
 namespace Piwik\Tests\Unit\Container;
 
-use DI\Definition\ValueDefinition;
+use Matomo\Dependencies\DI\Definition\ValueDefinition;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Container\IniConfigDefinitionSource;
 
