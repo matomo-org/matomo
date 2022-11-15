@@ -144,7 +144,7 @@ class ResponseBuilder
             http_response_code($e->getCode());
         }
 
-        // if got login access deny, return 403 as status code
+        //access deny, return 403 as status code
         if ($e instanceof NoAccessException) {
             http_response_code(403);
         }
