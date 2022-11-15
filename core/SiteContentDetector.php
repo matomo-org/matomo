@@ -20,7 +20,7 @@ use Piwik\Container\StaticContainer;
  *
  * Usage:
  *
- * $contentDetector = SiteContentDetector::getInstance();
+ * $contentDetector = new SiteContentDetector();
  * $contentDetector->detectContent([SiteContentDetector::GA3]);
  * if ($contentDetector->ga3) {
  *      // site is using GA3
@@ -51,17 +51,13 @@ class SiteContentDetector
     /** @var Lazy */
     private $cache;
 
-    public function __construct(Lazy $cache)
+    public function __construct(?Lazy $cache = null)
     {
-        $this->cache = $cache;
-    }
-
-    /**
-     * @return SiteContentDetector
-     */
-    public static function getInstance(): SiteContentDetector
-    {
-        return StaticContainer::get('Piwik\SiteContentDetector');
+        if ($cache === null) {
+            $this->cache = Cache::getLazyCache();
+        } else {
+            $this->cache = $cache;
+        }
     }
 
     /**
@@ -89,17 +85,18 @@ class SiteContentDetector
      * @param ?int        $idSite        Override the site ID, will use the site from the current request if null
      * @param string|null $siteData      String containing the site data to search, if blank then data will be retrieved
      *                                   from the current request site via an http request
-     * @param int         $timeOut       How long to wait for the site to response, defaults to 60 seconds
+     * @param int         $timeOut       How long to wait for the site to response, defaults to 5 seconds
      * @return void
      */
     public function detectContent(array $detectContent = [SiteContentDetector::ALL_CONTENT],
-                                  ?int $idSite = null, ?string $siteData = null, int $timeOut = 60): void
+                                  ?int $idSite = null, ?string $siteData = null, int $timeOut = 5): void
     {
 
         $this->resetDetectionProperties();
 
         // If site data was passed in, then just run the detection checks against it and return.
         if ($siteData) {
+            $this->siteData = $siteData;
             $this->detectionChecks($detectContent);
             return;
         }
@@ -116,18 +113,14 @@ class SiteContentDetector
         }
 
         // Check and load previously cached site content detection data if it exists
-        $scdCacheId = 'SiteContentDetector_'.$idSite;
-
-        $siteContentDetectionIsCached = $this->cache->fetch($scdCacheId);
-        if ($siteContentDetectionIsCached) {
-            $this->consentManagerId = $this->cache->fetch($scdCacheId.'_consentManagerId');
-            $this->consentManagerName = $this->cache->fetch($scdCacheId.'_consentManagerName');
-            $this->consentManagerUrl = $this->cache->fetch($scdCacheId.'_consentManagerUrl');
-            $this->isConnected = $this->cache->fetch($scdCacheId.'_isConnected');
-            $this->ga3 = $this->cache->fetch($scdCacheId.'_ga3');
-            $this->ga4 = $this->cache->fetch($scdCacheId.'_ga4');
-            $this->gtm = $this->cache->fetch($scdCacheId.'_gtm');
-            return;
+        $cacheKey = 'SiteContentDetector_'.$idSite;
+        $requiredProperties = $this->getRequiredProperties($detectContent);
+        $siteContentDetectionCache = $this->cache->fetch($cacheKey);
+        if ($siteContentDetectionCache !== false) {
+            if ($this->checkCacheHasRequiredProperties($requiredProperties, $siteContentDetectionCache)) {
+                $this->loadRequiredPropertiesFromCache($requiredProperties, $siteContentDetectionCache);
+                return;
+            }
         }
 
         // No cache hit, no passed data, so make a request for the site content
@@ -145,21 +138,103 @@ class SiteContentDetector
 
         // A request was made to get this data and it isn't currently cached, so write it to the cache now
         $cacheLife = (60 * 60 * 24 * 7);
-        $this->cache->save($scdCacheId, 1, $cacheLife);
-        $this->cache->save($scdCacheId.'_consentManagerId', $this->consentManagerId, $cacheLife);
-        $this->cache->save($scdCacheId.'_consentManagerName', $this->consentManagerName, $cacheLife);
-        $this->cache->save($scdCacheId.'_consentManagerUrl', $this->consentManagerUrl, $cacheLife);
-        $this->cache->save($scdCacheId.'_isConnected', $this->isConnected, $cacheLife);
-        $this->cache->save($scdCacheId.'_ga3', $this->ga3, $cacheLife);
-        $this->cache->save($scdCacheId.'_ga4', $this->ga4, $cacheLife);
-        $this->cache->save($scdCacheId.'_gtm', $this->gtm, $cacheLife);
+        $this->savePropertiesToCache($cacheKey, $requiredProperties, $cacheLife);
+    }
 
+    /**
+     * Returns an array of properties required by the detect content array
+     *
+     * @param array $detectContent
+     *
+     * @return array
+     */
+    private function getRequiredProperties(array $detectContent): array
+    {
+        $requiredProperties = [];
+        if (in_array(SiteContentDetector::CONSENT_MANAGER, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
+            $requiredProperties = array_merge($requiredProperties, ['consentManagerId', 'consentManagerName', 'consentManagerUrl', 'isConnected']);
+        }
+        if (in_array(SiteContentDetector::GA3, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
+            $requiredProperties[] = 'ga3';
+        }
+        if (in_array(SiteContentDetector::GA4, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
+            $requiredProperties[] = 'ga4';
+        }
+        if (in_array(SiteContentDetector::GTM, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
+            $requiredProperties[] = 'gtm';
+        }
+
+        return $requiredProperties;
+    }
+
+    /**
+     * Checks that all required properties are in the cache array
+     *
+     * @param array $properties
+     * @param array $cache
+     *
+     * @return bool
+     */
+    private function checkCacheHasRequiredProperties(array $properties, array $cache): bool
+    {
+        foreach ($properties as $prop) {
+            if (!array_key_exists($prop, $cache)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Load object properties from the cache array
+     *
+     * @param array $properties
+     * @param array $cache
+     *
+     * @return void
+     */
+    private function loadRequiredPropertiesFromCache(array $properties, array $cache): void
+    {
+        foreach ($properties as $prop) {
+            if (!array_key_exists($prop, $cache)) {
+                continue;
+            }
+            $this->{$prop} = $cache[$prop];
+        }
+    }
+
+    /**
+     * Save properties to the cache
+     *
+     * @param string $cacheKey
+     * @param array  $properties
+     * @param int    $cacheLife
+     *
+     * @return void
+     */
+    private function savePropertiesToCache(string $cacheKey, array $properties, int $cacheLife): void
+    {
+
+        $cacheData = [];
+
+        // Load any existing cached values
+        $siteContentDetectionCache = $this->cache->fetch($cacheKey);
+        if (is_array($siteContentDetectionCache)) {
+            $cacheData = $siteContentDetectionCache;
+        }
+
+        foreach ($properties as $prop) {
+            $cacheData[$prop] = $this->{$prop};
+        }
+
+        $this->cache->save($cacheKey, $cacheData, $cacheLife);
     }
 
     /**
      * Run various detection checks for site content
      *
      * @param array $detectContent    Array of detection types used to filter the checks that are run
+     *
      * @return void
      */
     private function detectionChecks($detectContent): void

@@ -12,19 +12,17 @@ class FakeSiteContentDetector extends SiteContentDetector
     public function __construct($mockData = [])
     {
         $this->mockData = $mockData;
+        parent::__construct(null);
     }
 
     public function detectContent(array $detectContent = [SiteContentDetector::ALL_CONTENT],
-                                  ?int $idSite = null, ?string $siteData = null, int $timeOut = 60)
+                                  ?int $idSite = null, ?string $siteData = null, int $timeOut = 60): void
     {
-
         foreach ($this->mockData as $property => $value) {
             if (property_exists($this, $property)) {
                $this->{$property} = $value;
             }
         }
-
-        return true;
     }
 
 }
