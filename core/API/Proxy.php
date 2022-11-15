@@ -440,14 +440,21 @@ class Proxy
             try {
                 $defaultValue = $parameter['default'];
                 $type = $parameter['type'];
+                $request = new \Piwik\Request($parametersRequest);
 
                 if ($defaultValue instanceof NoDefaultValue) {
-                    $requestValue = Common::getRequestVar($name, null, $type, $parametersRequest);
+                    if ($type === 'bool') {
+                        $requestValue = $request->getBoolParameter($name);
+                    } else {
+                        $requestValue = Common::getRequestVar($name, null, $type, $parametersRequest);
+                    }
                 } else {
                     try {
                         if ($name == 'segment' && !empty($parametersRequest['segment'])) {
                             // segment parameter is an exception: we do not want to sanitize user input or it would break the segment encoding
                             $requestValue = ($parametersRequest['segment']);
+                        } elseif ($type === 'bool') {
+                            $requestValue = $request->getBoolParameter($name, $defaultValue);
                         } else {
                             $requestValue = Common::getRequestVar($name, $defaultValue, $type, $parametersRequest);
                         }
