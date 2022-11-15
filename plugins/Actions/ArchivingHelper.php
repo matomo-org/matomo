@@ -294,6 +294,8 @@ class ArchivingHelper
                         $row[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY],
                         $nbEntrances,
                         GoalManager::REVENUE_PRECISION + 1);
+
+                    $row[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY] = (float) $row[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY];
                 }
             }
 
