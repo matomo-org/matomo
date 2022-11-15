@@ -16,6 +16,7 @@ use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Filter\ColumnDelete;
 use Piwik\DataTable\Filter\Pattern;
 use Piwik\Http\HttpCodeException;
+use Piwik\NoAccessException;
 use Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor;
 
 /**
@@ -141,6 +142,11 @@ class ResponseBuilder
             && $e->getCode() > 0
         ) {
             http_response_code($e->getCode());
+        }
+
+        // if got login access deny, return 403 as status code
+        if ($e instanceof NoAccessException) {
+            http_response_code(403);
         }
 
         $this->sendHeaderIfEnabled();

@@ -9,34 +9,13 @@
 
 namespace Piwik;
 
-use Piwik\Exception\Exception;
-use Piwik\Http\HttpCodeException;
+use Piwik\Exception\InvalidRequestParameterException;
 
 /**
  * Exception thrown when a user doesn't have sufficient access to a resource.
  *
  * @api
  */
-class NoAccessException extends Exception implements HttpCodeException
+class NoAccessException extends InvalidRequestParameterException
 {
-
-    public function __construct($message)
-    {
-        parent::__construct($message, $code = 401);
-    }
-
-    public function setIsHtmlMessage()
-    {
-        $this->isHtmlMessage = true;
-    }
-
-    public function isHtmlMessage()
-    {
-        return $this->isHtmlMessage;
-    }
-
-    public function __toString()
-    {
-        return $this->getMessage() . ' ' . $this->getFile() . ':' . $this->getLine();
-    }
 }
