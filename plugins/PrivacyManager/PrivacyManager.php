@@ -428,6 +428,9 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_WhenConsentIsNeeded2';
         $translationKeys[] = 'PrivacyManager_WhenDoINeedConsent';
         $translationKeys[] = 'UsersManager_AllWebsites';
+        $translationKeys[] = 'PrivacyManager_ConsentManager';
+        $translationKeys[] = 'PrivacyManager_ConsentManagerDetected';
+        $translationKeys[] = 'PrivacyManager_ConsentManagerConnected';
     }
 
     public function setTrackerCacheGeneral(&$cacheContent)

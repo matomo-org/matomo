@@ -26,3 +26,7 @@
 #js-campaign-query-param-extra .input-field {
     margin-top: 0;
 }
+
+#javascript-email-button {
+    min-width: 250px;
+}

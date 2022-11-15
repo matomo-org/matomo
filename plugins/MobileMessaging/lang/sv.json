@@ -43,6 +43,6 @@
         "TopLinkTooltip": "Få Webb Analysrapporter levererade till din mail inkorg eller din mobiltelefon",
         "TopMenu": "E-post &amp; SMS-rapporter",
         "UserKey": "Användarnyckel",
-        "VerificationText": "Koden är %1$s. För att verifiera ditt telefonnummer och få Matomos SMS rapporter ber vi dig kopiera den här koden i formuläret för åtkomlighet via Matomo > %2$s > %3$s."
+        "VerificationText": "Koden är %1$s. För att verifiera ditt telefonnummer och få Matomos SMS rapporter ber vi dig kopiera den här koden i formuläret för åtkomlighet via Matomo → %2$s → %3$s."
     }
 }
