@@ -99,7 +99,7 @@ jobs:
 
             if ! [[ ${GITHUB_REF#refs/heads/} =~ ^[4-9]\.x-dev$ || ${GITHUB_REF#refs/heads/} == "next_release" ]]
             then
-              echo "A tag can only be created from branches '4.x-dev' and 'next_release'. Please create the tag manually if a release needs to be built from another branch."
+              echo "A tag can only be created from branches '5.x-dev' and 'next_release'. Please create the tag manually if a release needs to be built from another branch."
               exit 1
             fi
 

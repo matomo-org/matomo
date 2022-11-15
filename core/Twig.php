@@ -40,24 +40,14 @@ function piwik_format_number($string, $minFractionDigits, $maxFractionDigits)
     return $formatter->format($string, $minFractionDigits, $maxFractionDigits);
 }
 
-function piwik_fix_lbrace($string)
-{
-    return Common::fixLbrace($string);
-}
-
 function piwik_escape_filter(Environment $env, $string, $strategy = 'html', $charset = null, $autoescape = false) {
     $escapeFilter = function_exists('\Matomo\Dependencies\twig_escape_filter') ? '\Matomo\Dependencies\twig_escape_filter' : 'twig_escape_filter';
     $string = $escapeFilter($env, $string, $strategy, $charset, $autoescape);
 
     switch ($strategy) {
-        case 'html':
-        case 'html_attr':
-            return piwik_fix_lbrace($string);
         case 'url':
             $encoded = rawurlencode('{');
             return str_replace('{{', $encoded . $encoded, $string);
-        case 'css':
-        case 'js':
         default:
             return $string;
     }
@@ -347,7 +337,7 @@ class Twig
             $template .= '>';
 
             if (!empty($options['raw'])) {
-                $template .= piwik_fix_lbrace($message);
+                $template .= $message;
             } else {
                 $template .= piwik_escape_filter($twigEnv, $message, 'html');
             }
@@ -373,7 +363,7 @@ class Twig
 
             $string = SafeDecodeLabel::decodeLabelSafe($string);
 
-            return piwik_fix_lbrace($string);
+            return $string;
 
         }, array('is_safe' => array('all')));
         $this->twig->addFilter($rawSafeDecoded);

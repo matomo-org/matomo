@@ -3,7 +3,6 @@
   "compilerOptions": {
     "types": [
       "webpack-env",
-      "angular",
       "jquery",
       "jqueryui",
       "jest",

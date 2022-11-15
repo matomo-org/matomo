@@ -70,7 +70,7 @@ class DiagnosticResult implements \JsonSerializable
         }
 
         if ($escapeComment) {
-            $comment = Common::fixLbrace(Common::sanitizeInputValue($comment));
+            $comment = Common::sanitizeInputValue($comment);
         }
 
         return self::singleResult($label, self::STATUS_INFORMATIONAL, $comment);

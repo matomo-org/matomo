@@ -126,19 +126,19 @@ var Piwik_Overlay = (function () {
     }
 
     function getOverlaySegment(url) {
-        var location = broadcast.getParamValue('segment', url);
+        var segment = broadcast.getParamValue('segment', url);
 
-        // angular will encode the value again since it is added as the fragment path, not the fragment query parameter,
+        // the value will be encoded again since it is added as the fragment path, not the fragment query parameter,
         // so we have to decode it again after getParamValue
-        location = decodeURIComponent(location);
+        segment = decodeURIComponent(segment);
 
-        return location;
+        return segment;
     }
 
     function getOverlayLocationFromHash(urlHash) {
         var location = broadcast.getParamValue('l', urlHash);
 
-        // angular will encode the value again since it is added as the fragment path, not the fragment query parameter,
+        // the value will be encoded again since it is added as the fragment path, not the fragment query parameter,
         // so we have to decode it again after getParamValue
         location = decodeURIComponent(location);
 
