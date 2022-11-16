@@ -250,7 +250,7 @@ class FrontController extends Singleton
 
     public static function setUpSafeMode()
     {
-        // register_shutdown_function(array('\\Piwik\\FrontController', 'triggerSafeModeWhenError'));
+        register_shutdown_function(array('\\Piwik\\FrontController', 'triggerSafeModeWhenError'));
     }
 
     public static function triggerSafeModeWhenError()

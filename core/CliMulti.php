@@ -508,7 +508,6 @@ class CliMulti
     {
         $r = \Piwik\Request::fromRequest();
         if ($r->getStringParameter('module', '') == 'CoreUpdater' && $r->getStringParameter('action', '') == 'oneClickUpdate') {
-            print "setting up prefix removing autoloader<br/>\n";@ob_flush();
             if (is_file(PIWIK_VENDOR_PATH . '/prefixed/vendor/autoload.php')) {
                 require_once PIWIK_VENDOR_PATH . '/prefixed/vendor/autoload.php';
             }
