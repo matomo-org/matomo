@@ -86,74 +86,75 @@ class Updater
      */
     public function updatePiwik($https = true)
     {
-        print "  1<br/>";@ob_flush();
+        print "- 1<br/>";@ob_flush();
         if (!$this->isNewVersionAvailable()) {
             throw new Exception($this->translator->translate('CoreUpdater_ExceptionAlreadyLatestVersion', Version::VERSION));
         }
-        print "  2<br/>";@ob_flush();
+
+        $cliMulti = new CliMulti(); // create CliMulti instance before codebase is updated
+        print "- 2<br/>";@ob_flush();
 
         SettingsServer::setMaxExecutionTime(0);
-        print "  3<br/>";@ob_flush();
+        print "- 3<br/>";@ob_flush();
 
         $newVersion = $this->getLatestVersion();
         $url = $this->getArchiveUrl($newVersion, $https);
         $messages = array();
-        print "  4<br/>";@ob_flush();
+        print "- 4<br/>";@ob_flush();
 
         try {
-            print "  5<br/>";@ob_flush();
+            print "- 5<br/>";@ob_flush();
             $archiveFile = $this->downloadArchive($newVersion, $url);
             $messages[] = $this->translator->translate('CoreUpdater_DownloadingUpdateFromX', $url);
-            print "  6<br/>";@ob_flush();
+            print "- 6<br/>";@ob_flush();
 
             $extractedArchiveDirectory = $this->decompressArchive($archiveFile);
             $messages[] = $this->translator->translate('CoreUpdater_UnpackingTheUpdate');
-            print "  7<br/>";@ob_flush();
+            print "- 7<br/>";@ob_flush();
 
             $this->verifyDecompressedArchive($extractedArchiveDirectory);
             $messages[] = $this->translator->translate('CoreUpdater_VerifyingUnpackedFiles');
-            print "  8<br/>";@ob_flush();
+            print "- 8<br/>";@ob_flush();
 
             $this->installNewFiles($extractedArchiveDirectory);
             $messages[] = $this->translator->translate('CoreUpdater_InstallingTheLatestVersion');
-            print "  9<br/>";@ob_flush();
+            print "- 9<br/>";@ob_flush();
 
         } catch (ArchiveDownloadException $e) {
             throw $e;
         } catch (Exception $e) {
             throw new UpdaterException($e, $messages);
         }
-        print "  10<br/>";@ob_flush();
+        print "- 10<br/>";@ob_flush();
 
         $validFor10Minutes = time() + (60 * 10);
         $nonce = Common::generateUniqId();
         Option::set('NonceOneClickUpdatePartTwo', json_encode(['nonce' => $nonce, 'ttl' => $validFor10Minutes]));
-        print "  11<br/>";@ob_flush();
+        print "- 11<br/>";@ob_flush();
 
-        $cliMulti = new CliMulti();
         $responses = $cliMulti->request(['?module=CoreUpdater&action=oneClickUpdatePartTwo&nonce=' . $nonce]);
-        print "  12<br/>";@ob_flush();
+        print "- 12<br/>";@ob_flush();
 
         if (!empty($responses)) {
             $responseCliMulti = array_shift($responses);
             $responseCliMulti = @json_decode($responseCliMulti, $assoc = true);
             if (is_array($responseCliMulti)) {
-                print "  13<br/>";@ob_flush();
+                print "- 13<br/>";@ob_flush();
                 // we expect a json encoded array response from oneClickUpdatePartTwo. Otherwise something went wrong.
                 $messages = array_merge($messages, $responseCliMulti);
             } else {
-                print "  14<br/>";@ob_flush();
+                print "- 14<br/>";@ob_flush();
                 // there was likely an error eg such as an invalid ssl certificate... let's try executing it directly
                 // in case this works. For explample $response is in this case not an array but a string because the "communcation"
                 // with the controller went wrong: "Got invalid response from API request: https://ABC/?module=CoreUpdater&action=oneClickUpdatePartTwo&nonce=ABC. Response was \'curl_exec: SSL certificate problem: unable to get local issuer certificate. Hostname requested was: ABC"
                 try {
-                    print "  15<br/>";@ob_flush();
+                    print "- 15<br/>";@ob_flush();
                     $response = $this->oneClickUpdatePartTwo($newVersion);
                     if (!empty($response) && is_array($response)) {
                         $messages = array_merge($messages, $response);
                     }
                 } catch (Exception $e) {
-                    print "  15.5<br/>";@ob_flush();
+                    print "- 15.5<br/>";@ob_flush();
                     // ignore any error should this fail too. this might be the case eg if
                     // the user upgrades from one major version to another major version
                     if (is_string($responseCliMulti)) {
@@ -164,16 +165,16 @@ class Updater
         }
 
         try {
-            print "  16<br/>";@ob_flush();
+            print "- 16<br/>";@ob_flush();
             $disabledPluginNames = $this->disableIncompatiblePlugins($newVersion);
             if (!empty($disabledPluginNames)) {
                 $messages[] = $this->translator->translate('CoreUpdater_DisablingIncompatiblePlugins', implode(', ', $disabledPluginNames));
             }
         } catch (Exception $e) {
-            print "  17<br/>";@ob_flush();
+            print "- 17<br/>";@ob_flush();
             throw new UpdaterException($e, $messages);
         }
-        print "  18<br/>";@ob_flush();
+        print "- 18<br/>";@ob_flush();
 
         return $messages;
     }
