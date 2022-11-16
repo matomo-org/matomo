@@ -509,6 +509,8 @@ class CliMulti
         $r = \Piwik\Request::fromRequest();
         if ($r->getStringParameter('module', '') == 'CoreUpdater' && $r->getStringParameter('action', '') == 'oneClickUpdate') {
             new \Piwik\Dependency\PrefixRemovingAutoloader();
+        } else {
+            print $r->getStringParameter('module', '') . ' - ' . $r->getStringParameter('action', '') . "\n";@ob_flush();
         }
     }
 }
