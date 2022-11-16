@@ -508,9 +508,8 @@ class CliMulti
     {
         $r = \Piwik\Request::fromRequest();
         if ($r->getStringParameter('module', '') == 'CoreUpdater' && $r->getStringParameter('action', '') == 'oneClickUpdate') {
+            print "setting up prefix removing autoloader<br/>\n";@ob_flush();
             new \Piwik\Dependency\PrefixRemovingAutoloader();
-        } else {
-            print $r->getStringParameter('module', '') . ' - ' . $r->getStringParameter('action', '') . "\n";@ob_flush();
         }
     }
 }

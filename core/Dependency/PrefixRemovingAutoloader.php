@@ -18,7 +18,7 @@ class PrefixRemovingAutoloader
 
     public function __construct()
     {
-        spl_autoload_register(array($this, 'loadClass'), true, $prepend = true);
+        spl_autoload_register(array($this, 'loadClass'), true, $prepend = false);
 
         $this->loadFunctionAdapters();
     }
@@ -26,6 +26,7 @@ class PrefixRemovingAutoloader
     public function loadClass($class)
     {
         if (self::PREFIX == substr($class, 0, strlen(self::PREFIX))) {
+            print "unprefixing $class<br/>\n";@ob_flush();
             $result = class_alias(substr($class, strlen(self::PREFIX)), $class);
 
             // interfaces are not loaded when checking parameter arguments, so we need to preemptively
