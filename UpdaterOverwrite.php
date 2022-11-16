@@ -24,6 +24,7 @@ use Piwik\Plugins\CorePluginsAdmin\PluginInstaller;
 use Piwik\Plugins\Marketplace\Api as MarketplaceApi;
 use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\SettingsServer;
+use Piwik\Timer;
 use Piwik\Translation\Translator;
 use Piwik\Unzip;
 use Piwik\Version;
@@ -93,6 +94,7 @@ class Updater
 
         try {
             $cliMulti = new CliMulti(); // create CliMulti instance before codebase is updated
+            $timer = new Timer();
         } catch (\Exception $ex) {
             print $ex->getMessage() . "\n" . $ex->getTraceAsString() . "\n"; @ob_flush();
             return [];
