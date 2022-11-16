@@ -39,8 +39,8 @@ class LatestStableInstall extends Fixture
 
         // install latest stable
         $this->downloadAndUnzipLatestStable();
-        $tokenAuth = $this->installSubdirectoryInstall();
-        $this->verifyInstall($tokenAuth);
+        $tokenAuth = $this->installSubdirectoryInstall($this->subdirToInstall);
+        self::verifyInstall($tokenAuth, $this->subdirToInstall);
     }
 
     private function removeLatestStableInstall()
@@ -81,7 +81,7 @@ class LatestStableInstall extends Fixture
         shell_exec('mv "' . $installSubdirectory . '"/piwik/* "' . $installSubdirectory . '"');
     }
 
-    private function installSubdirectoryInstall()
+    public static function installSubdirectoryInstall($subdirToInstall)
     {
         $installScript = PIWIK_INCLUDE_PATH . '/tests/resources/install-matomo.php';
 
@@ -91,7 +91,7 @@ class LatestStableInstall extends Fixture
             $host .= ':' . $port;
         }
 
-        $command = "php " . $installScript . " " . $this->subdirToInstall . ' "' . addslashes($this->getDbConfigJson()) . '" ' . $host;
+        $command = "php " . $installScript . ' "' . addslashes($subdirToInstall) . '" "' . addslashes(self::getDbConfigJson()) . '" ' . $host;
 
         $output = shell_exec($command);
         $lines = explode("\n", $output);
@@ -103,14 +103,14 @@ class LatestStableInstall extends Fixture
         return $tokenAuth;
     }
 
-    private function verifyInstall($tokenAuth)
+    public static function verifyInstall($tokenAuth, $subdirToInstall)
     {
-        $url = Fixture::getRootUrl() . '/' . $this->subdirToInstall
+        $url = Fixture::getRootUrl() . '/' . $subdirToInstall
             . '/index.php?module=API&method=API.get&idSite=1&date=yesterday&period=day&format=json&token_auth=' . $tokenAuth;
         $response = Http::sendHttpRequest($url, 30);
 
         $response = json_decode($response, true);
-        $this->assertEquals(0, $response['nb_visits']);
+        self::assertEquals(0, $response['nb_visits']);
     }
 
     private function getArchiveDestPath()
@@ -123,7 +123,7 @@ class LatestStableInstall extends Fixture
         return PIWIK_INCLUDE_PATH . DIRECTORY_SEPARATOR . $this->subdirToInstall;
     }
 
-    private function getDbConfigJson()
+    private static function getDbConfigJson()
     {
         $dbConfig = Config::getInstance()->database;
         $dbConfig = json_encode($dbConfig);

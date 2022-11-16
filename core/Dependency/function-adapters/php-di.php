@@ -71,3 +71,8 @@ if (!function_exists('Matomo\Dependencies\DI\string')) {
         return \DI\string(...func_get_args());
     }
 }
+
+// sometimes used in constructor arguments to classes, so we want to explicitly alias it before it is encountered
+if (!interface_exists('Matomo\Dependencies\DI\FactoryInterface')) {
+    class_alias('DI\FactoryInterface', 'Matomo\Dependencies\DI\FactoryInterface');
+}

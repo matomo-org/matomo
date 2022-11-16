@@ -27,7 +27,7 @@ use Piwik\Plugins\LanguagesManager\API as APILanguageManager;
 use Piwik\Updater;
 use Piwik\Plugins\CoreUpdater;
 
-$subdir = str_replace(DIRECTORY_SEPARATOR, '', $argv[1]);
+$subdir = str_replace('.', '', $argv[1]);
 $dbConfig = json_decode($argv[2], $isAssoc = true);
 $host = $argv[3];
 
@@ -145,6 +145,10 @@ file_put_contents(PIWIK_INCLUDE_PATH . "/config/config.ini.php", '');
 
 @mkdir(PIWIK_INCLUDE_PATH . '/tmp');
 
+if (class_exists('\Piwik\Dependency\PrefixRemovingAutoloader')) {
+    new \Piwik\Dependency\PrefixRemovingAutoloader();
+}
+
 $environment = new Environment($environment = null);
 $environment->init();
 
@@ -207,14 +211,18 @@ createWebsite('2017-01-01 00:00:00');
 print "created website\n";
 
 // copy custom release channel
-copy(PIWIK_INCLUDE_PATH . '/../tests/PHPUnit/Fixtures/LatestStableInstall/GitCommitReleaseChannel.php',
-    PIWIK_INCLUDE_PATH . '/plugins/CoreUpdater/ReleaseChannel/GitCommitReleaseChannel.php');
+if (is_file(PIWIK_INCLUDE_PATH . '/../tests/PHPUnit/Fixtures/LatestStableInstall/GitCommitReleaseChannel.php')) {
+    copy(PIWIK_INCLUDE_PATH . '/../tests/PHPUnit/Fixtures/LatestStableInstall/GitCommitReleaseChannel.php',
+        PIWIK_INCLUDE_PATH . '/plugins/CoreUpdater/ReleaseChannel/GitCommitReleaseChannel.php');
 
-$settings = StaticContainer::get(CoreUpdater\SystemSettings::class);
-$settings->releaseChannel->setValue('git_commit');
-$settings->releaseChannel->save();
+    $settings = StaticContainer::get(CoreUpdater\SystemSettings::class);
+    $settings->releaseChannel->setValue('git_commit');
+    $settings->releaseChannel->save();
 
-print "set release channel\n";
+    print "set release channel\n";
+} else {
+    print "skip release channel\n";
+}
 
 // print token auth (on last line so it can be easily parsed)
 print Piwik::requestTemporarySystemAuthToken('InstallerUITests', 24);

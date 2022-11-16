@@ -26,7 +26,8 @@ class PrefixRemovingAutoloader
     public function loadClass($class)
     {
         if (self::PREFIX == substr($class, 0, strlen(self::PREFIX)) && !class_exists($class)) {
-            $result = class_alias(substr($class, strlen(self::PREFIX)), $class);
+            $unprefixed = substr($class, strlen(self::PREFIX));
+            $result = class_alias($unprefixed, $class);
 
             // interfaces are not loaded when checking parameter arguments, so we need to preemptively
             // class_alias them here. otherwise, eg, we might try to pass Monolog\Logger for a parameter
