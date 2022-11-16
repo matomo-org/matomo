@@ -86,12 +86,17 @@ class Updater
      */
     public function updatePiwik($https = true)
     {
-        print "- 1<br/>";@ob_flush();
+        print "- 1.0<br/>";@ob_flush();
         if (!$this->isNewVersionAvailable()) {
             throw new Exception($this->translator->translate('CoreUpdater_ExceptionAlreadyLatestVersion', Version::VERSION));
         }
 
-        $cliMulti = new CliMulti(); // create CliMulti instance before codebase is updated
+        try {
+            $cliMulti = new CliMulti(); // create CliMulti instance before codebase is updated
+        } catch (\Exception $ex) {
+            print $ex->getMessage() . "\n" . $ex->getTraceAsString() . "\n"; @ob_flush();
+            return [];
+        }
         print "- 2<br/>";@ob_flush();
 
         SettingsServer::setMaxExecutionTime(0);
@@ -130,9 +135,14 @@ class Updater
         $validFor10Minutes = time() + (60 * 10);
         $nonce = Common::generateUniqId();
         Option::set('NonceOneClickUpdatePartTwo', json_encode(['nonce' => $nonce, 'ttl' => $validFor10Minutes]));
-        print "- 11<br/>";@ob_flush();
+        print "- 11.0<br/>";@ob_flush();
 
-        $responses = $cliMulti->request(['?module=CoreUpdater&action=oneClickUpdatePartTwo&nonce=' . $nonce]);
+        try {
+            $responses = $cliMulti->request(['?module=CoreUpdater&action=oneClickUpdatePartTwo&nonce=' . $nonce]);
+        } catch (\Exception $ex) {
+            print $ex->getMessage() . "\n" . $ex->getTraceAsString() . "\n"; @ob_flush();
+            return [];
+        }
         print "- 12<br/>";@ob_flush();
 
         if (!empty($responses)) {
