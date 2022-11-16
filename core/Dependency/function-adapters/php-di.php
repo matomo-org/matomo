@@ -72,7 +72,10 @@ if (!function_exists('Matomo\Dependencies\DI\string')) {
     }
 }
 
-// sometimes used in constructor arguments to classes, so we want to explicitly alias it before it is encountered
+// sometimes used in constructor arguments to classes/DI factory methods, so we want to explicitly alias it before it is encountered
 if (!interface_exists('Matomo\Dependencies\DI\FactoryInterface')) {
     class_alias('DI\FactoryInterface', 'Matomo\Dependencies\DI\FactoryInterface');
+}
+if (!class_exists('Matomo\Dependencies\DI\Container')) {
+    class_alias('DI\Container', 'Matomo\Dependencies\DI\Container');
 }

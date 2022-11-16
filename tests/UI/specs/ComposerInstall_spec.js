@@ -8,8 +8,7 @@
  */
 
 const request = require('request-promise');
-const util = require('node:util');
-const exec = util.promisify(require('node:child_process').exec);
+const exec = require('child_process').exec;
 
 describe('ComposerInstall', function () {
   this.fixture = "Piwik\\Tests\\Fixtures\\ComposerInstall";
@@ -42,8 +41,13 @@ describe('ComposerInstall', function () {
   });
 
   it('should run core:archive', async () => {
-    const command = `cd ${PIWIK_INCLUDE_PATH}/${composerInstallDir} && php ./console core:archive`;
-    const result = await exec(command);
+    await page.goto('about:blank'); // required or puppeteer keeps handling request errors
+
+    const result = await new Promise((resolve) => {
+      exec(`${config.php} ${PIWIK_INCLUDE_PATH}/${composerInstallDir}/console core:archive`, (err, stdout, stderr) => {
+        resolve({ stdout, stderr });
+      });
+    });
 
     expect(result).to.deep.equal({
       stdout: '',

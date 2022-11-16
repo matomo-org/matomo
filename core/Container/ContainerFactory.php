@@ -101,10 +101,11 @@ class ContainerFactory
         $container->set('Piwik\Application\Kernel\PluginList', $this->pluginList);
         $container->set('Piwik\Application\Kernel\GlobalSettingsProvider', $this->settings);
 
-        // when in a composer install, php-di will only add a DI\FactoryInterface instance, but
+        // when in a composer install, php-di will only add container aliases for DI\... classes, but
         // matomo classes will use Matomo\Dependencies\DI\FactoryInterface. so we add an entry
         // for that just in case.
         $container->set('Matomo\Dependencies\DI\FactoryInterface', $container);
+        $container->set('Matomo\Dependencies\DI\Container', $container);
 
         return $container;
     }
