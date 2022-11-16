@@ -507,7 +507,7 @@ class CliMulti
     private function useBcAutoloaderIfInOneClickUpdate()
     {
         $r = \Piwik\Request::fromRequest();
-        if ($r->getStringParameter('module') == 'CoreUpdater' && $r->getStringParameter('') == 'oneClickUpdate') {
+        if ($r->getStringParameter('module', '') == 'CoreUpdater' && $r->getStringParameter('action', '') == 'oneClickUpdate') {
             new \Piwik\Dependency\PrefixRemovingAutoloader();
         }
     }
