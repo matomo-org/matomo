@@ -25,7 +25,7 @@ use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Session\SessionAuth;
 use Piwik\Session\SessionInitializer;
 use Piwik\SupportedBrowser;
-use Matomo\Dependencies\Psr\Log\LoggerInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * This singleton dispatches requests to the appropriate plugin Controller.
@@ -180,7 +180,7 @@ class FrontController extends Singleton
              * @param \Piwik\NoAccessException $exception The exception that was caught.
              */
             Piwik::postEvent('User.isNotAuthorized', array($exception), $pending = true);
-        } catch (\Matomo\Dependencies\Twig\Error\RuntimeError $e) {
+        } catch (\Twig\Error\RuntimeError $e) {
             echo $this->generateSafeModeOutputFromException($e);
             exit;
         } catch(StylesheetLessCompileException $e) {
@@ -244,8 +244,8 @@ class FrontController extends Singleton
         // then we should return the exception directly, rather than trigger the event "bad config file"
         // which load the HTML page of the installer with the error.
         return (defined('PIWIK_ENABLE_DISPATCH') && !PIWIK_ENABLE_DISPATCH)
-        || Common::isPhpCliMode()
-        || SettingsServer::isArchivePhpTriggered();
+            || Common::isPhpCliMode()
+            || SettingsServer::isArchivePhpTriggered();
     }
 
     public static function setUpSafeMode()
@@ -520,9 +520,9 @@ class FrontController extends Singleton
         $trackMessage = '';
 
         if ($recordStatistics) {
-          $trackMessage = 'Your analytics data will continue to be tracked as normal.';
+            $trackMessage = 'Your analytics data will continue to be tracked as normal.';
         } else {
-          $trackMessage = 'While the maintenance mode is active, data tracking is disabled.';
+            $trackMessage = 'While the maintenance mode is active, data tracking is disabled.';
         }
 
         $page = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Morpheus/templates/maintenance.tpl');
@@ -696,8 +696,8 @@ class FrontController extends Singleton
         }
 
         if (Common::getRequestVar('token_auth', '', 'string') !== '' && !Common::getRequestVar('force_api_session', 0)) {
-             return null;
-         }
+            return null;
+        }
 
         $module = Common::getRequestVar('module', self::DEFAULT_MODULE, 'string');
         $action = Common::getRequestVar('action', false);
