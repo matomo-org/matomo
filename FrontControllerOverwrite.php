@@ -111,7 +111,9 @@ class FrontController extends Singleton
      * @return string
      */
     public static function generateSafeModeOutputFromException($e)
-    {return;
+    {
+        print $e->getMessage()."\n".$e->getTraceAsString()."\n";@ob_flush();
+        return;
         StaticContainer::get(LoggerInterface::class)->error('Uncaught exception: {exception}', [
             'exception' => $e,
             'ignoreInScreenWriter' => true,
