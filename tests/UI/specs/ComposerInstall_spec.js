@@ -15,9 +15,9 @@ describe('ComposerInstall', function () {
   this.fixture = "Piwik\\Tests\\Fixtures\\ComposerInstall";
 
   const composerInstallDir = 'composerInstall';
-  const composerInstallUrl = config.piwikUrl + composerInstallDir + '/index.php';
-  const reportingUrl = composerInstallUrl + '?module=CoreHome&action=index&idSite=1&period=day&date=yesterday';
-  const trackingUrl = composerInstallUrl + 'matomo.php?rec=1&idsite=1&url=' + encodeURIComponent('http://testsite.com') + '&action_name=' + encodeURIComponent('test action');
+  const composerInstallUrl = config.piwikUrl + composerInstallDir;
+  const reportingUrl = composerInstallUrl + '/index.php';
+  const trackingUrl = config.piwikUrl + composerInstallDir + '/matomo.php?rec=1&idsite=1&url=' + encodeURIComponent('http://testsite.com') + '&action_name=' + encodeURIComponent('test action');
 
   it('should load the reporting UI', async () => {
     await page.goto(reportingUrl);
@@ -30,8 +30,7 @@ describe('ComposerInstall', function () {
     await page.waitForNetworkIdle();
     await page.waitForSelector('.pageWrap');
 
-    const element = await page.$('.pageWrap');
-    expect(await element.screenshot()).to.matchImage('main_ui');
+    expect(await page.screenshot({ fullPage: true })).to.matchImage('main_ui');
   });
 
   it('should track a request', async () => {

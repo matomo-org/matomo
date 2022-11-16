@@ -22,8 +22,8 @@ class Social extends Singleton
 {
     const OPTION_STORAGE_NAME = 'SocialDefinitions';
 
-    /** @var string location of definition file (relative to PIWIK_INCLUDE_PATH) */
-    const DEFINITION_FILE = '/vendor/matomo/searchengine-and-social-list/Socials.yml';
+    /** @var string location of definition file (relative to PIWIK_VENDOR_PATH) */
+    const DEFINITION_FILE = '/matomo/searchengine-and-social-list/Socials.yml';
 
     protected $definitionList = null;
 
@@ -86,7 +86,7 @@ class Social extends Singleton
      */
     private function loadLocalYmlData()
     {
-        $yml = file_get_contents(PIWIK_INCLUDE_PATH . self::DEFINITION_FILE);
+        $yml = file_get_contents(PIWIK_VENDOR_PATH . self::DEFINITION_FILE);
         $this->definitionList = $this->loadYmlData($yml);
     }
 
