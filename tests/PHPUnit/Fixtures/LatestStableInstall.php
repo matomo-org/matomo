@@ -79,6 +79,7 @@ class LatestStableInstall extends Fixture
         }
 
         shell_exec('mv "' . $installSubdirectory . '"/piwik/* "' . $installSubdirectory . '"');
+        copy(PIWIK_INCLUDE_PATH . '/FrontControllerOverwrite.php', $installSubdirectory . '/core/FrontController.php');
     }
 
     private function installSubdirectoryInstall()
