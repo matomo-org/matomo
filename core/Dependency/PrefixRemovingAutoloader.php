@@ -25,7 +25,7 @@ class PrefixRemovingAutoloader
 
     public function loadClass($class)
     {
-        if (self::PREFIX == substr($class, 0, strlen(self::PREFIX))) {
+        if (self::PREFIX == substr($class, 0, strlen(self::PREFIX)) && !class_exists($class)) {
             print "unprefixing $class<br/>\n";@ob_flush();
             $result = class_alias(substr($class, strlen(self::PREFIX)), $class);
 
