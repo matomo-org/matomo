@@ -17,6 +17,7 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
+use Piwik\SiteContentDetector;
 use Piwik\Session;
 use Piwik\SettingsPiwik;
 use Piwik\Tracker\TrackerCodeGenerator;
@@ -34,9 +35,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     /** @var Lazy */
     private $cache;
 
-    public function __construct(Lazy $cache)
+    /** @var SiteContentDetector */
+    private $siteContentDetector;
+
+    public function __construct(Lazy $cache, SiteContentDetector $siteContentDetector)
     {
         $this->cache = $cache;
+        $this->siteContentDetector = $siteContentDetector;
 
         parent::__construct();
     }
@@ -136,7 +141,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $javascriptGenerator->forceMatomoEndpoint();
         $piwikUrl = Url::getCurrentUrlWithoutFileName();
 
-        $jsTag = Request::processRequest('SitesManager.getJavascriptTag', array('idSite' => $this->idSite, 'piwikUrl' => $piwikUrl));
+        $jsTag = Request::processRequest('SitesManager.getJavascriptTag', ['idSite' => $this->idSite, 'piwikUrl' => $piwikUrl]);
 
         // Strip off open and close <script> tag and comments so that JS will be displayed in ALL mail clients
         $rawJsTag = TrackerCodeGenerator::stripTags($jsTag);
@@ -145,24 +150,39 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         /**
          * @ignore
          */
-        Piwik::postEvent('SitesManager.showMatomoLinksInTrackingCodeEmail', array(&$showMatomoLinks));
+        Piwik::postEvent('SitesManager.showMatomoLinksInTrackingCodeEmail', [&$showMatomoLinks]);
 
         $trackerCodeGenerator = new TrackerCodeGenerator();
         $trackingUrl = trim(SettingsPiwik::getPiwikUrl(), '/') . '/' . $trackerCodeGenerator->getPhpTrackerEndpoint();
 
-        $emailContent = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', array(
+        $emailTemplateData = [
             'jsTag' => $rawJsTag,
             'showMatomoLinks' => $showMatomoLinks,
             'trackingUrl' => $trackingUrl,
-            'idSite' => $this->idSite
-        ), $viewType = 'basic');
+            'idSite' => $this->idSite,
+            'consentManagerName' => false,
+            'ga3Used' => false,
+            'ga4Used' => false,
+            'gtmUsed' => false
+        ];
 
-        return $this->renderTemplateAs('siteWithoutData', array(
-            'siteName'      => $this->site->getName(),
-            'idSite'        => $this->idSite,
-            'piwikUrl'      => $piwikUrl,
-            'emailBody'     => $emailContent,
-        ), $viewType = 'basic');
+        $this->siteContentDetector->detectContent([SiteContentDetector::ALL_CONTENT]);
+        if ($this->siteContentDetector->consentManagerId) {
+            $emailTemplateData['consentManagerName'] = $this->siteContentDetector->consentManagerName;
+            $emailTemplateData['consentManagerUrl'] = $this->siteContentDetector->consentManagerUrl;
+        }
+        $emailTemplateData['ga3Used'] = $this->siteContentDetector->ga3;
+        $emailTemplateData['ga4Used'] = $this->siteContentDetector->ga4;
+        $emailTemplateData['gtmUsed'] = $this->siteContentDetector->gtm;
+
+        $emailContent = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', $emailTemplateData, $viewType = 'basic');
+
+        return $this->renderTemplateAs('siteWithoutData', [
+            'siteName'           => $this->site->getName(),
+            'idSite'             => $this->idSite,
+            'piwikUrl'           => $piwikUrl,
+            'emailBody'          => $emailContent,
+        ], $viewType = 'basic');
     }
 
     public function siteWithoutDataTabs()
@@ -201,13 +221,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         $piwikUrl = Url::getCurrentUrlWithoutFileName();
-        $jsTag = Request::processRequest('SitesManager.getJavascriptTag', array('idSite' => $this->idSite, 'piwikUrl' => $piwikUrl));
+        $jsTag = Request::processRequest('SitesManager.getJavascriptTag', ['idSite' => $this->idSite, 'piwikUrl' => $piwikUrl]);
 
         $showMatomoLinks = true;
         /**
          * @ignore
          */
-        Piwik::postEvent('SitesManager.showMatomoLinksInTrackingCodeEmail', array(&$showMatomoLinks));
+        Piwik::postEvent('SitesManager.showMatomoLinksInTrackingCodeEmail', [&$showMatomoLinks]);
 
         $googleAnalyticsImporterMessage = '';
         if (Manager::getInstance()->isPluginLoaded('GoogleAnalyticsImporter')) {
@@ -226,7 +246,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $tagManagerActive = true;
         }
 
-        return $this->renderTemplateAs('_siteWithoutDataTabs', array(
+        $templateData = [
             'siteName'      => $this->site->getName(),
             'idSite'        => $this->idSite,
             'jsTag'         => $jsTag,
@@ -234,9 +254,24 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'showMatomoLinks' => $showMatomoLinks,
             'siteType' => $siteType,
             'instruction' => SitesManager::getInstructionBySiteType($siteType),
-            'gtmUsed' => $gtmUsed,
+            'gtmUsed' => false,
+            'ga3Used' => false,
+            'ga4Used' => false,
             'googleAnalyticsImporterMessage' => $googleAnalyticsImporterMessage,
             'tagManagerActive' => $tagManagerActive,
-        ), $viewType = 'basic');
+            'consentManagerName' => false
+        ];
+
+        $this->siteContentDetector->detectContent([SiteContentDetector::ALL_CONTENT]);
+        if ($this->siteContentDetector->consentManagerId) {
+            $templateData['consentManagerName'] = $this->siteContentDetector->consentManagerName;
+            $templateData['consentManagerUrl'] = $this->siteContentDetector->consentManagerUrl;
+            $templateData['consentManagerIsConnected'] = $this->siteContentDetector->isConnected;
+        }
+        $templateData['ga3Used'] = $this->siteContentDetector->ga3;
+        $templateData['ga4Used'] = $this->siteContentDetector->ga4;
+        $templateData['gtmUsed'] = $this->siteContentDetector->gtm;
+
+        return $this->renderTemplateAs('_siteWithoutDataTabs', $templateData, $viewType = 'basic');
     }
 }

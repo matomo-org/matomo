@@ -9,7 +9,7 @@
 		<module>UserCountry</module>
 		<action>getCountry</action>
 		<dimension>Pays</dimension>
-		<documentation>Ce rapport montre dans quel pays vos visiteurs étaient quand ils ont accédé à votre site web.</documentation>
+		<documentation>Indique de quel pays vos visiteurs se sont connectés lorsqu'ils ont accédé à votre site Web.</documentation>
 		<metrics>
 			<nb_visits>Visites</nb_visits>
 			<nb_actions>Actions</nb_actions>

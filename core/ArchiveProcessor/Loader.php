@@ -63,6 +63,10 @@ class Loader
      */
     private $dataAccessModel;
 
+    /**
+     * @var bool
+     */
+    private $invalidateBeforeArchiving;
 
     public function __construct(Parameters $params, $invalidateBeforeArchiving = false)
     {

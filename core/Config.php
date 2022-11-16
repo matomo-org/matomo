@@ -475,6 +475,10 @@ class Config
     {
         clearstatcache(true, $localPath);
 
+        if (function_exists('opcache_invalidate')) {
+            @opcache_invalidate($localPath, $force = true);
+        }
+
         $content = @file_get_contents($localPath);
 
         if (trim($content) !== trim($expectedContent)) {
