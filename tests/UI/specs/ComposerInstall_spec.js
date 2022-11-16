@@ -49,9 +49,9 @@ describe('ComposerInstall', function () {
       });
     });
 
-    expect(result).to.deep.equal({
-      stdout: '',
-      stderr: '',
-    });
+    expect(result.stderr).to.equal('');
+    expect(result.stdout).to.have.string('Reports for today will be processed at most every');
+    expect(result.stdout).to.have.string('Start processing');
+    expect(result.stdout).to.have.string('Processed 4 archives');
   });
 });

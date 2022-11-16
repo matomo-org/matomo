@@ -86,6 +86,11 @@ class ComposerInstall extends Fixture
         foreach (['index.php', 'matomo.php', 'console'] as $file) {
             file_put_contents($installPath . '/' . $file, '<?php require_once(__DIR__ . \'/vendor/matomo/matomo/' . $file . '\');');
         }
+
+        // create symlinks to folders in matomo vendor folder
+        foreach (['core', 'plugins'] as $folder) {
+            symlink($installPath . '/vendor/matomo/matomo/' . $folder, $installPath . '/' . $folder);
+        }
     }
 
     private function getCurrentBranch()
