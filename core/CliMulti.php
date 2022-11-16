@@ -82,6 +82,7 @@ class CliMulti
 
     public function __construct(LoggerInterface $logger = null)
     {
+        $this->useBcAutoloaderIfInOneClickUpdate();
         $this->supportsAsync = $this->supportsAsync();
         $this->logger = $logger ?: new NullLogger();
     }
@@ -501,5 +502,13 @@ class CliMulti
     public function getTimers()
     {
         return $this->timers;
+    }
+
+    private function useBcAutoloaderIfInOneClickUpdate()
+    {
+        $r = \Piwik\Request::fromRequest();
+        if ($r->getStringParameter('module') == 'CoreUpdater' && $r->getStringParameter('') == 'oneClickUpdate') {
+            new \Piwik\Dependency\PrefixRemovingAutoloader();
+        }
     }
 }
