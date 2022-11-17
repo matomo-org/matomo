@@ -33,6 +33,11 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### Updated commands
 * The default maximum number of archivers processes to run concurrently has changed from unlimited to three. The `--concurrent-archivers` parameter can be used to increase this limit. A value of -1 will use an unlimited number of concurrent archivers
 
+## Matomo 4.12.4
+
+### New config.ini.php settings
+* A new config setting `enable_opcache_reset` defaulting to `1`. Provides a configuration switch for `opcache_reset` when general caches are cleared. This may be useful for multi-tenant installations that would rather manage opcache resets by themselves. This could also be used by scripts to temporarily switch off opcache resets.
+
 ## Matomo 4.12.0
 
 ### Breaking Changes

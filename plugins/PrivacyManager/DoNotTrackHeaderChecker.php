@@ -21,6 +21,8 @@ use Piwik\Tracker\IgnoreCookie;
  */
 class DoNotTrackHeaderChecker
 {
+    protected $config;
+
     /**
      * @param Config $config
      */

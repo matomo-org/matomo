@@ -501,7 +501,7 @@ class Filesystem
             apc_clear_cache(); // clear the system (aka 'opcode') cache
         }
 
-        if (function_exists('opcache_reset')) {
+        if (function_exists('opcache_reset') && Config::getInstance()->Cache['enable_opcache_reset'] !== 0) {
             @opcache_reset(); // reset the opcode cache (php 5.5.0+)
         }
 

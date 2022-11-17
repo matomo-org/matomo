@@ -1,6 +1,18 @@
 {
     "API": {
-        "LoadedAPIs": "%s APIs foro cargadas con éxito",
-        "UserAuthentication": "Autenticación do usuario"
+        "ChangeTokenHint": "Se queres cambiar este token, vai á túa %1$spáxina de configuración persoal%2$s.",
+        "EvolutionMetricName": "Evolución de %s",
+        "GenerateVisits": "Se non tes datos para hoxe, podes xerar algúns usando o complemento %1$s indo a 'Desenvolvemento → Xerador de visitantes' na área de administración de Matomo.",
+        "Glossary": "Glosario",
+        "KeepTokenSecret": "Este token_auth é tan secreto como o teu usuario e contrasinal, %1$s non o comparte%2$s!",
+        "LearnAboutCommonlyUsedTerms2": "Obtén información sobre os termos de uso habitual para aproveitar ao máximo as analíticas de Matomo.",
+        "LoadedAPIs": "Cargáronse %s aplicacións",
+        "MainMetricsReportDocumentation": "Este informe ofrece unha visión xeral das métricas máis importantes de todalas categorías e complementos.",
+        "MoreInformation": "Máis información sobre as API de Matomo dispoñibles en %1$sIntrodución á API de Matomo%2$s e a %3$sReferencia da API de Matomo%4$s.",
+        "PluginDescription": "Todolos datos de Matomo están dispoñibles a través de APIs simples. Este complemento é o punto de entrada do servizo web ao que podes chamar para obter os teus datos de análise web en XML, JSON, PHP, CSV, etc.",
+        "ReportingApiReference": "Referencia da API de informes",
+        "TopLinkTooltip": "Acceda aos seus datos de Web Analytics mediante a programación dunha API sinxela en JSON, XML, etc.",
+        "UserAuthentication": "Autenticación do usuario",
+        "UsingTokenAuth": "Se queres %1$ssolicitar datos dentro dun script, un crontab, etc.%2$s, cómpre engadir o parámetro URL '%3$s' ás chamadas da API para URL que requiren autenticación."
     }
 }

@@ -259,7 +259,7 @@
         "HoursMinutes": "%1$s часа %2$s мин.",
         "IP": "IP адрес",
         "Id": "Идентификатор",
-        "IfArchivingIsFastYouCanSetupCronRunMoreOften": "Ако приемете, че архивирането е бързо за Вашата конфигурация, можете да настройте crontab да се изпълнява по-често.",
+        "IfArchivingIsFastYouCanSetupCronRunMoreOften": "Ако предполагате, че архивирането се извършва бързо, можете да настройте crontab да се изпълнява по-често.",
         "IncompletePeriod": "Непълен период",
         "InfoFor": "Информация за %s",
         "Installed": "Инсталирано",

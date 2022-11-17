@@ -833,7 +833,7 @@ abstract class Controller
 
             $emailSubject = rawurlencode(Piwik::translate('CoreHome_InjectedHostEmailSubject', $invalidHost));
             $emailBody = rawurlencode(Piwik::translate('CoreHome_InjectedHostEmailBody'));
-            $superUserEmail = implode(',', Piwik::getContactEmailAddresses());
+            $superUserEmail = rawurlencode(implode(',', Piwik::getContactEmailAddresses()));
 
             $mailToUrl = "mailto:$superUserEmail?subject=$emailSubject&body=$emailBody";
             $mailLinkStart = "<a href=\"$mailToUrl\">";
@@ -967,7 +967,7 @@ abstract class Controller
 
         if (!Piwik::isUserIsAnonymous()) {
             $currentLogin = Piwik::getCurrentUserLogin();
-            $emails = implode(',', Piwik::getContactEmailAddresses());
+            $emails = rawurlencode(implode(',', Piwik::getContactEmailAddresses()));
             $errorMessage  = sprintf(Piwik::translate('CoreHome_NoPrivilegesAskPiwikAdmin'), $currentLogin, "<br/><a href='mailto:" . $emails . "?subject=Access to Matomo for user $currentLogin'>", "</a>");
             $errorMessage .= "<br /><br />&nbsp;&nbsp;&nbsp;<b><a href='index.php?module=" . Piwik::getLoginPluginName() . "&amp;action=logout'>&rsaquo; " . Piwik::translate('General_Logout') . "</a></b><br />";
 

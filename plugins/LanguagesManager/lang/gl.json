@@ -1,1 +1,6 @@
-{}
+{
+    "LanguagesManager": {
+        "AboutPiwikTranslations": "Sobre as traducións de Matomo",
+        "TranslationSearch": "Busca das traducións"
+    }
+}
