@@ -323,6 +323,11 @@ DataTable_RowActions_RowEvolution.prototype.performAction = function (label, tr,
             delete extraParams.date;
             delete extraParams.segment;
         }
+    } else {
+      var labelPretty = this.getPrettyLabel(originalRow || tr);
+      if (labelPretty != label) {
+        extraParams['labelPretty'] = labelPretty;
+      }
     }
 
     $.each(this.dataTable.param, function (index, value) {
@@ -353,13 +358,6 @@ DataTable_RowActions_RowEvolution.prototype.performAction = function (label, tr,
 
     if (this.dataTable.param.flat !== undefined) {
         extraParams['flat'] = this.dataTable.param.flat;
-    }
-
-    if (!extraParams.labelPretty) { // added already for multi row evolution
-      var labelPretty = this.getPrettyLabel(originalRow || tr);
-      if (labelPretty != label) {
-        extraParams['labelPretty'] = labelPretty;
-      }
     }
 
     var apiMethod = this.dataTable.param.module + '.' + this.dataTable.param.action;
