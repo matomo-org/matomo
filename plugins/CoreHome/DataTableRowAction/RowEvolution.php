@@ -406,19 +406,11 @@ class RowEvolution
      */
     protected function extractPrettyLabel($report)
     {
+        // By default, use the specified label
+        $rowLabel = Common::sanitizeInputValue($report['label']);
+
         /** @var $dataTableMap \Piwik\DataTable\Map */
         $dataTableMap = $report['reportData'];
-
-        // try to use a label in the fetched datatable in case labelColumn was used
-        $label = $dataTableMap->getColumn('label');
-        $label = array_filter($label, 'strlen');
-        $label = current($label);
-        $rowLabel = $label;
-
-        // otherwise use the specified label
-        if (empty($rowLabel)) {
-            $rowLabel = Common::sanitizeInputValue($report['label']);
-        }
 
         // If the dataTable specifies a label_html, use this instead
         $labelPretty = $dataTableMap->getColumn('label_html');
