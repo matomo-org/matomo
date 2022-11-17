@@ -218,13 +218,19 @@ class LabelFilter extends DataTableManipulator
         // we don't use getRowFromLabel() for two reasons: some filters change the label column directly via
         // $row->setColumn('label', '') which would not be noticed in the label index unless we rebuild it,
         // and some reports may specify a different column to use, other than label, to uniquely identify a row.
-        $variations = $this->getLabelVariations($labelPart);
+        $index = [];
         foreach ($dataTable->getRows() as $row) {
             $value = $row->getColumn($labelColumn) ?: $row->getMetadata($labelColumn);
-            if (in_array($value, $variations)) {
-                return $row;
+            $index[$value] = $row;
+        }
+
+        $variations = $this->getLabelVariations($labelPart);
+        foreach ($variations as $variation) {
+            if (!empty($index[$variation])) {
+                return $index[$variation];
             }
         }
+
         return false;
     }
 
