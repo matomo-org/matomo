@@ -789,9 +789,6 @@ enable_installer = 1
 ; By setting this option to 0, you can prevent Super User from editing the Geolocation settings.
 enable_geolocation_admin = 1
 
-; By setting this option to 0, a configured ISP (ASN) database will be ignored even if the DB exists in the filesystem.
-enable_geolocation_isp = 1
-
 ; By setting this option to 0, the old raw data and old report data purging features will be hidden from the UI
 ; Note: log purging and old data purging still occurs, just the Super User cannot change the settings.
 enable_delete_old_data_settings_admin = 1

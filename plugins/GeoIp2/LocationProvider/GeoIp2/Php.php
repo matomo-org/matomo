@@ -12,6 +12,7 @@ use GeoIp2\Database\Reader;
 use GeoIp2\Exception\AddressNotFoundException;
 use MaxMind\Db\Reader\InvalidDatabaseException;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Log;
 use Piwik\Piwik;
@@ -84,7 +85,7 @@ class Php extends GeoIp2
 
     private function isIspDbEnabled()
     {
-        return Config::getInstance()->General['enable_geolocation_isp'];
+        return StaticContainer::get('geopip2.ispEnabled');
     }
 
     /**
