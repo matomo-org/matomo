@@ -11,7 +11,6 @@ namespace Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use GeoIp2\Database\Reader;
 use GeoIp2\Exception\AddressNotFoundException;
 use MaxMind\Db\Reader\InvalidDatabaseException;
-use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Log;
