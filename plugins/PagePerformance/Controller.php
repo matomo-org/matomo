@@ -46,7 +46,7 @@ class Controller extends PluginController
     protected function getEvolutionTable()
     {
         // Note: Using unsanitized request parameters here, as they will be passed through to an API method,
-        // which should handle sanitizing is needed
+        // which should handle sanitizing if needed
         $request = \Piwik\Request::fromRequest();
         $apiMethod = $request->getStringParameter('apiMethod');
         $period    = $request->getStringParameter('period');
