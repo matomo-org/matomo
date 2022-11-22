@@ -14,6 +14,8 @@
         "CompletionTitle": "Ben fet.",
         "ConfigureGeolocation": "Configura la geolocalització",
         "ConfigureGeolocationDescription": "Assegureu-vos que la ubicació dels vostres visitants es detecti correctament.",
+        "ConnectConsentManager": "Connecta el gestor de consentiments de %1$s",
+        "ConnectConsentManagerIntro": "S'ha detectat el gestor de consentiments de %1$s al vostre lloc web. Descobriu com connectar %1$s i Matomo perquè puguin treballar junts.",
         "CustomiseDashboard": "Configureu el vostre tauler de control",
         "CustomiseDashboardDescription": "Afegiu ginys al vostre tauler per assegurar-vos que informa de totes les vostres mètriques més importants.",
         "DefineGoal": "Afegeix un objectiu",

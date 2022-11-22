@@ -43,6 +43,8 @@
         "ExcludedUserAgents": "Katılmayacak kullanıcı uygulamaları",
         "ExtraInformationNeeded": "Sisteminize Matomo kurmak için şu bilgilere gerek duyabilirsiniz:",
         "Format_Utc": "UTC%s",
+        "GADetected": "Web sitenizde %1$s algılandı. Geçmiş istatistik verilerinizi ve ayarlarınızı %2$s üzerinden kolayca Matomo üzerine taşıyabileceğinizi biliyor musunuz? %3$s %4$s %5$sAyrıntılı bilgi almak için bu rehbere bakabilirsiniz%6$s",
+        "GADetectedEmail": "Web sitenizde %1$s algılandı. Geçmiş istatistik verilerinizi ve ayarlarınızı %2$s üzerinden kolayca Matomo üzerine taşıyabileceğinizi biliyor musunuz? Ayrıntılı bilgi almak için şuraya bakabilirsiniz: %3$s",
         "GlobalExcludedUserAgentHelp1": "Matomo tarafından izlenmeyecek kullanıcı uygulamalarının listesini yazın.",
         "GlobalExcludedUserAgentHelp2": "Burası kullanarak bazı botların izlenmemesi sağlanabilir.",
         "GlobalExcludedUserAgentHelp3": "%s gibi kurallı ifadeler desteklenir.",
