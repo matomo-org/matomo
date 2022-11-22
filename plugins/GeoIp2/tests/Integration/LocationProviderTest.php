@@ -114,14 +114,33 @@ class LocationProviderTest extends \PHPUnit\Framework\TestCase
         ], $result);
     }
 
-    public function testGeoIP2ISP_whenDisabled()
+    public function testGeoIP2ISP_whenIspDisabled_IspNotReturnsAnyResult()
     {
-        StaticContainer::getContainer()->set('geopip2.ispEnabled', false);
+        $this->setIspEnabled(false);
+
         $locationProvider = new GeoIp2\Php(['loc' => [], 'isp' => ['GeoIP2-ISP.mmdb']]);
         $result = $locationProvider->getLocation(['ip' => '194.57.91.215']);
-        StaticContainer::getContainer()->set('geopip2.ispEnabled', true);
+
+        $this->setIspEnabled(true);
 
         $this->assertFalse($result);
+    }
+
+    public function testGeoIP2ISP_whenIspDisabled_LocStillReturnsResult()
+    {
+        $this->setIspEnabled(false);
+
+        $locationProvider = new GeoIp2\Php(['loc' => ['GeoIP2-Country.mmdb'], 'isp' => []]);
+        $result = $locationProvider->getLocation(['ip' => '194.57.91.215']);
+
+        $this->setIspEnabled(true);
+
+        $this->assertNotEmpty($result);
+    }
+
+    private function setIspEnabled($enabled)
+    {
+        StaticContainer::getContainer()->set('geopip2.ispEnabled', $enabled);
     }
 
     public function testGeoIP2CityAndISP()
