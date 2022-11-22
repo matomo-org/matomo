@@ -378,7 +378,7 @@ class Php extends GeoIp2
         }
 
         // check if isp info is available
-        if ($this->getGeoIpInstance($key = 'isp')) {
+        if ($this->isIspDbEnabled() && $this->getGeoIpInstance($key = 'isp')) {
             $result[self::ISP_KEY] = true;
             $result[self::ORG_KEY] = true;
         }
