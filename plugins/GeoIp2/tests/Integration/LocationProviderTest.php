@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\GeoIp2\tests\Integration;
 
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
 use Piwik\Plugins\UserCountry\VisitorGeolocator;
@@ -111,6 +112,16 @@ class LocationProviderTest extends \PHPUnit\Framework\TestCase
             'isp' => 'Matomo Internet',
             'org' => 'Innocraft'
         ], $result);
+    }
+
+    public function testGeoIP2ISP_whenDisabled()
+    {
+        StaticContainer::getContainer()->set('geopip2.ispEnabled', false);
+        $locationProvider = new GeoIp2\Php(['loc' => [], 'isp' => ['GeoIP2-ISP.mmdb']]);
+        $result = $locationProvider->getLocation(['ip' => '194.57.91.215']);
+        StaticContainer::getContainer()->set('geopip2.ispEnabled', true);
+
+        $this->assertFalse($result);
     }
 
     public function testGeoIP2CityAndISP()
