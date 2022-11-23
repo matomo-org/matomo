@@ -713,9 +713,9 @@ enable_trusted_host_check = 1
 ; Or you may allow cross domain requests for all domains with:
 ;cors_domains[] = *
 
-; If you use this Matomo instance over multiple hostnames, Matomo will need to know
-; a unique instance_id for this instance, so that Matomo can serve the right custom logo and tmp/* assets,
-; independently of the hostname Matomo is currently running under.
+; If you use this Matomo instance over multiple hostnames, Matomo will need to know a unique instance_id for this
+; instance, so that Matomo can serve the right custom logo and tmp/* assets, independently of the hostname Matomo is
+; currently running under. Only the characters `a-z`, `0-9` and the special characters `._-` are supported.
 ; instance_id = stats.example.com
 
 ; The API server is an essential part of the Matomo infrastructure/ecosystem to
