@@ -1133,7 +1133,7 @@ class LogAggregator
           ".($linkField == 'idaction_url' ? '1' : '4')." AS `type`,
           idaction AS idaction,
           COUNT(*) AS `1`,     
-          ROUND(yyy.revenue_total,2) AS `2`,
+          ROUND(SUM(yyy.revenue_total),2) AS `2`,
           COUNT(yyy.idvisit) AS `3`,
           ROUND(SUM(yyy.revenue_subtotal),2) AS `4`,
           ROUND(SUM(yyy.revenue_tax),2) AS `5`,
