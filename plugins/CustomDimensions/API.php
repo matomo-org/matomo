@@ -12,7 +12,6 @@ use Piwik\Common;
 
 use Piwik\Archive;
 use Piwik\DataTable;
-use Piwik\DataTable\Map;
 use Piwik\Filesystem;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomDimensions\Dao\Configuration;
