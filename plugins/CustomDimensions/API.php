@@ -12,6 +12,7 @@ use Piwik\Common;
 
 use Piwik\Archive;
 use Piwik\DataTable;
+use Piwik\DataTable\Map;
 use Piwik\Filesystem;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomDimensions\Dao\Configuration;
@@ -62,13 +63,25 @@ class API extends \Piwik\Plugin\API
 
         if (!empty($idSubtable) && $dataTable->getRowsCount()) {
             $parentTable = Archive::createDataTableFromArchive($record, $idSite, $period, $date, $segment);
-            foreach ($parentTable->getRows() as $row) {
-                if ($row->getIdSubDataTable() == $idSubtable) {
+
+            $parentValue = null;
+            if ($parentTable instanceof Map) {
+                $row = $parentTable->getRowFromIdSubDataTable($idSubtable);
+                if ($row) {
                     $parentValue = $row->getColumn('label');
-                    $dataTable->filter('Piwik\Plugins\CustomDimensions\DataTable\Filter\AddSubtableSegmentMetadata', array($idDimension, $parentValue));
-                    break;
+                }
+            } else {
+                foreach ($parentTable->getRows() as $row) {
+                    if ($row->getIdSubDataTable() == $idSubtable) {
+                        $parentValue = $row->getColumn('label');
+                        break;
+                    }
                 }
             }
+            if ($parentValue) {
+                $dataTable->filter('Piwik\Plugins\CustomDimensions\DataTable\Filter\AddSubtableSegmentMetadata', array($idDimension, $parentValue));
+            }
+
         } else {
             $dataTable->filter('Piwik\Plugins\CustomDimensions\DataTable\Filter\AddSegmentMetadata', array($idDimension));
         }
