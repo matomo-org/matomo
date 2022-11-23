@@ -63,22 +63,9 @@ class API extends \Piwik\Plugin\API
 
         if (!empty($idSubtable) && $dataTable->getRowsCount()) {
             $parentTable = Archive::createDataTableFromArchive($record, $idSite, $period, $date, $segment);
-
-            $parentValue = null;
-            if ($parentTable instanceof Map) {
-                $row = $parentTable->getRowFromIdSubDataTable($idSubtable);
-                if ($row) {
-                    $parentValue = $row->getColumn('label');
-                }
-            } else {
-                foreach ($parentTable->getRows() as $row) {
-                    if ($row->getIdSubDataTable() == $idSubtable) {
-                        $parentValue = $row->getColumn('label');
-                        break;
-                    }
-                }
-            }
-            if ($parentValue) {
+            $row = $parentTable->getRowFromIdSubDataTable($idSubtable);
+            if ($row) {
+                $parentValue = $row->getColumn('label');
                 $dataTable->filter('Piwik\Plugins\CustomDimensions\DataTable\Filter\AddSubtableSegmentMetadata', array($idDimension, $parentValue));
             }
 
