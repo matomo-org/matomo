@@ -476,6 +476,10 @@ class Archiver extends \Piwik\Plugin\Archiver
 
         $goals = $this->getGoalsForSite($this->getProcessor()->getParams()->getSite()->getId());
 
+        if ($this->getProcessor()->getParams()->getSite()->isEcommerceEnabled()) {
+            $goals[] = 0;
+        }
+
         foreach ($goals as $idGoal) {
             $this->archiveDayActionsGoalsPages(true, $idGoal);
             $this->archiveDayActionsGoalsPages(false, $idGoal);
