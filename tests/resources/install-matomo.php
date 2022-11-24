@@ -84,8 +84,8 @@ function updateDatabase() {
 function createSuperUser() {
     $passwordHelper = new Password();
 
-    $login    = \Piwik\Tests\Framework\Fixture::ADMIN_USER_LOGIN;
-    $password = $passwordHelper->hash(UsersManager::getPasswordHash(\Piwik\Tests\Framework\Fixture::ADMIN_USER_PASSWORD));
+    $login    = 'superUserLogin';
+    $password = $passwordHelper->hash(UsersManager::getPasswordHash('pas3!"§$%&/()=?\'ㄨ<|-_#*+~>word'));
 
     $model = new \Piwik\Plugins\UsersManager\Model();
     $user  = $model->getUser($login);
@@ -196,7 +196,7 @@ if (empty($updated)) {
 // create root user
 Access::getInstance()->setSuperUserAccess();
 createSuperUser();
-APILanguageManager::getInstance()->setLanguageForUser(\Piwik\Tests\Framework\Fixture::ADMIN_USER_LOGIN, 'en');
+APILanguageManager::getInstance()->setLanguageForUser('superUserLogin', 'en');
 
 print "created root user\n";
 
