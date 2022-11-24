@@ -30,6 +30,17 @@ class Transport
     {
         $phpMailer = new PHPMailer(true);
 
+        //check self-signed config in mail
+        if (Config::getInstance()->mail['allow_self_signed'] == '1') {
+            $phpMailer->SMTPOptions = [
+                'ssl' => [
+                    'verify_peer'       => false,
+                    'verify_peer_name'  => false,
+                    'allow_self_signed' => true,
+                ],
+            ];
+        }
+
         PHPMailer::$validator = 'pcre8';
         $phpMailer->CharSet = PHPMailer::CHARSET_UTF8;
         $phpMailer->Encoding = PHPMailer::ENCODING_QUOTED_PRINTABLE;
