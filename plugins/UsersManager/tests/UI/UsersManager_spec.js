@@ -181,7 +181,7 @@ describe("UsersManager", function () {
     });
 
     it('should delete a single user when the modal is confirmed is clicked', async function () {
-        await page.type('.modal.open #currentUserPassword', 'superUserPass');
+        await page.type('.modal.open #currentUserPassword', superUserPassword);
         await (await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
 
@@ -206,7 +206,7 @@ describe("UsersManager", function () {
     });
 
     it('should delete selected users when delete users bulk action is used', async function () {
-        await page.type('.modal.open #currentUserPassword', 'superUserPass');
+        await page.type('.modal.open #currentUserPassword', superUserPassword);
         await (await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
 
@@ -241,7 +241,7 @@ describe("UsersManager", function () {
     });
 
     it('should show the edit user form when user has been invited', async function () {
-        await page.type('.modal.open #currentUserPassword', 'superUserPass');
+        await page.type('.modal.open #currentUserPassword', superUserPassword);
         await (await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
 
@@ -494,7 +494,7 @@ describe("UsersManager", function () {
         await page.click('.userEditForm #superuser_access+span');
         await page.waitForTimeout(500);
 
-        await page.type('.modal.open #currentUserPassword', 'superUserPass');
+        await page.type('.modal.open #currentUserPassword', superUserPassword);
         await (await page.jQuery('.modal.open .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
         await page.waitForTimeout(500);
@@ -568,7 +568,7 @@ describe("UsersManager", function () {
 
         await page.waitForTimeout(500); // animation
         // password confirm
-        await page.type('.confirm-password-modal #currentUserPassword', 'superUserPass');
+        await page.type('.confirm-password-modal #currentUserPassword', superUserPassword);
         await (await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible')).click();
 
         await page.waitForTimeout(500); // animation
@@ -582,7 +582,7 @@ describe("UsersManager", function () {
 
         await page.waitForTimeout(500); // animation
         // password confirm
-        await page.type('.confirm-password-modal #currentUserPassword', 'superUserPass');
+        await page.type('.confirm-password-modal #currentUserPassword', superUserPassword);
         await (await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible')).click();
 
         await page.waitForSelector('#notificationContainer .notification');

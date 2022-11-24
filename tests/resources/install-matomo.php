@@ -15,7 +15,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\UsersManager;
-use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
@@ -85,8 +84,8 @@ function updateDatabase() {
 function createSuperUser() {
     $passwordHelper = new Password();
 
-    $login    = 'superUserLogin';
-    $password = $passwordHelper->hash(UsersManager::getPasswordHash('superUserPass'));
+    $login    = \Piwik\Tests\Framework\Fixture::ADMIN_USER_LOGIN;
+    $password = $passwordHelper->hash(UsersManager::getPasswordHash(\Piwik\Tests\Framework\Fixture::ADMIN_USER_PASSWORD));
 
     $model = new \Piwik\Plugins\UsersManager\Model();
     $user  = $model->getUser($login);
@@ -197,7 +196,7 @@ if (empty($updated)) {
 // create root user
 Access::getInstance()->setSuperUserAccess();
 createSuperUser();
-APILanguageManager::getInstance()->setLanguageForUser('superUserLogin', 'en');
+APILanguageManager::getInstance()->setLanguageForUser(\Piwik\Tests\Framework\Fixture::ADMIN_USER_LOGIN, 'en');
 
 print "created root user\n";
 
