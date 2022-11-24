@@ -10,7 +10,6 @@
 
 namespace Piwik\Plugin;
 
-use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugins\Login\PasswordVerifier;

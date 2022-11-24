@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\TwoFactorAuth;
 
 use Piwik\Piwik;
-use Piwik\Plugins\Login\PasswordVerifier;
 
 class API extends \Piwik\Plugin\API
 {
