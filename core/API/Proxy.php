@@ -450,9 +450,11 @@ class Proxy
                     }
                 } else {
                     try {
-                        if ($name == 'segment' && !empty($parametersRequest['segment'])) {
-                            // segment parameter is an exception: we do not want to sanitize user input or it would break the segment encoding
-                            $requestValue = ($parametersRequest['segment']);
+                        if (in_array($name, ['segment', 'password', 'passwordConfirmation']) && !empty($parametersRequest[$name])) {
+                            // special handling for some parameters:
+                            // segment: we do not want to sanitize user input as it would break the segment encoding
+                            // password / passwordConfirmation: sanitizing this parameters might change special chars in passwords, breaking login and confirmation boxes
+                            $requestValue = ($parametersRequest[$name]);
                         } elseif ($type === 'bool') {
                             $requestValue = $request->getBoolParameter($name, $defaultValue);
                         } else {

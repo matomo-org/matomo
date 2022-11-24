@@ -18,25 +18,16 @@ class API extends \Piwik\Plugin\API
      */
     private $twoFa;
 
-    /**
-     * @var PasswordVerifier
-     */
-    private $passwordVerifier;
-
-    public function __construct(TwoFactorAuthentication $twoFa, PasswordVerifier $passwordVerifier)
+    public function __construct(TwoFactorAuthentication $twoFa)
     {
         $this->twoFa = $twoFa;
-        $this->passwordVerifier = $passwordVerifier;
     }
 
     public function resetTwoFactorAuth($userLogin, $passwordConfirmation)
     {
         Piwik::checkUserHasSuperUserAccess();
 
-        if (!$this->passwordVerifier->isPasswordCorrect(Piwik::getCurrentUserLogin(), $passwordConfirmation)) {
-            throw new \Exception(Piwik::translate('UsersManager_CurrentPasswordNotCorrect'));
-        }
-
+        $this->confirmCurrentUserPassword($passwordConfirmation);
         $this->twoFa->disable2FAforUser($userLogin);
     }
 }

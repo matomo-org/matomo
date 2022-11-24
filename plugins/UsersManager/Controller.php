@@ -617,8 +617,10 @@ class Controller extends ControllerAdmin
             throw new Exception("Cannot change email with untrusted hostname!");
         }
 
-        $email = Common::getRequestVar('email');
-        $passwordCurrent = Common::getRequestvar('passwordConfirmation', false);
+        // We need to use unsanitized parameters for passwords, as otherwise special chars might break the password
+        // @todo change this to new request class in Matomo 5
+        $email = $_POST['email'] ?? null;
+        $passwordCurrent = $_POST['passwordConfirmation'] ?? false;
 
         // UI disables password change on invalid host, but check here anyway
         Request::processRequest('UsersManager.updateUser', [
@@ -639,9 +641,11 @@ class Controller extends ControllerAdmin
             throw new Exception("Cannot change password with untrusted hostname!");
         }
 
-        $newPassword = Common::getRequestvar('password', false);
-        $passwordBis = Common::getRequestvar('passwordBis', false);
-        $passwordCurrent = Common::getRequestvar('passwordConfirmation', false);
+        // We need to use unsanitized parameters for passwords, as otherwise special chars might break the password
+        // @todo change this to new request class in Matomo 5
+        $newPassword = $_POST['password'] ?? false;
+        $passwordBis = $_POST['passwordBis'] ?? false;
+        $passwordCurrent = $_POST['passwordConfirmation'] ?? false;
 
         if ($newPassword !== $passwordBis) {
             throw new Exception($this->translator->translate('Login_PasswordsDoNotMatch'));

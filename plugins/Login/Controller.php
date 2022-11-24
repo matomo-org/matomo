@@ -561,11 +561,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         // if form was sent
         if (!empty($form)) {
             $error = null;
-            $password = Common::getRequestVar('password', false, 'string');
-            $passwordConfirmation = Common::getRequestVar('passwordConfirmation', false, 'string');
+            // We need to use unsanitized parameters for passwords, as otherwise special chars might break the password
+            // @todo change this to new request class in Matomo 5
+            $password = $_POST['password'] ?? '';
+            $passwordConfirmation = $_POST['passwordConfirmation'] ?? '';
             $conditionCheck = Common::getRequestVar('conditionCheck', false, 'string');
 
-            if (!$password) {
+            if (empty($password)) {
                 $error = Piwik::translate('Login_PasswordRequired');
             }
 

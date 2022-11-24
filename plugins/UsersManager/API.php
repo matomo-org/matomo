@@ -1388,7 +1388,6 @@ class API extends \Piwik\Plugin\API
             }
         }
 
-        $passwordConfirmation = Common::unsanitizeInputValue($passwordConfirmation);
         if (empty($user) || !$this->passwordVerifier->isPasswordCorrect($userLogin, $passwordConfirmation)) {
             if (empty($user)) {
                 /**

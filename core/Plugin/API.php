@@ -131,8 +131,6 @@ abstract class API
             throw new Exception(Piwik::translate('UsersManager_ConfirmWithPassword'));
         }
 
-        $passwordConfirmation = Common::unsanitizeInputValue($passwordConfirmation);
-
         try {
             if (
                 !StaticContainer::get(PasswordVerifier::class)->isPasswordCorrect(
