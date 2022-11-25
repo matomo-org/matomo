@@ -170,7 +170,7 @@ class Proxy
             $parameterNamesDefaultValuesAndTypes = $this->getParametersListWithTypes($className, $methodName);
 
             // load parameters in the right order, etc.
-            if ($object->usesAutoSanitizeInputParams()) {
+            if ($object->usesAutoSanitizeInputParams() || $this->usesUnsanitizedInputParams($className, $methodName)) {
                 $finalParameters = $this->getSanitizedRequestParametersArray($parameterNamesDefaultValuesAndTypes, $request->getParameters());
             } else {
                 $finalParameters = $this->getRequestParametersArray($parameterNamesDefaultValuesAndTypes, $request);
@@ -388,6 +388,14 @@ class Proxy
     }
 
     /**
+     * Check if given method uses unsanitized input paramters.
+     */
+    public function usesUnsanitizedInputParams($class, $methodName)
+    {
+        return $this->metadataArray[$class][$methodName]['unsanitizedInputParams'];
+    }
+
+    /**
      * Returns the 'moduleName' part of '\\Piwik\\Plugins\\moduleName\\API'
      *
      * @param string $className "API"
@@ -591,6 +599,7 @@ class Proxy
         $this->metadataArray[$class][$name]['parameters'] = $aParameters;
         $this->metadataArray[$class][$name]['numberOfRequiredParameters'] = $method->getNumberOfRequiredParameters();
         $this->metadataArray[$class][$name]['isDeprecated'] = false !== strstr($docComment, '@deprecated');
+        $this->metadataArray[$class][$name]['unsanitizedInputParams'] = false !== strstr($docComment, '@unsanitized');
     }
 
     /**
