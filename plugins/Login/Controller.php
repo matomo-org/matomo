@@ -540,8 +540,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $passwordHelper = new Password();
         $view = new View('@Login/invitation');
 
-        $token = Common::getRequestVar('token', null, 'string');
-        $form = Common::getRequestVar('invitation_form', false, 'string');
+        $request = Request::fromRequest();
+
+        $token = $request->getStringParameter('token');
+        $form = $request->getStringParameter('invitation_form', '');
 
         $settings = new SystemSettings();
         $termsAndConditionUrl = $settings->termsAndConditionUrl->getValue();
@@ -561,11 +563,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         // if form was sent
         if (!empty($form)) {
             $error = null;
-            // We need to use unsanitized parameters for passwords, as otherwise special chars might break the password
-            // @todo change this to new request class in Matomo 5
-            $password = $_POST['password'] ?? '';
-            $passwordConfirmation = $_POST['passwordConfirmation'] ?? '';
-            $conditionCheck = Common::getRequestVar('conditionCheck', false, 'string');
+            $password = $request->getStringParameter('password', '');
+            $passwordConfirmation = $request->getStringParameter('passwordConfirmation', '');
+            $conditionCheck = $request->getBoolParameter('conditionCheck', false);
 
             if (empty($password)) {
                 $error = Piwik::translate('Login_PasswordRequired');

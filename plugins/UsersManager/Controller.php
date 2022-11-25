@@ -617,10 +617,9 @@ class Controller extends ControllerAdmin
             throw new Exception("Cannot change email with untrusted hostname!");
         }
 
-        // We need to use unsanitized parameters for passwords, as otherwise special chars might break the password
-        // @todo change this to new request class in Matomo 5
-        $email = $_POST['email'] ?? null;
-        $passwordCurrent = $_POST['passwordConfirmation'] ?? false;
+        $request = \Piwik\Request::fromRequest();
+        $email = $request->getStringParameter('email');
+        $passwordCurrent = $request->getStringParameter('passwordConfirmation', '');
 
         // UI disables password change on invalid host, but check here anyway
         Request::processRequest('UsersManager.updateUser', [
@@ -641,11 +640,10 @@ class Controller extends ControllerAdmin
             throw new Exception("Cannot change password with untrusted hostname!");
         }
 
-        // We need to use unsanitized parameters for passwords, as otherwise special chars might break the password
-        // @todo change this to new request class in Matomo 5
-        $newPassword = $_POST['password'] ?? false;
-        $passwordBis = $_POST['passwordBis'] ?? false;
-        $passwordCurrent = $_POST['passwordConfirmation'] ?? false;
+        $request = \Piwik\Request::fromRequest();
+        $newPassword = $request->getStringParameter('password', '');
+        $passwordBis = $request->getStringParameter('passwordBis', '');
+        $passwordCurrent = $request->getStringParameter('passwordConfirmation', '');
 
         if ($newPassword !== $passwordBis) {
             throw new Exception($this->translator->translate('Login_PasswordsDoNotMatch'));
