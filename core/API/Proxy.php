@@ -170,7 +170,7 @@ class Proxy
             $parameterNamesDefaultValuesAndTypes = $this->getParametersListWithTypes($className, $methodName);
 
             // load parameters in the right order, etc.
-            if ($object->usesAutoSanitizeInputParams() || $this->usesUnsanitizedInputParams($className, $methodName)) {
+            if ($object->usesAutoSanitizeInputParams() && !$this->usesUnsanitizedInputParams($className, $methodName)) {
                 $finalParameters = $this->getSanitizedRequestParametersArray($parameterNamesDefaultValuesAndTypes, $request->getParameters());
             } else {
                 $finalParameters = $this->getRequestParametersArray($parameterNamesDefaultValuesAndTypes, $request);
@@ -388,7 +388,7 @@ class Proxy
     }
 
     /**
-     * Check if given method uses unsanitized input paramters.
+     * Check if given method uses unsanitized input parameters.
      */
     public function usesUnsanitizedInputParams($class, $methodName)
     {
