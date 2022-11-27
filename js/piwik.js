@@ -3902,9 +3902,11 @@ if (typeof window.Matomo !== 'object') {
                     return '';
                 }
 
-                if (!configFileTracking && windowAlias.location.protocol === 'file:') {
-                    return '';
-                }
+              if (!configFileTracking &&
+                (windowAlias.location.protocol === 'file:' ||
+                  currentUrl.test(new RegExp('/^file:\/\/*/i')))) {
+                return '';
+              }
 
                 var cookieVisitorIdValues = getValuesFromVisitorIdCookie();
 
