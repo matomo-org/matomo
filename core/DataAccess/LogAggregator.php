@@ -1129,9 +1129,9 @@ class LogAggregator
 
         $sql = sprintf(
         "SELECT
-          ".$idGoal." AS idgoal,
+          ".$idGoal." AS yyy.idgoal,
           ".($linkField == 'idaction_url' ? '1' : '4')." AS `type`,
-          idaction AS idaction,
+          yyy.idaction AS idaction,
           COUNT(*) AS `1`,     
           ROUND(SUM(yyy.revenue_total),2) AS `2`,
           COUNT(yyy.idvisit) AS `3`,
