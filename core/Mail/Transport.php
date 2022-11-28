@@ -31,15 +31,13 @@ class Transport
         $phpMailer = new PHPMailer(true);
 
         //check self-signed config in mail
-        if (Config::getInstance()->mail['allow_self_signed'] == '1') {
-            $phpMailer->SMTPOptions = [
-                'ssl' => [
-                    'verify_peer'       => false,
-                    'verify_peer_name'  => false,
-                    'allow_self_signed' => true,
-                ],
-            ];
-        }
+        $phpMailer->SMTPOptions = [
+            'ssl' => [
+                'verify_peer'       => (int)Config::getInstance()->mail['ssl_verify_peer'],
+                'verify_peer_name'  => (int)Config::getInstance()->mail['ssl_verify_peer_name'],
+                'allow_self_signed' => Config::getInstance()->mail['ssl_disallow_self_signed'] == "1" ? 0 : 1,
+            ],
+        ];
 
         PHPMailer::$validator = 'pcre8';
         $phpMailer->CharSet = PHPMailer::CHARSET_UTF8;

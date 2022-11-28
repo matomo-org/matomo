@@ -1109,7 +1109,9 @@ type = ; SMTP Auth type. By default: NONE. For example: LOGIN
 username = ; SMTP username
 password = ; SMTP password
 encryption = ; SMTP transport-layer encryption, either 'none', 'ssl', 'tls', or empty (i.e., auto).
-allow_self_signed = ; SMTP allow self signed.
+ssl_disallow_self_signed = 1 ; set to 0 to allow email server with self signed cert
+ssl_verify_peer = 1 ; set to 0 to ...
+ssl_verify_peer_name = 1 ; set to 0 to ... (not recommended)
 
 [proxy]
 type = BASIC ; proxy type for outbound/outgoing connections; currently, only BASIC is supported
