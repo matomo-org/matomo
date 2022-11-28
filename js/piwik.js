@@ -3902,10 +3902,10 @@ if (typeof window.Matomo !== 'object') {
                     return '';
                 }
 
-              const fileRegex = new RegExp('/^file:\/\/*/i');
-              if (!configFileTracking && (windowAlias.location.protocol === 'file:' || fileRegex.test(currentUrl))) {
-                return '';
-              }
+                const fileRegex = new RegExp('/^file:\/\/*/i');
+                if (!configFileTracking && (windowAlias.location.protocol === 'file:' || fileRegex.test(currentUrl))) {
+                  return '';
+                }
 
                 var cookieVisitorIdValues = getValuesFromVisitorIdCookie();
 
