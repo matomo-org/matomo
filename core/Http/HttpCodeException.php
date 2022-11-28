@@ -8,6 +8,6 @@
 
 namespace Piwik\Http;
 
-class HttpCodeException extends \Exception
-{
+interface HttpCodeException extends \Throwable{
+
 }

@@ -9,6 +9,7 @@
 
 namespace Piwik;
 
+
 use Piwik\Exception\InvalidRequestParameterException;
 
 /**
@@ -18,4 +19,8 @@ use Piwik\Exception\InvalidRequestParameterException;
  */
 class NoAccessException extends InvalidRequestParameterException
 {
+    public function __construct($message)
+    {
+        parent::__construct($message, $code = 403);
+    }
 }

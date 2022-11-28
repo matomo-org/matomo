@@ -144,11 +144,6 @@ class ResponseBuilder
             http_response_code($e->getCode());
         }
 
-        //access deny, return 403 as status code
-        if ($e instanceof NoAccessException) {
-            http_response_code(403);
-        }
-
         $this->sendHeaderIfEnabled();
 
         return $this->apiRenderer->renderException($message, $e);

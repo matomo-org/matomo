@@ -641,7 +641,7 @@ class AccessTest extends IntegrationTestCase
 
         if (!curl_errno($ch)) {
             $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            $this->assertEquals(401, $http_code);
+            $this->assertEquals(403, $http_code);
         } else {
             $this->markTestIncomplete('something wrong');
         }

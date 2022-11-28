@@ -8,9 +8,10 @@
  */
 namespace Piwik\Exception;
 
-class InvalidRequestParameterException extends Exception
+use Piwik\Http\HttpCodeException;
+
+class InvalidRequestParameterException extends Exception implements HttpCodeException
 {
-  
     public function __toString()
     {
         return $this->getMessage() . ' ' . $this->getFile() . ':' . $this->getLine();
