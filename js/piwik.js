@@ -3902,9 +3902,8 @@ if (typeof window.Matomo !== 'object') {
                     return '';
                 }
 
-              if (!configFileTracking &&
-                (windowAlias.location.protocol === 'file:' ||
-                  currentUrl.test(new RegExp('/^file:\/\/*/i')))) {
+              const fileRegex = new RegExp('/^file:\/\/*/i');
+              if (!configFileTracking && (windowAlias.location.protocol === 'file:' || fileRegex.test(currentUrl))) {
                 return '';
               }
 
