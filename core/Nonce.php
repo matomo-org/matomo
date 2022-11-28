@@ -115,18 +115,22 @@ class Nonce
             return Piwik::translate('Login_InvalidNonceToken');
         }
 
-        // validate referrer
+        // Validate referrer if present and non-local
         $referrer = Url::getReferrer();
-        if (empty($expectedReferrerHost) && !empty($referrer) && !Url::isLocalUrl($referrer)) {
-            return Piwik::translate('Login_InvalidNonceReferrer', array(
-              '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/how-to-install/faq_98">',
-              '</a>'
-              )) . $additionalErrors;
-        }
 
-        //referrer is different expected host
-        if (!empty($expectedReferrerHost) && !self::isReferrerHostValid($referrer, $expectedReferrerHost)) {
-            return Piwik::translate('Login_InvalidNonceUnexpectedReferrer') . $additionalErrors;
+        if (!empty($referrer) && !Url::isLocalUrl($referrer)) {
+            // validate referrer
+            if (empty($expectedReferrerHost)) {
+                return Piwik::translate('Login_InvalidNonceReferrer', array(
+                        '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/how-to-install/faq_98">',
+                        '</a>'
+                    )) . $additionalErrors;
+            }
+
+            //referrer is different expected host
+            if (!empty($expectedReferrerHost) && !self::isReferrerHostValid($referrer, $expectedReferrerHost)) {
+                return Piwik::translate('Login_InvalidNonceUnexpectedReferrer') . $additionalErrors;
+            }
         }
 
         // validate origin
