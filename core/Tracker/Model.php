@@ -394,17 +394,17 @@ class Model
 
         if ($shouldMatchOneFieldOnly && $isVisitorIdToLookup) {
             $visitRow = $this->findVisitorByVisitorId($idVisitor, $select, $from, $visitorIdWhere, $visitorIdbindSql);
+
+            // Failed to find a known visit by user id, fall back to attempting a match on config id instead
+            if (empty($visitRow) && TrackerConfig::getConfigValue('enable_userid_overwrites_visitorid', $idSite)) {
+                $visitRow = $this->findVisitorByConfigId($configId, $select, $from, $configIdWhere, $configIdbindSql);
+            }
+
         } elseif ($shouldMatchOneFieldOnly) {
             $visitRow = $this->findVisitorByConfigId($configId, $select, $from, $configIdWhere, $configIdbindSql);
         } else {
             if (!empty($idVisitor)) {
                 $visitRow = $this->findVisitorByVisitorId($idVisitor, $select, $from, $visitorIdWhere, $visitorIdbindSql);
-
-                // Failed to find a known visit by user id, fall back to attempting a match on config id instead
-                if (empty($visitRow) && TrackerConfig::getConfigValue('enable_userid_overwrites_visitorid', $idSite)) {
-                    $visitRow = $this->findVisitorByConfigId($configId, $select, $from, $configIdWhere, $configIdbindSql);
-                }
-
             } else {
                 $visitRow = false;
             }

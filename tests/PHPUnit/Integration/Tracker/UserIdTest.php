@@ -9,10 +9,10 @@
 namespace Piwik\Tests\Integration\Tracker;
 
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\Db;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Tracker\TrackerConfig;
 
 /**
  @group trackerUserIdTest
@@ -35,44 +35,46 @@ class UserIdTest extends IntegrationTestCase
         Fixture::createWebsite('2012-01-01 00:00:00');
     }
 
-    public function test_VisitBeforeUserIdSetIsReusedAfterUserIdSet_withoutUserIdOverwritesVisitorId()
+    public function test_VisitBeforeUserIdSetIsReusedAfterUserIdSet_withUserIdOverwritesVisitorId_withTrustCookies()
     {
-        $tracker = $this->getTracker();
-
-        Config::getInstance()->General['enable_userid_overwrites_visitorid'] = 0;
-
-        // Before user id set
-        $response = $tracker->doTrackPageView('Welcome');
-
-        Fixture::checkResponse($response);
-        $this->assertVisitCount(1);
-        $this->assertVisitActionCount(1);
-
-        // Set user id - same visit should be used
-        $tracker->setUserId('user@example.org');
-        $response = $tracker->doTrackPageView('Logged in');
-        Fixture::checkResponse($response);
-        $this->assertVisitCount(1);
-        $this->assertVisitActionCount(2);
-
-        // Remove user id (maybe the page didn't set it?) - same visit should be used
-        $tracker->setUserId(null);
-        $response = $tracker->doTrackPageView('Product page');
-        Fixture::checkResponse($response);
-        $this->assertVisitCount(1);
-        $this->assertVisitActionCount(3);
-
+        TrackerConfig::setConfigValue('enable_userid_overwrites_visitorid', 1);
+        TrackerConfig::setConfigValue('trust_visitors_cookies', 1);
+        $this->doVisitActions();
     }
 
-    public function test_VisitBeforeUserIdSetIsReusedAfterUserIdSet_withUserIdOverwritesVisitorId()
+    public function test_VisitBeforeUserIdSetIsReusedAfterUserIdSet_withoutUserIdOverwritesVisitorId_withTrustCookies()
+    {
+        TrackerConfig::setConfigValue('enable_userid_overwrites_visitorid', 0);
+        TrackerConfig::setConfigValue('trust_visitors_cookies', 1);
+        $this->doVisitActions();
+    }
+
+    public function test_VisitBeforeUserIdSetIsReusedAfterUserIdSet_withUserIdOverwritesVisitorId_withoutTrustCookies()
+    {
+        TrackerConfig::setConfigValue('enable_userid_overwrites_visitorid', 1);
+        TrackerConfig::setConfigValue('trust_visitors_cookies', 0);
+        $this->doVisitActions();
+    }
+
+    public function test_VisitBeforeUserIdSetIsReusedAfterUserIdSet_withoutUserIdOverwritesVisitorId_withoutTrustCookies()
+    {
+        TrackerConfig::setConfigValue('enable_userid_overwrites_visitorid', 0);
+        TrackerConfig::setConfigValue('trust_visitors_cookies', 0);
+        $this->doVisitActions();
+    }
+
+    /**
+     * Simulate three actions, one without a user id, one with a user id and then one more without a user id
+     * All three actions should be allocated to the same visit
+     *
+     * @throws \Exception
+     */
+    private function doVisitActions(): void
     {
         $tracker = $this->getTracker();
 
-        Config::getInstance()->General['enable_userid_overwrites_visitorid'] = 1;
-
         // Before user id set
         $response = $tracker->doTrackPageView('Welcome');
-
         Fixture::checkResponse($response);
         $this->assertVisitCount(1);
         $this->assertVisitActionCount(1);
