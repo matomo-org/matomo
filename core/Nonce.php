@@ -115,11 +115,10 @@ class Nonce
             return Piwik::translate('Login_InvalidNonceToken');
         }
 
-        // Validate referrer if present and non-local
+        // Validate referrer if present
         $referrer = Url::getReferrer();
-
         if (!empty($referrer)) {
-            // validate referrer
+            // Allow localhost, if no specific referrer is expected
             if (empty($expectedReferrerHost) && !Url::isLocalUrl($referrer)) {
                 return Piwik::translate('Login_InvalidNonceReferrer', array(
                         '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/how-to-install/faq_98">',
@@ -127,7 +126,7 @@ class Nonce
                     )) . $additionalErrors;
             }
 
-            //referrer is different expected host
+            // Test that referrer matches what was expected
             if (!empty($expectedReferrerHost) && !self::isReferrerHostValid($referrer, $expectedReferrerHost)) {
                 return Piwik::translate('Login_InvalidNonceUnexpectedReferrer') . $additionalErrors;
             }
