@@ -83,6 +83,7 @@
         "ExceptionLoginExists": "Der Benutzername '%s' existiert bereits.",
         "ExceptionLoginExistsAsEmail": "Der Nutzername '%s' wird bereits als E-Mail-Adresse verwendet.",
         "ExceptionMultipleRoleSet": "Es kann nur eine Rolle gesetzt sein, aber mehrere sind gesetzt. Verwenden Sie eine nur eine der folgenden : %s",
+        "ExceptionNoCapabilitiesWithoutRole": "Dem Benutzer %1$s können für die Seiten-ID %2$s keine Berechtigungen vergeben werden. Der Benutzer benötigt mindestens Lesezugriff.",
         "ExceptionNoRoleSet": "Es ist keine Rolle gesetzt, aber eine der folgenden muss gesetzt sein: %s",
         "ExceptionNoValueForUsernameOrEmail": "Bitte geben Sie einen Benutzernamen oder eine E-Mail-Adresse ein.",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth erwartet ein MD5-verschlüsseltes Passwort (32 Zeichen). Bitte wenden Sie die md5()-Funktion auf das Passwort an, bevor Sie diese Methode aufrufen.",
