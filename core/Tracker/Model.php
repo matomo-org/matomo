@@ -378,7 +378,7 @@ class Model
         // 1) there is no visitor ID so we try to match only on config_id (heuristics)
         // 		Possible causes of no visitor ID: no browser cookie support, direct Tracking API request without visitor ID passed,
         //        importing server access logs with import_logs.py, etc.
-        // 		In this case we use config_id heuristics to try find the visitor in tahhhe past. There is a risk to assign
+        // 		In this case we use config_id heuristics to try find the visitor in the past. There is a risk to assign
         // 		this page view to the wrong visitor, but this is better than creating artificial visits.
         // 2) there is a visitor ID and we trust it (config setting trust_visitors_cookies, OR it was set using &cid= in tracking API),
         //      and in these cases, we force to look up this visitor id
@@ -399,6 +399,12 @@ class Model
         } else {
             if (!empty($idVisitor)) {
                 $visitRow = $this->findVisitorByVisitorId($idVisitor, $select, $from, $visitorIdWhere, $visitorIdbindSql);
+
+                // Failed to find a known visit by user id, fall back to attempting a match on config id instead
+                if (empty($visitRow) && TrackerConfig::getConfigValue('enable_userid_overwrites_visitorid', $idSite)) {
+                    $visitRow = $this->findVisitorByConfigId($configId, $select, $from, $configIdWhere, $configIdbindSql);
+                }
+
             } else {
                 $visitRow = false;
             }
