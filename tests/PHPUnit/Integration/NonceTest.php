@@ -67,6 +67,15 @@ class NonceTest extends IntegrationTestCase
         );
     }
 
+    public function testVerifyNonceWithErrorMessage_validNonceAndNoExpectedReferrerWithReferrer_expectErrorString()
+    {
+        $this->setReferrer('https://example.net');
+        $this->assertSame(
+            'Login_InvalidNonceReferrer',
+            Nonce::verifyNonceWithErrorMessage(1, 'abc')
+        );
+    }
+
     public function testVerifyNonceWithErrorMessage_validNonceAndExpectedReferrerWithMismatchedReferrer_expectErrorString()
     {
         $this->setReferrer('https://example.net');

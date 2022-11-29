@@ -118,9 +118,9 @@ class Nonce
         // Validate referrer if present and non-local
         $referrer = Url::getReferrer();
 
-        if (!empty($referrer) && !Url::isLocalUrl($referrer)) {
+        if (!empty($referrer)) {
             // validate referrer
-            if (empty($expectedReferrerHost)) {
+            if (empty($expectedReferrerHost) && !Url::isLocalUrl($referrer)) {
                 return Piwik::translate('Login_InvalidNonceReferrer', array(
                         '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/how-to-install/faq_98">',
                         '</a>'
