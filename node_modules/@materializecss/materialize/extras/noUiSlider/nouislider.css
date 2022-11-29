@@ -6,7 +6,6 @@
 
 /*! nouislider - 9.1.0 - 2016-12-10 16:00:32 */
 
-
 /* Functional styling;
  * These styles are required for noUiSlider to function.
  * You don't need to change these rules to apply your design.
@@ -66,6 +65,7 @@
     left: -15px;
     top: -15px;
 }
+
 /* Painting and performance;
  * Browsers can paint handles in their own layer.
  */
@@ -161,7 +161,6 @@
 
 /* Disabled state;
  */
-
 [disabled] .noUi-connect {
   background: #B8B8B8;
 }
@@ -368,7 +367,6 @@
 .noUi-vertical .noUi-tooltip span {
   transform: rotate(135deg);
 }
-
 
 .noUi-target.noUi-vertical .noUi-tooltip {
   position: absolute;

@@ -21,12 +21,6 @@
   <a href="https://www.jsdelivr.com/package/npm/@materializecss/materialize">
     <img src="https://data.jsdelivr.com/v1/package/npm/@materializecss/materialize/badge" alt="jsDelivr version badge">
   </a>
-  <a href="https://david-dm.org/materializecss/materialize">
-    <img src="https://david-dm.org/materializecss/materialize/status.svg" alt="dependencies Status badge">
-    </a>
-  <a href="https://david-dm.org/materializecss/materialize#info=devDependencies">
-    <img src="https://david-dm.org/materializecss/materialize/dev-status.svg" alt="devDependency Status badge">
-  </a>
   <a href="https://gitter.im/materializecss/materialize">
     <img src="https://badges.gitter.im/Join%20Chat.svg" alt="Gitter badge">
   </a>
@@ -94,4 +88,4 @@ We use Jasmine as our testing framework and we're trying to write a robust test 
 Check out the [CONTRIBUTING document](CONTRIBUTING.md) in the root of the repository to learn how you can contribute. You can also browse the [help-wanted](https://github.com/materializecss/materialize/labels/help-wanted) tag in our issue tracker to find things to do.
 
 ## Copyright and license
-Code Copyright 2021 Materialize. Code released under the MIT license.
+Code Copyright 2022 Materialize. Code released under the MIT license.

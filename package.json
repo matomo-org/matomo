@@ -14,6 +14,7 @@
     "type": "git",
     "url": "git+https://github.com/matomo-org/matomo.git"
   },
+  "prepare": "",
   "keywords": [
     "matomo",
     "piwik",
@@ -68,6 +69,7 @@
     "eslint": "^6.8.0",
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-vue": "^7.16.0",
+    "husky": "^8.0.2",
     "less": "^4.1.2",
     "less-loader": "^7.3.0",
     "nock": "^13.1.4",

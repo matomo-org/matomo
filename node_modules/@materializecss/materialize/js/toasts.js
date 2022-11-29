@@ -194,6 +194,9 @@
     _createToast() {
       let toast = document.createElement('div');
       toast.classList.add('toast');
+      toast.setAttribute('role', 'alert');
+      toast.setAttribute('aria-live', 'assertive');
+      toast.setAttribute('aria-atomic', true);
 
       // Add custom classes onto toast
       if (!!this.options.classes.length) {

@@ -18,6 +18,7 @@ input[type=time]:not(.browser-default),
 input[type=date]:not(.browser-default),
 input[type=datetime]:not(.browser-default),
 input[type=datetime-local]:not(.browser-default),
+input[type=month]:not(.browser-default),
 input[type=tel]:not(.browser-default),
 input[type=number]:not(.browser-default),
 input[type=search]:not(.browser-default),
@@ -192,6 +193,14 @@ textarea.materialize-textarea {
     &:not(.label-icon).active {
       transform: translateY(-14px) scale(.8);
       transform-origin: 0 0;
+    }
+
+    // Prevent label from floating on top of default HTML placeholders
+    &:not(.active) + input[type=date],
+    &:not(.active) + input[type=datetime-local],
+    &:not(.active) + input[type=month],
+    &:not(.active) + input[type=time] {
+      color: transparent;
     }
   }
 

@@ -15,6 +15,8 @@
       this.isMultiple = this.$el.prop('multiple');
       this.el.tabIndex = -1;
       this._values = [];
+      this.labelEl = null;
+      this._labelFor = false;
       this._setupDropdown();
       this._setupEventHandlers();
     }
@@ -29,6 +31,8 @@
       return domElem.M_FormSelect;
     }
     destroy() {
+      // Returns label to its original owner
+      if (this._labelFor) this.labelEl.setAttribute("for", this.el.id);
       this._removeEventHandlers();
       this._removeDropdown();
       this.el.M_FormSelect = undefined;
@@ -41,6 +45,9 @@
         .find('li:not(.optgroup)')
         .each((el) => {
           el.addEventListener('click', this._handleOptionClickBound);
+          el.addEventListener('keydown', (e) => {
+            if (e.key === " " || e.key === "Enter") this._handleOptionClickBound(e);
+          });
         });
       this.el.addEventListener('change', this._handleSelectChangeBound);
       this.input.addEventListener('click', this._handleInputClickBound);
@@ -95,7 +102,7 @@
       if (!this.isMultiple) this.dropdown.close();
     }
     _handleInputClick() {
-      if (this.dropdown && this.dropdown.isOpen) {
+      if (this.dropdown && this.dropdown.isOpen) {  
         this._setValueToInput();
         this._setSelectedStates();
       }
@@ -119,6 +126,9 @@
       $(this.dropdownOptions).addClass(
         'dropdown-content select-dropdown ' + (this.isMultiple ? 'multiple-select-dropdown' : '')
       );
+      this.dropdownOptions.setAttribute("role", "listbox");
+      this.dropdownOptions.setAttribute("aria-required", this.el.hasAttribute("required"));
+      this.dropdownOptions.setAttribute("aria-multiselectable", this.isMultiple);
 
       // Create dropdown structure
       if (this.$selectOptions.length) {
@@ -133,18 +143,23 @@
           } else if ($(realOption).is('optgroup')) {
             // Optgroup
             const selectOptions = $(realOption).children('option');
-            $(this.dropdownOptions).append(
-              $(
-                '<li class="optgroup"><span>' + realOption.getAttribute('label') + '</span></li>'
-              )[0]
-            );
+            let lId = "opt-group-" + M.guid();
+            let groupParent = $(
+              `<li class="optgroup" role="group" aria-labelledby="${lId}" tabindex="-1"><span id="${lId}" role="presentation">${realOption.getAttribute('label')}</span></li>`
+            )[0];
+            let groupChildren = [];
+            $(this.dropdownOptions).append(groupParent);
             selectOptions.each((realOption) => {
               const virtualOption = this._createAndAppendOptionWithIcon(
                 realOption,
                 'optgroup-option'
               );
+              let cId = "opt-child-" + M.guid();
+              virtualOption.id = cId;
+              groupChildren.push(cId);
               this._addOptionToValues(realOption, virtualOption);
             });
+            groupParent.setAttribute("aria-owns", groupChildren.join(" "));
           }
         });
       }
@@ -152,18 +167,62 @@
 
       // Add input dropdown
       this.input = document.createElement('input');
+      this.input.id = "m_select-input-" + M.guid();
       $(this.input).addClass('select-dropdown dropdown-trigger');
       this.input.setAttribute('type', 'text');
       this.input.setAttribute('readonly', 'true');
       this.input.setAttribute('data-target', this.dropdownOptions.id);
+      this.input.setAttribute('aria-readonly', 'true');
       if (this.el.disabled) $(this.input).prop('disabled', 'true');
+
+      // Makes new element to assume HTML's select label and
+      //   aria-attributes, if exists
+      if (this.el.hasAttribute("aria-labelledby")){
+        this.labelEl = document.getElementById(this.el.getAttribute("aria-labelledby"));
+      }
+      else if (this.el.id != ""){
+        let lbl = $(`label[for='${this.el.id}']`);
+        if (lbl.length){
+          this.labelEl = lbl[0];
+          this.labelEl.removeAttribute("for");
+          this._labelFor = true;
+        }
+      }
+      // Tries to find a valid label in parent element
+      if (!this.labelEl){
+        let el = this.el.parentElement;
+        if (el) el = el.getElementsByTagName("label")[0];
+        if (el) this.labelEl = el;
+      }
+      if (this.labelEl && this.labelEl.id == ""){
+        this.labelEl.id = "m_select-label-" + M.guid();
+      }
+
+      if (this.labelEl){
+        this.labelEl.setAttribute("for", this.input.id);
+        this.dropdownOptions.setAttribute("aria-labelledby", this.labelEl.id);
+      }
+      else this.dropdownOptions.setAttribute("aria-label", "");
+
+      let attrs = this.el.attributes;
+      for (let i = 0; i < attrs.length; ++i){
+        const attr = attrs[i];
+        if (attr.name.startsWith("aria-"))
+          this.input.setAttribute(attr.name, attr.value);
+      }
+
+      // Adds aria-attributes to input element
+      this.input.setAttribute("role", "combobox");
+      this.input.setAttribute("aria-owns", this.dropdownOptions.id);
+      this.input.setAttribute("aria-controls", this.dropdownOptions.id);
+      this.input.setAttribute("aria-expanded", false);
 
       $(this.wrapper).prepend(this.input);
       this._setValueToInput();
 
       // Add caret
       let dropdownIcon = $(
-        '<svg class="caret" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>'
+        '<svg class="caret" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>'
       );
       $(this.wrapper).prepend(dropdownIcon[0]);
       // Initialize dropdown
@@ -171,6 +230,7 @@
         let dropdownOptions = $.extend({}, this.options.dropdownOptions);
         dropdownOptions.coverTrigger = false;
         let userOnOpenEnd = dropdownOptions.onOpenEnd;
+        let userOnCloseEnd = dropdownOptions.onCloseEnd;
         // Add callback for centering selected option when dropdown content is scrollable
         dropdownOptions.onOpenEnd = (el) => {
           let selectedOption = $(this.dropdownOptions)
@@ -191,9 +251,19 @@
               this.dropdownOptions.scrollTop = scrollOffset;
             }
           }
+          // Sets "aria-expanded" to "true"
+          this.input.setAttribute("aria-expanded", true);
           // Handle user declared onOpenEnd if needed
           if (userOnOpenEnd && typeof userOnOpenEnd === 'function')
             userOnOpenEnd.call(this.dropdown, this.el);
+        };
+        // Add callback for reseting "expanded" state
+        dropdownOptions.onCloseEnd = (el) => {
+          // Sets "aria-expanded" to "false"
+          this.input.setAttribute("aria-expanded", false);
+          // Handle user declared onOpenEnd if needed
+          if (userOnCloseEnd && typeof userOnCloseEnd === 'function')
+            userOnCloseEnd.call(this.dropdown, this.el);
         };
         // Prevent dropdown from closing too early
         dropdownOptions.closeOnClick = false;
@@ -216,7 +286,11 @@
     }
     _createAndAppendOptionWithIcon(realOption, type) {
       const li = document.createElement('li');
-      if (realOption.disabled) li.classList.add('disabled');
+      li.setAttribute("role", "option");
+      if (realOption.disabled){
+        li.classList.add('disabled');
+        li.setAttribute("aria-disabled", true);
+      }
       if (type === 'optgroup-option') li.classList.add(type);
       // Text / Checkbox
       const span = document.createElement('span');
@@ -231,6 +305,7 @@
       const classes = realOption.getAttribute('class');
       if (iconUrl) {
         const img = $(`<img alt="" class="${classes}" src="${iconUrl}">`);
+        img[0].setAttribute("aria-hidden", true);
         li.prepend(img[0]);
       }
       // Check for multiple type
@@ -241,12 +316,14 @@
     _selectValue(value) {
       value.el.selected = true;
       value.optionEl.classList.add('selected');
+      value.optionEl.setAttribute("aria-selected", true);
       const checkbox = value.optionEl.querySelector('input[type="checkbox"]');
       if (checkbox) checkbox.checked = true;
     }
     _deselectValue(value) {
       value.el.selected = false;
       value.optionEl.classList.remove('selected');
+      value.optionEl.setAttribute("aria-selected", false);
       const checkbox = value.optionEl.querySelector('input[type="checkbox"]');
       if (checkbox) checkbox.checked = false;
     }
@@ -290,13 +367,17 @@
           .prop('checked', optionIsSelected);
         if (optionIsSelected) {
           this._activateOption($(this.dropdownOptions), $(value.optionEl));
-        } else $(value.optionEl).removeClass('selected');
+        } else {
+          $(value.optionEl).removeClass('selected');
+          $(value.optionEl).attr("aria-selected", false);
+        }
       });
     }
     _activateOption(ul, li) {
       if (!li) return;
       if (!this.isMultiple) ul.find('li.selected').removeClass('selected');
       $(li).addClass('selected');
+      $(li).attr("aria-selected", true);
     }
 
     getSelectedValues() {

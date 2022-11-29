@@ -1,5 +1,5 @@
 /*!
- * Materialize v1.1.0 (https://materializecss.github.io/materialize)
+ * Materialize v1.2.0 (https://materializecss.github.io/materialize)
  * Copyright 2014-2021 Materialize
  * MIT License (https://raw.githubusercontent.com/materializecss/materialize/master/LICENSE)
  */
@@ -2963,6 +2963,9 @@ table {
 table.striped tr {
   border-bottom: none;
 }
+table.striped > tbody > tr:nth-child(odd) {
+  background-color: rgba(242, 242, 242, 0.5);
+}
 table.highlight > tbody > tr {
   -webkit-transition: background-color 0.25s ease;
   transition: background-color 0.25s ease;
@@ -5855,6 +5858,7 @@ input[type=time]:not(.browser-default),
 input[type=date]:not(.browser-default),
 input[type=datetime]:not(.browser-default),
 input[type=datetime-local]:not(.browser-default),
+input[type=month]:not(.browser-default),
 input[type=tel]:not(.browser-default),
 input[type=number]:not(.browser-default),
 input[type=search]:not(.browser-default),
@@ -5895,6 +5899,8 @@ input[type=datetime]:not(.browser-default):disabled,
 input[type=datetime]:not(.browser-default)[readonly=readonly],
 input[type=datetime-local]:not(.browser-default):disabled,
 input[type=datetime-local]:not(.browser-default)[readonly=readonly],
+input[type=month]:not(.browser-default):disabled,
+input[type=month]:not(.browser-default)[readonly=readonly],
 input[type=tel]:not(.browser-default):disabled,
 input[type=tel]:not(.browser-default)[readonly=readonly],
 input[type=number]:not(.browser-default):disabled,
@@ -5923,6 +5929,8 @@ input[type=datetime]:not(.browser-default):disabled + label,
 input[type=datetime]:not(.browser-default)[readonly=readonly] + label,
 input[type=datetime-local]:not(.browser-default):disabled + label,
 input[type=datetime-local]:not(.browser-default)[readonly=readonly] + label,
+input[type=month]:not(.browser-default):disabled + label,
+input[type=month]:not(.browser-default)[readonly=readonly] + label,
 input[type=tel]:not(.browser-default):disabled + label,
 input[type=tel]:not(.browser-default)[readonly=readonly] + label,
 input[type=number]:not(.browser-default):disabled + label,
@@ -5942,6 +5950,7 @@ input[type=time]:not(.browser-default):focus:not([readonly]),
 input[type=date]:not(.browser-default):focus:not([readonly]),
 input[type=datetime]:not(.browser-default):focus:not([readonly]),
 input[type=datetime-local]:not(.browser-default):focus:not([readonly]),
+input[type=month]:not(.browser-default):focus:not([readonly]),
 input[type=tel]:not(.browser-default):focus:not([readonly]),
 input[type=number]:not(.browser-default):focus:not([readonly]),
 input[type=search]:not(.browser-default):focus:not([readonly]),
@@ -5959,6 +5968,7 @@ input[type=time]:not(.browser-default):focus:not([readonly]) + label,
 input[type=date]:not(.browser-default):focus:not([readonly]) + label,
 input[type=datetime]:not(.browser-default):focus:not([readonly]) + label,
 input[type=datetime-local]:not(.browser-default):focus:not([readonly]) + label,
+input[type=month]:not(.browser-default):focus:not([readonly]) + label,
 input[type=tel]:not(.browser-default):focus:not([readonly]) + label,
 input[type=number]:not(.browser-default):focus:not([readonly]) + label,
 input[type=search]:not(.browser-default):focus:not([readonly]) + label,
@@ -5974,6 +5984,7 @@ input[type=time]:not(.browser-default):focus.valid ~ label,
 input[type=date]:not(.browser-default):focus.valid ~ label,
 input[type=datetime]:not(.browser-default):focus.valid ~ label,
 input[type=datetime-local]:not(.browser-default):focus.valid ~ label,
+input[type=month]:not(.browser-default):focus.valid ~ label,
 input[type=tel]:not(.browser-default):focus.valid ~ label,
 input[type=number]:not(.browser-default):focus.valid ~ label,
 input[type=search]:not(.browser-default):focus.valid ~ label,
@@ -5989,6 +6000,7 @@ input[type=time]:not(.browser-default):focus.invalid ~ label,
 input[type=date]:not(.browser-default):focus.invalid ~ label,
 input[type=datetime]:not(.browser-default):focus.invalid ~ label,
 input[type=datetime-local]:not(.browser-default):focus.invalid ~ label,
+input[type=month]:not(.browser-default):focus.invalid ~ label,
 input[type=tel]:not(.browser-default):focus.invalid ~ label,
 input[type=number]:not(.browser-default):focus.invalid ~ label,
 input[type=search]:not(.browser-default):focus.invalid ~ label,
@@ -6004,6 +6016,7 @@ input[type=time]:not(.browser-default).validate + label,
 input[type=date]:not(.browser-default).validate + label,
 input[type=datetime]:not(.browser-default).validate + label,
 input[type=datetime-local]:not(.browser-default).validate + label,
+input[type=month]:not(.browser-default).validate + label,
 input[type=tel]:not(.browser-default).validate + label,
 input[type=number]:not(.browser-default).validate + label,
 input[type=search]:not(.browser-default).validate + label,
@@ -6028,6 +6041,8 @@ input[type=datetime]:not(.browser-default).valid,
 input[type=datetime]:not(.browser-default):focus.valid,
 input[type=datetime-local]:not(.browser-default).valid,
 input[type=datetime-local]:not(.browser-default):focus.valid,
+input[type=month]:not(.browser-default).valid,
+input[type=month]:not(.browser-default):focus.valid,
 input[type=tel]:not(.browser-default).valid,
 input[type=tel]:not(.browser-default):focus.valid,
 input[type=number]:not(.browser-default).valid,
@@ -6058,6 +6073,8 @@ input[type=datetime]:not(.browser-default).invalid,
 input[type=datetime]:not(.browser-default):focus.invalid,
 input[type=datetime-local]:not(.browser-default).invalid,
 input[type=datetime-local]:not(.browser-default):focus.invalid,
+input[type=month]:not(.browser-default).invalid,
+input[type=month]:not(.browser-default):focus.invalid,
 input[type=tel]:not(.browser-default).invalid,
 input[type=tel]:not(.browser-default):focus.invalid,
 input[type=number]:not(.browser-default).invalid,
@@ -6104,6 +6121,10 @@ input[type=datetime-local]:not(.browser-default).valid ~ .helper-text[data-succe
 input[type=datetime-local]:not(.browser-default):focus.valid ~ .helper-text[data-success],
 input[type=datetime-local]:not(.browser-default).invalid ~ .helper-text[data-error],
 input[type=datetime-local]:not(.browser-default):focus.invalid ~ .helper-text[data-error],
+input[type=month]:not(.browser-default).valid ~ .helper-text[data-success],
+input[type=month]:not(.browser-default):focus.valid ~ .helper-text[data-success],
+input[type=month]:not(.browser-default).invalid ~ .helper-text[data-error],
+input[type=month]:not(.browser-default):focus.invalid ~ .helper-text[data-error],
 input[type=tel]:not(.browser-default).valid ~ .helper-text[data-success],
 input[type=tel]:not(.browser-default):focus.valid ~ .helper-text[data-success],
 input[type=tel]:not(.browser-default).invalid ~ .helper-text[data-error],
@@ -6145,6 +6166,8 @@ input[type=datetime]:not(.browser-default).valid ~ .helper-text:after,
 input[type=datetime]:not(.browser-default):focus.valid ~ .helper-text:after,
 input[type=datetime-local]:not(.browser-default).valid ~ .helper-text:after,
 input[type=datetime-local]:not(.browser-default):focus.valid ~ .helper-text:after,
+input[type=month]:not(.browser-default).valid ~ .helper-text:after,
+input[type=month]:not(.browser-default):focus.valid ~ .helper-text:after,
 input[type=tel]:not(.browser-default).valid ~ .helper-text:after,
 input[type=tel]:not(.browser-default):focus.valid ~ .helper-text:after,
 input[type=number]:not(.browser-default).valid ~ .helper-text:after,
@@ -6174,6 +6197,8 @@ input[type=datetime]:not(.browser-default).invalid ~ .helper-text:after,
 input[type=datetime]:not(.browser-default):focus.invalid ~ .helper-text:after,
 input[type=datetime-local]:not(.browser-default).invalid ~ .helper-text:after,
 input[type=datetime-local]:not(.browser-default):focus.invalid ~ .helper-text:after,
+input[type=month]:not(.browser-default).invalid ~ .helper-text:after,
+input[type=month]:not(.browser-default):focus.invalid ~ .helper-text:after,
 input[type=tel]:not(.browser-default).invalid ~ .helper-text:after,
 input[type=tel]:not(.browser-default):focus.invalid ~ .helper-text:after,
 input[type=number]:not(.browser-default).invalid ~ .helper-text:after,
@@ -6195,6 +6220,7 @@ input[type=time]:not(.browser-default) + label:after,
 input[type=date]:not(.browser-default) + label:after,
 input[type=datetime]:not(.browser-default) + label:after,
 input[type=datetime-local]:not(.browser-default) + label:after,
+input[type=month]:not(.browser-default) + label:after,
 input[type=tel]:not(.browser-default) + label:after,
 input[type=number]:not(.browser-default) + label:after,
 input[type=search]:not(.browser-default) + label:after,
@@ -6254,6 +6280,9 @@ textarea.materialize-textarea + label:after {
           transform: translateY(-14px) scale(0.8);
   -webkit-transform-origin: 0 0;
           transform-origin: 0 0;
+}
+.input-field > label:not(.active) + input[type=date], .input-field > label:not(.active) + input[type=datetime-local], .input-field > label:not(.active) + input[type=month], .input-field > label:not(.active) + input[type=time] {
+  color: transparent;
 }
 .input-field > input[type]:-webkit-autofill:not(.browser-default):not([type=search]) + label, .input-field > input[type=date]:not(.browser-default) + label, .input-field > input[type=time]:not(.browser-default) + label {
   -webkit-transform: translateY(-14px) scale(0.8);
@@ -8436,6 +8465,7 @@ input[type=range]::-ms-thumb {
 
 /* Clock Digital Display */
 .timepicker-digital-display {
+  width: 200px;
   -webkit-box-flex: 1;
   -webkit-flex: 1 auto;
       -ms-flex: 1 auto;
@@ -8457,19 +8487,33 @@ input[type=range]::-ms-thumb {
       -ms-user-select: none;
           user-select: none;
 }
+.timepicker-text-container input[type=text] {
+  height: 4rem;
+  color: rgba(255, 255, 255, 0.6);
+  border-bottom: 0px;
+  font-size: 4rem;
+  direction: ltr;
+}
 
-.timepicker-span-hours,
-.timepicker-span-minutes,
+.timepicker-input-hours,
+.timepicker-input-minutes,
 .timepicker-span-am-pm div {
   cursor: pointer;
 }
 
-.timepicker-span-hours {
+input[type=text].timepicker-input-hours {
+  text-align: right;
+  width: 28%;
   margin-right: 3px;
 }
 
-.timepicker-span-minutes {
+input[type=text].timepicker-input-minutes {
+  width: 33%;
   margin-left: 3px;
+}
+
+input[type=text].text-primary {
+  color: white;
 }
 
 .timepicker-display-am-pm {
