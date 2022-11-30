@@ -18,7 +18,7 @@
         "MonthComparedToPreviousMonth": "previous month",
         "MonthComparedToPreviousYear": "same month the year before",
         "MoversAndShakersWidgetTitle": "Movers and shakers",
-        "NoResultMatchesCriteria": "There are no such rows",
+        "NoResultMatchesCriteria": "There are no matching rows",
         "OverviewWidgetTitle": "Insights Overview",
         "TitleConsideredInsightsChanges": "These rows increased or decreased by at least %1$s visits (%2$s%% of %3$s total visits).",
         "TitleConsideredInsightsGrowth": "These rows grew at least %1$s%% compared to %2$s.",
