@@ -8,8 +8,6 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### New config.ini.php settings
 * Three new config settings `ssl_disallow_self_signed` ,`ssl_verify_peer`, `ssl_verify_peer_name` under [mail] to allow self-signed SMTP request.
 
-## Matomo 4.12.4
-
 ## Matomo 4.13.0
 
 
