@@ -1110,7 +1110,7 @@ username = ; SMTP username
 password = ; SMTP password
 encryption = ; SMTP transport-layer encryption, either 'none', 'ssl', 'tls', or empty (i.e., auto).
 ssl_disallow_self_signed = 1 ; set to 0 to allow email server with self signed cert
-ssl_verify_peer = 1 ; set to 0 to ...
+ssl_verify_peer = 1 ; set to 0 to disable verifying the authenticity of the peer's certificate (not recommended)
 ssl_verify_peer_name = 1 ; set to 0 to ... (not recommended)
 
 [proxy]
