@@ -481,7 +481,7 @@ class SettingsPiwik
 
         $instanceId = GeneralConfig::getConfigValue('instance_id');
         if (!empty($instanceId)) {
-            return $instanceId;
+            return preg_replace('/[^\w\.-]/', '', $instanceId);
         }
 
         // do not rewrite the path as Matomo uses the standard config.ini.php file

@@ -43,6 +43,8 @@
         "ExcludedUserAgents": "Agents d'usuari exclosos",
         "ExtraInformationNeeded": "Per configurar Matomo al vostre sistema és possible que necessiteu la informació següent:",
         "Format_Utc": "UTC %s",
+        "GADetected": "S'ha detectat %1$s al vostre lloc web. Sabíeu que podeu migrar fàcilment les vostres dades d'anàlisi històrica i la configuració de %2$s a Matomo? %3$s%4$s%5$sMés informació en aquesta guia%6$s",
+        "GADetectedEmail": "S'ha detectat %1$s al vostre lloc web. Sabíeu que podeu migrar fàcilment les vostres dades d'anàlisi històrica i la configuració de %2$s a Matomo? Més informació aquí: %3$s",
         "GlobalExcludedUserAgentHelp1": "Introduïu la llista d'agents d'usuari que voleu excloure del seguiment de Matomo.",
         "GlobalExcludedUserAgentHelp2": "Podeu utilitzar-ho per excloure alguns robots del seguiment.",
         "GlobalExcludedUserAgentHelp3": "S'admeten expressions regulars com ara %s.",

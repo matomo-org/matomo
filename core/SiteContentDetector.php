@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,9 +7,11 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik;
 
 use Matomo\Cache\Lazy;
+use Piwik\Config\GeneralConfig;
 
 /**
  * This class provides detection functions for specific content on a site. It can be used to easily detect the
@@ -28,7 +31,6 @@ use Matomo\Cache\Lazy;
  */
 class SiteContentDetector
 {
-
     // Content types
     const ALL_CONTENT = 1;
     const CONSENT_MANAGER = 2;
@@ -90,7 +92,6 @@ class SiteContentDetector
     public function detectContent(array $detectContent = [SiteContentDetector::ALL_CONTENT],
                                   ?int $idSite = null, ?string $siteData = null, int $timeOut = 5): void
     {
-
         $this->resetDetectionProperties();
 
         // If site data was passed in, then just run the detection checks against it and return.
@@ -105,16 +106,19 @@ class SiteContentDetector
             if (!isset($_REQUEST['idSite'])) {
                 return;
             }
+
             $idSite = Common::getRequestVar('idSite', null, 'int');
+
             if (!$idSite) {
                 return;
             }
         }
 
         // Check and load previously cached site content detection data if it exists
-        $cacheKey = 'SiteContentDetector_'.$idSite;
+        $cacheKey = 'SiteContentDetector_' . $idSite;
         $requiredProperties = $this->getRequiredProperties($detectContent);
         $siteContentDetectionCache = $this->cache->fetch($cacheKey);
+
         if ($siteContentDetectionCache !== false) {
             if ($this->checkCacheHasRequiredProperties($requiredProperties, $siteContentDetectionCache)) {
                 $this->loadRequiredPropertiesFromCache($requiredProperties, $siteContentDetectionCache);
@@ -150,15 +154,19 @@ class SiteContentDetector
     private function getRequiredProperties(array $detectContent): array
     {
         $requiredProperties = [];
+
         if (in_array(SiteContentDetector::CONSENT_MANAGER, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
             $requiredProperties = array_merge($requiredProperties, ['consentManagerId', 'consentManagerName', 'consentManagerUrl', 'isConnected']);
         }
+
         if (in_array(SiteContentDetector::GA3, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
             $requiredProperties[] = 'ga3';
         }
+
         if (in_array(SiteContentDetector::GA4, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
             $requiredProperties[] = 'ga4';
         }
+
         if (in_array(SiteContentDetector::GTM, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
             $requiredProperties[] = 'gtm';
         }
@@ -181,6 +189,7 @@ class SiteContentDetector
                 return false;
             }
         }
+
         return true;
     }
 
@@ -198,6 +207,7 @@ class SiteContentDetector
             if (!array_key_exists($prop, $cache)) {
                 continue;
             }
+
             $this->{$prop} = $cache[$prop];
         }
     }
@@ -218,6 +228,7 @@ class SiteContentDetector
 
         // Load any existing cached values
         $siteContentDetectionCache = $this->cache->fetch($cacheKey);
+
         if (is_array($siteContentDetectionCache)) {
             $cacheData = $siteContentDetectionCache;
         }
@@ -265,17 +276,25 @@ class SiteContentDetector
      */
     private function requestSiteData(int $idSite, int $timeOut): ?string
     {
-        $siteData = null;
+        // If internet features are disabled, we don't try to fetch any site content
+        if (0 === (int) GeneralConfig::getConfigValue('enable_internet_features')) {
+            return null;
+        }
+
         $url = Site::getMainUrlFor($idSite);
+
         if (!$url) {
             return null;
         }
+
+        $siteData = null;
 
         try {
             $siteData = Http::sendHttpRequestBy(Http::getTransportMethod(), $url, $timeOut, null, null,
                 null, 0, false, true);
         } catch (\Exception $e) {
         }
+
         return $siteData;
     }
 
@@ -288,8 +307,8 @@ class SiteContentDetector
      */
     private function detectConsentManager(): void
     {
-
         $defs = SiteContentDetector::getConsentManagerDefinitions();
+
         if (!$defs) {
             return;
         }
@@ -316,7 +335,6 @@ class SiteContentDetector
                 break;
             }
         }
-
     }
 
     /**
