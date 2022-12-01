@@ -117,7 +117,7 @@ describe("RowEvolution", function () {
 
         await page.waitForSelector('.ui-dialog', { visible: true });
         await page.waitForNetworkIdle();
-        await page.waitForTimeOut(250); // wait till annotations are rendered
+        await page.waitForTimeout(250); // wait till annotations are rendered
 
         const dialog = await page.$('.ui-dialog');
         expect(await dialog.screenshot()).to.matchImage('row_evolution_ecommerce_item');
