@@ -42,13 +42,13 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Another example method that returns a data table.
-     * @param int    $idSite
+     * @param string $idSite  (might be a number, or the string all)
      * @param string $period
      * @param string $date
      * @param null|string $segment
      * @return DataTable
      */
-    public function getExampleReport(int $idSite, string $period, string $date, ?string $segment = null): DataTable
+    public function getExampleReport(string $idSite, string $period, string $date, ?string $segment = null): DataTable
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -62,13 +62,13 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Returns the example metric we archive in Archiver.php.
-     * @param int    $idSite
+     * @param string $idSite (might be a number, or the string all)
      * @param string $period
      * @param string $date
      * @param null|string $segment
-     * @return DataTable
+     * @return DataTable\DataTableInterface
      */
-    public function getExampleArchivedMetric(int $idSite, string $period, string $date, ?string $segment = null): DataTable
+    public function getExampleArchivedMetric(string $idSite, string $period, string $date, ?string $segment = null): DataTable\DataTableInterface
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -76,7 +76,7 @@ class API extends \Piwik\Plugin\API
         return $archive->getDataTableFromNumeric([Archiver::EXAMPLEPLUGIN_METRIC_NAME, Archiver::EXAMPLEPLUGIN_CONST_METRIC_NAME]);
     }
 
-    public function getSegmentHash(int $idSite, string $segment)
+    public function getSegmentHash(string $idSite, string $segment)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
