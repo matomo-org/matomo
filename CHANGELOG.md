@@ -19,6 +19,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 * The class `Piwik\Request` has been introduced. It will allow fetching parameters from a request, optionally validated / casted to a certain type. Use this class in favor of `Common::getRequestVar`.
 * All API are now able to overwrite the property `$autoSanitizeInputParams`. Setting this variable to `false` will prevent an automatic apply of `Common::sanitizeInputValues` on all parameter passed to the API methods. By now this property defaults to `true`, but this might change in upcoming major releases.
+* All API methods can now use type hinted parameters. This allows to force certain parameters to be provided in a defined type. If the API is called with a mismatching type, an error will be triggered, without calling the method at all. Only basic types are supported: string, int, float, bool, array
 
 ### Deprecations
 
