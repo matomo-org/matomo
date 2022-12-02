@@ -341,7 +341,8 @@ class DocumentationGenerator
             $str = '';
 
             if(!empty($parameter['type'])) {
-                $str = '<i>' . $parameter['type'] . '</i> ';
+                $prefix = $parameter['allowsNull'] ? '?' : '';
+                $str = '<i>' . $prefix . $parameter['type'] . '</i> ';
             }
 
             $str .= $nameVariable;
@@ -350,6 +351,12 @@ class DocumentationGenerator
             if (!($defaultValue instanceof NoDefaultValue)) {
                 if (is_array($defaultValue)) {
                     $str .= " = 'Array'";
+                } elseif (!empty($parameter['type']) && $parameter['allowsNull']) {
+                    $str .= ""; // don't display default value, as the ? before the type hint indicates it's optional
+                } elseif ($parameter['type'] === 'bool' && $defaultValue === true) {
+                    $str .= " = true";
+                } elseif ($parameter['type'] === 'bool' && $defaultValue === false) {
+                    $str .= " = false";
                 } else {
                     $str .= " = '$defaultValue'";
                 }

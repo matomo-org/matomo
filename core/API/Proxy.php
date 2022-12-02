@@ -569,9 +569,15 @@ class Proxy
 
             $type = $parameter->getType();
 
+            // In case no default value is defined in the method, but the type hint allows null, we assume null as default value
+            if ($type && $type->allowsNull() && $defaultValue === $this->noDefaultValue) {
+                $defaultValue = null;
+            }
+
             $aParameters[$nameVariable] = [
                 'default' => $defaultValue,
                 'type' => ($type && $type->isBuiltin()) ? $type->getName() : null,
+                'allowsNull' => $type ? $type->allowsNull() : $defaultValue === null,
             ];
         }
         $this->metadataArray[$class][$name]['parameters'] = $aParameters;
