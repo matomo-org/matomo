@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -30,7 +31,7 @@ class API extends \Piwik\Plugin\API
      *
      * @return int
      */
-    public function getAnswerToLife($truth = true)
+    public function getAnswerToLife(bool $truth = true): int
     {
         if ($truth) {
             return 42;
@@ -44,10 +45,10 @@ class API extends \Piwik\Plugin\API
      * @param int    $idSite
      * @param string $period
      * @param string $date
-     * @param bool|string $segment
+     * @param null|string $segment
      * @return DataTable
      */
-    public function getExampleReport($idSite, $period, $date, $segment = false)
+    public function getExampleReport(int $idSite, string $period, string $date, ?string $segment = null): DataTable
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -64,23 +65,22 @@ class API extends \Piwik\Plugin\API
      * @param int    $idSite
      * @param string $period
      * @param string $date
-     * @param bool|string $segment
+     * @param null|string $segment
      * @return DataTable
      */
-    public function getExampleArchivedMetric($idSite, $period, $date, $segment = false)
+    public function getExampleArchivedMetric(int $idSite, string $period, string $date, ?string $segment = null): DataTable
     {
         Piwik::checkUserHasViewAccess($idSite);
 
         $archive = Archive::build($idSite, $period, $date, $segment);
-        $dataTable = $archive->getDataTableFromNumeric([Archiver::EXAMPLEPLUGIN_METRIC_NAME, Archiver::EXAMPLEPLUGIN_CONST_METRIC_NAME]);
-        return $dataTable;
+        return $archive->getDataTableFromNumeric([Archiver::EXAMPLEPLUGIN_METRIC_NAME, Archiver::EXAMPLEPLUGIN_CONST_METRIC_NAME]);
     }
 
-    public function getSegmentHash($idSite, $segment)
+    public function getSegmentHash(int $idSite, string $segment)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        $segment = new Segment($segment, [(int) $idSite]);
+        $segment = new Segment($segment, [$idSite]);
         return $segment->getHash();
     }
 }
