@@ -516,6 +516,12 @@ class Proxy
 
                 if ($defaultValue instanceof NoDefaultValue) {
                     $requestValue = $request->$method($name);
+                } elseif ($defaultValue === null) {
+                    try {
+                        $requestValue = $request->$method($name);
+                    } catch (\InvalidArgumentException $e) {
+                        $requestValue = null;
+                    }
                 } else {
                     $requestValue = $request->$method($name, $defaultValue);
                 }
