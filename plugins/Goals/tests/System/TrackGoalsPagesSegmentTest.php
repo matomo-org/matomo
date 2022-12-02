@@ -44,14 +44,14 @@ class TrackGoalsPagesSegmentTest extends SystemTestCase
                                             'segment' => 'countryCode==' . self::$fixture->segmentCountryCode
             ]],
             ['Actions.getEntryPageUrls',   ['idSite' => self::$fixture->idSite, 'date' => self::$fixture->dateTime,
-                                            'idGoal' => 1, 'period' => 'day',
+                                            'idGoal' => 1, 'period' => 'week',
                                             'segment' => 'countryCode==' . self::$fixture->segmentCountryCode,
                                             'otherRequestParameters' => [
                                                 'filter_update_columns_when_show_all_goals' => 1
                                             ]
             ]],
             ['Actions.getEntryPageTitles', ['idSite' => self::$fixture->idSite, 'date' => self::$fixture->dateTime,
-                                            'idGoal' => 1, 'period' => 'day',
+                                            'idGoal' => 1, 'period' => 'week',
                                             'segment' => 'countryCode==' . self::$fixture->segmentCountryCode,
                                             'otherRequestParameters' => [
                                                 'filter_update_columns_when_show_all_goals' => 1

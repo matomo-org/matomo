@@ -109,7 +109,7 @@ class SomePageGoalVisitsWithConversions extends Fixture
         $this->doConversion($t, 1);
 
         // Visit 2: A > A/Z > C > Conversion 1
-        $this->doNewVisitor($t, 'f66bc315f2a01a79', $this->segmentCountryCode);
+        $this->doNewVisitor($t, 'f66bc315f2a01a79', 'fr');
         $this->doPageVisit($t, 'A', 'index.html');
         $this->doPageVisit($t, 'A','Z');
         $this->doPageVisit($t, 'C');
@@ -122,7 +122,7 @@ class SomePageGoalVisitsWithConversions extends Fixture
 
         // Visit 4: A > C > Conversion 1
         //          A > B > C > Conversion 2
-        $this->doNewVisitor($t,  '39f72e3961e18b4e', $this->segmentCountryCode);
+        $this->doNewVisitor($t,  '39f72e3961e18b4e','fr');
         $this->doPageVisit($t, 'A', 'index.html');
         $this->doPageVisit($t, 'C');
         $this->doConversion($t, 1);
@@ -149,6 +149,7 @@ class SomePageGoalVisitsWithConversions extends Fixture
         $this->doConversion($t, 2);
 
         // Visit 6: A > Conversion 1
+        // Only allocating one visit to the segment to make it easier to check manually
         $this->doNewVisitor($t, '132886427a57e7ba', $this->segmentCountryCode);
         $this->doPageVisit($t, 'A', 'index.html');
         $this->doConversion($t, 1);

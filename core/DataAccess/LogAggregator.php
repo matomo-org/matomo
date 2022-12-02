@@ -330,22 +330,37 @@ class LogAggregator
     /**
      * Generate a SQL query from the supplied parameters
      *
-     * @param       $select
-     * @param       $from
-     * @param       $where
-     * @param       $groupBy
-     * @param       $orderBy
-     * @param int   $limit
-     * @param int   $offset
+     * @param             $select
+     * @param             $from
+     * @param             $where
+     * @param             $groupBy
+     * @param             $orderBy
+     * @param int         $limit
+     * @param int         $offset
+     * @param string|null $prebuiltQuery    Bypass the select, from, where, groupBy and orderBy parameters by directly
+     *                                      passing in a prebuilt query. This should only be used as a last resort for
+     *                                      queries which are too complicated to be assembled from SQL fragments.
+     * @param array|null $specialBind       Optionally customise the returned bind parameters array by supplying an array
+     *                                      which contains a list of standard bind array keys, any order or repetition is
+     *                                      supported. eg. [0,1,2,0,1,2] would repeat the standard bind values twice. For
+     *                                      use with $prebuiltQuery
      *
      * @return array|mixed|string
      * @throws \DI\DependencyException
      * @throws \DI\NotFoundException
      */
-    public function generateQuery($select, $from, $where, $groupBy, $orderBy, $limit = 0, $offset = 0)
+    public function generateQuery($select, $from, $where, $groupBy, $orderBy, $limit = 0, $offset = 0,
+                                  ?string $prebuiltQuery = null, ?array $specialBind = null)
     {
         $segment = $this->segment;
         $bind = $this->getGeneralQueryBindParams();
+        if ($specialBind !== null) {
+            $customBind = [];
+            foreach ($specialBind as $bindKey) {
+                $customBind[] = $bind[$bindKey];
+            }
+            $bind = $customBind;
+        }
 
         if (!$this->segment->isEmpty() && $this->isSegmentCacheEnabled()) {
             // here we create the TMP table and apply the segment including the datetime and the requested idsite
@@ -374,26 +389,40 @@ class LogAggregator
             $logTablesProvider = $this->getLogTableProvider();
             $logTablesProvider->setTempTable(new LogTableTemporary($segmentTable));
 
-            foreach ($logTablesProvider->getAllLogTables() as $logTable) {
-                if ($logTable->getDateTimeColumn()) {
-                    $whereTest = $this->getWhereStatement($logTable->getName(), $logTable->getDateTimeColumn());
-                    if (strpos($where, $whereTest) === 0) {
-                        // we don't need to apply the where statement again as it would have been applied already
-                        // in the temporary table... instead it should join the tables through the idvisit index
-                        $where = ltrim(str_replace($whereTest, '', $where));
-                        if (stripos($where, 'and ') === 0) {
-                            $where = substr($where, strlen('and '));
+            if (!$prebuiltQuery) {
+
+                foreach ($logTablesProvider->getAllLogTables() as $logTable) {
+                    if ($logTable->getDateTimeColumn()) {
+                        $whereTest = $this->getWhereStatement($logTable->getName(), $logTable->getDateTimeColumn());
+                        if (strpos($where, $whereTest) === 0) {
+                            // we don't need to apply the where statement again as it would have been applied already
+                            // in the temporary table... instead it should join the tables through the idvisit index
+                            $where = ltrim(str_replace($whereTest, '', $where));
+                            if (stripos($where, 'and ') === 0) {
+                                $where = substr($where, strlen('and '));
+                            }
+                            $bind = array();
+                            break;
                         }
-                        $bind = array();
-                        break;
                     }
                 }
+
+            } else {
+
+                // Prebuilt queries must include the idvisit field in the select clause for this wrapper to work
+                $prebuiltQuery = 'SELECT sub.* FROM (' . $prebuiltQuery . ') AS sub ' .
+                                 'LEFT JOIN ' . $segmentTable . ' ON sub.idvisit = ' . $segmentTable . '.idvisit ' .
+                                 'WHERE ' . $segmentTable . '.idvisit IS NOT NULL';
 
             }
 
         }
 
-        $query = $segment->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy, $limit, $offset);
+        if (!$prebuiltQuery) {
+            $query = $segment->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy, $limit, $offset);
+        } else {
+            $query = ['sql' => $prebuiltQuery, 'bind' => $bind];
+        }
 
         $select = 'SELECT';
         if ($this->queryOriginHint && is_array($query) && 0 === strpos(trim($query['sql']), $select)) {
@@ -1100,9 +1129,8 @@ class LogAggregator
     }
 
     /**
-     * Similar to queryConversionsByDimension and will return data in the same
-     * format, but takes into account pageviews leading up to a conversion, not
-     * just the final page that triggered the conversion
+     * Similar to queryConversionsByDimension and will return data in the same format, but takes into account pageviews
+     * leading up to a conversion, not just the final page that triggered the conversion
      *
      * @param string $linkField
      * @param int    $idGoal
@@ -1115,35 +1143,29 @@ class LogAggregator
         $dbSettings = new \Piwik\Db\Settings();
         $tablePrefix = $dbSettings->getTablePrefix();
 
-        $localBind = $this->getGeneralQueryBindParams();
-        $bind[] = $localBind[0]; // Start date
-        $bind[] = $localBind[1]; // End date
-        $bind[] = $localBind[2]; // Sites
-        $bind[] = $localBind[0];
-        $bind[] = $localBind[1];
-        $bind[] = $localBind[2];
-
-        // This query is too complicated to be built by the generateQuery function
-        // All non-bound parameters are either typed numeric or supplied from fixed values in other methods (linkField, idGoal, tablePrefix)
-        // All user supplied parameters are bound (idSite,  date)
+        // This query is too complicated to be built by the generateQuery function, so instead it is passed in as a
+        // prebuilt query so generateQuery can apply segment wrapping, query hints and supply the bind parameters
+        // All non-bound parameters used directly in the query are either typed numeric or supplied from fixed values
+        // in other methods (linkField, idGoal, tablePrefix)
 
         $sql = sprintf(
         "SELECT
+          yyy.idvisit AS idvisit,
           ".$idGoal." AS idgoal,
           ".($linkField == 'idaction_url' ? '1' : '4')." AS `type`,
           yyy.idaction AS idaction,
           COUNT(*) AS `1`,     
-          ROUND(SUM(yyy.revenue_total),2) AS `2`,
-          COUNT(yyy.idvisit) AS `3`,
-          ROUND(SUM(yyy.revenue_subtotal),2) AS `4`,
-          ROUND(SUM(yyy.revenue_tax),2) AS `5`,
-          ROUND(SUM(yyy.revenue_shipping),2) AS `6`,
-          ROUND(SUM(yyy.revenue_discount),2) AS `7`,
-          SUM(yyy.items) AS `8`,
-          yyy.pages_before AS `9`,
-          SUM(yyy.attribution) AS `10`,
-          COUNT(*) AS `12`,
-          ROUND(SUM(yyy.revenue),2) AS `15`  
+          " . sprintf("ROUND(SUM(yyy.revenue_total),2) AS `%d`,", Metrics::INDEX_GOAL_REVENUE) . "          
+          " . sprintf("COUNT(yyy.idvisit) AS `%d`,", Metrics::INDEX_GOAL_NB_VISITS_CONVERTED) . "                   
+          " . sprintf("ROUND(SUM(yyy.revenue_subtotal),2) AS `%d`,", Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL) . "                 
+          " . sprintf("ROUND(SUM(yyy.revenue_tax),2) AS `%d`,", Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX) . "
+          " . sprintf("ROUND(SUM(yyy.revenue_shipping),2) AS `%d`,", Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING) . "
+          " . sprintf("ROUND(SUM(yyy.revenue_discount),2) AS `%d`,", Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT) . "
+          " . sprintf("SUM(yyy.items) AS `%d`,", Metrics::INDEX_GOAL_ECOMMERCE_ITEMS) . "
+          " . sprintf("yyy.pages_before AS `%d`,", Metrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE) . "                    
+          " . sprintf("SUM(yyy.attribution) AS `%d`,", Metrics::INDEX_GOAL_NB_CONVERSIONS_ATTRIB) . "                    
+          " . sprintf("COUNT(*) AS `%d`,", Metrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_UNIQ) . "              
+          " . sprintf("ROUND(SUM(yyy.revenue),2) AS `%d`", Metrics::INDEX_GOAL_REVENUE_ATTRIB) . "         
         FROM (
           SELECT
             num_total AS pages_before,
@@ -1183,9 +1205,12 @@ class LogAggregator
             AND logv.server_time <= lvcon.server_time
           ) AS yyy
         GROUP BY yyy.idaction
-        ORDER BY `9` DESC;", $tablePrefix, $tablePrefix, $tablePrefix, $tablePrefix, $tablePrefix, $tablePrefix);
+        ORDER BY `9` DESC", $tablePrefix, $tablePrefix, $tablePrefix, $tablePrefix, $tablePrefix, $tablePrefix);
 
-        return $this->getDb()->query($sql, $bind);
+        // Repeat the start date, end date and site id bind values twice using the specialBind parameter
+        $query = $this->generateQuery(null, null, null, null, null, 0, 0, $sql, [0,1,2,0,1,2]);
+
+        return $this->getDb()->query($query['sql'], $query['bind']);
     }
 
     /**
