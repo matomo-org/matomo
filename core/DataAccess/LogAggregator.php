@@ -337,115 +337,168 @@ class LogAggregator
      * @param             $orderBy
      * @param int         $limit
      * @param int         $offset
-     * @param string|null $prebuiltQuery    Bypass the select, from, where, groupBy and orderBy parameters by directly
-     *                                      passing in a prebuilt query. This should only be used as a last resort for
-     *                                      queries which are too complicated to be assembled from SQL fragments.
-     * @param array|null $specialBind       Optionally customise the returned bind parameters array by supplying an array
-     *                                      which contains a list of standard bind array keys, any order or repetition is
-     *                                      supported. eg. [0,1,2,0,1,2] would repeat the standard bind values twice. For
-     *                                      use with $prebuiltQuery
      *
      * @return array|mixed|string
      * @throws \DI\DependencyException
      * @throws \DI\NotFoundException
      */
-    public function generateQuery($select, $from, $where, $groupBy, $orderBy, $limit = 0, $offset = 0,
-                                  ?string $prebuiltQuery = null, ?array $specialBind = null)
+    public function generateQuery($select, $from, $where, $groupBy, $orderBy, $limit = 0, $offset = 0)
     {
         $segment = $this->segment;
         $bind = $this->getGeneralQueryBindParams();
-        if ($specialBind !== null) {
-            $customBind = [];
-            foreach ($specialBind as $bindKey) {
-                $customBind[] = $bind[$bindKey];
-            }
-            $bind = $customBind;
-        }
 
         if (!$this->segment->isEmpty() && $this->isSegmentCacheEnabled()) {
-            // here we create the TMP table and apply the segment including the datetime and the requested idsite
-            // at the end the generated query will no longer need to apply the datetime/idsite and segment
-            $segment = new Segment('', $this->sites, $this->params->getPeriod()->getDateTimeStart(), $this->params->getPeriod()->getDateTimeEnd());
 
-            $segmentTable = $this->getSegmentTmpTableName();
+            $logTablesProvider = $this->getLogTableProvider();
 
-            $segmentWhere = $this->getWhereStatement('log_visit', 'visit_last_action_time');
-            $segmentBind = $this->getGeneralQueryBindParams();
+            $segmentTable = $this->createSegmentTable($logTablesProvider);
 
-            $logQueryBuilder = StaticContainer::get('Piwik\DataAccess\LogQueryBuilder');
-            $forceGroupByBackup = $logQueryBuilder->getForcedInnerGroupBySubselect();
-            $logQueryBuilder->forceInnerGroupBySubselect(LogQueryBuilder::FORCE_INNER_GROUP_BY_NO_SUBSELECT);
-            $segmentSql = $this->segment->getSelectQuery('distinct log_visit.idvisit as idvisit', 'log_visit', $segmentWhere, $segmentBind, 'log_visit.idvisit ASC');
-            $logQueryBuilder->forceInnerGroupBySubselect($forceGroupByBackup);
-
-            $this->createTemporaryTable($segmentTable, $segmentSql['sql'], $segmentSql['bind']);
-
+            // Apply the segment including the datetime and the requested idsite
+            // At the end the generated query will no longer need to apply the datetime/idsite and segment
             if (!is_array($from)) {
                 $from = array($segmentTable, $from);
             } else {
                 array_unshift($from, $segmentTable);
             }
 
-            $logTablesProvider = $this->getLogTableProvider();
-            $logTablesProvider->setTempTable(new LogTableTemporary($segmentTable));
-
-            if (!$prebuiltQuery) {
-
-                foreach ($logTablesProvider->getAllLogTables() as $logTable) {
-                    if ($logTable->getDateTimeColumn()) {
-                        $whereTest = $this->getWhereStatement($logTable->getName(), $logTable->getDateTimeColumn());
-                        if (strpos($where, $whereTest) === 0) {
-                            // we don't need to apply the where statement again as it would have been applied already
-                            // in the temporary table... instead it should join the tables through the idvisit index
-                            $where = ltrim(str_replace($whereTest, '', $where));
-                            if (stripos($where, 'and ') === 0) {
-                                $where = substr($where, strlen('and '));
-                            }
-                            $bind = array();
-                            break;
+            foreach ($logTablesProvider->getAllLogTables() as $logTable) {
+                if ($logTable->getDateTimeColumn()) {
+                    $whereTest = $this->getWhereStatement($logTable->getName(), $logTable->getDateTimeColumn());
+                    if (strpos($where, $whereTest) === 0) {
+                        // we don't need to apply the where statement again as it would have been applied already
+                        // in the temporary table... instead it should join the tables through the idvisit index
+                        $where = ltrim(str_replace($whereTest, '', $where));
+                        if (stripos($where, 'and ') === 0) {
+                            $where = substr($where, strlen('and '));
                         }
+                        $bind = array();
+                        break;
                     }
                 }
-
-            } else {
-
-                // Prebuilt queries must include the idvisit field in the select clause for this wrapper to work
-                $prebuiltQuery = 'SELECT sub.* FROM (' . $prebuiltQuery . ') AS sub ' .
-                                 'LEFT JOIN ' . $segmentTable . ' ON sub.idvisit = ' . $segmentTable . '.idvisit ' .
-                                 'WHERE ' . $segmentTable . '.idvisit IS NOT NULL';
-
             }
 
         }
 
-        if (!$prebuiltQuery) {
-            $query = $segment->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy, $limit, $offset);
-        } else {
-            $query = ['sql' => $prebuiltQuery, 'bind' => $bind];
-        }
+        $query = $segment->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy, $limit, $offset);
 
-        $select = 'SELECT';
-        if ($this->queryOriginHint && is_array($query) && 0 === strpos(trim($query['sql']), $select)) {
-            $query['sql'] = trim($query['sql']);
-            $query['sql'] = 'SELECT /* ' . $this->queryOriginHint . ' */' . substr($query['sql'], strlen($select));
-        }
-
-        if (0 === strpos(trim($query['sql']), $select)) {
-            $query['sql'] = trim($query['sql']);
-            $query['sql'] = 'SELECT /* ' . $this->dateStart->toString() . ',' . $this->dateEnd->toString() . ' */' . substr($query['sql'], strlen($select));
-        }
-
-        if ($this->sites && 0 === strpos(trim($query['sql']), $select)) {
-            $query['sql'] = trim($query['sql']);
-            $query['sql'] = 'SELECT /* ' . 'sites ' . implode(',', array_map('intval', $this->sites)) . ' */' . substr($query['sql'], strlen($select));
-        }
-
-        if (!$this->getSegment()->isEmpty() && is_array($query) && 0 === strpos(trim($query['sql']), $select)) {
-            $query['sql'] = trim($query['sql']);
-            $query['sql'] = 'SELECT /* ' . 'segmenthash ' . $this->getSegment()->getHash(). ' */' . substr($query['sql'], strlen($select));
+        if (is_array($query) && array_key_exists('sql', $query)) {
+            $query['sql'] = $this->addOriginHintToQuery($query['sql']);
         }
 
         return $query;
+    }
+
+    /**
+     * Generate a query / bind array with segment and origin hints for a custom SQL query, similar to generateQuery()
+     * but for use when a query is too complicated to be assembled from SQL fragments and needs to be manually specified
+     *
+     * @param string     $sql       The custom query string
+     * @param array|null $bindOrder Optionally customise the returned bind parameters array by supplying an array
+     *                              which contains a list of standard bind array keys, any order or repetition is
+     *                              supported. eg. [0,1,2,0,1,2] would repeat the standard bind values twice. If omitted
+     *                              then the bind values will be returned once in order: [0,1,2]
+     *
+     * @return array     Array containing the SQL query and bind array, ['sql' => 'SELECT ...', 'bind' => ['abc', 123]]
+     */
+    public function generateQueryCustom(string $sql, ?array $bindOrder = null): array
+    {
+        // Setup bind array
+        $bind = $this->getGeneralQueryBindParams();
+        if ($bindOrder !== null) {
+            $customBind = [];
+            foreach ($bindOrder as $bindKey) {
+                $customBind[] = $bind[$bindKey];
+            }
+            $bind = $customBind;
+        }
+
+        // Apply segment if required.
+        // Ignores enable_segment_cache = 0
+        if (!$this->segment->isEmpty()) {
+
+            $segmentTable = $this->createSegmentTable();
+
+            // Custom queries must include the idvisit field in the select clause for this wrapper to work
+            $sql = 'SELECT sub.* FROM (' . $sql . ') AS sub ' .
+                   'LEFT JOIN ' . $segmentTable . ' ON sub.idvisit = ' . $segmentTable . '.idvisit ' .
+                   'WHERE ' . $segmentTable . '.idvisit IS NOT NULL';
+
+        }
+
+        // Apply origin query hint
+        $sql = $this->addOriginHintToQuery($sql);
+
+        return ['sql' => $sql, 'bind' => $bind];
+    }
+
+    /**
+     * Create the segment temporary table
+     *
+     * @param LogTablesProvider|null $logTablesProvider Optional LogTablesProvider object, can be passed if already
+     *                                                  initialized.
+     *
+     * @return string   Name of the created temporary table
+     *
+     * @throws \DI\DependencyException
+     * @throws \DI\NotFoundException
+     */
+    private function createSegmentTable(?LogTablesProvider $logTablesProvider = null): string
+    {
+        //
+        $segment = new Segment('', $this->sites, $this->params->getPeriod()->getDateTimeStart(), $this->params->getPeriod()->getDateTimeEnd());
+
+        $segmentTable = $this->getSegmentTmpTableName();
+
+        $segmentWhere = $this->getWhereStatement('log_visit', 'visit_last_action_time');
+        $segmentBind = $this->getGeneralQueryBindParams();
+
+        $logQueryBuilder = StaticContainer::get('Piwik\DataAccess\LogQueryBuilder');
+        $forceGroupByBackup = $logQueryBuilder->getForcedInnerGroupBySubselect();
+        $logQueryBuilder->forceInnerGroupBySubselect(LogQueryBuilder::FORCE_INNER_GROUP_BY_NO_SUBSELECT);
+        $segmentSql = $this->segment->getSelectQuery('distinct log_visit.idvisit as idvisit', 'log_visit', $segmentWhere, $segmentBind, 'log_visit.idvisit ASC');
+        $logQueryBuilder->forceInnerGroupBySubselect($forceGroupByBackup);
+
+        $this->createTemporaryTable($segmentTable, $segmentSql['sql'], $segmentSql['bind']);
+
+        if (!$logTablesProvider) {
+            $logTablesProvider = $this->getLogTableProvider();
+        }
+        $logTablesProvider->setTempTable(new LogTableTemporary($segmentTable));
+
+        return $segmentTable;
+    }
+
+    /**
+     * Add an origin hint to the query to identify the main parameters and segment for debugging
+     *
+     * @param string $sql   SQL query string
+     *
+     * @return string   Modified SQL query string with hint added
+     */
+    private function addOriginHintToQuery(string $sql): string
+    {
+        $select = 'SELECT';
+        if ($this->queryOriginHint && 0 === strpos(trim($sql), $select)) {
+            $sql = trim($sql);
+            $sql = 'SELECT /* ' . $this->queryOriginHint . ' */' . substr($sql, strlen($select));
+        }
+
+        if (0 === strpos(trim($sql), $select)) {
+            $sql = trim($sql);
+            $sql = 'SELECT /* ' . $this->dateStart->toString() . ',' . $this->dateEnd->toString() . ' */' . substr($sql, strlen($select));
+        }
+
+        if ($this->sites && 0 === strpos(trim($sql), $select)) {
+            $sql = trim($sql);
+            $sql = 'SELECT /* ' . 'sites ' . implode(',', array_map('intval', $this->sites)) . ' */' . substr($sql, strlen($select));
+        }
+
+        if (!$this->getSegment()->isEmpty() && 0 === strpos(trim($sql), $select)) {
+            $sql = trim($sql);
+            $sql = 'SELECT /* ' . 'segmenthash ' . $this->getSegment()->getHash(). ' */' . substr($sql, strlen($select));
+        }
+
+        return $sql;
     }
 
     protected function getVisitsMetricFields()
@@ -1208,7 +1261,7 @@ class LogAggregator
         ORDER BY `9` DESC", $tablePrefix, $tablePrefix, $tablePrefix, $tablePrefix, $tablePrefix, $tablePrefix);
 
         // Repeat the start date, end date and site id bind values twice using the specialBind parameter
-        $query = $this->generateQuery(null, null, null, null, null, 0, 0, $sql, [0,1,2,0,1,2]);
+        $query = $this->generateQueryCustom($sql, [0,1,2,0,1,2]);
 
         return $this->getDb()->query($query['sql'], $query['bind']);
     }
