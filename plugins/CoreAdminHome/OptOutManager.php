@@ -558,7 +558,7 @@ JS;
             }
         }
 
-        $language = Common::getRequestVar('language', '');
+        $language = Common::getRequestVar('language', '', 'string');
         $lang = APILanguagesManager::getInstance()->isLanguageAvailable($language)
             ? $language
             : LanguagesManager::getLanguageCodeForCurrentUser();
