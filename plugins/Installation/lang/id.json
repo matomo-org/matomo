@@ -42,7 +42,7 @@
         "JsTagArchivingHelp1": "Untuk situs web dengan lalu lintas sedang dan tinggi, pengoptimalan tertentu membantu Matomo agar berjalan lebih cepat (seperti %1$smenyiapkan pengarsipan otomatis%2$s).",
         "LargePiwikInstances": "Bantuan untuk pengguna situs web dengan lalu lintas tinggi",
         "Legend": "Legenda",
-        "LoadDataInfileRecommended": "Anda harus memperbaiki masalah ini jika server Matomo Anda melacak situs web dengan lalu lintas tinggi (mis. &gt; 100.000 halaman per bulan).",
+        "LoadDataInfileRecommended": "Anda harus memperbaiki masalah ini jika server Matomo Anda melacak situs web dengan lalu lintas tinggi (mis. di atas 100.000 halaman per bulan).",
         "LoadDataInfileUnavailableHelp": "Petunjuk: Menggunakan %1$s dengan memperbarui perangkat lunak PHP dan MySQL Anda dan memastikan pengguna basis data Anda memiliki hak istimewa %2$s mempercepat proses pengarsipan Matomo.",
         "MatomoHttpRequestConfigInfo": "Opsi force_matomo_http_request dalam konfigurasi umum diaktifkan, kami sarankan Anda untuk menonaktifkannya karena alasan keamanan. Untuk info lebih lanjut, silakan baca %1$sFAQ%2$s kami",
         "NfsFilesystemWarning": "Server Anda menggunakan berkas sistem NFS.",
