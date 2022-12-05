@@ -349,9 +349,11 @@ class LogAggregator
 
         if (!$this->segment->isEmpty() && $this->isSegmentCacheEnabled()) {
 
-            $logTablesProvider = $this->getLogTableProvider();
+            $segment = new Segment('', $this->sites, $this->params->getPeriod()->getDateTimeStart(), $this->params->getPeriod()->getDateTimeEnd());
 
-            $segmentTable = $this->createSegmentTable($logTablesProvider);
+            $logTablesProvider = $this->getLogTableProvider();
+            $segmentTable = $this->createSegmentTable();
+            $logTablesProvider->setTempTable(new LogTableTemporary($segmentTable));
 
             // Apply the segment including the datetime and the requested idsite
             // At the end the generated query will no longer need to apply the datetime/idsite and segment
@@ -434,21 +436,14 @@ class LogAggregator
     /**
      * Create the segment temporary table
      *
-     * @param LogTablesProvider|null $logTablesProvider Optional LogTablesProvider object, can be passed if already
-     *                                                  initialized.
-     *
      * @return string   Name of the created temporary table
      *
      * @throws \DI\DependencyException
      * @throws \DI\NotFoundException
      */
-    private function createSegmentTable(?LogTablesProvider $logTablesProvider = null): string
+    private function createSegmentTable(): string
     {
-        //
-        $segment = new Segment('', $this->sites, $this->params->getPeriod()->getDateTimeStart(), $this->params->getPeriod()->getDateTimeEnd());
-
         $segmentTable = $this->getSegmentTmpTableName();
-
         $segmentWhere = $this->getWhereStatement('log_visit', 'visit_last_action_time');
         $segmentBind = $this->getGeneralQueryBindParams();
 
@@ -459,11 +454,6 @@ class LogAggregator
         $logQueryBuilder->forceInnerGroupBySubselect($forceGroupByBackup);
 
         $this->createTemporaryTable($segmentTable, $segmentSql['sql'], $segmentSql['bind']);
-
-        if (!$logTablesProvider) {
-            $logTablesProvider = $this->getLogTableProvider();
-        }
-        $logTablesProvider->setTempTable(new LogTableTemporary($segmentTable));
 
         return $segmentTable;
     }
