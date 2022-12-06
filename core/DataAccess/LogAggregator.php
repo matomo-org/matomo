@@ -419,7 +419,7 @@ class LogAggregator
         // Ignores enable_segment_cache = 0
         if (!$this->segment->isEmpty()) {
 
-            $segmentTable = $this->createSegmentTable();
+            $segmentTable = Common::prefixTable($this->createSegmentTable());
             $this->forceCheckForSegmentTmpOnCleanup = true;
 
             // The idvisit field must be in the custom query select clause for the join to work
@@ -457,7 +457,7 @@ class LogAggregator
 
         $this->createTemporaryTable($segmentTable, $segmentSql['sql'], $segmentSql['bind']);
 
-        return Common::prefixTable($segmentTable);
+        return $segmentTable;
     }
 
     /**
