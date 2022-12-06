@@ -14,7 +14,6 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\FrontController;
-use Piwik\Http\HttpCodeException;
 use Piwik\IP;
 use Piwik\NoAccessException;
 use Piwik\Piwik;
