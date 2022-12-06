@@ -166,6 +166,12 @@ class LogAggregator
     private $allowUsageSegmentCache = false;
 
     /**
+     * @var bool If segment temp tables were created by a custom query then this option can be used to ensure they
+     *           are cleaned up even if the segmentCache is disabled
+     */
+    private $forceCheckForSegmentTmpOnCleanup = false;
+
+    /**
      * @var Parameters
      */
     private $params;
@@ -219,7 +225,7 @@ class LogAggregator
 
     public function cleanup()
     {
-        if (!$this->segment->isEmpty() && $this->isSegmentCacheEnabled()) {
+        if (!$this->segment->isEmpty() && ($this->isSegmentCacheEnabled() || $this->forceCheckForSegmentTmpOnCleanup)) {
             $segmentTable = $this->getSegmentTmpTableName();
             $segmentTable = Common::prefixTable($segmentTable);
 
@@ -392,26 +398,21 @@ class LogAggregator
 
     /**
      * Generate a query / bind array with segment and origin hints for a custom SQL query, similar to generateQuery()
-     * but for use when a query is too complicated to be assembled from SQL fragments and needs to be manually specified
+     * but for use when a query is too complicated to be assembled from SQL fragments and needs to be manually specified.
      *
-     * @param string     $sql       The custom query string
-     * @param array|null $bindOrder Optionally customise the returned bind parameters array by supplying an array
-     *                              which contains a list of standard bind array keys, any order or repetition is
-     *                              supported. eg. [0,1,2,0,1,2] would repeat the standard bind values twice. If omitted
-     *                              then the bind values will be returned once in order: [0,1,2]
+     * Custom queries must include the idvisit field in the select clause in order for the segment wrapper to work
+     *
+     * @param string     $sql   The custom query string
+     * @param array|null $bind  Optional array of bind parameters, if not specified then the default bind values
+     *                          will be used
      *
      * @return array     Array containing the SQL query and bind array, ['sql' => 'SELECT ...', 'bind' => ['abc', 123]]
      */
-    public function generateQueryCustom(string $sql, ?array $bindOrder = null): array
+    public function generateQueryCustom(string $sql, ?array $bind = null): array
     {
         // Setup bind array
-        $bind = $this->getGeneralQueryBindParams();
-        if ($bindOrder !== null) {
-            $customBind = [];
-            foreach ($bindOrder as $bindKey) {
-                $customBind[] = $bind[$bindKey];
-            }
-            $bind = $customBind;
+        if ($bind === null) {
+            $bind = $this->getGeneralQueryBindParams();
         }
 
         // Apply segment if required.
@@ -419,8 +420,9 @@ class LogAggregator
         if (!$this->segment->isEmpty()) {
 
             $segmentTable = $this->createSegmentTable();
+            $this->forceCheckForSegmentTmpOnCleanup = true;
 
-            // Custom queries must include the idvisit field in the select clause for this wrapper to work
+            // The idvisit field must be in the custom query select clause for the join to work
             $sql = 'SELECT sub.* FROM (' . $sql . ') AS sub ' .
                    'LEFT JOIN ' . $segmentTable . ' ON sub.idvisit = ' . $segmentTable . '.idvisit ' .
                    'WHERE ' . $segmentTable . '.idvisit IS NOT NULL';
@@ -436,7 +438,7 @@ class LogAggregator
     /**
      * Create the segment temporary table
      *
-     * @return string   Name of the created temporary table
+     * @return string   Name of the created temporary table, including any table prefix
      *
      * @throws \DI\DependencyException
      * @throws \DI\NotFoundException
@@ -455,7 +457,7 @@ class LogAggregator
 
         $this->createTemporaryTable($segmentTable, $segmentSql['sql'], $segmentSql['bind']);
 
-        return $segmentTable;
+        return Common::prefixTable($segmentTable);
     }
 
     /**
@@ -1250,8 +1252,17 @@ class LogAggregator
         GROUP BY yyy.idaction
         ORDER BY `9` DESC", $tablePrefix, $tablePrefix, $tablePrefix, $tablePrefix, $tablePrefix, $tablePrefix);
 
-        // Repeat the start date, end date and site id bind values twice using the specialBind parameter
-        $query = $this->generateQueryCustom($sql, [0,1,2,0,1,2]);
+        // Repeat the start date, end date and site id bind values twice
+        $generalBind = $this->getGeneralQueryBindParams();
+        $query = $this->generateQueryCustom($sql,
+            [
+                $generalBind[0],
+                $generalBind[1],
+                $generalBind[2],
+                $generalBind[0],
+                $generalBind[1],
+                $generalBind[2]
+            ]);
 
         return $this->getDb()->query($query['sql'], $query['bind']);
     }

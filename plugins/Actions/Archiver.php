@@ -470,13 +470,17 @@ class Archiver extends \Piwik\Plugin\Archiver
      */
     protected function archiveDayActionsGoals(int $rankingQueryLimit): void
     {
-        if (GeneralConfig::getConfigValue('disable_archive_actions_goals', $this->getProcessor()->getParams()->getSite()->getId())) {
+
+        $site = $this->getProcessor()->getParams()->getSite();
+
+        if (!\Piwik\Common::isGoalPluginEnabled() ||
+            GeneralConfig::getConfigValue('disable_archive_actions_goals', $site->getId())) {
             return;
         }
 
-        $goals = $this->getGoalsForSite($this->getProcessor()->getParams()->getSite()->getId());
+        $goals = $this->getGoalsForSite($site->getId());
 
-        if ($this->getProcessor()->getParams()->getSite()->isEcommerceEnabled()) {
+        if ($site->isEcommerceEnabled()) {
             $goals[] = 0;
         }
 
@@ -524,13 +528,9 @@ class Archiver extends \Piwik\Plugin\Archiver
             return $cache->fetch($key);
         }
 
-        $goalIds = [];
-
         $siteGoals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
+        $goalIds = array_column($siteGoals, 'idgoal');
 
-        foreach ($siteGoals as $goal) {
-            $goalIds[] = $goal['idgoal'];
-        }
         $cache->save($key, $goalIds);
         return $goalIds;
     }
