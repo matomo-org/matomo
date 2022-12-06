@@ -1,7 +1,7 @@
 ---
 name: "Documentation issue"
 about: Some information within the documentation is wrong or missing
-labels: documentation
+labels: ["documentation", "To Triage"]
 
 ---
 <!-- Please report only issues related to the documentation on https://matomo.org here -->

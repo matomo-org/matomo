@@ -66,10 +66,12 @@
 
     .search_ico {
         cursor: pointer;
-        display: block;
-        left: 205px;
-        margin: -32px 0 17px -21px;
-        position: relative;
+        position: absolute;
+        right: 0;
+        display: inline;
+        color: #666;
+        font-size: 16px;
+        top: 17px;
     }
 
     .sitesButtonBar {
@@ -101,6 +103,7 @@
         display: inline-block;
         text-align: right;
         float: right;
+        position: relative;
 
         input {
             padding-right: 29px;
@@ -135,4 +138,10 @@ td.editable-site-field:hover {
     font-weight: normal;
     text-transform: uppercase;
     font-size: 11px;
+}
+
+.add-site-dialog {
+    button {
+        margin: 10px;
+    }
 }

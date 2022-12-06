@@ -1,5 +1,10 @@
 {
     "DevicePlugins": {
-        "WidgetPlugins": "Lista de plugins"
+        "BrowserWithNoPluginsEnabled": "%1$s sen complementos activos",
+        "BrowserWithPluginsEnabled": "%1$s cos complementos %2$s activos",
+        "PluginDescription": "Informa da lista de complementos compatibles nos navegadores dos visitantes.",
+        "PluginDetectionDoesNotWorkInIE": "Nota: a detección dos complementos non funciona en Internet Explorer antes do 11. Este informe só está baseado en navegadores que non son de IE e en versións máis recentes de IE.",
+        "WidgetPlugins": "Lista de plugins",
+        "WidgetPluginsDocumentation": "Este informe mostra que complementos do navegador activaron os teus visitantes. Esta información pode ser importante para escollela forma correcta de entregalo teu contido."
     }
 }

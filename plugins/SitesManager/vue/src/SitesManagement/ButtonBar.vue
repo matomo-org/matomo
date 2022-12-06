@@ -26,11 +26,10 @@
         type="text"
         :disabled="siteIsBeingEdited"
       />
-      <img
+      <div
         @click="searchSite()"
         :title="translate('General_ClickToSearch')"
-        class="search_ico"
-        src="plugins/Morpheus/images/search_ico.png"
+        class="search_ico icon-search"
       />
     </div>
 
