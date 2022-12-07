@@ -613,21 +613,21 @@
         },
         {
             "name": "matomo/matomo-php-tracker",
-            "version": "3.1.0",
+            "version": "3.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/matomo-php-tracker.git",
-                "reference": "0001560e0f8986d117099a5ae5b534b924a5466f"
+                "reference": "544148c29227da6869a0324f3b12b76a54006ccd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/0001560e0f8986d117099a5ae5b534b924a5466f",
-                "reference": "0001560e0f8986d117099a5ae5b534b924a5466f",
+                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/544148c29227da6869a0324f3b12b76a54006ccd",
+                "reference": "544148c29227da6869a0324f3b12b76a54006ccd",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "php": ">=5.3"
+                "php": "^7.0 || ^8.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "^9.3"
@@ -665,7 +665,7 @@
                 "issues": "https://github.com/matomo-org/matomo-php-tracker/issues",
                 "source": "https://github.com/matomo-org/matomo-php-tracker"
             },
-            "time": "2022-07-04T15:15:27+00:00"
+            "time": "2022-12-07T08:35:02+00:00"
         },
         {
             "name": "matomo/network",
@@ -1485,16 +1485,16 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v6.6.5",
+            "version": "v6.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "8b6386d7417526d1ea4da9edb70b8352f7543627"
+                "reference": "80fc8686fcd070267b98dae0ec228d5d67d94310"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/8b6386d7417526d1ea4da9edb70b8352f7543627",
-                "reference": "8b6386d7417526d1ea4da9edb70b8352f7543627",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/80fc8686fcd070267b98dae0ec228d5d67d94310",
+                "reference": "80fc8686fcd070267b98dae0ec228d5d67d94310",
                 "shasum": ""
             },
             "require": {
@@ -1510,11 +1510,12 @@
                 "php-parallel-lint/php-parallel-lint": "^1.3.2",
                 "phpcompatibility/php-compatibility": "^9.3.5",
                 "roave/security-advisories": "dev-latest",
-                "squizlabs/php_codesniffer": "^3.6.2",
+                "squizlabs/php_codesniffer": "^3.7.1",
                 "yoast/phpunit-polyfills": "^1.0.0"
             },
             "suggest": {
                 "ext-mbstring": "Needed to send email in multibyte encoding charset or decode encoded addresses",
+                "greew/oauth2-azure-provider": "Needed for Microsoft Azure XOAUTH2 authentication",
                 "hayageek/oauth2-yahoo": "Needed for Yahoo XOAUTH2 authentication",
                 "league/oauth2-google": "Needed for Google XOAUTH2 authentication",
                 "psr/log": "For optional PSR-3 debug logging",
@@ -1551,7 +1552,7 @@
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
             "support": {
                 "issues": "https://github.com/PHPMailer/PHPMailer/issues",
-                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.6.5"
+                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.7"
             },
             "funding": [
                 {
@@ -1559,7 +1560,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-10-07T12:23:10+00:00"
+            "time": "2022-12-05T10:56:35+00:00"
         },
         {
             "name": "psr/container",
@@ -2165,16 +2166,16 @@
         },
         {
             "name": "tecnickcom/tcpdf",
-            "version": "6.5.0",
+            "version": "6.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tecnickcom/TCPDF.git",
-                "reference": "cc54c1503685e618b23922f53635f46e87653662"
+                "reference": "154bba45ffc9c2a049aa9e21501d02472b24deb4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/cc54c1503685e618b23922f53635f46e87653662",
-                "reference": "cc54c1503685e618b23922f53635f46e87653662",
+                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/154bba45ffc9c2a049aa9e21501d02472b24deb4",
+                "reference": "154bba45ffc9c2a049aa9e21501d02472b24deb4",
                 "shasum": ""
             },
             "require": {
@@ -2225,7 +2226,7 @@
             ],
             "support": {
                 "issues": "https://github.com/tecnickcom/TCPDF/issues",
-                "source": "https://github.com/tecnickcom/TCPDF/tree/6.5.0"
+                "source": "https://github.com/tecnickcom/TCPDF/tree/6.6.0"
             },
             "funding": [
                 {
@@ -2233,7 +2234,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2022-08-12T07:50:54+00:00"
+            "time": "2022-12-06T09:28:13+00:00"
         },
         {
             "name": "tedivm/jshrink",
