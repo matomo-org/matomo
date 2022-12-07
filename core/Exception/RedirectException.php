@@ -23,6 +23,7 @@ class RedirectException extends \Piwik\Exception\Exception implements IRedirectE
     {
         $this->redirectTo = $redirectTo;
         $this->countdown = $countdown;
+        $this->message = $message;
     }
 
     public function getRedirectionUrl(): string
