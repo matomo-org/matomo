@@ -3,7 +3,7 @@
         "Bing_IndexedPages": "Bing indexerade sidor",
         "DomainAge": "Domänålder",
         "Google_IndexedPages": "Google indexerade sidor",
-        "PluginDescription": "Detta plugin framställer och visar SEO-värden: Alexa webbranking , Google Pagerank , antalet indexerade sidor och länkar för den valda webbplatsen.",
+        "PluginDescription": "Detta insticksprogram extraherar och visar SEO-mätvärden: Google Pagerank, antal Indexerade sidor och bakåt-länkar för den valda hemsidan.",
         "Rank": "Rank",
         "SEORankingsFor": "SEO Ranking för %s",
         "SeoRankings": "SEO Ranking"

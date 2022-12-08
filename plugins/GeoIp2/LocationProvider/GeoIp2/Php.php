@@ -11,6 +11,7 @@ namespace Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use GeoIp2\Database\Reader;
 use GeoIp2\Exception\AddressNotFoundException;
 use MaxMind\Db\Reader\InvalidDatabaseException;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Log;
 use Piwik\Piwik;
@@ -81,6 +82,11 @@ class Php extends GeoIp2
         $this->clearCachedInstances();
     }
 
+    private function isIspDbEnabled()
+    {
+        return StaticContainer::get('geopip2.ispEnabled');
+    }
+
     /**
      * Uses a GeoIP 2 database to get a visitor's location based on their IP address.
      *
@@ -146,7 +152,11 @@ class Php extends GeoIp2
         }
 
         // NOTE: ISP & ORG require commercial dbs to test.
-        $ispGeoIp = $this->getGeoIpInstance($key = 'isp');
+        if ($this->isIspDbEnabled()) {
+            $ispGeoIp = $this->getGeoIpInstance($key = 'isp');
+        } else {
+            $ispGeoIp = false;
+        }
         if ($ispGeoIp) {
             try {
                 switch ($ispGeoIp->metadata()->databaseType) {
@@ -307,7 +317,7 @@ class Php extends GeoIp2
     public function isAvailable()
     {
         $pathLoc = self::getPathToGeoIpDatabase($this->customDbNames['loc']);
-        $pathIsp = self::getPathToGeoIpDatabase($this->customDbNames['isp']);
+        $pathIsp = $this->isIspDbEnabled() && self::getPathToGeoIpDatabase($this->customDbNames['isp']);
         return $pathLoc !== false || $pathIsp !== false;
     }
 
@@ -368,7 +378,7 @@ class Php extends GeoIp2
         }
 
         // check if isp info is available
-        if ($this->getGeoIpInstance($key = 'isp')) {
+        if ($this->isIspDbEnabled() && $this->getGeoIpInstance($key = 'isp')) {
             $result[self::ISP_KEY] = true;
             $result[self::ORG_KEY] = true;
         }

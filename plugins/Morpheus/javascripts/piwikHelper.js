@@ -198,7 +198,7 @@ window.piwikHelper = {
         var componentParams = {};
 
         function handleProperty(name, value) {
-          if (name === 'vue-entry') {
+          if (name === 'vue-entry' || name === 'class' || name === 'style') {
             return;
           }
 
@@ -373,10 +373,21 @@ window.piwikHelper = {
      * via angular as soon as it detects a $locationChange
      *
      * @returns {number|jQuery}
+     * @deprecated use isReportingPage() instead
      */
     isAngularRenderingThePage: function ()
     {
-        return $('[piwik-reporting-page]').length;
+        return this.isReportingPage();
+    },
+
+    /**
+     * Detects whether the current page is a reporting page or not.
+     *
+     * @returns {number|jQuery|*}
+     */
+    isReportingPage: function ()
+    {
+      return $('.reporting-page').length;
     },
 
     /**

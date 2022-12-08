@@ -3,13 +3,14 @@
 {% set title %}{{ 'UsersManager_ManageAccess'|translate }}{% endset %}
 
 {% block content %}
-
 <piwik-users-manager
     initial-site-id="{{ idSiteSelected }}"
+    invite-token-expiry-days="{{ inviteTokenExpiryDays }}"
     initial-site-name="{{ defaultReportSiteName|rawSafeDecoded }}"
     current-user-role="'{{ currentUserRole }}'"
     access-levels="{{ accessLevels|json_encode|e('html_attr') }}"
     filter-access-levels="{{ filterAccessLevels|json_encode|e('html_attr') }}"
+    filter-status-levels="{{ statusAccessLevels|json_encode|e('html_attr') }}"
 >
 </piwik-users-manager>
 

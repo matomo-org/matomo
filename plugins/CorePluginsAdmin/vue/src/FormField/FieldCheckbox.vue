@@ -24,10 +24,12 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import AbortableModifiers from './AbortableModifiers';
 
 export default defineComponent({
   props: {
     modelValue: [Boolean, Number, String],
+    modelModifiers: Object,
     uiControlAttributes: Object,
     name: String,
     title: String,
@@ -38,11 +40,19 @@ export default defineComponent({
     onChange(event: Event) {
       const newValue = (event.target as HTMLInputElement).checked;
       if (this.modelValue !== newValue) {
-        // undo checked change since we want the parent component to decide if it should go
-        // through
-        (event.target as HTMLInputElement).checked = !newValue;
+        if (!(this.modelModifiers as AbortableModifiers)?.abortable) {
+          this.$emit('update:modelValue', newValue);
+          return;
+        }
 
-        this.$emit('update:modelValue', newValue);
+        const emitEventData = {
+          value: newValue,
+          abort() {
+            (event.target as HTMLInputElement).checked = !newValue;
+          },
+        };
+
+        this.$emit('update:modelValue', emitEventData);
       }
     },
   },

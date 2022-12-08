@@ -1,0 +1,23 @@
+{% extends '@Login/loginLayout.twig' %}
+
+{% block loginContent %}
+    <div class="contentForm invitationForm">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-title">
+                    {{ "Login_InvitationDeclineTitle"|translate }}
+                </div>
+                <p> {{ "Login_InvitationDeclineBody"|translate }}</p>
+                <p class="hints"> {{ "Login_InvitationHints"|translate }}</p>
+                <form method="post" action="{{ linkTo({'module': loginPlugin, 'action': 'declineInvitation', 'token': null}) }}">
+                    <input type="hidden" name="token" value="{{ token }}"/>
+                    <div class="row actions">
+                        <div class="col s12">
+                            <input class="submit btn" name="invitation_form" id="login_form_submit" type="submit" value="{{ 'General_Yes'|translate }}">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

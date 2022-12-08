@@ -6,6 +6,7 @@
         "CopyDashboardToUser": "Copiar tablero al usuario",
         "CreateNewDashboard": "Crear nuevo tablero",
         "Dashboard": "Tablero",
+        "DashboardCategoryHelp": "Esta es una página de tablero. Los paneles son una colección de widgets de Matomo que agrega usted mismo para satisfacer sus necesidades específicas. Mezcle y combine cualquiera de los widgets de Matomo para obtener los datos que %1$s*usted*%2$s necesita de un vistazo.",
         "DashboardCopied": "Actual tablero copiado exitosamente al usuario seleccionado.",
         "DashboardEmptyNotification": "Su panel de control no contiene ningún módulo. Comience añadiendo alguno o restablezca el panel de control con la selección de módulos por defecto.",
         "DashboardName": "Nombre del tablero:",
@@ -32,7 +33,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "Esta selección de módulos y disposición de columnas del panel de control será usada cuando un usuario cree un nuevo panel de control o cuando se use la función \"%s\".",
         "TopLinkTooltip": "Ver los reportes de Análisis de internet para %s.",
         "WidgetNotFound": "Reproductor no encontrado",
-        "WidgetPreview": "Previsualización del reproductor",
-        "DashboardCategoryHelp": "Este es el tablero. Los tableros son una colección de widgets de Matomo los cuales cuales puede agregar para cubrir necesidades específicas. Combine cualquier widget de Matomo para obtener la información que %1$s*usted*%2$s necesita en un vistazo."
+        "WidgetPreview": "Previsualización del reproductor"
     }
 }

@@ -18,7 +18,7 @@
         "IncomingTraffic": "Tráfego de entrada",
         "LoopsInline": "%s atualizações de página",
         "NoDataForAction": "Não há dados para %s",
-        "NoDataForActionDetails": "Ou a ação não tinha visualizações de página durante o período de %s ou é inválido.",
+        "NoDataForActionDetails": "Ou a ação não tinha visualizações de página durante o período de ou é inválido.",
         "NumDownloads": "%s baixados",
         "NumOutlinks": "%s links externos",
         "NumPageviews": "%s exibições de página",

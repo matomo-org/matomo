@@ -34,6 +34,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import AbortableModifiers from './AbortableModifiers';
 
 interface Option {
   key: unknown;
@@ -46,6 +47,7 @@ function getCheckboxStates(availableOptions?: Option[], modelValue?: unknown[]) 
 export default defineComponent({
   props: {
     modelValue: Array,
+    modelModifiers: Object,
     name: String,
     title: String,
     availableOptions: Array,
@@ -76,13 +78,22 @@ export default defineComponent({
         }
       });
 
-      // undo checked changes since we want the parent component to decide if it should go
-      // through
-      (this.$refs.root as HTMLElement).querySelectorAll('input').forEach((inp: HTMLInputElement) => {
-        inp.checked = !inp.checked;
-      });
+      if (!(this.modelModifiers as AbortableModifiers)?.abortable) {
+        this.$emit('update:modelValue', newValue);
+        return;
+      }
 
-      this.$emit('update:modelValue', newValue);
+      const emitEventData = {
+        value: newValue,
+        abort: () => {
+          // undo checked changes since we want the parent component to decide if it should go
+          // through
+          const item = (this.$refs.root as HTMLElement).querySelectorAll('input').item(changedIndex);
+          item.checked = !item.checked;
+        },
+      };
+
+      this.$emit('update:modelValue', emitEventData);
     },
   },
 });

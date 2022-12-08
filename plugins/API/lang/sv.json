@@ -2,16 +2,17 @@
     "API": {
         "ChangeTokenHint": "Om du vill ändra denna token gå till din %1$spersonliga inställningssida%2$s.",
         "EvolutionMetricName": "%s Utveckling",
+        "GenerateVisits": "Om du inte har data för idag kan du generera några med hjälp av plugin-programmet %1$s genom att gå till 'Utveckling → Besöksgenerator' i administrationsområdet för Matomo.",
         "Glossary": "Ordbok",
         "KeepTokenSecret": "Detta token_auth är lika hemligt som ditt användarnamn och lösenord, %1$s dela inte med dig av detta! %2$s!",
-        "LearnAboutCommonlyUsedTerms2": "Lär dig mer om de vanligaste termerna för att få ut mest av Matomo Analytics.",
-        "LoadedAPIs": "Laddade in %s API'er utan problem",
-        "MainMetricsReportDocumentation": "Denna rapport ger dig en översikt över de viktigaste mätvärdena i alla kategorier och plugins.",
-        "MoreInformation": "För mer information om Matomos API'er, ta en titt i %1$s Introduction to Matomo API %2$s och %3$s Matomo API Reference %4$s.",
-        "PluginDescription": "Allt data i Matomo finns tillgängligt genom enkla API:er. Denna plugin är en web service entry point, vilken du kan använda för att hämta ditt Matomo-data i formaten xml, json, php, csv, etc.",
+        "LearnAboutCommonlyUsedTerms2": "Lär dig mer om vanliga termer för att få ut det mesta av Matomo-analys.",
+        "LoadedAPIs": "Laddade %s API:er",
+        "MainMetricsReportDocumentation": "Den här rapporten ger en översikt över de viktigaste mätvärdena i alla kategorier och insticksprogram.",
+        "MoreInformation": "Mer information om Matomo API:er finns i %1$sIntroduktion till Matomo API%2$s och %3$sMatomo API Reference%4$s.",
+        "PluginDescription": "All data i Matomo är tillgänglig via enkla API:er. Detta insticksprogram är webbtjänstens startpunkt som du kan ringa för att få dina webbanalysdata i XML, JSON, PHP, CSV, etc.",
         "ReportingApiReference": "Rapporterings-API referens",
-        "TopLinkTooltip": "Få åtkomst till webbanalysdata programmatiskt genom ett enkelt API i t.ex. json, xml etc.",
+        "TopLinkTooltip": "Få åtkomst till dina webbanalysdata programmatiskt via ett enkelt API i JSON, XML, etc.",
         "UserAuthentication": "Användarautentisering",
-        "UsingTokenAuth": "Om du vill %1$s begära data i ett skript, en crontab, osv., %2$s behöver du lägga till en URL-parameter %3$s till URL:erna för API-anropen som kräver autentisering."
+        "UsingTokenAuth": "Om du vill %1$sefterfråga data i ett skript, en crontab osv.%2$s måste du lägga till URL-parametern '%3$s' i API-anropen för webbadresser som kräver autentisering."
     }
 }

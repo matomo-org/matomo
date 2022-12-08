@@ -1,6 +1,5 @@
 {
     "Insights": {
-        "PluginDescription": "Fornisce approfondimenti sul tuo traffico. Le statistiche sono disponibili come widget della dashboard e anche come una nuova icona nei report, che ti consentono di visualizzare le tendenze più importanti nei tuoi dati.",
         "ControlComparedToDescription": "Crescita comparata a",
         "ControlFilterByDescription": "Mostra tutto, solo protagoniste, solo nuove o solo scomparse",
         "DatePeriodCombinationNotSupported": "Non è possibile generare approfondimenti per questa combinazione di data e periodo.",
@@ -8,7 +7,7 @@
         "DayComparedToPreviousWeek": "lo stesso giorno della settimana precedente",
         "DayComparedToPreviousYear": "lo stesso giorno dell'anno precedente",
         "Filter": "Filtro",
-        "FilterIncreaserAndDecreaser": "Crescono & Diminuiscono",
+        "FilterIncreaserAndDecreaser": "Crescono e diminuiscono",
         "FilterOnlyDecreaser": "Solo diminuite",
         "FilterOnlyDisappeared": "Solo scomparse",
         "FilterOnlyIncreaser": "Solo aumentate",
@@ -20,6 +19,7 @@
         "MoversAndShakersWidgetTitle": "Protagoniste di tendenza",
         "NoResultMatchesCriteria": "Nessuna riga corrisponde ai criteri",
         "OverviewWidgetTitle": "Panoramica Approfondimenti",
+        "PluginDescription": "Fornisce approfondimenti sul tuo traffico. Le statistiche sono disponibili come widget della dashboard e anche come una nuova icona nei report, che ti consentono di visualizzare le tendenze più importanti nei tuoi dati.",
         "TitleConsideredInsightsChanges": "Righe aumentate o diminuite di almeno %1$s visite (%2$s%% di %3$s visite totali).",
         "TitleConsideredInsightsGrowth": "Le righe seguenti hanno una crescita di almeno %1$s%% comparata a %2$s.",
         "TitleConsideredMoversAndShakersChanges": "Sono considerate protagoniste solo se sono cresciute di più di %1$s%% visite o si sono contratte di meno di %2$s%% visite, nuove entrate solo se sono aumentate di più di %3$s%% visite (%4$s), e righe scomparse se si sono contratte di meno di %5$s%% visite (%6$s).",

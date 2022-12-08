@@ -48,15 +48,16 @@
         <PagedUsersList
           @edit-user="onEditUser($event.user)"
           @change-user-role="onChangeUserRole($event.users, $event.role)"
-          @delete-user="onDeleteUser($event.users)"
+          @delete-user="onDeleteUser($event.users, $event.password)"
           @search-change="searchParams = $event.params; fetchUsers()"
-          @resend-invite="onResendInvite($event.user)"
+          @resend-invite="showResendPopup($event.user)"
           :initial-site-id="initialSiteId"
           :initial-site-name="initialSiteName"
           :is-loading-users="isLoadingUsers"
           :current-user-role="currentUserRole"
           :access-levels="accessLevels"
-          :filter-access-levels="actualFilterAccessLevels"
+          :filter-access-levels="filterAccessLevels"
+          :filter-status-levels="filterStatusLevels"
           :search-params="searchParams"
           :users="users"
           :total-entries="totalEntries"
@@ -69,12 +70,46 @@
         @done="onDoneEditing($event.isUserModified)"
         :user="userBeingEdited"
         :current-user-role="currentUserRole"
+        :invite-token-expiry-days="inviteTokenExpiryDays"
         :access-levels="accessLevels"
-        :filter-access-levels="actualFilterAccessLevels"
+        :filter-access-levels="filterAccessLevels"
         :initial-site-id="initialSiteId"
         :initial-site-name="initialSiteName"
+        @resend-invite="showResendPopup($event.user)"
         @updated="userBeingEdited = $event.user"
       />
+    </div>
+    <div class="resend-invite-confirm-modal modal" ref="resendInviteConfirmModal">
+      <div class="btn-close modal-close"><i class="icon-close"></i></div>
+      <div class="modal-content">
+        <h2 class="modal-title">{{ translate('UsersManager_ResendInvite') }}</h2>
+        <p
+          v-if="userBeingEdited"
+          v-html="$sanitize(translate(
+            'UsersManager_InviteConfirmMessage',
+            [`<strong>${userBeingEdited.login}</strong>`,
+             `<strong>${userBeingEdited.email}</strong>`]
+            ,
+          ))"
+        ></p>
+        <p><strong>
+            {{ translate('UsersManager_InviteActionNotes', inviteTokenExpiryDays) }}
+        </strong></p>
+      </div>
+      <div class="modal-footer">
+        <span v-if="copied" class="success-copied">
+          <i class="icon-success"></i>
+          {{ translate('UsersManager_LinkCopied') }}</span>
+        <button
+          @click="showInviteActionPasswordConfirm('copy')"
+          class="btn btn-copy-link modal-action"
+          style="margin-right:3.5px"
+        >{{ translate('UsersManager_CopyLink') }}</button>
+        <button
+          class="btn btn-resend modal-action modal-no"
+          @click = "showInviteActionPasswordConfirm('send')"
+        >{{ translate('UsersManager_ResendInvite') }}</button>
+      </div>
     </div>
     <div class="add-existing-user-modal modal" ref="addExistingUserModal">
       <div class="modal-content">
@@ -102,9 +137,16 @@
         >{{ translate('General_Cancel') }}</a>
       </div>
     </div>
+    <PasswordConfirmation
+      v-model="showPasswordConfirmationForInviteAction"
+      @confirmed="onInviteAction"
+    >
+      <p>{{ translate('UsersManager_ConfirmWithPassword') }}</p>
+    </PasswordConfirmation>
   </div>
 </template>
 
+<!--suppress JSConstantReassignment, TypeScriptValidateTypes -->
 <script lang="ts">
 /* eslint-disable newline-per-chained-call */
 
@@ -116,8 +158,10 @@ import {
   Matomo,
   MatomoUrl,
   AjaxHelper,
+  translate,
+  NotificationsStore,
 } from 'CoreHome';
-import { Field } from 'CorePluginsAdmin';
+import { Field, PasswordConfirmation } from 'CorePluginsAdmin';
 import PagedUsersList from '../PagedUsersList/PagedUsersList.vue';
 import UserEditForm from '../UserEditForm/UserEditForm.vue';
 import User from '../User';
@@ -127,11 +171,15 @@ interface UsersManagerState {
   isEditing: boolean;
   isCurrentUserSuperUser: boolean;
   users: User[];
-  userBeingEdited: User|null;
-  totalEntries: null|number;
+  userBeingEdited: User | null;
+  totalEntries: null | number;
   searchParams: SearchParams;
   isLoadingUsers: boolean;
   addNewUserLoginEmail: string;
+  copied: boolean;
+  loading: boolean;
+  showPasswordConfirmationForInviteAction: boolean;
+  inviteAction: string;
 }
 
 const NUM_USERS_PER_PAGE = 20;
@@ -160,8 +208,17 @@ export default defineComponent({
       type: Array,
       required: true,
     },
+    filterStatusLevels: {
+      type: Array,
+      required: true,
+    },
+    inviteTokenExpiryDays: {
+      type: String,
+      required: true,
+    },
   },
   components: {
+    PasswordConfirmation,
     EnrichedHeadline,
     PagedUsersList,
     UserEditForm,
@@ -182,11 +239,16 @@ export default defineComponent({
         limit: NUM_USERS_PER_PAGE,
         filter_search: '',
         filter_access: '',
+        filter_status: '',
         idSite: this.initialSiteId,
       },
       isLoadingUsers: false,
       userBeingEdited: null,
       addNewUserLoginEmail: '',
+      copied: false,
+      loading: false,
+      showPasswordConfirmationForInviteAction: false,
+      inviteAction: '',
     };
   },
   created() {
@@ -198,6 +260,27 @@ export default defineComponent({
     },
   },
   methods: {
+    showInviteActionPasswordConfirm(action: string) {
+      if (this.loading) return;
+      this.showPasswordConfirmationForInviteAction = true;
+      this.inviteAction = action;
+    },
+    showResendPopup(user: User) {
+      this.userBeingEdited = user;
+      $(this.$refs.resendInviteConfirmModal as HTMLElement)
+        .modal({
+          dismissible: false,
+        })
+        .modal('open');
+      this.copied = false;
+    },
+    onInviteAction(password: string) {
+      if (this.inviteAction === 'send') {
+        this.onResendInvite(password);
+      } else {
+        this.generateInviteLink(password);
+      }
+    },
     onEditUser(user: User) {
       Matomo.helper.lazyScrollToContent();
       this.isEditing = true;
@@ -223,13 +306,25 @@ export default defineComponent({
       }).then((usersResolved) => (
         usersResolved.filter((u) => u.role !== 'superuser').map((u) => u.login)
       )).then((userLogins) => {
-        const requests = userLogins.map((login) => ({
-          method: 'UsersManager.setUserAccess',
-          userLogin: login,
-          access: role,
-          idSites: this.searchParams.idSite,
-          ignoreSuperusers: 1,
-        }));
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const type = this.accessLevels.filter((a: any) => a.key === role).map((a: any) => a.type);
+
+        let requests;
+        if (type.length && type[0] === 'capability') {
+          requests = userLogins.map((login) => ({
+            method: 'UsersManager.addCapabilities',
+            userLogin: login,
+            capabilities: role,
+            idSites: this.searchParams.idSite,
+          }));
+        } else {
+          requests = userLogins.map((login) => ({
+            method: 'UsersManager.setUserAccess',
+            userLogin: login,
+            access: role,
+            idSites: this.searchParams.idSite,
+          }));
+        }
 
         return AjaxHelper.fetch(requests, { createErrorNotification: true });
       }).catch(() => {
@@ -241,11 +336,12 @@ export default defineComponent({
         method: 'UsersManager.getUsersPlusRole',
         filter_search: this.searchParams.filter_search,
         filter_access: this.searchParams.filter_access,
+        filter_status: this.searchParams.filter_status,
         idSite: this.searchParams.idSite,
         filter_limit: '-1',
       });
     },
-    onDeleteUser(users: User[]|string) {
+    onDeleteUser(users: User[]|string, password: string) {
       this.isLoadingUsers = true;
 
       Promise.resolve().then(() => {
@@ -257,21 +353,100 @@ export default defineComponent({
         const requests = userLogins.map((login) => ({
           method: 'UsersManager.deleteUser',
           userLogin: login,
+          passwordConfirmation: password,
         }));
         return AjaxHelper.fetch(requests, { createErrorNotification: true });
-      }).catch(() => {
-        // ignore (errors will still be displayed to the user)
-      }).then(() => this.fetchUsers());
+      }).then(() => {
+        NotificationsStore.scrollToNotification(NotificationsStore.show({
+          id: 'removeUserSuccess',
+          message: translate('UsersManager_DeleteSuccess'),
+          context: 'success',
+          type: 'toast',
+        }));
+        this.fetchUsers();
+      }, () => {
+        if (users !== 'all' && users.length > 1) {
+          // Show a notification that some users might not have been removed if an error occurs
+          // and more than one users was tried to remove
+          // Note: We do not scroll to this notification, as the error notification from AjaxHandler
+          // will be created earlier, which will already be scrolled into view.
+          NotificationsStore.show({
+            id: 'removeUserSuccess',
+            message: translate('UsersManager_DeleteNotSuccessful'),
+            context: 'warning',
+            type: 'toast',
+          });
+        }
+        this.fetchUsers();
+      });
     },
-    onResendInvite(user: User) {
-      console.log(user);
+    async generateInviteLink(password: string) {
+      if (this.loading) {
+        return;
+      }
+      this.loading = true;
+      try {
+        const res = await AjaxHelper.fetch<{ value: string }>(
+          {
+            method: 'UsersManager.generateInviteLink',
+            userLogin: this.userBeingEdited!.login,
+            passwordConfirmation: password,
+          },
+        );
+
+        await this.copyToClipboard(res.value);
+        // eslint-disable-next-line no-empty
+      } catch (e) {
+
+      }
+      this.loading = false;
+    },
+    async copyToClipboard(value: string) {
+      try {
+        const tempInput = document.createElement('input');
+        tempInput.style.top = '-100px';
+        tempInput.style.left = '0';
+        tempInput.style.position = 'fixed';
+        tempInput.value = value;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        if (window.location.protocol !== 'https:') {
+          document.execCommand('copy');
+        } else {
+          await navigator.clipboard.writeText(tempInput.value);
+        }
+        document.body.removeChild(tempInput);
+        this.copied = true;
+        // eslint-disable-next-line no-empty
+      } catch (e) {
+        const id = NotificationsStore.show({
+          message: `<strong>${translate('UsersManager_CopyDenied')}</strong><br>
+${translate('UsersManager_CopyDeniedHints', [`<br><span class="invite-link">${value}</span>`])}`,
+          id: 'copyError',
+          context: 'error',
+          type: 'transient',
+        });
+        NotificationsStore.scrollToNotification(id);
+      }
+    },
+    onResendInvite(password: string) {
+      if (password === '') return;
       AjaxHelper.fetch<AjaxHelper>(
         {
           method: 'UsersManager.resendInvite',
-          userLogin: user.login,
+          userLogin: this.userBeingEdited!.login,
+          passwordConfirmation: password,
         },
-      ).then((res) => {
-        console.log(res);
+      ).then(() => {
+        this.fetchUsers();
+        $(this.$refs.resendInviteConfirmModal as HTMLElement).modal('close');
+        const id = NotificationsStore.show({
+          message: translate('UsersManager_InviteSuccess'),
+          id: 'resendInvite',
+          context: 'success',
+          type: 'transient',
+        });
+        NotificationsStore.scrollToNotification(id);
       });
     },
     fetchUsers() {
@@ -336,14 +511,6 @@ export default defineComponent({
 
       this.isEditing = true;
       this.userBeingEdited = null;
-    },
-  },
-  computed: {
-    actualFilterAccessLevels() {
-      if (this.currentUserRole === 'superuser') {
-        return [...this.filterAccessLevels, { key: 'superuser', value: 'Superuser' }];
-      }
-      return this.filterAccessLevels;
     },
   },
 });

@@ -66,6 +66,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
                 $ips = array_map('trim', $value);
                 $ips = array_filter($ips, 'strlen');
+                $ips = array_values($ips);
                 return $ips;
             };
         });
@@ -85,6 +86,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
                 $ips = array_map('trim', $value);
                 $ips = array_filter($ips, 'strlen');
+                $ips = array_values($ips);
                 return $ips;
             };
         });

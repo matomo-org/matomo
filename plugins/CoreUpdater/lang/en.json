@@ -65,7 +65,7 @@
         "ThankYouUpdatePiwik": "Thank you for using Matomo and keeping it up to date!",
         "PostUpdateMessage": "Matomo will always be free to download and use, but it needs your continued support to grow and improve.",
         "PostUpdateSupport": "If you need help using Matomo, you can get support from its creators:",
-        "ServicesSupport": "Services & Support",
+        "ServicesSupport": "Services and support",
         "CloudHosting": "Cloud hosting",
         "Updating": "Updating",
         "UpdateUsingHttpsFailed": "Downloading the latest Matomo version over secure HTTPS connection did not succeed, because of the following error:",

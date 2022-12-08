@@ -5,7 +5,10 @@
 		<email>pendinguser1light@example.com</email>
 		<superuser_access>0</superuser_access>
 		
-		<invite_status>today-date-removed-in-tests</invite_status>
+		<invited_by>superUserLogin</invited_by>
+		
+		
+		
 		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>
@@ -13,7 +16,10 @@
 		<email>login1@example.com</email>
 		<superuser_access>1</superuser_access>
 		
-		<invite_status />
+		<invited_by />
+		
+		
+		
 		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>
@@ -21,7 +27,10 @@
 		<email>login10@example.com</email>
 		<superuser_access>1</superuser_access>
 		
-		<invite_status />
+		<invited_by />
+		
+		
+		
 		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>
@@ -29,7 +38,10 @@
 		<email>login2@example.com</email>
 		<superuser_access>0</superuser_access>
 		
-		<invite_status />
+		<invited_by />
+		
+		
+		
 		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>
@@ -37,7 +49,10 @@
 		<email>login3@example.com</email>
 		<superuser_access>0</superuser_access>
 		
-		<invite_status />
+		<invited_by />
+		
+		
+		
 		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>
@@ -45,7 +60,10 @@
 		<email>login4@example.com</email>
 		<superuser_access>0</superuser_access>
 		
-		<invite_status />
+		<invited_by />
+		
+		
+		
 		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>
@@ -53,7 +71,10 @@
 		<email>login5@example.com</email>
 		<superuser_access>0</superuser_access>
 		
-		<invite_status />
+		<invited_by />
+		
+		
+		
 		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>
@@ -61,7 +82,10 @@
 		<email>login6@example.com</email>
 		<superuser_access>0</superuser_access>
 		
-		<invite_status />
+		<invited_by />
+		
+		
+		
 		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>
@@ -69,7 +93,10 @@
 		<email>login7@example.com</email>
 		<superuser_access>0</superuser_access>
 		
-		<invite_status />
+		<invited_by />
+		
+		
+		
 		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>
@@ -77,7 +104,10 @@
 		<email>login8@example.com</email>
 		<superuser_access>0</superuser_access>
 		
-		<invite_status />
+		<invited_by />
+		
+		
+		
 		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>
@@ -85,7 +115,10 @@
 		<email>login9@example.com</email>
 		<superuser_access>0</superuser_access>
 		
-		<invite_status />
+		<invited_by />
+		
+		
+		
 		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>
@@ -93,7 +126,21 @@
 		<email>hello@example.org</email>
 		<superuser_access>1</superuser_access>
 		
-		<invite_status />
+		<invited_by />
+		
+		
+		
+		<uses_2fa>0</uses_2fa>
+	</row>
+	<row>
+		<login>zzzpendingUser2</login>
+		<email>zpendinguser2light@example.com</email>
+		<superuser_access>0</superuser_access>
+		
+		<invited_by>login2</invited_by>
+		
+		
+		
 		<uses_2fa>0</uses_2fa>
 	</row>
 </result>

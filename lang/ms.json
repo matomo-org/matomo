@@ -1,5 +1,16 @@
 {
     "General": {
+        "12HourClock": "Masa 12-jam",
+        "24HourClock": "Masa 24-jam",
+        "API": "API",
+        "AbandonedCarts": "Troli Terbengkalai",
+        "AboutPiwikX": "Tentang Matomo %s",
+        "Action": "Tindakan",
+        "Actions": "Tindakan",
+        "Add": "Tambah",
+        "AfterEntry": "selepas masuk ke sini",
+        "All": "Semua",
+        "AllWebsitesDashboard": "Papan pemuka Semua Laman Web",
         "Locale": "ms_MY.UTF-8"
     }
 }

@@ -77,7 +77,7 @@
         "TypeWebsites": "%s da siti web",
         "URLCampaignBuilder": "Builder degli URL Campagna",
         "URLCampaignBuilderIntro": "Lo %1$sstrumento Builder URL%2$s ti consente di generare degli URL pronti all'uso per il Tracking delle Campagne in Matomo. Leggi la documentazione sul %3$sTracking Campagne%4$s per ulteriori informazioni.",
-        "URLCampaignBuilderResult": "URL generato che puoi copiare e incollare nelle tue Campagne, Newsletter via email, Annunci Facebook e tweets:",
+        "URLCampaignBuilderResult": "URL generato che puoi copiare e incollare nelle tue campagne, nelle email delle newsletter, negli annunci Facebook e nei tweet:",
         "UsingNDistinctUrls": "(usando %s URL distinti)",
         "ViewAllReferrers": "Vedi tutti i Referenti",
         "ViewReferrersBy": "Vedi Referenti per %s",

@@ -62,7 +62,7 @@
         "PostUpdateSupport": "Jika Anda membutuhkan bantuan dalam menggunakan Matomo, Anda bisa mendapatkan dukungan dari penciptanya:",
         "ReadyToGo": "Sudah siap?",
         "ReceiveEmailBecauseIsSuperUser": "Anda menerima surel ini karena Anda adalah Pengguna Super di Matomo di: %s",
-        "ServicesSupport": "Layanan &amp; Dukungan",
+        "ServicesSupport": "Layanan dan dukungan",
         "SkipCacheClear": "Lewati proses pembersihan tembolok.",
         "SkipCacheClearDesc": "Lewati proses pembersihan tembolok sebelum melakukan pembaruan. Hal ini hanya berguna jika Anda dapat memastikan bahwa proses yang menjalankan perintah ini belum membuat tembolok sama sekali dan jika mengosongkan tembolok untuk banyak akun Matomo dapat menjadi hambatan.",
         "ThankYouUpdatePiwik": "Terima kasih karena telah menggunakan Matomo dan selalu memperbaruinya!",

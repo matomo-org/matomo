@@ -23,4 +23,16 @@
         <p>{{ 'PrivacyManager_HowDoIAskForConsentIntroduction'|translate('<a href="https://developer.matomo.org/guides/tracking-consent" target="_blank" rel="noreferrer noopener">', '</a>')|raw }}
         </p>
     </div>
+
+   {% if consentManagerName %}
+    <div piwik-content-block content-title="{{ 'PrivacyManager_ConsentManager'|translate|e('html_attr') }}" class="privacyAskingForConsent">
+        <p> {{ 'PrivacyManager_ConsentManagerDetected'|translate(consentManagerName, '<a href="' ~ consentManagerUrl ~ '" target="_blank" rel="noreferrer noopener">', '</a')|raw }}
+        </p>
+        {% if consentManagerIsConnected %}
+            <p> {{ 'PrivacyManager_ConsentManagerConnected'|translate(consentManagerName)|raw }}
+            </p>
+        {% endif %}
+    </div>
+   {% endif %}
+
 {% endblock %}

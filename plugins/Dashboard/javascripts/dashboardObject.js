@@ -478,7 +478,7 @@
             return;
         }
 
-        var $widgetContent = $('<div class="sortable" widgetId="' + uniqueId + '"></div>');
+        var $widgetContent = $('<div class="sortable"></div>').attr('widgetId', uniqueId);
 
         if (addWidgetOnTop) {
             $('> .col:nth-child(' + columnNumber + ')', dashboardElement).prepend($widgetContent);

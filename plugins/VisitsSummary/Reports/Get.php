@@ -132,7 +132,7 @@ class Get extends \Piwik\Plugin\Report
                 $view->config->compute_evolution = function ($columns, $metrics) use ($currentPrettyDate, $lastPrettyDate, $previousDataRow) {
                     $value = reset($columns);
                     $columnName = key($columns);
-                    $pastValue = $previousDataRow->getColumn($columnName);
+                    $pastValue = $previousDataRow ? $previousDataRow->getColumn($columnName) : 0;
 
                     // Format
                     $formatter = new MetricFormatter();

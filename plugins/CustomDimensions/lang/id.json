@@ -39,6 +39,8 @@
         "ScopeDescriptionActionMoreInfo": "Ekstraksi dapat ditentukan sehingga nilai dimensi khusus dapat diekstraksi dari URL Halaman, Judul Halaman, atau parameter kueri URL Halaman.",
         "ScopeDescriptionVisit": "Dimensi Khusus dalam lingkup 'Kunjungan' dapat dikirim bersama dengan permintaan pelacakan apa pun dan disimpan dalam kunjungan.",
         "ScopeDescriptionVisitMoreInfo": "Jika Anda menetapkan nilai yang berbeda untuk dimensi tertentu selama masa kunjungan, kumpulan nilai terakhirlah yang akan digunakan.",
+        "ScopeTitleAction": "Dimensi Tindakan",
+        "ScopeTitleVisit": "Dimensi Kunjungan",
         "UrlQueryStringParameter": "parameter string kueri url",
         "XofYLeft": "%1$s dari %2$s dimensi tersisa"
     }

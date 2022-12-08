@@ -8,7 +8,6 @@
 namespace Piwik\Plugins\Goals\Columns\Metrics;
 
 use Piwik\API\Request;
-use Piwik\Common;
 use Piwik\DataTable\Row;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
@@ -72,7 +71,9 @@ abstract class GoalSpecificProcessedMetric extends ProcessedMetric
         }
     }
 
-    protected function getGoalName()
+    protected static $goalsCache = [];
+
+    protected function getGoalName(): string
     {
         if ($this->idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
             return Piwik::translate('Goals_EcommerceOrder');
@@ -81,15 +82,20 @@ abstract class GoalSpecificProcessedMetric extends ProcessedMetric
         }
 
         if (isset($this->idSite)) {
-            $allGoals = Request::processRequest('Goals.getGoals', ['idSite' => $this->idSite, 'filter_limit' => '-1'], $default = []);
-            $goalName = @$allGoals[$this->idGoal]['name'];
-            return Common::sanitizeInputValue($goalName);
+            if (!isset(self::$goalsCache[$this->idSite])) {
+                self::$goalsCache[$this->idSite] = Request::processRequest(
+                    'Goals.getGoals',
+                    ['idSite' => $this->idSite, 'filter_limit' => '-1'],
+                    $default = []
+                );
+            }
+            return self::$goalsCache[$this->idSite][$this->idGoal]['name'] ?? '';
         } else {
-            return "";
+            return '';
         }
     }
 
-    protected function getGoalNameForDocs()
+    protected function getGoalNameForDocs(): string
     {
         $goalName = $this->getGoalName();
         if ($goalName == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {

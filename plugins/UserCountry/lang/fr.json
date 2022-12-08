@@ -1,6 +1,6 @@
 {
     "UserCountry": {
-        "CannotLocalizeLocalIP": "L'adresse IP %s est locale et ne peut être géo-localisée.",
+        "CannotLocalizeLocalIP": "L'adresse IP %s est locale et ne peut pas être géolocalisée.",
         "City": "Ville",
         "CityAndCountry": "%1$s, %2$s",
         "Continent": "Continent",
@@ -11,6 +11,7 @@
         "DefaultLocationProviderDesc1": "Le fournisseur de localisation par défaut devine le pays d'un visiteur en se basant sur le langage de son navigateur.",
         "DefaultLocationProviderDesc2": "Ceci n'est pas très précis, %1$snous recommandons donc l'installation et l'utilisation d'une %2$sbase de données de géolocalisation%3$s.%4$s",
         "DefaultLocationProviderExplanation": "Vous utilisez le fournisseur de localisation par défaut, ce qui signifie que Matomo va tenter de déterminer la localisation du visiteur en se basant sur la langue qu'ils utilisent. %1$sConsultez ceci%2$s pour apprendre comment configurer une localisation plus précise.",
+        "DisabledLocationProvider": "Désactiver la géolocalisation",
         "DistinctCountries": "%s pays différents",
         "FromDifferentCities": "villes différentes",
         "GeoIPDocumentationSuffix": "Afin de visualiser les données de ce rapport, vous devez installer GeoIP depuis l'onglet d'administration Géolocalisation. Les bases de données commerciales %1$sMaxmind%2$s sont plus précises que les gratuites. Pour voir à quelles points elles sont précises, cliquez %3$sici%4$s.",
@@ -18,7 +19,7 @@
         "Geolocation": "Géolocalisation",
         "GeolocationPageDesc": "Sur cette page vous pouvez changer la manière dont Matomo détermine la localisation des visiteurs.",
         "GeolocationProviderBroken": "Le fournisseur de géolocalisation configuré %1$s est défectueux. Veuillez corriger le fournisseur ou en configurer un autre pour que la géolocalisation fonctionne à nouveau.",
-        "GeolocationProviderUnavailable": "Le fournisseur de géolocalisation configuré %1$s n'est plus disponible, veuillez en configurer un autre.",
+        "GeolocationProviderUnavailable": "Le fournisseur de géolocalisation configuré (%1$s) n'est plus disponible. Veuillez en configurer un autre.",
         "HowToInstallGeoIPDatabases": "Comment puis-je récupérer des bases de données de géolocalisation ?",
         "Latitude": "Latitude",
         "Latitudes": "Lattitudes",
@@ -39,12 +40,12 @@
         "VisitLocation": "Emplacement de la visite",
         "WidgetLocation": "Emplacement du visiteur",
         "country_a1": "Proxy anonyme",
-        "country_a2": "Fournisseur satellite",
+        "country_a2": "Fournisseur de services satellites",
         "country_cat": "Communautés de langue Catalane",
         "country_o1": "Autre pays",
-        "getCityDocumentation": "Ce rapport montre dans quelle ville vos visiteurs étaient quand ils ont accédé à votre site web.",
-        "getContinentDocumentation": "Ce rapport montre dans quel continent vos visiteurs étaient quand ils ont accédé à votre site web.",
-        "getCountryDocumentation": "Ce rapport montre dans quel pays vos visiteurs étaient quand ils ont accédé à votre site web.",
-        "getRegionDocumentation": "Ce rapport montre dans quelle région vos visiteurs étaient quand ils ont accédé à votre site web."
+        "getCityDocumentation": "Affiche les villes ou se sont connectés vos visiteurs lorsqu'ils ont accédés à votre site web.",
+        "getContinentDocumentation": "Indique de quel continent vos visiteurs se sont connectés lorsqu'ils ont accédé à votre site Web.",
+        "getCountryDocumentation": "Indique de quel pays vos visiteurs se sont connectés lorsqu'ils ont accédé à votre site Web.",
+        "getRegionDocumentation": "Indique de quelle région vos visiteurs se sont connectés lorsqu'ils ont accédé au site Web."
     }
 }

@@ -16,6 +16,7 @@
         "DeleteAllFailures": "Usuń wszystkie błędy",
         "DevelopmentProcess": "Nasz proces rozwoju obejmuje tysiące zautomatyzowanych testów, a beta testerzy odgrywają kluczową rolę w osiągnięciu \"zasady braku błędów\" w Matomo.",
         "EmailServerSettings": "Konfiguracja serwera poczty",
+        "ErrorEmailFromAddressNotValid": "Adres SMTP nadawcy nie jest poprawny",
         "FaviconUpload": "Wybierz Favikonę do wysłania",
         "FileUploadDisabled": "Przesyłanie plików nie jest włączone w konfiguracji PHP. Aby przesłać własne logo należy ustawić %s w pliku php.ini i ponownie uruchomić serwer WWW.",
         "ForBetaTestersOnly": "Tylko dla beta testerów",

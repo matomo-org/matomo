@@ -174,10 +174,23 @@
                     return;
                 }
 
+                var errorMessage;
                 $('.widgetContent', currentWidget).removeClass('loading');
-                var errorMessage = _pk_translate('General_ErrorRequest', ['', '']);
-                if ($('#loadingError').html()) {
-                    errorMessage = $('#loadingError').html();
+
+
+                if (deferred.status === 429) {
+                    errorMessage = `<div class="alert alert-danger">${_pk_translate('General_ErrorRateLimit')}>',
+                        '</a>'])}</div>`;
+
+                    if($('#loadingRateLimitError').html()) {
+                        errorMessage = $('#loadingRateLimitError')
+                          .html();
+                    }
+                } else {
+                    var errorMessage = _pk_translate('General_ErrorRequest', ['', '']);
+                    if ($('#loadingError').html()) {
+                        errorMessage = $('#loadingError').html();
+                    }
                 }
 
                 $('.widgetContent', currentWidget).html('<div class="widgetLoadingError">' + errorMessage + '</div>');
@@ -217,7 +230,7 @@
         },
 
         /**
-         * Creaates the widget markup for the given uniqueId
+         * Creates the widget markup for the given uniqueId
          *
          * @param {String} uniqueId
          */
@@ -227,6 +240,8 @@
 
             widgetsHelper.getWidgetNameFromUniqueId(uniqueId, function(widgetName) {
                 if (!widgetName) {
+                    // when widget not found hide it.
+                    $('[widgetId="' + uniqueId + '"]').hide();
                     widgetName = _pk_translate('Dashboard_WidgetNotFound');
                 }
 

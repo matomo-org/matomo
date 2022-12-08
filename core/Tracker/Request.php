@@ -14,6 +14,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Cookie;
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
+use Piwik\Http;
 use Piwik\IP;
 use Matomo\Network\IPUtils;
 use Piwik\Piwik;
@@ -632,6 +633,16 @@ class Request
         }
 
         return Common::getRequestVar('ua', $default, 'string', $this->params);
+    }
+
+    public function getClientHints(): array
+    {
+        // use headers as default if no data was send with the tracking request
+        $default = Http::getClientHintsFromServerVariables();
+
+        $clientHints = Common::getRequestVar('uadata', $default, 'json', $this->params);
+
+        return is_array($clientHints) ? $clientHints : [];
     }
 
     public function shouldUseThirdPartyCookie()

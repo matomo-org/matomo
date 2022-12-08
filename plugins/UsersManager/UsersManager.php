@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,6 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\UsersManager;
 
 use Exception;
@@ -32,19 +34,19 @@ class UsersManager extends \Piwik\Plugin
      */
     public function registerEvents()
     {
-        return array(
+        return [
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'SitesManager.deleteSite.end'            => 'deleteSite',
             'Tracker.Cache.getSiteAttributes'        => 'recordAdminUsersInCache',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Platform.initialized'                   => 'onPlatformInitialized',
             'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
-        );
+        ];
     }
 
     public static function isUsersAdminEnabled()
     {
-        return (bool) Config::getInstance()->General['enable_users_admin'];
+        return (bool)Config::getInstance()->General['enable_users_admin'];
     }
 
     public static function dieIfUsersAdminIsDisabled()
@@ -68,7 +70,8 @@ class UsersManager extends \Piwik\Plugin
             $numUsers--;
         }
 
-        $systemSummary[] = new SystemSummary\Item($key = 'users', Piwik::translate('General_NUsers', $numUsers), $value = null, array('module' => 'UsersManager', 'action' => 'index'), $icon = 'icon-user', $order = 5);
+        $systemSummary[] = new SystemSummary\Item($key = 'users', Piwik::translate('General_NUsers', $numUsers),
+            $value = null, array('module' => 'UsersManager', 'action' => 'index'), $icon = 'icon-user', $order = 5);
     }
 
     public function onPlatformInitialized()
@@ -106,7 +109,7 @@ class UsersManager extends \Piwik\Plugin
 
     public static function hashTrackingToken($tokenAuth, $idSite)
     {
-        return sha1($idSite . $tokenAuth . SettingsPiwik::getSalt());
+        return sha1($idSite.$tokenAuth.SettingsPiwik::getSalt());
     }
 
     /**
@@ -114,7 +117,7 @@ class UsersManager extends \Piwik\Plugin
      */
     public function deleteSite($idSite)
     {
-        Option::deleteLike('%\_' . API::PREFERENCE_DEFAULT_REPORT, $idSite);
+        Option::deleteLike('%\_'.API::PREFERENCE_DEFAULT_REPORT, $idSite);
     }
 
     /**
@@ -168,13 +171,16 @@ class UsersManager extends \Piwik\Plugin
          *
          * @param string $password Checking password in plain text.
          */
+
         Piwik::postEvent('UsersManager.checkPassword', array($password));
 
         if (!self::isValidPasswordString($password)) {
-            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPassword', array(self::PASSWORD_MIN_LENGTH)));
+            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPassword',
+                array(self::PASSWORD_MIN_LENGTH)));
         }
         if (mb_strlen($password) > self::PASSWORD_MAX_LENGTH) {
-            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPasswordTooLong', array(self::PASSWORD_MAX_LENGTH)));
+            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPasswordTooLong',
+                array(self::PASSWORD_MAX_LENGTH)));
         }
     }
 
@@ -325,12 +331,28 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess';
         $translationKeys[] = 'UsersManager_ForAnonymousUsersReportDateToLoadByDefault';
         $translationKeys[] = 'UsersManager_InviteSuccessNotification';
-        $translationKeys[] = 'UsersManager_ResendInviteConfirmSingle';
         $translationKeys[] = 'UsersManager_Status';
         $translationKeys[] = 'UsersManager_Active';
         $translationKeys[] = 'UsersManager_Pending';
         $translationKeys[] = 'UsersManager_Expired';
         $translationKeys[] = 'UsersManager_Decline';
+        $translationKeys[] = 'UsersManager_InviteSuccess';
+        $translationKeys[] = 'UsersManager_InviteDayLeft';
+        $translationKeys[] = 'UsersManager_FilterByStatus';
+        $translationKeys[] = 'UsersManager_ExpiredInviteAutomaticallyRemoved';
+        $translationKeys[] = 'UsersManager_DeleteSuccess';
+        $translationKeys[] = 'UsersManager_DeleteNotSuccessful';
+        $translationKeys[] = 'UsersManager_InviteConfirmMessage';
+        $translationKeys[] = 'UsersManager_ResendInvite';
+        $translationKeys[] = 'UsersManager_InvitationSent';
+        $translationKeys[] = 'UsersManager_SendInvite';
+        $translationKeys[] = 'UsersManager_CopyLink';
+        $translationKeys[] = 'UsersManager_LinkCopied';
+        $translationKeys[] = "UsersManager_AddNewUser";
+        $translationKeys[] = 'UsersManager_BackToUser';
+        $translationKeys[] = 'UsersManager_InviteActionNotes';
+        $translationKeys[] = 'UsersManager_CopyDenied';
+        $translationKeys[] = 'UsersManager_CopyDeniedHints';
 
     }
 }

@@ -868,7 +868,7 @@ class CronArchive
 
             $this->logger->debug('  Invalidating custom date range ({date}) for site {idSite}', ['idSite' => $idSiteToInvalidate, 'date' => $date]);
 
-            $this->invalidateWithSegments($idSiteToInvalidate, $date, 'range', $_forceInvalidateNonexistant = true);
+            $this->invalidateWithSegments($idSiteToInvalidate, $date, 'range', $_forceInvalidateNonexistent = true);
         }
 
         $this->setInvalidationTime();
@@ -902,7 +902,7 @@ class CronArchive
         $this->invalidateWithSegments([$idSite], $date->toString(), 'day', false, $doNotIncludeTtlInExistingArchiveCheck = $isYesterday);
     }
 
-    private function invalidateWithSegments($idSites, $date, $period, $_forceInvalidateNonexistant = false, $doNotIncludeTtlInExistingArchiveCheck = false)
+    private function invalidateWithSegments($idSites, $date, $period, $_forceInvalidateNonexistent = false, $doNotIncludeTtlInExistingArchiveCheck = false)
     {
         if ($date instanceof Date) {
             $date = $date->toString();
@@ -924,7 +924,7 @@ class CronArchive
                 $this->logger->debug('  Found usable archive for {archive}, skipping invalidation.', ['archive' => $params]);
             } else {
                 $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($idSite, $date, $period, $segment = false, $cascadeDown = false,
-                    $_forceInvalidateNonexistant);
+                    $_forceInvalidateNonexistent);
             }
 
             foreach ($this->segmentArchiving->getAllSegmentsToArchive($idSite) as $segmentDefinition) {
@@ -955,7 +955,7 @@ class CronArchive
                     }
 
                     $this->getApiToInvalidateArchivedReport()->invalidateArchivedReports($idSite, $date, $period, $segmentDefinition,
-                        $cascadeDown = false, $_forceInvalidateNonexistant);
+                        $cascadeDown = false, $_forceInvalidateNonexistent);
                 }
             }
         }
@@ -1054,9 +1054,16 @@ class CronArchive
                 continue;
             }
 
-            // archive is for week that is over two months, we don't need to care about the month
+            // archive is for a week that is over two months, we don't need to care about the month
             if ($label == 'month'
                 && Date::factory($archiveToProcess['date1'])->toString('m') != Date::factory($archiveToProcess['date2'])->toString('m')
+            ) {
+                continue;
+            }
+
+            // archive is for a week that is over two years, we don't need to care about the year
+            if ($label == 'year'
+                && Date::factory($archiveToProcess['date1'])->toString('y') != Date::factory($archiveToProcess['date2'])->toString('y')
             ) {
                 continue;
             }

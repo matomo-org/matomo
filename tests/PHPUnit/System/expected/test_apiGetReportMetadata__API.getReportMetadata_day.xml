@@ -107,7 +107,7 @@
 		<module>UserCountry</module>
 		<action>getCountry</action>
 		<dimension>Country</dimension>
-		<documentation>This report shows which country your visitors were in when they accessed your website.</documentation>
+		<documentation>Shows which country your visitors connected from when accessing your website.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -145,7 +145,7 @@
 		<module>UserCountry</module>
 		<action>getContinent</action>
 		<dimension>Continent</dimension>
-		<documentation>This report shows which continent your visitors were in when they accessed your website.</documentation>
+		<documentation>Shows which continent your visitors connected from when accessing your website.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -183,7 +183,7 @@
 		<module>UserCountry</module>
 		<action>getRegion</action>
 		<dimension>Region</dimension>
-		<documentation>This report shows which region your visitors were in when they accessed your website.&lt;br/&gt;In order to see data for this report, you must setup GeoIP in the Geolocation admin tab. The commercial &lt;a rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/?rId=piwik&quot;&gt;Maxmind&lt;/a&gt; GeoIP databases are more accurate than the free ones. To see how accurate they are, click &lt;a rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/en/city_accuracy?rId=piwik&quot;&gt;here&lt;/a&gt;.</documentation>
+		<documentation>Shows which region your visitors connected from when accessing website.&lt;br/&gt;Set up GeoIP in the Geolocation admin tab to provide data for this report. The commercial &lt;a rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/?rId=piwik&quot;&gt;MaxMind&lt;/a&gt; GeoIP databases are more accurate than the gratis ones. &lt;a rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/en/city_accuracy?rId=piwik&quot;&gt;Click here&lt;/a&gt; to see how accurate they are.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -217,11 +217,11 @@
 	<row>
 		<category>Visitors</category>
 		<subcategory>Locations</subcategory>
-		<name>Browser language</name>
+		<name>Web-browser language</name>
 		<module>UserLanguage</module>
 		<action>getLanguage</action>
 		<dimension>Language</dimension>
-		<documentation>This report shows which language the visitor's browsers are using. (e.g. &quot;English&quot;)</documentation>
+		<documentation>Shows which language the visitor's browsers are using. (e.g. &quot;French&quot;)</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -262,7 +262,7 @@
 		<module>UserCountry</module>
 		<action>getCity</action>
 		<dimension>City</dimension>
-		<documentation>This report shows the cities your visitors were in when they accessed your website.&lt;br/&gt;In order to see data for this report, you must setup GeoIP in the Geolocation admin tab. The commercial &lt;a rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/?rId=piwik&quot;&gt;Maxmind&lt;/a&gt; GeoIP databases are more accurate than the free ones. To see how accurate they are, click &lt;a rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/en/city_accuracy?rId=piwik&quot;&gt;here&lt;/a&gt;.</documentation>
+		<documentation>Shows the cities your visitors connected from when accessing your website.&lt;br/&gt;Set up GeoIP in the Geolocation admin tab to provide data for this report. The commercial &lt;a rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/?rId=piwik&quot;&gt;MaxMind&lt;/a&gt; GeoIP databases are more accurate than the gratis ones. &lt;a rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/en/city_accuracy?rId=piwik&quot;&gt;Click here&lt;/a&gt; to see how accurate they are.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -300,7 +300,7 @@
 		<module>UserLanguage</module>
 		<action>getLanguageCode</action>
 		<dimension>Language</dimension>
-		<documentation>This report shows which exact language code the visitor's browsers is set to. (e.g. &quot;German - Austria (de-at)&quot;)</documentation>
+		<documentation>Shows which exact language code the visitor's browsers is set to. (e.g. &quot;German — Austria (de-at)&quot;)</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -325,7 +325,7 @@
 		</processedMetrics>
 		<relatedReports>
 			<row>
-				<name>Browser language</name>
+				<name>Web-browser language</name>
 				<module>UserLanguage</module>
 				<action>getLanguage</action>
 			</row>
@@ -767,7 +767,7 @@
 		<name>Visits per local time</name>
 		<module>VisitTime</module>
 		<action>getVisitInformationPerLocalTime</action>
-		<dimension>Local time - hour (Start of visit)</dimension>
+		<dimension>Local time — hour (start of visit)</dimension>
 		<documentation>This graph shows what time it was in the &lt;strong&gt; visitors' time zones &lt;/strong&gt; during their visits.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
@@ -794,7 +794,7 @@
 		<constantRowsCount>1</constantRowsCount>
 		<relatedReports>
 			<row>
-				<name>Visits by Day of Week</name>
+				<name>Visits by day of the week</name>
 				<module>VisitTime</module>
 				<action>getByDayOfWeek</action>
 			</row>
@@ -808,7 +808,7 @@
 		<name>Visits per hour in the site's timezone</name>
 		<module>VisitTime</module>
 		<action>getVisitInformationPerServerTime</action>
-		<dimension>Site time - hour (Start of visit)</dimension>
+		<dimension>Site time — hour (start of visit)</dimension>
 		<documentation>This graph shows what time it was in the &lt;strong&gt; site's time zone &lt;/strong&gt; during the visits.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
@@ -845,7 +845,7 @@
 	<row>
 		<category>Visitors</category>
 		<subcategory>Times</subcategory>
-		<name>Visits by Day of Week</name>
+		<name>Visits by day of the week</name>
 		<module>VisitTime</module>
 		<action>getByDayOfWeek</action>
 		<dimension>Day of the week</dimension>
@@ -890,7 +890,7 @@
 		<module>UserId</module>
 		<action>getUsers</action>
 		<dimension>UserId</dimension>
-		<documentation>This report shows visits and other general metrics for every individual User ID.</documentation>
+		<documentation>Shows visits and other general metrics for every individual User ID.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/user-id/</onlineGuideUrl>
 		<metrics>
 			<label>Label</label>
@@ -1580,11 +1580,11 @@
 	<row>
 		<category>Actions</category>
 		<subcategory>Engagement</subcategory>
-		<name>Length of Visits</name>
+		<name>Length of visits</name>
 		<module>VisitorInterest</module>
 		<action>getNumberOfVisitsPerVisitDuration</action>
 		<dimension>Visit duration</dimension>
-		<documentation>In this report, you can see how many visits had a certain total duration. Initially, the report is shown as a tag cloud, more common durations are displayed in a larger font.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
+		<documentation>How many visits had a certain total duration. Initially, the report is shown as a tag cloud, wherein more common durations have a larger font.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 		</metrics>
@@ -1598,11 +1598,11 @@
 	<row>
 		<category>Actions</category>
 		<subcategory>Engagement</subcategory>
-		<name>Pages per Visit</name>
+		<name>Pages per visit</name>
 		<module>VisitorInterest</module>
 		<action>getNumberOfVisitsPerPage</action>
 		<dimension>Pages per visit</dimension>
-		<documentation>In this report, you can see how many visits involved a certain number of pageviews. Initially, the report is shown as a tag cloud, more common numbers of pages are displayed in a larger font.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
+		<documentation>How many visits involved a certain number of pageviews. Initially, the report is shown as a tag cloud, wherein more common numbers of pages have a larger font.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 		</metrics>
@@ -1616,11 +1616,11 @@
 	<row>
 		<category>Actions</category>
 		<subcategory>Engagement</subcategory>
-		<name>Visits by Visit Number</name>
+		<name>Visits by visit number</name>
 		<module>VisitorInterest</module>
 		<action>getNumberOfVisitsByVisitCount</action>
-		<dimension>Visits by Visit Number</dimension>
-		<documentation>In this report, you can see the number of visits who were the Nth visit, ie. visitors who visited your website at least N times.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
+		<dimension>Visits by visit number</dimension>
+		<documentation>The number of visitors reaching their Nth visit. I.e. the total amount of visitors visiting your website a given amount of times or more.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 		</metrics>
@@ -1641,7 +1641,7 @@
 		<module>VisitorInterest</module>
 		<action>getNumberOfVisitsByDaysSinceLast</action>
 		<dimension>Days since last visit</dimension>
-		<documentation>In this report, you can see how many visits were from visitors whose last visit was a certain number of days ago.</documentation>
+		<documentation>How many visits were from returning visitors whose last visit was a certain number of days ago.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 		</metrics>

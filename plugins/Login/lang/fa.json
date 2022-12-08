@@ -1,16 +1,21 @@
 {
     "Login": {
+        "BruteForceLog": "گزارش بررسی همه حالات",
         "ConfirmationLinkSent": "یک تایید به ایمیل شما ارسال شد. لطفا به لینک داخل ایمیل تان مراجعه کنید تا درخواست تغییر رمزعبورتان را تایید کنید.",
         "ExceptionPasswordMD5HashExpected": "پارامتر رمز عبور انتظار می رود به یک رشته هش MD5 از رمز عبور است.",
         "InvalidOrExpiredToken": "رمز نامعتبر است و یا تمام شده است.",
-        "InvalidUsernameEmail": "نام کاربری نامعتبر و \/ یا آدرس پست الکترونیکی",
+        "InvalidUsernameEmail": "نام کاربری نامعتبر و / یا آدرس پست الکترونیکی",
         "LogIn": "ورود",
+        "LoginOrEmail": "نام‌کاربری یا ایمیل",
         "LoginPasswordNotCorrect": "نام کاربری و کلمه عبور درست نیست.",
         "LostYourPassword": "کلمه عبور خود را گم کرده اید؟",
         "MailTopicPasswordChange": "تایید تغییر رمزعبور",
+        "NewPassword": "‌رمزعبور جدید",
+        "NewPasswordRepeat": "رمزعبور جدید (تکرار)",
         "PasswordChanged": "رمزعبور شما تغییر کرد.",
         "PasswordRepeat": "تکرار رمزعبور",
         "PasswordsDoNotMatch": "رمزعبور ها یکسان نیستند.",
-        "RememberMe": "مرا به خاطر داشته باش"
+        "RememberMe": "مرا به خاطر داشته باش",
+        "WrongPasswordEntered": "لطفا رمزعبور خود را وارد کنید."
     }
 }
