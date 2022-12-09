@@ -12,7 +12,9 @@ use Piwik\Common;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\Metrics;
 use Piwik\NoAccessException;
+use Piwik\Period;
 use Piwik\Period\Range;
+use Piwik\Piwik;
 use Piwik\Site;
 use Piwik\Url;
 
@@ -284,8 +286,20 @@ class Config extends \Piwik\ViewDataTable\Config
             $groupedMetrics[$metricGroup][] = $metricInfo;
         }
 
+        $usedPeriod = 'day';
+        if (!empty($requestParamsForSparkline['period'])) {
+            $usedPeriod = !empty($requestParamsForSparkline['period']);
+            if ($usedPeriod === 'range') {
+                $usedPeriod = 'day'; // unless specified Matomo will apply this period
+            }
+        }(
+
+        $tooltip = Piwik::translate('Each data point in the sparkline represents a %1$s.',
+            Piwik::translate('Intl_Period' . ucfirst($this->translations[$usedPeriod]))));
+
         $sparkline = array(
             'url' => $this->getUrlSparkline($requestParamsForSparkline),
+            'tooltip' => $tooltip,
             'metrics' => $groupedMetrics,
             'order' => $this->getSparklineOrder($order),
             'title' => $title,

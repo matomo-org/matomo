@@ -13,8 +13,10 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\Date;
 use Piwik\Metrics;
 use Piwik\Metrics\Formatter as MetricFormatter;
+use Piwik\Period;
 use Piwik\Period\Factory;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ReportsProvider;
@@ -174,7 +176,9 @@ class Sparklines extends ViewDataTable
         $originalDate = Common::getRequestVar('date');
         $originalPeriod = Common::getRequestVar('period');
 
-        if ($this->isComparing() && !empty($comparisons)) {
+        $isComparing = $this->isComparing() && !empty($comparisons);
+        $isComparingDates = false;
+        if ($isComparing) {
             $comparisonRows = [];
             foreach ($comparisons->getRows() as $comparisonRow) {
                 $segment = $comparisonRow->getMetadata('compareSegment');
@@ -186,6 +190,11 @@ class Sparklines extends ViewDataTable
                 $period = $comparisonRow->getMetadata('comparePeriod');
 
                 $comparisonRows[$segment][$period][$date] = $comparisonRow;
+            }
+
+            $compareDates = $data->getMetadata('compareDates');
+            if (count($compareDates) > 1) {
+                $isComparingDates = true;
             }
         }
 
@@ -227,9 +236,10 @@ class Sparklines extends ViewDataTable
                 'action'  => $this->requestConfig->getApiMethodToRequest()
             ]);
 
-            if ($this->isComparing() && !empty($comparisons)) {
-                $periodObj = Factory::build($originalPeriod, $originalDate);
+            $periodObj = Factory::build($originalPeriod, $originalDate);
+            $sparklineUrlParams = $this->setSparklineDatePeriodIfNeeded($sparklineUrlParams, $isComparingDates, $periodObj);
 
+            if ($isComparing) {
                 $sparklineUrlParams['compareSegments'] = [];
 
                 $comparePeriods = $data->getMetadata('comparePeriods');
@@ -282,9 +292,8 @@ class Sparklines extends ViewDataTable
 
                     $params = array_merge($sparklineUrlParams, [
                         'segment' => $segment,
-                        'period' => $periodObj->getLabel(),
-                        'date' => $periodObj->getLabel() === 'range' ? $periodObj->getRangeString() : $periodObj->getDateEnd(),
                     ]);
+
                     $this->config->addSparkline($params, $metrics, $desc = null, null, ($order * 100) + $segmentIndex, $title, $sparklineMetricIndex, $seriesIndices, $graphParams);
                 }
             } else {
@@ -320,6 +329,36 @@ class Sparklines extends ViewDataTable
                 $this->config->addSparkline($sparklineUrlParams, $metrics, $desc = null, $evolution, $order, $title = null, $group = $sparklineMetricIndex, $seriesIndices = null, $graphParams);
             }
         }
+    }
+
+    private function setSparklineDatePeriodIfNeeded($params, $isComparingDates, Period $periodObj)
+    {
+        if ($periodObj->getLabel() === 'range' && !$isComparingDates) {
+            // when comparing, we have to fallback to a range because different periods might be selected.
+            // when not comparing and a longer range is selected, then we select a higher period for improved
+            // performance and also to see trends better
+            $numDaysInRange = $this->getNumDaysDifference($periodObj->getDateStart(), $periodObj->getDateEnd());
+            if ($numDaysInRange >= 730) {
+                $params['period'] = 'month';
+                $params['date'] = $periodObj->getRangeString();
+            } elseif ($numDaysInRange >= 180) {
+                $params['period'] = 'week';
+                $params['date'] = $periodObj->getRangeString();
+            }
+        } elseif ($isComparingDates) {
+            // need to make sure that when we compare dates, then we apply the same periods to the original and to all
+            // comparison dates
+            $params['period'] = $periodObj->getLabel();
+            $params['date'] = $periodObj->getRangeString();
+        }
+
+        return $params;
+    }
+
+    private function getNumDaysDifference(Date $date1, Date $date2)
+    {
+        $days = (abs($date1->getTimestamp() - $date2->getTimestamp())) / 60 / 60 / 24;
+        return (int) round($days);
     }
 
     private function applyFilters(DataTable\DataTableInterface $table)
