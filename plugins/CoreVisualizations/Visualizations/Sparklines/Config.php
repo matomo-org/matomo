@@ -331,12 +331,12 @@ class Config extends \Piwik\ViewDataTable\Config
             $tooltip = Piwik::translate('General_SparklineTooltipUsedPeriod', $periodTranslated);
             if (!empty($params['date'])) {
                 $period = Period\Factory::build('day', $params['date']);
-                $tooltip .= ' ' . Piwik::translate('General_Period') . ': ' . $period->getPrettyString() . '.';
+                $tooltip .= ' ' . Piwik::translate('General_Period') . ': ' . $period->getLocalizedShortString() . '.';
 
                 if (!empty($params['compareDates'])) {
                     foreach ($params['compareDates'] as $index => $comparisonDate) {
                         $comparePeriod = Period\Factory::build('day', $comparisonDate);
-                        $tooltip .= ' ' . Piwik::translate('General_Period') . ' '.($index+2).': ' . $comparePeriod->getPrettyString() . '.';
+                        $tooltip .= ' ' . Piwik::translate('General_Period') . ' '.($index+2).': ' . $comparePeriod->getLocalizedShortString() . '.';
                     }
                 }
             }

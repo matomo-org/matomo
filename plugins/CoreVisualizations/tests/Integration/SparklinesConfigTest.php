@@ -58,7 +58,7 @@ class SparklinesConfigTest extends IntegrationTestCase
 
     public function test_generateSparklineTooltip_periodAndDate()
     {
-        $this->assertSame('Each data point in the sparkline represents a week. Period: From 2022-02-02 to 2022-05-05.', $this->config->generateSparklineTooltip(['period' => 'week', 'date' => '2022-02-02,2022-05-05']));
+        $this->assertSame('Each data point in the sparkline represents a week. Period: Feb 2 – May 5, 2022.', $this->config->generateSparklineTooltip(['period' => 'week', 'date' => '2022-02-02,2022-05-05']));
     }
 
     public function test_generateSparklineTooltip_periodAndDateAndComparison()
@@ -68,7 +68,7 @@ class SparklinesConfigTest extends IntegrationTestCase
             'comparePeriods' => ['week', 'week'], 'compareDates' => ['2021-02-02,2021-05-05', '2020-02-02,2020-05-05']
         ]);
 
-        $expected = 'Each data point in the sparkline represents a week. Period: From 2022-02-02 to 2022-05-05. Period 2: From 2021-02-02 to 2021-05-05. Period 3: From 2020-02-02 to 2020-05-05.';
+        $expected = 'Each data point in the sparkline represents a week. Period: Feb 2 – May 5, 2022. Period 2: Feb 2 – May 5, 2021. Period 3: Feb 2 – May 5, 2020.';
         $this->assertSame($expected, $tooltip);
     }
 
