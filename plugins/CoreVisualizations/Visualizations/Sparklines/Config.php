@@ -286,16 +286,11 @@ class Config extends \Piwik\ViewDataTable\Config
             $groupedMetrics[$metricGroup][] = $metricInfo;
         }
 
-        $usedPeriod = 'day';
+        $tooltip = '';
         if (!empty($requestParamsForSparkline['period'])) {
-            $usedPeriod = !empty($requestParamsForSparkline['period']);
-            if ($usedPeriod === 'range') {
-                $usedPeriod = 'day'; // unless specified Matomo will apply this period
-            }
-        }(
-
-        $tooltip = Piwik::translate('Each data point in the sparkline represents a %1$s.',
-            Piwik::translate('Intl_Period' . ucfirst($usedPeriod))));
+            $periodTranslated = Piwik::translate('Intl_Period' . ucfirst($requestParamsForSparkline['period']));
+            $tooltip = Piwik::translate('General_SparklineTooltipUsedPeriod', $periodTranslated);
+        }
 
         $sparkline = array(
             'url' => $this->getUrlSparkline($requestParamsForSparkline),
@@ -400,8 +395,12 @@ class Config extends \Piwik\ViewDataTable\Config
         $params = $this->getGraphParamsModified($customParameters);
 
         // convert array values to comma separated
-        foreach ($params as &$value) {
-            if (is_array($value)) {
+        foreach ($params as $key => &$value) {
+            if (is_array($value) && in_array($key, ['compareDates', 'comparePeriods'])) {
+                foreach ($value as &$inner) {
+                    $inner = rawurlencode($inner);
+                }
+            } elseif (is_array($value)) {
                 $value = rawurlencode(implode(',', $value));
             }
         }
@@ -423,7 +422,7 @@ class Config extends \Piwik\ViewDataTable\Config
      * @throws \Piwik\NoAccessException
      * @return array
      */
-    private function getGraphParamsModified($paramsToSet = array())
+    public function getGraphParamsModified($paramsToSet = array())
     {
         if (!isset($paramsToSet['period'])) {
             $period = Common::getRequestVar('period');
@@ -462,13 +461,11 @@ class Config extends \Piwik\ViewDataTable\Config
         if (!isset($paramsToSet['date'])
             || !Range::isMultiplePeriod($paramsToSet['date'], $period)
         ) {
-            $paramDate = Range::getRelativeToEndDate($period, $range, $endDate, $site);
-        } else {
-            $paramDate = $paramsToSet['date'];
+            $paramsToSet['date'] = Range::getRelativeToEndDate($period, $range, $endDate, $site);
+            $paramsToSet['period'] = $period;
         }
 
-        $params = array_merge($paramsToSet, array('date' => $paramDate));
-        return $params;
+        return $paramsToSet;
     }
 
 }
