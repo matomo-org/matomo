@@ -290,6 +290,17 @@ class Config extends \Piwik\ViewDataTable\Config
         if (!empty($requestParamsForSparkline['period'])) {
             $periodTranslated = Piwik::translate('Intl_Period' . ucfirst($requestParamsForSparkline['period']));
             $tooltip = Piwik::translate('General_SparklineTooltipUsedPeriod', $periodTranslated);
+            if (!empty($requestParamsForSparkline['date'])) {
+                $period = Period\Factory::build('day', $requestParamsForSparkline['date']);
+                $tooltip .= ' ' . Piwik::translate('General_Period') . ': ' . $period->getPrettyString() . '.';
+
+                if (!empty($requestParamsForSparkline['compareDates'])) {
+                    foreach ($requestParamsForSparkline['compareDates'] as $index => $comparisonDate) {
+                        $comparePeriod = Period\Factory::build('day', $comparisonDate);
+                        $tooltip .= ' ' . Piwik::translate('General_Period') . ' '.($index+2).': ' . $comparePeriod->getPrettyString() . '.';
+                    }
+                }
+            }
         }
 
         $sparkline = array(
@@ -394,14 +405,15 @@ class Config extends \Piwik\ViewDataTable\Config
 
         $params = $this->getGraphParamsModified($customParameters);
 
-        // convert array values to comma separated
-        foreach ($params as $key => &$value) {
+        foreach ($params as $key => $value) {
             if (is_array($value) && in_array($key, ['compareDates', 'comparePeriods'])) {
-                foreach ($value as &$inner) {
-                    $inner = rawurlencode($inner);
+                foreach ($value as $index => $inner) {
+                    $value[$index] = rawurlencode($inner);
                 }
+                $params[$key] = $value;
             } elseif (is_array($value)) {
-                $value = rawurlencode(implode(',', $value));
+                // convert array values to comma separated
+                $params[$key] = rawurlencode(implode(',', $value));
             }
         }
         $url = Url::getCurrentQueryStringWithParametersModified($params);
