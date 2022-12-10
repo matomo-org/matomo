@@ -46,6 +46,32 @@ class SparklinesConfigTest extends IntegrationTestCase
         parent::tearDown();
     }
 
+    public function test_generateSparklineTooltip_noParams()
+    {
+        $this->assertSame('', $this->config->generateSparklineTooltip([]));
+    }
+
+    public function test_generateSparklineTooltip_onlyPeriod()
+    {
+        $this->assertSame('Each data point in the sparkline represents a week.', $this->config->generateSparklineTooltip(['period' => 'week']));
+    }
+
+    public function test_generateSparklineTooltip_periodAndDate()
+    {
+        $this->assertSame('Each data point in the sparkline represents a week. Period: From 2022-02-02 to 2022-05-05.', $this->config->generateSparklineTooltip(['period' => 'week', 'date' => '2022-02-02,2022-05-05']));
+    }
+
+    public function test_generateSparklineTooltip_periodAndDateAndComparison()
+    {
+        $tooltip = $this->config->generateSparklineTooltip([
+            'period' => 'week', 'date' => '2022-02-02,2022-05-05',
+            'comparePeriods' => ['week', 'week'], 'compareDates' => ['2021-02-02,2021-05-05', '2020-02-02,2020-05-05']
+        ]);
+
+        $expected = 'Each data point in the sparkline represents a week. Period: From 2022-02-02 to 2022-05-05. Period 2: From 2021-02-02 to 2021-05-05. Period 3: From 2020-02-02 to 2020-05-05.';
+        $this->assertSame($expected, $tooltip);
+    }
+
     public function test_areSparklinesLinkable_byDefaultSparklinesAreLinkable()
     {
         $this->assertTrue($this->config->areSparklinesLinkable());

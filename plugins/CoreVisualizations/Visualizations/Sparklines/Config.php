@@ -286,22 +286,7 @@ class Config extends \Piwik\ViewDataTable\Config
             $groupedMetrics[$metricGroup][] = $metricInfo;
         }
 
-        $tooltip = '';
-        if (!empty($requestParamsForSparkline['period'])) {
-            $periodTranslated = Piwik::translate('Intl_Period' . ucfirst($requestParamsForSparkline['period']));
-            $tooltip = Piwik::translate('General_SparklineTooltipUsedPeriod', $periodTranslated);
-            if (!empty($requestParamsForSparkline['date'])) {
-                $period = Period\Factory::build('day', $requestParamsForSparkline['date']);
-                $tooltip .= ' ' . Piwik::translate('General_Period') . ': ' . $period->getPrettyString() . '.';
-
-                if (!empty($requestParamsForSparkline['compareDates'])) {
-                    foreach ($requestParamsForSparkline['compareDates'] as $index => $comparisonDate) {
-                        $comparePeriod = Period\Factory::build('day', $comparisonDate);
-                        $tooltip .= ' ' . Piwik::translate('General_Period') . ' '.($index+2).': ' . $comparePeriod->getPrettyString() . '.';
-                    }
-                }
-            }
-        }
+        $tooltip = $this->generateSparklineTooltip($requestParamsForSparkline);
 
         $sparkline = array(
             'url' => $this->getUrlSparkline($requestParamsForSparkline),
@@ -336,6 +321,27 @@ class Config extends \Piwik\ViewDataTable\Config
         }
 
         $this->sparklines[] = $sparkline;
+    }
+
+    public function generateSparklineTooltip($params)
+    {
+        $tooltip = '';
+        if (!empty($params['period'])) {
+            $periodTranslated = Piwik::translate('Intl_Period' . ucfirst($params['period']));
+            $tooltip = Piwik::translate('General_SparklineTooltipUsedPeriod', $periodTranslated);
+            if (!empty($params['date'])) {
+                $period = Period\Factory::build('day', $params['date']);
+                $tooltip .= ' ' . Piwik::translate('General_Period') . ': ' . $period->getPrettyString() . '.';
+
+                if (!empty($params['compareDates'])) {
+                    foreach ($params['compareDates'] as $index => $comparisonDate) {
+                        $comparePeriod = Period\Factory::build('day', $comparisonDate);
+                        $tooltip .= ' ' . Piwik::translate('General_Period') . ' '.($index+2).': ' . $comparePeriod->getPrettyString() . '.';
+                    }
+                }
+            }
+        }
+        return $tooltip;
     }
 
     /**
