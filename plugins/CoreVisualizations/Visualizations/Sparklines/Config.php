@@ -295,7 +295,7 @@ class Config extends \Piwik\ViewDataTable\Config
         }(
 
         $tooltip = Piwik::translate('Each data point in the sparkline represents a %1$s.',
-            Piwik::translate('Intl_Period' . ucfirst($this->translations[$usedPeriod]))));
+            Piwik::translate('Intl_Period' . ucfirst($usedPeriod))));
 
         $sparkline = array(
             'url' => $this->getUrlSparkline($requestParamsForSparkline),
