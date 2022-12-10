@@ -13,18 +13,15 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\Date;
 use Piwik\Metrics;
 use Piwik\Metrics\Formatter as MetricFormatter;
-use Piwik\Period;
 use Piwik\Period\Factory;
-use Piwik\Period\Range;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\API\Filter\DataComparisonFilter;
+use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines\SparklinePeriodSelector;
 use Piwik\SettingsPiwik;
-use Piwik\Site;
 use Piwik\View;
 
 /**
@@ -236,8 +233,9 @@ class Sparklines extends ViewDataTable
             $comparePeriods = $data->getMetadata('comparePeriods');
             $compareDates = $data->getMetadata('compareDates');
 
-            $comparisonPeriods = $this->getComparisonPeriodObjects($comparePeriods, $compareDates);
-            $sparklineUrlParams = $this->setSparklineDatePeriodIfNeeded($sparklineUrlParams, $periodObj, $comparisonPeriods);
+            $periodSelector = new SparklinePeriodSelector($this->config);
+            $comparisonPeriods = $periodSelector->getComparisonPeriodObjects($comparePeriods, $compareDates);
+            $sparklineUrlParams = $periodSelector->setSparklineDatePeriods($sparklineUrlParams, $periodObj, $comparisonPeriods);
 
             if ($isComparing) {
                 $sparklineUrlParams['compareSegments'] = [];
@@ -326,85 +324,6 @@ class Sparklines extends ViewDataTable
                 $this->config->addSparkline($sparklineUrlParams, $metrics, $desc = null, $evolution, $order, $title = null, $group = $sparklineMetricIndex, $seriesIndices = null, $graphParams);
             }
         }
-    }
-
-    private function getComparisonPeriodObjects($comparePeriods, $compareDates)
-    {
-        $periods = [];
-        if (!empty($comparePeriods)) {
-            foreach ($comparePeriods as $periodIndex => $period) {
-                if ($periodIndex === 0) {
-                    continue; // this is the original period
-                }
-                $date = $compareDates[$periodIndex];
-                $periods[] = Factory::build($period, $date);
-            }
-        }
-        return $periods;
-    }
-
-    private function getHighestPeriodInCommon(Period $originalPeriod, $comparisonPeriods)
-    {
-        $lowestNumDaysInRange = $this->getNumDaysDifference($originalPeriod->getDateStart(), $originalPeriod->getDateEnd());
-
-        if (!empty($comparisonPeriods)) {
-            foreach ($comparisonPeriods as $period) {
-                $numDaysInRange = $this->getNumDaysDifference($period->getDateStart(), $period->getDateEnd());
-                if ($numDaysInRange < $lowestNumDaysInRange) {
-                    $lowestNumDaysInRange = $numDaysInRange;
-                }
-            }
-        }
-
-        $periodToUse = 'day';
-        if ($lowestNumDaysInRange >= 730) {
-            $periodToUse = 'month'; // rather than fetching > 730 day periods we prefer fetching 24+ months and shows trends better
-        } elseif ($lowestNumDaysInRange >= 180) {
-            $periodToUse = 'week'; // rather than fetching > 180 day periods we prefer fetching 25+ weeks making it faster and shows trends better
-        }
-        return $periodToUse;
-    }
-
-    private function setSparklineDatePeriodIfNeeded($params, Period $originalPeriod, $comparisonPeriods)
-    {
-        $isComparingDates = !empty($comparisonPeriods);
-        $highestPeriodInCommon = $this->getHighestPeriodInCommon($originalPeriod, $comparisonPeriods);
-        if ($isComparingDates) {
-            // we don't want to show last X for each of the peridos
-            // when comparing, we have to fallback to a range because different periods might be selected.
-            // when not comparing and a longer range is selected, then we select a higher period for improved
-            // performance and also to see trends better
-            // whenever possible we try to use a higher period for faster performance and to see trends better
-            $params['period'] = $highestPeriodInCommon;
-            $params['date'] = $originalPeriod->getRangeString();
-
-            $params['compareDates'] = [];
-            $params['comparePeriods'] = [];
-
-            foreach ($comparisonPeriods as $period) {
-                $params['compareDates'][] = $period->getRangeString();
-                $params['comparePeriods'][] = $params['period']; // need to ensure to use same period for both the base and the comparison period
-            }
-        } else {
-            // by default we select the last 30 days/weeks/months/years.
-            // For period range it will select the selected range with a day metric
-            $params = $this->config->getGraphParamsModified($params);
-            if ($originalPeriod->getLabel() === 'range') {
-                // when a longer range is selected, then we select a higher period for improved performance and also to see trends better
-                // eg when selecting a range of 2 years then we rather show 24 months instead of 730 day points.
-                $params['period'] = $highestPeriodInCommon;
-                $params['date'] = $originalPeriod->getRangeString();
-            }
-        }
-
-        return $params;
-    }
-
-
-    private function getNumDaysDifference(Date $date1, Date $date2)
-    {
-        $days = (abs($date1->getTimestamp() - $date2->getTimestamp())) / 60 / 60 / 24;
-        return (int) abs(round($days));
     }
 
     private function applyFilters(DataTable\DataTableInterface $table)
