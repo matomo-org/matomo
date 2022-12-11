@@ -17,7 +17,7 @@
         "SystemCheckTimeLimitHelp": "Nun sitio web cun tráfico elevado, o proceso de arquivado pode requirir máis memoria da que está dispoñible.<br>Mire a directiva max_execution_time no seu ficheiro php.ini se fose necesario",
         "SystemCheckWarning": "Matomo traballará correctamente, pero algunhas características poden faltar",
         "SystemCheckWriteDirs": "Directorios con permisos de escrita",
-        "SystemCheckWriteDirsHelp": "Para arranxar este erro no seu sistema GNU\/Linux, tente inserindo os seguintes comandos",
+        "SystemCheckWriteDirsHelp": "Para arranxar este erro no seu sistema GNU/Linux, tente inserindo os seguintes comandos",
         "Tables": "Creando as táboas",
         "TablesCreatedSuccess": "Táboas creadas con éxito!",
         "TablesDelete": "Eliminar as táboas detectadas",
@@ -25,6 +25,6 @@
         "TablesFound": "As seguintes táboas atopáronse na base de datos",
         "TablesReuse": "Reutilizar as táboas xa existentes",
         "TablesWarningHelp": "Ou ben optar pola reutilización de táboas de bases de datos existentes ou seleccionar unha instalación limpa para eliminar todos os datos existentes na base de datos.",
-        "Welcome": "Benvido!"
+        "Welcome": "Benvido"
     }
 }

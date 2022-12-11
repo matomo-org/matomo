@@ -7,6 +7,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
+use Piwik\Plugin;
 use Piwik\Plugins\CoreAdminHome\Emails\UserCreatedEmail;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Emails\UserInviteEmail;
@@ -18,8 +19,6 @@ use Piwik\Plugins\UsersManager\Validators\Email;
 use Piwik\Plugins\UsersManager\Validators\Login;
 use Piwik\Site;
 use Piwik\Validators\BaseValidator;
-use Piwik\Validators\IdSite;
-use Piwik\Plugin;
 
 class UserRepository
 {
@@ -60,12 +59,10 @@ class UserRepository
         string $password = '',
         bool $isPasswordHashed = false
     ): void {
+
+
         if (!Piwik::hasUserSuperUserAccess()) {
-            if (empty($initialIdSite)) {
-                throw new \Exception(Piwik::translate("UsersManager_AddUserNoInitialAccessError"));
-            }
-            // check if the site exists
-            BaseValidator::check('siteId', $initialIdSite, [new IdSite()]);
+            // check if the user has admin access to the site
             Piwik::checkUserHasAdminAccess($initialIdSite);
         }
 
@@ -106,6 +103,13 @@ class UserRepository
         $generatedToken = $this->model->generateRandomInviteToken();
         $this->model->attachInviteToken($userLogin, $generatedToken, $expiryInDays);
         $this->sendInvitationEmail($user, $generatedToken, $expiryInDays);
+    }
+
+    public function generateInviteToken(string $userLogin, $expiryInDays = null): string
+    {
+        $generatedToken = $this->model->generateRandomInviteToken();
+        $this->model->attachInviteLinkToken($userLogin, $generatedToken, $expiryInDays);
+        return $generatedToken;
     }
 
     protected function sendUserCreationNotification(string $createdUserLogin): void
@@ -153,6 +157,8 @@ class UserRepository
         unset($user['password']);
         unset($user['ts_password_modified']);
         unset($user['idchange_last_viewed']);
+        unset($user['invite_token']);
+        unset($user['invite_link_token']);
 
         if ($lastSeen = LastSeenTimeLogger::getLastSeenTimeForUser($user['login'])) {
             $user['last_seen'] = Date::getDatetimeFromTimestamp($lastSeen);

@@ -1,45 +1,3 @@
-#users .editable:hover,
-#users .addrow:hover,
-#superUserAccess .updateAccess:hover,
-#superUserAccess .accessGranted:hover,
-#manageUserAccess .updateAccess:hover,
-#users .accessGranted:hover,
-#users .adduser:hover, .edituser:hover,
-#users .deleteuser:hover,
-#users .updateuser:hover,
-#users .cancel:hover {
-    cursor: pointer;
-}
-
-#manageUserAccess .icon-help,
-#super_user_access .icon-help {
-  color: @theme-color-text-contrast;
-}
-
-#manageUserAccess .icon-help:hover,
-#super_user_access .icon-help:hover {
-  color: @theme-color-text;
-  text-decoration: none;
-}
-
-#manageUserAccess .helpLink,
-#super_user_access .helpLink {
-  outline: none;
-}
-
-#manageUserAccess .helpLink:hover,
-#super_user_access .helpLink:hover {
-  text-decoration: none;
-}
-
-#users .addNewUserRow td {
-  padding: 0 16px;
-}
-
-#users td {
-  vertical-align: middle !important;
-}
-
 #userSettingsTable {
   .sites_autocomplete {
     margin-left: 20px;
@@ -47,61 +5,84 @@
   }
 }
 
-#users .canceluser {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  white-space: nowrap;
-  text-decoration: none;
-  color: black;
-  cursor: pointer;
-  display: inline-block;
-}
-
-#users .canceluser:hover {
-  text-decoration: underline;
-}
-
-#sites.usersManager {
-  .sites_selector_title {
-    display:inline-block;
-    margin-top:5px;
-  }
-  .sites_selector_container {
-    padding-top: 0px;
-  }
-}
-
-.old-ie #sites.usersManager .sites_selector_title {
-  height: 30px;
-}
-
-#showGiveViewAccessForm {
-  text-align: left;
-}
-
-#ajaxErrorGiveViewAccess {
-  margin-top: 16px;
-}
-
-#giveViewAccessForm {
-  margin-left: 30px;
-
-  #user_invite {
-    min-width: 300px;
-  }
-}
-
-#confirmChangesWithPassword {
-  .modal-no {
-    margin-left: 1em;
-    margin-right: 1em;
-    margin-top: 1em;
-  }
-}
-
 .uiTest pre.generatedTokenAuth {
   visibility: hidden;
 }
+
 .uiTest .listAuthTokens .creationDate {
   visibility: hidden;
+}
+
+.resend-invite-confirm-modal {
+  .success-copied {
+    color: #5D9E52;
+    margin-right: 15px;
+  }
+  .modal-notes{
+    float: left;
+    display: inline-block;
+    margin-top: 15px;
+    padding-left: 15px;
+    color: red;
+  }
+  .modal-title {
+    font-size: 20px;
+    line-height: 20px;
+    padding-top: 0px;
+    font-weight: 600;
+  }
+  p {
+    font-size: 14px!important;
+  }
+}
+.modal .btn-close {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  cursor: pointer;
+}
+.usersManager {
+  .card h2.card-title, .card h2 .card-title {
+    padding-left: 15px !important;
+  }
+  .userEditForm {
+    .card-title {
+      margin-top: 45px;
+    }
+
+    .resend-link {
+      color: #1976d2;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .invite-notes {
+      margin-top: 25px;
+    }
+
+    .listCircle {
+      margin-left: -15px;
+    }
+
+    .entityCancel {
+      position: absolute;
+      top: 20px;
+    }
+
+    .entityCancelLink {
+      font-size: 14px;
+    }
+
+    .save-button {
+      margin-top: 3em;
+    }
+
+    .resend-notes {
+      font-size: 16px !important;
+      margin-top: 3em !important;
+    }
+
+  }
+
+
 }

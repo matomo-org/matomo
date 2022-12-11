@@ -1,7 +1,7 @@
 {
     "MobileMessaging": {
         "Available_Credits": "Tilgjengelig kreditt: %1$s",
-        "Exception_UnknownProvider": "Tilbydernavnet '%1$s' er ukjent. Prøv ett av følgende i stedet: %2$s.",
+        "Exception_UnknownProvider": "Tilbydernavnet «%1$s» er ukjent. Prøv ett av følgende istedenfor: %2$s.",
         "MobileReport_AdditionalPhoneNumbers": "Du kan legge til flere telefonnummer ved å gå til",
         "MobileReport_MobileMessagingSettingsLink": "innstillingssiden for mobilmeldinger",
         "MobileReport_NoPhoneNumbers": "Aktiver minst ett telefonnummer ved å besøke",
@@ -43,6 +43,6 @@
         "TopLinkTooltip": "Få vev-analyserapporter levert i innboksen til e-posten din, eller din mobiltelefon.",
         "TopMenu": "E-post- og SMS-rapporter",
         "UserKey": "Brukernøkkel",
-        "VerificationText": "Koden er %1$s. For å bekrefte telefonnummeret ditt og motta Matomo-SMS-rapporter kan du kopiere denne koden i skjemaet tilgjengelig i Matomo &gt; %2$s &gt; %3$s."
+        "VerificationText": "Koden er %1$s. For å bekrefte telefonnummeret ditt og motta Matomo-SMS-rapporter kan du kopiere denne koden i skjemaet tilgjengelig i Matomo → %2$s → %3$s."
     }
 }

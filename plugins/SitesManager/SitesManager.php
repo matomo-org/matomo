@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,6 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\SitesManager;
 
 use Piwik\Access;
@@ -18,6 +20,7 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\Settings\Storage\Backend\MeasurableSettingsTable;
+use Piwik\SettingsServer;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\FingerprintSalt;
 use Piwik\Tracker\Model as TrackerModel;
@@ -46,15 +49,15 @@ class SitesManager extends \Piwik\Plugin
      */
     public function registerEvents()
     {
-        return array(
+        return [
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
-            'Tracker.Cache.getSiteAttributes'        => array('function' => 'recordWebsiteDataInCache', 'before' => true),
+            'Tracker.Cache.getSiteAttributes'        => ['function' => 'recordWebsiteDataInCache', 'before' => true],
             'Tracker.setTrackerCacheGeneral'         => 'setTrackerCacheGeneral',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'SitesManager.deleteSite.end'            => 'onSiteDeleted',
             'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
             'Request.dispatch'                       => 'redirectDashboardToWelcomePage',
-        );
+        ];
     }
 
     public static function isSitesAdminEnabled()
@@ -73,9 +76,16 @@ class SitesManager extends \Piwik\Plugin
     public function addSystemSummaryItems(&$systemSummary)
     {
         if (self::isSitesAdminEnabled()) {
-            $websites = Request::processRequest('SitesManager.getAllSites', array('filter_limit' => '-1'));
+            $websites = Request::processRequest('SitesManager.getAllSites', ['filter_limit' => '-1']);
             $numWebsites = count($websites);
-            $systemSummary[] = new SystemSummary\Item($key = 'websites', Piwik::translate('CoreHome_SystemSummaryNWebsites', $numWebsites), $value = null, $url = array('module' => 'SitesManager', 'action' => 'index'), $icon = '', $order = 10);
+            $systemSummary[] = new SystemSummary\Item(
+                'websites',
+                Piwik::translate('CoreHome_SystemSummaryNWebsites', $numWebsites),
+                null,
+                ['module' => 'SitesManager', 'action' => 'index'],
+                '',
+                10
+            );
         }
     }
 
@@ -183,6 +193,7 @@ class SitesManager extends \Piwik\Plugin
         $array['excluded_ips'] = $this->getTrackerExcludedIps($website);
         $array['excluded_parameters'] = self::getTrackerExcludedQueryParameters($website);
         $array['excluded_user_agents'] = self::getExcludedUserAgents($website);
+        $array['excluded_referrers'] = self::getExcludedReferrers($website);
         $array['keep_url_fragment'] = self::shouldKeepURLFragmentsFor($website);
         $array['sitesearch'] = $website['sitesearch'];
         $array['sitesearch_keyword_parameters'] = $this->getTrackerSearchKeywordParameters($website);
@@ -193,7 +204,7 @@ class SitesManager extends \Piwik\Plugin
 
         // we make sure to have the fingerprint salts for the last 3 days incl tmrw in the cache so we don't need to
         // query the DB directly for these days
-        $datesToGenerateSalt = array(Date::now()->addDay(1), Date::now(), Date::now()->subDay(1), Date::now()->subDay(2));
+        $datesToGenerateSalt = [Date::now()->addDay(1), Date::now(), Date::now()->subDay(1), Date::now()->subDay(2)];
 
         $fingerprintSaltKey = new FingerprintSalt();
         foreach ($datesToGenerateSalt as $date) {
@@ -207,6 +218,7 @@ class SitesManager extends \Piwik\Plugin
         Access::doAsSuperUser(function () use (&$cache) {
             $cache['global_excluded_user_agents'] = self::filterBlankFromCommaSepList(API::getInstance()->getExcludedUserAgentsGlobal());
             $cache['global_excluded_ips'] = self::filterBlankFromCommaSepList(API::getInstance()->getExcludedIpsGlobal());
+            $cache['global_excluded_referrers'] = self::filterBlankFromCommaSepList(API::getInstance()->getExcludedReferrersGlobal());
         });
     }
 
@@ -233,7 +245,7 @@ class SitesManager extends \Piwik\Plugin
     {
         if ($site['keep_url_fragment'] == self::KEEP_URL_FRAGMENT_YES) {
             return true;
-        } else if ($site['keep_url_fragment'] == self::KEEP_URL_FRAGMENT_NO) {
+        } elseif ($site['keep_url_fragment'] == self::KEEP_URL_FRAGMENT_NO) {
             return false;
         }
 
@@ -271,7 +283,7 @@ class SitesManager extends \Piwik\Plugin
 
         $excludedIps .= ',' . $globalExcludedIps;
 
-        $ipRanges = array();
+        $ipRanges = [];
         foreach (explode(',', $excludedIps) as $ip) {
             $ipRange = API::getInstance()->getIpsForRange($ip);
             if ($ipRange !== false) {
@@ -293,6 +305,20 @@ class SitesManager extends \Piwik\Plugin
         $excludedUserAgents = API::getInstance()->getExcludedUserAgentsGlobal();
         $excludedUserAgents .= ',' . $website['excluded_user_agents'];
         return self::filterBlankFromCommaSepList($excludedUserAgents);
+    }
+
+    /**
+     * Returns the array of excluded referrers. Filters out
+     * any garbage data & trims each entry.
+     *
+     * @param array $website The full set of information for a site.
+     * @return array
+     */
+    private static function getExcludedReferrers($website)
+    {
+        $excludedReferrers = API::getInstance()->getExcludedReferrersGlobal();
+        $excludedReferrers .= ',' . $website['excluded_referrers'];
+        return self::filterBlankFromCommaSepList($excludedReferrers);
     }
 
     /**
@@ -332,7 +358,7 @@ class SitesManager extends \Piwik\Plugin
      */
     private function getTrackerHosts($urls)
     {
-        $hosts = array();
+        $hosts = [];
         foreach ($urls as $url) {
             $url = parse_url($url);
             if (isset($url['host'])) {
@@ -350,12 +376,44 @@ class SitesManager extends \Piwik\Plugin
             self::SITE_TYPE_SHOPIFY => 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-shopify-store',
             self::SITE_TYPE_SQUARESPACE => 'https://matomo.org/faq/new-to-piwik/how-do-i-integrate-matomo-with-squarespace-website',
             self::SITE_TYPE_WIX => 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-wix',
-            self::SITE_TYPE_WORDPRESS => 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress',
+            self::SITE_TYPE_WORDPRESS => 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/',
             self::SITE_TYPE_DRUPAL => 'https://matomo.org/faq/new-to-piwik/how-to-integrate-with-drupal/',
             self::SITE_TYPE_WEBFLOW => 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-webflow',
         ];
 
         return $map[$siteType] ?? false;
+    }
+
+    public static function getInstructionBySiteType(string $siteType): string
+    {
+        if ($siteType === self::SITE_TYPE_UNKNOWN) {
+            return '';
+        }
+
+        if ($siteType === self::SITE_TYPE_WORDPRESS && !SettingsServer::isMatomoForWordPress()) {
+            return sprintf(
+                '%s<br /><br />%s<br /><br />',
+                Piwik::translate('SitesManager_SiteWithoutDataDetectedSiteWordpress', [
+                    '<a target="_blank" rel="noreferrer noopener" href="' . self::getInstructionUrlBySiteType($siteType) . '#wpmatomo">',
+                    '</a>',
+                    '<a target="_blank" rel="noreferrer noopener" href="https://wordpress.org/plugins/wp-piwik/">',
+                    '</a>',
+                ]),
+                Piwik::translate('SitesManager_SiteWithoutDataDetectedSiteWordpress2', [
+                    '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/how-to-install/which-plugin-should-i-use-with-wordpress/">',
+                    '</a>',
+                ])
+            );
+        }
+
+        return Piwik::translate(
+            'SitesManager_SiteWithoutDataDetectedSite',
+            [
+                ucfirst($siteType),
+                '<a target="_blank" rel="noreferrer noopener" href="' . self::getInstructionUrlBySiteType($siteType) . '">',
+                '</a>'
+            ]
+        );
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
@@ -448,6 +506,12 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "SitesManager_JsTrackingTagHelp";
         $translationKeys[] = "SitesManager_SiteWithoutDataSinglePageApplication";
         $translationKeys[] = "SitesManager_SiteWithoutDataSinglePageApplicationDescription";
-
+        $translationKeys[] = "SitesManager_GlobalListExcludedReferrers";
+        $translationKeys[] = "SitesManager_GlobalListExcludedReferrersDesc";
+        $translationKeys[] = "SitesManager_ExcludedReferrers";
+        $translationKeys[] = "SitesManager_ExcludedReferrersHelp";
+        $translationKeys[] = "SitesManager_ExcludedReferrersHelpDetails";
+        $translationKeys[] = "SitesManager_ExcludedReferrersHelpExamples";
+        $translationKeys[] = "SitesManager_ExcludedReferrersHelpSubDomains";
     }
 }

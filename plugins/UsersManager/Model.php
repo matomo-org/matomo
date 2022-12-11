@@ -202,7 +202,13 @@ class Model
             }
         }
 
-        $sql = 'SELECT SQL_CALC_FOUND_ROWS s.idsite as idsite, s.name as site_name, GROUP_CONCAT(a.access SEPARATOR "|") as access
+        $selector = "a.access";
+        if ($access) {
+            $selector = 'b.access';
+            $joins .= " LEFT JOIN ". Common::prefixTable('access') ." b on a.idsite = b.idsite AND a.login = b.login";
+        }
+
+        $sql = 'SELECT SQL_CALC_FOUND_ROWS s.idsite as idsite, s.name as site_name, GROUP_CONCAT('.$selector.' SEPARATOR "|") as access
                   FROM ' . Common::prefixTable('access') . " a
                 $joins
                 $where
@@ -497,7 +503,7 @@ class Model
         $token = $this->hashTokenAuth($tokenAuth);
         if (!empty($token)) {
             $db = $this->getDb();
-            return $db->fetchRow("SELECT * FROM " . $this->userTable . " WHERE `invite_token` = ?", $token);
+            return $db->fetchRow("SELECT * FROM " . $this->userTable . " WHERE `invite_token` = ? or `invite_link_token` = ?", [$token ,$token]);
         }
     }
 
@@ -542,6 +548,14 @@ class Model
         $this->updateUserFields($userLogin, [
           'invite_token'      => $this->hashTokenAuth($token),
           'invite_expired_at' => Date::now()->addDay($expiryInDays)->getDatetime()
+        ]);
+    }
+
+    public function attachInviteLinkToken($userLogin, $token, $expiryInDays = 7)
+    {
+        $this->updateUserFields($userLogin, [
+            'invite_link_token' => $this->hashTokenAuth($token),
+            'invite_expired_at' => Date::now()->addDay($expiryInDays)->getDatetime(),
         ]);
     }
 

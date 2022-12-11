@@ -20,10 +20,20 @@ interface SitesStoreState {
   isInitialized: boolean;
 }
 
+interface SitesStoreStateFiltered extends SitesStoreState {
+  excludedSites: number[];
+}
+
 class SitesStore {
   private state = reactive<SitesStoreState>({
     initialSites: [],
     isInitialized: false,
+  });
+
+  private stateFiltered = reactive<SitesStoreStateFiltered>({
+    initialSites: [],
+    isInitialized: false,
+    excludedSites: [],
   });
 
   private currentRequestAbort: AbortController | null = null;
@@ -32,12 +42,38 @@ class SitesStore {
 
   public readonly initialSites = computed(() => readonly(this.state.initialSites));
 
-  loadInitialSites(): Promise<DeepReadonly<Site[]>|null> {
+  public readonly initialSitesFiltered = computed(() => readonly(this.stateFiltered.initialSites));
+
+  loadInitialSites(onlySitesWithAdminAccess = false,
+    sitesToExclude: number[] = []): Promise<DeepReadonly<Site[]>|null> {
+    if (this.state.isInitialized && sitesToExclude.length === 0) {
+      return Promise.resolve(readonly(this.state.initialSites));
+    }
+
+    // If the filtered state has already been initialized with the same sites, return that.
+    if (this.stateFiltered.isInitialized
+      && sitesToExclude.length === this.stateFiltered.excludedSites.length
+      && (sitesToExclude.every((val, index) => val === this.stateFiltered.excludedSites[index]))) {
+      return Promise.resolve(readonly(this.stateFiltered.initialSites));
+    }
+
+    // If we want to exclude certain sites, perform the search for that.
+    if (sitesToExclude.length > 0) {
+      this.searchSite('%', onlySitesWithAdminAccess, sitesToExclude).then((sites) => {
+        this.stateFiltered.isInitialized = true;
+        this.stateFiltered.excludedSites = sitesToExclude;
+        if (sites !== null) {
+          this.stateFiltered.initialSites = sites;
+        }
+      });
+    }
+
+    // If the main state has already been initialized, no need to continue.
     if (this.state.isInitialized) {
       return Promise.resolve(readonly(this.state.initialSites));
     }
 
-    return this.searchSite('%').then((sites) => {
+    return this.searchSite('%', onlySitesWithAdminAccess, sitesToExclude).then((sites) => {
       this.state.isInitialized = true;
       if (sites !== null) {
         this.state.initialSites = sites;
@@ -68,9 +104,10 @@ class SitesStore {
     }
   }
 
-  searchSite(term?: string, onlySitesWithAdminAccess = false): Promise<DeepReadonly<Site[]>|null> {
+  searchSite(term?: string, onlySitesWithAdminAccess = false,
+    sitesToExclude: number[] = []): Promise<DeepReadonly<Site[]>|null> {
     if (!term) {
-      return this.loadInitialSites();
+      return this.loadInitialSites(onlySitesWithAdminAccess, sitesToExclude);
     }
 
     if (this.currentRequestAbort) {
@@ -94,6 +131,7 @@ class SitesStore {
         method: methodToCall,
         limit,
         pattern: term,
+        sitesToExclude,
       }, {
         abortController: this.currentRequestAbort,
       });

@@ -38,8 +38,10 @@ class Challenges
     {
         /** @var Challenge[] $challenges */
         $challenges = array(
-            StaticContainer::get(ChallengeTrackingCode::class),
+           StaticContainer::get(ChallengeTrackingCode::class),
         );
+
+        $challenges[] = StaticContainer::get(ChallengeSetupConsentManager::class);
 
         if ($this->isActivePlugin('Goals')) {
             $challenges[] = StaticContainer::get(ChallengeCreatedGoal::class);

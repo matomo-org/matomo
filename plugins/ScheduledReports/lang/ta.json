@@ -1,5 +1,6 @@
 {
     "ScheduledReports": {
+        "AggregateReportsFormat": "காட்சி விருப்பங்கள்",
         "CreateReport": "அறிக்கையை உருவாக்கு",
         "EmailReports": "மின்னஞ்சல் அறிக்கைகள்",
         "EmailSchedule": "மின்னஞ்சல் பட்டி",

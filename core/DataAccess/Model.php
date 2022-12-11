@@ -117,7 +117,7 @@ class Model
     }
 
     public function updateArchiveAsInvalidated($archiveTable, $idSites, $allPeriodsToInvalidate, Segment $segment = null,
-                                               $forceInvalidateNonexistantRanges = false, $name = null)
+                                               $forceInvalidateNonexistentRanges = false, $name = null)
     {
         if (empty($idSites)) {
             return 0;
@@ -220,7 +220,7 @@ class Model
             $siteCreationTime = Date::factory($siteCreationTime);
             foreach ($allPeriodsToInvalidate as $period) {
                 if ($period->getLabel() == 'range'
-                    && !$forceInvalidateNonexistantRanges
+                    && !$forceInvalidateNonexistentRanges
                 ) {
                     continue; // range
                 }

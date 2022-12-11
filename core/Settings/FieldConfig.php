@@ -147,6 +147,14 @@ class FieldConfig
     public $uiControlAttributes = array();
 
     /**
+     * Makes field full width.
+     * Useful for `$field->uiControl = FieldConfig::UI_CONTROL_MULTI_TUPLE;`
+     *
+     * @var bool
+     */
+    public $fullWidth = false;
+
+    /**
      * The list of all available values for this setting. If null, the setting can have any value.
      *
      * If supplied, this field should be an array mapping available values with their prettified
@@ -189,6 +197,20 @@ class FieldConfig
      * @var null|string
      */
     public $inlineHelp = null;
+
+    /**
+     * A closure that prepares the setting value. If supplied, this closure will be executed before
+     * the setting has been validated.
+     *
+     * **Example**
+     *
+     *     $setting->prepare = function ($value, Setting $setting) {
+     *         return mb_strtolower($value);
+     *     }
+     *
+     * @var null|\Closure
+     */
+    public $prepare = null;
 
     /**
      * A closure that does some custom validation on the setting before the setting is persisted.

@@ -105,7 +105,8 @@ class Request
                 $defaultRequest['segment'] = $requestRaw['segment'];
             }
 
-            if (!isset($defaultRequest['format_metrics'])) {
+            // Only default to formatting metrics if the request doesn't already contain the format metrics parameter
+            if (!isset($defaultRequest['format_metrics']) && !isset($request['format_metrics'])) {
                 $defaultRequest['format_metrics'] = 'bc';
             }
         }

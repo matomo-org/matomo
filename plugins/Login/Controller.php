@@ -16,6 +16,8 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\Exception\RedirectException;
+use Piwik\IP;
 use Piwik\Log;
 use Piwik\Nonce;
 use Piwik\Piwik;
@@ -28,6 +30,7 @@ use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\QuickForm2;
 use Piwik\Session;
 use Piwik\Session\SessionInitializer;
+use Piwik\SettingsPiwik;
 use Piwik\Url;
 use Piwik\UrlHelper;
 use Piwik\View;
@@ -332,6 +335,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $parsedUrl = parse_url($urlToRedirect);
 
+        if (!empty($urlToRedirect) && false === $parsedUrl) {
+            $e = new \Piwik\Exception\Exception('The redirect URL is not valid.');
+            $e->setIsHtmlMessage();
+            throw $e;
+        }
+
         // only use redirect url if host is trusted
         if (!empty($parsedUrl['host']) && !Url::isValidHost($parsedUrl['host'])) {
             $e = new \Piwik\Exception\Exception('The redirect URL host is not valid, it is not a trusted host. If this URL is trusted, you can allow this in your config.ini.php file by adding the line <i>trusted_hosts[] = "' . Common::sanitizeInputValue($parsedUrl['host']) . '"</i> under <i>[General]</i>');
@@ -440,8 +449,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         try {
             $passwordHash = $this->passwordResetter->checkValidConfirmPasswordToken($login, $resetToken);
         } catch (Exception $ex) {
-            Log::debug($ex);
+            $this->bruteForceDetection->addFailedAttempt(IP::getIpFromHeader());
 
+            Log::debug($ex);
             $errorMessage = $ex->getMessage();
         }
 
@@ -542,11 +552,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         // if no user matches the invite token
         if (!$user) {
-            throw new Exception(Piwik::translate('Login_InvalidUsernameEmail'));
+            $this->bruteForceDetection->addFailedAttempt(IP::getIpFromHeader());
+            throw new RedirectException(Piwik::translate('Login_InvalidOrExpiredTokenV2'), SettingsPiwik::getPiwikUrl(), 5);
         }
 
         if (!empty($user['invite_expired_at']) && Date::factory($user['invite_expired_at'])->isEarlier(Date::now())) {
-            throw new Exception(Piwik::translate('Login_InvalidOrExpiredToken'));
+            throw new RedirectException(Piwik::translate('Login_InvalidOrExpiredTokenV2'), SettingsPiwik::getPiwikUrl(), 5);
         }
 
         // if form was sent
@@ -572,8 +583,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
 
             // validate password
-            if (!UsersManager::isValidPasswordString($password)) {
-                $error = Piwik::translate('UsersManager_ExceptionInvalidPassword', [UsersManager::PASSWORD_MIN_LENGTH]);
+            try {
+                UsersManager::checkPassword($password);
+            } catch (\Exception $e) {
+                $error = $e->getMessage();
             }
 
             // confirm matching passwords
@@ -628,6 +641,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->termsAndCondition = $termsAndConditionUrl;
         $view->privacyPolicyUrl = $privacyPolicyUrl;
         $view->token = $token;
+        $view->loginPlugin = Piwik::getLoginPluginName();
         $this->configureView($view);
         self::setHostValidationVariablesView($view);
         return $view->render();
@@ -644,6 +658,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         // if no user matches the invite token
         if (!$user) {
+            $this->bruteForceDetection->addFailedAttempt(IP::getIpFromHeader());
             throw new Exception(Piwik::translate('Login_InvalidOrExpiredToken'));
         }
 
@@ -688,6 +703,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         $view->token = $token;
+        $view->loginPlugin = Piwik::getLoginPluginName();
         $this->configureView($view);
         self::setHostValidationVariablesView($view);
         return $view->render();

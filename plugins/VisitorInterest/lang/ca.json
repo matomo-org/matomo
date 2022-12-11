@@ -1,24 +1,24 @@
 {
     "VisitorInterest": {
-        "BetweenXYMinutes": "%1$s-%2$s min",
-        "BetweenXYSeconds": "%1$s-%2$ss",
+        "BetweenXYMinutes": "%1$s - %2$s min",
+        "BetweenXYSeconds": "%1$s - %2$ss",
         "ColumnPagesPerVisit": "Pàgines per visita",
         "ColumnVisitDuration": "Durada de la visita",
         "Engagement": "Compromís",
         "NPages": "%s pàgines",
         "OnePage": "1 pàgina",
-        "PluginDescription": "Informes sobre l'interès dels visitants: nombre de pàgines vistes, temps passat al lloc web, dies des de l'última visita i molt més.",
+        "PluginDescription": "Interès dels visitants: nombre de pàgines vistes, temps passat al lloc web, dies des de l'última visita i molt més.",
         "VisitNum": "Nombre de visites",
         "VisitsByDaysSinceLast": "Visites per dia des de l'última visita",
         "VisitsPerDuration": "Visites segons la durada",
         "VisitsPerNbOfPages": "Visites segons el nombre de pàgines",
         "WidgetLengths": "Durada de les visites",
-        "WidgetLengthsDocumentation": "En aquest informe tu pots veure quantes visites han tingut una determinada duració. Inicialment, l'informe es mostra com un núvol d'etiquetes, on les duracions amb visites es mostren més gran.",
+        "WidgetLengthsDocumentation": "Quantes visites van tenir una durada total determinada. Inicialment l'informe es mostra com un núvol d'etiquetes, on les duracions més habituals tenen un tipus de lletra més gran.",
         "WidgetPages": "Pàgines per visita",
-        "WidgetPagesDocumentation": "En aquest informe podeu veure quantes visites han produït un nombre de pàgines vistes. Inicialment, la informació es mostra com un núvol d'etiquetes, on els nombres més comuns es mostren amb una mida més gran.",
+        "WidgetPagesDocumentation": "Quantes visites van implicar un nombre determinat de pàgines vistes. Inicialment l'informe es mostra com un núvol d'etiquetes, on un nombre més habitual de pàgines tenen un tipus de lletra més gran.",
         "WidgetVisitsByDaysSinceLast": "Visites per dia des de l'última visita",
-        "WidgetVisitsByDaysSinceLastDocumentation": "En aquest informe, podeu veure quantes visites han estat de visitant que la seva visita va ser fa un cert nombre de dies.",
-        "WidgetVisitsByNumDocumentation": "En aquest informe podeu veure qui va ser la visita número N. Per exemple, els visitants que han vist el vostre lloc web com a mínim N vegades.",
+        "WidgetVisitsByDaysSinceLastDocumentation": "Quantes visites van ser de visitants recurrents la darrera visita dels quals va ser fa un nombre determinat de dies.",
+        "WidgetVisitsByNumDocumentation": "El nombre de visitants que arriben a la seva enèsima visita. Es a dir la quantitat total de visitants que visiten el vostre lloc web una quantitat determinada de vegades o més.",
         "visitsByVisitCount": "Visites per nombre de visita"
     }
 }

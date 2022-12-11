@@ -55,7 +55,7 @@
         "DocumentationRevenueGeneratedByProductSales": "Product sales. Excludes tax, shipping and discount",
         "Download": "Download a file",
         "Ecommerce": "Ecommerce",
-        "EcommerceAndGoalsMenu": "Ecommerce & Goals",
+        "EcommerceAndGoalsMenu": "Ecommerce &amp; Goals",
         "EcommerceLog": "Ecommerce Log",
         "EcommerceOrder": "Ecommerce order",
         "EcommerceOverview": "Ecommerce Overview",
@@ -143,6 +143,6 @@
         "ColumnRevenueAttributedDocumentation": "The share of all revenue for %s where this page was viewed before conversion.",
         "ColumnConversionsEntryDocumentation": "The total number of goal conversions where this page was the entry page.",
         "ColumnConversionEntryRateDocumentation": "The percent of entrances that were converted for %s.",
-        "ColumnRevenueEntryDocumentation": "The share of all revenue for %s where this page was the entry pag.e"
+        "ColumnRevenueEntryDocumentation": "The share of all revenue for %s where this page was the entry page."
     }
 }

@@ -1,6 +1,8 @@
 {
     "Tour": {
-        "Engagement": "이용상황",
-        "CompletionTitle": "잘 처리되었습니다!"
+        "ChangeVisualisation": "비주얼리제이션을 변경합니다",
+        "ChangeVisualisationDescription": "보고서를 찾아보고 보고서 하단에 있는 비주얼리제이션 아이콘을 선택하여 비주얼리제이션을 변경합니다.",
+        "CompletionTitle": "잘 처리되었습니다!",
+        "Engagement": "이용상황"
     }
 }

@@ -128,7 +128,7 @@
 		
 		
 		
-		<siteName>Piwik test</siteName>
+		<siteName>A very long name for a very tiny test site, that also reaches the 90 character limit fully</siteName>
 		
 		
 		
@@ -510,7 +510,7 @@
 		
 		
 		
-		<siteName>Piwik test</siteName>
+		<siteName>A very long name for a very tiny test site, that also reaches the 90 character limit fully</siteName>
 		
 		
 		
@@ -656,6 +656,9 @@
 				<goalPageId>1</goalPageId>
 				
 				<url>http://example.org/index.htm</url>
+				<referrerType>direct</referrerType>
+				<referrerName />
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -745,7 +748,7 @@
 		
 		
 		
-		<siteName>Piwik test</siteName>
+		<siteName>A very long name for a very tiny test site, that also reaches the 90 character limit fully</siteName>
 		
 		
 		

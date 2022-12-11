@@ -45,6 +45,7 @@
     event, which, button, srcElement, type, target, data,
     parentNode, tagName, hostname, className,
     userAgent, cookieEnabled, sendBeacon, platform, mimeTypes, enabledPlugin, javaEnabled,
+    userAgentData, getHighEntropyValues, brands, uaFullVersion, fullVersionList,
     serviceWorker, ready, then, sync, register,
     XMLHttpRequest, ActiveXObject, open, setRequestHeader, onreadystatechange, send, readyState, status,
     getTime, getTimeAlias, setTime, toGMTString, getHours, getMinutes, getSeconds,
@@ -65,6 +66,7 @@
     deleteCustomVariables, deleteCustomDimension, setDownloadExtensions, addDownloadExtensions, removeDownloadExtensions,
     setDomains, setIgnoreClasses, setRequestMethod, setRequestContentType, setGenerationTimeMs, setPagePerformanceTiming,
     setReferrerUrl, setCustomUrl, setAPIUrl, setDocumentTitle, setPageViewId, getPiwikUrl, getMatomoUrl, getCurrentUrl,
+    setExcludedReferrers, getExcludedReferrers,
     setDownloadClasses, setLinkClasses,
     setCampaignNameKey, setCampaignKeywordKey,
     getConsentRequestsQueue, requireConsent, getRememberedConsent, hasRememberedConsent, isConsentRequired,
@@ -2247,6 +2249,9 @@ if (typeof window.Matomo !== 'object') {
                 // HTML anchor element classes to not track
                 configIgnoreClasses = [],
 
+                // Referrer URLs that should be excluded
+                configExcludedReferrers = ['.paypal.com'],
+
                 // Query parameters to be excluded
                 configExcludedQueryParams = [],
 
@@ -2373,6 +2378,11 @@ if (typeof window.Matomo !== 'object') {
                 // Browser features via client-side data collection
                 browserFeatures = {},
 
+                // Browser client hints
+                clientHints = {},
+                clientHintsRequestQueue = [],
+                clientHintsResolved = false,
+
                 // Keeps track of previously tracked content impressions
                 trackedContentImpressions = [],
                 isTrackOnlyVisibleContentEnabled = false,
@@ -2453,7 +2463,7 @@ if (typeof window.Matomo !== 'object') {
              * Get cookie value
              */
             function getCookie(cookieName) {
-                if (configCookiesDisabled) {
+                if (configCookiesDisabled && cookieName !== CONSENT_REMOVED_COOKIE_NAME) {
                     return 0;
                 }
 
@@ -2511,6 +2521,10 @@ if (typeof window.Matomo !== 'object') {
                 // we need to remove this parameter here, they wouldn't be removed in Matomo tracker otherwise eg
                 // for outlinks or referrers
                 url = removeUrlParameter(url, configVisitorIdUrlParameter);
+
+                // remove ignore referrer parameter if present
+                url = removeUrlParameter(url, 'ignore_referrer');
+                url = removeUrlParameter(url, 'ignore_referer');
 
                 for (i = 0; i < configExcludedQueryParams.length; i++) {
                     url = removeUrlParameter(url, configExcludedQueryParams[i]);
@@ -2717,6 +2731,49 @@ if (typeof window.Matomo !== 'object') {
                         if ((offset > 0) && (hostName.slice(offset) === alias)) {
                             return true;
                         }
+                    }
+                }
+
+                return false;
+            }
+
+            /**
+             * Whether the specified referrer url matches one of the configured excluded referrers.
+             *
+             * @param string referrerUrl
+             * @returns {boolean}
+             */
+            function isReferrerExcluded(referrerUrl)
+            {
+                var i,
+                    host,
+                    path,
+                    aliasHost,
+                    aliasPath;
+
+                if (!referrerUrl.length || !configExcludedReferrers.length) {
+                    return false;
+                }
+
+                host = getHostName(referrerUrl);
+                path = getPathName(referrerUrl);
+
+                // ignore www subdomain
+                if (host.indexOf('www.') === 0) {
+                    host = host.substr(4);
+                }
+
+                for (i = 0; i < configExcludedReferrers.length; i++) {
+                    aliasHost = domainFixup(configExcludedReferrers[i]);
+                    aliasPath = getPathName(configExcludedReferrers[i]);
+
+                    // ignore www subdomain
+                    if (aliasHost.indexOf('www.') === 0) {
+                        aliasHost = aliasHost.substr(4);
+                    }
+
+                    if (isSameHost(host, aliasHost) && isSitePath(path, aliasPath)) {
+                        return true;
                     }
                 }
 
@@ -2985,10 +3042,65 @@ if (typeof window.Matomo !== 'object') {
                 }
             }
 
+            function injectClientHints(request) {
+                if (!clientHints) {
+                    return request;
+                }
+
+                var i, appendix = '&uadata=' + encodeWrapper(windowAlias.JSON.stringify(clientHints));
+
+                if (request instanceof Array) {
+                    for (i = 0; i < request.length; i++) {
+                       request[i] += appendix;
+                    }
+                } else {
+                    request += appendix;
+                }
+
+                return request;
+            }
+
+            function detectClientHints (callback) {
+                if (!configBrowserFeatureDetection || !isDefined(navigatorAlias.userAgentData) || !isFunction(navigatorAlias.userAgentData.getHighEntropyValues)) {
+                    callback();
+                    return;
+                }
+
+                // Initialize with low entropy values that are always available
+                clientHints = {
+                    brands: navigatorAlias.userAgentData.brands,
+                    platform: navigatorAlias.userAgentData.platform
+                };
+
+                // try to gather high entropy values
+                // currently this methods simply returns the requested values through a Promise
+                // In later versions it might require a user permission
+                navigatorAlias.userAgentData.getHighEntropyValues(
+                    ['brands', 'model', 'platform', 'platformVersion', 'uaFullVersion', 'fullVersionList']
+                ).then(function(ua) {
+                    var i;
+                    if (ua.fullVersionList) {
+                        // if fullVersionList is available, brands and uaFullVersion isn't needed
+                        delete ua.brands;
+                        delete ua.uaFullVersion;
+                    }
+
+                    clientHints = ua;
+                    callback();
+                }, function (message) {
+                    callback();
+                });
+            }
+
             /*
              * Send request
              */
             function sendRequest(request, delay, callback) {
+                if (!clientHintsResolved) {
+                  clientHintsRequestQueue.push(request);
+                  return;
+                }
+
                 refreshConsentStatus();
                 if (!configHasConsent) {
                     consentRequestsQueue.push(request);
@@ -3002,8 +3114,9 @@ if (typeof window.Matomo !== 'object') {
                         request += '&consent=1';
                     }
 
-                    makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
+                    request = injectClientHints(request);
 
+                    makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
                         if (configAlwaysUseSendBeacon && sendPostRequestViaSendBeacon(request, callback, true)) {
                             setExpireDateTime(100);
                             return;
@@ -3058,6 +3171,11 @@ if (typeof window.Matomo !== 'object') {
                     return;
                 }
 
+                if (!clientHintsResolved) {
+                    clientHintsRequestQueue.push(requests);
+                    return;
+                }
+
                 if (!configHasConsent) {
                     consentRequestsQueue.push(requests);
                     return;
@@ -3070,7 +3188,7 @@ if (typeof window.Matomo !== 'object') {
 
                     var i = 0, bulk;
                     for (i; i < chunks.length; i++) {
-                        bulk = '{"requests":["?' + chunks[i].join('","?') + '"],"send_image":0}';
+                        bulk = '{"requests":["?' + injectClientHints(chunks[i]).join('","?') + '"],"send_image":0}';
                         if (configAlwaysUseSendBeacon && sendPostRequestViaSendBeacon(bulk, null, false)) {
                             // makes sure to load the next page faster by not waiting as long
                             // we apply this once we know send beacon works
@@ -3129,6 +3247,19 @@ if (typeof window.Matomo !== 'object') {
              * Browser features (plugins, resolution, cookies)
              */
             function detectBrowserFeatures() {
+                detectClientHints(function() {
+                    var i, requestType;
+                    clientHintsResolved = true;
+                    for (i = 0; i < clientHintsRequestQueue.length; i++) {
+                        requestType = typeof clientHintsRequestQueue[i];
+                        if (requestType === 'string') {
+                            sendRequest(clientHintsRequestQueue[i], configTrackerPause);
+                        } else if (requestType === 'object') {
+                            sendBulkRequest(clientHintsRequestQueue[i], configTrackerPause);
+                        }
+                    }
+                    clientHintsRequestQueue = [];
+                });
 
                 // Browser Feature is disabled return empty object
                 if (!configBrowserFeatureDetection) {
@@ -3630,6 +3761,16 @@ if (typeof window.Matomo !== 'object') {
                 return request + timings;
             }
 
+            /**
+             * Returns if the given url contains a parameter to ignore the referrer
+             * e.g. ignore_referer or ignore_referrer
+             * @param url
+             * @returns {boolean}
+             */
+            function hasIgnoreReferrerParameter(url) {
+                return getUrlParameter(url, 'ignore_referrer') === "1" || getUrlParameter(url, 'ignore_referer') === "1";
+            }
+
             function detectReferrerAttribution() {
                 var i,
                     now = new Date(),
@@ -3653,7 +3794,7 @@ if (typeof window.Matomo !== 'object') {
                 referralTs = attributionCookie[2];
                 referralUrl = attributionCookie[3];
 
-                if (!cookieSessionValue) {
+                if (!hasIgnoreReferrerParameter(currentUrl) && !cookieSessionValue) {
                     // cookie 'ses' was not found: we consider this the start of a 'session'
 
                     // Detect the campaign information from the current URL
@@ -3688,12 +3829,16 @@ if (typeof window.Matomo !== 'object') {
                     currentReferrerHostName = getHostName(configReferrerUrl);
                     originalReferrerHostName = referralUrl.length ? getHostName(referralUrl) : '';
 
-                    if (currentReferrerHostName.length && // there is a referrer
-                        !isSiteHostName(currentReferrerHostName) && // domain is not the current domain
-                        (!configConversionAttributionFirstReferrer || // attribute to last known referrer
-                        !originalReferrerHostName.length || // previously empty
-                        isSiteHostName(originalReferrerHostName))
-                    ) { // previously set but in current domain
+                    if (currentReferrerHostName.length // there is a referrer
+                        && !isSiteHostName(currentReferrerHostName) // domain is not the current domain
+                        && !isReferrerExcluded(configReferrerUrl) // referrer is excluded
+                        && (
+                            !configConversionAttributionFirstReferrer // attribute to last known referrer
+                            || !originalReferrerHostName.length // previously empty
+                            || isSiteHostName(originalReferrerHostName) // previously set but in current domain
+                            || isReferrerExcluded(referralUrl) // previously set but excluded
+                        )
+                    ) {
                         referralUrl = configReferrerUrl;
                     }
 
@@ -3740,7 +3885,8 @@ if (typeof window.Matomo !== 'object') {
                     now = new Date(),
                     customVariablesCopy = customVariables,
                     cookieCustomVariablesName = getCookieName('cvar'),
-                    currentUrl = configCustomUrl || locationHrefAlias;
+                    currentUrl = configCustomUrl || locationHrefAlias,
+                    hasIgnoreReferrerParam = hasIgnoreReferrerParameter(currentUrl);
 
                 if (configCookiesDisabled) {
                     deleteCookies();
@@ -3767,7 +3913,7 @@ if (typeof window.Matomo !== 'object') {
                     '&r=' + String(Math.random()).slice(2, 8) + // keep the string to a minimum
                     '&h=' + now.getHours() + '&m=' + now.getMinutes() + '&s=' + now.getSeconds() +
                     '&url=' + encodeWrapper(purify(currentUrl)) +
-                    (configReferrerUrl.length ? '&urlref=' + encodeWrapper(purify(configReferrerUrl)) : '') +
+                    (configReferrerUrl.length && !isReferrerExcluded(configReferrerUrl) && !hasIgnoreReferrerParam ? '&urlref=' + encodeWrapper(purify(configReferrerUrl)) : '') +
                     (isNumberOrHasLength(configUserId) ? '&uid=' + encodeWrapper(configUserId) : '') +
                     '&_id=' + cookieVisitorIdValues.uuid +
                     '&_idn=' + cookieVisitorIdValues.newVisitor + // currently unused
@@ -4970,6 +5116,9 @@ if (typeof window.Matomo !== 'object') {
             this.getDomains = function () {
                 return configHostsAlias;
             };
+            this.getExcludedReferrers = function () {
+                return configExcludedReferrers;
+            };
             this.getConfigIdPageView = function () {
                 return configIdPageView;
             };
@@ -5564,6 +5713,22 @@ if (typeof window.Matomo !== 'object') {
                 }
             };
 
+          /**
+           * Set array of domains to be excluded as referrer. Also supports path, eg '.matomo.org/subsite1'. In this
+           * case all referrers that don't match '*.matomo.org/subsite1/ *' would still be used as referrer.
+           * For example 'matomo.org/' or 'matomo.org/subsite2' would both be used as referrer.
+           *
+           * Also supports page wildcard, eg 'matomo.org/index*'. In this case all referrers
+           * that don't match matomo.org/index* would still be treated as referrer.
+           *
+           * Domains added with setDomains will automatically be excluded as referrers.
+           *
+           * @param string|array excludedReferrers
+           */
+            this.setExcludedReferrers = function(excludedReferrers) {
+                configExcludedReferrers = isString(excludedReferrers) ? [excludedReferrers] : excludedReferrers;
+            };
+
             /**
              * Enables cross domain linking. By default, the visitor ID that identifies a unique visitor is stored in
              * the browser's first party cookies. This means the cookie can only be accessed by pages on the same domain.
@@ -5795,7 +5960,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Set array of campaign name parameters
              *
-             * @see https://matomo.org/faq/how-to/#faq_120
+             * @see https://matomo.org/faq/how-to/faq_120
              * @param string|array campaignNames
              */
             this.setCampaignNameKey = function (campaignNames) {
@@ -5805,7 +5970,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Set array of campaign keyword parameters
              *
-             * @see https://matomo.org/faq/how-to/#faq_120
+             * @see https://matomo.org/faq/how-to/faq_120
              * @param string|array campaignKeywords
              */
             this.setCampaignKeywordKey = function (campaignKeywords) {
@@ -7053,16 +7218,25 @@ if (typeof window.Matomo !== 'object') {
             };
 
             /**
-             * Calling this method will remove any previously given consent and during this page view no request
-             * will be sent anymore ({@link requireConsent()}) will be called automatically to ensure the removed
-             * consent will be enforced. You may call this method if the user removes consent manually, or if you
-             * want to re-ask for consent after a specific time period.
-             */
-            this.forgetConsentGiven = function () {
-                var thirtyYears = 30 * 365 * 24 * 60 * 60 * 1000;
+            * Calling this method will remove any previously given consent and during this page view no request
+            * will be sent anymore ({@link requireConsent()}) will be called automatically to ensure the removed
+            * consent will be enforced. You may call this method if the user removes consent manually, or if you
+            * want to re-ask for consent after a specific time period. You can optionally define the lifetime of 
+            * the CONSENT_REMOVED_COOKIE_NAME cookie in hours using a parameter.
+            *
+            * @param int hoursToExpire After how many hours the CONSENT_REMOVED_COOKIE_NAME cookie should expire.
+            * By default the consent is valid for 30 years unless cookies are deleted by the user or the browser
+            * prior to this
+            */
+            this.forgetConsentGiven = function (hoursToExpire) {
+                if (hoursToExpire) {
+                    hoursToExpire = hoursToExpire * 60 * 60 * 1000;
+                } else {
+                    hoursToExpire = 30 * 365 * 24 * 60 * 60 * 1000;
+                }
 
                 deleteCookie(CONSENT_COOKIE_NAME, configCookiePath, configCookieDomain);
-                setCookie(CONSENT_REMOVED_COOKIE_NAME, new Date().getTime(), thirtyYears, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
+                setCookie(CONSENT_REMOVED_COOKIE_NAME, new Date().getTime(), hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
                 this.forgetCookieConsentGiven();
                 this.requireConsent();
             };
@@ -7163,7 +7337,7 @@ if (typeof window.Matomo !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'forgetCookieConsentGiven', 'requireCookieConsent','disableBrowserFeatureDetection', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setCookieSameSite', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'disableAlwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'setConsentGiven', 'disablePerformanceTracking', 'setPagePerformanceTiming', 'setExcludedQueryParams'];
+        var applyFirst = ['addTracker', 'forgetCookieConsentGiven', 'requireCookieConsent','disableBrowserFeatureDetection', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setCookieSameSite', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'disableAlwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'setConsentGiven', 'disablePerformanceTracking', 'setPagePerformanceTiming', 'setExcludedQueryParams', 'setExcludedReferrers'];
 
         function createFirstTracker(matomoUrl, siteId)
         {
@@ -7262,7 +7436,7 @@ if (typeof window.Matomo !== 'object') {
 
                     if (iframe.contentWindow && isDefined(iframe.contentWindow.postMessage) && iframeHost === originHost) {
                         var jsonMessage = JSON.stringify(postMessage);
-                        iframe.contentWindow.postMessage(jsonMessage, '*');
+                        iframe.contentWindow.postMessage(jsonMessage, e.origin);
                     }
                 }
             }

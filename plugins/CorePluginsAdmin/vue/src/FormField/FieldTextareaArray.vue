@@ -24,8 +24,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, nextTick } from 'vue';
+import { defineComponent } from 'vue';
 import { debounce } from 'CoreHome';
+import AbortableModifiers from './AbortableModifiers';
 
 const SEPARATOR = '\n';
 
@@ -35,6 +36,7 @@ export default defineComponent({
     title: String,
     uiControlAttributes: Object,
     modelValue: [Array, String],
+    modelModifiers: Object,
   },
   inheritAttrs: false,
   emits: ['update:modelValue'],
@@ -44,7 +46,18 @@ export default defineComponent({
         return this.modelValue;
       }
 
-      return (this.modelValue || []).join(SEPARATOR);
+      // Handle case when modelValues is like: {"0": "value0", "2": "value1"}
+      if (typeof this.modelValue === 'object') {
+        return Object.values(this.modelValue).join(SEPARATOR);
+      }
+
+      try {
+        return (this.modelValue || []).join(SEPARATOR);
+      } catch (e) {
+        // Prevent page breaking on unexpected modelValue type
+        console.error(e);
+        return '';
+      }
     },
   },
   created() {
@@ -54,15 +67,23 @@ export default defineComponent({
     onKeydown(event: KeyboardEvent) {
       const value = (event.target as HTMLTextAreaElement).value.split(SEPARATOR);
       if (value.join(SEPARATOR) !== this.concattedValue) {
-        this.$emit('update:modelValue', value);
+        if (!(this.modelModifiers as AbortableModifiers)?.abortable) {
+          this.$emit('update:modelValue', value);
+          return;
+        }
 
-        nextTick(() => {
-          if ((event.target as HTMLInputElement).value !== this.concattedValue) {
-            // change to previous value if the parent component did not update the model value
-            // (done manually because Vue will not notice if a value does NOT change)
-            (event.target as HTMLInputElement).value = this.concattedValue;
-          }
-        });
+        const emitEventData = {
+          value,
+          abort: () => {
+            if ((event.target as HTMLInputElement).value !== this.concattedValue) {
+              // change to previous value if the parent component did not update the model value
+              // (done manually because Vue will not notice if a value does NOT change)
+              (event.target as HTMLInputElement).value = this.concattedValue;
+            }
+          },
+        };
+
+        this.$emit('update:modelValue', emitEventData);
       }
     },
   },

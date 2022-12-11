@@ -752,7 +752,7 @@ class Http
                         [$header, $response] = $split;
                     } else {
                         $response = '';
-                        $header = $split;
+                        $header = reset($split);
                     }
                 }
 
@@ -991,6 +991,24 @@ class Http
         return !empty($_SERVER['HTTP_USER_AGENT'])
             ? $_SERVER['HTTP_USER_AGENT']
             : 'Matomo/' . Version::VERSION;
+    }
+
+    public static function getClientHintsFromServerVariables(): array
+    {
+        $clientHints = [];
+
+        foreach ($_SERVER as $key => $value) {
+            if (
+                0 === strpos(strtolower($key), strtolower('HTTP_SEC_CH_UA'))
+                || 'X_HTTP_REQUESTED_WITH' === strtoupper($key)
+            ) {
+                $clientHints[$key] = $value;
+            }
+        }
+
+        ksort($clientHints);
+
+        return $clientHints;
     }
 
     /**

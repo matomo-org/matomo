@@ -1,0 +1,9 @@
+[
+  {
+    "title":       "User Opt-Out Improvements",
+    "description": "The privacy manager user opt-out has been updated to provide new code generation options that improve compatibility and allow additional customisation.",
+    "version":     "4.12.0",
+    "link_name":   "For more information go here",
+    "link":        "https://matomo.org/blog/2022/09/improvements-to-matomo-opt-out-form-feature/"
+  }
+]

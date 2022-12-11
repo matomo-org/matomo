@@ -225,6 +225,7 @@ class Visualization extends ViewDataTable
 
         if (null === $this->dataTable) {
             $view->dataTable = null;
+            $view->dataTableHasNoData = true;
         } else {
             $view->dataTableHasNoData = !$this->isThereDataToDisplay();
             $view->dataTable          = $this->dataTable;
@@ -312,6 +313,7 @@ class Visualization extends ViewDataTable
 
     protected function loadDataTableFromAPI()
     {
+
         if (!is_null($this->dataTable)) {
             // data table is already there
             // this happens when setDataTable has been used
@@ -468,7 +470,7 @@ class Visualization extends ViewDataTable
                     // initial metadata and update metadata if current is more recent
                     if (!empty($itemMetaData[DataTable::ARCHIVED_DATE_METADATA_NAME])
                         && (
-                            empty($metadata[DataTable::ARCHIVED_DATE_METADATA_NAME]) 
+                            empty($metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])
                             || strtotime($itemMetaData[DataTable::ARCHIVED_DATE_METADATA_NAME]) > strtotime($metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])
                         )
                     ) {

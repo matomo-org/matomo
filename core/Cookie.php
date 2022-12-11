@@ -44,6 +44,11 @@ class Cookie
     protected $path = '';
 
     /**
+     * @var string
+     */
+    protected $keyStore = false;
+
+    /**
      * Restrict cookie to a domain (or subdomains)
      * @var string
      */
@@ -456,7 +461,7 @@ class Cookie
             } else {
                 $userAgent = Http::getUserAgent();
                 $ddFactory = StaticContainer::get(\Piwik\DeviceDetector\DeviceDetectorFactory::class);
-                $deviceDetector = $ddFactory->makeInstance($userAgent);
+                $deviceDetector = $ddFactory->makeInstance($userAgent, Http::getClientHintsFromServerVariables());
                 $deviceDetector->parse();
 
                 $browserFamily = \DeviceDetector\Parser\Client\Browser::getBrowserFamily($deviceDetector->getClient('short_name'));

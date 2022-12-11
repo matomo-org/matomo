@@ -49,6 +49,5 @@ class HttpsUpdateCheck implements Diagnostic
             // successful using https
             return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK));
         }
-
     }
 }

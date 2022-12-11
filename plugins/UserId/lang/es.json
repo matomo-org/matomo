@@ -1,7 +1,10 @@
 {
     "UserId": {
+        "PluginDescription": "Muestra reportes de usuario",
+        "ThereIsNoDataForThisReportHelp": "%1$sLea la guía del usuario para saber cómo generar datos para este informe.%2$s",
         "UserId": "UserId",
+        "UserReportDocumentation": "Muestra las visitas y otras métricas generales para cada ID de usuario individual.",
         "UserReportTitle": "IDs de Usuario",
-        "PluginDescription": "Muestra reportes de usuario"
+        "VisitorsUserSubcategoryHelp": "El informe de ID de usuario muestra las visitas asociadas con todos sus usuarios registrados y conectados. Comprenda el uso del sitio web por parte de sus usuarios específicos y descubra quiénes son sus usuarios más y menos activos."
     }
 }

@@ -129,7 +129,6 @@
         "SystemCheckTracker": "Estado del tracker",
         "SystemCheckTrackerHelp": "Falló la solicitud GET a \"matomo.php\". Intentá permitir esta dirección web en tu autenticación HTTP y deshabilitá \"mod_security\" (podés pedírselo a tu administrador web). Para más información sobre el error, revisá el archivo de registro de errores de tu servidor web.",
         "SystemCheckUpdateHttps": "Actualización sobre HTTPS",
-        "SystemCheckUpdateHttpsNotSupported": "Matomo no puede usar HTTPS para actualizar, por lo que volverá a la actualización no segura vía HTTP. Revisá que CURL o \"allow_url_fopen\" sea soportada y que la extensión openssl PHP esté instalada: https://matomo.org/faq/troubleshooting/faq_177/",
         "SystemCheckViewFullSystemCheck": "Ver el informe completo de revisión del sistema",
         "SystemCheckWarnDomHelp": "Deberías habilitar la extensión \"dom\" (ej., instalar el paquete \"php-dom\" y/o el paquete \"php-xml\").",
         "SystemCheckWarnJsonHelp": "Deberías habilitar la extensión \"json\" (por ejemplo, instalando el paquete \"php-json\").",
@@ -152,7 +151,7 @@
         "TablesWithSameNamesFound": "Algunas %1$stablas en tu base de datos%2$s tienen los mismos nombres como las tablas Matomo que estás intentando crear",
         "Timezone": "Huso horario del sitio web",
         "WeHopeYouWillEnjoyPiwik": "Esperamos que estés disfrutando de Matomo tanto como nosotros disfrutamos hacerlo.",
-        "Welcome": "¡Bienvenido!",
+        "Welcome": "¡Bienvenido",
         "WelcomeHelp": "<p>Matomo es software libre de análisis de web que hace fácil obtener la información que querés de tus visitantes.</p> <p>Este proceso está dividido hasta en %s fáciles pasos y llevará unos 5 minutos.</p>",
         "WelcomeToCommunity": "¡Bienvenido a la comunidad Matomo!",
         "YouMayInstallPiwikNow": "Podés %1$sinstalar Matomo ahora%2$s"

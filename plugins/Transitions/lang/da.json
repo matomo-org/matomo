@@ -2,7 +2,6 @@
     "Transitions": {
         "BouncesInline": "%s afvisninger",
         "DirectEntries": "Direkte besøg",
-        "Transitions": "Overgange",
         "ErrorBack": "Gå tilbage til forrige handling",
         "ExitsInline": "%s afslutninger",
         "FeatureDescription": "Overgange giver dig en rapport over, hvad dine besøgende gjorde umiddelbart før og efter at have besøgt en given side. Denne side vil forklare, hvordan du tilgår forstår og anvender denne effektive rapport.",
@@ -17,17 +16,18 @@
         "IncomingTraffic": "Indkommende trafik",
         "LoopsInline": "%s side genindlæsninger",
         "NoDataForAction": "Der er ingen data for %s",
-        "NoDataForActionDetails": "Enten havde handlingen ingen sidevisninger i perioden %s eller den er ugyldig.",
+        "NoDataForActionDetails": "Enten havde handlingen ingen sidevisninger i perioden eller den er ugyldig.",
         "OutgoingTraffic": "Udgående trafik",
+        "PageURLTransitions": "Side-URL-overgange",
         "ShareOfAllPageviews": "Denne side havde %1$s sidevisninger (%2$s af alle sidevisninger)",
         "ToFollowingPages": "Til interne sider",
         "ToFollowingPagesInline": "%s til interne sider",
         "ToFollowingSiteSearches": "Interne søgninger",
         "ToFollowingSiteSearchesInline": "%s interne søgninger",
-        "XOfAllPageviews": "%s af alle visninger af denne side",
-        "XOutOfYVisits": "%1$s (ud af %2$s)",
-        "PageURLTransitions": "Side-URL-overgange",
+        "Transitions": "Overgange",
         "TransitionsSubcategoryHelp1": "Overgange giver dig en rapport over, hvad dine besøgende gjorde umiddelbart før og efter at have besøgt en given side. Denne side vil forklare, hvordan du tilgår forstår og anvender denne effektive rapport.",
-        "TransitionsSubcategoryHelp2": "Flere detaljer"
+        "TransitionsSubcategoryHelp2": "Flere detaljer",
+        "XOfAllPageviews": "%s af alle visninger af denne side",
+        "XOutOfYVisits": "%1$s (ud af %2$s)"
     }
 }

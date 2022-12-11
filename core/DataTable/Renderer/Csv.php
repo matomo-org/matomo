@@ -239,11 +239,12 @@ class Csv extends Renderer
 
         $value = $this->formatFormulas($value);
 
-        if (is_string($value)
-            && (strpos($value, '"') !== false
-                || strpos($value, $this->separator) !== false)
-        ) {
-            $value = '"' . str_replace('"', '""', $value) . '"';
+        if (is_string($value)) {
+            $value = str_replace(["\t"], ' ', $value);
+
+            if (strpos($value, '"') !== false || strpos($value, $this->separator) !== false) {
+                $value = '"' . str_replace('"', '""', $value) . '"';
+            }
         }
 
         // in some number formats (e.g. German), the decimal separator is a comma

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -9,8 +10,12 @@
 
 namespace Piwik\Plugin;
 
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\Piwik;
+use Piwik\Plugins\Login\PasswordVerifier;
 use Psr\Log\LoggerInterface;
+use Exception;
 
 /**
  * The base class of all API singletons.
@@ -66,8 +71,8 @@ abstract class API
                 $logger = $container->get('Psr\Log\LoggerInterface');
 
                 // BC with API defining a protected constructor
-                $logger->notice('The API class {class} defines a protected constructor which is deprecated, make the constructor public instead', array('class' => $class));
-                self::$instances[$class] = new $class;
+                $logger->notice('The API class {class} defines a protected constructor which is deprecated, make the constructor public instead', ['class' => $class]);
+                self::$instances[$class] = new $class();
             }
         }
 
@@ -92,7 +97,7 @@ abstract class API
      */
     public static function unsetAllInstances()
     {
-        self::$instances = array();
+        self::$instances = [];
     }
 
     /**
@@ -104,5 +109,40 @@ abstract class API
     {
         $class = get_called_class();
         self::$instances[$class] = $instance;
+    }
+
+    /**
+     * Verifies if the given password matches the current users password
+     *
+     * @param $passwordConfirmation
+     * @throws Exception
+     */
+    protected function confirmCurrentUserPassword($passwordConfirmation)
+    {
+        $loginCurrentUser = Piwik::getCurrentUserLogin();
+
+        if (!Piwik::doesUserRequirePasswordConfirmation($loginCurrentUser)) {
+            return; // password confirmation disabled for user
+        }
+
+        if (empty($passwordConfirmation)) {
+            throw new Exception(Piwik::translate('UsersManager_ConfirmWithPassword'));
+        }
+
+        $passwordConfirmation = Common::unsanitizeInputValue($passwordConfirmation);
+
+        try {
+            if (
+                !StaticContainer::get(PasswordVerifier::class)->isPasswordCorrect(
+                    $loginCurrentUser,
+                    $passwordConfirmation
+                )
+            ) {
+                throw new Exception(Piwik::translate('UsersManager_CurrentPasswordNotCorrect'));
+            }
+        } catch (Exception $e) {
+            // in case of any error (e.g. the provided password is too weak)
+            throw new Exception(Piwik::translate('UsersManager_CurrentPasswordNotCorrect'));
+        }
     }
 }

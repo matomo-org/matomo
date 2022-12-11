@@ -77,7 +77,7 @@
         "TablesWarningHelp": "Vyberte si použitie už existujúcich tabuliek alebo výber čistej inštalácie s vymazaním všetkých existujúcich dát v databáze.",
         "TablesWithSameNamesFound": "Niektoré %1$s tabuľky vo vašej databáze %2$s majú rovnaké názvy, ako sa snaží vytvoriť Matomo",
         "Timezone": "Časové pásmo webovej stránky",
-        "Welcome": "Vitajte!",
+        "Welcome": "Vitajte",
         "WelcomeToCommunity": "Vitajte v Matomo komunite"
     }
 }

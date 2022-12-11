@@ -4,9 +4,6 @@
         "DirectEntries": "Directe Bezoeken",
         "ErrorBack": "Ga terug naar de vorige actie",
         "ExitsInline": "%s Einde Bezoek",
-        "NumPageviews": "%s pageviews",
-        "NumDownloads": "%s downloads",
-        "NumOutlinks": "%s outlinks",
         "FromCampaigns": "Van campagnes",
         "FromPreviousPages": "Van interne pagina's",
         "FromPreviousPagesInline": "%s van interne pagina's",
@@ -17,7 +14,10 @@
         "IncomingTraffic": "Inkomend verkeer",
         "LoopsInline": "%s pagina herladen",
         "NoDataForAction": "Er zijn geen gegevens voor %s",
-        "NoDataForActionDetails": "Deze actie had geen paginaweergaves gedurende de periode %s, of is ongeldig.",
+        "NoDataForActionDetails": "Deze actie had geen paginaweergaves gedurende de periode, of is ongeldig.",
+        "NumDownloads": "%s downloads",
+        "NumOutlinks": "%s outlinks",
+        "NumPageviews": "%s pageviews",
         "OutgoingTraffic": "Uitgaand verkeer",
         "PluginDescription": "Voor elke pagina URL in het Transities rapport zijn de voorgaande en volgende acties beschikbaar in de Acties rapportage met een nieuw icoontje.",
         "ShareOfAllPageviews": "Deze pagina had %1$s paginaweergaves (%2$s van alle paginaweergaves)",
@@ -25,8 +25,8 @@
         "ToFollowingPagesInline": "%s naar interne pagina's",
         "ToFollowingSiteSearches": "Interne zoekopdrachten",
         "ToFollowingSiteSearchesInline": "%s interne zoekopdrachten",
+        "TransitionsSubcategoryHelp2": "Meer details",
         "XOfAllPageviews": "%s van alle weergaves van deze pagina",
-        "XOutOfYVisits": "%1$s (van de %2$s)",
-        "TransitionsSubcategoryHelp2": "Meer details"
+        "XOutOfYVisits": "%1$s (van de %2$s)"
     }
 }

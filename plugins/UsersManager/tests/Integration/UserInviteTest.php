@@ -49,6 +49,34 @@ class UserInviteTest extends IntegrationTestCase
         $this->model = new Model();
     }
 
+    public function testCopyLink()
+    {
+        Request::processRequest(
+            'UsersManager.inviteUser',
+            [
+                'userLogin' => $this->pendingUser['login'],
+                'email' => $this->pendingUser['email'],
+                'initialIdSite' => 1,
+                'expiryInDays' => 7
+            ]
+        );
+
+        $link = Request::processRequest(
+            'UsersManager.generateInviteLink',
+            [
+                'userLogin' => $this->pendingUser['login'],
+                'expiryInDays' => 7
+            ]
+        );
+
+        $response = Http::sendHttpRequest(
+            $link,
+            10
+        );
+
+        $this->assertStringContainsString('Accept invitation', $response, 'error on accept invite page');
+    }
+
     public function testInviteUser()
     {
         Request::processRequest(
@@ -56,7 +84,7 @@ class UserInviteTest extends IntegrationTestCase
             [
                 'userLogin' => $this->pendingUser['login'],
                 'email' => $this->pendingUser['email'],
-                'idSite' => 1,
+                'initialIdSite' => 1,
                 'expiryInDays' => 7
             ]
         );
@@ -78,7 +106,7 @@ class UserInviteTest extends IntegrationTestCase
             10
         );
 
-        $this->assertStringContainsString('decline this invitation', $response, 'error on decline invite page');
+        $this->assertStringContainsString('Decline this invitation', $response, 'error on decline invite page');
 
         // move date after expire time, but before deletion time
         Date::$now = Date::today()->addDay(8)->getTimestamp();

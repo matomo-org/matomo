@@ -1,8 +1,33 @@
 {
     "CoreHome": {
         "CategoryNoData": "Daturik ez kategoria honetan. Saiatu \"Sartu populazio guztia\" aukerarekin.",
-        "JavascriptDisabled": "JavaScript-ek gaituta egon behar du Matomo ikuspegi estandarrean erabiltzeko.<br \/>Badirudi ordea JavaScript desgaituta dagoela edo zure nabigatzaileak ez duela onartzen.<br \/>Ikuspegi estandarra erabiltzeako, gaitu JavaScript zure nabigatzailearen aukeretan eta ondoren %1$ssaiatu berriro%2$s.<br \/>",
+        "ChangePeriod": "Aldatu tartea",
+        "ChangeVisualization": "Aldatu bisualizazioa",
+        "CheckForUpdates": "Egiaztatu eguneraketarik badagoen",
+        "CloseSearch": "Itxi bilaketa",
+        "EndDate": "Bukaera data",
+        "EndShortcut": "Bukatu",
+        "HomeShortcut": "Hasiera",
+        "JavascriptDisabled": "JavaScript-ek gaituta egon behar du Matomo ikuspegi estandarrean erabiltzeko.<br />Badirudi ordea JavaScript desgaituta dagoela edo zure nabigatzaileak ez duela onartzen.<br />Ikuspegi estandarra erabiltzeako, gaitu JavaScript zure nabigatzailearen aukeretan eta ondoren %1$ssaiatu berriro%2$s.<br />",
+        "MainNavigation": "Nabigazio nagusia",
+        "Menu": "Menua",
+        "MenuEntries": "Menu sarrerak",
+        "NoSuchPage": "Orrialde hau ez da existitzen",
+        "RowLimit": "Lerro muga",
+        "SearchOnMatomo": "Bilatu '%1$s' Matomo.org-en",
+        "SeeAvailableVersions": "Ikusi eskuragarri dauden bertsioak",
+        "Segments": "Segmentuak",
+        "ShareThis": "Partekatu hau",
         "ShowJSCode": "Erakutsi txertatu beharreko JavaScript kodea",
-        "SystemSummaryPhpVersion": "PHP bertsioa"
+        "StartDate": "Hasiera data",
+        "SystemSummaryMysqlVersion": "MySQL bertsioa",
+        "SystemSummaryNActivatedPlugins": "Aktibatutako %d plugin",
+        "SystemSummaryNSegments": "%1$d segmentuak",
+        "SystemSummaryNWebsites": "%d webguneak",
+        "SystemSummaryPhpVersion": "PHP bertsioa",
+        "SystemSummaryPiwikVersion": "Matomo bertsioa",
+        "TableNoData": "Daturik ez taula honetarako.",
+        "ViewAllPiwikVideoTutorials": "Ikusi Matomo bideo tutorial guztiak",
+        "YouAreUsingTheLatestVersion": "Matomoren azken bertsia erabiltzen ari zara!"
     }
 }

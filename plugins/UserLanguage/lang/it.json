@@ -1,9 +1,9 @@
 {
     "UserLanguage": {
-        "BrowserLanguage": "Lingua Browser",
+        "BrowserLanguage": "Lingua del browser",
         "LanguageCode": "Codice della lingua",
-        "PluginDescription": "Restituisce la lingua utilizzata dai browser dei tuoi visitatori.",
-        "getLanguageDocumentation": "Questo report mostra la lingua utilizzata dai browser del visitatore. (ad es. \"Italiano\")",
-        "getLanguageCodeDocumentation": "Questo report mostra il codice esatto della lingua su cui è impostato il browser del visitatore. (ad es. \"Italiano (it-IT)\")"
+        "PluginDescription": "Restituisce la lingua utilizzata dal browser dei tuoi visitatori.",
+        "getLanguageCodeDocumentation": "Mostra il codice della lingua su cui è impostato il browser del visitatore. (ad es. \"Italiano (it-IT)\")",
+        "getLanguageDocumentation": "Mostra la lingua utilizzata dal browser del visitatore. (ad es. \"Italiano\")"
     }
 }

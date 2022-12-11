@@ -169,10 +169,20 @@ describe("UsersManager", function () {
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('previous');
     });
 
-    it('should delete a single user when the modal is confirmed is clicked', async function () {
-
+    it('should show password confirmation when deleting a single user', async function () {
         await (await page.jQuery('.deleteuser:eq(0)')).click();
-        await (await page.jQuery('.delete-user-confirm-modal .modal-close:not(.modal-no):visible')).click();
+        const modal = await page.waitForSelector('.modal.open', { visible: true });
+        await page.focus('.modal.open #currentUserPassword');
+        await page.waitForTimeout(250);
+        expect(await modal.screenshot()).to.matchImage({
+          imageName: 'delete_single_confirm',
+          comparisonThreshold: 0.025
+        });
+    });
+
+    it('should delete a single user when the modal is confirmed is clicked', async function () {
+        await page.type('.modal.open #currentUserPassword', 'superUserPass');
+        await (await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
 
         await page.mouse.move(-10, -10);
@@ -181,12 +191,23 @@ describe("UsersManager", function () {
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('delete_single');
     });
 
-    it('should delete selected users when delete users bulk action is used', async function () {
+    it('should show password confirmation when deleting multiple user using bulk action', async function () {
         await page.click('th.select-cell input + span'); // select displayed rows
 
         await page.click('.bulk-actions.btn');
         await (await page.jQuery('#user-list-bulk-actions a:contains(Delete Users)')).click();
-        await (await page.jQuery('.delete-user-confirm-modal .modal-close:not(.modal-no):visible')).click();
+        const modal = await page.waitForSelector('.modal.open', { visible: true });
+        await page.focus('.modal.open #currentUserPassword');
+        await page.waitForTimeout(250);
+        expect(await modal.screenshot()).to.matchImage({
+          imageName: 'delete_bulk_confirm',
+          comparisonThreshold: 0.025
+        });
+    });
+
+    it('should delete selected users when delete users bulk action is used', async function () {
+        await page.type('.modal.open #currentUserPassword', 'superUserPass');
+        await (await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
 
         await page.mouse.move(-10, -10);
@@ -202,7 +223,7 @@ describe("UsersManager", function () {
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('add_new_user_form');
     });
 
-    it('should create a user and show the edit user form when the create user button is clicked', async function () {
+    it('should show confirmation when inviting a user', async function () {
         await page.type('#user_login', '000newuser');
         await page.type('#user_email', 'theuser@email.com');
 
@@ -210,6 +231,18 @@ describe("UsersManager", function () {
         await (await page.jQuery('.userEditForm .siteSelector .custom_select_ul_list a:eq(1):visible', { waitFor: true })).click();
 
         await page.evaluate(() => $('.userEditForm .matomo-save-button input').click());
+        const modal = await page.waitForSelector('.modal.open', { visible: true });
+        await page.focus('.modal.open #currentUserPassword');
+        await page.waitForTimeout(250);
+        expect(await modal.screenshot()).to.matchImage({
+            imageName: 'invite_confirm',
+            comparisonThreshold: 0.025
+        });
+    });
+
+    it('should show the edit user form when user has been invited', async function () {
+        await page.type('.modal.open #currentUserPassword', 'superUserPass');
+        await (await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('user_created');
@@ -440,15 +473,15 @@ describe("UsersManager", function () {
 
     it('should show superuser confirm modal when the superuser toggle is clicked', async function () {
         await page.click('.userEditForm #superuser_access+span');
-        await page.waitForSelector('.superuser-confirm-modal');
+        await page.waitForSelector('.modal.open');
         await page.waitForTimeout(500);
 
-        expect(await page.screenshotSelector('.superuser-confirm-modal')).to.matchImage('superuser_confirm');
+        expect(await page.screenshotSelector('.modal.open')).to.matchImage('superuser_confirm');
     });
 
     it('should fail to set superuser access if password is wrong', async function () {
-        await page.type('input#currentUserPasswordForSuperUser', 'wrongpassword');
-        await (await page.jQuery('.superuser-confirm-modal .modal-close:not(.modal-no):visible')).click();
+        await page.type('.modal.open #currentUserPassword', 'wrongpassword');
+        await (await page.jQuery('.modal.open .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
 
         await page.waitForSelector('.notification-error', { visible: true });
@@ -461,8 +494,8 @@ describe("UsersManager", function () {
         await page.click('.userEditForm #superuser_access+span');
         await page.waitForTimeout(500);
 
-        await page.type('input#currentUserPasswordForSuperUser', 'superUserPass');
-        await (await page.jQuery('.superuser-confirm-modal .modal-close:not(.modal-no):visible')).click();
+        await page.type('.modal.open #currentUserPassword', 'superUserPass');
+        await (await page.jQuery('.modal.open .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
         await page.waitForTimeout(500);
 
@@ -509,9 +542,9 @@ describe("UsersManager", function () {
     });
 
     it('should show error when wrong password entered', async function () {
-        await page.type('.modal.open #currentUserPasswordChangePwd', 'test123456');
+        await page.type('.modal.open #currentUserPassword', 'test123456');
 
-        var btnNo = await page.jQuery('.change-password-modal .modal-close:not(.modal-no):visible');
+        var btnNo = await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible');
         await btnNo.click();
 
         await page.waitForTimeout(500); // animation
@@ -526,14 +559,35 @@ describe("UsersManager", function () {
         await page.goto(url);
         await (await page.jQuery('.resend')).click();
         await page.waitForTimeout(500); // animation
-        await page.waitForSelector('.resend-invite-confirm-modal', { visible: true });
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('resend_popup');
+        const elem = await page.waitForSelector('.resend-invite-confirm-modal', { visible: true });
+        expect(await elem.screenshot()).to.matchImage('resend_popup');
+    });
+
+    it('should show invite link copied when copy clicked', async function () {
+        await (await page.jQuery('.resend-invite-confirm-modal .btn-copy-link')).click();
+
+        await page.waitForTimeout(500); // animation
+        // password confirm
+        await page.type('.confirm-password-modal #currentUserPassword', 'superUserPass');
+        await (await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible')).click();
+
+        await page.waitForTimeout(500); // animation
+        await page.waitForNetworkIdle();
+
+      expect(await page.screenshotSelector('.usersManager')).to.matchImage('copied_success');
     });
 
     it('should show resend success message', async function() {
-        await (await page.jQuery('.resend-invite-confirm-modal .modal-close:not(.modal-no):visible')).click();
+        await (await page.jQuery('.resend-invite-confirm-modal .btn-resend')).click();
+
+        await page.waitForTimeout(500); // animation
+        // password confirm
+        await page.type('.confirm-password-modal #currentUserPassword', 'superUserPass');
+        await (await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible')).click();
+
         await page.waitForSelector('#notificationContainer .notification');
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('resend_success');
+        await page.waitForNetworkIdle();
+        expect(await page.screenshotSelector('#notificationContainer .notification')).to.matchImage('resend_success');
     });
 
 
@@ -586,6 +640,17 @@ describe("UsersManager", function () {
 
             expect(await page.screenshotSelector('.usersManager')).to.matchImage('admin_edit_permissions');
         });
+
+      it('should filter editing user permissions by access', async function () {
+            await page.evaluate(function () {
+              $('.access-filter select').val('string:admin').change();
+            });
+            await page.waitForTimeout(500); // wait for animation
+
+            await page.mouse.move(-10, -10);
+
+            expect(await page.screenshotSelector('.usersManager')).to.matchImage('admin_filter_permissions');
+      });
 
         it('should show the add existing user modal', async function () {
             await page.click('.userEditForm .entityCancelLink');

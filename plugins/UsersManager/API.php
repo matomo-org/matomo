@@ -28,8 +28,10 @@ use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\UsersManager\Emails\UserInfoChangedEmail;
 use Piwik\Plugins\UsersManager\Repository\UserRepository;
 use Piwik\Plugins\UsersManager\Validators\Email;
+use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
+use Piwik\Url;
 use Piwik\Validators\BaseValidator;
 
 /**
@@ -85,8 +87,6 @@ class API extends \Piwik\Plugin\API
      * @var PasswordVerifier
      */
     private $passwordVerifier;
-
-    private $twoFaPluginActivated;
 
     private $userRepository;
 
@@ -722,14 +722,27 @@ class API extends \Piwik\Plugin\API
      *
      * @see userExists()
      */
-    public function addUser($userLogin, $password, $email, $_isPasswordHashed = false, $initialIdSite = null)
+    public function addUser($userLogin, $password, $email, $_isPasswordHashed = false, $initialIdSite = null, $passwordConfirmation = null)
     {
         Piwik::checkUserHasSomeAdminAccess();
         UsersManager::dieIfUsersAdminIsDisabled();
 
+        // check password confirmation only when using session auth
+        if (Common::getRequestVar('force_api_session', 0)) {
+            $this->confirmCurrentUserPassword($passwordConfirmation);
+        }
+
         $password = Common::unsanitizeInputValue($password);
         UsersManager::checkPassword($password);
+
+
         $initialIdSite = $initialIdSite === null ? null : intval($initialIdSite);
+
+        if (!Piwik::hasUserSuperUserAccess()) {
+            if (empty($initialIdSite)) {
+                throw new \Exception(Piwik::translate("UsersManager_AddUserNoInitialAccessError"));
+            }
+        }
 
         $this->userRepository->create(
             (string) $userLogin,
@@ -752,18 +765,28 @@ class API extends \Piwik\Plugin\API
     /**
      * @throws Exception
      */
-    public function inviteUser($userLogin, $email, $idSite = null, $expiryInDays = null)
+    public function inviteUser($userLogin, $email, $initialIdSite = null, $expiryInDays = null, $passwordConfirmation = null)
     {
         Piwik::checkUserHasSomeAdminAccess();
         UsersManager::dieIfUsersAdminIsDisabled();
+
+        // check password confirmation only when using session auth
+       if (Common::getRequestVar('force_api_session', 0)) {
+           $this->confirmCurrentUserPassword($passwordConfirmation);
+       }
 
         if (empty($expiryInDays)) {
             $expiryInDays = Config\GeneralConfig::getConfigValue('default_invite_user_token_expiry_days');
         }
 
-        $idSite = $idSite === null ? null : intval($idSite);
+        if (empty($initialIdSite)) {
+            throw new \Exception(Piwik::translate("UsersManager_AddUserNoInitialAccessError"));
+        } else {
+            // check if the site exists
+            new Site($initialIdSite);
+        }
 
-        $this->userRepository->inviteUser((string) $userLogin, (string) $email, $idSite, (int) $expiryInDays);
+        $this->userRepository->inviteUser((string) $userLogin, (string) $email, intval($initialIdSite), (int) $expiryInDays);
 
         /**
          * Triggered after a new user was invited.
@@ -859,6 +882,7 @@ class API extends \Piwik\Plugin\API
         $_isPasswordHashed = false,
         $passwordConfirmation = false
     ) {
+        $email = Common::unsanitizeInputValue($email);
         $requirePasswordConfirmation = self::$UPDATE_USER_REQUIRE_PASSWORD_CONFIRMATION;
         self::$UPDATE_USER_REQUIRE_PASSWORD_CONFIRMATION = true;
 
@@ -936,16 +960,20 @@ class API extends \Piwik\Plugin\API
      * Delete one or more users and all its access, given its login.
      *
      * @param string $userLogin the user login(s).
+     * @param string $passwordConfirmation the currents users password, only required when request is authenticated with session token auth
      *
-     * @return bool true on success
      * @throws Exception if the user doesn't exist or if deleting the users would leave no superusers.
      *
      */
-    public function deleteUser($userLogin)
+    public function deleteUser($userLogin, $passwordConfirmation = null)
     {
         Piwik::checkUserHasSomeAdminAccess();
         UsersManager::dieIfUsersAdminIsDisabled();
         $this->checkUserIsNotAnonymous($userLogin);
+
+        if (Common::getRequestVar('force_api_session', 0)) {
+            $this->confirmCurrentUserPassword($passwordConfirmation);
+        }
 
         $user = $this->model->getUser($userLogin);
 
@@ -1149,21 +1177,20 @@ class API extends \Piwik\Plugin\API
 
         [$sitesIdWithRole, $sitesIdWithCapability] = $this->getRolesAndCapabilitiesForLogin($userLogin);
 
+        foreach ($idSites as $idSite) {
+            if (!array_key_exists($idSite, $sitesIdWithRole)) {
+                throw new Exception(Piwik::translate('UsersManager_ExceptionNoCapabilitiesWithoutRole', [$userLogin, $idSite]));
+            }
+        }
+
         foreach ($capabilities as $entry) {
             $cap = $this->capabilityProvider->getCapability($entry);
 
             foreach ($idSites as $idSite) {
-                $hasRole = array_key_exists($idSite, $sitesIdWithRole);
-                $hasCapabilityAlready = array_key_exists($idSite, $sitesIdWithCapability) && in_array(
-                    $entry,
-                    $sitesIdWithCapability[$idSite],
-                    true
-                );
+                $hasCapabilityAlready = array_key_exists($idSite, $sitesIdWithCapability)
+                    && in_array($entry, $sitesIdWithCapability[$idSite], true);
 
-                // so far we are adding the capability only to people that also have a role...
-                // to be defined how to handle this... eg we are not throwing an exception currently
-                // as it might be used as part of bulk action etc.
-                if ($hasRole && !$hasCapabilityAlready) {
+                if (!$hasCapabilityAlready) {
                     $theRole = $sitesIdWithRole[$idSite];
                     if ($cap->hasRoleCapability($theRole)) {
                         // todo this behaviour needs to be defined...
@@ -1435,20 +1462,6 @@ class API extends \Piwik\Plugin\API
         return [$roles, $capabilities];
     }
 
-    private function confirmCurrentUserPassword($passwordConfirmation)
-    {
-        if (empty($passwordConfirmation)) {
-            throw new Exception(Piwik::translate('UsersManager_ConfirmWithPassword'));
-        }
-
-        $passwordConfirmation = Common::unsanitizeInputValue($passwordConfirmation);
-
-        $loginCurrentUser = Piwik::getCurrentUserLogin();
-        if (!$this->passwordVerifier->isPasswordCorrect($loginCurrentUser, $passwordConfirmation)) {
-            throw new Exception(Piwik::translate('UsersManager_CurrentPasswordNotCorrect'));
-        }
-    }
-
     private function sendEmailChangedEmail($user, $newEmail)
     {
         // send the mail to both the old email and the new email
@@ -1510,16 +1523,24 @@ class API extends \Piwik\Plugin\API
         return $description;
     }
 
+
+
     /**
      * resend the invite email to user
      *
      * @param string $userLogin
      * @param int $expiryInDays
+     * @param string | null $passwordConfirmation
      * @throws NoAccessException
      */
-    public function resendInvite($userLogin, $expiryInDays = 7)
+    public function resendInvite($userLogin, $expiryInDays = 7, $passwordConfirmation = null)
     {
         Piwik::checkUserHasSomeAdminAccess();
+
+        // check password confirmation only when using session auth
+        if (Common::getRequestVar('force_api_session', 0)) {
+            $this->confirmCurrentUserPassword($passwordConfirmation);
+        }
 
         if (!$this->model->isPendingUser($userLogin)) {
             throw new Exception(Piwik::translate('UsersManager_ExceptionUserDoesNotExist', $userLogin));
@@ -1534,7 +1555,7 @@ class API extends \Piwik\Plugin\API
             }
         }
 
-        $this->userRepository->reInviteUser($userLogin, (int)$expiryInDays);
+        $token = $this->userRepository->reInviteUser($userLogin, (int)$expiryInDays);
 
         /**
          * Triggered after a new user was invited.
@@ -1542,5 +1563,53 @@ class API extends \Piwik\Plugin\API
          * @param string $userLogin The new user's login.
          */
         Piwik::postEvent('UsersManager.inviteUser.resendInvite', [$userLogin, $user['email']]);
+
+        return $token;
     }
+
+    /**
+     * @param $userLogin
+     * @param int $expiryInDays
+     * @param string | null $passwordConfirmation
+     * @return string
+     * @throws NoAccessException
+     */
+    public function generateInviteLink($userLogin, $expiryInDays = 7, $passwordConfirmation = null)
+    {
+        Piwik::checkUserHasSomeAdminAccess();
+
+        // check password confirmation only when using session auth
+        if (Common::getRequestVar('force_api_session', 0)) {
+            $this->confirmCurrentUserPassword($passwordConfirmation);
+        }
+
+        if (!$this->model->isPendingUser($userLogin)) {
+            throw new Exception(Piwik::translate('UsersManager_ExceptionUserDoesNotExist', $userLogin));
+        }
+
+        $user = $this->model->getUser($userLogin);
+
+        // If user is not a super user check if the user was invited by the current user
+        if (!Piwik::hasUserSuperUserAccess()) {
+            if ($user['invited_by'] !== Piwik::getCurrentUserLogin()) {
+                throw new NoAccessException(Piwik::translate('UsersManager_ExceptionResendInviteDenied', $userLogin));
+            }
+        }
+
+        $token = $this->userRepository->generateInviteToken($userLogin, (int)$expiryInDays);
+
+        /**
+         * Triggered after a new user invite token was generate.
+         *
+         * @param string $userLogin The new user's login.
+         */
+        Piwik::postEvent('UsersManager.inviteUser.generateInviteLinkToken', [$userLogin, $user['email']]);
+
+        return SettingsPiwik::getPiwikUrl().'index.php?'.Url::getQueryStringFromParameters([
+                'module' => 'Login',
+                'action' => 'acceptInvitation',
+                'token'  => $token,
+            ]);
+    }
+
 }

@@ -241,11 +241,13 @@ class PrivacyManager extends Plugin
     {
         $translationKeys[] = 'CoreAdminHome_OptOutExplanation';
         $translationKeys[] = 'CoreAdminHome_OptOutExplanationIntro';
+        $translationKeys[] = 'CoreAdminHome_OptOutCustomOptOutLink';
         $translationKeys[] = 'CoreAdminHome_SettingsSaveSuccess';
         $translationKeys[] = 'General_Action';
         $translationKeys[] = 'General_ClickHere';
         $translationKeys[] = 'General_DailyReports';
         $translationKeys[] = 'General_Details';
+        $translationKeys[] = 'General_Id';
         $translationKeys[] = 'General_MonthlyReports';
         $translationKeys[] = 'General_RangeReports';
         $translationKeys[] = 'General_Recommended';
@@ -281,11 +283,17 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_AnonymizeSites';
         $translationKeys[] = 'PrivacyManager_AnonymizeUserId';
         $translationKeys[] = 'PrivacyManager_AnonymizeUserIdHelp';
+        $translationKeys[] = 'PrivacyManager_ApplyStyling';
         $translationKeys[] = 'PrivacyManager_BackgroundColor';
+        $translationKeys[] = 'PrivacyManager_BuildYourOwn';
+        $translationKeys[] = 'PrivacyManager_DBPurged';
         $translationKeys[] = 'PrivacyManager_DeleteAggregateReportsDetailedInfo';
+        $translationKeys[] = 'PrivacyManager_DeleteBothConfirm';
         $translationKeys[] = 'PrivacyManager_DeleteDataInterval';
+        $translationKeys[] = 'PrivacyManager_DeleteLogsConfirm';
         $translationKeys[] = 'PrivacyManager_DeleteLogsOlderThan';
         $translationKeys[] = 'PrivacyManager_DeleteRawDataInfo';
+        $translationKeys[] = 'PrivacyManager_DeleteReportsConfirm';
         $translationKeys[] = 'PrivacyManager_DeleteReportsInfo2';
         $translationKeys[] = 'PrivacyManager_DeleteReportsInfo3';
         $translationKeys[] = 'PrivacyManager_DeleteReportsOlderThan';
@@ -297,6 +305,7 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_ExportSelectedVisits';
         $translationKeys[] = 'PrivacyManager_ExportingNote';
         $translationKeys[] = 'PrivacyManager_FindDataSubjectsBy';
+        $translationKeys[] = 'PrivacyManager_FindMatchingDataSubjects';
         $translationKeys[] = 'PrivacyManager_FontColor';
         $translationKeys[] = 'PrivacyManager_FontFamily';
         $translationKeys[] = 'PrivacyManager_FontSize';
@@ -323,18 +332,32 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_MatchingDataSubjects';
         $translationKeys[] = 'PrivacyManager_NextDelete';
         $translationKeys[] = 'PrivacyManager_NoDataSubjectsFound';
+        $translationKeys[] = 'PrivacyManager_OptOutAppearance';
         $translationKeys[] = 'PrivacyManager_OptOutCustomize';
         $translationKeys[] = 'PrivacyManager_OptOutHtmlCode';
         $translationKeys[] = 'PrivacyManager_OptOutPreview';
+        $translationKeys[] = 'PrivacyManager_OptOutUseTracker';
+        $translationKeys[] = 'PrivacyManager_OptOutUseStandalone';
+        $translationKeys[] = 'PrivacyManager_OptOutCodeTypeExplanation';
+        $translationKeys[] = 'PrivacyManager_OptOutRememberToTest';
+        $translationKeys[] = 'PrivacyManager_OptOutRememberToTestBody';
+        $translationKeys[] = 'PrivacyManager_OptOutRememberToTestStep1';
+        $translationKeys[] = 'PrivacyManager_OptOutRememberToTestStep2';
+        $translationKeys[] = 'PrivacyManager_OptOutRememberToTestStep3';
+        $translationKeys[] = 'PrivacyManager_OptOutRememberToTestStep4';
         $translationKeys[] = 'PrivacyManager_PseudonymizeUserId';
         $translationKeys[] = 'PrivacyManager_PseudonymizeUserIdNote';
         $translationKeys[] = 'PrivacyManager_PseudonymizeUserIdNote2';
+        $translationKeys[] = 'PrivacyManager_PurgingData';
         $translationKeys[] = 'PrivacyManager_PurgeNow';
+        $translationKeys[] = 'PrivacyManager_PurgeNowConfirm';
         $translationKeys[] = 'PrivacyManager_ReportsDataSavedEstimate';
         $translationKeys[] = 'PrivacyManager_ResultIncludesAllVisits';
         $translationKeys[] = 'PrivacyManager_ResultTruncated';
+        $translationKeys[] = 'PrivacyManager_SaveSettingsBeforePurge';
         $translationKeys[] = 'PrivacyManager_SearchForDataSubject';
         $translationKeys[] = 'PrivacyManager_SelectWebsite';
+        $translationKeys[] = 'PrivacyManager_ShowIntro';
         $translationKeys[] = 'PrivacyManager_UnsetActionColumns';
         $translationKeys[] = 'PrivacyManager_UnsetActionColumnsHelp';
         $translationKeys[] = 'PrivacyManager_UnsetVisitColumns';
@@ -349,8 +372,6 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_VisitsSuccessfullyDeleted';
         $translationKeys[] = 'PrivacyManager_VisitsSuccessfullyExported';
         $translationKeys[] = 'UsersManager_AllWebsites';
-        $translationKeys[] = 'General_Id';
-        $translationKeys[] = 'PrivacyManager_FindMatchingDataSubjects';
     }
 
     public function setTrackerCacheGeneral(&$cacheContent)
@@ -431,9 +452,9 @@ class PrivacyManager extends Plugin
     /**
      * Returns the settings for the data purging feature.
      *
-     * @return array
+     * @return array<string, int>
      */
-    public static function getPurgeDataSettings()
+    public static function getPurgeDataSettings(): array
     {
         $settings = [];
 
@@ -441,7 +462,7 @@ class PrivacyManager extends Plugin
         $config = PiwikConfig::getInstance();
         foreach (self::$purgeDataOptions as $configKey => $configSection) {
             $values = $config->$configSection;
-            $settings[$configKey] = $values[$configKey];
+            $settings[$configKey] = (int) $values[$configKey];
         }
 
         if (!Controller::isDataPurgeSettingsEnabled()) {
@@ -452,7 +473,7 @@ class PrivacyManager extends Plugin
         foreach (self::$purgeDataOptions as $configName => $configSection) {
             $value = Option::get($configName);
             if ($value !== false) {
-                $settings[$configName] = $value;
+                $settings[$configName] = (int) $value;
             }
         }
 
@@ -468,7 +489,7 @@ class PrivacyManager extends Plugin
     {
         foreach (self::$purgeDataOptions as $configName => $configSection) {
             if (isset($settings[$configName])) {
-                Option::set($configName, $settings[$configName]);
+                Option::set($configName, (int) $settings[$configName]);
             }
         }
 

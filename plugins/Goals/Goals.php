@@ -347,7 +347,7 @@ class Goals extends \Piwik\Plugin
 
     public function getStylesheetFiles(&$stylesheets)
     {
-        $stylesheets[] = "plugins/Goals/stylesheets/goals.css";
+        $stylesheets[] = "plugins/Goals/stylesheets/goals.less";
     }
 
     public function fetchGoalsFromDb(&$array, $idSite)

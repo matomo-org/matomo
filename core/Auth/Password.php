@@ -26,8 +26,8 @@ class Password
      */
     private function preferredAlgorithm()
     {
-        $passwordHashAlogrithm = Config::getInstance()->General['password_hash_algorithm'];
-        switch ($passwordHashAlogrithm) {
+        $passwordHashAlgorithm = Config::getInstance()->General['password_hash_algorithm'];
+        switch ($passwordHashAlgorithm) {
             case "default":
                 return PASSWORD_DEFAULT;
             case "bcrypt":

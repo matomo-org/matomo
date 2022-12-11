@@ -293,11 +293,13 @@
                     showAccessChangeConfirm();"
                   :disabled="user.role === 'superuser'"
                   uicontrol="select"
-                  :options="user.login !== 'anonymous' ? accessLevels : anonymousAccessLevels"
-              />
-            </div>
-          </td>
-          <td
+                  :options="
+                    user.login === 'anonymous' ? anonymousAccessLevels :
+                    (user.role === 'noaccess' ? onlyRoleAccessLevels : accessLevels)"
+                />
+              </div>
+            </td>
+            <td
               id="email"
               v-if="currentUserRole === 'superuser'"
           >{{ user.email }}
@@ -331,8 +333,8 @@
           <td class="center actions-cell">
             <button
                 class="resend table-action"
-                title="Resend Invite"
-                @click="userToChange = user; showResendConfirm()"
+                title="Resend/Copy Invite Link"
+                @click="userToChange = user; resendRequestedUser()"
                 v-if="(
                   currentUserRole === 'superuser'
                   || (currentUserRole === 'admin' && user.invited_by === currentUserLogin)
@@ -365,37 +367,28 @@
         </tbody>
       </table>
     </ContentBlock>
-    <div class="delete-user-confirm-modal modal" ref="deleteUserConfirmModal">
-      <div class="modal-content">
-        <h3
-            v-if="userToChange"
-            v-html="$sanitize(translate(
+    <PasswordConfirmation
+      v-model="showPasswordConfirmationForUserRemoval"
+      @confirmed="deleteRequestedUsers"
+      @aborted="userToChange = null; roleToChangeTo = null;"
+    >
+      <h2
+        v-if="userToChange"
+        v-html="$sanitize(translate(
             'UsersManager_DeleteUserConfirmSingle',
             `<strong>${userToChange.login}</strong>`,
           ))"
-        ></h3>
-        <p
-            v-if="!userToChange"
-            v-html="$sanitize(translate(
+      ></h2>
+      <h2
+        v-if="!userToChange"
+        v-html="$sanitize(translate(
             'UsersManager_DeleteUserConfirmMultiple',
             `<strong>${affectedUsersCount}</strong>`,
           ))"
-        ></p>
-      </div>
-      <div class="modal-footer">
-        <a
-            href=""
-            class="modal-action modal-close btn"
-            @click.prevent="deleteRequestedUsers()"
-            style="margin-right:3.5px"
-        >{{ translate('General_Yes') }}</a>
-        <a
-            href=""
-            class="modal-action modal-close modal-no"
-            @click.prevent="userToChange = null; roleToChangeTo = null;"
-        >{{ translate('General_No') }}</a>
-      </div>
-    </div>
+      ></h2>
+      <p>{{ translate('UsersManager_ConfirmWithPassword') }}</p>
+    </PasswordConfirmation>
+
     <div class="change-user-role-confirm-modal modal" ref="changeUserRoleConfirmModal">
       <div class="modal-content">
         <h3
@@ -433,30 +426,6 @@
         >{{ translate('General_No') }}</a>
       </div>
     </div>
-    <div class="resend-invite-confirm-modal modal" ref="resendInviteConfirmModal">
-      <div class="modal-content">
-        <h3
-            v-if="userToChange"
-            v-html="$sanitize(translate(
-            'UsersManager_ResendInviteConfirmSingle',
-            `<strong>${userToChange.login}</strong>`,
-          ))"
-        ></h3>
-      </div>
-      <div class="modal-footer">
-        <a
-            href=""
-            class="modal-action modal-close btn"
-            @click.prevent="resendRequestedUser()"
-            style="margin-right:3.5px"
-        >{{ translate('General_Yes') }}</a>
-        <a
-            href=""
-            class="modal-action modal-close modal-no"
-            @click.prevent="userToChange = null; roleToChangeTo = null;"
-        >{{ translate('General_No') }}</a>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -473,13 +442,14 @@ import {
   SiteRef,
   Matomo,
 } from 'CoreHome';
-import { Field } from 'CorePluginsAdmin';
+import { Field, PasswordConfirmation } from 'CorePluginsAdmin';
 import User from '../User';
 import SearchParams from './SearchParams';
 
 interface AccessLevel {
   key: string;
   value: unknown;
+  type: string
 }
 
 interface PagedUsersListState {
@@ -494,6 +464,7 @@ interface PagedUsersListState {
   isRoleHelpToggled: boolean;
   userTextFilter: string;
   permissionsForSite: SiteRef;
+  showPasswordConfirmationForUserRemoval: boolean;
 }
 
 const { $ } = window;
@@ -537,6 +508,7 @@ export default defineComponent({
     ActivityIndicator,
     Notification,
     ContentBlock,
+    PasswordConfirmation,
   },
   directives: {
     DropdownMenu,
@@ -558,6 +530,7 @@ export default defineComponent({
         id: this.initialSiteId,
         name: this.initialSiteName,
       },
+      showPasswordConfirmationForUserRemoval: false,
     };
   },
   emits: ['editUser', 'changeUserRole', 'deleteUser', 'searchChange', 'resendInvite'],
@@ -614,9 +587,10 @@ export default defineComponent({
         this.isAllCheckboxSelected = selectedRowKeyCount === this.users.length;
       });
     },
-    deleteRequestedUsers() {
+    deleteRequestedUsers(password: string) {
       this.$emit('deleteUser', {
         users: this.userOperationSubject,
+        password,
       });
     },
     resendRequestedUser() {
@@ -625,19 +599,9 @@ export default defineComponent({
       });
     },
     showDeleteConfirm() {
-      $(this.$refs.deleteUserConfirmModal as HTMLElement)
-        .modal({
-          dismissible: false,
-        })
-        .modal('open');
+      this.showPasswordConfirmationForUserRemoval = true;
     },
-    showResendConfirm() {
-      $(this.$refs.resendInviteConfirmModal as HTMLElement)
-        .modal({
-          dismissible: false,
-        })
-        .modal('open');
-    },
+
     showAccessChangeConfirm() {
       $(this.$refs.changeUserRoleConfirmModal as HTMLElement)
         .modal({
@@ -775,6 +739,11 @@ export default defineComponent({
     anonymousAccessLevels() {
       return (this.accessLevels as AccessLevel[]).filter(
         (e) => e.key === 'noaccess' || e.key === 'view',
+      );
+    },
+    onlyRoleAccessLevels() {
+      return (this.accessLevels as AccessLevel[]).filter(
+        (e) => e.type === 'role',
       );
     },
   },
