@@ -397,45 +397,6 @@ class LogAggregator
     }
 
     /**
-     * Generate a query / bind array with segment and origin hints for a custom SQL query, similar to generateQuery()
-     * but for use when a query is too complicated to be assembled from SQL fragments and needs to be manually specified.
-     *
-     * Custom queries must include the idvisit field in the select clause in order for the segment wrapper to work
-     *
-     * @param string     $sql   The custom query string
-     * @param array|null $bind  Optional array of bind parameters, if not specified then the default bind values
-     *                          will be used
-     *
-     * @return array     Array containing the SQL query and bind array, ['sql' => 'SELECT ...', 'bind' => ['abc', 123]]
-     */
-    public function generateQueryCustom(string $sql, ?array $bind = null): array
-    {
-        // Setup bind array
-        if ($bind === null) {
-            $bind = $this->getGeneralQueryBindParams();
-        }
-
-        // Apply segment if required.
-        // Ignores enable_segment_cache = 0
-        if (!$this->segment->isEmpty()) {
-
-            $segmentTable = Common::prefixTable($this->createSegmentTable());
-            $this->forceCheckForSegmentTmpOnCleanup = true;
-
-            // The idvisit field must be in the custom query select clause for the join to work
-            $sql = 'SELECT sub.* FROM (' . $sql . ') AS sub ' .
-                   'LEFT JOIN ' . $segmentTable . ' ON sub.idvisit = ' . $segmentTable . '.idvisit ' .
-                   'WHERE ' . $segmentTable . '.idvisit IS NOT NULL';
-
-        }
-
-        // Apply origin query hint
-        $sql = $this->addOriginHintToQuery($sql);
-
-        return ['sql' => $sql, 'bind' => $bind];
-    }
-
-    /**
      * Create the segment temporary table
      *
      * @return string   Name of the created temporary table, including any table prefix
@@ -1185,13 +1146,31 @@ class LogAggregator
     public function queryConversionsByPageView(string $linkField, int $idGoal)
     {
 
+        $generalBind = $this->getGeneralQueryBindParams();
+
+        $select = 'log_conversion.idvisit, COUNT(*) AS num_total';
+
+        $from = [
+            'log_conversion',
+                ['table' => 'log_visit', 'joinOn' => 'log_conversion.idvisit = log_visit.idvisit'],
+                ['table' => 'log_link_visit_action', 'tableAlias' => 'log_vpast', 'join' => 'RIGHT JOIN',
+                            'joinOn' => 'log_conversion.idvisit = log_vpast.idvisit'],
+                ['table' => 'log_action', 'tableAlias' => 'lac_past',
+                            'joinOn' => 'log_vpast.'.$linkField.' = lac_past.idaction']
+        ];
+
+        $where = $this->getWhereStatement('log_conversion', 'server_time');
+        $where .= sprintf('AND log_conversion.idgoal = %d 
+                          AND log_vpast.server_time <= log_conversion.server_time
+                          AND lac_past.type = %s',
+                          (int) $idGoal, ($linkField == 'idaction_url' ? '1' : '4'));
+
+        $groupBy = 'log_conversion.idvisit';
+
+        $query = $this->generateQuery($select, $from, $where, $groupBy, false);
+
         $dbSettings = new \Piwik\Db\Settings();
         $tablePrefix = $dbSettings->getTablePrefix();
-
-        // This query is too complicated to be built by the generateQuery function, so instead it is passed in as a
-        // prebuilt query so generateQuery can apply segment wrapping, query hints and supply the bind parameters
-        // All non-bound parameters used directly in the query are either typed numeric or supplied from fixed values
-        // in other methods (linkField, idGoal, tablePrefix)
 
         $sql = sprintf(
         "SELECT
@@ -1225,46 +1204,24 @@ class LogAggregator
             1 / num_total * lvcon.revenue_discount AS revenue_discount,
             1 / num_total * lvcon.items AS items
           FROM (
-            SELECT
-              log_conversion.idvisit,
-              COUNT(*) AS num_total
-            FROM %slog_conversion AS log_conversion FORCE INDEX(index_idsite_datetime)
-            RIGHT JOIN %slog_link_visit_action AS log_vpast ON log_conversion.idvisit = log_vpast.idvisit
-            LEFT JOIN %slog_action lac_past ON log_vpast.".$linkField." = lac_past.idaction
-            WHERE log_conversion.server_time >= ?
-              AND log_conversion.server_time <= ?
-              AND log_conversion.idsite IN (?)
-              AND log_conversion.idgoal = ".$idGoal."
-              AND log_vpast.server_time <= log_conversion.server_time
-              AND lac_past.type = ".($linkField == 'idaction_url' ? '1' : '4')."
-            GROUP BY log_conversion.idvisit
-            ORDER BY NULL
+            %s
           ) AS r
           LEFT JOIN %slog_conversion lvcon ON lvcon.idgoal = ".$idGoal." AND lvcon.idvisit = r.idvisit
           RIGHT JOIN %slog_link_visit_action logv ON logv.idvisit = r.idvisit
           LEFT JOIN %slog_action lac ON logv.".$linkField." = lac.idaction
-          WHERE logv.server_time >= ?
-            AND logv.server_time <= ?
-            AND logv.idsite IN (?)
+          WHERE logv.server_time >= '%s'
+            AND logv.server_time <= '%s'
+            AND logv.idsite IN (%d) 
             AND lac.type = ".($linkField == 'idaction_url' ? '1' : '4')."
             AND logv.server_time <= lvcon.server_time
           ) AS yyy
         GROUP BY yyy.idaction
-        ORDER BY `9` DESC", $tablePrefix, $tablePrefix, $tablePrefix, $tablePrefix, $tablePrefix, $tablePrefix);
+        ORDER BY `9` DESC", $query['sql'], $tablePrefix, $tablePrefix, $tablePrefix,
+            $generalBind[0], $generalBind[1], $generalBind[2]
+        );
 
-        // Repeat the start date, end date and site id bind values twice
-        $generalBind = $this->getGeneralQueryBindParams();
-        $query = $this->generateQueryCustom($sql,
-            [
-                $generalBind[0],
-                $generalBind[1],
-                $generalBind[2],
-                $generalBind[0],
-                $generalBind[1],
-                $generalBind[2]
-            ]);
+        return $this->getDb()->query($sql, $query['bind']);
 
-        return $this->getDb()->query($query['sql'], $query['bind']);
     }
 
     /**
