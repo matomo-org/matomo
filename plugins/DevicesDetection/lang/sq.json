@@ -11,6 +11,8 @@
         "Browsers": "Shfletues",
         "Camera": "Kamerë",
         "CarBrowser": "Shfletues për automjete",
+        "ClientHints": "Ndihmëza Klienti",
+        "ClientHintsNotSupported": "Shfletuesi juaj nuk mbulon ndihmëza klienti.",
         "ClientType": "Lloj klienti",
         "ClientTypes": "Lloje klientësh",
         "ColumnBrowser": "Shfletues",

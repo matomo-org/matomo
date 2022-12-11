@@ -46,7 +46,18 @@ export default defineComponent({
         return this.modelValue;
       }
 
-      return (this.modelValue || []).join(SEPARATOR);
+      // Handle case when modelValues is like: {"0": "value0", "2": "value1"}
+      if (typeof this.modelValue === 'object') {
+        return Object.values(this.modelValue).join(SEPARATOR);
+      }
+
+      try {
+        return (this.modelValue || []).join(SEPARATOR);
+      } catch (e) {
+        // Prevent page breaking on unexpected modelValue type
+        console.error(e);
+        return '';
+      }
     },
   },
   created() {
