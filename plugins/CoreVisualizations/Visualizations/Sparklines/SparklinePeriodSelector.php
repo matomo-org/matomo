@@ -12,9 +12,6 @@ use Piwik\Date;
 use Piwik\Period;
 use Piwik\Period\Factory;
 
-/**
- * DataTable Visualization that derives from Sparklines.
- */
 class SparklinePeriodSelector
 {
     /**
