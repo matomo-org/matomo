@@ -152,4 +152,3 @@ after_success:
 cache:
   directories:
     - $HOME/.composer/cache
-    - $PIWIK_ROOT_DIR/../travis_woff2
