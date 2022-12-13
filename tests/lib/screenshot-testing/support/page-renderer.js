@@ -503,9 +503,7 @@ PageRenderer.prototype._setupWebpageEvents = function () {
                 return arg.stack || arg.message;
             }
             return arg;
-        }, arg))).catch((e) => {
-          console.log(`Could not print message: ${e.message}`);
-        });
+        }, arg)));
         const message = args.join(' ');
         this._logMessage(`Log: ${message}`);
     });
