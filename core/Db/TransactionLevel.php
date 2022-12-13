@@ -9,7 +9,6 @@
 
 namespace Piwik\Db;
 
-use Piwik\Db;
 use Piwik\Option;
 
 /**

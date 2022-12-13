@@ -26,7 +26,6 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
      *
      * @param array|Zend_Config $config database configuration
      */
-
     public function __construct($config)
     {
         // Enable LOAD DATA INFILE
@@ -63,7 +62,7 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
      */
     public function resetConfig(): void
     {
-        $this->_config = array();
+        $this->_config = [];
     }
 
     /**

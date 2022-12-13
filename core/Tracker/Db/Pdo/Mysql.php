@@ -242,7 +242,7 @@ class Mysql extends Db
      * Returns the last inserted ID in the DB
      * Wrapper of PDO::lastInsertId()
      *
-     * @return int
+     * @return string
      */
     public function lastInsertId()
     {
