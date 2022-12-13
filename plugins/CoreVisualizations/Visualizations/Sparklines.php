@@ -20,7 +20,6 @@ use Piwik\Plugin\Report;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\API\Filter\DataComparisonFilter;
-use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines\SparklinePeriodSelector;
 use Piwik\SettingsPiwik;
 use Piwik\View;
 
@@ -233,8 +232,12 @@ class Sparklines extends ViewDataTable
             $comparePeriods = $data->getMetadata('comparePeriods');
             $compareDates = $data->getMetadata('compareDates');
 
-            $periodSelector = new SparklinePeriodSelector($this->config);
-            $comparisonPeriods = $periodSelector->getComparisonPeriodObjects($comparePeriods, $compareDates);
+            // the first entry includes the original period and we need to remove it
+            $compareDatesWithoutOriginalDate = array_slice($compareDates, 1);
+            $comparePeriodsWithoutOriginalPeriod = array_slice($comparePeriods, 1);
+
+            $periodSelector = new EvolutionPeriodSelector($this->config);
+            $comparisonPeriods = $periodSelector->getComparisonPeriodObjects($comparePeriodsWithoutOriginalPeriod, $compareDatesWithoutOriginalDate);
             $sparklineUrlParams = $periodSelector->setSparklineDatePeriods($sparklineUrlParams, $periodObj, $comparisonPeriods);
 
             if ($isComparing) {

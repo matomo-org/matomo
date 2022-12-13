@@ -7,12 +7,13 @@
  *
  */
 
-namespace Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
+namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 use Piwik\Date;
 use Piwik\Period;
 use Piwik\Period\Factory;
+use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines\Config;
 
-class SparklinePeriodSelector
+class EvolutionPeriodSelector
 {
     /**
      * @var Config
@@ -75,9 +76,6 @@ class SparklinePeriodSelector
         $periods = [];
         if (!empty($comparePeriods)) {
             foreach ($comparePeriods as $periodIndex => $period) {
-                if ($periodIndex === 0) {
-                    continue; // this is the original period and we need to skip it
-                }
                 $date = $compareDates[$periodIndex];
                 $periods[] = Factory::build($period, $date);
             }
@@ -111,10 +109,12 @@ class SparklinePeriodSelector
         }
 
         $periodToUse = 'day';
-        if ($lowestNumDaysInRange >= 730) {
-            $periodToUse = 'month'; // rather than fetching > 730 day periods we prefer fetching 24+ months and shows trends better
+        if ($lowestNumDaysInRange >= 7 * 365) {
+            $periodToUse = 'year';
+        } elseif ($lowestNumDaysInRange >= 2 * 365) {
+            $periodToUse = 'month';
         } elseif ($lowestNumDaysInRange >= 180) {
-            $periodToUse = 'week'; // rather than fetching > 180 day periods we prefer fetching 25+ weeks making it faster and shows trends better
+            $periodToUse = 'week';
         }
 
         return $periodToUse;

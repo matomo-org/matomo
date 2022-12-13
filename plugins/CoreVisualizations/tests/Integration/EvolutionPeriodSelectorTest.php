@@ -6,25 +6,25 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\CoreVisualizations\tests\Integration\Sparklines;
+namespace Piwik\Plugins\CoreVisualizations\tests\Integration;
 
 use Piwik\Date;
 use Piwik\Period;
+use Piwik\Plugins\CoreVisualizations\Visualizations\EvolutionPeriodSelector;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines\Config;
-use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines\SparklinePeriodSelector;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
  * @group CoreVisualizations
- * @group SparklinePeriodSelectorTest
+ * @group EvolutionPeriodSelector
  * @group Plugins
  */
-class SparklinePeriodSelectorTest extends IntegrationTestCase
+class EvolutionPeriodSelectorTest extends IntegrationTestCase
 {
     /**
-     * @var SparklinePeriodSelector
+     * @var EvolutionPeriodSelector
      */
     private $selector;
 
@@ -37,7 +37,7 @@ class SparklinePeriodSelectorTest extends IntegrationTestCase
             Fixture::createWebsite('2014-01-01 00:00:00');
         }
 
-        $this->selector = new SparklinePeriodSelector(new Config());
+        $this->selector = new EvolutionPeriodSelector(new Config());
     }
 
     public function tearDown(): void
@@ -75,21 +75,28 @@ class SparklinePeriodSelectorTest extends IntegrationTestCase
         $this->assertEquals([], $this->selector->getComparisonPeriodObjects([], []));
     }
 
-    public function test_getComparisonPeriodObjects_whenOnlyOriginalPeriodGiven()
-    {
-        $this->assertEquals([], $this->selector->getComparisonPeriodObjects(['day'], ['today']));
-    }
-
-    public function test_getComparisonPeriodObjects_whenActuallyComparisonPeriodsGiven()
+    public function test_getComparisonPeriodObjects_whenOnlyOnePeriodGiven()
     {
         /** @var Period[] $periods */
-        $periods = $this->selector->getComparisonPeriodObjects(['day', 'week', 'month'], ['today', '2022-01-02', '2020-05-09']);
+        $periods = $this->selector->getComparisonPeriodObjects(['day'], ['2022-01-02']);
+        $this->assertSame('day', $periods[0]->getLabel());
+        $this->assertSame('2022-01-02,2022-01-02', $periods[0]->getRangeString());
+        $this->assertCount(1, $periods);
+    }
+
+    public function test_getComparisonPeriodObjects_whenMultipleComparisonPeriodsGiven()
+    {
+        /** @var Period[] $periods */
+        $periods = $this->selector->getComparisonPeriodObjects(['week', 'month'], ['2022-01-02', '2020-05-09']);
+
 
         $this->assertSame('week', $periods[0]->getLabel());
         $this->assertSame('2021-12-27,2022-01-02', $periods[0]->getRangeString());
 
         $this->assertSame('month', $periods[1]->getLabel());
         $this->assertSame('2020-05-01,2020-05-31', $periods[1]->getRangeString());
+
+        $this->assertCount(2, $periods);
     }
 
     public function test_getHighestPeriodInCommon_noComparision()
