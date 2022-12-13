@@ -166,12 +166,6 @@ class LogAggregator
     private $allowUsageSegmentCache = false;
 
     /**
-     * @var bool If segment temp tables were created by a custom query then this option can be used to ensure they
-     *           are cleaned up even if the segmentCache is disabled
-     */
-    private $forceCheckForSegmentTmpOnCleanup = false;
-
-    /**
      * @var Parameters
      */
     private $params;
@@ -225,7 +219,7 @@ class LogAggregator
 
     public function cleanup()
     {
-        if (!$this->segment->isEmpty() && ($this->isSegmentCacheEnabled() || $this->forceCheckForSegmentTmpOnCleanup)) {
+        if (!$this->segment->isEmpty() && $this->isSegmentCacheEnabled()) {
             $segmentTable = $this->getSegmentTmpTableName();
             $segmentTable = Common::prefixTable($segmentTable);
 
@@ -390,7 +384,7 @@ class LogAggregator
         $query = $segment->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy, $limit, $offset);
 
         if (is_array($query) && array_key_exists('sql', $query)) {
-            $query['sql'] = $this->addOriginHintToQuery($query['sql']);
+            $query['sql'] = DbHelper::addOriginHintToQuery($query['sql'], $this->queryOriginHint, $this->dateStart, $this->dateEnd, $this->sites, $segment);
         }
 
         return $query;
@@ -421,38 +415,6 @@ class LogAggregator
         return $segmentTable;
     }
 
-    /**
-     * Add an origin hint to the query to identify the main parameters and segment for debugging
-     *
-     * @param string $sql   SQL query string
-     *
-     * @return string   Modified SQL query string with hint added
-     */
-    private function addOriginHintToQuery(string $sql): string
-    {
-        $select = 'SELECT';
-        if ($this->queryOriginHint && 0 === strpos(trim($sql), $select)) {
-            $sql = trim($sql);
-            $sql = 'SELECT /* ' . $this->queryOriginHint . ' */' . substr($sql, strlen($select));
-        }
-
-        if (0 === strpos(trim($sql), $select)) {
-            $sql = trim($sql);
-            $sql = 'SELECT /* ' . $this->dateStart->toString() . ',' . $this->dateEnd->toString() . ' */' . substr($sql, strlen($select));
-        }
-
-        if ($this->sites && 0 === strpos(trim($sql), $select)) {
-            $sql = trim($sql);
-            $sql = 'SELECT /* ' . 'sites ' . implode(',', array_map('intval', $this->sites)) . ' */' . substr($sql, strlen($select));
-        }
-
-        if (!$this->getSegment()->isEmpty() && 0 === strpos(trim($sql), $select)) {
-            $sql = trim($sql);
-            $sql = 'SELECT /* ' . 'segmenthash ' . $this->getSegment()->getHash(). ' */' . substr($sql, strlen($select));
-        }
-
-        return $sql;
-    }
 
     protected function getVisitsMetricFields()
     {
@@ -704,7 +666,6 @@ class LogAggregator
      * @param $dimensions
      * @param $tableName
      * @param bool $appendSelectAs
-     * @param bool $parseSelectAs
      * @return mixed
      */
     protected function getSelectDimensions($dimensions, $tableName, $appendSelectAs = true)
@@ -1206,9 +1167,9 @@ class LogAggregator
           FROM (
             %s
           ) AS r
-          LEFT JOIN %slog_conversion lvcon ON lvcon.idgoal = ".$idGoal." AND lvcon.idvisit = r.idvisit
-          RIGHT JOIN %slog_link_visit_action logv ON logv.idvisit = r.idvisit
-          LEFT JOIN %slog_action lac ON logv.".$linkField." = lac.idaction
+          LEFT JOIN ".Common::prefixTable('log_conversion')." lvcon ON lvcon.idgoal = ".$idGoal." AND lvcon.idvisit = r.idvisit
+          RIGHT JOIN ".Common::prefixTable('log_link_visit_action')." logv ON logv.idvisit = r.idvisit
+          LEFT JOIN ".Common::prefixTable('log_action')." lac ON logv.".$linkField." = lac.idaction
           WHERE logv.server_time >= '%s'
             AND logv.server_time <= '%s'
             AND logv.idsite IN (%d) 
@@ -1216,8 +1177,7 @@ class LogAggregator
             AND logv.server_time <= lvcon.server_time
           ) AS yyy
         GROUP BY yyy.idaction
-        ORDER BY `9` DESC", $query['sql'], $tablePrefix, $tablePrefix, $tablePrefix,
-            $generalBind[0], $generalBind[1], $generalBind[2]
+        ORDER BY `9` DESC", $query['sql'], $generalBind[0], $generalBind[1], $generalBind[2]
         );
 
         return $this->getDb()->query($sql, $query['bind']);

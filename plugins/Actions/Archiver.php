@@ -16,6 +16,7 @@ use Piwik\DataTable;
 use Piwik\Metrics as PiwikMetrics;
 use Piwik\RankingQuery;
 use Piwik\Tracker\Action;
+use Piwik\Tracker\GoalManager;
 
 /**
  * Class encapsulating logic to process Day/Period Archiving for the Actions reports
@@ -480,8 +481,10 @@ class Archiver extends \Piwik\Plugin\Archiver
 
         $goals = $this->getGoalsForSite($site->getId());
 
+        // Add orders and abandoned cart codes if the site is enabled for ecommerce
         if ($site->isEcommerceEnabled()) {
-            $goals[] = 0;
+            $goals[] = GoalManager::IDGOAL_CART;
+            $goals[] = GoalManager::IDGOAL_ORDER;
         }
 
         foreach ($goals as $idGoal) {
