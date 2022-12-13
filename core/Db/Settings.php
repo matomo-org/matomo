@@ -13,32 +13,54 @@ use Piwik\Db;
 
 class Settings
 {
-    public function getEngine()
+    /**
+     * Get the Db engine
+     *
+     * @return string
+     */
+    public function getEngine(): string
     {
-        return $this->getDbSetting('type');
+        return (string) $this->getDbSetting('type');
     }
 
-    public function getTablePrefix()
+    /**
+     * Get the Db table prefix
+     *
+     * @return string|null
+     */
+    public function getTablePrefix(): ?string
     {
-        return $this->getDbSetting('tables_prefix');
+        return (string) $this->getDbSetting('tables_prefix');
     }
 
-    public function getDbName()
+    /**
+     * Get the Db name
+     *
+     * @return string
+     */
+    public function getDbName(): string
     {
-        return $this->getDbSetting('dbname');
+        return (string) $this->getDbSetting('dbname');
     }
 
-    public function getUsedCharset()
+    /**
+     * Get the charset
+     *
+     * @return string
+     */
+    public function getUsedCharset(): string
     {
         return strtolower($this->getDbSetting('charset'));
     }
 
-    public function getRowFormat()
-    {
-        return $this->getUsedCharset() === 'utf8mb4' ? 'ROW_FORMAT=DYNAMIC' : '';
-    }
-
-    private function getDbSetting($key)
+    /**
+     * Get a Db setting
+     *
+     * @param string $key
+     *
+     * @return mixed|null
+     */
+    private function getDbSetting(string $key)
     {
         $dbInfos = Db::getDatabaseConfig();
         return $dbInfos[$key] ?? null;

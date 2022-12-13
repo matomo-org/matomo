@@ -17,6 +17,9 @@ use Piwik\Log;
 use Piwik\SettingsServer;
 use Piwik\SettingsPiwik;
 
+/**
+ * This class provides batch insert functions shared by all supported database types
+ */
 class BatchInsert
 {
     /**
@@ -25,11 +28,14 @@ class BatchInsert
      * NOTE: you should use tableInsertBatch() which will fallback to this function if LOAD DATA INFILE not available
      *
      * @param string $tableName PREFIXED table name! you must call Common::prefixTable() before passing the table name
-     * @param array $fields array of unquoted field names
-     * @param array $values array of data to be inserted
-     * @param bool $ignoreWhenDuplicate Ignore new rows that contain unique key values that duplicate old rows
+     * @param array  $fields array of unquoted field names
+     * @param array  $values array of data to be inserted
+     * @param bool   $ignoreWhenDuplicate Ignore new rows that contain unique key values that duplicate old rows
+     *
+     * @return void
      */
-    public static function tableInsertBatchIterate($tableName, $fields, $values, $ignoreWhenDuplicate = true)
+    public static function tableInsertBatchIterate(string $tableName, array $fields, array $values,
+                                                   bool $ignoreWhenDuplicate = true): void
     {
         $tableName = preg_replace('/[^a-zA-Z\d_-]/', '', $tableName);
         $fieldList = '(' . join(',', $fields) . ')';
@@ -51,8 +57,11 @@ class BatchInsert
      * @param array $fields array of unquoted field names
      * @param array $values array of data to be inserted
      * @param bool $ignoreWhenDuplicate Ignore new rows that contain unique key values that duplicate old rows
+     *
+     * @return void
      */
-    public static function tableInsertBatchSql($tableName, $fields, $values, $ignoreWhenDuplicate = true)
+    public static function tableInsertBatchSql(string $tableName, array $fields, array $values,
+                                               bool $ignoreWhenDuplicate = true): void
     {
         $insertLines = array();
         $bind = array();
@@ -79,9 +88,11 @@ class BatchInsert
      *                                LOAD DATA INFILE, or not.
      * @param string $charset The charset to use, defaults to utf8
      * @throws Exception
+     *
      * @return bool  True if the bulk LOAD was used, false if we fallback to plain INSERTs
      */
-    public static function tableInsertBatch($tableName, $fields, $values, $throwException = false, $charset = 'utf8')
+    public static function tableInsertBatch(string $tableName, array $fields, array $values, bool $throwException = false,
+                                            string $charset = 'utf8'): bool
     {
         $loadDataInfileEnabled = Config::getInstance()->General['enable_load_data_infile'];
 
@@ -137,12 +148,19 @@ class BatchInsert
         return false;
     }
 
-    private static function getBestPathForLoadData()
+    /**
+     * Return the path for the load data file
+     *
+     * @return string
+     * @throws \DI\DependencyException
+     * @throws \DI\NotFoundException
+     */
+    private static function getBestPathForLoadData(): string
     {
         try {
             $path = Db::fetchOne('SELECT @@secure_file_priv'); // was introduced in 5.0.38
         } catch (Exception $e) {
-            // we do not rethrow exception as an error is expected if MySQL is < 5.0.38
+            // we do not rethrow exception as an error is expected if not MySQL or MySQL is < 5.0.38
             // in this case tableInsertBatch might still work
         }
 
@@ -166,7 +184,7 @@ class BatchInsert
      * @throws Exception
      * @return bool  True if successful; false otherwise
      */
-    public static function createTableFromCSVFile($tableName, $fields, $filePath, $fileSpec)
+    public static function createTableFromCSVFile(string $tableName, array $fields, string $filePath, array $fileSpec): bool
     {
         // Chroot environment: prefix the path with the absolute chroot path
         $chrootPath = Config::getInstance()->General['absolute_chroot_path'];
@@ -207,7 +225,7 @@ class BatchInsert
 		";
 
         /*
-         * First attempt: assume web server and MySQL server are on the same machine;
+         * First attempt: assume web server and database server are on the same machine;
          * this requires that the db user have the FILE privilege; however, since this is
          * a global privilege, it may not be granted due to security concerns
          */
@@ -268,8 +286,10 @@ class BatchInsert
      * @param array $fileSpec File specifications (delimiter, line terminator, etc)
      * @param array $rows Array of array corresponding to rows of values
      * @throws Exception  if unable to create or write to file
+     *
+     * @return void
      */
-    protected static function createCSVFile($filePath, $fileSpec, $rows)
+    protected static function createCSVFile(string $filePath, array $fileSpec, array $rows): void
     {
         // Set up CSV delimiters, quotes, etc
         $delim = $fileSpec['delim'];

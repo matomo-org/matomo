@@ -10,9 +10,10 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Db\Adapter;
+use Piwik\Db\AdapterInterface;
 
 /**
- * Contains SQL related helper functions for Piwik's MySQL database.
+ * Contains SQL related helper functions for Matomo's database access
  *
  * Plugins should always use this class to execute SQL against the database.
  *
@@ -32,19 +33,19 @@ use Piwik\Db\Adapter;
  */
 class Db
 {
-    const SQL_MODE = 'NO_AUTO_VALUE_ON_ZERO';
 
     private static $connection = null;
     private static $readerConnection = null;
 
     private static $logQueries = true;
 
-    // this is used for indicate TransactionLevel Cache
+    // This is used to cache TransactionLevel support
     public $supportsUncommitted;
+
     /**
      * Returns the database connection and creates it if it hasn't been already.
      *
-     * @return \Piwik\Tracker\Db|\Piwik\Db\AdapterInterface|\Piwik\Db
+     * @return \Piwik\Tracker\Db|AdapterInterface|\Piwik\Db
      */
     public static function get()
     {
@@ -60,11 +61,13 @@ class Db
     }
 
     /**
+     * Returns true if a reader is configured
+     *
      * @internal
      * @ignore
      * @return bool
      */
-    public static function hasReaderConfigured()
+    public static function hasReaderConfigured(): bool
     {
         $readerConfig = Config::getInstance()->database_reader;
 
@@ -76,8 +79,7 @@ class Db
      * the reader and only use the connection to read data.
      *
      * @since Matomo 3.12
-     *
-     * @return \Piwik\Tracker\Db|\Piwik\Db\AdapterInterface|\Piwik\Db
+     * @return \Piwik\Tracker\Db|AdapterInterface|\Piwik\Db
      */
     public static function getReader()
     {
@@ -98,7 +100,7 @@ class Db
      * @param array|null $dbConfig
      * @return array
      */
-    public static function getDatabaseConfig($dbConfig = null)
+    public static function getDatabaseConfig(?array $dbConfig = null): array
     {
         $config = Config::getInstance();
 
@@ -114,15 +116,15 @@ class Db
          * @param array *$dbInfos Reference to an array containing database connection info,
          *                        including:
          *
-         *                        - **host**: The host name or IP address to the MySQL database.
+         *                        - **host**: The host name or IP address to the database.
          *                        - **username**: The username to use when connecting to the
          *                                        database.
          *                        - **password**: The password to use when connecting to the
          *                                       database.
-         *                        - **dbname**: The name of the Piwik MySQL database.
-         *                        - **port**: The MySQL database port to use.
-         *                        - **adapter**: either `'PDO\MYSQL'` or `'MYSQLI'`
-         *                        - **type**: The MySQL engine to use, for instance 'InnoDB'
+         *                        - **dbname**: The name of the Matomo database.
+         *                        - **port**: The database port to use.
+         *                        - **adapter**: The name of the adapter, `'PDO\MYSQL'`, `'MYSQLI'`
+         *                        - **type**: The optional database engine to use, for instance 'InnoDB'
          */
         Piwik::postEvent('Db.getDatabaseConfig', array(&$dbConfig));
 
@@ -133,11 +135,14 @@ class Db
 
     /**
      * For tests only.
-     * @param $connection
+     *
+     * @param AdapterInterface $connection
+     *
      * @ignore
      * @internal
+     * @return void
      */
-    public static function setDatabaseObject($connection)
+    public static function setDatabaseObject(AdapterInterface $connection): void
     {
         self::$connection = $connection;
     }
@@ -149,8 +154,10 @@ class Db
      *
      * @param array|null $dbConfig Connection parameters in an array. Defaults to the `[database]`
      *                             INI config section.
+     *
+     * @return void
      */
-    public static function createDatabaseObject($dbConfig = null)
+    public static function createDatabaseObject(?array $dbConfig = null): void
     {
         $dbConfig = self::getDatabaseConfig($dbConfig);
 
@@ -168,8 +175,9 @@ class Db
      *                             INI config section.
      *
      * @since Matomo 3.12
+     * @return void
      */
-    public static function createReaderDatabaseObject($dbConfig = null)
+    public static function createReaderDatabaseObject(?array $dbConfig = null): void
     {
         if (!isset($dbConfig)) {
             $dbConfig = Config::getInstance()->database_reader;
@@ -185,9 +193,8 @@ class Db
 
         $db = @Adapter::factory($dbConfig['adapter'], $dbConfig);
 
-        if (!empty($dbConfig['aurora_readonly_read_committed'])) {
-            $db->exec('set session aurora_read_replica_read_committed = ON;set session transaction isolation level read committed;');
-        }
+        // Allow any adapter specific read session parameters to be set
+        $db->setReaderSessionParameters($dbConfig);
 
         self::$readerConnection = $db;
     }
@@ -196,8 +203,9 @@ class Db
      * Detect whether a database object is initialized / created or not.
      *
      * @internal
+     * @return bool True if a database object exists
      */
-    public static function hasDatabaseObject()
+    public static function hasDatabaseObject(): bool
     {
         return isset(self::$connection);
     }
@@ -206,8 +214,9 @@ class Db
      * Detect whether a database object is initialized / created or not.
      *
      * @internal
+     * @return bool True if a reader database object exists
      */
-    public static function hasReaderDatabaseObject()
+    public static function hasReaderDatabaseObject(): bool
     {
         return isset(self::$readerConnection);
     }
@@ -216,8 +225,9 @@ class Db
      * Disconnects and destroys the database connection.
      *
      * For tests.
+     * @return void
      */
-    public static function destroyDatabaseObject()
+    public static function destroyDatabaseObject(): void
     {
         if (self::hasDatabaseObject()) {
             DbHelper::disconnectDatabase();
@@ -232,15 +242,13 @@ class Db
 
     /**
      * Executes an unprepared SQL query. Recommended for DDL statements like `CREATE`,
-     * `DROP` and `ALTER`. The return value is DBMS-specific. For MySQLI, it returns the
-     * number of rows affected. For PDO, it returns a
-     * [Zend_Db_Statement](http://framework.zend.com/manual/1.12/en/zend.db.statement.html) object.
+     * `DROP` and `ALTER`.
      *
      * @param string $sql The SQL query.
      * @throws \Exception If there is an error in the SQL.
-     * @return integer|\Zend_Db_Statement
+     * @return integer  Number of rows affected
      */
-    public static function exec($sql)
+    public static function exec(string $sql): int
     {
         /** @var \Zend_Db_Adapter_Abstract $db */
         $db = self::get();
@@ -273,11 +281,10 @@ class Db
      * @throws \Exception If there is a problem with the SQL or bind parameters.
      * @return \Zend_Db_Statement
      */
-    public static function query($sql, $parameters = array())
+    public static function query(string $sql, array $parameters = []): \Zend_Db_Statement
     {
         try {
             self::logSql(__FUNCTION__, $sql, $parameters);
-
             return self::get()->query($sql, $parameters);
         } catch (Exception $ex) {
             self::logExtraInfoIfDeadlock($ex);
@@ -291,14 +298,13 @@ class Db
      * @param string $sql The SQL query.
      * @param array $parameters Parameters to bind in the query, eg, `array(param1 => value1, param2 => value2)`.
      * @throws \Exception If there is a problem with the SQL or bind parameters.
-     * @return array The fetched rows, each element is an associative array mapping column names
-     *               with column values.
+     *
+     * @return array The fetched rows, each element is an associative array mapping column names with column values.
      */
-    public static function fetchAll($sql, $parameters = array())
+    public static function fetchAll(string $sql, array $parameters = []): array
     {
         try {
             self::logSql(__FUNCTION__, $sql, $parameters);
-
             return self::get()->fetchAll($sql, $parameters);
         } catch (Exception $ex) {
             self::logExtraInfoIfDeadlock($ex);
@@ -312,10 +318,9 @@ class Db
      * @param string $sql The SQL query.
      * @param array $parameters Parameters to bind in the query, eg, `array(param1 => value1, param2 => value2)`.
      * @throws \Exception If there is a problem with the SQL or bind parameters.
-     * @return array The fetched row, each element is an associative array mapping column names
-     *               with column values.
+     * @return array The fetched row, each element is an associative array mapping column names with column values.
      */
-    public static function fetchRow($sql, $parameters = array())
+    public static function fetchRow(string $sql, array $parameters = []): array
     {
         try {
             self::logSql(__FUNCTION__, $sql, $parameters);
@@ -334,13 +339,13 @@ class Db
      * @param string $sql The SQL query.
      * @param array $parameters Parameters to bind in the query, eg, `array(param1 => value1, param2 => value2)`.
      * @throws \Exception If there is a problem with the SQL or bind parameters.
+     *
      * @return string
      */
-    public static function fetchOne($sql, $parameters = array())
+    public static function fetchOne(string $sql, array $parameters = []): string
     {
         try {
             self::logSql(__FUNCTION__, $sql, $parameters);
-
             return self::get()->fetchOne($sql, $parameters);
         } catch (Exception $ex) {
             self::logExtraInfoIfDeadlock($ex);
@@ -355,13 +360,14 @@ class Db
      * @param string $sql The SQL query.
      * @param array $parameters Parameters to bind in the query, eg, `array(param1 => value1, param2 => value2)`.
      * @throws \Exception If there is a problem with the SQL or bind parameters.
+     *
      * @return array eg,
      *               ```
      *               array('col1value1' => array('col2' => '...', 'col3' => ...),
      *                     'col1value2' => array('col2' => '...', 'col3' => ...))
      *               ```
      */
-    public static function fetchAssoc($sql, $parameters = array())
+    public static function fetchAssoc(string $sql, array $parameters = []): array
     {
         try {
             self::logSql(__FUNCTION__, $sql, $parameters);
@@ -393,14 +399,16 @@ class Db
      * @param array $parameters Parameters to bind for each query.
      * @return int The total number of rows deleted.
      */
-    public static function deleteAllRows($table, $where, $orderBy, $maxRowsPerQuery = 100000, $parameters = array())
+    public static function deleteAllRows(string $table, string $where, string $orderBy, int $maxRowsPerQuery = 100000,
+                                         array $parameters = []): int
     {
         $orderByClause = $orderBy ? "ORDER BY $orderBy" : "";
 
+        /** @noinspection SqlWithoutWhere */
         $sql = "DELETE FROM $table $where $orderByClause
                 LIMIT " . (int)$maxRowsPerQuery;
 
-        // delete rows w/ a limit
+        // delete rows with a limit
         $totalRowsDeleted = 0;
 
         do {
@@ -423,7 +431,7 @@ class Db
      * @param bool $force If true, the `OPTIMIZE TABLE` query will be run even if InnoDB tables are being used.
      * @return bool
      */
-    public static function optimizeTables($tables, $force = false)
+    public static function optimizeTables($tables, bool $force = false): bool
     {
         $optimize = Config::getInstance()->General['enable_sql_optimize_queries'];
 
@@ -441,42 +449,8 @@ class Db
             $tables = array($tables);
         }
 
-        if (!self::isOptimizeInnoDBSupported()
-            && !$force
-        ) {
-            // filter out all InnoDB tables
-            $myisamDbTables = array();
-            foreach (self::getTableStatus() as $row) {
-                if (strtolower($row['Engine']) == 'myisam'
-                    && in_array($row['Name'], $tables)
-                ) {
-                    $myisamDbTables[] = $row['Name'];
-                }
-            }
+        return self::get()::optimizeTables($tables, $force);
 
-            $tables = $myisamDbTables;
-        }
-
-        if (empty($tables)) {
-            return false;
-        }
-
-        // optimize the tables
-        $success = true;
-        foreach ($tables as &$t) {
-            $ok = self::query('OPTIMIZE TABLE ' . $t);
-            if (!$ok) {
-                $success = false;
-            }
-        }
-
-        return $success;
-
-    }
-
-    private static function getTableStatus()
-    {
-        return Db::fetchAll("SHOW TABLE STATUS");
     }
 
     /**
@@ -484,21 +458,24 @@ class Db
      *
      * @param string|array $tables The name of the table to drop or an array of table names to drop.
      *                             Table names must be prefixed (see {@link Piwik\Common::prefixTable()}).
-     * @return \Zend_Db_Statement
+     * @return void
      */
-    public static function dropTables($tables)
+    public static function dropTables($tables): void
     {
         if (!is_array($tables)) {
             $tables = array($tables);
         }
 
-        return self::query("DROP TABLE `" . implode('`,`', $tables) . "`");
+        $sql = /** @lang text */ "DROP TABLE `" . implode('`,`', $tables) . "`";
+        self::query($sql);
     }
 
     /**
      * Drops all tables
+     *
+     * @return void
      */
-    public static function dropAllTables()
+    public static function dropAllTables(): void
     {
         $tablesAlreadyInstalled = DbHelper::getTablesInstalled();
         self::dropTables($tablesAlreadyInstalled);
@@ -507,17 +484,18 @@ class Db
     /**
      * Locks the supplied table or tables.
      *
-     * **NOTE:** Piwik does not require the `LOCK TABLES` privilege to be available. Piwik
+     * **NOTE:** Matomo does not require the `LOCK TABLES` privilege to be available. Matomo
      * should still work if it has not been granted.
      *
      * @param string|array $tablesToRead The table or tables to obtain 'read' locks on. Table names must
      *                                   be prefixed (see {@link Piwik\Common::prefixTable()}).
      * @param string|array $tablesToWrite The table or tables to obtain 'write' locks on. Table names must
      *                                    be prefixed (see {@link Piwik\Common::prefixTable()}).
-     * @return \Zend_Db_Statement
+     * @return void
      */
-    public static function lockTables($tablesToRead, $tablesToWrite = array())
+    public static function lockTables($tablesToRead, $tablesToWrite = []): void
     {
+
         if (!is_array($tablesToRead)) {
             $tablesToRead = array($tablesToRead);
         }
@@ -526,29 +504,20 @@ class Db
             $tablesToWrite = array($tablesToWrite);
         }
 
-        $lockExprs = array();
-        foreach ($tablesToWrite as $table) {
-            $lockExprs[] = $table . " WRITE";
-        }
-
-        foreach ($tablesToRead as $table) {
-            $lockExprs[] = $table . " READ";
-        }
-
-        return self::exec("LOCK TABLES " . implode(', ', $lockExprs));
+        self::get()->lockTables($tablesToRead, $tablesToWrite);
     }
 
     /**
      * Releases all table locks.
      *
-     * **NOTE:** Piwik does not require the `LOCK TABLES` privilege to be available. Piwik
-     * should still work if it has not been granted.
+     * **NOTE:** Matomo does not require the `LOCK TABLES` privilege to be available. It
+     * should still work if this has not been granted.
      *
-     * @return \Zend_Db_Statement
+     * @return void
      */
-    public static function unlockAllTables()
+    public static function unlockAllTables(): void
     {
-        return self::exec("UNLOCK TABLES");
+        self::get()->unlockAllTables();
     }
 
     /**
@@ -589,7 +558,7 @@ class Db
      *
      * @return string
      */
-    public static function segmentedFetchFirst($sql, $first, $last, $step, $params = array())
+    public static function segmentedFetchFirst(string $sql, int $first, int $last, int $step, array $params = []): string
     {
         $result = false;
 
@@ -625,9 +594,10 @@ class Db
      * @param int $last The maximum ID to loop to.
      * @param int $step The maximum number of rows to scan in one query.
      * @param array $params Parameters to bind in the query, `array(param1 => value1, param2 => value2)`
+     *
      * @return array An array of primitive values.
      */
-    public static function segmentedFetchOne($sql, $first, $last, $step, $params = array())
+    public static function segmentedFetchOne(string $sql, int $first, int $last, int $step, array $params = []): array
     {
         $result = array();
 
@@ -663,10 +633,10 @@ class Db
      * @param int $last The maximum ID to loop to.
      * @param int $step The maximum number of rows to scan in one query.
      * @param array $params Parameters to bind in the query, array( param1 => value1, param2 => value2)
-     * @return array An array of rows that includes the result set of every smaller
-     *               query.
+     *
+     * @return array An array of rows that includes the result set of every smaller query.
      */
-    public static function segmentedFetchAll($sql, $first, $last, $step, $params = array())
+    public static function segmentedFetchAll(string $sql, int $first, int $last, int $step, array $params = []): array
     {
         $result = array();
 
@@ -701,9 +671,11 @@ class Db
      * @param int $first The minimum ID to loop from.
      * @param int $last The maximum ID to loop to.
      * @param int $step The maximum number of rows to scan in one query.
-     * @param array $params Parameters to bind in the query, `array(param1 => value1, param2 => value2)`
+     * @param array $params Parameters to bind in the query, `array(param1 => value1, param2 => value2)
+     *
+     * @return void
      */
-    public static function segmentedQuery($sql, $first, $last, $step, $params = array())
+    public static function segmentedQuery(string $sql, int $first, int $last, int $step, array $params = []): void
     {
         if ($step > 0) {
             for ($i = $first; $i <= $last; $i += $step) {
@@ -727,31 +699,10 @@ class Db
      * @return bool `true` if the lock was obtained, `false` if otherwise.
      * @throws \Exception if Lock name is too long
      */
-    public static function getDbLock($lockName, $maxRetries = 30)
+    public static function getDbLock(string $lockName, int $maxRetries = 30): bool
     {
-        if (strlen($lockName) > 64) {
-            throw new \Exception('DB lock name has to be 64 characters or less for MySQL 5.7 compatibility.');
-        }
+        return self::get()->getDbLock($lockName, $maxRetries = 30);
 
-        /*
-         * the server (e.g., shared hosting) may have a low wait timeout
-         * so instead of a single GET_LOCK() with a 30 second timeout,
-         * we use a 1 second timeout and loop, to avoid losing our MySQL
-         * connection
-         */
-        $sql = 'SELECT GET_LOCK(?, 1)';
-
-        $db = self::get();
-
-        while ($maxRetries > 0) {
-            $result = $db->fetchOne($sql, array($lockName));
-            if ($result == '1') {
-                return true;
-            }
-            $maxRetries--;
-        }
-
-        return false;
     }
 
     /**
@@ -760,12 +711,9 @@ class Db
      * @param string $lockName The lock name.
      * @return bool `true` if the lock was released, `false` if otherwise.
      */
-    public static function releaseDbLock($lockName)
+    public static function releaseDbLock(string $lockName): bool
     {
-        $sql = 'SELECT RELEASE_LOCK(?)';
-
-        $db = self::get();
-        return $db->fetchOne($sql, array($lockName)) == '1';
+        return self::get()->getDbLock($lockName);
     }
 
     /**
@@ -799,25 +747,29 @@ class Db
         return self::$lockPrivilegeGranted;
     }
 
-    private static function logExtraInfoIfDeadlock($ex)
+    /**
+     * Log additional information for deadlock exceptions
+     *
+     * @param $ex
+     *
+     * @return void
+     */
+    private static function logExtraInfoIfDeadlock($ex): void
     {
-        if (!self::get()->isErrNo($ex, 1213)
-            && !self::get()->isErrNo($ex, 1205)
-        ) {
-            return;
-        }
-
-        try {
-            $deadlockInfo = self::fetchAll("SHOW ENGINE INNODB STATUS");
-
-            // log using exception so backtrace appears in log output
-            Log::debug(new Exception("Encountered deadlock: " . print_r($deadlockInfo, true)));
-        } catch(\Exception $e) {
-            //  1227 Access denied; you need (at least one of) the PROCESS privilege(s) for this operation
-        }
+        self::get()->logExtraInfoIfDeadlock($ex);
     }
 
-    private static function logSql($functionName, $sql, $parameters = array())
+    /**
+     * Log a SQL query / statement
+     *
+     * @param string $functionName
+     * @param string $sql
+     * @param array  $parameters
+     *
+     * @throws Exception
+     * @return void
+     */
+    private static function logSql(string $functionName, string $sql, array $parameters = []): void
     {
         self::checkBoundParametersIfInDevMode($sql, $parameters);
 
@@ -831,7 +783,16 @@ class Db
         Log::debug("Db::%s() executing SQL: %s", $functionName, $sql);
     }
 
-    private static function checkBoundParametersIfInDevMode($sql, $parameters)
+    /**
+     * Check bound parameter types
+     *
+     * @param string $sql
+     * @param array $parameters
+     *
+     * @throws Exception
+     * @return void
+     */
+    private static function checkBoundParametersIfInDevMode(string $sql, array $parameters): void
     {
         if (!Development::isEnabled()) {
             return;
@@ -849,34 +810,25 @@ class Db
     }
 
     /**
+     * Enable the query log
+     *
      * @param bool $enable
+     *
+     * @return void
      */
-    public static function enableQueryLog($enable)
+    public static function enableQueryLog(bool $enable): void
     {
         self::$logQueries = $enable;
     }
 
     /**
-     * @return boolean
+     * Check if the query log is enabled
+     *
+     * @return bool True if enabled
      */
-    public static function isQueryLogEnabled()
+    public static function isQueryLogEnabled(): bool
     {
         return self::$logQueries;
     }
 
-    public static function isOptimizeInnoDBSupported($version = null)
-    {
-        if ($version === null) {
-            $version = Db::fetchOne("SELECT VERSION()");
-        }
-
-        $version = strtolower($version);
-
-        if (strpos($version, "mariadb") === false) {
-            return false;
-        }
-
-        $semanticVersion = strstr($version, '-', $beforeNeedle = true);
-        return version_compare($semanticVersion, '10.1.1', '>=');
-    }
 }

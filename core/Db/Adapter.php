@@ -12,6 +12,10 @@ use Zend_Db_Table;
 use Piwik\Piwik;
 
 /**
+ * Base class for all Matomo database adapters.
+ *
+ * Should only contain code that will apply for all database types, code specific to one database should be placed in
+ * that adapter's class in \Db\Adapter\Pdo\[dbclass]
  */
 class Adapter
 {
@@ -21,9 +25,10 @@ class Adapter
      * @param string $adapterName database adapter name
      * @param array $dbInfos database connection info
      * @param bool $connect
+     *
      * @return AdapterInterface
      */
-    public static function factory($adapterName, & $dbInfos, $connect = true)
+    public static function factory(string $adapterName, array &$dbInfos, bool $connect = true): AdapterInterface
     {
         if ($connect) {
             if (isset($dbInfos['port']) && is_string($dbInfos['port']) && $dbInfos['port'][0] === '/') {
@@ -76,7 +81,7 @@ class Adapter
      * @return string
      * @throws \Exception
      */
-    private static function getAdapterClassName($adapterName)
+    private static function getAdapterClassName(string $adapterName): string
     {
         $className = 'Piwik\Db\Adapter\\' . str_replace(' ', '\\', ucwords(str_replace(array('_', '\\'), ' ', strtolower($adapterName))));
         if (!class_exists($className)) {
@@ -89,12 +94,13 @@ class Adapter
      * Get default port for named adapter
      *
      * @param string $adapterName
+     *
      * @return int
      */
-    public static function getDefaultPortForAdapter($adapterName)
+    public static function getDefaultPortForAdapter(string $adapterName): int
     {
         $className = self::getAdapterClassName($adapterName);
-        return call_user_func(array($className, 'getDefaultPort'));
+        return (int) call_user_func(array($className, 'getDefaultPort'));
     }
 
     /**
@@ -102,15 +108,14 @@ class Adapter
      *
      * @return array
      */
-    public static function getAdapters()
+    public static function getAdapters(): array
     {
-        static $adapterNames = array(
+        static $adapterNames = [
             // currently supported by Piwik
             'Pdo\Mysql',
             'Mysqli',
-
             // other adapters supported by Zend_Db
-        );
+        ];
 
         $adapters = array();
 
@@ -125,36 +130,15 @@ class Adapter
     }
 
     /**
-     * Checks if the available adapters are recommended by Piwik or not.
+     * Checks if the adapter is recommended by Matomo or not.
+     *
      * @param string $adapterName
+     *
      * @return bool
      */
-    public static function isRecommendedAdapter($adapterName)
+    public static function isRecommendedAdapter(string $adapterName): bool
     {
-        return strtolower($adapterName) === 'pdo/mysql';
+        return call_user_func([self::getAdapterClassName($adapterName), 'isRecommendedAdapter']);
     }
 
-    /**
-     * Intercepts certain exception messages and replaces leaky ones with ones that don't reveal too much info
-     * @param string $message
-     * @return string
-     */
-    public static function overriddenExceptionMessage($message)
-    {
-        $safeMessageMap = array(
-            // add any exception search terms and their replacement message here
-            '[2006]'                        => Piwik::translate('General_ExceptionDatabaseUnavailable'),
-            'MySQL server has gone away'    => Piwik::translate('General_ExceptionDatabaseUnavailable'),
-            '[1698]'                        => Piwik::translate('General_ExceptionDatabaseAccess'),
-            'Access denied'                 => Piwik::translate('General_ExceptionDatabaseAccess')
-        );
-
-        foreach ($safeMessageMap as $search_term => $safeMessage) {
-            if (strpos($message, $search_term) !== false) {
-                return $safeMessage;
-            }
-        }
-
-        return '';
-    }
 }
