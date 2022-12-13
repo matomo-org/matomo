@@ -31,12 +31,11 @@ class EvolutionPeriodSelector
         return (int) round($days);
     }
 
-    public function setSparklineDatePeriods($params, Period $originalPeriod, $comparisonPeriods): array
+    public function setDatePeriods($params, Period $originalPeriod, $comparisonPeriods, $isComparing): array
     {
-        $isComparingDates = !empty($comparisonPeriods);
         $highestPeriodInCommon = $this->getHighestPeriodInCommon($originalPeriod, $comparisonPeriods);
 
-        if ($isComparingDates) {
+        if ($isComparing) {
             // when not comparing we usually show the last30 data points from the end date. However, when comparing dates,
             // then we don't want to do this and rather only draw the evolution of the selected range. This way you can
             // better compare the two specific date ranges and how they change over time.

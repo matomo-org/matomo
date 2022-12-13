@@ -238,7 +238,7 @@ class Sparklines extends ViewDataTable
 
             $periodSelector = new EvolutionPeriodSelector($this->config);
             $comparisonPeriods = $periodSelector->getComparisonPeriodObjects($comparePeriodsWithoutOriginalPeriod, $compareDatesWithoutOriginalDate);
-            $sparklineUrlParams = $periodSelector->setSparklineDatePeriods($sparklineUrlParams, $periodObj, $comparisonPeriods);
+            $sparklineUrlParams = $periodSelector->setDatePeriods($sparklineUrlParams, $periodObj, $comparisonPeriods, $isComparing);
 
             if ($isComparing) {
                 $sparklineUrlParams['compareSegments'] = [];

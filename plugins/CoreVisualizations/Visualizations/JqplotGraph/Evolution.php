@@ -83,26 +83,13 @@ class Evolution extends JqplotGraph
             if (!empty($requestArray['comparePeriods'])) {
                 $comparisonPeriods = $selector->getComparisonPeriodObjects($requestArray['comparePeriods'], $requestArray['compareDates']);
             }
-            $highestPeriodInCommon = $selector->getHighestPeriodInCommon($requestingPeriod, $comparisonPeriods);
 
-            $this->requestConfig->request_parameters_to_modify['period'] = $highestPeriodInCommon;
-            $this->requestConfig->request_parameters_to_modify['date'] = $requestingPeriod->getRangeString();
-
-            if (!empty($requestArray['comparePeriods'])) {
-                foreach ($requestArray['comparePeriods'] as $index => $comparePeriod) {
-                    $compareDate = $requestArray['compareDates'][$index];
-                    if (Period::isMultiplePeriod($compareDate, $comparePeriod)) {
-                        continue;
-                    }
-
-                    $comparePeriodObj = Factory::build($comparePeriod, $compareDate);
-                    $requestArray['comparePeriods'][$index] = $highestPeriodInCommon;
-                    $requestArray['compareDates'][$index] = $comparePeriodObj->getRangeString();
-                }
-
-                $this->requestConfig->request_parameters_to_modify['compareDates'] = $requestArray['compareDates'];
-                $this->requestConfig->request_parameters_to_modify['comparePeriods'] = $requestArray['comparePeriods'];
-            }
+            $this->requestConfig->request_parameters_to_modify = $selector->setDatePeriods(
+                $this->requestConfig->request_parameters_to_modify,
+                $requestingPeriod,
+                $comparisonPeriods,
+                true
+            );
         }
     }
 

@@ -269,7 +269,7 @@ class EvolutionPeriodSelectorTest extends IntegrationTestCase
             $_GET['date'] = $originalPeriod->getDateEnd()->toString();
         }
         $_GET['idSite'] = 1;
-        $period = $this->selector->setSparklineDatePeriods([], $originalPeriod, $comparisonPeriods);
+        $period = $this->selector->setDatePeriods([], $originalPeriod, $comparisonPeriods, !empty($comparisonPeriods));
         $this->assertEquals($expected, $period);
     }
 
