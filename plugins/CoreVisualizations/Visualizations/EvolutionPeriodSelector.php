@@ -37,8 +37,8 @@ class EvolutionPeriodSelector
 
         if ($isComparing) {
             // when not comparing we usually show the last30 data points from the end date. However, when comparing dates,
-            // then we don't want to do this and rather only draw the evolution of the selected range. This way you can
-            // better compare the two specific date ranges and how they change over time.
+            // or periods then we don't want to do this and rather only draw the evolution of the selected range. This way
+            // you can better compare the two specific date ranges and how they change over time.
             // Otherwise, if you were to compare for example today vs yesterday, then you would see the trends for today
             // over last 30 days vs yesterday over the last 30 days which isn't very helpful to compare.
             // that means when you compare month of Dec 2022 with Dec 2021, then the shown sparkline should be comparing

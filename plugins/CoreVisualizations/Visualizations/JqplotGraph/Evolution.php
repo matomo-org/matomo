@@ -53,9 +53,9 @@ class Evolution extends JqplotGraph
 
         parent::beforeLoadDataTable();
 
-        // period will be overridden when 'range' is requested in the UI
-        // but the graph will display for each day of the range.
-        // Default 'range' behavior is to return the 'sum' for the range
+        // period will be overridden when 'range' is requested in the UI.
+        // The graph will display the range in the most suitable period and
+        // it won't show historical data before the range.
         $period = Common::getRequestVar('period', false);
         $selector = StaticContainer::get(EvolutionPeriodSelector::class);
 
@@ -73,7 +73,7 @@ class Evolution extends JqplotGraph
 
         if ($this->isComparing()) {
             $this->config->show_limit_control = false; // since we always show the evolution over the period, there's no point in changing the limit
-            $this->config->show_periods = false; // the periods can't be changed and they are always fixed when comparing
+            $this->config->show_periods = false; // the periods can't be changed as they are always fixed when comparing
 
             $requestArray = $this->request->getRequestArray();
             $requestArray = ApiRequest::getRequestArrayFromString($requestArray);
