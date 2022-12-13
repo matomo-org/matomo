@@ -233,8 +233,8 @@ class Sparklines extends ViewDataTable
             $compareDates = $data->getMetadata('compareDates');
 
             // the first entry includes the original period and we need to remove it
-            $compareDatesWithoutOriginalDate = array_slice($compareDates, 1);
-            $comparePeriodsWithoutOriginalPeriod = array_slice($comparePeriods, 1);
+            $compareDatesWithoutOriginalDate = $compareDates ? array_slice($compareDates, 1) : [];
+            $comparePeriodsWithoutOriginalPeriod = $comparePeriods ? array_slice($comparePeriods, 1) : [];
 
             $periodSelector = new EvolutionPeriodSelector($this->config);
             $comparisonPeriods = $periodSelector->getComparisonPeriodObjects($comparePeriodsWithoutOriginalPeriod, $compareDatesWithoutOriginalDate);

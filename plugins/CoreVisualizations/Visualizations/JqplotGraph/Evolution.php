@@ -73,6 +73,7 @@ class Evolution extends JqplotGraph
 
         if ($this->isComparing()) {
             $this->config->show_limit_control = false; // since we always show the evolution over the period, there's no point in changing the limit
+            $this->config->show_periods = false; // the periods can't be changed and they are always fixed when comparing
 
             $requestArray = $this->request->getRequestArray();
             $requestArray = ApiRequest::getRequestArrayFromString($requestArray);
