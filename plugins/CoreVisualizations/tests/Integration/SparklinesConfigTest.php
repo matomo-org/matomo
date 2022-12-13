@@ -46,6 +46,32 @@ class SparklinesConfigTest extends IntegrationTestCase
         parent::tearDown();
     }
 
+    public function test_generateSparklineTooltip_noParams()
+    {
+        $this->assertSame('', $this->config->generateSparklineTooltip([]));
+    }
+
+    public function test_generateSparklineTooltip_onlyPeriod()
+    {
+        $this->assertSame('Each data point in the sparkline represents a week.', $this->config->generateSparklineTooltip(['period' => 'week']));
+    }
+
+    public function test_generateSparklineTooltip_periodAndDate()
+    {
+        $this->assertSame('Each data point in the sparkline represents a week. Period: Feb 2 – May 5, 2022.', $this->config->generateSparklineTooltip(['period' => 'week', 'date' => '2022-02-02,2022-05-05']));
+    }
+
+    public function test_generateSparklineTooltip_periodAndDateAndComparison()
+    {
+        $tooltip = $this->config->generateSparklineTooltip([
+            'period' => 'week', 'date' => '2022-02-02,2022-05-05',
+            'comparePeriods' => ['week', 'week'], 'compareDates' => ['2021-02-02,2021-05-05', '2020-02-02,2020-05-05']
+        ]);
+
+        $expected = 'Each data point in the sparkline represents a week. Period: Feb 2 – May 5, 2022. Period 2: Feb 2 – May 5, 2021. Period 3: Feb 2 – May 5, 2020.';
+        $this->assertSame($expected, $tooltip);
+    }
+
     public function test_areSparklinesLinkable_byDefaultSparklinesAreLinkable()
     {
         $this->assertTrue($this->config->areSparklinesLinkable());
@@ -63,6 +89,7 @@ class SparklinesConfigTest extends IntegrationTestCase
 
         $expectedSparkline = array(
             'url' => '?period=day&date=2012-03-06,2012-04-04&idSite=1&module=CoreHome&action=renderMe&viewDataTable=sparkline',
+            'tooltip' => 'Each data point in the sparkline represents a day. Period: Wed, Apr 4.',
             'metrics' => array (
                 '' => [
                     array ('value' => 10, 'description' => 'Visits', 'column' => ''),
@@ -159,7 +186,7 @@ class SparklinesConfigTest extends IntegrationTestCase
 
         $sparklines = $this->config->getSortedSparklines();
 
-        $this->assertSame('?columns=nb_visits&viewDataTable=sparkline&date=2012-03-06,2012-04-04', $sparklines[''][0]['url']);
+        $this->assertSame('?columns=nb_visits&viewDataTable=sparkline&date=2012-03-06,2012-04-04&period=day', $sparklines[''][0]['url']);
     }
 
     public function test_addSparkline_shouldAddSparklinesWithGroups()
@@ -174,6 +201,7 @@ class SparklinesConfigTest extends IntegrationTestCase
             'one' => [
                 [
                     'url' => '?period=day&date=2012-03-06,2012-04-04&idSite=1&module=CoreHome&action=renderMe&viewDataTable=sparkline',
+                    'tooltip' => 'Each data point in the sparkline represents a day. Period: Wed, Apr 4.',
                     'metrics' => [
                         '' => [
                             0 => [
@@ -191,6 +219,7 @@ class SparklinesConfigTest extends IntegrationTestCase
                 ],
                 [
                     'url' => '?period=day&date=2012-03-06,2012-04-04&idSite=1&module=CoreHome&action=renderMe&viewDataTable=sparkline',
+                    'tooltip' => 'Each data point in the sparkline represents a day. Period: Wed, Apr 4.',
                     'metrics' => [
                         '' => [
                             0 => [
@@ -210,6 +239,7 @@ class SparklinesConfigTest extends IntegrationTestCase
             'two' => [
                 [
                     'url' => '?period=day&date=2012-03-06,2012-04-04&idSite=1&module=CoreHome&action=renderMe&viewDataTable=sparkline',
+                    'tooltip' => 'Each data point in the sparkline represents a day. Period: Wed, Apr 4.',
                     'metrics' => [
                         '' => [
                             0 => [
@@ -227,6 +257,7 @@ class SparklinesConfigTest extends IntegrationTestCase
                 ],
                 [
                     'url' => '?period=day&date=2012-03-06,2012-04-04&idSite=1&module=CoreHome&action=renderMe&viewDataTable=sparkline',
+                    'tooltip' => 'Each data point in the sparkline represents a day. Period: Wed, Apr 4.',
                     'metrics' => [
                         '' => [
                             0 => [
@@ -279,6 +310,7 @@ class SparklinesConfigTest extends IntegrationTestCase
             '' => [
                 [
                     'url' => '?period=day&date=2012-03-06,2012-04-04&idSite=1&module=CoreHome&action=renderMe&viewDataTable=sparkline',
+                    'tooltip' => 'Each data point in the sparkline represents a day. Period: Wed, Apr 4.',
                     'metrics' => [
                         'g1' => [
                             0 => [

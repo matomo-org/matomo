@@ -16,6 +16,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\Exception\RedirectException;
 use Piwik\IP;
 use Piwik\Log;
 use Piwik\Nonce;
@@ -29,6 +30,7 @@ use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\QuickForm2;
 use Piwik\Session;
 use Piwik\Session\SessionInitializer;
+use Piwik\SettingsPiwik;
 use Piwik\Url;
 use Piwik\UrlHelper;
 use Piwik\View;
@@ -551,11 +553,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         // if no user matches the invite token
         if (!$user) {
             $this->bruteForceDetection->addFailedAttempt(IP::getIpFromHeader());
-            throw new Exception(Piwik::translate('Login_InvalidUsernameEmail'));
+            throw new RedirectException(Piwik::translate('Login_InvalidOrExpiredTokenV2'), SettingsPiwik::getPiwikUrl(), 5);
         }
 
         if (!empty($user['invite_expired_at']) && Date::factory($user['invite_expired_at'])->isEarlier(Date::now())) {
-            throw new Exception(Piwik::translate('Login_InvalidOrExpiredToken'));
+            throw new RedirectException(Piwik::translate('Login_InvalidOrExpiredTokenV2'), SettingsPiwik::getPiwikUrl(), 5);
         }
 
         // if form was sent
