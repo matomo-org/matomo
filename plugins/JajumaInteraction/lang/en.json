@@ -1,0 +1,7 @@
+{
+    "JajumaInteraction": {
+        "UserInteractionTriggerName": "User Interaction",
+        "UserInteractionTriggerDescription": "Triggered when user interacts with the site.",
+        "UserInteractionTriggerHelp": ""
+    }
+}

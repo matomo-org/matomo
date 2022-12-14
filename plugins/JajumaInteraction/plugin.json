@@ -1,0 +1,29 @@
+{
+    "name": "JajumaInteraction",
+    "description": "Create custom plugin for create new custom trigger",
+    "version": "0.1.0",
+    "theme": false,
+    "require": {
+        "matomo": ">=4.13.0-stable,<5.0.0-b1"
+    },
+    "authors": [
+        {
+            "name": "Matomo",
+            "email": "",
+            "homepage": ""
+        }
+    ],
+    "support": {
+        "email": "",
+        "issues": "",
+        "forum": "",
+        "irc": "",
+        "wiki": "",
+        "source": "",
+        "docs": "",
+        "rss": ""
+    },
+    "homepage": "",
+    "license": "GPL v3+",
+    "keywords": []
+}
