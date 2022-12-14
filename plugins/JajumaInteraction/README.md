@@ -2,5 +2,4 @@
 
 ## Description
 
-Add your plugin description here.
-
+Triggered when user interacts with the site.
