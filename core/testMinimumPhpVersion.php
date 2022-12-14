@@ -201,6 +201,7 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
                                 Please click below if you are not redirected in ' . $countdown . ' seconds</br></br>
                                 Go to <a href="' . $redirectUrl . '">' . $redirectUrl . '</a> 
                                 </p>
+                                <style>.header,.footer { display:none;}</style>
                                 <script>setTimeout(function(){window.location.href="' . $redirectUrl . '"}, ' . ($countdown * 1000) . ');</script>';
             $backLinks = '';
         }
