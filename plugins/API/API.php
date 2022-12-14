@@ -449,34 +449,27 @@ class API extends \Piwik\Plugin\API
      *
      * @param array $urls The array of API requests.
      * @return array
+     * @unsanitized
      */
     public function getBulkRequest($urls)
     {
         if (empty($urls) || !is_array($urls)) {
-            return array();
+            return [];
         }
 
-        $urls = array_map('urldecode', $urls);
-        $urls = array_map(array('Piwik\Common', 'unsanitizeInputValue'), $urls);
+        $request = \Piwik\Request::fromRequest();
+        $queryParameters = $request->getParameters();
+        unset($queryParameters['urls']);
 
-        $result = array();
+        $result = [];
         foreach ($urls as $url) {
-            $params = Request::getRequestArrayFromString($url . '&format=json');
+            $params = \Piwik\Request::fromQueryString($url)->getParameters();
+            $params['format'] = 'json';
+
+            $params += $queryParameters;
 
             if (!empty($params['method']) && $params['method'] === 'API.getBulkRequest') {
                 continue;
-            }
-
-            if (isset($params['urls']) && $params['urls'] == $urls) {
-                // by default 'urls' is added to $params as Request::getRequestArrayFromString adds all $_GET/$_POST
-                // default parameters
-                unset($params['urls']);
-            }
-
-            if (!empty($params['segment']) && strpos($url, 'segment=') > -1) {
-                // only unsanitize input when segment is actually present in URL, not when it was used from
-                // $defaultRequest in Request::getRequestArrayFromString from $_GET/$_POST
-                $params['segment'] = urlencode(Common::unsanitizeInputValue($params['segment']));
             }
 
             $req = new Request($params);

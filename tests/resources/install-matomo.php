@@ -15,7 +15,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\UsersManager;
-use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
@@ -86,7 +85,7 @@ function createSuperUser() {
     $passwordHelper = new Password();
 
     $login    = 'superUserLogin';
-    $password = $passwordHelper->hash(UsersManager::getPasswordHash('superUserPass'));
+    $password = $passwordHelper->hash(UsersManager::getPasswordHash('pas3!"§$%&/()=?\'ㄨ<|-_#*+~>word'));
 
     $model = new \Piwik\Plugins\UsersManager\Model();
     $user  = $model->getUser($login);
