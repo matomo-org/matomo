@@ -29,11 +29,11 @@ class Nonce
      * Returns an existing nonce by ID. If none exists, a new nonce will be generated.
      *
      * @param string $id Unique id to avoid namespace conflicts, e.g., `'ModuleName.ActionName'`.
-     * @param int $ttl Optional time-to-live in seconds; default is 10 minutes. (ie, in 10 minutes,
+     * @param int $ttl Optional time-to-live in seconds; default is 5 minutes. (ie, in 5 minutes,
      *                 the nonce will no longer be valid).
      * @return string
      */
-    public static function getNonce($id, $ttl = 1200)
+    public static function getNonce($id, $ttl = 600)
     {
         // save session-dependent nonce
         $ns = new SessionNamespace($id);
