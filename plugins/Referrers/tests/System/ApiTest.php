@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -37,24 +38,24 @@ class ApiTest extends SystemTestCase
 
     public function getApiForTesting()
     {
-        $api = array(
+        $api = [
             'API.getProcessedReport'
-        );
+        ];
 
-        $apiToTest   = array();
+        $apiToTest   = [];
 
         // we make sure it returns a subtableIds even if a DataTable\Map is requested
-        $apiToTest[] = array($api,
-            array(
+        $apiToTest[] = [$api,
+            [
                 'idSite'     => 1,
                 'apiModule'  => 'Referrers',
                 'apiAction'  => 'getReferrerType',
                 'date'       => '2010-01-01,2010-03-10',
-                'periods'    => array('day'),
+                'periods'    => ['day'],
                 'testSuffix' => 'Referrers_getReferrerType',
-                'otherRequestParameters' => array('expanded' => 0)
-            )
-        );
+                'otherRequestParameters' => ['expanded' => 0]
+            ]
+        ];
 
         $apiToTest[] = [
             'Referrers.getReferrerType',
@@ -68,12 +69,38 @@ class ApiTest extends SystemTestCase
         ];
 
         $apiToTest[] = [
-            array('Referrers.getAll', 'Referrers.getReferrerType'),
+            ['Referrers.getAll', 'Referrers.getReferrerType'],
             [
                 'idSite' => 'all',
                 'date' => '2010-01-01',
                 'periods' => 'year',
                 'testSuffix' => 'allSites',
+            ],
+        ];
+
+        $apiToTest[] = [
+            ['Referrers.getKeywordsFromSearchEngineId'],
+            [
+                'idSite' => '1',
+                'date' => '2010-01-01',
+                'periods' => 'year',
+                'otherRequestParameters' => [
+                    'idSubtable' => '1',
+                ],
+                'testSuffix' => 'subtableid_valid',
+            ],
+        ];
+
+        $apiToTest[] = [
+            ['Referrers.getKeywordsFromSearchEngineId'],
+            [
+                'idSite' => '1',
+                'date' => '2010-01-01',
+                'periods' => 'year',
+                'otherRequestParameters' => [
+                    'idSubtable' => '99',
+                ],
+                'testSuffix' => 'subtableid_invalid',
             ],
         ];
 
@@ -99,7 +126,7 @@ class ApiTest extends SystemTestCase
         $t->doTrackPageView('Page 1');
 
         /** @var DataTable $visits */
-        $visits = Request::processRequest('VisitsSummary.get', array('idSite' => 1, 'period' => 'day', 'date' => $dateTime));
+        $visits = Request::processRequest('VisitsSummary.get', ['idSite' => 1, 'period' => 'day', 'date' => $dateTime]);
 
         $this->assertEquals(1, $visits->getFirstRow()->getColumn('nb_visits'));
         $this->assertEquals(2, $visits->getFirstRow()->getColumn('nb_actions'));
@@ -124,7 +151,7 @@ class ApiTest extends SystemTestCase
         $t->doTrackPageView('Page 1');
 
         /** @var DataTable $visits */
-        $visits = Request::processRequest('VisitsSummary.get', array('idSite' => 1, 'period' => 'day', 'date' => $dateTime));
+        $visits = Request::processRequest('VisitsSummary.get', ['idSite' => 1, 'period' => 'day', 'date' => $dateTime]);
 
         $this->assertEquals(1, $visits->getFirstRow()->getColumn('nb_visits'));
         $this->assertEquals(2, $visits->getFirstRow()->getColumn('nb_actions'));
@@ -149,7 +176,7 @@ class ApiTest extends SystemTestCase
         $t->doTrackPageView('Page 1');
 
         /** @var DataTable $visits */
-        $visits = Request::processRequest('VisitsSummary.get', array('idSite' => 1, 'period' => 'day', 'date' => $dateTime));
+        $visits = Request::processRequest('VisitsSummary.get', ['idSite' => 1, 'period' => 'day', 'date' => $dateTime]);
 
         $this->assertEquals(1, $visits->getFirstRow()->getColumn('nb_visits'));
         $this->assertEquals(2, $visits->getFirstRow()->getColumn('nb_actions'));
@@ -177,13 +204,13 @@ class ApiTest extends SystemTestCase
         $t->doTrackPageView('Page 1');
 
         /** @var DataTable $visits */
-        $visits = Request::processRequest('VisitsSummary.get', array('idSite' => 1, 'period' => 'day', 'date' => $dateTime));
+        $visits = Request::processRequest('VisitsSummary.get', ['idSite' => 1, 'period' => 'day', 'date' => $dateTime]);
 
         $this->assertEquals(1, $visits->getFirstRow()->getColumn('nb_visits'));
         $this->assertEquals(2, $visits->getFirstRow()->getColumn('nb_actions'));
 
         /** @var DataTable $referrers */
-        $referrers = Request::processRequest('Referrers.getCampaigns', array('idSite' => 1, 'period' => 'day', 'date' => $dateTime));
+        $referrers = Request::processRequest('Referrers.getCampaigns', ['idSite' => 1, 'period' => 'day', 'date' => $dateTime]);
         $this->assertEquals(substr($longReferrer, 0, 255), $referrers->getFirstRow()->getColumn('label'));
     }
 
@@ -207,7 +234,7 @@ class ApiTest extends SystemTestCase
         $t->doTrackPageView('Page 1');
 
         /** @var DataTable $visits */
-        $visits = Request::processRequest('VisitsSummary.get', array('idSite' => 1, 'period' => 'day', 'date' => $dateTime));
+        $visits = Request::processRequest('VisitsSummary.get', ['idSite' => 1, 'period' => 'day', 'date' => $dateTime]);
 
         $this->assertEquals(1, $visits->getFirstRow()->getColumn('nb_visits'));
         $this->assertEquals(2, $visits->getFirstRow()->getColumn('nb_actions'));
@@ -233,7 +260,7 @@ class ApiTest extends SystemTestCase
         /** @var DataTable $visits */
         $visits = Request::processRequest(
             'Referrers.getWebsites',
-            array('idSite' => $idSite, 'period' => 'day', 'date' => $dateTime, 'flat' => 1)
+            ['idSite' => $idSite, 'period' => 'day', 'date' => $dateTime, 'flat' => 1]
         );
 
         $firstRow = $visits->getFirstRow();
@@ -261,14 +288,14 @@ class ApiTest extends SystemTestCase
         /** @var DataTable $visits */
         $visits = Request::processRequest(
             'Referrers.getWebsites',
-            array('idSite' => $idSite, 'period' => 'day', 'date' => $dateTime)
+            ['idSite' => $idSite, 'period' => 'day', 'date' => $dateTime]
         );
 
         $idSubtable = $visits->getFirstRow()->getIdSubDataTable();
 
         $visits = Request::processRequest(
             'Referrers.getUrlsFromWebsiteId',
-            array('idSite' => $idSite, 'period' => 'day', 'date' => $dateTime, 'idSubtable' => $idSubtable)
+            ['idSite' => $idSite, 'period' => 'day', 'date' => $dateTime, 'idSubtable' => $idSubtable]
         );
 
         $firstRow = $visits->getFirstRow();
@@ -288,7 +315,7 @@ class ApiTest extends SystemTestCase
         $t->doTrackPageView('Page 1');
 
         /** @var DataTable $visits */
-        $visits = Request::processRequest('Referrers.getSearchEngines', array('idSite' => 1, 'period' => 'day', 'date' => $dateTime));
+        $visits = Request::processRequest('Referrers.getSearchEngines', ['idSite' => 1, 'period' => 'day', 'date' => $dateTime]);
 
         $this->assertEquals('Looksmart', $visits->getFirstRow()->getColumn('label'));
         $this->assertEquals(1, $visits->getFirstRow()->getColumn('nb_visits'));

@@ -39,6 +39,8 @@
         "ScopeDescriptionActionMoreInfo": "Ayıklamalar tanımlanarak sayfa adresi, sayfa başlığı ya da sayfa adresi sorgu parametresinde özel boyutlar ayıklanabilir.",
         "ScopeDescriptionVisit": "Herhangi bir izleme isteğinin yanında gönderilebilecek ve ziyaret içinde depolanacak 'Ziyaret' aralığındaki özel boyutlar.",
         "ScopeDescriptionVisitMoreInfo": "Belirtilen bir boyut için bir ziyaret süresi boyunca farklı değerler ayarlıyorsanız, son ayarlanan değer kullanılır.",
+        "ScopeTitleAction": "İşlem boyutları",
+        "ScopeTitleVisit": "Ziyaret boyutları",
         "UrlQueryStringParameter": "Adres sorgu dizgesi parametresi",
         "XofYLeft": "%1$s/%2$s boyut kaldı"
     }

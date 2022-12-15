@@ -12,6 +12,7 @@
         "PluginDescription": "Wszystkie dane w Matomo są dostępne za pośrednictwem prostych interfejsów API. Ta wtyczka jest punktem wejścia do usług internetowych, które możesz wywołać, aby uzyskać dane analityki internetowej w XML, JSON, PHP, CSV itp.",
         "ReportingApiReference": "Referencje API Raportów",
         "TopLinkTooltip": "Dostęp do twoich danych analitycznych programistycznie poprzez proste API w formatach JSON, XML itp.",
-        "UserAuthentication": "Uwierzytelnianie użytkownika"
+        "UserAuthentication": "Uwierzytelnianie użytkownika",
+        "UsingTokenAuth": "Jeśli chcesz %1$szażądać danych w skrypcie, crontabie itp.%2$s musisz dodać parametr URL '%3$s' do wywołań API dla adresów URL wymagających uwierzytelnienia."
     }
 }

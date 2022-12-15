@@ -2,6 +2,26 @@
 
 {{ 'CoreAdminHome_JSTracking_CodeNoteBeforeClosingHeadEmail'|translate("'head'") }}
 
+{% if consentManagerName %}
+{{ 'CoreAdminHome_JSTracking_ConsentManagerDetected'|translate(consentManagerName, consentManagerUrl) }}
+{{ 'CoreAdminHome_JSTracking_ConsentManagerEmailNote'|translate }}
+{% endif %}
+
+{% if ga3Used %}
+{{ 'SitesManager_GADetectedEmail'|translate('Google Analytics 3', 'GA', 'https://matomo.org/faq/how-to/migrate-from-google-analytics-3-to-matomo/')|raw }}
+{{ 'CoreAdminHome_JSTracking_ConsentManagerEmailNote'|translate }}
+{% endif %}
+
+{% if ga4Used %}
+{{ 'SitesManager_GA4DetectedEmail'|translate('Google Analytics 4', 'GA', 'https://matomo.org/faq/how-to/migrate-from-google-analytics-4-to-matomo/')|raw }}
+{{ 'CoreAdminHome_JSTracking_ConsentManagerEmailNote'|translate }}
+{% endif %}
+
+{% if gtmUsed %}
+{{ 'SitesManager_GTMDetectedEmail'|translate('Google Tag Manager', 'GTM', 'https://matomo.org/faq/tag-manager/migrating-from-google-tag-manager/')|raw }}
+{{ 'CoreAdminHome_JSTracking_ConsentManagerEmailNote'|translate }}
+{% endif %}
+
 {{ jsTag|raw }}
 
 {% if showMatomoLinks %}{{ 'SitesManager_EmailInstructionsDocsPlainText'|translate('https://developer.matomo.org/guides/tracking-javascript-guide')|raw }}{% endif %}

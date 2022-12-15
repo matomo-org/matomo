@@ -128,6 +128,10 @@ logger_syslog_ident = 'matomo'
 ; 'chained' will chain multiple cache backends. Further configuration in [ChainedCache] is needed
 backend = chained
 
+; Configuration to switch on/off opcache_reset when general caches are cleared. This may be useful for multi-tenant installations that would rather
+; manage opcache resets by themselves. This could also be used by scripts to temporarily switch off opcache resets.
+enable_opcache_reset = 1
+
 [ChainedCache]
 ; The chained cache will always try to read from the fastest backend first (the first listed one) to avoid requesting
 ; the same cache entry from the slowest backend multiple times in one request.
@@ -709,9 +713,9 @@ enable_trusted_host_check = 1
 ; Or you may allow cross domain requests for all domains with:
 ;cors_domains[] = *
 
-; If you use this Matomo instance over multiple hostnames, Matomo will need to know
-; a unique instance_id for this instance, so that Matomo can serve the right custom logo and tmp/* assets,
-; independently of the hostname Matomo is currently running under.
+; If you use this Matomo instance over multiple hostnames, Matomo will need to know a unique instance_id for this
+; instance, so that Matomo can serve the right custom logo and tmp/* assets, independently of the hostname Matomo is
+; currently running under. Only the characters `a-z`, `0-9` and the special characters `._-` are supported.
 ; instance_id = stats.example.com
 
 ; The API server is an essential part of the Matomo infrastructure/ecosystem to
@@ -1043,7 +1047,7 @@ innodb_lock_wait_timeout = 0
 ; For example "e_c==Media" means that all tracking requests will be excluded where the event category is Media.
 ; Multiple exclusions can be configured separated by a comma. The request will be excluded if any expressions matches (not all of them). For example: "e_c==Media,action_name=@privacy".
 ; This would also exclude any request from being tracked where the page title contains privacy.
-; All comparisons are performed case insensitve. The value to match on the right side should be URL encoded.
+; All comparisons are performed case insensitive. The value to match on the right side should be URL encoded.
 ; For example: "action_name=^foo%2Cbar" would exclude page titles that start with "foo,bar".
 ; For a list of tracking parameters you can use on the left side view https://developer.matomo.org/api-reference/tracking-api
 exclude_requests = ""
@@ -1105,6 +1109,9 @@ type = ; SMTP Auth type. By default: NONE. For example: LOGIN
 username = ; SMTP username
 password = ; SMTP password
 encryption = ; SMTP transport-layer encryption, either 'none', 'ssl', 'tls', or empty (i.e., auto).
+ssl_disallow_self_signed = 1 ; set to 0 to allow email server with self signed cert (not recommended)
+ssl_verify_peer = 1 ; set to 0 to disable verifying the authenticity of the peer's certificate (not recommended)
+ssl_verify_peer_name = 1 ; set to 0 to disable verifying the authenticity of the peer's name (not recommended)
 
 [proxy]
 type = BASIC ; proxy type for outbound/outgoing connections; currently, only BASIC is supported

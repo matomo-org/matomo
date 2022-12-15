@@ -26,6 +26,11 @@ abstract class Challenge
 
     private static $settings = null;
 
+    public function __construct()
+    {
+
+    }
+
     /**
      * The human readable name that will be shown in the onboarding widget. Should be max 3 or 4 words and represent an
      * action, like "Add a report"
@@ -52,6 +57,19 @@ abstract class Challenge
     public function isCompleted()
     {
         return $this->hasAttribute(self::APPENDIX_COMPLETED);
+    }
+
+    /**
+     * By default challenges are enabled, if is not appropriate to display a challenge at this time because some condition
+     * has not been met then the challenge can be set as disabled by overriding this method. The constructor code will
+     * still be run every time the challenges are loaded. To disable a challenge based on plugin availablilty it is better
+     * to add a check to the Piwik\Plugins\Tour\Engagement::getChallenges() method
+     *
+     * @return false
+     */
+    public function isDisabled()
+    {
+        return false;
     }
 
     /**

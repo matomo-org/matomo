@@ -38,7 +38,7 @@ describe("SitesManager", function () {
     {
         await (await page.jQuery('.SitesManager .search:first input')).type(textToAppendToSearchField);
         await page.waitForTimeout(100);
-        await (await page.jQuery('.SitesManager .search:first img')).click();
+        await (await page.jQuery('.SitesManager .search:first .search_ico')).click();
     }
 
     it("should load correctly and show page 0", async function() {

@@ -136,6 +136,50 @@ class PrivacyManagerTest extends IntegrationTestCase
         $this->assertTrue(PrivacyManager::haveLogsBeenPurged($dataTable = null, $days = 500));
     }
 
+    public function test_savePurgeDataSettings()
+    {
+        PrivacyManager::savePurgeDataSettings(
+            [
+                'delete_logs_enable'                   => '',
+                'delete_logs_schedule_lowest_interval' => '7',
+                'delete_logs_older_than'               => 180,
+                'delete_logs_max_rows_per_query'       => null, // should not be stored
+                'delete_reports_enable'                => '1',
+                'delete_reports_older_than'            => 7,
+                'delete_reports_keep_basic_metrics'    => '1',
+                'delete_reports_keep_day_reports'      => '',
+                'delete_reports_keep_week_reports'     => 1.0,
+                'delete_reports_keep_month_reports'    => false,
+                'delete_reports_keep_year_reports'     => true,
+                'delete_reports_keep_range_reports'    => '1 ',
+                'delete_reports_keep_segment_reports'  => '0',
+            ]
+        );
+
+        self::assertSame(
+            [
+                'delete_logs_enable'                   => 0,
+                'delete_logs_schedule_lowest_interval' => 7,
+                'delete_logs_older_than'               => 180,
+                'delete_logs_max_rows_per_query'       => 100000,
+                'delete_logs_unused_actions_schedule_lowest_interval' => 30,
+                'delete_logs_unused_actions_max_rows_per_query'       => 100000,
+                'enable_auto_database_size_estimate'   => 1,
+                'enable_database_size_estimate'        => 1,
+                'delete_reports_enable'                => 1,
+                'delete_reports_older_than'            => 7,
+                'delete_reports_keep_basic_metrics'    => 1,
+                'delete_reports_keep_day_reports'      => 0,
+                'delete_reports_keep_week_reports'     => 1,
+                'delete_reports_keep_month_reports'    => 0,
+                'delete_reports_keep_year_reports'     => 1,
+                'delete_reports_keep_range_reports'    => 1,
+                'delete_reports_keep_segment_reports'  => 0,
+            ],
+            PrivacyManager::getPurgeDataSettings()
+        );
+    }
+
     private function setUIEnabled($enabled)
     {
         \Piwik\Config::getInstance()->General['enable_delete_old_data_settings_admin'] = $enabled;

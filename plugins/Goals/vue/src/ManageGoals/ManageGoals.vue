@@ -400,7 +400,6 @@ import {
   SaveButton,
 } from 'CorePluginsAdmin';
 import Goal from '../Goal';
-import PiwikApiMock from './PiwikApiMock';
 import ManageGoalsStore from './ManageGoals.store';
 
 interface ManageGoalsState {
@@ -644,11 +643,10 @@ export default defineComponent({
 
       const options: AjaxOptions = {};
 
-      const piwikApiMock = new PiwikApiMock(parameters, options);
       if (isUpdate) {
-        Matomo.postEvent('Goals.beforeUpdateGoal', parameters, piwikApiMock);
+        Matomo.postEvent('Goals.beforeUpdateGoal', { parameters, options });
       } else if (isCreate) {
-        Matomo.postEvent('Goals.beforeAddGoal', parameters, piwikApiMock);
+        Matomo.postEvent('Goals.beforeAddGoal', { parameters, options });
       }
 
       if (parameters?.cancelRequest) {

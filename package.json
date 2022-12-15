@@ -29,11 +29,6 @@
   "dependencies": {
     "@types/jquery": "^3.5.6",
     "@types/jqueryui": "^1.12.16",
-    "angular": "^1.8.2",
-    "angular-animate": "^1.8.2",
-    "angular-cookies": "^1.8.2",
-    "angular-mocks": "^1.8.2",
-    "angular-sanitize": "^1.8.2",
     "chroma-js": "^0.6.3",
     "core-js": "^3.16.3",
     "css-loader": "^6.2.0",
@@ -47,14 +42,12 @@
     "materialize-css": "^1.0.0",
     "mathjs": "^10.6.4",
     "mousetrap": "^1.6.5",
-    "ng-dialog": "^1.4.0",
     "qrcodejs2": "0.0.2",
     "sprintf-js": "^1.1.2",
     "visibilityjs": "^2.0.2",
     "vue": "^3.2.6"
   },
   "devDependencies": {
-    "@types/angular": "^1.8.2",
     "@types/dotdotdot": "^1.6.36",
     "@types/jest": "^26.0.24",
     "@types/materialize-css": "^1.0.11",

@@ -60,6 +60,8 @@ class EventDispatcher
 
     private $pluginHooks = array();
 
+    public static $_SKIP_EVENTS_IN_TESTS = false;
+
     /**
      * Constructor.
      */
@@ -87,6 +89,10 @@ class EventDispatcher
      */
     public function postEvent($eventName, $params, $pending = false, $plugins = null)
     {
+        if (self::$_SKIP_EVENTS_IN_TESTS) {
+            return;
+        }
+
         if ($pending) {
             $this->pendingEvents[] = array($eventName, $params);
         }

@@ -18,13 +18,13 @@ describe("PeriodSelector", function () {
 
         // disable broadcast.propagateNewPage & remove loading gif
         await page.evaluate(function () {
-            piwikHelper.isAngularRenderingThePage = function () {
+            piwikHelper.isReportingPage = function () {
                 return false;
             };
 
             broadcast.propagateNewPage = function () {};
 
-            // hide ajaxLoadingCalendar via CSS (can't just remove it since it's managed by angular)
+            // hide ajaxLoadingCalendar via CSS (can't just remove it since it's managed by vue)
             $('head').append('<style type="text/css">#ajaxLoadingCalendar { display: none !important; }</style>');
         });
 

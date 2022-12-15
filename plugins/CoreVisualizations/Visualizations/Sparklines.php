@@ -283,7 +283,7 @@ class Sparklines extends ViewDataTable
                     $params = array_merge($sparklineUrlParams, [
                         'segment' => $segment,
                         'period' => $periodObj->getLabel(),
-                        'date' => $periodObj->getRangeString(),
+                        'date' => $periodObj->getLabel() === 'range' ? $periodObj->getRangeString() : $periodObj->getDateEnd(),
                     ]);
                     $this->config->addSparkline($params, $metrics, $desc = null, null, ($order * 100) + $segmentIndex, $title, $sparklineMetricIndex, $seriesIndices, $graphParams);
                 }

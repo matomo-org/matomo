@@ -218,6 +218,7 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
 
                 $ips = array_map('trim', $value);
                 $ips = array_filter($ips, 'strlen');
+                $ips = array_values($ips);
                 return $ips;
             };
         });

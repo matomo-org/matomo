@@ -61,7 +61,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         }
 
         $selects[] = sprintf('SUM(%s) as page_load_total', implode(' + ', $totalColumns));
-        $selects[] = "count(idlink_va) as page_load_hits";
+        $selects[] = "count($table.idlink_va) as page_load_hits";
 
         $joinLogActionOnColumn = array('idaction_url');
         $where = sprintf("COALESCE(%s) IS NOT NULL", implode(',', $allColumns));

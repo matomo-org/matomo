@@ -1,10 +1,10 @@
 {
     "Goals": {
         "AbandonedCart": "Изоставена кошница",
-        "AddGoal": "Добави цел",
-        "AddNewGoal": "Добави нова цел",
-        "AddNewGoalOrEditExistingGoal": "%1$sДобави нова цел%2$s или %3$sРедактирай%4$s съществуващите цели",
-        "AllowGoalConvertedMoreThanOncePerVisit": "Позволи Целта да бъде конвертирана повече от веднъж за едно посещение",
+        "AddGoal": "Добавете цел",
+        "AddNewGoal": "Добавете нова цел",
+        "AddNewGoalOrEditExistingGoal": "%1$sДобавете нова цел%2$s или %3$sРедактирайте%4$s съществуващите цели",
+        "AllowGoalConvertedMoreThanOncePerVisit": "Позволи целта да бъде конвертирана повече от веднъж за едно посещение",
         "AllowMultipleConversionsPerVisit": "Разреши няколко конверсии за посещение",
         "AtLeastMinutes": "поне %1$s минути. Използвайте десетични знаци за съвпадение на секунди, например %2$s за съвпадение на 30 секунди.",
         "BestCountries": "Вашето най-добро конвертиране на страните е:",

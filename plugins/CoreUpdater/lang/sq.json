@@ -62,7 +62,7 @@
         "PostUpdateSupport": "Nëse ju duhet ndihmë mbi përdorimin e Matomo-s, mund të merrni asistencë nga krijuesit e tij:",
         "ReadyToGo": "Gati për t’ia filluar?",
         "ReceiveEmailBecauseIsSuperUser": "E morët këtë email ngaqë jeni një Superpërdorues Matomo te: %s",
-        "ServicesSupport": "Shërbime &amp; Asistencë",
+        "ServicesSupport": "Shërbime dhe asistencë",
         "SkipCacheClear": "Po anashkalohet spastrimi i fshehtinave.",
         "SkipCacheClearDesc": "Anashkalon spastrimin e fshehtinave, para përditësimit. Kjo është e dobishme vetëm nëse mund të garantoni se instancat që xhirojnë këtë urdhër s’kanë krijuar ende ndonjë fshehtinë dhe nëse spastrimi i fshehtinës për shumë llogari Matomo mund të përbëjë problem.",
         "ThankYouUpdatePiwik": "Faleminderit për përdorimin dhe mbajtjen e Matomo-s të përditësuar!",

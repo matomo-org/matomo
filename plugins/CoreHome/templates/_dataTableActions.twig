@@ -1,156 +1,28 @@
- {% set randomIdForDropdown = random(999999) %}
-
-    {% if properties.show_footer and properties.show_footer_icons %}
-
-        <a class='dropdown-button dropdownConfigureIcon dataTableAction'
-           href='javascript:;'
-           data-target='dropdownConfigure{{ randomIdForDropdown }}'><span class="icon-configure"></span></a>
-
-        {% set activeFooterIcon = '' %}
-        {% set numIcons = 0 %}
-        {% set visualizationIcons %}
-            <ul id='dropdownVisualizations{{ randomIdForDropdown }}' class='dropdown-content dataTableFooterIcons'>
-                {% for footerIconGroup in footerIcons %}
-                    {% for footerIcon in footerIconGroup.buttons|filter(footerIcon => footerIcon.icon) %}
-                        <li>
-                            {% set numIcons = numIcons + 1 %}
-                            {% set isActiveEcommerceView = clientSideParameters.abandonedCarts is defined and
-                            ((footerIcon.id == 'ecommerceOrder' and clientSideParameters.abandonedCarts == 0) or
-                            (footerIcon.id == 'ecommerceAbandonedCart' and clientSideParameters.abandonedCarts == 1)) %}
-                            <a class="{{ footerIconGroup.class }} tableIcon {% if clientSideParameters.viewDataTable == footerIcon.id or isActiveEcommerceView %}activeIcon{% set activeFooterIcon = footerIcon.icon %}{% endif %}"
-                               data-footer-icon-id="{{ footerIcon.id }}">
-                                {% if footerIcon.icon starts with 'icon-' %}
-                                    <span title="{{ footerIcon.title }}" class="{{ footerIcon.icon }}"></span>
-                                {% else %}
-                                    <img width="16" height="16" title="{{ footerIcon.title }}" src="{{ footerIcon.icon }}"/>
-                                {% endif %}
-                                {% if footerIcon.title is defined %}<span>{{ footerIcon.title }}</span>{% endif %}
-                            </a>
-                        </li>
-                    {% endfor %}
-                    <li class="divider"></li>
-                {% endfor %}
-            </ul>
-        {% endset %}
-
-        {% if activeFooterIcon and numIcons > 1 %}
-            <a class="dropdown-button dataTableAction activateVisualizationSelection"
-               href="javascript:;"
-               data-target="dropdownVisualizations{{ randomIdForDropdown }}">
-                {% if activeFooterIcon starts with 'icon-' %}
-                    <span title="{{ 'CoreHome_ChangeVisualization'|translate|e('html_attr') }}" class="{{ activeFooterIcon }}"></span>
-                {% else %}
-                    <img title="{{ 'CoreHome_ChangeVisualization'|translate|e('html_attr') }}" width="16" height="16" src="{{ activeFooterIcon }}"/>
-                {% endif %}
-            </a>
-            {{ visualizationIcons|raw }}
-        {% endif %}
-
-        {% if properties.show_export %}
-            {% set requestParams = properties.request_parameters_to_modify|json_encode %}
-
-            {% set formats = {"CSV":"CSV","TSV":"TSV (Excel)","XML":"XML","JSON":"Json","HTML":"HTML"} %}
-            {% if properties.show_export_as_rss_feed %}
-                {% set formats = formats|merge({"RSS": "RSS"}) %}
-            {% endif %}
-
-            <a class="dataTableAction activateExportSelection" piwik-report-export
-               report-title="{{ properties.title|e('html_attr') }}" request-params="{{ requestParams|e('html_attr') }}"
-               api-method="{{ properties.apiMethodToRequestDataTable }}" report-formats="{{ formats|json_encode|e('html_attr') }}"
-               href='javascript:;' title="{{ 'General_ExportThisReport'|translate|e('html_attr') }}"
-               max-filter-limit="{{ properties.max_export_filter_limit|e('html_attr') }}"
-               ><span class="icon-export"></span></a>
-        {% endif %}
-
-        {% if properties.show_export_as_image_icon %}
-            <a class="dataTableAction tableIcon" href="javascript:;" id="dataTableFooterExportAsImageIcon"
-               onclick="$(this).closest('.dataTable').find('div.jqplot-target').trigger('piwikExportAsImage'); return false;"
-               title="{{ 'General_ExportAsImage'|translate }}">
-                <span class="icon-image"></span>
-            </a>
-        {% endif %}
-
-        {% if isPluginLoaded('Annotations') and not properties.hide_annotations_view %}
-            <a class='dataTableAction annotationView'
-               href='javascript:;' title="{{ 'Annotations_Annotations'|translate|e('html_attr') }}"
-            ><span class="icon-annotation"></span></a>
-        {% endif %}
-
-        {% if properties.show_search %}
-            <a class='dropdown-button dataTableAction searchAction'
-               href='javascript:;' title="{{ 'General_Search'|translate|e('html_attr') }}"
-               ><span class="icon-search"></span>
-                <span class="icon-close" title="{{ 'CoreHome_CloseSearch'|translate|e('html_attr') }}"></span>
-                <input id="widgetSearch_{{ properties.report_id }}"
-                       title="{{ 'CoreHome_DataTableHowToSearch'|translate|e('html_attr') }}"
-                       type="text"
-                       class="dataTableSearchInput" />
-            </a>
-        {% endif %}
-
-        {% if properties.datatable_actions|default is not empty %}
-        {% for action in properties.datatable_actions %}
-            <a class='dataTableAction {{ action.id|e('html_attr') }}'
-               href='javascript:;' title="{{ action.title|e('html_attr') }}"
-            >
-                {% if action.icon starts with 'icon-' %}
-                    <span class="{{ action.icon }}"></span>
-                {% else %}
-                    <img width="16" height="16" title="{{ action.title }}" src="{{ action.icon }}"/>
-                {% endif %}
-            </a>
-        {% endfor %}
-        {% endif %}
-
-        <ul id='dropdownConfigure{{ randomIdForDropdown }}' class='dropdown-content tableConfiguration'>
-            {% if properties.show_flatten_table %}
-                <li>
-                    <div class="configItem dataTableFlatten"></div>
-                </li>
-                {% if clientSideParameters.flat is defined and clientSideParameters.flat == 1 %}
-                    {% if hasMultipleDimensions|default %}
-                        <li>
-                            <div class="configItem dataTableShowDimensions"></div>
-                        </li>
-                    {% endif %}
-                    <li>
-                        <div class="configItem dataTableIncludeAggregateRows"></div>
-                    </li>
-                {% endif %}
-            {% endif %}
-            {% if not isDataTableEmpty and properties.show_totals_row|default(0) %}
-                <li>
-                    <div class="configItem dataTableShowTotalsRow"></div>
-                </li>
-            {% endif %}
-            {% if properties.show_exclude_low_population %}
-                <li>
-                    <div class="configItem dataTableExcludeLowPopulation"></div>
-                </li>
-            {% endif %}
-            {% if properties.show_pivot_by_subtable|default is not empty and not isComparing|default(false) %}
-                <li>
-                    <div class="configItem dataTablePivotBySubtable"></div>
-                </li>
-            {% endif %}
-        </ul>
-
-        {% if properties.show_periods %}
-            <a class="dropdown-button dataTableAction activatePeriodsSelection"
-               href="javascript:;"
-               title="{{ 'CoreHome_ChangePeriod'|translate|e('html_attr') }}"
-               data-target="dropdownPeriods{{ randomIdForDropdown }}"
-            >
-                <div><span class="icon-calendar"></span><span class="periodName">{{ properties.translations[clientSideParameters.period]|default(clientSideParameters.period) }}</span></div>
-            </a>
-            <ul id='dropdownPeriods{{ randomIdForDropdown }}' class='dropdown-content dataTablePeriods'>
-                {% for selectablePeriod in properties.selectable_periods %}
-                    <li>
-                        <a data-period="{{ selectablePeriod }}" class="tableIcon {% if (clientSideParameters.period|default('')) == selectablePeriod %}activeIcon{% endif %}">
-                            <span>{{ properties.translations[selectablePeriod]|default(selectablePeriod) }}</span>
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endif %}
+<div
+    vue-entry="CoreHome.DataTableActions"
+    show-footer="{{ properties.show_footer|json_encode }}"
+    show-footer-icons="{{ properties.show_footer_icons|json_encode }}"
+    footer-icons="{{ footerIcons|json_encode }}"
+    report-title="{{ properties.title|json_encode }}"
+    request-params="{{ properties.request_params_to_modify|default({})|json_encode }}"
+    api-method-to-request-data-table="{{ properties.apiMethodToRequestDataTable|json_encode }}"
+    max-filter-limit="{{ properties.max_export_filter_limit|json_encode }}"
+    show-export="{{ properties.show_export|json_encode }}"
+    show-export-as-image-icon="{{ properties.show_export_as_image_icon|json_encode }}"
+    show-annotations="{{ (isPluginLoaded('Annotations') and not properties.hide_annotations_view)|json_encode }}"
+    show-search="{{ properties.show_search|json_encode }}"
+    report-id="{{ properties.report_id|json_encode }}"
+    data-table-actions="{{ properties.datatable_actions|default([])|json_encode }}"
+    show-flatten-table="{{ properties.show_flatten_table|json_encode }}"
+    client-side-parameters="{{ clientSideParameters|json_encode }}"
+    has-multiple-dimensions="{{ hasMultipleDimensions|default(false)|json_encode }}"
+    is-data-table-empty="{{ isDataTableEmpty|json_encode }}"
+    show-totals-row="{{ properties.show_totals_row|default(false)|json_encode }}"
+    show-exclude-low-population="{{ properties.show_exclude_low_population|default(false)|json_encode }}"
+    show-pivot-by-subtable="{{ (properties.show_pivot_by_subtable|default(false) and not isComparing|default(false))|json_encode }}"
+    show-periods="{{ properties.show_periods|json_encode }}"
+    translations="{{ properties.translations|json_encode }}"
+    view-data-table="{{ clientSideParameters.viewDataTable|json_encode }}"
+    pivot-dimension-name="{{ properties.pivot_dimension_name|default(null)|json_encode }}"
+    selectable-periods="{{ properties.selectable_periods|default([])|json_encode }}"
+></div>

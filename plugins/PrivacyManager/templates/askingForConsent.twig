@@ -3,5 +3,10 @@
 {% set title %}{{ 'PrivacyManager_GDPR'|translate }}{% endset %}
 
 {% block content %}
-    <div vue-entry="PrivacyManager.AskingForConsent"></div>
+    <div
+        vue-entry="PrivacyManager.AskingForConsent"
+        consent-manager-name="{{ consentManagerName|default('')|json_encode }}"
+        consent-manager-url="{{ consentManagerUrl|default('')|json_encode }}"
+        consent-manager-is-connected="{{ consentManagerIsConnected|default(false)|json_encode }}"
+    ></div>
 {% endblock %}
