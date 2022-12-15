@@ -9,6 +9,8 @@
 namespace Piwik\Tracker\Db;
 
 use Exception;
+use mysqli_stmt;
+use Piwik\Db\Adapter\MysqlAdapterCommon;
 use Piwik\Tracker\Db;
 
 /**
@@ -41,7 +43,7 @@ class Mysqli extends Db
      * @param array $dbInfo
      * @param string $driverName
      */
-    public function __construct($dbInfo, $driverName = 'mysql')
+    public function __construct(array $dbInfo, string $driverName = 'mysql')
     {
         if (isset($dbInfo['unix_socket']) && substr($dbInfo['unix_socket'], 0, 1) == '/') {
             $this->host = null;
@@ -97,9 +99,11 @@ class Mysqli extends Db
     /**
      * Connects to the DB
      *
+     * @return void
+     *
      * @throws Exception|DbException  if there was an error connecting the DB
      */
-    public function connect()
+    public function connect(): void
     {
         if (self::$profiling) {
             $timer = $this->initProfiler();
@@ -147,18 +151,22 @@ class Mysqli extends Db
     /**
      * Disconnects from the server
      */
-    public function disconnect()
+    public function disconnect(): void
     {
         mysqli_close($this->connection);
         $this->connection = null;
     }
 
     /**
-     * @param \mysqli_stmt $stmt
-     * @param $fields
+     * Fetch a result from a statement
+     *
+     * @param mysqli_stmt $stmt
+     * @param array $fields
+     *
      * @return array|bool|false
      */
-    private function fetchResult($stmt, $fields) {
+    private function fetchResult(mysqli_stmt $stmt, array $fields)
+    {
 
         $values = array_fill(0, count($fields), null);
 
@@ -176,14 +184,7 @@ class Mysqli extends Db
             return false;
         }
 
-        $val = array();
-        foreach ($values as $key => $value) {
-            $val[] = $value;
-        }
-
-        $row = array_combine($fields, $values);
-
-        return $row;
+        return array_combine($fields, $values);
     }
 
     /**
@@ -196,7 +197,7 @@ class Mysqli extends Db
      * @return array
      * @throws Exception|DbException if an exception occurred
      */
-    public function fetchAll($query, $parameters = array())
+    public function fetchAll(string $query, array $parameters = []): array
     {
         try {
             if (self::$profiling) {
@@ -234,7 +235,7 @@ class Mysqli extends Db
      *
      * @throws DbException if an exception occurred
      */
-    public function fetch($query, $parameters = array())
+    public function fetch($query, array $parameters = []): array
     {
         try {
             if (self::$profiling) {
@@ -269,7 +270,7 @@ class Mysqli extends Db
      * @return bool|resource  false if failed
      * @throws DbException  if an exception occurred
      */
-    public function query($query, $parameters = array())
+    public function query(string $query, $parameters = [])
     {
         if (is_null($this->connection)) {
             return false;
@@ -296,14 +297,24 @@ class Mysqli extends Db
     /**
      * Returns the last inserted ID in the DB
      *
-     * @return int
+     * @return string
      */
-    public function lastInsertId()
+    public function lastInsertId(): string
     {
         return mysqli_insert_id($this->connection);
     }
 
-    private function executeQuery($sql, $bind) {
+    /**
+     * Execute a query
+     *
+     * @param $sql
+     * @param $bind
+     *
+     * @return array
+     * @throws DbException
+     */
+    private function executeQuery($sql, $bind): array
+    {
 
         $stmt = mysqli_prepare($this->connection, $sql);
 
@@ -319,7 +330,7 @@ class Mysqli extends Db
             array_unshift($bind, str_repeat('s', count($bind)));
             $refs = array();
             foreach ($bind as $key => $value) {
-                $refs[$key] = &$bind[$key];
+                $refs[$key] = $value;
             }
 
             call_user_func_array(array($stmt, 'bind_param'), $refs);
@@ -350,41 +361,18 @@ class Mysqli extends Db
             $stmt->store_result();
         }
 
-        return array($stmt, $fields);
+        return [$stmt, $fields];
     }
+
     /**
-     * Input is a prepared SQL statement and parameters
-     * Returns the SQL statement
+     * Test error number
      *
-     * @param string $query
-     * @param array $parameters
-     * @return string
+     * @param Exception $e
+     * @param string $errno
+     *
+     * @return bool
      */
-    private function prepare($query, $parameters)
-    {
-        if (!$parameters) {
-            $parameters = array();
-        } elseif (!is_array($parameters)) {
-            $parameters = array($parameters);
-        }
-        $this->paramNb = 0;
-        $this->params = & $parameters;
-        $query = preg_replace_callback('/\?/', array($this, 'replaceParam'), $query);
-        return $query;
-    }
-
-    public function replaceParam($match)
-    {
-        $param = & $this->params[$this->paramNb];
-        $this->paramNb++;
-        if ($param === null) {
-            return 'NULL';
-        } else {
-            return "'" . addslashes($param) . "'";
-        }
-    }
-
-    public function isErrNo($e, $errno)
+    public function isErrNo(Exception $e, string $errno): bool
     {
         return \Piwik\Db\Adapter\Mysqli::isMysqliErrorNumber($e, $this->connection, $errno);
     }
@@ -393,11 +381,12 @@ class Mysqli extends Db
      * Return number of affected rows in last query
      *
      * @param mixed $queryResult Result from query()
+     *
      * @return int
      */
-    public function rowCount($queryResult)
+    public function rowCount($queryResult): int
     {
-        if (!empty($queryResult) && is_object($queryResult) && $queryResult instanceof \mysqli_stmt) {
+        if (!empty($queryResult) && $queryResult instanceof mysqli_stmt) {
             return $queryResult->affected_rows;
         }
         return mysqli_affected_rows($this->connection);
@@ -405,9 +394,10 @@ class Mysqli extends Db
 
     /**
      * Start Transaction
+     *
      * @return string TransactionID
      */
-    public function beginTransaction()
+    public function beginTransaction(): string
     {
         if (!$this->activeTransaction === false) {
             return;
@@ -421,11 +411,14 @@ class Mysqli extends Db
 
     /**
      * Commit Transaction
+     *
      * @param $xid
+     *
+     * @return void
      * @throws DbException
      * @internal param TransactionID $string from beginTransaction
      */
-    public function commit($xid)
+    public function commit($xid): void
     {
         if ($this->activeTransaction != $xid || $this->activeTransaction === false) {
             return;
@@ -442,11 +435,14 @@ class Mysqli extends Db
 
     /**
      * Rollback Transaction
+     *
      * @param $xid
+     *
+     * @return void
      * @throws DbException
      * @internal param TransactionID $string from beginTransaction
      */
-    public function rollBack($xid)
+    public function rollBack($xid): void
     {
         if ($this->activeTransaction != $xid || $this->activeTransaction === false) {
             return;
@@ -460,4 +456,35 @@ class Mysqli extends Db
 
         $this->connection->autocommit(true);
     }
+
+    /**
+     * Execute any additional session setup that should happen after the database connection is established
+     *
+     * This method should be overridden by descendent db adapters as needed
+     *
+     * @param array $trackerConfig
+     * @param Db    $db
+     *
+     * @throws DbException
+     */
+    protected static function doPostConnectionSetup(array $trackerConfig, Db $db): void
+    {
+        MysqlAdapterCommon::doTrackerPostConnectionSetup($trackerConfig, $db);
+    }
+
+    /**
+     * Override exception messages to hide sensitive data
+     *
+     * This method should be overridden by descendent db adapters if they use different error codes or need
+     * to handle additional exceptions
+     *
+     * @param string $msg
+     *
+     * @return string
+     */
+    protected static function overriddenExceptionMessage(string $msg): string
+    {
+        return MysqlAdapterCommon::overriddenExceptionMessage($msg);
+    }
+
 }

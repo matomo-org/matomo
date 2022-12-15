@@ -25,16 +25,16 @@ use Piwik\Plugin\Manager as PluginManager;
 use Psr\Log\LoggerInterface;
 
 /**
- * Class used by the logging script piwik.php called by the javascript tag.
+ * Class used by the logging script matomo.php called by the javascript tag.
  * Handles the visitor and their actions on the website, saves the data in the DB,
  * saves information in the cookie, etc.
  *
- * We try to include as little files as possible (no dependency on 3rd party modules).
+ * We try to include as few files as possible (no dependency on 3rd party modules).
  */
 class Tracker
 {
     /**
-     * @var Db
+     * @var TrackerDb
      */
     private static $db = null;
 
@@ -108,6 +108,12 @@ class Tracker
         return $this->isInstalled;
     }
 
+    /**
+     * @param Handler    $handler
+     * @param RequestSet $requestSet
+     *
+     * @return false|string|null
+     */
     public function main(Handler $handler, RequestSet $requestSet)
     {
         try {
@@ -139,6 +145,14 @@ class Tracker
         return $response;
     }
 
+    /**
+     * Process a tracking request
+     *
+     * @param Handler    $handler
+     * @param RequestSet $requestSet
+     *
+     * @return void
+     */
     public function track(Handler $handler, RequestSet $requestSet)
     {
         if (!$this->shouldRecordStatistics()) {
@@ -158,7 +172,7 @@ class Tracker
      * @param Request $request
      * @return array
      */
-    public function trackRequest(Request $request)
+    public function trackRequest(Request $request): array
     {
         if ($request->isEmptyRequest()) {
             $this->logger->debug('The request is empty');
@@ -178,7 +192,7 @@ class Tracker
     }
 
     /**
-     * Used to initialize core Piwik components on a piwik.php request
+     * Used to initialize core Matomo components on a matomo.php request
      * Eg. when cache is missed and we will be calling some APIs to generate cache
      */
     public static function initCorePiwikInTrackerMode()
@@ -230,11 +244,15 @@ class Tracker
         return !is_null(self::$db);
     }
 
-    public static function getDatabase()
+    /**
+     * @return TrackerDb
+     * @throws DbException
+     */
+    public static function getDatabase(): TrackerDb
     {
         if (is_null(self::$db)) {
             try {
-                self::$db = TrackerDb::connectPiwikTrackerDb();
+                self::$db = TrackerDb::connectMatomoTrackerDb();
             } catch (Exception $e) {
                 $code = $e->getCode();
                 // Note: PDOException might return a string as code, but we can't use this for DbException

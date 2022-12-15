@@ -13,6 +13,7 @@ use Exception;
 use Piwik\DbHelper;
 use Piwik\Log;
 use Piwik\Piwik;
+use Piwik\Tracker\Db\DbException;
 
 /**
  * This class contain MySQL specific functionality shared by the PDO\Mysql and Mysqli adapters
@@ -374,6 +375,27 @@ class MysqlAdapterCommon
         }
 
         return $sql;
+    }
+
+    /**
+     * Execute any additional session setup that should happen after the tracker database connection is established
+     *
+     * This method should be overridden by descendent db adapters as needed
+     *
+     * @param array $trackerConfig
+     * @param Db    $db
+     *
+     * @return void
+     *
+     * @throws DbException
+     */
+    public static function doTrackerPostConnectionSetup(array $trackerConfig, Db $db): void
+    {
+        if (!empty($trackerConfig['innodb_lock_wait_timeout']) && $trackerConfig['innodb_lock_wait_timeout'] > 0){
+            // we set this here because we only want to set this config if a connection is actually created.
+            $time = (int) $trackerConfig['innodb_lock_wait_timeout'];
+            $db->query('SET @@innodb_lock_wait_timeout = ' . $time);
+        }
     }
 
 }

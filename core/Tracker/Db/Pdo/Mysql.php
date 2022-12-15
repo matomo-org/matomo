@@ -12,6 +12,7 @@ use Exception;
 use PDO;
 use PDOException;
 use PDOStatement;
+use Piwik\Db\Adapter\MysqlAdapterCommon;
 use Piwik\Tracker\Db;
 use Piwik\Tracker\Db\DbException;
 
@@ -32,7 +33,6 @@ class Mysql extends Db
 
     protected $mysqlOptions = array();
 
-    
     protected $activeTransaction = false;
 
     /**
@@ -41,7 +41,7 @@ class Mysql extends Db
      * @param array $dbInfo
      * @param string $driverName
      */
-    public function __construct($dbInfo, $driverName = 'mysql')
+    public function __construct(array $dbInfo, string $driverName = 'mysql')
     {
         if (isset($dbInfo['unix_socket']) && substr($dbInfo['unix_socket'], 0, 1) == '/') {
             $this->dsn = $driverName . ':dbname=' . $dbInfo['dbname'] . ';unix_socket=' . $dbInfo['unix_socket'];
@@ -92,9 +92,10 @@ class Mysql extends Db
     /**
      * Connects to the DB
      *
+     * @return void
      * @throws Exception if there was an error connecting the DB
      */
-    public function connect()
+    public function connect(): void
     {
         if (self::$profiling) {
             $timer = $this->initProfiler();
@@ -131,8 +132,10 @@ class Mysql extends Db
 
     /**
      * Disconnects from the server
+     *
+     * @return void
      */
-    public function disconnect()
+    public function disconnect(): void
     {
         $this->connection = null;
     }
@@ -143,10 +146,11 @@ class Mysql extends Db
      * @param string $query Query
      * @param array $parameters Parameters to bind
      * @return array|bool
+     *
      * @see query()
      * @throws Exception|DbException if an exception occurred
      */
-    public function fetchAll($query, $parameters = array())
+    public function fetchAll(string $query, array $parameters = [])
     {
         try {
             $sth = $this->query($query, $parameters);
@@ -164,18 +168,18 @@ class Mysql extends Db
      *
      * @param string $sql An SQL SELECT statement.
      * @param mixed $bind Data to bind into SELECT placeholders.
-     * @throws \Piwik\Tracker\Db\DbException
+     * @throws DbException
+     *
      * @return string
      */
-    public function fetchCol($sql, $bind = array())
+    public function fetchCol(string $sql, array $bind = []): string
     {
         try {
             $sth = $this->query($sql, $bind);
             if ($sth === false) {
                 return false;
             }
-            $result = $sth->fetchAll(PDO::FETCH_COLUMN, 0);
-            return $result;
+            return $sth->fetchAll(PDO::FETCH_COLUMN, 0);
         } catch (PDOException $e) {
             throw new DbException("Error query: " . $e->getMessage());
         }
@@ -186,11 +190,12 @@ class Mysql extends Db
      *
      * @param string $query Query
      * @param array $parameters Parameters to bind
+     *
      * @return bool|mixed
      * @see query()
      * @throws Exception|DbException if an exception occurred
      */
-    public function fetch($query, $parameters = array())
+    public function fetch(string $query, array $parameters = [])
     {
         try {
             $sth = $this->query($query, $parameters);
@@ -208,10 +213,11 @@ class Mysql extends Db
      *
      * @param string $query Query
      * @param array|string $parameters Parameters to bind array('idsite'=> 1)
+     *
      * @return PDOStatement|bool  PDOStatement or false if failed
      * @throws DbException if an exception occurred
      */
-    public function query($query, $parameters = array())
+    public function query(string $query, $parameters = [])
     {
         if (is_null($this->connection)) {
             return false;
@@ -244,7 +250,7 @@ class Mysql extends Db
      *
      * @return string
      */
-    public function lastInsertId()
+    public function lastInsertId(): string
     {
         return $this->connection->lastInsertId();
     }
@@ -254,9 +260,10 @@ class Mysql extends Db
      *
      * @param Exception $e
      * @param string $errno
+     *
      * @return bool
      */
-    public function isErrNo($e, $errno)
+    public function isErrNo(Exception $e, string $errno): bool
     {
         return \Piwik\Db\Adapter\Pdo\Mysql::isPdoErrorNumber($e, $errno);
     }
@@ -265,18 +272,20 @@ class Mysql extends Db
      * Return number of affected rows in last query
      *
      * @param mixed $queryResult Result from query()
+     *
      * @return int
      */
-    public function rowCount($queryResult)
+    public function rowCount($queryResult): int
     {
         return $queryResult->rowCount();
     }
 
     /**
      * Start Transaction
+     *
      * @return string TransactionID
      */
-    public function beginTransaction()
+    public function beginTransaction(): string
     {
         if (!$this->activeTransaction === false) {
             return;
@@ -290,11 +299,14 @@ class Mysql extends Db
 
     /**
      * Commit Transaction
+     *
      * @param $xid
+     *
+     * @return void
      * @throws DbException
      * @internal param TransactionID $string from beginTransaction
      */
-    public function commit($xid)
+    public function commit($xid): void
     {
         if ($this->activeTransaction != $xid || $this->activeTransaction === false) {
             return;
@@ -309,11 +321,14 @@ class Mysql extends Db
 
     /**
      * Rollback Transaction
+     *
      * @param $xid
+     *
+     * @return void
      * @throws DbException
      * @internal param TransactionID $string from beginTransaction
      */
-    public function rollBack($xid)
+    public function rollBack($xid): void
     {
         if ($this->activeTransaction != $xid || $this->activeTransaction === false) {
             return;
@@ -325,4 +340,35 @@ class Mysql extends Db
             throw new DbException("Rollback failed");
         }
     }
+
+    /**
+     * Execute any additional session setup that should happen after the database connection is established
+     *
+     * This method should be overridden by descendent db adapters as needed
+     *
+     * @param array $trackerConfig
+     * @param Db    $db
+     *
+     * @throws DbException
+     */
+    protected static function doPostConnectionSetup(array $trackerConfig, Db $db): void
+    {
+        MysqlAdapterCommon::doTrackerPostConnectionSetup($trackerConfig, $db);
+    }
+
+    /**
+     * Override exception messages to hide sensitive data
+     *
+     * This method should be overridden by descendent db adapters if they use different error codes or need
+     * to handle additional exceptions
+     *
+     * @param string $msg
+     *
+     * @return string
+     */
+    protected static function overriddenExceptionMessage(string $msg): string
+    {
+        return MysqlAdapterCommon::overriddenExceptionMessage($msg);
+    }
+
 }
