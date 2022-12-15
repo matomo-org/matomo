@@ -498,16 +498,21 @@ PageRenderer.prototype._setupWebpageEvents = function () {
     });
 
     this.webpage.on('console', async (consoleMessage) => {
-        const args = await Promise.all(consoleMessage.args().map(arg => arg.executionContext().evaluate(arg => {
-            if (arg instanceof Error) {
+      try {
+        const args = await Promise.all(consoleMessage.args()
+          .map(arg => arg.executionContext()
+            .evaluate(arg => {
+              if (arg instanceof Error) {
                 return arg.stack || arg.message;
-            }
-            return arg;
-        }, arg))).catch((e) => {
-          console.log(`Could not print message: ${e.message}`);
-        });
+              }
+              return arg;
+            }, arg)));
         const message = args.join(' ');
         this._logMessage(`Log: ${message}`);
+      } catch (e) {
+        console.log(`Could not print message: ${e.message}`);
+      }
+
     });
 
     this.webpage.on('dialog', (dialog) => {
