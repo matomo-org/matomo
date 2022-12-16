@@ -80,9 +80,9 @@ interface SchemaInterface
     /**
      * Returns which Matomo version was used to install this Matomo for the first time.
      *
-     * @return string
+     * @return string|null
      */
-    public function getInstallVersion(): string;
+    public function getInstallVersion(): ?string;
 
     /**
      * Truncate all tables

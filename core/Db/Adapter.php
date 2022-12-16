@@ -61,7 +61,7 @@ class Adapter
                 $adapter->resetConfig();
             } catch(\Exception $e) {
                 // we don't want certain exceptions to leak information
-                $msg = self::overriddenExceptionMessage($e->getMessage());
+                $msg = $adapter::overriddenExceptionMessage($e->getMessage());
                 if ('' !== $msg) {
                     throw new \Exception($msg);
                 }

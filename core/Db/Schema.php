@@ -168,9 +168,9 @@ class Schema extends Singleton
     /**
      * Returns which Matomo version was used to install this Matomo for the first time.
      *
-     * @return string Installed version
+     * @return string|null Installed version
      */
-    public function getInstallVersion(): string
+    public function getInstallVersion(): ?string
     {
         return $this->getSchema()->getInstallVersion();
     }

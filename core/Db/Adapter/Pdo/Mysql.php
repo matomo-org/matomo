@@ -251,24 +251,6 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
     }
 
     /**
-     * Execute a SQL statement and ignore the result
-     *
-     * Wrapper for the PDO exec function to return affected row count rather than a zend_db_statement
-     *
-     * @param mixed $sql
-     *
-     * @return int
-     * @throws \Zend_Db_Adapter_Exception
-     * @throws \Zend_Db_Statement_Exception
-     */
-    public function exec($sql): int
-    {
-        /** @var \Zend_Db_Statement $result */
-        $result = parent::exec($sql);
-        return $result->rowCount();
-    }
-
-    /**
      * Return number of affected rows in last query
      *
      * @param mixed $queryResult Result from query()
@@ -457,7 +439,7 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
      */
     public static function getDefaultCharset(): string
     {
-        MysqlAdapterCommon::getDefaultCharset();
+        return MysqlAdapterCommon::getDefaultCharset();
     }
 
     /**
@@ -465,7 +447,7 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
      */
     public static function getUtf8mb4ConversionQueries(): array
     {
-        MysqlAdapterCommon::getUtf8mb4ConversionQueries();
+        return MysqlAdapterCommon::getUtf8mb4ConversionQueries();
     }
 
     /**

@@ -633,14 +633,18 @@ class Mysql implements SchemaInterface
 
     /**
      * Returns which Matomo version was used to install this Matomo for the first time.
+     *
+     * @return string|null
      */
-    public function getInstallVersion(): string
+    public function getInstallVersion(): ?string
     {
         Option::clearCachedOption(self::OPTION_NAME_MATOMO_INSTALL_VERSION);
         $version = Option::get(self::OPTION_NAME_MATOMO_INSTALL_VERSION);
         if (!empty($version)) {
             return $version;
         }
+
+        return null;
     }
 
     /**

@@ -381,7 +381,7 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
      */
     public static function getDefaultCharset(): string
     {
-        MysqlAdapterCommon::getDefaultCharset();
+        return MysqlAdapterCommon::getDefaultCharset();
     }
 
     /**
@@ -389,7 +389,7 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
      */
     public static function getUtf8mb4ConversionQueries(): array
     {
-        MysqlAdapterCommon::getUtf8mb4ConversionQueries();
+        return MysqlAdapterCommon::getUtf8mb4ConversionQueries();
     }
 
     /**

@@ -277,11 +277,11 @@ class Db
      * data from the DB you should use one of the fetch... functions.
      *
      * @param string $sql The SQL query.
-     * @param array $parameters Parameters to bind in the query, eg, `array(param1 => value1, param2 => value2)`.
+     * @param array|string $parameters Parameters to bind in the query, eg, `array(param1 => value1, param2 => value2)`.
      * @throws \Exception If there is a problem with the SQL or bind parameters.
      * @return \Zend_Db_Statement
      */
-    public static function query(string $sql, array $parameters = []): \Zend_Db_Statement
+    public static function query(string $sql, $parameters = []): \Zend_Db_Statement
     {
         try {
             self::logSql(__FUNCTION__, $sql, $parameters);
@@ -296,12 +296,12 @@ class Db
      * Executes an SQL `SELECT` statement and returns all fetched rows from the result set.
      *
      * @param string $sql The SQL query.
-     * @param array $parameters Parameters to bind in the query, eg, `array(param1 => value1, param2 => value2)`.
+     * @param array|string $parameters Parameters to bind in the query, eg, `array(param1 => value1, param2 => value2)`.
      * @throws \Exception If there is a problem with the SQL or bind parameters.
      *
      * @return array The fetched rows, each element is an associative array mapping column names with column values.
      */
-    public static function fetchAll(string $sql, array $parameters = []): array
+    public static function fetchAll(string $sql, $parameters = []): array
     {
         try {
             self::logSql(__FUNCTION__, $sql, $parameters);
@@ -316,11 +316,11 @@ class Db
      * Executes an SQL `SELECT` statement and returns the first row of the result set.
      *
      * @param string $sql The SQL query.
-     * @param array $parameters Parameters to bind in the query, eg, `array(param1 => value1, param2 => value2)`.
+     * @param array|string $parameters Parameters to bind in the query, eg, `array(param1 => value1, param2 => value2)`.
      * @throws \Exception If there is a problem with the SQL or bind parameters.
-     * @return array The fetched row, each element is an associative array mapping column names with column values.
+     * @return array|bool The fetched row, each element is an associative array mapping column names with column values.
      */
-    public static function fetchRow(string $sql, array $parameters = []): array
+    public static function fetchRow(string $sql, $parameters = [])
     {
         try {
             self::logSql(__FUNCTION__, $sql, $parameters);
@@ -337,12 +337,12 @@ class Db
      * row in the result set.
      *
      * @param string $sql The SQL query.
-     * @param array $parameters Parameters to bind in the query, eg, `array(param1 => value1, param2 => value2)`.
+     * @param array|string $parameters Parameters to bind in the query, eg, `array(param1 => value1, param2 => value2)`.
      * @throws \Exception If there is a problem with the SQL or bind parameters.
      *
      * @return string
      */
-    public static function fetchOne(string $sql, array $parameters = []): string
+    public static function fetchOne(string $sql, $parameters = []): string
     {
         try {
             self::logSql(__FUNCTION__, $sql, $parameters);
@@ -762,14 +762,14 @@ class Db
     /**
      * Log a SQL query / statement
      *
-     * @param string $functionName
-     * @param string $sql
-     * @param array  $parameters
+     * @param string        $functionName
+     * @param string        $sql
+     * @param array|string  $parameters
      *
      * @throws Exception
      * @return void
      */
-    private static function logSql(string $functionName, string $sql, array $parameters = []): void
+    private static function logSql(string $functionName, string $sql, $parameters = []): void
     {
         self::checkBoundParametersIfInDevMode($sql, $parameters);
 
@@ -787,12 +787,12 @@ class Db
      * Check bound parameter types
      *
      * @param string $sql
-     * @param array $parameters
+     * @param array|string $parameters
      *
      * @throws Exception
      * @return void
      */
-    private static function checkBoundParametersIfInDevMode(string $sql, array $parameters): void
+    private static function checkBoundParametersIfInDevMode(string $sql, $parameters): void
     {
         if (!Development::isEnabled()) {
             return;
