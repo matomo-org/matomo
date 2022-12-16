@@ -21,9 +21,10 @@ class DbHelper
      * Get list of tables installed
      *
      * @param bool $forceReload Invalidate cache
+     *
      * @return array  Tables installed
      */
-    public static function getTablesInstalled($forceReload = true)
+    public static function getTablesInstalled(bool $forceReload = true): array
     {
         return Schema::getInstance()->getTablesInstalled($forceReload);
     }
@@ -36,7 +37,7 @@ class DbHelper
      * @return bool
      * @throws \Exception
      */
-    public static function tableExists($tableName)
+    public static function tableExists(string $tableName): bool
     {
         $tableName = str_replace(['%', '_', "'"], ['\%', '\_', '_'], $tableName);
         return Db::get()->query(sprintf("SHOW TABLES LIKE '%s'", $tableName))->rowCount() > 0;
@@ -49,7 +50,7 @@ class DbHelper
      *
      * @return array  Installed columns indexed by the column name.
      */
-    public static function getTableColumns($tableName)
+    public static function getTableColumns(string $tableName): array
     {
         return Schema::getInstance()->getTableColumns($tableName);
     }
@@ -68,9 +69,11 @@ class DbHelper
      * @param string $nameWithoutPrefix   The name of the table without any piwik prefix.
      * @param string $createDefinition    The table create definition
      *
+     * @return void
+     *
      * @api
      */
-    public static function createTable($nameWithoutPrefix, $createDefinition)
+    public static function createTable(string $nameWithoutPrefix, string $createDefinition): void
     {
         Schema::getInstance()->createTable($nameWithoutPrefix, $createDefinition);
     }
@@ -82,7 +85,7 @@ class DbHelper
      *
      * @return bool  True if installed; false otherwise
      */
-    public static function isInstalled()
+    public static function isInstalled(): bool
     {
         try {
             return Schema::getInstance()->hasTables();
@@ -93,30 +96,38 @@ class DbHelper
 
     /**
      * Truncate all tables
+     *
+     * @return void
      */
-    public static function truncateAllTables()
+    public static function truncateAllTables(): void
     {
         Schema::getInstance()->truncateAllTables();
     }
 
     /**
      * Creates an entry in the User table for the "anonymous" user.
+     *
+     * @return void
      */
-    public static function createAnonymousUser()
+    public static function createAnonymousUser(): void
     {
         Schema::getInstance()->createAnonymousUser();
     }
 
     /**
      * Records the Matomo version a user used when installing this Matomo for the first time
+     *
+     * @return void
      */
-    public static function recordInstallVersion()
+    public static function recordInstallVersion(): void
     {
         Schema::getInstance()->recordInstallVersion();
     }
 
     /**
      * Returns which Matomo version was used to install this Matomo for the first time.
+     *
+     * @return string
      */
     public static function getInstallVersion(): string
     {
@@ -127,7 +138,14 @@ class DbHelper
         // @see https://github.com/matomo-org/matomo/pull/17989#issuecomment-921298360
     }
 
-    public static function wasMatomoInstalledBeforeVersion($version)
+    /**
+     * Check if installed before version
+     *
+     * @param string $version Version string
+     *
+     * @return bool
+     */
+    public static function wasMatomoInstalledBeforeVersion(string $version): bool
     {
         $installVersion = self::getInstallVersion();
         if (empty($installVersion)) {
@@ -138,40 +156,48 @@ class DbHelper
 
     /**
      * Create all tables
+     *
+     * @return void
      */
-    public static function createTables()
+    public static function createTables(): void
     {
         Schema::getInstance()->createTables();
     }
 
     /**
      * Drop database, used in tests
+     *
+     * @param string|null $dbName
+     *
+     * @return void
      */
-    public static function dropDatabase($dbName = null)
+    public static function dropDatabase(?string $dbName = null): void
     {
         if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
             Schema::getInstance()->dropDatabase($dbName);
         }
     }
 
-
     /**
      * Checks the database server version against the required minimum
      * version.
      *
+     * @return void
      * @see config/global.ini.php
      * @since 0.4.4
      * @throws Exception if server version is less than the required version
      */
-    public static function checkDatabaseVersion()
+    public static function checkDatabaseVersion(): void
     {
         Db::get()->checkServerVersion();
     }
 
     /**
      * Disconnect from database
+     *
+     * @return void
      */
-    public static function disconnectDatabase()
+    public static function disconnectDatabase(): void
     {
         Db::get()->closeConnection();
     }
@@ -180,8 +206,10 @@ class DbHelper
      * Create database
      *
      * @param string|null $dbName
+     *
+     * @return void
      */
-    public static function createDatabase($dbName = null)
+    public static function createDatabase(?string $dbName = null): void
     {
         Schema::getInstance()->createDatabase($dbName);
     }
@@ -195,7 +223,7 @@ class DbHelper
      * @return bool
      * @throws Exception
      */
-    public static function tableHasIndex($table, $indexName)
+    public static function tableHasIndex(string $table, string $indexName): bool
     {
         $result = Db::get()->fetchOne('SHOW INDEX FROM '.$table.' WHERE Key_name = ?', [$indexName]);
         return !empty($result);
@@ -209,27 +237,9 @@ class DbHelper
      * @return string
      * @throws Tracker\Db\DbException
      */
-    public static function getDefaultCharset()
+    public static function getDefaultCharset(): string
     {
-        $result = Db::get()->fetchRow("SHOW CHARACTER SET LIKE 'utf8mb4'");
-
-        if (empty($result)) {
-            return 'utf8'; // charset not available
-        }
-
-        $result = Db::get()->fetchRow("SHOW VARIABLES LIKE 'character_set_database'");
-
-        if (!empty($result) && $result['Value'] === 'utf8mb4') {
-            return 'utf8mb4'; // database has utf8mb4 charset, so assume it can be used
-        }
-
-        $result = Db::get()->fetchRow("SHOW VARIABLES LIKE 'innodb_file_per_table'");
-
-        if (empty($result) || $result['Value'] !== 'ON') {
-            return 'utf8'; // innodb_file_per_table is required for utf8mb4
-        }
-
-        return 'utf8mb4';
+        return Db::get()->getDefaultCharset();
     }
 
     /**
@@ -237,44 +247,39 @@ class DbHelper
      *
      * @return array
      */
-    public static function getUtf8mb4ConversionQueries()
+    public static function getUtf8mb4ConversionQueries(): array
     {
-        $allTables = DbHelper::getTablesInstalled();
-
-        $queries   = [];
-
-        foreach ($allTables as $table) {
-            $queries[] = "ALTER TABLE `$table` CONVERT TO CHARACTER SET utf8mb4;";
-        }
-
-        return $queries;
+        return Db::get()->getUtf8mb4ConversionQueries();
     }
 
     /**
-     * Get the SQL to create Piwik tables
+     * Get the SQL to create Matomo tables
      *
      * @return array  array of strings containing SQL
      */
-    public static function getTablesCreateSql()
+    public static function getTablesCreateSql(): array
     {
         return Schema::getInstance()->getTablesCreateSql();
     }
 
     /**
-     * Get the SQL to create a specific Piwik table
+     * Get the SQL to create a specific Matomo table
      *
      * @param string $tableName Unprefixed table name.
+     *
      * @return string  SQL
      */
-    public static function getTableCreateSql($tableName)
+    public static function getTableCreateSql(string $tableName): string
     {
         return Schema::getInstance()->getTableCreateSql($tableName);
     }
 
     /**
      * Deletes archive tables. For use in tests.
+     *
+     * @return void
      */
-    public static function deleteArchiveTables()
+    public static function deleteArchiveTables(): void
     {
         foreach (ArchiveTableCreator::getTablesArchivesInstalled() as $table) {
             Log::debug("Dropping table $table");
@@ -290,26 +295,16 @@ class DbHelper
      *
      * @param string $sql  query to add hint to
      * @param int $limit  time limit in seconds
+     *
      * @return string
      */
-    public static function addMaxExecutionTimeHintToQuery($sql, $limit)
+    public static function addMaxExecutionTimeHintToQuery(string $sql, int $limit): string
     {
         if ($limit <= 0) {
             return $sql;
         }
 
-        $sql = trim($sql);
-        $pos = stripos($sql, 'SELECT');
-        if ($pos !== false) {
-
-            $timeInMs = $limit * 1000;
-            $timeInMs = (int) $timeInMs;
-            $maxExecutionTimeHint = ' /*+ MAX_EXECUTION_TIME('.$timeInMs.') */ ';
-
-            $sql = substr_replace($sql, 'SELECT ' . $maxExecutionTimeHint, $pos, strlen('SELECT'));
-        }
-
-        return $sql;
+        return Db::get()->addMaxExecutionTimeHintToQuery($sql, $limit);
     }
 
     /**
@@ -319,9 +314,10 @@ class DbHelper
      * File names containing anything other than above mentioned will also be rejected (file names with spaces won't be accepted).
      *
      * @param string $dbname
+     *
      * @return bool
      */
-    public static function isValidDbname($dbname)
+    public static function isValidDbname(string $dbname): bool
     {
         return (0 !== preg_match('/(^[a-zA-Z0-9]+([a-zA-Z0-9\_\.\-\+]*))$/D', $dbname));
     }

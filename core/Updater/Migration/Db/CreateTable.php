@@ -34,9 +34,10 @@ class CreateTable extends Sql
             $columns[] = sprintf('PRIMARY KEY ( `%s` )', implode('`, `', $primaryKey));
         }
 
-
+        // TODO MySQL specific
         $sql = rtrim(sprintf('CREATE TABLE `%s` (%s) ENGINE=%s DEFAULT CHARSET=%s %s',
-          $table, implode(', ', $columns), $dbSettings->getEngine(), $dbSettings->getUsedCharset(), $dbSettings->getRowFormat()));
+          $table, implode(', ', $columns), $dbSettings->getEngine(), $dbSettings->getUsedCharset(),
+            Db\Adapter\MysqlAdapterCommon::getRowFormat($dbSettings->getUsedCharset())));
 
         parent::__construct($sql, static::ERROR_CODE_TABLE_EXISTS);
     }

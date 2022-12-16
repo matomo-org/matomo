@@ -9,9 +9,9 @@
 namespace Piwik\Tracker;
 
 use Exception;
+use PDOStatement;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\Db\Adapter;
 use Piwik\Piwik;
 use Piwik\Timer;
 use Piwik\Tracker\Db\DbException;
@@ -26,7 +26,7 @@ abstract class Db
 {
     protected static $profiling = false;
 
-    protected $queriesProfiling = array();
+    protected $queriesProfiling = [];
 
     protected $connection = null;
 
@@ -39,16 +39,20 @@ abstract class Db
      * Very useful to see the slow query under heavy load.
      * You can then use Piwik::displayDbTrackerProfile();
      * to display the SQLProfiling report and see which queries take time, etc.
+     *
+     * @return void
      */
-    public static function enableProfiling()
+    public static function enableProfiling(): void
     {
         self::$profiling = true;
     }
 
     /**
      * Disables the SQL profiling logging.
+     *
+     * @return void
      */
-    public static function disableProfiling()
+    public static function disableProfiling(): void
     {
         self::$profiling = false;
     }
@@ -59,7 +63,7 @@ abstract class Db
      *
      * @return bool
      */
-    public static function isProfilingEnabled()
+    public static function isProfilingEnabled(): bool
     {
         return self::$profiling;
     }
@@ -69,7 +73,7 @@ abstract class Db
      *
      * @return Timer
      */
-    protected function initProfiler()
+    protected function initProfiler(): Timer
     {
         return new Timer;
     }
@@ -79,8 +83,10 @@ abstract class Db
      *
      * @param string $query
      * @param Timer $timer
+     *
+     * @return void
      */
-    protected function recordQueryProfile($query, $timer)
+    protected function recordQueryProfile(string $query, Timer $timer): void
     {
         if (!isset($this->queriesProfiling[$query])) {
             $this->queriesProfiling[$query] = array('sum_time_ms' => 0, 'count' => 0);
@@ -95,6 +101,8 @@ abstract class Db
 
     /**
      * When destroyed, if SQL profiled enabled, logs the SQL profiling information
+     *
+     * @return void
      */
     public function recordProfiling()
     {
@@ -123,27 +131,30 @@ abstract class Db
     /**
      * Connects to the DB
      *
-     * @throws \Piwik\Tracker\Db\DbException if there was an error connecting the DB
+     * @return void
+     *@throws DbException if there was an error connecting the DB
+     *
      */
-    abstract public function connect();
+    abstract public function connect(): void;
 
     /**
      * Disconnects from the server
+     *
+     * @return void
      */
-    public function disconnect()
-    {
-        $this->connection = null;
-    }
+    abstract public function disconnect(): void;
 
     /**
      * Returns an array containing all the rows of a query result, using optional bound parameters.
      *
      * @param string $query Query
      * @param array $parameters Parameters to bind
-     * @see query()
-     * @throws \Piwik\Tracker\Db\DbException if an exception occurred
+     *
+     * @return mixed
+     * @throws DbException if an exception occurred
+     *@see query()
      */
-    abstract public function fetchAll($query, $parameters = array());
+    abstract public function fetchAll(string $query, array $parameters = []);
 
     /**
      * Returns the first row of a query result, using optional bound parameters.
@@ -152,9 +163,10 @@ abstract class Db
      * @param array $parameters Parameters to bind
      * @see also query()
      *
+     * @return mixed
      * @throws DbException if an exception occurred
      */
-    abstract public function fetch($query, $parameters = array());
+    abstract public function fetch(string $query, array $parameters = []);
 
     /**
      * This function is a proxy to fetch(), used to maintain compatibility with Zend_Db interface
@@ -162,9 +174,10 @@ abstract class Db
      * @see fetch()
      * @param string $query Query
      * @param array $parameters Parameters to bind
-     * @return
+     *
+     * @return mixed
      */
-    public function fetchRow($query, $parameters = array())
+    public function fetchRow(string $query, array $parameters = [])
     {
         return $this->fetch($query, $parameters);
     }
@@ -175,9 +188,10 @@ abstract class Db
      * @see fetch()
      * @param string $query Query
      * @param array $parameters Parameters to bind
+     *
      * @return bool|mixed
      */
-    public function fetchOne($query, $parameters = array())
+    public function fetchOne(string $query, array $parameters = [])
     {
         $result = $this->fetch($query, $parameters);
         return is_array($result) && !empty($result) ? reset($result) : false;
@@ -189,9 +203,10 @@ abstract class Db
      * @see fetch()
      * @param string $query Query
      * @param array $parameters Parameters to bind
-     * @return
+     *
+     * @return mixed
      */
-    public function exec($query, $parameters = array())
+    public function exec(string $query, array $parameters = [])
     {
         return $this->fetch($query, $parameters);
     }
@@ -200,46 +215,49 @@ abstract class Db
      * Return number of affected rows in last query
      *
      * @param mixed $queryResult Result from query()
+     *
      * @return int
      */
-    abstract public function rowCount($queryResult);
+    abstract public function rowCount($queryResult): int;
 
     /**
      * Executes a query, using optional bound parameters.
      *
      * @param string $query Query
-     * @param array $parameters Parameters to bind array('idsite'=> 1)
+     * @param array|string $parameters Parameters to bind array('idsite'=> 1)
      *
-     * @return PDOStatement or false if failed
+     * @return PDOStatement|bool False if failed
      * @throws DbException if an exception occurred
      */
-    abstract public function query($query, $parameters = array());
+    abstract public function query(string $query, $parameters = []);
 
     /**
      * Returns the last inserted ID in the DB
      * Wrapper of PDO::lastInsertId()
      *
-     * @return int
+     * @return string
      */
-    abstract public function lastInsertId();
+    abstract public function lastInsertId(): string;
 
     /**
      * Test error number
      *
      * @param Exception $e
      * @param string $errno
+     *
      * @return bool  True if error number matches; false otherwise
      */
-    abstract public function isErrNo($e, $errno);
+    abstract public function isErrNo(Exception $e, string $errno): bool;
 
     /**
      * Factory to create database objects
      *
      * @param array $configDb Database configuration
      * @throws Exception
-     * @return \Piwik\Tracker\Db\Mysqli|\Piwik\Tracker\Db\Pdo\Mysql
+     *
+     * @return Db  Returns a descendent of \Piwik\Core\Tracker\Db (this class)
      */
-    public static function factory($configDb)
+    public static function factory(array $configDb): Db
     {
         /**
          * Triggered before a connection to the database is established by the Tracker.
@@ -249,19 +267,17 @@ abstract class Db
          * @param array $dbInfos Reference to an array containing database connection info,
          *                       including:
          *
-         *                       - **host**: The host name or IP address to the MySQL database.
-         *                       - **username**: The username to use when connecting to the
-         *                                       database.
-         *                       - **password**: The password to use when connecting to the
-         *                                       database.
-         *                       - **dbname**: The name of the Piwik MySQL database.
-         *                       - **port**: The MySQL database port to use.
-         *                       - **adapter**: either `'PDO\MYSQL'` or `'MYSQLI'`
-         *                       - **type**: The MySQL engine to use, for instance 'InnoDB'
+         *                       - **host**: The host name or IP address for the database server.
+         *                       - **username**: The username to use when connecting to the database.
+         *                       - **password**: The password to use when connecting to the database.
+         *                       - **dbname**: The name of the Matomo database.
+         *                       - **port**: The database port to use.
+         *                       - **adapter**: Adapter name, eg. `'PDO\MYSQL'` or `'MYSQLI'`
+         *                       - **type**: The database engine to use, for instance 'InnoDB'
          */
-        Piwik::postEvent('Tracker.getDatabaseConfig', array(&$configDb));
+        Piwik::postEvent('Tracker.getDatabaseConfig', [&$configDb]);
 
-        $className = 'Piwik\Tracker\Db\\' . str_replace(' ', '\\', ucwords(str_replace(array('_', '\\'), ' ', strtolower($configDb['adapter']))));
+        $className = 'Piwik\Tracker\Db\\' . str_replace(' ', '\\', ucwords(str_replace(['_', '\\'], ' ', strtolower($configDb['adapter']))));
 
         if (!class_exists($className)) {
            throw new Exception('Unsupported database adapter ' . $configDb['adapter']);
@@ -270,9 +286,15 @@ abstract class Db
         return new $className($configDb);
     }
 
-    public static function connectPiwikTrackerDb()
+    /**
+     * Connect to the database
+     *
+     * @return Db
+     * @throws DbException
+     */
+    public static function connectMatomoTrackerDb(): Db
     {
-        $db = null;
+
         $configDb = Config::getInstance()->database;
 
         if (!isset($configDb['port'])) {
@@ -285,7 +307,8 @@ abstract class Db
         try {
             $db->connect();
         } catch (\Exception $e) {
-            $msg = Adapter::overriddenExceptionMessage($e->getMessage());
+
+            $msg = self::overriddenExceptionMessage($e->getMessage());
             if ('' !== $msg) {
                 throw new \Exception($msg);
             }
@@ -293,11 +316,39 @@ abstract class Db
         }
 
         $trackerConfig = Config::getInstance()->Tracker;
-        if (!empty($trackerConfig['innodb_lock_wait_timeout']) && $trackerConfig['innodb_lock_wait_timeout'] > 0){
-            // we set this here because we only want to set this config if a connection is actually created.
-            $time = (int) $trackerConfig['innodb_lock_wait_timeout'];
-            $db->query('SET @@innodb_lock_wait_timeout = ' . $time);
-        }
+        self::doPostConnectionSetup($trackerConfig, $db);
+
         return $db;
     }
+
+    /**
+     * Override exception messages to hide sensitive data
+     *
+     * This method should be overridden by descendent db adapters if they use different error codes or need
+     * to handle additional exceptions
+     *
+     * @param string $msg
+     *
+     * @return string
+     */
+    protected static function overriddenExceptionMessage(string $msg): string
+    {
+        // empty - override as needed for each adapter
+    }
+
+    /**
+     * Execute any additional session setup that should happen after the database connection is established
+     *
+     * This method should be overridden by descendent db adapters as needed
+     *
+     * @param array $trackerConfig
+     * @param Db    $db
+     *
+     * @return void
+     */
+    protected static function doPostConnectionSetup(array $trackerConfig, Db $db): void
+    {
+        // empty - override as needed for each adapter
+    }
+
 }

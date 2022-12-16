@@ -25,7 +25,7 @@ class Schema extends Singleton
     /**
      * Type of database schema
      *
-     * @var string
+     * @var SchemaInterface
      */
     private $schema = null;
 
@@ -33,13 +33,13 @@ class Schema extends Singleton
      * Get schema class name
      *
      * @param string $schemaName
+     *
      * @return string
      */
-    private static function getSchemaClassName($schemaName)
+    private static function getSchemaClassName(string $schemaName): string
     {
         // Upgrade from pre 2.0.4
-        if (strtolower($schemaName) == 'myisam'
-            || empty($schemaName)) {
+        if (strtolower($schemaName) == 'myisam' || empty($schemaName)) {
             $schemaName = self::DEFAULT_SCHEMA;
         }
 
@@ -47,11 +47,12 @@ class Schema extends Singleton
         return '\Piwik\Db\Schema\\' . $class;
     }
 
-
     /**
      * Load schema
+     *
+     * @return void
      */
-    private function loadSchema()
+    private function loadSchema(): void
     {
         $config     = Config::getInstance();
         $dbInfos    = $config->database;
@@ -64,9 +65,9 @@ class Schema extends Singleton
     /**
      * Returns an instance that subclasses Schema
      *
-     * @return \Piwik\Db\SchemaInterface
+     * @return SchemaInterface
      */
-    private function getSchema()
+    private function getSchema(): SchemaInterface
     {
         if ($this->schema === null) {
             $this->loadSchema();
@@ -76,22 +77,23 @@ class Schema extends Singleton
     }
 
     /**
-     * Get the SQL to create a specific Piwik table
+     * Get the SQL to create a specific Matomo table
      *
-     * @param string $tableName name of the table to create
-     * @return string  SQL
+     * @param string $tableName Name of the table to create
+     *
+     * @return string SQL
      */
-    public function getTableCreateSql($tableName)
+    public function getTableCreateSql(string $tableName): string
     {
         return $this->getSchema()->getTableCreateSql($tableName);
     }
 
     /**
-     * Get the SQL to create Piwik tables
+     * Get the SQL to create Matomo tables
      *
-     * @return array   array of strings containing SQL
+     * @return array Array of strings containing SQL
      */
-    public function getTablesCreateSql()
+    public function getTablesCreateSql(): array
     {
         return $this->getSchema()->getTablesCreateSql();
     }
@@ -101,8 +103,10 @@ class Schema extends Singleton
      *
      * @param string $nameWithoutPrefix   The name of the table without any piwik prefix.
      * @param string $createDefinition    The table create definition
+     *
+     * @return void
      */
-    public function createTable($nameWithoutPrefix, $createDefinition)
+    public function createTable(string $nameWithoutPrefix, string $createDefinition): void
     {
         $this->getSchema()->createTable($nameWithoutPrefix, $createDefinition);
     }
@@ -111,56 +115,72 @@ class Schema extends Singleton
      * Create database
      *
      * @param null|string $dbName database name to create
+     *
+     * @return void
      */
-    public function createDatabase($dbName = null)
+    public function createDatabase(? string $dbName = null): void
     {
         $this->getSchema()->createDatabase($dbName);
     }
 
     /**
      * Drop database
+     *
+     * @param string|null $dbName
+     *
+     * @return void
      */
-    public function dropDatabase($dbName = null)
+    public function dropDatabase(?string $dbName = null): void
     {
         $this->getSchema()->dropDatabase($dbName);
     }
 
     /**
      * Create all tables
+     *
+     * @return void
      */
-    public function createTables()
+    public function createTables(): void
     {
         $this->getSchema()->createTables();
     }
 
     /**
      * Creates an entry in the User table for the "anonymous" user.
+     *
+     * @return void
      */
-    public function createAnonymousUser()
+    public function createAnonymousUser(): void
     {
         $this->getSchema()->createAnonymousUser();
     }
 
     /**
      * Records the Matomo version a user used when installing this Matomo for the first time
+     *
+     * @return void
      */
-    public function recordInstallVersion()
+    public function recordInstallVersion(): void
     {
         $this->getSchema()->recordInstallVersion();
     }
 
     /**
      * Returns which Matomo version was used to install this Matomo for the first time.
+     *
+     * @return string Installed version
      */
-    public function getInstallVersion()
+    public function getInstallVersion(): string
     {
         return $this->getSchema()->getInstallVersion();
     }
 
     /**
      * Truncate all tables
+     *
+     * @return void
      */
-    public function truncateAllTables()
+    public function truncateAllTables(): void
     {
         $this->getSchema()->truncateAllTables();
     }
@@ -171,7 +191,7 @@ class Schema extends Singleton
      *
      * @return array Table names
      */
-    public function getTablesNames()
+    public function getTablesNames(): array
     {
         return $this->getSchema()->getTablesNames();
     }
@@ -180,9 +200,10 @@ class Schema extends Singleton
      * Get list of tables installed
      *
      * @param bool $forceReload Invalidate cache
+     *
      * @return array  installed tables
      */
-    public function getTablesInstalled($forceReload = true)
+    public function getTablesInstalled(bool $forceReload = true): array
     {
         return $this->getSchema()->getTablesInstalled($forceReload);
     }
@@ -194,17 +215,17 @@ class Schema extends Singleton
      *
      * @return array  Installed columns indexed by the column name.
      */
-    public function getTableColumns($tableName)
+    public function getTableColumns(string $tableName): array
     {
         return $this->getSchema()->getTableColumns($tableName);
     }
 
     /**
-     * Returns true if Piwik tables exist
+     * Returns true if Matomo tables exist
      *
      * @return bool  True if tables exist; false otherwise
      */
-    public function hasTables()
+    public function hasTables(): bool
     {
         return $this->getSchema()->hasTables();
     }

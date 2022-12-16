@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Common;
 use Piwik\Concurrency\Lock;
 use Piwik\Date;
+use Piwik\Db\Adapter\MysqlAdapterCommon;
 use Piwik\Db\SchemaInterface;
 use Piwik\Db;
 use Piwik\DbHelper;
@@ -32,11 +33,11 @@ class Mysql implements SchemaInterface
     private $tablesInstalled = null;
 
     /**
-     * Get the SQL to create Piwik tables
+     * Get the SQL to create Matomo tables
      *
      * @return array  array of strings containing SQL
      */
-    public function getTablesCreateSql()
+    public function getTablesCreateSql(): array
     {
         $engine       = $this->getTableEngine();
         $prefixTables = $this->getTablePrefix();
@@ -385,13 +386,14 @@ class Mysql implements SchemaInterface
     }
 
     /**
-     * Get the SQL to create a specific Piwik table
+     * Get the SQL to create a specific Matomo table
      *
      * @param string $tableName
      * @throws Exception
+     *
      * @return string  SQL
      */
-    public function getTableCreateSql($tableName)
+    public function getTableCreateSql($tableName): string
     {
         $tables = DbHelper::getTablesCreateSql();
 
@@ -403,12 +405,12 @@ class Mysql implements SchemaInterface
     }
 
     /**
-     * Names of all the prefixed tables in piwik
+     * Names of all the prefixed tables in Matomo
      * Doesn't use the DB
      *
      * @return array  Table names
      */
-    public function getTablesNames()
+    public function getTablesNames(): array
     {
         $aTables      = array_keys($this->getTablesCreateSql());
         $prefixTables = $this->getTablePrefix();
@@ -428,7 +430,7 @@ class Mysql implements SchemaInterface
      *
      * @return array  Installed columns indexed by the column name.
      */
-    public function getTableColumns($tableName)
+    public function getTableColumns(string $tableName): array
     {
         $db = $this->getDb();
 
@@ -446,9 +448,10 @@ class Mysql implements SchemaInterface
      * Get list of tables installed (including tables defined by deactivated plugins)
      *
      * @param bool $forceReload Invalidate cache
+     *
      * @return array  installed Tables
      */
-    public function getTablesInstalled($forceReload = true)
+    public function getTablesInstalled(bool $forceReload = true): array
     {
         if (is_null($this->tablesInstalled)
             || $forceReload === true
@@ -501,7 +504,7 @@ class Mysql implements SchemaInterface
      *
      * @return bool  True if tables exist; false otherwise
      */
-    public function hasTables()
+    public function hasTables(): bool
     {
         return count($this->getTablesInstalled()) != 0;
     }
@@ -509,9 +512,11 @@ class Mysql implements SchemaInterface
     /**
      * Create database
      *
-     * @param string $dbName Name of the database to create
+     * @param string|null $dbName Name of the database to create
+     *
+     * @return void
      */
-    public function createDatabase($dbName = null)
+    public function createDatabase(?string $dbName = null): void
     {
         if (is_null($dbName)) {
             $dbName = $this->getDbName();
@@ -530,8 +535,10 @@ class Mysql implements SchemaInterface
      * @param string $createDefinition  The table create definition, see the "MySQL CREATE TABLE" specification for
      *                                  more information.
      * @throws \Exception
+     *
+     * @return void
      */
-    public function createTable($nameWithoutPrefix, $createDefinition)
+    public function createTable(string $nameWithoutPrefix, string $createDefinition): void
     {
         $dbSettings   = new Db\Settings();
         $charset      = $dbSettings->getUsedCharset();
@@ -541,7 +548,8 @@ class Mysql implements SchemaInterface
                              $createDefinition,
                              $this->getTableEngine(),
                              $charset,
-          $dbSettings->getRowFormat());
+                             MysqlAdapterCommon::getRowFormat($charset)
+                            );
 
         try {
             Db::exec($statement);
@@ -556,8 +564,12 @@ class Mysql implements SchemaInterface
 
     /**
      * Drop database
+     *
+     * @param string|null $dbName
+     *
+     * @return void
      */
-    public function dropDatabase($dbName = null)
+    public function dropDatabase(?string $dbName = null): void
     {
         $dbName = $dbName ?: $this->getDbName();
         $dbName = str_replace('`', '', $dbName);
@@ -566,8 +578,10 @@ class Mysql implements SchemaInterface
 
     /**
      * Create all tables
+     *
+     * @return void
      */
-    public function createTables()
+    public function createTables(): void
     {
         $db = $this->getDb();
         $prefixTables = $this->getTablePrefix();
@@ -587,8 +601,10 @@ class Mysql implements SchemaInterface
 
     /**
      * Creates an entry in the User table for the "anonymous" user.
+     *
+     * @return void
      */
-    public function createAnonymousUser()
+    public function createAnonymousUser(): void
     {
         $now = Date::factory('now')->getDatetime();
         // The anonymous user is the user that is assigned by default
@@ -605,8 +621,10 @@ class Mysql implements SchemaInterface
 
     /**
      * Records the Matomo version a user used when installing this Matomo for the first time
+     *
+     * @return void
      */
-    public function recordInstallVersion()
+    public function recordInstallVersion(): void
     {
         if (!self::getInstallVersion()) {
             Option::set(self::OPTION_NAME_MATOMO_INSTALL_VERSION, Version::VERSION);
@@ -616,7 +634,7 @@ class Mysql implements SchemaInterface
     /**
      * Returns which Matomo version was used to install this Matomo for the first time.
      */
-    public function getInstallVersion()
+    public function getInstallVersion(): string
     {
         Option::clearCachedOption(self::OPTION_NAME_MATOMO_INSTALL_VERSION);
         $version = Option::get(self::OPTION_NAME_MATOMO_INSTALL_VERSION);
@@ -627,8 +645,10 @@ class Mysql implements SchemaInterface
 
     /**
      * Truncate all tables
+     *
+     * @retun void
      */
-    public function truncateAllTables()
+    public function truncateAllTables(): void
     {
         $tables = $this->getAllExistingTables();
         foreach ($tables as $table) {
@@ -636,32 +656,64 @@ class Mysql implements SchemaInterface
         }
     }
 
-    private function getTablePrefix()
+    /**
+     * Get the table prefix setting
+     *
+     * @return string
+     */
+    private function getTablePrefix(): string
     {
         return $this->getDbSettings()->getTablePrefix();
     }
 
-    private function getTableEngine()
+    /**
+     * Get the table prefix setting
+     *
+     * @return string
+     */
+    private function getTableEngine(): string
     {
         return $this->getDbSettings()->getEngine();
     }
 
+    /**
+     * Get the Db object
+     *
+     * @return Db|Db\AdapterInterface|\Piwik\Tracker\Db|null
+     */
     private function getDb()
     {
         return Db::get();
     }
 
-    private function getDbSettings()
+    /**
+     * Get the Db setting object
+     *
+     * @return Db\Settings
+     */
+    private function getDbSettings(): Db\Settings
     {
         return new Db\Settings();
     }
 
-    private function getDbName()
+    /**
+     * Get the Db name
+     *
+     * @return string
+     */
+    private function getDbName(): string
     {
         return $this->getDbSettings()->getDbName();
     }
 
-    private function getAllExistingTables($prefixTables = false)
+    /**
+     * Get all tables
+     *
+     * @param bool $prefixTables
+     *
+     * @return mixed|null
+     */
+    private function getAllExistingTables(bool $prefixTables = false)
     {
         if (empty($prefixTables)) {
             $prefixTables = $this->getTablePrefixEscaped();
@@ -670,11 +722,17 @@ class Mysql implements SchemaInterface
         return Db::get()->fetchCol("SHOW TABLES LIKE '" . $prefixTables . "%'");
     }
 
-    private function getTablePrefixEscaped()
+    /**
+     * Return the escaped table prefix string
+     *
+     * @return string|null
+     */
+    private function getTablePrefixEscaped(): ?string
     {
         $prefixTables = $this->getTablePrefix();
         // '_' matches any character; force it to be literal
         $prefixTables = str_replace('_', '\_', $prefixTables);
         return $prefixTables;
     }
+
 }
