@@ -333,6 +333,7 @@ class ArchiveSelector
                 $table = ArchiveTableCreator::getBlobTable($date);
             }
 
+            $ids      = array_map('intval', $ids);
             $sql      = sprintf($getValuesSql, $table, implode(',', $ids));
             $dataRows = $db->fetchAll($sql, $bind);
 
