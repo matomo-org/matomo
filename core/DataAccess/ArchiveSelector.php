@@ -304,15 +304,25 @@ class ArchiveSelector
                                   AND " . $whereNameIs . "
                              ORDER BY ts_archived ASC"; // ascending order so we use the latest data found
 
+        $archiveIdsPerMonth = [];
+
+        foreach ($archiveIds as $period => $ids) {
+            $yearMonth = substr($period, 0, 7);
+            if (empty($archiveIdsPerMonth[$yearMonth])) {
+                $archiveIdsPerMonth[$yearMonth] = [];
+            }
+            $archiveIdsPerMonth[$yearMonth] = array_merge($archiveIdsPerMonth[$yearMonth], $ids);
+        }
+
         // get data from every table we're querying
         $rows = array();
-        foreach ($archiveIds as $period => $ids) {
+        foreach ($archiveIdsPerMonth as $yearMonth => $ids) {
             if (empty($ids)) {
-                throw new Exception("Unexpected: id archive not found for period '$period' '");
+                throw new Exception("Unexpected: id archive not found for period '$yearMonth' '");
             }
 
             // $period = "2009-01-04,2009-01-04",
-            $date = Date::factory(substr($period, 0, 10));
+            $date = Date::factory($yearMonth . '-01');
 
             $isNumeric = $archiveDataType === 'numeric';
             if ($isNumeric) {
