@@ -60,7 +60,10 @@ class Updates_5_0_0_b1 extends PiwikUpdates
 
         $tables = ArchiveTableCreator::getTablesArchivesInstalled('numeric');
         foreach ($tables as $table) {
-            $table = Common::unprefixTable($table);
+            $hasPrefix = strpos($table, 'archive') !== 0;
+            if ($hasPrefix) {
+                $table = Common::unprefixTable($table);
+            }
             $migrations[] = $this->migration->db->dropIndex($table, 'index_idsite_dates_period');
             $migrations[] = $this->migration->db->addIndex($table, ['idsite', 'date1', 'date2', 'period', 'name(6)'], 'index_idsite_dates_period');
         }
