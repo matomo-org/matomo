@@ -29,6 +29,7 @@
         "InvalidNonceToken": "La seguretat del formulari ha fallat a causa d'una manca de coincidència del testimoni. Torneu a carregar el formulari i comproveu que les vostres galetes estiguin activades.",
         "InvalidNonceUnexpectedReferrer": "La seguretat del formulari ha fallat perquè la capçalera \"Referer\" és diferent del que s'esperava. Comproveu que s'ha enviat correctament.",
         "InvalidOrExpiredToken": "El testimoni no és vàlid o ha caducat.",
+        "InvalidOrExpiredTokenV2": "La contrasenya ja s'ha creat o l'enllaç ha caducat.",
         "InvalidUsernameEmail": "Nom d'usuari o adreça de correu electrònic no vàlids.",
         "InvitationDeclineBody": "Voleu rebutjar aquesta invitació?",
         "InvitationDeclineTitle": "Rebutja la invitació",
