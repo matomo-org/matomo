@@ -319,7 +319,7 @@ class DbHelper
      * @param string        $origin     Origin string to describe the source of the query
      * @param Date|null     $dateStart  Start date used in the query, optional
      * @param Date|null     $dateEnd    End date used in the query, optional
-     * @param array|null   $sites      Sites list used in the query, optional
+     * @param array|null    $sites      Sites list used in the query, optional
      * @param Segment|null  $segment    Segment, the segment hash will be added if this is set
      *
      * @return string   Modified SQL query string with hint added

@@ -18,7 +18,8 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Version;
 
 /**
- * @group CoreDbHelper
+ * @group Core
+ * @group DbHelper
  */
 class DbHelperTest extends IntegrationTestCase
 {
