@@ -83,7 +83,7 @@ class Fixture extends \PHPUnit\Framework\Assert
     const DEFAULT_SITE_NAME = 'Piwik test';
 
     const ADMIN_USER_LOGIN = 'superUserLogin';
-    const ADMIN_USER_PASSWORD = 'superUserPass';
+    const ADMIN_USER_PASSWORD = 'pas3!"§$%&/()=?\'ㄨ<|-_#*+~>word';
     const ADMIN_USER_TOKEN = 'c4ca4238a0b923820dcc509a6f75849b';
 
     const VIEW_USER_LOGIN = 'viewUserLogin';
@@ -950,13 +950,13 @@ class Fixture extends \PHPUnit\Framework\Assert
             foreach ($values as $value) {
                 $cmd .= $name;
                 if ($value !== false) {
-                    $cmd .= '="' . $value . '"';
+                    $cmd .= '=' . escapeshellarg($value);
                 }
                 $cmd .= ' ';
             }
         }
 
-        $cmd .= '"' . $logFile . '" 2>&1';
+        $cmd .= escapeshellarg($logFile) . ' 2>&1';
 
         // on travis ci make sure log importer won't hang forever, otherwise the output will never be printed
         // and no one will know why the build fails.

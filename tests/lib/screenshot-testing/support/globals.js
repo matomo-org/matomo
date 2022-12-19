@@ -24,4 +24,7 @@ module.exports = function setUpGlobals(config, page, originalUserAgent) {
     global.app = require('./app').Application;
     global.expect = chai.expect;
     global.page = new PageRenderer(config.piwikUrl + path.join("tests", "PHPUnit", "proxy"), page, originalUserAgent);
+    // The following variables need to be in sync with Fixture::ADMIN_USER_LOGIN and Fixture::ADMIN_USER_PASSWORD
+    global.superUserLogin = 'superUserLogin';
+    global.superUserPassword = 'pas3!"§$%&/()=?\'ㄨ<|-_#*+~>word';
 };

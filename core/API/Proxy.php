@@ -170,7 +170,7 @@ class Proxy
             $parameterNamesDefaultValuesAndTypes = $this->getParametersListWithTypes($className, $methodName);
 
             // load parameters in the right order, etc.
-            if ($object->usesAutoSanitizeInputParams()) {
+            if ($object->usesAutoSanitizeInputParams() && !$this->usesUnsanitizedInputParams($className, $methodName)) {
                 $finalParameters = $this->getSanitizedRequestParametersArray($parameterNamesDefaultValuesAndTypes, $request->getParameters());
             } else {
                 $finalParameters = $this->getRequestParametersArray($parameterNamesDefaultValuesAndTypes, $request);
@@ -388,6 +388,14 @@ class Proxy
     }
 
     /**
+     * Check if given method uses unsanitized input parameters.
+     */
+    public function usesUnsanitizedInputParams($class, $methodName)
+    {
+        return $this->metadataArray[$class][$methodName]['unsanitizedInputParams'];
+    }
+
+    /**
      * Returns the 'moduleName' part of '\\Piwik\\Plugins\\moduleName\\API'
      *
      * @param string $className "API"
@@ -442,7 +450,12 @@ class Proxy
                 $type = $parameter['type'];
                 $request = new \Piwik\Request($parametersRequest);
 
-                if ($defaultValue instanceof NoDefaultValue) {
+                if (in_array($name, ['segment', 'password', 'passwordConfirmation']) && !empty($parametersRequest[$name])) {
+                    // special handling for some parameters:
+                    // segment: we do not want to sanitize user input as it would break the segment encoding
+                    // password / passwordConfirmation: sanitizing this parameters might change special chars in passwords, breaking login and confirmation boxes
+                    $requestValue = ($parametersRequest[$name]);
+                } elseif ($defaultValue instanceof NoDefaultValue) {
                     if ($type === 'bool') {
                         $requestValue = $request->getBoolParameter($name);
                     } else {
@@ -450,10 +463,7 @@ class Proxy
                     }
                 } else {
                     try {
-                        if ($name == 'segment' && !empty($parametersRequest['segment'])) {
-                            // segment parameter is an exception: we do not want to sanitize user input or it would break the segment encoding
-                            $requestValue = ($parametersRequest['segment']);
-                        } elseif ($type === 'bool') {
+                        if ($type === 'bool') {
                             $requestValue = $request->getBoolParameter($name, $defaultValue);
                         } else {
                             $requestValue = Common::getRequestVar($name, $defaultValue, $type, $parametersRequest);
@@ -589,6 +599,7 @@ class Proxy
         $this->metadataArray[$class][$name]['parameters'] = $aParameters;
         $this->metadataArray[$class][$name]['numberOfRequiredParameters'] = $method->getNumberOfRequiredParameters();
         $this->metadataArray[$class][$name]['isDeprecated'] = false !== strstr($docComment, '@deprecated');
+        $this->metadataArray[$class][$name]['unsanitizedInputParams'] = false !== strstr($docComment, '@unsanitized');
     }
 
     /**

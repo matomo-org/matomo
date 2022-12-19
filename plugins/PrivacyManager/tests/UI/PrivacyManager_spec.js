@@ -58,7 +58,7 @@ describe("PrivacyManager", function () {
     async function typeUserPassword()
     {
         var elem = await page.jQuery('.modal.open #currentUserPassword');
-        await elem.type('superUserPass');
+        await elem.type(superUserPassword);
         await page.waitForTimeout(100);
     }
 

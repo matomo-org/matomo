@@ -8,7 +8,7 @@
  */
 
 describe("BarGraph", function () {
-    var tokenAuth = "c4ca4238a0b923820dcc509a6f75849b", // md5('superUserLogin' . md5('superUserPass'))
+    var tokenAuth = "c4ca4238a0b923820dcc509a6f75849b",
         url = "?module=Widgetize&action=iframe&moduleToWidgetize=Referrers&idSite=1&period=year&date=2012-08-09&"
             + "actionToWidgetize=getKeywords&viewDataTable=graphVerticalBar&isFooterExpandedInDashboard=1&";
 

@@ -36,6 +36,11 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### Updated commands
 * The default maximum number of archivers processes to run concurrently has changed from unlimited to three. The `--concurrent-archivers` parameter can be used to increase this limit. A value of -1 will use an unlimited number of concurrent archivers
 
+## Matomo 4.13.1
+
+### New config.ini.php settings
+* Three new config settings `ssl_disallow_self_signed` ,`ssl_verify_peer`, `ssl_verify_peer_name` under [mail] to allow modifying the SSL handling in SMTP request.
+
 ## Matomo 4.13.0
 
 ### New config.ini.php settings

@@ -10,7 +10,6 @@
 
 namespace Piwik\Plugin;
 
-use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugins\Login\PasswordVerifier;
@@ -130,8 +129,6 @@ abstract class API
         if (empty($passwordConfirmation)) {
             throw new Exception(Piwik::translate('UsersManager_ConfirmWithPassword'));
         }
-
-        $passwordConfirmation = Common::unsanitizeInputValue($passwordConfirmation);
 
         try {
             if (
