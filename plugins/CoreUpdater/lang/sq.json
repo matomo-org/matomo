@@ -7,7 +7,7 @@
         "ConsoleCommandDescription": "Përmirësime shkaktuesish. Përdorini pasi të jenë përditësuar kartela të bazës së Matomo-s ose të çfarëdo shtojce. Shtojini --yes që përmirësimi të kryhet pa kërkuar ripohim.",
         "ConsoleParameterDescription": "Kryeje drejtpërsëdrejti përditësimin, pa kërkuar ripohim",
         "ConsoleStartingDbUpgrade": "Po niset procesi i përmirësimit të bazës së të dhënave. Kjo mund të zgjasë ca, ndaj bëni durim.",
-        "ConsoleUpdateFailure": "Matomo s’u përditësua dot! Për më tepër të dhëna, shihni më sipër.",
+        "ConsoleUpdateFailure": "Matomo s’u përditësua dot! Për më tepër hollësi, shihni më sipër.",
         "ConsoleUpdateNoSqlQueries": "Shënim: S’ka kërkesa SQL apo urdhra konsole për t’u ekzekutuar.",
         "ConsoleUpdateUnexpectedUserWarning": "Duket se e kryet këtë përditësim me përdoruesin %1$s, ndërkohë që kartelat tuaja Matomo janë pronë e %2$s. \n\nPër të siguruar që kartelat Matomo të jenë të lexueshme nga përdoruesi i saktë, mund t’ju duhet të xhironi urdhrin vijues (ose një urdhër të ngjashëm, në varësi të formësimit të shërbyesit tuaj):\n\n$ %3$s",
         "ConvertToUtf8mb4": "Shndërroje bazën e të dhënave në kodim UTF8mb4",

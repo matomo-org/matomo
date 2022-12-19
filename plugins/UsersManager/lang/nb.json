@@ -57,7 +57,7 @@
         "DeleteSuccess": "Fjernet valgte brukere.",
         "DeleteUserConfirmMultiple": "Slett de %1$s valgte brukerne?",
         "DeleteUserConfirmSingle": "Vil du slette %1$s?",
-        "DeleteUserPermConfirmMultiple": "Endre de %1$s valgte brukernes rolle for %2$s for %3$s?",
+        "DeleteUserPermConfirmMultiple": "Endre de %1$s valgte brukernes rolle til %2$s for %3$s?",
         "DeleteUserPermConfirmSingle": "Vil du endre %1$s sin rolle til %2$s for %3$s?",
         "DeleteUsers": "Slett brukere",
         "DoNotStoreToken": "Ikke del dette symbolet med noen andre. Det er like hemmelig som innloggingen og passordet ditt.",
