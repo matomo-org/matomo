@@ -30,7 +30,7 @@
         {% endif %}
 
         {% if regenerateError %}
-            <div class="alert alert-danger">{{ 'General_ExceptionNonceMismatch'|translate }}</div>
+            <div class="alert alert-danger">{{ 'General_ExceptionSecurityCheckFailed'|translate }}</div>
         {% endif %}
 
         <form method="post" action="{{ linkTo({'method': 'TwoFactorAuth', 'action': 'showRecoveryCodes'}) }}" ng-non-bindable>
