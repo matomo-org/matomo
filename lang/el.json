@@ -441,6 +441,7 @@
         "SmtpServerAddress": "Διεύθυνση διακομιστή SMTP",
         "SmtpUsername": "Όνομα χρήστη SMTP",
         "Source": "Προέλευση",
+        "SparklineTooltipUsedPeriod": "Κάθε σημείο δεδομένων στη γραμμή γραφήματος αντιπροσωπεύει ένα %s.",
         "StatisticsAreNotRecorded": "Η Ιχνηλάτηση Επισκεπτών στο Matomo είναι απενεργοποιημένη! Η εκ νέου ενεργοποίηση της ιχνηλάτησης γίνεται ορίζοντας το record_statistics = 1 στο αρχείο config.ini.php.",
         "Subtotal": "Υποσύνολο",
         "Summary": "Περίληψη",

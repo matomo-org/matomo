@@ -25,7 +25,9 @@
          {% if sparkline.seriesIndices|default is not empty %}data-series-indices="{{ sparkline.seriesIndices|json_encode|e('html_attr') }}"{% endif %}
          {% if sparkline.graphParams|default is not empty %}data-graph-params="{{ sparkline.graphParams|json_encode|e('html_attr') }}"{% endif %}
     >
-        <div>
+        <div
+            {% if sparkline.tooltip|default %}title="{{ sparkline.tooltip|e('html_attr') }}"{% endif %}
+        >
             {% if sparkline.title|default is not empty %}<h6 class="sparkline-title" title="{{ sparkline.title|rawSafeDecoded|e('html_attr') }}">{{ sparkline.title }}</h6>{% endif %}
             {% if sparkline.url %}{{ sparkline(sparkline.url)|raw }}{% endif %}
         </div>

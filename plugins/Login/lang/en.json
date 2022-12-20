@@ -11,6 +11,7 @@
         "InvalidNonceOrigin": "The form security failed because of invalid origin. If you previously connected using HTTPS, please ensure you are connecting over a secure (SSL/TLS) connection and try again.",
         "InvalidNonceSSLMisconfigured": "Also, you may %1$sforce Matomo to use a secure connection%2$s: in your config file%3$s set %4$s below section %5$s",
         "InvalidOrExpiredToken": "The token is invalid or has expired.",
+        "InvalidOrExpiredTokenV2": "The password has already been set or the link has expired.",
         "InvalidUsernameEmail": "Invalid username or e-mail address.",
         "LogIn": "Sign in",
         "LoginOrEmail": "Username or e-mail",

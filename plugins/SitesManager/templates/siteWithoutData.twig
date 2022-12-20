@@ -1,6 +1,8 @@
 {% extends "dashboard.twig" %}
 
-{% block notification %}{% endblock %}
+{% block notification %}
+    {% include "@CoreHome/_notifications.twig" %}
+{% endblock %}
 
 {% block topcontrols %}
     {% include "@CoreHome/_siteSelectHeader.twig" %}
