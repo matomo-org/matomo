@@ -107,21 +107,18 @@ class Mysql extends Db
         $this->mysqlOptions[PDO::MYSQL_ATTR_FOUND_ROWS] = true;
         $this->mysqlOptions[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
 
-        $this->connection = @new PDO($this->dsn, $this->username, $this->password, $this->mysqlOptions);
-
-        // we may want to setAttribute(PDO::ATTR_TIMEOUT ) to a few seconds (default is 60) in case the DB is locked
-        // the matomo.php would stay waiting for the database... bad!
-        // we delete the password from this object "just in case" it could be printed
-        $this->password = '';
-
-        /*
-         * Lazy initialization via MYSQL_ATTR_INIT_COMMAND depends
-         * on mysqlnd support, PHP version, and OS.
-         * see ZF-7428 and http://bugs.php.net/bug.php?id=47224
-         */
-        if (!empty($this->charset)) {
-            $sql = "SET NAMES '" . $this->charset . "'";
-            $this->connection->exec($sql);
+        try {
+            $this->establishConnection();
+        } catch (Exception $e) {
+            if ($this->isErrNo($e, \Piwik\Updater\Migration\Db::ERROR_CODE_MYSQL_SERVER_HAS_GONE_AWAY)) {
+                // mysql may return a MySQL server has gone away error when trying to establish the connection.
+                // in that case we want to retry establishing the connection once after a short sleep
+                usleep(400 * 1000);
+                $this->establishConnection();
+            } else {
+                $this->resetPassword();
+                throw $e;
+            }
         }
 
         if (self::$profiling && isset($timer)) {
@@ -324,5 +321,32 @@ class Mysql extends Db
         if (!$this->connection->rollBack()) {
             throw new DbException("Rollback failed");
         }
+    }
+
+    private function establishConnection(): void
+    {
+        $this->connection = @new PDO($this->dsn, $this->username, $this->password, $this->mysqlOptions);
+
+        // we may want to setAttribute(PDO::ATTR_TIMEOUT ) to a few seconds (default is 60) in case the DB is locked
+        // the matomo.php would stay waiting for the database... bad!
+
+        /*
+         * Lazy initialization via MYSQL_ATTR_INIT_COMMAND depends
+         * on mysqlnd support, PHP version, and OS.
+         * see ZF-7428 and http://bugs.php.net/bug.php?id=47224
+         */
+        if (!empty($this->charset)) {
+            $sql = "SET NAMES '".$this->charset."'";
+            $this->connection->exec($sql);
+        }
+
+        $this->resetPassword();
+    }
+
+    private function resetPassword()
+    {
+
+        // we delete the password from this object "just in case" it could be printed
+        $this->password = '';
     }
 }

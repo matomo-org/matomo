@@ -1485,16 +1485,16 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v6.7",
+            "version": "v6.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "80fc8686fcd070267b98dae0ec228d5d67d94310"
+                "reference": "49cd7ea3d2563f028d7811f06864a53b1f15ff55"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/80fc8686fcd070267b98dae0ec228d5d67d94310",
-                "reference": "80fc8686fcd070267b98dae0ec228d5d67d94310",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/49cd7ea3d2563f028d7811f06864a53b1f15ff55",
+                "reference": "49cd7ea3d2563f028d7811f06864a53b1f15ff55",
                 "shasum": ""
             },
             "require": {
@@ -1504,17 +1504,18 @@
                 "php": ">=5.5.0"
             },
             "require-dev": {
-                "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
-                "doctrine/annotations": "^1.2",
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
+                "doctrine/annotations": "^1.2.6 || ^1.13.3",
                 "php-parallel-lint/php-console-highlighter": "^1.0.0",
                 "php-parallel-lint/php-parallel-lint": "^1.3.2",
                 "phpcompatibility/php-compatibility": "^9.3.5",
                 "roave/security-advisories": "dev-latest",
                 "squizlabs/php_codesniffer": "^3.7.1",
-                "yoast/phpunit-polyfills": "^1.0.0"
+                "yoast/phpunit-polyfills": "^1.0.4"
             },
             "suggest": {
                 "ext-mbstring": "Needed to send email in multibyte encoding charset or decode encoded addresses",
+                "ext-openssl": "Needed for secure SMTP sending and DKIM signing",
                 "greew/oauth2-azure-provider": "Needed for Microsoft Azure XOAUTH2 authentication",
                 "hayageek/oauth2-yahoo": "Needed for Yahoo XOAUTH2 authentication",
                 "league/oauth2-google": "Needed for Google XOAUTH2 authentication",
@@ -1552,7 +1553,7 @@
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
             "support": {
                 "issues": "https://github.com/PHPMailer/PHPMailer/issues",
-                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.7"
+                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.7.1"
             },
             "funding": [
                 {
@@ -1560,7 +1561,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-12-05T10:56:35+00:00"
+            "time": "2022-12-08T13:30:06+00:00"
         },
         {
             "name": "psr/container",
@@ -2095,16 +2096,16 @@
         },
         {
             "name": "szymach/c-pchart",
-            "version": "v3.0.15",
+            "version": "v3.0.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/szymach/c-pchart.git",
-                "reference": "373786c8a9e7651c445b9ce42320b5a66e777dbf"
+                "reference": "7cbaf0d9ec4622d3699c476c24c2ffb99816c8e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/szymach/c-pchart/zipball/373786c8a9e7651c445b9ce42320b5a66e777dbf",
-                "reference": "373786c8a9e7651c445b9ce42320b5a66e777dbf",
+                "url": "https://api.github.com/repos/szymach/c-pchart/zipball/7cbaf0d9ec4622d3699c476c24c2ffb99816c8e3",
+                "reference": "7cbaf0d9ec4622d3699c476c24c2ffb99816c8e3",
                 "shasum": ""
             },
             "require": {
@@ -2160,22 +2161,22 @@
             ],
             "support": {
                 "issues": "https://github.com/szymach/c-pchart/issues",
-                "source": "https://github.com/szymach/c-pchart/tree/v3.0.15"
+                "source": "https://github.com/szymach/c-pchart/tree/v3.0.16"
             },
-            "time": "2022-08-05T11:53:51+00:00"
+            "time": "2022-12-12T10:58:52+00:00"
         },
         {
             "name": "tecnickcom/tcpdf",
-            "version": "6.6.0",
+            "version": "6.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tecnickcom/TCPDF.git",
-                "reference": "154bba45ffc9c2a049aa9e21501d02472b24deb4"
+                "reference": "a336b531f6f6b5487fca0caf034a671d4e60df5c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/154bba45ffc9c2a049aa9e21501d02472b24deb4",
-                "reference": "154bba45ffc9c2a049aa9e21501d02472b24deb4",
+                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/a336b531f6f6b5487fca0caf034a671d4e60df5c",
+                "reference": "a336b531f6f6b5487fca0caf034a671d4e60df5c",
                 "shasum": ""
             },
             "require": {
@@ -2226,7 +2227,7 @@
             ],
             "support": {
                 "issues": "https://github.com/tecnickcom/TCPDF/issues",
-                "source": "https://github.com/tecnickcom/TCPDF/tree/6.6.0"
+                "source": "https://github.com/tecnickcom/TCPDF/tree/v"
             },
             "funding": [
                 {
@@ -2234,7 +2235,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2022-12-06T09:28:13+00:00"
+            "time": "2022-12-12T14:42:28+00:00"
         },
         {
             "name": "tedivm/jshrink",

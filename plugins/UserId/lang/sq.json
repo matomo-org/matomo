@@ -1,10 +1,10 @@
 {
     "UserId": {
         "PluginDescription": "Shfaq raporte përdoruesi",
-        "ThereIsNoDataForThisReportHelp": "%1$sMësoni më tepër rreth se si të prodhohen të dhëna për këtë raport, te udhërrëfyesi ynë për përdorues.%2$s",
+        "ThereIsNoDataForThisReportHelp": "%1$sLexoni udhërrëfyesin për përdorues, që të mësonise si të prodhohen të dhëna për këtë raport.%2$s",
         "UserId": "ID përdoruesi",
-        "UserReportDocumentation": "Ky raport shfaq vizita dhe vlera të tjera të përgjithshme për çdo ID individuale Përdoruesi.",
+        "UserReportDocumentation": "Shfaq vizita dhe vlera të tjera të përgjithshme për çdo ID individuale Përdoruesi.",
         "UserReportTitle": "ID-ra përdoruesish",
-        "VisitorsUserSubcategoryHelp": "Raporti i ID-ve të Përdoruesve shfaq vizitat e përshoqëruara me krejt përdoruesit tuaj të regjistruar dhe të futur në llogaritë e tyre. Këtë ndarje mund ta përdorni për të kuptuar përdorimin e sajtit sipas përdoruesish të dhënë dhe të identifikoni se cilët janë përdoruesit tuaj më aktivë dhe më pak aktivë."
+        "VisitorsUserSubcategoryHelp": "Raporti i ID-ve të përdoruesve shfaq vizitat e përshoqëruara me krejt përdoruesit tuaj të regjistruar dhe të futur në llogaritë e tyre. Kuptoni përdorimin e sajtit nga përdorues të dhënë dhe shihni se cilët janë përdoruesit tuaj më aktivë dhe më pak aktivë."
     }
 }

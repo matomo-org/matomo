@@ -466,7 +466,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $nonce = Common::getRequestVar('nonce', null, 'string');
 
         if (!Nonce::verifyNonce($nonceName, $nonce)) {
-            throw new \Exception(Piwik::translate('General_ExceptionNonceMismatch'));
+            throw new \Exception(Piwik::translate('General_ExceptionSecurityCheckFailed'));
         }
 
         Nonce::discardNonce($nonceName);

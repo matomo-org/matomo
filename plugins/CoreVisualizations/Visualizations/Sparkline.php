@@ -37,9 +37,7 @@ class Sparkline extends ViewDataTable
         $period = Common::getRequestVar('period');
         $date = Common::getRequestVar('date');
 
-        if ($period == 'range'
-            || $this->isComparing()
-        ) {
+        if ($period == 'range') {
             $periodObj = Period\Factory::build($period, $date);
             $_GET['period'] = 'day';
             $_GET['date'] = $periodObj->getRangeString();
