@@ -7,12 +7,13 @@
  *
  */
 
-namespace Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
+namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 use Piwik\Date;
 use Piwik\Period;
 use Piwik\Period\Factory;
+use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines\Config;
 
-class SparklinePeriodSelector
+class EvolutionPeriodSelector
 {
     /**
      * @var Config
@@ -30,15 +31,14 @@ class SparklinePeriodSelector
         return (int) round($days);
     }
 
-    public function setSparklineDatePeriods($params, Period $originalPeriod, $comparisonPeriods): array
+    public function setDatePeriods($params, Period $originalPeriod, $comparisonPeriods, $isComparing): array
     {
-        $isComparingDates = !empty($comparisonPeriods);
         $highestPeriodInCommon = $this->getHighestPeriodInCommon($originalPeriod, $comparisonPeriods);
 
-        if ($isComparingDates) {
+        if ($isComparing) {
             // when not comparing we usually show the last30 data points from the end date. However, when comparing dates,
-            // then we don't want to do this and rather only draw the evolution of the selected range. This way you can
-            // better compare the two specific date ranges and how they change over time.
+            // or periods then we don't want to do this and rather only draw the evolution of the selected range. This way
+            // you can better compare the two specific date ranges and how they change over time.
             // Otherwise, if you were to compare for example today vs yesterday, then you would see the trends for today
             // over last 30 days vs yesterday over the last 30 days which isn't very helpful to compare.
             // that means when you compare month of Dec 2022 with Dec 2021, then the shown sparkline should be comparing
@@ -75,9 +75,6 @@ class SparklinePeriodSelector
         $periods = [];
         if (!empty($comparePeriods)) {
             foreach ($comparePeriods as $periodIndex => $period) {
-                if ($periodIndex === 0) {
-                    continue; // this is the original period and we need to skip it
-                }
                 $date = $compareDates[$periodIndex];
                 $periods[] = Factory::build($period, $date);
             }
@@ -111,10 +108,12 @@ class SparklinePeriodSelector
         }
 
         $periodToUse = 'day';
-        if ($lowestNumDaysInRange >= 730) {
-            $periodToUse = 'month'; // rather than fetching > 730 day periods we prefer fetching 24+ months and shows trends better
+        if ($lowestNumDaysInRange >= 7 * 365) {
+            $periodToUse = 'year';
+        } elseif ($lowestNumDaysInRange >= 2 * 365) {
+            $periodToUse = 'month';
         } elseif ($lowestNumDaysInRange >= 180) {
-            $periodToUse = 'week'; // rather than fetching > 180 day periods we prefer fetching 25+ weeks making it faster and shows trends better
+            $periodToUse = 'week';
         }
 
         return $periodToUse;
