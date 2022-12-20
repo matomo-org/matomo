@@ -40,17 +40,17 @@ jobs:
     steps:
       - name: "Check release password"
         if: ${{ github.event.inputs.password != env.RELEASE_PASSWORD }}
-        uses: actions/github-script@v3
+        uses: actions/github-script@v6
         with:
           script: |
               core.setFailed('Release password didn\'t match.')
       - name: "Check if user is allowed"
         if: ${{ github.actor != 'mattab' && github.actor != 'tsteur' && github.actor != 'sgiehl' && github.actor != 'justinvelluppillai' }}
-        uses: actions/github-script@v3
+        uses: actions/github-script@v6
         with:
           script: |
             core.setFailed('User is not allowed to release.')
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           lfs: false
       - name: Import GPG key

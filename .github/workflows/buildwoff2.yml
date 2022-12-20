@@ -44,7 +44,7 @@ jobs:
           echo "islocalbranch=$(expr $BASE == $GITHUB_REPOSITORY)" >> $GITHUB_OUTPUT
           echo "branch=$REF" >> $GITHUB_OUTPUT
           echo "base=$BASE_SHA" >> $GITHUB_OUTPUT
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           lfs: false
           persist-credentials: false
@@ -110,7 +110,7 @@ jobs:
             fi
           fi
         if: steps.vars.outputs.branch != '' && steps.ttfcheck.outputs.ttf_modified == '1'
-      - uses: actions/github-script@v5
+      - uses: actions/github-script@v6
         with:
           script: |
             github.rest.issues.createComment({

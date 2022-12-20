@@ -42,11 +42,11 @@ jobs:
         shell: bash
       - name: "Check CLDR version"
         if: steps.cldr.outputs.cldr-version == ''
-        uses: actions/github-script@v3
+        uses: actions/github-script@v6
         with:
           script: |
             core.setFailed('Unable to find current CLDR version')
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           lfs: false
           persist-credentials: false
@@ -58,7 +58,7 @@ jobs:
         id: composer-cache
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
       - name: Cache dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
