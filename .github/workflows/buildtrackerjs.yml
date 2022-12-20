@@ -46,8 +46,8 @@ jobs:
           echo "It's only possible to update local branches"
           exit 0;
         fi
-        
-        echo ::set-output name=branch::$REF
+
+        echo "branch=$REF" >> $GITHUB_OUTPUT
       if: github.event.comment.body == 'build js'
     - uses: actions/setup-java@v1
       with:
@@ -57,6 +57,7 @@ jobs:
       with:
         ref: ${{ steps.vars.outputs.branch }}
         lfs: false
+        persist-credentials: false
       if: steps.vars.outputs.branch != ''
     - name: Prepare git config
       run: | 
@@ -71,6 +72,7 @@ jobs:
           chmod 600 $HOME/.netrc
           git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git config --global user.name "$GITHUB_ACTOR"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
       if: steps.vars.outputs.branch != ''
     - name: Fetch YUICompressor
       run: |

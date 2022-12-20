@@ -41,12 +41,13 @@ jobs:
             exit 0;
           fi
 
-          echo ::set-output name=islocalbranch::$BASE == $GITHUB_REPOSITORY
-          echo ::set-output name=branch::$REF
-          echo ::set-output name=base::$BASE_SHA
+          echo "islocalbranch=$(expr $BASE == $GITHUB_REPOSITORY)" >> $GITHUB_OUTPUT
+          echo "branch=$REF" >> $GITHUB_OUTPUT
+          echo "base=$BASE_SHA" >> $GITHUB_OUTPUT
       - uses: actions/checkout@v2
         with:
           lfs: false
+          persist-credentials: false
         if: steps.vars.outputs.branch != ''
       - name: Check ttf changes
         id: ttfcheck
@@ -61,8 +62,16 @@ jobs:
             exit 0;
           fi
 
-          echo ::set-output name=ttf_modified::1
+          echo "ttf_modified=1" >> $GITHUB_OUTPUT
         if: steps.vars.outputs.branch != ''
+      - name: Build woff2 file
+        run: |
+          git clone --recursive https://github.com/google/woff2.git tmp_woff2
+          cd tmp_woff2
+          make clean all
+          cd ..
+          ./tmp_woff2/woff2_compress plugins/Morpheus/fonts/matomo.ttf
+        if: steps.vars.outputs.branch != '' && steps.ttfcheck.outputs.ttf_modified == '1'
       - name: Prepare git config
         run: |
           cat <<- EOF > $HOME/.netrc
@@ -76,19 +85,12 @@ jobs:
           chmod 600 $HOME/.netrc
           git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git config --global user.name "$GITHUB_ACTOR"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
           if [[ ${{ steps.vars.outputs.islocalbranch }} ]]
           then
             git fetch --depth=1 origin ${{ steps.vars.outputs.branch }}
             git checkout ${{ steps.vars.outputs.branch }}
           fi
-        if: steps.vars.outputs.branch != '' && steps.ttfcheck.outputs.ttf_modified == '1'
-      - name: Build woff2 file
-        run: |
-          git clone --recursive https://github.com/google/woff2.git tmp_woff2
-          cd tmp_woff2
-          make clean all
-          cd ..
-          ./tmp_woff2/woff2_compress plugins/Morpheus/fonts/matomo.ttf
         if: steps.vars.outputs.branch != '' && steps.ttfcheck.outputs.ttf_modified == '1'
       - name: Push changes
         id: push
@@ -98,7 +100,8 @@ jobs:
             if [[ ! ${{ steps.vars.outputs.islocalbranch }} ]]
             then
               echo "It's only possible to update local branches automatically. Adding a comment instead."
-              echo ::set-output name=failure::1
+
+              echo "failure=1" >> $GITHUB_OUTPUT
             else
               cd $GITHUB_WORKSPACE
               git add plugins/Morpheus/fonts/matomo.woff2
