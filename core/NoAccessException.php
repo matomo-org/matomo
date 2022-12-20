@@ -21,6 +21,6 @@ class NoAccessException extends InvalidRequestParameterException
 {
     public function __construct($message)
     {
-        parent::__construct($message, $code = 403);
+        parent::__construct($message, $code = 401);
     }
 }
