@@ -288,6 +288,9 @@ currencies[BTC] = Bitcoin
 ; default expiry time in days for invite user tokens
 default_invite_user_token_expiry_days = 7
 
+; Require password confirmation prompt when performing admin actions (eg. creating new users, changing settings)
+require_password_confirmation = 1
+
 ; By default, users can create Segments which are to be processed in Real-time.
 ; Setting this to 0 will force all newly created Custom Segments to be "Pre-processed (faster, requires archive.php cron)"
 ; This can be useful if you want to prevent users from adding much load on the server.

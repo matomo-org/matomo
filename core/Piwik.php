@@ -18,6 +18,7 @@ use Piwik\Period\Year;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Translation\Translator;
+use Piwik\Config\GeneralConfig;
 
 /**
  * Main piwik helper class.
@@ -290,7 +291,7 @@ class Piwik
      */
     public static function doesUserRequirePasswordConfirmation(string $login)
     {
-        $requiresPasswordConfirmation = true;
+        $requiresPasswordConfirmation = (bool) GeneralConfig::getConfigValue('require_password_confirmation');
 
         /**
          * Triggered to check if a password confirmation for a user is required.
