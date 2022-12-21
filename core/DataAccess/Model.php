@@ -107,14 +107,6 @@ class Model
         return $archiveIds;
     }
 
-    public function getPlaceholderArchiveIds($archiveTable)
-    {
-        $sql = "SELECT DISTINCT idarchive FROM `$archiveTable` WHERE ts_archived IS NULL";
-        $result = Db::fetchAll($sql);
-        $result = array_column($result, 'idarchive');
-        return $result;
-    }
-
     public function updateArchiveAsInvalidated($archiveTable, $idSites, $allPeriodsToInvalidate, Segment $segment = null,
                                                $forceInvalidateNonexistentRanges = false, $name = null)
     {

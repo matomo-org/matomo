@@ -64,6 +64,7 @@ class Updates_5_0_0_b1 extends PiwikUpdates
             if ($hasPrefix) {
                 $table = Common::unprefixTable($table);
             }
+            $migrations[] = $this->migration->db->sql(sprintf('DELETE FROM `%s` WHERE ts_archived is null', $table));
             $migrations[] = $this->migration->db->dropIndex($table, 'index_idsite_dates_period');
             $migrations[] = $this->migration->db->addIndex($table, ['idsite', 'date1', 'date2', 'period', 'name(6)'], 'index_idsite_dates_period');
         }
