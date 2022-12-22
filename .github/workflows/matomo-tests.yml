@@ -45,6 +45,7 @@ jobs:
           lfs: false
           persist-credentials: false
           submodules: true
+          path: matomo
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
@@ -62,6 +63,7 @@ jobs:
           lfs: false
           persist-credentials: false
           submodules: true
+          path: matomo
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
@@ -77,6 +79,7 @@ jobs:
           lfs: false
           persist-credentials: false
           submodules: true
+          path: matomo
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
@@ -97,6 +100,7 @@ jobs:
           lfs: true
           persist-credentials: false
           submodules: true
+          path: matomo
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
