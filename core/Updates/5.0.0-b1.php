@@ -51,7 +51,7 @@ class Updates_5_0_0_b1 extends PiwikUpdates
             return $this->getLogVisitTableMigrations($migrations);
         }
 
-        return [];
+        return $migrations;
     }
 
     private function getUpdateArchiveIndexMigrations()
