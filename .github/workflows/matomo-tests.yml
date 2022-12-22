@@ -46,7 +46,7 @@ jobs:
           persist-credentials: false
           submodules: true
       - name: running tests
-        uses: matomo-org/github-action-tests@v1
+        uses: matomo-org/github-action-tests@main
         with:
           test-type: ${{ matrix.type }}
           mysql-driver: ${{ matrix.adapter }}
@@ -63,7 +63,7 @@ jobs:
           persist-credentials: false
           submodules: true
       - name: running tests
-        uses: matomo-org/github-action-tests@v1
+        uses: matomo-org/github-action-tests@main
         with:
           test-type: 'JS'
           php-version: '7.2'
@@ -78,7 +78,7 @@ jobs:
           persist-credentials: false
           submodules: true
       - name: running tests
-        uses: matomo-org/github-action-tests@v1
+        uses: matomo-org/github-action-tests@main
         with:
           test-type: 'Angular'
           node-version: '16'
@@ -98,7 +98,7 @@ jobs:
           persist-credentials: false
           submodules: true
       - name: running tests
-        uses: matomo-org/github-action-tests@v1
+        uses: matomo-org/github-action-tests@main
         with:
           test-type: 'UI'
           php-version: '7.2'
