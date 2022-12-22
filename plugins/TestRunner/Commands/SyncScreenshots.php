@@ -50,7 +50,7 @@ class SyncScreenshots extends ConsoleCommand
         $this->setName('tests:sync-ui-screenshots');
         $this->setAliases(array('development:sync-ui-test-screenshots'));
         $this->setDescription('For Piwik core devs. Copies screenshots '
-            .'from travis artifacts to the tests/UI/expected-screenshots/ folder');
+                            . 'from travis artifacts to the tests/UI/expected-screenshots/ folder');
         $this->addArgument('buildnumber', InputArgument::REQUIRED, 'Travis build number you want to sync.');
         $this->addOption('agent', 'a', InputOption::VALUE_OPTIONAL, 'Build agent using you want to choose');
         $this->addArgument('screenshotsRegex', InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
@@ -78,7 +78,7 @@ class SyncScreenshots extends ConsoleCommand
         foreach ($screenshots as $name => $url) {
             if (is_array($screenshotsRegex)) {
                 foreach ($screenshotsRegex as $regex) {
-                    if (preg_match('/'.$regex.'/', $name)) {
+                    if (preg_match('/' . $regex . '/', $name)) {
                         $this->logger->info('Downloading {name}', array('name' => $name));
                         $this->downloadScreenshot($url, $repository, $name, $httpUser, $httpPassword);
                         break;
@@ -97,9 +97,10 @@ class SyncScreenshots extends ConsoleCommand
     private function getScreenshotList($repository, $buildNumber, $httpUser = null, $httpPassword = null, $agent = null)
     {
         if ($agent === 'github') {
-            $repository = 'github/'.$repository;
+            $repository = 'github/' . $repository;
         }
-        $url = sprintf(self::buildURL.'/api/%s/%s', $repository, $buildNumber);
+
+        $url = sprintf('%s/api/%s/%s', self::buildURL, $repository, $buildNumber);
 
         $this->logger->debug('Fetching {url}', array('url' => $url));
 
@@ -127,13 +128,14 @@ class SyncScreenshots extends ConsoleCommand
         throw new \Exception("Failed downloading diffviewer from $url - Got HTTP status $httpStatus");
     }
 
-    private function downloadScreenshot($url, $repository, $screenshot, $httpUser, $httpPassword, $agent)
+    private function downloadScreenshot($url, $repository, $screenshot, $httpUser, $httpPassword, $agent = null)
     {
-        $downloadTo = $this->getDownloadToPath($repository, $screenshot).$screenshot;
+        $downloadTo = $this->getDownloadToPath($repository, $screenshot) . $screenshot;
+
         if ($agent === 'github') {
-            $url = self::buildURL.'/github'.$url;
+            $url = self::buildURL . '/github' . $url;
         } else {
-            $url = self::buildURL.$url;
+            $url = self::buildURL . $url;
         }
 
         $this->logger->debug("Downloading {url} to {destination}", array('url' => $url, 'destination' => $downloadTo));
@@ -185,16 +187,16 @@ cd ../../../../../";
         $plugin = $this->getPluginName($repository, $fileName);
 
         if (empty($plugin)) {
-            return PIWIK_DOCUMENT_ROOT."/tests/UI/expected-screenshots/";
+            return PIWIK_DOCUMENT_ROOT . "/tests/UI/expected-screenshots/";
         }
 
         $possibleSubDirs = array(
             'expected-screenshots',
-            'expected-ui-screenshots',
+            'expected-ui-screenshots'
         );
 
         foreach ($possibleSubDirs as $subDir) {
-            $downloadTo = PIWIK_DOCUMENT_ROOT."/plugins/$plugin/tests/UI/$subDir/";
+            $downloadTo = PIWIK_DOCUMENT_ROOT . "/plugins/$plugin/tests/UI/$subDir/";
             if (is_dir($downloadTo)) {
                 return $downloadTo;
             }

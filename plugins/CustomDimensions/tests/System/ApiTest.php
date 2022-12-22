@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CustomDimensions\tests\System;
 use Piwik\Context;
 use Piwik\Plugins\CustomDimensions\tests\Fixtures\TrackVisitsWithCustomDimensionsFixture;
 use Piwik\ReportRenderer;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
@@ -264,9 +265,8 @@ class ApiTest extends SystemTestCase
 
     public function testScheduledReport()
     {
-        //todo this should be removed once github action is alive.
-        if (!getenv('GITHUB')) {
-            $this->markTestSkipped("Github and Travis has some fonts diff, please see Github Action tests");
+        if (!Fixture::canImagesBeIncludedInScheduledReports()) {
+            $this->markTestSkipped("Skipping test for scheduled reports, as system settings don't match.");
         }
         // Context change is needed, as otherwise the customdimension reports are not available
         Context::changeIdSite(1, function(){
