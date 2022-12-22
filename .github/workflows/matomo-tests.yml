@@ -53,8 +53,6 @@ jobs:
           php-version: ${{ matrix.php }}
           test-command: ${{ matrix.command }}
           redis-service: true
-          git-ref: ${{ github.ref }}
-          run-id: ${{ github.run_id }}
 
   Javascript:
     runs-on: ubuntu-20.04
@@ -70,7 +68,6 @@ jobs:
           test-type: 'JS'
           php-version: '7.2'
           node-version: '12'
-          git-ref: ${{ github.ref }}
 
   Angular:
     runs-on: ubuntu-20.04
@@ -87,7 +84,6 @@ jobs:
           node-version: '16'
           test-command: ${{ matrix.tests }}
           mysql-service: false
-          git-ref: ${{ github.ref }}
 
   UI:
     runs-on: ubuntu-20.04
@@ -110,10 +106,8 @@ jobs:
           run-number: ${{ github.run_number }}
           node-version: '16'
           repository: ${{ github.repository }}
-          artifect_pass: ${{ secrets.ARTIFACTS_PASS }}
-          run-id: ${{ github.run_id }}
+          artifact-pass: ${{ secrets.ARTIFACTS_PASS }}
           php-memory: "-1"
           redis-service: true
-          git-head: ${{ github.head_ref }}
           merge-target: '4.x-dev'
 
