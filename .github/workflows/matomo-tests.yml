@@ -40,6 +40,11 @@ jobs:
           - php: '7.2'
             adapter: 'MYSQLI'
     steps:
+      - uses: actions/checkout@v3
+        with:
+          lfs: false
+          persist-credentials: false
+          submodules: true
       - name: running tests
         uses: matomo-org/github-action-tests@v1
         with:
@@ -60,6 +65,11 @@ jobs:
         tests: [ 'JS' ]
         node: [ '12' ]
     steps:
+      - uses: actions/checkout@v3
+        with:
+          lfs: false
+          persist-credentials: false
+          submodules: true
       - name: running tests
         uses: matomo-org/github-action-tests@v1
         with:
@@ -76,6 +86,11 @@ jobs:
         type: [ 'Angular' ]
         node: [ '16' ]
     steps:
+      - uses: actions/checkout@v3
+        with:
+          lfs: false
+          persist-credentials: false
+          submodules: true
       - name: running tests
         uses: matomo-org/github-action-tests@v1
         with:
@@ -85,31 +100,31 @@ jobs:
           mysql-service: false
           git-ref: ${{ github.ref }}
 
-#  disable UI
-#  UI:
-#    runs-on: ubuntu-20.04
-#    strategy:
-#      fail-fast: false
-#      matrix:
-#        tests: [ 'UI' ]
-#        php: [ '7.2' ]
-#        parts: [ 0,1,2 ]
-#        node: [ '16' ]
-#    steps:
-#      - name: running tests
-#        uses: matomo-org/github-action-tests@v1
-#        with:
-#          test-type: ${{ matrix.tests }}
-#          php-version: ${{ matrix.php }}
-#          test-command: ${{ matrix.parts }}
-#          run-number: ${{ github.run_number }}
-#          node-version: ${{ matrix.node }}
-#          repository: ${{ github.repository }}
-#          artifect_pass: ${{ secrets.ARTIFACTS_PASS }}
-#          run-id: ${{ github.run_id }}
-#          php-memory: "-1"
-#          redis-service: true
-#          git-head: ${{ github.head_ref }}
-#          merge-target: '4.x-dev'
-
+  UI:
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        parts: [ 0,1,2 ]
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          lfs: true
+          persist-credentials: false
+          submodules: true
+      - name: running tests
+        uses: matomo-org/github-action-tests@v1
+        with:
+          test-type: 'UI'
+          php-version: '7.2'
+          test-command: ${{ matrix.parts }}
+          run-number: ${{ github.run_number }}
+          node-version: '16'
+          repository: ${{ github.repository }}
+          artifect_pass: ${{ secrets.ARTIFACTS_PASS }}
+          run-id: ${{ github.run_id }}
+          php-memory: "-1"
+          redis-service: true
+          git-head: ${{ github.head_ref }}
+          merge-target: '4.x-dev'
 
