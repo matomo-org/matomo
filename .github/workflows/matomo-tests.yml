@@ -58,12 +58,6 @@ jobs:
 
   Javascript:
     runs-on: ubuntu-20.04
-    strategy:
-      fail-fast: false
-      matrix:
-        php: [ '7.2' ]
-        tests: [ 'JS' ]
-        node: [ '12' ]
     steps:
       - uses: actions/checkout@v3
         with:
@@ -73,18 +67,13 @@ jobs:
       - name: running tests
         uses: matomo-org/github-action-tests@v1
         with:
-          test-type: ${{ matrix.tests }}
-          php-version: ${{ matrix.php }}
-          node-version: ${{ matrix.node }}
+          test-type: 'JS'
+          php-version: '7.2'
+          node-version: '12'
           git-ref: ${{ github.ref }}
 
   Angular:
     runs-on: ubuntu-20.04
-    strategy:
-      fail-fast: false
-      matrix:
-        type: [ 'Angular' ]
-        node: [ '16' ]
     steps:
       - uses: actions/checkout@v3
         with:
@@ -94,8 +83,8 @@ jobs:
       - name: running tests
         uses: matomo-org/github-action-tests@v1
         with:
-          test-type: ${{ matrix.type }}
-          php-version: ${{ matrix.php }}
+          test-type: 'Angular'
+          node-version: '16'
           test-command: ${{ matrix.tests }}
           mysql-service: false
           git-ref: ${{ github.ref }}
