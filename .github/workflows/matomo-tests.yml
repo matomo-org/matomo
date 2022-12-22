@@ -103,11 +103,8 @@ jobs:
           test-type: 'UI'
           php-version: '7.2'
           test-command: ${{ matrix.parts }}
-          run-number: ${{ github.run_number }}
           node-version: '16'
-          repository: ${{ github.repository }}
           artifact-pass: ${{ secrets.ARTIFACTS_PASS }}
           php-memory: "-1"
           redis-service: true
-          merge-target: '4.x-dev'
 
