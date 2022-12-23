@@ -31,7 +31,6 @@ jobs:
       fail-fast: false
       matrix:
         command: [ 'UnitTests', 'SystemTestsPlugins' ,'SystemTestsCore' , 'IntegrationTestsCore', 'IntegrationTestsPlugins' ]
-        type: [ 'PHP' ]
         php: [ '7.2', '8.1' ]
         adapter: [ 'PDO_MYSQL', 'MYSQLI' ]
         exclude:
@@ -49,7 +48,7 @@ jobs:
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
-          test-type: ${{ matrix.type }}
+          test-type: 'PHP'
           mysql-driver: ${{ matrix.adapter }}
           php-version: ${{ matrix.php }}
           test-command: ${{ matrix.command }}
