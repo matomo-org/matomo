@@ -30,7 +30,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        command: [ 'UnitTests', 'SystemTestsPlugins' ,'SystemTestsCore' , 'IntegrationTestsCore', 'IntegrationTestsPlugins' ]
+        type: [ 'UnitTests', 'SystemTestsPlugins' ,'SystemTestsCore' , 'IntegrationTestsCore', 'IntegrationTestsPlugins' ]
         php: [ '7.2', '8.1' ]
         adapter: [ 'PDO_MYSQL', 'MYSQLI' ]
         exclude:
@@ -48,10 +48,9 @@ jobs:
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
-          test-type: 'PHP'
+          test-type: ${{ matrix.type }}
           mysql-driver: ${{ matrix.adapter }}
           php-version: ${{ matrix.php }}
-          test-command: ${{ matrix.command }}
           redis-service: true
 
   Javascript:
@@ -84,7 +83,6 @@ jobs:
         with:
           test-type: 'Angular'
           node-version: '16'
-          test-command: ${{ matrix.tests }}
           mysql-service: false
 
   UI:
@@ -105,9 +103,8 @@ jobs:
         with:
           test-type: 'UI'
           php-version: '7.2'
-          test-command: ${{ matrix.parts }}
+          ui-test-options: '--num-test-groups=3 --test-group=${{ matrix.parts }}'
           node-version: '16'
           artifact-pass: ${{ secrets.ARTIFACTS_PASS }}
-          php-memory: "-1"
           redis-service: true
 
