@@ -50,7 +50,7 @@ class NonceTest extends IntegrationTestCase
         );
     }
 
-    public function testVerifyNonceWithErrorMessage__validNonceAndExpectedReferrerWithNoReferrer_expectEmptyString()
+    public function testVerifyNonceWithErrorMessage__validNonceAndAllowedReferrerWithNoReferrer_expectEmptyString()
     {
         $this->assertSame(
             '',
@@ -58,7 +58,7 @@ class NonceTest extends IntegrationTestCase
         );
     }
 
-    public function testVerifyNonceWithErrorMessage_validNonceAndExpectedReferrerWithMatchingReferrer_expectEmptyString()
+    public function testVerifyNonceWithErrorMessage_validNonceAndAllowedReferrerWithMatchingReferrer_expectEmptyString()
     {
         $this->setReferrer('https://example.com');
         $this->assertSame(
@@ -67,7 +67,7 @@ class NonceTest extends IntegrationTestCase
         );
     }
 
-    public function testVerifyNonceWithErrorMessage_validNonceAndNoExpectedReferrerWithReferrer_expectErrorString()
+    public function testVerifyNonceWithErrorMessage_validNonceAndNoAllowedReferrerWithReferrer_expectErrorString()
     {
         $this->setReferrer('https://example.net');
         $this->assertSame(
@@ -76,11 +76,20 @@ class NonceTest extends IntegrationTestCase
         );
     }
 
-    public function testVerifyNonceWithErrorMessage_validNonceAndExpectedReferrerWithMismatchedReferrer_expectErrorString()
+    public function testVerifyNonceWithErrorMessage_validNonceAndLocalReferrerWithNoAllowedReferrer_expectEmptyString()
+    {
+        $this->setReferrer('http://app'); // The "local" host when running via CLI.
+        $this->assertSame(
+            '',
+            Nonce::verifyNonceWithErrorMessage(1, 'abc')
+        );
+    }
+
+    public function testVerifyNonceWithErrorMessage_validNonceAndAllowedReferrerWithMismatchedReferrer_expectErrorString()
     {
         $this->setReferrer('https://example.net');
         $this->assertSame(
-            'Login_InvalidNonceUnexpectedReferrer',
+            'Login_InvalidNonceUnallowedReferrer',
             Nonce::verifyNonceWithErrorMessage(1, 'abc', 'example.com')
         );
     }
