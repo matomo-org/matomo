@@ -120,7 +120,7 @@ class Nonce
         // Validate referrer if present
         $referrer = Url::getReferrer();
         if (!empty($referrer)) {
-            // Allow the instance host by default, if no allowedReferrerHost is specified
+            // Allow the instance host by default, if no allowedReferrerHost is specified.
             if (empty($allowedReferrerHost) && !Url::isLocalUrl($referrer)) {
                 return Piwik::translate('Login_InvalidNonceReferrer', array(
                         '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/how-to-install/faq_98">',
@@ -128,7 +128,7 @@ class Nonce
                     )) . $additionalErrors;
             }
 
-            // Test that referrer matches what was allowed
+            // Test that referrer matches what is allowed.
             if (!empty($allowedReferrerHost) && !self::isReferrerHostValid($referrer, $allowedReferrerHost)) {
                 return Piwik::translate('Login_InvalidNonceUnallowedReferrer') . $additionalErrors;
             }
