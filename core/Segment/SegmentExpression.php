@@ -50,12 +50,12 @@ class SegmentExpression
     const INDEX_OPERAND_NAME = 0;
     const INDEX_OPERAND_OPERATOR = 1;
     const INDEX_OPERAND_VALUE = 2;
+    const INDEX_OPERAND_JOIN_COLUMN = 3;
 
     const SQL_WHERE_DO_NOT_MATCH_ANY_ROW = "(1 = 0)";
     const SQL_WHERE_MATCHES_ALL_ROWS = "(1 = 1)";
 
     protected $string;
-    protected $joins = [];
     protected $valuesBind = [];
     protected $tree = [];
     protected $parsedSubExpressions = [];
@@ -163,7 +163,6 @@ class SegmentExpression
     {
         $sqlSubExpressions = array();
         $this->valuesBind = array();
-        $this->joins = array();
 
         foreach ($this->parsedSubExpressions as $leaf) {
             $operator = $leaf[self::INDEX_BOOL_OPERATOR];
@@ -206,6 +205,7 @@ class SegmentExpression
         $field     = $def[0];
         $matchType = $def[1];
         $value     = $def[2];
+        $join      = $def[3] ?? null;
 
         // Segment::getCleanedExpression() may return array(null, $matchType, null)
         $operandWillNotMatchAnyRow = empty($field) && is_null($value);
@@ -307,7 +307,12 @@ class SegmentExpression
 
         // We match NULL values when rows are excluded only when we are not doing a
         $alsoMatchNULLValues = $alsoMatchNULLValues && !empty($value);
-        $sqlMatch = str_replace('%s', $field, $sqlMatch);
+
+        if (!empty($join['field'])) {
+            $sqlMatch = str_replace('%s', $join['field'], $sqlMatch);
+        } else {
+            $sqlMatch = str_replace('%s', $field, $sqlMatch);
+        }
 
         if ($matchType === self::MATCH_ACTIONS_CONTAINS || $matchType === self::MATCH_ACTIONS_NOT_CONTAINS
             || is_null($value)
@@ -323,7 +328,15 @@ class SegmentExpression
 
         $columns = self::parseColumnsFromSqlExpr($field);
         foreach ($columns as $column) {
-            $this->checkFieldIsAvailable($column, $availableTables);
+            $this->checkFieldIsAvailable($column, $availableTables, null);
+        }
+
+        if (!empty($join['field'])) {
+            $this->checkFieldIsAvailable($join['field'], $availableTables, $join);
+        }
+
+        if (!empty($join['discriminator'])) {
+            $sqlExpression = '(' . $sqlExpression . ' AND ' . $join['discriminator'] . ')';
         }
 
         return array($sqlExpression, $value);
@@ -355,7 +368,7 @@ class SegmentExpression
      * @param string $field
      * @param array $availableTables
      */
-    private function checkFieldIsAvailable($field, &$availableTables)
+    private function checkFieldIsAvailable($field, &$availableTables, $join)
     {
         $fieldParts = explode('.', $field);
 
@@ -364,7 +377,12 @@ class SegmentExpression
         // remove sql functions from field name
         // example: `HOUR(log_visit.visit_last_action_time)` gets `HOUR(log_visit` => remove `HOUR(`
         $table = preg_replace('/^[A-Z_]+\(/', '', $table);
-        $tableExists = !$table || in_array($table, $availableTables);
+
+        if ($join) {
+            $tableExists = !$table || in_array($join['table'], $availableTables);
+        } else {
+            $tableExists = !$table || in_array($table, $availableTables);
+        }
 
         if ($tableExists) {
             return;
@@ -382,7 +400,12 @@ class SegmentExpression
             }
         }
 
-        $availableTables[] = $table;
+        if ($join) {
+            $availableTables[] = $join;
+        } else {
+            $availableTables[] = $table;
+        }
+
     }
 
     /**
@@ -457,11 +480,10 @@ class SegmentExpression
 
     /**
      * Given the array of parsed boolean logic, will return
-     * an array containing the full SQL string representing the filter,
-     * the needed joins and the values to bind to the query
+     * an array containing the full SQL string representing the filter and the values to bind to the query
      *
      * @throws Exception
-     * @return array SQL Query, Joins and Bind parameters
+     * @return array SQL Query and Bind parameters
      */
     public function getSql()
     {
@@ -499,8 +521,7 @@ class SegmentExpression
         }
         return array(
             'where' => $sql,
-            'bind'  => $this->valuesBind,
-            'join'  => implode(' ', $this->joins)
+            'bind'  => $this->valuesBind
         );
     }
 }

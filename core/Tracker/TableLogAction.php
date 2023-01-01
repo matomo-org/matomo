@@ -207,9 +207,11 @@ class TableLogAction
             $sql = self::getSelectQueryWhereNameContains($matchType, $actionType);
         }
 
-
-        $cache = StaticContainer::get('Piwik\Tracker\TableLogAction\Cache');
-        return $cache->getIdActionFromSegment($valueToMatch, $sql);
+        return array(
+            // mark that the returned value is an sql-expression instead of a literal value
+            'SQL' => $sql,
+            'bind' => $valueToMatch,
+        );
     }
 
     /**

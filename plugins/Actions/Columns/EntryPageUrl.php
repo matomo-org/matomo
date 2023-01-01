@@ -24,7 +24,6 @@ class EntryPageUrl extends VisitDimension
     protected $namePlural = 'Actions_ColumnEntryPageURLs';
     protected $suggestedValuesApi = 'Actions.getEntryPageUrls';
     protected $category = 'General_Actions';
-    protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
     protected $type = self::TYPE_URL;
 
     public function getDbColumnJoin()

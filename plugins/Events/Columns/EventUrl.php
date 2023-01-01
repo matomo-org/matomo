@@ -22,7 +22,6 @@ class EventUrl extends ActionDimension
     protected $type = self::TYPE_URL;
     protected $acceptValues = 'The URL must be URL encoded, for example: http%3A%2F%2Fexample.com%2Fpath%2Fpage%3Fquery';
     protected $category = 'Events_Events';
-    protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
 
     public function getDbColumnJoin()
     {

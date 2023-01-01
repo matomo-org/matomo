@@ -20,7 +20,6 @@ class EventName extends ActionDimension
     protected $columnName = 'idaction_name';
     protected $type = self::TYPE_TEXT;
     protected $category = 'Events_Events';
-    protected $sqlFilter = '\Piwik\Tracker\TableLogAction::getIdActionFromSegment';
     protected $segmentName = 'eventName';
     protected $suggestedValuesApi = 'Events.getName';
 

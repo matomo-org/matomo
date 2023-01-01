@@ -27,7 +27,6 @@ class ExitPageUrl extends VisitDimension
     protected $namePlural = 'Actions_ColumnExitPageURLs';
     protected $category = 'General_Actions';
     protected $suggestedValuesApi = 'Actions.getExitPageUrls';
-    protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
 
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {

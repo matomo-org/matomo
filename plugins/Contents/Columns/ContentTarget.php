@@ -24,7 +24,6 @@ class ContentTarget extends ActionDimension
     protected $namePlural = 'Contents_ContentTargets';
     protected $segmentName = 'contentTarget';
     protected $category = 'General_Actions';
-    protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
     protected $acceptValues = 'For instance the URL of a landing page: "http://landingpage.example.com"';
 
     public function getDbColumnJoin()

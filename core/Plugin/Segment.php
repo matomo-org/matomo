@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugin;
 use Exception;
+use Piwik\Columns\Dimension;
 use Piwik\Development;
 
 /**
@@ -72,6 +73,11 @@ class Segment
     {
         $this->init();
     }
+
+    /**
+     * @var Dimension
+     */
+    public $dimension;
 
     /**
      * Here you can initialize this segment and set any default values. It is called directly after the object is

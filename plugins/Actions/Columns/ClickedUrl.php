@@ -21,7 +21,6 @@ class ClickedUrl extends ActionDimension
     protected $namePlural = 'Actions_ColumnClickedURLs';
     protected $category = 'General_Actions';
     protected $suggestedValuesApi = 'Actions.getOutlinks';
-    protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
     protected $type = self::TYPE_URL;
 
     public function getDbColumnJoin()

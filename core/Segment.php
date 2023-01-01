@@ -17,6 +17,7 @@ use Piwik\DataAccess\LogQueryBuilder;
 use Piwik\Plugins\SegmentEditor\SegmentEditor;
 use Piwik\Segment\SegmentExpression;
 use Piwik\Plugins\SegmentEditor\Model as SegmentEditorModel;
+use Piwik\Segment\SegmentsList;
 
 /**
  * Limits the set of visits Piwik uses when aggregating analytics data.
@@ -388,8 +389,29 @@ class Segment
         $matchType = $expression[SegmentExpression::INDEX_OPERAND_OPERATOR];
         $value     = $expression[SegmentExpression::INDEX_OPERAND_VALUE];
 
+        $segmentsList = SegmentsList::get();
+        $segmentObject = $segmentsList->getSegment($name);
+
+        // TODO WE NEED TO GET SEGMENT CLASS HERE
         $segment = $this->getSegmentByName($name);
-        $sqlName = $segment['sqlSegment'];
+        $sqlName = $segmentObject->getSqlSegment();
+
+        $joina = null;
+        if ($segmentObject->dimension && $segmentObject->dimension->getDbColumnJoin()) {
+            $join = $segmentObject->dimension->getDbColumnJoin();
+
+            $tableAlias = $join->getTable() . '_segment_' . str_replace('.', '', $sqlName); // we append alias since an archive query may add the table with a different join. we could eg add $table_$segmentName but then we would join an extra table per segment when we ideally want to join each table only once. However, we still need to see which table/column it joins to join it accurately each table extra if the same table is joined with different columns;
+            $joina = [
+                'table' => $join->getTable(),
+                'tableAlias' => $tableAlias,
+                'field' => $tableAlias . '.' . $join->getTargetColumn(),
+                'joinOn' => $sqlName . ' = ' . $tableAlias . '.' . $join->getColumn()
+            ];
+
+            if ($segmentObject->dimension->getDbDiscriminator()) {
+                $joina['discriminator'] = $tableAlias . '.'. $segmentObject->dimension->getDbDiscriminator()->getColumn() . ' = "'.  $segmentObject->dimension->getDbDiscriminator()->getValue() . '"';
+            }
+        }
 
         // Build subqueries for segments that are not on log_visit table but use !@ or != as operator
         // This is required to ensure segments like actionUrl!@value really do not include any visit having an action containing `value`
@@ -422,8 +444,9 @@ class Segment
             $query = $segmentObj->getSelectQuery($select, $from, implode(' AND ', $where), $bind);
             $logQueryBuilder->forceInnerGroupBySubselect($forceGroupByBackup);
 
-            return ['log_visit.idvisit', SegmentExpression::MATCH_ACTIONS_NOT_CONTAINS, $query];
+            return ['log_visit.idvisit', SegmentExpression::MATCH_ACTIONS_NOT_CONTAINS, $query, $joina];
         }
+
 
         if ($matchType != SegmentExpression::MATCH_IS_NOT_NULL_NOR_EMPTY
             && $matchType != SegmentExpression::MATCH_IS_NULL_OR_EMPTY) {
@@ -437,7 +460,7 @@ class Segment
                 $value = call_user_func($segment['sqlFilter'], $value, $segment['sqlSegment'], $matchType, $name);
 
                 if(is_null($value)) { // null is returned in TableLogAction::getIdActionFromSegment()
-                    return array(null, $matchType, null);
+                    return array(null, $matchType, null, null);
                 }
 
                 // sqlFilter-callbacks might return arrays for more complex cases
@@ -449,7 +472,7 @@ class Segment
             }
         }
 
-        return array($sqlName, $matchType, $value);
+        return array($sqlName, $matchType, $value, $joina);
     }
 
     /**

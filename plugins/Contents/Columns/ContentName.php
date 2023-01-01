@@ -27,7 +27,6 @@ class ContentName extends ActionDimension
     protected $suggestedValuesApi = 'Contents.getContentNames';
     protected $type = self::TYPE_TEXT;
     protected $category = 'General_Actions';
-    protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
 
     public function getDbColumnJoin()
     {

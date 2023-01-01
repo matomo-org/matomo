@@ -25,7 +25,6 @@ class ContentInteraction extends ActionDimension
     protected $nameSingular = 'Contents_ContentInteraction';
     protected $namePlural = 'Contents_ContentInteractions';
     protected $category = 'General_Actions';
-    protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
 
     public function getDbColumnJoin()
     {

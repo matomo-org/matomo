@@ -22,7 +22,6 @@ class PageUrl extends ActionDimension
     protected $namePlural = 'Actions_PageUrls';
     protected $type = self::TYPE_URL;
     protected $category = 'General_Actions';
-    protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
     protected $suggestedValuesApi = 'Actions.getPageUrls';
 
     public function getDbColumnJoin()

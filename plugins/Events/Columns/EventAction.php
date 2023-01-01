@@ -26,7 +26,6 @@ class EventAction extends ActionDimension
     protected $namePlural = 'Events_EventActions';
     protected $suggestedValuesApi = 'Events.getAction';
     protected $category = 'Events_Events';
-    protected $sqlFilter = '\Piwik\Tracker\TableLogAction::getIdActionFromSegment';
 
     public function getDbColumnJoin()
     {
