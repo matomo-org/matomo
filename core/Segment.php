@@ -399,11 +399,12 @@ class Segment
         $sqlName = $segmentObject->getSqlSegment();
 
         $joinTable = null;
-        if ($segmentObject->dimension && $segmentObject->dimension->getDbColumnJoin()) {
+        if ($segmentObject->dimension && $segmentObject->dimension->getDbColumnJoin()
+            && $segmentObject->dimension->getDbColumnJoin() instanceof ActionNameJoin) {
             $join = $segmentObject->dimension->getDbColumnJoin();
             $dbDiscriminator = $segmentObject->dimension->getDbDiscriminator();
 
-            if ($join instanceof ActionNameJoin && $dbDiscriminator) {
+            if ($dbDiscriminator) {
                 $actionType = $dbDiscriminator->getValue();
                 $unsanitizedValue = $value;
                 $value = Tracker\TableLogAction::normaliseActionString($actionType, $value);
