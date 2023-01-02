@@ -12,6 +12,7 @@ use Exception;
 use Piwik\API\DataTablePostProcessor;
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Metrics;
 use Piwik\NumberFormatter;
@@ -408,9 +409,10 @@ class RowEvolution
         // By default, use the specified label
         $rowLabel = Common::sanitizeInputValue($report['label']);
 
-        // If the dataTable specifies a label_html, use this instead
         /** @var $dataTableMap \Piwik\DataTable\Map */
         $dataTableMap = $report['reportData'];
+
+        // If the dataTable specifies a label_html, use this instead
         $labelPretty = $dataTableMap->getColumn('label_html');
         $labelPretty = array_filter($labelPretty, 'strlen');
         $labelPretty = current($labelPretty);

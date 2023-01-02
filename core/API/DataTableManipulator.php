@@ -203,6 +203,15 @@ abstract class DataTableManipulator
         $response = new ResponseBuilder($format = 'original', $request);
         $response->disableSendHeader();
         $dataTable = $response->getResponse($dataTable, $apiModule, $method);
+
+        // save API method name so it can be used by filters
+        if ($dataTable instanceof DataTable\DataTableInterface) {
+            $dataTable->filter(function (DataTable $table) use ($apiModule, $method) {
+                $table->setMetadata('apiModule', $apiModule);
+                $table->setMetadata('apiMethod', $method);
+            });
+        }
+
         return $dataTable;
     }
 }
