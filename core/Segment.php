@@ -405,20 +405,27 @@ class Segment
 
             if ($join instanceof ActionNameJoin && $dbDiscriminator) {
                 $actionType = $dbDiscriminator->getValue();
+                $unsanitizedValue = $value;
                 $value = Tracker\TableLogAction::normaliseActionString($actionType, $value);
 
                 if ($matchType == SegmentExpression::MATCH_EQUAL || $matchType == SegmentExpression::MATCH_NOT_EQUAL) {
                     // IMPROVE PERFORMANCE so index is used
+                    // THIS WOULD NEED TO BE REWRITTEN AS IT WOULD EXECUTE HEAPS OF EXTRA QUERIES. WE WOULD INSTEAD NEED TO RETURN
+                    // a SQL QUERY OR SO
                     $trackerModel = new Model();
                     $idAction = $trackerModel->getIdActionMatchingNameAndType($value, $actionType);
                     // If action can't be found normalized try search for it with original value
                     // This can eg happen for outlinks that contain a &amp; see https://github.com/matomo-org/matomo/issues/11806
                     if (empty($idAction)) {
-                        $idAction = $trackerModel->getIdActionMatchingNameAndType($value, $actionType);
+                        $idAction = $trackerModel->getIdActionMatchingNameAndType($unsanitizedValue, $actionType);
                         // Action is not found (eg. &segment=pageTitle==Větrnásssssss)
                         if (empty($idAction)) {
                             $idAction = null;
                         }
+                    }
+
+                    if (is_null($idAction)) { // null is returned in TableLogAction::getIdActionFromSegment()
+                        return array(null, $matchType, null, null);
                     }
                     return array($sqlName, $matchType, $idAction, null);
                 }
