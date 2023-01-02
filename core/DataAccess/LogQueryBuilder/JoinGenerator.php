@@ -265,6 +265,13 @@ class JoinGenerator
                 }
             }
 
+            $otherJoins = $availableLogTable->getWaysToJoinToOtherLogTables();
+            foreach ($otherJoins as $joinTable => $column) {
+                if ($table == $joinTable) {
+                    $join = sprintf("`%s`.`%s` = `%s`.`%s`", $table, $column, $availableLogTable->getName(), $column);
+                    break;
+                }
+            }
         }
 
         if (!isset($join)) {
