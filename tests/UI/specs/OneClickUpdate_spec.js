@@ -23,8 +23,8 @@ describe("OneClickUpdate", function () {
         await page.goto(latestStableUrl);
         await page.waitForSelector('#login_form_login', { visible: true });
 
-        await page.type('#login_form_login', 'superUserLogin');
-        await page.type('#login_form_password', 'superUserPass');
+        await page.type('#login_form_login', superUserLogin);
+        await page.type('#login_form_password', superUserPassword);
         await page.click('#login_form_submit');
 
         await page.waitForNetworkIdle();

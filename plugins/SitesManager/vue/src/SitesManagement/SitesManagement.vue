@@ -63,7 +63,7 @@
     </div>
 
     <MatomoDialog v-model="showAddSiteDialog">
-      <div class="ui-confirm">
+      <div class="ui-confirm add-site-dialog">
         <div>
           <h2>{{ translate('SitesManager_ChooseMeasurableTypeHeadline') }}</h2>
 
@@ -75,7 +75,6 @@
                 :key="type.id"
                 :title="type.description"
                 class="modal-close btn"
-                style="margin-left: 20px;"
                 @click="addSite(type.id);"
                 aria-disabled="false"
               >

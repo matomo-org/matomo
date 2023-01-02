@@ -24,7 +24,7 @@ describe("PeriodSelector", function () {
 
             broadcast.propagateNewPage = function () {};
 
-            // hide ajaxLoadingCalendar via CSS (can't just remove it since it's managed by angular)
+            // hide ajaxLoadingCalendar via CSS (can't just remove it since it's managed by vue)
             $('head').append('<style type="text/css">#ajaxLoadingCalendar { display: none !important; }</style>');
         });
 

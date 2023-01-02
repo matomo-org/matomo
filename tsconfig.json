@@ -18,7 +18,6 @@
     ],
     "types": [
       "webpack-env",
-      "angular",
       "jquery",
       "jqueryui",
       "materialize-css",

@@ -50,7 +50,7 @@ class DocumentationGenerator
      */
     public function getApiDocumentationAsString($outputExampleUrls = true)
     {
-        list($toc, $str) = $this->generateDocumentation($outputExampleUrls, $prefixUrls = '', $displayTitlesAsAngularDirective = true);
+        list($toc, $str) = $this->generateDocumentation($outputExampleUrls, $prefixUrls = '', $displayTitlesAsEnrichedHeadline = true);
 
         return "<div vue-entry=\"CoreHome.ContentBlock\" content-title='Quick access to APIs' id='topApiRef' name='topApiRef'>
 				$toc</div>
@@ -66,7 +66,7 @@ class DocumentationGenerator
      */
     public function getApiDocumentationAsStringForDeveloperReference($outputExampleUrls = true, $prefixUrls = '')
     {
-        list($toc, $str) = $this->generateDocumentation($outputExampleUrls, $prefixUrls, $displayTitlesAsAngularDirective = false);
+        list($toc, $str) = $this->generateDocumentation($outputExampleUrls, $prefixUrls, $displayTitlesAsEnrichedHeadline = false);
 
         return "<h2 id='topApiRef' name='topApiRef'>Quick access to APIs</h2>
 				$toc
@@ -78,11 +78,11 @@ class DocumentationGenerator
         return "<a href='#$moduleName'>$moduleName</a><br/>";
     }
 
-    protected function prepareMethodToDisplay($moduleName, $info, $methods, $class, $outputExampleUrls, $prefixUrls, $displayTitlesAsAngularDirective)
+    protected function prepareMethodToDisplay($moduleName, $info, $methods, $class, $outputExampleUrls, $prefixUrls, $displayTitlesAsEnrichedHeadline)
     {
         $str = '';
         $str .= "\n<a name='$moduleName' id='$moduleName'></a>";
-        if($displayTitlesAsAngularDirective) {
+        if($displayTitlesAsEnrichedHeadline) {
             $str .= "<div vue-entry=\"CoreHome.ContentBlock\" content-title='Module " . $moduleName . "'>";
         } else {
             $str .= "<h2>Module " . $moduleName . "</h2>";
@@ -105,7 +105,7 @@ class DocumentationGenerator
             $str .= "</div>\n";
         }
 
-        if($displayTitlesAsAngularDirective) {
+        if($displayTitlesAsEnrichedHeadline) {
             $str .= "</div>";
         }
 
@@ -329,18 +329,34 @@ class DocumentationGenerator
      */
     protected function getParametersString($class, $name)
     {
-        $aParameters = Proxy::getInstance()->getParametersList($class, $name);
+        $aParameters = Proxy::getInstance()->getParametersListWithTypes($class, $name);
         $asParameters = array();
-        foreach ($aParameters as $nameVariable => $defaultValue) {
+        foreach ($aParameters as $nameVariable => $parameter) {
             // Do not show API parameters starting with _
             // They are supposed to be used only in internal API calls
             if (strpos($nameVariable, '_') === 0) {
                 continue;
             }
-            $str = $nameVariable;
+
+            $str = '';
+
+            if(!empty($parameter['type'])) {
+                $prefix = $parameter['allowsNull'] ? '?' : '';
+                $str = '<i>' . $prefix . $parameter['type'] . '</i> ';
+            }
+
+            $str .= $nameVariable;
+            $defaultValue = $parameter['default'];
+
             if (!($defaultValue instanceof NoDefaultValue)) {
                 if (is_array($defaultValue)) {
                     $str .= " = 'Array'";
+                } elseif (!empty($parameter['type']) && $parameter['allowsNull']) {
+                    $str .= ""; // don't display default value, as the ? before the type hint indicates it's optional
+                } elseif ($parameter['type'] === 'bool' && $defaultValue === true) {
+                    $str .= " = true";
+                } elseif ($parameter['type'] === 'bool' && $defaultValue === false) {
+                    $str .= " = false";
                 } else {
                     $str .= " = '$defaultValue'";
                 }
@@ -354,10 +370,10 @@ class DocumentationGenerator
     /**
      * @param $outputExampleUrls
      * @param $prefixUrls
-     * @param $displayTitlesAsAngularDirective
+     * @param $displayTitlesAsEnrichedHeadline
      * @return array
      */
-    protected function generateDocumentation($outputExampleUrls, $prefixUrls, $displayTitlesAsAngularDirective)
+    protected function generateDocumentation($outputExampleUrls, $prefixUrls, $displayTitlesAsEnrichedHeadline)
     {
         $str = $toc = '';
 
@@ -393,7 +409,7 @@ class DocumentationGenerator
 
             foreach ($toDisplay as $moduleName => $methods) {
                 $toc .= $this->prepareModuleToDisplay($moduleName);
-                $str .= $this->prepareMethodToDisplay($moduleName, $info, $methods, $class, $outputExampleUrls, $prefixUrls, $displayTitlesAsAngularDirective);
+                $str .= $this->prepareMethodToDisplay($moduleName, $info, $methods, $class, $outputExampleUrls, $prefixUrls, $displayTitlesAsEnrichedHeadline);
             }
         }
         return array($toc, $str);

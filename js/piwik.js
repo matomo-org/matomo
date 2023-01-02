@@ -115,7 +115,7 @@
      "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply, call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join, lastIndex, length, parse, prototype, push, replace,
     sort, slice, stringify, test, toJSON, toString, valueOf, objectToJSON, addTracker, removeAllAsyncTrackersButFirst,
-    optUserOut, forgetUserOptOut, isUserOptedOut, withCredentials, visibilityState
+    optUserOut, forgetUserOptOut, isUserOptedOut, withCredentials, visibilityState, enableFileTracking
  */
 /*global _paq:true */
 /*members push */
@@ -2381,6 +2381,7 @@ if (typeof window.Matomo !== 'object') {
                 // Browser client hints
                 clientHints = {},
                 clientHintsRequestQueue = [],
+                callBackQueue = [],
                 clientHintsResolved = false,
 
                 // Keeps track of previously tracked content impressions
@@ -2450,7 +2451,9 @@ if (typeof window.Matomo !== 'object') {
                 // whether a tracking request has been sent yet during this page view
                 hasSentTrackingRequestYet = false,
 
-                configBrowserFeatureDetection = true;
+                configBrowserFeatureDetection = true,
+
+                configFileTracking = false;
 
             // Document title
             try {
@@ -3098,12 +3101,14 @@ if (typeof window.Matomo !== 'object') {
             function sendRequest(request, delay, callback) {
                 if (!clientHintsResolved) {
                   clientHintsRequestQueue.push(request);
+                  callBackQueue.push(callback);
                   return;
                 }
 
                 refreshConsentStatus();
                 if (!configHasConsent) {
                     consentRequestsQueue.push(request);
+                    callBackQueue.push(callback);
                     return;
                 }
 
@@ -3253,12 +3258,13 @@ if (typeof window.Matomo !== 'object') {
                     for (i = 0; i < clientHintsRequestQueue.length; i++) {
                         requestType = typeof clientHintsRequestQueue[i];
                         if (requestType === 'string') {
-                            sendRequest(clientHintsRequestQueue[i], configTrackerPause);
+                            sendRequest(clientHintsRequestQueue[i], configTrackerPause, callBackQueue[i]);
                         } else if (requestType === 'object') {
                             sendBulkRequest(clientHintsRequestQueue[i], configTrackerPause);
                         }
                     }
                     clientHintsRequestQueue = [];
+                    callBackQueue = [];
                 });
 
                 // Browser Feature is disabled return empty object
@@ -3893,6 +3899,10 @@ if (typeof window.Matomo !== 'object') {
                 }
 
                 if (configDoNotTrack) {
+                    return '';
+                }
+
+                if (!configFileTracking && windowAlias.location.protocol === 'file:') {
                     return '';
                 }
 
@@ -7167,12 +7177,13 @@ if (typeof window.Matomo !== 'object') {
                 for (i = 0; i < consentRequestsQueue.length; i++) {
                     requestType = typeof consentRequestsQueue[i];
                     if (requestType === 'string') {
-                        sendRequest(consentRequestsQueue[i], configTrackerPause);
+                        sendRequest(consentRequestsQueue[i], configTrackerPause, callBackQueue[i]);
                     } else if (requestType === 'object') {
                         sendBulkRequest(consentRequestsQueue[i], configTrackerPause);
                     }
                 }
                 consentRequestsQueue = [];
+                callBackQueue = [];
 
                 // we need to enable cookies after sending the previous requests as it will make sure that we send
                 // a ping request if needed. Cookies are only set once we call `getRequest`. Above only calls sendRequest
@@ -7266,6 +7277,13 @@ if (typeof window.Matomo !== 'object') {
                 this.setConsentGiven(false);
             };
 
+          /**
+           * enable protocol file: format tracking
+           */
+            this.enableFileTracking = function () {
+                configFileTracking = true;
+            };
+
             /**
              * Mark performance metrics as available, once onload event has finished
              */
@@ -7339,7 +7357,7 @@ if (typeof window.Matomo !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'forgetCookieConsentGiven', 'requireCookieConsent','disableBrowserFeatureDetection', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setCookieSameSite', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'disableAlwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'setConsentGiven', 'disablePerformanceTracking', 'setPagePerformanceTiming', 'setExcludedQueryParams', 'setExcludedReferrers'];
+        var applyFirst = ['addTracker', 'enableFileTracking', 'forgetCookieConsentGiven', 'requireCookieConsent','disableBrowserFeatureDetection', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setCookieSameSite', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'disableAlwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'setConsentGiven', 'disablePerformanceTracking', 'setPagePerformanceTiming', 'setExcludedQueryParams', 'setExcludedReferrers'];
 
         function createFirstTracker(matomoUrl, siteId)
         {

@@ -1,8 +1,8 @@
 {
     "CustomJsTracker": {
-        "PluginDescription": "Permite a cualquier módulo ampliar el archivo de seguimiento Javascript Matomo (matomo.js) y agregar nuevas funcionalidades y capacidades de medición de desempeño a un sitio web.",
+        "DiagnosticPiwikJsMakeWritable": "Recomendamos que %1$s posea permisos de escritura simplemente ejecutando este comando: %2$s",
+        "DiagnosticPiwikJsNotWritable": "El archivo %s del rastreador de JavaScript de Matomo no es modificable, lo que significa que otros plugins no pueden ampliar el rastreador de JavaScript. En el futuro, incluso algunas características del núcleo podrían no funcionar como se esperaba.",
         "DiagnosticPiwikJsWritable": "Archivo de seguimiento Javascript con permiso de escritura (%s)",
-        "DiagnosticPiwikJsNotWritable": "El archivo Javascript de seguimiento Matomo %s no posee permisos de escritura, lo que significa que los otros módulos no pueden enriquecerlo. Más aun, en un futuro, algunas funciones básicas podrían no funcionar como debieran.",
-        "DiagnosticPiwikJsMakeWritable": "Recomendamos que %1$s posea permisos de escritura simplemente ejecutando este comando: %2$s"
+        "PluginDescription": "Permite a cualquier módulo ampliar el archivo de seguimiento Javascript Matomo (matomo.js) y agregar nuevas funcionalidades y capacidades de medición de desempeño a un sitio web."
     }
 }

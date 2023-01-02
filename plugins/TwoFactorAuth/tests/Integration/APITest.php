@@ -62,7 +62,7 @@ class APITest extends IntegrationTestCase
         $this->expectExceptionMessage('checkUserHasSuperUserAccess Fake exception');
 
         $this->setAdminUser();
-        $this->api->resetTwoFactorAuth('login', 'superUserPass');
+        $this->api->resetTwoFactorAuth('login', Fixture::ADMIN_USER_PASSWORD);
     }
 
     public function test_resetTwoFactorAuth_resetsSecret()
@@ -74,7 +74,7 @@ class APITest extends IntegrationTestCase
 
         $this->assertTrue(TwoFactorAuthentication::isUserUsingTwoFactorAuthentication('mylogin1'));
         $this->assertTrue(TwoFactorAuthentication::isUserUsingTwoFactorAuthentication('mylogin2'));
-        $this->api->resetTwoFactorAuth('mylogin1', 'superUserPass');
+        $this->api->resetTwoFactorAuth('mylogin1', Fixture::ADMIN_USER_PASSWORD);
         $this->assertFalse(TwoFactorAuthentication::isUserUsingTwoFactorAuthentication('mylogin1'));
         $this->assertTrue(TwoFactorAuthentication::isUserUsingTwoFactorAuthentication('mylogin2'));
 

@@ -62,7 +62,7 @@ matrix:
             - nginx
             - coreutils
     - php: 7.2
-      env: TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
+      env: TEST_SUITE=ClientTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
       sudo: false
       addons: false
     # All tests after another
@@ -152,4 +152,3 @@ after_success:
 cache:
   directories:
     - $HOME/.composer/cache
-    - $PIWIK_ROOT_DIR/../travis_woff2

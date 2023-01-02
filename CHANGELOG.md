@@ -8,14 +8,18 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### Breaking Changes
 
-* Plugin names are now limited to 60 characters. If you used to have a plugin with a longer name, you might need to rename it.
+* AngularJS has been completely removed from the code base, existing AngularJS code will no longer work. It is recommended to convert that code to Vue.
+* The `Common::fixLbrace()` function has been removed. It was only necessary for AngularJS and no longer needs to be used.
 * The deprecated `JSON2` API format has now been removed. We recommend switching to the `JSON` renderer, which behaves the same.
 * The javascript event `piwikPageChange`, which is triggered when a reporting page is loaded, has been renamed to `matomoPageChange`. Ensure to update your implementation if you rely on it.
+* Plugin names are now limited to 60 characters. If you used to have a plugin with a longer name, you might need to rename it.
+* The `instance_id` configuration does no longer support characters other than `a-z`, `0-9` and the special characters `.-_`. If the configured value contains other characters, they will be simply removed.
 
 ### New APIs
 
 * The class `Piwik\Request` has been introduced. It will allow fetching parameters from a request, optionally validated / casted to a certain type. Use this class in favor of `Common::getRequestVar`.
 * All API are now able to overwrite the property `$autoSanitizeInputParams`. Setting this variable to `false` will prevent an automatic apply of `Common::sanitizeInputValues` on all parameter passed to the API methods. By now this property defaults to `true`, but this might change in upcoming major releases.
+* All API methods can now use type hinted parameters. This allows to force certain parameters to be provided in a defined type. If the API is called with a mismatching type, an error will be triggered, without calling the method at all. Only basic types are supported: string, int, float, bool, array
 
 ### Deprecations
 
@@ -27,6 +31,19 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### Archiving
 * When posting the event `Archiving.getIdSitesToMarkArchivesAsInvalidated` started passing date, period ,segment and name parameter along with idSites parameter.
+
+### Updated commands
+* The default maximum number of archivers processes to run concurrently has changed from unlimited to three. The `--concurrent-archivers` parameter can be used to increase this limit. A value of -1 will use an unlimited number of concurrent archivers
+
+## Matomo 4.13.1
+
+### New config.ini.php settings
+* Three new config settings `ssl_disallow_self_signed` ,`ssl_verify_peer`, `ssl_verify_peer_name` under [mail] to allow modifying the SSL handling in SMTP request.
+
+## Matomo 4.13.0
+
+### New config.ini.php settings
+* A new config setting `enable_opcache_reset` defaulting to `1`. Provides a configuration switch for `opcache_reset` when general caches are cleared. This may be useful for multi-tenant installations that would rather manage opcache resets by themselves. This could also be used by scripts to temporarily switch off opcache resets.
 
 ## Matomo 4.12.0
 

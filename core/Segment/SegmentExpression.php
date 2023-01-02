@@ -54,6 +54,12 @@ class SegmentExpression
     const SQL_WHERE_DO_NOT_MATCH_ANY_ROW = "(1 = 0)";
     const SQL_WHERE_MATCHES_ALL_ROWS = "(1 = 1)";
 
+    protected $string;
+    protected $joins = [];
+    protected $valuesBind = [];
+    protected $tree = [];
+    protected $parsedSubExpressions = [];
+
     public function __construct($string)
     {
         $this->string = $string;
@@ -70,10 +76,6 @@ class SegmentExpression
         return count($this->tree) == 0;
     }
 
-    protected $joins = array();
-    protected $valuesBind = array();
-    protected $tree = array();
-    protected $parsedSubExpressions = array();
 
     public function getSubExpressionCount()
     {
@@ -397,7 +399,7 @@ class SegmentExpression
         if (false !== strpos($str, '_')) {
             $str = str_replace("_", "\_", $str);
         }
-        
+
         return $str;
     }
 

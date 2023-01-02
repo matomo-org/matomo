@@ -58,6 +58,7 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
      */
     public function testExcludeRows()
     {
+
         $query = new RankingQuery(20);
         $query->setOthersLabel('Others');
         $query->addLabelColumn('label');
@@ -88,6 +89,12 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
 			GROUP BY counter
 		";
 
+        $this->checkQuery($query, $innerQuery, $expected);
+
+        $query = new RankingQuery('20');
+        $query->setOthersLabel('Others');
+        $query->addLabelColumn('label');
+        $query->setColumnToMarkExcludedRows('exclude_marker');
         $this->checkQuery($query, $innerQuery, $expected);
     }
 

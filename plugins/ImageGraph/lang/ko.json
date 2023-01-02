@@ -1,5 +1,6 @@
 {
     "ImageGraph": {
-        "PluginDescription": "Matomo 보고서의 아름다운 정적 PNG 그래프 이미지를 생성합니다."
+        "ColumnOrdinateMissing": "이 보고서에서 \"%1$s\" 열을 찾을 수 없습니다. %2$s 중 하나를 시도하십시오.",
+        "PluginDescription": "모든 데이터 보고서에 대한 아름다운 정적 PNG 그래프 이미지를 생성합니다."
     }
 }

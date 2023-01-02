@@ -441,6 +441,7 @@
         "SmtpServerAddress": "SMTP-tjeneradresse",
         "SmtpUsername": "SMTP-brukernavn",
         "Source": "Kilde",
+        "SparklineTooltipUsedPeriod": "Hvert datapunkt i minigrafen representerer et %s.",
         "StatisticsAreNotRecorded": "Matomo besøkssporing er deaktivert! Aktiver sporing igjen ved å sette record_statistics = 1 i din config/config.ini.php-fil.",
         "Subtotal": "Delsum",
         "Summary": "Sammendrag",

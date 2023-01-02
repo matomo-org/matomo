@@ -50,6 +50,8 @@
         "Part2Title": "Keep it up %1$s. You’re well on your way to becoming a Matomo expert.",
         "Part3Title": "You are on the right track %1$s. Continue, and become a Matomo expert.",
         "Part4Title": "Great progress %1$s. Only a few more challenges to complete.",
-        "OnlyVisibleToSuperUser": "Only you as a %1$ssuperuser%2$s can see this widget."
+        "OnlyVisibleToSuperUser": "Only you as a %1$ssuperuser%2$s can see this widget.",
+        "ConnectConsentManager": "Connect %1$s consent manager",
+        "ConnectConsentManagerIntro": "%1$s consent manager was detected on your website, learn how to connect %1$s and Matomo so they can work together."
     }
 }

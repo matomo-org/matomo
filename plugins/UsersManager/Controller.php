@@ -617,8 +617,9 @@ class Controller extends ControllerAdmin
             throw new Exception("Cannot change email with untrusted hostname!");
         }
 
-        $email = Common::getRequestVar('email');
-        $passwordCurrent = Common::getRequestvar('passwordConfirmation', false);
+        $request = \Piwik\Request::fromRequest();
+        $email = $request->getStringParameter('email');
+        $passwordCurrent = $request->getStringParameter('passwordConfirmation', '');
 
         // UI disables password change on invalid host, but check here anyway
         Request::processRequest('UsersManager.updateUser', [
@@ -639,9 +640,10 @@ class Controller extends ControllerAdmin
             throw new Exception("Cannot change password with untrusted hostname!");
         }
 
-        $newPassword = Common::getRequestvar('password', false);
-        $passwordBis = Common::getRequestvar('passwordBis', false);
-        $passwordCurrent = Common::getRequestvar('passwordConfirmation', false);
+        $request = \Piwik\Request::fromRequest();
+        $newPassword = $request->getStringParameter('password', '');
+        $passwordBis = $request->getStringParameter('passwordBis', '');
+        $passwordCurrent = $request->getStringParameter('passwordConfirmation', '');
 
         if ($newPassword !== $passwordBis) {
             throw new Exception($this->translator->translate('Login_PasswordsDoNotMatch'));

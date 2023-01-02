@@ -99,10 +99,11 @@ abstract class MenuAbstract extends Singleton
      * @param bool|string $icon An icon classname, such as "icon-add". Only supported by admin menu
      * @param bool|string $onclick Will execute the on click handler instead of executing the link. Only supported by admin menu.
      * @param string $attribute Will add this string as a link attribute.
+     * @param bool|string $help Will display a help icon that will pop a notification with help information.
      * @since 2.7.0
      * @api
      */
-    public function addItem($menuName, $subMenuName, $url, $order = 50, $tooltip = false, $icon = false, $onclick = false, $attribute = false)
+    public function addItem($menuName, $subMenuName, $url, $order = 50, $tooltip = false, $icon = false, $onclick = false, $attribute = false, $help = false)
     {
         // make sure the idSite value used is numeric (hack-y fix for #3426)
         if (isset($url['idSite']) && !is_numeric($url['idSite'])) {
@@ -118,7 +119,8 @@ abstract class MenuAbstract extends Singleton
             $tooltip,
             $icon,
             $onclick,
-            $attribute
+            $attribute,
+            $help
         );
     }
 
@@ -146,7 +148,7 @@ abstract class MenuAbstract extends Singleton
      * @param int $order
      * @param bool|string $tooltip Tooltip to display.
      */
-    private function buildMenuItem($menuName, $subMenuName, $url, $order = 50, $tooltip = false, $icon = false, $onclick = false, $attribute = false)
+    private function buildMenuItem($menuName, $subMenuName, $url, $order = 50, $tooltip = false, $icon = false, $onclick = false, $attribute = false, $help = false)
     {
         if (!isset($this->menu[$menuName])) {
             $this->menu[$menuName] = array(
@@ -169,6 +171,8 @@ abstract class MenuAbstract extends Singleton
             if (!empty($onclick)) {
                 $this->menu[$menuName]['_onclick'] = $onclick;
             }
+            $this->menu[$menuName]['_help'] = $help ?: '';
+
         }
         if (!empty($subMenuName)) {
             $this->menu[$menuName][$subMenuName]['_url'] = $url;
@@ -178,6 +182,7 @@ abstract class MenuAbstract extends Singleton
             $this->menu[$menuName][$subMenuName]['_attribute'] = $attribute;
             $this->menu[$menuName][$subMenuName]['_icon'] = $icon;
             $this->menu[$menuName][$subMenuName]['_onclick'] = $onclick;
+            $this->menu[$menuName][$subMenuName]['_help'] = $help ?: '';
             $this->menu[$menuName]['_hasSubmenu'] = true;
 
             if (!array_key_exists('_tooltip', $this->menu[$menuName])) {
@@ -192,7 +197,8 @@ abstract class MenuAbstract extends Singleton
     private function buildMenu()
     {
         foreach ($this->menuEntries as $menuEntry) {
-            $this->buildMenuItem($menuEntry[0], $menuEntry[1], $menuEntry[2], $menuEntry[3], $menuEntry[4], $menuEntry[5], $menuEntry[6], $menuEntry[7]);
+            $this->buildMenuItem($menuEntry[0], $menuEntry[1], $menuEntry[2], $menuEntry[3], $menuEntry[4],
+                $menuEntry[5], $menuEntry[6], $menuEntry[7], $menuEntry[8]);
         }
     }
 

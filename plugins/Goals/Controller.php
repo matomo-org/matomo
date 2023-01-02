@@ -14,6 +14,7 @@ use Piwik\DataTable;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\FrontController;
+use Piwik\Metrics\Formatter;
 use Piwik\NumberFormatter;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
@@ -310,8 +311,6 @@ class Controller extends \Piwik\Plugin\Controller
 
     protected function getTopDimensions($idGoal)
     {
-        $columnNbConversions = 'goal_' . $idGoal . '_nb_conversions';
-
         $topDimensionsToLoad = array();
 
         if (\Piwik\Plugin\Manager::getInstance()->isPluginActivated('UserCountry')) {
@@ -335,23 +334,37 @@ class Controller extends \Piwik\Plugin\Controller
 
         $topDimensions = array();
         foreach ($topDimensionsToLoad as $dimensionName => $apiMethod) {
-            $request = new Request("method=$apiMethod
-                                   &format=original
-                                   &filter_update_columns_when_show_all_goals=1
-                                   &idGoal=" . AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE . "
-                                   &filter_sort_order=desc
-                                   &filter_sort_column=$columnNbConversions" .
-                // select a couple more in case some are not valid (ie. conversions==0 or they are "Keyword not defined")
-                "&filter_limit=" . (self::COUNT_TOP_ROWS_TO_DISPLAY + 2));
-            $datatable = $request->process();
-            $topDimension = array();
-            $count = 0;
+            if ($apiMethod == 'Actions.getEntryPageUrls') {
+                $columnNbConversions = 'goal_' . $idGoal . '_nb_conversions_entry';
+                $columnConversionRate = 'goal_' . $idGoal . '_nb_conversions_entry_rate';
+                $idGoalToProcess = AddColumnsProcessedMetricsGoal::GOALS_ENTRY_PAGES;
+            } else {
+                $columnNbConversions = 'goal_' . $idGoal . '_nb_conversions';
+                $columnConversionRate = 'goal_' . $idGoal . '_conversion_rate';
+                $idGoalToProcess = AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE;
+            }
+
+            $requestString = "method=$apiMethod
+                               &format=original
+                               &format_metrics=0
+                               &filter_update_columns_when_show_all_goals=1
+                               &idGoal=$idGoalToProcess
+                               &filter_sort_order=desc
+                               &filter_sort_column=$columnNbConversions
+                               &showColumns=label,$columnNbConversions,$columnConversionRate" .
+                               // select a couple more in case some are not valid (ie. conversions==0 or they are "Keyword not defined")
+                               "&filter_limit=" . (self::COUNT_TOP_ROWS_TO_DISPLAY + 2);
 
             if ($apiMethod == 'Actions.getEntryPageUrls') {
-                $columnConversionRate = 'goal_' . $idGoal . '_nb_conversions_entry_rate';
-            } else {
-                $columnConversionRate = 'goal_' . $idGoal . '_conversion_rate';
+                $requestString .= '&flat=1';
             }
+
+            $request = new Request($requestString);
+
+            $datatable = $request->process();
+            $formatter = new Formatter();
+            $topDimension = array();
+            $count = 0;
 
             foreach ($datatable->getRows() as $row) {
                 $conversions = $row->getColumn($columnNbConversions);
@@ -364,8 +377,8 @@ class Controller extends \Piwik\Plugin\Controller
                 ) {
                     $topDimension[] = array(
                         'name'            => $row->getColumn('label'),
-                        'nb_conversions'  => $conversions,
-                        'conversion_rate' => $this->formatConversionRate($row->getColumn($columnConversionRate)),
+                        'nb_conversions'  => $formatter->getPrettyNumber($conversions),
+                        'conversion_rate' => $formatter->getPrettyPercentFromQuotient($row->getColumn($columnConversionRate)),
                         'metadata'        => $row->getMetadata(),
                     );
                     $count++;

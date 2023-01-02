@@ -80,7 +80,6 @@ class SingleMetricView extends \Piwik\Widget\Widget
     {
         $result = json_encode($value);
         $result = Common::sanitizeInputValue($result);
-        $result = Common::fixLbrace($result);
         return $result;
     }
 }

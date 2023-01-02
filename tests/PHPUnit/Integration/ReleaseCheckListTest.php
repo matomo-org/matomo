@@ -46,15 +46,6 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(method_exists(TestCase::class,'setGroups'));
     }
 
-    public function test_woff2_fileIsUpToDate()
-    {
-        link(PIWIK_INCLUDE_PATH . "/plugins/Morpheus/fonts/matomo.ttf", "temp.ttf");
-        $command = PIWIK_INCLUDE_PATH . "/../travis_woff2/woff2_compress 'temp.ttf'";
-        $log = shell_exec($command);
-
-        $this->assertFileEquals('temp.woff2', PIWIK_INCLUDE_PATH . "/plugins/Morpheus/fonts/matomo.woff2", "woff2 file is out of date.\nCommand output:\n" . $log);
-    }
-
     public function test_minimumPHPVersion_isEnforced()
     {
         global $piwik_minimumPHPVersion;
@@ -916,14 +907,6 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             'vendor/szymach/c-pchart/resources/fonts/pf_arma_five*',
             'vendor/szymach/c-pchart/resources/fonts/Silkscreen*',
             'vendor/szymach/c-pchart/resources/fonts/verdana*',
-            'node_modules/angular/angular.min.js.gzip',
-            'node_modules/angular/angular.js',
-            'node_modules/angular-animate/angular-animate.min.js.gzip',
-            'node_modules/angular-animate/angular-animate.js',
-            'node_modules/angular-sanitize/angular-sanitize.min.js.gzip',
-            'node_modules/angular-sanitize/angular-sanitize.js',
-            'node_modules/angular-cookies/angular-cookies.min.js.gzip',
-            'node_modules/angular-cookies/angular-cookies.js',
             'node_modules/chroma-js/Makefile',
             'node_modules/chroma-js/chroma.js',
             'node_modules/chroma-js/doc',

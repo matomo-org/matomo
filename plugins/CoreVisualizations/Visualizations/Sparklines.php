@@ -20,6 +20,7 @@ use Piwik\Plugin\Report;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\API\Filter\DataComparisonFilter;
+use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines\SparklinePeriodSelector;
 use Piwik\SettingsPiwik;
 use Piwik\View;
 
@@ -174,7 +175,8 @@ class Sparklines extends ViewDataTable
         $originalDate = Common::getRequestVar('date');
         $originalPeriod = Common::getRequestVar('period');
 
-        if ($this->isComparing() && !empty($comparisons)) {
+        $isComparing = $this->isComparing() && !empty($comparisons);
+        if ($isComparing) {
             $comparisonRows = [];
             foreach ($comparisons->getRows() as $comparisonRow) {
                 $segment = $comparisonRow->getMetadata('compareSegment');
@@ -227,13 +229,16 @@ class Sparklines extends ViewDataTable
                 'action'  => $this->requestConfig->getApiMethodToRequest()
             ]);
 
-            if ($this->isComparing() && !empty($comparisons)) {
-                $periodObj = Factory::build($originalPeriod, $originalDate);
+            $periodObj = Factory::build($originalPeriod, $originalDate);
+            $comparePeriods = $data->getMetadata('comparePeriods');
+            $compareDates = $data->getMetadata('compareDates');
 
+            $periodSelector = new SparklinePeriodSelector($this->config);
+            $comparisonPeriods = $periodSelector->getComparisonPeriodObjects($comparePeriods, $compareDates);
+            $sparklineUrlParams = $periodSelector->setSparklineDatePeriods($sparklineUrlParams, $periodObj, $comparisonPeriods);
+
+            if ($isComparing) {
                 $sparklineUrlParams['compareSegments'] = [];
-
-                $comparePeriods = $data->getMetadata('comparePeriods');
-                $compareDates = $data->getMetadata('compareDates');
 
                 $compareSegments = $data->getMetadata('compareSegments');
                 foreach ($compareSegments as $segmentIndex => $segment) {
@@ -282,9 +287,8 @@ class Sparklines extends ViewDataTable
 
                     $params = array_merge($sparklineUrlParams, [
                         'segment' => $segment,
-                        'period' => $periodObj->getLabel(),
-                        'date' => $periodObj->getRangeString(),
                     ]);
+
                     $this->config->addSparkline($params, $metrics, $desc = null, null, ($order * 100) + $segmentIndex, $title, $sparklineMetricIndex, $seriesIndices, $graphParams);
                 }
             } else {
