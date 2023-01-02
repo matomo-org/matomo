@@ -266,7 +266,7 @@ class TableLogAction
      * @param $actionString
      * @return string
      */
-    private static function normaliseActionString($actionType, $actionString)
+    public static function normaliseActionString($actionType, $actionString)
     {
         $actionString = Common::unsanitizeInputValue($actionString);
 

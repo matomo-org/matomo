@@ -12,12 +12,14 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Cache as PiwikCache;
+use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\LogQueryBuilder;
 use Piwik\Plugins\SegmentEditor\SegmentEditor;
 use Piwik\Segment\SegmentExpression;
 use Piwik\Plugins\SegmentEditor\Model as SegmentEditorModel;
 use Piwik\Segment\SegmentsList;
+use Piwik\Tracker\Model;
 
 /**
  * Limits the set of visits Piwik uses when aggregating analytics data.
@@ -399,6 +401,28 @@ class Segment
         $joina = null;
         if ($segmentObject->dimension && $segmentObject->dimension->getDbColumnJoin()) {
             $join = $segmentObject->dimension->getDbColumnJoin();
+
+            if ($join instanceof ActionNameJoin &&
+                $segmentObject->dimension->getDbDiscriminator()) {
+                $actionType = $segmentObject->dimension->getDbDiscriminator()->getValue();
+                $value = Tracker\TableLogAction::normaliseActionString($actionType, $value);
+
+                if ($matchType == SegmentExpression::MATCH_EQUAL || $matchType == SegmentExpression::MATCH_NOT_EQUAL) {
+                    // IMPROVE PERFORMANCE so index is used
+                    $trackerModel = new Model();
+                    $idAction = $trackerModel->getIdActionMatchingNameAndType($value, $actionType);
+                    // If action can't be found normalized try search for it with original value
+                    // This can eg happen for outlinks that contain a &amp; see https://github.com/matomo-org/matomo/issues/11806
+                    if (empty($idAction)) {
+                        $idAction = $trackerModel->getIdActionMatchingNameAndType($value, $actionType);
+                        // Action is not found (eg. &segment=pageTitle==Větrnásssssss)
+                        if (empty($idAction)) {
+                            $idAction = null;
+                        }
+                    }
+                    return array($sqlName, $matchType, $idAction, $joina);
+                }
+            }
 
             $tableAlias = $join->getTable() . '_segment_' . str_replace('.', '', $sqlName); // we append alias since an archive query may add the table with a different join. we could eg add $table_$segmentName but then we would join an extra table per segment when we ideally want to join each table only once. However, we still need to see which table/column it joins to join it accurately each table extra if the same table is joined with different columns;
             $joina = [
