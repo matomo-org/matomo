@@ -401,6 +401,10 @@ class Segment
         $joinTable = null;
         if ($segmentObject->dimension && $segmentObject->dimension->getDbColumnJoin()
             && $segmentObject->dimension->getDbColumnJoin() instanceof ActionNameJoin) {
+            // TODO we likely should only join this if no SQL query eg via SQLfilter is defined
+            // fyi only allowed for ActionNameJoin so far as otherwise idGoal would be joined with goal.name when people
+            // actually define the idGoal and in that case it shouldn't be resolved. this is something we could solve better
+
             $join = $segmentObject->dimension->getDbColumnJoin();
             $dbDiscriminator = $segmentObject->dimension->getDbDiscriminator();
 
