@@ -398,13 +398,13 @@ class Segment
         $segment = $this->getSegmentByName($name);
         $sqlName = $segmentObject->getSqlSegment();
 
-        $joina = null;
+        $joinTable = null;
         if ($segmentObject->dimension && $segmentObject->dimension->getDbColumnJoin()) {
             $join = $segmentObject->dimension->getDbColumnJoin();
+            $dbDiscriminator = $segmentObject->dimension->getDbDiscriminator();
 
-            if ($join instanceof ActionNameJoin &&
-                $segmentObject->dimension->getDbDiscriminator()) {
-                $actionType = $segmentObject->dimension->getDbDiscriminator()->getValue();
+            if ($join instanceof ActionNameJoin && $dbDiscriminator) {
+                $actionType = $dbDiscriminator->getValue();
                 $value = Tracker\TableLogAction::normaliseActionString($actionType, $value);
 
                 if ($matchType == SegmentExpression::MATCH_EQUAL || $matchType == SegmentExpression::MATCH_NOT_EQUAL) {
@@ -420,20 +420,20 @@ class Segment
                             $idAction = null;
                         }
                     }
-                    return array($sqlName, $matchType, $idAction, $joina);
+                    return array($sqlName, $matchType, $idAction, null);
                 }
             }
 
             $tableAlias = $join->getTable() . '_segment_' . str_replace('.', '', $sqlName); // we append alias since an archive query may add the table with a different join. we could eg add $table_$segmentName but then we would join an extra table per segment when we ideally want to join each table only once. However, we still need to see which table/column it joins to join it accurately each table extra if the same table is joined with different columns;
-            $joina = [
+            $joinTable = [
                 'table' => $join->getTable(),
                 'tableAlias' => $tableAlias,
                 'field' => $tableAlias . '.' . $join->getTargetColumn(),
                 'joinOn' => $sqlName . ' = ' . $tableAlias . '.' . $join->getColumn()
             ];
 
-            if ($segmentObject->dimension->getDbDiscriminator()) {
-                $joina['discriminator'] = $tableAlias . '.'. $segmentObject->dimension->getDbDiscriminator()->getColumn() . ' = "'.  $segmentObject->dimension->getDbDiscriminator()->getValue() . '"';
+            if ($dbDiscriminator) {
+                $joinTable['discriminator'] = $tableAlias . '.'. $dbDiscriminator->getColumn() . ' = "'.  $dbDiscriminator->getValue() . '"';
             }
         }
 
@@ -468,9 +468,8 @@ class Segment
             $query = $segmentObj->getSelectQuery($select, $from, implode(' AND ', $where), $bind);
             $logQueryBuilder->forceInnerGroupBySubselect($forceGroupByBackup);
 
-            return ['log_visit.idvisit', SegmentExpression::MATCH_ACTIONS_NOT_CONTAINS, $query, $joina];
+            return ['log_visit.idvisit', SegmentExpression::MATCH_ACTIONS_NOT_CONTAINS, $query, null];
         }
-
 
         if ($matchType != SegmentExpression::MATCH_IS_NOT_NULL_NOR_EMPTY
             && $matchType != SegmentExpression::MATCH_IS_NULL_OR_EMPTY) {
@@ -483,7 +482,7 @@ class Segment
             if (isset($segment['sqlFilter'])) {
                 $value = call_user_func($segment['sqlFilter'], $value, $segment['sqlSegment'], $matchType, $name);
 
-                if(is_null($value)) { // null is returned in TableLogAction::getIdActionFromSegment()
+                if (is_null($value)) { // null is returned in TableLogAction::getIdActionFromSegment()
                     return array(null, $matchType, null, null);
                 }
 
@@ -492,11 +491,12 @@ class Segment
                 if (is_array($value) && isset($value['SQL'])) {
                     // Special case: returned value is a sub sql expression!
                     $matchType = SegmentExpression::MATCH_ACTIONS_CONTAINS;
+                    $joinTable = null;
                 }
             }
         }
 
-        return array($sqlName, $matchType, $value, $joina);
+        return array($sqlName, $matchType, $value, $joinTable);
     }
 
     /**
