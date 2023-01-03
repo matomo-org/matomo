@@ -29,7 +29,7 @@
         "PHPFPMWarningNginx": "PHP FPM vil ignorere .htaccess-regler for .php-filer. For å forsikre at sensitive filer ikke kan nås direkte anbefales det å utelukke gitte mapper fra å bli håndtert av PHP FPM. Mer informasjon er å finne i %1$soffisielt tjeneroppsett for NGNIX-tjener%2$s.",
         "PrivateDirectoryInternetDisabled": "Kunne ikke sjekke om følgende nettadresser kan nås, fordi Internett-funksjoner er avskrudd på denne Matomo-en.",
         "PrivateDirectoryIsAccessible": "Nettadressene ovenfor kan nås via nettleseren, men de bør IKKE være tilfelle. Å tillate dette kan være en sikkerhetsrisiko siden innholdet kan tilkjennegi info om din tjener og kanskje også brukerne dine. Begrens tilgangen til dem.",
-        "PrivateDirectoryManualCheck": "Åpne nettadressene manuelt i en nettleser for å finne ut hvem som har tilgang. Hvis du kan, kan det hende du må endre tjeneroppsettet, siden disse filene/mappene ikke bør være tilgjengelige via en nettleser fra Internett eller intranett.",
+        "PrivateDirectoryManualCheck": "Åpne nettadressene manuelt i en nettleser for å finne ut hvem som har tilgang. Det kan det hende du må endre tjeneroppsettet hvis du har tilgang til det, siden disse filene/mappene ikke bør være tilgjengelige via en nettleser fra Internett eller intranett.",
         "RecommendedPrivateDirectories": "Anbefalte private mapper",
         "RequiredPrivateDirectories": "Påkrevde private mapper",
         "Sections": "Seksjoner",

@@ -29,6 +29,7 @@
         "InvalidNonceToken": "Bir kod uyuşmazlığı nedeniyle form güvenliği sağlanamadı. Lütfen formu yeniden yükleyin ve çerezlerin açık olup olmadığını denetleyin.",
         "InvalidNonceUnexpectedReferrer": "Yönlendiren (referrer) üst bilgisi beklenenden farklı olduğundan form güvenliği sağlanamadı. Bu bilginin doğru gönderilip gönderilmediğini denetleyin.",
         "InvalidOrExpiredToken": "Kod geçersiz ya da süresi dolmuş.",
+        "InvalidOrExpiredTokenV2": "Parola zaten ayarlanmış ya da bağlantının süresi dolmuş.",
         "InvalidUsernameEmail": "Kullanıcı adı ya da e-posta adresi geçersiz.",
         "InvitationDeclineBody": "Bu çağrı reddedilsin mi?",
         "InvitationDeclineTitle": "Çağrıyı reddet",

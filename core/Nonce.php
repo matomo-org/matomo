@@ -233,7 +233,7 @@ class Nonce
         }
 
         if (!self::verifyNonce($nonceName, $nonce, $expectedReferrerHost)) {
-            throw new \Exception(Piwik::translate('General_ExceptionNonceMismatch'));
+            throw new \Exception(Piwik::translate('General_ExceptionSecurityCheckFailed'));
         }
 
         self::discardNonce($nonceName);

@@ -304,15 +304,27 @@ class ArchiveSelector
                                   AND " . $whereNameIs . "
                              ORDER BY ts_archived ASC"; // ascending order so we use the latest data found
 
+        // We want to fetch as many archives at once as possible instead of fetching each period individually
+        // eg instead of issueing one query per day we'll merge all the IDs of a given month into one query
+        // we group by YYYY-MM as we have one archive table per month
+        $archiveIdsPerMonth = [];
+        foreach ($archiveIds as $period => $ids) {
+            $yearMonth = substr($period, 0, 7); // eg 2022-11
+            if (empty($archiveIdsPerMonth[$yearMonth])) {
+                $archiveIdsPerMonth[$yearMonth] = [];
+            }
+            $archiveIdsPerMonth[$yearMonth] = array_merge($archiveIdsPerMonth[$yearMonth], $ids);
+        }
+
         // get data from every table we're querying
         $rows = array();
-        foreach ($archiveIds as $period => $ids) {
+        foreach ($archiveIdsPerMonth as $yearMonth => $ids) {
             if (empty($ids)) {
-                throw new Exception("Unexpected: id archive not found for period '$period' '");
+                throw new Exception("Unexpected: id archive not found for period '$yearMonth' '");
             }
 
-            // $period = "2009-01-04,2009-01-04",
-            $date = Date::factory(substr($period, 0, 10));
+            // $yearMonth = "2022-11",
+            $date = Date::factory($yearMonth . '-01');
 
             $isNumeric = $archiveDataType === 'numeric';
             if ($isNumeric) {
@@ -321,6 +333,7 @@ class ArchiveSelector
                 $table = ArchiveTableCreator::getBlobTable($date);
             }
 
+            $ids      = array_map('intval', $ids);
             $sql      = sprintf($getValuesSql, $table, implode(',', $ids));
             $dataRows = $db->fetchAll($sql, $bind);
 
