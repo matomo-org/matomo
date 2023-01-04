@@ -201,137 +201,12 @@ class ArchivingHelper
     {
         $rowsProcessed = 0;
 
-        // Group data for page views
-        // This would normally be done by the query, but is being done here for performance reasons.
-        if ($isPages) {
-            $data = [];
-            $goalVisitPages = [];
-
-            while ($row = $resultSet->fetch()) {
-
-                if (!isset($row['idaction']) || !isset($row['type'])) {
-                    continue;
-                }
-
-                $key = $row['idgoal'].'_'.$row['idvisit'].'_'.$row['idaction'];
-                $gvpKey = $row['idgoal'].'_'.$row['idvisit'];
-
-                // Count the pages viewed before the idgoal / visit conversion
-                if (!array_key_exists($gvpKey, $goalVisitPages)) {
-                    $goalVisitPages[$gvpKey] = [$row['idaction']];
-                } else {
-                    $goalVisitPages[$gvpKey][] = $row['idaction'];
-                }
-
-                if (!array_key_exists($key, $data)) {
-                    $data[$key] = [
-                        'idgoal' => $row['idgoal'],
-                        'idvisit' => $row['idvisit'],
-                        'idaction' => $row['idaction'],
-                        'type' => $row['type'],
-                        PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_ATTRIB => 1,
-                        PiwikMetrics::INDEX_GOAL_NB_VISITS_CONVERTED => 1,
-                        PiwikMetrics::INDEX_GOAL_REVENUE =>
-                            ($row[PiwikMetrics::INDEX_GOAL_REVENUE] !== null ? round($row[PiwikMetrics::INDEX_GOAL_REVENUE], 2) : null),
-                        PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL =>
-                            ($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL] !== null ? round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL], 2) : null),
-                        PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX =>
-                            ($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX] !== null ? round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX], 2) : null),
-                        PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING =>
-                            ($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING] !== null ? round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING], 2) : null),
-                        PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT =>
-                            ($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT] !== null ? round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT], 2) : null),
-                        PiwikMetrics::INDEX_GOAL_ECOMMERCE_ITEMS =>
-                            ($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_ITEMS] !== null ? round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_ITEMS], 2) : null),
-                        PiwikMetrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE => 0,
-                        PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_UNIQ => 0,
-                        PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS => 1
-                    ];
-                } else {
-                    $data[$key][PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_ATTRIB]++;
-                    $data[$key][PiwikMetrics::INDEX_GOAL_NB_VISITS_CONVERTED]++;
-                    $data[$key][PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS]++;
-                    if ($row[PiwikMetrics::INDEX_GOAL_REVENUE] !== null) {
-                        if ($data[$key][PiwikMetrics::INDEX_GOAL_REVENUE] === null) {
-                            $data[$key][PiwikMetrics::INDEX_GOAL_REVENUE] = round($row[PiwikMetrics::INDEX_GOAL_REVENUE], 2);
-                        } else {
-                            $data[$key][PiwikMetrics::INDEX_GOAL_REVENUE] += round($row[PiwikMetrics::INDEX_GOAL_REVENUE], 2);
-                        }
-                    }
-
-                    if ($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL] !== null) {
-                        if ($data[$key][PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL] === null) {
-                            $data[$key][PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL] = round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL], 2);
-                        } else {
-                            $data[$key][PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL] += round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL], 2);
-                        }
-                    }
-                    if ($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX] !== null) {
-                        if ($data[$key][PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX] === null) {
-                            $data[$key][PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX] = round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX], 2);
-                        } else {
-                            $data[$key][PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX] += round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX], 2);
-                        }
-                    }
-                    if ($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING] !== null) {
-                        if ($data[$key][PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING] === null) {
-                            $data[$key][PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING] = round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING], 2);
-                        } else {
-                            $data[$key][PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING] += round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING], 2);
-                        }
-                    }
-                    if ($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT] !== null) {
-                        if ($data[$key][PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT] === null) {
-                            $data[$key][PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT] = round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT], 2);
-                        } else {
-                            $data[$key][PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT] += round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT], 2);
-                        }
-                    }
-                    if ($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_ITEMS] !== null) {
-                        if ($data[$key][PiwikMetrics::INDEX_GOAL_ECOMMERCE_ITEMS] === null) {
-                            $data[$key][PiwikMetrics::INDEX_GOAL_ECOMMERCE_ITEMS] = round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_ITEMS], 2);
-                        } else {
-                            $data[$key][PiwikMetrics::INDEX_GOAL_ECOMMERCE_ITEMS] += round($row[PiwikMetrics::INDEX_GOAL_ECOMMERCE_ITEMS], 2);
-                        }
-                    }
-                }
-
-            }
-
-            // Add the pages viewed before conversion
-            $uniquer = [];
-            foreach ($data as $k => $row) {
-                $gvpKey = $row['idgoal'].'_'.$row['idvisit'];
-                if (array_key_exists($gvpKey, $goalVisitPages)) {
-                    $data[$k][PiwikMetrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE] = count($goalVisitPages[$gvpKey]);
-
-                    if (in_array($row['idaction'], $goalVisitPages[$gvpKey])
-                        && (!array_key_exists($gvpKey, $uniquer) || !in_array($row['idaction'], $uniquer[$gvpKey]))) {
-                        $data[$k][PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_UNIQ] = 1;
-                        $uniquer[$gvpKey][] = $row['idaction'];
-                    }
-                }
-            }
-
-            // Data array - for pages
-            foreach ($data as $row) {
-                if (self::updateActionsTableRowWithGoals($row, $isPages)) {
-                    $rowsProcessed++;
-                }
-            }
-
-        } else {
-
-            // Results set - for entry
-            while ($row = $resultSet->fetch()) {
-                if (self::updateActionsTableRowWithGoals($row, $isPages)) {
-                    $rowsProcessed++;
-                }
-            }
-
-        }
-
-        return $rowsProcessed;
+         while ($row = $resultSet->fetch()) {
+             if (self::updateActionsTableRowWithGoals($row, $isPages)) {
+                 $rowsProcessed++;
+             }
+         }
+         return $rowsProcessed;
     }
 
     /**
@@ -385,28 +260,23 @@ class ArchivingHelper
              return false;
         }
 
-        // Calculate adjusted revenue and conversions for page view goals
         if ($isPages &&
             isset($row[PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_ATTRIB]) &&
             isset($row[PiwikMetrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE]))
         {
-
-            if ($row[PiwikMetrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE] > 0) {
-
-                $row[PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_ATTRIB] = Piwik::getQuotientSafe(
-                    $row[PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS],
-                    $row[PiwikMetrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE],
-                    GoalManager::REVENUE_PRECISION + 2);
-
-                if (isset($row[PiwikMetrics::INDEX_GOAL_REVENUE])) {
-                    $row[PiwikMetrics::INDEX_GOAL_REVENUE_ATTRIB] = Piwik::getQuotientSafe(
-                        $row[PiwikMetrics::INDEX_GOAL_REVENUE],
-                        $row[PiwikMetrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE],
-                        GoalManager::REVENUE_PRECISION + 2);
-                }
-            }
-
+            /**
+             * Ensures this metric is available. It will be calculated later using a filter.
+             * @see \Piwik\Plugins\Goals\DataTable\Filter\CalculateConversionPageRate
+             */
             $row[PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_PAGE_RATE] = 0;
+        }
+
+        if (isset($row[PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_ATTRIB])) {
+            $row[PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_ATTRIB] = (float) $row[PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_ATTRIB];
+        }
+
+        if (isset($row[PiwikMetrics::INDEX_GOAL_REVENUE_ATTRIB])) {
+            $row[PiwikMetrics::INDEX_GOAL_REVENUE_ATTRIB] = (float) $row[PiwikMetrics::INDEX_GOAL_REVENUE_ATTRIB];
         }
 
         if (!$isPages) {
@@ -424,17 +294,15 @@ class ArchivingHelper
 
                 // Calculate revenue per entry
                 if (isset($row[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY])) {
-                    $row[PiwikMetrics::INDEX_GOAL_REVENUE_PER_ENTRY] = Piwik::getQuotientSafe(
+                    $row[PiwikMetrics::INDEX_GOAL_REVENUE_PER_ENTRY] = (float) Piwik::getQuotientSafe(
                         $row[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY],
                         $nbEntrances,
                         GoalManager::REVENUE_PRECISION + 1);
+
+                    $row[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY] = (float) $row[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY];
                 }
             }
 
-        }
-
-        if (isset($row[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY])) {
-            $row[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY] = (float) $row[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY];
         }
 
         // Get goals column
@@ -451,6 +319,7 @@ class ArchivingHelper
         // Find metric columns in the goal query row and add them to the actions data table row
         foreach ($possibleMetrics as $metricKey => $columnName) {
             if (isset($row[$metricKey])) {
+
                 // Add metric
                 if (!isset($goalsColumn[$row['idgoal']][$metricKey])) {
                     $goalsColumn[$row['idgoal']][$metricKey] = $row[$metricKey];

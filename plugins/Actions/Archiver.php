@@ -8,12 +8,15 @@
  */
 namespace Piwik\Plugins\Actions;
 
+use Piwik\API\Request;
+use Piwik\Cache;
 use Piwik\Config\GeneralConfig;
 use Piwik\DataArray;
 use Piwik\DataTable;
 use Piwik\Metrics as PiwikMetrics;
 use Piwik\RankingQuery;
 use Piwik\Tracker\Action;
+use Piwik\Tracker\GoalManager;
 
 /**
  * Class encapsulating logic to process Day/Period Archiving for the Actions reports
@@ -468,8 +471,27 @@ class Archiver extends \Piwik\Plugin\Archiver
      */
     protected function archiveDayActionsGoals(int $rankingQueryLimit): void
     {
-        $this->archiveDayActionsGoalsPages($rankingQueryLimit,true);
-        $this->archiveDayActionsGoalsPages($rankingQueryLimit,false);
+
+        $site = $this->getProcessor()->getParams()->getSite();
+
+        if (!\Piwik\Common::isGoalPluginEnabled() ||
+            GeneralConfig::getConfigValue('disable_archive_actions_goals', $site->getId())) {
+            return;
+        }
+
+        $goals = $this->getGoalsForSite($site->getId());
+
+        // Add orders and abandoned cart codes if the site is enabled for ecommerce
+        if ($site->isEcommerceEnabled()) {
+            $goals[] = GoalManager::IDGOAL_CART;
+            $goals[] = GoalManager::IDGOAL_ORDER;
+        }
+
+        foreach ($goals as $idGoal) {
+            $this->archiveDayActionsGoalsPages(true, $idGoal);
+            $this->archiveDayActionsGoalsPages(false, $idGoal);
+        }
+
         $this->archiveDayActionsGoalsPagesEntry($rankingQueryLimit, true);
         $this->archiveDayActionsGoalsPagesEntry($rankingQueryLimit, false);
     }
@@ -477,24 +499,43 @@ class Archiver extends \Piwik\Plugin\Archiver
     /**
      * Query goal page view data and update actions data table
      *
-     * @param int   $rankingQueryLimit
      * @param bool  $isUrl              If true then query goal data by url, else by name
+     * @param int   $idGoal             Goal to archive
      *
      * @return int|null Count of records processed
      * @throws \Exception
      */
-    protected function archiveDayActionsGoalsPages(int $rankingQueryLimit, bool $isUrl): ?int
+    protected function archiveDayActionsGoalsPages(bool $isUrl, int $idGoal): ?int
     {
-        if (GeneralConfig::getConfigValue('disable_archive_actions_goals', $this->getProcessor()->getParams()->getSite()->getId())) {
-            return null;
-        }
         $linkField = ($isUrl ? 'idaction_url' : 'idaction_name');
-        $resultSet = $this->getLogAggregator()->queryConversionsByPageView($linkField, $rankingQueryLimit);
+        $resultSet = $this->getLogAggregator()->queryConversionsByPageView($linkField, $idGoal);
         if (!$resultSet) {
             return null;
         }
-
         return ArchivingHelper::updateActionsTableWithGoals($resultSet, true);
+    }
+
+    /**
+     * Get a list of goal ids for a site
+     *
+     * @param string $idSite
+     *
+     * @return array
+     */
+    private function getGoalsForSite(string $idSite) : array
+    {
+        $cache = Cache::getTransientCache();
+        $key   = 'ActionArchives_allGoalIds_' . $idSite;
+
+        if ($cache->contains($key)) {
+            return $cache->fetch($key);
+        }
+
+        $siteGoals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
+        $goalIds = array_column($siteGoals, 'idgoal');
+
+        $cache->save($key, $goalIds);
+        return $goalIds;
     }
 
     /**
