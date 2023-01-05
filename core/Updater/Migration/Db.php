@@ -87,4 +87,9 @@ abstract class Db extends Migration
      */
     const ERROR_CODE_MAX_EXECUTION_TIME_EXCEEDED_SORT_ABORTED = 1028;
 
+    /**
+     * MySQL server has gone away
+     */
+    const ERROR_CODE_MYSQL_SERVER_HAS_GONE_AWAY = 2006;
+
 }

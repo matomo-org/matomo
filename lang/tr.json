@@ -441,6 +441,7 @@
         "SmtpServerAddress": "SMTP sunucu adresi",
         "SmtpUsername": "SMTP kullanıcı adı",
         "Source": "Kaynak",
+        "SparklineTooltipUsedPeriod": "Çizelgedeki her veri noktası bir %s ögesini temsil eder.",
         "StatisticsAreNotRecorded": "Matomo ziyaretçi İzlemesi şu anda devre dışı! config/config.ini.php dosyasındaki record_statistics seçeneğinin değerini 1 yaparak izlemeyi yeniden etkinleştirin.",
         "Subtotal": "Ara toplam",
         "Summary": "Özet",

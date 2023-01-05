@@ -10,6 +10,7 @@
 
 namespace Piwik\Updates;
 
+use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Db;
 use Piwik\Common;
 use Piwik\Updater;
@@ -44,17 +45,36 @@ class Updates_5_0_0_b1 extends PiwikUpdates
 
     public function getMigrations(Updater $updater)
     {
+        $migrations = $this->getUpdateArchiveIndexMigrations();
+
         if ($this->requiresUpdatedLogVisitTableIndex()) {
-            return $this->getLogVisitTableMigrations();
+            return $this->getLogVisitTableMigrations($migrations);
         }
 
-        return [];
+        return $migrations;
     }
 
-    private function getLogVisitTableMigrations()
+    private function getUpdateArchiveIndexMigrations()
     {
         $migrations = [];
 
+        $tables = ArchiveTableCreator::getTablesArchivesInstalled('numeric');
+        foreach ($tables as $table) {
+            $migrations[] = $this->migration->db->sql(sprintf('DELETE FROM `%s` WHERE ts_archived is null', $table));
+            
+            $hasPrefix = strpos($table, 'archive') !== 0;
+            if ($hasPrefix) {
+                $table = Common::unprefixTable($table);
+            }
+            $migrations[] = $this->migration->db->dropIndex($table, 'index_idsite_dates_period');
+            $migrations[] = $this->migration->db->addIndex($table, ['idsite', 'date1', 'date2', 'period', 'name(6)'], 'index_idsite_dates_period');
+        }
+
+        return $migrations;
+    }
+
+    private function getLogVisitTableMigrations($migrations)
+    {
         $migrations[] = $this->migration->db->dropIndex('log_visit', $this->indexName);
 
         // Using the custom `sql` method instead of the `addIndex` method as it doesn't support DESC collation
