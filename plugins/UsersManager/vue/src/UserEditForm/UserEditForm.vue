@@ -523,7 +523,7 @@ export default defineComponent({
   },
   computed: {
     formTitle() {
-      return this.isAdd ? translate('UsersManager_AddNewUser') : '';
+      return this.isAdd ? translate('UsersManager_InviteNewUser') : '';
     },
     saveButtonLabel() {
       return this.isAdd
