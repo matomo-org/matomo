@@ -340,9 +340,9 @@ class Db
      * @param array $parameters Parameters to bind in the query, eg, `array(param1 => value1, param2 => value2)`.
      * @throws \Exception If there is a problem with the SQL or bind parameters.
      *
-     * @return string
+     * @return string|null
      */
-    public static function fetchOne(string $sql, array $parameters = []): string
+    public static function fetchOne(string $sql, array $parameters = []): ?string
     {
         try {
             self::logSql(__FUNCTION__, $sql, $parameters);
