@@ -3693,7 +3693,7 @@ if ($mysql) {
     });
 
     test("tracking", function() {
-        expect(183);
+        expect(185);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
@@ -4208,6 +4208,14 @@ if ($mysql) {
         window.onerror = oldOnError;
         // Testing JavaScriptErrorTracking END
 
+        // Tracking file protocol
+        tracker.setCustomUrl('file://Downloads/File.pdf');
+        tracker.trackPageView('FileProtocolShouldNotBeTracked');
+
+        tracker.enableFileTracking();
+        tracker.setCustomUrl('file://Downloads/AnotherFile.pdf');
+        tracker.trackPageView('FileProtocolShouldBeTrackedWhenEnabled');
+
         // add tracker
         _paq.push(["addTracker", null, 13]);
         var createdNewTracker = Piwik.getAsyncTracker(null, 13);
@@ -4225,7 +4233,7 @@ if ($mysql) {
             var countTrackingEvents = /<span\>([0-9]+)\<\/span\>/.exec(results);
             ok (countTrackingEvents, "countTrackingEvents is set");
             if(countTrackingEvents) {
-                equal( countTrackingEvents[1], "58", "count tracking events" );
+                equal( countTrackingEvents[1], "59", "count tracking events" );
             }
 
             // firing callback
@@ -4348,6 +4356,8 @@ if ($mysql) {
             ok( ! /ShouldNotHave_pf_1_2_3_4_5_6_7_8.*pf_net=1&pf_srv=2&pf_tfr=3&pf_dm1=4&pf_dm2=5&pf_onl=6/.test(results), 'setPagePerformanceTiming only sets 6 parameters in request');
             //  /check setPagePerformanceTiming function
 
+            ok( ! /action_name=FileProtocolShouldNotBeTracked/.test(results), 'file protocol should not be tracked by default');
+            ok( /action_name=FileProtocolShouldBeTrackedWhenEnabled/.test(results), 'file protocol should be tracked when enabled');
             start();
         }, 5000);
     });
