@@ -205,7 +205,6 @@
         "ExceptionInvalidRendererFormat": "'%1$s' 是不合法的。尝试以下任一来取代: %2$s 。",
         "ExceptionInvalidReportRendererFormat": "报表格式 %1$s 无效。尝试改为以下任一格式：%2$s。",
         "ExceptionInvalidStaticGraphType": "统计图形格式 '%1$s' 不正确，请用下面的代替: %2$s。",
-        "ExceptionInvalidToken": "口令无效。",
         "ExceptionLanguageFileNotFound": "没有语言文件 '%s'。",
         "ExceptionMethodNotFound": "'%1$s' 不存在或不适用于模块 '%2$s' 里。",
         "ExceptionMissingFile": "缺少文件: %s",
