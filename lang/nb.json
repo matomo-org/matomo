@@ -205,7 +205,6 @@
         "ExceptionInvalidRendererFormat": "Format «%1$s» for rendring er ikke gyldig. Prøv en av følgende istedenfor: %2$s.",
         "ExceptionInvalidReportRendererFormat": "Rapportformat «%1$s» er ikke gyldig. Prøv en av følgende istedenfor: %2$s.",
         "ExceptionInvalidStaticGraphType": "Statisk graftype «%1$s» er ikke gyldig. Prøv en av følgende istedenfor: %2$s.",
-        "ExceptionInvalidToken": "Autentiseringsnøkkel er ikke gyldig.",
         "ExceptionLanguageFileNotFound": "Fant ikke språkfilen «%s».",
         "ExceptionMethodNotFound": "Metoden «%1$s» eksisterer ikke eller er ikke tilgjengelig i modulen «%2$s».",
         "ExceptionMissingFile": "Mangler fil: %s",
