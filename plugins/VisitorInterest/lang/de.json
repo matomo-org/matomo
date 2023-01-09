@@ -7,18 +7,18 @@
         "Engagement": "Engagements",
         "NPages": "%s Seiten",
         "OnePage": "1 Seite",
-        "PluginDescription": "Berichte über die Interessen der Besucher: Anzahl besuchte Seiten, auf der Website verbrachte Zeit, Tage seit dem letzten Besuch, und mehr.",
+        "PluginDescription": "Besucherinteresse: Anzahl der aufgerufenen Seiten, Verweildauer auf der Webseite, Tage seit dem letzten Besuch und mehr.",
         "VisitNum": "Besuchsanzahl",
         "VisitsByDaysSinceLast": "Besuche pro Tage seit letztem Besuch",
         "VisitsPerDuration": "Besuche nach Besuchsdauer",
         "VisitsPerNbOfPages": "Besuche nach Seitenanzahl",
         "WidgetLengths": "Dauer der Besuche",
-        "WidgetLengthsDocumentation": "In diesem Bericht sehen Sie, wie viele Besuche eine bestimmte Gesamtzeit hatten. Zu Beginn wird der Bericht als Tagwolke angezeigt, häufigere Gesamtzeiten werden in einer größeren Schrift dargestellt.",
+        "WidgetLengthsDocumentation": "Wie viele Besuche eine bestimmte Gesamtdauer hatten. Zu Beginn wird der Bericht als Tagwolke angezeigt, bei der häufigere Gesamtzeiten in einer größeren Schrift dargestellt werden.",
         "WidgetPages": "Seiten pro Besuch",
-        "WidgetPagesDocumentation": "In diesem Bericht sehen Sie, wie viele Besuche eine bestimmte Anzahl an Seitenaufrufen umfassten. Zu Beginn wird der Bericht als Tagwolke angezeigt, häufigere Anzahlen werden in einer größeren Schrift dargestellt.",
+        "WidgetPagesDocumentation": "Wie viele Besuche eine bestimmte Anzahl an Seitenaufrufen umfassten. Zu Beginn wird der Bericht als Tagwolke angezeigt, bei der häufigere Anzahlen in einer größeren Schrift dargestellt werden.",
         "WidgetVisitsByDaysSinceLast": "Besuche nach Tage seit letztem Besuch",
-        "WidgetVisitsByDaysSinceLastDocumentation": "In diesem Bericht sehen Sie, wie viele Besuche von Besuchern gemacht wurden, deren letzter Besuch eine bestimmte Anzahl an Tagen zuvor stattfand.",
-        "WidgetVisitsByNumDocumentation": "In diesem Bericht sehen Sie, wie viele Besuche der n-te Besuch eines Besuches waren. Das bedeutet, der Besucher hat die Website mindestens n Mal besucht.",
+        "WidgetVisitsByDaysSinceLastDocumentation": "Wie viele Besuche registriert wurden von wiederkehrenden Besuchern, deren letzter Besuch eine bestimmte Anzahl an Tagen zuvor stattfand.",
+        "WidgetVisitsByNumDocumentation": "Die Anzahl Besucher, welche den n-te Besuch erreicht haben. Das heisst, die Anzahl Besucher welche Ihre Webseite in einer bestimmten Häufigkeit oder darüber hinaus besucht hat.",
         "visitsByVisitCount": "Besuche nach Besuchsanzahl"
     }
 }
