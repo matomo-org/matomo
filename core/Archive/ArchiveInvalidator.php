@@ -778,7 +778,7 @@ class ArchiveInvalidator
     private function getSegmentArchiving()
     {
         if (empty($this->segmentArchiving)) {
-            $this->segmentArchiving = new SegmentArchiving(StaticContainer::get('ini.General.process_new_segments_from'));
+            $this->segmentArchiving = new SegmentArchiving();
         }
         return $this->segmentArchiving;
     }
