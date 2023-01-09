@@ -205,7 +205,6 @@
         "ExceptionInvalidRendererFormat": "Format perender '%1$s' tidak valid. Cobalah salah satu format berikut ini: %2$s.",
         "ExceptionInvalidReportRendererFormat": "Format laporan '%1$s' tidak valid. Cobalah salah satu format berikut ini sebagai gantinya: %2$s.",
         "ExceptionInvalidStaticGraphType": "Jenis grafik statis '%1$s' tidak valid. Cobalah salah satu dari ini sebagai gantinya: %2$s.",
-        "ExceptionInvalidToken": "Token tidak valid.",
         "ExceptionLanguageFileNotFound": "Berkas bahasa '%s' tak ditemukan.",
         "ExceptionMethodNotFound": "Metode '%1$s' tidak ada atau tak tersedia di modul '%2$s'.",
         "ExceptionMissingFile": "Berkas hilang: %s",

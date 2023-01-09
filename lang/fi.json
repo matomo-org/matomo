@@ -195,7 +195,6 @@
         "ExceptionInvalidRendererFormat": "Muoto '%1$s' ei ole hyväksyttävä. Kokeile jotain seuraavista: %2$s.",
         "ExceptionInvalidReportRendererFormat": "Raportin formaatti '%1$s' on virheellinen. Yritä jotain seuraavista: %2$s.",
         "ExceptionInvalidStaticGraphType": "Staattisen graafin tyyppi '%1$s' ei kelpaa. Kokeile jotain seuraavista: %2$s.",
-        "ExceptionInvalidToken": "Avainta ei voi hyväksyä.",
         "ExceptionLanguageFileNotFound": "Kieltä %s ei löydy",
         "ExceptionMethodNotFound": "Metodia '%1$s' ei ole olemassa tai ei ole saatavilla moduulissa '%2$s'.",
         "ExceptionMissingFile": "Puuttuva tiedosto: %s",

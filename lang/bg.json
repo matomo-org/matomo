@@ -205,7 +205,6 @@
         "ExceptionInvalidRendererFormat": "Renderer формат '%1$s' не е валиден. Опитайте някоя от следните вместо това: %2$s.",
         "ExceptionInvalidReportRendererFormat": "Формат на доклада '%1$s' не е валиден. Опитайте вместо това някое от следните: %2$s.",
         "ExceptionInvalidStaticGraphType": "Графика от типа '%1$s' не е валидна. Опитайте вместо това някое от следните: %2$s.",
-        "ExceptionInvalidToken": "Знакът не е валиден.",
         "ExceptionLanguageFileNotFound": "Езиковия файл '%s' не бе намерен.",
         "ExceptionMethodNotFound": "Методът '%1$s' не съществува или не е наличен в модулът '%2$s'.",
         "ExceptionMissingFile": "Липсващ файл: %s",

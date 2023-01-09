@@ -169,7 +169,6 @@
         "ExceptionInvalidRendererFormat": "Formát vykresľovania '%1$s' je neplatný. Skúste namiesto toho použiť jeden z týchto: %2$s.",
         "ExceptionInvalidReportRendererFormat": "Formát správ '%1$s' je neplatný. Skúste namiesto toho použiť jeden z týchto: %2$s.",
         "ExceptionInvalidStaticGraphType": "Typ statického grafu '%1$s' neplatný. Skúste namiesto neho niektorý z nasledujúcich: %2$s.",
-        "ExceptionInvalidToken": "Bezpečnostný reťazec (token) nie je platný.",
         "ExceptionLanguageFileNotFound": "Jazykový súbor '%s' nebol nájdený.",
         "ExceptionMethodNotFound": "Metóda '%1$s' neexistuje alebo nie je dostupná v module '%2$s'.",
         "ExceptionMissingFile": "Chýba súbor: %s",

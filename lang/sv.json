@@ -205,7 +205,6 @@
         "ExceptionInvalidRendererFormat": "Renderingsformatet '%1$s' är inte giltigt. Prova med något av följande istället: %2$s.",
         "ExceptionInvalidReportRendererFormat": "Rapportens format '%1$s' är ogiltigt. Använd något av följande istället: %2$s.",
         "ExceptionInvalidStaticGraphType": "Den statiska graftypen '%1$s' är ogiltig. Prova någon av följande: %2$s.",
-        "ExceptionInvalidToken": "Säkerhetsbeviset är inte giltigt.",
         "ExceptionLanguageFileNotFound": "Språkfilen '%s' hittades inte.",
         "ExceptionMethodNotFound": "Metoden '%1$s' finns inte eller är inte tillgänglig i denna modulen '%2$s'.",
         "ExceptionMissingFile": "Fil saknas: %s",

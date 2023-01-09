@@ -39,6 +39,8 @@
         "ScopeDescriptionActionMoreInfo": "Përftimi mund të përcaktohet në mënyrë që vlera e përmasës vetjake të përftohet nga URL Faqeje, Titull Faqeje ose nga parametër kërkese ndaj URL Faqeje.",
         "ScopeDescriptionVisit": "Përmasat Vetjake te fushëveprimi 'Vizitë' mund të dërgohen tok me çfarëdo kërkese ndjekjeje dhe depozitohen te vizita.",
         "ScopeDescriptionVisitMoreInfo": "Nëse gjatë kohëzgjatjes së një vizite caktoni vlera të ndryshme për një përmasë të dhënë, do të përdoret vlera e fundit e caktuar.",
+        "ScopeTitleAction": "Përmasa Veprimi",
+        "ScopeTitleVisit": "Përmasa Vizitash",
         "XofYLeft": "Edhe %1$s nga %2$s përmasa"
     }
 }
