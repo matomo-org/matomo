@@ -158,10 +158,11 @@ abstract class SystemTestCase extends TestCase
      * Returns true if continuous integration running this request
      * Useful to exclude tests which may fail only on this setup
      */
-    public static function isTravisCI()
+    public static function isCIEnvironment(): bool
     {
         $travis = getenv('TRAVIS');
-        return !empty($travis);
+        $githubAction = getenv('CI');
+        return !empty($travis) ||!empty($githubAction);
     }
 
     public static function isMysqli()
