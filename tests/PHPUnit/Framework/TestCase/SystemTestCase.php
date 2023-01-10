@@ -155,6 +155,15 @@ abstract class SystemTestCase extends TestCase
     }
 
     /**
+     * @return bool
+     * @deprecated use isCIEnvironment instead
+     */
+    public static function isTravisCI(): bool
+    {
+        return self::isCIEnvironment();
+    }
+
+    /**
      * Returns true if continuous integration running this request
      * Useful to exclude tests which may fail only on this setup
      */
@@ -417,7 +426,7 @@ abstract class SystemTestCase extends TestCase
             $testName .= '_' . $options['testSuffix'];
         }
 
-        list($processedFilePath, $expectedFilePath) =
+        [$processedFilePath, $expectedFilePath] =
             $this->getProcessedAndExpectedPaths($testName, $apiId, $format = null, $compareAgainst = false);
 
         if (!array_key_exists('token_auth', $requestParams)) {
@@ -487,7 +496,7 @@ abstract class SystemTestCase extends TestCase
     {
         Manager::getInstance()->deleteAll(); // clearing the datatable cache here GREATLY speeds up system tests on travis CI
 
-        list($processedFilePath, $expectedFilePath) =
+        [$processedFilePath, $expectedFilePath] =
             $this->getProcessedAndExpectedPaths($testName, $apiId, $format = null, $compareAgainst);
 
         $originalGET = $_GET;
@@ -606,7 +615,7 @@ abstract class SystemTestCase extends TestCase
         $expectedFilename = $compareAgainst ? ('test_' . $compareAgainst) : $testName;
         $expectedFilename .= $filenameSuffix;
 
-        list($processedDir, $expectedDir) = static::getProcessedAndExpectedDirs();
+        [$processedDir, $expectedDir] = static::getProcessedAndExpectedDirs();
 
         return array($processedDir . $processedFilename, $expectedDir . $expectedFilename);
     }
