@@ -2,6 +2,7 @@
 
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\Diagnostics\Diagnostic\FileIntegrityCheck;
+use Piwik\Plugins\Diagnostics\Diagnostic\PhpVersionCheck;
 use Piwik\Plugins\Diagnostics\Diagnostic\RequiredPrivateDirectories;
 
 return [
@@ -91,5 +92,6 @@ return [
     'diagnostics.disabled'  => \DI\add([
         \DI\get(FileIntegrityCheck::class),
         \DI\get(RequiredPrivateDirectories::class),
+        \DI\get(PhpVersionCheck::class),
     ]),
 ];

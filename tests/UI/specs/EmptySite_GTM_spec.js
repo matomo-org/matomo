@@ -16,7 +16,9 @@ describe("EmptySite_GTM", function () {
     it('should show the tracking code if the website has no recorded data and GTM guide', async function () {
         const urlToTest = "?" + generalParams + "&module=CoreHome&action=index";
         await page.goto(urlToTest);
-
+        await page.evaluate(function(){
+            $('.site-without-data .card-title:eq(0)').html($('.site-without-data .card-title:eq(0)').html().replace('🚀', ':rocket:'));
+        });
         const pageElement = await page.$('.page');
         expect(await pageElement.screenshot()).to.matchImage('emptySiteDashboard');
     });

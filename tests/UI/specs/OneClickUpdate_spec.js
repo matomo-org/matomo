@@ -98,7 +98,9 @@ describe("OneClickUpdate", function () {
 
         await page.waitForSelector('.site-without-data', { visible: true });
         await page.waitForNetworkIdle();
-
+        await page.evaluate(function(){
+            $('.site-without-data .card-title:eq(0)').html($('.site-without-data .card-title:eq(0)').html().replace('🚀', ':rocket:'));
+        });
         const element  = await page.$('.site-without-data');
         expect(await element.screenshot()).to.matchImage('login');
     });
