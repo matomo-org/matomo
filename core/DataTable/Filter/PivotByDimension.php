@@ -405,7 +405,7 @@ class PivotByDimension extends BaseFilter
     }
 
     /**
-     * @param $columnRow
+     * @param Row $columnRow
      * @param $pivotColumn
      * @return false|mixed
      */

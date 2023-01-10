@@ -102,6 +102,21 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
     const GOALS_FULL_TABLE = 0;
 
     /**
+     * @var string
+     */
+    private $processOnlyIdGoal;
+
+    /**
+     * @var bool
+     */
+    private $isEcommerce;
+
+    /**
+     * @var mixed|null
+     */
+    private $goalsToProcess;
+
+    /**
      * Constructor.
      *
      * @param DataTable $table The table that will eventually filtered.

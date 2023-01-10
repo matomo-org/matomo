@@ -23,6 +23,22 @@ use Piwik\DataTable\BaseFilter;
  */
 class Limit extends BaseFilter
 {
+
+    /**
+     * @var int
+     */
+    public $offset;
+
+    /**
+     * @var int
+     */
+    public $limit;
+
+    /**
+     * @var bool
+     */
+    public $keepSummaryRow;
+
     /**
      * Constructor.
      *

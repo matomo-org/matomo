@@ -21,6 +21,11 @@ class RangeCheck extends BaseFilter
     public static $maximumValue = 100.0;
 
     /**
+     * @var string
+     */
+    private $columnToFilter;
+
+    /**
      * @param DataTable $table
      * @param string $columnToFilter name of the column to filter
      * @param float $minimumValue minimum value for range
