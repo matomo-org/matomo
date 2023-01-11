@@ -96,8 +96,6 @@ class DataCollection
      */
     private $periods;
 
-    private $segment;
-
     /**
      * The segment that was queried
      *
