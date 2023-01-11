@@ -52,7 +52,7 @@ class DataCollection
      * There is a special element '_metadata' in data rows that holds values treated
      * as DataTable metadata.
      */
-    private $data = array();
+    private $data = [];
 
     /**
      * The whole list of metric/record names that were used in the archive query.
@@ -99,12 +99,20 @@ class DataCollection
     private $segment;
 
     /**
+     * The segment that was queried
+     *
+     * @var \Piwik\Segment
+     */
+    private $segment;
+
+    /**
      * Constructor.
      *
      * @param array $dataNames @see $this->dataNames
      * @param string $dataType @see $this->dataType
      * @param array $sitesId @see $this->sitesId
      * @param \Piwik\Period[] $periods @see $this->periods
+     * @param \Piwik\Segment $segment @see $this->segment
      * @param array $defaultRow @see $this->defaultRow
      */
     public function __construct($dataNames, $dataType, $sitesId, $periods, $segment, $defaultRow = null)
@@ -300,7 +308,7 @@ class DataCollection
         if (isset($data[self::METADATA_CONTAINER_ROW_KEY])) {
             return $data[self::METADATA_CONTAINER_ROW_KEY];
         } else {
-            return array();
+            return [];
         }
     }
 
@@ -326,7 +334,7 @@ class DataCollection
      */
     private function createOrderedIndex($metadataNamesToIndexBy)
     {
-        $result = array();
+        $result = [];
 
         if (!empty($metadataNamesToIndexBy)) {
             $metadataName = array_shift($metadataNamesToIndexBy);
@@ -338,7 +346,7 @@ class DataCollection
             }
 
             if (empty($metadataNamesToIndexBy)) {
-                $result = array_fill_keys($indexKeyValues, array());
+                $result = array_fill_keys($indexKeyValues, []);
             } else {
                 foreach ($indexKeyValues as $key) {
                     $result[$key] = $this->createOrderedIndex($metadataNamesToIndexBy);
@@ -366,7 +374,7 @@ class DataCollection
             }
 
             if (!isset($currentLevel[$key])) {
-                $currentLevel[$key] = array();
+                $currentLevel[$key] = [];
             }
 
             $currentLevel = & $currentLevel[$key];
@@ -407,13 +415,11 @@ class DataCollection
     private function checkExpandedMethodPrerequisites()
     {
         if ($this->dataType != 'blob') {
-            throw new Exception("DataCollection: cannot call getExpandedDataTable with "
-                . "{$this->dataType} data types. Only works with blob data.");
+            throw new Exception("DataCollection: cannot call getExpandedDataTable with {$this->dataType} data types. Only works with blob data.");
         }
 
         if (count($this->dataNames) !== 1) {
-            throw new Exception("DataCollection: cannot call getExpandedDataTable with "
-                . "more than one record.");
+            throw new Exception("DataCollection: cannot call getExpandedDataTable with more than one record.");
         }
     }
 }
