@@ -34,9 +34,25 @@ use Piwik\Piwik;
  */
 class Truncate extends BaseFilter
 {
+
+    /**
+     * @var int
+     */
     protected $truncateAfter;
+
+    /**
+     * @var string|null
+     */
     protected $labelSummaryRow;
+
+    /**
+     * @var string|null
+     */
     protected $columnToSortByBeforeTruncating;
+
+    /**
+     * @var bool
+     */
     protected $filterRecursive;
 
     /**
