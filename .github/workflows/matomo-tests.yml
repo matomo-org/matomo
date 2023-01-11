@@ -1,3 +1,7 @@
+# Action for running tests
+# This file has been automatically created.
+# To recreate it you can run this command
+# ./console generate:test-action --php-versions="7.2,8.1" 
 name: Matomo Tests
 
 on:
@@ -20,6 +24,7 @@ permissions:
   repository-projects: none
   security-events: none
   statuses: none
+
 concurrency:
   group: php-${{ github.ref }}
   cancel-in-progress: true
@@ -34,10 +39,10 @@ jobs:
         php: [ '7.2', '8.1' ]
         adapter: [ 'PDO_MYSQL', 'MYSQLI' ]
         exclude:
-          - php: '8.1'
-            adapter: 'PDO_MYSQL'
           - php: '7.2'
             adapter: 'MYSQLI'
+          - php: '8.1'
+            adapter: 'PDO_MYSQL'
     steps:
       - uses: actions/checkout@v3
         with:
@@ -52,7 +57,6 @@ jobs:
           mysql-driver: ${{ matrix.adapter }}
           php-version: ${{ matrix.php }}
           redis-service: true
-
   Javascript:
     runs-on: ubuntu-20.04
     steps:
@@ -68,7 +72,6 @@ jobs:
           test-type: 'JS'
           php-version: '7.2'
           node-version: '12'
-
   Angular:
     runs-on: ubuntu-20.04
     steps:
@@ -84,7 +87,6 @@ jobs:
           test-type: 'Angular'
           node-version: '16'
           mysql-service: false
-
   UI:
     runs-on: ubuntu-20.04
     strategy:
@@ -101,10 +103,9 @@ jobs:
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
+          ui-test-options: '--num-test-groups=3 --test-group=${{ matrix.parts }}'
           test-type: 'UI'
           php-version: '7.2'
-          ui-test-options: '--num-test-groups=3 --test-group=${{ matrix.parts }}'
           node-version: '16'
           artifact-pass: ${{ secrets.ARTIFACTS_PASS }}
           redis-service: true
-
