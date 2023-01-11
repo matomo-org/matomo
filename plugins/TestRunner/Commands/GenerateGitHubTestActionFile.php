@@ -27,6 +27,7 @@ class GenerateGitHubTestActionFile extends ConsoleCommand
 
     protected $plugin = null;
     protected $phpVersions = null;
+    protected $dependentPlugins = null;
     protected $repoRootDirOverride = null;
     protected $forcePHPTests = false;
     protected $forceUITests = false;
@@ -37,8 +38,8 @@ class GenerateGitHubTestActionFile extends ConsoleCommand
         $this->setName(self::COMMAND_NAME)
              ->setDescription('Generates a github action workflow file for a plugin. The file can be auto-updating based on the parameters supplied.')
              ->addOption('plugin', null, InputOption::VALUE_REQUIRED, 'The plugin for whom a action yml file should be generated. If not provided yml file for core will be generated.')
-             ->addOption('php-versions', null, InputOption::VALUE_OPTIONAL,
-                "List of PHP versions to test against, ie, 7.2,8.1.")
+             ->addOption('php-versions', null, InputOption::VALUE_OPTIONAL, "List of PHP versions to test against, ie, 7.2,8.1.")
+             ->addOption('dependent-plugins', null, InputOption::VALUE_OPTIONAL, 'List of additional plugins that need to be checked out before running tests. Comma separated list. e.g. "matomo-org/plugin-CustomVariables,nickname/PluginName"')
              ->addOption('repo-root-dir', null, InputOption::VALUE_REQUIRED, "Path to the repo for whom a action yml file will be generated for.")
              ->addOption('force-php-tests', null, InputOption::VALUE_NONE, "Forces the presence of the PHP tests jobs for plugin builds.")
              ->addOption('force-ui-tests', null, InputOption::VALUE_NONE, "Forces the presence of the UI tests jobs for plugin builds.")
@@ -51,6 +52,7 @@ class GenerateGitHubTestActionFile extends ConsoleCommand
 
         $this->plugin = $input->getOption('plugin');
         $this->phpVersions = array_filter(explode(',', $input->getOption('php-versions')));
+        $this->dependentPlugins = array_filter(explode(',', $input->getOption('dependent-plugins')));
         $this->repoRootDirOverride = $input->getOption('repo-root-dir');
         $this->forcePHPTests = !!$input->getOption('force-php-tests');
         $this->forceUITests = !!$input->getOption('force-ui-tests');
@@ -98,6 +100,7 @@ class GenerateGitHubTestActionFile extends ConsoleCommand
 
         $template->assign('phpVersions', $this->phpVersions);
         $template->assign('enableRedis', $this->enableRedis);
+        $template->assign('dependentPlugins', $this->dependentPlugins);
         $template->assign('plugin', $this->plugin);
         $template->assign('hasJavaScriptTests', $this->isTargetPluginContainsJavaScriptTests());
         $template->assign('hasUITests', $this->isTargetPluginContainsUITests());
@@ -112,6 +115,8 @@ class GenerateGitHubTestActionFile extends ConsoleCommand
             $output->writeln("$filePath can not be written");
             return 1;
         }
+
+        $output->writeln('Action file written to ' . $filePath);
 
         return 0;
     }

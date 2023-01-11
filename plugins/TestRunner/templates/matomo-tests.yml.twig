@@ -2,7 +2,7 @@
 # Action for running tests
 # This file has been automatically created.
 # To recreate it you can run this command
-# ./console generate:test-action {% if plugin %}--plugin {{ plugin }} {% endif %}--php-versions="{{ phpVersions|join(',') }}" {% if enableRedis and plugin %}--enable-redis{% endif %}
+# ./console generate:test-action {% if plugin %}--plugin="{{ plugin }}" {% endif %}--php-versions="{{ phpVersions|join(',') }}" {% if enableRedis and plugin %}--enable-redis {% endif %}{% if dependentPlugins and plugin %}--dependent-plugins="{{ dependentPlugins|join(',') }}"{% endif %}
 
 name: {% if plugin %}Plugin {{ plugin }}{% else %}Matomo{% endif %} Tests
 
@@ -75,7 +75,7 @@ jobs:
       fail-fast: false
       matrix:
         php: [ '{{ phpVersions|join("', '") }}' ]
-        target: ['minimum_required_matomo', '4.x-dev']
+        target: ['minimum_required_matomo', 'maximum_supported_matomo']
     steps:
       - uses: actions/checkout@v3
         with:
@@ -89,6 +89,10 @@ jobs:
           test-type: 'PluginTests'
           matomo-test-branch: ${{ '{{' }} matrix.target {{ '}}' }}
           artifact-pass: ${{ '{{' }} secrets.ARTIFACTS_PASS {{ '}}' }}
+{% if dependentPlugins %}
+          dependent-plugins: '{{ dependentPlugins|join(',') }}'
+          github-token: ${{ '{{' }} secrets.TESTS_ACCESS_TOKEN || secrets.GITHUB_TOKEN {{ '}}' }}
+{% endif %}
 {% endif %}
 
 {%- if not plugin or hasJavaScriptTests %}
@@ -98,7 +102,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: ['minimum_required_matomo', '4.x-dev']
+        target: ['minimum_required_matomo', 'maximum_supported_matomo']
 {% endif %}
     steps:
       - uses: actions/checkout@v3
@@ -119,6 +123,10 @@ jobs:
           test-type: 'JS'
           php-version: '{{ phpVersions|first }}'
           node-version: '12'
+{% if dependentPlugins %}
+          dependent-plugins: '{{ dependentPlugins|join(',') }}'
+          github-token: ${{ '{{' }} secrets.TESTS_ACCESS_TOKEN || secrets.GITHUB_TOKEN {{ '}}' }}
+{% endif %}
 {% endif %}
 
 {%- if not plugin %}
@@ -139,6 +147,10 @@ jobs:
           test-type: 'Angular'
           node-version: '16'
           mysql-service: false
+{% if dependentPlugins %}
+          dependent-plugins: '{{ dependentPlugins|join(',') }}'
+          github-token: ${{ '{{' }} secrets.TESTS_ACCESS_TOKEN || secrets.GITHUB_TOKEN {{ '}}' }}
+{% endif %}
 {% endif %}
 
 {%- if not plugin or hasUITests %}
@@ -164,7 +176,7 @@ jobs:
         with:
 {% if plugin %}
           plugin-name: '{{ plugin }}'
-          matomo-test-branch: '4.x-dev'
+          matomo-test-branch: 'maximum_supported_matomo'
 {% else %}
           ui-test-options: '--num-test-groups=3 --test-group=${{ '{{' }} matrix.parts {{ '}}' }}'
 {% endif %}
@@ -172,6 +184,10 @@ jobs:
           php-version: '{{ phpVersions|first }}'
           node-version: '16'
           artifact-pass: ${{ '{{' }} secrets.ARTIFACTS_PASS {{ '}}' }}
+{% if dependentPlugins %}
+          dependent-plugins: '{{ dependentPlugins|join(',') }}'
+          github-token: ${{ '{{' }} secrets.TESTS_ACCESS_TOKEN || secrets.GITHUB_TOKEN {{ '}}' }}
+{% endif %}
 {% if enableRedis %}
           redis-service: true
 {% endif %}
