@@ -27,6 +27,7 @@ class ColumnCallbackDeleteRow extends BaseFilter
 {
     private $function;
     private $functionParams;
+    private $columnsToFilter;
 
     /**
      * Constructor.
@@ -39,7 +40,7 @@ class ColumnCallbackDeleteRow extends BaseFilter
      * @param array $functionParams deprecated - use an [anonymous function](http://php.net/manual/en/functions.anonymous.php)
      *                              instead.
      */
-    public function __construct($table, $columnsToFilter, $function, $functionParams = array())
+    public function __construct($table, $columnsToFilter, $function, $functionParams = [])
     {
         parent::__construct($table);
 

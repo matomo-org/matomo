@@ -33,6 +33,28 @@ use Piwik\Piwik;
  */
 class Truncate extends BaseFilter
 {
+
+    /**
+     * @var int
+     */
+    private $truncateAfter;
+
+    /**
+     * @var string|null
+     */
+    private $labelSummaryRow;
+
+    /**
+     * @var string|null
+     */
+    private $columnToSortByBeforeTruncating;
+
+    /**
+     * @var bool
+     */
+    private $filterRecursive;
+
+
     /**
      * Constructor.
      *

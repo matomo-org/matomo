@@ -96,6 +96,8 @@ class DataCollection
      */
     private $periods;
 
+    private $segment;
+
     /**
      * Constructor.
      *
@@ -143,11 +145,11 @@ class DataCollection
      * Set data for a specific site & period. If there is no data for the given site ID & period,
      * it is set to the default row.
      *
-     * @param int $idSite
-     * @param string $period eg, '2012-01-01,2012-01-31'
-     * @param string $name eg 'nb_visits'
-     * @param string $value eg 5
-     * @param array  $meta Optional metadata to add to the row
+     * @param int           $idSite
+     * @param string        $period eg, '2012-01-01,2012-01-31'
+     * @param string        $name   eg 'nb_visits'
+     * @param string        $value  eg 5
+     * @param array|null    $meta   Optional metadata to add to the row
      */
     public function set($idSite, $period, $name, $value, array $meta = null)
     {
