@@ -587,11 +587,6 @@ class Model
         $db->query(sprintf('UPDATE `%s` SET %s WHERE `login` = ?', $this->userTable, implode(', ', $set)), $bind);
     }
 
-    /**
-     * Note that this returns the token_auth which is as private as the password!
-     *
-     * @return array[] containing login, email and token_auth
-     */
     public function getUsersHavingSuperUserAccess()
     {
         $db = $this->getDb();
