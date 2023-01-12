@@ -24,7 +24,7 @@
         "AverageX": "Mitjana %s",
         "BackToPiwik": "Torna al Matomo",
         "Broken": "Trencat",
-        "BrokenDownReportDocumentation": "Es desglossa en diversos informes, que es mostren en punts brillants a la part inferior de la pàgina. Podeu ampliar els gràfics fent clic a l'informe que voleu veure.",
+        "BrokenDownReportDocumentation": "Es desglossa en diversos informes, que es mostren en minigràfics a la part inferior de la pàgina. Podeu ampliar els gràfics fent clic a l'informe que voleu veure.",
         "Cancel": "Cancel·la",
         "CannotUnzipFile": "No es pot descomprimir el fitxer %1$s: %2$s",
         "ChangeInX": "Canvi en %1$s",
