@@ -11,6 +11,7 @@
 	<row>moonOS</row>
 	<row>iPadOS</row>
 	<row>iOS</row>
+	<row>ZorinOS</row>
 	<row>Zenwalk</row>
 	<row>YunOS</row>
 	<row>Xubuntu</row>
@@ -29,5 +30,4 @@
 	<row>ThreadX</row>
 	<row>TencentOS</row>
 	<row>Symbian^3</row>
-	<row>Symbian OS Series 60</row>
 </result>
