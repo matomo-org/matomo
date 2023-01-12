@@ -119,9 +119,11 @@ jobs:
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
           if [[ ${{ steps.vars.outputs.islocalbranch }} ]]
           then
-            git fetch --depth=1 origin ${{ steps.vars.outputs.branch }}
-            git checkout ${{ steps.vars.outputs.branch }}
+            git fetch --depth=1 origin $BRANCH_NAME
+            git checkout $BRANCH_NAME
           fi
+        env:
+          BRANCH_NAME: ${{ steps.vars.outputs.branch }}
         if: steps.vars.outputs.branch != '' && steps.vuecheck.outputs.vue_modified == '1'
       - name: Build Vue Modules
         run: php ./console vue:build
