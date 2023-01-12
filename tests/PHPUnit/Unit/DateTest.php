@@ -446,7 +446,7 @@ class DateTest extends \PHPUnit\Framework\TestCase
      */
     public function test_isToday($tzString, $dateString, $isToday)
     {
-        $date = new \DateTime($dateString, (new \DateTimeZone($tzString)));
+        $date = new \DateTime($dateString, Date::getDateTimeZone($tzString));
         $period = Factory::build('day', $date->format('Y-m-d'));
         $periodDate = $period->getDateEnd()->setTimezone($tzString);
         $this->assertSame($isToday, $periodDate->isToday());
@@ -485,6 +485,14 @@ class DateTest extends \PHPUnit\Framework\TestCase
             'Pacific/Auckland',
             'Pacific/Apia',
             'Pacific/Kiritimati',
+            'UTF-1',
+            'UTF-5',
+            'UTF-8',
+            'UTF-12',
+            'UTF+1',
+            'UTF+5',
+            'UTF+8',
+            'UTF+12',
         ];
         $dates = [
             ['today', true],
@@ -586,5 +594,77 @@ class DateTest extends \PHPUnit\Framework\TestCase
         $this->expectExceptionMessage('Date::factoryInTimezone() should not be used with');
 
         Date::factoryInTimezone(time(), 'America/Toronto');
+    }
+
+    public function test_getDateTimeZone_default()
+    {
+        $timeZone = Date::getDateTimeZone();
+        $this->assertIsObject($timeZone);
+        $this->assertSame('UTC', $timeZone->getName());
+    }
+
+    public function test_getDateTimeZone_badString()
+    {
+        $timeZone = Date::getDateTimeZone('Meh');
+        $this->assertIsObject($timeZone);
+        $this->assertSame('UTC', $timeZone->getName());
+    }
+
+    public function test_getDateTimeZone_badStringNoDefault()
+    {
+        $timeZone = Date::getDateTimeZone('Meh', false);
+        $this->assertNull($timeZone);
+    }
+
+    /**
+     * @dataProvider getTestDataForGetDateTimeZoneTest
+     */
+    public function test_getDateTimeZone($tzString, $alternate = '')
+    {
+        $timeZone = Date::getDateTimeZone($tzString);
+        $this->assertIsObject($timeZone);
+        $this->assertSame($alternate ?: $tzString, $timeZone->getName());
+    }
+
+    public function getTestDataForGetDateTimeZoneTest()
+    {
+        return [
+            ['Pacific/Midway'],
+            ['Pacific/Honolulu'],
+            ['America/Anchorage'],
+            ['America/Los_Angeles'],
+            ['America/Denver'],
+            ['America/Chicago'],
+            ['America/New_York'],
+            ['America/Toronto'],
+            ['America/Puerto_Rico'],
+            ['America/Sao_Paulo'],
+            ['America/Noronha'],
+            ['Atlantic/Azores'],
+            ['Europe/London'],
+            ['UTC'],
+            ['Europe/Berlin'],
+            ['Europe/Kiev'],
+            ['Europe/Moscow'],
+            ['Asia/Dubai'],
+            ['Asia/Karachi'],
+            ['Asia/Dhaka'],
+            ['Asia/Bangkok'],
+            ['Asia/Shanghai'],
+            ['Asia/Tokyo'],
+            ['Australia/Sydney'],
+            ['Pacific/Efate'],
+            ['Pacific/Auckland'],
+            ['Pacific/Apia'],
+            ['Pacific/Kiritimati'],
+            ['UTC-1', 'Etc/GMT-1'],
+            ['UTC-5', 'Etc/GMT-5'],
+            ['UTC-8', 'Etc/GMT-8'],
+            ['UTC-12', 'Etc/GMT-12'],
+            ['UTC+1', 'Etc/GMT+1'],
+            ['UTC+5', 'Etc/GMT+5'],
+            ['UTC+8', 'Etc/GMT+8'],
+            ['UTC+12', 'Etc/GMT+12'],
+        ];
     }
 }
