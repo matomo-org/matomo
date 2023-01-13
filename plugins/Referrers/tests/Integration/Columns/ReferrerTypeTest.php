@@ -113,6 +113,9 @@ class ReferrerTypeTest extends IntegrationTestCase
             [Common::REFERRER_TYPE_CAMPAIGN,     $this->idSite2, $url . '?pk_campaign=test', $referrer],
             [Common::REFERRER_TYPE_CAMPAIGN,     $this->idSite3, $url . '?pk_campaign=test', $referrer],
 
+            // campaign parameters provided as array should simply be ignored (and not produce an error)
+            [Common::REFERRER_TYPE_DIRECT_ENTRY,     $this->idSite1, $url . '?pk_campaign[]=test', $referrer],
+
             [Common::REFERRER_TYPE_SEARCH_ENGINE, $this->idSite3, $url, 'http://google.com/search?q=piwik'],
 
             [Common::REFERRER_TYPE_SOCIAL_NETWORK, $this->idSite3, $url, 'https://twitter.com/matomo_org'],
