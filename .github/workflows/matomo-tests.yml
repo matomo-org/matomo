@@ -1,7 +1,8 @@
 # Action for running tests
 # This file has been automatically created.
 # To recreate it you can run this command
-# ./console generate:test-action --php-versions="7.2,8.1" 
+# ./console generate:test-action --php-versions="7.2,8.1"
+
 name: Matomo Tests
 
 on:
@@ -56,6 +57,8 @@ jobs:
           test-type: ${{ matrix.type }}
           mysql-driver: ${{ matrix.adapter }}
           php-version: ${{ matrix.php }}
+          artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
+          upload-artifacts: ${{ matrix.php == '7.2' }}
           redis-service: true
   Javascript:
     runs-on: ubuntu-20.04
@@ -107,5 +110,6 @@ jobs:
           test-type: 'UI'
           php-version: '7.2'
           node-version: '16'
-          artifact-pass: ${{ secrets.ARTIFACTS_PASS }}
+          artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
+          upload-artifacts: true
           redis-service: true

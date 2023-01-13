@@ -2,7 +2,13 @@
 # Action for running tests
 # This file has been automatically created.
 # To recreate it you can run this command
-# ./console generate:test-action {% if plugin %}--plugin="{{ plugin }}" {% endif %}--php-versions="{{ phpVersions|join(',') }}" {% if enableRedis and plugin %}--enable-redis {% endif %}{% if dependentPlugins and plugin %}--dependent-plugins="{{ dependentPlugins|join(',') }}"{% endif %}
+# ./console generate:test-action
+        {%- if plugin %} --plugin="{{ plugin }}"{% endif %}
+        {{- ' ' }}--php-versions="{{ phpVersions|join(',') }}"
+        {%- if enableRedis and plugin %} --enable-redis{% endif %}
+        {%- if dependentPlugins and plugin %} --dependent-plugins="{{ dependentPlugins|join(',') }}"{% endif %}
+        {%- if protectArtifacts %} --protect-artifacts{% endif %}
+
 
 name: {% if plugin %}Plugin {{ plugin }}{% else %}Matomo{% endif %} Tests
 
@@ -65,6 +71,11 @@ jobs:
           test-type: ${{ '{{' }} matrix.type {{ '}}' }}
           mysql-driver: ${{ '{{' }} matrix.adapter {{ '}}' }}
           php-version: ${{ '{{' }} matrix.php {{ '}}' }}
+          artifacts-pass: ${{ '{{' }} secrets.ARTIFACTS_PASS {{ '}}' }}
+          upload-artifacts: ${{ '{{' }} matrix.php == '{{ phpVersions|first }}' {{ '}}' }}
+{% if protectArtifacts %}
+          artifacts-protected: true
+{% endif %}
 {% if enableRedis %}
           redis-service: true
 {% endif %}
@@ -88,7 +99,11 @@ jobs:
           php-version: ${{ '{{' }} matrix.php {{ '}}' }}
           test-type: 'PluginTests'
           matomo-test-branch: ${{ '{{' }} matrix.target {{ '}}' }}
-          artifact-pass: ${{ '{{' }} secrets.ARTIFACTS_PASS {{ '}}' }}
+          artifacts-pass: ${{ '{{' }} secrets.ARTIFACTS_PASS {{ '}}' }}
+          upload-artifacts: ${{ '{{' }} matrix.php == '{{ phpVersions|first }}' && matrix.target == 'maximum_supported_matomo' {{ '}}' }}
+{% if protectArtifacts %}
+          artifacts-protected: true
+{% endif %}
 {% if dependentPlugins %}
           dependent-plugins: '{{ dependentPlugins|join(',') }}'
           github-token: ${{ '{{' }} secrets.TESTS_ACCESS_TOKEN || secrets.GITHUB_TOKEN {{ '}}' }}
@@ -183,7 +198,11 @@ jobs:
           test-type: 'UI'
           php-version: '{{ phpVersions|first }}'
           node-version: '16'
-          artifact-pass: ${{ '{{' }} secrets.ARTIFACTS_PASS {{ '}}' }}
+          artifacts-pass: ${{ '{{' }} secrets.ARTIFACTS_PASS {{ '}}' }}
+          upload-artifacts: true
+{% if protectArtifacts %}
+          artifacts-protected: true
+{% endif %}
 {% if dependentPlugins %}
           dependent-plugins: '{{ dependentPlugins|join(',') }}'
           github-token: ${{ '{{' }} secrets.TESTS_ACCESS_TOKEN || secrets.GITHUB_TOKEN {{ '}}' }}
