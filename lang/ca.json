@@ -441,6 +441,7 @@
         "SmtpServerAddress": "adreça del servidor SMTP",
         "SmtpUsername": "usuari SMTP",
         "Source": "Font",
+        "SparklineTooltipUsedPeriod": "Cada punt de dades del gràfic representa un %s.",
         "StatisticsAreNotRecorded": "El seguiment de visitants de Matomo està desactivat actualment! Torneu a activar el seguiment establint record_statistics = 1 al fitxer config/config.ini.php.",
         "Subtotal": "Subtotal",
         "Summary": "Resum",

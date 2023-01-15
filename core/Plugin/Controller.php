@@ -1006,7 +1006,7 @@ abstract class Controller
         }
 
         if ($tokenRequest !== $tokenUser) {
-            throw new NoAccessException(Piwik::translate('General_ExceptionInvalidToken'));
+            throw new NoAccessException(Piwik::translate('General_ExceptionSecurityCheckFailed'));
         }
     }
 

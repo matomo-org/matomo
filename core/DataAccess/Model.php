@@ -64,7 +64,6 @@ class Model
                        GROUP_CONCAT(idarchive, '.', value ORDER BY ts_archived DESC) as archives
                   FROM `$archiveTable`
                  WHERE name LIKE 'done%'
-                   AND ts_archived IS NOT NULL
                    AND `value` NOT IN (" . ArchiveWriter::DONE_ERROR . ")
               GROUP BY idsite, date1, date2, period, name HAVING count(*) > 1";
 
@@ -106,14 +105,6 @@ class Model
         }
 
         return $archiveIds;
-    }
-
-    public function getPlaceholderArchiveIds($archiveTable)
-    {
-        $sql = "SELECT DISTINCT idarchive FROM `$archiveTable` WHERE ts_archived IS NULL";
-        $result = Db::fetchAll($sql);
-        $result = array_column($result, 'idarchive');
-        return $result;
     }
 
     public function updateArchiveAsInvalidated($archiveTable, $idSites, $allPeriodsToInvalidate, Segment $segment = null,
@@ -461,7 +452,6 @@ class Model
                          AND arc1.period = ?
                          AND ($sqlWhereArchiveName)
                          $timeStampWhere
-                         AND arc1.ts_archived IS NOT NULL
                      ORDER BY arc1.ts_archived DESC, arc1.idarchive DESC";
 
         $results = Db::fetchAll($sqlQuery, $bindSQL);

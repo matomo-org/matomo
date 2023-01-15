@@ -77,7 +77,7 @@ class TwoFactorAuth extends \Piwik\Plugin
         $translations[] = 'TwoFactorAuth_GenerateNewRecoveryCodes';
         $translations[] = 'TwoFactorAuth_GenerateNewRecoveryCodesInfo';
         $translations[] = 'TwoFactorAuth_RecoveryCodesRegenerated';
-        $translations[] = 'General_ExceptionNonceMismatch';
+        $translations[] = 'General_ExceptionSecurityCheckFailed';
         $translations[] = 'TwoFactorAuth_TwoFAShort';
         $translations[] = 'TwoFactorAuth_TwoFactorAuthenticationIntro';
         $translations[] = 'TwoFactorAuth_TwoFactorAuthenticationIsEnabled';
