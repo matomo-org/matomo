@@ -1172,9 +1172,13 @@ class Date
         try {
             $timeZone = new \DateTimeZone($tzString);
         } catch (\Throwable $th) {
-            // Check if this is one of the UTF-5, UTF-3, ... timezones that we allow. If so, try using the GMT offset
+            // Check if this is one of the UTC-5, UTC-3, ... timezones that we allow. If so, try using the GMT offset
             if (preg_match('/^UTC\b(\+|\-)\d+$/i', $tzString)) {
-                $timeZone =  self::getDateTimeZone('Etc/GMT' . substr($tzString, 3), false);
+                try {
+                    $timeZone = self::getDateTimeZone('Etc/GMT' . substr($tzString, 3), false);
+                } catch (\Throwable $th) {
+                    // Note some Etc/GMT timezones are invalid in newer timezone dbs so we need to ignore possible errors
+                }
             }
         }
 
