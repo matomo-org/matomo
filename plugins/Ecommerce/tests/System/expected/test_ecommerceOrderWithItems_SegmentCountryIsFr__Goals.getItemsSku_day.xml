@@ -8,6 +8,7 @@
 		<avg_price>1111.11</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productSku==SKU2</segment>
 	</row>
 	<row>
 		<label>SKU VERY nice indeed</label>
@@ -17,5 +18,6 @@
 		<avg_price>777</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productSku==SKU+VERY+nice+indeed</segment>
 	</row>
 </result>
