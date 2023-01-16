@@ -118,7 +118,6 @@
         "ExceptionInvalidPeriod": "Razdoblje '%1$s' nije podržano. Pokušaj sa nekim od sljedećih: %2$s",
         "ExceptionInvalidRendererFormat": "Format prikaza '%1$s' nije valjan. Pokušaj sa nekim od sljedećih: %2$s.",
         "ExceptionInvalidReportRendererFormat": "Format izvještaja '%1$s' nije valjan. Pokušaj sa nekim od sljedećih: %2$s.",
-        "ExceptionInvalidToken": "Oznaka nije valjana.",
         "ExceptionLanguageFileNotFound": "Jezična datoteka '%s' nije pronađena.",
         "ExceptionMethodNotFound": "Metoda '%1$s' ne postoji ili nije dostupna u modulu '%2$s'.",
         "ExceptionMissingFile": "Nedostaje datoteka: %s",

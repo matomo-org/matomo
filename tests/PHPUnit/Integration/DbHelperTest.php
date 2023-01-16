@@ -9,12 +9,18 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Common;
+use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Option;
+use Piwik\Segment;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Version;
 
+/**
+ * @group Core
+ * @group DbHelper
+ */
 class DbHelperTest extends IntegrationTestCase
 {
     public function setUp(): void
@@ -96,6 +102,20 @@ class DbHelperTest extends IntegrationTestCase
         DbHelper::dropDatabase('testdb`; create database anotherdb;`');
         $this->assertDbExists('testdb');
         $this->assertDbNotExists('anotherdb');
+    }
+
+    public function test_addOriginHintToQuery()
+    {
+        $expected = 'SELECT /* segmenthash 37d1b27c81afefbcf0961472b9abdb0f */ /* sites 1 */ /* 2022-01-01,2022-01-02 */ /* origin test */ idvisit FROM log_visit WHERE idvisit > 1 LIMIT 1';
+
+        $segment = new Segment('countryCode==fr', [1]);
+        $sql = "SELECT idvisit FROM ".Common::prefixTable('log_visit')." WHERE idvisit > 1 LIMIT 1";
+        $startDate = Date::factory('2022-01-01 00:00:00');
+        $endDate = Date::factory('2022-01-02 23:59:59');
+        $sites = [1];
+
+        $result = DbHelper::addOriginHintToQuery($sql, 'origin test', $startDate, $endDate, $sites, $segment);
+        self::assertEquals($expected, $result);
     }
 
     private function assertDbExists($dbName)

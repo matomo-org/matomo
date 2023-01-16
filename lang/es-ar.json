@@ -199,7 +199,6 @@
         "ExceptionInvalidRendererFormat": "Formato de renderizado \";%1$s\"; no válido. Probá alguno de los siguientes en su lugar: %2$s.",
         "ExceptionInvalidReportRendererFormat": "El formato de informes \";%1$s\"; no es válido. Probá alguno de los siguientes en su lugar: %2$s.",
         "ExceptionInvalidStaticGraphType": "El tipo de gráfico estático \";%1$s\"; no es válido. Probá alguno de los siguientes en su lugar: %2$s.",
-        "ExceptionInvalidToken": "Código no válido.",
         "ExceptionLanguageFileNotFound": "Archivo de idioma \"%s\" no encontrado.",
         "ExceptionMethodNotFound": "El método \";%1$s\"; no existe o no está disponible en el módulo \";%2$s\";.",
         "ExceptionMissingFile": "Archivo faltante: %s",

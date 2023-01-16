@@ -563,7 +563,10 @@ class Date
      */
     public function isToday()
     {
-        return $this->toString('Y-m-d') === Date::factory('today', $this->timezone)->toString('Y-m-d');
+        $timeZone = Date::getDateTimeZone($this->timezone);
+        $today = (new \DateTime('today', $timeZone))->format('Y-m-d');
+        $time = (new \DateTime(gmdate(self::DATE_TIME_FORMAT, $this->timestamp), $timeZone))->format('Y-m-d');
+        return $time === $today;
     }
 
     /**
@@ -1152,5 +1155,33 @@ class Date
     public static function getNowTimestamp()
     {
         return isset(self::$now) ? self::$now : time();
+    }
+
+    /**
+     * Generate a DateTimeZone object using a timezone string. It should be a valid PHP timezone or a UTF offset string.
+     *
+     * @param string $tzString String to use while instantiating the DateTimeZone object.
+     * @param bool $defaultBadTzToUtc If an error occurs while instantiating, should we default to a UTC object or null.
+     * The default is true so that we return a UTC DateTimeZone object.
+     * @return \DateTimeZone|null This should always be a DateTimeZone object unless the tzString is invalid and
+     * defaultBadTzToUtc is set to false.
+     */
+    public static function getDateTimeZone(string $tzString = 'UTC', bool $defaultBadTzToUtc = true):?\DateTimeZone
+    {
+        $timeZone = null;
+        try {
+            $timeZone = new \DateTimeZone($tzString);
+        } catch (\Throwable $th) {
+            // Check if this is one of the UTF-5, UTF-3, ... timezones that we allow. If so, try using the GMT offset
+            if (preg_match('/^UTC\b(\+|\-)\d+$/i', $tzString)) {
+                $timeZone =  self::getDateTimeZone('Etc/GMT' . substr($tzString, 3), false);
+            }
+        }
+
+        if ($timeZone === null && $defaultBadTzToUtc) {
+            $timeZone = new \DateTimeZone('UTC');
+        }
+
+        return $timeZone;
     }
 }

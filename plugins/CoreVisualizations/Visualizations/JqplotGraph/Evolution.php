@@ -11,11 +11,12 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 
 use Piwik\API\Request as ApiRequest;
 use Piwik\Common;
-use Piwik\Period;
+use Piwik\Container\StaticContainer;
 use Piwik\Period\Factory;
 use Piwik\Period\Range;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
+use Piwik\Plugins\CoreVisualizations\Visualizations\EvolutionPeriodSelector;
 use Piwik\Site;
 
 /**
@@ -51,42 +52,44 @@ class Evolution extends JqplotGraph
 
         parent::beforeLoadDataTable();
 
-        // period will be overridden when 'range' is requested in the UI
-        // but the graph will display for each day of the range.
-        // Default 'range' behavior is to return the 'sum' for the range
-        if (Common::getRequestVar('period', false) == 'range') {
-            $this->requestConfig->request_parameters_to_modify['period'] = 'day';
+        // period will be overridden when 'range' is requested in the UI.
+        // The graph will display the range in the most suitable period and
+        // it won't show historical data before the range.
+        $period = Common::getRequestVar('period', false);
+        $selector = StaticContainer::get(EvolutionPeriodSelector::class);
+
+        if ($period === 'range') {
+            $date = Common::getRequestVar('date', false);
+            $requestingPeriod = Factory::build($period, $date);
+
+            // if a larger date range is selected, then for better performance and for seeing trends better we want to use
+            // a suitable period (rather than always using for example the day range)
+            $this->requestConfig->request_parameters_to_modify['period'] = $selector->getHighestPeriodInCommon($requestingPeriod, []);
+            $this->requestConfig->request_parameters_to_modify['date'] = $requestingPeriod->getRangeString();
         }
 
         $this->config->custom_parameters['columns'] = $this->config->columns_to_display;
 
         if ($this->isComparing()) {
-            $this->config->show_limit_control = false; // since we always show the days over the period, there's no point in changing the limit
+            $this->config->show_limit_control = false; // since we always show the evolution over the period, there's no point in changing the limit
+            $this->config->show_periods = false; // the periods can't be changed as they are always fixed when comparing
 
             $requestArray = $this->request->getRequestArray();
             $requestArray = ApiRequest::getRequestArrayFromString($requestArray);
 
             $requestingPeriod = Factory::build($requestArray['period'], $requestArray['date']);
 
-            $this->requestConfig->request_parameters_to_modify['period'] = 'day';
-            $this->requestConfig->request_parameters_to_modify['date'] = $requestingPeriod->getDateStart()->toString() . ',' . $requestingPeriod->getDateEnd()->toString();
-
+            $comparisonPeriods = [];
             if (!empty($requestArray['comparePeriods'])) {
-                foreach ($requestArray['comparePeriods'] as $index => $comparePeriod) {
-                    $compareDate = $requestArray['compareDates'][$index];
-                    if (Period::isMultiplePeriod($compareDate, $comparePeriod)) {
-                        continue;
-                    }
-
-                    $comparePeriodObj = Factory::build($comparePeriod, $compareDate);
-
-                    $requestArray['comparePeriods'][$index] = 'day';
-                    $requestArray['compareDates'][$index] = $comparePeriodObj->getRangeString();
-                }
-
-                $this->requestConfig->request_parameters_to_modify['compareDates'] = $requestArray['compareDates'];
-                $this->requestConfig->request_parameters_to_modify['comparePeriods'] = $requestArray['comparePeriods'];
+                $comparisonPeriods = $selector->getComparisonPeriodObjects($requestArray['comparePeriods'], $requestArray['compareDates']);
             }
+
+            $this->requestConfig->request_parameters_to_modify = $selector->setDatePeriods(
+                $this->requestConfig->request_parameters_to_modify,
+                $requestingPeriod,
+                $comparisonPeriods,
+                true
+            );
         }
     }
 

@@ -1,7 +1,7 @@
 {
     "WebsiteMeasurable": {
-        "Website": "Website",
-        "WebsiteDescription": "Eine Website besteht aus mehreren Webseiten die typischerweise von einer einzelnen Domain ausgeliefert werden.",
-        "Websites": "Websites"
+        "Website": "Webseite",
+        "WebsiteDescription": "Eine Webseite besteht aus mehreren Webseiten die typischerweise von einer einzelnen Domain ausgeliefert werden.",
+        "Websites": "Webseiten"
     }
 }
