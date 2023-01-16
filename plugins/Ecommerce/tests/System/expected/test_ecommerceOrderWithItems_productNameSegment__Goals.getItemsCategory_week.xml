@@ -8,5 +8,6 @@
 		<avg_price>100</avg_price>
 		<avg_quantity>2</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productCategory==Tools</segment>
 	</row>
 </result>

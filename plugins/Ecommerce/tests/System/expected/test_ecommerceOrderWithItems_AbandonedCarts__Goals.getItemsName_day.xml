@@ -11,6 +11,7 @@
 		<avg_price>1000</avg_price>
 		<avg_quantity>2</avg_quantity>
 		<conversion_rate>100%</conversion_rate>
+		<segment>productName==PRODUCT+TWO+LEFT+in+cart</segment>
 	</row>
 	<row>
 		<label>PRODUCT ONE LEFT in cart</label>
@@ -20,6 +21,7 @@
 		<avg_price>500.11</avg_price>
 		<avg_quantity>1</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productName==PRODUCT+ONE+LEFT+in+cart</segment>
 	</row>
 	<row>
 		<label>PRODUCT THREE LEFT in cart</label>
@@ -32,6 +34,7 @@
 		<avg_price>10</avg_price>
 		<avg_quantity>1</avg_quantity>
 		<conversion_rate>100%</conversion_rate>
+		<segment>productName==PRODUCT+THREE+LEFT+in+cart</segment>
 	</row>
 	<row>
 		<label>PRODUCT name</label>
@@ -41,5 +44,6 @@
 		<avg_price>832.78</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productName==PRODUCT+name</segment>
 	</row>
 </result>
