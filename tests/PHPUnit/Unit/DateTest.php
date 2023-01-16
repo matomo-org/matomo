@@ -11,6 +11,7 @@ namespace Piwik\Tests\Unit;
 use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\Period\Factory;
 use Piwik\SettingsServer;
 use Piwik\Tests\Framework\Fixture;
 
@@ -438,6 +439,72 @@ class DateTest extends \PHPUnit\Framework\TestCase
 
         $date = Date::factoryInTimezone($dateString, $timezone);
         $this->assertEquals($expectedDatetime, $date->getDatetime());
+    }
+
+    /**
+     * @dataProvider getTestDataForIsTodayTest
+     */
+    public function test_isToday($tzString, $dateString, $isToday)
+    {
+        $date = new \DateTime($dateString, (new \DateTimeZone($tzString)));
+        $period = Factory::build('day', $date->format('Y-m-d'));
+        $periodDate = $period->getDateEnd()->setTimezone($tzString);
+        $this->assertSame($isToday, $periodDate->isToday());
+        $this->assertSame($isToday, $periodDate->getStartOfDay()->isToday());
+        $this->assertSame($isToday, $periodDate->getEndOfDay()->isToday());
+    }
+
+    public function getTestDataForIsTodayTest()
+    {
+        $timeZones = [
+            'Pacific/Midway',
+            'Pacific/Honolulu',
+            'America/Anchorage',
+            'America/Los_Angeles',
+            'America/Denver',
+            'America/Chicago',
+            'America/New_York',
+            'America/Toronto',
+            'America/Puerto_Rico',
+            'America/Sao_Paulo',
+            'America/Noronha',
+            'Atlantic/Azores',
+            'Europe/London',
+            'UTC',
+            'Europe/Berlin',
+            'Europe/Kiev',
+            'Europe/Moscow',
+            'Asia/Dubai',
+            'Asia/Karachi',
+            'Asia/Dhaka',
+            'Asia/Bangkok',
+            'Asia/Shanghai',
+            'Asia/Tokyo',
+            'Australia/Sydney',
+            'Pacific/Efate',
+            'Pacific/Auckland',
+            'Pacific/Apia',
+            'Pacific/Kiritimati',
+        ];
+        $dates = [
+            ['today', true],
+            ['now', true],
+            ['yesterday', false],
+            ['tomorrow', false],
+            ['-5 Days', false],
+            ['+5 Days', false],
+            ['-1 Months', false],
+            ['+1 Months', false],
+            ['-1 Years', false],
+            ['+1 Years', false],
+        ];
+        $data = [];
+        foreach ($timeZones as $tz) {
+            foreach ($dates as $date) {
+                $data[] = array_merge([$tz], $date);
+            }
+        }
+        return $data;
     }
 
     public function getTestDataForFactoryInTimezone()

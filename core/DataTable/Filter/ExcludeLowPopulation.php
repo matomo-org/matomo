@@ -44,6 +44,8 @@ class ExcludeLowPopulation extends BaseFilter
      */
     private $minimumValue;
 
+    private $columnToFilter;
+
     /**
      * Constructor.
      *
