@@ -46,7 +46,7 @@ class Run extends ConsoleCommand
         $showUnexpectedFiles = $input->getOption('show-unexpected-files');
         $deleteUnexpectedFiles = $input->getOption('delete-unexpected-files');
         if ($showUnexpectedFiles || $deleteUnexpectedFiles) {
-            return $this->runUnexpectedFiles($deleteUnexpectedFiles);
+            return $this->runUnexpectedFiles($output, $deleteUnexpectedFiles);
         }
 
         $report = $diagnosticService->runDiagnostics();
@@ -87,15 +87,32 @@ class Run extends ConsoleCommand
     /**
      * Handle unexpected files command options
      *
+     * @param OutputInterface $output
      * @param bool $delete
      *
      * @return int
      */
-    private function runUnexpectedFiles(bool $delete = false): int
+    private function runUnexpectedFiles(OutputInterface $output, bool $delete = false): int
     {
+
+        if ($delete) {
+            $output->writeln('!!! Deleting all unexpected files in the Matomo directory - Press CTRL-C now to abort !!!', OutputInterface::OUTPUT_NORMAL);
+        }
+
+        // A list of file that should never be deleted under any circumstances, this acts as a backup safety check
+        // for the FileIntegrity class which should already be excluding these files.
+        $excludedFiles = ['config.ini.php', 'common.config.ini.php', '.htaccess', 'config.php', 'misc/'];
+
         $files = FileIntegrity::getUnexpectedFilesList();
         $fails = 0;
+
         foreach ($files as $f) {
+
+            foreach ($excludedFiles as $ef) {
+                if (strpos($f, $ef) !== false) {
+                    continue 2;
+                }
+            }
 
             $fileName = realpath($f);
 
