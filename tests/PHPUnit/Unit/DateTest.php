@@ -621,6 +621,11 @@ class DateTest extends \PHPUnit\Framework\TestCase
      */
     public function test_getDateTimeZone($tzString, $alternate = '')
     {
+        $availableTimezones = \DateTimeZone::listIdentifiers(\DateTimeZone::ALL_WITH_BC);
+        if (!in_array($alternate, $availableTimezones)) {
+            self::markTestSkipped("Alternate timezone $alternate not available in used timezone db.");
+            return;
+        }
         $timeZone = Date::getDateTimeZone($tzString);
         $this->assertIsObject($timeZone);
         $this->assertSame($alternate ?: $tzString, $timeZone->getName());
