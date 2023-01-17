@@ -257,19 +257,6 @@ class SegmentEditor extends \Piwik\Plugin
             return null;
         }
 
-        $idSites = Site::getIdSitesFromIdSitesString($idSite);
-
-        if (strpos($date, ',') !== false) { // if getting multiple periods, check the whole range for visits
-            $periodStr = 'range';
-        }
-
-        // if no visits recorded, data will not appear, so don't show the message
-        $liveModel = new \Piwik\Plugins\Live\Model();
-        $visits = $liveModel->queryLogVisits($idSites, $periodStr, $date, $segment->getString(), $offset = 0, $limit = 1, null, null, 'ASC');
-        if (empty($visits)) {
-            return null;
-        }
-
         // check if requested segment is segment to preprocess
         $isSegmentToPreprocess = Rules::isSegmentPreProcessed([$idSite], $segment);
 
