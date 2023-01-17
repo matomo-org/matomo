@@ -12,7 +12,10 @@ namespace Piwik\DeviceDetector;
 
 use DeviceDetector\ClientHints;
 use DeviceDetector\DeviceDetector;
+use Piwik\Cache;
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\Version;
 
 class DeviceDetectorFactory
 {
@@ -27,15 +30,34 @@ class DeviceDetectorFactory
      */
     public function makeInstance($userAgent, array $clientHints = [])
     {
-        $cacheKey = self::getNormalizedUserAgent($userAgent, $clientHints);
-
-        if (array_key_exists($cacheKey, self::$deviceDetectorInstances)) {
-            return self::$deviceDetectorInstances[$cacheKey];
+        $userAgent = self::getNormalizedUserAgent($userAgent, $clientHints);
+        if (array_key_exists($userAgent, self::$deviceDetectorInstances)) {
+            return self::$deviceDetectorInstances[$userAgent];
         }
 
+        $cacheKey = "ua." . Version::VERSION . '.' . sha1($userAgent);
+
+        $lazyCache = Cache::getLazyCache();
+
+        // check if a compatible device detector is in lazy cache
+        $serialized = $lazyCache->fetch($cacheKey);
+        if ($serialized !== false) {
+            // if we find a detector, deserialize it
+            $cdd = Common::safe_unserialize($serialized, true);
+            if (isset($cdd) && $cdd !== FALSE) {
+                return $cdd;
+            }
+        }
+
+        // parse usr agent.
         $deviceDetector = $this->getDeviceDetectionInfo($userAgent, $clientHints);
 
-        self::$deviceDetectorInstances[$cacheKey] = $deviceDetector;
+        # remove parsers & caches from device detector
+        # and serialize it into cache.
+        $serialized = serialize(new SerializableDeviceDetector($deviceDetector));
+        $lazyCache->save($cacheKey, $serialized, 3600);
+
+        self::$deviceDetectorInstances[$userAgent] = $deviceDetector;
 
         return $deviceDetector;
     }
@@ -44,7 +66,7 @@ class DeviceDetectorFactory
     {
         $normalizedClientHints = '';
         if (is_array($clientHints) && count($clientHints)) {
-            $hints  = ClientHints::factory($clientHints);
+            $hints = ClientHints::factory($clientHints);
             $brands = $hints->getBrandList();
             ksort($brands);
 
