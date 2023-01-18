@@ -23,10 +23,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         ref: '4.x-dev'
         lfs: false
+        persist-credentials: false
     - name: Install composer dependencies
       run: composer install
     - name: Prepare branches
@@ -43,6 +44,7 @@ jobs:
 
           git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git config --global user.name "$GITHUB_ACTOR"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
 
           git remote add upstream https://github.com/${GITHUB_REPOSITORY}.git
 
@@ -69,7 +71,7 @@ jobs:
               exit 0
           fi
 
-          echo ::set-output name=message::$(cat COMPOSER_LOG | jq -aRs)
+          echo "message=$(cat COMPOSER_LOG | jq -aRs)" >> $GITHUB_OUTPUT
       shell: bash
     - name: Push changes
       run: |
