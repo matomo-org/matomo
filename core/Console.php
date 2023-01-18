@@ -96,6 +96,18 @@ class Console extends Application
         }
     }
 
+    /**
+     * Makes parent doRun method available
+     *
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     * @return int
+     */
+    public function originDoRun(InputInterface $input, OutputInterface $output)
+    {
+        return parent::doRun($input, $output);
+    }
+
     private function doRunImpl(InputInterface $input, OutputInterface $output)
     {
         if ($input->hasParameterOption('--xhprof')) {
@@ -132,7 +144,7 @@ class Console extends Application
             $self = $this;
             $exitCode = Access::doAsSuperUser(function () use ($input, $output, $self) {
                 return
-                    call_user_func(array($self, 'Symfony\Component\Console\Application::doRun'), $input, $output);
+                    call_user_func(array($self, 'originDoRun'), $input, $output);
             });
         }
 
