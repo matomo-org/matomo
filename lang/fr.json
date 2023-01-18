@@ -205,7 +205,6 @@
         "ExceptionInvalidRendererFormat": "Le format de rendu '%1$s' n'est pas valide. Veuillez en essayer un autre parmi ceux-ci : %2$s.",
         "ExceptionInvalidReportRendererFormat": "Le format de rapport '%1$s' n'est pas valide. Veuillez en essayer un autre parmi ceux-ci : %2$s.",
         "ExceptionInvalidStaticGraphType": "Le type de graphique '%1$s' n'est pas valide. Veuillez en essayer un autre parmi ceux-ci : %2$s.",
-        "ExceptionInvalidToken": "Le jeton n'est pas valide.",
         "ExceptionLanguageFileNotFound": "Le fichier de langage '%s' n'a pas été trouvé.",
         "ExceptionMethodNotFound": "La méthode '%1$s' n'existe pas ou n'est pas disponible dans le module '%2$s'.",
         "ExceptionMissingFile": "Fichier manquant : %s",

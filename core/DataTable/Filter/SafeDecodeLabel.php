@@ -34,7 +34,7 @@ class SafeDecodeLabel extends BaseFilter
      * Decodes the given value
      *
      * @param string $value
-     * @return mixed|string
+     * @return string
      */
     public static function decodeLabelSafe($value)
     {

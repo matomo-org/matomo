@@ -148,7 +148,6 @@
         "ExceptionInvalidRendererFormat": "प्रतिपादक स्वरूप '%1$s' मान्य नहीं. इसके बजाय निम्न में से किसी का प्रयास करें: %2$s",
         "ExceptionInvalidReportRendererFormat": "रिपोर्ट प्रारूप '%1$s' मान्य नहीं. इसके बजाय निम्न में से किसी का प्रयास करें: %2$s",
         "ExceptionInvalidStaticGraphType": "स्थैतिक रेखाचित्र के प्रकार '%1$s' मान्य नहीं. इसके बजाय निम्न में से किसी का प्रयास करें: %2$s.",
-        "ExceptionInvalidToken": "टोकन मान्य नहीं है.",
         "ExceptionLanguageFileNotFound": "भाषा फाइल '%s' नहीं मिली.",
         "ExceptionMethodNotFound": "विधि '%1$s' मौजूद नहीं या भाग में उपलब्ध नहीं '%2$s' है.",
         "ExceptionMissingFile": "लापता फ़ाइल: %s",

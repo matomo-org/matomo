@@ -148,7 +148,6 @@
         "ExceptionInvalidPeriod": "الفترة \"%1$s\" غير مدعومة. حاول أياً من التالي بدلاً منها: %2$s.",
         "ExceptionInvalidRendererFormat": "الصيغة \"%1$s\" غير صحيحة. حاول أياً من التالي بدلاً منها: %2$s.",
         "ExceptionInvalidReportRendererFormat": "تهيئة التقرير '%1$s' غير صالحة. الرجاء تجربة أياً مما يلي كبديل: %2$s.",
-        "ExceptionInvalidToken": "المفتاح غير صالح.",
         "ExceptionLanguageFileNotFound": "ملف اللغة \"%s\" غير موجود.",
         "ExceptionMethodNotFound": "النظام \"%1$s\" غير موجود أو غير متوافر في الموديول \"%2$s\".",
         "ExceptionMissingFile": "ملف مفقود: %s",

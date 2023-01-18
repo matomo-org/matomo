@@ -25,6 +25,7 @@ class AddSegmentByRangeLabel extends BaseFilter
 {
     private $segments;
     private $delimiter;
+    private $segment;
 
     /**
      * Generates a segment filter based on the label column and the given segment name

@@ -39,6 +39,8 @@
         "ScopeDescriptionActionMoreInfo": "Extraktionen können definiert werden, so dass der benutzerdefinierte Dimensionswert von der Seiten-URL, dem Seitentitel oder dem Seiten-URL-Parameter extrahiert wird.",
         "ScopeDescriptionVisit": "Benutzerdefinierte Dimensionen im Bereich 'Besuche' können über sämtliche Trackinganfragen gesandt werden und werden im Besuch gespeichert.",
         "ScopeDescriptionVisitMoreInfo": "Wenn Sie innerhalb der Lebenszeit eines Besuchs für eine gegebene Dimension verschiedene Werte setzen, wird der zuletzt gesetzte Wert verwendet.",
+        "ScopeTitleAction": "Aktions-Dimensionen",
+        "ScopeTitleVisit": "Dimensionen besuchen",
         "UrlQueryStringParameter": "URL-Anfrage-Parameter",
         "XofYLeft": "Es verbleiben %1$s von %2$s Dimensionen"
     }

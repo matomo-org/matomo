@@ -26,6 +26,12 @@ use Piwik\DataTable\Row\DataTableSummaryRow;
  */
 class AddSummaryRow extends BaseFilter
 {
+
+    /**
+     * @var int
+     */
+    private $labelSummaryRow;
+
     /**
      * Constructor.
      *
