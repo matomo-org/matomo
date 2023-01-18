@@ -15,7 +15,7 @@ use Piwik\Plugins\Diagnostics\Diagnostic\DiagnosticResult;
 use Piwik\Translation\Translator;
 
 /**
- * Check the HTTPS update.
+ * Check if an update via HTTPS is possible
  */
 class HttpsUpdateCheck implements Diagnostic
 {
@@ -31,23 +31,26 @@ class HttpsUpdateCheck implements Diagnostic
 
     public function execute()
     {
-        $faqLinks = [
+        $faqLink = [
           '<a href="https://matomo.org/faq/faq-how-to-disable-https-for-matomo-org-and-api-matomo-org-requests" rel="noreferrer noopener" target="_blank">',
           '</a>'
         ];
         $label = $this->translator->translate('Installation_SystemCheckUpdateHttps');
 
         if (GeneralConfig::getConfigValue('force_matomo_http_request') == 1) {
-            //if config is on, show info
-            $comment = $this->translator->translate('Installation_MatomoHttpRequestConfigInfo', $faqLinks);
-            return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_INFORMATIONAL, $comment));
-        } elseif (!Http::isUpdatingOverHttps()) {
-            // failed to request over https
-            $warning = 'We will soon switch to HTTPS by default. Please make sure that HTTPS works on your environment or turn on `force_matomo_http_request`, otherwise it could cause Matomo updates to fail in the future. For more details please read our <a href="https://matomo.org/faq/faq-how-to-disable-https-for-matomo-org-and-api-matomo-org-requests" rel="noreferrer noopener" target="_blank">FAQ</a>.';
-            return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, $warning));
-        } else {
-            // successful using https
-            return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK));
+            // If the config option to force http is enabled then show info that it isn't recommended
+            $comment = $this->translator->translate('Installation_MatomoHttpRequestConfigInfo', $faqLink);
+            return [DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_INFORMATIONAL, $comment)];
         }
+
+        if (!Http::isUpdatingOverHttps()) {
+            // Failed to request over https, show error
+            $warning = $this->translator->translate('Installation_MatomoHttpsNotSupported', $faqLink);
+            return [DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_ERROR, $warning)];
+        }
+
+        // Successfully using https
+        return [DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK)];
+
     }
 }
