@@ -28,7 +28,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
  * The Live! API lets you access complete visit level information about your visitors. Combined with the power of <a href='http://matomo.org/docs/analytics-api/segmentation/' target='_blank'>Segmentation</a>,
  * you will be able to request visits filtered by any criteria.
  *
- * The method "getLastVisitsDetails" will return extensive <a href='https://matomo.org/guide/apis/raw-data/'>RAW data</a>for each visit, which includes: server time, visitId, visitorId,
+ * The method "getLastVisitsDetails" will return extensive <a href='https://matomo.org/guide/apis/raw-data/'>RAW data</a> for each visit, which includes: server time, visitId, visitorId,
  * visitorType (new or returning), number of pages, list of all pages (and events, file downloaded and outlinks clicked),
  * custom variables names and values set to this visit, number of goal conversions (and list of all Goal conversions for this visit,
  * with time of conversion, revenue, URL, etc.), but also other attributes such as: days since last visit, days since first visit,
