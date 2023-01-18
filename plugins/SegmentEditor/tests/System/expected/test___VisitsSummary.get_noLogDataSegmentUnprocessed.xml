@@ -1,14 +1,4 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
-	<nb_uniq_visitors>0</nb_uniq_visitors>
-	<nb_users>0</nb_users>
-	<nb_visits>0</nb_visits>
-	<nb_actions>0</nb_actions>
-	<nb_visits_converted>0</nb_visits_converted>
-	<bounce_count>0</bounce_count>
-	<sum_visit_length>0</sum_visit_length>
-	<max_actions>0</max_actions>
-	<bounce_rate>0%</bounce_rate>
-	<nb_actions_per_visit>0</nb_actions_per_visit>
-	<avg_time_on_site>0</avg_time_on_site>
+	<error message="These reports have no data, because the Segment you requested (testsegment) has not yet been processed by the system. Data for this Segment should become available in a few hours when processing completes. (If it does not, there may be a problem.) Please note that you can test whether your segment will work without having to wait for it to be processed by using the Live.getLastVisitsDetails API. When using this API method, you will see which users and actions were matched by your &amp;segment= parameter. This can help you confirm your Segment matches the users and actions you expect it to." />
 </result>
