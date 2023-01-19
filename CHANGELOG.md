@@ -14,7 +14,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The javascript event `piwikPageChange`, which is triggered when a reporting page is loaded, has been renamed to `matomoPageChange`. Ensure to update your implementation if you rely on it.
 * Plugin names are now limited to 60 characters. If you used to have a plugin with a longer name, you might need to rename it.
 * The `instance_id` configuration does no longer support characters other than `a-z`, `0-9` and the special characters `.-_`. If the configured value contains other characters, they will be simply removed.
-
+* By default the `file://` protocol is not tracked, to enable tracking of the `file://` protocol add `enableTrackFile` to the tracker settings. 
 ### New APIs
 
 * The class `Piwik\Request` has been introduced. It will allow fetching parameters from a request, optionally validated / casted to a certain type. Use this class in favor of `Common::getRequestVar`.

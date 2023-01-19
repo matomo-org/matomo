@@ -596,7 +596,7 @@ class Url
         }
 
         // drop port numbers from hostnames and IP addresses
-        $hosts = array_map(['self', 'getHostSanitized'], $hosts);
+        $hosts = array_map(self::class . '::getHostSanitized', $hosts);
 
         $disableHostCheck = Config::getInstance()->General['enable_trusted_host_check'] == 0;
         // compare scheme and host

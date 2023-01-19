@@ -66,6 +66,11 @@ abstract class Archiver
     private $enabled;
 
     /**
+     * @var mixed
+     */
+    protected $maximumRows;
+
+    /**
      * Constructor.
      *
      * @param ArchiveProcessor $processor The ArchiveProcessor instance to use when persisting archive

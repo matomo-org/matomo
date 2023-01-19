@@ -189,7 +189,6 @@
         "ExceptionInvalidRendererFormat": "فرمت رندرر «%1$s» معتبر نیست. یکی از این موارد را امتحان کنید:%2$s.",
         "ExceptionInvalidReportRendererFormat": "قالب گزارش '%1$s' معتبر نمی باشد. یکی از این ها را استفاده کنید: %2$s.",
         "ExceptionInvalidStaticGraphType": "نوع نمودار ایستا «%1$s» معتبر نیست. یکی ازاین موارد را امتحان کنید: %2$s.",
-        "ExceptionInvalidToken": "رمز معتبر نیست.",
         "ExceptionLanguageFileNotFound": "فایل زبان '%s' یافت نشد",
         "ExceptionMethodNotFound": "متد'%1$s' وجود ندارد یا در این ماژول '%2$s'موجود نیست.",
         "ExceptionMissingFile": "فایل مفقود: %s",

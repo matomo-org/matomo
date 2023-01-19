@@ -8,6 +8,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productSku==id_book0</segment>
 		<Ecommerce_ProductSku>id_book0</Ecommerce_ProductSku>
 	</row>
 	<row>
@@ -18,6 +19,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productSku==id_book1</segment>
 		<Ecommerce_ProductSku>id_book1</Ecommerce_ProductSku>
 	</row>
 	<row>
@@ -28,6 +30,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productSku==id_book2</segment>
 		<Ecommerce_ProductSku>id_book2</Ecommerce_ProductSku>
 	</row>
 	<row>
@@ -38,6 +41,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productSku==id_book3</segment>
 		<Ecommerce_ProductSku>id_book3</Ecommerce_ProductSku>
 	</row>
 	<row>
@@ -48,6 +52,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productSku==id_book4</segment>
 		<Ecommerce_ProductSku>id_book4</Ecommerce_ProductSku>
 	</row>
 	<row>
@@ -58,6 +63,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productSku==id_book5</segment>
 		<Ecommerce_ProductSku>id_book5</Ecommerce_ProductSku>
 	</row>
 	<row>
@@ -68,6 +74,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productSku==id_book6</segment>
 		<Ecommerce_ProductSku>id_book6</Ecommerce_ProductSku>
 	</row>
 	<row>
@@ -78,6 +85,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productSku==id_book7</segment>
 		<Ecommerce_ProductSku>id_book7</Ecommerce_ProductSku>
 	</row>
 	<row>
@@ -88,6 +96,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productSku==id_book8</segment>
 		<Ecommerce_ProductSku>id_book8</Ecommerce_ProductSku>
 	</row>
 	<row>
@@ -98,6 +107,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productSku==id_book9</segment>
 		<Ecommerce_ProductSku>id_book9</Ecommerce_ProductSku>
 	</row>
 	<row>
@@ -108,6 +118,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productSku==id_book10</segment>
 		<Ecommerce_ProductSku>id_book10</Ecommerce_ProductSku>
 	</row>
 	<row>
@@ -118,6 +129,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productSku==id_book11</segment>
 		<Ecommerce_ProductSku>id_book11</Ecommerce_ProductSku>
 	</row>
 	<row>
@@ -128,6 +140,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productSku==id_book12</segment>
 		<Ecommerce_ProductSku>id_book12</Ecommerce_ProductSku>
 	</row>
 	<row>
@@ -138,6 +151,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productSku==id_book13</segment>
 		<Ecommerce_ProductSku>id_book13</Ecommerce_ProductSku>
 	</row>
 	<row>
@@ -148,6 +162,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productSku==id_book14</segment>
 		<Ecommerce_ProductSku>id_book14</Ecommerce_ProductSku>
 	</row>
 	<row>
@@ -158,6 +173,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productSku==id_book15</segment>
 		<Ecommerce_ProductSku>id_book15</Ecommerce_ProductSku>
 	</row>
 	<row>
@@ -168,6 +184,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productSku==id_book16</segment>
 		<Ecommerce_ProductSku>id_book16</Ecommerce_ProductSku>
 	</row>
 	<row>
@@ -178,6 +195,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productSku==id_book17</segment>
 		<Ecommerce_ProductSku>id_book17</Ecommerce_ProductSku>
 	</row>
 	<row>
@@ -188,6 +206,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productSku==id_book18</segment>
 		<Ecommerce_ProductSku>id_book18</Ecommerce_ProductSku>
 	</row>
 	<row>
@@ -198,6 +217,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productSku==id_book19</segment>
 		<Ecommerce_ProductSku>id_book19</Ecommerce_ProductSku>
 	</row>
 	<row>
@@ -208,6 +228,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productSku==id_book20</segment>
 		<Ecommerce_ProductSku>id_book20</Ecommerce_ProductSku>
 	</row>
 	<row>
@@ -218,6 +239,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productSku==id_book21</segment>
 		<Ecommerce_ProductSku>id_book21</Ecommerce_ProductSku>
 	</row>
 	<row>
@@ -228,6 +250,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productSku==id_book22</segment>
 		<Ecommerce_ProductSku>id_book22</Ecommerce_ProductSku>
 	</row>
 	<row>
@@ -238,6 +261,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productSku==id_book23</segment>
 		<Ecommerce_ProductSku>id_book23</Ecommerce_ProductSku>
 	</row>
 	<row>
@@ -248,6 +272,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productSku==id_book24</segment>
 		<Ecommerce_ProductSku>id_book24</Ecommerce_ProductSku>
 	</row>
 </result>

@@ -180,7 +180,6 @@
         "ExceptionInvalidRendererFormat": "'%1$s' 렌더러 형식이 유효하지 않습니다. 대신 다음 중 하나를 시도하십시오: %2$s.",
         "ExceptionInvalidReportRendererFormat": "'%1$s' 보고서 형식이 유효하지 않습니다. 대신 다음 중 하나를 시도하십시오: %2$s.",
         "ExceptionInvalidStaticGraphType": "'%1$s' 정적 그래프 유형이 유효하지 않습니다. 대신 다음 중 하나를 시도하십시오: %2$s.",
-        "ExceptionInvalidToken": "토큰이 유효하지 않습니다.",
         "ExceptionLanguageFileNotFound": "'%s' 언어 파일을 찾을 수 없습니다.",
         "ExceptionMethodNotFound": "메서드 '%1$s'는 존재하지 않거나 모듈 '%2$s'에서 사용할 수 없습니다.",
         "ExceptionMissingFile": "누락된 파일: %s",

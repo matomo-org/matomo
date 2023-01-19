@@ -97,7 +97,7 @@
 			<row idgoal="1">
 				<nb_conversions>8</nb_conversions>
 				<revenue>40</revenue>
-				<nb_conv_pages_before>8</nb_conv_pages_before>
+				<nb_conv_pages_before>2</nb_conv_pages_before>
 				<nb_conversions_attrib>8</nb_conversions_attrib>
 				<nb_conversions_page_uniq>8</nb_conversions_page_uniq>
 				<revenue_attrib>40</revenue_attrib>
@@ -110,7 +110,7 @@
 			<row idgoal="2">
 				<nb_conversions>4</nb_conversions>
 				<revenue>20</revenue>
-				<nb_conv_pages_before>4</nb_conv_pages_before>
+				<nb_conv_pages_before>1</nb_conv_pages_before>
 				<nb_conversions_attrib>4</nb_conversions_attrib>
 				<nb_conversions_page_uniq>4</nb_conversions_page_uniq>
 				<revenue_attrib>20</revenue_attrib>

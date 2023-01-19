@@ -205,7 +205,6 @@
         "ExceptionInvalidRendererFormat": "Формат рендерера «%1$s» неверен. Попробуйте вместо него другой из доступных: %2$s.",
         "ExceptionInvalidReportRendererFormat": "Формат отчёта «%1$s» неверен. Попробуйте вместо него другой из доступных: %2$s.",
         "ExceptionInvalidStaticGraphType": "Тип статичного графика «%1$s» неверен. Попробуйте любое из следующих действий: %2$s.",
-        "ExceptionInvalidToken": "Токен неверен.",
         "ExceptionLanguageFileNotFound": "Файл языка «%s» не найден.",
         "ExceptionMethodNotFound": "Метод «%1$s» не существует или недоступен в модуле «%2$s».",
         "ExceptionMissingFile": "Отсутствует файл: %s",

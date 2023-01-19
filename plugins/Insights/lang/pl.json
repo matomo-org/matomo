@@ -1,6 +1,5 @@
 {
     "Insights": {
-        "PluginDescription": "Poznaj szczegóły ruchu na swojej stronie. Szczegóły te są dostępne jako widżety pulpitu oraz nowe ikony w raportach, pozwalając Ci zobaczyć najważniejsze trendy w Twoich danych.",
         "ControlComparedToDescription": "Wzrost w stosunku do",
         "ControlFilterByDescription": "Pokaż wszystkich, tylko przechodzących, tylko nowych lub tylko znikających",
         "DatePeriodCombinationNotSupported": "Nie udało się wygenerować szczegółów dla tej kombinacji daty i okresu.",
@@ -8,7 +7,7 @@
         "DayComparedToPreviousWeek": "tego samego dnia w poprzednim tygodniu",
         "DayComparedToPreviousYear": "ten sam dzień w poprzednim roku",
         "Filter": "Filtr",
-        "FilterIncreaserAndDecreaser": "Wzrosty i spadki",
+        "FilterIncreaserAndDecreaser": "Wzrosty &amp; spadki",
         "FilterOnlyDecreaser": "Tylko spadki",
         "FilterOnlyDisappeared": "Tylko znikający",
         "FilterOnlyIncreaser": "Tylko wzrosty",
@@ -20,6 +19,7 @@
         "MoversAndShakersWidgetTitle": "Zmiany zachowań",
         "NoResultMatchesCriteria": "Żaden wiesz nie spełnia kryteriów",
         "OverviewWidgetTitle": "Przegląd Insights'ów",
+        "PluginDescription": "Poznaj szczegóły ruchu na swojej stronie. Szczegóły te są dostępne jako widżety pulpitu oraz nowe ikony w raportach, pozwalając Ci zobaczyć najważniejsze trendy w Twoich danych.",
         "TitleConsideredInsightsChanges": "Wiersze wzrosły lub zmalały o przynajmniej %1$s wizyt (%2$s%% z %3$s ogółu wizyt).",
         "TitleConsideredInsightsGrowth": "Następne wiersze odnotowują wzrost o przynajmniej %1$s%% w porównaniu do %2$s.",
         "TitleConsideredMoversAndShakersChanges": "Zmiana zachowań odnotowywana jest w raporcie jeśli odwiedziny wzrosną przynajmniej o %1$s%% lub zmaleją o mniej niż %2$s%%, nowe wpisy pojawią się jeśli odwiedziny wzrosną o przynajmniej %3$s%% (%4$s), a rząd zniknie jeśli zmniejszą się o mniej niż %5$s%% odwiedzin (%6$s).",
