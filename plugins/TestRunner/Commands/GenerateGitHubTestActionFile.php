@@ -33,6 +33,7 @@ class GenerateGitHubTestActionFile extends ConsoleCommand
     protected $forceUITests = false;
     protected $protectArtifacts = false;
     protected $enableRedis = true;
+    protected $setupScript = null;
 
     protected function configure()
     {
@@ -45,6 +46,7 @@ class GenerateGitHubTestActionFile extends ConsoleCommand
              ->addOption('force-php-tests', null, InputOption::VALUE_NONE, "Forces the presence of the PHP tests jobs for plugin builds.")
              ->addOption('force-ui-tests', null, InputOption::VALUE_NONE, "Forces the presence of the UI tests jobs for plugin builds.")
              ->addOption('protect-artifacts', null, InputOption::VALUE_NONE, "Indicates if artifacts should be stored protected on artifact server.")
+             ->addOption('setup-script', null, InputOption::VALUE_OPTIONAL, "Shell script to run (after setup, before tests), relative to plugins directory. .i.e .github/scripts/setup.sh")
              ->addOption('enable-redis', null, InputOption::VALUE_NONE, "Defines if a redis service should be set up for PHP and UI testing.");
     }
 
@@ -60,6 +62,7 @@ class GenerateGitHubTestActionFile extends ConsoleCommand
         $this->forceUITests = !!$input->getOption('force-ui-tests');
         $this->enableRedis = !!$input->getOption('enable-redis') || empty($this->plugin);
         $this->protectArtifacts = !!$input->getOption('protect-artifacts');
+        $this->setupScript = $input->getOption('setup-script');
 
         if (!empty($this->plugin)) {
             if (!file_exists($this->getRepoRootDir())) {
@@ -106,6 +109,7 @@ class GenerateGitHubTestActionFile extends ConsoleCommand
         $template->assign('dependentPlugins', $this->dependentPlugins);
         $template->assign('plugin', $this->plugin);
         $template->assign('protectArtifacts', $this->protectArtifacts);
+        $template->assign('setupScript', $this->setupScript);
         $template->assign('hasJavaScriptTests', $this->isTargetPluginContainsJavaScriptTests());
         $template->assign('hasUITests', $this->isTargetPluginContainsUITests());
         $template->assign('hasPluginTests', $this->isTargetPluginContainsPluginTests());
