@@ -38,18 +38,18 @@ class HttpsUpdateCheck implements Diagnostic
         $label = $this->translator->translate('Installation_SystemCheckUpdateHttps');
 
         if (GeneralConfig::getConfigValue('force_matomo_http_request') == 1) {
-            // If the config option to force http is enabled then show info that it isn't recommended
+            // If the config option to force http is enabled then show 'not recommended' message
             $comment = $this->translator->translate('Installation_MatomoHttpRequestConfigInfo', $faqLink);
             return [DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_INFORMATIONAL, $comment)];
         }
 
         if (!Http::isUpdatingOverHttps()) {
-            // Failed to request over https, show error
-            $warning = $this->translator->translate('Installation_MatomoHttpsNotSupported', $faqLink);
-            return [DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_ERROR, $warning)];
+            // https is not available, show error
+            $error = $this->translator->translate('Installation_MatomoHttpsNotSupported', $faqLink);
+            return [DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_ERROR, $error)];
         }
 
-        // Successfully using https
+        // Success, https is available
         return [DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK)];
 
     }
