@@ -11,7 +11,6 @@ namespace Piwik\Tests\Unit;
 use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
-use Piwik\Period\Factory;
 use Piwik\SettingsServer;
 use Piwik\Tests\Framework\Fixture;
 
