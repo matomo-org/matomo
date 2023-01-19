@@ -19,7 +19,10 @@ jobs:
     name: PHPCS
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+        with:
+          lfs: false
+          persist-credentials: false
       - name: Install dependencies
         run: composer install --dev --prefer-dist --no-progress --no-suggest
       - name: Setup PHP
