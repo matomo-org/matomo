@@ -40,17 +40,17 @@ jobs:
     steps:
       - name: "Check release password"
         if: ${{ github.event.inputs.password != env.RELEASE_PASSWORD }}
-        uses: actions/github-script@v3
+        uses: actions/github-script@v6
         with:
           script: |
               core.setFailed('Release password didn\'t match.')
       - name: "Check if user is allowed"
         if: ${{ github.actor != 'mattab' && github.actor != 'tsteur' && github.actor != 'sgiehl' && github.actor != 'justinvelluppillai' }}
-        uses: actions/github-script@v3
+        uses: actions/github-script@v6
         with:
           script: |
             core.setFailed('User is not allowed to release.')
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           lfs: false
       - name: Import GPG key
@@ -83,7 +83,7 @@ jobs:
               exit 1
             fi
 
-            echo ::set-output name=update::true
+            echo "update=true" >> $GITHUB_OUTPUT
           else
             version=$( cat core/Version.php | grep -oP "VERSION = '\K([^\']+)" )
             echo "Version to build: '$version'"
@@ -114,12 +114,12 @@ jobs:
             git tag $version
             git push origin tags/$version
 
-            echo ::set-output name=update::false
+            echo "update=false" >> $GITHUB_OUTPUT
           fi
 
           if [[ "$version" =~ "-" ]]
           then
-            echo ::set-output name=prerelease::true
+            echo "prerelease=true" >> $GITHUB_OUTPUT
             body="## Matomo ${version} (Pre-release)
 
             We recommend to read [this FAQ](http://matomo.org/faq/how-to-update/faq_159/) before using a pre-release in a production environment.
@@ -129,7 +129,7 @@ jobs:
              - Latest stable production release can be found at https://matomo.org/download/ ([learn more](https://matomo.org/docs/installation/)) (recommended)
              - Beta and Release Candidates releases can be found at https://builds.matomo.org/ ([learn more](http://matomo.org/faq/how-to-update/faq_159/))"
           else
-            echo ::set-output name=prerelease::false
+            echo "prerelease=false" >> $GITHUB_OUTPUT
             body="## [Matomo ${version} Changelog](https://matomo.org/changelog/matomo-${version//./-}/)
 
             Please use the attached archives for installing or updating Matomo.
@@ -141,8 +141,8 @@ jobs:
           body="${body//'%'/'%25'}"
           body="${body//$'\n'/'%0A'}"
           body="${body//$'\r'/'%0D'}"
-          echo ::set-output name=version::$version
-          echo ::set-output name=body::$body
+          echo "version=$version" >> $GITHUB_OUTPUT
+          echo "body=$body" >> $GITHUB_OUTPUT
 
           cd $GITHUB_WORKSPACE
           chmod 755 ./.github/scripts/*.sh
