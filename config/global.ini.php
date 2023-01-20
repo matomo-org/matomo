@@ -128,6 +128,10 @@ logger_syslog_ident = 'matomo'
 ; 'chained' will chain multiple cache backends. Further configuration in [ChainedCache] is needed
 backend = chained
 
+; Configuration to switch on/off opcache_reset when general caches are cleared. This may be useful for multi-tenant installations that would rather
+; manage opcache resets by themselves. This could also be used by scripts to temporarily switch off opcache resets.
+enable_opcache_reset = 1
+
 [ChainedCache]
 ; The chained cache will always try to read from the fastest backend first (the first listed one) to avoid requesting
 ; the same cache entry from the slowest backend multiple times in one request.
@@ -1105,6 +1109,9 @@ type = ; SMTP Auth type. By default: NONE. For example: LOGIN
 username = ; SMTP username
 password = ; SMTP password
 encryption = ; SMTP transport-layer encryption, either 'none', 'ssl', 'tls', or empty (i.e., auto).
+ssl_disallow_self_signed = 1 ; set to 0 to allow email server with self signed cert (not recommended)
+ssl_verify_peer = 1 ; set to 0 to disable verifying the authenticity of the peer's certificate (not recommended)
+ssl_verify_peer_name = 1 ; set to 0 to disable verifying the authenticity of the peer's name (not recommended)
 
 [proxy]
 type = BASIC ; proxy type for outbound/outgoing connections; currently, only BASIC is supported

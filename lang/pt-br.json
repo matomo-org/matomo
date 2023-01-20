@@ -205,7 +205,6 @@
         "ExceptionInvalidRendererFormat": "O formato de renderização '%1$s' não válido. Tente algum dos seguintes: %2$s.",
         "ExceptionInvalidReportRendererFormat": "O formato de relatório '%1$s' não é válido. Tente algum dos seguintes: %2$s.",
         "ExceptionInvalidStaticGraphType": "O tipo de gráfico estático '%1$s' não é válido. Tente um dos seguintes: %2$s.",
-        "ExceptionInvalidToken": "O token não é válido.",
         "ExceptionLanguageFileNotFound": "Ficheiro de idioma %s não encontrado.",
         "ExceptionMethodNotFound": "O método '%1$s' não existe ou não está disponível no módulo '%2$s'.",
         "ExceptionMissingFile": "Arquivo ausente: %s",

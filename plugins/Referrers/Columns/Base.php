@@ -376,7 +376,11 @@ abstract class Base extends VisitDimension
     protected function detectCampaignFromString($string)
     {
         foreach ($this->campaignNames as $campaignNameParameter) {
-            $campaignName = trim(urldecode(UrlHelper::getParameterFromQueryString($string, $campaignNameParameter) ?? ''));
+            $campaignName = UrlHelper::getParameterFromQueryString($string, $campaignNameParameter);
+            if (!is_string($campaignName)) {
+                continue; // discard value if it was not provided or as an array
+            }
+            $campaignName = trim(urldecode($campaignName));
             if (!empty($campaignName)) {
                 break;
             }
@@ -390,8 +394,12 @@ abstract class Base extends VisitDimension
 
         foreach ($this->campaignKeywords as $campaignKeywordParameter) {
             $campaignKeyword = UrlHelper::getParameterFromQueryString($string, $campaignKeywordParameter);
+            if (!is_string($campaignKeyword)) {
+                continue; // discard value if it was not provided or as an array
+            }
+            $campaignKeyword = trim(urldecode($campaignKeyword));
             if (!empty($campaignKeyword)) {
-                $this->keywordReferrerAnalyzed = trim(urldecode($campaignKeyword));
+                $this->keywordReferrerAnalyzed = $campaignKeyword;
                 break;
             }
         }

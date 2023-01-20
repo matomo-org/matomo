@@ -68,7 +68,7 @@
         "TagManagerTeaserHideSuperUser": "Mos ia shfaq këtë faqe ndonjë përdoruesi",
         "TeaserExtendPiwik": "Zgjerojeni Matomo-n me Shtojca dhe Tema",
         "TeaserExtendPiwikByPlugin": "Zgjerojeni Matomo-n duke %1$sinstaluar shtojca prej Marketplace-it%2$s, ose %3$sduke ngarkuar një shtojcë në formatin .zip%4$s.",
-        "TeaserExtendPiwikByTheme": "Shijoni pamje &amp; ndjesi të reja përmes %1$sinstalimit të një teme të re%2$s.",
+        "TeaserExtendPiwikByTheme": "Shijoni pamje dhe ndjesi të reja, përmes %1$sinstalimit të një teme të re%2$s.",
         "Theme": "Temë",
         "Themes": "Tema",
         "ThemesDescription": "Temat mund të ndryshojnë pamjen e ndërfaqes së përdoruesit të Matomo-s dhe të sjellin një pamje plotësisht të re për shijimin e raporteve tuaja analitike.",

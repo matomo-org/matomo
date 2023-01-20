@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,9 +7,11 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik;
 
-use Piwik\Container\StaticContainer;
+use Matomo\Cache\Lazy;
+use Piwik\Config\GeneralConfig;
 
 /**
  * This class provides detection functions for specific content on a site. It can be used to easily detect the
@@ -19,7 +22,7 @@ use Piwik\Container\StaticContainer;
  *
  * Usage:
  *
- * $contentDetector = SiteContentDetector::getInstance();
+ * $contentDetector = new SiteContentDetector();
  * $contentDetector->detectContent([SiteContentDetector::GA3]);
  * if ($contentDetector->ga3) {
  *      // site is using GA3
@@ -28,7 +31,6 @@ use Piwik\Container\StaticContainer;
  */
 class SiteContentDetector
 {
-
     // Content types
     const ALL_CONTENT = 1;
     const CONSENT_MANAGER = 2;
@@ -46,25 +48,30 @@ class SiteContentDetector
     public $gtm;                    // True if GTM was detected on the site
 
     private $siteData;
-    private $siteId;
 
-    /**
-     * @return SiteContentDetector
-     */
-    public static function getInstance(): SiteContentDetector
+    /** @var Lazy */
+    private $cache;
+
+    public function __construct(?Lazy $cache = null)
     {
-        return StaticContainer::get('Piwik\SiteContentDetector');
+        if ($cache === null) {
+            $this->cache = Cache::getLazyCache();
+        } else {
+            $this->cache = $cache;
+        }
     }
 
     /**
      * Reset the detection properties
+     *
+     * @return void
      */
-    private function resetDetectionProperties() : void
+    private function resetDetectionProperties(): void
     {
         $this->consentManagerId = null;
         $this->consentManagerUrl = null;
         $this->consentManagerName = null;
-        $this->isConnected;
+        $this->isConnected = false;
         $this->ga3 = false;
         $this->ga4 = false;
         $this->gtm = false;
@@ -78,47 +85,49 @@ class SiteContentDetector
      *                                   will speed up the detection check
      * @param ?int        $idSite        Override the site ID, will use the site from the current request if null
      * @param string|null $siteData      String containing the site data to search, if blank then data will be retrieved
-     *                                   from the current request site via cURL
-     * @param int         $timeOut       How long to wait for the site to response, defaults to 60 seconds
+     *                                   from the current request site via an http request
+     * @param int         $timeOut       How long to wait for the site to response, defaults to 5 seconds
+     * @return void
      */
     public function detectContent(array $detectContent = [SiteContentDetector::ALL_CONTENT],
-                                  ?int $idSite = null, ?string $siteData = null, int $timeOut = 60)
+                                  ?int $idSite = null, ?string $siteData = null, int $timeOut = 5): void
     {
+        $this->resetDetectionProperties();
 
-        // If the site data was already retrieved and stored in this object and it is for the same site id and we're
-        // not being passed a specific sitedata parameter then avoid making another request and just return
-        if ($siteData === null && $this->siteData != null && $idSite == $this->siteId) {
+        // If site data was passed in, then just run the detection checks against it and return.
+        if ($siteData) {
+            $this->siteData = $siteData;
+            $this->detectionChecks($detectContent);
             return;
         }
 
-        $this->resetDetectionProperties();
-
-        // No site data was passed or previously retrieved, so grab the current site main page as a string
-        if ($siteData === null) {
-
-
-            if ($idSite === null) {
-                if (!isset($_REQUEST['idSite'])) {
-                    return;
-                }
-                $idSite = Common::getRequestVar('idSite', null, 'int');
-                if (!$idSite) {
-                    return;
-                }
-            }
-
-            $url = Site::getMainUrlFor($idSite);
-            if (!$url) {
+        // Get the site id from the request object if not explicitly passed
+        if ($idSite === null) {
+            if (!isset($_REQUEST['idSite'])) {
                 return;
             }
 
-            try {
-                $siteData = Http::sendHttpRequestBy('curl', $url, $timeOut, null, null,
-                    null, 0, false, true);
-            } catch (\Exception $e) {
-            }
+            $idSite = Common::getRequestVar('idSite', null, 'int');
 
+            if (!$idSite) {
+                return;
+            }
         }
+
+        // Check and load previously cached site content detection data if it exists
+        $cacheKey = 'SiteContentDetector_' . $idSite;
+        $requiredProperties = $this->getRequiredProperties($detectContent);
+        $siteContentDetectionCache = $this->cache->fetch($cacheKey);
+
+        if ($siteContentDetectionCache !== false) {
+            if ($this->checkCacheHasRequiredProperties($requiredProperties, $siteContentDetectionCache)) {
+                $this->loadRequiredPropertiesFromCache($requiredProperties, $siteContentDetectionCache);
+                return;
+            }
+        }
+
+        // No cache hit, no passed data, so make a request for the site content
+        $siteData = $this->requestSiteData($idSite, $timeOut);
 
         // Abort if still no site data
         if ($siteData === null || $siteData === '') {
@@ -126,8 +135,120 @@ class SiteContentDetector
         }
 
         $this->siteData = $siteData;
-        $this->siteId = $idSite;
 
+        // We now have site data to analyze, so run the detection checks
+        $this->detectionChecks($detectContent);
+
+        // A request was made to get this data and it isn't currently cached, so write it to the cache now
+        $cacheLife = (60 * 60 * 24 * 7);
+        $this->savePropertiesToCache($cacheKey, $requiredProperties, $cacheLife);
+    }
+
+    /**
+     * Returns an array of properties required by the detect content array
+     *
+     * @param array $detectContent
+     *
+     * @return array
+     */
+    private function getRequiredProperties(array $detectContent): array
+    {
+        $requiredProperties = [];
+
+        if (in_array(SiteContentDetector::CONSENT_MANAGER, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
+            $requiredProperties = array_merge($requiredProperties, ['consentManagerId', 'consentManagerName', 'consentManagerUrl', 'isConnected']);
+        }
+
+        if (in_array(SiteContentDetector::GA3, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
+            $requiredProperties[] = 'ga3';
+        }
+
+        if (in_array(SiteContentDetector::GA4, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
+            $requiredProperties[] = 'ga4';
+        }
+
+        if (in_array(SiteContentDetector::GTM, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
+            $requiredProperties[] = 'gtm';
+        }
+
+        return $requiredProperties;
+    }
+
+    /**
+     * Checks that all required properties are in the cache array
+     *
+     * @param array $properties
+     * @param array $cache
+     *
+     * @return bool
+     */
+    private function checkCacheHasRequiredProperties(array $properties, array $cache): bool
+    {
+        foreach ($properties as $prop) {
+            if (!array_key_exists($prop, $cache)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Load object properties from the cache array
+     *
+     * @param array $properties
+     * @param array $cache
+     *
+     * @return void
+     */
+    private function loadRequiredPropertiesFromCache(array $properties, array $cache): void
+    {
+        foreach ($properties as $prop) {
+            if (!array_key_exists($prop, $cache)) {
+                continue;
+            }
+
+            $this->{$prop} = $cache[$prop];
+        }
+    }
+
+    /**
+     * Save properties to the cache
+     *
+     * @param string $cacheKey
+     * @param array  $properties
+     * @param int    $cacheLife
+     *
+     * @return void
+     */
+    private function savePropertiesToCache(string $cacheKey, array $properties, int $cacheLife): void
+    {
+
+        $cacheData = [];
+
+        // Load any existing cached values
+        $siteContentDetectionCache = $this->cache->fetch($cacheKey);
+
+        if (is_array($siteContentDetectionCache)) {
+            $cacheData = $siteContentDetectionCache;
+        }
+
+        foreach ($properties as $prop) {
+            $cacheData[$prop] = $this->{$prop};
+        }
+
+        $this->cache->save($cacheKey, $cacheData, $cacheLife);
+    }
+
+    /**
+     * Run various detection checks for site content
+     *
+     * @param array $detectContent    Array of detection types used to filter the checks that are run
+     *
+     * @return void
+     */
+    private function detectionChecks($detectContent): void
+    {
         if (in_array(SiteContentDetector::CONSENT_MANAGER, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
             $this->detectConsentManager();
         }
@@ -143,7 +264,38 @@ class SiteContentDetector
         if (in_array(SiteContentDetector::GTM, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
             $this->detectGTM();
         }
+    }
 
+    /**
+     * Retrieve data from the specified site using an HTTP request
+     *
+     * @param int $idSite
+     * @param int $timeOut
+     *
+     * @return string|null
+     */
+    private function requestSiteData(int $idSite, int $timeOut): ?string
+    {
+        // If internet features are disabled, we don't try to fetch any site content
+        if (0 === (int) GeneralConfig::getConfigValue('enable_internet_features')) {
+            return null;
+        }
+
+        $url = Site::getMainUrlFor($idSite);
+
+        if (!$url) {
+            return null;
+        }
+
+        $siteData = null;
+
+        try {
+            $siteData = Http::sendHttpRequestBy(Http::getTransportMethod(), $url, $timeOut, null, null,
+                null, 0, false, true);
+        } catch (\Exception $e) {
+        }
+
+        return $siteData;
     }
 
     /**
@@ -153,10 +305,10 @@ class SiteContentDetector
      *
      * @return void
      */
-    private function detectConsentManager() : void
+    private function detectConsentManager(): void
     {
-
         $defs = SiteContentDetector::getConsentManagerDefinitions();
+
         if (!$defs) {
             return;
         }
@@ -183,7 +335,6 @@ class SiteContentDetector
                 break;
             }
         }
-
     }
 
     /**
@@ -191,7 +342,7 @@ class SiteContentDetector
      *
      * @return void
      */
-    private function detectGA3() : void
+    private function detectGA3(): void
     {
         if (strpos($this->siteData, '(i,s,o,g,r,a,m)') !== false) {
              $this->ga3 = true;
@@ -203,7 +354,7 @@ class SiteContentDetector
      *
      * @return void
      */
-    private function detectGA4() : void
+    private function detectGA4(): void
     {
         if (strpos($this->siteData, 'gtag.js') !== false) {
              $this->ga4 = true;
@@ -215,7 +366,7 @@ class SiteContentDetector
      *
      * @return void
      */
-    private function detectGTM() : void
+    private function detectGTM(): void
     {
         if (strpos($this->siteData, 'gtm.js') !== false) {
              $this->gtm = true;
@@ -228,7 +379,7 @@ class SiteContentDetector
      *
      * @return array[]
      */
-    public static function getConsentManagerDefinitions() : array
+    public static function getConsentManagerDefinitions(): array
     {
         return [
 

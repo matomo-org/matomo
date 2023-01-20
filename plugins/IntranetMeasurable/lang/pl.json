@@ -1,1 +1,7 @@
-{}
+{
+    "IntranetMeasurable": {
+        "Intranet": "Strona intranetowa",
+        "IntranetDescription": "Strony intranetowe działają tak samo jak strony internetowe, ale są hostowane w sieci wewnętrznej.",
+        "Intranets": "Strony intranetowa"
+    }
+}

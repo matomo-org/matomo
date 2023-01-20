@@ -203,7 +203,6 @@
         "ExceptionInvalidRendererFormat": "「%1$s」格式無效。嘗試以下任一來取代：%2$s。",
         "ExceptionInvalidReportRendererFormat": "報表格式「%1$s」無效。嘗試下列任一來替代：%2$s。",
         "ExceptionInvalidStaticGraphType": "靜態圖表格式「%1$s」無效。嘗試下列任一來替代：%2$s。",
-        "ExceptionInvalidToken": "權杖無效。",
         "ExceptionLanguageFileNotFound": "找不到語系檔案「%s」。",
         "ExceptionMethodNotFound": "方法「%1$s」不存在或不適用於模組「%2$s」。",
         "ExceptionMissingFile": "檔案遺失：%s",

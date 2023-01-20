@@ -35,6 +35,7 @@
         "ExitZenMode": "Zakończ tryb Zen (pokaż menu)",
         "ExpandSubtables": "Rozwiń zagnieżdżone tabele",
         "ExportFormat": "Format eksportu",
+        "ExportTooltip": "Uwaga: aby użyć wygenerowanego adresu URL eksportu, musisz określić autoryzację tokena aplikacji. Możesz skonfigurować te tokeny w Administracja → Bezpieczeństwo → Uwierzytelnianie tokenów.",
         "ExternalHelp": "Pomoc (otworzy się w nowym oknie)",
         "FlattenDataTable": "Raport jest hierarchiczny %s Przełącz na płaski",
         "FlattenReport": "Spłaszcz raport",

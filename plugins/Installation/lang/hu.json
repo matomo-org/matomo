@@ -1,5 +1,6 @@
 {
     "Installation": {
+        "CollaborativeProject": "A Matomo egy kollaboratív platform, szeretettel készítve.",
         "ConfirmDeleteExistingTables": "Biztos vagy benne, hogy törölni akarod a %s táblákat az adatbázisból? FIGYELEM: A TÖRÖLT TÁBLÁK ADATAI NEM ÁLLÍTHATÓK VISSZA!",
         "Congratulations": "Gratulálunk",
         "DatabaseCreation": "Adatbázis létrehozása",

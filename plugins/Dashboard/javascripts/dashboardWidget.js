@@ -230,7 +230,7 @@
         },
 
         /**
-         * Creaates the widget markup for the given uniqueId
+         * Creates the widget markup for the given uniqueId
          *
          * @param {String} uniqueId
          */
@@ -240,6 +240,8 @@
 
             widgetsHelper.getWidgetNameFromUniqueId(uniqueId, function(widgetName) {
                 if (!widgetName) {
+                    // when widget not found hide it.
+                    $('[widgetId="' + uniqueId + '"]').hide();
                     widgetName = _pk_translate('Dashboard_WidgetNotFound');
                 }
 

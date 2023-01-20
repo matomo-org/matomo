@@ -29,6 +29,7 @@
         "InvalidNonceToken": "Skjemasikkerhet mislyktes fordi symbolene ikke samsvarer. Last inn skjemaet igjen og sjekk at informasjonskapslene dine er skrudd på.",
         "InvalidNonceUnexpectedReferrer": "Skjemasikkerhet mislyktes. Henvisningshodet skiller seg fra forventet henviserhode. Sjekk at henviserhodet ditt blir sendt på riktig vis.",
         "InvalidOrExpiredToken": "Autentiseringsnøkkelen er ugyldig eller har utløpt.",
+        "InvalidOrExpiredTokenV2": "Passordet har allerede blitt satt, eller så har lenken utløpt.",
         "InvalidUsernameEmail": "Feil brukernavn og/eller epost-adresse.",
         "InvitationDeclineBody": "Vil du avslå denne invitasjonen?",
         "InvitationDeclineTitle": "Avslå invitasjon",

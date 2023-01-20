@@ -21,7 +21,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
     {
         $siteData = '<html lang="en"><head><title>A site</title></head><script src="https://osano.com/uhs9879874hthg.js"></script></head><body>A site</body></html>';
 
-        $scd = SiteContentDetector::getInstance();
+        $scd = new SiteContentDetector();
         $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $siteData);
 
         $this->assertEquals('osano', $scd->consentManagerId);
@@ -31,7 +31,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
     public function test_detectsConsentManager_Connected()
     {
         $siteData = "<html lang='en'><head><title>A site</title></head><script src='https://osano.com/uhs9879874hthg.js'></script><script>Osano.cm.addEventListener('osano-cm-consent-changed', (change) => { console.log('cm-change'); consentSet(change); });</script></><body>A site</body></html>";
-        $scd = SiteContentDetector::getInstance();
+        $scd = new SiteContentDetector();
         $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $siteData);
 
         $this->assertEquals('osano', $scd->consentManagerId);
@@ -48,7 +48,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
                      ga('create', 'UA-xxxxxxxx-x', 'xxxxxx.com');
                      ga('send', 'pageview');
                      </script></head><body>A site</body></html>";
-        $scd = SiteContentDetector::getInstance();
+        $scd = new SiteContentDetector();
         $scd->detectContent([SiteContentDetector::GA3], null, $siteData);
 
         $this->assertEmpty($scd->consentManagerId);
@@ -68,7 +68,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
                             gtag('config', 'GA_TRACKING_ID');
                     </script>
                     </head><body>A site</body></html>";
-        $scd = SiteContentDetector::getInstance();
+        $scd = new SiteContentDetector();
         $scd->detectContent([SiteContentDetector::GA4], null, $siteData);
 
         $this->assertFalse($scd->ga3);
@@ -87,7 +87,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
                      })(window,document,'script','dataLayer','GTM-NRTVJJC');</script>
                      <!-- End Google Tag Manager -->                     
                      </head><body>A site</body></html>";
-        $scd = SiteContentDetector::getInstance();
+        $scd = new SiteContentDetector();
         $scd->detectContent([SiteContentDetector::GTM], null, $siteData);
 
         $this->assertFalse($scd->ga3);
@@ -98,7 +98,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
     public function test_doesNotDetectsGA_IfNotPresent()
     {
         $siteData = "<html lang=\"en\"><head><title>A site</title><script><script>console.log('abc');</script></head><body>A site</body></html>";
-        $scd = SiteContentDetector::getInstance();
+        $scd = new SiteContentDetector();
         $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $siteData);
 
         $this->assertFalse($scd->ga3);

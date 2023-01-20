@@ -5,6 +5,6 @@
         "UserId": "Benutzer-ID",
         "UserReportDocumentation": "Zeigt Besuche und andere allgemeine Metriken für jede individuelle Benutzer-ID.",
         "UserReportTitle": "Benutzer IDs",
-        "VisitorsUserSubcategoryHelp": "Der Benutzer-ID Bericht zeigt verknüpfte Besuche mit all Ihrer registrierten und angemeldete Benutzern. Sie können diesen Bereich verwenden um Aussagen für die Webseite über spezifische Benutzer und zur Identifikation Ihrer aktivsten und wenig aktiven Benutzer."
+        "VisitorsUserSubcategoryHelp": "Der Bericht zur Benutzer-ID zeigt die Besuche, die mit allen registrierten und angemeldeten Benutzern in Verbindung stehen. Verstehen Sie die Nutzung der Webseite durch bestimmte Nutzer und finden Sie heraus, wer Ihre aktivsten und am wenigsten aktiven Nutzer sind."
     }
 }
