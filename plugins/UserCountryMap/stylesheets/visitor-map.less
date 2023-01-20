@@ -53,6 +53,10 @@
     background: rgba(255, 255, 255, 0.9);
 }
 
+.UserCountryMap-tooltip .content.unlocated-stats {
+    padding: 0;
+}
+
 .UserCountryMap-title {
     top: 5px;
     left: 5px;
@@ -65,9 +69,9 @@
 }
 
 .UserCountryMap-info {
-    left: 5px;
+    left: 40px;
     font-size: 11px;
-    bottom: 60px;
+    bottom: 62px;
     max-width: 42%;
 }
 
@@ -76,12 +80,16 @@
     width: 16px;
     height: 16px;
     cursor: pointer;
-    left: 13px;
-    bottom: 40px;
+    left: 20px;
+    bottom: 62px;
     position: absolute;
     z-index: 700;
     opacity: 0.9;
     display: none;
+}
+
+.UserCountryMap .dataTableFooterWrap {
+    margin-left: 0;
 }
 
 /* this should me moved to TableView css sometimes */
@@ -100,7 +108,7 @@
 }
 
 .mapWidgetStatus {
-    padding-bottom: 24px;
+    padding-bottom: 25px;
 }
 
 .widgetUserCountryMapvisitorMap .widgetTop .button {

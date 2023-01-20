@@ -634,6 +634,7 @@
             }
 
             function indicateLoading() {
+                $$('.UserCountryMap_container').css('minHeight', '50px');
                 $$('.UserCountryMap-black').show();
                 $$('.UserCountryMap-black').css('opacity', 0);
                 $$('.UserCountryMap-black').animate({ opacity: 0.5 }, 400);
@@ -641,6 +642,7 @@
             }
 
             function loadingComplete() {
+              $$('.UserCountryMap_container').css('minHeight', 'auto');
                 $$('.UserCountryMap-black').hide();
                 $$('.UserCountryMap .loadingPiwik').hide();
             }
@@ -1255,7 +1257,6 @@
 
                         // hide loading indicator
                         $$('.UserCountryMap .loadingPiwik').hide();
-                        $('.mapWidgetStatus').height(0);
 
                         // start with default view (or saved state??)
                         var params = self.widget.dashboardWidget('getWidgetObject').parameters;
