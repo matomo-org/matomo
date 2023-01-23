@@ -5281,7 +5281,7 @@ if ($mysql) {
 
         var startTime, stopTime;
 
-        wait(1000); // in case there is  a previous expireDateTime set
+        wait(1500); // in case there is  a previous expireDateTime set
 
         equal( typeof tracker.hook.test._beforeUnloadHandler, 'function', 'beforeUnloadHandler' );
 
