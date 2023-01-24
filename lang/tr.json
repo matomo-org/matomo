@@ -24,7 +24,7 @@
         "AverageX": "Ortalama %s",
         "BackToPiwik": "Matomo panosuna geri dön",
         "Broken": "Bozuk",
-        "BrokenDownReportDocumentation": "Veriler sayfanın altında görüntülenen çeşitli çubuk çizelgeler şeklinde ayrılmıştır. Ayrıntılarını görüntülemek istediğiniz çizelgeye tıklayarak büyütebilirsiniz.",
+        "BrokenDownReportDocumentation": "Veriler sayfanın altında görüntülenen çeşitli mini çizelgeler şeklinde ayrılmıştır. Ayrıntılarını görüntülemek istediğiniz çizelgeye tıklayarak büyütebilirsiniz.",
         "Cancel": "İptal",
         "CannotUnzipFile": "Zip dosyası ayıklanamadı %1$s: %2$s",
         "ChangeInX": "%1$s içindeki değişim",
