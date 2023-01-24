@@ -1140,6 +1140,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
             const frame = page.frames().find(f => f.name() === 'embed');
             await frame.waitForSelector('.widget');
+            await page.waitForTimeout(1000); // wait for widgets to render
 
             expect(await page.screenshot({ fullPage: true })).to.matchImage('embed_whole_app');
         });

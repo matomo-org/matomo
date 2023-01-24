@@ -150,7 +150,7 @@ jobs:
 {% endif %}
 
 {%- if not plugin %}
-  Angular:
+  Client:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
@@ -164,7 +164,7 @@ jobs:
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
-          test-type: 'Angular'
+          test-type: 'Client'
           node-version: '16'
           mysql-service: false
 {% if dependentPlugins %}

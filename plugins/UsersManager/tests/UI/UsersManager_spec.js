@@ -271,6 +271,7 @@ describe("UsersManager", function () {
         await page.waitForTimeout(500); // for angular to re-render
         await page.evaluate(() => $('.userPermissionsEdit tr.select-all-row a').click());
         await page.waitForTimeout(500); // for angular to re-render
+        await page.mouse.move(0, 0);
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage({
             imageName: 'permissions_all_rows_in_search',
