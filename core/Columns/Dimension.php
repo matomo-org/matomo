@@ -8,6 +8,7 @@
  */
 namespace Piwik\Columns;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugin;
@@ -19,6 +20,7 @@ use Piwik\Cache as PiwikCache;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Metrics\Formatter;
 use Piwik\Segment\SegmentsList;
+use Psr\Log\LoggerInterface;
 
 /**
  * @api
@@ -417,7 +419,12 @@ abstract class Dimension
             case Dimension::TYPE_BOOL:
                 return !empty($value) ? '1' : '0';
             case Dimension::TYPE_DURATION_MS:
-                return number_format($value / 1000, 2) * 1000; // because we divide we need to group them and cannot do this in formatting step
+                // Log a warning if the value isn't actually numeric
+                if (!is_numeric($value)) {
+                    $message = Piwik::translate('General_ValidatorErrorNotANumber') . ' ' . $value;
+                    StaticContainer::get(LoggerInterface::class)->warning($message, ['value' => $value, 'idSite' => $idSite]);
+                }
+                return number_format(floatval($value) / 1000, 2) * 1000; // because we divide we need to group them and cannot do this in formatting step
         }
         return $value;
     }
