@@ -72,13 +72,11 @@ jobs:
           test-type: ${{ '{{' }} matrix.type {{ '}}' }}
           mysql-driver: ${{ '{{' }} matrix.adapter {{ '}}' }}
           php-version: ${{ '{{' }} matrix.php {{ '}}' }}
+          redis-service: true
           artifacts-pass: ${{ '{{' }} secrets.ARTIFACTS_PASS {{ '}}' }}
           upload-artifacts: ${{ '{{' }} matrix.php == '{{ phpVersions|first }}' {{ '}}' }}
 {% if protectArtifacts %}
           artifacts-protected: true
-{% endif %}
-{% if enableRedis %}
-          redis-service: true
 {% endif %}
 {% elseif hasPluginTests %}
   PluginTests:
@@ -102,6 +100,9 @@ jobs:
           matomo-test-branch: ${{ '{{' }} matrix.target {{ '}}' }}
 {% if setupScript %}
           setup-script: '{{ setupScript }}'
+{% endif %}
+{% if enableRedis %}
+          redis-service: true
 {% endif %}
           artifacts-pass: ${{ '{{' }} secrets.ARTIFACTS_PASS {{ '}}' }}
           upload-artifacts: ${{ '{{' }} matrix.php == '{{ phpVersions|first }}' && matrix.target == 'maximum_supported_matomo' {{ '}}' }}
@@ -205,6 +206,9 @@ jobs:
           test-type: 'UI'
           php-version: '{{ phpVersions|first }}'
           node-version: '16'
+{% if enableRedis %}
+          redis-service: true
+{% endif %}
           artifacts-pass: ${{ '{{' }} secrets.ARTIFACTS_PASS {{ '}}' }}
           upload-artifacts: true
 {% if protectArtifacts %}
@@ -213,9 +217,6 @@ jobs:
 {% if dependentPlugins %}
           dependent-plugins: '{{ dependentPlugins|join(',') }}'
           github-token: ${{ '{{' }} secrets.TESTS_ACCESS_TOKEN || secrets.GITHUB_TOKEN {{ '}}' }}
-{% endif %}
-{% if enableRedis %}
-          redis-service: true
 {% endif %}
 {% endif %}
 {% endautoescape  %}

@@ -57,9 +57,9 @@ jobs:
           test-type: ${{ matrix.type }}
           mysql-driver: ${{ matrix.adapter }}
           php-version: ${{ matrix.php }}
+          redis-service: true
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
           upload-artifacts: ${{ matrix.php == '7.2' }}
-          redis-service: true
   Javascript:
     runs-on: ubuntu-20.04
     steps:
@@ -110,6 +110,6 @@ jobs:
           test-type: 'UI'
           php-version: '7.2'
           node-version: '16'
+          redis-service: true
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
           upload-artifacts: true
-          redis-service: true
