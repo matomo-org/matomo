@@ -16,13 +16,16 @@ describe("Diagnostics", function () {
         await page.goto(url);
 
         const content = await page.$('#content');
-        await page.evaluate(() => {
+        await page.evaluate((directory) => {
             $('#systemCheckInformational td').each(function () {
+              console.log(directory.replaceAll('/', '\\/'));
                 let html = $(this).html();
                 html = html.replace(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/g, 'DATETIME');
+                html = html.replaceAll(directory, '/path/matomo/');
+                html = html.replaceAll(directory.replaceAll('/', '\\/'), '\\/path\\/matomo');
                 $(this).html(html);
             });
-        });
+        }, PIWIK_INCLUDE_PATH);
         expect(await content.screenshot()).to.matchImage('page');
     });
 });
