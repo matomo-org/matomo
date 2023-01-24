@@ -1113,7 +1113,6 @@ class LogAggregator
 
         $from = [
             'log_conversion',
-                ['table' => 'log_visit', 'joinOn' => 'log_conversion.idvisit = log_visit.idvisit'],
                 ['table' => 'log_link_visit_action', 'tableAlias' => 'log_vpast', 'join' => 'RIGHT JOIN',
                             'joinOn' => 'log_conversion.idvisit = log_vpast.idvisit'],
                 ['table' => 'log_action', 'tableAlias' => 'lac_past',
