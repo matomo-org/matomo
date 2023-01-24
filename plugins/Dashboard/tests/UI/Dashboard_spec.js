@@ -237,7 +237,7 @@ describe("Dashboard", function () {
         await page.mouse.move(-10, -10);
         await page.waitForSelector('.widget');
         await page.waitForNetworkIdle();
-        await page.waitForTimeout(100); // wait for widgets to render fully
+        await page.waitForTimeout(500); // wait for widgets to render fully
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('reset');
     });
