@@ -124,7 +124,12 @@ class Mysql extends Db
         }
     }
 
-    private function isMysqlServerHasGoneAwayError(Exception $e)
+    /**
+     * @internal  tests only
+     * @param Exception $e
+     * @return bool
+     */
+    public function isMysqlServerHasGoneAwayError(Exception $e)
     {
         return $this->isErrNo($e, \Piwik\Updater\Migration\Db::ERROR_CODE_MYSQL_SERVER_HAS_GONE_AWAY)
                 || stripos($e->getMessage(), 'MySQL server has gone away') !== false;
@@ -217,9 +222,8 @@ class Mysql extends Db
         try {
             return $this->executeQuery($query, $parameters);
         } catch (Exception $e) {
-            $queryLowerCase = mb_strtolower(trim($query));
-            $isSelectQuery = str_starts_with($queryLowerCase, 'select ');
-            $isUpdateQuery = str_starts_with($queryLowerCase, 'update ');
+            $isSelectQuery = stripos(trim($query), 'select ') === 0;
+            $isUpdateQuery = stripos(trim($query), 'update ') === 0;
 
             if (($isSelectQuery || $isUpdateQuery)
                 && !$this->activeTransaction
@@ -238,7 +242,12 @@ class Mysql extends Db
         }
     }
 
-    private function reconnect(Exception $e)
+    /**
+     * @internal for tests only
+     * @param Exception $e
+     * @throws Exception
+     */
+    public function reconnect(Exception $e)
     {
         $this->disconnect();
         usleep(100 * 1000); // wait for 100ms
