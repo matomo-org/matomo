@@ -87,8 +87,6 @@
     config.reqParams = JSON.parse('{{ reqParamsJSON|e('js') }}');
     config.countryNames = JSON.parse('{{ countriesByIso|json_encode|e('js') }}');
 
-    $('.UserCountryMap').addClass('dataTable');
-
     if ($('#dashboardWidgetsArea').length) {
         // dashboard mode
         var $widgetContent = $('.UserCountryMap').parents('.widgetContent').first();
