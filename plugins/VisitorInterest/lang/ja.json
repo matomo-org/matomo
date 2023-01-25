@@ -7,18 +7,18 @@
         "Engagement": "利用状況",
         "NPages": "%s ページ",
         "OnePage": "1 ページ",
-        "PluginDescription": "ビジターの関心についてのレポート：閲覧したページ数、ウェブサイトに費やされた時間、最後のビジット以来の日数、その他。",
+        "PluginDescription": "ビジターの関心: 表示されたページ数、Web サイトで費やされた時間、最後のビジットからの日数など。",
         "VisitNum": "訪問回数",
         "VisitsByDaysSinceLast": "最後の訪問からの日数別のビジット",
         "VisitsPerDuration": "ビジット継続時間単位のビジット",
         "VisitsPerNbOfPages": "ページ数単位のビジット",
         "WidgetLengths": "ビジットの長さ",
-        "WidgetLengthsDocumentation": "ある特定の継続時間毎にどれだけのビジットがあったかを示すリポートです。初期状態はタグクラウド表示で、ビジットの多い継続時間ほど大きなフォントで表示されます。",
+        "WidgetLengthsDocumentation": "特定の合計期間のビジット数。 最初に、レポートはタグ クラウドとして表示されます。より一般的な期間ほどフォントが大きくなります。",
         "WidgetPages": "ビジット単位のページ数",
-        "WidgetPagesDocumentation": "ある特定のページビュー数毎にどれだけのビジットがあったかを示すリポートです。初期状態はタグクラウド表示で、ビジットの多いページビュー数ほど大きなフォントで表示されます。",
-        "WidgetVisitsByDaysSinceLast": "前回の訪問からの日数",
-        "WidgetVisitsByDaysSinceLastDocumentation": "ある特定の日数以前に最後の訪問をしたビジターの数を示すリポートです。",
-        "WidgetVisitsByNumDocumentation": "N 回目の訪問をしたビジット数を示すリポートです。すなわち少なくとも N 回ウェブサイトを訪問したビジターです。",
-        "visitsByVisitCount": "訪問回数別のビジット"
+        "WidgetPagesDocumentation": "特定の数のページビューを含むビジット数。 最初に、レポートはタグ クラウドとして表示され、より一般的なページ数ほどフォントが大きくなります。",
+        "WidgetVisitsByDaysSinceLast": "前回の訪問からの日数別のビジット",
+        "WidgetVisitsByDaysSinceLastDocumentation": "最後の訪問が特定の日数前であるリピーターからのビジット数。",
+        "WidgetVisitsByNumDocumentation": "N 回目の訪問に達したビジターの数。 つまり Web サイトに一定回数以上アクセスしたビジターの総数。",
+        "visitsByVisitCount": "訪問数別のビジット"
     }
 }
