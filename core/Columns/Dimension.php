@@ -424,7 +424,7 @@ abstract class Dimension
                     $message = Piwik::translate('General_ValidatorErrorNotANumber') . ' ' . $value;
                     StaticContainer::get(LoggerInterface::class)->warning($message, ['value' => $value, 'idSite' => $idSite]);
                 }
-                return floatval(number_format(floatval($value) / 1000, 2, '.', '')) * 1000; // because we divide we need to group them and cannot do this in formatting step
+                return number_format(floatval($value) / 1000, 2, '.', '') * 1000; // because we divide we need to group them and cannot do this in formatting step
         }
         return $value;
     }
