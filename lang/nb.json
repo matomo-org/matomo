@@ -216,6 +216,7 @@
         "ExceptionPrivilegeAtLeastOneWebsite": "Du får ikke tilgang til denne ressursen, siden den krever %s-tilgang for minst ett nettsted.",
         "ExceptionReportNotEnabled": "Den etterspurte rapporten er ikke aktivert. Dette betyr vanligvis at enten er utvidelsen som definerer rapporten deaktivert, eller så har du ikke nok rettigheter til å vise rapporten.",
         "ExceptionReportNotFound": "Den etterspurte rapporten finnes ikke.",
+        "ExceptionSecurityCheckFailed": "Handlingen du prøver å utføre mislyktes som følge av en sikkerhetssjekk. Dette gjøres for å holde kontoen din trygg. Prøv igjen, og kontakt brukerstøtte hvis problemet vedvarer.",
         "ExceptionUnableToStartSession": "Klarte ikke å starte økt.",
         "ExceptionUndeletableFile": "Klarte ikke å slette %s",
         "ExceptionUnexpectedDirectory": "Det ble funnet mapper i din Matomo, men det var ikke forventet.",
