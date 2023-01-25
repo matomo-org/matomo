@@ -171,7 +171,7 @@ abstract class SystemTestCase extends TestCase
     {
         $travis = getenv('TRAVIS');
         $githubAction = getenv('CI');
-        return !empty($travis) ||!empty($githubAction);
+        return !empty($travis) || !empty($githubAction);
     }
 
     public static function isMysqli()
