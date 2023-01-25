@@ -31,6 +31,7 @@ class GenerateGitHubTestActionFile extends ConsoleCommand
     protected $repoRootDirOverride = null;
     protected $forcePHPTests = false;
     protected $forceUITests = false;
+    protected $forceClientTests = false;
     protected $protectArtifacts = false;
     protected $enableRedis = true;
     protected $setupScript = null;
@@ -45,6 +46,7 @@ class GenerateGitHubTestActionFile extends ConsoleCommand
              ->addOption('repo-root-dir', null, InputOption::VALUE_REQUIRED, "Path to the repo for whom a action yml file will be generated for.")
              ->addOption('force-php-tests', null, InputOption::VALUE_NONE, "Forces the presence of the PHP tests jobs for plugin builds.")
              ->addOption('force-ui-tests', null, InputOption::VALUE_NONE, "Forces the presence of the UI tests jobs for plugin builds.")
+             ->addOption('force-client-tests', null, InputOption::VALUE_NONE, "Forces the presence of the Client tests jobs for plugin builds.")
              ->addOption('protect-artifacts', null, InputOption::VALUE_NONE, "Indicates if artifacts should be stored protected on artifact server.")
              ->addOption('setup-script', null, InputOption::VALUE_OPTIONAL, "Shell script to run (after setup, before tests), relative to plugins directory. .i.e .github/scripts/setup.sh")
              ->addOption('enable-redis', null, InputOption::VALUE_NONE, "Defines if a redis service should be set up for PHP and UI testing.");
@@ -60,6 +62,7 @@ class GenerateGitHubTestActionFile extends ConsoleCommand
         $this->repoRootDirOverride = $input->getOption('repo-root-dir');
         $this->forcePHPTests = !!$input->getOption('force-php-tests');
         $this->forceUITests = !!$input->getOption('force-ui-tests');
+        $this->forceClientTests = !!$input->getOption('force-client-tests');
         $this->enableRedis = !!$input->getOption('enable-redis') || empty($this->plugin);
         $this->protectArtifacts = !!$input->getOption('protect-artifacts');
         $this->setupScript = $input->getOption('setup-script');
@@ -111,6 +114,7 @@ class GenerateGitHubTestActionFile extends ConsoleCommand
         $template->assign('protectArtifacts', $this->protectArtifacts);
         $template->assign('setupScript', $this->setupScript);
         $template->assign('hasJavaScriptTests', $this->isTargetPluginContainsJavaScriptTests());
+        $template->assign('hasClientTests', $this->isTargetPluginContainsClientTests());
         $template->assign('hasUITests', $this->isTargetPluginContainsUITests());
         $template->assign('hasPluginTests', $this->isTargetPluginContainsPluginTests());
 
@@ -189,11 +193,26 @@ class GenerateGitHubTestActionFile extends ConsoleCommand
             || $this->doesFolderContainUITests($pluginPath . "/Test");
     }
 
+    private function isTargetPluginContainsClientTests()
+    {
+        if ($this->forceClientTests) {
+            return true;
+        }
+
+        $pluginPath = $this->getRepoRootDir();
+        return $this->doesFolderContainClientTests($pluginPath);
+    }
+
     private function isTargetPluginContainsJavaScriptTests()
     {
         $pluginPath = $this->getRepoRootDir();
         return file_exists($pluginPath . "/tests/javascript/index.php")
             || file_exists($pluginPath . "/Test/javascript/index.php");
+    }
+
+    private function doesFolderContainClientTests($folderPath)
+    {
+        return $this->folderContains($folderPath, '/.*\.spec\.js/');
     }
 
     private function doesFolderContainUITests($folderPath)

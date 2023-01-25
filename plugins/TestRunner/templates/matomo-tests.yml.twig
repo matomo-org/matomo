@@ -149,9 +149,15 @@ jobs:
 {% endif %}
 {% endif %}
 
-{%- if not plugin %}
+{%- if not plugin or hasClientTests %}
   Client:
     runs-on: ubuntu-20.04
+{% if plugin %}
+    strategy:
+      fail-fast: false
+      matrix:
+        target: ['minimum_required_matomo', 'maximum_supported_matomo']
+{% endif %}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -164,6 +170,10 @@ jobs:
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
+{% if plugin %}
+          plugin-name: '{{ plugin }}'
+          matomo-test-branch: ${{ '{{' }} matrix.target {{ '}}' }}
+{% endif %}
           test-type: 'Client'
           node-version: '16'
           mysql-service: false
