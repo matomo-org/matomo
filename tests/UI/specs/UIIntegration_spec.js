@@ -314,6 +314,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         it('should load visitors > locations & provider page correctly', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=UserCountry_SubmenuLocations");
             await page.waitForNetworkIdle();
+            await page.waitForTimeout(500); // wait for map widget to render
 
             pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('visitors_locations_provider');
