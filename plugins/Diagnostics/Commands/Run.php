@@ -101,7 +101,7 @@ class Run extends ConsoleCommand
 
         // A list of file that should never be deleted under any circumstances, this acts as a backup safety check
         // for the FileIntegrity class which should already be excluding these files.
-        $excludedFiles = ['config.ini.php', 'common.config.ini.php', '.htaccess', 'config.php', 'misc/'];
+        $excludedFiles = ['/^config\/config.ini.php$/', '/^config\/common.config.ini.php$/', '/\.htaccess$/', '/^config\/config.php$/', '/^misc\/.*$/'];
 
         $files = FileIntegrity::getUnexpectedFilesList();
         $fails = 0;
@@ -109,7 +109,7 @@ class Run extends ConsoleCommand
         foreach ($files as $f) {
 
             foreach ($excludedFiles as $ef) {
-                if (strpos($f, $ef) !== false) {
+                if(preg_match($ef, $f)) {
                     continue 2;
                 }
             }
@@ -118,17 +118,17 @@ class Run extends ConsoleCommand
 
             if ($delete) {
                 if (Filesystem::deleteFileIfExists($fileName)) {
-                    echo "Deleted unexpected file '".$fileName."'\n";
+                    $output->writeln("Deleted unexpected file '".$fileName);
                 } else {
-                    echo "Failed to delete unexpected file '".$fileName."'\n";
+                    $output->writeln("Failed to delete unexpected file '".$fileName);
                     $fails++;
                 }
             } else {
-                echo $fileName."\n";
+                $output->writeln($fileName);
             }
         }
         if ($delete && $fails) {
-            echo "Failed to delete ".$fails." unexpected files'\n";
+            $output->writeln("Failed to delete ".$fails." unexpected files");
             return 1;
         }
         return 0;
