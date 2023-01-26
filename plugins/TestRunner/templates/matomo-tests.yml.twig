@@ -118,6 +118,7 @@ jobs:
 {%- if not plugin or hasJavaScriptTests %}
   Javascript:
     runs-on: ubuntu-20.04
+    timeout-minutes: 15
 {% if plugin %}
     strategy:
       fail-fast: false
@@ -152,6 +153,7 @@ jobs:
 {%- if not plugin or hasClientTests %}
   Client:
     runs-on: ubuntu-20.04
+    timeout-minutes: 15
 {% if plugin %}
     strategy:
       fail-fast: false

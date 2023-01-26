@@ -62,6 +62,7 @@ jobs:
           upload-artifacts: ${{ matrix.php == '7.2' }}
   Javascript:
     runs-on: ubuntu-20.04
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v3
         with:
@@ -77,6 +78,7 @@ jobs:
           node-version: '12'
   Client:
     runs-on: ubuntu-20.04
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v3
         with:
