@@ -212,7 +212,8 @@ class GenerateGitHubTestActionFile extends ConsoleCommand
 
     private function doesFolderContainClientTests($folderPath)
     {
-        return $this->folderContains($folderPath, '/.*\.spec\.js/');
+        return $this->folderContains($folderPath, '/.*\.spec\.js/')
+            || $this->folderContains($folderPath, '/.*\.spec\.ts/');
     }
 
     private function doesFolderContainUITests($folderPath)
