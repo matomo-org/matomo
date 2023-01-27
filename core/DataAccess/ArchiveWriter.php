@@ -85,7 +85,7 @@ class ArchiveWriter
     /**
      * @var int|false
      */
-    private $idArchive;
+    public $idArchive;
 
     /**
      * @var int|null
