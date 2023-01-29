@@ -223,14 +223,13 @@ class Mysql extends Db
             return $this->executeQuery($query, $parameters);
         } catch (Exception $e) {
             $isSelectQuery = stripos(trim($query), 'select ') === 0;
-            $isUpdateQuery = stripos(trim($query), 'update ') === 0;
 
-            if (($isSelectQuery || $isUpdateQuery)
+            if ($isSelectQuery
                 && !$this->activeTransaction
                 && $this->isMysqlServerHasGoneAwayError($e)) {
                 // mysql may return a MySQL server has gone away error when trying to execute the query
                 // in that case we want to retry establishing the connection once after a short sleep
-                // we're only retrying SELECT and UPDATE queries to prevent inserting records twice for some reason
+                // we're only retrying SELECT queries to prevent updating or inserting records twice for some reason
                 // when transactions are used, then we just want it to fail as we'd be only writing partial data
                 $this->reconnect($e);
                 return $this->executeQuery($query, $parameters);
