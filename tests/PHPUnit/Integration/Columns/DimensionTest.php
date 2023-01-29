@@ -12,6 +12,7 @@ namespace Piwik\Tests\Integration\Columns;
 
 use Piwik\Columns\Dimension;
 use Piwik\Columns\DimensionSegmentFactory;
+use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Segment;
 use Piwik\Metrics\Formatter;
 use Piwik\Plugin\Dimension\ActionDimension;
@@ -20,7 +21,9 @@ use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Manager;
 use Piwik\Segment\SegmentsList;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\Mock\FakeLogger;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Psr\Log\LoggerInterface;
 
 class CustomDimensionTest extends Dimension
 {
@@ -93,6 +96,9 @@ class ColumnDimensionTest extends IntegrationTestCase
         Manager::getInstance()->doNotLoadAlwaysActivatedPlugins();
 
         $this->dimension = new CustomDimensionTest();
+
+        // Set a fake logger on the container so that we can check when something is logged.
+        StaticContainer::getContainer()->set(LoggerInterface::class, new FakeLogger());
     }
 
     public function tearDown(): void
@@ -452,35 +458,73 @@ class ColumnDimensionTest extends IntegrationTestCase
     {
         $this->dimension->setType(Dimension::TYPE_DURATION_MS);
         $this->assertSame(800.0, $this->dimension->groupValue(800, 1));
+        $fakeLogger = StaticContainer::get(LoggerInterface::class);
+        $this->assertInstanceOf(FakeLogger::class, $fakeLogger);
+        $this->assertEmpty($fakeLogger->output);
     }
 
     public function test_groupValue_stringValue()
     {
         $this->dimension->setType(Dimension::TYPE_DURATION_MS);
         $this->assertSame(800.0, $this->dimension->groupValue('800', 1));
+        $fakeLogger = StaticContainer::get(LoggerInterface::class);
+        $this->assertInstanceOf(FakeLogger::class, $fakeLogger);
+        $this->assertEmpty($fakeLogger->output);
     }
 
     public function test_groupValue_largerValue()
     {
         $this->dimension->setType(Dimension::TYPE_DURATION_MS);
         $this->assertSame(80000000.0, $this->dimension->groupValue(80000000, 1));
+        $fakeLogger = StaticContainer::get(LoggerInterface::class);
+        $this->assertInstanceOf(FakeLogger::class, $fakeLogger);
+        $this->assertEmpty($fakeLogger->output);
     }
 
     public function test_groupValue_largerStringValue()
     {
         $this->dimension->setType(Dimension::TYPE_DURATION_MS);
         $this->assertSame(80000000.0, $this->dimension->groupValue('80000000', 1));
+        $fakeLogger = StaticContainer::get(LoggerInterface::class);
+        $this->assertInstanceOf(FakeLogger::class, $fakeLogger);
+        $this->assertEmpty($fakeLogger->output);
     }
 
     public function test_groupValue_largerValueWithDecimal()
     {
         $this->dimension->setType(Dimension::TYPE_DURATION_MS);
         $this->assertSame(80000000.0, $this->dimension->groupValue(80000000.123, 1));
+        $fakeLogger = StaticContainer::get(LoggerInterface::class);
+        $this->assertInstanceOf(FakeLogger::class, $fakeLogger);
+        $this->assertEmpty($fakeLogger->output);
     }
 
     public function test_groupValue_largerStringValueWithDecimal()
     {
         $this->dimension->setType(Dimension::TYPE_DURATION_MS);
         $this->assertSame(80000000.0, $this->dimension->groupValue('80000000.123', 1));
+        $fakeLogger = StaticContainer::get(LoggerInterface::class);
+        $this->assertInstanceOf(FakeLogger::class, $fakeLogger);
+        $this->assertEmpty($fakeLogger->output);
+    }
+
+    public function test_groupValue_nonNumeric()
+    {
+        $this->dimension->setType(Dimension::TYPE_DURATION_MS);
+        $this->assertSame(0.0, $this->dimension->groupValue('abc123', 1));
+        $fakeLogger = StaticContainer::get(LoggerInterface::class);
+        $this->assertInstanceOf(FakeLogger::class, $fakeLogger);
+        $this->assertNotEmpty($fakeLogger->output);
+        $this->assertStringContainsString('abc123', $fakeLogger->output);
+    }
+
+    public function test_groupValue_partialNumeric()
+    {
+        $this->dimension->setType(Dimension::TYPE_DURATION_MS);
+        $this->assertSame(120.0, $this->dimension->groupValue('123abc', 1));
+        $fakeLogger = StaticContainer::get(LoggerInterface::class);
+        $this->assertInstanceOf(FakeLogger::class, $fakeLogger);
+        $this->assertNotEmpty($fakeLogger->output);
+        $this->assertStringContainsString('123abc', $fakeLogger->output);
     }
 }
