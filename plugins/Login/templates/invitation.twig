@@ -17,10 +17,10 @@
                 {% endif %}
                 {% block content %}
                     <form method="post" action="{{ linkTo({'module': loginPlugin, 'action': 'acceptInvitation', 'token': null}) }}">
-                        <input type="hidden" name="token" value="{{ token }}"/>
+                        <input type="hidden" name="token" value="{{ token|e('html_attr') }}"/>
                         <div class="row">
                             <div class="col s12 input-field">
-                                <input type="text" name="login" value="{{ user.login }}" size="20" readonly
+                                <input type="text" name="login" value="{{ user.login|e('html_attr') }}" size="20" readonly
                                        tabindex="0"/>
                                 <label><i class="icon-user icon"></i> {{ 'Login_LoginOrEmail'|translate }}</label>
                             </div>
