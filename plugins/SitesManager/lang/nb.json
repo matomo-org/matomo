@@ -43,6 +43,8 @@
         "ExcludedUserAgents": "Ekskluderte brukeragenter",
         "ExtraInformationNeeded": "Du trenger følgende info for å sette opp Matomo på ditt system:",
         "Format_Utc": "Koordinert universaltid %s",
+        "GADetected": "%1$s ble oppdaget på nettsiden din. Du kan enkelt flytte historiske data og innstillinger fra %2$s til Matomo. %3$s%4$s%5$sLær mer i denne veiledningen%6$s",
+        "GADetectedEmail": "%1$s ble oppdaget på nettsiden din. Du kan enkelt flytte historiske data og innstillinger fra %2$s til Matomo. Lær mer her: %3$s",
         "GlobalExcludedUserAgentHelp1": "Skriv inn listen med brukeragenter som skal ekskluderes fra å spores av Matomo.",
         "GlobalExcludedUserAgentHelp2": "Du kan bruke denne for å ekskludere noen roboter fra å bli sporet.",
         "GlobalExcludedUserAgentHelp3": "Regulære uttrykk som f.eks. %s støttes.",

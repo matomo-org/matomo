@@ -1,5 +1,6 @@
 {
     "Goals": {
+        "AbandonedCart": "Elhagyott kosár",
         "AddGoal": "Cél hozzáadása",
         "AddNewGoal": "Új cél létrehozása",
         "AddNewGoalOrEditExistingGoal": "%1$sHozz létre új célt%2$s vagy %3$sszerkeszd%4$s a már meglévő célokat",
@@ -24,9 +25,9 @@
         "GoalIsTriggered": "Cél teljesülése",
         "GoalIsTriggeredWhen": "Célt teljesítettnek tekintjük, ha",
         "GoalName": "Cél elnevezése",
+        "GoalX": "%s nevű cél",
         "Goals": "Célok",
         "GoalsOverview": "Célok áttekintése",
-        "GoalX": "%s nevű cél",
         "IsExactly": "megegyezik ezzel: %s",
         "Manually": "nem következik be automatikusan, csak ott",
         "ManuallyTriggeredUsingJavascriptFunction": "Nem automatikusan történő célteljesülést a JavaScript API trackGoal() funkciójával lehet létrehozni",
@@ -35,8 +36,8 @@
         "Optional": "(opcionális)",
         "Pattern": "Egyezési minta",
         "ReturningVisitorsConversionRateIs": "A visszatérő látogatók konverziós aránya %s",
-        "UpdateGoal": "Cél frissítése",
         "URL": "URL",
+        "UpdateGoal": "Cél frissítése",
         "ViewAndEditGoals": "Célok megtekintése és szerkesztése",
         "VisitUrl": "meglátogatnak egy adott URL-t (mely egy weblapot vagy weblapok csoportját jelenti)",
         "WhenVisitors": "bekövetkezik, ha a látogatók",

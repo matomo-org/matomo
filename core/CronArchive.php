@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik;
 
 use Exception;
@@ -24,7 +25,6 @@ use Piwik\CronArchive\SharedSiteIds;
 use Piwik\CronArchive\StopArchiverException;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\Model;
-use Piwik\DataAccess\RawLogDao;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Metrics\Formatter;
 use Piwik\Period\Factory as PeriodFactory;
@@ -72,7 +72,7 @@ class CronArchive
     // By default, we only process the current week/month/year at most once an hour
     private $todayArchiveTimeToLive;
 
-    private $allWebsites = array();
+    private $allWebsites = [];
 
     /**
      * @var FixedSiteIds|SharedSiteIds
@@ -90,7 +90,7 @@ class CronArchive
     private $model;
 
     private $lastSuccessRunTimestamp = false;
-    private $errors = array();
+    private $errors = [];
 
     private $apiToInvalidateArchivedReport;
 
@@ -104,7 +104,7 @@ class CronArchive
      *
      * @var int[]
      */
-    public $shouldArchiveSpecifiedSites = array();
+    public $shouldArchiveSpecifiedSites = [];
 
     public $shouldSkipSpecifiedSites = [];
 
@@ -248,8 +248,6 @@ class CronArchive
 
         $this->periodIdsToLabels = array_flip(Piwik::$idPeriods);
 
-        $this->rawLogDao = new RawLogDao();
-
         $this->supportsAsync = $this->makeCliMulti()->supportsAsync();
         $this->cliMultiRequestParser = new RequestParser($this->supportsAsync);
 
@@ -293,7 +291,7 @@ class CronArchive
          *
          * @param CronArchive $this
          */
-        Piwik::postEvent('CronArchive.init.start', array($this));
+        Piwik::postEvent('CronArchive.init.start', [$this]);
 
         SettingsServer::setMaxExecutionTime(0);
 
@@ -420,9 +418,7 @@ class CronArchive
         $this->logger->info("Processed $numArchivesFinished archives.");
         $this->logger->info("Total API requests: {$this->requests}");
 
-        $this->logger->info("done: " .
-            $this->requests . " req, " . round($timer->getTimeMs()) . " ms, " .
-            (empty($this->errors)
+        $this->logger->info("done: " . $this->requests . " req, " . round($timer->getTimeMs()) . " ms, " . (empty($this->errors)
                 ? self::NO_ERROR
                 : (count($this->errors) . " errors."))
         );
@@ -600,7 +596,7 @@ class CronArchive
          *
          * @param CronArchive $this
          */
-        Piwik::postEvent('CronArchive.end', array($this));
+        Piwik::postEvent('CronArchive.end', [$this]);
 
         if (empty($this->errors)) {
             // No error -> Logs the successful script execution until completion
@@ -704,7 +700,7 @@ class CronArchive
     public function logError($m)
     {
         if (!defined('PIWIK_ARCHIVE_NO_TRUNCATE')) {
-            $m = str_replace(array("\n", "\t"), " ", $m);
+            $m = str_replace(["\n", "\t"], " ", $m);
             if (mb_strlen($m) > self::TRUNCATE_ERROR_MESSAGE_SUMMARY) {
                 $numCharactersKeepFromEnd = 100;
                 $m = mb_substr($m, 0, self::TRUNCATE_ERROR_MESSAGE_SUMMARY - $numCharactersKeepFromEnd)
@@ -779,7 +775,7 @@ class CronArchive
          *
          * @param array $websiteIds The list of website IDs to launch the archiving process for.
          */
-        Piwik::postEvent('CronArchive.filterWebsiteIds', array(&$websiteIds));
+        Piwik::postEvent('CronArchive.filterWebsiteIds', [&$websiteIds]);
     }
 
     /**
@@ -973,7 +969,7 @@ class CronArchive
         try {
             new Segment($segmentDefinition, $idSites);
         } catch (\Exception $e) {
-            $this->logger->info("Segment '".$segmentDefinition."' is not a supported segment");
+            $this->logger->info("Segment '" . $segmentDefinition . "' is not a supported segment");
             return false;
         }
         return true;
@@ -1168,7 +1164,7 @@ class CronArchive
         $this->logger->info("- Reports for today will be processed at most every " . $this->todayArchiveTimeToLive
             . " seconds. You can change this value in Matomo UI > Settings > General Settings.");
 
-        foreach (array('week', 'month', 'year', 'range') as $period) {
+        foreach (['week', 'month', 'year', 'range'] as $period) {
             $ttl = Rules::getPeriodArchiveTimeToLiveDefault($period);
 
             if (!empty($ttl) && $ttl !== $this->todayArchiveTimeToLive) {
@@ -1240,7 +1236,7 @@ class CronArchive
         }
 
         if (empty($cache[$idSite])) {
-            $cache[$idSite] = array();
+            $cache[$idSite] = [];
         }
 
         $customRanges = array_filter(Config::getInstance()->General['archiving_custom_ranges']);
@@ -1258,15 +1254,15 @@ class CronArchive
      */
     private function loadCustomDateRangeToPreProcess()
     {
-        $customDateRangesToProcessForSites = array();
+        $customDateRangesToProcessForSites = [];
 
         // For all users who have selected this website to load by default,
         // we load the default period/date that will be loaded for this user
         // and make sure it's pre-archived
-        $allUsersPreferences = APIUsersManager::getInstance()->getAllUsersPreferences(array(
+        $allUsersPreferences = APIUsersManager::getInstance()->getAllUsersPreferences([
             APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE,
             APIUsersManager::PREFERENCE_DEFAULT_REPORT
-        ));
+        ]);
 
         foreach ($allUsersPreferences as $userLogin => $userPreferences) {
             if (!isset($userPreferences[APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE])) {
@@ -1283,7 +1279,7 @@ class CronArchive
             if (isset($userPreferences[APIUsersManager::PREFERENCE_DEFAULT_REPORT])
                 && is_numeric($userPreferences[APIUsersManager::PREFERENCE_DEFAULT_REPORT])) {
                 // If user selected one particular website ID
-                $idSites = array($userPreferences[APIUsersManager::PREFERENCE_DEFAULT_REPORT]);
+                $idSites = [$userPreferences[APIUsersManager::PREFERENCE_DEFAULT_REPORT]];
             } else {
                 // If user selected "All websites" or some other random value, we pre-process all websites that they have access to
                 $idSites = APISitesManager::getInstance()->getSitesIdWithAtLeastViewAccess($userLogin);

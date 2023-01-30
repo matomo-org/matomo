@@ -133,7 +133,6 @@
         "ExceptionInvalidRendererFormat": "Format prikazivača (renderer) '%1$s' nije važeći. Molimo probajte ponovo sa: %2$s.",
         "ExceptionInvalidReportRendererFormat": "Format reporta '%1$s' nije važeći. Probajte jedan od ovih: %2$s.",
         "ExceptionInvalidStaticGraphType": "Statički grafikon tipa '%1$s' nije važeći. Probajte jedan od ovih umjesto toga: %2$s.",
-        "ExceptionInvalidToken": "Token (žeton) nije važeći.",
         "ExceptionLanguageFileNotFound": "Fajl jezika '%s' nije pronađen.",
         "ExceptionMethodNotFound": "Metoda '%1$s' ne postoji ili nije dostupna modulu '%2$s'.",
         "ExceptionMissingFile": "Nedostajući fajl: %s",

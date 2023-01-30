@@ -41,12 +41,13 @@ jobs:
             exit 0;
           fi
 
-          echo ::set-output name=islocalbranch::$BASE == $GITHUB_REPOSITORY
-          echo ::set-output name=branch::$REF
-          echo ::set-output name=base::$BASE_SHA
-      - uses: actions/checkout@v2
+          echo "islocalbranch=$(expr $BASE == $GITHUB_REPOSITORY)" >> $GITHUB_OUTPUT
+          echo "branch=$REF" >> $GITHUB_OUTPUT
+          echo "base=$BASE_SHA" >> $GITHUB_OUTPUT
+      - uses: actions/checkout@v3
         with:
           lfs: false
+          persist-credentials: false
         if: steps.vars.outputs.branch != ''
       - name: Check vue changes
         id: vuecheck
@@ -61,7 +62,7 @@ jobs:
             exit 0;
           fi
 
-          echo ::set-output name=vue_modified::1
+          echo "vue_modified=1" >> $GITHUB_OUTPUT
         if: steps.vars.outputs.branch != ''
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -69,7 +70,7 @@ jobs:
           php-version: '8.0'
         if: steps.vars.outputs.branch != '' && steps.vuecheck.outputs.vue_modified == '1'
       - name: Setup node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: '16'
           cache: 'npm'
@@ -78,10 +79,10 @@ jobs:
         if: steps.vars.outputs.branch != '' && steps.vuecheck.outputs.vue_modified == '1'
       - name: Get composer cache directory
         id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
         if: steps.vars.outputs.branch != '' && steps.vuecheck.outputs.vue_modified == '1'
       - name: Cache dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -115,11 +116,14 @@ jobs:
           chmod 600 $HOME/.netrc
           git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git config --global user.name "$GITHUB_ACTOR"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
           if [[ ${{ steps.vars.outputs.islocalbranch }} ]]
           then
-            git fetch --depth=1 origin ${{ steps.vars.outputs.branch }}
-            git checkout ${{ steps.vars.outputs.branch }}
+            git fetch --depth=1 origin $BRANCH_NAME
+            git checkout $BRANCH_NAME
           fi
+        env:
+          BRANCH_NAME: ${{ steps.vars.outputs.branch }}
         if: steps.vars.outputs.branch != '' && steps.vuecheck.outputs.vue_modified == '1'
       - name: Build Vue Modules
         run: php ./console vue:build
@@ -132,7 +136,7 @@ jobs:
             if [[ ! ${{ steps.vars.outputs.islocalbranch }} ]]
             then
               echo "It's only possible to update local branches automatically. Adding a comment instead."
-              echo ::set-output name=failure::1
+              echo "failure=1" >> $GITHUB_OUTPUT
             else
               cd $GITHUB_WORKSPACE
               git add plugins/*/vue/dist/*.js plugins/*/vue/dist/*.json
@@ -141,7 +145,7 @@ jobs:
             fi
           fi
         if: steps.vars.outputs.branch != '' && steps.vuecheck.outputs.vue_modified == '1'
-      - uses: actions/github-script@v5
+      - uses: actions/github-script@v6
         with:
           script: |
             github.rest.issues.createComment({

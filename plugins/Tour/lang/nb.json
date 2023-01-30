@@ -14,6 +14,8 @@
         "CompletionTitle": "Bra jobba!",
         "ConfigureGeolocation": "Sett opp geoposisjonering",
         "ConfigureGeolocationDescription": "Forsikre deg om at posisjoneringen av dine besøkende er riktig.",
+        "ConnectConsentManager": "Koble til %1$s-samtykkebehandler",
+        "ConnectConsentManagerIntro": "%1$s-samtykkebehandler ble oppdaget på nettsiden din. Lær hvordan du kobler %1$s og Matomo sammen slik at de fungerer sammen.",
         "CustomiseDashboard": "Sett opp oversikt",
         "CustomiseDashboardDescription": "Du kan legge til nye miniprogrammer i oversikten din, for å forsikre deg om at den rapporter alle dine viktigste målingsverdier.",
         "DefineGoal": "Legg til et mål",

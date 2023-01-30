@@ -86,8 +86,8 @@ describe("Login", function () {
     });
 
     it("should redirect to Matomo when correct credentials are supplied", async function() {
-        await page.type("#login_form_login", "superUserLogin");
-        await page.type("#login_form_password", "superUserPass");
+        await page.type("#login_form_login", superUserLogin);
+        await page.type("#login_form_password", superUserPassword);
         await page.evaluate(function(){
             $('#login_form_submit').click();
         });
@@ -110,7 +110,7 @@ describe("Login", function () {
 
     it("login with email and password should work", async function() {
         await page.type("#login_form_login", "hello@example.org");
-        await page.type("#login_form_password", "superUserPass");
+        await page.type("#login_form_password", superUserPassword);
         await page.evaluate(function(){
             $('#login_form_submit').click();
         });
@@ -131,8 +131,8 @@ describe("Login", function () {
     });
 
     it("should show reset password form and error message on error", async function() {
-        await page.type("#reset_form_login", "superUserLogin");
-        await page.type("#reset_form_password", "superUserPass2");
+        await page.type("#reset_form_login", superUserLogin);
+        await page.type("#reset_form_password", superUserPassword + '2');
         await page.click("#reset_form_submit");
         await page.waitForNetworkIdle();
         await page.waitForSelector('.notification');
@@ -143,9 +143,9 @@ describe("Login", function () {
     it("should send email when password reset form submitted", async function() {
         await page.reload();
         await page.click("a#login_form_nav");
-        await page.type("#reset_form_login", "superUserLogin");
-        await page.type("#reset_form_password", "superUserPass2");
-        await page.type("#reset_form_password_bis", "superUserPass2");
+        await page.type("#reset_form_login", superUserLogin);
+        await page.type("#reset_form_password", superUserPassword + '2');
+        await page.type("#reset_form_password_bis", superUserPassword + '2');
         await page.click("#reset_form_submit");
         await page.waitForNetworkIdle();
 
@@ -174,7 +174,7 @@ describe("Login", function () {
 
     it("should reset password when password reset link is clicked", async function() {
 
-        await page.type("#mtmpasswordconfirm", "superUserPass2");
+        await page.type("#mtmpasswordconfirm", superUserPassword + '2');
         await page.click("#login_reset_confirm");
         await page.waitForNetworkIdle();
 
@@ -182,8 +182,8 @@ describe("Login", function () {
     });
 
     it("should login successfully when new credentials used", async function() {
-        await page.type("#login_form_login", "superUserLogin");
-        await page.type("#login_form_password", "superUserPass2");
+        await page.type("#login_form_login", superUserLogin);
+        await page.type("#login_form_password", superUserPassword + '2');
         await page.evaluate(function(){
             $('#login_form_submit').click();
         });

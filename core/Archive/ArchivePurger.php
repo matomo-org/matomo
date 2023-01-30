@@ -99,9 +99,6 @@ class ArchivePurger
             return 0;
         }
 
-        $emptyIdArchives = $this->model->getPlaceholderArchiveIds($numericTable);
-        $archiveIds = array_merge($archiveIds, $emptyIdArchives);
-
         $this->logger->info("Found {countArchiveIds} invalidated archives safe to delete in {table}.", array(
             'table' => $numericTable, 'countArchiveIds' => count($archiveIds)
         ));

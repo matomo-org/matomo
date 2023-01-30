@@ -752,7 +752,7 @@ class Http
                         [$header, $response] = $split;
                     } else {
                         $response = '';
-                        $header = $split;
+                        $header = reset($split);
                     }
                 }
 
@@ -1130,7 +1130,8 @@ class Http
     }
 
     /**
-     * Checks the request is over SSL
+     * Checks if HTTPS is available
+     *
      * @return bool
      */
     public static function isUpdatingOverHttps()

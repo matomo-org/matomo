@@ -122,7 +122,6 @@ class JqplotDataGenerator
             list($yLabels, $serieses) = $this->getMainTableSerieses($dataTable, $columnsToDisplay);
         }
 
-        $visualization->dataTable = $dataTable;
         $visualization->properties = $this->properties;
 
         $visualization->setAxisXLabels($xLabels);

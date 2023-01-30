@@ -46,15 +46,6 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(method_exists(TestCase::class,'setGroups'));
     }
 
-    public function test_woff2_fileIsUpToDate()
-    {
-        link(PIWIK_INCLUDE_PATH . "/plugins/Morpheus/fonts/matomo.ttf", "temp.ttf");
-        $command = PIWIK_INCLUDE_PATH . "/../travis_woff2/woff2_compress 'temp.ttf'";
-        $log = shell_exec($command);
-
-        $this->assertFileEquals('temp.woff2', PIWIK_INCLUDE_PATH . "/plugins/Morpheus/fonts/matomo.woff2", "woff2 file is out of date.\nCommand output:\n" . $log);
-    }
-
     public function test_minimumPHPVersion_isEnforced()
     {
         global $piwik_minimumPHPVersion;

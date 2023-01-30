@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\DataAccess;
 
 use Exception;
@@ -65,21 +66,41 @@ class ArchiveWriter
      */
     const DONE_PARTIAL = 5;
 
-    protected $fields = array('idarchive',
+    protected $fields = ['idarchive',
         'idsite',
         'date1',
         'date2',
         'period',
         'ts_archived',
         'name',
-        'value');
+        'value'];
 
-    private $recordsToWriteSpool = array(
-        'numeric' => array(),
-        'blob' => array()
-    );
+    private $recordsToWriteSpool = [
+        'numeric' => [],
+        'blob' => []
+    ];
 
     const MAX_SPOOL_SIZE = 50;
+
+    /**
+     * @var int|false
+     */
+    public $idArchive;
+
+    /**
+     * @var int|null
+     */
+    private $idSite;
+
+    /**
+     * @var \Piwik\Segment
+     */
+    private $segment;
+
+    /**
+     * @var \Piwik\Period
+     */
+    private $period;
 
     /**
      * @var ArchiveProcessor\Parameters
@@ -90,6 +111,16 @@ class ArchiveWriter
      * @var string
      */
     private $earliestNow;
+
+    /**
+     * @var string
+     */
+    private $doneFlag;
+
+    /**
+     * @var Date|null
+     */
+    private $dateStart;
 
     /**
      * ArchiveWriter constructor.
@@ -105,7 +136,7 @@ class ArchiveWriter
         $this->period    = $params->getPeriod();
         $this->parameters = $params;
 
-        $idSites = array($this->idSite);
+        $idSites = [$this->idSite];
         $this->doneFlag = Rules::getDoneStringFlagFor($idSites, $this->segment, $this->period->getLabel(), $params->getRequestedPlugin());
 
         $this->dateStart = $this->period->getDateStart();
@@ -211,7 +242,7 @@ class ArchiveWriter
         $records = $this->recordsToWriteSpool[$valueType];
 
         $bindSql = $this->getInsertRecordBind();
-        $values  = array();
+        $values  = [];
 
         $valueSeen = false;
         foreach ($records as $record) {
@@ -260,10 +291,10 @@ class ArchiveWriter
         }
 
         $valueType = $this->isRecordNumeric($value) ? 'numeric' : 'blob';
-        $this->recordsToWriteSpool[$valueType][] = array(
+        $this->recordsToWriteSpool[$valueType][] = [
             0 => $name,
             1 => $value
-        );
+        ];
 
         if (count($this->recordsToWriteSpool[$valueType]) >= self::MAX_SPOOL_SIZE) {
             $this->flushSpool($valueType);
@@ -285,14 +316,14 @@ class ArchiveWriter
         if ($numRecords > 1) {
             $this->batchInsertSpool($valueType);
         } elseif ($numRecords === 1) {
-            list($name, $value) = $this->recordsToWriteSpool[$valueType][0];
+            [$name, $value] = $this->recordsToWriteSpool[$valueType][0];
             $tableName = $this->getTableNameToInsert($value);
             $fields    = $this->getInsertFields();
             $record    = $this->getInsertRecordBind();
 
             $this->getModel()->insertRecord($tableName, $fields, $record, $name, $value);
         }
-        $this->recordsToWriteSpool[$valueType] = array();
+        $this->recordsToWriteSpool[$valueType] = [];
     }
 
     protected function getInsertRecordBind()
@@ -301,12 +332,12 @@ class ArchiveWriter
         if (empty($this->earliestNow)) {
             $this->earliestNow = $now;
         }
-        return array($this->getIdArchive(),
+        return [$this->getIdArchive(),
             $this->idSite,
             $this->dateStart->toString('Y-m-d'),
             $this->period->getDateEnd()->toString('Y-m-d'),
             $this->period->getId(),
-            $now);
+            $now];
     }
 
     protected function getTableNameToInsert($value)

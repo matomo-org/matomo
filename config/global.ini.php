@@ -721,7 +721,7 @@ enable_trusted_host_check = 1
 ; The API server is an essential part of the Matomo infrastructure/ecosystem to
 ; provide services to Matomo installations, e.g., getLatestVersion and
 ; subscribeNewsletter.
-api_service_url = http://api.matomo.org
+api_service_url = https://api.matomo.org
 
 ; When the ImageGraph plugin is activated, report metadata have an additional entry : 'imageGraphUrl'.
 ; This entry can be used to request a static graph for the requested report.
@@ -1109,6 +1109,9 @@ type = ; SMTP Auth type. By default: NONE. For example: LOGIN
 username = ; SMTP username
 password = ; SMTP password
 encryption = ; SMTP transport-layer encryption, either 'none', 'ssl', 'tls', or empty (i.e., auto).
+ssl_disallow_self_signed = 1 ; set to 0 to allow email server with self signed cert (not recommended)
+ssl_verify_peer = 1 ; set to 0 to disable verifying the authenticity of the peer's certificate (not recommended)
+ssl_verify_peer_name = 1 ; set to 0 to disable verifying the authenticity of the peer's name (not recommended)
 
 [proxy]
 type = BASIC ; proxy type for outbound/outgoing connections; currently, only BASIC is supported

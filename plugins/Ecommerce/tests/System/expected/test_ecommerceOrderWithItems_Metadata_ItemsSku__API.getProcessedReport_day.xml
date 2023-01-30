@@ -77,7 +77,20 @@
 			<orders>0</orders>
 		</row>
 	</reportData>
-	<reportMetadata />
+	<reportMetadata>
+		<row>
+			<segment>productSku==SKU2</segment>
+		</row>
+		<row>
+			<segment>productSku==SKU+VERY+nice+indeed</segment>
+		</row>
+		<row>
+			<segment>productSku==ANOTHER+SKU+HERE</segment>
+		</row>
+		<row>
+			<segment>productSku==SKU+IN+ABANDONED+CART+TWO</segment>
+		</row>
+	</reportMetadata>
 	<reportTotal>
 		<revenue>3111.22</revenue>
 		<quantity>10</quantity>

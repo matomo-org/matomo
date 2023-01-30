@@ -45,7 +45,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             $field->uiControlAttributes['field'] = $arrayField->toArray();
             $field->inlineHelp = Piwik::translate('CoreAdminHome_CorsDomainsHelp');
             $field->transform = function($values) {
-                return array_filter($values);
+                return array_values(array_filter($values));
             };
         });
     }
@@ -58,7 +58,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             $arrayField = new FieldConfig\ArrayField(Piwik::translate('CoreAdminHome_ValidPiwikHostname'), FieldConfig::UI_CONTROL_TEXT);
             $field->uiControlAttributes['field'] = $arrayField->toArray();
             $field->transform = function($values) {
-                return array_filter($values);
+                return array_values(array_filter($values));
             };
         });
     }
