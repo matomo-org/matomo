@@ -90,6 +90,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
               $('.dataTableScroller').css('overflow-x', 'scroll');
             });
+            await page.waitForTimeout(500);
             pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('dashboard3');
         });

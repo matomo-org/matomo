@@ -460,7 +460,8 @@ PageRenderer.prototype._setupWebpageEvents = function () {
                 await this.waitForNetworkIdle(); // wait for other requests to finish before trying to reload
                 await this.waitForTimeout(500);
                 await this.webpage[method]({url: request.url() + '&reload=' + Date.now()}); // add another get parameter to ensure browser doesn't use cache
-                await this.webpage.waitForTimeout(1000);
+                await this.webpage.waitForTimeout(500);
+                await this.waitForNetworkIdle(); // wait for request to finish before continuing with tests
             } else {
                 console.log('Reloading '+type[1]+' failed (' + errorMessage + ').');
             }
