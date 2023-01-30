@@ -34,10 +34,13 @@ abstract class Base extends VisitDimension
     protected $referrerUrlParse;
     protected $currentUrlParse;
     protected $idsite;
+    protected $campaignNames;
+    protected $campaignKeywords;
 
     // Used to prefix when a adsense referrer is detected
     const LABEL_PREFIX_ADWORDS_KEYWORD = '(adwords) ';
     const LABEL_ADWORDS_NAME = 'AdWords';
+
 
     /**
      * Returns an array containing the following information:
