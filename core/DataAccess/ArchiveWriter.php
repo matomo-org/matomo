@@ -113,6 +113,16 @@ class ArchiveWriter
     private $earliestNow;
 
     /**
+     * @var string
+     */
+    private $doneFlag;
+
+    /**
+     * @var Date|null
+     */
+    private $dateStart;
+
+    /**
      * ArchiveWriter constructor.
      * @param ArchiveProcessor\Parameters $params
      * @param bool $isArchiveTemporary Deprecated. Has no effect.
