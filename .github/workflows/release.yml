@@ -138,11 +138,10 @@ jobs:
              - Beta and Release Candidates releases can be found at https://builds.matomo.org/ ([learn more](http://matomo.org/faq/how-to-update/faq_159/))"
           fi
           
-          body="${body//'%'/'%25'}"
-          body="${body//$'\n'/'%0A'}"
-          body="${body//$'\r'/'%0D'}"
           echo "version=$version" >> $GITHUB_OUTPUT
-          echo "body=$body" >> $GITHUB_OUTPUT
+          echo 'body<<EOF' >> $GITHUB_OUTPUT
+          echo $body >> $GITHUB_OUTPUT
+          echo 'EOF' >> $GITHUB_OUTPUT
 
           cd $GITHUB_WORKSPACE
           chmod 755 ./.github/scripts/*.sh
