@@ -345,6 +345,10 @@ DataTable_RowActions_RowEvolution.prototype.performAction = function (label, tr,
         extraParams['abandonedCarts'] = this.dataTable.param.abandonedCarts;
     }
 
+    if (this.dataTable.param.secondaryDimension !== undefined) {
+        extraParams['secondaryDimension'] = this.dataTable.param.secondaryDimension;
+    }
+
     if (this.dataTable.param.flat !== undefined) {
         extraParams['flat'] = this.dataTable.param.flat;
     }
