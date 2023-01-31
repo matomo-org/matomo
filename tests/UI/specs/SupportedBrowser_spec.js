@@ -20,6 +20,10 @@ describe("SupportedBrowser", function () {
         testEnvironment.save();
     });
 
+    after(async () => {
+        await page.setUserAgent(page.originalUserAgent);
+    });
+
     it("should load widget when browser supported", async function () {
         page.setUserAgent(firefoxUserAgent);
         await page.goto(widgetUrl);
