@@ -31,6 +31,11 @@ class VisitExcluded
 
     private $siteCache = array();
 
+    public $request;
+    public $idSite;
+    public $userAgent;
+    public $ip;
+
     /**
      * @param Request $request
      */

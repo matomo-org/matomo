@@ -12167,15 +12167,15 @@ function piwikAjaxForm($parse) {
 
 piwikAjaxForm.$inject = ['$parse'];
 window.angular.module('piwikApp').directive('piwikAjaxForm', piwikAjaxForm);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ShowHelpLink/ShowHelpLink.vue?vue&type=template&id=0a8da44e
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ShowHelpLink/ShowHelpLink.vue?vue&type=template&id=19288664
 
 
-var ShowHelpLinkvue_type_template_id_0a8da44e_hoisted_1 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+var ShowHelpLinkvue_type_template_id_19288664_hoisted_1 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-help"
 }, null, -1);
 
-var ShowHelpLinkvue_type_template_id_0a8da44e_hoisted_2 = [ShowHelpLinkvue_type_template_id_0a8da44e_hoisted_1];
-function ShowHelpLinkvue_type_template_id_0a8da44e_render(_ctx, _cache, $props, $setup, $data, $options) {
+var ShowHelpLinkvue_type_template_id_19288664_hoisted_2 = [ShowHelpLinkvue_type_template_id_19288664_hoisted_1];
+function ShowHelpLinkvue_type_template_id_19288664_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
     class: "item-help-icon",
     tabindex: "5",
@@ -12183,9 +12183,9 @@ function ShowHelpLinkvue_type_template_id_0a8da44e_render(_ctx, _cache, $props, 
     onClick: _cache[0] || (_cache[0] = function () {
       return _ctx.showHelp && _ctx.showHelp.apply(_ctx, arguments);
     })
-  }, ShowHelpLinkvue_type_template_id_0a8da44e_hoisted_2);
+  }, ShowHelpLinkvue_type_template_id_19288664_hoisted_2);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ShowHelpLink/ShowHelpLink.vue?vue&type=template&id=0a8da44e
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ShowHelpLink/ShowHelpLink.vue?vue&type=template&id=19288664
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ShowHelpLink/ShowHelpLink.vue?vue&type=script&lang=ts
 
@@ -12238,7 +12238,7 @@ var ShowHelpLinkvue_type_script_lang_ts_REPORTING_HELP_NOTIFICATION_ID = 'report
 
 
 
-ShowHelpLinkvue_type_script_lang_ts.render = ShowHelpLinkvue_type_template_id_0a8da44e_render
+ShowHelpLinkvue_type_script_lang_ts.render = ShowHelpLinkvue_type_template_id_19288664_render
 
 /* harmony default export */ var ShowHelpLink = (ShowHelpLinkvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ShowHelpLink/ShowHelpLink.adapter.ts

@@ -61,6 +61,11 @@ class PluginsArchiver
      */
     private $shouldAggregateFromRawData;
 
+    /**
+     * @var ArchiveWriter
+     */
+    private $archiveWriter;
+
     public function __construct(Parameters $params, ArchiveWriter $archiveWriter = null)
     {
         $this->params = $params;

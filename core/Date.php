@@ -563,10 +563,7 @@ class Date
      */
     public function isToday()
     {
-        $timeZone = new \DateTimeZone($this->timezone);
-        $today = (new \DateTime('today', $timeZone))->format('Y-m-d');
-        $time = (new \DateTime(gmdate(self::DATE_TIME_FORMAT, $this->timestamp), $timeZone))->format('Y-m-d');
-        return $time === $today;
+        return $this->toString('Y-m-d') === Date::factory('today', $this->timezone)->toString('Y-m-d');
     }
 
     /**

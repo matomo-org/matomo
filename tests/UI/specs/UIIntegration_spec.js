@@ -201,6 +201,12 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             expect(await page.screenshot({ fullPage: true })).to.matchImage('fatal_error_safemode');
         });
 
+        it('should the error page instead of safemode when error while rendering view is not a twig error', async function() {
+
+            await page.goto("?" + generalParams + "&module=Widgetize&action=iframe&moduleToWidgetize=Dashboard&actionToWidgetize=index&segment=userid%3D%3D35745");
+            expect(await page.screenshot({ fullPage: true })).to.matchImage('view_render_error_user_input');
+        });
+
         // not logged in
         it('should show login form for non super user if invalid idsite given', async function() {
             testEnvironment.testUseMockAuth = 0;

@@ -317,16 +317,16 @@
         },
         {
             "name": "matomo/cache",
-            "version": "2.0.5",
+            "version": "2.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/component-cache.git",
-                "reference": "a54c3ae324ba1297121aea78dec7724ddaaefb56"
+                "reference": "8dd6852b26bc0060a85678602e3b7d624e0ad0ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/component-cache/zipball/a54c3ae324ba1297121aea78dec7724ddaaefb56",
-                "reference": "a54c3ae324ba1297121aea78dec7724ddaaefb56",
+                "url": "https://api.github.com/repos/matomo-org/component-cache/zipball/8dd6852b26bc0060a85678602e3b7d624e0ad0ea",
+                "reference": "8dd6852b26bc0060a85678602e3b7d624e0ad0ea",
                 "shasum": ""
             },
             "require": {
@@ -362,9 +362,9 @@
             ],
             "support": {
                 "issues": "https://github.com/matomo-org/component-cache/issues",
-                "source": "https://github.com/matomo-org/component-cache/tree/2.0.5"
+                "source": "https://github.com/matomo-org/component-cache/tree/2.0.6"
             },
-            "time": "2021-09-13T22:17:50+00:00"
+            "time": "2023-01-18T14:01:31+00:00"
         },
         {
             "name": "matomo/decompress",
@@ -408,16 +408,16 @@
         },
         {
             "name": "matomo/device-detector",
-            "version": "6.0.5",
+            "version": "6.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/device-detector.git",
-                "reference": "0e8c4e1d7a65b34f719aef2f832be1abbe0812ea"
+                "reference": "ce5ef5e6776c16af306d38e20674973f072e05ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/0e8c4e1d7a65b34f719aef2f832be1abbe0812ea",
-                "reference": "0e8c4e1d7a65b34f719aef2f832be1abbe0812ea",
+                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/ce5ef5e6776c16af306d38e20674973f072e05ed",
+                "reference": "ce5ef5e6776c16af306d38e20674973f072e05ed",
                 "shasum": ""
             },
             "require": {
@@ -473,7 +473,7 @@
                 "source": "https://github.com/matomo-org/matomo",
                 "wiki": "https://dev.matomo.org/"
             },
-            "time": "2023-01-11T09:41:57+00:00"
+            "time": "2023-01-16T08:18:02+00:00"
         },
         {
             "name": "matomo/doctrine-cache-fork",
@@ -613,16 +613,16 @@
         },
         {
             "name": "matomo/matomo-php-tracker",
-            "version": "3.1.1",
+            "version": "3.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/matomo-php-tracker.git",
-                "reference": "544148c29227da6869a0324f3b12b76a54006ccd"
+                "reference": "78932f61692b18c6b5de923dbc3880ad3380e328"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/544148c29227da6869a0324f3b12b76a54006ccd",
-                "reference": "544148c29227da6869a0324f3b12b76a54006ccd",
+                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/78932f61692b18c6b5de923dbc3880ad3380e328",
+                "reference": "78932f61692b18c6b5de923dbc3880ad3380e328",
                 "shasum": ""
             },
             "require": {
@@ -665,7 +665,7 @@
                 "issues": "https://github.com/matomo-org/matomo-php-tracker/issues",
                 "source": "https://github.com/matomo-org/matomo-php-tracker"
             },
-            "time": "2022-12-07T08:35:02+00:00"
+            "time": "2023-01-18T14:28:44+00:00"
         },
         {
             "name": "matomo/network",
@@ -3099,16 +3099,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "8.5.31",
+            "version": "8.5.32",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "33c126b09a42de5c99e5e8032b54e8221264a74e"
+                "reference": "375686930d05c9fd7d20f6e5fc38121e8d7a9d55"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/33c126b09a42de5c99e5e8032b54e8221264a74e",
-                "reference": "33c126b09a42de5c99e5e8032b54e8221264a74e",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/375686930d05c9fd7d20f6e5fc38121e8d7a9d55",
+                "reference": "375686930d05c9fd7d20f6e5fc38121e8d7a9d55",
                 "shasum": ""
             },
             "require": {
@@ -3176,7 +3176,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/8.5.31"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/8.5.32"
             },
             "funding": [
                 {
@@ -3192,7 +3192,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-10-28T05:57:37+00:00"
+            "time": "2023-01-26T08:30:25+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",

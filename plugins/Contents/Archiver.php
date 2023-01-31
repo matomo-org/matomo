@@ -28,6 +28,10 @@ class Archiver extends \Piwik\Plugin\Archiver
     protected $arrays   = array();
     protected $metadata = array();
 
+    protected $columnToSortByBeforeTruncation;
+    protected $maximumRowsInDataTable;
+    protected $maximumRowsInSubDataTable;
+
     public function __construct($processor)
     {
         parent::__construct($processor);
