@@ -4933,23 +4933,21 @@ if ($mysql) {
 
         tracker.enableLinkTracking();
 
-        wait(300);
+        wait(500);
 
         var token2 = '2' + token;
         resetTracker(tracker, token2);
         preventClickDefault('#isWithinOutlink');
         triggerEvent(_s('#isWithinOutlink'), 'click'); // click on an element within a link
 
-        wait(300);
-
+        wait(500);
 
         var token3 = '3' + token;
         resetTracker(tracker, token3);
         preventClickDefault('#isOutlink');
         triggerEvent(_s('#isOutlink'), 'click'); // click on the link element itself
 
-        wait(300);
-
+        wait(500);
 
         var token4 = '4' + token;
         resetTracker(tracker, token4);
@@ -4960,7 +4958,8 @@ if ($mysql) {
         var token5 = '5' + token;
         resetTracker(tracker, token5);
         preventClickDefault('#internalLink');
-        wait(300);
+
+        wait(500);
 
         stop();
         setTimeout(function() {
