@@ -106,7 +106,7 @@ testTrackPageViewAsync();
         include_once $file;
     }
     if ($testPluginPath !== '*') {
-        // Travis would always include tag manager
+        // CI would always include tag manager
         $files = \Piwik\Filesystem::globr($root . '/plugins/TagManager/tests/javascript', 'head.php');
         foreach ($files as $file) {
             include_once $file;
@@ -5391,7 +5391,7 @@ function customAddEventListener(element, eventType, eventHandler, useCapture) {
         include_once $file;
     }
     if ($testPluginPath !== '*') {
-        // Travis would always include tag manager
+        // CI would always include tag manager
         $files = \Piwik\Filesystem::globr($root . '/plugins/TagManager/tests/javascript', 'index.php');
         foreach ($files as $file) {
             include_once $file;

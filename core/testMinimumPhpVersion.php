@@ -19,7 +19,6 @@ $piwik_errorMessage = '';
 // Minimum requirement: stream_resolve_include_path, working json_encode in 5.3.3, namespaces in 5.3
 // NOTE: when changing this variable, we also need to update
 // 1) api.matomo.org
-// 2) tests/travis/generator/Generator.php
 // 3) composer.json (in two places)
 // 4) tests/PHPUnit/Integration/ReleaseCheckListTest.php
 global $piwik_minimumPHPVersion;

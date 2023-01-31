@@ -155,23 +155,13 @@ abstract class SystemTestCase extends TestCase
     }
 
     /**
-     * @return bool
-     * @deprecated use isCIEnvironment instead
-     */
-    public static function isTravisCI(): bool
-    {
-        return self::isCIEnvironment();
-    }
-
-    /**
      * Returns true if continuous integration running this request
      * Useful to exclude tests which may fail only on this setup
      */
     public static function isCIEnvironment(): bool
     {
-        $travis = getenv('TRAVIS');
         $githubAction = getenv('CI');
-        return !empty($travis) || !empty($githubAction);
+        return !empty($githubAction);
     }
 
     public static function isMysqli()
@@ -494,7 +484,7 @@ abstract class SystemTestCase extends TestCase
 
     protected function _testApiUrl($testName, $apiId, $requestUrl, $compareAgainst, $params = array())
     {
-        Manager::getInstance()->deleteAll(); // clearing the datatable cache here GREATLY speeds up system tests on travis CI
+        Manager::getInstance()->deleteAll(); // clearing the datatable cache here GREATLY speeds up system tests on CI
 
         [$processedFilePath, $expectedFilePath] =
             $this->getProcessedAndExpectedPaths($testName, $apiId, $format = null, $compareAgainst);
