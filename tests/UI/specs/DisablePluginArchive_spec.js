@@ -16,6 +16,10 @@ describe("DisablePluginArchive", function () {
     page.setUserAgent(firefoxUserAgent);
   });
 
+  after(async () => {
+    await page.setUserAgent(page.originalUserAgent);
+  });
+
   var url = "?module=Widgetize&action=iframe&moduleToWidgetize=Referrers&idSite=1&period=year&date=2012-08-09&"
     + "actionToWidgetize=getKeywords&viewDataTable=table&filter_limit=5&isFooterExpandedInDashboard=1&segment=actions%3D%3D1";
 
