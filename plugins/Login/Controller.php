@@ -418,6 +418,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $loginMail = $form->getSubmitValue('form_login');
         $password = $form->getSubmitValue('form_password');
+        
+        if (!empty($loginMail)) {
+            $loginMail = trim($loginMail);
+        }
 
         try {
             $this->passwordResetter->initiatePasswordResetProcess($loginMail, $password);
