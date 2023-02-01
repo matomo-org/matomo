@@ -21,7 +21,7 @@
           placeholder="Search"
           v-model="searchTerm"
           class="expandableSearch browser-default"
-          v-focus-if="showSelect"
+          v-focus-if="{ focused: showSelect }"
         />
       </div>
       <ul class="collection firstLevel">

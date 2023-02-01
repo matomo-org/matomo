@@ -9,11 +9,12 @@ import { DirectiveBinding } from 'vue';
 
 interface FocusIfArgs {
   // input (provided by user)
+  focused?: boolean;
   afterFocus?: () => void;
 }
 
 function doFocusIf(el: HTMLElement, binding: DirectiveBinding<FocusIfArgs>): void {
-  if (binding.arg) {
+  if (binding.value?.focused && !binding.oldValue?.focused) {
     setTimeout(() => {
       el.focus();
 

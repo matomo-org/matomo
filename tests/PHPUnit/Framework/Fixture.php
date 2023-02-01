@@ -960,7 +960,7 @@ class Fixture extends \PHPUnit\Framework\Assert
 
         // on travis ci make sure log importer won't hang forever, otherwise the output will never be printed
         // and no one will know why the build fails.
-        if (SystemTestCase::isTravisCI()) {
+        if (SystemTestCase::isCIEnvironment()) {
             $cmd = "timeout 10m $cmd";
         }
 
