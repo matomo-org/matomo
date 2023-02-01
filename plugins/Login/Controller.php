@@ -604,6 +604,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                     [
                         'password'          => $password,
                         'invite_token'      => null,
+                        'invite_link_token' => null,
                         'invite_accept_at'  => Date::now()->getDatetime(),
                         'invite_expired_at' => null,
                     ]
