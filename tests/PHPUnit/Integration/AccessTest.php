@@ -40,6 +40,7 @@ class TestCustomCap extends Access\Capability {
 
 /**
  * @group Core
+ * @group AccessTest
  */
 class AccessTest extends IntegrationTestCase
 {
@@ -634,17 +635,16 @@ class AccessTest extends IntegrationTestCase
         $url = Fixture::getTestRootUrl().'?'.http_build_query([
                 'module'     => 'API',
                 'method'     => 'API.getMatomoVersion',
-                'token_auth' => 'DONT_EXIST',
+                'token_auth' => 'DOES_NOT_EXIST',
             ]);
-        $ch = curl_init($url);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_exec($ch);
+        $responseInfo = curl_getinfo($ch);
+        curl_close($ch);
 
-        if (!curl_errno($ch)) {
-            $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            $this->assertEquals(403, $http_code);
-        } else {
-            $this->markTestIncomplete('something wrong');
-        }
+        $this->assertEquals(401, $responseInfo["http_code"]);
     }
 
     private function switchUser($user)
