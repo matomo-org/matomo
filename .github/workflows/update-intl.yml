@@ -35,29 +35,30 @@ jobs:
             }
             if [[ $(_jq '.prerelease') == false ]]
             then
-              echo ::set-output name=cldr-version::$(_jq '.tag_name')
+              echo "cldr-version=$(_jq '.tag_name')" >> $GITHUB_OUTPUT
               break
             fi
           done
         shell: bash
       - name: "Check CLDR version"
         if: steps.cldr.outputs.cldr-version == ''
-        uses: actions/github-script@v3
+        uses: actions/github-script@v6
         with:
           script: |
             core.setFailed('Unable to find current CLDR version')
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           lfs: false
+          persist-credentials: false
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.0'
       - name: Get composer cache directory
         id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
       - name: Cache dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -75,6 +76,8 @@ jobs:
           EOF
 
           cat ./config/config.ini.php
+      - name: Update Intl data
+        run: php ./console translations:generate-intl-data --cldr-version="${{ steps.cldr.outputs.cldr-version }}"
       - name: Prepare git config
         run: |
           cat <<- EOF > $HOME/.netrc
@@ -88,12 +91,11 @@ jobs:
           chmod 600 $HOME/.netrc
           git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git config --global user.name "$GITHUB_ACTOR"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
           git push origin --delete update-intl || true
           git branch -D update-intl || true
           git branch update-intl
           git checkout -f update-intl
-      - name: Update Intl data
-        run: php ./console translations:generate-intl-data --cldr-version="${{ steps.cldr.outputs.cldr-version }}"
       - name: Push changes
         id: push
         run: |
@@ -103,7 +105,7 @@ jobs:
             git add plugins/Intl/lang/*.json
             git commit -m "Updates Intl data from CLDR ${{ steps.cldr.outputs.cldr-version }}"
             git push --set-upstream origin update-intl
-            echo ::set-output name=updated::1
+            echo "updated=1" >> $GITHUB_OUTPUT
           fi
       - name: Create PR
         run: |

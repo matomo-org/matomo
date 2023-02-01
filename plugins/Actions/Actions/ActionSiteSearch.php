@@ -27,6 +27,7 @@ class ActionSiteSearch extends Action
 {
     private $searchCategory = false;
     private $searchCount = false;
+    protected $originalUrl;
 
     public function __construct(Request $request, $detect = true)
     {

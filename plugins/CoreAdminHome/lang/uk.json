@@ -118,7 +118,7 @@
         "ProtocolNotDetectedCorrectlySolution": "Щоб упевнитися, что Matomo безпечно запитує і обробляє ваш контент через HTTPS, ви можете відредагувати свій файл %1$s або налаштувати ваші настройки проксі, або ви можете додати лінію %2$s під розділом %3$s. %4$sДізнатися більше%5$s",
         "ReleaseChannel": "Канал випуску",
         "SecurityNotificationAllTokenAuthDeletedBody": "Хтось видалив усі маркери автентифікації у вашому обліковому записі.",
-        "SecurityNotificationCheckTwoFactor": "Будь ласка, перевірте вашу програму або пристрій для двофакторної автентифікації.",
+        "SecurityNotificationCheckTwoFactor": "Будь ласка, перевірте ваш застосунок або пристрій для двофакторної автентифікації.",
         "SecurityNotificationEmailSubject": "Сповіщення про безпеку",
         "SecurityNotificationIfItWasYou": "Якщо це були ви, продовжуйте. Якщо ви не впізнаєте цю діяльність, будь ласка, змініть ваш пароль.",
         "SecurityNotificationRecoveryCodesRegeneratedBody": "Хтось створив нові коди відновлення двофакторної автентифікації для вашого облікового запису.",

@@ -8,6 +8,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productName==Book0</segment>
 		<Ecommerce_ProductName>Book0</Ecommerce_ProductName>
 	</row>
 	<row>
@@ -18,6 +19,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productName==Book1</segment>
 		<Ecommerce_ProductName>Book1</Ecommerce_ProductName>
 	</row>
 	<row>
@@ -28,6 +30,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productName==Book2</segment>
 		<Ecommerce_ProductName>Book2</Ecommerce_ProductName>
 	</row>
 	<row>
@@ -38,6 +41,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productName==Book3</segment>
 		<Ecommerce_ProductName>Book3</Ecommerce_ProductName>
 	</row>
 	<row>
@@ -48,6 +52,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productName==Book4</segment>
 		<Ecommerce_ProductName>Book4</Ecommerce_ProductName>
 	</row>
 	<row>
@@ -58,6 +63,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productName==Book5</segment>
 		<Ecommerce_ProductName>Book5</Ecommerce_ProductName>
 	</row>
 	<row>
@@ -68,6 +74,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productName==Book6</segment>
 		<Ecommerce_ProductName>Book6</Ecommerce_ProductName>
 	</row>
 	<row>
@@ -78,6 +85,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productName==Book7</segment>
 		<Ecommerce_ProductName>Book7</Ecommerce_ProductName>
 	</row>
 	<row>
@@ -88,6 +96,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productName==Book8</segment>
 		<Ecommerce_ProductName>Book8</Ecommerce_ProductName>
 	</row>
 	<row>
@@ -98,6 +107,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productName==Book9</segment>
 		<Ecommerce_ProductName>Book9</Ecommerce_ProductName>
 	</row>
 	<row>
@@ -108,6 +118,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productName==Book10</segment>
 		<Ecommerce_ProductName>Book10</Ecommerce_ProductName>
 	</row>
 	<row>
@@ -118,6 +129,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productName==Book11</segment>
 		<Ecommerce_ProductName>Book11</Ecommerce_ProductName>
 	</row>
 	<row>
@@ -128,6 +140,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productName==Book12</segment>
 		<Ecommerce_ProductName>Book12</Ecommerce_ProductName>
 	</row>
 	<row>
@@ -138,6 +151,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productName==Book13</segment>
 		<Ecommerce_ProductName>Book13</Ecommerce_ProductName>
 	</row>
 	<row>
@@ -148,6 +162,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productName==Book14</segment>
 		<Ecommerce_ProductName>Book14</Ecommerce_ProductName>
 	</row>
 	<row>
@@ -158,6 +173,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productName==Book15</segment>
 		<Ecommerce_ProductName>Book15</Ecommerce_ProductName>
 	</row>
 	<row>
@@ -168,6 +184,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productName==Book16</segment>
 		<Ecommerce_ProductName>Book16</Ecommerce_ProductName>
 	</row>
 	<row>
@@ -178,6 +195,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productName==Book17</segment>
 		<Ecommerce_ProductName>Book17</Ecommerce_ProductName>
 	</row>
 	<row>
@@ -188,6 +206,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productName==Book18</segment>
 		<Ecommerce_ProductName>Book18</Ecommerce_ProductName>
 	</row>
 	<row>
@@ -198,6 +217,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productName==Book19</segment>
 		<Ecommerce_ProductName>Book19</Ecommerce_ProductName>
 	</row>
 	<row>
@@ -208,6 +228,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productName==Book20</segment>
 		<Ecommerce_ProductName>Book20</Ecommerce_ProductName>
 	</row>
 	<row>
@@ -218,6 +239,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productName==Book21</segment>
 		<Ecommerce_ProductName>Book21</Ecommerce_ProductName>
 	</row>
 	<row>
@@ -228,6 +250,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productName==Book22</segment>
 		<Ecommerce_ProductName>Book22</Ecommerce_ProductName>
 	</row>
 	<row>
@@ -238,6 +261,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productName==Book23</segment>
 		<Ecommerce_ProductName>Book23</Ecommerce_ProductName>
 	</row>
 	<row>
@@ -248,6 +272,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productName==Book24</segment>
 		<Ecommerce_ProductName>Book24</Ecommerce_ProductName>
 	</row>
 </result>

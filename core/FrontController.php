@@ -181,8 +181,14 @@ class FrontController extends Singleton
              */
             Piwik::postEvent('User.isNotAuthorized', array($exception), $pending = true);
         } catch (\Twig\Error\RuntimeError $e) {
-            echo $this->generateSafeModeOutputFromException($e);
-            exit;
+            if ($e->getPrevious() && !$e->getPrevious() instanceof \Twig\Error\RuntimeError) {
+                // a regular exception unrelated to twig was triggered while rendering an a view, for example as part of a triggered event
+                // we want to ensure to show the regular error message response instead of the safemode as it's likely wrong user input
+                throw $e;
+            } else {
+                echo $this->generateSafeModeOutputFromException($e);
+                exit;
+            }
         } catch(StylesheetLessCompileException $e) {
             echo $this->generateSafeModeOutputFromException($e);
             exit;

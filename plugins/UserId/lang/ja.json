@@ -1,10 +1,10 @@
 {
     "UserId": {
         "PluginDescription": "ユーザーレポートを表示します",
-        "ThereIsNoDataForThisReportHelp": "%1$sこのレポートのデータを生成する方法の詳細については、ユーザーガイドをご覧ください。%2$s",
+        "ThereIsNoDataForThisReportHelp": "%1$sこのレポートのデータを生成する方法については、ユーザー ガイドをお読みください。%2$s",
         "UserId": "ユーザー ID",
-        "UserReportDocumentation": "このレポートには、個々のユーザーIDごとの訪問数とその他の一般的な指標が表示されます。",
+        "UserReportDocumentation": "個々のユーザー ID ごとにビジット数とその他の一般的な指標を表示します。",
         "UserReportTitle": "ユーザーID",
-        "VisitorsUserSubcategoryHelp": "ユーザーIDレポートは、登録済みおよびログイン済みのすべてのユーザーに関連する訪問を表示します。このセクションは、特定のユーザーによるウェブサイトの利用状況を把握し、最もアクティブなユーザーと最も少ないユーザーを特定するために使用できます。"
+        "VisitorsUserSubcategoryHelp": "ユーザー ID レポートには、登録およびログインしているすべてのユーザーに関連付けられたビジットが表示されます。 特定のユーザーによる Web サイトの使用状況を理解し、最もアクティブなユーザーと最もアクティブでないユーザーを特定します。"
     }
 }

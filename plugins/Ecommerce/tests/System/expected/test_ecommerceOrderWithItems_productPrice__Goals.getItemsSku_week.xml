@@ -8,6 +8,7 @@
 		<avg_price>1500</avg_price>
 		<avg_quantity>1</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productSku==SKU2</segment>
 	</row>
 	<row>
 		<label>SKU VERY nice indeed</label>
@@ -20,6 +21,7 @@
 		<avg_price>255.61</avg_price>
 		<avg_quantity>1.5</avg_quantity>
 		<conversion_rate>66.67%</conversion_rate>
+		<segment>productSku==SKU+VERY+nice+indeed</segment>
 	</row>
 	<row>
 		<label>ANOTHER SKU HERE</label>
@@ -29,6 +31,7 @@
 		<avg_price>100</avg_price>
 		<avg_quantity>6</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productSku==ANOTHER+SKU+HERE</segment>
 	</row>
 	<row>
 		<label>SKU IN ABANDONED CART TWO</label>
@@ -38,5 +41,6 @@
 		<avg_price>0</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productSku==SKU+IN+ABANDONED+CART+TWO</segment>
 	</row>
 </result>

@@ -72,6 +72,10 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     public function renderAction($action, $previousAction, $visitorDetails)
     {
+        if (empty($action['type'])) {
+            return;
+        }
+
         switch ($action['type']) {
             case 'ecommerceOrder':
             case 'ecommerceAbandonedCart':

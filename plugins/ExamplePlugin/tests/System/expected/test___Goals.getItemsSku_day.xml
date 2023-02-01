@@ -8,5 +8,6 @@
 		<avg_price>777</avg_price>
 		<avg_quantity>33</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productSku==SKU_ID</segment>
 	</row>
 </result>

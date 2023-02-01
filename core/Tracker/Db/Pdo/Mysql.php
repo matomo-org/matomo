@@ -26,8 +26,8 @@ class Mysql extends Db
      */
     protected $connection = null;
     protected $dsn;
-    protected $username;
-    protected $password;
+    private $username;
+    private $password;
     protected $charset;
 
     protected $mysqlOptions = array();
@@ -110,13 +110,11 @@ class Mysql extends Db
         try {
             $this->establishConnection();
         } catch (Exception $e) {
-            if ($this->isErrNo($e, \Piwik\Updater\Migration\Db::ERROR_CODE_MYSQL_SERVER_HAS_GONE_AWAY)) {
+            if ($this->isMysqlServerHasGoneAwayError($e)) {
                 // mysql may return a MySQL server has gone away error when trying to establish the connection.
                 // in that case we want to retry establishing the connection once after a short sleep
-                usleep(400 * 1000);
-                $this->establishConnection();
+                $this->reconnect($e);
             } else {
-                $this->resetPassword();
                 throw $e;
             }
         }
@@ -124,6 +122,17 @@ class Mysql extends Db
         if (self::$profiling && isset($timer)) {
             $this->recordQueryProfile('connect', $timer);
         }
+    }
+
+    /**
+     * @internal  tests only
+     * @param Exception $e
+     * @return bool
+     */
+    public function isMysqlServerHasGoneAwayError(Exception $e)
+    {
+        return $this->isErrNo($e, \Piwik\Updater\Migration\Db::ERROR_CODE_MYSQL_SERVER_HAS_GONE_AWAY)
+                || stripos($e->getMessage(), 'MySQL server has gone away') !== false;
     }
 
     /**
@@ -210,6 +219,56 @@ class Mysql extends Db
      */
     public function query($query, $parameters = array())
     {
+        try {
+            return $this->executeQuery($query, $parameters);
+        } catch (Exception $e) {
+            $isSelectQuery = stripos(trim($query), 'select ') === 0;
+
+            if ($isSelectQuery
+                && !$this->activeTransaction
+                && $this->isMysqlServerHasGoneAwayError($e)) {
+                // mysql may return a MySQL server has gone away error when trying to execute the query
+                // in that case we want to retry establishing the connection once after a short sleep
+                // we're only retrying SELECT queries to prevent updating or inserting records twice for some reason
+                // when transactions are used, then we just want it to fail as we'd be only writing partial data
+                $this->reconnect($e);
+                return $this->executeQuery($query, $parameters);
+            } else {
+                $message = $e->getMessage() . " In query: $query Parameters: " . var_export($parameters, true);
+                throw new DbException("Error query: " . $message, (int) $e->getCode());
+            }
+
+        }
+    }
+
+    /**
+     * @internal for tests only
+     * @param Exception $e
+     * @throws Exception
+     */
+    public function reconnect(Exception $e)
+    {
+        $this->disconnect();
+        usleep(100 * 1000); // wait for 100ms
+        try {
+            $this->establishConnection();
+        } catch (Exception $exceptionReconnect) {
+            // forward the original exception so we get a better stack trace of where this error happens
+            // and what happened originally
+            throw $e;
+        }
+    }
+
+    /**
+     * Executes a query, using optional bound parameters.
+     *
+     * @param string $query Query
+     * @param array|string $parameters Parameters to bind array('idsite'=> 1)
+     * @return PDOStatement|bool  PDOStatement or false if failed
+     * @throws DbException if an exception occurred
+     */
+    private function executeQuery($query, $parameters = array())
+    {
         if (is_null($this->connection)) {
             return false;
         }
@@ -279,7 +338,20 @@ class Mysql extends Db
             return;
         }
 
-        if ($this->connection->beginTransaction()) {
+        try {
+            $success = $this->connection->beginTransaction();
+        } catch (Exception $e) {
+            if ($this->isMysqlServerHasGoneAwayError($e)) {
+                // mysql may return a MySQL server has gone away error when trying begin transaction, in that case we
+                // want to retry this once
+                $this->reconnect($e);
+                $success = $this->connection->beginTransaction();
+            } else {
+                throw $e;
+            }
+        }
+
+        if ($success) {
             $this->activeTransaction = uniqid();
             return $this->activeTransaction;
         }
@@ -339,14 +411,7 @@ class Mysql extends Db
             $sql = "SET NAMES '".$this->charset."'";
             $this->connection->exec($sql);
         }
-
-        $this->resetPassword();
     }
 
-    private function resetPassword()
-    {
 
-        // we delete the password from this object "just in case" it could be printed
-        $this->password = '';
-    }
 }

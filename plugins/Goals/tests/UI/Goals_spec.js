@@ -11,7 +11,7 @@ describe("Goals", function () {
     this.fixture = 'Piwik\\Tests\\Fixtures\\SomePageGoalVisitsWithConversions';
 
     it('should show the goals overview', async function() {
-        await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2009-01-04#?idSite=1&period=year&date=2009-01-04&category=Goals_Goals&subcategory=General_Overview");
+        await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2009-01-01#?idSite=1&period=year&date=2009-01-01&category=Goals_Goals&subcategory=General_Overview");
 
         await page.waitForNetworkIdle();
         await page.waitForSelector('.dataTableVizGoals');
@@ -28,6 +28,12 @@ describe("Goals", function () {
         await page.waitForTimeout(100);
         await page.waitForSelector('.dimensionReport .dataTableVizGoals');
         await page.waitForNetworkIdle();
+
+        await page.waitForFunction("$('tr .value:contains(\"page_A\")').length > 0");
+        const first = await page.jQuery('tr .value:contains("page_A")');
+        await first.click();
+        await page.waitForNetworkIdle();
+        await page.mouse.move(-10, -10);
 
         var report = await page.$('.dimensionReport');
         expect(await report.screenshot()).to.matchImage('goals_by_pages');

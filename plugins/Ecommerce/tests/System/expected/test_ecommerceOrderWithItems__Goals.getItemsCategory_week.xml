@@ -11,6 +11,7 @@
 		<avg_price>1000</avg_price>
 		<avg_quantity>1.5</avg_quantity>
 		<conversion_rate>66.67%</conversion_rate>
+		<segment>productCategory==Electronics+%26+Cameras</segment>
 	</row>
 	<row>
 		<label>Multiple Category 1</label>
@@ -23,6 +24,7 @@
 		<avg_price>500</avg_price>
 		<avg_quantity>2</avg_quantity>
 		<conversion_rate>100%</conversion_rate>
+		<segment>productCategory==Multiple+Category+1</segment>
 	</row>
 	<row>
 		<label>Multiple Category 2</label>
@@ -35,6 +37,7 @@
 		<avg_price>500</avg_price>
 		<avg_quantity>2</avg_quantity>
 		<conversion_rate>100%</conversion_rate>
+		<segment>productCategory==Multiple+Category+2</segment>
 	</row>
 	<row>
 		<label>Multiple Category 4</label>
@@ -47,6 +50,7 @@
 		<avg_price>500</avg_price>
 		<avg_quantity>2</avg_quantity>
 		<conversion_rate>100%</conversion_rate>
+		<segment>productCategory==Multiple+Category+4</segment>
 	</row>
 	<row>
 		<label>Multiple Category 5</label>
@@ -59,6 +63,7 @@
 		<avg_price>500</avg_price>
 		<avg_quantity>2</avg_quantity>
 		<conversion_rate>100%</conversion_rate>
+		<segment>productCategory==Multiple+Category+5</segment>
 	</row>
 	<row>
 		<label>Product Category not defined</label>
@@ -71,6 +76,7 @@
 		<avg_price>55.61</avg_price>
 		<avg_quantity>3.5</avg_quantity>
 		<conversion_rate>50%</conversion_rate>
+		<segment>productCategory==Product+Category+not+defined</segment>
 	</row>
 	<row>
 		<label>Tools</label>
@@ -80,6 +86,7 @@
 		<avg_price>100</avg_price>
 		<avg_quantity>2</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productCategory==Tools</segment>
 	</row>
 	<row>
 		<label>Category TWO LEFT in cart</label>
@@ -89,6 +96,7 @@
 		<avg_price>0</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productCategory==Category+TWO+LEFT+in+cart</segment>
 	</row>
 	<row>
 		<label>second category</label>
@@ -98,5 +106,6 @@
 		<avg_price>0</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productCategory==second+category</segment>
 	</row>
 </result>
