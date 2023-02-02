@@ -23,7 +23,7 @@ class FrontControllerTest extends IntegrationTestCase
     public function test_fatalErrorStackTracesReturned()
     {
         $url = Fixture::getRootUrl() . '/tests/resources/trigger-fatal.php?format=json';
-        $response = Http::sendHttpRequest($url, self::isTravisCI() ? 2 : 20);
+        $response = Http::sendHttpRequest($url, self::isCIEnvironment() ? 2 : 20);
 
         $response = json_decode($response, $isAssoc = true);
         $response['message'] = $this->cleanMessage($response['message']);
@@ -40,7 +40,7 @@ FORMAT;
     public function test_thrownExceptionInFrontControllerPrintsBacktrace()
     {
         $url = Fixture::getRootUrl() . '/tests/resources/trigger-fatal-exception.php?format=json';
-        $response = Http::sendHttpRequest($url, self::isTravisCI() ? 2 : 20);
+        $response = Http::sendHttpRequest($url, self::isCIEnvironment() ? 2 : 20);
 
         $response = json_decode($response, $isAssoc = true);
         $response['message'] = $this->cleanMessage($response['message']);
@@ -48,11 +48,15 @@ FORMAT;
         $this->assertEquals('error', $response['result']);
 
         $expectedFormat = <<<FORMAT
-test message on {includePath}/tests/resources/trigger-fatal-exception.php(23) #0 [internal function]: {closure}('CoreHome', 'index', Array) #1 {includePath}/core/EventDispatcher.php(141): call_user_func_array(Object(Closure), Array) #2 {includePath}/core/Piwik.php(847): Piwik\EventDispatcher-&gt;postEvent('Request.dispatc...', Array, false, Array) #3 {includePath}/core/FrontController.php(602): Piwik\Piwik::postEvent('Request.dispatc...', Array) #4 {includePath}/core/FrontController.php(168): Piwik\FrontController-&gt;doDispatch('CoreHome', 'index', Array) #5 {includePath}/tests/resources/trigger-fatal-exception.php(31): Piwik\FrontController-&gt;dispatch('CoreHome', 'index') #6 {main}
+test message on {includePath}/tests/resources/trigger-fatal-exception.php(23) #0 [internal function]: {closure}('CoreHome', 'index', Array) #1 {includePath}/core/EventDispatcher.php(141): call_user_func_array(Object(Closure), Array) #2 {includePath}/core/Piwik.php(845): Piwik\EventDispatcher-&gt;postEvent('Request.dispatc...', Array, false, Array) #3 {includePath}/core/FrontController.php(606): Piwik\Piwik::postEvent('Request.dispatc...', Array) #4 {includePath}/core/FrontController.php(168): Piwik\FrontController-&gt;doDispatch('CoreHome', 'index', Array) #5 {includePath}/tests/resources/trigger-fatal-exception.php(31): Piwik\FrontController-&gt;dispatch('CoreHome', 'index') #6 {main}
 FORMAT;
+
         //remove all the numbers
         $expectedFormat = preg_replace('/[0-9]+/', 'x', $expectedFormat);
+        $expectedFormat = preg_replace('/".*?"|\'.*?\'/', 'xxx', $expectedFormat);
+
         $actualFormat = preg_replace('/[0-9]+/', 'x', $response['message']);
+        $actualFormat = preg_replace('/".*?"|\'.*?\'/', 'xxx', $actualFormat);
 
         $this->assertStringMatchesFormat($expectedFormat, $actualFormat);
     }

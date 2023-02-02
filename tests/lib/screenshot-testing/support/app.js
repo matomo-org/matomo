@@ -45,8 +45,12 @@ var isCorePlugin = function (pathToPlugin) {
 
 var hasSpecialNeeds = function (pathToPlugin) {
     // skip plugins that have special needs in core build
-    var travisDir = path.join(pathToPlugin, 'tests/travis');
-    return !!fs.existsSync(travisDir);
+    var actionFile = path.join(pathToPlugin, '.github/workflows/matomo-tests.yml');
+    if (!fs.existsSync(actionFile)) {
+        return false;
+    }
+    var action = fs.readFileSync(actionFile);
+    return /setup-script:/.test(action);
 };
 
 var Application = function () {
@@ -69,12 +73,12 @@ Application.prototype.printHelpAndExit = function () {
     console.log("                            to view pages phantomjs captures in a browser.");
     console.log("  --print-logs:             Prints webpage logs even if tests succeed.");
     console.log("  --store-in-ui-tests-repo: Stores processed screenshots within the UI tests repository even if");
-    console.log("                            the tests are in another plugin. For use with travis build.");
+    console.log("                            the tests are in another plugin. For use with CI build.");
     console.log("  --assume-artifacts:       Assume the diffviewer and processed screenshots will be stored on the.");
-    console.log("                            builds artifacts server. For use with travis build.");
+    console.log("                            builds artifacts server. For use with CI build.");
     console.log("  --screenshot-repo:        Specifies the GitHub repository that contains the expected screenshots");
-    console.log("                            to link to in the diffviewer. For use with travis build.");
-    console.log("  --core:                   Only execute UI tests that are for Piwik core or Piwik core plugins.");
+    console.log("                            to link to in the diffviewer. For use with CI build.");
+    console.log("  --core:                   Only execute UI tests that are for Matomo core or Matomo core plugins.");
     console.log("  --num-test-groups:        Divide all test execution into this many overall groups. Use --test-group to pick which group to run in this execution.");
     console.log("  --test-group:             The test group to run.");
 
@@ -167,8 +171,8 @@ Application.prototype.loadTestModules = function () {
 
     if (options['num-test-groups'] && options['test-group'] && !specificTestsRequested) {
         // run only N% of the test suites.
-        // we apply this option only if not a specific plugin or test suite was requested. Only there for travis to
-        // split tests into multiple jobs.
+        // we apply this option only if not a specific plugin or test suite was requested.
+        // Only there for CI to split tests into multiple jobs.
 
         var numberOfGroupsToSplitTestsInto = parseInt(options['num-test-groups']);
         var testGroupToRun = parseInt(options['test-group']);

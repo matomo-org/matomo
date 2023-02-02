@@ -55,7 +55,7 @@
           v-model="searchTerm"
           tabindex="4"
           class="websiteSearch inp browser-default"
-          v-focus-if:[shouldFocusOnSearch]="{}"
+          v-focus-if="{ focused: shouldFocusOnSearch }"
           :placeholder="translate('General_Search')"
         />
         <img
