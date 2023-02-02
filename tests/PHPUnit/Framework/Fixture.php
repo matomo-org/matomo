@@ -374,7 +374,7 @@ class Fixture extends \PHPUnit\Framework\Assert
 
     public function performTearDown()
     {
-        // Note: avoid run SQL in the *tearDown() metohds because it randomly fails on CI
+        // Note: avoid run SQL in the *tearDown() methods because it randomly fails on CI
         // with error "Error while sending QUERY packet. PID=XX"
         $this->tearDown();
 
