@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\Diagnostics\Commands;
 
+use Piwik\Development;
 use Piwik\FileIntegrity;
 use Piwik\Filesystem;
 use Piwik\Plugin\ConsoleCommand;
@@ -45,14 +46,28 @@ class UnexpectedFiles extends ConsoleCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
 
-        $delete = $input->getOption('delete');
+        // Prevent running in development mode
+        if (Development::isEnabled()) {
+           $output->writeln("Aborting - this command cannot be used in development mode as it requires a release manifest file");
+           return 1;
+        }
 
+        // Prevent running if there is no release manifest file
+        $manifest = PIWIK_INCLUDE_PATH . '/config/manifest.inc.php';
+        if (!file_exists($manifest)) {
+           $output->writeln("Release manifest file '".$manifest."' not found.");
+           $output->writeln("Aborting - this command can only be used when a release manifest file is present.");
+           return 1;
+        }
+
+
+        $delete = $input->getOption('delete');
         if ($delete) {
 
             $output->writeln("<info>Preparing to delete all unexpected files from the Matomo installation directory</info>");
 
             if(!$this->askForDeleteConfirmation($input, $output)) {
-                $output->writeln("Aborted - no files deleted");
+                $output->writeln("Aborted - no files were deleted");
                 return 1;
             }
 
@@ -124,7 +139,7 @@ class UnexpectedFiles extends ConsoleCommand
      */
     private function askForDeleteConfirmation(InputInterface $input, OutputInterface $output): bool
     {
-        if ($input->getOption('no-interaction')) {
+        if (!$input->isInteractive()) {
             return true;
         }
 
