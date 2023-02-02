@@ -1713,16 +1713,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v5.4.16",
+            "version": "v5.4.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "8e9b9c8dfb33af6057c94e1b44846bee700dc5ef"
+                "reference": "dccb8d251a9017d5994c988b034d3e18aaabf740"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/8e9b9c8dfb33af6057c94e1b44846bee700dc5ef",
-                "reference": "8e9b9c8dfb33af6057c94e1b44846bee700dc5ef",
+                "url": "https://api.github.com/repos/symfony/console/zipball/dccb8d251a9017d5994c988b034d3e18aaabf740",
+                "reference": "dccb8d251a9017d5994c988b034d3e18aaabf740",
                 "shasum": ""
             },
             "require": {
@@ -1792,7 +1792,7 @@
                 "terminal"
             ],
             "support": {
-                "source": "https://github.com/symfony/console/tree/v5.4.16"
+                "source": "https://github.com/symfony/console/tree/v5.4.19"
             },
             "funding": [
                 {
@@ -1808,7 +1808,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-11-25T14:09:27+00:00"
+            "time": "2023-01-01T08:32:19+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -1950,16 +1950,16 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v5.4.9",
+            "version": "v5.4.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
-                "reference": "8e6ce1cc0279e3ff3c8ff0f43813bc88d21ca1bc"
+                "reference": "abf49cc084c087d94b4cb939c3f3672971784e0c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/8e6ce1cc0279e3ff3c8ff0f43813bc88d21ca1bc",
-                "reference": "8e6ce1cc0279e3ff3c8ff0f43813bc88d21ca1bc",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/abf49cc084c087d94b4cb939c3f3672971784e0c",
+                "reference": "abf49cc084c087d94b4cb939c3f3672971784e0c",
                 "shasum": ""
             },
             "require": {
@@ -2015,7 +2015,7 @@
             "description": "Provides tools that allow your application components to communicate with each other by dispatching events and listening to them",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/event-dispatcher/tree/v5.4.9"
+                "source": "https://github.com/symfony/event-dispatcher/tree/v5.4.19"
             },
             "funding": [
                 {
@@ -2031,7 +2031,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-05T16:45:39+00:00"
+            "time": "2023-01-01T08:32:19+00:00"
         },
         {
             "name": "symfony/event-dispatcher-contracts",
@@ -2299,16 +2299,16 @@
         },
         {
             "name": "symfony/monolog-bridge",
-            "version": "v5.4.10",
+            "version": "v5.4.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/monolog-bridge.git",
-                "reference": "b3b0890e76e7eb626f27b165a5c501f2754dfbbd"
+                "reference": "6b2732feb1335d588a902ca744cae9812cc0e7d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/monolog-bridge/zipball/b3b0890e76e7eb626f27b165a5c501f2754dfbbd",
-                "reference": "b3b0890e76e7eb626f27b165a5c501f2754dfbbd",
+                "url": "https://api.github.com/repos/symfony/monolog-bridge/zipball/6b2732feb1335d588a902ca744cae9812cc0e7d3",
+                "reference": "6b2732feb1335d588a902ca744cae9812cc0e7d3",
                 "shasum": ""
             },
             "require": {
@@ -2363,7 +2363,7 @@
             "description": "Provides integration for Monolog with various Symfony components",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/monolog-bridge/tree/v5.4.10"
+                "source": "https://github.com/symfony/monolog-bridge/tree/v5.4.19"
             },
             "funding": [
                 {
@@ -2379,7 +2379,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-06-19T12:03:50+00:00"
+            "time": "2023-01-01T08:32:19+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -3127,16 +3127,16 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v5.4.11",
+            "version": "v5.4.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "b8f306d7b8ef34fb3db3305be97ba8e088fb4861"
+                "reference": "2944bbc23f5f8da2b962fbcbf7c4a6109b2f4b7b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/b8f306d7b8ef34fb3db3305be97ba8e088fb4861",
-                "reference": "b8f306d7b8ef34fb3db3305be97ba8e088fb4861",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/2944bbc23f5f8da2b962fbcbf7c4a6109b2f4b7b",
+                "reference": "2944bbc23f5f8da2b962fbcbf7c4a6109b2f4b7b",
                 "shasum": ""
             },
             "require": {
@@ -3196,7 +3196,7 @@
                 "dump"
             ],
             "support": {
-                "source": "https://github.com/symfony/var-dumper/tree/v5.4.11"
+                "source": "https://github.com/symfony/var-dumper/tree/v5.4.19"
             },
             "funding": [
                 {
@@ -3212,7 +3212,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-07-20T13:00:38+00:00"
+            "time": "2023-01-16T10:52:33+00:00"
         },
         {
             "name": "szymach/c-pchart",
@@ -5167,16 +5167,16 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v5.4.11",
+            "version": "v5.4.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "05d4ea560f3402c6c116afd99fdc66e60eda227e"
+                "reference": "71c05db20cb9b54d381a28255f17580e2b7e36a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/05d4ea560f3402c6c116afd99fdc66e60eda227e",
-                "reference": "05d4ea560f3402c6c116afd99fdc66e60eda227e",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/71c05db20cb9b54d381a28255f17580e2b7e36a5",
+                "reference": "71c05db20cb9b54d381a28255f17580e2b7e36a5",
                 "shasum": ""
             },
             "require": {
@@ -5222,7 +5222,7 @@
             "description": "Loads and dumps YAML files",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/yaml/tree/v5.4.11"
+                "source": "https://github.com/symfony/yaml/tree/v5.4.19"
             },
             "funding": [
                 {
@@ -5238,7 +5238,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-06-27T16:58:25+00:00"
+            "time": "2023-01-10T18:51:14+00:00"
         },
         {
             "name": "theseer/tokenizer",
