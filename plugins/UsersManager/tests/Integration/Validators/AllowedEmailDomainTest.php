@@ -127,7 +127,7 @@ class AllowedEmailDomainTest extends IntegrationTestCase
     public function test_validate_noEmailsAllowed_DomainsAreConfigured()
     {
         Fixture::loadAllTranslations();
-        $this->expectExceptionMessage('The email "foobar@matomo.com" cannot be used as only emails with the domains "matomo.org, example.com" are allowed.');
+        $this->expectExceptionMessage('The email "foobar@matomo.com" cannot be used, as only emails with the domains "matomo.org, example.com" are allowed.');
         $this->settings->allowedEmailDomains->setValue(['matomo.org', 'example.com']);
         $this->validator->validate('foobar@matomo.com');
     }

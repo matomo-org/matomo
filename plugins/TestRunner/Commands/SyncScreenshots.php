@@ -20,7 +20,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Downloads the UI tests screenshots from Travis into the local repository.
+ * Downloads the UI tests screenshots from artifacts server into the local repository.
  *
  * This command helps to synchronize the screenshots after they have changed.
  */

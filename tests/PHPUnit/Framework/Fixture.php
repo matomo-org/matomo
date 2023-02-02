@@ -374,8 +374,8 @@ class Fixture extends \PHPUnit\Framework\Assert
 
     public function performTearDown()
     {
-        // Note: avoid run SQL in the *tearDown() metohds because it randomly fails on Travis CI
-        // with error Error while sending QUERY packet. PID=XX
+        // Note: avoid run SQL in the *tearDown() methods because it randomly fails on CI
+        // with error "Error while sending QUERY packet. PID=XX"
         $this->tearDown();
 
         if ($this->dropDatabaseInTearDown) {
@@ -624,7 +624,7 @@ class Fixture extends \PHPUnit\Framework\Assert
         }
 
         // in case force_ssl=1, or assume_secure_protocol=1, is set in tests
-        // we don't want to require Travis CI or devs to setup HTTPS on their local machine
+        // we don't want to require our CI or devs to setup HTTPS on their local machine
         $piwikUrl = str_replace("https://", "http://", $piwikUrl);
 
         // append REQUEST_URI (eg. when Piwik runs at http://localhost/piwik/)
@@ -958,7 +958,7 @@ class Fixture extends \PHPUnit\Framework\Assert
 
         $cmd .= escapeshellarg($logFile) . ' 2>&1';
 
-        // on travis ci make sure log importer won't hang forever, otherwise the output will never be printed
+        // on our ci make sure log importer won't hang forever, otherwise the output will never be printed
         // and no one will know why the build fails.
         if (SystemTestCase::isCIEnvironment()) {
             $cmd = "timeout 10m $cmd";
