@@ -15,6 +15,7 @@ use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
 use Piwik\Log;
 use Piwik\Option;
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\CoreAdminHome\Controller;
@@ -380,5 +381,15 @@ class Rules
         $pluginArchivingSetting = array_map('strtolower', $pluginArchivingSetting);
 
         return in_array(strtolower($pluginName), $pluginArchivingSetting);
+    }
+
+    public static function shouldOnlyProcessRequestedRecords($idSite, Period $period, $segment)
+    {
+        if (SettingsServer::isArchivePhpTriggered()) {
+            return false;
+        }
+
+        return $period->getLabel() == 'range' || !self::isSegmentPreProcessed($idSite, $segment);
+        // if range archive, if not archive php triggered or if custom segment
     }
 }

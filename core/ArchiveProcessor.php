@@ -214,8 +214,21 @@ class ArchiveProcessor
 
         $archiveDescription = $this->params . '';
 
+        if ($this->params->getArchiveOnlyReport()) {
+            $this->params->setIsPartialArchive(true); // make sure archive will be marked as partial
+        }
+
         $nameToCount = array();
         foreach ($recordNames as $recordName) {
+            if ($recordName !== $this->params->getArchiveOnlyReport()) {
+                $logger->debug("skipping aggregating of record since it is not requested report {record} [archive = {archive}]", [
+                    'record' => $recordName,
+                    'archive' => $archiveDescription,
+                ]);
+
+                continue;
+            }
+
             $latestUsedTableId = Manager::getInstance()->getMostRecentTableId();
 
             $logger->debug("aggregating record {record} [archive = {archive}]", [
