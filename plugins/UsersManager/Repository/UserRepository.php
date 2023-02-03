@@ -37,6 +37,11 @@ class UserRepository
      */
     protected $password;
 
+    /**
+     * @var ?bool
+     */
+    private $twoFaPluginActivated = null;
+
     public function __construct(Model $model, UserAccessFilter $filter, Password $password)
     {
         $this->model = $model;
