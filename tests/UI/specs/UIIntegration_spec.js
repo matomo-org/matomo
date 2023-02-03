@@ -90,6 +90,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
               $('.dataTableScroller').css('overflow-x', 'scroll');
             });
+            await page.waitForTimeout(500);
             pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('dashboard3');
         });
@@ -314,6 +315,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         it('should load visitors > locations & provider page correctly', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=UserCountry_SubmenuLocations");
             await page.waitForNetworkIdle();
+            await page.waitForTimeout(500); // wait for map widget to render
 
             pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('visitors_locations_provider');
@@ -898,6 +900,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
         it('should load the glossary correctly widgetized', async function () {
             await page.goto("?" + generalParams + "&module=API&action=glossary&widget=1");
+            await page.waitFor(200);
 
             expect(await page.screenshot({fullPage: true})).to.matchImage('glossary_widgetized');
         });
@@ -1143,6 +1146,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
             const frame = page.frames().find(f => f.name() === 'embed');
             await frame.waitForSelector('.widget');
+            await page.waitForTimeout(1000); // wait for widgets to render
 
             expect(await page.screenshot({ fullPage: true })).to.matchImage('embed_whole_app');
         });

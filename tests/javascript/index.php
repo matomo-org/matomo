@@ -106,7 +106,7 @@ testTrackPageViewAsync();
         include_once $file;
     }
     if ($testPluginPath !== '*') {
-        // Travis would always include tag manager
+        // CI would always include tag manager
         $files = \Piwik\Filesystem::globr($root . '/plugins/TagManager/tests/javascript', 'head.php');
         foreach ($files as $file) {
             include_once $file;
@@ -4949,23 +4949,21 @@ if ($mysql) {
 
         tracker.enableLinkTracking();
 
-        wait(300);
+        wait(500);
 
         var token2 = '2' + token;
         resetTracker(tracker, token2);
         preventClickDefault('#isWithinOutlink');
         triggerEvent(_s('#isWithinOutlink'), 'click'); // click on an element within a link
 
-        wait(300);
-
+        wait(500);
 
         var token3 = '3' + token;
         resetTracker(tracker, token3);
         preventClickDefault('#isOutlink');
         triggerEvent(_s('#isOutlink'), 'click'); // click on the link element itself
 
-        wait(300);
-
+        wait(500);
 
         var token4 = '4' + token;
         resetTracker(tracker, token4);
@@ -4976,7 +4974,8 @@ if ($mysql) {
         var token5 = '5' + token;
         resetTracker(tracker, token5);
         preventClickDefault('#internalLink');
-        wait(300);
+
+        wait(500);
 
         stop();
         setTimeout(function() {
@@ -5297,7 +5296,7 @@ if ($mysql) {
 
         var startTime, stopTime;
 
-        wait(1000); // in case there is  a previous expireDateTime set
+        wait(1500); // in case there is  a previous expireDateTime set
 
         equal( typeof tracker.hook.test._beforeUnloadHandler, 'function', 'beforeUnloadHandler' );
 
@@ -5392,7 +5391,7 @@ function customAddEventListener(element, eventType, eventHandler, useCapture) {
         include_once $file;
     }
     if ($testPluginPath !== '*') {
-        // Travis would always include tag manager
+        // CI would always include tag manager
         $files = \Piwik\Filesystem::globr($root . '/plugins/TagManager/tests/javascript', 'index.php');
         foreach ($files as $file) {
             include_once $file;
