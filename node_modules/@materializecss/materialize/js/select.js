@@ -127,7 +127,6 @@
         'dropdown-content select-dropdown ' + (this.isMultiple ? 'multiple-select-dropdown' : '')
       );
       this.dropdownOptions.setAttribute("role", "listbox");
-      this.dropdownOptions.setAttribute("aria-required", this.el.hasAttribute("required"));
       this.dropdownOptions.setAttribute("aria-multiselectable", this.isMultiple);
 
       // Create dropdown structure
@@ -173,6 +172,7 @@
       this.input.setAttribute('readonly', 'true');
       this.input.setAttribute('data-target', this.dropdownOptions.id);
       this.input.setAttribute('aria-readonly', 'true');
+      this.input.setAttribute("aria-required", this.el.hasAttribute("required"));
       if (this.el.disabled) $(this.input).prop('disabled', 'true');
 
       // Makes new element to assume HTML's select label and

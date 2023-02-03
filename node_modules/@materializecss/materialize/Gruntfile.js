@@ -41,9 +41,7 @@ module.exports = function(grunt) {
       components: {
         src: ['bin/materialize.js'],
         options: {
-          vendor: [
-            'node_modules/jquery/dist/jquery.min.js'
-          ],
+          vendor: ['node_modules/jquery/dist/jquery.min.js'],
           styles: 'bin/materialize.css',
           specs: 'tests/spec/**/*Spec.js',
           helpers: 'tests/spec/helper.js',
@@ -51,20 +49,19 @@ module.exports = function(grunt) {
           version: '3.8.0',
           page: {
             viewportSize: {
-                width: 1400,
-                height: 735
+              width: 1400,
+              height: 735
             }
           },
           sandboxArgs: {
             args: ['--headless', '--no-sandbox']
-          },
+          }
         }
       }
     },
 
     //  Sass
     sass: {
-
       // Global options
       options: {
         implementation: sass
@@ -536,7 +533,7 @@ module.exports = function(grunt) {
     // Replace text to update the version string
     replace: {
       version: {
-        src: ['bower.json', 'package.js', 'pug/**/*.html'],
+        src: ['bower.json', 'package.js', 'pug/**/*.html', 'pug/_navbar.pug', 'js/global.js'],
         overwrite: true,
         replacements: [
           {
@@ -575,7 +572,9 @@ module.exports = function(grunt) {
           banner:
             '/*!\n * Materialize v' +
             grunt.option('newver') +
-            ' (https://materializecss.github.io/materialize)\n * Copyright 2014-2021 Materialize\n * MIT License (https://raw.githubusercontent.com/materializecss/materialize/master/LICENSE)\n */',
+            ' (https://materializecss.github.io/materialize)\n * Copyright 2014-' +
+            new Date().getFullYear() +
+            ' Materialize\n * MIT License (https://raw.githubusercontent.com/materializecss/materialize/master/LICENSE)\n */',
           linebreak: true
         },
         files: {
@@ -608,10 +607,13 @@ module.exports = function(grunt) {
           port: 9001,
           protocol: 'http',
           middleware: function(connect, options, middlewares) {
-            middlewares.unshift(function(req, res, next){
+            middlewares.unshift(function(req, res, next) {
               res.setHeader('Access-Control-Allow-Origin', '*');
               res.setHeader('Access-Control-Allow-Credentials', true);
-              res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+              res.setHeader(
+                'Access-Control-Allow-Headers',
+                'Origin, X-Requested-With, Content-Type, Accept'
+              );
               res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
               next();
             });
@@ -623,17 +625,12 @@ module.exports = function(grunt) {
 
     copy: {
       docs_js: {
-        files: [
-          {src: 'bin/materialize.js', dest: 'docs/js/materialize.js'},
-        ]
+        files: [{ src: 'bin/materialize.js', dest: 'docs/js/materialize.js' }]
       },
       docs_templates: {
-        files: [
-          {src: 'templates/**', dest: 'docs/'}
-        ]
+        files: [{ src: 'templates/**', dest: 'docs/' }]
       }
     }
-
   };
 
   grunt.initConfig(config);
@@ -686,7 +683,13 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('pug_compile', ['pug', 'notify:pug_compile']);
-  grunt.registerTask('js_compile', ['concat:temp', 'configureBabel', 'babel:bin', 'clean:temp', 'copy:docs_js']);
+  grunt.registerTask('js_compile', [
+    'concat:temp',
+    'configureBabel',
+    'babel:bin',
+    'clean:temp',
+    'copy:docs_js'
+  ]);
   grunt.registerTask('sass_compile', [
     'sass:gh',
     'sass:bin',
@@ -698,7 +701,7 @@ module.exports = function(grunt) {
   grunt.registerTask('monitor', ['concurrent:monitor']);
   grunt.registerTask('test', ['js_compile', 'sass_compile', 'connect', 'jasmine']);
   grunt.registerTask('jas_test', ['connect', 'jasmine']);
-  grunt.registerTask('test_repeat', function(){
+  grunt.registerTask('test_repeat', function() {
     const tasks = ['connect'];
     const n = 30;
     for (let i = 0; i < n; i++) {
@@ -706,7 +709,14 @@ module.exports = function(grunt) {
     }
 
     grunt.task.run(tasks);
-
   });
-  grunt.registerTask('docs', ['js_compile', 'copy:docs_js', 'copy:docs_templates', 'sass:gh',  'postcss:gh', 'pug', 'replace:docs']);
+  grunt.registerTask('docs', [
+    'js_compile',
+    'copy:docs_js',
+    'copy:docs_templates',
+    'sass:gh',
+    'postcss:gh',
+    'pug',
+    'replace:docs'
+  ]);
 };

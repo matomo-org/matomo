@@ -1,6 +1,6 @@
 /*!
- * Materialize v1.2.0 (https://materializecss.github.io/materialize)
- * Copyright 2014-2021 Materialize
+ * Materialize v1.2.1 (https://materializecss.github.io/materialize)
+ * Copyright 2014-2022 Materialize
  * MIT License (https://raw.githubusercontent.com/materializecss/materialize/master/LICENSE)
  */
 var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
@@ -12224,7 +12224,6 @@ $jscomp.polyfill = function (e, r, p, m) {
         this.dropdownOptions.id = "select-options-" + M.guid();
         $(this.dropdownOptions).addClass('dropdown-content select-dropdown ' + (this.isMultiple ? 'multiple-select-dropdown' : ''));
         this.dropdownOptions.setAttribute("role", "listbox");
-        this.dropdownOptions.setAttribute("aria-required", this.el.hasAttribute("required"));
         this.dropdownOptions.setAttribute("aria-multiselectable", this.isMultiple);
 
         // Create dropdown structure
@@ -12262,6 +12261,7 @@ $jscomp.polyfill = function (e, r, p, m) {
         this.input.setAttribute('readonly', 'true');
         this.input.setAttribute('data-target', this.dropdownOptions.id);
         this.input.setAttribute('aria-readonly', 'true');
+        this.input.setAttribute("aria-required", this.el.hasAttribute("required"));
         if (this.el.disabled) $(this.input).prop('disabled', 'true');
 
         // Makes new element to assume HTML's select label and
