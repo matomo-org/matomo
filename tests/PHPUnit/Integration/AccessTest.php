@@ -40,6 +40,7 @@ class TestCustomCap extends Access\Capability {
 
 /**
  * @group Core
+ * @group AccessTest
  */
 class AccessTest extends IntegrationTestCase
 {
@@ -50,7 +51,7 @@ class AccessTest extends IntegrationTestCase
         $shouldBe = array('view', 'write', 'admin');
         $this->assertEquals($shouldBe, $accessList);
     }
-    
+
     private function getAccess()
     {
         return new Access(new Access\RolesProvider(), new Access\CapabilitiesProvider());
@@ -627,6 +628,23 @@ class AccessTest extends IntegrationTestCase
 
         Access::getInstance()->setSuperUserAccess(true);
         $this->assertEquals('admin', Access::getInstance()->getRoleForSite($idSite));
+    }
+
+    public function test_APIPermissionResponseCode()
+    {
+        $url = Fixture::getTestRootUrl().'?'.http_build_query([
+                'module'     => 'API',
+                'method'     => 'API.getMatomoVersion',
+                'token_auth' => 'DOES_NOT_EXIST',
+            ]);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_exec($ch);
+        $responseInfo = curl_getinfo($ch);
+        curl_close($ch);
+
+        $this->assertEquals(401, $responseInfo["http_code"]);
     }
 
     private function switchUser($user)

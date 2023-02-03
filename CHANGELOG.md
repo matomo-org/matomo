@@ -1,6 +1,6 @@
 # Matomo Platform Changelog
 
-This is the Developer Changelog for Matomo platform developers. All changes in our HTTP API's, Plugins, Themes, SDKs, etc. are listed below.
+This is the Developer Changelog for Matomo platform developers. All changes in our HTTP APIs, Plugins, Themes, SDKs, etc. are listed below.
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
@@ -14,6 +14,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The javascript event `piwikPageChange`, which is triggered when a reporting page is loaded, has been renamed to `matomoPageChange`. Ensure to update your implementation if you rely on it.
 * Plugin names are now limited to 60 characters. If you used to have a plugin with a longer name, you might need to rename it.
 * The `instance_id` configuration does no longer support characters other than `a-z`, `0-9` and the special characters `.-_`. If the configured value contains other characters, they will be simply removed.
+* When an invalid token is provided in an API request, a 401 response code is now returned instead of 200 response code.
 * By default, the `file://` protocol is not tracked. To enable tracking of the `file://` protocol add `enableTrackFile` to the tracker settings. 
 * We have migrated our automated tests from Travis CI to GitHub actions. If your plugin used Travis CI for running tests ensure to migrate that to a GitHub action as support for running tests on Travis has been dropped.
 
