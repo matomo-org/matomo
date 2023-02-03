@@ -8,9 +8,7 @@
  */
 namespace Piwik\Exception;
 
-use Piwik\Http\HttpCodeException;
-
-class InvalidRequestParameterException extends Exception implements HttpCodeException
+class InvalidRequestParameterException extends Exception
 {
     public function __toString()
     {
