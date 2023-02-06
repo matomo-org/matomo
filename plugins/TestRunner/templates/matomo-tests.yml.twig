@@ -9,6 +9,7 @@
         {%- if dependentPlugins and plugin %} --dependent-plugins="{{ dependentPlugins|join(',') }}"{% endif %}
         {%- if protectArtifacts %} --protect-artifacts{% endif %}
         {%- if setupScript %} --setup-script="{{ setupScript }}"{% endif %}
+        {%- if hasSubmodules %} --has-submodules{% endif %}
 
 
 name: {% if plugin %}Plugin {{ plugin }}{% else %}Matomo{% endif %} Tests
@@ -62,10 +63,8 @@ jobs:
         with:
           lfs: false
           persist-credentials: false
-{% if not plugin %}
           submodules: true
           path: matomo
-{% endif %}
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
@@ -91,6 +90,9 @@ jobs:
         with:
           lfs: true
           persist-credentials: false
+{% if hasSubmodules %}
+          submodules: true
+{% endif %}
       - name: Run tests
         uses: matomo-org/github-action-tests@main
         with:
@@ -130,8 +132,10 @@ jobs:
         with:
           lfs: false
           persist-credentials: false
-{% if not plugin %}
+{% if not plugin or hasSubmodules %}
           submodules: true
+{% endif %}
+{% if not plugin %}
           path: matomo
 {% endif %}
       - name: running tests
@@ -165,8 +169,10 @@ jobs:
         with:
           lfs: false
           persist-credentials: false
-{% if not plugin %}
+{% if not plugin or hasSubmodules %}
           submodules: true
+{% endif %}
+{% if not plugin %}
           path: matomo
 {% endif %}
       - name: running tests
@@ -199,8 +205,10 @@ jobs:
         with:
           lfs: true
           persist-credentials: false
-{% if not plugin %}
+{% if not plugin or hasSubmodules %}
           submodules: true
+{% endif %}
+{% if not plugin %}
           path: matomo
 {% endif %}
       - name: running tests

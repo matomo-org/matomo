@@ -35,6 +35,7 @@ class GenerateGitHubTestActionFile extends ConsoleCommand
     protected $protectArtifacts = false;
     protected $enableRedis = true;
     protected $setupScript = null;
+    protected $hasSubmodules = null;
 
     protected function configure()
     {
@@ -49,6 +50,7 @@ class GenerateGitHubTestActionFile extends ConsoleCommand
              ->addOption('force-client-tests', null, InputOption::VALUE_NONE, "Forces the presence of the Client tests jobs for plugin builds.")
              ->addOption('protect-artifacts', null, InputOption::VALUE_NONE, "Indicates if artifacts should be stored protected on artifact server.")
              ->addOption('setup-script', null, InputOption::VALUE_OPTIONAL, "Shell script to run (after setup, before tests), relative to plugins directory. .i.e .github/scripts/setup.sh")
+             ->addOption('has-submodules', null, InputOption::VALUE_NONE, "Defines if the repo has submodules that need to be checked out.")
              ->addOption('enable-redis', null, InputOption::VALUE_NONE, "Defines if a redis service should be set up for PHP and UI testing.");
     }
 
@@ -57,8 +59,8 @@ class GenerateGitHubTestActionFile extends ConsoleCommand
         global $piwik_minimumPHPVersion;
 
         $this->plugin = $input->getOption('plugin');
-        $this->phpVersions = array_filter(explode(',', $input->getOption('php-versions')));
-        $this->dependentPlugins = array_filter(explode(',', $input->getOption('dependent-plugins')));
+        $this->phpVersions = array_filter(explode(',', $input->getOption('php-versions') ?? ''));
+        $this->dependentPlugins = array_filter(explode(',', $input->getOption('dependent-plugins') ?? ''));
         $this->repoRootDirOverride = $input->getOption('repo-root-dir');
         $this->forcePHPTests = !!$input->getOption('force-php-tests');
         $this->forceUITests = !!$input->getOption('force-ui-tests');
@@ -66,6 +68,7 @@ class GenerateGitHubTestActionFile extends ConsoleCommand
         $this->enableRedis = !!$input->getOption('enable-redis') || empty($this->plugin);
         $this->protectArtifacts = !!$input->getOption('protect-artifacts');
         $this->setupScript = $input->getOption('setup-script');
+        $this->hasSubmodules = $input->getOption('setup-script');
 
         if (!empty($this->plugin)) {
             if (!file_exists($this->getRepoRootDir())) {
@@ -94,7 +97,7 @@ class GenerateGitHubTestActionFile extends ConsoleCommand
                     $filteredVersions[] = $version;
                 }
             }
-            if (empty($filteredVersions[0]) || version_compare($filteredVersions[0], $minimalPHPVersion, '>')) {
+            if (empty($filteredVersions[0])) {
                 array_unshift($filteredVersions, $minimalPHPVersion);
             }
             $this->phpVersions = $filteredVersions;
@@ -113,6 +116,7 @@ class GenerateGitHubTestActionFile extends ConsoleCommand
         $template->assign('plugin', $this->plugin);
         $template->assign('protectArtifacts', $this->protectArtifacts);
         $template->assign('setupScript', $this->setupScript);
+        $template->assign('hasSubmodules', $this->hasSubmodules);
         $template->assign('hasJavaScriptTests', $this->isTargetPluginContainsJavaScriptTests());
         $template->assign('hasClientTests', $this->isTargetPluginContainsClientTests());
         $template->assign('hasUITests', $this->isTargetPluginContainsUITests());
