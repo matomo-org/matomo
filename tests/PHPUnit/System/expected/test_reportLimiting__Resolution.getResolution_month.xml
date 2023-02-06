@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>1920x1080</label>
+		<nb_visits>80</nb_visits>
+		<nb_actions>80</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>30</sum_visit_length>
+		<bounce_count>60</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>16</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>16</sum_daily_nb_users>
+		<segment>resolution==1920x1080</segment>
+	</row>
+	<row>
+		<label>1280x1024</label>
+		<nb_visits>60</nb_visits>
+		<nb_actions>60</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>25</sum_visit_length>
+		<bounce_count>45</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>12</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>12</sum_daily_nb_users>
+		<segment>resolution==1280x1024</segment>
+	</row>
+	<row>
+		<label>Others</label>
+		<nb_visits>260</nb_visits>
+		<nb_actions>335</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>140</sum_visit_length>
+		<bounce_count>145</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>72</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>72</sum_daily_nb_users>
+	</row>
+</result>
