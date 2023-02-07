@@ -144,7 +144,7 @@ var external_CoreHome_ = __webpack_require__("19dc");
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Feedback/vue/src/RateFeature/RateFeature.vue?vue&type=template&id=bac0409e
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Feedback/vue/src/RateFeature/RateFeature.vue?vue&type=template&id=4a6ca67c
 
 var _hoisted_1 = ["title"];
 var _hoisted_2 = {
@@ -459,7 +459,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   }, 8, ["modelValue"])], 8, _hoisted_1);
 }
-// CONCATENATED MODULE: ./plugins/Feedback/vue/src/RateFeature/RateFeature.vue?vue&type=template&id=bac0409e
+// CONCATENATED MODULE: ./plugins/Feedback/vue/src/RateFeature/RateFeature.vue?vue&type=template&id=4a6ca67c
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Feedback/vue/src/ReviewLinks/ReviewLinks.vue?vue&type=template&id=9a880eb6
 
@@ -490,8 +490,6 @@ ReviewLinksvue_type_script_lang_ts.render = ReviewLinksvue_type_template_id_9a88
 
 
 
-var _window = window,
-    $ = _window.$;
 /* harmony default export */ var RateFeaturevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     title: String
@@ -559,7 +557,7 @@ var _window = window,
         message: this.feedbackMessage
       }).then(function (res) {
         if (res.value === 'success') {
-          $('.modal').modal('close');
+          _this2.showFeedbackForm = false;
           _this2.ratingDone = true;
           _this2.feedbackMessage = '';
         } else {
@@ -712,8 +710,8 @@ function FeedbackQuestionvue_type_template_id_4e04fa3c_render(_ctx, _cache, $pro
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Feedback/vue/src/FeedbackQuestion/FeedbackQuestion.vue?vue&type=script&lang=ts
 
 
-var FeedbackQuestionvue_type_script_lang_ts_window = window,
-    FeedbackQuestionvue_type_script_lang_ts_$ = FeedbackQuestionvue_type_script_lang_ts_window.$;
+var _window = window,
+    $ = _window.$;
 var cookieName = 'feedback-question';
 /* harmony default export */ var FeedbackQuestionvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
@@ -753,7 +751,7 @@ var cookieName = 'feedback-question';
 
       if (val) {
         setInterval(function () {
-          FeedbackQuestionvue_type_script_lang_ts_$('#message').focus();
+          $('#message').focus();
         }, 500);
       }
     }
@@ -803,7 +801,7 @@ var cookieName = 'feedback-question';
         message: this.feedbackMessage
       }).then(function (res) {
         if (res.value === 'success') {
-          FeedbackQuestionvue_type_script_lang_ts_$('.modal').modal('close');
+          $('.modal').modal('close');
           _this.feedbackDone = true;
           _this.hide = true;
         } else {
