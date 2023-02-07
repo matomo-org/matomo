@@ -584,6 +584,8 @@ class ArchiveSelector
                             return $row;
                         }
 
+                        ksort($blobs);
+
                         // $rawName = eg 'PluginName_ArchiveName'
                         $rawName = $this->chunk->getRecordNameWithoutChunkAppendix($row['name']);
 
