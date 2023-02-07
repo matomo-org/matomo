@@ -2043,6 +2043,48 @@ SQL;
         ];
     }
 
+    public function test_getSelectQuery_whenSegmentUsesManyActionSegments()
+    {
+        $segment = 'pageUrl!@https%253A%252F%252Ftest.matomo.org%252F;pageUrl!@https%253A%252F%252Fmatomo.org%252Fevent;pageUrl!@https%253A%252F%252Fmatomo.org%252Fsearch;pageUrl!@https%253A%252F%252Fmatomo.org%252Forga;pageUrl!@https%253A%252F%252Fmatomo.org%252Ffoo;pageUrl!@https%253A%252F%252Fmatomo.org%252Fbar;pageUrl!@https%253A%252F%252Fmatomo.org%252Ftesdlweke;pageUrl!@https%253A%252F%252Fmatomo.org%252Fhello-world;pageUrl!@https%253A%252F%252Fmatomo.org%252Fvideo;pageUrl!@https%253A%252F%252Fmatomo.org%252Fblog;pageUrl!@https%253A%252F%252Fmatomo.org%252F...;pageUrl!@https%253A%252F%252Fmatomo.org%252Fabout;pageUrl!@https%253A%252F%252Fmatomo.org%252Fcart';
+
+        $select = 'log_visit.idvisit';
+        $from = 'log_visit';
+
+        $expected = array(
+            'sql'  => " SELECT log_inner.idvisit FROM ( 
+                            SELECT log_visit.idvisit FROM log_visit AS log_visit 
+                            LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit 
+                            WHERE ( log_link_visit_action.idaction_url IN 
+                                (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 1 )) ) 
+                                    AND ( log_link_visit_action.idaction_url IN 
+                                          (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 1 )) ) 
+                                            AND ( log_link_visit_action.idaction_url IN 
+                                                  (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 1 )) ) AND ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 1 )) ) AND ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 1 )) ) AND ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 1 )) ) AND ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 1 )) ) AND ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 1 )) ) AND ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 1 )) ) AND ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 1 )) ) AND ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 1 )) ) AND ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 1 )) ) AND ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 1 )) ) GROUP BY log_visit.idvisit ORDER BY NULL 
+                        ) AS log_inner",
+            'bind' => [
+                'test.matomo.org/',
+                'matomo.org/event',
+                'matomo.org/search',
+                'matomo.org/orga',
+                'matomo.org/foo',
+                'matomo.org/bar',
+                'matomo.org/tesdlweke',
+                'matomo.org/hello-world',
+                'matomo.org/video',
+                'matomo.org/blog',
+                'matomo.org/...',
+                'matomo.org/about',
+                'matomo.org/cart',
+            ],
+        );
+
+        $segment = new Segment($segment, $idSites = array());
+        $sql = $segment->getSelectQuery($select, $from, false);
+        $this->assertQueryDoesNotFail($sql);
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($sql));
+    }
+
     private function assertWillBeArchived($segmentString)
     {
         $this->assertTrue($this->willSegmentByArchived($segmentString));
