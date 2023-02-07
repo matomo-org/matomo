@@ -136,8 +136,7 @@ var _window = window,
     var config = Object.assign({}, binding.value.config);
     config._ = binding.value.locale;
     config.reqParams = binding.value.reqParams;
-    config.countryNames = binding.value.countryNames;
-    $('.UserCountryMap').addClass('dataTable'); // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    config.countryNames = binding.value.countryNames; // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
     var VisitorMap = window.UserCountryMapLegacyModule.VisitorMap;
     var visitorMap; // eslint-disable-line @typescript-eslint/no-explicit-any
