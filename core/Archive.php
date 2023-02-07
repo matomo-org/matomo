@@ -322,6 +322,19 @@ class Archive implements ArchiveQuery
     }
 
     /**
+     * TODO
+     *
+     * @param string $name
+     * @return \Iterator
+     * @internal
+     */
+    public function querySingleBlob($name)
+    {
+        $archiveIds = $this->getArchiveIds([$name]);
+        return ArchiveSelector::querySingleBlob($archiveIds, $name);
+    }
+
+    /**
      * Queries and returns metric data in a DataTable instance.
      *
      * If multiple sites were requested in {@link build()} or {@link factory()} the result will
@@ -582,7 +595,7 @@ class Archive implements ArchiveQuery
      * query archive tables for IDs w/o launching archiving, or launch archiving and
      * get the idarchive from ArchiveProcessor instances.
      *
-     * @param string $archiveNames
+     * @param string[] $archiveNames
      * @return array
      */
     private function getArchiveIds($archiveNames)

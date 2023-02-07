@@ -355,9 +355,8 @@ class ArchiveProcessor
         try {
             ErrorHandler::pushFatalErrorBreadcrumb(__CLASS__, ['name' => $name]);
 
-            // By default we shall aggregate all sub-tables.
-            $dataTableBlobs = $this->getArchive()->getBlob($name, Archive::ID_SUBTABLE_LOAD_ALL_SUBTABLES);
-            $dataTable = $this->getAggregatedDataTableMapFromBlobs($dataTableBlobs, $columnsAggregationOperation, $columnsToRenameAfterAggregation, $name);
+            $blobs = $this->getArchive()->querySingleBlob($name);
+            $dataTable = $this->getAggregatedDataTableMapFromBlobs($blobs, $columnsAggregationOperation, $columnsToRenameAfterAggregation, $name);
         } finally {
             ErrorHandler::popFatalErrorBreadcrumb();
         }
@@ -365,23 +364,39 @@ class ArchiveProcessor
         return $dataTable;
     }
 
-    protected function getAggregatedDataTableMapFromBlobs(DataCollection $dataTableBlobs, $columnsAggregationOperation, $columnsToRenameAfterAggregation, $name)
+    private function getSubtableIdFromBlobName($recordName)
     {
+        $parts = explode('_', $recordName);
+        $id = end($parts);
+
+        if (is_numeric($id)) {
+            return $id;
+        }
+
+        return null;
+    }
+
+    protected function getAggregatedDataTableMapFromBlobs(\Iterator $dataTableBlobs, $columnsAggregationOperation, $columnsToRenameAfterAggregation, $name)
+    {
+        // maps period & subtable ID in database to the Row instance in $result that table should be added to when encountered
+        // [$row['date1'].','.$row['date2']][$tableId] = $row in $result
+        /** @var Row[][] */
+        $tableIdToResultRowMapping = [];
+
         $result = new DataTable();
 
         if (!empty($columnsAggregationOperation)) {
             $result->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnsAggregationOperation);
         }
 
-        $dataTableBlobs->forEachBlobExpanded(function ($reportBlobs, DataTableFactory $factory, $tableMetadata) use ($name, $result, $columnsToRenameAfterAggregation) {
-            $latestUsedTableId = Manager::getInstance()->getMostRecentTableId();
+        foreach ($dataTableBlobs as $archiveDataRow) {
+            $period = $archiveDataRow['date1'] . ',' . $archiveDataRow['date2'];
+            $tableId = $this->getSubtableIdFromBlobName($archiveDataRow['name']);
 
-            $toSum = $factory->make($reportBlobs, $index = [], $tableMetadata);
-
-            $latestUsedAfterCreatingToSum = Manager::getInstance()->getMostRecentTableId();
+            $blobTable = DataTable::fromSerializedArray($archiveDataRow['value']);
 
             // see https://github.com/piwik/piwik/issues/4377
-            $toSum->filter(function ($table) use ($columnsToRenameAfterAggregation, $name) {
+            $blobTable->filter(function ($table) use ($columnsToRenameAfterAggregation, $name) {
                 if ($this->areColumnsNotAlreadyRenamed($table)) {
                     /**
                      * This makes archiving and range dates a lot faster. Imagine we archive a week, then we will
@@ -395,10 +410,32 @@ class ArchiveProcessor
                 }
             });
 
-            $result->addDataTable($toSum);
+            $tableToAddTo = null;
+            if ($tableId === null) {
+                $tableToAddTo = $result;
+            } else {
+                $rowToAddTo = $tableIdToResultRowMapping[$period][$tableId];
+                if (!$rowToAddTo->getIdSubDataTable()) {
+                    $rowToAddTo->setSubtable(new DataTable());
+                }
+                $tableToAddTo = $rowToAddTo->getSubtable();
+            }
 
-            DataTable\Manager::getInstance()->deleteAll($latestUsedTableId, $latestUsedAfterCreatingToSum);
-        });
+            $tableToAddTo->addDataTable($blobTable);
+
+            foreach ($blobTable->getRows() as $blobTableRow) {
+                $label = $blobTableRow->getColumn('label');
+                $subtableId = $blobTableRow->getIdSubDataTable();
+                if (empty($subtableId)) {
+                    continue;
+                }
+
+                $tableIdToResultRowMapping[$period][$subtableId] = $tableToAddTo->getRowFromLabel($label);
+            }
+
+            Common::destroy($blobTable);
+            unset($blobTable);
+        }
 
         return $result;
     }
