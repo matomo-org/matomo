@@ -23,8 +23,6 @@ export default {
     config.reqParams = binding.value.reqParams;
     config.countryNames = binding.value.countryNames;
 
-    $('.UserCountryMap').addClass('dataTable');
-
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { VisitorMap } = (window as any).UserCountryMapLegacyModule;
 

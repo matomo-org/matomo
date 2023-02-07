@@ -36,14 +36,14 @@ class TrackGoalsPagesTest extends SystemTestCase
     {
         return [
             ['Actions.getPageUrls',        ['idSite' => self::$fixture->idSite, 'date' => self::$fixture->dateTime,
-                                            'idGoal' => 1]],
+                                            'idGoal' => 1, 'period' => 'week']],
             ['Actions.getPageTitles',      ['idSite' => self::$fixture->idSite, 'date' => self::$fixture->dateTime,
-                                            'idGoal' => 1]],
+                                            'idGoal' => 1, 'period' => 'week']],
             ['Actions.getEntryPageUrls',   ['idSite' => self::$fixture->idSite, 'date' => self::$fixture->dateTime,
-                                            'idGoal' => 1, 'otherRequestParameters' =>
+                                            'idGoal' => 1, 'period' => 'day', 'otherRequestParameters' =>
                                                               ['filter_update_columns_when_show_all_goals' => 1]]],
             ['Actions.getEntryPageTitles', ['idSite' => self::$fixture->idSite, 'date' => self::$fixture->dateTime,
-                                            'idGoal' => 1, 'otherRequestParameters' =>
+                                            'idGoal' => 1, 'period' => 'day', 'otherRequestParameters' =>
                                                               ['filter_update_columns_when_show_all_goals' => 1]]]
         ];
     }

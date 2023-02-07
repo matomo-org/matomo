@@ -6,9 +6,11 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\Events;
 
-use Piwik\Config;
+use Piwik\ArchiveProcessor;
+use Piwik\Config\GeneralConfig;
 use Piwik\DataArray;
 use Piwik\Metrics;
 use Piwik\Plugins\Actions\ArchivingHelper;
@@ -72,35 +74,51 @@ class Archiver extends \Piwik\Plugin\Archiver
     /**
      * @var DataArray[]
      */
-    protected $arrays = array();
+    protected $arrays = [];
 
-    function __construct($processor)
+    /**
+     * @var int
+     */
+    private $columnToSortByBeforeTruncation;
+
+    /**
+     * @var mixed
+     */
+    private $maximumRowsInDataTable;
+
+    /**
+     * @var mixed
+     */
+    private $maximumRowsInSubDataTable;
+
+    public function __construct(ArchiveProcessor $processor)
     {
         parent::__construct($processor);
+        $idSite = $processor->getParams()->getSite()->getId();
         $this->columnToSortByBeforeTruncation = Metrics::INDEX_NB_VISITS;
-        $this->maximumRowsInDataTable = Config::getInstance()->General['datatable_archiving_maximum_rows_events'];
-        $this->maximumRowsInSubDataTable = Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_events'];
+        $this->maximumRowsInDataTable = GeneralConfig::getConfigValue('datatable_archiving_maximum_rows_events', $idSite);
+        $this->maximumRowsInSubDataTable = GeneralConfig::getConfigValue('datatable_archiving_maximum_rows_subtable_events', $idSite);
     }
 
     protected function getRecordToDimensions()
     {
-        return array(
-            self::EVENTS_CATEGORY_ACTION_RECORD_NAME => array("eventCategory", "eventAction"),
-            self::EVENTS_CATEGORY_NAME_RECORD_NAME   => array("eventCategory", "eventName"),
-            self::EVENTS_ACTION_NAME_RECORD_NAME     => array("eventAction", "eventName"),
-            self::EVENTS_ACTION_CATEGORY_RECORD_NAME => array("eventAction", "eventCategory"),
-            self::EVENTS_NAME_ACTION_RECORD_NAME     => array("eventName", "eventAction"),
-            self::EVENTS_NAME_CATEGORY_RECORD_NAME   => array("eventName", "eventCategory"),
-        );
+        return [
+            self::EVENTS_CATEGORY_ACTION_RECORD_NAME => ["eventCategory", "eventAction"],
+            self::EVENTS_CATEGORY_NAME_RECORD_NAME   => ["eventCategory", "eventName"],
+            self::EVENTS_ACTION_NAME_RECORD_NAME     => ["eventAction", "eventName"],
+            self::EVENTS_ACTION_CATEGORY_RECORD_NAME => ["eventAction", "eventCategory"],
+            self::EVENTS_NAME_ACTION_RECORD_NAME     => ["eventName", "eventAction"],
+            self::EVENTS_NAME_CATEGORY_RECORD_NAME   => ["eventName", "eventCategory"],
+        ];
     }
 
     public function aggregateMultipleReports()
     {
         $dataTableToSum = $this->getRecordNames();
-        $columnsAggregationOperation = array(
+        $columnsAggregationOperation = [
             Metrics::INDEX_EVENT_MIN_EVENT_VALUE => 'min',
             Metrics::INDEX_EVENT_MAX_EVENT_VALUE => 'max',
-        );
+        ];
 
         $this->getProcessor()->aggregateDataTableRecords(
             $dataTableToSum,
@@ -109,7 +127,7 @@ class Archiver extends \Piwik\Plugin\Archiver
             $this->columnToSortByBeforeTruncation,
             $columnsAggregationOperation,
             $columnsToRenameAfterAggregation = null,
-            $countRowsRecursive = array());
+            $countRowsRecursive = []);
     }
 
     protected function getRecordNames()
@@ -147,24 +165,24 @@ class Archiver extends \Piwik\Plugin\Archiver
 				max(" . Action::DB_COLUMN_CUSTOM_FLOAT . ") as `" . Metrics::INDEX_EVENT_MAX_EVENT_VALUE . "`
         ";
 
-        $from = array(
+        $from = [
             "log_link_visit_action",
-            array(
+            [
                 "table"      => "log_action",
                 "tableAlias" => "log_action_event_category",
                 "joinOn"     => "log_link_visit_action.idaction_event_category = log_action_event_category.idaction"
-            ),
-            array(
+            ],
+            [
                 "table"      => "log_action",
                 "tableAlias" => "log_action_event_action",
                 "joinOn"     => "log_link_visit_action.idaction_event_action = log_action_event_action.idaction"
-            ),
-            array(
+            ],
+            [
                 "table"      => "log_action",
                 "tableAlias" => "log_action_event_name",
                 "joinOn"     => "log_link_visit_action.idaction_name = log_action_event_name.idaction"
-            )
-        );
+            ]
+        ];
 
         $where  = $this->getLogAggregator()->getWhereStatement('log_link_visit_action', 'server_time');
         $where .= " AND log_link_visit_action.idaction_event_category IS NOT NULL";
@@ -179,9 +197,9 @@ class Archiver extends \Piwik\Plugin\Archiver
         $rankingQuery = null;
         if ($rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($rankingQueryLimit);
-            $rankingQuery->addLabelColumn(array('eventCategory', 'eventAction', 'eventName'));
-            $rankingQuery->addColumn(array(Metrics::INDEX_NB_UNIQ_VISITORS));
-            $rankingQuery->addColumn(array(Metrics::INDEX_EVENT_NB_HITS, Metrics::INDEX_NB_VISITS, Metrics::INDEX_EVENT_NB_HITS_WITH_VALUE), 'sum');
+            $rankingQuery->addLabelColumn(['eventCategory', 'eventAction', 'eventName']);
+            $rankingQuery->addColumn([Metrics::INDEX_NB_UNIQ_VISITORS]);
+            $rankingQuery->addColumn([Metrics::INDEX_EVENT_NB_HITS, Metrics::INDEX_NB_VISITS, Metrics::INDEX_EVENT_NB_HITS_WITH_VALUE], 'sum');
             $rankingQuery->addColumn(Metrics::INDEX_EVENT_SUM_EVENT_VALUE, 'sum');
             $rankingQuery->addColumn(Metrics::INDEX_EVENT_MIN_EVENT_VALUE, 'min');
             $rankingQuery->addColumn(Metrics::INDEX_EVENT_MAX_EVENT_VALUE, 'max');
@@ -262,5 +280,4 @@ class Archiver extends \Piwik\Plugin\Archiver
             $dataArray->sumMetricsEventsPivot($mainLabel, $subLabel, $row);
         }
     }
-
 }

@@ -11,7 +11,6 @@ describe("Comparison", function () {
     const generalParams = 'idSite=1&period=range&date=2012-01-12,2012-01-17',
         urlBase = 'module=CoreHome&action=index&' + generalParams,
         dashboardUrl = "?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=5",
-        tokenAuth = "c4ca4238a0b923820dcc509a6f75849b", // md5('superUserLogin' . md5('superUserPass'))
         comparePeriod = "&compareDates[]=2012-01-01,2012-01-31&comparePeriods[]=range",
         compareSegment = "&compareSegments[]=continentCode%3D%3Deur",
         compareParams = comparePeriod + compareSegment,
@@ -34,7 +33,15 @@ describe("Comparison", function () {
             compareParams,
         visitOverviewSparklines = "?module=Widgetize&action=iframe&disableLink=1&widget=1&" +
             "moduleToWidgetize=VisitsSummary&actionToWidgetize=get&forceView=1&viewDataTable=sparklines&" + generalParams + "&" +
-            compareParams
+            compareParams,
+        visitOverviewWidgetComparePeriods = "?module=Widgetize&action=iframe&containerId=VisitOverviewWithGraph&disableLink=0&widget=1&" +
+          "moduleToWidgetize=CoreHome&actionToWidgetize=renderWidgetContainer&disableLink=1&widget=1&idSite=1&period=year&date=2012-01-12" + compareSegment,
+        visitOverviewWidgetCompareYear = "?module=Widgetize&action=iframe&containerId=VisitOverviewWithGraph&disableLink=0&widget=1&" +
+          "moduleToWidgetize=CoreHome&actionToWidgetize=renderWidgetContainer&disableLink=1&widget=1&idSite=1&period=year&date=2012-01-12&compareDates[]=2011-01-31&comparePeriods[]=year",
+        visitOverviewWidgetCompareWeekSmallRange = "?module=Widgetize&action=iframe&containerId=VisitOverviewWithGraph&disableLink=0&widget=1&" +
+        "moduleToWidgetize=CoreHome&actionToWidgetize=renderWidgetContainer&disableLink=1&widget=1&idSite=1&period=week&date=2012-01-12&compareDates[]=2012-01-20,2012-01-31&comparePeriods[]=range",
+        visitOverviewWidgetCompareLargeRange = "?module=Widgetize&action=iframe&containerId=VisitOverviewWithGraph&disableLink=0&widget=1&" +
+        "moduleToWidgetize=CoreHome&actionToWidgetize=renderWidgetContainer&disableLink=1&widget=1&idSite=1&period=range&date=2012-01-12,2014-02-12&compareDates[]=2011-01-31,2013-02-31&comparePeriods[]=range"
     ;
 
     it('should compare periods correctly when comparing the last period', async () => {
@@ -265,6 +272,30 @@ describe("Comparison", function () {
         await page.goto(visitOverviewWidget);
         await page.waitForNetworkIdle();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('visits_overview_widget');
+    });
+
+    it('should load a widgetized sparklines visualization correctly when comparing two years', async () => {
+        await page.goto(visitOverviewWidgetCompareYear);
+        await page.waitForNetworkIdle();
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('visits_overview_widget_year');
+    });
+
+    it('should load a widgetized sparklines visualization correctly when comparing two segments over a year', async () => {
+        await page.goto(visitOverviewWidgetComparePeriods);
+        await page.waitForNetworkIdle();
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('visits_overview_widget_compareperiod_year');
+    });
+
+    it('should load a widgetized sparklines visualization correctly when comparing a week with a small range', async () => {
+        await page.goto(visitOverviewWidgetCompareWeekSmallRange);
+        await page.waitForNetworkIdle();
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('visits_overview_widget_week_smallrange');
+    });
+
+    it('should load a widgetized sparklines visualization correctly when comparing large ranges', async () => {
+        await page.goto(visitOverviewWidgetCompareLargeRange);
+        await page.waitForNetworkIdle();
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('visits_overview_widget_largerange');
     });
 
     it('should show evolution metrics correctly formatted in other language', async () => {

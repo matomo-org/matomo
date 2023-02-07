@@ -201,6 +201,9 @@
         "VisitsSuccessfullyExported": "Visits were successfully exported",
         "VisitsSuccessfullyDeleted": "Visits were successfully deleted",
         "LastAction": "Last action",
-        "FindMatchingDataSubjects": "Find matching data subjects"
+        "FindMatchingDataSubjects": "Find matching data subjects",
+        "ConsentManager": "Consent Manager",
+        "ConsentManagerDetected": "%1$s consent manager was detected on your website. To learn about configuring Matomo to work with %1$s please read %2$sthis guide%3$s",
+        "ConsentManagerConnected": "%1$s appears to already be configured to work with Matomo."
     }
 }

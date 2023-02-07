@@ -39,7 +39,7 @@ describe("UserSettings", function () {
     });
 
     it('should accept correct password', async function () {
-        await page.type('#login_form_password', 'superUserPass');
+        await page.type('#login_form_password', superUserPassword);
         await page.click('#login_form_submit');
         await page.waitForNetworkIdle();
         await page.waitForSelector('.addTokenForm');

@@ -15,6 +15,7 @@ use Piwik\Plugins\UsersManager\LastSeenTimeLogger;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UserAccessFilter;
 use Piwik\Plugins\UsersManager\UsersManager;
+use Piwik\Plugins\UsersManager\Validators\AllowedEmailDomain;
 use Piwik\Plugins\UsersManager\Validators\Email;
 use Piwik\Plugins\UsersManager\Validators\Login;
 use Piwik\Site;
@@ -37,11 +38,22 @@ class UserRepository
      */
     protected $password;
 
-    public function __construct(Model $model, UserAccessFilter $filter, Password $password)
+    /**
+     * @var AllowedEmailDomain
+     */
+    protected $allowedEmailDomain;
+
+    /**
+     * @var ?bool
+     */
+    private $twoFaPluginActivated = null;
+
+    public function __construct(Model $model, UserAccessFilter $filter, Password $password, AllowedEmailDomain $allowedEmailDomain)
     {
         $this->model = $model;
         $this->filter = $filter;
         $this->password = $password;
+        $this->allowedEmailDomain = $allowedEmailDomain;
     }
 
     /**
@@ -67,7 +79,7 @@ class UserRepository
         }
 
         BaseValidator::check(Piwik::translate('General_Username'), $userLogin, [new Login(true)]);
-        BaseValidator::check(Piwik::translate('Installation_Email'), $email, [new Email(true)]);
+        BaseValidator::check(Piwik::translate('Installation_Email'), $email, [new Email(true), $this->allowedEmailDomain]);
 
         if (!empty($password)) {
             if (!$isPasswordHashed) {

@@ -28,6 +28,17 @@
     >
       <p v-html="$sanitize(howDoIAskForConsentIntroduction)"></p>
     </ContentBlock>
+
+    <ContentBlock
+      :content-title="translate('PrivacyManager_ConsentManager')"
+      class="privacyAskingForConsent"
+      v-if="consentManagerName"
+    >
+      <p v-html="$sanitize(consentManagerDetectedText)"></p>
+      <p v-if="consentManagerIsConnected"
+         v-html="$sanitize(translate('PrivacyManager_ConsentManagerConnected', consentManagerName))"
+      ></p>
+    </ContentBlock>
   </div>
 </template>
 
@@ -41,6 +52,20 @@ import {
 } from 'CoreHome';
 
 export default defineComponent({
+  props: {
+    consentManagerName: {
+      type: String,
+      required: true,
+    },
+    consentManagerUrl: {
+      type: String,
+      required: true,
+    },
+    consentManagerIsConnected: {
+      type: Boolean,
+      required: true,
+    },
+  },
   components: {
     ContentBlock,
   },
@@ -75,6 +100,14 @@ export default defineComponent({
       return translate(
         'PrivacyManager_HowDoIAskForConsentIntroduction',
         `<a href="${link}" target="_blank" rel="noreferrer noopener">`,
+        '</a>',
+      );
+    },
+    consentManagerDetectedText() {
+      return translate(
+        'PrivacyManager_ConsentManagerDetected',
+        this.consentManagerName,
+        `<a href="${this.consentManagerUrl}" target="_blank" rel="noreferrer noopener">`,
         '</a>',
       );
     },

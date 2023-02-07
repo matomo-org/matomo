@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\CustomDimensions\Dimension;
 
 use Piwik\Plugin\Dimension\VisitDimension;
@@ -17,6 +18,9 @@ use Piwik\Plugins\CustomDimensions\Tracker\CustomDimensionsRequestProcessor;
  */
 class CustomVisitDimension extends VisitDimension
 {
+    protected $actualName;
+    protected $idDimension;
+
     public function __construct($column, $name, $idDimension)
     {
         $this->columnName = $column;
@@ -39,5 +43,4 @@ class CustomVisitDimension extends VisitDimension
     {
         return 'CustomDimension.CustomDimension' . $this->idDimension;
     }
-
 }

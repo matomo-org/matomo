@@ -254,7 +254,7 @@ class ArchiveInvalidator
      * @param $period string
      * @param $segment Segment
      * @param bool $cascadeDown
-     * @param bool $forceInvalidateNonexistantRanges set true to force inserting rows for ranges in archive_invalidations
+     * @param bool $forceInvalidateNonexistentRanges set true to force inserting rows for ranges in archive_invalidations
      * @param string $name null to make sure every plugin is archived when this invalidation is processed by core:archive,
      *                     or a plugin name to only archive the specific plugin.
      * @param bool $ignorePurgeLogDataDate
@@ -262,7 +262,7 @@ class ArchiveInvalidator
      * @throws \Exception
      */
     public function markArchivesAsInvalidated(array $idSites, array $dates, $period, Segment $segment = null, $cascadeDown = false,
-                                              $forceInvalidateNonexistantRanges = false, $name = null, $ignorePurgeLogDataDate = false)
+                                              $forceInvalidateNonexistentRanges = false, $name = null, $ignorePurgeLogDataDate = false)
     {
         $plugin = null;
         if ($name && strpos($name, '.') !== false) {
@@ -309,8 +309,12 @@ class ArchiveInvalidator
          *     }
          *
          * @param array &$idSites An array containing a list of site IDs which are requested to be invalidated.
+         * @param array $dates An array containing the dates to invalidate.
+         * @param string $period A string containing the period to be invalidated.
+         * @param Segment $segment A Segment Object containing segment to invalidate.
+         * @param string $name A string containing the name of the archive to be invalidated.
          */
-        Piwik::postEvent('Archiving.getIdSitesToMarkArchivesAsInvalidated', array(&$idSites));
+        Piwik::postEvent('Archiving.getIdSitesToMarkArchivesAsInvalidated', array(&$idSites, $dates, $period, $segment, $name));
         // we trigger above event on purpose here and it is good that the segment was created like
         // `new Segment($segmentString, $idSites)` because when a user adds a site via this event, the added idSite
         // might not have this segment meaning we avoid a possible error. For the workflow to work, any added or removed
@@ -320,7 +324,7 @@ class ArchiveInvalidator
 
         $allPeriodsToInvalidate = $this->getAllPeriodsByYearMonth($period, $datesToInvalidate, $cascadeDown);
 
-        $this->markArchivesInvalidated($idSites, $allPeriodsToInvalidate, $segment, $period != 'range', $forceInvalidateNonexistantRanges, $name);
+        $this->markArchivesInvalidated($idSites, $allPeriodsToInvalidate, $segment, $period != 'range', $forceInvalidateNonexistentRanges, $name);
 
         $isInvalidatingDays = $period == 'day' || $cascadeDown || empty($period);
         $isNotInvalidatingSegment = empty($segment) || empty($segment->getString());
@@ -678,7 +682,7 @@ class ArchiveInvalidator
      * @throws \Exception
      */
     private function markArchivesInvalidated($idSites, $dates, Segment $segment = null, $removeRanges = false,
-                                             $forceInvalidateNonexistantRanges = false, $name = null)
+                                             $forceInvalidateNonexistentRanges = false, $name = null)
     {
         $idSites = array_map('intval', $idSites);
 
@@ -690,7 +694,7 @@ class ArchiveInvalidator
             $table = ArchiveTableCreator::getNumericTable($tableDateObj);
             $yearMonths[] = $tableDateObj->toString('Y_m');
 
-            $this->model->updateArchiveAsInvalidated($table, $idSites, $datesForTable, $segment, $forceInvalidateNonexistantRanges, $name);
+            $this->model->updateArchiveAsInvalidated($table, $idSites, $datesForTable, $segment, $forceInvalidateNonexistentRanges, $name);
 
             if ($removeRanges) {
                 $this->model->updateRangeArchiveAsInvalidated($table, $idSites, $datesForTable, $segment);
@@ -778,7 +782,7 @@ class ArchiveInvalidator
     private function getSegmentArchiving()
     {
         if (empty($this->segmentArchiving)) {
-            $this->segmentArchiving = new SegmentArchiving(StaticContainer::get('ini.General.process_new_segments_from'));
+            $this->segmentArchiving = new SegmentArchiving();
         }
         return $this->segmentArchiving;
     }

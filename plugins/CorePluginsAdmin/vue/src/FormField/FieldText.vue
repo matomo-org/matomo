@@ -12,6 +12,7 @@
     :id="name"
     :name="name"
     :value="modelValueText"
+    :spellcheck="uiControl === 'password' ? false : null"
     @keydown="onKeydown($event)"
     @change="onKeydown($event)"
     v-bind="uiControlAttributes"

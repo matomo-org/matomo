@@ -18,6 +18,7 @@ interface DataTableInterface
     public function queueFilter($className, $parameters = array());
     public function applyQueuedFilters();
     public function filter($className, $parameters = array());
+    public function multiFilter($otherTables, $filter);
     public function getFirstRow();
     public function __toString();
     public function enableRecursiveSort();

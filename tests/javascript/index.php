@@ -106,7 +106,7 @@ testTrackPageViewAsync();
         include_once $file;
     }
     if ($testPluginPath !== '*') {
-        // Travis would always include tag manager
+        // CI would always include tag manager
         $files = \Piwik\Filesystem::globr($root . '/plugins/TagManager/tests/javascript', 'head.php');
         foreach ($files as $file) {
             include_once $file;
@@ -3286,7 +3286,7 @@ function PiwikTest() {
         expect(5);
 
         var tracker = Piwik.getTracker();
-        tracker.disableBrowserFeatureDetection(); // avoid client hint queue
+        // tracker.disableBrowserFeatureDetection(); // avoid client hint queue
         tracker.setTrackerUrl("matomo.php");
         tracker.setSiteId(1);
         tracker.setCustomData({ "token": '---' });
@@ -3693,7 +3693,7 @@ if ($mysql) {
     });
 
     test("tracking", function() {
-        expect(182);
+        expect(185);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
@@ -3981,6 +3981,10 @@ if ($mysql) {
         equal(3, requestQueue.requests.length, "does not increase number of queued requests but send it directly");
         requestQueue.enabled = true;
 
+        var fullQueueRequest = tracker.getRequest('myQueue=bar&queue=5');
+        tracker.trackPageView('is full request');
+        tracker.queueRequest(fullQueueRequest, true);
+
         // Custom variables
         tracker.storeCustomVariablesInCookie();
         tracker.setCookieNamePrefix("PREFIX");
@@ -4204,6 +4208,14 @@ if ($mysql) {
         window.onerror = oldOnError;
         // Testing JavaScriptErrorTracking END
 
+        // Tracking file protocol
+        tracker.setCustomUrl('file://Downloads/File.pdf');
+        tracker.trackPageView('FileProtocolShouldNotBeTracked');
+
+        tracker.enableFileTracking();
+        tracker.setCustomUrl('file://Downloads/AnotherFile.pdf');
+        tracker.trackPageView('FileProtocolShouldBeTrackedWhenEnabled');
+
         // add tracker
         _paq.push(["addTracker", null, 13]);
         var createdNewTracker = Piwik.getAsyncTracker(null, 13);
@@ -4221,7 +4233,7 @@ if ($mysql) {
             var countTrackingEvents = /<span\>([0-9]+)\<\/span\>/.exec(results);
             ok (countTrackingEvents, "countTrackingEvents is set");
             if(countTrackingEvents) {
-                equal( countTrackingEvents[1], "56", "count tracking events" );
+                equal( countTrackingEvents[1], "59", "count tracking events" );
             }
 
             // firing callback
@@ -4266,6 +4278,8 @@ if ($mysql) {
             ok( /myQueue=bar&queue=2/.test( results ), "queueRequest sends queued requests");
             ok( /myQueue=bar&queue=3/.test( results ), "queueRequest sends queued requests");
             ok( /myQueueDisabled=bar&queue=4/.test( results ), "queueRequest sends queued requests when disabled directly");
+
+            ok( results.indexOf(fullQueueRequest + '&uadata=%7B%7D</span>') !== -1, "queueRequest does not duplicate params if isFullRequest is used queued");
 
             // Test Custom variables
             ok( /SaveCustomVariableCookie.*&cvar=%7B%222%22%3A%5B%22cookiename2PAGE%22%2C%22cookievalue2PAGE%22%5D%7D.*&_cvar=%7B%221%22%3A%5B%22cookiename%22%2C%22cookievalue%22%5D%2C%222%22%3A%5B%22cookiename2%22%2C%22cookievalue2%22%5D%7D/.test(results), "test custom vars are set");
@@ -4342,6 +4356,8 @@ if ($mysql) {
             ok( ! /ShouldNotHave_pf_1_2_3_4_5_6_7_8.*pf_net=1&pf_srv=2&pf_tfr=3&pf_dm1=4&pf_dm2=5&pf_onl=6/.test(results), 'setPagePerformanceTiming only sets 6 parameters in request');
             //  /check setPagePerformanceTiming function
 
+            ok( ! /action_name=FileProtocolShouldNotBeTracked/.test(results), 'file protocol should not be tracked by default');
+            ok( /action_name=FileProtocolShouldBeTrackedWhenEnabled/.test(results), 'file protocol should be tracked when enabled');
             start();
         }, 5000);
     });
@@ -4933,23 +4949,21 @@ if ($mysql) {
 
         tracker.enableLinkTracking();
 
-        wait(300);
+        wait(500);
 
         var token2 = '2' + token;
         resetTracker(tracker, token2);
         preventClickDefault('#isWithinOutlink');
         triggerEvent(_s('#isWithinOutlink'), 'click'); // click on an element within a link
 
-        wait(300);
-
+        wait(500);
 
         var token3 = '3' + token;
         resetTracker(tracker, token3);
         preventClickDefault('#isOutlink');
         triggerEvent(_s('#isOutlink'), 'click'); // click on the link element itself
 
-        wait(300);
-
+        wait(500);
 
         var token4 = '4' + token;
         resetTracker(tracker, token4);
@@ -4960,7 +4974,8 @@ if ($mysql) {
         var token5 = '5' + token;
         resetTracker(tracker, token5);
         preventClickDefault('#internalLink');
-        wait(300);
+
+        wait(500);
 
         stop();
         setTimeout(function() {
@@ -5281,7 +5296,7 @@ if ($mysql) {
 
         var startTime, stopTime;
 
-        wait(1000); // in case there is  a previous expireDateTime set
+        wait(1500); // in case there is  a previous expireDateTime set
 
         equal( typeof tracker.hook.test._beforeUnloadHandler, 'function', 'beforeUnloadHandler' );
 
@@ -5289,7 +5304,7 @@ if ($mysql) {
         tracker.hook.test._beforeUnloadHandler();
         stopTime = new Date();
         var msSinceStarted = (stopTime.getTime() - startTime.getTime());
-        ok( msSinceStarted < 540, 'beforeUnloadHandler(): ' + msSinceStarted + ' was greater than 540 ' );
+        ok( msSinceStarted < 580, 'beforeUnloadHandler(): ' + msSinceStarted + ' was greater than 580 ' );
 
         tracker.disableAlwaysUseSendBeacon();
         tracker.setLinkTrackingTimer(2000);
@@ -5376,7 +5391,7 @@ function customAddEventListener(element, eventType, eventHandler, useCapture) {
         include_once $file;
     }
     if ($testPluginPath !== '*') {
-        // Travis would always include tag manager
+        // CI would always include tag manager
         $files = \Piwik\Filesystem::globr($root . '/plugins/TagManager/tests/javascript', 'index.php');
         foreach ($files as $file) {
             include_once $file;

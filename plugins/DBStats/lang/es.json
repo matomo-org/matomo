@@ -1,8 +1,8 @@
 {
     "DBStats": {
-        "DatabaseUsage": "Uso de la base de datos",
-        "DataSize": "Tamaño de los datos",
         "DBSize": "Tamaño BD",
+        "DataSize": "Tamaño de los datos",
+        "DatabaseUsage": "Uso de la base de datos",
         "EstimatedSize": "Tamaño estimado",
         "IndexSize": "Tamaño del índice",
         "LearnMore": "Para aprender más sobre cómo Matomo procesa los datos y cómo hacer que Matomo funcione bien en sitios web de tráfico mediano y alto, eche un vistazo a la documentación %s.",
@@ -10,7 +10,7 @@
         "MetricDataByYear": "Tablas de medición anuales",
         "MetricTables": "Tablas de medición",
         "OtherTables": "Otras tablas",
-        "PluginDescription": "Suministra informes detallados de usos de la base de datos MySQL. Disponible para Super Usuarios bajo la función Diagnósticos.",
+        "PluginDescription": "Proporciona informes detallados del uso de la base de datos MySQL. Disponible para los superusuarios en Diagnóstico.",
         "ReportDataByYear": "Informe de Tablas por año",
         "ReportTables": "Tablas de informes",
         "RowCount": "Cantidad de filas",

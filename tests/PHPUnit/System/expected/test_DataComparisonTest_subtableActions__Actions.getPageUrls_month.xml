@@ -18,7 +18,7 @@
 			<row idgoal='1'>
 				<nb_conversions>10</nb_conversions>
 				<revenue>50</revenue>
-				<nb_conv_pages_before>10</nb_conv_pages_before>
+				<nb_conv_pages_before>8</nb_conv_pages_before>
 				<nb_conversions_attrib>10</nb_conversions_attrib>
 				<nb_conversions_page_rate>0.313</nb_conversions_page_rate>
 				<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
@@ -356,8 +356,8 @@
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
 				<compareDate>2012-08-16</compareDate>
-				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
-				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
+				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
+				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>2</idsubdatatable>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory</segment>
 			</row>
@@ -417,8 +417,8 @@
 				<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
 				<compareDate>2012-08-16</compareDate>
-				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
-				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ff)</compareSeriesPretty>
+				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
+				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ff)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory</segment>
 			</row>
@@ -478,8 +478,8 @@
 				<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
 				<compareDate>2012-08-16</compareDate>
-				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
-				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ie)</compareSeriesPretty>
+				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
+				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ie)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory</segment>
 			</row>
@@ -503,7 +503,7 @@
 					<row idgoal='1'>
 						<nb_conversions>9</nb_conversions>
 						<revenue>45</revenue>
-						<nb_conv_pages_before>9</nb_conv_pages_before>
+						<nb_conv_pages_before>7</nb_conv_pages_before>
 						<nb_conversions_attrib>9</nb_conversions_attrib>
 						<nb_conversions_page_rate>0</nb_conversions_page_rate>
 						<nb_conversions_page_uniq>9</nb_conversions_page_uniq>
@@ -577,8 +577,8 @@
 						<compareSegmentPretty>All visits</compareSegmentPretty>
 						<comparePeriod>week</comparePeriod>
 						<compareDate>2012-08-16</compareDate>
-						<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
-						<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
+						<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
+						<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 						<idsubdatatable>3</idsubdatatable>
 						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fmeta</segment>
 					</row>
@@ -602,7 +602,7 @@
 							<row idgoal='1'>
 								<nb_conversions>9</nb_conversions>
 								<revenue>45</revenue>
-								<nb_conv_pages_before>9</nb_conv_pages_before>
+								<nb_conv_pages_before>7</nb_conv_pages_before>
 								<nb_conversions_attrib>9</nb_conversions_attrib>
 								<nb_conversions_page_rate>0</nb_conversions_page_rate>
 								<nb_conversions_page_uniq>9</nb_conversions_page_uniq>
@@ -619,7 +619,7 @@
 						<avg_time_on_page>0</avg_time_on_page>
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>100%</exit_rate>
-						<url>http://www.included2.com/blog/category/meta/</url>
+						<url>http://included1.com/blog/category/meta/</url>
 						<comparisons>
 							<row>
 								<nb_visits>9</nb_visits>
@@ -643,7 +643,7 @@
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 								<idsubdatatable>-1</idsubdatatable>
-								<segment>pageUrl==http%253A%252F%252Fwww.included2.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
+								<segment>pageUrl==http%253A%252F%252Fincluded1.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 							</row>
 							<row>
 								<nb_visits>2</nb_visits>
@@ -667,7 +667,7 @@
 								<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 								<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 								<idsubdatatable>-1</idsubdatatable>
-								<segment>pageUrl==http%253A%252F%252Fwww.included2.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
+								<segment>pageUrl==http%253A%252F%252Fincluded1.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 							</row>
 							<row>
 								<nb_visits>1</nb_visits>
@@ -688,13 +688,13 @@
 								<compareSegmentPretty>All visits</compareSegmentPretty>
 								<comparePeriod>week</comparePeriod>
 								<compareDate>2012-08-16</compareDate>
-								<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
-								<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
+								<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
+								<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 								<idsubdatatable>-1</idsubdatatable>
-								<segment>pageUrl==http%253A%252F%252Fwww.included2.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
+								<segment>pageUrl==http%253A%252F%252Fincluded1.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 							</row>
 						</comparisons>
-						<segment>pageUrl==http%253A%252F%252Fwww.included2.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
+						<segment>pageUrl==http%253A%252F%252Fincluded1.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 					</row>
 				</subtable>
 			</row>
@@ -798,8 +798,8 @@
 						<compareSegmentPretty>All visits</compareSegmentPretty>
 						<comparePeriod>week</comparePeriod>
 						<compareDate>2012-08-16</compareDate>
-						<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
-						<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
+						<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
+						<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 						<idsubdatatable>-1</idsubdatatable>
 						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fcommunity</segment>
 					</row>
@@ -1229,8 +1229,8 @@
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
 				<compareDate>2012-08-16</compareDate>
-				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
-				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
+				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
+				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2012</segment>
 			</row>
@@ -1290,8 +1290,8 @@
 				<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
 				<compareDate>2012-08-16</compareDate>
-				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
-				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ff)</compareSeriesPretty>
+				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
+				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ff)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2012</segment>
 			</row>
@@ -1351,8 +1351,8 @@
 				<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
 				<compareDate>2012-08-16</compareDate>
-				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
-				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ie)</compareSeriesPretty>
+				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
+				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ie)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2012</segment>
 			</row>

@@ -200,7 +200,6 @@
         "ExceptionInvalidRendererFormat": "Format '%1$s' nije validan. Pokušajte neki od ovih: %2$s.",
         "ExceptionInvalidReportRendererFormat": "Format '%1$s' nije validan. Pokušajte neki od ovih: %2$s.",
         "ExceptionInvalidStaticGraphType": "Tip grafikona '%1$s' nije validan. Pokušajte neki od ovih: %2$s.",
-        "ExceptionInvalidToken": "Token nije validan.",
         "ExceptionLanguageFileNotFound": "Datoteka sa jezikom '%s' nije nađena.",
         "ExceptionMethodNotFound": "Metod '%1$s' ne postoji ili nije na raspolaganju u modulu '%2$s'.",
         "ExceptionMissingFile": "Nedostajuća datoteka: %s",

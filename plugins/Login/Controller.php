@@ -16,6 +16,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\Exception\RedirectException;
 use Piwik\IP;
 use Piwik\Log;
 use Piwik\Nonce;
@@ -30,6 +31,7 @@ use Piwik\QuickForm2;
 use Piwik\Request;
 use Piwik\Session;
 use Piwik\Session\SessionInitializer;
+use Piwik\SettingsPiwik;
 use Piwik\Url;
 use Piwik\UrlHelper;
 use Piwik\View;
@@ -334,6 +336,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $parsedUrl = parse_url($urlToRedirect);
 
+        if (!empty($urlToRedirect) && false === $parsedUrl) {
+            $e = new \Piwik\Exception\Exception('The redirect URL is not valid.');
+            $e->setIsHtmlMessage();
+            throw $e;
+        }
+
         // only use redirect url if host is trusted
         if (!empty($parsedUrl['host']) && !Url::isValidHost($parsedUrl['host'])) {
             $e = new \Piwik\Exception\Exception('The redirect URL host is not valid, it is not a trusted host. If this URL is trusted, you can allow this in your config.ini.php file by adding the line <i>trusted_hosts[] = "' . Common::sanitizeInputValue($parsedUrl['host']) . '"</i> under <i>[General]</i>');
@@ -410,6 +418,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $loginMail = $form->getSubmitValue('form_login');
         $password = $form->getSubmitValue('form_password');
+        
+        if (!empty($loginMail)) {
+            $loginMail = trim($loginMail);
+        }
 
         try {
             $this->passwordResetter->initiatePasswordResetProcess($loginMail, $password);
@@ -534,8 +546,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $passwordHelper = new Password();
         $view = new View('@Login/invitation');
 
-        $token = Common::getRequestVar('token', null, 'string');
-        $form = Common::getRequestVar('invitation_form', false, 'string');
+        $request = Request::fromRequest();
+
+        $token = $request->getStringParameter('token');
+        $form = $request->getStringParameter('invitation_form', '');
 
         $settings = new SystemSettings();
         $termsAndConditionUrl = $settings->termsAndConditionUrl->getValue();
@@ -545,21 +559,21 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         // if no user matches the invite token
         if (!$user) {
             $this->bruteForceDetection->addFailedAttempt(IP::getIpFromHeader());
-            throw new Exception(Piwik::translate('Login_InvalidUsernameEmail'));
+            throw new RedirectException(Piwik::translate('Login_InvalidOrExpiredTokenV2'), SettingsPiwik::getPiwikUrl(), 5);
         }
 
         if (!empty($user['invite_expired_at']) && Date::factory($user['invite_expired_at'])->isEarlier(Date::now())) {
-            throw new Exception(Piwik::translate('Login_InvalidOrExpiredToken'));
+            throw new RedirectException(Piwik::translate('Login_InvalidOrExpiredTokenV2'), SettingsPiwik::getPiwikUrl(), 5);
         }
 
         // if form was sent
         if (!empty($form)) {
             $error = null;
-            $password = Common::getRequestVar('password', false, 'string');
-            $passwordConfirmation = Common::getRequestVar('passwordConfirmation', false, 'string');
-            $conditionCheck = Common::getRequestVar('conditionCheck', false, 'string');
+            $password = $request->getStringParameter('password', '');
+            $passwordConfirmation = $request->getStringParameter('passwordConfirmation', '');
+            $conditionCheck = $request->getBoolParameter('conditionCheck', false);
 
-            if (!$password) {
+            if (empty($password)) {
                 $error = Piwik::translate('Login_PasswordRequired');
             }
 
@@ -596,6 +610,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                     [
                         'password'          => $password,
                         'invite_token'      => null,
+                        'invite_link_token' => null,
                         'invite_accept_at'  => Date::now()->getDatetime(),
                         'invite_expired_at' => null,
                     ]

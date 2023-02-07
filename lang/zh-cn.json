@@ -1,7 +1,7 @@
 {
     "General": {
-        "12HourClock": "12 小时制式",
-        "24HourClock": "24 小时制式",
+        "12HourClock": "12 小时制",
+        "24HourClock": "24 小时制",
         "API": "API",
         "AbandonedCarts": "被放弃的购物车",
         "AboutPiwikX": "关于 Matomo %s",
@@ -205,7 +205,6 @@
         "ExceptionInvalidRendererFormat": "'%1$s' 是不合法的。尝试以下任一来取代: %2$s 。",
         "ExceptionInvalidReportRendererFormat": "报表格式 %1$s 无效。尝试改为以下任一格式：%2$s。",
         "ExceptionInvalidStaticGraphType": "统计图形格式 '%1$s' 不正确，请用下面的代替: %2$s。",
-        "ExceptionInvalidToken": "口令无效。",
         "ExceptionLanguageFileNotFound": "没有语言文件 '%s'。",
         "ExceptionMethodNotFound": "'%1$s' 不存在或不适用于模块 '%2$s' 里。",
         "ExceptionMissingFile": "缺少文件: %s",
@@ -217,6 +216,7 @@
         "ExceptionPrivilegeAtLeastOneWebsite": "您无法访问此资源，因为至少有一个网站需要%s访问权限。",
         "ExceptionReportNotEnabled": "请求的报告未启用。这通常意味着要么定义报表停用或您没有足够的权限来访问此报告的插件。",
         "ExceptionReportNotFound": "请求的报告不存在。",
+        "ExceptionSecurityCheckFailed": "很抱歉，由于安全检查，您尝试执行的操作失败。这是确保您帐户安全的标准措施。请重试，如果问题仍然存在，请联系我们的支持团队以获得进一步帮助。",
         "ExceptionUnableToStartSession": "无法启动会话。",
         "ExceptionUndeletableFile": "无法刪除 %s",
         "ExceptionUnexpectedDirectory": "在您服务器的Matomo文件夹下发现了不属于Matomo的目录。",
@@ -441,6 +441,7 @@
         "SmtpServerAddress": "SMTP 服务器地址",
         "SmtpUsername": "SMTP 用户",
         "Source": "来源",
+        "SparklineTooltipUsedPeriod": "迷你图中的每个数据点表示一个 %s。",
         "StatisticsAreNotRecorded": "Matomo 访客追踪已禁用！要重新启用追踪，请在 config/config.ini.php 文件中设置 record_statistics = 1。",
         "Subtotal": "小计",
         "Summary": "总计",
@@ -620,7 +621,7 @@
     },
     "RowEvolution": {
         "AvailableMetrics": "可用指标",
-        "CompareDocumentation": "点击下面的链接，打开相同表格中另外一行数据的这个弹出窗口，可以比较多个记录。<br />按住 Shift 键选择用于比较的行，就不用打开这个弹出窗口。",
+        "CompareDocumentation": "点击下面的链接，打开相同表格中另外一行数据的这个弹出窗口，可以比较多个记录。<br>按住 Shift 键选择用于比较的行，就不用打开这个弹出窗口。",
         "CompareRows": "比较记录",
         "ComparingRecords": "正在比较 %s 行",
         "Documentation": "点击指标显示趋势图，按住 Shift 键点击可同时显示多个指标。",

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -30,7 +31,7 @@ class API extends \Piwik\Plugin\API
      *
      * @return int
      */
-    public function getAnswerToLife($truth = true)
+    public function getAnswerToLife(bool $truth = true): int
     {
         if ($truth) {
             return 42;
@@ -41,13 +42,13 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Another example method that returns a data table.
-     * @param int    $idSite
+     * @param string $idSite  (might be a number, or the string all)
      * @param string $period
      * @param string $date
-     * @param bool|string $segment
+     * @param null|string $segment
      * @return DataTable
      */
-    public function getExampleReport($idSite, $period, $date, $segment = false)
+    public function getExampleReport(string $idSite, string $period, string $date, ?string $segment = null): DataTable
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -61,26 +62,25 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Returns the example metric we archive in Archiver.php.
-     * @param int    $idSite
+     * @param string $idSite (might be a number, or the string all)
      * @param string $period
      * @param string $date
-     * @param bool|string $segment
-     * @return DataTable
+     * @param null|string $segment
+     * @return DataTable\DataTableInterface
      */
-    public function getExampleArchivedMetric($idSite, $period, $date, $segment = false)
+    public function getExampleArchivedMetric(string $idSite, string $period, string $date, ?string $segment = null): DataTable\DataTableInterface
     {
         Piwik::checkUserHasViewAccess($idSite);
 
         $archive = Archive::build($idSite, $period, $date, $segment);
-        $dataTable = $archive->getDataTableFromNumeric([Archiver::EXAMPLEPLUGIN_METRIC_NAME, Archiver::EXAMPLEPLUGIN_CONST_METRIC_NAME]);
-        return $dataTable;
+        return $archive->getDataTableFromNumeric([Archiver::EXAMPLEPLUGIN_METRIC_NAME, Archiver::EXAMPLEPLUGIN_CONST_METRIC_NAME]);
     }
 
-    public function getSegmentHash($idSite, $segment)
+    public function getSegmentHash(string $idSite, string $segment)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        $segment = new Segment($segment, [(int) $idSite]);
+        $segment = new Segment($segment, [$idSite]);
         return $segment->getHash();
     }
 }

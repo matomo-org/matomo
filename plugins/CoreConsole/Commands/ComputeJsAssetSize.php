@@ -11,7 +11,6 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 use Piwik\AssetManager;
 use Piwik\Development;
 use Piwik\Metrics\Formatter;
-use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugin\Manager;
@@ -276,8 +275,7 @@ class ComputeJsAssetSize extends ConsoleCommand
             $pluginSuffix = " [$plugin: $pluginBranchName ($pluginLastCommit)]";
         }
 
-        $output->writeln("<info>$branchName ($lastCommit)$pluginSuffix</info> <comment>"
-            . "</comment>");
+        $output->writeln("<info>$branchName ($lastCommit)$pluginSuffix</info>");
     }
 
     private function makeUmdFetcher()

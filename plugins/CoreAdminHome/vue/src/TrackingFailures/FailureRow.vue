@@ -4,7 +4,7 @@
   <td>{{ failure.solution }} <a
     v-show="failure.solution_url"
     rel="noopener noreferrer"
-    ::href="failure.solution_url"
+    :href="failure.solution_url"
   >{{ translate('CoreAdminHome_LearnMore') }}</a></td>
   <td class="datetime">{{ failure.pretty_date_first_occurred }}</td>
   <td>{{ failure.url }}</td>

@@ -46,15 +46,6 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(method_exists(TestCase::class,'setGroups'));
     }
 
-    public function test_woff2_fileIsUpToDate()
-    {
-        link(PIWIK_INCLUDE_PATH . "/plugins/Morpheus/fonts/matomo.ttf", "temp.ttf");
-        $command = PIWIK_INCLUDE_PATH . "/../travis_woff2/woff2_compress 'temp.ttf'";
-        $log = shell_exec($command);
-
-        $this->assertFileEquals('temp.woff2', PIWIK_INCLUDE_PATH . "/plugins/Morpheus/fonts/matomo.woff2", "woff2 file is out of date.\nCommand output:\n" . $log);
-    }
-
     public function test_minimumPHPVersion_isEnforced()
     {
         global $piwik_minimumPHPVersion;
@@ -143,9 +134,6 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
 
         foreach ($submodules as $submodule) {
             $submodule = trim(trim($submodule), './');
-            if ($submodule === 'travis') {
-                continue; // avoid error output for travis submodule
-            }
             $pluginLfsFiles = shell_exec('cd ' . PIWIK_DOCUMENT_ROOT.'/'.$submodule . ' && git lfs ls-files');
             if (!empty($pluginLfsFiles)) {
                 $pluginLfsFiles = explode("\n", $pluginLfsFiles);
@@ -200,7 +188,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $patternFailIfFound = 'dump(';
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.twig');
         foreach ($files as $file) {
-            if ($file == PIWIK_INCLUDE_PATH . '/plugins/TestRunner/templates/travis.yml.twig') {
+            if ($file == PIWIK_INCLUDE_PATH . '/plugins/TestRunner/templates/matomo-tests.yml.twig') {
                 continue;
             }
 
@@ -229,7 +217,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
 
         // known files that will for sure not contain a "buggy" $patternFailIfFound
         $allowedFiles = array(
-            PIWIK_INCLUDE_PATH . '/plugins/TestRunner/templates/travis.yml.twig',
+            PIWIK_INCLUDE_PATH . '/plugins/TestRunner/templates/matomo-tests.yml.twig',
             PIWIK_INCLUDE_PATH . '/plugins/CoreUpdater/templates/layout.twig',
             PIWIK_INCLUDE_PATH . '/plugins/Installation/templates/layout.twig',
             PIWIK_INCLUDE_PATH . '/plugins/Login/templates/loginLayout.twig',
@@ -341,7 +329,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             $handle = fopen($file, "r");
             $expectedStart = "<?php";
 
-            $isIniFile = strpos($file, ".ini.php") !== false || strpos($file, ".ini.travis.php") !== false;
+            $isIniFile = strpos($file, ".ini.php") !== false;
             if($isIniFile) {
                 $expectedStart = "; <?php exit;";
             }
@@ -610,7 +598,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
      */
     public function test_TotalPiwikFilesSize_isWithinReasonnableSize()
     {
-        if(!SystemTestCase::isTravisCI()) {
+        if(!SystemTestCase::isCIEnvironment()) {
             // Don't run the test on local dev machine, as we may have other files (not in GIT) that would fail this test
             $this->markTestSkipped("Skipped this test on local dev environment.");
         }
@@ -916,14 +904,6 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             'vendor/szymach/c-pchart/resources/fonts/pf_arma_five*',
             'vendor/szymach/c-pchart/resources/fonts/Silkscreen*',
             'vendor/szymach/c-pchart/resources/fonts/verdana*',
-            'node_modules/angular/angular.min.js.gzip',
-            'node_modules/angular/angular.js',
-            'node_modules/angular-animate/angular-animate.min.js.gzip',
-            'node_modules/angular-animate/angular-animate.js',
-            'node_modules/angular-sanitize/angular-sanitize.min.js.gzip',
-            'node_modules/angular-sanitize/angular-sanitize.js',
-            'node_modules/angular-cookies/angular-cookies.min.js.gzip',
-            'node_modules/angular-cookies/angular-cookies.js',
             'node_modules/chroma-js/Makefile',
             'node_modules/chroma-js/chroma.js',
             'node_modules/chroma-js/doc',

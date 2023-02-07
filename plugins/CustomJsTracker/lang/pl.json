@@ -1,6 +1,8 @@
 {
     "CustomJsTracker": {
+        "DiagnosticPiwikJsMakeWritable": "Zalecamy nadanie dla %1$s uprawnień do zapisu wykonując tą komendę: %2$s",
+        "DiagnosticPiwikJsNotWritable": "Plik Matomo JavaScript tracker %s nie jest zapisywalny, co oznacza, że inne wtyczki nie mogą rozszerzyć trackera JavaScript. W przyszłości nawet niektóre podstawowe funkcje mogą nie działać zgodnie z oczekiwaniami.",
         "DiagnosticPiwikJsWritable": "Zapisywalny Traker JavaScript (%s)",
-        "DiagnosticPiwikJsMakeWritable": "Zalecamy nadanie dla %1$s uprawnień do zapisu wykonując tą komendę: %2$s"
+        "PluginDescription": "Pozwala dowolnej wtyczce rozszerzyć plik Matomo JavaScript Tracking (matomo.js) i dodać nową funkcjonalność lub możliwości pomiaru strony internetowej."
     }
 }

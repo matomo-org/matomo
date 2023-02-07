@@ -1256,7 +1256,6 @@
 
                         // hide loading indicator
                         $$('.UserCountryMap .loadingPiwik').hide();
-                        $('.mapWidgetStatus').height(0);
 
                         // start with default view (or saved state??)
                         var params = self.widget.dashboardWidget('getWidgetObject').parameters;

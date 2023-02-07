@@ -15,8 +15,8 @@
     {% endif %}
 
     <span class="metricEvolution" title="{{ evolution.tooltip|rawSafeDecoded|e('html_attr') }}">
-    <img style="padding-right:4px" src="plugins/MultiSites/images/{{ evolutionIcon }}"/>
-    <strong class="{{ evolutionClass }}">{{ evolutionPretty }}</strong></span>
+    <img style="padding-right:4px" src="plugins/MultiSites/images/{{ evolutionIcon }}" alt="" />
+    <strong class="{{ evolutionClass }}" aria-hidden="true">{{ evolutionPretty }}</strong></span>
 {% endmacro %}
 
 {% macro singleSparkline(sparkline, allMetricsDocumentation, areSparklinesLinkable) %}
@@ -25,7 +25,9 @@
          {% if sparkline.seriesIndices|default is not empty %}data-series-indices="{{ sparkline.seriesIndices|json_encode|e('html_attr') }}"{% endif %}
          {% if sparkline.graphParams|default is not empty %}data-graph-params="{{ sparkline.graphParams|json_encode|e('html_attr') }}"{% endif %}
     >
-        <div>
+        <div
+            {% if sparkline.tooltip|default %}title="{{ sparkline.tooltip|e('html_attr') }}"{% endif %}
+        >
             {% if sparkline.title|default is not empty %}<h6 class="sparkline-title" title="{{ sparkline.title|rawSafeDecoded|e('html_attr') }}">{{ sparkline.title }}</h6>{% endif %}
             {% if sparkline.url %}{{ sparkline(sparkline.url)|raw }}{% endif %}
         </div>

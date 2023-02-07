@@ -1,5 +1,5 @@
 <div class="widgetBody tourEngagement">
-    <p title="{{ 'Tour_StatusLevel'|translate(level.currentLevelName, level.challengesNeededForNextLevel, level.nextLevelName)|e('html_attr') }}">
+    <p aria-hidden="true">
     {% for i in 1..level.numLevelsTotal %}
         <span class="icon-star {% if level.currentLevel >= i %}successStar{% else %}upgradeStar{% endif %}"></span>
     {% endfor %}

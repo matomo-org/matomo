@@ -45,16 +45,19 @@ class Controller extends PluginController
 
     protected function getEvolutionTable()
     {
-        $apiMethod = Common::getRequestVar('apiMethod');
-        $period    = Common::getRequestVar('period');
-        $date      = Common::getRequestVar('date');
+        // Note: Using unsanitized request parameters here, as they will be passed through to an API method,
+        // which should handle sanitizing if needed
+        $request = \Piwik\Request::fromRequest();
+        $apiMethod = $request->getStringParameter('apiMethod');
+        $period    = $request->getStringParameter('period');
+        $date      = $request->getStringParameter('date');
 
         $params = [
             'method'    => $apiMethod,
             'period'    => 'range' === $period ? 'day' : $period,
-            'label'     => Common::getRequestVar('label', ''),
+            'label'     => $request->getStringParameter('label', ''),
             'idSite'    => $this->idSite,
-            'segment'   => Common::getRequestVar('segment', ''),
+            'segment'   => $request->getStringParameter('segment', ''),
             'date'      => 'range' === $period ? $date : EvolutionViz::getDateRangeAndLastN($period, $date)[0],
             'format'    => 'original',
             'serialize' => '0',

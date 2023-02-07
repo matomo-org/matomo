@@ -92,7 +92,6 @@ class Lock
         $locked    = $this->backend->setIfNotExists($this->lockKey, $lockValue, $ttlInSeconds);
         if ($locked) {
             $this->lockValue = $lockValue;
-            $this->ttlUsed = $ttlInSeconds;
             $this->lastExpireTime = Date::getNowTimestamp();
         }
 

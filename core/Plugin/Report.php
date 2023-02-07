@@ -199,7 +199,7 @@ class Report
     protected $defaultSortOrderDesc = true;
 
     /**
-     * The constructur initializes the module, action and the default metrics. If you want to overwrite any of those
+     * The constructor initializes the module, action and the default metrics. If you want to overwrite any of those
      * values or if you want to do any work during initializing overwrite the method {@link init()}.
      * @ignore
      */

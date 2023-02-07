@@ -97,12 +97,23 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
             return;
         }
 
-        parent::_connect();
+        $sql = 'SET sql_mode = "' . Db::SQL_MODE . '"';
 
-        // MYSQL_ATTR_USE_BUFFERED_QUERY will use more memory when enabled
-        // $this->_connection->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
-
-        $this->_connection->exec('SET sql_mode = "' . Db::SQL_MODE . '"');
+        try {
+            parent::_connect();
+            $this->_connection->exec($sql);
+        } catch (Exception $e) {
+            if ($this->isErrNo($e, \Piwik\Updater\Migration\Db::ERROR_CODE_MYSQL_SERVER_HAS_GONE_AWAY)) {
+                // mysql may return a MySQL server has gone away error when trying to establish the connection.
+                // in that case we want to retry establishing the connection once after a short sleep
+                $this->_connection = null; // we need to unset, otherwise parent connect won't retry
+                usleep(400 * 1000);
+                parent::_connect();
+                $this->_connection->exec($sql);
+            } else {
+                throw $e;
+            }
+        }
     }
 
     /**
