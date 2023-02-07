@@ -38,7 +38,7 @@
             <span
               class="icon-info"
               style="cursor: help;"
-              :title="`${ translate('PrivacyManager_ScheduledDate', [entry.scheduled_date || '']) }`"
+              :title="`${ translate('PrivacyManager_ScheduledDate', entry.scheduled_date || '') }`"
             ></span>
             {{ translate('PrivacyManager_Scheduled') }}
           </span>
@@ -47,9 +47,9 @@
             <span
               class="icon-info"
               style="cursor: help;"
-              :title="`${ translate('PrivacyManager_ScheduledDate', [entry.scheduled_date || '']) }.` +
-                ` ${ translate('PrivacyManager_JobStartDate', [entry.job_start_date]) }.` +
-                ` ${ translate('PrivacyManager_CurrentOutput', [entry.output]) }`"
+              :title="`${ translate('PrivacyManager_ScheduledDate', entry.scheduled_date || '') }.`+
+                ` ${ translate('PrivacyManager_JobStartDate', entry.job_start_date) }.` +
+                ` ${ translate('PrivacyManager_CurrentOutput', entry.output) }`"
             ></span>
             {{ translate('PrivacyManager_InProgress') }}
           </span>
@@ -57,10 +57,10 @@
             <span
               class="icon-info"
               style="cursor: help;"
-              :title="`${ translate('PrivacyManager_ScheduledDate', [entry.scheduled_date || '']) }.` +
-                ` ${ translate('PrivacyManager_JobStartDate', [entry.job_start_date]) }.` +
-                ` ${ translate('PrivacyManager_JobFinishDate', [entry.job_finish_date]) }. ` +
-                ` ${ translate('PrivacyManager_Output', [entry.output]) }`"
+              :title="`${ translate('PrivacyManager_ScheduledDate', entry.scheduled_date || '') }.`+
+                ` ${ translate('PrivacyManager_JobStartDate', entry.job_start_date) }.` +
+                ` ${ translate('PrivacyManager_JobFinishDate', entry.job_finish_date) }. ` +
+                ` ${ translate('PrivacyManager_Output', entry.output) }`"
             ></span>
             {{ translate('General_Done') }}
           </span>
