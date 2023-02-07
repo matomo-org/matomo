@@ -447,6 +447,9 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_Output';
         $translationKeys[] = 'PrivacyManager_Scheduled';
         $translationKeys[] = 'PrivacyManager_InProgress';
+        $translationKeys[] = 'PrivacyManager_AnonymizePreviousData';
+        $translationKeys[] = 'PrivacyManager_AnonymizePreviousDataDescription';
+        $translationKeys[] = 'PrivacyManager_AnonymizePreviousDataOnlySuperUser';
         $translationKeys[] = 'Overlay_Location';
         $translationKeys[] = 'General_UserId';
         $translationKeys[] = 'General_Done';
