@@ -324,6 +324,7 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_DoNotTrack_Enabled';
         $translationKeys[] = 'PrivacyManager_DoNotTrack_EnabledMoreInfo';
         $translationKeys[] = 'PrivacyManager_DoNotTrack_SupportDNTPreference';
+        $translationKeys[] = 'PrivacyManager_DoNotTrack_Deprecated';
         $translationKeys[] = 'PrivacyManager_ExportSelectedVisits';
         $translationKeys[] = 'PrivacyManager_ExportingNote';
         $translationKeys[] = 'PrivacyManager_FindDataSubjectsBy';

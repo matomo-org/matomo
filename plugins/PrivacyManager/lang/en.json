@@ -82,6 +82,7 @@
         "DoNotTrack_Enabled": "You are currently respecting your users Privacy, Bravo!",
         "DoNotTrack_EnabledMoreInfo": "When users have set their web browser to \"I do not want to be tracked\" (DoNotTrack is enabled) then Matomo will not track these visits.",
         "DoNotTrack_SupportDNTPreference": "Support Do Not Track preference",
+        "DoNotTrack_Deprecated": "The support for the Do Not Track header has been deprecated. As more browsers have either started automatically sending this header without giving users the option to change it or have completely discontinued support for it, we no longer recommend enabling this option. This feature may be completely removed in one of the upcoming major releases.",
         "EstimatedDBSizeAfterPurge": "Estimated database size after purge",
         "EstimatedSpaceSaved": "Estimated space saved",
         "ForceCookielessTracking": "Force tracking without cookies",
