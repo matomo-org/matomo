@@ -143,7 +143,7 @@ class DiagnosticResult implements \JsonSerializable
         return $status;
     }
 
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): array
     {
         return [
             'label' => $this->label,
