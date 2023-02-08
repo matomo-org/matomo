@@ -538,119 +538,52 @@ class ArchiveSelector
 
         // get data from every table we're querying using an iterator so we only have one
         // row in memory at a time
-        $iterator = new class($archiveIdsPerMonth, $getValuesSql, $bind) extends \ArrayIterator implements \RecursiveIterator {
-            private $getValuesSql;
-            private $bind;
-            private $chunk;
 
-            public function __construct($array, $getValuesSql, $bind, $flags = 0)
-            {
-                parent::__construct($array, $flags = 0);
-                $this->getValuesSql = $getValuesSql;
-                $this->bind = $bind;
-                $this->chunk = new Chunk();
-            }
+        $periodsSeen = [];
 
-            #[\ReturnTypeWillChange]
-            public function hasChildren()
-            {
-                $ids = $this->current();
-                return !empty($ids);
-            }
+        // $yearMonth = "2022-11",
+        foreach ($archiveIdsPerMonth as $yearMonth => $ids) {
+            $date = Date::factory($yearMonth . '-01');
 
-            #[\ReturnTypeWillChange]
-            public function getChildren()
-            {
-                // $yearMonth = "2022-11",
-                $yearMonth = $this->key();
-                $ids = $this->current();
+            $table = ArchiveTableCreator::getBlobTable($date);
 
-                $date = Date::factory($yearMonth . '-01');
+            $ids      = array_map('intval', $ids);
+            $sql      = sprintf($getValuesSql, $table, implode(',', $ids));
 
-                $table = ArchiveTableCreator::getBlobTable($date);
-
-                $ids      = array_map('intval', $ids);
-                $sql      = sprintf($this->getValuesSql, $table, implode(',', $ids));
-
-                $cursor = Db::get()->query($sql, $this->bind);
-
-                return new CursorCallbackIterator($cursor, function ($row) {
-                    $row['value'] = ArchiveSelector::uncompress($row['value']);
-
-                    if ($this->chunk->isRecordNameAChunk($row['name'])) {
-                        // $blobs = array([subtableID] = [blob of subtableId])
-                        $blobs = Common::safe_unserialize($row['value']);
-                        if (!is_array($blobs)) {
-                            return $row;
-                        }
-
-                        ksort($blobs);
-
-                        // $rawName = eg 'PluginName_ArchiveName'
-                        $rawName = $this->chunk->getRecordNameWithoutChunkAppendix($row['name']);
-
-                        return new class($blobs, $rawName, $row) extends \ArrayIterator implements \RecursiveIterator {
-                            private $rawName;
-
-                            public function __construct($array, $rawName, $row)
-                            {
-                                parent::__construct($array, $flags = 0);
-                                $this->rawName = $rawName;
-                                $this->row = $row;
-                            }
-
-                            #[\ReturnTypeWillChange]
-                            public function current()
-                            {
-                                $blob = parent::current();
-                                $subtableId = $this->key();
-                                return array_merge($this->row, [
-                                    'value' => $blob,
-                                    'name' => ArchiveSelector::appendIdSubtable($this->rawName, $subtableId),
-                                ]);
-                            }
-
-                            #[\ReturnTypeWillChange]
-                            public function hasChildren()
-                            {
-                                return false;
-                            }
-
-                            #[\ReturnTypeWillChange]
-                            public function getChildren()
-                            {
-                                return null;
-                            }
-                        };
-                    }
-
-                    return $row;
-                });
-            }
-        };
-
-        $iterator = new \RecursiveIteratorIterator($iterator, \RecursiveIteratorIterator::LEAVES_ONLY);
-
-        // only use the first period/blob name combination seen (since we order by ts_archived descending)
-        $iterator = new class($iterator) extends \FilterIterator {
-            private $periodsSeen = [];
-
-            #[\ReturnTypeWillChange]
-            public function accept()
-            {
-                $row = $this->current();
+            $cursor = Db::get()->query($sql, $bind);
+            while ($row = $cursor->fetch()) {
                 $period = $row['date1'] . ',' . $row['date2'];
                 $name = $row['name'];
 
-                if (!empty($this->periodsSeen[$period][$name])) {
-                    return false;
+                // only use the first period/blob name combination seen (since we order by ts_archived descending)
+                if (!empty($periodsSeen[$period][$name])) {
+                    continue;
                 }
 
-                $this->periodsSeen[$period][$name] = true;
-                return true;
-            }
-        };
+                $periodsSeen[$period][$name] = true;
 
-        return $iterator;
+                $row['value'] = ArchiveSelector::uncompress($row['value']);
+                if ($chunk->isRecordNameAChunk($row['name'])) {
+                    // $blobs = array([subtableID] = [blob of subtableId])
+                    $blobs = Common::safe_unserialize($row['value']);
+                    if (!is_array($blobs)) {
+                        yield $row;
+                    }
+
+                    ksort($blobs);
+
+                    // $rawName = eg 'PluginName_ArchiveName'
+                    $rawName = $chunk->getRecordNameWithoutChunkAppendix($row['name']);
+                    foreach ($blobs as $subtableId => $blob) {
+                        yield array_merge($row, [
+                            'value' => $blob,
+                            'name' => ArchiveSelector::appendIdSubtable($rawName, $subtableId),
+                        ]);
+                    }
+                } else {
+                    yield $row;
+                }
+            }
+        }
     }
 }

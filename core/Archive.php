@@ -325,7 +325,7 @@ class Archive implements ArchiveQuery
      * TODO
      *
      * @param string $name
-     * @return \Iterator
+     * @return \Generator
      * @internal
      */
     public function querySingleBlob($name)
