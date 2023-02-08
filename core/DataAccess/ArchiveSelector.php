@@ -522,7 +522,7 @@ class ArchiveSelector
                                 FROM %s
                                 WHERE idarchive IN (%s)
                                   AND $whereNameIs
-                             ORDER BY ts_archived DESC, name ASC"; // ascending order so we use the latest data found
+                             ORDER BY CAST(REGEXP_SUBSTR(name, '[0-9]+') AS UNSIGNED) ASC, ts_archived DESC"; // ascending order so we use the latest data found
 
         // We want to fetch as many archives at once as possible instead of fetching each period individually
         // eg instead of issueing one query per day we'll merge all the IDs of a given month into one query
