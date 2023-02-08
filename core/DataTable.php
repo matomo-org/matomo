@@ -917,7 +917,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function getRowsCountWithoutSummaryRow()
     {
-        return count($this->rows);
+        return (is_array($this->rows) ? count($this->rows) : 0);
     }
 
     /**
@@ -1033,7 +1033,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     public function getRowsCount()
     {
         if (is_null($this->summaryRow)) {
-            return count($this->rows);
+            return (is_array($this->rows) ? count($this->rows) : 0);
         } else {
             return count($this->rows) + 1;
         }
@@ -1046,7 +1046,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function getFirstRow()
     {
-        if (count($this->rows) == 0) {
+        if (!is_array($this->rows) || count($this->rows) == 0) {
             if (!is_null($this->summaryRow)) {
                 return $this->summaryRow;
             }
@@ -1067,7 +1067,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             return $this->summaryRow;
         }
 
-        if (count($this->rows) == 0) {
+        if (!is_array($this->rows) || count($this->rows) == 0) {
             return false;
         }
 
@@ -1533,7 +1533,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function addRowsFromSimpleArray($array)
     {
-        if (count($array) === 0) {
+        if (!is_array($array) || count($array) === 0) {
             return;
         }
 
@@ -1791,7 +1791,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function walkPath($path, $missingRowColumns = false, $maxSubtableRows = 0)
     {
-        $pathLength = count($path);
+        $pathLength = (is_array($path) ? count($path) : 0);
 
         $table = $this;
         $next = false;
