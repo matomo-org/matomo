@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>cloudsite25.com</label>
+		<nb_visits>5</nb_visits>
+		<nb_hits>5</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<avg_bandwidth>0</avg_bandwidth>
+		<subtable>
+			<row>
+				<label>/100/download</label>
+				<nb_visits>1</nb_visits>
+				<nb_hits>1</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<url>http://cloudsite25.com/100/download</url>
+				<segment>downloadUrl==http%253A%252F%252Fcloudsite25.com%252F100%252Fdownload</segment>
+			</row>
+			<row>
+				<label>Others</label>
+				<nb_visits>4</nb_visits>
+				<nb_hits>4</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+			</row>
+		</subtable>
+	</row>
+	<row>
+		<label>cloudsite26.com</label>
+		<nb_visits>5</nb_visits>
+		<nb_hits>5</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<avg_bandwidth>0</avg_bandwidth>
+		<subtable>
+			<row>
+				<label>/104/download</label>
+				<nb_visits>1</nb_visits>
+				<nb_hits>1</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<url>http://cloudsite26.com/104/download</url>
+				<segment>downloadUrl==http%253A%252F%252Fcloudsite26.com%252F104%252Fdownload</segment>
+			</row>
+			<row>
+				<label>Others</label>
+				<nb_visits>4</nb_visits>
+				<nb_hits>4</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+			</row>
+		</subtable>
+	</row>
+	<row>
+		<label>cloudsite27.com</label>
+		<nb_visits>5</nb_visits>
+		<nb_hits>5</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<avg_bandwidth>0</avg_bandwidth>
+		<subtable>
+			<row>
+				<label>/108/download</label>
+				<nb_visits>1</nb_visits>
+				<nb_hits>1</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<url>http://cloudsite27.com/108/download</url>
+				<segment>downloadUrl==http%253A%252F%252Fcloudsite27.com%252F108%252Fdownload</segment>
+			</row>
+			<row>
+				<label>Others</label>
+				<nb_visits>4</nb_visits>
+				<nb_hits>4</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+			</row>
+		</subtable>
+	</row>
+	<row>
+		<label>Others</label>
+		<nb_visits>60</nb_visits>
+		<nb_hits>60</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<avg_bandwidth>0</avg_bandwidth>
+	</row>
+</result>

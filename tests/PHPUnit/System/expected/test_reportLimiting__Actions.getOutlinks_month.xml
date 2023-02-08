@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>othersite10.com</label>
+		<nb_visits>5</nb_visits>
+		<nb_hits>5</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<avg_bandwidth>0</avg_bandwidth>
+		<subtable>
+			<row>
+				<label>/</label>
+				<nb_visits>1</nb_visits>
+				<nb_hits>1</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<url>http://othersite10.com/</url>
+				<segment>outlinkUrl==http%253A%252F%252Fothersite10.com%252F</segment>
+			</row>
+			<row>
+				<label>Others</label>
+				<nb_visits>4</nb_visits>
+				<nb_hits>4</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+			</row>
+		</subtable>
+	</row>
+	<row>
+		<label>othersite11.com</label>
+		<nb_visits>5</nb_visits>
+		<nb_hits>5</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<avg_bandwidth>0</avg_bandwidth>
+		<subtable>
+			<row>
+				<label>/</label>
+				<nb_visits>1</nb_visits>
+				<nb_hits>1</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<url>http://othersite11.com/</url>
+				<segment>outlinkUrl==http%253A%252F%252Fothersite11.com%252F</segment>
+			</row>
+			<row>
+				<label>Others</label>
+				<nb_visits>4</nb_visits>
+				<nb_hits>4</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+			</row>
+		</subtable>
+	</row>
+	<row>
+		<label>othersite12.com</label>
+		<nb_visits>5</nb_visits>
+		<nb_hits>5</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<avg_bandwidth>0</avg_bandwidth>
+		<subtable>
+			<row>
+				<label>/</label>
+				<nb_visits>1</nb_visits>
+				<nb_hits>1</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<url>http://othersite12.com/</url>
+				<segment>outlinkUrl==http%253A%252F%252Fothersite12.com%252F</segment>
+			</row>
+			<row>
+				<label>Others</label>
+				<nb_visits>4</nb_visits>
+				<nb_hits>4</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+			</row>
+		</subtable>
+	</row>
+	<row>
+		<label>Others</label>
+		<nb_visits>60</nb_visits>
+		<nb_hits>60</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<avg_bandwidth>0</avg_bandwidth>
+	</row>
+</result>

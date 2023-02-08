@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>content piece 20</label>
+		<nb_visits>5</nb_visits>
+		<nb_impressions>5</nb_impressions>
+		<nb_interactions>5</nb_interactions>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<interaction_rate>100%</interaction_rate>
+		<segment>contentPiece==content+piece+20</segment>
+	</row>
+	<row>
+		<label>content piece 21</label>
+		<nb_visits>5</nb_visits>
+		<nb_impressions>5</nb_impressions>
+		<nb_interactions>0</nb_interactions>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<interaction_rate>0%</interaction_rate>
+		<segment>contentPiece==content+piece+21</segment>
+	</row>
+	<row>
+		<label>content piece 22</label>
+		<nb_visits>5</nb_visits>
+		<nb_impressions>5</nb_impressions>
+		<nb_interactions>5</nb_interactions>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<interaction_rate>100%</interaction_rate>
+		<segment>contentPiece==content+piece+22</segment>
+	</row>
+	<row>
+		<label>Others</label>
+		<nb_visits>60</nb_visits>
+		<nb_impressions>60</nb_impressions>
+		<nb_interactions>35</nb_interactions>
+		<sum_daily_nb_uniq_visitors>12</sum_daily_nb_uniq_visitors>
+		<interaction_rate>58.33%</interaction_rate>
+	</row>
+</result>
