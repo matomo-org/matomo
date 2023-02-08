@@ -229,7 +229,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      *
      * @var Row[]
      */
-    protected $rows = array();
+    protected $rows = [];
 
     /**
      * Id assigned to the DataTable, used to lookup the table using the DataTable_Manager
@@ -393,7 +393,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     public function setRows($rows)
     {
         unset($this->rows);
-        $this->rows = $rows;
+        $this->rows = (is_array($rows) ? $rows : []);
         $this->indexNotUpToDate = true;
     }
 
@@ -917,7 +917,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function getRowsCountWithoutSummaryRow()
     {
-        return (is_array($this->rows) ? count($this->rows) : 0);
+        return count($this->rows);
     }
 
     /**
@@ -1033,7 +1033,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     public function getRowsCount()
     {
         if (is_null($this->summaryRow)) {
-            return (is_array($this->rows) ? count($this->rows) : 0);
+            return count($this->rows);
         } else {
             return count($this->rows) + 1;
         }
@@ -1046,7 +1046,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function getFirstRow()
     {
-        if (!is_array($this->rows) || count($this->rows) == 0) {
+        if (count($this->rows) == 0) {
             if (!is_null($this->summaryRow)) {
                 return $this->summaryRow;
             }
@@ -1067,7 +1067,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             return $this->summaryRow;
         }
 
-        if (!is_array($this->rows) || count($this->rows) == 0) {
+        if (count($this->rows) == 0) {
             return false;
         }
 
@@ -1533,7 +1533,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function addRowsFromSimpleArray($array)
     {
-        if (!is_array($array) || count($array) === 0) {
+        if (count($array) === 0) {
             return;
         }
 
