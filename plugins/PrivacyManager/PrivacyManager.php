@@ -431,6 +431,28 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_ConsentManager';
         $translationKeys[] = 'PrivacyManager_ConsentManagerDetected';
         $translationKeys[] = 'PrivacyManager_ConsentManagerConnected';
+        $translationKeys[] = 'PrivacyManager_PreviousRawDataAnonymizations';
+        $translationKeys[] = 'PrivacyManager_Requester';
+        $translationKeys[] = 'PrivacyManager_AffectedIDSites';
+        $translationKeys[] = 'PrivacyManager_AffectedDate';
+        $translationKeys[] = 'PrivacyManager_Anonymize';
+        $translationKeys[] = 'PrivacyManager_VisitColumns';
+        $translationKeys[] = 'CorePluginsAdmin_Status';
+        $translationKeys[] = 'PrivacyManager_LinkVisitActionColumns';
+        $translationKeys[] = 'PrivacyManager_IPAddress';
+        $translationKeys[] = 'PrivacyManager_ScheduledDate';
+        $translationKeys[] = 'PrivacyManager_JobStartDate';
+        $translationKeys[] = 'PrivacyManager_JobFinishDate';
+        $translationKeys[] = 'PrivacyManager_CurrentOutput';
+        $translationKeys[] = 'PrivacyManager_Output';
+        $translationKeys[] = 'PrivacyManager_Scheduled';
+        $translationKeys[] = 'PrivacyManager_InProgress';
+        $translationKeys[] = 'PrivacyManager_AnonymizePreviousData';
+        $translationKeys[] = 'PrivacyManager_AnonymizePreviousDataDescription';
+        $translationKeys[] = 'PrivacyManager_AnonymizePreviousDataOnlySuperUser';
+        $translationKeys[] = 'Overlay_Location';
+        $translationKeys[] = 'General_UserId';
+        $translationKeys[] = 'General_Done';
     }
 
     public function setTrackerCacheGeneral(&$cacheContent)
