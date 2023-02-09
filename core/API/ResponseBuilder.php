@@ -11,10 +11,10 @@ namespace Piwik\API;
 use Exception;
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\DataTable\Renderer;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Filter\ColumnDelete;
 use Piwik\DataTable\Filter\Pattern;
+use Piwik\DataTable\Renderer;
 use Piwik\Http\HttpCodeException;
 use Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor;
 

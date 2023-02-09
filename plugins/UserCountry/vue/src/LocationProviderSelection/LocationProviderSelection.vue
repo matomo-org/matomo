@@ -51,7 +51,7 @@
       </div>
       <div class="col s12 m4 l4">
         <div class="form-help" v-if="provider.status === 1">
-          <div v-if="thisIp !== '127.0.0.1'">
+          <div v-if="thisIp !== '127.0.0.1' && thisIp !== '::1'">
             {{ translate('UserCountry_CurrentLocationIntro') }}:
             <div>
               <br />

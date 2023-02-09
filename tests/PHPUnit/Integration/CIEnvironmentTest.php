@@ -14,7 +14,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 /**
  * @group Core
  */
-class TravisEnvironmentTest extends IntegrationTestCase
+class CIEnvironmentTest extends IntegrationTestCase
 {
     public function testUsageOfCorrectMysqlAdapter()
     {
@@ -24,7 +24,7 @@ class TravisEnvironmentTest extends IntegrationTestCase
             return;
         }
 
-        $this->assertTrue(in_array($mysqlAdapter, array('PDO_MYSQL', 'PDO\MYSQL', 'MYSQLI')));
+        $this->assertTrue(in_array($mysqlAdapter, ['PDO_MYSQL', 'PDO\MYSQL', 'MYSQLI']));
 
         $db = Db::get();
 

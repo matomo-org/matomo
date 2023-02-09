@@ -95,6 +95,7 @@ describe("DashboardManager", function () {
         await page.waitForNetworkIdle();
         await page.waitForSelector('.widget');
         await page.waitForNetworkIdle();
+        await page.waitForTimeout(100); // wait for widgets to render fully
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('create_new');
     });

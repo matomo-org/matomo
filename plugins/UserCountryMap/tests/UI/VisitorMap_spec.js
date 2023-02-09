@@ -40,7 +40,7 @@ describe("VisitorMap", function () {
     it("should display the regions layer correctly", async function() {
         await page.goto(urlWithCities);
         await page.waitForNetworkIdle();
-        await page.waitForTimeout(1000);
+        await page.waitForFunction('window.visitorMap && window.visitorMap.map && window.visitorMap.map.getLayer(\'countries\') !== null');
         await page.webpage.evaluate(function () {
             // zoom into USA
             var path = window.visitorMap.map.getLayer('countries').getPaths({iso: "USA"})[0].svgPath[0];
