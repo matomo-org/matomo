@@ -10,6 +10,8 @@
 const urlModule = require('url');
 const util = require('util');
 const { EventEmitter } = require('events');
+const fs = require('fs');
+const path = require("./path");
 
 const parseUrl = urlModule.parse,
     formatUrl = urlModule.format;
@@ -352,6 +354,26 @@ PageRenderer.prototype.downloadUrl = async function (url) {
     }, url);
 };
 
+PageRenderer.prototype.clearAssets = async function () {
+    const directory = path.join(PIWIK_INCLUDE_PATH, 'tmp', 'assets')
+
+    var removeTree = async function (path) {
+        if (fs.existsSync(path)) {
+            fs.readdirSync(path).forEach(function (file, index) {
+                var curPath = path + "/" + file;
+                if (fs.lstatSync(curPath).isDirectory()) { // recurse
+                    removeTree(curPath);
+                } else { // delete file
+                    fs.unlinkSync(curPath);
+                }
+            });
+            fs.rmdirSync(path);
+        }
+    }
+
+    await removeTree(directory);
+};
+
 PageRenderer.prototype._isUrlThatWeCareAbout = function (url) {
     return -1 === url.indexOf('proxy/misc/user/favicon.png?r=') && -1 === url.indexOf('proxy/misc/user/logo.png?r=');
 };
@@ -457,6 +479,7 @@ PageRenderer.prototype._setupWebpageEvents = function () {
             } else if (request.url().indexOf('&reload=') === -1) {
                 console.log('Loading '+type[1]+' failed (' + errorMessage + ')... Try adding it with another tag.');
                 var method = type[1] == 'Css' ? 'addStyleTag' : 'addScriptTag';
+                await this.clearAssets();
                 await this.webpage[method]({url: request.url() + '&reload=' + Date.now()}); // add another get parameter to ensure browser doesn't use cache
                 await this.waitForNetworkIdle(); // wait for request to finish before continuing with tests
             } else {
