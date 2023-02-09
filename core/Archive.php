@@ -883,7 +883,7 @@ class Archive implements ArchiveQuery
 
         $segmentStr = $this->params->getSegment()->getOriginalString();
         $shouldOnlyProcessRequestedRecords = empty($requestedReport)
-            && Rules::shouldOnlyProcessRequestedRecords($site->getId(), $period, $segmentStr);
+            && Rules::shouldOnlyProcessRequestedRecords($site->getId(), $period, $this->params->getSegment());
 
         $periodString = $period->getRangeString();
         $periodDateStr = $period->getLabel() == 'range' ? $periodString : $period->getDateStart()->toString();

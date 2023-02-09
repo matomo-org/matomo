@@ -383,13 +383,12 @@ class Rules
         return in_array(strtolower($pluginName), $pluginArchivingSetting);
     }
 
-    public static function shouldOnlyProcessRequestedRecords($idSite, Period $period, $segment)
+    public static function shouldOnlyProcessRequestedRecords($idSite, Period $period, Segment $segment)
     {
         if (SettingsServer::isArchivePhpTriggered()) {
             return false;
         }
 
-        return $period->getLabel() == 'range' || !self::isSegmentPreProcessed($idSite, $segment);
-        // if range archive, if not archive php triggered or if custom segment
+        return $period->getLabel() == 'range' || !self::isSegmentPreProcessed([$idSite], $segment);
     }
 }

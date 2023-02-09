@@ -220,11 +220,18 @@ class ArchiveProcessor
 
         $nameToCount = array();
         foreach ($recordNames as $recordName) {
-            if ($recordName !== $this->params->getArchiveOnlyReport()) {
+            $isCountRecursive = $countRowsRecursive === true || (is_array($countRowsRecursive) && in_array($recordName, $countRowsRecursive));
+
+            if ($this->params->getArchiveOnlyReport() && $recordName != $this->params->getArchiveOnlyReport()) {
                 $logger->debug("skipping aggregating of record since it is not requested report {record} [archive = {archive}]", [
                     'record' => $recordName,
                     'archive' => $archiveDescription,
                 ]);
+
+                $nameToCount[$recordName]['level0'] = null;
+                if ($isCountRecursive) {
+                    $nameToCount[$recordName]['recursive'] = null;
+                }
 
                 continue;
             }
@@ -239,7 +246,7 @@ class ArchiveProcessor
             $table = $this->aggregateDataTableRecord($recordName, $columnsAggregationOperation, $columnsToRenameAfterAggregation);
 
             $nameToCount[$recordName]['level0'] = $table->getRowsCount();
-            if ($countRowsRecursive === true || (is_array($countRowsRecursive) && in_array($recordName, $countRowsRecursive))) {
+            if ($isCountRecursive) {
                 $nameToCount[$recordName]['recursive'] = $table->getRowsCountRecursive();
             }
 
