@@ -229,7 +229,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      *
      * @var Row[]
      */
-    protected $rows = array();
+    protected $rows = [];
 
     /**
      * Id assigned to the DataTable, used to lookup the table using the DataTable_Manager
@@ -393,7 +393,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     public function setRows($rows)
     {
         unset($this->rows);
-        $this->rows = $rows;
+        $this->rows = (is_array($rows) ? $rows : []);
         $this->indexNotUpToDate = true;
     }
 
@@ -1791,7 +1791,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function walkPath($path, $missingRowColumns = false, $maxSubtableRows = 0)
     {
-        $pathLength = count($path);
+        $pathLength = (is_array($path) ? count($path) : 0);
 
         $table = $this;
         $next = false;
