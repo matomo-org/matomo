@@ -324,6 +324,7 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_DoNotTrack_Enabled';
         $translationKeys[] = 'PrivacyManager_DoNotTrack_EnabledMoreInfo';
         $translationKeys[] = 'PrivacyManager_DoNotTrack_SupportDNTPreference';
+        $translationKeys[] = 'PrivacyManager_DoNotTrack_Deprecated';
         $translationKeys[] = 'PrivacyManager_ExportSelectedVisits';
         $translationKeys[] = 'PrivacyManager_ExportingNote';
         $translationKeys[] = 'PrivacyManager_FindDataSubjectsBy';
@@ -485,14 +486,6 @@ class PrivacyManager extends Plugin
     {
         $form->addElement(
             'checkbox',
-            'do_not_track',
-            null,
-            [
-                'content' => '<div class="form-help">' . Piwik::translate('PrivacyManager_DoNotTrack_EnabledMoreInfo') . '</div> &nbsp;&nbsp;' . Piwik::translate('PrivacyManager_DoNotTrack_Enable')
-            ]
-        );
-        $form->addElement(
-            'checkbox',
             'anonymise_ip',
             null,
             [
@@ -514,14 +507,6 @@ class PrivacyManager extends Plugin
      */
     public function installationFormSubmit(FormDefaultSettings $form)
     {
-        $doNotTrack = (bool) $form->getSubmitValue('do_not_track');
-        $dntChecker = new DoNotTrackHeaderChecker();
-        if ($doNotTrack) {
-            $dntChecker->activate();
-        } else {
-            $dntChecker->deactivate();
-        }
-
         $anonymiseIp = (bool) $form->getSubmitValue('anonymise_ip');
         if ($anonymiseIp) {
             IPAnonymizer::activate();

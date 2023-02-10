@@ -45,7 +45,7 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
 
     public function test_doNotTrackEnabled()
     {
-        $this->assertTrue($this->config->doNotTrackEnabled);
+        $this->assertFalse($this->config->doNotTrackEnabled);
 
         $this->config->doNotTrackEnabled = true;
 
@@ -109,7 +109,7 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
             'existingEntry' => 'test',
             'PrivacyManager.ipAddressMaskLength' => 2,
             'PrivacyManager.ipAnonymizerEnabled' => true,
-            'PrivacyManager.doNotTrackEnabled'   => true,
+            'PrivacyManager.doNotTrackEnabled'   => false,
             'PrivacyManager.anonymizeUserId'     => false,
             'PrivacyManager.anonymizeOrderId'    => false,
             'PrivacyManager.anonymizeReferrer'   => '',
