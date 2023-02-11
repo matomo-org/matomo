@@ -250,56 +250,48 @@ class Segment
         $this->segmentExpression = $segment;
 
         // parse segments
-        $expressions = $segment->parseSubExpressions();
-        $expressions = $this->getExpressionsWithUnionsResolved($expressions);
+        $expressions = $this->getExpressionsWithUnionsResolved($segment->tree);
 
         // convert segments name to sql segment
         // check that user is allowed to view this segment
         // and apply a filter to the value to match if necessary (to map DB fields format)
-        $cleanedExpressions = array();
-        foreach ($expressions as $expression) {
-            $operand = $expression[SegmentExpression::INDEX_OPERAND];
-            $expression[SegmentExpression::INDEX_OPERAND] = $this->getCleanedExpression($operand);
-            $cleanedExpressions[] = $expression;
-        }
-
-        $segment->setSubExpressionsAfterCleanup($cleanedExpressions);
-    }
-
-    private function getExpressionsWithUnionsResolved($expressions)
-    {
-        $expressionsWithUnions = array();
-        foreach ($expressions as $expression) {
-            $operand = $expression[SegmentExpression::INDEX_OPERAND];
-            $name    = $operand[SegmentExpression::INDEX_OPERAND_NAME];
-
-            $availableSegment = $this->getSegmentByName($name);
-
-            // We leave segments using !@ and != operands untouched for segments not on log_visit table as they will be build using a subquery
-            if (!$this->doesSegmentNeedSubquery($operand[SegmentExpression::INDEX_OPERAND_OPERATOR], $name) && !empty($availableSegment['unionOfSegments'])) {
-                $count = 0;
-                foreach ($availableSegment['unionOfSegments'] as $segmentNameOfUnion) {
-                    $count++;
-                    $operator = SegmentExpression::BOOL_OPERATOR_OR; // we connect all segments within that union via OR
-                    if ($count === count($availableSegment['unionOfSegments'])) {
-                        $operator = $expression[SegmentExpression::INDEX_BOOL_OPERATOR];
-                    }
-
-                    $operand[SegmentExpression::INDEX_OPERAND_NAME] = $segmentNameOfUnion;
-                    $expressionsWithUnions[] = array(
-                        SegmentExpression::INDEX_BOOL_OPERATOR => $operator,
-                        SegmentExpression::INDEX_OPERAND => $operand
-                    );
-                }
-            } else {
-                $expressionsWithUnions[] = array(
-                    SegmentExpression::INDEX_BOOL_OPERATOR => $expression[SegmentExpression::INDEX_BOOL_OPERATOR],
-                    SegmentExpression::INDEX_OPERAND => $operand
-                );
+        foreach ($expressions as &$orExpressions) {
+            foreach ($orExpressions as &$expression) {
+                $expression = $this->getCleanedExpression($expression);
             }
         }
 
-        return $expressionsWithUnions;
+        $segment->setSubExpressionsAfterCleanup($expressions);
+    }
+
+    private function getExpressionsWithUnionsResolved($andExpressions)
+    {
+        $andExpressionsResult = [];
+        foreach ($andExpressions as $orExpressions) {
+            $orExpressionsResult = [];
+            foreach ($orExpressions as $condition) {
+                $name = $condition[SegmentExpression::INDEX_OPERAND_NAME];
+                $availableSegment = $this->getSegmentByName($name);
+
+                // We leave segments using !@ and != operands untouched for segments not on log_visit table as they
+                // will be build using a subquery
+                if (!$this->doesSegmentNeedSubquery($condition[SegmentExpression::INDEX_OPERAND_OPERATOR], $name)
+                    && !empty($availableSegment['unionOfSegments'])
+                ) {
+                    // we connect all segments within that union via OR
+                    foreach ($availableSegment['unionOfSegments'] as $segmentNameOfUnion) {
+                        $newCondition = $condition;
+                        $newCondition[SegmentExpression::INDEX_OPERAND_NAME] = $segmentNameOfUnion;
+                        $orExpressionsResult[] = $newCondition;
+                    }
+                } else {
+                    $orExpressionsResult[] = $condition;
+                }
+            }
+            $andExpressionsResult[] = $orExpressionsResult;
+        }
+
+        return $andExpressionsResult;
     }
 
     private function isVisitSegment($name)

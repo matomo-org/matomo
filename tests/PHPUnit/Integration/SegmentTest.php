@@ -91,47 +91,47 @@ class SegmentTest extends IntegrationTestCase
         return array(
             // Normal segment
             array('countryCode==France', array(
-                'where' => ' log_visit.location_country = ? ',
+                'where' => ' log_visit.location_country = ?',
                 'bind'  => array('France'))),
 
             // unescape the comma please
             array('countryCode==a\,==', array(
-                'where' => ' log_visit.location_country = ? ',
+                'where' => ' log_visit.location_country = ?',
                 'bind'  => array('a,=='))),
 
             // AND, with 2 values rewrites
             array('countryCode==a;visitorType!=returning;visitorType==new', array(
-                'where' => ' log_visit.location_country = ? AND ( log_visit.visitor_returning IS NULL OR log_visit.visitor_returning <> ? ) AND log_visit.visitor_returning = ? ',
+                'where' => ' log_visit.location_country = ? AND ( log_visit.visitor_returning IS NULL OR log_visit.visitor_returning <> ? ) AND log_visit.visitor_returning = ?',
                 'bind'  => array('a', '1', '0'))),
 
             // OR, with 2 value rewrites
             array('referrerType==search,referrerType==direct', array(
-                'where' => ' (log_visit.referer_type = ? OR log_visit.referer_type = ? )',
+                'where' => ' (log_visit.referer_type = ? OR log_visit.referer_type = ?)',
                 'bind'  => array(Common::REFERRER_TYPE_SEARCH_ENGINE,
                                  Common::REFERRER_TYPE_DIRECT_ENTRY))),
 
             // IS NOT NULL
             array('browserCode==ff;referrerKeyword!=', array(
-                'where' => ' log_visit.config_browser_name = ? AND ( log_visit.referer_keyword IS NOT NULL AND log_visit.referer_keyword <> \'\' AND log_visit.referer_keyword <> \'0\' ) ',
+                'where' => ' log_visit.config_browser_name = ? AND ( log_visit.referer_keyword IS NOT NULL AND log_visit.referer_keyword <> \'\' AND log_visit.referer_keyword <> \'0\' )',
                 'bind'  => array('ff')
             )),
             array('referrerKeyword!=,browserCode==ff', array(
-                'where' => ' (( log_visit.referer_keyword IS NOT NULL AND log_visit.referer_keyword <> \'\' AND log_visit.referer_keyword <> \'0\' ) OR log_visit.config_browser_name = ? )',
+                'where' => ' (( log_visit.referer_keyword IS NOT NULL AND log_visit.referer_keyword <> \'\' AND log_visit.referer_keyword <> \'0\' ) OR log_visit.config_browser_name = ?)',
                 'bind'  => array('ff')
             )),
 
             // IS NULL
             array('browserCode==ff;referrerKeyword==', array(
-                'where' => ' log_visit.config_browser_name = ? AND ( log_visit.referer_keyword IS NULL OR log_visit.referer_keyword = \'\' OR log_visit.referer_keyword = \'0\' ) ',
+                'where' => ' log_visit.config_browser_name = ? AND ( log_visit.referer_keyword IS NULL OR log_visit.referer_keyword = \'\' OR log_visit.referer_keyword = \'0\' )',
                 'bind'  => array('ff')
             )),
             array('referrerKeyword==,browserCode==ff', array(
-                'where' => ' (( log_visit.referer_keyword IS NULL OR log_visit.referer_keyword = \'\' OR log_visit.referer_keyword = \'0\' ) OR log_visit.config_browser_name = ? )',
+                'where' => ' (( log_visit.referer_keyword IS NULL OR log_visit.referer_keyword = \'\' OR log_visit.referer_keyword = \'0\' ) OR log_visit.config_browser_name = ?)',
                 'bind'  => array('ff')
             )),
 
             array(urlencode('browserCode!=' . $encodedComplexValue . ',browserCode==' . $encodedComplexValue . ';browserCode!=' . $encodedComplexValue), [
-                'where' => ' (( log_visit.config_browser_name IS NULL OR log_visit.config_browser_name <> ? ) OR log_visit.config_browser_name = ?) AND ( log_visit.config_browser_name IS NULL OR log_visit.config_browser_name <> ? ) ',
+                'where' => ' (( log_visit.config_browser_name IS NULL OR log_visit.config_browser_name <> ? ) OR log_visit.config_browser_name = ?) AND ( log_visit.config_browser_name IS NULL OR log_visit.config_browser_name <> ? )',
                 'bind' => [
                     's#2&#--_*+?#  #5"\'&<>.22,3',
                     's#2&#--_*+?#  #5"\'&<>.22,3',
@@ -195,7 +195,7 @@ class SegmentTest extends IntegrationTestCase
                 WHERE
                     ( idsite = ? )
                     AND
-                    ( log_visit.config_device_brand = ? AND log_visit.visitor_returning = ? )",
+                    ( log_visit.config_device_brand = ? AND log_visit.visitor_returning = ?)",
             "bind" => array(1, 'AP', 0));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
@@ -224,7 +224,7 @@ class SegmentTest extends IntegrationTestCase
                 WHERE
                     ( log_link_visit_action.idvisit = ? )
                     AND
-                    ( log_link_visit_action.search_cat = ? AND log_visit.visitor_returning = ? )",
+                    ( log_link_visit_action.search_cat = ? AND log_visit.visitor_returning = ?)",
             "bind" => array(1, 'Test', 0));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
@@ -258,7 +258,7 @@ class SegmentTest extends IntegrationTestCase
                 WHERE
                     ( log_visit.idvisit = ? )
                     AND
-                    ( log_link_visit_action.search_cat = ? AND log_visit.visitor_returning = ? )
+                    ( log_link_visit_action.search_cat = ? AND log_visit.visitor_returning = ?)
                 GROUP BY log_visit.idvisit
                 ORDER BY NULL
                     ) AS log_inner",
@@ -290,7 +290,7 @@ class SegmentTest extends IntegrationTestCase
                 WHERE
                     ( log_link_visit_action.idvisit = ? )
                     AND
-                    ( log_link_visit_action.search_cat = ? AND log_conversion.idgoal = ? AND log_link_visit_action.search_count = ? )",
+                    ( log_link_visit_action.search_cat = ? AND log_conversion.idgoal = ? AND log_link_visit_action.search_count = ?)",
             "bind" => array(1, 'Test', 1, 5));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
@@ -323,8 +323,8 @@ class SegmentTest extends IntegrationTestCase
                     ( ( log_visit.idvisit NOT IN (
                         SELECT log_visit.idvisit FROM " . Common::prefixTable('log_visit') . " AS log_visit
                         LEFT JOIN " . Common::prefixTable('log_conversion') . " AS log_conversion ON log_conversion.idvisit = log_visit.idvisit
-                        WHERE ( log_visit.visit_last_action_time >= ? ) AND ( log_conversion.idgoal = ? )) )
-                    AND log_link_visit_action.search_cat = ? AND log_conversion.idgoal = ? )",
+                        WHERE ( log_visit.visit_last_action_time >= ? ) AND ( log_conversion.idgoal = ?)) )
+                    AND log_link_visit_action.search_cat = ? AND log_conversion.idgoal = ?)",
             "bind" => array(1, '2020-02-02 02:00:00', 2, 'Test', 1));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
@@ -349,7 +349,7 @@ class SegmentTest extends IntegrationTestCase
                     *
                 FROM ' . Common::prefixTable('log_conversion') . ' AS log_conversion
                     LEFT JOIN ' . Common::prefixTable('log_visit') . ' AS log_visit ON log_visit.idvisit = log_conversion.idvisit
-                WHERE (UNIX_TIMESTAMP(log_visit.visit_first_action_time) - log_visit.visitor_seconds_since_first) = ? ',
+                WHERE (UNIX_TIMESTAMP(log_visit.visit_first_action_time) - log_visit.visitor_seconds_since_first) = ?',
             'bind' => [2],
         ];
 
@@ -383,7 +383,7 @@ class SegmentTest extends IntegrationTestCase
                 WHERE
                     ( log_visit.idvisit = ? )
                     AND
-                    ( log_conversion.idgoal = ? )
+                    ( log_conversion.idgoal = ?)
                 GROUP BY log_visit.idvisit
                 ORDER BY NULL
                     ) AS log_inner",
@@ -414,7 +414,7 @@ class SegmentTest extends IntegrationTestCase
                 WHERE
                     ( log_conversion.idvisit = ? )
                     AND
-                    ( log_conversion.idgoal = ? )",
+                    ( log_conversion.idgoal = ?)",
             "bind" => array(1, 1));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
@@ -443,7 +443,7 @@ class SegmentTest extends IntegrationTestCase
                 WHERE
                     ( log_conversion.idvisit = ? )
                     AND
-                    ( (log_conversion.idgoal = ? OR HOUR(log_visit.visit_last_action_time) = ? ))",
+                    ( (log_conversion.idgoal = ? OR HOUR(log_visit.visit_last_action_time) = ?))",
             "bind" => array(1, 1, 12));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
@@ -492,7 +492,7 @@ class SegmentTest extends IntegrationTestCase
              WHERE ( log_link_visit_action.server_time >= ?
                  AND log_link_visit_action.server_time <= ?
                  AND log_link_visit_action.idsite = ? )
-                 AND ( log_action.type = ? )",
+                 AND ( log_action.type = ?)",
             "bind" => array('2015-11-30 11:00:00', '2015-12-01 10:59:59', $idSite, $actionType));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
@@ -576,7 +576,7 @@ class SegmentTest extends IntegrationTestCase
             WHERE ( log_link_visit_action.server_time >= ?
                 AND log_link_visit_action.server_time <= ?
                 AND log_link_visit_action.idsite = ? )
-                AND ( log_action.type = ? )",
+                AND ( log_action.type = ?)",
             "bind" => array('2015-11-30 11:00:00', '2015-12-01 10:59:59', $idSite, $actionType));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
@@ -622,7 +622,7 @@ class SegmentTest extends IntegrationTestCase
              WHERE ( log_link_visit_action.server_time >= ?
                  AND log_link_visit_action.server_time <= ?
                  AND log_link_visit_action.idsite = ? )
-                 AND ( log_action.type = ? )",
+                 AND ( log_action.type = ?)",
             "bind" => array('2015-11-30 11:00:00', '2015-12-01 10:59:59', $idSite, $actionType));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
@@ -654,7 +654,7 @@ class SegmentTest extends IntegrationTestCase
                     LEFT JOIN " . Common::prefixTable('log_visit') . " AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit
                     LEFT JOIN " . Common::prefixTable('log_conversion') . " AS log_conversion ON log_conversion.idvisit = log_link_visit_action.idvisit
                 WHERE
-                     HOUR(log_visit.visit_last_action_time) = ? AND log_conversion.idgoal = ? ",
+                     HOUR(log_visit.visit_last_action_time) = ? AND log_conversion.idgoal = ?",
             "bind" => array(12, 1));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
@@ -737,7 +737,7 @@ class SegmentTest extends IntegrationTestCase
              WHERE ( log_visit.visit_last_action_time >= ?
                     AND log_visit.visit_last_action_time <= ?
                     AND log_visit.idsite IN (?) )
-                    AND ( log_action.type = ? )
+                    AND ( log_action.type = ?)
              GROUP BY log_visit.idvisit
              ORDER BY NULL ) AS log_inner",
             "bind" => array('2015-11-30 11:00:00', '2015-12-01 10:59:59', $idSite, $actionType));
@@ -785,7 +785,7 @@ class SegmentTest extends IntegrationTestCase
              WHERE ( log_link_visit_action.server_time >= ?
                  AND log_link_visit_action.server_time <= ?
                  AND log_link_visit_action.idsite = ? )
-                 AND ( log_action.type = ? )",
+                 AND ( log_action.type = ?)",
 
             "bind" => array('2015-11-30 11:00:00', '2015-12-01 10:59:59', $idSite, $actionType));
 
@@ -827,7 +827,7 @@ class SegmentTest extends IntegrationTestCase
              WHERE ( log_link_visit_action.server_time >= ?
                  AND log_link_visit_action.server_time <= ?
                  AND log_link_visit_action.idsite = ? )
-                 AND ( log_action.type = ? )",
+                 AND ( log_action.type = ?)",
             "bind" => array('2015-11-30 11:00:00', '2015-12-01 10:59:59', $idSite, $actionType));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
@@ -867,7 +867,7 @@ class SegmentTest extends IntegrationTestCase
              WHERE ( log_conversion.server_time >= ?
                  AND log_conversion.server_time <= ?
                  AND log_conversion.idsite IN (?) )
-                 AND ( log_action.type = ? )",
+                 AND ( log_action.type = ?)",
             "bind" => array('2015-11-30 11:00:00', '2015-12-01 10:59:59', $idSite, $actionType));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
@@ -896,7 +896,7 @@ class SegmentTest extends IntegrationTestCase
                           WHERE (( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) )
                                 OR ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 3 )) )
                                 OR ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 2 )) )
-                                OR ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 10 )) ) )
+                                OR ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 10 )) ))
                         GROUP BY log_visit.idvisit ORDER BY NULL ) AS log_inner",
             "bind" => array('myTestUrl', 'myTestUrl', 'myTestUrl', 'myTestUrl'));
 
@@ -925,7 +925,7 @@ class SegmentTest extends IntegrationTestCase
                             WHERE ( log_visit.visit_last_action_time >= ? AND log_visit.visit_last_action_time <= ? ) AND ( (( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) ) OR
                                    ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 3 )) ) OR
                                    ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 2 )) ) OR
-                                   ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 10 )) ) ))) ) ",
+                                   ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 10 )) )))) )",
         "bind" => array('2020-02-02 02:00:00', '2020-02-29 02:00:00', 'myTestUrl', 'myTestUrl', 'myTestUrl', 'myTestUrl'));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
@@ -956,7 +956,7 @@ class SegmentTest extends IntegrationTestCase
                             WHERE (( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 1 )) ) OR
                                    ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 3 )) ) OR
                                    ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 2 )) ) OR
-                                   ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 10 )) ) )
+                                   ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 10 )) ))
                             GROUP BY log_visit.idvisit ORDER BY NULL )
                         AS log_inner",
         "bind" => array('myTestUrl', 'myTestUrl', 'myTestUrl', 'myTestUrl'));
@@ -983,7 +983,7 @@ class SegmentTest extends IntegrationTestCase
             "sql"  => " SELECT log_visit.* FROM $logVisitTable AS log_visit 
                         WHERE ( log_visit.idvisit NOT IN (
                             SELECT log_visit.idvisit FROM $logVisitTable AS log_visit LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
-                            WHERE ( log_visit.visit_last_action_time >= ? ) AND ( log_link_visit_action.search_cat = ? )) ) ",
+                            WHERE ( log_visit.visit_last_action_time >= ? ) AND ( log_link_visit_action.search_cat = ?)) )",
             "bind" => array('2020-02-02 02:00:00', 'myCategory'));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
@@ -1008,14 +1008,14 @@ class SegmentTest extends IntegrationTestCase
             "sql"  => " SELECT log_visit.* FROM $logVisitTable AS log_visit 
                         WHERE ( log_visit.idvisit NOT IN (
                                 SELECT log_visit.idvisit FROM $logVisitTable AS log_visit LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
-                                WHERE ( log_visit.idsite IN (?,?) AND log_visit.visit_last_action_time >= ? AND log_visit.visit_last_action_time <= ? ) AND ( log_link_visit_action.search_cat = ? )) )
+                                WHERE ( log_visit.idsite IN (?,?) AND log_visit.visit_last_action_time >= ? AND log_visit.visit_last_action_time <= ? ) AND ( log_link_visit_action.search_cat = ?)) )
                           AND ( log_visit.idvisit NOT IN (
                                 SELECT log_visit.idvisit FROM $logVisitTable AS log_visit LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
                                 WHERE ( log_visit.idsite IN (?,?) AND log_visit.visit_last_action_time >= ? AND log_visit.visit_last_action_time <= ? ) AND
                                       ( (( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) ) OR
                                          ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 3 )) ) OR
                                          ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 2 )) ) OR
-                                         ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 10 )) ) ))) ) ",
+                                         ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 10 )) )))) )",
             "bind" => array(1, 5, '2020-02-02 12:00:00', '2020-02-05 09:00:00', 'myCategory', 1, 5, '2020-02-02 12:00:00', '2020-02-05 09:00:00', 'myTestUrl', 'myTestUrl', 'myTestUrl', 'myTestUrl'));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
@@ -1052,7 +1052,7 @@ class SegmentTest extends IntegrationTestCase
                 WHERE
                     ( log_conversion.idsite IN (?) )
                     AND
-                    ( log_link_visit_action.idaction_url = ? )",
+                    ( log_link_visit_action.idaction_url = ?)",
             "bind" => array(1, $actionIdFoundInDb));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
@@ -1110,7 +1110,7 @@ class SegmentTest extends IntegrationTestCase
                 WHERE
                     ( log_visit.idvisit = ? )
                     AND
-                    ( log_link_visit_action.search_cat = ? )
+                    ( log_link_visit_action.search_cat = ?)
                 ORDER BY NULL
                 LIMIT 0, 33
                     ) AS log_inner",
@@ -1248,7 +1248,7 @@ log_visit.visit_total_actions
                 WHERE
                     ( log_visit.idvisit = ? )
                     AND
-                    ( log_link_visit_action.search_cat = ? )
+                    ( log_link_visit_action.search_cat = ?)
                 ORDER BY NULL
                 LIMIT 10, 33
                     ) AS log_inner",
@@ -1288,7 +1288,7 @@ log_visit.visit_total_actions
                 WHERE
                     ( log_visit.idvisit = ? )
                     AND
-                    ( log_link_visit_action.search_cat = ? )
+                    ( log_link_visit_action.search_cat = ?)
                 ORDER BY NULL
                 LIMIT 0, 33
                     ) AS log_inner",
@@ -1328,7 +1328,7 @@ log_visit.visit_total_actions
                 WHERE
                     ( log_visit.idvisit = ? )
                     AND
-                    ( log_link_visit_action.search_cat = ? )
+                    ( log_link_visit_action.search_cat = ?)
                 GROUP BY log_visit.idvisit
                 ORDER BY NULL
                     ) AS log_inner",
@@ -1393,7 +1393,7 @@ log_visit.visit_total_actions
                 FROM
                     " . Common::prefixTable('log_visit') . " AS log_visit
                 WHERE HOUR(log_visit.visit_last_action_time) = ?
-                      AND (1 = 0) ",
+                      AND (1 = 0)",
             "bind" => array(12));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
@@ -1418,7 +1418,7 @@ log_visit.visit_total_actions
                 FROM
                     " . Common::prefixTable('log_visit') . " AS log_visit
                 WHERE (HOUR(log_visit.visit_last_action_time) = ?
-                      OR (1 = 0) )",
+                      OR (1 = 0))",
             "bind" => array(12));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
@@ -1463,20 +1463,19 @@ log_visit.visit_total_actions
                     LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
                 WHERE (HOUR(log_visit.visit_last_action_time) = ?
                         OR (1 = 0)) " . // pageUrl==xyz
-                    "AND (( log_visit.idvisit NOT IN ( SELECT log_visit.idvisit FROM log_visit AS log_visit WHERE ( log_visit.visit_last_action_time >= ? ) AND ( (1 = 0) )) ) " . // pageUrl!=abcdefg
+                    "AND (( log_visit.idvisit NOT IN ( SELECT log_visit.idvisit FROM log_visit AS log_visit WHERE ( log_visit.visit_last_action_time >= ? ) AND ( (1 = 0))) ) " . // pageUrl!=abcdefg
                     "    OR ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) ) " . // pageUrl=@does-not-exist
                     "    OR ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) ) " . // pageUrl=@found-in-db
                     "    OR   log_link_visit_action.idaction_url = ? " . // pageUrl=='.urlencode($pageUrlFoundInDb)
                     "    OR ( log_visit.idvisit NOT IN (
                               SELECT log_visit.idvisit FROM log_visit AS log_visit LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
-                              WHERE ( log_visit.visit_last_action_time >= ? ) AND ( ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) )
-                              )) ) " . // pageUrl!@not-found
+                              WHERE ( log_visit.visit_last_action_time >= ? ) AND ( ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) )))
+                              ) " . // pageUrl!@not-found
                     "    OR ( log_visit.idvisit NOT IN (
                               SELECT log_visit.idvisit FROM log_visit AS log_visit LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
-                              WHERE ( log_visit.visit_last_action_time >= ? ) AND ( ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) )
-                              )) )" . // pageUrl!@found
-                    " )
-                GROUP BY log_visit.idvisit
+                              WHERE ( log_visit.visit_last_action_time >= ? ) AND ( ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) )))
+                              ))" . // pageUrl!@found
+                    " GROUP BY log_visit.idvisit
                 ORDER BY NULL
                     ) AS log_inner",
             "bind" => array(
@@ -1535,7 +1534,7 @@ log_visit.visit_total_actions
                 WHERE (HOUR(log_visit.visit_last_action_time) = ?
                         OR (1 = 0))" . // pageUrl==xyz
                 "
-                        AND (( log_visit.idvisit NOT IN ( SELECT log_visit.idvisit FROM " . Common::prefixTable('log_visit') . "  AS log_visit WHERE ( log_visit.visit_last_action_time >= ? ) AND ( (1 = 0) )) )" . // pageUrl!=abcdefg
+                        AND (( log_visit.idvisit NOT IN ( SELECT log_visit.idvisit FROM " . Common::prefixTable('log_visit') . "  AS log_visit WHERE ( log_visit.visit_last_action_time >= ? ) AND ( (1 = 0))) )" . // pageUrl!=abcdefg
                 "
                         OR (1 = 0) " . // pageUrl=@does-not-exist
                 "
@@ -1546,16 +1545,13 @@ log_visit.visit_total_actions
                         OR ( log_visit.idvisit NOT IN (
                             SELECT log_visit.idvisit FROM " . Common::prefixTable('log_visit') . "  AS log_visit
                             LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
-                            WHERE ( log_visit.visit_last_action_time >= ? ) AND ( ( log_link_visit_action.idaction_url IN (?) )
-                        )) )" . // pageUrl!@not-found
+                            WHERE ( log_visit.visit_last_action_time >= ? ) AND ( ( log_link_visit_action.idaction_url IN (?) ))) )" . // pageUrl!@not-found
                 "
                         OR ( log_visit.idvisit NOT IN (
                             SELECT log_visit.idvisit FROM " . Common::prefixTable('log_visit') . "  AS log_visit
                             LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
-                            WHERE ( log_visit.visit_last_action_time >= ? ) AND ( ( log_link_visit_action.idaction_url IN (?,?,?,?) )
-                        )) ) " . // pageUrl!@found
-                ")
-                GROUP BY log_visit.idvisit
+                            WHERE ( log_visit.visit_last_action_time >= ? ) AND ( ( log_link_visit_action.idaction_url IN (?,?,?,?) ))) )) " . // pageUrl!@found
+                "GROUP BY log_visit.idvisit
                 ORDER BY NULL
                     ) AS log_inner",
             "bind" => array(
@@ -1638,7 +1634,7 @@ log_visit.visit_total_actions
                     SELECT log_visit.idvisit
                     FROM log_visit AS log_visit
                     LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
-                    WHERE ( log_visit.visit_last_action_time >= ? ) AND ( log_link_visit_action.search_cat LIKE ? )) ) " . // siteSearchCategory!@not-found
+                    WHERE ( log_visit.visit_last_action_time >= ? ) AND ( log_link_visit_action.search_cat LIKE ?)) ) " . // siteSearchCategory!@not-found
                 "GROUP BY log_visit.idvisit
                 ORDER BY NULL
                     ) AS log_inner",
@@ -1702,7 +1698,7 @@ log_visit.visit_total_actions
                       WHERE ( log_conversion.server_time >= ?
                           AND log_conversion.server_time <= ?
                           AND log_conversion.idsite IN (?) )
-                          AND ( ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) ) )
+                          AND ( ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) ))
                       GROUP BY CONCAT(log_conversion.idvisit, '_' , log_conversion.idgoal, '_', log_conversion.buster)
                       ORDER BY NULL )
                  AS log_inner GROUP BY log_inner.idgoal",
@@ -1754,7 +1750,7 @@ log_visit.visit_total_actions
                       WHERE ( log_conversion.server_time >= ?
                           AND log_conversion.server_time <= ?
                           AND log_conversion.idsite IN (?) )
-                          AND ( ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) ) )
+                          AND ( ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) ))
                       GROUP BY CONCAT(log_conversion.idvisit, '_' , log_conversion.idgoal, '_', log_conversion.buster)
                       ORDER BY NULL )
                 AS log_inner GROUP BY log_inner.idgoal, log_inner.referer_type, log_inner.referer_name, log_inner.referer_keyword",
@@ -1802,7 +1798,7 @@ log_visit.visit_total_actions
                         AND log_conversion.server_time <= ?
                         AND log_conversion.idsite IN (?) )
                         AND ( (log_visit.visitor_returning = ? OR log_visit.visitor_returning = ?)
-                        AND ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) ) )
+                        AND ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) ))
                     GROUP BY CONCAT(log_conversion.idvisit, '_' , log_conversion.idgoal, '_', log_conversion.buster)
                     ORDER BY NULL ) AS log_inner
                     GROUP BY log_inner.idgoal",
@@ -2045,22 +2041,32 @@ SQL;
 
     public function test_getSelectQuery_whenSegmentUsesManyActionSegments()
     {
-        $segment = 'pageUrl!@https%253A%252F%252Ftest.matomo.org%252F;pageUrl!@https%253A%252F%252Fmatomo.org%252Fevent;pageUrl!@https%253A%252F%252Fmatomo.org%252Fsearch;pageUrl!@https%253A%252F%252Fmatomo.org%252Forga;pageUrl!@https%253A%252F%252Fmatomo.org%252Ffoo;pageUrl!@https%253A%252F%252Fmatomo.org%252Fbar;pageUrl!@https%253A%252F%252Fmatomo.org%252Ftesdlweke;pageUrl!@https%253A%252F%252Fmatomo.org%252Fhello-world;pageUrl!@https%253A%252F%252Fmatomo.org%252Fvideo;pageUrl!@https%253A%252F%252Fmatomo.org%252Fblog;pageUrl!@https%253A%252F%252Fmatomo.org%252F...;pageUrl!@https%253A%252F%252Fmatomo.org%252Fabout;pageUrl!@https%253A%252F%252Fmatomo.org%252Fcart';
+        $segment = 'pageUrl!@https%253A%252F%252Ftest.matomo.org%252F;pageUrl!@https%253A%252F%252Fmatomo.org%252Fevent;pageUrl!@https%253A%252F%252Fmatomo.org%252Fsearch;pageUrl!@https%253A%252F%252Fmatomo.org%252Forga;pageUrl!@https%253A%252F%252Fmatomo.org%252Ffoo;pageUrl!@https%253A%252F%252Fmatomo.org%252Fbar;pageUrl!@https%253A%252F%252Fmatomo.org%252Ftesdlweke;pageUrl!@https%253A%252F%252Fmatomo.org%252Fhello-world;pageUrl!@https%253A%252F%252Fmatomo.org%252Fvideo;pageUrl!@https%253A%252F%252Fmatomo.org%252Fblog,pageUrl!@https%253A%252F%252Fmatomo.org%252F...,pageUrl!@https%253A%252F%252Fmatomo.org%252Fabout;pageUrl!@https%253A%252F%252Fmatomo.org%252Fcart';
 
         $select = 'log_visit.idvisit';
         $from = 'log_visit';
 
         $expected = array(
-            'sql'  => " SELECT log_inner.idvisit FROM ( 
-                            SELECT log_visit.idvisit FROM log_visit AS log_visit 
-                            LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit 
-                            WHERE ( log_link_visit_action.idaction_url IN 
-                                (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 1 )) ) 
-                                    AND ( log_link_visit_action.idaction_url IN 
-                                          (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 1 )) ) 
-                                            AND ( log_link_visit_action.idaction_url IN 
-                                                  (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 1 )) ) AND ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 1 )) ) AND ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 1 )) ) AND ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 1 )) ) AND ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 1 )) ) AND ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 1 )) ) AND ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 1 )) ) AND ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 1 )) ) AND ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 1 )) ) AND ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 1 )) ) AND ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 1 )) ) GROUP BY log_visit.idvisit ORDER BY NULL 
-                        ) AS log_inner",
+            'sql'  => " SELECT log_inner.idvisit FROM (
+                SELECT log_visit.idvisit
+                FROM log_visit AS log_visit LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                WHERE ( log_link_visit_action.idaction_url IN 
+                    (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%')  AND type = 1 )) ) AND ( log_link_visit_action.idaction_url IN 
+                        (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%')  AND type = 1 )) ) AND ( log_link_visit_action.idaction_url IN 
+                            (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%')  AND type = 1 )) ) AND ( log_link_visit_action.idaction_url IN 
+                                (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%')  AND type = 1 )) ) AND ( log_link_visit_action.idaction_url IN 
+                                    (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%')  AND type = 1 )) ) AND ( log_link_visit_action.idaction_url IN 
+                                        (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%')  AND type = 1 )) ) AND ( log_link_visit_action.idaction_url IN 
+                                            (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%')  AND type = 1 )) ) AND ( log_link_visit_action.idaction_url IN 
+                                                (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%')  AND type = 1 )) ) AND ( log_link_visit_action.idaction_url IN 
+                                                    (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%')  AND type = 1 )) ) AND (( log_link_visit_action.idaction_url IN 
+                                                        (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%')  AND type = 1 )) ) OR ( log_link_visit_action.idaction_url IN 
+                                                            (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%')  AND type = 1 )) ) OR ( log_link_visit_action.idaction_url IN 
+                                                                (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%')  AND type = 1 )) )) AND ( log_link_visit_action.idaction_url IN 
+                                                                     (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%')  AND type = 1 )) )
+                GROUP BY log_visit.idvisit
+                ORDER BY NULL
+            ) AS log_inner",
             'bind' => [
                 'test.matomo.org/',
                 'matomo.org/event',
