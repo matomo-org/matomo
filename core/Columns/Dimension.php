@@ -8,7 +8,6 @@
  */
 namespace Piwik\Columns;
 use Piwik\Common;
-use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugin;
@@ -20,7 +19,6 @@ use Piwik\Cache as PiwikCache;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Metrics\Formatter;
 use Piwik\Segment\SegmentsList;
-use Psr\Log\LoggerInterface;
 
 /**
  * @api
