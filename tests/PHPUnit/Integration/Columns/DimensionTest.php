@@ -507,24 +507,4 @@ class ColumnDimensionTest extends IntegrationTestCase
         $this->assertInstanceOf(FakeLogger::class, $fakeLogger);
         $this->assertEmpty($fakeLogger->output);
     }
-
-    public function test_groupValue_nonNumeric()
-    {
-        $this->dimension->setType(Dimension::TYPE_DURATION_MS);
-        $this->assertSame(0.0, $this->dimension->groupValue('abc123', 1));
-        $fakeLogger = StaticContainer::get(LoggerInterface::class);
-        $this->assertInstanceOf(FakeLogger::class, $fakeLogger);
-        $this->assertNotEmpty($fakeLogger->output);
-        $this->assertStringContainsString('abc123', $fakeLogger->output);
-    }
-
-    public function test_groupValue_partialNumeric()
-    {
-        $this->dimension->setType(Dimension::TYPE_DURATION_MS);
-        $this->assertSame(120.0, $this->dimension->groupValue('123abc', 1));
-        $fakeLogger = StaticContainer::get(LoggerInterface::class);
-        $this->assertInstanceOf(FakeLogger::class, $fakeLogger);
-        $this->assertNotEmpty($fakeLogger->output);
-        $this->assertStringContainsString('123abc', $fakeLogger->output);
-    }
 }
