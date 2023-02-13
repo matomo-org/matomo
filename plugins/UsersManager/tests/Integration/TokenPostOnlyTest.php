@@ -53,12 +53,12 @@ class TokenPostOnlyTest extends IntegrationTestCase
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_exec($ch);
+        $out = curl_exec($ch);
         $responseInfo = curl_getinfo($ch);
         curl_close($ch);
 
         $this->assertEquals(401, $responseInfo["http_code"]);
-
+        $this->assertStringContainsString("POST only token was used in a GET request", $out);
     }
 
     public function test_postOnlyToken_AccessGrantedIfPost()

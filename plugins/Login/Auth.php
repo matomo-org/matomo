@@ -107,7 +107,7 @@ class Auth implements \Piwik\Auth
             return $this->authenticationSuccess($tokenRequest['userData']);
         }
 
-        return new AuthResult($tokenRequest['authResult'], null, $token);
+        return new AuthResult((isset($tokenRequest['authResult']) ? $tokenRequest['authResult'] : AuthResult::FAILURE), null, $token);
     }
 
     private function authenticateWithLoginAndToken($token, $login)
