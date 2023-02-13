@@ -51,7 +51,6 @@ export default defineComponent({
       default: () => ({}),
     },
     autocomplete: String,
-    condition: Function,
     varType: String,
     autofocus: Boolean,
     tabindex: Number,
@@ -63,7 +62,6 @@ export default defineComponent({
     min: Number,
     max: Number,
     component: null,
-    templateFile: String,
   },
   emits: ['update:modelValue'],
   components: {
@@ -95,7 +93,6 @@ export default defineComponent({
         inlineHelpBind: this.inlineHelpBind,
         title: this.title,
         component: this.component,
-        templateFile: this.templateFile, // BC for angularjs code that uses <Field> indirectly
         uiControlAttributes: {
           ...this.uiControlAttributes,
           disabled: this.disabled,

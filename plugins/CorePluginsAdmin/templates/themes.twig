@@ -6,36 +6,25 @@
 
 {% block content %}
 
-<div piwik-content-intro>
-    <h2 piwik-enriched-headline>
-        {{ title|e('html_attr') }}
-    </h2>
+<div
+    vue-entry="CorePluginsAdmin.ThemesIntro"
+    is-marketplace-enabled="{{ isMarketplaceEnabled|json_encode }}"
+    other-users-count="{{ otherUsersCount|default(null)|json_encode }}"
+    theme-enabled="{{ themeEnabled|json_encode }}"
+    is-plugins-admin-enabled="{{ isPluginsAdminEnabled|json_encode }}"
+></div>
 
-    <p>
-        {{ 'CorePluginsAdmin_ThemesDescription'|translate }}
+<div
+    vue-entry="CorePluginsAdmin.PluginsTable"
+    title="{{ 'CorePluginsAdmin_InstalledThemes'|translate|json_encode }}"
+    is-theme="true"
+    display-admin-links="{{ isPluginsAdminEnabled|json_encode }}"
+    plugins-info="{{ pluginsInfo|default({})|json_encode }}"
+    uninstall-nonce="{{ uninstallNonce|json_encode }}"
+    deactivate-nonce="{{ deactivateNonce|json_encode }}"
+    activate-nonce="{{ activateNonce|json_encode }}"
+    marketplace-plugin-names="{{ marketplacePluginNames|default([])|json_encode }}"
+    plugin-names-having-settings="{{ pluginNamesHavingSettings|default([])|json_encode }}"
+></div>
 
-        {% if isMarketplaceEnabled %}
-            {{ 'CorePluginsAdmin_TeaserExtendPiwikByTheme'|translate('<a href="' ~ linkTo({'module': 'Marketplace','action':'overview', 'sort': '', 'show': 'themes'}) ~ '">', '</a>')|raw }}
-        {% endif %}
-
-        {% if otherUsersCount > 0 %}
-            <br/> {{ 'CorePluginsAdmin_InfoThemeIsUsedByOtherUsersAsWell'|translate(otherUsersCount, themeEnabled) }}
-        {% endif %}
-        {% if not isPluginsAdminEnabled %}
-            <br/>{{ 'CorePluginsAdmin_DoMoreContactPiwikAdmins'|translate }}
-        {% endif %}
-
-    </p>
-</div>
-
-<div piwik-content-block content-title="{{ 'CorePluginsAdmin_InstalledThemes'|translate|e('html_attr') }}"
-     piwik-plugin-management>
-
-    <p>
-    </p>
-
-    {{ plugins.pluginsFilter() }}
-
-    {{ plugins.tablePlugins(pluginsInfo, pluginNamesHavingSettings, activateNonce, deactivateNonce, uninstallNonce, true, marketplacePluginNames, isPluginsAdminEnabled ) }}
-</div>
 {% endblock %}

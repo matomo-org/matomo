@@ -120,7 +120,6 @@ class CoreAdminHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreAdminHome_ArchivingSettings';
         $translationKeys[] = 'General_AllowPiwikArchivingToTriggerBrowser';
         $translationKeys[] = 'General_ReportsContainingTodayWillBeProcessedAtMostEvery';
-        $translationKeys[] = 'General_SmallTrafficYouCanLeaveDefault';
         $translationKeys[] = 'General_ArchivingTriggerDescription';
         $translationKeys[] = 'General_ArchivingTriggerSegment';
         $translationKeys[] = 'General_SeeTheOfficialDocumentationForMoreInformation';
@@ -196,7 +195,6 @@ class CoreAdminHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreAdminHome_JSTracking_CampaignKwdParam';
         $translationKeys[] = 'SitesManager_EmailInstructionsSubject';
         $translationKeys[] = 'SitesManager_JsTrackingTagHelp';
-        $translationKeys[] = 'CoreAdminHome_JSTracking_CodeNoteBeforeClosingHeadEmail';
         $translationKeys[] = 'CoreAdminHome_JSTrackingIntro3a';
         $translationKeys[] = 'CoreAdminHome_JSTrackingIntro4';
         $translationKeys[] = 'CoreAdminHome_JSTrackingIntro5';

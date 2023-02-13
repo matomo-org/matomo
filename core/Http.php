@@ -1130,7 +1130,8 @@ class Http
     }
 
     /**
-     * Checks the request is over SSL
+     * Checks if HTTPS is available
+     *
      * @return bool
      */
     public static function isUpdatingOverHttps()

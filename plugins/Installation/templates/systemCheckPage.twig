@@ -3,26 +3,18 @@
 
 {% block content %}
 
-    <div piwik-content-block content-title="{{ title|e('html_attr') }}" feature="true">
-
-        {% if diagnosticReport.hasErrors() %}
-            <div class="alert alert-danger">
-                {{ 'Installation_SystemCheckSummaryThereWereErrors'|translate('<strong>','</strong>','<strong>','</strong>')|raw }}
-                {{ 'Installation_SeeBelowForMoreInfo'|translate }}
-            </div>
-        {% elseif diagnosticReport.hasWarnings() %}
-            <div class="alert alert-warning">
-                {{ 'Installation_SystemCheckSummaryThereWereWarnings'|translate }}
-                {{ 'Installation_SeeBelowForMoreInfo'|translate }}
-            </div>
-        {% else %}
-            <div class="alert alert-success">
-                {{ 'Installation_SystemCheckSummaryNoProblems'|translate }}
-            </div>
-        {% endif %}
-
-        {% include "@Installation/_systemCheckSection.twig" %}
-    </div>
-
+<div
+    vue-entry="Installation.SystemCheckPage"
+    error-type="{{ constant('Piwik\\Plugins\\Diagnostics\\Diagnostic\\DiagnosticResult::STATUS_ERROR')|json_encode }}"
+    warning-type="{{ constant('Piwik\\Plugins\\Diagnostics\\Diagnostic\\DiagnosticResult::STATUS_WARNING')|json_encode }}"
+    informational-type="{{ constant('Piwik\\Plugins\\Diagnostics\\Diagnostic\\DiagnosticResult::STATUS_INFORMATIONAL')|json_encode }}"
+    system-check-info="{{ systemCheckInfo|json_encode }}"
+    mandatory-results="{{ diagnosticReport.getMandatoryDiagnosticResults()|json_encode }}"
+    optional-results="{{ diagnosticReport.getOptionalDiagnosticResults()|json_encode }}"
+    informational-results="{{ diagnosticReport.getInformationalResults()|json_encode }}"
+    is-installation="{{ isInstallation|default(false)|json_encode }}"
+    has-errors="{{ diagnosticReport.hasErrors()|default(null)|json_encode }}"
+    has-warnings="{{ diagnosticReport.hasWarnings()|default(null)|json_encode }}"
+></div>
 
 {% endblock %}

@@ -14,6 +14,7 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Context;
 use Piwik\Piwik;
+use Piwik\Plugin\API;
 use Piwik\Plugin\Manager;
 use ReflectionClass;
 use ReflectionMethod;
@@ -152,21 +153,28 @@ class Proxy
     {
         // Temporarily sets the Request array to this API call context
         return Context::executeWithQueryParameters($parametersRequest, function () use ($className, $methodName, $parametersRequest) {
-            $returnedValue = null;
-
             $this->registerClass($className);
 
-            // instantiate the object
+            $request = new \Piwik\Request($parametersRequest);
+
+            /**
+             * instantiate the object
+             * @var API $object
+             */
             $object = $className::getInstance();
 
             // check method exists
             $this->checkMethodExists($className, $methodName);
 
             // get the list of parameters required by the method
-            $parameterNamesDefaultValues = $this->getParametersList($className, $methodName);
+            $parameterNamesDefaultValuesAndTypes = $this->getParametersListWithTypes($className, $methodName);
 
             // load parameters in the right order, etc.
-            $finalParameters = $this->getRequestParametersArray($parameterNamesDefaultValues, $parametersRequest);
+            if ($object->usesAutoSanitizeInputParams() && !$this->usesUnsanitizedInputParams($className, $methodName)) {
+                $finalParameters = $this->getSanitizedRequestParametersArray($parameterNamesDefaultValuesAndTypes, $request->getParameters());
+            } else {
+                $finalParameters = $this->getRequestParametersArray($parameterNamesDefaultValuesAndTypes, $request);
+            }
 
             // allow plugins to manipulate the value
             $pluginName = $this->getModuleNameFromClassName($className);
@@ -233,7 +241,7 @@ class Proxy
 
             $apiParametersInCorrectOrder = array();
 
-            foreach ($parameterNamesDefaultValues as $name => $defaultValue) {
+            foreach ($parameterNamesDefaultValuesAndTypes as $name => $parameter) {
                 if (isset($finalParameters[$name]) || array_key_exists($name, $finalParameters)) {
                     $apiParametersInCorrectOrder[] = $finalParameters[$name];
                 }
@@ -349,6 +357,25 @@ class Proxy
      */
     public function getParametersList($class, $name)
     {
+        return array_combine(
+            array_keys($this->metadataArray[$class][$name]['parameters']),
+            array_column($this->metadataArray[$class][$name]['parameters'], 'default')
+        );
+    }
+
+    /**
+     * Returns the parameters names, default values and types for the method $name
+     * of the class $class
+     *
+     * @param string $class The class name
+     * @param string $name The method name
+     * @return array  Format array(
+     *                            'testParameter' => ['default' => null, 'type' => null], // no default value
+     *                            'life'          => ['default' => 42, 'type' => 'int'], // default value 42, type hint is int
+     *                       );
+     */
+    public function getParametersListWithTypes($class, $name)
+    {
         return $this->metadataArray[$class][$name]['parameters'];
     }
 
@@ -358,6 +385,14 @@ class Proxy
     public function isDeprecatedMethod($class, $methodName)
     {
         return $this->metadataArray[$class][$methodName]['isDeprecated'];
+    }
+
+    /**
+     * Check if given method uses unsanitized input parameters.
+     */
+    public function usesUnsanitizedInputParams($class, $methodName)
+    {
+        return $this->metadataArray[$class][$methodName]['unsanitizedInputParams'];
     }
 
     /**
@@ -399,27 +434,39 @@ class Proxy
     }
 
     /**
-     * Returns an array containing the values of the parameters to pass to the method to call
+     * Returns an array containing the *sanitized* values of the parameters to pass to the method to call
      *
      * @param array $requiredParameters array of (parameter name, default value)
      * @param array $parametersRequest
      * @throws Exception
      * @return array values to pass to the function call
      */
-    private function getRequestParametersArray($requiredParameters, $parametersRequest)
+    private function getSanitizedRequestParametersArray($requiredParameters, $parametersRequest)
     {
-        $finalParameters = array();
-        foreach ($requiredParameters as $name => $defaultValue) {
+        $finalParameters = [];
+        foreach ($requiredParameters as $name => $parameter) {
             try {
-                if ($defaultValue instanceof NoDefaultValue) {
-                    $requestValue = Common::getRequestVar($name, null, null, $parametersRequest);
+                $defaultValue = $parameter['default'];
+                $type = $parameter['type'];
+                $request = new \Piwik\Request($parametersRequest);
+
+                if (in_array($name, ['segment', 'password', 'passwordConfirmation']) && !empty($parametersRequest[$name])) {
+                    // special handling for some parameters:
+                    // segment: we do not want to sanitize user input as it would break the segment encoding
+                    // password / passwordConfirmation: sanitizing this parameters might change special chars in passwords, breaking login and confirmation boxes
+                    $requestValue = ($parametersRequest[$name]);
+                } elseif ($defaultValue instanceof NoDefaultValue) {
+                    if ($type === 'bool') {
+                        $requestValue = $request->getBoolParameter($name);
+                    } else {
+                        $requestValue = Common::getRequestVar($name, null, $type, $parametersRequest);
+                    }
                 } else {
                     try {
-                        if ($name == 'segment' && !empty($parametersRequest['segment'])) {
-                            // segment parameter is an exception: we do not want to sanitize user input or it would break the segment encoding
-                            $requestValue = ($parametersRequest['segment']);
+                        if ($type === 'bool') {
+                            $requestValue = $request->getBoolParameter($name, $defaultValue);
                         } else {
-                            $requestValue = Common::getRequestVar($name, $defaultValue, null, $parametersRequest);
+                            $requestValue = Common::getRequestVar($name, $defaultValue, $type, $parametersRequest);
                         }
                     } catch (Exception $e) {
                         // Special case: empty parameter in the URL, should return the empty string
@@ -434,6 +481,62 @@ class Proxy
                 }
             } catch (Exception $e) {
                 throw new Exception(Piwik::translate('General_PleaseSpecifyValue', array($name)));
+            }
+            $finalParameters[$name] = $requestValue;
+        }
+        return $finalParameters;
+    }
+
+    /**
+     * Returns an array containing the values of the parameters to pass to the method to call
+     *
+     * @param array $requiredParameters array of (parameter name, default value)
+     * @param \Piwik\Request $request
+     * @throws Exception
+     * @return array values to pass to the function call
+     */
+    private function getRequestParametersArray($requiredParameters, \Piwik\Request $request): array
+    {
+        $finalParameters = [];
+        foreach ($requiredParameters as $name => $parameter) {
+            try {
+                $defaultValue = $parameter['default'];
+                $type = $parameter['type'] ?? '';
+                $requestValue = null;
+
+                switch (strtolower($type)) {
+                    case 'bool':
+                        $method = 'getBoolParameter';
+                        break;
+                    case 'int':
+                        $method = 'getIntegerParameter';
+                        break;
+                    case 'string':
+                        $method = 'getStringParameter';
+                        break;
+                    case 'float':
+                        $method = 'getFloatParameter';
+                        break;
+                    case 'array':
+                        $method = 'getArrayParameter';
+                        break;
+                    default:
+                        $method = 'getParameter';
+                }
+
+                if ($defaultValue instanceof NoDefaultValue) {
+                    $requestValue = $request->$method($name);
+                } elseif ($defaultValue === null) {
+                    try {
+                        $requestValue = $request->$method($name);
+                    } catch (\InvalidArgumentException $e) {
+                        $requestValue = null;
+                    }
+                } else {
+                    $requestValue = $request->$method($name, $defaultValue);
+                }
+            } catch (Exception $e) {
+                throw new Exception(Piwik::translate('General_PleaseSpecifyValue', [$name]));
             }
             $finalParameters[$name] = $requestValue;
         }
@@ -480,11 +583,23 @@ class Proxy
                 $defaultValue = $parameter->getDefaultValue();
             }
 
-            $aParameters[$nameVariable] = $defaultValue;
+            $type = $parameter->getType();
+
+            // In case no default value is defined in the method, but the type hint allows null, we assume null as default value
+            if ($type && $type->allowsNull() && $defaultValue === $this->noDefaultValue) {
+                $defaultValue = null;
+            }
+
+            $aParameters[$nameVariable] = [
+                'default' => $defaultValue,
+                'type' => ($type && $type->isBuiltin()) ? $type->getName() : null,
+                'allowsNull' => $type ? $type->allowsNull() : $defaultValue === null,
+            ];
         }
         $this->metadataArray[$class][$name]['parameters'] = $aParameters;
         $this->metadataArray[$class][$name]['numberOfRequiredParameters'] = $method->getNumberOfRequiredParameters();
         $this->metadataArray[$class][$name]['isDeprecated'] = false !== strstr($docComment, '@deprecated');
+        $this->metadataArray[$class][$name]['unsanitizedInputParams'] = false !== strstr($docComment, '@unsanitized');
     }
 
     /**

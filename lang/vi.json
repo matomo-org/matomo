@@ -159,7 +159,6 @@
         "ExceptionInvalidRendererFormat": "Định dạng Renderer '%1$s' không hợp lệ. Hãy thử các cách sau để thay thế: %2$s.",
         "ExceptionInvalidReportRendererFormat": "định dạng báo cáo '%1$s' không hợp lệ. Hãy thử các cách sau để thay thế: %2$s.",
         "ExceptionInvalidStaticGraphType": "Kiểu đồ thị tĩnh '%1$s' không hợp lệ. Hãy thử các cách sau để thay thế: %2$s.",
-        "ExceptionInvalidToken": "Mã thông báo không hợp lệ.",
         "ExceptionLanguageFileNotFound": "Không tìm thấy file ngôn ngữ '%s'.",
         "ExceptionMethodNotFound": "Phương pháp '%1$s' không tồn tại hoặc không có hiệu lực trong mô-đun '%2$s'.",
         "ExceptionMissingFile": "Tập tin lỗi: %s",

@@ -29,21 +29,19 @@
         <input
           type="text"
           v-model="searchTerm"
-          v-focus-if:[showItems]="{}"
+          v-focus-if="{ focused: showItems }"
           @keydown="onSearchTermKeydown($event)"
           :placeholder="translate('General_Search')"
         />
-        <img
+        <div
           v-show="!searchTerm"
-          class="search_ico"
-          src="plugins/Morpheus/images/search_ico.png"
+          class="search_ico icon-search"
           :title="translate('General_Search')"
         />
-        <img
+        <div
           v-show="searchTerm"
           v-on:click="searchTerm = '';searchItems('')"
-          class="reset"
-          src="plugins/CoreHome/images/reset_search.png"
+          class="reset icon-close"
           :title="translate('General_Clear')"
         />
       </div>
@@ -108,7 +106,7 @@ export default defineComponent({
       $(this.$slots.default!()[0]!.el as HTMLElement).find('.item').removeClass('active');
       targetClasses.add('active');
 
-      this.$emit('afterSelect');
+      this.$emit('afterSelect', event.target);
     },
     onSearchTermKeydown() {
       setTimeout(() => {

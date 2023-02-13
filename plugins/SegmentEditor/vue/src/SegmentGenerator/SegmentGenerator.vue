@@ -413,7 +413,7 @@ export default defineComponent({
         }
       }
     },
-    setSegmentString(segmentStr: string) {
+    setSegmentString(segmentStr?: string|null) {
       this.conditions = [];
 
       if (!segmentStr) {

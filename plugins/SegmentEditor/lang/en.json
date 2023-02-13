@@ -20,6 +20,7 @@
         "SaveAndApply": "Save &amp; Apply",
         "SegmentDisplayedAllWebsites": "all websites",
         "SegmentDisplayedThisWebsiteOnly": "this website only",
+        "SegmentEditor": "Segment editor",
         "SegmentIsDisplayedForWebsite": "and processed for",
         "SegmentNotApplied": "Segment '%s' not applied",
         "SegmentNotAppliedMessage": "You are requesting data for the Custom Segment '%s', this Matomo's configuration currently prevents real time processing of reports for performance reasons.",

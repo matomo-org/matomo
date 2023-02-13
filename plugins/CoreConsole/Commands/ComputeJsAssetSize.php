@@ -11,7 +11,6 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 use Piwik\AssetManager;
 use Piwik\Development;
 use Piwik\Metrics\Formatter;
-use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugin\Manager;
@@ -31,7 +30,6 @@ class ComputeJsAssetSize extends ConsoleCommand
     {
         $this->setName('development:compute-js-asset-size');
         $this->setDescription('Generates production assets and computes the size of the resulting code.');
-        $this->addOption('exclude-angular', null, InputOption::VALUE_NONE);
         $this->addOption('no-delete', null, InputOption::VALUE_NONE, 'Do not delete files after creating them.');
         $this->addOption('plugin', null, InputOption::VALUE_REQUIRED, 'For submodule plugins and 3rd party plugins.');
     }
@@ -43,7 +41,6 @@ class ComputeJsAssetSize extends ConsoleCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $excludeAngular = $input->getOption('exclude-angular');
         $noDelete = $input->getOption('no-delete');
         $plugin = $input->getOption('plugin');
 
@@ -55,16 +52,12 @@ class ComputeJsAssetSize extends ConsoleCommand
 
         $fetcher = $this->makeUmdFetcher();
 
-        if ($excludeAngular) {
-            $this->excludeAngular($output);
-        }
-
         $this->deleteMergedAssets();
         $this->buildAssets($fetcher);
 
         $output->writeln("");
 
-        $this->printCurrentGitHashAndBranch($output, $excludeAngular, $plugin);
+        $this->printCurrentGitHashAndBranch($output, $plugin);
 
         $output->writeln("");
         $this->printFilesizes($fetcher, $output);
@@ -184,24 +177,6 @@ class ComputeJsAssetSize extends ConsoleCommand
         }
     }
 
-    private function excludeAngular(OutputInterface $output)
-    {
-        Piwik::addAction('AssetManager.getJavaScriptFiles', function (&$files) use ($output) {
-            $newFiles = [];
-            foreach ($files as $filePath) {
-                if (strpos($filePath, 'node_modules/angular') !== false) {
-                    if ($output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
-                        $output->writeln("<comment>  Excluding angular file $filePath.</comment>");
-                    }
-                    continue;
-                }
-
-                $newFiles[] = $filePath;
-            }
-            $files = $newFiles;
-        });
-    }
-
     private function buildAssets(AssetManager\UIAssetFetcher\PluginUmdAssetFetcher $fetcher)
     {
         AssetManager::getInstance()->getMergedCoreJavaScript();
@@ -277,7 +252,7 @@ class ComputeJsAssetSize extends ConsoleCommand
         return $this->getFileSize($compressedPath, 'gzip');
     }
 
-    private function printCurrentGitHashAndBranch(OutputInterface $output, $excludeAngular, $plugin = null)
+    private function printCurrentGitHashAndBranch(OutputInterface $output, $plugin = null)
     {
         $branchName = trim(`git rev-parse --abbrev-ref HEAD`);
         $lastCommit = trim(`git log --pretty=format:'%h' -n 1`);
@@ -292,8 +267,7 @@ class ComputeJsAssetSize extends ConsoleCommand
             $pluginSuffix = " [$plugin: $pluginBranchName ($pluginLastCommit)]";
         }
 
-        $output->writeln("<info>$branchName ($lastCommit)$pluginSuffix</info> <comment>"
-            . ($excludeAngular ? '(without angularjs)' : '') . "</comment>");
+        $output->writeln("<info>$branchName ($lastCommit)$pluginSuffix</info>");
     }
 
     private function makeUmdFetcher()

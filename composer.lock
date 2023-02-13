@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "composer/ca-bundle",
-            "version": "1.3.4",
+            "version": "1.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/ca-bundle.git",
-                "reference": "69098eca243998b53eed7a48d82dedd28b447cd5"
+                "reference": "74780ccf8c19d6acb8d65c5f39cd72110e132bbd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/69098eca243998b53eed7a48d82dedd28b447cd5",
-                "reference": "69098eca243998b53eed7a48d82dedd28b447cd5",
+                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/74780ccf8c19d6acb8d65c5f39cd72110e132bbd",
+                "reference": "74780ccf8c19d6acb8d65c5f39cd72110e132bbd",
                 "shasum": ""
             },
             "require": {
@@ -64,7 +64,7 @@
             "support": {
                 "irc": "irc://irc.freenode.org/composer",
                 "issues": "https://github.com/composer/ca-bundle/issues",
-                "source": "https://github.com/composer/ca-bundle/tree/1.3.4"
+                "source": "https://github.com/composer/ca-bundle/tree/1.3.5"
             },
             "funding": [
                 {
@@ -80,7 +80,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-10-12T12:08:29+00:00"
+            "time": "2023-01-11T08:27:00+00:00"
         },
         {
             "name": "composer/semver",
@@ -317,16 +317,16 @@
         },
         {
             "name": "matomo/cache",
-            "version": "2.0.5",
+            "version": "2.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/component-cache.git",
-                "reference": "a54c3ae324ba1297121aea78dec7724ddaaefb56"
+                "reference": "8dd6852b26bc0060a85678602e3b7d624e0ad0ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/component-cache/zipball/a54c3ae324ba1297121aea78dec7724ddaaefb56",
-                "reference": "a54c3ae324ba1297121aea78dec7724ddaaefb56",
+                "url": "https://api.github.com/repos/matomo-org/component-cache/zipball/8dd6852b26bc0060a85678602e3b7d624e0ad0ea",
+                "reference": "8dd6852b26bc0060a85678602e3b7d624e0ad0ea",
                 "shasum": ""
             },
             "require": {
@@ -362,9 +362,9 @@
             ],
             "support": {
                 "issues": "https://github.com/matomo-org/component-cache/issues",
-                "source": "https://github.com/matomo-org/component-cache/tree/2.0.5"
+                "source": "https://github.com/matomo-org/component-cache/tree/2.0.6"
             },
-            "time": "2021-09-13T22:17:50+00:00"
+            "time": "2023-01-18T14:01:31+00:00"
         },
         {
             "name": "matomo/decompress",
@@ -408,16 +408,16 @@
         },
         {
             "name": "matomo/device-detector",
-            "version": "6.0.4",
+            "version": "6.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/device-detector.git",
-                "reference": "aaed4d27c7a9876756d03ae85386977db306492d"
+                "reference": "ce5ef5e6776c16af306d38e20674973f072e05ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/aaed4d27c7a9876756d03ae85386977db306492d",
-                "reference": "aaed4d27c7a9876756d03ae85386977db306492d",
+                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/ce5ef5e6776c16af306d38e20674973f072e05ed",
+                "reference": "ce5ef5e6776c16af306d38e20674973f072e05ed",
                 "shasum": ""
             },
             "require": {
@@ -473,7 +473,7 @@
                 "source": "https://github.com/matomo-org/matomo",
                 "wiki": "https://dev.matomo.org/"
             },
-            "time": "2022-10-14T11:08:35+00:00"
+            "time": "2023-01-16T08:18:02+00:00"
         },
         {
             "name": "matomo/doctrine-cache-fork",
@@ -613,16 +613,16 @@
         },
         {
             "name": "matomo/matomo-php-tracker",
-            "version": "3.1.1",
+            "version": "3.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/matomo-php-tracker.git",
-                "reference": "544148c29227da6869a0324f3b12b76a54006ccd"
+                "reference": "78932f61692b18c6b5de923dbc3880ad3380e328"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/544148c29227da6869a0324f3b12b76a54006ccd",
-                "reference": "544148c29227da6869a0324f3b12b76a54006ccd",
+                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/78932f61692b18c6b5de923dbc3880ad3380e328",
+                "reference": "78932f61692b18c6b5de923dbc3880ad3380e328",
                 "shasum": ""
             },
             "require": {
@@ -665,7 +665,7 @@
                 "issues": "https://github.com/matomo-org/matomo-php-tracker/issues",
                 "source": "https://github.com/matomo-org/matomo-php-tracker"
             },
-            "time": "2022-12-07T08:35:02+00:00"
+            "time": "2023-01-18T14:28:44+00:00"
         },
         {
             "name": "matomo/network",
@@ -709,12 +709,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/referrer-spam-list.git",
-                "reference": "5d770c3acca8f4bf2cb1e119f2069f17ff47242e"
+                "reference": "32635844a34e3f0bf0ac4cbf82c653fd95ac87df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/referrer-spam-list/zipball/5d770c3acca8f4bf2cb1e119f2069f17ff47242e",
-                "reference": "5d770c3acca8f4bf2cb1e119f2069f17ff47242e",
+                "url": "https://api.github.com/repos/matomo-org/referrer-spam-list/zipball/32635844a34e3f0bf0ac4cbf82c653fd95ac87df",
+                "reference": "32635844a34e3f0bf0ac4cbf82c653fd95ac87df",
                 "shasum": ""
             },
             "replace": {
@@ -732,7 +732,7 @@
                 "issues": "https://github.com/matomo-org/referrer-spam-list/issues",
                 "source": "https://github.com/matomo-org/referrer-spam-list/tree/master"
             },
-            "time": "2022-10-17T23:30:23+00:00"
+            "time": "2023-02-02T23:16:49+00:00"
         },
         {
             "name": "matomo/searchengine-and-social-list",
@@ -2167,16 +2167,16 @@
         },
         {
             "name": "tecnickcom/tcpdf",
-            "version": "6.6.1",
+            "version": "6.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tecnickcom/TCPDF.git",
-                "reference": "a336b531f6f6b5487fca0caf034a671d4e60df5c"
+                "reference": "e3cffc9bcbc76e89e167e9eb0bbda0cab7518459"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/a336b531f6f6b5487fca0caf034a671d4e60df5c",
-                "reference": "a336b531f6f6b5487fca0caf034a671d4e60df5c",
+                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/e3cffc9bcbc76e89e167e9eb0bbda0cab7518459",
+                "reference": "e3cffc9bcbc76e89e167e9eb0bbda0cab7518459",
                 "shasum": ""
             },
             "require": {
@@ -2227,7 +2227,7 @@
             ],
             "support": {
                 "issues": "https://github.com/tecnickcom/TCPDF/issues",
-                "source": "https://github.com/tecnickcom/TCPDF/tree/v"
+                "source": "https://github.com/tecnickcom/TCPDF/tree/6.6.2"
             },
             "funding": [
                 {
@@ -2235,7 +2235,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2022-12-12T14:42:28+00:00"
+            "time": "2022-12-17T10:28:59+00:00"
         },
         {
             "name": "tedivm/jshrink",
@@ -2295,16 +2295,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v3.4.3",
+            "version": "v3.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "c38fd6b0b7f370c198db91ffd02e23b517426b58"
+                "reference": "3ffcf4b7d890770466da3b2666f82ac054e7ec72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/c38fd6b0b7f370c198db91ffd02e23b517426b58",
-                "reference": "c38fd6b0b7f370c198db91ffd02e23b517426b58",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/3ffcf4b7d890770466da3b2666f82ac054e7ec72",
+                "reference": "3ffcf4b7d890770466da3b2666f82ac054e7ec72",
                 "shasum": ""
             },
             "require": {
@@ -2319,7 +2319,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.4-dev"
+                    "dev-master": "3.5-dev"
                 }
             },
             "autoload": {
@@ -2355,7 +2355,7 @@
             ],
             "support": {
                 "issues": "https://github.com/twigphp/Twig/issues",
-                "source": "https://github.com/twigphp/Twig/tree/v3.4.3"
+                "source": "https://github.com/twigphp/Twig/tree/v3.5.0"
             },
             "funding": [
                 {
@@ -2367,30 +2367,31 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-09-28T08:42:51+00:00"
+            "time": "2022-12-27T12:28:18+00:00"
         },
         {
             "name": "wikimedia/less.php",
-            "version": "v3.1.0",
+            "version": "v3.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wikimedia/less.php.git",
-                "reference": "a486d78b9bd16b72f237fc6093aa56d69ce8bd13"
+                "reference": "47c4714c68c9006c87676d76c172a18e1d180f60"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wikimedia/less.php/zipball/a486d78b9bd16b72f237fc6093aa56d69ce8bd13",
-                "reference": "a486d78b9bd16b72f237fc6093aa56d69ce8bd13",
+                "url": "https://api.github.com/repos/wikimedia/less.php/zipball/47c4714c68c9006c87676d76c172a18e1d180f60",
+                "reference": "47c4714c68c9006c87676d76c172a18e1d180f60",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.2.9"
             },
             "require-dev": {
-                "mediawiki/mediawiki-codesniffer": "34.0.0",
-                "mediawiki/minus-x": "1.0.0",
-                "php-parallel-lint/php-console-highlighter": "0.5.0",
-                "php-parallel-lint/php-parallel-lint": "1.2.0",
+                "mediawiki/mediawiki-codesniffer": "39.0.0",
+                "mediawiki/mediawiki-phan-config": "0.11.1 || 0.12.0",
+                "mediawiki/minus-x": "1.1.1",
+                "php-parallel-lint/php-console-highlighter": "1.0.0",
+                "php-parallel-lint/php-parallel-lint": "1.3.2",
                 "phpunit/phpunit": "^8.5"
             },
             "bin": [
@@ -2423,7 +2424,7 @@
                     "homepage": "https://github.com/Mordred"
                 }
             ],
-            "description": "PHP port of the Javascript version of LESS http://lesscss.org (Originally maintained by Josh Schmidt)",
+            "description": "PHP port of the LESS processor",
             "keywords": [
                 "css",
                 "less",
@@ -2434,9 +2435,9 @@
             ],
             "support": {
                 "issues": "https://github.com/wikimedia/less.php/issues",
-                "source": "https://github.com/wikimedia/less.php/tree/v3.1.0"
+                "source": "https://github.com/wikimedia/less.php/tree/v3.2.0"
             },
-            "time": "2020-12-11T19:33:31+00:00"
+            "time": "2023-01-09T18:45:54+00:00"
         }
     ],
     "packages-dev": [
@@ -2517,30 +2518,30 @@
         },
         {
             "name": "doctrine/instantiator",
-            "version": "1.4.1",
+            "version": "1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/instantiator.git",
-                "reference": "10dcfce151b967d20fde1b34ae6640712c3891bc"
+                "reference": "0a0fa9780f5d4e507415a065172d26a98d02047b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/10dcfce151b967d20fde1b34ae6640712c3891bc",
-                "reference": "10dcfce151b967d20fde1b34ae6640712c3891bc",
+                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/0a0fa9780f5d4e507415a065172d26a98d02047b",
+                "reference": "0a0fa9780f5d4e507415a065172d26a98d02047b",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.1 || ^8.0"
             },
             "require-dev": {
-                "doctrine/coding-standard": "^9",
+                "doctrine/coding-standard": "^9 || ^11",
                 "ext-pdo": "*",
                 "ext-phar": "*",
                 "phpbench/phpbench": "^0.16 || ^1",
                 "phpstan/phpstan": "^1.4",
                 "phpstan/phpstan-phpunit": "^1",
                 "phpunit/phpunit": "^7.5 || ^8.5 || ^9.5",
-                "vimeo/psalm": "^4.22"
+                "vimeo/psalm": "^4.30 || ^5.4"
             },
             "type": "library",
             "autoload": {
@@ -2567,7 +2568,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/instantiator/issues",
-                "source": "https://github.com/doctrine/instantiator/tree/1.4.1"
+                "source": "https://github.com/doctrine/instantiator/tree/1.5.0"
             },
             "funding": [
                 {
@@ -2583,7 +2584,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-03-03T08:28:38+00:00"
+            "time": "2022-12-30T00:15:36+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -3098,16 +3099,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "8.5.31",
+            "version": "8.5.32",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "33c126b09a42de5c99e5e8032b54e8221264a74e"
+                "reference": "375686930d05c9fd7d20f6e5fc38121e8d7a9d55"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/33c126b09a42de5c99e5e8032b54e8221264a74e",
-                "reference": "33c126b09a42de5c99e5e8032b54e8221264a74e",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/375686930d05c9fd7d20f6e5fc38121e8d7a9d55",
+                "reference": "375686930d05c9fd7d20f6e5fc38121e8d7a9d55",
                 "shasum": ""
             },
             "require": {
@@ -3175,7 +3176,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/8.5.31"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/8.5.32"
             },
             "funding": [
                 {
@@ -3191,7 +3192,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-10-28T05:57:37+00:00"
+            "time": "2023-01-26T08:30:25+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",

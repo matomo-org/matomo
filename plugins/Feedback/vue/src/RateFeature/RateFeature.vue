@@ -200,8 +200,6 @@ import { defineComponent } from 'vue';
 import { Matomo, MatomoDialog, AjaxHelper } from 'CoreHome';
 import ReviewLinks from '../ReviewLinks/ReviewLinks.vue';
 
-const { $ } = window;
-
 interface RateFeatureState {
   like: boolean;
   likeReason: null|string;
@@ -276,7 +274,7 @@ export default defineComponent({
         message: this.feedbackMessage,
       }).then((res) => {
         if (res.value === 'success') {
-          $('.modal').modal('close');
+          this.showFeedbackForm = false;
           this.ratingDone = true;
           this.feedbackMessage = '';
         } else {

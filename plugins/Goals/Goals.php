@@ -404,7 +404,6 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'Goals_CaseSensitive';
         $translationKeys[] = 'Goals_Download';
         $translationKeys[] = 'Events_EventAction';
-        $translationKeys[] = 'Events_EventCategory';
         $translationKeys[] = 'Events_EventName';
         $translationKeys[] = 'Goals_YouCanEnableEcommerceReports';
         $translationKeys[] = 'Goals_CategoryTextGeneral_Actions';

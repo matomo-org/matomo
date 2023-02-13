@@ -52,7 +52,7 @@
                 show: true
             };
 
-            var comparisonService = piwikHelper.getAngularDependency('piwikComparisonsService');
+            var comparisonService = window.CoreHome.ComparisonsStoreInstance;
             if (comparisonService.isComparing()) {
                 var seriesCount = this.jqplotParams.series.length;
                 var dataCount = this.data[0].length;

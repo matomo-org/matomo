@@ -10,7 +10,6 @@
 
 namespace Piwik\Plugin;
 
-use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugins\Login\PasswordVerifier;
@@ -48,6 +47,8 @@ use Exception;
 abstract class API
 {
     private static $instances;
+
+    protected $autoSanitizeInputParams = true;
 
     /**
      * Returns the singleton instance for the derived class. If the singleton instance
@@ -129,8 +130,6 @@ abstract class API
             throw new Exception(Piwik::translate('UsersManager_ConfirmWithPassword'));
         }
 
-        $passwordConfirmation = Common::unsanitizeInputValue($passwordConfirmation);
-
         try {
             if (
                 !StaticContainer::get(PasswordVerifier::class)->isPasswordCorrect(
@@ -144,5 +143,14 @@ abstract class API
             // in case of any error (e.g. the provided password is too weak)
             throw new Exception(Piwik::translate('UsersManager_CurrentPasswordNotCorrect'));
         }
+    }
+
+    /**
+     * @return bool
+     * @internal
+     */
+    public function usesAutoSanitizeInputParams()
+    {
+        return $this->autoSanitizeInputParams;
     }
 }

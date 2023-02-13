@@ -28,6 +28,7 @@ use Piwik\Plugins\PrivacyManager\SystemSettings;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
 use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\QuickForm2;
+use Piwik\Request;
 use Piwik\Session;
 use Piwik\Session\SessionInitializer;
 use Piwik\SettingsPiwik;
@@ -284,7 +285,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         return $this->renderTemplate('bruteForceLog', [
           'blockedIps'     => $this->bruteForceDetection->getCurrentlyBlockedIps(),
-          'blacklistedIps' => $this->systemSettings->blacklistedBruteForceIps->getValue()
+          'disallowedIps' => $this->systemSettings->blacklistedBruteForceIps->getValue()
         ]);
     }
 
@@ -349,9 +350,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         if (empty($urlToRedirect)) {
-            $redirect = Common::unsanitizeInputValue(Common::getRequestVar('form_redirect', false));
-            $redirectParams = UrlHelper::getArrayFromQueryString(UrlHelper::getQueryFromUrl($redirect));
-            $module = Common::getRequestVar('module', '', 'string', $redirectParams);
+            $redirect = Request::fromRequest()->getStringParameter('form_redirect', '');
+            $module = Request::fromQueryString(UrlHelper::getQueryFromUrl($redirect))->getStringParameter('module', '');
             // when module is login, we redirect to home...
             if (!empty($module) && $module !== 'Login' && $module !== Piwik::getLoginPluginName() && $redirect) {
                 $host = Url::getHostFromUrl($redirect);
@@ -418,6 +418,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $loginMail = $form->getSubmitValue('form_login');
         $password = $form->getSubmitValue('form_password');
+        
+        if (!empty($loginMail)) {
+            $loginMail = trim($loginMail);
+        }
 
         try {
             $this->passwordResetter->initiatePasswordResetProcess($loginMail, $password);
@@ -542,8 +546,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $passwordHelper = new Password();
         $view = new View('@Login/invitation');
 
-        $token = Common::getRequestVar('token', null, 'string');
-        $form = Common::getRequestVar('invitation_form', false, 'string');
+        $request = Request::fromRequest();
+
+        $token = $request->getStringParameter('token');
+        $form = $request->getStringParameter('invitation_form', '');
 
         $settings = new SystemSettings();
         $termsAndConditionUrl = $settings->termsAndConditionUrl->getValue();
@@ -563,11 +569,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         // if form was sent
         if (!empty($form)) {
             $error = null;
-            $password = Common::getRequestVar('password', false, 'string');
-            $passwordConfirmation = Common::getRequestVar('passwordConfirmation', false, 'string');
-            $conditionCheck = Common::getRequestVar('conditionCheck', false, 'string');
+            $password = $request->getStringParameter('password', '');
+            $passwordConfirmation = $request->getStringParameter('passwordConfirmation', '');
+            $conditionCheck = $request->getBoolParameter('conditionCheck', false);
 
-            if (!$password) {
+            if (empty($password)) {
                 $error = Piwik::translate('Login_PasswordRequired');
             }
 
@@ -604,6 +610,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                     [
                         'password'          => $password,
                         'invite_token'      => null,
+                        'invite_link_token' => null,
                         'invite_accept_at'  => Date::now()->getDatetime(),
                         'invite_expired_at' => null,
                     ]

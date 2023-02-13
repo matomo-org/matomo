@@ -9,7 +9,7 @@
                 </div>
 
                 {% if AccessErrorString is defined %}
-                    <div piwik-notification
+                    <div vue-entry="CoreHome.Notification"
                          noclear="true"
                          context="error">
                         <strong>{{ 'General_Error'|translate }}</strong>: {{ AccessErrorString|raw }}<br/>
@@ -20,19 +20,19 @@
                         <input type="hidden" name="token" value="{{ token }}"/>
                         <div class="row">
                             <div class="col s12 input-field">
-                                <input type="text" name="login" value="{{ user.login }}" size="20" readonly
+                                <input type="text" name="login" value="{{ user.login }}" size="20" readonly="readonly"
                                        tabindex="0"/>
                                 <label><i class="icon-user icon"></i> {{ 'Login_LoginOrEmail'|translate }}</label>
                             </div>
                             <div class="col s12 input-field">
                                 <input type="password" placeholder="" name="password" id="password" class="input" value="" size="20"
-                                       autocorrect="off" autocapitalize="none"
+                                       autocorrect="off" autocapitalize="none" spellcheck="false"
                                        tabindex="1" required/>
                                 <label for="password"><i class="icon-locked icon"></i> {{ 'Login_NewPassword'|translate }}</label>
                             </div>
                             <div class="col s12 input-field">
                                 <input type="password" placeholder="" name="passwordConfirmation" id="password_confirm" class="input" value="" size="20"
-                                       autocorrect="off" autocapitalize="none"
+                                       autocorrect="off" autocapitalize="none" spellcheck="false"
                                        tabindex="2" required/>
                                 <label for="password_confirm"><i class="icon-locked icon"></i> {{ 'Login_NewPasswordRepeat'|translate }}</label>
                             </div>

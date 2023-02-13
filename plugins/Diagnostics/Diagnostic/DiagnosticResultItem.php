@@ -11,7 +11,7 @@ namespace Piwik\Plugins\Diagnostics\Diagnostic;
 /**
  * @api
  */
-class DiagnosticResultItem
+class DiagnosticResultItem implements \JsonSerializable
 {
     /**
      * @var string
@@ -45,5 +45,13 @@ class DiagnosticResultItem
     public function getComment()
     {
         return $this->comment;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'status' => $this->status,
+            'comment' => $this->comment,
+        ];
     }
 }

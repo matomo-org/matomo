@@ -126,6 +126,7 @@ describe("UsersManager", function () {
 
         await page.click('.bulk-actions.btn');
         await (await page.jQuery('a[data-target=user-list-bulk-actions]')).hover();
+        await page.waitForTimeout(100);
         await (await page.jQuery('#bulk-set-access a:contains(Admin)')).click();
         await page.waitForTimeout(350); // wait for animation
 
@@ -181,7 +182,7 @@ describe("UsersManager", function () {
     });
 
     it('should delete a single user when the modal is confirmed is clicked', async function () {
-        await page.type('.modal.open #currentUserPassword', 'superUserPass');
+        await page.type('.modal.open #currentUserPassword', superUserPassword);
         await (await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
 
@@ -206,7 +207,7 @@ describe("UsersManager", function () {
     });
 
     it('should delete selected users when delete users bulk action is used', async function () {
-        await page.type('.modal.open #currentUserPassword', 'superUserPass');
+        await page.type('.modal.open #currentUserPassword', superUserPassword);
         await (await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
 
@@ -241,7 +242,7 @@ describe("UsersManager", function () {
     });
 
     it('should show the edit user form when user has been invited', async function () {
-        await page.type('.modal.open #currentUserPassword', 'superUserPass');
+        await page.type('.modal.open #currentUserPassword', superUserPassword);
         await (await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
 
@@ -267,9 +268,10 @@ describe("UsersManager", function () {
         await page.waitForNetworkIdle();
 
         await page.click('.userPermissionsEdit th.select-cell input + span');
-        await page.waitForTimeout(500); // for angular to re-render
+        await page.waitForTimeout(500);
         await page.evaluate(() => $('.userPermissionsEdit tr.select-all-row a').click());
-        await page.waitForTimeout(500); // for angular to re-render
+        await page.waitForTimeout(500);
+        await page.mouse.move(0, 0);
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage({
             imageName: 'permissions_all_rows_in_search',
@@ -494,7 +496,7 @@ describe("UsersManager", function () {
         await page.click('.userEditForm #superuser_access+span');
         await page.waitForTimeout(500);
 
-        await page.type('.modal.open #currentUserPassword', 'superUserPass');
+        await page.type('.modal.open #currentUserPassword', superUserPassword);
         await (await page.jQuery('.modal.open .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
         await page.waitForTimeout(500);
@@ -568,7 +570,7 @@ describe("UsersManager", function () {
 
         await page.waitForTimeout(500); // animation
         // password confirm
-        await page.type('.confirm-password-modal #currentUserPassword', 'superUserPass');
+        await page.type('.confirm-password-modal #currentUserPassword', superUserPassword);
         await (await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible')).click();
 
         await page.waitForTimeout(500); // animation
@@ -582,7 +584,7 @@ describe("UsersManager", function () {
 
         await page.waitForTimeout(500); // animation
         // password confirm
-        await page.type('.confirm-password-modal #currentUserPassword', 'superUserPass');
+        await page.type('.confirm-password-modal #currentUserPassword', superUserPassword);
         await (await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible')).click();
 
         await page.waitForSelector('#notificationContainer .notification');

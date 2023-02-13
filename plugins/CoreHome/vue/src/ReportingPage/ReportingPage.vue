@@ -171,7 +171,7 @@ export default defineComponent({
 
       NotificationsStore.remove('invalidDate');
 
-      Matomo.postEvent('piwikPageChange', {});
+      Matomo.postEvent('matomoPageChange', {});
 
       NotificationsStore.clearTransientNotifications();
 

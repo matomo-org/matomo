@@ -38,11 +38,11 @@ describe("Installation", function () {
         await page.goto("?module=CoreHome&action=index&ignoreClearAllViewDataTableParameters=1");
 
         await page.evaluate(function () {
-            // ensure screenshots are reporting travis config file for comparison
+            // ensure screenshots are reporting same config file for comparison
             // no jQuery existing on these error pages...
             document.body.innerHTML = document.body.innerHTML.replace(
                 /{\/.*\/test\.config\.ini\.php}/,
-                '{/home/travis/build/piwik/piwik/tests/lib/screenshot-testing/../../../tmp/test.config.ini.php}'
+                '{/home/matomo/config/test.config.ini.php}'
             );
         });
 

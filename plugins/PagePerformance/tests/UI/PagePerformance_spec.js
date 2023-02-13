@@ -102,7 +102,7 @@ describe("PagePerformance", function () {
     });
 
     it("performance overlay should work on page titles report", async function () {
-        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Actions_SubmenuPageTitles");
+        await page.goto("?" + urlBase + "#?" + generalParams + "&segment=actions>=1&category=General_Actions&subcategory=Actions_SubmenuPageTitles");
 
         // hover first row
         const row = await page.waitForSelector('.dataTable tbody tr:first-child');

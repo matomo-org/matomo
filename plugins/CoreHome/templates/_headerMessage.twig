@@ -11,52 +11,21 @@
 {% endset %}
 
 {% if (latest_version_available and not isPiwikDemo and hasSomeViewAccess and not isUserIsAnonymous and showUpdateNotificationToUser) or (isSuperUser and isAdminArea is defined and isAdminArea) %}
-<div piwik-expand-on-hover
-     id="header_message"
-     class="piwikSelector borderedControl {% if not latest_version_available %}header_info{% else %}{% endif %} piwikTopControl {% if latest_version_available %}update_available{% endif %}"
-        >
-
-        {% if latest_version_available and not isPiwikDemo %}
-            {% if isMultiServerEnvironment %}
-                <span class="title" style="cursor:pointer;">
-                    {{ 'General_NewUpdatePiwikX'|translate(latest_version_available) }}
-                    <span class="icon-warning"></span>
-                </span>
-            {% else %}
-                <a class="title" href="?module=CoreUpdater&action=newVersionAvailable" style="cursor:pointer;">
-                    {{ 'General_NewUpdatePiwikX'|translate(latest_version_available) }}
-                    <span class="icon-warning"></span>
-                </a>
-            {% endif %}
-        {% elseif isSuperUser and isAdminArea is defined and isAdminArea %}
-            {% if isInternetEnabled %}
-            <a class="title">{{ updateCheck|raw }}</a>
-            {% else %}
-            <a class="title" href="https://matomo.org/changelog/" target="_blank" rel="noreferrer noopener">
-                <span id="updateCheckLinkContainer">
-                    {{ 'CoreHome_SeeAvailableVersions'|translate }}
-                </span>
-            </a>
-            {% endif %}
-        {% endif %}
-
-    <div class="dropdown positionInViewport">
-        {% if latest_version_available and isSuperUser %}
-            {% if isMultiServerEnvironment %}
-                {{ 'CoreHome_OneClickUpdateNotPossibleAsMultiServerEnvironment'|translate("<a rel='noreferrer noopener' href='https://builds.matomo.org/piwik-" ~ latest_version_available ~ ".zip'>builds.matomo.org</a>")|raw }}
-            {% else %}
-                {{ 'General_PiwikXIsAvailablePleaseUpdateNow'|translate(latest_version_available,"<br /><a href='index.php?module=CoreUpdater&amp;action=newVersionAvailable'>","</a>","<a target='_blank' rel='noreferrer noopener' href='https://matomo.org/changelog/'>","</a>")|raw }}
-            {% endif %}
-            <br />
-        {% elseif latest_version_available and not isPiwikDemo and hasSomeViewAccess and not isUserIsAnonymous %}
-            {% set updateSubject = 'General_NewUpdatePiwikX'|translate(latest_version_available)|e('url') %}
-            {{ 'General_PiwikXIsAvailablePleaseNotifyPiwikAdmin'|translate("<a target='_blank' rel='noreferrer noopener' href='https://matomo.org/'>Matomo</a> <a target='_blank' rel='noreferrer noopener' href='https://matomo.org/changelog/'>" ~ latest_version_available ~ "</a>", "<a href='mailto:" ~ contactEmail|e('url') ~ "?subject=" ~ updateSubject ~ "'>", "</a>")|raw }}
-            <br />
-        {% endif %}
-
-        {{ 'General_YouAreCurrentlyUsing'|translate(piwik_version) }}
-    </div>
-</div>
+<div
+    vue-entry="CoreHome.VersionInfoHeaderMessage"
+    latest-version-available="{{ latest_version_available|default(null)|json_encode }}"
+    is-multi-server-environment="{{ isMultiServerEnvironment|default(false)|json_encode }}"
+    is-piwik-demo="{{ isPiwikDemo|default(false)|json_encode }}"
+    is-super-user="{{ isSuperUser|default(false)|json_encode }}"
+    is-admin-area="{{ isAdminArea|default(false)|json_encode }}"
+    is-internet-enabled="{{ isInternetEnabled|default(false)|json_encode }}"
+    update-check="{{ updateCheck|default|json_encode }}"
+    has-some-view-access="{{ hasSomeViewAccess|default(false)|json_encode }}"
+    is-anonymous="{{ isUserIsAnonymous|default(false)|json_encode }}"
+    contact-email="{{ contactEmail|json_encode }}"
+    piwik-version="{{ piwik_version|default(null)|json_encode }}"
+    class="borderedControl piwikTopControl"
+></div>
 
 <span class="icon icon-arrowup"></span>
 <div style="clear:right"></div>

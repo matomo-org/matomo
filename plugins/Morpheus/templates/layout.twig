@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html id="ng-app" {% if language is defined %}lang="{{ language }}"{% endif %} ng-app="piwikApp">
+<html id="ng-app" {% if language is defined %}lang="{{ language }}"{% endif %}>
     <head>
         {% block head %}
             <meta charset="utf-8">
@@ -30,7 +30,7 @@
 
         {% endblock %}
     </head>
-    <body id="{{ bodyId|default('') }}" ng-app="app" class="{{ bodyClass|default('') }}">
+    <body id="{{ bodyId|default('') }}" class="{{ bodyClass|default('') }}">
         {{ postEvent('Template.bodyTop' ) }}
 
     {% block body %}
@@ -41,8 +41,6 @@
             {% block root %}
             {% endblock %}
         </div>
-
-        <div piwik-popover-handler></div>
 
         {% include "@CoreHome/_shortcuts.twig" %}
 

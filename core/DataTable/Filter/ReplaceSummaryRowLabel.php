@@ -29,6 +29,12 @@ use Piwik\Piwik;
  */
 class ReplaceSummaryRowLabel extends BaseFilter
 {
+
+    /**
+     * @var string|null
+     */
+    private $newLabel;
+
     /**
      * Constructor.
      *

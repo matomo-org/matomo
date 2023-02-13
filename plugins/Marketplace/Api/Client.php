@@ -327,12 +327,21 @@ class Client
     }
 
     /**
-     * this will return the api.matomo.org through right protocols
-     * @return string
+     * Return the api.matomo.org URL with the correct protocol prefix
+     *
+     * @return string|null
      */
-    public static function getApiServiceUrl()
+    public static function getApiServiceUrl(): ?string
     {
-        return GeneralConfig::getConfigValue('api_service_url');
+        // Default is now https://
+        $url = GeneralConfig::getConfigValue('api_service_url');
+
+        if (GeneralConfig::getConfigValue('force_matomo_http_request')) {
+            // http is being forced, downgrade the protocol to http
+            $url = str_replace('https', 'http', $url);
+        }
+
+        return $url;
     }
 
 }

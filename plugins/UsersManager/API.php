@@ -27,6 +27,7 @@ use Piwik\Plugins\CoreAdminHome\Emails\UserDeletedEmail;
 use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\UsersManager\Emails\UserInfoChangedEmail;
 use Piwik\Plugins\UsersManager\Repository\UserRepository;
+use Piwik\Plugins\UsersManager\Validators\AllowedEmailDomain;
 use Piwik\Plugins\UsersManager\Validators\Email;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
@@ -88,6 +89,11 @@ class API extends \Piwik\Plugin\API
      */
     private $passwordVerifier;
 
+    /**
+     * @var AllowedEmailDomain
+     */
+    private $allowedEmailDomain;
+
     private $userRepository;
 
     const PREFERENCE_DEFAULT_REPORT = 'defaultReport';
@@ -107,7 +113,8 @@ class API extends \Piwik\Plugin\API
         $this->model = $model;
         $this->userFilter = $filter;
         $this->password = $password;
-        $this->userRepository = new UserRepository($model, $filter, $password);
+        $this->allowedEmailDomain = StaticContainer::get(AllowedEmailDomain::class);
+        $this->userRepository = new UserRepository($model, $filter, $password, $this->allowedEmailDomain);
         $this->access = $access ?: StaticContainer::get(Access::class);
         $this->roleProvider = $roleProvider ?: StaticContainer::get(RolesProvider::class);
         $this->capabilityProvider = $capabilityProvider ?: StaticContainer::get(CapabilitiesProvider::class);
@@ -926,7 +933,7 @@ class API extends \Piwik\Plugin\API
         $hasEmailChanged = mb_strtolower($email) !== mb_strtolower($userInfo['email']);
 
         if ($hasEmailChanged) {
-            BaseValidator::check('email', $email, [new Email(true, $userLogin)]);
+            BaseValidator::check('email', $email, [new Email(true, $userLogin), $this->allowedEmailDomain]);
             $changeShouldRequirePasswordConfirmation = true;
         }
 
@@ -1388,7 +1395,6 @@ class API extends \Piwik\Plugin\API
             }
         }
 
-        $passwordConfirmation = Common::unsanitizeInputValue($passwordConfirmation);
         if (empty($user) || !$this->passwordVerifier->isPasswordCorrect($userLogin, $passwordConfirmation)) {
             if (empty($user)) {
                 /**

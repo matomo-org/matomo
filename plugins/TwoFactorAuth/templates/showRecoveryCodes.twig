@@ -1,42 +1,11 @@
 {% extends 'admin.twig' %}
 
 {% block content %}
-
-    <script type="text/javascript">
-        function copyRecoveryCodesToClipboard()
-        {
-            var textarea = document.createElement('textarea');
-            textarea.value = '{{ codes|join("\n")|e('js') }}';
-            textarea.setAttribute('readonly', '');
-            textarea.style.position = 'absolute';
-            textarea.style.left = '-9999px';
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textarea);
-        }
-    </script>
-
-    <div piwik-content-block
-         content-title="{{ 'TwoFactorAuth_TwoFactorAuthentication'|translate }} - {{ 'TwoFactorAuth_RecoveryCodes'|translate }}">
-
-        <div vue-entry="TwoFactorAuth.ShowRecoveryCodes" codes="{{ codes|default(null)|json_encode|e('html_attr') }}"></div>
-
-        <h2>{{ 'TwoFactorAuth_GenerateNewRecoveryCodes'|translate }}</h2>
-        <p>{{ 'TwoFactorAuth_GenerateNewRecoveryCodesInfo'|translate }}<br /><br /></p>
-
-        {% if regenerateSuccess %}
-            <div class="alert alert-success">{{ 'TwoFactorAuth_RecoveryCodesRegenerated'|translate }}</div>
-        {% endif %}
-
-        {% if regenerateError %}
-            <div class="alert alert-danger">{{ 'General_ExceptionSecurityCheckFailed'|translate }}</div>
-        {% endif %}
-
-        <form method="post" action="{{ linkTo({'method': 'TwoFactorAuth', 'action': 'showRecoveryCodes'}) }}" ng-non-bindable>
-            <input type="hidden" name="regenerateNonce" value="{{ regenerateNonce }}">
-            <input type="submit" class="btn" value="{{ 'TwoFactorAuth_GenerateNewRecoveryCodes'|translate }}">
-        </form>
-
-    <div>
+    <div
+        vue-entry="TwoFactorAuth.ShowRecoveryCodesPage"
+        codes="{{ codes|default(null)|json_encode }}"
+        regenerate-success="{{ regenerateSuccess|default(null)|json_encode }}"
+        regenerate-error="{{ regenerateError|default(null)|json_encode }}"
+        regenerate-nonce="{{ regenerateNonce|json_encode }}"
+    ></div>
 {% endblock %}

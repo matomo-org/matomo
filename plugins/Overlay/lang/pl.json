@@ -3,6 +3,7 @@
         "Clicks": "%s kliknięć",
         "ClicksFromXLinks": "%1$s kliknięć z jednego z %2$s odnośników",
         "Domain": "Domena",
+        "ErrorNoSiteUrls": "OSTRZEŻENIE: Ta strona nie ma zdefiniowanych adresów URL w Matomo. Może to spowodować, że Nakładka i inne funkcje będą nie działać lub zachowywać się dziwnie. Aby to naprawić, dodaj adres URL dla tej witryny w ustawieniach w sekcji Administracja Matomo.",
         "ErrorNotLoading": "Sesja Nakładki Strony nie mogła zostać uruchomiona.",
         "ErrorNotLoadingDetails": "Może strona załadowana po prawej stronie nie ma kodu śledzącego Matomo. W takim przypadku spróbuj uruchomić Nakładkę dla innej strony widocznej w raporcie.",
         "ErrorNotLoadingDetailsSSL": "W związku z faktem, że Matomo korzysta z połączenia HTTPS i jest prawdopodobne, że Twój serwis nie korzysta z SSL'a. Spróbuj użyuć Matomo'a na HTTP.",

@@ -27,7 +27,7 @@ describe("EmptySite", function () {
         // Check that it's a mailto link with correct subject line
         expect(mailtoLink).to.include('mailto:?subject=Matomo%20Analytics%20Tracking%20Code&body');
         // Check that template rendered and only contains chars that are OK in all mail clients (e.g. no HTML at all)
-        expect(mailtoLink).to.match(/^mailto:\?[a-zA-Z0-9&%=.,-_]*$/);
+        expect(mailtoLink).to.match(/^mailto:\?[a-zA-Z0-9&%=.,_*()\[\]'"-]*$/);
     });
 
     it('should be possible to ignore this screen for one hour', async function () {

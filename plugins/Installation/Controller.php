@@ -17,12 +17,12 @@ use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Db;
 use Piwik\DbHelper;
-use Piwik\Development;
 use Piwik\Filesystem;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\CoreVue\CoreVue;
+use Piwik\Plugins\Diagnostics\DiagnosticReport;
 use Piwik\Plugins\Diagnostics\DiagnosticService;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
@@ -130,6 +130,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $diagnosticService = StaticContainer::get('Piwik\Plugins\Diagnostics\DiagnosticService');
         $view->diagnosticReport = $diagnosticService->runDiagnostics();
         $view->isInstallation = true;
+        $view->systemCheckInfo = $this->getSystemCheckTextareaValue($view->diagnosticReport);
 
         $view->showNextStep = !$view->diagnosticReport->hasErrors();
 
@@ -521,6 +522,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         /** @var DiagnosticService $diagnosticService */
         $diagnosticService = StaticContainer::get('Piwik\Plugins\Diagnostics\DiagnosticService');
         $view->diagnosticReport = $diagnosticService->runDiagnostics();
+        $view->systemCheckInfo = $this->getSystemCheckTextareaValue($view->diagnosticReport);
         return $view->render();
     }
 
@@ -575,17 +577,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             "node_modules/jquery-ui-dist/jquery-ui.min.js",
             'node_modules/materialize-css/dist/js/materialize.min.js',
             "plugins/CoreHome/javascripts/materialize-bc.js",
-            'node_modules/angular/angular.min.js',
-            'node_modules/angular-sanitize/angular-sanitize.min.js',
-            'node_modules/angular-animate/angular-animate.min.js',
-            'node_modules/angular-cookies/angular-cookies.min.js',
-            'node_modules/ng-dialog/js/ngDialog.min.js',
-            'plugins/CoreHome/angularjs/common/services/service.module.js',
-            'plugins/CoreHome/angularjs/common/filters/filter.module.js',
-            'plugins/CoreHome/angularjs/common/filters/translate.js',
-            'plugins/CoreHome/angularjs/common/directives/directive.module.js',
-            'plugins/CoreHome/angularjs/piwikApp.config.js',
-            'plugins/CoreHome/angularjs/piwikApp.js',
             'plugins/Installation/javascripts/installation.js',
             'plugins/Morpheus/javascripts/piwikHelper.js',
             "plugins/CoreHome/javascripts/broadcast.js",
@@ -593,8 +584,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         CoreVue::addJsFilesTo($files);
 
-        $coreHomeUmd = Development::isEnabled() ? 'CoreHome.umd.js' : 'CoreHome.umd.min.js';
-        $files[] = "plugins/CoreHome/vue/dist/$coreHomeUmd";
+        $files[] = AssetManager\UIAssetFetcher\PluginUmdAssetFetcher::getUmdFileToUseForPlugin('CoreHome');
+        $files[] = AssetManager\UIAssetFetcher\PluginUmdAssetFetcher::getUmdFileToUseForPlugin('Installation');
 
         if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE
             && file_exists(PIWIK_DOCUMENT_ROOT . '/tests/resources/screenshot-override/override.js')) {
@@ -797,4 +788,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         });
     }
 
+    private function getSystemCheckTextareaValue(DiagnosticReport $diagnosticReport)
+    {
+        $view = new \Piwik\View('@Installation/_systemCheckSection');
+        $view->diagnosticReport = $diagnosticReport;
+        return $view->render();
+    }
 }

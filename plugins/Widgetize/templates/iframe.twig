@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html id="ng-app" ng-app="piwikApp">
+<html id="ng-app">
     <head>
         <meta charset="utf-8">
         <meta name="robots" content="noindex,nofollow">
@@ -7,8 +7,7 @@
         {% include "_jsGlobalVariables.twig" %}
         {% include "_jsCssIncludes.twig" %}
     </head>
-    <body ng-app="app" class="widgetized">
-        <div piwik-popover-handler></div>
+    <body class="widgetized">
         <div class="widget">
             {{ content|raw }}
         </div>

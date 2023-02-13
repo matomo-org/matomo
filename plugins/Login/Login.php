@@ -14,8 +14,8 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\FrontController;
-use Piwik\Http\HttpCodeException;
 use Piwik\IP;
+use Piwik\NoAccessException;
 use Piwik\Piwik;
 use Piwik\Plugins\Login\Security\BruteForceDetection;
 use Piwik\Session;
@@ -36,6 +36,7 @@ class Login extends \Piwik\Plugin
     public function registerEvents()
     {
         $hooks = array(
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'User.isNotAuthorized'             => 'noAccess',
             'API.Request.authenticate'         => 'ApiRequestAuthenticate',
             'AssetManager.getJavaScriptFiles'  => 'getJsFiles',
@@ -78,6 +79,15 @@ class Login extends \Piwik\Plugin
         }
 
         return $hooks;
+    }
+
+    public function getClientSideTranslationKeys(&$translations)
+    {
+        $translations[] = 'Login_CurrentlyBlockedIPs';
+        $translations[] = 'Login_CurrentlyBlockedIPsUnblockInfo';
+        $translations[] = 'Login_UnblockAllIPs';
+        $translations[] = 'Login_CurrentlyBlockedIPsUnblockConfirm';
+        $translations[] = 'Login_IPsAlwaysBlocked';
     }
 
     public function isTrackerPlugin()
@@ -143,7 +153,7 @@ class Login extends \Piwik\Plugin
         /** @var BruteForceDetection $bruteForce */
         $bruteForce = StaticContainer::get('Piwik\Plugins\Login\Security\BruteForceDetection');
         if (!$this->hasPerformedBruteForceCheckForUserPwdLogin && $bruteForce->isEnabled() && $bruteForce->isUserLoginBlocked($login)) {
-            $ex = new HttpCodeException(Piwik::translate('Login_LoginNotAllowedBecauseUserLoginBlocked'), 403);
+            $ex = new NoAccessException(Piwik::translate('Login_LoginNotAllowedBecauseUserLoginBlocked'), 403);
             throw $ex;
         }
         // for performance reasons we make sure to execute it only once per request

@@ -117,7 +117,32 @@
 			<orders>0</orders>
 		</row>
 	</reportData>
-	<reportMetadata />
+	<reportMetadata>
+		<row>
+			<segment>productCategory==Electronics+%26+Cameras</segment>
+		</row>
+		<row>
+			<segment>productCategory==Multiple+Category+1</segment>
+		</row>
+		<row>
+			<segment>productCategory==Multiple+Category+2</segment>
+		</row>
+		<row>
+			<segment>productCategory==Multiple+Category+4</segment>
+		</row>
+		<row>
+			<segment>productCategory==Multiple+Category+5</segment>
+		</row>
+		<row>
+			<segment>productCategory==Product+Category+not+defined</segment>
+		</row>
+		<row>
+			<segment>productCategory==Category+TWO+LEFT+in+cart</segment>
+		</row>
+		<row>
+			<segment>productCategory==second+category</segment>
+		</row>
+	</reportMetadata>
 	<reportTotal>
 		<revenue>7111.22</revenue>
 		<quantity>18</quantity>

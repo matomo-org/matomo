@@ -282,7 +282,6 @@
 import {
   defineComponent,
   onMounted,
-  reactive,
   ref,
   watch,
 } from 'vue';
@@ -299,6 +298,8 @@ interface Option {
   key: string;
   value: string;
 }
+
+const { $ } = window;
 
 export default defineComponent({
   props: {
@@ -377,43 +378,18 @@ export default defineComponent({
   setup(props, ctx) {
     const reportParameters = ref<HTMLElement|null>(null);
 
-    const angularControllerProxy = reactive({
-      report: {
-        ...props.report,
-      },
+    watch(() => props.report, (newValue) => {
+      const reportParametersElement = reportParameters.value as HTMLElement;
+      reportParametersElement.querySelectorAll('[vue-entry]').forEach((node) => {
+        // eslint-disable-next-line no-underscore-dangle
+        $(node).data('vueAppInstance').report_ = newValue;
+      });
     });
-
-    watch(
-      () => angularControllerProxy.report,
-      (newValue) => {
-        Object.keys(newValue).forEach((key) => {
-          if (newValue[key] !== props.report[key]) {
-            ctx.emit('change', { prop: key, value: newValue[key] });
-          }
-        });
-      },
-      { deep: true },
-    );
-
-    watch(
-      () => props.report,
-      (newValue) => {
-        Object.assign(angularControllerProxy.report, newValue);
-        Matomo.helper.getAngularDependency('$timeout')();
-      },
-      { deep: true },
-    );
 
     onMounted(() => {
       const reportParametersElement = reportParameters.value as HTMLElement;
-      Matomo.helper.compileAngularComponents(reportParametersElement, {
-        params: {
-          manageScheduledReport: angularControllerProxy,
-        },
-      });
-
       Matomo.helper.compileVueEntryComponents(reportParametersElement, {
-        report: angularControllerProxy.report,
+        report: props.report,
         onChange(prop: string, value: unknown) {
           ctx.emit('change', { prop, value });
         },
@@ -539,7 +515,7 @@ export default defineComponent({
       const { ReportPlugin } = window;
 
       const isCreate = this.report.idreport > 0;
-      return isCreate ? ReportPlugin.updateReportString : ReportPlugin.createReportString;
+      return isCreate ? ReportPlugin.createReportString : ReportPlugin.updateReportString;
     },
   },
 });

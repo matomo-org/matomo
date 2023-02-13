@@ -2,8 +2,7 @@
     <div class="card-content">
         {% if title is defined and title %}
             <h2 class="card-title"
-                  {% if rate is defined and rate and rate is true %}piwik-enriched-headline="{{ title|e('html_attr') }}"
-                  {% elseif rate is defined and rate and rate %}piwik-enriched-headline="{{ rate|e('html_attr') }}"{% endif %}
+                  {% if rate is defined and rate %}vue-entry="CoreHome.EnrichedHeadline"{% endif %}
             >{% block helpText %}{% endblock %}{{ title }}</h2>
         {% endif %}
 
