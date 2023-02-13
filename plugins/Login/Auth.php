@@ -100,14 +100,14 @@ class Auth implements \Piwik\Auth
 
     private function authenticateWithToken($token)
     {
-        $user = $this->userModel->getUserByTokenAuth($token);
+        $tokenRequest = $this->userModel->getUserByTokenAuthWithStatus($token);
 
-        if (!empty($user['login'])) {
+        if ($tokenRequest['authResult'] === AuthResult::SUCCESS && !empty($tokenRequest['userData']['login'])) {
             $this->userModel->setTokenAuthWasUsed($token, Date::now()->getDatetime());
-            return $this->authenticationSuccess($user);
+            return $this->authenticationSuccess($tokenRequest['userData']);
         }
 
-        return new AuthResult(AuthResult::FAILURE, null, $token);
+        return new AuthResult($tokenRequest['authResult'], null, $token);
     }
 
     private function authenticateWithLoginAndToken($token, $login)

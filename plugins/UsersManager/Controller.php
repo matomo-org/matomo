@@ -370,7 +370,7 @@ class Controller extends ControllerAdmin
     {
         Piwik::checkUserIsNotAnonymous();
 
-        $params = array('module' => 'UsersManager', 'action' => 'addNewToken');
+        $params = ['module' => 'UsersManager', 'action' => 'addNewToken'];
 
         if (!$this->passwordVerify->requirePasswordVerifiedRecently($params)) {
             throw new Exception('Not allowed');
@@ -382,29 +382,31 @@ class Controller extends ControllerAdmin
             Nonce::checkNonce(self::NONCE_ADD_AUTH_TOKEN);
 
             $description = Common::getRequestVar('description', '', 'string');
+            $postOnly = Common::getRequestVar('post_only', 0, 'int');
+
             $login = Piwik::getCurrentUserLogin();
 
             $generatedToken = $this->userModel->generateRandomTokenAuth();
 
-            $this->userModel->addTokenAuth($login, $generatedToken, $description, Date::now()->getDatetime());
+            $this->userModel->addTokenAuth($login, $generatedToken, $description, Date::now()->getDatetime(), null, false, $postOnly);
 
             $container = StaticContainer::getContainer();
-            $email = $container->make(TokenAuthCreatedEmail::class, array(
+            $email = $container->make(TokenAuthCreatedEmail::class, [
                 'login' => Piwik::getCurrentUserLogin(),
                 'emailAddress' => Piwik::getCurrentUserEmail(),
                 'tokenDescription' => $description
-            ));
+            ]);
             $email->safeSend();
 
-            return $this->renderTemplate('addNewTokenSuccess', array('generatedToken' => $generatedToken));
+            return $this->renderTemplate('addNewTokenSuccess', ['generatedToken' => $generatedToken]);
         } elseif (isset($_POST['description'])) {
             $noDescription = true;
         }
 
-        return $this->renderTemplate('addNewToken', array(
-           'nonce' => Nonce::getNonce(self::NONCE_ADD_AUTH_TOKEN),
-           'noDescription' => $noDescription
-        ));
+        return $this->renderTemplate('addNewToken', [
+            'nonce' => Nonce::getNonce(self::NONCE_ADD_AUTH_TOKEN),
+            'noDescription' => $noDescription
+        ]);
     }
 
     /**

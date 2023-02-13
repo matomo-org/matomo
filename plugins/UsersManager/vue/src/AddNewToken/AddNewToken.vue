@@ -30,6 +30,16 @@
         v-model="tokenDescription"
       />
 
+      <Field
+        uicontrol="checkbox"
+        name="post_only"
+        :title="translate('UsersManager_OnlyAllowPostRequests')"
+        :maxlength="100"
+        :required="false"
+        :inline-help="translate('UsersManager_AuthTokenPostOnlyHelp')"
+        v-model="tokenPostOnly"
+      />
+
       <input type="hidden" :value="formNonce" name="nonce">
 
       <input
@@ -51,6 +61,7 @@ import { Field } from 'CorePluginsAdmin';
 
 interface AddNewTokenState {
   tokenDescription: string;
+  tokenPostOnly: boolean;
 }
 
 export default defineComponent({
@@ -65,6 +76,7 @@ export default defineComponent({
   data(): AddNewTokenState {
     return {
       tokenDescription: '',
+      tokenPostOnly: true,
     };
   },
   computed: {

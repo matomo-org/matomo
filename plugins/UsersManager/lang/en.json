@@ -217,6 +217,9 @@
         "BackToUser": "Back to Users",
         "InviteActionNotes": "Please notes that resending an invite or copy invite link will extend the time limit for previous invites by %1$s days.",
         "CopyDenied": "The request is not allowed due to your browser's settings.",
-        "CopyDeniedHints": "Please try again by either switching browsers or copying and sharing this link directly instead: %1$s"
+        "CopyDeniedHints": "Please try again by either switching browsers or copying and sharing this link directly instead: %1$s",
+        "AuthTokenPostOnlyHelp": "Enable this option to only allow this token to be used for POST requests, this is recommended as a best security practice. The token will then not be valid as a URL parameter in GET requests.",
+        "OnlyAllowPostRequests": "Only allow POST requests",
+        "PostOnly": "POST only"
     }
 }

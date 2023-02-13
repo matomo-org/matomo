@@ -47,6 +47,8 @@ class Updates_5_0_0_b1 extends PiwikUpdates
     {
         $migrations = $this->getUpdateArchiveIndexMigrations();
 
+        $migrations[] = $this->migration->db->addColumns('user_token_auth', ['post_only' => "TINYINT(2) UNSIGNED NOT NULL DEFAULT '0'"]);
+
         if ($this->requiresUpdatedLogVisitTableIndex()) {
             return $this->getLogVisitTableMigrations($migrations);
         }

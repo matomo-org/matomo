@@ -425,7 +425,7 @@ class Request
      * It will overwrite the previous Auth object.
      *
      * @param string $tokenAuth
-     * @return void
+     * @return int
      */
     private static function forceReloadAuthUsingTokenAuth($tokenAuth)
     {

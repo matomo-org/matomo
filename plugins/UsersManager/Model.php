@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\UsersManager;
 
 use Piwik\Auth\Password;
+use Piwik\AuthResult;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
@@ -314,13 +315,28 @@ class Model
             'abcdef1234567890') . microtime(true) . Common::generateUniqId() . SettingsPiwik::getSalt());
     }
 
+    /**
+     * Add a new token auth record to the database
+     *
+     * @param       $login
+     * @param       $tokenAuth
+     * @param       $description
+     * @param       $dateCreated
+     * @param null  $dateExpired
+     * @param false $isSystemToken
+     * @param bool  $postOnly       True if this token can only be used in POST requests, default false
+     *
+     * @return int                  Primary key of the new token auth
+     * @throws \Piwik\Tracker\Db\DbException
+     */
     public function addTokenAuth(
       $login,
       $tokenAuth,
       $description,
       $dateCreated,
       $dateExpired = null,
-      $isSystemToken = false
+      $isSystemToken = false,
+      bool $postOnly = false
     ) {
         if (!$this->getUser($login)) {
             throw new \Exception('User ' . $login . ' does not exist');
@@ -335,13 +351,13 @@ class Model
 
         $isSystemToken = (int)$isSystemToken;
 
-        $insertSql = "INSERT INTO " . $this->tokenTable . ' (login, description, password, date_created, date_expired, system_token, hash_algo) VALUES (?, ?, ?, ?, ?, ?, ?)';
+        $insertSql = "INSERT INTO " . $this->tokenTable . ' (login, description, password, date_created, date_expired, system_token, hash_algo, post_only) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
 
         $tokenAuth = $this->hashTokenAuth($tokenAuth);
 
         $db = $this->getDb();
         $db->query($insertSql,
-          [$login, $description, $tokenAuth, $dateCreated, $dateExpired, $isSystemToken, self::TOKEN_HASH_ALGO]);
+          [$login, $description, $tokenAuth, $dateCreated, $dateExpired, $isSystemToken, self::TOKEN_HASH_ALGO, $postOnly]);
 
         return $db->lastInsertId();
     }
@@ -380,8 +396,14 @@ class Model
         $expired = $this->getQueryNotExpiredToken();
         $bind = array_merge(array($tokenAuth), $expired['bind']);
 
-        $token = $db->fetchRow("SELECT * FROM " . $this->tokenTable . " WHERE `password` = ? and " . $expired['sql'],
-          $bind);
+        $sql = "SELECT * FROM " . $this->tokenTable . " WHERE `password` = ? AND " . $expired['sql'];
+
+        // If the token_auth is present in the $_GET array then exclude tokens with post_only = 1
+        if (array_key_exists('token_auth', $_GET)) {
+            $sql .= " AND post_only = 0";
+        }
+
+        $token = $db->fetchRow($sql, $bind);
 
         return $token;
     }
@@ -517,6 +539,48 @@ class Model
         if (!empty($token)) {
             $db = $this->getDb();
             return $db->fetchRow("SELECT * FROM " . $this->userTable . " WHERE `login` = ?", $token['login']);
+        }
+    }
+
+    /**
+     * Replacement function for getUserByTokenAuth() which will also return status information if the token is
+     * expired or restricted because of post_only
+     *
+     * @param string|null $tokenAuth
+     *
+     * @return array|null Null if no token found, otherwise array containing status code and optionally user data
+     *                  [
+     *                   'status'   => 'ok / expired / postonly',
+     *                   'userData' => [user data if status = 'ok']
+     *                  ]
+     */
+    public function getUserByTokenAuthWithStatus(?string $tokenAuth): ?array
+    {
+        if ($tokenAuth === 'anonymous') {
+            return ['authResult' => AuthResult::SUCCESS, 'userData' => $this->getUser('anonymous')];
+        }
+
+        $token = $this->getDb()->fetchRow("SELECT * FROM " . $this->tokenTable . " WHERE `password` = ?",
+            [$this->hashTokenAuth($tokenAuth)]);
+
+        // No token found
+        if (!$token) {
+            return null;
+        }
+
+        // Return if the token_auth is present in the $_GET array and the token is post only
+        if ($token['post_only'] == 1 && array_key_exists('token_auth', $_GET)) {
+            return ['authResult' => AuthResult::FAILURE_POSTONLY_TOKEN, 'userData' => null];
+        }
+
+        // Return if token has expired
+        if ($token['date_expired'] != null && $token['date_expired'] < Date::now()->getDatetime()) {
+            return ['authResult' => AuthResult::FAILURE_EXPIRED_TOKEN, 'userData' => null];
+        }
+
+        if (!empty($token)) {
+            $userData = $this->getDb()->fetchRow("SELECT * FROM " . $this->userTable . " WHERE `login` = ?", $token['login']);
+            return ['authResult' => AuthResult::SUCCESS, 'userData' => $userData];
         }
     }
 
