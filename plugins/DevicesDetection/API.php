@@ -122,7 +122,7 @@ class API extends \Piwik\Plugin\API
                     list($brand, $model) = explode(';', $label, 2);
                     $brand = getDeviceBrandLabel($brand);
                 } else {
-                    $brand = null;
+                    $brand = '';
                     $model = $label;
                 }
 
