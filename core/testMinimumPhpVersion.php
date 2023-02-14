@@ -125,9 +125,9 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
         $faviconUrl = false,
         $isCli = null,
         $errorLogPrefix = '',
-        bool $writeErrorLog = true,
-        string $redirectUrl = null,
-        int $countdown = null
+        $writeErrorLog = true,
+        $redirectUrl = null,
+        $countdown = null
     ) {
         $hasCountdownRedirect = !empty($redirectUrl) && !empty($countdown);
 
