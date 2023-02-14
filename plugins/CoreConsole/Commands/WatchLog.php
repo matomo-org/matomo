@@ -31,5 +31,7 @@ class WatchLog extends ConsoleCommand
 
         $output->writeln('Executing command: ' . $cmd);
         passthru($cmd);
+
+        return self::SUCCESS;
     }
 }
