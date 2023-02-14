@@ -1,6 +1,5 @@
 {
     "Insights": {
-        "PluginDescription": "Disponibiliza perspetivas sobre o seu tráfego. As perspetivas encontram-se disponíveis como widgets nos painéis, bem como um novo ícone nos relatórios, para que possa analisar as tendências mais importantes nos seus dados.",
         "ControlComparedToDescription": "Crescimento comparado ao",
         "ControlFilterByDescription": "Mostrar tudo, apenas movidos, apenas novos ou apenas os que desapareceram",
         "DatePeriodCombinationNotSupported": "Não é possível gerar perspetivas para esta combinação de datas e de períodos.",
@@ -8,7 +7,7 @@
         "DayComparedToPreviousWeek": "mesmo dia da semana anterior",
         "DayComparedToPreviousYear": "mesmo dia no ano anterior",
         "Filter": "Filtro",
-        "FilterIncreaserAndDecreaser": "Crescente e decrescente",
+        "FilterIncreaserAndDecreaser": "Crescente &amp; decrescente",
         "FilterOnlyDecreaser": "Apenas decrescente",
         "FilterOnlyDisappeared": "Apenas desaparecidos",
         "FilterOnlyIncreaser": "Apenas crescente",
@@ -20,6 +19,7 @@
         "MoversAndShakersWidgetTitle": "Apenas movidos e agitados",
         "NoResultMatchesCriteria": "Sem linhas correspondentes aos critérios",
         "OverviewWidgetTitle": "Visão geral das perspetivas",
+        "PluginDescription": "Disponibiliza perspetivas sobre o seu tráfego. As perspetivas encontram-se disponíveis como widgets nos painéis, bem como um novo ícone nos relatórios, para que possa analisar as tendências mais importantes nos seus dados.",
         "TitleConsideredInsightsChanges": "As linhas que cresceram ou decresceram por, pelo menos, %1$s visitas (%2$s%% de um total de %3$s visitas).",
         "TitleConsideredInsightsGrowth": "As linhas seguintes tiveram um crescimento de, pelo menos, %1$s%% comparativamente a %2$s.",
         "TitleConsideredMoversAndShakersChanges": "Os movidos apenas foram considerados se cresceram mais do que %1$s%% visitas ou reduziram menos do que %2$s%% visitas, novas entradas apenas se cresceram mais do que %3$s%% visitas (%4$s), e as linhas desaparecidas se reduziram por menos do que %5$s%% visitas (%6$s).",
