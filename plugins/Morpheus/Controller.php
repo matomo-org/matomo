@@ -312,6 +312,7 @@ export default defineComponent({
     inline-help="Multi Tuple select and text"
     :ui-control-attributes="{\'field1\':{\'key\':\'index\',\'title\':\'Index\',\'uiControl\':\'select\',\'availableValues\':{\'test\':\'test\'}},\'field2\':{\'key\':\'value\',\'title\':\'Value\',\'uiControl\':\'text\',\'availableValues\':null},\'field3\':{\'key\':\'value2\',\'title\':\'Value\',\'uiControl\':\'text\',\'availableValues\':null}}"
     v-model="values"
+    rows="3"
   />
 </div>');
 
@@ -409,6 +410,7 @@ export default defineComponent({
     inline-help="Multiple selects"
     :ui-control-attributes="{\'field\':{\'title\':\'Index\',\'uiControl\':\'select\',\'availableValues\':{\'one\':\'text one\', \'two\':\'text two\', \'three\':\'text three\'}}}"
     v-model="values"
+    rows="5"
   />
 </div>');
 
