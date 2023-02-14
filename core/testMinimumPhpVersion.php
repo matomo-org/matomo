@@ -11,7 +11,7 @@
 /**
  * This file is executed before anything else.
  * It checks the minimum PHP version required to run Matomo.
- * This file must be compatible PHP4.
+ * This file must be compatible with PHP 5.3.
  */
 
 $piwik_errorMessage = '';
@@ -72,8 +72,6 @@ if ($minimumPhpInvalid) {
                     "<a href='https://builds.matomo.org/piwik.zip' rel='noreferrer noopener'>builds.matomo.org</a>.</p>";
     }
 }
-
-define('PAGE_TITLE_WHEN_ERROR', 'Matomo &rsaquo; Error');
 
 if (!function_exists('Piwik_GetErrorMessagePage')) {
     /**
@@ -212,7 +210,7 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
             . ' ' . $optionalLinks;
 
 
-        $message = str_replace(["<br />", "<br>", "<br/>", "</p>"], "\n", $message);
+        $message = str_replace(array("<br />", "<br>", "<br/>", "</p>"), "\n", $message);
         $message = str_replace("\t", "", $message);
         $message = strip_tags($message);
 
