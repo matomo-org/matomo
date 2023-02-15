@@ -484,6 +484,9 @@ PageRenderer.prototype._setupWebpageEvents = function () {
                 await this.waitForNetworkIdle(); // wait for request to finish before continuing with tests
             } else {
                 console.log('Reloading '+type[1]+' failed (' + errorMessage + ').');
+                console.log('Trying to refresh the page');
+                await this.webpage.reload();
+                await this.waitForNetworkIdle();
             }
         }
     });
