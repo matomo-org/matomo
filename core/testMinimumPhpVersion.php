@@ -73,6 +73,8 @@ if ($minimumPhpInvalid) {
     }
 }
 
+define('PAGE_TITLE_WHEN_ERROR', 'Matomo &rsaquo; Error');
+
 if (!function_exists('Piwik_GetErrorMessagePage')) {
     /**
      * Returns true if Piwik should print the backtrace with error messages.
