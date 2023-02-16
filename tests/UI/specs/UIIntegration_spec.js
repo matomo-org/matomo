@@ -1105,7 +1105,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
                 $('.visitor-profile-widget-link > span').text('{REPLACED_ID}');
             });
 
-            expect(await page.screenshot({fullPage: true})).to.matchImage('visitor_profile_not_segmented');
+            const pageWrap = await page.$('#Piwik_Popover');
+            expect(await pageWrap.screenshot()).to.matchImage('visitor_profile_not_segmented');
         });
 
         it('should display API errors properly without showing them as notifications', async function () {
