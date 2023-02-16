@@ -98,6 +98,8 @@ class GeneratePlugin extends GeneratePluginBase
                 'Enjoy!'
             ));
         }
+
+        return self::SUCCESS;
     }
 
     /**

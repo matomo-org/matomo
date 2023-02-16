@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -24,11 +25,12 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class InfoTest extends IntegrationTestCase
 {
-    public function testExecute_ShouldOutputInfoSuccess_IfEverythingIsOk()
+    public function testExecuteShouldOutputInfoSuccessIfEverythingIsOk()
     {
         $output = $this->executeCommand();
 
-        self::assertStringContainsString('./console customdimensions:add-custom-dimension --scope=visit"
+        self::assertStringContainsString(
+            './console customdimensions:add-custom-dimension --scope=visit"
 Installed indexes are:
 1 to remove this Custom Dimension execute ./console customdimensions:remove-custom-dimension --scope=visit --index=1
 2 to remove this Custom Dimension execute ./console customdimensions:remove-custom-dimension --scope=visit --index=2
@@ -53,10 +55,11 @@ Installed indexes are:
 3 to remove this Custom Dimension execute ./console customdimensions:remove-custom-dimension --scope=conversion --index=3
 4 to remove this Custom Dimension execute ./console customdimensions:remove-custom-dimension --scope=conversion --index=4
 5 to remove this Custom Dimension execute ./console customdimensions:remove-custom-dimension --scope=conversion --index=5',
-        $output);
+            $output
+        );
     }
 
-    public function testExecute_ShouldOutputErrorMessage_IfColumnsDoNotMatch()
+    public function testExecuteShouldOutputErrorMessageIfColumnsDoNotMatch()
     {
         $model = new LogTable(CustomDimensions::SCOPE_CONVERSION);
         $model->removeCustomDimension(5);
@@ -73,9 +76,7 @@ Installed indexes are:
         $application->add($infoCmd);
         $commandTester = new CommandTester($infoCmd);
 
-        $commandTester->execute(array('command' => $infoCmd->getName()));
-        $result = $commandTester->getDisplay();
-
-        return $result;
+        $commandTester->execute(['command' => $infoCmd->getName()]);
+        return $commandTester->getDisplay();
     }
 }

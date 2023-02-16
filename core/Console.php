@@ -12,6 +12,7 @@ use Exception;
 use Monolog\Handler\FingersCrossedHandler;
 use Piwik\Application\Environment;
 use Piwik\Config\ConfigNotFoundException;
+use Piwik\Console\DialogHelper;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\Monolog\Handler\FailureLogMessageDetector;
@@ -68,7 +69,7 @@ class Console extends Application
         foreach ($logHandlers as $handler) {
             if ($handler instanceof FingersCrossedHandler) {
                 $hasFingersCrossed = true;
-                continue;
+                break;
             }
         }
 
@@ -132,6 +133,10 @@ class Console extends Application
         foreach ($commands as $command) {
             $this->addCommandIfExists($command);
         }
+
+        $helperSet = $this->getHelperSet();
+        $helperSet->set(new DialogHelper());
+        $this->setHelperSet($helperSet);
 
         $exitCode = null;
 
