@@ -5,7 +5,7 @@
 For information on how to get started and how to use jQuery, please see [jQuery's documentation](https://api.jquery.com/).
 For source files and issues, please visit the [jQuery repo](https://github.com/jquery/jquery).
 
-If upgrading, please see the [blog post for 3.6.1](https://blog.jquery.com/2022/08/26/jquery-3-6-1-maintenance-release/). This includes notable differences from the previous version and a more readable changelog.
+If upgrading, please see the [blog post for 3.6.3](https://blog.jquery.com/2022/12/20/jquery-3-6-3-released-a-quick-selector-fix/). This includes notable differences from the previous version and a more readable changelog.
 
 ## Including jQuery
 
@@ -16,20 +16,18 @@ Below are some of the most common ways to include jQuery.
 #### Script tag
 
 ```html
-<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 ```
 
-#### Babel
+#### Webpack / Browserify / Babel
 
-[Babel](https://babeljs.io/) is a next generation JavaScript compiler. One of the features is the ability to use ES6/ES2015 modules now, even though browsers do not yet support this feature natively.
+There are several ways to use [Webpack](https://webpack.js.org/), [Browserify](http://browserify.org/) or [Babel](https://babeljs.io/). For more information on using these tools, please refer to the corresponding project's documentation. In the script, including jQuery will usually look like this:
 
 ```js
 import $ from "jquery";
 ```
 
-#### Browserify/Webpack
-
-There are several ways to use [Browserify](http://browserify.org/) and [Webpack](https://webpack.js.org/). For more information on using these tools, please refer to the corresponding project's documentation. In the script, including jQuery will usually look like this...
+If you need to use jQuery in a file that's not an ECMAScript module, you can use the CommonJS syntax:
 
 ```js
 var $ = require( "jquery" );

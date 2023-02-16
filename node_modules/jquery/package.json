@@ -2,12 +2,12 @@
   "name": "jquery",
   "title": "jQuery",
   "description": "JavaScript library for DOM operations",
-  "version": "3.6.1",
+  "version": "3.6.3",
   "main": "dist/jquery.js",
   "homepage": "https://jquery.com",
   "author": {
     "name": "OpenJS Foundation and other contributors",
-    "url": "https://github.com/jquery/jquery/blob/3.6.1/AUTHORS.txt"
+    "url": "https://github.com/jquery/jquery/blob/3.6.3/AUTHORS.txt"
   },
   "repository": {
     "type": "git",
@@ -30,7 +30,7 @@
     "commitplease": "3.2.0",
     "core-js": "2.6.5",
     "eslint-config-jquery": "3.0.0",
-    "grunt": "1.4.1",
+    "grunt": "1.5.3",
     "grunt-babel": "8.0.0",
     "grunt-cli": "1.4.3",
     "grunt-compare-size": "0.4.2",
@@ -44,7 +44,6 @@
     "grunt-npmcopy": "0.2.0",
     "gzip-js": "0.3.2",
     "husky": "4.2.5",
-    "insight": "0.10.3",
     "jsdom": "19.0.0",
     "karma": "^6.3.17",
     "karma-browserstack-launcher": "1.6.0",
@@ -61,7 +60,7 @@
     "raw-body": "2.3.3",
     "requirejs": "2.3.6",
     "sinon": "2.3.7",
-    "sizzle": "2.3.6",
+    "sizzle": "2.3.9",
     "strip-json-comments": "2.0.1",
     "testswarm": "1.1.2",
     "uglify-js": "3.4.7"
