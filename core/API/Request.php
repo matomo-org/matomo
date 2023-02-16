@@ -425,7 +425,7 @@ class Request
      * It will overwrite the previous Auth object.
      *
      * @param string $tokenAuth
-     * @return int
+     * @return void
      */
     private static function forceReloadAuthUsingTokenAuth($tokenAuth)
     {
@@ -514,6 +514,17 @@ class Request
         // we do not need to reload.
 
         return $tokenAuth != Access::getInstance()->getTokenAuth();
+    }
+
+    /**
+     * Returns true if a token_auth parameter was supplied via a POST request and is not present as a URL parameter
+     *
+     * @return bool True if token supplied via POST request
+     */
+    public static function isTokenAuthPosted(): bool
+    {
+        return (\Piwik\Request::fromGet()->getStringParameter('token_auth', '') === '' &&
+                \Piwik\Request::fromPost()->getStringParameter('token_auth', '') !== '');
     }
 
     /**

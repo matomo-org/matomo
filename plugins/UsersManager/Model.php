@@ -9,8 +9,9 @@
 namespace Piwik\Plugins\UsersManager;
 
 use Piwik\Auth\Password;
-use Piwik\AuthResult;
 use Piwik\Common;
+use Piwik\Config;
+use Piwik\Config\GeneralConfig;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Option;
@@ -388,8 +389,22 @@ class Model
         );
     }
 
-    private function getTokenByTokenAuthIfNotExpired($tokenAuth)
+    /**
+     * Attempt to load a valid auth token
+     *
+     * @param string|null $tokenAuth    The token auth string
+     * @param bool $isTokenPosted       True if the token was sent via a POST request
+     *
+     * @return array|bool               An array representing the token record, or null if not found
+     * @throws \Exception
+     */
+    private function getTokenByTokenAuthIfNotExpired(?string $tokenAuth, bool $isTokenPosted)
     {
+        // If the token wasn't posted and use of posted tokens is enforced globally then don't attempt to find the token
+        if (GeneralConfig::getConfigValue('only_allow_posted_auth_tokens') && !$isTokenPosted) {
+            return false;
+        }
+
         $tokenAuth = $this->hashTokenAuth($tokenAuth);
         $db = $this->getDb();
 
@@ -398,8 +413,8 @@ class Model
 
         $sql = "SELECT * FROM " . $this->tokenTable . " WHERE `password` = ? AND " . $expired['sql'];
 
-        // If the token_auth is present in the $_GET array then exclude tokens with post_only = 1
-        if (array_key_exists('token_auth', $_GET)) {
+        // If the token was not send via a POST request then exclude post_only tokens
+        if (!$isTokenPosted) {
             $sql .= " AND post_only = 0";
         }
 
@@ -529,59 +544,27 @@ class Model
         }
     }
 
+    /**
+     * Get an array of user data using the supplied token
+     *
+     * @param string|null   $tokenAuth
+     *
+     * @return array|false|mixed|void
+     * @throws \Exception
+     */
     public function getUserByTokenAuth($tokenAuth)
     {
         if ($tokenAuth === 'anonymous') {
             return $this->getUser('anonymous');
         }
 
-        $token = $this->getTokenByTokenAuthIfNotExpired($tokenAuth);
+        $token = $this->getTokenByTokenAuthIfNotExpired($tokenAuth, \Piwik\API\Request::isTokenAuthPosted());
         if (!empty($token)) {
             $db = $this->getDb();
             return $db->fetchRow("SELECT * FROM " . $this->userTable . " WHERE `login` = ?", $token['login']);
         }
-    }
 
-    /**
-     * Replacement function for getUserByTokenAuth() which will also return status information if the token is
-     * expired or restricted because of post_only
-     *
-     * @param string|null $tokenAuth
-     *
-     * @return array|null Null if no token found, otherwise array containing status code and optionally user data
-     *                  [
-     *                   'status'   => 'ok / expired / postonly',
-     *                   'userData' => [user data if status = 'ok']
-     *                  ]
-     */
-    public function getUserByTokenAuthWithStatus(?string $tokenAuth): ?array
-    {
-        if ($tokenAuth === 'anonymous') {
-            return ['authResult' => AuthResult::SUCCESS, 'userData' => $this->getUser('anonymous')];
-        }
-
-        $token = $this->getDb()->fetchRow("SELECT * FROM " . $this->tokenTable . " WHERE `password` = ?",
-            [$this->hashTokenAuth($tokenAuth)]);
-
-        // No token found
-        if (!$token) {
-            return null;
-        }
-
-        // Return if the token_auth is present in the $_GET array and the token is post only
-        if ($token['post_only'] == 1 && array_key_exists('token_auth', $_GET)) {
-            return ['authResult' => AuthResult::FAILURE_POSTONLY_TOKEN, 'userData' => null];
-        }
-
-        // Return if token has expired
-        if ($token['date_expired'] != null && $token['date_expired'] < Date::now()->getDatetime()) {
-            return ['authResult' => AuthResult::FAILURE_EXPIRED_TOKEN, 'userData' => null];
-        }
-
-        if (!empty($token)) {
-            $userData = $this->getDb()->fetchRow("SELECT * FROM " . $this->userTable . " WHERE `login` = ?", $token['login']);
-            return ['authResult' => AuthResult::SUCCESS, 'userData' => $userData];
-        }
+        return false;
     }
 
     /**

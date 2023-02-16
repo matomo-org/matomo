@@ -16,8 +16,6 @@ namespace Piwik;
  */
 class AuthResult
 {
-    const FAILURE_POSTONLY_TOKEN = -2;
-    const FAILURE_EXPIRED_TOKEN = -1;
     const FAILURE = 0;
     const SUCCESS = 1;
     const SUCCESS_SUPERUSER_AUTH_CODE = 42;

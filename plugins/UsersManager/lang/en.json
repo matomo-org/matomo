@@ -219,6 +219,7 @@
         "CopyDenied": "The request is not allowed due to your browser's settings.",
         "CopyDeniedHints": "Please try again by either switching browsers or copying and sharing this link directly instead: %1$s",
         "AuthTokenPostOnlyHelp": "Enable this option to only allow this token to be used for POST requests, this is recommended as a best security practice. The token will then not be valid as a URL parameter in GET requests.",
+        "AuthTokenPostOnlyHelpForced": "The system administrator has configured Matomo to only allow tokens to be created for use in POST requests, you cannot change this token option.",
         "OnlyAllowPostRequests": "Only allow POST requests",
         "PostOnly": "POST only"
     }

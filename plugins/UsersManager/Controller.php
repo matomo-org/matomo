@@ -381,8 +381,8 @@ class Controller extends ControllerAdmin
         if (!empty($_POST['description'])) {
             Nonce::checkNonce(self::NONCE_ADD_AUTH_TOKEN);
 
-            $description = Common::getRequestVar('description', '', 'string');
-            $postOnly = Common::getRequestVar('post_only', 0, 'int');
+            $description = \Piwik\Request::fromRequest()->getStringParameter('description', '');
+            $postOnly = \Piwik\Request::fromRequest()->getBoolParameter('post_only', false);
 
             $login = Piwik::getCurrentUserLogin();
 
@@ -405,7 +405,8 @@ class Controller extends ControllerAdmin
 
         return $this->renderTemplate('addNewToken', [
             'nonce' => Nonce::getNonce(self::NONCE_ADD_AUTH_TOKEN),
-            'noDescription' => $noDescription
+            'noDescription' => $noDescription,
+            'forcePostOnly' => GeneralConfig::getConfigValue('only_allow_posted_auth_tokens')
         ]);
     }
 

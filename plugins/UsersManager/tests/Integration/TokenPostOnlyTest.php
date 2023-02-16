@@ -42,6 +42,9 @@ class TokenPostOnlyTest extends IntegrationTestCase
         }
     }
 
+    /**
+     * Post Only tokens should return a 401 code if used in a GET request
+     */
     public function test_postOnlyToken_AccessDeniedIfGet()
     {
         $url = Fixture::getTestRootUrl().'?'.http_build_query([
@@ -58,9 +61,12 @@ class TokenPostOnlyTest extends IntegrationTestCase
         curl_close($ch);
 
         $this->assertEquals(401, $responseInfo["http_code"]);
-        $this->assertStringContainsString("POST only token was used in a GET request", $out);
+        $this->assertStringContainsString("or is required to be sent as a POST parameter", $out);
     }
 
+    /**
+     * Post only tokens should return a 200 code if used in a POST request
+     */
     public function test_postOnlyToken_AccessGrantedIfPost()
     {
         $url = Fixture::getTestRootUrl().'?'.http_build_query([

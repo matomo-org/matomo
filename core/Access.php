@@ -185,13 +185,6 @@ class Access
         }
 
         if (!$result->wasAuthenticationSuccessful()) {
-
-            if ($result->getCode() == -2) {
-                throw new NoAccessException('POST only token was used in a GET request');
-            }
-            if ($result->getCode() == -1) {
-                throw new NoAccessException('Expired token');
-            }
             return false;
         }
 

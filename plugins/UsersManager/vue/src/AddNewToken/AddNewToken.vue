@@ -34,10 +34,10 @@
         uicontrol="checkbox"
         name="post_only"
         :title="translate('UsersManager_OnlyAllowPostRequests')"
-        :maxlength="100"
         :required="false"
-        :inline-help="translate('UsersManager_AuthTokenPostOnlyHelp')"
+        :inline-help=postOnlyHelp
         v-model="tokenPostOnly"
+        :disabled=forcePostOnlyCalc
       />
 
       <input type="hidden" :value="formNonce" name="nonce">
@@ -66,8 +66,9 @@ interface AddNewTokenState {
 
 export default defineComponent({
   props: {
-    noDescription: Boolean,
     formNonce: String,
+    noDescription: Boolean,
+    forcePostOnly: Boolean,
   },
   components: {
     ContentBlock,
@@ -99,6 +100,13 @@ export default defineComponent({
         `<a class='entityCancelLink' href='${backlink}'>`,
         '</a>',
       );
+    },
+    forcePostOnlyCalc() {
+      return this.forcePostOnly;
+    },
+    postOnlyHelp() {
+      return (this.forcePostOnly ? translate('UsersManager_AuthTokenPostOnlyHelpForced')
+        : translate('UsersManager_AuthTokenPostOnlyHelp'));
     },
   },
 });
