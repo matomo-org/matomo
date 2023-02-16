@@ -10,7 +10,6 @@ namespace Piwik\Plugins\UsersManager;
 
 use Piwik\Auth\Password;
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\Config\GeneralConfig;
 use Piwik\Date;
 use Piwik\Db;
