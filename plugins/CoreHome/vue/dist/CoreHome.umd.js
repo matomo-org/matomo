@@ -1116,6 +1116,8 @@ var MatomoUrl_MatomoUrl = /*#__PURE__*/function () {
     this.url.value = new URL(window.location.href);
     window.addEventListener('hashchange', function (event) {
       _this.url.value = new URL(event.newURL);
+
+      _this.updatePeriodParamsFromUrl();
     });
     this.updatePeriodParamsFromUrl();
   }

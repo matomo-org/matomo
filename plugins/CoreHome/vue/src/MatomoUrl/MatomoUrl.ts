@@ -55,6 +55,7 @@ class MatomoUrl {
 
     window.addEventListener('hashchange', (event) => {
       this.url.value = new URL(event.newURL);
+      this.updatePeriodParamsFromUrl();
     });
 
     this.updatePeriodParamsFromUrl();
