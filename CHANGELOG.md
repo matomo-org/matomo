@@ -32,6 +32,10 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 * The method `Common::getRequestVar` is now deprecated, but will remain API until Matomo 6. You may already start using the new class `Piwik\Request` instead, but ensure to handle needed sanitizing / escaping yourself.
 
+### Removed Config
+
+* The segment subquery cache, previously enabled via the `[General] enable_segments_cache` INI config option, has been removed. Segment SQL queries that reference actions now directly join log_action. Related INI config options `segments_subquery_cache_limit` and `segments_subquery_cache_ttl` have also been removed.
+
 ### Other Breaking changes
 
 * Requests to ASPSMS and Clockwork API do no longer accept invalid SSL certificates. If you experience problems with mobile messaging please check your SSL setup.
