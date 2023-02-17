@@ -8,6 +8,7 @@
 
 namespace Piwik\Tests\Unit;
 
+use __PHP_Incomplete_Class;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use Piwik\Application\Environment;
@@ -51,34 +52,34 @@ class CommonTest extends TestCase
         return [ // input, output
                  // sanitize an array OK
                  [
-                     ['test1' => 't1', 't45', "teatae", 4568, ['test'], 1.52],
-                     ['test1' => 't1', 't45', "teatae", 4568, ['test'], 1.52],
+                     ['test1' => 't1', 't45', 'teatae', 4568, ['test'], 1.52],
+                     ['test1' => 't1', 't45', 'teatae', 4568, ['test'], 1.52],
                  ],
                  [
                      [
                          'test1' => 't1',
                          't45',
-                         "teatae",
+                         'teatae',
                          4568,
                          ['test'],
                          1.52,
-                         ['test1' => 't1', 't45', "teatae", 4568, ['test'], 1.52],
-                         ['test1' => 't1', 't45', "teatae", 4568, ['test'], 1.52],
+                         ['test1' => 't1', 't45', 'teatae', 4568, ['test'], 1.52],
+                         ['test1' => 't1', 't45', 'teatae', 4568, ['test'], 1.52],
                          [
-                             [[['test1' => 't1', 't45', "teatae", 4568, ['test'], 1.52]]],
+                             [[['test1' => 't1', 't45', 'teatae', 4568, ['test'], 1.52]]],
                          ],
                      ],
                      [
                          'test1' => 't1',
                          't45',
-                         "teatae",
+                         'teatae',
                          4568,
                          ['test'],
                          1.52,
-                         ['test1' => 't1', 't45', "teatae", 4568, ['test'], 1.52],
-                         ['test1' => 't1', 't45', "teatae", 4568, ['test'], 1.52],
+                         ['test1' => 't1', 't45', 'teatae', 4568, ['test'], 1.52],
+                         ['test1' => 't1', 't45', 'teatae', 4568, ['test'], 1.52],
                          [
-                             [[['test1' => 't1', 't45', "teatae", 4568, ['test'], 1.52]]],
+                             [[['test1' => 't1', 't45', 'teatae', 4568, ['test'], 1.52]]],
                          ],
                      ],
                  ],
@@ -94,8 +95,8 @@ class CommonTest extends TestCase
                  ],
                  // sanitize a string unicode => no change
                  [
-                     " Поиск в Интернете  Поgqegиск страниц на рgeqg8978усском",
-                     " Поиск в Интернете  Поgqegиск страниц на рgeqg8978усском",
+                     ' Поиск в Интернете  Поgqegиск страниц на рgeqg8978усском',
+                     ' Поиск в Интернете  Поgqegиск страниц на рgeqg8978усском',
                  ],
                  // sanitize a bad string
                  [
@@ -120,18 +121,18 @@ class CommonTest extends TestCase
                  // sanitize HTML
                  [
                      "<test toto='mama' piwik=\"cool\">Piwik!!!!!</test>",
-                     "&lt;test toto=&#039;mama&#039; piwik=&quot;cool&quot;&gt;Piwik!!!!!&lt;/test&gt;",
+                     '&lt;test toto=&#039;mama&#039; piwik=&quot;cool&quot;&gt;Piwik!!!!!&lt;/test&gt;',
                  ],
                  // sanitize a SQL query
                  [
                      "SELECT piwik FROM piwik_tests where test= 'super\"value' AND cool=toto #comment here",
-                     "SELECT piwik FROM piwik_tests where test= &#039;super&quot;value&#039; AND cool=toto #comment here",
+                     'SELECT piwik FROM piwik_tests where test= &#039;super&quot;value&#039; AND cool=toto #comment here',
                  ],
                  // sanitize php variables
                  [true, true],
                  [false, false],
                  [null, null],
-                 ["", ""],
+                 ['', ''],
         ];
     }
 
@@ -236,17 +237,17 @@ class CommonTest extends TestCase
                      'string',
                      'http://url?arg1=val1&amp;arg2=val2',
                  ],
-                 [["test", 1345524, ["gaga"]], [], 'array', ["test", 1345524, ["gaga"]]],
+                 [['test', 1345524, ['gaga']], [], 'array', ['test', 1345524, ['gaga']]],
                  // array as a default value / types
-                 [["test", 1345524, ["gaga"]], 45, 'string', "45"],
-                 [["test", 1345524, ["gaga"]], [1], 'array', ["test", 1345524, ["gaga"]]],
+                 [['test', 1345524, ['gaga']], 45, 'string', '45'],
+                 [['test', 1345524, ['gaga']], [1], 'array', ['test', 1345524, ['gaga']]],
                  [
-                     ["test", 1345524, "Start of hello\nworld\n\t", ["gaga"]],
+                     ['test', 1345524, "Start of hello\nworld\n\t", ['gaga']],
                      [1],
                      'array',
-                     ["test", 1345524, "Start of hello\nworld\n\t", ["gaga"]],
+                     ['test', 1345524, "Start of hello\nworld\n\t", ['gaga']],
                  ],
-                 [["test", 1345524, ["gaga"]], 4, 'int', 4],
+                 [['test', 1345524, ['gaga']], 4, 'int', 4],
                  ['', [1], 'array', [1]],
                  ['', [], 'array', []],
                  // we give a number in a string and request for a number => it should give the string casted as a number
@@ -287,30 +288,30 @@ class CommonTest extends TestCase
     public function testIsValidFilenameValidValues()
     {
         $valid = [
-            "test",
-            "test.txt",
-            "test.......",
-            "en-ZHsimplified",
+            'test',
+            'test.txt',
+            'test.......',
+            'en-ZHsimplified',
             '0',
         ];
         foreach ($valid as $toTest) {
-            $this->assertTrue(Filesystem::isValidFilename($toTest), $toTest . " not valid!");
+            $this->assertTrue(Filesystem::isValidFilename($toTest), $toTest . ' not valid!');
         }
     }
 
     public function testIsValidFilenameNotValidValues()
     {
         $notvalid = [
-            "../test",
-            "/etc/htpasswd",
+            '../test',
+            '/etc/htpasswd',
             '$var',
             ';test',
             '[bizarre]',
             '',
             false,
-            ".htaccess",
-            "very long long eogaioge ageja geau ghaeihieg heiagie aiughaeui hfilename",
-            "WHITE SPACE",
+            '.htaccess',
+            'very long long eogaioge ageja geau ghaeihieg heiagie aiughaeui hfilename',
+            'WHITE SPACE',
         ];
         foreach ($notvalid as $toTest) {
             self::assertFalse(Filesystem::isValidFilename($toTest), $toTest . " valid but shouldn't!");
@@ -323,7 +324,7 @@ class CommonTest extends TestCase
         $this->assertTrue(Common::safe_unserialize('O:12:"Piwik\Common":0:{}', ['Piwik\Common']) instanceof Common);
 
         // not allowed classed should result in an incomplete class
-        $this->assertTrue(Common::safe_unserialize('O:12:"Piwik\Common":0:{}') instanceof \__PHP_Incomplete_Class);
+        $this->assertTrue(Common::safe_unserialize('O:12:"Piwik\Common":0:{}') instanceof __PHP_Incomplete_Class);
 
         // strings not unserializable should return false and trigger a debug log
         $logger = $this->createFakeLogger();
@@ -357,33 +358,33 @@ class CommonTest extends TestCase
     public function getBrowserLanguageData()
     {
         return [ // user agent, browser language
-                 ["en-gb", "en-gb"],
+                 ['en-gb', 'en-gb'],
 
                  // filter quality attribute
-                 ["en-us,en;q=0.5", "en-us,en"],
+                 ['en-us,en;q=0.5', 'en-us,en'],
 
                  // bad user agents
-                 ["en-us,chrome://global/locale/intl.properties", "en-us"],
+                 ['en-us,chrome://global/locale/intl.properties', 'en-us'],
 
                  // unregistered language tag
-                 ["en,en-securid", "en"],
-                 ["en-securid,en", "en"],
-                 ["en-us,en-securid,en", "en-us,en"],
+                 ['en,en-securid', 'en'],
+                 ['en-securid,en', 'en'],
+                 ['en-us,en-securid,en', 'en-us,en'],
 
                  // accept private sub tags
-                 ["en-us,x-en-securid", "en-us,x-en-securid"],
-                 ["en-us,en-x-securid", "en-us,en-x-securid"],
+                 ['en-us,x-en-securid', 'en-us,x-en-securid'],
+                 ['en-us,en-x-securid', 'en-us,en-x-securid'],
 
                  // filter arbitrary white space
-                 ["en-us, en", "en-us,en"],
-                 ["en-ca, en-us ,en", "en-ca,en-us,en"],
+                 ['en-us, en', 'en-us,en'],
+                 ['en-ca, en-us ,en', 'en-ca,en-us,en'],
 
                  // handle comments
-                 [" ( comment ) en-us (another comment) ", "en-us"],
+                 [' ( comment ) en-us (another comment) ', 'en-us'],
 
                  // handle quoted pairs (embedded in comments)
-                 [" ( \( start ) en-us ( \) end ) ", "en-us"],
-                 [" ( \) en-ca, \( ) en-us ( \) ,en ) ", "en-us"],
+                 [' ( \( start ) en-us ( \) end ) ', 'en-us'],
+                 [' ( \) en-ca, \( ) en-us ( \) ,en ) ', 'en-us'],
         ];
     }
 
@@ -406,18 +407,18 @@ class CommonTest extends TestCase
         $regionDataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
 
         return [ // browser language, valid countries, expected result
-                 ["", [], "xx"],
-                 ["", ["us" => 'amn'], "xx"],
-                 ["en", ["us" => 'amn'], "xx"],
-                 ["en-us", ["us" => 'amn'], "us"],
-                 ["en-ca", ["us" => 'amn'], "xx"],
-                 ["en-ca", ["us" => 'amn', "ca" => 'amn'], "ca"],
-                 ["fr-fr,fr-ca", ["us" => 'amn', "ca" => 'amn'], "ca"],
-                 ["fr-fr;q=1.0,fr-ca;q=0.9", ["us" => 'amn', "ca" => 'amn'], "ca"],
-                 ["fr-ca,fr;q=0.1", ["us" => 'amn', "ca" => 'amn'], "ca"],
-                 ["en-us,en;q=0.5", $regionDataProvider->getCountryList(), "us"],
-                 ["fr-ca,fr;q=0.1", ["fr" => 'eur', "us" => 'amn', "ca" => 'amn'], "ca"],
-                 ["fr-fr,fr-ca", ["fr" => 'eur', "us" => 'amn', "ca" => 'amn'], "fr"],
+                 ['', [], 'xx'],
+                 ['', ['us' => 'amn'], 'xx'],
+                 ['en', ['us' => 'amn'], 'xx'],
+                 ['en-us', ['us' => 'amn'], 'us'],
+                 ['en-ca', ['us' => 'amn'], 'xx'],
+                 ['en-ca', ['us' => 'amn', 'ca' => 'amn'], 'ca'],
+                 ['fr-fr,fr-ca', ['us' => 'amn', 'ca' => 'amn'], 'ca'],
+                 ['fr-fr;q=1.0,fr-ca;q=0.9', ['us' => 'amn', 'ca' => 'amn'], 'ca'],
+                 ['fr-ca,fr;q=0.1', ['us' => 'amn', 'ca' => 'amn'], 'ca'],
+                 ['en-us,en;q=0.5', $regionDataProvider->getCountryList(), 'us'],
+                 ['fr-ca,fr;q=0.1', ['fr' => 'eur', 'us' => 'amn', 'ca' => 'amn'], 'ca'],
+                 ['fr-fr,fr-ca', ['fr' => 'eur', 'us' => 'amn', 'ca' => 'amn'], 'fr'],
         ];
     }
 
@@ -443,10 +444,10 @@ class CommonTest extends TestCase
     public function getCountryCodeTestDataInfer()
     {
         return [ // browser language, valid countries, expected result (non-guess vs guess)
-                 ["fr,en-us", ["us" => 'amn', "ca" => 'amn'], "us", "fr"],
-                 ["fr,en-us", ["fr" => 'eur', "us" => 'amn', "ca" => 'amn'], "us", "fr"],
-                 ["fr,fr-fr,en-us", ["fr" => 'eur', "us" => 'amn', "ca" => 'amn'], "fr", "fr"],
-                 ["fr-fr,fr,en-us", ["fr" => 'eur', "us" => 'amn', "ca" => 'amn'], "fr", "fr"],
+                 ['fr,en-us', ['us' => 'amn', 'ca' => 'amn'], 'us', 'fr'],
+                 ['fr,en-us', ['fr' => 'eur', 'us' => 'amn', 'ca' => 'amn'], 'us', 'fr'],
+                 ['fr,fr-fr,en-us', ['fr' => 'eur', 'us' => 'amn', 'ca' => 'amn'], 'fr', 'fr'],
+                 ['fr-fr,fr,en-us', ['fr' => 'eur', 'us' => 'amn', 'ca' => 'amn'], 'fr', 'fr'],
         ];
     }
 
@@ -488,26 +489,30 @@ class CommonTest extends TestCase
     {
         return [
             // browser language, valid languages (with optional region), expected result
-            ["fr-ca", ["fr"], "fr-ca"],
-            ["fr-ca", ["ca"], "xx"],
-            ["", [], "xx"],
-            ["", ["en"], "xx"],
-            ["fr", ["en"], "xx"],
-            ["en", ["en"], "en"],
-            ["en", ["en-ca"], "xx"],
-            ["en-ca", ["en-ca"], "en-ca"],
-            ["en-ca", ["en"], "en-ca"],
-            ["fr,en-us", ["fr", "en"], "fr"],
-            ["fr,en-us", ["en", "fr"], "fr"],
-            ["fr-fr,fr-ca", ["fr"], "fr-fr"],
-            ["fr-fr,fr-ca", ["fr-ca"], "fr-ca"],
-            ["-ca", ["fr", "ca"], "xx"],
-            ["fr-fr;q=1.0,fr-ca;q=0.9", ["fr-ca"], "fr-ca"],
-            ["es,en,fr;q=0.7,de;q=0.3", ["fr", "es", "de", "en"], "es"],
-            ["zh-sg,de;q=0.3", ["zh", "es", "de"], "zh-sg"],
-            ["fr-ca,fr;q=0.1", ["fr-ca"], "fr-ca"],
-            ["r5,fr;q=1,de", ["fr", "de"], "fr"],
-            ["Zen§gq1", ["en"], "xx"],
+            ['fr-ca', ['fr'], 'fr-ca'],
+            ['fr-ca', ['ca'], 'xx'],
+            ['', [], 'xx'],
+            ['', ['en'], 'xx'],
+            ['fr', ['en'], 'xx'],
+            ['en', ['en'], 'en'],
+            ['en', ['en-ca'], 'xx'],
+            ['en-ca', ['en-ca'], 'en-ca'],
+            ['en-ca', ['en'], 'en-ca'],
+            ['fr,en-us', ['fr', 'en'], 'fr'],
+            ['fr,en-us', ['en', 'fr'], 'fr'],
+            ['fr-fr,fr-ca', ['fr'], 'fr-fr'],
+            ['fr-fr,fr-ca', ['fr-ca'], 'fr-ca'],
+            ['-ca', ['fr', 'ca'], 'xx'],
+            ['fr-fr;q=1.0,fr-ca;q=0.9', ['fr-ca'], 'fr-ca'],
+            ['es,en,fr;q=0.7,de;q=0.3', ['fr', 'es', 'de', 'en'], 'es'],
+            ['zh-sg,de;q=0.3', ['zh', 'es', 'de'], 'zh-sg'],
+            ['fr-ca,fr;q=0.1', ['fr-ca'], 'fr-ca'],
+            ['r5,fr;q=1,de', ['fr', 'de'], 'fr'],
+            ['Zen§gq1', ['en'], 'xx'],
+            ['zh-hans-cn', ['zh-cn'], 'zh-cn'],
+            ['zh-hant-tw', ['zh-tw'], 'zh-tw'],
+            ['az-cyrl-az', ['az'], 'az-az'],
+            ['shi-tfng-ma', ['shi', 'shi-ma'], 'shi-ma'],
         ];
     }
 
@@ -531,21 +536,21 @@ class CommonTest extends TestCase
     {
         return [
             // browser language, valid languages, expected result
-            ["fr-ca", ["fr"], "fr"],
-            ["fr-ca", ["ca"], "xx"],
-            ["", ["en"], "xx"],
-            ["fr", ["en"], "xx"],
-            ["en", ["en"], "en"],
-            ["en", ["en-ca"], "xx"],
-            ["en-ca", ["en"], "en"],
-            ["fr,en-us", ["fr", "en"], "fr"],
-            ["fr,en-us", ["en", "fr"], "fr"],
-            ["fr-fr,fr-ca", ["fr"], "fr"],
-            ["-ca", ["fr", "ca"], "xx"],
-            ["es,en,fr;q=0.7,de;q=0.3", ["fr", "es", "de", "en"], "es"],
-            ["zh-sg,de;q=0.3", ["zh", "es", "de"], "zh"],
-            ["r5,fr;q=1,de", ["fr", "de"], "fr"],
-            ["Zen§gq1", ["en"], "xx"],
+            ['fr-ca', ['fr'], 'fr'],
+            ['fr-ca', ['ca'], 'xx'],
+            ['', ['en'], 'xx'],
+            ['fr', ['en'], 'xx'],
+            ['en', ['en'], 'en'],
+            ['en', ['en-ca'], 'xx'],
+            ['en-ca', ['en'], 'en'],
+            ['fr,en-us', ['fr', 'en'], 'fr'],
+            ['fr,en-us', ['en', 'fr'], 'fr'],
+            ['fr-fr,fr-ca', ['fr'], 'fr'],
+            ['-ca', ['fr', 'ca'], 'xx'],
+            ['es,en,fr;q=0.7,de;q=0.3', ['fr', 'es', 'de', 'en'], 'es'],
+            ['zh-sg,de;q=0.3', ['zh', 'es', 'de'], 'zh'],
+            ['r5,fr;q=1,de', ['fr', 'de'], 'fr'],
+            ['Zen§gq1', ['en'], 'xx'],
         ];
     }
 

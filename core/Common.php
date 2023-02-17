@@ -966,7 +966,7 @@ class Common
     {
         $validLanguages = self::checkValidLanguagesIsSet($validLanguages);
 
-        if (!preg_match_all('/(?:^|,)([a-z]{2,3})([-][a-z]{2})?/', $browserLanguage, $matches, PREG_SET_ORDER)) {
+        if (!preg_match_all('/(?:^|,)([a-z]{2,3})(?:[-][a-z]{4})?([-][a-z]{2})?/', $browserLanguage, $matches, PREG_SET_ORDER)) {
             return self::LANGUAGE_CODE_INVALID;
         }
         foreach ($matches as $parts) {
