@@ -17,6 +17,10 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * When an invalid token is provided in an API request, a 401 response code is now returned instead of 200 response code.
 * By default, the `file://` protocol is not tracked. To enable tracking of the `file://` protocol add `enableTrackFile` to the tracker settings. 
 * We have migrated our automated tests from Travis CI to GitHub actions. If your plugin used Travis CI for running tests ensure to migrate that to a GitHub action as support for running tests on Travis has been dropped.
+* By default, the last ip address in the proxy list will now be used rather than the first ip address. To force the first ip address to be used set the config option `proxy_ip_read_last_in_list = 0`.
+* The Symfony Console dependency has been updated to version 5.4. Command classes might need to be adjusted so
+  * `execute()` method now need to return integers. We recommend using the class constants `SUCCESS` or `FAILURE` as return values.
+  * Various helpers like the `dialog` or `progress` helpers have been removed. Their usages need to be rewritten with newer helpers like `question`.
 
 ### New APIs
 

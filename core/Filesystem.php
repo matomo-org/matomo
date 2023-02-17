@@ -151,7 +151,7 @@ class Filesystem
 
             // check if filesystem is NFS
             if ($returnCode == 0
-                && count($output) > 1
+                && is_array($output) && count($output) > 1
                 && preg_match('/\bnfs\d?\b/', implode("\n", $output))
             ) {
                 return true;

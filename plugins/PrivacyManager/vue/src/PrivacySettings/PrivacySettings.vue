@@ -75,17 +75,15 @@
     <a name="anonymizeHistoricalData" id="anonymizeHistoricalData"></a>
 
     <ContentBlock
-      content-title="Anonymize previously tracked raw data"
+      :content-title="translate('PrivacyManager_AnonymizePreviousData')"
       class="logDataAnonymizer"
     >
       <p>
-        If you have tracked personal data such as the full visitor IP, you may want to anonymize
-        this data now in case you do not have consent for this data or no longer a legitimate
-        interest.
+        {{ translate('PrivacyManager_AnonymizePreviousDataDescription') }}
       </p>
 
       <AnonymizeLogData v-if="isSuperUser"></AnonymizeLogData>
-      <p v-else>Only a user with Super User access can anonymize previously tracked raw data.</p>
+      <p v-else>{{ translate('PrivacyManager_AnonymizePreviousDataOnlySuperUser') }}</p>
 
       <br />
       <PreviousAnonymizations

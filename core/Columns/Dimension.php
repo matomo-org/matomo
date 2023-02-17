@@ -417,7 +417,7 @@ abstract class Dimension
             case Dimension::TYPE_BOOL:
                 return !empty($value) ? '1' : '0';
             case Dimension::TYPE_DURATION_MS:
-                return number_format($value / 1000, 2) * 1000; // because we divide we need to group them and cannot do this in formatting step
+                return round($value / 1000, 2) * 1000; // because we divide we need to group them and cannot do this in formatting step
         }
         return $value;
     }

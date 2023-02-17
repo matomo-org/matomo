@@ -33,7 +33,7 @@ class Config
     private $properties = array(
         'useAnonymizedIpForVisitEnrichment' => array('type' => 'boolean', 'default' => false),
         'ipAddressMaskLength'               => array('type' => 'integer', 'default' => 2),
-        'doNotTrackEnabled'                 => array('type' => 'boolean', 'default' => true),
+        'doNotTrackEnabled'                 => array('type' => 'boolean', 'default' => false),
         'ipAnonymizerEnabled'               => array('type' => 'boolean', 'default' => true),
         'forceCookielessTracking'           => array('type' => 'boolean', 'default' => false),
         'anonymizeUserId'                   => array('type' => 'boolean', 'default' => false),

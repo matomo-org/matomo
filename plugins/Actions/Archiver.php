@@ -185,7 +185,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         }
 
         $dataTable = $dataArray->asDataTable();
-        $report = $dataTable->getSerialized();
+        $report = $dataTable->getSerialized(ArchivingHelper::$maximumRowsInDataTableSiteSearch);
         $this->getProcessor()->insertBlobRecord(self::SITE_SEARCH_CATEGORY_RECORD_NAME, $report);
     }
 
@@ -635,38 +635,55 @@ class Archiver extends \Piwik\Plugin\Archiver
     public function aggregateMultipleReports()
     {
         ArchivingHelper::reloadConfig();
-        $dataTableToSum = array(
+        $dataTableToSum = [
             self::PAGE_TITLES_RECORD_NAME,
             self::PAGE_URLS_RECORD_NAME,
-        );
-        $this->getProcessor()->aggregateDataTableRecords($dataTableToSum,
+        ];
+        $this->getProcessor()->aggregateDataTableRecords(
+            $dataTableToSum,
             ArchivingHelper::$maximumRowsInDataTableLevelZero,
             ArchivingHelper::$maximumRowsInSubDataTable,
             ArchivingHelper::$columnToSortByBeforeTruncation,
             Metrics::$columnsAggregationOperation,
             Metrics::$columnsToRenameAfterAggregation,
-            $countRowsRecursive = array()
+            $countRowsRecursive = []
         );
 
-        $dataTableToSum = array(
+        $aggregation = null;
+        $dataTableToSum = [
             self::DOWNLOADS_RECORD_NAME,
             self::OUTLINKS_RECORD_NAME,
-            self::SITE_SEARCH_RECORD_NAME,
-            self::SITE_SEARCH_CATEGORY_RECORD_NAME,
-        );
-        $aggregation = null;
-        $nameToCount = $this->getProcessor()->aggregateDataTableRecords($dataTableToSum,
+        ];
+        $this->getProcessor()->aggregateDataTableRecords(
+            $dataTableToSum,
             ArchivingHelper::$maximumRowsInDataTableLevelZero,
             ArchivingHelper::$maximumRowsInSubDataTable,
             ArchivingHelper::$columnToSortByBeforeTruncation,
             $aggregation,
             Metrics::$columnsToRenameAfterAggregation,
-            $countRowsRecursive = array()
+            $countRowsRecursive = []
+        );
+
+        $dataTableToSum = [
+            self::SITE_SEARCH_RECORD_NAME,
+            self::SITE_SEARCH_CATEGORY_RECORD_NAME,
+        ];
+        $nameToCount    = $this->getProcessor()->aggregateDataTableRecords(
+            $dataTableToSum,
+            ArchivingHelper::$maximumRowsInDataTableSiteSearch,
+            ArchivingHelper::$maximumRowsInSubDataTable,
+            ArchivingHelper::$columnToSortByBeforeTruncation,
+            $aggregation,
+            Metrics::$columnsToRenameAfterAggregation,
+            $countRowsRecursive = []
         );
 
         $this->getProcessor()->aggregateNumericMetrics($this->getMetricNames());
 
         // Unique Keywords can't be summed, instead we take the RowsCount() of the keyword table
-        $this->getProcessor()->insertNumericRecord(self::METRIC_KEYWORDS_RECORD_NAME, $nameToCount[self::SITE_SEARCH_RECORD_NAME]['level0']);
+        $this->getProcessor()->insertNumericRecord(
+            self::METRIC_KEYWORDS_RECORD_NAME,
+            $nameToCount[self::SITE_SEARCH_RECORD_NAME]['level0']
+        );
     }
 }

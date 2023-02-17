@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>Ontario, Canada</label>
+		<nb_visits>105</nb_visits>
+		<nb_actions>105</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>60</sum_visit_length>
+		<bounce_count>75</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>21</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>21</sum_daily_nb_users>
+		<segment>regionCode==ON;countryCode==ca</segment>
+		<region>ON</region>
+		<country>ca</country>
+		<country_name>Canada</country_name>
+		<region_name>Ontario</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
+	</row>
+	<row>
+		<label>Kanagawa, Japan</label>
+		<nb_visits>96</nb_visits>
+		<nb_actions>111</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>30</sum_visit_length>
+		<bounce_count>66</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>24</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>24</sum_daily_nb_users>
+		<segment>regionCode==14;countryCode==jp</segment>
+		<region>14</region>
+		<country>jp</country>
+		<country_name>Japan</country_name>
+		<region_name>Kanagawa</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/jp.png</logo>
+	</row>
+	<row>
+		<label>Others</label>
+		<nb_visits>199</nb_visits>
+		<nb_actions>259</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>105</sum_visit_length>
+		<bounce_count>109</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>55</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>55</sum_daily_nb_users>
+		<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
+	</row>
+</result>
