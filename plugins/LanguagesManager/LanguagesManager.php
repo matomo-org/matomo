@@ -159,7 +159,7 @@ class LanguagesManager extends \Piwik\Plugin
     {
         $languageCode = self::getLanguageFromPreferences();
         if (!API::getInstance()->isLanguageAvailable($languageCode)) {
-            $languageCode = Common::extractLanguageCodeFromBrowserLanguage(Common::getBrowserLanguage(), API::getInstance()->getAvailableLanguages());
+            $languageCode = Common::extractLanguageAndRegionCodeFromBrowserLanguage(Common::getBrowserLanguage(), API::getInstance()->getAvailableLanguages());
         }
         if (!API::getInstance()->isLanguageAvailable($languageCode)) {
             $languageCode = StaticContainer::get('Piwik\Translation\Translator')->getDefaultLanguage();
