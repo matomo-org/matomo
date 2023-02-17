@@ -436,7 +436,7 @@ class Segment
                 }
             }
 
-            $tableAlias = $join->getTable() . '_segment_' . str_replace('.', '', $sqlName); // we append alias since an archive query may add the table with a different join. we could eg add $table_$segmentName but then we would join an extra table per segment when we ideally want to join each table only once. However, we still need to see which table/column it joins to join it accurately each table extra if the same table is joined with different columns;
+            $tableAlias = $join->getTable() . '_segment_' . str_replace('.', '', $sqlName ?: ''); // we append alias since an archive query may add the table with a different join. we could eg add $table_$segmentName but then we would join an extra table per segment when we ideally want to join each table only once. However, we still need to see which table/column it joins to join it accurately each table extra if the same table is joined with different columns;
             $joinTable = [
                 'table' => $join->getTable(),
                 'tableAlias' => $tableAlias,
