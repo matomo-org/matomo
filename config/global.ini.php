@@ -226,6 +226,12 @@ enabled_periods_UI = "day,week,month,year,range"
 ; month periods are disabled, then year periods can no longer be computed, so they are effectively disabled as well.
 enabled_periods_API = "day,week,month,year,range"
 
+; whether to enable segment archiving cache
+; Note: if you use any plugins, this need to be compliant with Matomo and
+; * depending on the segment you create you may need a newer MySQL version (eg 5.7 or newer)
+; * use a reader database for archiving in case you have configured a database reader
+enable_segments_cache = 1
+
 ; when set to 1, all requests to Matomo will return a maintenance message without connecting to the DB
 ; this is useful when upgrading using the shell command, to prevent other users from accessing the UI while Upgrade is in progress
 maintenance_mode = 0
