@@ -62,7 +62,7 @@ class Login extends \Piwik\Plugin
             'Login.beforeLoginCheckAllowed'  => 'beforeLoginCheckBruteForceForUserPwdLogin', // record any failed attempt in UI
             'Login.recordFailedLoginAttempt'  => 'onFailedLoginRecordAttempt', // record any failed attempt in UI
             'Login.authenticate.failed'        => 'onFailedLoginRecordAttempt', // record any failed attempt in UI
-            'API.Request.authenticate.failed' => 'onFailedLoginRecordAttempt', // record any failed attempt in Reporting API
+            'API.Request.authenticate.failed' => 'onFailedAPILogin', // record any failed attempt in Reporting API
             'Tracker.Request.authenticate.failed' => 'onFailedLoginRecordAttempt', // record any failed attempt in Tracker API
         );
 
@@ -126,12 +126,19 @@ class Login extends \Piwik\Plugin
             $this->hasAddedFailedAttempt = true;
         }
 
+    }
+
+    public function onFailedAPILogin()
+    {
+        $this->onFailedLoginRecordAttempt();
+
         // Throw an exception if a token was provided but it was invalid
         if (Request::isTokenAuthPosted()) {
             throw new NoAccessException('Unable to authenticate with the provided token. It is either invalid or expired.');
         } else {
             throw new NoAccessException('Unable to authenticate with the provided token. It is either invalid, expired or is required to be sent as a POST parameter.');
         }
+
     }
 
     public function beforeLoginCheckBruteForce()
