@@ -51,6 +51,8 @@ class RunScheduledTasks extends ConsoleCommand
         }
 
         $this->writeSuccessMessage($output, array('Scheduled Tasks executed'));
+
+        return self::SUCCESS;
     }
 
     private function forceRunAllTasksIfRequested(InputInterface $input)

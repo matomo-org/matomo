@@ -144,7 +144,7 @@ class Model
         $new = 0;
         foreach ($changes as $c) {
             $all++;
-            if ($newerThanId !== null && isset($c['idchange']) && $c['idchange'] > $newerThanId) {
+            if ($newerThanId === null || (isset($c['idchange']) && $c['idchange'] > $newerThanId)) {
                 $new++;
             }
         }

@@ -16,6 +16,7 @@
       :field2="uiControlAttributes.field2"
       :field3="uiControlAttributes.field3"
       :field4="uiControlAttributes.field4"
+      :rows="uiControlAttributes.rows"
     >
     </MultiPairField>
   </div>

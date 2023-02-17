@@ -501,7 +501,7 @@ class Proxy
         foreach ($requiredParameters as $name => $parameter) {
             try {
                 $defaultValue = $parameter['default'];
-                $type = $parameter['type'];
+                $type = $parameter['type'] ?? '';
                 $requestValue = null;
 
                 switch (strtolower($type)) {

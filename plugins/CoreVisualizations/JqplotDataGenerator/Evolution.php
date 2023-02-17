@@ -86,7 +86,6 @@ class Evolution extends JqplotDataGenerator
             }
         }
 
-        $visualization->dataTable = $dataTable;
         $visualization->properties = $this->properties;
 
         $units = null;

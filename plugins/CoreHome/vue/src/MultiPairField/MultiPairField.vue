@@ -101,7 +101,7 @@
 import { defineComponent } from 'vue';
 import useExternalPluginComponent from '../useExternalPluginComponent';
 
-// async since this is a a recursive component
+// async since this is a recursive component
 const Field = useExternalPluginComponent('CorePluginsAdmin', 'Field');
 
 export default defineComponent({
@@ -112,6 +112,7 @@ export default defineComponent({
     field2: Object,
     field3: Object,
     field4: Object,
+    rows: Number,
   },
   components: {
     Field,
@@ -149,9 +150,11 @@ export default defineComponent({
   methods: {
     checkEmptyModelValue(newValue?: Record<string, unknown>[]) {
       // make sure there is always an empty new value
-      if (!newValue
+      if ((!newValue
         || !newValue.length
-        || this.isEmptyValue(newValue.slice(-1)[0])
+        || this.isEmptyValue(newValue.slice(-1)[0]))
+        && (!this.rows
+          || (this.modelValue as Record<string, unknown>[]).length < this.rows)
       ) {
         this.$emit('update:modelValue', [...(newValue || []), this.makeEmptyValue()]);
       }

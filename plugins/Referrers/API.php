@@ -183,7 +183,7 @@ class API extends \Piwik\Plugin\API
     {
         $idSites = Site::getIdSitesFromIdSitesString($idSite);
 
-        if (count($idSites) > 1) {
+        if (count($idSites) > 1 || 'all' === $idSite) {
             throw new Exception("Referrers.$method with multiple sites is not supported (yet).");
         }
     }

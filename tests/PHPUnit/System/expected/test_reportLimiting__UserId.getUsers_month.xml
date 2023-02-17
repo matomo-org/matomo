@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>user0</label>
+		<nb_visits>5</nb_visits>
+		<nb_actions>5</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>5</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
+		
+		<segment>userId==user0</segment>
+	</row>
+	<row>
+		<label>user1</label>
+		<nb_visits>5</nb_visits>
+		<nb_actions>5</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>5</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
+		
+		<segment>userId==user1</segment>
+	</row>
+	<row>
+		<label>Others</label>
+		<nb_visits>390</nb_visits>
+		<nb_actions>465</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>195</sum_visit_length>
+		<bounce_count>240</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>98</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>98</sum_daily_nb_users>
+	</row>
+</result>

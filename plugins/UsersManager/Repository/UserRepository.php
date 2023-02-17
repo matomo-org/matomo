@@ -43,6 +43,11 @@ class UserRepository
      */
     protected $allowedEmailDomain;
 
+    /**
+     * @var ?bool
+     */
+    private $twoFaPluginActivated = null;
+
     public function __construct(Model $model, UserAccessFilter $filter, Password $password, AllowedEmailDomain $allowedEmailDomain)
     {
         $this->model = $model;

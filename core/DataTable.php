@@ -229,7 +229,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      *
      * @var Row[]
      */
-    protected $rows = array();
+    protected $rows = [];
 
     /**
      * Id assigned to the DataTable, used to lookup the table using the DataTable_Manager
@@ -393,7 +393,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     public function setRows($rows)
     {
         unset($this->rows);
-        $this->rows = $rows;
+        $this->rows = (is_array($rows) ? $rows : []);
         $this->indexNotUpToDate = true;
     }
 
@@ -530,6 +530,22 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         $filter->enableRecursive($this->enableRecursiveFilters);
 
         $filter->filter($this);
+    }
+
+    /**
+     * Invokes `$filter` with this table and every table in `$otherTables`. The result of `$filter()` is returned.
+     *
+     * This method is used to iterate over multiple DataTable\Map's concurrently.
+     *
+     * See {@link \Piwik\DataTable\Map::multiFilter()} for more information.
+     *
+     * @param DataTable[] $otherTables
+     * @param callable filter A function like `function (DataTable $thisTable, $otherTable1, $otherTable2) {}`.
+     * @return mixed The result of $filter.
+     */
+    public function multiFilter($otherTables, $filter)
+    {
+        return $filter(...array_merge([$this], $otherTables));
     }
 
     /**
@@ -1791,7 +1807,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function walkPath($path, $missingRowColumns = false, $maxSubtableRows = 0)
     {
-        $pathLength = count($path);
+        $pathLength = (is_array($path) ? count($path) : 0);
 
         $table = $this;
         $next = false;
