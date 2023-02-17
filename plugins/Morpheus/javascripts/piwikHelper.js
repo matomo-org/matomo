@@ -260,6 +260,10 @@ window.piwikHelper = {
 
       // process vue-directive attributes (only uses .mounted/.unmounted hooks)
       piwikHelper.compileVueDirectives(selector);
+
+      Vue.nextTick(function () {
+        piwikHelper.processDynamicHtml($(selector).parent());
+      });
     },
 
     compileVueDirectives: function (selector) {
