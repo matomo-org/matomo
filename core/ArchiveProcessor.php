@@ -419,6 +419,7 @@ class ArchiveProcessor
                     $rowToAddTo->setSubtable(new DataTable());
                 }
                 $tableToAddTo = $rowToAddTo->getSubtable();
+                $tableToAddTo->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnsAggregationOperation);
             }
 
             $tableToAddTo->addDataTable($blobTable);
