@@ -625,7 +625,7 @@ class Archive implements ArchiveQuery
             ) {
                 $this->cacheArchiveIdsAfterLaunching($archiveNamesByPlugin);
             } else {
-                $this->cacheArchiveIdsWithoutLaunching($archiveNamesByPlugin);
+                $this->cacheArchiveIdsWithoutLaunching(array_keys($archiveNamesByPlugin));
             }
         }
 
