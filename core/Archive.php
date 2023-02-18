@@ -322,9 +322,10 @@ class Archive implements ArchiveQuery
     }
 
     /**
-     * TODO
+     * Queries blob data for a single record. Uses a cursor instead of fetching all the data at once,
+     * and makes sure the result set's order allows aggregating the data one row at a time.
      *
-     * @param string $name
+     * @param string $name The record name to fetch.
      * @return \Generator
      * @internal
      */

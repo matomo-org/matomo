@@ -449,21 +449,12 @@ class ArchiveSelector
         return $archiveData;
     }
 
-    /**
-     * TODO
-     *
-     * @param array $archiveIds
-     * @param string $name
-     * @return \Generator
-     * @throws \Piwik\Tracker\Db\DbException
-     * @throws \Throwable
-     * @throws \Zend_Db_Statement_Exception
-     */
-    public static function querySingleBlob(array $archiveIds, string $name)
+    public static function querySingleBlob(array $archiveIds, string $recordName)
     {
         $chunk = new Chunk();
 
-        [$getValuesSql, $bind] = self::getSqlTemplateToFetchArchiveData([$name], Archive::ID_SUBTABLE_LOAD_ALL_SUBTABLES, true);
+        [$getValuesSql, $bind] = self::getSqlTemplateToFetchArchiveData(
+            [$recordName], Archive::ID_SUBTABLE_LOAD_ALL_SUBTABLES, true);
 
         $archiveIdsPerMonth = self::getArchiveIdsByYearMonth($archiveIds);
 
@@ -481,14 +472,14 @@ class ArchiveSelector
             $cursor = Db::get()->query($sql, $bind);
             while ($row = $cursor->fetch()) {
                 $period = $row['date1'] . ',' . $row['date2'];
-                $name = $row['name'];
+                $recordName = $row['name'];
 
                 // only use the first period/blob name combination seen (since we order by ts_archived descending)
-                if (!empty($periodsSeen[$period][$name])) {
+                if (!empty($periodsSeen[$period][$recordName])) {
                     continue;
                 }
 
-                $periodsSeen[$period][$name] = true;
+                $periodsSeen[$period][$recordName] = true;
 
                 $row['value'] = ArchiveSelector::uncompress($row['value']);
                 if ($chunk->isRecordNameAChunk($row['name'])) {
@@ -516,12 +507,18 @@ class ArchiveSelector
     }
 
     /**
-     * TODO
+     * Returns SQL to fetch data from an archive table. The SQL has two %s placeholders, one for the
+     * archive table name and another for the comma separated list of archive IDs to look for.
      *
-     * @param array $recordNames
-     * @param $idSubtable
-     * @param $orderBySubtableId
-     * @return array
+     * @param array $recordNames The list of records to look for.
+     * @param string|int $idSubtable The idSubtable to look for or 'all' to load all of them.
+     * @param boolean $orderBySubtableId If true, orders the result set by start date ascending, subtable ID
+     *                                   ascending and ts_archived descending. Only applied if loading all
+     *                                   subtables for a single record.
+     *
+     *                                   This parameter is used when aggregating blob data for a single record
+     *                                   without loading entire datatable trees in memory.
+     * @return array The sql and bind values.
      */
     private static function getSqlTemplateToFetchArchiveData(array $recordNames, $idSubtable, $orderBySubtableId = false)
     {
@@ -547,12 +544,14 @@ class ArchiveSelector
             $whereNameIs = "(name = ? OR (name LIKE ? AND ( $checkForChunkBlob OR $checkForSubtableId ) ))";
             $bind = array($name, $name . '%');
 
-            $extractSuffix = "SUBSTRING(name, IF($checkForChunkBlob, $nameEnd, $lenAppendix))";
-            $extractIdSubtableStart = "CAST(SUBSTRING($extractSuffix, 0, LOCATE('_', $extractSuffix)) AS UNSIGNED)";
+            if ($orderBySubtableId && count($recordNames) == 1) {
+                $extractSuffix = "SUBSTRING(name, IF($checkForChunkBlob, $nameEnd, $lenAppendix))";
+                $extractIdSubtableStart = "CAST(SUBSTRING($extractSuffix, 0, LOCATE('_', $extractSuffix)) AS UNSIGNED)";
 
-            $orderBy = "ORDER BY date1 ASC, " . // ordering by date just so column order in tests will be predictable
-                " $extractIdSubtableStart ASC,
+                $orderBy = "ORDER BY date1 ASC, " . // ordering by date just so column order in tests will be predictable
+                    " $extractIdSubtableStart ASC,
                   ts_archived DESC"; // ascending order so we use the latest data found
+            }
         } else {
             if ($idSubtable === null) {
                 // select root table or specific record names
