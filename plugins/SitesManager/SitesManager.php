@@ -384,7 +384,7 @@ class SitesManager extends \Piwik\Plugin
         return $map[$siteType] ?? false;
     }
 
-    public static function getInstructionByCms(string $cms): string
+    public static function getInstructionByCms(?string $cms): string
     {
         if ($cms === self::SITE_TYPE_UNKNOWN) {
             return '';
