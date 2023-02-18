@@ -90,12 +90,12 @@ class SetTranslations extends TranslationBase
 
         if (!$translationWriter->isValid()) {
             $output->writeln("Failed setting translations:" . $translationWriter->getValidationMessage());
-            return;
+            return self::FAILURE;
         }
 
         if (!$translationWriter->hasTranslations()) {
             $output->writeln("No translations available");
-            return;
+            return self::SUCCESS;
         }
 
         if ($input->getOption('validate')) {
@@ -118,5 +118,7 @@ class SetTranslations extends TranslationBase
         }
 
         $output->writeln("Finished.");
+
+        return self::SUCCESS;
     }
 }

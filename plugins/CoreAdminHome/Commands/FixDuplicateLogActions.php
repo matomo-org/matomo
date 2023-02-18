@@ -100,7 +100,7 @@ class FixDuplicateLogActions extends ConsoleCommand
         $duplicateActions = $this->duplicateActionRemover->getDuplicateIdActions();
         if (empty($duplicateActions)) {
             $output->writeln("Found no duplicate actions.");
-            return;
+            return self::SUCCESS;
         }
 
         $output->writeln("<info>Found " . count($duplicateActions) . " actions with duplicates.</info>");
@@ -121,6 +121,8 @@ class FixDuplicateLogActions extends ConsoleCommand
             "References in log_link_visit_action, log_conversion and log_conversion_item were corrected.",
             $timer->__toString()
         ));
+
+        return self::SUCCESS;
     }
 
     private function invalidateArchivesUsingActionDuplicates($archivesAffected, OutputInterface $output)

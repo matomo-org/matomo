@@ -32,7 +32,10 @@ return array(
             OutputInterface::VERBOSITY_DEBUG => Logger::DEBUG,
         );
         $handler = new ConsoleHandler(null, true, $verbosityMap);
-        $handler->setFormatter(new ConsoleFormatter($c->get('log.console.format'), null, true, true));
+        $handler->setFormatter(new ConsoleFormatter([
+            'format' => $c->get('log.console.format'),
+            'multiline' => true
+        ]));
         return $handler;
     },
 

@@ -229,7 +229,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site-real/',
             PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site/',
             PIWIK_INCLUDE_PATH . '/vendor/lox/xhprof/xhprof_html/docs/',
-            PIWIK_INCLUDE_PATH . '/vendor/phpunit/php-code-coverage/tests',
+            PIWIK_INCLUDE_PATH . '/vendor/phpunit/',
             PIWIK_INCLUDE_PATH . '/plugins/Morpheus/icons/',
             PIWIK_INCLUDE_PATH . '/node_modules/',
         );
@@ -1085,6 +1085,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
                 || strpos($file, 'node_modules/') !== false
                 || strpos($file, 'vendor/mayflower/mo4-coding-standard/') !== false
                 || strpos($file, 'vendor/symfony/polyfill-iconv/') !== false
+                || strpos($file, 'vendor/symfony/polyfill-intl-normalizer/') !== false
                 || strpos($file, 'plugins/CoreVue/polyfills/dist/MatomoPolyfills.min.js') !== false
                 || strpos($file, 'plugins/VisitorGenerator/vendor/fzaninotto/faker/src/Faker/Provider/') !== false
                 || preg_match('%/plugins/[a-zA-Z0-9_]+/vue/dist%', $file)
