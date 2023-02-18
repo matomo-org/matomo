@@ -17,7 +17,6 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
-use Piwik\Db\Utility\CursorCallbackIterator;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Segment;

@@ -392,6 +392,7 @@ class DataCollection
 
         foreach ($this->data as $idSite => $periods) {
             foreach ($periods as $periodRange => $data) {
+                // TODO: check if this still applies
                 // FIXME: This hack works around a strange bug that occurs when getting
                 //         archive IDs through ArchiveProcessing instances. When a table
                 //         does not already exist, for some reason the archive ID for

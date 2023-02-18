@@ -9,7 +9,6 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Archive\DataCollection;
 use Piwik\Archive\DataTableFactory;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
@@ -178,7 +177,9 @@ class ArchiveProcessor
      * @param string|array $recordNames Name(s) of the report we are aggregating, eg, `'Referrers_type'`.
      * @param int $maximumRowsInDataTableLevelZero Maximum number of rows allowed in the top level DataTable.
      * @param int $maximumRowsInSubDataTable Maximum number of rows allowed in each subtable.
-     * @param string $columnToSortByBeforeTruncation The name of the column to sort by before truncating a DataTable.
+     * @param string|null $defaultColumnToSortByBeforeTruncation The name of the column to sort by before truncating a DataTable.
+     *                                                           If not set, and the table contains nb_visits or INDEX_NB_VISITS, we will
+     *                                                           sort by visits.
      * @param array $columnsAggregationOperation Operations for aggregating columns, see {@link Row::sumRow()}.
      * @param array $columnsToRenameAfterAggregation Columns mapped to new names for columns that must change names
      *                                               when summed because they cannot be summed, eg,
@@ -200,7 +201,7 @@ class ArchiveProcessor
     public function aggregateDataTableRecords($recordNames,
                                               $maximumRowsInDataTableLevelZero = null,
                                               $maximumRowsInSubDataTable = null,
-                                              $columnToSortByBeforeTruncation = null,
+                                              $defaultColumnToSortByBeforeTruncation = null,
                                               &$columnsAggregationOperation = null,
                                               $columnsToRenameAfterAggregation = null,
                                               $countRowsRecursive = true)
@@ -228,6 +229,16 @@ class ArchiveProcessor
             $nameToCount[$recordName]['level0'] = $table->getRowsCount();
             if ($countRowsRecursive === true || (is_array($countRowsRecursive) && in_array($recordName, $countRowsRecursive))) {
                 $nameToCount[$recordName]['recursive'] = $table->getRowsCountRecursive();
+            }
+
+            $columnToSortByBeforeTruncation = $defaultColumnToSortByBeforeTruncation;
+            if (empty($columnToSortByBeforeTruncation)) {
+                $columns = $table->getColumns();
+                if (in_array(Metrics::INDEX_NB_VISITS, $columns)) {
+                    $columnToSortByBeforeTruncation = Metrics::INDEX_NB_VISITS;
+                } else if (in_array('nb_visits', $columns)) {
+                    $columnToSortByBeforeTruncation = 'nb_visits';
+                }
             }
 
             $blob = $table->getSerialized($maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable, $columnToSortByBeforeTruncation);
