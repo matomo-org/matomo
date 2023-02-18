@@ -258,62 +258,12 @@ class ArchiveSelector
     public static function getArchiveData($archiveIds, $recordNames, $archiveDataType, $idSubtable)
     {
         $chunk = new Chunk();
-
         $db = Db::get();
 
-        // create the SQL to select archive data
         $loadAllSubtables = $idSubtable === Archive::ID_SUBTABLE_LOAD_ALL_SUBTABLES;
-        if ($loadAllSubtables) {
-            $name = reset($recordNames);
+        [$getValuesSql, $bind] = self::getSqlTemplateToFetchArchiveData($recordNames, $idSubtable);
 
-            // select blobs w/ name like "$name_[0-9]+" w/o using RLIKE
-            $nameEnd = strlen($name) + 1;
-            $nameEndAppendix = $nameEnd + 1;
-            $appendix = $chunk->getAppendix();
-            $lenAppendix = strlen($appendix);
-
-            $checkForChunkBlob  = "SUBSTRING(name, $nameEnd, $lenAppendix) = '$appendix'";
-            $checkForSubtableId = "(SUBSTRING(name, $nameEndAppendix, 1) >= '0'
-                                    AND SUBSTRING(name, $nameEndAppendix, 1) <= '9')";
-
-            $whereNameIs = "(name = ? OR (name LIKE ? AND ( $checkForChunkBlob OR $checkForSubtableId ) ))";
-            $bind = array($name, $name . '%');
-        } else {
-            if ($idSubtable === null) {
-                // select root table or specific record names
-                $bind = array_values($recordNames);
-            } else {
-                // select a subtable id
-                $bind = array();
-                foreach ($recordNames as $recordName) {
-                    // to be backwards compatible we need to look for the exact idSubtable blob and for the chunk
-                    // that stores the subtables (a chunk stores many blobs in one blob)
-                    $bind[] = $chunk->getRecordNameForTableId($recordName, $idSubtable);
-                    $bind[] = self::appendIdSubtable($recordName, $idSubtable);
-                }
-            }
-
-            $inNames     = Common::getSqlStringFieldsArray($bind);
-            $whereNameIs = "name IN ($inNames)";
-        }
-
-        $getValuesSql = "SELECT value, name, idsite, date1, date2, ts_archived
-                                FROM %s
-                                WHERE idarchive IN (%s)
-                                  AND " . $whereNameIs . "
-                             ORDER BY ts_archived ASC"; // ascending order so we use the latest data found
-
-        // We want to fetch as many archives at once as possible instead of fetching each period individually
-        // eg instead of issueing one query per day we'll merge all the IDs of a given month into one query
-        // we group by YYYY-MM as we have one archive table per month
-        $archiveIdsPerMonth = [];
-        foreach ($archiveIds as $period => $ids) {
-            $yearMonth = substr($period, 0, 7); // eg 2022-11
-            if (empty($archiveIdsPerMonth[$yearMonth])) {
-                $archiveIdsPerMonth[$yearMonth] = [];
-            }
-            $archiveIdsPerMonth[$yearMonth] = array_merge($archiveIdsPerMonth[$yearMonth], $ids);
-        }
+        $archiveIdsPerMonth = self::getArchiveIdsByYearMonth($archiveIds);
 
         // get data from every table we're querying
         $rows = array();
@@ -499,49 +449,23 @@ class ArchiveSelector
         return $archiveData;
     }
 
+    /**
+     * TODO
+     *
+     * @param array $archiveIds
+     * @param string $name
+     * @return \Generator
+     * @throws \Piwik\Tracker\Db\DbException
+     * @throws \Throwable
+     * @throws \Zend_Db_Statement_Exception
+     */
     public static function querySingleBlob(array $archiveIds, string $name)
     {
         $chunk = new Chunk();
 
-        // create the SQL to select archive data
-        // select blobs w/ name like "$name_[0-9]+" w/o using RLIKE
-        $nameEnd = strlen($name) + 1;
-        $nameEndAppendix = $nameEnd + 1;
-        $appendix = $chunk->getAppendix();
-        $lenAppendix = strlen($appendix);
+        [$getValuesSql, $bind] = self::getSqlTemplateToFetchArchiveData([$name], Archive::ID_SUBTABLE_LOAD_ALL_SUBTABLES, true);
 
-        $checkForChunkBlob  = "SUBSTRING(name, $nameEnd, $lenAppendix) = '$appendix'";
-        $checkForSubtableId = "(SUBSTRING(name, $nameEndAppendix, 1) >= '0'
-                                AND SUBSTRING(name, $nameEndAppendix, 1) <= '9')";
-
-        $whereNameIs = "(name = ? OR (name LIKE ? AND ( $checkForChunkBlob OR $checkForSubtableId ) ))";
-        $bind = array($name, $name . '%');
-
-        $extractSuffix = "SUBSTRING(name, IF($checkForChunkBlob, $nameEnd, $lenAppendix))";
-        $extractIdSubtableStart = "CAST(SUBSTRING($extractSuffix, 0, LOCATE('_', $extractSuffix)) AS UNSIGNED)";
-
-        $getValuesSql = "SELECT value, name, idsite, date1, date2, ts_archived
-                                FROM %s
-                                WHERE idarchive IN (%s)
-                                  AND $whereNameIs
-                             ORDER BY date1 ASC, " . // ordering by date just so column order in tests will be predictable
-                                    " $extractIdSubtableStart ASC,
-                                      ts_archived DESC"; // ascending order so we use the latest data found
-
-        // We want to fetch as many archives at once as possible instead of fetching each period individually
-        // eg instead of issueing one query per day we'll merge all the IDs of a given month into one query
-        // we group by YYYY-MM as we have one archive table per month
-        $archiveIdsPerMonth = [];
-        foreach ($archiveIds as $period => $ids) {
-            $yearMonth = substr($period, 0, 7); // eg 2022-11
-            if (empty($archiveIdsPerMonth[$yearMonth])) {
-                $archiveIdsPerMonth[$yearMonth] = [];
-            }
-            $archiveIdsPerMonth[$yearMonth] = array_merge($archiveIdsPerMonth[$yearMonth], $ids);
-        }
-
-        // get data from every table we're querying using an iterator so we only have one
-        // row in memory at a time
+        $archiveIdsPerMonth = self::getArchiveIdsByYearMonth($archiveIds);
 
         $periodsSeen = [];
 
@@ -589,5 +513,87 @@ class ArchiveSelector
                 }
             }
         }
+    }
+
+    /**
+     * TODO
+     *
+     * @param array $recordNames
+     * @param $idSubtable
+     * @param $orderBySubtableId
+     * @return array
+     */
+    private static function getSqlTemplateToFetchArchiveData(array $recordNames, $idSubtable, $orderBySubtableId = false)
+    {
+        $chunk = new Chunk();
+
+        $orderBy = 'ORDER BY ts_archived ASC';
+
+        // create the SQL to select archive data
+        $loadAllSubtables = $idSubtable === Archive::ID_SUBTABLE_LOAD_ALL_SUBTABLES;
+        if ($loadAllSubtables) {
+            $name = reset($recordNames);
+
+            // select blobs w/ name like "$name_[0-9]+" w/o using RLIKE
+            $nameEnd = strlen($name) + 1;
+            $nameEndAppendix = $nameEnd + 1;
+            $appendix = $chunk->getAppendix();
+            $lenAppendix = strlen($appendix);
+
+            $checkForChunkBlob  = "SUBSTRING(name, $nameEnd, $lenAppendix) = '$appendix'";
+            $checkForSubtableId = "(SUBSTRING(name, $nameEndAppendix, 1) >= '0'
+                                    AND SUBSTRING(name, $nameEndAppendix, 1) <= '9')";
+
+            $whereNameIs = "(name = ? OR (name LIKE ? AND ( $checkForChunkBlob OR $checkForSubtableId ) ))";
+            $bind = array($name, $name . '%');
+
+            $extractSuffix = "SUBSTRING(name, IF($checkForChunkBlob, $nameEnd, $lenAppendix))";
+            $extractIdSubtableStart = "CAST(SUBSTRING($extractSuffix, 0, LOCATE('_', $extractSuffix)) AS UNSIGNED)";
+
+            $orderBy = "ORDER BY date1 ASC, " . // ordering by date just so column order in tests will be predictable
+                " $extractIdSubtableStart ASC,
+                  ts_archived DESC"; // ascending order so we use the latest data found
+        } else {
+            if ($idSubtable === null) {
+                // select root table or specific record names
+                $bind = array_values($recordNames);
+            } else {
+                // select a subtable id
+                $bind = array();
+                foreach ($recordNames as $recordName) {
+                    // to be backwards compatible we need to look for the exact idSubtable blob and for the chunk
+                    // that stores the subtables (a chunk stores many blobs in one blob)
+                    $bind[] = $chunk->getRecordNameForTableId($recordName, $idSubtable);
+                    $bind[] = self::appendIdSubtable($recordName, $idSubtable);
+                }
+            }
+
+            $inNames     = Common::getSqlStringFieldsArray($bind);
+            $whereNameIs = "name IN ($inNames)";
+        }
+
+        $getValuesSql = "SELECT value, name, idsite, date1, date2, ts_archived
+                                FROM %s
+                                WHERE idarchive IN (%s)
+                                  AND " . $whereNameIs . "
+                             $orderBy"; // ascending order so we use the latest data found
+
+        return [$getValuesSql, $bind];
+    }
+
+    private static function getArchiveIdsByYearMonth(array $archiveIds)
+    {
+        // We want to fetch as many archives at once as possible instead of fetching each period individually
+        // eg instead of issueing one query per day we'll merge all the IDs of a given month into one query
+        // we group by YYYY-MM as we have one archive table per month
+        $archiveIdsPerMonth = [];
+        foreach ($archiveIds as $period => $ids) {
+            $yearMonth = substr($period, 0, 7); // eg 2022-11
+            if (empty($archiveIdsPerMonth[$yearMonth])) {
+                $archiveIdsPerMonth[$yearMonth] = [];
+            }
+            $archiveIdsPerMonth[$yearMonth] = array_merge($archiveIdsPerMonth[$yearMonth], $ids);
+        }
+        return $archiveIdsPerMonth;
     }
 }
