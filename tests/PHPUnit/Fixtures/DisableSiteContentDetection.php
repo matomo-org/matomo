@@ -29,7 +29,8 @@ class DisableSiteContentDetection extends Fixture
             'isConnected' => false,
             'ga3' => false,
             'ga4' => false,
-            'gtm' => false
+            'gtm' => false,
+            'cms' => false,
         ];
 
         return [
