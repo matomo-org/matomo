@@ -13,7 +13,7 @@ class GtmSiteTypeGuesser
 
     public function guessSiteTypeFromResponse($response)
     {
-        if ($response === false) {
+        if (empty($response['data'])) {
             return SitesManager::SITE_TYPE_UNKNOWN;
         }
 
@@ -75,7 +75,7 @@ class GtmSiteTypeGuesser
      */
     public function detectGA3FromResponse(array $response): bool
     {
-        if (empty($response)) {
+        if (empty($response['data'])) {
             return false;
         }
 
@@ -104,7 +104,7 @@ class GtmSiteTypeGuesser
      */
     public function detectGA4FromResponse($response): bool
     {
-        if (empty($response)) {
+        if (empty($response['data'])) {
             return false;
         }
 
@@ -124,7 +124,7 @@ class GtmSiteTypeGuesser
 
     public function guessGtmFromResponse($response)
     {
-        if ($response === false) {
+        if (empty($response['data'])) {
             return false;
         }
 

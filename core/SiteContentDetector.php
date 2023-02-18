@@ -13,6 +13,7 @@ namespace Piwik;
 use Matomo\Cache\Lazy;
 use Piwik\Config\GeneralConfig;
 use Piwik\Plugins\SitesManager\GtmSiteTypeGuesser;
+use Piwik\Plugins\SitesManager\SitesManager;
 
 /**
  * This class provides detection functions for specific content on a site. It can be used to easily detect the
@@ -87,7 +88,7 @@ class SiteContentDetector
         $this->ga3 = false;
         $this->ga4 = false;
         $this->gtm = false;
-        $this->cms = '';
+        $this->cms = SitesManager::SITE_TYPE_UNKNOWN;
     }
 
     /**
