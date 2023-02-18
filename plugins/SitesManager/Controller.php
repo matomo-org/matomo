@@ -14,7 +14,6 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
-use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\SiteContentDetector;
@@ -22,10 +21,7 @@ use Piwik\Session;
 use Piwik\SettingsPiwik;
 use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\Url;
-use Piwik\Http;
-use Piwik\Plugins\SitesManager\GtmSiteTypeGuesser;
 use Matomo\Cache\Lazy;
-use Psr\Log\LoggerInterface;
 
 /**
  *
