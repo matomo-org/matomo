@@ -21,6 +21,9 @@
       id="DNT"
       :content-title="translate('PrivacyManager_DoNotTrack_SupportDNTPreference')"
     >
+      <Alert severity="warning">
+        {{ translate('PrivacyManager_DoNotTrack_Deprecated') }}
+      </Alert>
       <p>
         <span v-if="dntSupport">
           <strong>{{ translate('PrivacyManager_DoNotTrack_Enabled') }}</strong>
@@ -43,7 +46,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { ContentBlock } from 'CoreHome';
+import { Alert, ContentBlock } from 'CoreHome';
 import DoNotTrackPreference from '../DoNotTrackPreference/DoNotTrackPreference.vue';
 import OptOutCustomizer from '../OptOutCustomizer/OptOutCustomizer.vue';
 
@@ -66,6 +69,7 @@ export default defineComponent({
     },
   },
   components: {
+    Alert,
     ContentBlock,
     DoNotTrackPreference,
     OptOutCustomizer,
