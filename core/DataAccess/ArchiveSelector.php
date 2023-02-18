@@ -474,6 +474,18 @@ class ArchiveSelector
                 $period = $row['date1'] . ',' . $row['date2'];
                 $recordName = $row['name'];
 
+                // FIXME: This hack works around a strange bug that occurs when getting
+                //         archive IDs through ArchiveProcessing instances. When a table
+                //         does not already exist, for some reason the archive ID for
+                //         today (or from two days ago) will be added to the Archive
+                //         instances list. The Archive instance will then select data
+                //         for periods outside of the requested set.
+                //         working around the bug here, but ideally, we need to figure
+                //         out why incorrect idarchives are being selected.
+                if (empty($archiveIds[$period])) {
+                    continue;
+                }
+
                 // only use the first period/blob name combination seen (since we order by ts_archived descending)
                 if (!empty($periodsSeen[$period][$recordName])) {
                     continue;

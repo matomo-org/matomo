@@ -375,21 +375,9 @@ class ArchiveProcessor
         return $dataTable;
     }
 
-    private function getSubtableIdFromBlobName($recordName)
-    {
-        $parts = explode('_', $recordName);
-        $id = end($parts);
-
-        if (is_numeric($id)) {
-            return $id;
-        }
-
-        return null;
-    }
-
     protected function getAggregatedDataTableMapFromBlobs(\Iterator $dataTableBlobs, $columnsAggregationOperation, $columnsToRenameAfterAggregation, $name)
     {
-        // maps period & subtable ID in database to the Row instance in $result that table should be added to when encountered
+        // maps period & subtable ID in database to the Row instance in $result that subtable should be added to when encountered
         // [$row['date1'].','.$row['date2']][$tableId] = $row in $result
         /** @var Row[][] */
         $tableIdToResultRowMapping = [];
@@ -426,15 +414,19 @@ class ArchiveProcessor
                 $tableToAddTo = $result;
             } else {
                 $rowToAddTo = $tableIdToResultRowMapping[$period][$tableId];
+
                 if (!$rowToAddTo->getIdSubDataTable()) {
-                    $rowToAddTo->setSubtable(new DataTable());
+                    $newTable = new DataTable();
+                    $newTable->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnsAggregationOperation);
+                    $rowToAddTo->setSubtable($newTable);
                 }
+
                 $tableToAddTo = $rowToAddTo->getSubtable();
-                $tableToAddTo->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnsAggregationOperation);
             }
 
             $tableToAddTo->addDataTable($blobTable);
 
+            // add subtable IDs for $blobTableRow to $tableIdToResultRowMapping
             foreach ($blobTable->getRows() as $blobTableRow) {
                 $label = $blobTableRow->getColumn('label');
                 $subtableId = $blobTableRow->getIdSubDataTable();
@@ -450,6 +442,18 @@ class ArchiveProcessor
         }
 
         return $result;
+    }
+
+    private function getSubtableIdFromBlobName($recordName)
+    {
+        $parts = explode('_', $recordName);
+        $id = end($parts);
+
+        if (is_numeric($id)) {
+            return $id;
+        }
+
+        return null;
     }
 
     /**
