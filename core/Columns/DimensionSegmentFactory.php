@@ -112,6 +112,10 @@ class DimensionSegmentFactory
             $segment->setSqlFilter($sqlFilter);
         }
 
+        if ($dimension->getSqlFilterMatch()) {
+            $segment->setSqlFilterMatch($dimension->getSqlFilterMatch());
+        }
+
         if (!$dimension->isAnonymousAllowed()) {
             $segment->setRequiresRegisteredUser(true);
         }

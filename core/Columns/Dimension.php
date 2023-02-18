@@ -168,6 +168,13 @@ abstract class Dimension
     protected $sqlFilterValue;
 
     /**
+     * TODO
+     *
+     * @var string|array
+     */
+    protected $sqlFilterMatch;
+
+    /**
      * Defines whether this dimension (and segment based on this dimension) is available to anonymous users.
      * @var bool
      * @api since Piwik 3.2.0
@@ -630,6 +637,15 @@ abstract class Dimension
     public function getSqlFilterValue()
     {
         return $this->sqlFilterValue;
+    }
+
+    /**
+     * TODO
+     * @return callable|null
+     */
+    public function getSqlFilterMatch()
+    {
+        return $this->sqlFilterMatch;
     }
 
     /**

@@ -23,6 +23,11 @@ class ClickedUrl extends ActionDimension
     protected $suggestedValuesApi = 'Actions.getOutlinks';
     protected $type = self::TYPE_URL;
 
+    public function __construct()
+    {
+        $this->sqlFilterMatch = [$this, 'getOptimizedSegmentSqlMatch'];
+    }
+
     public function getDbColumnJoin()
     {
         return new ActionNameJoin();

@@ -19,7 +19,9 @@ use Piwik\Plugins\SegmentEditor\SegmentEditor;
 use Piwik\Segment\SegmentExpression;
 use Piwik\Plugins\SegmentEditor\Model as SegmentEditorModel;
 use Piwik\Segment\SegmentsList;
+use Piwik\Tracker\Action;
 use Piwik\Tracker\Model;
+use Piwik\Tracker\TableLogAction;
 
 /**
  * Limits the set of visits Piwik uses when aggregating analytics data.
@@ -198,34 +200,42 @@ class Segment
         $this->availableSegments = $cache->fetch($cacheId);
         // segment metadata
         if (empty($this->availableSegments)) {
-
-            $this->availableSegments = Request::processRequest('API.getSegmentsMetadata', array(
+            $availableSegments = Request::processRequest('API.getSegmentsMetadata', array(
               'idSites'                 => $this->idSites,
               '_hideImplementationData' => 0,
               'filter_limit'            => -1,
               'filter_offset'           => 0,
               '_showAllSegments'        => 1,
             ), []);
+
+            // index by segment name
+            $availableSegments = array_column($availableSegments, null, 'segment');
+
+            // remove segments we don't have permission to use
+            foreach ($availableSegments as $segment => $segmentInfo) {
+                if (isset($segmentInfo['permission']) && $segmentInfo['permission'] != 1) {
+                    $availableSegments[$segment] = null;
+                }
+            }
+
+            $this->availableSegments = $availableSegments;
+
             $cache->save($cacheId, $this->availableSegments);
         }
 
-        return $this->availableSegments;
+        return $this->availableSegments; // TODO: document property
     }
 
     private function getSegmentByName($name)
     {
         $segments = $this->getAvailableSegments();
 
-        foreach ($segments as $segment) {
-            if ($segment['segment'] == $name && !empty($name)) {
-
-                // check permission
-                if (isset($segment['permission']) && $segment['permission'] != 1) {
-                    throw new NoAccessException("You do not have enough permission to access the segment " . $name);
-                }
-
-                return $segment;
+        if (array_key_exists($name, $segments)) {
+            if ($segments[$name] === null) {
+                throw new NoAccessException("You do not have enough permission to access the segment " . $name);
             }
+
+            return $segments[$name];
         }
 
         throw new Exception("Segment '$name' is not a supported segment.");
@@ -249,7 +259,7 @@ class Segment
             $idSites = [$idSites];
         }
         $this->idSites = $idSites;
-        $segment = new SegmentExpression($string);
+        $segment = new SegmentExpression($string, $this->getAvailableSegments());
         $this->segmentExpression = $segment;
 
         // parse segments
@@ -399,53 +409,30 @@ class Segment
         $sqlName = $segmentObject->getSqlSegment();
 
         $joinTable = null;
-        if ($segmentObject->dimension && $segmentObject->dimension->getDbColumnJoin()
-            && $segmentObject->dimension->getDbColumnJoin() instanceof ActionNameJoin) {
+        if ($segmentObject->dimension
+            && $segmentObject->dimension->getDbColumnJoin()
+            && $segmentObject->dimension->getDbColumnJoin() instanceof ActionNameJoin
+        ) {
             // TODO we likely should only join this if no SQL query eg via SQLfilter is defined
-            // fyi only allowed for ActionNameJoin so far as otherwise idGoal would be joined with goal.name when people
+            // TODO fyi only allowed for ActionNameJoin so far as otherwise idGoal would be joined with goal.name when people
             // actually define the idGoal and in that case it shouldn't be resolved. this is something we could solve better
 
             $join = $segmentObject->dimension->getDbColumnJoin();
             $dbDiscriminator = $segmentObject->dimension->getDbDiscriminator();
 
-            if ($dbDiscriminator) {
-                $actionType = $dbDiscriminator->getValue();
-                $unsanitizedValue = $value;
-                $value = Tracker\TableLogAction::normaliseActionString($actionType, $value);
-
-                if ($matchType == SegmentExpression::MATCH_EQUAL || $matchType == SegmentExpression::MATCH_NOT_EQUAL) {
-                    // IMPROVE PERFORMANCE so index is used
-                    // THIS WOULD NEED TO BE REWRITTEN AS IT WOULD EXECUTE HEAPS OF EXTRA QUERIES. WE WOULD INSTEAD NEED TO RETURN
-                    // a SQL QUERY OR SO
-                    $trackerModel = new Model();
-                    $idAction = $trackerModel->getIdActionMatchingNameAndType($value, $actionType);
-                    // If action can't be found normalized try search for it with original value
-                    // This can eg happen for outlinks that contain a &amp; see https://github.com/matomo-org/matomo/issues/11806
-                    if (empty($idAction)) {
-                        $idAction = $trackerModel->getIdActionMatchingNameAndType($unsanitizedValue, $actionType);
-                        // Action is not found (eg. &segment=pageTitle==Větrnásssssss)
-                        if (empty($idAction)) {
-                            $idAction = null;
-                        }
-                    }
-
-                    if (is_null($idAction)) { // null is returned in TableLogAction::getIdActionFromSegment()
-                        return array(null, $matchType, null, null);
-                    }
-                    return array($sqlName, $matchType, $idAction, null);
-                }
-            }
-
-            $tableAlias = $join->getTable() . '_segment_' . str_replace('.', '', $sqlName ?: ''); // we append alias since an archive query may add the table with a different join. we could eg add $table_$segmentName but then we would join an extra table per segment when we ideally want to join each table only once. However, we still need to see which table/column it joins to join it accurately each table extra if the same table is joined with different columns;
+            // we append alias since an archive query may add the table with a different join. we could eg add $table_$segmentName but
+            // then we would join an extra table per segment when we ideally want to join each table only once. However, we still need
+            // to see which table/column it joins to join it accurately each table extra if the same table is joined with different columns;
+            $tableAlias = $join->getTable() . '_segment_' . str_replace('.', '', $sqlName ?: '');
             $joinTable = [
                 'table' => $join->getTable(),
                 'tableAlias' => $tableAlias,
                 'field' => $tableAlias . '.' . $join->getTargetColumn(),
-                'joinOn' => $sqlName . ' = ' . $tableAlias . '.' . $join->getColumn()
+                'joinOn' => $sqlName . ' = ' . $tableAlias . '.' . $join->getColumn(),
             ];
 
             if ($dbDiscriminator) {
-                $joinTable['discriminator'] = $tableAlias . '.'. $dbDiscriminator->getColumn() . ' = "'.  $dbDiscriminator->getValue() . '"';
+                $joinTable['discriminator'] = $tableAlias . '.'. $dbDiscriminator->getColumn() . ' = \''.  $dbDiscriminator->getValue() . '\'';
             }
         }
 
@@ -480,7 +467,7 @@ class Segment
             $query = $segmentObj->getSelectQuery($select, $from, implode(' AND ', $where), $bind);
             $logQueryBuilder->forceInnerGroupBySubselect($forceGroupByBackup);
 
-            return ['log_visit.idvisit', SegmentExpression::MATCH_ACTIONS_NOT_CONTAINS, $query, null];
+            return ['log_visit.idvisit', SegmentExpression::MATCH_ACTIONS_NOT_CONTAINS, $query, null, $segment];
         }
 
         if ($matchType != SegmentExpression::MATCH_IS_NOT_NULL_NOR_EMPTY
@@ -495,7 +482,7 @@ class Segment
                 $value = call_user_func($segment['sqlFilter'], $value, $segment['sqlSegment'], $matchType, $name);
 
                 if (is_null($value)) { // null is returned in TableLogAction::getIdActionFromSegment()
-                    return array(null, $matchType, null, null);
+                    return array(null, $matchType, null, null, $segment);
                 }
 
                 // sqlFilter-callbacks might return arrays for more complex cases
@@ -508,7 +495,7 @@ class Segment
             }
         }
 
-        return array($sqlName, $matchType, $value, $joinTable);
+        return array($sqlName, $matchType, $value, $joinTable, $segment);
     }
 
     /**

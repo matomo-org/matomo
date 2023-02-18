@@ -13,6 +13,7 @@ use Piwik\Cache as PiwikCache;
 use Piwik\Columns\Dimension;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugin;
+use Piwik\Segment\SegmentExpression;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
@@ -127,5 +128,40 @@ abstract class ActionDimension extends Dimension
         }
 
         return $instances;
+    }
+
+    public function getOptimizedSegmentSqlMatch($field, $matchType, $value, $join)
+    {
+        if ($matchType == SegmentExpression::MATCH_EQUAL || $matchType == SegmentExpression::MATCH_NOT_EQUAL) {
+            $dbDiscriminator = $this->getDbDiscriminator();
+
+            $actionType = $dbDiscriminator->getValue();
+            if ($actionType == Action::TYPE_PAGE_URL || $field == 'eventUrl') {
+                // for urls trim protocol and www because it is not recorded in the db
+                $value = preg_replace('@^http[s]?://(www\.)?@i', '', $value);
+            }
+
+            $unsanitizedValue = $value;
+            $value = \Piwik\Tracker\TableLogAction::normaliseActionString($actionType, $value);
+
+            $sqlOperator = $matchType == SegmentExpression::MATCH_EQUAL ? '=' : '<>';
+
+            $joinTable = $join['tableAlias'];
+
+            $sql = "%s $sqlOperator ? AND $joinTable.hash $sqlOperator CRC32(?)";
+            $bind = [$value, $value];
+
+            if ($unsanitizedValue !== $value) { // TODO: comment (see original code)
+                $sql = '((' . $sql . ') OR (' . $sql . '))';
+                $bind = array_merge($bind, [$unsanitizedValue, $unsanitizedValue]);
+            }
+
+            return [
+                'sql' => $sql,
+                'bind' => $bind,
+            ];
+        }
+
+        return null;
     }
 }

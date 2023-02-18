@@ -51,6 +51,7 @@ class Segment
     private $sqlSegment;
     private $sqlFilter;
     private $sqlFilterValue;
+    private $sqlFilterMatch = null;
     private $acceptValues;
     private $permission;
     private $suggestedValuesCallback;
@@ -168,6 +169,16 @@ class Segment
     }
 
     /**
+     * TODO
+     * @param callable|null $sqlFilterMatch
+     * @return void
+     */
+    public function setSqlFilterMatch($sqlFilterMatch)
+    {
+        $this->sqlFilterMatch = $sqlFilterMatch;
+    }
+
+    /**
      * Defines to which column in the MySQL database the segment belongs: 'mytablename.mycolumnname'. Eg
      * 'log_visit.idsite'. When a segment is applied the given or filtered value will be compared with this column.
      *
@@ -218,6 +229,14 @@ class Segment
     public function getSqlFilterValue()
     {
         return $this->sqlFilterValue;
+    }
+
+    /**
+     * @return callable|null
+     */
+    public function getSqlFilterMatch()
+    {
+        return $this->sqlFilterMatch;
     }
 
     /**
@@ -375,6 +394,10 @@ class Segment
 
         if (!empty($this->sqlFilterValue)) {
             $segment['sqlFilterValue'] = $this->sqlFilterValue;
+        }
+
+        if (!empty($this->sqlFilterMatch)) {
+            $segment['sqlFilterMatch'] = $this->sqlFilterMatch;
         }
 
         if (!empty($this->acceptValues)) {

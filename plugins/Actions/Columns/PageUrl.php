@@ -24,6 +24,11 @@ class PageUrl extends ActionDimension
     protected $category = 'General_Actions';
     protected $suggestedValuesApi = 'Actions.getPageUrls';
 
+    public function __construct()
+    {
+        $this->sqlFilterMatch = [$this, 'getOptimizedSegmentSqlMatch'];
+    }
+
     public function getDbColumnJoin()
     {
         return new ActionNameJoin();

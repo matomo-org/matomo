@@ -23,6 +23,11 @@ class EventUrl extends ActionDimension
     protected $acceptValues = 'The URL must be URL encoded, for example: http%3A%2F%2Fexample.com%2Fpath%2Fpage%3Fquery';
     protected $category = 'Events_Events';
 
+    public function __construct()
+    {
+        $this->sqlFilterMatch = [$this, 'getOptimizedSegmentSqlMatch'];
+    }
+
     public function getDbColumnJoin()
     {
         return new ActionNameJoin();
