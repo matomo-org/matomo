@@ -984,4 +984,25 @@ class Model
         preg_match('/^done([a-zA-Z0-9]+)/', $doneFlag, $matches);
         return $matches[1] ?? '';
     }
+
+    public function doesArchiveContainRecord(Date $archiveStartDate, $idArchives, $recordName)
+    {
+        $idArchives = array_map('intval', $idArchives);
+        $idArchives = implode(',', $idArchives);
+
+        $countSql = "SELECT COUNT(*) FROM %s WHERE idarchive IN ($idArchives) AND name = ?";
+
+        $numericTable = ArchiveTableCreator::getNumericTable($archiveStartDate);
+        $blobTable = ArchiveTableCreator::getBlobTable($archiveStartDate);
+
+        foreach ([$numericTable, $blobTable] as $tableName) {
+            $sql = sprintf($countSql, $tableName);
+            $count = Db::fetchOne($sql, [$recordName]);
+            if ($count > 0) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

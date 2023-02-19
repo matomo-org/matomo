@@ -222,7 +222,9 @@ class ArchiveProcessor
         foreach ($recordNames as $recordName) {
             $isCountRecursive = $countRowsRecursive === true || (is_array($countRowsRecursive) && in_array($recordName, $countRowsRecursive));
 
-            if ($this->params->getArchiveOnlyReport() && $recordName != $this->params->getArchiveOnlyReport()) {
+            if ($this->params->getArchiveOnlyReport()
+                && $recordName != $this->params->getArchiveOnlyReport()
+            ) {
                 $logger->debug("skipping aggregating of record since it is not requested report {record} [archive = {archive}]", [
                     'record' => $recordName,
                     'archive' => $archiveDescription,

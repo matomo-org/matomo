@@ -588,7 +588,7 @@ class Archive implements ArchiveQuery
      */
     private function getArchiveIds($archiveNames)
     {
-        $archiveNamesByPlugin = $this->getRequestedPlugins($archiveNames); // TODO (use it)
+        $archiveNamesByPlugin = $this->getRequestedPlugins($archiveNames);
         $plugins = array_keys($archiveNamesByPlugin);
 
         // figure out which archives haven't been processed (if an archive has been processed,
@@ -895,8 +895,11 @@ class Archive implements ArchiveQuery
             $doneFlag = $this->getDoneStringForPlugin($plugin, $idSites);
             $this->initializeArchiveIdCache($doneFlag);
 
-            if (count($reports) === 1 && $shouldOnlyProcessRequestedRecords) {
-                $requestedReport = $reports[0];
+            if (count($reports) === 1
+                && $shouldOnlyProcessRequestedRecords
+                && $period->getLabel() !== 'day'
+            ) {
+                $requestedReport = reset($reports);
             }
 
             $prepareResult = $coreAdminHomeApi->archiveReports(
@@ -908,8 +911,7 @@ class Archive implements ArchiveQuery
                 $requestedReport
             );
 
-            if (
-                !empty($prepareResult)
+            if (!empty($prepareResult)
                 && !empty($prepareResult['idarchives'])
             ) {
                 foreach ($prepareResult['idarchives'] as $idArchive) {
