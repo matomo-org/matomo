@@ -412,6 +412,8 @@ class ArchiveProcessor
             $tableToAddTo = null;
             if ($tableId === null) {
                 $tableToAddTo = $result;
+            } else if (empty($tableIdToResultRowMapping[$period][$tableId])) {
+                throw new \Exception("Encountered unknown table ID: $period - $tableId (name = {$archiveDataRow['name']})"); // TODO: shouldn't happen, figure out why
             } else {
                 $rowToAddTo = $tableIdToResultRowMapping[$period][$tableId];
 
