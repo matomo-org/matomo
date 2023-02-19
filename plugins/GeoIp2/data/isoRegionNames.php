@@ -4897,6 +4897,7 @@ return array (
       'name' => 'Bresckaja voblasć',
       'altNames' => 
       array (
+        0 => 'Brèsckaja voblasc\'',
       ),
       'current' => true,
     ),
@@ -4915,6 +4916,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Homieĺskaja voblasć',
+        1 => 'Homel\'skaja voblasc\'',
       ),
       'current' => true,
     ),
@@ -4924,6 +4926,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Hrodzienskaja voblasć',
+        1 => 'Hrodzenskaja voblasc\'',
       ),
       'current' => true,
     ),
@@ -4932,6 +4935,7 @@ return array (
       'name' => 'Mahilioŭskaja voblasć',
       'altNames' => 
       array (
+        0 => 'Mahilëuskaja voblasc\'',
       ),
       'current' => true,
     ),
@@ -4941,6 +4945,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Minskaja voblasć',
+        1 => 'Minskaja voblasc\'',
       ),
       'current' => true,
     ),
@@ -4949,6 +4954,7 @@ return array (
       'name' => 'Viciebskaja voblasć',
       'altNames' => 
       array (
+        0 => 'Vicebskaja voblasc\'',
       ),
       'current' => true,
     ),
@@ -5923,6 +5929,158 @@ return array (
       ),
       'current' => true,
     ),
+    '01' => 
+    array (
+      'name' => 'Lagunes (Région des)',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    '02' => 
+    array (
+      'name' => 'Haut-Sassandra (Région du)',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    '03' => 
+    array (
+      'name' => 'Savanes (Région des)',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    '04' => 
+    array (
+      'name' => 'Vallée du Bandama (Région de la)',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    '05' => 
+    array (
+      'name' => 'Moyen-Comoé (Région du)',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    '06' => 
+    array (
+      'name' => '18 Montagnes (Région des)',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    '07' => 
+    array (
+      'name' => 'Lacs (Région des)',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    '08' => 
+    array (
+      'name' => 'Zanzan (Région du)',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    '09' => 
+    array (
+      'name' => 'Bas-Sassandra (Région du)',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    10 => 
+    array (
+      'name' => 'Denguélé (Région du)',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    11 => 
+    array (
+      'name' => 'Nzi-Comoé (Région)',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    12 => 
+    array (
+      'name' => 'Marahoué (Région de la)',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    13 => 
+    array (
+      'name' => 'Sud-Comoé (Région du)',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    14 => 
+    array (
+      'name' => 'Worodouqou (Région du)',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    15 => 
+    array (
+      'name' => 'Sud-Bandama (Région du)',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    16 => 
+    array (
+      'name' => 'Agnébi (Région de l\')',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    17 => 
+    array (
+      'name' => 'Bafing (Région du)',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    18 => 
+    array (
+      'name' => 'Fromager (Région du)',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    19 => 
+    array (
+      'name' => 'Moyen-Cavally (Région du)',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
   ),
   'CL' => 
   array (
@@ -6419,6 +6577,278 @@ return array (
       array (
       ),
       'current' => true,
+    ),
+    11 => 
+    array (
+      'name' => 'Beijing',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    12 => 
+    array (
+      'name' => 'Tianjin',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    13 => 
+    array (
+      'name' => 'Hebei',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    14 => 
+    array (
+      'name' => 'Shanxi',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    15 => 
+    array (
+      'name' => 'Nei Mongol',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    21 => 
+    array (
+      'name' => 'Liaoning',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    22 => 
+    array (
+      'name' => 'Jilin',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    23 => 
+    array (
+      'name' => 'Heilongjiang',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    31 => 
+    array (
+      'name' => 'Shanghai',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    32 => 
+    array (
+      'name' => 'Jiangsu',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    33 => 
+    array (
+      'name' => 'Zhejiang',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    34 => 
+    array (
+      'name' => 'Anhui',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    35 => 
+    array (
+      'name' => 'Fujian',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    36 => 
+    array (
+      'name' => 'Jiangxi',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    37 => 
+    array (
+      'name' => 'Shandong',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    41 => 
+    array (
+      'name' => 'Henan',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    42 => 
+    array (
+      'name' => 'Hubei',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    43 => 
+    array (
+      'name' => 'Hunan',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    44 => 
+    array (
+      'name' => 'Guangdong',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    45 => 
+    array (
+      'name' => 'Guangxi',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    46 => 
+    array (
+      'name' => 'Hainan',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    50 => 
+    array (
+      'name' => 'Chongqing',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    51 => 
+    array (
+      'name' => 'Sichuan',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    52 => 
+    array (
+      'name' => 'Guizhou',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    53 => 
+    array (
+      'name' => 'Yunnan',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    54 => 
+    array (
+      'name' => 'Xizang',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    61 => 
+    array (
+      'name' => 'Shaanxi',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    62 => 
+    array (
+      'name' => 'Gansu',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    63 => 
+    array (
+      'name' => 'Qinghai',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    64 => 
+    array (
+      'name' => 'Ningxia',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    65 => 
+    array (
+      'name' => 'Xinjiang',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    71 => 
+    array (
+      'name' => 'Taiwan',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    91 => 
+    array (
+      'name' => 'Xianggang (Hong-Kong)',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    92 => 
+    array (
+      'name' => 'Aomen (Macau)',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
     ),
   ),
   'CO' => 
@@ -18015,6 +18445,14 @@ return array (
       ),
       'current' => true,
     ),
+    'SW' => 
+    array (
+      'name' => 'As Sulaymaniyah',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
     'TS' => 
     array (
       'name' => 'At Ta\'mim',
@@ -20997,6 +21435,62 @@ return array (
       array (
       ),
       'current' => true,
+    ),
+    110 => 
+    array (
+      'name' => 'Nairobi Municipality',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    200 => 
+    array (
+      'name' => 'Central',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    300 => 
+    array (
+      'name' => 'Coast',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    400 => 
+    array (
+      'name' => 'Eastern',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    500 => 
+    array (
+      'name' => 'North-Eastern Kaskazini Mashariki',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    700 => 
+    array (
+      'name' => 'Rift Valley',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    800 => 
+    array (
+      'name' => 'Western Magharibi',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
     ),
   ),
   'KG' => 
@@ -24716,6 +25210,7 @@ return array (
       'name' => 'Tanger-Tétouan-Al Hoceïma',
       'altNames' => 
       array (
+        0 => 'Tanger-Tétouan',
       ),
       'current' => true,
     ),
@@ -24724,6 +25219,7 @@ return array (
       'name' => 'L\'Oriental',
       'altNames' => 
       array (
+        0 => 'Gharb-Chrarda-Beni Hssen',
       ),
       'current' => true,
     ),
@@ -24732,6 +25228,7 @@ return array (
       'name' => 'Fès-Meknès',
       'altNames' => 
       array (
+        0 => 'Taza-Al Hoceima-Taounate',
       ),
       'current' => true,
     ),
@@ -24740,6 +25237,7 @@ return array (
       'name' => 'Rabat-Salé-Kénitra',
       'altNames' => 
       array (
+        0 => 'L\'Oriental',
       ),
       'current' => true,
     ),
@@ -24748,6 +25246,7 @@ return array (
       'name' => 'Béni Mellal-Khénifra',
       'altNames' => 
       array (
+        0 => 'Fès-Boulemane',
       ),
       'current' => true,
     ),
@@ -24756,6 +25255,7 @@ return array (
       'name' => 'Casablanca-Settat',
       'altNames' => 
       array (
+        0 => 'Meknès-Tafilalet',
       ),
       'current' => true,
     ),
@@ -24764,6 +25264,7 @@ return array (
       'name' => 'Marrakech-Safi',
       'altNames' => 
       array (
+        0 => 'Rabat-Salé-Zemmour-Zaer',
       ),
       'current' => true,
     ),
@@ -24772,6 +25273,7 @@ return array (
       'name' => 'Drâa-Tafilalet',
       'altNames' => 
       array (
+        0 => 'Grand Casablanca',
       ),
       'current' => true,
     ),
@@ -24780,6 +25282,7 @@ return array (
       'name' => 'Souss-Massa',
       'altNames' => 
       array (
+        0 => 'Chaouia-Ouardigha',
       ),
       'current' => true,
     ),
@@ -24788,6 +25291,7 @@ return array (
       'name' => 'Guelmim-Oued Noun (EH-partial)',
       'altNames' => 
       array (
+        0 => 'Doukhala-Abda',
       ),
       'current' => true,
     ),
@@ -24796,6 +25300,7 @@ return array (
       'name' => 'Laâyoune-Sakia El Hamra (EH-partial)',
       'altNames' => 
       array (
+        0 => 'Marrakech-Tensift-Al Haouz',
       ),
       'current' => true,
     ),
@@ -24804,6 +25309,7 @@ return array (
       'name' => 'Dakhla-Oued Ed-Dahab (EH)',
       'altNames' => 
       array (
+        0 => 'Tadla-Azilal',
       ),
       'current' => true,
     ),
@@ -24812,6 +25318,7 @@ return array (
       'name' => 'Agadir-Ida-Ou-Tanane',
       'altNames' => 
       array (
+        0 => 'Agadir-Ida-Outanane',
       ),
       'current' => true,
     ),
@@ -24820,6 +25327,7 @@ return array (
       'name' => 'Aousserd (EH)',
       'altNames' => 
       array (
+        0 => 'Aousserd',
       ),
       'current' => true,
     ),
@@ -24828,6 +25336,7 @@ return array (
       'name' => 'Assa-Zag (EH-partial)',
       'altNames' => 
       array (
+        0 => 'Assa-Zag',
       ),
       'current' => true,
     ),
@@ -24844,6 +25353,7 @@ return array (
       'name' => 'Béni Mellal',
       'altNames' => 
       array (
+        0 => 'Beni Mellal',
       ),
       'current' => true,
     ),
@@ -24860,6 +25370,7 @@ return array (
       'name' => 'Benslimane',
       'altNames' => 
       array (
+        0 => 'Ben Slimane',
       ),
       'current' => true,
     ),
@@ -24892,6 +25403,7 @@ return array (
       'name' => 'Casablanca',
       'altNames' => 
       array (
+        0 => 'Casablanca [Dar el Beïda]',
       ),
       'current' => true,
     ),
@@ -24948,6 +25460,7 @@ return array (
       'name' => 'Es-Semara (EH-partial)',
       'altNames' => 
       array (
+        0 => 'Es Smara (EH)',
       ),
       'current' => true,
     ),
@@ -24956,6 +25469,7 @@ return array (
       'name' => 'Fahs-Anjra',
       'altNames' => 
       array (
+        0 => 'Fahs-Beni Makada',
       ),
       'current' => true,
     ),
@@ -24964,6 +25478,7 @@ return array (
       'name' => 'Fès',
       'altNames' => 
       array (
+        0 => 'Fès-Dar-Dbibegh',
       ),
       'current' => true,
     ),
@@ -25052,6 +25567,7 @@ return array (
       'name' => 'Jerada',
       'altNames' => 
       array (
+        0 => 'Jrada',
       ),
       'current' => true,
     ),
@@ -25068,6 +25584,7 @@ return array (
       'name' => 'El Kelâa des Sraghna',
       'altNames' => 
       array (
+        0 => 'Kelaat es Sraghna',
       ),
       'current' => true,
     ),
@@ -25077,6 +25594,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Khemisset',
+        1 => 'Khemisaet',
       ),
       'current' => true,
     ),
@@ -25198,6 +25716,7 @@ return array (
       'name' => 'Oued Ed-Dahab (EH)',
       'altNames' => 
       array (
+        0 => 'Oued ed Dahab (EH)',
       ),
       'current' => true,
     ),
@@ -25286,6 +25805,7 @@ return array (
       'name' => 'Sidi Kacem',
       'altNames' => 
       array (
+        0 => 'Sidl Kacem',
       ),
       'current' => true,
     ),
@@ -25391,6 +25911,7 @@ return array (
       'name' => 'Tan-Tan (EH-partial)',
       'altNames' => 
       array (
+        0 => 'Tan-Tan',
       ),
       'current' => true,
     ),
@@ -25409,6 +25930,62 @@ return array (
       array (
       ),
       'current' => true,
+    ),
+    13 => 
+    array (
+      'name' => 'Sous-Massa-Draa',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    14 => 
+    array (
+      'name' => 'Guelmim-Es Smara',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    15 => 
+    array (
+      'name' => 'Laâyoune-Boujdour-Sakia el Hamra',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    16 => 
+    array (
+      'name' => 'Oued ed Dahab-Lagouira',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    'MMD' => 
+    array (
+      'name' => 'Marrakech-Medina',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    'MMN' => 
+    array (
+      'name' => 'Marrakech-Menara',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    'SYB' => 
+    array (
+      'name' => 'Sidi Youssef Ben Ali',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
     ),
   ),
   'MC' => 
@@ -27732,6 +28309,14 @@ return array (
       ),
       'current' => true,
     ),
+    'BK0' => 
+    array (
+      'name' => 'Bamako',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
   ),
   'MM' => 
   array (
@@ -28859,6 +29444,14 @@ return array (
       ),
       'current' => false,
     ),
+    'RP' => 
+    array (
+      'name' => 'Rivière du Rempart',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
     'VP' => 
     array (
       'name' => 'Vacoas-Phoenix',
@@ -29429,6 +30022,7 @@ return array (
       'name' => 'Coahuila de Zaragoza',
       'altNames' => 
       array (
+        0 => 'Coahuila',
       ),
       'current' => true,
     ),
@@ -29493,6 +30087,7 @@ return array (
       'name' => 'Michoacán de Ocampo',
       'altNames' => 
       array (
+        0 => 'Michoacán',
       ),
       'current' => true,
     ),
@@ -29605,6 +30200,7 @@ return array (
       'name' => 'Veracruz de Ignacio de la Llave',
       'altNames' => 
       array (
+        0 => 'Veracruz',
       ),
       'current' => true,
     ),
@@ -29623,6 +30219,14 @@ return array (
       array (
       ),
       'current' => true,
+    ),
+    'DIF' => 
+    array (
+      'name' => 'Distrito Federal',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
     ),
   ),
   'MY' => 
@@ -30822,6 +31426,22 @@ return array (
     14 => 
     array (
       'name' => 'Sogn og Fjordane',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    16 => 
+    array (
+      'name' => 'Sør-Trøndelag',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    17 => 
+    array (
+      'name' => 'Nord-Trøndelag',
       'altNames' => 
       array (
       ),
@@ -38195,6 +38815,7 @@ return array (
       'name' => 'Northern Bahr el Ghazal',
       'altNames' => 
       array (
+        0 => 'Northern Bahr el-Ghazal',
       ),
       'current' => true,
     ),
@@ -38203,6 +38824,7 @@ return array (
       'name' => 'Western Bahr el Ghazal',
       'altNames' => 
       array (
+        0 => 'Western Bahr el-Ghazal',
       ),
       'current' => true,
     ),
@@ -38269,6 +38891,14 @@ return array (
       array (
       ),
       'current' => true,
+    ),
+    'EE8' => 
+    array (
+      'name' => 'Eastern Equatoria',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
     ),
   ),
   'ST' => 
@@ -44698,6 +45328,14 @@ return array (
       array (
       ),
       'current' => true,
+    ),
+    'ZN' => 
+    array (
+      'name' => 'Kwazulu-Natal',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
     ),
     'GT' => 
     array (

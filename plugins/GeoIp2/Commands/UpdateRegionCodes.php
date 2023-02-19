@@ -84,6 +84,11 @@ class UpdateRegionCodes extends ConsoleCommand
                     ) {
                         $newRegions[$countryCode][$regionCode]['altNames'][] = $regionData['name'];
                     }
+
+                    if (($key = array_search($newRegions[$countryCode][$regionCode]['name'], $newRegions[$countryCode][$regionCode]['altNames'])) !== false) {
+                        unset($newRegions[$countryCode][$regionCode]['altNames'][$key]);
+                        $newRegions[$countryCode][$regionCode]['altNames'] = array_values($newRegions[$countryCode][$regionCode]['altNames']);
+                    }
                 } else {
                     $newRegions[$countryCode][$regionCode] = $regionData;
                     $newRegions[$countryCode][$regionCode]['current'] = false;
