@@ -388,7 +388,10 @@ class ArchiveProcessor
             $result->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnsAggregationOperation);
         }
 
+        $allNamesEncountered = [];
         foreach ($dataTableBlobs as $archiveDataRow) {
+            $allNamesEncountered[] = $archiveDataRow['name'];
+
             $period = $archiveDataRow['date1'] . ',' . $archiveDataRow['date2'];
             $tableId = $this->getSubtableIdFromBlobName($archiveDataRow['name']);
 
@@ -413,7 +416,7 @@ class ArchiveProcessor
             if ($tableId === null) {
                 $tableToAddTo = $result;
             } else if (empty($tableIdToResultRowMapping[$period][$tableId])) {
-                throw new \Exception("Encountered unknown table ID: $period - $tableId (name = {$archiveDataRow['name']})"); // TODO: shouldn't happen, figure out why
+                throw new \Exception("Encountered unknown table ID: $period - $tableId (name = {$archiveDataRow['name']}): " . implode(', ', $allNamesEncountered)); // TODO: shouldn't happen, figure out why
             } else {
                 $rowToAddTo = $tableIdToResultRowMapping[$period][$tableId];
 
