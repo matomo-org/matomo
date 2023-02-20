@@ -416,7 +416,7 @@ class ArchiveProcessor
             if ($tableId === null) {
                 $tableToAddTo = $result;
             } else if (empty($tableIdToResultRowMapping[$period][$tableId])) {
-                throw new \Exception("Encountered unknown table ID: $period - $tableId (name = {$archiveDataRow['name']}): " . implode(', ', $allNamesEncountered) . ' - ' . print_r(array_keys($tableIdToResultRowMapping), true)); // TODO: shouldn't happen, figure out why
+                throw new \Exception("Encountered unknown table ID: $period - $tableId (name = {$archiveDataRow['name']}): " . implode(', ', $allNamesEncountered) . ' - ' . print_r(array_keys($tableIdToResultRowMapping), true) . ' - ' . $this->getParams()->getPeriod()->getRangeString()); // TODO: shouldn't happen, figure out why
             } else {
                 $rowToAddTo = $tableIdToResultRowMapping[$period][$tableId];
 
