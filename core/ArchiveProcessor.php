@@ -416,7 +416,7 @@ class ArchiveProcessor
             if ($tableId === null) {
                 $tableToAddTo = $result;
             } else if (empty($tableIdToResultRowMapping[$period][$tableId])) {
-                throw new \Exception("Encountered unknown table ID: $period - $tableId (name = {$archiveDataRow['name']}): " . implode(', ', $allNamesEncountered)); // TODO: shouldn't happen, figure out why
+                throw new \Exception("Encountered unknown table ID: $period - $tableId (name = {$archiveDataRow['name']}): " . implode(', ', $allNamesEncountered) . ' - ' . print_r(array_keys($tableIdToResultRowMapping), true)); // TODO: shouldn't happen, figure out why
             } else {
                 $rowToAddTo = $tableIdToResultRowMapping[$period][$tableId];
 
@@ -439,7 +439,12 @@ class ArchiveProcessor
                     continue;
                 }
 
-                $tableIdToResultRowMapping[$period][$subtableId] = $tableToAddTo->getRowFromLabel($label);
+                $rowToAddTo = $tableToAddTo->getRowFromLabel($label);
+                if (empty($rowToAddTo)) {
+                    throw new \Exception("cannot find row for label '$label' even after adding the table (name = " . $archiveDataRow['name'] . ")"); // TODO: remove after bug fixed
+                }
+
+                $tableIdToResultRowMapping[$period][$subtableId] = $rowToAddTo;
             }
 
             Common::destroy($blobTable);
