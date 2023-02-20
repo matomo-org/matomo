@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
 use Piwik\Common;
+use Piwik\Piwik;
 use Piwik\Plugin\Visualization;
 
 /**
@@ -194,7 +195,7 @@ class Cloud extends Visualization
             return 0;
         }
 
-        $percent = ($popularity / $maxValue) * 100;
+        $percent = Piwik::getQuotientSafe($popularity, $maxValue, 4) * 100;
 
         return $percent;
     }
