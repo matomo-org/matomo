@@ -548,6 +548,7 @@ class ArchiveSelector
             $nameEndAppendix = $nameEnd + 1;
             $appendix = $chunk->getAppendix();
             $lenAppendix = strlen($appendix);
+            $chunkEnd = $nameEnd + $lenAppendix;
 
             $checkForChunkBlob  = "SUBSTRING(name, $nameEnd, $lenAppendix) = '$appendix'";
             $checkForSubtableId = "(SUBSTRING(name, $nameEndAppendix, 1) >= '0'
@@ -557,8 +558,8 @@ class ArchiveSelector
             $bind = array($name, $name . '%');
 
             if ($orderBySubtableId && count($recordNames) == 1) {
-                $extractSuffix = "SUBSTRING(name, IF($checkForChunkBlob, $nameEnd, $lenAppendix))";
-                $extractIdSubtableStart = "CAST(SUBSTRING($extractSuffix, 0, LOCATE('_', $extractSuffix)) AS UNSIGNED)";
+                $extractSuffix = "SUBSTRING(name, IF($checkForChunkBlob, $chunkEnd, $nameEnd))";
+                $extractIdSubtableStart = "CAST(SUBSTRING($extractSuffix, 1, LOCATE('_', $extractSuffix) - 1) AS UNSIGNED)";
 
                 $orderBy = "ORDER BY date1 ASC, " . // ordering by date just so column order in tests will be predictable
                     " $extractIdSubtableStart ASC,

@@ -416,7 +416,7 @@ class ArchiveProcessor
             if ($tableId === null) {
                 $tableToAddTo = $result;
             } else if (empty($tableIdToResultRowMapping[$period][$tableId])) {
-                throw new \Exception("Encountered unknown table ID: $period - $tableId (name = {$archiveDataRow['name']}): " . implode(', ', $allNamesEncountered) . ' - ' . print_r(array_keys($tableIdToResultRowMapping), true) . ' - ' . $this->getParams()->getPeriod()->getRangeString()); // TODO: shouldn't happen, figure out why
+                // TODO add a log here just in case
             } else {
                 $rowToAddTo = $tableIdToResultRowMapping[$period][$tableId];
 
@@ -440,10 +440,6 @@ class ArchiveProcessor
                 }
 
                 $rowToAddTo = $tableToAddTo->getRowFromLabel($label);
-                if (empty($rowToAddTo)) {
-                    throw new \Exception("cannot find row for label '$label' even after adding the table (name = " . $archiveDataRow['name'] . ")"); // TODO: remove after bug fixed
-                }
-
                 $tableIdToResultRowMapping[$period][$subtableId] = $rowToAddTo;
             }
 
