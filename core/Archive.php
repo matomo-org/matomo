@@ -731,6 +731,18 @@ class Archive implements ArchiveQuery
      */
     private function getDoneStringForPlugin($plugin, $idSites)
     {
+        $requestedReport = null;
+        if (SettingsServer::isArchivePhpTriggered()) {
+            $requestedReport = Common::getRequestVar('requestedReport', '', 'string');
+        }
+
+        $shouldOnlyProcessRequestedRecords = empty($requestedReport)
+            && Rules::shouldOnlyProcessRequestedRecords($idSites, $this->getPeriodLabel(), $this->params->getSegment());
+
+        if ($shouldOnlyProcessRequestedRecords) {
+            return Rules::getDoneFlagArchiveContainsOnePlugin($this->params->getSegment(), $plugin);
+        }
+
         return Rules::getDoneStringFlagFor(
             $idSites,
             $this->params->getSegment(),
@@ -881,9 +893,10 @@ class Archive implements ArchiveQuery
             $requestedReport = Common::getRequestVar('requestedReport', '', 'string');
         }
 
-        $segmentStr = $this->params->getSegment()->getOriginalString();
         $shouldOnlyProcessRequestedRecords = empty($requestedReport)
-            && Rules::shouldOnlyProcessRequestedRecords($site->getId(), $period, $this->params->getSegment());
+            && Rules::shouldOnlyProcessRequestedRecords($site->getId(), $period->getLabel(), $this->params->getSegment());
+
+        $segmentStr = $this->params->getSegment()->getOriginalString();
 
         $periodString = $period->getRangeString();
         $periodDateStr = $period->getLabel() == 'range' ? $periodString : $period->getDateStart()->toString();
