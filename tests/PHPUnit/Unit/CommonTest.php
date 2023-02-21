@@ -17,6 +17,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
 use Piwik\Log;
+use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Tests\Framework\Mock\FakeLogger;
 
 /**
@@ -489,7 +490,7 @@ class CommonTest extends TestCase
     {
         return [
             // browser language, valid languages (with optional region), expected result
-            ['fr-ca', ['fr'], 'fr-ca'],
+            ['fr-ca', ['fr'], 'fr'],
             ['fr-ca', ['ca'], 'xx'],
             ['', [], 'xx'],
             ['', ['en'], 'xx'],
@@ -497,21 +498,21 @@ class CommonTest extends TestCase
             ['en', ['en'], 'en'],
             ['en', ['en-ca'], 'xx'],
             ['en-ca', ['en-ca'], 'en-ca'],
-            ['en-ca', ['en'], 'en-ca'],
+            ['en-ca', ['en'], 'en'],
             ['fr,en-us', ['fr', 'en'], 'fr'],
             ['fr,en-us', ['en', 'fr'], 'fr'],
-            ['fr-fr,fr-ca', ['fr'], 'fr-fr'],
+            ['fr-fr,fr-ca', [], 'fr-fr'],
             ['fr-fr,fr-ca', ['fr-ca'], 'fr-ca'],
             ['-ca', ['fr', 'ca'], 'xx'],
             ['fr-fr;q=1.0,fr-ca;q=0.9', ['fr-ca'], 'fr-ca'],
             ['es,en,fr;q=0.7,de;q=0.3', ['fr', 'es', 'de', 'en'], 'es'],
-            ['zh-sg,de;q=0.3', ['zh', 'es', 'de'], 'zh-sg'],
+            ['zh-sg,de;q=0.3', ['zh', 'es', 'de'], 'zh'],
             ['fr-ca,fr;q=0.1', ['fr-ca'], 'fr-ca'],
             ['r5,fr;q=1,de', ['fr', 'de'], 'fr'],
             ['Zen§gq1', ['en'], 'xx'],
             ['zh-hans-cn', ['zh-cn'], 'zh-cn'],
             ['zh-hant-tw', ['zh-tw'], 'zh-tw'],
-            ['az-cyrl-az', ['az'], 'az-az'],
+            ['az-cyrl-az', ['az'], 'az'],
             ['shi-tfng-ma', ['shi', 'shi-ma'], 'shi-ma'],
         ];
     }
@@ -565,4 +566,40 @@ class CommonTest extends TestCase
             "test with {$browserLanguage} failed, expected {$expected}"
         );
     }
+
+    /**
+     * @dataProvider getLanguageChainTestData
+     */
+    public function testGetLanguageChain($expected, $browserLanguage)
+    {
+        self::assertEquals(
+            $expected,
+            Common::extractLanguageAndRegionCodeFromBrowserLanguage(
+                Common::getBrowserLanguage($browserLanguage),
+                APILanguagesManager::getInstance()->getAvailableLanguages()
+            )
+        );
+    }
+
+    public function getLanguageChainTestData(): array
+    {
+        return [
+            ['en', 'en-US,en;q=0.8,de-DE;q=0.6,de;q=0.4'],
+            ['de', 'de-DE;q=0.6,de;q=0.4'],
+            ['zh-cn', 'zh-CN,zh;q=0.9'],
+            ['fr', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3'],
+            ['fr', 'fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7'],
+            ['de', 'de,en-US;q=0.7,en;q=0.3'],
+            ['pt-br', 'pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7,ru;q=0.6'],
+            ['hi', 'hi;en-US,en;q=0.8,q=0.6'],
+            ['ta', 'ta-IN,ta'],
+            ['hi', 'hi-in,hi,en-us,en'],
+            ['th', 'th-TH,th;q=0.9,en;q=0.8'],
+            ['zh-tw', 'zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7'],
+            ['fa', 'fa,en-US;q=0.9,en;q=0.8,fa-IR;q=0.7'],
+            ['nl', 'nl-NL,nl;q=0.9,en-US;q=0.8,en;q=0.7'],
+            ['it', 'it-IT,it;q=0.9,en-US;q=0.8,en;q=0.7'],
+        ];
+    }
+
 }
