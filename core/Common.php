@@ -844,7 +844,7 @@ class Common
         );
 
         if (is_null($browserLang)) {
-            $browserLang = self::sanitizeInputValues(@$_SERVER['HTTP_ACCEPT_LANGUAGE']);
+            $browserLang = self::sanitizeInputValues($_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '');
             if (empty($browserLang) && self::isPhpCliMode()) {
                 $browserLang = @getenv('LANG');
             }
