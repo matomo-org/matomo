@@ -145,6 +145,8 @@ class GenerateIntl extends ConsoleCommand
             $translationWriter->addFilter(new EncodedEntities());
             $translationWriter->save();
         }
+
+        return self::SUCCESS;
     }
 
     protected function checkCurrencies(OutputInterface $output)

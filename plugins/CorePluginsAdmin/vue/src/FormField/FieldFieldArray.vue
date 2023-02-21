@@ -14,6 +14,7 @@
       @update:modelValue="onValueUpdate($event)"
       :model-modifiers="modelModifiers"
       :field="uiControlAttributes.field"
+      :rows="uiControlAttributes.rows"
     />
   </div>
 </template>

@@ -15,7 +15,6 @@ use Piwik\Option;
 use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
 use Piwik\Updates\Updates_2_10_0_b5;
 use Piwik\Version;
-use Symfony\Component\Console\Helper\QuestionHelper;
 
 require_once PIWIK_INCLUDE_PATH . '/core/Updates/2.10.0-b5.php';
 
@@ -67,9 +66,7 @@ class UpdateTest extends ConsoleCommandTestCase
 
     public function test_UpdateCommand_DoesntExecuteSql_WhenUserSaysNo()
     {
-        /** @var QuestionHelper $dialog */
-        $dialog = $this->application->getHelperSet()->get('question');
-        $dialog->setInputStream($this->getInputStream("N\n"));
+        $this->applicationTester->setInputs(['N']);
 
         $result = $this->applicationTester->run(array(
             'command' => 'core:update'

@@ -88,6 +88,8 @@ class GenerateDimension extends GeneratePluginBase
             'You should now implement the events within this file',
             'Enjoy!'
         ));
+
+        return self::SUCCESS;
     }
 
     private function getDimensionClassName($dimensionName)

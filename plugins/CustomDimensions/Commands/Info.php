@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -54,6 +55,7 @@ class Info extends ConsoleCommand
             $output->writeln('<error>We found an error, Custom Dimensions in scope "conversion" are not correctly installed. Execute the following command to repair it:</error>');
             $output->writeln(sprintf('<comment>./console customdimensions:add-custom-dimension --scope=%s --count=%d</comment>', CustomDimensions::SCOPE_CONVERSION, $numVisit - $numConversions));
         }
-    }
 
+        return self::SUCCESS;
+    }
 }

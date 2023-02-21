@@ -60,7 +60,7 @@ class RequestCommand extends ConsoleCommand
             $process = new Process($_GET['pid']);
 
             if ($process->hasFinished()) {
-                return;
+                return self::SUCCESS;
             }
 
             $process->startProcess();
@@ -85,6 +85,8 @@ class RequestCommand extends ConsoleCommand
         if (!empty($process)) {
             $process->finishProcess();
         }
+
+        return self::SUCCESS;
     }
 
     private function isTestModeEnabled()

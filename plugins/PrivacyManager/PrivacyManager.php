@@ -324,6 +324,7 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_DoNotTrack_Enabled';
         $translationKeys[] = 'PrivacyManager_DoNotTrack_EnabledMoreInfo';
         $translationKeys[] = 'PrivacyManager_DoNotTrack_SupportDNTPreference';
+        $translationKeys[] = 'PrivacyManager_DoNotTrack_Deprecated';
         $translationKeys[] = 'PrivacyManager_ExportSelectedVisits';
         $translationKeys[] = 'PrivacyManager_ExportingNote';
         $translationKeys[] = 'PrivacyManager_FindDataSubjectsBy';
@@ -431,6 +432,28 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_ConsentManager';
         $translationKeys[] = 'PrivacyManager_ConsentManagerDetected';
         $translationKeys[] = 'PrivacyManager_ConsentManagerConnected';
+        $translationKeys[] = 'PrivacyManager_PreviousRawDataAnonymizations';
+        $translationKeys[] = 'PrivacyManager_Requester';
+        $translationKeys[] = 'PrivacyManager_AffectedIDSites';
+        $translationKeys[] = 'PrivacyManager_AffectedDate';
+        $translationKeys[] = 'PrivacyManager_Anonymize';
+        $translationKeys[] = 'PrivacyManager_VisitColumns';
+        $translationKeys[] = 'CorePluginsAdmin_Status';
+        $translationKeys[] = 'PrivacyManager_LinkVisitActionColumns';
+        $translationKeys[] = 'PrivacyManager_IPAddress';
+        $translationKeys[] = 'PrivacyManager_ScheduledDate';
+        $translationKeys[] = 'PrivacyManager_JobStartDate';
+        $translationKeys[] = 'PrivacyManager_JobFinishDate';
+        $translationKeys[] = 'PrivacyManager_CurrentOutput';
+        $translationKeys[] = 'PrivacyManager_Output';
+        $translationKeys[] = 'PrivacyManager_Scheduled';
+        $translationKeys[] = 'PrivacyManager_InProgress';
+        $translationKeys[] = 'PrivacyManager_AnonymizePreviousData';
+        $translationKeys[] = 'PrivacyManager_AnonymizePreviousDataDescription';
+        $translationKeys[] = 'PrivacyManager_AnonymizePreviousDataOnlySuperUser';
+        $translationKeys[] = 'Overlay_Location';
+        $translationKeys[] = 'General_UserId';
+        $translationKeys[] = 'General_Done';
     }
 
     public function setTrackerCacheGeneral(&$cacheContent)
@@ -463,14 +486,6 @@ class PrivacyManager extends Plugin
     {
         $form->addElement(
             'checkbox',
-            'do_not_track',
-            null,
-            [
-                'content' => '<div class="form-help">' . Piwik::translate('PrivacyManager_DoNotTrack_EnabledMoreInfo') . '</div> &nbsp;&nbsp;' . Piwik::translate('PrivacyManager_DoNotTrack_Enable')
-            ]
-        );
-        $form->addElement(
-            'checkbox',
             'anonymise_ip',
             null,
             [
@@ -492,14 +507,6 @@ class PrivacyManager extends Plugin
      */
     public function installationFormSubmit(FormDefaultSettings $form)
     {
-        $doNotTrack = (bool) $form->getSubmitValue('do_not_track');
-        $dntChecker = new DoNotTrackHeaderChecker();
-        if ($doNotTrack) {
-            $dntChecker->activate();
-        } else {
-            $dntChecker->deactivate();
-        }
-
         $anonymiseIp = (bool) $form->getSubmitValue('anonymise_ip');
         if ($anonymiseIp) {
             IPAnonymizer::activate();

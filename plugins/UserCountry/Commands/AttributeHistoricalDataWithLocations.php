@@ -110,7 +110,7 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
 
         $output->writeln("Completed. <comment>" . $this->timer->__toString() . "</comment>");
 
-        return 0;
+        return self::SUCCESS;
     }
 
     protected function processSpecifiedLogsInChunks(OutputInterface $output, $from, $to, $segmentLimit)
