@@ -128,8 +128,10 @@ class SiteContentDetector
             }
         }
 
+        $url = Site::getMainUrlFor($idSite);
+
         // Check and load previously cached site content detection data if it exists
-        $cacheKey = 'SiteContentDetector_' . $idSite;
+        $cacheKey = 'SiteContentDetector_' . md5($url);
         $requiredProperties = $this->getRequiredProperties($detectContent);
         $siteContentDetectionCache = $this->cache->fetch($cacheKey);
 
@@ -141,7 +143,7 @@ class SiteContentDetector
         }
 
         // No cache hit, no passed data, so make a request for the site content
-        $siteResponse = $this->requestSiteResponse($idSite, $timeOut);
+        $siteResponse = $this->requestSiteResponse($url, $timeOut);
 
         // Abort if still no site data
         if (empty($siteResponse['data'])) {
@@ -241,7 +243,6 @@ class SiteContentDetector
      */
     private function savePropertiesToCache(string $cacheKey, array $properties, int $cacheLife): void
     {
-
         $cacheData = [];
 
         // Load any existing cached values
@@ -291,21 +292,19 @@ class SiteContentDetector
     /**
      * Retrieve data from the specified site using an HTTP request
      *
-     * @param int $idSite
+     * @param string $url
      * @param int $timeOut
      *
      * @return array
      */
-    private function requestSiteResponse(int $idSite, int $timeOut): array
+    private function requestSiteResponse(string $url, int $timeOut): array
     {
-        // If internet features are disabled, we don't try to fetch any site content
-        if (0 === (int) GeneralConfig::getConfigValue('enable_internet_features')) {
+        if (!$url) {
             return [];
         }
 
-        $url = Site::getMainUrlFor($idSite);
-
-        if (!$url) {
+        // If internet features are disabled, we don't try to fetch any site content
+        if (0 === (int) GeneralConfig::getConfigValue('enable_internet_features')) {
             return [];
         }
 
