@@ -16,7 +16,6 @@ describe("EmptySite_GA4", function () {
     it('should show the tracking code if the website has no recorded data and GA4 guide', async function () {
         const urlToTest = "?" + generalParams + "&module=CoreHome&action=index";
         await page.goto(urlToTest);
-        await page.click('[href="#tracking-code"]');
 
         const pageElement = await page.$('.page');
         expect(await pageElement.screenshot()).to.matchImage('emptySiteDashboard');
