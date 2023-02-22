@@ -17,6 +17,8 @@ describe("EmptySite_GA3", function () {
         const urlToTest = "?" + generalParams + "&module=CoreHome&action=index";
         await page.goto(urlToTest);
 
+        await page.click('[href="#tracking-code"]');
+
         const pageElement = await page.$('.page');
         expect(await pageElement.screenshot()).to.matchImage('emptySiteDashboard');
     });
