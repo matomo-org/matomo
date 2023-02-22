@@ -63,6 +63,11 @@ function getBrowserNameWithVersion($label)
 
 function getBrowserName($label)
 {
+    // Return early if the label is empty so that we don't try to manipulate an empty value
+    if (empty($label)) {
+        return Piwik::translate('General_Unknown');
+    }
+
     $short    = substr($label, 0, 2);
     $browsers = BrowserParser::getAvailableBrowsers();
 
@@ -91,7 +96,7 @@ function getBrowserLogo($short)
     $path = 'plugins/Morpheus/icons/dist/browsers/%s.png';
 
     // If name is given instead of short code, try to find matching shortcode
-    if (strlen($short) > 2) {
+    if (!empty($short) && strlen($short) > 2) {
         if (in_array($short, BrowserParser::getAvailableBrowsers())) {
             $flippedBrowsers = array_flip(BrowserParser::getAvailableBrowsers());
             $short           = $flippedBrowsers[$short];
@@ -280,6 +285,11 @@ function getOsFamilyLogo($label)
 
 function getOsFullName($label)
 {
+    // Return early if the label is empty so that we don't try to manipulate an empty value
+    if (empty($label)) {
+        return Piwik::translate('General_Unknown');
+    }
+
     if (substr($label, 0, 3) == Settings::OS_BOT) {
         return 'Bot';
     }
