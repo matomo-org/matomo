@@ -24,7 +24,7 @@
         "AverageX": "Promedio %s",
         "BackToPiwik": "Volver a Matomo",
         "Broken": "Roto",
-        "BrokenDownReportDocumentation": "Se desglosa en varios informes, que se muestran en minigraficos en la parte inferior de la página. Puede ampliar los gráficos haciendo clic en el informe que desee ver.",
+        "BrokenDownReportDocumentation": "Se divide en varios informes, que se muestran en minigráficos en la parte inferior de la página. Puede ampliar los gráficos haciendo clic en el informe que desea ver.",
         "Cancel": "Cancelar",
         "CannotUnzipFile": "No se puede descomprimir el archivo %1$s: %2$s",
         "ChangeInX": "Cambio en %1$s",

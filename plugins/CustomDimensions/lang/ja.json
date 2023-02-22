@@ -39,6 +39,9 @@
         "ScopeDescriptionActionMoreInfo": "ページ URL、ページタイトルまたはページ URL クエリパラメータからカスタムディメンション値を抽出するように定義することができます。",
         "ScopeDescriptionVisit": "スコープ「Visit」のカスタムディメンションは、任意のトラッキングリクエストに沿って送信することができ、visitに保存されます。",
         "ScopeDescriptionVisitMoreInfo": "ビジット期間中に特定のディメンションに異なる値を設定すると、最後に設定された値が使用されます。",
+        "ScopeTitleAction": "アクション ディメンション",
+        "ScopeTitleVisit": "ビジットディメンション",
+        "UrlQueryStringParameter": "URL クエリ文字列パラメーター",
         "XofYLeft": "%2$s 中 %1$s個のディメンションが残っています"
     }
 }

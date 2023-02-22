@@ -123,7 +123,7 @@ class Date
     public static function factory($dateString, $timezone = null)
     {
         if ($dateString instanceof self) {
-        	return new Date($dateString->timestamp, $dateString->timezone);
+            return new Date($dateString->timestamp, $dateString->timezone);
         }
         if ($dateString === 'now') {
             $date = self::now();
@@ -135,19 +135,19 @@ class Date
             $date = self::yesterday();
         } elseif ($dateString === 'yesterdaySameTime') {
             $date = self::yesterdaySameTime();
-        } else if (preg_match('/last[ -]?week/i', urldecode($dateString))) {
+        } else if (is_string($dateString) && preg_match('/last[ -]?week/i', urldecode($dateString))) {
             $date = self::lastWeek();
-        } else if (preg_match('/last[ -]?month/i', urldecode($dateString))) {
+        } else if (is_string($dateString) && preg_match('/last[ -]?month/i', urldecode($dateString))) {
             $date = self::lastMonth();
-        } else if (preg_match('/last[ -]?year/i', urldecode($dateString))) {
+        } else if (is_string($dateString) && preg_match('/last[ -]?year/i', urldecode($dateString))) {
             $date = self::lastYear();
         } elseif (!is_int($dateString)
             && (
+                !is_string($dateString)
                 // strtotime returns the timestamp for April 1st for a date like 2011-04-01,today
                 // but we don't want this, as this is a date range and supposed to throw the exception
-                strpos($dateString, ',') !== false
-                ||
-                ($dateString = strtotime($dateString)) === false
+                || strpos($dateString, ',') !== false
+                || ($dateString = strtotime($dateString)) === false
             )
         ) {
             throw self::getInvalidDateFormatException($dateString);
@@ -1141,7 +1141,7 @@ class Date
     private static function getInvalidDateFormatException($dateString)
     {
         $message = Piwik::translate('General_ExceptionInvalidDateFormat', array("YYYY-MM-DD, or 'today' or 'yesterday'", "strtotime", "http://php.net/strtotime"));
-        return new Exception($message . ": $dateString");
+        return new Exception($message . ": " . var_export($dateString, true));
     }
 
     /**

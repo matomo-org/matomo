@@ -68,7 +68,7 @@
         "TagManagerTeaserHideSuperUser": "Não mostrar esta página a nenhum utilizador",
         "TeaserExtendPiwik": "Estenda o Matomo com extensões e temas",
         "TeaserExtendPiwikByPlugin": "Estenda o Matomo %1$sinstalando extensões da loja%2$s ou %3$senviando uma extensão no formato .zip%4$s.",
-        "TeaserExtendPiwikByTheme": "Desfrute de outra aparência %1$sinstalando um novo tema%2$s.",
+        "TeaserExtendPiwikByTheme": "Aproveite outra aparência %1$sinstalando um novo tema%2$s.",
         "Theme": "Tema",
         "Themes": "Temas",
         "ThemesDescription": "Os temas podem alterar a aparência da interface do utilizador do Matomo e fornecer uma experiência visual completamente diferente para desfrutar dos seus relatórios.",
