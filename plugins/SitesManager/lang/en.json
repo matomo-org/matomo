@@ -127,7 +127,7 @@
         "EmailInstructionsYourSiteId": "Your site ID: %1$s",
         "EmailInstructionsYourTrackingUrl": "Your tracking URL: %1$s",
         "DetectingYourSite": "Detecting your site",
-        "GADetected": "%1$s was detected on your website. Did you know can easily migrate your historical analytics data and settings from %2$s to Matomo? %3$s%4$s%5$sLearn more in this guide%6$s",
-        "GADetectedEmail": "%1$s was detected on your website. Did you know can easily migrate your historical analytics data and settings from %2$s to Matomo? Learn more here: %3$s"
+        "GADetected": "%1$s was detected on your website. Did you know you can easily migrate your historical analytics data and settings from %2$s to Matomo? %3$s%4$s%5$sLearn more in this guide%6$s",
+        "GADetectedEmail": "%1$s was detected on your website. Did you know you can easily migrate your historical analytics data and settings from %2$s to Matomo? Learn more here: %3$s"
     }
 }
