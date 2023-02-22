@@ -14,7 +14,7 @@ const { EventEmitter } = require('events');
 const parseUrl = urlModule.parse,
     formatUrl = urlModule.format;
 
-const AJAX_IDLE_THRESHOLD = 500; // same as networkIdle event
+const AJAX_IDLE_THRESHOLD = 750; // same as networkIdle event
 const VERBOSE = false;
 const PAGE_METHODS_TO_PROXY = [
     '$',
