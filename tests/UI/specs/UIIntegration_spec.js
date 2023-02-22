@@ -477,6 +477,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
         it('should load the actions > downloads page correctly', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Downloads");
+            await page.waitForTimeout(500);
             await page.waitForNetworkIdle();
 
             pageWrap = await page.$('.pageWrap');
@@ -900,7 +901,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
         it('should load the glossary correctly widgetized', async function () {
             await page.goto("?" + generalParams + "&module=API&action=glossary&widget=1");
-            await page.waitFor(200);
+            await page.waitForTimeout(200);
 
             expect(await page.screenshot({fullPage: true})).to.matchImage('glossary_widgetized');
         });
@@ -1060,6 +1061,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
         it('should load the segmented visitor log correctly when a segment is selected', async function () {
             const url = "?module=CoreHome&action=index&idSite=1&period=year&date=2012-01-13#?category=General_Visitors&subcategory=CustomVariables_CustomVariables&idSite=1&period=year&date=2012-01-13";
+            await page.goto('about:blank');
             await page.goto(url);
             await page.waitForNetworkIdle();
             await page.evaluate(function () {
@@ -1078,8 +1080,6 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
                 $(visitorLogLinkSelector).click();
             });
             await page.waitForNetworkIdle();
-            elem = await page.$('#secondNavBar');
-            await elem.hover();
 
             await page.mouse.move(-10, -10);
 
