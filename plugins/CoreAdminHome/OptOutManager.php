@@ -284,7 +284,7 @@ HTML;
 
         // If the language parameter is 'auto' then use the browser language
         if ($language === 'auto') {
-            $language = Common::extractLanguageCodeFromBrowserLanguage(Common::getBrowserLanguage(),
+            $language = Common::extractLanguageAndRegionCodeFromBrowserLanguage(Common::getBrowserLanguage(),
                                        APILanguagesManager::getInstance()->getAvailableLanguages());
         }
 
