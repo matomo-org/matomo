@@ -548,10 +548,10 @@ class Model
      *
      * @param string|null   $tokenAuth
      *
-     * @return array|false|mixed|void
+     * @return array|null
      * @throws \Exception
      */
-    public function getUserByTokenAuth($tokenAuth)
+    public function getUserByTokenAuth(?string $tokenAuth): ?array
     {
         if ($tokenAuth === 'anonymous') {
             return $this->getUser('anonymous');
@@ -563,7 +563,7 @@ class Model
             return $db->fetchRow("SELECT * FROM " . $this->userTable . " WHERE `login` = ?", $token['login']);
         }
 
-        return false;
+        return null;
     }
 
     /**

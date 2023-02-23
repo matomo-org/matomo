@@ -14,6 +14,7 @@ use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UserUpdater;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\XssTesting;
 
 /**
  * Generates tracker testing data for our APITest
@@ -114,6 +115,8 @@ class ManyUsers extends Fixture
         $model = new Model();
         $api = API::getInstance();
 
+        $xssTesting = new XssTesting();
+
         // add a pending invite user
         $api->inviteUser($this->pendingUser['login'], $this->pendingUser['email'], 1);
 
@@ -151,7 +154,8 @@ class ManyUsers extends Fixture
                 }
 
                 $tokenAuth = $model->generateRandomTokenAuth();
-                $model->addTokenAuth($login, $tokenAuth, 'many users test', Date::now()->getDatetime());
+                $tokenDesc = $xssTesting->forTwig('many users test' . $i);
+                $model->addTokenAuth($login, $tokenAuth, $tokenDesc, Date::now()->getDatetime());
 
                 $user = $model->getUser($login);
                 $this->users[$login]['token'] = $tokenAuth;

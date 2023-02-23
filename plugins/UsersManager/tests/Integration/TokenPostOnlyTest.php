@@ -20,9 +20,8 @@ class TokenPostOnlyTest extends IntegrationTestCase
 {
     protected static $tokenPostOnly = 'f3fa8c38fd277a9af0fab7e35f9736fe';
 
-    public function setUp(): void
+    public static function beforeTableDataCached()
     {
-        parent::setUp();
         self::createUserAndTokens();
     }
 
@@ -45,11 +44,11 @@ class TokenPostOnlyTest extends IntegrationTestCase
     /**
      * Post Only tokens should return a 401 code if used in a GET request
      */
-    public function test_postOnlyToken_AccessDeniedIfGet()
+    public function test_postOnlyToken_accessDeniedIfGet()
     {
         $url = Fixture::getTestRootUrl().'?'.http_build_query([
-                'module'     => 'API',
-                'method'     => 'API.getMatomoVersion',
+                'module' => 'API',
+                'method' => 'API.getMatomoVersion',
                 'token_auth' => self::$tokenPostOnly,
             ]);
 
@@ -67,11 +66,11 @@ class TokenPostOnlyTest extends IntegrationTestCase
     /**
      * Post only tokens should return a 200 code if used in a POST request
      */
-    public function test_postOnlyToken_AccessGrantedIfPost()
+    public function test_postOnlyToken_accessGrantedIfPost()
     {
         $url = Fixture::getTestRootUrl().'?'.http_build_query([
-                'module'     => 'API',
-                'method'     => 'API.getMatomoVersion'
+                'module' => 'API',
+                'method' => 'API.getMatomoVersion'
             ]);
 
         $ch = curl_init();
