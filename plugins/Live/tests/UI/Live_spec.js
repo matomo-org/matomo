@@ -28,7 +28,7 @@ describe("Live", function () {
     });
 
     it('should expand grouped actions', async function() {
-        await page.click('.dataTableVizVisitorLog .repeat.icon-refresh');
+        await page.evaluate(() => $('.dataTableVizVisitorLog .repeat.icon-refresh').click());
         await page.mouse.move(-10, -10);
 
         var report = await page.$('.dataTableVizVisitorLog .card.row:first-child');
