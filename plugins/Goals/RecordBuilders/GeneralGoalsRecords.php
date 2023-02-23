@@ -214,10 +214,10 @@ class GeneralGoalsRecords extends Base
         foreach ($goals as $idGoal) {
             foreach (Metrics::$mappingFromIdToNameGoal as $metricName) {
                 $records[] = Record::make(Record::TYPE_NUMERIC, Archiver::getRecordName($metricName, $idGoal));
-
-                $records[] = Record::make(Record::TYPE_BLOB, Archiver::getRecordName(self::VISITS_UNTIL_RECORD_NAME, $idGoal));
-                $records[] = Record::make(Record::TYPE_BLOB, Archiver::getRecordName(self::DAYS_UNTIL_CONV_RECORD_NAME, $idGoal));
             }
+
+            $records[] = Record::make(Record::TYPE_BLOB, Archiver::getRecordName(self::VISITS_UNTIL_RECORD_NAME, $idGoal));
+            $records[] = Record::make(Record::TYPE_BLOB, Archiver::getRecordName(self::DAYS_UNTIL_CONV_RECORD_NAME, $idGoal));
         }
 
         return $records;

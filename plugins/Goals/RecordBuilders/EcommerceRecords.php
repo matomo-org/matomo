@@ -9,9 +9,7 @@
 
 namespace Piwik\Plugins\Goals\RecordBuilders;
 
-use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Record;
-use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataArray;
 use Piwik\Metrics;
