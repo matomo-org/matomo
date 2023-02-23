@@ -10,8 +10,11 @@
 namespace Piwik\Plugin;
 
 use Piwik\ArchiveProcessor;
+use Piwik\Cache;
 use Piwik\Config as PiwikConfig;
+use Piwik\Container\StaticContainer;
 use Piwik\ErrorHandler;
+use Piwik\Piwik;
 
 /**
  * The base class that should be extended by plugins that compute their own
@@ -83,6 +86,52 @@ abstract class Archiver
         $this->enabled = true;
     }
 
+    private function getPluginName()
+    {
+        $className = get_class($this);
+        $parts = explode('\\', $className);
+        $parts = array_filter($parts);
+        $plugin = $parts[2];
+
+        if (!Manager::getInstance()->isPluginLoaded($plugin)) {
+            throw new \Exception('Unexpected state: archiver plugin \'' . $plugin . '\' is not loaded.');
+        }
+
+        return $plugin;
+    }
+
+    /**
+     * @return ArchiveProcessor\RecordBuilder[]
+     * @throws \DI\DependencyException
+     * @throws \DI\NotFoundException
+     */
+    private function getRecordBuilders()
+    {
+        $plugin = $this->getPluginName();
+
+        $transientCache = Cache::getTransientCache();
+        $cacheKey = 'Archiver.RecordBuilders.' . $plugin;
+
+        $recordBuilders = $transientCache->fetch($cacheKey);
+        if ($recordBuilders === false) {
+            $recordBuilderClasses = Manager::getInstance()->findMultipleComponents('RecordBuilders', ArchiveProcessor\RecordBuilder::class);
+
+            $recordBuilders = array_map(function ($className) {
+                return StaticContainer::getContainer()->make($className);
+            }, $recordBuilderClasses);
+
+            /**
+             * TODO
+             *
+             * @api
+             */
+            Piwik::postEvent('Archiver.addRecordBuilders', [&$recordBuilders, $plugin]);
+
+            $transientCache->save($cacheKey, $recordBuilders);
+        }
+        return $recordBuilders;
+    }
+
     /**
      * @ignore
      */
@@ -90,6 +139,16 @@ abstract class Archiver
     {
         try {
             ErrorHandler::pushFatalErrorBreadcrumb(static::class);
+
+            $recordBuilders = $this->getRecordBuilders();
+            foreach ($recordBuilders as $recordBuilder) {
+                if (!$recordBuilder->isEnabled()) {
+                    continue;
+                }
+
+                $recordBuilder->setArchiveProcessor($this->getProcessor());
+                $recordBuilder->build();
+            }
 
             $this->aggregateDayReport();
         } finally {
@@ -104,6 +163,16 @@ abstract class Archiver
     {
         try {
             ErrorHandler::pushFatalErrorBreadcrumb(static::class);
+
+            $recordBuilders = $this->getRecordBuilders();
+            foreach ($recordBuilders as $recordBuilder) {
+                if (!$recordBuilder->isEnabled()) {
+                    continue;
+                }
+
+                $recordBuilder->setArchiveProcessor($this->getProcessor());
+                $recordBuilder->buildMultiplePeriod();
+            }
 
             $this->aggregateMultipleReports();
         } finally {

@@ -1,0 +1,252 @@
+<?php
+/**
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ *
+ */
+
+namespace Piwik\Plugins\Goals\RecordBuilders;
+
+use Piwik\ArchiveProcessor;
+use Piwik\ArchiveProcessor\Record;
+use Piwik\Common;
+use Piwik\Config;
+use Piwik\DataArray;
+use Piwik\Metrics;
+use Piwik\Plugin\Manager;
+use Piwik\Plugins\Goals\Archiver;
+use Piwik\Tracker\GoalManager;
+
+// TODO: this can be split up further
+class EcommerceRecords extends Base
+{
+    const SKU_FIELD = 'idaction_sku';
+    const NAME_FIELD = 'idaction_name';
+    const CATEGORY_FIELD = 'idaction_category';
+    const CATEGORY2_FIELD = 'idaction_category2';
+    const CATEGORY3_FIELD = 'idaction_category3';
+    const CATEGORY4_FIELD = 'idaction_category4';
+    const CATEGORY5_FIELD = 'idaction_category5';
+
+    const ITEMS_SKU_RECORD_NAME = 'Goals_ItemsSku';
+    const ITEMS_NAME_RECORD_NAME = 'Goals_ItemsName';
+    const ITEMS_CATEGORY_RECORD_NAME = 'Goals_ItemsCategory';
+
+    protected $dimensionRecord = [
+        self::SKU_FIELD      => self::ITEMS_SKU_RECORD_NAME,
+        self::NAME_FIELD     => self::ITEMS_NAME_RECORD_NAME,
+        self::CATEGORY_FIELD => self::ITEMS_CATEGORY_RECORD_NAME
+    ];
+
+    protected $actionMapping = [
+        self::SKU_FIELD      => 'idaction_product_sku',
+        self::NAME_FIELD     => 'idaction_product_name',
+        self::CATEGORY_FIELD => 'idaction_product_cat',
+        self::CATEGORY2_FIELD => 'idaction_product_cat2',
+        self::CATEGORY3_FIELD => 'idaction_product_cat3',
+        self::CATEGORY4_FIELD => 'idaction_product_cat4',
+        self::CATEGORY5_FIELD => 'idaction_product_cat5',
+    ];
+
+    public function __construct()
+    {
+        $general = Config::getInstance()->General;
+        $productReportsMaximumRows = $general['datatable_archiving_maximum_rows_products'];
+
+        parent::__construct($productReportsMaximumRows, $productReportsMaximumRows, Metrics::INDEX_ECOMMERCE_ITEM_REVENUE);
+    }
+
+    public function isEnabled()
+    {
+        return Manager::getInstance()->isPluginActivated('Ecommerce');
+    }
+
+    public function getRecordMetadata()
+    {
+        $result = [];
+        foreach ($this->dimensionRecord as $recordName) {
+            $result[] = Record::make(Record::TYPE_BLOB, $recordName);
+
+            $abandonedCartRecordName = Archiver::getItemRecordNameAbandonedCart($recordName);
+            $result[] = Record::make(Record::TYPE_BLOB, $abandonedCartRecordName);
+        }
+        return $result;
+    }
+
+    protected function aggregate()
+    {
+        $itemReports = [];
+        foreach ($this->getEcommerceIdGoals() as $ecommerceType) {
+            foreach ($this->dimensionRecord as $dimension => $record) {
+                $itemReports[$dimension][$ecommerceType] = new DataArray();
+            }
+        }
+
+        $logAggregator = $this->archiveProcessor->getLogAggregator();
+
+        // try to query ecommerce items only, if ecommerce is actually used
+        // otherwise we simply insert empty records
+        if ($this->usesEcommerce($this->getSiteId())) {
+            foreach ($this->getItemsDimensions() as $dimension) {
+                $query = $logAggregator->queryEcommerceItems($dimension);
+                if ($query !== false) {
+                    $this->aggregateFromEcommerceItems($itemReports, $query, $dimension);
+                }
+
+                $query = $this->queryItemViewsForDimension($dimension);
+                if ($query !== false) {
+                    $this->aggregateFromEcommerceViews($itemReports, $query, $dimension);
+                }
+            }
+        }
+
+        $records = [];
+        foreach ($itemReports as $dimension => $itemAggregatesByType) {
+            foreach ($itemAggregatesByType as $ecommerceType => $itemAggregate) {
+                $recordName = $this->dimensionRecord[$dimension];
+                if ($ecommerceType == GoalManager::IDGOAL_CART) {
+                    $recordName = Archiver::getItemRecordNameAbandonedCart($recordName);
+                }
+
+                $table = $itemAggregate->asDataTable();
+                $records[$recordName] = $table;
+            }
+        }
+        return $records;
+    }
+
+    protected function getItemsDimensions()
+    {
+        $dimensions = array_keys($this->dimensionRecord);
+        foreach ($this->getItemExtraCategories() as $category) {
+            $dimensions[] = $category;
+        }
+        return $dimensions;
+    }
+
+    protected function getItemExtraCategories()
+    {
+        return array(self::CATEGORY2_FIELD, self::CATEGORY3_FIELD, self::CATEGORY4_FIELD, self::CATEGORY5_FIELD);
+    }
+
+    protected function isItemExtraCategory($field)
+    {
+        return in_array($field, $this->getItemExtraCategories());
+    }
+
+    protected function aggregateFromEcommerceItems($itemReports, $query, $dimension)
+    {
+        while ($row = $query->fetch()) {
+            $ecommerceType = $row['ecommerceType'];
+
+            $label = $this->cleanupRowGetLabel($row, $dimension);
+            if ($label === false) {
+                continue;
+            }
+
+            // Aggregate extra categories in the Item categories array
+            if ($this->isItemExtraCategory($dimension)) {
+                $array = $itemReports[self::CATEGORY_FIELD][$ecommerceType];
+            } else {
+                $array = $itemReports[$dimension][$ecommerceType];
+            }
+
+            $this->roundColumnValues($row);
+            $array->sumMetrics($label, $row);
+        }
+    }
+
+    protected function aggregateFromEcommerceViews($itemReports, $query, $dimension)
+    {
+        while ($row = $query->fetch()) {
+
+            $label = $this->getRowLabel($row, $dimension);
+            if ($label === false) {
+                continue; // ignore empty additional categories
+            }
+
+            // Aggregate extra categories in the Item categories array
+            if ($this->isItemExtraCategory($dimension)) {
+                $array = $itemReports[self::CATEGORY_FIELD];
+            } else {
+                $array = $itemReports[$dimension];
+            }
+
+            unset($row['label']);
+
+            if (isset($row['avg_price_viewed'])) {
+                $row['avg_price_viewed'] = round($row['avg_price_viewed'], GoalManager::REVENUE_PRECISION);
+            }
+
+            // add views to all types
+            foreach ($array as $ecommerceType => $dataArray) {
+                $dataArray->sumMetrics($label, $row);
+            }
+        }
+    }
+
+    protected function queryItemViewsForDimension($dimension)
+    {
+        $column = $this->actionMapping[$dimension];
+        $where  = "log_link_visit_action.$column is not null";
+
+        $logAggregator = $this->archiveProcessor->getLogAggregator();
+        return $logAggregator->queryActionsByDimension(
+            ['label' => 'log_action1.name'],
+            $where,
+            ['AVG(log_link_visit_action.product_price) AS `avg_price_viewed`'],
+            false,
+            null,
+            [$column]
+        );
+    }
+
+    protected function roundColumnValues(&$row)
+    {
+        $columnsToRound = array(
+            Metrics::INDEX_ECOMMERCE_ITEM_REVENUE,
+            Metrics::INDEX_ECOMMERCE_ITEM_QUANTITY,
+            Metrics::INDEX_ECOMMERCE_ITEM_PRICE,
+            Metrics::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED,
+        );
+        foreach ($columnsToRound as $column) {
+            if (isset($row[$column])
+                && $row[$column] == round($row[$column])
+            ) {
+                $row[$column] = round($row[$column]);
+            }
+        }
+    }
+
+    protected function getRowLabel(&$row, $currentField)
+    {
+        $label = $row['label'];
+        if (empty($label)) {
+            // An empty additional category -> skip this iteration
+            if ($this->isItemExtraCategory($currentField)) {
+                return false;
+            }
+            $label = "Value not defined";
+        }
+        return $label;
+    }
+
+    protected function cleanupRowGetLabel(&$row, $currentField)
+    {
+        $label = $this->getRowLabel($row, $currentField);
+
+        if (isset($row['ecommerceType']) && $row['ecommerceType'] == GoalManager::IDGOAL_CART) {
+            // abandoned carts are the number of visits with an abandoned cart
+            $row[Metrics::INDEX_ECOMMERCE_ORDERS] = $row[Metrics::INDEX_NB_VISITS];
+        }
+
+        unset($row[Metrics::INDEX_NB_VISITS]);
+        unset($row['label']);
+        unset($row['labelIdAction']);
+        unset($row['ecommerceType']);
+
+        return $label;
+    }
+}
