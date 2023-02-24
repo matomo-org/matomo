@@ -97,8 +97,7 @@ class ArchiveSelector
         $result['idarchive'] = empty($result['idarchive']) ? [] : [$result['idarchive']];
         if (isset($result['partial'])
             // TODO: test for this change
-            && (empty($requestedReport)
-                || self::getModel()->doesArchiveContainRecord($dateStart, $result['partial'], $requestedReport))
+            && self::getModel()->doesArchiveContainRecord($dateStart, $result['partial'], $requestedReport)
         ) {
             $result['idarchive'] = array_merge($result['idarchive'], $result['partial']);
         }
