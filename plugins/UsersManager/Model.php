@@ -554,13 +554,15 @@ class Model
     public function getUserByTokenAuth(?string $tokenAuth): ?array
     {
         if ($tokenAuth === 'anonymous') {
-            return $this->getUser('anonymous');
+            $row = $this->getUser('anonymous');
+            return (is_array($row) ? $row : null);
         }
 
         $token = $this->getTokenByTokenAuthIfNotExpired($tokenAuth, \Piwik\API\Request::isTokenAuthPosted());
         if (!empty($token)) {
             $db = $this->getDb();
-            return $db->fetchRow("SELECT * FROM " . $this->userTable . " WHERE `login` = ?", $token['login']);
+            $row = $db->fetchRow("SELECT * FROM " . $this->userTable . " WHERE `login` = ?", $token['login']);
+            return (is_array($row) ? $row : null);
         }
 
         return null;
