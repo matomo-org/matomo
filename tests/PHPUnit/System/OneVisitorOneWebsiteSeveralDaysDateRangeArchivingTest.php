@@ -112,17 +112,12 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
             $archivePurger->purgeInvalidatedArchivesFrom(Date::factory($date));
         }
 
-        // we expect 6 blobs for Actions plugins, because flat=1 or expanded=1 was not set
+        // we expect 2 blobs for Actions plugins, because flat=1 or expanded=1 was not set
         // so we only archived the parent table
-        $expectedActionsBlobs = 6;
-
-        // When flat=1, Actions plugin will process 5 + 1 extra chunk blobs (URL = 'http://example.org/sub1/sub2/sub3/news')
-        $expectedActionsBlobsWhenFlattened = $expectedActionsBlobs + 1;
+        $expectedActionsBlobs = 2;
 
         $tests = array(
-            'archive_blob_2010_12'    => ( ($expectedActionsBlobs+1) /*Actions*/
-                    + 2 /* Resolution */
-                    + 2 /* VisitTime */) * 3,
+            'archive_blob_2010_12'    => ($expectedActionsBlobs + 2 /* two other requested reports */) * 3,
 
             /**
              *  In Each "Period=range" Archive, we expect following non zero numeric entries:
@@ -151,7 +146,7 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
              * we archive only Actions plugins.
              * It is flattened so all 3 sub-tables should be archived.
              */
-            'archive_blob_2011_01'    => $expectedActionsBlobsWhenFlattened,
+            'archive_blob_2011_01'    => $expectedActionsBlobs,
 
             /**
              *   5 metrics + 1 flag // VisitsSummary
