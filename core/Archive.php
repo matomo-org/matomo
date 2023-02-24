@@ -503,6 +503,10 @@ class Archive implements ArchiveQuery
         return $dataTable;
     }
 
+    /**
+     * @var boolean
+     */
+    private $isBlobDataRequested;
 
     /**
      * Queries archive tables for data and returns the result.
@@ -513,6 +517,10 @@ class Archive implements ArchiveQuery
      */
     protected function get($archiveNames, $archiveDataType, $idSubtable = null)
     {
+        if ($archiveDataType === 'blob') {
+            $this->isBlobDataRequested = true;
+        }
+
         if (!is_array($archiveNames)) {
             $archiveNames = [$archiveNames];
         }
@@ -910,8 +918,11 @@ class Archive implements ArchiveQuery
 
             if (count($reports) === 1
                 && $shouldOnlyProcessRequestedRecords
+                && $this->isBlobDataRequested
             ) {
                 $requestedReport = reset($reports);
+            } else {
+                $requestedReport = null;
             }
 
             $prepareResult = $coreAdminHomeApi->archiveReports(
