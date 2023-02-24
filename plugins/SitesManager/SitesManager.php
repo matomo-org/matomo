@@ -384,17 +384,17 @@ class SitesManager extends \Piwik\Plugin
         return $map[$siteType] ?? false;
     }
 
-    public static function getInstructionBySiteType(string $siteType): string
+    public static function getInstructionByCms(?string $cms): string
     {
-        if ($siteType === self::SITE_TYPE_UNKNOWN) {
+        if ($cms === self::SITE_TYPE_UNKNOWN) {
             return '';
         }
 
-        if ($siteType === self::SITE_TYPE_WORDPRESS && !SettingsServer::isMatomoForWordPress()) {
+        if ($cms === self::SITE_TYPE_WORDPRESS && !SettingsServer::isMatomoForWordPress()) {
             return sprintf(
                 '%s<br /><br />%s<br /><br />',
                 Piwik::translate('SitesManager_SiteWithoutDataDetectedSiteWordpress', [
-                    '<a target="_blank" rel="noreferrer noopener" href="' . self::getInstructionUrlBySiteType($siteType) . '#wpmatomo">',
+                    '<a target="_blank" rel="noreferrer noopener" href="' . self::getInstructionUrlBySiteType($cms) . '#wpmatomo">',
                     '</a>',
                     '<a target="_blank" rel="noreferrer noopener" href="https://wordpress.org/plugins/wp-piwik/">',
                     '</a>',
@@ -409,8 +409,8 @@ class SitesManager extends \Piwik\Plugin
         return Piwik::translate(
             'SitesManager_SiteWithoutDataDetectedSite',
             [
-                ucfirst($siteType),
-                '<a target="_blank" rel="noreferrer noopener" href="' . self::getInstructionUrlBySiteType($siteType) . '">',
+                ucfirst($cms),
+                '<a target="_blank" rel="noreferrer noopener" href="' . self::getInstructionUrlBySiteType($cms) . '">',
                 '</a>'
             ]
         );

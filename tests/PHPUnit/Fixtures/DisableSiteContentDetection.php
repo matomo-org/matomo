@@ -7,6 +7,7 @@
  */
 namespace Piwik\Tests\Fixtures;
 
+use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\SiteContentDetector;
 use Piwik\Tests\Framework\Mock\FakeSiteContentDetector;
@@ -29,7 +30,8 @@ class DisableSiteContentDetection extends Fixture
             'isConnected' => false,
             'ga3' => false,
             'ga4' => false,
-            'gtm' => false
+            'gtm' => false,
+            'cms' => SitesManager::SITE_TYPE_UNKNOWN,
         ];
 
         return [
