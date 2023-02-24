@@ -76,51 +76,6 @@ class PartialArchiveTest extends IntegrationTestCase
         $this->assertEquals(['Actions_actions_url'], $archiveNames);
     }
 
-    public function test_customSegmentArchiving_onlyArchivesSingleRecord_whenRequestIsForNonDayPeriod()
-    {
-        $segment = new Segment('browserCode==ff', [1]);
-        $segmentHash = $segment->getHash();
-
-        self::trackNonFirefoxVisit();
-
-        // first trigger all plugins archiving
-        $_GET['trigger'] = 'archivephp';
-        $data = ActionsApi::getInstance()->getPageUrls(1, 'week', '2020-04-07', 'browserCode==ff');
-        $this->assertEquals([
-            '/path',
-        ], $data->getColumn('label'));
-
-        // check archive is all plugins archive as expected
-        [$idArchives, $archiveInfo] = $this->getArchiveInfo('2020_04', 2, $segmentHash);
-        $this->assertEquals([
-            ['idsite' => 1, 'date1' => '2020-04-06', 'date2' => '2020-04-12', 'period' => 2, 'name' => 'donedc3974063a947330c5c32505708acea5.VisitsSummary', 'value' => 1, 'blob_count' => 0],
-            ['idsite' => 1, 'date1' => '2020-04-06', 'date2' => '2020-04-12', 'period' => 2, 'name' => 'donedc3974063a947330c5c32505708acea5.Actions', 'value' => 1, 'blob_count' => 6],
-        ], $archiveInfo);
-
-        $maxIdArchive = $this->getMaxIdArchive('2020_04');
-
-        self::trackAnotherVisit();
-
-        // trigger browser archiving for range
-        ActionsApi::getInstance()->getPageUrls(1, 'day', '2020-04-08', 'browserCode==ff', false, false, false, true); // first day
-        unset($_GET['trigger']);
-        StaticContainer::get(ArchiveInvalidator::class)->markArchivesAsInvalidated([1], ['2020-04-06,2020-04-09'], 'range', $segment);
-        $data = ActionsApi::getInstance()->getPageUrls(1, 'week', '2020-04-07', 'browserCode==ff');
-        $this->assertEquals([
-            '/path',
-            '/path2',
-        ], $data->getColumn('label'));
-
-        [$idArchives, $archiveInfo] = $this->getArchiveInfo('2020_04', 2, $segmentHash, $maxIdArchive);
-
-        $this->assertEquals([
-            ['idsite' => 1, 'date1' => '2020-04-06', 'date2' => '2020-04-12', 'period' => 2, 'name' => 'donedc3974063a947330c5c32505708acea5.Actions', 'value' => 5, 'blob_count' => 1],
-        ], $archiveInfo);
-
-        $archiveNames = $this->getArchiveNames('2020_04', $idArchives[0]);
-        $this->assertEquals(['Actions_actions_url'], $archiveNames);
-    }
-
     private static function createWebsite()
     {
         Fixture::createWebsite('2018-05-05 09:00:00');

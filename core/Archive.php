@@ -894,7 +894,7 @@ class Archive implements ArchiveQuery
         }
 
         $shouldOnlyProcessRequestedRecords = empty($requestedReport)
-            && Rules::shouldOnlyProcessRequestedRecords($site->getId(), $period->getLabel(), $this->params->getSegment());
+            && Rules::shouldOnlyProcessRequestedRecords($period->getLabel());
 
         $segmentStr = $this->params->getSegment()->getOriginalString();
 
@@ -910,7 +910,6 @@ class Archive implements ArchiveQuery
 
             if (count($reports) === 1
                 && $shouldOnlyProcessRequestedRecords
-                && $period->getLabel() !== 'day'
             ) {
                 $requestedReport = reset($reports);
             }
