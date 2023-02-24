@@ -154,8 +154,7 @@ class ManyUsers extends Fixture
                 }
 
                 $tokenAuth = $model->generateRandomTokenAuth();
-                $tokenDesc = $xssTesting->forTwig('many users test' . $i);
-                $model->addTokenAuth($login, $tokenAuth, $tokenDesc, Date::now()->getDatetime());
+                $model->addTokenAuth($login, $tokenAuth, 'many users test', Date::now()->getDatetime());
 
                 $user = $model->getUser($login);
                 $this->users[$login]['token'] = $tokenAuth;

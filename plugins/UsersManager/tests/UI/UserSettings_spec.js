@@ -47,10 +47,20 @@ describe("UserSettings", function () {
     });
 
     it('should create new token', async function () {
-        await page.type('.addTokenForm input[id=description]', 'test description');
+        await page.type('.addTokenForm input[id=description]', 'test description<img src=j&#X41vascript:alert("xss fail")>');
         await page.click('.addTokenForm .btn');
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector('.admin')).to.matchImage('add_token_success');
+    });
+
+    it('should show new token on security page', async function () {
+        await page.goto(userSecurityUrl);
+        await page.waitForSelector('.listAuthTokens', { visible: true });
+        await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
+            $('table.listAuthTokens th').css('width', '25%');
+        });
+        await page.waitForTimeout(100);
+        expect(await page.screenshotSelector('.admin')).to.matchImage('load_security_new_token');
     });
 
     it('should show user settings page', async function () {
