@@ -7,6 +7,7 @@
  */
 namespace Piwik\Tests\Fixtures;
 
+use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\SiteContentDetector;
 use Piwik\Tests\Framework\Mock\FakeSiteContentDetector;
@@ -28,7 +29,8 @@ class EmptySiteWithSiteContentDetectionGTM extends Fixture
             'isConnected' => false,
             'ga3' => false,
             'ga4' => false,
-            'gtm' => true
+            'gtm' => true,
+            'cms' => SitesManager::SITE_TYPE_UNKNOWN
         ];
 
         return [

@@ -1,6 +1,6 @@
 {
     "ImageGraph": {
         "ColumnOrdinateMissing": "Fant ikke en «%1$s» kolonne i denne rapporten. Prøv %2$s.",
-        "PluginDescription": "Generer statiske PNG-grafebilder for alle dine datarapporter."
+        "PluginDescription": "Generer flotte statiske PNG-grafbilder for dine datarapporter."
     }
 }
