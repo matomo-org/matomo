@@ -169,7 +169,18 @@ class Segment
     }
 
     /**
-     * TODO
+     * A callback that can be used to customize the SQL used to match a segment. The value must be a callable
+     * with the following signature:
+     *
+     * ```
+     * function ($field, $matchType, $value, $join) {
+     *    // ...
+     * }
+     * ```
+     *
+     * Return `null` to use the default SQL. Otherwise, return an array with two keys: `sql` and `bind`
+     * where `sql` is a SQL string and `bind` is an array of values to bind when executing it.
+     *
      * @param callable|null $sqlFilterMatch
      * @return void
      */

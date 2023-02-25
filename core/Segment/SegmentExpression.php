@@ -58,26 +58,13 @@ class SegmentExpression
 
     protected $string;
     protected $valuesBind = [];
-    public $tree = [];
-    public $parsedSubExpressions = [];
+    protected $tree = [];
+    protected $parsedSubExpressions = [];
 
-    /**
-     * TODO: document
-     * @var
-     */
-    private $availableSegments;
-
-    /**
-     * TODO: document
-     *
-     * @param $string
-     * @param $availableSegments
-     */
-    public function __construct($string, $availableSegments = [])
+    public function __construct($string)
     {
         $this->string = $string;
         $this->tree = $this->parseTree();
-        $this->availableSegments = $availableSegments;
     }
 
     public function getSegmentDefinition()
@@ -222,9 +209,10 @@ class SegmentExpression
         $join      = $def[3] ?? null;
         $segment   = $def[4] ?? null;
 
-        $innerSql = null; // TODO: comment on why it's needed
+        // Note: we save the SQL used in the subquery (if there is one), as we don't want to run
+        // self::checkFieldIsAvailable() on it.
+        $innerSql = null;
 
-        // TODO: get rid of availableSegments property
         if (!empty($segment['sqlFilterMatch'])) {
             $match = $segment['sqlFilterMatch'];
 
@@ -364,7 +352,9 @@ class SegmentExpression
 
         $columns = self::parseColumnsFromSqlExpr($sqlExpression);
         foreach ($columns as $column) {
-            if (isset($join['tableAlias']) && preg_match('/^' . $join['tableAlias'] . '\\./', $column)) { // TODO: comment
+            // if a column references a table alias, replace it with the actual table before checking if
+            // the table is missing from the query
+            if (isset($join['tableAlias']) && preg_match('/^' . $join['tableAlias'] . '\\./', $column)) {
                 $column = $join['table'];
             }
 
@@ -378,7 +368,9 @@ class SegmentExpression
         if (!empty($join['joinOn'])) {
             $joinOnColumns = self::parseColumnsFromSqlExpr($join['joinOn']);
             foreach ($joinOnColumns as $column) {
-                if (isset($join['tableAlias']) && preg_match('/^' . $join['tableAlias'] . '\\./', $column)) { // TODO: comment
+                // if a column references a table alias, replace it with the actual table before checking if
+                // the table is missing from the query
+                if (isset($join['tableAlias']) && preg_match('/^' . $join['tableAlias'] . '\\./', $column)) {
                     $column = $join['table'];
                 }
 

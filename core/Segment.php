@@ -257,7 +257,7 @@ class Segment
             $idSites = [$idSites];
         }
         $this->idSites = $idSites;
-        $segment = new SegmentExpression($string, $this->getAvailableSegments());
+        $segment = new SegmentExpression($string);
         $this->segmentExpression = $segment;
 
         // parse segments
