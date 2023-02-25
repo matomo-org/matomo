@@ -62,7 +62,7 @@
         "PostUpdateSupport": "Se precisa de ajuda para utilizar o Matomo, pode obter apoio dos seus criadores:",
         "ReadyToGo": "Pronto?",
         "ReceiveEmailBecauseIsSuperUser": "Recebeu este e-mail porque é um super-utilizador do Matomo em: %s",
-        "ServicesSupport": "Serviços e apoio",
+        "ServicesSupport": "Serviços e suporte",
         "SkipCacheClear": "A saltar a limpeza das caches.",
         "SkipCacheClearDesc": "Salta a limpeza das caches antes da atualização. Isto só é útil se puder garantir que as instâncias que estão a executar este comando ainda não tenham criado uma cache e se a limpeza da cache para muitas contas do Matomo pode ainda introduzir mais atrasos.",
         "ThankYouUpdatePiwik": "Obrigado por utilizar o Matomo e o manter atualizado!",
