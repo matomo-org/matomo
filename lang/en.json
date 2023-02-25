@@ -493,6 +493,7 @@
         "Visit": "Visit",
         "VisitConvertedGoal": "Visit converted at least one Goal",
         "VisitConvertedGoalId": "Visit converted a specific Goal Id",
+        "VisitConvertedGoalName": "Visit converted a specific Goal Name",
         "VisitConvertedNGoals": "Visit converted %s Goals",
         "VisitDuration": "Avg. Visit Duration (in seconds)",
         "VisitId": "Visit ID",
