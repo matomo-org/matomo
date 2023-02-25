@@ -170,9 +170,20 @@ abstract class Dimension
     protected $sqlFilterValue;
 
     /**
-     * TODO
+     * A callback that can be used to customize the SQL used to match a segment. The value must be a callable
+     * with the following signature:
      *
-     * @var string|array
+     * ```
+     * function ($field, $matchType, $value, $join) {
+     *    // ...
+     * }
+     * ```
+     *
+     * Return `null` to use the default SQL. Otherwise, return an array with two keys: `sql` and `bind`
+     * where `sql` is a SQL string and `bind` is an array of values to bind when executing it.
+     *
+     * @var callable
+     * @api since Piwik 5.0.0
      */
     protected $sqlFilterMatch;
 
@@ -642,7 +653,6 @@ abstract class Dimension
     }
 
     /**
-     * TODO
      * @return callable|null
      */
     public function getSqlFilterMatch()
@@ -873,11 +883,14 @@ abstract class Dimension
 
 
     /**
-     * TODO
-     * @param $field
-     * @param $matchType
-     * @param $value
-     * @param $join
+     * Returns SQL to match a log_action row by name that also uses the `hash` column so it uses the index on the table.
+     *
+     * Should be used as the $sqlFilterMatch property for idaction dimensions that use `ActionNameJoin`.
+     *
+     * @param string $field the table column
+     * @param string $matchType the SegmentExpression match type, eg, `SegmentExpression::MATCH_NOT_EQUAL`
+     * @param string $value the value being matched against.
+     * @param array $join the join used for this segment, if any (for this specific method, it needs to be the join on log_action)
      * @return array|null
      */
     public function getOptimizedIdActionSqlMatch($field, $matchType, $value, $join, $isUrlProtocolAbsentInDb = false)
@@ -901,7 +914,9 @@ abstract class Dimension
             $sql = "%s $sqlOperator ? AND $joinTable.hash $sqlOperator CRC32(?)";
             $bind = [$value, $value];
 
-            if ($unsanitizedValue !== $value) { // TODO: comment (see original code)
+            // If action can't be found normalized try search for it with original value
+            // This can eg happen for outlinks that contain a &amp; see https://github.com/matomo-org/matomo/issues/11806
+            if ($unsanitizedValue !== $value) {
                 $sql = '((' . $sql . ') OR (' . $sql . '))';
                 $bind = array_merge($bind, [$unsanitizedValue, $unsanitizedValue]);
             }

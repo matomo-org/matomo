@@ -10,8 +10,11 @@ namespace Piwik\Plugins\Ecommerce\Columns;
 
 use Piwik\Columns\Dimension;
 use Piwik\Columns\DimensionSegmentFactory;
+use Piwik\Columns\Discriminator;
+use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Plugin\Segment;
 use Piwik\Segment\SegmentsList;
+use Piwik\Tracker\Action;
 
 class ProductCategory extends Dimension
 {
@@ -20,6 +23,16 @@ class ProductCategory extends Dimension
     protected $type = self::TYPE_TEXT;
     protected $category = 'Goals_Ecommerce';
     protected $nameSingular = 'Goals_ProductCategory';
+
+    public function getDbColumnJoin()
+    {
+        return new ActionNameJoin();
+    }
+
+    public function getDbDiscriminator()
+    {
+        return new Discriminator('log_action', 'type', Action::TYPE_ECOMMERCE_ITEM_CATEGORY);
+    }
 
     public function configureSegments(SegmentsList $segmentsList, DimensionSegmentFactory $dimensionSegmentFactory)
     {
@@ -37,8 +50,7 @@ class ProductCategory extends Dimension
             $segment->setType('dimension');
             $segment->setName($this->getName() . ' ' . ($i + 1));
             $segment->setSegment($productCategoryName);
-            // TODO: use a join here as well?
-            $segment->setSqlFilter('\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment');
+            $segment->setSqlFilterMatch([$this, 'getOptimizedIdActionSqlMatch']);
             $segment->setSqlSegment('log_conversion_item.' . $productCategoryColumnName);
             $segment->setIsInternal(true);
             $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));

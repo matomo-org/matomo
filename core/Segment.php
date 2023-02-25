@@ -197,9 +197,9 @@ class Segment
         $cacheId = 'API.getSegmentsMetadata.'.SettingsPiwik::getPiwikInstanceId() . '.' . implode(",", $this->idSites);
 
         //fetch cache lockId
-        $this->availableSegments = $cache->fetch($cacheId);
+        $availableSegments = $cache->fetch($cacheId);
         // segment metadata
-        if (empty($this->availableSegments)) {
+        if (empty($availableSegments)) {
             $availableSegments = Request::processRequest('API.getSegmentsMetadata', array(
               'idSites'                 => $this->idSites,
               '_hideImplementationData' => 0,
@@ -218,12 +218,10 @@ class Segment
                 }
             }
 
-            $this->availableSegments = $availableSegments;
-
-            $cache->save($cacheId, $this->availableSegments);
+            $cache->save($cacheId, $availableSegments);
         }
 
-        return $this->availableSegments; // TODO: document property
+        return $availableSegments;
     }
 
     private function getSegmentByName($name)
@@ -392,8 +390,6 @@ class Segment
             || Rules::isBrowserArchivingAvailableForSegments()
             || Rules::isSegmentPreProcessed($idSites, $this);
     }
-
-    protected $availableSegments = array();
 
     protected function getCleanedExpression($expression)
     {
