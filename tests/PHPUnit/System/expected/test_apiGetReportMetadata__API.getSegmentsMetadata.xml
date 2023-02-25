@@ -314,6 +314,13 @@
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
+		<name>Visit converted a specific Goal Name</name>
+		<segment>visitConvertedGoalName</segment>
+		<acceptedValues>myGoal, myOtherGoal, etc.</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
 		<name>Visit converted at least one Goal</name>
 		<segment>visitConverted</segment>
 		<acceptedValues>0, 1</acceptedValues>

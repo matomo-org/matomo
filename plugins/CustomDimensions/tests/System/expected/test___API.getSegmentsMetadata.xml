@@ -296,6 +296,12 @@
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
+		<name>Visit converted a specific Goal Name</name>
+		<segment>visitConvertedGoalName</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
 		<name>Visit converted at least one Goal</name>
 		<segment>visitConverted</segment>
 	</row>

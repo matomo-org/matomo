@@ -62,11 +62,18 @@ class SegmentExpression
     public $parsedSubExpressions = [];
 
     /**
+     * TODO: document
      * @var
      */
     private $availableSegments;
 
-    public function __construct($string, $availableSegments)
+    /**
+     * TODO: document
+     *
+     * @param $string
+     * @param $availableSegments
+     */
+    public function __construct($string, $availableSegments = [])
     {
         $this->string = $string;
         $this->tree = $this->parseTree();

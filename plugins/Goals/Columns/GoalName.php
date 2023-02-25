@@ -12,8 +12,11 @@ namespace Piwik\Plugins\Goals\Columns;
 
 use Piwik\Columns\DimensionMetricFactory;
 use Piwik\Columns\MetricsList;
+use Piwik\DataTable;
+use Piwik\DataTable\Filter\ColumnDelete;
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Columns\Join;
+use Piwik\Plugins\Goals\API;
 
 class GoalName extends ConversionDimension
 {
@@ -23,6 +26,7 @@ class GoalName extends ConversionDimension
     protected $nameSingular = 'General_VisitConvertedGoalName';
     protected $segmentName = 'visitConvertedGoalName';
     protected $acceptValues = 'myGoal, myOtherGoal, etc.';
+    protected $suggestedValuesCallback = [self::class, 'getGoalNameForSuggestedValues'];
 
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {
@@ -34,4 +38,15 @@ class GoalName extends ConversionDimension
         return new Join\GoalNameJoin();
     }
 
+    public static function getGoalNameForSuggestedValues($idSite, $maxSuggestionsToReturn, DataTable $table)
+    {
+        $goals = API::getInstance()->getGoals($idSite);
+
+        $convertedGoals = $table->getColumnsStartingWith('visitConvertedGoalId' . ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP);
+        $convertedGoals = array_map(function ($idGoal) use ($goals) {
+            return $goals[$idGoal]['name'] ?? null;
+        }, $convertedGoals);
+        $convertedGoals = array_filter($convertedGoals);
+        return $convertedGoals;
+    }
 }
