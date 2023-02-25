@@ -43,7 +43,7 @@ class SegmentQueryDecoratorTest extends \PHPUnit\Framework\TestCase
 
     public function test_getSelectQueryString_DoesNotDecorateSql_WhenNoSegmentUsed()
     {
-        $expression = new SegmentExpression('');
+        $expression = new SegmentExpression('', []);
         $expression->parseSubExpressions();
 
         $query = $this->decorator->getSelectQueryString($expression, '*', 'log_visit', '', array(), '', '', '');
@@ -53,7 +53,7 @@ class SegmentQueryDecoratorTest extends \PHPUnit\Framework\TestCase
 
     public function test_getSelectQueryString_DoesNotDecorateSql_WhenNoSegmentMatchesUsedSegment()
     {
-        $expression = new SegmentExpression('referrerName==ooga');
+        $expression = new SegmentExpression('referrerName==ooga', []);
         $expression->parseSubExpressions();
 
         $query = $this->decorator->getSelectQueryString($expression, '*', 'log_visit', '', array(), '', '', '');
@@ -63,7 +63,7 @@ class SegmentQueryDecoratorTest extends \PHPUnit\Framework\TestCase
 
     public function test_getSelectQueryString_DecoratesSql_WhenOneSegmentMatchesUsedSegment()
     {
-        $expression = new SegmentExpression('browserCode==def;visitCount>2');
+        $expression = new SegmentExpression('browserCode==def;visitCount>2', []);
         $expression->parseSubExpressions();
 
         $query = $this->decorator->getSelectQueryString($expression, '*', 'log_visit', '', array(), '', '', '');
@@ -74,7 +74,7 @@ class SegmentQueryDecoratorTest extends \PHPUnit\Framework\TestCase
 
     public function test_getSelectQueryString_DecoratesSql_WhenMultipleStoredSegmentsMatchUsedSegment()
     {
-        $expression = new SegmentExpression('region!=FL');
+        $expression = new SegmentExpression('region!=FL', []);
         $expression->parseSubExpressions();
 
         $query = $this->decorator->getSelectQueryString($expression, '*', 'log_visit', '', array(), '', '', '');

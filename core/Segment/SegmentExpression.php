@@ -213,7 +213,7 @@ class SegmentExpression
         $matchType = $def[1];
         $value     = $def[2];
         $join      = $def[3] ?? null;
-        $segment   = $def[4];
+        $segment   = $def[4] ?? null;
 
         $innerSql = null; // TODO: comment on why it's needed
 
