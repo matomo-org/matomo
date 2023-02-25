@@ -401,7 +401,9 @@ class Segment
         $matchType = $expression[SegmentExpression::INDEX_OPERAND_OPERATOR];
         $value     = $expression[SegmentExpression::INDEX_OPERAND_VALUE];
 
-        $segmentsList = SegmentsList::get();
+        $segmentsList = Context::changeIdSite(implode(',', $this->idSites ?: []), function () {
+            return SegmentsList::get();
+        });
         $segmentObject = $segmentsList->getSegment($name);
 
         // TODO WE NEED TO GET SEGMENT CLASS HERE
