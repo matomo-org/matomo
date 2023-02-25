@@ -548,7 +548,6 @@ class ArchiveSelector
             $nameEndAppendix = $nameEnd + 1;
             $appendix = $chunk->getAppendix();
             $lenAppendix = strlen($appendix);
-            $chunkEnd = $nameEnd + $lenAppendix;
 
             $checkForChunkBlob  = "SUBSTRING(name, $nameEnd, $lenAppendix) = '$appendix'";
             $checkForSubtableId = "(SUBSTRING(name, $nameEndAppendix, 1) >= '0'
@@ -558,10 +557,7 @@ class ArchiveSelector
             $bind = array($name, $name . '%');
 
             if ($orderBySubtableId && count($recordNames) == 1) {
-                // TODO: need to test this
-                $extractSuffix = "SUBSTRING(name, IF($checkForChunkBlob, $chunkEnd, $nameEnd))";
-                $extractIdSubtableStart = "IF( (@idsubtable := SUBSTRING($extractSuffix, 1, LOCATE('_', $extractSuffix) - 1)) = '', -1, @idsubtable )";
-                $idSubtableAsInt = "CAST($extractIdSubtableStart AS SIGNED)";
+                $idSubtableAsInt = self::getExtractIdSubtableFromBlobNameSql($chunk, $name);
 
                 $orderBy = "ORDER BY date1 ASC, " . // ordering by date just so column order in tests will be predictable
                     " $idSubtableAsInt ASC,
@@ -609,5 +605,25 @@ class ArchiveSelector
             $archiveIdsPerMonth[$yearMonth] = array_merge($archiveIdsPerMonth[$yearMonth], $ids);
         }
         return $archiveIdsPerMonth;
+    }
+
+    // public for tests
+    public static function getExtractIdSubtableFromBlobNameSql(Chunk $chunk, $name)
+    {
+        // select blobs w/ name like "$name_[0-9]+" w/o using RLIKE
+        $nameEnd = strlen($name) + 1;
+        $nameEndAfterUnderscore = $nameEnd + 1;
+        $appendix = $chunk->getAppendix();
+        $lenAppendix = strlen($appendix);
+        $chunkEnd = $nameEnd + $lenAppendix;
+
+        $checkForChunkBlob  = "SUBSTRING(name, $nameEnd, $lenAppendix) = '$appendix'";
+
+        $extractSuffix = "SUBSTRING(name, IF($checkForChunkBlob, $chunkEnd, $nameEndAfterUnderscore))";
+        $locateSecondUnderscore = "IF((@secondunderscore := LOCATE('_', $extractSuffix) - 1) < 0, LENGTH(name), @secondunderscore)";
+        $extractIdSubtableStart = "IF( (@idsubtable := SUBSTRING($extractSuffix, 1, $locateSecondUnderscore)) = '', -1, @idsubtable )";
+        $idSubtableAsInt = "CAST($extractIdSubtableStart AS SIGNED)";
+
+        return $idSubtableAsInt;
     }
 }
