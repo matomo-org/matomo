@@ -23,6 +23,11 @@ class ProductSku extends Dimension
     protected $category = 'Goals_Ecommerce';
     protected $segmentName = 'productSku';
 
+    public function __construct()
+    {
+        $this->sqlFilterMatch = [$this, 'getOptimizedIdActionSqlMatch'];
+    }
+
     public function getDbColumnJoin()
     {
         return new ActionNameJoin();

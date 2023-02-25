@@ -27,6 +27,11 @@ class EventAction extends ActionDimension
     protected $suggestedValuesApi = 'Events.getAction';
     protected $category = 'Events_Events';
 
+    public function __construct()
+    {
+        $this->sqlFilterMatch = [$this, 'getOptimizedIdActionSqlMatch'];
+    }
+
     public function getDbColumnJoin()
     {
         return new ActionNameJoin();

@@ -21,12 +21,11 @@ class DownloadUrl extends ActionDimension
     protected $columnName = 'idaction_url';
     protected $category = 'General_Actions';
     protected $suggestedValuesApi = 'Actions.getDownloads';
-    //protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
     protected $type = self::TYPE_URL;
 
     public function __construct()
     {
-        $this->sqlFilterMatch = [$this, 'getOptimizedSegmentSqlMatch'];
+        $this->sqlFilterMatch = [$this, 'getOptimizedIdActionSqlMatch'];
     }
 
     public function getDbColumnJoin()

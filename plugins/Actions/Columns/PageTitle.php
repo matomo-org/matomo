@@ -24,6 +24,11 @@ class PageTitle extends ActionDimension
     protected $category = 'General_Actions';
     protected $suggestedValuesApi = 'Actions.getPageTitles';
 
+    public function __construct()
+    {
+        $this->sqlFilterMatch = [$this, 'getOptimizedIdActionSqlMatch'];
+    }
+
     public function getDbColumnJoin()
     {
         return new ActionNameJoin();

@@ -23,6 +23,11 @@ class ProductName extends Dimension
     protected $category = 'Goals_Ecommerce';
     protected $segmentName = 'productName';
 
+    public function __construct()
+    {
+        $this->sqlFilterMatch = [$this, 'getOptimizedIdActionSqlMatch'];
+    }
+
     public function getDbColumnJoin()
     {
         return new ActionNameJoin();

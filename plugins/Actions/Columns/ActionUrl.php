@@ -20,6 +20,11 @@ class ActionUrl extends ActionDimension
     protected $columnName = 'idaction_url';
     protected $type = self::TYPE_URL;
 
+    public function __construct()
+    {
+        $this->sqlFilterMatch = [$this, 'getOptimizedIdActionSqlMatch'];
+    }
+
     public function getDbColumnJoin()
     {
         return new ActionNameJoin();

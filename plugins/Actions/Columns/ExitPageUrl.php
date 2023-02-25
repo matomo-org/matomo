@@ -28,6 +28,11 @@ class ExitPageUrl extends VisitDimension
     protected $category = 'General_Actions';
     protected $suggestedValuesApi = 'Actions.getExitPageUrls';
 
+    public function __construct()
+    {
+        $this->sqlFilterMatch = [$this, 'getOptimizedIdActionSqlMatch'];
+    }
+
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {
         parent::configureMetrics($metricsList, $dimensionMetricFactory);

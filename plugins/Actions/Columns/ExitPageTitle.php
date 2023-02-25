@@ -26,6 +26,11 @@ class ExitPageTitle extends VisitDimension
     protected $suggestedValuesApi = 'Actions.getExitPageTitles';
     protected $type = self::TYPE_TEXT;
 
+    public function __construct()
+    {
+        $this->sqlFilterMatch = [$this, 'getOptimizedIdActionSqlMatch'];
+    }
+
     public function getDbColumnJoin()
     {
         return new ActionNameJoin();

@@ -26,6 +26,11 @@ class ContentInteraction extends ActionDimension
     protected $namePlural = 'Contents_ContentInteractions';
     protected $category = 'General_Actions';
 
+    public function __construct()
+    {
+        $this->sqlFilterMatch = [$this, 'getOptimizedIdActionSqlMatch'];
+    }
+
     public function getDbColumnJoin()
     {
         return new ActionNameJoin();

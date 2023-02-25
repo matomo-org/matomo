@@ -26,6 +26,11 @@ class EntryPageTitle extends VisitDimension
     protected $namePlural = 'Actions_WidgetEntryPageTitles';
     protected $category = 'General_Actions';
 
+    public function __construct()
+    {
+        $this->sqlFilterMatch = [$this, 'getOptimizedIdActionSqlMatch'];
+    }
+
     public function getDbColumnJoin()
     {
         return new ActionNameJoin();

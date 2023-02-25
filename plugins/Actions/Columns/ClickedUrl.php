@@ -25,7 +25,7 @@ class ClickedUrl extends ActionDimension
 
     public function __construct()
     {
-        $this->sqlFilterMatch = [$this, 'getOptimizedSegmentSqlMatch'];
+        $this->sqlFilterMatch = [$this, 'getOptimizedIdActionSqlMatch'];
     }
 
     public function getDbColumnJoin()

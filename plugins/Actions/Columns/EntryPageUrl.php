@@ -26,6 +26,11 @@ class EntryPageUrl extends VisitDimension
     protected $category = 'General_Actions';
     protected $type = self::TYPE_URL;
 
+    public function __construct()
+    {
+        $this->sqlFilterMatch = [$this, 'getOptimizedIdActionSqlMatch'];
+    }
+
     public function getDbColumnJoin()
     {
         return new ActionNameJoin();

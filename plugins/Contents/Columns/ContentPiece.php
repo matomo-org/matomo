@@ -27,6 +27,11 @@ class ContentPiece extends ActionDimension
     protected $type = self::TYPE_TEXT;
     protected $category = 'General_Actions';
 
+    public function __construct()
+    {
+        $this->sqlFilterMatch = [$this, 'getOptimizedIdActionSqlMatch'];
+    }
+
     public function getDbColumnJoin()
     {
         return new ActionNameJoin();

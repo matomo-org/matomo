@@ -18,7 +18,9 @@ use Piwik\CacheId;
 use Piwik\Cache as PiwikCache;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Metrics\Formatter;
+use Piwik\Segment\SegmentExpression;
 use Piwik\Segment\SegmentsList;
+use Piwik\Tracker\Action;
 
 /**
  * @api
@@ -869,4 +871,47 @@ abstract class Dimension
         return $this->columnType;
     }
 
+
+    /**
+     * TODO
+     * @param $field
+     * @param $matchType
+     * @param $value
+     * @param $join
+     * @return array|null
+     */
+    public function getOptimizedIdActionSqlMatch($field, $matchType, $value, $join, $isUrlProtocolAbsentInDb = false)
+    {
+        if ($matchType == SegmentExpression::MATCH_EQUAL || $matchType == SegmentExpression::MATCH_NOT_EQUAL) {
+            $dbDiscriminator = $this->getDbDiscriminator();
+
+            $actionType = $dbDiscriminator->getValue();
+            if ($actionType == Action::TYPE_PAGE_URL || $isUrlProtocolAbsentInDb) {
+                // for urls trim protocol and www because it is not recorded in the db
+                $value = preg_replace('@^http[s]?://(www\.)?@i', '', $value);
+            }
+
+            $unsanitizedValue = $value;
+            $value = \Piwik\Tracker\TableLogAction::normaliseActionString($actionType, $value);
+
+            $sqlOperator = $matchType == SegmentExpression::MATCH_EQUAL ? '=' : '<>';
+
+            $joinTable = $join['tableAlias'];
+
+            $sql = "%s $sqlOperator ? AND $joinTable.hash $sqlOperator CRC32(?)";
+            $bind = [$value, $value];
+
+            if ($unsanitizedValue !== $value) { // TODO: comment (see original code)
+                $sql = '((' . $sql . ') OR (' . $sql . '))';
+                $bind = array_merge($bind, [$unsanitizedValue, $unsanitizedValue]);
+            }
+
+            return [
+                'sql' => $sql,
+                'bind' => $bind,
+            ];
+        }
+
+        return null;
+    }
 }

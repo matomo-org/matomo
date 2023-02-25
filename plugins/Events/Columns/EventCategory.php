@@ -27,6 +27,11 @@ class EventCategory extends ActionDimension
     protected $nameSingular = 'Events_EventCategory';
     protected $namePlural = 'Events_EventCategories';
 
+    public function __construct()
+    {
+        $this->sqlFilterMatch = [$this, 'getOptimizedIdActionSqlMatch'];
+    }
+
     public function getDbColumnJoin()
     {
         return new ActionNameJoin();

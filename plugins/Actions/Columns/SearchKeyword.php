@@ -21,6 +21,11 @@ class SearchKeyword extends ActionDimension
     protected $namePlural = 'Actions_SiteSearchKeywords';
     protected $type = self::TYPE_TEXT;
 
+    public function __construct()
+    {
+        $this->sqlFilterMatch = [$this, 'getOptimizedIdActionSqlMatch'];
+    }
+
     public function getDbColumnJoin()
     {
         return new ActionNameJoin();

@@ -26,6 +26,11 @@ class ProductViewSku extends ActionDimension
     protected $columnType = 'INT(10) UNSIGNED NULL';
     protected $category = 'Goals_Ecommerce';
 
+    public function __construct()
+    {
+        $this->sqlFilterMatch = [$this, 'getOptimizedIdActionSqlMatch'];
+    }
+
     public function getDbColumnJoin()
     {
         return new ActionNameJoin();

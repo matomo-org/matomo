@@ -26,6 +26,11 @@ class ContentTarget extends ActionDimension
     protected $category = 'General_Actions';
     protected $acceptValues = 'For instance the URL of a landing page: "http://landingpage.example.com"';
 
+    public function __construct()
+    {
+        $this->sqlFilterMatch = [$this, 'getOptimizedIdActionSqlMatch'];
+    }
+
     public function getDbColumnJoin()
     {
         return new ActionNameJoin();
