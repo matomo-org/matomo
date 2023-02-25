@@ -25,7 +25,6 @@ class ProductViewName extends ActionDimension
     protected $segmentName = 'productViewName';
     protected $columnType = 'INT(10) UNSIGNED NULL';
     protected $category = 'Goals_Ecommerce';
-    protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
 
     public function getDbColumnJoin()
     {

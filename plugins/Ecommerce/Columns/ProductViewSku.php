@@ -25,7 +25,6 @@ class ProductViewSku extends ActionDimension
     protected $segmentName = 'productViewSku';
     protected $columnType = 'INT(10) UNSIGNED NULL';
     protected $category = 'Goals_Ecommerce';
-    protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
 
     public function getDbColumnJoin()
     {
