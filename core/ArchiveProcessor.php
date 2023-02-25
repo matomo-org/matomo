@@ -13,6 +13,7 @@ use Piwik\Archive\DataTableFactory;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Container\StaticContainer;
+use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Manager;
@@ -388,10 +389,7 @@ class ArchiveProcessor
             $result->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnsAggregationOperation);
         }
 
-        $allNamesEncountered = [];
         foreach ($dataTableBlobs as $archiveDataRow) {
-            $allNamesEncountered[] = $archiveDataRow['name'];
-
             $period = $archiveDataRow['date1'] . ',' . $archiveDataRow['date2'];
             $tableId = $this->getSubtableIdFromBlobName($archiveDataRow['name']);
 
@@ -417,6 +415,7 @@ class ArchiveProcessor
                 $tableToAddTo = $result;
             } else if (empty($tableIdToResultRowMapping[$period][$tableId])) {
                 // TODO add a log here just in case
+                throw new \Exception("unknown period/table ID: $period - $tableId\n");
             } else {
                 $rowToAddTo = $tableIdToResultRowMapping[$period][$tableId];
 

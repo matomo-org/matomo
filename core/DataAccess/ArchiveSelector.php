@@ -558,11 +558,13 @@ class ArchiveSelector
             $bind = array($name, $name . '%');
 
             if ($orderBySubtableId && count($recordNames) == 1) {
+                // TODO: need to test this
                 $extractSuffix = "SUBSTRING(name, IF($checkForChunkBlob, $chunkEnd, $nameEnd))";
-                $extractIdSubtableStart = "CAST(SUBSTRING($extractSuffix, 1, LOCATE('_', $extractSuffix) - 1) AS UNSIGNED)";
+                $extractIdSubtableStart = "IF( (@idsubtable := SUBSTRING($extractSuffix, 1, LOCATE('_', $extractSuffix) - 1)) = '', -1, @idsubtable )";
+                $idSubtableAsInt = "CAST($extractIdSubtableStart AS SIGNED)";
 
                 $orderBy = "ORDER BY date1 ASC, " . // ordering by date just so column order in tests will be predictable
-                    " $extractIdSubtableStart ASC,
+                    " $idSubtableAsInt ASC,
                   ts_archived DESC"; // ascending order so we use the latest data found
             }
         } else {
