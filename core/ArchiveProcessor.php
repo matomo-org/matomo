@@ -413,9 +413,16 @@ class ArchiveProcessor
             $tableToAddTo = null;
             if ($tableId === null) {
                 $tableToAddTo = $result;
-            } else if (empty($tableIdToResultRowMapping[$period][$tableId])) {
-                // TODO add a log here just in case
-                throw new \Exception("unknown period/table ID: $period - $tableId\n");
+            } else if (empty($tableIdToResultRowMapping[$period][$tableId])) { // sanity check
+                StaticContainer::get(LoggerInterface::class)->info(
+                    'Unexpected state when aggregating DataTable, unknown period/table ID combination encountered: {period} - {tableId}.'
+                    . ' This either means the SQL to order blobs is behaving incorrectly or the blob data is corrupt in some way.',
+                    [
+                        'period' => $period,
+                        'tableId' => $tableId,
+                    ]
+                );
+                continue;
             } else {
                 $rowToAddTo = $tableIdToResultRowMapping[$period][$tableId];
 
