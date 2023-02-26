@@ -14,7 +14,6 @@ use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UserUpdater;
 use Piwik\Tests\Framework\Fixture;
-use Piwik\Tests\Framework\XssTesting;
 
 /**
  * Generates tracker testing data for our APITest
