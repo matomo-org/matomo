@@ -122,8 +122,18 @@ abstract class Archiver
             $recordBuilders = array_filter($recordBuilders);
 
             /**
-             * TODO
+             * Triggered to add new RecordBuilders that cannot be picked up automatically by the platform.
+             * If you define RecordBuilders that take a parameter, for example, an ID to an entity your plugin
+             * manages, use this event to add instances of that RecordBuilder to the global list.
              *
+             * **Example**
+             *
+             *     public function addRecordBuilders(&$recordBuilders)
+             *     {
+             *         $recordBuilders[] = new MyParameterizedRecordBuilder($idOfThingToArchiveFor);
+             *     }
+             *
+             * @param ArchiveProcessor\RecordBuilder[] $reports An array of dimensions
              * @api
              */
             Piwik::postEvent('Archiver.addRecordBuilders', [&$recordBuilders]);

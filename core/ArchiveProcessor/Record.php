@@ -8,11 +8,9 @@
 
 namespace Piwik\ArchiveProcessor;
 
-use Piwik\DataTable;
-
 /**
- * TODO docs
  * @api
+ * @since 5.0.0
  */
 class Record
 {

@@ -162,8 +162,6 @@ class GeneralGoalsRecords extends Base
             Archiver::getRecordName('revenue')             => $totalRevenue,
         ], $numericRecords);
 
-        // TODO: Remove use of DataArray everywhere, just directly build DataTables (less memory use overall)
-
         foreach ($visitsToConversions as $idGoal => $table) {
             $recordName = Archiver::getRecordName(self::VISITS_UNTIL_RECORD_NAME, $idGoal);
             $result[$recordName] = $table;
@@ -218,11 +216,6 @@ class GeneralGoalsRecords extends Base
             $records[] = Record::make(Record::TYPE_BLOB, Archiver::getRecordName(self::DAYS_UNTIL_CONV_RECORD_NAME, $idGoal));
         }
         return $records;
-    }
-
-    private function hasAnyGoalOrEcommerce($idSite) // TODO: this & other methods like this should probably be in a base class
-    {
-        return $this->usesEcommerce($idSite) || !empty(GoalManager::getGoalIds($idSite));
     }
 
     protected function getConversionsNumericMetrics(DataArray $goals)

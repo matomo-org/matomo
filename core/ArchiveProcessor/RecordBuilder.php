@@ -13,8 +13,9 @@ use Piwik\Common;
 use Piwik\DataTable;
 
 /**
- * TODO docs (including members)
- * @api
+ * Inherit from this class to define archiving logic for one or more records.
+ *
+ * @since 5.0.0
  */
 abstract class RecordBuilder
 {
@@ -43,6 +44,13 @@ abstract class RecordBuilder
      */
     protected $columnAggregationOps;
 
+    /**
+     * @param int|null $maxRowsInTable
+     * @param int|null $maxRowsInSubtable
+     * @param string|int|null $columnToSortByBeforeTruncation
+     * @param array|null $columnAggregationOps
+     * @api
+     */
     public function __construct($maxRowsInTable = null, $maxRowsInSubtable = null,
                                 $columnToSortByBeforeTruncation = null, $columnAggregationOps = null)
     {
@@ -116,12 +124,20 @@ abstract class RecordBuilder
     }
 
     /**
+     * Returns metadata for records primarily used when aggregating over non-day periods. Every numeric/blob
+     * record your RecordBuilder creates should have an associated piece of record metadata.
+     *
      * @return Record[]
+     * @api
      */
     public abstract function getRecordMetadata(ArchiveProcessor $archiveProcessor);
 
     /**
-     * @return (DataTable|int|float|string)[]
+     * Derived classes should define this method to aggregate log data for a single day and return the records
+     * to store indexed by record names.
+     *
+     * @return (DataTable|int|float|string)[] Record values indexed by their record name, eg, `['MyPlugin_MyRecord' => new DataTable()]`
+     * @api
      */
     protected abstract function aggregate(ArchiveProcessor $archiveProcessor);
 
@@ -156,6 +172,13 @@ abstract class RecordBuilder
         return $plugin;
     }
 
+    /**
+     * Returns an extra hint for LogAggregator to add to log aggregation SQL. Can be overridden if you'd
+     * like the origin hint to have more information.
+     *
+     * @return string
+     * @api
+     */
     public function getQueryOriginHint()
     {
         $recordBuilderName = get_class($this);

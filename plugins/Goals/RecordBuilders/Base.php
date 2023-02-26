@@ -28,6 +28,11 @@ abstract class Base extends RecordBuilder
             && Site::isEcommerceEnabledFor($idSite);
     }
 
+    protected function hasAnyGoalOrEcommerce($idSite)
+    {
+        return $this->usesEcommerce($idSite) || !empty(GoalManager::getGoalIds($idSite));
+    }
+
     protected function getEcommerceIdGoals()
     {
         return array(GoalManager::IDGOAL_CART, GoalManager::IDGOAL_ORDER);
