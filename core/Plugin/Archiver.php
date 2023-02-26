@@ -168,9 +168,13 @@ abstract class Archiver
         try {
             ErrorHandler::pushFatalErrorBreadcrumb(static::class);
 
+            $pluginName = $this->getPluginName();
+
             $recordBuilders = $this->getRecordBuilders();
             foreach ($recordBuilders as $recordBuilder) {
-                if (!$recordBuilder->isEnabled()) {
+                if ($recordBuilder->getPluginName() != $pluginName
+                    || !$recordBuilder->isEnabled()
+                ) {
                     continue;
                 }
 
