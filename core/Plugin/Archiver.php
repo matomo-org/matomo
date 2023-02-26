@@ -94,7 +94,7 @@ abstract class Archiver
         $plugin = $parts[2];
 
         if (!Manager::getInstance()->isPluginLoaded($plugin)) {
-            throw new \Exception('Unexpected state: archiver plugin \'' . $plugin . '\' is not loaded.');
+            return null;
         }
 
         return $plugin;
@@ -143,15 +143,17 @@ abstract class Archiver
 
             $pluginName = $this->getPluginName();
 
-            $recordBuilders = $this->getRecordBuilders();
-            foreach ($recordBuilders as $recordBuilder) {
-                if ($recordBuilder->getPluginName() != $pluginName
-                    || !$recordBuilder->isEnabled()
-                ) {
-                    continue;
-                }
+            if (!empty($pluginName)) {
+                $recordBuilders = $this->getRecordBuilders();
+                foreach ($recordBuilders as $recordBuilder) {
+                    if ($recordBuilder->getPluginName() != $pluginName
+                        || !$recordBuilder->isEnabled()
+                    ) {
+                        continue;
+                    }
 
-                $recordBuilder->build($this->getProcessor());
+                    $recordBuilder->build($this->getProcessor());
+                }
             }
 
             $this->aggregateDayReport();
@@ -170,15 +172,17 @@ abstract class Archiver
 
             $pluginName = $this->getPluginName();
 
-            $recordBuilders = $this->getRecordBuilders();
-            foreach ($recordBuilders as $recordBuilder) {
-                if ($recordBuilder->getPluginName() != $pluginName
-                    || !$recordBuilder->isEnabled()
-                ) {
-                    continue;
-                }
+            if (!empty($pluginName)) {
+                $recordBuilders = $this->getRecordBuilders();
+                foreach ($recordBuilders as $recordBuilder) {
+                    if ($recordBuilder->getPluginName() != $pluginName
+                        || !$recordBuilder->isEnabled()
+                    ) {
+                        continue;
+                    }
 
-                $recordBuilder->buildMultiplePeriod($this->getProcessor());
+                    $recordBuilder->buildMultiplePeriod($this->getProcessor());
+                }
             }
 
             $this->aggregateMultipleReports();
