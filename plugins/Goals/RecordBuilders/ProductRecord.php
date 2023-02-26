@@ -9,8 +9,10 @@
 
 namespace Piwik\Plugins\Goals\RecordBuilders;
 
+use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Record;
 use Piwik\Config;
+use Piwik\DataAccess\LogAggregator;
 use Piwik\DataArray;
 use Piwik\Metrics;
 use Piwik\Plugin\Manager;
@@ -73,7 +75,7 @@ class ProductRecord extends Base
         return Manager::getInstance()->isPluginActivated('Ecommerce');
     }
 
-    public function getRecordMetadata()
+    public function getRecordMetadata(ArchiveProcessor $archiveProcessor)
     {
         $abandonedCartRecordName = Archiver::getItemRecordNameAbandonedCart($this->recordName);
 
@@ -83,25 +85,25 @@ class ProductRecord extends Base
         ];
     }
 
-    protected function aggregate()
+    protected function aggregate(ArchiveProcessor $archiveProcessor)
     {
         $itemReports = [];
         foreach ($this->getEcommerceIdGoals() as $ecommerceType) {
             $itemReports[$ecommerceType] = new DataArray();
         }
 
-        $logAggregator = $this->archiveProcessor->getLogAggregator();
+        $logAggregator = $archiveProcessor->getLogAggregator();
 
         // try to query ecommerce items only, if ecommerce is actually used
         // otherwise we simply insert empty records
-        if ($this->usesEcommerce($this->getSiteId())) {
+        if ($this->usesEcommerce($this->getSiteId($archiveProcessor))) {
             foreach ($this->dimensionsToAggregate as $dimension) {
                 $query = $logAggregator->queryEcommerceItems($dimension);
                 if ($query !== false) {
                     $this->aggregateFromEcommerceItems($itemReports, $query, $dimension);
                 }
 
-                $query = $this->queryItemViewsForDimension($dimension);
+                $query = $this->queryItemViewsForDimension($logAggregator, $dimension);
                 if ($query !== false) {
                     $this->aggregateFromEcommerceViews($itemReports, $query, $dimension);
                 }
@@ -159,12 +161,11 @@ class ProductRecord extends Base
         }
     }
 
-    protected function queryItemViewsForDimension($dimension)
+    protected function queryItemViewsForDimension(LogAggregator $logAggregator, $dimension)
     {
         $column = $this->actionMapping[$dimension];
         $where  = "log_link_visit_action.$column is not null";
 
-        $logAggregator = $this->archiveProcessor->getLogAggregator();
         return $logAggregator->queryActionsByDimension(
             ['label' => 'log_action1.name'],
             $where,

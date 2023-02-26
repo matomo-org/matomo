@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\Goals\RecordBuilders;
 
+use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\RecordBuilder;
 use Piwik\Plugin\Manager;
 use Piwik\Site;
@@ -16,9 +17,9 @@ use Piwik\Tracker\GoalManager;
 
 abstract class Base extends RecordBuilder
 {
-    protected function getSiteId()
+    protected function getSiteId(ArchiveProcessor $archiveProcessor)
     {
-        return $this->archiveProcessor->getParams()->getSite()->getId();
+        return $archiveProcessor->getParams()->getSite()->getId();
     }
 
     protected function usesEcommerce($idSite)

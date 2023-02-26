@@ -19,11 +19,6 @@ use Piwik\DataTable;
 abstract class RecordBuilder
 {
     /**
-     * @var ArchiveProcessor
-     */
-    protected $archiveProcessor;
-
-    /**
      * @var int
      */
     protected $maxRowsInTable;
@@ -57,26 +52,12 @@ abstract class RecordBuilder
         $this->columnAggregationOps = $columnAggregationOps;
     }
 
-    public function getProcessor()
-    {
-        return $this->archiveProcessor;
-    }
-
-    /**
-     * @return void
-     * @internal
-     */
-    public function setArchiveProcessor(ArchiveProcessor $archiveProcessor = null)
-    {
-        $this->archiveProcessor = $archiveProcessor;
-    }
-
     public function isEnabled()
     {
         return true;
     }
 
-    public function build()
+    public function build(ArchiveProcessor $archiveProcessor)
     {
         if (!$this->isEnabled()) {
             return;
@@ -84,10 +65,10 @@ abstract class RecordBuilder
 
         $numericRecords = [];
 
-        $records = $this->aggregate();
+        $records = $this->aggregate($archiveProcessor);
         foreach ($records as $recordName => $recordValue) {
             if ($recordValue instanceof DataTable) {
-                $this->insertRecord($recordName, $recordValue);
+                $this->insertRecord($archiveProcessor, $recordName, $recordValue);
 
                 Common::destroy($recordValue);
                 unset($recordValue);
@@ -99,17 +80,17 @@ abstract class RecordBuilder
         unset($records);
 
         if (!empty($numericRecords)) {
-            $this->archiveProcessor->insertNumericRecords($numericRecords);
+            $archiveProcessor->insertNumericRecords($numericRecords);
         }
     }
 
-    public function buildMultiplePeriod()
+    public function buildMultiplePeriod(ArchiveProcessor $archiveProcessor)
     {
         if (!$this->isEnabled()) {
             return;
         }
 
-        $recordsBuilt = $this->getRecordMetadata();
+        $recordsBuilt = $this->getRecordMetadata($archiveProcessor);
 
         $numericRecords = array_filter($recordsBuilt, function (Record $r) { return $r->getType() == Record::TYPE_NUMERIC; });
         $blobRecords = array_filter($recordsBuilt, function (Record $r) { return $r->getType() == Record::TYPE_BLOB; });
@@ -119,7 +100,7 @@ abstract class RecordBuilder
             $maxRowsInSubtable = $record->getMaxRowsInSubtable() ?? $this->maxRowsInSubtable;
             $columnToSortByBeforeTruncation = $record->getColumnToSortByBeforeTruncation() ?? $this->columnToSortByBeforeTruncation;
 
-            $this->archiveProcessor->aggregateDataTableRecords(
+            $archiveProcessor->aggregateDataTableRecords(
                 $record->getName(),
                 $maxRowsInTable,
                 $maxRowsInSubtable,
@@ -130,28 +111,28 @@ abstract class RecordBuilder
 
         if (!empty($numericRecords)) {
             $numericMetrics = array_map(function (Record $r) { return $r->getName(); }, $numericRecords);
-            $this->archiveProcessor->aggregateNumericMetrics($numericMetrics, $this->columnAggregationOps);
+            $archiveProcessor->aggregateNumericMetrics($numericMetrics, $this->columnAggregationOps);
         }
     }
 
     /**
      * @return Record[]
      */
-    public abstract function getRecordMetadata();
+    public abstract function getRecordMetadata(ArchiveProcessor $archiveProcessor);
 
     /**
      * @return (DataTable|int|float|string)[]
      */
-    protected abstract function aggregate();
+    protected abstract function aggregate(ArchiveProcessor $archiveProcessor);
 
-    private function insertRecord($recordName, DataTable\DataTableInterface $record)
+    private function insertRecord(ArchiveProcessor $archiveProcessor, $recordName, DataTable\DataTableInterface $record)
     {
         if ($record->getRowsCount() <= 0) {
             return;
         }
 
         $serialized = $record->getSerialized($this->maxRowsInTable, $this->maxRowsInSubtable, $this->columnToSortByBeforeTruncation);
-        $this->archiveProcessor->insertBlobRecord($recordName, $serialized);
+        $archiveProcessor->insertBlobRecord($recordName, $serialized);
         unset($serialized);
     }
 

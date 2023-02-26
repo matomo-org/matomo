@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\Goals\RecordBuilders;
 
+use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Record;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataArray;
@@ -67,7 +68,7 @@ class GeneralGoalsRecords extends Base
         array(364)
     );
 
-    protected function aggregate()
+    protected function aggregate(ArchiveProcessor $archiveProcessor)
     {
         $prefixes = array(
             self::VISITS_UNTIL_RECORD_NAME    => 'vcv',
@@ -82,13 +83,13 @@ class GeneralGoalsRecords extends Base
         $visitsToConversions = [];
         $daysToConversions = [];
 
-        $siteHasEcommerceOrGoals = $this->hasAnyGoalOrEcommerce($this->getSiteId());
+        $siteHasEcommerceOrGoals = $this->hasAnyGoalOrEcommerce($this->getSiteId($archiveProcessor));
 
         // Special handling for sites that contain subordinated sites, like in roll up reporting.
         // A roll up site, might not have ecommerce enabled or any configured goals,
         // but if a subordinated site has, we calculate the overview conversion metrics nevertheless
         if ($siteHasEcommerceOrGoals === false) {
-            $idSitesToArchive = $this->archiveProcessor->getParams()->getIdSites();
+            $idSitesToArchive = $archiveProcessor->getParams()->getIdSites();
 
             foreach ($idSitesToArchive as $idSite) {
                 if ($this->hasAnyGoalOrEcommerce($idSite)) {
@@ -98,7 +99,7 @@ class GeneralGoalsRecords extends Base
             }
         }
 
-        $logAggregator = $this->archiveProcessor->getLogAggregator();
+        $logAggregator = $archiveProcessor->getLogAggregator();
 
         // try to query goal data only, if goals or ecommerce is actually used
         // otherwise we simply insert empty records
@@ -152,7 +153,7 @@ class GeneralGoalsRecords extends Base
         // Stats by goal, for all visitors
         $numericRecords = $this->getConversionsNumericMetrics($goals);
 
-        $nbConvertedVisits = $this->archiveProcessor->getNumberOfVisitsConverted();
+        $nbConvertedVisits = $archiveProcessor->getNumberOfVisitsConverted();
 
         $result = array_merge([
             // Stats for all goals
@@ -194,9 +195,9 @@ class GeneralGoalsRecords extends Base
         return !in_array($idGoal, $this->getEcommerceIdGoals());
     }
 
-    public function getRecordMetadata()
+    public function getRecordMetadata(ArchiveProcessor $archiveProcessor)
     {
-        $goals = API::getInstance()->getGoals($this->getSiteId());
+        $goals = API::getInstance()->getGoals($this->getSiteId($archiveProcessor));
         $goals = array_keys($goals);
 
         if (Manager::getInstance()->isPluginActivated('Ecommerce')) {
