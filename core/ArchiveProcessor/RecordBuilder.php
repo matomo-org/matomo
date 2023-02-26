@@ -13,7 +13,7 @@ use Piwik\Common;
 use Piwik\DataTable;
 
 /**
- * TODO docs
+ * TODO docs (including members)
  * @api
  */
 abstract class RecordBuilder
@@ -156,7 +156,7 @@ abstract class RecordBuilder
         return $plugin;
     }
 
-    private function getQueryDecoration() // TODO: use query decoration in LogAggregator or wherever
+    public function getQueryOriginHint()
     {
         $recordBuilderName = get_class($this);
         $recordBuilderName = explode('\\', $recordBuilderName);

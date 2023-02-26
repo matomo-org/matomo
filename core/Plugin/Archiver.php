@@ -152,7 +152,14 @@ abstract class Archiver
                         continue;
                     }
 
-                    $recordBuilder->build($this->getProcessor());
+                    $originalQueryHint = $this->getProcessor()->getLogAggregator()->getQueryOriginHint();
+                    $newQueryHint = $originalQueryHint . ' ' . $recordBuilder->getQueryOriginHint();
+                    try {
+                        $this->getProcessor()->getLogAggregator()->setQueryOriginHint($newQueryHint);
+                        $recordBuilder->build($this->getProcessor());
+                    } finally {
+                        $this->getProcessor()->getLogAggregator()->setQueryOriginHint($originalQueryHint);
+                    }
                 }
             }
 
@@ -181,7 +188,14 @@ abstract class Archiver
                         continue;
                     }
 
-                    $recordBuilder->buildMultiplePeriod($this->getProcessor());
+                    $originalQueryHint = $this->getProcessor()->getLogAggregator()->getQueryOriginHint();
+                    $newQueryHint = $originalQueryHint . ' ' . $recordBuilder->getQueryOriginHint();
+                    try {
+                        $this->getProcessor()->getLogAggregator()->setQueryOriginHint($newQueryHint);
+                        $recordBuilder->buildMultiplePeriod($this->getProcessor());
+                    } finally {
+                        $this->getProcessor()->getLogAggregator()->setQueryOriginHint($originalQueryHint);
+                    }
                 }
             }
 
