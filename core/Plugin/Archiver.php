@@ -151,8 +151,13 @@ abstract class Archiver
                     continue;
                 }
 
-                $recordBuilder->setArchiveProcessor($this->getProcessor());
-                $recordBuilder->build();
+                $oldArchiveProcessor = $recordBuilder->getProcessor();
+                try {
+                    $recordBuilder->setArchiveProcessor($this->getProcessor());
+                    $recordBuilder->build();
+                } finally {
+                    $recordBuilder->setArchiveProcessor($oldArchiveProcessor);
+                }
             }
 
             $this->aggregateDayReport();
@@ -175,8 +180,13 @@ abstract class Archiver
                     continue;
                 }
 
-                $recordBuilder->setArchiveProcessor($this->getProcessor());
-                $recordBuilder->buildMultiplePeriod();
+                $oldArchiveProcessor = $recordBuilder->getProcessor();
+                try {
+                    $recordBuilder->setArchiveProcessor($this->getProcessor());
+                    $recordBuilder->buildMultiplePeriod();
+                } finally {
+                    $recordBuilder->setArchiveProcessor($oldArchiveProcessor);
+                }
             }
 
             $this->aggregateMultipleReports();

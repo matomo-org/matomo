@@ -57,11 +57,16 @@ abstract class RecordBuilder
         $this->columnAggregationOps = $columnAggregationOps;
     }
 
+    public function getProcessor()
+    {
+        return $this->archiveProcessor;
+    }
+
     /**
      * @return void
      * @internal
      */
-    public function setArchiveProcessor(ArchiveProcessor $archiveProcessor)
+    public function setArchiveProcessor(ArchiveProcessor $archiveProcessor = null)
     {
         $this->archiveProcessor = $archiveProcessor;
     }
