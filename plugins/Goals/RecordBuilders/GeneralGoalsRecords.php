@@ -17,6 +17,7 @@ use Piwik\Metrics;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\Goals\API;
 use Piwik\Plugins\Goals\Archiver;
+use Piwik\Plugins\Goals\Goals;
 use Piwik\Tracker\GoalManager;
 
 class GeneralGoalsRecords extends Base
@@ -195,15 +196,6 @@ class GeneralGoalsRecords extends Base
 
     public function getRecordMetadata()
     {
-        $records = [
-            Record::make(Record::TYPE_BLOB, Archiver::getRecordName(self::VISITS_UNTIL_RECORD_NAME)),
-            Record::make(Record::TYPE_BLOB, Archiver::getRecordName(self::DAYS_UNTIL_CONV_RECORD_NAME)),
-
-            Record::make(Record::TYPE_NUMERIC, Archiver::getRecordName('nb_conversions')),
-            Record::make(Record::TYPE_NUMERIC, Archiver::getRecordName('nb_visits_converted')),
-            Record::make(Record::TYPE_NUMERIC, Archiver::getRecordName('revenue')),
-        ];
-
         $goals = API::getInstance()->getGoals($this->getSiteId());
         $goals = array_keys($goals);
 
@@ -211,15 +203,19 @@ class GeneralGoalsRecords extends Base
             $goals = array_merge($goals, $this->getEcommerceIdGoals());
         }
 
+        // Overall goal metrics
+        $goals[] = false;
+
+        $records = [];
         foreach ($goals as $idGoal) {
-            foreach (Metrics::$mappingFromIdToNameGoal as $metricName) {
+            $metricsToSum = Goals::getGoalColumns($idGoal);
+            foreach ($metricsToSum as $metricName) {
                 $records[] = Record::make(Record::TYPE_NUMERIC, Archiver::getRecordName($metricName, $idGoal));
             }
 
             $records[] = Record::make(Record::TYPE_BLOB, Archiver::getRecordName(self::VISITS_UNTIL_RECORD_NAME, $idGoal));
             $records[] = Record::make(Record::TYPE_BLOB, Archiver::getRecordName(self::DAYS_UNTIL_CONV_RECORD_NAME, $idGoal));
         }
-
         return $records;
     }
 
