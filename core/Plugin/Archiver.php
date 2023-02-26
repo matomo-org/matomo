@@ -107,25 +107,26 @@ abstract class Archiver
      */
     private function getRecordBuilders()
     {
-        $plugin = $this->getPluginName();
-
         $transientCache = Cache::getTransientCache();
-        $cacheKey = 'Archiver.RecordBuilders.' . $plugin;
+        $cacheKey = 'Archiver.RecordBuilders';
 
         $recordBuilders = $transientCache->fetch($cacheKey);
         if ($recordBuilders === false) {
             $recordBuilderClasses = Manager::getInstance()->findMultipleComponents('RecordBuilders', ArchiveProcessor\RecordBuilder::class);
 
             $recordBuilders = array_map(function ($className) {
-                return StaticContainer::getContainer()->make($className);
+                if ((new \ReflectionClass($className))->getConstructor()->getNumberOfRequiredParameters() == 0) {
+                    return StaticContainer::getContainer()->make($className);
+                }
             }, $recordBuilderClasses);
+            $recordBuilders = array_filter($recordBuilders);
 
             /**
              * TODO
              *
              * @api
              */
-            Piwik::postEvent('Archiver.addRecordBuilders', [&$recordBuilders, $plugin]);
+            Piwik::postEvent('Archiver.addRecordBuilders', [&$recordBuilders]);
 
             $transientCache->save($cacheKey, $recordBuilders);
         }
@@ -140,9 +141,13 @@ abstract class Archiver
         try {
             ErrorHandler::pushFatalErrorBreadcrumb(static::class);
 
+            $pluginName = $this->getPluginName();
+
             $recordBuilders = $this->getRecordBuilders();
             foreach ($recordBuilders as $recordBuilder) {
-                if (!$recordBuilder->isEnabled()) {
+                if ($recordBuilder->getPluginName() != $pluginName
+                    || !$recordBuilder->isEnabled()
+                ) {
                     continue;
                 }
 

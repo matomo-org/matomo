@@ -94,7 +94,6 @@ abstract class RecordBuilder
         unset($records);
 
         if (!empty($numericRecords)) {
-            // TODO: plugin name replace?
             $this->archiveProcessor->insertNumericRecords($numericRecords);
         }
     }
@@ -164,6 +163,15 @@ abstract class RecordBuilder
     public function getColumnToSortByBeforeTruncation()
     {
         return $this->columnToSortByBeforeTruncation;
+    }
+
+    public function getPluginName()
+    {
+        $className = get_class($this);
+        $parts = explode('\\', $className);
+        $parts = array_filter($parts);
+        $plugin = $parts[2];
+        return $plugin;
     }
 
     private function getQueryDecoration() // TODO: use query decoration in LogAggregator or wherever

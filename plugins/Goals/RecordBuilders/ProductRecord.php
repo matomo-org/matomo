@@ -17,8 +17,7 @@ use Piwik\Plugin\Manager;
 use Piwik\Plugins\Goals\Archiver;
 use Piwik\Tracker\GoalManager;
 
-// TODO: this can be split up further
-class EcommerceRecords extends Base
+class ProductRecord extends Base
 {
     const SKU_FIELD = 'idaction_sku';
     const NAME_FIELD = 'idaction_name';
@@ -32,12 +31,6 @@ class EcommerceRecords extends Base
     const ITEMS_NAME_RECORD_NAME = 'Goals_ItemsName';
     const ITEMS_CATEGORY_RECORD_NAME = 'Goals_ItemsCategory';
 
-    protected $dimensionRecord = [
-        self::SKU_FIELD      => self::ITEMS_SKU_RECORD_NAME,
-        self::NAME_FIELD     => self::ITEMS_NAME_RECORD_NAME,
-        self::CATEGORY_FIELD => self::ITEMS_CATEGORY_RECORD_NAME
-    ];
-
     protected $actionMapping = [
         self::SKU_FIELD      => 'idaction_product_sku',
         self::NAME_FIELD     => 'idaction_product_name',
@@ -48,12 +41,31 @@ class EcommerceRecords extends Base
         self::CATEGORY5_FIELD => 'idaction_product_cat5',
     ];
 
-    public function __construct()
+    /**
+     * @var string
+     */
+    private $dimension;
+
+    /**
+     * @var string
+     */
+    private $recordName;
+
+    /**
+     * @var string[]
+     */
+    private $dimensionsToAggregate;
+
+    public function __construct($dimension, $recordName, $otherDimensionsToAggregate = [])
     {
         $general = Config::getInstance()->General;
         $productReportsMaximumRows = $general['datatable_archiving_maximum_rows_products'];
 
         parent::__construct($productReportsMaximumRows, $productReportsMaximumRows, Metrics::INDEX_ECOMMERCE_ITEM_REVENUE);
+
+        $this->dimension = $dimension;
+        $this->recordName = $recordName;
+        $this->dimensionsToAggregate = array_merge([$dimension], $otherDimensionsToAggregate);
     }
 
     public function isEnabled()
@@ -63,23 +75,19 @@ class EcommerceRecords extends Base
 
     public function getRecordMetadata()
     {
-        $result = [];
-        foreach ($this->dimensionRecord as $recordName) {
-            $result[] = Record::make(Record::TYPE_BLOB, $recordName);
+        $abandonedCartRecordName = Archiver::getItemRecordNameAbandonedCart($this->recordName);
 
-            $abandonedCartRecordName = Archiver::getItemRecordNameAbandonedCart($recordName);
-            $result[] = Record::make(Record::TYPE_BLOB, $abandonedCartRecordName);
-        }
-        return $result;
+        return [
+            Record::make(Record::TYPE_BLOB, $this->recordName),
+            Record::make(Record::TYPE_BLOB, $abandonedCartRecordName),
+        ];
     }
 
     protected function aggregate()
     {
         $itemReports = [];
         foreach ($this->getEcommerceIdGoals() as $ecommerceType) {
-            foreach ($this->dimensionRecord as $dimension => $record) {
-                $itemReports[$dimension][$ecommerceType] = new DataArray();
-            }
+            $itemReports[$ecommerceType] = new DataArray();
         }
 
         $logAggregator = $this->archiveProcessor->getLogAggregator();
@@ -87,7 +95,7 @@ class EcommerceRecords extends Base
         // try to query ecommerce items only, if ecommerce is actually used
         // otherwise we simply insert empty records
         if ($this->usesEcommerce($this->getSiteId())) {
-            foreach ($this->getItemsDimensions() as $dimension) {
+            foreach ($this->dimensionsToAggregate as $dimension) {
                 $query = $logAggregator->queryEcommerceItems($dimension);
                 if ($query !== false) {
                     $this->aggregateFromEcommerceItems($itemReports, $query, $dimension);
@@ -101,37 +109,16 @@ class EcommerceRecords extends Base
         }
 
         $records = [];
-        foreach ($itemReports as $dimension => $itemAggregatesByType) {
-            foreach ($itemAggregatesByType as $ecommerceType => $itemAggregate) {
-                $recordName = $this->dimensionRecord[$dimension];
-                if ($ecommerceType == GoalManager::IDGOAL_CART) {
-                    $recordName = Archiver::getItemRecordNameAbandonedCart($recordName);
-                }
-
-                $table = $itemAggregate->asDataTable();
-                $records[$recordName] = $table;
+        foreach ($itemReports as $ecommerceType => $itemAggregate) {
+            $recordName = $this->recordName;
+            if ($ecommerceType == GoalManager::IDGOAL_CART) {
+                $recordName = Archiver::getItemRecordNameAbandonedCart($recordName);
             }
+
+            $table = $itemAggregate->asDataTable();
+            $records[$recordName] = $table;
         }
         return $records;
-    }
-
-    protected function getItemsDimensions()
-    {
-        $dimensions = array_keys($this->dimensionRecord);
-        foreach ($this->getItemExtraCategories() as $category) {
-            $dimensions[] = $category;
-        }
-        return $dimensions;
-    }
-
-    protected function getItemExtraCategories()
-    {
-        return array(self::CATEGORY2_FIELD, self::CATEGORY3_FIELD, self::CATEGORY4_FIELD, self::CATEGORY5_FIELD);
-    }
-
-    protected function isItemExtraCategory($field)
-    {
-        return in_array($field, $this->getItemExtraCategories());
     }
 
     protected function aggregateFromEcommerceItems($itemReports, $query, $dimension)
@@ -144,12 +131,7 @@ class EcommerceRecords extends Base
                 continue;
             }
 
-            // Aggregate extra categories in the Item categories array
-            if ($this->isItemExtraCategory($dimension)) {
-                $array = $itemReports[self::CATEGORY_FIELD][$ecommerceType];
-            } else {
-                $array = $itemReports[$dimension][$ecommerceType];
-            }
+            $array = $itemReports[$ecommerceType];
 
             $this->roundColumnValues($row);
             $array->sumMetrics($label, $row);
@@ -159,17 +141,9 @@ class EcommerceRecords extends Base
     protected function aggregateFromEcommerceViews($itemReports, $query, $dimension)
     {
         while ($row = $query->fetch()) {
-
             $label = $this->getRowLabel($row, $dimension);
             if ($label === false) {
                 continue; // ignore empty additional categories
-            }
-
-            // Aggregate extra categories in the Item categories array
-            if ($this->isItemExtraCategory($dimension)) {
-                $array = $itemReports[self::CATEGORY_FIELD];
-            } else {
-                $array = $itemReports[$dimension];
             }
 
             unset($row['label']);
@@ -179,7 +153,7 @@ class EcommerceRecords extends Base
             }
 
             // add views to all types
-            foreach ($array as $ecommerceType => $dataArray) {
+            foreach ($itemReports as $ecommerceType => $dataArray) {
                 $dataArray->sumMetrics($label, $row);
             }
         }
@@ -218,12 +192,12 @@ class EcommerceRecords extends Base
         }
     }
 
-    protected function getRowLabel(&$row, $currentField)
+    protected function getRowLabel(&$row, $dimension)
     {
         $label = $row['label'];
         if (empty($label)) {
             // An empty additional category -> skip this iteration
-            if ($this->isItemExtraCategory($currentField)) {
+            if ($dimension != $this->dimension) {
                 return false;
             }
             $label = "Value not defined";
@@ -231,9 +205,9 @@ class EcommerceRecords extends Base
         return $label;
     }
 
-    protected function cleanupRowGetLabel(&$row, $currentField)
+    protected function cleanupRowGetLabel(&$row, $dimension)
     {
-        $label = $this->getRowLabel($row, $currentField);
+        $label = $this->getRowLabel($row, $dimension);
 
         if (isset($row['ecommerceType']) && $row['ecommerceType'] == GoalManager::IDGOAL_CART) {
             // abandoned carts are the number of visits with an abandoned cart
