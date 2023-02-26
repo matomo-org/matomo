@@ -115,8 +115,6 @@ class ManyUsers extends Fixture
         $model = new Model();
         $api = API::getInstance();
 
-        $xssTesting = new XssTesting();
-
         // add a pending invite user
         $api->inviteUser($this->pendingUser['login'], $this->pendingUser['email'], 1);
 
