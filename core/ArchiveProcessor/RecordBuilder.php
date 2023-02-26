@@ -127,10 +127,6 @@ abstract class RecordBuilder
 
     private function insertRecord(ArchiveProcessor $archiveProcessor, $recordName, DataTable\DataTableInterface $record)
     {
-        if ($record->getRowsCount() <= 0) {
-            return;
-        }
-
         $serialized = $record->getSerialized($this->maxRowsInTable, $this->maxRowsInSubtable, $this->columnToSortByBeforeTruncation);
         $archiveProcessor->insertBlobRecord($recordName, $serialized);
         unset($serialized);
