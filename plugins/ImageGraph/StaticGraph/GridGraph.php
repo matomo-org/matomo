@@ -134,7 +134,7 @@ abstract class GridGraph extends StaticGraph
             $currentMax = $this->pData->getMax($column);
 
             if ($currentMax > $maxOrdinateValue) {
-                $maxOrdinateValue = $currentMax;
+                $maxOrdinateValue = ceil($currentMax);
             }
         }
 
