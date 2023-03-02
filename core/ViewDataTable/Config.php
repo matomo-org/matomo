@@ -553,6 +553,40 @@ class   Config
     public $disable_comparison = false;
 
     /**
+     * Controls whether the summary row is displayed on every page of the datatable view or not.
+     * If false, the summary row will be treated as the last row of the dataset and will only visible
+     * when viewing the last rows.
+     *
+     * Default value: false
+     * @var bool
+     */
+    public $keep_summary_row = false;
+
+    /**
+     * Controls whether the row evolution DataTable Row Action icon is shown or not.
+     *
+     * Default value: false
+     * @var bool
+     */
+    public $disable_row_evolution = false;
+
+    /**
+     * If true, the summary row will be colored differently than all other DataTable rows.
+     *
+     * Default value: false
+     */
+    public $highlight_summary_row = false;
+
+    /**
+     * Controls whether the Series Picker is shown or not. The Series Picker allows users to
+     * choose between displaying data of different columns.
+     *
+     * Default value: true
+     * @var bool
+     */
+    public $show_series_picker = true;
+
+    /**
      * @ignore
      */
     public $report_id = '';

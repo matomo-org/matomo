@@ -27,6 +27,8 @@ class Chart
     // temporary
     public $properties;
 
+    public $dataTable;
+
     public function setAxisXLabels($xLabels, $xTicks = null, $index = 0)
     {
         $axisName = $this->getXAxis($index);
