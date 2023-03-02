@@ -24,6 +24,10 @@ on:
       - 'next_release'
 {% endif %}
   workflow_dispatch:
+{% if plugin %}
+  schedule:
+  - cron: "0 2 * * 6"
+{% endif %}
 
 permissions:
   actions: read
