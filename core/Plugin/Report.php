@@ -115,6 +115,13 @@ class Report
     // for a little performance improvement we avoid having to call Metrics::getDefaultProcessedMetrics for each report
 
     /**
+     * TODO
+     *
+     * @var null|string[]
+     */
+    protected $metricTypes = null;
+
+    /**
      * Set this property to true in case your report supports goal metrics. In this case, the goal metrics will be
      * automatically added to the report metadata and the report will be displayed in the Goals UI.
      * @var bool
@@ -449,6 +456,32 @@ class Report
     }
 
     /**
+     * TODO
+     *
+     * @return string[]
+     * @api
+     */
+    public function getMetricTypes()
+    {
+        $metricTypes = $this->metricTypes ?: [];
+
+        $allMetrics = array_merge($this->metrics ?: [], $this->processedMetrics ?: []);
+
+        foreach ($allMetrics as $metric) {
+            $metricName = $metric instanceof Metric ? $metric->getName() : $metric;
+            if ($metricName == 'label'
+                || !empty($metricTypes[$metricName])
+            ) {
+                continue;
+            }
+
+            $metricTypes[$metricName] = $this->deduceMetricTypeFromName($metric);
+        }
+
+        return $metricTypes;
+    }
+
+    /**
      * Returns the array of all metrics displayed by this report.
      *
      * @return array
@@ -623,6 +656,7 @@ class Report
         $report['metrics']              = $this->getMetrics();
         $report['metricsDocumentation'] = $this->getMetricsDocumentation();
         $report['processedMetrics']     = $this->getProcessedMetrics();
+        $report['metricTypes']          = $this->getMetricTypes();
 
         if (!empty($this->actionToLoadSubTables)) {
             $report['actionToLoadSubTables'] = $this->actionToLoadSubTables;
@@ -1078,5 +1112,26 @@ class Report
 
             $callback($name);
         }
+    }
+
+    private function deduceMetricTypeFromName($metric)
+    {
+        $metricName = $metric instanceof Metric ? $metric->getName() : $metric;
+
+        $metricType = null;
+        if ($metric instanceof Metric) {
+            $metricType = $metric->getSemanticType();
+        }
+
+        if (empty($metricType)) {
+            if (preg_match('/_(evolution|rate|percentage)(_|$)/', $metricName)) {
+                $metricType = Metric::SEMANTIC_TYPE_PERCENT;
+            } else {
+                $allMetricTypes = Metrics::getDefaultMetricSemanticTypes();
+                $metricType = $allMetricTypes[$metricName] ?? Metric::SEMANTIC_TYPE_UNKNOWN;
+            }
+        }
+
+        return $metricType;
     }
 }
