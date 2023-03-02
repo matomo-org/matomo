@@ -294,14 +294,32 @@ class API extends \Piwik\Plugin\API
     /**
      * Ensure the specified dates are valid.
      * Store invalid date so we can log them
-     * @param array|string $dates
+     * @param array|string  $dates
+     * @param string        $period
+     *
      * @return array
      */
-    private function getDatesToInvalidateFromString($dates, $period)
+    private function getDatesToInvalidateFromString($dates, string $period): array
     {
-        $toInvalidate = array();
-        $invalidDates = array();
+        $toInvalidate = [];
+        $invalidDates = [];
 
+        // Handle ranges for two specific dates, eg. dates=2023-01-01,2023-03-01
+        if ($period == 'range' && !is_array($dates) && substr_count($dates, ',') === 1) {
+            try {
+                $period = Factory::build('range', trim($dates));
+            } catch (\Exception $e) {
+                $invalidDates[] = $dates;
+            }
+            if ($period->getRangeString() == $dates) {
+                $toInvalidate[] = $dates;
+            } else {
+                $invalidDates[] = $dates;
+            }
+            return [$toInvalidate, $invalidDates];
+        }
+
+        // Handle all other periods
         if (!is_array($dates)) {
             $dates = explode(',', trim($dates));
         }
@@ -312,6 +330,7 @@ class API extends \Piwik\Plugin\API
             $theDate = trim($theDate);
 
             if ($period == 'range') {
+                // lastN ranges only
                 try {
                     $period = Factory::build('range', $theDate);
                 } catch (\Exception $e) {
@@ -340,7 +359,7 @@ class API extends \Piwik\Plugin\API
             }
         }
 
-        return array($toInvalidate, $invalidDates);
+        return [$toInvalidate, $invalidDates];
     }
 
     /**
