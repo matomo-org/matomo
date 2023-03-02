@@ -177,7 +177,7 @@ class API extends \Piwik\Plugin\API
                 implode("', '", $invalidDates) . "'. Matomo simply ignored those and proceeded with the others.";
         }
 
-        return $invalidationResult->makeOutputLogs();
+        return $output;
     }
 
     /**
@@ -337,9 +337,8 @@ class API extends \Piwik\Plugin\API
                     $invalidDates[] = $theDate;
                     continue;
                 }
-
-                if ($period->getRangeString() == $theDate) {
-                    $toInvalidate[] = $theDate;
+                if (count($period->getSubperiods())) {
+                    $toInvalidate[] = $period->getRangeString();
                 } else {
                     $invalidDates[] = $theDate;
                 }
