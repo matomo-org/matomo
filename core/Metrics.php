@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Piwik\Cache as PiwikCache;
+use Piwik\Plugin\Metric;
 
 require_once PIWIK_INCLUDE_PATH . "/core/Piwik.php";
 
@@ -334,6 +335,63 @@ class Metrics
         }
 
         return '';
+    }
+
+    public static function getDefaultMetricSemanticTypes()
+    {
+        $cacheId = CacheId::pluginAware('DefaultMetricSemanticTypes');
+        $cache = PiwikCache::getTransientCache();
+
+        $types = $cache->fetch($cacheId);
+        if (empty($types)) {
+            $types = [
+                'nb_visits'                     => Metric::SEMANTIC_TYPE_NUMBER,
+                'nb_uniq_visitors'              => Metric::SEMANTIC_TYPE_NUMBER,
+                'nb_actions'                    => Metric::SEMANTIC_TYPE_NUMBER,
+                'nb_users'                      => Metric::SEMANTIC_TYPE_NUMBER,
+                'avg_time_on_page'              => Metric::SEMANTIC_TYPE_DURATION,
+                'sum_time_spent'                => Metric::SEMANTIC_TYPE_DURATION,
+                'sum_visit_length'              => Metric::SEMANTIC_TYPE_DURATION,
+                'bounce_count'                  => Metric::SEMANTIC_TYPE_NUMBER,
+                'bounce_count_returning'        => Metric::SEMANTIC_TYPE_NUMBER,
+                'max_actions'                   => Metric::SEMANTIC_TYPE_NUMBER,
+                'max_actions_returning'         => Metric::SEMANTIC_TYPE_NUMBER,
+                'nb_visits_converted_returning' => Metric::SEMANTIC_TYPE_NUMBER,
+                'sum_visit_length_returning'    => Metric::SEMANTIC_TYPE_NUMBER,
+                'nb_visits_converted'           => Metric::SEMANTIC_TYPE_NUMBER,
+                'nb_conversions'                => Metric::SEMANTIC_TYPE_NUMBER,
+                'revenue'                       => Metric::SEMANTIC_TYPE_CURRENCY,
+                'nb_hits'                       => Metric::SEMANTIC_TYPE_NUMBER,
+                'entry_nb_visits'               => Metric::SEMANTIC_TYPE_NUMBER,
+                'entry_nb_uniq_visitors'        => Metric::SEMANTIC_TYPE_NUMBER,
+                'exit_nb_visits'                => Metric::SEMANTIC_TYPE_NUMBER,
+                'exit_nb_uniq_visitors'         => Metric::SEMANTIC_TYPE_NUMBER,
+                'entry_bounce_count'            => Metric::SEMANTIC_TYPE_NUMBER,
+                'exit_bounce_count'             => Metric::SEMANTIC_TYPE_NUMBER,
+                'exit_rate'                     => Metric::SEMANTIC_TYPE_PERCENT,
+                'sum_daily_nb_uniq_visitors'    => Metric::SEMANTIC_TYPE_NUMBER,
+                'sum_daily_nb_users'            => Metric::SEMANTIC_TYPE_NUMBER,
+                'sum_daily_entry_nb_uniq_visitors' => Metric::SEMANTIC_TYPE_NUMBER,
+                'sum_daily_exit_nb_uniq_visitors' => Metric::SEMANTIC_TYPE_NUMBER,
+                'entry_nb_actions'              => Metric::SEMANTIC_TYPE_NUMBER,
+                'entry_sum_visit_length'        => Metric::SEMANTIC_TYPE_NUMBER,
+                'nb_actions_per_visit'          => Metric::SEMANTIC_TYPE_NUMBER,
+                'avg_time_on_site'              => Metric::SEMANTIC_TYPE_DURATION,
+                'bounce_rate'                   => Metric::SEMANTIC_TYPE_PERCENT,
+                'conversion_rate'               => Metric::SEMANTIC_TYPE_PERCENT,
+            ];
+
+            /**
+             * TODO
+             *
+             * @param string $types The array mapping of column_name => column semantic type
+             */
+            Piwik::postEvent('Metrics.getDefaultMetricSemanticTypes', [&$types]);
+
+            $cache->save($cacheId, $types);
+        }
+
+        return $types;
     }
 
     public static function getDefaultMetricTranslations()

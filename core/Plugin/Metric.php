@@ -35,6 +35,14 @@ abstract class Metric
      */
     const COMPONENT_SUBNAMESPACE = 'Metrics';
 
+    const SEMANTIC_TYPE_UNKNOWN = 'unknown';
+    const SEMANTIC_TYPE_DURATION = 'duration';
+    const SEMANTIC_TYPE_NUMBER = 'number';
+    const SEMANTIC_TYPE_PERCENT = 'percent';
+    const SEMANTIC_TYPE_TEXT = 'text';
+    const SEMANTIC_TYPE_BOOLEAN = 'boolean';
+    const SEMANTIC_TYPE_CURRENCY = 'currency';
+
     /**
      * Returns the column name of this metric, eg, `"nb_visits"` or `"avg_time_on_site"`.
      *
@@ -74,6 +82,16 @@ abstract class Metric
     public function getDocumentation()
     {
         return "";
+    }
+
+    /**
+     * TODO
+     *
+     * @return string|null
+     */
+    public function getSemanticType()
+    {
+        return null;
     }
 
     /**

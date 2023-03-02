@@ -16,6 +16,7 @@ use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
+use Piwik\Plugin\Metric;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\Tracker\GoalManager;
@@ -100,6 +101,7 @@ class Goals extends \Piwik\Plugin
             'SitesManager.deleteSite.end'            => 'deleteSiteGoals',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Metrics.getDefaultMetricTranslations'   => 'addMetricTranslations',
+            'Metrics.getDefaultMetricSemanticTypes'  => 'addMetricSemanticTypes',
             'Category.addSubcategories'              => 'addSubcategories',
             'Metric.addMetrics'                      => 'addMetrics',
             'Metric.addComputedMetrics'              => 'addComputedMetrics',
@@ -223,6 +225,26 @@ class Goals extends \Piwik\Plugin
         $metrics = array_map(array('\\Piwik\\Piwik', 'translate'), $metrics);
 
         $translations = array_merge($translations, $metrics);
+    }
+
+    public function addMetricSemanticTypes(&$types)
+    {
+        $goalMetricTypes = array(
+            'orders'            => Metric::SEMANTIC_TYPE_NUMBER,
+            'ecommerce_revenue' => Metric::SEMANTIC_TYPE_CURRENCY,
+            'revenue_per_visit' => Metric::SEMANTIC_TYPE_CURRENCY,
+            'quantity'          => Metric::SEMANTIC_TYPE_NUMBER,
+            'avg_price'         => Metric::SEMANTIC_TYPE_CURRENCY,
+            'avg_quantity'      => Metric::SEMANTIC_TYPE_NUMBER,
+            'revenue_subtotal'  => Metric::SEMANTIC_TYPE_CURRENCY,
+            'revenue_tax'       => Metric::SEMANTIC_TYPE_CURRENCY,
+            'revenue_shipping'  => Metric::SEMANTIC_TYPE_CURRENCY,
+            'revenue_discount'  => Metric::SEMANTIC_TYPE_CURRENCY,
+            'avg_order_revenue' => Metric::SEMANTIC_TYPE_CURRENCY,
+            'items'             => Metric::SEMANTIC_TYPE_NUMBER,
+        );
+
+        $types = array_merge($types, $goalMetricTypes);
     }
 
     /**
