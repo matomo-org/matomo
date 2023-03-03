@@ -377,7 +377,6 @@ class Php extends GeoIp2
             switch ($reader->metadata()->databaseType) {
                 case 'GeoIP2-Enterprise':
                 case 'GeoLite2-City':
-                case 'DBIP-City-Lite':
                 case 'DBIP-City':
                 case 'GeoIP2-City':
                 case 'GeoIP2-City-Africa':
@@ -393,6 +392,14 @@ class Php extends GeoIp2
                     $result[self::REGION_NAME_KEY] = true;
                     $result[self::CITY_NAME_KEY] = true;
                     $result[self::POSTAL_CODE_KEY] = true;
+                    $result[self::LATITUDE_KEY] = true;
+                    $result[self::LONGITUDE_KEY] = true;
+                    break;
+                case 'DBIP-City-Lite':
+                    $result[self::REGION_CODE_KEY] = false;
+                    $result[self::REGION_NAME_KEY] = true;
+                    $result[self::CITY_NAME_KEY] = true;
+                    $result[self::POSTAL_CODE_KEY] = false;
                     $result[self::LATITUDE_KEY] = true;
                     $result[self::LONGITUDE_KEY] = true;
                     break;
