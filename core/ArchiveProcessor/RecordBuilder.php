@@ -98,12 +98,21 @@ abstract class RecordBuilder
             return;
         }
 
+        $requestedReports = $archiveProcessor->getParams()->getArchiveOnlyReportAsArray();
+
         $recordsBuilt = $this->getRecordMetadata($archiveProcessor);
 
         $numericRecords = array_filter($recordsBuilt, function (Record $r) { return $r->getType() == Record::TYPE_NUMERIC; });
         $blobRecords = array_filter($recordsBuilt, function (Record $r) { return $r->getType() == Record::TYPE_BLOB; });
 
+        // TODO: dependsOn in record metadata
         foreach ($blobRecords as $record) {
+            if (!empty($requestedReports)
+                && !in_array($record->getName(), $requestedReports)
+            ) {
+                continue;
+            }
+
             $maxRowsInTable = $record->getMaxRowsInTable() ?? $this->maxRowsInTable;
             $maxRowsInSubtable = $record->getMaxRowsInSubtable() ?? $this->maxRowsInSubtable;
             $columnToSortByBeforeTruncation = $record->getColumnToSortByBeforeTruncation() ?? $this->columnToSortByBeforeTruncation;
@@ -119,6 +128,11 @@ abstract class RecordBuilder
 
         if (!empty($numericRecords)) {
             $numericMetrics = array_map(function (Record $r) { return $r->getName(); }, $numericRecords);
+            if (!empty($requestedReport)) {
+                $numericMetrics = array_filter($numericMetrics, function ($name) use ($requestedReports) {
+                    return in_array($name, $requestedReports);
+                });
+            }
             $archiveProcessor->aggregateNumericMetrics($numericMetrics, $this->columnAggregationOps);
         }
     }
@@ -184,5 +198,25 @@ abstract class RecordBuilder
         $recordBuilderName = get_class($this);
         $recordBuilderName = explode('\\', $recordBuilderName);
         return end($recordBuilderName);
+    }
+
+    /**
+     * Returns true if at least one of the given reports is handled by this RecordBuilder instance
+     * when invoked with the given ArchiveProcessor.
+     *
+     * @param ArchiveProcessor $archiveProcessor Archiving parameters, like idSite, can influence the list of
+     *                                           all records a RecordBuilder produces, so it is required here.
+     * @param string[] $requestedReports The list of requested reports to check for.
+     * @return bool
+     */
+    public function isBuilderForAtLeastOneOf(ArchiveProcessor $archiveProcessor, array $requestedReports)
+    {
+        $recordMetadata = $this->getRecordMetadata($archiveProcessor);
+        foreach ($recordMetadata as $record) {
+            if (in_array($record->getName(), $requestedReports)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

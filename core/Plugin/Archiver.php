@@ -140,6 +140,16 @@ abstract class Archiver
 
             $transientCache->save($cacheKey, $recordBuilders);
         }
+
+        $requestedReports = $this->processor->getParams()->getArchiveOnlyReport();
+        if (!empty($requestedReports)) {
+            $requestedReports = is_string($requestedReports) ? [$requestedReports] : $requestedReports;
+
+            $recordBuilders = array_filter($recordBuilders, function (ArchiveProcessor\RecordBuilder $builder) use ($requestedReports) {
+                return $builder->isBuilderForAtLeastOneOf($this->processor, $requestedReports);
+            });
+        }
+
         return $recordBuilders;
     }
 
@@ -155,11 +165,18 @@ abstract class Archiver
 
             if (!empty($pluginName)) {
                 $recordBuilders = $this->getRecordBuilders();
+
                 foreach ($recordBuilders as $recordBuilder) {
                     if ($recordBuilder->getPluginName() != $pluginName
                         || !$recordBuilder->isEnabled()
                     ) {
                         continue;
+                    }
+
+                    // if automatically handling "archive only report" in RecordBuilders, make sure the archive
+                    // will be marked as partial
+                    if ($this->processor->getParams()->getArchiveOnlyReport()) {
+                        $this->processor->getParams()->setIsPartialArchive(true); // make sure archive will be marked as partial
                     }
 
                     $originalQueryHint = $this->getProcessor()->getLogAggregator()->getQueryOriginHint();
@@ -196,6 +213,12 @@ abstract class Archiver
                         || !$recordBuilder->isEnabled()
                     ) {
                         continue;
+                    }
+
+                    // if automatically handling "archive only report" in RecordBuilders, make sure the archive
+                    // will be marked as partial
+                    if ($this->processor->getParams()->getArchiveOnlyReport()) {
+                        $this->processor->getParams()->setIsPartialArchive(true); // make sure archive will be marked as partial
                     }
 
                     $originalQueryHint = $this->getProcessor()->getLogAggregator()->getQueryOriginHint();

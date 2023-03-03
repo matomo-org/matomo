@@ -70,6 +70,7 @@ class ArchiveSelector
         $numericTable = ArchiveTableCreator::getNumericTable($dateStart);
 
         $requestedPlugin = $params->getRequestedPlugin();
+        $requestedReport = $params->getArchiveOnlyReport();
         $segment         = $params->getSegment();
         $plugins = array("VisitsSummary", $requestedPlugin);
         $plugins = array_filter($plugins);
@@ -94,7 +95,13 @@ class ArchiveSelector
         $value = isset($result['value']) ? $result['value'] : false;
 
         $result['idarchive'] = empty($result['idarchive']) ? [] : [$result['idarchive']];
-        if (isset($result['partial'])) {
+        if (!empty($result['partial'])
+            // TODO: test and comment for this
+            && (!empty($result['idarchive'])
+                || empty($requestedReport)
+                || self::getModel()->isRecordContainedInArchives($dateStart, $result['partial'], $requestedReport)
+            )
+        ) {
             $result['idarchive'] = array_merge($result['idarchive'], $result['partial']);
         }
 

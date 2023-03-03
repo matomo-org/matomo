@@ -973,6 +973,27 @@ class Model
         return $query->rowCount();
     }
 
+    public function isRecordContainedInArchives(Date $archiveStartDate, $idArchives, $recordName)
+    {
+        $idArchives = array_map('intval', $idArchives);
+        $idArchives = implode(',', $idArchives);
+
+        $countSql = "SELECT name FROM %s WHERE idarchive IN ($idArchives) AND name = ? LIMIT 1";
+
+        $numericTable = ArchiveTableCreator::getNumericTable($archiveStartDate);
+        $blobTable = ArchiveTableCreator::getBlobTable($archiveStartDate);
+
+        foreach ([$numericTable, $blobTable] as $tableName) {
+            $sql = sprintf($countSql, $tableName);
+            $rows = Db::fetchAll($sql, [$recordName]);
+            if (!empty($rows)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private function isCutOffGroupConcatResult($pair)
     {
         $position = strpos($pair, '.');
