@@ -253,7 +253,9 @@ class SegmentEditor extends \Piwik\Plugin
         // check if segment archive does not exist
         $processorParams = new \Piwik\ArchiveProcessor\Parameters(new Site($idSite), $period, $segment);
         $archiveIdAndStats = ArchiveSelector::getArchiveIdAndVisits($processorParams, null);
-        if (!empty($archiveIdAndStats[0]) || !empty($archiveIdAndStats[1])) {
+        if (!empty($archiveIdAndStats['idArchives'])
+            || !empty($archiveIdAndStats['visits'])
+        ) {
             return null;
         }
 

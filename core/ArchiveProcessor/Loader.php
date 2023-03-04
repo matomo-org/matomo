@@ -207,7 +207,12 @@ class Loader
         // this hack was used to check the main function goes to return or continue
         // NOTE: $idArchives will contain the latest DONE_OK/DONE_INVALIDATED archive as well as any partial archives
         // with a ts_archived >= the DONE_OK/DONE_INVALIDATED date.
-        list($idArchives, $visits, $visitsConverted, $isAnyArchiveExists, $tsArchived, $value) = $this->loadExistingArchiveIdFromDb();
+        $archiveInfo = $this->loadExistingArchiveIdFromDb();
+        $idArchives = $archiveInfo['idArchives'];
+        $visits = $archiveInfo['visits'];
+        $visitsConverted = $archiveInfo['visitsConverted'];
+        $tsArchived = $archiveInfo['tsArchived'];
+        $value = $archiveInfo['value'];
 
         if (!empty($idArchives)
             && !Rules::isActuallyForceArchivingSinglePlugin()
@@ -330,7 +335,14 @@ class Loader
 
             // return no usable archive found, and no existing archive. this will skip invalidation, which should
             // be fine since we just force archiving.
-            return [false, false, false, false, false, false];
+            return [
+                'idArchives' => false,
+                'visits' => false,
+                'visitsConverted' => false,
+                'archiveExists' => false,
+                'tsArchived' => false,
+                'doneFlagValue' => false,
+            ];
         }
 
         $minDatetimeArchiveProcessedUTC = $this->getMinTimeArchiveProcessed();

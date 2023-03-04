@@ -187,11 +187,11 @@ class ArchiveSelectorTest extends IntegrationTestCase
         $params = new \Piwik\ArchiveProcessor\Parameters(new Site(1), Factory::build($period, $date), new Segment($segment, [1]));
         $result = ArchiveSelector::getArchiveIdAndVisits($params, $minDateProcessed, $includeInvalidated);
 
-        if ($result[4] !== false) {
-            Date::factory($result[4]);
+        if ($result['tsArchived'] !== false) {
+            Date::factory($result['tsArchived']);
         }
 
-        unset($result[4]);
+        unset($result['tsArchived']);
         $result = array_values($result);
 
         $this->assertEquals($expected, $result);

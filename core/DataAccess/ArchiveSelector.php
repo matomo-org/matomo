@@ -71,6 +71,7 @@ class ArchiveSelector
 
         $requestedPlugin = $params->getRequestedPlugin();
         $requestedReport = $params->getArchiveOnlyReport();
+
         $segment         = $params->getSegment();
         $plugins = array("VisitsSummary", $requestedPlugin);
         $plugins = array_filter($plugins);
@@ -84,7 +85,14 @@ class ArchiveSelector
 
         $results = self::getModel()->getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, null, $doneFlags);
         if (empty($results)) { // no archive found
-            return [false, false, false, false, false, false];
+            return self::archiveInfoBcResult([
+                'idArchives' => false,
+                'visits' => false,
+                'visitsConverted' => false,
+                'archiveExists' => false,
+                'tsArchived' => false,
+                'doneFlagValue' => false,
+            ]);
         }
 
         $result = self::findArchiveDataWithLatestTsArchived($results, $requestedPluginDoneFlags, $allPluginsDoneFlag);
@@ -109,7 +117,14 @@ class ArchiveSelector
             || (isset($result['value'])
                 && !in_array($result['value'], $doneFlagValues))
         ) { // the archive cannot be considered valid for this request (has wrong done flag value)
-            return [false, $visits, $visitsConverted, true, $tsArchived, $value];
+            return self::archiveInfoBcResult([
+                'idArchives' => false,
+                'visits' => $visits,
+                'visitsConverted' => $visitsConverted,
+                'archiveExists' => true,
+                'tsArchived' => $tsArchived,
+                'doneFlagValue' => $value,
+            ]);
         }
 
         if (!empty($minDatetimeArchiveProcessedUTC) && !is_object($minDatetimeArchiveProcessedUTC)) {
@@ -121,12 +136,26 @@ class ArchiveSelector
             && !empty($result['idarchive'])
             && Date::factory($tsArchived)->isEarlier($minDatetimeArchiveProcessedUTC)
         ) {
-            return [false, $visits, $visitsConverted, true, $tsArchived, $value];
+            return self::archiveInfoBcResult([
+                'idArchives' => false,
+                'visits' => $visits,
+                'visitsConverted' => $visitsConverted,
+                'archiveExists' => true,
+                'tsArchived' => $tsArchived,
+                'doneFlagValue' => $value,
+            ]);
         }
 
         $idArchives = !empty($result['idarchive']) ? $result['idarchive'] : false;
 
-        return [$idArchives, $visits, $visitsConverted, true, $tsArchived, $value];
+        return self::archiveInfoBcResult([
+            'idArchives' => $idArchives,
+            'visits' => $visits,
+            'visitsConverted' => $visitsConverted,
+            'archiveExists' => true,
+            'tsArchived' => $tsArchived,
+            'doneFlagValue' => $value,
+        ]);
     }
 
     /**
@@ -504,5 +533,21 @@ class ArchiveSelector
         }
 
         return $archiveData;
+    }
+
+    /**
+     * provides BC result for getArchiveIdAndVisits
+     * @param array $archiveInfo
+     * @return array
+     */
+    private static function archiveInfoBcResult(array $archiveInfo)
+    {
+        $archiveInfo[0] = $archiveInfo['idArchives'];
+        $archiveInfo[1] = $archiveInfo['visits'];
+        $archiveInfo[2] = $archiveInfo['visitsConverted'];
+        $archiveInfo[3] = $archiveInfo['archiveExists'];
+        $archiveInfo[4] = $archiveInfo['tsArchived'];
+        $archiveInfo[5] = $archiveInfo['doneFlagValue'];
+        return $archiveInfo;
     }
 }

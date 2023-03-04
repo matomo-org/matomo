@@ -994,12 +994,13 @@ class CronArchive
             Date::now()->subSeconds(Rules::getPeriodArchiveTimeToLiveDefault($params->getPeriod()->getLabel()));
 
         // empty plugins param since we only check for an 'all' archive
-        list($idArchive, $visits, $visitsConverted, $ignore, $tsArchived) = ArchiveSelector::getArchiveIdAndVisits($params, $minArchiveProcessedTime, $includeInvalidated = $isPeriodIncludesToday);
+        $archiveInfo = ArchiveSelector::getArchiveIdAndVisits($params, $minArchiveProcessedTime, $includeInvalidated = $isPeriodIncludesToday);
+        $idArchive = $archiveInfo['idArchives'];
 
         // day has changed since the archive was created, we need to reprocess it
         if ($isYesterday
             && !empty($idArchive)
-            && Date::factory($tsArchived)->toString() != $today->toString()
+            && Date::factory($archiveInfo['tsArchived'])->toString() != $today->toString()
         ) {
             return false;
         }
