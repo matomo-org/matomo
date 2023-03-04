@@ -92,6 +92,7 @@ class ArchiveSelector
                 'archiveExists' => false,
                 'tsArchived' => false,
                 'doneFlagValue' => false,
+                'existingRecords' => null,
             ]);
         }
 
@@ -102,15 +103,22 @@ class ArchiveSelector
         $visitsConverted = isset($result['nb_visits_converted']) ? $result['nb_visits_converted'] : false;
         $value = isset($result['value']) ? $result['value'] : false;
 
+        $existingRecords = null;
+
         $result['idarchive'] = empty($result['idarchive']) ? [] : [$result['idarchive']];
         if (!empty($result['partial'])
-            // TODO: test and comment for this
-            && (!empty($result['idarchive'])
-                || empty($requestedReport)
-                || self::getModel()->isRecordContainedInArchives($dateStart, $result['partial'], $requestedReport)
-            )
         ) {
-            $result['idarchive'] = array_merge($result['idarchive'], $result['partial']);
+            // TODO: test and comment for this
+            if (!empty($result['idarchive'])
+                || empty($requestedReport)
+            ) {
+                $result['idarchive'] = array_merge($result['idarchive'], $result['partial']);
+            } else {
+                $existingRecords = self::getModel()->getRecordsContainedInArchives($dateStart, $result['partial'], $requestedReport);
+                if (!empty($existingRecords)) {
+                    $result['idarchive'] = array_merge($result['idarchive'], $result['partial']);
+                }
+            }
         }
 
         if (empty($result['idarchive'])
@@ -124,6 +132,7 @@ class ArchiveSelector
                 'archiveExists' => true,
                 'tsArchived' => $tsArchived,
                 'doneFlagValue' => $value,
+                'existingRecords' => $existingRecords,
             ]);
         }
 
@@ -143,6 +152,7 @@ class ArchiveSelector
                 'archiveExists' => true,
                 'tsArchived' => $tsArchived,
                 'doneFlagValue' => $value,
+                'existingRecords' => $existingRecords,
             ]);
         }
 
@@ -155,6 +165,7 @@ class ArchiveSelector
             'archiveExists' => true,
             'tsArchived' => $tsArchived,
             'doneFlagValue' => $value,
+            'existingRecords' => $existingRecords,
         ]);
     }
 

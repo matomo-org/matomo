@@ -99,6 +99,7 @@ abstract class RecordBuilder
         }
 
         $requestedReports = $archiveProcessor->getParams()->getArchiveOnlyReportAsArray();
+        $foundRequestedReports = $archiveProcessor->getParams()->getFoundRequestedReports();
 
         $recordsBuilt = $this->getRecordMetadata($archiveProcessor);
 
@@ -109,6 +110,7 @@ abstract class RecordBuilder
         foreach ($blobRecords as $record) {
             if (!empty($requestedReports)
                 && !in_array($record->getName(), $requestedReports)
+                && !in_array($record->getName(), $foundRequestedReports)
             ) {
                 continue;
             }
@@ -129,8 +131,8 @@ abstract class RecordBuilder
         if (!empty($numericRecords)) {
             $numericMetrics = array_map(function (Record $r) { return $r->getName(); }, $numericRecords);
             if (!empty($requestedReport)) {
-                $numericMetrics = array_filter($numericMetrics, function ($name) use ($requestedReports) {
-                    return in_array($name, $requestedReports);
+                $numericMetrics = array_filter($numericMetrics, function ($name) use ($requestedReports, $foundRequestedReports) {
+                    return in_array($name, $requestedReports) && !in_array($name, $foundRequestedReports);
                 });
             }
             $archiveProcessor->aggregateNumericMetrics($numericMetrics, $this->columnAggregationOps);

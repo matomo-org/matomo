@@ -133,7 +133,7 @@ class Loader
         if (sizeof($data) == 2) {
             return $data;
         }
-        list($idArchives, $visits, $visitsConverted) = $data;
+        list($idArchives, $visits, $visitsConverted, $foundRecords) = $data;
 
         // only lock meet those conditions
         if ($this->params->isRootArchiveRequest() && !SettingsServer::isArchivePhpTriggered()) {
@@ -152,15 +152,15 @@ class Loader
                     return $data;
                 }
 
-                list($idArchives, $visits, $visitsConverted) = $data;
+                list($idArchives, $visits, $visitsConverted, $existingArchives) = $data;
 
-                return $this->insertArchiveData($visits, $visitsConverted);
+                return $this->insertArchiveData($visits, $visitsConverted, $idArchives, $foundRecords);
             } finally {
                 $lock->unlock();
             }
         } else {
 
-            return $this->insertArchiveData($visits, $visitsConverted);
+            return $this->insertArchiveData($visits, $visitsConverted, $idArchives, $foundRecords);
         }
     }
 
@@ -170,17 +170,27 @@ class Loader
      * @param $visitsConverted
      * @return array|false[]
      */
-    protected function insertArchiveData($visits, $visitsConverted)
+    protected function insertArchiveData($visits, $visitsConverted, $existingArchives, $foundRecords)
     {
         if (SettingsServer::isArchivePhpTriggered()) {
             $this->logger->info("initiating archiving via core:archive for " . $this->params);
         }
 
+        if (!empty($foundRecords)) {
+            $this->params->setFoundRequestedReports($foundRecords);
+        }
+
         list($visits, $visitsConverted) = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
         list($idArchive, $visits) = $this->prepareAllPluginsArchive($visits, $visitsConverted);
 
-        if ($this->isThereSomeVisits($visits) || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()) {
-            return [[$idArchive], $visits];
+        if ($this->isThereSomeVisits($visits)
+            || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()
+        ) {
+            $idArchivesToQuery = [$idArchive];
+            if (!empty($foundRecords)) {
+                $idArchivesToQuery = array_merge($idArchivesToQuery, $existingArchives);
+            }
+            return [$idArchivesToQuery, $visits];
         }
 
         return [false, false];
@@ -212,11 +222,17 @@ class Loader
         $visits = $archiveInfo['visits'];
         $visitsConverted = $archiveInfo['visitsConverted'];
         $tsArchived = $archiveInfo['tsArchived'];
-        $value = $archiveInfo['value'];
+        $value = $archiveInfo['doneFlagValue'];
+        $existingArchives = $archiveInfo['existingRecords'];
+
+        $requestedRecords = $this->params->getArchiveOnlyReportAsArray();
+        $isMissingRequestedRecords = !empty($requestedRecords) && count($requestedRecords) != count($existingArchives ?: []);
 
         if (!empty($idArchives)
             && !Rules::isActuallyForceArchivingSinglePlugin()
-            && !$this->shouldForceInvalidatedArchive($value, $tsArchived)) {
+            && !$this->shouldForceInvalidatedArchive($value, $tsArchived)
+            && !$isMissingRequestedRecords
+        ) {
             // we have a usable idarchive (it's not invalidated and it's new enough), and we are not archiving
             // a single report
             return [$idArchives, $visits];
@@ -236,7 +252,7 @@ class Loader
             }
         }
 
-        return [$idArchives, $visits, $visitsConverted];
+        return [$idArchives, $visits, $visitsConverted, $existingArchives];
     }
 
     /**

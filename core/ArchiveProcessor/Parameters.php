@@ -61,6 +61,11 @@ class Parameters
     private $isArchiveOnlyReportHandled;
 
     /**
+     * @var string[]|null
+     */
+    private $foundRequestedReports;
+
+    /**
      * Constructor.
      *
      * @ignore
@@ -335,5 +340,15 @@ class Parameters
             return [];
         }
         return is_array($requestedReport) ? $requestedReport : [$requestedReport];
+    }
+
+    public function setFoundRequestedReports(array $foundRecords)
+    {
+        $this->foundRequestedReports = $foundRecords;
+    }
+
+    public function getFoundRequestedReports()
+    {
+        return $this->foundRequestedReports ?: [];
     }
 }

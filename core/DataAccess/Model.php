@@ -973,19 +973,22 @@ class Model
         return $query->rowCount();
     }
 
-    public function isRecordContainedInArchives(Date $archiveStartDate, $idArchives, $recordName)
+    public function getRecordsContainedInArchives(Date $archiveStartDate, $idArchives, $requestedRecords)
     {
         $idArchives = array_map('intval', $idArchives);
         $idArchives = implode(',', $idArchives);
 
-        $countSql = "SELECT name FROM %s WHERE idarchive IN ($idArchives) AND name = ? LIMIT 1";
+        $requestedRecords = is_string($requestedRecords) ? [$requestedRecords] : $requestedRecords;
+        $placeholders = Common::getSqlStringFieldsArray($requestedRecords);
+
+        $countSql = "SELECT DISTINCT name FROM %s WHERE idarchive IN ($idArchives) AND name IN ($placeholders) LIMIT " . count($requestedRecords);
 
         $numericTable = ArchiveTableCreator::getNumericTable($archiveStartDate);
         $blobTable = ArchiveTableCreator::getBlobTable($archiveStartDate);
 
         foreach ([$numericTable, $blobTable] as $tableName) {
             $sql = sprintf($countSql, $tableName);
-            $rows = Db::fetchAll($sql, [$recordName]);
+            $rows = Db::fetchAll($sql, $requestedRecords);
             if (!empty($rows)) {
                 return true;
             }
