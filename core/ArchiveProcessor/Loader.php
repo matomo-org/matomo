@@ -188,7 +188,7 @@ class Loader
         ) {
             $idArchivesToQuery = [$idArchive];
             if (!empty($foundRecords)) {
-                $idArchivesToQuery = array_merge($idArchivesToQuery, $existingArchives);
+                $idArchivesToQuery = array_merge($idArchivesToQuery, $existingArchives ?: []);
             }
             return [$idArchivesToQuery, $visits];
         }
