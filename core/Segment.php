@@ -152,8 +152,10 @@ class Segment
         // successfully parsed subexpressions.
         $subexpressionsDecoded = 0;
         try {
-            $this->initializeSegment(urldecode($segmentCondition), $idSites);
-            $subexpressionsDecoded = $this->segmentExpression->getSubExpressionCount();
+            if ($this->segmentContainsEncodedOperator($segmentCondition)) {
+                $this->initializeSegment(urldecode($segmentCondition), $idSites);
+                $subexpressionsDecoded = $this->segmentExpression->getSubExpressionCount();
+            }
         } catch (Exception $e) {
             // ignore
         }
@@ -166,7 +168,7 @@ class Segment
             // ignore
         }
 
-        if ($subexpressionsRaw >= $subexpressionsDecoded) {
+        if ($subexpressionsRaw > $subexpressionsDecoded) {
             $this->initializeSegment($segmentCondition, $idSites);
             $this->isSegmentEncoded = false;
         } else {
@@ -698,5 +700,28 @@ class Segment
     public function getOriginalString()
     {
         return $this->originalString;
+    }
+
+    private function segmentContainsEncodedOperator($segmentCondition)
+    {
+        static $matchOperators = [
+            '==',
+            '!=',
+            '>=',
+            '<=',
+            '>',
+            '<',
+            '=@',
+            '!@',
+            '=^',
+            '=$',
+        ];
+
+        foreach ($matchOperators as $op) {
+            if (strpos($segmentCondition, urlencode($op)) !== false) {
+                return true;
+            }
+        }
+        return false;
     }
 }
