@@ -916,7 +916,7 @@ abstract class Dimension
 
             // If action can't be found normalized try search for it with original value
             // This can eg happen for outlinks that contain a &amp; see https://github.com/matomo-org/matomo/issues/11806
-            if ($unsanitizedValue !== $value) {
+            if ($unsanitizedValue != $value) {
                 $sql = '((' . $sql . ') OR (' . $sql . '))';
                 $bind = array_merge($bind, [$unsanitizedValue, $unsanitizedValue]);
             }
