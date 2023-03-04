@@ -986,15 +986,13 @@ class Model
         $numericTable = ArchiveTableCreator::getNumericTable($archiveStartDate);
         $blobTable = ArchiveTableCreator::getBlobTable($archiveStartDate);
 
+        $existingRecords = [];
         foreach ([$numericTable, $blobTable] as $tableName) {
             $sql = sprintf($countSql, $tableName);
             $rows = Db::fetchAll($sql, $requestedRecords);
-            if (!empty($rows)) {
-                return true;
-            }
+            $existingRecords = array_merge($existingRecords, array_column($rows, 'name'));
         }
-
-        return false;
+        return $existingRecords;
     }
 
     private function isCutOffGroupConcatResult($pair)
