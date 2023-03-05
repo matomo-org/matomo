@@ -671,6 +671,12 @@ class ArchiveProcessor
             return;
         }
 
+        // range archives are always processed on demand, so pre-processing dependent archives is not required
+        // here
+        if (Rules::shouldProcessOnlyReportsRequestedInArchiveQuery($params->getPeriod()->getLabel())) {
+            return;
+        }
+
         $idSites = [$params->getSite()->getId()];
 
         // important to use the original segment string when combining. As the API itself would combine the original string.
