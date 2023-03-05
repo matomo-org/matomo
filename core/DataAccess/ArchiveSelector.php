@@ -107,7 +107,7 @@ class ArchiveSelector
 
         $result['idarchive'] = empty($result['idarchive']) ? [] : [$result['idarchive']];
         if (!empty($result['partial'])) {
-            // TODO: test and comment for this
+            // TODO: comment for this
             if (!empty($result['idarchive'])
                 || empty($requestedReport)
             ) {

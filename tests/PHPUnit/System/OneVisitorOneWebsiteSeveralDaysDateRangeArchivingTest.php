@@ -138,13 +138,14 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
              *                      and VisitFrequency creates two more.
              *
              * So each period=range will have = 11 records + (5 metrics + 2 flags // VisitsSummary + 3 metrics // VisitorInterest)
-             *                                = 18
              *
-             * Total expected records = count unique archives * records per archive
+             * Total expected records = count unique segments * records per segment
              *                        = 3 * 21
-             *                        = 21
+             *                        = 63
+             *
+             * + 3 * 10 extra done flags for partial archives since range archives only archive single reports
              */
-            'archive_numeric_2010_12' => 63,
+            'archive_numeric_2010_12' => 93,
 
             /**
              * In the January date range,
