@@ -226,7 +226,7 @@ class Loader
         $existingArchives = $archiveInfo['existingRecords'];
 
         $requestedRecords = $this->params->getArchiveOnlyReportAsArray();
-        $isMissingRequestedRecords = !empty($requestedRecords) && count($requestedRecords) != count($existingArchives ?: []);
+        $isMissingRequestedRecords = !empty($requestedRecords) && is_array($existingArchives) && count($requestedRecords) != count($existingArchives);
 
         if (!empty($idArchives)
             && !Rules::isActuallyForceArchivingSinglePlugin()
