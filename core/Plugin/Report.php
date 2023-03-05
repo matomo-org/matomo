@@ -115,11 +115,13 @@ class Report
     // for a little performance improvement we avoid having to call Metrics::getDefaultProcessedMetrics for each report
 
     /**
-     * TODO
+     * The semantic types for all metrics this report displays (including processed metrics).
+     *
+     * If set to null, the defaults from the `Metrics.getDefaultMetricSemanticTypes` event are used.
      *
      * @var null|string[]
      */
-    protected $metricTypes = null;
+    protected $metricSemanticTypes = null;
 
     /**
      * Set this property to true in case your report supports goal metrics. In this case, the goal metrics will be
@@ -456,14 +458,20 @@ class Report
     }
 
     /**
-     * TODO
+     * Returns the semantic types for metrics this report displays.
      *
-     * @return string[]
+     * If the semantic type is not defined by the derived Report class, it defaults to
+     * the value returned by {@link Metrics::getDefaultMetricSemanticTypes()} or
+     * {@link Metric::getSemanticType()}. If the semantic type cannot be found this way,
+     * this method tries to deduce it from the metric name, though this process will
+     * not identify the semantic type for most metrics.
+     *
+     * @return string[] maps metric name => semantic type
      * @api
      */
-    public function getMetricTypes()
+    public function getMetricSemanticTypes()
     {
-        $metricTypes = $this->metricTypes ?: [];
+        $metricTypes = $this->metricSemanticTypes ?: [];
 
         $allMetrics = array_merge($this->metrics ?: [], $this->processedMetrics ?: []);
 
@@ -656,7 +664,7 @@ class Report
         $report['metrics']              = $this->getMetrics();
         $report['metricsDocumentation'] = $this->getMetricsDocumentation();
         $report['processedMetrics']     = $this->getProcessedMetrics();
-        $report['metricTypes']          = $this->getMetricTypes();
+        $report['metricTypes']          = $this->getMetricSemanticTypes();
 
         if (!empty($this->actionToLoadSubTables)) {
             $report['actionToLoadSubTables'] = $this->actionToLoadSubTables;

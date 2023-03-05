@@ -85,7 +85,18 @@ abstract class Metric
     }
 
     /**
-     * TODO
+     * Returns this metric's semantic type. This can be used to provide the semantic
+     * type for processed metrics.
+     *
+     * A metric's semantic type is metadata used primarily in integrations with Matomo
+     * and third party services/applications. It provides information that can be used
+     * to determine how to display or use the information.
+     *
+     * It is recommended for your plugin to provide this information so users of third
+     * party services that connect with Matomo can make full use of the data your plugin
+     * tracks.
+     *
+     * See {@link Metrics} for the list of available semantic types.
      *
      * @return string|null
      */
