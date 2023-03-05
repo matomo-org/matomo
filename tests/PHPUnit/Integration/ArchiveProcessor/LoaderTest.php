@@ -1068,7 +1068,8 @@ class LoaderTest extends IntegrationTestCase
             'visitsConverted' => false,
             'archiveExists' => false,
             'doneFlagValue' => false,
-            'existingRecords' => false,
+            'tsArchived' => false,
+            'existingRecords' => null,
         ], $archiveInfo);
     }
 
@@ -1099,12 +1100,12 @@ class LoaderTest extends IntegrationTestCase
         unset($archiveInfo[5]);
 
         $this->assertEquals([
-            'idArchives' => false,
-            'visits' => false,
-            'visitsConverted' => false,
-            'archiveExists' => false,
-            'doneFlagValue' => false,
-            'existingRecords' => false,
+            'idArchives' => [1],
+            'visits' => 10,
+            'visitsConverted' => 0,
+            'archiveExists' => true,
+            'doneFlagValue' => 1,
+            'existingRecords' => null,
         ], $archiveInfo);
 
         Config::getInstance()->Debug[$configSetting] = 1;
@@ -1125,7 +1126,7 @@ class LoaderTest extends IntegrationTestCase
             'visitsConverted' => false,
             'archiveExists' => false,
             'doneFlagValue' => false,
-            'existingRecords' => false,
+            'tsArchived' => false,
         ], $archiveInfo);
     }
 
