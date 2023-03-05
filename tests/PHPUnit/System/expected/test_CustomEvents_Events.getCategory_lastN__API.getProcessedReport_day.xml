@@ -33,6 +33,14 @@
 		<processedMetrics>
 			<avg_event_value>The average of all values for this event</avg_event_value>
 		</processedMetrics>
+		<metricTypes>
+			<nb_events>number</nb_events>
+			<sum_event_value>number</sum_event_value>
+			<min_event_value>number</min_event_value>
+			<max_event_value>number</max_event_value>
+			<nb_events_with_value>number</nb_events_with_value>
+			<avg_event_value>number</avg_event_value>
+		</metricTypes>
 		<actionToLoadSubTables>getActionFromCategoryId</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Events&amp;apiAction=getCategory&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Events&amp;apiAction=getCategory&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphEvolutionUrl>
