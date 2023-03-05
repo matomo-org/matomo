@@ -382,9 +382,19 @@ class Metrics
             ];
 
             /**
-             * TODO
+             * Use this event to notify Matomo of the semantic types of metrics your plugin adds.
              *
-             * @param string $types The array mapping of column_name => column semantic type
+             * A metric's semantic type is metadata used primarily in integrations with Matomo
+             * and third party services/applications. It provides information that can be used
+             * to determine how to display or use the information.
+             *
+             * It is recommended for your plugin to provide this information so users of third
+             * party services that connect with Matomo can make full use of the data your plugin
+             * tracks.
+             *
+             * See {@link Metrics} for the list of available semantic types.
+             *
+             * @param string $types The array mapping of metric_name => metric semantic type
              */
             Piwik::postEvent('Metrics.getDefaultMetricSemanticTypes', [&$types]);
 
