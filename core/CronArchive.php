@@ -494,6 +494,15 @@ class CronArchive
             $checkInvalid = $this->checkResponse($content, $url);
 
             $stats = json_decode($content, $assoc = true);
+            // If decoding failed and no errors were found, try to remove all the log messages before the JSON response
+            if (!is_array($stats) && $checkInvalid) {
+                $jsonStartPos = strpos($content, '{"idarchives:');
+                if ($jsonStartPos !== false && $jsonStartPos > 0) {
+                    $cleanedContent = substr($content, $jsonStartPos);
+                    // Try decoding again in case we were able to isolate the JSON
+                    $stats = json_decode($cleanedContent, true);
+                }
+            }
             if (!is_array($stats)) {
                 $this->logger->info(var_export($content, true));
 
@@ -740,7 +749,7 @@ class CronArchive
     private function checkResponse($response, $url)
     {
         if (empty($response)
-            || stripos($response, 'error') !== false
+            || preg_match('/(?<!\/\* WP IGNORE |[a-zA-Z])(error)(?![a-zA-Z])/i', $response)
         ) {
             return $this->logNetworkError($url, $response);
         }
