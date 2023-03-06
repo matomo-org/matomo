@@ -206,9 +206,13 @@ class DataSubjects
 
             [$where, $bind] = $generateWhere($tableToSelect);
 
-            $sql = "DELETE $logTableName FROM " . $this->makeFromStatement($from) . " WHERE $where";
-
-            $result = Db::query($sql, $bind)->rowCount();
+            if (count($from) === 1) {
+                $result = Db::deleteAllRows($logTableName, $where, '', 100000, $bind);
+            } else {
+                // You cannot use ORDER BY or LIMIT in a multiple-table DELETE. We have to delete it all at once
+                $sql = "DELETE $logTableName FROM " . $this->makeFromStatement($from) . " WHERE $where";
+                $result = Db::query($sql, $bind)->rowCount();
+            }
 
             $results[$logTableName] = $result;
         }
