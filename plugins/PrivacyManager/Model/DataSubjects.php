@@ -211,7 +211,7 @@ class DataSubjects
                 $result = Db::deleteAllRows($tblFrom, ' WHERE ' . $where, '', 100000, $bind);
             } else {
                 // You cannot use ORDER BY or LIMIT in a multiple-table DELETE. We have to delete it all at once
-                $sql = "DELETE $logTableName FROM " . $tblFrom . " WHERE $where";
+                $sql = "DELETE $logTableName FROM $tblFrom WHERE $where";
                 $result = Db::query($sql, $bind)->rowCount();
             }
 
