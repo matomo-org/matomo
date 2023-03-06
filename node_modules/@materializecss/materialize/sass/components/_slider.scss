@@ -74,18 +74,27 @@
     .indicator-item {
       display: inline-block;
       position: relative;
-      cursor: pointer;
       height: 16px;
       width: 16px;
       margin: 0 12px;
+    }
+
+    .indicator-item-btn {
+      &.active {
+        background-color: $slider-indicator-color;
+      }
+      position: absolute;
+      top: 0;
+      left: 0;
+      cursor: pointer;
       background-color: $slider-bg-color-light;
 
       transition: background-color .3s;
       border-radius: 50%;
+      border-width: 0;
 
-      &.active {
-        background-color: $slider-indicator-color;
-      }
+      width: 100%;
+      height: 100%;
     }
   }
 

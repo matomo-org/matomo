@@ -562,7 +562,7 @@
 
       // Container here will be closest ancestor with overflow: hidden
       let closestOverflowParent = getClosestAncestor(this.dropdownEl, (ancestor) => {
-        return $(ancestor).css('overflow') !== 'visible';
+        return !$(ancestor).is('html,body') && $(ancestor).css('overflow') !== 'visible';
       });
       // Fallback
       if (!closestOverflowParent) {
