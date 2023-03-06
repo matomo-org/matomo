@@ -53,7 +53,7 @@ class GenerateGitHubTestActionFile extends ConsoleCommand
              ->addOption('setup-script', null, InputOption::VALUE_OPTIONAL, "Shell script to run (after setup, before tests), relative to plugins directory. .i.e .github/scripts/setup.sh")
              ->addOption('has-submodules', null, InputOption::VALUE_NONE, "Defines if the repo has submodules that need to be checked out.")
              ->addOption('enable-redis', null, InputOption::VALUE_NONE, "Defines if a redis service should be set up for PHP and UI testing.")
-             ->addOption('schedule-cron', null, InputOption::VALUE_OPTIONAL, "Value to schedule cron.");
+             ->addOption('schedule-cron', null, InputOption::VALUE_OPTIONAL, "Value to schedule cron. eg \"0 2 * * 6\" will run the job at 02:00 on Saturday.");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
