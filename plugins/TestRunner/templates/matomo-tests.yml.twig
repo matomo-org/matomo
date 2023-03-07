@@ -10,6 +10,7 @@
         {%- if protectArtifacts %} --protect-artifacts{% endif %}
         {%- if setupScript %} --setup-script="{{ setupScript }}"{% endif %}
         {%- if hasSubmodules %} --has-submodules{% endif %}
+        {%- if scheduleCron %} --schedule-cron="{{ scheduleCron }}"{% endif %}
 
 
 name: {% if plugin %}Plugin {{ plugin }}{% else %}Matomo{% endif %} Tests
@@ -24,6 +25,10 @@ on:
       - 'next_release'
 {% endif %}
   workflow_dispatch:
+{% if scheduleCron %}
+  schedule:
+  - cron: "{{ scheduleCron }}"
+{% endif %}
 
 permissions:
   actions: read
