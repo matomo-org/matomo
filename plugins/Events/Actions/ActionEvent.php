@@ -20,6 +20,8 @@ use Piwik\Tracker;
  */
 class ActionEvent extends Action
 {
+    protected $eventValue;
+
     public function __construct(Request $request)
     {
         parent::__construct(Action::TYPE_EVENT, $request);
