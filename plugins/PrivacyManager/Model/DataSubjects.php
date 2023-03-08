@@ -207,7 +207,8 @@ class DataSubjects
             [$where, $bind] = $generateWhere($tableToSelect);
 
             if (count($from) === 1) {
-                $tblFrom = Common::prefixTable($logTableName) . ' AS '. $logTableName;
+                $tblFrom = Common::prefixTable($logTableName);
+                $where = str_replace($logTableName . '.', $tblFrom . '.', $where);
                 $result = Db::deleteAllRows($tblFrom, ' WHERE ' . $where, '', 25000, $bind);
             } else {
                 $tblFrom = $this->makeFromStatement($from);
