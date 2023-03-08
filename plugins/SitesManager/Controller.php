@@ -14,7 +14,6 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
-use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\SiteContentDetector;
@@ -22,10 +21,7 @@ use Piwik\Session;
 use Piwik\SettingsPiwik;
 use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\Url;
-use Piwik\Http;
-use Piwik\Plugins\SitesManager\GtmSiteTypeGuesser;
 use Matomo\Cache\Lazy;
-use Psr\Log\LoggerInterface;
 
 /**
  *
@@ -189,37 +185,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $this->checkSitePermission();
 
-        $mainUrl = $this->site->getMainUrl();
-        $typeCacheId = 'guessedtype_' . md5($mainUrl);
-        $gtmCacheId = 'guessedgtm_' . md5($mainUrl);
-
-        $siteType = $this->cache->fetch($typeCacheId);
-        $gtmUsed = $this->cache->fetch($gtmCacheId);
-
-        if (!$siteType) {
-            try {
-                $response = false;
-                $parsedUrl = parse_url($mainUrl);
-
-                // do not try to determine the site type for localhost or any IP
-                if (!empty($parsedUrl['host']) && !Url::isLocalHost($parsedUrl['host']) && !filter_var($parsedUrl['host'], FILTER_VALIDATE_IP)) {
-                    $response = Http::sendHttpRequest($mainUrl, 5, null, null, 0, false, false, true);
-                }
-            } catch (Exception $e) {
-                StaticContainer::get(LoggerInterface::class)->info('Unable to fetch site type for host "{host}": {exception}', [
-                    'host' => $parsedUrl['host'] ?? 'unknown',
-                    'exception' => $e,
-                ]);
-            }
-
-            $guesser = new GtmSiteTypeGuesser();
-            $siteType = $guesser->guessSiteTypeFromResponse($response);
-            $gtmUsed = $guesser->guessGtmFromResponse($response);
-
-            $this->cache->save($typeCacheId, $siteType, 60 * 60 * 24);
-            $this->cache->save($gtmCacheId, $gtmUsed, 60 * 60 * 24);
-        }
-
         $piwikUrl = Url::getCurrentUrlWithoutFileName();
         $jsTag = Request::processRequest('SitesManager.getJavascriptTag', ['idSite' => $this->idSite, 'piwikUrl' => $piwikUrl]);
 
@@ -245,6 +210,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if (Manager::getInstance()->isPluginActivated('TagManager')) {
             $tagManagerActive = true;
         }
+        $this->siteContentDetector->detectContent([SiteContentDetector::ALL_CONTENT], $this->idSite);
 
         $templateData = [
             'siteName'      => $this->site->getName(),
@@ -252,25 +218,21 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'jsTag'         => $jsTag,
             'piwikUrl'      => $piwikUrl,
             'showMatomoLinks' => $showMatomoLinks,
-            'siteType' => $siteType,
-            'instruction' => SitesManager::getInstructionBySiteType($siteType),
-            'gtmUsed' => false,
-            'ga3Used' => false,
-            'ga4Used' => false,
+            'siteType' => $this->siteContentDetector->cms,
+            'instruction' => SitesManager::getInstructionByCms($this->siteContentDetector->cms),
+            'gtmUsed' => $this->siteContentDetector->gtm,
+            'ga3Used' => $this->siteContentDetector->ga3,
+            'ga4Used' => $this->siteContentDetector->ga4,
             'googleAnalyticsImporterMessage' => $googleAnalyticsImporterMessage,
             'tagManagerActive' => $tagManagerActive,
             'consentManagerName' => false
         ];
 
-        $this->siteContentDetector->detectContent([SiteContentDetector::ALL_CONTENT]);
         if ($this->siteContentDetector->consentManagerId) {
             $templateData['consentManagerName'] = $this->siteContentDetector->consentManagerName;
             $templateData['consentManagerUrl'] = $this->siteContentDetector->consentManagerUrl;
             $templateData['consentManagerIsConnected'] = $this->siteContentDetector->isConnected;
         }
-        $templateData['ga3Used'] = $this->siteContentDetector->ga3;
-        $templateData['ga4Used'] = $this->siteContentDetector->ga4;
-        $templateData['gtmUsed'] = $this->siteContentDetector->gtm;
 
         return $this->renderTemplateAs('_siteWithoutDataTabs', $templateData, $viewType = 'basic');
     }

@@ -126,7 +126,7 @@ describe("UsersManager", function () {
 
         await page.click('.bulk-actions.btn');
         await (await page.jQuery('a[data-target=user-list-bulk-actions]')).hover();
-        await page.waitForTimeout(100);
+        await page.waitForTimeout(200);
         await (await page.jQuery('#bulk-set-access a:contains(Admin)')).click();
         await page.waitForTimeout(350); // wait for animation
 
