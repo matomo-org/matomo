@@ -154,7 +154,7 @@ class Db
     {
         $dbConfig = self::getDatabaseConfig($dbConfig);
 
-        $db = @Adapter::factory('MYSQLI', $dbConfig);
+        $db = @Adapter::factory($dbConfig['adapter'], $dbConfig);
 
         self::$connection = $db;
     }
@@ -404,7 +404,6 @@ class Db
         $totalRowsDeleted = 0;
 
         do {
-            echo $sql . "\n";
             $rowsDeleted = self::query($sql, $parameters)->rowCount();
 
             $totalRowsDeleted += $rowsDeleted;

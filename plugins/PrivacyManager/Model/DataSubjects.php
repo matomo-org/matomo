@@ -205,11 +205,13 @@ class DataSubjects
             }
 
             [$where, $bind] = $generateWhere($tableToSelect);
-            $tblFrom = $this->makeFromStatement($from);
 
             if (count($from) === 1) {
+                $tblFrom = Common::prefixTable($logTableName) . ' AS '. $logTableName;
                 $result = Db::deleteAllRows($tblFrom, ' WHERE ' . $where, '', 25000, $bind);
             } else {
+                $tblFrom = $this->makeFromStatement($from);
+
                 // You cannot use ORDER BY or LIMIT in a multiple-table DELETE. We have to delete it all at once
                 $sql = "DELETE $logTableName FROM $tblFrom WHERE $where";
                 $result = Db::query($sql, $bind)->rowCount();
