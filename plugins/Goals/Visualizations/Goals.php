@@ -84,7 +84,7 @@ class Goals extends HtmlTable
             $this->config->documentation = Piwik::translate(
                 'Goals_ConversionByTypeReportDocumentation',
                 ['<br />', '<br />', '<a href="https://matomo.org/docs/tracking-goals-web-analytics/" rel="noreferrer noopener" target="_blank">', '</a>']
-            );
+            ).'<br><b>' . Piwik::translate('Referrers_AttributionTitle') . ':</b> ' . Piwik::translate('Referrers_AttributionDocumentation');
         }
 
         if ($this->displayType == self::GOALS_DISPLAY_NORMAL) {

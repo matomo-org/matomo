@@ -21,7 +21,8 @@ class GetWebsites extends Base
         parent::init();
         $this->dimension     = new Website();
         $this->name          = Piwik::translate('CorePluginsAdmin_Websites');
-        $this->documentation = Piwik::translate('Referrers_WebsitesReportDocumentation', '<br />');
+        $this->documentation = Piwik::translate('Referrers_WebsitesReportDocumentation', '<br />') . '<br />'
+            . '<b>' . Piwik::translate('Referrers_AttributionTitle') . ':</b> ' . Piwik::translate('Referrers_AttributionDocumentation');
         $this->recursiveLabelSeparator = '/';
         $this->actionToLoadSubTables = 'getUrlsFromWebsiteId';
         $this->hasGoalMetrics = true;
