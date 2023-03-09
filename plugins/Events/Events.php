@@ -43,7 +43,7 @@ class Events extends \Piwik\Plugin
         $translations = array_merge($translations, $this->getMetricDocumentation());
     }
 
-    public function addMetricSemanticTypes(&$types)
+    public function addMetricSemanticTypes(array &$types): void
     {
         $metricTypes = array(
             'nb_events'            => Metric::SEMANTIC_TYPE_NUMBER,

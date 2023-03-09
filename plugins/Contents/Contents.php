@@ -35,7 +35,7 @@ class Contents extends \Piwik\Plugin
         $translations['interaction_rate'] = 'Contents_InteractionRate';
     }
 
-    public function addMetricSemanticTypes(&$types)
+    public function addMetricSemanticTypes(array &$types): void
     {
         $types['nb_impressions']   = Metric::SEMANTIC_TYPE_NUMBER;
         $types['nb_interactions']  = Metric::SEMANTIC_TYPE_NUMBER;

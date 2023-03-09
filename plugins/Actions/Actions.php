@@ -39,7 +39,7 @@ class Actions extends \Piwik\Plugin
         );
     }
 
-    public function addMetricSemanticTypes(&$types)
+    public function addMetricSemanticTypes(array &$types): void
     {
         $metrics = array(
             'nb_pageviews'        => Metric::SEMANTIC_TYPE_NUMBER,

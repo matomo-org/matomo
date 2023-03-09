@@ -100,7 +100,7 @@ abstract class Metric
      *
      * @return string|null
      */
-    public function getSemanticType()
+    public function getSemanticType(): ?string
     {
         return null;
     }

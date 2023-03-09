@@ -469,7 +469,7 @@ class Report
      * @return string[] maps metric name => semantic type
      * @api
      */
-    public function getMetricSemanticTypes()
+    public function getMetricSemanticTypes(): array
     {
         $metricTypes = $this->metricSemanticTypes ?: [];
 
@@ -1122,7 +1122,7 @@ class Report
         }
     }
 
-    private function deduceMetricTypeFromName($metric)
+    private function deduceMetricTypeFromName($metric): string
     {
         $metricName = $metric instanceof Metric ? $metric->getName() : $metric;
 

@@ -227,7 +227,7 @@ class Goals extends \Piwik\Plugin
         $translations = array_merge($translations, $metrics);
     }
 
-    public function addMetricSemanticTypes(&$types)
+    public function addMetricSemanticTypes(array &$types): void
     {
         $goalMetricTypes = array(
             'orders'            => Metric::SEMANTIC_TYPE_NUMBER,

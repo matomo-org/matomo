@@ -64,7 +64,7 @@ class Referrers extends \Piwik\Plugin
         $translations[Archiver::METRIC_DISTINCT_CAMPAIGN_RECORD_NAME] = ucfirst(Piwik::translate('Referrers_DistinctCampaigns'));
     }
 
-    public function addMetricSemanticTypes(&$types)
+    public function addMetricSemanticTypes(array &$types): void
     {
         $types['Referrers_visitorsFromSearchEngines'] = Metric::SEMANTIC_TYPE_NUMBER;
         $types['Referrers_visitorsFromSearchEngines_percent'] = Metric::SEMANTIC_TYPE_PERCENT;

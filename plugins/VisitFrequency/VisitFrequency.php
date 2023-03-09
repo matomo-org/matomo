@@ -47,7 +47,7 @@ class VisitFrequency extends \Piwik\Plugin
         $translations = array_merge($translations, $metrics);
     }
 
-    public function addMetricSemanticTypes(&$types)
+    public function addMetricSemanticTypes(array &$types): void
     {
         $metrics = array(
             'nb_visits_returning'  => Metric::SEMANTIC_TYPE_NUMBER,

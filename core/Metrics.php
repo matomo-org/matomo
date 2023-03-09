@@ -337,7 +337,7 @@ class Metrics
         return '';
     }
 
-    public static function getDefaultMetricSemanticTypes()
+    public static function getDefaultMetricSemanticTypes(): array
     {
         $cacheId = CacheId::pluginAware('DefaultMetricSemanticTypes');
         $cache = PiwikCache::getTransientCache();

@@ -72,7 +72,7 @@ class PagePerformance extends \Piwik\Plugin
         $translations = array_merge($translations, $metrics);
     }
 
-    public function addMetricSemanticTypes(&$types)
+    public function addMetricSemanticTypes(array &$types): void
     {
         $metricTypes = Metrics::getMetricSemanticTypes();
         $types = array_merge($types, $metricTypes);
