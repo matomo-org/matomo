@@ -195,7 +195,7 @@ export default defineComponent({
         },
         abortController: this.lastWidgetAbortController,
       }).then((response) => {
-        if (thisChangeId !== this.changeCounter || !response || typeof response !== 'string') {
+        if (thisChangeId !== this.changeCounter || typeof response !== 'string') {
           // another widget was requested meanwhile, ignore this response
           return;
         }
