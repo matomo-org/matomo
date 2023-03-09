@@ -43,6 +43,7 @@ class RedirectException extends \Piwik\Exception\Exception implements IRedirectE
 
     private function isValidRedirect(): bool
     {
-        return UrlHelper::isLookLikeUrl($this->redirectTo) && Url::isValidHost(Url::getHostFromUrl($this->redirectTo));
+        $host = Url::getHostFromUrl($this->redirectTo);
+        return $host !== null && UrlHelper::isLookLikeUrl($this->redirectTo) && Url::isValidHost($host);
     }
 }

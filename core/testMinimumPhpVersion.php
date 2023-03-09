@@ -204,6 +204,7 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
                                 <style>.header,.footer { display:none;}</style>
                                 <script>setTimeout(function(){window.location.href="' . $redirectUrl . '"}, ' . ($countdown * 1000) . ');</script>';
             $backLinks = '';
+            $optionalLinks = '';
         }
 
         $content = '<h2>' . $message . '</h2>'
