@@ -232,10 +232,7 @@ class Goals extends \Piwik\Plugin
         $goalMetricTypes = array(
             'orders'            => Metric::SEMANTIC_TYPE_NUMBER,
             'ecommerce_revenue' => Metric::SEMANTIC_TYPE_CURRENCY,
-            'revenue_per_visit' => Metric::SEMANTIC_TYPE_CURRENCY,
             'quantity'          => Metric::SEMANTIC_TYPE_NUMBER,
-            'avg_price'         => Metric::SEMANTIC_TYPE_CURRENCY,
-            'avg_quantity'      => Metric::SEMANTIC_TYPE_NUMBER,
             'revenue_subtotal'  => Metric::SEMANTIC_TYPE_CURRENCY,
             'revenue_tax'       => Metric::SEMANTIC_TYPE_CURRENCY,
             'revenue_shipping'  => Metric::SEMANTIC_TYPE_CURRENCY,

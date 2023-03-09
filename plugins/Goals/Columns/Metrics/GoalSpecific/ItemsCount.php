@@ -46,4 +46,9 @@ class ItemsCount extends GoalSpecificProcessedMetric
         $goalMetrics = $this->getGoalMetrics($row);
         return (int) $this->getMetric($goalMetrics, 'items', $mappingFromNameToIdGoal);
     }
+
+    public function getSemanticType(): ?string
+    {
+        return self::SEMANTIC_TYPE_NUMBER;
+    }
 }

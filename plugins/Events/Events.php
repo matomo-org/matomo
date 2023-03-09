@@ -50,7 +50,6 @@ class Events extends \Piwik\Plugin
             'sum_event_value'      => Metric::SEMANTIC_TYPE_NUMBER,
             'min_event_value'      => Metric::SEMANTIC_TYPE_NUMBER,
             'max_event_value'      => Metric::SEMANTIC_TYPE_NUMBER,
-            'avg_event_value'      => Metric::SEMANTIC_TYPE_NUMBER,
             'nb_events_with_value' => Metric::SEMANTIC_TYPE_NUMBER,
         );
         $types = array_merge($types, $metricTypes);

@@ -48,4 +48,9 @@ class ExitRate extends ProcessedMetric
     {
         return array('exit_nb_visits', 'nb_visits');
     }
+
+    public function getSemanticType(): ?string
+    {
+        return self::SEMANTIC_TYPE_PERCENT;
+    }
 }

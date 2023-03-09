@@ -50,8 +50,6 @@ class Actions extends \Piwik\Plugin
             'nb_uniq_outlinks'    => Metric::SEMANTIC_TYPE_NUMBER,
             'nb_searches'         => Metric::SEMANTIC_TYPE_NUMBER,
             'nb_keywords'         => Metric::SEMANTIC_TYPE_NUMBER,
-            'avg_time_generation' => Metric::SEMANTIC_TYPE_DURATION, // TODO: should all have the same unit
-            'exit_rate'            => Metric::SEMANTIC_TYPE_PERCENT,
             'entry_nb_visits'      => Metric::SEMANTIC_TYPE_NUMBER,
             'entry_bounce_count'   => Metric::SEMANTIC_TYPE_NUMBER,
             'exit_nb_visits'       => Metric::SEMANTIC_TYPE_NUMBER,

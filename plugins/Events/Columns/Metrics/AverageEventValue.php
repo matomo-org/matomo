@@ -42,4 +42,9 @@ class AverageEventValue extends ProcessedMetric
     {
         return array('sum_event_value', 'nb_events_with_value');
     }
+
+    public function getSemanticType(): ?string
+    {
+        return self::SEMANTIC_TYPE_NUMBER;
+    }
 }

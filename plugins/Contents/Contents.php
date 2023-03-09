@@ -39,7 +39,6 @@ class Contents extends \Piwik\Plugin
     {
         $types['nb_impressions']   = Metric::SEMANTIC_TYPE_NUMBER;
         $types['nb_interactions']  = Metric::SEMANTIC_TYPE_NUMBER;
-        $types['interaction_rate'] = Metric::SEMANTIC_TYPE_PERCENT;
     }
 
     public function getJsFiles(&$jsFiles)

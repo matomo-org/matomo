@@ -30,7 +30,7 @@ class AverageTimeOnDimension extends AverageTimeOnPage
         return Piwik::translate('CustomDimensions_ColumnAvgTimeOnDimension');
     }
 
-    public function getSemanticType()
+    public function getSemanticType(): ?string
     {
         return Metric::SEMANTIC_TYPE_DURATION;
     }
