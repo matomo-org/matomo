@@ -448,7 +448,17 @@ class CronArchive
 
             $dateStr = $archive['period'] == Range::PERIOD_ID ? ($archive['date1'] . ',' . $archive['date2']) : $archive['date1'];
             $period = PeriodFactory::build($this->periodIdsToLabels[$archive['period']], $dateStr);
-            $params = new Parameters(new Site($idSite), $period, new Segment($segment, [$idSite], $period->getDateStart(), $period->getDateEnd()));
+            $site = new Site($idSite);
+            $params = new Parameters(
+                $site,
+                $period,
+                new Segment(
+                    $segment,
+                    [$idSite],
+                    $period->getDateStart()->setTimezone($site->getTimezone()),
+                    $period->getDateEnd()->setTimezone($site->getTimezone())
+                )
+            );
 
             if (!empty($plugin)) {
                 $params->setRequestedPlugin($plugin);
