@@ -4,6 +4,12 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 4.14.0
+
+### HTTP Tracking API
+
+* The campaign attribution tracking parameters `_rcn` and `_rck` are no longer used to attribute visits. Those parameters will now only be used to attribute conversions. If you want to manually attribute a visit to a campaign ensure to attach camapign parameters to the tracked URL instead.
+
 ## Matomo 4.13.1
 
 ### New config.ini.php settings
