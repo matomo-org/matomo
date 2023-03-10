@@ -9,6 +9,10 @@
 
 namespace Piwik\Exception;
 
+use Piwik\Common;
+use Piwik\Url;
+use Piwik\UrlHelper;
+
 class RedirectException extends \Piwik\Exception\Exception implements IRedirectException
 {
     private $redirectTo;
@@ -28,12 +32,18 @@ class RedirectException extends \Piwik\Exception\Exception implements IRedirectE
 
     public function getRedirectionUrl(): string
     {
-        return $this->redirectTo;
+        return $this->isValidRedirect() ? Common::sanitizeInputValue($this->redirectTo) : '';
     }
 
 
     public function getCountdown(): int
     {
         return $this->countdown;
+    }
+
+    private function isValidRedirect(): bool
+    {
+        $host = Url::getHostFromUrl($this->redirectTo);
+        return $host !== null && UrlHelper::isLookLikeUrl($this->redirectTo) && Url::isValidHost($host);
     }
 }
