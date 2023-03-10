@@ -33,6 +33,7 @@ class Mail
     protected $bccs = [];
     protected $attachments = [];
     protected $smtpDebug = false;
+    protected $bcc;
 
     public function __construct()
     {
