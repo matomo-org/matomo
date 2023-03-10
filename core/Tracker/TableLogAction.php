@@ -10,7 +10,6 @@
 namespace Piwik\Tracker;
 
 use Piwik\Common;
-use Piwik\Container\StaticContainer;
 use Piwik\Segment\SegmentExpression;
 
 /**

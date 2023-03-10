@@ -12,16 +12,12 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Cache as PiwikCache;
-use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\LogQueryBuilder;
 use Piwik\Plugins\SegmentEditor\SegmentEditor;
 use Piwik\Segment\SegmentExpression;
 use Piwik\Plugins\SegmentEditor\Model as SegmentEditorModel;
 use Piwik\Segment\SegmentsList;
-use Piwik\Tracker\Action;
-use Piwik\Tracker\Model;
-use Piwik\Tracker\TableLogAction;
 
 /**
  * Limits the set of visits Piwik uses when aggregating analytics data.

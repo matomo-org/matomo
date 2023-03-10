@@ -10,7 +10,6 @@
 namespace Piwik\Segment;
 
 use Exception;
-use Piwik\Segment;
 
 /**
  *
