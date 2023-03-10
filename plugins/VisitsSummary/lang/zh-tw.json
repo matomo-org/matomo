@@ -17,11 +17,12 @@
         "NbUniquePageviewsDescription": "不重複瀏覽數",
         "NbUniqueVisitors": "不重複訪客",
         "NbUsersDescription": "使用者",
-        "NbVisitsDescription": "訪問數",
         "NbVisitsBounced": "跳出數（只瀏覽一頁就離開）",
+        "NbVisitsDescription": "訪問數",
         "PluginDescription": "報表產生分析數據：訪問數、不重複訪客數、活動數和跳出率等等。",
         "VisitsSummary": "訪客摘要",
         "VisitsSummaryDocumentation": "這是訪問趨勢的總覽。",
+        "VisitsSummaryReportDocumentation": "此報表提供了你的訪客行為的概觀。",
         "WidgetLastVisits": "最近訪問",
         "WidgetOverviewGraph": "訪問總覽圖表",
         "WidgetVisits": "訪問總覽"

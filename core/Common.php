@@ -844,7 +844,7 @@ class Common
         );
 
         if (is_null($browserLang)) {
-            $browserLang = self::sanitizeInputValues(@$_SERVER['HTTP_ACCEPT_LANGUAGE']);
+            $browserLang = self::sanitizeInputValues($_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '');
             if (empty($browserLang) && self::isPhpCliMode()) {
                 $browserLang = @getenv('LANG');
             }
@@ -930,7 +930,7 @@ class Common
     }
 
     /**
-     * Returns the language and region string, based only on the Browser 'accepted language' information.
+     * Returns the language string, based only on the Browser 'accepted language' information.
      * * The language tag is defined by ISO 639-1
      *
      * @param string $browserLanguage Browser's accepted language header
@@ -939,8 +939,8 @@ class Common
      */
     public static function extractLanguageCodeFromBrowserLanguage($browserLanguage, $validLanguages = array())
     {
-        $validLanguages = self::checkValidLanguagesIsSet($validLanguages);
         $languageRegionCode = self::extractLanguageAndRegionCodeFromBrowserLanguage($browserLanguage, $validLanguages);
+        $validLanguages = self::checkValidLanguagesIsSet($validLanguages);
 
         if (strlen($languageRegionCode) === 2) {
             $languageCode = $languageRegionCode;
@@ -959,14 +959,15 @@ class Common
      * * The region tag is defined by ISO 3166-1
      *
      * @param string $browserLanguage Browser's accepted language header
-     * @param array $validLanguages array of valid language codes. Note that if the array includes "fr" then it will consider all regional variants of this language valid, such as "fr-ca" etc.
-     * @return string 2 letter ISO 639 code 'es' (Spanish) or if found, includes the region as well: 'es-ar'
+     * @param array $validLanguages array of valid language/region codes.
+     * @return string 2-letter ISO 639 code 'es' (Spanish) or if found, includes the region as well: 'es-ar'
      */
     public static function extractLanguageAndRegionCodeFromBrowserLanguage($browserLanguage, $validLanguages = array())
     {
+        $forceRegionValidation = !empty($validLanguages);
         $validLanguages = self::checkValidLanguagesIsSet($validLanguages);
 
-        if (!preg_match_all('/(?:^|,)([a-z]{2,3})([-][a-z]{2})?/', $browserLanguage, $matches, PREG_SET_ORDER)) {
+        if (!preg_match_all('/(?:^|,)([a-z]{2,3})(?:[-][a-z]{4})?([-][a-z]{2})?/', $browserLanguage, $matches, PREG_SET_ORDER)) {
             return self::LANGUAGE_CODE_INVALID;
         }
         foreach ($matches as $parts) {
@@ -983,7 +984,8 @@ class Common
                     return $langIso639 . $regionIso3166;
                 }
 
-                if (in_array($langIso639, $validLanguages)) {
+                // if a set of valid codes was provided, we do not append the region if it was not included
+                if (in_array($langIso639, $validLanguages) && !$forceRegionValidation) {
                     return $langIso639 . $regionIso3166;
                 }
             }
