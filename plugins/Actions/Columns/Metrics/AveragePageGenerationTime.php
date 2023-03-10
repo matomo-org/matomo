@@ -109,4 +109,9 @@ class AveragePageGenerationTime extends ProcessedMetric
     {
         return $table->getFirstRow()->getColumn('avg_time_generation') !== false;
     }
+
+    public function getSemanticType(): ?string
+    {
+        return self::SEMANTIC_TYPE_DURATION;
+    }
 }

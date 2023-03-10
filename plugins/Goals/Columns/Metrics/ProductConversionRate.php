@@ -51,4 +51,9 @@ class ProductConversionRate extends ProcessedMetric
     {
         return array('orders', 'abandoned_carts', 'nb_visits');
     }
+
+    public function getSemanticType(): ?string
+    {
+        return self::SEMANTIC_TYPE_PERCENT;
+    }
 }

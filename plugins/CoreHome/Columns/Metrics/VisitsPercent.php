@@ -73,4 +73,9 @@ class VisitsPercent extends ProcessedMetric
 
         return true; // always compute
     }
+
+    public function getSemanticType(): ?string
+    {
+        return self::SEMANTIC_TYPE_PERCENT;
+    }
 }
