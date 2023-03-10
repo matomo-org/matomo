@@ -25,7 +25,7 @@ class ProductSku extends Dimension
 
     public function __construct()
     {
-        $this->sqlFilterMatch = [$this, 'getOptimizedIdActionSqlMatch'];
+        $this->sqlFilter = [$this, 'getOptimizedIdActionSqlMatch'];
     }
 
     public function getDbColumnJoin()

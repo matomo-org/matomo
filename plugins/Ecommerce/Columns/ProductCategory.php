@@ -50,7 +50,7 @@ class ProductCategory extends Dimension
             $segment->setType('dimension');
             $segment->setName($this->getName() . ' ' . ($i + 1));
             $segment->setSegment($productCategoryName);
-            $segment->setSqlFilterMatch([$this, 'getOptimizedIdActionSqlMatch']);
+            $segment->setSqlFilter([$this, 'getOptimizedIdActionSqlMatch']);
             $segment->setSqlSegment('log_conversion_item.' . $productCategoryColumnName);
             $segment->setIsInternal(true);
             $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));

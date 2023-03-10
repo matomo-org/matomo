@@ -25,8 +25,8 @@ class EventUrl extends ActionDimension
 
     public function __construct()
     {
-        $this->sqlFilterMatch = function ($field, $matchType, $value, $join) {
-            return $this->getOptimizedIdActionSqlMatch($field, $matchType, $value, $join, true);
+        $this->sqlFilter = function ($value, $field, $matchType, $name) {
+            return $this->getOptimizedIdActionSqlMatch($value, $field, $matchType, $name, true);
         };
     }
 

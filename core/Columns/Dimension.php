@@ -21,6 +21,7 @@ use Piwik\Metrics\Formatter;
 use Piwik\Segment\SegmentExpression;
 use Piwik\Segment\SegmentsList;
 use Piwik\Tracker\Action;
+use Piwik\Tracker\TableLogAction;
 
 /**
  * @api
@@ -883,50 +884,31 @@ abstract class Dimension
 
 
     /**
-     * Returns SQL to match a log_action row by name that also uses the `hash` column so it uses the index on the table.
+     * Returns an idaction value to match an idaction column by searching log_action, if $matchType is
+     * SegmentExpression::MATCH_EQUAL or SegmentExpression::MATCH_NOT_EQUAL. This method is used
+     * to optimize segment conditions involving idaction queries, avoiding a join by querying the log_action
+     * table beforehand.
      *
-     * Should be used as the $sqlFilterMatch property for idaction dimensions that use `ActionNameJoin`.
+     * Should be used as the $sqlFilter property for idaction dimensions that use `ActionNameJoin`.
      *
-     * @param string $field the table column
+     * @param string $value the value in the segment condition
+     * @param string $sqlField the table column of the segment condition
      * @param string $matchType the SegmentExpression match type, eg, `SegmentExpression::MATCH_NOT_EQUAL`
-     * @param string $value the value being matched against.
-     * @param array $join the join used for this segment, if any (for this specific method, it needs to be the join on log_action)
-     * @return array|null
+     * @param string $segmentName the name of the segment, ie, `pageUrl`
+     * @return array|null|string
      */
-    public function getOptimizedIdActionSqlMatch($field, $matchType, $value, $join, $isUrlProtocolAbsentInDb = false)
+    public function getOptimizedIdActionSqlMatch($value, $sqlField, $matchType, $segmentName, $isUrlProtocolAbsentInDb = false)
     {
         if ($matchType == SegmentExpression::MATCH_EQUAL || $matchType == SegmentExpression::MATCH_NOT_EQUAL) {
-            $dbDiscriminator = $this->getDbDiscriminator();
+            $result = TableLogAction::getIdActionFromSegment($value, $sqlField, $matchType, $segmentName);
 
-            $actionType = $dbDiscriminator->getValue();
-            if ($actionType == Action::TYPE_PAGE_URL || $isUrlProtocolAbsentInDb) {
-                // for urls trim protocol and www because it is not recorded in the db
-                $value = preg_replace('@^http[s]?://(www\.)?@i', '', $value);
+            if (is_numeric($result)) {
+                return ['value' => $result, 'joinTable' => false];
             }
 
-            $unsanitizedValue = $value;
-            $value = \Piwik\Tracker\TableLogAction::normaliseActionString($actionType, $value);
-
-            $sqlOperator = $matchType == SegmentExpression::MATCH_EQUAL ? '=' : '<>';
-
-            $joinTable = $join['tableAlias'];
-
-            $sql = "%s $sqlOperator ? AND $joinTable.hash $sqlOperator CRC32(?)";
-            $bind = [$value, $value];
-
-            // If action can't be found normalized try search for it with original value
-            // This can eg happen for outlinks that contain a &amp; see https://github.com/matomo-org/matomo/issues/11806
-            if ($unsanitizedValue != $value) {
-                $sql = '((' . $sql . ') OR (' . $sql . '))';
-                $bind = array_merge($bind, [$unsanitizedValue, $unsanitizedValue]);
-            }
-
-            return [
-                'sql' => $sql,
-                'bind' => $bind,
-            ];
+            return $result;
         }
 
-        return null;
+        return $value;
     }
 }

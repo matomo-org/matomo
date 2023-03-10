@@ -171,7 +171,7 @@ class TableLogAction
      * @throws \Exception
      * @return array|int|string
      */
-    public static function getIdActionFromSegment($valueToMatch, $sqlField, $matchType, $segmentName)
+    public static function getIdActionFromSegment($valueToMatch, $sqlField, $matchType, $segmentName, $isUrlProtocolAbsentInDb = false)
     {
         if ($segmentName === 'actionType') {
             $actionType   = (int) $valueToMatch;
@@ -179,7 +179,7 @@ class TableLogAction
             $sql = 'SELECT idaction FROM ' . Common::prefixTable('log_action') . ' WHERE type = ' . $actionType . ' )';
         } else {
             $actionType = self::guessActionTypeFromSegment($segmentName);
-            if ($actionType == Action::TYPE_PAGE_URL || $segmentName == 'eventUrl') {
+            if ($actionType == Action::TYPE_PAGE_URL || $segmentName == 'eventUrl' || $isUrlProtocolAbsentInDb) {
                 // for urls trim protocol and www because it is not recorded in the db
                 $valueToMatch = preg_replace('@^http[s]?://(www\.)?@i', '', $valueToMatch);
             }

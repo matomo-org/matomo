@@ -52,7 +52,7 @@ class ProductViewCategory extends ActionDimension
             $segment->setType('dimension');
             $segment->setName(Piwik::translate('Ecommerce_ViewedProductCategory') . ' ' . ($i + 1));
             $segment->setSegment($productCategoryName);
-            $segment->setSqlFilterMatch([$this, 'getOptimizedIdActionSqlMatch']);
+            $segment->setSqlFilter([$this, 'getOptimizedIdActionSqlMatch']);
             $segment->setSqlSegment('log_link_visit_action.' . $productCategoryColumnName);
             $segment->setIsInternal(true);
             $segment->setSuggestedValuesCallback(function ($idSite, $maxValuesToReturn, $table) {

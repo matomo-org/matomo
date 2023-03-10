@@ -30,7 +30,7 @@ class ExitPageUrl extends VisitDimension
 
     public function __construct()
     {
-        $this->sqlFilterMatch = [$this, 'getOptimizedIdActionSqlMatch'];
+        $this->sqlFilter = [$this, 'getOptimizedIdActionSqlMatch'];
     }
 
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)

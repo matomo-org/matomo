@@ -29,7 +29,7 @@ class ContentPiece extends ActionDimension
 
     public function __construct()
     {
-        $this->sqlFilterMatch = [$this, 'getOptimizedIdActionSqlMatch'];
+        $this->sqlFilter = [$this, 'getOptimizedIdActionSqlMatch'];
     }
 
     public function getDbColumnJoin()

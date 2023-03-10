@@ -147,7 +147,7 @@ class Segment
      *
      * If the closure returns NULL, then Piwik assumes the segment sub-string will not match any visitor.
      *
-     * @param string|\Closure $sqlFilter
+     * @param callable $sqlFilter
      * @api
      */
     public function setSqlFilter($sqlFilter)
