@@ -176,25 +176,6 @@ class ReferrerAttributionTest extends IntegrationTestCase
         $visitReferrer = $initialReferrer;
 
         if (
-            (
-                $initialReferrer['referrerType'] === Common::REFERRER_TYPE_DIRECT_ENTRY
-                || $initialReferrer === $referrerAttributionCookieValuesAfterReturn
-            )
-            && $referrerAttributionCookieValuesAfterReturn !== null
-            && $referrerAttributionCookieValuesAfterReturn['referrerType'] === Common::REFERRER_TYPE_CAMPAIGN
-        ) {
-            $visitReferrer = $referrerAttributionCookieValuesAfterReturn;
-
-            /*
-             * @todo Due to a bug in Matomo dimensions handling, when updating a referrer the referrer_url is currently
-             * not updated and stays empty. This "fix" should be removed and fixed in the code
-             * See discussion on https://github.com/matomo-org/matomo/pull/19250
-             */
-            if ($initialReferrer['referrerType'] === Common::REFERRER_TYPE_DIRECT_ENTRY) {
-                $visitReferrer['referrerUrl'] = null;
-            }
-            // end of fix
-        } elseif (
             $secondReferrer['referrerType'] === Common::REFERRER_TYPE_CAMPAIGN
             && $createNewVisitWhenCampaignChanges === true
             && $initialReferrer['referrerType'] !== Common::REFERRER_TYPE_DIRECT_ENTRY
