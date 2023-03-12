@@ -33,7 +33,6 @@ class Mail
     protected $bccs = [];
     protected $attachments = [];
     protected $smtpDebug = false;
-    protected $bcc;
 
     public function __construct()
     {
@@ -216,7 +215,7 @@ class Mail
     public function clearAllRecipients()
     {
         $this->recipients = [];
-        $this->bcc = [];
+        $this->bccs = [];
     }
 
     /**
