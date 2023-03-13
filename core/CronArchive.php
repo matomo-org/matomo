@@ -455,8 +455,8 @@ class CronArchive
                 new Segment(
                     $segment,
                     [$idSite],
-                    $period->getDateStart()->setTimezone($site->getTimezone()),
-                    $period->getDateEnd()->setTimezone($site->getTimezone())
+                    $period->getDateTimeStart()->setTimezone($site->getTimezone()),
+                    $period->getDateTimeEnd()->setTimezone($site->getTimezone())
                 )
             );
 
@@ -925,7 +925,17 @@ class CronArchive
         }
 
         foreach ($idSites as $idSite) {
-            $params = new Parameters(new Site($idSite), $periodObj, new Segment('', [$idSite], $periodObj->getDateStart(), $periodObj->getDateEnd()));
+            $site = new Site($idSite);
+            $params = new Parameters(
+                $site,
+                $periodObj,
+                new Segment(
+                    '',
+                    [$idSite],
+                    $periodObj->getDateTimeStart()->setTimezone($site->getTimezone()),
+                    $periodObj->getDateTimeEnd()->setTimezone($site->getTimezone())
+                )
+            );
             if ($this->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params, $doNotIncludeTtlInExistingArchiveCheck)) {
                 $this->logger->debug('  Found usable archive for {archive}, skipping invalidation.', ['archive' => $params]);
             } else {
@@ -939,7 +949,16 @@ class CronArchive
                 if (!$this->isSegmentAvailable($segmentDefinition, [$idSite])) {
                     continue;
                 }
-                $params = new Parameters(new Site($idSite), $periodObj, new Segment($segmentDefinition, [$idSite], $periodObj->getDateStart(), $periodObj->getDateEnd()));
+                $params = new Parameters(
+                    $site,
+                    $periodObj,
+                    new Segment(
+                        $segmentDefinition,
+                        [$idSite],
+                        $periodObj->getDateTimeStart()->setTimezone($site->getTimezone()),
+                        $periodObj->getDateTimeEnd()->setTimezone($site->getTimezone())
+                    )
+                );
                 if ($this->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params, $doNotIncludeTtlInExistingArchiveCheck)) {
                     $this->logger->debug('  Found usable archive for {archive}, skipping invalidation.', ['archive' => $params]);
                 } else {
