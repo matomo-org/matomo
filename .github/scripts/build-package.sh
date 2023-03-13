@@ -70,6 +70,8 @@ function die() {
 # organize files for packaging
 function organizePackage() {
 
+    cd "$CURRENT_DIR/$LOCAL_REPO"
+
     if [ ! -f "composer.phar" ]
     then
         EXPECTED_SIGNATURE="$(wget -q -O - https://composer.github.io/installer.sig)"
@@ -91,10 +93,11 @@ function organizePackage() {
     # delete most submodules
     for P in $(git submodule status | egrep -v $SUBMODULES_PACKAGED_WITH_CORE | awk '{print $2}')
     do
+        echo "removing $P"
         rm -Rf ./$P
     done
 
-    cp tests/README.md ../
+    cp tests/README.md $ARCH_DIR
 
     $CURRENT_DIR/.github/scripts/clean-build.sh
 
@@ -107,13 +110,13 @@ function organizePackage() {
     fi
 
     mkdir tests
-    mv ../README.md tests/
+    mv $ARCH_DIR/README.md tests/
 
     # Remove and deactivate the TestRunner plugin in production build
     sed -i '/Plugins\[\] = TestRunner/d' config/global.ini.php
     rm -rf plugins/TestRunner
 
-    cp misc/How\ to\ install\ Matomo.html ..
+    cp misc/How\ to\ install\ Matomo.html $ARCH_DIR
 
     if [ -d "misc/package" ]
     then
@@ -159,7 +162,9 @@ CURRENT_DIR="$(pwd)"
 
 ARCH_DIR="$CURRENT_DIR/$LOCAL_ARCH"
 
-echo "Working directory is '$WORK_DIR'..."
+echo "Working directory is '$CURRENT_DIR'..."
+
+ls "$CURRENT_DIR/plugins"
 
 echo -e "Going to build Matomo $VERSION (Major version: $MAJOR_VERSION)"
 
@@ -179,6 +184,7 @@ echo "Starting '$FLAVOUR' build...."
 if [ "$VERSION" == "build" ]; then
   mkdir $LOCAL_REPO
   cp -pdr !($LOCAL_REPO) $LOCAL_REPO
+  cp -r .git $LOCAL_REPO
 else
   if [ -d "$LOCAL_REPO" ] ; then
       rm -rf $LOCAL_REPO
@@ -212,7 +218,7 @@ done
 echo "Preparing release $VERSION"
 echo "Git tag: $(git describe --exact-match --tags HEAD)"
 echo "Git path: $CURRENT_DIR/$LOCAL_REPO"
-echo "Matomo version in core/Version.php: $(grep "'$VERSION'" core/Version.php)"
+echo "Matomo version in core/Version.php: $(php -r "include_once 'core/Version.php'; echo \Piwik\Version::VERSION;")"
 
 if [ "$VERSION" != "build" ]; then
   [ "$(grep "'$VERSION'" core/Version.php | wc -l)" = "1" ] || die "version $VERSION does not match core/Version.php";
@@ -230,7 +236,6 @@ for F in $FLAVOUR; do
     echo "copying files to a new directory..."
     [ -d "$F" ] && rm -rf "$F"
     cp -pdr "$CURRENT_DIR/$LOCAL_REPO" "$F"
-    cp "$CURRENT_DIR/How to install Matomo.html" "$ARCH_DIR"
     cd "$F" || exit
 
     # leave $F folder
@@ -252,6 +257,8 @@ for F in $FLAVOUR; do
     fi
 
 done
+
+ls "$CURRENT_DIR/plugins"
 
 if [ "$VERSION" != "build" ]; then
   # Check File signatures are correct

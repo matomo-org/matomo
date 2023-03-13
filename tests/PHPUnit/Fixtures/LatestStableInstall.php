@@ -43,6 +43,11 @@ class LatestStableInstall extends Fixture
         $this->verifyInstall($tokenAuth);
     }
 
+    public function tearDown(): void
+    {
+        $this->removeLatestStableInstall();
+    }
+
     private function removeLatestStableInstall()
     {
         $installSubdirectory = $this->getInstallSubdirectoryPath();
@@ -78,7 +83,7 @@ class LatestStableInstall extends Fixture
             throw new \Exception("Failed to extract matomo build ZIP archive.");
         }
 
-        shell_exec('mv "' . $installSubdirectory . '"/piwik/* "' . $installSubdirectory . '"');
+        shell_exec('mv "' . $installSubdirectory . '"/matomo/* "' . $installSubdirectory . '"');
     }
 
     private function installSubdirectoryInstall()
