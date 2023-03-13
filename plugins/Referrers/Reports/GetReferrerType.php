@@ -33,7 +33,7 @@ class GetReferrerType extends Base
                                  array('<br />', '&quot;' . Piwik::translate('Referrers_SubmenuWebsitesOnly') . '&quot;')) . '<br />'
                              . '<b>' . Piwik::translate('Referrers_Campaigns') . ':</b> ' . Piwik::translate('Referrers_CampaignsDocumentation',
                                  array('<br />', '&quot;' . Piwik::translate('Referrers_Campaigns') . '&quot;')) . '<br />'
-                             . '<b>' . Piwik::translate('Referrers_AttributionTitle') . ':</b> ' . Piwik::translate('Referrers_AttributionDocumentation');
+                             . '<b>' . Piwik::translate('General_AttributionTitle') . ':</b> ' . Piwik::translate('General_AttributionDocumentation', ['<a href="https://matomo.org/faq/general/faq_106/" rel="noreferrer noopener" target="_blank">', '</a>']);
         $this->constantRowsCount = true;
         $this->hasGoalMetrics = true;
         $this->order = 1;

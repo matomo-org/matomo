@@ -24,7 +24,7 @@ class GetAll extends Base
         $this->dimension     = new Referrer();
         $this->name          = Piwik::translate('Referrers_WidgetGetAll');
         $this->documentation = Piwik::translate('Referrers_AllReferrersReportDocumentation', '<br />') . '<br />'
-                               . '<b>' . Piwik::translate('Referrers_AttributionTitle') . ':</b> ' . Piwik::translate('Referrers_AttributionDocumentation');
+                               . '<b>' . Piwik::translate('General_AttributionTitle') . ':</b> ' . Piwik::translate('General_AttributionDocumentation', ['<a href="https://matomo.org/faq/general/faq_106/" rel="noreferrer noopener" target="_blank">', '</a>']);
         $this->order = 2;
 
         $this->subcategoryId = 'Referrers_WidgetGetAll';
