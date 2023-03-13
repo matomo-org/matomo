@@ -201,7 +201,18 @@ class ArchiveInvalidationTest extends SystemTestCase
         $this->assertFalse(Rules::isSegmentPluginArchivingDisabled('testPlugin', 1));
     }
 
+    /**
+     * Check that both date range types are correctly parsed without any exceptions
+     */
+    public function testDateRangesCorrectlyParsed()
+    {
+        $testRanges = ['2020-01-01,2020-03-31', 'last30'];
 
+        foreach ($testRanges as $dateRange) {
+            $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=".self::$fixture->idSite1."&period=range&dates=".$dateRange);
+            $this->assertApiResponseHasNoError($r->process());
+        }
+    }
 
     /**
      * This is called after getApiToTest()
@@ -237,6 +248,9 @@ class ArchiveInvalidationTest extends SystemTestCase
         $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&period=$period&idSites=$idSite&dates=$dates&cascadeDown=" . (int)$cascadeDown);
         $this->assertApiResponseHasNoError($r->process());
     }
+
+
+
 }
 
 ArchiveInvalidationTest::$fixture = new VisitsTwoWebsitesWithAdditionalVisits();
