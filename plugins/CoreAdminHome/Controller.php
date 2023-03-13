@@ -327,6 +327,7 @@ class Controller extends ControllerAdmin
         $mail = Config::getInstance()->mail;
         $mail['noreply_email_address'] = Config::getInstance()->General['noreply_email_address'];
         $mail['noreply_email_name'] = Config::getInstance()->General['noreply_email_name'];
+        $mail['password'] = !empty($mail['password']) ? '*****' : '';
         $view->mail = $mail;
     }
 
