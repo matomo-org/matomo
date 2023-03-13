@@ -229,7 +229,7 @@ class Response
         $testNotSmallAfter = strlen($input > 100) && $testNotSmallAfter;
 
         $oldInput = $input;
-        $input = preg_replace('/(<' . $xmlElement . '>.+?<\/' . $xmlElement . '>)/', '', $input);
+        $input = preg_replace('/(<' . $xmlElement . '>.+?<\/' . $xmlElement . '>)/s', '', $input);
         $input = str_replace('<' . $xmlElement . ' />', '', $input);
 
         // check we didn't delete the whole string
