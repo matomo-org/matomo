@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Actions;
 
+use Piwik\Plugin\Metric;
 use Piwik\Site;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Tracker\Action;
@@ -32,9 +33,31 @@ class Actions extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'Insights.addReportToOverview'    => 'addReportToInsightsOverview',
             'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations',
+            'Metrics.getDefaultMetricSemanticTypes' => 'addMetricSemanticTypes',
             'Metrics.getDefaultMetricDocumentationTranslations' => 'addMetricDocumentationTranslations',
             'Actions.addActionTypes' => 'addActionTypes'
         );
+    }
+
+    public function addMetricSemanticTypes(array &$types): void
+    {
+        $metrics = array(
+            'nb_pageviews'        => Metric::SEMANTIC_TYPE_NUMBER,
+            'nb_uniq_pageviews'   => Metric::SEMANTIC_TYPE_NUMBER,
+            'nb_downloads'        => Metric::SEMANTIC_TYPE_NUMBER,
+            'nb_uniq_downloads'   => Metric::SEMANTIC_TYPE_NUMBER,
+            'nb_outlinks'         => Metric::SEMANTIC_TYPE_NUMBER,
+            'nb_uniq_outlinks'    => Metric::SEMANTIC_TYPE_NUMBER,
+            'nb_searches'         => Metric::SEMANTIC_TYPE_NUMBER,
+            'nb_keywords'         => Metric::SEMANTIC_TYPE_NUMBER,
+            'entry_nb_visits'      => Metric::SEMANTIC_TYPE_NUMBER,
+            'entry_bounce_count'   => Metric::SEMANTIC_TYPE_NUMBER,
+            'exit_nb_visits'       => Metric::SEMANTIC_TYPE_NUMBER,
+            'nb_pages_per_search'      => Metric::SEMANTIC_TYPE_NUMBER,
+            'nb_hits_following_search' => Metric::SEMANTIC_TYPE_NUMBER,
+        );
+
+        $types = array_merge($types, $metrics);
     }
 
     public function addMetricTranslations(&$translations)

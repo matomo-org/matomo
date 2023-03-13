@@ -61,4 +61,9 @@ class AveragePrice extends ProcessedMetric
         $this->idSite = DataTableFactory::getSiteIdFromMetadata($table);
         return !empty($this->idSite); // skip formatting if there is no site to get currency info from
     }
+
+    public function getSemanticType(): ?string
+    {
+        return self::SEMANTIC_TYPE_CURRENCY;
+    }
 }

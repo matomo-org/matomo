@@ -48,4 +48,9 @@ class BounceRate extends ProcessedMetric
     {
         return array('entry_bounce_count', 'entry_nb_visits');
     }
+
+    public function getSemanticType(): ?string
+    {
+        return self::SEMANTIC_TYPE_PERCENT;
+    }
 }

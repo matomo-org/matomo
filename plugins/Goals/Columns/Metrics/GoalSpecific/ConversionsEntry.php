@@ -48,4 +48,9 @@ class ConversionsEntry extends GoalSpecificProcessedMetric
         $goalMetrics = $this->getGoalMetrics($row);
         return (int) $this->getMetric($goalMetrics, 'nb_conversions_entry', $mappingFromNameToIdGoal);
     }
+
+    public function getSemanticType(): ?string
+    {
+        return self::SEMANTIC_TYPE_NUMBER;
+    }
 }

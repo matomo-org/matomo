@@ -50,4 +50,9 @@ class AverageTimeOnSite extends ProcessedMetric
     {
         return array('sum_visit_length', 'nb_visits');
     }
+
+    public function getSemanticType(): ?string
+    {
+        return self::SEMANTIC_TYPE_DURATION;
+    }
 }

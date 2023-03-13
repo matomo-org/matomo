@@ -8,6 +8,7 @@
 namespace Piwik\Plugins\CustomDimensions\Columns\Metrics;
 
 use Piwik\Piwik;
+use Piwik\Plugin\Metric;
 use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeOnPage;
 
 /**
@@ -29,4 +30,8 @@ class AverageTimeOnDimension extends AverageTimeOnPage
         return Piwik::translate('CustomDimensions_ColumnAvgTimeOnDimension');
     }
 
+    public function getSemanticType(): ?string
+    {
+        return Metric::SEMANTIC_TYPE_DURATION;
+    }
 }

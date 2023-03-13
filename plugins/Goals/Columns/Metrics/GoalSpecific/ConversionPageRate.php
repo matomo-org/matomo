@@ -58,4 +58,9 @@ class ConversionPageRate extends GoalSpecificProcessedMetric
 
         return $this->getMetric($goalMetrics, 'nb_conversions_page_rate', $mappingFromNameToIdGoal);
     }
+
+    public function getSemanticType(): ?string
+    {
+        return self::SEMANTIC_TYPE_PERCENT;
+    }
 }
