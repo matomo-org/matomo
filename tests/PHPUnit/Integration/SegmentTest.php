@@ -2198,6 +2198,27 @@ SQL;
         $this->assertEquals($expected, $sql);
     }
 
+    public function test_getSelectQuery_whenUrls()
+    {
+        $select = 'sum(log_visit.idvisit)';
+        $from = 'log_visit';
+        $where = 'log_visit.idsite = ?';
+        $bind = array(1);
+
+        $segment = 'entryPageUrl=@https%253A%252F%252Fmatomo.org%252Ffaq%252F,entryPageUrl=@https%253A%252F%252Fmatomo.org%252Fdocs%252F,entryPageUrl=@https%253A%252F%252Fmatomo.org%252Fcontact%252F,entryPageUrl=@https%253A%252F%252Fmatomo.org%252Fhelp%252F,entryPageUrl=@https%253A%252F%252Fmatomo.org%252Ftag-manager-training%252F,entryPageUrl=@https%253A%252F%252Fmatomo.org%252Fweb-analytics-training%252F,entryPageUrl=@https%253A%252F%252Fdeveloper.matomo.org%252F,entryPageUrl=@https%253A%252F%252Fmatomo.org%252Ftranslations%252F,entryPageUrl=@https%253A%252F%252Fmatomo.org%252Fchangelog%252F,entryPageUrl=@https%253A%252F%252Fmatomo.org%252Fsupport%252F,entryPageUrl=@https%253A%252F%252Fmatomo.org%252Fjobs%252F';
+        $segment = new Segment($segment, $idSites = array());
+
+        $query = $segment->getSelectQuery($select, $from, $where, $bind);
+
+        $this->assertQueryDoesNotFail($query);
+
+        $expected = array(
+            "sql"  => "....",
+            "bind" => array('matomo.org...'));
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
     /**
      * @param $pageUrlFoundInDb
      * @return string
