@@ -164,8 +164,6 @@ ARCH_DIR="$CURRENT_DIR/$LOCAL_ARCH"
 
 echo "Working directory is '$CURRENT_DIR'..."
 
-ls "$CURRENT_DIR/plugins"
-
 echo -e "Going to build Matomo $VERSION (Major version: $MAJOR_VERSION)"
 
 if ! echo "$VERSION" | grep -E 'rc|b|a|alpha|beta|dev|build' -i
@@ -257,8 +255,6 @@ for F in $FLAVOUR; do
     fi
 
 done
-
-ls "$CURRENT_DIR/plugins"
 
 if [ "$VERSION" != "build" ]; then
   # Check File signatures are correct
