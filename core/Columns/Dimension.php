@@ -21,7 +21,6 @@ use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Metrics\Formatter;
 use Piwik\Segment\SegmentExpression;
 use Piwik\Segment\SegmentsList;
-use Piwik\Tracker\Action;
 use Piwik\Tracker\TableLogAction;
 
 /**
