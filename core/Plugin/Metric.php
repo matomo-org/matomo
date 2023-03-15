@@ -71,6 +71,16 @@ abstract class Metric
     const SEMANTIC_TYPE_CURRENCY = 'currency';
 
     /**
+     * Marks a metric value as a date without time.
+     */
+    const SEMANTIC_TYPE_DATE = 'date';
+
+    /**
+     * Marks a metric value as a date with time.
+     */
+    const SEMANTIC_TYPE_DATETIME = 'datetime';
+
+    /**
      * Returns the column name of this metric, eg, `"nb_visits"` or `"avg_time_on_site"`.
      *
      * This string is what appears in API output.
