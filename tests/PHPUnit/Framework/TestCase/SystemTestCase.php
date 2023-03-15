@@ -720,7 +720,7 @@ abstract class SystemTestCase extends TestCase
             $this->fail(" ERROR: Could not find expected API output '"
                 . implode("', '", $this->missingExpectedFiles)
                 . "'. For new tests, to pass the test, you can copy files from the processed/ directory into"
-                . " $expectedDir  after checking that the output is valid. %s ");
+                . " $expectedDir  after checking that the output is valid.");
         }
 
         // Display as one error all sub-failures
