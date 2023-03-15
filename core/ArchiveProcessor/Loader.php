@@ -152,7 +152,7 @@ class Loader
                     return $data;
                 }
 
-                list($idArchives, $visits, $visitsConverted, $existingArchives) = $data;
+                list($idArchives, $visits, $visitsConverted, $foundRecords) = $data;
 
                 return $this->insertArchiveData($visits, $visitsConverted, $idArchives, $foundRecords);
             } finally {
