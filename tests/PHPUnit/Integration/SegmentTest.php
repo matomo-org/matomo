@@ -1872,9 +1872,9 @@ log_visit.visit_total_actions
                 '5',
                 '6',
                 '2020-02-02 02:00:00',
-                '%http://def.com/wherever%',
+                '%def.com/wherever%',
                 '7',
-                '%https://exitpage.com/sadlkfjasldkfj%',
+                '%exitpage.com/sadlkfjasldkfj%',
                 '9',
                 '%ancientsymbol%',
                 '%ancientsymbol%',
@@ -1906,7 +1906,7 @@ log_visit.visit_total_actions
                 '%product 1%',
                 '2020-02-02 02:00:00',
                 '2020-02-02 02:00:00',
-                '%https://securething.cloud/path/to/secureplace%',
+                '%securething.cloud/path/to/secureplace%',
             ],
         ];
         $this->assertQueryDoesNotFail($query);
@@ -2205,6 +2205,9 @@ SQL;
         $where = 'log_visit.idsite = ?';
         $bind = array(1);
 
+        $logVisitTable = Common::prefixTable('log_visit');
+        $logAction = Common::prefixTable('log_action');
+
         $segment = 'entryPageUrl=@https%253A%252F%252Fmatomo.org%252Ffaq%252F,entryPageUrl=@https%253A%252F%252Fmatomo.org%252Fdocs%252F,entryPageUrl=@https%253A%252F%252Fmatomo.org%252Fcontact%252F,entryPageUrl=@https%253A%252F%252Fmatomo.org%252Fhelp%252F,entryPageUrl=@https%253A%252F%252Fmatomo.org%252Ftag-manager-training%252F,entryPageUrl=@https%253A%252F%252Fmatomo.org%252Fweb-analytics-training%252F,entryPageUrl=@https%253A%252F%252Fdeveloper.matomo.org%252F,entryPageUrl=@https%253A%252F%252Fmatomo.org%252Ftranslations%252F,entryPageUrl=@https%253A%252F%252Fmatomo.org%252Fchangelog%252F,entryPageUrl=@https%253A%252F%252Fmatomo.org%252Fsupport%252F,entryPageUrl=@https%253A%252F%252Fmatomo.org%252Fjobs%252F';
         $segment = new Segment($segment, $idSites = array());
 
@@ -2212,9 +2215,74 @@ SQL;
 
         $this->assertQueryDoesNotFail($query);
 
-        $expected = array(
-            "sql"  => "....",
-            "bind" => array('matomo.org...'));
+        $expected = [
+            "sql"  => "SELECT sum(log_visit.idvisit)
+                        FROM $logVisitTable AS log_visit
+                        LEFT JOIN $logAction AS log_action_segment_log_visitvisit_entry_idaction_url ON log_visit.visit_entry_idaction_url = log_action_segment_log_visitvisit_entry_idaction_url.idaction
+                        WHERE (log_visit.idsite = ?)
+                            AND (
+                                (
+                                    (
+                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?
+                                        AND log_action_segment_log_visitvisit_entry_idaction_url.type = '1'
+                                        )
+                                    OR (
+                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?
+                                        AND log_action_segment_log_visitvisit_entry_idaction_url.type = '1'
+                                        )
+                                    OR (
+                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?
+                                        AND log_action_segment_log_visitvisit_entry_idaction_url.type = '1'
+                                        )
+                                    OR (
+                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?
+                                        AND log_action_segment_log_visitvisit_entry_idaction_url.type = '1'
+                                        )
+                                    OR (
+                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?
+                                        AND log_action_segment_log_visitvisit_entry_idaction_url.type = '1'
+                                        )
+                                    OR (
+                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?
+                                        AND log_action_segment_log_visitvisit_entry_idaction_url.type = '1'
+                                        )
+                                    OR (
+                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?
+                                        AND log_action_segment_log_visitvisit_entry_idaction_url.type = '1'
+                                        )
+                                    OR (
+                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?
+                                        AND log_action_segment_log_visitvisit_entry_idaction_url.type = '1'
+                                        )
+                                    OR (
+                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?
+                                        AND log_action_segment_log_visitvisit_entry_idaction_url.type = '1'
+                                        )
+                                    OR (
+                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?
+                                        AND log_action_segment_log_visitvisit_entry_idaction_url.type = '1'
+                                        )
+                                    OR (
+                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?
+                                        AND log_action_segment_log_visitvisit_entry_idaction_url.type = '1'
+                                        )
+                                    )
+                                )",
+            "bind" => [
+                '1',
+                '%matomo.org/faq/%',
+                '%matomo.org/docs/%',
+                '%matomo.org/contact/%',
+                '%matomo.org/help/%',
+                '%matomo.org/tag-manager-training/%',
+                '%matomo.org/web-analytics-training/%',
+                '%developer.matomo.org/%',
+                '%matomo.org/translations/%',
+                '%matomo.org/changelog/%',
+                '%matomo.org/support/%',
+                '%matomo.org/jobs/%',
+            ],
+        ];
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }

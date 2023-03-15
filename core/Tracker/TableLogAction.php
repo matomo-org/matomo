@@ -170,7 +170,7 @@ class TableLogAction
      * @throws \Exception
      * @return array|int|string
      */
-    public static function getIdActionFromSegment($valueToMatch, $sqlField, $matchType, $segmentName, $isUrlProtocolAbsentInDb = false)
+    public static function getIdActionFromSegment($valueToMatch, $sqlField, $matchType, $segmentName)
     {
         if ($segmentName === 'actionType') {
             $actionType   = (int) $valueToMatch;
@@ -178,10 +178,7 @@ class TableLogAction
             $sql = 'SELECT idaction FROM ' . Common::prefixTable('log_action') . ' WHERE type = ' . $actionType . ' )';
         } else {
             $actionType = self::guessActionTypeFromSegment($segmentName);
-            if ($actionType == Action::TYPE_PAGE_URL || $segmentName == 'eventUrl' || $isUrlProtocolAbsentInDb) {
-                // for urls trim protocol and www because it is not recorded in the db
-                $valueToMatch = preg_replace('@^http[s]?://(www\.)?@i', '', $valueToMatch);
-            }
+            $valueToMatch = self::removeProtocolIfSegmentStoredWithoutIt($valueToMatch, $actionType, $segmentName);
 
             $unsanitizedValue = $valueToMatch;
             $valueToMatch = self::normaliseActionString($actionType, $valueToMatch);
@@ -218,7 +215,7 @@ class TableLogAction
      * @return int
      * @throws \Exception
      */
-    private static function guessActionTypeFromSegment($segmentName)
+    public static function guessActionTypeFromSegment($segmentName)
     {
         $exactMatch = array(
             'outlinkUrl'         => Action::TYPE_OUTLINK,
@@ -290,5 +287,14 @@ class TableLogAction
         );
 
         return in_array($actionType, $actionsTypesStoredUnsanitized);
+    }
+
+    public static function removeProtocolIfSegmentStoredWithoutIt($url, $actionType, $segmentName)
+    {
+        if ($actionType == Action::TYPE_PAGE_URL || $segmentName == 'eventUrl') {
+            // for urls trim protocol and www because it is not recorded in the db
+            $url = preg_replace('@^http[s]?://(www\.)?@i', '', $url);
+        }
+        return $url;
     }
 }
