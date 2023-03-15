@@ -133,10 +133,29 @@ abstract class Archiver
              *         $recordBuilders[] = new MyParameterizedRecordBuilder($idOfThingToArchiveFor);
              *     }
              *
-             * @param ArchiveProcessor\RecordBuilder[] $reports An array of dimensions
+             * @param ArchiveProcessor\RecordBuilder[] $recordBuilders An array of RecordBuilder instances
              * @api
              */
             Piwik::postEvent('Archiver.addRecordBuilders', [&$recordBuilders]);
+
+            /**
+             * Triggered to filter / restrict reports.
+             *
+             * **Example**
+             *
+             *     public function filterRecordBuilders(&$recordBuilders)
+             *     {
+             *         foreach ($reports as $index => $recordBuilder) {
+             *              if ($recordBuilders instanceof AnotherPluginRecordBuilder) {
+             *                  unset($reports[$index]);
+             *              }
+             *         }
+             *     }
+             *
+             * @param ArchiveProcessor\RecordBuilder[] $recordBuilders An array of RecordBuilder instances
+             * @api
+             */
+            Piwik::postEvent('Archiver.filterRecordBuilders', [&$recordBuilders]);
 
             $transientCache->save($cacheKey, $recordBuilders);
         }
