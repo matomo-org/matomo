@@ -973,7 +973,7 @@ class Model
         return $query->rowCount();
     }
 
-    public function getRecordsContainedInArchives(Date $archiveStartDate, $idArchives, $requestedRecords)
+    public function getRecordsContainedInArchives(Date $archiveStartDate, array $idArchives, $requestedRecords): array
     {
         $idArchives = array_map('intval', $idArchives);
         $idArchives = implode(',', $idArchives);
@@ -986,11 +986,23 @@ class Model
         $numericTable = ArchiveTableCreator::getNumericTable($archiveStartDate);
         $blobTable = ArchiveTableCreator::getBlobTable($archiveStartDate);
 
+        // if the requested metrics look numeric, prioritize the numeric table, otherwise the blob table. this way, if all the metrics are
+        // found in this table (which will be most of the time), we don't have to query the other table
+        if ($this->doRequestedRecordsLookNumeric($requestedRecords)) {
+            $tablesToSearch = [$numericTable, $blobTable];
+        } else {
+            $tablesToSearch = [$blobTable, $numericTable];
+        }
+
         $existingRecords = [];
-        foreach ([$numericTable, $blobTable] as $tableName) {
+        foreach ($tablesToSearch as $tableName) {
             $sql = sprintf($countSql, $tableName);
             $rows = Db::fetchAll($sql, $requestedRecords);
             $existingRecords = array_merge($existingRecords, array_column($rows, 'name'));
+
+            if (count($existingRecords) == count($requestedRecords)) {
+                break;
+            }
         }
         return $existingRecords;
     }
@@ -1005,5 +1017,15 @@ class Model
     {
         preg_match('/^done([a-zA-Z0-9]+)/', $doneFlag, $matches);
         return $matches[1] ?? '';
+    }
+
+    private function doRequestedRecordsLookNumeric(array $requestedRecords): bool
+    {
+        foreach ($requestedRecords as $record) {
+            if (preg_match('/^nb_/', $record)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
