@@ -190,9 +190,6 @@ export default defineComponent({
 
       AjaxHelper.fetch(this.getWidgetUrl(parameters), {
         format: 'html',
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest',
-        },
         abortController: this.lastWidgetAbortController,
       }).then((response) => {
         if (thisChangeId !== this.changeCounter || typeof response !== 'string') {

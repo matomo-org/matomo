@@ -150,6 +150,11 @@ class SegmentEditor extends \Piwik\Plugin
 
     public function onNoArchiveData()
     {
+        // don't perform this check if the request was triggered by the UI
+        if (Common::isXmlHttpRequest()) {
+            return null;
+        }
+
         // when browser archiving is enabled, the archiving process can be triggered for an API request.
         // for non-day periods, this means the Archive class will be used for smaller periods to build the
         // non-day period (eg, requesting a week period can result in archiving of day periods). in this case
