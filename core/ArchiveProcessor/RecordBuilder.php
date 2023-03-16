@@ -71,12 +71,25 @@ abstract class RecordBuilder
             return;
         }
 
+        $recordsBuilt = $this->getRecordMetadata($archiveProcessor);
+
+        $recordMetadataByName = [];
+        foreach ($recordsBuilt as $recordMetadata) {
+            $recordMetadataByName[$recordMetadata->getName()] = $recordMetadata;
+        }
+
         $numericRecords = [];
 
         $records = $this->aggregate($archiveProcessor);
         foreach ($records as $recordName => $recordValue) {
             if ($recordValue instanceof DataTable) {
-                $this->insertRecord($archiveProcessor, $recordName, $recordValue);
+                $record = $recordMetadataByName[$recordName];
+
+                $maxRowsInTable = $record->getMaxRowsInTable() ?? $this->maxRowsInTable;
+                $maxRowsInSubtable = $record->getMaxRowsInSubtable() ?? $this->maxRowsInSubtable;
+                $columnToSortByBeforeTruncation = $record->getColumnToSortByBeforeTruncation() ?? $this->columnToSortByBeforeTruncation;
+
+                $this->insertRecord($archiveProcessor, $recordName, $recordValue, $maxRowsInTable, $maxRowsInSubtable, $columnToSortByBeforeTruncation);
 
                 Common::destroy($recordValue);
                 unset($recordValue);
@@ -130,7 +143,7 @@ abstract class RecordBuilder
 
         if (!empty($numericRecords)) {
             $numericMetrics = array_map(function (Record $r) { return $r->getName(); }, $numericRecords);
-            if (!empty($requestedReport)) {
+            if (!empty($requestedReports)) {
                 $numericMetrics = array_filter($numericMetrics, function ($name) use ($requestedReports, $foundRequestedReports) {
                     return in_array($name, $requestedReports) && !in_array($name, $foundRequestedReports);
                 });
@@ -157,9 +170,14 @@ abstract class RecordBuilder
      */
     protected abstract function aggregate(ArchiveProcessor $archiveProcessor);
 
-    private function insertRecord(ArchiveProcessor $archiveProcessor, $recordName, DataTable\DataTableInterface $record)
+    private function insertRecord(ArchiveProcessor $archiveProcessor, $recordName, DataTable\DataTableInterface $record,
+                                  $maxRowsInTable, $maxRowsInSubtable, $columnToSortByBeforeTruncation)
     {
-        $serialized = $record->getSerialized($this->maxRowsInTable, $this->maxRowsInSubtable, $this->columnToSortByBeforeTruncation);
+        $serialized = $record->getSerialized(
+            $maxRowsInTable ?: $this->maxRowsInTable,
+            $maxRowsInSubtable ?: $this->maxRowsInSubtable,
+            $columnToSortByBeforeTruncation ?: $this->columnToSortByBeforeTruncation
+        );
         $archiveProcessor->insertBlobRecord($recordName, $serialized);
         unset($serialized);
     }

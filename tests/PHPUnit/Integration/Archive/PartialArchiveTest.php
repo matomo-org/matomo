@@ -24,7 +24,6 @@ use Piwik\Plugins\Goals\API as GoalsApi;
  */
 class PartialArchiveTest extends IntegrationTestCase
 {
-    private static $chrome = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36';
     private static $dateTime = '2020-04-07 10:03:04';
     private $idGoal = 1;
 
@@ -38,7 +37,71 @@ class PartialArchiveTest extends IntegrationTestCase
 
     public function test_rangeArchiving_onlyArchivesSingleRecord_whenQueryingNumerics()
     {
-        // TODO
+        // first trigger all plugins archiving
+        $_GET['trigger'] = 'archivephp';
+        GoalsApi::getInstance()->get(1, 'day', '2020-04-07', false, $this->idGoal); // day first
+        $data = GoalsApi::getInstance()->get(1, 'range', '2020-04-06,2020-04-09', false, $this->idGoal);
+        $this->assertEquals([
+            'nb_conversions' => 1,
+            'nb_visits_converted' => 1,
+            'revenue' => 0,
+            'conversion_rate' => 'Intl_NumberFormatPercent',
+            'nb_conversions_new_visit' => 1,
+            'nb_visits_converted_new_visit' => 1,
+            'revenue_new_visit' => 0,
+            'conversion_rate_new_visit' => 'Intl_NumberFormatPercent',
+            'nb_conversions_returning_visit' => 0,
+            'nb_visits_converted_returning_visit' => 0,
+            'revenue_returning_visit' => 0,
+            'conversion_rate_returning_visit' => 'Intl_NumberFormatPercent',
+        ], $data->getFirstRow()->getColumns());
+
+        // check archive is all plugins archive as expected
+        [$idArchives, $archiveInfo] = $this->getArchiveInfo('2020_04', 5, false);
+        $this->assertEquals([
+            ['idsite' => 1, 'date1' => '2020-04-06', 'date2' => '2020-04-09', 'period' => 5, 'name' => 'done', 'value' => 1, 'blob_count' => 57],
+        ], $archiveInfo);
+
+        $maxIdArchive = $this->getMaxIdArchive('2020_04');
+
+        self::trackAnotherVisit();
+
+        // trigger browser archiving for range
+        GoalsApi::getInstance()->get(1, 'day', '2020-04-08', false, $this->idGoal); // day first
+        unset($_GET['trigger']);
+        StaticContainer::get(ArchiveInvalidator::class)->markArchivesAsInvalidated([1], ['2020-04-06,2020-04-09'], 'range');
+        $data = GoalsApi::getInstance()->get(1, 'range', '2020-04-06,2020-04-09', false, $this->idGoal);
+        $this->assertEquals([
+            'nb_conversions' => 2,
+            'nb_visits_converted' => 2,
+            'revenue' => 0,
+            'conversion_rate' => 'Intl_NumberFormatPercent',
+            'nb_conversions_new_visit' => 2,
+            'nb_visits_converted_new_visit' => 2,
+            'revenue_new_visit' => 0,
+            'conversion_rate_new_visit' => 'Intl_NumberFormatPercent',
+            'nb_conversions_returning_visit' => 0,
+            'nb_visits_converted_returning_visit' => 0,
+            'revenue_returning_visit' => 0,
+            'conversion_rate_returning_visit' => 'Intl_NumberFormatPercent',
+        ], $data->getFirstRow()->getColumns());
+
+        [$idArchives, $archiveInfo] = $this->getArchiveInfo('2020_04', 5, false, $maxIdArchive);
+
+        $archiveNames = $this->getArchiveNames('2020_04', $idArchives[0], 'numeric');
+        $this->assertEquals([
+            'Goal_1_nb_conversions',
+            'Goal_1_nb_visits_converted',
+        ], $archiveNames);
+
+        $blobArchiveNames = $this->getArchiveNames('2020_04', $idArchives[0]);
+        $this->assertEquals([], $blobArchiveNames);
+
+        $this->assertEquals([
+            // expect only one blob for new range partial archive
+            ['idsite' => 1, 'date1' => '2020-04-06', 'date2' => '2020-04-09', 'period' => 5, 'name' => 'done.Goals', 'value' => 5, 'blob_count' => 0],
+            ['idsite' => 1, 'date1' => '2020-04-06', 'date2' => '2020-04-09', 'period' => 5, 'name' => 'done.VisitsSummary', 'value' => 1, 'blob_count' => 0],
+        ], $archiveInfo);
     }
 
     public function test_rangeArchiving_onlyArchivesSingleRecord_whenQueryingBlobs()
@@ -122,10 +185,10 @@ class PartialArchiveTest extends IntegrationTestCase
         return [$idArchives, $archiveNumericInfo];
     }
 
-    private function getArchiveNames($yearMonth, $idArchive)
+    private function getArchiveNames($yearMonth, $idArchive, $type = 'blob')
     {
-        $sql = 'SELECT DISTINCT name FROM ' . Common::prefixTable('archive_blob_' . $yearMonth)
-            . ' WHERE idarchive = ?';
+        $sql = 'SELECT DISTINCT name FROM ' . Common::prefixTable('archive_' . $type . '_' . $yearMonth)
+            . ' WHERE idarchive = ? AND name NOT LIKE \'done%\'';
         $rows = Db::fetchAll($sql, [$idArchive]);
         $rows = array_column($rows, 'name');
         return $rows;
