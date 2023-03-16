@@ -3,19 +3,19 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Tests\Integration;
 
+use Piwik\Config;
 use Piwik\Nonce;
 use Piwik\Session\SessionNamespace;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
- * @group TrackerTest
- * @group Tracker
+ * @group NonceTest
  */
 class NonceTest extends IntegrationTestCase
 {
@@ -25,7 +25,7 @@ class NonceTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        $ns = new SessionNamespace(1);
+        $ns        = new SessionNamespace(1);
         $ns->nonce = 'abc';
 
         $this->preTestServerHttpReferrer = $_SERVER['HTTP_REFERER'];
@@ -78,18 +78,18 @@ class NonceTest extends IntegrationTestCase
 
     public function testVerifyNonceWithErrorMessage_validNonceAndLocalReferrerWithNoAllowedReferrer_expectEmptyString()
     {
-        $this->setReferrer('http://app'); // The "local" host when running via CLI.
+        $this->setReferrer('http://' . Config::getHostname()); // The "local" host when running via CLI.
         $this->assertSame(
             '',
             Nonce::verifyNonceWithErrorMessage(1, 'abc')
         );
     }
 
-    public function testVerifyNonceWithErrorMessage_validNonceAndAllowedReferrerWithMismatchedReferrer_expectErrorString()
+    public function testVerifyNonceWithErrorMessage_validNonceAndAllowedReferrerWithMismatchedReferrer_expectError()
     {
         $this->setReferrer('https://example.net');
         $this->assertSame(
-            'Login_InvalidNonceUnallowedReferrer',
+            'Login_InvalidNonceUnexpectedReferrer',
             Nonce::verifyNonceWithErrorMessage(1, 'abc', 'example.com')
         );
     }

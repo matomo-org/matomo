@@ -130,7 +130,7 @@ class Nonce
 
             // Test that referrer matches what is allowed.
             if (!empty($allowedReferrerHost) && !self::isReferrerHostValid($referrer, $allowedReferrerHost)) {
-                return Piwik::translate('Login_InvalidNonceUnallowedReferrer') . $additionalErrors;
+                return Piwik::translate('Login_InvalidNonceUnexpectedReferrer') . $additionalErrors;
             }
         }
 
