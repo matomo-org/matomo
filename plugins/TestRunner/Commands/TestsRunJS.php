@@ -35,7 +35,7 @@ class TestsRunJS extends ConsoleCommand
 
         passthru($cmdNode, $returnCodeNode);
 
-        $cmdPhantom = "phantomjs $javascriptTestingDir/testrunnerPhantom.js '$matomoUrl/tests/javascript/'";
+        $cmdPhantom = "timeout 5m phantomjs $javascriptTestingDir/testrunnerPhantom.js '$matomoUrl/tests/javascript/'";
 
         $output->writeln('');
         $output->writeln('');
@@ -43,6 +43,14 @@ class TestsRunJS extends ConsoleCommand
         $output->writeln('');
 
         passthru($cmdPhantom, $returnCodePhantom);
+
+        if ($returnCodePhantom === 124) {
+            $output->writeln('');
+            $output->writeln('Command timed out. Retrying...');
+            $output->writeln('');
+
+            passthru($cmdPhantom, $returnCodePhantom);
+        }
 
 
         return $returnCodeNode + $returnCodePhantom;
