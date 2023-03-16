@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>page_A</label>
+		<nb_visits>12</nb_visits>
+		<nb_hits>14</nb_hits>
+		<sum_time_spent>4320</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<entry_nb_visits>7</entry_nb_visits>
+		<entry_nb_actions>33</entry_nb_actions>
+		<entry_sum_visit_length>9373</entry_sum_visit_length>
+		<entry_bounce_count>0</entry_bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>9</nb_conversions>
+				<revenue>90</revenue>
+				<nb_conv_pages_before>23</nb_conv_pages_before>
+				<nb_conversions_attrib>3.4166</nb_conversions_attrib>
+				<nb_conversions_page_rate>1</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>9</nb_conversions_page_uniq>
+				<revenue_attrib>34.16</revenue_attrib>
+				<revenue_entry>50</revenue_entry>
+				<nb_conversions_entry_rate>1.75</nb_conversions_entry_rate>
+				<revenue_per_entry>17.5</revenue_per_entry>
+				<nb_conversions_entry>5</nb_conversions_entry>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>8</nb_conversions>
+				<revenue>80</revenue>
+				<nb_conv_pages_before>32</nb_conv_pages_before>
+				<nb_conversions_attrib>1.6382</nb_conversions_attrib>
+				<nb_conversions_page_rate>1</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>8</nb_conversions_page_uniq>
+				<revenue_attrib>16.38</revenue_attrib>
+				<revenue_entry>30</revenue_entry>
+				<nb_conversions_entry_rate>1.75</nb_conversions_entry_rate>
+				<revenue_per_entry>17.5</revenue_per_entry>
+				<nb_conversions_entry>3</nb_conversions_entry>
+			</row>
+		</goals>
+		<exit_nb_visits>2</exit_nb_visits>
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_page_load_time>0</avg_page_load_time>
+		<avg_time_on_page>309</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>17%</exit_rate>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fpage_A</segment>
+		<subtable>
+			<row>
+				<label>/index.html</label>
+				<nb_visits>7</nb_visits>
+				<nb_hits>9</nb_hits>
+				<sum_time_spent>2880</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<entry_nb_visits>7</entry_nb_visits>
+				<entry_nb_actions>33</entry_nb_actions>
+				<entry_sum_visit_length>9373</entry_sum_visit_length>
+				<entry_bounce_count>0</entry_bounce_count>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>5</nb_conversions>
+						<revenue>50</revenue>
+						<nb_conv_pages_before>8</nb_conv_pages_before>
+						<nb_conversions_attrib>2.3333</nb_conversions_attrib>
+						<nb_conversions_page_rate>0</nb_conversions_page_rate>
+						<nb_conversions_page_uniq>5</nb_conversions_page_uniq>
+						<revenue_attrib>23.33</revenue_attrib>
+						<revenue_entry>50</revenue_entry>
+						<nb_conversions_entry_rate>1.75</nb_conversions_entry_rate>
+						<revenue_per_entry>17.5</revenue_per_entry>
+						<nb_conversions_entry>5</nb_conversions_entry>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>5</nb_conversions>
+						<revenue>50</revenue>
+						<nb_conv_pages_before>15</nb_conv_pages_before>
+						<nb_conversions_attrib>1.0191</nb_conversions_attrib>
+						<nb_conversions_page_rate>0</nb_conversions_page_rate>
+						<nb_conversions_page_uniq>5</nb_conversions_page_uniq>
+						<revenue_attrib>10.19</revenue_attrib>
+						<revenue_entry>30</revenue_entry>
+						<nb_conversions_entry_rate>1.75</nb_conversions_entry_rate>
+						<revenue_per_entry>17.5</revenue_per_entry>
+						<nb_conversions_entry>3</nb_conversions_entry>
+					</row>
+				</goals>
+				<sum_daily_nb_uniq_visitors>7</sum_daily_nb_uniq_visitors>
+				<sum_daily_entry_nb_uniq_visitors>7</sum_daily_entry_nb_uniq_visitors>
+				<exit_nb_visits>1</exit_nb_visits>
+				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
+				<avg_time_on_page>320</avg_time_on_page>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>14%</exit_rate>
+				<url>http://example.org/page_A/index.html</url>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Fpage_A%252Findex.html</segment>
+			</row>
+			<row>
+				<label>/Z</label>
+				<nb_visits>3</nb_visits>
+				<nb_hits>3</nb_hits>
+				<sum_time_spent>720</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>2</nb_conversions>
+						<revenue>20</revenue>
+						<nb_conv_pages_before>7</nb_conv_pages_before>
+						<nb_conversions_attrib>0.5833</nb_conversions_attrib>
+						<nb_conversions_page_rate>0</nb_conversions_page_rate>
+						<nb_conversions_page_uniq>2</nb_conversions_page_uniq>
+						<revenue_attrib>5.83</revenue_attrib>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>2</nb_conversions>
+						<revenue>20</revenue>
+						<nb_conv_pages_before>10</nb_conv_pages_before>
+						<nb_conversions_attrib>0.4762</nb_conversions_attrib>
+						<nb_conversions_page_rate>0</nb_conversions_page_rate>
+						<nb_conversions_page_uniq>2</nb_conversions_page_uniq>
+						<revenue_attrib>4.76</revenue_attrib>
+					</row>
+				</goals>
+				<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
+				<exit_nb_visits>1</exit_nb_visits>
+				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
+				<avg_time_on_page>240</avg_time_on_page>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>33%</exit_rate>
+				<url>http://example.org/page_A/Z</url>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Fpage_A%252FZ</segment>
+			</row>
+			<row>
+				<label>/X</label>
+				<nb_visits>1</nb_visits>
+				<nb_hits>1</nb_hits>
+				<sum_time_spent>360</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>1</nb_conversions>
+						<revenue>10</revenue>
+						<nb_conv_pages_before>4</nb_conv_pages_before>
+						<nb_conversions_attrib>0.25</nb_conversions_attrib>
+						<nb_conversions_page_rate>0</nb_conversions_page_rate>
+						<nb_conversions_page_uniq>1</nb_conversions_page_uniq>
+						<revenue_attrib>2.5</revenue_attrib>
+					</row>
+				</goals>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<avg_time_on_page>360</avg_time_on_page>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
+				<url>http://example.org/page_A/X</url>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Fpage_A%252FX</segment>
+			</row>
+			<row>
+				<label>/Y</label>
+				<nb_visits>1</nb_visits>
+				<nb_hits>1</nb_hits>
+				<sum_time_spent>360</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>1</nb_conversions>
+						<revenue>10</revenue>
+						<nb_conv_pages_before>4</nb_conv_pages_before>
+						<nb_conversions_attrib>0.25</nb_conversions_attrib>
+						<nb_conversions_page_rate>0</nb_conversions_page_rate>
+						<nb_conversions_page_uniq>1</nb_conversions_page_uniq>
+						<revenue_attrib>2.5</revenue_attrib>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>1</nb_conversions>
+						<revenue>10</revenue>
+						<nb_conv_pages_before>7</nb_conv_pages_before>
+						<nb_conversions_attrib>0.1429</nb_conversions_attrib>
+						<nb_conversions_page_rate>0</nb_conversions_page_rate>
+						<nb_conversions_page_uniq>1</nb_conversions_page_uniq>
+						<revenue_attrib>1.43</revenue_attrib>
+					</row>
+				</goals>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<avg_time_on_page>360</avg_time_on_page>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
+				<url>http://example.org/page_A/Y</url>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Fpage_A%252FY</segment>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		<label>/page_B</label>
+		<nb_visits>4</nb_visits>
+		<nb_hits>4</nb_hits>
+		<sum_time_spent>1440</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				<revenue>10</revenue>
+				<nb_conv_pages_before>4</nb_conv_pages_before>
+				<nb_conversions_attrib>0.25</nb_conversions_attrib>
+				<nb_conversions_page_rate>0.2</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>1</nb_conversions_page_uniq>
+				<revenue_attrib>2.5</revenue_attrib>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>3</nb_conversions>
+				<revenue>30</revenue>
+				<nb_conv_pages_before>15</nb_conv_pages_before>
+				<nb_conversions_attrib>0.6762</nb_conversions_attrib>
+				<nb_conversions_page_rate>1</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>3</nb_conversions_page_uniq>
+				<revenue_attrib>6.76</revenue_attrib>
+			</row>
+		</goals>
+		<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_page_load_time>0</avg_page_load_time>
+		<avg_time_on_page>360</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>0%</exit_rate>
+		<url>http://example.org/page_B</url>
+		<segment>pageUrl==http%253A%252F%252Fexample.org%252Fpage_B</segment>
+	</row>
+	<row>
+		<label>/page_C</label>
+		<nb_visits>4</nb_visits>
+		<nb_hits>6</nb_hits>
+		<sum_time_spent>720</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<exit_nb_visits>4</exit_nb_visits>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>4</nb_conversions>
+				<revenue>40</revenue>
+				<nb_conv_pages_before>8</nb_conv_pages_before>
+				<nb_conversions_attrib>1.3333</nb_conversions_attrib>
+				<nb_conversions_page_rate>0.8</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>4</nb_conversions_page_uniq>
+				<revenue_attrib>13.33</revenue_attrib>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>4</nb_conversions>
+				<revenue>40</revenue>
+				<nb_conv_pages_before>12</nb_conv_pages_before>
+				<nb_conversions_attrib>0.6858</nb_conversions_attrib>
+				<nb_conversions_page_rate>1</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>4</nb_conversions_page_uniq>
+				<revenue_attrib>6.86</revenue_attrib>
+			</row>
+		</goals>
+		<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
+		<sum_daily_exit_nb_uniq_visitors>4</sum_daily_exit_nb_uniq_visitors>
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_page_load_time>0</avg_page_load_time>
+		<avg_time_on_page>120</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>100%</exit_rate>
+		<url>http://example.org/page_C</url>
+		<segment>pageUrl==http%253A%252F%252Fexample.org%252Fpage_C</segment>
+	</row>
+	<row>
+		<label>/page_D</label>
+		<nb_visits>1</nb_visits>
+		<nb_hits>1</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<exit_nb_visits>1</exit_nb_visits>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_page_load_time>0</avg_page_load_time>
+		<avg_time_on_page>0</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>100%</exit_rate>
+		<url>http://example.org/page_D</url>
+		<segment>pageUrl==http%253A%252F%252Fexample.org%252Fpage_D</segment>
+	</row>
+</result>

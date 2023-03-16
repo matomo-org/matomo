@@ -48,4 +48,9 @@ class AverageTimeOnPage extends ProcessedMetric
     {
         return array('sum_time_spent', 'nb_hits');
     }
+
+    public function getSemanticType(): ?string
+    {
+        return self::SEMANTIC_TYPE_DURATION;
+    }
 }

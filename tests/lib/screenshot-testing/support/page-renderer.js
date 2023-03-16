@@ -451,15 +451,14 @@ PageRenderer.prototype._setupWebpageEvents = function () {
         }
 
         var type = '';
-        if (type = request.url().match(/action=get(Css|CoreJs|NonCoreJs)/)) {
+        if (type = request.url().match(/action=get(Css|CoreJs|NonCoreJs|UmdJs)/)) {
             if (errorMessage === 'net::ERR_ABORTED' && (!response || response.status() !== 500)) {
                 console.log(type[1]+' request aborted.');
             } else if (request.url().indexOf('&reload=') === -1) {
                 console.log('Loading '+type[1]+' failed (' + errorMessage + ')... Try adding it with another tag.');
                 var method = type[1] == 'Css' ? 'addStyleTag' : 'addScriptTag';
-                await this.waitForNetworkIdle(); // wait for other requests to finish before trying to reload
                 await this.webpage[method]({url: request.url() + '&reload=' + Date.now()}); // add another get parameter to ensure browser doesn't use cache
-                await this.webpage.waitForTimeout(1000);
+                await this.waitForNetworkIdle(); // wait for request to finish before continuing with tests
             } else {
                 console.log('Reloading '+type[1]+' failed (' + errorMessage + ').');
             }
@@ -498,16 +497,21 @@ PageRenderer.prototype._setupWebpageEvents = function () {
     });
 
     this.webpage.on('console', async (consoleMessage) => {
-        const args = await Promise.all(consoleMessage.args().map(arg => arg.executionContext().evaluate(arg => {
-            if (arg instanceof Error) {
+      try {
+        const args = await Promise.all(consoleMessage.args()
+          .map(arg => arg.executionContext()
+            .evaluate(arg => {
+              if (arg instanceof Error) {
                 return arg.stack || arg.message;
-            }
-            return arg;
-        }, arg))).catch((e) => {
-          console.log(`Could not print message: ${e.message}`);
-        });
+              }
+              return arg;
+            }, arg)));
         const message = args.join(' ');
         this._logMessage(`Log: ${message}`);
+      } catch (e) {
+        console.log(`Could not print message: ${e.message}`);
+      }
+
     });
 
     this.webpage.on('dialog', (dialog) => {

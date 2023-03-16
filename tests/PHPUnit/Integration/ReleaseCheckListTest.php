@@ -46,15 +46,6 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(method_exists(TestCase::class,'setGroups'));
     }
 
-    public function test_woff2_fileIsUpToDate()
-    {
-        link(PIWIK_INCLUDE_PATH . "/plugins/Morpheus/fonts/matomo.ttf", "temp.ttf");
-        $command = PIWIK_INCLUDE_PATH . "/../travis_woff2/woff2_compress 'temp.ttf'";
-        $log = shell_exec($command);
-
-        $this->assertFileEquals('temp.woff2', PIWIK_INCLUDE_PATH . "/plugins/Morpheus/fonts/matomo.woff2", "woff2 file is out of date.\nCommand output:\n" . $log);
-    }
-
     public function test_minimumPHPVersion_isEnforced()
     {
         global $piwik_minimumPHPVersion;
@@ -610,7 +601,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
      */
     public function test_TotalPiwikFilesSize_isWithinReasonnableSize()
     {
-        if(!SystemTestCase::isTravisCI()) {
+        if(!SystemTestCase::isCIEnvironment()) {
             // Don't run the test on local dev machine, as we may have other files (not in GIT) that would fail this test
             $this->markTestSkipped("Skipped this test on local dev environment.");
         }

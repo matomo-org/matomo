@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>GNU/Linux / Firefox / 1920x1080</label>
+		<nb_visits>40</nb_visits>
+		<nb_actions>40</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>15</sum_visit_length>
+		<bounce_count>30</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>8</sum_daily_nb_users>
+	</row>
+	<row>
+		<label>Android / Chrome / 1280x1024</label>
+		<nb_visits>20</nb_visits>
+		<nb_actions>20</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>10</sum_visit_length>
+		<bounce_count>15</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>4</sum_daily_nb_users>
+	</row>
+	<row>
+		<label>Others</label>
+		<nb_visits>340</nb_visits>
+		<nb_actions>415</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>170</sum_visit_length>
+		<bounce_count>205</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>88</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>88</sum_daily_nb_users>
+	</row>
+</result>

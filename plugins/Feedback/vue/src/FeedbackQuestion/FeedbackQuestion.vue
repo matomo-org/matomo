@@ -177,7 +177,7 @@ export default defineComponent({
         message: this.feedbackMessage,
       }).then((res: SendFeedbackForSurveyResponse) => {
         if (res.value === 'success') {
-          $('.modal').modal('close');
+          this.showFeedbackForm = false;
           this.feedbackDone = true;
           this.hide = true;
         } else {

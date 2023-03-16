@@ -18,7 +18,6 @@
 
 import { defineComponent } from 'vue';
 import { NotificationsStore } from '../Notification';
-import MatomoUrl from '../MatomoUrl/MatomoUrl';
 
 const REPORTING_HELP_NOTIFICATION_ID = 'reportingMenu-help';
 

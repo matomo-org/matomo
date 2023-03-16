@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>Toronto, Ontario, Canada</label>
+		<nb_visits>105</nb_visits>
+		<nb_actions>105</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>60</sum_visit_length>
+		<bounce_count>75</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>21</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>21</sum_daily_nb_users>
+		<segment>city==Toronto;regionCode==ON;countryCode==ca</segment>
+		<city_name>Toronto</city_name>
+		<region>ON</region>
+		<country>ca</country>
+		<country_name>Canada</country_name>
+		<region_name>Ontario</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
+	</row>
+	<row>
+		<label>Melbourne, Victoria, Australia</label>
+		<nb_visits>96</nb_visits>
+		<nb_actions>126</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>60</sum_visit_length>
+		<bounce_count>51</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>24</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>24</sum_daily_nb_users>
+		<segment>city==Melbourne;regionCode==VIC;countryCode==au</segment>
+		<city_name>Melbourne</city_name>
+		<region>VIC</region>
+		<country>au</country>
+		<country_name>Australia</country_name>
+		<region_name>Victoria</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/au.png</logo>
+	</row>
+	<row>
+		<label>Others</label>
+		<nb_visits>199</nb_visits>
+		<nb_actions>244</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>75</sum_visit_length>
+		<bounce_count>124</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>55</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>55</sum_daily_nb_users>
+		<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
+	</row>
+</result>

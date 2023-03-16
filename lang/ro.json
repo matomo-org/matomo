@@ -171,7 +171,6 @@
         "ExceptionInvalidRendererFormat": "Formatul '%1$s' este invalid. Incercati-l pe oricare dintre acestea: %2$s.",
         "ExceptionInvalidReportRendererFormat": "Formatul raportului '%1$s' este invalid. Incercati-l pe oricare dintre acestea: %2$s.",
         "ExceptionInvalidStaticGraphType": "Tipul graficului static '%1$s' nu este valid. Încearcă unul din următoarele: %2$s.",
-        "ExceptionInvalidToken": "Token invalid",
         "ExceptionLanguageFileNotFound": "Fişierul de limba '%s' nu a fost găsit.",
         "ExceptionMethodNotFound": "Metoda '%1$s' nu exista sau nu e valabila in modulul '%2$s'.",
         "ExceptionMissingFile": "Fișier lipsă: %s",

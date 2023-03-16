@@ -10,7 +10,6 @@ namespace Piwik\Plugins\PrivacyManager\tests\System;
 
 use Piwik\Common;
 use Piwik\Db;
-use Piwik\Plugins\PrivacyManager\API;
 use Piwik\Plugins\PrivacyManager\tests\Fixtures\FewVisitsAnonymizedFixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
@@ -27,22 +26,11 @@ class AnonymizationTest extends SystemTestCase
     public static $fixture = null; // initialized below class definition
 
     /**
-     * @var API
-     */
-    private $api;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->api = API::getInstance();
-    }
-
-    /**
      * @dataProvider getApiForTesting
      */
     public function testApi($api, $params)
     {
-        $params['xmlFieldsToRemove'] = array();
+        $params['xmlFieldsToRemove'] = [];
         $this->runApiTests($api, $params);
     }
 
@@ -55,16 +43,16 @@ class AnonymizationTest extends SystemTestCase
 
     public function getApiForTesting()
     {
-        $apiToTest = array();
-        $apiToTest[] = array(array('Live.getLastVisitsDetails', 'Referrers.getAll'),
-            array(
+        $apiToTest = [];
+        $apiToTest[] = [['Live.getLastVisitsDetails', 'Referrers.getAll'],
+            [
                 'idSite'     => self::$fixture->idSite,
                 'date'       => self::$fixture->dateTime,
-                'periods'    => array('year'),
-                'otherRequestParameters' => array('doNotFetchActions' => '1', 'filter_limit' => '-1'),
+                'periods'    => ['year'],
+                'otherRequestParameters' => ['doNotFetchActions' => '1', 'filter_limit' => '-1'],
                 'testSuffix' => 'userIdAnonymized'
-            )
-        );
+            ]
+        ];
 
         return $apiToTest;
     }
@@ -78,7 +66,6 @@ class AnonymizationTest extends SystemTestCase
     {
         return dirname(__FILE__);
     }
-
 }
 
 AnonymizationTest::$fixture = new FewVisitsAnonymizedFixture();

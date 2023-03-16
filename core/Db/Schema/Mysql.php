@@ -240,6 +240,7 @@ class Mysql implements SchemaInterface
                                       revenue_subtotal DOUBLE default NULL,
                                       revenue_tax DOUBLE default NULL,
                                       revenue_discount DOUBLE default NULL,
+                                      pageviews_before SMALLINT UNSIGNED DEFAULT NULL,
                                         PRIMARY KEY (idvisit, idgoal, buster),
                                         UNIQUE KEY unique_idsite_idorder (idsite, idorder),
                                         INDEX index_idsite_datetime ( idsite, server_time )

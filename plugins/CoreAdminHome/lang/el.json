@@ -71,7 +71,7 @@
         "JSTracking_PageCustomVars": "Παρακολούθηση μιας προσαρμοσμένης μεταβλητής για κάθε προβολή σελίδας",
         "JSTracking_PageCustomVarsDesc": "Για παράδειγμα, με το όνομα της μεταβλητής \"Κατηγορία\" και τιμή \"Μελέτες\".",
         "JSTracking_TrackNoScript": "Παρακολούθηση χρηστών με απενεργοποιημένη τη JavaScript",
-        "JSTracking_VisitorCustomVars": "Παρακολούθηση προσαρμοσμένων μεταβλητών για αυτό τον επισκέπτη",
+        "JSTracking_VisitorCustomVars": "Παρακολούθηση προσαρμοσμένων μεταβλητών για αυτόν τον επισκέπτη",
         "JSTracking_VisitorCustomVarsDesc": "Για παράδειγμα, με όνομα της μεταβλητής \"Τύπος\" και τιμή \"Πελάτης\".",
         "JavaScriptTracking": "Παρακολούθηση με JavaScript",
         "JsTrackingCodeMissingEmail1": "Λίγες μέρες πριν, προσθέσατε τον ιστοτόπο '%s' στο Matomo Analytics. Μόλις έγινε έλεγχος και το Matomo δεν φαίνεται να έχει καταγράψει κίνηση για τον ιστοτόπο αυτόν.",

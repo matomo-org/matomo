@@ -1,5 +1,6 @@
 {
     "VisitsSummary": {
+        "AverageGenerationTime": "átlagos generálási idő",
         "GenerateQueries": "%s kérés végrehajtva",
         "GenerateTime": "%s másodperc kellett a lap legenerálásához",
         "NbActionsDescription": "%s akció (weblap megnyitása, letöltések és kimenő linkek)",

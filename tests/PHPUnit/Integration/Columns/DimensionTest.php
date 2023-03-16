@@ -447,4 +447,40 @@ class ColumnDimensionTest extends IntegrationTestCase
             $this->assertFalse(class_exists($removedDimension), "Dimension marked as removed but still exist: $removedDimension");
         }
     }
+
+    public function test_groupValue()
+    {
+        $this->dimension->setType(Dimension::TYPE_DURATION_MS);
+        $this->assertSame(800.0, $this->dimension->groupValue(800, 1));
+    }
+
+    public function test_groupValue_stringValue()
+    {
+        $this->dimension->setType(Dimension::TYPE_DURATION_MS);
+        $this->assertSame(800.0, $this->dimension->groupValue('800', 1));
+    }
+
+    public function test_groupValue_largerValue()
+    {
+        $this->dimension->setType(Dimension::TYPE_DURATION_MS);
+        $this->assertSame(80000000.0, $this->dimension->groupValue(80000000, 1));
+    }
+
+    public function test_groupValue_largerStringValue()
+    {
+        $this->dimension->setType(Dimension::TYPE_DURATION_MS);
+        $this->assertSame(80000000.0, $this->dimension->groupValue('80000000', 1));
+    }
+
+    public function test_groupValue_largerValueWithDecimal()
+    {
+        $this->dimension->setType(Dimension::TYPE_DURATION_MS);
+        $this->assertSame(80000000.0, $this->dimension->groupValue(80000000.123, 1));
+    }
+
+    public function test_groupValue_largerStringValueWithDecimal()
+    {
+        $this->dimension->setType(Dimension::TYPE_DURATION_MS);
+        $this->assertSame(80000000.0, $this->dimension->groupValue('80000000.123', 1));
+    }
 }

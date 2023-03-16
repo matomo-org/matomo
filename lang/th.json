@@ -127,7 +127,6 @@
         "ExceptionInvalidRendererFormat": "รูปแบบ Renderer '%1$s' ไม่ถูกต้อง ลองใช้ดังต่อไปนี้แทน: %2$s",
         "ExceptionInvalidReportRendererFormat": "รูปแบบรายงาน '%1$s' ไม่ถูกต้อง ลองพยายามใหม่อีกครั้งสำหรับสิ่งต่อไปนี้แทน: %2$s",
         "ExceptionInvalidStaticGraphType": "ประเภทของกราฟสถิติ '%1$s' ไม่ถูกต้อง กรุณาลองรายการดังต่อไปนี้แทน: %2$s",
-        "ExceptionInvalidToken": "Token นี้ไม่สมบูรณ์",
         "ExceptionLanguageFileNotFound": "ไม่พบไฟล์ภาษา '%s'",
         "ExceptionMethodNotFound": "ขั้นตอน '%1$s' ไม่มีอยู่หรือไม่สามารถใช้ได้ในโมดูล '%2$s' นี้ได้",
         "ExceptionMissingFile": "ไฟล์สูญหาย: %s",

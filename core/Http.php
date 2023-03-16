@@ -752,7 +752,7 @@ class Http
                         [$header, $response] = $split;
                     } else {
                         $response = '';
-                        $header = $split;
+                        $header = reset($split);
                     }
                 }
 

@@ -60,6 +60,7 @@ export default defineComponent({
         });
       } else if (newValue === false && oldValue === true) {
         // the user closed the dialog, e.g. by pressing Esc or clicking away from it
+        $('.modal.open').modal('close');
         this.$emit('close');
       }
     },

@@ -28,7 +28,7 @@ describe("Live", function () {
     });
 
     it('should expand grouped actions', async function() {
-        await page.click('.dataTableVizVisitorLog .repeat.icon-refresh');
+        await page.evaluate(() => $('.dataTableVizVisitorLog .repeat.icon-refresh').click());
         await page.mouse.move(-10, -10);
 
         var report = await page.$('.dataTableVizVisitorLog .card.row:first-child');
@@ -119,6 +119,7 @@ describe("Live", function () {
         var action = await page.jQuery('.visitor-profile-visits li:first-child .visitor-profile-actions .action:first-child');
         await action.hover();
         await page.waitForSelector('.ui-tooltip');
+        await page.waitForTimeout(250);
 
         const elem = await page.$('.ui-tooltip');
         expect(await elem.screenshot()).to.matchImage('visitor_profile_action_tooltip');

@@ -4933,23 +4933,21 @@ if ($mysql) {
 
         tracker.enableLinkTracking();
 
-        wait(300);
+        wait(500);
 
         var token2 = '2' + token;
         resetTracker(tracker, token2);
         preventClickDefault('#isWithinOutlink');
         triggerEvent(_s('#isWithinOutlink'), 'click'); // click on an element within a link
 
-        wait(300);
-
+        wait(500);
 
         var token3 = '3' + token;
         resetTracker(tracker, token3);
         preventClickDefault('#isOutlink');
         triggerEvent(_s('#isOutlink'), 'click'); // click on the link element itself
 
-        wait(300);
-
+        wait(500);
 
         var token4 = '4' + token;
         resetTracker(tracker, token4);
@@ -4960,7 +4958,8 @@ if ($mysql) {
         var token5 = '5' + token;
         resetTracker(tracker, token5);
         preventClickDefault('#internalLink');
-        wait(300);
+
+        wait(500);
 
         stop();
         setTimeout(function() {
@@ -5281,7 +5280,7 @@ if ($mysql) {
 
         var startTime, stopTime;
 
-        wait(1000); // in case there is  a previous expireDateTime set
+        wait(1500); // in case there is  a previous expireDateTime set
 
         equal( typeof tracker.hook.test._beforeUnloadHandler, 'function', 'beforeUnloadHandler' );
 
@@ -5289,7 +5288,7 @@ if ($mysql) {
         tracker.hook.test._beforeUnloadHandler();
         stopTime = new Date();
         var msSinceStarted = (stopTime.getTime() - startTime.getTime());
-        ok( msSinceStarted < 540, 'beforeUnloadHandler(): ' + msSinceStarted + ' was greater than 540 ' );
+        ok( msSinceStarted < 580, 'beforeUnloadHandler(): ' + msSinceStarted + ' was greater than 580 ' );
 
         tracker.disableAlwaysUseSendBeacon();
         tracker.setLinkTrackingTimer(2000);

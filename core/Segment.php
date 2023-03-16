@@ -536,7 +536,7 @@ class Segment
      *                           A $groupBy value needs to be set for this to work.
      * @param int If set to value >= 1 then the Select query (and All inner queries) will be LIMIT'ed by this value.
      *              Use only when you're not aggregating or it will sample the data.
-     * @return string The entire select query.
+     * @return array The entire select query.
      */
     public function getSelectQuery($select, $from, $where = false, $bind = array(), $orderBy = false, $groupBy = false, $limit = 0, $offset = 0, $forceGroupBy = false)
     {

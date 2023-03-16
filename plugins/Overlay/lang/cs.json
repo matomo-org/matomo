@@ -5,7 +5,7 @@
         "Domain": "Doména",
         "ErrorNotLoading": "Sezení překryvu stránky nemohlo být zatím spuštěno.",
         "ErrorNotLoadingDetails": "Možná nemá načtená stránka na pravé straně sledovací kód. V tomto případě zkuste spustit překryv pro jinou stránku z hlášení stránek.",
-        "ErrorNotLoadingDetailsSSL": "Protože používáte Matomo přes HTTPS, nejpravděpodobnější je, že stránky nepodporují SSL. Zkuste přistoupit k Matomou přes HTTP.",
+        "ErrorNotLoadingDetailsSSL": "Protože používáte Matomo přes HTTPS, nejpravděpodobnější je, že stránky nepodporují SSL. Zkuste přistoupit k Matomu přes HTTP.",
         "ErrorNotLoadingLink": "Klikněte zde pro více tipů k řešení problémů",
         "Link": "Odkaz",
         "Location": "Umístění",
@@ -14,7 +14,7 @@
         "OpenFullScreen": "Přejít na celou obrazovku (bez postranní lišty)",
         "Overlay": "Překryv stránky",
         "PluginDescription": "Podívejte se na analytická data jako na překryv na svých stránkách. Zjistěte, kolik uživatelů kliklo na jaký odkaz. Poznámka: vyžaduje povolený zásuvný modul přechodů.",
-        "RedirectUrlError": "Pokoušíte se otevřít překryvnou stránku pro URL \"%1$s\". %2$s Odkaz neodpovídá žádnému z domén v nastavení Matomo.",
+        "RedirectUrlError": "Pokoušíte se otevřít překryvnou stránku pro URL \"%1$s\". %2$s Odkaz neodpovídá žádnému z domén v nastavení Matoma.",
         "RedirectUrlErrorAdmin": "Doménu můžete jako další URL přidat v %1$snastavení%2$s.",
         "RedirectUrlErrorUser": "Požádejte svého administrátora o přidání stránky jako další URL:."
     }

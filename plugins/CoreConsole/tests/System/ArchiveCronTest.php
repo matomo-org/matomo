@@ -466,7 +466,8 @@ class ArchiveCronTest extends SystemTestCase
             'Tests.log.allowAllHandlers' => true,
 
             CronArchive\SegmentArchiving::class => \DI\object()
-                ->constructorParameter('beginningOfTimeLastNInYears', 10)
+                // Oldest reports are for 2012, so ensure segments are processed for that year
+                ->constructorParameter('beginningOfTimeLastNInYears', date('Y')-2012)
         );
     }
 

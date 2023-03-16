@@ -45,7 +45,7 @@ class Request
 
     protected $tokenAuth;
 
-
+    protected $timestamp;
 
     /**
      * Stores plugin specific tracking request metadata. RequestProcessors can store

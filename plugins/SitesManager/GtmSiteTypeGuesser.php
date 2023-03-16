@@ -10,9 +10,10 @@ namespace Piwik\Plugins\SitesManager;
 
 class GtmSiteTypeGuesser
 {
+
     public function guessSiteTypeFromResponse($response)
     {
-        if ($response === false) {
+        if (empty($response['data'])) {
             return SitesManager::SITE_TYPE_UNKNOWN;
         }
 
@@ -66,15 +67,82 @@ class GtmSiteTypeGuesser
         return SitesManager::SITE_TYPE_UNKNOWN;
     }
 
+    /**
+     * Detect GA3 usage from the site data
+     *
+     * @param array $response Extended HTTP Response
+     * @return bool
+     */
+    public function detectGA3FromResponse(array $response): bool
+    {
+        if (empty($response['data'])) {
+            return false;
+        }
+
+        if (strpos($response['data'], '(i,s,o,g,r,a,m)') !== false) {
+            return true;
+        }
+
+        $tests = [
+            "/UA-\d{5,}-\d{1,}/", "/google\-analytics\.com\/analytics\.js/", "/window\.ga\s?=\s?window\.ga/",
+            "/google[ _\-]{0,1}analytics/i"
+        ];
+
+        foreach ($tests as $test) {
+            if (preg_match($test, $response['data']) === 1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Detect GA4 usage from the site data
+     *
+     * @param array $response Extended HTTP Response
+     * @return bool
+     */
+    public function detectGA4FromResponse($response): bool
+    {
+        if (empty($response['data'])) {
+            return false;
+        }
+
+        if (strpos($response['data'], 'gtag.js') !== false) {
+            return true;
+        }
+
+        $tests = ["/properties\/[^\/]/", "/G-[A-Z0-9]{7,10}/", "/gtag\/js\?id=G-/"];
+        foreach ($tests as $test) {
+            if (preg_match($test, $response['data']) === 1) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function guessGtmFromResponse($response)
     {
-        if ($response === false) {
+        if (empty($response['data'])) {
             return false;
         }
 
         $needle = 'gtm.start';
+
         if (strpos($response['data'], $needle) !== false) {
             return true;
+        }
+
+        if (strpos($response['data'], 'gtm.js') !== false) {
+            return true;
+        }
+
+        $tests = ["/googletagmanager/i"];
+        foreach ($tests as $test) {
+            if (preg_match($test, $response['data']) === 1) {
+                return true;
+            }
         }
 
         return false;

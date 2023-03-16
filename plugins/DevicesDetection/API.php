@@ -55,9 +55,9 @@ class API extends \Piwik\Plugin\API
         $this->ensureDefaultRowsInTable($dataTable);
 
         $mapping = AbstractDeviceParser::getAvailableDeviceTypeNames();
-        $dataTable->filter('AddSegmentByLabelMapping', array('deviceType', $mapping));
-        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getDeviceTypeLogo'));
-        $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getDeviceTypeLabel'));
+        $dataTable->filter('AddSegmentByLabelMapping', ['deviceType', $mapping]);
+        $dataTable->filter('ColumnCallbackAddMetadata', ['label', 'logo', __NAMESPACE__ . '\getDeviceTypeLogo']);
+        $dataTable->filter('GroupBy', ['label', __NAMESPACE__ . '\getDeviceTypeLabel']);
         return $dataTable;
     }
 
@@ -65,7 +65,7 @@ class API extends \Piwik\Plugin\API
     {
         $requiredRows = array_fill(0, count(AbstractDeviceParser::getAvailableDeviceTypes()), Metrics::INDEX_NB_VISITS);
 
-        $dataTables = array($dataTable);
+        $dataTables = [$dataTable];
 
         if (!($dataTable instanceof DataTable\Map)) {
             foreach ($dataTables as $table) {
@@ -75,9 +75,9 @@ class API extends \Piwik\Plugin\API
                 foreach ($requiredRows as $requiredRow => $key) {
                     $row = $table->getRowFromLabel($requiredRow);
                     if (empty($row)) {
-                        $table->addRowsFromSimpleArray(array(
-                            array('label' => $requiredRow, $key => 0)
-                        ));
+                        $table->addRowsFromSimpleArray([
+                            ['label' => $requiredRow, $key => 0]
+                        ]);
                     }
                 }
             }
@@ -95,9 +95,9 @@ class API extends \Piwik\Plugin\API
     public function getBrand($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable('DevicesDetection_brands', $idSite, $period, $date, $segment);
-        $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getDeviceBrandLabel'));
-        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getBrandLogo'));
-        $dataTable->filter('AddSegmentByLabel', array('deviceBrand'));
+        $dataTable->filter('GroupBy', ['label', __NAMESPACE__ . '\getDeviceBrandLabel']);
+        $dataTable->filter('ColumnCallbackAddMetadata', ['label', 'logo', __NAMESPACE__ . '\getBrandLogo']);
+        $dataTable->filter('AddSegmentByLabel', ['deviceBrand']);
         return $dataTable;
     }
 
@@ -122,7 +122,7 @@ class API extends \Piwik\Plugin\API
                     list($brand, $model) = explode(';', $label, 2);
                     $brand = getDeviceBrandLabel($brand);
                 } else {
-                    $brand = null;
+                    $brand = '';
                     $model = $label;
                 }
 
@@ -132,7 +132,7 @@ class API extends \Piwik\Plugin\API
             }
         });
 
-        $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getModelName'));
+        $dataTable->filter('GroupBy', ['label', __NAMESPACE__ . '\getModelName']);
         return $dataTable;
     }
 
@@ -147,15 +147,15 @@ class API extends \Piwik\Plugin\API
     public function getOsFamilies($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable('DevicesDetection_os', $idSite, $period, $date, $segment);
-        
+
         // handle legacy archives
         if ($dataTable instanceof DataTable\Map || !$dataTable->getRowsCount()) {
             $versionDataTable = $this->getDataTable('DevicesDetection_osVersions', $idSite, $period, $date, $segment);
             $dataTable = $this->mergeDataTables($dataTable, $versionDataTable);
         }
 
-        $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getOSFamilyFullName'));
-        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getOsFamilyLogo'));
+        $dataTable->filter('GroupBy', ['label', __NAMESPACE__ . '\getOSFamilyFullName']);
+        $dataTable->filter('ColumnCallbackAddMetadata', ['label', 'logo', __NAMESPACE__ . '\getOsFamilyLogo']);
         return $dataTable;
     }
 
@@ -191,7 +191,7 @@ class API extends \Piwik\Plugin\API
             }
 
         } else if (!$dataTable->getRowsCount() && $dataTable2->getRowsCount()) {
-            $dataTable2->filter('GroupBy', array('label', function ($label) {
+            $dataTable2->filter('GroupBy', ['label', function ($label) {
                 if (preg_match("/(.+) [0-9]+(?:\.[0-9]+)?$/", $label, $matches)) {
                     return $matches[1]; // should match for browsers
                 }
@@ -199,7 +199,7 @@ class API extends \Piwik\Plugin\API
                     return substr($label, 0, 3); // should match for os
                 }
                 return $label;
-            }));
+            }]);
             return $dataTable2;
         }
 
@@ -218,11 +218,11 @@ class API extends \Piwik\Plugin\API
     {
         $dataTable = $this->getDataTable('DevicesDetection_osVersions', $idSite, $period, $date, $segment);
 
-        $segments = array('operatingSystemCode', 'operatingSystemVersion');
-        $dataTable->filter('AddSegmentByLabel', array($segments, Archiver::BROWSER_SEPARATOR));
-        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getOsLogo'));
+        $segments = ['operatingSystemCode', 'operatingSystemVersion'];
+        $dataTable->filter('AddSegmentByLabel', [$segments, Archiver::BROWSER_SEPARATOR]);
+        $dataTable->filter('ColumnCallbackAddMetadata', ['label', 'logo', __NAMESPACE__ . '\getOsLogo']);
         // use GroupBy filter to avoid duplicate rows if old (UserSettings) and new (DevicesDetection) reports were combined
-        $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getOsFullName'));
+        $dataTable->filter('GroupBy', ['label', __NAMESPACE__ . '\getOsFullName']);
         return $dataTable;
     }
 
@@ -251,8 +251,8 @@ class API extends \Piwik\Plugin\API
             $dataTable = $this->mergeDataTables($dataTable, $versionDataTable);
         }
 
-        $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getBrowserName'));
-        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getBrowserFamilyLogo'));
+        $dataTable->filter('GroupBy', ['label', __NAMESPACE__ . '\getBrowserName']);
+        $dataTable->filter('ColumnCallbackAddMetadata', ['label', 'logo', __NAMESPACE__ . '\getBrowserFamilyLogo']);
         return $dataTable;
     }
 
@@ -268,10 +268,10 @@ class API extends \Piwik\Plugin\API
     {
         $dataTable = $this->getDataTable('DevicesDetection_browserVersions', $idSite, $period, $date, $segment);
 
-        $segments = array('browserCode', 'browserVersion');
-        $dataTable->filter('AddSegmentByLabel', array($segments, Archiver::BROWSER_SEPARATOR));
-        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getBrowserLogo'));
-        $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getBrowserNameWithVersion'));
+        $segments = ['browserCode', 'browserVersion'];
+        $dataTable->filter('AddSegmentByLabel', [$segments, Archiver::BROWSER_SEPARATOR]);
+        $dataTable->filter('ColumnCallbackAddMetadata', ['label', 'logo', __NAMESPACE__ . '\getBrowserLogo']);
+        $dataTable->filter('ColumnCallbackReplace', ['label', __NAMESPACE__ . '\getBrowserNameWithVersion']);
         return $dataTable;
     }
 
@@ -288,7 +288,7 @@ class API extends \Piwik\Plugin\API
         $dataTable = $this->getDataTable('DevicesDetection_browserEngines', $idSite, $period, $date, $segment);
         $dataTable->filter('AddSegmentValue');
         // use GroupBy filter to avoid duplicate rows if old (UserSettings) and new (DevicesDetection) reports were combined
-        $dataTable->filter('GroupBy', array('label',  __NAMESPACE__ . '\getBrowserEngineName'));
+        $dataTable->filter('GroupBy', ['label',  __NAMESPACE__ . '\getBrowserEngineName']);
         return $dataTable;
     }
 }
