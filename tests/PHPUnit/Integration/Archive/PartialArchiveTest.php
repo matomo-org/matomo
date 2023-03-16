@@ -36,7 +36,12 @@ class PartialArchiveTest extends IntegrationTestCase
         self::trackVisit();
     }
 
-    public function test_rangeArchiving_onlyArchivesSingleRecord()
+    public function test_rangeArchiving_onlyArchivesSingleRecord_whenQueryingNumerics()
+    {
+        // TODO
+    }
+
+    public function test_rangeArchiving_onlyArchivesSingleRecord_whenQueryingBlobs()
     {
         // first trigger all plugins archiving
         $_GET['trigger'] = 'archivephp';
