@@ -157,7 +157,7 @@ class ApiTest extends SystemTestCase
         $this->assertEquals(2, $visits->getFirstRow()->getColumn('nb_actions'));
     }
 
-    public function test_forceNewVisit_shouldNotForceANewVisitWhenNoKeywordIsSetAndCampaignNameIsUpperCase()
+    public function test_forceNewVisit_shouldForceANewVisitWhenNoKeywordIsSetAndCampaignNameIsUpperCase()
     {
         $dateTime = '2015-01-04';
         $idSite = self::$fixture->idSite;
@@ -178,7 +178,7 @@ class ApiTest extends SystemTestCase
         /** @var DataTable $visits */
         $visits = Request::processRequest('VisitsSummary.get', ['idSite' => 1, 'period' => 'day', 'date' => $dateTime]);
 
-        $this->assertEquals(1, $visits->getFirstRow()->getColumn('nb_visits'));
+        $this->assertEquals(2, $visits->getFirstRow()->getColumn('nb_visits'));
         $this->assertEquals(2, $visits->getFirstRow()->getColumn('nb_actions'));
     }
 
@@ -191,13 +191,13 @@ class ApiTest extends SystemTestCase
             . 'thiscrazylongstringohijustdid';
 
         $t = Fixture::getTracker($idSite, $dateTime . ' 00:01:02', $defaultInit = true);
-        // track a campaign that was opened directly (w/ saved referrer cookie info)
+         // track a campaign that was opened directly (w/ saved referrer cookie info)
         $t->setUrlReferrer('http://www.google.com');
         $t->setUrl('http://piwik.net/?pk_campaign=' . $longReferrer);
         $t->doTrackPageView('My Title');
 
         // navigate to same page but from different URL w/ same campaign
-        $t->setUrlReferrer('http://links.piwik.net/?pk_campaign=' . $longReferrer);
+        $t->setUrlReferrer('http://piwik.net/?pk_campaign=' . $longReferrer);
         $t->setCustomTrackingParameter('_rcn', $longReferrer); // this parameter would be set by piwik.js from cookie / attributionInfo
         $t->setCustomTrackingParameter('_rck', ''); // no keyword was used in previous tracking request
         $t->setUrl('http://piwik.net/page1');
@@ -319,6 +319,31 @@ class ApiTest extends SystemTestCase
 
         $this->assertEquals('Looksmart', $visits->getFirstRow()->getColumn('label'));
         $this->assertEquals(1, $visits->getFirstRow()->getColumn('nb_visits'));
+    }
+
+    public function test_forceNewVisit_shouldNotForceANewVisitWhenCampaignIsTheSameAndSecondReferrerIsExcluded()
+    {
+        $dateTime = '2015-01-10';
+        $idSite = self::$fixture->idSite;
+
+        $t = Fixture::getTracker($idSite, $dateTime . ' 00:01:02', $defaultInit = true);
+        // track a campaign that was opened directly (no referrer)
+        $t->setUrlReferrer('http://www.google.com');
+        $t->setUrl('http://piwik.net/?pk_campaign=adwbuccc');
+        $t->doTrackPageView('My Title');
+
+        // navigate to same page but from different excluded referrer URL w/ same campaign
+        $t->setUrlReferrer( self::$fixture::EXCLUDED_REFERRER_URL. '/?pk_campaign=adwbuccc');
+        $t->setCustomTrackingParameter('_rcn', 'adwbuccc'); // this parameter would be set by piwik.js from cookie / attributionInfo
+        $t->setCustomTrackingParameter('_rck', ''); // no keyword was used in previous tracking request
+        $t->setUrl('http://piwik.net/page1');
+        $t->doTrackPageView('Page 1');
+
+        /** @var DataTable $visits */
+        $visits = Request::processRequest('VisitsSummary.get', ['idSite' => 1, 'period' => 'day', 'date' => $dateTime]);
+
+        $this->assertEquals(1, $visits->getFirstRow()->getColumn('nb_visits'));
+        $this->assertEquals(2, $visits->getFirstRow()->getColumn('nb_actions'));
     }
 
     public static function getOutputPrefix()

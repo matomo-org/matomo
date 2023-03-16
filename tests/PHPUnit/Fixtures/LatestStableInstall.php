@@ -43,6 +43,11 @@ class LatestStableInstall extends Fixture
         $this->verifyInstall($tokenAuth);
     }
 
+    public function tearDown(): void
+    {
+        $this->removeLatestStableInstall();
+    }
+
     private function removeLatestStableInstall()
     {
         $installSubdirectory = $this->getInstallSubdirectoryPath();
@@ -78,7 +83,7 @@ class LatestStableInstall extends Fixture
             throw new \Exception("Failed to extract matomo build ZIP archive.");
         }
 
-        shell_exec('mv "' . $installSubdirectory . '"/piwik/* "' . $installSubdirectory . '"');
+        shell_exec('mv "' . $installSubdirectory . '"/matomo/* "' . $installSubdirectory . '"');
     }
 
     private function installSubdirectoryInstall()
@@ -132,41 +137,22 @@ class LatestStableInstall extends Fixture
 
     private function generateMatomoPackageFromGit()
     {
-        $this->cloneMatomoPackageRepo();
-        $this->runMatomoPackage();
-    }
-
-    private function cloneMatomoPackageRepo()
-    {
-        $pathToMatomoPackage = PIWIK_INCLUDE_PATH . '/../matomo-package';
-        if (file_exists($pathToMatomoPackage)) {
-            Filesystem::unlinkRecursive($pathToMatomoPackage, true);
-        }
-
-        $command = 'git clone https://github.com/matomo-org/matomo-package.git --depth=1 "' . $pathToMatomoPackage . '"';
-        exec($command, $output, $returnCode);
-
-        if ($returnCode != 0) {
-            throw new \Exception("Could not clone matomo-package repo: " . implode("\n", $output));
-        }
-    }
-
-    private function runMatomoPackage()
-    {
         $matomoBuildPath = PIWIK_INCLUDE_PATH . '/matomo-build.zip';
         if (file_exists($matomoBuildPath)) {
             unlink($matomoBuildPath);
         }
 
-        $command = 'cd "' . PIWIK_INCLUDE_PATH . '/../matomo-package" && ';
-        $command .= './scripts/build-package.sh "' . PIWIK_INCLUDE_PATH . '" piwik true';
+        $command = 'cd ' . PIWIK_INCLUDE_PATH . ' && ';
+        $command .= 'chmod 755 ./.github/scripts/*.sh && ';
+        $command .= './.github/scripts/build-package.sh build matomo';
 
         exec($command, $output, $returnCode);
+        echo implode("\n", $output);
         if ($returnCode != 0) {
             throw new \Exception("matomo-package failed: " . implode("\n", $output));
         }
 
-        $path = PIWIK_INCLUDE_PATH . '/../matomo-package/piwik-build.zip';
+        $path = PIWIK_INCLUDE_PATH . '/archives/matomo-build.zip';
         rename($path, $matomoBuildPath);
     }
 }

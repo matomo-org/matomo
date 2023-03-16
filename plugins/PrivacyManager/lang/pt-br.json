@@ -5,6 +5,7 @@
         "AnonymizeIpDescription": "Selecione \"Sim\" se você quer que o Matomo não rastreie endereços IP totalmente qualificados.",
         "AnonymizeIpExtendedHelp": "Quando usuários visitam o seu site, o Matomo não usará o endereço IP completo (como %1$s) e no lugar o Matomo irá primeiro anonimizá-lo (para %2$s). A anonimização de endereço IP é um dos requisitos definidos pelas leis de privacidade em alguns países como Alemanha.",
         "AnonymizeIpInlineHelp": "Anonimizar o(s) último(s) byte(s) do endereço IP dos visitantes para obedecer suas leis/guias locais de privacidade.",
+        "AnonymizeIpMaskFully": "Mascarar totalmente o endereço IP",
         "AnonymizeIpMaskLengtDescription": "Selecione quantos bytes dos IPs dos visitantes devem ser mascarados.",
         "AnonymizeIpMaskLength": "%1$s byte(s) - e.g. %2$s",
         "AnonymizeOrderIdNote": "Como um ID de pedido pode ser cruzado com outro sistema, tipicamente uma loja de comércio eletrônico, o ID de pedido pode contar como informação pessoal sob a GDPR. Quando você habilita esta opção, um ID de pedido será automaticamente anonimizado para que nenhuma informação pessoal seja rastreada.",

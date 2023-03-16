@@ -65,4 +65,9 @@ class ConversionEntryRate extends GoalSpecificProcessedMetric
     {
         return $formatter->getPrettyPercentFromQuotient($value);
     }
+
+    public function getSemanticType(): ?string
+    {
+        return self::SEMANTIC_TYPE_PERCENT;
+    }
 }

@@ -46,6 +46,12 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * By default, new token auths will be restricted to use in POST requests only, this is recommended for improved security. This option can be unselected when creating a new token. Existing tokens will continue to work with both POST and GET requests.
 * A new config setting `only_allow_posted_auth_tokens` defaulting to `0`. Enabling this option will prevent any use of tokens in GET API requests.
 
+## Matomo 4.14.0
+
+### HTTP Tracking API
+
+* The campaign attribution tracking parameters `_rcn` and `_rck` are no longer used to attribute visits. Those parameters will now only be used to attribute conversions. If you want to manually attribute a visit to a campaign ensure to attach camapign parameters to the tracked URL instead.
+
 ## Matomo 4.13.1
 
 ### New config.ini.php settings

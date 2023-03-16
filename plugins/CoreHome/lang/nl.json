@@ -45,7 +45,7 @@
         "InjectedHostSuperUserWarning": "Matomo is waarschijnlijk verkeerd geconfigureerd (bijv. Matomo werd verplaatst naar een nieuwe server of URL). %1$sKlik hier en voeg %2$s toe als een toegestane Matomo hostnaam indien je die vertrouwd%3$s, of %4$sklik hier en ga naar %5$s om Matomo veilig te banaderen%6$s.",
         "InjectedHostWarningIntro": "Je bezoekt nu Matomo van %1$s, maar Matomo is geconfigureerd om op dit adres te draaien: %2$s.",
         "JsDidntLoad": "De browser kan het script van deze website niet laden.",
-        "LeadingAnalyticsPlatformRespectsYourPrivacy": "Het leidende open analytics platform dat privacy respecteerd.",
+        "LeadingAnalyticsPlatformRespectsYourPrivacy": "Het leidende open analytics platform dat privacy respecteert.",
         "MacPageDown": "Fn + Pijl naar rechts",
         "MacPageUp": "Fn + Pijl naar links",
         "MainNavigation": "Hoofdnavigatie",

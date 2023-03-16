@@ -268,4 +268,9 @@ class EvolutionMetric extends ProcessedMetric
         return round($ratio, 3);
 
     }
+
+    public function getSemanticType(): ?string
+    {
+        return self::SEMANTIC_TYPE_PERCENT;
+    }
 }

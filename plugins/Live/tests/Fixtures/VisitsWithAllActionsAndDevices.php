@@ -194,6 +194,17 @@ class VisitsWithAllActionsAndDevices extends Fixture
         self::checkResponse($t->doTrackPageView('home'));
 
         $t->doTrackContentImpression('product slider', 'product_16.jpg', 'http://example.org/product16');
+
+        // track multiple page view within the same pageview id
+        $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.6)->getDatetime());
+        $t->setUrl('http://example.org/nice-page.html');
+        $t->setPerformanceTimings(33, 66, 144, 221, 255, 255);
+        $t->setDebugStringAppend('pv_id=abcdef'); // appending this should overwrite the generated pageview id
+        self::checkResponse($t->doTrackPageView('first view'));
+        $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.61)->getDatetime());
+        self::checkResponse($t->doTrackPageView('second view'));
+        $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.62)->getDatetime());
+        self::checkResponse($t->doTrackPageView('third view'));
     }
 
     private function trackVisitMediaPlayer(\MatomoTracker $t, $dateTime)
