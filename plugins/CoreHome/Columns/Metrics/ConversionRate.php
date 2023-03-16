@@ -47,4 +47,9 @@ class ConversionRate extends ProcessedMetric
         $nbVisits = $this->getMetric($row, 'nb_visits');
         return Piwik::getQuotientSafe($nbVisitsConverted, $nbVisits, $precision = 4);
     }
+
+    public function getSemanticType(): ?string
+    {
+        return self::SEMANTIC_TYPE_PERCENT;
+    }
 }

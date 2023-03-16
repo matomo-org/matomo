@@ -215,7 +215,7 @@ class Mail
     public function clearAllRecipients()
     {
         $this->recipients = [];
-        $this->bcc = [];
+        $this->bccs = [];
     }
 
     /**

@@ -2,23 +2,33 @@
 <result>
 	<row>
 		<label>ga campaign</label>
-		<nb_uniq_visitors>5</nb_uniq_visitors>
-		<nb_visits>5</nb_visits>
-		<nb_actions>6</nb_actions>
+		<nb_uniq_visitors>4</nb_uniq_visitors>
+		<nb_visits>4</nb_visits>
+		<nb_actions>5</nb_actions>
 		<nb_users>0</nb_users>
 		<max_actions>2</max_actions>
 		<sum_visit_length>1445</sum_visit_length>
-		<bounce_count>4</bounce_count>
+		<bounce_count>3</bounce_count>
 		<nb_visits_converted>1</nb_visits_converted>
 		<goals>
+			<row idgoal='ecommerceOrder'>
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>5.33</revenue>
+				<revenue_subtotal>0</revenue_subtotal>
+				<revenue_tax>0</revenue_tax>
+				<revenue_shipping>0</revenue_shipping>
+				<revenue_discount>0</revenue_discount>
+				<items>0</items>
+			</row>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
 				<nb_visits_converted>1</nb_visits_converted>
 				<revenue>42.26</revenue>
 			</row>
 		</goals>
-		<nb_conversions>1</nb_conversions>
-		<revenue>42.26</revenue>
+		<nb_conversions>2</nb_conversions>
+		<revenue>47.59</revenue>
 		<segment>referrerType==campaign;referrerName==ga+campaign</segment>
 		<subtable>
 			<row>
@@ -42,17 +52,6 @@
 				<revenue>42.26</revenue>
 			</row>
 			<row>
-				<label>some keyword</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<nb_users>0</nb_users>
-				<max_actions>1</max_actions>
-				<sum_visit_length>0</sum_visit_length>
-				<bounce_count>1</bounce_count>
-				<nb_visits_converted>0</nb_visits_converted>
-			</row>
-			<row>
 				<label>thing1.com</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>1</nb_visits>
@@ -73,6 +72,24 @@
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
+			</row>
+			<row>
+				<label>some keyword</label>
+				<goals>
+					<row idgoal='ecommerceOrder'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>5.33</revenue>
+						<revenue_subtotal>0</revenue_subtotal>
+						<revenue_tax>0</revenue_tax>
+						<revenue_shipping>0</revenue_shipping>
+						<revenue_discount>0</revenue_discount>
+						<items>0</items>
+					</row>
+				</goals>
+				<nb_conversions>1</nb_conversions>
+				<revenue>5.33</revenue>
+				<nb_visits>0</nb_visits>
 			</row>
 		</subtable>
 	</row>
@@ -250,60 +267,64 @@
 	</row>
 	<row>
 		<label>gifted search</label>
-		<nb_uniq_visitors>1</nb_uniq_visitors>
-		<nb_visits>1</nb_visits>
-		<nb_actions>1</nb_actions>
-		<nb_users>0</nb_users>
-		<max_actions>1</max_actions>
-		<sum_visit_length>1</sum_visit_length>
-		<bounce_count>1</bounce_count>
-		<nb_visits_converted>1</nb_visits_converted>
 		<goals>
+			<row idgoal='ecommerceOrder'>
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>17.4</revenue>
+				<revenue_subtotal>0</revenue_subtotal>
+				<revenue_tax>0</revenue_tax>
+				<revenue_shipping>0</revenue_shipping>
+				<revenue_discount>0</revenue_discount>
+				<items>0</items>
+			</row>
 			<row idgoal='2'>
 				<nb_conversions>1</nb_conversions>
 				<nb_visits_converted>1</nb_visits_converted>
 				<revenue>0</revenue>
 			</row>
 		</goals>
-		<nb_conversions>1</nb_conversions>
-		<revenue>0</revenue>
+		<nb_conversions>2</nb_conversions>
+		<revenue>17.4</revenue>
+		<nb_visits>0</nb_visits>
 		<segment>referrerType==campaign;referrerName==gifted+search</segment>
-		<subtable>
-			<row>
-				<label>xavierinstitute.org</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<nb_users>0</nb_users>
-				<max_actions>1</max_actions>
-				<sum_visit_length>1</sum_visit_length>
-				<bounce_count>1</bounce_count>
-				<nb_visits_converted>1</nb_visits_converted>
-			</row>
-		</subtable>
 	</row>
 	<row>
 		<label>recruiting drive</label>
-		<nb_uniq_visitors>1</nb_uniq_visitors>
-		<nb_visits>1</nb_visits>
-		<nb_actions>1</nb_actions>
-		<nb_users>0</nb_users>
-		<max_actions>1</max_actions>
-		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>1</bounce_count>
-		<nb_visits_converted>0</nb_visits_converted>
+		<goals>
+			<row idgoal='ecommerceOrder'>
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>22.9</revenue>
+				<revenue_subtotal>0</revenue_subtotal>
+				<revenue_tax>0</revenue_tax>
+				<revenue_shipping>0</revenue_shipping>
+				<revenue_discount>0</revenue_discount>
+				<items>0</items>
+			</row>
+		</goals>
+		<nb_conversions>1</nb_conversions>
+		<revenue>22.9</revenue>
+		<nb_visits>0</nb_visits>
 		<segment>referrerType==campaign;referrerName==recruiting+drive</segment>
 		<subtable>
 			<row>
 				<label>am i a mutant?</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<nb_users>0</nb_users>
-				<max_actions>1</max_actions>
-				<sum_visit_length>0</sum_visit_length>
-				<bounce_count>1</bounce_count>
-				<nb_visits_converted>0</nb_visits_converted>
+				<goals>
+					<row idgoal='ecommerceOrder'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>22.9</revenue>
+						<revenue_subtotal>0</revenue_subtotal>
+						<revenue_tax>0</revenue_tax>
+						<revenue_shipping>0</revenue_shipping>
+						<revenue_discount>0</revenue_discount>
+						<items>0</items>
+					</row>
+				</goals>
+				<nb_conversions>1</nb_conversions>
+				<revenue>22.9</revenue>
+				<nb_visits>0</nb_visits>
 			</row>
 		</subtable>
 	</row>

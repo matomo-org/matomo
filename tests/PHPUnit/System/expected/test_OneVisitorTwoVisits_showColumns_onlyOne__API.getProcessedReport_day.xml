@@ -15,6 +15,9 @@
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
 		</metricsDocumentation>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitsSummary&amp;apiAction=get&amp;period=day&amp;date=2010-02-05,2010-03-06</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitsSummary&amp;apiAction=get&amp;period=day&amp;date=2010-02-05,2010-03-06</imageGraphEvolutionUrl>
 		<uniqueId>VisitsSummary_get</uniqueId>

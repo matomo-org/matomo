@@ -44,4 +44,9 @@ class AverageQuantity extends ProcessedMetric
     {
         return array('quantity', 'orders', 'abandoned_carts');
     }
+
+    public function getSemanticType(): ?string
+    {
+        return self::SEMANTIC_TYPE_NUMBER;
+    }
 }

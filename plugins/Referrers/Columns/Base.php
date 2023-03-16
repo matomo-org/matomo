@@ -566,10 +566,7 @@ abstract class Base extends VisitDimension
      */
     protected function detectReferrerCampaign(Request $request, Visitor $visitor)
     {
-        $isCampaign = $this->detectReferrerCampaignFromTrackerParams($request);
-        if (!$isCampaign) {
-            $this->detectReferrerCampaignFromLandingUrl();
-        }
+        $this->detectReferrerCampaignFromLandingUrl();
 
         $this->detectCampaignKeywordFromReferrerUrl();
 

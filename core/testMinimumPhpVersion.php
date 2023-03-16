@@ -198,10 +198,12 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
         if ($hasCountdownRedirect) {
             $redirectSection = '<p>
                                 Please click below if you are not redirected in ' . $countdown . ' seconds</br></br>
-                                Go to <a href="' . $redirectUrl . '">' . $redirectUrl . '</a> 
+                                Go to <a href="' . $redirectUrl . '">' . htmlspecialchars($redirectUrl) . '</a> 
                                 </p>
+                                <style>.header,.footer { display:none;}</style>
                                 <script>setTimeout(function(){window.location.href="' . $redirectUrl . '"}, ' . ($countdown * 1000) . ');</script>';
             $backLinks = '';
+            $optionalLinks = '';
         }
 
         $content = '<h2>' . $message . '</h2>'

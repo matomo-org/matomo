@@ -60,4 +60,9 @@ class AveragePageLoadTime extends ProcessedMetric
         return ['avg_time_network', 'avg_time_server', 'avg_time_transfer',
                 'avg_time_dom_processing', 'avg_time_dom_completion', 'avg_time_on_load'];
     }
+
+    public function getSemanticType(): ?string
+    {
+        return self::SEMANTIC_TYPE_DURATION;
+    }
 }

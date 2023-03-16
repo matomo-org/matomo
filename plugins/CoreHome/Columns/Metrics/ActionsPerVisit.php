@@ -42,4 +42,9 @@ class ActionsPerVisit extends ProcessedMetric
     {
         return array('nb_actions', 'nb_visits');
     }
+
+    public function getSemanticType(): ?string
+    {
+        return self::SEMANTIC_TYPE_NUMBER;
+    }
 }

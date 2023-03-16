@@ -54,4 +54,9 @@ class InteractionRate extends ProcessedMetric
     {
         return array('nb_interactions', 'nb_impressions');
     }
+
+    public function getSemanticType(): ?string
+    {
+        return self::SEMANTIC_TYPE_PERCENT;
+    }
 }

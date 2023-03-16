@@ -17,6 +17,16 @@ class Db extends Mysql
     public $beganTransaction = false;
     public $connectCalled = false;
 
+    /**
+     * @var string
+     */
+    private $username;
+
+    /**
+     * @var string
+     */
+    private $password;
+
     public function __construct($dbInfo, $driverName = 'mysql')
     {
         $this->dsn = 'testdrivername';

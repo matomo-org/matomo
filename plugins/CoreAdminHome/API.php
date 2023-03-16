@@ -273,7 +273,17 @@ class API extends \Piwik\Plugin\API
         $invalidateBeforeArchiving = !$isArchivePhpTriggered;
 
         $period = Factory::build($period, $date);
-        $parameters = new ArchiveProcessor\Parameters(new Site($idSite), $period, new Segment($segment, [$idSite], $period->getDateTimeStart(), $period->getDateTimeEnd()));
+        $site = new Site($idSite);
+        $parameters = new ArchiveProcessor\Parameters(
+            $site,
+            $period,
+            new Segment(
+                $segment,
+                [$idSite],
+                $period->getDateTimeStart()->setTimezone($site->getTimezone()),
+                $period->getDateTimeEnd()->setTimezone($site->getTimezone())
+            )
+        );
         if ($report) {
             $parameters->setArchiveOnlyReport($report);
         }

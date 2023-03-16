@@ -49,4 +49,9 @@ class BounceRate extends ProcessedMetric
 
         return Piwik::getQuotientSafe($bounceCount, $visits, $precision = 2);
     }
+
+    public function getSemanticType(): ?string
+    {
+        return self::SEMANTIC_TYPE_PERCENT;
+    }
 }
