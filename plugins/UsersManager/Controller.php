@@ -278,6 +278,8 @@ class Controller extends ControllerAdmin
 
     /**
      * The "User Security" admin UI screen view
+     *
+     * @return array|null|string
      */
     public function userSecurity()
     {
@@ -290,18 +292,18 @@ class Controller extends ControllerAdmin
                     $token[$key] = Date::factory($token[$key])->getLocalized(Date::DATE_FORMAT_LONG);
                 }
             }
-
+            unset($token['password']);
             return $token;
         }, $tokens);
         $hasTokensWithExpireDate = !empty(array_filter(array_column($tokens, 'date_expired')));
 
-        return $this->renderTemplate('userSecurity', array(
+        return $this->renderTemplate('userSecurity', [
             'isUsersAdminEnabled' => UsersManager::isUsersAdminEnabled(),
             'changePasswordNonce' => Nonce::getNonce(self::NONCE_CHANGE_PASSWORD),
             'deleteTokenNonce' => Nonce::getNonce(self::NONCE_DELETE_AUTH_TOKEN),
             'hasTokensWithExpireDate' => $hasTokensWithExpireDate,
             'tokens' => $tokens
-        ));
+        ]);
     }
 
     /**
