@@ -26,6 +26,7 @@ class AddSegmentByLabel extends BaseFilter
 {
     private $segments;
     private $delimiter;
+    private $allowEmptyValue;
 
     /**
      * Generates a segment filter based on the label column and the given segment names
@@ -34,8 +35,9 @@ class AddSegmentByLabel extends BaseFilter
      * @param string|array $segmentOrSegments Either one segment or an array of segments.
      *                                        If more than one segment is given a delimter has to be defined.
      * @param string $delimiter               The delimiter by which the label should be splitted.
+     * @param bool $allowEmptyValue           Forces adding a segment metadata for empty values
      */
-    public function __construct($table, $segmentOrSegments, $delimiter = '')
+    public function __construct($table, $segmentOrSegments, $delimiter = '', $allowEmptyValue = false)
     {
         parent::__construct($table);
 
@@ -45,6 +47,7 @@ class AddSegmentByLabel extends BaseFilter
 
         $this->segments  = $segmentOrSegments;
         $this->delimiter = $delimiter;
+        $this->allowEmptyValue = $allowEmptyValue;
     }
 
     /**
@@ -66,7 +69,7 @@ class AddSegmentByLabel extends BaseFilter
             foreach ($table->getRowsWithoutSummaryRow() as $key => $row) {
                 $label = $row->getColumn('label');
 
-                if (!empty($label) || $label === 0 || $label === '0') {
+                if (!empty($label) || $label === 0 || $label === '0' || $this->allowEmptyValue) {
                     $row->setMetadata('segment', $segment . '==' . urlencode($label));
                 }
             }
