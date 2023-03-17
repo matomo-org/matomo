@@ -198,7 +198,7 @@ class VisitorLog extends Visualization
                         $actionGroups[$idPageView]['refreshActions'][] = $actionGroups[$idPageView]['pageviewAction'];
                         $actionGroups[$idPageView]['pageviewAction'] = $action;
                     } else {
-                        $actionGroups[$idPageView]['refreshActions'][] = $actionGroups[$idPageView]['pageviewAction'];
+                        $actionGroups[$idPageView]['refreshActions'][] = $action;
                     }
                 } else {
                     $actionGroups[$idPageView]['actionsOnPage'][] = $action;

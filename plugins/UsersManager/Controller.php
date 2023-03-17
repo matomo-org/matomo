@@ -278,6 +278,8 @@ class Controller extends ControllerAdmin
 
     /**
      * The "User Security" admin UI screen view
+     *
+     * @return array|null|string
      */
     public function userSecurity()
     {
@@ -290,18 +292,18 @@ class Controller extends ControllerAdmin
                     $token[$key] = Date::factory($token[$key])->getLocalized(Date::DATE_FORMAT_LONG);
                 }
             }
-
+            unset($token['password']);
             return $token;
         }, $tokens);
         $hasTokensWithExpireDate = !empty(array_filter(array_column($tokens, 'date_expired')));
 
-        return $this->renderTemplate('userSecurity', array(
+        return $this->renderTemplate('userSecurity', [
             'isUsersAdminEnabled' => UsersManager::isUsersAdminEnabled(),
             'changePasswordNonce' => Nonce::getNonce(self::NONCE_CHANGE_PASSWORD),
             'deleteTokenNonce' => Nonce::getNonce(self::NONCE_DELETE_AUTH_TOKEN),
             'hasTokensWithExpireDate' => $hasTokensWithExpireDate,
             'tokens' => $tokens
-        ));
+        ]);
     }
 
     /**
@@ -370,7 +372,7 @@ class Controller extends ControllerAdmin
     {
         Piwik::checkUserIsNotAnonymous();
 
-        $params = array('module' => 'UsersManager', 'action' => 'addNewToken');
+        $params = ['module' => 'UsersManager', 'action' => 'addNewToken'];
 
         if (!$this->passwordVerify->requirePasswordVerifiedRecently($params)) {
             throw new Exception('Not allowed');
@@ -381,30 +383,33 @@ class Controller extends ControllerAdmin
         if (!empty($_POST['description'])) {
             Nonce::checkNonce(self::NONCE_ADD_AUTH_TOKEN);
 
-            $description = Common::getRequestVar('description', '', 'string');
+            $description = \Piwik\Request::fromRequest()->getStringParameter('description', '');
+            $postOnly = \Piwik\Request::fromRequest()->getBoolParameter('post_only', false);
+
             $login = Piwik::getCurrentUserLogin();
 
             $generatedToken = $this->userModel->generateRandomTokenAuth();
 
-            $this->userModel->addTokenAuth($login, $generatedToken, $description, Date::now()->getDatetime());
+            $this->userModel->addTokenAuth($login, $generatedToken, $description, Date::now()->getDatetime(), null, false, $postOnly);
 
             $container = StaticContainer::getContainer();
-            $email = $container->make(TokenAuthCreatedEmail::class, array(
+            $email = $container->make(TokenAuthCreatedEmail::class, [
                 'login' => Piwik::getCurrentUserLogin(),
                 'emailAddress' => Piwik::getCurrentUserEmail(),
                 'tokenDescription' => $description
-            ));
+            ]);
             $email->safeSend();
 
-            return $this->renderTemplate('addNewTokenSuccess', array('generatedToken' => $generatedToken));
+            return $this->renderTemplate('addNewTokenSuccess', ['generatedToken' => $generatedToken]);
         } elseif (isset($_POST['description'])) {
             $noDescription = true;
         }
 
-        return $this->renderTemplate('addNewToken', array(
-           'nonce' => Nonce::getNonce(self::NONCE_ADD_AUTH_TOKEN),
-           'noDescription' => $noDescription
-        ));
+        return $this->renderTemplate('addNewToken', [
+            'nonce' => Nonce::getNonce(self::NONCE_ADD_AUTH_TOKEN),
+            'noDescription' => $noDescription,
+            'forcePostOnly' => GeneralConfig::getConfigValue('only_allow_posted_auth_tokens')
+        ]);
     }
 
     /**

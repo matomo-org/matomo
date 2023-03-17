@@ -42,6 +42,16 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### Updated commands
 * The default maximum number of archivers processes to run concurrently has changed from unlimited to three. The `--concurrent-archivers` parameter can be used to increase this limit. A value of -1 will use an unlimited number of concurrent archivers
 
+### Usage of authentication tokens
+* By default, new authentication tokens will be restricted to be used in POST requests only. This is recommended for improved security. This option can be unselected when creating a new token. Existing tokens will continue to work with both, POST and GET requests.
+* A new config setting `only_allow_posted_auth_tokens`, defaulting to `0`, has been added. Enabling this option will prevent any use of tokens in GET API requests.
+
+## Matomo 4.14.0
+
+### HTTP Tracking API
+
+* The campaign attribution tracking parameters `_rcn` and `_rck` are no longer used to attribute visits. Those parameters will now only be used to attribute conversions. If you want to manually attribute a visit to a campaign ensure to attach camapign parameters to the tracked URL instead.
+
 ## Matomo 4.13.1
 
 ### New config.ini.php settings

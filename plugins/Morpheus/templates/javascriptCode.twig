@@ -15,6 +15,6 @@
 </script>
 {% if not loadAsync %}<script src="{$protocol}{$piwikUrl}/{$matomoJsFilename}"></script>
 {% endif %}
-{% if trackNoScript %}<noscript><p><img src="{$protocol}{$piwikUrl}/{$matomoPhpFilename}?idsite={$idSite}&amp;rec=1" style="border:0;" alt="" /></p></noscript>
+{% if trackNoScript %}<noscript><p><img referrerpolicy="no-referrer-when-downgrade" src="{$protocol}{$piwikUrl}/{$matomoPhpFilename}?idsite={$idSite}&amp;rec=1" style="border:0;" alt="" /></p></noscript>
 {% endif %}
 <!-- End Matomo Code -->

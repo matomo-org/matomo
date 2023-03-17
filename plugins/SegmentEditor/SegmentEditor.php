@@ -150,6 +150,11 @@ class SegmentEditor extends \Piwik\Plugin
 
     public function onNoArchiveData()
     {
+        // don't perform this check if the request was triggered by the UI
+        if (Common::isXmlHttpRequest()) {
+            return null;
+        }
+
         // when browser archiving is enabled, the archiving process can be triggered for an API request.
         // for non-day periods, this means the Archive class will be used for smaller periods to build the
         // non-day period (eg, requesting a week period can result in archiving of day periods). in this case
@@ -242,7 +247,13 @@ class SegmentEditor extends \Piwik\Plugin
         $date = Common::getRequestVar('date', false);
         $periodStr = Common::getRequestVar('period', false);
         $period = Period\Factory::build($periodStr, $date);
-        $segment = new Segment($segment, [$idSite], $period->getDateStart(), $period->getDateEnd());
+        $site = new Site($idSite);
+        $segment = new Segment(
+            $segment,
+            [$idSite],
+            $period->getDateTimeStart()->setTimezone($site->getTimezone()),
+            $period->getDateTimeEnd()->setTimezone($site->getTimezone())
+        );
 
         // check if archiving is enabled. if so, the segment should have been processed.
         $isArchivingDisabled = Rules::isArchivingDisabledFor([$idSite], $segment, $period);
@@ -251,7 +262,7 @@ class SegmentEditor extends \Piwik\Plugin
         }
 
         // check if segment archive does not exist
-        $processorParams = new \Piwik\ArchiveProcessor\Parameters(new Site($idSite), $period, $segment);
+        $processorParams = new \Piwik\ArchiveProcessor\Parameters($site, $period, $segment);
         $archiveIdAndStats = ArchiveSelector::getArchiveIdAndVisits($processorParams, null);
         if (!empty($archiveIdAndStats[0]) || !empty($archiveIdAndStats[1])) {
             return null;

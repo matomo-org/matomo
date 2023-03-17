@@ -16,6 +16,9 @@
 		<processedMetrics>
 			<exit_rate>Exit rate</exit_rate>
 		</processedMetrics>
+		<metricTypes>
+			<exit_rate>percent</exit_rate>
+		</metricTypes>
 		<actionToLoadSubTables>getPageTitles</actionToLoadSubTables>
 		<relatedReports>
 			<row>

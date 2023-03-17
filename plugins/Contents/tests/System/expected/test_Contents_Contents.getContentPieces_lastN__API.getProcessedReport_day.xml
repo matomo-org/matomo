@@ -23,6 +23,11 @@
 		<processedMetrics>
 			<interaction_rate>Interaction Rate</interaction_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_impressions>number</nb_impressions>
+			<nb_interactions>number</nb_interactions>
+			<interaction_rate>percent</interaction_rate>
+		</metricTypes>
 		<actionToLoadSubTables>getContentPieces</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Contents&amp;apiAction=getContentPieces&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Contents&amp;apiAction=getContentPieces&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphEvolutionUrl>

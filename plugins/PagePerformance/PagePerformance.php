@@ -45,6 +45,7 @@ class PagePerformance extends \Piwik\Plugin
             'ScheduledReports.processReports'        => 'processReports',
             'ViewDataTable.configure'                => 'configureViewDataTable',
             'Metrics.getDefaultMetricTranslations'   => 'addMetricTranslations',
+            'Metrics.getDefaultMetricSemanticTypes' => 'addMetricSemanticTypes',
             'Metrics.isLowerValueBetter'             => 'isLowerValueBetter',
             'API.Request.dispatch.end'               => 'enrichApi'
         ];
@@ -69,6 +70,12 @@ class PagePerformance extends \Piwik\Plugin
     {
         $metrics      = Metrics::getMetricTranslations();
         $translations = array_merge($translations, $metrics);
+    }
+
+    public function addMetricSemanticTypes(array &$types): void
+    {
+        $metricTypes = Metrics::getMetricSemanticTypes();
+        $types = array_merge($types, $metricTypes);
     }
 
     public function isLowerValueBetter(&$isLowerBetter, $metric)

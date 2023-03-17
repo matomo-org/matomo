@@ -435,7 +435,7 @@ class RowEvolution
 
         $reportMetadata = reset($reportMetadata);
 
-        $metrics = $reportMetadata['metrics'];
+        $metrics = (isset($reportMetadata['metrics']) && is_array($reportMetadata['metrics']) ? $reportMetadata['metrics'] : []);
         if (isset($reportMetadata['processedMetrics']) && is_array($reportMetadata['processedMetrics'])) {
             $metrics = $metrics + $reportMetadata['processedMetrics'];
         }

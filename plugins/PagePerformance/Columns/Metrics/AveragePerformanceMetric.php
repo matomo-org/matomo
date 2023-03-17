@@ -96,4 +96,9 @@ abstract class AveragePerformanceMetric extends ProcessedMetric
     {
         return $table->getFirstRow()->getColumn($this->getName()) !== false;
     }
+
+    public function getSemanticType(): ?string
+    {
+        return self::SEMANTIC_TYPE_DURATION;
+    }
 }

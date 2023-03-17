@@ -2,13 +2,13 @@
 <result>
 	<nb_uniq_visitors>4</nb_uniq_visitors>
 	<nb_users>0</nb_users>
-	<nb_visits>17</nb_visits>
+	<nb_visits>19</nb_visits>
 	<nb_actions>17</nb_actions>
-	<nb_visits_converted>4</nb_visits_converted>
-	<bounce_count>15</bounce_count>
-	<sum_visit_length>1810</sum_visit_length>
+	<nb_visits_converted>7</nb_visits_converted>
+	<bounce_count>17</bounce_count>
+	<sum_visit_length>1817</sum_visit_length>
 	<max_actions>2</max_actions>
-	<bounce_rate>88%</bounce_rate>
-	<nb_actions_per_visit>1</nb_actions_per_visit>
-	<avg_time_on_site>106</avg_time_on_site>
+	<bounce_rate>89%</bounce_rate>
+	<nb_actions_per_visit>0.9</nb_actions_per_visit>
+	<avg_time_on_site>96</avg_time_on_site>
 </result>

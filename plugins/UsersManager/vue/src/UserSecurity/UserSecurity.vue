@@ -87,6 +87,7 @@
           <th>{{ translate('General_CreationDate') }}</th>
           <th>{{ translate('General_Description') }}</th>
           <th>{{ translate('UsersManager_LastUsed') }}</th>
+          <th>{{ translate('UsersManager_PostOnly') }}</th>
           <th
             v-if="hasTokensWithExpireDate"
             :title="translate('UsersManager_TokensWithExpireDateCreationBySystem')"
@@ -108,6 +109,10 @@
           <td>{{ theToken.description }}</td>
           <td>
             {{ theToken.last_used ? theToken.last_used : translate('General_Never') }}
+          </td>
+          <td>
+            {{ parseInt(theToken.post_only, 10) === 1 ?
+               translate('General_Yes') : translate('General_No') }}
           </td>
           <td
             v-if="hasTokensWithExpireDate"

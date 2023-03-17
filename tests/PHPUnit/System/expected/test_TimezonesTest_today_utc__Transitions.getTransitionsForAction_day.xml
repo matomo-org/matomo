@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	
+	<previousPages />
+	<previousSiteSearches />
+	<pageMetrics>
+		<loops>0</loops>
+		<pageviews>13</pageviews>
+		<entries>13</entries>
+		<exits>13</exits>
+	</pageMetrics>
+	<followingPages />
+	<followingSiteSearches />
+	<outlinks />
+	<downloads />
+	<referrers>
+		<row>
+			<label>Direct entries</label>
+			<shortName>direct</shortName>
+			<visits>13</visits>
+			<details>
+			</details>
+		</row>
+	</referrers>
+</result>

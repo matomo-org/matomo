@@ -61,4 +61,9 @@ class ConversionRate extends GoalSpecificProcessedMetric
 
         return Piwik::getQuotientSafe($conversions, $nbVisits, GoalManager::REVENUE_PRECISION + 2);
     }
+
+    public function getSemanticType(): ?string
+    {
+        return self::SEMANTIC_TYPE_PERCENT;
+    }
 }

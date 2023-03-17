@@ -25,6 +25,7 @@ class TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers extends Fixture
         'peace "," not war', // testing a keyword containing ,
         'justice )(&^#%$ NOT \'" corruption!',
     );
+    CONST EXCLUDED_REFERRER_URL = 'https://excludedreferrer123.com';
 
     public function setUp(): void
     {
@@ -42,7 +43,9 @@ class TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers extends Fixture
         $siteCreated = $this->dateTime;
 
         if (!self::siteCreated($idSite = 1)) {
-            self::createWebsite($siteCreated);
+            self::createWebsite($siteCreated, 0, false, false, 1, null,
+                null, null, null, 0, null,
+                self::EXCLUDED_REFERRER_URL);
         }
 
         if (!self::goalExists($idSite = 1, $idGoal = 1)) {

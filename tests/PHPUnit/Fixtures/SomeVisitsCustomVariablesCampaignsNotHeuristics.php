@@ -181,12 +181,13 @@ class SomeVisitsCustomVariablesCampaignsNotHeuristics extends Fixture
         $t4->setUrl('http://example.org/index.html');
         self::checkResponse($t4->doTrackPageView('העלא וועלט'));
 
-        // test campaigns that are specified through _rcn
+        // test campaigns that are specified through _rcn (only conversion will be attributed to that campaign)
         $t5 = self::getTracker($idSite, $dateTime);
         $t5->setUrlReferrer('http://xavierinstitute.org');
         $t5->setUrl('http://mutantregistration.com/act.html');
         $t5->setAttributionInfo(json_encode(array('Gifted Search'))); // rcn supplied, nothing else
         self::checkResponse($t5->doTrackPageView('Mutant Registration'));
+        self::checkResponse($t5->doTrackEcommerceOrder('vg25gedefg', 17.4));
 
         $t5->setForceVisitDateTime(Date::factory($dateTime)->addHour(1)->getDatetime());
         $t5->setUrlReferrer('http://mutantrights.org');
@@ -195,6 +196,7 @@ class SomeVisitsCustomVariablesCampaignsNotHeuristics extends Fixture
         $t5->setAttributionInfo(json_encode(array('Recruiting Drive', 'am i a mutant?',
             urlencode(Date::factory($dateTime)->addHour(1)->getDatetime()), 'http://sentinelwatch.org')));
         self::checkResponse($t5->doTrackPageView('Fighting Back'));
+        self::checkResponse($t5->doTrackEcommerceOrder('32452435zdfg', 22.9));
 
         $t5->setForceVisitDateTime(Date::factory($dateTime)->addHour(2)->getDatetime());
         $t5->setUrlReferrer('http://apocalypsenow.org');
@@ -204,6 +206,7 @@ class SomeVisitsCustomVariablesCampaignsNotHeuristics extends Fixture
         $t5->setAttributionInfo(json_encode(array('GA Campaign', 'some keyword',
             urlencode(Date::factory($dateTime)->addHour(2)->getDatetime()))));
         self::checkResponse($t5->doTrackPageView('Mutant Registration'));
+        self::checkResponse($t5->doTrackEcommerceOrder('fsg5her35h', 5.33));
     }
 
     // see updateDomainHash() in piwik.js
