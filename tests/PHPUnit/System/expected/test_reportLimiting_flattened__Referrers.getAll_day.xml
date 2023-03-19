@@ -23,6 +23,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>4</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segment>referrerName==whatever0.com</segment>
 		<referer_type>3</referer_type>
 		<Referrers_Referrer>whatever0.com</Referrers_Referrer>
 	</row>
@@ -36,6 +37,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>3</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segment>referrerType==search;referrerKeyword==this+search+term</segment>
 		<referer_type>2</referer_type>
 		<Referrers_Referrer>this search term</Referrers_Referrer>
 	</row>
@@ -49,6 +51,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segment>referrerType==search;referrerKeyword==search+term+2</segment>
 		<referer_type>2</referer_type>
 		<Referrers_Referrer>search term 2</Referrers_Referrer>
 	</row>
@@ -62,6 +65,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segment>referrerName==whatever1.com</segment>
 		<referer_type>3</referer_type>
 		<Referrers_Referrer>whatever1.com</Referrers_Referrer>
 	</row>
