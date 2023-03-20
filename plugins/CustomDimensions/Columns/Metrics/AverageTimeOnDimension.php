@@ -7,8 +7,8 @@
  */
 namespace Piwik\Plugins\CustomDimensions\Columns\Metrics;
 
+use Piwik\Columns\Dimension;
 use Piwik\Piwik;
-use Piwik\Plugin\Metric;
 use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeOnPage;
 
 /**
