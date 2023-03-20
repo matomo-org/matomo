@@ -778,7 +778,7 @@
 									<avg_time_on_page>0</avg_time_on_page>
 									<bounce_rate>100%</bounce_rate>
 									<exit_rate>100%</exit_rate>
-									<url>http://included1.com/blog/category/meta/</url>
+									<url>http://www.included2.com/blog/category/meta/</url>
 									<comparisons>
 										<row>
 											<nb_visits>9</nb_visits>
@@ -803,7 +803,7 @@
 											<comparePeriodPretty>August 2012</comparePeriodPretty>
 											<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 											<idsubdatatable>-1</idsubdatatable>
-											<segment>pageUrl==http%253A%252F%252Fincluded1.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
+											<segment>pageUrl==http%253A%252F%252Fwww.included2.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 										</row>
 										<row>
 											<nb_visits>2</nb_visits>
@@ -827,7 +827,7 @@
 											<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 											<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 											<idsubdatatable>-1</idsubdatatable>
-											<segment>pageUrl==http%253A%252F%252Fincluded1.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
+											<segment>pageUrl==http%253A%252F%252Fwww.included2.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 										</row>
 										<row>
 											<nb_visits>1</nb_visits>
@@ -851,10 +851,10 @@
 											<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 											<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 											<idsubdatatable>-1</idsubdatatable>
-											<segment>pageUrl==http%253A%252F%252Fincluded1.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
+											<segment>pageUrl==http%253A%252F%252Fwww.included2.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 										</row>
 									</comparisons>
-									<segment>pageUrl==http%253A%252F%252Fincluded1.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
+									<segment>pageUrl==http%253A%252F%252Fwww.included2.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 								</row>
 							</subtable>
 						</row>
@@ -2003,7 +2003,7 @@
 							<compareDate>2012-08-09</compareDate>
 							<comparePeriodPretty>August 2012</comparePeriodPretty>
 							<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-							<idsubdatatable>9</idsubdatatable>
+							<idsubdatatable>10</idsubdatatable>
 							<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites</segment>
 						</row>
 						<row>
@@ -2498,7 +2498,7 @@
 							<compareDate>2012-08-09</compareDate>
 							<comparePeriodPretty>August 2012</comparePeriodPretty>
 							<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-							<idsubdatatable>10</idsubdatatable>
+							<idsubdatatable>9</idsubdatatable>
 							<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-users</segment>
 						</row>
 						<row>
@@ -2749,7 +2749,7 @@
 					<compareDate>2012-08-09</compareDate>
 					<comparePeriodPretty>August 2012</comparePeriodPretty>
 					<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-					<idsubdatatable>11</idsubdatatable>
+					<idsubdatatable>13</idsubdatatable>
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 				</row>
 				<row>
@@ -3423,7 +3423,7 @@
 							<compareDate>2012-08-09</compareDate>
 							<comparePeriodPretty>August 2012</comparePeriodPretty>
 							<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-							<idsubdatatable>12</idsubdatatable>
+							<idsubdatatable>14</idsubdatatable>
 							<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to</segment>
 						</row>
 						<row>
@@ -3691,7 +3691,7 @@
 							<compareDate>2012-08-09</compareDate>
 							<comparePeriodPretty>August 2012</comparePeriodPretty>
 							<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-							<idsubdatatable>13</idsubdatatable>
+							<idsubdatatable>15</idsubdatatable>
 							<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to-install</segment>
 						</row>
 						<row>
@@ -7424,7 +7424,7 @@
 					<compareDate>2012-08-09</compareDate>
 					<comparePeriodPretty>August 2012</comparePeriodPretty>
 					<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-					<idsubdatatable>16</idsubdatatable>
+					<idsubdatatable>11</idsubdatatable>
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdownload</segment>
 				</row>
 				<row>
@@ -7965,7 +7965,7 @@
 							<compareDate>2012-08-09</compareDate>
 							<comparePeriodPretty>August 2012</comparePeriodPretty>
 							<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-							<idsubdatatable>17</idsubdatatable>
+							<idsubdatatable>12</idsubdatatable>
 							<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdownload%252Fcounter</segment>
 						</row>
 					</comparisons>
@@ -8729,7 +8729,7 @@
 					<compareDate>2012-08-09</compareDate>
 					<comparePeriodPretty>August 2012</comparePeriodPretty>
 					<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-					<idsubdatatable>14</idsubdatatable>
+					<idsubdatatable>17</idsubdatatable>
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fintranet-analytics</segment>
 				</row>
 				<row>
@@ -9365,7 +9365,7 @@
 					<compareDate>2012-08-09</compareDate>
 					<comparePeriodPretty>August 2012</comparePeriodPretty>
 					<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-					<idsubdatatable>15</idsubdatatable>
+					<idsubdatatable>18</idsubdatatable>
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fnewsletter</segment>
 				</row>
 				<row>
@@ -11165,7 +11165,7 @@
 					<compareDate>2012-08-09</compareDate>
 					<comparePeriodPretty>August 2012</comparePeriodPretty>
 					<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-					<idsubdatatable>18</idsubdatatable>
+					<idsubdatatable>16</idsubdatatable>
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ftranslations</segment>
 				</row>
 				<row>
