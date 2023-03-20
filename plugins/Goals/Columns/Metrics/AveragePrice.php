@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Goals\Columns\Metrics;
 
 use Piwik\Archive\DataTableFactory;
+use Piwik\Columns\Dimension;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Metrics\Formatter;
@@ -64,6 +65,6 @@ class AveragePrice extends ProcessedMetric
 
     public function getSemanticType(): ?string
     {
-        return self::SEMANTIC_TYPE_CURRENCY;
+        return Dimension::TYPE_MONEY;
     }
 }

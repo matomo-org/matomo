@@ -36,10 +36,10 @@
 			<nb_visits>number</nb_visits>
 			<nb_actions>number</nb_actions>
 			<nb_pageviews>number</nb_pageviews>
-			<revenue>currency</revenue>
+			<revenue>money</revenue>
 			<nb_conversions>number</nb_conversions>
 			<orders>number</orders>
-			<ecommerce_revenue>currency</ecommerce_revenue>
+			<ecommerce_revenue>money</ecommerce_revenue>
 			<visits_evolution>percent</visits_evolution>
 			<actions_evolution>percent</actions_evolution>
 			<pageviews_evolution>percent</pageviews_evolution>

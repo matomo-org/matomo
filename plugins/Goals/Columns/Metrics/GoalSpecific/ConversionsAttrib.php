@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific;
 
+use Piwik\Columns\Dimension;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
 use Piwik\Piwik;
@@ -47,6 +48,6 @@ class ConversionsAttrib extends GoalSpecificProcessedMetric
 
     public function getSemanticType(): ?string
     {
-        return self::SEMANTIC_TYPE_NUMBER;
+        return Dimension::TYPE_NUMBER;
     }
 }

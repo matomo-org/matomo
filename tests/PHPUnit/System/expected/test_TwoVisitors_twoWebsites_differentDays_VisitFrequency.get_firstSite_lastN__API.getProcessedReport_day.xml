@@ -40,10 +40,10 @@
 			<nb_uniq_visitors_new>number</nb_uniq_visitors_new>
 			<nb_users_new>number</nb_users_new>
 			<max_actions_new>number</max_actions_new>
-			<avg_time_on_site_returning>duration</avg_time_on_site_returning>
+			<avg_time_on_site_returning>duration_s</avg_time_on_site_returning>
 			<nb_actions_per_visit_returning>number</nb_actions_per_visit_returning>
 			<bounce_rate_returning>percent</bounce_rate_returning>
-			<avg_time_on_site_new>duration</avg_time_on_site_new>
+			<avg_time_on_site_new>duration_s</avg_time_on_site_new>
 			<nb_actions_per_visit_new>number</nb_actions_per_visit_new>
 			<bounce_rate_new>percent</bounce_rate_new>
 		</metricTypes>

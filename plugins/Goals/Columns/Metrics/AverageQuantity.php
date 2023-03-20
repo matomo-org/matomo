@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\Goals\Columns\Metrics;
 
+use Piwik\Columns\Dimension;
 use Piwik\DataTable\Row;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
@@ -47,6 +48,6 @@ class AverageQuantity extends ProcessedMetric
 
     public function getSemanticType(): ?string
     {
-        return self::SEMANTIC_TYPE_NUMBER;
+        return Dimension::TYPE_NUMBER;
     }
 }

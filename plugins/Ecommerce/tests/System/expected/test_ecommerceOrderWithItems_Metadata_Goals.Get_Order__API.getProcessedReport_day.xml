@@ -32,12 +32,12 @@
 			<nb_conversions>number</nb_conversions>
 			<nb_visits_converted>number</nb_visits_converted>
 			<conversion_rate>percent</conversion_rate>
-			<revenue>currency</revenue>
-			<revenue_subtotal>currency</revenue_subtotal>
-			<revenue_tax>currency</revenue_tax>
-			<revenue_shipping>currency</revenue_shipping>
-			<revenue_discount>currency</revenue_discount>
-			<avg_order_revenue>currency</avg_order_revenue>
+			<revenue>money</revenue>
+			<revenue_subtotal>money</revenue_subtotal>
+			<revenue_tax>money</revenue_tax>
+			<revenue_shipping>money</revenue_shipping>
+			<revenue_discount>money</revenue_discount>
+			<avg_order_revenue>money</avg_order_revenue>
 		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=ecommerceOrder&amp;period=day&amp;date=2011-03-07,2011-04-05</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=ecommerceOrder&amp;period=day&amp;date=2011-03-07,2011-04-05</imageGraphEvolutionUrl>
