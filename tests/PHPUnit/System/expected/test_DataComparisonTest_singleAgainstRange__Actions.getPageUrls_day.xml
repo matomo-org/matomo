@@ -825,7 +825,7 @@
 				<compareDate>2012-08-09,2012-08-16</compareDate>
 				<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
-				<idsubdatatable>11</idsubdatatable>
+				<idsubdatatable>13</idsubdatatable>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 			</row>
 		</comparisons>
@@ -991,7 +991,7 @@
 						<compareDate>2012-08-09,2012-08-16</compareDate>
 						<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>
 						<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
-						<idsubdatatable>12</idsubdatatable>
+						<idsubdatatable>14</idsubdatatable>
 						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to</segment>
 					</row>
 				</comparisons>
@@ -1287,7 +1287,7 @@
 						<compareDate>2012-08-09,2012-08-16</compareDate>
 						<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>
 						<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
-						<idsubdatatable>9</idsubdatatable>
+						<idsubdatatable>10</idsubdatatable>
 						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites</segment>
 					</row>
 				</comparisons>
@@ -1505,7 +1505,7 @@
 				<compareDate>2012-08-09,2012-08-16</compareDate>
 				<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
-				<idsubdatatable>14</idsubdatatable>
+				<idsubdatatable>17</idsubdatatable>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fintranet-analytics</segment>
 			</row>
 		</comparisons>
@@ -1721,7 +1721,7 @@
 				<compareDate>2012-08-09,2012-08-16</compareDate>
 				<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
-				<idsubdatatable>15</idsubdatatable>
+				<idsubdatatable>18</idsubdatatable>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fnewsletter</segment>
 			</row>
 		</comparisons>

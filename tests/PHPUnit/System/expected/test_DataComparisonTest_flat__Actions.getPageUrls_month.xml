@@ -41,7 +41,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<url>http://included1.com/blog/category/meta/</url>
+		<url>http://www.included2.com/blog/category/meta/</url>
 		<Actions_PageUrl>/blog/category/meta/</Actions_PageUrl>
 		<comparisons>
 			<row>
@@ -74,7 +74,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl==http%253A%252F%252Fincluded1.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
+				<segment>pageUrl==http%253A%252F%252Fwww.included2.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -107,7 +107,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl==http%253A%252F%252Fincluded1.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
+				<segment>pageUrl==http%253A%252F%252Fwww.included2.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 			</row>
 			<row>
 				<nb_visits>1</nb_visits>
@@ -177,7 +177,7 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl==http%253A%252F%252Fincluded1.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
+				<segment>pageUrl==http%253A%252F%252Fwww.included2.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -256,10 +256,10 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl==http%253A%252F%252Fincluded1.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
+				<segment>pageUrl==http%253A%252F%252Fwww.included2.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 			</row>
 		</comparisons>
-		<segment>pageUrl==http%253A%252F%252Fincluded1.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
+		<segment>pageUrl==http%253A%252F%252Fwww.included2.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 	</row>
 	<row>
 		<label>/</label>

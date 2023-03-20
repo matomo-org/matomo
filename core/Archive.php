@@ -322,6 +322,20 @@ class Archive implements ArchiveQuery
     }
 
     /**
+     * Queries blob data for a single record. Uses a cursor instead of fetching all the data at once,
+     * and makes sure the result set's order allows aggregating the data one row at a time.
+     *
+     * @param string $name The record name to fetch.
+     * @return \Generator
+     * @internal
+     */
+    public function querySingleBlob($name)
+    {
+        $archiveIds = $this->getArchiveIds([$name]);
+        return ArchiveSelector::querySingleBlob($archiveIds, $name);
+    }
+
+    /**
      * Queries and returns metric data in a DataTable instance.
      *
      * If multiple sites were requested in {@link build()} or {@link factory()} the result will
@@ -582,7 +596,7 @@ class Archive implements ArchiveQuery
      * query archive tables for IDs w/o launching archiving, or launch archiving and
      * get the idarchive from ArchiveProcessor instances.
      *
-     * @param string $archiveNames
+     * @param string[] $archiveNames
      * @return array
      */
     private function getArchiveIds($archiveNames)
