@@ -269,7 +269,7 @@ class ReportTest extends IntegrationTestCase
                     'nb_actions' => 'number',
                     'nb_users' => 'number',
                     'nb_actions_per_visit' => 'number',
-                    'avg_time_on_site' => 'duration',
+                    'avg_time_on_site' => 'duration_s',
                     'bounce_rate' => 'percent',
                     'conversion_rate' => 'percent',
                 ],
