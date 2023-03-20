@@ -11,7 +11,6 @@ namespace Piwik\Plugins\Contents;
 use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\Piwik;
-use Piwik\Plugin\Metric;
 
 class Contents extends \Piwik\Plugin
 {

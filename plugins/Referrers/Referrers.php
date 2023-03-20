@@ -11,7 +11,6 @@ namespace Piwik\Plugins\Referrers;
 use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\Piwik;
-use Piwik\Plugin\Metric;
 use Piwik\Plugins\SitesManager\SiteUrls;
 
 /**

@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\Actions;
 
 use Piwik\Columns\Dimension;
-use Piwik\Plugin\Metric;
 use Piwik\Site;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Tracker\Action;

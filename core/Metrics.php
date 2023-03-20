@@ -10,7 +10,6 @@ namespace Piwik;
 
 use Piwik\Cache as PiwikCache;
 use Piwik\Columns\Dimension;
-use Piwik\Plugin\Metric;
 
 require_once PIWIK_INCLUDE_PATH . "/core/Piwik.php";
 

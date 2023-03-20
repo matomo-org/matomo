@@ -7,7 +7,6 @@
  */
 namespace Piwik\Plugin;
 
-use Piwik\Columns\Dimension;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
@@ -89,7 +88,7 @@ abstract class Metric
      * party services that connect with Matomo can make full use of the data your plugin
      * tracks.
      *
-     * See {@link Dimension} for the list of available semantic types.
+     * See {@link \Piwik\Columns\Dimension} for the list of available semantic types.
      *
      * @return string|null
      */
