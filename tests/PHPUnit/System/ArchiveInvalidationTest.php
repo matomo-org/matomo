@@ -10,7 +10,9 @@ namespace Piwik\Tests\System;
 use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
+use Piwik\Date;
 use Piwik\Plugins\SegmentEditor\API;
+use Piwik\Plugins\CoreAdminHome\API as CoreAdminHomeApi;
 use Piwik\Tests\Fixtures\VisitsTwoWebsitesWithAdditionalVisits;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
@@ -206,12 +208,29 @@ class ArchiveInvalidationTest extends SystemTestCase
      */
     public function testDateRangesCorrectlyParsed()
     {
-        $testRanges = ['2020-01-01,2020-03-31', 'last30'];
+        $testRanges = [
+            '2020-01-01,2020-03-31' => '2020-01-01,2020-03-31',
+            'last30' => Date::factory('now')->subDay(29)->toString().','.Date::factory('now')->toString()
+        ];
 
-        foreach ($testRanges as $dateRange) {
+        // Test API
+        foreach ($testRanges as $dateRange => $expected) {
             $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=".self::$fixture->idSite1."&period=range&dates=".$dateRange);
             $this->assertApiResponseHasNoError($r->process());
         }
+
+        // Test date parsing method
+        $api = CoreAdminHomeApi::getInstance();
+        $reflection = new \ReflectionClass(CoreAdminHomeApi::class);
+        $method = $reflection->getMethod('getDatesToInvalidateFromString');
+        $method->setAccessible(true);
+
+        foreach ($testRanges as $dateRange => $expected) {
+            $parameters = [$dateRange, 'range'];
+            $result = $method->invokeArgs($api, $parameters);
+            self::assertEquals([[$expected],[]], $result);
+        }
+
     }
 
     /**
