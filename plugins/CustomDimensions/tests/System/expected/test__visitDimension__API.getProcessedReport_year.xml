@@ -31,7 +31,7 @@
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_actions>number</nb_actions>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
 		</metricTypes>

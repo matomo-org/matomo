@@ -22,11 +22,11 @@
 			<conversion_rate>Product Conversion Rate</conversion_rate>
 		</processedMetrics>
 		<metricTypes>
-			<revenue>currency</revenue>
+			<revenue>money</revenue>
 			<quantity>number</quantity>
 			<orders>number</orders>
 			<nb_visits>number</nb_visits>
-			<avg_price>currency</avg_price>
+			<avg_price>money</avg_price>
 			<avg_quantity>number</avg_quantity>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>

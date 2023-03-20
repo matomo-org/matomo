@@ -119,7 +119,7 @@ class Report
      *
      * If set to null, the defaults from the `Metrics.getDefaultMetricSemanticTypes` event are used.
      *
-     * @var null|string[]
+     * @var null|(string|null)[]
      */
     protected $metricSemanticTypes = null;
 
@@ -664,7 +664,9 @@ class Report
         $report['metrics']              = $this->getMetrics();
         $report['metricsDocumentation'] = $this->getMetricsDocumentation();
         $report['processedMetrics']     = $this->getProcessedMetrics();
-        $report['metricTypes']          = $this->getMetricSemanticTypes();
+
+        $report['metricTypes'] = $this->getMetricSemanticTypes();
+        $report['metricTypes'] = array_map(function ($t) { return $t ?: 'unspecified'; }, $report['metricTypes']);
 
         if (!empty($this->actionToLoadSubTables)) {
             $report['actionToLoadSubTables'] = $this->actionToLoadSubTables;
@@ -1122,7 +1124,7 @@ class Report
         }
     }
 
-    private function deduceMetricTypeFromName($metric): string
+    private function deduceMetricTypeFromName($metric): ?string
     {
         $metricName = $metric instanceof Metric ? $metric->getName() : $metric;
 
@@ -1133,10 +1135,10 @@ class Report
 
         if (empty($metricType)) {
             if (preg_match('/_(evolution|rate|percentage)(_|$)/', $metricName)) {
-                $metricType = Metric::SEMANTIC_TYPE_PERCENT;
+                $metricType = Dimension::TYPE_PERCENT;
             } else {
                 $allMetricTypes = Metrics::getDefaultMetricSemanticTypes();
-                $metricType = $allMetricTypes[$metricName] ?? Metric::SEMANTIC_TYPE_UNKNOWN;
+                $metricType = $allMetricTypes[$metricName] ?? null;
             }
         }
 

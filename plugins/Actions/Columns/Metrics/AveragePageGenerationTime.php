@@ -13,6 +13,7 @@ use Piwik\Metrics;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
+use Piwik\Columns\Dimension;
 
 /**
  * The average amount of time it takes to generate a page. Calculated as
@@ -112,6 +113,6 @@ class AveragePageGenerationTime extends ProcessedMetric
 
     public function getSemanticType(): ?string
     {
-        return self::SEMANTIC_TYPE_DURATION;
+        return Dimension::TYPE_DURATION_S;
     }
 }

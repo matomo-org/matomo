@@ -8,10 +8,10 @@
  */
 namespace Piwik\Plugins\Events;
 
+use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Piwik;
-use Piwik\Plugin\Metric;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable\AllColumns;
@@ -46,11 +46,11 @@ class Events extends \Piwik\Plugin
     public function addMetricSemanticTypes(array &$types): void
     {
         $metricTypes = array(
-            'nb_events'            => Metric::SEMANTIC_TYPE_NUMBER,
-            'sum_event_value'      => Metric::SEMANTIC_TYPE_NUMBER,
-            'min_event_value'      => Metric::SEMANTIC_TYPE_NUMBER,
-            'max_event_value'      => Metric::SEMANTIC_TYPE_NUMBER,
-            'nb_events_with_value' => Metric::SEMANTIC_TYPE_NUMBER,
+            'nb_events'            => Dimension::TYPE_NUMBER,
+            'sum_event_value'      => Dimension::TYPE_NUMBER,
+            'min_event_value'      => Dimension::TYPE_NUMBER,
+            'max_event_value'      => Dimension::TYPE_NUMBER,
+            'nb_events_with_value' => Dimension::TYPE_NUMBER,
         );
         $types = array_merge($types, $metricTypes);
     }

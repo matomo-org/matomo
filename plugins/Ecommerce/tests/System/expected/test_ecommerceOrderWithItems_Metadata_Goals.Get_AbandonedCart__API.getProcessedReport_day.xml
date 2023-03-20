@@ -26,9 +26,9 @@
 		<metricTypes>
 			<nb_conversions>number</nb_conversions>
 			<conversion_rate>percent</conversion_rate>
-			<revenue>currency</revenue>
+			<revenue>money</revenue>
 			<items>number</items>
-			<avg_order_revenue>currency</avg_order_revenue>
+			<avg_order_revenue>money</avg_order_revenue>
 		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=ecommerceAbandonedCart&amp;period=day&amp;date=2011-03-07,2011-04-05</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=ecommerceAbandonedCart&amp;period=day&amp;date=2011-03-07,2011-04-05</imageGraphEvolutionUrl>

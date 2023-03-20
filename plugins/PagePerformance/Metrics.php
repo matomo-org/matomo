@@ -8,8 +8,8 @@
  */
 namespace Piwik\Plugins\PagePerformance;
 
+use Piwik\Columns\Dimension;
 use Piwik\Plugin\Dimension\ActionDimension;
-use Piwik\Plugin\Metric;
 use Piwik\Plugins\PagePerformance\Columns\Metrics\AveragePageLoadTime;
 use Piwik\Plugins\PagePerformance\Columns\Metrics\AverageTimeDomCompletion;
 use Piwik\Plugins\PagePerformance\Columns\Metrics\AverageTimeDomProcessing;
@@ -87,7 +87,7 @@ class Metrics
     {
         $types = [];
         foreach (self::getAllPagePerformanceMetrics() as $metric) {
-            $types[$metric->getName()] = Metric::SEMANTIC_TYPE_DURATION;
+            $types[$metric->getName()] = Dimension::TYPE_DURATION_S;
         }
         return $types;
     }

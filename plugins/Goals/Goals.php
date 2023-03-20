@@ -16,7 +16,6 @@ use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
-use Piwik\Plugin\Metric;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\Tracker\GoalManager;
@@ -230,15 +229,15 @@ class Goals extends \Piwik\Plugin
     public function addMetricSemanticTypes(array &$types): void
     {
         $goalMetricTypes = array(
-            'orders'            => Metric::SEMANTIC_TYPE_NUMBER,
-            'ecommerce_revenue' => Metric::SEMANTIC_TYPE_CURRENCY,
-            'quantity'          => Metric::SEMANTIC_TYPE_NUMBER,
-            'revenue_subtotal'  => Metric::SEMANTIC_TYPE_CURRENCY,
-            'revenue_tax'       => Metric::SEMANTIC_TYPE_CURRENCY,
-            'revenue_shipping'  => Metric::SEMANTIC_TYPE_CURRENCY,
-            'revenue_discount'  => Metric::SEMANTIC_TYPE_CURRENCY,
-            'avg_order_revenue' => Metric::SEMANTIC_TYPE_CURRENCY,
-            'items'             => Metric::SEMANTIC_TYPE_NUMBER,
+            'orders'            => Dimension::TYPE_NUMBER,
+            'ecommerce_revenue' => Dimension::TYPE_MONEY,
+            'quantity'          => Dimension::TYPE_NUMBER,
+            'revenue_subtotal'  => Dimension::TYPE_MONEY,
+            'revenue_tax'       => Dimension::TYPE_MONEY,
+            'revenue_shipping'  => Dimension::TYPE_MONEY,
+            'revenue_discount'  => Dimension::TYPE_MONEY,
+            'avg_order_revenue' => Dimension::TYPE_MONEY,
+            'items'             => Dimension::TYPE_NUMBER,
         );
 
         $types = array_merge($types, $goalMetricTypes);

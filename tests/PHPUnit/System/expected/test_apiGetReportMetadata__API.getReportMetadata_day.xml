@@ -34,10 +34,10 @@
 			<nb_visits>number</nb_visits>
 			<nb_actions>number</nb_actions>
 			<nb_pageviews>number</nb_pageviews>
-			<revenue>currency</revenue>
+			<revenue>money</revenue>
 			<nb_conversions>number</nb_conversions>
 			<orders>number</orders>
-			<ecommerce_revenue>currency</ecommerce_revenue>
+			<ecommerce_revenue>money</ecommerce_revenue>
 			<visits_evolution>percent</visits_evolution>
 			<actions_evolution>percent</actions_evolution>
 			<pageviews_evolution>percent</pageviews_evolution>
@@ -84,10 +84,10 @@
 			<nb_visits>number</nb_visits>
 			<nb_actions>number</nb_actions>
 			<nb_pageviews>number</nb_pageviews>
-			<revenue>currency</revenue>
+			<revenue>money</revenue>
 			<nb_conversions>number</nb_conversions>
 			<orders>number</orders>
-			<ecommerce_revenue>currency</ecommerce_revenue>
+			<ecommerce_revenue>money</ecommerce_revenue>
 			<visits_evolution>percent</visits_evolution>
 			<actions_evolution>percent</actions_evolution>
 			<pageviews_evolution>percent</pageviews_evolution>
@@ -136,7 +136,7 @@
 			<max_actions>number</max_actions>
 			<bounce_rate>percent</bounce_rate>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitsSummary&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitsSummary&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -174,7 +174,7 @@
 			<nb_uniq_visitors>number</nb_uniq_visitors>
 			<nb_actions>number</nb_actions>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
@@ -221,7 +221,7 @@
 			<nb_uniq_visitors>number</nb_uniq_visitors>
 			<nb_actions>number</nb_actions>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
@@ -268,7 +268,7 @@
 			<nb_uniq_visitors>number</nb_uniq_visitors>
 			<nb_actions>number</nb_actions>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
@@ -319,7 +319,7 @@
 			<nb_actions>number</nb_actions>
 			<nb_users>number</nb_users>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
@@ -366,7 +366,7 @@
 			<nb_uniq_visitors>number</nb_uniq_visitors>
 			<nb_actions>number</nb_actions>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
@@ -417,7 +417,7 @@
 			<nb_actions>number</nb_actions>
 			<nb_users>number</nb_users>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
@@ -467,7 +467,7 @@
 			<nb_actions>number</nb_actions>
 			<nb_users>number</nb_users>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
@@ -517,7 +517,7 @@
 			<nb_actions>number</nb_actions>
 			<nb_users>number</nb_users>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
@@ -567,7 +567,7 @@
 			<nb_actions>number</nb_actions>
 			<nb_users>number</nb_users>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
@@ -618,7 +618,7 @@
 			<nb_actions>number</nb_actions>
 			<nb_users>number</nb_users>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
@@ -669,7 +669,7 @@
 			<nb_actions>number</nb_actions>
 			<nb_users>number</nb_users>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
@@ -719,7 +719,7 @@
 			<nb_actions>number</nb_actions>
 			<nb_users>number</nb_users>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
@@ -777,7 +777,7 @@
 			<nb_actions>number</nb_actions>
 			<nb_users>number</nb_users>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
@@ -828,7 +828,7 @@
 			<nb_actions>number</nb_actions>
 			<nb_users>number</nb_users>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
@@ -879,7 +879,7 @@
 			<nb_actions>number</nb_actions>
 			<nb_users>number</nb_users>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
@@ -930,7 +930,7 @@
 			<nb_actions>number</nb_actions>
 			<nb_users>number</nb_users>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
@@ -999,7 +999,7 @@
 			<nb_actions>number</nb_actions>
 			<nb_users>number</nb_users>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
@@ -1049,7 +1049,7 @@
 			<nb_actions>number</nb_actions>
 			<nb_users>number</nb_users>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
@@ -1100,7 +1100,7 @@
 			<nb_actions>number</nb_actions>
 			<nb_users>number</nb_users>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
@@ -1149,7 +1149,7 @@
 			<nb_actions>number</nb_actions>
 			<nb_visits_converted>number</nb_visits_converted>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
@@ -1197,7 +1197,7 @@
 			<nb_actions>number</nb_actions>
 			<nb_users>number</nb_users>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
@@ -1251,7 +1251,7 @@
 			<nb_uniq_outlinks>number</nb_uniq_outlinks>
 			<nb_searches>number</nb_searches>
 			<nb_keywords>number</nb_keywords>
-			<avg_time_generation>duration</avg_time_generation>
+			<avg_time_generation>duration_s</avg_time_generation>
 		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -1310,10 +1310,10 @@
 		<metricTypes>
 			<nb_hits>number</nb_hits>
 			<nb_visits>number</nb_visits>
-			<avg_time_on_page>duration</avg_time_on_page>
+			<avg_time_on_page>duration_s</avg_time_on_page>
 			<bounce_rate>percent</bounce_rate>
 			<exit_rate>percent</exit_rate>
-			<avg_time_generation>duration</avg_time_generation>
+			<avg_time_generation>duration_s</avg_time_generation>
 		</metricTypes>
 		<actionToLoadSubTables>getPageUrls</actionToLoadSubTables>
 		<relatedReports>
@@ -1357,10 +1357,10 @@
 		<metricTypes>
 			<entry_nb_visits>number</entry_nb_visits>
 			<entry_bounce_count>number</entry_bounce_count>
-			<avg_time_on_page>duration</avg_time_on_page>
+			<avg_time_on_page>duration_s</avg_time_on_page>
 			<bounce_rate>percent</bounce_rate>
 			<exit_rate>percent</exit_rate>
-			<avg_time_generation>duration</avg_time_generation>
+			<avg_time_generation>duration_s</avg_time_generation>
 		</metricTypes>
 		<actionToLoadSubTables>getEntryPageUrls</actionToLoadSubTables>
 		<relatedReports>
@@ -1399,10 +1399,10 @@
 		<metricTypes>
 			<entry_nb_visits>number</entry_nb_visits>
 			<entry_bounce_count>number</entry_bounce_count>
-			<avg_time_on_page>duration</avg_time_on_page>
+			<avg_time_on_page>duration_s</avg_time_on_page>
 			<bounce_rate>percent</bounce_rate>
 			<exit_rate>percent</exit_rate>
-			<avg_time_generation>duration</avg_time_generation>
+			<avg_time_generation>duration_s</avg_time_generation>
 		</metricTypes>
 		<actionToLoadSubTables>getEntryPageTitles</actionToLoadSubTables>
 		<relatedReports>
@@ -1448,10 +1448,10 @@
 		<metricTypes>
 			<exit_nb_visits>number</exit_nb_visits>
 			<nb_visits>number</nb_visits>
-			<avg_time_on_page>duration</avg_time_on_page>
+			<avg_time_on_page>duration_s</avg_time_on_page>
 			<bounce_rate>percent</bounce_rate>
 			<exit_rate>percent</exit_rate>
-			<avg_time_generation>duration</avg_time_generation>
+			<avg_time_generation>duration_s</avg_time_generation>
 		</metricTypes>
 		<actionToLoadSubTables>getExitPageUrls</actionToLoadSubTables>
 		<relatedReports>
@@ -1490,10 +1490,10 @@
 		<metricTypes>
 			<exit_nb_visits>number</exit_nb_visits>
 			<nb_visits>number</nb_visits>
-			<avg_time_on_page>duration</avg_time_on_page>
+			<avg_time_on_page>duration_s</avg_time_on_page>
 			<bounce_rate>percent</bounce_rate>
 			<exit_rate>percent</exit_rate>
-			<avg_time_generation>duration</avg_time_generation>
+			<avg_time_generation>duration_s</avg_time_generation>
 		</metricTypes>
 		<actionToLoadSubTables>getExitPageTitles</actionToLoadSubTables>
 		<relatedReports>
@@ -1541,10 +1541,10 @@
 		<metricTypes>
 			<nb_hits>number</nb_hits>
 			<nb_visits>number</nb_visits>
-			<avg_time_on_page>duration</avg_time_on_page>
+			<avg_time_on_page>duration_s</avg_time_on_page>
 			<bounce_rate>percent</bounce_rate>
 			<exit_rate>percent</exit_rate>
-			<avg_time_generation>duration</avg_time_generation>
+			<avg_time_generation>duration_s</avg_time_generation>
 		</metricTypes>
 		<actionToLoadSubTables>getPageTitles</actionToLoadSubTables>
 		<relatedReports>
@@ -1587,10 +1587,10 @@
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_pages_per_search>number</nb_pages_per_search>
-			<avg_time_on_page>duration</avg_time_on_page>
+			<avg_time_on_page>duration_s</avg_time_on_page>
 			<bounce_rate>percent</bounce_rate>
 			<exit_rate>percent</exit_rate>
-			<avg_time_generation>duration</avg_time_generation>
+			<avg_time_generation>duration_s</avg_time_generation>
 		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getSiteSearchKeywords&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getSiteSearchKeywords&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -1616,10 +1616,10 @@
 		<metricTypes>
 			<nb_hits_following_search>number</nb_hits_following_search>
 			<nb_hits>number</nb_hits>
-			<avg_time_on_page>duration</avg_time_on_page>
+			<avg_time_on_page>duration_s</avg_time_on_page>
 			<bounce_rate>percent</bounce_rate>
 			<exit_rate>percent</exit_rate>
-			<avg_time_generation>duration</avg_time_generation>
+			<avg_time_generation>duration_s</avg_time_generation>
 		</metricTypes>
 		<relatedReports>
 			<row>
@@ -1653,10 +1653,10 @@
 		</processedMetrics>
 		<metricTypes>
 			<nb_visits>number</nb_visits>
-			<avg_time_on_page>duration</avg_time_on_page>
+			<avg_time_on_page>duration_s</avg_time_on_page>
 			<bounce_rate>percent</bounce_rate>
 			<exit_rate>percent</exit_rate>
-			<avg_time_generation>duration</avg_time_generation>
+			<avg_time_generation>duration_s</avg_time_generation>
 		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getSiteSearchNoResultKeywords&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getSiteSearchNoResultKeywords&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -1682,10 +1682,10 @@
 		<metricTypes>
 			<nb_hits_following_search>number</nb_hits_following_search>
 			<nb_hits>number</nb_hits>
-			<avg_time_on_page>duration</avg_time_on_page>
+			<avg_time_on_page>duration_s</avg_time_on_page>
 			<bounce_rate>percent</bounce_rate>
 			<exit_rate>percent</exit_rate>
-			<avg_time_generation>duration</avg_time_generation>
+			<avg_time_generation>duration_s</avg_time_generation>
 		</metricTypes>
 		<relatedReports>
 			<row>
@@ -2096,10 +2096,10 @@
 			<nb_uniq_visitors_new>number</nb_uniq_visitors_new>
 			<nb_users_new>number</nb_users_new>
 			<max_actions_new>number</max_actions_new>
-			<avg_time_on_site_returning>duration</avg_time_on_site_returning>
+			<avg_time_on_site_returning>duration_s</avg_time_on_site_returning>
 			<nb_actions_per_visit_returning>number</nb_actions_per_visit_returning>
 			<bounce_rate_returning>percent</bounce_rate_returning>
-			<avg_time_on_site_new>duration</avg_time_on_site_new>
+			<avg_time_on_site_new>duration_s</avg_time_on_site_new>
 			<nb_actions_per_visit_new>number</nb_actions_per_visit_new>
 			<bounce_rate_new>percent</bounce_rate_new>
 		</metricTypes>
@@ -2143,13 +2143,13 @@
 			<avg_page_load_time>Avg. page load time</avg_page_load_time>
 		</processedMetrics>
 		<metricTypes>
-			<avg_time_network>duration</avg_time_network>
-			<avg_time_server>duration</avg_time_server>
-			<avg_time_transfer>duration</avg_time_transfer>
-			<avg_time_dom_processing>duration</avg_time_dom_processing>
-			<avg_time_dom_completion>duration</avg_time_dom_completion>
-			<avg_time_on_load>duration</avg_time_on_load>
-			<avg_page_load_time>duration</avg_page_load_time>
+			<avg_time_network>duration_s</avg_time_network>
+			<avg_time_server>duration_s</avg_time_server>
+			<avg_time_transfer>duration_s</avg_time_transfer>
+			<avg_time_dom_processing>duration_s</avg_time_dom_processing>
+			<avg_time_dom_completion>duration_s</avg_time_dom_completion>
+			<avg_time_on_load>duration_s</avg_time_on_load>
+			<avg_page_load_time>duration_s</avg_page_load_time>
 		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=PagePerformance&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=PagePerformance&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -2234,7 +2234,7 @@
 			<nb_actions>number</nb_actions>
 			<nb_users>number</nb_users>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
@@ -2286,7 +2286,7 @@
 			<nb_actions>number</nb_actions>
 			<nb_users>number</nb_users>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
@@ -2332,7 +2332,7 @@
 			<nb_actions>number</nb_actions>
 			<nb_users>number</nb_users>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
@@ -2387,7 +2387,7 @@
 			<nb_actions>number</nb_actions>
 			<nb_users>number</nb_users>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
@@ -2442,7 +2442,7 @@
 			<nb_actions>number</nb_actions>
 			<nb_users>number</nb_users>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
@@ -2498,7 +2498,7 @@
 			<nb_actions>number</nb_actions>
 			<nb_users>number</nb_users>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
@@ -2547,7 +2547,7 @@
 			<nb_actions>number</nb_actions>
 			<nb_users>number</nb_users>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
@@ -2593,12 +2593,12 @@
 			<nb_conversions>number</nb_conversions>
 			<nb_visits_converted>number</nb_visits_converted>
 			<conversion_rate>percent</conversion_rate>
-			<revenue>currency</revenue>
-			<revenue_subtotal>currency</revenue_subtotal>
-			<revenue_tax>currency</revenue_tax>
-			<revenue_shipping>currency</revenue_shipping>
-			<revenue_discount>currency</revenue_discount>
-			<avg_order_revenue>currency</avg_order_revenue>
+			<revenue>money</revenue>
+			<revenue_subtotal>money</revenue_subtotal>
+			<revenue_tax>money</revenue_tax>
+			<revenue_shipping>money</revenue_shipping>
+			<revenue_discount>money</revenue_discount>
+			<avg_order_revenue>money</avg_order_revenue>
 		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=ecommerceOrder&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=ecommerceOrder&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -2668,9 +2668,9 @@
 		<metricTypes>
 			<nb_conversions>number</nb_conversions>
 			<conversion_rate>percent</conversion_rate>
-			<revenue>currency</revenue>
+			<revenue>money</revenue>
 			<items>number</items>
-			<avg_order_revenue>currency</avg_order_revenue>
+			<avg_order_revenue>money</avg_order_revenue>
 		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=ecommerceAbandonedCart&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=ecommerceAbandonedCart&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -2736,11 +2736,11 @@
 			<conversion_rate>Product Conversion Rate</conversion_rate>
 		</processedMetrics>
 		<metricTypes>
-			<revenue>currency</revenue>
+			<revenue>money</revenue>
 			<quantity>number</quantity>
 			<orders>number</orders>
 			<nb_visits>number</nb_visits>
-			<avg_price>currency</avg_price>
+			<avg_price>money</avg_price>
 			<avg_quantity>number</avg_quantity>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
@@ -2768,11 +2768,11 @@
 			<conversion_rate>Product Conversion Rate</conversion_rate>
 		</processedMetrics>
 		<metricTypes>
-			<revenue>currency</revenue>
+			<revenue>money</revenue>
 			<quantity>number</quantity>
 			<orders>number</orders>
 			<nb_visits>number</nb_visits>
-			<avg_price>currency</avg_price>
+			<avg_price>money</avg_price>
 			<avg_quantity>number</avg_quantity>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
@@ -2800,11 +2800,11 @@
 			<conversion_rate>Product Conversion Rate</conversion_rate>
 		</processedMetrics>
 		<metricTypes>
-			<revenue>currency</revenue>
+			<revenue>money</revenue>
 			<quantity>number</quantity>
 			<orders>number</orders>
 			<nb_visits>number</nb_visits>
-			<avg_price>currency</avg_price>
+			<avg_price>money</avg_price>
 			<avg_quantity>number</avg_quantity>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
@@ -2833,7 +2833,7 @@
 		<metricTypes>
 			<nb_conversions>number</nb_conversions>
 			<nb_visits_converted>number</nb_visits_converted>
-			<revenue>currency</revenue>
+			<revenue>money</revenue>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
@@ -2914,7 +2914,7 @@
 		<metricTypes>
 			<nb_conversions>number</nb_conversions>
 			<nb_visits_converted>number</nb_visits_converted>
-			<revenue>currency</revenue>
+			<revenue>money</revenue>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=0&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
@@ -2987,7 +2987,7 @@
 		<metricTypes>
 			<nb_conversions>number</nb_conversions>
 			<nb_visits_converted>number</nb_visits_converted>
-			<revenue>currency</revenue>
+			<revenue>money</revenue>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=1&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
@@ -3060,7 +3060,7 @@
 		<metricTypes>
 			<nb_conversions>number</nb_conversions>
 			<nb_visits_converted>number</nb_visits_converted>
-			<revenue>currency</revenue>
+			<revenue>money</revenue>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=2&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
@@ -3133,7 +3133,7 @@
 		<metricTypes>
 			<nb_conversions>number</nb_conversions>
 			<nb_visits_converted>number</nb_visits_converted>
-			<revenue>currency</revenue>
+			<revenue>money</revenue>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=3&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
@@ -3217,7 +3217,7 @@
 			<nb_actions>number</nb_actions>
 			<nb_users>number</nb_users>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
@@ -3259,7 +3259,7 @@
 			<nb_actions>number</nb_actions>
 			<nb_users>number</nb_users>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
@@ -3302,7 +3302,7 @@
 			<nb_actions>number</nb_actions>
 			<nb_users>number</nb_users>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
@@ -3345,7 +3345,7 @@
 			<nb_actions>number</nb_actions>
 			<nb_users>number</nb_users>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
@@ -3486,7 +3486,7 @@
 			<Referrers_distinctCampaigns>number</Referrers_distinctCampaigns>
 			<nb_conversions>number</nb_conversions>
 			<nb_visits_converted>number</nb_visits_converted>
-			<revenue>currency</revenue>
+			<revenue>money</revenue>
 			<nb_uniq_visitors>number</nb_uniq_visitors>
 			<nb_visits>number</nb_visits>
 			<nb_users>number</nb_users>
@@ -3502,25 +3502,25 @@
 			<nb_uniq_visitors_new>number</nb_uniq_visitors_new>
 			<nb_users_new>number</nb_users_new>
 			<max_actions_new>number</max_actions_new>
-			<avg_time_network>duration</avg_time_network>
-			<avg_time_server>duration</avg_time_server>
-			<avg_time_transfer>duration</avg_time_transfer>
-			<avg_time_dom_processing>duration</avg_time_dom_processing>
-			<avg_time_dom_completion>duration</avg_time_dom_completion>
-			<avg_time_on_load>duration</avg_time_on_load>
-			<avg_page_load_time>duration</avg_page_load_time>
+			<avg_time_network>duration_s</avg_time_network>
+			<avg_time_server>duration_s</avg_time_server>
+			<avg_time_transfer>duration_s</avg_time_transfer>
+			<avg_time_dom_processing>duration_s</avg_time_dom_processing>
+			<avg_time_dom_completion>duration_s</avg_time_dom_completion>
+			<avg_time_on_load>duration_s</avg_time_on_load>
+			<avg_page_load_time>duration_s</avg_page_load_time>
 			<nb_total_overall_bandwidth>number</nb_total_overall_bandwidth>
 			<nb_total_pageview_bandwidth>number</nb_total_pageview_bandwidth>
 			<nb_total_download_bandwidth>number</nb_total_download_bandwidth>
-			<avg_time_generation>duration</avg_time_generation>
+			<avg_time_generation>duration_s</avg_time_generation>
 			<conversion_rate>percent</conversion_rate>
 			<bounce_rate>percent</bounce_rate>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
-			<avg_time_on_site>duration</avg_time_on_site>
-			<avg_time_on_site_returning>duration</avg_time_on_site_returning>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+			<avg_time_on_site_returning>duration_s</avg_time_on_site_returning>
 			<nb_actions_per_visit_returning>number</nb_actions_per_visit_returning>
 			<bounce_rate_returning>percent</bounce_rate_returning>
-			<avg_time_on_site_new>duration</avg_time_on_site_new>
+			<avg_time_on_site_new>duration_s</avg_time_on_site_new>
 			<nb_actions_per_visit_new>number</nb_actions_per_visit_new>
 			<bounce_rate_new>percent</bounce_rate_new>
 		</metricTypes>

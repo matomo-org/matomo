@@ -29,7 +29,7 @@
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_actions>number</nb_actions>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
 		</metricTypes>
@@ -67,7 +67,7 @@
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_actions>number</nb_actions>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
 		</metricTypes>
@@ -105,7 +105,7 @@
 		<metricTypes>
 			<nb_visits>number</nb_visits>
 			<nb_actions>number</nb_actions>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
 		</metricTypes>
@@ -144,10 +144,10 @@
 		<metricTypes>
 			<nb_hits>number</nb_hits>
 			<nb_visits>number</nb_visits>
-			<avg_time_on_dimension>duration</avg_time_on_dimension>
+			<avg_time_on_dimension>duration_s</avg_time_on_dimension>
 			<bounce_rate>percent</bounce_rate>
 			<exit_rate>percent</exit_rate>
-			<avg_time_generation>duration</avg_time_generation>
+			<avg_time_generation>duration_s</avg_time_generation>
 		</metricTypes>
 		<actionToLoadSubTables>getCustomDimension</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomDimensions&amp;apiAction=getCustomDimension&amp;idDimension=3&amp;period=day&amp;date=2013-01-23</imageGraphUrl>
@@ -184,10 +184,10 @@
 		<metricTypes>
 			<nb_hits>number</nb_hits>
 			<nb_visits>number</nb_visits>
-			<avg_time_on_dimension>duration</avg_time_on_dimension>
+			<avg_time_on_dimension>duration_s</avg_time_on_dimension>
 			<bounce_rate>percent</bounce_rate>
 			<exit_rate>percent</exit_rate>
-			<avg_time_generation>duration</avg_time_generation>
+			<avg_time_generation>duration_s</avg_time_generation>
 		</metricTypes>
 		<actionToLoadSubTables>getCustomDimension</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomDimensions&amp;apiAction=getCustomDimension&amp;idDimension=5&amp;period=day&amp;date=2013-01-23</imageGraphUrl>
