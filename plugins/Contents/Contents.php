@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Contents;
 
+use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\Metric;
@@ -37,8 +38,8 @@ class Contents extends \Piwik\Plugin
 
     public function addMetricSemanticTypes(array &$types): void
     {
-        $types['nb_impressions']   = Metric::SEMANTIC_TYPE_NUMBER;
-        $types['nb_interactions']  = Metric::SEMANTIC_TYPE_NUMBER;
+        $types['nb_impressions']   = Dimension::TYPE_NUMBER;
+        $types['nb_interactions']  = Dimension::TYPE_NUMBER;
     }
 
     public function getJsFiles(&$jsFiles)

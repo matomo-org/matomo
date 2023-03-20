@@ -34,7 +34,7 @@
 			<nb_uniq_visitors>number</nb_uniq_visitors>
 			<nb_actions>number</nb_actions>
 			<nb_actions_per_visit>number</nb_actions_per_visit>
-			<avg_time_on_site>duration</avg_time_on_site>
+			<avg_time_on_site>duration_s</avg_time_on_site>
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>

@@ -1133,10 +1133,10 @@ class Report
 
         if (empty($metricType)) {
             if (preg_match('/_(evolution|rate|percentage)(_|$)/', $metricName)) {
-                $metricType = Metric::SEMANTIC_TYPE_PERCENT;
+                $metricType = Dimension::TYPE_PERCENT;
             } else {
                 $allMetricTypes = Metrics::getDefaultMetricSemanticTypes();
-                $metricType = $allMetricTypes[$metricName] ?? Metric::SEMANTIC_TYPE_UNKNOWN;
+                $metricType = $allMetricTypes[$metricName] ?? Dimension::TYPE_UNKNOWN;
             }
         }
 

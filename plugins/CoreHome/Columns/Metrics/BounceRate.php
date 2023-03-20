@@ -7,6 +7,7 @@
  */
 namespace Piwik\Plugins\CoreHome\Columns\Metrics;
 
+use Piwik\Columns\Dimension;
 use Piwik\DataTable\Row;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
@@ -52,6 +53,6 @@ class BounceRate extends ProcessedMetric
 
     public function getSemanticType(): ?string
     {
-        return self::SEMANTIC_TYPE_PERCENT;
+        return Dimension::TYPE_PERCENT;
     }
 }

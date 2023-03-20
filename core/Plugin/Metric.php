@@ -36,41 +36,6 @@ abstract class Metric
     const COMPONENT_SUBNAMESPACE = 'Metrics';
 
     /**
-     * The default semantic type.
-     */
-    const SEMANTIC_TYPE_UNKNOWN = 'unknown';
-
-    /**
-     * Marks a metric as a number of seconds.
-     */
-    const SEMANTIC_TYPE_DURATION = 'duration';
-
-    /**
-     * Marks a metric as a number (with or without a unit).
-     */
-    const SEMANTIC_TYPE_NUMBER = 'number';
-
-    /**
-     * Marks a metric value as a percentage.
-     */
-    const SEMANTIC_TYPE_PERCENT = 'percent';
-
-    /**
-     * Marks a metric value as just text.
-     */
-    const SEMANTIC_TYPE_TEXT = 'text';
-
-    /**
-     * Marks a metric value as a boolean.
-     */
-    const SEMANTIC_TYPE_BOOLEAN = 'boolean';
-
-    /**
-     * Marks a metric value as an amount of money, in the currency of selected site a report is for.
-     */
-    const SEMANTIC_TYPE_CURRENCY = 'currency';
-
-    /**
      * Returns the column name of this metric, eg, `"nb_visits"` or `"avg_time_on_site"`.
      *
      * This string is what appears in API output.

@@ -32,6 +32,6 @@ class AverageTimeOnDimension extends AverageTimeOnPage
 
     public function getSemanticType(): ?string
     {
-        return Metric::SEMANTIC_TYPE_DURATION;
+        return Dimension::TYPE_DURATION_S;
     }
 }

@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Actions;
 
+use Piwik\Columns\Dimension;
 use Piwik\Plugin\Metric;
 use Piwik\Site;
 use Piwik\Plugin\ViewDataTable;
@@ -42,19 +43,19 @@ class Actions extends \Piwik\Plugin
     public function addMetricSemanticTypes(array &$types): void
     {
         $metrics = array(
-            'nb_pageviews'        => Metric::SEMANTIC_TYPE_NUMBER,
-            'nb_uniq_pageviews'   => Metric::SEMANTIC_TYPE_NUMBER,
-            'nb_downloads'        => Metric::SEMANTIC_TYPE_NUMBER,
-            'nb_uniq_downloads'   => Metric::SEMANTIC_TYPE_NUMBER,
-            'nb_outlinks'         => Metric::SEMANTIC_TYPE_NUMBER,
-            'nb_uniq_outlinks'    => Metric::SEMANTIC_TYPE_NUMBER,
-            'nb_searches'         => Metric::SEMANTIC_TYPE_NUMBER,
-            'nb_keywords'         => Metric::SEMANTIC_TYPE_NUMBER,
-            'entry_nb_visits'      => Metric::SEMANTIC_TYPE_NUMBER,
-            'entry_bounce_count'   => Metric::SEMANTIC_TYPE_NUMBER,
-            'exit_nb_visits'       => Metric::SEMANTIC_TYPE_NUMBER,
-            'nb_pages_per_search'      => Metric::SEMANTIC_TYPE_NUMBER,
-            'nb_hits_following_search' => Metric::SEMANTIC_TYPE_NUMBER,
+            'nb_pageviews'        => Dimension::TYPE_NUMBER,
+            'nb_uniq_pageviews'   => Dimension::TYPE_NUMBER,
+            'nb_downloads'        => Dimension::TYPE_NUMBER,
+            'nb_uniq_downloads'   => Dimension::TYPE_NUMBER,
+            'nb_outlinks'         => Dimension::TYPE_NUMBER,
+            'nb_uniq_outlinks'    => Dimension::TYPE_NUMBER,
+            'nb_searches'         => Dimension::TYPE_NUMBER,
+            'nb_keywords'         => Dimension::TYPE_NUMBER,
+            'entry_nb_visits'      => Dimension::TYPE_NUMBER,
+            'entry_bounce_count'   => Dimension::TYPE_NUMBER,
+            'exit_nb_visits'       => Dimension::TYPE_NUMBER,
+            'nb_pages_per_search'      => Dimension::TYPE_NUMBER,
+            'nb_hits_following_search' => Dimension::TYPE_NUMBER,
         );
 
         $types = array_merge($types, $metrics);
