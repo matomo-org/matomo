@@ -49,7 +49,6 @@ abstract class Dimension
     const TYPE_TIMESTAMP = 'timestamp';
     const TYPE_BOOL = 'bool';
     const TYPE_PERCENT = 'percent';
-    const TYPE_UNKNOWN = 'unknown';
 
     /**
      * This will be the name of the column in the database table if a $columnType is specified.
