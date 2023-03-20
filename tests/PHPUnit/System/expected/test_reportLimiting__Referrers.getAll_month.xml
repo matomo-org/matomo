@@ -10,6 +10,7 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>9</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>9</sum_daily_nb_users>
+		<segment>referrerName==whatever0.com</segment>
 		<referer_type>3</referer_type>
 	</row>
 	<row>
@@ -22,6 +23,7 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>9</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>9</sum_daily_nb_users>
+		<segment>referrerType==search;referrerKeyword==this+search+term</segment>
 		<referer_type>2</referer_type>
 	</row>
 	<row>
@@ -34,6 +36,7 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>6</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>6</sum_daily_nb_users>
+		<segment>referrerType==search;referrerKeyword==search+term+2</segment>
 		<referer_type>2</referer_type>
 	</row>
 	<row>
@@ -46,6 +49,7 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>6</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>6</sum_daily_nb_users>
+		<segment>referrerName==whatever1.com</segment>
 		<referer_type>3</referer_type>
 	</row>
 	<row>

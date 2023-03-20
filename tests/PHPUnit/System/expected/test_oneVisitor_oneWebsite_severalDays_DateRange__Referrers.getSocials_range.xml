@@ -13,6 +13,7 @@
 			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<url>facebook.com</url>
 			<logo>plugins/Morpheus/icons/dist/socials/facebook.com.png</logo>
+			<segment>referrerType==social;referrerName==Facebook</segment>
 			<subtable>
 				<row>
 					<label>http://facebook.com/whatever</label>
@@ -61,6 +62,7 @@
 			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<url>twitter.com</url>
 			<logo>plugins/Morpheus/icons/dist/socials/twitter.com.png</logo>
+			<segment>referrerType==social;referrerName==Twitter</segment>
 			<subtable>
 				<row>
 					<label>http://t.co/id/?y=dsfs</label>
@@ -109,6 +111,7 @@
 			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<url>flickr.com</url>
 			<logo>plugins/Morpheus/icons/dist/socials/flickr.com.png</logo>
+			<segment>referrerType==social;referrerName==Flickr</segment>
 			<subtable>
 				<row>
 					<label>http://www.flickr.com</label>
@@ -135,6 +138,7 @@
 			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<url>mixi.jp</url>
 			<logo>plugins/Morpheus/icons/dist/socials/mixi.jp.png</logo>
+			<segment>referrerType==social;referrerName==Mixi</segment>
 			<subtable>
 				<row>
 					<label>http://mixi.jp</label>
@@ -161,6 +165,7 @@
 			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<url>skyrock.com</url>
 			<logo>plugins/Morpheus/icons/dist/socials/skyrock.com.png</logo>
+			<segment>referrerType==social;referrerName==Skyrock</segment>
 			<subtable>
 				<row>
 					<label>http://skyrock.com</label>
@@ -187,6 +192,7 @@
 			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<url>xanga.com</url>
 			<logo>plugins/Morpheus/icons/dist/socials/xanga.com.png</logo>
+			<segment>referrerType==social;referrerName==Xanga</segment>
 			<subtable>
 				<row>
 					<label>http://xanga.com</label>
@@ -215,6 +221,7 @@
 			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<url>twitter.com</url>
 			<logo>plugins/Morpheus/icons/dist/socials/twitter.com.png</logo>
+			<segment>referrerType==social;referrerName==Twitter</segment>
 			<subtable>
 				<row>
 					<label>http://t.co/id/?y=dsfs</label>
@@ -252,6 +259,7 @@
 			<sum_daily_nb_users>0</sum_daily_nb_users>
 			<url>facebook.com</url>
 			<logo>plugins/Morpheus/icons/dist/socials/facebook.com.png</logo>
+			<segment>referrerType==social;referrerName==Facebook</segment>
 			<subtable>
 				<row>
 					<label>http://www.facebook.com/another/path</label>
