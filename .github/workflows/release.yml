@@ -140,7 +140,7 @@ jobs:
           
           echo "version=$version" >> $GITHUB_OUTPUT
           echo 'body<<EOF' >> $GITHUB_OUTPUT
-          echo $body >> $GITHUB_OUTPUT
+          echo "$body" >> $GITHUB_OUTPUT
           echo 'EOF' >> $GITHUB_OUTPUT
 
           cd $GITHUB_WORKSPACE

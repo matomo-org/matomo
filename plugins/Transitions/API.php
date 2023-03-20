@@ -84,7 +84,12 @@ class API extends \Piwik\Plugin\API
         // prepare log aggregator
         $site = new Site($idSite);
         $period = Period\Factory::build($period, $date);
-        $segment = new Segment($segment, $idSite, $period->getDateStart(), $period->getDateEnd());
+        $segment = new Segment(
+            $segment,
+            $idSite,
+            $period->getDateTimeStart()->setTimezone($site->getTimezone()),
+            $period->getDateTimeEnd()->setTimezone($site->getTimezone())
+        );
         $params = new ArchiveProcessor\Parameters($site, $period, $segment);
         $logAggregator = new LogAggregator($params);
 

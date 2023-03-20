@@ -165,7 +165,9 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
   /**
    * Extra headers to add to the request.
    */
-  headers?: Record<string, string>;
+  headers?: Record<string, string> = {
+    'X-Requested-With': 'XMLHttpRequest',
+  };
 
   /**
    * Handle for current request
@@ -217,7 +219,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
       helper.addParams(options.postParams, 'post');
     }
     if (options.headers) {
-      helper.headers = options.headers;
+      helper.headers = { ...helper.headers, ...options.headers };
     }
 
     let createErrorNotification = true;
@@ -250,7 +252,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
 
       return result as R;
     }).catch((xhr: jqXHR) => {
-      if (createErrorNotification) {
+      if (createErrorNotification || xhr instanceof ApiResponseError) {
         throw xhr;
       }
 
