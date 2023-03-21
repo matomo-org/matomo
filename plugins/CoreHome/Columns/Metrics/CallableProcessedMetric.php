@@ -9,7 +9,6 @@ namespace Piwik\Plugins\CoreHome\Columns\Metrics;
 
 use Piwik\DataTable\Row;
 use Piwik\Plugin\ProcessedMetric;
-use Piwik\Columns\Dimension;
 
 class CallableProcessedMetric extends ProcessedMetric
 {
@@ -18,7 +17,7 @@ class CallableProcessedMetric extends ProcessedMetric
     private $dependentMetrics;
     private $semanticType;
 
-    public function __construct($name, $callback, $dependentMetrics = array(), $semanticType = Dimension::TYPE_UNKNOWN)
+    public function __construct($name, $callback, $dependentMetrics = array(), string $semanticType = null)
     {
         $this->name = $name;
         $this->callback = $callback;
