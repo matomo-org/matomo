@@ -114,7 +114,9 @@ class GetSystemSummary extends Widget
             return self::TEST_MYSQL_VERSION;
         }
 
-        return phpversion();
+        $db = Db::get();
+        return $db->getServerVersion();
+
     }
 
     private function getPHPVersion()
@@ -123,8 +125,7 @@ class GetSystemSummary extends Widget
             return self::TEST_PHP_VERSION;
         }
 
-        $db = Db::get();
-        return $db->getServerVersion();
+        return phpversion();
     }
 
 }
