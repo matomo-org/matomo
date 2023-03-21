@@ -12,7 +12,7 @@
         "ConfirmPasswordReset": "Parolayı sıfırla",
         "ConfirmPasswordResetIntro": "Parolanızı değiştirmenizi gerçekten istediğinizi onaylamak için lütfen yeni parolanızı yazın.",
         "ConfirmPasswordResetWrongPassword": "Yazılan parola yeni parolanız ile aynı değil. Yeni parolanızı anımsamıyorsanız parolanızı yeniden sıfırlayın. Parolanızı değiştirmek istemediyseniz, olduğu gibi korumak için herhangi bir şey yapmayın.",
-        "ConfirmPasswordToContinue": "Devam etmek için parolanızı yazın",
+        "ConfirmPasswordToContinue": "İlerlemek için parolanızı yazın",
         "ConfirmationLinkSent": "Parola değişikliği isteğinizi onaylamak için e-posta olarak gönderilen ve onaylama bağlantısını açın.",
         "ContactAdmin": "Olası neden: Sunucunuzda mail() işlevi devre dışı bırakılmış olabilir. <br />Lütfen Matomo yöneticinizle görüşün.",
         "CurrentlyBlockedIPs": "Engellenmiş IP adresleri",

@@ -31,6 +31,7 @@
         "SaveAndApply": "Desa i aplica",
         "SegmentDisplayedAllWebsites": "tots els llocs web",
         "SegmentDisplayedThisWebsiteOnly": "només aquest lloc web",
+        "SegmentEditor": "Editor de segment",
         "SegmentIsDisplayedForWebsite": "i processat per",
         "SegmentNotApplied": "El segment '%s' no s'ha aplicat",
         "SegmentNotAppliedMessage": "Esteu sol·licitant dades per al segment personalitzat '%s', actualment aquesta configuració de Matomo impedeix el processament en temps real dels informes per motius de rendiment.",

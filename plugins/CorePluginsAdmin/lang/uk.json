@@ -36,6 +36,7 @@
         "MenuPlatform": "Платформа",
         "MissingRequirementsNotice": "Будь ласка, поновіть %1$s %2$s до новішої версії, необхідна версія %1$s %3$s.",
         "MissingRequirementsPleaseInstallNotice": "Будь ласка, встановіть %1$s %2$s так як воно потрібне для %3$s.",
+        "NUpdatesAvailable": "Доступні %1$s оновлення",
         "NoPluginSettings": "Немає налаштувань плагінів, які можуть бути налаштовані",
         "NoZipFileSelected": "Виберіть ZIP-файл.",
         "NotDownloadable": "Не завантажується",
