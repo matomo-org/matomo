@@ -64,7 +64,7 @@
         "NoPrivilegesAskPiwikAdmin": "'%1$s' olarak oturum açmışsınız ancak kullanıcınıza Matomo üzerinde herhangi bir izin verilmemiş gibi görünüyor. Kullanıcınıza bir web sitesini 'Görüntüleme' izni vermesi için %2$sMatomo yöneticiniz ile görüşün (e-posta göndermek için tıklayın)%3$s.",
         "NoSuchPage": "Bu sayfa bulunamadı",
         "OneClickUpdateNotPossibleAsMultiServerEnvironment": "Matomo uygulamasını bir kaç sunucu üzerinde kullandığınız için tek tıklama ile güncelleme özelliğini kullanamazsınız. Lütfen ilerlemek için %1$s üzerinden son sürümü indirin.",
-        "OnlyForSuperUserAccess": "Varsayılan panodaki bu pano bileşeni yalnız süper kullanıcılara görüntülenir.",
+        "OnlyForSuperUserAccess": "Varsayılan panodaki bu pano bileşeni yalnızca süper kullanıcılara görüntülenir.",
         "PageDownShortcutDescription": "sayfanın altına gitmek için",
         "PageUpShortcutDescription": "sayfanın üstüne gitmek için",
         "PeriodHasOnlyRawData": "Bu dönemin raporları henüz işlenmemiş gibi görünüyor. Şu anda olduğunu görmek ister misiniz? %1$sZiyaret günlüğüne%2$s göz atın ya da raporlar oluşturulana kadar farklı bir tarih aralığı seçin.",

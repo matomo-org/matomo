@@ -1,9 +1,9 @@
 {
     "ScheduledReports": {
         "AggregateReportsFormat": "Görüntüleme seçenekleri",
-        "AggregateReportsFormat_GraphsOnly": "Yalnız çizelgeler görüntülensin (tablolar görüntülenmesin)",
+        "AggregateReportsFormat_GraphsOnly": "Yalnızca çizelgeler görüntülensin (tablolar görüntülenmesin)",
         "AggregateReportsFormat_TablesAndGraphs": "Tüm raporlar için rapor tabloları ve çizelgeleri görüntülensin",
-        "AggregateReportsFormat_TablesOnly": "(varsayılan) Rapor tabloları görüntülensin (Yalnız anahtar ölçümler için çizelgeler)",
+        "AggregateReportsFormat_TablesOnly": "(varsayılan) Rapor tabloları görüntülensin (yalnızca anahtar ölçümler için çizelgeler)",
         "AlsoSendReportToTheseEmails": "Rapor şu adreslere de gönderilsin (e-posta adreslerini ayrı satırlara yazın):",
         "AreYouSureDeleteReport": "Bu raporu ve zamanlamasını silmek istediğinize emin misiniz?",
         "CancelAndReturnToReports": "İptal edip %1$srapor listesine geri dön%2$s",
