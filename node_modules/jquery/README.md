@@ -5,7 +5,7 @@
 For information on how to get started and how to use jQuery, please see [jQuery's documentation](https://api.jquery.com/).
 For source files and issues, please visit the [jQuery repo](https://github.com/jquery/jquery).
 
-If upgrading, please see the [blog post for 3.6.3](https://blog.jquery.com/2022/12/20/jquery-3-6-3-released-a-quick-selector-fix/). This includes notable differences from the previous version and a more readable changelog.
+If upgrading, please see the [blog post for 3.6.4](https://blog.jquery.com/2023/03/06/jquery-3-6-4-released-selector-forgiveness/). This includes notable differences from the previous version and a more readable changelog.
 
 ## Including jQuery
 
@@ -16,7 +16,7 @@ Below are some of the most common ways to include jQuery.
 #### Script tag
 
 ```html
-<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 ```
 
 #### Webpack / Browserify / Babel
