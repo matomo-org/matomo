@@ -204,18 +204,23 @@ class ArchiveInvalidationTest extends SystemTestCase
     }
 
     /**
-     * Check that both date range types are correctly parsed without any exceptions
+     * Check that dates are correctly parsed without any exceptions
      */
-    public function testDateRangesCorrectlyParsed()
+    public function testDatesCorrectlyParsed()
     {
-        $testRanges = [
-            '2020-01-01,2020-03-31' => '2020-01-01,2020-03-31',
-            'last30' => Date::factory('now')->subDay(29)->toString().','.Date::factory('now')->toString()
+        $testDates = [
+            ['dateString' => '2020-01-01,2020-03-31', 'period' => 'range', 'expected' => [['2020-01-01,2020-03-31'],[]]],
+            ['dateString' => 'last30',                'period' => 'range', 'expected' => [[Date::factory('now')->subDay(29)->toString().','.Date::factory('now')->toString()],[]]],
+            ['dateString' => '2020-01-01',            'period' => 'day',   'expected' => [['2020-01-01'],[]]],
+            ['dateString' => '2020-04-01',            'period' => 'month', 'expected' => [['2020-04-01'],[]]],
+            ['dateString' => '2020-05-01,2020-05-02', 'period' => 'day',   'expected' => [[Date::factory('2020-05-01'), Date::factory('2020-05-02')],[]]],
+            ['dateString' => 'today,yesterday',       'period' => 'month', 'expected' => [[Date::factory('today'), Date::factory('yesterday')],[]]],
         ];
 
         // Test API
-        foreach ($testRanges as $dateRange => $expected) {
-            $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=".self::$fixture->idSite1."&period=range&dates=".$dateRange);
+        foreach ($testDates as $testData) {
+            $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=".self::$fixture->idSite1."&period=" .
+                $testData['period'] . "&dates=" . $testData['dateString']);
             $this->assertApiResponseHasNoError($r->process());
         }
 
@@ -225,10 +230,10 @@ class ArchiveInvalidationTest extends SystemTestCase
         $method = $reflection->getMethod('getDatesToInvalidateFromString');
         $method->setAccessible(true);
 
-        foreach ($testRanges as $dateRange => $expected) {
-            $parameters = [$dateRange, 'range'];
+        foreach ($testDates as $testData) {
+            $parameters = [$testData['dateString'], $testData['period']];
             $result = $method->invokeArgs($api, $parameters);
-            self::assertEquals([[$expected],[]], $result);
+            self::assertEquals($testData['expected'], $result);
         }
 
     }
