@@ -214,4 +214,9 @@ class ArchivedMetric extends Metric
         }
         return !empty($this->idSite); // skip formatting if there is no site to get currency info from
     }
+
+    public function getSemanticType(): ?string
+    {
+        return $this->type;
+    }
 }

@@ -12,25 +12,25 @@
 		<sum_daily_nb_users>8</sum_daily_nb_users>
 	</row>
 	<row>
-		<label>Android / Chrome / 1280x1024</label>
-		<nb_visits>20</nb_visits>
-		<nb_actions>20</nb_actions>
-		<max_actions>2</max_actions>
-		<sum_visit_length>10</sum_visit_length>
-		<bounce_count>15</bounce_count>
+		<label>Windows / Firefox / 1024x768</label>
+		<nb_visits>25</nb_visits>
+		<nb_actions>25</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>25</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>4</sum_daily_nb_users>
+		<sum_daily_nb_uniq_visitors>25</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>25</sum_daily_nb_users>
 	</row>
 	<row>
 		<label>Others</label>
-		<nb_visits>340</nb_visits>
-		<nb_actions>415</nb_actions>
+		<nb_visits>335</nb_visits>
+		<nb_actions>410</nb_actions>
 		<max_actions>2</max_actions>
-		<sum_visit_length>170</sum_visit_length>
-		<bounce_count>205</bounce_count>
+		<sum_visit_length>180</sum_visit_length>
+		<bounce_count>195</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>88</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>88</sum_daily_nb_users>
+		<sum_daily_nb_uniq_visitors>67</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>67</sum_daily_nb_users>
 	</row>
 </result>

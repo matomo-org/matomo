@@ -535,6 +535,12 @@ enable_framed_settings = 0
 ; information view the FAQ: https://matomo.org/faq/troubleshooting/faq_147/
 enable_framed_allow_write_admin_token_auth = 0
 
+; Set to 1 to only allow tokens to be used in POST requests. This will completely prevent using
+; token_auth as URL parameter in GET requests. When enabled all new authentication tokens
+; will be created as POST only. Previously created tokens will only be accepted in POST requests.
+; Recommended for best security.
+only_allow_posted_auth_tokens = 0
+
 ; language cookie name for session
 language_cookie_name = matomo_lang
 

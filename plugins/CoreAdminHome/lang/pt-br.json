@@ -48,6 +48,7 @@
         "JSTracking_CampaignNameParam": "Parâmetro Nome da Campanha",
         "JSTracking_CodeNoteBeforeClosingHead": "Certifique-se de que este código esteja em todas as páginas do seu site. Recomendamos colá-lo imediatamente antes da tag %1$s de fechamento.",
         "JSTracking_CodeNoteBeforeClosingHeadEmail": "Certifique-se de que este código esteja dentro de um elemento script em todas as páginas do seu site. Recomendamos colá-lo imediatamente antes da tag head de fechamento.",
+        "JSTracking_ConsentManagerConnected": "%1$s parece já estar configurado para funcionar com o Matomo.",
         "JSTracking_CrossDomain": "Por padrão, o ID do visitante que identifica um visitante único é armazenado nos cookies primários do navegador, que só podem ser acessados por páginas no mesmo domínio. A ativação da vinculação entre domínios permite acompanhar todas as ações e exibições de páginas de um visitante específico na mesma visita, mesmo quando elas visualizam páginas em vários domínios. Sempre que um usuário clicar em um link para uma das URLs de alias do seu website, ele adicionará um parâmetro de URL pk_id encaminhando o ID do visitante.",
         "JSTracking_CrossDomain_NeedsMultipleDomains": "Nota: Para usar a vinculação entre domínios, você deve especificar mais de um nome de domínio (URLs) para o seu site.",
         "JSTracking_CustomCampaignQueryParam": "Use nomes de parâmetros de consulta personalizados para o nome e a palavra-chave da campanha",

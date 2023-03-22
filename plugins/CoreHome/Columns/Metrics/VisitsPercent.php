@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\CoreHome\Columns\Metrics;
 
+use Piwik\Columns\Dimension;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Metrics\Formatter;
@@ -72,5 +73,10 @@ class VisitsPercent extends ProcessedMetric
         }
 
         return true; // always compute
+    }
+
+    public function getSemanticType(): ?string
+    {
+        return Dimension::TYPE_PERCENT;
     }
 }

@@ -17,7 +17,9 @@ class VisitorProfile
 {
     const VISITOR_PROFILE_MAX_VISITS_TO_SHOW = 10;
 
-    protected $profile = array();
+    protected $profile = [];
+
+    protected $idSite;
 
     public function __construct($idSite)
     {
@@ -25,7 +27,7 @@ class VisitorProfile
     }
 
     /**
-     * @param $visits
+     * @param DataTable $visits
      * @param $visitorId
      * @param $segment
      * @param $numLastVisits

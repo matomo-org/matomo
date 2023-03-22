@@ -42,7 +42,7 @@
         "JsTagArchivingHelp1": "對中高流量的網站來說，一些優化方式有助於 Matomo 更快速執行（例如%1$s設定自動彙整%2$s）。",
         "LargePiwikInstances": "給予高流量網站的協助",
         "Legend": "說明",
-        "LoadDataInfileRecommended": "如果你的 Matomo 用於追蹤高流量網站（例如每個月 &gt; 100,000 網頁瀏覽數），你應該解決這個問題。",
+        "LoadDataInfileRecommended": "如果你的 Matomo 用於追蹤高流量網站（例如每個月超過 100,000 網頁瀏覽數），你就應該解決這個問題。",
         "LoadDataInfileUnavailableHelp": "提示：透過更新你的 PHP 和 MySQL 軟體，並確保資料庫使用者有 %2$s 權限，以利用 %1$s 大幅加快 Matomo 彙整處理。",
         "MatomoHttpRequestConfigInfo": "一般設定內的選項 force_matomo_http_request 目前已開啟，基於安全性我們強烈建議把它關掉。請參閱我們的 %1$sFAQ%2$s 瞭解更多",
         "NfsFilesystemWarning": "你的伺服器使用 NFS 檔案系統。",

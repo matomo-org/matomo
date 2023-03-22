@@ -19,6 +19,14 @@
 			<nb_hits_following_search>The number of times this Page was visited after a visitor did a search on your website, and clicked on this page in the search results.</nb_hits_following_search>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 		</metricsDocumentation>
+		<metricTypes>
+			<nb_hits_following_search>number</nb_hits_following_search>
+			<nb_hits>number</nb_hits>
+			<avg_time_on_page>duration_s</avg_time_on_page>
+			<bounce_rate>percent</bounce_rate>
+			<exit_rate>percent</exit_rate>
+			<avg_time_generation>duration_s</avg_time_generation>
+		</metricTypes>
 		<relatedReports>
 			<row>
 				<name>Page Titles Following a Site Search</name>

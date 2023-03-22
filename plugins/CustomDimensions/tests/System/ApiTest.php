@@ -91,7 +91,7 @@ class ApiTest extends SystemTestCase
                             'expanded' => '0',
                             'flat' => '0',
                         ),
-                        'testSuffix' => "${period}_site_${idSite}_dimension_${idDimension}",
+                        'testSuffix' => "{$period}_site_{$idSite}_dimension_{$idDimension}",
                         'xmlFieldsToRemove' => $removeColumns
                     )
                 );

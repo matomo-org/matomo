@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\DevicePlugins\Columns;
 
+use Piwik\Columns\Dimension;
 use Piwik\Columns\DimensionMetricFactory;
 use Piwik\Columns\MetricsList;
 use Piwik\Piwik;
@@ -31,6 +32,7 @@ abstract class DevicePluginColumn extends VisitDimension
         $name = Piwik::translate('General_VisitsWith', [$this->getName()]);
 
         $metric = $dimensionMetricFactory->createCustomMetric('nb_visits_with_'.$this->getMetricId(), $name, 'sum(%s)');
+        $metric->setType(Dimension::TYPE_NUMBER);
         $metricsList->addMetric($metric);
     }
 }

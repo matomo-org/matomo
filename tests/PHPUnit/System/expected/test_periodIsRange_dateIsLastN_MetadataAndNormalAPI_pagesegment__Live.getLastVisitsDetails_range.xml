@@ -46,10 +46,10 @@
 		<searches>0</searches>
 		<actions>1</actions>
 		<interactions>0</interactions>
-		<referrerType>campaign</referrerType>
-		<referrerTypeName>Campaigns</referrerTypeName>
-		<referrerName>campaign name - yeah!</referrerName>
-		<referrerKeyword>campaign keyword - right...</referrerKeyword>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl />
 		<referrerSearchEngineUrl />
@@ -182,10 +182,10 @@
 		<searches>0</searches>
 		<actions>1</actions>
 		<interactions>1</interactions>
-		<referrerType>campaign</referrerType>
-		<referrerTypeName>Campaigns</referrerTypeName>
-		<referrerName>campaign name - yeah!</referrerName>
-		<referrerKeyword>campaign keyword - right...</referrerKeyword>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl />
 		<referrerSearchEngineUrl />

@@ -34,7 +34,7 @@
         "ColumnSearchesDocumentation": "Bu anahtar sözcük ile web sitesinin arama motorunda yapılan aramaların sayısı.",
         "ColumnSiteSearchKeywords": "Tekil anahtar sözcükler",
         "ColumnUniqueClicks": "Tekil tıklamalar",
-        "ColumnUniqueClicksDocumentation": "Bu bağlantıyı tıklayan ziyaretçilerin sayısı. Bir bağlantı bir ziyarette birden çok kez tıklanmış ise yalnız bir kez sayılır.",
+        "ColumnUniqueClicksDocumentation": "Bu bağlantıyı tıklayan ziyaretçilerin sayısı. Bir bağlantı bir ziyarette birden çok kez tıklanmış ise yalnızca bir kez sayılır.",
         "ColumnUniqueDownloads": "Tekil indirmeler",
         "ColumnUniqueOutlinks": "Tekil dış bağlantılar",
         "DownloadsReportDocumentation": "Bu rapor, ziyaretçilerin dosya indirme bilgilerini içerir. %s indirme bağlantısına tıklandığında Matomo indirme sayısını arttırır. İndirmenin tamamlanıp tamamlanmadığı Matomo tarafından bilinmez.",
