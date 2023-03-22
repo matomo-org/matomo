@@ -7,6 +7,7 @@
  */
 namespace Piwik\Plugins\CoreHome\Columns\Metrics;
 
+use Piwik\Columns\Dimension;
 use Piwik\DataTable\Row;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
@@ -41,5 +42,10 @@ class ActionsPerVisit extends ProcessedMetric
     public function getDependentMetrics()
     {
         return array('nb_actions', 'nb_visits');
+    }
+
+    public function getSemanticType(): ?string
+    {
+        return Dimension::TYPE_NUMBER;
     }
 }

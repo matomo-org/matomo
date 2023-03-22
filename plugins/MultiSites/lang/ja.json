@@ -5,7 +5,7 @@
         "EvolutionComparisonDay": "%1$s %2$sこの日%3$s %2$sと比べた前の部分期間（%4$s）の進化：%5$s",
         "EvolutionComparisonIncomplete": "現在選択されている期間帯が%1$s完了しました。",
         "EvolutionComparisonMonth": "%1$s %2$sこの月%3$s %2$sと比べた前の部分期間（%4$s）の進化：%5$s",
-        "EvolutionComparisonProportional": "前期も%1$s完了した時点で、推定%2$s %3$sあったはずです\n（前期の合計で%4$s %3$sのうちに）。",
+        "EvolutionComparisonProportional": "前の期間も %1$s 完了していた場合、推定 %2$s %3$s でした\n(前期の合計 %4$s %3$s のうち)。",
         "EvolutionComparisonWeek": "%1$s %2$sこの週%3$s %2$sと比べた前の部分期間（%4$s）の進化：%5$s",
         "EvolutionComparisonYear": "%1$s %2$sこの年%3$s %2$sと比べた前の部分期間（%4$s）の進化：%5$s",
         "LoadingWebsites": "ウェブサイトをロード中",

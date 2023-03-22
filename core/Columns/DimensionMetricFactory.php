@@ -37,14 +37,14 @@ class DimensionMetricFactory
     /**
      * @return ArchivedMetric
      */
-    public function createCustomMetric($metricName, $readableName, $aggregation, $documentation = '')
+    public function createCustomMetric($metricName, $readableName, $aggregation, $documentation = '', string $semanticType = null)
     {
         if (!$this->dimension->getDbTableName() || !$this->dimension->getColumnName()) {
             throw new \Exception(sprintf('Cannot make metric from dimension %s because DB table or column missing', $this->dimension->getId()));
         }
 
         $metric = new ArchivedMetric($this->dimension, $aggregation);
-        $metric->setType($this->dimension->getType());
+        $metric->setType($semanticType ?: $this->dimension->getType());
         $metric->setName($metricName);
         $metric->setTranslatedName($readableName);
         $metric->setDocumentation($documentation);
@@ -80,17 +80,22 @@ class DimensionMetricFactory
         $translatedName = $dimension->getNamePlural();
 
         $documentation = '';
+        $semanticType = null; // if null, will default to dimension type
 
         switch ($aggregation) {
             case ArchivedMetric::AGGREGATION_COUNT;
                 $prefix = ArchivedMetric::AGGREGATION_COUNT_PREFIX;
                 $translatedName = $dimension->getNamePlural();
                 $documentation = Piwik::translate('General_ComputedMetricCountDocumentation', $dimension->getNamePlural());
+                $semanticType = Dimension::TYPE_NUMBER;
                 break;
             case ArchivedMetric::AGGREGATION_SUM;
                 $prefix = ArchivedMetric::AGGREGATION_SUM_PREFIX;
                 $translatedName = Piwik::translate('General_ComputedMetricSum', $dimension->getNamePlural());
                 $documentation  = Piwik::translate('General_ComputedMetricSumDocumentation', $dimension->getNamePlural());
+                if ($dimension->getType() == Dimension::TYPE_BOOL) {
+                    $semanticType = Dimension::TYPE_NUMBER;
+                }
                 break;
             case ArchivedMetric::AGGREGATION_MAX;
                 $prefix = ArchivedMetric::AGGREGATION_MAX_PREFIX;
@@ -106,16 +111,18 @@ class DimensionMetricFactory
                 $prefix = ArchivedMetric::AGGREGATION_UNIQUE_PREFIX;
                 $translatedName = Piwik::translate('General_ComputedMetricUniqueCount', $dimension->getNamePlural());
                 $documentation  = Piwik::translate('General_ComputedMetricUniqueCountDocumentation', $dimension->getNamePlural());
+                $semanticType = Dimension::TYPE_NUMBER;
                 break;
             case ArchivedMetric::AGGREGATION_COUNT_WITH_NUMERIC_VALUE;
                 $prefix = ArchivedMetric::AGGREGATION_COUNT_WITH_NUMERIC_VALUE_PREFIX;
                 $translatedName = Piwik::translate('General_ComputedMetricCountWithValue', $dimension->getName());
                 $documentation  = Piwik::translate('General_ComputedMetricCountWithValueDocumentation', $dimension->getName());
+                $semanticType = Dimension::TYPE_NUMBER;
                 break;
         }
 
         $metricId = strtolower($dimension->getMetricId());
 
-        return $this->createCustomMetric($prefix . $metricId, $translatedName, $aggregation, $documentation);
+        return $this->createCustomMetric($prefix . $metricId, $translatedName, $aggregation, $documentation, $semanticType);
     }
 }

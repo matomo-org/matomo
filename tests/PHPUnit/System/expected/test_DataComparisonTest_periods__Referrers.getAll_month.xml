@@ -19,6 +19,7 @@
 		<revenue>5</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>referrerName==piwik.org</segment>
 		<referer_type>3</referer_type>
 		<comparisons>
 			<row>
@@ -39,6 +40,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
+				<segment>referrerName==piwik.org</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -78,6 +80,7 @@
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
+				<segment>referrerName==piwik.org</segment>
 			</row>
 			<row>
 				<nb_visits>1</nb_visits>
@@ -117,6 +120,7 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
+				<segment>referrerName==piwik.org</segment>
 			</row>
 		</comparisons>
 	</row>
@@ -139,6 +143,7 @@
 		<revenue>5</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>referrerName==sn110w.snt110.mail.live.com</segment>
 		<referer_type>3</referer_type>
 		<comparisons>
 			<row>
@@ -159,6 +164,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
+				<segment>referrerName==sn110w.snt110.mail.live.com</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -198,6 +204,7 @@
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
+				<segment>referrerName==sn110w.snt110.mail.live.com</segment>
 			</row>
 			<row>
 				<nb_visits>1</nb_visits>
@@ -237,6 +244,7 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
+				<segment>referrerName==sn110w.snt110.mail.live.com</segment>
 			</row>
 		</comparisons>
 	</row>

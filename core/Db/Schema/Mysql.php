@@ -72,6 +72,7 @@ class Mysql implements SchemaInterface
                           last_used DATETIME NULL,
                           date_created DATETIME NOT NULL,
                           date_expired DATETIME NULL,
+                          post_only TINYINT(2) unsigned NOT NULL DEFAULT '0',
                             PRIMARY KEY(idusertokenauth),
                             UNIQUE KEY uniq_password(password)
                           ) ENGINE=$engine DEFAULT CHARSET=$charset
@@ -240,6 +241,7 @@ class Mysql implements SchemaInterface
                                       revenue_subtotal DOUBLE default NULL,
                                       revenue_tax DOUBLE default NULL,
                                       revenue_discount DOUBLE default NULL,
+                                      pageviews_before SMALLINT UNSIGNED DEFAULT NULL,
                                         PRIMARY KEY (idvisit, idgoal, buster),
                                         UNIQUE KEY unique_idsite_idorder (idsite, idorder),
                                         INDEX index_idsite_datetime ( idsite, server_time )

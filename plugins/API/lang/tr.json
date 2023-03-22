@@ -9,9 +9,9 @@
         "LoadedAPIs": "%s API yüklendi",
         "MainMetricsReportDocumentation": "Bu rapor, tüm kategori ve uygulama ekleri ile ilgili en önemli ölçümlerin özetini içerir.",
         "MoreInformation": "Matomo API yazılımları hakkında ayrıntılı bilgi almak için %1$s Matomo API Yazılımları%2$s ve %3$s Matomo API Referansı %4$s belgelerine bakabilirsiniz.",
-        "PluginDescription": "Tüm Matomo verilerine temel API kullanılarak erişilebilir. Bu uygulama eki web istatistiği verilerini XML, JSON, PHP, CSV ve benzer şekillerde çağırabilen web hizmetinin başlangıç noktasıdır.",
+        "PluginDescription": "Tüm Matomo verilerine temel API kullanılarak erişilebilir. Bu uygulama eki site istatistikleri verilerini XML, JSON, PHP, CSV ve benzer şekillerde çağırabilen site hizmetinin başlangıç noktasıdır.",
         "ReportingApiReference": "Rapor API referansı",
-        "TopLinkTooltip": "Web istatistiği verilerine JSON, XML ve benzer yöntemlerle Temel API üzerinden erişilmesini sağlar.",
+        "TopLinkTooltip": "Site istatistiği verilerine JSON, XML ve benzer yöntemlerle Temel API üzerinden erişilmesini sağlar.",
         "UserAuthentication": "Kullanıcı kimlik doğrulaması",
         "UsingTokenAuth": "%1$sBir betik ya da bir zamanlanmış görev gibi yöntemlerle%2$s veri istiyorsanız, kimlik doğrulaması isteyen API çağrısı adreslerine %3$s parametresini eklemelisiniz."
     }

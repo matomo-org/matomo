@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Referrers;
 
+use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\SiteUrls;
@@ -35,6 +36,7 @@ class Referrers extends \Piwik\Plugin
             'AssetManager.getStylesheetFiles'   => 'getStylesheetFiles',
             'API.getPagesComparisonsDisabledFor'     => 'getPagesComparisonsDisabledFor',
             'Metrics.getDefaultMetricTranslations' => 'getDefaultMetricTranslations',
+            'Metrics.getDefaultMetricSemanticTypes'  => 'addMetricSemanticTypes',
         );
     }
 
@@ -60,6 +62,30 @@ class Referrers extends \Piwik\Plugin
         $translations[Archiver::METRIC_DISTINCT_WEBSITE_RECORD_NAME] = ucfirst(Piwik::translate('Referrers_DistinctWebsites'));
         $translations[Archiver::METRIC_DISTINCT_KEYWORD_RECORD_NAME] = ucfirst(Piwik::translate('Referrers_DistinctKeywords'));
         $translations[Archiver::METRIC_DISTINCT_CAMPAIGN_RECORD_NAME] = ucfirst(Piwik::translate('Referrers_DistinctCampaigns'));
+    }
+
+    public function addMetricSemanticTypes(array &$types): void
+    {
+        $types['Referrers_visitorsFromSearchEngines'] = Dimension::TYPE_NUMBER;
+        $types['Referrers_visitorsFromSearchEngines_percent'] = Dimension::TYPE_PERCENT;
+
+        $types['Referrers_visitorsFromSocialNetworks'] = Dimension::TYPE_NUMBER;
+        $types['Referrers_visitorsFromSocialNetworks_percent'] = Dimension::TYPE_PERCENT;
+
+        $types['Referrers_visitorsFromDirectEntry'] = Dimension::TYPE_NUMBER;
+        $types['Referrers_visitorsFromDirectEntry_percent'] = Dimension::TYPE_PERCENT;
+
+        $types['Referrers_visitorsFromWebsites'] = Dimension::TYPE_NUMBER;
+        $types['Referrers_visitorsFromWebsites_percent'] = Dimension::TYPE_PERCENT;
+
+        $types['Referrers_visitorsFromCampaigns'] = Dimension::TYPE_NUMBER;
+        $types['Referrers_visitorsFromCampaigns_percent'] = Dimension::TYPE_PERCENT;
+
+        $types[Archiver::METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME] = Dimension::TYPE_NUMBER;
+        $types[Archiver::METRIC_DISTINCT_SOCIAL_NETWORK_RECORD_NAME] = Dimension::TYPE_NUMBER;
+        $types[Archiver::METRIC_DISTINCT_WEBSITE_RECORD_NAME] = Dimension::TYPE_NUMBER;
+        $types[Archiver::METRIC_DISTINCT_KEYWORD_RECORD_NAME] = Dimension::TYPE_NUMBER;
+        $types[Archiver::METRIC_DISTINCT_CAMPAIGN_RECORD_NAME] = Dimension::TYPE_NUMBER;
     }
 
     public function getPagesComparisonsDisabledFor(&$pages)

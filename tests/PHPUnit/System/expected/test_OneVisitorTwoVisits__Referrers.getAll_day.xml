@@ -18,6 +18,7 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>1</revenue>
+		<segment>referrerType==search;referrerKeyword==purchase</segment>
 		<referer_type>2</referer_type>
 	</row>
 	<row>
@@ -38,6 +39,7 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>42</revenue>
+		<segment>referrerName==referrer.com</segment>
 		<referer_type>3</referer_type>
 	</row>
 </result>

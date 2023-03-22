@@ -5,6 +5,8 @@
 # $ git tag 1.11-b3
 # $ git push origin tags/1.11-b3
 
+shopt -s extglob
+
 URL_REPO=https://github.com/matomo-org/matomo.git
 
 LOCAL_REPO="matomo_last_version_git"
@@ -15,14 +17,6 @@ SUBMODULES_PACKAGED_WITH_CORE='log-analytics|plugins/Morpheus/icons|plugins/TagM
 
 # Setting umask so it works for most users, see https://github.com/matomo-org/matomo/issues/3869
 umask 0022
-
-# this is our current folder
-CURRENT_DIR="$(pwd)"
-
-# this is where our build script is.
-WORK_DIR="$CURRENT_DIR/archives/"
-
-echo "Working directory is '$WORK_DIR'..."
 
 function Usage() {
     echo -e "ERROR: This command is missing one or more option. See help below."
@@ -76,6 +70,8 @@ function die() {
 # organize files for packaging
 function organizePackage() {
 
+    cd "$CURRENT_DIR/$LOCAL_REPO"
+
     if [ ! -f "composer.phar" ]
     then
         EXPECTED_SIGNATURE="$(wget -q -O - https://composer.github.io/installer.sig)"
@@ -92,15 +88,16 @@ function organizePackage() {
         rm composer-setup.php
     fi
     # --ignore-platform-reqs in case the building machine does not have one of the packages required ie. GD required by cpchart
-    php composer.phar install --no-dev -o --ignore-platform-reqs || die "Error installing composer packages"
+    php composer.phar install --no-dev -o -q --ignore-platform-reqs || die "Error installing composer packages"
 
     # delete most submodules
     for P in $(git submodule status | egrep -v $SUBMODULES_PACKAGED_WITH_CORE | awk '{print $2}')
     do
+        echo "removing $P"
         rm -Rf ./$P
     done
 
-    cp tests/README.md ../
+    cp tests/README.md $ARCH_DIR
 
     $CURRENT_DIR/.github/scripts/clean-build.sh
 
@@ -113,13 +110,13 @@ function organizePackage() {
     fi
 
     mkdir tests
-    mv ../README.md tests/
+    mv $ARCH_DIR/README.md tests/
 
     # Remove and deactivate the TestRunner plugin in production build
     sed -i '/Plugins\[\] = TestRunner/d' config/global.ini.php
     rm -rf plugins/TestRunner
 
-    cp misc/How\ to\ install\ Matomo.html ..
+    cp misc/How\ to\ install\ Matomo.html $ARCH_DIR
 
     if [ -d "misc/package" ]
     then
@@ -160,9 +157,16 @@ fi
 # check for local requirements
 checkEnv
 
+# this is our current folder
+CURRENT_DIR="$(pwd)"
+
+ARCH_DIR="$CURRENT_DIR/$LOCAL_ARCH"
+
+echo "Working directory is '$CURRENT_DIR'..."
+
 echo -e "Going to build Matomo $VERSION (Major version: $MAJOR_VERSION)"
 
-if ! echo "$VERSION" | grep -E 'rc|b|a|alpha|beta|dev' -i
+if ! echo "$VERSION" | grep -E 'rc|b|a|alpha|beta|dev|build' -i
 then
     if curl --output /dev/null --silent --head --fail "https://builds.matomo.org/$F-$VERSION.zip"
     then
@@ -175,26 +179,29 @@ sleep 2
 
 echo "Starting '$FLAVOUR' build...."
 
-mkdir -p "$WORK_DIR"
-cd "$WORK_DIR" || exit
+if [ "$VERSION" == "build" ]; then
+  mkdir $LOCAL_REPO
+  cp -pdr !($LOCAL_REPO) $LOCAL_REPO
+  cp -r .git $LOCAL_REPO
+else
+  if [ -d "$LOCAL_REPO" ] ; then
+      rm -rf $LOCAL_REPO
+  fi
 
-[ -d "$LOCAL_ARCH" ] || mkdir "$LOCAL_ARCH"
+  echo "cloning repository for tag $VERSION..."
+
+  # for this to work 'git-lfs' has to be installed on the local machine
+  git clone --config filter.lfs.smudge="git-lfs smudge --skip" --single-branch --branch "$VERSION" "$URL_REPO" "$LOCAL_REPO"
+
+  if [ "$?" -ne "0" ] || [ ! -d "$LOCAL_REPO" ]; then
+      die "Error: Failed to clone git repository $URL_REPO, maybe tag $VERSION does not exist"
+  fi
+fi
+
+mkdir -p "$ARCH_DIR"
+cd "$ARCH_DIR" || exit
 
 cd "$CURRENT_DIR" || exit
-cd "$WORK_DIR" || exit
-
-if [ -d "$LOCAL_REPO" ] ; then
-    rm -rf $LOCAL_REPO
-fi
-
-echo "cloning repository for tag $VERSION..."
-
-# for this to work 'git-lfs' has to be installed on the local machine
-git clone --config filter.lfs.smudge="git-lfs smudge --skip" --single-branch --branch "$VERSION" "$URL_REPO" "$LOCAL_REPO"
-
-if [ "$?" -ne "0" ] || [ ! -d "$LOCAL_REPO" ]; then
-    die "Error: Failed to clone git repository $URL_REPO, maybe tag $VERSION does not exist"
-fi
 
 echo -e "Working in $LOCAL_REPO"
 cd "$LOCAL_REPO" || exit
@@ -208,10 +215,12 @@ done
 
 echo "Preparing release $VERSION"
 echo "Git tag: $(git describe --exact-match --tags HEAD)"
-echo "Git path: $WORK_DIR/$LOCAL_REPO"
-echo "Matomo version in core/Version.php: $(grep "'$VERSION'" core/Version.php)"
+echo "Git path: $CURRENT_DIR/$LOCAL_REPO"
+echo "Matomo version in core/Version.php: $(php -r "include_once 'core/Version.php'; echo \Piwik\Version::VERSION;")"
 
-[ "$(grep "'$VERSION'" core/Version.php | wc -l)" = "1" ] || die "version $VERSION does not match core/Version.php";
+if [ "$VERSION" != "build" ]; then
+  [ "$(grep "'$VERSION'" core/Version.php | wc -l)" = "1" ] || die "version $VERSION does not match core/Version.php";
+fi
 
 echo "Organizing files and generating manifest file..."
 organizePackage
@@ -220,36 +229,42 @@ for F in $FLAVOUR; do
     echo "Creating '$F' release package"
 
     # leave $LOCAL_REPO folder
-    cd "$WORK_DIR" || exit
+    cd "$ARCH_DIR" || exit
 
     echo "copying files to a new directory..."
     [ -d "$F" ] && rm -rf "$F"
-    cp -pdr "$LOCAL_REPO" "$F"
+    cp -pdr "$CURRENT_DIR/$LOCAL_REPO" "$F"
     cd "$F" || exit
 
     # leave $F folder
     cd ..
 
     echo "packaging release..."
-    rm "../$LOCAL_ARCH/$F-$VERSION.zip" 2> /dev/null
-    zip -9 -r "../$LOCAL_ARCH/$F-$VERSION.zip" "$F" How\ to\ install\ Matomo.html > /dev/null
+    rm "$ARCH_DIR/$F-$VERSION.zip" 2> /dev/null
+    zip -9 -r "$ARCH_DIR/$F-$VERSION.zip" "$F" How\ to\ install\ Matomo.html > /dev/null
 
-    gpg --armor --detach-sign "../$LOCAL_ARCH/$F-$VERSION.zip" || die "Failed to sign $F-$VERSION.zip"
+    if [ "$VERSION" != "build" ]; then
+      gpg --armor --detach-sign "$ARCH_DIR/$F-$VERSION.zip" || die "Failed to sign $F-$VERSION.zip"
+    fi
 
-    rm "../$LOCAL_ARCH/$F-$VERSION.tar.gz"  2> /dev/null
-    tar -czf "../$LOCAL_ARCH/$F-$VERSION.tar.gz" "$F" How\ to\ install\ Matomo.html
+    rm "$ARCH_DIR/$F-$VERSION.tar.gz"  2> /dev/null
+    tar -czf "$ARCH_DIR/$F-$VERSION.tar.gz" "$F" How\ to\ install\ Matomo.html
 
-    gpg --armor --detach-sign "../$LOCAL_ARCH/$F-$VERSION.tar.gz" || die "Failed to sign $F-$VERSION.tar.gz"
+    if [ "$VERSION" != "build" ]; then
+      gpg --armor --detach-sign "$ARCH_DIR/$F-$VERSION.tar.gz" || die "Failed to sign $F-$VERSION.tar.gz"
+    fi
 
 done
 
-# Check File signatures are correct
-for ext in zip tar.gz
-do
-    for F in $FLAVOUR; do
-        gpg --verify ../$LOCAL_ARCH/$F-$VERSION.$ext.asc
-        if [ "$?" -ne "0" ]; then
-            die "Failed to verify signature for ../$LOCAL_ARCH/$F-$VERSION.$ext"
-        fi
-    done
-done
+if [ "$VERSION" != "build" ]; then
+  # Check File signatures are correct
+  for ext in zip tar.gz
+  do
+      for F in $FLAVOUR; do
+          gpg --verify $ARCH_DIR/$F-$VERSION.$ext.asc
+          if [ "$?" -ne "0" ]; then
+              die "Failed to verify signature for $ARCH_DIR/$F-$VERSION.$ext"
+          fi
+      done
+  done
+fi

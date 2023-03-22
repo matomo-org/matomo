@@ -517,6 +517,17 @@ class Request
     }
 
     /**
+     * Returns true if a token_auth parameter was supplied via a POST request and is not present as a URL parameter
+     *
+     * @return bool True if token supplied via POST request
+     */
+    public static function isTokenAuthPosted(): bool
+    {
+        return (\Piwik\Request::fromGet()->getStringParameter('token_auth', '') === '' &&
+                \Piwik\Request::fromPost()->getStringParameter('token_auth', '') !== '');
+    }
+
+    /**
      * Returns array($class, $method) from the given string $class.$method
      *
      * @param string $parameter

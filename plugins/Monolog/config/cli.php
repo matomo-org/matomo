@@ -3,7 +3,6 @@
 use Matomo\Dependencies\Psr\Container\ContainerInterface;
 use Matomo\Dependencies\Monolog\Logger;
 use Piwik\Plugins\Monolog\Handler\FailureLogMessageDetector;
-use Matomo\Dependencies\Symfony\Bridge\Monolog\Formatter\ConsoleFormatter;
 use Matomo\Dependencies\Symfony\Bridge\Monolog\Handler\ConsoleHandler;
 use Symfony\Component\Console\Output\OutputInterface;
 use Matomo\Dependencies\DI;
@@ -33,7 +32,7 @@ return array(
             OutputInterface::VERBOSITY_DEBUG => Logger::DEBUG,
         );
         $handler = new ConsoleHandler(null, true, $verbosityMap);
-        $handler->setFormatter(new ConsoleFormatter([
+        $handler->setFormatter(new \Piwik\Plugins\Monolog\Formatter\ConsoleFormatter([
             'format' => $c->get('log.console.format'),
             'multiline' => true
         ]));

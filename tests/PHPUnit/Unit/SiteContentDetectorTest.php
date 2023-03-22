@@ -22,7 +22,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $siteData = '<html lang="en"><head><title>A site</title></head><script src="https://osano.com/uhs9879874hthg.js"></script></head><body>A site</body></html>';
 
         $scd = new SiteContentDetector();
-        $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $siteData);
+        $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
 
         $this->assertEquals('osano', $scd->consentManagerId);
         $this->assertFalse($scd->isConnected);
@@ -32,10 +32,43 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
     {
         $siteData = "<html lang='en'><head><title>A site</title></head><script src='https://osano.com/uhs9879874hthg.js'></script><script>Osano.cm.addEventListener('osano-cm-consent-changed', (change) => { console.log('cm-change'); consentSet(change); });</script></><body>A site</body></html>";
         $scd = new SiteContentDetector();
-        $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $siteData);
+        $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
 
         $this->assertEquals('osano', $scd->consentManagerId);
         $this->assertTrue($scd->isConnected);
+    }
+
+    public function test_detectsCMS_wordPress()
+    {
+        $siteData = "<html lang='en'><head><title>A site</title></head><script src='/wp-content/foo.cs'></script><body>A site<img src='/wp-content/plugins/foo'></body></html>";
+        $scd = new SiteContentDetector();
+        $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
+
+        $this->assertEquals('wordpress', $scd->cms);
+    }
+
+    public function test_detectsCMS_joomla()
+    {
+        $siteData = "<html lang='en'><head><title>A site</title></head><body></body></html>";
+        $headers = ['expires' => 'Wed, 17 Aug 2005 00:00:00 GMT'];
+        $scd = new SiteContentDetector();
+        $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData, $headers));
+
+        $this->assertEquals('joomla', $scd->cms);
+    }
+
+    public function test_detectsCMS_wix()
+    {
+        $siteData = "<html lang='en'><head><title>A site</title></head><meta value='X-Wix-Published-Version'><body>A sit</body></html>";
+        $scd = new SiteContentDetector();
+        $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
+
+        $this->assertEquals('wix', $scd->cms);
+    }
+
+    private function makeSiteResponse($data, $headers = [])
+    {
+        return ['data' => $data, 'headers' => $headers, 'status' => 200];
     }
 
     public function test_detectsGA3_IfPresent()
@@ -49,7 +82,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
                      ga('send', 'pageview');
                      </script></head><body>A site</body></html>";
         $scd = new SiteContentDetector();
-        $scd->detectContent([SiteContentDetector::GA3], null, $siteData);
+        $scd->detectContent([SiteContentDetector::GA3], null, $this->makeSiteResponse($siteData));
 
         $this->assertEmpty($scd->consentManagerId);
         $this->assertFalse($scd->ga4);
@@ -69,7 +102,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
                     </script>
                     </head><body>A site</body></html>";
         $scd = new SiteContentDetector();
-        $scd->detectContent([SiteContentDetector::GA4], null, $siteData);
+        $scd->detectContent([SiteContentDetector::GA4], null, $this->makeSiteResponse($siteData));
 
         $this->assertFalse($scd->ga3);
         $this->assertFalse($scd->gtm);
@@ -88,7 +121,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
                      <!-- End Google Tag Manager -->                     
                      </head><body>A site</body></html>";
         $scd = new SiteContentDetector();
-        $scd->detectContent([SiteContentDetector::GTM], null, $siteData);
+        $scd->detectContent([SiteContentDetector::GTM], null, $this->makeSiteResponse($siteData));
 
         $this->assertFalse($scd->ga3);
         $this->assertFalse($scd->ga4);
@@ -99,7 +132,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
     {
         $siteData = "<html lang=\"en\"><head><title>A site</title><script><script>console.log('abc');</script></head><body>A site</body></html>";
         $scd = new SiteContentDetector();
-        $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $siteData);
+        $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
 
         $this->assertFalse($scd->ga3);
         $this->assertFalse($scd->ga4);

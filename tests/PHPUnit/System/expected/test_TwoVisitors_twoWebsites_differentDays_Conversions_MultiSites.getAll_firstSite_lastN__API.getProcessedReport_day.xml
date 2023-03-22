@@ -32,6 +32,22 @@
 			<orders_evolution>Ecommerce Orders Evolution</orders_evolution>
 			<ecommerce_revenue_evolution>Product Revenue Evolution</ecommerce_revenue_evolution>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_actions>number</nb_actions>
+			<nb_pageviews>number</nb_pageviews>
+			<revenue>money</revenue>
+			<nb_conversions>number</nb_conversions>
+			<orders>number</orders>
+			<ecommerce_revenue>money</ecommerce_revenue>
+			<visits_evolution>percent</visits_evolution>
+			<actions_evolution>percent</actions_evolution>
+			<pageviews_evolution>percent</pageviews_evolution>
+			<revenue_evolution>percent</revenue_evolution>
+			<nb_conversions_evolution>percent</nb_conversions_evolution>
+			<orders_evolution>percent</orders_evolution>
+			<ecommerce_revenue_evolution>percent</ecommerce_revenue_evolution>
+		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=MultiSites&amp;apiAction=getAll&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=MultiSites&amp;apiAction=getAll&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphEvolutionUrl>
 		<uniqueId>MultiSites_getAll</uniqueId>

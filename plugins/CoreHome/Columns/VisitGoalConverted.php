@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\CoreHome\Columns;
 
+use Piwik\Columns\Dimension;
 use Piwik\Columns\DimensionMetricFactory;
 use Piwik\Columns\MetricsList;
 use Piwik\Piwik;
@@ -29,6 +30,7 @@ class VisitGoalConverted extends VisitDimension
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {
         $metric1 = $dimensionMetricFactory->createCustomMetric('nb_visits_converted', Piwik::translate('General_ColumnVisitsWithConversions'), 'sum(case %s when 1 then 1 else 0 end)');
+        $metric1->setType(Dimension::TYPE_NUMBER);
         $metricsList->addMetric($metric1);
 
         $metric = $dimensionMetricFactory->createComputedMetric($metric1->getName(), 'nb_visits', ComputedMetric::AGGREGATION_RATE);

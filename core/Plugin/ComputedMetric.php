@@ -139,7 +139,7 @@ class ComputedMetric extends ProcessedMetric
                 $metric1 = $this->getMetricsList()->getMetric($this->metric1);
                 if ($metric1) {
                     $dimension = $metric1->getDimension();
-                    if ($dimension) {
+                    if ($dimension && $dimension->getType() != Dimension::TYPE_BOOL) {
                         $this->type = $dimension->getType();
                     }
                 }
@@ -258,5 +258,10 @@ class ComputedMetric extends ProcessedMetric
             $this->idSite = Common::getRequestVar('idSite', 0, 'int');
         }
         return !empty($this->idSite); // skip formatting if there is no site to get currency info from
+    }
+
+    public function getSemanticType(): ?string
+    {
+        return $this->getDetectedType();
     }
 }

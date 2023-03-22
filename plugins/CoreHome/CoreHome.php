@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\CoreHome;
 
+use Piwik\Access;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Columns\ComputedMetricFactory;
 use Piwik\Columns\MetricsList;
@@ -105,7 +106,8 @@ class CoreHome extends \Piwik\Plugin
                 if ($metric->getDbTableName() === 'log_visit'
                     && $metricName !== 'nb_uniq_visitors'
                     && $metricName !== 'nb_visits'
-                    && strpos($metricName, ArchivedMetric::AGGREGATION_SUM_PREFIX) === 0) {
+                    && strpos($metricName, ArchivedMetric::AGGREGATION_SUM_PREFIX) === 0
+                ) {
                     $metric = $computedMetricFactory->createComputedMetric($metric->getName(), 'nb_visits', ComputedMetric::AGGREGATION_AVG);
                     $list->addMetric($metric);
                 }
@@ -388,16 +390,19 @@ class CoreHome extends \Piwik\Plugin
         // add admin menu translations
         if (SettingsPiwik::isMatomoInstalled()
             && Common::getRequestVar('module', '') != 'CoreUpdater'
+            && Piwik::isUserHasSomeViewAccess()
         ) {
-            $menu = MenuAdmin::getInstance()->getMenu();
-            foreach ($menu as $level1 => $level2) {
-                $translationKeys[] = $level1;
-                foreach ($level2 as $name => $params) {
-                    if (strpos($name, '_') !== false) {
-                        $translationKeys[] = $name;
+            Access::doAsSuperUser(function() use (&$translationKeys) {
+                $menu = MenuAdmin::getInstance()->getMenu();
+                foreach ($menu as $level1 => $level2) {
+                    $translationKeys[] = $level1;
+                    foreach ($level2 as $name => $params) {
+                        if (strpos($name, '_') !== false) {
+                            $translationKeys[] = $name;
+                        }
                     }
                 }
-            }
+            });
         }
     }
 }

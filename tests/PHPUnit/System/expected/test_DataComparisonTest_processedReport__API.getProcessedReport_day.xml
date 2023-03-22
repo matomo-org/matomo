@@ -30,6 +30,16 @@
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Visit Duration (in seconds)</avg_time_on_site>
 		</processedMetrics>
+		<metricTypes>
+			<nb_uniq_visitors>number</nb_uniq_visitors>
+			<nb_visits>number</nb_visits>
+			<nb_users>number</nb_users>
+			<nb_actions>number</nb_actions>
+			<max_actions>number</max_actions>
+			<bounce_rate>percent</bounce_rate>
+			<nb_actions_per_visit>number</nb_actions_per_visit>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitsSummary&amp;apiAction=get&amp;period=day&amp;date=2012-08-09,2012-08-16</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitsSummary&amp;apiAction=get&amp;period=day&amp;date=2012-08-09,2012-08-16</imageGraphEvolutionUrl>
 		<uniqueId>VisitsSummary_get</uniqueId>

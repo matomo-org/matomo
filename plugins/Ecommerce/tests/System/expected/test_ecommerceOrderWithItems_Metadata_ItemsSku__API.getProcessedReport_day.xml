@@ -21,6 +21,15 @@
 			<avg_quantity>Average Quantity</avg_quantity>
 			<conversion_rate>Product Conversion Rate</conversion_rate>
 		</processedMetrics>
+		<metricTypes>
+			<revenue>money</revenue>
+			<quantity>number</quantity>
+			<orders>number</orders>
+			<nb_visits>number</nb_visits>
+			<avg_price>money</avg_price>
+			<avg_quantity>number</avg_quantity>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsSku&amp;period=day&amp;date=2011-04-05</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsSku&amp;period=day&amp;date=2011-03-07,2011-04-05</imageGraphEvolutionUrl>
 		<uniqueId>Goals_getItemsSku</uniqueId>
