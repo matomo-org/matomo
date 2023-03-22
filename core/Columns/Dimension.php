@@ -171,24 +171,6 @@ abstract class Dimension
     protected $sqlFilterValue;
 
     /**
-     * A callback that can be used to customize the SQL used to match a segment. The value must be a callable
-     * with the following signature:
-     *
-     * ```
-     * function ($field, $matchType, $value, $join) {
-     *    // ...
-     * }
-     * ```
-     *
-     * Return `null` to use the default SQL. Otherwise, return an array with two keys: `sql` and `bind`
-     * where `sql` is a SQL string and `bind` is an array of values to bind when executing it.
-     *
-     * @var callable
-     * @api since Piwik 5.0.0
-     */
-    protected $sqlFilterMatch;
-
-    /**
      * Defines whether this dimension (and segment based on this dimension) is available to anonymous users.
      * @var bool
      * @api since Piwik 3.2.0
@@ -651,14 +633,6 @@ abstract class Dimension
     public function getSqlFilterValue()
     {
         return $this->sqlFilterValue;
-    }
-
-    /**
-     * @return callable|null
-     */
-    public function getSqlFilterMatch()
-    {
-        return $this->sqlFilterMatch;
     }
 
     /**
