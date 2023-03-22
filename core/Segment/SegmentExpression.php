@@ -51,6 +51,7 @@ class SegmentExpression
     const INDEX_OPERAND_OPERATOR = 1;
     const INDEX_OPERAND_VALUE = 2;
     const INDEX_OPERAND_JOIN_COLUMN = 3;
+    const INDEX_OPERAND_SEGMENT_INFO = 4;
 
     const SQL_WHERE_DO_NOT_MATCH_ANY_ROW = "(1 = 0)";
     const SQL_WHERE_MATCHES_ALL_ROWS = "(1 = 1)";
@@ -202,11 +203,11 @@ class SegmentExpression
      */
     protected function getSqlMatchFromDefinition($def, &$availableTables)
     {
-        $field     = $def[0];
-        $matchType = $def[1];
-        $value     = $def[2];
-        $join      = $def[3] ?? null;
-        $segment   = $def[4] ?? null;
+        $field     = $def[self::INDEX_OPERAND_NAME];
+        $matchType = $def[self::INDEX_OPERAND_OPERATOR];
+        $value     = $def[self::INDEX_OPERAND_VALUE];
+        $join      = $def[self::INDEX_OPERAND_JOIN_COLUMN] ?? null;
+        $segment   = $def[self::INDEX_OPERAND_SEGMENT_INFO] ?? null;
 
         // Note: we save the SQL used in the subquery (if there is one), as we don't want to run
         // self::checkFieldIsAvailable() on it.
