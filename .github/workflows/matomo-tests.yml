@@ -1,7 +1,7 @@
 # Action for running tests
 # This file has been automatically created.
 # To recreate it you can run this command
-# ./console generate:test-action --php-versions="7.2,8.1"
+# ./console generate:test-action --php-versions="7.4,8.1"
 
 name: Matomo Tests
 
@@ -37,10 +37,10 @@ jobs:
       fail-fast: false
       matrix:
         type: [ 'UnitTests', 'SystemTestsPlugins', 'SystemTestsCore', 'IntegrationTestsCore', 'IntegrationTestsPlugins' ]
-        php: [ '7.2', '8.1' ]
+        php: [ '7.4', '8.1' ]
         adapter: [ 'PDO_MYSQL', 'MYSQLI' ]
         exclude:
-          - php: '7.2'
+          - php: '7.4'
             adapter: 'MYSQLI'
           - php: '8.1'
             adapter: 'PDO_MYSQL'
@@ -59,7 +59,7 @@ jobs:
           php-version: ${{ matrix.php }}
           redis-service: true
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
-          upload-artifacts: ${{ matrix.php == '7.2' }}
+          upload-artifacts: ${{ matrix.php == '7.4' }}
   Javascript:
     runs-on: ubuntu-20.04
     timeout-minutes: 15
@@ -74,7 +74,7 @@ jobs:
         uses: matomo-org/github-action-tests@main
         with:
           test-type: 'JS'
-          php-version: '7.2'
+          php-version: '7.4'
           node-version: '12'
   Client:
     runs-on: ubuntu-20.04
@@ -110,7 +110,7 @@ jobs:
         with:
           ui-test-options: '--num-test-groups=4 --test-group=${{ matrix.parts }}'
           test-type: 'UI'
-          php-version: '7.2'
+          php-version: '7.4'
           node-version: '16'
           redis-service: true
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
