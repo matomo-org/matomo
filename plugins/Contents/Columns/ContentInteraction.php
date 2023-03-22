@@ -14,6 +14,7 @@ use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugins\Contents\Actions\ActionContent;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
+use Piwik\Tracker\TableLogAction;
 
 class ContentInteraction extends ActionDimension
 {
@@ -25,11 +26,7 @@ class ContentInteraction extends ActionDimension
     protected $nameSingular = 'Contents_ContentInteraction';
     protected $namePlural = 'Contents_ContentInteractions';
     protected $category = 'General_Actions';
-
-    public function __construct()
-    {
-        $this->sqlFilter = [$this, 'getOptimizedIdActionSqlMatch'];
-    }
+    protected $sqlFilter = [TableLogAction::class, 'getOptimizedIdActionSqlMatch'];
 
     public function getDbColumnJoin()
     {

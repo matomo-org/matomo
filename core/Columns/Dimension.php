@@ -883,35 +883,4 @@ abstract class Dimension
     }
 
 
-    /**
-     * Returns an idaction value to match an idaction column by searching log_action, if $matchType is
-     * SegmentExpression::MATCH_EQUAL or SegmentExpression::MATCH_NOT_EQUAL. This method is used
-     * to optimize segment conditions involving idaction queries, avoiding a join by querying the log_action
-     * table beforehand.
-     *
-     * Should be used as the $sqlFilter property for idaction dimensions that use `ActionNameJoin`.
-     *
-     * @param string $value the value in the segment condition
-     * @param string $sqlField the table column of the segment condition
-     * @param string $matchType the SegmentExpression match type, eg, `SegmentExpression::MATCH_NOT_EQUAL`
-     * @param string $segmentName the name of the segment, ie, `pageUrl`
-     * @return array|null|string
-     */
-    public function getOptimizedIdActionSqlMatch($value, $sqlField, $matchType, $segmentName, $isUrlProtocolAbsentInDb = false)
-    {
-        if ($matchType == SegmentExpression::MATCH_EQUAL || $matchType == SegmentExpression::MATCH_NOT_EQUAL) {
-            $result = TableLogAction::getIdActionFromSegment($value, $sqlField, $matchType, $segmentName);
-
-            if (is_numeric($result)) {
-                return ['value' => $result, 'joinTable' => false];
-            }
-
-            return $result;
-        }
-
-        $actionType = TableLogAction::guessActionTypeFromSegment($segmentName);
-        $value = TableLogAction::removeProtocolIfSegmentStoredWithoutIt($value, $actionType, $segmentName);
-
-        return $value;
-    }
 }

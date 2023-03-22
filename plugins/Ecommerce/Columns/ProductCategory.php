@@ -15,6 +15,7 @@ use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Plugin\Segment;
 use Piwik\Segment\SegmentsList;
 use Piwik\Tracker\Action;
+use Piwik\Tracker\TableLogAction;
 
 class ProductCategory extends Dimension
 {
@@ -50,7 +51,7 @@ class ProductCategory extends Dimension
             $segment->setType('dimension');
             $segment->setName($this->getName() . ' ' . ($i + 1));
             $segment->setSegment($productCategoryName);
-            $segment->setSqlFilter([$this, 'getOptimizedIdActionSqlMatch']);
+            $segment->setSqlFilter([TableLogAction::class, 'getOptimizedIdActionSqlMatch']);
             $segment->setSqlSegment('log_conversion_item.' . $productCategoryColumnName);
             $segment->setIsInternal(true);
             $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));

@@ -15,6 +15,7 @@ use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugins\Events\Actions\ActionEvent;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
+use Piwik\Tracker\TableLogAction;
 
 class EventAction extends ActionDimension
 {
@@ -26,11 +27,7 @@ class EventAction extends ActionDimension
     protected $namePlural = 'Events_EventActions';
     protected $suggestedValuesApi = 'Events.getAction';
     protected $category = 'Events_Events';
-
-    public function __construct()
-    {
-        $this->sqlFilter = [$this, 'getOptimizedIdActionSqlMatch'];
-    }
+    protected $sqlFilter = [TableLogAction::class, 'getOptimizedIdActionSqlMatch'];
 
     public function getDbColumnJoin()
     {

@@ -12,6 +12,7 @@ use Piwik\Columns\Discriminator;
 use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Tracker\Action;
+use Piwik\Tracker\TableLogAction;
 
 class PageUrl extends ActionDimension
 {
@@ -23,11 +24,7 @@ class PageUrl extends ActionDimension
     protected $type = self::TYPE_URL;
     protected $category = 'General_Actions';
     protected $suggestedValuesApi = 'Actions.getPageUrls';
-
-    public function __construct()
-    {
-        $this->sqlFilter = [$this, 'getOptimizedIdActionSqlMatch'];
-    }
+    protected $sqlFilter = [TableLogAction::class, 'getOptimizedIdActionSqlMatch'];
 
     public function getDbColumnJoin()
     {

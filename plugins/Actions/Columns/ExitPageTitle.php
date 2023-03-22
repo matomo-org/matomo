@@ -13,6 +13,7 @@ use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
+use Piwik\Tracker\TableLogAction;
 use Piwik\Tracker\Visitor;
 
 class ExitPageTitle extends VisitDimension
@@ -25,11 +26,7 @@ class ExitPageTitle extends VisitDimension
     protected $category = 'General_Actions';
     protected $suggestedValuesApi = 'Actions.getExitPageTitles';
     protected $type = self::TYPE_TEXT;
-
-    public function __construct()
-    {
-        $this->sqlFilter = [$this, 'getOptimizedIdActionSqlMatch'];
-    }
+    protected $sqlFilter = [TableLogAction::class, 'getOptimizedIdActionSqlMatch'];
 
     public function getDbColumnJoin()
     {

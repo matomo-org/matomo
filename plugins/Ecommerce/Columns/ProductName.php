@@ -12,6 +12,7 @@ use Piwik\Columns\Dimension;
 use Piwik\Columns\Discriminator;
 use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Tracker\Action;
+use Piwik\Tracker\TableLogAction;
 
 class ProductName extends Dimension
 {
@@ -22,11 +23,7 @@ class ProductName extends Dimension
     protected $namePlural = 'Goals_ProductNames';
     protected $category = 'Goals_Ecommerce';
     protected $segmentName = 'productName';
-
-    public function __construct()
-    {
-        $this->sqlFilter = [$this, 'getOptimizedIdActionSqlMatch'];
-    }
+    protected $sqlFilter = [TableLogAction::class, 'getOptimizedIdActionSqlMatch'];
 
     public function getDbColumnJoin()
     {

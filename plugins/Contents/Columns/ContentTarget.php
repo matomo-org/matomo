@@ -14,6 +14,7 @@ use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugins\Contents\Actions\ActionContent;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
+use Piwik\Tracker\TableLogAction;
 
 class ContentTarget extends ActionDimension
 {
@@ -25,11 +26,7 @@ class ContentTarget extends ActionDimension
     protected $segmentName = 'contentTarget';
     protected $category = 'General_Actions';
     protected $acceptValues = 'For instance the URL of a landing page: "http://landingpage.example.com"';
-
-    public function __construct()
-    {
-        $this->sqlFilter = [$this, 'getOptimizedIdActionSqlMatch'];
-    }
+    protected $sqlFilter = [TableLogAction::class, 'getOptimizedIdActionSqlMatch'];
 
     public function getDbColumnJoin()
     {
