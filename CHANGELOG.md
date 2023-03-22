@@ -34,7 +34,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### Removed Config
 
-* The segment subquery cache, previously enabled via the `segments_subquery_cache_limit` INI config, has been removed. Segment SQL queries that reference actions now directly join log_action. Related INI config option and `segments_subquery_cache_ttl` have also been removed.
+* The segment subquery cache, previously enabled via the `enable_segments_subquery_cache` INI config, has been removed. Segment SQL queries that reference actions now directly join log_action. Related INI config options `segments_subquery_cache_ttl` and `segments_subquery_cache_limit` have also been removed.
 
 ### Other Breaking changes
 
