@@ -214,7 +214,7 @@ class ArchiveInvalidationTest extends SystemTestCase
             ['dateString' => '2020-01-01',            'period' => 'day',   'expected' => [['2020-01-01'],[]]],
             ['dateString' => '2020-04-01',            'period' => 'month', 'expected' => [['2020-04-01'],[]]],
             ['dateString' => '2020-05-01,2020-05-02', 'period' => 'day',   'expected' => [[Date::factory('2020-05-01'), Date::factory('2020-05-02')],[]]],
-            ['dateString' => 'today,yesterday',       'period' => 'month', 'expected' => [[Date::factory('today'), Date::factory('yesterday')],[]]],
+            ['dateString' => 'today,yesterday',       'period' => 'day',   'expected' => [[Date::factory('today'), Date::factory('yesterday')],[]]],
         ];
 
         // Test API
