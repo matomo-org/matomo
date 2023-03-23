@@ -575,14 +575,6 @@ abstract class SystemTestCase extends TestCase
         self::assertTrue(stripos($response, 'exception') === false, "exception in $response");
     }
 
-    public static function assertApiResponseHasError($response)
-    {
-        if(!is_string($response)) {
-            $response = json_encode($response);
-        }
-        self::assertTrue(stripos($response, 'error') || stripos($response, 'exception'), "error or exception not found in $response");
-    }
-
     protected static function getProcessedAndExpectedDirs()
     {
         $path = static::getPathToTestDirectory();

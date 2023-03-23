@@ -167,7 +167,7 @@ class API extends \Piwik\Plugin\API
         }
 
         /** Date[]|string[] $dates */
-        list($dates, $invalidDates) = $this->getDatesToInvalidateFromString($dates, $period);
+        [$dates, $invalidDates] = $this->getDatesToInvalidateFromString($dates, $period);
 
         $invalidationResult = $this->invalidator->markArchivesAsInvalidated($idSites, $dates, $period, $segment, (bool)$cascadeDown, (bool)$_forceInvalidateNonexistent);
 
@@ -304,24 +304,12 @@ class API extends \Piwik\Plugin\API
         $toInvalidate = [];
         $invalidDates = [];
 
-        // Handle ranges for two specific dates, eg. dates=2023-01-01,2023-03-01
-        if ($period == 'range' && !is_array($dates) && substr_count($dates, ',') === 1) {
-            try {
-                $period = Factory::build('range', trim($dates));
-            } catch (\Exception $e) {
-                $invalidDates[] = $dates;
-            }
-            if ($period->getRangeString() == $dates) {
-                $toInvalidate[] = $dates;
-            } else {
-                $invalidDates[] = $dates;
-            }
-            return [$toInvalidate, $invalidDates];
-        }
-
-        // Handle all other periods
         if (!is_array($dates)) {
-            $dates = explode(',', trim($dates));
+            if ($period !== 'range') {
+                $dates = explode(',', trim($dates));
+            } else {
+                $dates = [trim($dates)];
+            }
         }
 
         $dates = array_unique($dates);
@@ -330,15 +318,15 @@ class API extends \Piwik\Plugin\API
             $theDate = trim($theDate);
 
             if ($period == 'range') {
-                // lastN ranges only
                 try {
-                    $period = Factory::build('range', $theDate);
+                    $periodObj = Factory::build('range', $theDate);
+                    $subPeriods = $periodObj->getSubperiods();
                 } catch (\Exception $e) {
                     $invalidDates[] = $theDate;
                     continue;
                 }
-                if (count($period->getSubperiods())) {
-                    $toInvalidate[] = $period->getRangeString();
+                if (count($subPeriods)) {
+                    $toInvalidate[] = $periodObj->getRangeString();
                 } else {
                     $invalidDates[] = $theDate;
                 }
