@@ -60,6 +60,10 @@ class PrefixDependency extends ConsoleCommand
             return;
         }
 
+        // symfony may try to log something after this command completes. If monolog is not loaded at that point,
+        // it will fail since it is also prefixed. so we log a dummy message to make sure everything is properly loaded.
+        StaticContainer::get(LoggerInterface::class)->info('-');
+
         $this->removePrefixRemovingAutoloader(); // can remain during development
 
         $composerPath = $this->getComposerPath($input);
@@ -91,6 +95,8 @@ class PrefixDependency extends ConsoleCommand
         $this->proxyOriginalComposerAutoloader($plugin, $output);
 
         $output->writeln("<info>Done.</info>");
+
+        return 0;
     }
 
     private function downloadPhpScoperIfNeeded(InputInterface $input, OutputInterface $output)
