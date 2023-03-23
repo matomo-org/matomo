@@ -206,21 +206,81 @@ class ArchiveInvalidationTest extends SystemTestCase
     /**
      * Check that dates are correctly parsed without any exceptions
      */
-    public function testDatesCorrectlyParsed()
+    public function getDatesToParse(): iterable
     {
-        $testDates = [
-            ['dateString' => '2020-01-01,2020-03-31', 'period' => 'range', 'expected' => [['2020-01-01,2020-03-31'],[]]],
-            ['dateString' => 'last30',                'period' => 'range', 'expected' => [[Date::factory('now')->subDay(29)->toString().','.Date::factory('now')->toString()],[]]],
-            ['dateString' => '2020-01-01',            'period' => 'day',   'expected' => [['2020-01-01'],[]]],
-            ['dateString' => '2020-04-01',            'period' => 'month', 'expected' => [['2020-04-01'],[]]],
-            ['dateString' => '2020-05-01,2020-05-02', 'period' => 'day',   'expected' => [[Date::factory('2020-05-01'), Date::factory('2020-05-02')],[]]],
-            ['dateString' => 'today,yesterday',       'period' => 'day',   'expected' => [[Date::factory('today'), Date::factory('yesterday')],[]]],
+        yield 'normal range' => [
+            '2020-01-01,2020-03-31',
+            'range',
+            [['2020-01-01,2020-03-31'], []],
         ];
 
+        yield 'range using lastX keyword' => [
+            'last30',
+            'range',
+            [[Date::factory('now')->subDay(29)->toString() . ',' . Date::factory('now')->toString()], []],
+        ];
+
+        yield 'single day' => [
+            '2020-01-01',
+            'day',
+            [['2020-01-01'], []],
+        ];
+
+        yield 'single month' => [
+            '2020-04-01',
+            'month',
+            [['2020-04-01'], []],
+        ];
+
+        yield 'multiple days' => [
+            '2020-05-01,2020-05-02',
+            'day',
+            [[Date::factory('2020-05-01'), Date::factory('2020-05-02')], []],
+        ];
+
+        yield 'magic day keywords' => [
+            'today,yesterday',
+            'period' => 'day',
+            [[Date::factory('today'), Date::factory('yesterday')], []],
+        ];
+
+        yield 'invalid text' => [
+            'abcdef',
+            'period' => 'day',
+            [[], ['abcdef']],
+        ];
+
+        yield 'invalid number' => [
+            167389494,
+            'period' => 'day',
+            [[], [167389494]],
+        ];
+
+        yield 'invalid day' => [
+            '2020-02-31',
+            'period' => 'day',
+            [[], ['2020-02-31']],
+        ];
+
+        yield 'invalid range' => [
+            '2020-08-15, 2020-08-01',
+            'period' => 'range',
+            [[], ['2020-02-31']],
+            true
+        ];
+    }
+
+    /**
+     * @dataProvider getDatesToParse
+     */
+    public function testDatesCorrectlyParsed($dateString, $period, $expected, bool $expectAPIError = false)
+    {
         // Test API
-        foreach ($testDates as $testData) {
-            $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=".self::$fixture->idSite1."&period=" .
-                $testData['period'] . "&dates=" . $testData['dateString']);
+        $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=".self::$fixture->idSite1."&period=" .
+            $period . "&dates=" . $dateString);
+        if ($expectAPIError) {
+            $this->assertApiResponseHasError($r->process());
+        } else {
             $this->assertApiResponseHasNoError($r->process());
         }
 
@@ -230,12 +290,15 @@ class ArchiveInvalidationTest extends SystemTestCase
         $method = $reflection->getMethod('getDatesToInvalidateFromString');
         $method->setAccessible(true);
 
-        foreach ($testDates as $testData) {
-            $parameters = [$testData['dateString'], $testData['period']];
+        $parameters = [$dateString, $period];
+        try {
             $result = $method->invokeArgs($api, $parameters);
-            self::assertEquals($testData['expected'], $result);
+            self::assertEquals($expected, $result);
+        } catch (\Exception $e) {
+            if (!$expectAPIError) {
+                throw $e;
+            }
         }
-
     }
 
     /**
