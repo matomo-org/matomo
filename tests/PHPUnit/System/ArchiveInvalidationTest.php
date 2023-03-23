@@ -291,14 +291,12 @@ class ArchiveInvalidationTest extends SystemTestCase
         $method->setAccessible(true);
 
         $parameters = [$dateString, $period];
-        try {
-            $result = $method->invokeArgs($api, $parameters);
-            self::assertEquals($expected, $result);
-        } catch (\Exception $e) {
-            if (!$expectAPIError) {
-                throw $e;
-            }
+        if ($expectAPIError) {
+            self::expectException(\Exception::class);
         }
+
+        $result = $method->invokeArgs($api, $parameters);
+        self::assertEquals($expected, $result);
     }
 
     /**
