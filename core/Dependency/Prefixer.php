@@ -20,6 +20,7 @@ class Prefixer
         'monolog/monolog',
         'symfony/monolog-bridge',
         'symfony/event-dispatcher',
+        'symfony/console', // new version now depends on service-contracts which symfony/monolog-bridge also depends on
         'php-di/php-di',
     ];
 

@@ -12,7 +12,7 @@ use Piwik\Console;
 use Piwik\Db;
 use Piwik\Plugins\CoreAdminHome\tests\Fixture\DuplicateActions;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Symfony\Component\Console\Tester\ApplicationTester;
+use Matomo\Dependencies\Symfony\Component\Console\Tester\ApplicationTester;
 
 /**
  * @group Core

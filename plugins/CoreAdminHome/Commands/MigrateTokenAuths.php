@@ -14,8 +14,8 @@ use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Updater;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use Matomo\Dependencies\Symfony\Component\Console\Input\InputInterface;
+use Matomo\Dependencies\Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Command to selectively delete visits.

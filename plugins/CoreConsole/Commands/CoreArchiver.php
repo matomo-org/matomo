@@ -10,9 +10,9 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 use Piwik\CronArchive;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Site;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
+use Matomo\Dependencies\Symfony\Component\Console\Input\InputInterface;
+use Matomo\Dependencies\Symfony\Component\Console\Input\InputOption;
+use Matomo\Dependencies\Symfony\Component\Console\Output\OutputInterface;
 
 class CoreArchiver extends ConsoleCommand
 {

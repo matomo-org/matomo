@@ -13,12 +13,12 @@
 
 namespace Piwik\Console;
 
-use Symfony\Component\Console\Exception\InvalidArgumentException;
-use Symfony\Component\Console\Exception\RuntimeException;
-use Symfony\Component\Console\Formatter\OutputFormatterStyle;
-use Symfony\Component\Console\Helper\InputAwareHelper;
-use Symfony\Component\Console\Output\ConsoleOutputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use Matomo\Dependencies\Symfony\Component\Console\Exception\InvalidArgumentException;
+use Matomo\Dependencies\Symfony\Component\Console\Exception\RuntimeException;
+use Matomo\Dependencies\Symfony\Component\Console\Formatter\OutputFormatterStyle;
+use Matomo\Dependencies\Symfony\Component\Console\Helper\InputAwareHelper;
+use Matomo\Dependencies\Symfony\Component\Console\Output\ConsoleOutputInterface;
+use Matomo\Dependencies\Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * The Dialog class provides helpers to interact with the user.

@@ -14,9 +14,9 @@ use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\Diagnostics\Diagnostic\DiagnosticResult;
 use Piwik\Plugins\Diagnostics\Diagnostic\DiagnosticResultItem;
 use Piwik\Plugins\Diagnostics\DiagnosticService;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
+use Matomo\Dependencies\Symfony\Component\Console\Input\InputInterface;
+use Matomo\Dependencies\Symfony\Component\Console\Input\InputOption;
+use Matomo\Dependencies\Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Run the diagnostics.

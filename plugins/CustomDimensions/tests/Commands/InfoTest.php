@@ -13,8 +13,8 @@ namespace Piwik\Plugins\CustomDimensions\tests\Commands;
 use Piwik\Plugins\CustomDimensions\Commands\Info;
 use Piwik\Plugins\CustomDimensions\CustomDimensions;
 use Piwik\Plugins\CustomDimensions\Dao\LogTable;
-use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Tester\CommandTester;
+use Matomo\Dependencies\Symfony\Component\Console\Application;
+use Matomo\Dependencies\Symfony\Component\Console\Tester\CommandTester;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**

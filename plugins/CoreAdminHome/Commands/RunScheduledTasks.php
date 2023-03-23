@@ -13,10 +13,10 @@ use Piwik\Container\StaticContainer;
 use Piwik\FrontController;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Scheduler\Scheduler;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
+use Matomo\Dependencies\Symfony\Component\Console\Input\InputArgument;
+use Matomo\Dependencies\Symfony\Component\Console\Input\InputInterface;
+use Matomo\Dependencies\Symfony\Component\Console\Input\InputOption;
+use Matomo\Dependencies\Symfony\Component\Console\Output\OutputInterface;
 
 class RunScheduledTasks extends ConsoleCommand
 {

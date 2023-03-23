@@ -14,8 +14,8 @@ use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Tester\CommandTester;
+use Matomo\Dependencies\Symfony\Component\Console\Application;
+use Matomo\Dependencies\Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * @group UserCountry

@@ -15,10 +15,10 @@ use Piwik\Db;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Timer;
 use Matomo\Dependencies\Psr\Log\NullLogger;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
+use Matomo\Dependencies\Symfony\Component\Console\Input\InputArgument;
+use Matomo\Dependencies\Symfony\Component\Console\Input\InputInterface;
+use Matomo\Dependencies\Symfony\Component\Console\Input\InputOption;
+use Matomo\Dependencies\Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Command that allows users to force purge old or invalid archive data. In the event of a failure

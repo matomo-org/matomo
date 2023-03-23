@@ -9,22 +9,20 @@
 namespace Piwik;
 
 use Exception;
-use Monolog\Handler\FingersCrossedHandler;
+use Matomo\Dependencies\Monolog\Handler\FingersCrossedHandler;
 use Piwik\Application\Environment;
 use Piwik\Config\ConfigNotFoundException;
 use Piwik\Console\DialogHelper;
 use Piwik\Container\StaticContainer;
-use Piwik\Dependency\PrefixRemovingAutoloader;
 use Piwik\Plugin\Manager as PluginManager;
-use Piwik\Plugins\CoreConsole\Commands\PrefixDependency;
 use Piwik\Plugins\Monolog\Handler\FailureLogMessageDetector;
 use Matomo\Dependencies\Psr\Log\LoggerInterface;
 use Matomo\Dependencies\Symfony\Bridge\Monolog\Handler\ConsoleHandler;
-use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
+use Matomo\Dependencies\Symfony\Component\Console\Application;
+use Matomo\Dependencies\Symfony\Component\Console\Command\Command;
+use Matomo\Dependencies\Symfony\Component\Console\Input\InputInterface;
+use Matomo\Dependencies\Symfony\Component\Console\Input\InputOption;
+use Matomo\Dependencies\Symfony\Component\Console\Output\OutputInterface;
 
 class Console extends Application
 {

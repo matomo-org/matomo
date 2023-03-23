@@ -9,9 +9,9 @@
 namespace Piwik\Tests\Framework\TestCase;
 
 use Piwik\Console;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Tester\ApplicationTester;
+use Matomo\Dependencies\Symfony\Component\Console\Input\InputInterface;
+use Matomo\Dependencies\Symfony\Component\Console\Output\OutputInterface;
+use Matomo\Dependencies\Symfony\Component\Console\Tester\ApplicationTester;
 
 /**
  * This class is used to workaround a Symfony issue. For tests that need to test interactivity,

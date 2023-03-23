@@ -12,13 +12,13 @@ namespace Piwik\Plugins\LanguagesManager\Commands;
 use Piwik\Cache;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\LanguagesManager\API;
-use Symfony\Component\Console\Helper\DialogHelper;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\NullOutput;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\ProgressBar;
+use Matomo\Dependencies\Symfony\Component\Console\Helper\DialogHelper;
+use Matomo\Dependencies\Symfony\Component\Console\Input\ArrayInput;
+use Matomo\Dependencies\Symfony\Component\Console\Input\InputInterface;
+use Matomo\Dependencies\Symfony\Component\Console\Input\InputOption;
+use Matomo\Dependencies\Symfony\Component\Console\Output\NullOutput;
+use Matomo\Dependencies\Symfony\Component\Console\Output\OutputInterface;
+use Matomo\Dependencies\Symfony\Component\Console\Helper\ProgressBar;
 
 /**
  */

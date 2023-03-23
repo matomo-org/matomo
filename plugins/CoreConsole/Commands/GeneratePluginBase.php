@@ -16,8 +16,8 @@ use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugin\Dependency;
 use Piwik\Plugin\Manager;
 use Piwik\Version;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use Matomo\Dependencies\Symfony\Component\Console\Input\InputInterface;
+use Matomo\Dependencies\Symfony\Component\Console\Output\OutputInterface;
 use Piwik\SettingsPiwik;
 use Piwik\Exception\NotGitInstalledException;
 

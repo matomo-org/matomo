@@ -13,8 +13,8 @@ use Piwik\Config;
 use Piwik\Filesystem;
 use Piwik\SettingsPiwik;
 use Piwik\Plugin\ConsoleCommand;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use Matomo\Dependencies\Symfony\Component\Console\Input\InputInterface;
+use Matomo\Dependencies\Symfony\Component\Console\Output\OutputInterface;
 
 /**
  */

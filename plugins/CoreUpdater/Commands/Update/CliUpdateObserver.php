@@ -10,7 +10,7 @@ namespace Piwik\Plugins\CoreUpdater\Commands\Update;
 
 use Piwik\Updater\Migration;
 use Piwik\Updater\UpdateObserver;
-use Symfony\Component\Console\Output\OutputInterface;
+use Matomo\Dependencies\Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * UpdateObserver used to output progress of an update initiated on the command line. Prints the currently

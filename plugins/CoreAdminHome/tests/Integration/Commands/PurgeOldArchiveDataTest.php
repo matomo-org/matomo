@@ -13,7 +13,7 @@ use Piwik\Date;
 use Piwik\Plugins\CoreAdminHome\Commands\PurgeOldArchiveData;
 use Piwik\Tests\Fixtures\RawArchiveDataWithTempAndInvalidated;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Symfony\Component\Console\Tester\ApplicationTester;
+use Matomo\Dependencies\Symfony\Component\Console\Tester\ApplicationTester;
 
 /**
  * @group Core

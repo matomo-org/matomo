@@ -15,8 +15,8 @@ use Piwik\Option;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use Matomo\Dependencies\Symfony\Component\Console\Input\InputInterface;
+use Matomo\Dependencies\Symfony\Component\Console\Output\OutputInterface;
 
 class ConvertRegionCodesToIso extends ConsoleCommand
 {

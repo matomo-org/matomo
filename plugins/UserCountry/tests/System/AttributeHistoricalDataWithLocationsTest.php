@@ -14,8 +14,8 @@ use Piwik\Plugins\UserCountry\Commands\AttributeHistoricalDataWithLocations;
 use Piwik\Tests\Fixtures\ManyVisitsWithGeoIP;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Tester\CommandTester;
+use Matomo\Dependencies\Symfony\Component\Console\Application;
+use Matomo\Dependencies\Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * Class AttributeHistoricalDataWithLocationsTest

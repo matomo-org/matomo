@@ -9,8 +9,8 @@
 
 namespace Piwik\Plugins\CoreConsole\Commands;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use Matomo\Dependencies\Symfony\Component\Console\Input\InputInterface;
+use Matomo\Dependencies\Symfony\Component\Console\Output\OutputInterface;
 
 abstract class GenerateVueConstructBase extends GeneratePluginBase
 {
