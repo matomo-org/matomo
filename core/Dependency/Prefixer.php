@@ -296,11 +296,8 @@ EOF;
             foreach ($dependencyComposerJson['require'] as $name => $ignore) {
                 if (!$this->isDependencyExists($name)
                     || in_array($name, $this->dependenciesToPrefix)
+                    || in_array($name, self::DEPENDENCIES_TO_IGNORE)
                 ) {
-                    continue;
-                }
-
-                if (in_array($dependency, self::DEPENDENCIES_TO_IGNORE)) {
                     continue;
                 }
 
