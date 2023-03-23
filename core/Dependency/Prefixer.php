@@ -302,6 +302,7 @@ EOF;
                     continue;
                 }
 
+                print "adding dependency: " . $name . "\n";
                 $this->dependenciesToPrefix[] = $name;
                 $dependenciesToProcess[] = $name;
             }
