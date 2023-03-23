@@ -24,6 +24,10 @@ class Prefixer
         'php-di/php-di',
     ];
 
+    const DEPENDENCIES_TO_IGNORE = [
+        'symfony/polyfill-php80',
+    ];
+
     /**
      * 'core' or a plugin name
      *
@@ -264,6 +268,9 @@ EOF;
         $dependenciesToProcess = $this->dependenciesToPrefix;
         while (!empty($dependenciesToProcess)) {
             $dependency = array_shift($dependenciesToProcess);
+            if (in_array($dependency, self::DEPENDENCIES_TO_IGNORE)) {
+                continue;
+            }
 
             $dependencyComposerJson = $this->getComposerJsonPath($this->vendorPath . '/' . $dependency);
             if (!is_file($dependencyComposerJson)) {
