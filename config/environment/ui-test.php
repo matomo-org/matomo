@@ -40,7 +40,7 @@ return [
         };
     },
 
-    'Piwik\Config' => DI\decorate(function (\Piwik\Config $config) {
+    'Piwik\Config' => \Matomo\Dependencies\DI\decorate(function (\Piwik\Config $config) {
         $config->General['cors_domains'][] = '*';
         $config->General['trusted_hosts'][] = '127.0.0.1';
         $config->General['trusted_hosts'][] = $config->tests['http_host'];
@@ -48,7 +48,7 @@ return [
         return $config;
     }),
 
-    'observers.global' => DI\add([
+    'observers.global' => \Matomo\Dependencies\DI\add([
 
         // removes port from all URLs to the test Piwik server so UI tests will pass no matter
         // what port is used
@@ -93,9 +93,9 @@ return [
     ]),
 
     // disable some diagnostics for UI tests
-    'diagnostics.disabled'  => \DI\add([
-        \DI\get(FileIntegrityCheck::class),
-        \DI\get(RequiredPrivateDirectories::class),
-        \DI\get(PhpVersionCheck::class),
+    'diagnostics.disabled'  => \Matomo\Dependencies\DI\add([
+        \Matomo\Dependencies\DI\get(FileIntegrityCheck::class),
+        \Matomo\Dependencies\DI\get(RequiredPrivateDirectories::class),
+        \Matomo\Dependencies\DI\get(PhpVersionCheck::class),
     ]),
 ];
