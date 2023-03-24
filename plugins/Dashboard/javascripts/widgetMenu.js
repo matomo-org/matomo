@@ -311,14 +311,16 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                 if ($('.' + settings.categorylistClass + ' .' + settings.choosenClass, widgetPreview).length) {
                     var position = $('.' + settings.categorylistClass + ' .' + settings.choosenClass, widgetPreview).position().top -
                         $('.' + settings.categorylistClass, widgetPreview).position().top +
-                        $('.dashboard-manager .addWidget').outerHeight();
+                        ($('.dashboard-manager .addWidget').outerHeight() || 0);
 
                     if (!$('#content.admin').length) {
                         position += 5; // + padding defined in dashboard view
                     }
 
-                    $('.' + settings.widgetlistClass, widgetPreview).css('top', position);
-                    $('.' + settings.widgetlistClass, widgetPreview).css('marginBottom', position);
+                    $('.' + settings.widgetlistClass, widgetPreview).css({
+                        top: position,
+                        marginBottom: position
+                    });
                 }
 
                 return $('.' + settings.widgetlistClass, widgetPreview);

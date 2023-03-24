@@ -9,6 +9,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### Breaking Changes
 
 * AngularJS has been completely removed from the code base, existing AngularJS code will no longer work. It is recommended to convert that code to Vue.
+* jQuery has been updated to 3.6.3. Please check your plugins javascript code if it needs to be adjusted. More details can be found in jQuery update guides: https://jquery.com/upgrade-guide/3.0/ and https://jquery.com/upgrade-guide/3.5/
 * The `Common::fixLbrace()` function has been removed. It was only necessary for AngularJS and no longer needs to be used.
 * The deprecated `JSON2` API format has now been removed. We recommend switching to the `JSON` renderer, which behaves the same.
 * The javascript event `piwikPageChange`, which is triggered when a reporting page is loaded, has been renamed to `matomoPageChange`. Ensure to update your implementation if you rely on it.
