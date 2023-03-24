@@ -5,6 +5,8 @@ define( [
 	"./callbacks"
 ], function( jQuery, dataPriv ) {
 
+"use strict";
+
 jQuery.extend( {
 	queue: function( elem, type, data ) {
 		var queue;
@@ -15,7 +17,7 @@ jQuery.extend( {
 
 			// Speed up dequeue by getting out quickly if this is just a lookup
 			if ( data ) {
-				if ( !queue || jQuery.isArray( data ) ) {
+				if ( !queue || Array.isArray( data ) ) {
 					queue = dataPriv.access( elem, type, jQuery.makeArray( data ) );
 				} else {
 					queue.push( data );

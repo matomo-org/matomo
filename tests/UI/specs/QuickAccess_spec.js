@@ -18,7 +18,9 @@ describe("QuickAccess", function () {
 
         await page.focus(".quick-access input");
         await page.keyboard.type(searchTermToAdd);
+        await page.waitForTimeout(100);
         await page.waitForNetworkIdle();
+        await page.waitForTimeout(100);
 
         await page.evaluate(function () {
             $('.quick-access input').blur();
