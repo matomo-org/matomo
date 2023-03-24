@@ -215,7 +215,7 @@ class TableLogAction
      * @return int
      * @throws \Exception
      */
-    public static function guessActionTypeFromSegment($segmentName)
+    private static function guessActionTypeFromSegment($segmentName)
     {
         $exactMatch = array(
             'outlinkUrl'         => Action::TYPE_OUTLINK,
@@ -262,7 +262,7 @@ class TableLogAction
      * @param $actionString
      * @return string
      */
-    public static function normaliseActionString($actionType, $actionString)
+    private static function normaliseActionString($actionType, $actionString)
     {
         $actionString = Common::unsanitizeInputValue($actionString);
 

@@ -12,7 +12,6 @@ use Piwik\Columns\DimensionSegmentFactory;
 use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugins\Actions\Segment;
-use Piwik\Plugins\CustomReports\ReportType\Table;
 use Piwik\Segment\SegmentsList;
 use Piwik\Tracker\TableLogAction;
 

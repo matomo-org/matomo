@@ -60,7 +60,6 @@ class SegmentMetadata
 
             if ($_hideImplementationData) {
                 unset($segment['sqlFilter']);
-                unset($segment['sqlFilterMatch']);
                 unset($segment['sqlFilterValue']);
                 unset($segment['sqlSegment']);
                 unset($segment['needsMostFrequentValues']);

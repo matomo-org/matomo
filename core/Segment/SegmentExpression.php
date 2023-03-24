@@ -213,16 +213,6 @@ class SegmentExpression
         // self::checkFieldIsAvailable() on it.
         $innerSql = null;
 
-        if (!empty($segment['sqlFilterMatch'])) {
-            $match = $segment['sqlFilterMatch'];
-
-            $customSql = $match($field, $matchType, $value, $join);
-            if (!empty($customSql)) {
-                $sqlExpression = $customSql['sql'];
-                $value = $customSql['bind'];
-            }
-        }
-
         if (empty($sqlExpression)) {
             // Segment::getCleanedExpression() may return array(null, $matchType, null)
             $operandWillNotMatchAnyRow = empty($field) && is_null($value);
