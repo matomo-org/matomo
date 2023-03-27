@@ -15,7 +15,6 @@ use Piwik\Columns\DimensionMetricFactory;
 use Piwik\Columns\MetricsList;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
@@ -38,8 +37,6 @@ use Matomo\Dependencies\DI;
  */
 class SegmentTest extends IntegrationTestCase
 {
-    public $tableLogActionCacheHits = 0;
-
     private $exampleSegment = 'visitCount>=1';
 
     public function setUp(): void
@@ -82,7 +79,9 @@ class SegmentTest extends IntegrationTestCase
             }
             return $valueToFilter;
         } else {
-            return preg_replace('/[\s]+/', ' ', $valueToFilter);
+            $result = trim(preg_replace('/[\s]+/', ' ', $valueToFilter));
+            $result = preg_replace('/\s*([()])\s*/', '$1', $result);
+            return $result;
         }
     }
 
@@ -689,13 +688,14 @@ class SegmentTest extends IntegrationTestCase
                     " . Common::prefixTable('log_visit') . " AS log_visit
                     LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
                     LEFT JOIN " . Common::prefixTable('log_conversion') . " AS log_conversion ON log_conversion.idvisit = log_visit.idvisit
+                    LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_segment_log_link_visit_actionidaction_url ON log_link_visit_action.idaction_url = log_action_segment_log_link_visit_actionidaction_url.idaction
                 WHERE
                     log_conversion.idgoal = ? AND HOUR(log_visit.visit_last_action_time) = ? AND log_link_visit_action.search_cat = ?
-                    AND (
-                          log_link_visit_action.idaction_url IS NOT NULL
-                          AND log_link_visit_action.idaction_url <> ''
-                          AND log_link_visit_action.idaction_url <> '0'
-                          )
+                    AND ((
+                          log_action_segment_log_link_visit_actionidaction_url.name IS NOT NULL
+                          AND log_action_segment_log_link_visit_actionidaction_url.name <> ''
+                          AND log_action_segment_log_link_visit_actionidaction_url.name <> '0' )
+                          AND log_action_segment_log_link_visit_actionidaction_url.type = '1')
                 GROUP BY log_visit.idvisit
                 ORDER BY NULL
                      ) AS log_inner",
@@ -886,6 +886,7 @@ class SegmentTest extends IntegrationTestCase
 
         $logVisitTable = Common::prefixTable('log_visit');
         $logLinkVisitActionTable = Common::prefixTable('log_link_visit_action');
+        $logAction = Common::prefixTable('log_action');
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
 
@@ -894,12 +895,13 @@ class SegmentTest extends IntegrationTestCase
                           SELECT log_visit.* FROM $logVisitTable AS log_visit
                           LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action
                             ON log_link_visit_action.idvisit = log_visit.idvisit
-                          WHERE (( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) )
-                                OR ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 3 )) )
-                                OR ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 2 )) )
-                                OR ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 10 )) ) )
+                          LEFT JOIN $logAction AS log_action_segment_log_link_visit_actionidaction_url ON log_link_visit_action.idaction_url = log_action_segment_log_link_visit_actionidaction_url.idaction
+                          WHERE ((log_action_segment_log_link_visit_actionidaction_url.name LIKE ? AND log_action_segment_log_link_visit_actionidaction_url.type = '1')
+                             OR (log_action_segment_log_link_visit_actionidaction_url.name LIKE ? AND log_action_segment_log_link_visit_actionidaction_url.type = '3')
+                             OR (log_action_segment_log_link_visit_actionidaction_url.name LIKE ? AND log_action_segment_log_link_visit_actionidaction_url.type = '2')
+                             OR (log_action_segment_log_link_visit_actionidaction_url.name LIKE ? AND log_action_segment_log_link_visit_actionidaction_url.type = '10') )
                         GROUP BY log_visit.idvisit ORDER BY NULL ) AS log_inner",
-            "bind" => array('myTestUrl', 'myTestUrl', 'myTestUrl', 'myTestUrl'));
+            "bind" => array('%myTestUrl%', '%myTestUrl%', '%myTestUrl%', '%myTestUrl%'));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
@@ -916,18 +918,24 @@ class SegmentTest extends IntegrationTestCase
 
         $logVisitTable = Common::prefixTable('log_visit');
         $logLinkVisitActionTable = Common::prefixTable('log_link_visit_action');
+        $logAction = Common::prefixTable('log_action');
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
 
         $expected = array(
             "sql"  => " SELECT log_visit.* FROM $logVisitTable AS log_visit 
                         WHERE ( log_visit.idvisit NOT IN (
-                            SELECT log_visit.idvisit FROM $logVisitTable AS log_visit LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
-                            WHERE ( log_visit.visit_last_action_time >= ? AND log_visit.visit_last_action_time <= ? ) AND ( (( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) ) OR
-                                   ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 3 )) ) OR
-                                   ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 2 )) ) OR
-                                   ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 10 )) ) ))) ) ",
-        "bind" => array('2020-02-02 02:00:00', '2020-02-29 02:00:00', 'myTestUrl', 'myTestUrl', 'myTestUrl', 'myTestUrl'));
+                            SELECT log_visit.idvisit
+                            FROM $logVisitTable AS log_visit
+                            LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                            LEFT JOIN $logAction AS log_action_segment_log_link_visit_actionidaction_url ON log_link_visit_action.idaction_url = log_action_segment_log_link_visit_actionidaction_url.idaction
+                            WHERE ( log_visit.visit_last_action_time >= ? AND log_visit.visit_last_action_time <= ? )
+                              AND ( ((log_action_segment_log_link_visit_actionidaction_url.name LIKE ? AND log_action_segment_log_link_visit_actionidaction_url.type = '1')
+                                 OR (log_action_segment_log_link_visit_actionidaction_url.name LIKE ? AND log_action_segment_log_link_visit_actionidaction_url.type = '3')
+                                 OR (log_action_segment_log_link_visit_actionidaction_url.name LIKE ? AND log_action_segment_log_link_visit_actionidaction_url.type = '2')
+                                 OR (log_action_segment_log_link_visit_actionidaction_url.name LIKE ? AND log_action_segment_log_link_visit_actionidaction_url.type = '10') )))
+                        )",
+        "bind" => array('2020-02-02 02:00:00', '2020-02-29 02:00:00', '%myTestUrl%', '%myTestUrl%', '%myTestUrl%', '%myTestUrl%'));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
@@ -947,6 +955,7 @@ class SegmentTest extends IntegrationTestCase
 
         $logVisitTable = Common::prefixTable('log_visit');
         $logLinkVisitActionTable = Common::prefixTable('log_link_visit_action');
+        $logAction = Common::prefixTable('log_action');
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
 
@@ -954,13 +963,14 @@ class SegmentTest extends IntegrationTestCase
             "sql"  => " SELECT log_inner.* FROM (
                             SELECT log_visit.* FROM $logVisitTable AS log_visit
                             LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
-                            WHERE (( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 1 )) ) OR
-                                   ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 3 )) ) OR
-                                   ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 2 )) ) OR
-                                   ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name NOT LIKE CONCAT('%', ?, '%') AND type = 10 )) ) )
+                            LEFT JOIN $logAction AS log_action_segment_log_link_visit_actionidaction_url ON log_link_visit_action.idaction_url = log_action_segment_log_link_visit_actionidaction_url.idaction
+                            WHERE ((( log_link_visit_action.idaction_url IS NULL OR log_action_segment_log_link_visit_actionidaction_url.name NOT LIKE ? ) AND log_action_segment_log_link_visit_actionidaction_url.type = '1')
+                               OR (( log_link_visit_action.idaction_url IS NULL OR log_action_segment_log_link_visit_actionidaction_url.name NOT LIKE ? ) AND log_action_segment_log_link_visit_actionidaction_url.type = '3')
+                               OR (( log_link_visit_action.idaction_url IS NULL OR log_action_segment_log_link_visit_actionidaction_url.name NOT LIKE ? ) AND log_action_segment_log_link_visit_actionidaction_url.type = '2')
+                               OR (( log_link_visit_action.idaction_url IS NULL OR log_action_segment_log_link_visit_actionidaction_url.name NOT LIKE ? ) AND log_action_segment_log_link_visit_actionidaction_url.type = '10') )
                             GROUP BY log_visit.idvisit ORDER BY NULL )
                         AS log_inner",
-        "bind" => array('myTestUrl', 'myTestUrl', 'myTestUrl', 'myTestUrl'));
+        "bind" => array('%myTestUrl%', '%myTestUrl%', '%myTestUrl%', '%myTestUrl%'));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
@@ -1002,6 +1012,7 @@ class SegmentTest extends IntegrationTestCase
 
         $logVisitTable = Common::prefixTable('log_visit');
         $logLinkVisitActionTable = Common::prefixTable('log_link_visit_action');
+        $logAction = Common::prefixTable('log_action');
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
 
@@ -1011,13 +1022,16 @@ class SegmentTest extends IntegrationTestCase
                                 SELECT log_visit.idvisit FROM $logVisitTable AS log_visit LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
                                 WHERE ( log_visit.idsite IN (?,?) AND log_visit.visit_last_action_time >= ? AND log_visit.visit_last_action_time <= ? ) AND ( log_link_visit_action.search_cat = ? )) )
                           AND ( log_visit.idvisit NOT IN (
-                                SELECT log_visit.idvisit FROM $logVisitTable AS log_visit LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                                SELECT log_visit.idvisit
+                                FROM $logVisitTable AS log_visit
+                                LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                                LEFT JOIN $logAction AS log_action_segment_log_link_visit_actionidaction_url ON log_link_visit_action.idaction_url = log_action_segment_log_link_visit_actionidaction_url.idaction
                                 WHERE ( log_visit.idsite IN (?,?) AND log_visit.visit_last_action_time >= ? AND log_visit.visit_last_action_time <= ? ) AND
-                                      ( (( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) ) OR
-                                         ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 3 )) ) OR
-                                         ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 2 )) ) OR
-                                         ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 10 )) ) ))) ) ",
-            "bind" => array(1, 5, '2020-02-02 12:00:00', '2020-02-05 09:00:00', 'myCategory', 1, 5, '2020-02-02 12:00:00', '2020-02-05 09:00:00', 'myTestUrl', 'myTestUrl', 'myTestUrl', 'myTestUrl'));
+                                      ( ((log_action_segment_log_link_visit_actionidaction_url.name LIKE ? AND log_action_segment_log_link_visit_actionidaction_url.type = '1')
+                                         OR (log_action_segment_log_link_visit_actionidaction_url.name LIKE ? AND log_action_segment_log_link_visit_actionidaction_url.type = '3')
+                                         OR (log_action_segment_log_link_visit_actionidaction_url.name LIKE ? AND log_action_segment_log_link_visit_actionidaction_url.type = '2')
+                                         OR (log_action_segment_log_link_visit_actionidaction_url.name LIKE ? AND log_action_segment_log_link_visit_actionidaction_url.type = '10') ))) )",
+            "bind" => array(1, 5, '2020-02-02 12:00:00', '2020-02-05 09:00:00', 'myCategory', 1, 5, '2020-02-02 12:00:00', '2020-02-05 09:00:00', '%myTestUrl%', '%myTestUrl%', '%myTestUrl%', '%myTestUrl%'));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
@@ -1181,6 +1195,8 @@ class SegmentTest extends IntegrationTestCase
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy, $limit);
 
+        $logLinkVisitAction = Common::prefixTable('log_link_visit_action');
+
         // should have replaced some idvisit columns but not idvisitor column
         $expected = array(
             "sql"  => "
@@ -1205,7 +1221,7 @@ log_action.name,
 log_link_visit_action.time_spent, 
 log_visit.visit_total_actions
 			FROM
-				log_visit AS log_visit LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+				log_visit AS log_visit LEFT JOIN $logLinkVisitAction AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
 			ORDER BY
 				url, log_visit.idvisit LIMIT 0, 33
         ) AS log_inner
@@ -1425,248 +1441,586 @@ log_visit.visit_total_actions
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function test_getSelectQuery_whenPageUrlDoesNotExist_asBothStatements_OR_AND_withoutCache()
+    public function test_getSelectQuery_whenManyIdActionSegmentsAreUsed_OR_AND()
     {
-        $this->disableSubqueryCache();
-        $this->assertCacheWasHit($hit = 0);
-
-        list($pageUrlFoundInDb, $actionIdFoundInDb) = $this->insertActions();
-
         $select = 'log_visit.*';
         $from = 'log_visit';
         $where = false;
         $bind = array();
 
-        /**
-         * pageUrl==xyz                              -- Matches none
-         * pageUrl!=abcdefg                          -- Matches all
-         * pageUrl=@does-not-exist                   -- Matches none
-         * pageUrl=@found-in-db                      -- Matches all
-         * pageUrl=='.urlencode($pageUrlFoundInDb)   -- Matches one
-         * pageUrl!@not-found                        -- matches all
-         * pageUrl!@found                            -- Matches none
-         */
-        $segment = 'visitServerHour==12,pageUrl==xyz;pageUrl!=abcdefg,pageUrl=@does-not-exist,pageUrl=@found-in-db,pageUrl=='.urlencode($pageUrlFoundInDb).',pageUrl!@not-found,pageUrl!@found';
+        $this->insertPageUrlAsAction('test-content-name', 'idaction_content_name', Action::TYPE_CONTENT);
+        $this->insertPageUrlAsAction('content-pice', 'idaction_content_piece', Action::TYPE_CONTENT_PIECE);
+        $this->insertPageUrlAsAction('test page title', 'visit_entry_idaction_name', Action::TYPE_PAGE_TITLE);
+        $this->insertPageUrlAsAction('abc.com/page/url', 'visit_entry_idaction_url', Action::TYPE_PAGE_URL);
+        $this->insertPageUrlAsAction('abc.com/page/url2', 'visit_entry_idaction_url', Action::TYPE_PAGE_URL);
+        $this->insertPageUrlAsAction('mypage title', 'idaction_name', Action::TYPE_PAGE_TITLE);
+        $this->insertPageUrlAsAction('blahblah.com/', 'idaction_url', Action::TYPE_PAGE_URL);
+        $this->insertPageUrlAsAction('exitpage.com/sadlkfjasldkfj', 'visit_exit_idaction_url', Action::TYPE_PAGE_URL);
+        $this->insertPageUrlAsAction('http://anothersite.com/landing/page', 'idaction_url', Action::TYPE_OUTLINK);
+        $this->insertPageUrlAsAction('023984ASADF', 'idaction_sku', Action::TYPE_ECOMMERCE_ITEM_SKU);
+        $this->insertPageUrlAsAction('the test product name', 'idaction_name', Action::TYPE_ECOMMERCE_ITEM_NAME);
+        $this->insertPageUrlAsAction('ecom', 'idaction_event_category', Action::TYPE_ECOMMERCE_ITEM_CATEGORY);
+        $this->insertPageUrlAsAction('http://thing.com/path/to/place', 'idaction_url', Action::TYPE_EVENT);
+        $this->insertPageUrlAsAction('http://otherthing.org/path/to/anotherplace', 'idaction_url', Action::TYPE_EVENT);
+
+        $logVisit = Common::prefixTable('log_visit');
+        $logLinkVisitAction = Common::prefixTable('log_link_visit_action');
+        $logAction = Common::prefixTable('log_action');
+        $logConversionItem = Common::prefixTable('log_conversion_item');
+
+        $segment = 'contentTarget!@' . urlencode(urlencode('http://landingpage.example.com'))
+        . ',contentName==' . urlencode(urlencode('test-content-name'))
+        . ';contentInteraction=@' . urlencode(urlencode('buy'))
+        . ';contentPiece!=' . urlencode(urlencode('content-pice'))
+        . ',contentPiece=@' . urlencode(urlencode('something'))
+        . ',entryPageTitle!=' . urlencode(urlencode('test page title'))
+        . ',downloadUrl=@' . urlencode(urlencode('downloadsite1'))
+        . ';downloadUrl!@' . urlencode(urlencode('mirror'))
+        . ',siteSearchKeyword=@' . urlencode(urlencode('a sitesearch query'))
+        . ';exitPageTitle!@' . urlencode(urlencode('another page title'))
+        . ';entryPageUrl!=' . urlencode(urlencode('https://abc.com/page/url'))
+        . ';entryPageUrl!=' . urlencode(urlencode('https://abc.com/page/url2'))
+        . ',pageTitle==' . urlencode(urlencode('mypage title'))
+        . ';pageUrl!@' . urlencode(urlencode('http://def.com/wherever'))
+        . ';pageUrl==' . urlencode(urlencode('https://blahblah.com/'))
+        . ',exitPageUrl=@' . urlencode(urlencode('https://exitpage.com/sadlkfjasldkfj'))
+        . ';outlinkUrl==' . urlencode(urlencode('http://anothersite.com/landing/page'))
+        . ',actionUrl=@' . urlencode(urlencode('ancientsymbol'))
+        . ',actionUrl=@' . urlencode(urlencode('modernsymbol'))
+        . ';productViewSku!@' . urlencode(urlencode('123423SDL'))
+        . ';productCategory=@' . urlencode(urlencode('A product category'))
+        . ';productSku==' . urlencode(urlencode('023984ASADF'))
+        . ',productName!=' . urlencode(urlencode('the test product name'))
+        . ',productName=@' . urlencode(urlencode('alkjbsl'))
+        . ',productViewCategory!@' . urlencode(urlencode('round products'))
+        . ',productViewName=@' . urlencode(urlencode('the first round product'))
+        . ',eventAction=@' . urlencode(urlencode('product-view'))
+        . ';eventName=@' . urlencode(urlencode('product 1'))
+        . ';eventCategory!=' . urlencode(urlencode('ecom'))
+        . ';eventUrl==' . urlencode(urlencode('http://thing.com/path/to/place'))
+        . ';eventUrl!=' . urlencode(urlencode('http://otherthing.org/path/to/anotherplace'))
+        . ';eventUrl=@' . urlencode(urlencode('https://securething.cloud/path/to/secureplace'));
+
         $segment = new Segment($segment, $idSites = array(), Date::factory('2020-02-02 02:00:00'));
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
 
-        $expected = array(
-            "sql"  => "
-                SELECT
-                    log_inner.*
-                FROM
-                    (
-                SELECT
-                    log_visit.*
-                FROM
-                    " . Common::prefixTable('log_visit') . " AS log_visit
-                    LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
-                WHERE (HOUR(log_visit.visit_last_action_time) = ?
-                        OR (1 = 0)) " . // pageUrl==xyz
-                    "AND (( log_visit.idvisit NOT IN ( SELECT log_visit.idvisit FROM log_visit AS log_visit WHERE ( log_visit.visit_last_action_time >= ? ) AND ( (1 = 0) )) ) " . // pageUrl!=abcdefg
-                    "    OR ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) ) " . // pageUrl=@does-not-exist
-                    "    OR ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) ) " . // pageUrl=@found-in-db
-                    "    OR   log_link_visit_action.idaction_url = ? " . // pageUrl=='.urlencode($pageUrlFoundInDb)
-                    "    OR ( log_visit.idvisit NOT IN (
-                              SELECT log_visit.idvisit FROM log_visit AS log_visit LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
-                              WHERE ( log_visit.visit_last_action_time >= ? ) AND ( ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) )
-                              )) ) " . // pageUrl!@not-found
-                    "    OR ( log_visit.idvisit NOT IN (
-                              SELECT log_visit.idvisit FROM log_visit AS log_visit LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
-                              WHERE ( log_visit.visit_last_action_time >= ? ) AND ( ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) )
-                              )) )" . // pageUrl!@found
-                    " )
-                GROUP BY log_visit.idvisit
-                ORDER BY NULL
-                    ) AS log_inner",
-            "bind" => array(
-                12,
+        $expected = [
+            'sql'  => "SELECT 
+                  log_inner.* 
+                FROM 
+                  (
+                    SELECT 
+                      log_visit.* 
+                    FROM 
+                      $logVisit AS log_visit 
+                      LEFT JOIN $logLinkVisitAction AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit 
+                      LEFT JOIN $logAction AS log_action_segment_log_link_visit_actionidaction_content_interaction ON log_link_visit_action.idaction_content_interaction = log_action_segment_log_link_visit_actionidaction_content_interaction.idaction 
+                      LEFT JOIN $logAction AS log_action_segment_log_link_visit_actionidaction_content_piece ON log_link_visit_action.idaction_content_piece = log_action_segment_log_link_visit_actionidaction_content_piece.idaction 
+                      LEFT JOIN $logAction AS log_action_segment_log_link_visit_actionidaction_url ON log_link_visit_action.idaction_url = log_action_segment_log_link_visit_actionidaction_url.idaction 
+                      LEFT JOIN $logAction AS log_action_segment_log_link_visit_actionidaction_name ON log_link_visit_action.idaction_name = log_action_segment_log_link_visit_actionidaction_name.idaction 
+                      LEFT JOIN $logAction AS log_action_segment_log_visitvisit_exit_idaction_name ON log_visit.visit_exit_idaction_name = log_action_segment_log_visitvisit_exit_idaction_name.idaction 
+                      LEFT JOIN $logAction AS log_action_segment_log_visitvisit_exit_idaction_url ON log_visit.visit_exit_idaction_url = log_action_segment_log_visitvisit_exit_idaction_url.idaction 
+                      LEFT JOIN $logConversionItem AS log_conversion_item ON log_conversion_item.idvisit = log_visit.idvisit 
+                      AND `log_conversion_item`.deleted = 0 
+                      LEFT JOIN $logAction AS log_action_segment_log_conversion_itemidaction_category ON log_conversion_item.idaction_category = log_action_segment_log_conversion_itemidaction_category.idaction 
+                      LEFT JOIN $logAction AS log_action_segment_log_conversion_itemidaction_category2 ON log_conversion_item.idaction_category2 = log_action_segment_log_conversion_itemidaction_category2.idaction 
+                      LEFT JOIN $logAction AS log_action_segment_log_conversion_itemidaction_category3 ON log_conversion_item.idaction_category3 = log_action_segment_log_conversion_itemidaction_category3.idaction 
+                      LEFT JOIN $logAction AS log_action_segment_log_conversion_itemidaction_category4 ON log_conversion_item.idaction_category4 = log_action_segment_log_conversion_itemidaction_category4.idaction 
+                      LEFT JOIN $logAction AS log_action_segment_log_conversion_itemidaction_category5 ON log_conversion_item.idaction_category5 = log_action_segment_log_conversion_itemidaction_category5.idaction 
+                      LEFT JOIN $logAction AS log_action_segment_log_conversion_itemidaction_name ON log_conversion_item.idaction_name = log_action_segment_log_conversion_itemidaction_name.idaction 
+                      LEFT JOIN $logAction AS log_action_segment_log_link_visit_actionidaction_product_name ON log_link_visit_action.idaction_product_name = log_action_segment_log_link_visit_actionidaction_product_name.idaction 
+                      LEFT JOIN $logAction AS log_action_segment_log_link_visit_actionidaction_event_action ON log_link_visit_action.idaction_event_action = log_action_segment_log_link_visit_actionidaction_event_action.idaction 
+                    WHERE 
+                      (
+                        (
+                          log_visit.idvisit NOT IN(
+                            SELECT 
+                              log_visit.idvisit 
+                            FROM 
+                              $logVisit AS log_visit 
+                              LEFT JOIN $logLinkVisitAction AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit 
+                              LEFT JOIN $logAction AS log_action_segment_log_link_visit_actionidaction_content_target ON log_link_visit_action.idaction_content_target = log_action_segment_log_link_visit_actionidaction_content_target.idaction 
+                            WHERE 
+                              (
+                                log_visit.visit_last_action_time >= ?
+                              ) 
+                              AND(
+                                (
+                                  log_action_segment_log_link_visit_actionidaction_content_target.name LIKE ? 
+                                  AND log_action_segment_log_link_visit_actionidaction_content_target.type = '15'
+                                )
+                              )
+                          )
+                        ) 
+                        OR log_link_visit_action.idaction_content_name = ?
+                      ) 
+                      AND(
+                        log_action_segment_log_link_visit_actionidaction_content_interaction.name LIKE ? 
+                        AND log_action_segment_log_link_visit_actionidaction_content_interaction.type = '16'
+                      ) 
+                      AND(
+                        (
+                          log_visit.idvisit NOT IN(
+                            SELECT 
+                              log_visit.idvisit 
+                            FROM 
+                              $logVisit AS log_visit 
+                              LEFT JOIN $logLinkVisitAction AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit 
+                            WHERE 
+                              (
+                                log_visit.visit_last_action_time >= ?
+                              ) 
+                              AND(
+                                log_link_visit_action.idaction_content_piece = ?
+                              )
+                          )
+                        ) 
+                        OR(
+                          log_action_segment_log_link_visit_actionidaction_content_piece.name LIKE ? 
+                          AND log_action_segment_log_link_visit_actionidaction_content_piece.type = '14'
+                        ) 
+                        OR(
+                          log_visit.visit_entry_idaction_name IS NULL 
+                          OR log_visit.visit_entry_idaction_name <> ?
+                        ) 
+                        OR(
+                          log_action_segment_log_link_visit_actionidaction_url.name LIKE ? 
+                          AND log_action_segment_log_link_visit_actionidaction_url.type = '3'
+                        )
+                      ) 
+                      AND(
+                        (
+                          log_visit.idvisit NOT IN(
+                            SELECT 
+                              log_visit.idvisit 
+                            FROM 
+                              $logVisit AS log_visit 
+                              LEFT JOIN $logLinkVisitAction AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit 
+                              LEFT JOIN $logAction AS log_action_segment_log_link_visit_actionidaction_url ON log_link_visit_action.idaction_url = log_action_segment_log_link_visit_actionidaction_url.idaction 
+                            WHERE 
+                              (
+                                log_visit.visit_last_action_time >= ?
+                              ) 
+                              AND(
+                                (
+                                  log_action_segment_log_link_visit_actionidaction_url.name LIKE ? 
+                                  AND log_action_segment_log_link_visit_actionidaction_url.type = '3'
+                                )
+                              )
+                          )
+                        ) 
+                        OR(
+                          log_action_segment_log_link_visit_actionidaction_name.name LIKE ? 
+                          AND log_action_segment_log_link_visit_actionidaction_name.type = '8'
+                        )
+                      ) 
+                      AND(
+                        (
+                          log_visit.visit_exit_idaction_name IS NULL 
+                          OR log_action_segment_log_visitvisit_exit_idaction_name.name NOT LIKE ?
+                        ) 
+                        AND log_action_segment_log_visitvisit_exit_idaction_name.type = '4'
+                      ) 
+                      AND(
+                        log_visit.visit_entry_idaction_url IS NULL 
+                        OR log_visit.visit_entry_idaction_url <> ?
+                      ) 
+                      AND(
+                        (
+                          log_visit.visit_entry_idaction_url IS NULL 
+                          OR log_visit.visit_entry_idaction_url <> ?
+                        ) 
+                        OR log_link_visit_action.idaction_name = ?
+                      ) 
+                      AND(
+                        log_visit.idvisit NOT IN(
+                          SELECT 
+                            log_visit.idvisit 
+                          FROM 
+                            $logVisit AS log_visit 
+                            LEFT JOIN $logLinkVisitAction AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit 
+                            LEFT JOIN $logAction AS log_action_segment_log_link_visit_actionidaction_url ON log_link_visit_action.idaction_url = log_action_segment_log_link_visit_actionidaction_url.idaction 
+                          WHERE 
+                            (
+                              log_visit.visit_last_action_time >= ?
+                            ) 
+                            AND(
+                              (
+                                log_action_segment_log_link_visit_actionidaction_url.name LIKE ? 
+                                AND log_action_segment_log_link_visit_actionidaction_url.type = '1'
+                              )
+                            )
+                        )
+                      ) 
+                      AND(
+                        log_link_visit_action.idaction_url = ? 
+                        OR(
+                          log_action_segment_log_visitvisit_exit_idaction_url.name LIKE ? 
+                          AND log_action_segment_log_visitvisit_exit_idaction_url.type = '1'
+                        )
+                      ) 
+                      AND(
+                        log_link_visit_action.idaction_url = ? 
+                        OR(
+                          log_action_segment_log_link_visit_actionidaction_url.name LIKE ? 
+                          AND log_action_segment_log_link_visit_actionidaction_url.type = '1'
+                        ) 
+                        OR(
+                          log_action_segment_log_link_visit_actionidaction_url.name LIKE ? 
+                          AND log_action_segment_log_link_visit_actionidaction_url.type = '3'
+                        ) 
+                        OR(
+                          log_action_segment_log_link_visit_actionidaction_url.name LIKE ? 
+                          AND log_action_segment_log_link_visit_actionidaction_url.type = '2'
+                        ) 
+                        OR(
+                          log_action_segment_log_link_visit_actionidaction_url.name LIKE ? 
+                          AND log_action_segment_log_link_visit_actionidaction_url.type = '10'
+                        ) 
+                        OR(
+                          log_action_segment_log_link_visit_actionidaction_url.name LIKE ? 
+                          AND log_action_segment_log_link_visit_actionidaction_url.type = '1'
+                        ) 
+                        OR(
+                          log_action_segment_log_link_visit_actionidaction_url.name LIKE ? 
+                          AND log_action_segment_log_link_visit_actionidaction_url.type = '3'
+                        ) 
+                        OR(
+                          log_action_segment_log_link_visit_actionidaction_url.name LIKE ? 
+                          AND log_action_segment_log_link_visit_actionidaction_url.type = '2'
+                        ) 
+                        OR(
+                          log_action_segment_log_link_visit_actionidaction_url.name LIKE ? 
+                          AND log_action_segment_log_link_visit_actionidaction_url.type = '10'
+                        )
+                      ) 
+                      AND(
+                        log_visit.idvisit NOT IN(
+                          SELECT 
+                            log_visit.idvisit 
+                          FROM 
+                            $logVisit AS log_visit 
+                            LEFT JOIN $logLinkVisitAction AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit 
+                            LEFT JOIN $logAction AS log_action_segment_log_link_visit_actionidaction_product_sku ON log_link_visit_action.idaction_product_sku = log_action_segment_log_link_visit_actionidaction_product_sku.idaction 
+                          WHERE 
+                            (
+                              log_visit.visit_last_action_time >= ?
+                            ) 
+                            AND(
+                              (
+                                log_action_segment_log_link_visit_actionidaction_product_sku.name LIKE ? 
+                                AND log_action_segment_log_link_visit_actionidaction_product_sku.type = '5'
+                              )
+                            )
+                        )
+                      ) 
+                      AND(
+                        (
+                          log_action_segment_log_conversion_itemidaction_category.name LIKE ? 
+                          AND log_action_segment_log_conversion_itemidaction_category.type = '7'
+                        ) 
+                        OR(
+                          log_action_segment_log_conversion_itemidaction_category2.name LIKE ? 
+                          AND log_action_segment_log_conversion_itemidaction_category2.type = '7'
+                        ) 
+                        OR(
+                          log_action_segment_log_conversion_itemidaction_category3.name LIKE ? 
+                          AND log_action_segment_log_conversion_itemidaction_category3.type = '7'
+                        ) 
+                        OR(
+                          log_action_segment_log_conversion_itemidaction_category4.name LIKE ? 
+                          AND log_action_segment_log_conversion_itemidaction_category4.type = '7'
+                        ) 
+                        OR(
+                          log_action_segment_log_conversion_itemidaction_category5.name LIKE ? 
+                          AND log_action_segment_log_conversion_itemidaction_category5.type = '7'
+                        )
+                      ) 
+                      AND(
+                        log_conversion_item.idaction_sku = ? 
+                        OR(
+                          log_visit.idvisit NOT IN(
+                            SELECT 
+                              log_visit.idvisit 
+                            FROM 
+                              $logVisit AS log_visit 
+                              LEFT JOIN $logConversionItem AS log_conversion_item ON log_conversion_item.idvisit = log_visit.idvisit 
+                              AND `log_conversion_item`.deleted = 0 
+                            WHERE 
+                              (
+                                log_visit.visit_last_action_time >= ?
+                              ) 
+                              AND(
+                                log_conversion_item.idaction_name = ?
+                              )
+                          )
+                        ) 
+                        OR(
+                          log_action_segment_log_conversion_itemidaction_name.name LIKE ? 
+                          AND log_action_segment_log_conversion_itemidaction_name.type = '6'
+                        ) 
+                        OR(
+                          log_visit.idvisit NOT IN(
+                            SELECT 
+                              log_visit.idvisit 
+                            FROM 
+                              $logVisit AS log_visit 
+                              LEFT JOIN $logLinkVisitAction AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit 
+                              LEFT JOIN $logAction AS log_action_segment_log_link_visit_actionidaction_product_cat ON log_link_visit_action.idaction_product_cat = log_action_segment_log_link_visit_actionidaction_product_cat.idaction 
+                              LEFT JOIN $logAction AS log_action_segment_log_link_visit_actionidaction_product_cat2 ON log_link_visit_action.idaction_product_cat2 = log_action_segment_log_link_visit_actionidaction_product_cat2.idaction 
+                              LEFT JOIN $logAction AS log_action_segment_log_link_visit_actionidaction_product_cat3 ON log_link_visit_action.idaction_product_cat3 = log_action_segment_log_link_visit_actionidaction_product_cat3.idaction 
+                              LEFT JOIN $logAction AS log_action_segment_log_link_visit_actionidaction_product_cat4 ON log_link_visit_action.idaction_product_cat4 = log_action_segment_log_link_visit_actionidaction_product_cat4.idaction 
+                              LEFT JOIN $logAction AS log_action_segment_log_link_visit_actionidaction_product_cat5 ON log_link_visit_action.idaction_product_cat5 = log_action_segment_log_link_visit_actionidaction_product_cat5.idaction 
+                            WHERE 
+                              (
+                                log_visit.visit_last_action_time >= ?
+                              ) 
+                              AND(
+                                (
+                                  (
+                                    log_action_segment_log_link_visit_actionidaction_product_cat.name LIKE ? 
+                                    AND log_action_segment_log_link_visit_actionidaction_product_cat.type = '7'
+                                  ) 
+                                  OR(
+                                    log_action_segment_log_link_visit_actionidaction_product_cat2.name LIKE ? 
+                                    AND log_action_segment_log_link_visit_actionidaction_product_cat2.type = '7'
+                                  ) 
+                                  OR(
+                                    log_action_segment_log_link_visit_actionidaction_product_cat3.name LIKE ? 
+                                    AND log_action_segment_log_link_visit_actionidaction_product_cat3.type = '7'
+                                  ) 
+                                  OR(
+                                    log_action_segment_log_link_visit_actionidaction_product_cat4.name LIKE ? 
+                                    AND log_action_segment_log_link_visit_actionidaction_product_cat4.type = '7'
+                                  ) 
+                                  OR(
+                                    log_action_segment_log_link_visit_actionidaction_product_cat5.name LIKE ? 
+                                    AND log_action_segment_log_link_visit_actionidaction_product_cat5.type = '7'
+                                  )
+                                )
+                              )
+                          )
+                        ) 
+                        OR(
+                          log_action_segment_log_link_visit_actionidaction_product_name.name LIKE ? 
+                          AND log_action_segment_log_link_visit_actionidaction_product_name.type = '6'
+                        ) 
+                        OR(
+                          log_action_segment_log_link_visit_actionidaction_event_action.name LIKE ? 
+                          AND log_action_segment_log_link_visit_actionidaction_event_action.type = '11'
+                        )
+                      ) 
+                      AND(
+                        log_action_segment_log_link_visit_actionidaction_name.name LIKE ? 
+                        AND log_action_segment_log_link_visit_actionidaction_name.type = '12'
+                      ) 
+                      AND(
+                        log_visit.idvisit NOT IN(
+                          SELECT 
+                            log_visit.idvisit 
+                          FROM 
+                            $logVisit AS log_visit 
+                          WHERE 
+                            (
+                              log_visit.visit_last_action_time >= ?
+                            ) 
+                            AND(
+                              (1 = 0)
+                            )
+                        )
+                      ) 
+                      AND(1 = 0) 
+                      AND(
+                        log_visit.idvisit NOT IN(
+                          SELECT 
+                            log_visit.idvisit 
+                          FROM 
+                            $logVisit AS log_visit 
+                          WHERE 
+                            (
+                              log_visit.visit_last_action_time >= ?
+                            ) 
+                            AND(
+                              (1 = 0)
+                            )
+                        )
+                      ) 
+                      AND(
+                        log_action_segment_log_link_visit_actionidaction_url.name LIKE ? 
+                        AND log_action_segment_log_link_visit_actionidaction_url.type = '10'
+                      ) 
+                    GROUP BY 
+                      log_visit.idvisit 
+                    ORDER BY 
+                      NULL
+                  ) AS log_inner",
+            'bind' => [
                 '2020-02-02 02:00:00',
-                "does-not-exist",
-                "found-in-db",
-                $actionIdFoundInDb,
+                '%http://landingpage.example.com%',
+                '1',
+                '%buy%',
                 '2020-02-02 02:00:00',
-                "not-found",
+                '2',
+                '%something%',
+                '3',
+                '%downloadsite1%',
                 '2020-02-02 02:00:00',
-                "found",
-            ));
-
-        $cache = StaticContainer::get('Piwik\Tracker\TableLogAction\Cache');
-        $this->assertTrue( empty($cache->isEnabled) );
-        $this->assertCacheWasHit($hit = 0);
-        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
-    }
-
-    public function test_getSelectQuery_whenPageUrlDoesNotExist_asBothStatements_OR_AND_withCacheSave()
-    {
-        $this->enableSubqueryCache();
-
-        list($pageUrlFoundInDb, $actionIdFoundInDb) = $this->insertActions();
-        $select = 'log_visit.*';
-        $from = 'log_visit';
-        $where = false;
-        $bind = array();
-
-        /**
-         * pageUrl==xyz                              -- Matches none
-         * pageUrl!=abcdefg                          -- Matches all
-         * pageUrl=@does-not-exist                   -- Matches none
-         * pageUrl=@found-in-db                      -- Matches all
-         * pageUrl=='.urlencode($pageUrlFoundInDb)   -- Matches one
-         * pageUrl!@not-found                        -- matches all
-         * pageUrl!@found                            -- Matches none
-         */
-        $segment = 'visitServerHour==12,pageUrl==xyz;pageUrl!=abcdefg,pageUrl=@does-not-exist,pageUrl=@found-in-db,pageUrl=='.urlencode($pageUrlFoundInDb).',pageUrl!@not-found,pageUrl!@found';
-        $segment = new Segment($segment, $idSites = array(), Date::factory('2020-02-02 02:00:00'));
-
-        $query = $segment->getSelectQuery($select, $from, $where, $bind);
-
-        $expected = array(
-            "sql"  => "
-                SELECT
-                    log_inner.*
-                FROM
-                    (
-                SELECT
-                    log_visit.*
-                FROM
-                    " . Common::prefixTable('log_visit') . " AS log_visit
-                    LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
-                WHERE (HOUR(log_visit.visit_last_action_time) = ?
-                        OR (1 = 0))" . // pageUrl==xyz
-                "
-                        AND (( log_visit.idvisit NOT IN ( SELECT log_visit.idvisit FROM " . Common::prefixTable('log_visit') . "  AS log_visit WHERE ( log_visit.visit_last_action_time >= ? ) AND ( (1 = 0) )) )" . // pageUrl!=abcdefg
-                "
-                        OR (1 = 0) " . // pageUrl=@does-not-exist
-                "
-                        OR ( log_link_visit_action.idaction_url IN (?,?,?) )" . // pageUrl=@found-in-db
-                "
-                        OR   log_link_visit_action.idaction_url = ?" . // pageUrl=='.urlencode($pageUrlFoundInDb)
-                "
-                        OR ( log_visit.idvisit NOT IN (
-                            SELECT log_visit.idvisit FROM " . Common::prefixTable('log_visit') . "  AS log_visit
-                            LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
-                            WHERE ( log_visit.visit_last_action_time >= ? ) AND ( ( log_link_visit_action.idaction_url IN (?) )
-                        )) )" . // pageUrl!@not-found
-                "
-                        OR ( log_visit.idvisit NOT IN (
-                            SELECT log_visit.idvisit FROM " . Common::prefixTable('log_visit') . "  AS log_visit
-                            LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
-                            WHERE ( log_visit.visit_last_action_time >= ? ) AND ( ( log_link_visit_action.idaction_url IN (?,?,?,?) )
-                        )) ) " . // pageUrl!@found
-                ")
-                GROUP BY log_visit.idvisit
-                ORDER BY NULL
-                    ) AS log_inner",
-            "bind" => array(
-                12,
+                '%mirror%',
+                '%a sitesearch query%',
+                '%another page title%',
+                '4',
+                '5',
+                '6',
                 '2020-02-02 02:00:00',
-                1, // pageUrl=@found-in-db
-                2, // pageUrl=@found-in-db
-                3, // pageUrl=@found-in-db
-                $actionIdFoundInDb, // pageUrl=='.urlencode($pageUrlFoundInDb)
+                '%def.com/wherever%',
+                '7',
+                '%exitpage.com/sadlkfjasldkfj%',
+                '9',
+                '%ancientsymbol%',
+                '%ancientsymbol%',
+                '%ancientsymbol%',
+                '%ancientsymbol%',
+                '%modernsymbol%',
+                '%modernsymbol%',
+                '%modernsymbol%',
+                '%modernsymbol%',
                 '2020-02-02 02:00:00',
-                4, // pageUrl!@not-found
+                '%123423SDL%',
+                '%A product category%',
+                '%A product category%',
+                '%A product category%',
+                '%A product category%',
+                '%A product category%',
+                '10',
                 '2020-02-02 02:00:00',
-                1, // pageUrl!@found
-                2, // pageUrl!@found
-                3, // pageUrl!@found
-                4, // pageUrl!@found
-            ));
-
-        $cache = StaticContainer::get('Piwik\Tracker\TableLogAction\Cache');
-        $this->assertTrue( !empty($cache->isEnabled) );
-
-        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
-    }
-
-    public function test_getSelectQuery_whenPageUrlDoesNotExist_asBothStatements_OR_AND_withCacheisHit()
-    {
-        $this->enableSubqueryCache();
-        $this->assertCacheWasHit($hits = 0);
-
-        $this->test_getSelectQuery_whenPageUrlDoesNotExist_asBothStatements_OR_AND_withCacheSave();
-        $this->assertCacheWasHit($hits = 20);
-
-        $this->test_getSelectQuery_whenPageUrlDoesNotExist_asBothStatements_OR_AND_withCacheSave();
-        $this->assertCacheWasHit($hits = 44);
-
-        $this->test_getSelectQuery_whenPageUrlDoesNotExist_asBothStatements_OR_AND_withCacheSave();
-        $this->assertCacheWasHit($hits = 68);
-
-    }
-
-
-    public function test_getSelectQuery_withTwoSegments_subqueryNotCached_whenResultsetTooLarge()
-    {
-        $this->enableSubqueryCache();
-
-        // do not cache when more than 3 idactions returned by subquery
-        Config::getInstance()->General['segments_subquery_cache_limit'] = 2;
-
-        list($pageUrlFoundInDb, $actionIdFoundInDb) = $this->insertActions();
-        $select = 'log_visit.*';
-        $from = 'log_visit';
-        $where = false;
-        $bind = array();
-
-        /**
-         * pageUrl=@found-in-db-bis                  -- Will be cached
-         * siteSearchCategory!@not-found             -- Too big to cache
-         */
-        $segment = 'pageUrl=@found-in-db-bis;siteSearchCategory!@not-found';
-        $segment = new Segment($segment, $idSites = array(), Date::factory('2020-02-02 02:00:00'));
-
-        $query = $segment->getSelectQuery($select, $from, $where, $bind);
+                '11',
+                '%alkjbsl%',
+                '2020-02-02 02:00:00',
+                '%round products%',
+                '%round products%',
+                '%round products%',
+                '%round products%',
+                '%round products%',
+                '%the first round product%',
+                '%product-view%',
+                '%product 1%',
+                '2020-02-02 02:00:00',
+                '2020-02-02 02:00:00',
+                '%securething.cloud/path/to/secureplace%',
+            ],
+        ];
         $this->assertQueryDoesNotFail($query);
 
-        $expected = array(
-            "sql"  => "
-                SELECT
-                    log_inner.*
-                FROM
-                    (
-                SELECT
-                    log_visit.*
-                FROM
-                    " . Common::prefixTable('log_visit') . " AS log_visit
-                    LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
-                WHERE
-                           ( log_link_visit_action.idaction_url IN (?) )" . // pageUrl=@found-in-db-bis
-                "
-                 AND ( log_visit.idvisit NOT IN (
-                    SELECT log_visit.idvisit
-                    FROM log_visit AS log_visit
-                    LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
-                    WHERE ( log_visit.visit_last_action_time >= ? ) AND ( log_link_visit_action.search_cat LIKE ? )) ) " . // siteSearchCategory!@not-found
-                "GROUP BY log_visit.idvisit
-                ORDER BY NULL
-                    ) AS log_inner",
-            "bind" => array(
-                2, // pageUrl=@found-in-db-bis
-                '2020-02-02 02:00:00',
-                "%not-found%", // siteSearchCategory!@not-found
-            ));
-
-        $cache = StaticContainer::get('Piwik\Tracker\TableLogAction\Cache');
-        $this->assertTrue( !empty($cache->isEnabled) );
-
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-
-    public function test_getSelectQuery_withTwoSegments_partiallyCached()
+    public function test_getSelectQuery_whenPageUrlDoesNotExist_asBothStatements_OR_AND()
     {
-        $this->assertCacheWasHit($hits = 0);
+        list($pageUrlFoundInDb, $actionIdFoundInDb) = $this->insertActions();
 
-        // this will create the caches for both segments
-        $this->test_getSelectQuery_withTwoSegments_subqueryNotCached_whenResultsetTooLarge();
-        $this->assertCacheWasHit($hits = 2);
+        $select = 'log_visit.*';
+        $from = 'log_visit';
+        $where = false;
+        $bind = array();
 
-        // this will hit caches for both segments
-        $this->test_getSelectQuery_withTwoSegments_subqueryNotCached_whenResultsetTooLarge();
-        $this->assertCacheWasHit($hits = 5);
+        /**
+         * pageUrl==xyz                              -- Matches none
+         * pageUrl!=abcdefg                          -- Matches all
+         * pageUrl=@does-not-exist                   -- Matches none
+         * pageUrl=@found-in-db                      -- Matches all
+         * pageUrl=='.urlencode($pageUrlFoundInDb)   -- Matches one
+         * pageUrl!@not-found                        -- matches all
+         * pageUrl!@found                            -- Matches none
+         */
+        $segment = 'visitServerHour==12,pageUrl==xyz;pageUrl!=abcdefg,pageUrl=@does-not-exist,pageUrl=@found-in-db,pageUrl=='.urlencode($pageUrlFoundInDb).',pageUrl!@not-found,pageUrl!@found';
+        $segment = new Segment($segment, $idSites = array(), Date::factory('2020-02-02 02:00:00'));
+
+        $query = $segment->getSelectQuery($select, $from, $where, $bind);
+
+        $logVisit = Common::prefixTable('log_visit');
+        $logLinkVisitAction = Common::prefixTable('log_link_visit_action');
+        $logAction = Common::prefixTable('log_action');
+
+        $expected = array(
+            "sql"  => "
+                SELECT log_inner.*
+                FROM (
+                    SELECT log_visit.*
+                    FROM $logVisit AS log_visit
+                    LEFT JOIN $logLinkVisitAction AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                    LEFT JOIN $logAction AS log_action_segment_log_link_visit_actionidaction_url ON log_link_visit_action.idaction_url = log_action_segment_log_link_visit_actionidaction_url.idaction
+                    WHERE (
+                            HOUR(log_visit.visit_last_action_time) = ?
+                            OR (1 = 0) " . // pageUrl==xyz
+                        " )
+                        AND (
+                            (
+                                log_visit.idvisit NOT IN (
+                                    SELECT log_visit.idvisit
+                                    FROM $logVisit AS log_visit
+                                    WHERE (log_visit.visit_last_action_time >= ?)
+                                        AND ((1 = 0)) " . // pageUrl!=abcdefg
+                                  " )
+                                )
+                            OR (
+                                log_action_segment_log_link_visit_actionidaction_url.name LIKE ?
+                                AND log_action_segment_log_link_visit_actionidaction_url.type = '1'
+                                ) " . // pageUrl=@does-not-exist
+                          " OR (
+                                log_action_segment_log_link_visit_actionidaction_url.name LIKE ?
+                                AND log_action_segment_log_link_visit_actionidaction_url.type = '1'
+                                ) " .  // pageUrl=@found-in-db
+                          " OR log_link_visit_action.idaction_url = ? " . // pageUrl=='.urlencode($pageUrlFoundInDb)
+                          " OR (
+                                log_visit.idvisit NOT IN (
+                                    SELECT log_visit.idvisit
+                                    FROM $logVisit AS log_visit
+                                    LEFT JOIN $logLinkVisitAction AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                                    LEFT JOIN $logAction AS log_action_segment_log_link_visit_actionidaction_url ON log_link_visit_action.idaction_url = log_action_segment_log_link_visit_actionidaction_url.idaction
+                                    WHERE (log_visit.visit_last_action_time >= ?)
+                                        AND (
+                                            (
+                                                log_action_segment_log_link_visit_actionidaction_url.name LIKE ?
+                                                AND log_action_segment_log_link_visit_actionidaction_url.type = '1'
+                                                )
+                                            )
+                                    )
+                                ) " . // pageUrl!@not-found
+                          " OR (
+                                log_visit.idvisit NOT IN (
+                                    SELECT log_visit.idvisit
+                                    FROM $logVisit AS log_visit
+                                    LEFT JOIN $logLinkVisitAction AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                                    LEFT JOIN $logAction AS log_action_segment_log_link_visit_actionidaction_url ON log_link_visit_action.idaction_url = log_action_segment_log_link_visit_actionidaction_url.idaction
+                                    WHERE (log_visit.visit_last_action_time >= ?)
+                                        AND (
+                                            (
+                                                log_action_segment_log_link_visit_actionidaction_url.name LIKE ?
+                                                AND log_action_segment_log_link_visit_actionidaction_url.type = '1'
+                                                )
+                                            )
+                                    )
+                                ) " . // pageUrl!@found
+                          " )
+                    GROUP BY log_visit.idvisit
+                    ORDER BY NULL
+                    ) AS log_inner
+",
+            "bind" => array(
+                12,
+                '2020-02-02 02:00:00',
+                '%does-not-exist%',
+                '%found-in-db%',
+                '1',
+                '2020-02-02 02:00:00',
+                '%not-found%',
+                '2020-02-02 02:00:00',
+                '%found%',
+            ),
+        );
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
     // se https://github.com/piwik/piwik/issues/9194
@@ -1690,9 +2044,10 @@ log_visit.visit_total_actions
 
         $logConversionTable = Common::prefixTable('log_conversion');
         $logLinkVisitActionTable = Common::prefixTable('log_link_visit_action');
+        $logAction = Common::prefixTable('log_action');
 
         $expectedBind = $bind;
-        $expectedBind[] = '/';
+        $expectedBind[] = '%/%';
         $expected = array(
             "sql"  => "
                 SELECT log_inner.idgoal AS `idgoal`, count(*) AS `1`, count(distinct log_inner.idvisit) AS `3`, ROUND(SUM(log_inner.revenue),2) AS `2`, SUM(log_inner.items) AS `8`
@@ -1700,10 +2055,11 @@ log_visit.visit_total_actions
                       SELECT log_conversion.idgoal, log_conversion.idvisit, log_conversion.revenue, log_conversion.items
                       FROM $logConversionTable AS log_conversion
                         LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_link_visit_action.idvisit = log_conversion.idvisit
+                        LEFT JOIN $logAction AS log_action_segment_log_link_visit_actionidaction_url ON log_link_visit_action.idaction_url = log_action_segment_log_link_visit_actionidaction_url.idaction
                       WHERE ( log_conversion.server_time >= ?
                           AND log_conversion.server_time <= ?
                           AND log_conversion.idsite IN (?) )
-                          AND ( ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) ) )
+                          AND ( (log_action_segment_log_link_visit_actionidaction_url.name LIKE ? AND log_action_segment_log_link_visit_actionidaction_url.type = '1') )
                       GROUP BY CONCAT(log_conversion.idvisit, '_' , log_conversion.idgoal, '_', log_conversion.buster)
                       ORDER BY NULL )
                  AS log_inner GROUP BY log_inner.idgoal",
@@ -1736,9 +2092,10 @@ log_visit.visit_total_actions
 
         $logConversionTable = Common::prefixTable('log_conversion');
         $logLinkVisitActionTable = Common::prefixTable('log_link_visit_action');
+        $logAction = Common::prefixTable('log_action');
 
         $expectedBind = $bind;
-        $expectedBind[] = '/';
+        $expectedBind[] = '%/%';
         $expected = array(
             "sql"  => "
                 SELECT log_inner.idgoal AS `idgoal`,
@@ -1752,10 +2109,11 @@ log_visit.visit_total_actions
                       SELECT log_conversion.idgoal, log_conversion.referer_type, log_conversion.referer_name, log_conversion.referer_keyword, log_conversion.idvisit, log_conversion.revenue
                       FROM $logConversionTable AS log_conversion
                         LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_link_visit_action.idvisit = log_conversion.idvisit
+                        LEFT JOIN $logAction AS log_action_segment_log_link_visit_actionidaction_url ON log_link_visit_action.idaction_url = log_action_segment_log_link_visit_actionidaction_url.idaction
                       WHERE ( log_conversion.server_time >= ?
                           AND log_conversion.server_time <= ?
                           AND log_conversion.idsite IN (?) )
-                          AND ( ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) ) )
+                          AND ( (log_action_segment_log_link_visit_actionidaction_url.name LIKE ? AND log_action_segment_log_link_visit_actionidaction_url.type = '1') )
                       GROUP BY CONCAT(log_conversion.idvisit, '_' , log_conversion.idgoal, '_', log_conversion.buster)
                       ORDER BY NULL )
                 AS log_inner GROUP BY log_inner.idgoal, log_inner.referer_type, log_inner.referer_name, log_inner.referer_keyword",
@@ -1786,11 +2144,12 @@ log_visit.visit_total_actions
         $logConversionTable = Common::prefixTable('log_conversion');
         $logLinkVisitActionTable = Common::prefixTable('log_link_visit_action');
         $logVisitTable = Common::prefixTable('log_visit');
+        $logAction = Common::prefixTable('log_action');
 
         $expectedBind = $bind;
         $expectedBind[] = 1;
         $expectedBind[] = 2;
-        $expectedBind[] = '/';
+        $expectedBind[] = '%/%';
         $expected = array(
             "sql"  => "
                 SELECT log_inner.idgoal AS `idgoal`, count(*) AS `1`, count(distinct log_inner.idvisit) AS `3`, ROUND(SUM(log_inner.revenue),2) AS `2`
@@ -1799,11 +2158,12 @@ log_visit.visit_total_actions
                     FROM $logConversionTable AS log_conversion
                        LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_link_visit_action.idvisit = log_conversion.idvisit
                        LEFT JOIN $logVisitTable AS log_visit ON log_visit.idvisit = log_conversion.idvisit
+                       LEFT JOIN $logAction AS log_action_segment_log_link_visit_actionidaction_url ON log_link_visit_action.idaction_url = log_action_segment_log_link_visit_actionidaction_url.idaction
                     WHERE ( log_conversion.server_time >= ?
                         AND log_conversion.server_time <= ?
                         AND log_conversion.idsite IN (?) )
                         AND ( (log_visit.visitor_returning = ? OR log_visit.visitor_returning = ?)
-                        AND ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) ) )
+                        AND (log_action_segment_log_link_visit_actionidaction_url.name LIKE ? AND log_action_segment_log_link_visit_actionidaction_url.type = '1') )
                     GROUP BY CONCAT(log_conversion.idvisit, '_' , log_conversion.idgoal, '_', log_conversion.buster)
                     ORDER BY NULL ) AS log_inner
                     GROUP BY log_inner.idgoal",
@@ -1839,15 +2199,104 @@ SQL;
         $this->assertEquals($expected, $sql);
     }
 
+    public function test_getSelectQuery_whenUrls()
+    {
+        $select = 'sum(log_visit.idvisit)';
+        $from = 'log_visit';
+        $where = 'log_visit.idsite = ?';
+        $bind = array(1);
+
+        $logVisitTable = Common::prefixTable('log_visit');
+        $logAction = Common::prefixTable('log_action');
+
+        $segment = 'entryPageUrl=@https%253A%252F%252Fmatomo.org%252Ffaq%252F,entryPageUrl=@https%253A%252F%252Fmatomo.org%252Fdocs%252F,entryPageUrl=@https%253A%252F%252Fmatomo.org%252Fcontact%252F,entryPageUrl=@https%253A%252F%252Fmatomo.org%252Fhelp%252F,entryPageUrl=@https%253A%252F%252Fmatomo.org%252Ftag-manager-training%252F,entryPageUrl=@https%253A%252F%252Fmatomo.org%252Fweb-analytics-training%252F,entryPageUrl=@https%253A%252F%252Fdeveloper.matomo.org%252F,entryPageUrl=@https%253A%252F%252Fmatomo.org%252Ftranslations%252F,entryPageUrl=@https%253A%252F%252Fmatomo.org%252Fchangelog%252F,entryPageUrl=@https%253A%252F%252Fmatomo.org%252Fsupport%252F,entryPageUrl=@https%253A%252F%252Fmatomo.org%252Fjobs%252F';
+        $segment = new Segment($segment, $idSites = array());
+
+        $query = $segment->getSelectQuery($select, $from, $where, $bind);
+
+        $this->assertQueryDoesNotFail($query);
+
+        $expected = [
+            "sql"  => "SELECT sum(log_visit.idvisit)
+                        FROM $logVisitTable AS log_visit
+                        LEFT JOIN $logAction AS log_action_segment_log_visitvisit_entry_idaction_url ON log_visit.visit_entry_idaction_url = log_action_segment_log_visitvisit_entry_idaction_url.idaction
+                        WHERE (log_visit.idsite = ?)
+                            AND (
+                                (
+                                    (
+                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?
+                                        AND log_action_segment_log_visitvisit_entry_idaction_url.type = '1'
+                                        )
+                                    OR (
+                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?
+                                        AND log_action_segment_log_visitvisit_entry_idaction_url.type = '1'
+                                        )
+                                    OR (
+                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?
+                                        AND log_action_segment_log_visitvisit_entry_idaction_url.type = '1'
+                                        )
+                                    OR (
+                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?
+                                        AND log_action_segment_log_visitvisit_entry_idaction_url.type = '1'
+                                        )
+                                    OR (
+                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?
+                                        AND log_action_segment_log_visitvisit_entry_idaction_url.type = '1'
+                                        )
+                                    OR (
+                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?
+                                        AND log_action_segment_log_visitvisit_entry_idaction_url.type = '1'
+                                        )
+                                    OR (
+                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?
+                                        AND log_action_segment_log_visitvisit_entry_idaction_url.type = '1'
+                                        )
+                                    OR (
+                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?
+                                        AND log_action_segment_log_visitvisit_entry_idaction_url.type = '1'
+                                        )
+                                    OR (
+                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?
+                                        AND log_action_segment_log_visitvisit_entry_idaction_url.type = '1'
+                                        )
+                                    OR (
+                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?
+                                        AND log_action_segment_log_visitvisit_entry_idaction_url.type = '1'
+                                        )
+                                    OR (
+                                        log_action_segment_log_visitvisit_entry_idaction_url.name LIKE ?
+                                        AND log_action_segment_log_visitvisit_entry_idaction_url.type = '1'
+                                        )
+                                    )
+                                )",
+            "bind" => [
+                '1',
+                '%matomo.org/faq/%',
+                '%matomo.org/docs/%',
+                '%matomo.org/contact/%',
+                '%matomo.org/help/%',
+                '%matomo.org/tag-manager-training/%',
+                '%matomo.org/web-analytics-training/%',
+                '%developer.matomo.org/%',
+                '%matomo.org/translations/%',
+                '%matomo.org/changelog/%',
+                '%matomo.org/support/%',
+                '%matomo.org/jobs/%',
+            ],
+        ];
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
     /**
      * @param $pageUrlFoundInDb
      * @return string
      * @throws Exception
      */
-    private function insertPageUrlAsAction($pageUrlFoundInDb)
+    private function insertPageUrlAsAction($pageUrlFoundInDb, $idActionColumn = 'idaction_url', $idActionType = Action::TYPE_PAGE_URL)
     {
         TableLogAction::loadIdsAction(array(
-            'idaction_url' => array($pageUrlFoundInDb, Action::TYPE_PAGE_URL)
+            $idActionColumn => array($pageUrlFoundInDb, $idActionType)
         ));
 
         $actionIdFoundInDb = Db::fetchOne("SELECT idaction from " . Common::prefixTable('log_action') . " WHERE name = ?", $pageUrlFoundInDb);
@@ -1871,62 +2320,10 @@ SQL;
         return array($pageUrlFoundInDb, $actionIdFoundInDb);
     }
 
-    private function assertCacheWasHit($expectedHits)
-    {
-        $hits = $this->tableLogActionCacheHits;
-        $this->assertEquals($expectedHits, $hits,
-            "expected cache was hit $expectedHits time(s), but got $hits cache hits instead.");
-    }
-
-    private function disableSubqueryCache()
-    {
-        Config::getInstance()->General['enable_segments_subquery_cache'] = 0;
-    }
-
-    private function enableSubqueryCache()
-    {
-        Config::getInstance()->General['enable_segments_subquery_cache'] = 1;
-    }
-
     public function provideContainerConfig()
     {
-        $self = $this;
-
-        $cacheProxy = $this->getMockBuilder('Matomo\Cache\Lazy')
-                           ->setMethods(array('fetch', 'contains', 'save', 'delete', 'flushAll'))
-                           ->disableOriginalConstructor()
-                           ->getMock();
-
-        $cacheProxy->expects($this->any())->method('fetch')->willReturnCallback(function ($id) {
-            $realCache = StaticContainer::get('Matomo\Cache\Lazy');
-            return $realCache->fetch($id);
-        });
-        $cacheProxy->expects($this->any())->method('contains')->willReturnCallback(function ($id) use ($self) {
-            $realCache = StaticContainer::get('Matomo\Cache\Lazy');
-
-            $result = $realCache->contains($id);
-            if ($result) {
-                ++$self->tableLogActionCacheHits;
-            }
-
-            return $result;
-        });
-        $cacheProxy->expects($this->any())->method('save')->willReturnCallback(function ($id, $data, $lifetime = 0) {
-            $realCache = StaticContainer::get('Matomo\Cache\Lazy');
-            return $realCache->save($id, $data, $lifetime);
-        });
-        $cacheProxy->expects($this->any())->method('delete')->willReturnCallback(function ($id) {
-            $realCache = StaticContainer::get('Matomo\Cache\Lazy');
-            return $realCache->delete($id);
-        });
-        $cacheProxy->expects($this->any())->method('flushAll')->willReturnCallback(function () {
-            $realCache = StaticContainer::get('Matomo\Cache\Lazy');
-            return $realCache->flushAll();
-        });
-
         return array(
             'Piwik\Access' => new FakeAccess(),
-            'Piwik\Tracker\TableLogAction\Cache' => DI\autowire()->constructorParameter('cache', $cacheProxy),
         );
     }
 

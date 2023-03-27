@@ -47,6 +47,8 @@ class DimensionSegmentFactory
             $segment = new Segment();
         }
 
+        $segment->dimension = $dimension;
+
         if (!$segment->getSegment() && $dimension->getSegmentName()) {
             $segment->setSegment($dimension->getSegmentName());
         }

@@ -45,7 +45,12 @@ class DataCollectionTest extends \PHPUnit\Framework\TestCase
             $siteIds = array($siteIds[0]);
         }
 
-        return new DataCollection($dataNames, $dataType, $siteIds, $periods, new Segment('', []), $defaultRow);
+        // using mock since Segment makes API queries
+        $mockSegment = $this->getMockBuilder(Segment::class)
+            ->disableOriginalConstructor()
+            ->getMock()
+            ->method('getString')->willReturn('');
+        return new DataCollection($dataNames, $dataType, $siteIds, $periods, $mockSegment, $defaultRow);
     }
 
     public function test_getIndexedArray_numeric_noResultIndices_noData()

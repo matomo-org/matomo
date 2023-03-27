@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugin;
 use Exception;
+use Piwik\Columns\Dimension;
 use Piwik\Development;
 
 /**
@@ -72,6 +73,11 @@ class Segment
     {
         $this->init();
     }
+
+    /**
+     * @var Dimension
+     */
+    public $dimension;
 
     /**
      * Here you can initialize this segment and set any default values. It is called directly after the object is
@@ -140,7 +146,7 @@ class Segment
      *
      * If the closure returns NULL, then Piwik assumes the segment sub-string will not match any visitor.
      *
-     * @param string|\Closure $sqlFilter
+     * @param callable $sqlFilter
      * @api
      */
     public function setSqlFilter($sqlFilter)
