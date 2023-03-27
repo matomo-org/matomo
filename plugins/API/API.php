@@ -204,7 +204,6 @@ class API extends \Piwik\Plugin\API
         // Cleanup data to return the top suggested (non empty) labels for this segment
         $values = $table->getColumn($segmentName);
 
-
         // Select also flattened keys (custom variables "page" scope, page URLs for one visit, page titles for one visit)
         $valuesBis = $table->getColumnsStartingWith($segmentName . ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP);
         $values = array_merge($values, $valuesBis);
@@ -735,7 +734,7 @@ class API extends \Piwik\Plugin\API
     protected function doesSegmentNeedActionsData($segmentName)
     {
         // If you update this, also update flattenVisitorDetailsArray
-        $segmentsNeedActionsInfo = array('visitConvertedGoalId',
+        $segmentsNeedActionsInfo = array('visitConvertedGoalId', 'visitConvertedGoalName',
             'pageUrl', 'pageTitle', 'siteSearchKeyword', 'siteSearchCategory', 'siteSearchCount',
             'entryPageTitle', 'entryPageUrl', 'exitPageTitle', 'exitPageUrl',
             'outlinkUrl', 'downloadUrl', 'eventUrl', 'orderId', 'revenueOrder', 'revenueAbandonedCart', 'productViewName', 'productViewSku', 'productViewPrice',
