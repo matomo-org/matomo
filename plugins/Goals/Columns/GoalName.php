@@ -8,8 +8,6 @@
  */
 namespace Piwik\Plugins\Goals\Columns;
 
-namespace Piwik\Plugins\Goals\Columns;
-
 use Piwik\Columns\DimensionMetricFactory;
 use Piwik\Columns\MetricsList;
 use Piwik\DataTable;
