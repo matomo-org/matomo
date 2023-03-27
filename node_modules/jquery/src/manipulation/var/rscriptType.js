@@ -1,3 +1,5 @@
 define( function() {
-	return ( /^$|\/(?:java|ecma)script/i );
+	"use strict";
+
+	return ( /^$|^module$|\/(?:java|ecma)script/i );
 } );
