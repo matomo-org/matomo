@@ -11,6 +11,7 @@ use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\SiteContentDetector;
 use Piwik\Tests\Framework\Mock\FakeSiteContentDetector;
+use Matomo\Dependencies\DI;
 
 /**
  * Fixture that adds one site with no visits and configures site content detection test data so that GA3 will be
@@ -34,7 +35,7 @@ class EmptySiteWithSiteContentDetectionGA3 extends Fixture
         ];
 
         return [
-            SiteContentDetector::class => \DI\autowire(FakeSiteContentDetector::class)
+            SiteContentDetector::class => DI\autowire(FakeSiteContentDetector::class)
                  ->constructorParameter('mockData', $mockData)
         ];
     }

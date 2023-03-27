@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\Referrers\tests;
+namespace Piwik\Plugins\Referrers\tests\Unit;
 
 use Piwik\Plugins\Referrers\SearchEngine;
 use Spyc;
@@ -19,7 +19,7 @@ class SearchEngineTest extends \PHPUnit\Framework\TestCase
     public static function setUpBeforeClass(): void
     {
         // inject definitions to avoid database usage
-        $yml = file_get_contents(PIWIK_PATH_TEST_TO_ROOT . SearchEngine::DEFINITION_FILE);
+        $yml = file_get_contents(PIWIK_VENDOR_PATH . SearchEngine::DEFINITION_FILE);
         SearchEngine::getInstance()->loadYmlData($yml);
         parent::setUpBeforeClass();
     }
@@ -104,7 +104,7 @@ class SearchEngineTest extends \PHPUnit\Framework\TestCase
      */
     public function getAllSearchEngines()
     {
-        $yml = file_get_contents(PIWIK_PATH_TEST_TO_ROOT . SearchEngine::DEFINITION_FILE);
+        $yml = file_get_contents(PIWIK_VENDOR_PATH . SearchEngine::DEFINITION_FILE);
         SearchEngine::getInstance()->loadYmlData($yml);
         $searchEngines = array();
         foreach (SearchEngine::getInstance()->getDefinitions() as $url => $searchEngine) {

@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\Referrers\tests;
+namespace Piwik\Plugins\Referrers\tests\Unit;
 
 use Piwik\Plugins\Referrers\Social;
 
@@ -19,7 +19,7 @@ class SocialTest extends \PHPUnit\Framework\TestCase
     public static function setUpBeforeClass(): void
     {
         // inject definitions to avoid database usage
-        $yml = file_get_contents(PIWIK_PATH_TEST_TO_ROOT . Social::DEFINITION_FILE);
+        $yml = file_get_contents(PIWIK_VENDOR_PATH . Social::DEFINITION_FILE);
         Social::getInstance()->loadYmlData($yml);
         parent::setUpBeforeClass();
     }

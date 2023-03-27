@@ -11,6 +11,7 @@ use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\SiteContentDetector;
 use Piwik\Tests\Framework\Mock\FakeSiteContentDetector;
+use Matomo\Dependencies\DI;
 
 /**
  * Fixture that disables site content detection by returning null values and preventing a live request
@@ -35,7 +36,7 @@ class DisableSiteContentDetection extends Fixture
         ];
 
         return [
-            SiteContentDetector::class => \DI\autowire(FakeSiteContentDetector::class)
+            SiteContentDetector::class => DI\autowire(FakeSiteContentDetector::class)
                  ->constructorParameter('mockData', $mockData)
         ];
     }

@@ -22,6 +22,7 @@ use Piwik\RankingQuery;
 use Piwik\Segment;
 use Piwik\Tracker\GoalManager;
 use Matomo\Dependencies\Psr\Log\LoggerInterface;
+use Matomo\Dependencies\DI;
 
 /**
  * Contains methods that calculate metrics by aggregating log data (visits, actions, conversions,
@@ -339,8 +340,8 @@ class LogAggregator
      * @param int         $offset
      *
      * @return array|mixed|string
-     * @throws \DI\DependencyException
-     * @throws \DI\NotFoundException
+     * @throws DI\DependencyException
+     * @throws DI\NotFoundException
      */
     public function generateQuery($select, $from, $where, $groupBy, $orderBy, $limit = 0, $offset = 0)
     {
@@ -395,8 +396,8 @@ class LogAggregator
      *
      * @return string   Name of the created temporary table, including any table prefix
      *
-     * @throws \DI\DependencyException
-     * @throws \DI\NotFoundException
+     * @throws DI\DependencyException
+     * @throws DI\NotFoundException
      */
     private function createSegmentTable(): string
     {
