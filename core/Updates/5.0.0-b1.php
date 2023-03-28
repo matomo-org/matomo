@@ -54,6 +54,8 @@ class Updates_5_0_0_b1 extends PiwikUpdates
 
         $migrations[] = $this->migration->db->addColumns('user_token_auth', ['post_only' => "TINYINT(2) UNSIGNED NOT NULL DEFAULT '0'"]);
 
+        $migrations[] = $this->getPagesBeforeAddColumn();
+
         if ($this->requiresUpdatedLogVisitTableIndex()) {
             return $this->getLogVisitTableMigrations($migrations);
         }
@@ -116,11 +118,21 @@ class Updates_5_0_0_b1 extends PiwikUpdates
         return true;
     }
 
+    /**
+     * Add new 'pages before column' to log conversions
+     *
+     * @return DbAlias\AddColumns
+     */
+    private function getPagesBeforeAddColumn()
+    {
+        return $this->migration->db->addColumns('log_conversion', ['pageviews_before' => "SMALLINT UNSIGNED DEFAULT NULL"]);
+    }
+
     private function populatePagesBefore(): void
     {
-        // Abort if host is *.matomo.cloud or *.innocraft.cloud
-        $instanceId = SettingsPiwik::getPiwikInstanceId();
-        if (strpos($instanceId, '.matomo.cloud') !== false || strpos($instanceId, '.innocraft.cloud') !== false) {
+        // Abort if host is *.matomo.cloud
+        $piwikUrl = SettingsPiwik::getPiwikUrl();
+        if (strpos($piwikUrl, '.matomo.cloud') !== false) {
             return;
         }
 
