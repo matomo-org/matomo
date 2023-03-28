@@ -54,7 +54,7 @@ class PagesBeforeCalculator
             if ($idGoal === null) {
                 // All goals
                 $goalsModel = new GoalsModel();
-                $goals = array_column($goalsModel->getActiveGoals([$site]), 'idgoal');
+                $goals = array_column($goalsModel->getActiveGoals($site), 'idgoal');
             } else {
                 // Specific goals
                 $goals = explode(',', $idGoal);
@@ -85,12 +85,14 @@ class PagesBeforeCalculator
                     }
 
                     if (!empty($endDatetime)) {
-                        $sql .= " AND c.server_time <= ?";
+                        $sql .= " AND c.server_time =< ?";
                         $bind[] = $endDatetime;
                     }
 
-                    $result = Db::query($sql, $bind);
-                    $calcCount = $result->rowCount();
+                    $sql .= " LIMIT 10000";
+
+                     $result = Db::query($sql, $bind);
+                     $calcCount = $result->rowCount();
 
                     // Done with this site/goal if no records were updated or we've processed 100m records (sanity check)
                     if ($calcCount == 0 || $chunks > 10000) {
