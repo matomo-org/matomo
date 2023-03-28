@@ -95,7 +95,7 @@ class ComposerInstall extends Fixture
 
     private function getCurrentBranch()
     {
-        return `git branch --show-current`;
+        return getenv('GITHUB_BRANCH') ?: `git branch --show-current`;
     }
 
     private function getComposer()
