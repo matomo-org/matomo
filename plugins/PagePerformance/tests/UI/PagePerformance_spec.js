@@ -94,6 +94,7 @@ describe("PagePerformance", function () {
         // hover visualization selection
         const icon = await page.jQuery('.dropdown-content .icon-page-performance');
         await icon.click();
+        await page.mouse.move(-10, -10);
 
         await page.waitForNetworkIdle();
 
