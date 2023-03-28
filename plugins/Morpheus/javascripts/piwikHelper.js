@@ -393,7 +393,7 @@ window.piwikHelper = {
         var $content = $(content).hide();
         var $footer = $content.find('.modal-footer');
 
-        $('[role]', domElem).each(function(){
+        $('[role]', domElem).not('li').each(function(){
             var $button = $(this);
 
             // skip this button if it's part of another modal, the current modal can launch
