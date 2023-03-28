@@ -43,6 +43,11 @@ class ComposerInstall extends Fixture
         LatestStableInstall::verifyInstall($tokenAuth, $this->subdirToInstall);
     }
 
+    public function tearDown(): void
+    {
+        $this->removeExistingComposerInstall();
+    }
+
     private function removeExistingComposerInstall()
     {
         $installSubdirectory = $this->getInstallSubdirectoryPath();
