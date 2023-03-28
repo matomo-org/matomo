@@ -84,7 +84,7 @@ class ComposerInstall extends Fixture
         file_put_contents($composerFile, $composerContents);
 
         // run composer install
-        $composerCommand = 'cd ' . $installPath . ' && ' . $this->getComposer() . ' install';
+        $composerCommand = 'cd ' . $installPath . ' && ' . $this->getComposer() . ' --no-dev -o -q --ignore-platform-reqs install';
         passthru($composerCommand);
 
         // create root php file proxies
