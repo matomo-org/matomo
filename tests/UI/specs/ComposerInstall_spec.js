@@ -22,8 +22,8 @@ describe('ComposerInstall', function () {
     await page.goto(reportingUrl);
     await page.waitForSelector('#login_form_login', { visible: true });
 
-    await page.type('#login_form_login', 'superUserLogin');
-    await page.type('#login_form_password', 'superUserPass');
+    await page.type('#login_form_login', superUserLogin);
+    await page.type('#login_form_password', superUserPassword);
     await page.click('#login_form_submit');
 
     await page.waitForNetworkIdle();
