@@ -1109,34 +1109,11 @@ class LogAggregator
 
         $generalBind = $this->getGeneralQueryBindParams();
 
-        $select = 'log_conversion.idvisit, COUNT(*) AS num_total';
-
-        $from = [
-            'log_conversion',
-                ['table' => 'log_link_visit_action', 'tableAlias' => 'log_vpast', 'join' => 'RIGHT JOIN',
-                            'joinOn' => 'log_conversion.idvisit = log_vpast.idvisit'],
-                ['table' => 'log_action', 'tableAlias' => 'lac_past',
-                            'joinOn' => 'log_vpast.'.$linkField.' = lac_past.idaction']
-        ];
-
-        $where = $this->getWhereStatement('log_conversion', 'server_time');
-        $where .= sprintf('AND log_conversion.idgoal = %d 
-                          AND log_vpast.server_time <= log_conversion.server_time
-                          AND lac_past.type = %s',
-                          (int) $idGoal, ($linkField == 'idaction_url' ? '1' : '4'));
-
-        $groupBy = 'log_conversion.idvisit';
-
-        $query = $this->generateQuery($select, $from, $where, $groupBy, false);
-
-        $dbSettings = new \Piwik\Db\Settings();
-        $tablePrefix = $dbSettings->getTablePrefix();
-
         $sql = sprintf(
         "SELECT
           yyy.idvisit AS idvisit,
-          ".$idGoal." AS idgoal,
-          ".($linkField == 'idaction_url' ? '1' : '4')." AS `type`,
+          " . $idGoal . " AS idgoal,
+          " . ($linkField == 'idaction_url' ? '1' : '4') . " AS `type`,
           yyy.idaction AS idaction,
           COUNT(*) AS `1`,     
           " . sprintf("ROUND(SUM(yyy.revenue_total),2) AS `%d`,", Metrics::INDEX_GOAL_REVENUE) . "          
@@ -1152,35 +1129,32 @@ class LogAggregator
           " . sprintf("ROUND(SUM(yyy.revenue),2) AS `%d`", Metrics::INDEX_GOAL_REVENUE_ATTRIB) . "         
         FROM (
           SELECT
-            num_total AS pages_before,
-            1 / num_total AS attribution,
-            r.idvisit AS idvisit,
+            lvcon.pageviews_before AS pages_before,
+            1 / lvcon.pageviews_before AS attribution,
+            lvcon.idvisit AS idvisit,
             lac.idaction AS idaction,
             lvcon.revenue AS revenue_total,
-            1 / num_total * lvcon.revenue AS revenue,
-            1 / num_total * lvcon.revenue_subtotal AS revenue_subtotal,
-            1 / num_total * lvcon.revenue_tax AS revenue_tax,
-            1 / num_total * lvcon.revenue_shipping AS revenue_shipping,
-            1 / num_total * lvcon.revenue_discount AS revenue_discount,
-            1 / num_total * lvcon.items AS items
-          FROM (
-            %s
-          ) AS r
-          LEFT JOIN ".Common::prefixTable('log_conversion')." lvcon ON lvcon.idgoal = ".$idGoal." AND lvcon.idvisit = r.idvisit
-          RIGHT JOIN ".Common::prefixTable('log_link_visit_action')." logv ON logv.idvisit = r.idvisit
-          LEFT JOIN ".Common::prefixTable('log_action')." lac ON logv.".$linkField." = lac.idaction
+            1 / lvcon.pageviews_before * lvcon.revenue AS revenue,
+            1 / lvcon.pageviews_before * lvcon.revenue_subtotal AS revenue_subtotal,
+            1 / lvcon.pageviews_before * lvcon.revenue_tax AS revenue_tax,
+            1 / lvcon.pageviews_before * lvcon.revenue_shipping AS revenue_shipping,
+            1 / lvcon.pageviews_before * lvcon.revenue_discount AS revenue_discount,
+            1 / lvcon.pageviews_before * lvcon.items AS items
+          FROM " . Common::prefixTable('log_conversion') . " lvcon                
+          RIGHT JOIN " . Common::prefixTable('log_link_visit_action') . " logv ON logv.idvisit = lvcon.idvisit
+          LEFT JOIN " . Common::prefixTable('log_action') . " lac ON logv.".$linkField." = lac.idaction
           WHERE logv.server_time >= '%s'
             AND logv.server_time <= '%s'
             AND logv.idsite IN (%d) 
             AND lac.type = ".($linkField == 'idaction_url' ? '1' : '4')."
             AND logv.server_time <= lvcon.server_time
+            AND lvcon.idgoal = ".$idGoal." 
           ) AS yyy
         GROUP BY yyy.idaction
-        ORDER BY `9` DESC", $query['sql'], $generalBind[0], $generalBind[1], $generalBind[2]
+        ORDER BY `9` DESC", $generalBind[0], $generalBind[1], $generalBind[2]
         );
 
-        return $this->getDb()->query($sql, $query['bind']);
-
+        return $this->getDb()->query($sql, []);
     }
 
     /**
