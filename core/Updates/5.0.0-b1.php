@@ -12,7 +12,10 @@ namespace Piwik\Updates;
 
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Db;
+use Piwik\Date;
 use Piwik\Common;
+use Piwik\Plugins\Goals\PagesBeforeCalculator;
+use Piwik\SettingsPiwik;
 use Piwik\Updater;
 use Piwik\Updater\Migration\Db as DbAlias;
 use Piwik\Updater\Migration\Factory;
@@ -41,6 +44,8 @@ class Updates_5_0_0_b1 extends PiwikUpdates
     public function doUpdate(Updater $updater)
     {
         $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
+
+        $this->populatePagesBefore();
     }
 
     public function getMigrations(Updater $updater)
@@ -48,6 +53,8 @@ class Updates_5_0_0_b1 extends PiwikUpdates
         $migrations = $this->getUpdateArchiveIndexMigrations();
 
         $migrations[] = $this->migration->db->addColumns('user_token_auth', ['post_only' => "TINYINT(2) UNSIGNED NOT NULL DEFAULT '0'"]);
+
+        $migrations[] = $this->getPagesBeforeAddColumn();
 
         if ($this->requiresUpdatedLogVisitTableIndex()) {
             return $this->getLogVisitTableMigrations($migrations);
@@ -109,5 +116,40 @@ class Updates_5_0_0_b1 extends PiwikUpdates
         }
 
         return true;
+    }
+
+    /**
+     * Add new 'pages before column' to log conversions
+     *
+     * @return DbAlias\AddColumns
+     */
+    private function getPagesBeforeAddColumn()
+    {
+        return $this->migration->db->addColumns('log_conversion', ['pageviews_before' => "SMALLINT UNSIGNED DEFAULT NULL"]);
+    }
+
+    private function populatePagesBefore(): void
+    {
+        // Abort if host is *.matomo.cloud
+        $piwikUrl = SettingsPiwik::getPiwikUrl();
+        if (strpos($piwikUrl, '.matomo.cloud') !== false) {
+            return;
+        }
+
+        // Abort if there are more than 10,000 conversions across all sites and goals in the last 48hrs
+        $startDate = Date::factory('yesterday');
+        $endDate = Date::factory('today')->getEndOfDay();
+
+        $sql = 'SELECT COUNT(*) FROM ' . Common::prefixTable('log_conversion') . ' WHERE server_time <= ? AND server_time >= ?';
+
+        $result = Db::fetchOne($sql, [$startDate, $endDate]);
+        if ($result > 10000) {
+            return;
+        }
+
+        // Calculate all conversions for the last 48hrs
+        $pagesBeforeCalculator = new PagesBeforeCalculator();
+        $pagesBeforeCalculator->calculateFor($startDate, $endDate);
+
     }
 }
