@@ -57,7 +57,7 @@ class PrefixDependency extends ConsoleCommand
         if ($this->isBeingInstalledAsComposerDependency()) {
             $output->writeln('Detected Matomo being installed as composer dependency, skipping prefixing.');
             $this->setUpPrefixRemovingAutoloader();
-            return;
+            return self::SUCCESS;
         }
 
         // symfony may try to log something after this command completes. If monolog is not loaded at that point,
@@ -96,7 +96,7 @@ class PrefixDependency extends ConsoleCommand
 
         $output->writeln("<info>Done.</info>");
 
-        return 0;
+        return self::SUCCESS;
     }
 
     private function downloadPhpScoperIfNeeded(InputInterface $input, OutputInterface $output)
