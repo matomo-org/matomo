@@ -68,7 +68,7 @@
         "ThankYouUpdatePiwik": "Matomo uygulamasını kullandığınız ve güncel tuttuğunuz için teşekkürler!",
         "TheFollowingDimensionsWillBeUpgradedX": "Şu boyutlar güncellenecek: %s.",
         "TheFollowingPluginsWillBeUpgradedX": "Şu uygulama ekleri güncellenecek: %s.",
-        "TheUpgradeProcessMayFailExecuteCommand": "Büyük bir Matomo veri tabanı ile çalışıyorsanız, güncelleme işlemini web tarayıcı üzerinden yapmak çok zaman alabilir. Bu durumda güncellemeleri komut satırından yapabilirsiniz: %s",
+        "TheUpgradeProcessMayFailExecuteCommand": "Büyük bir Matomo veri tabanı ile çalışıyorsanız, güncelleme işlemini tarayıcı üzerinden yapmak çok zaman alabilir. Bu durumda güncellemeleri komut satırından yapabilirsiniz: %s",
         "TheUpgradeProcessMayTakeAWhilePleaseBePatient": "Veri tabanı güncelleme işlemi biraz zaman alabilir. Lütfen sabırlı olun.",
         "ThereIsNewPluginVersionAvailableForUpdate": "Kullandığınız bazı uygulama eklerinin Mağaza güncellemesi yayınlanmış:",
         "ThereIsNewVersionAvailableForUpdate": "Güncellenebilecek yeni bir Matomo sürümü yayınlanmış",
