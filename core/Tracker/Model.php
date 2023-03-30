@@ -53,8 +53,6 @@ class Model
      */
     public function createConversion($conversion)
     {
-        // Calculate and store the pages viewed before this conversion
-        $conversion['pageviews_before'] = $this->getPageCountViewedBeforeDate($conversion['idvisit'], $conversion['server_time']);
 
         $fields     = implode(", ", array_keys($conversion));
         $bindFields = Common::getSqlStringFieldsArray($conversion);
@@ -189,25 +187,6 @@ class Model
                 throw $e;
             }
         }
-    }
-
-    /**
-     * Retrieve the count of pages viewed in a visit before a specifc time from the database.
-     *
-     * @param int $idvisit
-     * @param string $date YYYY-MM-DD HH:MM:SS
-     *
-     * @return int
-     */
-    private function getPageCountViewedBeforeDate(int $idvisit, string $date): int
-    {
-
-        $sql = "SELECT COUNT(*) 
-        FROM " . Common::prefixTable('log_link_visit_action') . " AS log_vpast
-        LEFT JOIN " . Common::prefixTable('log_action') . " AS lac_past ON log_vpast.idaction_url = lac_past.idaction
-        WHERE log_vpast.server_time <= ? AND lac_past.type = 1 AND log_vpast.idvisit = ?";
-
-        return $this->getDb()->fetchOne($sql, [$date, $idvisit]);
     }
 
     /**

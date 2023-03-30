@@ -42,10 +42,10 @@ class Visitor
         $this->visitProperties->setProperty($column, $value);
     }
 
-    public function getVisitorColumn($column)
+    public function getVisitorColumn($column, bool $original = false)
     {
-        if (array_key_exists($column, $this->visitProperties->getProperties())) {
-            return $this->visitProperties->getProperty($column);
+        if (array_key_exists($column, $this->visitProperties->getProperties($original))) {
+            return $this->visitProperties->getProperty($column, $original);
         }
 
         return false;
