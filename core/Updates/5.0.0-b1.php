@@ -130,9 +130,9 @@ class Updates_5_0_0_b1 extends PiwikUpdates
 
     private function populatePagesBefore(): void
     {
-        // Abort if host is *.matomo.cloud
-        $piwikUrl = SettingsPiwik::getPiwikUrl();
-        if (strpos($piwikUrl, '.matomo.cloud') !== false) {
+        // Abort if host is *.matomo.cloud or *.innocraft.cloud
+        $instanceId = SettingsPiwik::getPiwikInstanceId();
+        if (strpos($instanceId, '.matomo.cloud') !== false || strpos($instanceId, '.innocraft.cloud') !== false) {
             return;
         }
 
