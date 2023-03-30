@@ -1,7 +1,17 @@
 {
     "Widgetize": {
+        "DirectLink": "› Directe link",
+        "DisplayDashboardInIframe": "U kunt het volledige Matomo-dashboard ook weergeven in uw applicatie of website in een IFRAME (%1$szie voorbeeld%2$s). De datumparameter kan worden ingesteld op een specifieke kalenderdatum, \"vandaag\", of \"gisteren\". De periodeparameter kan worden ingesteld op \"dag\", \"week\", \"maand\", of \"jaar\". \nDe taalparameter kan worden ingesteld op de taalcode van een vertaling, zoals language=fr. Bijvoorbeeld, voor idSite=1 en date=yesterday, kunt u schrijven:",
+        "DisplayDashboardInIframeAllSites": "U kunt voor het dashboard van alle websites ook een widget maken in een IFRAME (%1$szie voorbeeld%2$s)",
+        "EmbedIframe": "› Iframe insluiten",
+        "Intro": "Met Matomo kunt u %1$suw webanalyserapporten%2$s exporteren op uw blog, website of intranet dashboard... in één klik.",
         "OpenInNewWindow": "In een nieuw venster openen",
-        "PluginDescription": "Toon elk Matomo rapport in je website of app eenvoudig met een Embed HTML tag.",
-        "TopLinkTooltip": "Exporteer Matomo Rapporten als Widgets en voeg het dashboard toe in je app als een iframe."
+        "PluginDescription": "Toon elk Matomo rapport in uw website of app eenvoudig met een \"embed\" HTML tag.",
+        "Reports": "Maak widgets van uw rapporten",
+        "SelectAReport": "Selecteer een rapport en kopieer de insluitcode onder het widget naar uw pagina:",
+        "TooHighAccessLevel": "Deze gebruiker heeft superuser-toegang. Het insluiten van widgets met superuser token authenticatie is niet toegestaan. %1$sBekijk de FAQ voor meer informatie.%2$s",
+        "TopLinkTooltip": "Exporteer Matomo-rapporten als widgets en voeg het dashboard toe in uw app als een iframe.",
+        "ViewAccessRequired": "Deze gebruiker heeft minstens schrijftoegang. Enkel tokens van gebruikers met uitsluitend leestoegang zijn mogelijk. Check %1$s voor meer informatie.",
+        "ViewableAnonymously": "Als u wilt dat uw widgets door iedereen kunnen worden bekeken, moet u eerst de 'bekijk'-rechten instellen voor de anonieme gebruiker in de %1$sGebruikersbeheer sectie%2$s. <br>Alternatief, als u widgets publiceert op een wachtwoordbeveiligde of afgeschermde pagina, hoeft u 'anoniem' niet per se toe te staan uw rapporten te bekijken. In dit geval kunt u de geheime <code>token_auth</code> parameter toevoegen in de widget URL. U kunt uw auth tokens beheren op uw %3$sBeveiligingspagina%4$s."
     }
 }
