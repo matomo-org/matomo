@@ -38,6 +38,9 @@ class ComposerInstall extends Fixture
         }
 
         $this->removeExistingComposerInstall();
+
+        Filesystem::mkdir($this->getInstallSubdirectoryPath());
+
         $this->installFromComposer();
         $tokenAuth = LatestStableInstall::installSubdirectoryInstall($this->subdirToInstall . '/vendor/matomo/matomo');
         LatestStableInstall::verifyInstall($tokenAuth, $this->subdirToInstall);
@@ -54,8 +57,6 @@ class ComposerInstall extends Fixture
         if (is_dir($installSubdirectory)) {
             Filesystem::unlinkRecursive($installSubdirectory, true);
         }
-
-        Filesystem::mkdir($installSubdirectory);
     }
 
     private function getInstallSubdirectoryPath()
