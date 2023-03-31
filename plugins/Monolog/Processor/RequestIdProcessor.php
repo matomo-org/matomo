@@ -22,7 +22,7 @@ class RequestIdProcessor
     {
         if (empty($this->currentRequestKey)) {
             if (Common::isPhpCliMode()) {
-                $this->currentRequestKey = getmypid();
+                $this->currentRequestKey = Common::getProcessId();
             } else {
                 $this->currentRequestKey = FrontController::getUniqueRequestId();
             }
