@@ -2,6 +2,8 @@
     "UserLanguage": {
         "BrowserLanguage": "Browsertaal",
         "LanguageCode": "Taalcode",
-        "PluginDescription": "Rapporteert de taal die door browsers van uw bezoekers werd gebruikt."
+        "PluginDescription": "Rapporteert de primaire taal van de browser die uw bezoekers gebruiken.",
+        "getLanguageCodeDocumentation": "Toont de exacte taalcode de browser van de bezoeker (vb. \"Nederlands — België (nl-be)\")",
+        "getLanguageDocumentation": "Toont welke taal de browser van de bezoeker gebruikt. (vb. \"Nederlands\")"
     }
 }

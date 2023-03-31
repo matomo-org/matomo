@@ -19,7 +19,7 @@
         "Maximise": "Büyüt",
         "Minimise": "Küçült",
         "NotUndo": "Bu işlem geri alınamaz.",
-        "PluginDescription": "Web istatistikleri panonuz. Panonuzu, yeni pano bileşenleri ekleyerek, var olan pano bileşenlerini sürükleyip bırakarak ve sütun düzenini değiştirerek isteğinize göre düzenleyebilirsiniz. Her kullanıcı kendine özel bir pano oluşturabilir.",
+        "PluginDescription": "Site istatistikleri panonuz. Panonuzu, yeni pano bileşenleri ekleyerek, var olan pano bileşenlerini sürükleyip bırakarak ve sütun düzenini değiştirerek isteğinize göre düzenleyebilirsiniz. Her kullanıcı kendine özel bir pano oluşturabilir.",
         "RemoveDashboard": "Panoyu sil",
         "RemoveDashboardConfirm": "\"%s\" panosunu silmek istediğinize emin misiniz?",
         "RemoveDefaultDashboardNotPossible": "Varsayılan pano silinemez",
@@ -31,7 +31,7 @@
         "SetAsDefaultWidgets": "Varsayılan pano bileşeni seçimi olarak ata",
         "SetAsDefaultWidgetsConfirm": "Geçerli pano bileşeni seçimi ve pano düzenini varsayılan pano teması olarak atamak istediğinize emin misiniz?",
         "SetAsDefaultWidgetsConfirmHelp": "Başka bir kullanıcı yeni bir pano eklediğinde ya da \"%s\" özelliği kullanıldığında, varsayılan olarak bu pano bileşeni seçimi ve sütun düzeni kullanılır.",
-        "TopLinkTooltip": "%s için web istatistikleri raporunu görüntüle.",
+        "TopLinkTooltip": "%s için site istatistikleri raporunu görüntüle.",
         "WidgetNotFound": "Pano bileşeni bulunamadı",
         "WidgetPreview": "Pano bileşeni ön izlemesi"
     }
