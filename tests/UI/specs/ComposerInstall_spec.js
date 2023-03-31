@@ -12,6 +12,10 @@ const exec = require('child_process').exec;
 
 describe('ComposerInstall', function () {
   this.fixture = "Piwik\\Tests\\Fixtures\\ComposerInstall";
+  this.optionsOverride = {
+    // ensure install is clean up after the tests
+    'persist-fixture-data': false
+  };
 
   const composerInstallDir = 'composerInstall';
   const composerInstallUrl = config.piwikUrl + composerInstallDir;

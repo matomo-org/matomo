@@ -10,7 +10,6 @@
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Filesystem;
-use Piwik\Tests\Fixtures\LatestStableInstall;
 use Piwik\Tests\Framework\Fixture;
 
 class ComposerInstall extends Fixture

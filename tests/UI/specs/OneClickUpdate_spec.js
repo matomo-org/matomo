@@ -15,6 +15,10 @@ const exec = require('child_process').exec;
 
 describe("OneClickUpdate", function () {
     this.fixture = "Piwik\\Tests\\Fixtures\\LatestStableInstall";
+    this.optionsOverride = {
+        // ensure install is clean up after the tests
+        'persist-fixture-data': false
+    };
 
     var latestStableUrl = config.piwikUrl + '/latestStableInstall/index.php';
     var settingsUrl = latestStableUrl + '?module=CoreAdminHome&action=home&idSite=1&period=day&date=yesterday';
