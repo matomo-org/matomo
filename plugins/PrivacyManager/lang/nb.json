@@ -3,6 +3,7 @@
         "AddUserIdToSearch": "Klikk for å legge denne bruker-ID-en i søket",
         "AddVisitorIPToSearch": "Klikk for å legge denne besøks-IP-en i søket",
         "AddVisitorIdToSearch": "Klikk for å legge denne besøks-ID-en i søket",
+        "Anonymize": "Anonymiser",
         "AnonymizeData": "Anonymiser data",
         "AnonymizeDataConfirm": "Anonymiser data for valgt(e) nettside(r) og tidsrom? Dette kan ikke angres, ta lang tid, og data kan bli slettes som forespurt.",
         "AnonymizeDataNow": "Anonymiser tidligere data for valgt side og tid",

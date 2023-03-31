@@ -1,5 +1,6 @@
 {
     "VisitFrequency": {
+        "ColumnActionsByNewVisits": "新訪客活動數",
         "ColumnActionsByReturningVisits": "回訪活動數",
         "ColumnAverageVisitDurationForReturningVisitors": "回訪平均時間（秒）",
         "ColumnAvgActionsPerReturningVisit": "單次回訪平均活動數",

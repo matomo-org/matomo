@@ -43,9 +43,9 @@
         "country_a2": "Uydu hizmeti sağlayıcı",
         "country_cat": "Katalanca konuşulan topluluklar",
         "country_o1": "Başka bir ülke",
-        "getCityDocumentation": "Ziyaretçilerin web sitesine erişirken geldikleri illeri görüntüler.",
-        "getContinentDocumentation": "Ziyaretçilerin web sitesine erişirken geldikleri kıtaları görüntüler.",
-        "getCountryDocumentation": "Ziyaretçilerin web sitesine erişirken geldikleri ülkeleri görüntüler.",
-        "getRegionDocumentation": "Ziyaretçilerin web sitesine erişirken geldikleri bölgeleri görüntüler."
+        "getCityDocumentation": "Ziyaretçilerin siteye erişirken geldikleri illeri görüntüler.",
+        "getContinentDocumentation": "Ziyaretçilerin siteye erişirken geldikleri kıtaları görüntüler.",
+        "getCountryDocumentation": "Ziyaretçilerin siteye erişirken geldikleri ülkeleri görüntüler.",
+        "getRegionDocumentation": "Ziyaretçilerin siteye erişirken geldikleri bölgeleri görüntüler."
     }
 }

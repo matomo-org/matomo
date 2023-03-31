@@ -36,6 +36,7 @@
         "MenuPlatform": "Platform",
         "MissingRequirementsNotice": "Vennligst oppdater %1$s %2$s til en nyere versjon, %1$s %3$s er påkrevd.",
         "MissingRequirementsPleaseInstallNotice": "Vennligst installer %1$s %2$s da dette er påkrevd av %3$s.",
+        "NUpdatesAvailable": "%1$s oppgradering(er) tilgjengelig",
         "NoPluginSettings": "Det er ingen utvidelsesinnstillinger som kan konfigureres",
         "NoZipFileSelected": "Vennligst velg en ZIP-fil.",
         "NotDownloadable": "Kan ikke lastes ned",
