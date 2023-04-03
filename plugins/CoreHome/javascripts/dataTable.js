@@ -1456,11 +1456,11 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         var $domElement = $(domElement);
 
-        if ($domElement.data('tooltip') == 'enabled') {
+        if ($domElement.data('tooltip-enabled') == '1') {
             return;
         }
 
-        $domElement.data('tooltip', 'enabled');
+        $domElement.data('tooltip-enabled', '1');
 
         if (!isTextEllipsized($domElement)) {
             return;
