@@ -30,6 +30,7 @@ use Piwik\Plugins\SitesManager\SitesManager;
  *      // site is using GA3
  * }
  *
+ * @api
  */
 class SiteContentDetector
 {
