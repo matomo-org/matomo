@@ -14,7 +14,7 @@
         "Settings_CountryCode": "Landskod",
         "Settings_CredentialInvalid": "Ditt %1$s SMS API-konto har konfigurerats, men ett fel uppstod när du försökte kontrollera de tillgängliga krediterna.",
         "Settings_CredentialNotProvided": "Innan du kan skapa och hantera telefonnummer, var snäll och koppa Matomo till ditt SMS konto här ovan.",
-        "Settings_CredentialNotProvidedByAdmin": "Innan du kan skapa och hantera telefonnummer, var snäll och fråga din administratör om han eller hon kan koppla Matomo till ett SMS konto",
+        "Settings_CredentialNotProvidedByAdmin": "Innan du kan skapa och hantera telefonnummer, kolla med din administratör om hen kan koppla Matomo till ett SMS-konto.",
         "Settings_CredentialProvided": "Dina %s SMS API konton är korrekt konfigurerade!",
         "Settings_DelegatedPhoneNumbersOnlyUsedByYou": "De konfigurerade telefonnumren kan bara ses och användas av dig och inte av någon annan användare.",
         "Settings_DelegatedSmsProviderOnlyAppliesToYou": "Den konfigurerade SMS-leverantören kommer endast av dig och inte av någon annan användare.",
@@ -40,7 +40,7 @@
         "Settings_UpdateOrDeleteAccount": "Du kan också %1$suppdatera%2$s eller %3$sradera%4$s det här kontot.",
         "Settings_ValidatePhoneNumber": "Bekräfta",
         "Settings_VerificationCodeJustSent": "Vi skickade precis ett SMS till det här numret med en kod: ange den här koden ovan och klicka på \"Validera\".",
-        "TopLinkTooltip": "Få Webb Analysrapporter levererade till din mail inkorg eller din mobiltelefon",
+        "TopLinkTooltip": "Få webbanalysrapporter levererade till din epost eller din mobiltelefon.",
         "TopMenu": "E-post &amp; SMS-rapporter",
         "UserKey": "Användarnyckel",
         "VerificationText": "Koden är %1$s. För att verifiera ditt telefonnummer och få Matomos SMS rapporter ber vi dig kopiera den här koden i formuläret för åtkomlighet via Matomo → %2$s → %3$s."

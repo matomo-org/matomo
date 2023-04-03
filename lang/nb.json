@@ -495,6 +495,7 @@
         "Visit": "Besøk",
         "VisitConvertedGoal": "Besøk som er konvertert til minst ett mål",
         "VisitConvertedGoalId": "Besøk konvertert til et spesifikt mål-ID",
+        "VisitConvertedGoalName": "Besøk konverterte et spesifikt mål-navn",
         "VisitConvertedNGoals": "Besøk konverterte %s mål",
         "VisitDuration": "Gj.snitt. besøksvarighet (i sekunder)",
         "VisitId": "Besøk ID",

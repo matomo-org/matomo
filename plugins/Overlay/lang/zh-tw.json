@@ -3,6 +3,7 @@
         "Clicks": "%s 次點擊",
         "ClicksFromXLinks": "%1$s 次點擊來自 %2$s 個連結之一",
         "Domain": "域名",
+        "ErrorNoSiteUrls": "警告：此網站在 Matomo 中未定義站點 URL。這可能會導致覆蓋和其他功能出現問題或運作異常。為解決此問題，請在 Matomo 管理後臺的網站設定中新增 URL。",
         "ErrorNotLoading": "網頁覆蓋功能尚無法執行。",
         "ErrorNotLoadingDetails": "可能是右邊讀取的頁面沒有 Matomo 追蹤程式碼。在這種情況下，試著在頁面報表內的不同頁面中執行頁面覆蓋。",
         "ErrorNotLoadingDetailsSSL": "你正透過 https 使用 Matomo，最可能的原因是你的網站不支援 SSL。試著透過 http 使用 Matomo。",

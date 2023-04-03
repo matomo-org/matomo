@@ -1,9 +1,10 @@
 {
     "UserId": {
-        "UserId": "Användar ID",
-        "UserReportTitle": "Besökar-ID",
-        "UserReportDocumentation": "Denna rapport visar besök och andra allmänna mätvärden för varje enskilt användar-ID.",
         "PluginDescription": "Visa användarrapporter",
-        "VisitorsUserSubcategoryHelp": "Rapporten Användar-ID visar besök som är associerade med alla dina registrerade och inloggade användare. Du kan använda detta avsnitt för att förstå webbplatsanvändning av specifika användare och identifiera vem dina mest och minst aktiva användare är."
+        "ThereIsNoDataForThisReportHelp": "%1$sLäs användarguiden för att lära dig skapa data till denna rapport.%2$s",
+        "UserId": "Användar ID",
+        "UserReportDocumentation": "Visar besök och andra allmänna mätvärden för varje enskilt användar-ID.",
+        "UserReportTitle": "Besökar-ID",
+        "VisitorsUserSubcategoryHelp": "Rapporten Användar-ID visar besök som är associerade med dina registrerade och inloggade användare. Förstå webbplatsanvändning av specifika användare och se vilka dina mest och minst aktiva användare är."
     }
 }

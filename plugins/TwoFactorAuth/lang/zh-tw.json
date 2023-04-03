@@ -21,7 +21,7 @@
         "RecoveryCodesRegenerated": "復原代碼已重新新城。請務必下載或列印新生成的代碼。",
         "RecoveryCodesSecurity": "請用與密碼同等的安全級別來對待你的復原代碼！",
         "RequireTwoFAForAll": "要求所有人進行雙因素認證",
-        "RequireTwoFAForAllInformation": "啟用後，所有用戶都需要啟用雙因素認證。強制雙因素認證要求所有用戶都有可使用的裝置以安裝認證器應用程式。你只能夠在自己已設立雙因素認證時，啟用此選項。",
+        "RequireTwoFAForAllInformation": "要求其他使用者也使用 OTP 應用程式在其行動裝置上進行雙因素認證登入。（前提是，您自己也必須使用雙因素認證。）",
         "RequiredAuthCodeNotConfiguredAPI": "你需要設立雙因素認證。請登入你的帳號。",
         "RequiredToSetUpTwoFactorAuthentication": "你需要先設立雙因素認證，然後才能登入",
         "SetUpTwoFactorAuthentication": "開始設定兩步驟驗證 (2FA)",

@@ -6,7 +6,8 @@
         "CopyDashboardToUser": "將展示板複製給使用者",
         "CreateNewDashboard": "新增展示板",
         "Dashboard": "展示板",
-        "DashboardCopied": "已成功將目前的展示板複製給選擇的使用者",
+        "DashboardCategoryHelp": "這裡是展示板網頁。展示板整合了你新增的 Matomo 小工具以符合你的需求。挑選、排列任何 %1$s*你*%2$s 想要的 Matomo 小工具，來快速展示你要的資料。",
+        "DashboardCopied": "已成功將目前的展示板複製給選擇的使用者。",
         "DashboardEmptyNotification": "你的展示板還沒有任何小工具。開始添加一些小工具，或是直接重置展示板，使用預選的小工具。",
         "DashboardName": "展示板名稱：",
         "DashboardOf": "%s 的展示板",
@@ -17,7 +18,7 @@
         "ManageDashboard": "展示板管理",
         "Maximise": "最大化",
         "Minimise": "最小化",
-        "NotUndo": "你將無法還原此操作",
+        "NotUndo": "你將無法復原此操作。",
         "PluginDescription": "你的網頁分析展示板。透過添加小工具來自定你的展示板，只需拖曳並放置即可改變展示板的欄位版面。每位使用者可以管理他們自己的展示板。",
         "RemoveDashboard": "移除展示板",
         "RemoveDashboardConfirm": "你確定要移除展示板：%s？",
@@ -32,7 +33,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "這個小工具和展示板版面將於使用者建立的新展示板，或是使用 %s 功能時套用。",
         "TopLinkTooltip": "查看 %s 的網頁分析報表。",
         "WidgetNotFound": "找不到小工具",
-        "WidgetPreview": "小工具預覽",
-        "DashboardCategoryHelp": "這裡是展示板網頁。展示板整合了你新增的 Matomo 小工具以符合你的需求。挑選、排列任何 %1$s*你*%2$s 想要的 Matomo 小工具，來快速展示你要的資料。"
+        "WidgetPreview": "小工具預覽"
     }
 }

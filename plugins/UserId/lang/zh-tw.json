@@ -1,8 +1,10 @@
 {
     "UserId": {
         "PluginDescription": "顯示使用者報表",
+        "ThereIsNoDataForThisReportHelp": "%1$s閱讀使用者指南以了解如何為此報表生成資料。%2$s",
         "UserId": "使用者 ID",
-        "UserReportDocumentation": "此報表顯示每個獨立使用者 ID 的訪問與其他一般計量。",
-        "UserReportTitle": "使用者 ID"
+        "UserReportDocumentation": "為每個單獨的使用者 ID 顯示訪問和其他一般指標。",
+        "UserReportTitle": "使用者 ID",
+        "VisitorsUserSubcategoryHelp": "使用者 ID 報表顯示與所有已註冊並登入使用者相關聯的訪問。通過特定使用者了解網站使用情況，找出最活躍和最不活躍的使用者。"
     }
 }
