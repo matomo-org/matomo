@@ -57,6 +57,7 @@
         "symfony/console": "~5.4.0",
         "symfony/event-dispatcher": "~5.4.0",
         "symfony/monolog-bridge": "~5.4.0",
+        "symfony/var-dumper": "~5.4.0",
         "symfony/polyfill-iconv": "^1.20",
         "symfony/polyfill-mbstring": "^1.20",
         "szymach/c-pchart": "~3.0.13",
@@ -70,7 +71,6 @@
         "phpunit/phpunit": "~8.5",
         "slevomat/coding-standard": "~7.2.0",
         "squizlabs/php_codesniffer": "~3.6",
-        "symfony/var-dumper": "^5.0",
         "symfony/yaml": "~5.4.0"
     },
     "replace": {
