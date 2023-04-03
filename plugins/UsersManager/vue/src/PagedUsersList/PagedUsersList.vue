@@ -214,7 +214,11 @@
               :title="translate('UsersManager_UsesTwoFactorAuthentication')"
           >{{ translate('UsersManager_2FA') }}
           </th>
-          <th v-if="currentUserRole === 'superuser'">{{ translate('UsersManager_LastSeen') }}</th>
+          <th v-if="currentUserRole === 'superuser'"
+       @click="sortLastSeen">{{ translate('UsersManager_LastSeen') }}
+       <button v-if="sortedByLastSeen"
+       :class="{'fa-sort-up': sortLastSeenAsc, 'fa-sort-down': !sortLastSeenAsc}"
+       class="fa-solid fa-sort"></button></th>
           <th>{{ translate('UsersManager_Status') }}</th>
           <th class="actions-cell-header">
             <div>{{ translate('General_Actions') }}</div>
@@ -452,8 +456,18 @@ interface AccessLevel {
   type: string
 }
 
+interface LocalUser {
+  id: number;
+  name: string;
+  login: string;
+  lastSeenDate: Date;
+}
+
 interface PagedUsersListState {
   areAllResultsSelected: boolean;
+  sortLastSeenAsc: boolean;
+  sortedByLastSeen: boolean;
+  filteredUsers: LocalUser[];
   selectedRows: Record<string, boolean>;
   isAllCheckboxSelected: boolean;
   isBulkActionsDisabled: boolean;
@@ -516,6 +530,9 @@ export default defineComponent({
   },
   data(): PagedUsersListState {
     return {
+      sortLastSeenAsc: true,
+      sortedByLastSeen: false,
+      filteredUsers: [],
       areAllResultsSelected: false,
       selectedRows: {},
       isAllCheckboxSelected: false,
@@ -543,6 +560,16 @@ export default defineComponent({
     },
   },
   methods: {
+    sortLastSeen() {
+      this.sortLastSeenAsc = !this.sortLastSeenAsc;
+      this.sortedByLastSeen = true;
+      this.filteredUsers.sort((a: LocalUser, b: LocalUser) => {
+        const aDate = new Date(a.lastSeenDate).getTime();
+        const bDate = new Date(b.lastSeenDate).getTime();
+        const compare = aDate - bDate;
+        return this.sortLastSeenAsc ? compare : -compare;
+      });
+    },
     getInviteStatus(inviteStatus: string | number) {
       if (Number.isInteger(inviteStatus)) {
         return translate('UsersManager_InviteDayLeft', inviteStatus);
