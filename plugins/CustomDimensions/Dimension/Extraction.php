@@ -42,7 +42,7 @@ class Extraction
         }
         
         //Count the number of non-capturing groups in order to omit them from being counted as capturing groups
-        $ncgCount = substr_count($pattern, '(?');
+        $ncgCount = substr_count($this->pattern, '(?');
         if (!empty($this->pattern) && $this->dimension !== 'urlparam') {
             // make sure there is exactly one ( followed by one )
             if (1 !== substr_count($this->pattern, '(') - $ncgCount ||
