@@ -11,6 +11,7 @@
         "DefaultLocationProviderDesc1": "Som standard gissar sig platstjänsten till besökarens plats baserat på vilket språk som används.",
         "DefaultLocationProviderDesc2": "Detta är inte särskilt exakt, så %1$svi rekommenderar att du installerar och använder %2$sen geolokaliseringsdatabas%3$s.%4$s",
         "DefaultLocationProviderExplanation": "Du använder den standardiserade platsleverantören, det innebär att Matomo kommer räkna ut besökarens geografiska position baserat på språket de använder. %1$sLäs det här%2$s för att lära dig mer om hur du får en mer exakt lokalisering av dina besökare.",
+        "DisabledLocationProvider": "Stäng av geoposition.",
         "DistinctCountries": "%s distinkta länder",
         "FromDifferentCities": "Olika städer",
         "GeoIPDocumentationSuffix": "För att se data i den här rapporten måste du ställa in GeoIP i inställningarna, under fliken Geolocation. Dom kommersiella versionerna av GeoIP-databaserna från %1$sMaxmind%2$s är mer exakta än dom som är gratis. Klicka %3$shär%4$s för att se hur exakta dom är.",
