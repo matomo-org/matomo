@@ -1,6 +1,7 @@
 {
     "PagePerformance": {
         "ColumnAveragePageLoadTime": "頁面平均載入時間",
+        "ColumnAveragePageLoadTimeDocumentation": "從請求頁面到頁面在瀏覽器中完全呈現所需的平均時間（以秒為單位）",
         "ColumnTimeServer": "伺服器時間",
         "Performance": "性能"
     }

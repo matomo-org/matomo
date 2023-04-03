@@ -36,6 +36,7 @@
         "MenuPlatform": "Plattform",
         "MissingRequirementsNotice": "Uppdatera %1$s och %2$s till en nyare version, %1$s %3$s krävs.",
         "MissingRequirementsPleaseInstallNotice": "Vänligen installera %1$s %2$s då det krävs av %3$s.",
+        "NUpdatesAvailable": "%1$s Uppdatering finns tillgänglig",
         "NoPluginSettings": "Insticksprogrammet har inga inställningar som kan ändras",
         "NoZipFileSelected": "Var vänlig och välj en ZIP-fil.",
         "NotDownloadable": "Ej nedladdningsbar",

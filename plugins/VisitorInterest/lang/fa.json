@@ -1,6 +1,6 @@
 {
     "VisitorInterest": {
-        "BetweenXYMinutes": "%1$s-%2$s کمینه",
+        "BetweenXYMinutes": "بین %1$s-%2$s دقیقه",
         "BetweenXYSeconds": "%1$s-%2$sثانیه",
         "ColumnPagesPerVisit": "صفحات در هر نمایش",
         "ColumnVisitDuration": "مدت بازدید",

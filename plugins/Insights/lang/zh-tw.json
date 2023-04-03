@@ -19,6 +19,7 @@
         "MoversAndShakersWidgetTitle": "已存在和有影響力資料",
         "NoResultMatchesCriteria": "沒有符合規範的資料",
         "OverviewWidgetTitle": "洞察總覽",
+        "PluginDescription": "提供有關您的流量的洞察報表。 洞察可用作展示板小工具，以及報表中的新圖標，讓您查閲資料中最重要的趨勢。",
         "TitleConsideredInsightsChanges": "此列至少增加或減少 %1$s 次訪問數（總訪問數 %3$s 中的 %2$s%%）。",
         "TitleConsideredInsightsGrowth": "下面的資料比對 %2$s 至少成長了 %1$s%%。",
         "TitleConsideredMoversAndShakersChanges": "已存在資料的衡量標準為當它們訪問數成長超過 %1$s%% 或訪問數降低少於 %2$s%%；新資料標準為訪問數增加超過 %3$s%%（%4$s）；消失資料標準為訪問數降低少於 %5$s%%（%6$s）。",

@@ -4,7 +4,7 @@
         "DomainAge": "Domänålder",
         "Google_IndexedPages": "Google indexerade sidor",
         "PluginDescription": "Detta insticksprogram extraherar och visar SEO-mätvärden: Google Pagerank, antal Indexerade sidor och bakåt-länkar för den valda hemsidan.",
-        "Rank": "Rank",
+        "Rank": "Rankning",
         "SEORankingsFor": "SEO Ranking för %s",
         "SeoRankings": "SEO Ranking"
     }
