@@ -24,7 +24,6 @@ use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\CoreVue\CoreVue;
 use Piwik\Plugins\Marketplace\Plugins;
-use Piwik\Request;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Updater as DbUpdater;
@@ -72,7 +71,7 @@ class Controller extends \Piwik\Plugin\Controller
             'plugins/Morpheus/stylesheets/base/bootstrap.css',
             'plugins/Morpheus/stylesheets/base/icons.css',
             "node_modules/jquery-ui-dist/jquery-ui.theme.min.css",
-            'node_modules/@materializecss/materialize/dist/css/materialize.min.css',
+            'node_modules/materialize-css/dist/css/materialize.min.css',
             'plugins/Morpheus/stylesheets/base.less',
             'plugins/Morpheus/stylesheets/general/_forms.less',
             'plugins/Morpheus/stylesheets/simple_structure.css',
@@ -96,11 +95,22 @@ class Controller extends \Piwik\Plugin\Controller
         $files = array(
             "node_modules/jquery/dist/jquery.min.js",
             "node_modules/jquery-ui-dist/jquery-ui.min.js",
-            'node_modules/@materializecss/materialize/dist/js/materialize.min.js',
+            'node_modules/materialize-css/dist/js/materialize.min.js',
             "plugins/CoreHome/javascripts/materialize-bc.js",
             'plugins/Morpheus/javascripts/piwikHelper.js',
             "plugins/CoreHome/javascripts/broadcast.js",
             'plugins/CoreUpdater/javascripts/updateLayout.js',
+            'node_modules/angular/angular.min.js',
+            'node_modules/angular-sanitize/angular-sanitize.min.js',
+            'node_modules/angular-animate/angular-animate.min.js',
+            'node_modules/angular-cookies/angular-cookies.min.js',
+            'node_modules/ng-dialog/js/ngDialog.min.js',
+            'plugins/CoreHome/angularjs/common/services/service.module.js',
+            'plugins/CoreHome/angularjs/common/filters/filter.module.js',
+            'plugins/CoreHome/angularjs/common/filters/translate.js',
+            'plugins/CoreHome/angularjs/common/directives/directive.module.js',
+            'plugins/CoreHome/angularjs/piwikApp.config.js',
+            'plugins/CoreHome/angularjs/piwikApp.js',
             'plugins/Installation/javascripts/installation.js',
         );
 
@@ -164,6 +174,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $useHttps = Common::getRequestVar('https', 1, 'int');
 
+        print "oneClickUpdate 1\n";@ob_flush();
         try {
             $messages = $this->updater->updatePiwik($useHttps);
         } catch (ArchiveDownloadException $e) {
@@ -174,6 +185,7 @@ class Controller extends \Piwik\Plugin\Controller
             $view->error = $e->getMessage();
             $messages = $e->getUpdateLogMessages();
         }
+        print "oneClickUpdate 2\n";@ob_flush();
 
         $view->feedbackMessages = $messages;
         $this->addCustomLogoInfo($view);
@@ -242,7 +254,7 @@ class Controller extends \Piwik\Plugin\Controller
         } else {
             $view = new View('@CoreUpdater/updateSuccess');
         }
-        $messages = safe_unserialize(Request::fromPost()->getStringParameter('messages', ''));
+        $messages = safe_unserialize(Common::unsanitizeInputValue(Common::getRequestVar('messages', '', 'string', $_POST)));
         if (!is_array($messages)) {
             $messages = array();
         }
