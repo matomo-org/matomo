@@ -147,10 +147,7 @@ class Updater
         print_r(scandir(PIWIK_INCLUDE_PATH . '/vendor'));
         print "</pre></code>";
 
-        print "<pre><code>ORIGINAL SIZE: " . filesize(PIWIK_INCLUDE_PATH . '/vendor/autoload_original.php') . "</code></pre>";
-        $contents = file_get_contents(PIWIK_INCLUDE_PATH . '/vendor/autoload_original.php');
-        print "<pre><code>READ SIZE: " . strlen($contents) . "</code></pre>";
-        print "<pre><code>ORIGINAL: '" . bin2hex($contents) . "'</code></pre>";@ob_flush();
+        require_once PIWIK_INCLUDE_PATH . '/vendor/autoload_original.php';
 
         $cliMulti = new CliMulti();
         $responses = $cliMulti->request(['?module=CoreUpdater&action=oneClickUpdatePartTwo&nonce=' . $nonce]);

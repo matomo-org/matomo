@@ -68,6 +68,7 @@ describe("OneClickUpdate", function () {
     });
 
     it.only('should update successfully and show the finished update screen', async function () {
+      try {
         fs.chmodSync(path.join(PIWIK_INCLUDE_PATH, '/latestStableInstall/core'), 0o777);
         await page.waitForTimeout(100);
         var url = await page.getWholeCurrentUrl();
@@ -75,7 +76,11 @@ describe("OneClickUpdate", function () {
         await page.click('#updateUsingHttp');
         await page.waitForNetworkIdle();
         await page.waitForSelector('.content');
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('update_success');
+        expect(await page.screenshot({fullPage: true})).to.matchImage('update_success');
+      } catch (e) {
+        console.log(fs.readFileSync(PIWIK_INCLUDE_PATH + '/latestStableInstall/vendor/autoload_original.php'));
+        throw e;
+      }
     });
 
     it.only('should login successfully after the update', async function () {
