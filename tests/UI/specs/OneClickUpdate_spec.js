@@ -78,7 +78,7 @@ describe("OneClickUpdate", function () {
         await page.waitForSelector('.content');
         expect(await page.screenshot({fullPage: true})).to.matchImage('update_success');
       } catch (e) {
-        console.log(fs.readFileSync(PIWIK_INCLUDE_PATH + '/latestStableInstall/vendor/autoload_original.php'));
+        console.log(fs.readFileSync(PIWIK_INCLUDE_PATH + '/latestStableInstall/vendor/autoload_original.php').toString('utf-8'));
         throw e;
       }
     });

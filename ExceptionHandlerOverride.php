@@ -60,7 +60,7 @@ class ExceptionHandler
             "Uncaught exception in %s line %d:\n%s\n",
             $exception->getFile(),
             $exception->getLine(),
-            $exception->getTraceAsString()
+            $exception->getMessage() . "\n" . $exception->getTraceAsString()
         );
 
         echo $message;
