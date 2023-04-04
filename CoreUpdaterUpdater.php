@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CoreUpdater;
 use Exception;
 use Matomo\Cache\Lazy;
 use DI\Definition\Exception\InvalidDefinition;
+use DI\Definition\Dumper\ObjectDefinitionDumper;
 use Psr\Log\LoggerInterface;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\CliMulti;
@@ -92,6 +93,7 @@ class Updater
     public function updatePiwik($https = true)
     {
         $v = new InvalidDefinition();
+        $v = new ObjectDefinitionDumper();
 
         print "update piwik 1\n";@ob_flush();
         if (!$this->isNewVersionAvailable()) {
@@ -135,6 +137,9 @@ class Updater
         print "update piwik 8\n";@ob_flush();
 
         copy(PIWIK_INCLUDE_PATH .'/../php80bootstrap.php', PIWIK_INCLUDE_PATH . '/vendor/symfony/polyfill-php80/bootstrap.php');
+
+        print "<pre><code>" . file_get_contents(PIWIK_INCLUDE_PATH . '/vendor/symfony/polyfill-php80/bootstrap.php') . "</code></pre>";
+        print "<pre><code>" . file_get_contents(PIWIK_INCLUDE_PATH . '/vendor/autoload_original.php') . "</code></pre>";
 
         $cliMulti = new CliMulti();
         $responses = $cliMulti->request(['?module=CoreUpdater&action=oneClickUpdatePartTwo&nonce=' . $nonce]);
