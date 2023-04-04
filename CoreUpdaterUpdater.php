@@ -9,6 +9,8 @@
 namespace Piwik\Plugins\CoreUpdater;
 
 use Exception;
+use Matomo\Cache\Lazy;
+use Matomo\Dependencies\Psr\Log\LoggerInterface;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\CliMulti;
 use Piwik\Common;
@@ -22,6 +24,8 @@ use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugin\ReleaseChannels;
 use Piwik\Plugins\CorePluginsAdmin\PluginInstaller;
 use Piwik\Plugins\Marketplace\Api as MarketplaceApi;
+use Piwik\Plugins\Marketplace\Api\Service;
+use Piwik\Plugins\Marketplace\Environment;
 use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\SettingsServer;
 use Piwik\Translation\Translator;
@@ -195,11 +199,29 @@ class Updater
         print "update oneClickUpdatePartTwo 4\n";@ob_flush();
         $environment->setPiwikVersion($newVersion);
         print "update oneClickUpdatePartTwo 5\n";@ob_flush();
-        /** @var \Piwik\Plugins\Marketplace\Api\Client $marketplaceClient */
-        $marketplaceClient = StaticContainer::getContainer()->make('Piwik\Plugins\Marketplace\Api\Client', array(
-            'environment' => $environment
-        ));
-        print "update oneClickUpdatePartTwo 6\n";@ob_flush();
+        try {
+            // Service $service, Lazy $cache, LoggerInterface $logger, Environment $environment
+            print "try get 1\n";
+            @ob_flush();
+            StaticContainer::getContainer()->get(\Piwik\Plugins\Marketplace\Api\Service::class);
+            print "try get 2\n";
+            @ob_flush();
+            StaticContainer::getContainer()->get(Lazy::class);
+            print "try get 3\n";
+            @ob_flush();
+            StaticContainer::getContainer()->get(LoggerInterface::class);
+            print "try get 4\n";
+            @ob_flush();
+            /** @var \Piwik\Plugins\Marketplace\Api\Client $marketplaceClient */
+            $marketplaceClient = StaticContainer::getContainer()->make('Piwik\Plugins\Marketplace\Api\Client', array(
+                'environment' => $environment
+            ));
+            print "update oneClickUpdatePartTwo 6\n";
+            @ob_flush();
+        } catch (\Exception $ex) {
+            print $ex->getMessage()."\n".$ex->getTraceAsString()."\n";
+            throw $ex;
+        }
 
         try {
             print "update oneClickUpdatePartTwo 7\n";@ob_flush();
