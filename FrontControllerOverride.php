@@ -267,10 +267,12 @@ class FrontController extends Singleton
         Manager::getInstance()->deleteAll();
 
         $lastError = error_get_last();
-        print "safemode fatal: ";
-        print_r($lastError);
-        @ob_flush();
-        return;
+        if (!empty($lastError)) {
+            print "safemode fatal: ";
+            print_r($lastError);
+            @ob_flush();
+            return;
+        }
 
         if (!empty($lastError) && isset(self::$requestId)) {
             $lastError['request_id'] = self::$requestId;

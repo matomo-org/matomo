@@ -10,6 +10,7 @@ namespace Piwik\Plugins\CoreUpdater;
 
 use Exception;
 use Matomo\Cache\Lazy;
+use Matomo\Dependencies\DI\Definition\Exception\InvalidDefinition;
 use Matomo\Dependencies\Psr\Log\LoggerInterface;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\CliMulti;
@@ -90,6 +91,8 @@ class Updater
      */
     public function updatePiwik($https = true)
     {
+        $v = new InvalidDefinition();
+
         print "update piwik 1\n";@ob_flush();
         if (!$this->isNewVersionAvailable()) {
             throw new Exception($this->translator->translate('CoreUpdater_ExceptionAlreadyLatestVersion', Version::VERSION));
