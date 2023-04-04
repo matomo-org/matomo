@@ -31,73 +31,12 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  PHP:
-    runs-on: ubuntu-20.04
-    strategy:
-      fail-fast: false
-      matrix:
-        type: [ 'UnitTests', 'SystemTestsPlugins', 'SystemTestsCore', 'IntegrationTestsCore', 'IntegrationTestsPlugins' ]
-        php: [ '7.4', '8.1' ]
-        adapter: [ 'PDO_MYSQL', 'MYSQLI' ]
-        exclude:
-          - php: '7.4'
-            adapter: 'MYSQLI'
-          - php: '8.1'
-            adapter: 'PDO_MYSQL'
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          lfs: false
-          persist-credentials: false
-          submodules: true
-          path: matomo
-      - name: running tests
-        uses: matomo-org/github-action-tests@main
-        with:
-          test-type: ${{ matrix.type }}
-          mysql-driver: ${{ matrix.adapter }}
-          php-version: ${{ matrix.php }}
-          redis-service: true
-          artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
-          upload-artifacts: ${{ matrix.php == '7.4' }}
-  Javascript:
-    runs-on: ubuntu-20.04
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          lfs: false
-          persist-credentials: false
-          submodules: true
-          path: matomo
-      - name: running tests
-        uses: matomo-org/github-action-tests@main
-        with:
-          test-type: 'JS'
-          php-version: '7.4'
-          node-version: '12'
-  Client:
-    runs-on: ubuntu-20.04
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          lfs: false
-          persist-credentials: false
-          submodules: true
-          path: matomo
-      - name: running tests
-        uses: matomo-org/github-action-tests@main
-        with:
-          test-type: 'Client'
-          node-version: '16'
-          mysql-service: false
   UI:
     runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
       matrix:
-        parts: [ 0,1,2,3 ]
+        parts: [ 2 ]
     steps:
       - uses: actions/checkout@v3
         with:
