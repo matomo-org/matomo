@@ -147,7 +147,9 @@ class Updater
         print_r(scandir(PIWIK_INCLUDE_PATH . '/vendor'));
         print "</pre></code>";
 
-        require_once PIWIK_INCLUDE_PATH . '/vendor/autoload_original.php';
+        $content = file_get_contents(PIWIK_INCLUDE_PATH . '/vendor/autoload_original.php');
+        $content = str_replace("\nreturn ", "print 'in autoload original<br/>';@ob_flush();\nreturn ", $content);
+        file_put_contents(PIWIK_INCLUDE_PATH . '/vendor/autoload_original.php', $content);
 
         $cliMulti = new CliMulti();
         $responses = $cliMulti->request(['?module=CoreUpdater&action=oneClickUpdatePartTwo&nonce=' . $nonce]);
