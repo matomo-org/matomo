@@ -139,6 +139,7 @@ class Updater
         print "update piwik 9\n";@ob_flush();
 
         if (!empty($responses)) {
+            print_r($responses);
             $responseCliMulti = array_shift($responses);
             $responseCliMulti = @json_decode($responseCliMulti, $assoc = true);
             if (is_array($responseCliMulti)) {
