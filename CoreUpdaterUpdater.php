@@ -139,14 +139,14 @@ class Updater
         copy(PIWIK_INCLUDE_PATH .'/../php80bootstrap.php', PIWIK_INCLUDE_PATH . '/vendor/symfony/polyfill-php80/bootstrap.php');
 
         print "<pre><code>";
-        print_r(scandir(PIWIK_INCLUDE_PATH . '/vendor'));
+        print_r(scandir(PIWIK_INCLUDE_PATH . '/vendor/symfony'));
         print "</pre></code>";
 
         print "<pre><code>";
-        print_r(scandir(PIWIK_INCLUDE_PATH . '/vendor/prefixed'));
+        print_r(scandir(PIWIK_INCLUDE_PATH . '/vendor/prefixed/vendor'));
         print "</pre></code>";
 
-        print "<pre><code>" . file_get_contents(PIWIK_INCLUDE_PATH . '/vendor/symfony/polyfill-php80/bootstrap.php') . "</code></pre>";
+        // print "<pre><code>" . file_get_contents(PIWIK_INCLUDE_PATH . '/vendor/symfony/polyfill-php80/bootstrap.php') . "</code></pre>";
         print "<pre><code>" . file_get_contents(PIWIK_INCLUDE_PATH . '/vendor/autoload_original.php') . "</code></pre>";
 
         $cliMulti = new CliMulti();
