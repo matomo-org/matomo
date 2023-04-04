@@ -164,6 +164,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $useHttps = Common::getRequestVar('https', 1, 'int');
 
+        print "oneClickUpdate 1\n";@ob_flush();
         try {
             $messages = $this->updater->updatePiwik($useHttps);
         } catch (ArchiveDownloadException $e) {
@@ -174,6 +175,7 @@ class Controller extends \Piwik\Plugin\Controller
             $view->error = $e->getMessage();
             $messages = $e->getUpdateLogMessages();
         }
+        print "oneClickUpdate 2\n";@ob_flush();
 
         $view->feedbackMessages = $messages;
         $this->addCustomLogoInfo($view);

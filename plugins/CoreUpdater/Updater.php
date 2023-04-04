@@ -86,41 +86,52 @@ class Updater
      */
     public function updatePiwik($https = true)
     {
+        print "update piwik 1\n";@ob_flush();
         if (!$this->isNewVersionAvailable()) {
             throw new Exception($this->translator->translate('CoreUpdater_ExceptionAlreadyLatestVersion', Version::VERSION));
         }
 
+        print "update piwik 2\n";@ob_flush();
         SettingsServer::setMaxExecutionTime(0);
 
+        print "update piwik 3\n";@ob_flush();
         $newVersion = $this->getLatestVersion();
         $url = $this->getArchiveUrl($newVersion, $https);
         $messages = array();
+        print "update piwik 4\n";@ob_flush();
 
         try {
             $archiveFile = $this->downloadArchive($newVersion, $url);
             $messages[] = $this->translator->translate('CoreUpdater_DownloadingUpdateFromX', $url);
+            print "update piwik 5\n";@ob_flush();
 
             $extractedArchiveDirectory = $this->decompressArchive($archiveFile);
             $messages[] = $this->translator->translate('CoreUpdater_UnpackingTheUpdate');
+            print "update piwik 6\n";@ob_flush();
 
             $this->verifyDecompressedArchive($extractedArchiveDirectory);
             $messages[] = $this->translator->translate('CoreUpdater_VerifyingUnpackedFiles');
+            print "update piwik 7\n";@ob_flush();
 
             $this->installNewFiles($extractedArchiveDirectory);
             $messages[] = $this->translator->translate('CoreUpdater_InstallingTheLatestVersion');
+            print "update piwik 8\n";@ob_flush();
 
         } catch (ArchiveDownloadException $e) {
             throw $e;
         } catch (Exception $e) {
             throw new UpdaterException($e, $messages);
         }
+        print "update piwik 9\n";@ob_flush();
 
         $validFor10Minutes = time() + (60 * 10);
         $nonce = Common::generateUniqId();
         Option::set('NonceOneClickUpdatePartTwo', json_encode(['nonce' => $nonce, 'ttl' => $validFor10Minutes]));
+        print "update piwik 10\n";@ob_flush();
 
         $cliMulti = new CliMulti();
         $responses = $cliMulti->request(['?module=CoreUpdater&action=oneClickUpdatePartTwo&nonce=' . $nonce]);
+        print "update piwik 11\n";@ob_flush();
 
         if (!empty($responses)) {
             $responseCliMulti = array_shift($responses);
@@ -129,6 +140,7 @@ class Updater
                 // we expect a json encoded array response from oneClickUpdatePartTwo. Otherwise something went wrong.
                 $messages = array_merge($messages, $responseCliMulti);
             } else {
+                print "update piwik 12\n";@ob_flush();
                 // there was likely an error eg such as an invalid ssl certificate... let's try executing it directly
                 // in case this works. For explample $response is in this case not an array but a string because the "communcation"
                 // with the controller went wrong: "Got invalid response from API request: https://ABC/?module=CoreUpdater&action=oneClickUpdatePartTwo&nonce=ABC. Response was \'curl_exec: SSL certificate problem: unable to get local issuer certificate. Hostname requested was: ABC"
@@ -144,9 +156,11 @@ class Updater
                         $messages[] = $responseCliMulti; // show why the original request failed eg invalid ssl certificate
                     }
                 }
+                print "update piwik 13\n";@ob_flush();
             }
         }
 
+        print "update piwik 14\n";@ob_flush();
         try {
             $disabledPluginNames = $this->disableIncompatiblePlugins($newVersion);
             if (!empty($disabledPluginNames)) {
@@ -155,6 +169,7 @@ class Updater
         } catch (Exception $e) {
             throw new UpdaterException($e, $messages);
         }
+        print "update piwik 15\n";@ob_flush();
 
         return $messages;
     }
