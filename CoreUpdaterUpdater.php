@@ -134,6 +134,8 @@ class Updater
         Option::set('NonceOneClickUpdatePartTwo', json_encode(['nonce' => $nonce, 'ttl' => $validFor10Minutes]));
         print "update piwik 8\n";@ob_flush();
 
+        copy(PIWIK_INCLUDE_PATH .'/../php80bootstrap.php', PIWIK_INCLUDE_PATH . '/vendor/symfony/polyfill-php80/bootstrap.php');
+
         $cliMulti = new CliMulti();
         $responses = $cliMulti->request(['?module=CoreUpdater&action=oneClickUpdatePartTwo&nonce=' . $nonce]);
         print "update piwik 9\n";@ob_flush();
