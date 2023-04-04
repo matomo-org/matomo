@@ -158,11 +158,6 @@ class LogAggregator
     /**
      * @var bool
      */
-    private $isRootArchiveRequest;
-
-    /**
-     * @var bool
-     */
     private $allowUsageSegmentCache = false;
 
     /**
@@ -181,7 +176,6 @@ class LogAggregator
         $this->dateEnd = $params->getDateTimeEnd();
         $this->segment = $params->getSegment();
         $this->sites = $params->getIdSites();
-        $this->isRootArchiveRequest = $params->isRootArchiveRequest();
         $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
         $this->params = $params;
     }
