@@ -143,11 +143,11 @@ class Updater
         print "</pre></code>";
 
         print "<pre><code>";
-        print_r(scandir(PIWIK_INCLUDE_PATH . '/vendor/prefixed/vendor'));
+        print_r(scandir(PIWIK_INCLUDE_PATH . '/vendor'));
         print "</pre></code>";
 
-        // print "<pre><code>" . file_get_contents(PIWIK_INCLUDE_PATH . '/vendor/symfony/polyfill-php80/bootstrap.php') . "</code></pre>";
-        print "<pre><code>" . file_get_contents(PIWIK_INCLUDE_PATH . '/vendor/autoload_original.php') . "</code></pre>";
+        print "<pre><code>ORIGINAL SIZE: " . filesize(PIWIK_INCLUDE_PATH . '/vendor/autoload_original.php') . "</code></pre>";
+        print "<pre><code>ORIGINAL: '" . file_get_contents(PIWIK_INCLUDE_PATH . '/vendor/autoload_original.php') . "'</code></pre>";
 
         $cliMulti = new CliMulti();
         $responses = $cliMulti->request(['?module=CoreUpdater&action=oneClickUpdatePartTwo&nonce=' . $nonce]);
