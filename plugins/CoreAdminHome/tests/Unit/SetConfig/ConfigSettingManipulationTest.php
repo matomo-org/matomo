@@ -54,7 +54,6 @@ class ConfigSettingManipulationTest extends \PHPUnit\Framework\TestCase
     public function setUp(): void
     {
         $this->mockConfig = new DumbMockConfig();
-        $this->mockConfigData = array();
     }
 
     /**
