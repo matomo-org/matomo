@@ -231,7 +231,7 @@ class Updater
             @ob_flush();
         } catch (\Exception $ex) {
             print $ex->getMessage()."\n".$ex->getTraceAsString()."\n";
-            throw $ex;
+            exit;
         }
 
         try {
@@ -262,6 +262,7 @@ class Updater
             throw new UpdaterException($e, $messages);
         }
         print "update oneClickUpdatePartTwo 13\n";@ob_flush();
+        exit;
 
         return $messages;
     }
