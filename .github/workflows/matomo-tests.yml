@@ -1,7 +1,7 @@
 # Action for running tests
 # This file has been automatically created.
 # To recreate it you can run this command
-# ./console generate:test-action --php-versions="7.4,8.1"
+# ./console generate:test-action --php-versions="7.2,8.2"
 
 name: Matomo Tests
 
