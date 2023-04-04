@@ -115,6 +115,10 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     public function aggregateDayReport()
     {
+        if ($this->getProcessor()->getNumberOfVisitsConverted() == 0) {
+            return;
+        }
+
         $this->aggregateGeneralGoalMetrics();
 
         if (Manager::getInstance()->isPluginActivated('Ecommerce')) {
@@ -487,6 +491,10 @@ class Archiver extends \Piwik\Plugin\Archiver
      */
     public function aggregateMultipleReports()
     {
+        if ($this->getProcessor()->getNumberOfVisitsConverted() == 0) {
+            return;
+        }
+
         /*
          * Archive Ecommerce Items
          */

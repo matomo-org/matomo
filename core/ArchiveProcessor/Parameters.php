@@ -270,29 +270,6 @@ class Parameters
         );
     }
 
-    /**
-     * Returns `true` if these parameters are part of an initial archiving request.
-     * Returns `false` if these parameters are for an archiving request that was initiated
-     * during archiving.
-     *
-     * @return bool
-     */
-    public function isRootArchiveRequest()
-    {
-        return $this->isRootArchiveRequest;
-    }
-
-    /**
-     * Sets whether these parameters are part of the initial archiving request or if they are
-     * for a request that was initiated during archiving.
-     *
-     * @param $isRootArchiveRequest
-     */
-    public function setIsRootArchiveRequest($isRootArchiveRequest)
-    {
-        $this->isRootArchiveRequest = $isRootArchiveRequest;
-    }
-
     public function __toString()
     {
         return "[idSite = {$this->getSite()->getId()}, period = {$this->getPeriod()->getLabel()} {$this->getPeriod()->getRangeString()}, segment = {$this->getSegment()->getString()}, plugin = {$this->getRequestedPlugin()}, report = {$this->getArchiveOnlyReport()}]";
