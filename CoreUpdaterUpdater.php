@@ -10,8 +10,8 @@ namespace Piwik\Plugins\CoreUpdater;
 
 use Exception;
 use Matomo\Cache\Lazy;
-use Matomo\Dependencies\DI\Definition\Exception\InvalidDefinition;
-use Matomo\Dependencies\Psr\Log\LoggerInterface;
+use DI\Definition\Exception\InvalidDefinition;
+use Psr\Log\LoggerInterface;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\CliMulti;
 use Piwik\Common;
