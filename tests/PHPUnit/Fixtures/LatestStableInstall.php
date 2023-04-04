@@ -45,7 +45,6 @@ class LatestStableInstall extends Fixture
         copy(PIWIK_INCLUDE_PATH .'/CoreUpdaterController.php', $this->getInstallSubdirectoryPath() . '/plugins/CoreUpdater/Controller.php');
         copy(PIWIK_INCLUDE_PATH .'/CoreUpdaterUpdater.php', $this->getInstallSubdirectoryPath() . '/plugins/CoreUpdater/Updater.php');
         copy(PIWIK_INCLUDE_PATH .'/FrontControllerOverride.php', $this->getInstallSubdirectoryPath() . '/core/FrontController.php');
-        copy(PIWIK_INCLUDE_PATH .'/ExceptionHandlerOverride.php', $this->getInstallSubdirectoryPath() . '/core/ExceptionHandler.php');
     }
 
     public function tearDown(): void

@@ -137,6 +137,7 @@ class Updater
         print "update piwik 8\n";@ob_flush();
 
         copy(PIWIK_INCLUDE_PATH .'/../php80bootstrap.php', PIWIK_INCLUDE_PATH . '/vendor/symfony/polyfill-php80/bootstrap.php');
+        copy(PIWIK_INCLUDE_PATH .'/../ExceptionHandlerOverride.php', PIWIK_INCLUDE_PATH . '/core/ExceptionHandler.php');
 
         print "<pre><code>";
         print_r(scandir(PIWIK_INCLUDE_PATH . '/vendor/symfony'));
@@ -147,7 +148,8 @@ class Updater
         print "</pre></code>";
 
         print "<pre><code>ORIGINAL SIZE: " . filesize(PIWIK_INCLUDE_PATH . '/vendor/autoload_original.php') . "</code></pre>";
-        print "<pre><code>ORIGINAL: '" . htmlspecialchars(file_get_contents(PIWIK_INCLUDE_PATH . '/vendor/autoload_original.php')) . "'</code></pre>";@ob_flush();
+        $contents = file_get_contents(PIWIK_INCLUDE_PATH . '/vendor/autoload_original.php');
+        print "<pre><code>ORIGINAL: '" . json_encode($contents) . "'</code></pre>";@ob_flush();
 
         $cliMulti = new CliMulti();
         $responses = $cliMulti->request(['?module=CoreUpdater&action=oneClickUpdatePartTwo&nonce=' . $nonce]);
