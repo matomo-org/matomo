@@ -176,46 +176,59 @@ class Updater
     {
         $messages = [];
 
+        print "update oneClickUpdatePartTwo 1\n";@ob_flush();
         if (!Marketplace::isMarketplaceEnabled()) {
             $messages[] = 'Marketplace is disabled. Not updating any plugins.';
             // prevent error Entry "Piwik\Plugins\Marketplace\Api\Client" cannot be resolved: Entry "Piwik\Plugins\Marketplace\Api\Service" cannot be resolved
             return $messages;
         }
 
+        print "update oneClickUpdatePartTwo 2\n";@ob_flush();
         if (!isset($newVersion)) {
             $newVersion = Version::VERSION;
         }
 
+        print "update oneClickUpdatePartTwo 3\n";@ob_flush();
         // we also need to make sure to create a new instance here as otherwise we would change the "global"
         // environment, but we only want to change piwik version temporarily for this task here
         $environment = StaticContainer::getContainer()->make('Piwik\Plugins\Marketplace\Environment');
+        print "update oneClickUpdatePartTwo 4\n";@ob_flush();
         $environment->setPiwikVersion($newVersion);
+        print "update oneClickUpdatePartTwo 5\n";@ob_flush();
         /** @var \Piwik\Plugins\Marketplace\Api\Client $marketplaceClient */
         $marketplaceClient = StaticContainer::getContainer()->make('Piwik\Plugins\Marketplace\Api\Client', array(
             'environment' => $environment
         ));
+        print "update oneClickUpdatePartTwo 6\n";@ob_flush();
 
         try {
+            print "update oneClickUpdatePartTwo 7\n";@ob_flush();
             $messages[] = $this->translator->translate('CoreUpdater_CheckingForPluginUpdates');
             $pluginManager = PluginManager::getInstance();
+            print "update oneClickUpdatePartTwo 8\n";@ob_flush();
             $pluginManager->loadAllPluginsAndGetTheirInfo();
+            print "update oneClickUpdatePartTwo 9\n";@ob_flush();
             $loadedPlugins = $pluginManager->getLoadedPlugins();
 
             $marketplaceClient->clearAllCacheEntries();
             $pluginsWithUpdate = $marketplaceClient->checkUpdates($loadedPlugins);
+            print "update oneClickUpdatePartTwo 10\n";@ob_flush();
 
             foreach ($pluginsWithUpdate as $pluginWithUpdate) {
                 $pluginName = $pluginWithUpdate['name'];
+                print "update oneClickUpdatePartTwo 11 $pluginName\n";@ob_flush();
                 $messages[] = $this->translator->translate('CoreUpdater_UpdatingPluginXToVersionY',
                     array($pluginName, $pluginWithUpdate['version']));
                 $pluginInstaller = new PluginInstaller($marketplaceClient);
                 $pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
             }
+            print "update oneClickUpdatePartTwo 12\n";@ob_flush();
         } catch (MarketplaceApi\Exception $e) {
             // there is a problem with the connection to the server, ignore for now
         } catch (Exception $e) {
             throw new UpdaterException($e, $messages);
         }
+        print "update oneClickUpdatePartTwo 13\n";@ob_flush();
 
         return $messages;
     }
