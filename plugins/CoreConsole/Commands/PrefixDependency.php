@@ -183,12 +183,17 @@ class PrefixDependency extends ConsoleCommand
             }
         }
 
+        // TODO: comment
+        $existingAutoloadFiles = $this->getExistingAutoloadFilesWithoutPrefixed($basePath);
+
         $composerCommand = escapeshellarg($composerPath) . ' --working-dir=' . escapeshellarg($basePath)
             . " dump-autoload -o --no-interaction -q";
         passthru($composerCommand, $returnCode);
         if ($returnCode) {
             throw new \Exception("Failed to invoke composer! Command was: $composerCommand");
         }
+
+        $this->replaceAutoloadFiles($basePath, $existingAutoloadFiles);
     }
 
     private function proxyOriginalComposerAutoloader($plugin, OutputInterface $output)
@@ -283,7 +288,6 @@ EOF;
                 continue;
             }
 
-
             $contents = file_get_contents($composerFile);
             $contents = json_decode($contents, true);
 
@@ -298,5 +302,37 @@ EOF;
         }
 
         return $files;
+    }
+
+    private function getExistingAutoloadFilesWithoutPrefixed(string $basePath)
+    {
+        $autoloadStatic = $basePath . '/vendor/composer/autoload_static.php';
+        $autoloadStaticContents = file_get_contents($autoloadStatic);
+
+        preg_match('/public static \$files.*?;/s', $autoloadStaticContents, $matches);
+        $autoloadFiles = $matches[0];
+
+        $autoloadFiles = explode("\n", $autoloadFiles);
+        foreach ($autoloadFiles as $key => $line) {
+            if (!preg_match("/'\/..'\s+\.\s+'(.*?)'/", $line, $matches)) {
+                continue;
+            }
+
+            $relativePath = $matches[1];
+            if (!is_file($basePath . '/vendor' . $relativePath)) { // dependency was prefixed
+                unset($autoloadFiles[$key]);
+            }
+        }
+
+        $autoloadFiles = implode("\n", $autoloadFiles);
+        return $autoloadFiles;
+    }
+
+    private function replaceAutoloadFiles(string $basePath, string $existingAutoloadFiles)
+    {
+        $autoloadStatic = $basePath . '/vendor/composer/autoload_static.php';
+        $autoloadStaticContents = file_get_contents($autoloadStatic);
+        $autoloadStaticContents = preg_replace('/public static \$files.*?;/s', $existingAutoloadFiles, $autoloadStaticContents);
+        file_put_contents($autoloadStatic, $autoloadStaticContents);
     }
 }
