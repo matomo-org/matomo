@@ -136,20 +136,8 @@ class Updater
         Option::set('NonceOneClickUpdatePartTwo', json_encode(['nonce' => $nonce, 'ttl' => $validFor10Minutes]));
         print "update piwik 8\n";@ob_flush();
 
-        copy(PIWIK_INCLUDE_PATH .'/../php80bootstrap.php', PIWIK_INCLUDE_PATH . '/vendor/symfony/polyfill-php80/bootstrap.php');
+        // copy(PIWIK_INCLUDE_PATH .'/../php80bootstrap.php', PIWIK_INCLUDE_PATH . '/vendor/symfony/polyfill-php80/bootstrap.php');
         copy(PIWIK_INCLUDE_PATH .'/../ExceptionHandlerOverride.php', PIWIK_INCLUDE_PATH . '/core/ExceptionHandler.php');
-
-        print "<pre><code>";
-        print_r(scandir(PIWIK_INCLUDE_PATH . '/vendor/symfony'));
-        print "</pre></code>";
-
-        print "<pre><code>";
-        print_r(scandir(PIWIK_INCLUDE_PATH . '/vendor'));
-        print "</pre></code>";
-
-        $content = file_get_contents(PIWIK_INCLUDE_PATH . '/vendor/autoload_original.php');
-        $content = str_replace("\nreturn ", "print 'in autoload original<br/>';@ob_flush();\nreturn ", $content);
-        file_put_contents(PIWIK_INCLUDE_PATH . '/vendor/autoload_original.php', $content);
 
         $cliMulti = new CliMulti();
         $responses = $cliMulti->request(['?module=CoreUpdater&action=oneClickUpdatePartTwo&nonce=' . $nonce]);
