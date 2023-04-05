@@ -68,20 +68,14 @@ describe("OneClickUpdate", function () {
     });
 
     it.only('should update successfully and show the finished update screen', async function () {
-      try {
-        fs.chmodSync(path.join(PIWIK_INCLUDE_PATH, '/latestStableInstall/core'), 0o777);
-        await page.waitForTimeout(100);
-        var url = await page.getWholeCurrentUrl();
-        await page.goBack();
-        await page.click('#updateUsingHttp');
-        await page.waitForNetworkIdle();
-        await page.waitForSelector('.content');
-        expect(await page.screenshot({fullPage: true})).to.matchImage('update_success');
-      } catch (e) {
-        console.log(fs.readFileSync(PIWIK_INCLUDE_PATH + '/latestStableInstall/vendor/autoload_original.php').toString('utf-8'));
-        console.log(fs.readFileSync(PIWIK_INCLUDE_PATH + '/latestStableInstall/vendor/composer/autoload_static.php').toString('utf-8'));
-        throw e;
-      }
+      fs.chmodSync(path.join(PIWIK_INCLUDE_PATH, '/latestStableInstall/core'), 0o777);
+      await page.waitForTimeout(100);
+      var url = await page.getWholeCurrentUrl();
+      await page.goBack();
+      await page.click('#updateUsingHttp');
+      await page.waitForNetworkIdle();
+      await page.waitForSelector('.content');
+      expect(await page.screenshot({fullPage: true})).to.matchImage('update_success');
     });
 
     it.only('should login successfully after the update', async function () {
