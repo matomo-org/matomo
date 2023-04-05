@@ -23,7 +23,7 @@ describe("OneClickUpdate", function () {
     var latestStableUrl = config.piwikUrl + '/latestStableInstall/index.php';
     var settingsUrl = latestStableUrl + '?module=CoreAdminHome&action=home&idSite=1&period=day&date=yesterday';
 
-    it.only('should show the new version available button in the admin screen', async function () {
+    it('should show the new version available button in the admin screen', async function () {
         await page.goto(latestStableUrl);
         await page.waitForSelector('#login_form_login', { visible: true });
 
@@ -40,7 +40,7 @@ describe("OneClickUpdate", function () {
         expect(await element.screenshot()).to.matchImage('latest_version_available');
     });
 
-    it.only('should show the one click update screen when the update button is clicked', async function () {
+    it('should show the one click update screen when the update button is clicked', async function () {
         await page.click('#header_message');
 
         await page.waitForNetworkIdle();
@@ -49,14 +49,14 @@ describe("OneClickUpdate", function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('update_screen');
     });
 
-    it.only('should fail to automatically update when trying to update over https fails', async function () {
+    it('should fail to automatically update when trying to update over https fails', async function () {
         await page.click('#updateAutomatically');
         await page.waitForNetworkIdle();
         await page.waitForSelector('.content');
         expect(await page.screenshot({ fullPage: true })).to.matchImage('update_fail');
     });
 
-    it.only('should fail when a directory is not writable', async function () {
+    it('should fail when a directory is not writable', async function () {
         fs.chmodSync(path.join(PIWIK_INCLUDE_PATH, '/latestStableInstall/core'), 0o555);
         await page.waitForTimeout(100);
         await page.click('#updateUsingHttp');
@@ -67,7 +67,7 @@ describe("OneClickUpdate", function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('update_fail_permission');
     });
 
-    it.only('should update successfully and show the finished update screen', async function () {
+    it('should update successfully and show the finished update screen', async function () {
       fs.chmodSync(path.join(PIWIK_INCLUDE_PATH, '/latestStableInstall/core'), 0o777);
       await page.waitForTimeout(100);
       var url = await page.getWholeCurrentUrl();
@@ -78,7 +78,7 @@ describe("OneClickUpdate", function () {
       expect(await page.screenshot({fullPage: true})).to.matchImage('update_success');
     });
 
-    it.only('should login successfully after the update', async function () {
+    it('should login successfully after the update', async function () {
         await page.click('.footer a');
         await page.waitForNetworkIdle();
 
@@ -106,7 +106,7 @@ describe("OneClickUpdate", function () {
         expect(await element.screenshot()).to.matchImage('login');
     });
 
-    it.only('should have a working cron archiving process', async function () {
+    it('should have a working cron archiving process', async function () {
         // track one action
         const trackerUrl = config.piwikUrl + "latestStableInstall/piwik.php?";
 
