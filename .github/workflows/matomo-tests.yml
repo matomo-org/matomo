@@ -42,7 +42,7 @@ jobs:
         exclude:
           - php: '7.4'
             adapter: 'MYSQLI'
-          - php: '8.1'
+          - php: '8.2'
             adapter: 'PDO_MYSQL'
     steps:
       - uses: actions/checkout@v3

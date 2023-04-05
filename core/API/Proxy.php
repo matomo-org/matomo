@@ -384,7 +384,7 @@ class Proxy
      */
     public function isDeprecatedMethod($class, $methodName)
     {
-        return $this->metadataArray[$class][$methodName]['isDeprecated'];
+        return $this->metadataArray[$class][$methodName]['isDeprecated'] ?? false;
     }
 
     /**
@@ -392,7 +392,7 @@ class Proxy
      */
     public function usesUnsanitizedInputParams($class, $methodName)
     {
-        return $this->metadataArray[$class][$methodName]['unsanitizedInputParams'];
+        return $this->metadataArray[$class][$methodName]['unsanitizedInputParams'] ?? false;
     }
 
     /**
