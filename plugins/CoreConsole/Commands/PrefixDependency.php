@@ -186,11 +186,16 @@ class PrefixDependency extends ConsoleCommand
         // TODO: comment
         $existingAutoloadFiles = $this->getExistingAutoloadFilesWithoutPrefixed($basePath);
 
-        $composerCommand = escapeshellarg($composerPath) . ' --working-dir=' . escapeshellarg($basePath)
-            . " dump-autoload -o --no-interaction -q";
-        passthru($composerCommand, $returnCode);
-        if ($returnCode) {
-            throw new \Exception("Failed to invoke composer! Command was: $composerCommand");
+        $this->createDummyComposerJsonForPrefixed($basePath);
+        try {
+            $composerCommand = escapeshellarg($composerPath) . ' --working-dir=' . escapeshellarg($basePath)
+                . " dump-autoload -o --no-interaction -q";
+            passthru($composerCommand, $returnCode);
+            if ($returnCode) {
+                throw new \Exception("Failed to invoke composer! Command was: $composerCommand");
+            }
+        } finally {
+            $this->removeDummyComposerJson($basePath);
         }
 
         $this->replaceAutoloadFiles($basePath, $existingAutoloadFiles);
@@ -334,5 +339,67 @@ EOF;
         $autoloadStaticContents = file_get_contents($autoloadStatic);
         $autoloadStaticContents = preg_replace('/public static \$files.*?;/s', $existingAutoloadFiles, $autoloadStaticContents);
         file_put_contents($autoloadStatic, $autoloadStaticContents);
+    }
+
+    /**
+     * TODO: document
+     */
+    private function createDummyComposerJsonForPrefixed(string $basePath)
+    {
+        $prefixedPath = $basePath . '/vendor/prefixed';
+
+        foreach (scandir($prefixedPath) as $folder) {
+            if ($folder == '.' || $folder == '..') {
+                continue;
+            }
+
+            foreach (scandir($prefixedPath . '/' . $folder) as $subfolder) {
+                if ($subfolder == '.' || $subfolder == '..') {
+                    continue;
+                }
+
+                $prefixedComposerJsonPath = $prefixedPath . '/' . $folder . '/' . $subfolder . '/composer.json';
+                if (!is_file($prefixedComposerJsonPath)) {
+                    continue;
+                }
+
+                $composerJsonContents = file_get_contents($prefixedComposerJsonPath);
+                $composerJsonContents = json_decode($composerJsonContents, true);
+
+                $autoload = $composerJsonContents['autoload'];
+                unset($composerJsonContents['autoload']);
+
+                $composerJsonContents = json_encode($composerJsonContents, JSON_PRETTY_PRINT);
+
+                $tempUnprefixedPath = $basePath . '/vendor/' . $folder . '/' . $subfolder;
+
+                Filesystem::mkdir($tempUnprefixedPath);
+                file_put_contents($tempUnprefixedPath . '/composer.json', $composerJsonContents);
+
+                foreach ($autoload['classmap'] ?? [] as $classmapFolder) {
+                    Filesystem::mkdir($tempUnprefixedPath . '/' . $classmapFolder);
+                }
+            }
+        }
+    }
+
+    private function removeDummyComposerJson(string $basePath)
+    {
+        $prefixedPath = $basePath . '/vendor/prefixed';
+
+        foreach (scandir($prefixedPath) as $folder) {
+            if ($folder == '.' || $folder == '..') {
+                continue;
+            }
+
+            foreach (scandir($prefixedPath . '/' . $folder) as $subfolder) {
+                if ($subfolder == '.' || $subfolder == '..') {
+                    continue;
+                }
+
+                $tempUnprefixedPath = $basePath . '/vendor/' . $folder . '/' . $subfolder;
+                Filesystem::unlinkRecursive($tempUnprefixedPath, true);
+            }
+        }
     }
 }
