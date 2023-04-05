@@ -39,7 +39,7 @@ return array(
 
         return $consumer;
     },
-    'Piwik\Plugins\Marketplace\Plugins' => DI\decorate(function ($previous, ContainerInterface $c) {
+    'Piwik\Plugins\Marketplace\Plugins' => Piwik\DI::decorate(function ($previous, ContainerInterface $c) {
         /** @var \Piwik\Plugins\Marketplace\Plugins $previous */
         $previous->setPluginsHavingUpdateCache(null);
 
@@ -52,13 +52,13 @@ return array(
 
         return $previous;
     }),
-    'Piwik\Plugins\Marketplace\Api\Client' => DI\decorate(function ($previous) {
+    'Piwik\Plugins\Marketplace\Api\Client' => Piwik\DI::decorate(function ($previous) {
         /** @var \Piwik\Plugins\Marketplace\Api\Client $previous */
         $previous->clearAllCacheEntries();
 
         return $previous;
     }),
-    'Piwik\Plugins\Marketplace\Plugins\InvalidLicenses' => DI\decorate(function ($previous, ContainerInterface $c) {
+    'Piwik\Plugins\Marketplace\Plugins\InvalidLicenses' => Piwik\DI::decorate(function ($previous, ContainerInterface $c) {
 
         $pluginNames = $c->get('test.vars.mockMarketplaceAssumePluginNamesActivated');
 
@@ -71,7 +71,7 @@ return array(
         return $previous;
 
     }),
-    'Piwik\Plugins\Marketplace\Api\Service' => DI\decorate(function ($previous, ContainerInterface $c) {
+    'Piwik\Plugins\Marketplace\Api\Service' => Piwik\DI::decorate(function ($previous, ContainerInterface $c) {
         if (!$c->get('test.vars.mockMarketplaceApiService')) {
             return $previous;
         }

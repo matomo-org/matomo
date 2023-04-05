@@ -455,7 +455,7 @@ class ArchiveCronTest extends SystemTestCase
     public static function provideContainerConfigBeforeClass()
     {
         return array(
-            'Psr\Log\LoggerInterface' => \DI\get('Monolog\Logger'),
+            'Psr\Log\LoggerInterface' => \Piwik\DI::get('Monolog\Logger'),
 
             // for some reason, w/o real translations archiving segments in CronArchive fails. the data returned by CliMulti
             // is a translation token, and nothing else.
@@ -465,7 +465,7 @@ class ArchiveCronTest extends SystemTestCase
 
             'Tests.log.allowAllHandlers' => true,
 
-            CronArchive\SegmentArchiving::class => \DI\object()
+            CronArchive\SegmentArchiving::class => \Piwik\DI::object()
                 // Oldest reports are for 2012, so ensure segments are processed for that year
                 ->constructorParameter('beginningOfTimeLastNInYears', date('Y')-2012)
         );

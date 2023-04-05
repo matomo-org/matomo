@@ -254,12 +254,12 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return [
-            Config::class => \DI\decorate(function (Config $previous) {
+            Config::class => \Piwik\DI::decorate(function (Config $previous) {
                 $previous->General['browser_archiving_disabled_enforce'] = 1;
                 return $previous;
             }),
 
-            SegmentArchiving::class => \DI\object()
+            SegmentArchiving::class => \Piwik\DI::object()
                 ->constructorParameter('beginningOfTimeLastNInYears', 15)
         ];
     }

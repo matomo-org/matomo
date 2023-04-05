@@ -529,11 +529,11 @@ class UITestFixture extends SqlDump
         API::$_autoSuggestLookBack = floor(Date::today()->getTimestamp() - Date::factory('2012-01-01')->getTimestamp()) / (24 * 60 * 60);
 
         return [
-            'Tests.now' => \DI\decorate(function () {
+            'Tests.now' => \Piwik\DI::decorate(function () {
                 return Option::get("Tests.forcedNowTimestamp");
             }),
-            'observers.global' => \DI\add([
-                ['Report.addReports', \DI\value(function (&$reports) {
+            'observers.global' => \Piwik\DI::add([
+                ['Report.addReports', \Piwik\DI::value(function (&$reports) {
                     $report = new XssReport();
                     $report->initForXss('forTwig');
                     $reports[] = $report;
@@ -542,10 +542,10 @@ class UITestFixture extends SqlDump
                     $report->initForXss('forAngular');
                     $reports[] = $report;
                 })],
-                ['Dimension.addDimensions', \DI\value(function (&$instances) {
+                ['Dimension.addDimensions', \Piwik\DI::value(function (&$instances) {
                     $instances[] = new XssDimension();
                 })],
-                ['API.Request.intercept', \DI\value(function (&$result, $finalParameters, $pluginName, $methodName) {
+                ['API.Request.intercept', \Piwik\DI::value(function (&$result, $finalParameters, $pluginName, $methodName) {
                     if ($pluginName != 'ExampleAPI' && $methodName != 'xssReportforTwig' && $methodName != 'xssReportforAngular') {
                         return;
                     }
@@ -566,13 +566,13 @@ class UITestFixture extends SqlDump
                     $result = $dataTable;
                 })],
             ]),
-            Proxy::class => \DI\get(CustomApiProxy::class),
-            'log.handlers' => \DI\decorate(function ($previous, ContainerInterface $c) {
+            Proxy::class => \Piwik\DI::get(CustomApiProxy::class),
+            'log.handlers' => \Piwik\DI::decorate(function ($previous, ContainerInterface $c) {
                 $previous[] = $c->get(WebNotificationHandler::class);
                 return $previous;
             }),
 
-            SegmentArchiving::class => \DI\object()
+            SegmentArchiving::class => \Piwik\DI::object()
                 ->constructorParameter('beginningOfTimeLastNInYears', 15)
         ];
     }

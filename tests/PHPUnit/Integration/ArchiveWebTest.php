@@ -65,15 +65,15 @@ class ArchiveWebTest extends SystemTestCase
     public static function provideContainerConfigBeforeClass()
     {
         return array(
-            'Psr\Log\LoggerInterface' => \DI\get('Monolog\Logger'),
+            'Psr\Log\LoggerInterface' => \Piwik\DI::get('Monolog\Logger'),
             'Tests.log.allowAllHandlers' => true,
             'observers.global' => [
-                ['API.Request.intercept', \DI\value(function (&$returnedValue, $finalParameters, $pluginName, $methodName, $parametersRequest) {
+                ['API.Request.intercept', \Piwik\DI::value(function (&$returnedValue, $finalParameters, $pluginName, $methodName, $parametersRequest) {
                     if ($pluginName == 'CoreAdminHome' && $methodName == 'runCronArchiving') {
                         $returnedValue = 'mock output';
                     }
                 })],
-                ['Console.doRun', \DI\value(function (&$exitCode, InputInterface $input, OutputInterface $output) {
+                ['Console.doRun', \Piwik\DI::value(function (&$exitCode, InputInterface $input, OutputInterface $output) {
                     if ($input->getFirstArgument() == 'core:archive') {
                         $output->writeln('mock output');
                         $exitCode = 0;

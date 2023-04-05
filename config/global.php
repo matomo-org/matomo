@@ -29,13 +29,13 @@ return [
         return $root . $tmp . $instanceId;
     },
 
-    'path.tmp.templates' => DI\string('{path.tmp}/templates_c'),
+    'path.tmp.templates' => Piwik\DI::string('{path.tmp}/templates_c'),
 
-    'path.cache' => DI\string('{path.tmp}/cache/tracker/'),
+    'path.cache' => Piwik\DI::string('{path.tmp}/cache/tracker/'),
 
     'view.clearcompiledtemplates.enable' => true,
 
-    'twig.cache' => DI\string('{path.tmp.templates}'),
+    'twig.cache' => Piwik\DI::string('{path.tmp.templates}'),
 
     'Matomo\Cache\Eager' => function (ContainerInterface $c) {
         $backend = $c->get('Matomo\Cache\Backend');
@@ -76,14 +76,14 @@ return [
         return 'eagercache-' . str_replace(['.', '-'], '', \Piwik\Version::VERSION) . '-';
     },
 
-    'entities.idNames' => DI\add(['idGoal', 'idDimension']),
+    'entities.idNames' => Piwik\DI::add(['idGoal', 'idDimension']),
 
-    'Psr\Log\LoggerInterface' => DI\create('Psr\Log\NullLogger'),
+    'Psr\Log\LoggerInterface' => Piwik\DI::create('Psr\Log\NullLogger'),
 
-    'Piwik\Translation\Loader\LoaderInterface' => DI\autowire('Piwik\Translation\Loader\LoaderCache')
-        ->constructorParameter('loader', DI\get('Piwik\Translation\Loader\JsonFileLoader')),
+    'Piwik\Translation\Loader\LoaderInterface' => Piwik\DI::autowire('Piwik\Translation\Loader\LoaderCache')
+        ->constructorParameter('loader', Piwik\DI::get('Piwik\Translation\Loader\JsonFileLoader')),
 
-    'DeviceDetector\Cache\Cache' => DI\autowire('Piwik\DeviceDetector\DeviceDetectorCache')->constructor(86400),
+    'DeviceDetector\Cache\Cache' => Piwik\DI::autowire('Piwik\DeviceDetector\DeviceDetectorCache')->constructor(86400),
 
     // specify plugins to load on demand via DI config. mostly for tests.
     'plugins.shouldLoadOnDemand' => [],
@@ -104,7 +104,7 @@ return [
      */
     'EnableDbVersionCheck' => true,
 
-    'fileintegrity.ignore' => DI\add([
+    'fileintegrity.ignore' => Piwik\DI::add([
         '*.htaccess',
         '*web.config',
         'bootstrap.php',
@@ -157,7 +157,7 @@ return [
         '*.travis.yml',
     ]),
 
-    'Piwik\EventDispatcher' => DI\autowire()->constructorParameter('observers', DI\get('observers.global')),
+    'Piwik\EventDispatcher' => Piwik\DI::autowire()->constructorParameter('observers', Piwik\DI::get('observers.global')),
 
     'login.allowlist.ips' => function (ContainerInterface $c) {
         /** @var Piwik\Config\ $config */
@@ -221,23 +221,23 @@ return [
         '*.amazonaws.com',
     ],
 
-    'Piwik\Tracker\VisitorRecognizer' => DI\autowire()
-        ->constructorParameter('trustCookiesOnly', DI\get('ini.Tracker.trust_visitors_cookies'))
-        ->constructorParameter('visitStandardLength', DI\get('ini.Tracker.visit_standard_length'))
-        ->constructorParameter('lookbackNSecondsCustom', DI\get('ini.Tracker.window_look_back_for_visitor')),
+    'Piwik\Tracker\VisitorRecognizer' => Piwik\DI::autowire()
+        ->constructorParameter('trustCookiesOnly', Piwik\DI::get('ini.Tracker.trust_visitors_cookies'))
+        ->constructorParameter('visitStandardLength', Piwik\DI::get('ini.Tracker.visit_standard_length'))
+        ->constructorParameter('lookbackNSecondsCustom', Piwik\DI::get('ini.Tracker.window_look_back_for_visitor')),
 
-    'Piwik\Tracker\Settings' => DI\autowire()
+    'Piwik\Tracker\Settings' => Piwik\DI::autowire()
         ->constructorParameter(
             'isSameFingerprintsAcrossWebsites',
-            DI\get('ini.Tracker.enable_fingerprinting_across_websites')
+            Piwik\DI::get('ini.Tracker.enable_fingerprinting_across_websites')
         ),
 
     'archiving.performance.logger' => null,
 
-    \Piwik\CronArchive\Performance\Logger::class => DI\autowire()
-        ->constructorParameter('logger', DI\get('archiving.performance.logger')),
+    \Piwik\CronArchive\Performance\Logger::class => Piwik\DI::autowire()
+        ->constructorParameter('logger', Piwik\DI::get('archiving.performance.logger')),
 
-    \Piwik\Concurrency\LockBackend::class => \DI\get(\Piwik\Concurrency\LockBackend\MySqlLockBackend::class),
+    \Piwik\Concurrency\LockBackend::class => \Piwik\DI::get(\Piwik\Concurrency\LockBackend\MySqlLockBackend::class),
 
     \Piwik\Segment\SegmentsList::class => function () {
         return \Piwik\Segment\SegmentsList::get();

@@ -88,8 +88,8 @@ class TrackerLoggingTest extends SystemTestCase
     public static function provideContainerConfigBeforeClass()
     {
         return array(
-            'Psr\Log\LoggerInterface' => \DI\get('Monolog\Logger'),
-            Config::class => \DI\decorate(function (Config $config) {
+            'Psr\Log\LoggerInterface' => \Piwik\DI::get('Monolog\Logger'),
+            Config::class => \Piwik\DI::decorate(function (Config $config) {
                 $config->tests['enable_logging'] = 1;
                 $config->log['log_writers'] = ['screen'];
                 return $config;

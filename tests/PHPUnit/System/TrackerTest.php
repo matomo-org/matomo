@@ -430,7 +430,7 @@ class TrackerTest extends IntegrationTestCase
     public static function provideContainerConfigBeforeClass()
     {
         return array(
-            'Psr\Log\LoggerInterface' => \DI\get('Monolog\Logger'),
+            'Psr\Log\LoggerInterface' => \Piwik\DI::get('Monolog\Logger'),
             'Tests.log.allowAllHandlers' => true,
         );
     }

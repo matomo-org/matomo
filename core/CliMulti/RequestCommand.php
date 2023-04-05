@@ -68,8 +68,8 @@ class RequestCommand extends ConsoleCommand
 
         if ($input->getOption('superuser')) {
             StaticContainer::addDefinitions(array(
-                'observers.global' => \DI\add(array(
-                    array('Environment.bootstrapped', \DI\value(function () {
+                'observers.global' => \Piwik\DI::add(array(
+                    array('Environment.bootstrapped', \Piwik\DI::value(function () {
                         Access::getInstance()->setSuperUserAccess(true);
                     }))
                 )),

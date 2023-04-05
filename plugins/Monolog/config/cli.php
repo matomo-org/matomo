@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 return array(
 
     // Log
-    'log.handlers' => DI\factory(function (\DI\Container $c) {
+    'log.handlers' => Piwik\DI::factory(function (\DI\Container $c) {
         $writers = [];
         $writers[] = $c->get(FailureLogMessageDetector::class);
         $writers[] = $c->get('Symfony\Bridge\Monolog\Handler\ConsoleHandler');

@@ -9,7 +9,7 @@ use Piwik\Tests\Framework\Mock\TestConfig;
 return array(
 
     // Disable logging
-    'Psr\Log\LoggerInterface' => \DI\decorate(function ($previous, ContainerInterface $c) {
+    'Psr\Log\LoggerInterface' => \Piwik\DI::decorate(function ($previous, ContainerInterface $c) {
         $enableLogging = $c->get('ini.tests.enable_logging') == 1 || !empty(getenv('MATOMO_TESTS_ENABLE_LOGGING'));
         if ($enableLogging) {
             return $previous;
@@ -20,7 +20,7 @@ return array(
 
     'Tests.log.allowAllHandlers' => false,
 
-    'log.handlers' => \DI\decorate(function ($previous, ContainerInterface $c) {
+    'log.handlers' => \Piwik\DI::decorate(function ($previous, ContainerInterface $c) {
         if ($c->get('Tests.log.allowAllHandlers')) {
             return $previous;
         }
@@ -39,7 +39,7 @@ return array(
     'Tests.now' => false,
 
     // Disable loading core translations
-    'Piwik\Translation\Translator' => DI\decorate(function ($previous, ContainerInterface $c) {
+    'Piwik\Translation\Translator' => Piwik\DI::decorate(function ($previous, ContainerInterface $c) {
         $loadRealTranslations = $c->get('test.vars.loadRealTranslations');
         if (!$loadRealTranslations) {
             return new \Piwik\Translation\Translator($c->get('Piwik\Translation\Loader\LoaderInterface'), $directories = array());
@@ -48,7 +48,7 @@ return array(
         }
     }),
 
-    'Piwik\Config' => DI\decorate(function ($previous, ContainerInterface $c) {
+    'Piwik\Config' => Piwik\DI::decorate(function ($previous, ContainerInterface $c) {
         $testingEnvironment = $c->get('Piwik\Tests\Framework\TestingEnvironmentVariables');
 
         $dontUseTestConfig = $c->get('test.vars.dontUseTestConfig');
@@ -60,7 +60,7 @@ return array(
         }
     }),
 
-    'Piwik\Access' => DI\decorate(function ($previous, ContainerInterface $c) {
+    'Piwik\Access' => Piwik\DI::decorate(function ($previous, ContainerInterface $c) {
         $testUseMockAuth = $c->get('test.vars.testUseMockAuth');
         if ($testUseMockAuth) {
             $idSitesAdmin = $c->get('test.vars.idSitesAdminAccess');
@@ -97,23 +97,23 @@ return array(
         }
     }),
 
-    'observers.global' => DI\add(array(
+    'observers.global' => Piwik\DI::add(array(
 
-        array('AssetManager.getStylesheetFiles', DI\value(function (&$stylesheets) {
+        array('AssetManager.getStylesheetFiles', Piwik\DI::value(function (&$stylesheets) {
             $useOverrideCss = \Piwik\Container\StaticContainer::get('test.vars.useOverrideCss');
             if ($useOverrideCss) {
                 $stylesheets[] = 'tests/resources/screenshot-override/override.css';
             }
         })),
 
-        array('AssetManager.getJavaScriptFiles', DI\value(function (&$jsFiles) {
+        array('AssetManager.getJavaScriptFiles', Piwik\DI::value(function (&$jsFiles) {
             $useOverrideJs = \Piwik\Container\StaticContainer::get('test.vars.useOverrideJs');
             if ($useOverrideJs) {
                 $jsFiles[] = 'tests/resources/screenshot-override/override.js';
             }
         })),
 
-        array('Updater.checkForUpdates', \DI\value(function () {
+        array('Updater.checkForUpdates', \Piwik\DI::value(function () {
             try {
                 @\Piwik\Filesystem::deleteAllCacheOnUpdate();
             } catch (Exception $ex) {
@@ -121,7 +121,7 @@ return array(
             }
         })),
 
-        array('Test.Mail.send', \DI\value(function (\PHPMailer\PHPMailer\PHPMailer $mail) {
+        array('Test.Mail.send', \Piwik\DI::value(function (\PHPMailer\PHPMailer\PHPMailer $mail) {
             $outputFile = PIWIK_INCLUDE_PATH . '/tmp/' . Piwik::getModule() . '.' . Piwik::getAction() . '.mail.json';
             $outputContent = str_replace("=\n", "", $mail->Body ?: $mail->AltBody);
             $outputContent = str_replace("=0A", "\n", $outputContent);

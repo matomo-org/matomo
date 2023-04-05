@@ -215,17 +215,17 @@ END;
     public static function provideContainerConfigBeforeClass()
     {
         return [
-            'log.handlers' => [\DI\get(FailureLogMessageDetector::class)],
-            LoggerInterface::class => \DI\create(Logger::class)
-                ->constructor('piwik', \DI\get('log.handlers'), \DI\get('log.processors')),
+            'log.handlers' => [\Piwik\DI::get(FailureLogMessageDetector::class)],
+            LoggerInterface::class => \Piwik\DI::create(Logger::class)
+                ->constructor('piwik', \Piwik\DI::get('log.handlers'), \Piwik\DI::get('log.processors')),
 
-            'observers.global' => \DI\add([
-                ['Console.filterCommands', \DI\value(function (&$commands) {
+            'observers.global' => \Piwik\DI::add([
+                ['Console.filterCommands', \Piwik\DI::value(function (&$commands) {
                     $commands[] = TestCommandWithFatalError::class;
                     $commands[] = TestCommandWithException::class;
                 })],
 
-                ['Request.dispatch', \DI\value(function ($module, $action) {
+                ['Request.dispatch', \Piwik\DI::value(function ($module, $action) {
                     if ($module === 'CorePluginsAdmin' && $action === 'safemode') {
                         print "*** IN SAFEMODE ***\n"; // will appear in output
                     }

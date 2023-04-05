@@ -38,7 +38,7 @@ return [
         };
     },
 
-    'Piwik\Config' => \DI\decorate(function (\Piwik\Config $config) {
+    'Piwik\Config' => \Piwik\DI::decorate(function (\Piwik\Config $config) {
         $config->General['cors_domains'][] = '*';
         $config->General['trusted_hosts'][] = '127.0.0.1';
         $config->General['trusted_hosts'][] = $config->tests['http_host'];
@@ -46,11 +46,11 @@ return [
         return $config;
     }),
 
-    'observers.global' => \DI\add([
+    'observers.global' => \Piwik\DI::add([
 
         // removes port from all URLs to the test Piwik server so UI tests will pass no matter
         // what port is used
-        ['Request.dispatch.end', DI\value(function (&$result) {
+        ['Request.dispatch.end', Piwik\DI::value(function (&$result) {
             $request = $_GET + $_POST;
 
             $apiblacklist = StaticContainer::get('tests.ui.url_normalizer_blacklist.api');
@@ -83,7 +83,7 @@ return [
             $result = str_replace([$path, $pathInJson], '', $result ?? '');
         })],
 
-        ['Controller.RssWidget.rssPiwik.end', DI\value(function (&$result, $parameters) {
+        ['Controller.RssWidget.rssPiwik.end', Piwik\DI::value(function (&$result, $parameters) {
             $result = '';
         })],
 
@@ -91,9 +91,9 @@ return [
     ]),
 
     // disable some diagnostics for UI tests
-    'diagnostics.disabled'  => \DI\add([
-        \DI\get(FileIntegrityCheck::class),
-        \DI\get(RequiredPrivateDirectories::class),
-        \DI\get(PhpVersionCheck::class),
+    'diagnostics.disabled'  => \Piwik\DI::add([
+        \Piwik\DI::get(FileIntegrityCheck::class),
+        \Piwik\DI::get(RequiredPrivateDirectories::class),
+        \Piwik\DI::get(PhpVersionCheck::class),
     ]),
 ];

@@ -10,7 +10,7 @@ function isTrackerDebugEnabled(ContainerInterface $c)
 
 return array(
 
-    'ini.log.log_writers' => DI\decorate(function ($previous, ContainerInterface $c) {
+    'ini.log.log_writers' => Piwik\DI::decorate(function ($previous, ContainerInterface $c) {
         if (isTrackerDebugEnabled($c)
             && \Piwik\Common::isPhpCliMode()
         ) {
@@ -20,7 +20,7 @@ return array(
         return $previous;
     }),
 
-    'log.handler.classes' => DI\decorate(function ($previous, ContainerInterface $c) {
+    'log.handler.classes' => Piwik\DI::decorate(function ($previous, ContainerInterface $c) {
         if (isset($previous['screen'])
             && isTrackerDebugEnabled($c)
         ) {
@@ -32,7 +32,7 @@ return array(
         return $previous;
     }),
 
-    'log.level' => DI\decorate(function ($previous, ContainerInterface $c) {
+    'log.level' => Piwik\DI::decorate(function ($previous, ContainerInterface $c) {
         if (isTrackerDebugEnabled($c)) {
             return \Monolog\Logger::DEBUG;
         }

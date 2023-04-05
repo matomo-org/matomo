@@ -208,8 +208,8 @@ class PasswordResetterTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return [
-            'observers.global' => \DI\add([
-                ['Test.Mail.send', \DI\value(function (PHPMailer $mail) {
+            'observers.global' => \Piwik\DI::add([
+                ['Test.Mail.send', \Piwik\DI::value(function (PHPMailer $mail) {
                     $body = $mail->createBody();
                     $body = preg_replace("/=[\r\n]+/", '', $body);
                     preg_match('/resetToken=[\s]*3D([a-zA-Z0-9=\s]+)"/', $body, $matches);

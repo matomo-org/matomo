@@ -188,9 +188,9 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
 
         $plugins = $this->getPluginsToLoadDuringTest();
         $diConfigs[] = array(
-            'observers.global' => \DI\add($this->globalObservers),
+            'observers.global' => \Piwik\DI::add($this->globalObservers),
 
-            'Piwik\Config' => \DI\decorate(function (Config $config, ContainerInterface $c) use ($plugins) {
+            'Piwik\Config' => \Piwik\DI::decorate(function (Config $config, ContainerInterface $c) use ($plugins) {
                 /** @var PluginList $pluginList */
                 $pluginList = $c->get('Piwik\Application\Kernel\PluginList');
                 $plugins = $pluginList->sortPlugins($plugins);
