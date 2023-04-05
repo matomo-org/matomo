@@ -478,7 +478,7 @@ PageRenderer.prototype._setupWebpageEvents = function () {
                 bodyContent = body.toString();
             } catch (e) {
             }
-            const message = 'Response (size "' + bodyLength + '", status "' + response.status() + '"): ' + request.url() + "\n" + bodyContent;
+            const message = 'Response (size "' + bodyLength + '", status "' + response.status() + '"): ' + request.url() + "\n" + bodyContent.substring(0, 2000);
             this._logMessage(message);
         }
 
