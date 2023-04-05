@@ -41,10 +41,6 @@ class LatestStableInstall extends Fixture
         $this->downloadAndUnzipLatestStable();
         $tokenAuth = $this->installSubdirectoryInstall($this->subdirToInstall);
         self::verifyInstall($tokenAuth, $this->subdirToInstall);
-
-        // copy(PIWIK_INCLUDE_PATH .'/CoreUpdaterController.php', $this->getInstallSubdirectoryPath() . '/plugins/CoreUpdater/Controller.php');
-        // copy(PIWIK_INCLUDE_PATH .'/CoreUpdaterUpdater.php', $this->getInstallSubdirectoryPath() . '/plugins/CoreUpdater/Updater.php');
-        // copy(PIWIK_INCLUDE_PATH .'/FrontControllerOverride.php', $this->getInstallSubdirectoryPath() . '/core/FrontController.php');
     }
 
     public function tearDown(): void
