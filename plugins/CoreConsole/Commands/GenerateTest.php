@@ -86,8 +86,7 @@ class GenerateTest extends GeneratePluginBase
         };
 
         if (empty($testname)) {
-            $dialog   = $this->getHelperSet()->get('dialog');
-            $testname = $dialog->askAndValidate($output, 'Enter the name of the test: ', $validate);
+            $testname = $this->askAndValidate($input, $output, 'Enter the name of the test: ', $validate);
         } else {
             $validate($testname);
         }
@@ -139,8 +138,7 @@ class GenerateTest extends GeneratePluginBase
         };
 
         if (empty($testtype)) {
-            $dialog   = $this->getHelperSet()->get('dialog');
-            $testtype = $dialog->askAndValidate($output, 'Enter the type of the test to generate ('. implode(", ", $this->getValidTypes()).'): ', $validate, false, null, $this->getValidTypes());
+            $testtype = $this->askAndValidate($input, $output, 'Enter the type of the test to generate ('. implode(", ", $this->getValidTypes()).'): ', $validate, null, $this->getValidTypes());
         } else {
             $validate($testtype);
         }

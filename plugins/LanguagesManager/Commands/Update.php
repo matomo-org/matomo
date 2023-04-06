@@ -12,13 +12,11 @@ namespace Piwik\Plugins\LanguagesManager\Commands;
 use Piwik\Cache;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\LanguagesManager\API;
-use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\ProgressBar;
 
 /**
  */
@@ -39,9 +37,6 @@ class Update extends TranslationBase
         $output->setDecorated(true);
 
         $start = microtime(true);
-
-        /** @var DialogHelper $dialog */
-        $dialog = $this->getHelperSet()->get('dialog');
 
         $languages = API::getInstance()->getAvailableLanguageNames(true);
 
@@ -79,14 +74,12 @@ class Update extends TranslationBase
 
             $output->writeln("Starting to import new language files");
 
-            /** @var ProgressBar $progress */
-            $progress = new ProgressBar($output, count($files));
-
-            $progress->start();
+            $this->initProgressBar($output, count($files));
+            $this->startProgressBar();
 
             foreach ($files as $filename) {
 
-                $progress->advance();
+                $this->advanceProgressBar();
 
                 $code = basename($filename, '.json');
 
@@ -98,7 +91,7 @@ class Update extends TranslationBase
 
                     $createNewFile = false;
                     if ($input->isInteractive()) {
-                        $createNewFile = $dialog->askConfirmation($output, "\nLanguage $code does not exist. Should it be added? ", false);
+                        $createNewFile = $this->askForConfirmation($input, $output, "\nLanguage $code does not exist. Should it be added? ", false);
                     }
 
                     if (!$createNewFile) {
@@ -135,7 +128,7 @@ class Update extends TranslationBase
                 $command->run($inputObject, $output->isVeryVerbose() ? $output : new NullOutput());
             }
 
-            $progress->finish();
+            $this->finishProgressBar();
             $output->writeln('');
         }
 

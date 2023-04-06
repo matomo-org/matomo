@@ -380,8 +380,7 @@ abstract class GeneratePluginBase extends ConsoleCommand
         $pluginName = $input->getOption('pluginname');
 
         if (empty($pluginName)) {
-            $dialog = $this->getHelperSet()->get('dialog');
-            $pluginName = $dialog->askAndValidate($output, 'Enter the name of your plugin: ', $validate, false, null, $pluginNames);
+            $pluginName = $this->askAndValidate($input, $output, 'Enter the name of your plugin: ', $validate, false, $pluginNames);
         } else {
             $validate($pluginName);
         }

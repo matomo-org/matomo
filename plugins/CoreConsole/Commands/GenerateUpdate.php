@@ -109,8 +109,7 @@ class GenerateUpdate extends GeneratePluginBase
         $component = $input->getOption('component');
 
         if (empty($component)) {
-            $dialog    = $this->getHelperSet()->get('dialog');
-            $component = $dialog->askAndValidate($output, 'Enter the name of your plugin or "core": ', $validate, false, null, $components);
+            $component = $this->askAndValidate($input, $output, 'Enter the name of your plugin or "core": ', $validate, null, $components);
         } else {
             $validate($component);
         }

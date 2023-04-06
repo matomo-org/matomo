@@ -154,8 +154,7 @@ class GeneratePlugin extends GeneratePluginBase
         $pluginName = $input->getOption('name');
 
         if (empty($pluginName)) {
-            $dialog = $this->getHelperSet()->get('dialog');
-            $pluginName = $dialog->askAndValidate($output, 'Enter a plugin name: ', $validate);
+            $pluginName = $this->askAndValidate($input, $output, 'Enter a plugin name: ', $validate);
         } else {
             $validate($pluginName);
         }
@@ -187,8 +186,7 @@ class GeneratePlugin extends GeneratePluginBase
         $description = $input->getOption('description');
 
         if (empty($description)) {
-            $dialog = $this->getHelperSet()->get('dialog');
-            $description = $dialog->askAndValidate($output, 'Enter a plugin description: ', $validate);
+            $description = $this->askAndValidate($input, $output, 'Enter a plugin description: ', $validate);
         } else {
             $validate($description);
         }
@@ -206,8 +204,7 @@ class GeneratePlugin extends GeneratePluginBase
         $version = $input->getOption('pluginversion');
 
         if (is_null($version)) {
-            $dialog = $this->getHelperSet()->get('dialog');
-            $version = $dialog->ask($output, 'Enter a plugin version number (default to 0.1.0): ', '0.1.0');
+            $version = $this->ask($input, $output, 'Enter a plugin version number (default to 0.1.0): ', '0.1.0');
         }
 
         return $version;

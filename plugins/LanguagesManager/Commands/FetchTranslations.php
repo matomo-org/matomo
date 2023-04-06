@@ -13,7 +13,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\Exception\AuthenticationFailedException;
 use Piwik\Plugins\LanguagesManager\API as LanguagesManagerApi;
 use Piwik\Translation\Weblate\API;
-use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -87,10 +86,8 @@ class FetchTranslations extends TranslationBase
             $languages = $languageCodes;
         }
 
-        /** @var ProgressBar $progress */
-        $progress = new ProgressBar($output, count($languages));
-
-        $progress->start();
+        $this->initProgressBar($output, count($languages));
+        $this->startProgressBar();
 
         foreach ($languages as $language) {
             try {
@@ -99,10 +96,10 @@ class FetchTranslations extends TranslationBase
             } catch (\Exception $e) {
                 $output->writeln("Error fetching language file $language: " . $e->getMessage());
             }
-            $progress->advance();
+            $this->advanceProgressBar();
         }
 
-        $progress->finish();
+        $this->finishProgressBar();
         $output->writeln('');
 
         return self::SUCCESS;

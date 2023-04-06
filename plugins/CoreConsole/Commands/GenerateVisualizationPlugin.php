@@ -84,8 +84,7 @@ class GenerateVisualizationPlugin extends GeneratePlugin
         $visualizationName = $input->getOption('visualizationname');
 
         if (empty($visualizationName)) {
-            $dialog = $this->getHelperSet()->get('dialog');
-            $visualizationName = $dialog->askAndValidate($output, 'Enter a visualization name (only AlNum allowed): ', $validate);
+            $visualizationName = $this->askAndValidate($input, $output, 'Enter a visualization name (only AlNum allowed): ', $validate);
         } else {
             $validate($visualizationName);
         }

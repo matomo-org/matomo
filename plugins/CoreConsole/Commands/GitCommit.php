@@ -58,9 +58,8 @@ class GitCommit extends ConsoleCommand
         }
 
         if (!$this->hasChangesToBeCommitted()) {
-            $dialog   = $this->getHelperSet()->get('dialog');
             $question = '<question>There are no changes to be committed in the super repo, do you just want to commit and converge submodules?</question>';
-            if (!$dialog->askConfirmation($output, $question, false)) {
+            if (!$this->askForConfirmation($input, $output, $question, false)) {
                 $output->writeln('<info>Cool, nothing done. Stage files using "git add" and try again.</info>');
                 return self::SUCCESS;
             }

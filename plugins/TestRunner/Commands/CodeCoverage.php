@@ -73,10 +73,7 @@ class CodeCoverage extends ConsoleCommand
             $xdebugFile   = trim($extensionDir) . DIRECTORY_SEPARATOR . 'xdebug.so';
 
             if (!file_exists($xdebugFile)) {
-
-                $dialog = $this->getHelperSet()->get('dialog');
-
-                $xdebugFile = $dialog->askAndValidate($output, 'xdebug not found. Please provide path to xdebug.so', function($xdebugFile) {
+                $xdebugFile = $this->askAndValidate($input, $output, 'xdebug not found. Please provide path to xdebug.so', function($xdebugFile) {
                     return file_exists($xdebugFile);
                 });
             } else {

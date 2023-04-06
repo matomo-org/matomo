@@ -40,8 +40,7 @@ abstract class GenerateVueConstructBase extends GeneratePluginBase
         };
 
         if (empty($testname)) {
-            $dialog   = $this->getHelperSet()->get('dialog');
-            $testname = $dialog->askAndValidate($output, "Enter the name of the $constructType you want to create: ",
+            $testname = $this->askAndValidate($input, $output, "Enter the name of the $constructType you want to create: ",
                 $validate);
         } else {
             $validate($testname);

@@ -80,8 +80,7 @@ class GenerateSystemCheck extends GeneratePluginBase
         $checkName = $input->getOption('checkname');
 
         if (empty($checkName)) {
-            $dialog = $this->getHelperSet()->get('dialog');
-            $checkName = $dialog->askAndValidate($output, 'Enter the name of your system check, for example "PDF PHP Extension Check": ', $validate);
+            $checkName = $this->askAndValidate($input, $output, 'Enter the name of your system check, for example "PDF PHP Extension Check": ', $validate);
         } else {
             $validate($checkName);
         }

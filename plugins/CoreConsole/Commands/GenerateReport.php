@@ -128,8 +128,7 @@ class GenerateReport extends GeneratePluginBase
         $reportName = $input->getOption('reportname');
 
         if (empty($reportName)) {
-            $dialog = $this->getHelperSet()->get('dialog');
-            $reportName = $dialog->askAndValidate($output, 'Enter the name of your report, for instance "Browser Families": ', $validate);
+            $reportName = $this->askAndValidate($input, $output, 'Enter the name of your report, for instance "Browser Families": ', $validate);
         } else {
             $validate($reportName);
         }
@@ -158,8 +157,7 @@ class GenerateReport extends GeneratePluginBase
         $documentation = $input->getOption('documentation');
 
         if (empty($documentation)) {
-            $dialog = $this->getHelperSet()->get('dialog');
-            $documentation = $dialog->askAndValidate($output, 'Enter a documentation that describes the data of your report (you can leave it empty and define it later): ', $validate);
+            $documentation = $this->askAndValidate($input, $output, 'Enter a documentation that describes the data of your report (you can leave it empty and define it later): ', $validate);
         } else {
             $validate($documentation);
         }
@@ -205,8 +203,7 @@ class GenerateReport extends GeneratePluginBase
         $categories = array_values(array_unique($categories));
 
         if (empty($category)) {
-            $dialog = $this->getHelperSet()->get('dialog');
-            $category = $dialog->askAndValidate($output, 'Enter the report category, for instance "Visitor" (you can reuse any existing category or define a new one): ', $validate, false, null, $categories);
+            $category = $this->askAndValidate($input, $output, 'Enter the report category, for instance "Visitor" (you can reuse any existing category or define a new one): ', $validate, false, null, $categories);
         } else {
             $validate($category);
         }
@@ -275,8 +272,7 @@ class GenerateReport extends GeneratePluginBase
         $actualDimension = $input->getOption('dimension');
 
         if (null === $actualDimension) {
-            $dialog = $this->getHelperSet()->get('dialog');
-            $actualDimension = $dialog->askAndValidate($output, 'Enter the report dimension, for instance "Browser" (you can leave it either empty or use an existing one): ', $validate, false, null, $dimensionNames);
+            $actualDimension = $this->askAndValidate($input, $output, 'Enter the report dimension, for instance "Browser" (you can leave it either empty or use an existing one): ', $validate, null, $dimensionNames);
         } else {
             $validate($actualDimension);
         }

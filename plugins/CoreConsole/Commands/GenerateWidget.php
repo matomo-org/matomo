@@ -100,8 +100,7 @@ class GenerateWidget extends GeneratePluginBase
         $widgetName = $input->getOption('widgetname');
 
         if (empty($widgetName)) {
-            $dialog = $this->getHelperSet()->get('dialog');
-            $widgetName = $dialog->askAndValidate($output, 'Enter the name of your Widget, for instance "Browser Families": ', $validate);
+            $widgetName = $this->askAndValidate($input, $output, 'Enter the name of your Widget, for instance "Browser Families": ', $validate);
         } else {
             $validate($widgetName);
         }
@@ -144,8 +143,7 @@ class GenerateWidget extends GeneratePluginBase
         $categories = $this->getExistingCategories();
 
         if (empty($category)) {
-            $dialog = $this->getHelperSet()->get('dialog');
-            $category = $dialog->askAndValidate($output, 'Enter the widget category, for instance "Visitor" (you can reuse any existing category or define a new one): ', $validate, false, null, $categories);
+            $category = $this->askAndValidate($input, $output, 'Enter the widget category, for instance "Visitor" (you can reuse any existing category or define a new one): ', $validate, null, $categories);
         } else {
             $validate($category);
         }

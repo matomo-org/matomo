@@ -126,8 +126,7 @@ class GenerateDimension extends GeneratePluginBase
         $dimensionName = $input->getOption('dimensionname');
 
         if (empty($dimensionName)) {
-            $dialog = $this->getHelperSet()->get('dialog');
-            $dimensionName = $dialog->askAndValidate($output, 'Enter a human readable name of your dimension, for instance "Browser": ', $validate);
+            $dimensionName = $this->askAndValidate($input, $output, 'Enter a human readable name of your dimension, for instance "Browser": ', $validate);
         } else {
             $validate($dimensionName);
         }
@@ -177,8 +176,7 @@ class GenerateDimension extends GeneratePluginBase
         $columnName = $input->getOption('columnname');
 
         if (empty($columnName)) {
-            $dialog = $this->getHelperSet()->get('dialog');
-            $columnName = $dialog->askAndValidate($output, 'Enter the name of the column under which it should be stored in the MySQL database, for instance "visit_total_time": ', $validate);
+            $columnName = $this->askAndValidate($input, $output, 'Enter the name of the column under which it should be stored in the MySQL database, for instance "visit_total_time": ', $validate);
         } else {
             $validate($columnName);
         }
@@ -205,8 +203,7 @@ class GenerateDimension extends GeneratePluginBase
         $columnType = $input->getOption('columntype');
 
         if (empty($columnType)) {
-            $dialog     = $this->getHelperSet()->get('dialog');
-            $columnType = $dialog->askAndValidate($output, 'Enter the type of the column under which it should be stored in the MySQL database, for instance "VARCHAR(255) NOT NULL": ', $validate);
+            $columnType = $this->askAndValidate($input, $output, 'Enter the type of the column under which it should be stored in the MySQL database, for instance "VARCHAR(255) NOT NULL": ', $validate);
         } else {
             $validate($columnType);
         }
@@ -235,8 +232,7 @@ class GenerateDimension extends GeneratePluginBase
         $type = $input->getOption('type');
 
         if (empty($type)) {
-            $dialog = $this->getHelperSet()->get('dialog');
-            $type = $dialog->askAndValidate($output, 'Please choose the type of dimension you want to create (' . implode(', ', $acceptedValues) .  '). Choose "non-tracking-dimension" if you only need a blank dimension having a name: ', $validate, false, null, $acceptedValues);
+            $type = $this->askAndValidate($input, $output, 'Please choose the type of dimension you want to create (' . implode(', ', $acceptedValues) .  '). Choose "non-tracking-dimension" if you only need a blank dimension having a name: ', $validate,  null, $acceptedValues);
         } else {
             $validate($type);
         }

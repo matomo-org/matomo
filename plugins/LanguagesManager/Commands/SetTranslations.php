@@ -18,7 +18,6 @@ use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\UnnecassaryWhitespac
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Validate\CoreTranslations;
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Validate\NoScripts;
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Writer;
-use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -37,16 +36,13 @@ class SetTranslations extends TranslationBase
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /** @var DialogHelper $dialog */
-        $dialog = $this->getHelperSet()->get('dialog');
-
         $languageCode = $input->getOption('code');
         $filename     = $input->getOption('file');
 
         $languageCodes = (new API())->getAvailableLanguages(true);
 
         if (empty($languageCode) || !in_array($languageCode, $languageCodes)) {
-            $languageCode = $dialog->askAndValidate($output, 'Please provide a valid language code: ', function ($code) use ($languageCodes) {
+            $languageCode = $this->askAndValidate($input, $output, 'Please provide a valid language code: ', function ($code) use ($languageCodes) {
                 if (!in_array($code, array_values($languageCodes))) {
                     throw new \InvalidArgumentException(sprintf('Language code "%s" is invalid.', $code));
                 }
@@ -56,7 +52,7 @@ class SetTranslations extends TranslationBase
         }
 
         if (empty($filename) || !file_exists($filename)) {
-            $filename = $dialog->askAndValidate($output, 'Please provide a file to load translations from: ', function ($file) {
+            $filename = $this->askAndValidate($input, $output, 'Please provide a file to load translations from: ', function ($file) {
                 if (!file_exists($file)) {
                     throw new \InvalidArgumentException(sprintf('File "%s" does not exist.', $file));
                 }

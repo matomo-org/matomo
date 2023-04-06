@@ -69,8 +69,7 @@ class GenerateSettings extends GeneratePluginBase
         $settingsType = $input->getOption('settingstype');
 
         if (empty($settingsType)) {
-            $dialog = $this->getHelperSet()->get('dialog');
-            $settingsType = $dialog->askAndValidate($output, 'Please choose the type of settings you want to create (' . implode(', ', $availableTypes) .  '): ', $validate, false, null, $availableTypes);
+            $settingsType = $this->askAndValidate($input, $output, 'Please choose the type of settings you want to create (' . implode(', ', $availableTypes) .  '): ', $validate, null, $availableTypes);
         } else {
             $validate($settingsType);
         }

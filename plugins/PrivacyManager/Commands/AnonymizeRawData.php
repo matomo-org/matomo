@@ -107,8 +107,8 @@ class AnonymizeRawData extends ConsoleCommand
         if ($noInteraction) {
             return true;
         }
-        $dialog = $this->getHelperSet()->get('dialog');
-        $value = $dialog->ask(
+        $value = $this->ask(
+            $input,
             $output,
             sprintf('<question>Are you sure you want to %s for all visits between "%s" to "%s"? This action cannot be undone. Type "OK" to confirm this section.</question>', $action, $startDate, $endDate),
             false
