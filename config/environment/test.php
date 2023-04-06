@@ -38,7 +38,7 @@ return array(
     'Tests.now' => false,
 
     // Disable loading core translations
-    'Piwik\Translation\Translator' => Piwik\DI::decorate(function ($previous, ContainerInterface $c) {
+    'Piwik\Translation\Translator' => \Piwik\DI::decorate(function ($previous, ContainerInterface $c) {
         $loadRealTranslations = $c->get('test.vars.loadRealTranslations');
         if (!$loadRealTranslations) {
             return new \Piwik\Translation\Translator($c->get('Piwik\Translation\Loader\LoaderInterface'), $directories = array());
@@ -47,7 +47,7 @@ return array(
         }
     }),
 
-    'Piwik\Config' => Piwik\DI::decorate(function ($previous, ContainerInterface $c) {
+    'Piwik\Config' => \Piwik\DI::decorate(function ($previous, ContainerInterface $c) {
         $testingEnvironment = $c->get('Piwik\Tests\Framework\TestingEnvironmentVariables');
 
         $dontUseTestConfig = $c->get('test.vars.dontUseTestConfig');
@@ -59,7 +59,7 @@ return array(
         }
     }),
 
-    'Piwik\Access' => Piwik\DI::decorate(function ($previous, ContainerInterface $c) {
+    'Piwik\Access' => \Piwik\DI::decorate(function ($previous, ContainerInterface $c) {
         $testUseMockAuth = $c->get('test.vars.testUseMockAuth');
         if ($testUseMockAuth) {
             $idSitesAdmin = $c->get('test.vars.idSitesAdminAccess');
@@ -96,16 +96,16 @@ return array(
         }
     }),
 
-    'observers.global' => Piwik\DI::add(array(
+    'observers.global' => \Piwik\DI::add(array(
 
-        array('AssetManager.getStylesheetFiles', Piwik\DI::value(function (&$stylesheets) {
+        array('AssetManager.getStylesheetFiles', \Piwik\DI::value(function (&$stylesheets) {
             $useOverrideCss = \Piwik\Container\StaticContainer::get('test.vars.useOverrideCss');
             if ($useOverrideCss) {
                 $stylesheets[] = 'tests/resources/screenshot-override/override.css';
             }
         })),
 
-        array('AssetManager.getJavaScriptFiles', Piwik\DI::value(function (&$jsFiles) {
+        array('AssetManager.getJavaScriptFiles', \Piwik\DI::value(function (&$jsFiles) {
             $useOverrideJs = \Piwik\Container\StaticContainer::get('test.vars.useOverrideJs');
             if ($useOverrideJs) {
                 $jsFiles[] = 'tests/resources/screenshot-override/override.js';
