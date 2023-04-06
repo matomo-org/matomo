@@ -23,6 +23,13 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The Symfony Console dependency has been updated to version 5.4. Command classes might need to be adjusted so
   * `execute()` method now need to return integers. We recommend using the class constants `SUCCESS` or `FAILURE` as return values.
   * Various helpers like the `dialog` or `progress` helpers have been removed. Their usages need to be rewritten with newer helpers like `question`.
+* The deprecated method `Piwik\Log::setLogLevel()` has been removed
+* The deprecated method `Piwik\Log::getLogLevel()` has been removed
+* In order to encapsulate Matomo's dependencies from direct usage in plugins we introduce some proxy classes that need to be used instead:
+  * Use `Piwik\Log\Logger` instead of `Monolog\Logger`
+  * Use `Piwik\Log\LoggerInterface` instead of `Psr\Log\LoggerInterface`
+  * Use `Piwik\Log\NullLogger` instead of `Psr\Log\NullLogger`
+  * Use `Piwik\DI` instead of `DI`
 
 ### New APIs
 
