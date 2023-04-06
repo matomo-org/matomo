@@ -139,4 +139,87 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($scd->gtm);
     }
 
+    public function test_detectCloudFlare_IfPresent()
+    {
+        $siteData = "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script><script>console.log('abc');</script></head><body>A site</body></html>";
+        $scd = new SiteContentDetector();
+        $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData, ['server' => 'cloudflare']));
+
+        $this->assertFalse($scd->ga3);
+        $this->assertFalse($scd->ga4);
+        $this->assertFalse($scd->gtm);
+        $this->assertTrue($scd->cloudflare);
+    }
+
+    public function test_detectCloudFlare_IfPresent2()
+    {
+        $siteData = "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script><script>console.log('abc');</script></head><body>A site</body></html>";
+        $scd = new SiteContentDetector();
+        $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData, ['Server' => 'cloudflare']));
+
+        $this->assertFalse($scd->ga3);
+        $this->assertFalse($scd->ga4);
+        $this->assertFalse($scd->gtm);
+        $this->assertTrue($scd->cloudflare);
+    }
+
+    public function test_detectCloudFlare_IfPresent3()
+    {
+        $siteData = "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script><script>console.log('abc');</script></head><body>A site</body></html>";
+        $scd = new SiteContentDetector();
+        $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData, ['SERVER' => 'cloudflare']));
+
+        $this->assertFalse($scd->ga3);
+        $this->assertFalse($scd->ga4);
+        $this->assertFalse($scd->gtm);
+        $this->assertTrue($scd->cloudflare);
+    }
+
+    public function test_detectCloudFlare_IfPresent4()
+    {
+        $siteData = "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script><script>console.log('abc');</script></head><body>A site</body></html>";
+        $scd = new SiteContentDetector();
+        $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData, ['cf-ray' => 'test']));
+
+        $this->assertFalse($scd->ga3);
+        $this->assertFalse($scd->ga4);
+        $this->assertFalse($scd->gtm);
+        $this->assertTrue($scd->cloudflare);
+    }
+
+    public function test_detectCloudFlare_IfPresent5()
+    {
+        $siteData = "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script><script>console.log('abc');</script></head><body>A site</body></html>";
+        $scd = new SiteContentDetector();
+        $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData, ['Cf-Ray' => 'test']));
+
+        $this->assertFalse($scd->ga3);
+        $this->assertFalse($scd->ga4);
+        $this->assertFalse($scd->gtm);
+        $this->assertTrue($scd->cloudflare);
+    }
+
+    public function test_detectCloudFlare_IfPresent6()
+    {
+        $siteData = "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script><script>console.log('abc');</script></head><body>A site</body></html>";
+        $scd = new SiteContentDetector();
+        $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData, ['CF-RAY' => 'test']));
+
+        $this->assertFalse($scd->ga3);
+        $this->assertFalse($scd->ga4);
+        $this->assertFalse($scd->gtm);
+        $this->assertTrue($scd->cloudflare);
+    }
+
+    public function test_doesNotDetectsCloudflare_IfNotPresent()
+    {
+        $siteData = "<html lang=\"en\"><head><title>A site</title><script><script>console.log('abc');</script></head><body>A site</body></html>";
+        $scd = new SiteContentDetector();
+        $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
+
+        $this->assertFalse($scd->ga3);
+        $this->assertFalse($scd->ga4);
+        $this->assertFalse($scd->gtm);
+        $this->assertFalse($scd->cloudflare);
+    }
 }
