@@ -87,7 +87,7 @@ docker-compose.yml
 !/node_modules/jquery.browser
 !/node_modules/jquery.dotdotdot
 !/node_modules/jquery.scrollto
-!/node_modules/materialize-css
+!/node_modules/@materializecss/materialize
 !/node_modules/mousetrap
 !/node_modules/qrcodejs2
 !/node_modules/sprintf-js

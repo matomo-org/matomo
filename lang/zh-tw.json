@@ -495,6 +495,7 @@
         "Visit": "訪問",
         "VisitConvertedGoal": "至少轉換一次目標的訪問",
         "VisitConvertedGoalId": "轉換特定目標 ID 的訪問",
+        "VisitConvertedGoalName": "轉換為特定的目標名稱的訪問",
         "VisitConvertedNGoals": "轉換 %s 個目標的訪問",
         "VisitDuration": "平均訪問時間（秒）",
         "VisitId": "訪問 ID",

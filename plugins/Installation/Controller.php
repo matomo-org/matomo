@@ -553,7 +553,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'plugins/Morpheus/stylesheets/base/bootstrap.css',
             'plugins/Morpheus/stylesheets/base/icons.css',
             "node_modules/jquery-ui-dist/jquery-ui.theme.min.css",
-            'node_modules/materialize-css/dist/css/materialize.min.css',
+            'node_modules/@materializecss/materialize/dist/css/materialize.min.css',
             'plugins/Morpheus/stylesheets/base.less',
             'plugins/Morpheus/stylesheets/general/_forms.less',
             'plugins/Installation/stylesheets/installation.css'
@@ -575,7 +575,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $files = array(
             "node_modules/jquery/dist/jquery.min.js",
             "node_modules/jquery-ui-dist/jquery-ui.min.js",
-            'node_modules/materialize-css/dist/js/materialize.min.js',
+            'node_modules/@materializecss/materialize/dist/js/materialize.min.js',
             "plugins/CoreHome/javascripts/materialize-bc.js",
             'plugins/Installation/javascripts/installation.js',
             'plugins/Morpheus/javascripts/piwikHelper.js',

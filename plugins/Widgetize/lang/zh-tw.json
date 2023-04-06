@@ -2,8 +2,8 @@
     "Widgetize": {
         "OpenInNewWindow": "在新視窗開啟",
         "PluginDescription": "在你的網站或應用程式中以簡單的 HTML 嵌入程式碼顯示任何 Matomo 報表。",
-        "ViewAccessRequired": "此使用者擁有一部份的寫入權限。僅限使用只有檢視權限的使用者的權杖。參考 %1$s 瞭解更多資訊。",
+        "TooHighAccessLevel": "此使用者擁有超級使用者權限。超級使用者的權杖不允許用來嵌入小工具。%1$s參考 FAQ 瞭解更多資訊。%2$s",
         "TopLinkTooltip": "將 Matomo 報表以小工具匯出，並於你的應用程式中以 iframe 嵌入展示板。",
-        "TooHighAccessLevel": "此使用者擁有超級使用者權限。超級使用者的權杖不允許用來嵌入小工具。%1$s參考 FAQ 瞭解更多資訊。%2$s"
+        "ViewAccessRequired": "此使用者擁有一部份的寫入權限。僅限使用只有檢視權限的使用者的權杖。參考 %1$s 瞭解更多資訊。"
     }
 }

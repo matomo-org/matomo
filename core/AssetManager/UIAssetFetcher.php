@@ -152,7 +152,7 @@ abstract class UIAssetFetcher
         'libs/bower_components/jquery/dist/jquery.min.js' => 'node_modules/jquery/dist/jquery.min.js',
         'libs/bower_components/jquery-ui/ui/minified/jquery-ui.min.js' => 'node_modules/jquery-ui-dist/jquery-ui.min.js',
         "libs/bower_components/sprintf/dist/sprintf.min.js" => "node_modules/sprintf-js/dist/sprintf.min.js",
-        "libs/bower_components/materialize/dist/js/materialize.min.js" => "node_modules/materialize-css/dist/js/materialize.min.js",
+        "libs/bower_components/materialize/dist/js/materialize.min.js" => "node_modules/@materializecss/materialize/dist/js/materialize.min.js",
         "libs/bower_components/jquery.scrollTo/jquery.scrollTo.min.js" => "node_modules/jquery.scrollto/jquery.scrollTo.min.js",
         "libs/bower_components/mousetrap/mousetrap.min.js" => "node_modules/mousetrap/mousetrap.min.js",
         "libs/bower_components/jQuery.dotdotdot/src/js/jquery.dotdotdot.min.js" => "node_modules/jquery.dotdotdot/dist/jquery.dotdotdot.js",
@@ -164,7 +164,7 @@ abstract class UIAssetFetcher
         "libs/jquery/jquery.truncate.js" => null,
 
         "libs/jquery/themes/base/jquery-ui.min.css" => "node_modules/jquery-ui-dist/jquery-ui.min.css",
-        "libs/bower_components/materialize/dist/css/materialize.min.css" => "node_modules/materialize-css/dist/css/materialize.min.css",
+        "libs/bower_components/materialize/dist/css/materialize.min.css" => "node_modules/@materializecss/materialize/dist/css/materialize.min.css",
         "node_modules/jquery-ui-dist/jquery-ui.theme.min.css" => "node_modules/jquery-ui-dist/jquery-ui.theme.min.css",
     ];
 

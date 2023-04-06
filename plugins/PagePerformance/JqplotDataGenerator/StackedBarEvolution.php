@@ -61,7 +61,6 @@ class StackedBarEvolution extends JqplotDataGenerator\Evolution
             $allSeriesData[$column] = $this->getSeriesData($column, $dataTable);
         }
 
-        $visualization->dataTable = $dataTable;
         $visualization->properties = $this->properties;
 
         $seriesMetadata = [];

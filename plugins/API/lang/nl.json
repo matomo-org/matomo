@@ -2,16 +2,17 @@
     "API": {
         "ChangeTokenHint": "Als u deze token wilt wijzigen, gaat u naar uw %1$spersoonlijke instellingen-pagina%2$s.",
         "EvolutionMetricName": "%s Trends",
+        "GenerateVisits": "Indien je geen data hebt voor vandaag, dan kan je er genereren door gebruik te maken van de %1$s plugin via 'Ontwikkeling → Bezoekersgenerator' in de beheeromgeving van Matomo.",
         "Glossary": "Woordenlijst",
         "KeepTokenSecret": "Deze token_auth is even geheim als uw login en wachtwoord, %1$sdeel het met niemand%2$s!",
-        "LearnAboutCommonlyUsedTerms2": "Leer over de standaard gebruikte termen om het meeste uit Matomo Analytics te halen.",
-        "LoadedAPIs": "%s API's succesvol geladen",
-        "MainMetricsReportDocumentation": "Dit rapport geeft u een overzicht van de belangrijkste statistieken in alle categorieën en plug-ins.",
-        "MoreInformation": "Voor meer informatie over de Matomo API's, lees de %1$s introductie van de Matomo API %2$s en de %3$s Matomo API referenties %4$s.",
-        "PluginDescription": "Alle data in Matomo is beschikbaar via eenvoudige API's. Deze plugin is het web service contactpunt, waarmee je je Web Analytics data in xml, json, php, csv, etc. kunt verkrijgen.",
+        "LearnAboutCommonlyUsedTerms2": "Lees meer over de veelgebruikte termen om het maximale uit Matomo-analyses te halen.",
+        "LoadedAPIs": "%s API's geladen",
+        "MainMetricsReportDocumentation": "Dit rapport geeft een overzicht van de belangrijkste statistieken voor alle categorieën en plugins.",
+        "MoreInformation": "Meer informatie over de Matomo API's zijn beschikbaar in de %1$sIntroductie voor de Matomo API%2$s en de %3$sMatomo API referentiegids%4$s.",
+        "PluginDescription": "Alle data in Matomo is beschikbaar via eenvoudige API's. Deze plugin is de web service toegangspoort waarmee u uw webanalyse gegevens in XML, JSON, PHP, CSV,... kunt opvragen.",
         "ReportingApiReference": "Rapportage API verwijzing",
-        "TopLinkTooltip": "Benader je Web Analyse data via een simpele API in json, xml, enz.",
+        "TopLinkTooltip": "Benader uw webanalyse gegevens softwarematig via een eenvoudige API in JSON, XML,...",
         "UserAuthentication": "Gebruikers authenticatie",
-        "UsingTokenAuth": "Als je wilt gegevens %1$s opvragen via een script, een crontab, etc. %2$smoet de URL-parameter worden toegevoegd %3$s naar de API-calls van URL's die verificatie vereisen."
+        "UsingTokenAuth": "Als u %1$sgegevens wil opvragen via een script, een crontab,...%2$s moet de '%3$s' URL-parameter worden toegevoegd aan de API-verzoeken voor de URL's die authenticatie vereisen."
     }
 }
