@@ -572,7 +572,7 @@ class UITestFixture extends SqlDump
                 return $previous;
             }),
 
-            SegmentArchiving::class => \Piwik\DI::object()
+            SegmentArchiving::class => \Piwik\DI::autowire()
                 ->constructorParameter('beginningOfTimeLastNInYears', 15)
         ];
     }

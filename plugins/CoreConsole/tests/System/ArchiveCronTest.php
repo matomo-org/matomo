@@ -467,7 +467,7 @@ class ArchiveCronTest extends SystemTestCase
 
             'Tests.log.allowAllHandlers' => true,
 
-            CronArchive\SegmentArchiving::class => \Piwik\DI::object()
+            CronArchive\SegmentArchiving::class => \Piwik\DI::autowire()
                 // Oldest reports are for 2012, so ensure segments are processed for that year
                 ->constructorParameter('beginningOfTimeLastNInYears', date('Y')-2012)
         );
