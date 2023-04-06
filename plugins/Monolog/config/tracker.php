@@ -34,7 +34,7 @@ return array(
 
     'log.level' => Piwik\DI::decorate(function ($previous, ContainerInterface $c) {
         if (isTrackerDebugEnabled($c)) {
-            return \Monolog\Logger::DEBUG;
+            return \Piwik\Log\Logger::DEBUG;
         }
 
         return $previous;

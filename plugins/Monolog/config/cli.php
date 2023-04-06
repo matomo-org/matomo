@@ -1,7 +1,7 @@
 <?php
 
 use Psr\Container\ContainerInterface;
-use Monolog\Logger;
+use Piwik\Log\Logger;
 use Piwik\Plugins\Monolog\Handler\FailureLogMessageDetector;
 use Symfony\Bridge\Monolog\Handler\ConsoleHandler;
 use Symfony\Component\Console\Output\OutputInterface;

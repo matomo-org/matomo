@@ -2,19 +2,18 @@
 
 use Piwik\Piwik;
 use Psr\Container\ContainerInterface;
-use Piwik\Common;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\Mock\TestConfig;
 
 return array(
 
     // Disable logging
-    'Psr\Log\LoggerInterface' => \Piwik\DI::decorate(function ($previous, ContainerInterface $c) {
+    \Piwik\Log\LoggerInterface::class => \Piwik\DI::decorate(function ($previous, ContainerInterface $c) {
         $enableLogging = $c->get('ini.tests.enable_logging') == 1 || !empty(getenv('MATOMO_TESTS_ENABLE_LOGGING'));
         if ($enableLogging) {
             return $previous;
         } else {
-            return $c->get(\Psr\Log\NullLogger::class);
+            return $c->get(\Piwik\Log\NullLogger::class);
         }
     }),
 

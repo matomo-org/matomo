@@ -13,6 +13,8 @@ use Piwik\CronArchive;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\Model;
 use Piwik\Http;
+use Piwik\Log\Logger;
+use Piwik\Log\LoggerInterface;
 use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Site;
 use Piwik\Tests\Framework\TestingEnvironmentVariables;
@@ -247,7 +249,7 @@ class ArchiveCronTest extends SystemTestCase
 
         foreach ($this->getApiForTesting() as $testInfo) {
 
-            list($api, $params) = $testInfo;
+            [$api, $params] = $testInfo;
 
             if (!isset($params['testSuffix'])) {
                 $params['testSuffix'] = '';
@@ -455,7 +457,7 @@ class ArchiveCronTest extends SystemTestCase
     public static function provideContainerConfigBeforeClass()
     {
         return array(
-            'Psr\Log\LoggerInterface' => \Piwik\DI::get('Monolog\Logger'),
+            LoggerInterface::class => \Piwik\DI::get(Logger::class),
 
             // for some reason, w/o real translations archiving segments in CronArchive fails. the data returned by CliMulti
             // is a translation token, and nothing else.

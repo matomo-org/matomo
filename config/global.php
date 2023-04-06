@@ -78,7 +78,7 @@ return [
 
     'entities.idNames' => Piwik\DI::add(['idGoal', 'idDimension']),
 
-    'Psr\Log\LoggerInterface' => Piwik\DI::create('Psr\Log\NullLogger'),
+    \Piwik\Log\LoggerInterface::class => Piwik\DI::create(\Piwik\Log\NullLogger::class),
 
     'Piwik\Translation\Loader\LoaderInterface' => Piwik\DI::autowire('Piwik\Translation\Loader\LoaderCache')
         ->constructorParameter('loader', Piwik\DI::get('Piwik\Translation\Loader\JsonFileLoader')),

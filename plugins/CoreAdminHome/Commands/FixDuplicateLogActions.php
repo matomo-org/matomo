@@ -16,7 +16,7 @@ use Piwik\Date;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\CoreAdminHome\Model\DuplicateActionRemover;
 use Piwik\Timer;
-use Psr\Log\LoggerInterface;
+use Piwik\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -79,7 +79,7 @@ class FixDuplicateLogActions extends ConsoleCommand
         $this->archiveInvalidator = $invalidator ?: StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
         $this->duplicateActionRemover = $duplicateActionRemover ?: new DuplicateActionRemover();
         $this->actionsAccess = $actionsAccess ?: new Actions();
-        $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
+        $this->logger = $logger ?: StaticContainer::get(LoggerInterface::class);
     }
 
     protected function configure()

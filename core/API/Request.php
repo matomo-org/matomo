@@ -24,7 +24,7 @@ use Piwik\Plugins\CoreHome\LoginAllowlist;
 use Piwik\SettingsServer;
 use Piwik\Url;
 use Piwik\UrlHelper;
-use Psr\Log\LoggerInterface;
+use Piwik\Log\LoggerInterface;
 
 /**
  * Dispatches API requests to the appropriate API method.

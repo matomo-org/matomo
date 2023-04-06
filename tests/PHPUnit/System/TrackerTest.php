@@ -10,6 +10,8 @@ namespace Piwik\Tests\System;
 
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\Log\Logger;
+use Piwik\Log\LoggerInterface;
 use Piwik\Option;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Scheduler\Schedule\Schedule;
@@ -430,7 +432,7 @@ class TrackerTest extends IntegrationTestCase
     public static function provideContainerConfigBeforeClass()
     {
         return array(
-            'Psr\Log\LoggerInterface' => \Piwik\DI::get('Monolog\Logger'),
+            LoggerInterface::class => \Piwik\DI::get(Logger::class),
             'Tests.log.allowAllHandlers' => true,
         );
     }

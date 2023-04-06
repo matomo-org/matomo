@@ -13,7 +13,7 @@ use Piwik\Development;
 use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Plugin\ConsoleCommand;
-use Psr\Log\LoggerInterface;
+use Piwik\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -35,7 +35,7 @@ class SyncScreenshots extends ConsoleCommand
 
     public function __construct()
     {
-        $this->logger = StaticContainer::get('Psr\Log\LoggerInterface');
+        $this->logger = StaticContainer::get(LoggerInterface::class);
 
         parent::__construct();
     }

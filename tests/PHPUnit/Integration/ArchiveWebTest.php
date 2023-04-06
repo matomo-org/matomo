@@ -7,6 +7,8 @@
  */
 namespace Piwik\Tests\Integration;
 
+use Piwik\Log\Logger;
+use Piwik\Log\LoggerInterface;
 use Piwik\Option;
 use Piwik\Http;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
@@ -45,7 +47,7 @@ class ArchiveWebTest extends SystemTestCase
 
     public function test_WebArchiveScriptCanBeRun_WithPhpCgi_AndWithoutTokenAuth()
     {
-        list($returnCode, $output) = $this->runArchivePhpScriptWithPhpCgi();
+        [$returnCode, $output] = $this->runArchivePhpScriptWithPhpCgi();
 
         $this->assertEquals(0, $returnCode, "Output: " . $output);
         $this->assertStringStartsWith('mock output', $output);
@@ -65,7 +67,7 @@ class ArchiveWebTest extends SystemTestCase
     public static function provideContainerConfigBeforeClass()
     {
         return array(
-            'Psr\Log\LoggerInterface' => \Piwik\DI::get('Monolog\Logger'),
+            LoggerInterface::class => \Piwik\DI::get(Logger::class),
             'Tests.log.allowAllHandlers' => true,
             'observers.global' => [
                 ['API.Request.intercept', \Piwik\DI::value(function (&$returnedValue, $finalParameters, $pluginName, $methodName, $parametersRequest) {

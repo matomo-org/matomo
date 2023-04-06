@@ -1,17 +1,21 @@
 <?php
 
 use Psr\Container\ContainerInterface;
-use Monolog\Logger;
+use Piwik\Log\Logger;
 use Piwik\Log;
 use Piwik\Plugins\Monolog\Handler\FileHandler;
 use Piwik\Plugins\Monolog\Handler\LogCaptureHandler;
 
 return array(
 
-    'Monolog\Logger' => Piwik\DI::create('Monolog\Logger')
+    Logger::class => Piwik\DI::create(Logger::class)
         ->constructor('piwik', Piwik\DI::get('log.handlers'), Piwik\DI::get('log.processors')),
 
-    'Psr\Log\LoggerInterface' => Piwik\DI::get('Monolog\Logger'),
+    Log\LoggerInterface::class => Piwik\DI::get(Logger::class),
+
+    // For BC reasons
+    'Monolog\Logger' =>  Piwik\DI::get(Logger::class),
+    'Psr\Log\LoggerInterface' => Piwik\DI::get(Log\LoggerInterface::class),
 
     'log.handler.classes' => array(
         'file'     => 'Piwik\Plugins\Monolog\Handler\FileHandler',

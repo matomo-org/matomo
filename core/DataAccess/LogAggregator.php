@@ -21,7 +21,7 @@ use Piwik\Plugin\LogTablesProvider;
 use Piwik\RankingQuery;
 use Piwik\Segment;
 use Piwik\Tracker\GoalManager;
-use Psr\Log\LoggerInterface;
+use Piwik\Log\LoggerInterface;
 
 /**
  * Contains methods that calculate metrics by aggregating log data (visits, actions, conversions,
@@ -182,7 +182,7 @@ class LogAggregator
         $this->segment = $params->getSegment();
         $this->sites = $params->getIdSites();
         $this->isRootArchiveRequest = $params->isRootArchiveRequest();
-        $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
+        $this->logger = $logger ?: StaticContainer::get(LoggerInterface::class);
         $this->params = $params;
     }
 
