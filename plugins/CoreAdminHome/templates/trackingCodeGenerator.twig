@@ -24,7 +24,7 @@
             <a href="#/mobileAppsAndSdks">{{ 'SitesManager_MobileAppsAndSDKs'|translate }}</a>
             <a href="#/trackingApi">{{ 'CoreAdminHome_HttpTrackingApi'|translate }}</a>
             <a href="#/singlePageApplication">{{ 'SitesManager_SiteWithoutDataSinglePageApplication'|translate }}</a>
-            <a href="#/cloudflare">{{ 'SitesManager_SiteWithoutDataCloudflare'|translate}}</a>
+            <a href="#/cloudflare">{{ 'SitesManager_SiteWithoutDataCloudflare'|translate }}</a>
             {{ postEvent('Template.endTrackingCodePageTableOfContents') }}
         </div>
     </div>
@@ -63,7 +63,7 @@
      <p>{{ 'CoreAdminHome_SinglePageApplicationDescription'|translate('<a href="https://developer.matomo.org/guides/spa-tracking" rel="noreferrer noopener" target="_blank">','</a>')|raw }}</p>
 </div>
 
-<div piwik-content-block vue-entry="CoreHome.ContentBlock" content-title="{{ 'SitesManager_SiteWithoutDataCloudflare'|translate }}" anchor="cloudflare">
+<div vue-entry="CoreHome.ContentBlock" content-title="{{ 'SitesManager_SiteWithoutDataCloudflare'|translate }}" anchor="cloudflare">
     <p>{{ 'CoreAdminHome_CloudflareDescription'|translate('<a href="{CLOUDFLARE_URL}" rel="noreferrer noopener" target="_blank">','</a>')|raw }}</p>
 </div>
 
