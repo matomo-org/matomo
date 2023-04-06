@@ -115,10 +115,12 @@
                 {{ 'SitesManager_CloudflareDetected'|translate('<a target="_blank" rel="noreferrer noopener" href="{CLOUDFLARE_URL}">','</a>')|raw }}
             </div>
 
-            <h3>{{ 'SitesManager_SiteWithoutDataCloudflare'|translate}}</h3>
+            <div class="right">
+                <img src="plugins/SitesManager/images/cloudflare-icon.png" style="height: 32px;width: 32px;">
+            </div>
             <p>{{ 'SitesManager_SiteWithoutDataCloudflareIntro'|translate }}</p>
             <br>
-            <p>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStepsIntro'|translate('<a target="_blank" rel="noreferrer noopener" href="{CLOUDFLARE_URL}">','</a>')|raw }}</p>
+            <p>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStepsIntro'|translate}}</p>
             <p>1. {{ 'SitesManager_SiteWithoutDataCloudflareFollowStep1'|translate('<a target="_blank" rel="noreferrer noopener" href="https://dash.cloudflare.com/">','</a>')|raw }}</p>
             <p>2. {{ 'SitesManager_SiteWithoutDataCloudflareFollowStep2'|translate }}</p>
             <p>3. {{ 'SitesManager_SiteWithoutDataCloudflareFollowStep3'|translate }}</p>
