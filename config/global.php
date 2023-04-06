@@ -77,6 +77,7 @@ return [
     },
 
     'entities.idNames' => DI\add(['idGoal', 'idDimension']),
+    'DocumentationGenerator.customParameters' => [],
 
     'Psr\Log\LoggerInterface' => DI\create('Psr\Log\NullLogger'),
 

@@ -11,8 +11,6 @@ namespace Piwik\API\DataTableManipulator;
 use Piwik\API\DataTableManipulator;
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\DataTable\Row;
-use Piwik\Plugin\ReportsProvider;
 
 /**
  * This class is responsible for handling the label parameter that can be
@@ -32,6 +30,18 @@ class LabelFilter extends DataTableManipulator
     private $addLabelIndex;
     private $isComparing;
     private $labelSeries;
+
+    /**
+     * @var string
+     */
+    private $labelColumn;
+
+    public function __construct($apiModule = false, $apiMethod = false, $request = array(), string $labelColumn = 'label')
+    {
+        parent::__construct($apiModule, $apiMethod, $request);
+
+        $this->labelColumn = $labelColumn;
+    }
 
     /**
      * Filter a data table by label.
@@ -76,7 +86,7 @@ class LabelFilter extends DataTableManipulator
      */
     private function doFilterRecursiveDescend($labelParts, $dataTable)
     {
-        $labelColumn = $this->getLabelColumnForDataTable($dataTable);
+        $labelColumn = $this->labelColumn;
 
         // search for the first part of the tree search
         $labelPart = array_shift($labelParts);
@@ -232,20 +242,5 @@ class LabelFilter extends DataTableManipulator
         }
 
         return false;
-    }
-
-    private function getLabelColumnForDataTable(DataTable $dataTable)
-    {
-        $module = $dataTable->getMetadata('apiModule') ?: $this->apiModule;
-        $action = $dataTable->getMetadata('apiMethod') ?: $this->apiMethod;
-
-        if (!empty($module) && !empty($action)) {
-            $report = ReportsProvider::factory($module, $action);
-            if (!empty($report) && !empty($report->getRowIdentifier())) {
-                return $report->getRowIdentifier();
-            }
-        }
-
-        return 'label';
     }
 }

@@ -14,7 +14,6 @@ use Piwik\API\DataTablePostProcessor;
 use Piwik\API\Request;
 use Piwik\Cache;
 use Piwik\Common;
-use Piwik\DataTable;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\DataTable\Filter\SafeDecodeLabel;
