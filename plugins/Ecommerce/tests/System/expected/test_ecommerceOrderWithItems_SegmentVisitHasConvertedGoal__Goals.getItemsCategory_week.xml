@@ -8,6 +8,7 @@
 		<avg_price>888.56</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productCategory==Electronics+%26+Cameras</segment>
 	</row>
 	<row>
 		<label>Multiple Category 1</label>
@@ -17,6 +18,7 @@
 		<avg_price>0</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productCategory==Multiple+Category+1</segment>
 	</row>
 	<row>
 		<label>Multiple Category 2</label>
@@ -26,6 +28,7 @@
 		<avg_price>0</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productCategory==Multiple+Category+2</segment>
 	</row>
 	<row>
 		<label>Multiple Category 4</label>
@@ -35,6 +38,7 @@
 		<avg_price>0</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productCategory==Multiple+Category+4</segment>
 	</row>
 	<row>
 		<label>Multiple Category 5</label>
@@ -44,6 +48,7 @@
 		<avg_price>0</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productCategory==Multiple+Category+5</segment>
 	</row>
 	<row>
 		<label>Product Category not defined</label>
@@ -53,5 +58,6 @@
 		<avg_price>888</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productCategory==Product+Category+not+defined</segment>
 	</row>
 </result>

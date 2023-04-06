@@ -36,6 +36,7 @@
         "MenuPlatform": "Plataforma",
         "MissingRequirementsNotice": "Si us plau, actualitzeu %1$s %2$s a una versió més nova, %1$s %3$s és necessari.",
         "MissingRequirementsPleaseInstallNotice": "Si us plau instal·leu %1$s %2$s, ja que %3$s ho necessita.",
+        "NUpdatesAvailable": "%1$s Actualització(ons) disponible(s)",
         "NoPluginSettings": "No hi ha cap paràmetre del connector que es pugui configurar",
         "NoZipFileSelected": "Seleccioneu un fitxer ZIP.",
         "NotDownloadable": "No es pot descarregar",

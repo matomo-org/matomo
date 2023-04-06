@@ -94,6 +94,7 @@ describe("PagePerformance", function () {
         // hover visualization selection
         const icon = await page.jQuery('.dropdown-content .icon-page-performance');
         await icon.click();
+        await page.mouse.move(-10, -10);
 
         await page.waitForNetworkIdle();
 
@@ -102,7 +103,7 @@ describe("PagePerformance", function () {
     });
 
     it("performance overlay should work on page titles report", async function () {
-        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Actions_SubmenuPageTitles");
+        await page.goto("?" + urlBase + "#?" + generalParams + "&segment=actions>=1&category=General_Actions&subcategory=Actions_SubmenuPageTitles");
 
         // hover first row
         const row = await page.waitForSelector('.dataTable tbody tr:first-child');

@@ -36,6 +36,7 @@
         "MenuPlatform": "Πλατφόρμα",
         "MissingRequirementsNotice": "Παρακαλούμε αναβαθμίστε το %1$s %2$s σε νεότερη έκδοση, απαιτείται το %1$s %3$s.",
         "MissingRequirementsPleaseInstallNotice": "Παρακαλούμε εγκαταστήστε τα %1$s %2$s καθώς απαιτούνται από το %3$s.",
+        "NUpdatesAvailable": "%1$s Ενημέρωση (-εις) διαθέσιμη",
         "NoPluginSettings": "Δεν υπάρχουν ρυθμίσεις που μπορούν να παραμετροποιηθούν",
         "NoZipFileSelected": "Επιλέξτε ένα αρχείο ZIP.",
         "NotDownloadable": "Μη διαθέσιμα για κατέβασμα",

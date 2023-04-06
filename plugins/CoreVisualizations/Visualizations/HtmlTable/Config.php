@@ -56,6 +56,15 @@ class Config extends VisualizationConfig
     public $disable_row_evolution = false;
 
     /**
+     * Controls whether the summary row is displayed on every page of the datatable view or not.
+     * If false, the summary row will be treated as the last row of the dataset and will only visible
+     * when viewing the last rows.
+     *
+     * Default value: false
+     */
+    public $keep_summary_row = false;
+
+    /**
      * If true, the 'label', 'nb_visits', 'nb_uniq_visitors' (if present), 'nb_actions',
      * 'nb_actions_per_visit', 'avg_time_on_site', 'bounce_rate' and 'conversion_rate' (if
      * goals view is not allowed) are displayed.

@@ -2381,8 +2381,8 @@ if (typeof window.Matomo !== 'object') {
                 // Browser client hints
                 clientHints = {},
                 clientHintsRequestQueue = [],
-                callBackQueue = [],
                 clientHintsResolved = false,
+                clientHintsResolving = false,
 
                 // Keeps track of previously tracked content impressions
                 trackedContentImpressions = [],
@@ -3045,29 +3045,41 @@ if (typeof window.Matomo !== 'object') {
                 }
             }
 
-            function injectClientHints(request) {
-                if (!clientHints) {
-                    return request;
+            function injectBrowserFeaturesAndClientHints(request) {
+                var i, appendix = '', bfAppendix = '';
+
+                for (i in browserFeatures) {
+                    if (Object.prototype.hasOwnProperty.call(browserFeatures, i)) {
+                      bfAppendix += '&' + i + '=' + browserFeatures[i];
+                    }
                 }
 
-                var i, appendix = '&uadata=' + encodeWrapper(windowAlias.JSON.stringify(clientHints));
+                if (clientHints) {
+                    appendix = '&uadata=' + encodeWrapper(windowAlias.JSON.stringify(clientHints));
+                }
 
                 if (request instanceof Array) {
                     for (i = 0; i < request.length; i++) {
-                       request[i] += appendix;
+                       request[i] += appendix + bfAppendix;
                     }
                 } else {
-                    request += appendix;
+                    request += appendix + bfAppendix;
                 }
 
                 return request;
             }
 
+            function supportsClientHints() {
+                return isDefined(navigatorAlias.userAgentData) && isFunction(navigatorAlias.userAgentData.getHighEntropyValues);
+            }
+
             function detectClientHints (callback) {
-                if (!configBrowserFeatureDetection || !isDefined(navigatorAlias.userAgentData) || !isFunction(navigatorAlias.userAgentData.getHighEntropyValues)) {
-                    callback();
+                if (clientHintsResolved || clientHintsResolving) {
+                    // skip if client hints were already resolved or a previous request already triggered it
                     return;
                 }
+
+                clientHintsResolving = true;
 
                 // Initialize with low entropy values that are always available
                 clientHints = {
@@ -3089,8 +3101,12 @@ if (typeof window.Matomo !== 'object') {
                     }
 
                     clientHints = ua;
+                    clientHintsResolved = true;
+                    clientHintsResolving = false;
                     callback();
                 }, function (message) {
+                    clientHintsResolved = true;
+                    clientHintsResolving = false;
                     callback();
                 });
             }
@@ -3099,16 +3115,14 @@ if (typeof window.Matomo !== 'object') {
              * Send request
              */
             function sendRequest(request, delay, callback) {
-                if (!clientHintsResolved) {
-                  clientHintsRequestQueue.push(request);
-                  callBackQueue.push(callback);
-                  return;
-                }
-
                 refreshConsentStatus();
                 if (!configHasConsent) {
-                    consentRequestsQueue.push(request);
-                    callBackQueue.push(callback);
+                    consentRequestsQueue.push([request, callback]);
+                    return;
+                }
+
+                if (configBrowserFeatureDetection && !clientHintsResolved && supportsClientHints()) {
+                    clientHintsRequestQueue.push([request, callback]);
                     return;
                 }
 
@@ -3119,7 +3133,7 @@ if (typeof window.Matomo !== 'object') {
                         request += '&consent=1';
                     }
 
-                    request = injectClientHints(request);
+                    request = injectBrowserFeaturesAndClientHints(request);
 
                     makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
                         if (configAlwaysUseSendBeacon && sendPostRequestViaSendBeacon(request, callback, true)) {
@@ -3176,13 +3190,13 @@ if (typeof window.Matomo !== 'object') {
                     return;
                 }
 
-                if (!clientHintsResolved) {
-                    clientHintsRequestQueue.push(requests);
+                if (configBrowserFeatureDetection && !clientHintsResolved && supportsClientHints()) {
+                    clientHintsRequestQueue.push([requests, null]);
                     return;
                 }
 
                 if (!configHasConsent) {
-                    consentRequestsQueue.push(requests);
+                    consentRequestsQueue.push([requests, null]);
                     return;
                 }
 
@@ -3193,7 +3207,7 @@ if (typeof window.Matomo !== 'object') {
 
                     var i = 0, bulk;
                     for (i; i < chunks.length; i++) {
-                        bulk = '{"requests":["?' + injectClientHints(chunks[i]).join('","?') + '"],"send_image":0}';
+                        bulk = '{"requests":["?' + injectBrowserFeaturesAndClientHints(chunks[i]).join('","?') + '"],"send_image":0}';
                         if (configAlwaysUseSendBeacon && sendPostRequestViaSendBeacon(bulk, null, false)) {
                             // makes sure to load the next page faster by not waiting as long
                             // we apply this once we know send beacon works
@@ -3248,29 +3262,33 @@ if (typeof window.Matomo !== 'object') {
                 domainHash = hash((configCookieDomain || domainAlias) + (configCookiePath || '/')).slice(0, 4); // 4 hexits = 16 bits
             }
 
+            function processClientHintsQueue () {
+                var i, requestType;
+
+                for (i = 0; i < clientHintsRequestQueue.length; i++) {
+                    requestType = typeof clientHintsRequestQueue[i][0];
+                    if (requestType === 'string') {
+                        sendRequest(clientHintsRequestQueue[i][0], configTrackerPause, clientHintsRequestQueue[i][1]);
+                    } else if (requestType === 'object') {
+                        sendBulkRequest(clientHintsRequestQueue[i][0], configTrackerPause);
+                    }
+                }
+                clientHintsRequestQueue = [];
+            }
+
             /*
              * Browser features (plugins, resolution, cookies)
              */
             function detectBrowserFeatures() {
-                detectClientHints(function() {
-                    var i, requestType;
-                    clientHintsResolved = true;
-                    for (i = 0; i < clientHintsRequestQueue.length; i++) {
-                        requestType = typeof clientHintsRequestQueue[i];
-                        if (requestType === 'string') {
-                            sendRequest(clientHintsRequestQueue[i], configTrackerPause, callBackQueue[i]);
-                        } else if (requestType === 'object') {
-                            sendBulkRequest(clientHintsRequestQueue[i], configTrackerPause);
-                        }
-                    }
-                    clientHintsRequestQueue = [];
-                    callBackQueue = [];
-                });
-
                 // Browser Feature is disabled return empty object
                 if (!configBrowserFeatureDetection) {
                     return {};
                 }
+
+                if (supportsClientHints()) {
+                    detectClientHints(processClientHintsQueue);
+                }
+
                 if (isDefined(browserFeatures.res)) {
                     return browserFeatures;
                 }
@@ -3902,9 +3920,13 @@ if (typeof window.Matomo !== 'object') {
                     return '';
                 }
 
-                if (!configFileTracking && windowAlias.location.protocol === 'file:') {
-                    return '';
+                var fileRegex = new RegExp('^file://', 'i');
+                if (!configFileTracking && (windowAlias.location.protocol === 'file:' || fileRegex.test(currentUrl))) {
+                  return '';
                 }
+
+                // trigger detection of browser feature to ensure a request might not end up in the client hints queue without being processed
+                detectBrowserFeatures();
 
                 var cookieVisitorIdValues = getValuesFromVisitorIdCookie();
 
@@ -3935,14 +3957,6 @@ if (typeof window.Matomo !== 'object') {
                 for (i in referrerAttribution) {
                     if (Object.prototype.hasOwnProperty.call(referrerAttribution, i)) {
                         request += '&' + i + '=' + referrerAttribution[i];
-                    }
-                }
-
-                var browserFeatures = detectBrowserFeatures();
-                // browser features
-                for (i in browserFeatures) {
-                    if (Object.prototype.hasOwnProperty.call(browserFeatures, i)) {
-                        request += '&' + i + '=' + browserFeatures[i];
                     }
                 }
 
@@ -5166,7 +5180,13 @@ if (typeof window.Matomo !== 'object') {
                 asyncTrackers = [firstTracker];
             };
             this.getConsentRequestsQueue = function () {
-                return consentRequestsQueue;
+                var i, requests = [];
+
+                for (i=0; i < consentRequestsQueue.length; i++){
+                    requests.push(consentRequestsQueue[i][0]);
+                }
+
+                return requests;
             };
             this.getRequestQueue = function () {
                 return requestQueue;
@@ -6230,7 +6250,9 @@ if (typeof window.Matomo !== 'object') {
             this.setCookieConsentGiven = function () {
                 if (configCookiesDisabled && !configDoNotTrack) {
                     configCookiesDisabled = false;
-                    configBrowserFeatureDetection = true;
+                    if (!configBrowserFeatureDetection) {
+                        this.enableBrowserFeatureDetection();
+                    }
                     if (configTrackerSiteId && hasSentTrackingRequestYet) {
                         setVisitorIdCookie();
 
@@ -6607,10 +6629,16 @@ if (typeof window.Matomo !== 'object') {
 
             this.disableBrowserFeatureDetection = function () {
                 configBrowserFeatureDetection = false;
+                browserFeatures = {};
+                if (supportsClientHints()) {
+                    // ensure already queue requests are still processed
+                    processClientHintsQueue();
+                }
             };
 
             this.enableBrowserFeatureDetection = function () {
                 configBrowserFeatureDetection = true;
+                detectBrowserFeatures();
             };
 
             /**
@@ -7170,20 +7198,21 @@ if (typeof window.Matomo !== 'object') {
              */
             this.setConsentGiven = function (setCookieConsent) {
                 configHasConsent = true;
-                configBrowserFeatureDetection = true;
+                if (!configBrowserFeatureDetection) {
+                    this.enableBrowserFeatureDetection();
+                }
                 deleteCookie(CONSENT_REMOVED_COOKIE_NAME, configCookiePath, configCookieDomain);
 
                 var i, requestType;
                 for (i = 0; i < consentRequestsQueue.length; i++) {
-                    requestType = typeof consentRequestsQueue[i];
+                    requestType = typeof consentRequestsQueue[i][0];
                     if (requestType === 'string') {
-                        sendRequest(consentRequestsQueue[i], configTrackerPause, callBackQueue[i]);
+                        sendRequest(consentRequestsQueue[i][0], configTrackerPause, consentRequestsQueue[i][1]);
                     } else if (requestType === 'object') {
-                        sendBulkRequest(consentRequestsQueue[i], configTrackerPause);
+                        sendBulkRequest(consentRequestsQueue[i][0], configTrackerPause);
                     }
                 }
                 consentRequestsQueue = [];
-                callBackQueue = [];
 
                 // we need to enable cookies after sending the previous requests as it will make sure that we send
                 // a ping request if needed. Cookies are only set once we call `getRequest`. Above only calls sendRequest
@@ -7298,6 +7327,11 @@ if (typeof window.Matomo !== 'object') {
             Matomo.addPlugin('TrackerVisitorIdCookie' + uniqueTrackerId, {
                 // if no tracking request was sent we refresh the visitor id cookie on page unload
                 unload: function () {
+                    if (supportsClientHints() && !clientHintsResolved) {
+                        clientHintsResolved = true;
+                        processClientHintsQueue(); // ensure possible queued request are sent out
+                    }
+
                     if (!hasSentTrackingRequestYet) {
                         setVisitorIdCookie();
                         // this will set the referrer attribution cookie

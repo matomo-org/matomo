@@ -15,6 +15,7 @@ use Piwik\Columns\MetricsList;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
+use Piwik\Tracker\TableLogAction;
 use Piwik\Tracker\Visitor;
 
 class ExitPageUrl extends VisitDimension
@@ -27,7 +28,7 @@ class ExitPageUrl extends VisitDimension
     protected $namePlural = 'Actions_ColumnExitPageURLs';
     protected $category = 'General_Actions';
     protected $suggestedValuesApi = 'Actions.getExitPageUrls';
-    protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
+    protected $sqlFilter = [TableLogAction::class, 'getOptimizedIdActionSqlMatch'];
 
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {

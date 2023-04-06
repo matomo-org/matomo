@@ -25,11 +25,7 @@ class FileIntegrity
     {
         $messages = array();
 
-        $manifest = PIWIK_INCLUDE_PATH . '/config/manifest.inc.php';
-
-        if (file_exists($manifest)) {
-            require_once $manifest;
-        }
+        self::loadManifest();
 
         if (!class_exists('Piwik\\Manifest')) {
             $messages[] = Piwik::translate('General_WarningFileIntegrityNoManifest')
@@ -53,6 +49,32 @@ class FileIntegrity
             $success = empty($messages),
             $messages
         );
+    }
+
+    /**
+     * Return just a list of the unexpected files
+     *
+     * @return array
+     */
+    public static function getUnexpectedFilesList(): array
+    {
+        self::loadManifest();
+        $files = self::getFilesFoundButNotExpected();
+        return $files;
+    }
+
+    /**
+     * Include the manifest
+     *
+     * @return void
+     */
+    private static function loadManifest(): void
+    {
+        $manifest = PIWIK_INCLUDE_PATH . '/config/manifest.inc.php';
+
+        if (file_exists($manifest)) {
+            require_once $manifest;
+        }
     }
 
     protected static function getFilesNotInManifestButExpectedAnyway()

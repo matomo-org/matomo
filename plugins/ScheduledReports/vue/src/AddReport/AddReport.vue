@@ -515,7 +515,7 @@ export default defineComponent({
       const { ReportPlugin } = window;
 
       const isCreate = this.report.idreport > 0;
-      return isCreate ? ReportPlugin.updateReportString : ReportPlugin.createReportString;
+      return isCreate ? ReportPlugin.createReportString : ReportPlugin.updateReportString;
     },
   },
 });

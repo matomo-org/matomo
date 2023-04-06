@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\DataTable\Filter;
 
 use Piwik\DataTable\BaseFilter;
@@ -23,16 +24,37 @@ use Piwik\Piwik;
  *
  * **Basic usage**
  *
- *     $dataTable->filter('Truncate', array($truncateAfter = 500));
+ *     $dataTable->filter('Truncate', [$truncateAfter = 500]);
  *
  * **Using a custom summary row label**
  *
- *     $dataTable->filter('Truncate', array($truncateAfter = 500, $summaryRowLabel = Piwik::translate('General_Total')));
+ *     $dataTable->filter('Truncate', [$truncateAfter = 500, $summaryRowLabel = Piwik::translate('General_Total')]);
  *
  * @api
  */
 class Truncate extends BaseFilter
 {
+
+    /**
+     * @var int
+     */
+    protected $truncateAfter;
+
+    /**
+     * @var string|null
+     */
+    protected $labelSummaryRow;
+
+    /**
+     * @var string|null
+     */
+    protected $columnToSortByBeforeTruncating;
+
+    /**
+     * @var bool
+     */
+    protected $filterRecursive;
+
     /**
      * Constructor.
      *
@@ -74,7 +96,7 @@ class Truncate extends BaseFilter
         }
 
         $this->addSummaryRow($table);
-        $table->queueFilter('ReplaceSummaryRowLabel', array($this->labelSummaryRow));
+        $table->queueFilter('ReplaceSummaryRowLabel', [$this->labelSummaryRow]);
 
         if ($this->filterRecursive) {
             foreach ($table->getRowsWithoutSummaryRow() as $row) {
@@ -94,11 +116,11 @@ class Truncate extends BaseFilter
             return;
         }
 
-        $table->filter('Sort', array($this->columnToSortByBeforeTruncating, 'desc', $naturalSort = true, $recursiveSort = false));
+        $table->filter('Sort', [$this->columnToSortByBeforeTruncating, 'desc', $naturalSort = true, $recursiveSort = false]);
 
         $rows   = array_values($table->getRows());
         $count  = $table->getRowsCount();
-        $newRow = new Row(array(Row::COLUMNS => array('label' => DataTable::LABEL_SUMMARY_ROW)));
+        $newRow = new Row([Row::COLUMNS => ['label' => DataTable::LABEL_SUMMARY_ROW]]);
 
         $aggregationOps = $table->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME);
 
@@ -116,7 +138,7 @@ class Truncate extends BaseFilter
             }
         }
 
-        $table->filter('Limit', array(0, $this->truncateAfter));
+        $table->filter('Limit', [0, $this->truncateAfter]);
         $table->addSummaryRow($newRow);
         unset($rows);
     }

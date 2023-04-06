@@ -5,7 +5,7 @@
         "MobileReport_AdditionalPhoneNumbers": "Sie können weitere Telefonnummern hinzufügen auf",
         "MobileReport_MobileMessagingSettingsLink": "der Mobile Messaging Einstellungsseite",
         "MobileReport_NoPhoneNumbers": "Bitte aktivieren Sie mindestens eine Telefonnummer auf",
-        "MultiSites_Must_Be_Activated": "Um SMS-Berichte über Ihre Website-Statistiken generieren zu können, aktivieren Sie das MultiSites-Plugin in Matomo.",
+        "MultiSites_Must_Be_Activated": "Um SMS-Berichte über Ihre Webseitenstatistiken generieren zu können, aktivieren Sie das MultiSites-Plugin in Matomo.",
         "PhoneNumbers": "Telefonnummern",
         "PluginDescription": "Erstellen Sie eigene SMS-Berichte, laden Sie diese herunter und lassen Sie diese täglich, wöchentlich oder monatlich auf Ihr Handy senden.",
         "SMS_Content_Too_Long": "[zu lang]",
@@ -17,11 +17,11 @@
         "Settings_CredentialNotProvidedByAdmin": "Bevor Sie Telefonnummern anlegen und verwalten können, bitten Sie Ihren Administrator darum Matomo mit einem SMS-Account zu verknüpfen.",
         "Settings_CredentialProvided": "Ihr %s SMS-API-Zugang ist korrekt konfiguriert!",
         "Settings_DelegatedPhoneNumbersOnlyUsedByYou": "Die eingestellten Telefonnummern können nur von Ihnen und nicht von anderen Benutzern gesehen und verwendet werden.",
-        "Settings_DelegatedSmsProviderOnlyAppliesToYou": "Der eingestellte SMS-Provider wird nur von Ihnen und nicht von anderen Benutzern verwendet.",
+        "Settings_DelegatedSmsProviderOnlyAppliesToYou": "Der eingestellte SMS-Anbieter wird nur von Ihnen und nicht von anderen Benutzern verwendet.",
         "Settings_DeleteAccountConfirm": "Sind Sie sicher, dass Sie das SMS Konto löschen möchten?",
         "Settings_EnterActivationCode": "Aktivierungscode eingeben",
         "Settings_InvalidActivationCode": "Der eingegebene Code ist nicht korrekt, bitte probieren Sie es noch einmal.",
-        "Settings_LetUsersManageAPICredential": "Erlauben Sie Benutzern das verwalten von eigenen SMS API Konten",
+        "Settings_LetUsersManageAPICredential": "Erlauben Sie Benutzern das Verwalten von eigenen SMS-Anbietern",
         "Settings_LetUsersManageAPICredential_No_Help": "Alle Benutzer können SMS Berichte empfangen und nutzen Ihr Kontoguthaben.",
         "Settings_LetUsersManageAPICredential_Yes_Help": "Jeder Benutzer kann seinen eigenes SMS API Konto erstellen und Ihr Kontoguthaben nicht nutzen.",
         "Settings_ManagePhoneNumbers": "Telefonnummern verwalten",
@@ -43,6 +43,6 @@
         "TopLinkTooltip": "Erhalten Sie Webanalytik-Berichte direkt in Ihren E-Mail Posteingang oder auf Ihr Mobiltelefon.",
         "TopMenu": "E-Mail und SMS-Berichte",
         "UserKey": "Userkey/Benutzerschlüssel",
-        "VerificationText": "Der Code lautet %1$s. Um Ihre Telefonnummer zu validieren und Matomo-SMS-Berichte zu erhalten, kopieren Sie bitte diesen Code in das Formular unter Matomo : %2$s: %3$s."
+        "VerificationText": "Der Code lautet %1$s. Um Ihre Telefonnummer zu validieren und Matomo SMS-Berichte zu erhalten, kopieren Sie bitte diesen Code in das via Matomo verfügbare Formular → %2$s → %3$s."
     }
 }

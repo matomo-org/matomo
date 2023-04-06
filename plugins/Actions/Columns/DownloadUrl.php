@@ -12,6 +12,7 @@ use Piwik\Columns\Discriminator;
 use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Tracker\Action;
+use Piwik\Tracker\TableLogAction;
 
 class DownloadUrl extends ActionDimension
 {
@@ -21,8 +22,8 @@ class DownloadUrl extends ActionDimension
     protected $columnName = 'idaction_url';
     protected $category = 'General_Actions';
     protected $suggestedValuesApi = 'Actions.getDownloads';
-    protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
     protected $type = self::TYPE_URL;
+    protected $sqlFilter = [TableLogAction::class, 'getOptimizedIdActionSqlMatch'];
 
     public function getDbColumnJoin()
     {

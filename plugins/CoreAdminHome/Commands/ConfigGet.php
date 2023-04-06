@@ -124,7 +124,7 @@ NOTES:
             $output->writeln($this->formatVariableForOutput($setting, $result, $format));
         }
 
-        //Many matomo script output Done when they're done.  IMO it's not needed: $output->writeln(self::wrapInTag('info', 'Done.'));
+        return self::SUCCESS;
     }
 
     /**

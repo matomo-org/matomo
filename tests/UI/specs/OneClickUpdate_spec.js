@@ -23,8 +23,8 @@ describe("OneClickUpdate", function () {
         await page.goto(latestStableUrl);
         await page.waitForSelector('#login_form_login', { visible: true });
 
-        await page.type('#login_form_login', 'superUserLogin');
-        await page.type('#login_form_password', 'superUserPass');
+        await page.type('#login_form_login', superUserLogin);
+        await page.type('#login_form_password', superUserPassword);
         await page.click('#login_form_submit');
 
         await page.waitForNetworkIdle();
@@ -57,6 +57,9 @@ describe("OneClickUpdate", function () {
         await page.waitForTimeout(100);
         await page.click('#updateUsingHttp');
         await page.waitForNetworkIdle();
+        await page.evaluate(function(directory) {
+            $('.alert-danger').html($('.alert-danger').html().replace(directory, '/hiddenpath/latestStableInstall/core'));
+        }, path.join(PIWIK_INCLUDE_PATH, '/latestStableInstall/core'));
         expect(await page.screenshot({ fullPage: true })).to.matchImage('update_fail_permission');
     });
 
@@ -95,7 +98,6 @@ describe("OneClickUpdate", function () {
 
         await page.waitForSelector('.site-without-data', { visible: true });
         await page.waitForNetworkIdle();
-
         const element  = await page.$('.site-without-data');
         expect(await element.screenshot()).to.matchImage('login');
     });

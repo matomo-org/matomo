@@ -14,8 +14,8 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\FrontController;
-use Piwik\Http\HttpCodeException;
 use Piwik\IP;
+use Piwik\NoAccessException;
 use Piwik\Piwik;
 use Piwik\Plugins\Login\Security\BruteForceDetection;
 use Piwik\Session;
@@ -62,7 +62,7 @@ class Login extends \Piwik\Plugin
             'Login.beforeLoginCheckAllowed'  => 'beforeLoginCheckBruteForceForUserPwdLogin', // record any failed attempt in UI
             'Login.recordFailedLoginAttempt'  => 'onFailedLoginRecordAttempt', // record any failed attempt in UI
             'Login.authenticate.failed'        => 'onFailedLoginRecordAttempt', // record any failed attempt in UI
-            'API.Request.authenticate.failed' => 'onFailedLoginRecordAttempt', // record any failed attempt in Reporting API
+            'API.Request.authenticate.failed' => 'onFailedAPILogin', // record any failed attempt in Reporting API
             'Tracker.Request.authenticate.failed' => 'onFailedLoginRecordAttempt', // record any failed attempt in Tracker API
         );
 
@@ -125,6 +125,24 @@ class Login extends \Piwik\Plugin
             // if eg API is called etc.
             $this->hasAddedFailedAttempt = true;
         }
+
+    }
+
+    public function onFailedAPILogin()
+    {
+        $this->onFailedLoginRecordAttempt();
+
+        // Only throw an exception if this is an API request
+        if ($this->isModuleIsAPI()) {
+
+            // Throw an exception if a token was provided but it was invalid
+            if (Request::isTokenAuthPosted()) {
+                throw new NoAccessException('Unable to authenticate with the provided token. It is either invalid or expired.');
+            } else {
+                throw new NoAccessException('Unable to authenticate with the provided token. It is either invalid, expired or is required to be sent as a POST parameter.');
+            }
+        }
+
     }
 
     public function beforeLoginCheckBruteForce()
@@ -153,7 +171,7 @@ class Login extends \Piwik\Plugin
         /** @var BruteForceDetection $bruteForce */
         $bruteForce = StaticContainer::get('Piwik\Plugins\Login\Security\BruteForceDetection');
         if (!$this->hasPerformedBruteForceCheckForUserPwdLogin && $bruteForce->isEnabled() && $bruteForce->isUserLoginBlocked($login)) {
-            $ex = new HttpCodeException(Piwik::translate('Login_LoginNotAllowedBecauseUserLoginBlocked'), 403);
+            $ex = new NoAccessException(Piwik::translate('Login_LoginNotAllowedBecauseUserLoginBlocked'), 403);
             throw $ex;
         }
         // for performance reasons we make sure to execute it only once per request

@@ -16,7 +16,7 @@
     </div>
 
     <div class="alert alert-danger" v-if="regenerateError">
-      {{ translate('General_ExceptionNonceMismatch') }}
+      {{ translate('General_ExceptionSecurityCheckFailed') }}
     </div>
 
     <form method="post" :action="showRecoveryCodesLink">

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -17,6 +18,7 @@ use Piwik\Tracker\Cache;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
  */
@@ -50,7 +52,7 @@ class RemoveCustomDimension extends ConsoleCommand
         $configuration = new Configuration();
         $configs = $configuration->getCustomDimensionsHavingIndex($scope, $index);
 
-        $names = array();
+        $names = [];
         foreach ($configs as $config) {
             $names[] = $config['name'];
         }
@@ -66,8 +68,8 @@ class RemoveCustomDimension extends ConsoleCommand
         $output->writeln('<comment>Removing tracked Custom Dimension data cannot be undone unless you have a backup.</comment>');
 
         $noInteraction = $input->getOption('no-interaction');
-        if (!$noInteraction && !$this->confirmChange($output)) {
-            return;
+        if (!$noInteraction && !$this->confirmChange($input, $output)) {
+            return self::FAILURE;
         }
 
         $output->writeln('');
@@ -88,16 +90,18 @@ class RemoveCustomDimension extends ConsoleCommand
 
         $numDimensionsAvailable = $tracking->getNumInstalledIndexes();
 
-        $this->writeSuccessMessage($output, array(
+        $this->writeSuccessMessage($output, [
             sprintf('Your Matomo is now configured for up to %d Custom Dimensions in scope %s.', $numDimensionsAvailable, $scope)
-        ));
+        ]);
+
+        return self::SUCCESS;
     }
 
     private function getScope(InputInterface $input)
     {
         $scope = $input->getOption('scope');
 
-        if (empty($scope) || !in_array($scope, array(CustomDimensions::SCOPE_VISIT, CustomDimensions::SCOPE_ACTION))) {
+        if (empty($scope) || !in_array($scope, [CustomDimensions::SCOPE_VISIT, CustomDimensions::SCOPE_ACTION])) {
             $message = sprintf('The specified scope is invalid. Use either "--scope=%s" or "--scope=%s"', CustomDimensions::SCOPE_VISIT, CustomDimensions::SCOPE_ACTION);
             throw new \InvalidArgumentException($message);
         }
@@ -128,16 +132,16 @@ class RemoveCustomDimension extends ConsoleCommand
         return $index;
     }
 
-    private function confirmChange(OutputInterface $output)
+    private function confirmChange(InputInterface $input, OutputInterface $output)
     {
         $output->writeln('');
 
-        $dialog = $this->getHelperSet()->get('dialog');
-        return $dialog->askConfirmation(
-            $output,
+        $helper   = $this->getHelper('question');
+        $question = new ConfirmationQuestion(
             '<question>Are you sure you want to perform this action? (y/N)</question>',
             false
         );
-    }
 
+        return $helper->ask($input, $output, $question);
+    }
 }

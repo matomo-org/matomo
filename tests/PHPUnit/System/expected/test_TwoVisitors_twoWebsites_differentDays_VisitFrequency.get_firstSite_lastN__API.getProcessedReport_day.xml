@@ -29,6 +29,24 @@
 			<nb_actions_per_visit_new>Avg. Actions per New Visit</nb_actions_per_visit_new>
 			<bounce_rate_new>Bounce Rate for New Visits</bounce_rate_new>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits_returning>number</nb_visits_returning>
+			<nb_actions_returning>number</nb_actions_returning>
+			<nb_uniq_visitors_returning>number</nb_uniq_visitors_returning>
+			<nb_users_returning>number</nb_users_returning>
+			<max_actions_returning>number</max_actions_returning>
+			<nb_visits_new>number</nb_visits_new>
+			<nb_actions_new>number</nb_actions_new>
+			<nb_uniq_visitors_new>number</nb_uniq_visitors_new>
+			<nb_users_new>number</nb_users_new>
+			<max_actions_new>number</max_actions_new>
+			<avg_time_on_site_returning>duration_s</avg_time_on_site_returning>
+			<nb_actions_per_visit_returning>number</nb_actions_per_visit_returning>
+			<bounce_rate_returning>percent</bounce_rate_returning>
+			<avg_time_on_site_new>duration_s</avg_time_on_site_new>
+			<nb_actions_per_visit_new>number</nb_actions_per_visit_new>
+			<bounce_rate_new>percent</bounce_rate_new>
+		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitFrequency&amp;apiAction=get&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitFrequency&amp;apiAction=get&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphEvolutionUrl>
 		<uniqueId>VisitFrequency_get</uniqueId>

@@ -16,6 +16,7 @@ use Piwik\Plugin\Manager;
 use Piwik\Plugins\CustomVariables\Tracker\CustomVariablesRequestProcessor;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
+use Piwik\Tracker\TableLogAction;
 
 class ProductViewSku extends ActionDimension
 {
@@ -25,7 +26,7 @@ class ProductViewSku extends ActionDimension
     protected $segmentName = 'productViewSku';
     protected $columnType = 'INT(10) UNSIGNED NULL';
     protected $category = 'Goals_Ecommerce';
-    protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
+    protected $sqlFilter = [TableLogAction::class, 'getOptimizedIdActionSqlMatch'];
 
     public function getDbColumnJoin()
     {

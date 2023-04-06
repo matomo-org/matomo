@@ -76,6 +76,17 @@ class Request
     {
         $requestParameters = [];
         parse_str($queryString, $requestParameters);
+
+        // If a querystring is provided urlencode'd parse_str will not be able to parse it correctly.
+        // A querystring like `method%3dVisitsSummary.get%26idSite%3d1` would result in
+        // an array like `['method=VisitsSummary.get&idSite=1' => '']`
+        // In this case we try to parse the urldecode'd string to get proper results
+        // Note: We can't always perform a urldecode, as this might otherwise destroy urlencoded values containing a &
+        if (1 === count($requestParameters) && '' === end($requestParameters)) {
+            $requestParameters = [];
+            parse_str(urldecode($queryString), $requestParameters);
+        }
+
         return new self($requestParameters);
     }
 

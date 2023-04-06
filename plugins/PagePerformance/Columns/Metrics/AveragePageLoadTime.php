@@ -11,6 +11,7 @@ use Piwik\DataTable\Row;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
+use Piwik\Columns\Dimension;
 
 /**
  * The average amount of time it took loading a page completely. Calculated as:
@@ -59,5 +60,10 @@ class AveragePageLoadTime extends ProcessedMetric
     {
         return ['avg_time_network', 'avg_time_server', 'avg_time_transfer',
                 'avg_time_dom_processing', 'avg_time_dom_completion', 'avg_time_on_load'];
+    }
+
+    public function getSemanticType(): ?string
+    {
+        return Dimension::TYPE_DURATION_S;
     }
 }

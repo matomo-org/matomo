@@ -116,10 +116,24 @@ class DateTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(1557014400, $date->getTimestamp());
     }
 
-    public function testInvalidDateThrowsException()
+    /**
+     * @dataProvider getInvalidDates
+     */
+    public function testInvalidDateThrowsException($valueToTest)
     {
         $this->expectException(Exception::class);
-        Date::factory('0001-01-01');
+        Date::factory($valueToTest);
+    }
+
+    public function getInvalidDates(): array
+    {
+        return [
+            ['0001-01-01'],
+            ['randomString'],
+            [null],
+            [''],
+            [['arrayValue']],
+        ];
     }
 
     public function getTimezoneOffsets()

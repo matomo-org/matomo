@@ -77,6 +77,8 @@
     span {
         display: block;
         vertical-align: middle;
+        word-wrap: break-word;
+        white-space: normal;
 
         &.icon-visitor-profile {
             display: inline;
@@ -414,9 +416,16 @@ ol.visitorLog p {
     }
 
     .widget & .card {
-
         &:hover .visitor-log-visitor-profile-link {
             display: inline;
+        }
+    }
+
+    .widget .widgetContent & .card {
+        padding: 10px;
+
+        &:first-child {
+            padding-top:0;
         }
     }
 }

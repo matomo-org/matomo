@@ -47,7 +47,7 @@ class DiagnosticResultItem implements \JsonSerializable
         return $this->comment;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'status' => $this->status,

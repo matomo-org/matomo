@@ -31,6 +31,8 @@ class HtmlTable extends Visualization
     const FOOTER_ICON       = 'icon-table';
     const FOOTER_ICON_TITLE = 'General_DisplaySimpleTable';
 
+    protected $siteSummary;
+
     public static function getDefaultConfig()
     {
         return new HtmlTable\Config();

@@ -9,7 +9,7 @@
 
 namespace Piwik\Tests\Integration\DataAccess;
 
-
+use Piwik\Archive\Chunk;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveTableCreator;
@@ -620,6 +620,94 @@ class ArchiveSelectorTest extends IntegrationTestCase
                         'ts_archived' => '2020-06-13 09:04:56',
                     ),
                 ),
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider getTestDataForGetExtractIdSubtableFromBlobNameSql
+     */
+    public function test_getExtractIdSubtableFromBlobNameSql_correctlyExtractsStartSubtableIdFromBlobNames($archiveRows, $blobName, $expectedRows)
+    {
+        $this->insertArchiveData($archiveRows);
+
+        $sql = 'SELECT ' . ArchiveSelector::getExtractIdSubtableFromBlobNameSql(new Chunk(), $blobName) . ' AS idsubtable, name'
+            . ' FROM ' . ArchiveTableCreator::getBlobTable(Date::factory($archiveRows[0]['date1']))
+            . ' WHERE name = ? OR name LIKE ? ORDER BY idsubtable ASC';
+        $rows = Db::fetchAll($sql, [$blobName, $blobName . '%']);
+
+        $this->assertEquals($expectedRows, $rows);
+    }
+
+    public function getTestDataForGetExtractIdSubtableFromBlobNameSql()
+    {
+        return [
+            // just root table blob
+            [
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'Events_action_name', 'value' => 'nop', 'ts_archived' => '2020-06-13 09:04:56', 'is_blob_data' => true],
+                ],
+                'Events_action_name',
+                [
+                    ['idsubtable' => -1, 'name' => 'Events_action_name'],
+                ],
+            ],
+
+            // root table w/ chunked subtables
+            [
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'Actions_actions_url', 'value' => 'nop', 'ts_archived' => '2020-06-13 09:04:56', 'is_blob_data' => true],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'Actions_actions_url_chunk_125_200', 'value' => 'nop', 'ts_archived' => '2020-06-13 09:04:56', 'is_blob_data' => true],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'Actions_actions_url_chunk_100_124', 'value' => 'nop', 'ts_archived' => '2020-06-13 09:04:56', 'is_blob_data' => true],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'Actions_actions_url_chunk_0_99', 'value' => 'nop', 'ts_archived' => '2020-06-13 09:04:56', 'is_blob_data' => true],
+                ],
+                'Actions_actions_url',
+                [
+                    ['idsubtable' => -1, 'name' => 'Actions_actions_url'],
+                    ['idsubtable' => 0, 'name' => 'Actions_actions_url_chunk_0_99'],
+                    ['idsubtable' => 100, 'name' => 'Actions_actions_url_chunk_100_124'],
+                    ['idsubtable' => 125, 'name' => 'Actions_actions_url_chunk_125_200'],
+                ],
+            ],
+
+            // root table w/ normal subtables
+            [
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'Actions_actions_url', 'value' => 'nop', 'ts_archived' => '2020-06-13 09:04:56', 'is_blob_data' => true],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'Actions_actions_url_1', 'value' => 'nop', 'ts_archived' => '2020-06-13 09:04:56', 'is_blob_data' => true],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'Actions_actions_url_5', 'value' => 'nop', 'ts_archived' => '2020-06-13 09:04:56', 'is_blob_data' => true],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'Actions_actions_url_3', 'value' => 'nop', 'ts_archived' => '2020-06-13 09:04:56', 'is_blob_data' => true],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'Actions_actions_url_002', 'value' => 'nop', 'ts_archived' => '2020-06-13 09:04:56', 'is_blob_data' => true],
+                ],
+                'Actions_actions_url',
+                [
+                    ['idsubtable' => -1, 'name' => 'Actions_actions_url'],
+                    ['idsubtable' => 1, 'name' => 'Actions_actions_url_1'],
+                    ['idsubtable' => 2, 'name' => 'Actions_actions_url_002'],
+                    ['idsubtable' => 3, 'name' => 'Actions_actions_url_3'],
+                    ['idsubtable' => 5, 'name' => 'Actions_actions_url_5'],
+                ],
+            ],
+
+            // root table w/ chunked subtables and normal subtables
+            [
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'Actions_actions_url_chunk_52_100', 'value' => 'nop', 'ts_archived' => '2020-06-13 09:04:56', 'is_blob_data' => true],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'Actions_actions_url_chunk_03_50', 'value' => 'nop', 'ts_archived' => '2020-06-13 09:04:56', 'is_blob_data' => true],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'Actions_actions_url_2', 'value' => 'nop', 'ts_archived' => '2020-06-13 09:04:56', 'is_blob_data' => true],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'Actions_actions_url_51', 'value' => 'nop', 'ts_archived' => '2020-06-13 09:04:56', 'is_blob_data' => true],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'Actions_actions_url_chunk_0_1', 'value' => 'nop', 'ts_archived' => '2020-06-13 09:04:56', 'is_blob_data' => true],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'Actions_actions_url', 'value' => 'nop', 'ts_archived' => '2020-06-13 09:04:56', 'is_blob_data' => true],
+                ],
+                'Actions_actions_url',
+                [
+                    ['idsubtable' => -1, 'name' => 'Actions_actions_url'],
+                    ['idsubtable' => 0, 'name' => 'Actions_actions_url_chunk_0_1'],
+                    ['idsubtable' => 2, 'name' => 'Actions_actions_url_2'],
+                    ['idsubtable' => 3, 'name' => 'Actions_actions_url_chunk_03_50'],
+                    ['idsubtable' => 51, 'name' => 'Actions_actions_url_51'],
+                    ['idsubtable' => 52, 'name' => 'Actions_actions_url_chunk_52_100'],
+                ],
             ],
         ];
     }

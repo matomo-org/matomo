@@ -185,7 +185,6 @@
         "ExceptionInvalidRendererFormat": "הפורמט '%1$s' אינו תקין. יש לנסות אחד מהבאים במקום: %2$s.",
         "ExceptionInvalidReportRendererFormat": "פורמט הדוח '%1$s' אינו חוקי. במקום זאת, נסה לבצע אחת מהפעולות הבאות: %2$s.",
         "ExceptionInvalidStaticGraphType": "סוג הגרף הסטטי \"%1$s\" אינו חוקי. במקום זאת, נסה לבצע אחת מהפעולות הבאות: %2$s.",
-        "ExceptionInvalidToken": "הכרטיס לא תקף.",
         "ExceptionLanguageFileNotFound": "קובץ השפה '%s' לא נמצא.",
         "ExceptionMethodNotFound": "המתודה '%1$s' לא קיימת או לא נמצאה במודל '%2$s'.",
         "ExceptionMissingFile": "קובץ חסר: %s",

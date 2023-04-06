@@ -12,6 +12,7 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<url>facebook.com</url>
 		<logo>plugins/Morpheus/icons/dist/socials/facebook.com.png</logo>
+		<segment>referrerType==social;referrerName==Facebook</segment>
 		<referer_type>7</referer_type>
 	</row>
 	<row>
@@ -36,6 +37,7 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>referrerType==campaign;referrerName==campaign</segment>
 		<referer_type>6</referer_type>
 	</row>
 	<row>
@@ -48,6 +50,7 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>referrerType==search;referrerKeyword==</segment>
 		<referer_type>2</referer_type>
 	</row>
 	<row>
@@ -60,6 +63,7 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>referrerName==www.foo.com</segment>
 		<referer_type>3</referer_type>
 	</row>
 </result>

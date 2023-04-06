@@ -13,6 +13,7 @@ use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
+use Piwik\Tracker\TableLogAction;
 use Piwik\Tracker\Visitor;
 
 class EntryPageUrl extends VisitDimension
@@ -24,8 +25,8 @@ class EntryPageUrl extends VisitDimension
     protected $namePlural = 'Actions_ColumnEntryPageURLs';
     protected $suggestedValuesApi = 'Actions.getEntryPageUrls';
     protected $category = 'General_Actions';
-    protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
     protected $type = self::TYPE_URL;
+    protected $sqlFilter = [TableLogAction::class, 'getOptimizedIdActionSqlMatch'];
 
     public function getDbColumnJoin()
     {

@@ -8,5 +8,6 @@
 		<avg_price>10000000000</avg_price>
 		<avg_quantity>1</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productName==My+secret+spy+tech</segment>
 	</row>
 </result>

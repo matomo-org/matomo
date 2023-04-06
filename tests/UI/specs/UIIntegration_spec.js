@@ -90,6 +90,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
               $('.dataTableScroller').css('overflow-x', 'scroll');
             });
+            await page.waitForTimeout(500);
             pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('dashboard3');
         });
@@ -201,6 +202,12 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             expect(await page.screenshot({ fullPage: true })).to.matchImage('fatal_error_safemode');
         });
 
+        it('should the error page instead of safemode when error while rendering view is not a twig error', async function() {
+
+            await page.goto("?" + generalParams + "&module=Widgetize&action=iframe&moduleToWidgetize=Dashboard&actionToWidgetize=index&segment=userid%3D%3D35745");
+            expect(await page.screenshot({ fullPage: true })).to.matchImage('view_render_error_user_input');
+        });
+
         // not logged in
         it('should show login form for non super user if invalid idsite given', async function() {
             testEnvironment.testUseMockAuth = 0;
@@ -308,6 +315,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         it('should load visitors > locations & provider page correctly', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=UserCountry_SubmenuLocations");
             await page.waitForNetworkIdle();
+            await page.waitForTimeout(500); // wait for map widget to render
 
             pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('visitors_locations_provider');
@@ -469,6 +477,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
         it('should load the actions > downloads page correctly', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Downloads");
+            await page.waitForTimeout(500);
             await page.waitForNetworkIdle();
 
             pageWrap = await page.$('.pageWrap');
@@ -892,6 +901,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
         it('should load the glossary correctly widgetized', async function () {
             await page.goto("?" + generalParams + "&module=API&action=glossary&widget=1");
+            await page.waitForTimeout(200);
 
             expect(await page.screenshot({fullPage: true})).to.matchImage('glossary_widgetized');
         });
@@ -1051,6 +1061,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
         it('should load the segmented visitor log correctly when a segment is selected', async function () {
             const url = "?module=CoreHome&action=index&idSite=1&period=year&date=2012-01-13#?category=General_Visitors&subcategory=CustomVariables_CustomVariables&idSite=1&period=year&date=2012-01-13";
+            await page.goto('about:blank');
             await page.goto(url);
             await page.waitForNetworkIdle();
             await page.evaluate(function () {
@@ -1069,8 +1080,6 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
                 $(visitorLogLinkSelector).click();
             });
             await page.waitForNetworkIdle();
-            elem = await page.$('#secondNavBar');
-            await elem.hover();
 
             await page.mouse.move(-10, -10);
 
@@ -1096,7 +1105,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
                 $('.visitor-profile-widget-link > span').text('{REPLACED_ID}');
             });
 
-            expect(await page.screenshot({fullPage: true})).to.matchImage('visitor_profile_not_segmented');
+            const pageWrap = await page.$('#Piwik_Popover');
+            expect(await pageWrap.screenshot()).to.matchImage('visitor_profile_not_segmented');
         });
 
         it('should display API errors properly without showing them as notifications', async function () {
@@ -1137,6 +1147,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
             const frame = page.frames().find(f => f.name() === 'embed');
             await frame.waitForSelector('.widget');
+            await page.waitForTimeout(1000); // wait for widgets to render
 
             expect(await page.screenshot({ fullPage: true })).to.matchImage('embed_whole_app');
         });

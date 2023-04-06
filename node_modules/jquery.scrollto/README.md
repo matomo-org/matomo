@@ -2,8 +2,8 @@
 
 Lightweight, cross-browser and highly customizable animated scrolling with jQuery
 
+[![](http://api.flattr.com/button/flattr-badge-large.png)](http://flattr.com/thing/2081384/fleslerjquery-scrollTo-on-GitHub)
 [![GitHub version](https://badge.fury.io/gh/flesler%2Fjquery.scrollTo.svg)](http://badge.fury.io/gh/flesler%2Fjquery.scrollTo)
-[![libscore](http://img.shields.io/badge/libscore-31656-brightgreen.svg?style=flat-square)](http://libscore.com/#jQuery.fn.scrollTo)
 
 ## Installation
 The plugin requires jQuery 1.8 or higher.
@@ -25,11 +25,11 @@ php composer.phar require --prefer-dist flesler/jquery.scrollto "*"
 
 CDN provided by [jsdelivr](http://www.jsdelivr.com/#!jquery.scrollto)
 ```html
-<script src="//cdn.jsdelivr.net/jquery.scrollto/2.1.0/jquery.scrollTo.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery.scrollto@2.1.3/jquery.scrollTo.min.js"></script>
 ```
 CDN provided by [cdnjs](https://cdnjs.com/libraries/jquery-scrollTo)
 ```html
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/2.1.0/jquery.scrollTo.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/2.1.3/jquery.scrollTo.min.js"></script>
 ```
 
 ### Downloading Manually
@@ -108,6 +108,19 @@ $.extend($.scrollTo.defaults, {
 jQuery.scrollTo ends up creating ordinary animations which can be stopped by calling [$().stop()](http://api.jquery.com/stop/) or [$().finish()](http://api.jquery.com/finish/) on the same element you called `$().scrollTo()`, including the `window`.
 Remember you can pass a `fail()` callback to be called when the animation is stopped.
 
+### onAfter and requestAnimationFrame
+
+jQuery.scrollTo has a `onAfter` callback for work that runs after the animation finishes. It will be called before the `scroll` event fires. To combat this you can use  [requestAnimationFrame](http://caniuse.com/#feat=requestanimationframe) to do work on the next tick. It is available in many browsers, but you may want to [polyfill](https://github.com/chrisdickinson/raf) for the few it does not support.
+```js
+$.scrollTo(100, {
+  onAfter: function() {
+    requestAnimationFrame(function() {
+        $(".result").addClass("selected");
+    });
+  }
+});
+```
+
 ## Demo
 
 Check the [demo](http://demos.flesler.com/jquery/scrollTo/) to see every option in action.
@@ -129,7 +142,7 @@ This plugin simplifies the creation of scrolling slideshows.
 
 (The MIT License)
 
-Copyright (c) 2007-2015 Ariel Flesler <aflesler@gmail.com>
+Copyright (c) 2007 Ariel Flesler <aflesler@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

@@ -1,9 +1,9 @@
 {
     "UserLanguage": {
-        "BrowserLanguage": "ブラウザの言語",
+        "BrowserLanguage": "ウェブブラウザ言語",
         "LanguageCode": "言語コード",
-        "PluginDescription": "ビジターのブラウザーで使用されている言語をレポートします。",
-        "getLanguageCodeDocumentation": "このレポートは、訪問者のブラウザが設定されている正確な言語コードを示します。 （例：「ドイツ語-オーストリア（de-at）」）",
-        "getLanguageDocumentation": "このレポートは、訪問者のブラウザが使用している言語を示します。 （例：「英語」）"
+        "PluginDescription": "ビジターが使用する主要な Web ブラウザー言語をレポートします。",
+        "getLanguageCodeDocumentation": "ビジターのブラウザがどの言語コードに設定されているかを正確に示します。 (例: ”ドイツ語 — オーストリア (de-at)”)",
+        "getLanguageDocumentation": "ビジターのブラウザが使用している言語を示します。 (例: ”フランス語”)"
     }
 }

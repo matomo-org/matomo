@@ -139,9 +139,6 @@ class API extends \Piwik\Plugin\API
             }
 
             if ($result) {
-                $result->filter('ColumnCallbackDeleteMetadata', array('segment'));
-                $result->filter('ColumnCallbackDeleteMetadata', array('segmentValue'));
-
                 return $this->removeSubtableIds($result); // this report won't return subtables of individual reports
             }
         }
@@ -183,7 +180,7 @@ class API extends \Piwik\Plugin\API
     {
         $idSites = Site::getIdSitesFromIdSitesString($idSite);
 
-        if (count($idSites) > 1) {
+        if (count($idSites) > 1 || 'all' === $idSite) {
             throw new Exception("Referrers.$method with multiple sites is not supported (yet).");
         }
     }
@@ -227,7 +224,7 @@ class API extends \Piwik\Plugin\API
         if ($flat) {
             $dataTable->filterSubtables('Piwik\Plugins\Referrers\DataTable\Filter\SearchEnginesFromKeywordId', array($dataTable));
         } else {
-            $dataTable->filter('AddSegmentValue');
+            $dataTable->filter('AddSegmentByLabel', ['referrerKeyword', '', $allowEmptyValue = true]);
             $dataTable->queueFilter('PrependSegment', array('referrerType==search;'));
         }
 
@@ -421,6 +418,9 @@ class API extends \Piwik\Plugin\API
         $dataTable = $this->completeSocialTablesWithOldReports($dataTable, $idSite, $period, $date, $segment, $expanded, $flat);
 
         $dataTable->filter('MetadataCallbackAddMetadata', array('url', 'logo', function ($url) { return Social::getInstance()->getLogoFromUrl($url); }));
+
+        $dataTable->filter('AddSegmentByLabel', array('referrerName'));
+        $dataTable->queueFilter('PrependSegment', array('referrerType==social;'));
 
         return $dataTable;
     }

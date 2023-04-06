@@ -6,6 +6,7 @@
         "CopyDashboardToUser": "Dashboard naar gebruiker kopiëren",
         "CreateNewDashboard": "Nieuw dashboard aanmaken",
         "Dashboard": "Dashboard",
+        "DashboardCategoryHelp": "Dit is een dashboardpagina. Dashboards zijn een verzameling van Matomo's widgets die u zelf toevoegt volgens uw specifieke behoeften. Kies en schik alle widgets van Matomo zodat u in één oogopslag de gegevens ziet die %1$s*u*%2$s nodig heeft.",
         "DashboardCopied": "Huidig dashboard succesvol naar geselecteerde gebruiker gekopieerd.",
         "DashboardEmptyNotification": "Je dashboard bevat geen widgets. Start met het toevoegen van nieuwe widgets of reset het dashboard naar de standaard widget selectie.",
         "DashboardName": "Naam dashboard:",

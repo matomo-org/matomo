@@ -82,7 +82,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
         $site = $this->_createWebsite($siteTimezone);
         $date = Date::factory($dateLabel);
         $period = Period\Factory::build($periodLabel, $date);
-        $segment = new Segment('', [$site->getId()], $period->getDateStart(), $period->getDateEnd());
+        $segment = new Segment('', [$site->getId()], $period->getDateTimeStart(), $period->getDateTimeEnd());
 
         $params = new ArchiveProcessor\Parameters($site, $period, $segment);
         return new ArchiveProcessorTest($params);
@@ -91,7 +91,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
     private function _createArchiveProcessorInst($periodLabel, $dateLabel, $idSite, $archiveOnly = false, $plugin = false)
     {
         $period = Period\Factory::build($periodLabel, $dateLabel);
-        $segment = new Segment('', [$idSite]);
+        $segment = new Segment('', [$idSite], $period->getDateTimeStart(), $period->getDateTimeEnd());
 
         $params = new ArchiveProcessor\Parameters(new Site($idSite), $period, $segment);
         if ($archiveOnly) {

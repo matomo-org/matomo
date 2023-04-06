@@ -111,6 +111,35 @@ class Map implements DataTableInterface
     }
 
     /**
+     * Apply a callback to all tables contained by this instance and tables with the same key in $otherTables.
+     *
+     * This method is used to iterate over multiple DataTable\Map's concurrently.
+     *
+     * $filter will be called with multiple DataTable instances, the first is the instance contained in
+     * this Map instance. The rest are the corresponding instances found in $otherTables. The position of
+     * the parameter in $filter corresponds with the position in $otherTables.
+     *
+     * If a key exists in this instance but not in one of the otherTables, $filter will be invoked with null
+     * for that parameter.
+     *
+     * @param Map[] $otherTables Other tables to invoke $filter with.
+     * @param callable $filter A function like `function (DataTable $thisTable, $otherTable1, $otherTable2, ...) {}`.
+     * @return mixed[] The return value of each `multiFilter()` call made on child tables, indexed by the keys in this Map instance.
+     */
+    public function multiFilter($otherTables, $filter)
+    {
+        $result = [];
+        foreach ($this->getDataTables() as $key => $childTable) {
+            $otherChildTables = array_map(function ($otherTable) use ($key) {
+                return !empty($otherTable) && $otherTable->hasTable($key) ? $otherTable->getTable($key) : null;
+            }, $otherTables);
+
+            $result[$key] = $childTable->multiFilter($otherChildTables, $filter);
+        }
+        return $result;
+    }
+
+    /**
      * Apply a filter to all subtables contained by this instance.
      *
      * @param string|Closure $className Name of filter class or a Closure.

@@ -1,8 +1,8 @@
 {
     "DBStats": {
-        "DatabaseUsage": "資料庫使用狀況",
-        "DataSize": "資料大小",
         "DBSize": "資料庫大小",
+        "DataSize": "資料大小",
+        "DatabaseUsage": "資料庫使用狀況",
         "EstimatedSize": "預估大小",
         "IndexSize": "索引大小",
         "LearnMore": "要了解更多關於 Matomo 如何處理數據以及使 Matomo 在中高流量的網站上運作得宜，請查看說明文件 %s。",

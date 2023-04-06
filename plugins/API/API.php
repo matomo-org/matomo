@@ -204,7 +204,6 @@ class API extends \Piwik\Plugin\API
         // Cleanup data to return the top suggested (non empty) labels for this segment
         $values = $table->getColumn($segmentName);
 
-
         // Select also flattened keys (custom variables "page" scope, page URLs for one visit, page titles for one visit)
         $valuesBis = $table->getColumnsStartingWith($segmentName . ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP);
         $values = array_merge($values, $valuesBis);
@@ -449,34 +448,27 @@ class API extends \Piwik\Plugin\API
      *
      * @param array $urls The array of API requests.
      * @return array
+     * @unsanitized
      */
     public function getBulkRequest($urls)
     {
         if (empty($urls) || !is_array($urls)) {
-            return array();
+            return [];
         }
 
-        $urls = array_map('urldecode', $urls);
-        $urls = array_map(array('Piwik\Common', 'unsanitizeInputValue'), $urls);
+        $request = \Piwik\Request::fromRequest();
+        $queryParameters = $request->getParameters();
+        unset($queryParameters['urls']);
 
-        $result = array();
+        $result = [];
         foreach ($urls as $url) {
-            $params = Request::getRequestArrayFromString($url . '&format=json');
+            $params = \Piwik\Request::fromQueryString($url)->getParameters();
+            $params['format'] = 'json';
+
+            $params += $queryParameters;
 
             if (!empty($params['method']) && $params['method'] === 'API.getBulkRequest') {
                 continue;
-            }
-
-            if (isset($params['urls']) && $params['urls'] == $urls) {
-                // by default 'urls' is added to $params as Request::getRequestArrayFromString adds all $_GET/$_POST
-                // default parameters
-                unset($params['urls']);
-            }
-
-            if (!empty($params['segment']) && strpos($url, 'segment=') > -1) {
-                // only unsanitize input when segment is actually present in URL, not when it was used from
-                // $defaultRequest in Request::getRequestArrayFromString from $_GET/$_POST
-                $params['segment'] = urlencode(Common::unsanitizeInputValue($params['segment']));
             }
 
             $req = new Request($params);
@@ -742,7 +734,7 @@ class API extends \Piwik\Plugin\API
     protected function doesSegmentNeedActionsData($segmentName)
     {
         // If you update this, also update flattenVisitorDetailsArray
-        $segmentsNeedActionsInfo = array('visitConvertedGoalId',
+        $segmentsNeedActionsInfo = array('visitConvertedGoalId', 'visitConvertedGoalName',
             'pageUrl', 'pageTitle', 'siteSearchKeyword', 'siteSearchCategory', 'siteSearchCount',
             'entryPageTitle', 'entryPageUrl', 'exitPageTitle', 'exitPageUrl',
             'outlinkUrl', 'downloadUrl', 'eventUrl', 'orderId', 'revenueOrder', 'revenueAbandonedCart', 'productViewName', 'productViewSku', 'productViewPrice',

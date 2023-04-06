@@ -278,8 +278,8 @@ class ManySitesImportedLogs extends Fixture
         $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_replay.log';
         $logFileWithHost = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_replay_host.log';
 
-        $opts = array('--login'                     => 'superUserLogin',
-                      '--password'                  => 'superUserPass',
+        $opts = array('--login'                     => Fixture::ADMIN_USER_LOGIN,
+                      '--password'                  => Fixture::ADMIN_USER_PASSWORD,
                       '--recorders'                 => '1',
                       '--recorder-max-payload-size' => '1',
                       '--replay-tracking'           => false,

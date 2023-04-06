@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,6 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\ExampleUI;
 
 use Piwik\DataTable;
@@ -24,7 +26,7 @@ class API extends \Piwik\Plugin\API
 {
     public static $disableRandomness = false;
 
-    public function getTemperaturesEvolution($date, $period)
+    public function getTemperaturesEvolution(string $date, string $period)
     {
         $temperatures = array();
 

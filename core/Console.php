@@ -12,6 +12,7 @@ use Exception;
 use Monolog\Handler\FingersCrossedHandler;
 use Piwik\Application\Environment;
 use Piwik\Config\ConfigNotFoundException;
+use Piwik\Console\DialogHelper;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\Monolog\Handler\FailureLogMessageDetector;
@@ -68,7 +69,7 @@ class Console extends Application
         foreach ($logHandlers as $handler) {
             if ($handler instanceof FingersCrossedHandler) {
                 $hasFingersCrossed = true;
-                continue;
+                break;
             }
         }
 
@@ -96,6 +97,18 @@ class Console extends Application
         }
     }
 
+    /**
+     * Makes parent doRun method available
+     *
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     * @return int
+     */
+    public function originDoRun(InputInterface $input, OutputInterface $output)
+    {
+        return parent::doRun($input, $output);
+    }
+
     private function doRunImpl(InputInterface $input, OutputInterface $output)
     {
         if ($input->hasParameterOption('--xhprof')) {
@@ -121,6 +134,10 @@ class Console extends Application
             $this->addCommandIfExists($command);
         }
 
+        $helperSet = $this->getHelperSet();
+        $helperSet->set(new DialogHelper());
+        $this->setHelperSet($helperSet);
+
         $exitCode = null;
 
         /**
@@ -132,7 +149,7 @@ class Console extends Application
             $self = $this;
             $exitCode = Access::doAsSuperUser(function () use ($input, $output, $self) {
                 return
-                    call_user_func(array($self, 'Symfony\Component\Console\Application::doRun'), $input, $output);
+                    call_user_func(array($self, 'originDoRun'), $input, $output);
             });
         }
 

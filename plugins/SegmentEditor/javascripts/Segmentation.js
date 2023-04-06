@@ -778,7 +778,7 @@ Segmentation = (function($) {
             var select = $(self.form).find(selectId);
             select.hide().closest('.select-wrapper').children().hide();
             var dropList = $( '<a class="dropList dropdown">' )
-                .insertAfter( select )
+                .insertAfter( select.closest('.hide-select') )
                 .text( select.children(':selected').text() )
                 .autocomplete({
                     delay: 0,

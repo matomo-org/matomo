@@ -116,6 +116,7 @@ class API extends \Piwik\Plugin\API
         $goal['name'] = Common::unsanitizeInputValue($goal['name']);
         $goal['description'] = Common::unsanitizeInputValue($goal['description']);
         $goal['pattern_type'] = Common::unsanitizeInputValue($goal['pattern_type']);
+        $goal['pattern'] = Common::unsanitizeInputValue($goal['pattern']);
 
         if ($goal['match_attribute'] == 'manually') {
             unset($goal['pattern']);
@@ -423,17 +424,23 @@ class API extends \Piwik\Plugin\API
 
     public function getItemsSku($idSite, $period, $date, $abandonedCarts = false, $segment = false)
     {
-        return $this->getItems('Goals_ItemsSku', $idSite, $period, $date, $abandonedCarts, $segment);
+        $dataTable = $this->getItems('Goals_ItemsSku', $idSite, $period, $date, $abandonedCarts, $segment);
+        $dataTable->filter('AddSegmentByLabel', ['productSku']);
+        return $dataTable;
     }
 
     public function getItemsName($idSite, $period, $date, $abandonedCarts = false, $segment = false)
     {
-        return $this->getItems('Goals_ItemsName', $idSite, $period, $date, $abandonedCarts, $segment);
+        $dataTable = $this->getItems('Goals_ItemsName', $idSite, $period, $date, $abandonedCarts, $segment);
+        $dataTable->filter('AddSegmentByLabel', ['productName']);
+        return $dataTable;
     }
 
     public function getItemsCategory($idSite, $period, $date, $abandonedCarts = false, $segment = false)
     {
-        return $this->getItems('Goals_ItemsCategory', $idSite, $period, $date, $abandonedCarts, $segment);
+        $dataTable = $this->getItems('Goals_ItemsCategory', $idSite, $period, $date, $abandonedCarts, $segment);
+        $dataTable->filter('AddSegmentByLabel', ['productCategory']);
+        return $dataTable;
     }
 
     /**

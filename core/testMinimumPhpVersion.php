@@ -11,7 +11,7 @@
 /**
  * This file is executed before anything else.
  * It checks the minimum PHP version required to run Matomo.
- * This file must be compatible PHP4.
+ * This file must be compatible with PHP 5.3.
  */
 
 $piwik_errorMessage = '';
@@ -19,9 +19,9 @@ $piwik_errorMessage = '';
 // Minimum requirement: stream_resolve_include_path, working json_encode in 5.3.3, namespaces in 5.3
 // NOTE: when changing this variable, we also need to update
 // 1) api.matomo.org
-// 2) tests/travis/generator/Generator.php
-// 3) composer.json (in two places)
-// 4) tests/PHPUnit/Integration/ReleaseCheckListTest.php
+// 2) composer.json (in two places)
+// 3) tests/PHPUnit/Integration/ReleaseCheckListTest.php
+global $piwik_minimumPHPVersion;
 $piwik_minimumPHPVersion = '7.2.5';
 $piwik_currentPHPVersion = PHP_VERSION;
 $minimumPhpInvalid = version_compare($piwik_minimumPHPVersion, $piwik_currentPHPVersion) > 0;
@@ -124,8 +124,12 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
         $faviconUrl = false,
         $isCli = null,
         $errorLogPrefix = '',
-        bool $writeErrorLog = true
+        $writeErrorLog = true,
+        $redirectUrl = null,
+        $countdown = null
     ) {
+        $hasCountdownRedirect = !empty($redirectUrl) && !empty($countdown);
+
         if ($writeErrorLog) {
             error_log(sprintf("{$errorLogPrefix}Error in Matomo: %s", str_replace("\n", " ", strip_tags($message))));
         }
@@ -185,16 +189,31 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
 
         $headerPage = str_replace('{$HTML_TITLE}', PAGE_TITLE_WHEN_ERROR, $headerPage);
 
-        $content = '<h2>' . $message . '</h2>
-                    <p>'
-            . $optionalLinkBack
-            . ' | <a href="index.php">Go to Matomo</a>'
-            . '</p>'
+        $backLinks = '<p>'
+                    . $optionalLinkBack
+                    . ' | <a href="index.php">Go to Matomo</a>'
+                    . '</p>';
+
+        $redirectSection = '';
+        if ($hasCountdownRedirect) {
+            $redirectSection = '<p>
+                                Please click below if you are not redirected in ' . $countdown . ' seconds</br></br>
+                                Go to <a href="' . $redirectUrl . '">' . htmlspecialchars($redirectUrl) . '</a> 
+                                </p>
+                                <style>.header,.footer { display:none;}</style>
+                                <script>setTimeout(function(){window.location.href="' . $redirectUrl . '"}, ' . ($countdown * 1000) . ');</script>';
+            $backLinks = '';
+            $optionalLinks = '';
+        }
+
+        $content = '<h2>' . $message . '</h2>'
+            . $redirectSection
+            . $backLinks
             . ' ' . (Piwik_ShouldPrintBackTraceWithMessage() ? $optionalTrace : '')
             . ' ' . $optionalLinks;
 
 
-        $message = str_replace(["<br />", "<br>", "<br/>", "</p>"], "\n", $message);
+        $message = str_replace(array("<br />", "<br>", "<br/>", "</p>"), "\n", $message);
         $message = str_replace("\t", "", $message);
         $message = strip_tags($message);
 

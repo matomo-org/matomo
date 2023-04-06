@@ -3,7 +3,6 @@
 use Psr\Container\ContainerInterface;
 use Monolog\Logger;
 use Piwik\Plugins\Monolog\Handler\FailureLogMessageDetector;
-use Symfony\Bridge\Monolog\Formatter\ConsoleFormatter;
 use Symfony\Bridge\Monolog\Handler\ConsoleHandler;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -32,7 +31,10 @@ return array(
             OutputInterface::VERBOSITY_DEBUG => Logger::DEBUG,
         );
         $handler = new ConsoleHandler(null, true, $verbosityMap);
-        $handler->setFormatter(new ConsoleFormatter($c->get('log.console.format'), null, true, true));
+        $handler->setFormatter(new \Piwik\Plugins\Monolog\Formatter\ConsoleFormatter([
+            'format' => $c->get('log.console.format'),
+            'multiline' => true
+        ]));
         return $handler;
     },
 

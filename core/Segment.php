@@ -17,6 +17,7 @@ use Piwik\DataAccess\LogQueryBuilder;
 use Piwik\Plugins\SegmentEditor\SegmentEditor;
 use Piwik\Segment\SegmentExpression;
 use Piwik\Plugins\SegmentEditor\Model as SegmentEditorModel;
+use Piwik\Segment\SegmentsList;
 
 /**
  * Limits the set of visits Piwik uses when aggregating analytics data.
@@ -125,7 +126,7 @@ class Segment
     {
         $this->segmentQueryBuilder = StaticContainer::get('Piwik\DataAccess\LogQueryBuilder');
 
-        $segmentCondition = trim($segmentCondition);
+        $segmentCondition = trim($segmentCondition ?: '');
         if (!SettingsPiwik::isSegmentationEnabled()
             && !empty($segmentCondition)
         ) {
@@ -192,37 +193,43 @@ class Segment
         $cacheId = 'API.getSegmentsMetadata.'.SettingsPiwik::getPiwikInstanceId() . '.' . implode(",", $this->idSites);
 
         //fetch cache lockId
-        $this->availableSegments = $cache->fetch($cacheId);
+        $availableSegments = $cache->fetch($cacheId);
         // segment metadata
-        if (empty($this->availableSegments)) {
-
-            $this->availableSegments = Request::processRequest('API.getSegmentsMetadata', array(
+        if (empty($availableSegments)) {
+            $availableSegments = Request::processRequest('API.getSegmentsMetadata', array(
               'idSites'                 => $this->idSites,
               '_hideImplementationData' => 0,
               'filter_limit'            => -1,
               'filter_offset'           => 0,
               '_showAllSegments'        => 1,
             ), []);
-            $cache->save($cacheId, $this->availableSegments);
+
+            // index by segment name
+            $availableSegments = array_column($availableSegments, null, 'segment');
+
+            // remove segments we don't have permission to use
+            foreach ($availableSegments as $segment => $segmentInfo) {
+                if (isset($segmentInfo['permission']) && $segmentInfo['permission'] != 1) {
+                    $availableSegments[$segment] = null;
+                }
+            }
+
+            $cache->save($cacheId, $availableSegments);
         }
 
-        return $this->availableSegments;
+        return $availableSegments;
     }
 
     private function getSegmentByName($name)
     {
         $segments = $this->getAvailableSegments();
 
-        foreach ($segments as $segment) {
-            if ($segment['segment'] == $name && !empty($name)) {
-
-                // check permission
-                if (isset($segment['permission']) && $segment['permission'] != 1) {
-                    throw new NoAccessException("You do not have enough permission to access the segment " . $name);
-                }
-
-                return $segment;
+        if (array_key_exists($name, $segments)) {
+            if ($segments[$name] === null) {
+                throw new NoAccessException("You do not have enough permission to access the segment " . $name);
             }
+
+            return $segments[$name];
         }
 
         throw new Exception("Segment '$name' is not a supported segment.");
@@ -380,16 +387,42 @@ class Segment
             || Rules::isSegmentPreProcessed($idSites, $this);
     }
 
-    protected $availableSegments = array();
-
     protected function getCleanedExpression($expression)
     {
         $name      = $expression[SegmentExpression::INDEX_OPERAND_NAME];
         $matchType = $expression[SegmentExpression::INDEX_OPERAND_OPERATOR];
         $value     = $expression[SegmentExpression::INDEX_OPERAND_VALUE];
 
+        $segmentsList = Context::changeIdSite(implode(',', $this->idSites ?: []), function () {
+            return SegmentsList::get();
+        });
+        $segmentObject = $segmentsList->getSegment($name);
+
         $segment = $this->getSegmentByName($name);
-        $sqlName = $segment['sqlSegment'];
+        $sqlName = $segmentObject->getSqlSegment();
+
+        $joinTable = null;
+        if ($segmentObject->dimension
+            && $segmentObject->dimension->getDbColumnJoin()
+        ) {
+            $join = $segmentObject->dimension->getDbColumnJoin();
+            $dbDiscriminator = $segmentObject->dimension->getDbDiscriminator();
+
+            // we append alias since an archive query may add the table with a different join. we could eg add $table_$segmentName but
+            // then we would join an extra table per segment when we ideally want to join each table only once. However, we still need
+            // to see which table/column it joins to join it accurately each table extra if the same table is joined with different columns;
+            $tableAlias = $join->getTable() . '_segment_' . str_replace('.', '', $sqlName ?: '');
+            $joinTable = [
+                'table' => $join->getTable(),
+                'tableAlias' => $tableAlias,
+                'field' => $tableAlias . '.' . $join->getTargetColumn(),
+                'joinOn' => $sqlName . ' = ' . $tableAlias . '.' . $join->getColumn(),
+            ];
+
+            if ($dbDiscriminator) {
+                $joinTable['discriminator'] = $tableAlias . '.'. $dbDiscriminator->getColumn() . ' = \''.  $dbDiscriminator->getValue() . '\'';
+            }
+        }
 
         // Build subqueries for segments that are not on log_visit table but use !@ or != as operator
         // This is required to ensure segments like actionUrl!@value really do not include any visit having an action containing `value`
@@ -422,7 +455,7 @@ class Segment
             $query = $segmentObj->getSelectQuery($select, $from, implode(' AND ', $where), $bind);
             $logQueryBuilder->forceInnerGroupBySubselect($forceGroupByBackup);
 
-            return ['log_visit.idvisit', SegmentExpression::MATCH_ACTIONS_NOT_CONTAINS, $query];
+            return ['log_visit.idvisit', SegmentExpression::MATCH_ACTIONS_NOT_CONTAINS, $query, null, $segment];
         }
 
         if ($matchType != SegmentExpression::MATCH_IS_NOT_NULL_NOR_EMPTY
@@ -436,8 +469,8 @@ class Segment
             if (isset($segment['sqlFilter'])) {
                 $value = call_user_func($segment['sqlFilter'], $value, $segment['sqlSegment'], $matchType, $name);
 
-                if(is_null($value)) { // null is returned in TableLogAction::getIdActionFromSegment()
-                    return array(null, $matchType, null);
+                if (is_null($value)) { // null is returned in TableLogAction::getIdActionFromSegment()
+                    return array(null, $matchType, null, null, $segment);
                 }
 
                 // sqlFilter-callbacks might return arrays for more complex cases
@@ -445,11 +478,17 @@ class Segment
                 if (is_array($value) && isset($value['SQL'])) {
                     // Special case: returned value is a sub sql expression!
                     $matchType = SegmentExpression::MATCH_ACTIONS_CONTAINS;
+                    $joinTable = null;
+                }
+
+                if (is_array($value) && isset($value['value'])) {
+                    $value = $value['value'];
+                    $joinTable = !empty($value['joinTable']);
                 }
             }
         }
 
-        return array($sqlName, $matchType, $value);
+        return array($sqlName, $matchType, $value, $joinTable, $segment);
     }
 
     /**
@@ -536,7 +575,7 @@ class Segment
      *                           A $groupBy value needs to be set for this to work.
      * @param int If set to value >= 1 then the Select query (and All inner queries) will be LIMIT'ed by this value.
      *              Use only when you're not aggregating or it will sample the data.
-     * @return string The entire select query.
+     * @return array The entire select query.
      */
     public function getSelectQuery($select, $from, $where = false, $bind = array(), $orderBy = false, $groupBy = false, $limit = 0, $offset = 0, $forceGroupBy = false)
     {

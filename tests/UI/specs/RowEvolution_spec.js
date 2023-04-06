@@ -115,8 +115,9 @@ describe("RowEvolution", function () {
         const icon = await page.waitForSelector('tbody tr:first-child a.actionRowEvolution');
         await icon.click();
 
-        await page.waitForSelector('.ui-dialog');
+        await page.waitForSelector('.ui-dialog', { visible: true });
         await page.waitForNetworkIdle();
+        await page.waitForTimeout(250); // wait till annotations are rendered
 
         const dialog = await page.$('.ui-dialog');
         expect(await dialog.screenshot()).to.matchImage('row_evolution_ecommerce_item');
