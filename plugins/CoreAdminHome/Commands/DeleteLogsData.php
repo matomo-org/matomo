@@ -20,7 +20,6 @@ use Piwik\Timer;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
  * Command to selectively delete visits.
@@ -174,10 +173,7 @@ class DeleteLogsData extends ConsoleCommand
             return true;
         }
 
-        $helper   = $this->getHelper('question');
-        $question = new ConfirmationQuestion('<comment>You are about to delete log data. This action cannot be undone, are you sure you want to continue? (Y/N)</comment> ', false);
-
-        return $helper->ask($input, $output, $question);
+        return $this->askForConfirmation($input, $output, '<comment>You are about to delete log data. This action cannot be undone, are you sure you want to continue? (Y/N)</comment> ', false);
     }
 
     private function optimizeTables(OutputInterface $output)

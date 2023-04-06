@@ -16,7 +16,6 @@ use Piwik\Plugin\ConsoleCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
  * @package CoreUpdater
@@ -72,7 +71,7 @@ class ConvertToUtf8mb4 extends ConsoleCommand
         $output->writeln('If you want to see what this command is going to do use the --show option.');
 
         if (!$yes) {
-            $yes = $this->askForUpdateConfirmation($input, $output);
+            $yes = $this->askForConfirmation($input, $output, '<comment>Execute updates? (y/N) </comment>', false);
         }
 
         if ($yes) {
@@ -132,13 +131,5 @@ class ConvertToUtf8mb4 extends ConsoleCommand
             $output->writeln('** Enable Matomo Tracking again with this command: **');
             $output->writeln('./console config:set --section=Tracker --key=record_statistics --value=1');
         }
-    }
-
-    private function askForUpdateConfirmation(InputInterface $input, OutputInterface $output)
-    {
-        $helper   = $this->getHelper('question');
-        $question = new ConfirmationQuestion('<comment>Execute updates? (y/N) </comment>', false);
-
-        return $helper->ask($input, $output, $question);
     }
 }

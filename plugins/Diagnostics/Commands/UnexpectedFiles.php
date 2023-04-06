@@ -15,7 +15,6 @@ use Piwik\Plugin\ConsoleCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
  * Diagnostic command that finds all unexpected files in the Matomo installation directory and provides an option to
@@ -143,10 +142,7 @@ class UnexpectedFiles extends ConsoleCommand
             return true;
         }
 
-        $helper   = $this->getHelper('question');
-        $question = new ConfirmationQuestion('<comment>You are about to delete files. This action cannot be undone, are you sure you want to continue? (Y/N)</comment> ', false);
-
-        return $helper->ask($input, $output, $question);
+        return $this->askForConfirmation($input, $output, '<comment>You are about to delete files. This action cannot be undone, are you sure you want to continue? (Y/N)</comment>', false);
     }
 
 }

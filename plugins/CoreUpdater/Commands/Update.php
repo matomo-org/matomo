@@ -22,7 +22,6 @@ use Piwik\Updater;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
  * @package CoreUpdater
@@ -65,7 +64,7 @@ class Update extends ConsoleCommand
                 $this->makeUpdate($input, $output, true);
 
                 if (!$yes) {
-                    $yes = $this->askForUpdateConfirmation($input, $output);
+                    $yes = $this->askForConfirmation($input, $output, '<comment>'.Piwik::translate('CoreUpdater_ExecuteDbUpgrade').' (y/N) </comment>', false);
                 }
 
                 if ($yes) {
@@ -90,14 +89,6 @@ class Update extends ConsoleCommand
         }
 
         return self::SUCCESS;
-    }
-
-    private function askForUpdateConfirmation(InputInterface $input, OutputInterface $output)
-    {
-        $helper   = $this->getHelper('question');
-        $question = new ConfirmationQuestion('<comment>'.Piwik::translate('CoreUpdater_ExecuteDbUpgrade').' (y/N) </comment>', false);
-
-        return $helper->ask($input, $output, $question);
     }
 
     protected function executeClearCaches()

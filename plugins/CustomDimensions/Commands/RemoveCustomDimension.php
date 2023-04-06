@@ -18,7 +18,6 @@ use Piwik\Tracker\Cache;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
  */
@@ -135,13 +134,6 @@ class RemoveCustomDimension extends ConsoleCommand
     private function confirmChange(InputInterface $input, OutputInterface $output)
     {
         $output->writeln('');
-
-        $helper   = $this->getHelper('question');
-        $question = new ConfirmationQuestion(
-            '<question>Are you sure you want to perform this action? (y/N)</question>',
-            false
-        );
-
-        return $helper->ask($input, $output, $question);
+        return $this->askForConfirmation($input, $output, '<question>Are you sure you want to perform this action? (y/N)</question>', false);
     }
 }

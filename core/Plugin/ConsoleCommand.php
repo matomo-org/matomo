@@ -12,6 +12,7 @@ use Piwik\Log;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
  * The base class for console commands.
@@ -71,5 +72,12 @@ class ConsoleCommand extends SymfonyCommand
             }
             throw $e;
         }
+    }
+
+    protected function askForConfirmation(InputInterface $input, OutputInterface $output, string $question, bool $default = true, string $trueAnswerRegex = '/^y/i')
+    {
+        $helper   = $this->getHelper('question');
+        $question = new ConfirmationQuestion($question, $default, $trueAnswerRegex);
+        return $helper->ask($input, $output, $question);
     }
 }
