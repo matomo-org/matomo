@@ -2299,6 +2299,7 @@ SQL;
                 'table' => 'log_visit',
                 'join' => 'RIGHT JOIN',
             ],
+            'log_action',
         ];
 
         $originalFrom = $from;
