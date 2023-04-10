@@ -116,22 +116,22 @@
             </div>
 
             <div class="right">
-                <img src="plugins/SitesManager/images/cloudflare-icon.png" style="height: 32px;width: 32px;">
+                <img src="plugins/SitesManager/images/cloudflare-icon.png" style="height: 12rem;width: 12rem;margin-top: -4rem;">
             </div>
             <p>{{ 'SitesManager_SiteWithoutDataCloudflareIntro'|translate }}</p>
             <br>
             <p>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStepsIntro'|translate }}</p>
-            <p>1. {{ 'SitesManager_SiteWithoutDataCloudflareFollowStep1'|translate('<a target="_blank" rel="noreferrer noopener" href="https://dash.cloudflare.com/">','</a>')|raw }}</p>
-            <p>2. {{ 'SitesManager_SiteWithoutDataCloudflareFollowStep2'|translate }}</p>
-            <p>3. {{ 'SitesManager_SiteWithoutDataCloudflareFollowStep3'|translate }}</p>
-            <p>4. {{ 'SitesManager_SiteWithoutDataCloudflareFollowStep4'|translate }}</p>
-            <p>5. {{ 'SitesManager_SiteWithoutDataCloudflareFollowStep5'|translate }}</p>
-            <p>6. {{ 'SitesManager_SiteWithoutDataCloudflareFollowStep6'|translate }}</p>
-            <p>7. {{ 'SitesManager_SiteWithoutDataCloudflareFollowStep7'|translate }}</p>
-            <p>&nbsp;&nbsp;&nbsp;&nbsp;Matomo URL: <code vue-directive="CoreHome.SelectOnFocus">{{ piwikUrl }}</code></p>
-            <p>&nbsp;&nbsp;&nbsp;&nbsp;{{ 'SitesManager_EmailInstructionsYourSiteId'|translate('<code vue-directive="CoreHome.SelectOnFocus">' ~ idSite ~ '</code>')|raw }}</p>
-            <p>8. {{ 'SitesManager_SiteWithoutDataCloudflareFollowStep8'|translate }}</p>
-            <p>9. {{ 'SitesManager_SiteWithoutDataCloudflareFollowStep9'|translate }}</p>
+            <ol style="list-style: decimal;list-style-position: inside;">
+                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep1'|translate('<a target="_blank" rel="noreferrer noopener" href="https://dash.cloudflare.com/">','</a>')|raw }}</li>
+                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep2'|translate }}</li>
+                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep3'|translate }}</li>
+                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep4'|translate }}</li>
+                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep5'|translate }}</li>
+                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep6'|translate }}</li>
+                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep7'|translate }}<br>Matomo URL: <code vue-directive="CoreHome.SelectOnFocus">{{ piwikUrl }}</code><br>{{ 'SitesManager_EmailInstructionsYourSiteId'|translate('<code vue-directive="CoreHome.SelectOnFocus">' ~ idSite ~ '</code>')|raw }}</li>
+                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep8'|translate }}</li>
+                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep9'|translate }}</li>
+            </ol>
             <br>
             <p>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStepCompleted'|translate('<strong>','</strong>')|raw }}</p>
         </div>
