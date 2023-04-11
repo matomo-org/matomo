@@ -4,16 +4,16 @@
     });
 </script>
 
-{% set columnClass = cloudflare ? 's2' : 's3' %}
+{% set columnClass = activeTab ? 's2' : 's3' %}
 
 <div class="row">
     <div class="col s12">
         <ul class="tabs">
-            <li class="tab col {{ columnClass }}"><a {% if siteType != constant('Piwik\\Plugins\\SitesManager\\SitesManager::SITE_TYPE_UNKNOWN') and (consentManagerName == false) and (cloudflare == false) %} class="active" {% endif %} href="#integrations">{{ 'SitesManager_Integrations'|translate }}</a></li>
-            <li class="tab col {{ columnClass }}"><a {% if (siteType == constant('Piwik\\Plugins\\SitesManager\\SitesManager::SITE_TYPE_UNKNOWN') and (cloudflare == false)) or consentManagerName %} class="active" {% endif %} href="#tracking-code">{{ 'CoreAdminHome_TrackingCode'|translate }}</a></li>
+            <li class="tab col {{ columnClass }}"><a {% if siteType != constant('Piwik\\Plugins\\SitesManager\\SitesManager::SITE_TYPE_UNKNOWN') and (consentManagerName == false) and (activeTab == '') %} class="active" {% endif %} href="#integrations">{{ 'SitesManager_Integrations'|translate }}</a></li>
+            <li class="tab col {{ columnClass }}"><a {% if (siteType == constant('Piwik\\Plugins\\SitesManager\\SitesManager::SITE_TYPE_UNKNOWN') and (activeTab == '')) or consentManagerName %} class="active" {% endif %} href="#tracking-code">{{ 'CoreAdminHome_TrackingCode'|translate }}</a></li>
             <li class="tab col {{ columnClass }}"><a href="#mtm">{{ 'SitesManager_SiteWithoutDataMatomoTagManager'|translate }}</a></li>
             {% if cloudflare %}
-                <li class="tab col s2"><a {% if cloudflare %} class="active" {% endif %} href="#cloudflare">{{ 'SitesManager_SiteWithoutDataCloudflare'|translate }}</a></li>
+                <li class="tab col s2"><a {% if activeTab == 'cloudflare' %} class="active" {% endif %} href="#cloudflare">{{ 'SitesManager_SiteWithoutDataCloudflare'|translate }}</a></li>
             {% endif %}
             <li class="tab col {{ columnClass }}"><a href="#other">{{ 'SitesManager_SiteWithoutDataOtherWays'|translate }}</a></li>
         </ul>

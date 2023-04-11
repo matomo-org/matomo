@@ -237,6 +237,19 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $templateData['consentManagerIsConnected'] = $this->siteContentDetector->isConnected;
         }
 
+        $templateData['activeTab'] = $this->getActiveTabOnLoad($templateData);
+
         return $this->renderTemplateAs('_siteWithoutDataTabs', $templateData, $viewType = 'basic');
+    }
+
+    private function getActiveTabOnLoad($templateData)
+    {
+        $tabToDisplay = '';
+
+        if (!empty($templateData['cloudflare'])) {
+            $tabToDisplay = 'cloudflare';
+        }
+
+        return $tabToDisplay;
     }
 }
