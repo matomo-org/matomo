@@ -261,7 +261,7 @@ var SegmentGenerator_store_SegmentGeneratorStore = /*#__PURE__*/function () {
 }();
 
 /* harmony default export */ var SegmentGenerator_store = (new SegmentGenerator_store_SegmentGeneratorStore());
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=template&id=16883790
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=template&id=b9115b72
 
 var _hoisted_1 = {
   class: "segment-generator",
@@ -405,7 +405,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     innerHTML: _ctx.$sanitize(_ctx.addNewAndConditionLinkText)
   }, null, 8, _hoisted_20)])])], 512);
 }
-// CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=template&id=16883790
+// CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=template&id=b9115b72
 
 // EXTERNAL MODULE: external "CorePluginsAdmin"
 var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
@@ -686,8 +686,16 @@ var _window = window,
       }).then(function (response) {
         _this3.conditionValuesLoading[orCondition.id] = false;
         resolved = true;
+        var autocompleteValues = response;
+
+        if (Array.isArray(autocompleteValues)) {
+          autocompleteValues = autocompleteValues.map(function (v) {
+            return "".concat(v);
+          });
+        }
+
         var inputElement = $(".orCondId".concat(orCondition.id, " .metricValueBlock input")).autocomplete({
-          source: response,
+          source: autocompleteValues,
           minLength: 0,
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           select: function select(event, ui) {
