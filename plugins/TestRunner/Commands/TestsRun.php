@@ -14,9 +14,7 @@ use Piwik\Plugin;
 use Piwik\Profiler;
 use Piwik\Plugin\ConsoleCommand;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Executes PHP tests.
@@ -39,8 +37,10 @@ class TestsRun extends ConsoleCommand
         $this->addOption('enable-logging', null, InputOption::VALUE_NONE, 'Enable logging to the configured log file during tests.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
         $options = $input->getOption('options');
         $groups  = $input->getOption('group');
         $magics  = $input->getArgument('variables');
@@ -76,9 +76,10 @@ class TestsRun extends ConsoleCommand
             $xdebugFile   = trim($extensionDir) . DIRECTORY_SEPARATOR . 'xdebug.so';
 
             if (!file_exists($xdebugFile)) {
-                $xdebugFile = $this->askAndValidate($input, $output, 'xdebug not found. Please provide path to xdebug.so', function($xdebugFile) {
-                    return file_exists($xdebugFile);
-                });
+                $xdebugFile = $this->askAndValidate('xdebug not found. Please provide path to xdebug.so',
+                    function ($xdebugFile) {
+                        return file_exists($xdebugFile);
+                    });
             } else {
 
                 $output->writeln('<info>xdebug extension found in extension path.</info>');
@@ -97,8 +98,8 @@ class TestsRun extends ConsoleCommand
             putenv('PIWIK_USE_XHPROF=1');
         }
 
-        $suite    = $this->getTestsuite($input);
-        $testFile = $this->getTestFile($input);
+        $suite    = $this->getTestsuite();
+        $testFile = $this->getTestFile();
 
         if (!empty($magics)) {
             foreach ($magics as $magic) {
@@ -123,7 +124,7 @@ class TestsRun extends ConsoleCommand
         // Tear down any DB that already exists
         Db::destroyDatabaseObject();
 
-        $this->executeTests($matomoDomain, $suite, $testFile, $groups, $options, $command, $output, $enableLogging);
+        $this->executeTests($matomoDomain, $suite, $testFile, $groups, $options, $command, $enableLogging);
 
         return $this->returnVar;
     }
@@ -157,9 +158,9 @@ class TestsRun extends ConsoleCommand
         }
     }
 
-    private function getTestFile(InputInterface $input)
+    private function getTestFile()
     {
-        $testFile = $input->getOption('file');
+        $testFile = $this->getInput()->getOption('file');
 
         if (empty($testFile)) {
             return '';
@@ -168,12 +169,12 @@ class TestsRun extends ConsoleCommand
         return $this->fixPathToTestFileOrDirectory($testFile);
     }
 
-    private function executeTests($piwikDomain, $suite, $testFile, $groups, $options, $command, OutputInterface $output, $enableLogging)
+    private function executeTests($piwikDomain, $suite, $testFile, $groups, $options, $command, $enableLogging)
     {
         if (empty($suite) && empty($groups) && empty($testFile)) {
             foreach ($this->getTestsSuites() as $suite) {
                 $suite = $this->buildTestSuiteName($suite);
-                $this->executeTests($piwikDomain, $suite, $testFile, $groups, $options, $command, $output, $enableLogging);
+                $this->executeTests($piwikDomain, $suite, $testFile, $groups, $options, $command, $enableLogging);
             }
 
             return;
@@ -185,11 +186,12 @@ class TestsRun extends ConsoleCommand
             $params = $params . " " . $testFile;
         }
 
-        $this->executeTestRun($piwikDomain, $command, $params, $output, $enableLogging);
+        $this->executeTestRun($piwikDomain, $command, $params, $enableLogging);
     }
 
-    private function executeTestRun($piwikDomain, $command, $params, OutputInterface $output, $enableLogging)
+    private function executeTestRun($piwikDomain, $command, $params, $enableLogging)
     {
+        $output = $this->getOutput();
         $envVars = '';
         if (!empty($piwikDomain)) {
             $envVars .= "PIWIK_DOMAIN=$piwikDomain";
@@ -244,9 +246,9 @@ class TestsRun extends ConsoleCommand
         return $params;
     }
 
-    private function getTestsuite(InputInterface $input)
+    private function getTestsuite()
     {
-        $suite = $input->getOption('testsuite');
+        $suite = $this->getInput()->getOption('testsuite');
 
         if (empty($suite)) {
             return;
@@ -299,5 +301,4 @@ class TestsRun extends ConsoleCommand
 
         return $groups;
     }
-
 }

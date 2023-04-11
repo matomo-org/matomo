@@ -10,9 +10,7 @@
 namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\Plugin\Manager;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  */
@@ -25,10 +23,10 @@ class GenerateController extends GeneratePluginBase
             ->addOption('pluginname', null, InputOption::VALUE_REQUIRED, 'The name of an existing plugin which does not have a Controller yet');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
-        $pluginName = $this->getPluginName($input, $output);
-        $this->checkAndUpdateRequiredPiwikVersion($pluginName, $output);
+        $pluginName = $this->getPluginName();
+        $this->checkAndUpdateRequiredPiwikVersion($pluginName);
 
         $exampleFolder  = Manager::getPluginDirectory('ExamplePlugin');
         $replace        = array('ExamplePlugin' => $pluginName);
@@ -36,7 +34,7 @@ class GenerateController extends GeneratePluginBase
 
         $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $whitelistFiles);
 
-        $this->writeSuccessMessage($output, array(
+        $this->writeSuccessMessage(array(
              sprintf('Controller for %s generated.', $pluginName),
              'You can now start adding Controller actions',
              'Enjoy!'
@@ -46,17 +44,15 @@ class GenerateController extends GeneratePluginBase
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return array
+     * @return string
      * @throws \RuntimeException
      */
-    protected function getPluginName(InputInterface $input, OutputInterface $output)
+    protected function getPluginName()
     {
         $pluginNames = $this->getPluginNamesHavingNotSpecificFile('Controller.php');
         $invalidName = 'You have to enter the name of an existing plugin which does not already have a Controller';
 
-        return $this->askPluginNameAndValidate($input, $output, $pluginNames, $invalidName);
+        return $this->askPluginNameAndValidate($pluginNames, $invalidName);
     }
 
 }

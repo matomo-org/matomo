@@ -12,9 +12,7 @@ use Piwik\Http;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugin\Manager;
 use Piwik\Unzip;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class BuildTracker extends ConsoleCommand
 {
@@ -32,27 +30,28 @@ class BuildTracker extends ConsoleCommand
         return \Piwik\Development::isEnabled();
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
-        $plugin = $input->getOption('plugin');
+        $plugin = $this->getInput()->getOption('plugin');
         if ($plugin && !Manager::getInstance()->isPluginInFilesystem($plugin)) {
             throw new \InvalidArgumentException("Invalid plugin '$plugin'");
         }
 
-        $this->installYuiCompressorIfNeeded($output);
-        $this->compress($plugin, $output);
+        $this->installYuiCompressorIfNeeded();
+        $this->compress($plugin);
 
         return self::SUCCESS;
     }
 
-    private function compress($plugin, OutputInterface $output)
+    private function compress($plugin)
     {
+        $output = $this->getOutput();
         $output->writeln("Minifying...");
 
         $jsPath = PIWIK_INCLUDE_PATH . '/js';
         if (!$plugin) {
             $command = "cd $jsPath && sed '/<DEBUG>/,/<\\/DEBUG>/d' < piwik.js | sed 's/eval/replacedEvilString/' | java -jar yuicompressor-2.4.8.jar --type js --line-break 1000 | sed 's/replacedEvilString/eval/' | sed 's/^[/][*]/\\/*!/' > piwik.min.js && cp piwik.min.js ../piwik.js && cp piwik.min.js ../matomo.js";
-            if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
+            if ($output->isVerbose()) {
                 $output->writeln("Command: $command");
             }
             passthru($command);
@@ -63,7 +62,7 @@ class BuildTracker extends ConsoleCommand
         $pluginTrackerMinJs = PIWIK_INCLUDE_PATH . '/plugins/' . $plugin . '/tracker.min.js';
 
         $command = "cd $jsPath && cat $pluginTrackerJs | java -jar yuicompressor-2.4.8.jar --type js --line-break 1000 | sed 's/^[/][*]/\\/*!/' > $pluginTrackerMinJs";
-        if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
+        if ($output->isVerbose()) {
             $output->writeln("Command: $command");
         }
         passthru($command);
@@ -71,7 +70,7 @@ class BuildTracker extends ConsoleCommand
         $output->writeln("Done.");
     }
 
-    private function installYuiCompressorIfNeeded(OutputInterface $output)
+    private function installYuiCompressorIfNeeded()
     {
         $zipPath = PIWIK_INCLUDE_PATH . '/js/yuicompressor-2.4.8.zip';
         $jarPath = PIWIK_INCLUDE_PATH . '/js/yuicompressor-2.4.8.jar';
@@ -79,7 +78,7 @@ class BuildTracker extends ConsoleCommand
             return;
         }
 
-        $output->writeln("Downloading YUI compressor...");
+        $this->getOutput()->writeln("Downloading YUI compressor...");
         Http::fetchRemoteFile(self::YUI_COMPRESSOR_URL, $zipPath);
 
         $unzip = Unzip::factory('PclZip', $zipPath);

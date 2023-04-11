@@ -12,9 +12,7 @@ use Piwik\Config;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Tests\Framework\Fixture;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class TestsRunUI extends ConsoleCommand
 {
@@ -43,8 +41,10 @@ class TestsRunUI extends ConsoleCommand
         $this->addOption('timeout', null, InputOption::VALUE_REQUIRED, 'Custom test timeout value.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
         $specs = $input->getArgument('specs');
         $persistFixtureData = $input->getOption('persist-fixture-data');
         $keepSymlinks = $input->getOption('keep-symlinks');

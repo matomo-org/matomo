@@ -13,10 +13,7 @@ use Piwik\Filesystem;
 use Piwik\Plugins\ExamplePlugin\ExamplePlugin;
 use Piwik\Plugin;
 use Piwik\Version;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\NullOutput;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  */
@@ -33,12 +30,12 @@ class GeneratePlugin extends GeneratePluginBase
             ->addOption('overwrite', null, InputOption::VALUE_NONE, 'Generate even if plugin directory already exists.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
-        $isTheme     = $this->isTheme($input);
-        $pluginName  = $this->getPluginName($input, $output);
-        $description = $this->getPluginDescription($input, $output);
-        $version     = $this->getPluginVersion($input, $output);
+        $isTheme     = $this->isTheme();
+        $pluginName  = $this->getPluginName();
+        $description = $this->getPluginDescription();
+        $version     = $this->getPluginVersion();
 
         $this->generatePluginFolder($pluginName);
 
@@ -82,16 +79,16 @@ class GeneratePlugin extends GeneratePluginBase
         }
 
         $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $whitelistFiles);
-        $this->checkAndUpdateRequiredPiwikVersion($pluginName, new NullOutput());
+        $this->checkAndUpdateRequiredPiwikVersion($pluginName);
 
         if ($isTheme) {
-            $this->writeSuccessMessage($output, array(
+            $this->writeSuccessMessage(array(
                 sprintf('Theme %s %s generated.', $pluginName, $version),
                 'If you have not done yet check out our Theming guide <comment>https://developer.matomo.org/guides/theming</comment>',
                 'Enjoy!'
             ));
         } else {
-            $this->writeSuccessMessage($output, array(
+            $this->writeSuccessMessage(array(
                 sprintf('Plugin %s %s generated.', $pluginName, $version),
                 'Our developer guides will help you developing this plugin, check out <comment>https://developer.matomo.org/guides</comment>',
                 'To see a list of available generators execute <comment>./console list generate</comment>',
@@ -103,12 +100,11 @@ class GeneratePlugin extends GeneratePluginBase
     }
 
     /**
-     * @param InputInterface $input
      * @return bool
      */
-    private function isTheme(InputInterface $input)
+    private function isTheme()
     {
-        $commandName = $input->getFirstArgument();
+        $commandName = $this->getInput()->getFirstArgument();
 
         return false !== strpos($commandName, 'theme');
     }
@@ -120,14 +116,12 @@ class GeneratePlugin extends GeneratePluginBase
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return array
+     * @return string
      * @throws \RuntimeException
      */
-    protected function getPluginName(InputInterface $input, OutputInterface $output)
+    protected function getPluginName()
     {
-        $overwrite = $input->getOption('overwrite');
+        $overwrite = $this->getInput()->getOption('overwrite');
 
         $self = $this;
 
@@ -151,10 +145,10 @@ class GeneratePlugin extends GeneratePluginBase
             return $pluginName;
         };
 
-        $pluginName = $input->getOption('name');
+        $pluginName = $this->getInput()->getOption('name');
 
         if (empty($pluginName)) {
-            $pluginName = $this->askAndValidate($input, $output, 'Enter a plugin name: ', $validate);
+            $pluginName = $this->askAndValidate('Enter a plugin name: ', $validate);
         } else {
             $validate($pluginName);
         }
@@ -165,12 +159,10 @@ class GeneratePlugin extends GeneratePluginBase
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
      * @return mixed
      * @throws \RuntimeException
      */
-    protected function getPluginDescription(InputInterface $input, OutputInterface $output)
+    protected function getPluginDescription()
     {
         $validate = function ($description) {
             if (empty($description)) {
@@ -183,10 +175,10 @@ class GeneratePlugin extends GeneratePluginBase
             return $description;
         };
 
-        $description = $input->getOption('description');
+        $description = $this->getInput()->getOption('description');
 
         if (empty($description)) {
-            $description = $this->askAndValidate($input, $output, 'Enter a plugin description: ', $validate);
+            $description = $this->askAndValidate('Enter a plugin description: ', $validate);
         } else {
             $validate($description);
         }
@@ -195,16 +187,14 @@ class GeneratePlugin extends GeneratePluginBase
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
      * @return string
      */
-    protected function getPluginVersion(InputInterface $input, OutputInterface $output)
+    protected function getPluginVersion()
     {
-        $version = $input->getOption('pluginversion');
+        $version = $this->getInput()->getOption('pluginversion');
 
         if (is_null($version)) {
-            $version = $this->ask($input, $output, 'Enter a plugin version number (default to 0.1.0): ', '0.1.0');
+            $version = $this->ask('Enter a plugin version number (default to 0.1.0): ', '0.1.0');
         }
 
         return $version;

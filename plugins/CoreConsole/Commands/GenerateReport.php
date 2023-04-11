@@ -14,9 +14,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugin\ReportsProvider;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class GenerateReport extends GeneratePluginBase
 {
@@ -31,15 +29,15 @@ class GenerateReport extends GeneratePluginBase
             ->addOption('documentation', null, InputOption::VALUE_REQUIRED, 'A documentation that explains what your report is about');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
-        $pluginName    = $this->getPluginName($input, $output);
-        $this->checkAndUpdateRequiredPiwikVersion($pluginName, $output);
+        $pluginName    = $this->getPluginName();
+        $this->checkAndUpdateRequiredPiwikVersion($pluginName);
 
-        $reportName    = $this->getReportName($input, $output);
-        $category      = $this->getCategory($input, $output, $pluginName);
-        $documentation = $this->getDocumentation($input, $output);
-        list($dimension, $dimensionClass) = $this->getDimension($input, $output, $pluginName);
+        $reportName    = $this->getReportName();
+        $category      = $this->getCategory($pluginName);
+        $documentation = $this->getDocumentation();
+        [$dimension, $dimensionClass] = $this->getDimension($pluginName);
 
         $order   = $this->getOrder($category);
         $apiName = $this->getApiName($reportName);
@@ -67,7 +65,7 @@ class GenerateReport extends GeneratePluginBase
 
         $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $whitelistFiles);
 
-        $this->writeSuccessMessage($output, array(
+        $this->writeSuccessMessage(array(
             sprintf('plugins/%s/Reports/%s.php for %s generated.', $pluginName, ucfirst($apiName), $pluginName),
             'You should now implement the method called <comment>"' . lcfirst($apiName) . '()"</comment> in API.php',
            // 'Read more about this here: link to developer guide',
@@ -106,13 +104,12 @@ class GenerateReport extends GeneratePluginBase
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return array
+     * @return string
      * @throws \RuntimeException
      */
-    protected function getReportName(InputInterface $input, OutputInterface $output)
+    protected function getReportName()
     {
+        $input = $this->getInput();
         $validate = function ($reportName) {
             if (empty($reportName)) {
                 throw new \InvalidArgumentException('Please enter the name of your report');
@@ -128,7 +125,8 @@ class GenerateReport extends GeneratePluginBase
         $reportName = $input->getOption('reportname');
 
         if (empty($reportName)) {
-            $reportName = $this->askAndValidate($input, $output, 'Enter the name of your report, for instance "Browser Families": ', $validate);
+            $reportName = $this->askAndValidate('Enter the name of your report, for instance "Browser Families": ',
+                                                $validate);
         } else {
             $validate($reportName);
         }
@@ -139,13 +137,12 @@ class GenerateReport extends GeneratePluginBase
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return array
+     * @return string
      * @throws \RuntimeException
      */
-    protected function getDocumentation(InputInterface $input, OutputInterface $output)
+    protected function getDocumentation()
     {
+        $input = $this->getInput();
         $validate = function ($documentation) {
             if (empty($documentation)) {
                 return '';
@@ -157,7 +154,8 @@ class GenerateReport extends GeneratePluginBase
         $documentation = $input->getOption('documentation');
 
         if (empty($documentation)) {
-            $documentation = $this->askAndValidate($input, $output, 'Enter a documentation that describes the data of your report (you can leave it empty and define it later): ', $validate);
+            $documentation = $this->askAndValidate('Enter a documentation that describes the data of your report (you can leave it empty and define it later): ',
+                                                   $validate);
         } else {
             $validate($documentation);
         }
@@ -168,14 +166,13 @@ class GenerateReport extends GeneratePluginBase
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
      * @param string $pluginName
-     * @return array
+     * @return string
      * @throws \RuntimeException
      */
-    protected function getCategory(InputInterface $input, OutputInterface $output, $pluginName)
+    protected function getCategory($pluginName)
     {
+        $input = $this->getInput();
         $path = $this->getPluginPath($pluginName) . '/Reports/Base.php';
         if (file_exists($path)) {
             // category is already defined in base.php
@@ -203,7 +200,10 @@ class GenerateReport extends GeneratePluginBase
         $categories = array_values(array_unique($categories));
 
         if (empty($category)) {
-            $category = $this->askAndValidate($input, $output, 'Enter the report category, for instance "Visitor" (you can reuse any existing category or define a new one): ', $validate, false, null, $categories);
+            $category = $this->askAndValidate('Enter the report category, for instance "Visitor" (you can reuse any existing category or define a new one): ',
+                                              $validate,
+                                              false,
+                                              $categories);
         } else {
             $validate($category);
         }
@@ -219,14 +219,13 @@ class GenerateReport extends GeneratePluginBase
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
      * @param string $pluginName
      * @return array
      * @throws \RuntimeException
      */
-    protected function getDimension(InputInterface $input, OutputInterface $output, $pluginName)
+    protected function getDimension($pluginName)
     {
+        $input = $this->getInput();
         $dimensions = array();
         $dimensionNames = array();
 
@@ -272,7 +271,10 @@ class GenerateReport extends GeneratePluginBase
         $actualDimension = $input->getOption('dimension');
 
         if (null === $actualDimension) {
-            $actualDimension = $this->askAndValidate($input, $output, 'Enter the report dimension, for instance "Browser" (you can leave it either empty or use an existing one): ', $validate, null, $dimensionNames);
+            $actualDimension = $this->askAndValidate('Enter the report dimension, for instance "Browser" (you can leave it either empty or use an existing one): ',
+                                                     $validate,
+                                                     null,
+                                                     $dimensionNames);
         } else {
             $validate($actualDimension);
         }
@@ -289,17 +291,15 @@ class GenerateReport extends GeneratePluginBase
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return array
+     * @return string
      * @throws \RuntimeException
      */
-    protected function getPluginName(InputInterface $input, OutputInterface $output)
+    protected function getPluginName()
     {
         $pluginNames = $this->getPluginNames();
         $invalidName = 'You have to enter a name of an existing plugin.';
 
-        return $this->askPluginNameAndValidate($input, $output, $pluginNames, $invalidName);
+        return $this->askPluginNameAndValidate($pluginNames, $invalidName);
     }
 
 }

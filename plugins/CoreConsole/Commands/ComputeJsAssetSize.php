@@ -17,10 +17,7 @@ use Piwik\Plugin\Manager;
 use Piwik\ProxyHttp;
 use Piwik\SettingsPiwik;
 use Piwik\Theme;
-use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class ComputeJsAssetSize extends ConsoleCommand
 {
@@ -39,8 +36,10 @@ class ComputeJsAssetSize extends ConsoleCommand
         return SettingsPiwik::isGitDeployment();
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
         $noDelete = $input->getOption('no-delete');
         $plugin = $input->getOption('plugin');
 
@@ -57,10 +56,10 @@ class ComputeJsAssetSize extends ConsoleCommand
 
         $output->writeln("");
 
-        $this->printCurrentGitHashAndBranch($output, $plugin);
+        $this->printCurrentGitHashAndBranch($plugin);
 
         $output->writeln("");
-        $this->printFilesizes($fetcher, $output);
+        $this->printFilesizes($fetcher);
 
         if (!$noDelete) {
             $this->deleteMergedAssets();
@@ -195,7 +194,7 @@ class ComputeJsAssetSize extends ConsoleCommand
         AssetManager::getInstance()->removeMergedAssets();
     }
 
-    private function printFilesizes(AssetManager\UIAssetFetcher\PluginUmdAssetFetcher $fetcher, OutputInterface $output)
+    private function printFilesizes(AssetManager\UIAssetFetcher\PluginUmdAssetFetcher $fetcher)
     {
         $fileSizes = [];
 
@@ -214,9 +213,7 @@ class ComputeJsAssetSize extends ConsoleCommand
         $fileSizes[] = [];
         $fileSizes[] = ['Total', $this->getFormattedSize($this->totals['merged']), $this->getFormattedSize($this->totals['gzip'])];
 
-        $table = new Table($output);
-        $table->setHeaders(['File', 'Size', 'Size (gzipped)'])->setRows($fileSizes);
-        $table->render();
+        $this->renderTable(['File', 'Size', 'Size (gzipped)'], $fileSizes);
     }
 
     private function getFileSize($fileLocation, $type)
@@ -254,7 +251,7 @@ class ComputeJsAssetSize extends ConsoleCommand
         return $this->getFileSize($compressedPath, 'gzip');
     }
 
-    private function printCurrentGitHashAndBranch(OutputInterface $output, $plugin = null)
+    private function printCurrentGitHashAndBranch($plugin = null)
     {
         $branchName = trim(`git rev-parse --abbrev-ref HEAD`);
         $lastCommit = trim(`git log --pretty=format:'%h' -n 1`);
@@ -269,7 +266,7 @@ class ComputeJsAssetSize extends ConsoleCommand
             $pluginSuffix = " [$plugin: $pluginBranchName ($pluginLastCommit)]";
         }
 
-        $output->writeln("<info>$branchName ($lastCommit)$pluginSuffix</info>");
+        $this->getOutput()->writeln("<info>$branchName ($lastCommit)$pluginSuffix</info>");
     }
 
     private function makeUmdFetcher()

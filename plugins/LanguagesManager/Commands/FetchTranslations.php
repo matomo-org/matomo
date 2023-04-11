@@ -13,9 +13,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Exception\AuthenticationFailedException;
 use Piwik\Plugins\LanguagesManager\API as LanguagesManagerApi;
 use Piwik\Translation\Weblate\API;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  */
@@ -34,8 +32,10 @@ class FetchTranslations extends TranslationBase
              ->addOption('plugin', 'r', InputOption::VALUE_OPTIONAL, 'Plugin to update');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
         $output->setDecorated(true);
 
         $apiToken = $input->getOption('token');
@@ -86,7 +86,7 @@ class FetchTranslations extends TranslationBase
             $languages = $languageCodes;
         }
 
-        $this->initProgressBar($output, count($languages));
+        $this->initProgressBar(count($languages));
         $this->startProgressBar();
 
         foreach ($languages as $language) {

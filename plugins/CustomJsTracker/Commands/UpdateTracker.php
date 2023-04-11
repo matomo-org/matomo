@@ -11,9 +11,7 @@ namespace Piwik\Plugins\CustomJsTracker\Commands;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\CustomJsTracker\TrackerUpdater;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateTracker extends ConsoleCommand
 {
@@ -32,8 +30,10 @@ class UpdateTracker extends ConsoleCommand
         return PIWIK_DOCUMENT_ROOT . TrackerUpdater::ORIGINAL_PIWIK_JS;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
         $sourceFile = $input->getOption('source-file');
         $targetFile = $input->getOption('target-file');
         $ignoreMinified = (bool)$input->getOption('ignore-minified');

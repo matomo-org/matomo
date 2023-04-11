@@ -21,7 +21,6 @@ use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Site;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Log\LoggerInterface;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -69,8 +68,11 @@ class InvalidateReportData extends ConsoleCommand
             . 'command can be used to make sure reports are generated using the new, changed log data.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
+
         $invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
 
         $cascade = $input->getOption('cascade');
@@ -78,10 +80,10 @@ class InvalidateReportData extends ConsoleCommand
         $plugin = $input->getOption('plugin');
         $ignoreLogDeletionLimit = $input->getOption('ignore-log-deletion-limit');
 
-        $sites = $this->getSitesToInvalidateFor($input);
-        $periodTypes = $this->getPeriodTypesToInvalidateFor($input);
-        $dateRanges = $this->getDateRangesToInvalidateFor($input);
-        $segments = $this->getSegmentsToInvalidateFor($input, $sites, $output);
+        $sites = $this->getSitesToInvalidateFor();
+        $periodTypes = $this->getPeriodTypesToInvalidateFor();
+        $dateRanges = $this->getDateRangesToInvalidateFor();
+        $segments = $this->getSegmentsToInvalidateFor($sites);
 
         $logger = StaticContainer::get(LoggerInterface::class);
 
@@ -109,7 +111,7 @@ class InvalidateReportData extends ConsoleCommand
                         $invalidationResult = $invalidator->markArchivesAsInvalidated($sites, $dates, $periodType, $segment, $cascade,
                             false, $plugin, $ignoreLogDeletionLimit);
 
-                        if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
+                        if ($output->getVerbosity() > $output::VERBOSITY_NORMAL) {
                             foreach ($invalidationResult->makeOutputLogs() as $outputLog) {
                                 $logger->info($outputLog);
                             }
@@ -147,9 +149,9 @@ class InvalidateReportData extends ConsoleCommand
         return self::SUCCESS;
     }
 
-    private function getSitesToInvalidateFor(InputInterface $input)
+    private function getSitesToInvalidateFor()
     {
-        $sites = $input->getOption('sites');
+        $sites = $this->getInput()->getOption('sites');
 
         $siteIds = Site::getIdSitesFromIdSitesString($sites);
         if (empty($siteIds)) {
@@ -166,9 +168,9 @@ class InvalidateReportData extends ConsoleCommand
         return $siteIds;
     }
 
-    private function getPeriodTypesToInvalidateFor(InputInterface $input)
+    private function getPeriodTypesToInvalidateFor()
     {
-        $periods = $input->getOption('periods');
+        $periods = $this->getInput()->getOption('periods');
         if (empty($periods)) {
             throw new \InvalidArgumentException("The --periods argument is required.");
         }
@@ -191,12 +193,11 @@ class InvalidateReportData extends ConsoleCommand
     }
 
     /**
-     * @param InputInterface $input
      * @return Date[][]
      */
-    private function getDateRangesToInvalidateFor(InputInterface $input)
+    private function getDateRangesToInvalidateFor()
     {
-        $dateRanges = $input->getOption('dates');
+        $dateRanges = $this->getInput()->getOption('dates');
         if (empty($dateRanges)) {
             throw new \InvalidArgumentException("The --dates option is required.");
         }
@@ -231,8 +232,10 @@ class InvalidateReportData extends ConsoleCommand
         return $result;
     }
 
-    private function getSegmentsToInvalidateFor(InputInterface $input, $idSites, OutputInterface $output)
+    private function getSegmentsToInvalidateFor($idSites)
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
         $segments = $input->getOption('segment');
         $segments = array_map('trim', $segments);
         $segments = array_unique($segments);
@@ -253,7 +256,7 @@ class InvalidateReportData extends ConsoleCommand
         return $result;
     }
 
-    private function findSegment($segmentOptionValue, $idSites, InputInterface $input, OutputInterface $output)
+    private function findSegment($segmentOptionValue, $idSites)
     {
         $logger = StaticContainer::get(LoggerInterface::class);
 

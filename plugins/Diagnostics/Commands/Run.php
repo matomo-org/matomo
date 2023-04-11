@@ -14,9 +14,7 @@ use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\Diagnostics\Diagnostic\DiagnosticResult;
 use Piwik\Plugins\Diagnostics\Diagnostic\DiagnosticResultItem;
 use Piwik\Plugins\Diagnostics\DiagnosticService;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Run the diagnostics.
@@ -30,12 +28,14 @@ class Run extends ConsoleCommand
             ->addOption('all', null, InputOption::VALUE_NONE, 'Show all diagnostics, including those that passed with success');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
         // Replace this with dependency injection once available
         /** @var DiagnosticService $diagnosticService */
         $diagnosticService = StaticContainer::get('Piwik\Plugins\Diagnostics\DiagnosticService');
 
+        $input = $this->getInput();
+        $output = $this->getOutput();
         $showAll = $input->getOption('all');
 
         $report = $diagnosticService->runDiagnostics();
@@ -48,13 +48,13 @@ class Run extends ConsoleCommand
             }
 
             if (count($items) === 1) {
-                $output->writeln($result->getLabel() . ': ' . $this->formatItem($items[0]), OutputInterface::OUTPUT_NORMAL);
+                $output->writeln($result->getLabel() . ': ' . $this->formatItem($items[0]));
                 continue;
             }
 
             $output->writeln($result->getLabel() . ':');
             foreach ($items as $item) {
-                $output->writeln("\t- " . $this->formatItem($item), OutputInterface::OUTPUT_NORMAL);
+                $output->writeln("\t- " . $this->formatItem($item));
             }
         }
 

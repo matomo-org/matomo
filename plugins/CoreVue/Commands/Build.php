@@ -14,9 +14,7 @@ use Piwik\Filesystem;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class Build extends ConsoleCommand
 {
@@ -40,10 +38,13 @@ class Build extends ConsoleCommand
         return \Piwik\Development::isEnabled();
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
+
         self::checkVueCliServiceAvailable();
-        $this->checkNodeJsVersion($output);
+        $this->checkNodeJsVersion();
 
         $clearWebpackCache = $input->getOption('clear-webpack-cache');
         if ($clearWebpackCache) {
@@ -74,7 +75,7 @@ class Build extends ConsoleCommand
 
         $bail = $input->getOption('bail');
 
-        $failed = $this->build($output, $plugins, $printBuildCommand, $watch, $bail);
+        $failed = $this->build($plugins, $printBuildCommand, $watch, $bail);
         return $failed > 0 ? self::FAILURE : self::SUCCESS;
     }
 
@@ -98,19 +99,19 @@ class Build extends ConsoleCommand
         return is_file($typeDirectory);
     }
 
-    private function build(OutputInterface $output, $plugins, $printBuildCommand, $watch = false, $bail = false)
+    private function build($plugins, $printBuildCommand, $watch = false, $bail = false)
     {
         if ($watch) {
-            $this->watch($plugins, $printBuildCommand, $output);
+            $this->watch($plugins, $printBuildCommand);
             return 0;
         }
 
         $failed = 0;
 
         foreach ($plugins as $plugin) {
-            $buildFailed = (int) $this->buildFiles($output, $plugin, $printBuildCommand);
+            $buildFailed = (int) $this->buildFiles($plugin, $printBuildCommand);
             if ($buildFailed && $bail) {
-                $output->writeln("<error>Build failed, bailing.</error>");
+                $this->getOutput()->writeln("<error>Build failed, bailing.</error>");
                 return $failed;
             }
 
@@ -120,7 +121,7 @@ class Build extends ConsoleCommand
         return $failed;
     }
 
-    private function watch($plugins, $printBuildCommand, OutputInterface $output)
+    private function watch($plugins, $printBuildCommand)
     {
         $commandSingle = "BROWSERSLIST_IGNORE_OLD_DATA=1 FORCE_COLOR=1 MATOMO_CURRENT_PLUGIN=%1\$s "
             . 'node ' . self::getVueCliServiceProxyBin() . ' build --mode=development --target lib --name '
@@ -132,15 +133,16 @@ class Build extends ConsoleCommand
         }
 
         if ($printBuildCommand) {
-            $output->writeln("<comment>$command</comment>");
+            $this->getOutput()->writeln("<comment>$command</comment>");
             return;
         }
 
         passthru($command);
     }
 
-    private function buildFiles(OutputInterface $output, $plugin, $printBuildCommand)
+    private function buildFiles($plugin, $printBuildCommand)
     {
+        $output = $this->getOutput();
         $command = "BROWSERSLIST_IGNORE_OLD_DATA=1 FORCE_COLOR=1 MATOMO_CURRENT_PLUGIN=$plugin "
             . 'node ' . self::getVueCliServiceProxyBin() . ' build --target lib --name ' . $plugin
             . " ./plugins/$plugin/vue/src/index.ts --dest ./plugins/$plugin/vue/dist";
@@ -153,7 +155,7 @@ class Build extends ConsoleCommand
         $this->clearPluginTypes($plugin);
 
         $output->writeln("<comment>Building $plugin...</comment>");
-        if ($output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
+        if ($output->isVerbose()) {
             passthru($command);
         } else {
             $attempts = 0;
@@ -259,8 +261,9 @@ class Build extends ConsoleCommand
         Filesystem::unlinkRecursive($path, true);
     }
 
-    private function checkNodeJsVersion(OutputInterface $output)
+    private function checkNodeJsVersion()
     {
+        $output = $this->getOutput();
         $nodeVersion = ltrim(trim(`node -v`), 'v');
         $npmVersion = ltrim(trim(`npm -v`), 'v');
 

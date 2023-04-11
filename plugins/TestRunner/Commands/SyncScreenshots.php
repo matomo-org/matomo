@@ -15,9 +15,7 @@ use Piwik\Http;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Downloads the UI tests screenshots from artifacts server into the local repository.
@@ -84,8 +82,10 @@ class SyncScreenshots extends ConsoleCommand
         );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
         $buildNumber      = $input->getArgument('buildnumber');
         $screenshotsRegex = $input->getArgument('screenshotsRegex');
         $repository       = $input->getOption('repository');
@@ -114,7 +114,7 @@ class SyncScreenshots extends ConsoleCommand
             }
         }
 
-        $this->displayGitInstructions($output, $repository);
+        $this->displayGitInstructions($repository);
 
         return self::SUCCESS;
     }
@@ -172,9 +172,9 @@ class SyncScreenshots extends ConsoleCommand
         );
     }
 
-    private function displayGitInstructions(OutputInterface $output, $repository)
+    private function displayGitInstructions($repository)
     {
-        $output->writeln(
+        $this->getOutput()->writeln(
             '<comment>If all downloaded screenshots are valid you may push them with these commands:</comment>'
         );
         $downloadToPath = $this->getDownloadToPath($repository);
@@ -198,7 +198,7 @@ cd ../../../";
 cd ../../../../../";
         }
 
-        $output->writeln($commands);
+        $this->getOutput()->writeln($commands);
     }
 
     private function getDownloadToPath($repository, $fileName = false)

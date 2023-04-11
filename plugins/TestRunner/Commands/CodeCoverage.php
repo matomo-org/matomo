@@ -12,9 +12,7 @@ namespace Piwik\Plugins\TestRunner\Commands;
 use Piwik\Plugin\ConsoleCommand;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  */
@@ -28,8 +26,10 @@ class CodeCoverage extends ConsoleCommand
         $this->addArgument('group', InputArgument::OPTIONAL, 'Run only a specific test group. Separate multiple groups by comma, for instance core,plugins', '');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
         $phpCovPath = trim(shell_exec('which phpcov'));
 
         if (empty($phpCovPath)) {
@@ -73,9 +73,10 @@ class CodeCoverage extends ConsoleCommand
             $xdebugFile   = trim($extensionDir) . DIRECTORY_SEPARATOR . 'xdebug.so';
 
             if (!file_exists($xdebugFile)) {
-                $xdebugFile = $this->askAndValidate($input, $output, 'xdebug not found. Please provide path to xdebug.so', function($xdebugFile) {
-                    return file_exists($xdebugFile);
-                });
+                $xdebugFile = $this->askAndValidate('xdebug not found. Please provide path to xdebug.so',
+                    function ($xdebugFile) {
+                        return file_exists($xdebugFile);
+                    });
             } else {
 
                 $output->writeln('<info>xdebug extension found in extension path.</info>');

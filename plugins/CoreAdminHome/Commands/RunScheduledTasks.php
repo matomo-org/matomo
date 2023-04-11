@@ -14,9 +14,7 @@ use Piwik\FrontController;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Scheduler\Scheduler;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class RunScheduledTasks extends ConsoleCommand
 {
@@ -32,9 +30,11 @@ class RunScheduledTasks extends ConsoleCommand
     /**
      * Execute command like: ./console core:run-scheduled-tasks
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
-        $this->forceRunAllTasksIfRequested($input);
+        $input = $this->getInput();
+
+        $this->forceRunAllTasksIfRequested();
 
         FrontController::getInstance()->init();
 
@@ -45,26 +45,26 @@ class RunScheduledTasks extends ConsoleCommand
         $task = $input->getArgument('task');
 
         if ($task) {
-            $this->runSingleTask($scheduler, $task, $output);
+            $this->runSingleTask($scheduler, $task);
         } else {
             $scheduler->run();
         }
 
-        $this->writeSuccessMessage($output, array('Scheduled Tasks executed'));
+        $this->writeSuccessMessage(array('Scheduled Tasks executed'));
 
         return self::SUCCESS;
     }
 
-    private function forceRunAllTasksIfRequested(InputInterface $input)
+    private function forceRunAllTasksIfRequested()
     {
-        $force = $input->getOption('force');
+        $force = $this->getInput()->getOption('force');
 
         if ($force && !defined('DEBUG_FORCE_SCHEDULED_TASKS')) {
             define('DEBUG_FORCE_SCHEDULED_TASKS', true);
         }
     }
 
-    private function runSingleTask(Scheduler $scheduler, $task, OutputInterface $output)
+    private function runSingleTask(Scheduler $scheduler, $task)
     {
         try {
             $message = $scheduler->runTaskNow($task);
@@ -76,6 +76,6 @@ class RunScheduledTasks extends ConsoleCommand
             throw new \Exception($message);
         }
 
-        $output->writeln($message);
+        $this->getOutput()->writeln($message);
     }
 }

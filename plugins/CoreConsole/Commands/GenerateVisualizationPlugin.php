@@ -10,9 +10,7 @@
 namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\Plugin\Manager;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  */
@@ -30,13 +28,13 @@ class GenerateVisualizationPlugin extends GeneratePlugin
             ->addOption('full', null, InputOption::VALUE_OPTIONAL, 'If a value is set, an API and a Controller will be created as well. Option is only available for creating plugins, not for creating themes.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
-        $pluginName  = $this->getPluginName($input, $output);
-        $this->checkAndUpdateRequiredPiwikVersion($pluginName, $output);
-        $description = $this->getPluginDescription($input, $output);
-        $version     = $this->getPluginVersion($input, $output);
-        $visualizationName = $this->getVisualizationName($input, $output);
+        $pluginName  = $this->getPluginName();
+        $this->checkAndUpdateRequiredPiwikVersion($pluginName);
+        $description = $this->getPluginDescription();
+        $version     = $this->getPluginVersion();
+        $visualizationName = $this->getVisualizationName();
 
         $this->generatePluginFolder($pluginName);
 
@@ -51,7 +49,7 @@ class GenerateVisualizationPlugin extends GeneratePlugin
 
         $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $allowListFiles = array());
 
-        $this->writeSuccessMessage($output, array(
+        $this->writeSuccessMessage(array(
              sprintf('Visualization plugin %s %s generated.', $pluginName, $version),
              'Enjoy!'
         ));
@@ -60,16 +58,13 @@ class GenerateVisualizationPlugin extends GeneratePlugin
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
      * @return string
      * @throws \RuntimeException
      */
-    private function getVisualizationName(InputInterface $input, OutputInterface $output)
+    private function getVisualizationName()
     {
-        $self = $this;
-
-        $validate = function ($visualizationName) use ($self) {
+        $input = $this->getInput();
+        $validate = function ($visualizationName) {
             if (empty($visualizationName)) {
                 throw new \RuntimeException('You have to enter a visualization name');
             }
@@ -84,7 +79,7 @@ class GenerateVisualizationPlugin extends GeneratePlugin
         $visualizationName = $input->getOption('visualizationname');
 
         if (empty($visualizationName)) {
-            $visualizationName = $this->askAndValidate($input, $output, 'Enter a visualization name (only AlNum allowed): ', $validate);
+            $visualizationName = $this->askAndValidate('Enter a visualization name (only AlNum allowed): ', $validate);
         } else {
             $validate($visualizationName);
         }

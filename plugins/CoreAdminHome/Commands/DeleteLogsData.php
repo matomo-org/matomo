@@ -17,9 +17,7 @@ use Piwik\LogDeleter;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Site;
 use Piwik\Timer;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Command to selectively delete visits.
@@ -65,18 +63,21 @@ class DeleteLogsData extends ConsoleCommand
             "If supplied, the command will optimize log tables after deleting logs. Note: this can take a very long time.");
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
-        list($from, $to) = $this->getDateRangeToDeleteFrom($input);
-        $idSite = $this->getSiteToDeleteFrom($input);
-        $step = $this->getRowIterationStep($input);
+        $input = $this->getInput();
+        $output = $this->getOutput();
+
+        [$from, $to] = $this->getDateRangeToDeleteFrom();
+        $idSite = $this->getSiteToDeleteFrom();
+        $step = $this->getRowIterationStep();
 
         $output->writeln( sprintf(
                 "<info>Preparing to delete all visits belonging to %s between $from and $to.</info>",
                 $idSite ? "website $idSite" : "ALL websites"
         ));
 
-        $confirm = $this->askForDeleteConfirmation($input, $output);
+        $confirm = $this->askForDeleteConfirmation();
         if (!$confirm) {
             return self::FAILURE;
         }
@@ -88,28 +89,27 @@ class DeleteLogsData extends ConsoleCommand
                 $output->write('.');
             });
         } catch (\Exception $ex) {
-            $output->writeln("");
+            $output->writeln('');
 
             throw $ex;
         }
 
-        $this->writeSuccessMessage($output, array(
+        $this->writeSuccessMessage(array(
             "Successfully deleted $logsDeleted visits. <comment>" . $timer . "</comment>"));
 
         if ($input->getOption('optimize-tables')) {
-            $this->optimizeTables($output);
+            $this->optimizeTables();
         }
 
         return self::SUCCESS;
     }
 
     /**
-     * @param InputInterface $input
      * @return Date[]
      */
-    private function getDateRangeToDeleteFrom(InputInterface $input)
+    private function getDateRangeToDeleteFrom()
     {
-        $dates = $input->getOption('dates');
+        $dates = $this->getInput()->getOption('dates');
         if (empty($dates)) {
             throw new \InvalidArgumentException("No date range supplied in --dates option. Deleting all logs by default is not allowed, you must specify a date range.");
         }
@@ -121,7 +121,7 @@ class DeleteLogsData extends ConsoleCommand
             throw new \InvalidArgumentException("Invalid date range supplied: $dates");
         }
 
-        list($start, $end) = $parts;
+        [$start, $end] = $parts;
 
         try {
             /** @var Date[] $dateObjects */
@@ -139,9 +139,9 @@ class DeleteLogsData extends ConsoleCommand
         return $dateObjects;
     }
 
-    private function getSiteToDeleteFrom(InputInterface $input)
+    private function getSiteToDeleteFrom()
     {
-        $idSite = $input->getOption('idsite');
+        $idSite = $this->getInput()->getOption('idsite');
 
         if(is_null($idSite)) {
             return $idSite;
@@ -156,9 +156,9 @@ class DeleteLogsData extends ConsoleCommand
         return $idSite;
     }
 
-    private function getRowIterationStep(InputInterface $input)
+    private function getRowIterationStep()
     {
-        $step = (int) $input->getOption('limit');
+        $step = (int) $this->getInput()->getOption('limit');
 
         if ($step <= 0) {
             throw new \InvalidArgumentException("Invalid row limit supplied: $step. Must be a number greater than 0.");
@@ -167,19 +167,22 @@ class DeleteLogsData extends ConsoleCommand
         return $step;
     }
 
-    private function askForDeleteConfirmation(InputInterface $input, OutputInterface $output)
+    private function askForDeleteConfirmation()
     {
-        if ($input->getOption('no-interaction')) {
+        if ($this->getInput()->isInteractive()) {
             return true;
         }
 
-        return $this->askForConfirmation($input, $output, '<comment>You are about to delete log data. This action cannot be undone, are you sure you want to continue? (Y/N)</comment> ', false);
+        return $this->askForConfirmation(
+            '<comment>You are about to delete log data. This action cannot be undone, are you sure you want to continue? (Y/N)</comment> ',
+            false
+        );
     }
 
-    private function optimizeTables(OutputInterface $output)
+    private function optimizeTables()
     {
         foreach (self::$logTables as $table) {
-            $output->write("Optimizing table $table... ");
+            $this->getOutput()->write("Optimizing table $table... ");
 
             $timer = new Timer();
 
@@ -188,12 +191,12 @@ class DeleteLogsData extends ConsoleCommand
             $done = Db::optimizeTables($prefixedTable);
 
             if($done) {
-                $output->writeln("done. <comment>" . $timer . "</comment>");
+                $this->getOutput()->writeln("done. <comment>" . $timer . "</comment>");
             } else {
-                $output->writeln("skipped! <comment>" . $timer . "</comment>");
+                $this->getOutput()->writeln("skipped! <comment>" . $timer . "</comment>");
             }
         }
 
-        $this->writeSuccessMessage($output, array("Table optimization finished."));
+        $this->writeSuccessMessage(['Table optimization finished.']);
     }
 }

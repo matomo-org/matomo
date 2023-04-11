@@ -17,9 +17,7 @@ use Piwik\Tests\Framework\TestingEnvironmentVariables;
 use Piwik\Url;
 use Piwik\Tests\Framework\Fixture;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Console commands that sets up a fixture either in a local MySQL database or a remote one.
@@ -91,8 +89,10 @@ class TestsSetupFixture extends ConsoleCommand
         $this->addOption('enable-logging', null, InputOption::VALUE_NONE, 'If enabled, tests will log to the configured log file.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
         if (!defined('PIWIK_TEST_MODE')) {
             define('PIWIK_TEST_MODE', true);
         }
@@ -115,7 +115,7 @@ class TestsSetupFixture extends ConsoleCommand
             throw new \Exception("To generate OmniFixture for the UI tests, you must set an empty tables_prefix in [database_tests]");
         }
 
-        $this->requireFixtureFiles($input);
+        $this->requireFixtureFiles();
         $this->setIncludePathAsInTestBootstrap();
 
         $host = Config::getHostname();
@@ -137,9 +137,9 @@ class TestsSetupFixture extends ConsoleCommand
             $this->createSymbolicLinksForUITests();
         }
 
-        $fixture = $this->createFixture($input, $allowSave = !empty($configDomainToSave));
+        $fixture = $this->createFixture($allowSave = !empty($configDomainToSave));
 
-        $this->setupDatabaseOverrides($input, $fixture);
+        $this->setupDatabaseOverrides($fixture);
 
         // perform setup and/or teardown
         if ($input->getOption('teardown')) {
@@ -149,11 +149,11 @@ class TestsSetupFixture extends ConsoleCommand
             $fixture->performSetUp();
         }
 
-        $this->writeSuccessMessage($output, array("Fixture successfully setup!"));
+        $this->writeSuccessMessage(array("Fixture successfully setup!"));
 
         $sqlDumpPath = $input->getOption('sqldump');
         if ($sqlDumpPath) {
-            $this->createSqlDump($sqlDumpPath, $output);
+            $this->createSqlDump($sqlDumpPath);
         }
 
         if (!empty($configDomainToSave)) {
@@ -181,8 +181,9 @@ class TestsSetupFixture extends ConsoleCommand
         }
     }
 
-    private function createSqlDump($sqlDumpPath, OutputInterface $output)
+    private function createSqlDump($sqlDumpPath)
     {
+        $output = $this->getOutput();
         $output->writeln("<info>Creating SQL dump...</info>");
 
         $databaseConfig = Config::getInstance()->database;
@@ -195,11 +196,12 @@ class TestsSetupFixture extends ConsoleCommand
         $output->writeln("<info>Executing $command...</info>");
         passthru($command);
 
-        $this->writeSuccessMessage($output, array("SQL dump created!"));
+        $this->writeSuccessMessage(array("SQL dump created!"));
     }
 
-    private function setupDatabaseOverrides(InputInterface $input, Fixture $fixture)
+    private function setupDatabaseOverrides(Fixture $fixture)
     {
+        $input = $this->getInput();
         $testingEnvironment = $fixture->getTestEnvironment();
 
         $optionsToOverride = array(
@@ -217,8 +219,9 @@ class TestsSetupFixture extends ConsoleCommand
         }
     }
 
-    private function createFixture(InputInterface $input, $allowSave)
+    private function createFixture($allowSave)
     {
+        $input = $this->getInput();
         $fixtureClass = $input->getArgument('fixture');
         if (class_exists("Piwik\\Tests\\Fixtures\\" . $fixtureClass)) {
             $fixtureClass = "Piwik\\Tests\\Fixtures\\" . $fixtureClass;
@@ -256,9 +259,9 @@ class TestsSetupFixture extends ConsoleCommand
         return $fixture;
     }
 
-    private function requireFixtureFiles(InputInterface $input)
+    private function requireFixtureFiles()
     {
-        $file = $input->getOption('file');
+        $file = $this->getInput()->getOption('file');
         if ($file) {
             if (is_file($file)) {
                 require_once $file;

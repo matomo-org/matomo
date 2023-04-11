@@ -12,9 +12,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Site;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class AnonymizeRawData extends ConsoleCommand
 {
@@ -34,8 +32,10 @@ class AnonymizeRawData extends ConsoleCommand
         $this->addOption('idsites', null, InputOption::VALUE_REQUIRED, 'By default, the data of all idSites will be anonymized or unset. However, you can specify a set of idSites to execute this command only on these idsites.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
         $date = $input->getOption('date');
         $visitColumnsToUnset = $input->getOption('unset-visit-columns');
         if (!empty($visitColumnsToUnset)) {
@@ -58,34 +58,41 @@ class AnonymizeRawData extends ConsoleCommand
 
         $logDataAnonymizations = StaticContainer::get('Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations');
 
-        list($startDate, $endDate) = $logDataAnonymizations->getStartAndEndDate($date);
+        [$startDate, $endDate] = $logDataAnonymizations->getStartAndEndDate($date);
         $output->writeln(sprintf('Start date is "%s", end date is "%s"', $startDate, $endDate));
 
         if ($anonymizeIp
-            && !$this->confirmAnonymize($input, $output, $startDate, $endDate, 'anonymize visit IP')) {
+            && !$this->confirmAnonymize($startDate, $endDate, 'anonymize visit IP')) {
             $anonymizeIp = false;
             $output->writeln('<info>SKIPPING anonymizing IP.</info>');
         }
 
         if ($anonymizeLocation
-            && !$this->confirmAnonymize($input, $output, $startDate, $endDate, 'anonymize visit location')) {
+            && !$this->confirmAnonymize($startDate, $endDate, 'anonymize visit location')) {
             $anonymizeLocation = false;
             $output->writeln('<info>SKIPPING anonymizing location.</info>');
         }
 
         if ($anonymizeUserId
-            && !$this->confirmAnonymize($input, $output, $startDate, $endDate, 'anonymize user id')) {
+            && !$this->confirmAnonymize($startDate, $endDate, 'anonymize user id')) {
             $anonymizeUserId = false;
             $output->writeln('<info>SKIPPING anonymizing user id.</info>');
         }
 
         if (!empty($visitColumnsToUnset)
-            && !$this->confirmAnonymize($input, $output, $startDate, $endDate, 'unset the log_visit columns "' . implode(', ', $visitColumnsToUnset) . '"')) {
+            && !$this->confirmAnonymize($startDate,
+                                        $endDate,
+                                        'unset the log_visit columns "' . implode(', ', $visitColumnsToUnset) . '"')) {
             $visitColumnsToUnset = false;
             $output->writeln('<info>SKIPPING unset log_visit columns.</info>');
         }
         if (!empty($linkVisitActionColumns)
-            && !$this->confirmAnonymize($input, $output, $startDate, $endDate, 'unset the log_link_visit_action columns "' . implode(', ', $linkVisitActionColumns) . '"')) {
+            && !$this->confirmAnonymize($startDate,
+                                        $endDate,
+                                        'unset the log_link_visit_action columns "' . implode(
+                                            ', ',
+                                            $linkVisitActionColumns
+                                        ) . '"')) {
             $linkVisitActionColumns = false;
             $output->writeln('<info>SKIPPING unset log_link_visit_action columns.</info>');
         }
@@ -101,16 +108,19 @@ class AnonymizeRawData extends ConsoleCommand
         return self::SUCCESS;
     }
 
-    private function confirmAnonymize(InputInterface $input, OutputInterface $output, $startDate, $endDate, $action)
+    private function confirmAnonymize($startDate, $endDate, $action)
     {
-        $noInteraction = $input->getOption('no-interaction');
+        $noInteraction = $this->getInput()->getOption('no-interaction');
         if ($noInteraction) {
             return true;
         }
         $value = $this->ask(
-            $input,
-            $output,
-            sprintf('<question>Are you sure you want to %s for all visits between "%s" to "%s"? This action cannot be undone. Type "OK" to confirm this section.</question>', $action, $startDate, $endDate),
+            sprintf(
+                '<question>Are you sure you want to %s for all visits between "%s" to "%s"? This action cannot be undone. Type "OK" to confirm this section.</question>',
+                $action,
+                $startDate,
+                $endDate
+            ),
             false
         );
         if ($value !== 'OK') {

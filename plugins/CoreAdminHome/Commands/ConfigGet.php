@@ -14,9 +14,7 @@ use Piwik\Plugin\ConsoleCommand;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Plugin\SystemConfigSetting;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 use Spyc;
 
 class ConfigGet extends ConsoleCommand
@@ -75,8 +73,11 @@ NOTES:
 ");
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
+
         // Gather options, then discard ones with an empty value so we do not need to check for empty later.
         $options = array_filter([
             'section' => $input->getOption('section'),

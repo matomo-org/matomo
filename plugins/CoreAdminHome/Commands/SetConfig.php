@@ -12,9 +12,7 @@ use Piwik\Config;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\CoreAdminHome\Commands\SetConfig\ConfigSettingManipulation;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class SetConfig extends ConsoleCommand
 {
@@ -54,13 +52,15 @@ array setting to empty in INI config.
 ");
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
         $section = $input->getOption('section');
         $key = $input->getOption('key');
         $value = $input->getOption('value');
 
-        $manipulations = $this->getAssignments($input);
+        $manipulations = $this->getAssignments();
 
         $isSingleAssignment = !empty($section) && !empty($key) && $value !== false;
         if ($isSingleAssignment) {
@@ -88,11 +88,11 @@ array setting to empty in INI config.
     /**
      * @return ConfigSettingManipulation[]
      */
-    private function getAssignments(InputInterface $input)
+    private function getAssignments()
     {
-        $assignments = $input->getArgument('assignment');
+        $assignments = $this->getInput()->getArgument('assignment');
 
-        $result = array();
+        $result = [];
         foreach ($assignments as $assignment) {
             $result[] = ConfigSettingManipulation::make($assignment);
         }

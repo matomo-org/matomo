@@ -60,7 +60,7 @@ class Console extends Application
         $this->getDefinition()->addOption($option);
     }
 
-    public function renderException($e, $output)
+    public function renderThrowable(\Throwable $e, OutputInterface $output): void
     {
         $logHandlers = StaticContainer::get('log.handlers');
 
@@ -72,13 +72,11 @@ class Console extends Application
             }
         }
 
-        if ($hasFingersCrossed
-            && $output->getVerbosity() < OutputInterface::VERBOSITY_VERBOSE
-        ) {
+        if ($hasFingersCrossed && !$output->isVerbose()) {
             $output->setVerbosity(OutputInterface::VERBOSITY_VERBOSE);
         }
 
-        parent::renderException($e, $output);
+        parent::renderThrowable($e, $output);
     }
 
     public function doRun(InputInterface $input, OutputInterface $output)

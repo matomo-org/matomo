@@ -8,9 +8,7 @@
 namespace Piwik\Plugins\TestRunner\Commands;
 
 use Piwik\Plugin\ConsoleCommand;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class TestsRunJS extends ConsoleCommand
 {
@@ -21,8 +19,10 @@ class TestsRunJS extends ConsoleCommand
         $this->addOption('matomo-url', null, InputOption::VALUE_REQUIRED, 'Custom matomo url. Defaults to http://localhost');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
         $matomoUrl = $input->getOption('matomo-url') ?? 'http://localhost';
 
         $screenshotTestingDir = PIWIK_INCLUDE_PATH . "/tests/lib/screenshot-testing";

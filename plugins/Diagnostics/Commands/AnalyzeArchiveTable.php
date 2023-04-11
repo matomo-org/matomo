@@ -13,9 +13,6 @@ use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ConsoleCommand;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\Table;
 
 /**
  * Diagnostic command that analyzes a single archive table. Displays information like # of segment archives,
@@ -31,8 +28,10 @@ class AnalyzeArchiveTable extends ConsoleCommand
         $this->addArgument('table-date', InputArgument::REQUIRED, "The table's associated date, eg, 2015_01 or 2015_02");
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
         $tableDate = $input->getArgument('table-date');
 
         $output->writeln("<comment>Statistics for the archive_numeric_$tableDate and archive_blob_$tableDate tables:</comment>");
@@ -54,9 +53,7 @@ class AnalyzeArchiveTable extends ConsoleCommand
             '# Numeric Rows', '# Blob Rows', '# Blob Data');
 
         // display all rows
-        $table = new Table($output);
-        $table->setHeaders($headers)->setRows($rows);
-        $table->render();
+        $this->renderTable($headers, $rows);
 
         // display summary
         $totalArchives = 0;

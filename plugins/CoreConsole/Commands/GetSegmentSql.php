@@ -17,9 +17,7 @@ use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\SitesManager\Model;
 use Piwik\Segment;
 use Piwik\Site;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class GetSegmentSql extends ConsoleCommand
 {
@@ -37,8 +35,10 @@ class GetSegmentSql extends ConsoleCommand
         $this->addOption('queryType', null, InputOption::VALUE_REQUIRED, 'The query type to generate: visit, action or conversion');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input   = $this->getInput();
+        $output  = $this->getOutput();
         $idSites = $input->getOption('idSites') ?: '';
         $idSites = explode(',', $idSites);
         $idSites = array_map('intval', $idSites);

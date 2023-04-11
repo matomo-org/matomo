@@ -10,10 +10,7 @@ namespace Piwik\Plugins\CorePluginsAdmin\Commands;
 
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugin\Manager;
-use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * plugin:list console command.
@@ -27,13 +24,13 @@ class ListPlugins extends ConsoleCommand
         $this->addOption('filter-plugin', null, InputOption::VALUE_OPTIONAL, 'If given, prints only plugins that contain this term.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
         $pluginManager = Manager::getInstance();
 
         $plugins = $pluginManager->getInstalledPluginsName();
 
-        $pluginFilter = $input->getOption('filter-plugin');
+        $pluginFilter = $this->getInput()->getOption('filter-plugin');
 
         if (!empty($pluginFilter)) {
             $plugins = array_filter($plugins, function ($pluginName) use ($pluginFilter) {
@@ -54,12 +51,7 @@ class ListPlugins extends ConsoleCommand
             return strcmp($a[1], $b[1]);
         });
 
-        $table = new Table($output);
-        $table
-            ->setHeaders(array('Plugin', 'Core or optional?', 'Status'))
-            ->setRows($plugins)
-        ;
-        $table->render();
+        $this->renderTable(['Plugin', 'Core or optional?', 'Status'], $plugins);
 
         return self::SUCCESS;
     }

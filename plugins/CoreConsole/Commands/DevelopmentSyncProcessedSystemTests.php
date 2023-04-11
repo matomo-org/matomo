@@ -17,9 +17,7 @@ use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Plugin\ConsoleCommand;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
 {
@@ -40,19 +38,21 @@ class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
         $this->addOption('plugin', 'p', InputOption::VALUE_OPTIONAL, 'Name of the plugin the files shall be synced to');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
-        $this->updateCoreFiles($input, $output);
+        $this->updateCoreFiles();
 
-        if ($input->getOption('repository') === 'matomo-org/matomo') {
-            $this->updatePluginsFiles($input, $output);
+        if ($this->getInput()->getOption('repository') === 'matomo-org/matomo') {
+            $this->updatePluginsFiles();
         }
 
         return self::SUCCESS;
     }
 
-    protected function updateCoreFiles(InputInterface $input, OutputInterface $output)
+    protected function updateCoreFiles()
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
         $buildNumber = $input->getArgument('buildnumber');
         $expected    = $input->getOption('expected');
         $targetDir   = sprintf(PIWIK_INCLUDE_PATH . '/tests/PHPUnit/System/%s', $expected ? 'expected' : 'processed');
@@ -95,7 +95,7 @@ class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
         $tar = new Tar($tarFile, 'bz2');
 
         if ($tar->extract($targetDir)) {
-            $this->writeSuccessMessage($output, array(
+            $this->writeSuccessMessage(array(
                 'All processed system test results were copied to <comment>' . $targetDir . '</comment>',
                 'Compare them with the expected test results and commit them if needed.'
             ));
@@ -108,8 +108,10 @@ class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
     }
 
 
-    protected function updatePluginsFiles(InputInterface $input, OutputInterface $output)
+    protected function updatePluginsFiles()
     {
+        $input       = $this->getInput();
+        $output      = $this->getOutput();
         $buildNumber = $input->getArgument('buildnumber');
         $expected    = $input->getOption('expected');
         $targetDir   = sprintf(PIWIK_INCLUDE_PATH . '/plugins/%%s/tests/System/%s/', $expected ? 'expected' : 'processed');
@@ -145,7 +147,7 @@ class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
 
         foreach($artifacts as $artifact) {
             $artifactName = basename($artifact);
-            list($plugin, $file) = explode('~~', $artifactName);
+            [$plugin, $file] = explode('~~', $artifactName);
             $pluginTargetDir = sprintf($targetDir, $plugin);
             Filesystem::mkdir($pluginTargetDir);
             Filesystem::copy($artifact, $pluginTargetDir . $file);
@@ -153,7 +155,7 @@ class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
 
         Filesystem::unlinkRecursive($extractionTarget, true);
 
-        $this->writeSuccessMessage($output, array(
+        $this->writeSuccessMessage(array(
             'All processed plugin system test results were copied to <comment>' . $targetDir . '</comment>',
             'Compare them with the expected test results and commit them if needed.'
         ));

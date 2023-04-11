@@ -10,9 +10,7 @@
 namespace Piwik\Plugins\LanguagesManager\Commands;
 
 use Piwik\Plugins\LanguagesManager\API;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  */
@@ -25,19 +23,19 @@ class LanguageCodes extends TranslationBase
              ->setDescription('Shows available language codes');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
-        $languages = API::getInstance()->getAvailableLanguageNames($input->getOption('all'));
+        $languages = API::getInstance()->getAvailableLanguageNames($this->getInput()->getOption('all'));
 
-        $languageCodes = array();
+        $languageCodes = [];
         foreach ($languages as $languageInfo) {
             $languageCodes[] = $languageInfo['code'];
         }
 
         sort($languageCodes);
 
-        $output->writeln("Currently available languages:");
-        $output->writeln(implode("\n", $languageCodes));
+        $this->getOutput()->writeln("Currently available languages:");
+        $this->getOutput()->writeln(implode("\n", $languageCodes));
 
         return self::SUCCESS;
     }

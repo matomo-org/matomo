@@ -11,8 +11,6 @@ namespace Piwik\Plugins\CorePluginsAdmin\Commands;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugin\Manager;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * plugin:deactivate console command.
@@ -26,21 +24,21 @@ class UninstallPlugin extends ConsoleCommand
         $this->addArgument('plugin', InputArgument::IS_ARRAY, 'The plugin name you want to uninstall. Multiple plugin names can be specified separated by a space.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
         $pluginManager = Manager::getInstance();
 
-        $plugins = $input->getArgument('plugin');
+        $plugins = $this->getInput()->getArgument('plugin');
 
         foreach ($plugins as $plugin) {
             if ($pluginManager->isPluginLoaded($plugin)) {
-                $output->writeln(sprintf('<comment>The plugin %s is still active.</comment>', $plugin));
+                $this->getOutput()->writeln(sprintf('<comment>The plugin %s is still active.</comment>', $plugin));
                 continue;
             }
 
             $pluginManager->uninstallPlugin($plugin);
 
-            $output->writeln("Uninstalled plugin <info>$plugin</info>");
+            $this->getOutput()->writeln("Uninstalled plugin <info>$plugin</info>");
         }
 
         return self::SUCCESS;

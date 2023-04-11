@@ -12,9 +12,7 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 use Piwik\Plugin;
 use Piwik\Updater;
 use Piwik\Version;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class GenerateUpdate extends GeneratePluginBase
 {
@@ -25,9 +23,9 @@ class GenerateUpdate extends GeneratePluginBase
             ->addOption('component', null, InputOption::VALUE_REQUIRED, 'The name of an existing plugin or "core"');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
-        $component = $this->getComponent($input, $output);
+        $component = $this->getComponent();
 
         $version   = $this->getVersion($component);
         $namespace = $this->getNamespace($component);
@@ -42,7 +40,7 @@ class GenerateUpdate extends GeneratePluginBase
 
         $this->copyTemplateToPlugin($exampleFolder, $component, $replace, $whitelistFiles);
 
-        $this->writeSuccessMessage($output, array(
+        $this->writeSuccessMessage(array(
             sprintf('Updates/%s.php for %s generated.', $version, $component),
             'You should have a look at the method update() or getSql() now.',
             'Enjoy!'
@@ -88,13 +86,12 @@ class GenerateUpdate extends GeneratePluginBase
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return array
+     * @return string
      * @throws \RuntimeException
      */
-    private function getComponent(InputInterface $input, OutputInterface $output)
+    private function getComponent()
     {
+        $input        = $this->getInput();
         $components   = $this->getPluginNames();
         $components[] = 'core';
 
@@ -109,7 +106,12 @@ class GenerateUpdate extends GeneratePluginBase
         $component = $input->getOption('component');
 
         if (empty($component)) {
-            $component = $this->askAndValidate($input, $output, 'Enter the name of your plugin or "core": ', $validate, null, $components);
+            $component = $this->askAndValidate(
+                'Enter the name of your plugin or "core": ',
+                $validate,
+                null,
+                $components
+            );
         } else {
             $validate($component);
         }

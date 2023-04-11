@@ -13,8 +13,6 @@ use Piwik\Option;
 use Piwik\Http;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Framework\Fixture;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Tests to call the archive.php script via web and check there is no error.
@@ -75,7 +73,7 @@ class ArchiveWebTest extends SystemTestCase
                         $returnedValue = 'mock output';
                     }
                 })],
-                ['Console.doRun', \Piwik\DI::value(function (&$exitCode, InputInterface $input, OutputInterface $output) {
+                ['Console.doRun', \Piwik\DI::value(function (&$exitCode, $input, $output) {
                     if ($input->getFirstArgument() == 'core:archive') {
                         $output->writeln('mock output');
                         $exitCode = 0;

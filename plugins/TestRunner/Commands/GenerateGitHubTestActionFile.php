@@ -12,9 +12,7 @@ namespace Piwik\Plugins\TestRunner\Commands;
 use Piwik\Filesystem;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\View;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Command to generate an self-updating github action yml file either for Matomo Core or
@@ -56,8 +54,10 @@ class GenerateGitHubTestActionFile extends ConsoleCommand
              ->addOption('schedule-cron', null, InputOption::VALUE_OPTIONAL, "Value to schedule a cron. eg \"0 2 * * 6\" will run the job at 02:00 on Saturday.");
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
         global $piwik_minimumPHPVersion;
 
         $this->plugin = $input->getOption('plugin');

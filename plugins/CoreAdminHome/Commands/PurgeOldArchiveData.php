@@ -16,9 +16,7 @@ use Piwik\Plugin\ConsoleCommand;
 use Piwik\Timer;
 use Piwik\Log\NullLogger;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Command that allows users to force purge old or invalid archive data. In the event of a failure
@@ -65,18 +63,21 @@ class PurgeOldArchiveData extends ConsoleCommand
 
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
+
         // during normal command execution, we don't want the INFO level logs logged by the ArchivePurger service
         // to display in the console, so we use a NullLogger for the service
         $logger = null;
-        if ($output->getVerbosity() <= OutputInterface::VERBOSITY_NORMAL) {
+        if (!$output->isVerbose()) {
             $logger = new NullLogger();
         }
 
         $archivePurger = $this->archivePurger ?: new ArchivePurger($model = null, $purgeDatesOlderThan = null, $logger);
 
-        $dates = $this->getDatesToPurgeFor($input);
+        $dates = $this->getDatesToPurgeFor();
 
         $excludeOutdated = $input->getOption('exclude-outdated');
         if ($excludeOutdated) {
@@ -84,7 +85,7 @@ class PurgeOldArchiveData extends ConsoleCommand
         } else {
             foreach ($dates as $date) {
                 $message = sprintf("Purging outdated archives for %s...", $date->toString('Y_m'));
-                $this->performTimedPurging($output, $message, function () use ($date, $archivePurger) {
+                $this->performTimedPurging($message, function () use ($date, $archivePurger) {
                     $archivePurger->purgeOutdatedArchives($date);
                 });
             }
@@ -96,7 +97,7 @@ class PurgeOldArchiveData extends ConsoleCommand
         } else {
             foreach ($dates as $date) {
                 $message = sprintf("Purging invalidated archives for %s...", $date->toString('Y_m'));
-                $this->performTimedPurging($output, $message, function () use ($archivePurger, $date) {
+                $this->performTimedPurging($message, function () use ($archivePurger, $date) {
                     $archivePurger->purgeInvalidatedArchivesFrom($date);
                 });
             }
@@ -108,7 +109,7 @@ class PurgeOldArchiveData extends ConsoleCommand
         } else {
             foreach ($dates as $date) {
                 $message = sprintf("Purging custom range archives for %s...", $date->toString('Y_m'));
-                $this->performTimedPurging($output, $message, function () use ($date, $archivePurger) {
+                $this->performTimedPurging($message, function () use ($date, $archivePurger) {
                     $archivePurger->purgeArchivesWithPeriodRange($date);
                 });
             }
@@ -118,21 +119,20 @@ class PurgeOldArchiveData extends ConsoleCommand
         if ($skipOptimizeTables) {
             $output->writeln("Skipping OPTIMIZE TABLES.");
         } else {
-            $this->optimizeArchiveTables($output, $dates);
+            $this->optimizeArchiveTables($dates);
         }
 
         return self::SUCCESS;
     }
 
     /**
-     * @param InputInterface $input
      * @return Date[]
      */
-    private function getDatesToPurgeFor(InputInterface $input)
+    private function getDatesToPurgeFor()
     {
         $dates = array();
 
-        $dateSpecifier = $input->getArgument('dates');
+        $dateSpecifier = $this->getInput()->getArgument('dates');
         if (count($dateSpecifier) === 1
             && reset($dateSpecifier) == self::ALL_DATES_STRING
         ) {
@@ -149,7 +149,7 @@ class PurgeOldArchiveData extends ConsoleCommand
                 }
             }
         } else {
-            $includeYearArchives = $input->getOption('include-year-archives');
+            $includeYearArchives = $this->getInput()->getOption('include-year-archives');
 
             foreach ($dateSpecifier as $date) {
                 $dateObj = Date::factory($date);
@@ -172,33 +172,32 @@ class PurgeOldArchiveData extends ConsoleCommand
         return $dates;
     }
 
-    private function performTimedPurging(OutputInterface $output, $startMessage, $callback)
+    private function performTimedPurging($startMessage, $callback)
     {
         $timer = new Timer();
 
-        $output->write($startMessage);
+        $this->getOutput()->write($startMessage);
 
         $callback();
 
-        $output->writeln("Done. <comment>[" . $timer->__toString() . "]</comment>");
+        $this->getOutput()->writeln("Done. <comment>[" . $timer->__toString() . "]</comment>");
     }
 
     /**
-     * @param OutputInterface $output
      * @param Date[] $dates
      */
-    private function optimizeArchiveTables(OutputInterface $output, $dates)
+    private function optimizeArchiveTables($dates)
     {
-        $output->writeln("Optimizing archive tables...");
+        $this->getOutput()->writeln("Optimizing archive tables...");
 
         foreach ($dates as $date) {
             $numericTable = ArchiveTableCreator::getNumericTable($date);
-            $this->performTimedPurging($output, "Optimizing table $numericTable...", function () use ($numericTable) {
+            $this->performTimedPurging("Optimizing table $numericTable...", function () use ($numericTable) {
                 Db::optimizeTables($numericTable, $force = true);
             });
 
             $blobTable = ArchiveTableCreator::getBlobTable($date);
-            $this->performTimedPurging($output, "Optimizing table $blobTable...", function () use ($blobTable) {
+            $this->performTimedPurging("Optimizing table $blobTable...", function () use ($blobTable) {
                 Db::optimizeTables($blobTable, $force = true);
             });
         }

@@ -10,9 +10,7 @@ namespace Piwik\Plugins\CoreVue\Commands;
 
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\CoreConsole\Commands\GenerateVueConstructBase;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class GenerateVueComponent extends GenerateVueConstructBase
 {
@@ -24,10 +22,10 @@ class GenerateVueComponent extends GenerateVueConstructBase
             ->addOption('component', null, InputOption::VALUE_REQUIRED, 'The name of the component.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
-        $pluginName = $this->getPluginName($input, $output);
-        $component  = $this->getConstructName($input, $output, $optionName = 'component', $constructType = 'component');
+        $pluginName = $this->getPluginName();
+        $component  = $this->getConstructName($optionName = 'component', $constructType = 'component');
         $pluginPath = $this->getPluginPath($pluginName);
 
         $targetFile = $pluginPath . '/vue/src/' . $component . '.vue';
@@ -62,7 +60,7 @@ class GenerateVueComponent extends GenerateVueConstructBase
 
         // TODO: generate a less file as well?
 
-        $this->writeSuccessMessage($output, array(
+        $this->writeSuccessMessage(array(
             sprintf('Vue component "%s" for plugin "%s" in "%s" generated', $component, $pluginName, $targetFile),
             sprintf('You should now build the vue library using the vue:build command (use --watch to continuously build after making changes).'),
         ));

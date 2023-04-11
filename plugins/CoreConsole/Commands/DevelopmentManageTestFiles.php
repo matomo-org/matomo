@@ -10,9 +10,7 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 use Piwik\Development;
 use Piwik\Plugin\ConsoleCommand;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class DevelopmentManageTestFiles extends ConsoleCommand
 {
@@ -33,12 +31,12 @@ class DevelopmentManageTestFiles extends ConsoleCommand
         // TODO: allow copying by regex pattern
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
-        $operation = $input->getArgument('operation');
+        $operation = $this->getInput()->getArgument('operation');
 
         if ($operation == 'copy') {
-            $this->copy($input, $output);
+            $this->copy();
         } else {
             throw new \Exception("Invalid operation '$operation'.");
         }
@@ -46,9 +44,9 @@ class DevelopmentManageTestFiles extends ConsoleCommand
         return self::SUCCESS;
     }
 
-    private function copy($input, $output)
+    private function copy()
     {
-        $file = $input->getOption('file');
+        $file = $this->getInput()->getOption('file');
 
         $prefix = PIWIK_INCLUDE_PATH . '/tests/PHPUnit/System/processed/';
         $guesses = array(

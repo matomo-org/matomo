@@ -13,9 +13,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Widget\WidgetsList;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  */
@@ -30,13 +28,13 @@ class GenerateWidget extends GeneratePluginBase
             ->addOption('category', null, InputOption::VALUE_REQUIRED, 'The name of the category the widget should belong to');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
-        $pluginName = $this->getPluginName($input, $output);
-        $this->checkAndUpdateRequiredPiwikVersion($pluginName, $output);
+        $pluginName = $this->getPluginName();
+        $this->checkAndUpdateRequiredPiwikVersion($pluginName);
 
-        $widgetName = $this->getWidgetName($input, $output);
-        $category   = $this->getCategory($input, $output);
+        $widgetName = $this->getWidgetName();
+        $category   = $this->getCategory();
 
         if ($category === Piwik::translate($category)) {
             // no translation found...
@@ -55,7 +53,7 @@ class GenerateWidget extends GeneratePluginBase
 
         $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $whitelistFiles);
 
-        $this->writeSuccessMessage($output, array(
+        $this->writeSuccessMessage(array(
              sprintf('plugins/%s/Widgets/%s.php generated.', $pluginName, $widgetClass),
              'You can now start implementing the <comment>render()</comment> method.',
              'Enjoy!'
@@ -78,12 +76,10 @@ class GenerateWidget extends GeneratePluginBase
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return array
+     * @return string
      * @throws \RuntimeException
      */
-    protected function getWidgetName(InputInterface $input, OutputInterface $output)
+    protected function getWidgetName()
     {
         $validate = function ($widgetName) {
             if (empty($widgetName)) {
@@ -97,10 +93,13 @@ class GenerateWidget extends GeneratePluginBase
             return $widgetName;
         };
 
-        $widgetName = $input->getOption('widgetname');
+        $widgetName = $this->getInput()->getOption('widgetname');
 
         if (empty($widgetName)) {
-            $widgetName = $this->askAndValidate($input, $output, 'Enter the name of your Widget, for instance "Browser Families": ', $validate);
+            $widgetName = $this->askAndValidate(
+                'Enter the name of your Widget, for instance "Browser Families": ',
+                $validate
+            );
         } else {
             $validate($widgetName);
         }
@@ -124,13 +123,12 @@ class GenerateWidget extends GeneratePluginBase
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
      * @return string
      * @throws \RuntimeException
      */
-    protected function getCategory(InputInterface $input, OutputInterface $output)
+    protected function getCategory()
     {
+        $input = $this->getInput();
         $validate = function ($category) {
             if (empty($category)) {
                 throw new \InvalidArgumentException('Please enter the name of the category your widget should belong to');
@@ -143,7 +141,12 @@ class GenerateWidget extends GeneratePluginBase
         $categories = $this->getExistingCategories();
 
         if (empty($category)) {
-            $category = $this->askAndValidate($input, $output, 'Enter the widget category, for instance "Visitor" (you can reuse any existing category or define a new one): ', $validate, null, $categories);
+            $category = $this->askAndValidate(
+                'Enter the widget category, for instance "Visitor" (you can reuse any existing category or define a new one): ',
+                $validate,
+                null,
+                $categories
+            );
         } else {
             $validate($category);
         }
@@ -159,17 +162,15 @@ class GenerateWidget extends GeneratePluginBase
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
      * @return string
      * @throws \RuntimeException
      */
-    protected function getPluginName(InputInterface $input, OutputInterface $output)
+    protected function getPluginName()
     {
         $pluginNames = $this->getPluginNames();
         $invalidName = 'You have to enter a name of an existing plugin.';
 
-        return $this->askPluginNameAndValidate($input, $output, $pluginNames, $invalidName);
+        return $this->askPluginNameAndValidate($pluginNames, $invalidName);
     }
 
 }

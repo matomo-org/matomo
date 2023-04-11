@@ -9,9 +9,7 @@
 namespace Piwik\Plugins\ExampleCommand\Commands;
 
 use Piwik\Plugin\ConsoleCommand;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * This class lets you define a new command. To read more about commands have a look at our Piwik Console guide on
@@ -23,7 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class HelloWorld extends ConsoleCommand
 {
     /**
-     * This methods allows you to configure your command. Here you can define the name and description of your command
+     * This method allows you to configure your command. Here you can define the name and description of your command
      * as well as all options and arguments you expect when executing it.
      */
     protected function configure()
@@ -44,8 +42,11 @@ class HelloWorld extends ConsoleCommand
      *
      * Execute the command like: ./console examplecommand:helloworld --name="The Piwik Team"
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
+
         $name = $input->getOption('name');
 
         $message = sprintf('<info>HelloWorld: %s</info>', $name);

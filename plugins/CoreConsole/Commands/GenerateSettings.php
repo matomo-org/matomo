@@ -10,9 +10,7 @@
 namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\Plugin\Manager;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  */
@@ -26,13 +24,13 @@ class GenerateSettings extends GeneratePluginBase
             ->addOption('settingstype', null, InputOption::VALUE_REQUIRED, 'The type of settings you want to create. Should be one of these values: ' . implode(', ', $this->getSettingTypes()));
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
-        $settingsType = $this->getSettingsType($input, $output);
+        $settingsType = $this->getSettingsType();
         $settingsFilename = $settingsType . '.php';
 
-        $pluginName = $this->getPluginName($input, $output, $settingsType, $settingsFilename);
-        $this->checkAndUpdateRequiredPiwikVersion($pluginName, $output);
+        $pluginName = $this->getPluginName($settingsType, $settingsFilename);
+        $this->checkAndUpdateRequiredPiwikVersion($pluginName);
 
         $exampleFolder  = Manager::getPluginDirectory('ExampleSettingsPlugin');
         $replace        = array('ExampleSettingsPlugin' => $pluginName);
@@ -40,7 +38,7 @@ class GenerateSettings extends GeneratePluginBase
 
         $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $whitelistFiles);
 
-        $this->writeSuccessMessage($output, array(
+        $this->writeSuccessMessage(array(
              sprintf('%s for %s generated.', $settingsFilename, $pluginName),
              'You can now start defining your ' . $settingsType,
              'Enjoy!'
@@ -54,8 +52,9 @@ class GenerateSettings extends GeneratePluginBase
         return array('system', 'user', 'measurable');
     }
 
-    private function getSettingsType(InputInterface $input, OutputInterface $output)
+    private function getSettingsType()
     {
+        $input = $this->getInput();
         $availableTypes = $this->getSettingTypes();
 
         $validate = function ($type) use ($availableTypes) {
@@ -69,7 +68,12 @@ class GenerateSettings extends GeneratePluginBase
         $settingsType = $input->getOption('settingstype');
 
         if (empty($settingsType)) {
-            $settingsType = $this->askAndValidate($input, $output, 'Please choose the type of settings you want to create (' . implode(', ', $availableTypes) .  '): ', $validate, null, $availableTypes);
+            $settingsType = $this->askAndValidate(
+                'Please choose the type of settings you want to create (' . implode(', ', $availableTypes) . '): ',
+                $validate,
+                null,
+                $availableTypes
+            );
         } else {
             $validate($settingsType);
         }
@@ -78,18 +82,16 @@ class GenerateSettings extends GeneratePluginBase
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
      * @param string $settingsType
-     * @return array
+     * @return string
      * @throws \RuntimeException
      */
-    protected function getPluginName(InputInterface $input, OutputInterface $output, $settingsType, $settingsFile)
+    protected function getPluginName($settingsType, $settingsFile)
     {
         $pluginNames = $this->getPluginNamesHavingNotSpecificFile($settingsFile);
         $invalidName = 'You have to enter the name of an existing plugin which does not already have ' . $settingsType;
 
-        return $this->askPluginNameAndValidate($input, $output, $pluginNames, $invalidName);
+        return $this->askPluginNameAndValidate($pluginNames, $invalidName);
     }
 
 }

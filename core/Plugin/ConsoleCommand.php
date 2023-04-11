@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,13 +7,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugin;
 
-use Piwik\Log;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
+use Symfony\Component\Console\Exception\LogicException;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\QuestionHelper;
+use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
@@ -29,35 +34,45 @@ class ConsoleCommand extends SymfonyCommand
      */
     private $progress = null;
 
-    public function writeSuccessMessage(OutputInterface $output, $messages)
+    /**
+     * @var OutputInterface|null
+     */
+    private $output = null;
+
+    /**
+     * @var InputInterface|null
+     */
+    private $input = null;
+
+    public function writeSuccessMessage($messages)
     {
-        $output->writeln('');
+        $this->getOutput()->writeln('');
 
         foreach ($messages as $message) {
-            $output->writeln('<info>' . $message . '</info>');
+            $this->getOutput()->writeln('<info>' . $message . '</info>');
         }
 
-        $output->writeln('');
+        $this->getOutput()->writeln('');
     }
 
-    public function writeComment(OutputInterface $output, $messages)
+    public function writeComment($messages)
     {
-        $output->writeln('');
+        $this->getOutput()->writeln('');
 
         foreach ($messages as $message) {
-            $output->writeln('<comment>' . $message . '</comment>');
+            $this->getOutput()->writeln('<comment>' . $message . '</comment>');
         }
 
-        $output->writeln('');
+        $this->getOutput()->writeln('');
     }
 
-    protected function checkAllRequiredOptionsAreNotEmpty(InputInterface $input)
+    protected function checkAllRequiredOptionsAreNotEmpty()
     {
         $options = $this->getDefinition()->getOptions();
 
         foreach ($options as $option) {
             $name  = $option->getName();
-            $value = $input->getOption($name);
+            $value = $this->getInput()->getOption($name);
 
             if ($option->isValueRequired() && empty($value)) {
                 throw new \InvalidArgumentException(sprintf('The required option --%s is not set', $name));
@@ -65,64 +80,94 @@ class ConsoleCommand extends SymfonyCommand
         }
     }
 
-    public function run(InputInterface $input, OutputInterface $output)
+    final protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        // This method used to return `0` if a non numeric value was returned from execute()
-        // To have our commands still compatible till the next major release we imitate that behaviour but output
-        // an info message so old commands will get updated
-        // @todo remove in Matomo 6
-        try {
-            return parent::run($input, $output);
-        } catch (\TypeError $e) {
-            if (strpos($e->getMessage(), 'Return value of "') === 0) {
-                Log::info('Deprecation warning: ' . $e->getMessage() . "\nPlease update the command implementation to return an int instead, as this won't be supported by Matomo 6 anymore");
-                return self::SUCCESS;
-            }
-            throw $e;
-        }
+        $this->input = $input;
+        $this->output = $output;
+        return $this->doExecute();
     }
 
-    protected function askForConfirmation(InputInterface $input, OutputInterface $output, string $question, bool $default = true, string $trueAnswerRegex = '/^y/i')
+    protected function doExecute(): int
+    {
+        throw new LogicException('You must override the doExecute() method in the concrete command class.');
+    }
+
+    final protected function interact(InputInterface $input, OutputInterface $output)
+    {
+        $this->doInteract();
+    }
+
+    protected function doInteract()
+    {
+    }
+
+    final protected function initialize(InputInterface $input, OutputInterface $output)
+    {
+        $this->doInitialize();
+    }
+
+    protected function doInitialize()
+    {
+    }
+
+    /**
+     * @return OutputInterface
+     */
+    protected function getOutput(): OutputInterface
+    {
+        return $this->output;
+    }
+
+    /**
+     * @return InputInterface
+     */
+    protected function getInput(): InputInterface
+    {
+        return $this->input;
+    }
+
+    protected function askForConfirmation(string $question, bool $default = true, string $trueAnswerRegex = '/^y/i')
     {
         /** @var QuestionHelper $helper */
         $helper   = $this->getHelper('question');
         $question = new ConfirmationQuestion($question, $default, $trueAnswerRegex);
-        return $helper->ask($input, $output, $question);
+        return $helper->ask($this->getInput(), $this->getOutput(), $question);
     }
 
     /**
      * Ask the user for input and validates the provided value using the given callable
      *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     * @param string          $question
-     * @param callable|null   $validator
-     * @param mixed|null      $default
-     * @param iterable|null   $autocompleterValues
+     * @param string        $question
+     * @param callable|null $validator
+     * @param mixed|null    $default
+     * @param iterable|null $autocompleterValues
      * @return mixed
      */
-    protected function askAndValidate(InputInterface $input, OutputInterface $output, string $question, callable $validator = null, $default = null, iterable $autocompleterValues = null)
+    protected function askAndValidate(
+        string $question,
+        callable $validator = null,
+        $default = null,
+        iterable $autocompleterValues = null
+    )
     {
         /** @var QuestionHelper $helper */
         $helper   = $this->getHelper('question');
         $question = new Question($question, $default);
         $question->setValidator($validator);
         $question->setAutocompleterValues($autocompleterValues);
-        return $helper->ask($input, $output, $question);
+        return $helper->ask($this->getInput(), $this->getOutput(), $question);
     }
 
     /**
      * Ask the user for input
      *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     * @param string          $question
-     * @param mixed|null      $default
+     * @param string     $question
+     * @param mixed|null $default
      * @return mixed
      */
-    protected function ask(InputInterface $input, OutputInterface $output, string $question, $default = null)
+    protected function ask(string $question, $default = null)
     {
-        return $this->askAndValidate($input, $output, $question, null, $default);
+        return $this->askAndValidate($question, null, $default);
     }
 
     /**
@@ -130,13 +175,12 @@ class ConsoleCommand extends SymfonyCommand
      *
      * Note: Only one progress bar can be used at a time
      *
-     * @param OutputInterface $output
-     * @param int             $numChangesToPerform
+     * @param int $numChangesToPerform
      * @return ProgressBar
      */
-    protected function initProgressBar(OutputInterface $output, int $numChangesToPerform = 0): ProgressBar
+    protected function initProgressBar(int $numChangesToPerform = 0): ProgressBar
     {
-        $this->progress = new ProgressBar($output, $numChangesToPerform);
+        $this->progress = new ProgressBar($this->getOutput(), $numChangesToPerform);
         return $this->progress;
     }
 
@@ -178,5 +222,31 @@ class ConsoleCommand extends SymfonyCommand
         }
 
         $this->progress->finish();
+    }
+
+    protected function renderTable(array $header, array $rows)
+    {
+        $table = new Table($this->getOutput());
+        $table
+            ->setHeaders($header)
+            ->setRows($rows);
+        $table->render();
+    }
+
+    /**
+     * Runs a certain command
+     * @param string $command
+     * @param array  $arguments
+     * @param bool   $hideOutput
+     * @return int
+     * @throws \Symfony\Component\Console\Exception\ExceptionInterface
+     */
+    protected function runCommand(string $command, array $arguments, bool $hideOutput = false): int
+    {
+        $command = $this->getApplication()->find($command);
+        $arguments = ['command' => $command] + $arguments;
+        $inputObject = new ArrayInput($arguments);
+        $inputObject->setInteractive($this->getInput()->isInteractive());
+        return $command->run($inputObject, $hideOutput ? new NullOutput() : $this->getOutput());
     }
 }

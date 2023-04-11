@@ -12,9 +12,7 @@ namespace Piwik\Plugins\TwoFactorAuth\Commands;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\TwoFactorAuth\TwoFactorAuthentication;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class Disable2FAForUser extends ConsoleCommand
 {
@@ -28,9 +26,11 @@ class Disable2FAForUser extends ConsoleCommand
         $this->addOption('login', null, InputOption::VALUE_REQUIRED, 'Login of an existing user');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
-        $this->checkAllRequiredOptionsAreNotEmpty($input);
+        $input = $this->getInput();
+        $output = $this->getOutput();
+        $this->checkAllRequiredOptionsAreNotEmpty();
         $login = $input->getOption('login');
 
         // Note: We can't use API here, as the API method would require a password confirmation

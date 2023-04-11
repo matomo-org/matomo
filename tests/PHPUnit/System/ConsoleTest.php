@@ -15,9 +15,7 @@ use Piwik\Plugins\Monolog\Handler\FailureLogMessageDetector;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Log\LoggerInterface;
 use Piwik\Log\Logger;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
 
 class TestCommandWithWarning extends ConsoleCommand
@@ -29,9 +27,10 @@ class TestCommandWithWarning extends ConsoleCommand
         $this->setName('test-command-with-warning');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function doExecute(): int
     {
         StaticContainer::get(LoggerInterface::class)->warning('warn');
+        return self::SUCCESS;
     }
 }
 
@@ -45,11 +44,12 @@ class TestCommandWithError extends ConsoleCommand
         $this->addOption('no-error', null, InputOption::VALUE_NONE);
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function doExecute(): int
     {
-        if (!$input->getOption('no-error')) {
+        if (!$this->getInput()->getOption('no-error')) {
             StaticContainer::get(LoggerInterface::class)->error('error');
         }
+        return self::SUCCESS;
     }
 }
 
@@ -62,18 +62,20 @@ class TestCommandWithFatalError extends ConsoleCommand
         $this->setName('test-command-with-fatal-error');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function doExecute(): int
     {
         try {
             \Piwik\ErrorHandler::pushFatalErrorBreadcrumb(static::class);
 
-            $this->executeImpl($input, $output);
+            $this->executeImpl();
         } finally {
             \Piwik\ErrorHandler::popFatalErrorBreadcrumb();
         }
+
+        return self::SUCCESS;
     }
 
-    public function executeImpl(InputInterface $input, OutputInterface $output)
+    public function executeImpl()
     {
         try {
             \Piwik\ErrorHandler::pushFatalErrorBreadcrumb(static::class, []);
@@ -97,7 +99,7 @@ class TestCommandWithException extends ConsoleCommand
         $this->setName('test-command-with-exception');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function doExecute(): int
     {
         throw new \Exception('test error');
     }

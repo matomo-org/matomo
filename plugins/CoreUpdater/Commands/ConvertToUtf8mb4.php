@@ -13,9 +13,7 @@ use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Piwik;
 use Piwik\Plugin\ConsoleCommand;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * @package CoreUpdater
@@ -44,8 +42,10 @@ class ConvertToUtf8mb4 extends ConsoleCommand
     /**
      * Execute command like: ./console core:convert-to-utf8mb4 --yes
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
         $yes = $input->getOption('yes');
         $keepTracking = $input->getOption('keep-tracking');
         $show = $input->getOption('show');
@@ -53,14 +53,14 @@ class ConvertToUtf8mb4 extends ConsoleCommand
         $queries = DbHelper::getUtf8mb4ConversionQueries();
 
         if ($show) {
-            $this->showCommands($queries, $keepTracking, $output);
+            $this->showCommands($queries, $keepTracking);
             return self::SUCCESS;
         }
 
         $output->writeln("This command will convert all Matomo database tables to utf8mb4.\n");
 
         if (DbHelper::getDefaultCharset() !== 'utf8mb4') {
-            $this->writeSuccessMessage($output, array('Your database does not support utf8mb4'));
+            $this->writeSuccessMessage(array('Your database does not support utf8mb4'));
             return self::FAILURE;
         }
 
@@ -71,7 +71,7 @@ class ConvertToUtf8mb4 extends ConsoleCommand
         $output->writeln('If you want to see what this command is going to do use the --show option.');
 
         if (!$yes) {
-            $yes = $this->askForConfirmation($input, $output, '<comment>Execute updates? (y/N) </comment>', false);
+            $yes = $this->askForConfirmation('<comment>Execute updates? (y/N) </comment>', false);
         }
 
         if ($yes) {
@@ -103,17 +103,18 @@ class ConvertToUtf8mb4 extends ConsoleCommand
                 $config->forceSave();
             }
 
-            $this->writeSuccessMessage($output, array('Conversion to utf8mb4 successful.'));
+            $this->writeSuccessMessage(array('Conversion to utf8mb4 successful.'));
 
         } else {
-            $this->writeSuccessMessage($output, array('Database conversion skipped.'));
+            $this->writeSuccessMessage(array('Database conversion skipped.'));
         }
 
         return self::SUCCESS;
     }
 
-    protected function showCommands($queries, $keepTracking, OutputInterface $output)
+    protected function showCommands($queries, $keepTracking)
     {
+        $output = $this->getOutput();
         $output->writeln("To manually convert all Matomo database tables to utf8mb4 follow these steps.");
         if (!$keepTracking) {
             $output->writeln('');

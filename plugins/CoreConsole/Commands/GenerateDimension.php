@@ -12,9 +12,7 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 use Piwik\Common;
 use Piwik\DbHelper;
 use Piwik\Plugin\Manager;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class GenerateDimension extends GeneratePluginBase
 {
@@ -30,24 +28,22 @@ class GenerateDimension extends GeneratePluginBase
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
      * @throws \InvalidArgumentException
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
-        $pluginName = $this->getPluginName($input, $output);
-        $this->checkAndUpdateRequiredPiwikVersion($pluginName, $output);
+        $pluginName = $this->getPluginName();
+        $this->checkAndUpdateRequiredPiwikVersion($pluginName);
 
-        $type          = $this->getDimensionType($input, $output);
-        $dimensionName = $this->getDimensionName($input, $output);
+        $type          = $this->getDimensionType();
+        $dimensionName = $this->getDimensionName();
 
         if ('non-tracking-dimension' === $type) {
             $columnName = '';
             $columType  = '';
         } else {
-            $columnName = $this->getColumnName($input, $output, $type);
-            $columType  = $this->getColumnType($input, $output);
+            $columnName = $this->getColumnName($type);
+            $columType  = $this->getColumnType();
         }
 
         $dimensionClassName      = $this->getDimensionClassName($dimensionName);
@@ -83,7 +79,7 @@ class GenerateDimension extends GeneratePluginBase
 
         $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $whitelistFiles);
 
-        $this->writeSuccessMessage($output, array(
+        $this->writeSuccessMessage(array(
             sprintf('Columns/%s.php for %s generated.', ucfirst($dimensionClassName), $pluginName),
             'You should now implement the events within this file',
             'Enjoy!'
@@ -104,13 +100,13 @@ class GenerateDimension extends GeneratePluginBase
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return array
+     * @return string
      * @throws \RuntimeException
      */
-    protected function getDimensionName(InputInterface $input, OutputInterface $output)
+    protected function getDimensionName()
     {
+        $input = $this->getInput();
+
         $validate = function ($dimensionName) {
             if (empty($dimensionName)) {
                 throw new \InvalidArgumentException('Please enter the name of your dimension');
@@ -126,7 +122,10 @@ class GenerateDimension extends GeneratePluginBase
         $dimensionName = $input->getOption('dimensionname');
 
         if (empty($dimensionName)) {
-            $dimensionName = $this->askAndValidate($input, $output, 'Enter a human readable name of your dimension, for instance "Browser": ', $validate);
+            $dimensionName = $this->askAndValidate(
+                'Enter a human readable name of your dimension, for instance "Browser": ',
+                $validate
+            );
         } else {
             $validate($dimensionName);
         }
@@ -137,14 +136,14 @@ class GenerateDimension extends GeneratePluginBase
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
      * @param string $type
-     * @return array
+     * @return string
      * @throws \RuntimeException
      */
-    protected function getColumnName(InputInterface $input, OutputInterface $output, $type)
+    protected function getColumnName($type)
     {
+        $input = $this->getInput();
+
         $validate = function ($columnName) use ($type) {
             if (empty($columnName)) {
                 throw new \InvalidArgumentException('Please enter the name of the dimension column');
@@ -176,7 +175,10 @@ class GenerateDimension extends GeneratePluginBase
         $columnName = $input->getOption('columnname');
 
         if (empty($columnName)) {
-            $columnName = $this->askAndValidate($input, $output, 'Enter the name of the column under which it should be stored in the MySQL database, for instance "visit_total_time": ', $validate);
+            $columnName = $this->askAndValidate(
+                'Enter the name of the column under which it should be stored in the MySQL database, for instance "visit_total_time": ',
+                $validate
+            );
         } else {
             $validate($columnName);
         }
@@ -185,13 +187,13 @@ class GenerateDimension extends GeneratePluginBase
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return array
+     * @return string
      * @throws \RuntimeException
      */
-    protected function getColumnType(InputInterface $input, OutputInterface $output)
+    protected function getColumnType()
     {
+        $input = $this->getInput();
+
         $validate = function ($columnType) {
             if (empty($columnType)) {
                 throw new \InvalidArgumentException('Please enter the type of the dimension column');
@@ -203,7 +205,10 @@ class GenerateDimension extends GeneratePluginBase
         $columnType = $input->getOption('columntype');
 
         if (empty($columnType)) {
-            $columnType = $this->askAndValidate($input, $output, 'Enter the type of the column under which it should be stored in the MySQL database, for instance "VARCHAR(255) NOT NULL": ', $validate);
+            $columnType = $this->askAndValidate(
+                'Enter the type of the column under which it should be stored in the MySQL database, for instance "VARCHAR(255) NOT NULL": ',
+                $validate
+            );
         } else {
             $validate($columnType);
         }
@@ -212,13 +217,12 @@ class GenerateDimension extends GeneratePluginBase
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return array
+     * @return string
      * @throws \RuntimeException
      */
-    protected function getDimensionType(InputInterface $input, OutputInterface $output)
+    protected function getDimensionType()
     {
+        $input = $this->getInput();
         $acceptedValues = array('visit', 'action', 'conversion', 'non-tracking-dimension');
 
         $validate = function ($type) use ($acceptedValues) {
@@ -232,7 +236,15 @@ class GenerateDimension extends GeneratePluginBase
         $type = $input->getOption('type');
 
         if (empty($type)) {
-            $type = $this->askAndValidate($input, $output, 'Please choose the type of dimension you want to create (' . implode(', ', $acceptedValues) .  '). Choose "non-tracking-dimension" if you only need a blank dimension having a name: ', $validate,  null, $acceptedValues);
+            $type = $this->askAndValidate(
+                'Please choose the type of dimension you want to create (' . implode(
+                    ', ',
+                    $acceptedValues
+                ) . '). Choose "non-tracking-dimension" if you only need a blank dimension having a name: ',
+                $validate,
+                null,
+                $acceptedValues
+            );
         } else {
             $validate($type);
         }
@@ -241,17 +253,15 @@ class GenerateDimension extends GeneratePluginBase
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return array
+     * @return string
      * @throws \RuntimeException
      */
-    protected function getPluginName(InputInterface $input, OutputInterface $output)
+    protected function getPluginName()
     {
         $pluginNames = $this->getPluginNames();
         $invalidName = 'You have to enter a name of an existing plugin.';
 
-        return $this->askPluginNameAndValidate($input, $output, $pluginNames, $invalidName);
+        return $this->askPluginNameAndValidate($pluginNames, $invalidName);
     }
 
 }

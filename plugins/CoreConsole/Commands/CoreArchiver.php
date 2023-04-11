@@ -10,9 +10,7 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 use Piwik\CronArchive;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Site;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class CoreArchiver extends ConsoleCommand
 {
@@ -21,29 +19,32 @@ class CoreArchiver extends ConsoleCommand
         $this->configureArchiveCommand($this);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
+
         if($input->getOption('force-date-last-n')) {
             $message = '"force-date-last-n" is deprecated. Please use the "process_new_segments_from" INI configuration option instead.';
-            $output->writeln('<comment>' . $message .'</comment>');
+            $output->writeln('<comment>' . $message . '</comment>');
         }
 
-        $archiver = self::makeArchiver($input->getOption('url'), $input);
+        $archiver = $this->makeArchiver($input->getOption('url'));
         $archiver->main();
 
         return self::SUCCESS;
     }
 
-    // also used by another console command
-    public static function makeArchiver($url, InputInterface $input)
+    protected function makeArchiver($url)
     {
+        $input = $this->getInput();
         $archiver = new CronArchive();
 
         $archiver->disableScheduledTasks = $input->getOption('disable-scheduled-tasks');
         $archiver->acceptInvalidSSLCertificate = $input->getOption("accept-invalid-ssl-certificate");
         $archiver->shouldStartProfiler = (bool) $input->getOption("xhprof");
-        $archiver->shouldArchiveSpecifiedSites = self::getSitesListOption($input, "force-idsites");
-        $archiver->shouldSkipSpecifiedSites = self::getSitesListOption($input, "skip-idsites");
+        $archiver->shouldArchiveSpecifiedSites = $this->getSitesListOption("force-idsites");
+        $archiver->shouldSkipSpecifiedSites = $this->getSitesListOption("skip-idsites");
         $archiver->phpCliConfigurationOptions = $input->getOption("php-cli-options");
         $archiver->concurrentRequestsPerWebsite = $input->getOption('concurrent-requests-per-website');
         $archiver->maxConcurrentArchivers = $input->getOption('concurrent-archivers');
@@ -73,9 +74,9 @@ class CoreArchiver extends ConsoleCommand
         return $archiver;
     }
 
-    private static function getSitesListOption(InputInterface $input, $optionName)
+    private function getSitesListOption($optionName)
     {
-        return Site::getIdSitesFromIdSitesString($input->getOption($optionName));
+        return Site::getIdSitesFromIdSitesString($this->getInput()->getOption($optionName));
     }
 
     // This is reused by another console command
