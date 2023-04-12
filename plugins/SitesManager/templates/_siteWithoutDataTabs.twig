@@ -4,13 +4,18 @@
     });
 </script>
 
+{% set columnClass = activeTab ? 's2' : 's3' %}
+
 <div class="row">
     <div class="col s12">
         <ul class="tabs">
-            <li class="tab col s3"><a {% if siteType != constant('Piwik\\Plugins\\SitesManager\\SitesManager::SITE_TYPE_UNKNOWN') and (consentManagerName == false) %} class="active" {% endif %} href="#integrations">{{ 'SitesManager_Integrations'|translate }}</a></li>
-            <li class="tab col s3"><a {% if siteType == constant('Piwik\\Plugins\\SitesManager\\SitesManager::SITE_TYPE_UNKNOWN') or consentManagerName %} class="active" {% endif %} href="#tracking-code">{{ 'CoreAdminHome_TrackingCode'|translate}}</a></li>
-            <li class="tab col s3"><a href="#mtm">{{ 'SitesManager_SiteWithoutDataMatomoTagManager'|translate}}</a></li>
-            <li class="tab col s3"><a href="#other">{{ 'SitesManager_SiteWithoutDataOtherWays'|translate }}</a></li>
+            <li class="tab col {{ columnClass }}"><a {% if siteType != constant('Piwik\\Plugins\\SitesManager\\SitesManager::SITE_TYPE_UNKNOWN') and (consentManagerName == false) and (activeTab == '') %} class="active" {% endif %} href="#integrations">{{ 'SitesManager_Integrations'|translate }}</a></li>
+            <li class="tab col {{ columnClass }}"><a {% if (siteType == constant('Piwik\\Plugins\\SitesManager\\SitesManager::SITE_TYPE_UNKNOWN') and (activeTab == '')) or consentManagerName %} class="active" {% endif %} href="#tracking-code">{{ 'CoreAdminHome_TrackingCode'|translate }}</a></li>
+            <li class="tab col {{ columnClass }}"><a href="#mtm">{{ 'SitesManager_SiteWithoutDataMatomoTagManager'|translate }}</a></li>
+            {% if cloudflare %}
+                <li class="tab col s2"><a {% if activeTab == 'cloudflare' %} class="active" {% endif %} href="#cloudflare">{{ 'SitesManager_SiteWithoutDataCloudflare'|translate }}</a></li>
+            {% endif %}
+            <li class="tab col {{ columnClass }}"><a href="#other">{{ 'SitesManager_SiteWithoutDataOtherWays'|translate }}</a></li>
         </ul>
     </div>
 
@@ -35,6 +40,7 @@
                 | <a target="_blank" rel="noreferrer noopener" href='https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-joomla/'>Joomla</a>
                 | <a target="_blank" rel="noreferrer noopener" href='https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-shopify-store/'>Shopify</a>
                 | <a target="_blank" rel="noreferrer noopener" href='https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-within-gtm-google-tag-manager/'>Google Tag Manager</a>
+                | <a target="_blank" rel="noreferrer noopener" href='https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-cloudflare-setup/'>Cloudflare</a>
             </p>
 
             <p>{{ 'CoreAdminHome_JSTrackingIntro3a'|translate('<a href="https://matomo.org/integrate/" rel="noreferrer noopener" target="_blank">','</a>')|raw }}</p>
@@ -81,7 +87,7 @@
         </div>
         {% endif %}
 
-        <h3>{{ 'CoreAdminHome_TrackingCode'|translate}}</h3>
+        <h3>{{ 'CoreAdminHome_TrackingCode'|translate }}</h3>
 
         <p>{{ 'CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead'|translate("&lt;/head&gt;")|raw }}</p>
 
@@ -101,6 +107,36 @@
         {% endif %}
     </div>
 
+    {% if cloudflare %}
+        <div id="cloudflare" class="col s12">
+
+            <p></p><p></p>
+            <div class="system notification notification-info">
+                {{ 'SitesManager_CloudflareDetected'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-cloudflare-setup/">','</a>')|raw }}
+            </div>
+
+            <div class="right">
+                <img src="plugins/SitesManager/images/cloudflare-icon.png" style="height: 12rem;width: 12rem;margin-top: -4rem;">
+            </div>
+            <p>{{ 'SitesManager_SiteWithoutDataCloudflareIntro'|translate }}</p>
+            <br>
+            <p>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStepsIntro'|translate }}</p>
+            <ol style="list-style: decimal;list-style-position: inside;">
+                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep1'|translate('<a target="_blank" rel="noreferrer noopener" href="https://dash.cloudflare.com/">','</a>')|raw }}</li>
+                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep2'|translate }}</li>
+                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep3'|translate }}</li>
+                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep4'|translate }}</li>
+                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep5'|translate }}</li>
+                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep6'|translate }}</li>
+                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep7'|translate }}<div style="text-indent: 1.2rem;">Matomo URL: <code vue-directive="CoreHome.SelectOnFocus">{{ piwikUrl }}</code></div><div style="text-indent: 1.2rem;">{{ 'SitesManager_EmailInstructionsYourSiteId'|translate('<code vue-directive="CoreHome.SelectOnFocus">' ~ idSite ~ '</code>')|raw }}</div></li>
+                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep8'|translate }}</li>
+                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep9'|translate }}</li>
+            </ol>
+            <br>
+            <p>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStepCompleted'|translate('<strong>','</strong>')|raw }}</p>
+        </div>
+    {% endif %}
+
     <div id="other" class="col s12">
         <h3>{{ 'SitesManager_LogAnalytics'|translate }}</h3>
         <p>{{ 'SitesManager_LogAnalyticsDescription'|translate('<a href="https://matomo.org/log-analytics/" rel="noreferrer noopener" target="_blank">', '</a>')|raw }}</p>
@@ -116,6 +152,9 @@
 
         <h3>{{ 'SitesManager_SiteWithoutDataSinglePageApplication'|translate }}</h3>
         <p>{{ 'SitesManager_SiteWithoutDataSinglePageApplicationDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://developer.matomo.org/guides/spa-tracking">','</a>')|raw }}</p>
+
+        <h3>{{ 'SitesManager_SiteWithoutDataCloudflare'|translate }}</h3>
+        <p>{{ 'SitesManager_SiteWithoutDataCloudflareDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-cloudflare-setup/">','</a>')|raw }}</p>
 
         {% if googleAnalyticsImporterMessage is defined %}
             {{ googleAnalyticsImporterMessage|raw }}
