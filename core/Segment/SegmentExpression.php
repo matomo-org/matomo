@@ -342,13 +342,7 @@ class SegmentExpression
 
         $columns = self::parseColumnsFromSqlExpr($sqlExpression);
         foreach ($columns as $column) {
-            // if a column references a table alias, replace it with the actual table before checking if
-            // the table is missing from the query
-            if (isset($join['tableAlias']) && preg_match('/^' . $join['tableAlias'] . '\\./', $column)) {
-                $column = $join['table'];
-            }
-
-            $this->checkFieldIsAvailable($column, $availableTables, null);
+            $this->checkFieldIsAvailable($column, $availableTables, $join);
         }
 
         if (!empty($join['field'])) {
@@ -358,13 +352,7 @@ class SegmentExpression
         if (!empty($join['joinOn'])) {
             $joinOnColumns = self::parseColumnsFromSqlExpr($join['joinOn']);
             foreach ($joinOnColumns as $column) {
-                // if a column references a table alias, replace it with the actual table before checking if
-                // the table is missing from the query
-                if (isset($join['tableAlias']) && preg_match('/^' . $join['tableAlias'] . '\\./', $column)) {
-                    $column = $join['table'];
-                }
-
-                $this->checkFieldIsAvailable($column, $availableTables, null);
+                $this->checkFieldIsAvailable($column, $availableTables, $join);
             }
         }
 
@@ -411,11 +399,7 @@ class SegmentExpression
         // example: `HOUR(log_visit.visit_last_action_time)` gets `HOUR(log_visit` => remove `HOUR(`
         $table = preg_replace('/^[A-Z_]+\(/', '', $table);
 
-        if ($join) {
-            $tableExists = !$table || in_array($join['table'], $availableTables);
-        } else {
-            $tableExists = !$table || in_array($table, $availableTables);
-        }
+        $tableExists = !$table || in_array($table, $availableTables);
 
         if ($tableExists) {
             return;
@@ -433,7 +417,11 @@ class SegmentExpression
             }
         }
 
-        if ($join) {
+        if ($join
+            && ((empty($join['tableAlias']) && $table == $join['table'])
+                || $table == $join['tableAlias']
+            )
+        ) {
             $availableTables[] = $join;
         } else {
             $availableTables[] = $table;
