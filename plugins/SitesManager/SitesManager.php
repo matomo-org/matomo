@@ -506,6 +506,14 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "SitesManager_JsTrackingTagHelp";
         $translationKeys[] = "SitesManager_SiteWithoutDataSinglePageApplication";
         $translationKeys[] = "SitesManager_SiteWithoutDataSinglePageApplicationDescription";
+        $translationKeys[] = 'SitesManager_SiteWithoutDataTitle';
+        $translationKeys[] = 'SitesManager_SiteWithoutDataDescription';
+        $translationKeys[] = 'SitesManager_SiteWithoutDataMessageDisappears';
+        $translationKeys[] = 'SitesManager_SiteWithoutDataChoosePreferredWay';
+        $translationKeys[] = 'SitesManager_DetectingYourSite';
+        $translationKeys[] = 'SitesManager_SiteWithoutDataIgnoreMessage';
+        $translationKeys[] = "SitesManager_SiteWithoutDataCloudflare";
+        $translationKeys[] = "SitesManager_SiteWithoutDataCloudflareDescription";
         $translationKeys[] = "SitesManager_GlobalListExcludedReferrers";
         $translationKeys[] = "SitesManager_GlobalListExcludedReferrersDesc";
         $translationKeys[] = "SitesManager_ExcludedReferrers";
@@ -513,5 +521,6 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "SitesManager_ExcludedReferrersHelpDetails";
         $translationKeys[] = "SitesManager_ExcludedReferrersHelpExamples";
         $translationKeys[] = "SitesManager_ExcludedReferrersHelpSubDomains";
+        $translationKeys[] = 'Goals_Optional';
     }
 }
