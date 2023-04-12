@@ -15,7 +15,6 @@ use Piwik\Plugins\Monolog\Handler\FailureLogMessageDetector;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Log\LoggerInterface;
 use Piwik\Log\Logger;
-use Symfony\Component\Console\Input\InputOption;
 use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
 
 class TestCommandWithWarning extends ConsoleCommand
@@ -41,7 +40,7 @@ class TestCommandWithError extends ConsoleCommand
         parent::configure();
 
         $this->setName('test-command-with-error');
-        $this->addOption('no-error', null, InputOption::VALUE_NONE);
+        $this->addNoValueOption('no-error');
     }
 
     public function doExecute(): int

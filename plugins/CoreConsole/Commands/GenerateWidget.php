@@ -13,7 +13,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Widget\WidgetsList;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  */
@@ -23,9 +22,9 @@ class GenerateWidget extends GeneratePluginBase
     {
         $this->setName('generate:widget')
             ->setDescription('Adds a plugin widget class to an existing plugin')
-            ->addOption('pluginname', null, InputOption::VALUE_REQUIRED, 'The name of an existing plugin which does not have any widgets defined yet')
-            ->addOption('widgetname', null, InputOption::VALUE_REQUIRED, 'The name of the widget you want to create')
-            ->addOption('category', null, InputOption::VALUE_REQUIRED, 'The name of the category the widget should belong to');
+            ->addRequiredValueOption('pluginname', null, 'The name of an existing plugin which does not have any widgets defined yet')
+            ->addRequiredValueOption('widgetname', null, 'The name of the widget you want to create')
+            ->addRequiredValueOption('category', null, 'The name of the category the widget should belong to');
     }
 
     protected function doExecute(): int

@@ -15,7 +15,6 @@ use Piwik\Http;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Downloads the UI tests screenshots from artifacts server into the local repository.
@@ -61,23 +60,20 @@ class SyncScreenshots extends ConsoleCommand
             'A regex to use when selecting screenshots to copy. If not supplied all screenshots are copied.',
             ['.*']
         );
-        $this->addOption(
+        $this->addOptionalValueOption(
             'repository',
             'r',
-            InputOption::VALUE_OPTIONAL,
             'Repository name you want to sync screenshots for.',
             'matomo-org/matomo'
         );
-        $this->addOption(
+        $this->addOptionalValueOption(
             'http-user',
             '',
-            InputOption::VALUE_OPTIONAL,
             'the HTTP AUTH username (for premium plugins where artifacts are protected)'
         );
-        $this->addOption(
+        $this->addOptionalValueOption(
             'http-password',
             '',
-            InputOption::VALUE_OPTIONAL,
             'the HTTP AUTH password (for premium plugins where artifacts are protected)'
         );
     }

@@ -17,7 +17,6 @@ use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Plugin\ConsoleCommand;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 
 class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
 {
@@ -31,11 +30,11 @@ class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
         $this->setName('development:sync-system-test-processed');
         $this->setDescription('For Piwik core devs. Copies processed system tests from travis artifacts to local processed directories');
         $this->addArgument('buildnumber', InputArgument::REQUIRED, 'Travis build number you want to sync, eg "14820".');
-        $this->addOption('expected', 'e', InputOption::VALUE_NONE, 'If given file will be copied in expected directories instead of processed');
-        $this->addOption('repository', 'r', InputOption::VALUE_OPTIONAL, 'Repository name you want to sync screenshots for.', 'matomo-org/matomo');
-        $this->addOption('http-user', '', InputOption::VALUE_OPTIONAL, 'the HTTP AUTH username (for premium plugins where artifacts are protected)');
-        $this->addOption('http-password', '', InputOption::VALUE_OPTIONAL, 'the HTTP AUTH password (for premium plugins where artifacts are protected)');
-        $this->addOption('plugin', 'p', InputOption::VALUE_OPTIONAL, 'Name of the plugin the files shall be synced to');
+        $this->addNoValueOption('expected', 'e', 'If given file will be copied in expected directories instead of processed');
+        $this->addOptionalValueOption('repository', 'r', 'Repository name you want to sync screenshots for.', 'matomo-org/matomo');
+        $this->addOptionalValueOption('http-user', '', 'the HTTP AUTH username (for premium plugins where artifacts are protected)');
+        $this->addOptionalValueOption('http-password', '', 'the HTTP AUTH password (for premium plugins where artifacts are protected)');
+        $this->addOptionalValueOption('plugin', 'p', 'Name of the plugin the files shall be synced to');
     }
 
     protected function doExecute(): int

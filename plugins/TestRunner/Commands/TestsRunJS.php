@@ -8,7 +8,6 @@
 namespace Piwik\Plugins\TestRunner\Commands;
 
 use Piwik\Plugin\ConsoleCommand;
-use Symfony\Component\Console\Input\InputOption;
 
 class TestsRunJS extends ConsoleCommand
 {
@@ -16,7 +15,7 @@ class TestsRunJS extends ConsoleCommand
     {
         $this->setName('tests:run-js');
         $this->setDescription('Run javascript tests');
-        $this->addOption('matomo-url', null, InputOption::VALUE_REQUIRED, 'Custom matomo url. Defaults to http://localhost');
+        $this->addRequiredValueOption('matomo-url', null, 'Custom matomo url. Defaults to http://localhost');
     }
 
     protected function doExecute(): int

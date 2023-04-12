@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\ExampleCommand\Commands;
 
 use Piwik\Plugin\ConsoleCommand;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  * This class lets you define a new command. To read more about commands have a look at our Piwik Console guide on
@@ -28,7 +27,7 @@ class HelloWorld extends ConsoleCommand
     {
         $this->setName('examplecommand:helloworld');
         $this->setDescription('ExampleCommandDescription');
-        $this->addOption('name', null, InputOption::VALUE_REQUIRED, 'Your name:');
+        $this->addRequiredValueOption('name', null, 'Your name:');
     }
 
     /**

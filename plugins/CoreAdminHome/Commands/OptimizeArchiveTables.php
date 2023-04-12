@@ -14,7 +14,6 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\Plugin\ConsoleCommand;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Administration command that optimizes archive tables (even if they use InnoDB).
@@ -31,7 +30,7 @@ class OptimizeArchiveTables extends ConsoleCommand
         $this->addArgument("dates", InputArgument::IS_ARRAY | InputArgument::REQUIRED,
             "The months of the archive tables to optimize. Use '" . self::ALL_TABLES_STRING. "' for all dates or '" .
             self::CURRENT_MONTH_STRING . "' to optimize the current month only.");
-        $this->addOption('dry-run', null, InputOption::VALUE_NONE, 'For testing purposes.');
+        $this->addNoValueOption('dry-run', null, 'For testing purposes.');
         $this->setHelp("This command can be used to ease or automate maintenance. Instead of manually running "
             . "OPTIMIZE TABLE queries, the command can be used.\n\nYou should run the command if you find your "
             . "archive tables grow and do not shrink after purging. Optimizing them will reclaim some space.");

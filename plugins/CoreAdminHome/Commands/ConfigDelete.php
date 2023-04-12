@@ -14,7 +14,6 @@ use Piwik\Plugin\ConsoleCommand;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Plugin\SystemConfigSetting;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 
 class ConfigDelete extends ConsoleCommand
 {
@@ -33,9 +32,9 @@ class ConfigDelete extends ConsoleCommand
             InputArgument::OPTIONAL,
             "A config setting in the format Section.key or Section.array_key[], e.g. 'Database.username' or 'PluginsInstalled.PluginsInstalled.CustomDimensions'"
         );
-        $this->addOption('section', 's', InputOption::VALUE_REQUIRED, 'The section the INI config setting belongs to.');
-        $this->addOption('key', 'k', InputOption::VALUE_REQUIRED, 'The name of the INI config setting.');
-        $this->addOption('value', 'i', InputOption::VALUE_REQUIRED, 'For arrays, specify the array value to be deleted.');
+        $this->addRequiredValueOption('section', 's', 'The section the INI config setting belongs to.');
+        $this->addRequiredValueOption('key', 'k', 'The name of the INI config setting.');
+        $this->addRequiredValueOption('value', 'i', 'For arrays, specify the array value to be deleted.');
 
         $this->setHelp("This command can be used to delete a INI config setting.
 

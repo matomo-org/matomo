@@ -13,7 +13,6 @@ use Piwik\Filesystem;
 use Piwik\Plugins\ExamplePlugin\ExamplePlugin;
 use Piwik\Plugin;
 use Piwik\Version;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  */
@@ -24,10 +23,10 @@ class GeneratePlugin extends GeneratePluginBase
         $this->setName('generate:plugin')
             ->setAliases(array('generate:theme'))
             ->setDescription('Generates a new plugin/theme including all needed files')
-            ->addOption('name', null, InputOption::VALUE_REQUIRED, 'Plugin name ([a-Z0-9_-])')
-            ->addOption('description', null, InputOption::VALUE_REQUIRED, 'Plugin description, max 150 characters')
-            ->addOption('pluginversion', null, InputOption::VALUE_OPTIONAL, 'Plugin version')
-            ->addOption('overwrite', null, InputOption::VALUE_NONE, 'Generate even if plugin directory already exists.');
+            ->addRequiredValueOption('name', null, 'Plugin name ([a-Z0-9_-])')
+            ->addRequiredValueOption('description', null, 'Plugin description, max 150 characters')
+            ->addOptionalValueOption('pluginversion', null, 'Plugin version')
+            ->addNoValueOption('overwrite', null, 'Generate even if plugin directory already exists.');
     }
 
     protected function doExecute(): int

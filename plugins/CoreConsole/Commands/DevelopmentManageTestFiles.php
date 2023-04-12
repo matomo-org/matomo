@@ -10,7 +10,6 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 use Piwik\Development;
 use Piwik\Plugin\ConsoleCommand;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 
 class DevelopmentManageTestFiles extends ConsoleCommand
 {
@@ -26,7 +25,7 @@ class DevelopmentManageTestFiles extends ConsoleCommand
 
         $this->addArgument('operation', InputArgument::REQUIRED, 'The operation to apply. Supported operations include: '
             . '"copy"');
-        $this->addOption('file', null, InputOption::VALUE_REQUIRED, "The file (or files) to apply the operation to.");
+        $this->addRequiredValueOption('file', null, "The file (or files) to apply the operation to.");
 
         // TODO: allow copying by regex pattern
     }

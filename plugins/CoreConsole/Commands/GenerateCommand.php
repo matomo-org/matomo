@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\Plugin\Manager;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  */
@@ -20,8 +19,8 @@ class GenerateCommand extends GeneratePluginBase
     {
         $this->setName('generate:command')
             ->setDescription('Adds a command to an existing plugin')
-            ->addOption('pluginname', null, InputOption::VALUE_REQUIRED, 'The name of an existing plugin')
-            ->addOption('command', null, InputOption::VALUE_REQUIRED, 'The name of the command you want to create');
+            ->addRequiredValueOption('pluginname', null, 'The name of an existing plugin')
+            ->addRequiredValueOption('command', null, 'The name of the command you want to create');
     }
 
     protected function doExecute(): int

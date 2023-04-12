@@ -12,7 +12,6 @@ namespace Piwik\Plugins\TwoFactorAuth\Commands;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\TwoFactorAuth\TwoFactorAuthentication;
-use Symfony\Component\Console\Input\InputOption;
 
 class Disable2FAForUser extends ConsoleCommand
 {
@@ -23,7 +22,7 @@ class Disable2FAForUser extends ConsoleCommand
             'Disable two-factor authentication for a user. Useful if a user loses the device that was used for'
             . ' two-factor authentication. After it was disabled, the user will be able to set it up again.'
         );
-        $this->addOption('login', null, InputOption::VALUE_REQUIRED, 'Login of an existing user');
+        $this->addRequiredValueOption('login', null, 'Login of an existing user');
     }
 
     protected function doExecute(): int

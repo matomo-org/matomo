@@ -13,7 +13,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\Exception\AuthenticationFailedException;
 use Piwik\Plugins\LanguagesManager\API as LanguagesManagerApi;
 use Piwik\Translation\Weblate\API;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  */
@@ -27,9 +26,9 @@ class FetchTranslations extends TranslationBase
 
         $this->setName('translations:fetch')
              ->setDescription('Fetches translations files from Weblate to ' . $path)
-             ->addOption('token', 't', InputOption::VALUE_OPTIONAL, 'Weblate API token')
-             ->addOption('slug', 's', InputOption::VALUE_OPTIONAL, 'project slug on weblate', 'matomo')
-             ->addOption('plugin', 'r', InputOption::VALUE_OPTIONAL, 'Plugin to update');
+             ->addOptionalValueOption('token', 't', 'Weblate API token')
+             ->addOptionalValueOption('slug', 's', 'project slug on weblate', 'matomo')
+             ->addOptionalValueOption('plugin', 'r', 'Plugin to update');
     }
 
     protected function doExecute(): int

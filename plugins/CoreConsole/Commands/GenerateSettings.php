@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\Plugin\Manager;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  */
@@ -20,8 +19,8 @@ class GenerateSettings extends GeneratePluginBase
     {
         $this->setName('generate:settings')
             ->setDescription('Adds a SystemSetting, UserSetting or MeasurableSetting class to an existing plugin')
-            ->addOption('pluginname', null, InputOption::VALUE_REQUIRED, 'The name of an existing plugin which does not have settings yet')
-            ->addOption('settingstype', null, InputOption::VALUE_REQUIRED, 'The type of settings you want to create. Should be one of these values: ' . implode(', ', $this->getSettingTypes()));
+            ->addRequiredValueOption('pluginname', null, 'The name of an existing plugin which does not have settings yet')
+            ->addRequiredValueOption('settingstype', null, 'The type of settings you want to create. Should be one of these values: ' . implode(', ', $this->getSettingTypes()));
     }
 
     protected function doExecute(): int

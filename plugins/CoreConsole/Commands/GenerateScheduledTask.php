@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\Plugin\Manager;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  */
@@ -20,7 +19,7 @@ class GenerateScheduledTask extends GeneratePluginBase
     {
         $this->setName('generate:scheduledtask')
             ->setDescription('Adds a tasks class to an existing plugin which allows you to specify scheduled tasks')
-            ->addOption('pluginname', null, InputOption::VALUE_REQUIRED, 'The name of an existing plugin which does not have any tasks defined yet');
+            ->addRequiredValueOption('pluginname', null, 'The name of an existing plugin which does not have any tasks defined yet');
     }
 
     protected function doExecute(): int

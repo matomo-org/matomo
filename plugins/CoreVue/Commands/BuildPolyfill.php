@@ -10,7 +10,6 @@ namespace Piwik\Plugins\CoreVue\Commands;
 
 use Piwik\Filesystem;
 use Piwik\Plugin\ConsoleCommand;
-use Symfony\Component\Console\Input\InputOption;
 
 class BuildPolyfill extends ConsoleCommand
 {
@@ -18,7 +17,7 @@ class BuildPolyfill extends ConsoleCommand
     {
         $this->setName('vue:build-polyfill');
         $this->setDescription('Builds the polyfill UMD.');
-        $this->addOption('clear-webpack-cache', null, InputOption::VALUE_NONE);
+        $this->addNoValueOption('clear-webpack-cache');
     }
 
     public function isEnabled()

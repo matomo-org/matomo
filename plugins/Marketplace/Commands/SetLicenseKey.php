@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\Marketplace\Commands;
 
 use Piwik\Plugin\ConsoleCommand;
-use Symfony\Component\Console\Input\InputOption;
 use Piwik\Plugins\Marketplace\API;
 
 /**
@@ -21,7 +20,7 @@ class SetLicenseKey extends ConsoleCommand
     {
         $this->setName('marketplace:set-license-key');
         $this->setDescription('Sets a marketplace license key');
-        $this->addOption('license-key', null, InputOption::VALUE_REQUIRED, 'Your license key:');
+        $this->addRequiredValueOption('license-key', null, 'Your license key:');
     }
 
     protected function doExecute(): int

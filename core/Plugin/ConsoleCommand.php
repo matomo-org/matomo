@@ -17,6 +17,7 @@ use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
@@ -86,6 +87,34 @@ class ConsoleCommand extends SymfonyCommand
         $this->output = $output;
         return $this->doExecute();
     }
+
+    public function addNegatableOption(string $name, $shortcut = null, string $description = '', $default = null)
+    {
+        return parent::addOption($name, $shortcut, InputOption::VALUE_NEGATABLE, $description, $default);
+    }
+
+    public function addOptionalValueOption(string $name, $shortcut = null, string $description = '', $default = null, bool $acceptArrays = false)
+    {
+        $mode = $acceptArrays ? InputOption::VALUE_IS_ARRAY : 0;
+        return parent::addOption($name, $shortcut, $mode | InputOption::VALUE_OPTIONAL, $description, $default);
+    }
+
+    public function addNoValueOption(string $name, $shortcut = null, string $description = '', $default = null)
+    {
+        return parent::addOption($name, $shortcut, InputOption::VALUE_NONE, $description, $default);
+    }
+
+    public function addRequiredValueOption(string $name, $shortcut = null, string $description = '', $default = null, bool $acceptArrays = false)
+    {
+        $mode = $acceptArrays ? InputOption::VALUE_IS_ARRAY : 0;
+        return parent::addOption($name, $shortcut, $mode | InputOption::VALUE_REQUIRED, $description, $default);
+    }
+
+    public function addOption(string $name, $shortcut = null, int $mode = null, string $description = '', $default = null)
+    {
+        throw new \LogicException('addOption should not be used.');
+    }
+
 
     protected function doExecute(): int
     {

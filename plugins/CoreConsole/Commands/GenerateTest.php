@@ -11,7 +11,6 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\Common;
 use Piwik\Plugin\Manager;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  */
@@ -21,9 +20,9 @@ class GenerateTest extends GeneratePluginBase
     {
         $this->setName('generate:test')
             ->setDescription('Adds a test to an existing plugin')
-            ->addOption('pluginname', null, InputOption::VALUE_REQUIRED, 'The name of an existing plugin')
-            ->addOption('testname', null, InputOption::VALUE_REQUIRED, 'The name of the test to create')
-            ->addOption('testtype', null, InputOption::VALUE_REQUIRED, 'Whether you want to create a "unit", "integration", "system", or "ui" test');
+            ->addRequiredValueOption('pluginname', null, 'The name of an existing plugin')
+            ->addRequiredValueOption('testname', null, 'The name of the test to create')
+            ->addRequiredValueOption('testtype', null, 'Whether you want to create a "unit", "integration", "system", or "ui" test');
     }
 
     protected function doExecute(): int

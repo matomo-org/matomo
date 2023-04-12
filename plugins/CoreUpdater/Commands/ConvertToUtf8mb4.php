@@ -13,7 +13,6 @@ use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Piwik;
 use Piwik\Plugin\ConsoleCommand;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  * @package CoreUpdater
@@ -26,9 +25,9 @@ class ConvertToUtf8mb4 extends ConsoleCommand
 
         $this->setDescription('Converts the database to utf8mb4');
 
-        $this->addOption('show', null, InputOption::VALUE_NONE, Piwik::translate('Show all commands / queries only.'));
-        $this->addOption('yes', null, InputOption::VALUE_NONE, Piwik::translate('CoreUpdater_ConsoleParameterDescription'));
-        $this->addOption('keep-tracking', null, InputOption::VALUE_NONE, 'Do not disable tracking while conversion is running');
+        $this->addNoValueOption('show', null, Piwik::translate('Show all commands / queries only.'));
+        $this->addNoValueOption('yes', null, Piwik::translate('CoreUpdater_ConsoleParameterDescription'));
+        $this->addNoValueOption('keep-tracking', null, 'Do not disable tracking while conversion is running');
     }
 
     public function isEnabled()

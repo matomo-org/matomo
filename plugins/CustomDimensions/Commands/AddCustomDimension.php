@@ -14,7 +14,6 @@ use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\CustomDimensions\CustomDimensions;
 use Piwik\Plugins\CustomDimensions\Dao\LogTable;
 use Piwik\Tracker\Cache;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  */
@@ -30,8 +29,8 @@ class AddCustomDimension extends ConsoleCommand
 ");
 
         $description = sprintf('The scope of the Custom Dimension to add, either "%s" or "%s"', CustomDimensions::SCOPE_VISIT, CustomDimensions::SCOPE_ACTION);
-        $this->addOption('scope', null, InputOption::VALUE_REQUIRED, $description);
-        $this->addOption('count', null, InputOption::VALUE_REQUIRED, 'Define how many Custom Dimensions shall be added', '1');
+        $this->addRequiredValueOption('scope', null, $description);
+        $this->addRequiredValueOption('count', null, 'Define how many Custom Dimensions shall be added', '1');
     }
 
     protected function doExecute(): int

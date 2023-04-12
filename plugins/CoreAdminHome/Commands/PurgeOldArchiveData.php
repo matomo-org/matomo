@@ -16,7 +16,6 @@ use Piwik\Plugin\ConsoleCommand;
 use Piwik\Timer;
 use Piwik\Log\NullLogger;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Command that allows users to force purge old or invalid archive data. In the event of a failure
@@ -52,11 +51,11 @@ class PurgeOldArchiveData extends ConsoleCommand
         $this->addArgument("dates", InputArgument::IS_ARRAY | InputArgument::OPTIONAL,
             "The months of the archive tables to purge data from. By default, only deletes from the current month. Use '" . self::ALL_DATES_STRING. "' for all dates.",
             array(self::getToday()->toString()));
-        $this->addOption('exclude-outdated', null, InputOption::VALUE_NONE, "Do not purge outdated archive data.");
-        $this->addOption('exclude-invalidated', null, InputOption::VALUE_NONE, "Do not purge invalidated archive data.");
-        $this->addOption('exclude-ranges', null, InputOption::VALUE_NONE, "Do not purge custom ranges.");
-        $this->addOption('skip-optimize-tables', null, InputOption::VALUE_NONE, "Do not run OPTIMIZE TABLES query on affected archive tables.");
-        $this->addOption('include-year-archives', null, InputOption::VALUE_NONE, "If supplied, the command will purge archive tables that contain year archives for every supplied date.");
+        $this->addNoValueOption('exclude-outdated', null, "Do not purge outdated archive data.");
+        $this->addNoValueOption('exclude-invalidated', null, "Do not purge invalidated archive data.");
+        $this->addNoValueOption('exclude-ranges', null, "Do not purge custom ranges.");
+        $this->addNoValueOption('skip-optimize-tables', null, "Do not run OPTIMIZE TABLES query on affected archive tables.");
+        $this->addNoValueOption('include-year-archives', null, "If supplied, the command will purge archive tables that contain year archives for every supplied date.");
         $this->setHelp("By default old and invalidated archives are purged. Custom ranges are also purged with outdated archives.\n\n"
                      . "Note: archive purging is done during scheduled task execution, so under normal circumstances, you should not need to "
                      . "run this command manually.");

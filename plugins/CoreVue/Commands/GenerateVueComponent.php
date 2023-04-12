@@ -10,7 +10,6 @@ namespace Piwik\Plugins\CoreVue\Commands;
 
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\CoreConsole\Commands\GenerateVueConstructBase;
-use Symfony\Component\Console\Input\InputOption;
 
 class GenerateVueComponent extends GenerateVueConstructBase
 {
@@ -18,8 +17,8 @@ class GenerateVueComponent extends GenerateVueConstructBase
     {
         $this->setName('generate:vue-component')
             ->setDescription('Generates a vue component for a plugin.')
-            ->addOption('pluginname', null, InputOption::VALUE_REQUIRED, 'The name of an existing plugin')
-            ->addOption('component', null, InputOption::VALUE_REQUIRED, 'The name of the component.');
+            ->addRequiredValueOption('pluginname', null, 'The name of an existing plugin')
+            ->addRequiredValueOption('component', null, 'The name of the component.');
     }
 
     protected function doExecute(): int

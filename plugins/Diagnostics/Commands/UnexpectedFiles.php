@@ -12,7 +12,6 @@ use Piwik\Development;
 use Piwik\FileIntegrity;
 use Piwik\Filesystem;
 use Piwik\Plugin\ConsoleCommand;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Diagnostic command that finds all unexpected files in the Matomo installation directory and provides an option to
@@ -29,7 +28,7 @@ class UnexpectedFiles extends ConsoleCommand
     {
         $this->setName('diagnostics:unexpected-files')
             ->setDescription('Show a list of unexpected files found in the Matomo installation directory and optionally delete them.')
-            ->addOption('delete', null, InputOption::VALUE_NONE, 'Delete all the unexpected files');
+            ->addNoValueOption('delete', null, 'Delete all the unexpected files');
     }
 
     /**

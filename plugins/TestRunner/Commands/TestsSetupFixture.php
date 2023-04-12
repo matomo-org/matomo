@@ -17,7 +17,6 @@ use Piwik\Tests\Framework\TestingEnvironmentVariables;
 use Piwik\Url;
 use Piwik\Tests\Framework\Fixture;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Console commands that sets up a fixture either in a local MySQL database or a remote one.
@@ -55,38 +54,38 @@ class TestsSetupFixture extends ConsoleCommand
             "The class name of the fixture to apply. Doesn't need to have a namespace if it exists in the " .
             "Piwik\\Tests\\Fixtures namespace.");
 
-        $this->addOption('db-name', null, InputOption::VALUE_REQUIRED,
+        $this->addRequiredValueOption('db-name', null,
             "The name of the database that will contain the fixture data. This option is required to be set.");
-        $this->addOption('file', null, InputOption::VALUE_REQUIRED,
+        $this->addRequiredValueOption('file', null,
             "The file location of the fixture. If this option is included the file will be required explicitly.");
-        $this->addOption('db-host', null, InputOption::VALUE_REQUIRED,
+        $this->addRequiredValueOption('db-host', null,
             "The hostname of the MySQL database to use. Uses the default config value if not specified.");
-        $this->addOption('db-user', null, InputOption::VALUE_REQUIRED,
+        $this->addRequiredValueOption('db-user', null,
             "The name of the MySQL user to use. Uses the default config value if not specified.");
-        $this->addOption('db-pass', null, InputOption::VALUE_REQUIRED,
+        $this->addRequiredValueOption('db-pass', null,
             "The MySQL user password to use. Uses the default config value if not specified.");
-        $this->addOption('teardown', null, InputOption::VALUE_NONE,
+        $this->addNoValueOption('teardown', null,
             "If specified, the fixture will be torn down and the database deleted. Won't work if the --db-name " .
             "option isn't supplied.");
-        $this->addOption('persist-fixture-data', null, InputOption::VALUE_NONE,
+        $this->addNoValueOption('persist-fixture-data', null,
             "If specified, the database will not be dropped after the fixture is setup. If the database already " .
             "and the fixture was successfully setup before, nothing will happen.");
-        $this->addOption('drop', null, InputOption::VALUE_NONE,
+        $this->addNoValueOption('drop', null,
             "Forces the database to be dropped before setting up the fixture. Should be used in conjunction with" .
             " --persist-fixture-data when updating a pre-existing test database.");
-        $this->addOption('sqldump', null, InputOption::VALUE_REQUIRED,
+        $this->addRequiredValueOption('sqldump', null,
             "Creates an SQL dump after setting up the fixture and outputs the dump to the file specified by this option.");
-        $this->addOption('save-config', null, InputOption::VALUE_NONE,
+        $this->addNoValueOption('save-config', null,
             "Saves the current configuration file as a config for a new Piwik domain. For example save-config --matomo-domain=mytest.localhost.com will create "
           . "a mytest.config.ini.php file in the config/ directory. Using /etc/hosts you can redirect to 127.0.0.1 and use the saved "
           . "config.");
-        $this->addOption('set-phantomjs-symlinks', null, InputOption::VALUE_NONE,
+        $this->addNoValueOption('set-phantomjs-symlinks', null,
             "Used by UI tests. Creates symlinks to root directory in tests/PHPUnit/proxy.");
-        $this->addOption('server-global', null, InputOption::VALUE_REQUIRED,
+        $this->addRequiredValueOption('server-global', null,
             "Used by UI tests. Sets the \$_SERVER global variable from a JSON string.");
-        $this->addOption('plugins', null, InputOption::VALUE_REQUIRED,
+        $this->addRequiredValueOption('plugins', null,
             "Used by UI tests. Comma separated list of plugin names to activate and install when setting up a fixture.");
-        $this->addOption('enable-logging', null, InputOption::VALUE_NONE, 'If enabled, tests will log to the configured log file.');
+        $this->addNoValueOption('enable-logging', null, 'If enabled, tests will log to the configured log file.');
     }
 
     protected function doExecute(): int

@@ -17,7 +17,6 @@ use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\CoreAdminHome\Model\DuplicateActionRemover;
 use Piwik\Timer;
 use Piwik\Log\LoggerInterface;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Finds duplicate actions rows in log_action and removes them. Fixes references to duplicate
@@ -83,7 +82,7 @@ class FixDuplicateLogActions extends ConsoleCommand
     protected function configure()
     {
         $this->setName('core:fix-duplicate-log-actions');
-        $this->addOption('invalidate-archives', null, InputOption::VALUE_NONE, "If supplied, archives for logs that use duplicate actions will be invalidated."
+        $this->addNoValueOption('invalidate-archives', null, "If supplied, archives for logs that use duplicate actions will be invalidated."
             . " On the next cron archive run, the reports for those dates will be re-processed.");
         $this->setDescription('Removes duplicates in the log action table and fixes references to the duplicates in '
                             . 'related tables. NOTE: This action can take a long time to run!');

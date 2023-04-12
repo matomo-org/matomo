@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\LanguagesManager\Commands;
 
 use Piwik\Plugins\LanguagesManager\API;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  */
@@ -19,7 +18,7 @@ class LanguageNames extends TranslationBase
     protected function configure()
     {
         $this->setName('translations:languagenames')
-             ->addOption('all', 'a', InputOption::VALUE_NONE, 'Displays all languages (ignores language configuration)')
+             ->addNoValueOption('all', 'a', 'Displays all languages (ignores language configuration)')
              ->setDescription('Shows available language names');
     }
 

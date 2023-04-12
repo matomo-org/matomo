@@ -12,7 +12,6 @@ namespace Piwik\Plugins\TestRunner\Commands;
 use Piwik\Filesystem;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\View;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Command to generate an self-updating github action yml file either for Matomo Core or
@@ -40,18 +39,18 @@ class GenerateGitHubTestActionFile extends ConsoleCommand
     {
         $this->setName(self::COMMAND_NAME)
              ->setDescription('Generates a github action workflow file for a plugin. The file can be auto-updating based on the parameters supplied.')
-             ->addOption('plugin', null, InputOption::VALUE_REQUIRED, 'The plugin for whom a action yml file should be generated. If not provided yml file for core will be generated.')
-             ->addOption('php-versions', null, InputOption::VALUE_OPTIONAL, "List of PHP versions to test against, ie, 7.2,8.1.")
-             ->addOption('dependent-plugins', null, InputOption::VALUE_OPTIONAL, 'List of additional plugins that need to be checked out before running tests. Comma separated list. e.g. "matomo-org/plugin-CustomVariables,nickname/PluginName"')
-             ->addOption('repo-root-dir', null, InputOption::VALUE_REQUIRED, "Path to the repo for whom a action yml file will be generated for.")
-             ->addOption('force-php-tests', null, InputOption::VALUE_NONE, "Forces the presence of the PHP tests jobs for plugin builds.")
-             ->addOption('force-ui-tests', null, InputOption::VALUE_NONE, "Forces the presence of the UI tests jobs for plugin builds.")
-             ->addOption('force-client-tests', null, InputOption::VALUE_NONE, "Forces the presence of the Client tests jobs for plugin builds.")
-             ->addOption('protect-artifacts', null, InputOption::VALUE_NONE, "Indicates if artifacts should be stored protected on artifact server.")
-             ->addOption('setup-script', null, InputOption::VALUE_OPTIONAL, "Shell script to run (after setup, before tests), relative to plugins directory. .i.e .github/scripts/setup.sh")
-             ->addOption('has-submodules', null, InputOption::VALUE_NONE, "Defines if the repo has submodules that need to be checked out.")
-             ->addOption('enable-redis', null, InputOption::VALUE_NONE, "Defines if a redis service should be set up for PHP and UI testing.")
-             ->addOption('schedule-cron', null, InputOption::VALUE_OPTIONAL, "Value to schedule a cron. eg \"0 2 * * 6\" will run the job at 02:00 on Saturday.");
+             ->addRequiredValueOption('plugin', null, 'The plugin for whom a action yml file should be generated. If not provided yml file for core will be generated.')
+             ->addOptionalValueOption('php-versions', null, "List of PHP versions to test against, ie, 7.2,8.1.")
+             ->addOptionalValueOption('dependent-plugins', null, 'List of additional plugins that need to be checked out before running tests. Comma separated list. e.g. "matomo-org/plugin-CustomVariables,nickname/PluginName"')
+             ->addRequiredValueOption('repo-root-dir', null, "Path to the repo for whom a action yml file will be generated for.")
+             ->addNoValueOption('force-php-tests', null, "Forces the presence of the PHP tests jobs for plugin builds.")
+             ->addNoValueOption('force-ui-tests', null, "Forces the presence of the UI tests jobs for plugin builds.")
+             ->addNoValueOption('force-client-tests', null, "Forces the presence of the Client tests jobs for plugin builds.")
+             ->addNoValueOption('protect-artifacts', null, "Indicates if artifacts should be stored protected on artifact server.")
+             ->addOptionalValueOption('setup-script', null, "Shell script to run (after setup, before tests), relative to plugins directory. .i.e .github/scripts/setup.sh")
+             ->addNoValueOption('has-submodules', null, "Defines if the repo has submodules that need to be checked out.")
+             ->addNoValueOption('enable-redis', null, "Defines if a redis service should be set up for PHP and UI testing.")
+             ->addOptionalValueOption('schedule-cron', null, "Value to schedule a cron. eg \"0 2 * * 6\" will run the job at 02:00 on Saturday.");
     }
 
     protected function doExecute(): int

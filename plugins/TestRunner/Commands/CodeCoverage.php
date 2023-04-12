@@ -12,7 +12,6 @@ namespace Piwik\Plugins\TestRunner\Commands;
 use Piwik\Plugin\ConsoleCommand;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  */
@@ -22,7 +21,7 @@ class CodeCoverage extends ConsoleCommand
     {
         $this->setName('tests:coverage');
         $this->setDescription('Run all phpunit tests and generate a combined code coverage');
-        $this->addOption('testsuite', null, InputOption::VALUE_REQUIRED, 'Run only a specific test suite, for instance UnitTests, IntegrationTests or SystemTests.');
+        $this->addRequiredValueOption('testsuite', null, 'Run only a specific test suite, for instance UnitTests, IntegrationTests or SystemTests.');
         $this->addArgument('group', InputArgument::OPTIONAL, 'Run only a specific test group. Separate multiple groups by comma, for instance core,plugins', '');
     }
 

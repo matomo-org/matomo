@@ -17,7 +17,6 @@ use Piwik\LogDeleter;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Site;
 use Piwik\Timer;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Command to selectively delete visits.
@@ -54,12 +53,12 @@ class DeleteLogsData extends ConsoleCommand
     {
         $this->setName('core:delete-logs-data');
         $this->setDescription('Delete data from the user log tables: ' . implode(', ', self::$logTables) . '.');
-        $this->addOption('dates', null, InputOption::VALUE_REQUIRED, 'Delete log data with a date within this date range. Eg, 2012-01-01,2013-01-01');
-        $this->addOption('idsite', null, InputOption::VALUE_OPTIONAL,
+        $this->addRequiredValueOption('dates', null, 'Delete log data with a date within this date range. Eg, 2012-01-01,2013-01-01');
+        $this->addOptionalValueOption('idsite', null,
             'Delete log data belonging to the site with this ID. Comma separated list of website id. Eg, 1, 2, 3, etc. By default log data from all sites is purged.');
-        $this->addOption('limit', null, InputOption::VALUE_REQUIRED, "The number of rows to delete at a time. The larger the number, "
+        $this->addRequiredValueOption('limit', null, "The number of rows to delete at a time. The larger the number, "
             . "the more time is spent deleting logs, and the less progress will be printed to the screen.", 1000);
-        $this->addOption('optimize-tables', null, InputOption::VALUE_NONE,
+        $this->addNoValueOption('optimize-tables', null,
             "If supplied, the command will optimize log tables after deleting logs. Note: this can take a very long time.");
     }
 

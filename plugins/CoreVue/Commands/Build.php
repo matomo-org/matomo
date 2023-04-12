@@ -14,7 +14,6 @@ use Piwik\Filesystem;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 
 class Build extends ConsoleCommand
 {
@@ -27,10 +26,10 @@ class Build extends ConsoleCommand
         $this->setName('vue:build');
         $this->setDescription('Builds vue modules for one or more plugins.');
         $this->addArgument('plugins', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'Plugins whose vue modules to build. Defaults to all plugins.', []);
-        $this->addOption('bail', null, InputOption::VALUE_NONE, 'If supplied, will exit immediately.');
-        $this->addOption('watch', null, InputOption::VALUE_NONE, 'If supplied, will watch for changes and automatically rebuild.');
-        $this->addOption('clear-webpack-cache', null, InputOption::VALUE_NONE);
-        $this->addOption('print-build-command', null, InputOption::VALUE_NONE);
+        $this->addNoValueOption('bail', null, 'If supplied, will exit immediately.');
+        $this->addNoValueOption('watch', null, 'If supplied, will watch for changes and automatically rebuild.');
+        $this->addNoValueOption('clear-webpack-cache');
+        $this->addNoValueOption('print-build-command');
     }
 
     public function isEnabled()

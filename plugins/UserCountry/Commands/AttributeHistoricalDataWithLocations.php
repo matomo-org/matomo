@@ -14,7 +14,6 @@ use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Timer;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 
 class AttributeHistoricalDataWithLocations extends ConsoleCommand
 {
@@ -73,13 +72,13 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
         $this->setName('usercountry:attribute');
         $this->setDescription("Re-attribute existing raw data (visits & conversions) with geolocated location data, using the specified or configured location provider.");
         $this->addArgument(self::DATES_RANGE_ARGUMENT, InputArgument::REQUIRED, 'Attribute visits in this date range. Eg, 2012-01-01,2013-01-01');
-        $this->addOption(self::PERCENT_STEP_ARGUMENT, null, InputArgument::OPTIONAL,
+        $this->addOptionalValueOption(self::PERCENT_STEP_ARGUMENT, null,
             'How often to display the command progress. A status update will be printed after N percent of visits are processed, '
             . 'where N is the value of this option.', self::PERCENT_STEP_ARGUMENT_DEFAULT);
-        $this->addOption(self::PROVIDER_ARGUMENT, null, InputOption::VALUE_REQUIRED, 'Provider id which should be used to attribute visits. If empty then'
+        $this->addRequiredValueOption(self::PROVIDER_ARGUMENT, null, 'Provider id which should be used to attribute visits. If empty then'
             . ' Piwik will use the currently configured provider. If no provider is configured, the default provider is used.');
-        $this->addOption(self::SEGMENT_LIMIT_OPTION, null, InputOption::VALUE_OPTIONAL, 'Number of visits to process at a time.', self::SEGMENT_LIMIT_OPTION_DEFAULT);
-        $this->addOption(self::FORCE_OPTION, null, InputOption::VALUE_NONE, "Force geolocation, even if the requested provider does not appear to work. It is not "
+        $this->addOptionalValueOption(self::SEGMENT_LIMIT_OPTION, null, 'Number of visits to process at a time.', self::SEGMENT_LIMIT_OPTION_DEFAULT);
+        $this->addNoValueOption(self::FORCE_OPTION, null, "Force geolocation, even if the requested provider does not appear to work. It is not "
                                                                           . "recommended to use this option.");
     }
 

@@ -17,7 +17,6 @@ use Piwik\Plugin\Manager;
 use Piwik\ProxyHttp;
 use Piwik\SettingsPiwik;
 use Piwik\Theme;
-use Symfony\Component\Console\Input\InputOption;
 
 class ComputeJsAssetSize extends ConsoleCommand
 {
@@ -27,8 +26,8 @@ class ComputeJsAssetSize extends ConsoleCommand
     {
         $this->setName('development:compute-js-asset-size');
         $this->setDescription('Generates production assets and computes the size of the resulting code.');
-        $this->addOption('no-delete', null, InputOption::VALUE_NONE, 'Do not delete files after creating them.');
-        $this->addOption('plugin', null, InputOption::VALUE_REQUIRED, 'For submodule plugins and 3rd party plugins.');
+        $this->addNoValueOption('no-delete', null, 'Do not delete files after creating them.');
+        $this->addRequiredValueOption('plugin', null, 'For submodule plugins and 3rd party plugins.');
     }
 
     public function isEnabled()

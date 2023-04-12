@@ -17,7 +17,6 @@ use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\SitesManager\Model;
 use Piwik\Segment;
 use Piwik\Site;
-use Symfony\Component\Console\Input\InputOption;
 
 class GetSegmentSql extends ConsoleCommand
 {
@@ -30,9 +29,9 @@ class GetSegmentSql extends ConsoleCommand
     {
         $this->setName('development:get-segment-sql');
         $this->setDescription('Print out the SQL used to query for a segment. Used for debugging or diagnosing segment issues. The site ID and dates are hardcoded in the query.');
-        $this->addOption('segment', null, InputOption::VALUE_REQUIRED, 'The segment, correctly encoded.');
-        $this->addOption('idSites', null, InputOption::VALUE_REQUIRED, 'Comma separated list of site IDs for the segment. (optional)');
-        $this->addOption('queryType', null, InputOption::VALUE_REQUIRED, 'The query type to generate: visit, action or conversion');
+        $this->addRequiredValueOption('segment', null, 'The segment, correctly encoded.');
+        $this->addRequiredValueOption('idSites', null, 'Comma separated list of site IDs for the segment. (optional)');
+        $this->addRequiredValueOption('queryType', null, 'The query type to generate: visit, action or conversion');
     }
 
     protected function doExecute(): int

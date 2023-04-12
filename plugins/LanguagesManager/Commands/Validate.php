@@ -11,7 +11,6 @@ namespace Piwik\Plugins\LanguagesManager\Commands;
 
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\LanguagesManager\API;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  */
@@ -21,10 +20,10 @@ class Validate extends TranslationBase
     {
         $this->setName('translations:validate')
             ->setDescription('Validates translation files')
-            ->addOption('token', 't', InputOption::VALUE_OPTIONAL, 'Weblate API token')
-            ->addOption('slug', 's', InputOption::VALUE_OPTIONAL, 'Weblate project slug')
-            ->addOption('all', 'a', InputOption::VALUE_NONE, 'Force to update all plugins (even non core). Can not be used with plugin option')
-            ->addOption('plugin', 'P', InputOption::VALUE_OPTIONAL, 'optional name of plugin to update translations for');
+            ->addOptionalValueOption('token', 't', 'Weblate API token')
+            ->addOptionalValueOption('slug', 's', 'Weblate project slug')
+            ->addNoValueOption('all', 'a', 'Force to update all plugins (even non core). Can not be used with plugin option')
+            ->addOptionalValueOption('plugin', 'P', 'optional name of plugin to update translations for');
     }
 
     protected function doExecute(): int

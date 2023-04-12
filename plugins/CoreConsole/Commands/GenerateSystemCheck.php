@@ -11,7 +11,6 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\Common;
 use Piwik\Plugin\Manager;
-use Symfony\Component\Console\Input\InputOption;
 
 class GenerateSystemCheck extends GeneratePluginBase
 {
@@ -19,8 +18,8 @@ class GenerateSystemCheck extends GeneratePluginBase
     {
         $this->setName('generate:system-check')
             ->setDescription('Adds a new system check to an existing plugin')
-            ->addOption('pluginname', null, InputOption::VALUE_REQUIRED, 'The name of an existing plugin which does not have a menu defined yet')
-            ->addOption('checkname', null, InputOption::VALUE_REQUIRED, 'The name of the system check you want to create');
+            ->addRequiredValueOption('pluginname', null, 'The name of an existing plugin which does not have a menu defined yet')
+            ->addRequiredValueOption('checkname', null, 'The name of the system check you want to create');
     }
 
     protected function doExecute(): int

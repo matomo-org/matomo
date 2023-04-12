@@ -18,7 +18,6 @@ use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\UnnecassaryWhitespac
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Validate\CoreTranslations;
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Validate\NoScripts;
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Writer;
-use Symfony\Component\Console\Input\InputOption;
 
 class SetTranslations extends TranslationBase
 {
@@ -26,10 +25,10 @@ class SetTranslations extends TranslationBase
     {
         $this->setName('translations:set')
              ->setDescription('Sets new translations for a given language')
-             ->addOption('code', 'c', InputOption::VALUE_REQUIRED, 'code of the language to set translations for')
-             ->addOption('file', 'f', InputOption::VALUE_REQUIRED, 'json file to load new translations from')
-             ->addOption('plugin', 'pl', InputOption::VALUE_OPTIONAL, 'optional name of plugin to set translations for')
-             ->addOption('validate', '', InputOption::VALUE_OPTIONAL, 'when set, the file will not be written, but validated. The given value will be used as filename to write filter results to.');
+             ->addRequiredValueOption('code', 'c', 'code of the language to set translations for')
+             ->addRequiredValueOption('file', 'f', 'json file to load new translations from')
+             ->addOptionalValueOption('plugin', 'pl', 'optional name of plugin to set translations for')
+             ->addOptionalValueOption('validate', '', 'when set, the file will not be written, but validated. The given value will be used as filename to write filter results to.');
     }
 
     protected function doExecute(): int

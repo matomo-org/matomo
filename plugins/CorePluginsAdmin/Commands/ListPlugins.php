@@ -10,7 +10,6 @@ namespace Piwik\Plugins\CorePluginsAdmin\Commands;
 
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugin\Manager;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  * plugin:list console command.
@@ -21,7 +20,7 @@ class ListPlugins extends ConsoleCommand
     {
         $this->setName('plugin:list');
         $this->setDescription('List installed plugins.');
-        $this->addOption('filter-plugin', null, InputOption::VALUE_OPTIONAL, 'If given, prints only plugins that contain this term.');
+        $this->addOptionalValueOption('filter-plugin', null, 'If given, prints only plugins that contain this term.');
     }
 
     protected function doExecute(): int

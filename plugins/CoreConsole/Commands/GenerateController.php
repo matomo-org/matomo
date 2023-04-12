@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\Plugin\Manager;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  */
@@ -20,7 +19,7 @@ class GenerateController extends GeneratePluginBase
     {
         $this->setName('generate:controller')
             ->setDescription('Adds a Controller to an existing plugin')
-            ->addOption('pluginname', null, InputOption::VALUE_REQUIRED, 'The name of an existing plugin which does not have a Controller yet');
+            ->addRequiredValueOption('pluginname', null, 'The name of an existing plugin which does not have a Controller yet');
     }
 
     protected function doExecute(): int

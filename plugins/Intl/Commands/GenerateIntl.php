@@ -18,7 +18,6 @@ use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\EncodedEntities;
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\UnnecassaryWhitespaces;
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Writer;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Console Command to generate Intl-data files for Piwik
@@ -37,8 +36,8 @@ class GenerateIntl extends ConsoleCommand
     protected function configure()
     {
         $this->setName('translations:generate-intl-data')
-            ->addOption('language', 'l', InputOption::VALUE_OPTIONAL, 'language that should be fetched')
-            ->addOption('cldr-version', '', InputOption::VALUE_OPTIONAL, 'CLDR version to use for update')
+            ->addOptionalValueOption('language', 'l', 'language that should be fetched')
+            ->addOptionalValueOption('cldr-version', '', 'CLDR version to use for update')
             ->setDescription('Generates Intl-data for Piwik');
     }
 

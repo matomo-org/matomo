@@ -14,7 +14,6 @@ use Piwik\Plugin\ConsoleCommand;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Plugin\SystemConfigSetting;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Spyc;
 
 class ConfigGet extends ConsoleCommand
@@ -38,9 +37,9 @@ class ConfigGet extends ConsoleCommand
             InputArgument::OPTIONAL,
             "A config setting in the format Section.key or Section.array_key[], e.g. 'Database.username' or 'PluginsInstalled'"
         );
-        $this->addOption('section', 's', InputOption::VALUE_REQUIRED, 'The section the INI config setting belongs to.');
-        $this->addOption('key', 'k', InputOption::VALUE_REQUIRED, 'The name of the INI config setting.');
-        $this->addOption('format', 'f', InputOption::VALUE_OPTIONAL, 'Format the output as ' . json_encode(self::OUTPUT_FORMATS) . '; Default is ' . self::OUTPUT_FORMAT_DEFAULT, self::OUTPUT_FORMAT_DEFAULT);
+        $this->addRequiredValueOption('section', 's', 'The section the INI config setting belongs to.');
+        $this->addRequiredValueOption('key', 'k', 'The name of the INI config setting.');
+        $this->addOptionalValueOption('format', 'f', 'Format the output as ' . json_encode(self::OUTPUT_FORMATS) . '; Default is ' . self::OUTPUT_FORMAT_DEFAULT, self::OUTPUT_FORMAT_DEFAULT);
 
         $this->setHelp("This command can be used to get a INI config setting or a whole section of settings on a Piwik instance.
 

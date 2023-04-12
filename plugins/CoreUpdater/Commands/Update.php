@@ -19,7 +19,6 @@ use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\CoreUpdater\Commands\Update\CliUpdateObserver;
 use Piwik\Plugins\CoreUpdater\NoUpdatesFoundException;
 use Piwik\Updater;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  * @package CoreUpdater
@@ -37,8 +36,8 @@ class Update extends ConsoleCommand
 
         $this->setDescription(Piwik::translate('CoreUpdater_ConsoleCommandDescription'));
 
-        $this->addOption('yes', null, InputOption::VALUE_NONE, Piwik::translate('CoreUpdater_ConsoleParameterDescription'));
-        $this->addOption('skip-cache-clear', null, InputOption::VALUE_NONE, Piwik::translate('CoreUpdater_SkipCacheClearDesc'));
+        $this->addNoValueOption('yes', null, Piwik::translate('CoreUpdater_ConsoleParameterDescription'));
+        $this->addNoValueOption('skip-cache-clear', null, Piwik::translate('CoreUpdater_SkipCacheClearDesc'));
     }
 
     /**

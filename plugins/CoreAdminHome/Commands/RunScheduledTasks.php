@@ -14,7 +14,6 @@ use Piwik\FrontController;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Scheduler\Scheduler;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 
 class RunScheduledTasks extends ConsoleCommand
 {
@@ -24,7 +23,7 @@ class RunScheduledTasks extends ConsoleCommand
         $this->setAliases(array('core:run-scheduled-tasks'));
         $this->setDescription('Will run all scheduled tasks due to run at this time.');
         $this->addArgument('task', InputArgument::OPTIONAL, 'Optionally pass the name of a task to run (will run even if not scheduled to run now)');
-        $this->addOption('force', null, InputOption::VALUE_NONE, 'If set, it will execute all tasks even the ones not due to run at this time.');
+        $this->addNoValueOption('force', null, 'If set, it will execute all tasks even the ones not due to run at this time.');
     }
 
     /**

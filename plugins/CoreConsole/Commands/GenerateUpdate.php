@@ -12,7 +12,6 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 use Piwik\Plugin;
 use Piwik\Updater;
 use Piwik\Version;
-use Symfony\Component\Console\Input\InputOption;
 
 class GenerateUpdate extends GeneratePluginBase
 {
@@ -20,7 +19,7 @@ class GenerateUpdate extends GeneratePluginBase
     {
         $this->setName('generate:update')
             ->setDescription('Adds a new update to an existing plugin or "core"')
-            ->addOption('component', null, InputOption::VALUE_REQUIRED, 'The name of an existing plugin or "core"');
+            ->addRequiredValueOption('component', null, 'The name of an existing plugin or "core"');
     }
 
     protected function doExecute(): int

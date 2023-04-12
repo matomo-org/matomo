@@ -14,7 +14,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugin\ReportsProvider;
-use Symfony\Component\Console\Input\InputOption;
 
 class GenerateReport extends GeneratePluginBase
 {
@@ -22,11 +21,11 @@ class GenerateReport extends GeneratePluginBase
     {
         $this->setName('generate:report')
             ->setDescription('Adds a new report to an existing plugin')
-            ->addOption('pluginname', null, InputOption::VALUE_REQUIRED, 'The name of an existing plugin which does not have a menu defined yet')
-            ->addOption('reportname', null, InputOption::VALUE_REQUIRED, 'The name of the report you want to create')
-            ->addOption('category', null, InputOption::VALUE_REQUIRED, 'The name of the category the report belongs to')
-            ->addOption('dimension', null, InputOption::VALUE_OPTIONAL, 'The name of the dimension in case your report has a dimension')
-            ->addOption('documentation', null, InputOption::VALUE_REQUIRED, 'A documentation that explains what your report is about');
+            ->addRequiredValueOption('pluginname', null, 'The name of an existing plugin which does not have a menu defined yet')
+            ->addRequiredValueOption('reportname', null, 'The name of the report you want to create')
+            ->addRequiredValueOption('category', null, 'The name of the category the report belongs to')
+            ->addOptionalValueOption('dimension', null, 'The name of the dimension in case your report has a dimension')
+            ->addRequiredValueOption('documentation', null, 'A documentation that explains what your report is about');
     }
 
     protected function doExecute(): int

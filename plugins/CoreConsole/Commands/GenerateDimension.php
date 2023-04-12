@@ -12,7 +12,6 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 use Piwik\Common;
 use Piwik\DbHelper;
 use Piwik\Plugin\Manager;
-use Symfony\Component\Console\Input\InputOption;
 
 class GenerateDimension extends GeneratePluginBase
 {
@@ -20,11 +19,11 @@ class GenerateDimension extends GeneratePluginBase
     {
         $this->setName('generate:dimension')
             ->setDescription('Adds a new dimension to an existing plugin. This allows you to persist new values during tracking.')
-            ->addOption('pluginname', null, InputOption::VALUE_REQUIRED, 'The name of an existing plugin which does not have a menu defined yet')
-            ->addOption('type', null, InputOption::VALUE_REQUIRED, 'Whether you want to create a "Visit", an "Action" or a "Conversion" dimension')
-            ->addOption('dimensionname', null, InputOption::VALUE_REQUIRED, 'A human readable name of the dimension which will be for instance visible in the UI')
-            ->addOption('columnname', null, InputOption::VALUE_REQUIRED, 'The name of the column in the MySQL database the dimension will be stored under')
-            ->addOption('columntype', null, InputOption::VALUE_REQUIRED, 'The MySQL type for your dimension, for instance "VARCHAR(255) NOT NULL".');
+            ->addRequiredValueOption('pluginname', null, 'The name of an existing plugin which does not have a menu defined yet')
+            ->addRequiredValueOption('type', null, 'Whether you want to create a "Visit", an "Action" or a "Conversion" dimension')
+            ->addRequiredValueOption('dimensionname', null, 'A human readable name of the dimension which will be for instance visible in the UI')
+            ->addRequiredValueOption('columnname', null, 'The name of the column in the MySQL database the dimension will be stored under')
+            ->addRequiredValueOption('columntype', null, 'The MySQL type for your dimension, for instance "VARCHAR(255) NOT NULL".');
     }
 
     /**

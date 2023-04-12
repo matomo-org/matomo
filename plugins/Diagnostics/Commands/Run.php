@@ -14,7 +14,6 @@ use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\Diagnostics\Diagnostic\DiagnosticResult;
 use Piwik\Plugins\Diagnostics\Diagnostic\DiagnosticResultItem;
 use Piwik\Plugins\Diagnostics\DiagnosticService;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Run the diagnostics.
@@ -25,7 +24,7 @@ class Run extends ConsoleCommand
     {
         $this->setName('diagnostics:run')
             ->setDescription('Run diagnostics to check that Piwik is installed and runs correctly')
-            ->addOption('all', null, InputOption::VALUE_NONE, 'Show all diagnostics, including those that passed with success');
+            ->addNoValueOption('all', null, 'Show all diagnostics, including those that passed with success');
     }
 
     protected function doExecute(): int

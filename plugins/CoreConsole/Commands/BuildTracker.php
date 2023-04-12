@@ -12,7 +12,6 @@ use Piwik\Http;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugin\Manager;
 use Piwik\Unzip;
-use Symfony\Component\Console\Input\InputOption;
 
 class BuildTracker extends ConsoleCommand
 {
@@ -22,7 +21,7 @@ class BuildTracker extends ConsoleCommand
     {
         $this->setName('development:build-tracker-js');
         $this->setDescription('Minifies tracker JavaScript for Matomo core or a single plugin.');
-        $this->addOption('plugin', null, InputOption::VALUE_REQUIRED, 'The plugin to minify. If not supplied, minifies core tracker JS.');
+        $this->addRequiredValueOption('plugin', null, 'The plugin to minify. If not supplied, minifies core tracker JS.');
     }
 
     public function isEnabled()

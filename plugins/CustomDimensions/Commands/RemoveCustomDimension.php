@@ -15,7 +15,6 @@ use Piwik\Plugins\CustomDimensions\CustomDimensions;
 use Piwik\Plugins\CustomDimensions\Dao\Configuration;
 use Piwik\Plugins\CustomDimensions\Dao\LogTable;
 use Piwik\Tracker\Cache;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  */
@@ -31,8 +30,8 @@ class RemoveCustomDimension extends ConsoleCommand
 ");
 
         $description = sprintf('The scope of the Custom Dimension to remove, either "%s" or "%s"', CustomDimensions::SCOPE_VISIT, CustomDimensions::SCOPE_ACTION);
-        $this->addOption('scope', null, InputOption::VALUE_REQUIRED, $description);
-        $this->addOption('index', null, InputOption::VALUE_REQUIRED, 'Defines which specific Custom Dimension should be removed. To get a list of all available Custom Dimensions execute the command "./console customdimensions:info".');
+        $this->addRequiredValueOption('scope', null, $description);
+        $this->addRequiredValueOption('index', null, 'Defines which specific Custom Dimension should be removed. To get a list of all available Custom Dimensions execute the command "./console customdimensions:info".');
     }
 
     protected function doExecute(): int

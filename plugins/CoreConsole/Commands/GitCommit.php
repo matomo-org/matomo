@@ -12,7 +12,6 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 use Piwik\Development;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\SettingsPiwik;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  */
@@ -27,7 +26,7 @@ class GitCommit extends ConsoleCommand
     {
         $this->setName('git:commit')
              ->setDescription('Commit')
-             ->addOption('message', 'm', InputOption::VALUE_REQUIRED, 'Commit Message');
+             ->addRequiredValueOption('message', 'm', 'Commit Message');
     }
 
     protected function doExecute(): int

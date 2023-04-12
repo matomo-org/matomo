@@ -12,7 +12,6 @@ use Piwik\Config;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\CoreAdminHome\Commands\SetConfig\ConfigSettingManipulation;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 
 class SetConfig extends ConsoleCommand
 {
@@ -22,9 +21,9 @@ class SetConfig extends ConsoleCommand
         $this->setDescription('Set one or more config settings in the file config/config.ini.php');
         $this->addArgument('assignment', InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
             "List of config setting assignments, eg, Section.key=1 or Section.array_key[]=value");
-        $this->addOption('section', null, InputOption::VALUE_REQUIRED, 'The section the INI config setting belongs to.');
-        $this->addOption('key', null, InputOption::VALUE_REQUIRED, 'The name of the INI config setting.');
-        $this->addOption('value', null, InputOption::VALUE_REQUIRED, 'The value of the setting. (Not JSON encoded)');
+        $this->addRequiredValueOption('section', null, 'The section the INI config setting belongs to.');
+        $this->addRequiredValueOption('key', null, 'The name of the INI config setting.');
+        $this->addRequiredValueOption('value', null, 'The value of the setting. (Not JSON encoded)');
         $this->setHelp("This command can be used to set INI config settings on a Piwik instance.
 
 You can set config values two ways, via --section, --key, --value or by command arguments.
