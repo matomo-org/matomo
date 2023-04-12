@@ -73,10 +73,7 @@ class SegmentTest extends IntegrationTestCase
     static public function removeExtraWhiteSpaces($valueToFilter)
     {
         if (is_array($valueToFilter)) {
-            foreach ($valueToFilter as $key => $value) {
-                $valueToFilter[$key] = self::removeExtraWhiteSpaces($value);
-            }
-            return $valueToFilter;
+            return array_map([self::class, 'removeExtraWhiteSpaces'], $valueToFilter);
         } else {
             $result = trim(preg_replace('/[\s]+/', ' ', $valueToFilter));
             $result = preg_replace('/\s*([()])\s*/', '$1', $result);
@@ -2285,6 +2282,54 @@ SQL;
         ];
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
+    public function test_segmentExpression_parseSubExpressionsIntoSqlExpressions_recognizesAvailableTablesCorrectly()
+    {
+        $segment = 'pageTitle=@abc';
+
+        $from = [
+            'log_link_visit_action',
+            [
+                'table' => 'log_action',
+                'tableAlias' => 'log_action_idaction_name',
+                'joinOn' => 'log_link_visit_action.idaction_name = log_action_idaction_name.idaction',
+            ],
+            [
+                'table' => 'log_visit',
+                'join' => 'RIGHT JOIN',
+            ],
+            'log_action',
+        ];
+
+        $originalFrom = $from;
+
+        $segment = new Segment($segment, []);
+        $segmentExpression = $segment->getSegmentExpression();
+        $segmentExpression->parseSubExpressionsIntoSqlExpressions($from);
+        $sql = $segmentExpression->getSql();
+
+        $expected = [
+            "where"  => "(log_action_segment_log_link_visit_actionidaction_name.name LIKE ? AND log_action_segment_log_link_visit_actionidaction_name.type = '4')",
+            "bind" => ['%abc%'],
+        ];
+
+        $this->assertEquals(SegmentTest::removeExtraWhiteSpaces($expected), SegmentTest::removeExtraWhiteSpaces($sql));
+
+        $expectedFrom = array_merge(
+            $originalFrom,
+            [
+                [
+                    'table' => 'log_action',
+                    'tableAlias' => 'log_action_segment_log_link_visit_actionidaction_name',
+                    'field' => 'log_action_segment_log_link_visit_actionidaction_name.name',
+                    'joinOn' => 'log_link_visit_action.idaction_name = log_action_segment_log_link_visit_actionidaction_name.idaction',
+                    'discriminator' => 'log_action_segment_log_link_visit_actionidaction_name.type = \'4\'',
+                ],
+            ]
+        );
+
+        $this->assertEquals($expectedFrom, $from);
     }
 
     /**
