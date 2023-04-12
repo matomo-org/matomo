@@ -34,7 +34,7 @@ class PageviewsBefore extends ConversionDimension
      */
     public function onEcommerceOrderConversion(Request $request, Visitor $visitor, $action, GoalManager $goalManager)
     {
-        return $this->onGoalConversion();
+        return $this->onGoalConversion($request, $visitor, $action, $goalManager);
     }
 
     /**
@@ -48,7 +48,7 @@ class PageviewsBefore extends ConversionDimension
      */
     public function onEcommerceCartUpdateConversion(Request $request, Visitor $visitor, $action, GoalManager $goalManager)
     {
-        return $this->onGoalConversion();
+        return $this->onGoalConversion($request, $visitor, $action, $goalManager);
     }
 
     /**
