@@ -54,7 +54,7 @@ class PagesBeforeCalculator
             if ($idGoal === null) {
                 // All goals
                 $goalsModel = new GoalsModel();
-                $goals = array_column($goalsModel->getActiveGoals($site), 'idgoal');
+                $goals = array_column($goalsModel->getActiveGoals([$site]), 'idgoal');
             } else {
                 // Specific goals
                 $goals = explode(',', $idGoal);
