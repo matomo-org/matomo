@@ -50,6 +50,7 @@ class SiteContentDetector
     public $ga4;                    // True if GA4 was detected on the site
     public $gtm;                    // True if GTM was detected on the site
     public $cms;                    // The CMS that was detected on the site
+    public $cloudflare;             // true if website is hosted on cloudflare
 
     private $siteResponse = [
         'data' => '',
@@ -89,6 +90,7 @@ class SiteContentDetector
         $this->ga4 = false;
         $this->gtm = false;
         $this->cms = SitesManager::SITE_TYPE_UNKNOWN;
+        $this->cloudflare = false;
     }
 
     /**
@@ -286,6 +288,17 @@ class SiteContentDetector
 
         if (in_array(SiteContentDetector::CMS, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
             $this->cms = $this->siteGuesser->guessSiteTypeFromResponse($this->siteResponse);
+        }
+
+        if (
+            (!empty($this->siteResponse['headers']['server']) && stripos($this->siteResponse['headers']['server'], 'cloudflare') !== false) ||
+            (!empty($this->siteResponse['headers']['Server']) && stripos($this->siteResponse['headers']['Server'], 'cloudflare') !== false) ||
+            (!empty($this->siteResponse['headers']['SERVER']) && stripos($this->siteResponse['headers']['SERVER'], 'cloudflare') !== false) ||
+            !empty($this->siteResponse['headers']['cf-ray']) ||
+            !empty($this->siteResponse['headers']['Cf-Ray']) ||
+            !empty($this->siteResponse['headers']['CF-RAY'])
+        ) {
+            $this->cloudflare = true;
         }
     }
 

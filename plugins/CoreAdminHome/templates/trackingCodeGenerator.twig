@@ -24,6 +24,7 @@
             <a href="#/mobileAppsAndSdks">{{ 'SitesManager_MobileAppsAndSDKs'|translate }}</a>
             <a href="#/trackingApi">{{ 'CoreAdminHome_HttpTrackingApi'|translate }}</a>
             <a href="#/singlePageApplication">{{ 'SitesManager_SiteWithoutDataSinglePageApplication'|translate }}</a>
+            <a href="#/cloudflare">{{ 'SitesManager_SiteWithoutDataCloudflare'|translate }}</a>
             {{ postEvent('Template.endTrackingCodePageTableOfContents') }}
         </div>
     </div>
@@ -60,6 +61,10 @@
 
 <div piwik-content-block content-title="{{ 'SitesManager_SiteWithoutDataSinglePageApplication'|translate }}" anchor="singlePageApplication">
      <p>{{ 'CoreAdminHome_SinglePageApplicationDescription'|translate('<a href="https://developer.matomo.org/guides/spa-tracking" rel="noreferrer noopener" target="_blank">','</a>')|raw }}</p>
+</div>
+
+<div piwik-content-block content-title="{{ 'SitesManager_SiteWithoutDataCloudflare'|translate }}" anchor="cloudflare">
+    <p>{{ 'CoreAdminHome_CloudflareDescription'|translate('<a href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-cloudflare-setup/" rel="noreferrer noopener" target="_blank">','</a>')|raw }}</p>
 </div>
 
 
