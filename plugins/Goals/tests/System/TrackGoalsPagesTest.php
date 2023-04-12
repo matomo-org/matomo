@@ -9,6 +9,8 @@
 
 namespace Piwik\Plugins\Goals\tests\System;
 
+use Piwik\Common;
+use Piwik\Db;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\SomePageGoalVisitsWithConversions;
 
@@ -69,6 +71,32 @@ class TrackGoalsPagesTest extends SystemTestCase
                     'apiAction' => 'getEntryPageTitles',
                 ],
             ]],
+        ];
+    }
+
+    /**
+     * Check that the log_conversion.pageviews_before column was correctly calculated
+     *
+     * @dataProvider getConversionPagesBeforeExpected
+     */
+    public function test_conversionPagesBeforeValues($id, $expected)
+    {
+        $actual = Db::get()->fetchOne('SELECT pageviews_before FROM ' . Common::prefixTable('log_conversion') .
+                                      ' WHERE idlink_va = ?', [$id]);
+        $this->assertSame($expected, $actual);
+    }
+
+    public function getConversionPagesBeforeExpected()
+    {
+        return [
+            ['id' => 5, 'expected' => 4],
+            ['id' => 9, 'expected' => 3],
+            ['id' => 14, 'expected' => 2],
+            ['id' => 18, 'expected' => 5],
+            ['id' => 23, 'expected' => 4],
+            ['id' => 27, 'expected' => 7],
+            ['id' => 29, 'expected' => 1],
+            ['id' => 33, 'expected' => 3]
         ];
     }
 
