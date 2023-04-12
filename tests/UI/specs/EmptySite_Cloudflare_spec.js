@@ -7,7 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-describe("EmptySite_GA4", function () {
+describe("EmptySite_Cloudflare", function () {
 
     this.fixture = "Piwik\\Tests\\Fixtures\\EmptySiteWithSiteContentDetectionCloudflare";
 
