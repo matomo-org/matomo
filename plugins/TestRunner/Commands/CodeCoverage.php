@@ -10,8 +10,6 @@
 namespace Piwik\Plugins\TestRunner\Commands;
 
 use Piwik\Plugin\ConsoleCommand;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Input\InputArgument;
 
 /**
  */
@@ -22,7 +20,7 @@ class CodeCoverage extends ConsoleCommand
         $this->setName('tests:coverage');
         $this->setDescription('Run all phpunit tests and generate a combined code coverage');
         $this->addRequiredValueOption('testsuite', null, 'Run only a specific test suite, for instance UnitTests, IntegrationTests or SystemTests.');
-        $this->addArgument('group', InputArgument::OPTIONAL, 'Run only a specific test group. Separate multiple groups by comma, for instance core,plugins', '');
+        $this->addOptionalArgument('group', 'Run only a specific test group. Separate multiple groups by comma, for instance core,plugins', '');
     }
 
     protected function doExecute(): int
@@ -37,9 +35,7 @@ class CodeCoverage extends ConsoleCommand
             return self::FAILURE;
         }
 
-        $command = $this->getApplication()->find('tests:run');
         $arguments = array(
-            'command'   => 'tests:run',
             '--options' => sprintf('--coverage-php %s/tests/results/logs/%%suite%%%%group%%.cov', PIWIK_DOCUMENT_ROOT),
         );
 
@@ -55,9 +51,7 @@ class CodeCoverage extends ConsoleCommand
             shell_exec(sprintf('rm %s/tests/results/logs/*.cov', PIWIK_DOCUMENT_ROOT));
         }
 
-        $inputObject = new ArrayInput($arguments);
-        $inputObject->setInteractive($input->isInteractive());
-        $command->run($inputObject, $output);
+        $this->runCommand('tests:run', $arguments);
 
         $command = 'phpcov';
 

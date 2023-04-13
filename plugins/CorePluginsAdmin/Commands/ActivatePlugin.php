@@ -10,7 +10,6 @@ namespace Piwik\Plugins\CorePluginsAdmin\Commands;
 
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugin\Manager;
-use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * plugin:activate console command.
@@ -21,7 +20,7 @@ class ActivatePlugin extends ConsoleCommand
     {
         $this->setName('plugin:activate');
         $this->setDescription('Activate a plugin.');
-        $this->addArgument('plugin', InputArgument::IS_ARRAY, 'The plugin name you want to activate. Multiple plugin names can be specified separated by a space.');
+        $this->addOptionalArgument('plugin', 'The plugin name you want to activate. Multiple plugin names can be specified separated by a space.', null, true);
     }
 
     protected function doExecute(): int

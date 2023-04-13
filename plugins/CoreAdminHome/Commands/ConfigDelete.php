@@ -13,7 +13,6 @@ use Piwik\Config;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Plugin\SystemConfigSetting;
-use Symfony\Component\Console\Input\InputArgument;
 
 class ConfigDelete extends ConsoleCommand
 {
@@ -27,9 +26,8 @@ class ConfigDelete extends ConsoleCommand
     {
         $this->setName('config:delete');
         $this->setDescription('Delete a config setting');
-        $this->addArgument(
+        $this->addOptionalArgument(
             'argument',
-            InputArgument::OPTIONAL,
             "A config setting in the format Section.key or Section.array_key[], e.g. 'Database.username' or 'PluginsInstalled.PluginsInstalled.CustomDimensions'"
         );
         $this->addRequiredValueOption('section', 's', 'The section the INI config setting belongs to.');

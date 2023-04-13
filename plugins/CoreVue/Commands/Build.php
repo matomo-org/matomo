@@ -13,7 +13,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Log\LoggerInterface;
-use Symfony\Component\Console\Input\InputArgument;
 
 class Build extends ConsoleCommand
 {
@@ -25,7 +24,7 @@ class Build extends ConsoleCommand
     {
         $this->setName('vue:build');
         $this->setDescription('Builds vue modules for one or more plugins.');
-        $this->addArgument('plugins', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'Plugins whose vue modules to build. Defaults to all plugins.', []);
+        $this->addOptionalArgument('plugins', 'Plugins whose vue modules to build. Defaults to all plugins.', [], true);
         $this->addNoValueOption('bail', null, 'If supplied, will exit immediately.');
         $this->addNoValueOption('watch', null, 'If supplied, will watch for changes and automatically rebuild.');
         $this->addNoValueOption('clear-webpack-cache');

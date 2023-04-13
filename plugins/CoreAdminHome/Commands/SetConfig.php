@@ -11,7 +11,6 @@ namespace Piwik\Plugins\CoreAdminHome\Commands;
 use Piwik\Config;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\CoreAdminHome\Commands\SetConfig\ConfigSettingManipulation;
-use Symfony\Component\Console\Input\InputArgument;
 
 class SetConfig extends ConsoleCommand
 {
@@ -19,8 +18,7 @@ class SetConfig extends ConsoleCommand
     {
         $this->setName('config:set');
         $this->setDescription('Set one or more config settings in the file config/config.ini.php');
-        $this->addArgument('assignment', InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
-            "List of config setting assignments, eg, Section.key=1 or Section.array_key[]=value");
+        $this->addOptionalArgument('assignment', 'List of config setting assignments, eg, Section.key=1 or Section.array_key[]=value', null, true);
         $this->addRequiredValueOption('section', null, 'The section the INI config setting belongs to.');
         $this->addRequiredValueOption('key', null, 'The name of the INI config setting.');
         $this->addRequiredValueOption('value', null, 'The value of the setting. (Not JSON encoded)');

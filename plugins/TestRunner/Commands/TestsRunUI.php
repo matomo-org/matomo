@@ -11,7 +11,6 @@ use Piwik\AssetManager;
 use Piwik\Config;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Tests\Framework\Fixture;
-use Symfony\Component\Console\Input\InputArgument;
 
 class TestsRunUI extends ConsoleCommand
 {
@@ -23,7 +22,7 @@ class TestsRunUI extends ConsoleCommand
         \nRun one spec:
         \n./console tests:run-ui UIIntegrationTest
         ");
-        $this->addArgument('specs', InputArgument::OPTIONAL | InputArgument::IS_ARRAY, 'Run only a specific test spec. Separate multiple specs by a space, for instance UIIntegrationTest ', array());
+        $this->addOptionalArgument('specs','Run only a specific test spec. Separate multiple specs by a space, for instance UIIntegrationTest ', [], true);
         $this->addNoValueOption("persist-fixture-data", null, "Persist test data in a database and do not execute tear down.");
         $this->addNoValueOption('keep-symlinks', null, "Keep recursive directory symlinks so test pages can be viewed in a browser.");
         $this->addNoValueOption('print-logs', null, "Print webpage logs even if tests succeed.");

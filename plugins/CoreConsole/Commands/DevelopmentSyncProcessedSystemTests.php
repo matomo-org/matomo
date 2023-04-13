@@ -16,7 +16,6 @@ use Piwik\Development;
 use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Plugin\ConsoleCommand;
-use Symfony\Component\Console\Input\InputArgument;
 
 class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
 {
@@ -29,7 +28,7 @@ class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
     {
         $this->setName('development:sync-system-test-processed');
         $this->setDescription('For Piwik core devs. Copies processed system tests from travis artifacts to local processed directories');
-        $this->addArgument('buildnumber', InputArgument::REQUIRED, 'Travis build number you want to sync, eg "14820".');
+        $this->addRequiredArgument('buildnumber', 'Travis build number you want to sync, eg "14820".');
         $this->addNoValueOption('expected', 'e', 'If given file will be copied in expected directories instead of processed');
         $this->addOptionalValueOption('repository', 'r', 'Repository name you want to sync screenshots for.', 'matomo-org/matomo');
         $this->addOptionalValueOption('http-user', '', 'the HTTP AUTH username (for premium plugins where artifacts are protected)');

@@ -14,7 +14,6 @@ use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Log\LoggerInterface;
-use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * Downloads the UI tests screenshots from artifacts server into the local repository.
@@ -49,16 +48,15 @@ class SyncScreenshots extends ConsoleCommand
         $this->setDescription(
             'For Piwik core devs. Copies screenshots from github artifacts to the tests/UI/expected-screenshots/ folder'
         );
-        $this->addArgument(
+        $this->addRequiredArgument(
             'buildnumber',
-            InputArgument::REQUIRED,
             'Travis build number you want to sync.'
         );
-        $this->addArgument(
+        $this->addOptionalArgument(
             'screenshotsRegex',
-            InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
             'A regex to use when selecting screenshots to copy. If not supplied all screenshots are copied.',
-            ['.*']
+            ['.*'],
+            true
         );
         $this->addOptionalValueOption(
             'repository',

@@ -15,7 +15,6 @@ use Piwik\Db;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Timer;
 use Piwik\Log\NullLogger;
-use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * Command that allows users to force purge old or invalid archive data. In the event of a failure
@@ -48,9 +47,15 @@ class PurgeOldArchiveData extends ConsoleCommand
     {
         $this->setName('core:purge-old-archive-data');
         $this->setDescription('Purges out of date and invalid archive data from archive tables.');
-        $this->addArgument("dates", InputArgument::IS_ARRAY | InputArgument::OPTIONAL,
-            "The months of the archive tables to purge data from. By default, only deletes from the current month. Use '" . self::ALL_DATES_STRING. "' for all dates.",
-            array(self::getToday()->toString()));
+        $this->addOptionalArgument(
+            "dates",
+            sprintf(
+                "The months of the archive tables to purge data from. By default, only deletes from the current month. Use '%s' for all dates.",
+                self::ALL_DATES_STRING
+            ),
+            [self::getToday()->toString()],
+            true
+        );
         $this->addNoValueOption('exclude-outdated', null, "Do not purge outdated archive data.");
         $this->addNoValueOption('exclude-invalidated', null, "Do not purge invalidated archive data.");
         $this->addNoValueOption('exclude-ranges', null, "Do not purge custom ranges.");

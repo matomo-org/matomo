@@ -16,6 +16,7 @@ use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\NullOutput;
@@ -115,6 +116,21 @@ class ConsoleCommand extends SymfonyCommand
         throw new \LogicException('addOption should not be used.');
     }
 
+    public function addOptionalArgument(string $name, string $description = '', $default = null, bool $acceptArrays = false)
+    {
+        $mode = $acceptArrays ? InputOption::VALUE_IS_ARRAY : 0;
+        parent::addArgument($name, $mode | InputArgument::OPTIONAL, $description, $default);
+    }
+
+    public function addRequiredArgument(string $name, string $description = '', $default = null, bool $acceptArrays = false)
+    {
+        $mode = $acceptArrays ? InputOption::VALUE_IS_ARRAY : 0;
+        parent::addArgument($name, $mode | InputArgument::REQUIRED, $description, $default);
+    }
+    public function addArgument(string $name, int $mode = null, string $description = '', $default = null)
+    {
+        throw new \LogicException('addArgument should not be used.');
+    }
 
     protected function doExecute(): int
     {

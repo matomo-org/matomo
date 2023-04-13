@@ -13,7 +13,6 @@ use Piwik\Db;
 use Piwik\Plugin;
 use Piwik\Profiler;
 use Piwik\Plugin\ConsoleCommand;
-use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * Executes PHP tests.
@@ -26,7 +25,7 @@ class TestsRun extends ConsoleCommand
     {
         $this->setName('tests:run');
         $this->setDescription('Run Piwik PHPUnit tests one testsuite after the other');
-        $this->addArgument('variables', InputArgument::IS_ARRAY, 'Eg a path to a file or directory, the name of a testsuite, the name of a plugin, ... We will try to detect what you meant. You can define multiple values', array());
+        $this->addOptionalArgument('variables', 'Eg a path to a file or directory, the name of a testsuite, the name of a plugin, ... We will try to detect what you meant. You can define multiple values', [], true);
         $this->addOptionalValueOption('options', 'o', 'All options will be forwarded to phpunit', '');
         $this->addOptionalValueOption('filter', null, 'Adds the phpunit filter option to run only specific tests that start with the given name', '');
         $this->addNoValueOption('xhprof', null, 'Profile using xhprof.');

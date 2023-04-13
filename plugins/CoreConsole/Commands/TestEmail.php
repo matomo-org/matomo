@@ -13,7 +13,6 @@ use Piwik\Config;
 use Piwik\Mail;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\SettingsPiwik;
-use Symfony\Component\Console\Input\InputArgument;
 
 /**
  */
@@ -23,7 +22,7 @@ class TestEmail extends ConsoleCommand
     {
         $this->setName('core:test-email');
         $this->setDescription('Send a test email');
-        $this->addArgument('emailAddress', InputArgument::REQUIRED, 'The destination email address');
+        $this->addRequiredArgument('emailAddress', 'The destination email address');
     }
 
     protected function doExecute(): int

@@ -9,7 +9,6 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\Development;
 use Piwik\Plugin\ConsoleCommand;
-use Symfony\Component\Console\Input\InputArgument;
 
 class DevelopmentManageTestFiles extends ConsoleCommand
 {
@@ -23,7 +22,7 @@ class DevelopmentManageTestFiles extends ConsoleCommand
         $this->setName('development:test-files');
         $this->setDescription("Manage test files.");
 
-        $this->addArgument('operation', InputArgument::REQUIRED, 'The operation to apply. Supported operations include: '
+        $this->addRequiredArgument('operation', 'The operation to apply. Supported operations include: '
             . '"copy"');
         $this->addRequiredValueOption('file', null, "The file (or files) to apply the operation to.");
 

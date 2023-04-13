@@ -12,7 +12,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ConsoleCommand;
-use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * Diagnostic command that analyzes a single archive table. Displays information like # of segment archives,
@@ -25,7 +24,7 @@ class AnalyzeArchiveTable extends ConsoleCommand
         $this->setName('diagnostics:analyze-archive-table');
         $this->setDescription('Analyze an archive table and display human readable information about what is stored. '
             . 'This command can be used to diagnose issues like bloated archive tables.');
-        $this->addArgument('table-date', InputArgument::REQUIRED, "The table's associated date, eg, 2015_01 or 2015_02");
+        $this->addRequiredArgument('table-date', "The table's associated date, eg, 2015_01 or 2015_02");
     }
 
     protected function doExecute(): int

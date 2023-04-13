@@ -17,7 +17,6 @@ use Piwik\Option;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Url;
 use Piwik\UrlHelper;
-use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * RequestCommand
@@ -33,7 +32,7 @@ class RequestCommand extends ConsoleCommand
     {
         $this->setName('climulti:request');
         $this->setDescription('Parses and executes the given query. See Piwik\CliMulti. Intended only for system usage.');
-        $this->addArgument('url-query', InputArgument::REQUIRED, 'Matomo URL query string, for instance: "module=API&method=API.getPiwikVersion&token_auth=123456789"');
+        $this->addRequiredArgument('url-query', 'Matomo URL query string, for instance: "module=API&method=API.getPiwikVersion&token_auth=123456789"');
         $this->addNoValueOption('superuser', null, 'If supplied, runs the code as superuser.');
     }
 

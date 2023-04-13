@@ -16,7 +16,6 @@ use Piwik\Tests\Framework\TestingEnvironmentManipulator;
 use Piwik\Tests\Framework\TestingEnvironmentVariables;
 use Piwik\Url;
 use Piwik\Tests\Framework\Fixture;
-use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * Console commands that sets up a fixture either in a local MySQL database or a remote one.
@@ -50,7 +49,7 @@ class TestsSetupFixture extends ConsoleCommand
         $this->setName('tests:setup-fixture');
         $this->setDescription('Create a database and fill it with data using a Piwik test fixture.');
 
-        $this->addArgument('fixture', InputArgument::REQUIRED,
+        $this->addRequiredArgument('fixture',
             "The class name of the fixture to apply. Doesn't need to have a namespace if it exists in the " .
             "Piwik\\Tests\\Fixtures namespace.");
 

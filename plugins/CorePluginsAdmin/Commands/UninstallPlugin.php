@@ -10,7 +10,6 @@ namespace Piwik\Plugins\CorePluginsAdmin\Commands;
 
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugin\Manager;
-use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * plugin:deactivate console command.
@@ -21,7 +20,7 @@ class UninstallPlugin extends ConsoleCommand
     {
         $this->setName('plugin:uninstall');
         $this->setDescription('Uninstall a plugin.');
-        $this->addArgument('plugin', InputArgument::IS_ARRAY, 'The plugin name you want to uninstall. Multiple plugin names can be specified separated by a space.');
+        $this->addOptionalArgument('plugin', 'The plugin name you want to uninstall. Multiple plugin names can be specified separated by a space.', null, true);
     }
 
     protected function doExecute(): int

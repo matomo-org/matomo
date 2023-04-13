@@ -13,7 +13,6 @@ use Piwik\Plugins\UserCountry\VisitorGeolocator;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Timer;
-use Symfony\Component\Console\Input\InputArgument;
 
 class AttributeHistoricalDataWithLocations extends ConsoleCommand
 {
@@ -71,7 +70,7 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
     {
         $this->setName('usercountry:attribute');
         $this->setDescription("Re-attribute existing raw data (visits & conversions) with geolocated location data, using the specified or configured location provider.");
-        $this->addArgument(self::DATES_RANGE_ARGUMENT, InputArgument::REQUIRED, 'Attribute visits in this date range. Eg, 2012-01-01,2013-01-01');
+        $this->addRequiredArgument(self::DATES_RANGE_ARGUMENT, 'Attribute visits in this date range. Eg, 2012-01-01,2013-01-01');
         $this->addOptionalValueOption(self::PERCENT_STEP_ARGUMENT, null,
             'How often to display the command progress. A status update will be printed after N percent of visits are processed, '
             . 'where N is the value of this option.', self::PERCENT_STEP_ARGUMENT_DEFAULT);

@@ -13,7 +13,6 @@ use Piwik\Config;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Plugin\SystemConfigSetting;
-use Symfony\Component\Console\Input\InputArgument;
 use Spyc;
 
 class ConfigGet extends ConsoleCommand
@@ -32,9 +31,8 @@ class ConfigGet extends ConsoleCommand
     {
         $this->setName('config:get');
         $this->setDescription('Get a config value or section');
-        $this->addArgument(
+        $this->addOptionalArgument(
             'argument',
-            InputArgument::OPTIONAL,
             "A config setting in the format Section.key or Section.array_key[], e.g. 'Database.username' or 'PluginsInstalled'"
         );
         $this->addRequiredValueOption('section', 's', 'The section the INI config setting belongs to.');
