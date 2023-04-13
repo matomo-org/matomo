@@ -77,7 +77,9 @@ export default class ComparisonsStore {
   readonly isEnabled = computed(() => this.checkEnabledForCurrentPage());
 
   constructor() {
-    this.loadComparisonsDisabledFor();
+    document.addEventListener('DOMContentLoaded', () => {
+      this.loadComparisonsDisabledFor();
+    });
 
     $(() => {
       this.colors = this.getAllSeriesColors() as { [key: string]: string };
@@ -293,16 +295,13 @@ export default class ComparisonsStore {
   private loadComparisonsDisabledFor() {
     const matomoModule: string = MatomoUrl.parsed.value.module as string;
 
-    // check if body id #installation exist
-    if (window.piwik.installation) {
-      this.privateState.comparisonsDisabledFor = [];
-      return;
-    }
-
+    // Skip while installing, updating or logging in
     if (matomoModule === 'CoreUpdater'
       || matomoModule === 'Installation'
       || matomoModule === 'Overlay'
       || window.piwik.isPagesComparisonApiDisabled
+      || window.piwik.installation
+      || window.broadcast.isLoginPage()
     ) {
       this.privateState.comparisonsDisabledFor = [];
       return;
