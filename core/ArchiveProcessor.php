@@ -9,7 +9,6 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Archive\DataCollection;
 use Piwik\Archive\DataTableFactory;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
@@ -178,7 +177,9 @@ class ArchiveProcessor
      * @param string|array $recordNames Name(s) of the report we are aggregating, eg, `'Referrers_type'`.
      * @param int $maximumRowsInDataTableLevelZero Maximum number of rows allowed in the top level DataTable.
      * @param int $maximumRowsInSubDataTable Maximum number of rows allowed in each subtable.
-     * @param string $columnToSortByBeforeTruncation The name of the column to sort by before truncating a DataTable.
+     * @param string|null $defaultColumnToSortByBeforeTruncation The name of the column to sort by before truncating a DataTable.
+     *                                                           If not set, and the table contains nb_visits or INDEX_NB_VISITS, we will
+     *                                                           sort by visits.
      * @param array $columnsAggregationOperation Operations for aggregating columns, see {@link Row::sumRow()}.
      * @param array $columnsToRenameAfterAggregation Columns mapped to new names for columns that must change names
      *                                               when summed because they cannot be summed, eg,
@@ -200,7 +201,7 @@ class ArchiveProcessor
     public function aggregateDataTableRecords($recordNames,
                                               $maximumRowsInDataTableLevelZero = null,
                                               $maximumRowsInSubDataTable = null,
-                                              $columnToSortByBeforeTruncation = null,
+                                              $defaultColumnToSortByBeforeTruncation = null,
                                               &$columnsAggregationOperation = null,
                                               $columnsToRenameAfterAggregation = null,
                                               $countRowsRecursive = true)
@@ -228,6 +229,16 @@ class ArchiveProcessor
             $nameToCount[$recordName]['level0'] = $table->getRowsCount();
             if ($countRowsRecursive === true || (is_array($countRowsRecursive) && in_array($recordName, $countRowsRecursive))) {
                 $nameToCount[$recordName]['recursive'] = $table->getRowsCountRecursive();
+            }
+
+            $columnToSortByBeforeTruncation = $defaultColumnToSortByBeforeTruncation;
+            if (empty($columnToSortByBeforeTruncation)) {
+                $columns = $table->getColumns();
+                if (in_array(Metrics::INDEX_NB_VISITS, $columns)) {
+                    $columnToSortByBeforeTruncation = Metrics::INDEX_NB_VISITS;
+                } else if (in_array('nb_visits', $columns)) {
+                    $columnToSortByBeforeTruncation = 'nb_visits';
+                }
             }
 
             $blob = $table->getSerialized($maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable, $columnToSortByBeforeTruncation);
@@ -355,9 +366,8 @@ class ArchiveProcessor
         try {
             ErrorHandler::pushFatalErrorBreadcrumb(__CLASS__, ['name' => $name]);
 
-            // By default we shall aggregate all sub-tables.
-            $dataTableBlobs = $this->getArchive()->getBlob($name, Archive::ID_SUBTABLE_LOAD_ALL_SUBTABLES);
-            $dataTable = $this->getAggregatedDataTableMapFromBlobs($dataTableBlobs, $columnsAggregationOperation, $columnsToRenameAfterAggregation, $name);
+            $blobs = $this->getArchive()->querySingleBlob($name);
+            $dataTable = $this->getAggregatedDataTableMapFromBlobs($blobs, $columnsAggregationOperation, $columnsToRenameAfterAggregation, $name);
         } finally {
             ErrorHandler::popFatalErrorBreadcrumb();
         }
@@ -365,23 +375,27 @@ class ArchiveProcessor
         return $dataTable;
     }
 
-    protected function getAggregatedDataTableMapFromBlobs(DataCollection $dataTableBlobs, $columnsAggregationOperation, $columnsToRenameAfterAggregation, $name)
+    protected function getAggregatedDataTableMapFromBlobs(\Iterator $dataTableBlobs, $columnsAggregationOperation, $columnsToRenameAfterAggregation, $name)
     {
+        // maps period & subtable ID in database to the Row instance in $result that subtable should be added to when encountered
+        // [$row['date1'].','.$row['date2']][$tableId] = $row in $result
+        /** @var Row[][] */
+        $tableIdToResultRowMapping = [];
+
         $result = new DataTable();
 
         if (!empty($columnsAggregationOperation)) {
             $result->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnsAggregationOperation);
         }
 
-        $dataTableBlobs->forEachBlobExpanded(function ($reportBlobs, DataTableFactory $factory, $tableMetadata) use ($name, $result, $columnsToRenameAfterAggregation) {
-            $latestUsedTableId = Manager::getInstance()->getMostRecentTableId();
+        foreach ($dataTableBlobs as $archiveDataRow) {
+            $period = $archiveDataRow['date1'] . ',' . $archiveDataRow['date2'];
+            $tableId = $this->getSubtableIdFromBlobName($archiveDataRow['name']);
 
-            $toSum = $factory->make($reportBlobs, $index = [], $tableMetadata);
-
-            $latestUsedAfterCreatingToSum = Manager::getInstance()->getMostRecentTableId();
+            $blobTable = DataTable::fromSerializedArray($archiveDataRow['value']);
 
             // see https://github.com/piwik/piwik/issues/4377
-            $toSum->filter(function ($table) use ($columnsToRenameAfterAggregation, $name) {
+            $blobTable->filter(function ($table) use ($columnsToRenameAfterAggregation, $name) {
                 if ($this->areColumnsNotAlreadyRenamed($table)) {
                     /**
                      * This makes archiving and range dates a lot faster. Imagine we archive a week, then we will
@@ -395,12 +409,62 @@ class ArchiveProcessor
                 }
             });
 
-            $result->addDataTable($toSum);
+            $tableToAddTo = null;
+            if ($tableId === null) {
+                $tableToAddTo = $result;
+            } else if (empty($tableIdToResultRowMapping[$period][$tableId])) { // sanity check
+                StaticContainer::get(LoggerInterface::class)->info(
+                    'Unexpected state when aggregating DataTable, unknown period/table ID combination encountered: {period} - {tableId}.'
+                    . ' This either means the SQL to order blobs is behaving incorrectly or the blob data is corrupt in some way.',
+                    [
+                        'period' => $period,
+                        'tableId' => $tableId,
+                    ]
+                );
+                continue;
+            } else {
+                $rowToAddTo = $tableIdToResultRowMapping[$period][$tableId];
 
-            DataTable\Manager::getInstance()->deleteAll($latestUsedTableId, $latestUsedAfterCreatingToSum);
-        });
+                if (!$rowToAddTo->getIdSubDataTable()) {
+                    $newTable = new DataTable();
+                    $newTable->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnsAggregationOperation);
+                    $rowToAddTo->setSubtable($newTable);
+                }
+
+                $tableToAddTo = $rowToAddTo->getSubtable();
+            }
+
+            $tableToAddTo->addDataTable($blobTable);
+
+            // add subtable IDs for $blobTableRow to $tableIdToResultRowMapping
+            foreach ($blobTable->getRows() as $blobTableRow) {
+                $label = $blobTableRow->getColumn('label');
+                $subtableId = $blobTableRow->getIdSubDataTable();
+                if (empty($subtableId)) {
+                    continue;
+                }
+
+                $rowToAddTo = $tableToAddTo->getRowFromLabel($label);
+                $tableIdToResultRowMapping[$period][$subtableId] = $rowToAddTo;
+            }
+
+            Common::destroy($blobTable);
+            unset($blobTable);
+        }
 
         return $result;
+    }
+
+    private function getSubtableIdFromBlobName($recordName)
+    {
+        $parts = explode('_', $recordName);
+        $id = end($parts);
+
+        if (is_numeric($id)) {
+            return $id;
+        }
+
+        return null;
     }
 
     /**

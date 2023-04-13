@@ -125,7 +125,7 @@ class Segment
     {
         $this->segmentQueryBuilder = StaticContainer::get('Piwik\DataAccess\LogQueryBuilder');
 
-        $segmentCondition = trim($segmentCondition);
+        $segmentCondition = trim($segmentCondition ?: '');
         if (!SettingsPiwik::isSegmentationEnabled()
             && !empty($segmentCondition)
         ) {
