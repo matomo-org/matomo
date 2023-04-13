@@ -164,7 +164,7 @@
         "SiteWithoutDataGoogleTagManagerFollowStep14Cloud": "Publish your changes by clicking the \"Submit\" button and then the \"Publish\" button at the top right.",
         "SiteWithoutDataGoogleTagManagerFollowStep2OnPremise": "Click \"Tags\" and then \"New\".",
         "SiteWithoutDataGoogleTagManagerFollowStep3OnPremise": "Click \"Tag Configuration\" and select \"Custom HTML\"",
-        "SiteWithoutDataGoogleTagManagerFollowStep4OnPremise": "Copy the standard Matomo JavaScript Tracking code from the \"Tracking Code\" section.",
+        "SiteWithoutDataGoogleTagManagerFollowStep4OnPremise": "Copy the standard Matomo JavaScript Tracking code as provided below.",
         "SiteWithoutDataGoogleTagManagerFollowStep5OnPremise": "Paste this JavaScript tracking code in the Tag Configuration HTML field.",
         "SiteWithoutDataGoogleTagManagerFollowStepCompleted": "%1$sCongratulations!%2$s You have successfully installed the Matomo Analytics tracking code via Google Tag Manager. To verify that hits are being tracked, visit your website and check that this data is visible in your Matomo instance."
     }
