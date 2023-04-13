@@ -145,6 +145,27 @@
         "GADetectedEmail": "%1$s was detected on your website. Did you know you can easily migrate your historical analytics data and settings from %2$s to Matomo? Learn more here: %3$s",
         "GTMDetectedEmail": "Google Tag Manager was detected on your website. Did you know you can migrate your existing tags, triggers and variables from Google Tag Manager to Matomo Tag Manager? Learn more here: %1$s",
         "CloudflareDetected": "Cloudflare was detected on your website. Did you know you can use the Matomo app in your Cloudflare setup to track the website data? %1$sLearn more in this guide%2$s.",
-        "CloudflareDetectedEmail": "Cloudflare was detected on your website. Did you know you can use the Matomo app in your Cloudflare setup to track the website data? Learn more here: %1$s"
+        "CloudflareDetectedEmail": "Cloudflare was detected on your website. Did you know you can use the Matomo app in your Cloudflare setup to track the website data? Learn more here: %1$s",
+        "SiteWithoutDataGoogleTagManagerIntroOnPremise": "If you use Google Tag Manager, you can start tracking data in Matomo seamlessly using the \"Custom HTML Tag\" available in Google Tag Manager. %1$sLearn more%2$s.",
+        "SiteWithoutDataGoogleTagManagerIntroCloud": "If you use Google Tag Manager, you can start tracking data in Matomo seamlessly using the built-in custom \"Matomo Cloud Tag\" available in Google Tag Manager. %1$sLearn more%2$s.",
+        "SiteWithoutDataGoogleTagManagerFollowStep1Cloud": "%1$sLogin%2$s into your Google Tag Manager account.",
+        "SiteWithoutDataGoogleTagManagerFollowStep2Cloud": "Select the container that you want to add Matomo to.",
+        "SiteWithoutDataGoogleTagManagerFollowStep3Cloud": "Click \"Tags\" from the left menu.",
+        "SiteWithoutDataGoogleTagManagerFollowStep4Cloud": "Click the \"New\" button at the top right corner of the tags section to add a new tag.",
+        "SiteWithoutDataGoogleTagManagerFollowStep5Cloud": "Click on \"Tag Configuration\" to select the tag.",
+        "SiteWithoutDataGoogleTagManagerFollowStep6Cloud": "A window with all the available tags will pop up.",
+        "SiteWithoutDataGoogleTagManagerFollowStep7Cloud": "In the search bar, search for \"%1$sMatomo Tracking Tag for Matomo Cloud%2$s\" and select the tag.",
+        "SiteWithoutDataGoogleTagManagerFollowStep8Cloud": "Configure the tag by specifying the Matomo URL and Matomo IdSite.",
+        "SiteWithoutDataGoogleTagManagerFollowStep9Cloud": "Scroll down and click on \"Triggering\".",
+        "SiteWithoutDataGoogleTagManagerFollowStep10Cloud": "Select \"All Pages\" to fire the \"Matomo tracking tag\" on all of your pages.",
+        "SiteWithoutDataGoogleTagManagerFollowStep11Cloud": "Click \"Save\".",
+        "SiteWithoutDataGoogleTagManagerFollowStep12Cloud": "Preview your changes by clicking the \"Preview\" button.",
+        "SiteWithoutDataGoogleTagManagerFollowStep13Cloud": "Check if the Matomo tag is firing as expected.",
+        "SiteWithoutDataGoogleTagManagerFollowStep14Cloud": "Publish your changes by clicking the \"Submit\" button and then the \"Publish\" button at the top right.",
+        "SiteWithoutDataGoogleTagManagerFollowStep2OnPremise": "Click \"Tags\" and then \"New\".",
+        "SiteWithoutDataGoogleTagManagerFollowStep3OnPremise": "Click \"Tag Configuration\" and select \"Custom HTML\"",
+        "SiteWithoutDataGoogleTagManagerFollowStep4OnPremise": "Copy the standard Matomo JavaScript Tracking code from the \"Tracking Code\" section.",
+        "SiteWithoutDataGoogleTagManagerFollowStep5OnPremise": "Paste this JavaScript tracking code in the Tag Configuration HTML field.",
+        "SiteWithoutDataGoogleTagManagerFollowStepCompleted": "%1$sCongratulations!%2$s You have successfully installed the Matomo Analytics tracking code via Google Tag Manager. To verify that hits are being tracked, visit your website and check that this data is visible in your Matomo instance."
     }
 }

@@ -522,5 +522,7 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "SitesManager_ExcludedReferrersHelpExamples";
         $translationKeys[] = "SitesManager_ExcludedReferrersHelpSubDomains";
         $translationKeys[] = 'Goals_Optional';
+        $translationKeys[] = "SitesManager_SiteWithoutDataGoogleTagManager";
+        $translationKeys[] = "SitesManager_SiteWithoutDataGoogleTagManagerDescription";
     }
 }

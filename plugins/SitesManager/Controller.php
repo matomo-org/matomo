@@ -229,6 +229,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'tagManagerActive' => $tagManagerActive,
             'consentManagerName' => false,
             'cloudflare' => $this->siteContentDetector->cloudflare,
+            'isCloud' => Manager::getInstance()->isPluginActivated('Cloud')
         ];
 
         if ($this->siteContentDetector->consentManagerId) {
@@ -246,7 +247,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $tabToDisplay = '';
 
-        if (!empty($templateData['cloudflare'])) {
+        if (!empty($templateData['gtmUsed'])) {
+            $tabToDisplay = 'gtm';
+        } else if (!empty($templateData['cloudflare'])) {
             $tabToDisplay = 'cloudflare';
         }
 
