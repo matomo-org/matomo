@@ -529,7 +529,9 @@ class Common
         // we deal w/ json differently
         if ($varType === 'json') {
             $value = $requestArrayToUse[$varName];
-            $value = json_decode($value, $assoc = true);
+            if (is_string($value)) {
+                $value = json_decode($value, $assoc = true);
+            }
             return self::sanitizeInputValues($value, true);
         }
 
