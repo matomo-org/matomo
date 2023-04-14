@@ -1,9 +1,9 @@
 {
     "CoreHome": {
-        "CategoryNoData": "ამ კატეგორიაში მონაცემები არ არის. ცადეთ \"ყველა მონაწილის ჩართვა\"",
+        "CategoryNoData": "ამ კატეგორიაში მონაცემები არ არის. ცადეთ \"ყველა მონაწილის ჩართვა\".",
         "ShowJSCode": "JavaScript კოდის ნახვა, რომელიც უნდა ჩაისვას ვებ გვერდზე",
+        "SystemSummaryPhpVersion": "PHP ვერსია",
         "ThereIsNoDataForThisReport": "რეპორტისთვის მონაცემები არ არის.",
-        "WebAnalyticsReports": "ვებ ანალიზატორის რეპორტები",
-        "SystemSummaryPhpVersion": "PHP ვერსია"
+        "WebAnalyticsReports": "ვებ ანალიზატორის რეპორტები"
     }
 }

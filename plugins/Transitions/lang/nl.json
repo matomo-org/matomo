@@ -20,7 +20,7 @@
         "NoDataForAction": "Geen gegevens voor %s",
         "NoDataForActionDetails": "Deze activiteit had geen paginaweergaves gedurende de periode, of is ongeldig.",
         "NumDownloads": "%s downloads",
-        "NumOutlinks": "%s outlinks",
+        "NumOutlinks": "%s uitgaande links",
         "NumPageviews": "%s pageviews",
         "OutgoingTraffic": "Uitgaand verkeer",
         "PageURLTransitions": "Pagina URL-overgangen",
