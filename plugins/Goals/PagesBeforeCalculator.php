@@ -85,7 +85,6 @@ class PagesBeforeCalculator
                     }
 
                     if (!empty($endDatetime)) {
-
                         $sql .= " AND c.server_time <= ?";
                         $bind[] = $endDatetime;
                     }
