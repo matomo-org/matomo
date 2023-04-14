@@ -1,5 +1,10 @@
 {
     "General": {
-        "Locale": "tzm.UTF-8"
+        "Actions": "ⵜⵉⵎⴰⵜⴰⵔⵉⵏ",
+        "ColumnNbActions": "ⵜⵉⵎⴰⵜⴰⵔⵉⵏ",
+        "Date": "ⴰⴽⵓⴷ",
+        "Locale": "tzm.UTF-8",
+        "View": "ⵥⵕ",
+        "Website": "ⴰⵣⴷⴰⵢ"
     }
 }

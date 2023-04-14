@@ -58,7 +58,7 @@
         "GlobalWebsitesSettings": "Globale websites-instellingen",
         "HelpExcludedIpAddresses": "Geef de lijst met IP's, één per regel, die u niet wilt laten volgen door Matomo. U kunt CIDR notatie gebruiken bv. %1$s of u kunt wildcards gebruiken, bv. %2$s of %3$s",
         "InstallationGuides": "Installatiehandleidingen",
-        "InstallationGuidesIntro": "Wij bieden stap voor stap handleidingen aan waarin wordt uitgelegd hoe u tracking code insluit voor enkele populaire CMS-systemen en website builders:",
+        "InstallationGuidesIntro": "Wij bieden stap voor stap handleidingen aan, waarin wordt uitgelegd hoe u tracking code insluit voor enkele populaire CMS-systemen en websitebouwers:",
         "Integrations": "Integraties",
         "JsTrackingTagHelp": "Hier is de Javascript Tracking tag om te integreren in al uw pagina's",
         "KeepURLFragments": "Pagina URL fragmenten volgen",

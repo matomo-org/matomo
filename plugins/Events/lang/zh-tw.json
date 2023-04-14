@@ -9,6 +9,7 @@
         "EventActions": "事件動作",
         "EventActionsReportDocumentation": "此報告顯示每個事件操作發生的次數。您可以在行的子表中查看與每個事件操作一起跟蹤的事件類別和名稱。您可以通過更改報告底部的連結更改次級維度來更改顯示的次級維度。",
         "EventCategories": "事件類別",
+        "EventCategoriesReportDocumentation": "此報表展示每個被追蹤動作的類別以及發生次數。您可以在每行子表格中檢視每個動作類別中的動作的行為及名稱。您亦可以透過報表底部的連結變更顯示的次級維度。",
         "EventCategory": "事件類別",
         "EventName": "事件標籤",
         "EventNames": "事件標籤",

@@ -9,6 +9,7 @@
         "CheckToOptIn": "Позначте цей пункт, щоб підписатися.",
         "ClickHereToOptIn": "Натисніть, щоб ви враховувалися в аналітиці.",
         "ClickHereToOptOut": "Натисніть, щоб відмовитися від обліку вас в аналітиці.",
+        "CloudflareDescription": "Якщо ваш вебсайт розміщено на Cloudflare, ознайомтеся з %1$sцим посібником%2$s.",
         "ConfirmDeleteAllTrackingFailures": "Ви впевнені, що бажаєте видалити всі помилки відстежування?",
         "ConfirmDeleteThisTrackingFailure": "Ви впевнені, що бажаєте видалити цю помилку відстежування?",
         "Cors": "Cors",
