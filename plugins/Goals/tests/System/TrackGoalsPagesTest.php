@@ -52,9 +52,10 @@ class TrackGoalsPagesTest extends SystemTestCase
                 'period' => 'day',
                 'testSuffix' => 'showGoalsMetricsSingleGoal',
                 'otherRequestParameters' => [
-                    'filter_update_columns_when_show_all_goals' => 1,
+                    'filter_update_columns_when_show_all_goals' => '1',
+                    'filter_show_goal_columns_process_goals' => '1',
                     'apiModule' => 'Actions',
-                    'apiAction' => 'getEntryPageUrls',
+                    'apiAction' => 'getEntryPageTitles',
                 ],
             ]],
             ['API.getProcessedReport', [
@@ -63,9 +64,9 @@ class TrackGoalsPagesTest extends SystemTestCase
                 'period' => 'day',
                 'testSuffix' => 'showGoalsMetricsAllGoals',
                 'otherRequestParameters' => [
-                    // 'filter_update_columns_when_show_all_goals' => '0',
+                    'filter_update_columns_when_show_all_goals' => '1',
                     'apiModule' => 'Actions',
-                    'apiAction' => 'getEntryPageUrls',
+                    'apiAction' => 'getEntryPageTitles',
                 ],
             ]],
         ];

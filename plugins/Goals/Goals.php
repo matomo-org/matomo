@@ -287,7 +287,8 @@ class Goals extends \Piwik\Plugin
 
                 if ($apiReportToUpdate['module'] == $reportWithGoals['module']
                     && $apiReportToUpdate['action'] == $reportWithGoals['action']
-                    && empty($apiReportToUpdate['parameters'])) {
+                    && empty($apiReportToUpdate['parameters'])
+                ) {
                     $apiReportToUpdate['metricsGoal'] = $goalMetrics;
                     $apiReportToUpdate['processedMetricsGoal'] = $goalProcessedMetrics;
                     break;
