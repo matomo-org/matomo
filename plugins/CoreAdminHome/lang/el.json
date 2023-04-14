@@ -9,6 +9,7 @@
         "CheckToOptIn": "Επιλέξτε το πλαίσιο επιλογής για opt-in.",
         "ClickHereToOptIn": "Πατήστε εδώ για να ιχνηλατείστε.",
         "ClickHereToOptOut": "Πατήστε εδώ για να μην ιχνηλατείστε.",
+        "CloudflareDescription": "Αν ο ιστοτόπος σας φιλοξενείται στην Cloudflare, δείτε %1$sαυτόν τον οδηγό%2$s.",
         "ConfirmDeleteAllTrackingFailures": "Είστε σίγουροι για την διαγραφή όλων των αποτυχιών ιχνηλάτησης;",
         "ConfirmDeleteThisTrackingFailure": "Είστε σίγουροι για την διαγραφή αυτής της αποτυχίας ιχνηλάτησης;",
         "Cors": "Cors",

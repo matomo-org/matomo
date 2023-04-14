@@ -9,6 +9,7 @@
         "CheckToOptIn": "İzlemeyi etkinleştirmek için bu kutuyu işaretleyin.",
         "ClickHereToOptIn": "İzin vermek için tıklayın.",
         "ClickHereToOptOut": "İzni iptal etmek için tıklayın.",
+        "CloudflareDescription": "Web siteniz Cloudflare üzerinde barındırılıyorsa, lütfen %1$sbu rehbere bakın%2$s.",
         "ConfirmDeleteAllTrackingFailures": "Tüm izleme sorunlarını silmek istediğinize emin misiniz?",
         "ConfirmDeleteThisTrackingFailure": "Bu izleme sorununu silmek istediğinize emin misiniz?",
         "Cors": "Cors",

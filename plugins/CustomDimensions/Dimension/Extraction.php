@@ -40,12 +40,14 @@ class Extraction
             $dimensions = implode(', ', array_keys($dimensions));
             throw new Exception("Invald dimension '$this->dimension' used in an extraction. Available dimensions are: " . $dimensions);
         }
-
+        
+        //Count the number of non-capturing groups in order to omit them from being counted as capturing groups
+        $ncgCount = substr_count($this->pattern, '(?');
         if (!empty($this->pattern) && $this->dimension !== 'urlparam') {
             // make sure there is exactly one ( followed by one )
-            if (1 !== substr_count($this->pattern, '(') ||
-                1 !== substr_count($this->pattern, ')') ||
-                1 !== substr_count($this->pattern, ')', strpos($this->pattern, '('))) {
+            if (1 !== substr_count($this->pattern, '(') - $ncgCount ||
+                1 !== substr_count($this->pattern, ')') - $ncgCount ||
+                1 !== substr_count($this->pattern, ')', strpos($this->pattern, '(')) - $ncgCount) {
                 throw new Exception("You need to group exactly one part of the regular expression inside round brackets, eg 'index_(.+).html'");
             }
         }

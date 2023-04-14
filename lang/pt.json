@@ -495,6 +495,7 @@
         "Visit": "Visita",
         "VisitConvertedGoal": "A visita converteu pelo menos um Objetivo",
         "VisitConvertedGoalId": "A visita converteu um ID de objetivo específico",
+        "VisitConvertedGoalName": "A visita converteu um nome de objetivo específico",
         "VisitConvertedNGoals": "As visitas converteram %s objetivos",
         "VisitDuration": "Duração média das visitas (em segundos)",
         "VisitId": "ID da visita",

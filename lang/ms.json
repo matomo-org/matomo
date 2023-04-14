@@ -11,6 +11,11 @@
         "AfterEntry": "selepas masuk ke sini",
         "All": "Semua",
         "AllWebsitesDashboard": "Papan pemuka Semua Laman Web",
-        "Locale": "ms_MY.UTF-8"
+        "ColumnNbActions": "Tindakan",
+        "Locale": "ms_MY.UTF-8",
+        "Security": "Keselamatan",
+        "Table": "Jadual",
+        "Update": "Pengemaskinian",
+        "Website": "Laman Web"
     }
 }

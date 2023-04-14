@@ -9,6 +9,7 @@
         "CheckToOptIn": "Marqueu aquesta casella per participar.",
         "ClickHereToOptIn": "Feu click aquí per apuntar-vos.",
         "ClickHereToOptOut": "Feu click aquí per desapuntar-vos.",
+        "CloudflareDescription": "Si el vostre lloc web està allotjat a Cloudflare, consulteu %1$saquesta guia%2$s.",
         "ConfirmDeleteAllTrackingFailures": "Esteu segur que voleu suprimir tots els errors de seguiment?",
         "ConfirmDeleteThisTrackingFailure": "Esteu segur que voleu suprimir aquest error de seguiment?",
         "Cors": "CORS",

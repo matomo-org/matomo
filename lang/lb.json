@@ -1,5 +1,9 @@
 {
     "General": {
+        "Actions": "Aktiounen",
+        "ColumnKeyword": "Schlësselwuert",
+        "ColumnNbActions": "Aktiounen",
+        "Date": "Datum",
         "Locale": "lb_LU.UTF-8"
     }
 }
