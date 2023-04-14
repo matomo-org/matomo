@@ -228,8 +228,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'googleAnalyticsImporterMessage' => $googleAnalyticsImporterMessage,
             'tagManagerActive' => $tagManagerActive,
             'consentManagerName' => false,
-            'cloudflare' => $this->siteContentDetector->cloudflare,
-            'isCloud' => Manager::getInstance()->isPluginActivated('Cloud')
+            'cloudflare' => $this->siteContentDetector->cloudflare
         ];
 
         if ($this->siteContentDetector->consentManagerId) {
