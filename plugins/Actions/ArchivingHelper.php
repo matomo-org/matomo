@@ -324,7 +324,11 @@ class ArchivingHelper
                 if (!isset($goalsColumn[$row['idgoal']][$metricKey])) {
                     $goalsColumn[$row['idgoal']][$metricKey] = $row[$metricKey];
                 } else {
-                    $goalsColumn[$row['idgoal']][$metricKey] += $row[$metricKey];
+                    if ($metricKey == PiwikMetrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE && $goalsColumn[$row['idgoal']][$metricKey] < $row[$metricKey]) {
+                            $goalsColumn[$row['idgoal']][$metricKey] = $row[$metricKey];
+                    } else {
+                        $goalsColumn[$row['idgoal']][$metricKey] += $row[$metricKey];
+                    }
                 }
 
                 // Write goals column back to datatable
