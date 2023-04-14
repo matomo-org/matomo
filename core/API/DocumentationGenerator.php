@@ -297,6 +297,7 @@ class DocumentationGenerator
         $aParameters['comparisonIdSubtables'] = false;
         $aParameters['invert_compare_change_compute'] = false;
         $aParameters['filter_update_columns_when_show_all_goals'] = false;
+        $aParameters['filter_show_goal_columns_process_goals'] = false;
 
         $entityNames = StaticContainer::get('entities.idNames');
         foreach ($entityNames as $entityName) {
