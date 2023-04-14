@@ -77,9 +77,14 @@ export default class ComparisonsStore {
   readonly isEnabled = computed(() => this.checkEnabledForCurrentPage());
 
   constructor() {
-    document.addEventListener('DOMContentLoaded', () => {
+    if (document.readyState === "complete"
+      || document.readyState === "interactive") {
       this.loadComparisonsDisabledFor();
-    });
+    } else {
+      document.addEventListener('DOMContentLoaded', () => {
+        this.loadComparisonsDisabledFor();
+      });
+    }
 
     $(() => {
       this.colors = this.getAllSeriesColors() as { [key: string]: string };
