@@ -89,10 +89,8 @@ class PagesBeforeCalculator
                         $bind[] = $endDatetime;
                     }
 
-                    $sql .= " LIMIT 10000";
-
-                     $result = Db::query($sql, $bind);
-                     $calcCount = $result->rowCount();
+                    $result = Db::query($sql, $bind);
+                    $calcCount = $result->rowCount();
 
                     // Done with this site/goal if no records were updated or we've processed 100m records (sanity check)
                     if ($calcCount == 0 || $chunks > 10000) {
