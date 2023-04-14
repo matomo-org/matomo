@@ -324,6 +324,7 @@ class ArchivingHelper
                 if (!isset($goalsColumn[$row['idgoal']][$metricKey])) {
                     $goalsColumn[$row['idgoal']][$metricKey] = $row[$metricKey];
                 } else {
+
                     if ($metricKey == PiwikMetrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE) {
                         if ($goalsColumn[$row['idgoal']][$metricKey] < $row[$metricKey]) {
                             $goalsColumn[$row['idgoal']][$metricKey] = $row[$metricKey];
