@@ -55,6 +55,12 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetricsGoal>
+		<metricTypesGoal>
+			<revenue_per_visit>money</revenue_per_visit>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+		</metricTypesGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getBrowsers&amp;period=day&amp;date=2010-01-03</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getBrowsers&amp;period=day&amp;date=2009-12-05,2010-01-03</imageGraphEvolutionUrl>
 		<uniqueId>DevicesDetection_getBrowsers</uniqueId>
