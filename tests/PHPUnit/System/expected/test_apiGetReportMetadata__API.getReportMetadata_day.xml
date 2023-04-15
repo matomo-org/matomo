@@ -185,6 +185,12 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetricsGoal>
+		<metricTypesGoal>
+			<revenue_per_visit>money</revenue_per_visit>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+		</metricTypesGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCountry&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCountry&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>UserCountry_getCountry</uniqueId>
@@ -232,6 +238,12 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetricsGoal>
+		<metricTypesGoal>
+			<revenue_per_visit>money</revenue_per_visit>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+		</metricTypesGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getContinent&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getContinent&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>UserCountry_getContinent</uniqueId>
@@ -279,6 +291,12 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetricsGoal>
+		<metricTypesGoal>
+			<revenue_per_visit>money</revenue_per_visit>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+		</metricTypesGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getRegion&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getRegion&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>UserCountry_getRegion</uniqueId>
@@ -377,6 +395,12 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetricsGoal>
+		<metricTypesGoal>
+			<revenue_per_visit>money</revenue_per_visit>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+		</metricTypesGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCity&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCity&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>UserCountry_getCity</uniqueId>
@@ -478,6 +502,12 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetricsGoal>
+		<metricTypesGoal>
+			<revenue_per_visit>money</revenue_per_visit>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+		</metricTypesGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getType&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getType&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>DevicesDetection_getType</uniqueId>
@@ -528,6 +558,12 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetricsGoal>
+		<metricTypesGoal>
+			<revenue_per_visit>money</revenue_per_visit>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+		</metricTypesGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getModel&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getModel&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>DevicesDetection_getModel</uniqueId>
@@ -578,6 +614,12 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetricsGoal>
+		<metricTypesGoal>
+			<revenue_per_visit>money</revenue_per_visit>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+		</metricTypesGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getBrand&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getBrand&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>DevicesDetection_getBrand</uniqueId>
@@ -737,6 +779,12 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetricsGoal>
+		<metricTypesGoal>
+			<revenue_per_visit>money</revenue_per_visit>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+		</metricTypesGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getBrowsers&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getBrowsers&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>DevicesDetection_getBrowsers</uniqueId>
@@ -1061,6 +1109,12 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetricsGoal>
+		<metricTypesGoal>
+			<revenue_per_visit>money</revenue_per_visit>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+		</metricTypesGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitTime&amp;apiAction=getVisitInformationPerServerTime&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>VisitTime_getVisitInformationPerServerTime</uniqueId>
 	</row>
@@ -1209,6 +1263,12 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetricsGoal>
+		<metricTypesGoal>
+			<revenue_per_visit>money</revenue_per_visit>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+		</metricTypesGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomVariables&amp;apiAction=getCustomVariables&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomVariables&amp;apiAction=getCustomVariables&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>CustomVariables_getCustomVariables</uniqueId>
@@ -2246,6 +2306,12 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetricsGoal>
+		<metricTypesGoal>
+			<revenue_per_visit>money</revenue_per_visit>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+		</metricTypesGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getReferrerType&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getReferrerType&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Referrers_getReferrerType</uniqueId>
@@ -2344,6 +2410,12 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetricsGoal>
+		<metricTypesGoal>
+			<revenue_per_visit>money</revenue_per_visit>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+		</metricTypesGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getKeywords&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getKeywords&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Referrers_getKeywords</uniqueId>
@@ -2399,6 +2471,12 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetricsGoal>
+		<metricTypesGoal>
+			<revenue_per_visit>money</revenue_per_visit>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+		</metricTypesGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getSearchEngines&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getSearchEngines&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Referrers_getSearchEngines</uniqueId>
@@ -2454,6 +2532,12 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetricsGoal>
+		<metricTypesGoal>
+			<revenue_per_visit>money</revenue_per_visit>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+		</metricTypesGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getWebsites&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getWebsites&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Referrers_getWebsites</uniqueId>
@@ -2559,6 +2643,12 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetricsGoal>
+		<metricTypesGoal>
+			<revenue_per_visit>money</revenue_per_visit>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+		</metricTypesGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getCampaigns&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getCampaigns&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Referrers_getCampaigns</uniqueId>
@@ -2862,6 +2952,12 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetricsGoal>
+		<metricTypesGoal>
+			<revenue_per_visit>money</revenue_per_visit>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+		</metricTypesGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getVisitsUntilConversion</uniqueId>
 	</row>
@@ -2887,6 +2983,12 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetricsGoal>
+		<metricTypesGoal>
+			<revenue_per_visit>money</revenue_per_visit>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+		</metricTypesGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getDaysToConversion</uniqueId>
 	</row>

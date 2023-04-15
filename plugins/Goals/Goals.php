@@ -274,6 +274,13 @@ class Goals extends \Piwik\Plugin
             'revenue'         => Piwik::translate('General_ColumnRevenue')
         );
 
+        $goalMetricTypes = [
+            'revenue_per_visit' => Dimension::TYPE_MONEY,
+            'nb_conversions' => Dimension::TYPE_NUMBER,
+            'conversion_rate' => Dimension::TYPE_PERCENT,
+            'revenue' => Dimension::TYPE_MONEY,
+        ];
+
         $reportsWithGoals = self::getAllReportsWithGoalMetrics();
 
         foreach ($reportsWithGoals as $reportWithGoals) {
@@ -291,6 +298,7 @@ class Goals extends \Piwik\Plugin
                 ) {
                     $apiReportToUpdate['metricsGoal'] = $goalMetrics;
                     $apiReportToUpdate['processedMetricsGoal'] = $goalProcessedMetrics;
+                    $apiReportToUpdate['metricTypesGoal'] = $goalMetricTypes;
                     break;
                 }
             }
