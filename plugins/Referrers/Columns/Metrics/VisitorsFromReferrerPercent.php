@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\Referrers\Columns\Metrics;
 
+use Piwik\Columns\Dimension;
 use Piwik\DataTable\Row;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
@@ -45,7 +46,7 @@ class VisitorsFromReferrerPercent extends ProcessedMetric
 
     public function getTranslatedName()
     {
-        return null;
+        return null; // handled by Referrers.php event
     }
 
     public function compute(Row $row)
@@ -63,5 +64,10 @@ class VisitorsFromReferrerPercent extends ProcessedMetric
     public function format($value, Formatter $formatter)
     {
         return $formatter->getPrettyPercentFromQuotient($value);
+    }
+
+    public function getSemanticType(): ?string
+    {
+        return Dimension::TYPE_PERCENT;
     }
 }
