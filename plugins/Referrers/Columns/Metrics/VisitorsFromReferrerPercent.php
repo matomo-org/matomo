@@ -52,7 +52,7 @@ class VisitorsFromReferrerPercent extends ProcessedMetric
     public function compute(Row $row)
     {
         $columnValue = self::getMetric($row, $this->referrerSourceColumn);
-        $result = Piwik::getQuotientSafe($columnValue, $this->totalVisits, $precision = 4);
+        $result = Piwik::getQuotientSafe($columnValue, $this->totalVisits, $precision = 2);
         return $result;
     }
 

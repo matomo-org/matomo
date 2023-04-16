@@ -52,20 +52,22 @@ class API extends \Piwik\Plugin\API
 
         $totalVisits = array_sum($dataTableReferrersType->getColumn(Metrics::INDEX_NB_VISITS));
 
-        $processedMetrics = $dataTable->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME) ?: [];
+        $dataTable->filter(function (DataTable $table) use ($totalVisits) {
+            $processedMetrics = $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME) ?: [];
 
-        $percentColumns = [
-            'Referrers_visitorsFromDirectEntry',
-            'Referrers_visitorsFromSearchEngines',
-            'Referrers_visitorsFromCampaigns',
-            'Referrers_visitorsFromSocialNetworks',
-            'Referrers_visitorsFromWebsites',
-        ];
-        foreach ($percentColumns as $column) {
-            $processedMetrics[] = new VisitorsFromReferrerPercent($column . '_percent', $column, $totalVisits);
-        }
+            $percentColumns = [
+                'Referrers_visitorsFromDirectEntry',
+                'Referrers_visitorsFromSearchEngines',
+                'Referrers_visitorsFromCampaigns',
+                'Referrers_visitorsFromSocialNetworks',
+                'Referrers_visitorsFromWebsites',
+            ];
+            foreach ($percentColumns as $column) {
+                $processedMetrics[] = new VisitorsFromReferrerPercent($column . '_percent', $column, $totalVisits);
+            }
 
-        $dataTable->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $processedMetrics);
+            $table->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $processedMetrics);
+        });
 
         if (!empty($requestedColumns)) {
             $requestedColumns = Piwik::getArrayFromApiParameter($columns);
