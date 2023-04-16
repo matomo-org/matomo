@@ -34,11 +34,6 @@
 	<Referrers_distinctWebsites>0</Referrers_distinctWebsites>
 	<Referrers_distinctWebsitesUrls>0</Referrers_distinctWebsitesUrls>
 	<Referrers_distinctCampaigns>0</Referrers_distinctCampaigns>
-	<Referrers_visitorsFromDirectEntry_percent>100%</Referrers_visitorsFromDirectEntry_percent>
-	<Referrers_visitorsFromSearchEngines_percent>0%</Referrers_visitorsFromSearchEngines_percent>
-	<Referrers_visitorsFromCampaigns_percent>0%</Referrers_visitorsFromCampaigns_percent>
-	<Referrers_visitorsFromSocialNetworks_percent>0%</Referrers_visitorsFromSocialNetworks_percent>
-	<Referrers_visitorsFromWebsites_percent>0%</Referrers_visitorsFromWebsites_percent>
 	<PagePerformance_network_time>0</PagePerformance_network_time>
 	<PagePerformance_network_hits>0</PagePerformance_network_hits>
 	<PagePerformance_servery_time>0</PagePerformance_servery_time>
@@ -83,6 +78,11 @@
 	<nb_uniq_outlinks>0</nb_uniq_outlinks>
 	<nb_searches>1</nb_searches>
 	<nb_keywords>1</nb_keywords>
+	<Referrers_visitorsFromDirectEntry_percent>100%</Referrers_visitorsFromDirectEntry_percent>
+	<Referrers_visitorsFromSearchEngines_percent>0%</Referrers_visitorsFromSearchEngines_percent>
+	<Referrers_visitorsFromCampaigns_percent>0%</Referrers_visitorsFromCampaigns_percent>
+	<Referrers_visitorsFromSocialNetworks_percent>0%</Referrers_visitorsFromSocialNetworks_percent>
+	<Referrers_visitorsFromWebsites_percent>0%</Referrers_visitorsFromWebsites_percent>
 	<bounce_rate>0%</bounce_rate>
 	<nb_actions_per_visit>4</nb_actions_per_visit>
 	<avg_time_on_site>361</avg_time_on_site>
