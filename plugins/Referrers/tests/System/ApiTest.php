@@ -79,6 +79,28 @@ class ApiTest extends SystemTestCase
         ];
 
         $apiToTest[] = [
+            'Referrers.get',
+            [
+                'idSite' => 1,
+                'date' => '2010-01-01',
+                'periods' => 'year',
+                'testSuffix' => 'formattedMetrics',
+                'otherRequestParameters' => ['format_metrics' => '1'],
+            ],
+        ];
+
+        $apiToTest[] = [
+            'Referrers.get',
+            [
+                'idSite' => 1,
+                'date' => '2010-01-01',
+                'periods' => 'year',
+                'testSuffix' => 'unformattedMetrics',
+                'otherRequestParameters' => ['format_metrics' => '0'],
+            ],
+        ];
+
+        $apiToTest[] = [
             ['Referrers.getKeywordsFromSearchEngineId'],
             [
                 'idSite' => '1',
