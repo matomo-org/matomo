@@ -52,7 +52,7 @@ class MergeDataTables
             $extraProcessedMetricsTable2 = $table2->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME) ?: [];
             $table1->setMetadata(
                 DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME,
-                array_merge($extraProcessedMetricsTable1, $extraProcessedMetricsTable2),
+                array_merge($extraProcessedMetricsTable1, $extraProcessedMetricsTable2)
             );
         }
 
