@@ -16,7 +16,6 @@ use Piwik\DataAccess\Model;
 use Piwik\Date;
 use Piwik\Piwik;
 use Piwik\Log\LoggerInterface;
-use Psr\Log\LogLevel;
 
 /**
  * Service that purges temporary, error-ed, invalid and custom range archives from archive tables.
@@ -239,8 +238,8 @@ class ArchivePurger
         $deletedCount = $this->model->deleteArchivesWithPeriod(
             $numericTable, $blobTable, Piwik::$idPeriods['range'], $this->purgeCustomRangesOlderThan);
 
-        $level = $deletedCount == 0 ? LogLevel::DEBUG : LogLevel::INFO;
-        $this->logger->log($level, "Purged {count} range archive rows from {numericTable} & {blobTable}.", array(
+        $level = $deletedCount == 0 ? 'debug' : 'info';
+        $this->logger->$level("Purged {count} range archive rows from {numericTable} & {blobTable}.", array(
             'count' => $deletedCount,
             'numericTable' => $numericTable,
             'blobTable' => $blobTable

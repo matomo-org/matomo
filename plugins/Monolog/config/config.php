@@ -245,7 +245,7 @@ return array(
             return [new \Monolog\Handler\NullHandler()];
         }
 
-        $fileHandler = new FileHandler($logFile, \Psr\Log\LogLevel::INFO);
+        $fileHandler = new FileHandler($logFile, Logger::INFO);
         $fileHandler->setFormatter($c->get('log.lineMessageFormatter.file'));
         return [$fileHandler];
     },
