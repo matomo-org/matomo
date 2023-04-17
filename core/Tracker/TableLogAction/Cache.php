@@ -144,7 +144,7 @@ class Cache
      */
     private function fetchActionIdsFromDb($valueToMatch, $sql)
     {
-        $idActions = \Piwik\Db::fetchAll($sql, $valueToMatch);
+        $idActions = \Piwik\Db::getReader()->fetchAll($sql, $valueToMatch);
 
         $ids = array();
         foreach ($idActions as $idAction) {
