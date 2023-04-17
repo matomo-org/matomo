@@ -44,20 +44,6 @@ class PageviewsBefore extends ConversionDimension
      * @param Action|null $action
      * @param GoalManager $goalManager
      *
-     * @return mixed|false
-     */
-    public function onEcommerceCartUpdateConversion(Request $request, Visitor $visitor, $action, GoalManager $goalManager)
-    {
-        return $this->onGoalConversion($request, $visitor, $action, $goalManager);
-    }
-
-    /**
-     *
-     * @param Request $request
-     * @param Visitor $visitor
-     * @param Action|null $action
-     * @param GoalManager $goalManager
-     *
      * @return int
      */
     public function onGoalConversion(Request $request, Visitor $visitor, $action, GoalManager $goalManager)
