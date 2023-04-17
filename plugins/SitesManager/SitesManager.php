@@ -536,6 +536,6 @@ class SitesManager extends \Piwik\Plugin
         $jsTag = Request::processRequest('SitesManager.getJavascriptTag', ['idSite' => Common::getRequestVar('idSite'), 'piwikUrl' => $piwikUrl]);
         $view = new View("@SitesManager/_gtmTabInstructions");
         $view->jsTag = $jsTag;
-        $out .= $view->render();
+        $out = $view->render();
     }
 }
