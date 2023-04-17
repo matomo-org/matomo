@@ -118,13 +118,13 @@ class ConsoleCommand extends SymfonyCommand
 
     public function addOptionalArgument(string $name, string $description = '', $default = null, bool $acceptArrays = false)
     {
-        $mode = $acceptArrays ? InputOption::VALUE_IS_ARRAY : 0;
+        $mode = $acceptArrays ? InputArgument::IS_ARRAY : 0;
         parent::addArgument($name, $mode | InputArgument::OPTIONAL, $description, $default);
     }
 
     public function addRequiredArgument(string $name, string $description = '', $default = null, bool $acceptArrays = false)
     {
-        $mode = $acceptArrays ? InputOption::VALUE_IS_ARRAY : 0;
+        $mode = $acceptArrays ? InputArgument::IS_ARRAY : 0;
         parent::addArgument($name, $mode | InputArgument::REQUIRED, $description, $default);
     }
     public function addArgument(string $name, int $mode = null, string $description = '', $default = null)
