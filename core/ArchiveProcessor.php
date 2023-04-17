@@ -390,7 +390,7 @@ class ArchiveProcessor
 
         foreach ($dataTableBlobs as $archiveDataRow) {
             $period = $archiveDataRow['date1'] . ',' . $archiveDataRow['date2'];
-            $tableId = $this->getSubtableIdFromBlobName($archiveDataRow['name']);
+            $tableId = $archiveDataRow['name'] == $name ? null : $this->getSubtableIdFromBlobName($archiveDataRow['name']);
 
             $blobTable = DataTable::fromSerializedArray($archiveDataRow['value']);
 
