@@ -560,7 +560,7 @@ class ArchiveSelector
             if ($orderBySubtableId && count($recordNames) == 1) {
                 $idSubtableAsInt = self::getExtractIdSubtableFromBlobNameSql($chunk, $name);
 
-                $orderBy = "ORDER BY date1 ASC, " . // ordering by date just so column order in tests will be predictable
+                $orderBy = "ORDER BY date1 DESC, " . // ordering by date just so column order in tests will be predictable
                     " $idSubtableAsInt ASC,
                   ts_archived DESC"; // ascending order so we use the latest data found
             }
