@@ -339,8 +339,8 @@ class LogAggregator
      * @param int         $offset
      *
      * @return array|mixed|string
-     * @throws \DI\DependencyException
-     * @throws \DI\NotFoundException
+     * @throws \Piwik\Exception\DI\DependencyException
+     * @throws \Piwik\Exception\DI\NotFoundException
      */
     public function generateQuery($select, $from, $where, $groupBy, $orderBy, $limit = 0, $offset = 0)
     {
@@ -395,8 +395,8 @@ class LogAggregator
      *
      * @return string   Name of the created temporary table, including any table prefix
      *
-     * @throws \DI\DependencyException
-     * @throws \DI\NotFoundException
+     * @throws \Piwik\Exception\DI\DependencyException
+     * @throws \Piwik\Exception\DI\NotFoundException
      */
     private function createSegmentTable(): string
     {

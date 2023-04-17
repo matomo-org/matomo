@@ -65,7 +65,7 @@ return [
         } else {
             try {
                 $backend = $c->get('ini.Cache.backend');
-            } catch (\DI\NotFoundException $ex) {
+            } catch (\Piwik\Exception\DI\NotFoundException $ex) {
                 $backend = 'chained'; // happens if global.ini.php is not available
             }
         }

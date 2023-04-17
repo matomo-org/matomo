@@ -25,11 +25,24 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   * Various helpers like the `dialog` or `progress` helpers have been removed. Their usages need to be rewritten with newer helpers like `question`.
 * The deprecated method `Piwik\Log::setLogLevel()` has been removed
 * The deprecated method `Piwik\Log::getLogLevel()` has been removed
-* In order to encapsulate Matomo's dependencies from direct usage in plugins we introduce some proxy classes that need to be used instead:
+* In order to encapsulate Matomo's dependencies from direct usage in plugins we introduce some proxy classes and patterns that need to be used instead:
   * Use `Piwik\Log\Logger` instead of `Monolog\Logger`
   * Use `Piwik\Log\LoggerInterface` instead of `Psr\Log\LoggerInterface`
   * Use `Piwik\Log\NullLogger` instead of `Psr\Log\NullLogger`
   * Use `Piwik\DI` instead of `DI`
+    * `DI` namespaced functions need to be replaced with static `Piwik\DI` methods. E.g. `DI\add()` will become `Piwik\DI::add()`
+    * If you need to catch dependency related exceptions use `Piwik\Expection\DI\DependencyException` or `Piwik\Expection\DI\NotFoundException`
+  * To encapsulate plugin commands from directly using any symfony console dependency our class `Piwik\Plugins\ConsoleCommand` has been rewritten. To migrate your commands you need to:
+    * Methods like `run`, `execute`, `interact` or `initialize` can no longer be overwritten. Instead, use our custom methods prefixed with `do`: `doExecute`, `doInteract` or `doInitialize`
+    * Where ever you need to work with input or output use `$this->getInput()` or `$this->getOutput` instead.
+    * When defining input options and arguments using `addOption` and `addArgument` can no loger be used
+      * For arguments use `addOptionalArgument` or `addRequiredArgument`
+      * For options use `addNegatableOption`, `addOptionalValueOption`, `addNoValueOption` or `addRequiredValueOption`
+    * Directly using any console helpers is now prohibited
+      * When needing user input use the new methods `askForConfirmation`, `askAndValidate` or `ask`
+      * For progress bars use the methods `initProgressBar`, `startProgressBar`, `advanceProgressBar` and `finishProgressBar`
+      * Tables can be rendered using the new method `renderTable`
+    * For executing another command within your command use the new method `runCommand`
 
 ### New APIs
 

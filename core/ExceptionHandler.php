@@ -10,7 +10,7 @@
 
 namespace Piwik;
 
-use DI\DependencyException;
+use Piwik\Exception\DI\DependencyException;
 use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;

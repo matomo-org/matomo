@@ -21,7 +21,7 @@ use Piwik\Exception\NotGitInstalledException;
 
 abstract class GeneratePluginBase extends ConsoleCommand
 {
-    protected function doInitialize()
+    protected function doInitialize(): void
     {
         $this->throwErrorIfNotGitInstalled();
     }
