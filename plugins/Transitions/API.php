@@ -156,19 +156,19 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Derive the action ID from the request action name and type.
+     *
+     * @param string $actionName
+     * @param string $actionType
+     *
+     * @return array|int|string
      */
-    private function deriveIdAction($actionName, $actionType)
+    private function deriveIdAction(string $actionName, string $actionType)
     {
-
-        if (is_array($actionName) && count($actionName) !== 1) {
-            throw new Exception('NoDataForAction');
-        }
-
-        $originalActionName = $actionName;
-        $actionName = (is_array($actionName) ? reset($actionName) : Common::unsanitizeInputValue($actionName));
-
         switch ($actionType) {
             case 'url':
+                $originalActionName = $actionName;
+                $actionName = Common::unsanitizeInputValue($actionName);
+
                 $id = TableLogAction::getIdActionFromSegment($actionName, 'idaction_url', SegmentExpression::MATCH_EQUAL, 'pageUrl');
 
                 if ($id < 0) {
