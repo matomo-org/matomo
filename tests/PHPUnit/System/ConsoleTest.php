@@ -175,7 +175,7 @@ Matomo encountered an error: Allowed memory size of X bytes exhausted (tried to 
   'line' => 84,
   'backtrace' => ' on /tests/PHPUnit/System/ConsoleTest.php(84)
 #0 /tests/PHPUnit/System/ConsoleTest.php(69): Piwik\\\\Tests\\\\System\\\\TestCommandWithFatalError->executeImpl()
-#1 /core/Plugin/ConsoleCommand.php(89): Piwik\\\\Tests\\\\System\\\\TestCommandWithFatalError->doExecute()
+#1 /core/Plugin/ConsoleCommand.php(111): Piwik\\\\Tests\\\\System\\\\TestCommandWithFatalError->doExecute()
 ',
 ))
 END;

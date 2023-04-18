@@ -168,7 +168,7 @@ class DeleteLogsData extends ConsoleCommand
 
     private function askForDeleteConfirmation()
     {
-        if ($this->getInput()->isInteractive()) {
+        if (!$this->getInput()->isInteractive()) {
             return true;
         }
 
