@@ -15,21 +15,32 @@ class VisitProperties
 {
     /**
      * Information about the current visit. This array holds the column values that will be inserted or updated
-     * in the `log_visit` table, or the values for the last known visit of the current visitor.
+     * in the `log_visit` table, or the values for the last known visit of the current visitor. These properties
+     * can be modified during request processing.
      *
      * @var array
      */
-    private $visitInfo = array();
+    private $visitInfo = [];
+
+    /**
+     * Holds the initial visit properties information about the current visit, this data is not changed during request processing.
+     *
+     * @var array
+     */
+    private $visitInfoImmutableProperties = [];
+
 
     public function __construct(array $visitInfo = [])
     {
         $this->visitInfo = $visitInfo;
+        $this->visitInfoImmutableProperties = $visitInfo;
     }
 
     /**
      * Returns a visit property, or `null` if none is set.
      *
      * @param string $name The property name.
+     *
      * @return mixed
      */
     public function getProperty($name)
@@ -42,7 +53,7 @@ class VisitProperties
      *
      * @return array
      */
-    public function &getProperties()
+    public function &getProperties(): ?array
     {
         return $this->visitInfo;
     }
@@ -52,27 +63,72 @@ class VisitProperties
      *
      * @param string $name The property name.
      * @param mixed $value The property value.
+     *
+     * @return void
      */
-    public function setProperty($name, $value)
+    public function setProperty($name, $value): void
     {
         $this->visitInfo[$name] = $value;
     }
 
     /**
      * Unsets all visit properties.
+     *
+     * @return void
      */
-    public function clearProperties()
+    public function clearProperties(): void
     {
-        $this->visitInfo = array();
+        $this->visitInfo = [];
     }
 
     /**
      * Sets all visit properties.
      *
      * @param array $properties
+     *
+     * @return void
      */
-    public function setProperties($properties)
+    public function setProperties(array $properties): void
     {
         $this->visitInfo = $properties;
     }
+
+    /**
+     * Set the initial value of a property, this should remain unchanged throughout request processing.
+     *
+     * @param string $name
+     * @param mixed $value
+     *
+     * @return void
+     */
+    public function initializeImmutableProperty(string $name, $value): void
+    {
+        if (isset($this->visitInfoImmutableProperties[$name])) {
+            throw new \Exception('Immutable visit properties cannot be modified');
+        }
+        $this->visitInfoImmutableProperties[$name] = $value;
+    }
+
+    /**
+     * Returns a visit property, unmodified by request processors. Returns `null` if not set.
+     *
+     * @param string $name The property name.
+     *
+     * @return mixed|null
+     */
+    public function getImmutableProperty(string $name)
+    {
+        return isset($this->visitInfoImmutableProperties[$name]) ? $this->visitInfoImmutableProperties[$name] : null;
+    }
+
+    /**
+     * Returns all immutable visit properties by reference.
+     *
+     * @return array
+     */
+    public function &getImmutableProperties(): ?array
+    {
+        return $this->visitInfoImmutableProperties;
+    }
+
 }
