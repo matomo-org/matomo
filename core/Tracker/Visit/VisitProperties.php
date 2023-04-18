@@ -118,7 +118,7 @@ class VisitProperties
      */
     public function getImmutableProperty(string $name)
     {
-        return $this->visitInfoImmutableProperties[$name]) ?? null;
+        return $this->visitInfoImmutableProperties[$name] ?? null;
     }
 
     /**
