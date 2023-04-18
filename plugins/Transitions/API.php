@@ -49,8 +49,8 @@ class API extends \Piwik\Plugin\API
     /**
      * General method to get transitions for an action
      *
-     * @param $actionName
-     * @param $actionType "url"|"title"
+     * @param string $actionName
+     * @param string $actionType "url"|"title"
      * @param $idSite
      * @param $period
      * @param $date
@@ -60,7 +60,7 @@ class API extends \Piwik\Plugin\API
      * @return array
      * @throws Exception
      */
-    public function getTransitionsForAction($actionName, $actionType, $idSite, $period, $date,
+    public function getTransitionsForAction(string $actionName, string $actionType, $idSite, $period, $date,
                                             $segment = false, $limitBeforeGrouping = 0, $parts = 'all')
     {
         Piwik::checkUserHasViewAccess($idSite);
