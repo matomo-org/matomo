@@ -573,13 +573,13 @@ abstract class Base extends VisitDimension
         $referrerNameAnalayzed = mb_strtolower($this->nameReferrerAnalyzed);
         $referrerNameAnalayzed = $this->truncateReferrerName($referrerNameAnalayzed);
 
-        $isCurrentVisitACampaignWithSameName = mb_strtolower($visitor->getVisitorColumn('referer_name') ?? '') == $referrerNameAnalayzed;
-        $isCurrentVisitACampaignWithSameName = $isCurrentVisitACampaignWithSameName && $visitor->getVisitorColumn('referer_type') == Common::REFERRER_TYPE_CAMPAIGN;
+        $isCurrentVisitACampaignWithSameName = mb_strtolower($visitor->getImmutableVisitorColumn('referer_name') ?? '') == $referrerNameAnalayzed;
+        $isCurrentVisitACampaignWithSameName = $isCurrentVisitACampaignWithSameName && $visitor->getImmutableVisitorColumn('referer_type') == Common::REFERRER_TYPE_CAMPAIGN;
 
         // if we detected a campaign but there is still no keyword set, we set the keyword to the Referrer host
         if (empty($this->keywordReferrerAnalyzed)) {
             if ($isCurrentVisitACampaignWithSameName) {
-                $this->keywordReferrerAnalyzed = $visitor->getVisitorColumn('referer_keyword');
+                $this->keywordReferrerAnalyzed = $visitor->getImmutableVisitorColumn('referer_keyword');
                 // it is an existing visit and no referrer keyword was used initially (or a different host),
                 // we do not use the default referrer host in this case as it would create a new visit. It would create
                 // a new visit because initially the referrer keyword was not set (or from a different host) and now
@@ -626,9 +626,9 @@ abstract class Base extends VisitDimension
         Common::printDebug("Attributing a referrer to this Goal...");
 
         // 3) Default values: current referrer
-        $type    = $visitor->getVisitorColumn('referer_type');
-        $name    = $visitor->getVisitorColumn('referer_name');
-        $keyword = $visitor->getVisitorColumn('referer_keyword');
+        $type    = $visitor->getImmutableVisitorColumn('referer_type');
+        $name    = $visitor->getImmutableVisitorColumn('referer_name');
+        $keyword = $visitor->getImmutableVisitorColumn('referer_keyword');
 
         // 0) In some (unknown!?) cases the campaign is not found in the attribution cookie, but the URL ref was found.
         //    In this case we look up if the current visit is credited to a campaign and will credit this campaign rather than the URL ref (since campaigns have higher priority)
@@ -708,7 +708,7 @@ abstract class Base extends VisitDimension
 
     protected function hasReferrerColumnChanged(Visitor $visitor, $information, $infoName)
     {
-        $existing = mb_strtolower($visitor->getVisitorColumn($infoName) ?? '');
+        $existing = mb_strtolower($visitor->getImmutableVisitorColumn($infoName) ?? '');
         $new = mb_strtolower($information[$infoName] ?? '');
 
         $result = $existing != $new;
@@ -721,7 +721,7 @@ abstract class Base extends VisitDimension
 
     protected function doesLastActionHaveSameReferrer(Visitor $visitor, $referrerType)
     {
-        return $visitor->getVisitorColumn('referer_type') == $referrerType;
+        return $visitor->getImmutableVisitorColumn('referer_type') == $referrerType;
     }
 
     protected function getReferrerCampaignQueryParam(Request $request, $paramName)
