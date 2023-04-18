@@ -51,8 +51,8 @@ class PageviewsBefore extends ConversionDimension
         // The visit total interactions are incremented and stored on the visit but include searches
         // To get the current number of pageviews for the visit we subtract the total searches from the total interactions
 
-        $visitPageviews = $visitor->getVisitorColumn('visit_total_interactions', true) -
-                          $visitor->getVisitorColumn('visit_total_searches', true);
+        $visitPageviews = $visitor->getImmutableVisitorColumn('visit_total_interactions') -
+                          $visitor->getImmutableVisitorColumn('visit_total_searches');
 
         if ($action instanceof ActionPageview) {
             $visitPageviews++; // The current action isn't yet included in visit total interactions
