@@ -18,7 +18,7 @@ use Piwik\Log\LoggerInterface;
 use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Site;
 use Piwik\Tests\Framework\TestingEnvironmentVariables;
-use Psr\Container\ContainerInterface;
+use Piwik\Container\Container;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Common;
 use Piwik\Config;
@@ -461,7 +461,7 @@ class ArchiveCronTest extends SystemTestCase
 
             // for some reason, w/o real translations archiving segments in CronArchive fails. the data returned by CliMulti
             // is a translation token, and nothing else.
-            'Piwik\Translation\Translator' => function (ContainerInterface $c) {
+            'Piwik\Translation\Translator' => function (Container $c) {
                 return new \Piwik\Translation\Translator($c->get('Piwik\Translation\Loader\LoaderInterface'));
             },
 

@@ -1,6 +1,6 @@
 <?php
 
-use Psr\Container\ContainerInterface;
+use Piwik\Container\Container;
 use Piwik\Log\Logger;
 use Piwik\Log;
 use Piwik\Plugins\Monolog\Handler\FileHandler;
@@ -24,7 +24,7 @@ return array(
         'errorlog' => '\Monolog\Handler\ErrorLogHandler',
         'syslog' => '\Monolog\Handler\SyslogHandler',
     ),
-    'log.handlers' => Piwik\DI::factory(function (\DI\Container $c) {
+    'log.handlers' => Piwik\DI::factory(function (Container $c) {
         if ($c->has('ini.log.log_writers')) {
             $writerNames = $c->get('ini.log.log_writers');
         } else {
@@ -121,7 +121,7 @@ return array(
         ->constructor(Piwik\DI::get('log.level.screen'))
         ->method('setFormatter', Piwik\DI::get('log.lineMessageFormatter')),
 
-    'log.level' => Piwik\DI::factory(function (ContainerInterface $c) {
+    'log.level' => Piwik\DI::factory(function (Container $c) {
         if ($c->has('ini.log.log_level')) {
             $level = strtoupper($c->get('ini.log.log_level'));
             if (!empty($level) && defined('Piwik\Log::'.strtoupper($level))) {
@@ -132,7 +132,7 @@ return array(
         return Logger::WARNING;
     }),
 
-    'log.level.file' => Piwik\DI::factory(function (ContainerInterface $c) {
+    'log.level.file' => Piwik\DI::factory(function (Container $c) {
         if ($c->has('ini.log.log_level_file')) {
             $level = Log::getMonologLevelIfValid($c->get('ini.log.log_level_file'));
             if ($level !== null) {
@@ -142,7 +142,7 @@ return array(
         return $c->get('log.level');
     }),
 
-    'log.level.screen' => Piwik\DI::factory(function (ContainerInterface $c) {
+    'log.level.screen' => Piwik\DI::factory(function (Container $c) {
         if ($c->has('ini.log.log_level_screen')) {
             $level = Log::getMonologLevelIfValid($c->get('ini.log.log_level_screen'));
             if ($level !== null) {
@@ -152,7 +152,7 @@ return array(
         return $c->get('log.level');
     }),
 
-    'log.level.database' => Piwik\DI::factory(function (ContainerInterface $c) {
+    'log.level.database' => Piwik\DI::factory(function (Container $c) {
         if ($c->has('ini.log.log_level_database')) {
             $level = Log::getMonologLevelIfValid($c->get('ini.log.log_level_database'));
             if ($level !== null) {
@@ -162,7 +162,7 @@ return array(
         return $c->get('log.level');
     }),
 
-    'log.level.syslog' => Piwik\DI::factory(function (ContainerInterface $c) {
+    'log.level.syslog' => Piwik\DI::factory(function (Container $c) {
         if ($c->has('ini.log.log_level_syslog')) {
             $level = Log::getMonologLevelIfValid($c->get('ini.log.log_level_syslog'));
             if ($level !== null) {
@@ -172,7 +172,7 @@ return array(
         return $c->get('log.level');
     }),
 
-    'log.level.errorlog' => Piwik\DI::factory(function (ContainerInterface $c) {
+    'log.level.errorlog' => Piwik\DI::factory(function (Container $c) {
         if ($c->has('ini.log.log_level_errorlog')) {
             $level = Log::getMonologLevelIfValid($c->get('ini.log.log_level_errorlog'));
             if ($level !== null) {
@@ -182,7 +182,7 @@ return array(
         return $c->get('log.level');
     }),
 
-    'log.file.filename' => Piwik\DI::factory(function (ContainerInterface $c) {
+    'log.file.filename' => Piwik\DI::factory(function (Container $c) {
         $logPath = $c->get('ini.log.logger_file_path');
 
         // Absolute path
@@ -208,7 +208,7 @@ return array(
         return $logPath;
     }),
     
-    'log.syslog.ident' => Piwik\DI::factory(function (ContainerInterface $c) {
+    'log.syslog.ident' => Piwik\DI::factory(function (Container $c) {
         $ident = $c->get('ini.log.logger_syslog_ident');
         if (empty($ident)) {
             $ident = 'matomo';
@@ -225,21 +225,21 @@ return array(
         ->constructor(Piwik\DI::get('log.trace.format'))
         ->constructorParameter('allowInlineLineBreaks', false),
 
-    'log.short.format' => Piwik\DI::factory(function (ContainerInterface $c) {
+    'log.short.format' => Piwik\DI::factory(function (Container $c) {
         if ($c->has('ini.log.string_message_format')) {
             return $c->get('ini.log.string_message_format');
         }
         return '%level% %tag%[%datetime%] %message%';
     }),
 
-    'log.trace.format' => Piwik\DI::factory(function (ContainerInterface $c) {
+    'log.trace.format' => Piwik\DI::factory(function (Container $c) {
         if ($c->has('ini.log.string_message_format_trace')) {
             return $c->get('ini.log.string_message_format_trace');
         }
         return '%level% %tag%[%datetime%] %message% %trace%';
     }),
 
-    'archiving.performance.handlers' => function (ContainerInterface $c) {
+    'archiving.performance.handlers' => function (Container $c) {
         $logFile = trim($c->get('ini.Debug.archive_profiling_log'));
         if (empty($logFile)) {
             return [new \Monolog\Handler\NullHandler()];

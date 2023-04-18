@@ -13,7 +13,7 @@ return [
     'tests.ui.url_normalizer_blacklist.api' => [],
     'tests.ui.url_normalizer_blacklist.controller' => [],
 
-    'twig.cache' => function (\Psr\Container\ContainerInterface $container) {
+    'twig.cache' => function (\Piwik\Container\Container $container) {
         $templatesPath = $container->get('path.tmp.templates');
         return new class($templatesPath) extends \Twig\Cache\FilesystemCache {
             public function write(string $key, string $content): void

@@ -1,14 +1,14 @@
 <?php
 
+use Piwik\Container\Container;
 use Piwik\Piwik;
-use Psr\Container\ContainerInterface;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\Mock\TestConfig;
 
 return array(
 
     // Disable logging
-    \Piwik\Log\LoggerInterface::class => \Piwik\DI::decorate(function ($previous, ContainerInterface $c) {
+    \Piwik\Log\LoggerInterface::class => \Piwik\DI::decorate(function ($previous, Container $c) {
         $enableLogging = $c->get('ini.tests.enable_logging') == 1 || !empty(getenv('MATOMO_TESTS_ENABLE_LOGGING'));
         if ($enableLogging) {
             return $previous;
@@ -19,7 +19,7 @@ return array(
 
     'Tests.log.allowAllHandlers' => false,
 
-    'log.handlers' => \Piwik\DI::decorate(function ($previous, ContainerInterface $c) {
+    'log.handlers' => \Piwik\DI::decorate(function ($previous, Container $c) {
         if ($c->get('Tests.log.allowAllHandlers')) {
             return $previous;
         }
@@ -38,7 +38,7 @@ return array(
     'Tests.now' => false,
 
     // Disable loading core translations
-    'Piwik\Translation\Translator' => \Piwik\DI::decorate(function ($previous, ContainerInterface $c) {
+    'Piwik\Translation\Translator' => \Piwik\DI::decorate(function ($previous, Container $c) {
         $loadRealTranslations = $c->get('test.vars.loadRealTranslations');
         if (!$loadRealTranslations) {
             return new \Piwik\Translation\Translator($c->get('Piwik\Translation\Loader\LoaderInterface'), $directories = array());
@@ -47,7 +47,7 @@ return array(
         }
     }),
 
-    'Piwik\Config' => \Piwik\DI::decorate(function ($previous, ContainerInterface $c) {
+    'Piwik\Config' => \Piwik\DI::decorate(function ($previous, Container $c) {
         $testingEnvironment = $c->get('Piwik\Tests\Framework\TestingEnvironmentVariables');
 
         $dontUseTestConfig = $c->get('test.vars.dontUseTestConfig');
@@ -59,7 +59,7 @@ return array(
         }
     }),
 
-    'Piwik\Access' => \Piwik\DI::decorate(function ($previous, ContainerInterface $c) {
+    'Piwik\Access' => \Piwik\DI::decorate(function ($previous, Container $c) {
         $testUseMockAuth = $c->get('test.vars.testUseMockAuth');
         if ($testUseMockAuth) {
             $idSitesAdmin = $c->get('test.vars.idSitesAdminAccess');

@@ -43,7 +43,7 @@ use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
 use Piwik\ReportRenderer;
 use Piwik\Tests\Framework\XssTesting;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
-use Psr\Container\ContainerInterface;
+use Piwik\Container\Container;
 use Piwik\CronArchive\SegmentArchiving;
 
 /**
@@ -567,7 +567,7 @@ class UITestFixture extends SqlDump
                 })],
             ]),
             Proxy::class => \Piwik\DI::get(CustomApiProxy::class),
-            'log.handlers' => \Piwik\DI::decorate(function ($previous, ContainerInterface $c) {
+            'log.handlers' => \Piwik\DI::decorate(function ($previous, Container $c) {
                 $previous[] = $c->get(WebNotificationHandler::class);
                 return $previous;
             }),

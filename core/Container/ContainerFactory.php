@@ -8,10 +8,10 @@
 
 namespace Piwik\Container;
 
-use DI\Container;
 use DI\ContainerBuilder;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Application\Kernel\PluginList;
+use Piwik\Container\Container;
 use Piwik\Plugin\Manager;
 
 /**
@@ -62,7 +62,7 @@ class ContainerFactory
      */
     public function create()
     {
-        $builder = new ContainerBuilder();
+        $builder = new ContainerBuilder(Container::class);
 
         $builder->useAnnotations(false);
 
@@ -97,6 +97,7 @@ class ContainerFactory
             }
         }
 
+        /** @var Container $container */
         $container = $builder->build();
         $container->set('Piwik\Application\Kernel\PluginList', $this->pluginList);
         $container->set('Piwik\Application\Kernel\GlobalSettingsProvider', $this->settings);

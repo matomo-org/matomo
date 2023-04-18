@@ -1,6 +1,5 @@
 <?php
 
-use Psr\Container\ContainerInterface;
 use Matomo\Cache\Eager;
 use Piwik\SettingsServer;
 
@@ -10,7 +9,7 @@ return [
 
     'path.misc.user' => 'misc/user/',
 
-    'path.tmp' => function (ContainerInterface $c) {
+    'path.tmp' => function (\Piwik\Container\Container $c) {
         $root = PIWIK_USER_PATH;
 
         // TODO remove that special case and instead have plugins override 'path.tmp' to add the instance id
@@ -37,7 +36,7 @@ return [
 
     'twig.cache' => Piwik\DI::string('{path.tmp.templates}'),
 
-    'Matomo\Cache\Eager' => function (ContainerInterface $c) {
+    'Matomo\Cache\Eager' => function (\Piwik\Container\Container $c) {
         $backend = $c->get('Matomo\Cache\Backend');
         $cacheId = $c->get('cache.eager.cache_id');
 
@@ -56,7 +55,7 @@ return [
 
         return $cache;
     },
-    'Matomo\Cache\Backend' => function (ContainerInterface $c) {
+    'Matomo\Cache\Backend' => function (\Piwik\Container\Container $c) {
         // If Piwik is not installed yet, it's possible the tmp/ folder is not writable
         // we prevent failing with an unclear message eg. coming from doctrine-cache
         // by forcing to use a cache backend which always works ie. array
@@ -159,7 +158,7 @@ return [
 
     'Piwik\EventDispatcher' => Piwik\DI::autowire()->constructorParameter('observers', Piwik\DI::get('observers.global')),
 
-    'login.allowlist.ips' => function (ContainerInterface $c) {
+    'login.allowlist.ips' => function (\Piwik\Container\Container $c) {
         /** @var Piwik\Config\ $config */
         $config = $c->get('Piwik\Config');
         $general = $config->General;

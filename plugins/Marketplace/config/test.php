@@ -4,10 +4,10 @@ use Piwik\Plugins\Marketplace\Input\PurchaseType;
 use Piwik\Plugins\Marketplace\LicenseKey;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Consumer as MockConsumer;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Service as MockService;
-use Psr\Container\ContainerInterface;
+use Piwik\Container\Container;
 
 return array(
-    'MarketplaceEndpoint' => function (ContainerInterface $c) {
+    'MarketplaceEndpoint' => function (Container $c) {
         // if you wonder why this here is configured here again, and the same as in `config.php`,
         // it is because someone might have overwritten MarketplaceEndpoit in local config.php and we want
         // to make sure system tests of marketplace are ran against plugins.piwik.org
@@ -19,7 +19,7 @@ return array(
 
         return $domain;
     },
-    'Piwik\Plugins\Marketplace\Consumer' => function (ContainerInterface $c) {
+    'Piwik\Plugins\Marketplace\Consumer' => function (Container $c) {
         $consumerTest = $c->get('test.vars.consumer');
         $licenseKey = new LicenseKey();
 
@@ -39,7 +39,7 @@ return array(
 
         return $consumer;
     },
-    'Piwik\Plugins\Marketplace\Plugins' => Piwik\DI::decorate(function ($previous, ContainerInterface $c) {
+    'Piwik\Plugins\Marketplace\Plugins' => Piwik\DI::decorate(function ($previous, Container $c) {
         /** @var \Piwik\Plugins\Marketplace\Plugins $previous */
         $previous->setPluginsHavingUpdateCache(null);
 
@@ -58,7 +58,7 @@ return array(
 
         return $previous;
     }),
-    'Piwik\Plugins\Marketplace\Plugins\InvalidLicenses' => Piwik\DI::decorate(function ($previous, ContainerInterface $c) {
+    'Piwik\Plugins\Marketplace\Plugins\InvalidLicenses' => Piwik\DI::decorate(function ($previous, Container $c) {
 
         $pluginNames = $c->get('test.vars.mockMarketplaceAssumePluginNamesActivated');
 
@@ -71,7 +71,7 @@ return array(
         return $previous;
 
     }),
-    'Piwik\Plugins\Marketplace\Api\Service' => Piwik\DI::decorate(function ($previous, ContainerInterface $c) {
+    'Piwik\Plugins\Marketplace\Api\Service' => Piwik\DI::decorate(function ($previous, Container $c) {
         if (!$c->get('test.vars.mockMarketplaceApiService')) {
             return $previous;
         }

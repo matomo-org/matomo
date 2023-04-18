@@ -8,7 +8,7 @@
 
 namespace Piwik\Tests\Framework;
 
-use Psr\Container\ContainerInterface;
+use Piwik\Container\Container;
 use Piwik\Application\EnvironmentManipulator;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Application\Kernel\PluginList;
@@ -190,7 +190,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
         $diConfigs[] = array(
             'observers.global' => \Piwik\DI::add($this->globalObservers),
 
-            'Piwik\Config' => \Piwik\DI::decorate(function (Config $config, ContainerInterface $c) use ($plugins) {
+            'Piwik\Config' => \Piwik\DI::decorate(function (Config $config, Container $c) use ($plugins) {
                 /** @var PluginList $pluginList */
                 $pluginList = $c->get('Piwik\Application\Kernel\PluginList');
                 $plugins = $pluginList->sortPlugins($plugins);

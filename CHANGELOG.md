@@ -20,22 +20,21 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * By default, the `file://` protocol is not tracked. To enable tracking of the `file://` protocol add `enableTrackFile` to the tracker settings. 
 * We have migrated our automated tests from Travis CI to GitHub actions. If your plugin used Travis CI for running tests ensure to migrate that to a GitHub action as support for running tests on Travis has been dropped.
 * By default, the last ip address in the proxy list will now be used rather than the first ip address. To force the first ip address to be used set the config option `proxy_ip_read_last_in_list = 0`.
-* The Symfony Console dependency has been updated to version 5.4. Command classes might need to be adjusted so
-  * `execute()` method now need to return integers. We recommend using the class constants `SUCCESS` or `FAILURE` as return values.
-  * Various helpers like the `dialog` or `progress` helpers have been removed. Their usages need to be rewritten with newer helpers like `question`.
 * The deprecated method `Piwik\Log::setLogLevel()` has been removed
 * The deprecated method `Piwik\Log::getLogLevel()` has been removed
-* In order to encapsulate Matomo's dependencies from direct usage in plugins we introduce some proxy classes and patterns that need to be used instead:
+* In order to encapsulate Matomo's dependencies from direct usage in plugins we introduce some proxy classes and patterns that need to be used instead. For plugin development avoid using any external Matomo dependency directly. 
   * Use `Piwik\Log\Logger` instead of `Monolog\Logger`
   * Use `Piwik\Log\LoggerInterface` instead of `Psr\Log\LoggerInterface`
   * Use `Piwik\Log\NullLogger` instead of `Psr\Log\NullLogger`
   * Use `Piwik\DI` instead of `DI`
     * `DI` namespaced functions need to be replaced with static `Piwik\DI` methods. E.g. `DI\add()` will become `Piwik\DI::add()`
-    * If you need to catch dependency related exceptions use `Piwik\Expection\DI\DependencyException` or `Piwik\Expection\DI\NotFoundException`
-  * To encapsulate plugin commands from directly using any symfony console dependency our class `Piwik\Plugins\ConsoleCommand` has been rewritten. To migrate your commands you need to:
+    * If you need to catch dependency related exceptions use `Piwik\Exception\DI\DependencyException` or `Piwik\Exception\DI\NotFoundException`
+    * We are now using our own Container class. So when defining dependencies use `\Piwik\Container\Container` where you used to use `\Psr\Container\ContainerInterface` or `DI\Container` as typehints
+  * To encapsulate plugin commands from directly using any symfony console dependency our class `Piwik\Plugins\ConsoleCommand` has been rewritten. To migrate your commands you need to apply some changes:
     * Methods like `run`, `execute`, `interact` or `initialize` can no longer be overwritten. Instead, use our custom methods prefixed with `do`: `doExecute`, `doInteract` or `doInitialize`
-    * Where ever you need to work with input or output use `$this->getInput()` or `$this->getOutput` instead.
-    * When defining input options and arguments using `addOption` and `addArgument` can no loger be used
+      * `doExecute()` method needs to return integers. We recommend using the class constants `SUCCESS` or `FAILURE` as return values.
+    * Where ever you need to work with input or output use `$this->getInput()` or `$this->getOutput` instead. Don't use `InputInterface` or `OutputInterface` as method typehints.
+    * When defining input options and arguments `addOption` and `addArgument` can no longer be used
       * For arguments use `addOptionalArgument` or `addRequiredArgument`
       * For options use `addNegatableOption`, `addOptionalValueOption`, `addNoValueOption` or `addRequiredValueOption`
     * Directly using any console helpers is now prohibited

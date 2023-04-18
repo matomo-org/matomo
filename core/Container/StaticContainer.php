@@ -8,7 +8,7 @@
 
 namespace Piwik\Container;
 
-use DI\Container;
+use Piwik\Container\Container;
 use Piwik\Exception\DI\DependencyException;
 use Piwik\Exception\DI\NotFoundException;
 
