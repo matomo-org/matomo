@@ -162,7 +162,10 @@ class API extends \Piwik\Plugin\API
         switch ($actionType) {
             case 'url':
                 $originalActionName = $actionName;
-                $actionName = Common::unsanitizeInputValue($actionName);
+                if (is_array($actionName) && count($actionName) !== 1) {
+                    throw new Exception('NoDataForAction');
+                }
+                $actionName = (is_array($actionName) ? reset($actionName) : Common::unsanitizeInputValue($actionName));
                 $id = TableLogAction::getIdActionFromSegment($actionName, 'idaction_url', SegmentExpression::MATCH_EQUAL, 'pageUrl');
 
                 if ($id < 0) {

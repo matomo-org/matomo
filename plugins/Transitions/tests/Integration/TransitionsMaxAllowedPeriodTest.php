@@ -17,6 +17,7 @@ use Piwik\Plugins\Transitions\API;
  * Tests the transitions plugin max_period_allowed setting
  *
  * @group TransitionsMaxAllowedPeriodTest
+ * @group Transitions
  * @group Plugins
  */
 class TransitionsMaxAllowedPeriodTest extends IntegrationTestCase
