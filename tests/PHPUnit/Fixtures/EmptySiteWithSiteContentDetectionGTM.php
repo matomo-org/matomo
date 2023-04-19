@@ -30,6 +30,7 @@ class EmptySiteWithSiteContentDetectionGTM extends Fixture
             'ga3' => false,
             'ga4' => false,
             'gtm' => true,
+            'cloudflare' => true,
             'cms' => SitesManager::SITE_TYPE_UNKNOWN
         ];
 
