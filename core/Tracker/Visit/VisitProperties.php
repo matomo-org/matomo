@@ -53,7 +53,7 @@ class VisitProperties
      *
      * @return array
      */
-    public function &getProperties(): ?array
+    public function &getProperties(): array
     {
         return $this->visitInfo;
     }
