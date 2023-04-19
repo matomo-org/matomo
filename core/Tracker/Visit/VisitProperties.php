@@ -126,7 +126,7 @@ class VisitProperties
      *
      * @return array
      */
-    public function getImmutableProperties(): ?array
+    public function getImmutableProperties(): array
     {
         return $this->visitInfoImmutableProperties;
     }
