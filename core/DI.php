@@ -11,6 +11,11 @@ namespace Piwik;
 
 use DI as PHPDI;
 
+/**
+ * Proxy class for using DI related methods
+ *
+ * @api
+ */
 class DI
 {
     /**
@@ -25,6 +30,7 @@ class DI
     /**
      * @param string|null $className
      * @return \DI\Definition\Helper\CreateDefinitionHelper
+     * @see PHPDI\create()
      */
     public static function create(string $className = null)
     {
@@ -34,6 +40,7 @@ class DI
     /**
      * @param string|null $className
      * @return \DI\Definition\Helper\AutowireDefinitionHelper
+     * @see PHPDI\autowire()
      */
     public static function autowire(string $className = null)
     {
@@ -43,6 +50,7 @@ class DI
     /**
      * @param callable $factory
      * @return \DI\Definition\Helper\FactoryDefinitionHelper
+     * @see PHPDI\factory()
      */
     public static function factory($factory)
     {
@@ -52,6 +60,7 @@ class DI
     /**
      * @param callable $callable
      * @return \DI\Definition\Helper\FactoryDefinitionHelper
+     * @see PHPDI\decorate()
      */
     public static function decorate($callable)
     {
@@ -61,6 +70,7 @@ class DI
     /**
      * @param string $entryName
      * @return \DI\Definition\Reference
+     * @see PHPDI\get()
      */
     public static function get(string $entryName)
     {
@@ -71,6 +81,7 @@ class DI
      * @param string $variableName
      * @param mixed  $defaultValue
      * @return \DI\Definition\EnvironmentVariableDefinition
+     * @see PHPDI\env()
      */
     public static function env(string $variableName, $defaultValue = null)
     {
@@ -80,6 +91,7 @@ class DI
     /**
      * @param array|mixed $values
      * @return \DI\Definition\ArrayDefinitionExtension
+     * @see PHPDI\add()
      */
     public static function add($values)
     {
@@ -89,6 +101,7 @@ class DI
     /**
      * @param string $expression
      * @return \DI\Definition\StringDefinition
+     * @see PHPDI\string()
      */
     public static function string(string $expression)
     {

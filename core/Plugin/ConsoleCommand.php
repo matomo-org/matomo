@@ -47,7 +47,7 @@ class ConsoleCommand extends SymfonyCommand
     private $input = null;
 
     /**
-     * Sends the given message as success message to the output interface (surrounded by empty lines)
+     * Sends the given messages as success message to the output interface (surrounded by empty lines)
      *
      * @param string[] $messages
      * @return void
@@ -64,12 +64,11 @@ class ConsoleCommand extends SymfonyCommand
     }
 
     /**
-     * Sends the given message as comment message to the output interface (surrounded by empty lines)
+     * Sends the given messages as comment message to the output interface (surrounded by empty lines)
      *
      * @param string[] $messages
      * @return void
      */
-
     public function writeComment(array $messages): void
     {
         $this->getOutput()->writeln('');
@@ -82,7 +81,7 @@ class ConsoleCommand extends SymfonyCommand
     }
 
     /**
-     * Checks if all input options that are marked as required were provided
+     * Checks if all input options that are marked as requires-value were provided
      *
      * @return void
      * @throws \InvalidArgumentException

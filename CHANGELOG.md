@@ -33,7 +33,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   * To encapsulate plugin commands from directly using any symfony console dependency our class `Piwik\Plugins\ConsoleCommand` has been rewritten. To migrate your commands you need to apply some changes:
     * Methods like `run`, `execute`, `interact` or `initialize` can no longer be overwritten. Instead, use our custom methods prefixed with `do`: `doExecute`, `doInteract` or `doInitialize`
       * `doExecute()` method needs to return integers. We recommend using the class constants `SUCCESS` or `FAILURE` as return values.
-    * Where ever you need to work with input or output use `$this->getInput()` or `$this->getOutput` instead. Don't use `InputInterface` or `OutputInterface` as method typehints.
+    * Where ever you need to work with input or output use `$this->getInput()` or `$this->getOutput()` instead. Don't use `InputInterface` or `OutputInterface` as method typehints.
     * When defining input options and arguments `addOption` and `addArgument` can no longer be used
       * For arguments use `addOptionalArgument` or `addRequiredArgument`
       * For options use `addNegatableOption`, `addOptionalValueOption`, `addNoValueOption` or `addRequiredValueOption`

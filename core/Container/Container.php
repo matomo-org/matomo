@@ -15,6 +15,10 @@ use Piwik\Exception\DI\DependencyException;
 use Piwik\Exception\DI\NotFoundException;
 use Psr\Container\ContainerInterface;
 
+/**
+ * Proxy class for our DI Container
+ * @see DIContainer, ContainerInterface
+ */
 class Container extends DIContainer implements ContainerInterface
 {
     public function __construct(

@@ -9,6 +9,10 @@
 
 namespace Piwik\Log;
 
+/**
+ * Proxy class for \Psr\Log\NullLogger
+ * @see \Psr\Log\NullLogger
+ */
 class NullLogger extends \Psr\Log\NullLogger implements LoggerInterface
 {
 }

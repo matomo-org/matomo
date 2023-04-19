@@ -9,6 +9,10 @@
 
 namespace Piwik\Log;
 
+/**
+ * Proxy class for \Monolog\Logger
+ * @see \Monolog\Logger
+ */
 class Logger extends \Monolog\Logger implements LoggerInterface
 {
 }
