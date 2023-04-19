@@ -59,7 +59,7 @@ class SitesManager extends \Piwik\Plugin
             'SitesManager.deleteSite.end'            => 'onSiteDeleted',
             'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
             'Request.dispatch'                       => 'redirectDashboardToWelcomePage',
-            'Template.noDataPageGTMTabInstructions' => 'noDataPageGTMTabInstructions'
+            'Template.noDataPageGTMTabInstructions'  => 'noDataPageGTMTabInstructions',
         ];
     }
 
