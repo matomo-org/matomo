@@ -12,6 +12,9 @@
             <li class="tab col {{ columnClass }}"><a {% if siteType != constant('Piwik\\Plugins\\SitesManager\\SitesManager::SITE_TYPE_UNKNOWN') and (consentManagerName == false) and (activeTab == '') %} class="active" {% endif %} href="#integrations">{{ 'SitesManager_Integrations'|translate }}</a></li>
             <li class="tab col {{ columnClass }}"><a {% if (siteType == constant('Piwik\\Plugins\\SitesManager\\SitesManager::SITE_TYPE_UNKNOWN') and (activeTab == '')) or consentManagerName %} class="active" {% endif %} href="#tracking-code">{{ 'CoreAdminHome_TrackingCode'|translate }}</a></li>
             <li class="tab col {{ columnClass }}"><a href="#mtm">{{ 'SitesManager_SiteWithoutDataMatomoTagManager'|translate }}</a></li>
+            {% if gtmUsed %}
+                <li class="tab col s2"><a {% if activeTab == 'gtm' %} class="active" {% endif %} href="#google-tag-manager">{{ 'SitesManager_SiteWithoutDataGoogleTagManager'|translate }}</a></li>
+            {% endif %}
             {% if cloudflare %}
                 <li class="tab col s2"><a {% if activeTab == 'cloudflare' %} class="active" {% endif %} href="#cloudflare">{{ 'SitesManager_SiteWithoutDataCloudflare'|translate }}</a></li>
             {% endif %}
@@ -80,13 +83,6 @@
         </div>
         {% endif %}
 
-        {% if gtmUsed %}
-        <p></p><p></p>
-        <div class="system notification notification-info">
-            {{ 'SitesManager_GADetected'|translate('Google Tag Manager', 'GTM', '<a href="', 'https://matomo.org/faq/tag-manager/migrating-from-google-tag-manager/', '" target="_blank" rel="noreferrer noopener">', '</a>')|raw }}
-        </div>
-        {% endif %}
-
         <h3>{{ 'CoreAdminHome_TrackingCode'|translate }}</h3>
 
         <p>{{ 'CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead'|translate("&lt;/head&gt;")|raw }}</p>
@@ -106,6 +102,22 @@
                 <p>{{ 'SitesManager_SiteWithoutDataMatomoTagManagerNotActive'|translate('<a href="https://matomo.org/docs/tag-manager/" rel="noreferrer noopener" target="_blank">', '</a>')|raw }}</p>
         {% endif %}
     </div>
+
+    {% if gtmUsed %}
+        <div id="google-tag-manager" class="col s12">
+
+            <p></p><p></p>
+            <div class="system notification notification-info">
+                {{ 'SitesManager_GADetected'|translate('Google Tag Manager', 'GTM', '<a href="', 'https://matomo.org/faq/tag-manager/migrating-from-google-tag-manager/', '" target="_blank" rel="noreferrer noopener">', '</a>')|raw }}
+            </div>
+
+            <div class="right">
+                <img src="plugins/SitesManager/images/google-tag-manager-icon.png" style="margin-top: -3rem;">
+            </div>
+            {{ postEvent('Template.noDataPageGTMTabInstructions') }}
+
+        </div>
+    {% endif %}
 
     {% if cloudflare %}
         <div id="cloudflare" class="col s12">
