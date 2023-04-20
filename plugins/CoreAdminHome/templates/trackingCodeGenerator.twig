@@ -24,6 +24,8 @@
             <a href="#/mobileAppsAndSdks">{{ 'SitesManager_MobileAppsAndSDKs'|translate }}</a>
             <a href="#/trackingApi">{{ 'CoreAdminHome_HttpTrackingApi'|translate }}</a>
             <a href="#/singlePageApplication">{{ 'SitesManager_SiteWithoutDataSinglePageApplication'|translate }}</a>
+            <a href="#/google-tag-manager">{{ 'SitesManager_SiteWithoutDataGoogleTagManager'|translate }}</a>
+            <a href="#/cloudflare">{{ 'SitesManager_SiteWithoutDataCloudflare'|translate }}</a>
             {{ postEvent('Template.endTrackingCodePageTableOfContents') }}
         </div>
     </div>
@@ -60,6 +62,14 @@
 
 <div vue-entry="CoreHome.ContentBlock" content-title="{{ 'SitesManager_SiteWithoutDataSinglePageApplication'|translate }}" anchor="singlePageApplication">
      <p>{{ 'CoreAdminHome_SinglePageApplicationDescription'|translate('<a href="https://developer.matomo.org/guides/spa-tracking" rel="noreferrer noopener" target="_blank">','</a>')|raw }}</p>
+</div>
+
+<div vue-entry="CoreHome.ContentBlock" content-title="{{ 'SitesManager_SiteWithoutDataCloudflare'|translate }}" anchor="cloudflare">
+    <p>{{ 'CoreAdminHome_CloudflareDescription'|translate('<a href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-cloudflare-setup/" rel="noreferrer noopener" target="_blank">','</a>')|raw }}</p>
+</div>
+
+<div vue-entry="CoreHome.ContentBlock" content-title="{{ 'SitesManager_SiteWithoutDataGoogleTagManager'|translate }}" anchor="google-tag-manager">
+    <p>{{ 'CoreAdminHome_GoogleTagManagerDescription'|translate('<a href="https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-within-gtm-google-tag-manager/" rel="noreferrer noopener" target="_blank">','</a>')|raw }}</p>
 </div>
 
 

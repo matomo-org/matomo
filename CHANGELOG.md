@@ -9,6 +9,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### Breaking Changes
 
 * AngularJS has been completely removed from the code base, existing AngularJS code will no longer work. It is recommended to convert that code to Vue.
+* jQuery has been updated to 3.6.3. Please check your plugins javascript code if it needs to be adjusted. More details can be found in jQuery update guides: https://jquery.com/upgrade-guide/3.0/ and https://jquery.com/upgrade-guide/3.5/
 * The `Common::fixLbrace()` function has been removed. It was only necessary for AngularJS and no longer needs to be used.
 * The deprecated `JSON2` API format has now been removed. We recommend switching to the `JSON` renderer, which behaves the same.
 * The javascript event `piwikPageChange`, which is triggered when a reporting page is loaded, has been renamed to `matomoPageChange`. Ensure to update your implementation if you rely on it.
@@ -32,6 +33,10 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 * The method `Common::getRequestVar` is now deprecated, but will remain API until Matomo 6. You may already start using the new class `Piwik\Request` instead, but ensure to handle needed sanitizing / escaping yourself.
 
+### Removed Config
+
+* The segment subquery cache, previously enabled via the `enable_segments_subquery_cache` INI config, has been removed. Segment SQL queries that reference actions now directly join log_action. Related INI config options `segments_subquery_cache_ttl` and `segments_subquery_cache_limit` have also been removed.
+
 ### Other Breaking changes
 
 * Requests to ASPSMS and Clockwork API do no longer accept invalid SSL certificates. If you experience problems with mobile messaging please check your SSL setup.
@@ -41,6 +46,16 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### Updated commands
 * The default maximum number of archivers processes to run concurrently has changed from unlimited to three. The `--concurrent-archivers` parameter can be used to increase this limit. A value of -1 will use an unlimited number of concurrent archivers
+
+### Usage of authentication tokens
+* By default, new authentication tokens will be restricted to be used in POST requests only. This is recommended for improved security. This option can be unselected when creating a new token. Existing tokens will continue to work with both, POST and GET requests.
+* A new config setting `only_allow_posted_auth_tokens`, defaulting to `0`, has been added. Enabling this option will prevent any use of tokens in GET API requests.
+
+## Matomo 4.14.0
+
+### HTTP Tracking API
+
+* The campaign attribution tracking parameters `_rcn` and `_rck` are no longer used to attribute visits. Those parameters will now only be used to attribute conversions. If you want to manually attribute a visit to a campaign ensure to attach camapign parameters to the tracked URL instead.
 
 ## Matomo 4.13.1
 

@@ -8,7 +8,13 @@ labels: ["Potential Bug", "To Triage"]
 <!-- Please provide a short summary of the issue in the *Title* above -->
 
 <!-- Important: Please contact the Matomo community forum for questions: https://forum.matomo.org/ -->
-<!-- Important: If this bug is regarding a premium plugin you purchased on plugins.matomo.org, please email shop@innocraft.com instead of creating a bug report here. -->
+<!-- Important: If this bug is regarding a premium plugin you purchased on plugins.matomo.org, please email shop@matomo.org instead of creating a bug report here. -->
+
+## Context
+<!-- How has this issue affected you? What are you trying to accomplish? -->
+<!-- Providing context helps us come up with a solution that is most useful in the real world -->
+<!-- If there already was a discussion on our community forum about this topic, please also -->
+<!-- include the link here, as the posts might provide some helpful information -->
 
 ## Expected Behavior
 <!-- When describing a bug, please tell us what should happen -->
@@ -30,15 +36,7 @@ labels: ["Potential Bug", "To Triage"]
 1.
 2.
 
-## Context
-<!-- How has this issue affected you? What are you trying to accomplish? -->
-<!-- Providing context helps us come up with a solution that is most useful in the real world -->
-<!-- If there already was a discussion on our community forum about this topic, please also -->
-<!-- include the link here, as the posts might provide some helpful information -->
-
-
 ## Your Environment
-
 <!-- Include as many relevant details about the environment you experienced the bug in -->
 <!-- You can find some of that information in the system check -->
 * Matomo Version:

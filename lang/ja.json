@@ -433,7 +433,7 @@
         "SingleWebsitesDashboard": "シングルウェブサイトダッシュボード",
         "SmallTrafficYouCanLeaveDefault": "小規模なトラフィックの Web サイトでは、デフォルトの 1%s秒のままですべてのレポートにリアルタイムでアクセスできます。",
         "SmtpEncryption": "SMTP の暗号化",
-        "SmtpFromAddress": "アドレスからのSMTP",
+        "SmtpFromAddress": "SMTP送信元アドレス",
         "SmtpFromEmailHelp": "デフォルト値は noreply@{DOMAIN} です。{DOMAIN} は Matomoドメイン \"%1$s\" に置き換えられます。<br>メールの送信が機能しない場合は、SMTP アドレスと一致するようにこのアドレスを設定する必要があります。",
         "SmtpFromName": "名前からのSMTP",
         "SmtpPassword": "SMTP のパスワード",

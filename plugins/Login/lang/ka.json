@@ -1,13 +1,13 @@
 {
     "Login": {
-        "ExceptionPasswordMD5HashExpected": "პაროლის პარამეტრი საჭიროა რომ იყოს პაროლის MD5 ჰეშირება",
-        "InvalidOrExpiredToken": "მარკერი არასწორია ან ვადაგასული.",
-        "InvalidUsernameEmail": "არასწორი მომხმარებლის სახელი და\/ან ელ.ფოსტის მისამართი",
+        "ExceptionPasswordMD5HashExpected": "პაროლის პარამეტრი მოსალოდნელია, რომ პაროლის MD5 ჰეში იქნება.",
+        "InvalidOrExpiredToken": "კოდი არასწორი ან ვადაგასულია.",
+        "InvalidUsernameEmail": "მომხმარებლის არასწორი სახელი ან ელფოსტის მისამართი.",
         "LogIn": "სისტემაში შესვლა",
-        "LoginPasswordNotCorrect": "მომხმარებლის სახელი & პაროლი არასწორია",
+        "LoginPasswordNotCorrect": "მომხმარებლის სახელი ან პაროლი არასწორია.",
         "LostYourPassword": "დაგავიწყდათ პაროლი?",
         "PasswordRepeat": "პაროლი (გამეორება)",
-        "PasswordsDoNotMatch": "პაროლები არ ემთხვევა",
+        "PasswordsDoNotMatch": "პაროლები არ ემთხვევა.",
         "RememberMe": "დაიმახსოვრე ჩემი მონაცემები"
     }
 }

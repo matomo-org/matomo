@@ -7,6 +7,7 @@
  *
  */
 namespace Piwik\Columns;
+
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Piwik;
@@ -852,5 +853,6 @@ abstract class Dimension
     {
         return $this->columnType;
     }
+
 
 }

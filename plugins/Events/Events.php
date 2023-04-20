@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Events;
 
+use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Piwik;
@@ -25,6 +26,7 @@ class Events extends \Piwik\Plugin
         return array(
             'Metrics.getDefaultMetricDocumentationTranslations' => 'addMetricDocumentationTranslations',
             'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations',
+            'Metrics.getDefaultMetricSemanticTypes' => 'addMetricSemanticTypes',
             'ViewDataTable.configure'   => 'configureViewDataTable',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'Actions.getCustomActionDimensionFieldsAndJoins' => 'provideActionDimensionFields'
@@ -39,6 +41,18 @@ class Events extends \Piwik\Plugin
     public function addMetricDocumentationTranslations(&$translations)
     {
         $translations = array_merge($translations, $this->getMetricDocumentation());
+    }
+
+    public function addMetricSemanticTypes(array &$types): void
+    {
+        $metricTypes = array(
+            'nb_events'            => Dimension::TYPE_NUMBER,
+            'sum_event_value'      => Dimension::TYPE_NUMBER,
+            'min_event_value'      => Dimension::TYPE_NUMBER,
+            'max_event_value'      => Dimension::TYPE_NUMBER,
+            'nb_events_with_value' => Dimension::TYPE_NUMBER,
+        );
+        $types = array_merge($types, $metricTypes);
     }
 
     public function getMetricDocumentation()

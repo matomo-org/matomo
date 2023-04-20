@@ -1,7 +1,7 @@
 {
     "IntranetMeasurable": {
-        "Intranet": "Intranet Website",
-        "Intranets": "Intranet Websites",
-        "IntranetDescription": "Een meetbaar intranet is hetzelfde als een website, alleen gehost op een intern netwerk."
+        "Intranet": "Intranet website",
+        "IntranetDescription": "Een meetbaar intranet is hetzelfde als een website, alleen gehost op een intern netwerk.",
+        "Intranets": "Intranet websites"
     }
 }

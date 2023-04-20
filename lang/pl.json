@@ -495,6 +495,7 @@
         "Visit": "Odwiedziny",
         "VisitConvertedGoal": "Odwiedziny przekształciły się w co najmniej jeden trafiony cel zgodny z założeniami",
         "VisitConvertedGoalId": "Wizyta, która przełożyła się na realizację konkretnego Id założenia",
+        "VisitConvertedGoalName": "Wizyta przekonwertowana na konkretną nazwę celu",
         "VisitConvertedNGoals": "Odwiedziny przekształciły się %s jako osiągnięte cele ze zdefiniowanych wcześniej założeń",
         "VisitDuration": "Średni czas pobytu na stronie (w sekundach)",
         "VisitId": "ID odwiedzin",

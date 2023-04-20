@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>1</idVisit>
+		<visitIp>203.46.67.91</visitIp>
+		
+		<fingerprint>222359d47c4e1942</fingerprint>
+		<actionDetails>
+			<row>
+				<type>action</type>
+				<url>https://piwik.net/home/page</url>
+				<pageTitle>entry page</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				
+				
+				<pageId>1</pageId>
+				<bandwidth />
+				<timeSpent>720</timeSpent>
+				<timeSpentPretty>12 min 0s</timeSpentPretty>
+				<pageviewPosition>1</pageviewPosition>
+				<title>entry page</title>
+				<subtitle>https://piwik.net/home/page</subtitle>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>https://piwik.net/home/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<pageId>2</pageId>
+				<contentName>test content name</contentName>
+				<contentPiece>/path/to/image.png</contentPiece>
+				<contentTarget>http://place.com/landingpage</contentTarget>
+				<contentInteraction />
+				<bandwidth />
+				<pageviewPosition>1</pageviewPosition>
+				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
+				<title>Content Impression</title>
+				<subtitle>test content name - /path/to/image.png</subtitle>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>https://piwik.net/home/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<pageId>3</pageId>
+				<contentName>my video</contentName>
+				<contentPiece>/path/to/myvideo.mp3</contentPiece>
+				<contentTarget />
+				<contentInteraction>expand</contentInteraction>
+				<bandwidth />
+				<pageviewPosition>1</pageviewPosition>
+				<icon>plugins/Morpheus/images/contentinteraction.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentinteraction.svg</iconSVG>
+				<title>Content Interaction (expand)</title>
+				<subtitle>my video - /path/to/myvideo.mp3</subtitle>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/product</url>
+				<pageTitle>product page</pageTitle>
+				<pageIdAction>13</pageIdAction>
+				
+				
+				<pageId>6</pageId>
+				<productViewPrice>888</productViewPrice>
+				<productViewName>special plugin</productViewName>
+				<productViewSku>ABCSKU123</productViewSku>
+				<bandwidth />
+				<timeSpent>72</timeSpent>
+				<timeSpentPretty>1 min 12s</timeSpentPretty>
+				<pageviewPosition>2</pageviewPosition>
+				<title>product page</title>
+				<subtitle>http://piwik.net/product</subtitle>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
+				
+				<productViewCategories>
+				<row>product category</row>
+				</productViewCategories>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>ecommerceOrder</type>
+				<orderId>937nsjusu 3894</orderId>
+				<revenue>1861</revenue>
+				<revenueSubTotal>1776</revenueSubTotal>
+				<revenueTax>100</revenueTax>
+				<revenueShipping>35</revenueShipping>
+				<revenueDiscount>50</revenueDiscount>
+				<items>2</items>
+				
+				
+				<itemDetails>
+					<row>
+						<itemSKU>ABCSKU123</itemSKU>
+						<itemName>special plugin</itemName>
+						<itemCategory>product category</itemCategory>
+						<price>888</price>
+						<quantity>2</quantity>
+						<categories>
+						<row>product category</row>
+						</categories>
+					</row>
+				</itemDetails>
+				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
+				<iconSVG>plugins/Morpheus/images/ecommerceOrder.svg</iconSVG>
+				<title>Ordered (937nsjusu 3894)</title>
+				<subtitle>$1,861 revenue - 2 items: special plugin)</subtitle>
+				
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/order</url>
+				<pageTitle>order page</pageTitle>
+				<pageIdAction>18</pageIdAction>
+				
+				
+				<pageId>7</pageId>
+				<bandwidth />
+				<timeSpent>1008</timeSpent>
+				<timeSpentPretty>16 min 48s</timeSpentPretty>
+				<pageviewPosition>3</pageviewPosition>
+				<title>order page</title>
+				<subtitle>http://piwik.net/order</subtitle>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>event</type>
+				<url>http://piwik.net/page/with/events</url>
+				<pageIdAction>19</pageIdAction>
+				
+				
+				<pageId>8</pageId>
+				<eventCategory>event cat1</eventCategory>
+				<eventAction>action3</eventAction>
+				<bandwidth />
+				<pageviewPosition>3</pageviewPosition>
+				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
+				<title>Event</title>
+				<subtitle>Category: &quot;event cat1', Action: &quot;action3&quot;</subtitle>
+				<eventName>somemovie</eventName>
+				<eventValue>1</eventValue>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>event</type>
+				<url>http://piwik.net/page/with/events</url>
+				<pageIdAction>19</pageIdAction>
+				
+				
+				<pageId>9</pageId>
+				<eventCategory>event cat2</eventCategory>
+				<eventAction>action4</eventAction>
+				<bandwidth />
+				<pageviewPosition>3</pageviewPosition>
+				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
+				<title>Event</title>
+				<subtitle>Category: &quot;event cat2', Action: &quot;action4&quot;</subtitle>
+				<eventName>someimage</eventName>
+				<eventValue>2</eventValue>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>action</type>
+				<url>https://piwik.net/outro</url>
+				<pageTitle>exit page</pageTitle>
+				<pageIdAction>28</pageIdAction>
+				
+				
+				<pageId>11</pageId>
+				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
+				<pageviewPosition>4</pageviewPosition>
+				<title>exit page</title>
+				<subtitle>https://piwik.net/outro</subtitle>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+		</actionDetails>
+		<goalConversions>0</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<siteName>Piwik test</siteName>
+		
+		
+		
+		
+		
+		
+		<userId />
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
+		<visitCount>1</visitCount>
+		<visitEcommerceStatus>ordered</visitEcommerceStatus>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.svg</visitEcommerceStatusIcon>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder>0</secondsSinceLastEcommerceOrder>
+		<visitDuration>1801</visitDuration>
+		<visitDurationPretty>30 min 1s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>6</actions>
+		<interactions>4</interactions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
+		<languageCode>fr</languageCode>
+		<language>French</language>
+		<deviceType>Desktop</deviceType>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
+		<deviceBrand>Unknown</deviceBrand>
+		<deviceModel>Generic Desktop</deviceModel>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemName>Windows</operatingSystemName>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemVersion>XP</operatingSystemVersion>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
+		<events>2</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>France</country>
+		<countryCode>fr</countryCode>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>France</location>
+		<latitude />
+		<longitude />
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<resolution>1024x768</resolution>
+		<plugins>cookie, flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
+		<customVariables>
+		</customVariables>
+	</row>
+</result>

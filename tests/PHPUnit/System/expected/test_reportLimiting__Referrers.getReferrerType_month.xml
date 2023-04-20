@@ -36,6 +36,7 @@
 				<nb_visits_converted>0</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>6</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>6</sum_daily_nb_users>
+				<segment>referrerType==search;referrerKeyword==search+term+2</segment>
 			</row>
 			<row>
 				<label>this search term</label>
@@ -47,6 +48,7 @@
 				<nb_visits_converted>0</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>9</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>9</sum_daily_nb_users>
+				<segment>referrerType==search;referrerKeyword==this+search+term</segment>
 			</row>
 			<row>
 				<label>Others</label>
@@ -84,6 +86,7 @@
 				<nb_visits_converted>0</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>9</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>9</sum_daily_nb_users>
+				<segment>referrerName==whatever0.com</segment>
 			</row>
 			<row>
 				<label>whatever1.com</label>
@@ -95,6 +98,7 @@
 				<nb_visits_converted>0</nb_visits_converted>
 				<sum_daily_nb_uniq_visitors>6</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>6</sum_daily_nb_users>
+				<segment>referrerName==whatever1.com</segment>
 			</row>
 			<row>
 				<label>Others</label>

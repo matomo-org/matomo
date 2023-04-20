@@ -5,6 +5,6 @@
         "UserId": "Kullanıcı kodu",
         "UserReportDocumentation": "Her kullanıcı kodu için, ziyaretleri ve diğer genel ölçümleri görüntüler.",
         "UserReportTitle": "Kullanıcı kodları",
-        "VisitorsUserSubcategoryHelp": "Kullanıcı kodları raporu, kayıtlı ve oturum açmış tüm kullanıcıların ziyaretlerini görüntüler. Web sitesinin belirli kullanıcılar tarafından nasıl kullanıldığını anlamak ve en fazla ya da en az etkin olan kullanıcıların kimler olduğunu belirlemek için kullanılabilir."
+        "VisitorsUserSubcategoryHelp": "Kullanıcı kodları raporu, kayıtlı ve oturum açmış tüm kullanıcıların ziyaretlerini görüntüler. Sitenin belirli kullanıcılar tarafından nasıl kullanıldığını anlamak ve en fazla ya da en az etkin olan kullanıcıların kimler olduğunu belirlemek için kullanılabilir."
     }
 }

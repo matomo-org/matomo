@@ -256,6 +256,9 @@ class ProcessedReport
                 $availableReport['metricsDocumentation'] =
                     $this->hideShowMetricsWithParams($availableReport['metricsDocumentation'], $columnsToRemove, $columnsToKeep);
             }
+            if (isset($availableReport['metricTypes'])) {
+                $availableReport['metricTypes'] = $this->hideShowMetricsWithParams($availableReport['metricTypes'], $columnsToRemove, $columnsToKeep);
+            }
 
             // Remove array elements that are false (to clean up API output)
             foreach ($availableReport as $attributeName => $attributeValue) {

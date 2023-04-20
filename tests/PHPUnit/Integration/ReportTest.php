@@ -262,7 +262,17 @@ class ReportTest extends IntegrationTestCase
                 ),
                 'actionToLoadSubTables' => 'invalidReport',
                 'order' => 20,
-                'subcategory' => null
+                'subcategory' => null,
+                'metricTypes' => [
+                    'nb_visits' => 'number',
+                    'nb_uniq_visitors' => 'number',
+                    'nb_actions' => 'number',
+                    'nb_users' => 'number',
+                    'nb_actions_per_visit' => 'number',
+                    'avg_time_on_site' => 'duration_s',
+                    'bounce_rate' => 'percent',
+                    'conversion_rate' => 'percent',
+                ],
             )
         ), $reports);
     }
@@ -300,7 +310,13 @@ class ReportTest extends IntegrationTestCase
                 'actionToLoadSubTables' => 'GetBasicReport',
                 'constantRowsCount' => true,
                 'order' => '20',
-                'subcategory' => 'Actions_SubmenuPageTitles'
+                'subcategory' => 'Actions_SubmenuPageTitles',
+                'metricTypes' => [
+                    'nb_actions' => 'number',
+                    'nb_visits' => 'number',
+                    'conversion_rate' => 'percent',
+                    'bounce_rate' => 'percent',
+                ],
             )
         ), $reports);
     }

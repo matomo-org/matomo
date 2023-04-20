@@ -14,7 +14,7 @@ const { EventEmitter } = require('events');
 const parseUrl = urlModule.parse,
     formatUrl = urlModule.format;
 
-const AJAX_IDLE_THRESHOLD = 500; // same as networkIdle event
+const AJAX_IDLE_THRESHOLD = 750; // same as networkIdle event
 const VERBOSE = false;
 const PAGE_METHODS_TO_PROXY = [
     '$',
@@ -470,8 +470,15 @@ PageRenderer.prototype._setupWebpageEvents = function () {
 
         const response = request.response();
         if (VERBOSE || (response.status() >= 400 && this._isUrlThatWeCareAbout(request.url()))) {
-            const body = await response.buffer();
-            const message = 'Response (size "' + body.length + '", status "' + response.status() + '"): ' + request.url() + "\n" + body.toString();
+            let bodyLength = 0;
+            let bodyContent = '';
+            try {
+                const body = await response.buffer();
+                bodyLength = body.length;
+                bodyContent = body.toString();
+            } catch (e) {
+            }
+            const message = 'Response (size "' + bodyLength + '", status "' + response.status() + '"): ' + request.url() + "\n" + bodyContent.substring(0, 2000);
             this._logMessage(message);
         }
 
@@ -504,6 +511,7 @@ PageRenderer.prototype._setupWebpageEvents = function () {
             return arg;
         }, arg))).catch((e) => {
           console.log(`Could not print message: ${e.message}`);
+          console.log(consoleMessage.text());
         });
         const message = (args || []).join(' ');
         this._logMessage(`Log: ${message}`);

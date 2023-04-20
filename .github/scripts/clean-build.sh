@@ -154,11 +154,11 @@ rm -rf node_modules/jquery.scrollto/scrollTo.jquery.json
 rm -rf node_modules/jquery.scrollto/changes.txt
 rm -rf node_modules/jquery.scrollto/demo
 
-rm -rf node_modules/materialize-css/extras
-rm -rf node_modules/materialize-css/js
-rm -rf node_modules/materialize-css/sass
-rm -rf node_modules/materialize-css/dist/js/materialize.js
-rm -rf node_modules/materialize-css/dist/css/materialize.css
+rm -rf node_modules/@materializecss/materialize/extras
+rm -rf node_modules/@materializecss/materialize/js
+rm -rf node_modules/@materializecss/materialize/sass
+rm -rf node_modules/@materializecss/materialize/dist/js/materialize.js
+rm -rf node_modules/@materializecss/materialize/dist/css/materialize.css
 
 rm -rf node_modules/mousetrap/mousetrap.js
 rm -rf node_modules/mousetrap/plugins

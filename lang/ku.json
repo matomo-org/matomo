@@ -1,6 +1,31 @@
 {
     "General": {
+        "Actions": "کردەوەکان",
+        "ColumnKeyword": "کلیلوشە",
+        "ColumnNbActions": "کردەوەکان",
+        "ColumnNbUsers": "بەکارهێنەرەکان",
+        "CreationDate": "ڕێکەوتی دروستبوون",
+        "Custom": "دڵخواز",
+        "Date": "ڕێکەوت",
+        "Errors": "هەڵەکان",
+        "Forums": "مەکۆکان",
+        "GeneralSettings": "ڕێکختنە گشتییەکان",
         "Locale": "ku_TR.UTF-8",
-        "TranslatorName": "-"
+        "Measurables": "پێوانەکان",
+        "No": "نە",
+        "Password": "تێپەڕوشە",
+        "Save": "پاشەکەوتکردن",
+        "Security": "پاراستن",
+        "Table": "جەدوەل",
+        "TranslatorName": "-",
+        "UsePlusMinusIconsDocumentation": "بۆ گەڕان لە لای چەپەوە ئایکۆنی کۆ و کەمکردن بەکار بێنە.",
+        "UserIds": "پێناسەکانی بەکارهێنەر",
+        "Username": "ناوی بەکارهێنەری",
+        "View": "نیشاندان",
+        "Website": "وێبسایت",
+        "Yes": "بەڵێ"
+    },
+    "Mobile": {
+        "ChooseSegment": "هەڵبژاردنی کەرت"
     }
 }

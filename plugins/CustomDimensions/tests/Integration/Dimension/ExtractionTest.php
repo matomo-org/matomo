@@ -34,6 +34,36 @@ class ExtractionTest extends IntegrationTestCase
         }
     }
 
+    public function test_non_capturing_group()
+    {
+        $extraction = $this->buildExtraction('url', '.com/(?:test)/.*camelCase=(.*)');
+
+        $request = $this->buildRequest();
+        $value   = $extraction->extract($request);
+
+        $this->assertSame('fooBarBaz', $value);
+    }
+
+    public function test_non_capturing_group_within_capture_group()
+    {
+        $extraction = $this->buildExtraction('url', '.com/.*(?:camel=|camelCase=(.*))');
+
+        $request = $this->buildRequest();
+        $value   = $extraction->extract($request);
+
+        $this->assertSame('fooBarBaz', $value);
+    }
+
+    public function test_multiple_non_capturing_groups()
+    {
+        $extraction = $this->buildExtraction('url', '.com/(?:test)/.*(?:camel=|camelCase=(.*))');
+
+        $request = $this->buildRequest();
+        $value   = $extraction->extract($request);
+
+        $this->assertSame('fooBarBaz', $value);
+    }
+    
     public function test_toArray()
     {
         $extraction = $this->buildExtraction('url', '.com/(.+)/index');
@@ -223,6 +253,8 @@ class ExtractionTest extends IntegrationTestCase
             array('index.)html'),
             array('index.)(html'),
             array('index.)(.+)html'),
+            array('(?:index.(html)'),
+            array('(?:index).html)'),
         );
     }
 

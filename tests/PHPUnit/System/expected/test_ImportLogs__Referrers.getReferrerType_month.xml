@@ -63,6 +63,7 @@
 				<revenue>5</revenue>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>1</sum_daily_nb_users>
+				<segment>referrerName==example.com</segment>
 			</row>
 			<row>
 				<label>piwik.org</label>
@@ -83,6 +84,7 @@
 				<revenue>5</revenue>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>referrerName==piwik.org</segment>
 			</row>
 			<row>
 				<label>sn110w.snt110.mail.live.com</label>
@@ -103,6 +105,7 @@
 				<revenue>5</revenue>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>referrerName==sn110w.snt110.mail.live.com</segment>
 			</row>
 			<row>
 				<label>www.test.nl</label>
@@ -123,6 +126,7 @@
 				<revenue>5</revenue>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
+				<segment>referrerName==www.test.nl</segment>
 			</row>
 		</subtable>
 	</row>

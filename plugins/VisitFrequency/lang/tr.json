@@ -10,7 +10,7 @@
         "ColumnBounceRateForNewVisits": "Yeni ziyaretlerin hemen çıkma oranı",
         "ColumnBounceRateForReturningVisits": "Geri gelen ziyaretlerin hemen çıkma oranı",
         "ColumnMaxActionsInReturningVisit": "Geri gelen bir ziyarette yapılan en fazla işlem sayısı",
-        "ColumnNbReturningVisitsConverted": "Hedef tutturan geri gelen ziyaret sayısı",
+        "ColumnNbReturningVisitsConverted": "Geri gelen ziyaretlerin hedef dönüşümü sayısı",
         "ColumnNewUsers": "Yeni kullanıcılar",
         "ColumnNewVisits": "Yeni ziyaretler",
         "ColumnReturningUsers": "Geri gelen kullanıcılar",

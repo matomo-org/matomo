@@ -48,34 +48,34 @@ class Login extends \Piwik\Plugin
             'API.UsersManager.createAppSpecificTokenAuth' => 'beforeLoginCheckBruteForce', // doesn't require auth but can be used to authenticate
 
             // for brute force prevention of all UI requests
-            'Controller.Login.logme'           => 'beforeLoginCheckBruteForceForUserPwdLogin',
-            'Controller.Login.'                => 'beforeLoginCheckBruteForceForUserPwdLogin',
-            'Controller.Login.index'           => 'beforeLoginCheckBruteForceForUserPwdLogin',
-            'Controller.Login.confirmResetPassword' => 'beforeLoginCheckBruteForceForUserPwdLogin',
-            'Controller.Login.confirmPassword' => 'beforeLoginCheckBruteForceForUserPwdLogin',
-            'Controller.Login.resetPassword'   => 'beforeLoginCheckBruteForceForUserPwdLogin',
-            'Controller.Login.login'           => 'beforeLoginCheckBruteForceForUserPwdLogin',
+            'Controller.Login.logme'           => 'beforeLoginCheckBruteForce',
+            'Controller.Login.'                => 'beforeLoginCheckBruteForce',
+            'Controller.Login.index'           => 'beforeLoginCheckBruteForce',
+            'Controller.Login.confirmResetPassword' => 'beforeLoginCheckBruteForce',
+            'Controller.Login.confirmPassword' => 'beforeLoginCheckBruteForce',
+            'Controller.Login.resetPassword'   => 'beforeLoginCheckBruteForce',
+            'Controller.Login.login'           => 'beforeLoginCheckBruteForce',
             'Controller.TwoFactorAuth.loginTwoFactorAuth' => 'beforeLoginCheckBruteForce',
             'Controller.Login.acceptInvitation' => 'beforeLoginCheckBruteForce',
             'Controller.Login.declineInvitation' => 'beforeLoginCheckBruteForce',
             'Login.authenticate.successful'    => 'beforeLoginCheckBruteForce',
-            'Login.beforeLoginCheckAllowed'  => 'beforeLoginCheckBruteForceForUserPwdLogin', // record any failed attempt in UI
+            'Login.beforeLoginCheckAllowed'  => 'beforeLoginCheckBruteForce',
             'Login.recordFailedLoginAttempt'  => 'onFailedLoginRecordAttempt', // record any failed attempt in UI
             'Login.authenticate.failed'        => 'onFailedLoginRecordAttempt', // record any failed attempt in UI
-            'API.Request.authenticate.failed' => 'onFailedLoginRecordAttempt', // record any failed attempt in Reporting API
+            'API.Request.authenticate.failed' => 'onFailedAPILogin', // record any failed attempt in Reporting API
             'Tracker.Request.authenticate.failed' => 'onFailedLoginRecordAttempt', // record any failed attempt in Tracker API
         );
 
         $loginPlugin = Piwik::getLoginPluginName();
 
         if ($loginPlugin && $loginPlugin !== 'Login') {
-            $hooks['Controller.'.$loginPlugin.'.logme']           = 'beforeLoginCheckBruteForceForUserPwdLogin';
-            $hooks['Controller.'.$loginPlugin. '.']               = 'beforeLoginCheckBruteForceForUserPwdLogin';
-            $hooks['Controller.'.$loginPlugin.'.index']           = 'beforeLoginCheckBruteForceForUserPwdLogin';
-            $hooks['Controller.'.$loginPlugin.'.confirmResetPassword'] = 'beforeLoginCheckBruteForceForUserPwdLogin';
-            $hooks['Controller.'.$loginPlugin.'.confirmPassword'] = 'beforeLoginCheckBruteForceForUserPwdLogin';
-            $hooks['Controller.'.$loginPlugin.'.resetPassword']   = 'beforeLoginCheckBruteForceForUserPwdLogin';
-            $hooks['Controller.'.$loginPlugin.'.login']           = 'beforeLoginCheckBruteForceForUserPwdLogin';
+            $hooks['Controller.'.$loginPlugin.'.logme']           = 'beforeLoginCheckBruteForce';
+            $hooks['Controller.'.$loginPlugin. '.']               = 'beforeLoginCheckBruteForce';
+            $hooks['Controller.'.$loginPlugin.'.index']           = 'beforeLoginCheckBruteForce';
+            $hooks['Controller.'.$loginPlugin.'.confirmResetPassword'] = 'beforeLoginCheckBruteForce';
+            $hooks['Controller.'.$loginPlugin.'.confirmPassword'] = 'beforeLoginCheckBruteForce';
+            $hooks['Controller.'.$loginPlugin.'.resetPassword']   = 'beforeLoginCheckBruteForce';
+            $hooks['Controller.'.$loginPlugin.'.login']           = 'beforeLoginCheckBruteForce';
         }
 
         return $hooks;
@@ -125,6 +125,24 @@ class Login extends \Piwik\Plugin
             // if eg API is called etc.
             $this->hasAddedFailedAttempt = true;
         }
+
+    }
+
+    public function onFailedAPILogin()
+    {
+        $this->onFailedLoginRecordAttempt();
+
+        // Only throw an exception if this is an API request
+        if ($this->isModuleIsAPI()) {
+
+            // Throw an exception if a token was provided but it was invalid
+            if (Request::isTokenAuthPosted()) {
+                throw new NoAccessException('Unable to authenticate with the provided token. It is either invalid or expired.');
+            } else {
+                throw new NoAccessException('Unable to authenticate with the provided token. It is either invalid, expired or is required to be sent as a POST parameter.');
+            }
+        }
+
     }
 
     public function beforeLoginCheckBruteForce()
@@ -133,14 +151,9 @@ class Login extends \Piwik\Plugin
         if (!$this->hasPerformedBruteForceCheck && $bruteForce->isEnabled() && !$bruteForce->isAllowedToLogin(IP::getIpFromHeader())) {
             throw new Exception(Piwik::translate('Login_LoginNotAllowedBecauseBlocked'));
         }
+
         // for performance reasons we make sure to execute it only once per request
         $this->hasPerformedBruteForceCheck = true;
-    }
-
-    public function beforeLoginCheckBruteForceForUserPwdLogin()
-    {
-        // check that IP is not blocked
-        $this->beforeLoginCheckBruteForce();
 
         // now check that user login (from any ip) is not blocked
         $login = $this->getUsernameUsedInPasswordLogin();

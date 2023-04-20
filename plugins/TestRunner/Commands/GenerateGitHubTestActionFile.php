@@ -36,6 +36,7 @@ class GenerateGitHubTestActionFile extends ConsoleCommand
     protected $enableRedis = true;
     protected $setupScript = null;
     protected $hasSubmodules = null;
+    protected $scheduleCron = null;
 
     protected function configure()
     {
@@ -51,7 +52,8 @@ class GenerateGitHubTestActionFile extends ConsoleCommand
              ->addOption('protect-artifacts', null, InputOption::VALUE_NONE, "Indicates if artifacts should be stored protected on artifact server.")
              ->addOption('setup-script', null, InputOption::VALUE_OPTIONAL, "Shell script to run (after setup, before tests), relative to plugins directory. .i.e .github/scripts/setup.sh")
              ->addOption('has-submodules', null, InputOption::VALUE_NONE, "Defines if the repo has submodules that need to be checked out.")
-             ->addOption('enable-redis', null, InputOption::VALUE_NONE, "Defines if a redis service should be set up for PHP and UI testing.");
+             ->addOption('enable-redis', null, InputOption::VALUE_NONE, "Defines if a redis service should be set up for PHP and UI testing.")
+             ->addOption('schedule-cron', null, InputOption::VALUE_OPTIONAL, "Value to schedule a cron. eg \"0 2 * * 6\" will run the job at 02:00 on Saturday.");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -69,6 +71,7 @@ class GenerateGitHubTestActionFile extends ConsoleCommand
         $this->protectArtifacts = !!$input->getOption('protect-artifacts');
         $this->setupScript = $input->getOption('setup-script');
         $this->hasSubmodules = $input->getOption('setup-script');
+        $this->scheduleCron = $input->getOption('schedule-cron');
 
         if (!empty($this->plugin)) {
             if (!file_exists($this->getRepoRootDir())) {
@@ -121,6 +124,7 @@ class GenerateGitHubTestActionFile extends ConsoleCommand
         $template->assign('hasClientTests', $this->isTargetPluginContainsClientTests());
         $template->assign('hasUITests', $this->isTargetPluginContainsUITests());
         $template->assign('hasPluginTests', $this->isTargetPluginContainsPluginTests());
+        $template->assign('scheduleCron', $this->scheduleCron);
 
         $basePath = empty($this->plugin) ? $this->getPiwikRootDir() : $this->getRepoRootDir();
         $filePath = $basePath . '/.github/workflows/matomo-tests.yml';

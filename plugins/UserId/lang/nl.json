@@ -1,7 +1,10 @@
 {
     "UserId": {
+        "PluginDescription": "Toont gebruikersrapporten",
+        "ThereIsNoDataForThisReportHelp": "%1$sLees de gebruikershandleiding voor meer informatie over het genereren van data voor dit rapport.%2$s",
         "UserId": "Gebruiker-ID",
+        "UserReportDocumentation": "Toont bezoeken en andere algemene metingen voor elke individuele Gebruiker-ID.",
         "UserReportTitle": "Gebruiker-ID's",
-        "PluginDescription": "Toont gebruikersrapporten"
+        "VisitorsUserSubcategoryHelp": "Het rapport gebruikers-ID toont bezoeken gerelateerd aan uw geregistreerde en ingelogde gebruikers. Krijg inzicht in het gebruik van uw website door specifieke gebruikers en ontdek wie de meest en minst actieve gebruikers zijn."
     }
 }

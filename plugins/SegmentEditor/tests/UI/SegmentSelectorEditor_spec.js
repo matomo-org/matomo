@@ -267,7 +267,7 @@ describe("SegmentSelectorEditorTest", function () {
         await (await page.jQuery('.segmentRow0 .segment-row:first .metricValueBlock input')).type(complexValue);
         await page.waitForTimeout(200);
 
-        await page.click('.segment-add-or');
+        await page.evaluate(() => $('.segment-add-or > div').click());
         await page.waitForFunction(() => !! $('.segmentRow0 .segment-row:eq(1)').length);
 
         // configure or condition
@@ -277,7 +277,7 @@ describe("SegmentSelectorEditorTest", function () {
         await (await page.jQuery('.segmentRow0 .segment-row:eq(1) .metricValueBlock input')).type(complexValue);
         await page.waitForTimeout(200);
 
-        await page.click('.segment-add-row');
+        await page.evaluate(() => $('.segment-add-row > div').click());
         await page.waitForSelector('.segmentRow1 .segment-row');
 
         // configure and condition

@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific;
 
+use Piwik\Columns\Dimension;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
 use Piwik\Metrics\Formatter;
@@ -57,5 +58,10 @@ class ConversionPageRate extends GoalSpecificProcessedMetric
         $goalMetrics = $this->getGoalMetrics($row);
 
         return $this->getMetric($goalMetrics, 'nb_conversions_page_rate', $mappingFromNameToIdGoal);
+    }
+
+    public function getSemanticType(): ?string
+    {
+        return Dimension::TYPE_PERCENT;
     }
 }

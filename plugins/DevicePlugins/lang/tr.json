@@ -2,9 +2,9 @@
     "DevicePlugins": {
         "BrowserWithNoPluginsEnabled": "%1$s uygulama ekleri etkinleştirilmemiş olarak",
         "BrowserWithPluginsEnabled": "%1$s, %2$s uygulama ekleri etkinleştirilmiş olarak",
-        "PluginDescription": "Ziyaretçilerin web tarayıcıları tarafından desteklenen uygulama eklerinin listesini görüntüler.",
-        "PluginDetectionDoesNotWorkInIE": "Not: Uygulama eki algılaması Internet Explorer 11 öncesindeki sürümleri desteklemez. Bu raporda yalnız IE dışındaki tarayıcılar ve yeni IE tarayıcıları için veriler bulunur.",
+        "PluginDescription": "Ziyaretçilerin tarayıcıları tarafından desteklenen uygulama eklerinin listesini görüntüler.",
+        "PluginDetectionDoesNotWorkInIE": "Not: Uygulama eki algılaması Internet Explorer 11 öncesindeki sürümleri desteklemez. Bu raporda yalnızca IE dışındaki tarayıcılar ve yeni IE tarayıcıları için veriler bulunur.",
         "WidgetPlugins": "Tarayıcı uygulama ekleri",
-        "WidgetPluginsDocumentation": "Bu rapor ziyaretçilerin web tarayıcılarında hangi uygulama eklerinin etkin olduğunu içerir. Bu bilgiler içeriğinizi doğru şekilde sunmanız için önemli olabilir."
+        "WidgetPluginsDocumentation": "Bu rapor ziyaretçilerin tarayıcılarında hangi uygulama eklerinin etkin olduğunu içerir. Bu bilgiler içeriğinizi doğru şekilde sunmanız için önemli olabilir."
     }
 }

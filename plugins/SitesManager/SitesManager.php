@@ -25,6 +25,8 @@ use Piwik\Tracker\Cache;
 use Piwik\Tracker\FingerprintSalt;
 use Piwik\Tracker\Model as TrackerModel;
 use Piwik\Session\SessionNamespace;
+use Piwik\Url;
+use Piwik\View;
 
 /**
  *
@@ -57,6 +59,7 @@ class SitesManager extends \Piwik\Plugin
             'SitesManager.deleteSite.end'            => 'onSiteDeleted',
             'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
             'Request.dispatch'                       => 'redirectDashboardToWelcomePage',
+            'Template.noDataPageGTMTabInstructions'  => 'noDataPageGTMTabInstructions',
         ];
     }
 
@@ -512,6 +515,8 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = 'SitesManager_SiteWithoutDataChoosePreferredWay';
         $translationKeys[] = 'SitesManager_DetectingYourSite';
         $translationKeys[] = 'SitesManager_SiteWithoutDataIgnoreMessage';
+        $translationKeys[] = "SitesManager_SiteWithoutDataCloudflare";
+        $translationKeys[] = "SitesManager_SiteWithoutDataCloudflareDescription";
         $translationKeys[] = "SitesManager_GlobalListExcludedReferrers";
         $translationKeys[] = "SitesManager_GlobalListExcludedReferrersDesc";
         $translationKeys[] = "SitesManager_ExcludedReferrers";
@@ -520,5 +525,17 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "SitesManager_ExcludedReferrersHelpExamples";
         $translationKeys[] = "SitesManager_ExcludedReferrersHelpSubDomains";
         $translationKeys[] = 'Goals_Optional';
+        $translationKeys[] = "SitesManager_SiteWithoutDataGoogleTagManager";
+        $translationKeys[] = "SitesManager_SiteWithoutDataGoogleTagManagerDescription";
+    }
+
+    public function noDataPageGTMTabInstructions(&$out)
+    {
+        Piwik::checkUserHasSomeViewAccess();
+        $piwikUrl = Url::getCurrentUrlWithoutFileName();
+        $jsTag = Request::processRequest('SitesManager.getJavascriptTag', ['idSite' => Common::getRequestVar('idSite'), 'piwikUrl' => $piwikUrl]);
+        $view = new View("@SitesManager/_gtmTabInstructions");
+        $view->jsTag = $jsTag;
+        $out = $view->render();
     }
 }

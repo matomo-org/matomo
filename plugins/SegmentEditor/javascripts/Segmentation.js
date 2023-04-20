@@ -760,16 +760,15 @@ Segmentation = (function($) {
             var segmentStr = self.currentSegmentStr;
             var encSegment = jQuery(jQuery('.segmentEditorPanel').get(0)).data('uiControlObject').uriEncodeSegmentDefinition(segmentStr);
 
-            var url = window.location.href;
-            //  URL might have format index.php?aparam=avalue#?anotherparam=anothervalue
-            // Need to strip off stuff before second ? as it mucks with updateParamValue
-            url = url.replace(/\?[\S]*\?/, '?');
-            // Show user the Visits Log so that they can easily refine their new segment if needed
-            url = broadcast.updateParamValue('viewDataTable=VisitorLog', url);
-            url = broadcast.updateParamValue('module=Live', url);
-            url = broadcast.updateParamValue('action=getLastVisitsDetails', url);
-            url = broadcast.updateParamValue('segment=' + encSegment, url);
-            url = broadcast.updateParamValue('inPopover=1', url);
+            var url = $.param({
+                date: piwik.currentDateString,
+                period: piwik.period,
+                idSite: piwik.idSite,
+                module: 'Live',
+                action: 'getLastVisitsDetails',
+                segment: encSegment,
+                inPopover: 1,
+            });
 
             Piwik_Popover.createPopupAndLoadUrl(url, _pk_translate('Live_VisitsLog'));
         };
@@ -778,7 +777,7 @@ Segmentation = (function($) {
             var select = $(self.form).find(selectId);
             select.hide().closest('.select-wrapper').children().hide();
             var dropList = $( '<a class="dropList dropdown">' )
-                .insertAfter( select )
+                .insertAfter( select.closest('.hide-select') )
                 .text( select.children(':selected').text() )
                 .autocomplete({
                     delay: 0,

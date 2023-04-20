@@ -18,12 +18,6 @@ class VisitsInDifferentTimezones extends Fixture
     public $idSite = 1;
     public $idSite2 = 2;
     public $dateTime = '2010-03-06';
-    public $date;
-
-    public function __construct()
-    {
-        $this->date = Date::factory($this->dateTime)->toString();
-    }
 
     public function setUp(): void
     {
@@ -40,9 +34,9 @@ class VisitsInDifferentTimezones extends Fixture
     {
         // tests run in UTC, the Tracker in UTC
         if (!self::siteCreated($idSite = 1)) {
-            self::createWebsite($this->dateTime, $ecommerce = 0, $siteName = 'site in EST', $siteUrl = false,
+            self::createWebsite($this->dateTime, $ecommerce = 0, $siteName = 'site in AST', $siteUrl = false,
                                 $siteSearch = 1, $searchKeywordParameters = null,
-                                $searchCategoryParameters = null, $timezone = 'America/New_York');
+                                $searchCategoryParameters = null, $timezone = 'America/Barbados' /* AST = UTC-4 */);
         }
         if (!self::siteCreated($idSite = 2)) {
             self::createWebsite($this->dateTime, $ecommerce = 0, $siteName = 'site in UTC', $siteUrl = false,
@@ -53,16 +47,19 @@ class VisitsInDifferentTimezones extends Fixture
 
     private function trackVisits()
     {
-        // track 2 hours before today in UTC. for utc website, there will be 1 visit yesterday, 0 today.
-        // for est website, there will be 0 visit yesterday, 1 today.
-        $dateTime = Date::factory('today')->subHour(2)->getDatetime();
+        // This will add a visit for every hour from the yesterday 3:00 to today 12:00 in UTC
+        // As we fake the now timestamp to yesterday 12:00, this means it's actually the day before yesterday to yesterday.
+        // The resulting reports should have
+        // 21 visits yesterday and 13 today in UTC time (in total 34)
+        // 24 visits yesterday and 9 visits today in AST timezone (in total 33)
+        for($i = 3; $i <= 36; $i++) {
+            $dateTime = Date::factory('yesterday')->addHour($i)->getDatetime();
 
-        foreach ([$this->idSite, $this->idSite2] as $idSite) {
-            $t = self::getTracker($idSite, $dateTime, $defaultInit = true);
-
-            // visit that is 'tomorrow' in UTC
-            $t->setUrl('http://example.org/index.htm');
-            self::checkResponse($t->doTrackPageView('incredible title!'));
+            foreach ([$this->idSite, $this->idSite2] as $idSite) {
+                $t = self::getTracker($idSite, $dateTime, $defaultInit = true);
+                $t->setUrl('http://example.org/index.htm');
+                self::checkResponse($t->doTrackPageView('incredible title!'));
+            }
         }
     }
 
@@ -75,10 +72,10 @@ class VisitsInDifferentTimezones extends Fixture
 
     public function setMockNow()
     {
-        // set now to 1:00 am today
+        // set now to 12:00 yesterday
         $now = time();
-        $now = $now - ($now % 86400);
-        $now = $now + 3600;
+        $now = $now - ($now % 86400) - 86400;
+        $now = $now + (12 * 3600);
         Date::$now = $now;
     }
 }

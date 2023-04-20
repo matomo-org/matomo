@@ -53,7 +53,7 @@ class SegmentExpressionTest extends \PHPUnit\Framework\TestCase
     public function testSegmentSqlSimpleNoOperation($expression, $expectedSql)
     {
         $segment = new SegmentExpression($expression);
-        $expected = array('where' => $expectedSql, 'bind' => array(), 'join' => '');
+        $expected = array('where' => $expectedSql, 'bind' => array());
         $processed = $segment->getSql();
         $this->assertEquals($expected, $processed);
     }
@@ -105,9 +105,6 @@ class SegmentExpressionTest extends \PHPUnit\Framework\TestCase
         $segment->parseSubExpressions();
         $segment->parseSubExpressionsIntoSqlExpressions($initialFrom);
         $processed = $segment->getSql();
-        if (empty($expectedSql['join'])) {
-            $expectedSql['join'] = '';
-        }
         $this->assertEquals($expectedSql, $processed);
         $this->assertEquals($expectedTables, $initialFrom);
     }

@@ -411,6 +411,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'gtmUsed' => $this->siteContentDetector->gtm,
             'ga3Used' => $this->siteContentDetector->ga3,
             'ga4Used' => $this->siteContentDetector->ga4,
+            'cloudflare' => $this->siteContentDetector->cloudflare,
             'consentManagerName' => $this->siteContentDetector->consentManagerName,
             'consentManagerUrl' => $this->siteContentDetector->consentManagerUrl,
             'consentManagerIsConnected' => $this->siteContentDetector->isConnected
@@ -428,6 +429,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $viewTrackingHelp->gtmUsed = $this->siteContentDetector->gtm;
         $viewTrackingHelp->ga3Used = $this->siteContentDetector->ga3;
         $viewTrackingHelp->ga4Used = $this->siteContentDetector->ga4;
+        $viewTrackingHelp->cloudflare = $this->siteContentDetector->cloudflare;
         $viewTrackingHelp->consentManagerName = $this->siteContentDetector->consentManagerName;
         $viewTrackingHelp->consentManagerUrl = $this->siteContentDetector->consentManagerUrl;
         $viewTrackingHelp->consentManagerIsConnected = $this->siteContentDetector->isConnected;
@@ -553,7 +555,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'plugins/Morpheus/stylesheets/base/bootstrap.css',
             'plugins/Morpheus/stylesheets/base/icons.css',
             "node_modules/jquery-ui-dist/jquery-ui.theme.min.css",
-            'node_modules/materialize-css/dist/css/materialize.min.css',
+            'node_modules/@materializecss/materialize/dist/css/materialize.min.css',
             'plugins/Morpheus/stylesheets/base.less',
             'plugins/Morpheus/stylesheets/general/_forms.less',
             'plugins/Installation/stylesheets/installation.css'
@@ -575,7 +577,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $files = array(
             "node_modules/jquery/dist/jquery.min.js",
             "node_modules/jquery-ui-dist/jquery-ui.min.js",
-            'node_modules/materialize-css/dist/js/materialize.min.js',
+            'node_modules/@materializecss/materialize/dist/js/materialize.min.js',
             "plugins/CoreHome/javascripts/materialize-bc.js",
             'plugins/Installation/javascripts/installation.js',
             'plugins/Morpheus/javascripts/piwikHelper.js',

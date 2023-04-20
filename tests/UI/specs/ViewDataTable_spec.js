@@ -54,12 +54,15 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
         await page.mouse.move(-10, -10);
         await page.waitForTimeout(1000); // wait for animation
 
+        // Note: The selection captured in screenshot is cut of, as the available space in the
+        // widget's iframe is too small, so materialize crops the selection into available space.
         const element = await page.$('.dataTableFooterIcons');
         expect(await element.screenshot()).to.matchImage('5_visualizations');
     });
 
     it("should load goals table when goals footer icon clicked", async function () {
         await page.click('.tableIcon[data-footer-icon-id=tableGoals]');
+        await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('5_goals');
     });
@@ -252,6 +255,7 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
         await page.goto(newUrl);
         await page.click('.dropdownConfigureIcon');
         await page.click('.dataTableExcludeLowPopulation');
+        await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('exclude_low_population');
     });

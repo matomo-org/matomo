@@ -18,6 +18,7 @@
 				<nb_visits_converted>0</nb_visits_converted>
 				<url>facebook.com</url>
 				<logo>plugins/Morpheus/icons/dist/socials/facebook.com.png</logo>
+				<segment>referrerType==social;referrerName==Facebook</segment>
 				<subtable>
 					<row>
 						<label>http://facebook.com/whatever</label>
@@ -57,6 +58,7 @@
 				<nb_visits_converted>0</nb_visits_converted>
 				<url>facebook.com</url>
 				<logo>plugins/Morpheus/icons/dist/socials/facebook.com.png</logo>
+				<segment>referrerType==social;referrerName==Facebook</segment>
 				<subtable>
 					<row>
 						<label>http://fb.me/?q=sdlfjs&amp;n=slfjsd</label>
@@ -83,6 +85,7 @@
 				<nb_visits_converted>0</nb_visits_converted>
 				<url>twitter.com</url>
 				<logo>plugins/Morpheus/icons/dist/socials/twitter.com.png</logo>
+				<segment>referrerType==social;referrerName==Twitter</segment>
 				<subtable>
 					<row>
 						<label>http://twitter.com/whatever2</label>
@@ -118,6 +121,7 @@
 				<nb_visits_converted>0</nb_visits_converted>
 				<url>facebook.com</url>
 				<logo>plugins/Morpheus/icons/dist/socials/facebook.com.png</logo>
+				<segment>referrerType==social;referrerName==Facebook</segment>
 				<subtable>
 					<row>
 						<label>http://www.facebook.com/another/path</label>
@@ -146,6 +150,7 @@
 				<nb_visits_converted>0</nb_visits_converted>
 				<url>twitter.com</url>
 				<logo>plugins/Morpheus/icons/dist/socials/twitter.com.png</logo>
+				<segment>referrerType==social;referrerName==Twitter</segment>
 				<subtable>
 					<row>
 						<label>http://twitter.com/whatever2</label>

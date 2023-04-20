@@ -116,6 +116,7 @@ class API extends \Piwik\Plugin\API
         $goal['name'] = Common::unsanitizeInputValue($goal['name']);
         $goal['description'] = Common::unsanitizeInputValue($goal['description']);
         $goal['pattern_type'] = Common::unsanitizeInputValue($goal['pattern_type']);
+        $goal['pattern'] = Common::unsanitizeInputValue($goal['pattern']);
 
         if ($goal['match_attribute'] == 'manually') {
             unset($goal['pattern']);

@@ -20,6 +20,7 @@ use Piwik\Plugins\CustomVariables\Tracker\CustomVariablesRequestProcessor;
 use Piwik\Segment\SegmentsList;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
+use Piwik\Tracker\TableLogAction;
 
 class ProductViewCategory extends ActionDimension
 {
@@ -52,7 +53,7 @@ class ProductViewCategory extends ActionDimension
             $segment->setType('dimension');
             $segment->setName(Piwik::translate('Ecommerce_ViewedProductCategory') . ' ' . ($i + 1));
             $segment->setSegment($productCategoryName);
-            $segment->setSqlFilter('\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment');
+            $segment->setSqlFilter([TableLogAction::class, 'getOptimizedIdActionSqlMatch']);
             $segment->setSqlSegment('log_link_visit_action.' . $productCategoryColumnName);
             $segment->setIsInternal(true);
             $segment->setSuggestedValuesCallback(function ($idSite, $maxValuesToReturn, $table) {

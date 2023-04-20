@@ -31,6 +31,7 @@
         "SaveAndApply": "Spara &amp; Använd",
         "SegmentDisplayedAllWebsites": "alla webbsidor",
         "SegmentDisplayedThisWebsiteOnly": "endast denna webbsida",
+        "SegmentEditor": "Segmentredigering",
         "SegmentIsDisplayedForWebsite": "och behandlas för",
         "SegmentNotApplied": "Segment '%s' tillämpas inte",
         "SegmentNotAppliedMessage": "Du begär data för det anpassade segmentet '%s', konfigurationen som Matomo använder förhindrar att realtidsbearbetning av rapporter sker av prestandaskäl.",
