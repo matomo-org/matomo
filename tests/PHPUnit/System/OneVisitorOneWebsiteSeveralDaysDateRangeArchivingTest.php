@@ -138,7 +138,7 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
              *   + 3 VisitTime done flags
              * = 63
              */
-            'archive_numeric_2010_12' => 93,
+            'archive_numeric_2010_12' => 63,
 
             /**
              * In the January date range,
