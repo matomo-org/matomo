@@ -967,7 +967,7 @@ class Archive implements ArchiveQuery
         $this->forceFetchingWithoutLaunchingArchiving = true;
     }
 
-    private function getRequestedReport(): string
+    private function getRequestedReport(): ?string
     {
         $requestedReport = null;
         if (SettingsServer::isArchivePhpTriggered()) {
