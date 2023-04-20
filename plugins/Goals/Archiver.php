@@ -9,16 +9,6 @@
 
 namespace Piwik\Plugins\Goals;
 
-use Piwik\ArchiveProcessor;
-use Piwik\Common;
-use Piwik\Config;
-use Piwik\DataAccess\LogAggregator;
-use Piwik\DataArray;
-use Piwik\DataTable;
-use Piwik\Metrics;
-use Piwik\Plugin\Manager;
-use Piwik\Site;
-use Piwik\Tracker\GoalManager;
 use Piwik\Plugins\VisitFrequency\API as VisitFrequencyAPI;
 
 class Archiver extends \Piwik\Plugin\Archiver
