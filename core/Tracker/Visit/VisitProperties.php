@@ -122,7 +122,7 @@ class VisitProperties
     }
 
     /**
-     * Returns all immutable visit properties by reference.
+     * Returns all immutable visit properties
      *
      * @return array
      */
