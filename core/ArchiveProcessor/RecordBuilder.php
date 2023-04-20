@@ -14,8 +14,6 @@ use Piwik\DataTable;
 
 /**
  * Inherit from this class to define archiving logic for one or more records.
- *
- * @since 5.0.0
  */
 abstract class RecordBuilder
 {
@@ -49,7 +47,6 @@ abstract class RecordBuilder
      * @param int|null $maxRowsInSubtable
      * @param string|int|null $columnToSortByBeforeTruncation
      * @param array|null $columnAggregationOps
-     * @api
      */
     public function __construct($maxRowsInTable = null, $maxRowsInSubtable = null,
                                 $columnToSortByBeforeTruncation = null, $columnAggregationOps = null)
@@ -157,7 +154,6 @@ abstract class RecordBuilder
      * record your RecordBuilder creates should have an associated piece of record metadata.
      *
      * @return Record[]
-     * @api
      */
     public abstract function getRecordMetadata(ArchiveProcessor $archiveProcessor);
 
@@ -166,7 +162,6 @@ abstract class RecordBuilder
      * to store indexed by record names.
      *
      * @return (DataTable|int|float|string)[] Record values indexed by their record name, eg, `['MyPlugin_MyRecord' => new DataTable()]`
-     * @api
      */
     protected abstract function aggregate(ArchiveProcessor $archiveProcessor);
 
@@ -211,7 +206,6 @@ abstract class RecordBuilder
      * like the origin hint to have more information.
      *
      * @return string
-     * @api
      */
     public function getQueryOriginHint()
     {

@@ -745,11 +745,7 @@ class Archive implements ArchiveQuery
      */
     private function getDoneStringForPlugin($plugin, $idSites)
     {
-        // TODO: code redundancy w/ cacheArchiveIdsAfterLaunching
-        $requestedReport = null;
-        if (SettingsServer::isArchivePhpTriggered()) {
-            $requestedReport = Common::getRequestVar('requestedReport', '', 'string');
-        }
+        $requestedReport = $this->getRequestedReport();
 
         $shouldOnlyProcessRequestedRecords = empty($requestedReport)
             && Rules::shouldProcessOnlyReportsRequestedInArchiveQuery($this->getPeriodLabel());
@@ -903,10 +899,7 @@ class Archive implements ArchiveQuery
     {
         $coreAdminHomeApi = API::getInstance();
 
-        $requestedReport = null;
-        if (SettingsServer::isArchivePhpTriggered()) {
-            $requestedReport = Common::getRequestVar('requestedReport', '', 'string');
-        }
+        $requestedReport = $this->getRequestedReport();
 
         $shouldOnlyProcessRequestedArchives = empty($requestedReport)
             && Rules::shouldProcessOnlyReportsRequestedInArchiveQuery($period->getLabel());
@@ -972,5 +965,14 @@ class Archive implements ArchiveQuery
     public function forceFetchingWithoutLaunchingArchiving()
     {
         $this->forceFetchingWithoutLaunchingArchiving = true;
+    }
+
+    private function getRequestedReport(): string
+    {
+        $requestedReport = null;
+        if (SettingsServer::isArchivePhpTriggered()) {
+            $requestedReport = Request::fromRequest()->getStringParameter('requestedReport', '');
+        }
+        return $requestedReport;
     }
 }
