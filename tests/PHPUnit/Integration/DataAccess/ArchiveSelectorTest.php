@@ -201,6 +201,13 @@ class ArchiveSelectorTest extends IntegrationTestCase
         unset($result[4]);
         unset($result[5]);
 
+        if (isset($result['existingRecords'])) {
+            sort($result['existingRecords']);
+        }
+        if (isset($expected['existingRecords'])) {
+            sort($expected['existingRecords']);
+        }
+
         $this->assertEquals($expected, $result);
     }
 
@@ -452,6 +459,13 @@ class ArchiveSelectorTest extends IntegrationTestCase
         unset($result[3]);
         unset($result[4]);
         unset($result[5]);
+
+        if (isset($result['existingRecords'])) {
+            sort($result['existingRecords']);
+        }
+        if (isset($expected['existingRecords'])) {
+            sort($expected['existingRecords']);
+        }
 
         $this->assertEquals($expected, $result);
     }

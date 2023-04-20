@@ -125,25 +125,18 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
                     + 2 /* VisitTime */) * 3,
 
             /**
-             *  In Each "Period=range" Archive, we expect following non zero numeric entries:
-             *                 5 metrics + 1 flag  // VisitsSummary
-             *               + 2 metrics + 1 flag // Actions
-             *               + 1 flag // Resolution
-             *               + 1 flag // VisitTime
-             *               = 11
+             * segments: 9 (including all visits)
+             * plugins: 4 different plugins
+             *   VisitsSummary: 9 archives (8 segments + all visits) (4 metrics in each + 3 bounce_counts across 3 archives)
+             *   Actions: 3 archives (2 segments + all visits) (2 metrics in each)
+             *   Resolution: 3 archives (2 segments + all visits) (0 metrics in each)
+             *   VisitTime: 3 archives (2 segments + all visits) (0 metrics in each)
              *
-             *   because we call VisitFrequency.get, this creates archives for visitorType==returning
-             *   and visitorType==new segment.
-             *          -> There are two archives for each segment (one for "countryCode!=aa"
-             *                      and VisitFrequency creates two more.
-             *
-             * So each period=range will have = 11 records + (5 metrics + 2 flags // VisitsSummary + 3 metrics // VisitorInterest)
-             *
-             * Total expected records = count unique segments * records per segment
-             *                        = 3 * 21
-             *                        = 63
-             *
-             * + 3 * 10 extra done flags for partial archives since range archives only archive single reports
+             * Total: 9 VisitsSummary done flags + ((4 * 9) + 3) VisitsSummary metrics
+             *   + 3 Actions done flags + 3 * 2 Actions metrics
+             *   + 3 Resolution done flags
+             *   + 3 VisitTime done flags
+             * = 63
              */
             'archive_numeric_2010_12' => 93,
 
