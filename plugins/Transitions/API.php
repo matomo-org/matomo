@@ -36,12 +36,12 @@ use Piwik\Tracker\TableLogAction;
  */
 class API extends \Piwik\Plugin\API
 {
-    public function getTransitionsForPageTitle($pageTitle, $idSite, $period, $date, $segment = false, $limitBeforeGrouping = 0)
+    public function getTransitionsForPageTitle(string $pageTitle, $idSite, $period, $date, $segment = false, $limitBeforeGrouping = 0)
     {
         return $this->getTransitionsForAction($pageTitle, 'title', $idSite, $period, $date, $segment, $limitBeforeGrouping);
     }
 
-    public function getTransitionsForPageUrl($pageUrl, $idSite, $period, $date, $segment = false, $limitBeforeGrouping = 0)
+    public function getTransitionsForPageUrl(string $pageUrl, $idSite, $period, $date, $segment = false, $limitBeforeGrouping = 0)
     {
         return $this->getTransitionsForAction($pageUrl, 'url', $idSite, $period, $date, $segment, $limitBeforeGrouping);
     }
