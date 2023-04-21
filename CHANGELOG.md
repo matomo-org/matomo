@@ -13,6 +13,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The `Common::fixLbrace()` function has been removed. It was only necessary for AngularJS and no longer needs to be used.
 * The deprecated `JSON2` API format has now been removed. We recommend switching to the `JSON` renderer, which behaves the same.
 * The javascript event `piwikPageChange`, which is triggered when a reporting page is loaded, has been renamed to `matomoPageChange`. Ensure to update your implementation if you rely on it.
+* The deprecated javascript functions `broadcast.init`, `broadcast.propagateAjax` and `broadcast.pageLoad` have been removed.
 * Plugin names are now limited to 60 characters. If you used to have a plugin with a longer name, you might need to rename it.
 * The `instance_id` configuration does no longer support characters other than `a-z`, `0-9` and the special characters `.-_`. If the configured value contains other characters, they will be simply removed.
 * When an invalid token is provided in an API request, a 401 response code is now returned instead of 200 response code.
