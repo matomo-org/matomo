@@ -661,7 +661,6 @@ class CronArchiveTest extends IntegrationTestCase
         $archiveFilter->setSkipSegmentsForToday(true);
         $archiver->setArchiveFilter($archiveFilter);
         $archiver->shouldArchiveAllSites = true;
-        $archiver->shouldArchiveAllPeriodsSince = true;
         $archiver->init();
         $archiver->run();
 
