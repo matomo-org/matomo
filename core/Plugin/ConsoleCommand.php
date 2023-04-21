@@ -331,6 +331,16 @@ class ConsoleCommand extends SymfonyCommand
     }
 
     /**
+     * This method can't be used.
+     *
+     * @see askAndValidate(), askForConfirmation(), ask(), initProgressBar(), startProgressBar(), advanceProgressBar(), finishProgressBar(), renderTable()
+     */
+    public function getHelper(string $name)
+    {
+        throw new \LogicException('getHelper can not be used');
+    }
+
+    /**
      * Helper method to ask the user for confirmation
      *
      * @see QuestionHelper
@@ -343,7 +353,7 @@ class ConsoleCommand extends SymfonyCommand
     protected function askForConfirmation(string $question, bool $default = true, string $trueAnswerRegex = '/^y/i'): bool
     {
         /** @var QuestionHelper $helper */
-        $helper   = $this->getHelper('question');
+        $helper   = parent::getHelper('question');
         $question = new ConfirmationQuestion($question, $default, $trueAnswerRegex);
         return (bool) $helper->ask($this->getInput(), $this->getOutput(), $question);
     }
@@ -366,7 +376,7 @@ class ConsoleCommand extends SymfonyCommand
         iterable $autocompleterValues = null
     ) {
         /** @var QuestionHelper $helper */
-        $helper   = $this->getHelper('question');
+        $helper   = parent::getHelper('question');
         $question = new Question($question, $default);
         $question->setValidator($validator);
         $question->setAutocompleterValues($autocompleterValues);
