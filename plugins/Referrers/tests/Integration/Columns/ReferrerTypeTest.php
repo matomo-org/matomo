@@ -163,6 +163,7 @@ class ReferrerTypeTest extends IntegrationTestCase
         $request = $this->getRequest(['idsite' => $idSite, 'url' => $url, 'urlref' => $referrerUrl]);
         $visitor = $this->getNewVisitor();
         $visitor->setVisitorColumn('referer_type', $existingType);
+        $visitor->initializeImmutableVisitorProperty('referer_type', $existingType);
         $type = $this->referrerType->onExistingVisit($request, $visitor, $action = null);
 
         $this->assertSame($expectedType, $type);
