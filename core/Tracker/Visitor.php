@@ -76,6 +76,19 @@ class Visitor
         $this->visitProperties->initializeProperty($column, $value);
     }
 
+    /**
+     * Initialize a visitor property
+     *
+     * @param string $column
+     * @param $value
+     *
+     * @return void
+     */
+    public function initializeImmutableVisitorProperty(string $column, $value)
+    {
+        $this->visitProperties->initializeImmutableProperty($column, $value);
+    }
+
     public function getPreviousVisitColumn($column)
     {
         if (empty($this->previousVisitProperties)) {
