@@ -513,6 +513,8 @@ class TrackerTest extends IntegrationTestCase
 
 class TestTracker extends Tracker
 {
+    public $record;
+
     public function __construct()
     {
         parent::__construct();
