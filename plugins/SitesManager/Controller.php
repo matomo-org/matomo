@@ -160,7 +160,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'cloudflare' => false,
             'ga3Used' => false,
             'ga4Used' => false,
-            'gtmUsed' => false
+            'gtmUsed' => false,
+            'wordpressUsed' => false
         ];
 
         $this->siteContentDetector->detectContent([SiteContentDetector::ALL_CONTENT]);
@@ -172,6 +173,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $emailTemplateData['ga4Used'] = $this->siteContentDetector->ga4;
         $emailTemplateData['gtmUsed'] = $this->siteContentDetector->gtm;
         $emailTemplateData['cloudflare'] = $this->siteContentDetector->cloudflare;
+        $emailTemplateData['wordpressUsed'] = ($this->siteContentDetector->cms === SitesManager::SITE_TYPE_WORDPRESS);
 
         $emailContent = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', $emailTemplateData, $viewType = 'basic');
 
@@ -228,7 +230,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'googleAnalyticsImporterMessage' => $googleAnalyticsImporterMessage,
             'tagManagerActive' => $tagManagerActive,
             'consentManagerName' => false,
-            'cloudflare' => $this->siteContentDetector->cloudflare,
+            'cloudflare' => true,
+            'wordpressUsed' => ($this->siteContentDetector->cms === SitesManager::SITE_TYPE_WORDPRESS),
         ];
 
         if ($this->siteContentDetector->consentManagerId) {
@@ -248,6 +251,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         if (!empty($templateData['gtmUsed'])) {
             $tabToDisplay = 'gtm';
+        } else if (!empty($templateData['wordpressUsed'])) {
+            $tabToDisplay = 'wordpress';
         } else if (!empty($templateData['cloudflare'])) {
             $tabToDisplay = 'cloudflare';
         }

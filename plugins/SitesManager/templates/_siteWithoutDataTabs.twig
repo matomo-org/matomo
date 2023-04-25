@@ -8,12 +8,15 @@
 
 <div class="row">
     <div class="col s12">
-        <ul class="tabs">
+        <ul class="tabs" style="overflow: auto !important;height: auto !important;">
             <li class="tab col {{ columnClass }}"><a {% if siteType != constant('Piwik\\Plugins\\SitesManager\\SitesManager::SITE_TYPE_UNKNOWN') and (consentManagerName == false) and (activeTab == '') %} class="active" {% endif %} href="#integrations">{{ 'SitesManager_Integrations'|translate }}</a></li>
             <li class="tab col {{ columnClass }}"><a {% if (siteType == constant('Piwik\\Plugins\\SitesManager\\SitesManager::SITE_TYPE_UNKNOWN') and (activeTab == '')) or consentManagerName %} class="active" {% endif %} href="#tracking-code">{{ 'CoreAdminHome_TrackingCode'|translate }}</a></li>
             <li class="tab col {{ columnClass }}"><a href="#mtm">{{ 'SitesManager_SiteWithoutDataMatomoTagManager'|translate }}</a></li>
             {% if gtmUsed %}
                 <li class="tab col s2"><a {% if activeTab == 'gtm' %} class="active" {% endif %} href="#google-tag-manager">{{ 'SitesManager_SiteWithoutDataGoogleTagManager'|translate }}</a></li>
+            {% endif %}
+            {% if wordpressUsed %}
+                <li class="tab col s2"><a {% if activeTab == 'wordpress' %} class="active" {% endif %} href="#wordpress">{{ 'SitesManager_SiteWithoutDataWordpress'|translate }}</a></li>
             {% endif %}
             {% if cloudflare %}
                 <li class="tab col s2"><a {% if activeTab == 'cloudflare' %} class="active" {% endif %} href="#cloudflare">{{ 'SitesManager_SiteWithoutDataCloudflare'|translate }}</a></li>
@@ -119,6 +122,22 @@
         </div>
     {% endif %}
 
+    {% if wordpressUsed %}
+        <div id="wordpress" class="col s12">
+
+            <p></p><p></p>
+            <div class="system notification notification-info">
+                {{ 'SitesManager_WordpressDetected'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/">','</a>')|raw }}
+            </div>
+
+            <div class="right">
+                <img src="plugins/SitesManager/images/wordpress-icon.png" style="margin-top: -3rem;">
+            </div>
+            {{ postEvent('Template.noDataPageWordpressTabInstructions') }}
+
+        </div>
+    {% endif %}
+
     {% if cloudflare %}
         <div id="cloudflare" class="col s12">
 
@@ -161,6 +180,9 @@
 
         <h3>{{ 'SitesManager_SiteWithoutDataGoogleTagManager'|translate }}</h3>
         <p>{{ 'SitesManager_SiteWithoutDataGoogleTagManagerDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-within-gtm-google-tag-manager">','</a>')|raw }}</p>
+
+        <h3>{{ 'SitesManager_SiteWithoutDataWordpress'|translate }}</h3>
+        <p>{{ 'SitesManager_SiteWithoutDataWordpressDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/">','</a>')|raw }}</p>
 
         <h3>{{ 'SitesManager_SiteWithoutDataSinglePageApplication'|translate }}</h3>
         <p>{{ 'SitesManager_SiteWithoutDataSinglePageApplicationDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://developer.matomo.org/guides/spa-tracking">','</a>')|raw }}</p>

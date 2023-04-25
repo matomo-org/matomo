@@ -158,6 +158,24 @@
         "SiteWithoutDataGoogleTagManagerFollowStep9": "Preview your changes by clicking the \"Preview\" button.",
         "SiteWithoutDataGoogleTagManagerFollowStep10": "Check if the Matomo tag is firing as expected.",
         "SiteWithoutDataGoogleTagManagerFollowStep11": "Publish your changes by clicking the \"Submit\" button and then the \"Publish\" button at the top right.",
-        "SiteWithoutDataGoogleTagManagerFollowStepCompleted": "%1$sCongratulations!%2$s You have successfully installed the Matomo Analytics tracking code via Google Tag Manager. To verify that hits are being tracked, visit your website and check that this data is visible in your Matomo instance."
+        "SiteWithoutDataGoogleTagManagerFollowStepCompleted": "%1$sCongratulations!%2$s You have successfully installed the Matomo Analytics tracking code via Google Tag Manager. To verify that hits are being tracked, visit your website and check that this data is visible in your Matomo instance.",
+        "WordpressDetected": "Wordpress was detected on your website. Did you know you can use the Matomo easy WordPress plugin to track the website data? %1$sLearn more in this guide%2$s.",
+        "SiteWithoutDataWordpress": "Wordpress",
+        "SiteWithoutDataWordpressDescription": "You can use the Matomo easy WordPress plugin to track data, follow the instructions from this %1$sguide%2$s.",
+        "SiteWithoutDataWordpressFollowStep1": "Login to your Wordpress admin screen.",
+        "SiteWithoutDataWordpressFollowStep2": "Install the WP-Matomo plugin in your WordPress and activate the plugin.",
+        "SiteWithoutDataWordpressFollowStep3": "In the left menu, click \"Settings\" > \"WP-Piwik\"",
+        "SiteWithoutDataWordpressFollowStep4": "Click on \"Connect to Matomo\" tab, and in the \"Matomo Mode\" dropdown.",
+        "SiteWithoutDataWordpressFollowStep5": "Select the option \"Self hosted (HTTP API, default)\" and enter your \"Matomo URL\".",
+        "SiteWithoutDataWordpressFollowStep6": "In the \"Auth token\" text field, type your Matomo authentication token by generating a new auth token by following this %1$sguide%2$s.",
+        "SiteWithoutDataWordpressFollowStep7": "Confirm the \"Auto config\" checkbox is selected and click on \"Save Changes\".",
+        "SiteWithoutDataWordpressFollowStep8": "You should see \"WP-Matomo is successfully connected to Matomo\" message. If you do not see the message, make sure the values you provided in above steps are correct, and then try again.",
+        "SiteWithoutDataWordpressFollowStep9": "Click on \"Enable Tracking\" tab.",
+        "SiteWithoutDataWordpressFollowStep10": "In the \"Add tracking code\" dropdown, select \"Default tracking\".",
+        "SiteWithoutDataWordpressFollowStep11": "Click on \"Save Changes\" and a success message will appear.",
+        "SiteWithoutDataWordpressFollowStep12": "Open your website in the browser and perform some actions (eg: navigate to different pages).",
+        "SiteWithoutDataWordpressFollowStep13": "To view Matomo statistics for your site, in the left menu, click on Dashboard, then click WP-Piwik. The Matomo Statistics page appears with visitor statistics, site search statistics, and more. To view all the detailed reports please login to your Matomo instance.",
+        "SiteWithoutDataWordpressFollowStepCompleted": "%1$sCongratulations!%2$s You have successfully installed the Matomo Analytics tracking code via WordPress plugin.",
+        "SiteWithoutDataWordpressIntro": "If you use Wordpress, you can start tracking data in Matomo seamlessly using the easy WordPress plugin."
     }
 }

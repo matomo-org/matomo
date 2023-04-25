@@ -60,6 +60,7 @@ class SitesManager extends \Piwik\Plugin
             'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
             'Request.dispatch'                       => 'redirectDashboardToWelcomePage',
             'Template.noDataPageGTMTabInstructions'  => 'noDataPageGTMTabInstructions',
+            'Template.noDataPageWordpressTabInstructions'  => 'noDataPageWordpressTabInstructions',
         ];
     }
 
@@ -527,6 +528,8 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = 'Goals_Optional';
         $translationKeys[] = "SitesManager_SiteWithoutDataGoogleTagManager";
         $translationKeys[] = "SitesManager_SiteWithoutDataGoogleTagManagerDescription";
+        $translationKeys[] = "SitesManager_SiteWithoutDataWordpress";
+        $translationKeys[] = "SitesManager_SiteWithoutDataWordpressDescription";
     }
 
     public function noDataPageGTMTabInstructions(&$out)
@@ -536,6 +539,13 @@ class SitesManager extends \Piwik\Plugin
         $jsTag = Request::processRequest('SitesManager.getJavascriptTag', ['idSite' => Common::getRequestVar('idSite'), 'piwikUrl' => $piwikUrl]);
         $view = new View("@SitesManager/_gtmTabInstructions");
         $view->jsTag = $jsTag;
+        $out = $view->render();
+    }
+
+    public function noDataPageWordpressTabInstructions(&$out)
+    {
+        Piwik::checkUserHasSomeViewAccess();
+        $view = new View("@SitesManager/_wordpressTabInstructions");
         $out = $view->render();
     }
 }
