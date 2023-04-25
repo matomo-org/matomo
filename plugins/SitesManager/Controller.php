@@ -230,7 +230,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'googleAnalyticsImporterMessage' => $googleAnalyticsImporterMessage,
             'tagManagerActive' => $tagManagerActive,
             'consentManagerName' => false,
-            'cloudflare' => true,
+            'cloudflare' => $this->siteContentDetector->cloudflare,
             'wordpressUsed' => ($this->siteContentDetector->cms === SitesManager::SITE_TYPE_WORDPRESS),
         ];
 
