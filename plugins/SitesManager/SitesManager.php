@@ -20,6 +20,7 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\Settings\Storage\Backend\MeasurableSettingsTable;
+use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\FingerprintSalt;
@@ -546,6 +547,20 @@ class SitesManager extends \Piwik\Plugin
     {
         Piwik::checkUserHasSomeViewAccess();
         $view = new View("@SitesManager/_wordpressTabInstructions");
+        $authLink = 'https://matomo.org/faq/general/faq_114/';
+        if (Piwik::hasUserSuperUserAccess()) {
+            $idSite = Common::getRequestVar('idSite', 0, 'int');
+            $period = Common::getRequestVar('period', 'day', 'string');
+            $date = Common::getRequestVar('date', 'yesterday', 'string');
+            $authLink = SettingsPiwik::getPiwikUrl() . 'index.php?' . Url::getQueryStringFromParameters([
+                    'idSite' => $idSite,
+                    'date' => $date,
+                    'period' => $period,
+                    'module' => 'UsersManager',
+                    'action' => 'userSecurity',
+                ]);
+        }
+        $view->authLink = $authLink;
         $out = $view->render();
     }
 }
