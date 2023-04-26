@@ -5,16 +5,18 @@
 -->
 
 <template>
-  <FormField
-    :form-field="field"
-    :model-value="modelValue"
-    @update:model-value="onChange($event)"
-    :model-modifiers="modelModifiers"
-  >
-    <template v-slot:inline-help>
-      <slot name="inline-help"></slot>
-    </template>
-  </FormField>
+  <div class="input-field">
+    <FormField
+      :form-field="field"
+      :model-value="modelValue"
+      @update:model-value="onChange($event)"
+      :model-modifiers="modelModifiers"
+    >
+      <template v-slot:inline-help>
+        <slot name="inline-help"></slot>
+      </template>
+    </FormField>
+  </div>
 </template>
 
 <script lang="ts">
