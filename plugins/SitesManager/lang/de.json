@@ -128,6 +128,24 @@
         "WebsitesManagement": "Webseitenverwaltung",
         "XManagement": "%s verwalten",
         "YouCurrentlyHaveAccessToNWebsites": "Sie haben derzeit Zugriff auf %s Webseiten.",
-        "YourCurrentIpAddressIs": "Ihre aktuelle IP-Adresse ist %s"
+        "YourCurrentIpAddressIs": "Ihre aktuelle IP-Adresse ist %s",
+        "GTMDetected": "Google Tag Manager wurde auf Ihrer Website erkannt. Wussten Sie, dass Sie Ihre bestehenden Tags, Trigger und Variablen von Google Tag Manager zu Matomo Tag Manager migrieren können? %1$sErfahren Sie mehr in diesem Leitfaden%2$s.",
+        "GTMDetectedEmail": "Google Tag Manager wurde auf Ihrer Website erkannt. Wussten Sie, dass Sie Ihre vorhandenen Tags, Trigger und Variablen von Google Tag Manager auf Matomo Tag Manager migrieren können? Erfahren Sie hier mehr: %1$s",
+        "SiteWithoutDataGoogleTagManagerIntro": "Wenn Sie Google Tag Manager verwenden, können Sie mit dem \"Custom HTML Tag\" von Google Tag Manager nahtlos Daten in Matomo verfolgen. %1$sErfahren Sie mehr%2$s.",
+        "SiteWithoutDataGoogleTagManagerFollowStepsIntro": "Folgen Sie diesen Schritten, um es einzurichten:",
+        "SiteWithoutDataGoogleTagManagerFollowStep1": "%1$sMelden Sie sich%2$s bei Ihrem Google Tag Manager-Konto an.",
+        "SiteWithoutDataGoogleTagManagerFollowStep2": "Wählen Sie den Container aus, zu dem Sie Matomo hinzufügen möchten.",
+        "SiteWithoutDataGoogleTagManagerFollowStep3": "Klicken Sie auf \"Tags\" und dann auf \"Neu\".",
+        "SiteWithoutDataGoogleTagManagerFollowStep4": "Oben im Fenster geben Sie einen Namen für Ihr Tag an.",
+        "SiteWithoutDataGoogleTagManagerFollowStep5": "Klicken Sie auf \"Tag-Konfiguration\" und wählen Sie \"Custom HTML\".",
+        "SiteWithoutDataGoogleTagManagerFollowStep6": "Kopieren Sie den Standard-Matomo JavaScript-Tracking-Code wie unten angegeben.",
+        "SiteWithoutDataGoogleTagManagerFollowStep7": "Fügen Sie diesen JavaScript-Tracking-Code in das Tag-Konfigurations-HTML-Feld ein.",
+        "SiteWithoutDataGoogleTagManagerFollowStep8": "Scrollen Sie nach unten und klicken Sie auf \"Auslöser\".",
+        "SiteWithoutDataGoogleTagManagerFollowStep9": "Wählen Sie \"Alle Seiten\", um das \"Matomo-Tracking-Tag\" auf allen Ihren Seiten auszulösen.",
+        "SiteWithoutDataGoogleTagManagerFollowStep10": "Klicken Sie auf \"Speichern\".",
+        "SiteWithoutDataGoogleTagManagerFollowStep11": "Überprüfen Sie Ihre Änderungen, indem Sie auf die Schaltfläche \"Vorschau\" klicken.",
+        "SiteWithoutDataGoogleTagManagerFollowStep12": "Überprüfen Sie, ob das Matomo-Tag wie erwartet ausgelöst wird.",
+        "SiteWithoutDataGoogleTagManagerFollowStep13": "Veröffentlichen Sie Ihre Änderungen, indem Sie auf die Schaltfläche \"Senden\" und dann auf die Schaltfläche \"Veröffentlichen\" oben rechts klicken.",
+        "SiteWithoutDataGoogleTagManagerFollowStepCompleted": "%1$sHerzlichen Glückwunsch!%2$s Sie haben den Matomo Analytics Tracking-Code erfolgreich über Google Tag Manager installiert. Um zu überprüfen, ob Treffer erfasst werden, besuchen Sie Ihre Website und prüfen Sie, ob diese Daten in Ihrer Matomo-Instanz sichtbar sind."
     }
 }
