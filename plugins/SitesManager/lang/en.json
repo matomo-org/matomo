@@ -167,7 +167,7 @@
         "SiteWithoutDataWordpressFollowStep3": "Search for \"WP-Matomo\" and click on \"Activate\".",
         "SiteWithoutDataWordpressFollowStep4": "Install the WP-Matomo plugin in your WordPress.",
         "SiteWithoutDataWordpressFollowStep5": "In the left menu, click \"Settings\" > \"WP-Piwik\".",
-        "SiteWithoutDataWordpressFollowStep6": "Click on \"Connect to Matomo\" tab, and in the \"Matomo Mode\" dropdown and select the option \"Self hosted (HTTP API, default)\" from the Matomo mode drop down. In the \"Matomo URL\" text field, enter your Matomo URL.",
+        "SiteWithoutDataWordpressFollowStep6": "Click on \"Connect to Matomo\" tab, and in the \"Matomo Mode\" dropdown select the option \"Self hosted (HTTP API, default)\" from the Matomo mode drop down. In the \"Matomo URL\" text field, enter your Matomo URL.",
         "SiteWithoutDataWordpressFollowStep7": "Create your Auth Token by following this %1$slink%2$s.",
         "SiteWithoutDataWordpressFollowStep8": "Then In the \"Auth token\" text field, paste your Matomo authentication token.",
         "SiteWithoutDataWordpressFollowStep9": "Confirm the \"Auto config\" checkbox is selected and click on \"Save Changes\".",

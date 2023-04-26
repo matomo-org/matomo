@@ -391,24 +391,8 @@ class SitesManager extends \Piwik\Plugin
 
     public static function getInstructionByCms(?string $cms): string
     {
-        if ($cms === self::SITE_TYPE_UNKNOWN) {
+        if ($cms === self::SITE_TYPE_UNKNOWN || $cms === self::SITE_TYPE_WORDPRESS) {
             return '';
-        }
-
-        if ($cms === self::SITE_TYPE_WORDPRESS && !SettingsServer::isMatomoForWordPress()) {
-            return sprintf(
-                '%s<br /><br />%s<br /><br />',
-                Piwik::translate('SitesManager_SiteWithoutDataDetectedSiteWordpress', [
-                    '<a target="_blank" rel="noreferrer noopener" href="' . self::getInstructionUrlBySiteType($cms) . '#wpmatomo">',
-                    '</a>',
-                    '<a target="_blank" rel="noreferrer noopener" href="https://wordpress.org/plugins/wp-piwik/">',
-                    '</a>',
-                ]),
-                Piwik::translate('SitesManager_SiteWithoutDataDetectedSiteWordpress2', [
-                    '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/how-to-install/which-plugin-should-i-use-with-wordpress/">',
-                    '</a>',
-                ])
-            );
         }
 
         return Piwik::translate(
