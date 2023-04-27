@@ -531,8 +531,9 @@ class SitesManager extends \Piwik\Plugin
     {
         Piwik::checkUserHasSomeViewAccess();
         $view = new View("@SitesManager/_wordpressTabInstructions");
-        $authLink = 'https://matomo.org/faq/general/faq_114/';
-        if (Piwik::hasUserSuperUserAccess()) {
+        $faqLink = 'https://matomo.org/faq/general/faq_114/';
+        $authLink = '';
+        if (Piwik::isUserHasSomeViewAccess()) {
             $idSite = Common::getRequestVar('idSite', 0, 'int');
             $period = Common::getRequestVar('period', 'day', 'string');
             $date = Common::getRequestVar('date', 'yesterday', 'string');
@@ -541,10 +542,11 @@ class SitesManager extends \Piwik\Plugin
                     'date' => $date,
                     'period' => $period,
                     'module' => 'UsersManager',
-                    'action' => 'userSecurity',
+                    'action' => 'addNewToken',
                 ]);
         }
         $view->authLink = $authLink;
+        $view->faqLink = $faqLink;
         $out = $view->render();
     }
 }
