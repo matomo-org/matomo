@@ -242,7 +242,7 @@ class Controller extends \Piwik\Plugin\Controller
         } else {
             $view = new View('@CoreUpdater/updateSuccess');
         }
-        $messages = safe_unserialize(Request::fromPost()->getStringParameter('messages', ''));
+        $messages = Common::safe_unserialize(Request::fromPost()->getStringParameter('messages', ''));
         if (!is_array($messages)) {
             $messages = array();
         }
