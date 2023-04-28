@@ -159,7 +159,7 @@
         "SiteWithoutDataGoogleTagManagerFollowStep10": "Check if the Matomo tag is firing as expected.",
         "SiteWithoutDataGoogleTagManagerFollowStep11": "Publish your changes by clicking the \"Submit\" button and then the \"Publish\" button at the top right.",
         "SiteWithoutDataGoogleTagManagerFollowStepCompleted": "%1$sCongratulations!%2$s You have successfully installed the Matomo Analytics tracking code via Google Tag Manager. To verify that hits are being tracked, visit your website and check that this data is visible in your Matomo instance.",
-        "WordpressDetected": "Wordpress was detected on your website. Did you know you can use the Matomo easy WordPress plugin to track the website data? %1$sLearn more in this guide%2$s.",
+        "WordpressDetected": "Wordpress was detected on your website. Did you know you can use the easy Matomo WordPress plugin to track your website data? %1$sLearn more in this guide%2$s.",
         "SiteWithoutDataWordpress": "Wordpress",
         "SiteWithoutDataWordpressDescription": "You can use the Matomo easy WordPress plugin to track data, follow the instructions from this %1$sguide%2$s.",
         "SiteWithoutDataWordpressFollowStep1": "Log in to your WordPress site as the administrator.",
