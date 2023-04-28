@@ -15,7 +15,7 @@
             {% if gtmUsed %}
                 <li class="tab col s2"><a {% if activeTab == 'gtm' %} class="active" {% endif %} href="#google-tag-manager">{{ 'SitesManager_SiteWithoutDataGoogleTagManager'|translate }}</a></li>
             {% endif %}
-            {% if wordpressUsed %}
+            {% if cms == 'wordpress' %}
                 <li class="tab col s2"><a {% if activeTab == 'wordpress' %} class="active" {% endif %} href="#wordpress">{{ 'SitesManager_SiteWithoutDataWordpress'|translate }}</a></li>
             {% endif %}
             {% if cloudflare %}
@@ -122,7 +122,7 @@
         </div>
     {% endif %}
 
-    {% if wordpressUsed %}
+    {% if cms == 'wordpress' %}
         <div id="wordpress" class="col s12">
 
             <p></p><p></p>
