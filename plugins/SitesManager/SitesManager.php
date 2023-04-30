@@ -20,7 +20,7 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\Settings\Storage\Backend\MeasurableSettingsTable;
-use Piwik\SettingsServer;
+use Piwik\SettingsPiwik;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\FingerprintSalt;
 use Piwik\Tracker\Model as TrackerModel;
@@ -60,6 +60,7 @@ class SitesManager extends \Piwik\Plugin
             'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
             'Request.dispatch'                       => 'redirectDashboardToWelcomePage',
             'Template.noDataPageGTMTabInstructions'  => 'noDataPageGTMTabInstructions',
+            'Template.noDataPageWordpressTabInstructions'  => 'noDataPageWordpressTabInstructions',
         ];
     }
 
@@ -389,24 +390,8 @@ class SitesManager extends \Piwik\Plugin
 
     public static function getInstructionByCms(?string $cms): string
     {
-        if ($cms === self::SITE_TYPE_UNKNOWN) {
+        if ($cms === self::SITE_TYPE_UNKNOWN || $cms === self::SITE_TYPE_WORDPRESS) {
             return '';
-        }
-
-        if ($cms === self::SITE_TYPE_WORDPRESS && !SettingsServer::isMatomoForWordPress()) {
-            return sprintf(
-                '%s<br /><br />%s<br /><br />',
-                Piwik::translate('SitesManager_SiteWithoutDataDetectedSiteWordpress', [
-                    '<a target="_blank" rel="noreferrer noopener" href="' . self::getInstructionUrlBySiteType($cms) . '#wpmatomo">',
-                    '</a>',
-                    '<a target="_blank" rel="noreferrer noopener" href="https://wordpress.org/plugins/wp-piwik/">',
-                    '</a>',
-                ]),
-                Piwik::translate('SitesManager_SiteWithoutDataDetectedSiteWordpress2', [
-                    '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/how-to-install/which-plugin-should-i-use-with-wordpress/">',
-                    '</a>',
-                ])
-            );
         }
 
         return Piwik::translate(
@@ -527,6 +512,8 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = 'Goals_Optional';
         $translationKeys[] = "SitesManager_SiteWithoutDataGoogleTagManager";
         $translationKeys[] = "SitesManager_SiteWithoutDataGoogleTagManagerDescription";
+        $translationKeys[] = "SitesManager_SiteWithoutDataWordpress";
+        $translationKeys[] = "SitesManager_SiteWithoutDataWordpressDescription";
     }
 
     public function noDataPageGTMTabInstructions(&$out)
@@ -536,6 +523,30 @@ class SitesManager extends \Piwik\Plugin
         $jsTag = Request::processRequest('SitesManager.getJavascriptTag', ['idSite' => Common::getRequestVar('idSite'), 'piwikUrl' => $piwikUrl]);
         $view = new View("@SitesManager/_gtmTabInstructions");
         $view->jsTag = $jsTag;
+        $out = $view->render();
+    }
+
+    public function noDataPageWordpressTabInstructions(&$out)
+    {
+        Piwik::checkUserHasSomeViewAccess();
+        $view = new View("@SitesManager/_wordpressTabInstructions");
+        $faqLink = 'https://matomo.org/faq/general/faq_114/';
+        $authLink = '';
+        if (Piwik::isUserHasSomeViewAccess()) {
+            $request = \Piwik\Request::fromRequest();
+            $idSite = $request->getIntegerParameter('idSite', 0);
+            $period = $request->getStringParameter('period', 'day');
+            $date = $request->getStringParameter('date', 'yesterday');
+            $authLink = SettingsPiwik::getPiwikUrl() . 'index.php?' . Url::getQueryStringFromParameters([
+                    'idSite' => $idSite,
+                    'date' => $date,
+                    'period' => $period,
+                    'module' => 'UsersManager',
+                    'action' => 'addNewToken',
+                ]);
+        }
+        $view->authLink = $authLink;
+        $view->faqLink = $faqLink;
         $out = $view->render();
     }
 }
