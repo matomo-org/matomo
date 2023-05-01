@@ -27,7 +27,7 @@ class CodeCoverage extends ConsoleCommand
     {
         $input = $this->getInput();
         $output = $this->getOutput();
-        $phpCovPath = trim(shell_exec('which phpcov'));
+        $phpCovPath = trim(shell_exec('which phpcov') ?? '');
 
         if (empty($phpCovPath)) {
 
