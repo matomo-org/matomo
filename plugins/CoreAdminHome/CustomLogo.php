@@ -50,7 +50,7 @@ class CustomLogo
 
     public function isEnabled()
     {
-        return (bool) Option::get('branding_use_custom_logo');
+        return $this->isCustomLogoFeatureEnabled() && Option::get('branding_use_custom_logo');
     }
 
     public function enable()
