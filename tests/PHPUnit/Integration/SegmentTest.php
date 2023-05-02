@@ -2520,7 +2520,7 @@ SQL;
     {
         return [
             'observers.global' => [
-                ['Segment.addSegments', \DI\value(function (Segment\SegmentsList $list) {
+                ['Segment.addSegments', \Piwik\DI::value(function (Segment\SegmentsList $list) {
                     $segment = new \Piwik\Plugin\Segment();
                     $segment->setSegment('customSegment');
                     $segment->setType(\Piwik\Plugin\Segment::TYPE_DIMENSION);

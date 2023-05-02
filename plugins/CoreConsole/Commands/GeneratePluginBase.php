@@ -16,14 +16,12 @@ use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugin\Dependency;
 use Piwik\Plugin\Manager;
 use Piwik\Version;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Piwik\SettingsPiwik;
 use Piwik\Exception\NotGitInstalledException;
 
 abstract class GeneratePluginBase extends ConsoleCommand
 {
-    protected function initialize(InputInterface $input, OutputInterface $output)
+    protected function doInitialize(): void
     {
         $this->throwErrorIfNotGitInstalled();
     }
@@ -111,8 +109,9 @@ abstract class GeneratePluginBase extends ConsoleCommand
         return $pluginName . '_' . $key;
     }
 
-    protected function checkAndUpdateRequiredPiwikVersion($pluginName, OutputInterface $output)
+    protected function checkAndUpdateRequiredPiwikVersion($pluginName)
     {
+        $output             = $this->getOutput();
         $pluginJsonPath     = $this->getPluginPath($pluginName) . '/plugin.json';
         $relativePluginJson = Manager::getPluginDirectory($pluginName) . '/plugin.json';
 
@@ -362,13 +361,13 @@ abstract class GeneratePluginBase extends ConsoleCommand
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
      * @return string
      * @throws \RuntimeException
      */
-    protected function askPluginNameAndValidate(InputInterface $input, OutputInterface $output, $pluginNames, $invalidArgumentException)
+    protected function askPluginNameAndValidate($pluginNames, $invalidArgumentException)
     {
+        $input = $this->getInput();
+
         $validate = function ($pluginName) use ($pluginNames, $invalidArgumentException) {
             if (!in_array($pluginName, $pluginNames)) {
                 throw new \InvalidArgumentException($invalidArgumentException);
@@ -380,8 +379,7 @@ abstract class GeneratePluginBase extends ConsoleCommand
         $pluginName = $input->getOption('pluginname');
 
         if (empty($pluginName)) {
-            $dialog = $this->getHelperSet()->get('dialog');
-            $pluginName = $dialog->askAndValidate($output, 'Enter the name of your plugin: ', $validate, false, null, $pluginNames);
+            $pluginName = $this->askAndValidate('Enter the name of your plugin: ', $validate, false, $pluginNames);
         } else {
             $validate($pluginName);
         }

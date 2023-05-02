@@ -13,10 +13,12 @@ use Piwik\CronArchive;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\Model;
 use Piwik\Http;
+use Piwik\Log\Logger;
+use Piwik\Log\LoggerInterface;
 use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Site;
 use Piwik\Tests\Framework\TestingEnvironmentVariables;
-use Psr\Container\ContainerInterface;
+use Piwik\Container\Container;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Common;
 use Piwik\Config;
@@ -247,7 +249,7 @@ class ArchiveCronTest extends SystemTestCase
 
         foreach ($this->getApiForTesting() as $testInfo) {
 
-            list($api, $params) = $testInfo;
+            [$api, $params] = $testInfo;
 
             if (!isset($params['testSuffix'])) {
                 $params['testSuffix'] = '';
@@ -455,17 +457,17 @@ class ArchiveCronTest extends SystemTestCase
     public static function provideContainerConfigBeforeClass()
     {
         return array(
-            'Psr\Log\LoggerInterface' => \DI\get('Monolog\Logger'),
+            LoggerInterface::class => \Piwik\DI::get(Logger::class),
 
             // for some reason, w/o real translations archiving segments in CronArchive fails. the data returned by CliMulti
             // is a translation token, and nothing else.
-            'Piwik\Translation\Translator' => function (ContainerInterface $c) {
+            'Piwik\Translation\Translator' => function (Container $c) {
                 return new \Piwik\Translation\Translator($c->get('Piwik\Translation\Loader\LoaderInterface'));
             },
 
             'Tests.log.allowAllHandlers' => true,
 
-            CronArchive\SegmentArchiving::class => \DI\object()
+            CronArchive\SegmentArchiving::class => \Piwik\DI::autowire()
                 // Oldest reports are for 2012, so ensure segments are processed for that year
                 ->constructorParameter('beginningOfTimeLastNInYears', date('Y')-2012)
         );

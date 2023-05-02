@@ -8,7 +8,7 @@
  */
 namespace Piwik\Plugins\CoreAdminHome;
 
-use DI\NotFoundException;
+use Piwik\Exception\DI\NotFoundException;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;

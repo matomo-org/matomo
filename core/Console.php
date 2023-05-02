@@ -12,11 +12,10 @@ use Exception;
 use Monolog\Handler\FingersCrossedHandler;
 use Piwik\Application\Environment;
 use Piwik\Config\ConfigNotFoundException;
-use Piwik\Console\DialogHelper;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\Monolog\Handler\FailureLogMessageDetector;
-use Psr\Log\LoggerInterface;
+use Piwik\Log\LoggerInterface;
 use Symfony\Bridge\Monolog\Handler\ConsoleHandler;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
@@ -61,7 +60,7 @@ class Console extends Application
         $this->getDefinition()->addOption($option);
     }
 
-    public function renderException($e, $output)
+    public function renderThrowable(\Throwable $e, OutputInterface $output): void
     {
         $logHandlers = StaticContainer::get('log.handlers');
 
@@ -73,13 +72,11 @@ class Console extends Application
             }
         }
 
-        if ($hasFingersCrossed
-            && $output->getVerbosity() < OutputInterface::VERBOSITY_VERBOSE
-        ) {
+        if ($hasFingersCrossed && !$output->isVerbose()) {
             $output->setVerbosity(OutputInterface::VERBOSITY_VERBOSE);
         }
 
-        parent::renderException($e, $output);
+        parent::renderThrowable($e, $output);
     }
 
     public function doRun(InputInterface $input, OutputInterface $output)
@@ -133,10 +130,6 @@ class Console extends Application
         foreach ($commands as $command) {
             $this->addCommandIfExists($command);
         }
-
-        $helperSet = $this->getHelperSet();
-        $helperSet->set(new DialogHelper());
-        $this->setHelperSet($helperSet);
 
         $exitCode = null;
 

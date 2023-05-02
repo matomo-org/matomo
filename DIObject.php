@@ -12,7 +12,7 @@ if (!function_exists("\DI\object")) {
 
     function object()
     {
-        return call_user_func_array("\DI\autowire", func_get_args());
+        return call_user_func_array("\Piwik\DI::autowire", func_get_args());
     }
 
 }
@@ -21,7 +21,7 @@ if (!function_exists("\DI\link")) {
 
     function link()
     {
-        return call_user_func_array("\DI\get", func_get_args());
+        return call_user_func_array("\Piwik\DI::get", func_get_args());
     }
 
 }

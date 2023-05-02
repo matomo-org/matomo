@@ -10,7 +10,7 @@ namespace Piwik\Plugins\CoreAdminHome;
 
 use Exception;
 use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
+use Piwik\Log\Logger;
 use Piwik\Access;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\ArchiveProcessor;
@@ -19,6 +19,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\CronArchive;
 use Piwik\Date;
+use Piwik\Log\LoggerInterface;
 use Piwik\Period\Factory;
 use Piwik\Piwik;
 use Piwik\Segment;
@@ -190,8 +191,8 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSuperUserAccess();
 
         // HTTP request: logs needs to be dumped in the HTTP response (on top of existing log destinations)
-        /** @var \Monolog\Logger $logger */
-        $logger = StaticContainer::get('Psr\Log\LoggerInterface');
+        /** @var \Piwik\Log\Logger $logger */
+        $logger = StaticContainer::get(LoggerInterface::class);
         $handler = new StreamHandler('php://output', Logger::INFO);
         $handler->setFormatter(StaticContainer::get('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter'));
         $logger->pushHandler($handler);

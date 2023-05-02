@@ -18,7 +18,7 @@ use Piwik\Container\StaticContainer;
 class Factory
 {
     /**
-     * @var \DI\Container
+     * @var \Piwik\Container\Container
      */
     private $container;
 

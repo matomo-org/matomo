@@ -10,7 +10,7 @@
 
 namespace Piwik;
 
-use DI\DependencyException;
+use Piwik\Exception\DI\DependencyException;
 use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
@@ -19,7 +19,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Exception\IRedirectException;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor;
-use Psr\Log\LoggerInterface;
+use Piwik\Log\LoggerInterface;
 
 /**
  * Contains Piwik's uncaught exception handler.
