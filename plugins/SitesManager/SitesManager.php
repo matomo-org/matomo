@@ -533,10 +533,9 @@ class SitesManager extends \Piwik\Plugin
         $faqLink = 'https://matomo.org/faq/general/faq_114/';
         $authLink = '';
         if (Piwik::isUserHasSomeViewAccess()) {
-            $request = \Piwik\Request::fromRequest();
-            $idSite = $request->getIntegerParameter('idSite', 0);
-            $period = $request->getStringParameter('period', 'day');
-            $date = $request->getStringParameter('date', 'yesterday');
+            $idSite = Common::getRequestVar('idSite', 0, 'int');
+            $period = Common::getRequestVar('period', 'day', 'string');
+            $date = Common::getRequestVar('date', 'yesterday', 'string');
             $authLink = SettingsPiwik::getPiwikUrl() . 'index.php?' . Url::getQueryStringFromParameters([
                     'idSite' => $idSite,
                     'date' => $date,
