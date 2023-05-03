@@ -1,9 +1,9 @@
 <?php
 
 return array(
-    'Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretRandomGenerator' => DI\autowire('Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretStaticGenerator'),
-    'Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeRandomGenerator' => DI\autowire('Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeStaticGenerator'),
-    'Piwik\Plugins\TwoFactorAuth\TwoFactorAuthentication' => DI\decorate(function ($previous) {
+    'Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretRandomGenerator' => Piwik\DI::autowire('Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretStaticGenerator'),
+    'Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeRandomGenerator' => Piwik\DI::autowire('Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeStaticGenerator'),
+    'Piwik\Plugins\TwoFactorAuth\TwoFactorAuthentication' => Piwik\DI::decorate(function ($previous) {
         /** @var Piwik\Plugins\TwoFactorAuth\TwoFactorAuthentication $previous */
 
         if (!\Piwik\SettingsPiwik::isMatomoInstalled()) {
@@ -27,7 +27,7 @@ return array(
 
         return $previous;
     }),
-    'Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao' => DI\decorate(function ($previous) {
+    'Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao' => Piwik\DI::decorate(function ($previous) {
         /** @var Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao $previous */
 
         if (!\Piwik\SettingsPiwik::isMatomoInstalled()) {
@@ -46,7 +46,7 @@ return array(
 
         return $previous;
     }),
-    'Piwik\Plugins\TwoFactorAuth\SystemSettings' => DI\decorate(function ($previous) {
+    'Piwik\Plugins\TwoFactorAuth\SystemSettings' => Piwik\DI::decorate(function ($previous) {
         /** @var Piwik\Plugins\TwoFactorAuth\SystemSettings $previous */
         if (!\Piwik\SettingsPiwik::isMatomoInstalled()) {
             return $previous;

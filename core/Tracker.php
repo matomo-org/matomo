@@ -22,7 +22,7 @@ use Piwik\Tracker\RequestSet;
 use Piwik\Tracker\TrackerConfig;
 use Piwik\Tracker\Visit;
 use Piwik\Plugin\Manager as PluginManager;
-use Psr\Log\LoggerInterface;
+use Piwik\Log\LoggerInterface;
 
 /**
  * Class used by the logging script piwik.php called by the javascript tag.

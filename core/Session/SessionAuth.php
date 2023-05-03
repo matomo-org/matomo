@@ -16,7 +16,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
 use Piwik\Session;
-use Psr\Log\LoggerInterface;
+use Piwik\Log\LoggerInterface;
 
 /**
  * Validates already authenticated sessions.

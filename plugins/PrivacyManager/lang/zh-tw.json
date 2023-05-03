@@ -131,6 +131,7 @@
         "OptOutCustomize": "自訂選擇退出的 iframe",
         "OptOutHtmlCode": "嵌入你的網站內用的 HTML 程式碼",
         "OptOutPreview": "預覽你的網站上選擇退出的效果",
+        "OptOutUseTracker": "使用 Matomo 追蹤器程式碼來設定選擇退出",
         "PluginDescription": "為你的使用者增加隱私，也讓你的 Matomo 隱私權和當地的法規相容。",
         "PseudonymizeUserId": "以假名取代使用者 ID",
         "PseudonymizeUserIdNote": "當你啟用此選項，使用者 ID 將會被一組假名所取代來避免直接儲存或顯示個人可辨識的資訊像是 Email。在技術方面：給予你的使用者 ID，Matomo 將會使用加鹽的雜湊函數來處理使用者 ID 假名。",

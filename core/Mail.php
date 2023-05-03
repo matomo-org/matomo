@@ -8,13 +8,14 @@
  */
 namespace Piwik;
 
-use DI\NotFoundException;
-use DI\DependencyException;
+use PHPMailer\PHPMailer\Exception;
+use Piwik\Exception\DI\NotFoundException;
+use Piwik\Exception\DI\DependencyException;
 use Piwik\Container\StaticContainer;
 use Piwik\Email\ContentGenerator;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Translation\Translator;
-use Psr\Log\LoggerInterface;
+use Piwik\Log\LoggerInterface;
 
 /**
  * Class for sending mails
@@ -53,7 +54,7 @@ class Mail
     /**
      * Sets the default sender
      *
-     * @throws \DI\NotFoundException
+     * @throws NotFoundException
      */
     public function setDefaultFromPiwik()
     {
@@ -96,7 +97,8 @@ class Mail
 
     /**
      * @param View|string $body
-     * @throws \DI\NotFoundException
+     * @throws DependencyException
+     * @throws NotFoundException
      */
     public function setWrappedHtmlBody($body)
     {
@@ -271,7 +273,9 @@ class Mail
      * Sends the mail
      *
      * @return bool|null returns null if sending the mail was aborted by the Mail.send event
-     * @throws \DI\NotFoundException
+     * @throws DependencyException
+     * @throws NotFoundException
+     * @throws Exception
      */
     public function send()
     {

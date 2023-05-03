@@ -92,7 +92,7 @@ JS;
     public static function getJavaScriptAddEvent()
     {
         $xssTesting = new XssTesting();
-        return ['Template.jsGlobalVariables', \DI\value(function (&$out) use ($xssTesting) {
+        return ['Template.jsGlobalVariables', \Piwik\DI::value(function (&$out) use ($xssTesting) {
             $out .= $xssTesting->getJavaScriptCode();
         })];
     }

@@ -141,8 +141,8 @@ class UserInviteTest extends IntegrationTestCase
     {
         return [
             'Piwik\Access' => new FakeAccess(),
-            'observers.global' => \DI\add([
-                ['Test.Mail.send', \DI\value(function (PHPMailer $mail) {
+            'observers.global' => \Piwik\DI::add([
+                ['Test.Mail.send', \Piwik\DI::value(function (PHPMailer $mail) {
                     $body = $mail->createBody();
                     $body = preg_replace("/=[\r\n]+/", '', $body);
                     preg_match('/&token=[\s]*3D([a-zA-Z0-9=\s]+)"/', $body, $matches);

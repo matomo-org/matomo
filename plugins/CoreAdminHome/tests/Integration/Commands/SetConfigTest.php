@@ -8,7 +8,7 @@
 
 namespace Piwik\Plugins\CoreAdminHome\tests\Integration\Commands;
 
-use Psr\Container\ContainerInterface;
+use Piwik\Container\Container;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Config;
 use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
@@ -184,7 +184,7 @@ class SetConfigTest extends ConsoleCommandTestCase
     {
         return array(
             // use a config instance that will save to a test INI file
-            'Piwik\Config' => function (ContainerInterface $c) {
+            'Piwik\Config' => function (Container $c) {
                 /** @var GlobalSettingsProvider $actualGlobalSettingsProvider */
                 $actualGlobalSettingsProvider = $c->get('Piwik\Application\Kernel\GlobalSettingsProvider');
 

@@ -16,7 +16,7 @@ use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Plugins\CoreAdminHome\Controller;
 use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\ProfessionalServices\Advertising;
-use Psr\Log\LoggerInterface;
+use Piwik\Log\LoggerInterface;
 
 /**
  * Singleton that provides read & write access to Piwik's INI configuration.

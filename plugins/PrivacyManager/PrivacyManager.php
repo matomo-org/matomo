@@ -199,7 +199,7 @@ class PrivacyManager extends Plugin
         // We disable the post processor for this API method as it passes through the results of
         // `Live.getLastVisitsDetails`, which is already post processed.
         // Otherwise, the PostProcessor would trigger warning when trying to calculate a totals row.
-        if ($request['method'] === 'PrivacyManager.findDataSubjects') {
+        if (isset($request['method']) && ($request['method'] === 'PrivacyManager.findDataSubjects')) {
             $shouldDisable = true;
         }
     }

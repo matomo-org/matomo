@@ -2,8 +2,8 @@
     "CoreUpdater": {
         "CriticalErrorDuringTheUpgradeProcess": "განახლების პროცესის დროს მომხდარი კრიტიკული შეცდომა:",
         "DatabaseUpgradeRequired": "საჭიროა მონაცემთა ბაზის განახლება",
-        "DownloadingUpdateFromX": "ჩამოტვირთეთ განახლება აქედან %s",
         "DownloadX": "%s ჩამოტვირთვა",
+        "DownloadingUpdateFromX": "ჩამოტვირთეთ განახლება აქედან %s",
         "EmptyDatabaseError": "%s მონაცემთა ბაზა ცარიელია. თქვენ უნდა შეასწოროთ ან წაშალოთ Matomo კონფიგურაციის ფაილი.",
         "ErrorDIYHelp": "თუ თქვენ კვალიფიციური მომხმარებელი ხართ და მონაცემთა ბაზის განახლებისას მოხდა შეცდომა:",
         "ErrorDIYHelp_1": "გამოავლინეთ პრობლემის მიზეზი და შეასწორეთ ის (მაგ., memory_limit ან max_execution_time)",
@@ -26,20 +26,20 @@
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Matomo მონაცემთა ბაზა განახლდება %1$s ვერსიიდან ახალი %2$s ვერსიამდე.",
         "ReadyToGo": "მზად ხართ?",
         "TheFollowingPluginsWillBeUpgradedX": "განახლდება შემდეგი პლაგინები: %s.",
-        "ThereIsNewVersionAvailableForUpdate": "Matomo–ის ახალი ვერსია გამოსულია, შესაძლებელია განახლება",
         "TheUpgradeProcessMayFailExecuteCommand": "თუ თქვენი Matomo მონაცემთა ბაზა საკმაოდ დიდია, განახლების ბრაუზერიდან გაშვებას შეიძლება ძალიან დიდი დრო დაჭირდეს. ასეთ სიტუაციაში თქვენ შეგიძლიათ განახორციელოთ განახლება ბრძანებათა ზოლიდან: %s",
         "TheUpgradeProcessMayTakeAWhilePleaseBePatient": "მონაცემთა ბაზის განახლების პროცესს შეიძლება დრო დაჭირდეს, გთხოვთ გაითვალისწინოთ.",
+        "ThereIsNewVersionAvailableForUpdate": "Matomo–ის ახალი ვერსია გამოსულია, შესაძლებელია განახლება",
         "UnpackingTheUpdate": "განახლების პაკეტის გახსნა",
         "UpdateAutomatically": "ავტომატური განახლება",
         "UpdateHasBeenCancelledExplanation": "Matomo–ის ერთი დაწკაპუნებით განახლება შეწყდა. თუ თქვენ არ შეგიძლიათ შეტყობინებაში ხსენებული შეცდომის მოგვარება, გირჩევთ მექანიკურად განაახლოთ Matomo. %1$s გთხოვთ, დაწყებამდე გაეცნოთ %2$sგანახლების დოკუმენტაციას%3$s!",
-        "UpdateTitle": "განახლება",
         "UpdateSuccessTitle": "Matomo წარმატებით განახლდა!",
+        "UpdateTitle": "განახლება",
         "UpgradeComplete": "განახლება დასრულდა!",
         "UpgradePiwik": "Matomo განახლება",
         "VerifyingUnpackedFiles": "გახნილი პაკეტის ფაილების შემოწმება",
         "WarningMessages": "გაფრთხილების შეტყობინებები:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "შემდეგი პლაგინები ავტომატურად გავთიშეთ: %s",
-        "YouCanUpgradeAutomaticallyOrDownloadPackage": "შეგიძლიათ განაახლოთ %s ვერსიამდე ავტომატურად, ან ჩამოტვირთოთ პაკეტი და განაახლოთ მექანიკურად.",
+        "YouCanUpgradeAutomaticallyOrDownloadPackage": "შეგიძლიათ %s ვერსიამდე ავტომატურად განახლდეთ, ან პაკეტი სახელით გადმოწეროთ და დააყენოთ:",
         "YourDatabaseIsOutOfDate": "Matomo–ის მონაცემთა ბაზა ვადაგასულია, სანამ გააგრძელებთ აუცილებელია მისი განახლება."
     }
 }

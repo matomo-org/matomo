@@ -19,7 +19,7 @@ use Piwik\Http;
 use Piwik\Plugin;
 use Piwik\Plugins\Marketplace\Environment;
 use Piwik\SettingsServer;
-use Psr\Log\LoggerInterface;
+use Piwik\Log\LoggerInterface;
 
 /**
  *

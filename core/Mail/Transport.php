@@ -9,10 +9,13 @@
 
 namespace Piwik\Mail;
 
+use PHPMailer\PHPMailer\Exception AS PHPMailerException;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\Exception\DI\DependencyException;
+use Piwik\Exception\DI\NotFoundException;
 use Piwik\Mail;
 use Piwik\Piwik;
 
@@ -23,8 +26,9 @@ class Transport
      *
      * @param Mail $mail
      * @return bool
-     * @throws \DI\NotFoundException
-     * @throws \PHPMailer\PHPMailer\Exception
+     * @throws DependencyException
+     * @throws PHPMailerException
+     * @throws NotFoundException
      */
     public function send(Mail $mail)
     {

@@ -53,6 +53,7 @@ export { default as DatePicker } from './DatePicker/DatePicker.vue';
 export { default as DateRangePicker } from './DateRangePicker/DateRangePicker.vue';
 export { default as PeriodDatePicker } from './PeriodDatePicker/PeriodDatePicker.vue';
 export * from './Notification';
+export { default as ShowHelpLink } from './ShowHelpLink/ShowHelpLink.vue';
 export { default as SitesStore } from './SiteSelector/SitesStore';
 export { default as Site } from './SiteSelector/Site';
 export { default as SiteSelector } from './SiteSelector/SiteSelector.vue';
