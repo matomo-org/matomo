@@ -101,9 +101,7 @@ class RequiredPhpSetting implements \JsonSerializable
         return $this->setting . ' ' . implode(' OR ', $checks);
     }
 
-    /** @return mixed */
-    #[\ReturnTypeWillChange]
-    public function jsonSerialize()
+    public function jsonSerialize(): string
     {
         return $this->__toString();
     }
