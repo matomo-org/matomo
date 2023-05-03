@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<website>Piwik test</website>
+	<prettyDate>Monday, January 5, 2009</prettyDate>
+	<metadata>
+		<category>Actions</category>
+		<subcategory>Entry pages</subcategory>
+		<name>Entry page titles</name>
+		<module>Actions</module>
+		<action>getEntryPageTitles</action>
+		<dimension>Entry Page title</dimension>
+		<documentation>This report contains information about the titles of entry pages that were used during the specified period. Use the plus and minus icons on the left to navigate.</documentation>
+		<metrics>
+			<entry_nb_visits>Entrances</entry_nb_visits>
+			<entry_bounce_count>Bounces</entry_bounce_count>
+		</metrics>
+		<metricsDocumentation>
+			<entry_nb_visits>Number of visits that started on this page.</entry_nb_visits>
+			<entry_bounce_count>Number of visits that started and ended on this page. This means that the visitor left the website after viewing only this page.</entry_bounce_count>
+			<bounce_rate>The percentage of visits that started on this page and left the website straight away.</bounce_rate>
+		</metricsDocumentation>
+		<processedMetrics>
+			<bounce_rate>Bounce Rate</bounce_rate>
+			<avg_time_generation>Avg. generation time</avg_time_generation>
+		</processedMetrics>
+		<metricTypes>
+			<entry_nb_visits>number</entry_nb_visits>
+			<entry_bounce_count>number</entry_bounce_count>
+			<avg_time_on_page>duration_s</avg_time_on_page>
+			<bounce_rate>percent</bounce_rate>
+			<exit_rate>percent</exit_rate>
+			<avg_time_generation>duration_s</avg_time_generation>
+		</metricTypes>
+		<actionToLoadSubTables>getEntryPageTitles</actionToLoadSubTables>
+		<relatedReports>
+			<row>
+				<name>Page titles</name>
+				<module>Actions</module>
+				<action>getPageTitles</action>
+			</row>
+			<row>
+				<name>Entry pages</name>
+				<module>Actions</module>
+				<action>getEntryPageUrls</action>
+			</row>
+		</relatedReports>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getEntryPageTitles&amp;period=day&amp;date=2009-01-05</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getEntryPageTitles&amp;period=day&amp;date=2008-12-07,2009-01-05</imageGraphEvolutionUrl>
+		<uniqueId>Actions_getEntryPageTitles</uniqueId>
+	</metadata>
+	<columns>
+		<label>Entry Page title</label>
+		<entry_nb_visits>Entrances</entry_nb_visits>
+		<entry_bounce_count>Bounces</entry_bounce_count>
+		<bounce_rate>Bounce Rate</bounce_rate>
+	</columns>
+	<reportData>
+		<row>
+			<label> Page A - index.html</label>
+			<entry_nb_visits>4</entry_nb_visits>
+			<entry_bounce_count>0</entry_bounce_count>
+			<bounce_rate>0%</bounce_rate>
+			<goal_1_conversion_rate>75%</goal_1_conversion_rate>
+			<goal_2_conversion_rate>50%</goal_2_conversion_rate>
+		</row>
+	</reportData>
+	<reportMetadata>
+		<row>
+			<segment>entryPageTitle==Page%2BA%2B-%2Bindex.html</segment>
+		</row>
+	</reportMetadata>
+	<reportTotal>
+		<nb_visits>4</nb_visits>
+		<nb_uniq_visitors>4</nb_uniq_visitors>
+		<nb_hits>5</nb_hits>
+		<sum_time_spent>1800</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<entry_nb_uniq_visitors>4</entry_nb_uniq_visitors>
+		<entry_nb_visits>4</entry_nb_visits>
+		<entry_nb_actions>18</entry_nb_actions>
+		<entry_sum_visit_length>5047</entry_sum_visit_length>
+		<entry_bounce_count>0</entry_bounce_count>
+		<goals>
+			<row idgoal="1">
+				<nb_conversions>3</nb_conversions>
+				<revenue>30</revenue>
+				<nb_conv_pages_before>4</nb_conv_pages_before>
+				<nb_conversions_attrib>1.0833</nb_conversions_attrib>
+				<nb_conversions_page_uniq>3</nb_conversions_page_uniq>
+				<revenue_attrib>10.83</revenue_attrib>
+				<revenue_entry>30</revenue_entry>
+				<revenue_per_entry>7.5</revenue_per_entry>
+				<nb_conversions_entry>3</nb_conversions_entry>
+				<nb_conversions_page_rate>1</nb_conversions_page_rate>
+				<nb_conversions_entry_rate>0.75</nb_conversions_entry_rate>
+			</row>
+			<row idgoal="2">
+				<nb_conversions>2</nb_conversions>
+				<revenue>20</revenue>
+				<nb_conv_pages_before>5</nb_conv_pages_before>
+				<nb_conversions_attrib>0.4</nb_conversions_attrib>
+				<nb_conversions_page_uniq>2</nb_conversions_page_uniq>
+				<revenue_attrib>4</revenue_attrib>
+				<revenue_entry>10</revenue_entry>
+				<revenue_per_entry>2.5</revenue_per_entry>
+				<nb_conversions_entry>1</nb_conversions_entry>
+				<nb_conversions_page_rate>1</nb_conversions_page_rate>
+				<nb_conversions_entry_rate>0.25</nb_conversions_entry_rate>
+			</row>
+		</goals>
+	</reportTotal>
+</result>

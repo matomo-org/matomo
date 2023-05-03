@@ -44,7 +44,31 @@ class TrackGoalsPagesTest extends SystemTestCase
                                                               ['filter_update_columns_when_show_all_goals' => 1]]],
             ['Actions.getEntryPageTitles', ['idSite' => self::$fixture->idSite, 'date' => self::$fixture->dateTime,
                                             'idGoal' => 1, 'period' => 'day', 'otherRequestParameters' =>
-                                                              ['filter_update_columns_when_show_all_goals' => 1]]]
+                                                              ['filter_update_columns_when_show_all_goals' => 1]]],
+
+            ['API.getProcessedReport', [
+                'idSite' => self::$fixture->idSite,
+                'date' => self::$fixture->dateTime,
+                'period' => 'day',
+                'testSuffix' => 'showGoalsMetricsSingleGoal',
+                'otherRequestParameters' => [
+                    'filter_update_columns_when_show_all_goals' => '1',
+                    'filter_show_goal_columns_process_goals' => '1',
+                    'apiModule' => 'Actions',
+                    'apiAction' => 'getEntryPageTitles',
+                ],
+            ]],
+            ['API.getProcessedReport', [
+                'idSite' => self::$fixture->idSite,
+                'date' => self::$fixture->dateTime,
+                'period' => 'day',
+                'testSuffix' => 'showGoalsMetricsAllGoals',
+                'otherRequestParameters' => [
+                    'filter_update_columns_when_show_all_goals' => '1',
+                    'apiModule' => 'Actions',
+                    'apiAction' => 'getEntryPageTitles',
+                ],
+            ]],
         ];
     }
 

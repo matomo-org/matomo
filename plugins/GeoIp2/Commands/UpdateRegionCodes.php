@@ -11,8 +11,6 @@ namespace Piwik\Plugins\GeoIp2\Commands;
 use Piwik\Development;
 use Piwik\Http;
 use Piwik\Plugin\ConsoleCommand;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateRegionCodes extends ConsoleCommand
 {
@@ -30,12 +28,12 @@ class UpdateRegionCodes extends ConsoleCommand
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return void|int
+     * @return int
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $output = $this->getOutput();
+
         $regionsFile = __DIR__ . '/../data/isoRegionNames.php';
 
         $output->setDecorated(true);
@@ -130,6 +128,4 @@ CONTENT;
 
         return self::SUCCESS;
     }
-
-
 }

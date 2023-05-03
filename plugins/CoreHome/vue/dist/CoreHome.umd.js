@@ -179,6 +179,7 @@ __webpack_require__.d(__webpack_exports__, "PeriodDatePicker", function() { retu
 __webpack_require__.d(__webpack_exports__, "Notification", function() { return /* reexport */ Notification; });
 __webpack_require__.d(__webpack_exports__, "NotificationGroup", function() { return /* reexport */ Notification_NotificationGroup; });
 __webpack_require__.d(__webpack_exports__, "NotificationsStore", function() { return /* reexport */ Notifications_store; });
+__webpack_require__.d(__webpack_exports__, "ShowHelpLink", function() { return /* reexport */ ShowHelpLink; });
 __webpack_require__.d(__webpack_exports__, "SitesStore", function() { return /* reexport */ SiteSelector_SitesStore; });
 __webpack_require__.d(__webpack_exports__, "SiteSelector", function() { return /* reexport */ SiteSelector; });
 __webpack_require__.d(__webpack_exports__, "QuickAccess", function() { return /* reexport */ QuickAccess; });
@@ -5647,6 +5648,80 @@ NotificationGroupvue_type_script_lang_ts.render = NotificationGroupvue_type_temp
 
 
 
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ShowHelpLink/ShowHelpLink.vue?vue&type=template&id=19288664
+
+
+var ShowHelpLinkvue_type_template_id_19288664_hoisted_1 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  class: "icon-help"
+}, null, -1);
+
+var ShowHelpLinkvue_type_template_id_19288664_hoisted_2 = [ShowHelpLinkvue_type_template_id_19288664_hoisted_1];
+function ShowHelpLinkvue_type_template_id_19288664_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
+    class: "item-help-icon",
+    tabindex: "5",
+    href: "javascript:",
+    onClick: _cache[0] || (_cache[0] = function () {
+      return _ctx.showHelp && _ctx.showHelp.apply(_ctx, arguments);
+    })
+  }, ShowHelpLinkvue_type_template_id_19288664_hoisted_2);
+}
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ShowHelpLink/ShowHelpLink.vue?vue&type=template&id=19288664
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ShowHelpLink/ShowHelpLink.vue?vue&type=script&lang=ts
+
+
+var REPORTING_HELP_NOTIFICATION_ID = 'reportingMenu-help';
+/* harmony default export */ var ShowHelpLinkvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    message: {
+      type: String,
+      required: true
+    },
+    name: {
+      type: String,
+      required: true
+    }
+  },
+  data: function data() {
+    return {
+      currentName: ''
+    };
+  },
+  methods: {
+    showHelp: function showHelp() {
+      if (this.currentName !== '') {
+        Notifications_store.remove(REPORTING_HELP_NOTIFICATION_ID);
+        this.currentName = '';
+        return;
+      }
+
+      Notifications_store.show({
+        context: 'info',
+        id: REPORTING_HELP_NOTIFICATION_ID,
+        type: 'help',
+        noclear: true,
+        class: 'help-notification',
+        message: this.message,
+        placeat: '#notificationContainer',
+        prepend: true
+      });
+
+      if (this.name !== '') {
+        this.currentName = this.name;
+      }
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ShowHelpLink/ShowHelpLink.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ShowHelpLink/ShowHelpLink.vue
+
+
+
+ShowHelpLinkvue_type_script_lang_ts.render = ShowHelpLinkvue_type_template_id_19288664_render
+
+/* harmony default export */ var ShowHelpLink = (ShowHelpLinkvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/SiteSelector/SitesStore.ts
 function SitesStore_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -8342,7 +8417,7 @@ var Widgets_store_WidgetsStore = /*#__PURE__*/function () {
 
 
 
-var REPORTING_HELP_NOTIFICATION_ID = 'reportingmenu-help';
+var ReportingMenuvue_type_script_lang_ts_REPORTING_HELP_NOTIFICATION_ID = 'reportingmenu-help';
 /* harmony default export */ var ReportingMenuvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   components: {
     MenuItemsDropdown: MenuItemsDropdown
@@ -8448,7 +8523,7 @@ var REPORTING_HELP_NOTIFICATION_ID = 'reportingmenu-help';
       }
     },
     loadCategory: function loadCategory(category) {
-      Notifications_store.remove(REPORTING_HELP_NOTIFICATION_ID);
+      Notifications_store.remove(ReportingMenuvue_type_script_lang_ts_REPORTING_HELP_NOTIFICATION_ID);
       var isActive = ReportingMenu_store.toggleCategory(category);
 
       if (isActive && category.subcategories && category.subcategories.length === 1) {
@@ -8462,7 +8537,7 @@ var REPORTING_HELP_NOTIFICATION_ID = 'reportingmenu-help';
         return;
       }
 
-      Notifications_store.remove(REPORTING_HELP_NOTIFICATION_ID);
+      Notifications_store.remove(ReportingMenuvue_type_script_lang_ts_REPORTING_HELP_NOTIFICATION_ID);
 
       if (subcategory && subcategory.id === this.activeSubcategory) {
         this.helpShownCategory = null; // this menu item is already active, a location change success would not be triggered,
@@ -8515,7 +8590,7 @@ var REPORTING_HELP_NOTIFICATION_ID = 'reportingmenu-help';
       }
 
       if (this.helpShownCategory && category.id === this.helpShownCategory.category && subcategory.id === this.helpShownCategory.subcategory) {
-        Notifications_store.remove(REPORTING_HELP_NOTIFICATION_ID);
+        Notifications_store.remove(ReportingMenuvue_type_script_lang_ts_REPORTING_HELP_NOTIFICATION_ID);
         this.helpShownCategory = null;
         return;
       }
@@ -8524,7 +8599,7 @@ var REPORTING_HELP_NOTIFICATION_ID = 'reportingmenu-help';
       var prefix = "<strong>".concat(prefixText, "</strong><br/>");
       Notifications_store.show({
         context: 'info',
-        id: REPORTING_HELP_NOTIFICATION_ID,
+        id: ReportingMenuvue_type_script_lang_ts_REPORTING_HELP_NOTIFICATION_ID,
         type: 'help',
         noclear: true,
         class: 'help-notification',
@@ -11560,6 +11635,7 @@ function scrollToAnchorInUrl() {
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 
 

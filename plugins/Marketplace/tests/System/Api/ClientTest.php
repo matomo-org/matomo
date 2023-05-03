@@ -18,7 +18,7 @@ use Piwik\Plugins\Marketplace\Input\PurchaseType;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Version;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Service as TestService;
-use Psr\Log\NullLogger;
+use Piwik\Log\NullLogger;
 
 /**
  * @group Plugins

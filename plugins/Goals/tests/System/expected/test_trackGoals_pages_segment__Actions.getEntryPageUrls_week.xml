@@ -31,8 +31,16 @@
 		</goals>
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_page_load_time>0</avg_page_load_time>
-		<avg_time_on_page>0</avg_time_on_page>
+		<conversion_rate>0%</conversion_rate>
+		<nb_actions_per_visit>0</nb_actions_per_visit>
+		<avg_time_on_site>0</avg_time_on_site>
 		<bounce_rate>0%</bounce_rate>
+		<revenue_per_visit>10</revenue_per_visit>
+		<goal_1_conversion_rate>100%</goal_1_conversion_rate>
+		<goal_1_nb_conversions>1</goal_1_nb_conversions>
+		<goal_1_revenue_per_visit>10</goal_1_revenue_per_visit>
+		<goal_1_revenue>10</goal_1_revenue>
+		<avg_time_on_page>0</avg_time_on_page>
 		<exit_rate>100%</exit_rate>
 		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fpage_A</segment>
 		<subtable>

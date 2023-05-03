@@ -14,7 +14,7 @@ use Piwik\Scheduler\Scheduler;
 use Piwik\Scheduler\Task;
 use Piwik\Scheduler\Timetable;
 use Piwik\Tests\Framework\Mock\PiwikOption;
-use Psr\Log\NullLogger;
+use Piwik\Log\NullLogger;
 use ReflectionProperty;
 
 /**

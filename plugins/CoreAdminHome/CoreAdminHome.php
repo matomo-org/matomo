@@ -209,5 +209,7 @@ class CoreAdminHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreAdminHome_SecurityNotificationUserDeclinedInviteBody';
         $translationKeys[] = 'CoreAdminHome_JSTracking_ConsentManagerDetected';
         $translationKeys[] = 'CoreAdminHome_JSTracking_ConsentManagerConnected';
+        $translationKeys[] = 'CoreAdminHome_GoogleTagManagerDescription';
+        $translationKeys[] = 'CoreAdminHome_WordpressDescription';
     }
 }

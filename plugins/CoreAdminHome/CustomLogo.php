@@ -8,7 +8,7 @@
  */
 namespace Piwik\Plugins\CoreAdminHome;
 
-use DI\NotFoundException;
+use Piwik\Exception\DI\NotFoundException;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
@@ -50,7 +50,7 @@ class CustomLogo
 
     public function isEnabled()
     {
-        return (bool) Option::get('branding_use_custom_logo');
+        return $this->isCustomLogoFeatureEnabled() && Option::get('branding_use_custom_logo');
     }
 
     public function enable()
