@@ -8,7 +8,7 @@
 
 <div class="row">
     <div class="col s12">
-        <ul class="tabs" style="overflow: auto !important;height: auto !important;">
+        <ul class="tabs no-data-screen-ul-tabs">
             <li class="tab col {{ columnClass }}"><a {% if siteType != constant('Piwik\\Plugins\\SitesManager\\SitesManager::SITE_TYPE_UNKNOWN') and (consentManagerName == false) and (activeTab == '') %} class="active" {% endif %} href="#integrations">{{ 'SitesManager_Integrations'|translate }}</a></li>
             <li class="tab col {{ columnClass }}"><a {% if (siteType == constant('Piwik\\Plugins\\SitesManager\\SitesManager::SITE_TYPE_UNKNOWN') and (activeTab == '')) or consentManagerName %} class="active" {% endif %} href="#tracking-code">{{ 'CoreAdminHome_TrackingCode'|translate }}</a></li>
             <li class="tab col {{ columnClass }}"><a href="#mtm">{{ 'SitesManager_SiteWithoutDataMatomoTagManager'|translate }}</a></li>
