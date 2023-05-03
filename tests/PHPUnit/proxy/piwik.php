@@ -23,7 +23,7 @@ ob_start();
 
 try {
     $globalObservers = array(
-        array('Environment.bootstrapped', \DI\value(function () {
+        array('Environment.bootstrapped', \Piwik\DI::value(function () {
             Tracker::setTestEnvironment();
             Manager::getInstance()->deleteAll();
             Option::clearCache();

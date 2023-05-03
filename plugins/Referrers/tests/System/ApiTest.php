@@ -359,7 +359,7 @@ class ApiTest extends SystemTestCase
     public static function provideContainerConfigBeforeClass()
     {
         return [
-            Config::class => \DI\decorate(function (Config $config) {
+            Config::class => \Piwik\DI::decorate(function (Config $config) {
                 $config->Tracker['create_new_visit_when_website_referrer_changes'] = 1;
                 return $config;
             }),

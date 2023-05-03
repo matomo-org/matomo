@@ -14,10 +14,6 @@ use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\CustomDimensions\CustomDimensions;
 use Piwik\Plugins\CustomDimensions\Dao\LogTable;
 use Piwik\Tracker\Cache;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
  */
@@ -33,20 +29,22 @@ class AddCustomDimension extends ConsoleCommand
 ");
 
         $description = sprintf('The scope of the Custom Dimension to add, either "%s" or "%s"', CustomDimensions::SCOPE_VISIT, CustomDimensions::SCOPE_ACTION);
-        $this->addOption('scope', null, InputOption::VALUE_REQUIRED, $description);
-        $this->addOption('count', null, InputOption::VALUE_REQUIRED, 'Define how many Custom Dimensions shall be added', '1');
+        $this->addRequiredValueOption('scope', null, $description);
+        $this->addRequiredValueOption('count', null, 'Define how many Custom Dimensions shall be added', '1');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
-        $scope = $this->getScope($input);
-        $count = $this->getCount($input);
+        $input = $this->getInput();
+        $output = $this->getOutput();
+        $scope = $this->getScope();
+        $count = $this->getCount();
 
         $output->writeln(sprintf('Adding %d Custom Dimension(s) in scope %s.', $count, $scope));
         $output->writeln('<info>This causes schema changes in the database and may take a very long time.</info>');
 
         $noInteraction = $input->getOption('no-interaction');
-        if (!$noInteraction && !$this->confirmChange($input, $output)) {
+        if (!$noInteraction && !$this->confirmChange()) {
             return self::FAILURE;
         }
 
@@ -66,16 +64,16 @@ class AddCustomDimension extends ConsoleCommand
 
         $numDimensionsAvailable = $tracking->getNumInstalledIndexes();
 
-        $this->writeSuccessMessage($output, [
+        $this->writeSuccessMessage([
             sprintf('Your Matomo is now configured for up to %d Custom Dimensions in scope %s.', $numDimensionsAvailable, $scope)
         ]);
 
         return self::SUCCESS;
     }
 
-    private function getScope(InputInterface $input)
+    private function getScope()
     {
-        $scope = $input->getOption('scope');
+        $scope = $this->getInput()->getOption('scope');
 
         if (empty($scope) || !in_array($scope, CustomDimensions::getScopes())) {
             // we also allow scope "conversion" in case on needs to repair something but we don't document as it would be rather confusing
@@ -86,9 +84,9 @@ class AddCustomDimension extends ConsoleCommand
         return $scope;
     }
 
-    private function getCount(InputInterface $input)
+    private function getCount()
     {
-        $count = $input->getOption('count');
+        $count = $this->getInput()->getOption('count');
 
         if (!is_numeric($count)) {
             throw new \InvalidArgumentException('Option "count" must be a number');
@@ -103,16 +101,12 @@ class AddCustomDimension extends ConsoleCommand
         return $count;
     }
 
-    private function confirmChange(InputInterface $input, OutputInterface $output)
+    private function confirmChange()
     {
-        $output->writeln('');
-
-        $helper   = $this->getHelper('question');
-        $question = new ConfirmationQuestion(
+        $this->getOutput()->writeln('');
+        return $this->askForConfirmation(
             '<question>Are you sure you want to perform this action? (y/N)</question>',
             false
         );
-
-        return $helper->ask($input, $output, $question);
     }
 }

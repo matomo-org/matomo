@@ -31,11 +31,11 @@ class EmptySiteWithSiteContentDetectionGTM extends Fixture
             'ga4' => false,
             'gtm' => true,
             'cloudflare' => true,
-            'cms' => SitesManager::SITE_TYPE_UNKNOWN
+            'cms' => SitesManager::SITE_TYPE_WORDPRESS
         ];
 
         return [
-            SiteContentDetector::class => \DI\autowire(FakeSiteContentDetector::class)
+            SiteContentDetector::class => \Piwik\DI::autowire(FakeSiteContentDetector::class)
                  ->constructorParameter('mockData', $mockData)
         ];
     }

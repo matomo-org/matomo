@@ -4,7 +4,7 @@ namespace Piwik\Tests\Framework\Mock;
 
 use Monolog\Processor\PsrLogMessageProcessor;
 use Psr\Log\AbstractLogger;
-use Psr\Log\LoggerInterface;
+use Piwik\Log\LoggerInterface;
 
 class FakeLogger extends AbstractLogger implements LoggerInterface
 {

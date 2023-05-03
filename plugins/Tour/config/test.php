@@ -1,8 +1,8 @@
 <?php
 
 return array(
-    'observers.global' => DI\add(array(
-        array('API.Tour.getChallenges.end', DI\value(function (&$challenges) {
+    'observers.global' => Piwik\DI::add(array(
+        array('API.Tour.getChallenges.end', Piwik\DI::value(function (&$challenges) {
             $completeAllChanges = \Piwik\Container\StaticContainer::get('test.vars.completeAllChallenges');
             if ($completeAllChanges) {
                 foreach ($challenges as &$challenge) {

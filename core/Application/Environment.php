@@ -8,7 +8,7 @@
 
 namespace Piwik\Application;
 
-use DI\Container;
+use Piwik\Container\Container;
 use Piwik\Application\Kernel\EnvironmentValidator;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Application\Kernel\PluginList;

@@ -20,7 +20,7 @@ use Piwik\Period\Range;
 use Piwik\Plugins\SegmentEditor\Model;
 use Piwik\Segment;
 use Piwik\Site;
-use Psr\Log\LoggerInterface;
+use Piwik\Log\LoggerInterface;
 
 /**
  * Provides URLs that initiate archiving during cron archiving for segments.
@@ -75,7 +75,7 @@ class SegmentArchiving
         $this->segmentEditorModel = $segmentEditorModel ?: new Model();
         $this->segmentListCache = $segmentListCache ?: new Transient();
         $this->now = $now ?: Date::factory('now');
-        $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
+        $this->logger = $logger ?: StaticContainer::get(LoggerInterface::class);
         $this->forceArchiveAllSegments = self::getShouldForceArchiveAllSegments();
     }
 
