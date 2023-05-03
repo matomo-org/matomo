@@ -47,6 +47,9 @@ widgetsHelper.getAvailableWidgets = function (callback) {
 
         $.each(categorized, function (category, widgets) {
             $.each(widgets, function (subcategory, subwidgets) {
+                if (!subwidgets.length) {
+                  return;
+                }
 
                 var categoryToUse = category;
                 if (subwidgets.length >= 3 && subcategory !== '-') {
