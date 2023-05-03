@@ -91,7 +91,7 @@ class RequiredPhpSetting implements \JsonSerializable
         return $return;
     }
     
-    public function __toString()
+    public function __toString(): string
     {
         $checks = array();
         foreach($this->requiredValues as $requiredValue){
