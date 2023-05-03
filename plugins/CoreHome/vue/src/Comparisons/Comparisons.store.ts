@@ -77,8 +77,8 @@ export default class ComparisonsStore {
   readonly isEnabled = computed(() => this.checkEnabledForCurrentPage());
 
   constructor() {
-    if (document.readyState === "complete"
-      || document.readyState === "interactive") {
+    if (document.readyState === 'complete'
+      || document.readyState === 'interactive') {
       this.loadComparisonsDisabledFor();
     } else {
       document.addEventListener('DOMContentLoaded', () => {
