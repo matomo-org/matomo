@@ -91,7 +91,7 @@ class RequiredPhpSetting implements \JsonSerializable
         return $return;
     }
     
-    public function __toString()
+    public function __toString(): string
     {
         $checks = array();
         foreach($this->requiredValues as $requiredValue){
@@ -101,7 +101,7 @@ class RequiredPhpSetting implements \JsonSerializable
         return $this->setting . ' ' . implode(' OR ', $checks);
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): string
     {
         return $this->__toString();
     }
