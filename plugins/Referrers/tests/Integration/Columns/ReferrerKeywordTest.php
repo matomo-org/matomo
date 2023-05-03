@@ -100,8 +100,7 @@ class ReferrerKeywordTest extends IntegrationTestCase
     {
         $request = $this->getRequest(['idsite' => $idSite, 'url' => $url, 'urlref' => $referrerUrl]);
         $visitor = $this->getNewVisitor();
-        $visitor->setVisitorColumn('referer_type', $existingType);
-        $visitor->initializeImmutableVisitorProperty('referer_type', $existingType);
+        $visitor->initializeVisitorProperty('referer_type', $existingType);
         $keyword = $this->keyword->onExistingVisit($request, $visitor, $action = null);
 
         $this->assertSame($expectedKeyword, $keyword);

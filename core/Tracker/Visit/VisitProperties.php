@@ -94,19 +94,22 @@ class VisitProperties
     }
 
     /**
-     * Set the initial value of a property, this should remain unchanged throughout request processing.
+     * Set the initial values of a property.
+     * The immutable value remains unchanged throughout request processing and can be access with getImmutableProperty()
+     * The mutable value can be updated at any time with setProperty() and accessed via getProperty()
      *
      * @param string $name
      * @param mixed $value
      *
      * @return void
      */
-    public function initializeImmutableProperty(string $name, $value): void
+    public function initializeProperty(string $name, $value): void
     {
         if (isset($this->visitInfoImmutableProperties[$name])) {
             throw new \Exception('Immutable visit properties cannot be modified');
         }
         $this->visitInfoImmutableProperties[$name] = $value;
+        $this->setProperty($name, $value);
     }
 
     /**
