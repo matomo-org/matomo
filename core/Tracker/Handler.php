@@ -14,7 +14,7 @@ use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Tracker;
 use Exception;
-use Psr\Log\LoggerInterface;
+use Piwik\Log\LoggerInterface;
 
 class Handler
 {

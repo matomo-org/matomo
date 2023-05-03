@@ -154,7 +154,7 @@ class SessionAuthTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return [
-            SessionAuth::class => \DI\autowire()
+            SessionAuth::class => \Piwik\DI::autowire()
                 ->constructorParameter('shouldDestroySession', false),
         ];
     }

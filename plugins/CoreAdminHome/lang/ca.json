@@ -25,6 +25,7 @@
         "FaviconUpload": "Escull un Favicon per carregar",
         "FileUploadDisabled": "La càrrega de fitxers no està activada a la configuració de PHP. Per carregar el vostre logotip personalitzat, configureu %s a php.ini i reinicieu el vostre servidor web.",
         "ForBetaTestersOnly": "Només per a beta testers",
+        "GoogleTagManagerDescription": "Si el vostre lloc web utilitza Google Tag Manager, consulteu %1$saquesta guia%2$s.",
         "HowToGetHelp": "Hi ha diferents maneres de rebre ajuda. Hi ha assistència gratuïta a través de la comunitat de Matomo i suport de pagament proporcionat per l'equip de Matomo i els socis de Matomo. O potser teniu un error per informar o voleu suggerir una funció nova?",
         "HttpTrackingApi": "API de seguiment HTTP",
         "HttpTrackingApiDescription": "%1$sL'API de seguiment HTTP%2$s us permet fer un seguiment de qualsevol cosa. Això pot ser útil si utilitzeu un llenguatge de programació per al qual encara no hi ha SDK. També pot ser útil quan voleu fer un seguiment de dispositius o aplicacions d'una manera especial.",

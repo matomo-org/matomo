@@ -3,10 +3,10 @@
 use Piwik\Config\GeneralConfig;
 use Piwik\Plugins\Marketplace\Api\Service;
 use Piwik\Plugins\Marketplace\LicenseKey;
-use Psr\Container\ContainerInterface;
+use Piwik\Container\Container;
 
 return array(
-    'MarketplaceEndpoint' => function (ContainerInterface $c) {
+    'MarketplaceEndpoint' => function (Container $c) {
 
         $domain = 'plugins.matomo.org';
 
@@ -16,7 +16,7 @@ return array(
 
         return 'https://'.$domain;
     },
-    'Piwik\Plugins\Marketplace\Api\Service' => function (ContainerInterface $c) {
+    'Piwik\Plugins\Marketplace\Api\Service' => function (Container $c) {
         /** @var Service $previous */
 
         $domain = $c->get('MarketplaceEndpoint');

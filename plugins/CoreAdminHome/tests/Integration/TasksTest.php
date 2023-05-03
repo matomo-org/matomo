@@ -23,7 +23,7 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\Failures;
 use Piwik\Tracker\Request;
-use Psr\Log\NullLogger;
+use Piwik\Log\NullLogger;
 
 /**
  * @group Core
@@ -234,8 +234,8 @@ class TasksTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return [
-            'observers.global' => \DI\add([
-                ['Mail.send', \DI\value(function (Mail $mail) {
+            'observers.global' => \Piwik\DI::add([
+                ['Mail.send', \Piwik\DI::value(function (Mail $mail) {
                     $this->mail = $mail;
                 })],
             ]),

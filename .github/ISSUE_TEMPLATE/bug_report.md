@@ -30,7 +30,7 @@ labels: ["Potential Bug", "To Triage"]
 
 ## Steps to Reproduce (for Bugs)
 <!-- For UI bugs, please try to reproduce that on our demo (https://demo.matomo.cloud/) -->
-<!-- if that is possible, please include the URLs and steps how to reprduce it there -->
+<!-- if that is possible, please include the URLs and steps how to reproduce it there -->
 <!-- For other bugs or UI bugs that can't be reproduced on Demo, please include any relevant -->
 <!-- URLs or commands your are using that may help us to reproduce the bug -->
 1.

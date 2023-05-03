@@ -10,11 +10,6 @@
 namespace Piwik\Plugins\TestRunner\Commands;
 
 use Piwik\Plugin\ConsoleCommand;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  */
@@ -24,13 +19,15 @@ class CodeCoverage extends ConsoleCommand
     {
         $this->setName('tests:coverage');
         $this->setDescription('Run all phpunit tests and generate a combined code coverage');
-        $this->addOption('testsuite', null, InputOption::VALUE_REQUIRED, 'Run only a specific test suite, for instance UnitTests, IntegrationTests or SystemTests.');
-        $this->addArgument('group', InputArgument::OPTIONAL, 'Run only a specific test group. Separate multiple groups by comma, for instance core,plugins', '');
+        $this->addRequiredValueOption('testsuite', null, 'Run only a specific test suite, for instance UnitTests, IntegrationTests or SystemTests.');
+        $this->addOptionalArgument('group', 'Run only a specific test group. Separate multiple groups by comma, for instance core,plugins', '');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
-        $phpCovPath = trim(shell_exec('which phpcov'));
+        $input = $this->getInput();
+        $output = $this->getOutput();
+        $phpCovPath = trim(shell_exec('which phpcov') ?? '');
 
         if (empty($phpCovPath)) {
 
@@ -38,9 +35,7 @@ class CodeCoverage extends ConsoleCommand
             return self::FAILURE;
         }
 
-        $command = $this->getApplication()->find('tests:run');
         $arguments = array(
-            'command'   => 'tests:run',
             '--options' => sprintf('--coverage-php %s/tests/results/logs/%%suite%%%%group%%.cov', PIWIK_DOCUMENT_ROOT),
         );
 
@@ -56,9 +51,7 @@ class CodeCoverage extends ConsoleCommand
             shell_exec(sprintf('rm %s/tests/results/logs/*.cov', PIWIK_DOCUMENT_ROOT));
         }
 
-        $inputObject = new ArrayInput($arguments);
-        $inputObject->setInteractive($input->isInteractive());
-        $command->run($inputObject, $output);
+        $this->runCommand('tests:run', $arguments);
 
         $command = 'phpcov';
 
@@ -73,12 +66,10 @@ class CodeCoverage extends ConsoleCommand
             $xdebugFile   = trim($extensionDir) . DIRECTORY_SEPARATOR . 'xdebug.so';
 
             if (!file_exists($xdebugFile)) {
-
-                $dialog = $this->getHelperSet()->get('dialog');
-
-                $xdebugFile = $dialog->askAndValidate($output, 'xdebug not found. Please provide path to xdebug.so', function($xdebugFile) {
-                    return file_exists($xdebugFile);
-                });
+                $xdebugFile = $this->askAndValidate('xdebug not found. Please provide path to xdebug.so',
+                    function ($xdebugFile) {
+                        return file_exists($xdebugFile);
+                    });
             } else {
 
                 $output->writeln('<info>xdebug extension found in extension path.</info>');

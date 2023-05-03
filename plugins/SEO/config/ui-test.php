@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'observers.global' => \DI\add([
-        ['Http.sendHttpRequest',\DI\value(function ($aUrl, $httpEventParams, &$response, &$status, &$headers) {
+    'observers.global' => \Piwik\DI::add([
+        ['Http.sendHttpRequest',\Piwik\DI::value(function ($aUrl, $httpEventParams, &$response, &$status, &$headers) {
             // fake responses for SEO metric requests
             if (strpos($aUrl, 'www.bing.com')) {
                 $response = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/SEO/tests/resources/bing_response.html');

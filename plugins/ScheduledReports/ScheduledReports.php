@@ -340,8 +340,8 @@ class ScheduledReports extends \Piwik\Plugin
      * @param $additionalFiles
      * @param Period|null $period
      * @param $force
-     * @throws \DI\DependencyException
-     * @throws \DI\NotFoundException
+     * @throws \Piwik\Exception\DI\DependencyException
+     * @throws \Piwik\Exception\DI\NotFoundException
      */
     public function sendReport($reportType, $report, $contents, $filename, $prettyDate, $reportSubject, $reportTitle,
                                $additionalFiles, $period, $force)

@@ -18,9 +18,6 @@ use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\EncodedEntities;
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\UnnecassaryWhitespaces;
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Writer;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Console Command to generate Intl-data files for Piwik
@@ -39,8 +36,8 @@ class GenerateIntl extends ConsoleCommand
     protected function configure()
     {
         $this->setName('translations:generate-intl-data')
-            ->addOption('language', 'l', InputOption::VALUE_OPTIONAL, 'language that should be fetched')
-            ->addOption('cldr-version', '', InputOption::VALUE_OPTIONAL, 'CLDR version to use for update')
+            ->addOptionalValueOption('language', 'l', 'language that should be fetched')
+            ->addOptionalValueOption('cldr-version', '', 'CLDR version to use for update')
             ->setDescription('Generates Intl-data for Piwik');
     }
 
@@ -63,8 +60,9 @@ class GenerateIntl extends ConsoleCommand
         return mb_strtoupper($arr[1][0]).$arr[2][0];
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input = $this->getInput();
         $matomoLanguages = \Piwik\Plugins\LanguagesManager\API::getInstance()->getAvailableLanguages();
 
         if ($input->getOption('language')) {
@@ -80,7 +78,7 @@ class GenerateIntl extends ConsoleCommand
         $aliasesData = json_decode($aliasesData, true);
         $aliasesData = $aliasesData['supplemental']['metadata']['alias']['languageAlias'] ?? [];
 
-        $this->checkCurrencies($output);
+        $this->checkCurrencies();
 
         foreach ($matomoLanguages AS $langCode) {
 
@@ -110,18 +108,18 @@ class GenerateIntl extends ConsoleCommand
 
             $translations = array();
 
-            $this->fetchLanguageData($output, $transformedLangCode, $requestLangCode, $translations);
-            $this->fetchTerritoryData($output, $transformedLangCode, $requestLangCode, $translations);
-            $this->fetchCurrencyData($output, $transformedLangCode, $requestLangCode, $translations);
-            $this->fetchCalendarData($output, $transformedLangCode, $requestLangCode, $translations);
-            $this->fetchTimeZoneData($output, $transformedLangCode, $requestLangCode, $translations);
-            $this->fetchLayoutDirection($output, $transformedLangCode, $requestLangCode, $translations);
-            $this->fetchUnitData($output, $transformedLangCode, $requestLangCode, $translations);
-            $this->fetchNumberFormattingData($output, $transformedLangCode, $requestLangCode, $translations);
+            $this->fetchLanguageData($transformedLangCode, $requestLangCode, $translations);
+            $this->fetchTerritoryData($transformedLangCode, $requestLangCode, $translations);
+            $this->fetchCurrencyData($transformedLangCode, $requestLangCode, $translations);
+            $this->fetchCalendarData($transformedLangCode, $requestLangCode, $translations);
+            $this->fetchTimeZoneData($transformedLangCode, $requestLangCode, $translations);
+            $this->fetchLayoutDirection($transformedLangCode, $requestLangCode, $translations);
+            $this->fetchUnitData($transformedLangCode, $requestLangCode, $translations);
+            $this->fetchNumberFormattingData($transformedLangCode, $requestLangCode, $translations);
 
             // fix missing language name for territory specific languages (like es-AR)
             if (empty($translations['Intl']['OriginalLanguageName']) && strpos($transformedLangCode, '-')) {
-                list($language, $territory) = explode('-', $transformedLangCode);
+                [$language, $territory] = explode('-', $transformedLangCode);
 
                 if (!empty($translations['Intl']['Language_'.$language])) {
 
@@ -149,7 +147,7 @@ class GenerateIntl extends ConsoleCommand
         return self::SUCCESS;
     }
 
-    protected function checkCurrencies(OutputInterface $output)
+    protected function checkCurrencies()
     {
         $currencyDataUrl = 'https://raw.githubusercontent.com/unicode-org/cldr-json/%s/cldr-json/cldr-core/supplemental/currencyData.json';
 
@@ -175,10 +173,10 @@ class GenerateIntl extends ConsoleCommand
         $additional = array_diff($matomoCurrencies, $cldrCurrencies);
 
         if ($missing) {
-            $output->writeln('Warning: Currencies missing from ' . $file . ': ' . implode(', ', $missing));
+            $this->getOutput()->writeln('Warning: Currencies missing from ' . $file . ': ' . implode(', ', $missing));
         }
         if ($additional) {
-            $output->writeln('Warning: Unknown currencies in ' . $file . ': ' . implode(', ', $additional));
+            $this->getOutput()->writeln('Warning: Unknown currencies in ' . $file . ': ' . implode(', ', $additional));
         }
     }
 
@@ -204,7 +202,7 @@ class GenerateIntl extends ConsoleCommand
             }
 
             if (strpos($code, '-')) {
-                list($language, $territory) = explode('-', $code);
+                [$language, $territory] = explode('-', $code);
 
                 if (!array_key_exists($language, $languageData)) {
                     return '';
@@ -237,7 +235,7 @@ class GenerateIntl extends ConsoleCommand
         return '';
     }
 
-    protected function fetchLanguageData(OutputInterface $output, $langCode, $requestLangCode, &$translations)
+    protected function fetchLanguageData($langCode, $requestLangCode, &$translations)
     {
         $languageCodes = array_keys(StaticContainer::get('Piwik\Intl\Data\Provider\LanguageDataProvider')->getLanguageList());
 
@@ -265,13 +263,13 @@ class GenerateIntl extends ConsoleCommand
             }
             $translations['Intl']['EnglishLanguageName'] = $this->getEnglishLanguageName($langCode, $requestLangCode);
 
-            $output->writeln('Saved language data for ' . $langCode);
+            $this->getOutput()->writeln('Saved language data for ' . $langCode);
         } catch (\Exception $e) {
-            $output->writeln('Unable to import language data for ' . $langCode);
+            $this->getOutput()->writeln('Unable to import language data for ' . $langCode);
         }
     }
 
-    protected function fetchLayoutDirection(OutputInterface $output, $langCode, $requestLangCode, &$translations)
+    protected function fetchLayoutDirection($langCode, $requestLangCode, &$translations)
     {
         $layoutDirectionUrl = 'https://raw.githubusercontent.com/unicode-org/cldr-json/%s/cldr-json/cldr-misc-full/main/%s/layout.json';
 
@@ -289,13 +287,13 @@ class GenerateIntl extends ConsoleCommand
                 $translations['Intl']['LayoutDirection'] = 'rtl';
             }
 
-            $output->writeln('Saved language data for ' . $langCode);
+            $this->getOutput()->writeln('Saved language data for ' . $langCode);
         } catch (\Exception $e) {
-            $output->writeln('Unable to import language data for ' . $langCode);
+            $this->getOutput()->writeln('Unable to import language data for ' . $langCode);
         }
     }
 
-    protected function fetchTerritoryData(OutputInterface $output, $langCode, $requestLangCode, &$translations)
+    protected function fetchTerritoryData($langCode, $requestLangCode, &$translations)
     {
         $territoryDataUrl = 'https://raw.githubusercontent.com/unicode-org/cldr-json/%s/cldr-json/cldr-localenames-full/main/%s/territories.json';
 
@@ -334,13 +332,13 @@ class GenerateIntl extends ConsoleCommand
                 }
             }
 
-            $output->writeln('Saved territory data for ' . $langCode);
+            $this->getOutput()->writeln('Saved territory data for ' . $langCode);
         } catch (\Exception $e) {
-            $output->writeln('Unable to import territory data for ' . $langCode);
+            $this->getOutput()->writeln('Unable to import territory data for ' . $langCode);
         }
     }
 
-    protected function fetchCalendarData(OutputInterface $output, $langCode, $requestLangCode, &$translations)
+    protected function fetchCalendarData($langCode, $requestLangCode, &$translations)
     {
         $calendarDataUrl = 'https://raw.githubusercontent.com/unicode-org/cldr-json/%s/cldr-json/cldr-dates-full/main/%s/ca-gregorian.json';
 
@@ -413,9 +411,9 @@ class GenerateIntl extends ConsoleCommand
             $translations['Intl']['Format_Interval_Short_M'] = $calendarData['dateTimeFormats']['intervalFormats']['yMMMd']['M'];
             $translations['Intl']['Format_Interval_Short_Y'] = $calendarData['dateTimeFormats']['intervalFormats']['yMMMd']['y'];
 
-            $output->writeln('Saved calendar data for ' . $langCode);
+            $this->getOutput()->writeln('Saved calendar data for ' . $langCode);
         } catch (\Exception $e) {
-            $output->writeln('Unable to import calendar data for ' . $langCode);
+            $this->getOutput()->writeln('Unable to import calendar data for ' . $langCode);
         }
 
         $dateFieldsUrl = 'https://raw.githubusercontent.com/unicode-org/cldr-json/%s/cldr-json/cldr-dates-full/main/%s/dateFields.json';
@@ -437,13 +435,13 @@ class GenerateIntl extends ConsoleCommand
             $translations['Intl']['Today'] = $this->transform($dateFieldData['day']['relative-type-0']);
             $translations['Intl']['Yesterday'] = $this->transform($dateFieldData['day']['relative-type--1']);
 
-            $output->writeln('Saved date fields for ' . $langCode);
+            $this->getOutput()->writeln('Saved date fields for ' . $langCode);
         } catch (\Exception $e) {
-            $output->writeln('Unable to import date fields for ' . $langCode);
+            $this->getOutput()->writeln('Unable to import date fields for ' . $langCode);
         }
     }
 
-    protected function fetchTimeZoneData(OutputInterface $output, $langCode, $requestLangCode, &$translations)
+    protected function fetchTimeZoneData($langCode, $requestLangCode, &$translations)
     {
         $timeZoneDataUrl = 'https://raw.githubusercontent.com/unicode-org/cldr-json/%s/cldr-json/cldr-dates-full/main/%s/timeZoneNames.json';
 
@@ -491,9 +489,9 @@ class GenerateIntl extends ConsoleCommand
                 }
             }
 
-            $output->writeln('Saved time zone data for ' . $langCode);
+            $this->getOutput()->writeln('Saved time zone data for ' . $langCode);
         } catch (\Exception $e) {
-            $output->writeln('Unable to import time zone data for ' . $langCode);
+            $this->getOutput()->writeln('Unable to import time zone data for ' . $langCode);
         }
     }
 
@@ -506,7 +504,7 @@ class GenerateIntl extends ConsoleCommand
         return $dateFormat;
     }
 
-    protected function fetchNumberFormattingData(OutputInterface $output, $langCode, $requestLangCode, &$translations)
+    protected function fetchNumberFormattingData($langCode, $requestLangCode, &$translations)
     {
         $unitsUrl = 'https://raw.githubusercontent.com/unicode-org/cldr-json/%s/cldr-json/cldr-numbers-full/main/%s/numbers.json';
 
@@ -530,13 +528,13 @@ class GenerateIntl extends ConsoleCommand
             $translations['Intl']['NumberFormatCurrency']   = $unitsData['currencyFormats-numberSystem-' . $numberingSystem]['standard'];
             $translations['Intl']['NumberFormatPercent']  = $unitsData['percentFormats-numberSystem-' . $numberingSystem]['standard'];
 
-            $output->writeln('Saved number formatting data for ' . $langCode);
+            $this->getOutput()->writeln('Saved number formatting data for ' . $langCode);
         } catch (\Exception $e) {
-            $output->writeln('Unable to import number formatting data for ' . $langCode);
+            $this->getOutput()->writeln('Unable to import number formatting data for ' . $langCode);
         }
     }
 
-    protected function fetchUnitData(OutputInterface $output, $langCode, $requestLangCode, &$translations)
+    protected function fetchUnitData($langCode, $requestLangCode, &$translations)
     {
         $unitsUrl = 'https://raw.githubusercontent.com/unicode-org/cldr-json/%s/cldr-json/cldr-units-full/main/%s/units.json';
 
@@ -588,13 +586,13 @@ class GenerateIntl extends ConsoleCommand
             $translations['Intl']['PeriodMonths']   = $unitsData['long']['duration-month']['displayName'];
 
 
-            $output->writeln('Saved unit data for ' . $langCode);
+            $this->getOutput()->writeln('Saved unit data for ' . $langCode);
         } catch (\Exception $e) {
-            $output->writeln('Unable to import unit data for ' . $langCode);
+            $this->getOutput()->writeln('Unable to import unit data for ' . $langCode);
         }
     }
 
-    protected function fetchCurrencyData(OutputInterface $output, $langCode, $requestLangCode, &$translations)
+    protected function fetchCurrencyData($langCode, $requestLangCode, &$translations)
     {
         $currenciesUrl = 'https://raw.githubusercontent.com/unicode-org/cldr-json/%s/cldr-json/cldr-numbers-full/main/%s/currencies.json';
 
@@ -621,9 +619,9 @@ class GenerateIntl extends ConsoleCommand
                 }
             }
 
-            $output->writeln('Saved currency data for ' . $langCode);
+            $this->getOutput()->writeln('Saved currency data for ' . $langCode);
         } catch (\Exception $e) {
-            $output->writeln('Unable to import currency data for ' . $langCode);
+            $this->getOutput()->writeln('Unable to import currency data for ' . $langCode);
         }
     }
 

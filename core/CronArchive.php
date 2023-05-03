@@ -35,7 +35,7 @@ use Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Plugins\UsersManager\UserPreferences;
-use Psr\Log\LoggerInterface;
+use Piwik\Log\LoggerInterface;
 
 /**
  * ./console core:archive runs as a cron and is a useful tool for general maintenance,
@@ -237,7 +237,7 @@ class CronArchive
      */
     public function __construct(LoggerInterface $logger = null)
     {
-        $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
+        $this->logger = $logger ?: StaticContainer::get(LoggerInterface::class);
         $this->formatter = new Formatter();
 
         $this->invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');

@@ -10,7 +10,7 @@ namespace Piwik\Plugins\Marketplace\tests\Framework\Mock;
 
 use Matomo\Cache\Backend\NullCache;
 use Matomo\Cache\Lazy;
-use Psr\Log\NullLogger;
+use Piwik\Log\NullLogger;
 
 class Client {
 
