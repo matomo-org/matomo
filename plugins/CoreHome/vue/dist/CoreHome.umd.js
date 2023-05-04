@@ -3856,9 +3856,14 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
       return _this.checkEnabledForCurrentPage();
     }));
 
-    document.addEventListener('DOMContentLoaded', function () {
-      _this.loadComparisonsDisabledFor();
-    });
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      this.loadComparisonsDisabledFor();
+    } else {
+      document.addEventListener('DOMContentLoaded', function () {
+        _this.loadComparisonsDisabledFor();
+      });
+    }
+
     $(function () {
       _this.colors = _this.getAllSeriesColors();
     });
