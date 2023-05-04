@@ -16,7 +16,6 @@ use Piwik\ViewDataTable\Config as VisualizationConfig;
  */
 class Config extends VisualizationConfig
 {
-
     /**
      * If this property is set to true, subtables will be shown as embedded in the original table.
      * If false, subtables will be shown as whole tables between rows.
@@ -115,6 +114,20 @@ class Config extends VisualizationConfig
      */
     public $show_dimensions = false;
 
+    /**
+     * The minimum width for the label column in table visualizations.
+     *
+     * @var null|int
+     */
+    public $min_label_width = 125;
+
+    /**
+     * The maximum allowed width for the label column in table visualizations.
+     *
+     * @var null|int
+     */
+    public $max_label_width = 440;
+
     public function __construct()
     {
         parent::__construct();
@@ -131,6 +144,8 @@ class Config extends VisualizationConfig
             'keep_summary_row',
             'subtable_controller_action',
             'show_dimensions',
+            'min_label_width',
+            'max_label_width',
         ));
 
         $this->addPropertiesThatCanBeOverwrittenByQueryParams(array(
