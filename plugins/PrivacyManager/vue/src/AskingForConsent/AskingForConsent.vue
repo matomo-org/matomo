@@ -40,44 +40,7 @@
       class="privacyAskingForConsent"
     >
       <p>{{ translate('PrivacyManager_HowDoIAskForConsentIntro') }}</p>
-      <ul>
-        <li>
-          <a href="https://matomo.org/faq/how-to/using-osano-consent-manager-with-matomo/"
-             target="_blank" rel="noreferrer noopener">
-            Osana {{ translate('PrivacyManager_ConsentManager') }}
-          </a>
-        </li>
-        <li>
-          <a href="https://matomo.org/faq/how-to/using-cookiebot-consent-manager-with-matomo/"
-             target="_blank" rel="noreferrer noopener">
-            Cookiebot {{ translate('PrivacyManager_ConsentManager') }}
-          </a>
-        </li>
-        <li>
-          <a href="https://matomo.org/faq/how-to/using-cookieyes-consent-manager-with-matomo/"
-             target="_blank" rel="noreferrer noopener">
-            CookieYes {{ translate('PrivacyManager_ConsentManager') }}
-          </a>
-        </li>
-        <li>
-          <a href="https://matomo.org/faq/how-to/using-tarte-au-citron-consent-manager-with-matomo/"
-             target="_blank" rel="noreferrer noopener">
-            Tarte au Citron {{ translate('PrivacyManager_ConsentManager') }}
-          </a>
-        </li>
-        <li>
-          <a href="https://matomo.org/faq/how-to/using-klaro-consent-manager-with-matomo/"
-             target="_blank" rel="noreferrer noopener">
-            Klaro {{ translate('PrivacyManager_ConsentManager') }}
-          </a>
-        </li>
-        <li>
-          <a href="https://matomo.org/faq/how-to/using-complianz-for-wordpress-consent-manager-with-matomo/"
-             target="_blank" rel="noreferrer noopener">
-            Complianz for WordPress {{ translate('PrivacyManager_ConsentManager') }}
-          </a>
-        </li>
-      </ul>
+      <ul v-html="$sanitize(consentManagersList)"></ul>
       <p></p>
       <p v-html="$sanitize(howDoIAskForConsentOthers)"></p>
     </ContentBlock>
@@ -104,6 +67,10 @@ export default defineComponent({
     },
     consentManagerIsConnected: {
       type: Boolean,
+      required: true,
+    },
+    consentManagers: {
+      type: Object,
       required: true,
     },
   },
@@ -144,6 +111,18 @@ export default defineComponent({
         `<a href="${link}" target="_blank" rel="noreferrer noopener">`,
         '</a>',
       );
+    },
+    consentManagersList() {
+      let list = '';
+      Object.entries(this.consentManagers).forEach(([name, url]) => {
+        list += '<li>'
+          + `  <a href="${url}"`
+          + '     target="_blank" rel="noreferrer noopener">'
+          + `    ${name} ${translate('PrivacyManager_ConsentManager')}`
+          + '  </a>'
+          + '</li>';
+      });
+      return list;
     },
     consentManagerDetectedText() {
       return translate(
