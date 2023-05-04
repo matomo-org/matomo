@@ -12,24 +12,6 @@
     </div>
 
     <ContentBlock
-      :content-title="translate('PrivacyManager_WhenDoINeedConsent')"
-      class="privacyAskingForConsent"
-    >
-      <p>
-        <span v-html="$sanitize(whenConsentIsNeeded1)"></span>
-        <br /><br />
-        <span v-html="$sanitize(whenConsentIsNeeded2)"></span>
-      </p>
-    </ContentBlock>
-
-    <ContentBlock
-      :content-title="translate('PrivacyManager_HowDoIAskForConsent')"
-      class="privacyAskingForConsent"
-    >
-      <p v-html="$sanitize(howDoIAskForConsentIntroduction)"></p>
-    </ContentBlock>
-
-    <ContentBlock
       :content-title="translate('PrivacyManager_ConsentManager')"
       class="privacyAskingForConsent"
       v-if="consentManagerName"
@@ -38,6 +20,66 @@
       <p v-if="consentManagerIsConnected"
          v-html="$sanitize(translate('PrivacyManager_ConsentManagerConnected', consentManagerName))"
       ></p>
+    </ContentBlock>
+
+    <ContentBlock
+      :content-title="translate('PrivacyManager_WhenDoINeedConsent')"
+      class="privacyAskingForConsent"
+    >
+      <p>
+        <span v-html="$sanitize(whenConsentIsNeeded1)"></span>
+        <br /><br />
+        <span v-html="$sanitize(whenConsentIsNeeded2)"></span>
+        <br /><br />
+        <span v-html="$sanitize(whenConsentIsNeeded3)"></span>
+      </p>
+    </ContentBlock>
+
+    <ContentBlock
+      :content-title="translate('PrivacyManager_HowDoIAskForConsent')"
+      class="privacyAskingForConsent"
+    >
+      <p>{{ translate('PrivacyManager_HowDoIAskForConsentIntro') }}</p>
+      <ul>
+        <li>
+          <a href="https://matomo.org/faq/how-to/using-osano-consent-manager-with-matomo/"
+             target="_blank" rel="noreferrer noopener">
+            Osana {{ translate('PrivacyManager_ConsentManager') }}
+          </a>
+        </li>
+        <li>
+          <a href="https://matomo.org/faq/how-to/using-cookiebot-consent-manager-with-matomo/"
+             target="_blank" rel="noreferrer noopener">
+            Cookiebot {{ translate('PrivacyManager_ConsentManager') }}
+          </a>
+        </li>
+        <li>
+          <a href="https://matomo.org/faq/how-to/using-cookieyes-consent-manager-with-matomo/"
+             target="_blank" rel="noreferrer noopener">
+            CookieYes {{ translate('PrivacyManager_ConsentManager') }}
+          </a>
+        </li>
+        <li>
+          <a href="https://matomo.org/faq/how-to/using-tarte-au-citron-consent-manager-with-matomo/"
+             target="_blank" rel="noreferrer noopener">
+            Tarte au Citron {{ translate('PrivacyManager_ConsentManager') }}
+          </a>
+        </li>
+        <li>
+          <a href="https://matomo.org/faq/how-to/using-klaro-consent-manager-with-matomo/"
+             target="_blank" rel="noreferrer noopener">
+            Klaro {{ translate('PrivacyManager_ConsentManager') }}
+          </a>
+        </li>
+        <li>
+          <a href="https://matomo.org/faq/how-to/using-complianz-for-wordpress-consent-manager-with-matomo/"
+             target="_blank" rel="noreferrer noopener">
+            Complianz for WordPress {{ translate('PrivacyManager_ConsentManager') }}
+          </a>
+        </li>
+      </ul>
+      <p></p>
+      <p v-html="$sanitize(howDoIAskForConsentOthers)"></p>
     </ContentBlock>
   </div>
 </template>
@@ -48,7 +90,6 @@ import {
   ContentBlock,
   ContentIntro,
   translate,
-  MatomoUrl,
 } from 'CoreHome';
 
 export default defineComponent({
@@ -74,31 +115,32 @@ export default defineComponent({
   },
   computed: {
     whenConsentIsNeeded1() {
-      const blogLink = 'https://matomo.org/blog/2018/04/lawful-basis-for-processing-personal-data-under-gdpr-with-matomo/';
       return translate(
-        'PrivacyManager_WhenConsentIsNeeded1',
-        '<a href="https://matomo.org/docs/gdpr/" target="_blank" rel="noreferrer noopener">',
-        '</a>',
-        `<a href="${blogLink}" target="_blank" rel="noreferrer noopener">`,
+        'PrivacyManager_WhenConsentIsNeededPart1',
+        '<a href="https://matomo.org/faq/new-to-piwik/what-is-gdpr/" target="_blank" rel="noreferrer noopener">',
         '</a>',
       );
     },
     whenConsentIsNeeded2() {
-      const link = `?${MatomoUrl.stringify({
-        module: 'PrivacyManager',
-        action: 'privacySettings',
-      })}`;
+      const blogLink = 'https://matomo.org/blog/2018/04/lawful-basis-for-processing-personal-data-under-gdpr-with-matomo/';
 
       return translate(
-        'PrivacyManager_WhenConsentIsNeeded2',
-        `<a href="${link}">`,
-        '</a>.',
+        'PrivacyManager_WhenConsentIsNeededPart2',
+        `<a href="${blogLink}" target="_blank" rel="noreferrer noopener">`,
+        '</a>',
       );
     },
-    howDoIAskForConsentIntroduction() {
+    whenConsentIsNeeded3() {
+      return translate(
+        'PrivacyManager_WhenConsentIsNeededPart3',
+        '<a href="https://matomo.org/faq/how-to/faq_35661/" target="_blank" rel="noreferrer noopener">',
+        '</a>',
+      );
+    },
+    howDoIAskForConsentOthers() {
       const link = 'https://developer.matomo.org/guides/tracking-consent';
       return translate(
-        'PrivacyManager_HowDoIAskForConsentIntroduction',
+        'PrivacyManager_HowDoIAskForConsentOutro',
         `<a href="${link}" target="_blank" rel="noreferrer noopener">`,
         '</a>',
       );
