@@ -60,11 +60,7 @@ class Visitor
      */
     public function getImmutableVisitorColumn(string $column)
     {
-        if (array_key_exists($column, $this->visitProperties->getImmutableProperties())) {
-            return $this->visitProperties->getImmutableProperty($column);
-        }
-
-        return false;
+        return $this->visitProperties->getImmutableProperty($column);
     }
 
     /**
