@@ -26,7 +26,7 @@
     </div>
 
     <div id="integrations" class="col s12">
-        <h3>{{ 'SitesManager_Integrations'|translate }}</h3>
+        <p>&nbsp;</p>
         {% if instruction %}
             <p>{{ instruction|raw }}</p>
 
@@ -59,7 +59,7 @@
     </div>
 
     <div id="tracking-code" class="col s12">
-
+        <p>&nbsp;</p>
         {% if consentManagerName %}
         <p></p><p></p>
         <div class="system notification notification-info">
@@ -85,8 +85,6 @@
             {{ 'SitesManager_GADetected'|translate('Google Analytics 4', 'GA', '<a href="', 'https://matomo.org/faq/how-to/migrate-from-google-analytics-4-to-matomo/', '" target="_blank" rel="noreferrer noopener">', '</a>')|raw }}
         </div>
         {% endif %}
-
-        <h3>{{ 'CoreAdminHome_TrackingCode'|translate }}</h3>
 
         <p>{{ 'CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead'|translate("&lt;/head&gt;")|raw }}</p>
 

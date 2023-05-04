@@ -124,6 +124,10 @@ td.editable-site-field:hover {
     text-decoration: underline;
 }
 
+.white-background {
+    background: white !important;
+}
+
 .site-without-data {
     h3 {
         font-weight: bold;
@@ -138,6 +142,25 @@ td.editable-site-field:hover {
         li.col {
             width: unset !important;
             float: unset !important;
+        }
+    }
+
+    .no-data-footer {
+        position: sticky;
+        width: 100%;
+        bottom: 0;
+        background: white;
+
+        .col {
+            width: unset !important;
+        }
+
+        @media only screen {
+            @media (max-width: 800px) {
+                .m-top-1 {
+                    margin-top: 1rem;
+                }
+            }
         }
     }
 }

@@ -6,35 +6,46 @@
 
 <template>
   <div>
-    <ContentBlock :content-title="`${translate('SitesManager_SiteWithoutDataTitle')} 🚀`">
+      <p v-html="$sanitize(startTrackingDataTitle)"></p>
+      <p>{{ translate('SitesManager_SiteWithoutDataStartTrackingDataDescriptionLine1') }}</p>
       <p>&nbsp;</p>
-      <p v-html="$sanitize(siteWithoutDataDesc)"></p>
-      <p>{{ translate('SitesManager_SiteWithoutDataMessageDisappears') }}</p>
 
-      <h3>{{ translate('SitesManager_SiteWithoutDataChoosePreferredWay') }}</h3>
+      <p>{{ translate('SitesManager_SiteWithoutDataStartTrackingDataDescriptionLine2') }}</p>
+      <p>&nbsp;</p>
 
       <WidgetLoader
         :widget-params="{module: 'SitesManager', action: 'siteWithoutDataTabs'}"
         :loading-message="`${translate('SitesManager_DetectingYourSite')}...`"
       />
 
-      <hr/>
+      <div class="no-data-footer row">
+        <hr/>
+        <div class="col s2 m-top-1">
+          <a
+            class="btn"
+            id="emailTrackingCodeBtn"
+            :href="emailInstructionsLink"
+          >{{ translate('SitesManager_EmailInstructionsButtonText') }}</a>
+        </div>
 
-      <a
-        class="btn"
-        id="emailTrackingCodeBtn"
-        :href="emailInstructionsLink"
-      >{{ translate('SitesManager_EmailInstructionsButton') }}</a>
+        <VueEntryContainer :html="afterIntroEventContent"/>
 
-      <VueEntryContainer :html="afterIntroEventContent"/>
+        <div class="col s2 m-top-1">
+          <a
+            class="btn"
+            id="demoSiteBtn"
+            :href="emailInstructionsLink"
+          >{{ translate('SitesManager_DemoSiteButtonText') }}</a>
+        </div>
 
-      <br />
-      <a :href="ignoreSitesWithoutDataLink"
-         class="btn ignoreSitesWithoutData"
-      >
-        {{ translate('SitesManager_SiteWithoutDataIgnoreMessage') }}
-      </a>
-    </ContentBlock>
+        <div class="col s2 m-top-1">
+          <a :href="ignoreSitesWithoutDataLink"
+             class="btn ignoreSitesWithoutData"
+          >
+            {{ translate('SitesManager_SiteWithoutDataIgnorePage') }}
+          </a>
+        </div>
+      </div>
 
     <VueEntryContainer :html="afterTrackingHelpEventContent"/>
   </div>
@@ -43,7 +54,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import {
-  ContentBlock,
   translate,
   MatomoUrl,
   WidgetLoader,
@@ -60,7 +70,6 @@ export default defineComponent({
     afterTrackingHelpEventContent: String,
   },
   components: {
-    ContentBlock,
     WidgetLoader,
     VueEntryContainer,
   },
@@ -70,6 +79,13 @@ export default defineComponent({
         'SitesManager_SiteWithoutDataDescription',
         `<a href="${this.emailInstructionsLink}">`,
         '</a>',
+      );
+    },
+    startTrackingDataTitle() {
+      return translate(
+        'SitesManager_SiteWithoutDataStartTrackingDataHeader',
+        '<h1>',
+        '</h1>',
       );
     },
     emailInstructionsLink() {

@@ -514,6 +514,12 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "SitesManager_SiteWithoutDataGoogleTagManagerDescription";
         $translationKeys[] = "SitesManager_SiteWithoutDataWordpress";
         $translationKeys[] = "SitesManager_SiteWithoutDataWordpressDescription";
+        $translationKeys[] = "SitesManager_SiteWithoutDataStartTrackingDataHeader";
+        $translationKeys[] = "SitesManager_SiteWithoutDataStartTrackingDataDescriptionLine1";
+        $translationKeys[] = "SitesManager_SiteWithoutDataStartTrackingDataDescriptionLine2";
+        $translationKeys[] = "SitesManager_EmailInstructionsButtonText";
+        $translationKeys[] = "SitesManager_SiteWithoutDataIgnorePage";
+        $translationKeys[] = "SitesManager_DemoSiteButtonText";
     }
 
     public function noDataPageGTMTabInstructions(&$out)

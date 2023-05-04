@@ -183,6 +183,12 @@
         "SiteWithoutDataWordpressRequirementHeader": "Plugin requirements:",
         "SiteWithoutDataWordpressRequirement1": "Administrator account in WordPress.",
         "SiteWithoutDataWordpressRequirement2": "WordPress.com site with a Business, Commerce or Enterprise plan, or a Self-hosted WordPress site.",
-        "SiteWithoutDataWordpressFollowStepsIntro": "Steps to start tracking in Matomo"
+        "SiteWithoutDataWordpressFollowStepsIntro": "Steps to start tracking in Matomo",
+        "SiteWithoutDataStartTrackingDataHeader": "%1$sStart tracking data%2$s",
+        "SiteWithoutDataStartTrackingDataDescriptionLine1": "Choose your preferred tracking method below. If you need help, you can share these instructions via email, invite another user, or contact our support team for assistance.",
+        "SiteWithoutDataStartTrackingDataDescriptionLine2": "Note: This screen will disappear as soon as some data is tracked for this website.",
+        "EmailInstructionsButtonText": "Email instructions",
+        "SiteWithoutDataIgnorePage": "Don't show this page for an hour",
+        "DemoSiteButtonText": "Demo Site"
     }
 }
