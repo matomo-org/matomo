@@ -106,7 +106,7 @@ class VisitProperties
     public function initializeProperty(string $name, $value): void
     {
         if (isset($this->visitInfoImmutableProperties[$name])) {
-            throw new \Exception('Immutable visit properties cannot be modified');
+            throw new \Exception(sprintf('The property %s has already been initialized', $name));
         }
         $this->visitInfoImmutableProperties[$name] = $value;
         $this->setProperty($name, $value);
