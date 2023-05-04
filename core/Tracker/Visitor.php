@@ -51,6 +51,31 @@ class Visitor
         return false;
     }
 
+    /**
+     * Get a visitor property that will not have been changed by other request processors
+     *
+     * @param string $column
+     *
+     * @return false|mixed|null
+     */
+    public function getImmutableVisitorColumn(string $column)
+    {
+        return $this->visitProperties->getImmutableProperty($column);
+    }
+
+    /**
+     * Initialize a visitor property
+     *
+     * @param string $column
+     * @param $value
+     *
+     * @return void
+     */
+    public function initializeVisitorProperty(string $column, $value)
+    {
+        $this->visitProperties->initializeProperty($column, $value);
+    }
+
     public function getPreviousVisitColumn($column)
     {
         if (empty($this->previousVisitProperties)) {
