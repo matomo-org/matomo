@@ -6,7 +6,9 @@
 
 <template>
   <div>
-      <p v-html="$sanitize(startTrackingDataTitle)" id="start-tracking-data"></p>
+      <h1 id="start-tracking-data-header">
+        {{translate('SitesManager_SiteWithoutDataStartTrackingDataHeader')}}
+      </h1>
       <p v-html="$sanitize(siteWithoutDataDescLine1)"></p>
       <p v-html="$sanitize(siteWithoutDataDescLine2)"></p>
       <p>&nbsp;</p>
@@ -48,7 +50,11 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    descriptionLine1AdditionalLinks: {
+    siteWithoutDataStartTrackingTranslationKey: {
+      type: String,
+      required: true,
+    },
+    inviteUserLink: {
       type: String,
       required: true,
     },
@@ -62,10 +68,11 @@ export default defineComponent({
   computed: {
     siteWithoutDataDescLine1() {
       return translate(
-        'SitesManager_SiteWithoutDataStartTrackingDataDescriptionLine1',
+        this.siteWithoutDataStartTrackingTranslationKey,
         `<a href="${this.emailInstructionsLink}">`,
         '</a>',
-        this.descriptionLine1AdditionalLinks,
+        `<a rel="noreferrer noopener" target="_blank" href="${this.inviteUserLink}">`,
+        '</a>',
       );
     },
     siteWithoutDataDescLine2() {
@@ -73,13 +80,6 @@ export default defineComponent({
         'SitesManager_SiteWithoutDataStartTrackingDataDescriptionLine2',
         `<a href="${this.ignoreSitesWithoutDataLink}">`,
         '</a>',
-      );
-    },
-    startTrackingDataTitle() {
-      return translate(
-        'SitesManager_SiteWithoutDataStartTrackingDataHeader',
-        '<h1>',
-        '</h1>',
       );
     },
     emailInstructionsLink() {

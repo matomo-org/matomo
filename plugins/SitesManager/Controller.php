@@ -14,6 +14,7 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\SiteContentDetector;
@@ -176,20 +177,15 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $emailTemplateData['cms'] = $this->siteContentDetector->cms;
 
         $emailContent = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', $emailTemplateData, $viewType = 'basic');
-        $descriptionLine1AdditionalLinks = '';
-        Piwik::postEvent('SitesManager.descriptionLine1AdditionalLinks', [&$descriptionLine1AdditionalLinks]);
-
-        if (Piwik::hasUserSuperUserAccess()) {
-            $inviteUserLink = $this->getInviteUserLink();
-            $descriptionLine1AdditionalLinks = (!empty($descriptionLine1AdditionalLinks) ? ', ': ' or ') . Piwik::translate('SitesManager_SitesWithoutDataInviteAnotherUser', ['<a target="_blank" rel="noreferrer noopener" href="'.$inviteUserLink.'">', '</a>']) . $descriptionLine1AdditionalLinks;
-        }
+        $inviteUserLink = $this->getInviteUserLink();
 
         return $this->renderTemplateAs('siteWithoutData', [
-            'siteName'                                  => $this->site->getName(),
-            'idSite'                                    => $this->idSite,
-            'piwikUrl'                                  => $piwikUrl,
-            'emailBody'                                 => $emailContent,
-            'descriptionLine1AdditionalLinks'          => $descriptionLine1AdditionalLinks,
+            'siteName'                                            => $this->site->getName(),
+            'idSite'                                              => $this->idSite,
+            'piwikUrl'                                            => $piwikUrl,
+            'emailBody'                                           => $emailContent,
+            'siteWithoutDataStartTrackingTranslationKey'          => StaticContainer::get('SitesManager.SiteWithoutDataStartTrackingTranslation'),
+            'inviteUserLink'                                      => $inviteUserLink
         ], $viewType = 'basic');
     }
 
@@ -270,6 +266,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     private function getInviteUserLink()
     {
+        if (!Piwik::hasUserSuperUserAccess()) {
+            return 'https://matomo.org/faq/general/manage-users/#imanadmin-creating-users';
+        }
         $request = \Piwik\Request::fromRequest();
         $idSite = $request->getIntegerParameter('idSite', 0);
 
