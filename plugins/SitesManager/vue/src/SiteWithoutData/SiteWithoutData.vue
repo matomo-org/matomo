@@ -6,11 +6,9 @@
 
 <template>
   <div>
-      <p v-html="$sanitize(startTrackingDataTitle)"></p>
-      <p>{{ translate('SitesManager_SiteWithoutDataStartTrackingDataDescriptionLine1') }}</p>
-      <p>&nbsp;</p>
-
-      <p>{{ translate('SitesManager_SiteWithoutDataStartTrackingDataDescriptionLine2') }}</p>
+      <p v-html="$sanitize(startTrackingDataTitle)" id="start-tracking-data"></p>
+      <p v-html="$sanitize(siteWithoutDataDescLine1)"></p>
+      <p v-html="$sanitize(siteWithoutDataDescLine2)"></p>
       <p>&nbsp;</p>
 
       <WidgetLoader
@@ -20,7 +18,7 @@
 
       <div class="no-data-footer row">
         <hr/>
-        <div class="col s2 m-top-1">
+        <div class="col s2 m-bottom-1">
           <a
             class="btn"
             id="emailTrackingCodeBtn"
@@ -29,22 +27,6 @@
         </div>
 
         <VueEntryContainer :html="afterIntroEventContent"/>
-
-        <div class="col s2 m-top-1">
-          <a
-            class="btn"
-            id="demoSiteBtn"
-            :href="emailInstructionsLink"
-          >{{ translate('SitesManager_DemoSiteButtonText') }}</a>
-        </div>
-
-        <div class="col s2 m-top-1">
-          <a :href="ignoreSitesWithoutDataLink"
-             class="btn ignoreSitesWithoutData"
-          >
-            {{ translate('SitesManager_SiteWithoutDataIgnorePage') }}
-          </a>
-        </div>
       </div>
 
     <VueEntryContainer :html="afterTrackingHelpEventContent"/>
@@ -66,6 +48,10 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    descriptionLine1AdditionalLinks: {
+      type: String,
+      required: true,
+    },
     afterIntroEventContent: String,
     afterTrackingHelpEventContent: String,
   },
@@ -74,10 +60,18 @@ export default defineComponent({
     VueEntryContainer,
   },
   computed: {
-    siteWithoutDataDesc() {
+    siteWithoutDataDescLine1() {
       return translate(
-        'SitesManager_SiteWithoutDataDescription',
+        'SitesManager_SiteWithoutDataStartTrackingDataDescriptionLine1',
         `<a href="${this.emailInstructionsLink}">`,
+        '</a>',
+        this.descriptionLine1AdditionalLinks,
+      );
+    },
+    siteWithoutDataDescLine2() {
+      return translate(
+        'SitesManager_SiteWithoutDataStartTrackingDataDescriptionLine2',
+        `<a href="${this.ignoreSitesWithoutDataLink}">`,
         '</a>',
       );
     },

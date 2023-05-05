@@ -86,7 +86,6 @@
         "SiteWithoutDataDescription": "You need to add some extra code to your website or mobile app if you haven't already. Check your option below or %1$ssend all the instructions to a team mate%2$s.",
         "SiteWithoutDataSetupTracking": "Please set up the %1$stracking code%2$s below into your website or mobile app if you haven't already.",
         "SiteWithoutDataMessageDisappears": "This message will disappear as soon as some data is tracked for this website.",
-        "SiteWithoutDataIgnoreMessage": "Don't show this message for the next hour",
         "SiteWithoutDataChoosePreferredWay": "Choose your preferred way of getting set up",
         "SiteWithoutDataCloudflare": "Cloudflare",
         "SiteWithoutDataCloudflareDescription": "You can use the Matomo App in Cloudflare to track data, follow the instructions from %1$sthis guide%2$s.",
@@ -185,10 +184,11 @@
         "SiteWithoutDataWordpressRequirement2": "WordPress.com site with a Business, Commerce or Enterprise plan, or a Self-hosted WordPress site.",
         "SiteWithoutDataWordpressFollowStepsIntro": "Steps to start tracking in Matomo",
         "SiteWithoutDataStartTrackingDataHeader": "%1$sStart tracking data%2$s",
-        "SiteWithoutDataStartTrackingDataDescriptionLine1": "Choose your preferred tracking method below. If you need help, you can share these instructions via email, invite another user, or contact our support team for assistance.",
-        "SiteWithoutDataStartTrackingDataDescriptionLine2": "Note: This screen will disappear as soon as some data is tracked for this website.",
+        "SiteWithoutDataStartTrackingDataDescriptionLine1": "Choose your preferred tracking method below. If you need help, you can share these %1$sinstructions via email%2$s%3$s for assistance.",
+        "SiteWithoutDataStartTrackingDataDescriptionLine2": "Note: This screen will disappear as soon as some data is tracked for this website. Alternatively, you can %1$sclick here to hide this page for one hour%2$s.",
         "EmailInstructionsButtonText": "Email instructions",
         "SiteWithoutDataIgnorePage": "Don't show this page for an hour",
-        "DemoSiteButtonText": "Demo Site"
+        "DemoSiteButtonText": "Demo Site",
+        "SitesWithoutDataInviteAnotherUser": "%1$sinvite another user%2$s"
     }
 }

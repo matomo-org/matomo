@@ -176,12 +176,20 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $emailTemplateData['cms'] = $this->siteContentDetector->cms;
 
         $emailContent = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', $emailTemplateData, $viewType = 'basic');
+        $descriptionLine1AdditionalLinks = '';
+        Piwik::postEvent('SitesManager.descriptionLine1AdditionalLinks', [&$descriptionLine1AdditionalLinks]);
+
+        if (Piwik::hasUserSuperUserAccess()) {
+            $inviteUserLink = $this->getInviteUserLink();
+            $descriptionLine1AdditionalLinks = (!empty($descriptionLine1AdditionalLinks) ? ', ': ' or ') . Piwik::translate('SitesManager_SitesWithoutDataInviteAnotherUser', ['<a target="_blank" rel="noreferrer noopener" href="'.$inviteUserLink.'">', '</a>']) . $descriptionLine1AdditionalLinks;
+        }
 
         return $this->renderTemplateAs('siteWithoutData', [
-            'siteName'           => $this->site->getName(),
-            'idSite'             => $this->idSite,
-            'piwikUrl'           => $piwikUrl,
-            'emailBody'          => $emailContent,
+            'siteName'                                  => $this->site->getName(),
+            'idSite'                                    => $this->idSite,
+            'piwikUrl'                                  => $piwikUrl,
+            'emailBody'                                 => $emailContent,
+            'descriptionLine1AdditionalLinks'          => $descriptionLine1AdditionalLinks,
         ], $viewType = 'basic');
     }
 
@@ -258,5 +266,17 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         return $tabToDisplay;
+    }
+
+    private function getInviteUserLink()
+    {
+        $request = \Piwik\Request::fromRequest();
+        $idSite = $request->getIntegerParameter('idSite', 0);
+
+        return SettingsPiwik::getPiwikUrl() . 'index.php?' . Url::getQueryStringFromParameters([
+                'idSite' => $idSite,
+                'module' => 'UsersManager',
+                'action' => 'index',
+            ]);
     }
 }
