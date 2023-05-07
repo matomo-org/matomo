@@ -25,7 +25,7 @@ use Piwik\Plugin\Manager;
 use Piwik\Segment;
 use Piwik\Site;
 use Piwik\Timer;
-use Psr\Log\LoggerInterface;
+use Piwik\Log\LoggerInterface;
 
 class QueueConsumer
 {

@@ -284,8 +284,20 @@ class DataTablePostProcessor
         }
 
         if ($addGoalProcessedMetrics !== null) {
-            $idGoal = Common::getRequestVar(
-                'idGoal', DataTable\Filter\AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW, 'string', $this->request);
+            // if no idGoal is present, but filter_show_goal_columns_process_goals is set to one goal,
+            // default idGoal to that value. this allows us to use filter_update_columns_when_show_all_goals
+            // w/ API.getProcessedReport w/o setting idGoal, which affects the search for report metadata.
+            if (!empty($goalsToProcess)
+                && count($goalsToProcess) == 1
+                && $goalsToProcess[0] !== '0'
+                && $goalsToProcess[0] !== 0
+            ) {
+                $defaultIdGoal = $goalsToProcess[0];
+            } else {
+                $defaultIdGoal = DataTable\Filter\AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW;
+            }
+
+            $idGoal = Common::getRequestVar('idGoal', $defaultIdGoal, 'string', $this->request);
 
             $dataTable->filter('AddColumnsProcessedMetricsGoal', array($ignore = true, $idGoal, $goalsToProcess));
         }

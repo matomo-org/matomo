@@ -13,6 +13,7 @@ use Piwik\CliMulti\Process;
 use Piwik\Container\StaticContainer;
 use Piwik\Intl\Data\Provider\LanguageDataProvider;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
+use Piwik\Log\LoggerInterface;
 use Piwik\Tracker\Cache as TrackerCache;
 
 /**
@@ -303,7 +304,7 @@ class Common
                 throw $e;
             }
 
-            $logger = StaticContainer::get('Psr\Log\LoggerInterface');
+            $logger = StaticContainer::get(LoggerInterface::class);
             $logger->debug('Unable to unserialize a string: {exception} (string = {string})', [
                 'exception' => $e,
                 'string' => $string,
@@ -1176,7 +1177,7 @@ class Common
             $info = var_export($info, true);
         }
 
-        $logger = StaticContainer::get('Psr\Log\LoggerInterface');
+        $logger = StaticContainer::get(LoggerInterface::class);
         if (is_array($info) || is_object($info)) {
             $out = var_export($info, true);
             $logger->debug($out);

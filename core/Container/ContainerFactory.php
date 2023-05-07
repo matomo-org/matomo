@@ -8,7 +8,6 @@
 
 namespace Piwik\Container;
 
-use DI\Container;
 use DI\ContainerBuilder;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Application\Kernel\PluginList;
@@ -44,7 +43,7 @@ class ContainerFactory
     /**
      * @param PluginList $pluginList
      * @param GlobalSettingsProvider $settings
-     * @param string[] $environment Optional environment configs to load.
+     * @param string[] $environments Optional environment configs to load.
      * @param array[] $definitions
      */
     public function __construct(PluginList $pluginList, GlobalSettingsProvider $settings, array $environments = array(), array $definitions = array())
@@ -60,9 +59,9 @@ class ContainerFactory
      * @throws \Exception
      * @return Container
      */
-    public function create()
+    public function create(): Container
     {
-        $builder = new ContainerBuilder();
+        $builder = new ContainerBuilder(Container::class);
 
         $builder->useAnnotations(false);
 
@@ -97,6 +96,7 @@ class ContainerFactory
             }
         }
 
+        /** @var Container $container */
         $container = $builder->build();
         $container->set('Piwik\Application\Kernel\PluginList', $this->pluginList);
         $container->set('Piwik\Application\Kernel\GlobalSettingsProvider', $this->settings);
@@ -156,7 +156,7 @@ class ContainerFactory
      *
      * @return bool
      */
-    private function shouldSortPlugins()
+    private function shouldSortPlugins(): bool
     {
         return isset($GLOBALS['MATOMO_SORT_PLUGINS']) && is_callable($GLOBALS['MATOMO_SORT_PLUGINS']);
     }
@@ -170,7 +170,7 @@ class ContainerFactory
         return call_user_func($GLOBALS['MATOMO_SORT_PLUGINS'], $plugins);
     }
 
-    private function isDevelopmentModeEnabled()
+    private function isDevelopmentModeEnabled(): bool
     {
         $section = $this->settings->getSection('Development');
         return (bool) @$section['enabled']; // TODO: code redundancy w/ Development. hopefully ok for now.

@@ -16,7 +16,7 @@ use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Piwik;
 use Piwik\Site;
-use Psr\Log\LoggerInterface;
+use Piwik\Log\LoggerInterface;
 
 /**
  * @see plugins/Live/Visitor.php

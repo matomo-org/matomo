@@ -62,8 +62,8 @@ class HtmlReportEmailGeneratorTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return [
-            'observers.global' => \DI\add([
-                ['Test.Mail.send', \DI\value(function (PHPMailer $mail) {
+            'observers.global' => \Piwik\DI::add([
+                ['Test.Mail.send', \Piwik\DI::value(function (PHPMailer $mail) {
                     $this->mail = $mail;
                     $this->mail->preSend();
                 })],

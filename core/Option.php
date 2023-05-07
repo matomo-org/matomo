@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Piwik\Container\StaticContainer;
+use Piwik\Log\LoggerInterface;
 
 /**
  * Convenient key-value storage for user specified options and temporary
@@ -297,7 +298,7 @@ class Option
     private function trimOptionNameIfNeeded($name)
     {
         if (strlen($name) > 191) {
-            StaticContainer::get('Psr\Log\LoggerInterface')->debug("Option name '$name' is too long and was trimmed to 191 chars");
+            StaticContainer::get(LoggerInterface::class)->debug("Option name '$name' is too long and was trimmed to 191 chars");
             $name = substr($name, 0, 191);
         }
 
