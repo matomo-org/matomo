@@ -652,7 +652,7 @@ class Row extends \ArrayObject
      */
     protected function sumRowArray($thisColumnValue, $columnToSumValue, $columnName = null)
     {
-        if ($columnToSumValue === false) {
+        if ($columnToSumValue === false || $columnToSumValue === null) {
             return $thisColumnValue;
         }
 
@@ -670,7 +670,7 @@ class Row extends \ArrayObject
             return $thisColumnValue + $columnToSumValue;
         }
 
-        if ($thisColumnValue === false) {
+        if ($thisColumnValue === false || $thisColumnValue === null) {
             return $columnToSumValue;
         }
 

@@ -13,7 +13,8 @@ use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Record;
 use Piwik\Config;
 use Piwik\DataAccess\LogAggregator;
-use Piwik\DataArray;
+use Piwik\DataTable;
+use Piwik\DataTable\Row;
 use Piwik\Metrics;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\Goals\Archiver;
@@ -89,7 +90,7 @@ class ProductRecord extends Base
     {
         $itemReports = [];
         foreach ($this->getEcommerceIdGoals() as $ecommerceType) {
-            $itemReports[$ecommerceType] = new DataArray();
+            $itemReports[$ecommerceType] = new DataTable();
         }
 
         $logAggregator = $archiveProcessor->getLogAggregator();
@@ -111,13 +112,11 @@ class ProductRecord extends Base
         }
 
         $records = [];
-        foreach ($itemReports as $ecommerceType => $itemAggregate) {
+        foreach ($itemReports as $ecommerceType => $table) {
             $recordName = $this->recordName;
             if ($ecommerceType == GoalManager::IDGOAL_CART) {
                 $recordName = Archiver::getItemRecordNameAbandonedCart($recordName);
             }
-
-            $table = $itemAggregate->asDataTable();
             $records[$recordName] = $table;
         }
         return $records;
@@ -133,10 +132,17 @@ class ProductRecord extends Base
                 continue;
             }
 
-            $array = $itemReports[$ecommerceType];
-
             $this->roundColumnValues($row);
-            $array->sumMetrics($label, $row);
+
+            $table = $itemReports[$ecommerceType];
+
+            $tableRow = new Row([Row::COLUMNS => ['label' => $label] + $row]);
+            $existingRow = $table->getRowFromLabel($label);
+            if (!empty($existingRow)) {
+                $existingRow->sumRow($tableRow);
+            } else {
+                $table->addRow($tableRow);
+            }
         }
     }
 
@@ -155,8 +161,14 @@ class ProductRecord extends Base
             }
 
             // add views to all types
-            foreach ($itemReports as $ecommerceType => $dataArray) {
-                $dataArray->sumMetrics($label, $row);
+            foreach ($itemReports as $table) {
+                $tableRow = new Row([Row::COLUMNS => ['label' => $label] + $row]);
+                $existingRow = $table->getRowFromLabel($label);
+                if (!empty($existingRow)) {
+                    $existingRow->sumRow($tableRow);
+                } else {
+                    $table->addRow($tableRow);
+                }
             }
         }
     }
