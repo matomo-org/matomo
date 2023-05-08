@@ -12,9 +12,6 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 use Piwik\Development;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\SettingsPiwik;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  */
@@ -29,11 +26,13 @@ class GitCommit extends ConsoleCommand
     {
         $this->setName('git:commit')
              ->setDescription('Commit')
-             ->addOption('message', 'm', InputOption::VALUE_REQUIRED, 'Commit Message');
+             ->addRequiredValueOption('message', 'm', 'Commit Message');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
         $submodules = $this->getSubmodulePaths();
 
         foreach ($submodules as $submodule) {
@@ -58,9 +57,8 @@ class GitCommit extends ConsoleCommand
         }
 
         if (!$this->hasChangesToBeCommitted()) {
-            $dialog   = $this->getHelperSet()->get('dialog');
             $question = '<question>There are no changes to be committed in the super repo, do you just want to commit and converge submodules?</question>';
-            if (!$dialog->askConfirmation($output, $question, false)) {
+            if (!$this->askForConfirmation($question, false)) {
                 $output->writeln('<info>Cool, nothing done. Stage files using "git add" and try again.</info>');
                 return self::SUCCESS;
             }
@@ -78,12 +76,12 @@ class GitCommit extends ConsoleCommand
             }
 
             $cmd = sprintf('cd %s/%s && git pull && git add . && git commit -am "%s"', PIWIK_DOCUMENT_ROOT, $submodule, $commitMessage);
-            $this->passthru($cmd, $output);
+            $this->passthru($cmd);
         }
 
         if ($this->hasChangesToBeCommitted()) {
             $cmd = sprintf('cd %s && git commit -m "%s"', PIWIK_DOCUMENT_ROOT, $commitMessage);
-            $this->passthru($cmd, $output);
+            $this->passthru($cmd);
         }
 
         foreach ($submodules as $submodule) {
@@ -92,20 +90,20 @@ class GitCommit extends ConsoleCommand
             }
 
             $cmd = sprintf('cd %s && git add %s', PIWIK_DOCUMENT_ROOT, $submodule);
-            $this->passthru($cmd, $output);
+            $this->passthru($cmd);
         }
 
         if ($this->hasChangesToBeCommitted()) {
             $cmd = sprintf('cd %s && git commit -m "Updating submodules"', PIWIK_DOCUMENT_ROOT);
-            $this->passthru($cmd, $output);
+            $this->passthru($cmd);
         }
 
         return self::SUCCESS;
     }
 
-    private function passthru($cmd, OutputInterface $output)
+    private function passthru($cmd)
     {
-        $output->writeln('Executing command: ' . $cmd);
+        $this->getOutput()->writeln('Executing command: ' . $cmd);
         passthru($cmd);
     }
 

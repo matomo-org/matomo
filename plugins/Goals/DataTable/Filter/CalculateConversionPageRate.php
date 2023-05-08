@@ -109,8 +109,10 @@ class CalculateConversionPageRate extends BaseFilter
 
         $sum = $archive->getNumeric($names);
         foreach ($names as $idGoal => $name) {
-            if (is_numeric($sum[$name])) {
+            if (is_array($sum) && array_key_exists($name, $sum) && is_numeric($sum[$name])) {
                 $goalTotals[$idGoal] = $sum[$name];
+            } elseif (is_numeric($sum)) {
+                $goalTotals[$idGoal] = $sum;
             }
         }
 

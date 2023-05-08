@@ -2,8 +2,8 @@
 
 return array(
 
-    'Piwik\Plugins\CoreHome\Tracker\VisitRequestProcessor' => DI\autowire()
-        ->constructorParameter('visitStandardLength', DI\get('ini.Tracker.visit_standard_length'))
-        ->constructorParameter('trackerAlwaysNewVisitor', DI\get('ini.Debug.tracker_always_new_visitor')),
+    'Piwik\Plugins\CoreHome\Tracker\VisitRequestProcessor' => Piwik\DI::autowire()
+        ->constructorParameter('visitStandardLength', Piwik\DI::get('ini.Tracker.visit_standard_length'))
+        ->constructorParameter('trackerAlwaysNewVisitor', Piwik\DI::get('ini.Debug.tracker_always_new_visitor')),
 
 );

@@ -200,7 +200,7 @@ class API extends \Piwik\Plugin\API
      * like this:
      *
      * ```php
-     * return array('usersmanager.user_preference_names' => DI\add(array('preference_name_1', 'preference_name_2')));
+     * return array('usersmanager.user_preference_names' => \Piwik\DI::add(array('preference_name_1', 'preference_name_2')));
      * ```
      *
      * @param string $userLogin

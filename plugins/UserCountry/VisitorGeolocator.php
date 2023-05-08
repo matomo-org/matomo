@@ -16,7 +16,7 @@ use Piwik\DataAccess\RawLogDao;
 use Matomo\Network\IPUtils;
 use Piwik\Plugins\UserCountry\LocationProvider\DisabledProvider;
 use Piwik\Tracker\Visit;
-use Psr\Log\LoggerInterface;
+use Piwik\Log\LoggerInterface;
 
 require_once PIWIK_INCLUDE_PATH . "/plugins/UserCountry/LocationProvider.php";
 
@@ -100,7 +100,7 @@ class VisitorGeolocator
         $this->backupProvider = $backupProvider ?: $this->getDefaultProvider();
         $this->locationCache = $locationCache ?: self::getDefaultLocationCache();
         $this->dao = $dao ?: new RawLogDao();
-        $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
+        $this->logger = $logger ?: StaticContainer::get(LoggerInterface::class);
     }
 
     public function getLocation($userInfo, $useClassCache = true)

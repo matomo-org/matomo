@@ -55,6 +55,7 @@
         "DBPurged": "Database geleegd.",
         "DataRetention": "Dataretentie",
         "DataRetentionInMatomo": "Dataretentie voor gegevens opgeslagen in Matomo:",
+        "DataRetentionOverall": "Het algemene gegevensbewaringspercentage voor uw privacybeleid is het ruwe gegevensbewaringspercentage. Houd er rekening mee dat geaggregeerde rapporten ook persoonsgegevens kunnen bevatten. Indien u functies gebruikt zoals Gebruikers-ID, Aangepaste variabelen, Aangepaste dimensie, of persoonlijke gegevens op andere manieren volgt zoals gebeurtenissen, pagina-URL's of paginatitels, enz., dan zal het algemene gegevensbewaringspercentage voor uw privacybeleid het hoogste van de twee.",
         "DeleteAggregateReportsDetailedInfo": "Als u deze instelling inschakelt, worden alle geaggregeerde rapporten verwijderd. Samengevoegde rapporten worden gegenereerd uit de ruwe gegevens en geven samengevoegde gegevens weer van verschillende individuele bezoeken. Bijvoorbeeld, het rapport \"Land\" toont geaggregeerde cijfers om te zien hoeveel bezoeken u heeft gekregen uit elk land.",
         "DeleteBothConfirm": "U staat op het punt om zowel het verwijderen van ruwe gegevens als het verwijderen van rapportgegevens in te schakelen. Hiermee wordt de mogelijkheid om oude analysegegevens te bekijken definitief verwijderd. Bent u zeker?",
         "DeleteDataDescription": "Je kunt Matomo configureren om regelmatig oude ruwe data en/of geaggregeerde rapporten te verwijderen om uw database klein te houden of om te voldoen aan privacy-wetgeving zoals GDPR.",

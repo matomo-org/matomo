@@ -21,6 +21,7 @@ class ClassNameProcessor
         'Piwik\Piwik',
         'Piwik\CronArchive',
         'Monolog\Logger',
+        'Piwik\Log\Logger'
     );
 
     public function __invoke(array $record)

@@ -741,7 +741,7 @@ abstract class Base extends VisitDimension
 
     protected function isCurrentReferrerDirectEntry(Visitor $visitor)
     {
-        $referrerType = $visitor->getVisitorColumn('referer_type');
+        $referrerType = $visitor->getImmutableVisitorColumn('referer_type');
         return $referrerType == Common::REFERRER_TYPE_DIRECT_ENTRY;
     }
 }

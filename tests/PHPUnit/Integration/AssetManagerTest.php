@@ -104,7 +104,7 @@ class AssetManagerTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\Plugin\Manager' => \DI\autowire('Piwik\Tests\Unit\AssetManager\PluginManagerMock')
+            'Piwik\Plugin\Manager' => \Piwik\DI::autowire('Piwik\Tests\Unit\AssetManager\PluginManagerMock')
         );
     }
 

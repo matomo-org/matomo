@@ -293,7 +293,7 @@ class BackwardsCompatibility1XTest extends SystemTestCase
     public function provideContainerConfig()
     {
         return [
-            'Piwik\Config' => \DI\decorate(function ($previous) {
+            'Piwik\Config' => \Piwik\DI::decorate(function ($previous) {
                 $general = $previous->General;
                 $general['action_title_category_delimiter'] = "/";
                 $previous->General = $general;

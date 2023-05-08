@@ -19,7 +19,7 @@ use Piwik\DataTable\Manager;
 use Piwik\DataTable\Map;
 use Piwik\DataTable\Row;
 use Piwik\Segment\SegmentExpression;
-use Psr\Log\LoggerInterface;
+use Piwik\Log\LoggerInterface;
 
 /**
  * Used by {@link Piwik\Plugin\Archiver} instances to insert and aggregate archive data.
@@ -395,7 +395,7 @@ class ArchiveProcessor
 
         foreach ($dataTableBlobs as $archiveDataRow) {
             $period = $archiveDataRow['date1'] . ',' . $archiveDataRow['date2'];
-            $tableId = $this->getSubtableIdFromBlobName($archiveDataRow['name']);
+            $tableId = $archiveDataRow['name'] == $name ? null : $this->getSubtableIdFromBlobName($archiveDataRow['name']);
 
             $blobTable = DataTable::fromSerializedArray($archiveDataRow['value']);
 

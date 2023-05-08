@@ -194,14 +194,6 @@ class ReferrerAttributionTest extends IntegrationTestCase
             && $addSecondReferrerAsSiteUrl === false
         ) {
             $visitReferrer = $secondReferrer;
-
-            /*
-             * @todo Due to a bug in Matomo dimensions handling, when updating a referrer the referrer_url is currently
-             * not updated and stays empty. This "fix" should be removed and fixed in the code
-             * See discussion on https://github.com/matomo-org/matomo/pull/19250
-             */
-            $visitReferrer['referrerUrl'] = null;
-            // end of fix
         }
 
         // check visits and referrers are attributed correctly

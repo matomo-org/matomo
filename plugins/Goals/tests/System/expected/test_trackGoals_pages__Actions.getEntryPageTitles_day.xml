@@ -45,8 +45,16 @@
 		</goals>
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_page_load_time>0</avg_page_load_time>
-		<avg_time_on_page>360</avg_time_on_page>
+		<conversion_rate>0%</conversion_rate>
+		<nb_actions_per_visit>0</nb_actions_per_visit>
+		<avg_time_on_site>0</avg_time_on_site>
 		<bounce_rate>0%</bounce_rate>
+		<revenue_per_visit>12.5</revenue_per_visit>
+		<goal_1_conversion_rate>75%</goal_1_conversion_rate>
+		<goal_1_nb_conversions>3</goal_1_nb_conversions>
+		<goal_1_revenue_per_visit>7.5</goal_1_revenue_per_visit>
+		<goal_1_revenue>30</goal_1_revenue>
+		<avg_time_on_page>360</avg_time_on_page>
 		<exit_rate>0%</exit_rate>
 		<segment>entryPageTitle==Page%2BA%2B-%2Bindex.html</segment>
 	</row>

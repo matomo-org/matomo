@@ -601,7 +601,7 @@ class Url
         $disableHostCheck = Config::getInstance()->General['enable_trusted_host_check'] == 0;
         // compare scheme and host
         $parsedUrl = @parse_url($url);
-        $host = IPUtils::sanitizeIp(@$parsedUrl['host']);
+        $host = IPUtils::sanitizeIp($parsedUrl['host'] ?? '');
         return !empty($host)
         && ($disableHostCheck || in_array($host, $hosts))
         && !empty($parsedUrl['scheme'])

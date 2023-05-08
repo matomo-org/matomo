@@ -91,8 +91,8 @@ class CronArchiveInvalidSegmentTest extends IntegrationTestCase
         Date::$now = strtotime('2020-02-03 04:05:06');
 
         return array(
-            'observers.global' => \DI\add([
-                ['API.CoreAdminHome.archiveReports', \DI\value(function (&$result) {
+            'observers.global' => \Piwik\DI::add([
+                ['API.CoreAdminHome.archiveReports', \Piwik\DI::value(function (&$result) {
                     Manager::getInstance()->deactivatePlugin('UserLanguage');
                 })]
             ]),

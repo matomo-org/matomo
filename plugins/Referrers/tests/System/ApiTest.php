@@ -79,6 +79,28 @@ class ApiTest extends SystemTestCase
         ];
 
         $apiToTest[] = [
+            'Referrers.get',
+            [
+                'idSite' => 1,
+                'date' => '2010-01-01',
+                'periods' => 'year',
+                'testSuffix' => 'formattedMetrics',
+                'otherRequestParameters' => ['format_metrics' => '1'],
+            ],
+        ];
+
+        $apiToTest[] = [
+            'Referrers.get',
+            [
+                'idSite' => 1,
+                'date' => '2010-01-01',
+                'periods' => 'year',
+                'testSuffix' => 'unformattedMetrics',
+                'otherRequestParameters' => ['format_metrics' => '0'],
+            ],
+        ];
+
+        $apiToTest[] = [
             ['Referrers.getKeywordsFromSearchEngineId'],
             [
                 'idSite' => '1',
@@ -359,7 +381,7 @@ class ApiTest extends SystemTestCase
     public static function provideContainerConfigBeforeClass()
     {
         return [
-            Config::class => \DI\decorate(function (Config $config) {
+            Config::class => \Piwik\DI::decorate(function (Config $config) {
                 $config->Tracker['create_new_visit_when_website_referrer_changes'] = 1;
                 return $config;
             }),

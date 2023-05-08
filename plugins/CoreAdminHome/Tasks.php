@@ -32,7 +32,7 @@ use Piwik\Tracker\Failures;
 use Piwik\Site;
 use Piwik\Tracker\FingerprintSalt;
 use Piwik\Tracker\Visit\ReferrerSpamFilter;
-use Psr\Log\LoggerInterface;
+use Piwik\Log\LoggerInterface;
 use Piwik\SettingsPiwik;
 
 class Tasks extends \Piwik\Plugin\Tasks

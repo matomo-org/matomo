@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Exception\InvalidRequestParameterException;
+use Piwik\Log\LoggerInterface;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
@@ -560,7 +561,7 @@ class GoalManager
 
         foreach ($cleanedItems as $item) {
             $actionsToLookup = array();
-            list($sku_check, $name_check, $category, $price, $quantity) = $item;
+            [$sku_check, $name_check, $category, $price, $quantity] = $item;
             $sku = is_array($sku_check) ? join(',', $sku_check) : $sku_check;
             $actionsToLookup[] = array(trim($sku), Action::TYPE_ECOMMERCE_ITEM_SKU);
             $name = is_array($name_check) ? join(',', $name_check) : $name_check;
@@ -947,7 +948,7 @@ class GoalManager
                 break;
             default:
                 try {
-                    StaticContainer::get('Psr\Log\LoggerInterface')->warning(Piwik::translate('General_ExceptionInvalidGoalPattern', array($pattern_type)));
+                    StaticContainer::get(LoggerInterface::class)->warning(Piwik::translate('General_ExceptionInvalidGoalPattern', array($pattern_type)));
                 } catch (\Exception $e) {
                 }
                 $match = false;

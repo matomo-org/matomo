@@ -13,11 +13,7 @@ use Piwik\Development;
 use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Plugin\ConsoleCommand;
-use Psr\Log\LoggerInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
+use Piwik\Log\LoggerInterface;
 
 /**
  * Downloads the UI tests screenshots from artifacts server into the local repository.
@@ -35,7 +31,7 @@ class SyncScreenshots extends ConsoleCommand
 
     public function __construct()
     {
-        $this->logger = StaticContainer::get('Psr\Log\LoggerInterface');
+        $this->logger = StaticContainer::get(LoggerInterface::class);
 
         parent::__construct();
     }
@@ -52,40 +48,38 @@ class SyncScreenshots extends ConsoleCommand
         $this->setDescription(
             'For Piwik core devs. Copies screenshots from github artifacts to the tests/UI/expected-screenshots/ folder'
         );
-        $this->addArgument(
+        $this->addRequiredArgument(
             'buildnumber',
-            InputArgument::REQUIRED,
             'Travis build number you want to sync.'
         );
-        $this->addArgument(
+        $this->addOptionalArgument(
             'screenshotsRegex',
-            InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
             'A regex to use when selecting screenshots to copy. If not supplied all screenshots are copied.',
-            ['.*']
+            ['.*'],
+            true
         );
-        $this->addOption(
+        $this->addOptionalValueOption(
             'repository',
             'r',
-            InputOption::VALUE_OPTIONAL,
             'Repository name you want to sync screenshots for.',
             'matomo-org/matomo'
         );
-        $this->addOption(
+        $this->addOptionalValueOption(
             'http-user',
             '',
-            InputOption::VALUE_OPTIONAL,
             'the HTTP AUTH username (for premium plugins where artifacts are protected)'
         );
-        $this->addOption(
+        $this->addOptionalValueOption(
             'http-password',
             '',
-            InputOption::VALUE_OPTIONAL,
             'the HTTP AUTH password (for premium plugins where artifacts are protected)'
         );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
         $buildNumber      = $input->getArgument('buildnumber');
         $screenshotsRegex = $input->getArgument('screenshotsRegex');
         $repository       = $input->getOption('repository');
@@ -114,7 +108,7 @@ class SyncScreenshots extends ConsoleCommand
             }
         }
 
-        $this->displayGitInstructions($output, $repository);
+        $this->displayGitInstructions($repository);
 
         return self::SUCCESS;
     }
@@ -172,9 +166,9 @@ class SyncScreenshots extends ConsoleCommand
         );
     }
 
-    private function displayGitInstructions(OutputInterface $output, $repository)
+    private function displayGitInstructions($repository)
     {
-        $output->writeln(
+        $this->getOutput()->writeln(
             '<comment>If all downloaded screenshots are valid you may push them with these commands:</comment>'
         );
         $downloadToPath = $this->getDownloadToPath($repository);
@@ -198,7 +192,7 @@ cd ../../../";
 cd ../../../../../";
         }
 
-        $output->writeln($commands);
+        $this->getOutput()->writeln($commands);
     }
 
     private function getDownloadToPath($repository, $fileName = false)

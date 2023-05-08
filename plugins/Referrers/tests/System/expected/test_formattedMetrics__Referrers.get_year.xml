@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<Referrers_visitorsFromSearchEngines>31</Referrers_visitorsFromSearchEngines>
+	<Referrers_visitorsFromSocialNetworks>0</Referrers_visitorsFromSocialNetworks>
+	<Referrers_visitorsFromDirectEntry>0</Referrers_visitorsFromDirectEntry>
+	<Referrers_visitorsFromWebsites>31</Referrers_visitorsFromWebsites>
+	<Referrers_visitorsFromCampaigns>0</Referrers_visitorsFromCampaigns>
+	<Referrers_distinctSearchEngines>1</Referrers_distinctSearchEngines>
+	<Referrers_distinctSocialNetworks>0</Referrers_distinctSocialNetworks>
+	<Referrers_distinctKeywords>3</Referrers_distinctKeywords>
+	<Referrers_distinctWebsites>5</Referrers_distinctWebsites>
+	<Referrers_distinctWebsitesUrls>10</Referrers_distinctWebsitesUrls>
+	<Referrers_distinctCampaigns>0</Referrers_distinctCampaigns>
+	<Referrers_visitorsFromDirectEntry_percent>0%</Referrers_visitorsFromDirectEntry_percent>
+	<Referrers_visitorsFromSearchEngines_percent>50%</Referrers_visitorsFromSearchEngines_percent>
+	<Referrers_visitorsFromCampaigns_percent>0%</Referrers_visitorsFromCampaigns_percent>
+	<Referrers_visitorsFromSocialNetworks_percent>0%</Referrers_visitorsFromSocialNetworks_percent>
+	<Referrers_visitorsFromWebsites_percent>50%</Referrers_visitorsFromWebsites_percent>
+</result>
