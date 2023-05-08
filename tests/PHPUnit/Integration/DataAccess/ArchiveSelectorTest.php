@@ -709,6 +709,27 @@ class ArchiveSelectorTest extends IntegrationTestCase
                     ['idsubtable' => 52, 'name' => 'Actions_actions_url_chunk_52_100'],
                 ],
             ],
+
+            // entity root table w/ chunked subtables and normal subtables
+            [
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'MyPlugin_myReport_1_chunk_52_100', 'value' => 'nop', 'ts_archived' => '2020-06-13 09:04:56', 'is_blob_data' => true],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'MyPlugin_myReport_1_chunk_03_50', 'value' => 'nop', 'ts_archived' => '2020-06-13 09:04:56', 'is_blob_data' => true],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'MyPlugin_myReport_1_2', 'value' => 'nop', 'ts_archived' => '2020-06-13 09:04:56', 'is_blob_data' => true],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'MyPlugin_myReport_1_51', 'value' => 'nop', 'ts_archived' => '2020-06-13 09:04:56', 'is_blob_data' => true],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'MyPlugin_myReport_1_chunk_0_1', 'value' => 'nop', 'ts_archived' => '2020-06-13 09:04:56', 'is_blob_data' => true],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2019-10-05', 'date2' => '2019-10-05', 'name' => 'MyPlugin_myReport_1', 'value' => 'nop', 'ts_archived' => '2020-06-13 09:04:56', 'is_blob_data' => true],
+                ],
+                'MyPlugin_myReport_1',
+                [
+                    ['idsubtable' => -1, 'name' => 'MyPlugin_myReport_1'],
+                    ['idsubtable' => 0, 'name' => 'MyPlugin_myReport_1_chunk_0_1'],
+                    ['idsubtable' => 2, 'name' => 'MyPlugin_myReport_1_2'],
+                    ['idsubtable' => 3, 'name' => 'MyPlugin_myReport_1_chunk_03_50'],
+                    ['idsubtable' => 51, 'name' => 'MyPlugin_myReport_1_51'],
+                    ['idsubtable' => 52, 'name' => 'MyPlugin_myReport_1_chunk_52_100'],
+                ],
+            ],
         ];
     }
 }
