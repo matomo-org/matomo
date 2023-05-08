@@ -38,7 +38,7 @@ class PagesBeforeCalculator
      *
      * @return int The number of conversions calculated
      */
-    public function calculateFor(?string $startDatetime, ?string $endDatetime, ?int $lastN, ?string $idSite = null,
+    public function calculateFor(?string $startDatetime, ?string $endDatetime, ?int $lastN = null, ?string $idSite = null,
                                  ?string $idGoal = null, bool $forceRecalc = false,  callable $afterChunkCalculated = null): int
     {
 
