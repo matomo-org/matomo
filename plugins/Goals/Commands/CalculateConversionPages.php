@@ -40,28 +40,53 @@ class CalculateConversionPages extends ConsoleCommand
     {
         $this->setName('core:calculate-conversion-pages');
         $this->setDescription('Calculate the pages before metric for historic conversions');
-        $this->addOption('dates', null, InputOption::VALUE_REQUIRED, 'Caclulate for conversions in this date range. Eg, 2012-01-01,2013-01-01');
+        $this->addOption('dates', null, InputOption::VALUE_OPTIONAL, 'Calculate for conversions in this date range. Eg, 2012-01-01,2013-01-01');
+        $this->addOption('last-n', null, InputOption::VALUE_OPTIONAL, 'Calculate just the last n conversions');
         $this->addOption('idsite', null, InputOption::VALUE_OPTIONAL,
             'Calculate for conversions belonging to the site with this ID. Comma separated list of website id. Eg, 1, 2, 3, etc. By default conversions from all sites are calculated.');
         $this->addOption('idgoal', null, InputOption::VALUE_OPTIONAL, 'Calculate conversions for this goal. A comma separated list of goal ids can be used only if a single site is specified. Eg, 1, 2, 3, etc. By default conversions for all goals are calculated.');
+        $this->addOption('force-recalc', null, InputOption::VALUE_OPTIONAL, 'Recalculate for conversions which already have a pages before value');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        list($from, $to) = $this->getDateRangeToCalculate($input);
+
+        $dates = $input->getOption('dates');
+        $lastN = $input->getOption('last-n');
+        $forceRecalc = ($input->getOption('force-recalc') ?? 0);
         $idSite = $this->getSitesToCalculate($input);
         $idGoal = $this->getGoalsToCalculate($input);
 
-        $output->writeln( sprintf(
-                "<info>Preparing to calculate the pages before metric for all conversions belonging to %s between $from and $to for %s.</info>",
-                $idSite ? "website $idSite" : "ALL websites",
-                        $idGoal ? "goal id $idGoal" : "ALL goals"
+        if (!$lastN && !$dates) {
+            throw new \InvalidArgumentException("No date range or last N option supplied. Calculating pages before for all conversions by default is not allowed, you must specify a date range using the --dates option or a last N count using the --last-n option");
+        }
+
+        if ($lastN && $dates) {
+            throw new \InvalidArgumentException("The last N option cannot be used with a date range, please choose just one of these options");
+        }
+
+        if (!is_numeric($lastN)) {
+            throw new \InvalidArgumentException("The last N option must be a number");
+        }
+
+        $from = null;
+        $to = null;
+        if (!empty($dates)) {
+            [$from, $to] = $this->getDateRangeToCalculate($dates, $input);
+        }
+
+        $output->writeln(sprintf(
+            "<info>Preparing to calculate the pages before metric for %s conversions belonging to %s %sfor %s.</info>",
+            is_numeric($lastN) ? "the last ".$lastN : 'all',
+            $idSite ? "website $idSite" : "ALL websites",
+                    !empty($dates) ? "between " . $from . " and " . $to . " " : '',
+                    $idGoal ? "goal id $idGoal" : "ALL goals"
         ));
 
         $timer = new Timer();
 
         try {
-            $conversionsCalculated = $this->pagesBeforeCalculator->calculateFor($from, $to, $idSite, $idGoal, function () use ($output) {
+            $conversionsCalculated = $this->pagesBeforeCalculator->calculateFor($from, $to, $lastN, $idSite, $idGoal, $forceRecalc, function () use ($output) {
                 $output->write('.');
             });
         } catch (\Exception $ex) {
@@ -77,16 +102,12 @@ class CalculateConversionPages extends ConsoleCommand
     /**
      * Validate dates parameter
      *
+     * @param string $dates
      * @param InputInterface $input
      * @return Date[]
      */
-    private function getDateRangeToCalculate(InputInterface $input): array
+    private function getDateRangeToCalculate(string $dates, InputInterface $input): ?array
     {
-        $dates = $input->getOption('dates');
-        if (empty($dates)) {
-            throw new \InvalidArgumentException("No date range supplied in --dates option. Calculating pages before for all conversions by default is not allowed, you must specify a date range.");
-        }
-
         $parts = explode(',', $dates);
         $parts = array_map('trim', $parts);
 
@@ -94,7 +115,7 @@ class CalculateConversionPages extends ConsoleCommand
             throw new \InvalidArgumentException("Invalid date range supplied: $dates");
         }
 
-        list($start, $end) = $parts;
+        [$start, $end] = $parts;
 
         try {
             /** @var Date[] $dateObjects */
