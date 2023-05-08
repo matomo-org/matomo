@@ -42,10 +42,10 @@ class Visitor
         $this->visitProperties->setProperty($column, $value);
     }
 
-    public function getVisitorColumn($column, bool $original = false)
+    public function getVisitorColumn($column)
     {
-        if (array_key_exists($column, $this->visitProperties->getProperties($original))) {
-            return $this->visitProperties->getProperty($column, $original);
+        if (array_key_exists($column, $this->visitProperties->getProperties())) {
+            return $this->visitProperties->getProperty($column);
         }
 
         return false;
@@ -74,19 +74,6 @@ class Visitor
     public function initializeVisitorProperty(string $column, $value)
     {
         $this->visitProperties->initializeProperty($column, $value);
-    }
-
-    /**
-     * Initialize a visitor property
-     *
-     * @param string $column
-     * @param $value
-     *
-     * @return void
-     */
-    public function initializeImmutableVisitorProperty(string $column, $value)
-    {
-        $this->visitProperties->initializeImmutableProperty($column, $value);
     }
 
     public function getPreviousVisitColumn($column)
