@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Goals;
 
 use Piwik\Common;
+use Piwik\Date;
 use Piwik\Plugins\SitesManager\Model as SitesModel;
 use Piwik\Plugins\Goals\Model as GoalsModel;
 use Piwik\Db;
@@ -28,13 +29,17 @@ class PagesBeforeCalculator
      *                                     visits from the beginning of time are deleted.
      * @param string|null   $endDatetime A datetime string. Visits that occur before this time are deleted. If not supplied,
      *                                   visits from the end of time are deleted.
+     * @param int|null      $lastN  Calculate the last N conversions, should not be used with a date range
      * @param string|null   $idSite The site for which to calculate, or list of comma separated sites
      * @param string|null   $idGoal The goal for which to calculate, or list of comma separated idgoals (only if single site)
+     * @param bool          $forceRecalc If enabled then values will be recalculated for conversions that already have a
+     *                                   'pages before' value. By default only conversions with a null value will be calculated.
      * @param callable|null $afterChunkCalculated Callback function to be called after a chunk of calculation is done
      *
      * @return int The number of conversions calculated
      */
-    public function calculateFor(?string $startDatetime, ?string $endDatetime, ?string $idSite = null, ?string $idGoal = null, callable $afterChunkCalculated = null): int
+    public function calculateFor(?string $startDatetime, ?string $endDatetime, ?int $lastN, ?string $idSite = null,
+                                 ?string $idGoal = null, bool $forceRecalc = false,  callable $afterChunkCalculated = null): int
     {
 
         $totalCalculated = 0;
@@ -47,6 +52,38 @@ class PagesBeforeCalculator
         } else {
             // Specific sites
             $sites = explode(',', $idSite);
+        }
+
+        if ($lastN) {
+
+            // Since MySQL doesn't support multi-table updates with a LIMIT clause we will find the exact date time of
+            // the lastN record and use that as a date range start with the current date time as the date range end
+            $sql = "
+                    SELECT MIN(c.server_time) 
+                    FROM " . Common::prefixTable('log_conversion') . " c                
+                    WHERE 1=1                    
+                    ";
+
+             if (!$forceRecalc) {
+                 $sql .= " AND c.pageviews_before IS NULL";
+             }
+
+            $bind = [];
+            if ($idGoal !== null) {
+                $sql .= ' AND  c.idgoal = ? ';
+                $bind[] = $idGoal;
+            }
+            if ($idSite !== null) {
+                $sql .= ' AND  c.idsite = ? ';
+                $bind[] = $idSite;
+            }
+
+            $sql .= " ORDER BY c.server_time DESC LIMIT " . $lastN;
+
+            $result = Db::fetchOne($sql, $bind);
+
+            $startDatetime = $result;
+            $endDatetime = Date::factory('now')->getDatetime();
         }
 
         foreach ($sites as $site) {
@@ -74,8 +111,12 @@ class PagesBeforeCalculator
                         GROUP BY va.idvisit
                     ) AS a ON a.idvisit = c.idvisit AND a.server_time <= c.server_time
                     SET c.pageviews_before = a.pages_before
-                    WHERE c.idsite = ? AND c.idgoal = ? AND c.pageviews_before IS NULL
+                    WHERE c.idsite = ? AND c.idgoal = ?                    
                     ";
+
+                    if (!$forceRecalc) {
+                         $sql .= " AND c.pageviews_before IS NULL";
+                    }
 
                     $bind = [$site, $goal];
 
