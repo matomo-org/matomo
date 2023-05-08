@@ -46,11 +46,6 @@ class Parameters
     private $onlyArchiveRequestedPlugin = false;
 
     /**
-     * @var bool
-     */
-    private $isRootArchiveRequest = true;
-
-    /**
      * @var string
      */
     private $archiveOnlyReport = null;
