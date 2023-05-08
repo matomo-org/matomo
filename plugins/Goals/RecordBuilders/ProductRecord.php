@@ -156,8 +156,8 @@ class ProductRecord extends Base
 
             unset($row['label']);
 
-            if (isset($row['avg_price_viewed'])) {
-                $row['avg_price_viewed'] = round($row['avg_price_viewed'], GoalManager::REVENUE_PRECISION);
+            if (array_key_exists('avg_price_viewed', $row)) {
+                $row['avg_price_viewed'] = round($row['avg_price_viewed'] ?: 0, GoalManager::REVENUE_PRECISION);
             }
 
             // add views to all types
