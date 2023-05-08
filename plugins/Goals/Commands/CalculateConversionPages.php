@@ -15,9 +15,6 @@ use Piwik\Plugins\Goals\Model as GoalsModel;
 use Piwik\Plugins\Goals\PagesBeforeCalculator;
 use Piwik\Site;
 use Piwik\Timer;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Command to calculate the pages viewed before conversions and populate the log_conversion.pages_before field
@@ -40,22 +37,21 @@ class CalculateConversionPages extends ConsoleCommand
     {
         $this->setName('core:calculate-conversion-pages');
         $this->setDescription('Calculate the pages before metric for historic conversions');
-        $this->addOption('dates', null, InputOption::VALUE_OPTIONAL, 'Calculate for conversions in this date range. Eg, 2012-01-01,2013-01-01');
-        $this->addOption('last-n', null, InputOption::VALUE_OPTIONAL, 'Calculate just the last n conversions');
-        $this->addOption('idsite', null, InputOption::VALUE_OPTIONAL,
-            'Calculate for conversions belonging to the site with this ID. Comma separated list of website id. Eg, 1, 2, 3, etc. By default conversions from all sites are calculated.');
-        $this->addOption('idgoal', null, InputOption::VALUE_OPTIONAL, 'Calculate conversions for this goal. A comma separated list of goal ids can be used only if a single site is specified. Eg, 1, 2, 3, etc. By default conversions for all goals are calculated.');
-        $this->addOption('force-recalc', null, InputOption::VALUE_OPTIONAL, 'Recalculate for conversions which already have a pages before value');
+        $this->addOptionalValueOption('dates', null, 'Calculate for conversions in this date range. Eg, 2012-01-01,2013-01-01', null);
+        $this->addOptionalValueOption('last-n', null, 'Calculate just the last n conversions');
+        $this->addOptionalValueOption('idsite', null,
+            'Calculate for conversions belonging to the site with this ID. Comma separated list of website id. Eg, 1, 2, 3, etc. By default conversions from all sites are calculated.', null);
+        $this->addOptionalValueOption('idgoal', null,'Calculate conversions for this goal. A comma separated list of goal ids can be used only if a single site is specified. Eg, 1, 2, 3, etc. By default conversions for all goals are calculated.', null);
+        $this->addOptionalValueOption('force-recalc', null, 'Recalculate for conversions which already have a pages before value', null);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
-
-        $dates = $input->getOption('dates');
-        $lastN = $input->getOption('last-n');
-        $forceRecalc = ($input->getOption('force-recalc') ?? 0);
-        $idSite = $this->getSitesToCalculate($input);
-        $idGoal = $this->getGoalsToCalculate($input);
+        $dates = $this->getInput()->getOption('dates');
+        $lastN = $this->getInput()->getOption('last-n');
+        $forceRecalc = ($this->getInput()->getOption('force-recalc') ?? 0);
+        $idSite = $this->getSitesToCalculate();
+        $idGoal = $this->getGoalsToCalculate();
 
         if (!$lastN && !$dates) {
             throw new \InvalidArgumentException("No date range or last N option supplied. Calculating pages before for all conversions by default is not allowed, you must specify a date range using the --dates option or a last N count using the --last-n option");
@@ -72,8 +68,10 @@ class CalculateConversionPages extends ConsoleCommand
         $from = null;
         $to = null;
         if (!empty($dates)) {
-            [$from, $to] = $this->getDateRangeToCalculate($dates, $input);
+            [$from, $to] = $this->getDateRangeToCalculate($dates);
         }
+
+        $output  = $this->getOutput();
 
         $output->writeln(sprintf(
             "<info>Preparing to calculate the pages before metric for %s conversions belonging to %s %sfor %s.</info>",
@@ -94,7 +92,7 @@ class CalculateConversionPages extends ConsoleCommand
             throw $ex;
         }
 
-        $this->writeSuccessMessage($output, ["Successfully calculated the pages before metric for $conversionsCalculated conversions. <comment>" . $timer . "</comment>"]);
+        $this->writeSuccessMessage(["Successfully calculated the pages before metric for $conversionsCalculated conversions. <comment>" . $timer . "</comment>"]);
 
         return self::SUCCESS;
     }
@@ -103,10 +101,9 @@ class CalculateConversionPages extends ConsoleCommand
      * Validate dates parameter
      *
      * @param string $dates
-     * @param InputInterface $input
      * @return Date[]
      */
-    private function getDateRangeToCalculate(string $dates, InputInterface $input): ?array
+    private function getDateRangeToCalculate(string $dates): ?array
     {
         $parts = explode(',', $dates);
         $parts = array_map('trim', $parts);
@@ -119,7 +116,7 @@ class CalculateConversionPages extends ConsoleCommand
 
         try {
             /** @var Date[] $dateObjects */
-            $dateObjects = array(Date::factory($start), Date::factory($end)->getEndOfDay());
+            $dateObjects = [Date::factory($start), Date::factory($end)->getEndOfDay()];
         } catch (\Exception $ex) {
             throw new \InvalidArgumentException("Invalid date range supplied: $dates (" . $ex->getMessage() . ")", $code = 0, $ex);
         }
@@ -136,13 +133,11 @@ class CalculateConversionPages extends ConsoleCommand
     /**
      * Validate the sites parameter
      *
-     * @param InputInterface $input
-     *
      * @return string|null
      */
-    private function getSitesToCalculate(InputInterface $input): ?string
+    private function getSitesToCalculate(): ?string
     {
-        $idSite = $input->getOption('idsite');
+        $idSite = $this->getInput()->getOption('idsite');
 
         if(is_null($idSite)) {
             return null;
@@ -164,20 +159,18 @@ class CalculateConversionPages extends ConsoleCommand
     /**
      * Validate the goals parameter
      *
-     * @param InputInterface $input
-     *
      * @return string|null
      */
-    private function getGoalsToCalculate(InputInterface $input): ?string
+    private function getGoalsToCalculate(): ?string
     {
-        $idGoal = $input->getOption('idgoal');
+        $idGoal = $this->getInput()->getOption('idgoal');
 
         if(is_null($idGoal)) {
             return null;
         }
 
         // Only allow the goals parameter to be used if a single site is specified
-        $idSite = $input->getOption('idsite');
+        $idSite = $this->getInput()->getOption('idsite');
         if (!is_numeric($idSite) || strpos($idSite, ',') !== false) {
             throw new \InvalidArgumentException("The goals parameter can only be used when a single website is specified using the idsite parameter", $code = 0);
         }
