@@ -11,7 +11,6 @@ namespace Piwik\Plugins\Actions\RecordBuilders;
 
 use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Record;
-use Piwik\DataArray;
 use Piwik\DataTable;
 use Piwik\Plugins\Actions\Archiver;
 use Piwik\Plugins\Actions\ArchivingHelper;
@@ -44,5 +43,10 @@ class SearchCategories extends Base
             Record::make(Record::TYPE_BLOB, Archiver::SITE_SEARCH_CATEGORY_RECORD_NAME)
                 ->setMaxRowsInTable(ArchivingHelper::$maximumRowsInDataTableSiteSearch),
         ];
+    }
+
+    public function isEnabled(ArchiveProcessor $archiveProcessor)
+    {
+        return $archiveProcessor->getParams()->getSite()->isSiteSearchEnabled();
     }
 }

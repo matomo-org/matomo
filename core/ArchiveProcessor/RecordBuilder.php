@@ -43,28 +43,35 @@ abstract class RecordBuilder
     protected $columnAggregationOps;
 
     /**
+     * @var array|null
+     */
+    protected $columnToRenameAfterAggregation;
+
+    /**
      * @param int|null $maxRowsInTable
      * @param int|null $maxRowsInSubtable
      * @param string|int|null $columnToSortByBeforeTruncation
      * @param array|null $columnAggregationOps
      */
     public function __construct($maxRowsInTable = null, $maxRowsInSubtable = null,
-                                $columnToSortByBeforeTruncation = null, $columnAggregationOps = null)
+                                $columnToSortByBeforeTruncation = null, $columnAggregationOps = null,
+                                $columnToRenameAfterAggregation = null)
     {
         $this->maxRowsInTable = $maxRowsInTable;
         $this->maxRowsInSubtable = $maxRowsInSubtable;
         $this->columnToSortByBeforeTruncation = $columnToSortByBeforeTruncation;
         $this->columnAggregationOps = $columnAggregationOps;
+        $this->columnToRenameAfterAggregation = $columnToRenameAfterAggregation;
     }
 
-    public function isEnabled()
+    public function isEnabled(ArchiveProcessor $archiveProcessor)
     {
         return true;
     }
 
     public function build(ArchiveProcessor $archiveProcessor)
     {
-        if (!$this->isEnabled()) {
+        if (!$this->isEnabled($archiveProcessor)) {
             return;
         }
 
@@ -104,7 +111,7 @@ abstract class RecordBuilder
 
     public function buildMultiplePeriod(ArchiveProcessor $archiveProcessor)
     {
-        if (!$this->isEnabled()) {
+        if (!$this->isEnabled($archiveProcessor)) {
             return;
         }
 
@@ -116,7 +123,8 @@ abstract class RecordBuilder
         $numericRecords = array_filter($recordsBuilt, function (Record $r) { return $r->getType() == Record::TYPE_NUMERIC; });
         $blobRecords = array_filter($recordsBuilt, function (Record $r) { return $r->getType() == Record::TYPE_BLOB; });
 
-        // TODO: dependsOn in record metadata
+        $aggregatedCounts = [];
+
         foreach ($blobRecords as $record) {
             if (!empty($requestedReports)
                 && !in_array($record->getName(), $requestedReports)
@@ -128,24 +136,53 @@ abstract class RecordBuilder
             $maxRowsInTable = $record->getMaxRowsInTable() ?? $this->maxRowsInTable;
             $maxRowsInSubtable = $record->getMaxRowsInSubtable() ?? $this->maxRowsInSubtable;
             $columnToSortByBeforeTruncation = $record->getColumnToSortByBeforeTruncation() ?? $this->columnToSortByBeforeTruncation;
+            $columnToRenameAfterAggregation = $record->getColumnToRenameAfterAggregation() ?? $this->columnToRenameAfterAggregation;
 
-            $archiveProcessor->aggregateDataTableRecords(
+            $counts = $archiveProcessor->aggregateDataTableRecords(
                 $record->getName(),
                 $maxRowsInTable,
                 $maxRowsInSubtable,
                 $columnToSortByBeforeTruncation,
-                $this->columnAggregationOps
+                $this->columnAggregationOps,
+                $columnToRenameAfterAggregation
             );
+
+            $aggregatedCounts = array_merge($aggregatedCounts, $counts);
         }
 
         if (!empty($numericRecords)) {
-            $numericMetrics = array_map(function (Record $r) { return $r->getName(); }, $numericRecords);
+            // handle metrics that are aggregated together
+            $autoAggregateMetrics = array_filter($numericRecords, function (Record $r) { return empty($r->getCountOfRecordName()); });
+            $autoAggregateMetrics = array_map(function (Record $r) { return $r->getName(); }, $autoAggregateMetrics);
+
             if (!empty($requestedReports)) {
-                $numericMetrics = array_filter($numericMetrics, function ($name) use ($requestedReports, $foundRequestedReports) {
+                $autoAggregateMetrics = array_filter($autoAggregateMetrics, function ($name) use ($requestedReports, $foundRequestedReports) {
                     return in_array($name, $requestedReports) && !in_array($name, $foundRequestedReports);
                 });
             }
-            $archiveProcessor->aggregateNumericMetrics($numericMetrics, $this->columnAggregationOps);
+
+            $archiveProcessor->aggregateNumericMetrics($autoAggregateMetrics, $this->columnAggregationOps);
+
+            // handle metrics that are set to counts of blob records
+            $recordCountMetricValues = [];
+
+            $recordCountMetrics = array_filter($numericRecords, function (Record $r) { return !empty($r->getCountOfRecordName()); });
+            foreach ($recordCountMetrics as $record) {
+                $dependentRecordName = $record->getCountOfRecordName();
+                if (empty($aggregatedCounts[$dependentRecordName])) {
+                    continue; // dependent record not archived, so skip this metric
+                }
+
+                if ($record->getCountOfRecordNameIsRecursive()) {
+                    $recordCountMetricValues[$record->getName()] = $aggregatedCounts[$dependentRecordName]['recursive'];
+                } else {
+                    $recordCountMetricValues[$record->getName()] = $aggregatedCounts[$dependentRecordName]['level0'];
+                }
+            }
+
+            if (!empty($recordCountMetricValues)) {
+                $archiveProcessor->insertNumericRecords($recordCountMetricValues);
+            }
         }
     }
 

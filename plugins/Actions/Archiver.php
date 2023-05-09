@@ -64,7 +64,6 @@ class Archiver extends \Piwik\Plugin\Archiver
         $this->initActionsTables();
 
         $this->archiveDayPageActions($rankingQueryLimit);
-        $this->archiveDaySiteSearchActions($rankingQueryLimit);
         $this->archiveDayEntryActions($rankingQueryLimit);
         $this->archiveDayExitActions($rankingQueryLimit);
         $this->archiveDayActionsTime($rankingQueryLimit);
@@ -159,14 +158,6 @@ class Archiver extends \Piwik\Plugin\Archiver
         $typesToQuery = $this->actionsTablesByType;
         unset($typesToQuery[Action::TYPE_SITE_SEARCH]);
         $this->archiveDayActions($rankingQueryLimit, array_keys($typesToQuery), true);
-    }
-
-    protected function archiveDaySiteSearchActions($rankingQueryLimit)
-    {
-        if ($this->isSiteSearchEnabled()) {
-            $rankingQueryLimit = max($rankingQueryLimit, ArchivingHelper::$maximumRowsInDataTableSiteSearch);
-            $this->archiveDayActions($rankingQueryLimit, array(Action::TYPE_SITE_SEARCH), false);
-        }
     }
 
     protected function archiveDayActions($rankingQueryLimit, array $actionTypes, $includePageNotDefined)
@@ -264,6 +255,7 @@ class Archiver extends \Piwik\Plugin\Archiver
 
         // replace the rest of the %s
         $querySql = str_replace("%s", $sprintfField, $query['sql']);
+        print $querySql . "\n";exit;
 
         // apply ranking query
         if ($rankingQuery) {
@@ -420,7 +412,6 @@ class Archiver extends \Piwik\Plugin\Archiver
         $this->insertDownloadsReports();
         $this->insertOutlinksReports();
         $this->insertPageTitlesReports();
-        $this->insertSiteSearchReports();
     }
 
     protected function insertPageUrlsReports()
@@ -587,16 +578,6 @@ class Archiver extends \Piwik\Plugin\Archiver
         $this->insertTable($dataTable, self::PAGE_TITLES_RECORD_NAME);
     }
 
-    protected function insertSiteSearchReports()
-    {
-        $dataTable = $this->getDataTable(Action::TYPE_SITE_SEARCH);
-        $this->deleteUnusedColumnsFromKeywordsDataTable($dataTable);
-        $this->insertTable($dataTable, self::SITE_SEARCH_RECORD_NAME);
-
-        $this->getProcessor()->insertNumericRecord(self::METRIC_SEARCHES_RECORD_NAME, array_sum($dataTable->getColumn(PiwikMetrics::INDEX_PAGE_NB_HITS)));
-        $this->getProcessor()->insertNumericRecord(self::METRIC_KEYWORDS_RECORD_NAME, $dataTable->getRowsCount());
-    }
-
     protected function deleteUnusedColumnsFromKeywordsDataTable(DataTable $dataTable)
     {
         $columnsToDelete = array(
@@ -644,25 +625,6 @@ class Archiver extends \Piwik\Plugin\Archiver
             $countRowsRecursive = []
         );
 
-        $dataTableToSum = [
-            self::SITE_SEARCH_RECORD_NAME,
-        ];
-        $nameToCount    = $this->getProcessor()->aggregateDataTableRecords(
-            $dataTableToSum,
-            ArchivingHelper::$maximumRowsInDataTableSiteSearch,
-            ArchivingHelper::$maximumRowsInSubDataTable,
-            ArchivingHelper::$columnToSortByBeforeTruncation,
-            $aggregation,
-            Metrics::$columnsToRenameAfterAggregation,
-            $countRowsRecursive = []
-        );
-
         $this->getProcessor()->aggregateNumericMetrics($this->getMetricNames());
-
-        // Unique Keywords can't be summed, instead we take the RowsCount() of the keyword table
-        $this->getProcessor()->insertNumericRecord(
-            self::METRIC_KEYWORDS_RECORD_NAME,
-            $nameToCount[self::SITE_SEARCH_RECORD_NAME]['level0']
-        );
     }
 }

@@ -70,7 +70,7 @@ class ProductRecord extends Base
         $this->dimensionsToAggregate = array_merge([$dimension], $otherDimensionsToAggregate);
     }
 
-    public function isEnabled()
+    public function isEnabled(ArchiveProcessor $archiveProcessor)
     {
         return Manager::getInstance()->isPluginActivated('Ecommerce');
     }
