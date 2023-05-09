@@ -139,15 +139,58 @@ td.editable-site-field:hover {
 
     .no-data-screen-ul-tabs {
         overflow: auto !important;height: auto !important;
+        //border-bottom: 0.5px solid @color-gray-400;
         li.col {
             width: unset !important;
             float: unset !important;
         }
+
+        a:not(.active) {
+            text-decoration: none !important;
+            color: @color-black !important;
+        }
+
+        a.active {
+            color: @color-green-piwik !important;
+            text-decoration: none !important;
+            font-weight: bold;
+        }
+
+        .indicator {
+            background-color: @color-green-piwik !important;
+            border: 2px solid @color-green-piwik;
+            height: 0 !important;
+            z-index: 10;
+        }
+
+        .tab {
+            text-transform: unset;
+            line-height: 4rem;
+        }
+
+        @media only screen {
+            @media (max-width: 800px) {
+                .tab {
+                    line-height: 3rem;
+                }
+            }
+        }
+    }
+
+    .no-data-screen-ul-tabs::after {
+        border-bottom: 0.5px solid @color-gray-400;
+        width: 100%;
+        content: '';
+        display: block;
+        overflow: hidden;
+        bottom: 1px;
+        z-index: 2;
+        position: absolute;
     }
 
     .no-data-footer {
         position: sticky;
-        width: 100%;
+        width: inherit;
         bottom: 0;
         background: @color-white;
 
@@ -166,6 +209,14 @@ td.editable-site-field:hover {
 
     #start-tracking-data-header {
         font-weight: bold;
+    }
+
+    .underline a {
+        text-decoration: underline;
+    }
+
+    .no-data-tabs-main-div .col:not(.tabs-row):not(.tabs-row .col) {
+        padding-top: 1rem;
     }
 }
 

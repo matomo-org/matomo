@@ -9,8 +9,8 @@
       <h1 id="start-tracking-data-header">
         {{translate('SitesManager_SiteWithoutDataStartTrackingDataHeader')}}
       </h1>
-      <p v-html="$sanitize(siteWithoutDataDescLine1)"></p>
-      <p v-html="$sanitize(siteWithoutDataDescLine2)"></p>
+      <p class="underline" v-html="$sanitize(siteWithoutDataDescLine1)"></p>
+      <p class="underline" v-html="$sanitize(siteWithoutDataDescLine2)"></p>
       <p>&nbsp;</p>
 
       <WidgetLoader
@@ -19,14 +19,7 @@
       />
 
       <div class="no-data-footer row">
-        <hr/>
-        <div class="col s2 m-bottom-1">
-          <a
-            class="btn"
-            id="emailTrackingCodeBtn"
-            :href="emailInstructionsLink"
-          >{{ translate('SitesManager_EmailInstructionsButtonText') }}</a>
-        </div>
+        <hr v-if="afterIntroEventContent"/>
 
         <VueEntryContainer :html="afterIntroEventContent"/>
       </div>
@@ -69,7 +62,7 @@ export default defineComponent({
     siteWithoutDataDescLine1() {
       return translate(
         this.siteWithoutDataStartTrackingTranslationKey,
-        `<a href="${this.emailInstructionsLink}">`,
+        `<a rel="noreferrer noopener" target="_blank" href="${this.emailInstructionsLink}">`,
         '</a>',
         `<a rel="noreferrer noopener" target="_blank" href="${this.inviteUserLink}">`,
         '</a>',
