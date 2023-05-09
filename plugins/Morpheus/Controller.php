@@ -763,7 +763,8 @@ export default defineComponent({
                 'bug',
                 'upload',
                 'embed',
-                'heart'
+                'heart',
+                'merge',
             ],
         ];
 
