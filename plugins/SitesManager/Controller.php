@@ -271,8 +271,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if (!$idSite || !Piwik::isUserHasAdminAccess($idSite)) {
             return 'https://matomo.org/faq/general/manage-users/#imanadmin-creating-users';
         }
-        $request = \Piwik\Request::fromRequest();
-        $idSite = $request->getIntegerParameter('idSite', 0);
 
         return SettingsPiwik::getPiwikUrl() . 'index.php?' . Url::getQueryStringFromParameters([
                 'idSite' => $idSite,

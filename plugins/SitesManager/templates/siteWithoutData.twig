@@ -8,12 +8,12 @@
     {% include "@CoreHome/_siteSelectHeader.twig" %}
 {% endblock %}
 
+{% set bodyId = 'site-without-data' %}
+
 {% block content %}
 
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function () {
-            $('body').addClass('white-background')
-            $('.top_controls').addClass('white-background')
             $('<div />').insertAfter('.site-without-data').liveWidget({
                 interval: 1000,
                 onUpdate: function () {
