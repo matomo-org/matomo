@@ -30,8 +30,8 @@ use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Segment;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
+use Piwik\Log\LoggerInterface;
+use Piwik\Log\NullLogger;
 
 class MockCronArchive extends CronArchive
 {

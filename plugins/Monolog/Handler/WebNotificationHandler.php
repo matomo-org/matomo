@@ -9,7 +9,7 @@
 namespace Piwik\Plugins\Monolog\Handler;
 
 use Monolog\Handler\AbstractProcessingHandler;
-use Monolog\Logger;
+use Piwik\Log\Logger;
 use Piwik\Common;
 use Piwik\Notification;
 use Piwik\Notification\Manager;

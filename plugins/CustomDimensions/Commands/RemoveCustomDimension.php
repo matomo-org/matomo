@@ -15,10 +15,6 @@ use Piwik\Plugins\CustomDimensions\CustomDimensions;
 use Piwik\Plugins\CustomDimensions\Dao\Configuration;
 use Piwik\Plugins\CustomDimensions\Dao\LogTable;
 use Piwik\Tracker\Cache;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
  */
@@ -34,18 +30,20 @@ class RemoveCustomDimension extends ConsoleCommand
 ");
 
         $description = sprintf('The scope of the Custom Dimension to remove, either "%s" or "%s"', CustomDimensions::SCOPE_VISIT, CustomDimensions::SCOPE_ACTION);
-        $this->addOption('scope', null, InputOption::VALUE_REQUIRED, $description);
-        $this->addOption('index', null, InputOption::VALUE_REQUIRED, 'Defines which specific Custom Dimension should be removed. To get a list of all available Custom Dimensions execute the command "./console customdimensions:info".');
+        $this->addRequiredValueOption('scope', null, $description);
+        $this->addRequiredValueOption('index', null, 'Defines which specific Custom Dimension should be removed. To get a list of all available Custom Dimensions execute the command "./console customdimensions:info".');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
-        $scope = $this->getScope($input);
+        $input = $this->getInput();
+        $output = $this->getOutput();
+        $scope = $this->getScope();
 
         $tracking = new LogTable($scope);
         $installedIndexes = $tracking->getInstalledIndexes();
 
-        $index = $this->getIndex($input, $installedIndexes);
+        $index = $this->getIndex($installedIndexes);
 
         $output->writeln(sprintf('Remove Custom Dimension at index %d in scope %s.', $index, $scope));
 
@@ -68,7 +66,7 @@ class RemoveCustomDimension extends ConsoleCommand
         $output->writeln('<comment>Removing tracked Custom Dimension data cannot be undone unless you have a backup.</comment>');
 
         $noInteraction = $input->getOption('no-interaction');
-        if (!$noInteraction && !$this->confirmChange($input, $output)) {
+        if (!$noInteraction && !$this->confirmChange()) {
             return self::FAILURE;
         }
 
@@ -90,16 +88,16 @@ class RemoveCustomDimension extends ConsoleCommand
 
         $numDimensionsAvailable = $tracking->getNumInstalledIndexes();
 
-        $this->writeSuccessMessage($output, [
+        $this->writeSuccessMessage([
             sprintf('Your Matomo is now configured for up to %d Custom Dimensions in scope %s.', $numDimensionsAvailable, $scope)
         ]);
 
         return self::SUCCESS;
     }
 
-    private function getScope(InputInterface $input)
+    private function getScope()
     {
-        $scope = $input->getOption('scope');
+        $scope = $this->getInput()->getOption('scope');
 
         if (empty($scope) || !in_array($scope, [CustomDimensions::SCOPE_VISIT, CustomDimensions::SCOPE_ACTION])) {
             $message = sprintf('The specified scope is invalid. Use either "--scope=%s" or "--scope=%s"', CustomDimensions::SCOPE_VISIT, CustomDimensions::SCOPE_ACTION);
@@ -109,9 +107,9 @@ class RemoveCustomDimension extends ConsoleCommand
         return $scope;
     }
 
-    private function getIndex(InputInterface $input, $installedIndexes)
+    private function getIndex($installedIndexes)
     {
-        $index = $input->getOption('index');
+        $index = $this->getInput()->getOption('index');
 
         $indexesHelp = 'Installed indexes are: ' . implode(', ', $installedIndexes);
 
@@ -132,16 +130,12 @@ class RemoveCustomDimension extends ConsoleCommand
         return $index;
     }
 
-    private function confirmChange(InputInterface $input, OutputInterface $output)
+    private function confirmChange()
     {
-        $output->writeln('');
-
-        $helper   = $this->getHelper('question');
-        $question = new ConfirmationQuestion(
+        $this->getOutput()->writeln('');
+        return $this->askForConfirmation(
             '<question>Are you sure you want to perform this action? (y/N)</question>',
             false
         );
-
-        return $helper->ask($input, $output, $question);
     }
 }

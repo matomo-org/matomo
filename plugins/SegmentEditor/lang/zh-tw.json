@@ -38,6 +38,7 @@
         "UnprocessedSegmentApiError3": "稍候數小時，您的區隔資料將於 API 中可用。（如仍不可用，可能出現了問題。）",
         "UnprocessedSegmentInVisitorLog1": "%1$s同時，您亦可以利用訪客紀錄%2$s測試您設定的區隔是否正確地匹配到您的使用者。",
         "UnprocessedSegmentInVisitorLog2": "套用後，您可以即時見到區隔匹配到的訪問及動作。",
+        "UnprocessedSegmentInVisitorLog3": "這能夠幫助您確認您的區隔能匹配到您所期望的用户。",
         "UnprocessedSegmentNoData1": "因系統尚未處理您所請求的 %1$s，所以這些報表沒有資料。",
         "UnprocessedSegmentNoData2": "待數小時處理完成後，此區隔的資料將會可用。（如資料仍不可用，可能出現了問題。）",
         "UnprocessedSegmentNoData3": "因設定阻止當前期間進行重新彙整，Matomo 現時無法顯示區隔 %1$s 的資料。請聯繫您的管理員或查閲%2$s這份 FAQ 文檔%3$s了解如何解決這個問題。",

@@ -13,11 +13,8 @@ use Piwik\Container\StaticContainer;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\Monolog\Handler\FailureLogMessageDetector;
 use Piwik\Tests\Framework\Fixture;
-use Psr\Log\LoggerInterface;
-use Monolog\Logger;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
+use Piwik\Log\LoggerInterface;
+use Piwik\Log\Logger;
 use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
 
 class TestCommandWithWarning extends ConsoleCommand
@@ -29,9 +26,10 @@ class TestCommandWithWarning extends ConsoleCommand
         $this->setName('test-command-with-warning');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function doExecute(): int
     {
         StaticContainer::get(LoggerInterface::class)->warning('warn');
+        return self::SUCCESS;
     }
 }
 
@@ -42,14 +40,15 @@ class TestCommandWithError extends ConsoleCommand
         parent::configure();
 
         $this->setName('test-command-with-error');
-        $this->addOption('no-error', null, InputOption::VALUE_NONE);
+        $this->addNoValueOption('no-error');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function doExecute(): int
     {
-        if (!$input->getOption('no-error')) {
+        if (!$this->getInput()->getOption('no-error')) {
             StaticContainer::get(LoggerInterface::class)->error('error');
         }
+        return self::SUCCESS;
     }
 }
 
@@ -62,18 +61,20 @@ class TestCommandWithFatalError extends ConsoleCommand
         $this->setName('test-command-with-fatal-error');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function doExecute(): int
     {
         try {
             \Piwik\ErrorHandler::pushFatalErrorBreadcrumb(static::class);
 
-            $this->executeImpl($input, $output);
+            $this->executeImpl();
         } finally {
             \Piwik\ErrorHandler::popFatalErrorBreadcrumb();
         }
+
+        return self::SUCCESS;
     }
 
-    public function executeImpl(InputInterface $input, OutputInterface $output)
+    public function executeImpl()
     {
         try {
             \Piwik\ErrorHandler::pushFatalErrorBreadcrumb(static::class, []);
@@ -97,7 +98,7 @@ class TestCommandWithException extends ConsoleCommand
         $this->setName('test-command-with-exception');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function doExecute(): int
     {
         throw new \Exception('test error');
     }
@@ -165,16 +166,16 @@ class ConsoleTest extends ConsoleCommandTestCase
 
         $expected = <<<END
 
-Fatal error: Allowed memory size of X bytes exhausted (tried to allocate X bytes) in /tests/PHPUnit/System/ConsoleTest.php on line 83
+Fatal error: Allowed memory size of X bytes exhausted (tried to allocate X bytes) in /tests/PHPUnit/System/ConsoleTest.php on line 84
 *** IN SAFEMODE ***
 Matomo encountered an error: Allowed memory size of X bytes exhausted (tried to allocate X bytes) (which lead to: Error: array (
   'type' => 1,
   'message' => 'Allowed memory size of X bytes exhausted (tried to allocate X bytes)',
   'file' => '/tests/PHPUnit/System/ConsoleTest.php',
-  'line' => 83,
-  'backtrace' => ' on /tests/PHPUnit/System/ConsoleTest.php(83)
-#0 /tests/PHPUnit/System/ConsoleTest.php(70): Piwik\\\\Tests\\\\System\\\\TestCommandWithFatalError->executeImpl()
-#1 /vendor/symfony/console/Command/Command.php(298): Piwik\\\\Tests\\\\System\\\\TestCommandWithFatalError->execute()
+  'line' => 84,
+  'backtrace' => ' on /tests/PHPUnit/System/ConsoleTest.php(84)
+#0 /tests/PHPUnit/System/ConsoleTest.php(69): Piwik\\\\Tests\\\\System\\\\TestCommandWithFatalError->executeImpl()
+#1 /core/Plugin/ConsoleCommand.php(110): Piwik\\\\Tests\\\\System\\\\TestCommandWithFatalError->doExecute()
 ',
 ))
 END;
@@ -198,7 +199,7 @@ END;
         $expected = <<<END
 *** IN SAFEMODE ***
 
-In ConsoleTest.php line 102:
+In ConsoleTest.php line 103:
               \n  test error  \n              \n
 test-command-with-exception
 
@@ -215,17 +216,17 @@ END;
     public static function provideContainerConfigBeforeClass()
     {
         return [
-            'log.handlers' => [\DI\get(FailureLogMessageDetector::class)],
-            LoggerInterface::class => \DI\create(Logger::class)
-                ->constructor('piwik', \DI\get('log.handlers'), \DI\get('log.processors')),
+            'log.handlers' => [\Piwik\DI::get(FailureLogMessageDetector::class)],
+            LoggerInterface::class => \Piwik\DI::create(Logger::class)
+                ->constructor('piwik', \Piwik\DI::get('log.handlers'), \Piwik\DI::get('log.processors')),
 
-            'observers.global' => \DI\add([
-                ['Console.filterCommands', \DI\value(function (&$commands) {
+            'observers.global' => \Piwik\DI::add([
+                ['Console.filterCommands', \Piwik\DI::value(function (&$commands) {
                     $commands[] = TestCommandWithFatalError::class;
                     $commands[] = TestCommandWithException::class;
                 })],
 
-                ['Request.dispatch', \DI\value(function ($module, $action) {
+                ['Request.dispatch', \Piwik\DI::value(function ($module, $action) {
                     if ($module === 'CorePluginsAdmin' && $action === 'safemode') {
                         print "*** IN SAFEMODE ***\n"; // will appear in output
                     }

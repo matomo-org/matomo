@@ -68,6 +68,30 @@ class TrackGoalsOneConversionPerVisitTest extends SystemTestCase
                 'segment' => 'visitCount>=1;pageUrl=@/',
                 'testSuffix' => '_withLogLinkVisitActionAndLogVisitSegment'
             )),
+
+            ['API.getProcessedReport', [
+                'idSite' => self::$fixture->idSite,
+                'date' => self::$fixture->dateTime,
+                'period' => 'day',
+                'testSuffix' => 'showGoalsMetricsSingleGoal',
+                'otherRequestParameters' => [
+                    'filter_update_columns_when_show_all_goals' => '1',
+                    'filter_show_goal_columns_process_goals' => '1',
+                    'apiModule' => 'DevicesDetection',
+                    'apiAction' => 'getBrowsers',
+                ],
+            ]],
+            ['API.getProcessedReport', [
+                'idSite' => self::$fixture->idSite,
+                'date' => self::$fixture->dateTime,
+                'period' => 'day',
+                'testSuffix' => 'showGoalsMetricsAllGoals',
+                'otherRequestParameters' => [
+                    'filter_update_columns_when_show_all_goals' => '1',
+                    'apiModule' => 'DevicesDetection',
+                    'apiAction' => 'getBrowsers',
+                ],
+            ]],
         );
     }
 

@@ -661,7 +661,6 @@ class CronArchiveTest extends IntegrationTestCase
         $archiveFilter->setSkipSegmentsForToday(true);
         $archiver->setArchiveFilter($archiveFilter);
         $archiver->shouldArchiveAllSites = true;
-        $archiver->shouldArchiveAllPeriodsSince = true;
         $archiver->init();
         $archiver->run();
 
@@ -932,7 +931,7 @@ LOG;
         Date::$now = strtotime('2020-02-03 04:05:06');
 
         return array(
-            'Piwik\CliMulti' => \DI\create('Piwik\Tests\Framework\Mock\FakeCliMulti')
+            'Piwik\CliMulti' => \Piwik\DI::create('Piwik\Tests\Framework\Mock\FakeCliMulti')
         );
     }
 

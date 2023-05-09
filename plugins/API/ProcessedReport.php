@@ -267,8 +267,13 @@ class ProcessedReport
                 }
             }
             // when there are per goal metrics, don't display conversion_rate since it can differ from per goal sum
+            // (but only if filter_update_columns_when_show_all_goals is not in the request, if it is then we assume
+            // the caller wants this information)
             // TODO we should remove this once we remove the getReportMetadata event, leaving it here for backwards compatibility
-            if (isset($availableReport['metricsGoal'])) {
+            $requestingGoalMetrics = Common::getRequestVar('filter_update_columns_when_show_all_goals', false);
+            if (isset($availableReport['metricsGoal'])
+                && !$requestingGoalMetrics
+            ) {
                 unset($availableReport['processedMetrics']['conversion_rate']);
                 unset($availableReport['metricsGoal']['conversion_rate']);
             }
@@ -649,7 +654,9 @@ class ProcessedReport
 
             foreach ($rowMetrics as $columnName => $columnValue) {
                 // filter metrics according to metadata definition
-                if (isset($metadataColumns[$columnName])) {
+                if (isset($metadataColumns[$columnName])
+                    || preg_match('/^goal_[0-9]+_/', $columnName)
+                ) {
                     // generate 'human readable' metric values
 
                     // if we handle MultiSites.getAll we do not always have the same idSite but different ones for

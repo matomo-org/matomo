@@ -25,6 +25,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-merge:before {
+  content: "\e904";
+}
+
 .icon-outlink:before {
   content: "\f08e";
 }

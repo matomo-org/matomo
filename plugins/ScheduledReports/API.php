@@ -34,7 +34,7 @@ use Piwik\Scheduler\RetryableException;
 use Piwik\Scheduler\Schedule\Schedule;
 use Piwik\Site;
 use Piwik\Translation\Translator;
-use Psr\Log\LoggerInterface;
+use Piwik\Log\LoggerInterface;
 
 /**
  * The ScheduledReports API lets you manage Scheduled Email reports, as well as generate, download or email any existing report.

@@ -12,10 +12,6 @@ use Piwik\Development;
 use Piwik\FileIntegrity;
 use Piwik\Filesystem;
 use Piwik\Plugin\ConsoleCommand;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
  * Diagnostic command that finds all unexpected files in the Matomo installation directory and provides an option to
@@ -32,19 +28,18 @@ class UnexpectedFiles extends ConsoleCommand
     {
         $this->setName('diagnostics:unexpected-files')
             ->setDescription('Show a list of unexpected files found in the Matomo installation directory and optionally delete them.')
-            ->addOption('delete', null, InputOption::VALUE_NONE, 'Delete all the unexpected files');
+            ->addNoValueOption('delete', null, 'Delete all the unexpected files');
     }
 
     /**
      * Execute the command
      *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
      * @return int
      */
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    protected function doExecute(): int
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
 
         // Prevent running in development mode
         if (Development::isEnabled()) {
@@ -66,27 +61,27 @@ class UnexpectedFiles extends ConsoleCommand
 
             $output->writeln("<info>Preparing to delete all unexpected files from the Matomo installation directory</info>");
 
-            if(!$this->askForDeleteConfirmation($input, $output)) {
+            if(!$this->askForDeleteConfirmation()) {
                 $output->writeln("Aborted - no files were deleted");
                 return 1;
             }
 
-            return $this->runUnexpectedFiles($output, true);
+            return $this->runUnexpectedFiles(true);
         }
 
-        return $this->runUnexpectedFiles($output, false);
+        return $this->runUnexpectedFiles(false);
     }
 
     /**
      * Handle unexpected files command options
      *
-     * @param OutputInterface $output
      * @param bool $delete
      *
      * @return int
      */
-    private function runUnexpectedFiles(OutputInterface $output, bool $delete = false): int
+    private function runUnexpectedFiles(bool $delete = false): int
     {
+        $output = $this->getOutput();
 
         // A list of files that should never be deleted under any circumstances, this acts as a backup safety check
         // for the FileIntegrity class which should already be excluding these files.
@@ -132,21 +127,18 @@ class UnexpectedFiles extends ConsoleCommand
     /**
      * Interact with the user to confirm the deletion
      *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
      * @return bool
      */
-    private function askForDeleteConfirmation(InputInterface $input, OutputInterface $output): bool
+    private function askForDeleteConfirmation(): bool
     {
-        if (!$input->isInteractive()) {
+        if (!$this->getInput()->isInteractive()) {
             return true;
         }
 
-        $helper   = $this->getHelper('question');
-        $question = new ConfirmationQuestion('<comment>You are about to delete files. This action cannot be undone, are you sure you want to continue? (Y/N)</comment> ', false);
-
-        return $helper->ask($input, $output, $question);
+        return $this->askForConfirmation(
+            '<comment>You are about to delete files. This action cannot be undone, are you sure you want to continue? (Y/N)</comment>',
+            false
+        );
     }
 
 }

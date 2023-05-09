@@ -157,9 +157,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'trackingUrl' => $trackingUrl,
             'idSite' => $this->idSite,
             'consentManagerName' => false,
+            'cloudflare' => false,
             'ga3Used' => false,
             'ga4Used' => false,
-            'gtmUsed' => false
+            'gtmUsed' => false,
+            'cms' => false
         ];
 
         $this->siteContentDetector->detectContent([SiteContentDetector::ALL_CONTENT]);
@@ -170,6 +172,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $emailTemplateData['ga3Used'] = $this->siteContentDetector->ga3;
         $emailTemplateData['ga4Used'] = $this->siteContentDetector->ga4;
         $emailTemplateData['gtmUsed'] = $this->siteContentDetector->gtm;
+        $emailTemplateData['cloudflare'] = $this->siteContentDetector->cloudflare;
+        $emailTemplateData['cms'] = $this->siteContentDetector->cms;
 
         $emailContent = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', $emailTemplateData, $viewType = 'basic');
 
@@ -225,7 +229,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'ga4Used' => $this->siteContentDetector->ga4,
             'googleAnalyticsImporterMessage' => $googleAnalyticsImporterMessage,
             'tagManagerActive' => $tagManagerActive,
-            'consentManagerName' => false
+            'consentManagerName' => false,
+            'cloudflare' => $this->siteContentDetector->cloudflare,
+            'cms' => $this->siteContentDetector->cms,
         ];
 
         if ($this->siteContentDetector->consentManagerId) {
@@ -234,6 +240,23 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $templateData['consentManagerIsConnected'] = $this->siteContentDetector->isConnected;
         }
 
+        $templateData['activeTab'] = $this->getActiveTabOnLoad($templateData);
+
         return $this->renderTemplateAs('_siteWithoutDataTabs', $templateData, $viewType = 'basic');
+    }
+
+    private function getActiveTabOnLoad($templateData)
+    {
+        $tabToDisplay = '';
+
+        if (!empty($templateData['gtmUsed'])) {
+            $tabToDisplay = 'gtm';
+        } else if (!empty($templateData['cms']) && $templateData['cms'] === SitesManager::SITE_TYPE_WORDPRESS) {
+            $tabToDisplay = 'wordpress';
+        } else if (!empty($templateData['cloudflare'])) {
+            $tabToDisplay = 'cloudflare';
+        }
+
+        return $tabToDisplay;
     }
 }

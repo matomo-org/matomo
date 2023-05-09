@@ -489,8 +489,8 @@ class Plugin
      * Note: the time frame is limited by the `[General] rearchive_reports_in_past_last_n_months`
      * INI config value.
      *
-     * @throws \DI\DependencyException
-     * @throws \DI\NotFoundException
+     * @throws \Piwik\Exception\DI\DependencyException
+     * @throws \Piwik\Exception\DI\NotFoundException
      */
     public function schedulePluginReArchiving()
     {

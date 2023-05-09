@@ -1,6 +1,10 @@
 {
     "PagePerformance": {
         "ColumnAveragePageLoadTime": "Tiempo medio de carga de la página",
+        "ColumnAveragePageLoadTimeDocumentation": "Tiempo medio (en segundos) que pasan desde la petición de una página hasta que está completamente maquetada en el navegador",
+        "ColumnAverageTimeNetwork": "Tiempo de red medio",
+        "ColumnAverageTimeNetworkDocumentation": "Tiempo medio (en segundos) que lleva conectar al servidor. Esto incluye el tiempo necesario para buscar en DNS y establecer una conexión TCP. Este valor puede ser 0 tras la primera petición a un dominio porque el navegador puede tener la conexión en cache.",
+        "ColumnAverageTimeServerDocumentation": "Tiempo medio (en segundos) que le lleva al servidor generar la página. Este es el tiempo transcurrido desde que el servidor recibe la petición hasta que empieza a servir la respuesta.",
         "ColumnTimeServer": "Hora del servidor",
         "Performance": "Rendimiento",
         "RowActionTitle": "Abrir reporte de rendimiento de página"

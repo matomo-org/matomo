@@ -41,6 +41,7 @@ class Inconsistencies
             '/funnel_.*_rate/',
             '/form_.*_rate/',
             '/field_.*_rate/',
+            '/Referrers.*_percent/',
         );
     }
 }

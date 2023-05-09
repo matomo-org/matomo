@@ -14,8 +14,8 @@ use Piwik\CliMulti\OutputInterface;
 use Piwik\CliMulti\Process;
 use Piwik\CliMulti\StaticOutput;
 use Piwik\Container\StaticContainer;
-use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
+use Piwik\Log\LoggerInterface;
+use Piwik\Log\NullLogger;
 
 /**
  * Class CliMulti.

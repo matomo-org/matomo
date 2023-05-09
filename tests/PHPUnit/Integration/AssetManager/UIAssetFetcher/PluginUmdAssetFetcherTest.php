@@ -498,7 +498,7 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
     protected function provideContainerConfig()
     {
         return [
-            'plugins.shouldLoadOnDemand' => \DI\add(array_keys(self::TEST_PLUGIN_DEPENDENCIES_ON_DEMAND)),
+            'plugins.shouldLoadOnDemand' => \Piwik\DI::add(array_keys(self::TEST_PLUGIN_DEPENDENCIES_ON_DEMAND)),
         ];
     }
 }

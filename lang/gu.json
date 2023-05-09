@@ -1,5 +1,10 @@
 {
     "General": {
+        "Actions": "ક્રિયાઓ",
+        "ColumnNbActions": "ક્રિયાઓ",
         "Locale": "gu_IN.UTF-8"
+    },
+    "Mobile": {
+        "ChooseSegment": "અંશ પસંદ કરો"
     }
 }

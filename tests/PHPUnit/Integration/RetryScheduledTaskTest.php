@@ -13,7 +13,7 @@ use Piwik\Scheduler\Scheduler;
 use Piwik\Scheduler\Task;
 use Piwik\Tests\Framework\Mock\PiwikOption;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Psr\Log\NullLogger;
+use Piwik\Log\NullLogger;
 use ReflectionProperty;
 
 /**

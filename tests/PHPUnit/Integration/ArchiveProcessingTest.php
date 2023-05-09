@@ -30,6 +30,8 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class ArchiveProcessorTest extends ArchiveProcessor\Loader
 {
+    public $time;
+
     public function getParams()
     {
         return $this->params;
