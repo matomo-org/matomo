@@ -65,7 +65,6 @@ class Archiver extends \Piwik\Plugin\Archiver
 
         $this->archiveDayPageActions($rankingQueryLimit);
         $this->archiveDaySiteSearchActions($rankingQueryLimit);
-        $this->archiveDaySearchCategoryActions();
         $this->archiveDayEntryActions($rankingQueryLimit);
         $this->archiveDayExitActions($rankingQueryLimit);
         $this->archiveDayActionsTime($rankingQueryLimit);
@@ -168,25 +167,6 @@ class Archiver extends \Piwik\Plugin\Archiver
             $rankingQueryLimit = max($rankingQueryLimit, ArchivingHelper::$maximumRowsInDataTableSiteSearch);
             $this->archiveDayActions($rankingQueryLimit, array(Action::TYPE_SITE_SEARCH), false);
         }
-    }
-
-    protected function archiveDaySearchCategoryActions()
-    {
-        $where = "%s.search_cat != '' AND %s.search_cat IS NOT NULL";
-        $dimensions = array('search_cat');
-        $query = $this->getLogAggregator()->queryActionsByDimension(
-            $dimensions, 
-            $where
-        );
-
-        $dataArray = new DataArray();
-        while ($row = $query->fetch()) {
-            $dataArray->sumMetricsActions($row['search_cat'], $row);
-        }
-
-        $dataTable = $dataArray->asDataTable();
-        $report = $dataTable->getSerialized(ArchivingHelper::$maximumRowsInDataTableSiteSearch);
-        $this->getProcessor()->insertBlobRecord(self::SITE_SEARCH_CATEGORY_RECORD_NAME, $report);
     }
 
     protected function archiveDayActions($rankingQueryLimit, array $actionTypes, $includePageNotDefined)
@@ -666,7 +646,6 @@ class Archiver extends \Piwik\Plugin\Archiver
 
         $dataTableToSum = [
             self::SITE_SEARCH_RECORD_NAME,
-            self::SITE_SEARCH_CATEGORY_RECORD_NAME,
         ];
         $nameToCount    = $this->getProcessor()->aggregateDataTableRecords(
             $dataTableToSum,
