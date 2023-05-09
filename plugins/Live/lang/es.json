@@ -1,7 +1,7 @@
 {
     "Live": {
         "ActionsAndDuration": "%1$s acciones en %2$s",
-        "AveragePageGenerationTime": "Cada página tomó en promedio %1$s para cargar este visitante.",
+        "AveragePageGenerationTime": "Cada página tardó %1$s de media para cargar a este visitante.",
         "CalculatedOverNPageViews": "Calculado usando las últimas %1$s páginas vistas de este visitante.",
         "ClickToSeeAllContents": "Clic para ver cada interacción/impresión del contenido",
         "ClickToViewAllActions": "Clic para ver todas las acciones en detalle de este grupo",
