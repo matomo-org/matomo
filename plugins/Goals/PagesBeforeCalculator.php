@@ -34,14 +34,13 @@ class PagesBeforeCalculator
      * @param string|null   $idGoal The goal for which to calculate, or list of comma separated idgoals (only if single site)
      * @param bool          $forceRecalc If enabled then values will be recalculated for conversions that already have a
      *                                   'pages before' value. By default only conversions with a null value will be calculated.
-     * @param callable|null $afterChunkCalculated Callback function to be called after a chunk of calculation is done
+     * @param callable|null $afterGoalCalculated Callback function to be called after calculation are done for each goal
      *
      * @return int The number of conversions calculated
      */
     public function calculateFor(?string $startDatetime, ?string $endDatetime, ?int $lastN = null, ?string $idSite = null,
-                                 ?string $idGoal = null, bool $forceRecalc = false,  callable $afterChunkCalculated = null): int
+                                 ?string $idGoal = null, bool $forceRecalc = false,  callable $afterGoalCalculated = null): int
     {
-
         $totalCalculated = 0;
 
         // Sites
@@ -92,58 +91,49 @@ class PagesBeforeCalculator
                 // All goals
                 $goalsModel = new GoalsModel();
                 $goals = array_column($goalsModel->getActiveGoals([$site]), 'idgoal');
+                $goals[] = 0; // Include ecommerce orders
             } else {
                 // Specific goals
                 $goals = explode(',', $idGoal);
             }
 
-            $chunks = 0;
             foreach ($goals as $goal) {
 
-                $done = false;
-                while (!$done) {
-                    $sql = "
-                    UPDATE " . Common::prefixTable('log_conversion') . " c
-                    LEFT JOIN (
-                        SELECT COUNT(va.idvisit) AS pages_before, va.idvisit, va.server_time
-                        FROM " . Common::prefixTable('log_link_visit_action') . " va
-                        LEFT JOIN " . Common::prefixTable('log_action') . " a ON a.idaction = va.idaction_url AND a.type = 1
-                        GROUP BY va.idvisit
-                    ) AS a ON a.idvisit = c.idvisit AND a.server_time <= c.server_time
-                    SET c.pageviews_before = a.pages_before
-                    WHERE c.idsite = ? AND c.idgoal = ?                    
-                    ";
+                $sql = "
+                UPDATE " . Common::prefixTable('log_conversion') . " c
+                LEFT JOIN (
+                    SELECT COUNT(va.idvisit) AS pages_before, va.idvisit, va.server_time
+                    FROM " . Common::prefixTable('log_link_visit_action') . " va
+                    LEFT JOIN " . Common::prefixTable('log_action') . " a ON a.idaction = va.idaction_url AND a.type = 1
+                    GROUP BY va.idvisit
+                ) AS a ON a.idvisit = c.idvisit AND a.server_time <= c.server_time
+                SET c.pageviews_before = a.pages_before
+                WHERE c.idsite = ? AND c.idgoal = ?                    
+                ";
 
-                    if (!$forceRecalc) {
-                         $sql .= " AND c.pageviews_before IS NULL";
-                    }
+                if (!$forceRecalc) {
+                     $sql .= " AND c.pageviews_before IS NULL";
+                }
 
-                    $bind = [$site, $goal];
+                $bind = [$site, $goal];
 
-                    if (!empty($startDatetime)) {
-                        $sql .= " AND c.server_time >= ?";
-                        $bind[] = $startDatetime;
-                    }
+                if (!empty($startDatetime)) {
+                    $sql .= " AND c.server_time >= ?";
+                    $bind[] = $startDatetime;
+                }
 
-                    if (!empty($endDatetime)) {
-                        $sql .= " AND c.server_time <= ?";
-                        $bind[] = $endDatetime;
-                    }
+                if (!empty($endDatetime)) {
+                    $sql .= " AND c.server_time <= ?";
+                    $bind[] = $endDatetime;
+                }
 
-                    $result = Db::query($sql, $bind);
-                    $calcCount = $result->rowCount();
+                $result = Db::query($sql, $bind);
+                $calcCount = $result->rowCount();
 
-                    // Done with this site/goal if no records were updated or we've processed 100m records (sanity check)
-                    if ($calcCount == 0 || $chunks > 10000) {
-                        $done = true;
-                    }
+                $totalCalculated += $calcCount;
 
-                    $chunks++;
-                    $totalCalculated += $calcCount;
-
-                    if (!empty($afterChunkCalculated)) {
-                        $afterChunkCalculated($calcCount);
-                    }
+                if (!empty($afterGoalCalculated)) {
+                    $afterGoalCalculated($calcCount);
                 }
 
             }
