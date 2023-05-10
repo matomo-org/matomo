@@ -20,6 +20,7 @@ use Piwik\Metrics;
 use Piwik\Plugin\LogTablesProvider;
 use Piwik\RankingQuery;
 use Piwik\Segment;
+use Piwik\Tracker\Action;
 use Piwik\Tracker\GoalManager;
 use Piwik\Log\LoggerInterface;
 
@@ -1104,7 +1105,7 @@ class LogAggregator
         $select = "
             log_conversion.idvisit AS idvisit,
             " . $idGoal . " AS idgoal,
-            " . ($linkField == 'idaction_url' ? '1' : '4') . " AS `type`,
+            " . ($linkField == 'idaction_url' ? Action::TYPE_PAGE_URL : Action::TYPE_PAGE_TITLE) . " AS `type`,
             lac.idaction AS idaction, 
             COUNT(*) AS `1`,            
             " . sprintf("ROUND(SUM(log_conversion.revenue),2) AS `%d`,", Metrics::INDEX_GOAL_REVENUE) . "
@@ -1131,7 +1132,7 @@ class LogAggregator
         $where .= sprintf('AND log_conversion.idgoal = %d
                           AND logva.server_time <= log_conversion.server_time
                           AND lac.type = %s',
-                          (int) $idGoal, ($linkField == 'idaction_url' ? '1' : '4'));
+                          (int) $idGoal, ($linkField == 'idaction_url' ? Action::TYPE_PAGE_URL : Action::TYPE_PAGE_TITLE));
 
         $groupBy = 'log_conversion.idvisit, lac.idaction';
 

@@ -42,14 +42,14 @@ class CalculateConversionPages extends ConsoleCommand
         $this->addOptionalValueOption('idsite', null,
             'Calculate for conversions belonging to the site with this ID. Comma separated list of website id. Eg, 1, 2, 3, etc. By default conversions from all sites are calculated.', null);
         $this->addOptionalValueOption('idgoal', null,'Calculate conversions for this goal. A comma separated list of goal ids can be used only if a single site is specified. Eg, 1, 2, 3, etc. By default conversions for all goals are calculated.', null);
-        $this->addOptionalValueOption('force-recalc', null, 'Recalculate for conversions which already have a pages before value', null);
+        $this->addOptionalValueOption('force-recalc', null, 'Recalculate for conversions which already have a pages before value', 0);
     }
 
     protected function doExecute(): int
     {
         $dates = $this->getInput()->getOption('dates');
         $lastN = $this->getInput()->getOption('last-n');
-        $forceRecalc = ($this->getInput()->getOption('force-recalc') ?? 0);
+        $forceRecalc = $this->getInput()->getOption('force-recalc');
         $idSite = $this->getSitesToCalculate();
         $idGoal = $this->getGoalsToCalculate();
 
@@ -180,7 +180,7 @@ class CalculateConversionPages extends ConsoleCommand
 
         foreach ($goals as $id) {
             // validate the goal id
-            if (!$goalsModel->doesGoalExist($id, $idSite)) {
+            if (!$goalsModel->doesGoalExist($id, $idSite) && $id != 0) {
                 throw new \InvalidArgumentException("Invalid goal ID: $id", $code = 0);
             }
         }
