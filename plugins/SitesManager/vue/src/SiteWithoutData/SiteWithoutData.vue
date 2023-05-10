@@ -9,8 +9,8 @@
       <h1 id="start-tracking-data-header">
         {{translate('SitesManager_SiteWithoutDataStartTrackingDataHeader')}}
       </h1>
-      <p class="underline" v-html="$sanitize(siteWithoutDataDescLine1)"></p>
-      <p class="underline" v-html="$sanitize(siteWithoutDataDescLine2)"></p>
+      <p v-html="$sanitize(siteWithoutDataDescLine1)"></p>
+      <p v-html="$sanitize(siteWithoutDataDescLine2)"></p>
       <p>&nbsp;</p>
 
       <WidgetLoader
