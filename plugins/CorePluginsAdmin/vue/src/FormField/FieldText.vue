@@ -19,7 +19,7 @@
   />
   <label
     :for="name"
-    v-text="$sanitize(title)"
+    v-html="$sanitize(title)"
   />
 </template>
 
