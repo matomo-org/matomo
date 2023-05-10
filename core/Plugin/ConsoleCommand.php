@@ -253,7 +253,7 @@ class ConsoleCommand extends SymfonyCommand
      *
      * @see addOptionalArgument, addRequiredArgument
      */
-    public function addArgument(string $name, int $mode = null, string $description = '', $default = null)
+    public function addArgument($name, $mode = null, string $description = '', $default = null)
     {
         throw new \LogicException('addArgument can not be used.');
     }
