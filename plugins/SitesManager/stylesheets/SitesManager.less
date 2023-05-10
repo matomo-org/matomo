@@ -150,31 +150,39 @@ td.editable-site-field:hover {
         a:not(.active) {
             text-decoration: none !important;
             color: @color-black !important;
+
+            &:hover {
+                background-color: @color-gray-bright !important;
+                opacity: unset;
+            }
+
+            &:focus {
+                background-color: @color-jetstream !important;
+                opacity: unset;
+            }
         }
 
         a.active {
             color: @color-green-piwik !important;
             text-decoration: none !important;
             font-weight: bold;
+
+            &:hover {
+                opacity: unset;
+            }
         }
 
         .indicator {
-            background-color: @color-green-piwik !important;
-            border: 2px solid @color-green-piwik;
-            height: 0 !important;
+            border-bottom: 2px solid @color-green-piwik;
             z-index: 10;
+            bottom: 0.3rem;
         }
 
         .tab {
             text-transform: unset;
-            line-height: 4rem;
-        }
 
-        @media only screen {
-            @media (max-width: 800px) {
-                .tab {
-                    line-height: 3rem;
-                }
+            a {
+                font-size: 16px;
             }
         }
     }
@@ -185,7 +193,7 @@ td.editable-site-field:hover {
         content: '';
         display: block;
         overflow: hidden;
-        bottom: 1px;
+        bottom: 0.3rem;
         z-index: 2;
         position: absolute;
     }
