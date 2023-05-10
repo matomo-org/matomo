@@ -8,6 +8,8 @@
     {% include "@CoreHome/_siteSelectHeader.twig" %}
 {% endblock %}
 
+{% set bodyId = 'site-without-data' %}
+
 {% block content %}
 
     <script type="text/javascript" charset="utf-8">
@@ -27,33 +29,30 @@
     </script>
 
     <div class="site-without-data">
-        <div piwik-content-block content-title="{{ 'SitesManager_SiteWithoutDataTitle'|translate|e('html_attr') }} 🚀">
-
+        <div piwik-content-block>
+            <h1 id="start-tracking-data-header">
+                {{ 'SitesManager_SiteWithoutDataStartTrackingDataHeader'|translate }}
+            </h1>
+            <p>{{ siteWithoutDataStartTrackingTranslationKey|translate('<a rel="noreferrer noopener" target="_blank" href="mailto:?subject=' ~ 'SitesManager_EmailInstructionsSubject'|translate|url_encode|e('html_attr') ~ '&body=' ~ emailBody|url_encode|e('html_attr') ~ '">', '</a>', '<a rel="noreferrer noopener" target="_blank" href="' ~ inviteUserLink ~'">', '</a>')|raw }}</p>
+            <p>{{ 'SitesManager_SiteWithoutDataStartTrackingDataDescriptionLine2'|translate('<a rel="noreferrer noopener" target="_blank" href="' ~ linkTo({module: 'SitesManager', action: 'ignoreNoDataMessage'}) ~'">', '</a>')|raw }}</p>
             <p>&nbsp;</p>
-            <p>{{ 'SitesManager_SiteWithoutDataDescription'|translate('<a href="mailto:?subject=' ~ 'SitesManager_EmailInstructionsSubject'|translate|url_encode|e('html_attr') ~ '&body=' ~ emailBody|url_encode|e('html_attr') ~ '">', '</a>')|raw }}</p>
-            <p>{{ 'SitesManager_SiteWithoutDataMessageDisappears'|translate }}</p>
 
             <h3>{{ 'SitesManager_SiteWithoutDataChoosePreferredWay'|translate }}</h3>
 
             <div piwik-widget-loader='{"module":"SitesManager","action":"siteWithoutDataTabs"}' loading-message="{{ 'SitesManager_DetectingYourSite'|translate|e('html_attr') }}..."></div>
 
-            <hr>
+            {% set afterIntroEventContent %}{{ postEvent('Template.siteWithoutData.afterIntro') }}{% endset %}
+            <div class="no-data-footer row">
+                {% if afterIntroEventContent %}
+                    <hr/>
+                {% endif %}
+                {{ afterIntroEventContent }}
+            </div>
+            {{ postEvent('Template.siteWithoutData.afterTrackingHelp') }}
 
-            <a class="btn" id="emailTrackingCodeBtn"
-                href="mailto:?subject={{ 'SitesManager_EmailInstructionsSubject'|translate|url_encode|e('html_attr') }}&body={{ emailBody|url_encode|e('html_attr') }}"
-            >{{ 'SitesManager_EmailInstructionsButton'|translate }}</a>
-
-            {{ postEvent('Template.siteWithoutData.afterIntro') }}
-            <br />
-            <br />
-            <a href="{{ linkTo({module: 'SitesManager', action: 'ignoreNoDataMessage'}) }}"
-               class="btn ignoreSitesWithoutData"
-            >
-                {{ 'SitesManager_SiteWithoutDataIgnoreMessage'|translate }}
-            </a>
         </div>
 
-        {{ postEvent('Template.siteWithoutData.afterTrackingHelp') }}
+
     </div>
 
 {% endblock %}
