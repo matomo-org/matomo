@@ -15,9 +15,9 @@ use Piwik\DataTable;
 use Piwik\Plugins\Actions\Archiver;
 use Piwik\Plugins\Actions\ArchivingHelper;
 
-class SearchCategories extends Base
+class SearchCategories extends ArchiveProcessor\RecordBuilder
 {
-    protected function aggregate(ArchiveProcessor $archiveProcessor)
+    protected function aggregate(ArchiveProcessor $archiveProcessor): array
     {
         $logAggregator = $archiveProcessor->getLogAggregator();
         $query = $logAggregator->queryActionsByDimension(['search_cat'], "%s.search_cat != '' AND %s.search_cat IS NOT NULL");
@@ -37,7 +37,7 @@ class SearchCategories extends Base
         ];
     }
 
-    public function getRecordMetadata(ArchiveProcessor $archiveProcessor)
+    public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
     {
         return [
             Record::make(Record::TYPE_BLOB, Archiver::SITE_SEARCH_CATEGORY_RECORD_NAME)
@@ -45,7 +45,7 @@ class SearchCategories extends Base
         ];
     }
 
-    public function isEnabled(ArchiveProcessor $archiveProcessor)
+    public function isEnabled(ArchiveProcessor $archiveProcessor): bool
     {
         return $archiveProcessor->getParams()->getSite()->isSiteSearchEnabled();
     }
