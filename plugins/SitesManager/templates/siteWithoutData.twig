@@ -29,7 +29,6 @@
     </script>
 
     <div class="site-without-data">
-        <div piwik-content-block>
             <h1 id="start-tracking-data-header">
                 {{ 'SitesManager_SiteWithoutDataStartTrackingDataHeader'|translate }}
             </h1>
@@ -47,10 +46,6 @@
                 {{ afterIntroEventContent }}
             </div>
             {{ postEvent('Template.siteWithoutData.afterTrackingHelp') }}
-
-        </div>
-
-
     </div>
 
 {% endblock %}
