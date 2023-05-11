@@ -57,6 +57,11 @@ class Record
      */
     private $columnToRenameAfterAggregation = null;
 
+    /**
+     * @var array|null
+     */
+    private $blobColumnAggregationOps = null;
+
     public static function make($type, $name)
     {
         $record = new Record();
@@ -212,5 +217,23 @@ class Record
     public function getColumnToRenameAfterAggregation(): ?array
     {
         return $this->columnToRenameAfterAggregation;
+    }
+
+    /**
+     * @param array|null $blobColumnAggregationOps
+     * @return Record
+     */
+    public function setBlobColumnAggregationOps(?array $blobColumnAggregationOps): Record
+    {
+        $this->blobColumnAggregationOps = $blobColumnAggregationOps;
+        return $this;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getBlobColumnAggregationOps(): ?array
+    {
+        return $this->blobColumnAggregationOps;
     }
 }

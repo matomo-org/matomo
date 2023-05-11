@@ -137,13 +137,14 @@ abstract class RecordBuilder
             $maxRowsInSubtable = $record->getMaxRowsInSubtable() ?? $this->maxRowsInSubtable;
             $columnToSortByBeforeTruncation = $record->getColumnToSortByBeforeTruncation() ?? $this->columnToSortByBeforeTruncation;
             $columnToRenameAfterAggregation = $record->getColumnToRenameAfterAggregation() ?? $this->columnToRenameAfterAggregation;
+            $columnAggregationOps = $record->getBlobColumnAggregationOps() ?? $this->columnAggregationOps;
 
             $counts = $archiveProcessor->aggregateDataTableRecords(
                 $record->getName(),
                 $maxRowsInTable,
                 $maxRowsInSubtable,
                 $columnToSortByBeforeTruncation,
-                $this->columnAggregationOps,
+                $columnAggregationOps,
                 $columnToRenameAfterAggregation
             );
 
