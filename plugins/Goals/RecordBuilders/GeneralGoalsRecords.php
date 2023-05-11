@@ -227,4 +227,9 @@ class GeneralGoalsRecords extends Base
         }
         return $numericRecords;
     }
+
+    public function isEnabled(ArchiveProcessor $archiveProcessor)
+    {
+        return $archiveProcessor->getNumberOfVisitsConverted() > 0;
+    }
 }
