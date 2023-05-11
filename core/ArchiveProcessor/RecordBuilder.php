@@ -139,13 +139,25 @@ abstract class RecordBuilder
             $columnToRenameAfterAggregation = $record->getColumnToRenameAfterAggregation() ?? $this->columnToRenameAfterAggregation;
             $columnAggregationOps = $record->getBlobColumnAggregationOps() ?? $this->columnAggregationOps;
 
+            // only do recursive row count if there is a numeric record that depends on it
+            $countRecursiveRows = false;
+            foreach ($numericRecords as $numeric) {
+                if ($numeric->getCountOfRecordName() == $record->getName()
+                    && $numeric->getCountOfRecordNameIsRecursive()
+                ) {
+                    $countRecursiveRows = true;
+                    break;
+                }
+            }
+
             $counts = $archiveProcessor->aggregateDataTableRecords(
                 $record->getName(),
                 $maxRowsInTable,
                 $maxRowsInSubtable,
                 $columnToSortByBeforeTruncation,
                 $columnAggregationOps,
-                $columnToRenameAfterAggregation
+                $columnToRenameAfterAggregation,
+                $countRecursiveRows
             );
 
             $aggregatedCounts = array_merge($aggregatedCounts, $counts);

@@ -68,8 +68,6 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             Record::make(Record::TYPE_NUMERIC, Archiver::METRIC_DOWNLOADS_RECORD_NAME),
             Record::make(Record::TYPE_NUMERIC, Archiver::METRIC_UNIQ_DOWNLOADS_RECORD_NAME),
         ];
-
-        // TODO: handle $countRowsRecursive in RecordBuilder when aggregating multiple blobs
     }
 
     protected function aggregate(ArchiveProcessor $archiveProcessor): array
