@@ -32,6 +32,11 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     public function getDependentSegmentsToArchive()
     {
+        $hasConversions = $this->getProcessor()->getNumberOfVisitsConverted() > 0;
+        if (!$hasConversions) {
+            return [];
+        }
+
         return [
             VisitFrequencyAPI::NEW_VISITOR_SEGMENT,
             VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT,

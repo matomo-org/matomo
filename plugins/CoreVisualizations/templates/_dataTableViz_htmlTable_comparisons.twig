@@ -30,7 +30,9 @@
         {% if idSubtable != false %}data-idsubtable="{{ idSubtable|e('html_attr') }}"{% endif %}
         data-comparison-series="{{ seriesIndex }}"
         class="comparisonRow"
-        data-param-override="{{ overrideParams|json_encode|e('html_attr') }}" data-label="{{ comparedRow.getColumn('label')|e('html_attr') }}"
+        data-param-override="{{ overrideParams|json_encode|e('html_attr') }}"
+        data-label="{{ comparedRow.getColumn(rowIdentifier) ? comparedRow.getColumn(rowIdentifier) : comparedRow.getMetadata(rowIdentifier) }}"
+        {% if rowIdentifier != 'label' %}data-label-pretty="{{ comparedRow.getColumn('label') }}"{% endif %}
         {% if row.getMetadata('segment') is not false %}data-segment-filter="{{ row.getMetadata('segment')|e('html_attr') }}"{% endif %}
     >
         <td class="label">
