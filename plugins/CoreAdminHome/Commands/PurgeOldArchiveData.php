@@ -140,17 +140,14 @@ class PurgeOldArchiveData extends ConsoleCommand
         if (count($dateSpecifier) === 1
             && reset($dateSpecifier) == self::ALL_DATES_STRING
         ) {
-            foreach (ArchiveTableCreator::getTablesArchivesInstalled() as $table) {
+            foreach (ArchiveTableCreator::getTablesArchivesInstalled(ArchiveTableCreator::NUMERIC_TABLE) as $table) {
                 $tableDate = ArchiveTableCreator::getDateFromTableName($table);
 
                 list($year, $month) = explode('_', $tableDate);
 
                 try {
                     $date    = Date::factory($year . '-' . $month . '-' . '01');
-                    // Make sure the date is not duplicated
-                    if (!in_array($date, $dates)) {
-                        $dates[] = $date;
-                    }
+                    $dates[] = $date;
                 } catch (\Exception $e) {
                     // this might occur if archive tables like piwik_archive_numeric_1875_09 exist
                 }
@@ -176,7 +173,7 @@ class PurgeOldArchiveData extends ConsoleCommand
             $dates = array_values($dates);
         }
 
-        return $dates;
+        return array_unique($dates);
     }
 
     private function performTimedPurging($startMessage, $callback)
