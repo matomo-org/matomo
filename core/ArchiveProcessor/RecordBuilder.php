@@ -57,14 +57,14 @@ abstract class RecordBuilder
         $this->columnAggregationOps = $columnAggregationOps;
     }
 
-    public function isEnabled()
+    public function isEnabled(ArchiveProcessor $archiveProcessor)
     {
         return true;
     }
 
     public function build(ArchiveProcessor $archiveProcessor)
     {
-        if (!$this->isEnabled()) {
+        if (!$this->isEnabled($archiveProcessor)) {
             return;
         }
 
@@ -104,7 +104,7 @@ abstract class RecordBuilder
 
     public function buildMultiplePeriod(ArchiveProcessor $archiveProcessor)
     {
-        if (!$this->isEnabled()) {
+        if (!$this->isEnabled($archiveProcessor)) {
             return;
         }
 

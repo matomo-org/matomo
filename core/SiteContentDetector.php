@@ -354,6 +354,10 @@ class SiteContentDetector
 
         foreach ($defs as $consentManagerId => $consentManagerDef) {
             foreach ($consentManagerDef['detectStrings'] as $dStr) {
+                if (empty($dStr)) {
+                    continue; // skip empty detections
+                }
+
                 if (strpos($this->siteResponse['data'], $dStr) !== false && array_key_exists($consentManagerId, $defs)) {
                     $this->consentManagerId = $consentManagerId;
                     $this->consentManagerName = $consentManagerDef['name'];
@@ -379,6 +383,10 @@ class SiteContentDetector
     /**
      * Return an array of consent manager definitions which can be used to detect their presence on the site and show
      * the associated guide links
+     *
+     * Note: This list is also used to display the known / supported consent managers on the "Ask for Consent" page
+     * For adding a new consent manager to this page, it needs to be added here. If a consent manager can't be detected
+     * automatically, simply leave the detections empty.
      *
      * @return array[]
      */
