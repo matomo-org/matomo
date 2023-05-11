@@ -147,7 +147,10 @@ class PurgeOldArchiveData extends ConsoleCommand
 
                 try {
                     $date    = Date::factory($year . '-' . $month . '-' . '01');
-                    $dates[] = $date;
+                    // Make sure the date is not duplicated
+                    if (!in_array($date, $dates)) {
+                        $dates[] = $date;
+                    }
                 } catch (\Exception $e) {
                     // this might occur if archive tables like piwik_archive_numeric_1875_09 exist
                 }
