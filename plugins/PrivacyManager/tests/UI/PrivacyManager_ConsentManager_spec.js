@@ -20,48 +20,10 @@ describe("PrivacyManager_ConsentManager", function () {
         testEnvironment.save();
     });
 
-    async function setAnonymizeStartEndDate()
-    {
-        // make sure tests do not fail every day
-        await page.waitForSelector('input.anonymizeStartDate');
-        await page.waitForSelector('input.anonymizeEndDate');
-        await page.waitForTimeout(100);
-        await page.evaluate(function () {
-            $('input.anonymizeStartDate').val('2018-03-02').change();
-        });
-        await page.waitForTimeout(100);
-        await page.evaluate(function () {
-            $('input.anonymizeEndDate').val('2018-03-02').change();
-        });
-        await page.waitForTimeout(100);
-    }
-
-    async function loadActionPage(action)
-    {
-        await page.goto('about:blank');
-        await page.goto(urlBase + action);
-        await page.waitForNetworkIdle();
-
-        if (action === 'privacySettings') {
-            await setAnonymizeStartEndDate();
-        }
-    }
-
-    async function capturePage(screenshotName) {
-        await page.waitForNetworkIdle();
-        expect(await page.screenshotSelector('.pageWrap,#notificationContainer,.modal.open')).to.matchImage(screenshotName);
-    }
-
-
-    async function captureModal(screenshotName) {
-        await page.waitForNetworkIdle();
-        const modal = await page.$('.modal.open');
-        expect(await modal.screenshot()).to.matchImage(screenshotName);
-    }
-
     it('should load privacy asking for consent page', async function() {
-        await loadActionPage('consent');
-        await capturePage('consent_default');
+        await page.goto(urlBase + 'consent');
+        await page.waitForNetworkIdle();
+      expect(await page.screenshotSelector('.pageWrap,#notificationContainer,.modal.open')).to.matchImage('consent_default');
     });
 
 });
