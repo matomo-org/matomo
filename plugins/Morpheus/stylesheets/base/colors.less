@@ -24,10 +24,17 @@
 
 // Brand colors
 // Variable pattern: @color-<color>-<modifier>
-@color-black-piwik:               #0d0d0d;
-@color-blue-piwik:                #4183C4;
-@color-red-piwik:                 #d4291f;
-@color-green-piwik:               #43a047;
+@color-black-matomo:               #0d0d0d;
+@color-blue-matomo:                #4183C4;
+@color-red-matomo:                 #d4291f;
+@color-green-matomo:               #43a047;
+
+// @todo remove those bc colors in Matomo 6
+@color-black-piwik:               @color-black-matomo;
+@color-blue-piwik:                @color-blue-matomo;
+@color-red-piwik:                 @color-red-matomo;
+@color-green-piwik:               @color-green-matomo;
+
 @color-green-brandSocial:         #009874;
 @color-blue-brandSocial:          #3b5998;
 @color-blue-brandSocialLight:     #1c87bd;
