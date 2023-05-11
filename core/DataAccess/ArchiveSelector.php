@@ -151,7 +151,7 @@ class ArchiveSelector
                 'archiveExists' => true,
                 'tsArchived' => $tsArchived,
                 'doneFlagValue' => $value,
-                'existingRecords' => $existingRecords,
+                'existingRecords' => [],
             ]);
         }
 
