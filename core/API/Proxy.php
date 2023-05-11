@@ -85,6 +85,7 @@ class Proxy
         if (isset($this->alreadyRegistered[$className])) {
             return;
         }
+
         $this->includeApiFile($className);
         $this->checkClassIsSingleton($className);
 

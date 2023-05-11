@@ -49,7 +49,8 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     public function aggregateDayReport()
     {
-        if (self::$ARCHIVE_DEPENDENT) {
+        $hasConversions = $this->getProcessor()->getNumberOfVisitsConverted() > 0;
+        if (self::$ARCHIVE_DEPENDENT && $hasConversions) {
             $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::NEW_VISITOR_SEGMENT);
             $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT);
         }
@@ -79,7 +80,8 @@ class Archiver extends \Piwik\Plugin\Archiver
      */
     public function aggregateMultipleReports()
     {
-        if (self::$ARCHIVE_DEPENDENT) {
+        $hasConversions = $this->getProcessor()->getNumberOfVisitsConverted() > 0;
+        if (self::$ARCHIVE_DEPENDENT && $hasConversions) {
             $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::NEW_VISITOR_SEGMENT);
             $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT);
         }
