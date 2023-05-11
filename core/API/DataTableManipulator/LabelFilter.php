@@ -82,7 +82,7 @@ class LabelFilter extends DataTableManipulator
      *
      * @param array $labelParts
      * @param DataTable $dataTable
-     * @return array the Row and the label column of the row, or false for both if no match found
+     * @return DataTable\Row|false
      */
     private function doFilterRecursiveDescend($labelParts, $dataTable)
     {
@@ -95,18 +95,18 @@ class LabelFilter extends DataTableManipulator
 
         if ($row === false) {
             // not found
-            return [false, false];
+            return false;
         }
 
         // end of tree search reached
         if (count($labelParts) == 0) {
-            return [$row, $labelColumn];
+            return $row;
         }
 
         $subTable = $this->loadSubtable($dataTable, $row);
         if ($subTable === null) {
             // no more subtables but label parts left => no match found
-            return [false, false];
+            return false;
         }
 
         return $this->doFilterRecursiveDescend($labelParts, $subTable);
@@ -187,7 +187,7 @@ class LabelFilter extends DataTableManipulator
             foreach ($this->getLabelVariations($label) as $labelVariation) {
                 $labelVariation = explode(self::SEPARATOR_RECURSIVE_LABEL, $labelVariation);
 
-                [$row, $labelColumn] = $this->doFilterRecursiveDescend($labelVariation, $dataTable);
+                $row = $this->doFilterRecursiveDescend($labelVariation, $dataTable);
                 if ($row) {
                     if ($this->isComparing
                         && isset($this->labelSeries[$labelIndex])
@@ -196,7 +196,7 @@ class LabelFilter extends DataTableManipulator
                         if (!empty($comparisons)) {
                             $labelSeriesIndex = $this->labelSeries[$labelIndex];
 
-                            $originalLabel = $row->getColumn($labelColumn) ?: $row->getMetadata($labelColumn);
+                            $originalLabel = $row->getColumn($this->labelColumn) ?: $row->getMetadata($this->labelColumn);
 
                             $row = $comparisons->getRowFromId($labelSeriesIndex);
 
