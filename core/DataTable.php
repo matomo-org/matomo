@@ -219,6 +219,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     const EXTRA_PROCESSED_METRICS_METADATA_NAME = 'extra_processed_metrics';
 
+    const ROW_IDENTIFIER_METADATA_NAME = 'rowIdentifier';
+
     /**
      * Maximum nesting level.
      */
