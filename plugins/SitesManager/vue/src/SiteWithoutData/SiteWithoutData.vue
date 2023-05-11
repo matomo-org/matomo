@@ -62,7 +62,7 @@ export default defineComponent({
     siteWithoutDataDescLine1() {
       return translate(
         this.siteWithoutDataStartTrackingTranslationKey,
-        `<a rel="noreferrer noopener" target="_blank" href="${this.emailInstructionsLink}">`,
+        `<a rel="noreferrer noopener" target="_blank" class="emailTrackingCode" href="${this.emailInstructionsLink}">`,
         '</a>',
         `<a rel="noreferrer noopener" target="_blank" href="${this.inviteUserLink}">`,
         '</a>',
@@ -71,7 +71,7 @@ export default defineComponent({
     siteWithoutDataDescLine2() {
       return translate(
         'SitesManager_SiteWithoutDataStartTrackingDataDescriptionLine2',
-        `<a href="${this.ignoreSitesWithoutDataLink}">`,
+        `<a href="${this.ignoreSitesWithoutDataLink}" class="ignoreSitesWithoutData">`,
         '</a>',
       );
     },
