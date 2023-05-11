@@ -189,7 +189,7 @@ abstract class Archiver
 
                 foreach ($recordBuilders as $recordBuilder) {
                     if ($recordBuilder->getPluginName() != $pluginName
-                        || !$recordBuilder->isEnabled()
+                        || !$recordBuilder->isEnabled($this->getProcessor())
                     ) {
                         continue;
                     }
@@ -233,7 +233,7 @@ abstract class Archiver
                 $recordBuilders = $this->getRecordBuilders();
                 foreach ($recordBuilders as $recordBuilder) {
                     if ($recordBuilder->getPluginName() != $pluginName
-                        || !$recordBuilder->isEnabled()
+                        || !$recordBuilder->isEnabled($this->getProcessor())
                     ) {
                         continue;
                     }
