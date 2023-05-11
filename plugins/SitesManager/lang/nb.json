@@ -105,7 +105,6 @@
         "SiteWithoutDataDetectedSiteWordpress2": "Satt opp WordPress-programtillegget og ingen data? Sjekk %1$sO-S-S for hjelp%2$s.",
         "SiteWithoutDataGoogleTagManager": "Google Tag Manager",
         "SiteWithoutDataGoogleTagManagerDescription": "Du kan bruke Matomo med Google Tag Manager. For å sette opp Matomo-sporing i Google Tag Manager følger du %1$sdenne instruksen%2$s.",
-        "SiteWithoutDataIgnoreMessage": "Ikke vis denne meldingen igjen den neste timen",
         "SiteWithoutDataMatomoTagManager": "Matomo taggbehandler",
         "SiteWithoutDataMatomoTagManagerNotActive": "Vet du ikke hva en taggbehandler er? Sjekk %1$sveiledningen%2$s. Hvis du bygger inn flere ressurser fra tredjepartsnettsider i din nettside vil sporing på den ved bruk av taggbehandler være et bedre valg for deg, sammenlignet med vanlig JavaScript-sporing.",
         "SiteWithoutDataMessageDisappears": "Denne meldingen vil forsvinne så snart noe data har blitt registrert for dette nettstedet.",

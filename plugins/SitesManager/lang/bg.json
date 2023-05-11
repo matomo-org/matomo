@@ -103,7 +103,6 @@
         "SiteWithoutDataDetectedSiteWordpress2": "Вече сте настроили плъгина за WordPress и не виждате никакви данни? Моля, проверете %1$sтози често задаван въпрос за помощ%2$s.",
         "SiteWithoutDataGoogleTagManager": "Мениджър на тагове на Google",
         "SiteWithoutDataGoogleTagManagerDescription": "Можете да използвате Matomo с Google Tag Manager. За да настройте Matomo Tracking в Google Tag Manager, следвайте инструкциите от това %1$sръководство%2$s.",
-        "SiteWithoutDataIgnoreMessage": "Не показвайте това съобщение през следващия час",
         "SiteWithoutDataMatomoTagManager": "Мениджър на тагове на Matomo",
         "SiteWithoutDataMatomoTagManagerNotActive": "Не знаете какво е Мениджър на тагове? Разгледайте нашето %1$sРъководство за мениджър на тагове%2$s. Ако вграждате множество ресурси от уебсайтове на трети страни в уебсайта си, тогава проследяването на уебсайта Ви чрез Мениджъра на тагове може да е по-добър избор за Вас в сравнение с използването на обикновеното проследяване на JavaScript.",
         "SiteWithoutDataMessageDisappears": "Това съобщение ще изчезне веднага щом се проследят някои данни за този уебсайт.",
