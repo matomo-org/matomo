@@ -116,7 +116,6 @@ abstract class RecordBuilder
         $numericRecords = array_filter($recordsBuilt, function (Record $r) { return $r->getType() == Record::TYPE_NUMERIC; });
         $blobRecords = array_filter($recordsBuilt, function (Record $r) { return $r->getType() == Record::TYPE_BLOB; });
 
-        // TODO: dependsOn in record metadata
         foreach ($blobRecords as $record) {
             if (!empty($requestedReports)
                 && !in_array($record->getName(), $requestedReports)
