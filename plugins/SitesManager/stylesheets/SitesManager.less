@@ -121,6 +121,13 @@ td.editable-site-field:hover {
     text-decoration: underline;
 }
 
+#site-without-data {
+    background: @color-white;
+    .top_controls {
+        background: @color-white;
+    }
+}
+
 .site-without-data {
     h3 {
         font-weight: bold;
@@ -136,6 +143,83 @@ td.editable-site-field:hover {
             width: unset !important;
             float: unset !important;
         }
+
+        a:not(.active) {
+            text-decoration: none !important;
+            color: @color-black !important;
+
+            &:hover {
+                background-color: @color-gray-bright !important;
+                opacity: unset;
+            }
+
+            &:focus {
+                background-color: @color-jetstream !important;
+                opacity: unset;
+            }
+        }
+
+        a.active {
+            color: @color-green-piwik !important;
+            text-decoration: none !important;
+            font-weight: bold;
+
+            &:hover {
+                opacity: unset;
+            }
+        }
+
+        .indicator {
+            border-bottom: 2px solid @color-green-piwik;
+            z-index: 10;
+            bottom: 0.3rem;
+        }
+
+        .tab {
+            text-transform: unset;
+
+            a {
+                font-size: 16px;
+            }
+        }
+    }
+
+    .no-data-screen-ul-tabs::after {
+        border-bottom: 0.5px solid @color-gray-400;
+        width: 100%;
+        content: '';
+        display: block;
+        overflow: hidden;
+        bottom: 0.3rem;
+        z-index: 2;
+        position: absolute;
+    }
+
+    .no-data-footer {
+        position: sticky;
+        width: inherit;
+        bottom: 0;
+        background: @color-white;
+
+        .col {
+            width: unset !important;
+        }
+
+        @media only screen {
+            @media (max-width: 800px) {
+                .m-bottom-1 {
+                    margin-bottom: 1rem;
+                }
+            }
+        }
+    }
+
+    #start-tracking-data-header {
+        font-weight: bold;
+    }
+
+    .no-data-tabs-main-div .col:not(.tabs-row):not(.tabs-row .col) {
+        padding-top: 1rem;
     }
 }
 

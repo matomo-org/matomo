@@ -14,6 +14,7 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\SiteContentDetector;
@@ -176,12 +177,15 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $emailTemplateData['cms'] = $this->siteContentDetector->cms;
 
         $emailContent = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', $emailTemplateData, $viewType = 'basic');
+        $inviteUserLink = $this->getInviteUserLink();
 
         return $this->renderTemplateAs('siteWithoutData', [
-            'siteName'           => $this->site->getName(),
-            'idSite'             => $this->idSite,
-            'piwikUrl'           => $piwikUrl,
-            'emailBody'          => $emailContent,
+            'siteName'                                            => $this->site->getName(),
+            'idSite'                                              => $this->idSite,
+            'piwikUrl'                                            => $piwikUrl,
+            'emailBody'                                           => $emailContent,
+            'siteWithoutDataStartTrackingTranslationKey'          => StaticContainer::get('SitesManager.SiteWithoutDataStartTrackingTranslation'),
+            'inviteUserLink'                                      => $inviteUserLink
         ], $viewType = 'basic');
     }
 
@@ -258,5 +262,19 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         return $tabToDisplay;
+    }
+
+    private function getInviteUserLink()
+    {
+        $idSite = Common::getRequestVar('idSite', 0, 'int');
+        if (!$idSite || !Piwik::isUserHasAdminAccess($idSite)) {
+            return 'https://matomo.org/faq/general/manage-users/#imanadmin-creating-users';
+        }
+
+        return SettingsPiwik::getPiwikUrl() . 'index.php?' . Url::getQueryStringFromParameters([
+                'idSite' => $idSite,
+                'module' => 'UsersManager',
+                'action' => 'index',
+            ]);
     }
 }
