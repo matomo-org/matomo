@@ -140,7 +140,7 @@ class PurgeOldArchiveData extends ConsoleCommand
         if (count($dateSpecifier) === 1
             && reset($dateSpecifier) == self::ALL_DATES_STRING
         ) {
-            foreach (ArchiveTableCreator::getTablesArchivesInstalled() as $table) {
+            foreach (ArchiveTableCreator::getTablesArchivesInstalled(ArchiveTableCreator::NUMERIC_TABLE) as $table) {
                 $tableDate = ArchiveTableCreator::getDateFromTableName($table);
 
                 list($year, $month) = explode('_', $tableDate);
@@ -173,7 +173,7 @@ class PurgeOldArchiveData extends ConsoleCommand
             $dates = array_values($dates);
         }
 
-        return $dates;
+        return array_unique($dates);
     }
 
     private function performTimedPurging($startMessage, $callback)
