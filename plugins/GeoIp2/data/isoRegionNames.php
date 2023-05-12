@@ -519,6 +519,7 @@ return array (
       'name' => 'Berat',
       'altNames' => 
       array (
+        0 => 'Berat County',
       ),
       'current' => true,
     ),
@@ -527,6 +528,7 @@ return array (
       'name' => 'Durrës',
       'altNames' => 
       array (
+        0 => 'Durrës County',
       ),
       'current' => true,
     ),
@@ -535,6 +537,7 @@ return array (
       'name' => 'Elbasan',
       'altNames' => 
       array (
+        0 => 'Elbasan County',
       ),
       'current' => true,
     ),
@@ -543,6 +546,7 @@ return array (
       'name' => 'Fier',
       'altNames' => 
       array (
+        0 => 'Fier County',
       ),
       'current' => true,
     ),
@@ -551,6 +555,7 @@ return array (
       'name' => 'Gjirokastër',
       'altNames' => 
       array (
+        0 => 'Gjirokastër County',
       ),
       'current' => true,
     ),
@@ -559,6 +564,7 @@ return array (
       'name' => 'Korçë',
       'altNames' => 
       array (
+        0 => 'Korçë County',
       ),
       'current' => true,
     ),
@@ -567,6 +573,7 @@ return array (
       'name' => 'Kukës',
       'altNames' => 
       array (
+        0 => 'Kukës County',
       ),
       'current' => true,
     ),
@@ -575,6 +582,7 @@ return array (
       'name' => 'Lezhë',
       'altNames' => 
       array (
+        0 => 'Lezhë County',
       ),
       'current' => true,
     ),
@@ -583,6 +591,7 @@ return array (
       'name' => 'Dibër',
       'altNames' => 
       array (
+        0 => 'Dibër County',
       ),
       'current' => true,
     ),
@@ -591,6 +600,7 @@ return array (
       'name' => 'Shkodër',
       'altNames' => 
       array (
+        0 => 'Shkodër County',
       ),
       'current' => true,
     ),
@@ -608,6 +618,7 @@ return array (
       'name' => 'Vlorë',
       'altNames' => 
       array (
+        0 => 'Vlorë County',
       ),
       'current' => true,
     ),
@@ -1047,6 +1058,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Cuando-Cubango',
+        1 => 'Cuando Cobango',
       ),
       'current' => true,
     ),
@@ -4112,6 +4124,7 @@ return array (
       'name' => 'El Beni',
       'altNames' => 
       array (
+        0 => 'Beni Department',
       ),
       'current' => true,
     ),
@@ -4128,6 +4141,7 @@ return array (
       'name' => 'Chuquisaca',
       'altNames' => 
       array (
+        0 => 'Chuquisaca Department',
       ),
       'current' => true,
     ),
@@ -4136,6 +4150,7 @@ return array (
       'name' => 'La Paz',
       'altNames' => 
       array (
+        0 => 'La Paz Department',
       ),
       'current' => true,
     ),
@@ -4160,6 +4175,7 @@ return array (
       'name' => 'Potosí',
       'altNames' => 
       array (
+        0 => 'Potosí Department',
       ),
       'current' => true,
     ),
@@ -4168,6 +4184,7 @@ return array (
       'name' => 'Santa Cruz',
       'altNames' => 
       array (
+        0 => 'Santa Cruz Department',
       ),
       'current' => true,
     ),
@@ -4176,6 +4193,7 @@ return array (
       'name' => 'Tarija',
       'altNames' => 
       array (
+        0 => 'Tarija Department',
       ),
       'current' => true,
     ),
@@ -4739,6 +4757,7 @@ return array (
       'name' => 'Thimphu',
       'altNames' => 
       array (
+        0 => 'Thimphu District',
       ),
       'current' => true,
     ),
@@ -5112,6 +5131,7 @@ return array (
       'name' => 'Orange Walk',
       'altNames' => 
       array (
+        0 => 'Orange Walk District',
       ),
       'current' => true,
     ),
@@ -7694,6 +7714,7 @@ return array (
       'name' => 'São Vicente',
       'altNames' => 
       array (
+        0 => 'Sao Vicente',
       ),
       'current' => true,
     ),
@@ -17099,6 +17120,7 @@ return array (
       'name' => 'Gracias a Dios',
       'altNames' => 
       array (
+        0 => 'Gracias a Dios Department',
       ),
       'current' => true,
     ),
@@ -17192,6 +17214,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Zagrebačka',
+        1 => 'County of Zagreb',
       ),
       'current' => true,
     ),
@@ -17201,6 +17224,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Krapinsko-Zagorska',
+        1 => 'County of Krapina-Zagorje',
       ),
       'current' => true,
     ),
@@ -17210,6 +17234,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Sisačko-Moslavačka',
+        1 => 'County of Sisak-Moslavina',
       ),
       'current' => true,
     ),
@@ -17219,6 +17244,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Karlovačka',
+        1 => 'Karlovac',
       ),
       'current' => true,
     ),
@@ -17228,6 +17254,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Varaždinska',
+        1 => 'County of Varaždin',
       ),
       'current' => true,
     ),
@@ -17237,6 +17264,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Koprivničko-Križevačka',
+        1 => 'County of Koprivnica-Križevci',
       ),
       'current' => true,
     ),
@@ -17246,6 +17274,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Bjelovarsko-Bilogorska',
+        1 => 'Bjelovar-Bilogora',
       ),
       'current' => true,
     ),
@@ -17255,6 +17284,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Primorsko-Goranska',
+        1 => 'County of Primorje-Gorski Kotar',
       ),
       'current' => true,
     ),
@@ -17264,6 +17294,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Ličko-Senjska',
+        1 => 'County of Lika-Senj',
       ),
       'current' => true,
     ),
@@ -17273,6 +17304,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Virovitičk-Podravska',
+        1 => 'County of Virovitica-Podravina',
       ),
       'current' => true,
     ),
@@ -17282,6 +17314,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Požeško-Slavonska',
+        1 => 'County of Požega-Slavonia',
       ),
       'current' => true,
     ),
@@ -17291,6 +17324,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Slavonski Brod-Posavina',
+        1 => 'Brod-Posavina',
       ),
       'current' => true,
     ),
@@ -17300,6 +17334,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Zadarska',
+        1 => 'County of Zadar',
       ),
       'current' => true,
     ),
@@ -17309,6 +17344,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Osječko-Baranjska',
+        1 => 'County of Osijek-Baranja',
       ),
       'current' => true,
     ),
@@ -17318,6 +17354,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Šibensko-Kniniska',
+        1 => 'Šibenik-Knin',
       ),
       'current' => true,
     ),
@@ -17354,6 +17391,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Dubrovačko-Neretvanska',
+        1 => 'Dubrovnik-Neretva',
       ),
       'current' => true,
     ),
@@ -17363,6 +17401,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Međimurska',
+        1 => 'County of Međimurje',
       ),
       'current' => true,
     ),
@@ -23255,6 +23294,14 @@ return array (
     10 => 
     array (
       'name' => 'Abai Region',
+      'altNames' => 
+      array (
+      ),
+      'current' => false,
+    ),
+    62 => 
+    array (
+      'name' => 'Ulytau Region',
       'altNames' => 
       array (
       ),
@@ -29637,6 +29684,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Dakhlet Nouadhibou',
+        1 => 'Dakhlet-Nouadhibou',
       ),
       'current' => true,
     ),
@@ -41699,6 +41747,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Tūnis',
+        1 => 'Tunis Governorate',
       ),
       'current' => true,
     ),
@@ -41708,6 +41757,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Ariana',
+        1 => 'Ariana Governorate',
       ),
       'current' => true,
     ),
@@ -41717,6 +41767,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Bin ‘Arūs',
+        1 => 'Ben Arous Governorate',
       ),
       'current' => true,
     ),
@@ -41735,6 +41786,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Nābul',
+        1 => 'Nabeul Governorate',
       ),
       'current' => true,
     ),
@@ -41744,6 +41796,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Zaghwān',
+        1 => 'Zaghouan Governorate',
       ),
       'current' => true,
     ),
@@ -41753,6 +41806,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Banzart',
+        1 => 'Bizerte Governorate',
       ),
       'current' => true,
     ),
@@ -41762,6 +41816,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Bājah',
+        1 => 'Béja Governorate',
       ),
       'current' => true,
     ),
@@ -41771,6 +41826,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Jundūbah',
+        1 => 'Jendouba Governorate',
       ),
       'current' => true,
     ),
@@ -41780,6 +41836,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Kef',
+        1 => 'Kef Governorate',
       ),
       'current' => true,
     ),
@@ -41789,6 +41846,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Silyānah',
+        1 => 'Siliana Governorate',
       ),
       'current' => true,
     ),
@@ -41806,6 +41864,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Al Qaşrayn',
+        1 => 'Kasserine Governorate',
       ),
       'current' => true,
     ),
@@ -41815,6 +41874,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Sīdī Bū Zayd',
+        1 => 'Sidi Bouzid Governorate',
       ),
       'current' => true,
     ),
@@ -41824,6 +41884,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Sūsah',
+        1 => 'Sousse Governorate',
       ),
       'current' => true,
     ),
@@ -41833,6 +41894,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Al Munastīr',
+        1 => 'Monastir Governorate',
       ),
       'current' => true,
     ),
@@ -41842,6 +41904,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Al Mahdīyah',
+        1 => 'Mahdia Governorate',
       ),
       'current' => true,
     ),
@@ -41851,6 +41914,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Şafāqis',
+        1 => 'Sfax Governorate',
       ),
       'current' => true,
     ),
@@ -41868,6 +41932,7 @@ return array (
       'altNames' => 
       array (
         0 => 'Tawzar',
+        1 => 'Tozeur Governorate',
       ),
       'current' => true,
     ),
@@ -41878,6 +41943,7 @@ return array (
       array (
         0 => 'Kebili',
         1 => 'Qibilī',
+        2 => 'Kebili Governorate',
       ),
       'current' => true,
     ),
@@ -41897,6 +41963,7 @@ return array (
       array (
         0 => 'Medenine',
         1 => 'Madanīn',
+        2 => 'Medenine Governorate',
       ),
       'current' => true,
     ),
@@ -45310,6 +45377,7 @@ return array (
       'name' => 'Durazno',
       'altNames' => 
       array (
+        0 => 'Durazno Department',
       ),
       'current' => true,
     ),
@@ -45326,6 +45394,7 @@ return array (
       'name' => 'Flores',
       'altNames' => 
       array (
+        0 => 'Flores Department',
       ),
       'current' => true,
     ),
@@ -45350,6 +45419,7 @@ return array (
       'name' => 'Montevideo',
       'altNames' => 
       array (
+        0 => 'Montevideo Department',
       ),
       'current' => true,
     ),
@@ -45358,6 +45428,7 @@ return array (
       'name' => 'Paysandú',
       'altNames' => 
       array (
+        0 => 'Paysandú Department',
       ),
       'current' => true,
     ),
@@ -45366,6 +45437,7 @@ return array (
       'name' => 'Río Negro',
       'altNames' => 
       array (
+        0 => 'Río Negro Department',
       ),
       'current' => true,
     ),
@@ -45374,6 +45446,7 @@ return array (
       'name' => 'Rocha',
       'altNames' => 
       array (
+        0 => 'Rocha Department',
       ),
       'current' => true,
     ),
@@ -45382,6 +45455,7 @@ return array (
       'name' => 'Rivera',
       'altNames' => 
       array (
+        0 => 'Rivera Department',
       ),
       'current' => true,
     ),
@@ -45390,6 +45464,7 @@ return array (
       'name' => 'Salto',
       'altNames' => 
       array (
+        0 => 'Salto Department',
       ),
       'current' => true,
     ),
@@ -45398,6 +45473,7 @@ return array (
       'name' => 'San José',
       'altNames' => 
       array (
+        0 => 'San José Department',
       ),
       'current' => true,
     ),
@@ -45414,6 +45490,7 @@ return array (
       'name' => 'Tacuarembó',
       'altNames' => 
       array (
+        0 => 'Tacuarembó Department',
       ),
       'current' => true,
     ),
@@ -45422,6 +45499,7 @@ return array (
       'name' => 'Treinta y Tres',
       'altNames' => 
       array (
+        0 => 'Treinta y Tres Department',
       ),
       'current' => true,
     ),

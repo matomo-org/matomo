@@ -23,10 +23,10 @@ use Piwik\Plugins\UserCountry\LocationProvider;
  * - removed regions will be kept, but marked as not current
  *
  * Additionally this command can be used to add regions that are returned by DB IP GeoIP database
- * As the DBIP Lite database only contains region names, but no region codes, we try to map the returned name to a knwon
+ * As the DBIP Lite database only contains region names, but no region codes, we try to map the returned name to a known
  * region. As DBIP in some cases returns names, that differ from the official region name, Matomo would be unable to
  * store those regions. To provide a better mapping this command allows to provide the --db-ip-csv option.
- * This option should provide the path to the paid DB-IP city database in CSV format. In addition the paid DB-IP city
+ * This option should provide the path to the DB-IP city lite database in CSV format. In addition the paid DB-IP city
  * (mmdb) database should be configured in Matomo as location provider.
  * The command will then iterate through all IP ranges defined in the CSV database and query a look up using the
  * location provider. The returned region iso code and region name is then compared with those included in the regions
@@ -56,6 +56,7 @@ class UpdateRegionCodes extends ConsoleCommand
     protected function doExecute(): int
     {
         $output = $this->getOutput();
+        $input = $this->getInput();
 
         $regionsFile = __DIR__ . '/../data/isoRegionNames.php';
 
@@ -171,7 +172,7 @@ CONTENT;
 
         $output->writeln('Iterating through all IPv4 adresses...');
 
-        $this->initProgressBar(29406553);
+        $this->initProgressBar(6396645);
 
         $handle = fopen($dbIpCsvFile, 'r');
 
