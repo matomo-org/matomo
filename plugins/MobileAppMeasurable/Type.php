@@ -17,4 +17,3 @@ class Type extends \Piwik\Measurable\Type
     protected $howToSetupUrl = 'https://developer.matomo.org/guides/tracking-api-clients#mobile-sdks';
 
 }
-

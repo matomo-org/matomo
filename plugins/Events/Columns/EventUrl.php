@@ -36,4 +36,3 @@ class EventUrl extends ActionDimension
     }
 
 }
-
