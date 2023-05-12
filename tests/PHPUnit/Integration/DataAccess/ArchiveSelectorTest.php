@@ -431,7 +431,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForGetArchiveIdAndVisitsWithOnlyPartialArchives
      */
-    public function test_getArchiveIdAndVisits_whenThereAreOnlyPartialArchives($archiveRows, $requestedReports, $expected)
+    public function test_getArchiveIdAndVisits_whenThereAreOnlyPartialArchives($archiveRows, $requestedReports, $expected, $minDatetimeArchiveProcessedUTC = false)
     {
         Fixture::createWebsite('2010-02-02 00:00:00');
 
@@ -444,7 +444,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
         $params->setRequestedPlugin('TestPlugin');
         $params->setArchiveOnlyReport($requestedReports);
 
-        $result = ArchiveSelector::getArchiveIdAndVisits($params);
+        $result = ArchiveSelector::getArchiveIdAndVisits($params, $minDatetimeArchiveProcessedUTC);
 
         if ($result['tsArchived'] !== false) {
             Date::factory($result['tsArchived']);
@@ -522,18 +522,18 @@ class ArchiveSelectorTest extends IntegrationTestCase
                     'visitsConverted' => false,
                     'archiveExists' => true,
                     'doneFlagValue' => false,
-                    'existingRecords' => [],
+                    'existingRecords' => null,
                 ],
             ],
 
             // only partial archives, requested reports, some existing reports (both numeric and blob)
             [
                 [
-                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'done.TestPlugin', 'value' => 5],
-                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'TestPlugin_metric', 'value' => 5],
-                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'TestPlugin_blob', 'value' => 'slkdjf 1', 'is_blob_data' => true],
-                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'TestPlugin_metric2', 'value' => 5],
-                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'TestPlugin_blob2', 'value' => 'slkdjf 2', 'is_blob_data' => true],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'done.TestPlugin', 'value' => 5, 'ts_archived' => '2020-03-08 03:00:00'],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'TestPlugin_metric', 'value' => 5, 'ts_archived' => '2020-03-08 03:00:00'],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'TestPlugin_blob', 'value' => 'slkdjf 1', 'is_blob_data' => true, 'ts_archived' => '2020-03-08 03:00:00'],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'TestPlugin_metric2', 'value' => 5, 'ts_archived' => '2020-03-08 03:00:00'],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'TestPlugin_blob2', 'value' => 'slkdjf 2', 'is_blob_data' => true, 'ts_archived' => '2020-03-08 03:00:00'],
 
                     ['idarchive' => 2, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'done.TestPlugin', 'value' => 5],
                     ['idarchive' => 2, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'TestPlugin_metric', 'value' => 5],
@@ -556,6 +556,40 @@ class ArchiveSelectorTest extends IntegrationTestCase
                     'doneFlagValue' => false,
                     'existingRecords' => ['TestPlugin_metric', 'TestPlugin_blob'],
                 ],
+                '2020-03-08 00:00:00',
+            ],
+
+            // only partial archives, requested reports, some existing reports (both numeric and blob), but archive is too old
+            [
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'done.TestPlugin', 'value' => 5, 'ts_archived' => '2020-03-08 03:00:00'],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'TestPlugin_metric', 'value' => 5, 'ts_archived' => '2020-03-08 03:00:00'],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'TestPlugin_blob', 'value' => 'slkdjf 1', 'is_blob_data' => true, 'ts_archived' => '2020-03-08 03:00:00'],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'TestPlugin_metric2', 'value' => 5, 'ts_archived' => '2020-03-08 03:00:00'],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'TestPlugin_blob2', 'value' => 'slkdjf 2', 'is_blob_data' => true, 'ts_archived' => '2020-03-08 03:00:00'],
+
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'done.TestPlugin', 'value' => 5],
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'TestPlugin_metric', 'value' => 5],
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'TestPlugin_blob', 'value' => 'slkdjf 3', 'is_blob_data' => true],
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'TestPlugin_metric2', 'value' => 5],
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'TestPlugin_blob2', 'value' => 'slkdjf 4', 'is_blob_data' => true],
+
+                    ['idarchive' => 3, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done.TestPlugin', 'value' => 5],
+                    ['idarchive' => 3, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'TestPlugin_metric', 'value' => 5],
+                    ['idarchive' => 3, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'TestPlugin_blob', 'value' => 'slkdjf 5', 'is_blob_data' => true],
+                    ['idarchive' => 3, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'TestPlugin_metric2', 'value' => 5],
+                    ['idarchive' => 3, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'TestPlugin_blob2', 'value' => 'slkdjf 6', 'is_blob_data' => true],
+                ],
+                ['TestPlugin_metric', 'TestPlugin_blob'],
+                [
+                    'idArchives' => false,
+                    'visits' => false,
+                    'visitsConverted' => false,
+                    'archiveExists' => true,
+                    'doneFlagValue' => false,
+                    'existingRecords' => null,
+                ],
+                '2020-03-08 09:00:00',
             ],
 
             // only partial archives, requested reports, all existing reports (both numeric and blob)
