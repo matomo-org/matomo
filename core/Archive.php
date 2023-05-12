@@ -928,7 +928,11 @@ class Archive implements ArchiveQuery
                 && !empty($prepareResult['idarchives'])
             ) {
                 foreach ($prepareResult['idarchives'] as $idArchive) {
-                    $this->idarchives[$doneFlag][$periodString][] = $idArchive;
+                    if (empty($this->idarchives[$doneFlag][$periodString])
+                        || !in_array($idArchive, $this->idarchives[$doneFlag][$periodString])
+                    ) {
+                        $this->idarchives[$doneFlag][$periodString][] = $idArchive;
+                    }
                 }
             }
         }
