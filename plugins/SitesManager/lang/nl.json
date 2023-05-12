@@ -156,14 +156,12 @@
         "SiteWithoutDataGoogleTagManagerFollowStep3": "Klik op \"Tags\" en vervolgens op \"Nieuw\".",
         "SiteWithoutDataGoogleTagManagerFollowStep4": "Geef bovenaan het venster een naam voor je tag.",
         "SiteWithoutDataGoogleTagManagerFollowStep5": "Klik op \"Tagconfiguratie\" en selecteer \"Aangepaste HTML\"",
-        "SiteWithoutDataGoogleTagManagerFollowStep6": "Kopieer de standaard Matomo JavaScript Tracking-code zoals hieronder vermeld.",
+        "SiteWithoutDataGoogleTagManagerFollowStep6": "Kopieer de Matomo JavaScript Tracking-code zoals hieronder vermeld.",
         "SiteWithoutDataGoogleTagManagerFollowStep7": "Plak deze JavaScript-trackingcode in het HTML-veld van de Tagconfiguratie.",
         "SiteWithoutDataGoogleTagManagerFollowStep8": "Scroll naar beneden en klik op \"Triggers\".",
         "SiteWithoutDataGoogleTagManagerFollowStep9": "Selecteer \"All Pages\" om de \"Matomo tracking tag\" op al uw pagina's te activeren.",
         "SiteWithoutDataGoogleTagManagerFollowStep10": "Klik op \"Opslaan\".",
-        "SiteWithoutDataGoogleTagManagerFollowStep11": "Bekijk uw wijzigingen door op de knop \"Voorbeeld\" te klikken.",
-        "SiteWithoutDataGoogleTagManagerFollowStep12": "Controleer of de Matomo-tag zoals verwacht wordt geactiveerd.",
-        "SiteWithoutDataGoogleTagManagerFollowStep13": "Publiceer uw wijzigingen door op de knop \"Verzenden\" en vervolgens op de knop \"Publiceren\" rechtsboven te klikken.",
+        "SiteWithoutDataGoogleTagManagerFollowStep11": "Publiceer uw wijzigingen door op de knop \"Verzenden\" en vervolgens op de knop \"Publiceren\" rechtsboven te klikken.",
         "SiteWithoutDataGoogleTagManagerFollowStepCompleted": "%1$sGefeliciteerd!%2$s U hebt met succes de Matomo Analytics trackingcode geïnstalleerd via Google Tag Manager. Om te controleren of hits worden bijgehouden, bezoekt u uw website en controleert u of deze gegevens zichtbaar zijn in uw Matomo instantie."
     }
 }

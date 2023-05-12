@@ -135,14 +135,12 @@
         "SiteWithoutDataGoogleTagManagerFollowStep3": "Fai clic su \"Tag\" e quindi su \"Nuovo\".",
         "SiteWithoutDataGoogleTagManagerFollowStep4": "In cima alla finestra, fornisci un nome per il tuo tag.",
         "SiteWithoutDataGoogleTagManagerFollowStep5": "Fai clic su \"Configurazione tag\" e seleziona \"HTML personalizzato\"",
-        "SiteWithoutDataGoogleTagManagerFollowStep6": "Copia il codice di tracciamento JavaScript standard di Matomo come fornito di seguito.",
+        "SiteWithoutDataGoogleTagManagerFollowStep6": "Copia il codice di tracciamento JavaScript di Matomo come fornito di seguito.",
         "SiteWithoutDataGoogleTagManagerFollowStep7": "Incolla questo codice di tracciamento JavaScript nel campo HTML di configurazione del tag.",
         "SiteWithoutDataGoogleTagManagerFollowStep8": "Scorri verso il basso e fai clic su \"Triggering\".",
         "SiteWithoutDataGoogleTagManagerFollowStep9": "Seleziona \"Tutte le pagine\" per attivare il \"tag di tracciamento Matomo\" su tutte le tue pagine.",
         "SiteWithoutDataGoogleTagManagerFollowStep10": "Fai clic su \"Salva\".",
-        "SiteWithoutDataGoogleTagManagerFollowStep11": "Verifica le tue modifiche facendo clic sul pulsante \"Anteprima\".",
-        "SiteWithoutDataGoogleTagManagerFollowStep12": "Verifica se il tag Matomo viene attivato come previsto.",
-        "SiteWithoutDataGoogleTagManagerFollowStep13": "Pubblica le tue modifiche facendo clic sul pulsante \"Invia\" e quindi sul pulsante \"Pubblica\" in alto a destra.",
+        "SiteWithoutDataGoogleTagManagerFollowStep11": "Pubblica le tue modifiche facendo clic sul pulsante \"Invia\" e quindi sul pulsante \"Pubblica\" in alto a destra.",
         "SiteWithoutDataGoogleTagManagerFollowStepCompleted": "%1$sCongratulazioni!%2$s Hai installato correttamente il codice di tracciamento di Matomo Analytics tramite Google Tag Manager. Per verificare che i dati vengano tracciati, visita il tuo sito web e verifica che questi dati siano visibili nella tua istanza Matomo."
     }
 }

@@ -127,14 +127,12 @@
         "SiteWithoutDataGoogleTagManagerFollowStep3": "Cliquez sur \"Balises\" puis sur \"Nouvelle\".",
         "SiteWithoutDataGoogleTagManagerFollowStep4": "En haut de la fenêtre, donnez un nom à votre balise.",
         "SiteWithoutDataGoogleTagManagerFollowStep5": "Cliquez sur \"Configuration de la balise\" et sélectionnez \"HTML personnalisé\"",
-        "SiteWithoutDataGoogleTagManagerFollowStep6": "Copiez le code de suivi JavaScript Matomo standard tel que fourni ci-dessous.",
+        "SiteWithoutDataGoogleTagManagerFollowStep6": "Copiez le code de suivi JavaScript Matomo tel que fourni ci-dessous.",
         "SiteWithoutDataGoogleTagManagerFollowStep7": "Collez ce code de suivi JavaScript dans le champ HTML de configuration de la balise.",
         "SiteWithoutDataGoogleTagManagerFollowStep8": "Faites défiler vers le bas et cliquez sur \"Déclencheurs\".",
         "SiteWithoutDataGoogleTagManagerFollowStep9": "Sélectionnez \"Toutes les pages\" pour déclencher la \"balise de suivi Matomo\" sur toutes vos pages.",
         "SiteWithoutDataGoogleTagManagerFollowStep10": "Cliquez sur \"Enregistrer\".",
-        "SiteWithoutDataGoogleTagManagerFollowStep11": "Prévisualisez vos modifications en cliquant sur le bouton \"Aperçu\".",
-        "SiteWithoutDataGoogleTagManagerFollowStep12": "Vérifiez si la balise Matomo est déclenchée comme prévu.",
-        "SiteWithoutDataGoogleTagManagerFollowStep13": "Publiez vos modifications en cliquant sur le bouton \"Soumettre\", puis sur le bouton \"Publier\" en haut à droite.",
+        "SiteWithoutDataGoogleTagManagerFollowStep11": "Publiez vos modifications en cliquant sur le bouton \"Soumettre\", puis sur le bouton \"Publier\" en haut à droite.",
         "SiteWithoutDataGoogleTagManagerFollowStepCompleted": "%1$sFélicitations!%2$s Vous avez installé avec succès le code de suivi Matomo Analytics via Google Tag Manager. Pour vérifier que les hits sont suivis, visitez votre site Web et vérifiez que ces données sont visibles dans votre instance Matomo."
     }
 }
