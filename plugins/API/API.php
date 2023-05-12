@@ -377,7 +377,7 @@ class API extends \Piwik\Plugin\API
             if ($mergedDataTable === false) {
                 $mergedDataTable = $dataTable;
             } else {
-                $merger = new MergeDataTables();
+                $merger = new MergeDataTables(true);
                 $merger->mergeDataTables($mergedDataTable, $dataTable);
             }
         }

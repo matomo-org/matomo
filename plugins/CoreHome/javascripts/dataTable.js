@@ -567,7 +567,12 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             var tableWidth = getTableWidth(domElem);
             var labelColumnMinWidth = getLabelColumnMinWidth(domElem);
             var labelColumnMaxWidth = getLabelColumnMaxWidth(domElem);
-            var labelColumnWidth    = getLabelWidth(domElem, tableWidth, 125, 440);
+            var labelColumnWidth    = getLabelWidth(
+              domElem,
+              tableWidth,
+              self.props.min_label_width || 125,
+              self.props.max_label_width || 440
+            );
             if (labelColumnMinWidth > labelColumnWidth) {
                 labelColumnWidth = labelColumnMinWidth;
             }

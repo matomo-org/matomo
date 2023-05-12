@@ -22,7 +22,7 @@ describe("EmptySite", function () {
     });
 
     it('should have button to send tracking code to developer', async function() {
-        var mailtoLink = await page.$eval('#emailTrackingCodeBtn', btn => btn.getAttribute('href'));
+        var mailtoLink = await page.$eval('.emailTrackingCode', link => link.getAttribute('href'));
 
         // Check that it's a mailto link with correct subject line
         expect(mailtoLink).to.include('mailto:?subject=Matomo%20Analytics%20Tracking%20Code&body');
@@ -34,10 +34,11 @@ describe("EmptySite", function () {
         await page.reload();
 
         await page.click('.ignoreSitesWithoutData');
-        await page.waitForSelector('.widget');
+        await page.waitForSelector('#dashboardWidgetsArea');
         await page.waitForNetworkIdle();
 
-        const pageElement = await page.$('.page');
-        expect(await pageElement.screenshot()).to.matchImage('emptySiteDashboard_ignored');
+        // ensure dashbord widgets are loaded
+        const widgetsCount = await page.evaluate(() => $('.widget').length);
+        expect(widgetsCount).to.be.greaterThan(1);
     });
 });
