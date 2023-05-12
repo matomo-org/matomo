@@ -1716,4 +1716,9 @@ class Manager
         }
     }
 
+    public function getVersion($pluginName)
+    {
+        return $this->getLoadedPlugin($pluginName)->getVersion();
+    }
+
 }

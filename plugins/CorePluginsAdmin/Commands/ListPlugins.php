@@ -37,12 +37,18 @@ class ListPlugins extends ConsoleCommand
             });
         }
 
-        $plugins = array_map(function ($plugin) use ($pluginManager) {
-            return array(
+        $verbose = $this->getOutput()->isVerbose();
+
+        $plugins = array_map(function ($plugin) use ($pluginManager, $verbose) {
+            $pluginInformation = array(
                 '<info>' . $plugin . '</info>',
                 $pluginManager->isPluginBundledWithCore($plugin) ? 'Core' : 'Optional',
                 $pluginManager->isPluginActivated($plugin) ? 'Activated' : '<comment>Not activated</comment>',
             );
+            if ($verbose) {
+                $pluginInformation[] =  $pluginManager->getVersion($plugin);
+            }
+            return $pluginInformation;
         }, $plugins);
 
         // Sort Core plugins first
@@ -50,7 +56,11 @@ class ListPlugins extends ConsoleCommand
             return strcmp($a[1], $b[1]);
         });
 
-        $this->renderTable(['Plugin', 'Core or optional?', 'Status'], $plugins);
+        if (!$verbose){
+            $this->renderTable(['Plugin', 'Core or optional?', 'Status'], $plugins);
+        } else {
+            $this->renderTable(['Plugin', 'Core or optional?', 'Status', 'Version'], $plugins);
+        }
 
         return self::SUCCESS;
     }
