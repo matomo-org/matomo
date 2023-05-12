@@ -106,14 +106,12 @@
         "SiteWithoutDataGoogleTagManagerFollowStep3": "Haz clic en \"Etiquetas\" y luego en \"Nueva\".",
         "SiteWithoutDataGoogleTagManagerFollowStep4": "En la esquina superior izquierda, asignale un nombre a tu etiqueta.",
         "SiteWithoutDataGoogleTagManagerFollowStep5": "Haz clic en \"Configuración de la etiqueta\" y selecciona \"HTML personalizado\".",
-        "SiteWithoutDataGoogleTagManagerFollowStep6": "Copia el código de seguimiento estándar JavaScript de Matomo tal como se proporciona a continuación.",
+        "SiteWithoutDataGoogleTagManagerFollowStep6": "Copia el código de seguimiento JavaScript de Matomo tal como se proporciona a continuación.",
         "SiteWithoutDataGoogleTagManagerFollowStep7": "Pega el código de seguimiento JavaScript en el campo HTML.",
         "SiteWithoutDataGoogleTagManagerFollowStep8": "Desplazate hacia abajo y haz clic en \"Activación\".",
         "SiteWithoutDataGoogleTagManagerFollowStep9": "Selecciona \"All pages\" (todas las páginas) para activar la \"etiqueta de seguimiento de Matomo\" en todas tus páginas.",
         "SiteWithoutDataGoogleTagManagerFollowStep10": "Haz clic en \"Guardar\".",
-        "SiteWithoutDataGoogleTagManagerFollowStep11": "Previsualiza tus cambios haciendo clic en \"Vista previa\".",
-        "SiteWithoutDataGoogleTagManagerFollowStep12": "Comprueba si la etiqueta de Matomo se está activando según lo esperado.",
-        "SiteWithoutDataGoogleTagManagerFollowStep13": "Publica tus cambios haciendo clic en \"Enviar\" y luego \"Publicar\" en la parte superior derecha.",
+        "SiteWithoutDataGoogleTagManagerFollowStep11": "Publica tus cambios haciendo clic en \"Enviar\" y luego \"Publicar\" en la parte superior derecha.",
         "SiteWithoutDataGoogleTagManagerFollowStepCompleted": "%1$s¡Felicidades!%2$s Has instalado correctamente el código de seguimiento de Matomo Analytics a través de Google Tag Manager. Para verificar que los datos se están rastreando, visita tu sitio web y comprueba que estos datos sean visibles en tu instancia de Matomo."
     }
 }

@@ -147,6 +147,7 @@
         "CloudflareDetected": "Cloudflare was detected on your website. Did you know you can use the Matomo app in your Cloudflare setup to track the website data? %1$sLearn more in this guide%2$s.",
         "CloudflareDetectedEmail": "Cloudflare was detected on your website. Did you know you can use the Matomo app in your Cloudflare setup to track the website data? Learn more here: %1$s",
         "SiteWithoutDataGoogleTagManagerIntro": "If you use Google Tag Manager, you can start tracking data in Matomo seamlessly using the \"Custom HTML Tag\" available in Google Tag Manager. %1$sLearn more%2$s.",
+        "SiteWithoutDataGoogleTagManagerFollowStepsIntro": "Follow these steps to set it up:",
         "SiteWithoutDataGTMFollowStep1": "%1$sLogin%2$s into your Google Tag Manager account.",
         "SiteWithoutDataGTMFollowStep2": "Select the container that you want to add Matomo to.",
         "SiteWithoutDataGTMFollowStep3": "Click \"Tags\" and then \"New\".",

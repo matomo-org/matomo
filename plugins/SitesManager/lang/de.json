@@ -138,14 +138,12 @@
         "SiteWithoutDataGoogleTagManagerFollowStep3": "Klicken Sie auf \"Tags\" und dann auf \"Neu\".",
         "SiteWithoutDataGoogleTagManagerFollowStep4": "Oben im Fenster geben Sie einen Namen für Ihr Tag an.",
         "SiteWithoutDataGoogleTagManagerFollowStep5": "Klicken Sie auf \"Tag-Konfiguration\" und wählen Sie \"Custom HTML\".",
-        "SiteWithoutDataGoogleTagManagerFollowStep6": "Kopieren Sie den Standard-Matomo JavaScript-Tracking-Code wie unten angegeben.",
+        "SiteWithoutDataGoogleTagManagerFollowStep6": "Kopieren Sie den Matomo JavaScript-Tracking-Code wie unten angegeben.",
         "SiteWithoutDataGoogleTagManagerFollowStep7": "Fügen Sie diesen JavaScript-Tracking-Code in das Tag-Konfigurations-HTML-Feld ein.",
         "SiteWithoutDataGoogleTagManagerFollowStep8": "Scrollen Sie nach unten und klicken Sie auf \"Auslöser\".",
         "SiteWithoutDataGoogleTagManagerFollowStep9": "Wählen Sie \"Alle Seiten\", um das \"Matomo-Tracking-Tag\" auf allen Ihren Seiten auszulösen.",
         "SiteWithoutDataGoogleTagManagerFollowStep10": "Klicken Sie auf \"Speichern\".",
-        "SiteWithoutDataGoogleTagManagerFollowStep11": "Überprüfen Sie Ihre Änderungen, indem Sie auf die Schaltfläche \"Vorschau\" klicken.",
-        "SiteWithoutDataGoogleTagManagerFollowStep12": "Überprüfen Sie, ob das Matomo-Tag wie erwartet ausgelöst wird.",
-        "SiteWithoutDataGoogleTagManagerFollowStep13": "Veröffentlichen Sie Ihre Änderungen, indem Sie auf die Schaltfläche \"Senden\" und dann auf die Schaltfläche \"Veröffentlichen\" oben rechts klicken.",
+        "SiteWithoutDataGoogleTagManagerFollowStep11": "Veröffentlichen Sie Ihre Änderungen, indem Sie auf die Schaltfläche \"Senden\" und dann auf die Schaltfläche \"Veröffentlichen\" oben rechts klicken.",
         "SiteWithoutDataGoogleTagManagerFollowStepCompleted": "%1$sHerzlichen Glückwunsch!%2$s Sie haben den Matomo Analytics Tracking-Code erfolgreich über Google Tag Manager installiert. Um zu überprüfen, ob Treffer erfasst werden, besuchen Sie Ihre Website und prüfen Sie, ob diese Daten in Ihrer Matomo-Instanz sichtbar sind."
     }
 }
