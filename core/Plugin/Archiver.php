@@ -58,7 +58,7 @@ use Piwik\Piwik;
  */
 abstract class Archiver
 {
-    private static $ARCHIVE_DEPENDENT = true;
+    public static $ARCHIVE_DEPENDENT = true;
 
     /**
      * @var \Piwik\ArchiveProcessor
