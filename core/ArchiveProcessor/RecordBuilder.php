@@ -215,7 +215,7 @@ abstract class RecordBuilder
      */
     protected abstract function aggregate(ArchiveProcessor $archiveProcessor);
 
-    private function insertRecord(ArchiveProcessor $archiveProcessor, $recordName, DataTable\DataTableInterface $record,
+    private function insertRecord(ArchiveProcessor $archiveProcessor, $recordName, DataTable $record,
                                   $maxRowsInTable, $maxRowsInSubtable, $columnToSortByBeforeTruncation)
     {
         $serialized = $record->getSerialized(
