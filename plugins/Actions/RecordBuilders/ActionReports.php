@@ -98,12 +98,12 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
 
         ArchivingHelper::setFolderPathMetadata($tablesByType[Action::TYPE_PAGE_TITLE], $isUrl = false);
 
+        $dataTable = $tablesByType[Action::TYPE_SITE_SEARCH];
+        $this->deleteUnusedColumnsFromKeywordsDataTable($dataTable);
+
         foreach ($tablesByType as $dataTable) {
             ArchivingHelper::deleteInvalidSummedColumnsFromDataTable($dataTable);
         }
-
-        $dataTable = $tablesByType[Action::TYPE_SITE_SEARCH];
-        $this->deleteUnusedColumnsFromKeywordsDataTable($dataTable);
 
         $nbSearches = array_sum($dataTable->getColumn(PiwikMetrics::INDEX_PAGE_NB_HITS));
         $nbKeywords = $dataTable->getRowsCount();
