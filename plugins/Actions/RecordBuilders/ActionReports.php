@@ -78,11 +78,11 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         $tablesByType = $this->makeReportTables();
 
         $this->archiveDayActions($archiveProcessor, $rankingQueryLimit, $tablesByType,
-            array_diff(array_keys($tablesByType), [Action::TYPE_SITE_SEARCH]), false);
+            array_diff(array_keys($tablesByType), [Action::TYPE_SITE_SEARCH]), true);
 
         if ($archiveProcessor->getParams()->getSite()->isSiteSearchEnabled()) {
             $rankingQueryLimitSiteSearch = max($rankingQueryLimit, ArchivingHelper::$maximumRowsInDataTableSiteSearch);
-            $this->archiveDayActions($archiveProcessor, $rankingQueryLimitSiteSearch, $tablesByType, [Action::TYPE_SITE_SEARCH], true);
+            $this->archiveDayActions($archiveProcessor, $rankingQueryLimitSiteSearch, $tablesByType, [Action::TYPE_SITE_SEARCH], false);
         }
 
         $this->archiveDayEntryActions($archiveProcessor->getLogAggregator(), $tablesByType, $rankingQueryLimit);
