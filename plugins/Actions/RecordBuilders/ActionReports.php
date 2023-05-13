@@ -78,11 +78,11 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         $tablesByType = $this->makeReportTables();
 
         $rankingQueryLimit = max($rankingQueryLimit, ArchivingHelper::$maximumRowsInDataTableSiteSearch);
-        $this->archiveDayActions($archiveProcessor, $rankingQueryLimit, $tablesByType, false);
+        $this->archiveDayActions($archiveProcessor, $rankingQueryLimit, $tablesByType,
+            array_diff(array_keys($tablesByType), [Action::TYPE_SITE_SEARCH]), false);
 
         if ($archiveProcessor->getParams()->getSite()->isSiteSearchEnabled()) {
-            $this->archiveDayActions($archiveProcessor, $rankingQueryLimit, array_intersect_key($tablesByType, [Action::TYPE_SITE_SEARCH => 1]),
-                true);
+            $this->archiveDayActions($archiveProcessor, $rankingQueryLimit, $tablesByType, [Action::TYPE_SITE_SEARCH], true);
         }
 
         $this->archiveDayEntryActions($archiveProcessor->getLogAggregator(), $tablesByType, $rankingQueryLimit);
@@ -187,7 +187,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
     }
 
     protected function archiveDayActions(ArchiveProcessor $archiveProcessor, int $rankingQueryLimit, array $actionsTablesByType,
-                                         bool $includePageNotDefined): void
+                                         $actionTypes, bool $includePageNotDefined): void
     {
         $logAggregator = $archiveProcessor->getLogAggregator();
 
@@ -212,7 +212,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         $where .= " AND log_link_visit_action.%s IS NOT NULL"
             . $this->getWhereClauseActionIsNotEvent();
 
-        $actionTypesWhere = "log_action.type IN (" . implode(", ", array_keys($actionsTablesByType)) . ")";
+        $actionTypesWhere = "log_action.type IN (" . implode(", ", $actionTypes) . ")";
         if ($includePageNotDefined) {
             $actionTypesWhere = "(" . $actionTypesWhere . " OR log_action.type IS NULL)";
         }
@@ -390,7 +390,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             $orderBy, "idaction_name_ref", $rankingQuery);
     }
 
-    protected function archiveDayQueryProcess(LogAggregator $logAggregator, array &$actionsTablesByType, string $select,
+    protected function archiveDayQueryProcess(LogAggregator $logAggregator, array $actionsTablesByType, string $select,
                                               $from, string $where, string $groupBy, $orderBy, string $sprintfField,
                                               RankingQuery $rankingQuery = null, array $metricsConfig = array()): void
     {
