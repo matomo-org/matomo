@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\PagePerformance\Columns;
 
+use Piwik\Config;
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Tracker\Action;
@@ -18,8 +19,23 @@ use Piwik\Tracker\Visitor;
 abstract class Base extends ActionDimension
 {
     protected $type = self::TYPE_DURATION_MS;
+    protected $columnName;
 
     abstract public function getRequestParam();
+
+    public function getConfigValueCap()
+    {
+        return Config::getInstance()->PluginPagePerformance[$this->columnName . '_cap_' . $this->type];
+    }
+
+    public function getSqlCappedValue()
+    {
+        $valueCap = (int)$this->getConfigValueCap();
+        if ($valueCap === 0) {
+            return 'ifnull(%s, 0)';
+        }
+        return 'least(ifnull(%s, 0), ' . $valueCap . ')';
+    }
 
     public function onNewAction(Request $request, Visitor $visitor, Action $action)
     {

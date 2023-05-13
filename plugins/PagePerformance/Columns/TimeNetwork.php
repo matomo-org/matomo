@@ -30,7 +30,7 @@ class TimeNetwork extends Base
 
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {
-        $metric1 = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_SUM);
+        $metric1 = $dimensionMetricFactory->createMetric('sum(' . $this->getSqlCappedValue() . ')');
         $metric1->setName('sum_time_network');
         $metricsList->addMetric($metric1);
 
