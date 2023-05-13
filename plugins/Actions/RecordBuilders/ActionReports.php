@@ -77,12 +77,12 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
 
         $tablesByType = $this->makeReportTables();
 
-        $rankingQueryLimit = max($rankingQueryLimit, ArchivingHelper::$maximumRowsInDataTableSiteSearch);
         $this->archiveDayActions($archiveProcessor, $rankingQueryLimit, $tablesByType,
             array_diff(array_keys($tablesByType), [Action::TYPE_SITE_SEARCH]), false);
 
         if ($archiveProcessor->getParams()->getSite()->isSiteSearchEnabled()) {
-            $this->archiveDayActions($archiveProcessor, $rankingQueryLimit, $tablesByType, [Action::TYPE_SITE_SEARCH], true);
+            $rankingQueryLimitSiteSearch = max($rankingQueryLimit, ArchivingHelper::$maximumRowsInDataTableSiteSearch);
+            $this->archiveDayActions($archiveProcessor, $rankingQueryLimitSiteSearch, $tablesByType, [Action::TYPE_SITE_SEARCH], true);
         }
 
         $this->archiveDayEntryActions($archiveProcessor->getLogAggregator(), $tablesByType, $rankingQueryLimit);
@@ -187,7 +187,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
     }
 
     protected function archiveDayActions(ArchiveProcessor $archiveProcessor, int $rankingQueryLimit, array $actionsTablesByType,
-                                         $actionTypes, bool $includePageNotDefined): void
+                                                          $actionTypes, bool $includePageNotDefined): void
     {
         $logAggregator = $archiveProcessor->getLogAggregator();
 
@@ -391,7 +391,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
     }
 
     protected function archiveDayQueryProcess(LogAggregator $logAggregator, array $actionsTablesByType, string $select,
-                                              $from, string $where, string $groupBy, $orderBy, string $sprintfField,
+                                                            $from, string $where, string $groupBy, $orderBy, string $sprintfField,
                                               RankingQuery $rankingQuery = null, array $metricsConfig = array()): void
     {
         $select = sprintf($select, $sprintfField);
