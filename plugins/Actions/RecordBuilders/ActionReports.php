@@ -81,7 +81,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         $this->archiveDayActions($archiveProcessor, $rankingQueryLimit, $tablesByType, false);
 
         if ($archiveProcessor->getParams()->getSite()->isSiteSearchEnabled()) {
-            $this->archiveDayActions($archiveProcessor, $rankingQueryLimit, array_diff_key($tablesByType, [Action::TYPE_SITE_SEARCH => 1]),
+            $this->archiveDayActions($archiveProcessor, $rankingQueryLimit, array_intersect_key($tablesByType, [Action::TYPE_SITE_SEARCH => 1]),
                 true);
         }
 
