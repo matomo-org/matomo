@@ -236,7 +236,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
 
             $this->addMetricsToRankingQuery($rankingQuery, $metricsConfig);
 
-            $rankingQuery->partitionResultIntoMultipleGroups('type', array_keys($actionsTablesByType));
+            $rankingQuery->partitionResultIntoMultipleGroups('type', $actionTypes);
         }
 
         // Special Magic to get
