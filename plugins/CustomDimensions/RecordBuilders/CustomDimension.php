@@ -151,11 +151,6 @@ class CustomDimension extends RecordBuilder
         $metricIds[] = Metrics::INDEX_BOUNCE_COUNT;
         $metricIds[] = Metrics::INDEX_PAGE_EXIT_NB_VISITS;
 
-        /*
-         * TODO: needed?
-         $dataArray->setActionMetricsIds($metricIds);
-         */
-
         while ($row = $resultSet->fetch()) {
             if (!isset($row[Metrics::INDEX_NB_VISITS])) {
                 return;
