@@ -8,16 +8,6 @@
  */
 namespace Piwik\Plugins\Actions;
 
-use Piwik\API\Request;
-use Piwik\Cache;
-use Piwik\Config\GeneralConfig;
-use Piwik\DataArray;
-use Piwik\DataTable;
-use Piwik\Metrics as PiwikMetrics;
-use Piwik\RankingQuery;
-use Piwik\Tracker\Action;
-use Piwik\Tracker\GoalManager;
-
 /**
  * Class encapsulating logic to process Day/Period Archiving for the Actions reports
  *
