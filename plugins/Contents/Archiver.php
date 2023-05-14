@@ -8,10 +8,6 @@
  */
 namespace Piwik\Plugins\Contents;
 
-use Piwik\Metrics;
-use Piwik\Plugins\Actions\ArchivingHelper;
-use Piwik\RankingQuery;
-
 /**
  * Processing reports for Contents
  */
