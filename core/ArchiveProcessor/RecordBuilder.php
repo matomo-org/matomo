@@ -125,6 +125,20 @@ abstract class RecordBuilder
 
         $aggregatedCounts = [];
 
+        // make sure if there are requested numeric records that depend on blob records, that the blob records will be archived
+        foreach ($numericRecords as $record) {
+            if (empty($record->getCountOfRecordName())
+                || !in_array($record->getName(), $requestedReports)
+            ) {
+                continue;
+            }
+
+            $dependentRecordName = $record->getCountOfRecordName();
+            if (!in_array($dependentRecordName, $requestedReports)) {
+                $requestedReports[] = $dependentRecordName;
+            }
+        }
+
         foreach ($blobRecords as $record) {
             if (!empty($requestedReports)
                 && !in_array($record->getName(), $requestedReports)
