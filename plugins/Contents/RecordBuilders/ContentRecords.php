@@ -240,6 +240,11 @@ class ContentRecords extends RecordBuilder
                 Metrics::INDEX_CONTENT_NB_INTERACTIONS => $row[Metrics::INDEX_CONTENT_NB_INTERACTIONS],
             ];
 
+            // ignore interactions that do not have an impression
+            if (!$table->getRowFromLabel($mainLabel)) {
+                continue;
+            }
+
             $topLevelRow = $this->addRowToReport($table, $mainLabel, $columns);
 
             if (empty($subLabel)) {
