@@ -15,6 +15,7 @@ use Piwik\Plugins\Goals\Model as GoalsModel;
 use Piwik\Plugins\Goals\PagesBeforeCalculator;
 use Piwik\Site;
 use Piwik\Timer;
+use Piwik\Tracker\GoalManager;
 
 /**
  * Command to calculate the pages viewed before conversions and populate the log_conversion.pages_before field
@@ -180,7 +181,7 @@ class CalculateConversionPages extends ConsoleCommand
 
         foreach ($goals as $id) {
             // validate the goal id
-            if (!$goalsModel->doesGoalExist($id, $idSite) && $id != 0) {
+            if (!$goalsModel->doesGoalExist($id, $idSite) && $id != GoalManager::IDGOAL_ORDER) {
                 throw new \InvalidArgumentException("Invalid goal ID: $id", $code = 0);
             }
         }
