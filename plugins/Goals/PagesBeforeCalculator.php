@@ -13,6 +13,8 @@ use Piwik\Date;
 use Piwik\Plugins\SitesManager\Model as SitesModel;
 use Piwik\Plugins\Goals\Model as GoalsModel;
 use Piwik\Db;
+use Piwik\Site;
+use Piwik\Tracker\GoalManager;
 
 /**
  * Service that calculates the 'pages before' metric for existing conversions in the database.
@@ -91,7 +93,11 @@ class PagesBeforeCalculator
                 // All goals
                 $goalsModel = new GoalsModel();
                 $goals = array_column($goalsModel->getActiveGoals([$site]), 'idgoal');
-                $goals[] = 0; // Include ecommerce orders
+
+                // Include ecommerce orders if enabled for the site
+                if (Site::isEcommerceEnabledFor($site)) {
+                    $goals[] = GoalManager::IDGOAL_ORDER;
+                }
             } else {
                 // Specific goals
                 $goals = explode(',', $idGoal);
