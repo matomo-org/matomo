@@ -165,7 +165,7 @@ class ContentRecords extends RecordBuilder
     }
 
     private function archiveDayQueryProcess(LogAggregator $logAggregator, string $select, array $from, string $where, string $groupBy,
-                                            string $orderBy, RankingQuery $rankingQuery)
+                                            string $orderBy, RankingQuery $rankingQuery = null)
     {
         // get query with segmentation
         $query = $logAggregator->generateQuery($select, $from, $where, $groupBy, $orderBy);
@@ -177,11 +177,6 @@ class ContentRecords extends RecordBuilder
 
         // get result
         $resultSet = $logAggregator->getDb()->query($query['sql'], $query['bind']);
-
-        if ($resultSet === false) {
-            return;
-        }
-
         return $resultSet;
     }
 
