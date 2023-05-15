@@ -165,7 +165,7 @@ class CustomDimension extends RecordBuilder
 
             $columns = [];
             foreach ($metricIds as $id) {
-                $columns[$id] = $row[$id] ?? 0;
+                $columns[$id] = (float) ($row[$id] ?? 0);
             }
 
             $tableRow = $this->addRowToReport($report, $label, $columns);
@@ -274,9 +274,19 @@ class CustomDimension extends RecordBuilder
     {
         $tableRow = new DataTable\Row([DataTable\Row::COLUMNS => ['label' => $label] + $columns]);
 
-        $existingRow = $table->getRowFromLabel($tableRow->getColumn('label'));
+        if ($label === RankingQuery::LABEL_SUMMARY_ROW) {
+            $existingRow = $table->getSummaryRow();
+        } else {
+            $existingRow = $table->getRowFromLabel($label);
+        }
+
         if (empty($existingRow)) {
-            $table->addRow($tableRow);
+            if ($label === RankingQuery::LABEL_SUMMARY_ROW) {
+                $table->addSummaryRow($tableRow);
+            } else {
+                $table->addRow($tableRow);
+            }
+
             $existingRow = $tableRow;
         } else {
             $existingRow->sumRow($tableRow);
