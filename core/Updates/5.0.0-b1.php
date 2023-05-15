@@ -136,18 +136,9 @@ class Updates_5_0_0_b1 extends PiwikUpdates
             return;
         }
 
-        // Abort if there are more than 10,000 conversions across all sites and goals in the last 48hrs
+        // Calculate all conversions for the last 48hrs
         $startDate = Date::factory('yesterday');
         $endDate = Date::factory('today')->getEndOfDay();
-
-        $sql = 'SELECT COUNT(*) FROM ' . Common::prefixTable('log_conversion') . ' WHERE server_time <= ? AND server_time >= ?';
-
-        $result = Db::fetchOne($sql, [$startDate, $endDate]);
-        if ($result > 10000) {
-            return;
-        }
-
-        // Calculate all conversions for the last 48hrs
         $pagesBeforeCalculator = new PagesBeforeCalculator();
         $pagesBeforeCalculator->calculateFor($startDate, $endDate);
 
