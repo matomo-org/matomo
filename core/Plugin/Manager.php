@@ -1716,9 +1716,19 @@ class Manager
         }
     }
 
-    public function getVersion($pluginName)
+    public function getVersion(string $pluginName): ?string
     {
-        return $this->getLoadedPlugin($pluginName)->getVersion();
+        if ($this->isPluginLoaded($pluginName)) {
+            return (string) $this->getLoadedPlugin($pluginName)->getVersion();
+        } elseif (!$this->isPluginInFilesystem($pluginName)) {
+            return null;
+        } else {
+            try {
+                $plugin = new Plugin($pluginName);
+                return (string) $plugin->getVersion();
+            } catch (\Exception $e) {
+                return null;
+            }
+        }
     }
-
 }

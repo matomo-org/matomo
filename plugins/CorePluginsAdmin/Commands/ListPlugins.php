@@ -43,10 +43,10 @@ class ListPlugins extends ConsoleCommand
             $pluginInformation = array(
                 '<info>' . $plugin . '</info>',
                 $pluginManager->isPluginBundledWithCore($plugin) ? 'Core' : 'Optional',
-                $pluginManager->isPluginActivated($plugin) ? 'Activated' : '<comment>Not activated</comment>',
+                !$pluginManager->isPluginInFilesystem($plugin) ? '<error>Not found</error>' : ($pluginManager->isPluginActivated($plugin) ? 'Activated' : '<comment>Not activated</comment>'),
             );
             if ($verbose) {
-                $pluginInformation[] =  $pluginManager->getVersion($plugin);
+                $pluginInformation[] =  $pluginManager->getVersion($plugin) ?? 'Unknown';
             }
             return $pluginInformation;
         }, $plugins);
