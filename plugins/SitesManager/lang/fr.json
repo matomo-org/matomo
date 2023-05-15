@@ -95,7 +95,6 @@
         "SiteWithoutDataDetectedSite": "Nous avons détecté que vous utilisez un site %1$s. Suivez simplement les instructions de ce %2$sguide%3$s.",
         "SiteWithoutDataGoogleTagManager": "Gestionnaire de balises Google",
         "SiteWithoutDataGoogleTagManagerDescription": "Vous pouvez utiliser Matomo avec Google Tag Manager. Pour configurer Matomo Tracking dans Google Tag Manager, suivez les instructions de ce %1$sguide%2$s.",
-        "SiteWithoutDataIgnoreMessage": "Ne pas afficher ce message pendant une heure",
         "SiteWithoutDataMatomoTagManager": "Gestionnaire de balises Matomo",
         "SiteWithoutDataMatomoTagManagerNotActive": "Vous ne savez pas ce qu'est un gestionnaire de balises ? Consultez notre %1$sGuide du gestionnaire de balises%2$s. Si vous intégrez plusieurs ressources de sites Web tiers dans votre site Web, le suivi de votre site Web à l'aide du Gestionnaire de balises peut être un meilleur choix pour vous par rapport à l'utilisation du suivi JavaScript normal.",
         "SiteWithoutDataMessageDisappears": "Ce message disparaitra dès lors que certaines données seront suivies pour ce site web.",

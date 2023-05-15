@@ -351,7 +351,8 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_GeolocationAnonymizeIpNote';
         $translationKeys[] = 'PrivacyManager_GetPurgeEstimate';
         $translationKeys[] = 'PrivacyManager_HowDoIAskForConsent';
-        $translationKeys[] = 'PrivacyManager_HowDoIAskForConsentIntroduction';
+        $translationKeys[] = 'PrivacyManager_HowDoIAskForConsentIntro';
+        $translationKeys[] = 'PrivacyManager_HowDoIAskForConsentOutro';
         $translationKeys[] = 'PrivacyManager_IndividualsRights';
         $translationKeys[] = 'PrivacyManager_IndividualsRightsAccess';
         $translationKeys[] = 'PrivacyManager_IndividualsRightsChildren';
@@ -425,8 +426,9 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_VisitsMatchedCriteria';
         $translationKeys[] = 'PrivacyManager_VisitsSuccessfullyDeleted';
         $translationKeys[] = 'PrivacyManager_VisitsSuccessfullyExported';
-        $translationKeys[] = 'PrivacyManager_WhenConsentIsNeeded1';
-        $translationKeys[] = 'PrivacyManager_WhenConsentIsNeeded2';
+        $translationKeys[] = 'PrivacyManager_WhenConsentIsNeededPart1';
+        $translationKeys[] = 'PrivacyManager_WhenConsentIsNeededPart2';
+        $translationKeys[] = 'PrivacyManager_WhenConsentIsNeededPart3';
         $translationKeys[] = 'PrivacyManager_WhenDoINeedConsent';
         $translationKeys[] = 'UsersManager_AllWebsites';
         $translationKeys[] = 'PrivacyManager_ConsentManager';
