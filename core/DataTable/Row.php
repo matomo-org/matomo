@@ -838,4 +838,15 @@ class Row extends \ArrayObject
         $cloudDeployDate = Date::factory('2021-08-11 12:00:00'); // 2021-08-12 00:00:00 NZST
         return $periodStartDate->isLater($cloudDeployDate);
     }
+
+    public function sumRowWithLabelToSubtable(string $label, array $columns): void
+    {
+        $subtable = $this->getSubtable();
+        if (empty($subtable)) {
+            $subtable = new DataTable();
+            $this->setSubtable($subtable);
+        }
+
+        $subtable->addRowWithLabel($label, $columns);
+    }
 }

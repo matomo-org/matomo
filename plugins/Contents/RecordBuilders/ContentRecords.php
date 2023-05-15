@@ -245,13 +245,13 @@ class ContentRecords extends RecordBuilder
                 continue;
             }
 
-            $topLevelRow = $this->addRowToReport($table, $mainLabel, $columns);
+            $topLevelRow = $table->sumRowWithLabel($mainLabel, $columns);
 
             if (empty($subLabel)) {
                 continue;
             }
 
-            $this->addRowToSubtableReport($topLevelRow, $subLabel, $columns);
+            $topLevelRow->sumRowWithLabelToSubtable($subLabel, $columns);
         }
     }
 
@@ -261,40 +261,5 @@ class ContentRecords extends RecordBuilder
             Archiver::CONTENTS_PIECE_NAME_RECORD_NAME => array('contentPiece', 'contentName'),
             Archiver::CONTENTS_NAME_PIECE_RECORD_NAME => array('contentName', 'contentPiece')
         );
-    }
-
-    private function addRowToReport(DataTable $table, $label, array $columns): DataTable\Row
-    {
-        $tableRow = new DataTable\Row([DataTable\Row::COLUMNS => ['label' => $label] + $columns]);
-
-        if ($label === RankingQuery::LABEL_SUMMARY_ROW) {
-            $existingRow = $table->getSummaryRow();
-        } else {
-            $existingRow = $table->getRowFromLabel($label);
-        }
-
-        if (empty($existingRow)) {
-            if ($label === RankingQuery::LABEL_SUMMARY_ROW) {
-                $table->addSummaryRow($tableRow);
-            } else {
-                $table->addRow($tableRow);
-            }
-
-            $existingRow = $tableRow;
-        } else {
-            $existingRow->sumRow($tableRow);
-        }
-        return $existingRow;
-    }
-
-    private function addRowToSubtableReport(DataTable\Row $topLevelRow, string $label, array $row): void
-    {
-        $subtable = $topLevelRow->getSubtable();
-        if (empty($subtable)) {
-            $subtable = new DataTable();
-            $topLevelRow->setSubtable($subtable);
-        }
-
-        $this->addRowToReport($subtable, $label, $row);
     }
 }

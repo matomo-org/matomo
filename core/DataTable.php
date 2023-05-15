@@ -2070,4 +2070,28 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     {
         $this->deleteRow($offset);
     }
+
+    public function sumRowWithLabel($label, array $columns): DataTable\Row
+    {
+        $tableRow = new DataTable\Row([DataTable\Row::COLUMNS => ['label' => $label] + $columns]);
+
+        if ($label === RankingQuery::LABEL_SUMMARY_ROW) {
+            $existingRow = $this->getSummaryRow();
+        } else {
+            $existingRow = $this->getRowFromLabel($label);
+        }
+
+        if (empty($existingRow)) {
+            if ($label === RankingQuery::LABEL_SUMMARY_ROW) {
+                $table->addSummaryRow($tableRow);
+            } else {
+                $table->addRow($tableRow);
+            }
+
+            $existingRow = $tableRow;
+        } else {
+            $existingRow->sumRow($tableRow);
+        }
+        return $existingRow;
+    }
 }
