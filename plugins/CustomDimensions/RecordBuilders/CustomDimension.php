@@ -158,10 +158,6 @@ class CustomDimension extends RecordBuilder
 
             $label = $row[$valueField];
             $label = $this->cleanCustomDimensionValue($label);
-            unset($row[$label]);
-
-            $url = $row['url'];
-            unset($row['url']);
 
             $columns = [];
             foreach ($metricIds as $id) {
@@ -170,6 +166,7 @@ class CustomDimension extends RecordBuilder
 
             $tableRow = $this->addRowToReport($report, $label, $columns);
 
+            $url = $row['url'];
             if (empty($url)) {
                 continue;
             }
