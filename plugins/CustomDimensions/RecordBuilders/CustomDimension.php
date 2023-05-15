@@ -109,7 +109,7 @@ class CustomDimension extends RecordBuilder
                 $columns[$name] = $columnValue;
             }
 
-            $this->addRowToReport($report, $customDimensionValue, $columns);
+            $report->sumRowWithLabel($customDimensionValue, $columns);
         }
     }
 
@@ -136,7 +136,7 @@ class CustomDimension extends RecordBuilder
                 ],
             ];
 
-            $this->addRowToReport($report, $value, $columns);
+            $report->sumRowWithLabel($value, $columns);
         }
     }
 
@@ -164,7 +164,7 @@ class CustomDimension extends RecordBuilder
                 $columns[$id] = (float) ($row[$id] ?? 0);
             }
 
-            $tableRow = $this->addRowToReport($report, $label, $columns);
+            $tableRow = $report->sumRowWithLabel($label, $columns);
 
             $url = $row['url'];
             if (empty($url)) {
@@ -179,7 +179,7 @@ class CustomDimension extends RecordBuilder
                 continue;
             }
 
-            $this->addRowToSubtableReport($tableRow, $url, $columns);
+            $tableRow->sumRowWithLabelToSubtable($url, $columns);
         }
     }
 
@@ -265,41 +265,6 @@ class CustomDimension extends RecordBuilder
         }
 
         return Archiver::LABEL_CUSTOM_VALUE_NOT_DEFINED;
-    }
-
-    private function addRowToReport(DataTable $table, $label, array $columns): DataTable\Row
-    {
-        $tableRow = new DataTable\Row([DataTable\Row::COLUMNS => ['label' => $label] + $columns]);
-
-        if ($label === RankingQuery::LABEL_SUMMARY_ROW) {
-            $existingRow = $table->getSummaryRow();
-        } else {
-            $existingRow = $table->getRowFromLabel($label);
-        }
-
-        if (empty($existingRow)) {
-            if ($label === RankingQuery::LABEL_SUMMARY_ROW) {
-                $table->addSummaryRow($tableRow);
-            } else {
-                $table->addRow($tableRow);
-            }
-
-            $existingRow = $tableRow;
-        } else {
-            $existingRow->sumRow($tableRow);
-        }
-        return $existingRow;
-    }
-
-    private function addRowToSubtableReport(DataTable\Row $topLevelRow, string $label, array $row): void
-    {
-        $subtable = $topLevelRow->getSubtable();
-        if (empty($subtable)) {
-            $subtable = new DataTable();
-            $topLevelRow->setSubtable($subtable);
-        }
-
-        $this->addRowToReport($subtable, $label, $row);
     }
 
     private function addMetricsToSelect($select, $metricsConfig)
