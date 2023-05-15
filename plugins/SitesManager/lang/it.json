@@ -138,8 +138,8 @@
         "SiteWithoutDataGTMFollowStep5": "Fai clic su \"Configurazione tag\" e seleziona \"HTML personalizzato\"",
         "SiteWithoutDataGTMFollowStep6": "Copia il codice di tracciamento JavaScript di Matomo come fornito di seguito.",
         "SiteWithoutDataGTMFollowStep7": "Incolla questo codice di tracciamento JavaScript nel campo HTML di configurazione del tag.",
-        "SiteWithoutDataGTMFollowStep8": "Scorri verso il basso e fai clic su \"Triggering\".",
-        "SiteWithoutDataGTMFollowStep9": "Seleziona \"Tutte le pagine\" per attivare il \"tag di tracciamento Matomo\" su tutte le tue pagine.",
+        "SiteWithoutDataGTMFollowStep8": "Scorri verso il basso e fai clic su \"Attivazione\".",
+        "SiteWithoutDataGTMFollowStep9": "Seleziona \"All Pages\" per attivare il \"tag di tracciamento Matomo\" su tutte le tue pagine.",
         "SiteWithoutDataGTMFollowStep10": "Fai clic su \"Salva\".",
         "SiteWithoutDataGTMFollowStep11": "Pubblica le tue modifiche facendo clic sul pulsante \"Invia\" e quindi sul pulsante \"Pubblica\" in alto a destra.",
         "SiteWithoutDataGoogleTagManagerFollowStepCompleted": "%1$sCongratulazioni!%2$s Hai installato correttamente il codice di tracciamento di Matomo Analytics tramite Google Tag Manager. Per verificare che i dati vengano tracciati, visita il tuo sito web e verifica che questi dati siano visibili nella tua istanza Matomo."
