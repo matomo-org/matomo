@@ -1,4 +1,3 @@
-
 <?php
 /**
  * Matomo - free/libre analytics platform
