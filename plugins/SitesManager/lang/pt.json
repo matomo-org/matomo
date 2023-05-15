@@ -105,7 +105,6 @@
         "SiteWithoutDataDetectedSiteWordpress2": "Já configurou o plugin do WordPress e não está vendo nenhum dado? Verifique %1$seste FAQ para obter ajuda%2$s.",
         "SiteWithoutDataGoogleTagManager": "Gerenciador de tags do Google",
         "SiteWithoutDataGoogleTagManagerDescription": "Você pode usar o Matomo com o Google Gerenciador de Tags. Para configurar o Matomo Tracking no Google Gerenciador de Tags, siga as instruções deste %1$sguia%2$s.",
-        "SiteWithoutDataIgnoreMessage": "Não mostrar esta mensagem durante a próxima hora",
         "SiteWithoutDataMatomoTagManager": "Gerenciador de tags do Matomo",
         "SiteWithoutDataMatomoTagManagerNotActive": "Não sabe o que é um Gerenciador de tags? Confira nosso %1$sguia do Gerenciador de tags%2$s. Se você estiver incorporando vários recursos de sites de terceiros em seu site, rastrear seu site usando o Gerenciador de tags pode ser uma escolha melhor para você em comparação com o rastreamento regular de JavaScript.",
         "SiteWithoutDataMessageDisappears": "Esta mensagem desaparecerá assim que alguns dados forem rastreados para este site.",

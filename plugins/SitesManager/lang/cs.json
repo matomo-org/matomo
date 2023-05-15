@@ -68,7 +68,6 @@
         "SelectDefaultTimezone": "Můžete zvolit výchozí časovou zónu pro nové weby",
         "ShowTrackingTag": "zobrazit zaznamenávací tagy",
         "SiteSearchUse": "Matomo můžete použít ke sledování a hlášení toho, co návštěvníci hledají pomocí interního vyhledávače.",
-        "SiteWithoutDataIgnoreMessage": "Nezobrazovat tuto zprávu další hodinu",
         "SiteWithoutDataMessageDisappears": "Tato zpráva zmizí jakmile dojde k nahrání nějakých dat pro tento web.",
         "SiteWithoutDataSetupTracking": "Nastavte prosím %1$ssledovací kód%2$s uvedený níže na vašich stránkách nebo v mobilní aplikaci, pokud jste to ještě neudělali.",
         "Sites": "Stránky",
