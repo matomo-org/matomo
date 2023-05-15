@@ -131,4 +131,3 @@ class DoNotTrackHeaderCheckerTest extends \PHPUnit\Framework\TestCase
         $_SERVER['HTTP_DNT'] = '1';
     }
 }
- 

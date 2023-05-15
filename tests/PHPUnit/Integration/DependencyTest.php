@@ -323,4 +323,3 @@ class DependencyTest extends IntegrationTestCase
     }
 
 }
-

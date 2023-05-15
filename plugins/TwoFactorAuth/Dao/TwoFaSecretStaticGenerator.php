@@ -14,4 +14,3 @@ class TwoFaSecretStaticGenerator extends TwoFaSecretRandomGenerator
        return str_pad('1', 16, '1');
     }
 }
-

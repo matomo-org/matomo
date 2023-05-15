@@ -17,4 +17,3 @@ class TwoFaSecretRandomGenerator
         return $authenticator->createSecret(16);
     }
 }
-

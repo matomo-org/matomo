@@ -530,4 +530,3 @@ class DataTablePostProcessor
         return $dataTable;
     }
 }
-
