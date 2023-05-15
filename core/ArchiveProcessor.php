@@ -79,6 +79,11 @@ use Psr\Log\LoggerInterface;
 class ArchiveProcessor
 {
     /**
+     * @var bool
+     */
+    public static $isRootArchivingRequest = true;
+
+    /**
      * @var \Piwik\DataAccess\ArchiveWriter
      */
     private $archiveWriter;
@@ -730,11 +735,11 @@ class ArchiveProcessor
      */
     public function processDependentArchive($plugin, $segment)
     {
-        $params = $this->getParams();
-        if (!$params->isRootArchiveRequest()) { // prevent all recursion
+        if (!self::$isRootArchivingRequest) { // prevent all recursion
             return;
         }
 
+        $params = $this->getParams();
         $idSites = [$params->getSite()->getId()];
 
         // important to use the original segment string when combining. As the API itself would combine the original string.
@@ -755,12 +760,16 @@ class ArchiveProcessor
             return;
         }
 
-        $parameters = new ArchiveProcessor\Parameters($params->getSite(), $params->getPeriod(), $newSegment);
-        $parameters->onlyArchiveRequestedPlugin();
-        $parameters->setIsRootArchiveRequest(false);
+        self::$isRootArchivingRequest = false;
+        try {
+            $parameters = new ArchiveProcessor\Parameters($params->getSite(), $params->getPeriod(), $newSegment);
+            $parameters->onlyArchiveRequestedPlugin();
 
-        $archiveLoader = new ArchiveProcessor\Loader($parameters);
-        $archiveLoader->prepareArchive($plugin);
+            $archiveLoader = new ArchiveProcessor\Loader($parameters);
+            $archiveLoader->prepareArchive($plugin);
+        } finally {
+            self::$isRootArchivingRequest = true;
+        }
     }
 
     public function getArchiveWriter()
