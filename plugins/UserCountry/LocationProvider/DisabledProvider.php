@@ -93,4 +93,3 @@ class DisabledProvider extends LocationProvider
         return $comment;
     }
 }
-

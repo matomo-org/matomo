@@ -350,4 +350,3 @@ class FormDatabaseSetup_Rule_checkValidDbname extends HTML_QuickForm2_Rule
         || DbHelper::isValidDbname($prefix);
     }
 }
-

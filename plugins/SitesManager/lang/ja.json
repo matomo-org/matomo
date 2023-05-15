@@ -105,7 +105,6 @@
         "SiteWithoutDataDetectedSiteWordpress2": "WordPress プラグインをセットアップ済みですが、データが表示されませんか? ヘルプについては、%1$sこの FAQ を確認してください%2$s。",
         "SiteWithoutDataGoogleTagManager": "Googleタグマネージャー",
         "SiteWithoutDataGoogleTagManagerDescription": "MatomoはGoogleTagManagerで使用できます。 Google TagManagerでMatomoTrackingを設定するには、この%1$sガイド%2$sの指示に従ってください。",
-        "SiteWithoutDataIgnoreMessage": "次からこのメッセージを表示しない",
         "SiteWithoutDataMatomoTagManager": "Matomoタグマネージャー",
         "SiteWithoutDataMatomoTagManagerNotActive": "タグマネージャーとは何かわかりませんか？ %1$sタグマネージャーガイド%2$sをご覧ください。 サードパーティのWebサイトからWebサイトに複数のリソースを埋め込む場合は、通常のJavaScript追跡を使用するよりも、タグマネージャーを使用してWebサイトを追跡する方が適切な場合があります。",
         "SiteWithoutDataMessageDisappears": "このメッセージは、このWebサイトのデータが追跡されるとすぐに消えます。",

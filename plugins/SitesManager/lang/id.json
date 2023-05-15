@@ -101,7 +101,6 @@
         "SiteWithoutDataDetectedSite": "Kami mendeteksi bahwa Anda menggunakan situs %1$s. Cukup ikuti instruksi dari %2$spanduan%3$s ini.",
         "SiteWithoutDataGoogleTagManager": "Pengelola Tag Google",
         "SiteWithoutDataGoogleTagManagerDescription": "Anda dapat menggunakan Matomo dengan Pengelola Tag Google. Untuk menyiapkan Pelacakan Matomo di Pengelola Tag Google, ikuti petunjuk dari %1$spanduan%2$s ini.",
-        "SiteWithoutDataIgnoreMessage": "Jangan tampilkan pesan ini selama satu jam ke depan",
         "SiteWithoutDataMatomoTagManager": "Pengelola Tag Matomo",
         "SiteWithoutDataMatomoTagManagerNotActive": "Tidak tahu apa itu Pengelola Tag? Lihat %1$spanduan Pengelola Tag%2$s kami. Jika Anda menyematkan beberapa sumber daya dari situs web pihak ketiga ke situs web Anda, melacak situs web Anda menggunakan Pengelola Tag mungkin merupakan pilihan terbaik untuk Anda dibandingkan dengan menggunakan pelacakan JavaScript biasa.",
         "SiteWithoutDataMessageDisappears": "Pesan ini akan hilang segera setelah beberapa data dilacak untuk situs web ini.",

@@ -109,7 +109,6 @@
         "GeolocationAnonymizeIpNote": "Nota: A geolocalização terá aproximadamente os mesmos resultados com 1 byte anonimizado. Com 2 bytes ou mais, a geolocalização será imprecisa.",
         "GetPurgeEstimate": "Obter uma estimativa da limpeza",
         "HowDoIAskForConsent": "Como solicito o consentimento dos utilizadores?",
-        "HowDoIAskForConsentIntroduction": "Saiba tudo sobre %1$spedir cookies ou rastrear consentimento em nosso guia de integração.%2$s",
         "Imprint": "Imprimir",
         "ImprintUrl": "URL de impressão",
         "ImprintUrlDescription": "Um link para sua página Imprint.",
@@ -202,8 +201,6 @@
         "VisitsMatchedCriteria": "Estas visitas correspondem ao critério selecionado.",
         "VisitsSuccessfullyDeleted": "As visitas foram excluídas com sucesso",
         "VisitsSuccessfullyExported": "As visitas foram exportadas com sucesso",
-        "WhenConsentIsNeeded1": "No contexto dos %1$sregulamentos de privacidade GDPR%2$s, ao processar dados pessoais, em alguns casos, você precisará solicitar o consentimento de seus usuários. Para identificar se você precisa pedir consentimento, você precisa determinar se sua base legal para o processamento de dados pessoais é \"Consentimento\" ou \"Interesse legítimo\" ou se você pode evitar a coleta de dados pessoais por completo. Recomendamos aprender mais sobre a %3$sbase legal sob o GDPR para Matomo%4$s.",
-        "WhenConsentIsNeeded2": "Note que quando necessita de ter o consentimento dos utilizadores e não pode provar que obteve o \"consentimento\" dos utilizadores no passado, recomendamos que %1$sanonimize os dados em bruto dos utilizadores monitorizados anteriormente%2$s.",
         "WhenDoINeedConsent": "Quando necessito de pedir o consentimento do utilizador?"
     }
 }

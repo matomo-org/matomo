@@ -63,4 +63,3 @@ class CustomGroupLog
         $db->query($sql, $bind);
     }
 }
-

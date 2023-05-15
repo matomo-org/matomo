@@ -22,4 +22,3 @@ class ManySitesManyVisitsWithGeoIp extends ManyVisitsWithGeoIP
         parent::setUp();
     }
 }
-

@@ -23,4 +23,3 @@ class FakeUserSettings extends \Piwik\Plugins\ExampleSettingsPlugin\UserSettings
     }
 
 }
-
