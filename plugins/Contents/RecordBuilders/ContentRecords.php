@@ -207,7 +207,7 @@ class ContentRecords extends RecordBuilder
                 $mainLabel = Archiver::CONTENT_PIECE_NOT_SET;
             }
 
-            $topLevelRow = $this->addRowToReport($table, $mainLabel, $columns);
+            $topLevelRow = $table->sumRowWithLabel($mainLabel, $columns);
 
             if (empty($subLabel)) {
                 continue;
@@ -220,7 +220,7 @@ class ContentRecords extends RecordBuilder
                 $subLabel = Archiver::CONTENT_PIECE_NOT_SET;
             }
 
-            $this->addRowToSubtableReport($topLevelRow, $subLabel, $columns);
+            $topLevelRow->sumRowWithLabelToSubtable($subLabel, $columns);
         }
     }
 
