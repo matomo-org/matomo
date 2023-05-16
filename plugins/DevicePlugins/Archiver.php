@@ -9,11 +9,6 @@
 
 namespace Piwik\Plugins\DevicePlugins;
 
-use Piwik\DataAccess\LogAggregator;
-use Piwik\DataTable;
-use Piwik\Metrics;
-use Piwik\Plugins\DevicePlugins\Columns\DevicePluginColumn;
-
 require_once PIWIK_INCLUDE_PATH . '/plugins/DevicePlugins/functions.php';
 
 /**
