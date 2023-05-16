@@ -104,7 +104,6 @@
         "GeolocationAnonymizeIpNote": "Catatan: Geolokasi akan memiliki hasil yang kira-kira sama dengan 1 bita anonimitas. Geolokasi akan tidak akurat dengan 2 bita atau lebih.",
         "GetPurgeEstimate": "Dapatkan perkiraan perbersihan",
         "HowDoIAskForConsent": "Bagaimana cara meminta persetujuan pengguna?",
-        "HowDoIAskForConsentIntroduction": "Pelajari semua tentang %1$smeminta kuki atau persetujuan pelacakan di panduan integrasi kami.%2$s",
         "Imprint": "Impresum",
         "ImprintUrl": "URL Impresum",
         "ImprintUrlDescription": "Tautan ke halaman Impresum Anda.",
@@ -186,8 +185,6 @@
         "VisitsMatchedCriteria": "Kunjungan ini sesuai dengan kriteria yang dipilih.",
         "VisitsSuccessfullyDeleted": "Kunjungan berhasil dihapus",
         "VisitsSuccessfullyExported": "Kunjungan berhasil diekspor",
-        "WhenConsentIsNeeded1": "Dalam konteks %1$speraturan privasi GDPR%2$s, saat Anda memproses data pribadi, dalam beberapa kasus Anda perlu meminta persetujuan pengguna Anda. Untuk mengidentifikasi apakah Anda perlu meminta persetujuan, Anda perlu menentukan apakah dasar hukum Anda untuk memproses data pribadi adalah \"Persetujuan\" atau \"Kepentingan yang sah\", atau apakah Anda dapat menghindari pengumpulan data pribadi sama sekali. Kami menyarankan untuk mempelajari lebih lanjut tentang %3$sdasar yang sah menurut GDPR untuk Matomo%4$s.",
-        "WhenConsentIsNeeded2": "Perhatikan bahwa ketika Anda memerlukan persetujuan pengguna dan jika Anda tidak dapat membuktikan bahwa Anda mendapatkan \"Persetujuan\" dari pengguna Anda di masa lalu, maka kami menyarankan untuk %1$smenganonimkan data mentah pengguna yang dilacak sebelumnya%2$s.",
         "WhenDoINeedConsent": "Kapan saya perlu meminta persetujuan pengguna?"
     }
 }

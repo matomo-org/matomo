@@ -78,7 +78,6 @@
         "SelectDefaultTimezone": "Puede seleccionar la zona horaria predeterminada para los nuevos sitios de internet.",
         "ShowTrackingTag": "Ver código de rastreo",
         "SiteSearchUse": "Puede utilizar Matomo para rastrear y obtener un informe que es lo que están buscando sus visitantes en el motor de búsqueda interno de su sitio de internet.",
-        "SiteWithoutDataIgnoreMessage": "No mostrar este mensaje durante la próxima hora",
         "SiteWithoutDataMessageDisappears": "Este mensaje desaparecerá tan pronto como algún dato sea monitoreado en este sitio web.",
         "SiteWithoutDataSetupTracking": "Si no lo has hecho ya, por favor, configura el %1$scódigo de seguimiento%2$s de abajo en tu sitio web o app para móvil.",
         "SiteWithoutDataTitle": "No se ha grabado información aún, prepárate abajo",

@@ -105,7 +105,6 @@
         "GeolocationAnonymizeIpNote": "注意：選擇 1 字節時地理位置將會顯示與實際位置大略相同的結果。選擇 2 字節或以上，地理位置可能會不準確。",
         "GetPurgeEstimate": "取得清理估計",
         "HowDoIAskForConsent": "我該如何要求使用者同意？",
-        "HowDoIAskForConsentIntroduction": "瞭解%1$s在我們的整合指南中關於請求 Cookie 或追蹤同意的資訊%2$s。",
         "IndividualsRights": "個人的權利",
         "IndividualsRightsAccess": "訪問權：%1$s檢索數據主體%2$s並匯出他們的所有資料。",
         "IndividualsRightsChildren": "如果您提供線上服務給兒童，並以同意爲基礎去收集有關他們的資訊，那麼您可能需要父母或監護人的同意才能合法處理兒童的個人資料。",
@@ -173,8 +172,6 @@
         "UseDeleteReports": "定時從資料庫中移除舊的報表",
         "UsersOptOut": "使用者選擇退出",
         "VisitsMatchedCriteria": "這些來訪記錄符合所選的條件。",
-        "WhenConsentIsNeeded1": "根據%1$s《歐盟一般資料保護規則》（GDPR）隱私法規%2$s，當你處理個人資料時，在某些情況下你需要徵得使用者的同意。要確定你是否需要徵求同意，你需要決定你處理個人數據的合法依據是「基於同意」還是「合法利益」，又或是你可以完全避免收集個人資料。我們建議你瞭解更多關於 %3$sMatomo 在 GDPR 下的合法依據%4$s。",
-        "WhenConsentIsNeeded2": "請注意，當你需要獲得使用者的同意而你無法證明過去曾獲得過使用者「同意」時，我們建議你%1$s將之前的已追蹤使用者原始數據作匿名化處理%2$s。",
         "WhenDoINeedConsent": "我該何時要求使用者同意？"
     }
 }
