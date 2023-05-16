@@ -135,7 +135,6 @@
         "SiteWithoutDataGoogleTagManagerFollowStep9": "Bekijk een voorbeeld van uw wijzigingen door op de knop \"Voorbeeld\" te klikken.",
         "SiteWithoutDataGoogleTagManagerFollowStepCompleted": "%1$sGefeliciteerd!%2$s U heeft met succes de Matomo Analytics tracking code geïnstalleerd via Google Tag Manager. Om te controleren of de hits worden gevolgd, bezoekt u uw website en controleert u of deze gegevens zichtbaar zijn in uw Matomo-instantie.",
         "SiteWithoutDataGoogleTagManagerIntro": "Indien u Google Tag Manager gebruikt, kunt u naadloos het tracken van data starten in Matomo door gebruik te maken van de \"Aangepaste HTML-tag\" die beschikbaar is in Google Tag Manager. %1$sMeer informatie%2$s.",
-        "SiteWithoutDataIgnoreMessage": "Toon dit bericht voor het komende uur niet",
         "SiteWithoutDataMatomoTagManager": "Matomo tag manager",
         "SiteWithoutDataMatomoTagManagerNotActive": "Weet u niet wat een tag manager is? Bekijk onze %1$stag manager handleiding%2$s. Als u meerdere bronnen derde-partij websites in uw website insluit, kan het volgen van uw website met behulp van de tag manager een betere keuze voor u zijn dan met de gewone Javascript-tracking.",
         "SiteWithoutDataMessageDisappears": "Deze melding zal verdwijnen zodra er volggegevens voor deze website ontvangen zijn.",
