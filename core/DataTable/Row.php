@@ -847,6 +847,6 @@ class Row extends \ArrayObject
             $this->setSubtable($subtable);
         }
 
-        $subtable->addRowWithLabel($label, $columns);
+        $subtable->sumRowWithLabel($label, $columns);
     }
 }
