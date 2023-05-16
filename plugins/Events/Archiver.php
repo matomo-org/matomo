@@ -9,14 +9,6 @@
 
 namespace Piwik\Plugins\Events;
 
-use Piwik\ArchiveProcessor;
-use Piwik\Config\GeneralConfig;
-use Piwik\DataArray;
-use Piwik\Metrics;
-use Piwik\Plugins\Actions\ArchivingHelper;
-use Piwik\RankingQuery;
-use Piwik\Tracker\Action;
-
 /**
  * Processing reports for Events
 
