@@ -141,7 +141,7 @@ class EventReports extends RecordBuilder
         return $reports;
     }
 
-    protected function archiveDayQueryProcess(array $reports, LogAggregator $logAggregator, string $select, array $from,
+    protected function archiveDayQueryProcess(array &$reports, LogAggregator $logAggregator, string $select, array $from,
                                               string $where, string $groupBy, string $orderBy, RankingQuery $rankingQuery = null): void
     {
         // get query with segmentation
@@ -164,7 +164,7 @@ class EventReports extends RecordBuilder
         }
     }
 
-    protected function aggregateEventRow(array $reports, array $row): void
+    protected function aggregateEventRow(array &$reports, array $row): void
     {
         foreach ($this->getRecordToDimensions() as $record => $dimensions) {
             if (empty($reports[$record])) {
