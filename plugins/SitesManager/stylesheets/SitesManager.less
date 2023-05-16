@@ -227,9 +227,9 @@ td.editable-site-field:hover {
 
     #wordpress {
         .steps-to-start-tracking-header {
-            margin-left: 0.5rem;
             font-weight: bold;
         }
+
         .no-list-style, .no-list-style-footer {
             list-style: none;
             list-style-position: inside;
@@ -243,19 +243,6 @@ td.editable-site-field:hover {
         .list-style-decimal {
             list-style: decimal;
             list-style-position: inside;
-        }
-
-        .ellipsis-no-style::marker {
-            content: url('data:image/svg+xml,<svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="5" cy="5" r="5" fill="%23378039"/></svg>') "\00a0";
-            display: inline;
-        }
-        .ellipsis-decimal-style::marker {
-            content: url('data:image/svg+xml,<svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="5" cy="5" r="5" fill="%23378039"/></svg>') "\00a0" counter(list-item) ". ";
-            display: inline;
-        }
-        .no-ellipsis-decimal-style::marker {
-            content: url('data:image/svg+xml,<svg style="visibility: hidden;" width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="5" cy="5" r="5" fill="%23378039"/></svg>') "\00a0" counter(list-item) ". ";
-            display: inline;
         }
     }
 }
