@@ -689,4 +689,3 @@ class Plugin
 }
 
 }
-    

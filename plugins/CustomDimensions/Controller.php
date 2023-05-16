@@ -26,4 +26,3 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     }
 
 }
-

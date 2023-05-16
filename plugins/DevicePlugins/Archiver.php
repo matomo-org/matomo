@@ -20,4 +20,3 @@ class Archiver extends \Piwik\Plugin\Archiver
 {
     const PLUGIN_RECORD_NAME = 'DevicePlugins_plugin';
 }
-

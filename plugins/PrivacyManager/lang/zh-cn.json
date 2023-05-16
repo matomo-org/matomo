@@ -103,7 +103,6 @@
         "GeolocationAnonymizeIpNote": "提示: 屏蔽1个字节，地理位置基本一样。屏蔽2个或更多字节，地理位置将不准确。",
         "GetPurgeEstimate": "获得清除预计",
         "HowDoIAskForConsent": "如何请求用户同意？",
-        "HowDoIAskForConsentIntroduction": "在我们的集成指南中了解有关%1$s要求cookie或跟踪同意的所有内容。%2$s",
         "Imprint": "版本说明",
         "ImprintUrl": "印记网址",
         "ImprintUrlDescription": "链接到你的版本说明页面。",
@@ -183,8 +182,6 @@
         "UsersOptOut": "用户选择退出",
         "VisitsMatchedCriteria": "这些访问符合所选条件。",
         "VisitsSuccessfullyExported": "访问量已成功导出",
-        "WhenConsentIsNeeded1": "根据%1$sGDPR隐私法规%2$s的规定，在处理个人数据时，在某些情况下，您需要征得用户的同意。 为了确定您是否需要征求同意，您需要确定您处理个人数据的合法依据是“同意”还是“合法利益”，或者您是否可以完全避免收集个人数据。 我们建议您了解有关Matomo%4$s的GDPR下%3$s合法基础的更多信息。",
-        "WhenConsentIsNeeded2": "请注意，如果您需要征得用户的同意，并且如果您无法证明自己过去获得了用户的“同意”，那么我们建议%1$s匿名化以前跟踪的用户的原始数据%2$s。",
         "WhenDoINeedConsent": "我什么时候需要征得用户同意？"
     }
 }
