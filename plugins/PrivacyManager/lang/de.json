@@ -109,7 +109,6 @@
         "GeolocationAnonymizeIpNote": "Hinweis: Standorterkennung wird ungefähr das gleiche Ergebnis haben, wenn 1 Byte anonymisiert ist. Bei 2 Bytes oder mehr wird Geolokalisierung sehr ungenau werden.",
         "GetPurgeEstimate": "Hochrechnung der Auswirkungen anzeigen",
         "HowDoIAskForConsent": "Wie bitte ich Benutzer um eine Einverständniserklärung?",
-        "HowDoIAskForConsentIntroduction": "Lernen Sie alles über %1$sfragen nach Cookies oder Tracking-Einverständnisse in unserer Integrationsanleitung.%2$s",
         "Imprint": "Impressum",
         "ImprintUrl": "Impressum URL",
         "ImprintUrlDescription": "Ein Link zu Ihrer Impressumsseite.",
@@ -202,8 +201,6 @@
         "VisitsMatchedCriteria": "Diese Besuche passen zu den gewählten Kriterien.",
         "VisitsSuccessfullyDeleted": "Besuche wurden erfolgreich gelöscht",
         "VisitsSuccessfullyExported": "Besuche wurden erfolgreich exportiert",
-        "WhenConsentIsNeeded1": "Im Kontext der %1$sDSGVO Datenschutzregulierungen%2$s, wenn Sie persönliche Daten auswerten, werden Sie in bestimmten Fällen darauf angewiesen sein, eine Einverständniserklärung bei Ihrem Benutzer einzuholen. Um festzustellen ob Sie eine Einverständniserklärung benötigen, müssen Sie festlegen ob Ihre rechtliche Basis zur Auswertung persönlicher Daten \"einverständnisbasiert\" oder \"legitimiertes Interesse\" ist, oder ob Sie das sammeln von persönlichen Daten generell vermeiden können. Wir empfehlen Ihnen mehr über die %3$srechtliche Situation unter der DSGVO für Matomo%4$s zu lesen.",
-        "WhenConsentIsNeeded2": "Beachten Sie, dass wenn Sie eine Einverständniserklärung Ihres Benutzers benötigen und Sie nicht beweisen können, dass Sie das Einverständnis der Benutzer in der Vergangenheit bekommen habe, wir Ihnen empfehlen die %1$szuvor getrackten Benutzer-Rohdaten zu anonymisieren%2$s.",
         "WhenDoINeedConsent": "Wann muss ich die Einverständniserklärung der Benutzer einholen?"
     }
 }

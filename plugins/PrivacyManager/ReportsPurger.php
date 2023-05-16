@@ -392,4 +392,3 @@ class ReportsPurger
         return $keepReportPeriods;
     }
 }
-

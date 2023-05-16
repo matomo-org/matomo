@@ -17,4 +17,3 @@ class Type extends \Piwik\Measurable\Type
     protected $howToSetupUrl = '?module=CoreAdminHome&action=trackingCodeGenerator';
 
 }
-

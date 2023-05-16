@@ -95,7 +95,6 @@
         "SiteWithoutDataDetectedSite": "Detectamos que você está usando um site %1$s. Basta seguir as instruções deste %2$sguia%3$s.",
         "SiteWithoutDataGoogleTagManager": "Gerenciador de tags do Google",
         "SiteWithoutDataGoogleTagManagerDescription": "Você pode usar o Matomo com o Gerenciador de tags do Google. Para configurar o Matomo Tracking no Google Tag Manager, siga as instruções deste %1$sguia%2$s.",
-        "SiteWithoutDataIgnoreMessage": "Não mostrar esta mensagem pela próxima hora",
         "SiteWithoutDataMatomoTagManager": "Gerenciador de tags Matomo",
         "SiteWithoutDataMatomoTagManagerNotActive": "Não sabe o que é um Gerenciador de tags? Confira nosso %1$sguia do Gerenciador de tags%2$s. Se você estiver incorporando vários recursos de sites de terceiros em seu site, o acompanhamento de seu site usando o Gerenciador de tags pode ser uma opção melhor para você em comparação com o acompanhamento regular de JavaScript.",
         "SiteWithoutDataMessageDisappears": "Esta mensagem vai desaparecer assim que alguns dados forem rastreados para este site.",

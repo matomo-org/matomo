@@ -105,7 +105,6 @@
         "SiteWithoutDataDetectedSiteWordpress2": "Ujdisët tashmë shtojcën WordPress dhe nuk shihni ndonjë të dhënë? Ju lutemi, shihni %1$skëto PBR për ndihmë%2$s.",
         "SiteWithoutDataGoogleTagManager": "Përgjegjës Google Etiketash",
         "SiteWithoutDataGoogleTagManagerDescription": "Matomo-n mund ta përdorni me Përgjegjësin Google të Etiketa. Për të ujdisur Ndjekjen me Matomo te Përgjegjës Google Etiketash, ndiqni udhëzimet prej këtij %1$sudhërrëfyesi%2$s.",
-        "SiteWithoutDataIgnoreMessage": "Mos e shfaq këtë mesazh për orën pasuese",
         "SiteWithoutDataMatomoTagManager": "Përgjegjës Matomo Etiketash",
         "SiteWithoutDataMatomoTagManagerNotActive": "S’e dini se ç’është Përgjegjësi i Etiketave? Hidhini një sy udhërrëfyesit tonë %1$sPërgjegjës Etiketash%2$s. Nëse po trupëzoni në sajtin tuaj shumë burime nga sajte palësh të treta, ndjekja e sajtit tuaj përmes Përgjegjësit të Etiketave mund të jetë zgjedhje më e mirë krahasuar me ndjekjen e zakonshme përmes JavaScript-it.",
         "SiteWithoutDataMessageDisappears": "Ky mesazh do të zhduket sapo të ketë ndoca të dhëna të ndjekura për këtë sajt.",

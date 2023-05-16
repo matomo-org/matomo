@@ -127,4 +127,3 @@ class ArchiverTests extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $processed);
     }
 }
-

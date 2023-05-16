@@ -103,7 +103,6 @@
         "SiteWithoutDataDetectedSiteWordpress2": "Hai già configurato il plugin WordPress e non vedi ancora i dati? Consulta %1$squesta domanda frequente per un aiuto%2$s.",
         "SiteWithoutDataGoogleTagManager": "Google Tag Manager",
         "SiteWithoutDataGoogleTagManagerDescription": "Puoi usare Matomo insieme a Google Tag Manager. Per configurare Matomo Tracking in Google Tag Manager, segui le istruzioni di questa %1$sguida%2$s.",
-        "SiteWithoutDataIgnoreMessage": "Non mostrare questo messaggio per tutta la prossima ora",
         "SiteWithoutDataMatomoTagManager": "Matomo Tag Manager",
         "SiteWithoutDataMatomoTagManagerNotActive": "Non sai cos'è un Tag Manager? Consulta la nostra %1$sGuida su Tag Manage%2$sr. Se stai incorporando più risorse da siti web di terze parti nel tuo sito web, il suo monitoraggio utilizzando Tag Manager potrebbe essere per te una scelta migliore rispetto all'utilizzo del normale tracking JavaScript.",
         "SiteWithoutDataMessageDisappears": "Questo messaggio scomparirà non appena verranno tracciati alcuni dati da questo sito web.",

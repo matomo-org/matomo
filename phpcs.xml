@@ -24,6 +24,9 @@
         </properties>
     </rule>
 
+    <!-- Expect a file to end with a new line -->
+    <rule ref="PSR2.Files.EndFileNewline"/>
+
     <!-- Forbid short open tags -->
     <rule ref="Generic.PHP.DisallowShortOpenTag.Found" />
 
