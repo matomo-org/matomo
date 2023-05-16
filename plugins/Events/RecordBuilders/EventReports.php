@@ -76,7 +76,6 @@ class EventReports extends RecordBuilder
         $reports = [];
         foreach ($this->getRecordToDimensions() as $recordName => $dimensions) {
             $reports[$recordName] = new DataTable();
-            $reports[$recordName]->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $this->columnAggregationOps);
         }
 
         $select = "
@@ -194,7 +193,7 @@ class EventReports extends RecordBuilder
                 Metrics::INDEX_EVENT_MAX_EVENT_VALUE    => $row[Metrics::INDEX_EVENT_MAX_EVENT_VALUE] ?? 0,
             ];
 
-            $topLevelRow = $table->sumRowWithLabel($mainLabel, $columns);
+            $topLevelRow = $table->sumRowWithLabel($mainLabel, $columns, $this->columnAggregationOps);
 
             $subDimension = $dimensions[1];
             $subLabel = $row[$subDimension];
@@ -202,7 +201,7 @@ class EventReports extends RecordBuilder
                 continue;
             }
 
-            $topLevelRow->sumRowWithLabelToSubtable($subLabel, $columns);
+            $topLevelRow->sumRowWithLabelToSubtable($subLabel, $columns, $this->columnAggregationOps);
         }
     }
 }
