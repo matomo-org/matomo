@@ -342,8 +342,6 @@ abstract class Archiver
 
     protected function isRequestedReport(string $reportName)
     {
-        $requestedReport = $this->getProcessor()->getParams()->getArchiveOnlyReport();
-
-        return empty($requestedReport) || $requestedReport == $reportName;
+        return $this->getProcessor()->getParams()->isRequestedReport($reportName);
     }
 }

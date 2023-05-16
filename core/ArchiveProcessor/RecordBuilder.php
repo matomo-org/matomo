@@ -85,6 +85,16 @@ abstract class RecordBuilder
         $numericRecords = [];
 
         $records = $this->aggregate($archiveProcessor);
+
+        // if only a single record was requested, and only one record was built, make sure the archive
+        // is marked as partial
+        if (!empty($archiveProcessor->getParams()->getArchiveOnlyReport())
+            && count($records) === 1
+            && key($records) === $archiveProcessor->getParams()->getArchiveOnlyReport()
+        ) {
+            $archiveProcessor->getParams()->setIsPartialArchive(true);
+        }
+
         foreach ($records as $recordName => $recordValue) {
             if ($recordValue instanceof DataTable) {
                 $record = $recordMetadataByName[$recordName];

@@ -323,4 +323,18 @@ class Parameters
     {
         return $this->foundRequestedReports ?: [];
     }
+
+    /**
+     * Returns `true` if there is a requested report for this archiving request and the requested
+     * report is the same as `$reportName`. `false` if otherwise.
+     *
+     * @param string $reportName
+     * @return bool
+     */
+    public function isRequestedReport(string $reportName): bool
+    {
+        $requestedReport = $this->getArchiveOnlyReport();
+
+        return empty($requestedReport) || $requestedReport == $reportName;
+    }
 }
