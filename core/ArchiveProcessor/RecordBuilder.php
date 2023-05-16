@@ -96,7 +96,6 @@ abstract class RecordBuilder
                 $this->insertRecord($archiveProcessor, $recordName, $recordValue, $maxRowsInTable, $maxRowsInSubtable, $columnToSortByBeforeTruncation);
 
                 Common::destroy($recordValue);
-                unset($recordValue);
             } else {
                 // collect numeric records so we can insert them all at once
                 $numericRecords[$recordName] = $recordValue;

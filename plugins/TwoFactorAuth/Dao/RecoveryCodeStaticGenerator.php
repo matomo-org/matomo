@@ -17,4 +17,3 @@ class RecoveryCodeStaticGenerator extends RecoveryCodeRandomGenerator
         return str_pad($this->index, 16, '0');
     }
 }
-

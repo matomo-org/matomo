@@ -117,7 +117,6 @@
         "GeolocationAnonymizeIpNote": "Opmerking: geolocatie heeft ongeveer dezelfde resultaten met 1 byte geanonimiseerd. Met 2 bytes of meer zal geolocatie onnauwkeurig zijn.",
         "GetPurgeEstimate": "Schat het aantal teruggewonnen ruimte",
         "HowDoIAskForConsent": "Hoe vraag ik gebruikers om toestemming?",
-        "HowDoIAskForConsentIntroduction": "Lees alles over %1$shet vragen om toestemming voor cookies of tracking in onze integratiegids.%2$s",
         "IPAddress": "IP-adres",
         "Imprint": "Afdruk",
         "ImprintUrl": "Afdruk-URL",
@@ -221,8 +220,6 @@
         "VisitsMatchedCriteria": "Deze bezoeken voldoen aan de geselecteerde criteria.",
         "VisitsSuccessfullyDeleted": "Bezoeken zijn succesvol verwijderd",
         "VisitsSuccessfullyExported": "Bezoeken zijn succesvol geëxporteerd",
-        "WhenConsentIsNeeded1": "In het kader van de %1$sGDPR privacy-wetgeving%2$s moet u, wanneer u persoonsgegevens verwerkt, in sommige gevallen uw gebruikers om toestemming vragen. Om te bepalen of u om toestemming moet vragen, moet u nagaan of uw wettelijke basis voor de verwerking van persoonsgegevens het type \"Toestemming\" of \"Gerechtvaardigd belang\" heeft, of dat u het verzamelen van persoonsgegevens helemaal kunt vermijden. Voor meer informatie raden wij u aan om %3$sde wettelijke GDPR-basis voor Matomo%4$s te lezen.",
-        "WhenConsentIsNeeded2": "Merk op dat, wanneer u de toestemming van uw gebruikers nodig hebt en u niet kunt bewijzen dat u in het verleden de \"toestemming\" van uw gebruikers heeft verkregen, wij u aanraden om %1$sde ruwe gegevens van uw eerder gevolgde gebruikers te anonimiseren%2$s.",
         "WhenDoINeedConsent": "Wanneer moet ik toestemming van de gebruiker vragen?"
     }
 }

@@ -18,4 +18,3 @@ class Segment extends \Piwik\Plugin\Segment
         $this->setCategory('General_Visit');
     }
 }
-

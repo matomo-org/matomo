@@ -117,7 +117,6 @@
         "GeolocationAnonymizeIpNote": "Not: Coğrafi konum yaklaşık olarak 1 bayt anonim kılma ile aynı sonucu verir. 2 ya da daha fazla bayt ile yapılan anonim kılmalarda coğrafi konum doğruluğu kalmaz.",
         "GetPurgeEstimate": "Temizlik öngörüsünü görüntüle",
         "HowDoIAskForConsent": "Kullanıcılardan nasıl onay isterim?",
-        "HowDoIAskForConsentIntroduction": "Ayrıntılı bilgi almak için %1$sçerez sorulması ya da izleme onayı için bütünleştirme rehberine bakabilirsiniz.%2$s",
         "IPAddress": "IP adresi",
         "Imprint": "Künye",
         "ImprintUrl": "Künye adresi",
@@ -221,8 +220,6 @@
         "VisitsMatchedCriteria": "Bu ziyaretler seçilmiş ölçüte uyuyor.",
         "VisitsSuccessfullyDeleted": "Ziyaretler silindi",
         "VisitsSuccessfullyExported": "Ziyaretler dışa aktarıldı",
-        "WhenConsentIsNeeded1": "%1$sGenel Veri Koruma Yönetmeliği (GVKY, GDPR) gizlilik düzenlemeleri%2$s kapsamında, kişisel verileri işlerken, bazı durumlarda kullanıcılarınızın onayını istemeniz gerekir. Onay istemeniz gerekip gerekmediğini belirlemek için kişisel verilerin işlenmesine ilişkin yasal dayanağınızın \"Onay\" ya da \"Meşru menfaat\" olup olmadığını ya da kişisel verilerin toplanmasından tamamen kaçınıp kaçınmayacağınızı belirlemeniz gerekir. %3$sMatomo için Genel Veri Koruma Yönetmeliği kapsamındaki yasal dayanak%4$s hakkında ayrıntılı bilgi edinmenizi öneririz.",
-        "WhenConsentIsNeeded2": "Kullanıcılarınızın onayını almanız gerektiğinde ve geçmişte kullanıcılarınızın \"Onayını\" aldığınızı kanıtlayamıyorsanız, %1$sönceden izlediğiniz ham kullanıcı verilerini anonimleştirmeniz%2$s önerilir.",
         "WhenDoINeedConsent": "Kullanıcı onayını ne zaman sormalıyım?"
     }
 }

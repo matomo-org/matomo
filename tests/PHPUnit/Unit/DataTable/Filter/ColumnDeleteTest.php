@@ -159,4 +159,3 @@ class ColumnDeleteTest extends \PHPUnit\Framework\TestCase
     }
 
 }
-

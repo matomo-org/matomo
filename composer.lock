@@ -709,12 +709,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/referrer-spam-list.git",
-                "reference": "4ef943b93b55eb0e159d8ac1870a5ffc0483bd11"
+                "reference": "43dd0750e9d6129320f43e8016944b2b025bca9e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/referrer-spam-list/zipball/4ef943b93b55eb0e159d8ac1870a5ffc0483bd11",
-                "reference": "4ef943b93b55eb0e159d8ac1870a5ffc0483bd11",
+                "url": "https://api.github.com/repos/matomo-org/referrer-spam-list/zipball/43dd0750e9d6129320f43e8016944b2b025bca9e",
+                "reference": "43dd0750e9d6129320f43e8016944b2b025bca9e",
                 "shasum": ""
             },
             "replace": {
@@ -732,7 +732,7 @@
                 "issues": "https://github.com/matomo-org/referrer-spam-list/issues",
                 "source": "https://github.com/matomo-org/referrer-spam-list/tree/master"
             },
-            "time": "2023-04-13T16:47:30+00:00"
+            "time": "2023-05-11T17:27:23+00:00"
         },
         {
             "name": "matomo/searchengine-and-social-list",
@@ -4448,16 +4448,16 @@
         },
         {
             "name": "sebastian/diff",
-            "version": "3.0.3",
+            "version": "3.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/diff.git",
-                "reference": "14f72dd46eaf2f2293cbe79c93cc0bc43161a211"
+                "reference": "6296a0c086dd0117c1b78b059374d7fcbe7545ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/14f72dd46eaf2f2293cbe79c93cc0bc43161a211",
-                "reference": "14f72dd46eaf2f2293cbe79c93cc0bc43161a211",
+                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/6296a0c086dd0117c1b78b059374d7fcbe7545ae",
+                "reference": "6296a0c086dd0117c1b78b059374d7fcbe7545ae",
                 "shasum": ""
             },
             "require": {
@@ -4502,7 +4502,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/diff/issues",
-                "source": "https://github.com/sebastianbergmann/diff/tree/3.0.3"
+                "source": "https://github.com/sebastianbergmann/diff/tree/3.0.4"
             },
             "funding": [
                 {
@@ -4510,7 +4510,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-11-30T07:59:04+00:00"
+            "time": "2023-05-07T05:30:20+00:00"
         },
         {
             "name": "sebastian/environment",

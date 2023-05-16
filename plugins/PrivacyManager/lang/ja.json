@@ -109,7 +109,6 @@
         "GeolocationAnonymizeIpNote": "注）位置情報探索機能は、匿名化された 1 byte の場合とほぼ同じ結果になります。2 byte 以上を使用すると、位置情報探索機能が不正確になります。",
         "GetPurgeEstimate": "パージ推定値を取得",
         "HowDoIAskForConsent": "ユーザーに同意を求めるにはどうすればよいですか？",
-        "HowDoIAskForConsentIntroduction": "%1$s統合ガイドでCookieの要求または同意の追跡%2$sに関するすべてを学びます。",
         "Imprint": "インプリント",
         "ImprintUrl": "インプリントURL",
         "ImprintUrlDescription": "インプリントページへのリンク。",
@@ -202,8 +201,6 @@
         "VisitsMatchedCriteria": "これらのビジットは、選択した基準に一致します。",
         "VisitsSuccessfullyDeleted": "ビジットは正常に削除されました",
         "VisitsSuccessfullyExported": "ビジットが正常にエクスポートされました",
-        "WhenConsentIsNeeded1": "%1$sGDPRプライバシー規制%2$sのコンテキストでは、個人データを処理するときに、場合によってはユーザーの同意を求める必要があります。 同意を求める必要があるかどうかを判断するには、個人データを処理するための合法的な根拠が「同意」または「正当な利益」であるかどうか、または個人データの収集を完全に回避できるかどうかを判断する必要があります。 %3$sMatomoのGDPRに基づく合法的な根拠%4$sについてさらに学ぶことをお勧めします。",
-        "WhenConsentIsNeeded2": "ユーザーの同意が必要で、過去にユーザーの「同意」を取得したことを証明できない場合は、%1$s以前に追跡したユーザーの生データを匿名化する%2$sことをお勧めします。",
         "WhenDoINeedConsent": "いつユーザーの同意を求める必要がありますか？"
     }
 }
