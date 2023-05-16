@@ -149,7 +149,7 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
 
             /**
              *   5 metrics + 1 flag // VisitsSummary
-             * + 1 flag // Actions
+             * + 1 flag // Actions (no metrics, just blobs)
              */
             'archive_numeric_2011_01' => (6 + 1),
 
