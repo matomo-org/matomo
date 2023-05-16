@@ -74,9 +74,6 @@ class EventReports extends RecordBuilder
         $logAggregator = $archiveProcessor->getLogAggregator();
 
         $reports = [];
-        foreach ($this->getRecordToDimensions() as $recordName => $dimensions) {
-            $reports[$recordName] = new DataTable();
-        }
 
         $select = "
                 log_action_event_category.name as eventCategory,
@@ -170,6 +167,10 @@ class EventReports extends RecordBuilder
     protected function aggregateEventRow(array $reports, array $row): void
     {
         foreach ($this->getRecordToDimensions() as $record => $dimensions) {
+            if (empty($reports[$record])) {
+                $reports[$record] = new DataTable();
+            }
+
             /** @var DataTable $table */
             $table = $reports[$record];
 
