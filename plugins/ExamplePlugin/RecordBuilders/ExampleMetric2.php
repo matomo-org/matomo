@@ -19,7 +19,8 @@ use Piwik\Option;
  * aggregate() and another returning information about the record.
  *
  * Plugins can have more than one RecordBuilder, and should try to divide them
- * up into the smallest number they can (this results in improved performance overall).
+ * up into the smallest number they can, while still performing as few total log aggregation
+ * queries as possible (this results in improved performance overall).
  *
  * For more detailed information about RecordBuilders please visit Matomo developer guide
  * http://developer.piwik.org/api-reference/Piwik/ArchiveProcessor/RecordBuilder
