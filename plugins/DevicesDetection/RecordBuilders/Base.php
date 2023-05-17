@@ -61,7 +61,18 @@ abstract class Base extends RecordBuilder
 
         $query = $logAggregator->queryVisitsByDimension(['label' => $this->labelSql]);
         while ($row = $query->fetch()) {
-            $report->sumRowWithLabel($row['label'] ?? '', $row);
+            $columns = [
+                Metrics::INDEX_NB_UNIQ_VISITORS => $row[Metrics::INDEX_NB_UNIQ_VISITORS],
+                Metrics::INDEX_NB_VISITS => $row[Metrics::INDEX_NB_VISITS],
+                Metrics::INDEX_NB_ACTIONS => $row[Metrics::INDEX_NB_ACTIONS],
+                Metrics::INDEX_NB_USERS => $row[Metrics::INDEX_NB_USERS],
+                Metrics::INDEX_MAX_ACTIONS => $row[Metrics::INDEX_MAX_ACTIONS],
+                Metrics::INDEX_SUM_VISIT_LENGTH => $row[Metrics::INDEX_SUM_VISIT_LENGTH],
+                Metrics::INDEX_BOUNCE_COUNT => $row[Metrics::INDEX_BOUNCE_COUNT],
+                Metrics::INDEX_NB_VISITS_CONVERTED => $row[Metrics::INDEX_NB_VISITS_CONVERTED],
+            ];
+
+            $report->sumRowWithLabel($row['label'] ?? '', $columns);
         }
 
         if ($this->enrichWithConversionMetrics) {
@@ -70,7 +81,15 @@ abstract class Base extends RecordBuilder
             $query = $logAggregator->queryConversionsByDimension(['label' => $labelSql]);
             while ($conversionRow = $query->fetch()) {
                 $label = $conversionRow['label'] ?? '';
-                $report->sumRowWithLabel($label, $conversionRow);
+
+                $idGoal = $conversionRow['idgoal'];
+                $columns = [
+                    Metrics::INDEX_GOALS => [
+                        $idGoal => Metrics::makeGoalColumnsRow($idGoal, $conversionRow),
+                    ],
+                ];
+
+                $report->sumRowWithLabel($label, $columns);
             }
 
             $report->filter(DataTable\Filter\EnrichRecordWithGoalMetricSums::class);
