@@ -178,6 +178,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $view->consentManagerUrl = $this->siteContentDetector->consentManagerUrl;
             $view->consentManagerIsConnected = $this->siteContentDetector->isConnected;
         }
+
+        $consentManagers = SiteContentDetector::getConsentManagerDefinitions();
+        $knownConsentManagers = array_combine(array_column($consentManagers, 'name'), array_column($consentManagers, 'url'));
+
+        $view->knownConsentManagers = $knownConsentManagers;
         $this->setBasicVariablesView($view);
         return $view->render();
     }

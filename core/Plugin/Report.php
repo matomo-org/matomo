@@ -208,6 +208,21 @@ class Report
     protected $defaultSortOrderDesc = true;
 
     /**
+     * The column that uniquely identifies a row in this report. Normally
+     * this is the 'label' column, but it is sometimes the case that the label column is
+     * not unique. In this case, another column or metadata is used to uniquely identify a row, but
+     * we don't want to display it to the user, perhaps because it is a numeric ID and not a human
+     * readable value.
+     *
+     * This property is used by features like Row Evolution which compares the same row in
+     * multiple instances of a report. Being able to find corresponding rows in reports for other
+     * periods/sites/etc. is required for such features.
+     *
+     * @var string
+     */
+    protected $rowIdentifier = 'label';
+
+    /**
      * The constructor initializes the module, action and the default metrics. If you want to overwrite any of those
      * values or if you want to do any work during initializing overwrite the method {@link init()}.
      * @ignore
@@ -1122,6 +1137,17 @@ class Report
 
             $callback($name);
         }
+    }
+
+    /**
+     * Returns the name of the column/metadata that uniquely identifies rows in this report. See
+     * {@link self::$rowIdentifier} for more information.
+     *
+     * @return string
+     */
+    public function getRowIdentifier(): string
+    {
+        return $this->rowIdentifier;
     }
 
     private function deduceMetricTypeFromName($metric): ?string

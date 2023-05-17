@@ -6,35 +6,23 @@
 
 <template>
   <div>
-    <ContentBlock :content-title="`${translate('SitesManager_SiteWithoutDataTitle')} 🚀`">
+      <h1 id="start-tracking-data-header">
+        {{translate('SitesManager_SiteWithoutDataStartTrackingDataHeader')}}
+      </h1>
+      <p v-html="$sanitize(siteWithoutDataDescLine1)"></p>
+      <p v-html="$sanitize(siteWithoutDataDescLine2)"></p>
       <p>&nbsp;</p>
-      <p v-html="$sanitize(siteWithoutDataDesc)"></p>
-      <p>{{ translate('SitesManager_SiteWithoutDataMessageDisappears') }}</p>
-
-      <h3>{{ translate('SitesManager_SiteWithoutDataChoosePreferredWay') }}</h3>
 
       <WidgetLoader
         :widget-params="{module: 'SitesManager', action: 'siteWithoutDataTabs'}"
         :loading-message="`${translate('SitesManager_DetectingYourSite')}...`"
       />
 
-      <hr/>
+      <div class="no-data-footer row">
+        <hr v-if="afterIntroEventContent"/>
 
-      <a
-        class="btn"
-        id="emailTrackingCodeBtn"
-        :href="emailInstructionsLink"
-      >{{ translate('SitesManager_EmailInstructionsButton') }}</a>
-
-      <VueEntryContainer :html="afterIntroEventContent"/>
-
-      <br />
-      <a :href="ignoreSitesWithoutDataLink"
-         class="btn ignoreSitesWithoutData"
-      >
-        {{ translate('SitesManager_SiteWithoutDataIgnoreMessage') }}
-      </a>
-    </ContentBlock>
+        <VueEntryContainer :html="afterIntroEventContent"/>
+      </div>
 
     <VueEntryContainer :html="afterTrackingHelpEventContent"/>
   </div>
@@ -43,7 +31,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import {
-  ContentBlock,
   translate,
   MatomoUrl,
   WidgetLoader,
@@ -56,19 +43,35 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    siteWithoutDataStartTrackingTranslationKey: {
+      type: String,
+      required: true,
+    },
+    inviteUserLink: {
+      type: String,
+      required: true,
+    },
     afterIntroEventContent: String,
     afterTrackingHelpEventContent: String,
   },
   components: {
-    ContentBlock,
     WidgetLoader,
     VueEntryContainer,
   },
   computed: {
-    siteWithoutDataDesc() {
+    siteWithoutDataDescLine1() {
       return translate(
-        'SitesManager_SiteWithoutDataDescription',
-        `<a href="${this.emailInstructionsLink}">`,
+        this.siteWithoutDataStartTrackingTranslationKey,
+        `<a rel="noreferrer noopener" target="_blank" class="emailTrackingCode" href="${this.emailInstructionsLink}">`,
+        '</a>',
+        `<a rel="noreferrer noopener" target="_blank" href="${this.inviteUserLink}">`,
+        '</a>',
+      );
+    },
+    siteWithoutDataDescLine2() {
+      return translate(
+        'SitesManager_SiteWithoutDataStartTrackingDataDescriptionLine2',
+        `<a href="${this.ignoreSitesWithoutDataLink}" class="ignoreSitesWithoutData">`,
         '</a>',
       );
     },

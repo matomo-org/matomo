@@ -22,6 +22,7 @@ use Piwik\Db;
 use Piwik\Period\Factory;
 use Piwik\Piwik;
 use Piwik\Plugins\ExamplePlugin\Archiver;
+use Piwik\Plugins\Goals\API;
 use Piwik\Segment;
 use Piwik\Sequence;
 use Piwik\Site;
@@ -139,6 +140,8 @@ class LoaderTest extends IntegrationTestCase
         $period = 'week';
         $segment = '';
         $plugin = 'ExamplePlugin'; // NOTE: it's important to use ExamplePlugin here since it has an example of creating partial archives
+
+        API::getInstance()->addGoal($idSite, 'test goal', 'url', 'http', 'contains');
 
         $t = Fixture::getTracker($idSite, $dateTime);
         $t->setUrl('http://slkdfj.com');

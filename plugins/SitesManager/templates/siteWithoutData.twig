@@ -8,6 +8,8 @@
     {% include "@CoreHome/_siteSelectHeader.twig" %}
 {% endblock %}
 
+{% set bodyId = 'site-without-data' %}
+
 {% block content %}
 
     <script type="text/javascript" charset="utf-8">
@@ -33,8 +35,10 @@
         <div
             vue-entry="SitesManager.SiteWithoutData"
             email-body="{{ emailBody|json_encode }}"
+            site-without-data-start-tracking-translation-key="{{ siteWithoutDataStartTrackingTranslationKey|json_encode }}"
             after-intro-event-content="{{ afterIntroEventContent|json_encode }}"
             after-tracking-help-event-content="{{ afterTrackingHelpEventContent|json_encode }}"
+            invite-user-link="{{ inviteUserLink|json_encode }}"
         ></div>
     </div>
 

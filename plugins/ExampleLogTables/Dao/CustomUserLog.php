@@ -65,4 +65,3 @@ class CustomUserLog
         $db->query($sql, $bind);
     }
 }
-

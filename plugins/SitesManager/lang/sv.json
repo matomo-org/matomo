@@ -105,7 +105,6 @@
         "SiteWithoutDataDetectedSiteWordpress2": "Har du redan satt upp Wordpress-pluginet men ser ingen data? Vänligen kolla %1$sdetta i vår FAQ%2$s.",
         "SiteWithoutDataGoogleTagManager": "Google Tag Manager",
         "SiteWithoutDataGoogleTagManagerDescription": "Du kan använda Matomo med Google Tag Manager. För att sätta upp Matomo-spårning i Google Tag Manager, följ instruktionerna i denna %1$sguide%2$s.",
-        "SiteWithoutDataIgnoreMessage": "Visa inte detta meddelande under kommande timme",
         "SiteWithoutDataMatomoTagManager": "Matomos tagghanterare",
         "SiteWithoutDataMatomoTagManagerNotActive": "Vet du inte vad en tagghanterare är? Kolla vår %1$sguide till tagghantering%2$s. Ifall du bäddar in resurser från tredjeparters webbplatser på din webbplats kan tagghantering vara ett bättre alternativ jämfört med vanlig Javascript-spårning.",
         "SiteWithoutDataMessageDisappears": "Detta meddelande kommer visas tills data samlas in för denna webbplats.",
