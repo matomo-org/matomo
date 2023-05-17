@@ -21,7 +21,8 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\Period\Factory;
 use Piwik\Piwik;
-use Piwik\Plugins\ExamplePlugin\Archiver;
+use Piwik\Plugins\ExamplePlugin\RecordBuilders\ExampleMetric;
+use Piwik\Plugins\ExamplePlugin\RecordBuilders\ExampleMetric2;
 use Piwik\Plugins\Goals\API;
 use Piwik\Segment;
 use Piwik\Sequence;
@@ -206,11 +207,11 @@ class LoaderTest extends IntegrationTestCase
 
         // archiving w/ pluginOnly=1
         $_GET['pluginOnly'] = 1;
-        $_GET['requestedReport'] = Archiver::EXAMPLEPLUGIN_METRIC_NAME; // so it will be set when the archiver recurses
+        $_GET['requestedReport'] = ExampleMetric::EXAMPLEPLUGIN_METRIC_NAME; // so it will be set when the archiver recurses
 
         $params = new Parameters(new Site($idSite), $periodObj, new Segment($segment, [$idSite]));
         $params->setRequestedPlugin($plugin);
-        $params->setArchiveOnlyReport(Archiver::EXAMPLEPLUGIN_METRIC_NAME);
+        $params->setArchiveOnlyReport(ExampleMetric::EXAMPLEPLUGIN_METRIC_NAME);
 
         $loader = new Loader($params);
         $loader->prepareArchive($plugin);
@@ -360,8 +361,8 @@ class LoaderTest extends IntegrationTestCase
     {
         $pluginSpecificArchive = [1, 'day', '2018-03-03', '', 'ExamplePlugin', false];
 
-        $reportSpecificArchive1 = [1, 'day', '2018-03-03', '', 'ExamplePlugin', Archiver::EXAMPLEPLUGIN_METRIC_NAME];
-        $reportSpecificArchive2 = [1, 'day', '2018-03-03', '', 'ExamplePlugin', Archiver::EXAMPLEPLUGIN_CONST_METRIC_NAME];
+        $reportSpecificArchive1 = [1, 'day', '2018-03-03', '', 'ExamplePlugin', ExampleMetric::EXAMPLEPLUGIN_METRIC_NAME];
+        $reportSpecificArchive2 = [1, 'day', '2018-03-03', '', 'ExamplePlugin', ExampleMetric2::EXAMPLEPLUGIN_CONST_METRIC_NAME];
 
         $unloadedPluginArchive = [1, 'day', '2018-03-03', '', 'MyImaginaryPlugin', false];
 
