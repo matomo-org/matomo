@@ -162,7 +162,7 @@
         "SiteWithoutDataWordpressDescription": "You can use the Matomo easy WordPress plugin to track data, follow the instructions from this %1$sguide%2$s.",
         "SiteWithoutDataWordpressFollowSteps1": "Log in to your WordPress site as the administrator (if you’re not an administrator %1$sclick here to send this instructions%2$s).",
         "SiteWithoutDataWordpressFollowSteps2": "Click on \"Plugins\" from the left menu (if you can’t see the Plugins menu, you can instead %1$sinsert the Matomo tracking code manually%2$s).",
-        "SiteWithoutDataWordpressFollowSteps3": "Search for \"WP-Matomo\" and find the plugin named \"%1$s\". Note: not the \"%2$s.\" plugin.",
+        "SiteWithoutDataWordpressFollowSteps3": "Search for \"WP-Matomo\" and find the plugin named \"%1$s\". Note: not the \"%2$s\" plugin.",
         "SiteWithoutDataWordpressFollowSteps4": "Click \"Install Now\".",
         "SiteWithoutDataWordpressFollowSteps5": "Click on \"Activate\".",
         "SiteWithoutDataWordpressFollowSteps6": "In the left menu, click \"Settings\" -> \"WP-Matomo \".",
