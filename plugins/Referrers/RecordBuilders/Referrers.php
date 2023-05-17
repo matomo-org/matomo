@@ -47,14 +47,22 @@ class Referrers extends RecordBuilder
             Record::make(Record::TYPE_BLOB, Archiver::WEBSITES_RECORD_NAME),
             Record::make(Record::TYPE_BLOB, Archiver::REFERRER_TYPE_RECORD_NAME),
 
-            Record::make(Record::TYPE_NUMERIC, Archiver::METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME),
-            Record::make(Record::TYPE_NUMERIC, Archiver::METRIC_DISTINCT_SOCIAL_NETWORK_RECORD_NAME),
-            Record::make(Record::TYPE_NUMERIC, Archiver::METRIC_DISTINCT_KEYWORD_RECORD_NAME),
-            Record::make(Record::TYPE_NUMERIC, Archiver::METRIC_DISTINCT_CAMPAIGN_RECORD_NAME),
-            Record::make(Record::TYPE_NUMERIC, Archiver::METRIC_DISTINCT_WEBSITE_RECORD_NAME),
-            Record::make(Record::TYPE_NUMERIC, Archiver::METRIC_DISTINCT_URLS_RECORD_NAME),
+            Record::make(Record::TYPE_NUMERIC, Archiver::METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME)
+                ->setIsCountOfBlobRecordRows(Archiver::SEARCH_ENGINES_RECORD_NAME),
+            Record::make(Record::TYPE_NUMERIC, Archiver::METRIC_DISTINCT_SOCIAL_NETWORK_RECORD_NAME)
+                ->setIsCountOfBlobRecordRows(Archiver::SOCIAL_NETWORKS_RECORD_NAME),
+            Record::make(Record::TYPE_NUMERIC, Archiver::METRIC_DISTINCT_KEYWORD_RECORD_NAME)
+                ->setIsCountOfBlobRecordRows(Archiver::KEYWORDS_RECORD_NAME),
+            Record::make(Record::TYPE_NUMERIC, Archiver::METRIC_DISTINCT_CAMPAIGN_RECORD_NAME)
+                ->setIsCountOfBlobRecordRows(Archiver::CAMPAIGNS_RECORD_NAME),
+            Record::make(Record::TYPE_NUMERIC, Archiver::METRIC_DISTINCT_WEBSITE_RECORD_NAME)
+                ->setIsCountOfBlobRecordRows(Archiver::WEBSITES_RECORD_NAME),
+            Record::make(Record::TYPE_NUMERIC, Archiver::METRIC_DISTINCT_URLS_RECORD_NAME)
+                ->setIsCountOfBlobRecordRows(Archiver::WEBSITES_RECORD_NAME, true)
+                ->setMultiplePeriodTransform(function (float $value, array $counts) {
+                    return $counts['recursive'] - $counts['level0'];
+                }),
         ];
-        // TODO: Implement getRecordMetadata() method.
     }
 
     protected function aggregate(ArchiveProcessor $archiveProcessor): array
@@ -119,9 +127,9 @@ class Referrers extends RecordBuilder
     protected function aggregateVisitRow($row, array $reports, array &$distinctUrls)
     {
         $columns = [
+            Metrics::INDEX_NB_UNIQ_VISITORS => $row[Metrics::INDEX_NB_UNIQ_VISITORS],
             Metrics::INDEX_NB_VISITS => $row[Metrics::INDEX_NB_VISITS],
             Metrics::INDEX_NB_ACTIONS => $row[Metrics::INDEX_NB_ACTIONS],
-            Metrics::INDEX_NB_UNIQ_VISITORS => $row[Metrics::INDEX_NB_UNIQ_VISITORS],
             Metrics::INDEX_NB_USERS => $row[Metrics::INDEX_NB_USERS],
             Metrics::INDEX_MAX_ACTIONS => $row[Metrics::INDEX_MAX_ACTIONS],
             Metrics::INDEX_SUM_VISIT_LENGTH => $row[Metrics::INDEX_SUM_VISIT_LENGTH],
@@ -129,7 +137,6 @@ class Referrers extends RecordBuilder
             Metrics::INDEX_NB_VISITS_CONVERTED => $row[Metrics::INDEX_NB_VISITS_CONVERTED],
         ];
 
-        // TODO
         switch ($row['referer_type']) {
             case Common::REFERRER_TYPE_SEARCH_ENGINE:
                 if (empty($row['referer_keyword'])) {
@@ -181,29 +188,33 @@ class Referrers extends RecordBuilder
      */
     protected function aggregateFromConversions(LogAggregator $logAggregator, array $reports, array $dimensions): void
     {
-        // TODO
-
         $query = $logAggregator->queryConversionsByDimension($dimensions);
         while ($row = $query->fetch()) {
             $this->makeReferrerTypeNonEmpty($row);
 
-            $skipAggregateByType = $this->aggregateConversionRow($row, $reports);
+            $idGoal = $row['idgoal'];
+            $columns = [
+                Metrics::INDEX_GOALS => [
+                    $idGoal => Metrics::makeGoalColumnsRow($idGoal, $row),
+                ],
+            ];
+
+            $skipAggregateByType = $this->aggregateConversionRow($row, $reports, $columns);
             if (!$skipAggregateByType) {
                 $reports[Archiver::REFERRER_TYPE_RECORD_NAME]->sumRowWithLabel($row['referer_type'], $columns);
             }
         }
 
         foreach ($reports as $dataTable) {
-            $dataArray->enrichMetricsWithConversions();
+            $dataTable->filter(DataTable\Filter\EnrichRecordWithGoalMetricSums::class);
         }
     }
 
     /**
      * @param DataTable[] $reports
      */
-    protected function aggregateConversionRow(array $row, array $reports): bool
+    protected function aggregateConversionRow(array $row, array $reports, array $columns): bool
     {
-        // TODO
         $skipAggregateByType = false;
         switch ($row['referer_type']) {
             case Common::REFERRER_TYPE_SEARCH_ENGINE:
@@ -211,23 +222,23 @@ class Referrers extends RecordBuilder
                     $row['referer_keyword'] = API::LABEL_KEYWORD_NOT_DEFINED;
                 }
 
-                $reports[Archiver::SEARCH_ENGINES_RECORD_NAME]->sumMetricsGoals($row['referer_name'], $row);
-                $reports[Archiver::KEYWORDS_RECORD_NAME]->sumMetricsGoals($row['referer_keyword'], $row);
+                $reports[Archiver::SEARCH_ENGINES_RECORD_NAME]->sumRowWithLabel($row['referer_name'], $columns);
+                $reports[Archiver::KEYWORDS_RECORD_NAME]->sumRowWithLabel($row['referer_keyword'], $columns);
                 break;
 
             case Common::REFERRER_TYPE_SOCIAL_NETWORK:
-                $reports[Archiver::SOCIAL_NETWORKS_RECORD_NAME]->sumMetricsGoals($row['referer_name'], $row);
+                $reports[Archiver::SOCIAL_NETWORKS_RECORD_NAME]->sumRowWithLabel($row['referer_name'], $columns);
                 break;
 
             case Common::REFERRER_TYPE_WEBSITE:
-                $reports[Archiver::WEBSITES_RECORD_NAME]->sumMetricsGoals($row['referer_name'], $row);
+                $reports[Archiver::WEBSITES_RECORD_NAME]->sumRowWithLabel($row['referer_name'], $columns);
                 break;
 
             case Common::REFERRER_TYPE_CAMPAIGN:
+                $topLevelRow = $reports[Archiver::CAMPAIGNS_RECORD_NAME]->sumRowWithLabel($row['referer_name'], $columns);
                 if (!empty($row['referer_keyword'])) {
-                    $reports[Archiver::CAMPAIGNS_RECORD_NAME]->sumMetricsGoalsPivot($row['referer_name'], $row['referer_keyword'], $row);
+                    $topLevelRow->sumRowWithLabelToSubtable($row['referer_keyword'], $columns);
                 }
-                $reports[Archiver::CAMPAIGNS_RECORD_NAME]->sumMetricsGoals($row['referer_name'], $row);
                 break;
 
             case Common::REFERRER_TYPE_DIRECT_ENTRY:
