@@ -5363,7 +5363,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Sets a User ID to this user (such as an email address or a username)
              *
-             * @param {string} User ID
+             * @param {string} userId User ID
              */
             this.setUserId = function (userId) {
                 if (isNumberOrHasLength(userId)) {
@@ -5375,7 +5375,7 @@ if (typeof window.Matomo !== 'object') {
              * Sets a Visitor ID to this visitor. Should be a 16 digit hex string.
              * The visitorId won't be persisted in a cookie or something similar and needs to be set every time.
              *
-             * @param {string} User ID
+             * @param {string} visitorId Visitor ID
              */
             this.setVisitorId = function (visitorId) {
                 var validation = /[0-9A-Fa-f]{16}/g;
@@ -5483,7 +5483,7 @@ if (typeof window.Matomo !== 'object') {
              * Set Custom Dimensions. Set Custom Dimensions will not be cleared after a tracked pageview and will
              * be sent along all following tracking requests. It is possible to remove/clear a value via `deleteCustomDimension`.
              *
-             * @param {int} index A Custom Dimension index
+             * @param {int} customDimensionId A Custom Dimension index
              * @param {string} value
              */
             this.setCustomDimension = function (customDimensionId, value) {
@@ -5502,7 +5502,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Get a stored value for a specific Custom Dimension index.
              *
-             * @param {int} index A Custom Dimension index
+             * @param {int} customDimensionId A Custom Dimension index
              */
             this.getCustomDimension = function (customDimensionId) {
                 customDimensionId = parseInt(customDimensionId, 10);
@@ -5514,7 +5514,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Delete a custom dimension.
              *
-             * @param {int} index Custom dimension Id
+             * @param {int} customDimensionId Custom dimension Id
              */
             this.deleteCustomDimension = function (customDimensionId) {
                 customDimensionId = parseInt(customDimensionId, 10);
@@ -5633,7 +5633,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Set delay for link tracking (in milliseconds)
              *
-             * @param {int} delay
+             * @param {int} delay Delay [ms]
              */
             this.setLinkTrackingTimer = function (delay) {
                 configTrackerPause = delay;
@@ -5642,7 +5642,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Get delay for link tracking (in milliseconds)
              *
-             * @param {int} delay
+             * @returns {int} Delay [ms]
              */
             this.getLinkTrackingTimer = function () {
                 return configTrackerPause;
@@ -6111,7 +6111,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Set first-party cookie path.
              *
-             * @param {string} domain
+             * @param {string} path Cookie path
              */
             this.setCookiePath = function (path) {
                 configCookiePath = path;
@@ -6121,9 +6121,9 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Get first-party cookie path.
              *
-             * @param {string} domain
+             * @returns {string} Cookie path
              */
-            this.getCookiePath = function (path) {
+            this.getCookiePath = function () {
                 return configCookiePath;
             };
 
@@ -6167,7 +6167,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Set conversion attribution to first referrer and campaign
              *
-             * @param {boolean} if true, use first referrer (and first campaign)
+             * @param {boolean} enable If true, use first referrer (and first campaign)
              *             if false, use the last referrer (or campaign)
              */
             this.setConversionAttributionFirstReferrer = function (enable) {
@@ -6182,7 +6182,7 @@ if (typeof window.Matomo !== 'object') {
              * Warning: If your site is available under http and https,
              * setting this might lead to duplicate or incomplete visits.
              *
-             * @param {boolean}
+             * @param {boolean} enable
              */
             this.setSecureCookie = function (enable) {
                 if(enable && location.protocol !== 'https:') {
@@ -6203,7 +6203,7 @@ if (typeof window.Matomo !== 'object') {
              * If your site is available under http and https,
              * using "None" might lead to duplicate or incomplete visits.
              *
-             * @param {string} either Lax, None or Strict
+             * @param {string} sameSite Either Lax, None or Strict
              */
             this.setCookieSameSite = function (sameSite) {
                 sameSite = String(sameSite);
@@ -6976,7 +6976,7 @@ if (typeof window.Matomo !== 'object') {
              *
              * @param {string} sku (required) Item's SKU Code. This is the unique identifier for the product.
              * @param {string} name (optional) Item's name
-             * @param {string} name (optional) Item's category, or array of up to 5 categories
+             * @param {string} category (optional) Item's category, or array of up to 5 categories
              * @param {float} price (optional) Item's price. If not specified, will default to 0
              * @param {float} quantity (optional) Item's quantity. If not specified, will default to 1
              */
