@@ -211,5 +211,6 @@ class CoreAdminHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreAdminHome_JSTracking_ConsentManagerConnected';
         $translationKeys[] = 'CoreAdminHome_GoogleTagManagerDescription';
         $translationKeys[] = 'CoreAdminHome_WordpressDescription';
+        $translationKeys[] = 'CoreAdminHome_ReactDescription';
     }
 }

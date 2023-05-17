@@ -162,7 +162,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'ga3Used' => false,
             'ga4Used' => false,
             'gtmUsed' => false,
-            'cms' => false
+            'cms' => false,
+            'react' => false
         ];
 
         $this->siteContentDetector->detectContent([SiteContentDetector::ALL_CONTENT]);
@@ -174,6 +175,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $emailTemplateData['ga4Used'] = $this->siteContentDetector->ga4;
         $emailTemplateData['gtmUsed'] = $this->siteContentDetector->gtm;
         $emailTemplateData['cloudflare'] = $this->siteContentDetector->cloudflare;
+        $emailTemplateData['react'] = $this->siteContentDetector->react;
         $emailTemplateData['cms'] = $this->siteContentDetector->cms;
 
         $emailContent = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', $emailTemplateData, $viewType = 'basic');
@@ -235,6 +237,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'tagManagerActive' => $tagManagerActive,
             'consentManagerName' => false,
             'cloudflare' => $this->siteContentDetector->cloudflare,
+            'react' => $this->siteContentDetector->react,
             'cms' => $this->siteContentDetector->cms,
         ];
 
@@ -259,6 +262,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $tabToDisplay = 'wordpress';
         } else if (!empty($templateData['cloudflare'])) {
             $tabToDisplay = 'cloudflare';
+        } else if (!empty($templateData['react'])) {
+            $tabToDisplay = 'react';
         }
 
         return $tabToDisplay;

@@ -41,6 +41,8 @@ class SiteContentDetector
     const GA4 = 4;
     const GTM = 5;
     const CMS = 6;
+    const REACT = 7;
+    const REACT_NATIVE = 8;
 
     // Detection detail
     public $consentManagerId;       // Id of the detected consent manager, eg. 'osano'
@@ -52,6 +54,8 @@ class SiteContentDetector
     public $gtm;                    // True if GTM was detected on the site
     public $cms;                    // The CMS that was detected on the site
     public $cloudflare;             // true if website is hosted on cloudflare
+    public $react;                  // True if React was detected on the site
+    public $reactNative;            // True if react-native was detected on the site
 
     private $siteResponse = [
         'data' => '',
@@ -92,6 +96,8 @@ class SiteContentDetector
         $this->gtm = false;
         $this->cms = SitesManager::SITE_TYPE_UNKNOWN;
         $this->cloudflare = false;
+        $this->react = false;
+        $this->reactNative = false;
     }
 
     /**
@@ -132,6 +138,7 @@ class SiteContentDetector
         }
 
         $url = Site::getMainUrlFor($idSite);
+        $url = 'http://localhost.demo.com/react.html';
 
         // Check and load previously cached site content detection data if it exists
         $cacheKey = 'SiteContentDetector_' . md5($url);
@@ -192,6 +199,14 @@ class SiteContentDetector
 
         if (in_array(SiteContentDetector::CMS, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
             $requiredProperties[] = 'cms';
+        }
+
+        if (in_array(SiteContentDetector::REACT, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
+            $requiredProperties[] = 'react';
+        }
+
+        if (in_array(SiteContentDetector::REACT_NATIVE, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
+            $requiredProperties[] = 'reactNative';
         }
 
         return $requiredProperties;
@@ -289,6 +304,10 @@ class SiteContentDetector
 
         if (in_array(SiteContentDetector::CMS, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
             $this->cms = $this->siteGuesser->guessSiteTypeFromResponse($this->siteResponse);
+        }
+
+        if (in_array(SiteContentDetector::REACT, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
+            $this->react = $this->siteGuesser->guessReactFromResponse($this->siteResponse);
         }
 
         if (

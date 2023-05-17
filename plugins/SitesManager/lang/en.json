@@ -187,6 +187,8 @@
         "SiteWithoutDataStartTrackingDataDescriptionLine1": "Choose your preferred tracking method below. If you need help, you can share these %1$sinstructions via email%2$s or %3$sinvite another user%4$s for assistance.",
         "SiteWithoutDataStartTrackingDataDescriptionLine2": "Note: This screen will disappear as soon as some data is tracked for this website. Alternatively, you can %1$sclick here to hide this page for one hour%2$s.",
         "EmailInstructionsButtonText": "Email instructions",
-        "SiteWithoutDataIgnorePage": "Don't show this page for an hour"
+        "SiteWithoutDataIgnorePage": "Don't show this page for an hour",
+        "SiteWithoutDataReact": "React",
+        "SiteWithoutDataReactDescription": "{DESC}"
     }
 }

@@ -147,4 +147,34 @@ class GtmSiteTypeGuesser
 
         return false;
     }
+
+    /**
+     * Detect React usage from the site data
+     *
+     * @param array $response Extended HTTP Response
+     * @return bool
+     */
+    public function guessReactFromResponse($response)
+    {
+        if (empty($response['data'])) {
+            return false;
+        }
+
+        $needles = ['react.min.js' ,'react.development.min.js', 'react-dom.development.min.js' ,'react.development.js', 'react-dom.development.js', 'ReactDOM.createRoot'];
+
+        foreach ($needles as $needle) {
+            if (stripos($response['data'], $needle) !== false) {
+                return true;
+            }
+        }
+
+        $tests = ["/ReactDOM/i"];
+        foreach ($tests as $test) {
+            if (preg_match($test, $response['data']) === 1) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

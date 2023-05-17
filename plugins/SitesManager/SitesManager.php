@@ -520,6 +520,8 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "SitesManager_EmailInstructionsButtonText";
         $translationKeys[] = "SitesManager_SiteWithoutDataIgnorePage";
         $translationKeys[] = "SitesManager_DemoSiteButtonText";
+        $translationKeys[] = "SitesManager_SiteWithoutDataReact";
+        $translationKeys[] = "SitesManager_SiteWithoutDataReactDescription";
     }
 
     public function noDataPageGTMTabInstructions(&$out)
