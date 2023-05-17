@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Piwik\Cache as PiwikCache;
 use Piwik\Columns\Dimension;
+use Piwik\Tracker\GoalManager;
 
 require_once PIWIK_INCLUDE_PATH . "/core/Piwik.php";
 
@@ -580,5 +581,40 @@ class Metrics
     {
         $percentVisitsLabel = str_replace(' ', '&nbsp;', Piwik::translate('General_ColumnPercentageVisits'));
         return $percentVisitsLabel;
+    }
+
+    public static function makeGoalColumnsRow(int $idGoal, array $goals): array
+    {
+        if ($idGoal > GoalManager::IDGOAL_ORDER) {
+            $columns = [
+                Metrics::INDEX_GOAL_NB_CONVERSIONS,
+                Metrics::INDEX_GOAL_NB_VISITS_CONVERTED,
+                Metrics::INDEX_GOAL_REVENUE,
+            ];
+        } else if ($idGoal == GoalManager::IDGOAL_ORDER) {
+            $columns = [
+                Metrics::INDEX_GOAL_NB_CONVERSIONS,
+                Metrics::INDEX_GOAL_NB_VISITS_CONVERTED,
+                Metrics::INDEX_GOAL_REVENUE,
+                Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL,
+                Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX,
+                Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING,
+                Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT,
+                Metrics::INDEX_GOAL_ECOMMERCE_ITEMS,
+            ];
+        } else { // idGoal == GoalManager::IDGOAL_CART
+            $columns = [
+                Metrics::INDEX_GOAL_NB_CONVERSIONS,
+                Metrics::INDEX_GOAL_NB_VISITS_CONVERTED,
+                Metrics::INDEX_GOAL_REVENUE,
+                Metrics::INDEX_GOAL_ECOMMERCE_ITEMS,
+            ];
+        }
+
+        $values = [];
+        foreach ($columns as $column) {
+            $values[$column] = $goals[$column] ?? 0;
+        }
+        return $values;
     }
 }

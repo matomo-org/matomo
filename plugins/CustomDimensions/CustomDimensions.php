@@ -87,8 +87,27 @@ class CustomDimensions extends Plugin
             'Dimension.addDimensions' => 'addDimensions',
             'Report.addReports' => 'addReports',
             'Actions.getCustomActionDimensionFieldsAndJoins' => 'provideActionDimensionFields',
-            'Db.getTablesInstalled' => 'getTablesInstalled'
+            'Db.getTablesInstalled' => 'getTablesInstalled',
+            'Archiver.addRecordBuilders' => 'addRecordBuilders',
         );
+    }
+
+    public function addRecordBuilders(&$recordBuilders)
+    {
+        $idSite = $this->getIdSite();
+        if (!$idSite) {
+            return;
+        }
+
+        $dimensions = $this->getCustomDimensions($idSite);
+        foreach ($dimensions as $dimension) {
+            if (!$dimension['active']) {
+                continue;
+            }
+
+            $recordBuilder = new \Piwik\Plugins\CustomDimensions\RecordBuilders\CustomDimension($dimension);
+            $recordBuilders[] = $recordBuilder;
+        }
     }
 
     public function addDimensions(&$instances)
