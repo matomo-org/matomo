@@ -31,7 +31,7 @@ class Referrers extends RecordBuilder
         // Reading pre 2.0 config file settings
         $this->maxRowsInTable = @Config::getInstance()->General['datatable_archiving_maximum_rows_referers'];
         $this->maxRowsInSubtable = @Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_referers'];
-        if (empty($this->maximumRowsInDataTableLevelZero)) {
+        if (empty($this->maxRowsInTable)) {
             $this->maxRowsInTable = Config::getInstance()->General['datatable_archiving_maximum_rows_referrers'];
             $this->maxRowsInSubtable = Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_referrers'];
         }
