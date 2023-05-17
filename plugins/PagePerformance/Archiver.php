@@ -9,13 +9,6 @@
 
 namespace Piwik\Plugins\PagePerformance;
 
-use Piwik\Plugins\PagePerformance\Columns\TimeDomCompletion;
-use Piwik\Plugins\PagePerformance\Columns\TimeDomProcessing;
-use Piwik\Plugins\PagePerformance\Columns\TimeNetwork;
-use Piwik\Plugins\PagePerformance\Columns\TimeServer;
-use Piwik\Plugins\PagePerformance\Columns\TimeOnLoad;
-use Piwik\Plugins\PagePerformance\Columns\TimeTransfer;
-
 /**
  * Class Archiver
  */
