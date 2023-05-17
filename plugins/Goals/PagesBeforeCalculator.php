@@ -61,22 +61,26 @@ class PagesBeforeCalculator
             // the lastN record and use that as a date range start with the current date time as the date range end
             $sql = "
                     SELECT MIN(c.server_time) 
-                    FROM " . Common::prefixTable('log_conversion') . " c                
-                    WHERE 1=1                    
+                    FROM " . Common::prefixTable('log_conversion') . " c                                 
                     ";
 
+            $where = '';
              if (!$forceRecalc) {
-                 $sql .= " AND c.pageviews_before IS NULL";
+                 $where .= " AND c.pageviews_before IS NULL";
              }
 
             $bind = [];
             if ($idGoal !== null) {
-                $sql .= ' AND  c.idgoal = ? ';
+                $where .= ' AND c.idgoal = ? ';
                 $bind[] = $idGoal;
             }
             if ($idSite !== null) {
-                $sql .= ' AND  c.idsite = ? ';
+                $where .= ' AND c.idsite = ? ';
                 $bind[] = $idSite;
+            }
+
+            if ($where !== '') {
+                $sql .= ' WHERE '.ltrim($where, 'AND ');
             }
 
             $sql .= " ORDER BY c.server_time DESC LIMIT " . $lastN;
