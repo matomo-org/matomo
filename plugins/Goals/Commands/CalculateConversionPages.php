@@ -39,7 +39,7 @@ class CalculateConversionPages extends ConsoleCommand
         $this->setName('core:calculate-conversion-pages');
         $this->setDescription('Calculate the pages before metric for historic conversions');
         $this->addOptionalValueOption('dates', null, 'Calculate for conversions in this date range. Eg, 2012-01-01,2013-01-01', null);
-        $this->addOptionalValueOption('last-n', null, 'Calculate just the last n conversions');
+        $this->addOptionalValueOption('last-n', null, 'Calculate just the last n conversions', 0);
         $this->addOptionalValueOption('idsite', null,
             'Calculate for conversions belonging to the site with this ID. Comma separated list of website id. Eg, 1, 2, 3, etc. By default conversions from all sites are calculated.', null);
         $this->addOptionalValueOption('idgoal', null,'Calculate conversions for this goal. A comma separated list of goal ids can be used only if a single site is specified. Eg, 1, 2, 3, etc. By default conversions for all goals are calculated.', null);
@@ -76,7 +76,7 @@ class CalculateConversionPages extends ConsoleCommand
 
         $output->writeln(sprintf(
             "<info>Preparing to calculate the pages before metric for %s conversions belonging to %s %sfor %s.</info>",
-            is_numeric($lastN) ? "the last ".$lastN : 'all',
+            $lastN ? "the last ".$lastN : 'all',
             $idSite ? "website $idSite" : "ALL websites",
                     !empty($dates) ? "between " . $from . " and " . $to . " " : '',
                     $idGoal ? "goal id $idGoal" : "ALL goals"
@@ -96,6 +96,19 @@ class CalculateConversionPages extends ConsoleCommand
         $this->writeSuccessMessage(["Successfully calculated the pages before metric for $conversionsCalculated conversions. <comment>" . $timer . "</comment>"]);
 
         return self::SUCCESS;
+    }
+
+    /**
+     * Static method to calculate conversion for today and yesterday, for all sites and goals.
+     * Called by the migration updater
+     *
+     * @return void
+     */
+    public static function calculateYesterdayAndToday(): void
+    {
+        $pagesBeforeCalculator = StaticContainer::get('Piwik\Plugins\Goals\PagesBeforeCalculator');
+        $pagesBeforeCalculator->calculateFor(Date::factory('yesterday')->getDatetime(),
+                                             Date::factory('today')->getEndOfDay()->getDatetime());
     }
 
     /**

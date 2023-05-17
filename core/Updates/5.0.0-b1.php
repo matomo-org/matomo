@@ -12,14 +12,14 @@ namespace Piwik\Updates;
 
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Db;
-use Piwik\Date;
 use Piwik\Common;
-use Piwik\Plugins\Goals\PagesBeforeCalculator;
 use Piwik\SettingsPiwik;
 use Piwik\Updater;
 use Piwik\Updater\Migration\Db as DbAlias;
 use Piwik\Updater\Migration\Factory;
 use Piwik\Updates as PiwikUpdates;
+use Piwik\Updater\Migration\Custom as CustomMigration;
+use Piwik\Plugins\Goals\Commands\CalculateConversionPages;
 
 /**
  * Update for version 5.0.0-b1
@@ -44,8 +44,6 @@ class Updates_5_0_0_b1 extends PiwikUpdates
     public function doUpdate(Updater $updater)
     {
         $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
-
-        $this->populatePagesBefore();
     }
 
     public function getMigrations(Updater $updater)
@@ -53,8 +51,14 @@ class Updates_5_0_0_b1 extends PiwikUpdates
         $migrations = $this->getUpdateArchiveIndexMigrations();
 
         $migrations[] = $this->migration->db->addColumns('user_token_auth', ['post_only' => "TINYINT(2) UNSIGNED NOT NULL DEFAULT '0'"]);
+        $migrations[] = $this->migration->db->addColumns('log_conversion', ['pageviews_before' => "SMALLINT UNSIGNED DEFAULT NULL"]);
 
-        $migrations[] = $this->getPagesBeforeAddColumn();
+        $instanceId = SettingsPiwik::getPiwikInstanceId();
+        if (strpos($instanceId, '.matomo.cloud') === false || strpos($instanceId, '.innocraft.cloud') === false) {
+            $commandString = './console core:calculate-conversion-pages --dates=yesterday,today';
+            $populatePagesBefore = new CustomMigration([CalculateConversionPages::class, 'calculateYesterdayAndToday'], $commandString);
+            $migrations[] = $populatePagesBefore;
+        }
 
         if ($this->requiresUpdatedLogVisitTableIndex()) {
             return $this->getLogVisitTableMigrations($migrations);
@@ -118,29 +122,4 @@ class Updates_5_0_0_b1 extends PiwikUpdates
         return true;
     }
 
-    /**
-     * Add new 'pages before column' to log conversions
-     *
-     * @return DbAlias\AddColumns
-     */
-    private function getPagesBeforeAddColumn()
-    {
-        return $this->migration->db->addColumns('log_conversion', ['pageviews_before' => "SMALLINT UNSIGNED DEFAULT NULL"]);
-    }
-
-    private function populatePagesBefore(): void
-    {
-        // Abort if host is *.matomo.cloud or *.innocraft.cloud
-        $instanceId = SettingsPiwik::getPiwikInstanceId();
-        if (strpos($instanceId, '.matomo.cloud') !== false || strpos($instanceId, '.innocraft.cloud') !== false) {
-            return;
-        }
-
-        // Calculate all conversions for the last 48hrs
-        $startDate = Date::factory('yesterday');
-        $endDate = Date::factory('today')->getEndOfDay();
-        $pagesBeforeCalculator = new PagesBeforeCalculator();
-        $pagesBeforeCalculator->calculateFor($startDate, $endDate);
-
-    }
 }
