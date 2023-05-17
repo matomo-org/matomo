@@ -61,7 +61,7 @@ abstract class Base extends RecordBuilder
 
         $query = $logAggregator->queryVisitsByDimension(['label' => $this->labelSql]);
         while ($row = $query->fetch()) {
-            $report->sumRowWithLabel($row['label'], $row);
+            $report->sumRowWithLabel($row['label'] ?? '', $row);
         }
 
         if ($this->enrichWithConversionMetrics) {
@@ -69,7 +69,7 @@ abstract class Base extends RecordBuilder
 
             $query = $logAggregator->queryConversionsByDimension(['label' => $labelSql]);
             while ($conversionRow = $query->fetch()) {
-                $label = $conversionRow['label'] ?? null;
+                $label = $conversionRow['label'] ?? '';
                 $report->sumRowWithLabel($label, $conversionRow);
             }
 
