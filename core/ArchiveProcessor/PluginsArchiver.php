@@ -255,14 +255,18 @@ class PluginsArchiver
         return static::$archivers;
     }
 
-    private static function getPluginArchiverClass($pluginName)
+    private static function getPluginArchiverClass(string $pluginName): ?string
     {
         $klassName = 'Piwik\\Plugins\\' . $pluginName . '\\Archiver';
         if (class_exists($klassName)
-            && is_subclass_of($klassName, 'Piwik\\Plugin\\Archiver')) {
+            && is_subclass_of($klassName, 'Piwik\\Plugin\\Archiver')
+        ) {
             return $klassName;
         }
-        return false;
+        if (Archiver::doesPluginHaveRecordBuilders($pluginName)) {
+            return Archiver::class;
+        }
+        return null;
     }
 
     /**
@@ -331,7 +335,11 @@ class PluginsArchiver
      */
     private function makeNewArchiverObject($archiverClass, $pluginName)
     {
-        $archiver = new $archiverClass($this->archiveProcessor);
+        if ($archiverClass === Archiver::class) {
+            $archiver = new Archiver($this->archiveProcessor, $pluginName);
+        } else {
+            $archiver = new $archiverClass($this->archiveProcessor);
+        }
 
         /**
          * Triggered right after a new **plugin archiver instance** is created.

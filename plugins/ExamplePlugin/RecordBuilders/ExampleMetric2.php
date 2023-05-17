@@ -57,16 +57,12 @@ class ExampleMetric2 extends RecordBuilder
      */
     protected function aggregate(ArchiveProcessor $archiveProcessor)
     {
-        $params = $archiveProcessor->getParams();
-
         $records = [];
 
-        if ($params->isRequestedReport(self::EXAMPLEPLUGIN_CONST_METRIC_NAME)) {
-            $callCount = $this->getAndIncrementArchiveCallCount($archiveProcessor);
-            $metricValue = $callCount > 0 ? 1 : 0;
+        $callCount = $this->getAndIncrementArchiveCallCount($archiveProcessor);
+        $metricValue = $callCount > 0 ? 1 : 0;
 
-            $records[self::EXAMPLEPLUGIN_CONST_METRIC_NAME] = $metricValue;
-        }
+        $records[self::EXAMPLEPLUGIN_CONST_METRIC_NAME] = $metricValue;
 
         return $records;
     }

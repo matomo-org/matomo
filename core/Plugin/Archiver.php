@@ -11,6 +11,7 @@ namespace Piwik\Plugin;
 
 use Piwik\ArchiveProcessor;
 use Piwik\Cache;
+use Piwik\CacheId;
 use Piwik\Config as PiwikConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\ErrorHandler;
@@ -56,7 +57,7 @@ use Piwik\Piwik;
  *
  * @api
  */
-abstract class Archiver
+class Archiver
 {
     /**
      * @var \Piwik\ArchiveProcessor
@@ -74,24 +75,35 @@ abstract class Archiver
     protected $maximumRows;
 
     /**
+     * Used if a plugin has RecordBuilders but no Archiver subclass.
+     *
+     * @var string|null
+     */
+    private $pluginName = null;
+
+    /**
      * Constructor.
      *
      * @param ArchiveProcessor $processor The ArchiveProcessor instance to use when persisting archive
      *                                    data.
      */
-    public function __construct(ArchiveProcessor $processor)
+    public function __construct(ArchiveProcessor $processor, ?string $pluginName = null)
     {
         $this->maximumRows = PiwikConfig::getInstance()->General['datatable_archiving_maximum_rows_standard'];
         $this->processor = $processor;
         $this->enabled = true;
+        $this->pluginName = $pluginName;
     }
 
     private function getPluginName()
     {
-        $className = get_class($this);
-        $parts = explode('\\', $className);
-        $parts = array_filter($parts);
-        $plugin = $parts[2];
+        $plugin = $this->pluginName;
+        if (empty($plugin)) {
+            $className = get_class($this);
+            $parts = explode('\\', $className);
+            $parts = array_filter($parts);
+            $plugin = $parts[2];
+        }
 
         if (!Manager::getInstance()->isPluginLoaded($plugin)) {
             return null;
@@ -105,10 +117,29 @@ abstract class Archiver
      * @throws \DI\DependencyException
      * @throws \DI\NotFoundException
      */
-    private function getRecordBuilders()
+    private function getRecordBuilders(): array
+    {
+        $recordBuilders = self::getAllRecordBuilders();
+
+        $requestedReports = $this->processor->getParams()->getArchiveOnlyReport();
+        if (!empty($requestedReports)) {
+            $requestedReports = is_string($requestedReports) ? [$requestedReports] : $requestedReports;
+
+            $recordBuilders = array_filter($recordBuilders, function (ArchiveProcessor\RecordBuilder $builder) use ($requestedReports) {
+                return $builder->isBuilderForAtLeastOneOf($this->processor, $requestedReports);
+            });
+        }
+
+        return $recordBuilders;
+    }
+
+    /**
+     * @return ArchiveProcessor\RecordBuilder[]
+     */
+    public static function getAllRecordBuilders(): array
     {
         $transientCache = Cache::getTransientCache();
-        $cacheKey = 'Archiver.RecordBuilders';
+        $cacheKey = CacheId::siteAware(CacheId::pluginAware('Archiver.RecordBuilders'));
 
         $recordBuilders = $transientCache->fetch($cacheKey);
         if ($recordBuilders === false) {
@@ -160,16 +191,18 @@ abstract class Archiver
             $transientCache->save($cacheKey, $recordBuilders);
         }
 
-        $requestedReports = $this->processor->getParams()->getArchiveOnlyReport();
-        if (!empty($requestedReports)) {
-            $requestedReports = is_string($requestedReports) ? [$requestedReports] : $requestedReports;
-
-            $recordBuilders = array_filter($recordBuilders, function (ArchiveProcessor\RecordBuilder $builder) use ($requestedReports) {
-                return $builder->isBuilderForAtLeastOneOf($this->processor, $requestedReports);
-            });
-        }
-
         return $recordBuilders;
+    }
+
+    public static function doesPluginHaveRecordBuilders(string $pluginName): bool
+    {
+        $recordBuilders = self::getAllRecordBuilders();
+        foreach ($recordBuilders as $builder) {
+            if ($pluginName === $builder->getPluginName()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

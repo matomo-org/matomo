@@ -73,17 +73,15 @@ class ExampleMetric extends RecordBuilder
 
         $records = [];
 
-        if ($params->isRequestedReport(self::EXAMPLEPLUGIN_METRIC_NAME)) {
-            // insert a test numeric metric that is the difference in days between the day we're archiving and
-            // $this->daysFrom.
-            $daysFrom = Date::factory($this->daysFrom);
-            $date = $params->getPeriod()->getDateStart();
+        // insert a test numeric metric that is the difference in days between the day we're archiving and
+        // $this->daysFrom.
+        $daysFrom = Date::factory($this->daysFrom);
+        $date = $params->getPeriod()->getDateStart();
 
-            $differenceInSeconds = $daysFrom->getTimestamp() - $date->getTimestamp();
-            $differenceInDays = round($differenceInSeconds / 86400);
+        $differenceInSeconds = $daysFrom->getTimestamp() - $date->getTimestamp();
+        $differenceInDays = round($differenceInSeconds / 86400);
 
-            $records[self::EXAMPLEPLUGIN_METRIC_NAME] = $differenceInDays;
-        }
+        $records[self::EXAMPLEPLUGIN_METRIC_NAME] = $differenceInDays;
 
         return $records;
     }
