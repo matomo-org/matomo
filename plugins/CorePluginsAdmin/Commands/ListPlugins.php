@@ -67,12 +67,12 @@ class ListPlugins extends ConsoleCommand
         } else {
             // Decorate the plugin information
             $plugins = array_map(function ($plugin) {
-                $plugin["plugin"] = '<info>' . $plugin["plugin"] . '</info>';
+                $plugin["plugin"] = self::wrapInTag('info', $plugin["plugin"] );
                 $plugin["core"] = $plugin["core"] ? 'Core' : 'Optional';
                 if (isset($plugin["version"]) && !isset($plugin["activated"])) {
                     $plugin["version"] = '';
                 }
-                $plugin["activated"] = !isset($plugin["activated"]) ? '<error>Not found</error>' : ($plugin["activated"] ? 'Activated' : '<comment>Not activated</comment>');
+                $plugin["activated"] = !isset($plugin["activated"]) ? self::wrapInTag('error','Not found') : ($plugin["activated"] ? 'Activated' : self::wrapInTag('comment','Not activated'));
                 return $plugin;
             }, $plugins);
 
