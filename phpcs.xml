@@ -49,6 +49,9 @@
 
     <!-- Additional rules that are not covered by PSR above -->
 
+    <!-- Expect a file to end with a new line -->
+    <rule ref="PSR2.Files.EndFileNewline"/>
+
     <!-- Forbid unused use statements -->
     <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses">
         <properties>
