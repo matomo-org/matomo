@@ -43,7 +43,7 @@ abstract class Base extends RecordBuilder
         $this->maxRowsInTable = PiwikConfig::getInstance()->General['datatable_archiving_maximum_rows_standard'];
         $this->maxRowsInSubtable = $this->maxRowsInTable;
         $this->columnToSortByBeforeTruncation = Metrics::INDEX_NB_VISITS;
-        $this->enrichWithConversionMetrics = true;
+        $this->enrichWithConversionMetrics = $enrichWithConversionMetrics;
     }
 
     public function getRecordMetadata(ArchiveProcessor $archiveProcessor)
@@ -59,7 +59,7 @@ abstract class Base extends RecordBuilder
 
         $report = new DataTable();
 
-        $query = $logAggregator->queryVisitsByDimension([$this->labelSql]);
+        $query = $logAggregator->queryVisitsByDimension(['label' => $this->labelSql]);
         while ($row = $query->fetch()) {
             $report->sumRowWithLabel($row['label'], $row);
         }
@@ -67,9 +67,9 @@ abstract class Base extends RecordBuilder
         if ($this->enrichWithConversionMetrics) {
             $labelSql = str_replace('log_visit.', 'log_conversion.', $this->labelSql);
 
-            $query = $logAggregator->queryConversionsByDimension([$labelSql]);
+            $query = $logAggregator->queryConversionsByDimension(['label' => $labelSql]);
             while ($conversionRow = $query->fetch()) {
-                $label = $conversionRow[$labelSql] ?? null;
+                $label = $conversionRow['label'] ?? null;
                 $report->sumRowWithLabel($label, $conversionRow);
             }
 
