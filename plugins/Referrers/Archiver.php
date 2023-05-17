@@ -38,97 +38,6 @@ class Archiver extends \Piwik\Plugin\Archiver
     protected $arrays = array();
     protected $distinctUrls = array();
 
-    function __construct($processor)
-    {
-        parent::__construct($processor);
-        $this->columnToSortByBeforeTruncation = Metrics::INDEX_NB_VISITS;
-
-        // Reading pre 2.0 config file settings
-        $this->maximumRowsInDataTableLevelZero = @Config::getInstance()->General['datatable_archiving_maximum_rows_referers'];
-        $this->maximumRowsInSubDataTable = @Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_referers'];
-        if (empty($this->maximumRowsInDataTableLevelZero)) {
-            $this->maximumRowsInDataTableLevelZero = Config::getInstance()->General['datatable_archiving_maximum_rows_referrers'];
-            $this->maximumRowsInSubDataTable = Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_referrers'];
-        }
-    }
-
-    public function aggregateDayReport()
-    {
-        foreach ($this->getRecordNames() as $record) {
-            $this->arrays[$record] = new DataArray();
-        }
-        $this->aggregateFromVisits(array("referer_type", "referer_name", "referer_keyword", "referer_url"));
-        $this->aggregateFromConversions(array("referer_type", "referer_name", "referer_keyword"));
-        $this->insertDayReports();
-    }
-
-    protected function getRecordNames()
-    {
-        return array(
-            self::REFERRER_TYPE_RECORD_NAME,
-            self::KEYWORDS_RECORD_NAME,
-            self::SEARCH_ENGINES_RECORD_NAME,
-            self::SOCIAL_NETWORKS_RECORD_NAME,
-            self::WEBSITES_RECORD_NAME,
-            self::CAMPAIGNS_RECORD_NAME,
-        );
-    }
-
-    protected function makeReferrerTypeNonEmpty(&$row)
-    {
-        if (empty($row['referer_type'])) {
-            $row['referer_type'] = Common::REFERRER_TYPE_DIRECT_ENTRY;
-        }
-    }
-
-    protected function aggregateVisitRow($row)
-    {
-        switch ($row['referer_type']) {
-            case Common::REFERRER_TYPE_SEARCH_ENGINE:
-                if (empty($row['referer_keyword'])) {
-                    $row['referer_keyword'] = API::LABEL_KEYWORD_NOT_DEFINED;
-                }
-                $searchEnginesArray = $this->getDataArray(self::SEARCH_ENGINES_RECORD_NAME);
-                $searchEnginesArray->sumMetricsVisits($row['referer_name'], $row);
-                $searchEnginesArray->sumMetricsVisitsPivot($row['referer_name'], $row['referer_keyword'], $row);
-                $keywordsDataArray = $this->getDataArray(self::KEYWORDS_RECORD_NAME);
-                $keywordsDataArray->sumMetricsVisits($row['referer_keyword'], $row);
-                $keywordsDataArray->sumMetricsVisitsPivot($row['referer_keyword'], $row['referer_name'], $row);
-                break;
-
-            case Common::REFERRER_TYPE_SOCIAL_NETWORK:
-                $this->getDataArray(self::SOCIAL_NETWORKS_RECORD_NAME)->sumMetricsVisits($row['referer_name'], $row);
-                $this->getDataArray(self::SOCIAL_NETWORKS_RECORD_NAME)->sumMetricsVisitsPivot($row['referer_name'], $row['referer_url'], $row);
-                break;
-
-            case Common::REFERRER_TYPE_WEBSITE:
-                $this->getDataArray(self::WEBSITES_RECORD_NAME)->sumMetricsVisits($row['referer_name'], $row);
-                $this->getDataArray(self::WEBSITES_RECORD_NAME)->sumMetricsVisitsPivot($row['referer_name'], $row['referer_url'], $row);
-
-                $urlHash = substr(md5($row['referer_url']), 0, 10);
-                if (!isset($this->distinctUrls[$urlHash])) {
-                    $this->distinctUrls[$urlHash] = true;
-                }
-                break;
-
-            case Common::REFERRER_TYPE_CAMPAIGN:
-                if (!empty($row['referer_keyword'])) {
-                    $this->getDataArray(self::CAMPAIGNS_RECORD_NAME)->sumMetricsVisitsPivot($row['referer_name'], $row['referer_keyword'], $row);
-                }
-                $this->getDataArray(self::CAMPAIGNS_RECORD_NAME)->sumMetricsVisits($row['referer_name'], $row);
-                break;
-
-            case Common::REFERRER_TYPE_DIRECT_ENTRY:
-                // direct entry are aggregated below in $this->metricsByType array
-                break;
-
-            default:
-                throw new Exception("Non expected referer_type = " . $row['referer_type']);
-                break;
-        }
-        $this->getDataArray(self::REFERRER_TYPE_RECORD_NAME)->sumMetricsVisits($row['referer_type'], $row);
-    }
-
     /**
      * @param string $name
      * @return DataArray
@@ -136,67 +45,6 @@ class Archiver extends \Piwik\Plugin\Archiver
     protected function getDataArray($name)
     {
         return $this->arrays[$name];
-    }
-
-    protected function aggregateFromConversions($dimensions)
-    {
-        $query = $this->getLogAggregator()->queryConversionsByDimension($dimensions);
-        if ($query === false) {
-            return;
-        }
-        while ($row = $query->fetch()) {
-            $this->makeReferrerTypeNonEmpty($row);
-
-            $skipAggregateByType = $this->aggregateConversionRow($row);
-            if (!$skipAggregateByType) {
-                $this->getDataArray(self::REFERRER_TYPE_RECORD_NAME)->sumMetricsGoals($row['referer_type'], $row);
-            }
-        }
-
-        foreach ($this->arrays as $dataArray) {
-            $dataArray->enrichMetricsWithConversions();
-        }
-    }
-
-    protected function aggregateConversionRow($row)
-    {
-        $skipAggregateByType = false;
-        switch ($row['referer_type']) {
-            case Common::REFERRER_TYPE_SEARCH_ENGINE:
-                if (empty($row['referer_keyword'])) {
-                    $row['referer_keyword'] = API::LABEL_KEYWORD_NOT_DEFINED;
-                }
-
-                $this->getDataArray(self::SEARCH_ENGINES_RECORD_NAME)->sumMetricsGoals($row['referer_name'], $row);
-                $this->getDataArray(self::KEYWORDS_RECORD_NAME)->sumMetricsGoals($row['referer_keyword'], $row);
-                break;
-
-            case Common::REFERRER_TYPE_SOCIAL_NETWORK:
-                $this->getDataArray(self::SOCIAL_NETWORKS_RECORD_NAME)->sumMetricsGoals($row['referer_name'], $row);
-                break;
-
-            case Common::REFERRER_TYPE_WEBSITE:
-                $this->getDataArray(self::WEBSITES_RECORD_NAME)->sumMetricsGoals($row['referer_name'], $row);
-                break;
-
-            case Common::REFERRER_TYPE_CAMPAIGN:
-                if (!empty($row['referer_keyword'])) {
-                    $this->getDataArray(self::CAMPAIGNS_RECORD_NAME)->sumMetricsGoalsPivot($row['referer_name'], $row['referer_keyword'], $row);
-                }
-                $this->getDataArray(self::CAMPAIGNS_RECORD_NAME)->sumMetricsGoals($row['referer_name'], $row);
-                break;
-
-            case Common::REFERRER_TYPE_DIRECT_ENTRY:
-                // Direct entry, no sub dimension
-                break;
-
-            default:
-                // The referer type is user submitted for goal conversions, we ignore any malformed value
-                // Continue to the next while iteration
-                $skipAggregateByType = true;
-                break;
-        }
-        return $skipAggregateByType;
     }
 
     /**
@@ -215,14 +63,6 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     protected function insertDayNumericMetrics()
     {
-        $numericRecords = array(
-            self::METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME  => count($this->getDataArray(self::SEARCH_ENGINES_RECORD_NAME)->getDataArray()),
-            self::METRIC_DISTINCT_SOCIAL_NETWORK_RECORD_NAME => count($this->getDataArray(self::SOCIAL_NETWORKS_RECORD_NAME)->getDataArray()),
-            self::METRIC_DISTINCT_KEYWORD_RECORD_NAME        => count($this->getDataArray(self::KEYWORDS_RECORD_NAME)->getDataArray()),
-            self::METRIC_DISTINCT_CAMPAIGN_RECORD_NAME       => count($this->getDataArray(self::CAMPAIGNS_RECORD_NAME)->getDataArray()),
-            self::METRIC_DISTINCT_WEBSITE_RECORD_NAME        => count($this->getDataArray(self::WEBSITES_RECORD_NAME)->getDataArray()),
-            self::METRIC_DISTINCT_URLS_RECORD_NAME           => count($this->distinctUrls),
-        );
 
         $this->getProcessor()->insertNumericRecords($numericRecords);
     }
@@ -277,18 +117,6 @@ class Archiver extends \Piwik\Plugin\Archiver
                 $countValue = $nameToCount[$nameTableToUse]['level0'];
             }
             $this->getProcessor()->insertNumericRecord($name, $countValue);
-        }
-    }
-
-    /**
-     * @param $fields
-     */
-    private function aggregateFromVisits($fields)
-    {
-        $query = $this->getLogAggregator()->queryVisitsByDimension($fields);
-        while ($row = $query->fetch()) {
-            $this->makeReferrerTypeNonEmpty($row);
-            $this->aggregateVisitRow($row);
         }
     }
 }
