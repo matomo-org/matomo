@@ -138,9 +138,10 @@ class AssetManager extends Singleton
     /**
      * Return JS file inclusion directive(s) using the markup <script>
      *
+     * @param bool $deferJS
      * @return string
      */
-    public function getJsInclusionDirective()
+    public function getJsInclusionDirective(bool $deferJS = false)
     {
         $result = "<script type=\"text/javascript\">\n" . StaticContainer::get('Piwik\Translation\Translator')->getJavascriptTranslations() . "\n</script>";
 
@@ -148,10 +149,10 @@ class AssetManager extends Singleton
             $this->getMergedCoreJSAsset()->delete();
             $this->getMergedNonCoreJSAsset()->delete();
 
-            $result .= $this->getIndividualCoreAndNonCoreJsIncludes();
+            $result .= $this->getIndividualCoreAndNonCoreJsIncludes($deferJS);
         } else {
-            $result .= sprintf(self::JS_IMPORT_DIRECTIVE, self::GET_CORE_JS_MODULE_ACTION);
-            $result .= sprintf(self::JS_IMPORT_DIRECTIVE, self::GET_NON_CORE_JS_MODULE_ACTION);
+            $result .= sprintf($deferJS ? self::JS_DEFER_IMPORT_DIRECTIVE : self::JS_IMPORT_DIRECTIVE, self::GET_CORE_JS_MODULE_ACTION);
+            $result .= sprintf($deferJS ? self::JS_DEFER_IMPORT_DIRECTIVE : self::JS_IMPORT_DIRECTIVE, self::GET_NON_CORE_JS_MODULE_ACTION);
 
             $result .= $this->getPluginUmdChunks();
         }
@@ -374,21 +375,23 @@ class AssetManager extends Singleton
     /**
      * Return individual JS file inclusion directive(s) using the markup <script>
      *
+     * @param bool $deferJS
      * @return string
      */
-    protected function getIndividualCoreAndNonCoreJsIncludes()
+    protected function getIndividualCoreAndNonCoreJsIncludes(bool $deferJS = false)
     {
         return
-            $this->getIndividualJsIncludesFromAssetFetcher($this->getCoreJScriptFetcher()) .
-            $this->getIndividualJsIncludesFromAssetFetcher($this->getNonCoreJScriptFetcher()) .
-            $this->getIndividualJsIncludesFromAssetFetcher($this->getPluginUmdJScriptFetcher());
+            $this->getIndividualJsIncludesFromAssetFetcher($this->getCoreJScriptFetcher(), $deferJS) .
+            $this->getIndividualJsIncludesFromAssetFetcher($this->getNonCoreJScriptFetcher(), $deferJS) .
+            $this->getIndividualJsIncludesFromAssetFetcher($this->getPluginUmdJScriptFetcher(), $deferJS);
     }
 
     /**
      * @param UIAssetFetcher $assetFetcher
+     * @param bool $deferJS
      * @return string
      */
-    protected function getIndividualJsIncludesFromAssetFetcher($assetFetcher)
+    protected function getIndividualJsIncludesFromAssetFetcher($assetFetcher, bool $deferJS = false)
     {
         $jsIncludeString = '';
 
@@ -396,7 +399,7 @@ class AssetManager extends Singleton
 
         foreach ($assets as $jsFile) {
             $jsFile->validateFile();
-            $jsIncludeString = $jsIncludeString . sprintf(self::JS_IMPORT_DIRECTIVE, $jsFile->getRelativeLocation());
+            $jsIncludeString = $jsIncludeString . sprintf($deferJS ? self::JS_DEFER_IMPORT_DIRECTIVE : self::JS_IMPORT_DIRECTIVE, $jsFile->getRelativeLocation());
         }
 
         return $jsIncludeString;
