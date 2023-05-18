@@ -12,6 +12,7 @@ namespace Piwik;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\CustomJsTracker\Exception\AccessDeniedException;
 use Piwik\Plugins\CustomJsTracker\TrackerUpdater;
+use Piwik\Plugins\Installation\ServerFilesGenerator;
 
 class FileIntegrity
 {
@@ -382,6 +383,18 @@ class FileIntegrity
             $messages[] = '--> ' . Piwik::translate('General_FileIntegrityWarningReuploadBis') . ' <--<br/>';
             $messages = array_merge($messages, $messagesMismatch);
         }
+
+		$htaccess_missing = ServerFilesGenerator::checkHtAccessFiles();
+
+		if ( count($htaccess_missing) > 0 ) {
+			foreach ($htaccess_missing as $folder) {
+				$messages[] = "Missing .htaccess in folder: ". $folder ;
+			}
+			$messages[] = '<br />Auto-Repairing Files for you. Reload SystemCheck to see if it is fixed.';
+
+			ServerFilesGenerator::deleteHtAccessFiles();
+			ServerFilesGenerator::createHtAccessFiles();
+		}
 
         return $messages;
     }

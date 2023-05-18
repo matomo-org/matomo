@@ -14,6 +14,21 @@ use Piwik\SettingsServer;
 
 class ServerFilesGenerator
 {
+	// that match the list of directories we create htaccess files
+	// (ie. not the root /.htaccess)
+	private $directoriesWithAutoHtaccess = array(
+		'/js',
+		'/libs',
+		'/vendor',
+		'/plugins',
+		'/misc/user',
+		'/node_modules',
+		'/config',
+		'/core',
+		'/lang',
+		'/tmp',
+	);
+
     public static function createFilesForSecurity()
     {
         self::createHtAccessFiles();
@@ -316,23 +331,8 @@ HTACCESS_ALLOW;
     {
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH, ".htaccess");
 
-        // that match the list of directories we create htaccess files
-        // (ie. not the root /.htaccess)
-        $directoriesWithAutoHtaccess = array(
-            '/js',
-            '/libs',
-            '/vendor',
-            '/plugins',
-            '/misc/user',
-            '/node_modules',
-            '/config',
-            '/core',
-            '/lang',
-            '/tmp',
-        );
-
         foreach ($files as $file) {
-            foreach ($directoriesWithAutoHtaccess as $dirToDelete) {
+            foreach (self::$directoriesWithAutoHtaccess as $dirToDelete) {
                 // only delete the first .htaccess and not the ones in sub-directories
                 $pathToDelete = $dirToDelete . '/.htaccess';
                 if (strpos($file, $pathToDelete) !== false) {
@@ -341,5 +341,24 @@ HTACCESS_ALLOW;
             }
         }
     }
+
+	/**
+	 * Checks all existing .htaccess files and web.config files that Matomo may have created,
+	 */
+	public static function checkHtAccessFiles()
+	{
+		$files_missing = [];
+
+		foreach (self::$directoriesWithAutoHtaccess as $dirToCheck) {
+			$pathToCheck = PIWIK_INCLUDE_PATH . $dirToCheck . '/.htaccess';
+
+			if ( !file_exists($pathToCheck) ) {
+				$files_missing[] = $dirToCheck ;
+			}
+		}
+
+		return $files_missing;
+	}
+
 
 }
