@@ -93,6 +93,8 @@ class PagesBeforeCalculator
 
         foreach ($sites as $site) {
 
+            $timezone = Site::getTimezoneFor($site);
+
             if ($idGoal === null) {
                 // All goals
                 $goalsModel = new GoalsModel();
@@ -129,12 +131,12 @@ class PagesBeforeCalculator
 
                 if (!empty($startDatetime)) {
                     $sql .= " AND c.server_time >= ?";
-                    $bind[] = $startDatetime;
+                    $bind[] = Date::factory($startDatetime, $timezone)->getDateTime();
                 }
 
                 if (!empty($endDatetime)) {
                     $sql .= " AND c.server_time <= ?";
-                    $bind[] = $endDatetime;
+                    $bind[] = Date::factory($endDatetime, $timezone)->getDateTime();
                 }
 
                 $result = Db::query($sql, $bind);
