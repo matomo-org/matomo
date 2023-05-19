@@ -30,7 +30,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     const VISITS_COUNT_FIELD = 'visitor_count_visits';
     const SECONDS_SINCE_FIRST_VISIT_FIELD = 'visitor_seconds_since_first';
 
-    public function getDependentSegmentsToArchive()
+    public function getDependentSegmentsToArchive(): array
     {
         $hasConversions = $this->getProcessor()->getNumberOfVisitsConverted() > 0;
         if (!$hasConversions) {
