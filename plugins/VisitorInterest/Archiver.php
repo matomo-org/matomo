@@ -9,10 +9,6 @@
 
 namespace Piwik\Plugins\VisitorInterest;
 
-use Piwik\DataAccess\LogAggregator;
-use Piwik\DataTable;
-use Piwik\Metrics;
-
 class Archiver extends \Piwik\Plugin\Archiver
 {
     // third element is unit (s for seconds, default is munutes)
@@ -83,62 +79,6 @@ class Archiver extends \Piwik\Plugin\Archiver
         array(121, 364),
         array(364)
     );
-
-    public function aggregateDayReport()
-    {
-        // these prefixes are prepended to the 'SELECT as' parts of each SELECT expression. detecting
-        // these prefixes allows us to get all the data in one query.
-        $prefixes = array(
-            self::TIME_SPENT_RECORD_NAME      => 'tg',
-            self::PAGES_VIEWED_RECORD_NAME    => 'pg',
-            self::VISITS_COUNT_RECORD_NAME    => 'vbvn',
-            self::DAYS_SINCE_LAST_RECORD_NAME => 'dslv',
-        );
-
-        // collect our extra aggregate select fields
-        $selects = array();
-        $selects = array_merge($selects, LogAggregator::getSelectsFromRangedColumn(
-            'visit_total_time', self::getSecondsGap(), 'log_visit', $prefixes[self::TIME_SPENT_RECORD_NAME]
-        ));
-        $selects = array_merge($selects, LogAggregator::getSelectsFromRangedColumn(
-            'visit_total_actions', self::$pageGap, 'log_visit', $prefixes[self::PAGES_VIEWED_RECORD_NAME]
-        ));
-        $selects = array_merge($selects, LogAggregator::getSelectsFromRangedColumn(
-            'visitor_count_visits', self::$visitNumberGap, 'log_visit', $prefixes[self::VISITS_COUNT_RECORD_NAME]
-        ));
-
-        $selects = array_merge($selects, LogAggregator::getSelectsFromRangedColumn(
-            'FLOOR(log_visit.visitor_seconds_since_last / 86400)', self::$daysSinceLastVisitGap, 'log_visit', $prefixes[self::DAYS_SINCE_LAST_RECORD_NAME],
-            $restrictToReturningVisitors = true
-        ));
-
-        $query = $this->getLogAggregator()->queryVisitsByDimension(array(), $where = false, $selects, array());
-        $row = $query->fetch();
-        foreach ($prefixes as $recordName => $selectAsPrefix) {
-            $cleanRow = LogAggregator::makeArrayOneColumn($row, Metrics::INDEX_NB_VISITS, $selectAsPrefix);
-            $dataTable = DataTable::makeFromIndexedArray($cleanRow);
-            $this->getProcessor()->insertBlobRecord($recordName, $dataTable->getSerialized());
-        }
-    }
-
-    public function aggregateMultipleReports()
-    {
-        $dataTableRecords = array(
-            self::TIME_SPENT_RECORD_NAME,
-            self::PAGES_VIEWED_RECORD_NAME,
-            self::VISITS_COUNT_RECORD_NAME,
-            self::DAYS_SINCE_LAST_RECORD_NAME
-        );
-        $columnsAggregationOperation = null;
-        $this->getProcessor()->aggregateDataTableRecords(
-            $dataTableRecords,
-            $maximumRowsInDataTableLevelZero = null,
-            $maximumRowsInSubDataTable = null,
-            $columnToSortByBeforeTruncation = null,
-            $columnsAggregationOperation,
-            $columnsToRenameAfterAggregation = null,
-            $countRowsRecursive = array());
-    }
 
     /**
      * Transforms and returns the set of ranges used to calculate the 'visits by total time'
