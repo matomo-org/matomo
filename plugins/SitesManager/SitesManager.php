@@ -52,15 +52,16 @@ class SitesManager extends \Piwik\Plugin
     public function registerEvents()
     {
         return [
-            'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
-            'Tracker.Cache.getSiteAttributes'        => ['function' => 'recordWebsiteDataInCache', 'before' => true],
-            'Tracker.setTrackerCacheGeneral'         => 'setTrackerCacheGeneral',
-            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-            'SitesManager.deleteSite.end'            => 'onSiteDeleted',
-            'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
-            'Request.dispatch'                       => 'redirectDashboardToWelcomePage',
-            'Template.noDataPageGTMTabInstructions'  => 'noDataPageGTMTabInstructions',
+            'AssetManager.getStylesheetFiles'              => 'getStylesheetFiles',
+            'Tracker.Cache.getSiteAttributes'              => ['function' => 'recordWebsiteDataInCache', 'before' => true],
+            'Tracker.setTrackerCacheGeneral'               => 'setTrackerCacheGeneral',
+            'Translate.getClientSideTranslationKeys'       => 'getClientSideTranslationKeys',
+            'SitesManager.deleteSite.end'                  => 'onSiteDeleted',
+            'System.addSystemSummaryItems'                 => 'addSystemSummaryItems',
+            'Request.dispatch'                             => 'redirectDashboardToWelcomePage',
+            'Template.noDataPageGTMTabInstructions'        => 'noDataPageGTMTabInstructions',
             'Template.noDataPageWordpressTabInstructions'  => 'noDataPageWordpressTabInstructions',
+            'Template.noDataPageReactTabInstructions'      => 'noDataPageReactTabInstructions',
         ];
     }
 
@@ -555,6 +556,13 @@ class SitesManager extends \Piwik\Plugin
         }
         $view->authLink = $authLink;
         $view->faqLink = $faqLink;
+        $out = $view->render();
+    }
+
+    public function noDataPageReactTabInstructions(&$out)
+    {
+        Piwik::checkUserHasSomeViewAccess();
+        $view = new View("@SitesManager/_reactTabInstructions");
         $out = $view->render();
     }
 }

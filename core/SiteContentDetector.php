@@ -138,7 +138,6 @@ class SiteContentDetector
         }
 
         $url = Site::getMainUrlFor($idSite);
-        $url = 'http://localhost.demo.com/react.html';
 
         // Check and load previously cached site content detection data if it exists
         $cacheKey = 'SiteContentDetector_' . md5($url);

@@ -189,6 +189,8 @@
         "EmailInstructionsButtonText": "Email instructions",
         "SiteWithoutDataIgnorePage": "Don't show this page for an hour",
         "SiteWithoutDataReact": "React",
-        "SiteWithoutDataReactDescription": "{DESC}"
+        "SiteWithoutDataReactDescription": "You can use the \"%1$s\" npm package to integrate Matomo to track data, follow the instructions from this %2$sguide%3$s.",
+        "ReactDetected": "React was detected on your website. Did you know you can use the \"%1$s\" npm package to integrate Matomo into your site? %2$sLearn more in this guide%3$s.",
+        "SiteWithoutDataReactIntro": "If you use React, you can use the \"%1$s\" npm package to start tracking data in Matomo. %2$sLearn more%3$s"
     }
 }

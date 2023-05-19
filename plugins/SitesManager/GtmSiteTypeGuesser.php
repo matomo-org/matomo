@@ -160,7 +160,7 @@ class GtmSiteTypeGuesser
             return false;
         }
 
-        $needles = ['react.min.js' ,'react.development.min.js', 'react-dom.development.min.js' ,'react.development.js', 'react-dom.development.js', 'ReactDOM.createRoot'];
+        $needles = ['react.min.js' ,'react.development.min.js', 'react-dom.development.min.js' ,'react.development.js', 'react-dom.development.js', 'ReactDOM.'];
 
         foreach ($needles as $needle) {
             if (stripos($response['data'], $needle) !== false) {
