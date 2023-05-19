@@ -77,6 +77,22 @@
         "XManagement": "%s beheren",
         "ChooseMeasurableTypeHeadline": "Wat wilt u graag meten?",
         "YouCurrentlyHaveAccessToNWebsites": "U heeft momenteel toegang tot %s websites .",
-        "YourCurrentIpAddressIs": "Uw huidige IP-adres is %s"
+        "YourCurrentIpAddressIs": "Uw huidige IP-adres is %s",
+        "GTMDetected": "Er is Google Tag Manager gedetecteerd op uw website. Wist u dat u uw bestaande tags, triggers en variabelen van Google Tag Manager naar Matomo Tag Manager kunt migreren? %1$sLees hier meer over in deze handleiding%2$s.",
+        "GTMDetectedEmail": "Er is Google Tag Manager gedetecteerd op uw website. Wist u dat u uw bestaande tags, triggers en variabelen van Google Tag Manager naar Matomo Tag Manager kunt migreren? Lees hier meer: %1$s",
+        "SiteWithoutDataGoogleTagManagerIntro": "Als u Google Tag Manager gebruikt, kunt u gegevens naadloos volgen in Matomo met behulp van de \"Custom HTML Tag\" die beschikbaar is in Google Tag Manager. %1$sMeer informatie%2$s.",
+        "SiteWithoutDataGoogleTagManagerFollowStepsIntro": "Volg deze stappen om het in te stellen:",
+        "SiteWithoutDataGTMFollowStep1": "%1$sLog in%2$s op uw Google Tag Manager-account.",
+        "SiteWithoutDataGTMFollowStep2": "Selecteer de container waaraan u Matomo wilt toevoegen.",
+        "SiteWithoutDataGTMFollowStep3": "Klik op \"Tags\" en vervolgens op \"Nieuw\".",
+        "SiteWithoutDataGTMFollowStep4": "Geef bovenaan het venster een naam voor je tag.",
+        "SiteWithoutDataGTMFollowStep5": "Klik op \"Tagconfiguratie\" en selecteer \"Aangepaste HTML\"",
+        "SiteWithoutDataGTMFollowStep6": "Kopieer de Matomo JavaScript Tracking-code zoals hieronder vermeld.",
+        "SiteWithoutDataGTMFollowStep7": "Plak deze JavaScript-trackingcode in het HTML-veld van de Tagconfiguratie.",
+        "SiteWithoutDataGTMFollowStep8": "Scroll naar beneden en klik op \"Triggers\".",
+        "SiteWithoutDataGTMFollowStep9": "Selecteer \"All Pages\" om de \"Matomo tracking tag\" op al uw pagina's te activeren.",
+        "SiteWithoutDataGTMFollowStep10": "Klik op \"Opslaan\".",
+        "SiteWithoutDataGTMFollowStep11": "Publiceer uw wijzigingen door op de knop \"Verzenden\" en vervolgens op de knop \"Publiceren\" rechtsboven te klikken.",
+        "SiteWithoutDataGoogleTagManagerFollowStepCompleted": "%1$sGefeliciteerd!%2$s U hebt met succes de Matomo Analytics trackingcode geïnstalleerd via Google Tag Manager. Om te controleren of hits worden bijgehouden, bezoekt u uw website en controleert u of deze gegevens zichtbaar zijn in uw Matomo instantie."
     }
 }

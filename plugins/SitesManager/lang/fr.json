@@ -118,6 +118,22 @@
         "WebsitesManagement": "Gestion des sites",
         "XManagement": "Gérer %s",
         "YouCurrentlyHaveAccessToNWebsites": "Vous avez actuellement accès à %s sites web.",
-        "YourCurrentIpAddressIs": "Votre adresse IP actuelle est %s"
+        "YourCurrentIpAddressIs": "Votre adresse IP actuelle est %s",
+        "GTMDetected": "Google Tag Manager a été détecté sur votre site web. Saviez-vous que vous pouvez migrer vos balises, déclencheurs et variables existants de Google Tag Manager vers Matomo Tag Manager ? %1$sEn savoir plus dans ce guide%2$s.",
+        "GTMDetectedEmail": "Google Tag Manager a été détecté sur votre site web. Saviez-vous que vous pouvez migrer vos balises, déclencheurs et variables existants de Google Tag Manager vers Matomo Tag Manager ? En savoir plus ici : %1$s",
+        "SiteWithoutDataGoogleTagManagerIntro": "Si vous utilisez Google Tag Manager, vous pouvez commencer à suivre les données de Matomo de manière transparente en utilisant la \"balise HTML personnalisée\" disponible dans Google Tag Manager. %1$sEn savoir plus%2$s.",
+        "SiteWithoutDataGoogleTagManagerFollowStepsIntro": "Suivez ces étapes pour la configurer:",
+        "SiteWithoutDataGTMFollowStep1": "%1$sConnectez-vous%2$s à votre compte Google Tag Manager.",
+        "SiteWithoutDataGTMFollowStep2": "Sélectionnez le conteneur auquel vous souhaitez ajouter Matomo.",
+        "SiteWithoutDataGTMFollowStep3": "Cliquez sur \"Balises\" puis sur \"Nouvelle\".",
+        "SiteWithoutDataGTMFollowStep4": "En haut de la fenêtre, donnez un nom à votre balise.",
+        "SiteWithoutDataGTMFollowStep5": "Cliquez sur \"Configuration de la balise\" et sélectionnez \"HTML personnalisé\"",
+        "SiteWithoutDataGTMFollowStep6": "Copiez le code de suivi JavaScript Matomo tel que fourni ci-dessous.",
+        "SiteWithoutDataGTMFollowStep7": "Collez ce code de suivi JavaScript dans le champ HTML de configuration de la balise.",
+        "SiteWithoutDataGTMFollowStep8": "Faites défiler vers le bas et cliquez sur \"Déclencheurs\".",
+        "SiteWithoutDataGTMFollowStep9": "Sélectionnez \"Toutes les pages\" pour déclencher la \"balise de suivi Matomo\" sur toutes vos pages.",
+        "SiteWithoutDataGTMFollowStep10": "Cliquez sur \"Enregistrer\".",
+        "SiteWithoutDataGTMFollowStep11": "Publiez vos modifications en cliquant sur le bouton \"Soumettre\", puis sur le bouton \"Publier\" en haut à droite.",
+        "SiteWithoutDataGoogleTagManagerFollowStepCompleted": "%1$sFélicitations!%2$s Vous avez installé avec succès le code de suivi Matomo Analytics via Google Tag Manager. Pour vérifier que les hits sont suivis, visitez votre site Web et vérifiez que ces données sont visibles dans votre instance Matomo."
     }
 }
