@@ -117,7 +117,6 @@
         "GeolocationAnonymizeIpNote": "Notera: Geolocation kommer att ha ungefär samma resultat med 1 byte anonymiserad. Med 2 byte eller mer blir Geolocation vara felaktig.",
         "GetPurgeEstimate": "Hämta uppskattning för rensning",
         "HowDoIAskForConsent": "Hur ber jag användare om samtycke?",
-        "HowDoIAskForConsentIntroduction": "Lär dig allt om att %1$sbe om cookies- eller spårningssamtycke i vår integrationsguide.%2$s",
         "IPAddress": "IP-adress",
         "Imprint": "Avtryck",
         "ImprintUrl": "Webbadress för avtryck",
@@ -221,8 +220,6 @@
         "VisitsMatchedCriteria": "Dessa besök matchar de valda kriterierna.",
         "VisitsSuccessfullyDeleted": "Besök har raderats",
         "VisitsSuccessfullyExported": "Besök exporterades",
-        "WhenConsentIsNeeded1": "I samband med %1$sGDPR:s sekretessregler%2$s måste du i vissa fall be om användarens samtycke när du behandlar personuppgifter. För att identifiera om du behöver begära samtycke måste du avgöra om din lagliga grund för behandling av personuppgifter är \"Samtycke\" eller \"Legitimt intresse\", eller om du kan undvika att samla in personuppgifter helt och hållet. Vi rekommenderar att du lär dig mer om den %3$slagliga grunden enligt GDPR för Matomo%4$s.",
-        "WhenConsentIsNeeded2": "Observera att när du behöver ha användarnas samtycke och om du inte kan bevisa att du har fått \"samtycke\" från dina användare tidigare, rekommenderar vi att du %1$sanonymiserar dina tidigare spårade användares rådata%2$s.",
         "WhenDoINeedConsent": "När behöver jag be om användarens samtycke?"
     }
 }

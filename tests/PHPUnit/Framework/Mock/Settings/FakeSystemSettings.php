@@ -28,4 +28,3 @@ class FakeSystemSettings extends \Piwik\Plugins\ExampleSettingsPlugin\SystemSett
     }
 
 }
-

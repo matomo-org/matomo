@@ -84,4 +84,3 @@ class Archiver extends \Piwik\Plugin\Archiver
     }
 
 }
-
