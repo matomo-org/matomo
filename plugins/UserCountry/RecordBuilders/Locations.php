@@ -48,7 +48,7 @@ class Locations extends RecordBuilder
                 ->setMaxRowsInTable($maxRowsInTable),
 
             Record::make(Record::TYPE_NUMERIC, Archiver::DISTINCT_COUNTRIES_METRIC)
-                ->setIsCountOfBlobRecordRows(Archiver::COUNTRY_FIELD),
+                ->setIsCountOfBlobRecordRows(Archiver::COUNTRY_RECORD_NAME),
         ];
     }
 
