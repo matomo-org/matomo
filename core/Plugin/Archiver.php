@@ -355,12 +355,18 @@ abstract class Archiver
      * use this method to make sure those segments get pre-archived. Otherwise, if browser archiving is disabled,
      * the modified segments will appear to have no data.
      *
-     * See the Goals plugin for an example.
+     * To archive another plugin, use an array instead of a string segment, for example:
+     *
+     * ```
+     * ['plugin' => 'VisitsSummary', 'segment' => '...']
+     * ```
+     *
+     * See the Goals and VisitFrequency plugins for examples.
      *
      * @return array
      * @api
      */
-    public function getDependentSegmentsToArchive()
+    public function getDependentSegmentsToArchive(): array
     {
         return [];
     }
@@ -379,8 +385,16 @@ abstract class Archiver
         }
 
         $dependentSegments = $this->getDependentSegmentsToArchive();
-        foreach ($dependentSegments as $segment) {
-            $this->getProcessor()->processDependentArchive('Goals', $segment);
+        foreach ($dependentSegments as $dependentSegment) {
+            $plugin = $this->getPluginName();
+            $segment = $dependentSegment;
+
+            if (is_array($dependentSegment)) {
+                $plugin = $dependentSegment['plugin'] ?? $plugin;
+                $segment = $dependentSegment['segment'];
+            }
+
+            $this->getProcessor()->processDependentArchive($plugin, $segment);
         }
     }
 }
