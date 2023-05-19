@@ -68,7 +68,7 @@ class GeneralGoalsRecords extends Base
         array(364)
     );
 
-    protected function aggregate(ArchiveProcessor $archiveProcessor)
+    protected function aggregate(ArchiveProcessor $archiveProcessor): array
     {
         $prefixes = array(
             self::VISITS_UNTIL_RECORD_NAME    => 'vcv',
@@ -193,7 +193,7 @@ class GeneralGoalsRecords extends Base
         return !in_array($idGoal, $this->getEcommerceIdGoals());
     }
 
-    public function getRecordMetadata(ArchiveProcessor $archiveProcessor)
+    public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
     {
         $goals = API::getInstance()->getGoals($this->getSiteId($archiveProcessor));
         $goals = array_keys($goals);
@@ -232,7 +232,7 @@ class GeneralGoalsRecords extends Base
         return $numericRecords;
     }
 
-    public function isEnabled(ArchiveProcessor $archiveProcessor)
+    public function isEnabled(ArchiveProcessor $archiveProcessor): bool
     {
         return $archiveProcessor->getNumberOfVisitsConverted() > 0;
     }

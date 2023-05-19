@@ -28,7 +28,7 @@ abstract class RecordBuilder
     protected $maxRowsInSubtable;
 
     /**
-     * @var string|int
+     * @var string|null
      */
     protected $columnToSortByBeforeTruncation;
 
@@ -45,11 +45,11 @@ abstract class RecordBuilder
     /**
      * @param int|null $maxRowsInTable
      * @param int|null $maxRowsInSubtable
-     * @param string|int|null $columnToSortByBeforeTruncation
+     * @param string|null $columnToSortByBeforeTruncation
      * @param array|null $columnAggregationOps
      */
-    public function __construct($maxRowsInTable = null, $maxRowsInSubtable = null,
-                                $columnToSortByBeforeTruncation = null, $columnAggregationOps = null)
+    public function __construct(?int $maxRowsInTable = null, ?int $maxRowsInSubtable = null,
+                                ?string $columnToSortByBeforeTruncation = null, ?array $columnAggregationOps = null)
     {
         $this->maxRowsInTable = $maxRowsInTable;
         $this->maxRowsInSubtable = $maxRowsInSubtable;
@@ -57,12 +57,12 @@ abstract class RecordBuilder
         $this->columnAggregationOps = $columnAggregationOps;
     }
 
-    public function isEnabled(ArchiveProcessor $archiveProcessor)
+    public function isEnabled(ArchiveProcessor $archiveProcessor): bool
     {
         return true;
     }
 
-    public function build(ArchiveProcessor $archiveProcessor)
+    public function build(ArchiveProcessor $archiveProcessor): void
     {
         if (!$this->isEnabled($archiveProcessor)) {
             return;
@@ -101,7 +101,7 @@ abstract class RecordBuilder
         }
     }
 
-    public function buildMultiplePeriod(ArchiveProcessor $archiveProcessor)
+    public function buildMultiplePeriod(ArchiveProcessor $archiveProcessor): void
     {
         if (!$this->isEnabled($archiveProcessor)) {
             return;
@@ -153,7 +153,7 @@ abstract class RecordBuilder
      *
      * @return Record[]
      */
-    public abstract function getRecordMetadata(ArchiveProcessor $archiveProcessor);
+    public abstract function getRecordMetadata(ArchiveProcessor $archiveProcessor): array;
 
     /**
      * Derived classes should define this method to aggregate log data for a single day and return the records
@@ -161,10 +161,10 @@ abstract class RecordBuilder
      *
      * @return (DataTable|int|float|string)[] Record values indexed by their record name, eg, `['MyPlugin_MyRecord' => new DataTable()]`
      */
-    protected abstract function aggregate(ArchiveProcessor $archiveProcessor);
+    protected abstract function aggregate(ArchiveProcessor $archiveProcessor): array;
 
     private function insertRecord(ArchiveProcessor $archiveProcessor, $recordName, DataTable\DataTableInterface $record,
-                                  $maxRowsInTable, $maxRowsInSubtable, $columnToSortByBeforeTruncation)
+                                  ?int $maxRowsInTable, ?int $maxRowsInSubtable, ?string $columnToSortByBeforeTruncation): void
     {
         $serialized = $record->getSerialized(
             $maxRowsInTable ?: $this->maxRowsInTable,
@@ -175,22 +175,22 @@ abstract class RecordBuilder
         unset($serialized);
     }
 
-    public function getMaxRowsInTable()
+    public function getMaxRowsInTable(): ?int
     {
         return $this->maxRowsInTable;
     }
 
-    public function getMaxRowsInSubtable()
+    public function getMaxRowsInSubtable(): ?int
     {
         return $this->maxRowsInSubtable;
     }
 
-    public function getColumnToSortByBeforeTruncation()
+    public function getColumnToSortByBeforeTruncation(): ?string
     {
         return $this->columnToSortByBeforeTruncation;
     }
 
-    public function getPluginName()
+    public function getPluginName(): ?string
     {
         $className = get_class($this);
         $parts = explode('\\', $className);
@@ -205,7 +205,7 @@ abstract class RecordBuilder
      *
      * @return string
      */
-    public function getQueryOriginHint()
+    public function getQueryOriginHint(): ?string
     {
         $recordBuilderName = get_class($this);
         $recordBuilderName = explode('\\', $recordBuilderName);
@@ -221,7 +221,7 @@ abstract class RecordBuilder
      * @param string[] $requestedReports The list of requested reports to check for.
      * @return bool
      */
-    public function isBuilderForAtLeastOneOf(ArchiveProcessor $archiveProcessor, array $requestedReports)
+    public function isBuilderForAtLeastOneOf(ArchiveProcessor $archiveProcessor, array $requestedReports): bool
     {
         $recordMetadata = $this->getRecordMetadata($archiveProcessor);
         foreach ($recordMetadata as $record) {
