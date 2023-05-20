@@ -54,7 +54,7 @@ class Updates_5_0_0_b1 extends PiwikUpdates
         $migrations[] = $this->migration->db->addColumns('log_conversion', ['pageviews_before' => "SMALLINT UNSIGNED DEFAULT NULL"]);
 
         $instanceId = SettingsPiwik::getPiwikInstanceId();
-        if (strpos($instanceId, '.matomo.cloud') === false || strpos($instanceId, '.innocraft.cloud') === false) {
+        if (strpos($instanceId, '.matomo.cloud') === false && strpos($instanceId, '.innocraft.cloud') === false) {
             $commandString = './console core:calculate-conversion-pages --dates=yesterday,today';
             $populatePagesBefore = new CustomMigration([CalculateConversionPages::class, 'calculateYesterdayAndToday'], $commandString);
             $migrations[] = $populatePagesBefore;
