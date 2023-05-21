@@ -79,6 +79,13 @@ abstract class RecordBuilder
 
         $records = $this->aggregate($archiveProcessor);
         foreach ($records as $recordName => $recordValue) {
+            if (empty($recordMetadataByName[$recordName])) {
+                if ($recordValue instanceof DataTable) {
+                    Common::destroy($recordValue);
+                }
+                continue;
+            }
+
             if ($recordValue instanceof DataTable) {
                 $record = $recordMetadataByName[$recordName];
 
