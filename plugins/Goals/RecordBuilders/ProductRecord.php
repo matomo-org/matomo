@@ -70,12 +70,12 @@ class ProductRecord extends Base
         $this->dimensionsToAggregate = array_merge([$dimension], $otherDimensionsToAggregate);
     }
 
-    public function isEnabled(ArchiveProcessor $archiveProcessor)
+    public function isEnabled(ArchiveProcessor $archiveProcessor): bool
     {
         return Manager::getInstance()->isPluginActivated('Ecommerce');
     }
 
-    public function getRecordMetadata(ArchiveProcessor $archiveProcessor)
+    public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
     {
         $abandonedCartRecordName = Archiver::getItemRecordNameAbandonedCart($this->recordName);
 
@@ -85,7 +85,7 @@ class ProductRecord extends Base
         ];
     }
 
-    protected function aggregate(ArchiveProcessor $archiveProcessor)
+    protected function aggregate(ArchiveProcessor $archiveProcessor): array
     {
         $itemReports = [];
         foreach ($this->getEcommerceIdGoals() as $ecommerceType) {

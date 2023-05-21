@@ -11,6 +11,7 @@ namespace Piwik\Plugin;
 
 use Piwik\ArchiveProcessor;
 use Piwik\Cache;
+use Piwik\CacheId;
 use Piwik\Config as PiwikConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\ErrorHandler;
@@ -108,7 +109,7 @@ abstract class Archiver
     private function getRecordBuilders()
     {
         $transientCache = Cache::getTransientCache();
-        $cacheKey = 'Archiver.RecordBuilders';
+        $cacheKey = CacheId::siteAware('Archiver.RecordBuilders');
 
         $recordBuilders = $transientCache->fetch($cacheKey);
         if ($recordBuilders === false) {
