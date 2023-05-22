@@ -2,6 +2,9 @@
 <br>
 <p>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStepsIntro'|translate }}</p>
 <ol style="list-style: decimal;list-style-position: inside;">
-    <li>Point1</li>
-    <li>Point2</li>
+    <li>{{ 'SitesManager_SiteWithoutDataReactFollowStep1'|translate }}<div style="text-indent: 1.2rem;"><code vue-directive="CoreHome.SelectOnFocus">npm install @datapunt/matomo-tracker-react</code></div></li>
+    <li>{{ 'SitesManager_SiteWithoutDataReactFollowStep2'|translate }}<div><pre class="codeblock">{{ matomoProviderCode }}</pre></div></li>
+    <li>{{ 'SitesManager_SiteWithoutDataReactFollowStep3'|translate('<strong>', '</strong>')|raw }}<div><pre class="codeblock">{{ matomoWrappercode }}</pre></div></li>
 </ol>
+<br>
+<p>{{ 'SitesManager_SiteWithoutDataReactFollowStepCompleted'|translate('<strong>', '</strong>', '<a target="_blank" rel="noreferrer noopener" href="https://www.npmjs.com/package/@datapunt/matomo-tracker-react">matomo-tracker-react</a>')|raw }}</p>

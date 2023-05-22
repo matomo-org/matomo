@@ -562,7 +562,47 @@ class SitesManager extends \Piwik\Plugin
     public function noDataPageReactTabInstructions(&$out)
     {
         Piwik::checkUserHasSomeViewAccess();
+        $piwikUrl = Url::getCurrentUrlWithoutFileName();
+        $siteId = Common::getRequestVar('idSite', 1, 'int');
+        $matomoProviderCode = <<<INST
+import { MatomoProvider, createInstance } from '@datapunt/matomo-tracker-react'
+
+const instance = createInstance({
+    urlBase: '$piwikUrl',
+    siteId: $siteId,
+})
+
+root.render(<MatomoProvider value={instance}><App tab="home" /></MatomoProvider>);
+//OR
+ReactDOM.render(
+<MatomoProvider value={instance}>
+<MyApp />
+</MatomoProvider>,
+)
+INST;
+        $matomoWrappercode = <<<INST
+import React, { Component } from 'react';
+import {useMatomo} from "@datapunt/matomo-tracker-react";
+
+
+export default function App () {
+const { trackPageView, trackEvent } = useMatomo()
+
+// Track page view
+React.useEffect(() => {
+    trackPageView() //this tracks a pageview in Matomo
+}, [])
+
+return (
+    <div>
+        <h1>Hello World</h1>
+    </div>
+)
+}
+INST;
         $view = new View("@SitesManager/_reactTabInstructions");
+        $view->matomoProviderCode = $matomoProviderCode;
+        $view->matomoWrappercode = $matomoWrappercode;
         $out = $view->render();
     }
 }

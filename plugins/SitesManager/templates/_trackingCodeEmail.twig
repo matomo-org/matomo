@@ -18,7 +18,12 @@
 {{ 'SitesManager_CloudflareDetectedEmail'|translate('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-cloudflare-setup/')|raw }}
 
 {% endif %}
-{% if consentManagerName or ga3Used or ga4Used or gtmUsed or cloudflare %}
+{% if react %}
+{{ 'SitesManager_ReactDetectedEmail'|translate('matomo-tracker-react' ,'https://matomo.org/faq/new-to-piwik/{REACT}/')|raw }}
+
+{% endif %}
+
+{% if consentManagerName or ga3Used or ga4Used or gtmUsed or cloudflare or react %}
 {{ 'CoreAdminHome_JSTracking_ConsentManagerEmailNote'|translate }}
 
 {% endif %}
@@ -41,6 +46,7 @@ Joomla: https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytic
 Shopify: https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-shopify-store/
 Google Tag Manager: https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-within-gtm-google-tag-manager/
 Cloudflare: https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-cloudflare-setup/
+React: https://matomo.org/faq/new-to-piwik/{REACT}/
 
 ** {{ 'SitesManager_Integrations'|translate }}
 {{ 'CoreAdminHome_JSTrackingIntro3a'|translate('', '') }}
@@ -65,6 +71,10 @@ https://developer.matomo.org/guides/spa-tracking
 ** {{ 'SitesManager_SiteWithoutDataCloudflare'|translate }}
 {{ 'CoreAdminHome_CloudflareDescription'|translate('', '') }}
 https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-cloudflare-setup/
+
+** {{ 'SitesManager_SiteWithoutDataReact'|translate }}
+{{ 'CoreAdminHome_ReactDescription'|translate('', '') }}
+https://matomo.org/faq/new-to-piwik/{REACT}/
 
 ** {{ 'SitesManager_EmailInstructionsSiteDetailsHeading'|translate }}
 {{ 'SitesManager_EmailInstructionsSiteDetails'|translate }}

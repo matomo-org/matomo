@@ -222,4 +222,94 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($scd->gtm);
         $this->assertFalse($scd->cloudflare);
     }
+
+    public function test_detectReact_IfPresent()
+    {
+        $siteData = "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script><script>const root = ReactDOM.createRoot(container);</script></head><body>A site</body></html>";
+        $scd = new SiteContentDetector();
+        $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
+
+        $this->assertFalse($scd->ga3);
+        $this->assertFalse($scd->ga4);
+        $this->assertFalse($scd->gtm);
+        $this->assertFalse($scd->cloudflare);
+        $this->assertTrue($scd->react);
+    }
+
+    public function test_detectReact_IfPresent2()
+    {
+        $siteData = "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script><script>console.log('abc');</script><script src='https://localhost.com/js/react.min.js'></script></head><body>A site</body></html>";
+        $scd = new SiteContentDetector();
+        $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
+
+        $this->assertFalse($scd->ga3);
+        $this->assertFalse($scd->ga4);
+        $this->assertFalse($scd->gtm);
+        $this->assertFalse($scd->cloudflare);
+        $this->assertTrue($scd->react);
+    }
+
+    public function test_detectReact_IfPresent3()
+    {
+        $siteData = "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script><script>console.log('abc');</script><script src='https://localhost.com/js/react.development.min.js'></script></head><body>A site</body></html>";
+        $scd = new SiteContentDetector();
+        $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
+
+        $this->assertFalse($scd->ga3);
+        $this->assertFalse($scd->ga4);
+        $this->assertFalse($scd->gtm);
+        $this->assertFalse($scd->cloudflare);
+        $this->assertTrue($scd->react);
+    }
+
+    public function test_detectReact_IfPresent4()
+    {
+        $siteData = "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script><script>console.log('abc');</script><script src='https://localhost.com/js/react-dom.development.min.js'></script></head><body>A site</body></html>";
+        $scd = new SiteContentDetector();
+        $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
+
+        $this->assertFalse($scd->ga3);
+        $this->assertFalse($scd->ga4);
+        $this->assertFalse($scd->gtm);
+        $this->assertFalse($scd->cloudflare);
+        $this->assertTrue($scd->react);
+    }
+
+    public function test_detectReact_IfPresent5()
+    {
+        $siteData = "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script><script>console.log('abc');</script><script src='https://localhost.com/js/react.development.js'></script></head><body>A site</body></html>";
+        $scd = new SiteContentDetector();
+        $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
+
+        $this->assertFalse($scd->ga3);
+        $this->assertFalse($scd->ga4);
+        $this->assertFalse($scd->gtm);
+        $this->assertFalse($scd->cloudflare);
+        $this->assertTrue($scd->react);
+    }
+
+    public function test_detectReact_IfPresent6()
+    {
+        $siteData = "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script><script>console.log('abc');</script><script src='https://localhost.com/js/react-dom.development.js'></script></head><body>A site</body></html>";
+        $scd = new SiteContentDetector();
+        $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
+
+        $this->assertFalse($scd->ga3);
+        $this->assertFalse($scd->ga4);
+        $this->assertFalse($scd->gtm);
+        $this->assertFalse($scd->cloudflare);
+        $this->assertTrue($scd->react);
+    }
+
+    public function test_doesNotDetectsReact_IfNotPresent()
+    {
+        $siteData = "<html lang=\"en\"><head><title>A site</title><script><script>console.log('abc');</script></head><body>A site</body></html>";
+        $scd = new SiteContentDetector();
+        $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
+
+        $this->assertFalse($scd->ga3);
+        $this->assertFalse($scd->ga4);
+        $this->assertFalse($scd->gtm);
+        $this->assertFalse($scd->cloudflare);
+    }
 }
