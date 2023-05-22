@@ -113,7 +113,7 @@
 
             <p></p><p></p>
             <div class="system notification notification-info">
-                {{ 'SitesManager_GADetected'|translate('Google Tag Manager', 'GTM', '<a href="', 'https://matomo.org/faq/tag-manager/migrating-from-google-tag-manager/', '" target="_blank" rel="noreferrer noopener">', '</a>')|raw }}
+                {{ 'SitesManager_GTMDetected'|translate('<a href="https://matomo.org/faq/tag-manager/migrating-from-google-tag-manager/" target="_blank" rel="noreferrer noopener">', '</a>')|raw }}
             </div>
 
             <div class="right">
@@ -126,11 +126,6 @@
 
     {% if cms == 'wordpress' %}
         <div id="wordpress" class="col s12">
-
-            <p></p><p></p>
-            <div class="system notification notification-info">
-                {{ 'SitesManager_WordpressDetected'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/">','</a>')|raw }}
-            </div>
 
             <div class="right">
                 <img src="plugins/SitesManager/images/wordpress-icon.png" style="margin-top: -3rem;">
