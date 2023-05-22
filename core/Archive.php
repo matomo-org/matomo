@@ -914,13 +914,15 @@ class Archive implements ArchiveQuery
             $doneFlag = $this->getDoneStringForPlugin($plugin, $idSites);
             $this->initializeArchiveIdCache($doneFlag);
 
+            $reportsToArchiveForThisPlugin = (empty($requestedReport) && $shouldOnlyProcessRequestedArchives) ? $archiveNames : $requestedReport;
+
             $prepareResult = $coreAdminHomeApi->archiveReports(
                 $site->getId(),
                 $period->getLabel(),
                 $periodDateStr,
                 $this->params->getSegment()->getOriginalString(),
                 $plugin,
-                empty($requestedReport) && $shouldOnlyProcessRequestedArchives ? $archiveNames : $requestedReport
+                $reportsToArchiveForThisPlugin
             );
 
             if (

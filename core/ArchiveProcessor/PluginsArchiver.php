@@ -197,6 +197,7 @@ class PluginsArchiver
                         $this->params->getSegment() ? sprintf("(for segment = '%s')", $this->params->getSegment()->getString()) : ''
                     );
                 } catch (Exception $e) {
+                    throw $e;
                     throw new PluginsArchiverException($e->getMessage() . " - in plugin $pluginName.", $e->getCode(), $e);
                 } finally {
                     self::$currentPluginBeingArchived = null;

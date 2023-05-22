@@ -62,7 +62,14 @@ abstract class RecordBuilder
         return true;
     }
 
-    public function build(ArchiveProcessor $archiveProcessor): void
+    /**
+     * Used the `aggregate()` protected function to build records by aggregating log table data directly, then
+     * inserts them as archive data.
+     *
+     * @param ArchiveProcessor $archiveProcessor
+     * @return void
+     */
+    public function buildFromLogs(ArchiveProcessor $archiveProcessor): void
     {
         if (!$this->isEnabled($archiveProcessor)) {
             return;
@@ -108,7 +115,14 @@ abstract class RecordBuilder
         }
     }
 
-    public function buildMultiplePeriod(ArchiveProcessor $archiveProcessor): void
+    /**
+     * Builds records for non-day periods by aggregating day records together, then inserts
+     * them as archive data.
+     *
+     * @param ArchiveProcessor $archiveProcessor
+     * @return void
+     */
+    public function buildForNonDayPeriod(ArchiveProcessor $archiveProcessor): void
     {
         if (!$this->isEnabled($archiveProcessor)) {
             return;

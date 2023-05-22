@@ -93,11 +93,6 @@ abstract class Archiver
         $parts = explode('\\', $className);
         $parts = array_filter($parts);
         $plugin = $parts[2];
-
-        if (!Manager::getInstance()->isPluginLoaded($plugin)) {
-            return null;
-        }
-
         return $plugin;
     }
 
@@ -114,13 +109,11 @@ abstract class Archiver
         $recordBuilders = $transientCache->fetch($cacheKey);
         if ($recordBuilders === false) {
             $recordBuilderClasses = Manager::getInstance()->findMultipleComponents('RecordBuilders', ArchiveProcessor\RecordBuilder::class);
+            $recordBuilderClasses = $this->getDefaultConstructibleClasses($recordBuilderClasses);
 
             $recordBuilders = array_map(function ($className) {
-                if ((new \ReflectionClass($className))->getConstructor()->getNumberOfRequiredParameters() == 0) {
-                    return StaticContainer::getContainer()->make($className);
-                }
+                return StaticContainer::getContainer()->make($className);
             }, $recordBuilderClasses);
-            $recordBuilders = array_filter($recordBuilders);
 
             /**
              * Triggered to add new RecordBuilders that cannot be picked up automatically by the platform.
@@ -161,10 +154,8 @@ abstract class Archiver
             $transientCache->save($cacheKey, $recordBuilders);
         }
 
-        $requestedReports = $this->processor->getParams()->getArchiveOnlyReport();
+        $requestedReports = $this->processor->getParams()->getArchiveOnlyReportAsArray();
         if (!empty($requestedReports)) {
-            $requestedReports = is_string($requestedReports) ? [$requestedReports] : $requestedReports;
-
             $recordBuilders = array_filter($recordBuilders, function (ArchiveProcessor\RecordBuilder $builder) use ($requestedReports) {
                 return $builder->isBuilderForAtLeastOneOf($this->processor, $requestedReports);
             });
@@ -183,7 +174,7 @@ abstract class Archiver
 
             $pluginName = $this->getPluginName();
 
-            if (!empty($pluginName)) {
+            if (Manager::getInstance()->isPluginLoaded($pluginName)) {
                 $recordBuilders = $this->getRecordBuilders();
 
                 foreach ($recordBuilders as $recordBuilder) {
@@ -203,7 +194,7 @@ abstract class Archiver
                     $newQueryHint = $originalQueryHint . ' ' . $recordBuilder->getQueryOriginHint();
                     try {
                         $this->getProcessor()->getLogAggregator()->setQueryOriginHint($newQueryHint);
-                        $recordBuilder->build($this->getProcessor());
+                        $recordBuilder->buildFromLogs($this->getProcessor());
                     } finally {
                         $this->getProcessor()->getLogAggregator()->setQueryOriginHint($originalQueryHint);
                     }
@@ -226,7 +217,7 @@ abstract class Archiver
 
             $pluginName = $this->getPluginName();
 
-            if (!empty($pluginName)) {
+            if (Manager::getInstance()->isPluginLoaded($pluginName)) {
                 $recordBuilders = $this->getRecordBuilders();
                 foreach ($recordBuilders as $recordBuilder) {
                     if ($recordBuilder->getPluginName() != $pluginName
@@ -245,7 +236,7 @@ abstract class Archiver
                     $newQueryHint = $originalQueryHint . ' ' . $recordBuilder->getQueryOriginHint();
                     try {
                         $this->getProcessor()->getLogAggregator()->setQueryOriginHint($newQueryHint);
-                        $recordBuilder->buildMultiplePeriod($this->getProcessor());
+                        $recordBuilder->buildForNonDayPeriod($this->getProcessor());
                     } finally {
                         $this->getProcessor()->getLogAggregator()->setQueryOriginHint($originalQueryHint);
                     }
@@ -340,5 +331,12 @@ abstract class Archiver
         $requestedReport = $this->getProcessor()->getParams()->getArchiveOnlyReport();
 
         return empty($requestedReport) || $requestedReport == $reportName;
+    }
+
+    private function getDefaultConstructibleClasses(array $classes): array
+    {
+        return array_filter($classes, function ($className) {
+            return (new \ReflectionClass($className))->getConstructor()->getNumberOfRequiredParameters() == 0;
+        });
     }
 }

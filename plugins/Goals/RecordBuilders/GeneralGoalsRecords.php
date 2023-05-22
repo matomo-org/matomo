@@ -32,48 +32,48 @@ class GeneralGoalsRecords extends Base
     /**
      * This array stores the ranges to use when displaying the 'visits to conversion' report
      */
-    public static $visitCountRanges = array(
-        array(1, 1),
-        array(2, 2),
-        array(3, 3),
-        array(4, 4),
-        array(5, 5),
-        array(6, 6),
-        array(7, 7),
-        array(8, 8),
-        array(9, 14),
-        array(15, 25),
-        array(26, 50),
-        array(51, 100),
-        array(100)
-    );
+    public static $visitCountRanges = [
+        [1, 1],
+        [2, 2],
+        [3, 3],
+        [4, 4],
+        [5, 5],
+        [6, 6],
+        [7, 7],
+        [8, 8],
+        [9, 14],
+        [15, 25],
+        [26, 50],
+        [51, 100],
+        [100],
+    ];
 
     /**
      * This array stores the ranges to use when displaying the 'days to conversion' report
      */
-    public static $daysToConvRanges = array(
-        array(0, 0),
-        array(1, 1),
-        array(2, 2),
-        array(3, 3),
-        array(4, 4),
-        array(5, 5),
-        array(6, 6),
-        array(7, 7),
-        array(8, 14),
-        array(15, 30),
-        array(31, 60),
-        array(61, 120),
-        array(121, 364),
-        array(364)
-    );
+    public static $daysToConvRanges = [
+        [0, 0],
+        [1, 1],
+        [2, 2],
+        [3, 3],
+        [4, 4],
+        [5, 5],
+        [6, 6],
+        [7, 7],
+        [8, 14],
+        [15, 30],
+        [31, 60],
+        [61, 120],
+        [121, 364],
+        [364],
+    ];
 
     protected function aggregate(ArchiveProcessor $archiveProcessor): array
     {
-        $prefixes = array(
+        $prefixes = [
             self::VISITS_UNTIL_RECORD_NAME    => 'vcv',
             self::DAYS_UNTIL_CONV_RECORD_NAME => 'vdsf',
-        );
+        ];
 
         $totalConversions = 0;
         $totalRevenue = 0;
@@ -177,7 +177,7 @@ class GeneralGoalsRecords extends Base
         return $result;
     }
 
-    protected function getOverviewFromGoalTables($tableByGoal)
+    private function getOverviewFromGoalTables($tableByGoal)
     {
         $overview = new DataTable();
         foreach ($tableByGoal as $idGoal => $table) {
@@ -188,7 +188,7 @@ class GeneralGoalsRecords extends Base
         return $overview;
     }
 
-    protected function isStandardGoal($idGoal)
+    private function isStandardGoal($idGoal)
     {
         return !in_array($idGoal, $this->getEcommerceIdGoals());
     }
@@ -218,9 +218,9 @@ class GeneralGoalsRecords extends Base
         return $records;
     }
 
-    protected function getConversionsNumericMetrics(DataArray $goals)
+    private function getConversionsNumericMetrics(DataArray $goals)
     {
-        $numericRecords = array();
+        $numericRecords = [];
         $goals = $goals->getDataArray();
         foreach ($goals as $idGoal => $array) {
             foreach ($array as $metricId => $value) {
