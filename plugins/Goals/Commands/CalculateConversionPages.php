@@ -8,31 +8,24 @@
 
 namespace Piwik\Plugins\Goals\Commands;
 
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\Db;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\Goals\Model as GoalsModel;
-use Piwik\Plugins\Goals\PagesBeforeCalculator;
+use Piwik\Plugins\SitesManager\Model as SitesModel;
 use Piwik\Site;
 use Piwik\Timer;
 use Piwik\Tracker\GoalManager;
+use Piwik\Updater;
+use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
  * Command to calculate the pages viewed before conversions and populate the log_conversion.pages_before field
  */
 class CalculateConversionPages extends ConsoleCommand
 {
-
-    /**
-     * @var PagesBeforeCalculator
-     */
-    private $pagesBeforeCalculator;
-
-    public function __construct(PagesBeforeCalculator $pagesBeforeCalculator = null)
-    {
-        parent::__construct();
-        $this->pagesBeforeCalculator = $pagesBeforeCalculator ?: StaticContainer::get('Piwik\Plugins\Goals\PagesBeforeCalculator');
-    }
 
     protected function configure()
     {
@@ -84,16 +77,24 @@ class CalculateConversionPages extends ConsoleCommand
 
         $timer = new Timer();
 
-        try {
-            $conversionsCalculated = $this->pagesBeforeCalculator->calculateFor($from, $to, $lastN, $idSite, $idGoal, $forceRecalc, function () use ($output) {
-                $output->write('.');
-            });
-        } catch (\Exception $ex) {
-            $output->writeln("");
-            throw $ex;
+        $queries = $this->getQueries($from, $to, $lastN, $idSite, $idGoal, $forceRecalc);
+
+        $totalCalculated = 0;
+        foreach ($queries as $query) {
+
+            try {
+                $result = Db::query($query['sql'], $query['bind']);
+            } catch (\Exception $ex) {
+                $output->writeln("Exception executing query " . $query['sql'] . " with parameters " . json_encode($query['bind']));
+                throw $ex;
+            }
+
+            $calcCount = $result->rowCount();
+            $totalCalculated += $calcCount;
+            $output->write(".");
         }
 
-        $this->writeSuccessMessage(["Successfully calculated the pages before metric for $conversionsCalculated conversions. <comment>" . $timer . "</comment>"]);
+        $this->writeSuccessMessage(["Successfully calculated the pages before metric for $totalCalculated conversions. <comment>" . $timer . "</comment>"]);
 
         return self::SUCCESS;
     }
@@ -106,9 +107,18 @@ class CalculateConversionPages extends ConsoleCommand
      */
     public static function calculateYesterdayAndToday(): void
     {
-        $pagesBeforeCalculator = StaticContainer::get('Piwik\Plugins\Goals\PagesBeforeCalculator');
-        $pagesBeforeCalculator->calculateFor(Date::factory('yesterday')->getDatetime(),
-                                             Date::factory('today')->getEndOfDay()->getDatetime());
+        $migration = StaticContainer::get(MigrationFactory::class);
+
+        $queries = self::getQueries(Date::factory('yesterday')->getDatetime(),
+                                    Date::factory('today')->getEndOfDay()->getDatetime());
+
+        $migrations = [];
+        foreach ($queries as $query) {
+            $migrations[] = $migration->db->boundSql($query['sql'], $query['bind']);
+        }
+
+        $updater = StaticContainer::get(Updater::class);
+        $updater->executeMigrations(__FILE__, $migrations);
     }
 
     /**
@@ -200,6 +210,129 @@ class CalculateConversionPages extends ConsoleCommand
         }
 
         return $idGoal;
+    }
+
+    /**
+     * Generates the queries to calculate the 'pages before' metric for conversions within the specified date range,
+     * belonging to the specified site (if any) and specific goals (only if a single site is specified).
+     *
+     * @param string|null   $startDatetime A datetime string. Visits that occur at this time or after are deleted. If not supplied,
+     *                                     visits from the beginning of time are deleted.
+     * @param string|null   $endDatetime A datetime string. Visits that occur before this time are deleted. If not supplied,
+     *                                   visits from the end of time are deleted.
+     * @param int|null      $lastN  Calculate the last N conversions, should not be used with a date range
+     * @param string|null   $idSite The site for which to calculate, or list of comma separated sites
+     * @param string|null   $idGoal The goal for which to calculate, or list of comma separated idgoals (only if single site)
+     * @param bool          $forceRecalc If enabled then values will be recalculated for conversions that already have a
+     *                                   'pages before' value. By default only conversions with a null value will be calculated.
+     *
+     * @return array An array of queries and bind arrays   [['sql' => QUERY1, 'bind' => [PARAM1 => VALUE], ...]
+     */
+    public static function getQueries(?string $startDatetime, ?string $endDatetime, ?int $lastN = null, ?string $idSite = null,
+                                 ?string $idGoal = null, ?bool $forceRecalc = false): array
+    {
+        // Sites
+        if ($idSite === null) {
+            // All sites
+            $sitesModel = new SitesModel();
+            $sites = $sitesModel->getSitesId();
+        } else {
+            // Specific sites
+            $sites = explode(',', $idSite);
+        }
+
+        if ($lastN) {
+
+            // Since MySQL doesn't support multi-table updates with a LIMIT clause we will find the exact date time of
+            // the lastN record and use that as a date range start with the current date time as the date range end
+            $sql = "
+                    SELECT MIN(c.server_time) 
+                    FROM " . Common::prefixTable('log_conversion') . " c                                 
+                    ";
+
+            $where = '';
+             if (!$forceRecalc) {
+                 $where .= " AND c.pageviews_before IS NULL";
+             }
+
+            $bind = [];
+            if ($idGoal !== null) {
+                $where .= ' AND c.idgoal = ? ';
+                $bind[] = $idGoal;
+            }
+            if ($idSite !== null) {
+                $where .= ' AND c.idsite = ? ';
+                $bind[] = $idSite;
+            }
+
+            if ($where !== '') {
+                $sql .= ' WHERE '.ltrim($where, 'AND ');
+            }
+
+            $sql .= " ORDER BY c.server_time DESC LIMIT " . $lastN;
+
+            $result = Db::fetchOne($sql, $bind);
+
+            $startDatetime = $result;
+            $endDatetime = Date::factory('now')->getDatetime();
+        }
+
+        $queries = [];
+
+        foreach ($sites as $site) {
+
+            $timezone = Site::getTimezoneFor($site);
+
+            if ($idGoal === null) {
+                // All goals
+                $goalsModel = new GoalsModel();
+                $goals = array_column($goalsModel->getActiveGoals([$site]), 'idgoal');
+
+                // Include ecommerce orders if enabled for the site
+                if (Site::isEcommerceEnabledFor($site)) {
+                    $goals[] = GoalManager::IDGOAL_ORDER;
+                }
+            } else {
+                // Specific goals
+                $goals = explode(',', $idGoal);
+            }
+
+            foreach ($goals as $goal) {
+
+                $sql = "
+                UPDATE " . Common::prefixTable('log_conversion') . " c
+                LEFT JOIN (
+                    SELECT COUNT(va.idvisit) AS pages_before, va.idvisit, va.server_time
+                    FROM " . Common::prefixTable('log_link_visit_action') . " va
+                    LEFT JOIN " . Common::prefixTable('log_action') . " a ON a.idaction = va.idaction_url AND a.type = 1
+                    GROUP BY va.idvisit
+                ) AS a ON a.idvisit = c.idvisit AND a.server_time <= c.server_time
+                SET c.pageviews_before = a.pages_before
+                WHERE c.idsite = ? AND c.idgoal = ?                    
+                ";
+
+                if (!$forceRecalc) {
+                     $sql .= " AND c.pageviews_before IS NULL";
+                }
+
+                $bind = [$site, $goal];
+
+                if (!empty($startDatetime)) {
+                    $sql .= " AND c.server_time >= ?";
+                    $bind[] = Date::factory($startDatetime, $timezone)->getDateTime();
+                }
+
+                if (!empty($endDatetime)) {
+                    $sql .= " AND c.server_time <= ?";
+                    $bind[] = Date::factory($endDatetime, $timezone)->getDateTime();
+                }
+
+                $queries[] = ['sql' => $sql, 'bind' => $bind];
+
+            }
+        }
+
+        return $queries;
     }
 
 }
