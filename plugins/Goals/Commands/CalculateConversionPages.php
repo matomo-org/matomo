@@ -285,8 +285,9 @@ class CalculateConversionPages extends ConsoleCommand
 
             if ($idGoal === null) {
                 // All goals
-                $goalsModel = new GoalsModel();
-                $goals = array_column($goalsModel->getActiveGoals([$site]), 'idgoal');
+                $gids = Db::fetchAll("SELECT idgoal FROM " . Common::prefixTable('goal'). "
+                                        WHERE idsite = ? AND deleted = 0", [$site]);
+                $goals = array_column($gids, 'idgoal');
 
                 // Include ecommerce orders if enabled for the site
                 if (Site::isEcommerceEnabledFor($site)) {
