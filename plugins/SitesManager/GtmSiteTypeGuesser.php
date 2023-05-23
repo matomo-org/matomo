@@ -161,16 +161,10 @@ class GtmSiteTypeGuesser
         }
 
         $needles = ['react.min.js' ,'react.development.min.js', 'react-dom.development.min.js' ,'react.development.js', 'react-dom.development.js', 'ReactDOM.'];
+        $hasReactNative = (stripos($response['data'], 'react-native') !== false);
 
         foreach ($needles as $needle) {
-            if (stripos($response['data'], $needle) !== false) {
-                return true;
-            }
-        }
-
-        $tests = ["/ReactDOM/i"];
-        foreach ($tests as $test) {
-            if (preg_match($test, $response['data']) === 1) {
+            if (stripos($response['data'], $needle) !== false && !$hasReactNative) {
                 return true;
             }
         }
