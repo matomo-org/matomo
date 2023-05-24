@@ -163,7 +163,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'ga4Used' => false,
             'gtmUsed' => false,
             'cms' => false,
-            'vue' => true,
+            'vue' => false,
         ];
 
         $this->siteContentDetector->detectContent([SiteContentDetector::ALL_CONTENT]);
