@@ -38,7 +38,7 @@ class Login extends \Piwik\Plugin
         $hooks = array(
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'User.isNotAuthorized'             => 'noAccess',
-            'API.Request.authenticate'         => 'ApiRequestAuthenticate',
+            'API.Request.authenticate'         => 'apiRequestAuthenticate',
             'AssetManager.getJavaScriptFiles'  => 'getJsFiles',
             'AssetManager.getStylesheetFiles'  => 'getStylesheetFiles',
             'Session.beforeSessionStart'       => 'beforeSessionStart',
@@ -225,7 +225,7 @@ class Login extends \Piwik\Plugin
      * Set login name and authentication token for API request.
      * Listens to API.Request.authenticate hook.
      */
-    public function ApiRequestAuthenticate($tokenAuth)
+    public function apiRequestAuthenticate($tokenAuth)
     {
         $this->beforeLoginCheckBruteForce();
 
