@@ -238,7 +238,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'consentManagerName' => false,
             'cloudflare' => $this->siteContentDetector->cloudflare,
             'vue' => $this->siteContentDetector->vue,
-            'vue' => true,
             'cms' => $this->siteContentDetector->cms,
         ];
 
