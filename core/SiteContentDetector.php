@@ -42,7 +42,6 @@ class SiteContentDetector
     const GTM = 5;
     const CMS = 6;
     const REACT = 7;
-    const REACT_NATIVE = 8;
 
     // Detection detail
     public $consentManagerId;       // Id of the detected consent manager, eg. 'osano'
@@ -96,7 +95,6 @@ class SiteContentDetector
         $this->cms = SitesManager::SITE_TYPE_UNKNOWN;
         $this->cloudflare = false;
         $this->react = false;
-        $this->reactNative = false;
     }
 
     /**
@@ -201,10 +199,6 @@ class SiteContentDetector
 
         if (in_array(SiteContentDetector::REACT, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
             $requiredProperties[] = 'react';
-        }
-
-        if (in_array(SiteContentDetector::REACT_NATIVE, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
-            $requiredProperties[] = 'reactNative';
         }
 
         return $requiredProperties;
