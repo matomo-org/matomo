@@ -277,8 +277,12 @@ class CalculateConversionPages extends ConsoleCommand
             $endDatetime = Date::factory('now')->getDatetime();
         }
 
-        $queries = [];
+        // When querying for visit actions that contributed to the conversion we can use a cut off 24hrs before the
+        // start of the conversion date range as visits cannot last more than 24hrs, this limits the number of rows
+        // addressed by the subquery
+        $startDateTimeForActions = Date::factory($startDatetime)->subDay(1)->getDatetime();
 
+        $queries = [];
         foreach ($sites as $site) {
 
             $timezone = Site::getTimezoneFor($site);
@@ -305,40 +309,52 @@ class CalculateConversionPages extends ConsoleCommand
                      $where .= " AND c.pageviews_before IS NULL";
                 }
 
-                $bind = [$site, $goal];
+                $conversionsStartDate = Date::factory($startDatetime, $timezone)->getDateTime();
+                $conversionsEndDate = Date::factory($endDatetime, $timezone)->getDateTime();
 
-                if (!empty($startDatetime)) {
-                    $where .= " AND c.server_time >= ?";
-                    $bind[] = Date::factory($startDatetime, $timezone)->getDateTime();
-                }
-
-                if (!empty($endDatetime)) {
-                    $where .= " AND c.server_time <= ?";
-                    $bind[] = Date::factory($endDatetime, $timezone)->getDateTime();
-                }
-
-                $bind[] = $site;
-                $bind[] = $goal;
+                $bind = [
+                    $site,
+                    Date::factory($startDateTimeForActions, $timezone)->getDateTime(),
+                    $conversionsEndDate,
+                    $site,
+                    $goal,
+                    $conversionsStartDate,
+                    $conversionsEndDate,
+                    $site,
+                    $goal,
+                    $conversionsStartDate,
+                    $conversionsEndDate,
+                ];
 
                 $sql = "                                
-                UPDATE " . Common::prefixTable('log_conversion') . " lc
+                UPDATE " . Common::prefixTable('log_conversion') . " c
                 LEFT JOIN (                
                     SELECT c.idvisit, c.idgoal, COUNT(a.idvisit) AS pagesbefore, c.idlink_va, c.server_time
                     FROM " . Common::prefixTable('log_conversion') . " c
                     LEFT JOIN (
                         SELECT va.idvisit, va.server_time
                         FROM " . Common::prefixTable('log_link_visit_action') . " va
-                        INNER JOIN " . Common::prefixTable('log_action') . " a ON a.idaction = va.idaction_url AND a.type = 1
+                        INNER JOIN " . Common::prefixTable('log_action') . " a ON a.idaction = va.idaction_url
                         WHERE a.type = 1
+                        AND va.idsite = ?
+                        AND va.server_time >= ?
+                        AND va.server_time <= ?
+                        ORDER BY NULL
                     ) AS a ON a.idvisit = c.idvisit AND a.server_time <= c.server_time
                     WHERE c.idsite = ?
                       AND c.idgoal = ?
+                      AND c.server_time >= ?
+                      AND c.server_time <= ?
                       " . $where . "                      
                     GROUP BY a.idvisit
-                ) AS s ON s.idvisit = lc.idvisit AND s.server_time <= lc.server_time                
-                SET lc.pageviews_before = s.pagesbefore                
-                WHERE lc.idsite = ? AND lc.idgoal = ?;            
-                ";
+                    ORDER BY NULL
+                ) AS s ON s.idvisit = c.idvisit AND s.server_time <= c.server_time                
+                SET c.pageviews_before = s.pagesbefore                
+                WHERE c.idsite = ? 
+                  AND c.idgoal = ?       
+                  AND c.server_time >= ?
+                  AND c.server_time <= ?     
+                " . $where;
 
                 $queries[] = ['sql' => $sql, 'bind' => $bind];
 
