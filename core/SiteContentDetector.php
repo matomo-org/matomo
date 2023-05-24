@@ -55,7 +55,6 @@ class SiteContentDetector
     public $cms;                    // The CMS that was detected on the site
     public $cloudflare;             // true if website is hosted on cloudflare
     public $react;                  // True if React was detected on the site
-    public $reactNative;            // True if react-native was detected on the site
 
     private $siteResponse = [
         'data' => '',
