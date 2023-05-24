@@ -87,7 +87,7 @@ class TrackGoalsPagesTest extends SystemTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function getConversionPagesBeforeExpected()
+    public static function getConversionPagesBeforeExpected()
     {
         return [
             ['id' => 5, 'expected' => 4],

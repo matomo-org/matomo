@@ -300,33 +300,45 @@ class CalculateConversionPages extends ConsoleCommand
 
             foreach ($goals as $goal) {
 
-                $sql = "
-                UPDATE " . Common::prefixTable('log_conversion') . " c
-                LEFT JOIN (
-                    SELECT COUNT(va.idvisit) AS pages_before, va.idvisit, va.server_time
-                    FROM " . Common::prefixTable('log_link_visit_action') . " va
-                    LEFT JOIN " . Common::prefixTable('log_action') . " a ON a.idaction = va.idaction_url AND a.type = 1
-                    GROUP BY va.idvisit
-                ) AS a ON a.idvisit = c.idvisit AND a.server_time <= c.server_time
-                SET c.pageviews_before = a.pages_before
-                WHERE c.idsite = ? AND c.idgoal = ?                    
-                ";
-
+                $where = '';
                 if (!$forceRecalc) {
-                     $sql .= " AND c.pageviews_before IS NULL";
+                     $where .= " AND c.pageviews_before IS NULL";
                 }
 
                 $bind = [$site, $goal];
 
                 if (!empty($startDatetime)) {
-                    $sql .= " AND c.server_time >= ?";
+                    $where .= " AND c.server_time >= ?";
                     $bind[] = Date::factory($startDatetime, $timezone)->getDateTime();
                 }
 
                 if (!empty($endDatetime)) {
-                    $sql .= " AND c.server_time <= ?";
+                    $where .= " AND c.server_time <= ?";
                     $bind[] = Date::factory($endDatetime, $timezone)->getDateTime();
                 }
+
+                $bind[] = $site;
+                $bind[] = $goal;
+
+                $sql = "                                
+                UPDATE " . Common::prefixTable('log_conversion') . " lc
+                LEFT JOIN (                
+                    SELECT c.idvisit, c.idgoal, COUNT(a.idvisit) AS pagesbefore, c.idlink_va, c.server_time
+                    FROM " . Common::prefixTable('log_conversion') . " c
+                    LEFT JOIN (
+                        SELECT va.idvisit, va.server_time
+                        FROM " . Common::prefixTable('log_link_visit_action') . " va
+                        INNER JOIN " . Common::prefixTable('log_action') . " a ON a.idaction = va.idaction_url AND a.type = 1
+                        WHERE a.type = 1
+                    ) AS a ON a.idvisit = c.idvisit AND a.server_time <= c.server_time
+                    WHERE c.idsite = ?
+                      AND c.idgoal = ?
+                      " . $where . "                      
+                    GROUP BY a.idvisit
+                ) AS s ON s.idvisit = lc.idvisit AND s.server_time <= lc.server_time                
+                SET lc.pageviews_before = s.pagesbefore                
+                WHERE lc.idsite = ? AND lc.idgoal = ?;            
+                ";
 
                 $queries[] = ['sql' => $sql, 'bind' => $bind];
 
