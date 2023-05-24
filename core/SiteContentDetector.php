@@ -41,6 +41,7 @@ class SiteContentDetector
     const GA4 = 4;
     const GTM = 5;
     const CMS = 6;
+    const VUE = 8;
 
     // Detection detail
     public $consentManagerId;       // Id of the detected consent manager, eg. 'osano'
@@ -52,6 +53,7 @@ class SiteContentDetector
     public $gtm;                    // True if GTM was detected on the site
     public $cms;                    // The CMS that was detected on the site
     public $cloudflare;             // true if website is hosted on cloudflare
+    public $vue;             // true if website is hosted on cloudflare
 
     private $siteResponse = [
         'data' => '',
@@ -92,6 +94,7 @@ class SiteContentDetector
         $this->gtm = false;
         $this->cms = SitesManager::SITE_TYPE_UNKNOWN;
         $this->cloudflare = false;
+        $this->vue = false;
     }
 
     /**
@@ -194,6 +197,10 @@ class SiteContentDetector
             $requiredProperties[] = 'cms';
         }
 
+        if (in_array(SiteContentDetector::VUE, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
+            $requiredProperties[] = 'vue';
+        }
+
         return $requiredProperties;
     }
 
@@ -289,6 +296,10 @@ class SiteContentDetector
 
         if (in_array(SiteContentDetector::CMS, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
             $this->cms = $this->siteGuesser->guessSiteTypeFromResponse($this->siteResponse);
+        }
+
+        if (in_array(SiteContentDetector::VUE, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
+            $this->vue = $this->siteGuesser->guessVueFromResponse($this->siteResponse);
         }
 
         if (

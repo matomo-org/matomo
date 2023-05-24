@@ -162,7 +162,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'ga3Used' => false,
             'ga4Used' => false,
             'gtmUsed' => false,
-            'cms' => false
+            'cms' => false,
+            'vue' => true,
         ];
 
         $this->siteContentDetector->detectContent([SiteContentDetector::ALL_CONTENT]);
@@ -175,6 +176,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $emailTemplateData['gtmUsed'] = $this->siteContentDetector->gtm;
         $emailTemplateData['cloudflare'] = $this->siteContentDetector->cloudflare;
         $emailTemplateData['cms'] = $this->siteContentDetector->cms;
+        $emailTemplateData['vue'] = $this->siteContentDetector->vue;
 
         $emailContent = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', $emailTemplateData, $viewType = 'basic');
         $inviteUserLink = $this->getInviteUserLink();
@@ -235,6 +237,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'tagManagerActive' => $tagManagerActive,
             'consentManagerName' => false,
             'cloudflare' => $this->siteContentDetector->cloudflare,
+            'vue' => $this->siteContentDetector->vue,
+            'vue' => true,
             'cms' => $this->siteContentDetector->cms,
         ];
 
@@ -259,6 +263,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $tabToDisplay = 'wordpress';
         } else if (!empty($templateData['cloudflare'])) {
             $tabToDisplay = 'cloudflare';
+        } else if (!empty($templateData['vue'])) {
+            $tabToDisplay = 'vue';
         }
 
         return $tabToDisplay;

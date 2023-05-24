@@ -21,6 +21,9 @@
             {% if cloudflare %}
                 <li class="tab col s2"><a {% if activeTab == 'cloudflare' %} class="active" {% endif %} href="#cloudflare">{{ 'SitesManager_SiteWithoutDataCloudflare'|translate }}</a></li>
             {% endif %}
+            {% if vue %}
+                <li class="tab col s2"><a {% if activeTab == 'vue' %} class="active" {% endif %} href="#vue">{{ 'SitesManager_SiteWithoutDataVue'|translate }}</a></li>
+            {% endif %}
             <li class="tab col {{ columnClass }}"><a href="#other">{{ 'SitesManager_SiteWithoutDataOtherWays'|translate }}</a></li>
         </ul>
     </div>
@@ -47,6 +50,7 @@
                 | <a target="_blank" rel="noreferrer noopener" href='https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-shopify-store/'>Shopify</a>
                 | <a target="_blank" rel="noreferrer noopener" href='https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-within-gtm-google-tag-manager/'>Google Tag Manager</a>
                 | <a target="_blank" rel="noreferrer noopener" href='https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-cloudflare-setup/'>Cloudflare</a>
+                | <a target="_blank" rel="noreferrer noopener" href='https://matomo.org/faq/new-to-piwik/{VUE}/'>Vue</a>
             </p>
 
             <p>{{ 'CoreAdminHome_JSTrackingIntro3a'|translate('<a href="https://matomo.org/integrate/" rel="noreferrer noopener" target="_blank">','</a>')|raw }}</p>
@@ -161,6 +165,22 @@
         </div>
     {% endif %}
 
+    {% if vue %}
+        <div id="vue" class="col s12">
+
+            <p></p><p></p>
+            <div class="system notification notification-info">
+                {{ 'SitesManager_VueDetected'|translate('<a target="_blank" rel="noreferrer noopener" href="https://github.com/AmazingDreams/vue-matomo">vue-matomo</a>','<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/{VUE}/">','</a>')|raw }}
+            </div>
+
+            <div class="right">
+                <img src="plugins/SitesManager/images/vue-icon.png" style="height: 5rem;">
+            </div>
+            {{ postEvent('Template.noDataPageVueTabInstructions') }}
+
+        </div>
+    {% endif %}
+
     <div id="other" class="col s12">
         <h3>{{ 'SitesManager_LogAnalytics'|translate }}</h3>
         <p>{{ 'SitesManager_LogAnalyticsDescription'|translate('<a href="https://matomo.org/log-analytics/" rel="noreferrer noopener" target="_blank">', '</a>')|raw }}</p>
@@ -182,6 +202,9 @@
 
         <h3>{{ 'SitesManager_SiteWithoutDataCloudflare'|translate }}</h3>
         <p>{{ 'SitesManager_SiteWithoutDataCloudflareDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-cloudflare-setup/">','</a>')|raw }}</p>
+
+        <h3>{{ 'SitesManager_SiteWithoutDataVue'|translate }}</h3>
+        <p>{{ 'SitesManager_SiteWithoutDataVueDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://github.com/AmazingDreams/vue-matomo">vue-matomo</a>', '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/{VUE}/">','</a>')|raw }}</p>
 
         {% if googleAnalyticsImporterMessage is defined %}
             {{ googleAnalyticsImporterMessage|raw }}

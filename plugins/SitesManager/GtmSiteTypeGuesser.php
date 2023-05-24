@@ -147,4 +147,24 @@ class GtmSiteTypeGuesser
 
         return false;
     }
+
+    /**
+     * Detect React usage from the site data
+     *
+     * @param array $response Extended HTTP Response
+     * @return bool
+     */
+    public function guessVueFromResponse($response)
+    {
+        if (empty($response['data'])) {
+            return false;
+        }
+
+        $pattern = "/vue\.\w.+.js|vue\-\w.+.js/i";
+        if (preg_match($pattern, $response['data']) === 1) {
+            return true;
+        }
+
+        return false;
+    }
 }
