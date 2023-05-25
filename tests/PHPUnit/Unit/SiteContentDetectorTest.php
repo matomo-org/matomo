@@ -224,7 +224,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider provideVueTestDate
+     * @dataProvider provideVueTestData
      */
     public function test_detectVue($content, $output)
     {
@@ -239,7 +239,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
 
     }
 
-    public function provideVueTestDate()
+    public function provideVueTestData()
     {
         return [
             ['node_modules/vue/dist/vue-develpment.min.js', 'vue'],
