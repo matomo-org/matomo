@@ -29,7 +29,6 @@
     </div>
 
     <div id="integrations" class="col s12">
-        <p>&nbsp;</p>
         {% if instruction %}
             <p>{{ instruction|raw }}</p>
 
@@ -63,7 +62,6 @@
     </div>
 
     <div id="tracking-code" class="col s12">
-        <p>&nbsp;</p>
         {% if consentManagerName %}
         <p></p><p></p>
         <div class="system notification notification-info">
@@ -182,7 +180,7 @@
     {% endif %}
 
     <div id="other" class="col s12">
-        <h3>{{ 'SitesManager_LogAnalytics'|translate }}</h3>
+        <h3 class="no-mt-top">{{ 'SitesManager_LogAnalytics'|translate }}</h3>
         <p>{{ 'SitesManager_LogAnalyticsDescription'|translate('<a href="https://matomo.org/log-analytics/" rel="noreferrer noopener" target="_blank">', '</a>')|raw }}</p>
 
         <h3>{{ 'SitesManager_MobileAppsAndSDKs'|translate }}</h3>
