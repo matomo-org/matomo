@@ -41,7 +41,7 @@ class SiteContentDetector
     const GA4 = 4;
     const GTM = 5;
     const CMS = 6;
-    const VUE = 8;
+    const JS_FRAMEWORK = 7;
 
     // Detection detail
     public $consentManagerId;       // Id of the detected consent manager, eg. 'osano'
@@ -53,7 +53,7 @@ class SiteContentDetector
     public $gtm;                    // True if GTM was detected on the site
     public $cms;                    // The CMS that was detected on the site
     public $cloudflare;             // true if website is hosted on cloudflare
-    public $vue;             // true if website is hosted on cloudflare
+    public $jsFramework;            // The JS framework that was detected on the site
 
     private $siteResponse = [
         'data' => '',
@@ -94,7 +94,7 @@ class SiteContentDetector
         $this->gtm = false;
         $this->cms = SitesManager::SITE_TYPE_UNKNOWN;
         $this->cloudflare = false;
-        $this->vue = false;
+        $this->jsFramework = SitesManager::JS_FRAMEWORK_UNKNOWN;
     }
 
     /**
@@ -197,8 +197,8 @@ class SiteContentDetector
             $requiredProperties[] = 'cms';
         }
 
-        if (in_array(SiteContentDetector::VUE, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
-            $requiredProperties[] = 'vue';
+        if (in_array(SiteContentDetector::JS_FRAMEWORK, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
+            $requiredProperties[] = 'jsFramework';
         }
 
         return $requiredProperties;
@@ -298,8 +298,8 @@ class SiteContentDetector
             $this->cms = $this->siteGuesser->guessSiteTypeFromResponse($this->siteResponse);
         }
 
-        if (in_array(SiteContentDetector::VUE, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
-            $this->vue = $this->siteGuesser->guessVueFromResponse($this->siteResponse);
+        if (in_array(SiteContentDetector::JS_FRAMEWORK, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
+            $this->jsFramework = $this->siteGuesser->guessJsFrameworkFromResponse($this->siteResponse);
         }
 
         if (

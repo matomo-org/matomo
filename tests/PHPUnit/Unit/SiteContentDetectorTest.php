@@ -235,42 +235,42 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($scd->ga4);
         $this->assertFalse($scd->gtm);
         $this->assertFalse($scd->cloudflare);
-        $this->assertEquals($output, $scd->vue);
+        $this->assertEquals($output, $scd->jsFramework);
 
     }
 
     public function provideVueTestDate()
     {
         return [
-            ['node_modules/vue/dist/vue-develpment.min.js', true],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.cjs.js', true],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.cjs.min.js', true],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.cjs.prod.js', true],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.cjs.prod.min.js', true],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.esm-browser.js', true],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.esm-browser.min.js', true],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.esm-browser.prod.js', true],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.esm-browser.prod.min.js', true],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.esm-bundler.js', true],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.esm-bundler.min.js', true],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.js', true],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue-min.global.js', true],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.min.js', true],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.prod.js', true],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.prod.min.js', true],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.esm-browser.js', true],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.esm-browser.min.js', true],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.esm-browser.prod.js', true],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.esm-browser.prod.min.js', true],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.esm-bundler.js', true],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.esm-bundler.min.js', true],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.global.js', true],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.global.min.js', true],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.global.prod.js', true],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.global.prod.min.js', true],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vuetmp.runtime.global.prod.min.js', false],
-            ['test content', false],
-            ['test content vue', false],
+            ['node_modules/vue/dist/vue-develpment.min.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.cjs.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.cjs.min.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.cjs.prod.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.cjs.prod.min.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.esm-browser.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.esm-browser.min.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.esm-browser.prod.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.esm-browser.prod.min.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.esm-bundler.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.esm-bundler.min.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue-min.global.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.min.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.prod.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.prod.min.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.esm-browser.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.esm-browser.min.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.esm-browser.prod.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.esm-browser.prod.min.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.esm-bundler.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.esm-bundler.min.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.global.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.global.min.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.global.prod.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.global.prod.min.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vuetmp.runtime.global.prod.min.js', 'unknown'],
+            ['test content', 'unknown'],
+            ['test content vue', 'unknown'],
         ];
     }
 }

@@ -21,7 +21,7 @@
             {% if cloudflare %}
                 <li class="tab col s2"><a {% if activeTab == 'cloudflare' %} class="active" {% endif %} href="#cloudflare">{{ 'SitesManager_SiteWithoutDataCloudflare'|translate }}</a></li>
             {% endif %}
-            {% if vue %}
+            {% if jsFramework == 'vue' %}
                 <li class="tab col s2"><a {% if activeTab == 'vue' %} class="active" {% endif %} href="#vue">{{ 'SitesManager_SiteWithoutDataVue'|translate }}</a></li>
             {% endif %}
             <li class="tab col {{ columnClass }}"><a href="#other">{{ 'SitesManager_SiteWithoutDataOtherWays'|translate }}</a></li>
@@ -163,7 +163,7 @@
         </div>
     {% endif %}
 
-    {% if vue %}
+    {% if jsFramework == 'vue' %}
         <div id="vue" class="col s12">
 
             <p></p><p></p>

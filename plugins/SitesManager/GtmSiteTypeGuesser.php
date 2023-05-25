@@ -149,22 +149,22 @@ class GtmSiteTypeGuesser
     }
 
     /**
-     * Detect React usage from the site data
+     * Detect Js Framework being used on the site
      *
      * @param array $response Extended HTTP Response
-     * @return bool
+     * @return string
      */
-    public function guessVueFromResponse($response)
+    public function guessJsFrameworkFromResponse($response)
     {
         if (empty($response['data'])) {
-            return false;
+            return SitesManager::JS_FRAMEWORK_UNKNOWN;
         }
 
         $pattern = "/vue\.\w.+.js|vue\-\w.+.js/i";
         if (preg_match($pattern, $response['data']) === 1) {
-            return true;
+            return SitesManager::JS_FRAMEWORK_VUE;
         }
 
-        return false;
+        return SitesManager::JS_FRAMEWORK_UNKNOWN;
     }
 }

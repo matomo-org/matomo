@@ -19,11 +19,11 @@
 
 {% endif %}
 
-{% if vue %}
+{% if jsFramework == 'vue' %}
     {{ 'SitesManager_VueDetectedEmail'|translate('vue-matomo', 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-websites-that-use-vue-js/')|raw }}
 
 {% endif %}
-{% if consentManagerName or ga3Used or ga4Used or gtmUsed or cloudflare or vue %}
+{% if consentManagerName or ga3Used or ga4Used or gtmUsed or cloudflare or jsFramework == 'vue' %}
 {{ 'CoreAdminHome_JSTracking_ConsentManagerEmailNote'|translate }}
 
 {% endif %}

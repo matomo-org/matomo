@@ -32,7 +32,7 @@ class EmptySiteWithSiteContentDetectionVue extends Fixture
             'gtm' => false,
             'cms' => SitesManager::SITE_TYPE_UNKNOWN,
             'cloudflare' => false,
-            'vue' => true,
+            'jsFramework' => SitesManager::JS_FRAMEWORK_VUE,
         ];
 
         return [

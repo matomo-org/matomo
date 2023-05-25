@@ -163,7 +163,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'ga4Used' => false,
             'gtmUsed' => false,
             'cms' => false,
-            'vue' => false,
+            'jsFramework' => false,
         ];
 
         $this->siteContentDetector->detectContent([SiteContentDetector::ALL_CONTENT]);
@@ -176,7 +176,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $emailTemplateData['gtmUsed'] = $this->siteContentDetector->gtm;
         $emailTemplateData['cloudflare'] = $this->siteContentDetector->cloudflare;
         $emailTemplateData['cms'] = $this->siteContentDetector->cms;
-        $emailTemplateData['vue'] = $this->siteContentDetector->vue;
+        $emailTemplateData['jsFramework'] = $this->siteContentDetector->jsFramework;
 
         $emailContent = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', $emailTemplateData, $viewType = 'basic');
         $inviteUserLink = $this->getInviteUserLink();
@@ -237,7 +237,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'tagManagerActive' => $tagManagerActive,
             'consentManagerName' => false,
             'cloudflare' => $this->siteContentDetector->cloudflare,
-            'vue' => $this->siteContentDetector->vue,
+            'jsFramework' => $this->siteContentDetector->jsFramework,
             'cms' => $this->siteContentDetector->cms,
         ];
 
@@ -249,8 +249,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $templateData['activeTab'] = $this->getActiveTabOnLoad($templateData);
 
-        $templateData['vue3Code'] = $this->getVueInitializeCode(3);
-        $templateData['vue2Code'] = $this->getVueInitializeCode(2);
+        if ($this->siteContentDetector->jsFramework === SitesManager::JS_FRAMEWORK_VUE) {
+            $templateData['vue3Code'] = $this->getVueInitializeCode(3);
+            $templateData['vue2Code'] = $this->getVueInitializeCode(2);
+        }
 
         return $this->renderTemplateAs('_siteWithoutDataTabs', $templateData, $viewType = 'basic');
     }
@@ -265,7 +267,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $tabToDisplay = 'wordpress';
         } else if (!empty($templateData['cloudflare'])) {
             $tabToDisplay = 'cloudflare';
-        } else if (!empty($templateData['vue'])) {
+        } else if (!empty($templateData['jsFramework']) && $templateData['jsFramework'] === SitesManager::JS_FRAMEWORK_VUE) {
             $tabToDisplay = 'vue';
         }
 
