@@ -187,6 +187,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'piwikUrl'                                            => $piwikUrl,
             'emailBody'                                           => $emailContent,
             'siteWithoutDataStartTrackingTranslationKey'          => StaticContainer::get('SitesManager.SiteWithoutDataStartTrackingTranslation'),
+            'SiteWithoutDataVueFollowStepNote2Key'                => StaticContainer::get('SitesManager.SiteWithoutDataVueFollowStepNote2'),
             'inviteUserLink'                                      => $inviteUserLink
         ], $viewType = 'basic');
     }
@@ -239,6 +240,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'cloudflare' => $this->siteContentDetector->cloudflare,
             'jsFramework' => $this->siteContentDetector->jsFramework,
             'cms' => $this->siteContentDetector->cms,
+            'SiteWithoutDataVueFollowStepNote2Key' => StaticContainer::get('SitesManager.SiteWithoutDataVueFollowStepNote2'),
         ];
 
         if ($this->siteContentDetector->consentManagerId) {
