@@ -307,7 +307,7 @@ createApp(App)
     .mount('#app')
 
 
-window._paq.push(['trackPageView']); //To track pageview
+window._paq.push(['trackPageView']); // To track a page view
 INST;
         }
 
@@ -328,7 +328,7 @@ new Vue({
   template: ''
 })
 
-window._paq.push(['trackPageView']); //To track pageview
+window._paq.push(['trackPageView']); // To track a page view
 INST;
     }
 }
