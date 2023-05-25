@@ -16,7 +16,6 @@ use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
  * @group CalculateConversionPagesCommandTest
  * @group Goals
  * @group Plugins
- * @group Plugins
  */
 class CalculateConversionPagesCommandTest extends ConsoleCommandTestCase
 {
