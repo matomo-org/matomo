@@ -17,7 +17,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * Plugin names are now limited to 60 characters. If you used to have a plugin with a longer name, you might need to rename it.
 * The `instance_id` configuration does no longer support characters other than `a-z`, `0-9` and the special characters `.-_`. If the configured value contains other characters, they will be simply removed.
 * When an invalid token is provided in an API request, a 401 response code is now returned instead of 200 response code.
-* By default, the `file://` protocol is not tracked. To enable tracking of the `file://` protocol add `enableTrackFile` to the tracker settings. 
+* By default, the `file://` protocol is no longer tracked. To enable tracking of the `file://` protocol use the new JavaScript tracker method `enableFileTracking` ([learn more](https://matomo.org/faq/how-to/why-is-no-data-tracked-for-local-files/)).
 * We have migrated our automated tests from Travis CI to GitHub actions. If your plugin used Travis CI for running tests ensure to migrate that to a GitHub action as support for running tests on Travis has been dropped.
 * By default, the last ip address in the proxy list will now be used rather than the first ip address. To force the first ip address to be used set the config option `proxy_ip_read_last_in_list = 0`.
 * The deprecated method `Piwik\Log::setLogLevel()` has been removed
