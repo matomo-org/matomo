@@ -249,6 +249,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $templateData['activeTab'] = $this->getActiveTabOnLoad($templateData);
 
+        $templateData['vue3Code'] = $this->getVueInitializeCode(3);
+        $templateData['vue2Code'] = $this->getVueInitializeCode(2);
+
         return $this->renderTemplateAs('_siteWithoutDataTabs', $templateData, $viewType = 'basic');
     }
 
@@ -282,5 +285,50 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 'module' => 'UsersManager',
                 'action' => 'index',
             ]);
+    }
+
+    private function getVueInitializeCode($vueVersion = '3')
+    {
+        $request = \Piwik\Request::fromRequest();
+        $piwikUrl = Url::getCurrentUrlWithoutFileName();
+        $siteId = $request->getIntegerParameter('idSite', 1);
+        if ($vueVersion == 2) {
+            return <<<INST
+import { createApp } from 'vue'
+import VueMatomo from 'vue-matomo'
+import App from './App.vue'
+
+createApp(App)
+    .use(VueMatomo, {
+        // Configure your matomo server and site by providing
+        host: '$piwikUrl',
+        siteId: $siteId,
+    })
+    .mount('#app')
+
+
+window._paq.push(['trackPageView']); //To track pageview
+INST;
+        }
+
+        return <<<INST
+import Vue from 'vue'
+import App from './App.vue'
+import VueMatomo from 'vue-matomo'
+
+Vue.use(VueMatomo, {
+    host: '$piwikUrl',
+    siteId: $siteId
+});
+
+new Vue({
+  el: '#app',
+  router,
+  components: {App},
+  template: ''
+})
+
+window._paq.push(['trackPageView']); //To track pageview
+INST;
     }
 }

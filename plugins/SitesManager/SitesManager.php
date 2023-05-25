@@ -61,7 +61,6 @@ class SitesManager extends \Piwik\Plugin
             'Request.dispatch'                       => 'redirectDashboardToWelcomePage',
             'Template.noDataPageGTMTabInstructions'  => 'noDataPageGTMTabInstructions',
             'Template.noDataPageWordpressTabInstructions'  => 'noDataPageWordpressTabInstructions',
-            'Template.noDataPageVueTabInstructions'  => 'noDataPageVueTabInstructions',
         ];
     }
 
@@ -556,52 +555,6 @@ class SitesManager extends \Piwik\Plugin
         }
         $view->authLink = $authLink;
         $view->faqLink = $faqLink;
-        $out = $view->render();
-    }
-
-    public function noDataPageVueTabInstructions(&$out)
-    {
-        Piwik::checkUserHasSomeViewAccess();
-        $piwikUrl = Url::getCurrentUrlWithoutFileName();
-        $siteId = Common::getRequestVar('idSite', 1, 'int');
-        $vue3Code = <<<INST
-import { createApp } from 'vue'
-import VueMatomo from 'vue-matomo'
-import App from './App.vue'
-
-createApp(App)
-    .use(VueMatomo, {
-        // Configure your matomo server and site by providing
-        host: '$piwikUrl',
-        siteId: $siteId,
-    })
-    .mount('#app')
-
-
-window._paq.push(['trackPageView']); //To track pageview
-INST;
-        $vue2Code = <<<INST
-import Vue from 'vue'
-import App from './App.vue'
-import VueMatomo from 'vue-matomo'
-
-Vue.use(VueMatomo, {
-    host: '$piwikUrl',
-    siteId: $siteId
-});
-
-new Vue({
-  el: '#app',
-  router,
-  components: {App},
-  template: ''
-})
-
-window._paq.push(['trackPageView']); //To track pageview
-INST;
-        $view = new View("@SitesManager/_vueTabInstructions");
-        $view->vue3Code = $vue3Code;
-        $view->vue2Code = $vue2Code;
         $out = $view->render();
     }
 }
