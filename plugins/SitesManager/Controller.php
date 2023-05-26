@@ -292,9 +292,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     private function getVueInitializeCode($vueVersion = '3')
     {
-        $request = \Piwik\Request::fromRequest();
         $piwikUrl = Url::getCurrentUrlWithoutFileName();
-        $siteId = $request->getIntegerParameter('idSite', 1);
+        $siteId = Common::getRequestVar('idSite', 1, 'int');
         if ($vueVersion == 2) {
             return <<<INST
 import { createApp } from 'vue'
