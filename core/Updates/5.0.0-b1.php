@@ -13,10 +13,13 @@ namespace Piwik\Updates;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Db;
 use Piwik\Common;
+use Piwik\SettingsPiwik;
 use Piwik\Updater;
 use Piwik\Updater\Migration\Db as DbAlias;
 use Piwik\Updater\Migration\Factory;
 use Piwik\Updates as PiwikUpdates;
+use Piwik\Updater\Migration\Custom as CustomMigration;
+use Piwik\Plugins\Goals\Commands\CalculateConversionPages;
 
 /**
  * Update for version 5.0.0-b1
@@ -48,6 +51,14 @@ class Updates_5_0_0_b1 extends PiwikUpdates
         $migrations = $this->getUpdateArchiveIndexMigrations();
 
         $migrations[] = $this->migration->db->addColumns('user_token_auth', ['post_only' => "TINYINT(2) UNSIGNED NOT NULL DEFAULT '0'"]);
+        $migrations[] = $this->migration->db->addColumns('log_conversion', ['pageviews_before' => "SMALLINT UNSIGNED DEFAULT NULL"]);
+
+        $instanceId = SettingsPiwik::getPiwikInstanceId();
+        if (strpos($instanceId, '.matomo.cloud') === false && strpos($instanceId, '.innocraft.cloud') === false) {
+            $commandString = './console core:calculate-conversion-pages --dates=yesterday,today';
+            $populatePagesBefore = new CustomMigration([CalculateConversionPages::class, 'calculateYesterdayAndToday'], $commandString);
+            $migrations[] = $populatePagesBefore;
+        }
 
         if ($this->requiresUpdatedLogVisitTableIndex()) {
             return $this->getLogVisitTableMigrations($migrations);
@@ -110,4 +121,5 @@ class Updates_5_0_0_b1 extends PiwikUpdates
 
         return true;
     }
+
 }
