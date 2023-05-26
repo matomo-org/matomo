@@ -63,7 +63,7 @@ abstract class RecordBuilder
     }
 
     /**
-     * Used the `aggregate()` protected function to build records by aggregating log table data directly, then
+     * Uses the protected `aggregate()` function to build records by aggregating log table data directly, then
      * inserts them as archive data.
      *
      * @param ArchiveProcessor $archiveProcessor
@@ -100,7 +100,7 @@ abstract class RecordBuilder
                 $maxRowsInSubtable = $record->getMaxRowsInSubtable() ?? $this->maxRowsInSubtable;
                 $columnToSortByBeforeTruncation = $record->getColumnToSortByBeforeTruncation() ?? $this->columnToSortByBeforeTruncation;
 
-                $this->insertRecord($archiveProcessor, $recordName, $recordValue, $maxRowsInTable, $maxRowsInSubtable, $columnToSortByBeforeTruncation);
+                $this->insertBlobRecord($archiveProcessor, $recordName, $recordValue, $maxRowsInTable, $maxRowsInSubtable, $columnToSortByBeforeTruncation);
 
                 Common::destroy($recordValue);
             } else {
@@ -184,8 +184,8 @@ abstract class RecordBuilder
      */
     protected abstract function aggregate(ArchiveProcessor $archiveProcessor): array;
 
-    private function insertRecord(ArchiveProcessor $archiveProcessor, $recordName, DataTable\DataTableInterface $record,
-                                  ?int $maxRowsInTable, ?int $maxRowsInSubtable, ?string $columnToSortByBeforeTruncation): void
+    protected function insertBlobRecord(ArchiveProcessor $archiveProcessor, string $recordName, DataTable $record,
+                                        ?int $maxRowsInTable, ?int $maxRowsInSubtable, ?string $columnToSortByBeforeTruncation): void
     {
         $serialized = $record->getSerialized(
             $maxRowsInTable ?: $this->maxRowsInTable,
@@ -211,7 +211,7 @@ abstract class RecordBuilder
         return $this->columnToSortByBeforeTruncation;
     }
 
-    public function getPluginName(): ?string
+    public function getPluginName(): string
     {
         // TODO: consider extracting to a reusable method or a trait, or use another approach to getting plugin's name
         $className = get_class($this);
@@ -226,7 +226,7 @@ abstract class RecordBuilder
      *
      * @return string
      */
-    public function getQueryOriginHint(): ?string
+    public function getQueryOriginHint(): string
     {
         $recordBuilderName = get_class($this);
         $recordBuilderName = explode('\\', $recordBuilderName);
