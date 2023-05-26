@@ -213,6 +213,7 @@ abstract class RecordBuilder
 
     public function getPluginName(): ?string
     {
+        // TODO: consider extracting to a reusable method or a trait, or use another approach to getting plugin's name
         $className = get_class($this);
         $parts = explode('\\', $className);
         $plugin = $parts[2];
