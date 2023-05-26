@@ -45,6 +45,8 @@ class SitesManager extends \Piwik\Plugin
     const SITE_TYPE_SHOPIFY = 'shopify';
     const SITE_TYPE_WEBFLOW = 'webflow';
     const SITE_TYPE_DRUPAL = 'drupal';
+    const JS_FRAMEWORK_UNKNOWN = 'unknown';
+    const JS_FRAMEWORK_VUE = 'vue';
 
     /**
      * @see \Piwik\Plugin::registerEvents
@@ -520,6 +522,8 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "SitesManager_EmailInstructionsButtonText";
         $translationKeys[] = "SitesManager_SiteWithoutDataIgnorePage";
         $translationKeys[] = "SitesManager_DemoSiteButtonText";
+        $translationKeys[] = "SitesManager_SiteWithoutDataVue";
+        $translationKeys[] = "SitesManager_SiteWithoutDataVueDescription";
     }
 
     public function noDataPageGTMTabInstructions(&$out)
