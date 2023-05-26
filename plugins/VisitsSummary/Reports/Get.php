@@ -155,6 +155,7 @@ class Get extends \Piwik\Plugin\Report
                     return [
                         'currentValue' => $value,
                         'pastValue' => $pastValue,
+                        'isLowerValueBetter' => Metrics::isLowerValueBetter($columnName),
                         'tooltip' => Piwik::translate('General_EvolutionSummaryGeneric', [
                             $currentValueFormatted.' '.$columnTranslation,
                             $currentPrettyDate,
