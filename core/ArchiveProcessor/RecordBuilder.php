@@ -215,7 +215,6 @@ abstract class RecordBuilder
     {
         $className = get_class($this);
         $parts = explode('\\', $className);
-        $parts = array_filter($parts);
         $plugin = $parts[2];
         return $plugin;
     }
