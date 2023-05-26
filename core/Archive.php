@@ -747,10 +747,10 @@ class Archive implements ArchiveQuery
     {
         $requestedReport = $this->getRequestedReport();
 
-        $shouldOnlyProcessRequestedRecords = empty($requestedReport)
+        $shouldOnlyProcessRequestedArchives = empty($requestedReport)
             && Rules::shouldProcessOnlyReportsRequestedInArchiveQuery($this->getPeriodLabel());
 
-        if ($shouldOnlyProcessRequestedRecords) {
+        if ($shouldOnlyProcessRequestedArchives) {
             return Rules::getDoneFlagArchiveContainsOnePlugin($this->params->getSegment(), $plugin);
         }
 
