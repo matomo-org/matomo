@@ -36,7 +36,7 @@ class EmptySiteWithSiteContentDetectionVue extends Fixture
         ];
 
         return [
-            SiteContentDetector::class => \DI::autowire(FakeSiteContentDetector::class)
+            SiteContentDetector::class => \DI\autowire(FakeSiteContentDetector::class)
                 ->constructorParameter('mockData', $mockData)
         ];
     }
