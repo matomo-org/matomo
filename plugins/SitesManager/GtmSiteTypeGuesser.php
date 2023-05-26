@@ -147,4 +147,24 @@ class GtmSiteTypeGuesser
 
         return false;
     }
+
+    /**
+     * Detect Js Framework being used on the site
+     *
+     * @param array $response Extended HTTP Response
+     * @return string
+     */
+    public function guessJsFrameworkFromResponse($response)
+    {
+        if (empty($response['data'])) {
+            return SitesManager::JS_FRAMEWORK_UNKNOWN;
+        }
+
+        $pattern = "/vue\.\w.+.js|vue\-\w.+.js/i";
+        if (preg_match($pattern, $response['data']) === 1) {
+            return SitesManager::JS_FRAMEWORK_VUE;
+        }
+
+        return SitesManager::JS_FRAMEWORK_UNKNOWN;
+    }
 }
