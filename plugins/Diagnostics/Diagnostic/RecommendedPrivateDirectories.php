@@ -33,4 +33,3 @@ class RecommendedPrivateDirectories extends AbstractPrivateDirectories
             ])));
     }
 }
-

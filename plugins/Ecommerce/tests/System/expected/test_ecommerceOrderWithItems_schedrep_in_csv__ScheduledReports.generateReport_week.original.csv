@@ -508,11 +508,11 @@ label,nb_conversions
 121-364 days,0
 365+ days,0
 
-Goal title match  triggered ONCE
+"Goal title match, triggered ONCE"
 nb_conversions,nb_visits_converted,revenue,conversion_rate
 1,1,$10,20%
 
-title match  triggered ONCE - Visits to Conversion
+"title match, triggered ONCE - Visits to Conversion"
 label,nb_conversions
 1 visit,1
 2 visits,0
@@ -528,7 +528,7 @@ label,nb_conversions
 51-100 visits,0
 101+ visits,0
 
-title match  triggered ONCE - Days to Conversion
+"title match, triggered ONCE - Days to Conversion"
 label,nb_conversions
 0 days,1
 1 day,0

@@ -29,7 +29,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\GoalManager;
 use Piwik\Tests\Framework\Fixture;
 
-class DataPurgingTest_RawLogDao extends RawLogDao
+class DataPurgingTestRawLogDao extends RawLogDao
 {
     public $insertActionsOlderThanCallback;
     public $insertActionsNewerThanCallback;
@@ -522,7 +522,7 @@ class DataPurgingTest extends IntegrationTestCase
      */
     public function testPurgeLogDataConcurrency()
     {
-        $rawLogDao = new DataPurgingTest_RawLogDao(new DimensionMetadataProvider());
+        $rawLogDao = new DataPurgingTestRawLogDao(new DimensionMetadataProvider());
         $rawLogDao->insertActionsOlderThanCallback = array($this, 'addReferenceToUnusedAction');
         $purger = new LogDataPurger(new LogDeleter($rawLogDao, new LogTablesProvider()), $rawLogDao);
 
