@@ -365,6 +365,7 @@ class ColumnDimensionTest extends IntegrationTestCase
         'Piwik\Plugins\Events\Columns\EventAction',
         'Piwik\Plugins\Events\Columns\EventCategory',
         'Piwik\Plugins\Events\Columns\TotalEvents',
+        'Piwik\Plugins\Goals\Columns\PageviewsBefore',
         'Piwik\Plugins\PagePerformance\Columns\TimeDomCompletion',
         'Piwik\Plugins\PagePerformance\Columns\TimeDomProcessing',
         'Piwik\Plugins\PagePerformance\Columns\TimeNetwork',

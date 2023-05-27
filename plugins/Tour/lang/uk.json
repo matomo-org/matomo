@@ -1,12 +1,20 @@
 {
     "Tour": {
-        "BrowseMarketplace": "Перегляд Маркету",
+        "AddAnnotation": "Додайте анотацію",
+        "AddReport": "Додайте запланований звіт",
+        "AddSegment": "Додайте сегмент",
+        "AddUser": "Додайте користувача",
+        "AddWebsite": "Додайте вебсайт",
+        "BecomeMatomoExpert": "Станьте експертом Matomo",
+        "BrowseMarketplace": "Перегляньте Маркет",
         "ChangeVisualisation": "Змінити візуалізацію",
         "CompletionTitle": "Відмінно.",
         "Engagement": "Повторні відвідування",
         "SelectDateRange": "Виберіть діапазон дат",
         "SelectDateRangeDescription": "Виберіть проміжок часу в календарі.",
         "SetupX": "Налаштування %s",
+        "Tour": "Тур",
+        "UploadLogo": "Вивантажте свій логотип",
         "ViewX": "Переглянути %s"
     }
 }

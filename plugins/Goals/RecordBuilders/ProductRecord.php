@@ -123,13 +123,13 @@ class ProductRecord extends Base
         return $records;
     }
 
-    protected function aggregateFromEcommerceItems($itemReports, $query, $dimension)
+    protected function aggregateFromEcommerceItems(array $itemReports, $query, string $dimension): void
     {
         while ($row = $query->fetch()) {
             $ecommerceType = $row['ecommerceType'];
 
             $label = $this->cleanupRowGetLabel($row, $dimension);
-            if ($label === false) {
+            if ($label === null) {
                 continue;
             }
 
@@ -140,7 +140,7 @@ class ProductRecord extends Base
         }
     }
 
-    protected function aggregateFromEcommerceViews($itemReports, $query, $dimension)
+    protected function aggregateFromEcommerceViews(array $itemReports, $query, string $dimension): void
     {
         while ($row = $query->fetch()) {
             $label = $this->getRowLabel($row, $dimension);
@@ -161,7 +161,7 @@ class ProductRecord extends Base
         }
     }
 
-    protected function queryItemViewsForDimension(LogAggregator $logAggregator, $dimension)
+    protected function queryItemViewsForDimension(LogAggregator $logAggregator, string $dimension)
     {
         $column = $this->actionMapping[$dimension];
         $where  = "log_link_visit_action.$column is not null";
@@ -176,7 +176,7 @@ class ProductRecord extends Base
         );
     }
 
-    protected function roundColumnValues(&$row)
+    protected function roundColumnValues(array &$row): void
     {
         $columnsToRound = array(
             Metrics::INDEX_ECOMMERCE_ITEM_REVENUE,
@@ -193,20 +193,20 @@ class ProductRecord extends Base
         }
     }
 
-    protected function getRowLabel(&$row, $dimension)
+    protected function getRowLabel(array &$row, string $dimension): ?string
     {
         $label = $row['label'];
         if (empty($label)) {
             // An empty additional category -> skip this iteration
             if ($dimension != $this->dimension) {
-                return false;
+                return null;
             }
             $label = "Value not defined";
         }
         return $label;
     }
 
-    protected function cleanupRowGetLabel(&$row, $dimension)
+    protected function cleanupRowGetLabel(array &$row, string $dimension): ?string
     {
         $label = $this->getRowLabel($row, $dimension);
 

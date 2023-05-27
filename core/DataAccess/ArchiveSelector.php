@@ -107,9 +107,16 @@ class ArchiveSelector
 
         $result['idarchive'] = empty($result['idarchive']) ? [] : [$result['idarchive']];
         if (!empty($result['partial'])) {
-            // TODO: comment for this
-            if (!empty($result['idarchive'])
-                || empty($requestedReport)
+            // when we are not looking for a specific report, or if we have found a non-partial archive
+            // that we expect to have the full set of reports for the requested plugin, then we can just
+            // return it with the additionally found partial archives.
+            //
+            // if, however, there is no full archive, and only a set of partial archives, then
+            // we have to check whether the requested data is actually within them. if we just report the
+            // partial archives, Archive.php will find no archive data and simply report this. returning no
+            // idarchive here, however, will initiate archiving, causing the missing data to populate.
+            if (empty($requestedReport)
+                || !empty($result['idarchive'])
             ) {
                 $result['idarchive'] = array_merge($result['idarchive'], $result['partial']);
             } else {
