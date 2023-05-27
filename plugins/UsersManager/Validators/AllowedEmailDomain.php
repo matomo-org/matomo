@@ -37,7 +37,7 @@ class AllowedEmailDomain extends BaseValidator
 
     public function doesEmailEndWithAValidDomain($email, array $domains): bool
     {
-        $domains = array_map('mb_strtolower', $domains);
+        $domains = array_map('mb_strtolower', array_filter($domains));
         $domain = $this->getDomainFromEmail($email);
 
         return in_array($domain, $domains, true);
