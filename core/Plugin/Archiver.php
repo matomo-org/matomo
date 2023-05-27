@@ -89,12 +89,7 @@ abstract class Archiver
 
     private function getPluginName(): string
     {
-        // TODO: consider extracting to a reusable method or a trait, or use another approach to getting plugin's name
-        $className = get_class($this);
-        $parts = explode('\\', $className);
-        $parts = array_filter($parts);
-        $plugin = $parts[2] ?? '';
-        return $plugin;
+        return Piwik::getPluginNameOfMatomoClass(get_class($this));
     }
 
     /**
@@ -102,15 +97,19 @@ abstract class Archiver
      * @throws \DI\DependencyException
      * @throws \DI\NotFoundException
      */
-    private function getRecordBuilders(): array
+    private function getRecordBuilders(string $pluginName): array
     {
         $transientCache = Cache::getTransientCache();
-        $cacheKey = CacheId::siteAware('Archiver.RecordBuilders');
+        $cacheKey = CacheId::siteAware('Archiver.RecordBuilders') . '.' . $pluginName;
 
         $recordBuilders = $transientCache->fetch($cacheKey);
         if ($recordBuilders === false) {
-            $recordBuilderClasses = Manager::getInstance()->findMultipleComponents('RecordBuilders', ArchiveProcessor\RecordBuilder::class);
-            $recordBuilderClasses = $this->getDefaultConstructibleClasses($recordBuilderClasses);
+            $recordBuilderClasses = $this->getAllRecordBuilderClasses();
+
+            // only select RecordBuilders for the selected plugin
+            $recordBuilderClasses = array_filter($recordBuilderClasses, function ($className) use ($pluginName) {
+                return Piwik::getPluginNameOfMatomoClass($className) == $pluginName;
+            });
 
             $recordBuilders = array_map(function ($className) {
                 return StaticContainer::getContainer()->make($className);
@@ -131,29 +130,29 @@ abstract class Archiver
              * @param ArchiveProcessor\RecordBuilder[] $recordBuilders An array of RecordBuilder instances
              * @api
              */
-            Piwik::postEvent('Archiver.addRecordBuilders', [&$recordBuilders]);
-
-            /**
-             * Triggered to filter / restrict reports.
-             *
-             * **Example**
-             *
-             *     public function filterRecordBuilders(&$recordBuilders)
-             *     {
-             *         foreach ($reports as $index => $recordBuilder) {
-             *              if ($recordBuilders instanceof AnotherPluginRecordBuilder) {
-             *                  unset($reports[$index]);
-             *              }
-             *         }
-             *     }
-             *
-             * @param ArchiveProcessor\RecordBuilder[] $recordBuilders An array of RecordBuilder instances
-             * @api
-             */
-            Piwik::postEvent('Archiver.filterRecordBuilders', [&$recordBuilders]);
+            Piwik::postEvent('Archiver.addRecordBuilders', [&$recordBuilders], false, [$pluginName]);
 
             $transientCache->save($cacheKey, $recordBuilders);
         }
+
+        /**
+         * Triggered to filter / restrict reports.
+         *
+         * **Example**
+         *
+         *     public function filterRecordBuilders(&$recordBuilders)
+         *     {
+         *         foreach ($reports as $index => $recordBuilder) {
+         *              if ($recordBuilders instanceof AnotherPluginRecordBuilder) {
+         *                  unset($reports[$index]);
+         *              }
+         *         }
+         *     }
+         *
+         * @param ArchiveProcessor\RecordBuilder[] $recordBuilders An array of RecordBuilder instances
+         * @api
+         */
+        Piwik::postEvent('Archiver.filterRecordBuilders', [&$recordBuilders]);
 
         $requestedReports = $this->processor->getParams()->getArchiveOnlyReportAsArray();
         if (!empty($requestedReports)) {
@@ -176,12 +175,10 @@ abstract class Archiver
             $pluginName = $this->getPluginName();
 
             if (Manager::getInstance()->isPluginLoaded($pluginName)) {
-                $recordBuilders = $this->getRecordBuilders();
+                $recordBuilders = $this->getRecordBuilders($pluginName);
 
                 foreach ($recordBuilders as $recordBuilder) {
-                    if ($recordBuilder->getPluginName() != $pluginName
-                        || !$recordBuilder->isEnabled($this->getProcessor())
-                    ) {
+                    if (!$recordBuilder->isEnabled($this->getProcessor())) {
                         continue;
                     }
 
@@ -219,11 +216,9 @@ abstract class Archiver
             $pluginName = $this->getPluginName();
 
             if (Manager::getInstance()->isPluginLoaded($pluginName)) {
-                $recordBuilders = $this->getRecordBuilders();
+                $recordBuilders = $this->getRecordBuilders($pluginName);
                 foreach ($recordBuilders as $recordBuilder) {
-                    if ($recordBuilder->getPluginName() != $pluginName
-                        || !$recordBuilder->isEnabled($this->getProcessor())
-                    ) {
+                    if (!$recordBuilder->isEnabled($this->getProcessor())) {
                         continue;
                     }
 
@@ -339,5 +334,20 @@ abstract class Archiver
         return array_filter($classes, function ($className) {
             return (new \ReflectionClass($className))->getConstructor()->getNumberOfRequiredParameters() == 0;
         });
+    }
+
+    private function getAllRecordBuilderClasses(): array
+    {
+        $transientCache = Cache::getTransientCache();
+        $cacheKey = CacheId::siteAware('RecordBuilders.allRecordBuilders');
+
+        $recordBuilderClasses = $transientCache->fetch($cacheKey);
+        if ($recordBuilderClasses === false) {
+            $recordBuilderClasses = Manager::getInstance()->findMultipleComponents('RecordBuilders', ArchiveProcessor\RecordBuilder::class);
+            $recordBuilderClasses = $this->getDefaultConstructibleClasses($recordBuilderClasses);
+
+            $transientCache->save($cacheKey, $recordBuilderClasses);
+        }
+        return $recordBuilderClasses;
     }
 }

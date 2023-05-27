@@ -11,6 +11,7 @@ namespace Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\Piwik;
 
 /**
  * Inherit from this class to define archiving logic for one or more records.
@@ -213,11 +214,7 @@ abstract class RecordBuilder
 
     public function getPluginName(): string
     {
-        // TODO: consider extracting to a reusable method or a trait, or use another approach to getting plugin's name
-        $className = get_class($this);
-        $parts = explode('\\', $className);
-        $plugin = $parts[2];
-        return $plugin;
+        return Piwik::getPluginNameOfMatomoClass(get_class($this));
     }
 
     /**
