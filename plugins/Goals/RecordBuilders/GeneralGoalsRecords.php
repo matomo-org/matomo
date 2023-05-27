@@ -70,6 +70,11 @@ class GeneralGoalsRecords extends Base
 
     protected function aggregate(ArchiveProcessor $archiveProcessor): array
     {
+        $idSite = $this->getSiteId($archiveProcessor);
+        if (empty($idSite)) {
+            return [];
+        }
+
         $prefixes = [
             self::VISITS_UNTIL_RECORD_NAME    => 'vcv',
             self::DAYS_UNTIL_CONV_RECORD_NAME => 'vdsf',
@@ -83,7 +88,7 @@ class GeneralGoalsRecords extends Base
         $visitsToConversions = [];
         $daysToConversions = [];
 
-        $siteHasEcommerceOrGoals = $this->hasAnyGoalOrEcommerce($this->getSiteId($archiveProcessor));
+        $siteHasEcommerceOrGoals = $this->hasAnyGoalOrEcommerce($idSite);
 
         // Special handling for sites that contain subordinated sites, like in roll up reporting.
         // A roll up site, might not have ecommerce enabled or any configured goals,
@@ -177,7 +182,7 @@ class GeneralGoalsRecords extends Base
         return $result;
     }
 
-    private function getOverviewFromGoalTables($tableByGoal)
+    private function getOverviewFromGoalTables(array $tableByGoal): DataTable
     {
         $overview = new DataTable();
         foreach ($tableByGoal as $idGoal => $table) {
@@ -188,7 +193,7 @@ class GeneralGoalsRecords extends Base
         return $overview;
     }
 
-    private function isStandardGoal($idGoal)
+    private function isStandardGoal(int $idGoal): bool
     {
         return !in_array($idGoal, $this->getEcommerceIdGoals());
     }
@@ -218,7 +223,7 @@ class GeneralGoalsRecords extends Base
         return $records;
     }
 
-    private function getConversionsNumericMetrics(DataArray $goals)
+    private function getConversionsNumericMetrics(DataArray $goals): array
     {
         $numericRecords = [];
         $goals = $goals->getDataArray();

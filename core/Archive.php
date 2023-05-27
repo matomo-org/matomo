@@ -450,9 +450,7 @@ class Archive implements ArchiveQuery
             $result[$plugin][] = $name;
         }
 
-        $result = array_map('array_unique', $result);
-
-        return $result;
+        return array_map('array_unique', $result);
     }
 
     /**

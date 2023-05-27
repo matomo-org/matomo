@@ -17,23 +17,23 @@ use Piwik\Tracker\GoalManager;
 
 abstract class Base extends RecordBuilder
 {
-    protected function getSiteId(ArchiveProcessor $archiveProcessor)
+    protected function getSiteId(ArchiveProcessor $archiveProcessor): ?int
     {
         return $archiveProcessor->getParams()->getSite()->getId();
     }
 
-    protected function usesEcommerce($idSite)
+    protected function usesEcommerce(int $idSite): bool
     {
         return Manager::getInstance()->isPluginActivated('Ecommerce')
             && Site::isEcommerceEnabledFor($idSite);
     }
 
-    protected function hasAnyGoalOrEcommerce($idSite)
+    protected function hasAnyGoalOrEcommerce(int $idSite): bool
     {
         return $this->usesEcommerce($idSite) || !empty(GoalManager::getGoalIds($idSite));
     }
 
-    protected function getEcommerceIdGoals()
+    protected function getEcommerceIdGoals(): array
     {
         return array(GoalManager::IDGOAL_CART, GoalManager::IDGOAL_ORDER);
     }

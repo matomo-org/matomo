@@ -87,12 +87,13 @@ abstract class Archiver
         $this->enabled = true;
     }
 
-    private function getPluginName()
+    private function getPluginName(): string
     {
         // TODO: consider extracting to a reusable method or a trait, or use another approach to getting plugin's name
         $className = get_class($this);
         $parts = explode('\\', $className);
-        $plugin = $parts[2];
+        $parts = array_filter($parts);
+        $plugin = $parts[2] ?? '';
         return $plugin;
     }
 
@@ -101,7 +102,7 @@ abstract class Archiver
      * @throws \DI\DependencyException
      * @throws \DI\NotFoundException
      */
-    private function getRecordBuilders()
+    private function getRecordBuilders(): array
     {
         $transientCache = Cache::getTransientCache();
         $cacheKey = CacheId::siteAware('Archiver.RecordBuilders');
