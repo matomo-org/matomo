@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Goals\RecordBuilders;
 
 use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Record;
+use Piwik\Common;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable;
 use Piwik\Metrics;
@@ -84,7 +85,9 @@ class GeneralGoalsRecords extends Base
 
         $goalMetrics = [];
 
+        /** @var DataTable[] $visitsToConversions */
         $visitsToConversions = [];
+        /** @var DataTable[] $daysToConversions */
         $daysToConversions = [];
 
         $siteHasEcommerceOrGoals = $this->hasAnyGoalOrEcommerce($idSite);
@@ -108,6 +111,40 @@ class GeneralGoalsRecords extends Base
         // try to query goal data only, if goals or ecommerce is actually used
         // otherwise we simply insert empty records
         if ($siteHasEcommerceOrGoals) {
+            $query = $archiveProcessor->newLogQuery('log_conversion');
+            $query->addDimension('idgoal');
+            $query->addConversionMetrics();
+            $query->addHistogram('daysToConversion', 'FLOOR(log_conversion.' . self::SECONDS_SINCE_FIRST_VISIT_FIELD . ' / 86400)', self::$daysToConvRanges);
+            $query->addHistogram('visitsCount', 'log_conversion.' . self::VISITS_COUNT_FIELD, self::$visitCountRanges);
+
+            $resultSet = $query->execute();
+            foreach ($resultSet as $row) {
+                $idGoal = $row['idgoal'];
+
+                foreach ($query->getMetrics() as $field) {
+                    $goalMetrics[$idGoal][$field] = ($goalMetrics[$idGoal][$field] ?? 0) + $row[$field];
+                }
+
+                if (empty($visitsToConversions[$idGoal])) {
+                    $visitsToConversions[$idGoal] = new DataTable();
+                }
+
+                $visitsToConversions[$idGoal]->sumSimpleArrayTraversable($row['visitsCount']);
+
+                if (empty($daysToConversions[$idGoal])) {
+                    $daysToConversions[$idGoal] = new DataTable();
+                }
+
+                $daysToConversions[$idGoal]->sumSimpleArrayTraversable($row['daysToConversion']);
+
+                // We don't want to sum Abandoned cart metrics in the overall revenue/conversions/converted visits
+                // since it is a "negative conversion"
+                if ($idGoal != GoalManager::IDGOAL_CART) {
+                    $totalConversions += $row[Metrics::INDEX_GOAL_NB_CONVERSIONS];
+                    $totalRevenue += $row[Metrics::INDEX_GOAL_REVENUE];
+                }
+            }
+
             $selects = [];
             $selects = array_merge($selects, LogAggregator::getSelectsFromRangedColumn(
                 self::VISITS_COUNT_FIELD, self::$visitCountRanges, self::LOG_CONVERSION_TABLE, $prefixes[self::VISITS_UNTIL_RECORD_NAME]

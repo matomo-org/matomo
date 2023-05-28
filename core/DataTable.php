@@ -2070,4 +2070,36 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     {
         $this->deleteRow($offset);
     }
+
+    /**
+     * TODO
+     *
+     * @param \Traversable $rowIterator
+     * @return void
+     */
+    public function sumRowTraversable(\Traversable $rows): void
+    {
+        $columnAggregationOps = $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME);
+        foreach ($rows as $row) {
+            $this->aggregateRowWithLabel($row, $columnAggregationOps);
+        }
+    }
+
+    /**
+     * TODO
+     *
+     * @param \Traversable $simpleRowIterator
+     * @return void
+     * @throws Exception
+     */
+    public function sumSimpleArrayTraversable(\Traversable $simpleRowIterator): void
+    {
+        $rowObjects = function () use ($simpleRowIterator) {
+            foreach ($simpleRowIterator as $arrayRow) {
+                yield new Row([Row::COLUMNS => $arrayRow]);
+            }
+        };
+
+        $this->sumRowTraversable($rowObjects());
+    }
 }
