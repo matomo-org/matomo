@@ -10,8 +10,6 @@ namespace Piwik\Plugins\Goals\Columns;
 
 use Piwik\Columns\DimensionMetricFactory;
 use Piwik\Columns\MetricsList;
-use Piwik\Piwik;
-use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\Dimension\ConversionDimension;
 
 class IdGoal extends ConversionDimension
@@ -25,10 +23,6 @@ class IdGoal extends ConversionDimension
 
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {
-        $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_COUNT);
-        $metric->setTranslatedName(Piwik::translate('Goals_ColumnConversions'));
-        $metric->setDocumentation(Piwik::translate('Goals_ColumnConversionsDocumentation'));
-        $metric->setName('nb_conversions');
-        $metricsList->addMetric($metric);
+        // do not create any metrics for this dimension, they don't really make much sense and are rather confusing
     }
 }

@@ -153,10 +153,10 @@ class LogAggregationQuery
      */
     public function addHistogramSql(string $name, string $dimensionSql, string $countMetricName, array $ranges): LogAggregationQuery
     {
-        foreach ($ranges as $gap) {
+        foreach ($ranges as $index => $gap) {
             $gap = array_map('floatval', $gap);
 
-            $selectAs = $name . '_' . implode('-', $gap);
+            $selectAs = $name . '_' . $index;
 
             if (count($gap) == 2) {
                 [$lowerBound, $upperBound] = $gap;
@@ -180,12 +180,17 @@ class LogAggregationQuery
         $this->rowProcessor = function ($cursor) use ($currentRowProcessor, $name, $countMetricName, $ranges) {
             foreach ($currentRowProcessor($cursor) as $row) {
                 $histogram = [];
-                foreach ($ranges as $gap) {
-                    $label = implode('-', $gap);
-
-                    $selectAs = $name . '_' . $label;
+                foreach ($ranges as $index => $gap) {
+                    $selectAs = $name . '_' . $index;
                     if (!isset($row[$selectAs])) {
                         continue;
+                    }
+
+                    if (count($gap) == 2) {
+                        $label = implode('-', $gap);
+                    } else {
+                        $lowerBound = $gap[0];
+                        $label = ($lowerBound + 1) . urlencode('+');
                     }
 
                     $histogram[] = [
@@ -227,9 +232,8 @@ class LogAggregationQuery
             throw new \Exception('Default conversion metrics can only be added to queries on log_conversion.');
         }
 
-        $metricList = MetricsList::get();
-        $this->addMetric($metricList->getMetric('nb_conversions'), Metrics::INDEX_GOAL_NB_CONVERSIONS);
-        $this->addMetricSql(Metrics::INDEX_NB_CONVERSIONS, 'count(distinct log_conversion.idvisit)');
+        $this->addMetricSql(Metrics::INDEX_GOAL_NB_CONVERSIONS, 'count(*)');
+        $this->addMetricSql(Metrics::INDEX_GOAL_NB_VISITS_CONVERTED, 'count(distinct log_conversion.idvisit)');
         $this->addMetricSql(Metrics::INDEX_GOAL_REVENUE, LogAggregator::getSqlRevenue('SUM(log_conversion.revenue)'));
         $this->addMetricSql(Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL, LogAggregator::getSqlRevenue('SUM(log_conversion.revenue_subtotal)'));
         $this->addMetricSql(Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX, LogAggregator::getSqlRevenue('SUM(log_conversion.revenue_tax)'));
@@ -295,7 +299,7 @@ class LogAggregationQuery
         $groupBy = implode(', ', $this->dimensions);
 
         $query = $this->logAggregator->generateQuery(
-            implode(', ', $selects),
+            implode(",\n ", $selects),
             $from,
             implode(' AND ', $where),
             $groupBy,
