@@ -26,6 +26,8 @@ use Piwik\Plugin\LogTablesProvider;
 /**
  * TODO
  *
+ * TODO: rankingquery support
+ *
  * TODO: member docs
  */
 class LogAggregationQuery
