@@ -16,8 +16,11 @@ use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Plugin\Manager;
+use Piwik\Plugins\CoreHome\Columns\VisitsCount;
 use Piwik\Plugins\Goals\API;
 use Piwik\Plugins\Goals\Archiver;
+use Piwik\Plugins\Goals\Columns\DaysToConversion;
+use Piwik\Plugins\Goals\Columns\IdGoal;
 use Piwik\Plugins\Goals\Goals;
 use Piwik\Tracker\GoalManager;
 
@@ -75,11 +78,6 @@ class GeneralGoalsRecords extends Base
             return [];
         }
 
-        $prefixes = [
-            self::VISITS_UNTIL_RECORD_NAME    => 'vcv',
-            self::DAYS_UNTIL_CONV_RECORD_NAME => 'vdsf',
-        ];
-
         $totalConversions = 0;
         $totalRevenue = 0;
 
@@ -106,22 +104,20 @@ class GeneralGoalsRecords extends Base
             }
         }
 
-        $logAggregator = $archiveProcessor->getLogAggregator();
-
         // try to query goal data only, if goals or ecommerce is actually used
         // otherwise we simply insert empty records
         if ($siteHasEcommerceOrGoals) {
             $query = $archiveProcessor->newLogQuery('log_conversion');
-            $query->addDimension('idgoal');
+            $query->addDimension(new IdGoal(), 'idgoal');
             $query->addConversionMetrics();
-            $query->addHistogram('daysToConversion', 'FLOOR(log_conversion.' . self::SECONDS_SINCE_FIRST_VISIT_FIELD . ' / 86400)', self::$daysToConvRanges);
-            $query->addHistogram('visitsCount', 'log_conversion.' . self::VISITS_COUNT_FIELD, self::$visitCountRanges);
+            $query->addHistogram('daysToConversion', new DaysToConversion(), Metrics::INDEX_NB_CONVERSIONS, self::$daysToConvRanges);
+            $query->addHistogram('visitsCount', new VisitsCount(), Metrics::INDEX_NB_CONVERSIONS, self::$visitCountRanges);
 
             $resultSet = $query->execute();
             foreach ($resultSet as $row) {
                 $idGoal = $row['idgoal'];
 
-                foreach ($query->getMetrics() as $field) {
+                foreach ($query->getMetricFields() as $field) {
                     $goalMetrics[$idGoal][$field] = ($goalMetrics[$idGoal][$field] ?? 0) + $row[$field];
                 }
 
@@ -142,49 +138,6 @@ class GeneralGoalsRecords extends Base
                 if ($idGoal != GoalManager::IDGOAL_CART) {
                     $totalConversions += $row[Metrics::INDEX_GOAL_NB_CONVERSIONS];
                     $totalRevenue += $row[Metrics::INDEX_GOAL_REVENUE];
-                }
-            }
-
-            $selects = [];
-            $selects = array_merge($selects, LogAggregator::getSelectsFromRangedColumn(
-                self::VISITS_COUNT_FIELD, self::$visitCountRanges, self::LOG_CONVERSION_TABLE, $prefixes[self::VISITS_UNTIL_RECORD_NAME]
-            ));
-            $selects = array_merge($selects, LogAggregator::getSelectsFromRangedColumn(
-                'FLOOR(log_conversion.' . self::SECONDS_SINCE_FIRST_VISIT_FIELD . ' / 86400)', self::$daysToConvRanges, self::LOG_CONVERSION_TABLE, $prefixes[self::DAYS_UNTIL_CONV_RECORD_NAME]
-            ));
-
-            $query = $logAggregator->queryConversionsByDimension([], false, $selects);
-            if ($query === false) {
-                return [];
-            }
-
-            $conversionMetrics = $logAggregator->getConversionsMetricFields();
-            while ($row = $query->fetch()) {
-                $idGoal = $row['idgoal'];
-                unset($row['idgoal']);
-                unset($row['label']);
-
-                foreach ($conversionMetrics as $field => $statement) {
-                    $goalMetrics[$idGoal][$field] = ($goalMetrics[$idGoal][$field] ?? 0) + $row[$field];
-                }
-
-                if (empty($visitsToConversions[$idGoal])) {
-                    $visitsToConversions[$idGoal] = new DataTable();
-                }
-                $array = LogAggregator::makeArrayOneColumn($row, Metrics::INDEX_NB_CONVERSIONS, $prefixes[self::VISITS_UNTIL_RECORD_NAME]);
-                $visitsToConversions[$idGoal]->addDataTable(DataTable::makeFromIndexedArray($array));
-
-                if (empty($daysToConversions[$idGoal])) {
-                    $daysToConversions[$idGoal] = new DataTable();
-                }
-                $array = LogAggregator::makeArrayOneColumn($row, Metrics::INDEX_NB_CONVERSIONS, $prefixes[self::DAYS_UNTIL_CONV_RECORD_NAME]);
-                $daysToConversions[$idGoal]->addDataTable(DataTable::makeFromIndexedArray($array));
-
-                // We don't want to sum Abandoned cart metrics in the overall revenue/conversions/converted visits
-                // since it is a "negative conversion"
-                if ($idGoal != GoalManager::IDGOAL_CART) {
-                    $totalConversions += $row[Metrics::INDEX_GOAL_NB_CONVERSIONS];
-                    $totalRevenue     += $row[Metrics::INDEX_GOAL_REVENUE];
                 }
             }
         }

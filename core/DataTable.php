@@ -2088,14 +2088,14 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     /**
      * TODO
      *
-     * @param \Traversable $simpleRowIterator
+     * @param \Traversable|array $simpleRowTraversable
      * @return void
      * @throws Exception
      */
-    public function sumSimpleArrayTraversable(\Traversable $simpleRowIterator): void
+    public function sumSimpleArrayTraversable($simpleRowTraversable): void
     {
-        $rowObjects = function () use ($simpleRowIterator) {
-            foreach ($simpleRowIterator as $arrayRow) {
+        $rowObjects = function () use ($simpleRowTraversable) {
+            foreach ($simpleRowTraversable as $arrayRow) {
                 yield new Row([Row::COLUMNS => $arrayRow]);
             }
         };

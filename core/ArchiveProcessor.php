@@ -800,18 +800,6 @@ class ArchiveProcessor
             throw new \Exception("Cannot use LogAggregationQuery with $table: don't know what datetime field to use");
         }
 
-        $params = $this->getParams();
-
-        $query = new LogAggregationQuery($table);
-
-        $idSites = $params->getIdSites();
-        $idSites = array_map('intval', $idSites);
-
-        $query->addWhere("$table.$datetimeField >= ? AND $table.$datetimeField <= ? AND $table.idsite IN (" . implode(',', $idSites) . ")", [
-            $params->getDateTimeStart()->getDatetime(),
-            $params->getDateTimeEnd()->getDatetime(),
-        ]);
-
-        return $query;
+        return new LogAggregationQuery($table, $this->logAggregator);
     }
 }
