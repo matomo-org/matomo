@@ -367,11 +367,11 @@ INST;
             $guides[] = '<a href="' . $templateData['consentManagerUrl'] . '" target="_blank" rel="noreferrer noopener">' . $templateData['consentManagerName'] . ' ' . Piwik::translate('SitesManager_Guide') . '</a>';
             $info = [
                 'isNotificationsMerged' => true,
-                'notificationMergedMessage' => Piwik::translate('SitesManager_MergedNotificationLine1', [$bannerMessage]) . "<br>" . Piwik::translate('SitesManager_MergedNotificationLine2', [(implode(' / ', $guides))])
+                'notificationMergedMessage' => '<p class="fw-bold">' .Piwik::translate('SitesManager_MergedNotificationLine1', [$bannerMessage]) . '</p><p>' . Piwik::translate('SitesManager_MergedNotificationLine2', [(implode(' / ', $guides))]) . '</p>'
             ];
 
             if ($templateData['consentManagerIsConnected']) {
-                $info['notificationMergedMessage'] .= "<br>" . Piwik::translate('PrivacyManager_ConsentManagerConnected', [$templateData['consentManagerName']]);
+                $info['notificationMergedMessage'] .= '<p>' . Piwik::translate('PrivacyManager_ConsentManagerConnected', [$templateData['consentManagerName']]) . '</p>';
             }
         }
 
