@@ -62,7 +62,14 @@
     </div>
 
     <div id="tracking-code" class="col s12">
-        {% if consentManagerName %}
+        {% if isNotificationsMerged %}
+            <p></p><p></p>
+            <div class="system notification notification-info">
+                {{ notificationMergedMessage|raw }}
+            </div>
+        {% endif %}
+
+        {% if consentManagerName and isNotificationsMerged == false %}
         <p></p><p></p>
         <div class="system notification notification-info">
             <p> {{ 'PrivacyManager_ConsentManagerDetected'|translate(consentManagerName, '<a href="' ~ consentManagerUrl ~ '" target="_blank" rel="noreferrer noopener">', '</a')|raw }}
@@ -74,14 +81,14 @@
         </div>
         {% endif %}
 
-        {% if ga3Used %}
+        {% if ga3Used and isNotificationsMerged == false %}
         <p></p><p></p>
         <div class="system notification notification-info">
              {{ 'SitesManager_GADetected'|translate('Google Analytics 3', 'GA', '<a href="', 'https://matomo.org/faq/how-to/migrate-from-google-analytics-3-to-matomo/', '" target="_blank" rel="noreferrer noopener">', '</a>')|raw }}
         </div>
         {% endif %}
 
-        {% if ga4Used %}
+        {% if ga4Used and isNotificationsMerged == false %}
         <p></p><p></p>
         <div class="system notification notification-info">
             {{ 'SitesManager_GADetected'|translate('Google Analytics 4', 'GA', '<a href="', 'https://matomo.org/faq/how-to/migrate-from-google-analytics-4-to-matomo/', '" target="_blank" rel="noreferrer noopener">', '</a>')|raw }}
