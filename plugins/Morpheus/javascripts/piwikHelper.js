@@ -777,9 +777,5 @@ try {
 window.addEventListener('DOMContentLoaded', function () {
   $(function () {
     piwikHelper.compileVueEntryComponents('body');
-
-    window.Vue.nextTick(function () {
-      window.CoreHome.Matomo.postEvent('Matomo.afterInitialVueEntryProcess');
-    });
   });
 });
