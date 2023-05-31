@@ -776,8 +776,7 @@ document.addEventListener('DOMContentLoaded', function load() {
 
     } catch (e) {}
 
-    $(function () {
-      piwikHelper.compileVueEntryComponents('body');
-    });
+    piwikHelper.compileVueEntryComponents('body');
+
   }(jQuery));
 });
