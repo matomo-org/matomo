@@ -743,9 +743,7 @@ function isEscapeKey(e)
 }
 
 // workarounds
-document.addEventListener('DOMContentLoaded', function load() {
-  if (!window.jQuery) return setTimeout(load, 50);
-
+document.addEventListener('DOMContentLoaded', function () {
   (function($){
     try {
       // this code is not vital, so we make sure any errors are ignored
@@ -779,4 +777,4 @@ document.addEventListener('DOMContentLoaded', function load() {
     piwikHelper.compileVueEntryComponents('body');
 
   }(jQuery));
-});
+}, false);

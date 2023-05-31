@@ -7,8 +7,7 @@
 {% render implView with implOverride %}
 </div>
 <script>
-    document.addEventListener('DOMContentLoaded', function load() {
-        if (!window.jQuery) return setTimeout(load, 50);
+    document.addEventListener('DOMContentLoaded', function () {
         $(document).ready(function () { require('{{ jsNamespace }}').{{ jsClass }}.initElements(); });
     }, false);
 </script>

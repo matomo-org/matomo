@@ -1,7 +1,6 @@
 {% if (enableFrames is defined and enableFrames == false) %}
     <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', function load() {
-            if (!window.jQuery) return setTimeout(load, 50);
+        document.addEventListener('DOMContentLoaded', function () {
             $(document).ready(function () {
                 $('body').css("display", "none");
                 if (self == top) {
