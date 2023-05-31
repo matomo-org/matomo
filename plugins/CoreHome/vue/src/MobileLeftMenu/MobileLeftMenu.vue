@@ -10,7 +10,7 @@
       <ul class="collapsible collapsible-accordion" v-side-nav="{activator: activateLeftMenu}">
         <li>
           <a class="collapsible-header">
-            {{ translate(level1) }}<i :class="level2._icon || 'icon-arrow-down'"></i>
+            {{ translate(level1) }}<i :class="level2._icon || 'icon-arrow-down'" aria-hidden="true"></i>
           </a>
 
           <div class="collapsible-body">

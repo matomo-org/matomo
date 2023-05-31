@@ -80,7 +80,7 @@
       />
     </div>
     <div class="resend-invite-confirm-modal modal" ref="resendInviteConfirmModal">
-      <div class="btn-close modal-close"><i class="icon-close"></i></div>
+      <div class="btn-close modal-close"><i class="icon-close" aria-hidden="true"></i></div>
       <div class="modal-content">
         <h2 class="modal-title">{{ translate('UsersManager_ResendInvite') }}</h2>
         <p
@@ -98,7 +98,7 @@
       </div>
       <div class="modal-footer">
         <span v-if="copied" class="success-copied">
-          <i class="icon-success"></i>
+          <i class="icon-success" aria-hidden="true"></i>
           {{ translate('UsersManager_LinkCopied') }}</span>
         <button
           @click="showInviteActionPasswordConfirm('copy')"
