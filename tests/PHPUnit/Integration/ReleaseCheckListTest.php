@@ -984,6 +984,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             '*.gitignore',
             '*.gitmodules',
             '*.gitattributes',
+            '*.git-blame-ignore-revs',
             '*.bowerrc',
             '*.bower.json',
             '*bower.json',
