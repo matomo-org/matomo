@@ -1,15 +1,14 @@
 {% if (enableFrames is defined and enableFrames == false) %}
     <script type="text/javascript">
-        window.addEventListener('DOMContentLoaded', function () {
-            $(function () {
+        document.addEventListener('DOMContentLoaded', function load() {
+            if (!window.jQuery) return setTimeout(load, 50);
+            $(document).ready(function () {
                 $('body').css("display", "none");
                 if (self == top) {
                     var theBody = document.getElementsByTagName('body')[0];
                     theBody.style.display = 'block';
-                } else {
-                    top.location = self.location;
-                }
+                } else { top.location = self.location; }
             });
-        });
+        }, false);
     </script>
 {% endif %}

@@ -6,4 +6,9 @@
     data-params="{{ clientSideParameters|json_encode }}">
 {% render implView with implOverride %}
 </div>
-<script>$(document).ready(function () { require('{{ jsNamespace }}').{{ jsClass }}.initElements(); });</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function load() {
+        if (!window.jQuery) return setTimeout(load, 50);
+        $(document).ready(function () { require('{{ jsNamespace }}').{{ jsClass }}.initElements(); });
+    }, false);
+</script>
