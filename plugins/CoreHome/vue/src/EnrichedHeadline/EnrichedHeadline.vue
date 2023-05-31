@@ -14,7 +14,6 @@
     <div
       v-if="!editUrl"
       class="title"
-      tabindex="6"
     >
       <slot />
     </div>

@@ -162,7 +162,7 @@ Segmentation = (function($) {
             var segment, injClass;
             var listHtml = '<li data-idsegment="" ' +
                 (self.currentSegmentStr == "" ? " class='segmentSelected'" : "")
-                + ' data-definition=""><span class="segname" tabindex="4">' + self.translations['SegmentEditor_DefaultAllVisits']
+                + ' data-definition=""><span class="segname">' + self.translations['SegmentEditor_DefaultAllVisits']
                 + ' ' + self.translations['General_DefaultAppended']
                 + '</span>';
             var comparisonService = window.CoreHome.ComparisonsStoreInstance;
@@ -213,7 +213,7 @@ Segmentation = (function($) {
                         injClass = 'class="segmentSelected"';
                     }
                     listHtml += '<li data-idsegment="'+segment.idsegment+'" data-definition="'+ (segment.definition).replace(/"/g, '&quot;') +'" '
-                        +injClass+' title="'+ getSegmentTooltipEnrichedWithUsername(segment) +'"><span class="segname" tabindex="4">'+getSegmentName(segment)+'</span>';
+                        +injClass+' title="'+ getSegmentTooltipEnrichedWithUsername(segment) +'"><span class="segname">'+getSegmentName(segment)+'</span>';
                     if(self.segmentAccess == "write") {
                         listHtml += '<span class="editSegment" title="'+ self.translations['General_Edit'].toLocaleLowerCase() +'"></span>';
                     }

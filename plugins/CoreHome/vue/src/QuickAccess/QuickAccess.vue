@@ -20,7 +20,6 @@
       @focus="searchActive = true"
       v-model="searchTerm"
       type="text"
-      tabindex="2"
       v-focus-if="{ focused: searchActive }"
       :title="quickAccessTitle"
       :placeholder="translate('General_Search')"

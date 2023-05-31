@@ -13,7 +13,7 @@
 
                 {% if hasSubmenuItem %}
                     {% set subMenu %}
-                        <a class="item {% if collapsible %}collapsible-header{% endif %}" tabindex="5">
+                        <a class="item {% if collapsible %}collapsible-header{% endif %}">
                             <span class="menu-icon {{ level2._icon|default('icon-arrow-right') }}"></span>{{ level1|translate }}
                             <span class="hidden">
                              {{ 'CoreHome_Menu'|translate }}
@@ -27,7 +27,7 @@
                                     <li {% if isActive %}class="active"{% endif %}
                                         role="menuitem"
                                     >
-                                        <a class="item" tabindex="5" target="_self"
+                                        <a class="item" target="_self"
                                            title="{{ urlParameters._tooltip|default('')|translate|e('html_attr') }}"
                                             {% if urlParameters._onclick is defined and urlParameters._onclick %}
                                                 onclick="{{ urlParameters._onclick|e('html_attr') }};return false;"

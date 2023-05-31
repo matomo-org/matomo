@@ -23,7 +23,6 @@
       href="javascript:void(0)"
       :class="{'loading': isLoading}"
       class="title"
-      tabindex="4"
       :title="selectorLinkTitle"
     >
       <span
@@ -53,7 +52,6 @@
           type="text"
           @click="searchTerm = '';loadInitialSites()"
           v-model="searchTerm"
-          tabindex="4"
           class="websiteSearch inp browser-default"
           v-focus-if="{ focused: shouldFocusOnSearch }"
           :placeholder="translate('General_Search')"
@@ -87,7 +85,6 @@
             <a
               @click="$event.preventDefault()"
               v-html="$sanitize(getMatchedSiteName(site.name))"
-              tabindex="4"
               :href="getUrlForSiteId(site.idsite)"
               :title="site.name"
             />

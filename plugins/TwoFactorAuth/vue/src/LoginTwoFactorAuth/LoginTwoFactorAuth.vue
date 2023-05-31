@@ -43,7 +43,6 @@
             autocorrect="off"
             autocapitalize="none"
             autocomplete="off"
-            tabindex="10"
             autofocus="autofocus"
           />
 
@@ -61,7 +60,6 @@
             id="login_form_submit"
             type="submit"
             :value="translate('TwoFactorAuth_Verify')"
-            tabindex="100"
           />
         </div>
       </div>

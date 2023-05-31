@@ -1,11 +1,11 @@
 <span id="logo" class="logo brand-logo {% if centeredLogo is defined and centeredLogo %}center{% endif %}">
     {% if logoLink is not defined or logoLink is not empty %}
-    <a href="{{ logoLink|default('index.php') }}" tabindex="-1"
+    <a href="{{ logoLink|default('index.php') }}" 
        title="{% if isCustomLogo %}{{ 'General_PoweredBy'|translate }} {% endif %}Matomo{% if not isCustomLogo %} # {{ 'General_OpenSourceWebAnalytics'|translate }}{% endif %}"
     >
     {% endif %}
     {% if hasSVGLogo %}
-        <img src='{{ logoSVG }}?matomo' tabindex="3"
+        <img src='{{ logoSVG }}?matomo' 
              alt="{% if isCustomLogo %}{{ 'General_PoweredBy'|translate }} {% endif %}Matomo"
              class="{% if not isCustomLogo %}default-piwik-logo{% endif %}" />
     {% else %}

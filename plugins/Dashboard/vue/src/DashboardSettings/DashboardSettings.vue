@@ -15,7 +15,6 @@
     <a
       class="title"
       :title="translate('Dashboard_ManageDashboard')"
-      tabindex="4"
       ref="expander"
     >
       <span class="icon icon-arrow-bottom"></span>{{ translate('Dashboard_Dashboard') }}
