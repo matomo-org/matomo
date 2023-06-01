@@ -348,8 +348,8 @@ INST;
 
         if ($templateData['ga3Used'] || $templateData['ga4Used']) {
             $bannerMessage = 'Google Analytics ';
-            $ga3GuideUrl = '<a href="https://matomo.org/faq/how-to/migrate-from-google-analytics-3-to-matomo/" target="_blank" rel="noreferrer noopener">Google Analytics 3 ' . Piwik::translate('SitesManager_Guide') . '</a>';
-            $ga4GuideUrl = '<a href="https://matomo.org/faq/how-to/migrate-from-google-analytics-4-to-matomo/" target="_blank" rel="noreferrer noopener">Google Analytics 4 ' . Piwik::translate('SitesManager_Guide') . '</a>';
+            $ga3GuideUrl =  Piwik::translate('SitesManager_Guide', array('<a href="https://matomo.org/faq/how-to/migrate-from-google-analytics-3-to-matomo/" target="_blank" rel="noreferrer noopener">Google Analytics 3 ', '</a>'));
+            $ga4GuideUrl =  Piwik::translate('SitesManager_Guide', array('<a href="https://matomo.org/faq/how-to/migrate-from-google-analytics-3-to-matomo/" target="_blank" rel="noreferrer noopener">Google Analytics 4 ', '</a>'));
             if ($templateData['ga3Used'] && $templateData['ga4Used']) {
                 $guides[] = $ga3GuideUrl;
                 $guides[] = $ga4GuideUrl;
@@ -364,7 +364,7 @@ INST;
 
         if ($bannerMessage && $templateData['consentManagerName']) {
             $bannerMessage .= $templateData['consentManagerName'];
-            $guides[] = '<a href="' . $templateData['consentManagerUrl'] . '" target="_blank" rel="noreferrer noopener">' . $templateData['consentManagerName'] . ' ' . Piwik::translate('SitesManager_Guide') . '</a>';
+            $guides[] =  Piwik::translate('SitesManager_Guide', array('<a href="' . $templateData['consentManagerUrl'] . '" target="_blank" rel="noreferrer noopener">' . $templateData['consentManagerName'] . ' ', '</a>'));
             $info = [
                 'isNotificationsMerged' => true,
                 'notificationMergedMessage' => '<p class="fw-bold">' .Piwik::translate('SitesManager_MergedNotificationLine1', [$bannerMessage]) . '</p><p>' . Piwik::translate('SitesManager_MergedNotificationLine2', [(implode(' / ', $guides))]) . '</p>'
