@@ -31,7 +31,7 @@ class EmptySiteWithSiteContentDetectionMergeNotificationOnlyGA extends Fixture
             'ga4' => true,
             'gtm' => false,
             'cloudflare' => false,
-            'cms' => SitesManager::SITE_TYPE_WORDPRESS
+            'cms' => SitesManager::SITE_TYPE_UNKNOWN
         ];
 
         return [
