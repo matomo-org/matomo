@@ -371,7 +371,7 @@ INST;
         ];
 
         if ($templateData['consentManagerIsConnected']) {
-            $info['notificationMergedMessage'] .= '<p>' . Piwik::translate('PrivacyManager_ConsentManagerConnected', [$templateData['consentManagerName']]) . '</p>';
+            $info['notificationMergedMessage'] .= '<p>' . Piwik::translate('SitesManager_ConsentManagerConnected', [$templateData['consentManagerName']]) . '</p>';
         }
 
         $templateData = array_merge($templateData, $info);
