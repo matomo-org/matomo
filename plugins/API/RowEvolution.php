@@ -282,6 +282,7 @@ class RowEvolution
         // if we have a recursive label and no url, use the path
         if (!$urlFound) {
             $label = Common::getRequestVar('labelPretty', $label, 'string');
+            $label = Common::unsanitizeInputValue($label);
             $actualLabel = $this->formatQueryLabelForDisplay($idSite, $apiModule, $apiAction, $label);
         }
 
