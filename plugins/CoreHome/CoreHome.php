@@ -185,6 +185,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/color_manager.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/notification.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/numberFormatter.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/listingFormatter.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/noreferrer.js";
 
         // we have to load these CorePluginsAdmin files here. If we loaded them in CorePluginsAdmin,
@@ -288,6 +289,14 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'Intl_PeriodWeek';
         $translationKeys[] = 'Intl_PeriodMonth';
         $translationKeys[] = 'Intl_PeriodYear';
+        $translationKeys[] = 'Intl_ListPatternAnd2';
+        $translationKeys[] = 'Intl_ListPatternAndEnd';
+        $translationKeys[] = 'Intl_ListPatternAndMiddle';
+        $translationKeys[] = 'Intl_ListPatternAndStart';
+        $translationKeys[] = 'Intl_ListPatternOr2';
+        $translationKeys[] = 'Intl_ListPatternOrEnd';
+        $translationKeys[] = 'Intl_ListPatternOrMiddle';
+        $translationKeys[] = 'Intl_ListPatternOrStart';
         $translationKeys[] = 'General_DateRangeInPeriodList';
         $translationKeys[] = 'General_And';
         $translationKeys[] = 'General_All';
