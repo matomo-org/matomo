@@ -27,8 +27,9 @@
             <a href="#/google-tag-manager">{{ 'SitesManager_SiteWithoutDataGoogleTagManager'|translate }}</a>
             <a href="#/wordpress">{{ 'SitesManager_SiteWithoutDataWordpress'|translate }}</a>
             <a href="#/cloudflare">{{ 'SitesManager_SiteWithoutDataCloudflare'|translate }}</a>
-            {{ postEvent('Template.endTrackingCodePageTableOfContents') }}
+            <a href="#/vue">{{ 'SitesManager_SiteWithoutDataVue'|translate }}</a>
             <a href="#/react">{{ 'SitesManager_SiteWithoutDataReact'|translate }}</a>
+            {{ postEvent('Template.endTrackingCodePageTableOfContents') }}
         </div>
     </div>
 
@@ -76,6 +77,10 @@
 
 <div vue-entry="CoreHome.ContentBlock" content-title="{{ 'SitesManager_SiteWithoutDataCloudflare'|translate }}" anchor="cloudflare">
     <p>{{ 'CoreAdminHome_CloudflareDescription'|translate('<a href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-cloudflare-setup/" rel="noreferrer noopener" target="_blank">','</a>')|raw }}</p>
+</div>
+
+<div vue-entry="CoreHome.ContentBlock" content-title="{{ 'SitesManager_SiteWithoutDataVue'|translate }}" anchor="vue">
+    <p>{{ 'CoreAdminHome_VueDescription'|translate('<a href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-websites-that-use-vue-js/" rel="noreferrer noopener" target="_blank">','</a>')|raw }}</p>
 </div>
 
 <div vue-entry="CoreHome.ContentBlock" content-title="{{ 'SitesManager_SiteWithoutDataReact'|translate }}" anchor="react">

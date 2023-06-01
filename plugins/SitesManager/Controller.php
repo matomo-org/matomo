@@ -163,7 +163,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'ga4Used' => false,
             'gtmUsed' => false,
             'cms' => false,
-            'react' => false
+            'jsFramework' => false,
         ];
 
         $this->siteContentDetector->detectContent([SiteContentDetector::ALL_CONTENT]);
@@ -175,8 +175,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $emailTemplateData['ga4Used'] = $this->siteContentDetector->ga4;
         $emailTemplateData['gtmUsed'] = $this->siteContentDetector->gtm;
         $emailTemplateData['cloudflare'] = $this->siteContentDetector->cloudflare;
-        $emailTemplateData['react'] = $this->siteContentDetector->react;
         $emailTemplateData['cms'] = $this->siteContentDetector->cms;
+        $emailTemplateData['jsFramework'] = $this->siteContentDetector->jsFramework;
 
         $emailContent = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', $emailTemplateData, $viewType = 'basic');
         $inviteUserLink = $this->getInviteUserLink();
@@ -187,6 +187,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'piwikUrl'                                            => $piwikUrl,
             'emailBody'                                           => $emailContent,
             'siteWithoutDataStartTrackingTranslationKey'          => StaticContainer::get('SitesManager.SiteWithoutDataStartTrackingTranslation'),
+            'SiteWithoutDataVueFollowStepNote2Key'                => StaticContainer::get('SitesManager.SiteWithoutDataVueFollowStepNote2'),
             'inviteUserLink'                                      => $inviteUserLink
         ], $viewType = 'basic');
     }
@@ -221,6 +222,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $tagManagerActive = true;
         }
         $this->siteContentDetector->detectContent([SiteContentDetector::ALL_CONTENT], $this->idSite);
+        $this->siteContentDetector->jsFramework = 'react';
 
         $templateData = [
             'siteName'      => $this->site->getName(),
@@ -237,8 +239,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'tagManagerActive' => $tagManagerActive,
             'consentManagerName' => false,
             'cloudflare' => $this->siteContentDetector->cloudflare,
-            'react' => $this->siteContentDetector->react,
+            'jsFramework' => $this->siteContentDetector->jsFramework,
             'cms' => $this->siteContentDetector->cms,
+            'SiteWithoutDataVueFollowStepNote2Key' => StaticContainer::get('SitesManager.SiteWithoutDataVueFollowStepNote2'),
         ];
 
         if ($this->siteContentDetector->consentManagerId) {
@@ -248,6 +251,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         $templateData['activeTab'] = $this->getActiveTabOnLoad($templateData);
+
+        if ($this->siteContentDetector->jsFramework === SitesManager::JS_FRAMEWORK_VUE) {
+            $templateData['vue3Code'] = $this->getVueInitializeCode(3);
+            $templateData['vue2Code'] = $this->getVueInitializeCode(2);
+        } else if ($this->siteContentDetector->jsFramework === SitesManager::JS_FRAMEWORK_REACT) {
+            $templateData['reactCode'] = $this->getReactCode();
+        }
 
         return $this->renderTemplateAs('_siteWithoutDataTabs', $templateData, $viewType = 'basic');
     }
@@ -262,7 +272,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $tabToDisplay = 'wordpress';
         } else if (!empty($templateData['cloudflare'])) {
             $tabToDisplay = 'cloudflare';
-        } else if (!empty($templateData['react'])) {
+        } else if (!empty($templateData['jsFramework']) && $templateData['jsFramework'] === SitesManager::JS_FRAMEWORK_VUE) {
+            $tabToDisplay = 'vue';
+        } else if (!empty($templateData['jsFramework']) && $templateData['jsFramework'] === SitesManager::JS_FRAMEWORK_REACT && Manager::getInstance()->isPluginActivated('TagManager')) {
             $tabToDisplay = 'react';
         }
 
@@ -282,5 +294,56 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 'module' => 'UsersManager',
                 'action' => 'index',
             ]);
+    }
+
+    private function getVueInitializeCode($vueVersion = '3')
+    {
+        $request = \Piwik\Request::fromRequest();
+        $piwikUrl = Url::getCurrentUrlWithoutFileName();
+        $siteId = $request->getIntegerParameter('idSite', 1);
+        if ($vueVersion == 2) {
+            return <<<INST
+import { createApp } from 'vue'
+import VueMatomo from 'vue-matomo'
+import App from './App.vue'
+
+createApp(App)
+    .use(VueMatomo, {
+        // Configure your matomo server and site by providing
+        host: '$piwikUrl',
+        siteId: $siteId,
+    })
+    .mount('#app')
+
+
+window._paq.push(['trackPageView']); // To track a page view
+INST;
+        }
+
+        return <<<INST
+import Vue from 'vue'
+import App from './App.vue'
+import VueMatomo from 'vue-matomo'
+
+Vue.use(VueMatomo, {
+    host: '$piwikUrl',
+    siteId: $siteId
+});
+
+new Vue({
+  el: '#app',
+  router,
+  components: {App},
+  template: ''
+})
+
+window._paq.push(['trackPageView']); // To track a page view
+INST;
+    }
+
+    private function getReactCode()
+    {
+        $request = \Piwik\Request::fromRequest();
+        $siteId = $request->getIntegerParameter('idSite', 1);
     }
 }

@@ -18,7 +18,7 @@
 			<row idgoal='1'>
 				<nb_conversions>10</nb_conversions>
 				<revenue>50</revenue>
-				<nb_conv_pages_before>8</nb_conv_pages_before>
+				<nb_conv_pages_before>5</nb_conv_pages_before>
 				<nb_conversions_attrib>10</nb_conversions_attrib>
 				<nb_conversions_page_rate>0.333</nb_conversions_page_rate>
 				<nb_conversions_page_uniq>10</nb_conversions_page_uniq>
@@ -503,7 +503,7 @@
 					<row idgoal='1'>
 						<nb_conversions>9</nb_conversions>
 						<revenue>45</revenue>
-						<nb_conv_pages_before>7</nb_conv_pages_before>
+						<nb_conv_pages_before>4</nb_conv_pages_before>
 						<nb_conversions_attrib>9</nb_conversions_attrib>
 						<nb_conversions_page_rate>0</nb_conversions_page_rate>
 						<nb_conversions_page_uniq>9</nb_conversions_page_uniq>
@@ -602,7 +602,7 @@
 							<row idgoal='1'>
 								<nb_conversions>8</nb_conversions>
 								<revenue>40</revenue>
-								<nb_conv_pages_before>6</nb_conv_pages_before>
+								<nb_conv_pages_before>3</nb_conv_pages_before>
 								<nb_conversions_attrib>8</nb_conversions_attrib>
 								<nb_conversions_page_rate>0</nb_conversions_page_rate>
 								<nb_conversions_page_uniq>8</nb_conversions_page_uniq>
@@ -701,7 +701,7 @@
 									<row idgoal='1'>
 										<nb_conversions>8</nb_conversions>
 										<revenue>40</revenue>
-										<nb_conv_pages_before>6</nb_conv_pages_before>
+										<nb_conv_pages_before>3</nb_conv_pages_before>
 										<nb_conversions_attrib>8</nb_conversions_attrib>
 										<nb_conversions_page_rate>0</nb_conversions_page_rate>
 										<nb_conversions_page_uniq>8</nb_conversions_page_uniq>

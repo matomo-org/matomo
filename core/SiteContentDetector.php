@@ -41,7 +41,7 @@ class SiteContentDetector
     const GA4 = 4;
     const GTM = 5;
     const CMS = 6;
-    const REACT = 7;
+    const JS_FRAMEWORK = 7;
 
     // Detection detail
     public $consentManagerId;       // Id of the detected consent manager, eg. 'osano'
@@ -53,7 +53,7 @@ class SiteContentDetector
     public $gtm;                    // True if GTM was detected on the site
     public $cms;                    // The CMS that was detected on the site
     public $cloudflare;             // true if website is hosted on cloudflare
-    public $react;                  // True if React was detected on the site
+    public $jsFramework;            // The JS framework that was detected on the site
 
     private $siteResponse = [
         'data' => '',
@@ -94,7 +94,7 @@ class SiteContentDetector
         $this->gtm = false;
         $this->cms = SitesManager::SITE_TYPE_UNKNOWN;
         $this->cloudflare = false;
-        $this->react = false;
+        $this->jsFramework = SitesManager::JS_FRAMEWORK_UNKNOWN;
     }
 
     /**
@@ -197,8 +197,8 @@ class SiteContentDetector
             $requiredProperties[] = 'cms';
         }
 
-        if (in_array(SiteContentDetector::REACT, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
-            $requiredProperties[] = 'react';
+        if (in_array(SiteContentDetector::JS_FRAMEWORK, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
+            $requiredProperties[] = 'jsFramework';
         }
 
         return $requiredProperties;
@@ -298,8 +298,8 @@ class SiteContentDetector
             $this->cms = $this->siteGuesser->guessSiteTypeFromResponse($this->siteResponse);
         }
 
-        if (in_array(SiteContentDetector::REACT, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
-            $this->react = $this->siteGuesser->guessReactFromResponse($this->siteResponse);
+        if (in_array(SiteContentDetector::JS_FRAMEWORK, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
+            $this->jsFramework = $this->siteGuesser->guessJsFrameworkFromResponse($this->siteResponse);
         }
 
         if (

@@ -18,8 +18,8 @@ use Piwik\Validators\Exception;
 
 class Login extends BaseValidator
 {
-    const loginMinimumLength = 2;
-    const loginMaximumLength = 100;
+    const LOGIN_MIN_LENGTH = 2;
+    const LOGIN_MAX_LENGTH = 100;
 
     private $checkUnique;
 
@@ -39,13 +39,13 @@ class Login extends BaseValidator
 
         $l = strlen($value);
         if (
-            !($l >= self::loginMinimumLength
-            && $l <= self::loginMaximumLength
+            !($l >= self::LOGIN_MIN_LENGTH
+            && $l <= self::LOGIN_MAX_LENGTH
             && (preg_match('/^[A-Za-zÄäÖöÜüß0-9_.@+-]*$/D', $value) > 0))
         ) {
             throw new Exception(Piwik::translate(
                 'UsersManager_ExceptionInvalidLoginFormat',
-                [self::loginMinimumLength, self::loginMaximumLength]
+                [self::LOGIN_MIN_LENGTH, self::LOGIN_MAX_LENGTH]
             ));
         }
 

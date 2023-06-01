@@ -45,6 +45,9 @@ class SitesManager extends \Piwik\Plugin
     const SITE_TYPE_SHOPIFY = 'shopify';
     const SITE_TYPE_WEBFLOW = 'webflow';
     const SITE_TYPE_DRUPAL = 'drupal';
+    const JS_FRAMEWORK_UNKNOWN = 'unknown';
+    const JS_FRAMEWORK_VUE = 'vue';
+    const JS_FRAMEWORK_REACT = 'react';
 
     /**
      * @see \Piwik\Plugin::registerEvents
@@ -52,16 +55,15 @@ class SitesManager extends \Piwik\Plugin
     public function registerEvents()
     {
         return [
-            'AssetManager.getStylesheetFiles'              => 'getStylesheetFiles',
-            'Tracker.Cache.getSiteAttributes'              => ['function' => 'recordWebsiteDataInCache', 'before' => true],
-            'Tracker.setTrackerCacheGeneral'               => 'setTrackerCacheGeneral',
-            'Translate.getClientSideTranslationKeys'       => 'getClientSideTranslationKeys',
-            'SitesManager.deleteSite.end'                  => 'onSiteDeleted',
-            'System.addSystemSummaryItems'                 => 'addSystemSummaryItems',
-            'Request.dispatch'                             => 'redirectDashboardToWelcomePage',
-            'Template.noDataPageGTMTabInstructions'        => 'noDataPageGTMTabInstructions',
+            'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
+            'Tracker.Cache.getSiteAttributes'        => ['function' => 'recordWebsiteDataInCache', 'before' => true],
+            'Tracker.setTrackerCacheGeneral'         => 'setTrackerCacheGeneral',
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+            'SitesManager.deleteSite.end'            => 'onSiteDeleted',
+            'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
+            'Request.dispatch'                       => 'redirectDashboardToWelcomePage',
+            'Template.noDataPageGTMTabInstructions'  => 'noDataPageGTMTabInstructions',
             'Template.noDataPageWordpressTabInstructions'  => 'noDataPageWordpressTabInstructions',
-            'Template.noDataPageReactTabInstructions'      => 'noDataPageReactTabInstructions',
         ];
     }
 
@@ -521,6 +523,8 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "SitesManager_EmailInstructionsButtonText";
         $translationKeys[] = "SitesManager_SiteWithoutDataIgnorePage";
         $translationKeys[] = "SitesManager_DemoSiteButtonText";
+        $translationKeys[] = "SitesManager_SiteWithoutDataVue";
+        $translationKeys[] = "SitesManager_SiteWithoutDataVueDescription";
         $translationKeys[] = "SitesManager_SiteWithoutDataReact";
         $translationKeys[] = "SitesManager_SiteWithoutDataReactDescription";
     }
@@ -556,53 +560,6 @@ class SitesManager extends \Piwik\Plugin
         }
         $view->authLink = $authLink;
         $view->faqLink = $faqLink;
-        $out = $view->render();
-    }
-
-    public function noDataPageReactTabInstructions(&$out)
-    {
-        Piwik::checkUserHasSomeViewAccess();
-        $piwikUrl = Url::getCurrentUrlWithoutFileName();
-        $siteId = Common::getRequestVar('idSite', 1, 'int');
-        $matomoProviderCode = <<<INST
-import { MatomoProvider, createInstance } from '@datapunt/matomo-tracker-react'
-
-const instance = createInstance({
-    urlBase: '$piwikUrl',
-    siteId: $siteId,
-})
-
-root.render(<MatomoProvider value={instance}><App tab="home" /></MatomoProvider>);
-//OR
-ReactDOM.render(
-<MatomoProvider value={instance}>
-<MyApp />
-</MatomoProvider>,
-)
-INST;
-        $matomoWrappercode = <<<INST
-import React, { Component } from 'react';
-import {useMatomo} from "@datapunt/matomo-tracker-react";
-
-
-export default function App () {
-const { trackPageView, trackEvent } = useMatomo()
-
-// Track page view
-React.useEffect(() => {
-    trackPageView() //this tracks a pageview in Matomo
-}, [])
-
-return (
-    <div>
-        <h1>Hello World</h1>
-    </div>
-)
-}
-INST;
-        $view = new View("@SitesManager/_reactTabInstructions");
-        $view->matomoProviderCode = $matomoProviderCode;
-        $view->matomoWrappercode = $matomoWrappercode;
         $out = $view->render();
     }
 }
