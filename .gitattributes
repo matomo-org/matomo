@@ -69,8 +69,8 @@ tests/UI/expected-screenshots/** -linguist-detectable
 # + generated code: exclude and suppress in diffs
 *.min.css linguist-generated
 *.min.js linguist-generated
-matomo.js linguist-generated
-piwik.js linguist-generated
+/matomo.js linguist-generated
+/piwik.js linguist-generated
 plugins/*/vue/dist/** linguist-generated
 # + vendor code: exclude
 libs/** linguist-vendored
