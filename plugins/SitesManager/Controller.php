@@ -340,17 +340,16 @@ INST;
 
     private function mergeMultipleNotification(&$templateData)
     {
-        $info = [
-            'isNotificationsMerged' => false
-        ];
+        $isNotificationsMerged = false;
         $bannerMessage = '';
         $guides = [];
 
         if ($templateData['ga3Used'] || $templateData['ga4Used']) {
             $bannerMessage = 'Google Analytics ';
-            $ga3GuideUrl =  Piwik::translate('SitesManager_Guide', array('<a href="https://matomo.org/faq/how-to/migrate-from-google-analytics-3-to-matomo/" target="_blank" rel="noreferrer noopener">Google Analytics 3 ', '</a>'));
-            $ga4GuideUrl =  Piwik::translate('SitesManager_Guide', array('<a href="https://matomo.org/faq/how-to/migrate-from-google-analytics-3-to-matomo/" target="_blank" rel="noreferrer noopener">Google Analytics 4 ', '</a>'));
+            $ga3GuideUrl =  '<a href="https://matomo.org/faq/how-to/migrate-from-google-analytics-3-to-matomo/" target="_blank" rel="noreferrer noopener">Google Analytics 3</a>';
+            $ga4GuideUrl =  '<a href="https://matomo.org/faq/how-to/migrate-from-google-analytics-4-to-matomo/" target="_blank" rel="noreferrer noopener">Google Analytics 4</a>';
             if ($templateData['ga3Used'] && $templateData['ga4Used']) {
+                $isNotificationsMerged = true;
                 $guides[] = $ga3GuideUrl;
                 $guides[] = $ga4GuideUrl;
                 $bannerMessage .= '3 & 4';
@@ -358,21 +357,21 @@ INST;
                 $bannerMessage .= ($templateData['ga3Used'] ? 3 : 4);
                 $guides[] .= ($templateData['ga3Used'] ? $ga3GuideUrl : $ga4GuideUrl);
             }
-
-            $bannerMessage .= ' and ';
         }
 
         if ($bannerMessage && $templateData['consentManagerName']) {
-            $bannerMessage .= $templateData['consentManagerName'];
-            $guides[] =  Piwik::translate('SitesManager_Guide', array('<a href="' . $templateData['consentManagerUrl'] . '" target="_blank" rel="noreferrer noopener">' . $templateData['consentManagerName'] . ' ', '</a>'));
-            $info = [
-                'isNotificationsMerged' => true,
-                'notificationMergedMessage' => '<p class="fw-bold">' .Piwik::translate('SitesManager_MergedNotificationLine1', [$bannerMessage]) . '</p><p>' . Piwik::translate('SitesManager_MergedNotificationLine2', [(implode(' / ', $guides))]) . '</p>'
-            ];
+            $isNotificationsMerged = true;
+            $bannerMessage .= ' and ' . $templateData['consentManagerName'];
+            $guides[] =  '<a href="' . $templateData['consentManagerUrl'] . '" target="_blank" rel="noreferrer noopener">' . $templateData['consentManagerName'] . '</a>';
+        }
 
-            if ($templateData['consentManagerIsConnected']) {
-                $info['notificationMergedMessage'] .= '<p>' . Piwik::translate('PrivacyManager_ConsentManagerConnected', [$templateData['consentManagerName']]) . '</p>';
-            }
+        $info = [
+            'isNotificationsMerged' => $isNotificationsMerged,
+            'notificationMergedMessage' => '<p class="fw-bold">' .Piwik::translate('SitesManager_MergedNotificationLine1', [$bannerMessage]) . '</p><p>' . Piwik::translate('SitesManager_MergedNotificationLine2', [(implode(' / ', $guides))]) . '</p>'
+        ];
+
+        if ($templateData['consentManagerIsConnected']) {
+            $info['notificationMergedMessage'] .= '<p>' . Piwik::translate('PrivacyManager_ConsentManagerConnected', [$templateData['consentManagerName']]) . '</p>';
         }
 
         $templateData = array_merge($templateData, $info);
