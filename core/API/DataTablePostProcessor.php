@@ -375,7 +375,19 @@ class DataTablePostProcessor
         if (!empty($label)) {
             $addLabelIndex = Common::getRequestVar('labelFilterAddLabelIndex', 0, 'int', $this->request) == 1;
 
-            $filter = new LabelFilter($this->apiModule, $this->apiMethod, $this->request);
+            $labelColumn = 'label';
+            if ($this->report) {
+                // allow DataTables to set a metadata for the column used to uniquely identify a row. primarily
+                // so this can be tested w/o creating a test plugin w/ a test report.
+                $dataTableRowIdentifier = null;
+                $dataTable->filter(function (DataTable $table) use (&$dataTableRowIdentifier) {
+                    $dataTableRowIdentifier = $dataTableRowIdentifier ?: $table->getMetadata(DataTable::ROW_IDENTIFIER_METADATA_NAME);
+                });
+
+                $labelColumn = $dataTableRowIdentifier ?: $this->report->getRowIdentifier() ?: $labelColumn;
+            }
+
+            $filter = new LabelFilter($this->apiModule, $this->apiMethod, $this->request, $labelColumn);
             $dataTable = $filter->filter($label, $dataTable, $addLabelIndex);
         }
         return $dataTable;

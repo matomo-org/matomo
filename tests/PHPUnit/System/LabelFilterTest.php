@@ -7,6 +7,10 @@
  */
 namespace Piwik\Tests\System;
 
+use Piwik\Common;
+use Piwik\DataTable;
+use Piwik\DataTable\Filter\Sort;
+use Piwik\Plugins\Actions\API;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\OneVisitSeveralPageViews;
 
@@ -160,6 +164,18 @@ class LabelFilterTest extends SystemTestCase
             )
         ));
 
+        $return[] = array('Actions.getPageUrls', array(
+            'testSuffix'             => '_urlsWithCustomRowId',
+            'idSite'                 => $idSite,
+            'date'                   => $dateTime,
+            'period'                 => 'day',
+            'otherRequestParameters' => array(
+                'label'    => urlencode('1>0'), // using metadata row ID that is set to the row index when ordered by hits desc
+                'expanded' => 0,
+                'with_custom_row_id' => '1',
+            ),
+        ));
+
         return $return;
     }
 
@@ -168,7 +184,7 @@ class LabelFilterTest extends SystemTestCase
         return 'LabelFilter';
     }
 
-    public function provideContainerConfig()
+    public static function provideContainerConfigBeforeClass()
     {
         return array(
             'Piwik\Config' => \DI\decorate(function ($previous) {
@@ -177,6 +193,40 @@ class LabelFilterTest extends SystemTestCase
                 $previous->General = $general;
                 return $previous;
             }),
+
+            // add report w/ custom row identifier
+            'DocumentationGenerator.customParameters' => \DI\add(['with_custom_row_id']),
+            'observers.global' => \DI\add([
+                ['API.Request.intercept', \DI\value(function (&$returnedValue, $finalParameters, $pluginName, $methodName) {
+                    if ($pluginName == 'Actions'
+                        && $methodName == 'getPageUrls'
+                        && Common::getRequestVar('with_custom_row_id', false)
+                    ) {
+                        $table = API::getInstance()->getPageUrls(
+                            Common::getRequestVar('idSite'),
+                            Common::getRequestVar('period'),
+                            Common::getRequestVar('date'),
+                            Common::getRequestVar('segment', ''),
+                            Common::getRequestVar('expanded', false),
+                            Common::getRequestVar('idSubtable', false),
+                            Common::getRequestVar('depth', false),
+                            Common::getRequestVar('flat', false)
+                        );
+
+                        $table->filter(Sort::class, ['nb_hits']);
+
+                        $table->filter(function (DataTable $table) {
+                            $table->setMetadata(DataTable::ROW_IDENTIFIER_METADATA_NAME, 'custom_row_id');
+
+                            foreach ($table->getRows() as $index => $row) {
+                                $row->setMetadata('custom_row_id', $index);
+                            }
+                        });
+
+                        $returnedValue = $table;
+                    }
+                })],
+            ]),
         );
     }
 }

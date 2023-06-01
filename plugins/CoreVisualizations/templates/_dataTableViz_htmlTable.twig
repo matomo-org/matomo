@@ -39,7 +39,9 @@
                     {% if row.getMetadata('url') is not false %} data-url-label="{{ row.getMetadata('url')|rawSafeDecoded }}"{% endif %}
                     data-row-metadata="{{ row.getMetadata|json_encode|e('html_attr') }}"
                     class="{{ row.getMetadata('css_class') }} {% if rowHasSubtable %}subDataTable{% endif %}{% if shouldHighlightRow %} highlight{% endif %}{% if isSummaryRow %} summaryRow{% endif %} {% if isComparing %}parentComparisonRow{% endif %}"
-                    {% if rowHasSubtable %}title="{{ 'CoreHome_ClickRowToExpandOrContract'|translate }}"{% endif %}>
+                        {% if rowHasSubtable %}title="{{ 'CoreHome_ClickRowToExpandOrContract'|translate }}"{% endif %}
+                        {% if rowIdentifier|default != 'label' %}data-label="{{ row.getColumn(rowIdentifier) ? row.getColumn(rowIdentifier) : row.getMetadata(rowIdentifier) }}" data-label-pretty="{{ row.getColumn('label') }}"{% endif %}
+                >
                     {% for column in properties.columns_to_display %}
                         {% set cellAttributes = visualization.getCellHtmlAttributes(row, column) %}
                         <td class="{% if column =='label' or column in dimensions %}label{% else %}column{% endif %} {% if loop.first %}first{% endif %} {{ cellAttributes.class|default|e('html_attr') }}"

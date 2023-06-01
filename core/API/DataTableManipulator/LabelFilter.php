@@ -25,12 +25,24 @@ class LabelFilter extends DataTableManipulator
 {
     const SEPARATOR_RECURSIVE_LABEL = '>';
     const TERMINAL_OPERATOR = '@';
+    const FLAG_IS_ROW_EVOLUTION = 'label_index';
 
     private $labels;
     private $addLabelIndex;
     private $isComparing;
     private $labelSeries;
-    const FLAG_IS_ROW_EVOLUTION = 'label_index';
+
+    /**
+     * @var string
+     */
+    private $labelColumn;
+
+    public function __construct($apiModule = false, $apiMethod = false, $request = array(), string $labelColumn = 'label')
+    {
+        parent::__construct($apiModule, $apiMethod, $request);
+
+        $this->labelColumn = $labelColumn;
+    }
 
     /**
      * Filter a data table by label.
@@ -71,24 +83,16 @@ class LabelFilter extends DataTableManipulator
      *
      * @param array $labelParts
      * @param DataTable $dataTable
-     * @return Row|bool
+     * @return Row|false
      */
     private function doFilterRecursiveDescend($labelParts, $dataTable)
     {
-        // we need to make sure to rebuild the index as some filters change the label column directly via
-        // $row->setColumn('label', '') which would not be noticed in the label index otherwise.
-        $dataTable->rebuildIndex();
+        $labelColumn = $this->labelColumn;
 
         // search for the first part of the tree search
         $labelPart = array_shift($labelParts);
 
-        $row = false;
-        foreach ($this->getLabelVariations($labelPart) as $labelPart) {
-            $row = $dataTable->getRowFromLabel($labelPart);
-            if ($row !== false) {
-                break;
-            }
-        }
+        $row = $this->findRowForLabel($labelColumn, $labelPart, $dataTable);
 
         if ($row === false) {
             // not found
@@ -193,7 +197,7 @@ class LabelFilter extends DataTableManipulator
                         if (!empty($comparisons)) {
                             $labelSeriesIndex = $this->labelSeries[$labelIndex];
 
-                            $originalLabel = $row->getColumn('label');
+                            $originalLabel = $row->getColumn($this->labelColumn) ?: $row->getMetadata($this->labelColumn);
 
                             $row = $comparisons->getRowFromId($labelSeriesIndex);
 
@@ -218,5 +222,26 @@ class LabelFilter extends DataTableManipulator
     private function isComparing()
     {
         return Common::getRequestVar('compare', 0, 'int', $this->request) == 1;
+    }
+
+    private function findRowForLabel($labelColumn, $labelPart, DataTable $dataTable)
+    {
+        // we don't use getRowFromLabel() for two reasons: some filters change the label column directly via
+        // $row->setColumn('label', '') which would not be noticed in the label index unless we rebuild it,
+        // and some reports may specify a different column to use, other than label, to uniquely identify a row.
+        $index = [];
+        foreach ($dataTable->getRows() as $row) {
+            $value = $row->getColumn($labelColumn) ?: $row->getMetadata($labelColumn);
+            $index[$value] = $row;
+        }
+
+        $variations = $this->getLabelVariations($labelPart);
+        foreach ($variations as $variation) {
+            if (!empty($index[$variation])) {
+                return $index[$variation];
+            }
+        }
+
+        return false;
     }
 }

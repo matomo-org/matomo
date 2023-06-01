@@ -76,7 +76,25 @@ return [
         return 'eagercache-' . str_replace(['.', '-'], '', \Piwik\Version::VERSION) . '-';
     },
 
+    /**
+     * A list of API query parameters that map to entity IDs, for example, `idGoal` for goals.
+     *
+     * If your plugin introduces new entities that can be fetched or manipulated by ID through
+     * API requests, you should add the query parameters that represent the new entity's IDs
+     * to this array.
+     */
     'entities.idNames' => DI\add(['idGoal', 'idDimension']),
+
+    /**
+     * If your plugin uses custom query parameters in API requests (that is, query parameters not used
+     * by a core plugin), and you want to be able to use those query parameters in system tests, you
+     * will need to add them, via DI, to this array. Otherwise, in system tests, they will be
+     * silently ignored.
+     *
+     * Note: if the query parameter has been added to `'entities.idNames'`, it does not need to be added
+     * here as well.
+     */
+    'DocumentationGenerator.customParameters' => [],
 
     'Psr\Log\LoggerInterface' => DI\create('Psr\Log\NullLogger'),
 
