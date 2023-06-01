@@ -7,6 +7,7 @@
  */
 namespace Piwik\Tests\Fixtures;
 
+use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\SiteContentDetector;
 use Piwik\Tests\Framework\Mock\FakeSiteContentDetector;
@@ -22,9 +23,15 @@ class EmptySiteWithSiteContentDetectionMergeNotificationOnlyGA extends Fixture
     public function provideContainerConfig()
     {
         $mockData = [
+            'consentManagerId' => null,
+            'consentManagerName' => null,
+            'consentManagerUrl' => null,
+            'isConnected' => false,
             'ga3' => true,
             'ga4' => true,
-            'gtm' => false
+            'gtm' => false,
+            'cloudflare' => false,
+            'cms' => SitesManager::SITE_TYPE_WORDPRESS
         ];
 
         return [
