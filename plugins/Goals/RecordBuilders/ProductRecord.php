@@ -11,12 +11,19 @@ namespace Piwik\Plugins\Goals\RecordBuilders;
 
 use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Record;
+use Piwik\Columns\Dimension;
 use Piwik\Config;
-use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable;
-use Piwik\DataTable\Row;
 use Piwik\Metrics;
 use Piwik\Plugin\Manager;
+use Piwik\Plugins\Ecommerce\Columns\EcommerceType;
+use Piwik\Plugins\Ecommerce\Columns\ProductViewCategory;
+use Piwik\Plugins\Ecommerce\Columns\ProductViewCategory2;
+use Piwik\Plugins\Ecommerce\Columns\ProductViewCategory3;
+use Piwik\Plugins\Ecommerce\Columns\ProductViewCategory4;
+use Piwik\Plugins\Ecommerce\Columns\ProductViewCategory5;
+use Piwik\Plugins\Ecommerce\Columns\ProductViewName;
+use Piwik\Plugins\Ecommerce\Columns\ProductViewSku;
 use Piwik\Plugins\Goals\Archiver;
 use Piwik\Tracker\GoalManager;
 
@@ -34,15 +41,10 @@ class ProductRecord extends Base
     const ITEMS_NAME_RECORD_NAME = 'Goals_ItemsName';
     const ITEMS_CATEGORY_RECORD_NAME = 'Goals_ItemsCategory';
 
-    protected $actionMapping = [
-        self::SKU_FIELD      => 'idaction_product_sku',
-        self::NAME_FIELD     => 'idaction_product_name',
-        self::CATEGORY_FIELD => 'idaction_product_cat',
-        self::CATEGORY2_FIELD => 'idaction_product_cat2',
-        self::CATEGORY3_FIELD => 'idaction_product_cat3',
-        self::CATEGORY4_FIELD => 'idaction_product_cat4',
-        self::CATEGORY5_FIELD => 'idaction_product_cat5',
-    ];
+    /**
+     * @var Dimension[]
+     */
+    protected $actionMapping;
 
     /**
      * @var string
@@ -55,11 +57,11 @@ class ProductRecord extends Base
     private $recordName;
 
     /**
-     * @var string[]
+     * @var Dimension[]
      */
     private $dimensionsToAggregate;
 
-    public function __construct($dimension, $recordName, $otherDimensionsToAggregate = [])
+    public function __construct(Dimension $dimension, string $recordName, array $otherDimensionsToAggregate = [])
     {
         $general = Config::getInstance()->General;
         $productReportsMaximumRows = $general['datatable_archiving_maximum_rows_products'];
@@ -69,6 +71,16 @@ class ProductRecord extends Base
         $this->dimension = $dimension;
         $this->recordName = $recordName;
         $this->dimensionsToAggregate = array_merge([$dimension], $otherDimensionsToAggregate);
+
+        $this->actionMapping = [
+            self::SKU_FIELD      => new ProductViewSku(),
+            self::NAME_FIELD     => new ProductViewName(),
+            self::CATEGORY_FIELD => new ProductViewCategory(),
+            self::CATEGORY2_FIELD => new ProductViewCategory2(),
+            self::CATEGORY3_FIELD => new ProductViewCategory3(),
+            self::CATEGORY4_FIELD => new ProductViewCategory4(),
+            self::CATEGORY5_FIELD => new ProductViewCategory5(),
+        ];
     }
 
     public function isEnabled(ArchiveProcessor $archiveProcessor): bool
@@ -93,21 +105,15 @@ class ProductRecord extends Base
             $itemReports[$ecommerceType] = new DataTable();
         }
 
-        $logAggregator = $archiveProcessor->getLogAggregator();
-
         // try to query ecommerce items only, if ecommerce is actually used
         // otherwise we simply insert empty records
         if ($this->usesEcommerce($this->getSiteId($archiveProcessor))) {
             foreach ($this->dimensionsToAggregate as $dimension) {
-                $query = $logAggregator->queryEcommerceItems($dimension);
-                if ($query !== false) {
-                    $this->aggregateFromEcommerceItems($itemReports, $query, $dimension);
-                }
+                $query = $this->queryEcommerceItems($archiveProcessor, $dimension);
+                $this->aggregateFromEcommerceItems($itemReports, $query);
 
-                $query = $this->queryItemViewsForDimension($logAggregator, $dimension);
-                if ($query !== false) {
-                    $this->aggregateFromEcommerceViews($itemReports, $query, $dimension);
-                }
+                $query = $this->queryItemViewsForDimension($archiveProcessor, $dimension);
+                $this->aggregateFromEcommerceViews($itemReports, $query);
             }
         }
 
@@ -122,70 +128,87 @@ class ProductRecord extends Base
         return $records;
     }
 
-    protected function aggregateFromEcommerceItems(array $itemReports, $query, string $dimension): void
+    protected function queryEcommerceItems(ArchiveProcessor $archiveProcessor, Dimension $dimension)
     {
-        while ($row = $query->fetch()) {
-            $ecommerceType = $row['ecommerceType'];
-
-            $label = $this->cleanupRowGetLabel($row, $dimension);
+        $query = $archiveProcessor->newLogQuery('log_conversion_item');
+        $query->addDimension($dimension, 'label'); // TODO: should default to label in the row output if one dimension total? maybe we just require a name, it's less magic
+        $query->addDimension(new EcommerceType(), 'ecommerceType');
+        $query->addEcommerceItemMetrics();
+        $query->addWhere('log_conversion_item.deleted = 0');
+        $query->addRowTransform(function (array $row) use ($dimension): ?array {
+            $label = $this->getRowLabel($row, $dimension);
             if ($label === null) {
-                continue;
+                return null;
             }
+
+            $row['label'] = $label;
+
+            if ($row['ecommerceType'] == GoalManager::IDGOAL_CART) {
+                // abandoned carts are the number of visits with an abandoned cart
+                $row[Metrics::INDEX_ECOMMERCE_ORDERS] = $row[Metrics::INDEX_NB_VISITS];
+            }
+
+            unset($row[Metrics::INDEX_NB_VISITS]);
 
             $this->roundColumnValues($row);
 
-            $table = $itemReports[$ecommerceType];
+            return $row;
+        });
+        return $query;
+    }
 
-            $tableRow = new Row([Row::COLUMNS => ['label' => $label] + $row]);
-            $existingRow = $table->getRowFromLabel($label);
-            if (!empty($existingRow)) {
-                $existingRow->sumRow($tableRow);
-            } else {
-                $table->addRow($tableRow);
-            }
+    /**
+     * @param DataTable[] $itemReports
+     */
+    protected function aggregateFromEcommerceItems(array $itemReports, ArchiveProcessor\LogAggregationQuery $query): void
+    {
+        foreach ($query->execute() as $row) {
+            $ecommerceType = $row['ecommerceType'];
+            unset($row['ecommerceType']);
+
+            $itemReports[$ecommerceType]->aggregateSimpleArrayWithLabel($row);
         }
     }
 
-    protected function aggregateFromEcommerceViews(array $itemReports, $query, string $dimension): void
+    protected function queryItemViewsForDimension(ArchiveProcessor $archiveProcessor, Dimension $dimension): ArchiveProcessor\LogAggregationQuery
     {
-        while ($row = $query->fetch()) {
+        $query = $archiveProcessor->newLogQuery('log_link_visit_action');
+
+        $actionDimension = $this->actionMapping[$dimension->getColumnName()];
+        $query->addDimension($actionDimension, 'label');
+        $query->addActionMetrics();
+        $query->addMetricSql('avg_price_viewed', 'AVG(log_link_visit_action.product_price)');
+        $query->addWhere("log_link_visit_action.{$actionDimension->getColumnName()} is not null");
+        $query->addRowTransform(function (array $row) use ($dimension): ?array {
             $label = $this->getRowLabel($row, $dimension);
-            if ($label === false) {
-                continue; // ignore empty additional categories
+            if ($label === null) {
+                return null; // ignore empty additional categories
             }
 
-            unset($row['label']);
+            $row['label'] = $label;
 
             if (array_key_exists('avg_price_viewed', $row)) {
                 $row['avg_price_viewed'] = round($row['avg_price_viewed'] ?: 0, GoalManager::REVENUE_PRECISION);
             }
 
-            // add views to all types
-            foreach ($itemReports as $table) {
-                $tableRow = new Row([Row::COLUMNS => ['label' => $label] + $row]);
-                $existingRow = $table->getRowFromLabel($label);
-                if (!empty($existingRow)) {
-                    $existingRow->sumRow($tableRow);
-                } else {
-                    $table->addRow($tableRow);
-                }
-            }
-        }
+            return $row;
+        });
+        return $query;
     }
 
-    protected function queryItemViewsForDimension(LogAggregator $logAggregator, string $dimension)
+    /**
+     * @param DataTable $itemReports
+     * @param ArchiveProcessor\LogAggregationQuery $query
+     * @return void
+     */
+    protected function aggregateFromEcommerceViews(array $itemReports, ArchiveProcessor\LogAggregationQuery $query): void
     {
-        $column = $this->actionMapping[$dimension];
-        $where  = "log_link_visit_action.$column is not null";
-
-        return $logAggregator->queryActionsByDimension(
-            ['label' => 'log_action1.name'],
-            $where,
-            ['AVG(log_link_visit_action.product_price) AS `avg_price_viewed`'],
-            false,
-            null,
-            [$column]
-        );
+        foreach ($query->execute() as $row) {
+            // add views to all types
+            foreach ($itemReports as $table) {
+                $table->aggregateSimpleArrayWithLabel($row);
+            }
+        }
     }
 
     protected function roundColumnValues(array &$row): void
@@ -205,33 +228,16 @@ class ProductRecord extends Base
         }
     }
 
-    protected function getRowLabel(array &$row, string $dimension): ?string
+    protected function getRowLabel(array &$row, Dimension $dimension): ?string
     {
         $label = $row['label'];
         if (empty($label)) {
             // An empty additional category -> skip this iteration
-            if ($dimension != $this->dimension) {
+            if ($dimension !== $this->dimension) {
                 return null;
             }
             $label = "Value not defined";
         }
-        return $label;
-    }
-
-    protected function cleanupRowGetLabel(array &$row, string $dimension): ?string
-    {
-        $label = $this->getRowLabel($row, $dimension);
-
-        if (isset($row['ecommerceType']) && $row['ecommerceType'] == GoalManager::IDGOAL_CART) {
-            // abandoned carts are the number of visits with an abandoned cart
-            $row[Metrics::INDEX_ECOMMERCE_ORDERS] = $row[Metrics::INDEX_NB_VISITS];
-        }
-
-        unset($row[Metrics::INDEX_NB_VISITS]);
-        unset($row['label']);
-        unset($row['labelIdAction']);
-        unset($row['ecommerceType']);
-
         return $label;
     }
 }

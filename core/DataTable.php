@@ -662,7 +662,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             $row = $tableToSum->getFirstRow();
             $this->aggregateRowFromSimpleTable($row);
         } else {
-            $columnAggregationOps = $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME);
+            $columnAggregationOps = $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME) ?: null;
             foreach ($tableToSum->getRowsWithoutSummaryRow() as $row) {
                 $this->aggregateRowWithLabel($row, $columnAggregationOps);
             }
@@ -1958,11 +1958,13 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      *
      * $row must have a column "label". The $row will be summed to this table's row with the same label.
      *
+     * TODO: modify
+     *
      * @param $row
      * @params null|array $columnAggregationOps
      * @throws \Exception
      */
-    protected function aggregateRowWithLabel(Row $row, $columnAggregationOps)
+    public function aggregateRowWithLabel(Row $row, ?array $columnAggregationOps = null): Row
     {
         $labelToLookFor = $row->getColumn('label');
         if ($labelToLookFor === false) {
@@ -1979,10 +1981,22 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         ) {
             $rowFound = false;
         }
-        $this->aggregateRow($rowFound, $row, $columnAggregationOps, $isSummaryRow = false);
+        return $this->aggregateRow($rowFound, $row, $columnAggregationOps, $isSummaryRow = false);
     }
 
-    private function aggregateRow($thisRow, Row $otherRow, $columnAggregationOps, $isSummaryRow)
+    /**
+     * TODO
+     *
+     * @param array $columns
+     * @param array|null $columnAggregationOps
+     * @return Row
+     */
+    public function aggregateSimpleArrayWithLabel(array $columns, ?array $columnAggregationOps = null): Row
+    {
+        return $this->aggregateRowWithLabel(new Row([Row::COLUMNS => $columns]), $columnAggregationOps);
+    }
+
+    private function aggregateRow($thisRow, Row $otherRow, $columnAggregationOps, $isSummaryRow): Row
     {
         if (empty($thisRow)) {
             $thisRow = new Row();
@@ -2010,6 +2024,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             $subTable->metadata[self::COLUMN_AGGREGATION_OPS_METADATA_NAME] = $columnAggregationOps;
             $thisRow->sumSubtable($subTable);
         }
+
+        return $thisRow;
     }
 
     /**
@@ -2079,7 +2095,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function sumRowTraversable(\Traversable $rows): void
     {
-        $columnAggregationOps = $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME);
+        $columnAggregationOps = $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME) ?: null;
         foreach ($rows as $row) {
             $this->aggregateRowWithLabel($row, $columnAggregationOps);
         }

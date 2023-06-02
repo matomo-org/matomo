@@ -22,6 +22,7 @@ use Piwik\DataAccess\LogAggregator;
 use Piwik\Metrics;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\LogTablesProvider;
+use Piwik\Tracker\GoalManager;
 
 /**
  * TODO
@@ -36,6 +37,11 @@ class LogAggregationQuery
      * @var string
      */
     private $table;
+
+    /**
+     * @var string[]
+     */
+    private $from;
 
     /**
      * @var LogAggregator
@@ -67,6 +73,11 @@ class LogAggregationQuery
     private $whereConditions = [];
 
     /**
+     * @var string[]
+     */
+    private $groupBy = [];
+
+    /**
      * TODO
      *
      * @var callable
@@ -76,6 +87,7 @@ class LogAggregationQuery
     public function __construct(string $table, LogAggregator $logAggregator)
     {
         $this->table = $table;
+        $this->from = [$this->table];
         $this->logAggregator = $logAggregator;
         $this->rowProcessor = function ($cursor) {
             try {
@@ -90,11 +102,55 @@ class LogAggregationQuery
 
     /**
      * TODO
+     * @param string|array $from
+     */
+    public function addFromSql($from): LogAggregationQuery
+    {
+        $this->from[] = $from;
+        return $this;
+    }
+
+    /**
+     * TODO
+     *
+     * TODO: reverse order of parameters? either here or in addMetric
      */
     public function addDimension(Dimension $dimension, string $selectAs = null): LogAggregationQuery
     {
-        $sql = $this->getDimensionSelectSql($dimension);
-        return $this->addDimensionSql($selectAs ?: $dimension->getId(), $sql);
+        $defaultSelectAs = str_replace(',', '_', $dimension->getId());
+        $selectAs = $selectAs ?: $defaultSelectAs;
+
+        $join = $dimension->getDbColumnJoin();
+        if (!empty($join)) {
+            $tableAlias = str_replace('.', '_', $dimension->getId()) . '_' . $join->getTable();
+
+            // TODO: just use sprintf, it'll be cleaner
+            // TODO: $dimension->getDbTableName() may not match what's in $from
+            $joinOn = $tableAlias . '.' . $join->getColumn() . ' = ' . $dimension->getDbTableName() . '.' . $dimension->getColumnName();
+
+            $joinDiscriminator = $dimension->getDbDiscriminator();
+            if (!empty($joinDiscriminator)) {
+                $joinOn .= ' AND ' . $tableAlias . '.' . $joinDiscriminator->getColumn() . ' = ' .  $joinDiscriminator->getValue();
+            }
+
+            $joinTable = [
+                'table' => $join->getTable(),
+                'tableAlias' => $tableAlias,
+                'joinOn' => $joinOn,
+            ];
+            $this->addFromSql($joinTable);
+
+            $sql = $tableAlias . '.' . $join->getTargetColumn();
+            $groupBy = $dimension->getDbTableName() . '.' . $dimension->getColumnName();
+        } else {
+            $sql = $this->getDimensionSelectSql($dimension);
+            $groupBy = $selectAs;
+        }
+
+        $this->dimensions[] = $selectAs;
+        $this->selects[$selectAs] = ['sql' => $sql, 'bind' => []];
+        $this->groupBy[] = $groupBy;
+        return $this;
     }
 
     /**
@@ -109,6 +165,7 @@ class LogAggregationQuery
     {
         $this->dimensions[] = $name;
         $this->selects[$name] = ['sql' => $sql, 'bind' => $bind];
+        $this->groupBy[] = $name;
         return $this;
     }
 
@@ -139,6 +196,11 @@ class LogAggregationQuery
      */
     public function addHistogram(string $name, Dimension $dimension, string $countMetricName, array $ranges): LogAggregationQuery
     {
+        $dimensionTable = $dimension->getDbTableName();
+        if (!empty($dimensionTable) && !$this->isTableInFrom($dimensionTable)) {
+            $this->addFromSql($dimensionTable);
+        }
+
         $sql = $this->getDimensionSelectSql($dimension);
         return $this->addHistogramSql($name, $sql, $countMetricName, $ranges);
     }
@@ -245,11 +307,109 @@ class LogAggregationQuery
 
     /**
      * TODO
+     */
+    public function addEcommerceItemMetrics(): LogAggregationQuery
+    {
+        if ($this->table !== 'log_conversion_item') {
+            throw new \Exception('Default ecommerce item metrics can only be added to queries on log_conversion_item.');
+        }
+
+        $this->addMetricSql(Metrics::INDEX_ECOMMERCE_ITEM_REVENUE, LogAggregator::getSqlRevenue('SUM(log_conversion_item.quantity * log_conversion_item.price)'));
+        $this->addMetricSql(Metrics::INDEX_ECOMMERCE_ITEM_QUANTITY, LogAggregator::getSqlRevenue('SUM(log_conversion_item.quantity)'));
+        $this->addMetricSql(Metrics::INDEX_ECOMMERCE_ITEM_PRICE, LogAggregator::getSqlRevenue('SUM(log_conversion_item.price)'));
+        $this->addMetricSql(Metrics::INDEX_ECOMMERCE_ORDERS, 'COUNT(distinct log_conversion_item.idorder)');
+        $this->addMetricSql(Metrics::INDEX_NB_VISITS, 'COUNT(distinct log_conversion_item.idvisit)');
+        return $this;
+    }
+
+    /**
+     * TODO
+     */
+    public function addActionMetrics(): LogAggregationQuery
+    {
+        if ($this->table !== 'log_link_visit_action') {
+            throw new \Exception('Default action metrics can only be added to queries on log_action.');
+        }
+
+        $this->addMetricSql(Metrics::INDEX_NB_VISITS, 'count(distinct log_link_visit_action.idvisit)');
+        $this->addMetricSql(Metrics::INDEX_NB_UNIQ_VISITORS, 'count(distinct log_link_visit_action.idvisitor)');
+        $this->addMetricSql(Metrics::INDEX_NB_ACTIONS, 'count(*)');
+        return $this;
+    }
+
+    /**
+     * TODO
+     * TODO: use this in addHistogram
+     *
+     * @param callable $processor
+     * @return $this
+     */
+    public function addRowTransform(callable $processor): LogAggregationQuery
+    {
+        $currentRowProcessor = $this->rowProcessor;
+        $this->rowProcessor = function ($cursor) use ($currentRowProcessor, $processor) {
+            foreach ($currentRowProcessor($cursor) as $row) {
+                $transformed = $processor($row);
+                if (!isset($transformed)) {
+                    continue;
+                }
+
+                yield $transformed;
+            }
+        };
+
+        return $this;
+    }
+
+    /**
+     * TODO
      * @return string[]
      */
     public function getMetricFields(): array
     {
         return $this->metrics;
+    }
+
+    /**
+     * TODO
+     * @return string[]
+     */
+    public function getDimensionFields(): array
+    {
+        return $this->dimensions;
+    }
+
+    /**
+     * TODO
+     * @param string $table
+     * @return bool
+     */
+    public function isTableInFrom(string $table): bool
+    {
+        // TODO: small optimization, just make the key in $this->from the deduced table alias
+        foreach ($this->from as $tableInfo) {
+            if ($tableInfo === $table) {
+                return true;
+            }
+
+            if (!is_array($tableInfo)) {
+                continue;
+            }
+
+            if (isset($tableInfo['tableAlias'])
+                && $tableInfo['tableAlias'] == $table
+            ) {
+                return true;
+            }
+
+            if (!isset($tableInfo['tableAlias'])
+                && $tableInfo['table'] == $table
+            ) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -282,10 +442,9 @@ class LogAggregationQuery
             $bind = array_merge($bind, $selectInfo['bind']);
         }
 
-        // TODO: support multiple from
         // TODO: support order by as well
 
-        $from = [$this->table];
+        $from = $this->from;
 
         $where = [];
         foreach ($this->whereConditions as $whereInfo) {
@@ -294,9 +453,9 @@ class LogAggregationQuery
         }
 
         $datetimeField = $this->getDatetimeFieldForTable();
-        $where[] = $this->logAggregator->getWhereStatement($this->table, $datetimeField, $where);
+        $where[] = $this->logAggregator->getWhereStatement($this->table, $datetimeField);
 
-        $groupBy = implode(', ', $this->dimensions);
+        $groupBy = implode(', ', $this->groupBy);
 
         $query = $this->logAggregator->generateQuery(
             implode(",\n ", $selects),
@@ -315,6 +474,9 @@ class LogAggregationQuery
     private function getDimensionSelectSql(Dimension $dimension): string
     {
         $sql = $dimension->getSqlFilter();
+        if (empty($sql)) {
+            $sql = $dimension->getSqlSegment();
+        }
         if (empty($sql)) {
             $sql = $this->table . '.' . $dimension->getColumnName();
         }

@@ -24,6 +24,8 @@ class ProductCategory extends Dimension
     protected $type = self::TYPE_TEXT;
     protected $category = 'Goals_Ecommerce';
     protected $nameSingular = 'Goals_ProductCategory';
+    protected $dbTableName = 'log_conversion_item';
+    protected $columnName = 'idaction_category';
 
     public function getDbColumnJoin()
     {

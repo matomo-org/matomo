@@ -11,8 +11,6 @@ namespace Piwik\Plugins\Goals\RecordBuilders;
 
 use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Record;
-use Piwik\Common;
-use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Plugin\Manager;
@@ -28,9 +26,6 @@ class GeneralGoalsRecords extends Base
 {
     const VISITS_UNTIL_RECORD_NAME = 'visits_until_conv';
     const DAYS_UNTIL_CONV_RECORD_NAME = 'days_until_conv';
-    const VISITS_COUNT_FIELD = 'visitor_count_visits';
-    const LOG_CONVERSION_TABLE = 'log_conversion';
-    const SECONDS_SINCE_FIRST_VISIT_FIELD = 'visitor_seconds_since_first';
 
     /**
      * This array stores the ranges to use when displaying the 'visits to conversion' report
