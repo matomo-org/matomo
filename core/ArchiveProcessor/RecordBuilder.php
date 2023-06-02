@@ -54,9 +54,9 @@ abstract class RecordBuilder
      * @param string|null $columnToSortByBeforeTruncation
      * @param array|null $columnAggregationOps
      */
-    public function __construct($maxRowsInTable = null, $maxRowsInSubtable = null,
-                                $columnToSortByBeforeTruncation = null, $columnAggregationOps = null,
-                                $columnToRenameAfterAggregation = null)
+    public function __construct(?int $maxRowsInTable = null, ?int $maxRowsInSubtable = null,
+                                ?string $columnToSortByBeforeTruncation = null, ?array $columnAggregationOps = null,
+                                ?array $columnToRenameAfterAggregation = null)
     {
         $this->maxRowsInTable = $maxRowsInTable;
         $this->maxRowsInSubtable = $maxRowsInSubtable;

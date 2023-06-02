@@ -30,30 +30,17 @@ class Archiver extends \Piwik\Plugin\Archiver
     const VISITS_COUNT_FIELD = 'visitor_count_visits';
     const SECONDS_SINCE_FIRST_VISIT_FIELD = 'visitor_seconds_since_first';
 
-    public static $ARCHIVE_DEPENDENT = true;
-
-    protected $dimensionRecord = [
-        self::SKU_FIELD      => self::ITEMS_SKU_RECORD_NAME,
-        self::NAME_FIELD     => self::ITEMS_NAME_RECORD_NAME,
-        self::CATEGORY_FIELD => self::ITEMS_CATEGORY_RECORD_NAME
-    ];
-    protected $actionMapping = [
-        self::SKU_FIELD      => 'idaction_product_sku',
-        self::NAME_FIELD     => 'idaction_product_name',
-        self::CATEGORY_FIELD => 'idaction_product_cat',
-        self::CATEGORY2_FIELD => 'idaction_product_cat2',
-        self::CATEGORY3_FIELD => 'idaction_product_cat3',
-        self::CATEGORY4_FIELD => 'idaction_product_cat4',
-        self::CATEGORY5_FIELD => 'idaction_product_cat5',
-    ];
-
-    public function aggregateDayReport()
+    public function getDependentSegmentsToArchive(): array
     {
         $hasConversions = $this->getProcessor()->getNumberOfVisitsConverted() > 0;
-        if (self::$ARCHIVE_DEPENDENT && $hasConversions) {
-            $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::NEW_VISITOR_SEGMENT);
-            $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT);
+        if (!$hasConversions) {
+            return [];
         }
+
+        return [
+            VisitFrequencyAPI::NEW_VISITOR_SEGMENT,
+            VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT,
+        ];
     }
 
     /**
@@ -73,17 +60,5 @@ class Archiver extends \Piwik\Plugin\Archiver
     public static function getItemRecordNameAbandonedCart($recordName)
     {
         return $recordName . '_Cart';
-    }
-
-    /**
-     * @internal param $this->getProcessor()
-     */
-    public function aggregateMultipleReports()
-    {
-        $hasConversions = $this->getProcessor()->getNumberOfVisitsConverted() > 0;
-        if (self::$ARCHIVE_DEPENDENT && $hasConversions) {
-            $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::NEW_VISITOR_SEGMENT);
-            $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT);
-        }
     }
 }
