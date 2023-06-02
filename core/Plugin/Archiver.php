@@ -256,7 +256,10 @@ abstract class Archiver
      * Aggregate log table rows using a {@link Piwik\DataAccess\LogAggregator} instance. Get a
      * {@link Piwik\DataAccess\LogAggregator} instance using the {@link getLogAggregator()} method.
      */
-    abstract public function aggregateDayReport();
+    public function aggregateDayReport()
+    {
+        // empty
+    }
 
     /**
      * Archives data for a non-day period.
@@ -269,7 +272,10 @@ abstract class Archiver
      * to aggregate archived reports. Get the {@link Piwik\ArchiveProcessor} instance using the {@link getProcessor()}
      * method.
      */
-    abstract public function aggregateMultipleReports();
+    public function aggregateMultipleReports()
+    {
+        // empty
+    }
 
     /**
      * Returns a {@link Piwik\ArchiveProcessor} instance that can be used to insert archive data for

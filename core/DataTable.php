@@ -2118,4 +2118,29 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
         $this->sumRowTraversable($rowObjects());
     }
+
+    // TODO: these two are probably not necessary w/ the traversable changes
+    public function sumRowWithLabel($label, array $columns, ?array $aggregationOps = null): DataTable\Row
+    {
+        $tableRow = new DataTable\Row([DataTable\Row::COLUMNS => ['label' => $label] + $columns]);
+
+        if ($label === RankingQuery::LABEL_SUMMARY_ROW) {
+            $existingRow = $this->getSummaryRow();
+        } else {
+            $existingRow = $this->getRowFromLabel($label);
+        }
+
+        if (empty($existingRow)) {
+            if ($label === RankingQuery::LABEL_SUMMARY_ROW) {
+                $this->addSummaryRow($tableRow);
+            } else {
+                $this->addRow($tableRow);
+            }
+
+            $existingRow = $tableRow;
+        } else {
+            $existingRow->sumRow($tableRow, true, $aggregationOps);
+        }
+        return $existingRow;
+    }
 }
