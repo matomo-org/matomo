@@ -664,7 +664,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         } else {
             $columnAggregationOps = $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME) ?: null;
             foreach ($tableToSum->getRowsWithoutSummaryRow() as $row) {
-                $this->aggregateRowWithLabel($row, $columnAggregationOps);
+                $this->aggregateNonSummaryRowWithLabel($row, $columnAggregationOps);
             }
             // we do not use getRows() as this method might get called 100k times when aggregating many datatables and
             // this takes a lot of time.
@@ -1964,7 +1964,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      * @params null|array $columnAggregationOps
      * @throws \Exception
      */
-    public function aggregateRowWithLabel(Row $row, ?array $columnAggregationOps = null): Row
+    private function aggregateNonSummaryRowWithLabel(Row $row, ?array $columnAggregationOps = null): void
     {
         $labelToLookFor = $row->getColumn('label');
         if ($labelToLookFor === false) {
@@ -1973,7 +1973,9 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             );
             throw new Exception($message);
         }
+
         $rowFound = $this->getRowFromLabel($labelToLookFor);
+
         // if we find the summary row in the other table, ignore it, since we're aggregating normal rows in this method.
         // the summary row is aggregated explicitly after this method is called.
         if (!empty($rowFound)
@@ -1981,7 +1983,25 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         ) {
             $rowFound = false;
         }
-        return $this->aggregateRow($rowFound, $row, $columnAggregationOps, $isSummaryRow = false);
+
+        $this->aggregateRow($rowFound, $row, $columnAggregationOps, $isSummaryRow = false);
+    }
+
+    public function aggregateRowWithLabel(Row $row, ?array $columnAggregationOps = null): Row
+    {
+        $columnAggregationOps = $columnAggregationOps ?: $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME);
+
+        $labelToLookFor = $row->getColumn('label');
+
+        if ($labelToLookFor === RankingQuery::LABEL_SUMMARY_ROW) {
+            $rowFound = $this->getSummaryRow();
+            $isSummaryRow = true;
+        } else {
+            $rowFound = $this->getRowFromLabel($labelToLookFor);
+            $isSummaryRow = false;
+        }
+
+        return $this->aggregateRow($rowFound, $row, $columnAggregationOps, $isSummaryRow);
     }
 
     /**
@@ -2090,57 +2110,34 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     /**
      * TODO
      *
-     * @param \Traversable $rowIterator
+     * @param \Traversable|array $rows
      * @return void
      */
-    public function sumRowTraversable(\Traversable $rows): void
+    public function sumRowTraversable($rows): void
     {
-        $columnAggregationOps = $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME) ?: null;
         foreach ($rows as $row) {
-            $this->aggregateRowWithLabel($row, $columnAggregationOps);
+            $this->aggregateRowWithLabel($row);
         }
     }
 
     /**
      * TODO
      *
-     * @param \Traversable|array $simpleRowTraversable
+     * @param \Traversable|array $simpleArrays
      * @return void
      * @throws Exception
      */
-    public function sumSimpleArrayTraversable($simpleRowTraversable): void
+    public function sumSimpleArrayTraversable($simpleArrays): void
     {
-        $rowObjects = function () use ($simpleRowTraversable) {
-            foreach ($simpleRowTraversable as $arrayRow) {
-                yield new Row([Row::COLUMNS => $arrayRow]);
-            }
-        };
-
-        $this->sumRowTraversable($rowObjects());
+        foreach ($simpleArrays as $columns) {
+            $this->aggregateRowFromSimpleTable(new Row([Row::COLUMNS => $columns]));
+        }
     }
 
-    // TODO: these two are probably not necessary w/ the traversable changes
+    // TODO: this is probably not necessary w/ the traversable changes
     public function sumRowWithLabel($label, array $columns, ?array $aggregationOps = null): DataTable\Row
     {
         $tableRow = new DataTable\Row([DataTable\Row::COLUMNS => ['label' => $label] + $columns]);
-
-        if ($label === RankingQuery::LABEL_SUMMARY_ROW) {
-            $existingRow = $this->getSummaryRow();
-        } else {
-            $existingRow = $this->getRowFromLabel($label);
-        }
-
-        if (empty($existingRow)) {
-            if ($label === RankingQuery::LABEL_SUMMARY_ROW) {
-                $this->addSummaryRow($tableRow);
-            } else {
-                $this->addRow($tableRow);
-            }
-
-            $existingRow = $tableRow;
-        } else {
-            $existingRow->sumRow($tableRow, true, $aggregationOps);
-        }
-        return $existingRow;
+        return $this->aggregateRowWithLabel($tableRow, $aggregationOps);
     }
 }
