@@ -8,6 +8,7 @@
 
 namespace Piwik\Tests\Unit;
 
+use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\SiteContentDetector;
 
 /**
@@ -284,7 +285,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($scd->ga4);
         $this->assertFalse($scd->gtm);
         $this->assertFalse($scd->cloudflare);
-        $this->assertTrue($scd->react);
+        $this->assertEquals('react', $scd->jsFramework);
     }
 
     public function test_detectReact_IfPresent2()
@@ -297,7 +298,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($scd->ga4);
         $this->assertFalse($scd->gtm);
         $this->assertFalse($scd->cloudflare);
-        $this->assertTrue($scd->react);
+        $this->assertEquals('react', $scd->jsFramework);
     }
 
     public function test_detectReact_IfPresent3()
@@ -310,7 +311,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($scd->ga4);
         $this->assertFalse($scd->gtm);
         $this->assertFalse($scd->cloudflare);
-        $this->assertTrue($scd->react);
+        $this->assertEquals('react', $scd->jsFramework);
     }
 
     public function test_detectReact_IfPresent4()
@@ -323,7 +324,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($scd->ga4);
         $this->assertFalse($scd->gtm);
         $this->assertFalse($scd->cloudflare);
-        $this->assertTrue($scd->react);
+        $this->assertEquals('react', $scd->jsFramework);
     }
 
     public function test_detectReact_IfPresent5()
@@ -336,7 +337,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($scd->ga4);
         $this->assertFalse($scd->gtm);
         $this->assertFalse($scd->cloudflare);
-        $this->assertTrue($scd->react);
+        $this->assertEquals('react', $scd->jsFramework);
     }
 
     public function test_detectReact_IfPresent6()
@@ -349,7 +350,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($scd->ga4);
         $this->assertFalse($scd->gtm);
         $this->assertFalse($scd->cloudflare);
-        $this->assertTrue($scd->react);
+        $this->assertEquals('react', $scd->jsFramework);
     }
 
     public function test_doesNotDetectsReact_IfNotPresent()
@@ -362,5 +363,6 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($scd->ga4);
         $this->assertFalse($scd->gtm);
         $this->assertFalse($scd->cloudflare);
+        $this->assertEquals(SitesManager::JS_FRAMEWORK_UNKNOWN, $scd->jsFramework);
     }
 }

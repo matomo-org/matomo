@@ -32,7 +32,7 @@ class EmptySiteWithSiteContentDetectionReact extends Fixture
             'gtm' => false,
             'cms' => SitesManager::SITE_TYPE_UNKNOWN,
             'cloudflare' => false,
-            'react' => true,
+            'jsFramework' => SitesManager::JS_FRAMEWORK_REACT,
         ];
 
         return [
