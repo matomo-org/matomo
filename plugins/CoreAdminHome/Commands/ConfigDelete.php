@@ -266,17 +266,4 @@ NOTES:
 
         return $settingWrappedNew;
     }
-
-    /**
-     * Wrap the input string in an open and closing HTML/XML tag.
-     * E.g. wrap_in_tag('info', 'my string') returns '<info>my string</info>'
-     *
-     * @param string $tagname Tag name to wrap the string in.
-     * @param string $str String to wrap with the tag.
-     * @return string The wrapped string.
-     */
-    public static function wrapInTag(string $tagname, string $str): string
-    {
-        return "<$tagname>$str</$tagname>";
-    }
 }

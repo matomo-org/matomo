@@ -222,7 +222,7 @@ class GeneralGoalsRecords extends Base
 
     protected function getConversionsNumericMetrics(array $goals): array
     {
-        $numericRecords = array();
+        $numericRecords = [];
         foreach ($goals as $idGoal => $array) {
             foreach ($array as $metricId => $value) {
                 $metricName = Metrics::$mappingFromIdToNameGoal[$metricId];

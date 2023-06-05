@@ -203,6 +203,7 @@ td.editable-site-field:hover {
         width: inherit;
         bottom: 0;
         background: @color-white;
+        z-index: 100;
 
         .col {
             width: unset !important;
@@ -225,7 +226,7 @@ td.editable-site-field:hover {
         padding-top: 1rem;
     }
 
-    #wordpress {
+    #wordpress, #vue {
         .steps-to-start-tracking-header {
             font-weight: bold;
         }
@@ -244,6 +245,21 @@ td.editable-site-field:hover {
             list-style: decimal;
             list-style-position: inside;
         }
+    }
+
+    .tagManagerTrackingCode {
+        .row {
+            margin-bottom: -0.5rem !important;
+            margin-top: -1.5rem !important;
+        }
+
+        label[for="containers"], label[for="environment"] {
+            top: 7px !important;
+        }
+    }
+
+    .no-mt-top {
+        margin-top: 0 !important;
     }
 }
 
