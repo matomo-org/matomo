@@ -299,12 +299,13 @@ class DocumentationGenerator
         $aParameters['filter_update_columns_when_show_all_goals'] = false;
         $aParameters['filter_show_goal_columns_process_goals'] = false;
 
-        $entityNames = StaticContainer::get('entities.idNames');
-        foreach ($entityNames as $entityName) {
-            if (isset($aParameters[$entityName])) {
+        $extraParameters = StaticContainer::get('entities.idNames');
+        $extraParameters = array_merge($extraParameters, StaticContainer::get('DocumentationGenerator.customParameters'));
+        foreach ($extraParameters as $paramName) {
+            if (isset($aParameters[$paramName])) {
                 continue;
             }
-            $aParameters[$entityName] = false;
+            $aParameters[$paramName] = false;
         }
 
         $moduleName = Proxy::getInstance()->getModuleNameFromClassName($class);

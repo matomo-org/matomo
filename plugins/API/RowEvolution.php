@@ -281,6 +281,8 @@ class RowEvolution
 
         // if we have a recursive label and no url, use the path
         if (!$urlFound) {
+            $label = Common::getRequestVar('labelPretty', $label, 'string');
+            $label = Common::unsanitizeInputValue($label);
             $actualLabel = $this->formatQueryLabelForDisplay($idSite, $apiModule, $apiAction, $label);
         }
 
@@ -540,6 +542,9 @@ class RowEvolution
             $column = reset($metrics);
         }
 
+        $labelPretty = Common::getRequestVar('labelPretty', '', 'string');
+        $labelPretty = Piwik::getArrayFromApiParameter($labelPretty);
+
         // get the processed label and logo (if any) for every requested label
         $actualLabels = $logos = [];
         foreach ($labels as $labelIdx => $label) {
@@ -553,12 +558,16 @@ class RowEvolution
                     $prettyLabel = $labelRow->getColumn('label_html');
                     if ($prettyLabel !== false) {
                         $actualLabels[$labelIdx] = $prettyLabel;
+                    } else if (!empty($labelPretty[$labelIdx])) {
+                        $actualLabels[$labelIdx] = $labelPretty[$labelIdx];
                     }
 
                     $logos[$labelIdx] = $labelRow->getMetadata('logo');
 
                     if (!empty($actualLabels[$labelIdx])) {
                         break;
+                    } else if (!empty($labelPretty[$labelIdx])) {
+                        $actualLabels[$labelIdx] = $labelPretty[$labelIdx];
                     }
                 }
             }

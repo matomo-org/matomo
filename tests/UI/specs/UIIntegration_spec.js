@@ -1038,6 +1038,11 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await segment.click();
             await page.waitForNetworkIdle();
 
+            // hovering in puppeteer does not always trigger the mouseenter handler
+            await page.evaluate(() => {
+              $('.dataTable tbody tr:first-child').trigger('mouseenter');
+            });
+
             const row = await page.waitForSelector('.dataTable tbody tr:first-child');
             await row.hover();
 
