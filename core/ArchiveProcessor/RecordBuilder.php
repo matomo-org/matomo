@@ -34,11 +34,6 @@ abstract class RecordBuilder
     protected $columnToSortByBeforeTruncation;
 
     /**
-     * @var int
-     */
-    protected $blobReportLimit;
-
-    /**
      * @var array|null
      */
     protected $columnAggregationOps;
