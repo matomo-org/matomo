@@ -222,7 +222,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $tagManagerActive = true;
         }
         $this->siteContentDetector->detectContent([SiteContentDetector::ALL_CONTENT], $this->idSite);
-        $this->siteContentDetector->jsFramework = 'react';
 
         $templateData = [
             'siteName'      => $this->site->getName(),

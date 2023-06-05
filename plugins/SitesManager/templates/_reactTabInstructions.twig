@@ -3,7 +3,7 @@
 <p>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStepsIntro'|translate }}</p>
 <ol style="list-style: decimal;list-style-position: inside;">
     <li>{{ 'SitesManager_SiteWithoutDataReactFollowStep1'|translate('<strong>', '</strong>')|raw }}</li>
-    <li>{{ 'SitesManager_SiteWithoutDataReactFollowStep2'|translate('<strong>App.js</strong>')|raw }}<div><pre class="codeblock"></pre></div></li>
+    <li>{{ 'SitesManager_SiteWithoutDataReactFollowStep2'|translate('<strong>App.js</strong>')|raw }}<div>{{ postEvent('Template.embedReactTagManagerTrackingCode') }}</div></li>
 </ol>
 <br>
 <p>{{ 'SitesManager_SiteWithoutDataReactFollowStepCompleted'|translate('<strong>', '</strong>')|raw }}</p>
