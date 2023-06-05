@@ -361,16 +361,16 @@ INST;
 
         if ($bannerMessage && $templateData['consentManagerName']) {
             $isNotificationsMerged = true;
-            $bannerMessage .= ' and ' . $templateData['consentManagerName'];
+            $bannerMessage .= ' ' .Piwik::translate('SitesManager_Ampersand'). ' ' . $templateData['consentManagerName'];
             $guides[] =  '<a href="' . $templateData['consentManagerUrl'] . '" target="_blank" rel="noreferrer noopener">' . $templateData['consentManagerName'] . '</a>';
         }
 
         $info = [
             'isNotificationsMerged' => $isNotificationsMerged,
-            'notificationMergedMessage' => '<p class="fw-bold">' .Piwik::translate('SitesManager_MergedNotificationLine1', [$bannerMessage]) . '</p><p>' . Piwik::translate('SitesManager_MergedNotificationLine2', [(implode(' / ', $guides))]) . '</p>'
+            'notificationMergedMessage' => '<p class="fw-bold">' . Piwik::translate('SitesManager_MergedNotificationLine1', [$bannerMessage]) . '</p><p>' . Piwik::translate('SitesManager_MergedNotificationLine2', [(implode(' / ', $guides))]) . '</p>'
         ];
 
-        if ($templateData['consentManagerIsConnected']) {
+        if (!empty($templateData['consentManagerIsConnected'])) {
             $info['notificationMergedMessage'] .= '<p>' . Piwik::translate('SitesManager_ConsentManagerConnected', [$templateData['consentManagerName']]) . '</p>';
         }
 
