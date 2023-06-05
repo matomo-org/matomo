@@ -343,6 +343,7 @@ INST;
         $isNotificationsMerged = false;
         $bannerMessage = '';
         $guides = [];
+        $info = [];
 
         if ($templateData['ga3Used'] || $templateData['ga4Used']) {
             $bannerMessage = 'Google Analytics ';
@@ -361,19 +362,42 @@ INST;
 
         if ($bannerMessage && $templateData['consentManagerName']) {
             $isNotificationsMerged = true;
-            $bannerMessage .= ' ' .Piwik::translate('SitesManager_Ampersand'). ' ' . $templateData['consentManagerName'];
+            $bannerMessage .= ' ' .Piwik::translate('General_And'). ' ' . $templateData['consentManagerName'];
             $guides[] =  '<a href="' . $templateData['consentManagerUrl'] . '" target="_blank" rel="noreferrer noopener">' . $templateData['consentManagerName'] . '</a>';
         }
 
-        $info = [
-            'isNotificationsMerged' => $isNotificationsMerged,
-            'notificationMergedMessage' => '<p class="fw-bold">' . Piwik::translate('SitesManager_MergedNotificationLine1', [$bannerMessage]) . '</p><p>' . Piwik::translate('SitesManager_MergedNotificationLine2', [(implode(' / ', $guides))]) . '</p>'
-        ];
+        if ($isNotificationsMerged) {
+            $info = [
+                'isNotificationsMerged' => $isNotificationsMerged,
+                'notificationMergedMessage' => '<p class="fw-bold">' . Piwik::translate('SitesManager_MergedNotificationLine1', [$bannerMessage]) . '</p><p>' . Piwik::translate('SitesManager_MergedNotificationLine2', [(implode(' / ', $guides))]) . '</p>'
+            ];
 
-        if (!empty($templateData['consentManagerIsConnected'])) {
-            $info['notificationMergedMessage'] .= '<p>' . Piwik::translate('SitesManager_ConsentManagerConnected', [$templateData['consentManagerName']]) . '</p>';
+            if (!empty($templateData['consentManagerIsConnected'])) {
+                $info['notificationMergedMessage'] .= '<p>' . Piwik::translate('SitesManager_ConsentManagerConnected', [$templateData['consentManagerName']]) . '</p>';
+            }
+        }
+
+        if (empty($info)){
+            $info = $this->getSingleNotifications($templateData);
         }
 
         $templateData = array_merge($templateData, $info);
+    }
+
+    private function getSingleNotifications(&$templateData)
+    {
+        $info = ['isNotificationsMerged' => false];
+        if (!empty($templateData['consentManagerName']) ) {
+            $info['notificationMergedMessage'] = '<p>' . Piwik::translate('PrivacyManager_ConsentManagerDetected', [$templateData['consentManagerName'], '<a href="' . $templateData['consentManagerUrl'] . '" target="_blank" rel="noreferrer noopener">', '</a>']) . '</p>';
+            if (!empty($templateData['consentManagerIsConnected'])) {
+                $info['notificationMergedMessage'] .= '<p>' . Piwik::translate('SitesManager_ConsentManagerConnected', [$templateData['consentManagerName']]) . '</p>';
+            }
+        } else if (!empty($templateData['ga3Used'])) {
+            $info['notificationMergedMessage'] = '<p>' . Piwik::translate('SitesManager_GADetected', ['Google Analytics 3', 'GA', '<a href="https://matomo.org/faq/how-to/migrate-from-google-analytics-3-to-matomo/" target="_blank" rel="noreferrer noopener">', '</a>']) . '</p>';
+        } else if (!empty($templateData['ga4Used'])) {
+            $info['notificationMergedMessage'] = '<p>' . Piwik::translate('SitesManager_GADetected', ['Google Analytics 4', 'GA', '<a href="https://matomo.org/faq/how-to/migrate-from-google-analytics-4-to-matomo/" target="_blank" rel="noreferrer noopener">', '</a>']) . '</p>';
+        }
+
+        return $info;
     }
 }
