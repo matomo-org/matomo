@@ -356,7 +356,7 @@ INST;
                 $bannerMessage .= '3 & 4';
             } else {
                 $bannerMessage .= ($templateData['ga3Used'] ? 3 : 4);
-                $guides[] .= ($templateData['ga3Used'] ? $ga3GuideUrl : $ga4GuideUrl);
+                $guides[] = ($templateData['ga3Used'] ? $ga3GuideUrl : $ga4GuideUrl);
             }
         }
 
