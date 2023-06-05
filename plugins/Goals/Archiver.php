@@ -43,6 +43,21 @@ class Archiver extends \Piwik\Plugin\Archiver
         ];
     }
 
+    protected $dimensionRecord = [
+        self::SKU_FIELD      => self::ITEMS_SKU_RECORD_NAME,
+        self::NAME_FIELD     => self::ITEMS_NAME_RECORD_NAME,
+        self::CATEGORY_FIELD => self::ITEMS_CATEGORY_RECORD_NAME
+    ];
+    protected $actionMapping = [
+        self::SKU_FIELD      => 'idaction_product_sku',
+        self::NAME_FIELD     => 'idaction_product_name',
+        self::CATEGORY_FIELD => 'idaction_product_cat',
+        self::CATEGORY2_FIELD => 'idaction_product_cat2',
+        self::CATEGORY3_FIELD => 'idaction_product_cat3',
+        self::CATEGORY4_FIELD => 'idaction_product_cat4',
+        self::CATEGORY5_FIELD => 'idaction_product_cat5',
+    ];
+
     /**
      * @param string $recordName 'nb_conversions'
      * @param int|bool $idGoal idGoal to return the metrics for, or false to return overall
