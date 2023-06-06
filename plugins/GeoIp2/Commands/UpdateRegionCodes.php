@@ -15,22 +15,22 @@ use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2\Php;
 use Piwik\Plugins\UserCountry\LocationProvider;
 
 /**
- * This command can be used to update the list of regions and their names, Matomo knowns about.
+ * This command can be used to update the list of regions and their names that Matomo knows about.
  * A list of iso regions is fetched from the iso-codes project. This list will then be used to update the regions array
  * located in data/isoRegionNames
  * - new regions will be added as current
- * - changed names will be update (adding the previous name as alternate name)
+ * - changed names will be updated (adding the previous name as alternate name)
  * - removed regions will be kept, but marked as not current
  *
- * Additionally this command can be used to add regions that are returned by DB IP GeoIP database
+ * Additionally, this command can be used to add regions that are returned by DB IP GeoIP database
  * As the DBIP Lite database only contains region names, but no region codes, we try to map the returned name to a known
  * region. As DBIP in some cases returns names, that differ from the official region name, Matomo would be unable to
  * store those regions. To provide a better mapping this command allows to provide the --db-ip-csv option.
- * This option should provide the path to the DB-IP city lite database in CSV format. In addition the paid DB-IP city
+ * This option should provide the path to the DB-IP city lite database in CSV format. In addition, the paid DB-IP city
  * (mmdb) database should be configured in Matomo as location provider.
- * The command will then iterate through all IP ranges defined in the CSV database and query a look up using the
+ * The command will then iterate through all IP ranges defined in the CSV database and query a look-up using the
  * location provider. The returned region iso code and region name is then compared with those included in the regions
- * array. Missing regions will be added (as not current), missmatching names will be added as alternate names.
+ * array. Missing regions will be added (as not current), mismatching names will be added as alternate names.
  * This will ensure that regions returned by the lite database should be mapped correctly.
  * Attention: Using this option will take a couple of hours to process.
  */
@@ -170,7 +170,7 @@ CONTENT;
             return;
         }
 
-        $output->writeln('Iterating through all IPv4 adresses...');
+        $output->writeln('Iterating through all IPv4 addresses...');
 
         $this->initProgressBar(6396645);
 
