@@ -18,6 +18,7 @@ use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\CoreHome\SystemSummary;
+use Piwik\Plugins\Goals\RecordBuilders\ProductRecord;
 use Piwik\Tracker\GoalManager;
 use Piwik\Category\Subcategory;
 
@@ -105,8 +106,21 @@ class Goals extends \Piwik\Plugin
             'Metric.addMetrics'                      => 'addMetrics',
             'Metric.addComputedMetrics'              => 'addComputedMetrics',
             'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
+            'Archiver.addRecordBuilders'             => 'addRecordBuilders',
         );
         return $hooks;
+    }
+
+    public function addRecordBuilders(array &$recordBuilders): void
+    {
+        $recordBuilders[] = new ProductRecord(ProductRecord::SKU_FIELD, ProductRecord::ITEMS_SKU_RECORD_NAME);
+        $recordBuilders[] = new ProductRecord(ProductRecord::NAME_FIELD, ProductRecord::ITEMS_NAME_RECORD_NAME);
+        $recordBuilders[] = new ProductRecord(ProductRecord::CATEGORY_FIELD, ProductRecord::ITEMS_CATEGORY_RECORD_NAME, [
+            ProductRecord::CATEGORY2_FIELD,
+            ProductRecord::CATEGORY3_FIELD,
+            ProductRecord::CATEGORY4_FIELD,
+            ProductRecord::CATEGORY5_FIELD,
+        ]);
     }
 
     public function addSystemSummaryItems(&$systemSummary)

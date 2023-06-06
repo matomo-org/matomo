@@ -381,4 +381,13 @@ class Rules
 
         return in_array(strtolower($pluginName), $pluginArchivingSetting);
     }
+
+    public static function shouldProcessOnlyReportsRequestedInArchiveQuery(string $periodLabel): bool
+    {
+        if (SettingsServer::isArchivePhpTriggered()) {
+            return false;
+        }
+
+        return $periodLabel === 'range';
+    }
 }

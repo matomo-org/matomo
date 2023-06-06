@@ -167,6 +167,7 @@
         "UserInviteSubject": "Користувач %1$s надіслав вам запрошення приєднатися до Matomo Analytics для %2$s.",
         "ValidPiwikHostname": "Домен для Matomo",
         "ViewAllTrackingFailures": "Переглянути всі помилки відстеження",
+        "VueDescription": "Якщо ваш вебсайт використовує Vue.js, перегляньте %1$sцей посібник%2$s.",
         "WhatIsNew": "Що нового",
         "WhatIsNewNoChanges": "На даний момент немає нічого нового",
         "WhatIsNewNoChangesTitle": "Немає нещодавніх змін",
