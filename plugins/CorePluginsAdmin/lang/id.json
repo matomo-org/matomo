@@ -36,6 +36,7 @@
         "MenuPlatform": "Platform",
         "MissingRequirementsNotice": "Silahkan perbarui %1$s %2$s ke versi terbaru, %1$s %3$s diperlukan.",
         "MissingRequirementsPleaseInstallNotice": "Silakan instal %1$s %2$s seperti yang diperlukan oleh %3$s.",
+        "NUpdatesAvailable": "%1$s Pembaruan tersedia",
         "NoPluginSettings": "Tidak ada pengaturan pengaya yang dapat dikonfigurasi",
         "NoZipFileSelected": "Silakan pilih sebuah berkas ZIP.",
         "NotDownloadable": "Tidak dapat diunduh",
