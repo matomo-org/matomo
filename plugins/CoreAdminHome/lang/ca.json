@@ -167,6 +167,7 @@
         "UserInviteSubject": "%1$s t'ha enviat una invitació per unir-te a Matomo Analytics per %2$s.",
         "ValidPiwikHostname": "Nom del host de Matomo vàlid",
         "ViewAllTrackingFailures": "Veure tots els errors de seguiment",
+        "VueDescription": "Si el vostre lloc web utilitza Vue.js, consulteu %1$saquesta guia%2$s.",
         "WhatIsNew": "Què hi ha de nou",
         "WhatIsNewNoChanges": "No hi ha res de nou de moment",
         "WhatIsNewNoChangesTitle": "No hi ha canvis recents",
