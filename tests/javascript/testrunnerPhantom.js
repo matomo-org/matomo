@@ -23,7 +23,23 @@
 
 var fs  = require("fs");
 var system = require("system");
-var url = system.args[1] || 'http://localhost/tests/javascript/';
+var baseUrl = system.args[1] || 'http://localhost/tests/javascript/';
+
+function getPluginArg() {
+  for (var i = 0; i < system.args.length; ++i) {
+    if (/--plugin=(.*?)/.test(system.args[i])) {
+      return system.args[i].split('=', 2)[1];
+    }
+  }
+  return null;
+}
+
+var plugin = getPluginArg();
+
+var url = baseUrl;
+if (plugin) {
+  url += '?module=' + encodeURIComponent(plugin);
+}
 
 function printError(message) {
    console.error(message + "\n");
