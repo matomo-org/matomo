@@ -539,6 +539,8 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
 
     private function checkFilesAreInFormat($files, $format)
     {
+        self::expectNotToPerformAssertions();
+
         $errors = array();
         foreach ($files as $file) {
             // skip files in these folders
@@ -561,8 +563,6 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             $icons = implode(" ", $errors);
             $this->fail("$format format failed for following icons $icons \n");
         }
-
-        $this->assertTrue(true); // pass
     }
 
     /**

@@ -135,7 +135,7 @@ class SearchEngineTest extends \PHPUnit\Framework\TestCase
         $favicons = scandir(PIWIK_PATH_TEST_TO_ROOT . '/plugins/Morpheus/icons/dist/searchEngines/');
 
         // Get list of search engines and first appearing URL
-        static $searchEngines = array();
+        static $searchEngines = [];
 
         $name = parse_url('http://' . $url);
         if (!array_key_exists($searchEngine['name'], $searchEngines)) {
