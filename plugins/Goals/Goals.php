@@ -282,13 +282,13 @@ class Goals extends \Piwik\Plugin
             'revenue_per_visit' => Piwik::translate('General_ColumnValuePerVisit'),
         );
 
-        $goalMetrics = array(
+        $allGoalMetrics = array(
             'nb_conversions'  => Piwik::translate('Goals_ColumnConversions'),
             'conversion_rate' => Piwik::translate('General_ColumnConversionRate'),
             'revenue'         => Piwik::translate('General_ColumnRevenue')
         );
 
-        $goalMetricTypes = [
+        $allGoalMetricTypes = [
             'revenue_per_visit' => Dimension::TYPE_MONEY,
             'nb_conversions' => Dimension::TYPE_NUMBER,
             'conversion_rate' => Dimension::TYPE_PERCENT,
@@ -297,7 +297,18 @@ class Goals extends \Piwik\Plugin
 
         $reportsWithGoals = self::getAllReportsWithGoalMetrics();
 
+        $actionsReportsWithoutRevenue = ['getPageUrls', 'getPageTitles', 'getEntryPageUrls', 'getEntryPageTitles'];
+
         foreach ($reportsWithGoals as $reportWithGoals) {
+            $goalMetrics = $allGoalMetrics;
+            $goalMetricTypes = $allGoalMetricTypes;
+            if ($reportWithGoals['module'] == 'Actions'
+                && in_array($reportWithGoals['action'], $actionsReportsWithoutRevenue)
+            ) {
+                unset($goalMetrics['revenue']);
+                unset($goalMetricTypes['revenue']);
+            }
+
             // Select this report from the API metadata array
             // and add the Goal metrics to it
             foreach ($reports as &$apiReportToUpdate) {
