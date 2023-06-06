@@ -16,6 +16,7 @@ use Piwik\Cache as PiwikCache;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
+use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\DataTable\Row;
 use Piwik\DataTable\Simple;
 use Piwik\Date;
@@ -367,6 +368,11 @@ class ProcessedReport
 
         if (!empty($segment)) {
             $parameters['segment'] = $segment;
+        }
+
+        $actionsIdGoalOverride = $this->getIdGoalToUseForActionsReports($idGoal,$apiModule . '.' . $apiAction);
+        if ($actionsIdGoalOverride) {
+            $parameters['idGoal'] = $actionsIdGoalOverride;
         }
 
         if (!empty($reportMetadata['processedMetrics'])
@@ -894,5 +900,25 @@ class ProcessedReport
             $result[$columnName . '_change'] = Piwik::translate('General_ChangeInX', lcfirst($columnName));
         }
         return $result;
+    }
+
+    private function getIdGoalToUseForActionsReports($idGoal, string $requestMethod)
+    {
+        if (\Piwik\Request::fromRequest()->getStringParameter('filter_show_goal_columns_process_goals', '')) {
+            if (in_array($requestMethod, ['Actions.getPageUrls', 'Actions.getPageTitles'])) {
+                if ($idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER || $idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
+                    $idGoal = AddColumnsProcessedMetricsGoal::GOALS_ENTRY_PAGES_ECOMMERCE;
+                } else {
+                    $idGoal = AddColumnsProcessedMetricsGoal::GOALS_PAGES;
+                }
+            } elseif (in_array($requestMethod, ['Actions.getEntryPageUrls', 'Actions.getEntryPageTitles'])) {
+                if ($idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER || $idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
+                    $idGoal = AddColumnsProcessedMetricsGoal::GOALS_ENTRY_PAGES_ECOMMERCE;
+                } else {
+                    $idGoal = AddColumnsProcessedMetricsGoal::GOALS_ENTRY_PAGES;
+                }
+            }
+        }
+        return $idGoal;
     }
 }
