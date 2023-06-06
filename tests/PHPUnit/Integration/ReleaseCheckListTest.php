@@ -797,7 +797,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
     private function getComposerRequireDevPackages()
     {
         $composerJson = $this->getComposerLockAsArray();
-        $composerDependencyDevOnly = array_keys($composerJson["packages-dev"]);
+        $composerDependencyDevOnly = array_column($composerJson['packages-dev'], 'name');
         return $composerDependencyDevOnly;
     }
 
