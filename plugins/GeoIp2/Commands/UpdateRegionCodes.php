@@ -127,6 +127,7 @@ class UpdateRegionCodes extends ConsoleCommand
         }
 
         if (json_encode($newRegions) === json_encode($currentRegions)) {
+            $output->writeln('');
             $output->writeln('Everything already up to date <fg=green>✓</>');
             return self::SUCCESS;
         }
