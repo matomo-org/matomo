@@ -73,14 +73,19 @@ class Client
         return $this->environment;
     }
 
+    /**
+     * @param string $name
+     * @return array|null
+     * @throws Exception
+     */
     public function getPluginInfo($name)
     {
         $action = sprintf('plugins/%s/info', $name);
 
         $plugin = $this->fetch($action, array());
 
-        if (!empty($plugin) && $this->shouldIgnorePlugin($plugin)) {
-            return;
+        if (empty($plugin['name']) || $this->shouldIgnorePlugin($plugin)) {
+            return null;
         }
 
         return $plugin;
