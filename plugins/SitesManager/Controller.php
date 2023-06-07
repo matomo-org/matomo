@@ -377,7 +377,7 @@ INST;
             }
         }
 
-        if (empty($info)){
+        if (empty($info)) {
             $info = $this->getSingleNotifications($templateData);
         }
 
@@ -386,7 +386,7 @@ INST;
 
     private function getSingleNotifications(&$templateData)
     {
-        $info = ['isNotificationsMerged' => false];
+        $info = ['isNotificationsMerged' => false, 'notificationMergedMessage' => ''];
         if (!empty($templateData['consentManagerName']) ) {
             $info['notificationMergedMessage'] = '<p>' . Piwik::translate('PrivacyManager_ConsentManagerDetected', [$templateData['consentManagerName'], '<a href="' . $templateData['consentManagerUrl'] . '" target="_blank" rel="noreferrer noopener">', '</a>']) . '</p>';
             if (!empty($templateData['consentManagerIsConnected'])) {
