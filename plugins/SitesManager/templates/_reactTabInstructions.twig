@@ -1,9 +1,10 @@
+{% set step3Content = 'SitesManager_SiteWithoutDataReactFollowStep3'|translate('<strong>App.js</strong>')|raw  %}
 <p>{{ 'SitesManager_SiteWithoutDataReactIntro'|translate }}</p>
 <br>
 <p>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStepsIntro'|translate }}</p>
-<ol style="list-style: decimal;list-style-position: inside;">
+<ol class="list-style-decimal"">
     <li>{{ 'SitesManager_SiteWithoutDataReactFollowStep1'|translate('<strong>', '</strong>')|raw }}</li>
-    <li>{{ 'SitesManager_SiteWithoutDataReactFollowStep2'|translate('<strong>App.js</strong>')|raw }}<div>{{ postEvent('Template.embedReactTagManagerTrackingCode') }}</div></li>
+    <li>{{ 'SitesManager_SiteWithoutDataReactFollowStep2'|translate }}<div>{{ postEvent('Template.embedReactTagManagerTrackingCode', '<li>' ~ step3Content ~ '</li>') }}</div></li>
 </ol>
 <br>
 <p>{{ 'SitesManager_SiteWithoutDataReactFollowStepCompleted'|translate('<strong>', '</strong>')|raw }}</p>
