@@ -155,8 +155,9 @@ class MigrationsTest extends IntegrationTestCase
      */
     public function test_changeColumnType()
     {
+        self::expectNotToPerformAssertions();
+
         $this->factory->changeColumnType($this->testTable, 'column2', 'SMALLINT(4) NOT NULL')->exec();
-        $this->assertTrue(true);
     }
 
     /**
@@ -205,11 +206,12 @@ class MigrationsTest extends IntegrationTestCase
      */
     public function test_changeColumnTypes()
     {
+        self::expectNotToPerformAssertions();
+
         $this->factory->changeColumnTypes($this->testTable, array(
             'column5' => 'VARCHAR(10) DEFAULT ""',
             'column11' => 'VARCHAR(255) DEFAULT "test"',
         ))->exec();
-        $this->assertTrue(true); // pass
     }
 
     /**

@@ -28,12 +28,12 @@ class IdSiteTest extends IntegrationTestCase
 
     public function test_validate_successValueNotEmpty()
     {
+        self::expectNotToPerformAssertions();
+
         $this->validate('1');
         $this->validate('2');
         $this->validate(1);
         $this->validate(2);
-
-        $this->assertTrue(true); // pass
     }
 
     public function test_validate_failValueDoesNotExist()

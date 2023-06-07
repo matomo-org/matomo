@@ -86,7 +86,7 @@ class LanguagesManagerTest extends \PHPUnit\Framework\TestCase
         $translations = $translationWriter->getTranslations($language);
 
         if (empty($translations)) {
-            self::assertTrue(true);
+            self::expectNotToPerformAssertions();
             return; // skip language / plugin combinations that aren't present
         }
 
