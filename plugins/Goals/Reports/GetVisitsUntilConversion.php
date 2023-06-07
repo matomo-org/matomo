@@ -10,8 +10,8 @@ namespace Piwik\Plugins\Goals\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\Goals\Columns\VisitsUntilConversion;
 use Piwik\Plugins\Goals\Archiver;
+use Piwik\Plugins\Goals\Columns\VisitsUntilConversion;
 
 class GetVisitsUntilConversion extends Base
 {

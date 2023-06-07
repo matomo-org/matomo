@@ -122,10 +122,11 @@ class HandlerTest extends IntegrationTestCase
 
     public function test_onException_ShouldNotRethrowExceptionToExitTrackerImmediately()
     {
+        self::expectNotToPerformAssertions();
+
         $exception = $this->buildException();
 
         $this->handler->onException($this->tracker, $this->requestSet, $exception);
-        $this->assertTrue(true);
     }
 
     public function test_onAllRequestsTracked_ShouldTriggerScheduledTasksIfEnabled()

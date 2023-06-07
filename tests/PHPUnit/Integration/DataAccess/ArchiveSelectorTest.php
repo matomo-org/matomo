@@ -187,12 +187,26 @@ class ArchiveSelectorTest extends IntegrationTestCase
         $params = new \Piwik\ArchiveProcessor\Parameters(new Site(1), Factory::build($period, $date), new Segment($segment, [1]));
         $result = ArchiveSelector::getArchiveIdAndVisits($params, $minDateProcessed, $includeInvalidated);
 
-        if ($result[4] !== false) {
-            Date::factory($result[4]);
+        if ($result['tsArchived'] !== false) {
+            Date::factory($result['tsArchived']);
         }
 
+        unset($result['tsArchived']);
+
+        // remove BC indexed values
+        unset($result[0]);
+        unset($result[1]);
+        unset($result[2]);
+        unset($result[3]);
         unset($result[4]);
-        $result = array_values($result);
+        unset($result[5]);
+
+        if (isset($result['existingRecords'])) {
+            sort($result['existingRecords']);
+        }
+        if (isset($expected['existingRecords'])) {
+            sort($expected['existingRecords']);
+        }
 
         $this->assertEquals($expected, $result);
     }
@@ -212,7 +226,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 true,
-                [false, false, false, false, false],
+                ['idArchives' => false, 'visits' => false, 'visitsConverted' => false, 'archiveExists' => false, 'doneFlagValue' => false, 'existingRecords' => null],
             ],
             [
                 'day',
@@ -225,7 +239,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 true,
-                [false, false, false, false, false],
+                ['idArchives' => false, 'visits' => false, 'visitsConverted' => false, 'archiveExists' => false, 'doneFlagValue' => false, 'existingRecords' => null],
             ],
 
             // value is not valid
@@ -241,7 +255,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [false, false, false, true, '99'],
+                ['idArchives' => false, 'visits' => false, 'visitsConverted' => false, 'archiveExists' => true, 'doneFlagValue' => '99', 'existingRecords' => null],
             ],
             [
                 'day',
@@ -257,7 +271,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [false, 0, 0, true, '99'],
+                ['idArchives' => false, 'visits' => 0, 'visitsConverted' => 0, 'archiveExists' => true, 'doneFlagValue' => '99', 'existingRecords' => null],
             ],
             [
                 'day',
@@ -270,7 +284,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [false, 20, 40, true, false],
+                ['idArchives' => false, 'visits' => 20, 'visitsConverted' => 40, 'archiveExists' => true, 'doneFlagValue' => false, 'existingRecords' => null],
             ],
             [
                 'day',
@@ -283,7 +297,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [false, 30, 50, true, false],
+                ['idArchives' => false, 'visits' => 30, 'visitsConverted' => 50, 'archiveExists' => true, 'doneFlagValue' => false, 'existingRecords' => null],
             ],
             [
                 'day',
@@ -297,7 +311,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [false, false, false, true, false],
+                ['idArchives' => false, 'visits' => false, 'visitsConverted' => false, 'archiveExists' => true, 'doneFlagValue' => false, 'existingRecords' => null],
             ],
 
             // archive is too old
@@ -311,7 +325,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [false, false, false, true, '1'],
+                ['idArchives' => false, 'visits' => false, 'visitsConverted' => false, 'archiveExists' => true, 'doneFlagValue' => '1', 'existingRecords' => null],
             ],
             [
                 'day',
@@ -325,7 +339,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [false, 1, false, true, '1'],
+                ['idArchives' => false, 'visits' => 1, 'visitsConverted' => false, 'archiveExists' => true, 'doneFlagValue' => '1', 'existingRecords' => null],
             ],
 
             // no archive done flags, but metric
@@ -339,7 +353,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [false, false, false, false, false],
+                ['idArchives' => false, 'visits' => false, 'visitsConverted' => false, 'archiveExists' => false, 'doneFlagValue' => false, 'existingRecords' => null],
             ],
             [
                 'day',
@@ -352,7 +366,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [false, false, false, false, false],
+                ['idArchives' => false, 'visits' => false, 'visitsConverted' => false, 'archiveExists' => false, 'doneFlagValue' => false, 'existingRecords' => null],
             ],
 
             // archive exists and is usable
@@ -365,7 +379,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [[1], 0, 0, true, '1'],
+                ['idArchives' => [1], 'visits' => 0, 'visitsConverted' => 0, 'archiveExists' => true, 'doneFlagValue' => '1', 'existingRecords' => null],
             ],
             [
                 'day',
@@ -378,7 +392,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [[1], 5, 10, true, '1'],
+                ['idArchives' => [1], 'visits' => 5, 'visitsConverted' => 10, 'archiveExists' => true, 'doneFlagValue' => '1', 'existingRecords' => null],
             ],
 
             // range archive, valid
@@ -393,7 +407,7 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [[1], 5, 10, true, '1'],
+                ['idArchives' => [1], 'visits' => 5, 'visitsConverted' => 10, 'archiveExists' => true, 'doneFlagValue' => '1', 'existingRecords' => null],
             ],
 
             // range archive, invalid
@@ -408,7 +422,244 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 '',
                 $minDateProcessed,
                 false,
-                [false, 5, 10, true, '4'], // forcing archiving since invalid + browser archiving of ranges allowed
+                // forcing archiving since invalid + browser archiving of ranges allowed
+                ['idArchives' => false, 'visits' => 5, 'visitsConverted' => 10, 'archiveExists' => true, 'doneFlagValue' => '4', 'existingRecords' => null],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider getTestDataForGetArchiveIdAndVisitsWithOnlyPartialArchives
+     */
+    public function test_getArchiveIdAndVisits_whenThereAreOnlyPartialArchives($archiveRows, $requestedReports, $expected, $minDatetimeArchiveProcessedUTC = false)
+    {
+        Fixture::createWebsite('2010-02-02 00:00:00');
+
+        Rules::setBrowserTriggerArchiving(false);
+        API::getInstance()->add('test segment', self::TEST_SEGMENT, 0, 0); // processed in real time
+
+        $this->insertArchiveData($archiveRows);
+
+        $params = new \Piwik\ArchiveProcessor\Parameters(new Site(1), Factory::build('range', '2020-03-04,2020-03-08'), new Segment('', [1]));
+        $params->setRequestedPlugin('TestPlugin');
+        $params->setArchiveOnlyReport($requestedReports);
+
+        $result = ArchiveSelector::getArchiveIdAndVisits($params, $minDatetimeArchiveProcessedUTC);
+
+        if ($result['tsArchived'] !== false) {
+            Date::factory($result['tsArchived']);
+        }
+
+        unset($result['tsArchived']);
+
+        // remove BC indexed values
+        unset($result[0]);
+        unset($result[1]);
+        unset($result[2]);
+        unset($result[3]);
+        unset($result[4]);
+        unset($result[5]);
+
+        if (isset($result['existingRecords'])) {
+            sort($result['existingRecords']);
+        }
+        if (isset($expected['existingRecords'])) {
+            sort($expected['existingRecords']);
+        }
+
+        $this->assertEquals($expected, $result);
+    }
+
+    public function getTestDataForGetArchiveIdAndVisitsWithOnlyPartialArchives()
+    {
+        // $archiveRows, $plugin, $requestedReports, $expected
+        return [
+            // only partial archives, no requested reports
+            [
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'done.TestPlugin', 'value' => 5],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'TestPlugin_metric', 'value' => 5],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'TestPlugin_blob', 'value' => 'slkdjf', 'is_blob_data' => true],
+
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'done.TestPlugin', 'value' => 5],
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'TestPlugin_metric', 'value' => 5],
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'TestPlugin_blob', 'value' => 'slkdjf2', 'is_blob_data' => true],
+
+                    ['idarchive' => 3, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done.TestPlugin', 'value' => 5],
+                    ['idarchive' => 3, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'TestPlugin_metric', 'value' => 5],
+                    ['idarchive' => 3, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'TestPlugin_blob', 'value' => 'slkdjf3', 'is_blob_data' => true],
+                ],
+                null,
+                [
+                    'idArchives' => [1],
+                    'visits' => false,
+                    'visitsConverted' => false,
+                    'archiveExists' => true,
+                    'doneFlagValue' => false,
+                    'existingRecords' => null,
+                ],
+            ],
+
+            // only partial archives, requested reports, no existing reports
+            [
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'done.TestPlugin', 'value' => 5],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'TestPlugin_metric', 'value' => 5],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'TestPlugin_blob', 'value' => 'slkdjf', 'is_blob_data' => true],
+
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'done.TestPlugin', 'value' => 5],
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'TestPlugin_metric', 'value' => 5],
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'TestPlugin_blob', 'value' => 'slkdjf2', 'is_blob_data' => true],
+
+                    ['idarchive' => 3, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done.TestPlugin', 'value' => 5],
+                    ['idarchive' => 3, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'TestPlugin_metric', 'value' => 5],
+                    ['idarchive' => 3, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'TestPlugin_blob', 'value' => 'slkdjf3', 'is_blob_data' => true],
+                ],
+                'TestPlugin_otherMetric',
+                [
+                    'idArchives' => false,
+                    'visits' => false,
+                    'visitsConverted' => false,
+                    'archiveExists' => true,
+                    'doneFlagValue' => false,
+                    'existingRecords' => null,
+                ],
+            ],
+
+            // only partial archives, requested reports, some existing reports (both numeric and blob)
+            [
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'done.TestPlugin', 'value' => 5, 'ts_archived' => '2020-03-08 03:00:00'],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'TestPlugin_metric', 'value' => 5, 'ts_archived' => '2020-03-08 03:00:00'],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'TestPlugin_blob', 'value' => 'slkdjf 1', 'is_blob_data' => true, 'ts_archived' => '2020-03-08 03:00:00'],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'TestPlugin_metric2', 'value' => 5, 'ts_archived' => '2020-03-08 03:00:00'],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'TestPlugin_blob2', 'value' => 'slkdjf 2', 'is_blob_data' => true, 'ts_archived' => '2020-03-08 03:00:00'],
+
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'done.TestPlugin', 'value' => 5],
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'TestPlugin_metric', 'value' => 5],
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'TestPlugin_blob', 'value' => 'slkdjf 3', 'is_blob_data' => true],
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'TestPlugin_metric2', 'value' => 5],
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'TestPlugin_blob2', 'value' => 'slkdjf 4', 'is_blob_data' => true],
+
+                    ['idarchive' => 3, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done.TestPlugin', 'value' => 5],
+                    ['idarchive' => 3, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'TestPlugin_metric', 'value' => 5],
+                    ['idarchive' => 3, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'TestPlugin_blob', 'value' => 'slkdjf 5', 'is_blob_data' => true],
+                    ['idarchive' => 3, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'TestPlugin_metric2', 'value' => 5],
+                    ['idarchive' => 3, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'TestPlugin_blob2', 'value' => 'slkdjf 6', 'is_blob_data' => true],
+                ],
+                ['TestPlugin_metric', 'TestPlugin_blob'],
+                [
+                    'idArchives' => [1],
+                    'visits' => false,
+                    'visitsConverted' => false,
+                    'archiveExists' => true,
+                    'doneFlagValue' => false,
+                    'existingRecords' => ['TestPlugin_metric', 'TestPlugin_blob'],
+                ],
+                '2020-03-08 00:00:00',
+            ],
+
+            // only partial archives, requested reports, some existing reports (both numeric and blob), but archive is too old
+            [
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'done.TestPlugin', 'value' => 5, 'ts_archived' => '2020-03-08 03:00:00'],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'TestPlugin_metric', 'value' => 5, 'ts_archived' => '2020-03-08 03:00:00'],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'TestPlugin_blob', 'value' => 'slkdjf 1', 'is_blob_data' => true, 'ts_archived' => '2020-03-08 03:00:00'],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'TestPlugin_metric2', 'value' => 5, 'ts_archived' => '2020-03-08 03:00:00'],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'TestPlugin_blob2', 'value' => 'slkdjf 2', 'is_blob_data' => true, 'ts_archived' => '2020-03-08 03:00:00'],
+
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'done.TestPlugin', 'value' => 5],
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'TestPlugin_metric', 'value' => 5],
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'TestPlugin_blob', 'value' => 'slkdjf 3', 'is_blob_data' => true],
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'TestPlugin_metric2', 'value' => 5],
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'TestPlugin_blob2', 'value' => 'slkdjf 4', 'is_blob_data' => true],
+
+                    ['idarchive' => 3, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done.TestPlugin', 'value' => 5],
+                    ['idarchive' => 3, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'TestPlugin_metric', 'value' => 5],
+                    ['idarchive' => 3, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'TestPlugin_blob', 'value' => 'slkdjf 5', 'is_blob_data' => true],
+                    ['idarchive' => 3, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'TestPlugin_metric2', 'value' => 5],
+                    ['idarchive' => 3, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'TestPlugin_blob2', 'value' => 'slkdjf 6', 'is_blob_data' => true],
+                ],
+                ['TestPlugin_metric', 'TestPlugin_blob'],
+                [
+                    'idArchives' => false,
+                    'visits' => false,
+                    'visitsConverted' => false,
+                    'archiveExists' => true,
+                    'doneFlagValue' => false,
+                    'existingRecords' => null,
+                ],
+                '2020-03-08 09:00:00',
+            ],
+
+            // only partial archives, requested reports, all existing reports (both numeric and blob)
+            [
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'done.TestPlugin', 'value' => 5],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'TestPlugin_metric', 'value' => 5],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'TestPlugin_blob', 'value' => 'slkdjf', 'is_blob_data' => true],
+
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'done.TestPlugin', 'value' => 5],
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'TestPlugin_metric', 'value' => 5],
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'TestPlugin_blob', 'value' => 'slkdjf2', 'is_blob_data' => true],
+
+                    ['idarchive' => 3, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done.TestPlugin', 'value' => 5],
+                    ['idarchive' => 3, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'TestPlugin_metric', 'value' => 5],
+                    ['idarchive' => 3, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'TestPlugin_blob', 'value' => 'slkdjf3', 'is_blob_data' => true],
+                ],
+                ['TestPlugin_metric', 'TestPlugin_blob'],
+                [
+                    'idArchives' => [1],
+                    'visits' => false,
+                    'visitsConverted' => false,
+                    'archiveExists' => true,
+                    'doneFlagValue' => false,
+                    'existingRecords' => ['TestPlugin_metric', 'TestPlugin_blob'],
+                ],
+            ],
+
+            // only partial archives, requested reports, some existing reports (both numeric and blob) across multiple partial archives
+            [
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'done.TestPlugin', 'value' => 5],
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'TestPlugin_metric', 'value' => 5],
+
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'done.TestPlugin', 'value' => 5],
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'TestPlugin_blob', 'value' => 'slkdjf 1', 'is_blob_data' => true],
+                    ['idarchive' => 2, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'TestPlugin_metric2', 'value' => 5],
+
+                    ['idarchive' => 3, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'done.TestPlugin', 'value' => 5],
+                    ['idarchive' => 3, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-08', 'name' => 'TestPlugin_blob2', 'value' => 'slkdjf 2', 'is_blob_data' => true],
+
+                    ['idarchive' => 4, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'done.TestPlugin', 'value' => 5],
+                    ['idarchive' => 4, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'TestPlugin_metric', 'value' => 5],
+
+                    ['idarchive' => 5, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'done.TestPlugin', 'value' => 5],
+                    ['idarchive' => 5, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'TestPlugin_blob', 'value' => 'slkdjf 3', 'is_blob_data' => true],
+
+                    ['idarchive' => 6, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'done.TestPlugin', 'value' => 5],
+                    ['idarchive' => 6, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'TestPlugin_metric2', 'value' => 5],
+                    ['idarchive' => 6, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'TestPlugin_blob2', 'value' => 'slkdjf 4', 'is_blob_data' => true],
+
+                    ['idarchive' => 7, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done.TestPlugin', 'value' => 5],
+                    ['idarchive' => 7, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'TestPlugin_metric', 'value' => 5],
+                    ['idarchive' => 7, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'TestPlugin_blob', 'value' => 'slkdjf 5', 'is_blob_data' => true],
+
+                    ['idarchive' => 8, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done.TestPlugin', 'value' => 5],
+                    ['idarchive' => 8, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'TestPlugin_metric2', 'value' => 5],
+
+                    ['idarchive' => 9, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done.TestPlugin', 'value' => 5],
+                    ['idarchive' => 9, 'idsite' => 1, 'period' => 5, 'date1' => '2020-03-03', 'date2' => '2020-03-09', 'name' => 'TestPlugin_blob2', 'value' => 'slkdjf 6', 'is_blob_data' => true],
+                ],
+                ['TestPlugin_metric', 'TestPlugin_blob', 'TestPlugin_blob5'],
+                [
+                    'idArchives' => [3, 2, 1],
+                    'visits' => false,
+                    'visitsConverted' => false,
+                    'archiveExists' => true,
+                    'doneFlagValue' => false,
+                    'existingRecords' => ['TestPlugin_metric', 'TestPlugin_blob'],
+                ],
             ],
         ];
     }
