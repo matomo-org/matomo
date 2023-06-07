@@ -66,8 +66,8 @@ class CoreHome extends \Piwik\Plugin
         $archiveInvalidator = StaticContainer::get(ArchiveInvalidator::class);
         $cacheGeneral[ArchiveInvalidator::TRACKER_CACHE_KEY] = $archiveInvalidator->getAllRememberToInvalidateArchivedReportsLater();
 
-        $hasIndex = DbHelper::tableHasIndex(Common::prefixTable('log_visit'), 'index_idsite_idvisitor');
-        $cacheGeneral[TrackerModel::CACHE_KEY_INDEX_IDSITE_IDVISITOR] = $hasIndex;
+        $hasIndex = DbHelper::tableHasIndex(Common::prefixTable('log_visit'), 'index_idsite_idvisitor_time');
+        $cacheGeneral[TrackerModel::CACHE_KEY_INDEX_IDSITE_IDVISITOR_TIME] = $hasIndex;
     }
 
     public function addStylesheets(&$mergedContent)

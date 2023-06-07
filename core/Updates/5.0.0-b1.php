@@ -13,6 +13,7 @@ namespace Piwik\Updates;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Db;
 use Piwik\Common;
+use Piwik\DbHelper;
 use Piwik\SettingsPiwik;
 use Piwik\Updater;
 use Piwik\Updater\Migration\Db as DbAlias;
@@ -32,6 +33,7 @@ class Updates_5_0_0_b1 extends PiwikUpdates
     private $migration;
     private $tableName;
     private $indexName;
+    private $newIndexName;
 
     public function __construct(Factory $factory)
     {
@@ -39,6 +41,7 @@ class Updates_5_0_0_b1 extends PiwikUpdates
 
         $this->tableName = Common::prefixTable('log_visit');
         $this->indexName = 'index_idsite_idvisitor';
+        $this->newIndexName = 'index_idsite_idvisitor_time';
     }
 
     public function doUpdate(Updater $updater)
@@ -60,11 +63,7 @@ class Updates_5_0_0_b1 extends PiwikUpdates
             $migrations[] = $populatePagesBefore;
         }
 
-        if ($this->requiresUpdatedLogVisitTableIndex()) {
-            return $this->getLogVisitTableMigrations($migrations);
-        }
-
-        return $migrations;
+        return $this->appendLogVisitTableMigrations($migrations);
     }
 
     private function getUpdateArchiveIndexMigrations()
@@ -86,28 +85,34 @@ class Updates_5_0_0_b1 extends PiwikUpdates
         return $migrations;
     }
 
-    private function getLogVisitTableMigrations($migrations)
+    private function appendLogVisitTableMigrations($migrations)
     {
-        $migrations[] = $this->migration->db->dropIndex('log_visit', $this->indexName);
-
-        // Using the custom `sql` method instead of the `addIndex` method as it doesn't support DESC collation
-        $migrations[] = $this->migration->db->sql(
-            "ALTER TABLE `{$this->tableName}` ADD INDEX `{$this->indexName}` (`idsite`, `idvisitor`, `visit_last_action_time` DESC)",
-            [DbAlias::ERROR_CODE_DUPLICATE_KEY, DbAlias::ERROR_CODE_KEY_COLUMN_NOT_EXISTS]
-        );
+        if ($this->hasNewIndex()) {
+            // correct index already exists, so don't perform anything
+        } else if ($this->hasCorrectlySetOldIndex() && $this->doesMySQLSupportRenameIndex()) {
+            // already existing index has the correct fields and mysql supports renaming an index, so we simply rename it
+            $migrations[] = $this->migration->db->sql("ALTER TABLE `{$this->tableName}` RENAME INDEX `{$this->indexName}` TO `{$this->newIndexName}`");
+        } else {
+            // create the new index and drop the old one otherwise, as we either can't rename the existing index, or the old one isn't correct
+            $migrations[] = $this->migration->db->sql(
+                "ALTER TABLE `{$this->tableName}` ADD INDEX `{$this->newIndexName}` (`idsite`, `idvisitor`, `visit_last_action_time` DESC)",
+                [DbAlias::ERROR_CODE_DUPLICATE_KEY, DbAlias::ERROR_CODE_KEY_COLUMN_NOT_EXISTS]
+            );
+            $migrations[] = $this->migration->db->dropIndex('log_visit', $this->indexName);
+        }
 
         return $migrations;
     }
 
-    private function requiresUpdatedLogVisitTableIndex()
+    private function hasCorrectlySetOldIndex(): bool
     {
         $sql = "SHOW INDEX FROM `{$this->tableName}` WHERE Key_name = '{$this->indexName}'";
 
         $result = Db::fetchAll($sql);
 
         if (empty($result)) {
-            // No index present - should be added
-            return true;
+            // No index present
+            return false;
         }
 
         // Check that the $result contains all the required column names. This is required as there was a previous index
@@ -116,10 +121,20 @@ class Updates_5_0_0_b1 extends PiwikUpdates
         $diff = array_diff(['idsite', 'idvisitor', 'visit_last_action_time'], array_column($result, 'Column_name'));
 
         if (!$diff) {
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
+    }
+
+    private function hasNewIndex(): bool
+    {
+        return DbHelper::tableHasIndex($this->tableName, $this->newIndexName);
+    }
+
+    private function doesMySQLSupportRenameIndex(): bool
+    {
+        return version_compare(Db::get()->getServerVersion(), '5.7', '>=');
     }
 
 }
