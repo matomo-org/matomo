@@ -201,6 +201,11 @@ class LogAggregator
         $this->queryOriginHint = $nameOfOrigin;
     }
 
+    public function getQueryOriginHint()
+    {
+        return $this->queryOriginHint;
+    }
+
     public function getSegmentTmpTableName()
     {
         $bind = $this->getGeneralQueryBindParams();

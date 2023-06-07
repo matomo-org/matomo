@@ -1057,7 +1057,23 @@ class LoaderTest extends IntegrationTestCase
 
         $archiveInfo = $loader->loadExistingArchiveIdFromDb();
 
-        $this->assertEquals([false, false, false, false, false, false], $archiveInfo);
+        // unset numeric index keys kept for BC
+        unset($archiveInfo[0]);
+        unset($archiveInfo[1]);
+        unset($archiveInfo[2]);
+        unset($archiveInfo[3]);
+        unset($archiveInfo[4]);
+        unset($archiveInfo[5]);
+
+        $this->assertEquals([
+            'idArchives' => false,
+            'visits' => false,
+            'visitsConverted' => false,
+            'archiveExists' => false,
+            'doneFlagValue' => false,
+            'tsArchived' => false,
+            'existingRecords' => null,
+        ], $archiveInfo);
     }
 
     /**
@@ -1073,17 +1089,48 @@ class LoaderTest extends IntegrationTestCase
 
         $archiveInfo = $loader->loadExistingArchiveIdFromDb();
 
-        $this->assertNotEmpty($archiveInfo[4]);
-        $this->assertLessThanOrEqual(time(), strtotime($archiveInfo[4]));
-        unset($archiveInfo[4]);
-        $archiveInfo = array_values($archiveInfo);
+        $this->assertNotEmpty($archiveInfo['tsArchived']);
+        $this->assertLessThanOrEqual(time(), strtotime($archiveInfo['tsArchived']));
 
-        $this->assertNotEquals([false, false, false, false, false, false], $archiveInfo);
+        unset($archiveInfo['tsArchived']);
+
+        // unset numeric index keys kept for BC
+        unset($archiveInfo[0]);
+        unset($archiveInfo[1]);
+        unset($archiveInfo[2]);
+        unset($archiveInfo[3]);
+        unset($archiveInfo[4]);
+        unset($archiveInfo[5]);
+
+        $this->assertEquals([
+            'idArchives' => [1],
+            'visits' => 10,
+            'visitsConverted' => 0,
+            'archiveExists' => true,
+            'doneFlagValue' => 1,
+            'existingRecords' => null,
+        ], $archiveInfo);
 
         Config::getInstance()->Debug[$configSetting] = 1;
 
         $archiveInfo = $loader->loadExistingArchiveIdFromDb();
-        $this->assertEquals([false, false, false, false, false, false], $archiveInfo);
+
+        // unset numeric index keys kept for BC
+        unset($archiveInfo[0]);
+        unset($archiveInfo[1]);
+        unset($archiveInfo[2]);
+        unset($archiveInfo[3]);
+        unset($archiveInfo[4]);
+        unset($archiveInfo[5]);
+
+        $this->assertEquals([
+            'idArchives' => false,
+            'visits' => false,
+            'visitsConverted' => false,
+            'archiveExists' => false,
+            'doneFlagValue' => false,
+            'tsArchived' => false,
+        ], $archiveInfo);
     }
 
     public function getTestDataForLoadExistingArchiveIdFromDbDebugConfig()
@@ -1106,11 +1153,25 @@ class LoaderTest extends IntegrationTestCase
 
         $archiveInfo = $loader->loadExistingArchiveIdFromDb();
 
-        $this->assertNotEmpty($archiveInfo[4]);
-        unset($archiveInfo[4]);
-        $archiveInfo = array_values($archiveInfo);
+        $this->assertNotEmpty($archiveInfo['tsArchived']);
+        unset($archiveInfo['tsArchived']);
 
-        $this->assertEquals([['1'], '10', '0', true, '1'], $archiveInfo);
+        // unset numeric index keys kept for BC
+        unset($archiveInfo[0]);
+        unset($archiveInfo[1]);
+        unset($archiveInfo[2]);
+        unset($archiveInfo[3]);
+        unset($archiveInfo[4]);
+        unset($archiveInfo[5]);
+
+        $this->assertEquals([
+            'idArchives' => ['1'],
+            'visits' => '10',
+            'visitsConverted' => '0',
+            'archiveExists' => true,
+            'doneFlagValue' => '1',
+            'existingRecords' => null,
+        ], $archiveInfo);
     }
 
     public function test_loadExistingArchiveIdFromDb_returnsArchiveIfForACurrentPeriod_AndNewEnough()
@@ -1122,11 +1183,25 @@ class LoaderTest extends IntegrationTestCase
 
         $archiveInfo = $loader->loadExistingArchiveIdFromDb();
 
-        $this->assertNotEmpty($archiveInfo[4]);
-        unset($archiveInfo[4]);
-        $archiveInfo = array_values($archiveInfo);
+        $this->assertNotEmpty($archiveInfo['tsArchived']);
+        unset($archiveInfo['tsArchived']);
 
-        $this->assertEquals([['1'], '10', '0', true, '1'], $archiveInfo);
+        // unset numeric index keys kept for BC
+        unset($archiveInfo[0]);
+        unset($archiveInfo[1]);
+        unset($archiveInfo[2]);
+        unset($archiveInfo[3]);
+        unset($archiveInfo[4]);
+        unset($archiveInfo[5]);
+
+        $this->assertEquals([
+            'idArchives' => ['1'],
+            'visits' => '10',
+            'visitsConverted' => '0',
+            'archiveExists' => true,
+            'doneFlagValue' => '1',
+            'existingRecords' => null,
+        ], $archiveInfo);
     }
 
     public function test_loadExistingArchiveIdFromDb_returnsNoArchiveIfForACurrentPeriod_AndNoneAreNewEnough()
@@ -1138,11 +1213,25 @@ class LoaderTest extends IntegrationTestCase
 
         $archiveInfo = $loader->loadExistingArchiveIdFromDb();
 
-        $this->assertNotEmpty($archiveInfo[4]);
-        unset($archiveInfo[4]);
-        $archiveInfo = array_values($archiveInfo);
+        $this->assertNotEmpty($archiveInfo['tsArchived']);
+        unset($archiveInfo['tsArchived']);
 
-        $this->assertEquals([false, '10', '0', true, '1'], $archiveInfo); // visits are still returned as this was the original behavior
+        // unset numeric index keys kept for BC
+        unset($archiveInfo[0]);
+        unset($archiveInfo[1]);
+        unset($archiveInfo[2]);
+        unset($archiveInfo[3]);
+        unset($archiveInfo[4]);
+        unset($archiveInfo[5]);
+
+        $this->assertEquals([
+            'idArchives' => false,
+            'visits' => '10',
+            'visitsConverted' => '0',
+            'archiveExists' => true,
+            'doneFlagValue' => '1',
+            'existingRecords' => null,
+        ], $archiveInfo); // visits are still returned as this was the original behavior
     }
 
     /**

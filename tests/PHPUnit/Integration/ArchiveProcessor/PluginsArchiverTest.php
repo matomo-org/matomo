@@ -89,6 +89,8 @@ class PluginsArchiverTest extends IntegrationTestCase
 
     public function test_archiveMultipleSites()
     {
+        self::expectNotToPerformAssertions();
+
         Piwik::addAction('ArchiveProcessor.Parameters.getIdSites', function (&$idSites, $period) {
             if (count($idSites) === 1 && reset($idSites) === 1) {
                 $idSites = array(2,3);
@@ -105,7 +107,5 @@ class PluginsArchiverTest extends IntegrationTestCase
         $this->pluginsArchiver = new PluginsArchiver($this->createArchiveProcessorParameters());
         $this->pluginsArchiver->callAggregateCoreMetrics();
         $this->pluginsArchiver->callAggregateAllPlugins(1, 1, $forceArchivingWithoutVisits = true);
-
-        $this->assertTrue(true); // pass
     }
 }

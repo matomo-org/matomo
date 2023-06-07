@@ -436,20 +436,21 @@ class Archive implements ArchiveQuery
     }
 
     /**
-     * Returns the list of plugins that archive the given reports.
+     * Returns the given reports grouped by the plugin name that archives them.
      *
      * @param array $archiveNames
-     * @return array
+     * @return array `['MyPlugin' => ['MyPlugin_metric1', 'MyPlugin_report1'], ...]`
      */
     private function getRequestedPlugins($archiveNames)
     {
         $result = [];
 
         foreach ($archiveNames as $name) {
-            $result[] = self::getPluginForReport($name);
+            $plugin = self::getPluginForReport($name);
+            $result[$plugin][] = $name;
         }
 
-        return array_unique($result);
+        return array_map('array_unique', $result);
     }
 
     /**
@@ -601,7 +602,8 @@ class Archive implements ArchiveQuery
      */
     private function getArchiveIds($archiveNames)
     {
-        $plugins = $this->getRequestedPlugins($archiveNames);
+        $archiveNamesByPlugin = $this->getRequestedPlugins($archiveNames);
+        $plugins = array_keys($archiveNamesByPlugin);
 
         // figure out which archives haven't been processed (if an archive has been processed,
         // then we have the archive IDs in $this->idarchives)
@@ -627,15 +629,13 @@ class Archive implements ArchiveQuery
         $globalDoneFlag = Rules::getDoneFlagArchiveContainsAllPlugins($this->params->getSegment());
         $doneFlags[$globalDoneFlag] = true;
 
-        $archiveGroups = array_unique($archiveGroups);
-
         // cache id archives for plugins we haven't processed yet
         if (!empty($archiveGroups)) {
             if (
                 Rules::isArchivingEnabledFor($this->params->getIdSites(), $this->params->getSegment(), $this->getPeriodLabel())
                 && !$this->forceFetchingWithoutLaunchingArchiving
             ) {
-                $this->cacheArchiveIdsAfterLaunching($archiveGroups, $plugins);
+                $this->cacheArchiveIdsAfterLaunching($archiveNamesByPlugin);
             } else {
                 $this->cacheArchiveIdsWithoutLaunching($plugins);
             }
@@ -651,10 +651,9 @@ class Archive implements ArchiveQuery
      * This function will launch the archiving process for each period/site/plugin if
      * metrics/reports have not been calculated/archived already.
      *
-     * @param array $archiveGroups @see getArchiveGroupOfReport
-     * @param array $plugins List of plugin names to archive.
+     * @param array $archiveNamesByPlugin @see getRequestedPlugins
      */
-    private function cacheArchiveIdsAfterLaunching($archiveGroups, $plugins)
+    private function cacheArchiveIdsAfterLaunching($archiveNamesByPlugin)
     {
         foreach ($this->params->getPeriods() as $period) {
             $twoDaysAfterPeriod = $period->getDateEnd()->addDay(2);
@@ -697,7 +696,7 @@ class Archive implements ArchiveQuery
                     continue;
                 }
 
-                $this->prepareArchive($archiveGroups, $site, $period);
+                $this->prepareArchive($archiveNamesByPlugin, $site, $period);
             }
         }
     }
@@ -744,6 +743,15 @@ class Archive implements ArchiveQuery
      */
     private function getDoneStringForPlugin($plugin, $idSites)
     {
+        $requestedReport = $this->getRequestedReport();
+
+        $shouldOnlyProcessRequestedArchives = empty($requestedReport)
+            && Rules::shouldProcessOnlyReportsRequestedInArchiveQuery($this->getPeriodLabel());
+
+        if ($shouldOnlyProcessRequestedArchives) {
+            return Rules::getDoneFlagArchiveContainsOnePlugin($this->params->getSegment(), $plugin);
+        }
+
         return Rules::getDoneStringFlagFor(
             $idSites,
             $this->params->getSegment(),
@@ -881,18 +889,18 @@ class Archive implements ArchiveQuery
     }
 
     /**
-     * @param $archiveGroups
+     * @param $archiveNamesByPlugin
      * @param $site
      * @param $period
      */
-    private function prepareArchive(array $archiveGroups, Site $site, Period $period)
+    private function prepareArchive(array $archiveNamesByPlugin, Site $site, Period $period)
     {
         $coreAdminHomeApi = API::getInstance();
 
-        $requestedReport = null;
-        if (SettingsServer::isArchivePhpTriggered()) {
-            $requestedReport = Common::getRequestVar('requestedReport', '', 'string');
-        }
+        $requestedReport = $this->getRequestedReport();
+
+        $shouldOnlyProcessRequestedArchives = empty($requestedReport)
+            && Rules::shouldProcessOnlyReportsRequestedInArchiveQuery($period->getLabel());
 
         $periodString = $period->getRangeString();
         $periodDateStr = $period->getLabel() == 'range' ? $periodString : $period->getDateStart()->toString();
@@ -900,9 +908,11 @@ class Archive implements ArchiveQuery
         $idSites = [$site->getId()];
 
         // process for each plugin as well
-        foreach ($archiveGroups as $plugin) {
+        foreach ($archiveNamesByPlugin as $plugin => $archiveNames) {
             $doneFlag = $this->getDoneStringForPlugin($plugin, $idSites);
             $this->initializeArchiveIdCache($doneFlag);
+
+            $reportsToArchiveForThisPlugin = (empty($requestedReport) && $shouldOnlyProcessRequestedArchives) ? $archiveNames : $requestedReport;
 
             $prepareResult = $coreAdminHomeApi->archiveReports(
                 $site->getId(),
@@ -910,7 +920,7 @@ class Archive implements ArchiveQuery
                 $periodDateStr,
                 $this->params->getSegment()->getOriginalString(),
                 $plugin,
-                $requestedReport
+                $reportsToArchiveForThisPlugin
             );
 
             if (
@@ -918,7 +928,11 @@ class Archive implements ArchiveQuery
                 && !empty($prepareResult['idarchives'])
             ) {
                 foreach ($prepareResult['idarchives'] as $idArchive) {
-                    $this->idarchives[$doneFlag][$periodString][] = $idArchive;
+                    if (empty($this->idarchives[$doneFlag][$periodString])
+                        || !in_array($idArchive, $this->idarchives[$doneFlag][$periodString])
+                    ) {
+                        $this->idarchives[$doneFlag][$periodString][] = $idArchive;
+                    }
                 }
             }
         }
@@ -955,5 +969,14 @@ class Archive implements ArchiveQuery
     public function forceFetchingWithoutLaunchingArchiving()
     {
         $this->forceFetchingWithoutLaunchingArchiving = true;
+    }
+
+    private function getRequestedReport(): ?string
+    {
+        $requestedReport = null;
+        if (SettingsServer::isArchivePhpTriggered()) {
+            $requestedReport = Request::fromRequest()->getStringParameter('requestedReport', '');
+        }
+        return $requestedReport;
     }
 }
