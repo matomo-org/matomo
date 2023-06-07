@@ -75,6 +75,7 @@ plugins/*/vue/dist/** linguist-generated
 plugins/Intl/lang/* linguist-generated
 # + vendor code: exclude
 libs/** linguist-vendored
+node_modules/** linguist-vendored
 plugins/*/libs/** linguist-vendored
 tests/lib/** linguist-vendored
 tests/javascript/assets/** linguist-vendored
