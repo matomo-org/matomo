@@ -102,11 +102,13 @@ class TranslatorTest extends \PHPUnit\Framework\TestCase
             [[], 'en', ''],
             [['1'], 'en', '1'],
             [['1', '2'], 'en', '1 and 2'],
+            [['1', '2'], 'cs', '1 a 2'],
             [['1', '2'], 'de', '1 und 2'],
             // note: we currently use (american) english, so a comma before the and is correct
             // british english doesn't have that
             [['1', '2', '3'], 'en', '1, 2, and 3'],
             [['1', '2', '3', '4'], 'en', '1, 2, 3, and 4'],
+            [['1', '2', '3'], 'cs', '1, 2 a 3'],
             [['1', '2', '3'], 'de', '1, 2 und 3'],
             [['1', '2', '3', '4'], 'de', '1, 2, 3 und 4'],
             [['1', '2', '3', '4'], 'am', '1፣ 2፣ 3, እና 4'],
@@ -129,11 +131,13 @@ class TranslatorTest extends \PHPUnit\Framework\TestCase
             [[], 'en', ''],
             [['1'], 'en', '1'],
             [['1', '2'], 'en', '1 or 2'],
+            [['1', '2'], 'cs', '1 nebo 2'],
             [['1', '2'], 'de', '1 oder 2'],
             // note: we currently use (american) english, so a comma before the or is correct
             // british english doesn't have that
             [['1', '2', '3'], 'en', '1, 2, or 3'],
             [['1', '2', '3', '4'], 'en', '1, 2, 3, or 4'],
+            [['1', '2', '3'], 'cs', '1, 2 nebo 3'],
             [['1', '2', '3'], 'de', '1, 2 oder 3'],
             [['1', '2', '3', '4'], 'de', '1, 2, 3 oder 4'],
             [['1', '2', '3', '4'], 'am', '1፣ 2፣ 3፣ ወይም 4'],
