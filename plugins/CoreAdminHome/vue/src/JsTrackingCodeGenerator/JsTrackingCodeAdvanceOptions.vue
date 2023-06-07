@@ -1,14 +1,21 @@
 <template>
-  <h3>{{ translate('Mobile_Advanced') }}</h3>
+  <hr style="margin-bottom: -1rem;">
+  <div>
+    <span>
+      <h3 style="display: inline-block; font-weight: bold">
+        {{ translate('CoreAdminHome_AdvancedOptions') }}
+      </h3>
+    </span>&nbsp;&nbsp;
+    <span>
+      <a href="javascript:;"
+         v-if="!showAdvanced"
+         @click.prevent="showAdvanced = true">{{ translate('General_Show') }}</a>
+      <a href="javascript:;"
+           v-if="showAdvanced"
+           @click.prevent="showAdvanced = false">{{ translate('General_Hide') }}</a>
+    </span>
+  </div>
 
-  <p>
-    <a href="javascript:;"
-       v-show="!showAdvanced"
-       @click.prevent="showAdvanced = true">{{ translate('General_Show') }}</a>
-    <a href="javascript:;"
-       v-show="showAdvanced"
-       @click.prevent="showAdvanced = false">{{ translate('General_Hide') }}</a>
-  </p>
   <div id="javascript-advanced-options" v-show="showAdvanced">
     <div id="optional-js-tracking-options">
       <!-- track across all subdomains -->
