@@ -2,9 +2,9 @@
 <p>{{ 'SitesManager_SiteWithoutDataReactIntro'|translate }}</p>
 <br>
 <p>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStepsIntro'|translate }}</p>
-<ol class="list-style-decimal"">
+<ol class="list-style-decimal">
     <li>{{ 'SitesManager_SiteWithoutDataReactFollowStep1'|translate('<strong>', '</strong>')|raw }}</li>
-    <li>{{ 'SitesManager_SiteWithoutDataReactFollowStep2'|translate }}<div>{{ postEvent('Template.embedReactTagManagerTrackingCode', '<li>' ~ step3Content ~ '</li>') }}</div></li>
+    {{ postEvent('Template.embedReactTagManagerTrackingCode', '<li>' ~ 'SitesManager_SiteWithoutDataReactFollowStep2'|translate ~ '</li>', '<li>' ~ step3Content ~ '</li>') }}
 </ol>
 <br>
 <p>{{ 'SitesManager_SiteWithoutDataReactFollowStepCompleted'|translate('<strong>', '</strong>')|raw }}</p>

@@ -254,8 +254,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if ($this->siteContentDetector->jsFramework === SitesManager::JS_FRAMEWORK_VUE) {
             $templateData['vue3Code'] = $this->getVueInitializeCode(3);
             $templateData['vue2Code'] = $this->getVueInitializeCode(2);
-        } else if ($this->siteContentDetector->jsFramework === SitesManager::JS_FRAMEWORK_REACT) {
-            $templateData['reactCode'] = $this->getReactCode();
         }
 
         return $this->renderTemplateAs('_siteWithoutDataTabs', $templateData, $viewType = 'basic');
@@ -338,11 +336,5 @@ new Vue({
 
 window._paq.push(['trackPageView']); // To track a page view
 INST;
-    }
-
-    private function getReactCode()
-    {
-        $request = \Piwik\Request::fromRequest();
-        $siteId = $request->getIntegerParameter('idSite', 1);
     }
 }
