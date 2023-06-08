@@ -181,6 +181,7 @@
         "GoogleTagManagerDescription": "If your website is using Google Tag Manager, please see %1$sthis guide%2$s.",
         "WordpressDescription": "If your website is using Wordpress, please see %1$sthis guide%2$s.",
         "VueDescription": "If your website is using Vue.js, please see %1$sthis guide%2$s.",
-        "AdvancedOptions": "Advanced options"
+        "ShowAdvancedOptions": "Show advanced options",
+        "HideAdvancedOptions": "Hide advanced options"
     }
 }

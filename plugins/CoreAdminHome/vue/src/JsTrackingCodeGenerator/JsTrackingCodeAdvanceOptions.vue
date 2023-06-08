@@ -1,216 +1,219 @@
 <template>
-  <hr style="margin-bottom: -1rem;">
-  <div>
-    <span>
-      <h3 style="display: inline-block; font-weight: bold">
-        {{ translate('CoreAdminHome_AdvancedOptions') }}
-      </h3>
-    </span>&nbsp;&nbsp;
+  <div class="trackingCodeAdvanceOptions">
+    <div class="advance-option">
     <span>
       <a href="javascript:;"
          v-if="!showAdvanced"
-         @click.prevent="showAdvanced = true">{{ translate('General_Show') }}</a>
+         @click.prevent="showAdvanced = true">
+        {{ translate('CoreAdminHome_ShowAdvancedOptions') }}
+        <span class="chevron chevron-down"></span>
+      </a>
       <a href="javascript:;"
-           v-if="showAdvanced"
-           @click.prevent="showAdvanced = false">{{ translate('General_Hide') }}</a>
+         v-if="showAdvanced"
+         @click.prevent="showAdvanced = false">
+        {{ translate('CoreAdminHome_HideAdvancedOptions') }}
+        <span class="chevron chevron-up"></span>
+      </a>
     </span>
-  </div>
+    </div>
 
-  <div id="javascript-advanced-options" v-show="showAdvanced">
-    <div id="optional-js-tracking-options">
-      <!-- track across all subdomains -->
-      <div id="jsTrackAllSubdomainsInlineHelp" class="inline-help-node">
-        <span v-html="$sanitize(mergeSubdomainsDesc)"></span>
-        <span v-html="$sanitize(learnMoreText)"></span>
+    <div id="javascript-advanced-options" v-show="showAdvanced">
+      <div id="optional-js-tracking-options">
+        <!-- track across all subdomains -->
+        <div id="jsTrackAllSubdomainsInlineHelp" class="inline-help-node">
+          <span v-html="$sanitize(mergeSubdomainsDesc)"></span>
+          <span v-html="$sanitize(learnMoreText)"></span>
+        </div>
+
+        <Field
+          uicontrol="checkbox"
+          name="javascript-tracking-all-subdomains"
+          :model-value="trackAllSubdomains"
+          @update:model-value="trackAllSubdomains = $event; updateTrackingCode(this.site)"
+          :disabled="isLoading"
+          :title="`${translate(
+            'CoreAdminHome_JSTracking_MergeSubdomains',
+          )} ${currentSiteName}`"
+          inline-help="#jsTrackAllSubdomainsInlineHelp"
+        />
+      </div>
+
+      <!-- group page titles by site domain -->
+      <div id="jsTrackGroupByDomainInlineHelp" class="inline-help-node">
+        {{ translate('CoreAdminHome_JSTracking_GroupPageTitlesByDomainDesc1', currentSiteHost) }}
       </div>
 
       <Field
         uicontrol="checkbox"
-        name="javascript-tracking-all-subdomains"
-        :model-value="trackAllSubdomains"
-        @update:model-value="trackAllSubdomains = $event; updateTrackingCode(this.site)"
+        name="javascript-tracking-group-by-domain"
+        :model-value="groupByDomain"
+        @update:model-value="groupByDomain = $event; updateTrackingCode(this.site)"
         :disabled="isLoading"
-        :title="`${translate(
-            'CoreAdminHome_JSTracking_MergeSubdomains',
-          )} ${currentSiteName}`"
-        inline-help="#jsTrackAllSubdomainsInlineHelp"
+        :title="translate('CoreAdminHome_JSTracking_GroupPageTitlesByDomain')"
+        inline-help="#jsTrackGroupByDomainInlineHelp"
       />
-    </div>
 
-    <!-- group page titles by site domain -->
-    <div id="jsTrackGroupByDomainInlineHelp" class="inline-help-node">
-      {{ translate('CoreAdminHome_JSTracking_GroupPageTitlesByDomainDesc1', currentSiteHost) }}
-    </div>
+      <!-- track across all site aliases -->
+      <div id="jsTrackAllAliasesInlineHelp" class="inline-help-node">
+        {{ translate('CoreAdminHome_JSTracking_MergeAliasesDesc', currentSiteAlias) }}
+      </div>
 
-    <Field
-      uicontrol="checkbox"
-      name="javascript-tracking-group-by-domain"
-      :model-value="groupByDomain"
-      @update:model-value="groupByDomain = $event; updateTrackingCode(this.site)"
-      :disabled="isLoading"
-      :title="translate('CoreAdminHome_JSTracking_GroupPageTitlesByDomain')"
-      inline-help="#jsTrackGroupByDomainInlineHelp"
-    />
+      <Field
+        uicontrol="checkbox"
+        name="javascript-tracking-all-aliases"
+        :model-value="trackAllAliases"
+        @update:model-value="trackAllAliases = $event; updateTrackingCode(this.site)"
+        :disabled="isLoading"
+        :title="`${translate('CoreAdminHome_JSTracking_MergeAliases')} ${currentSiteName}`"
+        inline-help="#jsTrackAllAliasesInlineHelp"
+      />
 
-    <!-- track across all site aliases -->
-    <div id="jsTrackAllAliasesInlineHelp" class="inline-help-node">
-      {{ translate('CoreAdminHome_JSTracking_MergeAliasesDesc', currentSiteAlias) }}
-    </div>
+      <Field
+        uicontrol="checkbox"
+        name="javascript-tracking-noscript"
+        :model-value="trackNoScript"
+        @update:model-value="trackNoScript = $event; updateTrackingCode(this.site)"
+        :disabled="isLoading"
+        :title="translate('CoreAdminHome_JSTracking_TrackNoScript')"
+      />
 
-    <Field
-      uicontrol="checkbox"
-      name="javascript-tracking-all-aliases"
-      :model-value="trackAllAliases"
-      @update:model-value="trackAllAliases = $event; updateTrackingCode(this.site)"
-      :disabled="isLoading"
-      :title="`${translate('CoreAdminHome_JSTracking_MergeAliases')} ${currentSiteName}`"
-      inline-help="#jsTrackAllAliasesInlineHelp"
-    />
+      <!-- visitor custom variable -->
+      <Field
+        uicontrol="checkbox"
+        name="javascript-tracking-visitor-cv-check"
+        :model-value="trackCustomVars"
+        @update:model-value="trackCustomVars = $event; updateTrackingCode(this.site)"
+        :disabled="isLoading"
+        :title="translate('CoreAdminHome_JSTracking_VisitorCustomVars')"
+        :inline-help="translate('CoreAdminHome_JSTracking_VisitorCustomVarsDesc')"
+      />
 
-    <Field
-      uicontrol="checkbox"
-      name="javascript-tracking-noscript"
-      :model-value="trackNoScript"
-      @update:model-value="trackNoScript = $event; updateTrackingCode(this.site)"
-      :disabled="isLoading"
-      :title="translate('CoreAdminHome_JSTracking_TrackNoScript')"
-    />
-
-    <!-- visitor custom variable -->
-    <Field
-      uicontrol="checkbox"
-      name="javascript-tracking-visitor-cv-check"
-      :model-value="trackCustomVars"
-      @update:model-value="trackCustomVars = $event; updateTrackingCode(this.site)"
-      :disabled="isLoading"
-      :title="translate('CoreAdminHome_JSTracking_VisitorCustomVars')"
-      :inline-help="translate('CoreAdminHome_JSTracking_VisitorCustomVarsDesc')"
-    />
-
-    <div id="javascript-tracking-visitor-cv" v-show="trackCustomVars">
-      <div class="row">
-        <div class="col s12 m3">
-          {{ translate('General_Name') }}
+      <div id="javascript-tracking-visitor-cv" v-show="trackCustomVars">
+        <div class="row">
+          <div class="col s12 m3">
+            {{ translate('General_Name') }}
+          </div>
+          <div class="col s12 m3">
+            {{ translate('General_Value') }}
+          </div>
         </div>
-        <div class="col s12 m3">
-          {{ translate('General_Value') }}
+        <div class="row" v-for="(customVar, index) in customVars" :key="index">
+          <div class="col s12 m6 l3">
+            <input type="text" class="custom-variable-name"
+                   @keydown="onCustomVarNameKeydown($event, index)"
+                   placeholder="e.g. Type"/>
+          </div>
+          <div class="col s12 m6 l3">
+            <input type="text" class="custom-variable-value"
+                   @keydown="onCustomVarValueKeydown($event, index)"
+                   placeholder="e.g. Customer"/>
+          </div>
+        </div>
+        <div class="row" v-show="canAddMoreCustomVariables">
+          <div class="col s12">
+            <a href="javascript:;"
+               @click="addCustomVar()"
+               class="add-custom-variable"
+            >
+              <span class="icon-add"></span> {{ translate('General_Add') }}
+            </a>
+          </div>
         </div>
       </div>
-      <div class="row" v-for="(customVar, index) in customVars" :key="index">
-        <div class="col s12 m6 l3">
-          <input type="text" class="custom-variable-name"
-                 @keydown="onCustomVarNameKeydown($event, index)"
-                 placeholder="e.g. Type"/>
-        </div>
-        <div class="col s12 m6 l3">
-          <input type="text" class="custom-variable-value"
-                 @keydown="onCustomVarValueKeydown($event, index)"
-                 placeholder="e.g. Customer"/>
-        </div>
-      </div>
-      <div class="row" v-show="canAddMoreCustomVariables">
-        <div class="col s12">
-          <a href="javascript:;"
-             @click="addCustomVar()"
-             class="add-custom-variable"
-          >
-            <span class="icon-add"></span> {{ translate('General_Add') }}
-          </a>
-        </div>
-      </div>
-    </div>
 
-    <!-- cross domain support -->
-    <div id="jsCrossDomain" class="inline-help-node">
-      {{ translate('CoreAdminHome_JSTracking_CrossDomain') }}
-      <br/>
-      {{ translate('CoreAdminHome_JSTracking_CrossDomain_NeedsMultipleDomains') }}
-    </div>
+      <!-- cross domain support -->
+      <div id="jsCrossDomain" class="inline-help-node">
+        {{ translate('CoreAdminHome_JSTracking_CrossDomain') }}
+        <br/>
+        {{ translate('CoreAdminHome_JSTracking_CrossDomain_NeedsMultipleDomains') }}
+      </div>
 
-    <Field
-      uicontrol="checkbox"
-      name="javascript-tracking-cross-domain"
-      :model-value="crossDomain"
-      @update:model-value="crossDomain = $event;
+      <Field
+        uicontrol="checkbox"
+        name="javascript-tracking-cross-domain"
+        :model-value="crossDomain"
+        @update:model-value="crossDomain = $event;
       updateTrackingCode(this.site); onCrossDomainToggle();"
-      :disabled="isLoading || !hasManySiteUrls"
-      :title="translate('CoreAdminHome_JSTracking_EnableCrossDomainLinking')"
-      inline-help="#jsCrossDomain"
-    />
+        :disabled="isLoading || !hasManySiteUrls"
+        :title="translate('CoreAdminHome_JSTracking_EnableCrossDomainLinking')"
+        inline-help="#jsCrossDomain"
+      />
 
-    <!-- do not track support -->
-    <div id="jsDoNotTrackInlineHelp" class="inline-help-node">
-      {{ translate('CoreAdminHome_JSTracking_EnableDoNotTrackDesc') }}
-      <span v-if="serverSideDoNotTrackEnabled">
+      <!-- do not track support -->
+      <div id="jsDoNotTrackInlineHelp" class="inline-help-node">
+        {{ translate('CoreAdminHome_JSTracking_EnableDoNotTrackDesc') }}
+        <span v-if="serverSideDoNotTrackEnabled">
         <br/>
         {{ translate('CoreAdminHome_JSTracking_EnableDoNotTrack_AlreadyEnabled') }}
         </span>
-    </div>
+      </div>
 
-    <Field
-      uicontrol="checkbox"
-      name="javascript-tracking-do-not-track"
-      :model-value="doNotTrack"
-      @update:model-value="doNotTrack = $event; updateTrackingCode(this.site)"
-      :disabled="isLoading"
-      :title="translate('CoreAdminHome_JSTracking_EnableDoNotTrack')"
-      inline-help="#jsDoNotTrackInlineHelp"
-    />
+      <Field
+        uicontrol="checkbox"
+        name="javascript-tracking-do-not-track"
+        :model-value="doNotTrack"
+        @update:model-value="doNotTrack = $event; updateTrackingCode(this.site)"
+        :disabled="isLoading"
+        :title="translate('CoreAdminHome_JSTracking_EnableDoNotTrack')"
+        inline-help="#jsDoNotTrackInlineHelp"
+      />
 
-    <!-- disable all cookies options -->
-    <Field
-      uicontrol="checkbox"
-      name="javascript-tracking-disable-cookies"
-      :model-value="disableCookies"
-      @update:model-value="disableCookies = $event; updateTrackingCode(this.site)"
-      :disabled="isLoading"
-      :title="translate('CoreAdminHome_JSTracking_DisableCookies')"
-      :inline-help="translate('CoreAdminHome_JSTracking_DisableCookiesDesc')"
-    />
+      <!-- disable all cookies options -->
+      <Field
+        uicontrol="checkbox"
+        name="javascript-tracking-disable-cookies"
+        :model-value="disableCookies"
+        @update:model-value="disableCookies = $event; updateTrackingCode(this.site)"
+        :disabled="isLoading"
+        :title="translate('CoreAdminHome_JSTracking_DisableCookies')"
+        :inline-help="translate('CoreAdminHome_JSTracking_DisableCookiesDesc')"
+      />
 
-    <!-- custom campaign name/keyword query params -->
-    <div id="jsTrackCampaignParamsInlineHelp"
-         class="inline-help-node"
-         v-html="$sanitize(jsTrackCampaignParamsInlineHelp)">
-    </div>
+      <!-- custom campaign name/keyword query params -->
+      <div id="jsTrackCampaignParamsInlineHelp"
+           class="inline-help-node"
+           v-html="$sanitize(jsTrackCampaignParamsInlineHelp)">
+      </div>
 
-    <Field
-      uicontrol="checkbox"
-      name="custom-campaign-query-params-check"
-      :model-value="useCustomCampaignParams"
-      @update:model-value="useCustomCampaignParams = $event; updateTrackingCode(this.site)"
-      :disabled="isLoading"
-      :title="translate('CoreAdminHome_JSTracking_CustomCampaignQueryParam')"
-      inline-help="#jsTrackCampaignParamsInlineHelp"
-    />
+      <Field
+        uicontrol="checkbox"
+        name="custom-campaign-query-params-check"
+        :model-value="useCustomCampaignParams"
+        @update:model-value="useCustomCampaignParams = $event; updateTrackingCode(this.site)"
+        :disabled="isLoading"
+        :title="translate('CoreAdminHome_JSTracking_CustomCampaignQueryParam')"
+        inline-help="#jsTrackCampaignParamsInlineHelp"
+      />
 
-    <div v-show="useCustomCampaignParams" id="js-campaign-query-param-extra">
-      <div class="row">
-        <div class="col s12">
-          <Field
-            uicontrol="text"
-            name="custom-campaign-name-query-param"
-            :model-value="customCampaignName"
-            @update:model-value="customCampaignName = $event; updateTrackingCode(this.site)"
-            :disabled="isLoading"
-            :title="translate('CoreAdminHome_JSTracking_CampaignNameParam')"
-          />
+      <div v-show="useCustomCampaignParams" id="js-campaign-query-param-extra">
+        <div class="row">
+          <div class="col s12">
+            <Field
+              uicontrol="text"
+              name="custom-campaign-name-query-param"
+              :model-value="customCampaignName"
+              @update:model-value="customCampaignName = $event; updateTrackingCode(this.site)"
+              :disabled="isLoading"
+              :title="translate('CoreAdminHome_JSTracking_CampaignNameParam')"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s12">
+            <Field
+              uicontrol="text"
+              name="custom-campaign-keyword-query-param"
+              :model-value="customCampaignKeyword"
+              @update:model-value="customCampaignKeyword = $event; updateTrackingCode(this.site)"
+              :disabled="isLoading"
+              :title="translate('CoreAdminHome_JSTracking_CampaignKwdParam')"
+            />
+          </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col s12">
-          <Field
-            uicontrol="text"
-            name="custom-campaign-keyword-query-param"
-            :model-value="customCampaignKeyword"
-            @update:model-value="customCampaignKeyword = $event; updateTrackingCode(this.site)"
-            :disabled="isLoading"
-            :title="translate('CoreAdminHome_JSTracking_CampaignKwdParam')"
-          />
-        </div>
-      </div>
-    </div>
 
+    </div>
+    <hr v-if="showBottomHR" class="hr-bottom">
   </div>
 </template>
 <script lang="ts">
@@ -250,7 +253,7 @@ interface JsTrackingCodeGeneratorState {
   useCustomCampaignParams: boolean;
   customCampaignName: string;
   customCampaignKeyword: string;
-  trackingCodeAbortController: AbortController|null;
+  trackingCodeAbortController: AbortController | null;
   isHighlighting: boolean;
   consentManagerName: string;
   consentManagerUrl: string;
@@ -281,6 +284,7 @@ export default defineComponent({
     },
     maxCustomVariables: Number,
     serverSideDoNotTrackEnabled: Boolean,
+    showBottomHR: Boolean,
   },
   data(): JsTrackingCodeGeneratorState {
     return {

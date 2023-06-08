@@ -71,6 +71,7 @@
       :default-site="defaultSite"
       :max-custom-variables="maxCustomVariables"
       :server-side-do-not-track-enabled="serverSideDoNotTrackEnabled"
+      :showBottomHR="false"
       @updateTrackingCode="updateTrackingCode"
       ref="jsTrackingCodeAdvanceOption"/>
 
