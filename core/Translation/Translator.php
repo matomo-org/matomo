@@ -24,7 +24,7 @@ class Translator
      *
      * @var array
      */
-    private $translations = array();
+    private $translations = [];
 
     /**
      * @var string
@@ -41,21 +41,24 @@ class Translator
      *
      * @var string[]
      */
-    private $directories = array();
+    private $directories = [];
 
     /**
      * @var LoaderInterface
      */
     private $loader;
 
+    private const LIST_TYPE_AND = 'And';
+    private const LIST_TYPE_OR = 'Or';
+
     public function __construct(LoaderInterface $loader, array $directories = null)
     {
-        $this->loader = $loader;
+        $this->loader          = $loader;
         $this->currentLanguage = $this->getDefaultLanguage();
 
         if ($directories === null) {
             // TODO should be moved out of this class
-            $directories = array(PIWIK_INCLUDE_PATH . '/lang');
+            $directories = [PIWIK_INCLUDE_PATH . '/lang'];
         }
         $this->directories = $directories;
     }
@@ -75,20 +78,20 @@ class Translator
      * Returns an internationalized string using a translation ID. If a translation
      * cannot be found for the ID, the ID is returned.
      *
-     * @param string $translationId Translation ID, eg, `General_Date`.
-     * @param array|string|int $args `sprintf` arguments to be applied to the internationalized
-     *                               string.
-     * @param string|null $language Optionally force the language.
+     * @param string           $translationId Translation ID, eg, `General_Date`.
+     * @param array|string|int $args          `sprintf` arguments to be applied to the internationalized
+     *                                        string.
+     * @param string|null      $language      Optionally force the language.
      * @return string The translated string or `$translationId`.
      * @api
      */
-    public function translate($translationId, $args = array(), $language = null)
+    public function translate($translationId, $args = [], $language = null)
     {
-        $args = is_array($args) ? $args : array($args);
+        $args          = is_array($args) ? $args : [$args];
         $translationId = $translationId ?? '';
 
         if (strpos($translationId, "_") !== false) {
-            list($plugin, $key) = explode("_", $translationId, 2);
+            [$plugin, $key] = explode("_", $translationId, 2);
             $language = is_string($language) ? $language : $this->currentLanguage;
 
             $translationId = $this->getTranslation($translationId, $language, $plugin, $key);
@@ -98,6 +101,62 @@ class Translator
             return str_replace('%%', '%', $translationId);
         }
         return vsprintf($translationId, $args);
+    }
+
+    /**
+     * Converts the given list of items into a listing (e.g. One, Two, and Three)
+     *
+     * @param array       $items
+     * @param string|null $language
+     * @return string
+     */
+    public function createAndListing(array $items, string $language = null): string
+    {
+        return $this->createListing(self::LIST_TYPE_AND, $items, $language);
+    }
+
+    /**
+     * Converts the given list of items into a or listing (e.g. One, Two, or Three)
+     *
+     * @param array       $items
+     * @param string|null $language
+     * @return string
+     */
+    public function createOrListing(array $items, string $language = null): string
+    {
+        return $this->createListing(self::LIST_TYPE_OR, $items, $language);
+    }
+
+    /**
+     * @param string      $listType type of the list (LIST_TYPE_AND or LIST_TYPE_OR)
+     * @param array       $items
+     * @param string|null $language
+     * @return string
+     */
+    private function createListing(string $listType, array $items, string $language = null): string
+    {
+        switch (count($items)) {
+            case 0:
+                return '';
+            case 1:
+                return end($items);
+            case 2:
+                $pattern = $this->translate('Intl_ListPattern' . $listType . '2', [], $language);
+                return str_replace(['{0}', '{1}'], [$items[0], $items[1]], $pattern);
+            default:
+                $patternStart  = $this->translate('Intl_ListPattern' . $listType . 'Start', [], $language);
+                $patternMiddle = $this->translate('Intl_ListPattern' . $listType . 'Middle', [], $language);
+                $patternEnd    = $this->translate('Intl_ListPattern' . $listType . 'End', [], $language);
+
+                $result = $patternStart;
+
+                while (count($items) > 2) {
+                    $pattern = count($items) > 3 ? $patternMiddle : $patternEnd;
+                    $result = str_replace(['{0}', '{1}'], [array_shift($items), $pattern], $result);
+                }
+
+                return str_replace(['{0}', '{1}'], [$items[0], $items[1]], $result);
+        }
     }
 
     /**
@@ -139,7 +198,7 @@ class Translator
     {
         $clientSideTranslations = array();
         foreach ($this->getClientSideTranslationKeys() as $id) {
-            list($plugin, $key) = explode('_', $id, 2);
+            [$plugin, $key] = explode('_', $id, 2);
             $clientSideTranslations[$id] = $this->getTranslation($id, $this->currentLanguage, $plugin, $key);
         }
 
