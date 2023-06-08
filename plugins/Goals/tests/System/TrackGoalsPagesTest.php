@@ -24,6 +24,9 @@ use Piwik\Tests\Fixtures\SomePageGoalVisitsWithConversions;
  */
 class TrackGoalsPagesTest extends SystemTestCase
 {
+    /**
+     * @var SomePageGoalVisitsWithConversions
+     */
     public static $fixture = null;
 
     /**

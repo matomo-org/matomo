@@ -13,6 +13,7 @@ use Piwik\Columns\ComputedMetricFactory;
 use Piwik\Columns\Dimension;
 use Piwik\Columns\MetricsList;
 use Piwik\Common;
+use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
@@ -297,14 +298,17 @@ class Goals extends \Piwik\Plugin
 
         $reportsWithGoals = self::getAllReportsWithGoalMetrics();
 
-        $actionsReportsWithoutRevenue = ['getPageUrls', 'getPageTitles', 'getEntryPageUrls', 'getEntryPageTitles'];
+        $actionsReportsWithoutRevenue = array_merge(
+            AddColumnsProcessedMetricsGoal::ACTIONS_PAGE_REPORTS_WITH_GOAL_METRICS,
+            AddColumnsProcessedMetricsGoal::ACTIONS_ENTRY_PAGE_REPORTS_WITH_GOAL_METRICS
+        );
 
         foreach ($reportsWithGoals as $reportWithGoals) {
+            $request = $reportWithGoals['module'] . '.' . $reportWithGoals['action'];
+
             $goalMetrics = $allGoalMetrics;
             $goalMetricTypes = $allGoalMetricTypes;
-            if ($reportWithGoals['module'] == 'Actions'
-                && in_array($reportWithGoals['action'], $actionsReportsWithoutRevenue)
-            ) {
+            if (in_array($request, $actionsReportsWithoutRevenue)) {
                 unset($goalMetrics['revenue']);
                 unset($goalMetricTypes['revenue']);
             }

@@ -905,19 +905,7 @@ class ProcessedReport
     private function getIdGoalToUseForActionsReports($idGoal, string $requestMethod)
     {
         if (\Piwik\Request::fromRequest()->getStringParameter('filter_show_goal_columns_process_goals', '')) {
-            if (in_array($requestMethod, ['Actions.getPageUrls', 'Actions.getPageTitles'])) {
-                if ($idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER || $idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
-                    $idGoal = AddColumnsProcessedMetricsGoal::GOALS_ENTRY_PAGES_ECOMMERCE;
-                } else {
-                    $idGoal = AddColumnsProcessedMetricsGoal::GOALS_PAGES;
-                }
-            } elseif (in_array($requestMethod, ['Actions.getEntryPageUrls', 'Actions.getEntryPageTitles'])) {
-                if ($idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER || $idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
-                    $idGoal = AddColumnsProcessedMetricsGoal::GOALS_ENTRY_PAGES_ECOMMERCE;
-                } else {
-                    $idGoal = AddColumnsProcessedMetricsGoal::GOALS_ENTRY_PAGES;
-                }
-            }
+            return AddColumnsProcessedMetricsGoal::getProcessOnlyIdGoalToUseForReport($idGoal, $requestMethod);
         }
         return $idGoal;
     }
