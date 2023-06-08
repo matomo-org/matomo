@@ -46,9 +46,9 @@ class Goals extends HtmlTable
             $this->config->filters[] = ['Piwik\Plugins\Goals\DataTable\Filter\RemoveUnusedGoalRevenueColumns'];
             $this->requestConfig->request_parameters_to_modify['idGoal'] = $idGoal;
 
-            if ($idGoal == AddColumnsProcessedMetricsGoal::GOALS_PAGES_ECOMMERCE) {
+            if ($idGoal == AddColumnsProcessedMetricsGoal::GOALS_PAGES || $idGoal == AddColumnsProcessedMetricsGoal::GOALS_PAGES_ECOMMERCE) {
                 $this->displayType = self::GOALS_DISPLAY_PAGES;
-            } else if ($idGoal == AddColumnsProcessedMetricsGoal::GOALS_PAGES) {
+            } else if ($idGoal == AddColumnsProcessedMetricsGoal::GOALS_ENTRY_PAGES || $idGoal == AddColumnsProcessedMetricsGoal::GOALS_ENTRY_PAGES_ECOMMERCE) {
                 $this->displayType = self::GOALS_DISPLAY_ENTRY_PAGES;
             }
         }
