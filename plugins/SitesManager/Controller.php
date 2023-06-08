@@ -21,6 +21,7 @@ use Piwik\SiteContentDetector;
 use Piwik\Session;
 use Piwik\SettingsPiwik;
 use Piwik\Tracker\TrackerCodeGenerator;
+use Piwik\Translation\Translator;
 use Piwik\Url;
 use Matomo\Cache\Lazy;
 
@@ -343,30 +344,34 @@ INST;
         $isNotificationsMerged = false;
         $bannerMessage = '';
         $guides = [];
-        $info = [];
+        $message = [];
 
         if ($templateData['ga3Used'] || $templateData['ga4Used']) {
-            $bannerMessage = 'Google Analytics ';
+            $message[0] = 'Google Analytics ';
             $ga3GuideUrl =  '<a href="https://matomo.org/faq/how-to/migrate-from-google-analytics-3-to-matomo/" target="_blank" rel="noreferrer noopener">Google Analytics 3</a>';
             $ga4GuideUrl =  '<a href="https://matomo.org/faq/how-to/migrate-from-google-analytics-4-to-matomo/" target="_blank" rel="noreferrer noopener">Google Analytics 4</a>';
             if ($templateData['ga3Used'] && $templateData['ga4Used']) {
                 $isNotificationsMerged = true;
                 $guides[] = $ga3GuideUrl;
                 $guides[] = $ga4GuideUrl;
-                $bannerMessage .= '3 & 4';
+                $message[0] .= '3 & 4';
             } else {
-                $bannerMessage .= ($templateData['ga3Used'] ? 3 : 4);
+                $message[0] .= ($templateData['ga3Used'] ? 3 : 4);
                 $guides[] = ($templateData['ga3Used'] ? $ga3GuideUrl : $ga4GuideUrl);
             }
         }
 
-        if ($bannerMessage && $templateData['consentManagerName']) {
+        if (!empty($message) && $templateData['consentManagerName']) {
             $isNotificationsMerged = true;
-            $bannerMessage .= ' ' .Piwik::translate('General_And'). ' ' . $templateData['consentManagerName'];
+            $message[] = $templateData['consentManagerName'];
             $guides[] =  '<a href="' . $templateData['consentManagerUrl'] . '" target="_blank" rel="noreferrer noopener">' . $templateData['consentManagerName'] . '</a>';
         }
 
-        if ($isNotificationsMerged) {
+        if (!empty($message)) {
+            $bannerMessage = StaticContainer::get(Translator::class)->createAndListing($message);
+        }
+
+        if ($isNotificationsMerged && $bannerMessage) {
             $info = [
                 'isNotificationsMerged' => $isNotificationsMerged,
                 'notificationMergedMessage' => '<p class="fw-bold">' . Piwik::translate('SitesManager_MergedNotificationLine1', [$bannerMessage]) . '</p><p>' . Piwik::translate('SitesManager_MergedNotificationLine2', [(implode(' / ', $guides))]) . '</p>'
