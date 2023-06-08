@@ -62,10 +62,10 @@
     </div>
 
     <div id="tracking-code" class="col s12">
-        {% if notificationMergedMessage %}
+        {% if notificationMessage %}
             <p></p><p></p>
             <div class="system notification notification-info {{ isNotificationsMerged ? ' merged-notification' : ''}}">
-                {{ notificationMergedMessage|raw }}
+                {{ notificationMessage|raw }}
             </div>
         {% endif %}
 
