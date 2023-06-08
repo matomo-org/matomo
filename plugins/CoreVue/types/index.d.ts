@@ -201,6 +201,11 @@ declare global {
     formatCurrency(value?: number|string, currency: string): string;
   }
 
+  interface ListingFormatter {
+    formatAnd(values: string[]): string;
+    formatOr(values: string[]): string;
+  }
+
   interface Transitions {
     reset(actionType: string, actionName: string, overrideParams: string);
     showPopover(showEmbeddedInReport: boolean): void;
@@ -246,6 +251,7 @@ declare global {
     $: JQueryStatic & JQueryStaticResolve;
     Piwik_Popover: PiwikPopoverGlobal;
     NumberFormatter: NumberFormatter;
+    ListingFormatter: ListingFormatter;
     Piwik_Transitions: TransitionsGlobal;
     SegmentedVisitorLog: SegmentedVisitorLogService;
     DataTable_RowActions_Registry: DataTableRowActionsRegisteryService;

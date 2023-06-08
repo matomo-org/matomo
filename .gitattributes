@@ -72,8 +72,10 @@ tests/UI/expected-screenshots/** -linguist-detectable
 /matomo.js linguist-generated
 /piwik.js linguist-generated
 plugins/*/vue/dist/** linguist-generated
+plugins/Intl/lang/* linguist-generated
 # + vendor code: exclude
 libs/** linguist-vendored
+node_modules/** linguist-vendored
 plugins/*/libs/** linguist-vendored
 tests/lib/** linguist-vendored
 tests/javascript/assets/** linguist-vendored
