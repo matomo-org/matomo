@@ -14,6 +14,7 @@ use Piwik\DataTable\Filter\SafeDecodeLabel;
 use Piwik\Metrics\Formatter;
 use Piwik\Plugin\Manager;
 use Piwik\Tracker\GoalManager;
+use Piwik\Translation\Translator;
 use Piwik\Twig\Extension\EscapeFilter;
 use Piwik\View\RenderTokenParser;
 use Piwik\Visualization\Sparkline;
@@ -116,6 +117,7 @@ class Twig
         $this->twig->addExtension(new DebugExtension());
 
         $this->addFilterTranslate();
+        $this->addFilterListings();
         $this->addFilterUrlRewriteWithParameters();
         $this->addFilterSumTime();
         $this->addFilterMoney();
@@ -501,6 +503,25 @@ class Twig
             return $stringTranslated;
         });
         $this->twig->addFilter($translateFilter);
+    }
+
+    protected function addFilterListings()
+    {
+        $andListing = new TwigFilter('andListing', function ($items) {
+            if (!is_array($items)) {
+                return $items; // don't do anything if input data is incorrect
+            }
+            return StaticContainer::get(Translator::class)->createAndListing($items);
+        });
+        $this->twig->addFilter($andListing);
+
+        $orListing = new TwigFilter('orListing', function ($items) {
+            if (!is_array($items)) {
+                return $items; // don't do anything if input data is incorrect
+            }
+            return StaticContainer::get(Translator::class)->createOrListing($items);
+        });
+        $this->twig->addFilter($orListing);
     }
 
     private function addPluginNamespaces(FilesystemLoader $loader)
