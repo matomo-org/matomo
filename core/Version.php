@@ -21,7 +21,7 @@ final class Version
      * The current Matomo version.
      * @var string
      */
-    const VERSION = '4.14.3-b5';
+    const VERSION = '4.14.3-b6';
 
     const MAJOR_VERSION = 4;
 
