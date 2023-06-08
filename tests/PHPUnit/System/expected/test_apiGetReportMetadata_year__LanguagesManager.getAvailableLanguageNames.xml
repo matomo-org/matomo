@@ -152,7 +152,7 @@
 	</row>
 	<row>
 		<code>ka</code>
-		<name>Ქართული</name>
+		<name>ქართული</name>
 		<english_name>Georgian</english_name>
 	</row>
 	<row>
@@ -197,12 +197,12 @@
 	</row>
 	<row>
 		<code>pt-br</code>
-		<name>Português (Brasil)</name>
+		<name>Português</name>
 		<english_name>Brazilian Portuguese</english_name>
 	</row>
 	<row>
 		<code>pt</code>
-		<name>Português</name>
+		<name>Português europeu</name>
 		<english_name>Portuguese</english_name>
 	</row>
 	<row>
