@@ -48,6 +48,23 @@
 				<action>getExitPageTitles</action>
 			</row>
 		</relatedReports>
+		<metricsGoal>
+			<nb_conversions>Conversions</nb_conversions>
+			<nb_conversions_attrib>Conversions</nb_conversions_attrib>
+			<revenue_attrib>Revenue</revenue_attrib>
+		</metricsGoal>
+		<processedMetricsGoal>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+			<nb_conversions_page_rate>Viewed before conversion rate</nb_conversions_page_rate>
+		</processedMetricsGoal>
+		<metricTypesGoal>
+			<revenue_per_visit>money</revenue_per_visit>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<nb_conversions_attrib>number</nb_conversions_attrib>
+			<revenue_attrib>money</revenue_attrib>
+			<nb_conversions_page_rate>percent</nb_conversions_page_rate>
+		</metricTypesGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageTitles&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageTitles&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphEvolutionUrl>
 		<uniqueId>Actions_getPageTitles</uniqueId>

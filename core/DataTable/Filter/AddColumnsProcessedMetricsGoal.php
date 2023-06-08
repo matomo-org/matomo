@@ -224,9 +224,11 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
     }
 
     /**
-     * TODO
+     * Returns an idGoal override to use for the processOnlyIdGoal parameter of this filter if $requestMethod
+     * is for a Actions page report or an Actions entry page report.
      *
-     * @param int|string|null $idGoal
+     * @param int|string|null $idGoal if set to ecommerceOrder or ecommerceAbandonedCart, returns a processOnlyIdGoal value
+     *                                that will result in extra ecommerce metrics being computed
      * @return int|string|null
      */
     public static function getProcessOnlyIdGoalToUseForReport($idGoal, string $requestMethod)
