@@ -283,34 +283,93 @@ class Goals extends \Piwik\Plugin
             'revenue_per_visit' => Piwik::translate('General_ColumnValuePerVisit'),
         );
 
-        $allGoalMetrics = array(
+        $goalMetrics = array(
             'nb_conversions'  => Piwik::translate('Goals_ColumnConversions'),
             'conversion_rate' => Piwik::translate('General_ColumnConversionRate'),
             'revenue'         => Piwik::translate('General_ColumnRevenue')
         );
 
-        $allGoalMetricTypes = [
+        $goalMetricTypes = [
             'revenue_per_visit' => Dimension::TYPE_MONEY,
             'nb_conversions' => Dimension::TYPE_NUMBER,
             'conversion_rate' => Dimension::TYPE_PERCENT,
             'revenue' => Dimension::TYPE_MONEY,
         ];
 
+        // special goal metrics for Actions page reports
+        $pageGoalMetrics = array_merge($goalMetrics, [
+            'nb_conversions_attrib' => Piwik::translate('Goals_ColumnConversions'),
+            'revenue_attrib' => Piwik::translate('General_ColumnRevenue'),
+        ]);
+        unset($pageGoalMetrics['revenue']);
+
+        $pageGoalProcessedMetrics = array_merge($goalProcessedMetrics, [
+            'nb_conversions_page_rate' => Piwik::translate('Goals_ConversionRatePageViewedBeforeGeneric'),
+        ]);
+
+        $pageGoalMetricTypes = array_merge($goalMetricTypes, [
+            'nb_conversions_attrib' => Dimension::TYPE_NUMBER,
+            'revenue_attrib' => Dimension::TYPE_MONEY,
+            'nb_conversions_page_rate' => Dimension::TYPE_PERCENT,
+        ]);
+        unset($pageGoalMetricTypes['revenue']);
+
+        // special goal metrics for Actions entry page reports
+        $entryPageGoalMetrics = array_merge($goalMetrics, [
+            'nb_conversions_entry' => Piwik::translate('Goals_ColumnConversions'),
+            'revenue_entry' => Piwik::translate('General_ColumnRevenue'),
+        ]);
+        unset($entryPageGoalMetrics['revenue']);
+
+        $entryPageGoalProcessedMetrics = array_merge($goalProcessedMetrics, [
+            'revenue_per_entry' => Piwik::translate('General_ColumnValuePerEntry'),
+            'nb_conversions_entry_rate' => Piwik::translate('General_ColumnConversionRate'),
+        ]);
+
+        $entryPageGoalMetricTypes = array_merge($goalMetricTypes, [
+            'nb_conversions_entry' => Dimension::TYPE_NUMBER,
+            'revenue_entry' => Dimension::TYPE_MONEY,
+            'revenue_per_entry' => Dimension::TYPE_NUMBER,
+            'nb_conversions_entry_rate' => Dimension::TYPE_PERCENT,
+        ]);
+        unset($entryPageGoalMetricTypes['revenue']);
+
+        // add ecommerce metrics if idGoal is an ecommerce goal
+        $idGoal = \Piwik\Request::fromRequest()->getParameter('idGoal', '');
+        if ($idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER || $idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
+            $extraEcommerceProcessedMetrics = [
+                'avg_order_revenue' => Piwik::translate('General_AverageOrderValue'),
+                'items' => Piwik::translate('General_PurchasedProducts'),
+            ];
+
+            $extraEcommerceMetricTypes = [
+                'avg_order_revenue' => Dimension::TYPE_MONEY,
+                'itmes' => Dimension::TYPE_NUMBER,
+            ];
+
+            $pageGoalProcessedMetrics = array_merge($pageGoalProcessedMetrics, $extraEcommerceProcessedMetrics);
+            $entryPageGoalProcessedMetrics = array_merge($entryPageGoalProcessedMetrics, $extraEcommerceProcessedMetrics);
+
+            $pageGoalMetricTypes = array_merge($pageGoalMetricTypes, $extraEcommerceMetricTypes);
+            $entryPageGoalMetricTypes = array_merge($entryPageGoalMetricTypes, $extraEcommerceMetricTypes);
+        }
+
         $reportsWithGoals = self::getAllReportsWithGoalMetrics();
 
-        $actionsReportsWithoutRevenue = array_merge(
-            AddColumnsProcessedMetricsGoal::ACTIONS_PAGE_REPORTS_WITH_GOAL_METRICS,
-            AddColumnsProcessedMetricsGoal::ACTIONS_ENTRY_PAGE_REPORTS_WITH_GOAL_METRICS
-        );
-
         foreach ($reportsWithGoals as $reportWithGoals) {
-            $request = $reportWithGoals['module'] . '.' . $reportWithGoals['action'];
+            $goalMetricsToUse = $goalMetrics;
+            $goalProcessedMetricsToUse = $goalProcessedMetrics;
+            $goalMetricTypesToUse = $goalMetricTypes;
 
-            $goalMetrics = $allGoalMetrics;
-            $goalMetricTypes = $allGoalMetricTypes;
-            if (in_array($request, $actionsReportsWithoutRevenue)) {
-                unset($goalMetrics['revenue']);
-                unset($goalMetricTypes['revenue']);
+            $request = $reportWithGoals['module'] . '.' . $reportWithGoals['action'];
+            if (in_array($request, AddColumnsProcessedMetricsGoal::ACTIONS_PAGE_REPORTS_WITH_GOAL_METRICS)) {
+                $goalMetricsToUse = $pageGoalMetrics;
+                $goalProcessedMetricsToUse = $pageGoalProcessedMetrics;
+                $goalMetricTypesToUse = $pageGoalMetricTypes;
+            } else if (in_array($request, AddColumnsProcessedMetricsGoal::ACTIONS_ENTRY_PAGE_REPORTS_WITH_GOAL_METRICS)) {
+                $goalMetricsToUse = $entryPageGoalMetrics;
+                $goalProcessedMetricsToUse = $entryPageGoalProcessedMetrics;
+                $goalMetricTypesToUse = $entryPageGoalMetricTypes;
             }
 
             // Select this report from the API metadata array
@@ -320,9 +379,9 @@ class Goals extends \Piwik\Plugin
                     && $apiReportToUpdate['action'] == $reportWithGoals['action']
                     && empty($apiReportToUpdate['parameters'])
                 ) {
-                    $apiReportToUpdate['metricsGoal'] = $goalMetrics;
-                    $apiReportToUpdate['processedMetricsGoal'] = $goalProcessedMetrics;
-                    $apiReportToUpdate['metricTypesGoal'] = $goalMetricTypes;
+                    $apiReportToUpdate['metricsGoal'] = $goalMetricsToUse;
+                    $apiReportToUpdate['processedMetricsGoal'] = $goalProcessedMetricsToUse;
+                    $apiReportToUpdate['metricTypesGoal'] = $goalMetricTypesToUse;
                     break;
                 }
             }

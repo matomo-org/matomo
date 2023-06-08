@@ -41,6 +41,7 @@
         "ConversionByTypeReportDocumentation": "This report provides detailed information about the goal performance (conversions, conversion rates and revenue per visit) for each of the categories available in the left panel. %1$s Please click on one of the categories to view the report. %2$s For more information, read the %3$sTracking Goals documentation%4$s",
         "ConversionRate": "%s conversion rate",
         "ConversionRatePageViewedBefore": "Viewed before %s rate",
+        "ConversionRatePageViewedBeforeGeneric": "Viewed before conversion rate",
         "Conversions": "%s conversions",
         "ConversionsDescription": "conversions",
         "ConversionsOverview": "Conversions Overview",
