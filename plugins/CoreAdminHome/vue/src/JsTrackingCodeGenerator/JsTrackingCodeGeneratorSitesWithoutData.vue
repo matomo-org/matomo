@@ -2,7 +2,7 @@
   <div id="javascript-text">
     <pre v-select-on-focus="{}" class="codeblock" v-text="trackingCode" ref="trackingCode"/>
   </div>
-  <JsTrackingCodeAdvanceOptions
+  <JsTrackingCodeAdvancedOptions
     :default-site="defaultSite"
     :max-custom-variables="maxCustomVariables"
     :server-side-do-not-track-enabled="serverSideDoNotTrackEnabled"
@@ -17,7 +17,7 @@ import {
   SelectOnFocus,
 } from 'CoreHome';
 
-import JsTrackingCodeAdvanceOptions from './JsTrackingCodeAdvanceOptions.vue';
+import JsTrackingCodeAdvancedOptions from './JsTrackingCodeAdvancedOptions.vue';
 
 interface CustomVar {
   name: string;
@@ -63,7 +63,7 @@ export default defineComponent({
     jsTag: String,
   },
   components: {
-    JsTrackingCodeAdvanceOptions,
+    JsTrackingCodeAdvancedOptions,
   },
   directives: {
     SelectOnFocus,

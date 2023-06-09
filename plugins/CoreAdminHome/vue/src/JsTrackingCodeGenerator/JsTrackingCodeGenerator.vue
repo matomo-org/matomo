@@ -67,7 +67,7 @@
         </div>
       </div>
     </div>
-    <JsTrackingCodeAdvanceOptions
+    <JsTrackingCodeAdvancedOptions
       :default-site="defaultSite"
       :max-custom-variables="maxCustomVariables"
       :server-side-do-not-track-enabled="serverSideDoNotTrackEnabled"
@@ -89,7 +89,7 @@ import {
   Matomo,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
-import JsTrackingCodeAdvanceOptions from './JsTrackingCodeAdvanceOptions.vue';
+import JsTrackingCodeAdvancedOptions from './JsTrackingCodeAdvancedOptions.vue';
 
 interface CustomVar {
   name: string;
@@ -168,7 +168,7 @@ export default defineComponent({
     };
   },
   components: {
-    JsTrackingCodeAdvanceOptions,
+    JsTrackingCodeAdvancedOptions,
     ContentBlock,
     Field,
   },

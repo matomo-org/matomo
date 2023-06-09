@@ -1,5 +1,5 @@
 <template>
-  <div class="trackingCodeAdvanceOptions">
+  <div class="trackingCodeAdvancedOptions">
     <div class="advance-option">
     <span>
       <a href="javascript:;"
