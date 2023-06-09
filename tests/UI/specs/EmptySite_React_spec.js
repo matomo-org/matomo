@@ -18,7 +18,8 @@ describe("EmptySite_React", function () {
         await page.goto(urlToTest);
         await page.evaluate(function () {
             // since containerID will be random and keeps changing
-            $('.tagManagerTrackingCode .codeblock').text($('.tagManagerTrackingCode .codeblock').text().replace(/container_(.*).js/g, 'container_test123.js'));
+            var selector = $('#react .tagManagerTrackingCode .codeblock');
+            selector.text(selector.text().replace(/container_(.*).js/g, 'container_test123.js'));
         });
 
         const pageElement = await page.$('.page');
