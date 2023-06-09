@@ -366,7 +366,7 @@ INST;
         }
 
         if (!empty($message)) {
-            $bannerMessage = StaticContainer::get(Translator::class)->createAndListing($message);
+            $bannerMessage = implode(' ' . Piwik::translate('General_And') . ' ', $message);
         }
 
         if ($isNotificationsMerged && $bannerMessage) {

@@ -35,7 +35,7 @@ class EmptySiteWithSiteContentDetectionMergeNotificationOnlyGA extends Fixture
         ];
 
         return [
-            SiteContentDetector::class => \Piwik\DI::autowire(FakeSiteContentDetector::class)
+            SiteContentDetector::class => \DI\autowire(FakeSiteContentDetector::class)
                  ->constructorParameter('mockData', $mockData)
         ];
     }
