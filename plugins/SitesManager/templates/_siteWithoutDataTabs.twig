@@ -66,30 +66,11 @@
     </div>
 
     <div id="tracking-code" class="col s12">
-        {% if consentManagerName %}
-        <p></p><p></p>
-        <div class="system notification notification-info">
-            <p> {{ 'PrivacyManager_ConsentManagerDetected'|translate(consentManagerName, '<a href="' ~ consentManagerUrl ~ '" target="_blank" rel="noreferrer noopener">', '</a')|raw }}
-            </p>
-            {% if consentManagerIsConnected %}
-                <p> {{ 'PrivacyManager_ConsentManagerConnected'|translate(consentManagerName)|raw }}
-                </p>
-            {% endif %}
-        </div>
-        {% endif %}
-
-        {% if ga3Used %}
-        <p></p><p></p>
-        <div class="system notification notification-info">
-             {{ 'SitesManager_GADetected'|translate('Google Analytics 3', 'GA', '<a href="', 'https://matomo.org/faq/how-to/migrate-from-google-analytics-3-to-matomo/', '" target="_blank" rel="noreferrer noopener">', '</a>')|raw }}
-        </div>
-        {% endif %}
-
-        {% if ga4Used %}
-        <p></p><p></p>
-        <div class="system notification notification-info">
-            {{ 'SitesManager_GADetected'|translate('Google Analytics 4', 'GA', '<a href="', 'https://matomo.org/faq/how-to/migrate-from-google-analytics-4-to-matomo/', '" target="_blank" rel="noreferrer noopener">', '</a>')|raw }}
-        </div>
+        {% if notificationMessage %}
+            <p></p><p></p>
+            <div class="system notification notification-info {{ isNotificationsMerged ? ' merged-notification' : ''}}">
+                {{ notificationMessage|raw }}
+            </div>
         {% endif %}
 
         <p>{{ 'CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead'|translate("&lt;/head&gt;")|raw }}</p>
