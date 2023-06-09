@@ -16,6 +16,10 @@ describe("EmptySite_React", function () {
     it('should show the tracking code if the website has no recorded data and React guide', async function () {
         const urlToTest = "?" + generalParams + "&module=CoreHome&action=index";
         await page.goto(urlToTest);
+        await page.evaluate(function () {
+            // since containerID will be random and keeps changing
+            $('.tagManagerTrackingCode .codeblock').text($('.tagManagerTrackingCode .codeblock').text().replace(/container_(.*).js/g, 'container_test123.js'));
+        });
 
         const pageElement = await page.$('.page');
         expect(await pageElement.screenshot()).to.matchImage('emptySiteDashboard');
