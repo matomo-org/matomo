@@ -460,7 +460,7 @@ class PluginsTest extends IntegrationTestCase
         $pluginName = 'TreemapVisualization';
 
         $this->assertCount(1, $updates);
-        $plugin = $updates[0];
+        $plugin = $updates[$pluginName];
         $this->assertSame($pluginName, $plugin['name']);
         $this->assertSame($pluginManager->getLoadedPlugin($pluginName)->getVersion(), $plugin['currentVersion']);
         $this->assertSame($pluginManager->isPluginActivated($pluginName), $plugin['isActivated']);
