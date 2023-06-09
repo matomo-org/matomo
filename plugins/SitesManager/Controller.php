@@ -21,7 +21,6 @@ use Piwik\SiteContentDetector;
 use Piwik\Session;
 use Piwik\SettingsPiwik;
 use Piwik\Tracker\TrackerCodeGenerator;
-use Piwik\Translation\Translator;
 use Piwik\Url;
 use Matomo\Cache\Lazy;
 
