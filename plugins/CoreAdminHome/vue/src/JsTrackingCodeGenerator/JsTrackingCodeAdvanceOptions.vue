@@ -6,18 +6,19 @@
          v-if="!showAdvanced"
          @click.prevent="showAdvanced = true">
         {{ translate('CoreAdminHome_ShowAdvancedOptions') }}
-        <span class="chevron chevron-down"></span>
+        <span class="icon-chevron-down"></span>
       </a>
       <a href="javascript:;"
          v-if="showAdvanced"
          @click.prevent="showAdvanced = false">
         {{ translate('CoreAdminHome_HideAdvancedOptions') }}
-        <span class="chevron chevron-up"></span>
+        <span class="icon-chevron-up"></span>
       </a>
     </span>
     </div>
 
     <div id="javascript-advanced-options" v-show="showAdvanced">
+      <p v-html="$sanitize(trackingDocumentationHelp)"></p>
       <div id="optional-js-tracking-options">
         <!-- track across all subdomains -->
         <div id="jsTrackAllSubdomainsInlineHelp" class="inline-help-node">
@@ -213,7 +214,6 @@
       </div>
 
     </div>
-    <hr v-if="showBottomHR" class="hr-bottom">
   </div>
 </template>
 <script lang="ts">
@@ -451,6 +451,13 @@ export default defineComponent({
       return translate(
         'CoreAdminHome_JSTracking_CustomCampaignQueryParamDesc',
         '<a href="https://matomo.org/faq/general/faq_119" rel="noreferrer noopener" target="_blank">',
+        '</a>',
+      );
+    },
+    trackingDocumentationHelp() {
+      return translate(
+        'CoreAdminHome_JSTrackingDocumentationHelp',
+        '<a rel="noreferrer noopener" target="_blank" href="https://developer.matomo.org/guides/tracking-javascript-guide">',
         '</a>',
       );
     },

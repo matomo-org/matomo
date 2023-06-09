@@ -215,5 +215,6 @@ class CoreAdminHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreAdminHome_VueDescription';
         $translationKeys[] = 'CoreAdminHome_ShowAdvancedOptions';
         $translationKeys[] = 'CoreAdminHome_HideAdvancedOptions';
+        $translationKeys[] = 'CoreAdminHome_JSTrackingDocumentationHelp';
     }
 }
