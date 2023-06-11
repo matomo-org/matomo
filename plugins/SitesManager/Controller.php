@@ -324,13 +324,12 @@ import VueMatomo from 'vue-matomo'
 import App from './App.vue'
 
 createApp(App)
-    .use(VueMatomo, {
-        // Configure your matomo server and site by providing
-        host: '$piwikUrl',
-        siteId: $siteId,
-    })
-    .mount('#app')
-
+  .use(VueMatomo, {
+    // Configure your matomo server and site by providing
+    host: '$piwikUrl',
+    siteId: $siteId,
+  })
+  .mount('#app')
 
 window._paq.push(['trackPageView']); // To track a page view
 INST;
@@ -342,8 +341,8 @@ import App from './App.vue'
 import VueMatomo from 'vue-matomo'
 
 Vue.use(VueMatomo, {
-    host: '$piwikUrl',
-    siteId: $siteId
+  host: '$piwikUrl',
+  siteId: $siteId
 });
 
 new Vue({
