@@ -17,6 +17,10 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
+use Piwik\Plugin;
+use Piwik\Plugins\CustomVariables\CustomVariables;
+use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
+use Piwik\Site;
 use Piwik\SiteContentDetector;
 use Piwik\Session;
 use Piwik\SettingsPiwik;
@@ -199,6 +203,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $piwikUrl = Url::getCurrentUrlWithoutFileName();
         $jsTag = Request::processRequest('SitesManager.getJavascriptTag', ['idSite' => $this->idSite, 'piwikUrl' => $piwikUrl]);
+        $maxCustomVariables = 0;
+
+        if (Plugin\Manager::getInstance()->isPluginActivated('CustomVariables')) {
+            $maxCustomVariables = CustomVariables::getNumUsableCustomVariables();
+        }
 
         $showMatomoLinks = true;
         /**
@@ -223,6 +232,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $tagManagerActive = true;
         }
         $this->siteContentDetector->detectContent([SiteContentDetector::ALL_CONTENT], $this->idSite);
+        $dntChecker = new DoNotTrackHeaderChecker();
 
         $templateData = [
             'siteName'      => $this->site->getName(),
@@ -242,6 +252,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'jsFramework' => $this->siteContentDetector->jsFramework,
             'cms' => $this->siteContentDetector->cms,
             'SiteWithoutDataVueFollowStepNote2Key' => StaticContainer::get('SitesManager.SiteWithoutDataVueFollowStepNote2'),
+            'defaultSiteDecoded' => [
+                'id' => $this->idSite,
+                'name' => Common::unsanitizeInputValue(Site::getNameFor($this->idSite)),
+            ],
+            'maxCustomVariables' => $maxCustomVariables,
+            'serverSideDoNotTrackEnabled' => $dntChecker->isActive()
         ];
 
         if ($this->siteContentDetector->consentManagerId) {
