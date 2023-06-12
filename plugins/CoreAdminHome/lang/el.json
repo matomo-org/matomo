@@ -167,6 +167,7 @@
         "UserInviteSubject": "Ο/Η %1$s σας έστειλε μια πρόσκληση για να συμμετέχετε στο Matomo Analytics για το %2$s.",
         "ValidPiwikHostname": "Έγκυρο Όνομα Διακομιστή Matomo",
         "ViewAllTrackingFailures": "Εμφάνιση όλων των αποτυχιών παρακολούθησης",
+        "VueDescription": "Αν ο ιστοτόπος σας χρησιμοποιεί Vue.js, δείτε %1$sαυτό τον οδηγό%2$s.",
         "WhatIsNew": "Τι είναι καινούριο",
         "WhatIsNewNoChanges": "Δεν υπάρχει κάτι καινούριο αυτή τη στιγμή",
         "WhatIsNewNoChangesTitle": "Δεν υπάρχουν πρόσφατες αλλαγές",

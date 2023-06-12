@@ -74,17 +74,18 @@ class ModelTest extends IntegrationTestCase
 
     public function test_handleMaxExecutionTimeError_doesNotThrowExceptionWhenNotExceededTime()
     {
-    	$db = Db::get();
-    	$e = new \Exception('foo bar baz');
-	    $sql = 'SELECT 1';
-	    $bind = array();
-	    $segment =  '';
-	    $dateStart = Date::now()->subDay(1);
-	    $dateEnd = Date::now();
-	    $minTimestamp = 1;
-	    $limit = 50;
+        self::expectNotToPerformAssertions();
+
+        $db           = Db::get();
+        $e            = new \Exception('foo bar baz');
+        $sql          = 'SELECT 1';
+        $bind         = [];
+        $segment      = '';
+        $dateStart    = Date::now()->subDay(1);
+        $dateEnd      = Date::now();
+        $minTimestamp = 1;
+        $limit        = 50;
         Model::handleMaxExecutionTimeError($db, $e, $segment, $dateStart, $dateEnd, $minTimestamp, $limit, [$sql, $bind]);
-        $this->assertTrue(true);
     }
 
     public function test_handleMaxExecutionTimeError_whenTimeIsExceeded_noReasonFound()

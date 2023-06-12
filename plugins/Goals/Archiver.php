@@ -43,6 +43,45 @@ class Archiver extends \Piwik\Plugin\Archiver
         ];
     }
 
+    /**
+     * This array stores the ranges to use when displaying the 'visits to conversion' report
+     */
+    public static $visitCountRanges = [
+        [1, 1],
+        [2, 2],
+        [3, 3],
+        [4, 4],
+        [5, 5],
+        [6, 6],
+        [7, 7],
+        [8, 8],
+        [9, 14],
+        [15, 25],
+        [26, 50],
+        [51, 100],
+        [100],
+    ];
+
+    /**
+     * This array stores the ranges to use when displaying the 'days to conversion' report
+     */
+    public static $daysToConvRanges = [
+        [0, 0],
+        [1, 1],
+        [2, 2],
+        [3, 3],
+        [4, 4],
+        [5, 5],
+        [6, 6],
+        [7, 7],
+        [8, 14],
+        [15, 30],
+        [31, 60],
+        [61, 120],
+        [121, 364],
+        [364],
+    ];
+
     protected $dimensionRecord = [
         self::SKU_FIELD      => self::ITEMS_SKU_RECORD_NAME,
         self::NAME_FIELD     => self::ITEMS_NAME_RECORD_NAME,
