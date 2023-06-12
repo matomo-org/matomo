@@ -13,10 +13,10 @@ use Piwik\SiteContentDetector;
 use Piwik\Tests\Framework\Mock\FakeSiteContentDetector;
 
 /**
- * Fixture that adds one site with no visits and configures site content detection test data so that GTM will be
+ * Fixture that adds one site with no visits and configures site content detection test data so that GA4 will be
  * detected on the site.
  */
-class EmptySiteWithSiteContentDetectionGTM extends Fixture
+class EmptySiteWithSiteContentDetectionReact extends Fixture
 {
     public $idSite = 1;
 
@@ -29,14 +29,15 @@ class EmptySiteWithSiteContentDetectionGTM extends Fixture
             'isConnected' => false,
             'ga3' => false,
             'ga4' => false,
-            'gtm' => true,
-            'cloudflare' => true,
-            'cms' => SitesManager::SITE_TYPE_WORDPRESS,
+            'gtm' => false,
+            'cms' => SitesManager::SITE_TYPE_UNKNOWN,
+            'cloudflare' => false,
+            'jsFramework' => SitesManager::JS_FRAMEWORK_REACT,
         ];
 
         return [
             SiteContentDetector::class => \Piwik\DI::autowire(FakeSiteContentDetector::class)
-                 ->constructorParameter('mockData', $mockData)
+                ->constructorParameter('mockData', $mockData)
         ];
     }
 

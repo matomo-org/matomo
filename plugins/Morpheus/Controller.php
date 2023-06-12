@@ -665,7 +665,11 @@ export default defineComponent({
                 'more-horiz',
                 'more-verti',
                 'arrowup',
-                'arrowdown'
+                'arrowdown',
+                'chevron-right',
+                'chevron-left',
+                'chevron-down',
+                'chevron-up',
             ],
             'Window-Widget' => [
                 'minimise',

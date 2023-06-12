@@ -47,6 +47,7 @@ class SitesManager extends \Piwik\Plugin
     const SITE_TYPE_DRUPAL = 'drupal';
     const JS_FRAMEWORK_UNKNOWN = 'unknown';
     const JS_FRAMEWORK_VUE = 'vue';
+    const JS_FRAMEWORK_REACT = 'react';
 
     /**
      * @see \Piwik\Plugin::registerEvents
@@ -524,6 +525,8 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "SitesManager_DemoSiteButtonText";
         $translationKeys[] = "SitesManager_SiteWithoutDataVue";
         $translationKeys[] = "SitesManager_SiteWithoutDataVueDescription";
+        $translationKeys[] = "SitesManager_SiteWithoutDataReact";
+        $translationKeys[] = "SitesManager_SiteWithoutDataReactDescription";
     }
 
     public function noDataPageGTMTabInstructions(&$out)

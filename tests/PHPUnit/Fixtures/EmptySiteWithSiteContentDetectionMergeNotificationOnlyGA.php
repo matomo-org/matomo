@@ -13,10 +13,10 @@ use Piwik\SiteContentDetector;
 use Piwik\Tests\Framework\Mock\FakeSiteContentDetector;
 
 /**
- * Fixture that adds one site with no visits and configures site content detection test data so that GTM will be
- * detected on the site.
+ * Fixture that adds one site with no visits and configures site content detection test data so that the
+ * 'Osano' consent manager will be detected on the site.
  */
-class EmptySiteWithSiteContentDetectionGTM extends Fixture
+class EmptySiteWithSiteContentDetectionMergeNotificationOnlyGA extends Fixture
 {
     public $idSite = 1;
 
@@ -27,11 +27,11 @@ class EmptySiteWithSiteContentDetectionGTM extends Fixture
             'consentManagerName' => null,
             'consentManagerUrl' => null,
             'isConnected' => false,
-            'ga3' => false,
-            'ga4' => false,
-            'gtm' => true,
-            'cloudflare' => true,
-            'cms' => SitesManager::SITE_TYPE_WORDPRESS,
+            'ga3' => true,
+            'ga4' => true,
+            'gtm' => false,
+            'cloudflare' => false,
+            'cms' => SitesManager::SITE_TYPE_UNKNOWN
         ];
 
         return [
@@ -39,6 +39,7 @@ class EmptySiteWithSiteContentDetectionGTM extends Fixture
                  ->constructorParameter('mockData', $mockData)
         ];
     }
+
 
     public function setUp(): void
     {
