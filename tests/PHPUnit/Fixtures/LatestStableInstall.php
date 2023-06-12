@@ -15,6 +15,7 @@ use Piwik\Http;
 use Piwik\Plugins\CoreUpdater\ReleaseChannel\LatestStable;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Unzip;
+use Piwik\Version;
 
 class LatestStableInstall extends Fixture
 {
@@ -40,6 +41,7 @@ class LatestStableInstall extends Fixture
         // install latest stable
         $this->downloadAndUnzipLatestStable();
         $tokenAuth = $this->installSubdirectoryInstall();
+        $this->placeAndActivateIncompatibleExamplePlugin();
         $this->verifyInstall($tokenAuth);
     }
 
@@ -57,16 +59,19 @@ class LatestStableInstall extends Fixture
             Filesystem::unlinkRecursive($installSubdirectory, true);
         }
 
+        if (file_exists($this->getBuildArchivePath())) {
+            Filesystem::unlinkRecursive($this->getBuildArchivePath(), true);
+        }
+
         $latestStableZip = $this->getArchiveDestPath();
         if (file_exists($latestStableZip)) {
             unlink($latestStableZip);
         }
     }
 
-    private function downloadAndUnzipLatestStable()
+    protected function downloadAndUnzipLatestStable()
     {
-        $latestStableChannel = new LatestStable();
-        $url = 'http' . $latestStableChannel->getDownloadUrlWithoutScheme(null);
+        $url = $this->getDownloadUrl();
 
         $archiveFile = $this->getArchiveDestPath();
         Http::fetchRemoteFile($url, $archiveFile, 0, self::DOWNLOAD_TIMEOUT);
@@ -84,6 +89,12 @@ class LatestStableInstall extends Fixture
         }
 
         shell_exec('mv "' . $installSubdirectory . '"/matomo/* "' . $installSubdirectory . '"');
+    }
+
+    protected function getDownloadUrl()
+    {
+        $latestStableChannel = new LatestStable();
+        return 'http' . $latestStableChannel->getDownloadUrlWithoutScheme(null);
     }
 
     private function installSubdirectoryInstall()
@@ -108,6 +119,28 @@ class LatestStableInstall extends Fixture
         return $tokenAuth;
     }
 
+    private function placeAndActivateIncompatibleExamplePlugin()
+    {
+        $source = PIWIK_DOCUMENT_ROOT . '/plugins/ExampleTracker/';
+        $target = $this->getInstallSubdirectoryPath() . '/plugins/ExampleTracker/';
+        Filesystem::mkdir($target);
+        Filesystem::copyRecursive($source, $target);
+        // remove columns to avoid adding them to the database
+        Filesystem::unlinkRecursive($target . '/Columns/', true);
+
+        $pluginJson = json_decode(file_get_contents($target . 'plugin.json'), true);
+        // mark plugin as incompatible with version we will be updating to
+        $pluginJson['require']['matomo'] = '>=4.0.0-b1,<' . Version::VERSION;
+        file_put_contents($target . 'plugin.json', json_encode($pluginJson));
+
+        // activate ExampleTracker, having it incompatible to next version
+        // deactivating the plugin during update will cause CustomJsTracker plugin to update the tracker file
+        chmod($this->getInstallSubdirectoryPath() . '/console', 0775);
+        passthru($this->getInstallSubdirectoryPath() . '/console plugin:activate ExampleTracker');
+        passthru($this->getInstallSubdirectoryPath() . '/console core:version');
+        passthru($this->getInstallSubdirectoryPath() . '/console plugin:list');
+    }
+
     private function verifyInstall($tokenAuth)
     {
         $url = Fixture::getRootUrl() . '/' . $this->subdirToInstall
@@ -126,6 +159,11 @@ class LatestStableInstall extends Fixture
     private function getInstallSubdirectoryPath()
     {
         return PIWIK_INCLUDE_PATH . DIRECTORY_SEPARATOR . $this->subdirToInstall;
+    }
+
+    private function getBuildArchivePath()
+    {
+        return PIWIK_INCLUDE_PATH . DIRECTORY_SEPARATOR . 'archives';
     }
 
     private function getDbConfigJson()
@@ -152,7 +190,7 @@ class LatestStableInstall extends Fixture
             throw new \Exception("matomo-package failed: " . implode("\n", $output));
         }
 
-        $path = PIWIK_INCLUDE_PATH . '/archives/matomo-build.zip';
+        $path = $this->getBuildArchivePath() . '/matomo-build.zip';
         rename($path, $matomoBuildPath);
     }
 }
