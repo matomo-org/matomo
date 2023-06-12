@@ -290,6 +290,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $tabToDisplay = 'cloudflare';
         } else if (!empty($templateData['jsFramework']) && $templateData['jsFramework'] === SitesManager::JS_FRAMEWORK_VUE) {
             $tabToDisplay = 'vue';
+        } else if (!empty($templateData['jsFramework']) && $templateData['jsFramework'] === SitesManager::JS_FRAMEWORK_REACT && Manager::getInstance()->isPluginActivated('TagManager')) {
+            $tabToDisplay = 'react';
         }
 
         return $tabToDisplay;
