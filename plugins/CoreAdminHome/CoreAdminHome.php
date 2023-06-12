@@ -214,5 +214,6 @@ class CoreAdminHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreAdminHome_GoogleTagManagerDescription';
         $translationKeys[] = 'CoreAdminHome_WordpressDescription';
         $translationKeys[] = 'CoreAdminHome_VueDescription';
+        $translationKeys[] = 'CoreAdminHome_ReactDescription';
     }
 }
