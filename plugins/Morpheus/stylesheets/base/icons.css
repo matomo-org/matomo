@@ -409,3 +409,15 @@
 .icon-arrow-right-2:before {
   content: "\ea3c";
 }
+.icon-chevron-left:before {
+  content: "\e907";
+}
+.icon-chevron-down:before {
+  content: "\e908";
+}
+.icon-chevron-right:before {
+  content: "\e909";
+}
+.icon-chevron-up:before {
+  content: "\e90a";
+}

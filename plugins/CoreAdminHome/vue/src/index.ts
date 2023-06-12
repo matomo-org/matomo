@@ -19,6 +19,9 @@ export {
   default as JsTrackingCodeGenerator,
 } from './JsTrackingCodeGenerator/JsTrackingCodeGenerator.vue';
 export {
+  default as JsTrackingCodeGeneratorSitesWithoutData,
+} from './JsTrackingCodeGenerator/JsTrackingCodeGeneratorSitesWithoutData.vue';
+export {
   default as ImageTrackingCodeGenerator,
 } from './ImageTrackingCodeGenerator/ImageTrackingCodeGenerator.vue';
 export { default as TrackingFailures } from './TrackingFailures/TrackingFailures.vue';
