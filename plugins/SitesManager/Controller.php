@@ -317,6 +317,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $request = \Piwik\Request::fromRequest();
         $piwikUrl = Url::getCurrentUrlWithoutFileName();
         $siteId = $request->getIntegerParameter('idSite', 1);
+        $configureComment = Piwik::translate('SitesManager_SiteWithoutDataVueFollowStep2ExampleCodeCommentConfigureMatomo');
+        $trackViewComment = Piwik::translate('SitesManager_SiteWithoutDataVueFollowStep2ExampleCodeCommentTrackPageView');
         if ($vueVersion == 2) {
             return <<<INST
 import { createApp } from 'vue'
@@ -325,13 +327,13 @@ import App from './App.vue'
 
 createApp(App)
   .use(VueMatomo, {
-    // Configure your matomo server and site by providing
+    // $configureComment
     host: '$piwikUrl',
     siteId: $siteId,
   })
   .mount('#app')
 
-window._paq.push(['trackPageView']); // To track a page view
+window._paq.push(['trackPageView']); // $trackViewComment
 INST;
         }
 
@@ -352,7 +354,7 @@ new Vue({
   template: ''
 })
 
-window._paq.push(['trackPageView']); // To track a page view
+window._paq.push(['trackPageView']); // $trackViewComment
 INST;
     }
 
