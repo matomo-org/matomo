@@ -82,6 +82,10 @@ abstract class RecordBuilder
 
         $recordMetadataByName = [];
         foreach ($recordsBuilt as $recordMetadata) {
+            if (!($recordMetadata instanceof Record)) {
+                continue;
+            }
+
             $recordMetadataByName[$recordMetadata->getName()] = $recordMetadata;
         }
 
@@ -141,7 +145,7 @@ abstract class RecordBuilder
 
         $aggregatedCounts = [];
 
-        // make sure if there are requested numeric records that depend on blob records, that the blob records will be archived
+        // make sure if there are requested numeric records that depend on blob records, that the blob records will be archived first
         foreach ($numericRecords as $record) {
             if (empty($record->getCountOfRecordName())
                 || !in_array($record->getName(), $requestedReports)
@@ -153,12 +157,19 @@ abstract class RecordBuilder
             if (!in_array($dependentRecordName, $requestedReports)) {
                 $requestedReports[] = $dependentRecordName;
             }
+
+            // we need to aggregate the blob record to get the count, so even if it's found, we must re-aggregate it
+            // TODO: this could potentially be optimized away, but it would be non-trivial given the current ArchiveProcessor API
+            $indexInFoundRecords = array_search($dependentRecordName, $foundRequestedReports);
+            if ($indexInFoundRecords !== false) {
+                unset($foundRequestedReports[$indexInFoundRecords]);
+            }
         }
 
         foreach ($blobRecords as $record) {
             if (!empty($requestedReports)
-                && !in_array($record->getName(), $requestedReports)
-                && !in_array($record->getName(), $foundRequestedReports)
+                && (!in_array($record->getName(), $requestedReports)
+                    || in_array($record->getName(), $foundRequestedReports))
             ) {
                 continue;
             }
@@ -194,7 +205,7 @@ abstract class RecordBuilder
         }
 
         if (!empty($numericRecords)) {
-            // handle metrics that are aggregated together
+            // handle metrics that are aggregated using metric values from child periods
             $autoAggregateMetrics = array_filter($numericRecords, function (Record $r) { return empty($r->getCountOfRecordName()); });
             $autoAggregateMetrics = array_map(function (Record $r) { return $r->getName(); }, $autoAggregateMetrics);
 
@@ -204,7 +215,11 @@ abstract class RecordBuilder
                 });
             }
 
-            $archiveProcessor->aggregateNumericMetrics($autoAggregateMetrics, $this->columnAggregationOps);
+            $autoAggregateMetrics = array_values($autoAggregateMetrics);
+
+            if (!empty($autoAggregateMetrics)) {
+                $archiveProcessor->aggregateNumericMetrics($autoAggregateMetrics, $this->columnAggregationOps);
+            }
 
             // handle metrics that are set to counts of blob records
             $recordCountMetricValues = [];
