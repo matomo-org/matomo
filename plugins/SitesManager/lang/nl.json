@@ -170,6 +170,8 @@
         "SiteWithoutDataVueFollowStep1": "Installeer het \"%1$s\" npm-pakket.",
         "SiteWithoutDataVueFollowStep2": "Initialiseer %1$s in %2$s met je Matomo-instantiedetails (voorbeeldcode hieronder).",
         "SiteWithoutDataVueFollowStep2ExampleCode": "Voorbeeldcode voor %1$s",
+        "SiteWithoutDataVueFollowStep2ExampleCodeCommentTrackPageView": "Om een paginaweergave bij te houden",
+        "SiteWithoutDataVueFollowStep2ExampleCodeCommentConfigureMatomo": "Configureer uw Matomo-server en website door",
         "SiteWithoutDataVueFollowStepCompleted": "%1$sGefeliciteerd!%2$s Je hebt succesvol de Matomo Analytics-trackingcode geïnstalleerd via het \"%3$s\" npm-pakket. Controleer of de hits worden bijgehouden door je website te bezoeken en te controleren of deze gegevens zichtbaar zijn in je Matomo-instantie.",
         "SiteWithoutDataVueFollowStepNote1": "Nu kun je via %1$s toegang krijgen tot Matomo in je componenten.",
         "SiteWithoutDataVueFollowStepNote2": "Als je deze stappen hebt gevolgd en er geen gegevens binnenkomen in Matomo, kun je in plaats daarvan %1$sMatomo Tag Manager%2$s proberen (gebruik deze link voor %3$sSingle Page Applications%4$s).",

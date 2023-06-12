@@ -152,6 +152,8 @@
         "SiteWithoutDataVueFollowStep1": "Installa il pacchetto npm \"%1$s\".",
         "SiteWithoutDataVueFollowStep2": "Inizializza %1$s in %2$s con i dettagli della tua istanza Matomo (codice di esempio di seguito).",
         "SiteWithoutDataVueFollowStep2ExampleCode": "Codice di esempio per %1$s",
+        "SiteWithoutDataVueFollowStep2ExampleCodeCommentTrackPageView": "Per tracciare una visualizzazione di pagina",
+        "SiteWithoutDataVueFollowStep2ExampleCodeCommentConfigureMatomo": "Configura il tuo server Matomo e il tuo sito fornendo",
         "SiteWithoutDataVueFollowStepCompleted": "%1$sCongratulazioni!%2$s Hai installato con successo il codice di tracciamento di Matomo Analytics tramite il pacchetto npm \"%3$s\". Per verificare che le visite vengano tracciate, visita il tuo sito web e verifica che questi dati siano visibili nella tua istanza Matomo.",
         "SiteWithoutDataVueFollowStepNote1": "Ora puoi accedere a Matomo nei tuoi componenti tramite %1$s.",
         "SiteWithoutDataVueFollowStepNote2": "Se hai seguito questi passaggi e non hai dati che arrivano a Matomo, puoi provare %1$sMatomo Tag Manager%2$s invece (utilizza questo link per le %3$sSingle Page Applications%4$s).",
