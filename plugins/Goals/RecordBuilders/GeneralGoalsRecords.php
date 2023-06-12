@@ -12,7 +12,6 @@ namespace Piwik\Plugins\Goals\RecordBuilders;
 use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Record;
 use Piwik\DataAccess\LogAggregator;
-use Piwik\DataArray;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Plugin\Manager;
@@ -42,7 +41,7 @@ class GeneralGoalsRecords extends Base
         $totalConversions = 0;
         $totalRevenue = 0;
 
-        $goals = new DataArray();
+        $goalMetrics = [];
 
         $visitsToConversions = [];
         $daysToConversions = [];
@@ -87,11 +86,9 @@ class GeneralGoalsRecords extends Base
                 unset($row['idgoal']);
                 unset($row['label']);
 
-                $values = [];
                 foreach ($conversionMetrics as $field => $statement) {
-                    $values[$field] = $row[$field];
+                    $goalMetrics[$idGoal][$field] = ($goalMetrics[$idGoal][$field] ?? 0) + $row[$field];
                 }
-                $goals->sumMetrics($idGoal, $values);
 
                 if (empty($visitsToConversions[$idGoal])) {
                     $visitsToConversions[$idGoal] = new DataTable();
@@ -115,7 +112,7 @@ class GeneralGoalsRecords extends Base
         }
 
         // Stats by goal, for all visitors
-        $numericRecords = $this->getConversionsNumericMetrics($goals);
+        $numericRecords = $this->getConversionsNumericMetrics($goalMetrics);
 
         $nbConvertedVisits = $archiveProcessor->getNumberOfVisitsConverted();
 
@@ -182,10 +179,9 @@ class GeneralGoalsRecords extends Base
         return $records;
     }
 
-    private function getConversionsNumericMetrics(DataArray $goals): array
+    protected function getConversionsNumericMetrics(array $goals): array
     {
         $numericRecords = [];
-        $goals = $goals->getDataArray();
         foreach ($goals as $idGoal => $array) {
             foreach ($array as $metricId => $value) {
                 $metricName = Metrics::$mappingFromIdToNameGoal[$metricId];
