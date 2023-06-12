@@ -222,7 +222,7 @@ import {
   translate,
   AjaxHelper,
   SiteRef,
-  SelectOnFocus,
+  CopyToClipboard,
   debounce,
   Matomo,
 } from 'CoreHome';
@@ -319,7 +319,7 @@ export default defineComponent({
     Field,
   },
   directives: {
-    SelectOnFocus,
+    CopyToClipboard,
   },
   created() {
     this.onCustomVarNameKeydown = debounce(this.onCustomVarNameKeydown, 100);

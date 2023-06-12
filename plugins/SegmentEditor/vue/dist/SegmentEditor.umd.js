@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("CoreHome"), require("vue"), require("CorePluginsAdmin"));
+		module.exports = factory(require("CoreHome"), require("CorePluginsAdmin"), require("vue"));
 	else if(typeof define === 'function' && define.amd)
-		define(["CoreHome", , "CorePluginsAdmin"], factory);
+		define(["CoreHome", "CorePluginsAdmin", ], factory);
 	else if(typeof exports === 'object')
-		exports["SegmentEditor"] = factory(require("CoreHome"), require("vue"), require("CorePluginsAdmin"));
+		exports["SegmentEditor"] = factory(require("CoreHome"), require("CorePluginsAdmin"), require("vue"));
 	else
-		root["SegmentEditor"] = factory(root["CoreHome"], root["Vue"], root["CorePluginsAdmin"]);
-})((typeof self !== 'undefined' ? self : this), function(__WEBPACK_EXTERNAL_MODULE__19dc__, __WEBPACK_EXTERNAL_MODULE__8bbf__, __WEBPACK_EXTERNAL_MODULE_a5a2__) {
+		root["SegmentEditor"] = factory(root["CoreHome"], root["CorePluginsAdmin"], root["Vue"]);
+})((typeof self !== 'undefined' ? self : this), function(__WEBPACK_EXTERNAL_MODULE_CoreHome__, __WEBPACK_EXTERNAL_MODULE_CorePluginsAdmin__, __WEBPACK_EXTERNAL_MODULE_vue__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -91,794 +91,223 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "fae3");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "19dc":
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE__19dc__;
-
-/***/ }),
-
-/***/ "8bbf":
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE__8bbf__;
-
-/***/ }),
-
-/***/ "a5a2":
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE_a5a2__;
-
-/***/ }),
-
-/***/ "fae3":
+/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=template&id=790714ff":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=template&id=790714ff ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-// ESM COMPAT FLAG
-__webpack_require__.r(__webpack_exports__);
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nvar _hoisted_1 = {\n  class: \"segment-generator\",\n  ref: \"root\"\n};\nvar _hoisted_2 = {\n  class: \"segment-rows\"\n};\nvar _hoisted_3 = {\n  class: \"segment-row\"\n};\nvar _hoisted_4 = [\"onClick\"];\nvar _hoisted_5 = {\n  href: \"#\",\n  class: \"segment-loading\"\n};\nvar _hoisted_6 = {\n  class: \"segment-row-inputs valign-wrapper\"\n};\nvar _hoisted_7 = {\n  class: \"segment-input metricListBlock valign-wrapper\"\n};\nvar _hoisted_8 = {\n  style: {\n    \"width\": \"100%\"\n  }\n};\nvar _hoisted_9 = {\n  class: \"segment-input metricMatchBlock valign-wrapper\"\n};\nvar _hoisted_10 = {\n  style: {\n    \"display\": \"inline-block\"\n  }\n};\nvar _hoisted_11 = {\n  class: \"segment-input metricValueBlock valign-wrapper\"\n};\nvar _hoisted_12 = {\n  class: \"form-group row\",\n  style: {\n    \"width\": \"100%\"\n  }\n};\nvar _hoisted_13 = {\n  class: \"input-field col s12\"\n};\n\nvar _hoisted_14 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n  role: \"status\",\n  \"aria-live\": \"polite\",\n  class: \"ui-helper-hidden-accessible\"\n}, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_15 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", {\n  class: \"clear\"\n}, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_16 = {\n  class: \"segment-or\"\n};\nvar _hoisted_17 = [\"onClick\"];\nvar _hoisted_18 = [\"innerHTML\"];\nvar _hoisted_19 = {\n  class: \"segment-and\"\n};\nvar _hoisted_20 = [\"innerHTML\"];\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  var _this = this;\n\n  var _component_ActivityIndicator = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"ActivityIndicator\");\n\n  var _component_Field = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"Field\");\n\n  var _component_ValueInput = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"ValueInput\");\n\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_1, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_ActivityIndicator, {\n    loading: _ctx.isLoading\n  }, null, 8\n  /* PROPS */\n  , [\"loading\"]), (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(vue__WEBPACK_IMPORTED_MODULE_0__[\"Fragment\"], null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"renderList\"])(_ctx.conditions, function (condition, conditionIndex) {\n    return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", {\n      class: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"normalizeClass\"])(\"segmentRow\".concat(conditionIndex)),\n      key: conditionIndex\n    }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_2, [(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(vue__WEBPACK_IMPORTED_MODULE_0__[\"Fragment\"], null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"renderList\"])(condition.orConditions, function (orCondition, orConditionIndex) {\n      var _ctx$segments$orCondi, _ctx$segments$orCondi2;\n\n      return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", {\n        class: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"normalizeClass\"])(\"orCondId\".concat(orCondition.id)),\n        key: orConditionIndex\n      }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_3, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"a\", {\n        class: \"segment-close\",\n        onClick: function onClick($event) {\n          return _ctx.removeOrCondition(condition, orCondition);\n        }\n      }, null, 8\n      /* PROPS */\n      , _hoisted_4), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"a\", _hoisted_5, null, 512\n      /* NEED_PATCH */\n      ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.conditionValuesLoading[orCondition.id]]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_6, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_7, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_8, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n        uicontrol: \"expandable-select\",\n        name: \"segments\",\n        \"model-value\": orCondition.segment,\n        \"onUpdate:modelValue\": function onUpdateModelValue($event) {\n          orCondition.segment = $event;\n\n          _ctx.updateAutocomplete(orCondition);\n\n          _ctx.computeSegmentDefinition();\n        },\n        title: (_ctx$segments$orCondi = _ctx.segments[orCondition.segment]) === null || _ctx$segments$orCondi === void 0 ? void 0 : _ctx$segments$orCondi.name,\n        \"full-width\": true,\n        options: _ctx.segmentList\n      }, null, 8\n      /* PROPS */\n      , [\"model-value\", \"onUpdate:modelValue\", \"title\", \"options\"])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_9, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_10, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n        uicontrol: \"select\",\n        name: \"matchType\",\n        \"model-value\": orCondition.matches,\n        \"onUpdate:modelValue\": function onUpdateModelValue($event) {\n          orCondition.matches = $event;\n\n          _ctx.computeSegmentDefinition();\n        },\n        \"full-width\": true,\n        options: _ctx.matches[(_ctx$segments$orCondi2 = _ctx.segments[orCondition.segment]) === null || _ctx$segments$orCondi2 === void 0 ? void 0 : _ctx$segments$orCondi2.type]\n      }, null, 8\n      /* PROPS */\n      , [\"model-value\", \"onUpdate:modelValue\", \"options\"])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_11, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_12, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_13, [_hoisted_14, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_ValueInput, {\n        or: orCondition,\n        onUpdate: function onUpdate($event) {\n          orCondition.value = $event; // deep watch doesn't catch this change\n\n          _this.computeSegmentDefinition();\n        }\n      }, null, 8\n      /* PROPS */\n      , [\"or\", \"onUpdate\"])])])]), _hoisted_15])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_16, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('SegmentEditor_OperatorOR')), 1\n      /* TEXT */\n      )], 2\n      /* CLASS */\n      );\n    }), 128\n    /* KEYED_FRAGMENT */\n    )), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", {\n      class: \"segment-add-or\",\n      onClick: function onClick($event) {\n        return _ctx.addNewOrCondition(condition);\n      }\n    }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"a\", {\n      innerHTML: _ctx.$sanitize(_ctx.addNewOrConditionLinkText)\n    }, null, 8\n    /* PROPS */\n    , _hoisted_18)])], 8\n    /* PROPS */\n    , _hoisted_17)]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_19, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('SegmentEditor_OperatorAND')), 1\n    /* TEXT */\n    )], 2\n    /* CLASS */\n    );\n  }), 128\n  /* KEYED_FRAGMENT */\n  )), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", {\n    class: \"segment-add-row initial\",\n    onClick: _cache[0] || (_cache[0] = function ($event) {\n      return _ctx.addNewAndCondition();\n    })\n  }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"a\", {\n    innerHTML: _ctx.$sanitize(_ctx.addNewAndConditionLinkText)\n  }, null, 8\n  /* PROPS */\n  , _hoisted_20)])])], 512\n  /* NEED_PATCH */\n  );\n}\n\n//# sourceURL=webpack://SegmentEditor/./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
 
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "SegmentGeneratorStore", function() { return /* reexport */ SegmentGenerator_store; });
-__webpack_require__.d(__webpack_exports__, "SegmentGenerator", function() { return /* reexport */ SegmentGenerator; });
+/***/ }),
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
-// This file is imported into lib/wc client bundles.
+/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/SegmentEditor/vue/src/SegmentGenerator/ValueInput.vue?vue&type=template&id=1cf071b8":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SegmentEditor/vue/src/SegmentGenerator/ValueInput.vue?vue&type=template&id=1cf071b8 ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-if (typeof window !== 'undefined') {
-  var currentScript = window.document.currentScript
-  if (false) { var getCurrentScript; }
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nvar _hoisted_1 = [\"placeholder\", \"title\", \"value\"];\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"input\", {\n    placeholder: _ctx.translate('General_Value'),\n    type: \"text\",\n    class: \"autocomplete\",\n    title: _ctx.translate('General_Value'),\n    autocomplete: \"off\",\n    value: _ctx.or.value,\n    onKeydown: _cache[0] || (_cache[0] = function ($event) {\n      return _ctx.onKeydownOrConditionValue($event);\n    }),\n    onChange: _cache[1] || (_cache[1] = function ($event) {\n      return _ctx.onKeydownOrConditionValue($event);\n    })\n  }, null, 40\n  /* PROPS, HYDRATE_EVENTS */\n  , _hoisted_1);\n}\n\n//# sourceURL=webpack://SegmentEditor/./plugins/SegmentEditor/vue/src/SegmentGenerator/ValueInput.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
 
-  var src = currentScript && currentScript.src.match(/(.+\/)[^/]+\.js(\?.*)?$/)
-  if (src) {
-    __webpack_require__.p = src[1] // eslint-disable-line
-  }
-}
+/***/ }),
 
-// Indicate to webpack that this file can be concatenated
-/* harmony default export */ var setPublicPath = (null);
+/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=script&lang=ts":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=script&lang=ts ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-// CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/types.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-// EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
-var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
-
-// EXTERNAL MODULE: external "CoreHome"
-var external_CoreHome_ = __webpack_require__("19dc");
-
-// CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.store.ts
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-var SegmentGenerator_store_SegmentGeneratorStore = /*#__PURE__*/function () {
-  function SegmentGeneratorStore() {
-    var _this = this;
-
-    _classCallCheck(this, SegmentGeneratorStore);
-
-    _defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
-      isLoading: false,
-      segments: []
-    }));
-
-    _defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_this.privateState);
-    }));
-
-    _defineProperty(this, "loadSegmentsAbort", void 0);
-
-    _defineProperty(this, "loadSegmentsPromise", void 0);
-
-    _defineProperty(this, "fetchedSiteId", void 0);
-  }
-
-  _createClass(SegmentGeneratorStore, [{
-    key: "loadSegments",
-    value: function loadSegments(siteId, visitSegmentsOnly) {
-      var _this2 = this;
-
-      if (this.loadSegmentsAbort) {
-        this.loadSegmentsAbort.abort();
-        this.loadSegmentsAbort = undefined;
-      }
-
-      this.privateState.isLoading = true;
-
-      if (this.fetchedSiteId !== siteId) {
-        this.loadSegmentsAbort = undefined;
-        this.fetchedSiteId = siteId;
-      }
-
-      if (!this.loadSegmentsPromise) {
-        var idSites = undefined;
-        var idSite = undefined;
-
-        if (siteId === 'all' || !siteId) {
-          idSites = 'all';
-          idSite = 'all';
-        } else if (siteId) {
-          idSites = siteId;
-          idSite = siteId;
-        }
-
-        this.loadSegmentsAbort = new AbortController();
-        this.loadSegmentsPromise = external_CoreHome_["AjaxHelper"].fetch({
-          method: 'API.getSegmentsMetadata',
-          filter_limit: '-1',
-          _hideImplementationData: 0,
-          idSites: idSites,
-          idSite: idSite
-        });
-      }
-
-      return this.loadSegmentsPromise.then(function (response) {
-        _this2.privateState.isLoading = false;
-
-        if (response) {
-          if (visitSegmentsOnly) {
-            _this2.privateState.segments = response.filter(function (s) {
-              return s.sqlSegment && s.sqlSegment.match(/log_visit\./);
-            });
-          } else {
-            _this2.privateState.segments = response;
-          }
-        }
-
-        return _this2.state.value.segments;
-      }).finally(function () {
-        _this2.privateState.isLoading = false;
-      });
-    }
-  }]);
-
-  return SegmentGeneratorStore;
-}();
-
-/* harmony default export */ var SegmentGenerator_store = (new SegmentGenerator_store_SegmentGeneratorStore());
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=template&id=b9115b72
-
-var _hoisted_1 = {
-  class: "segment-generator",
-  ref: "root"
-};
-var _hoisted_2 = {
-  class: "segment-rows"
-};
-var _hoisted_3 = {
-  class: "segment-row"
-};
-var _hoisted_4 = ["onClick"];
-var _hoisted_5 = {
-  href: "#",
-  class: "segment-loading"
-};
-var _hoisted_6 = {
-  class: "segment-row-inputs valign-wrapper"
-};
-var _hoisted_7 = {
-  class: "segment-input metricListBlock valign-wrapper"
-};
-var _hoisted_8 = {
-  style: {
-    "width": "100%"
-  }
-};
-var _hoisted_9 = {
-  class: "segment-input metricMatchBlock valign-wrapper"
-};
-var _hoisted_10 = {
-  style: {
-    "display": "inline-block"
-  }
-};
-var _hoisted_11 = {
-  class: "segment-input metricValueBlock valign-wrapper"
-};
-var _hoisted_12 = {
-  class: "form-group row",
-  style: {
-    "width": "100%"
-  }
-};
-var _hoisted_13 = {
-  class: "input-field col s12"
-};
-
-var _hoisted_14 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-  role: "status",
-  "aria-live": "polite",
-  class: "ui-helper-hidden-accessible"
-}, null, -1);
-
-var _hoisted_15 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
-  class: "clear"
-}, null, -1);
-
-var _hoisted_16 = {
-  class: "segment-or"
-};
-var _hoisted_17 = ["onClick"];
-var _hoisted_18 = ["innerHTML"];
-var _hoisted_19 = {
-  class: "segment-and"
-};
-var _hoisted_20 = ["innerHTML"];
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _this = this;
-
-  var _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
-
-  var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
-  var _component_ValueInput = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ValueInput");
-
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
-    loading: _ctx.isLoading
-  }, null, 8, ["loading"]), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.conditions, function (condition, conditionIndex) {
-    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
-      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])("segmentRow".concat(conditionIndex)),
-      key: conditionIndex
-    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_2, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(condition.orConditions, function (orCondition, orConditionIndex) {
-      var _ctx$segments$orCondi, _ctx$segments$orCondi2;
-
-      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
-        class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])("orCondId".concat(orCondition.id)),
-        key: orConditionIndex
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-        class: "segment-close",
-        onClick: function onClick($event) {
-          return _ctx.removeOrCondition(condition, orCondition);
-        }
-      }, null, 8, _hoisted_4), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", _hoisted_5, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.conditionValuesLoading[orCondition.id]]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "expandable-select",
-        name: "segments",
-        "model-value": orCondition.segment,
-        "onUpdate:modelValue": function onUpdateModelValue($event) {
-          orCondition.segment = $event;
-
-          _ctx.updateAutocomplete(orCondition);
-
-          _ctx.computeSegmentDefinition();
-        },
-        title: (_ctx$segments$orCondi = _ctx.segments[orCondition.segment]) === null || _ctx$segments$orCondi === void 0 ? void 0 : _ctx$segments$orCondi.name,
-        "full-width": true,
-        options: _ctx.segmentList
-      }, null, 8, ["model-value", "onUpdate:modelValue", "title", "options"])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_10, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "select",
-        name: "matchType",
-        "model-value": orCondition.matches,
-        "onUpdate:modelValue": function onUpdateModelValue($event) {
-          orCondition.matches = $event;
-
-          _ctx.computeSegmentDefinition();
-        },
-        "full-width": true,
-        options: _ctx.matches[(_ctx$segments$orCondi2 = _ctx.segments[orCondition.segment]) === null || _ctx$segments$orCondi2 === void 0 ? void 0 : _ctx$segments$orCondi2.type]
-      }, null, 8, ["model-value", "onUpdate:modelValue", "options"])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_11, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_12, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_13, [_hoisted_14, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ValueInput, {
-        or: orCondition,
-        onUpdate: function onUpdate($event) {
-          orCondition.value = $event; // deep watch doesn't catch this change
-
-          _this.computeSegmentDefinition();
-        }
-      }, null, 8, ["or", "onUpdate"])])])]), _hoisted_15])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_16, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('SegmentEditor_OperatorOR')), 1)], 2);
-    }), 128)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
-      class: "segment-add-or",
-      onClick: function onClick($event) {
-        return _ctx.addNewOrCondition(condition);
-      }
-    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-      innerHTML: _ctx.$sanitize(_ctx.addNewOrConditionLinkText)
-    }, null, 8, _hoisted_18)])], 8, _hoisted_17)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_19, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('SegmentEditor_OperatorAND')), 1)], 2);
-  }), 128)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
-    class: "segment-add-row initial",
-    onClick: _cache[0] || (_cache[0] = function ($event) {
-      return _ctx.addNewAndCondition();
-    })
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-    innerHTML: _ctx.$sanitize(_ctx.addNewAndConditionLinkText)
-  }, null, 8, _hoisted_20)])])], 512);
-}
-// CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=template&id=b9115b72
-
-// EXTERNAL MODULE: external "CorePluginsAdmin"
-var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SegmentEditor/vue/src/SegmentGenerator/ValueInput.vue?vue&type=template&id=17b64c0b
-
-var ValueInputvue_type_template_id_17b64c0b_hoisted_1 = ["placeholder", "title", "value"];
-function ValueInputvue_type_template_id_17b64c0b_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("input", {
-    placeholder: _ctx.translate('General_Value'),
-    type: "text",
-    class: "autocomplete",
-    title: _ctx.translate('General_Value'),
-    autocomplete: "off",
-    value: _ctx.or.value,
-    onKeydown: _cache[0] || (_cache[0] = function ($event) {
-      return _ctx.onKeydownOrConditionValue($event);
-    }),
-    onChange: _cache[1] || (_cache[1] = function ($event) {
-      return _ctx.onKeydownOrConditionValue($event);
-    })
-  }, null, 40, ValueInputvue_type_template_id_17b64c0b_hoisted_1);
-}
-// CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/SegmentGenerator/ValueInput.vue?vue&type=template&id=17b64c0b
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SegmentEditor/vue/src/SegmentGenerator/ValueInput.vue?vue&type=script&lang=ts
-
-
-/* harmony default export */ var ValueInputvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    or: Object
-  },
-  created: function created() {
-    this.onKeydownOrConditionValue = Object(external_CoreHome_["debounce"])(this.onKeydownOrConditionValue, 50);
-  },
-  emits: ['update'],
-  methods: {
-    onKeydownOrConditionValue: function onKeydownOrConditionValue(event) {
-      this.$emit('update', event.target.value);
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/SegmentGenerator/ValueInput.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/SegmentGenerator/ValueInput.vue
-
-
-
-ValueInputvue_type_script_lang_ts.render = ValueInputvue_type_template_id_17b64c0b_render
-
-/* harmony default export */ var ValueInput = (ValueInputvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=script&lang=ts
-
-
-
-
-
-
-function initialMatches() {
-  return {
-    metric: [{
-      key: '==',
-      value: Object(external_CoreHome_["translate"])('General_OperationEquals')
-    }, {
-      key: '!=',
-      value: Object(external_CoreHome_["translate"])('General_OperationNotEquals')
-    }, {
-      key: '<=',
-      value: Object(external_CoreHome_["translate"])('General_OperationAtMost')
-    }, {
-      key: '>=',
-      value: Object(external_CoreHome_["translate"])('General_OperationAtLeast')
-    }, {
-      key: '<',
-      value: Object(external_CoreHome_["translate"])('General_OperationLessThan')
-    }, {
-      key: '>',
-      value: Object(external_CoreHome_["translate"])('General_OperationGreaterThan')
-    }],
-    dimension: [{
-      key: '==',
-      value: Object(external_CoreHome_["translate"])('General_OperationIs')
-    }, {
-      key: '!=',
-      value: Object(external_CoreHome_["translate"])('General_OperationIsNot')
-    }, {
-      key: '=@',
-      value: Object(external_CoreHome_["translate"])('General_OperationContains')
-    }, {
-      key: '!@',
-      value: Object(external_CoreHome_["translate"])('General_OperationDoesNotContain')
-    }, {
-      key: '=^',
-      value: Object(external_CoreHome_["translate"])('General_OperationStartsWith')
-    }, {
-      key: '=$',
-      value: Object(external_CoreHome_["translate"])('General_OperationEndsWith')
-    }]
-  };
-}
-
-function generateUniqueId() {
-  var id = '';
-  var chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-
-  for (var i = 1; i <= 10; i += 1) {
-    id += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
-
-  return id;
-}
-
-function findAndExplodeByMatch(metric) {
-  var matches = ['==', '!=', '<=', '>=', '=@', '!@', '<', '>', '=^', '=$'];
-  var newMetric = {};
-  var minPos = metric.length;
-  var match;
-  var index;
-  var singleChar = false;
-
-  for (var key = 0; key < matches.length; key += 1) {
-    match = matches[key];
-    index = metric.indexOf(match);
-
-    if (index !== -1) {
-      if (index < minPos) {
-        minPos = index;
-
-        if (match.length === 1) {
-          singleChar = true;
-        }
-      }
-    }
-  }
-
-  if (minPos < metric.length) {
-    // sth found - explode
-    if (singleChar === true) {
-      newMetric.segment = metric.slice(0, minPos);
-      newMetric.matches = metric.slice(minPos, minPos + 1);
-      newMetric.value = decodeURIComponent(metric.slice(minPos + 1));
-    } else {
-      newMetric.segment = metric.slice(0, minPos);
-      newMetric.matches = metric.slice(minPos, minPos + 2);
-      newMetric.value = decodeURIComponent(metric.slice(minPos + 2));
-    } // if value is only '' -> change to empty string
-
-
-    if (newMetric.value === '""') {
-      newMetric.value = '';
-    }
-  }
-
-  try {
-    // Decode again to deal with double-encoded segments in database
-    newMetric.value = decodeURIComponent(newMetric.value);
-  } catch (e) {// Expected if the segment was not double-encoded
-  }
-
-  return newMetric;
-}
-
-function stripTags(text) {
-  return text ? "".concat(text).replace(/(<([^>]+)>)/ig, '') : text;
-}
-
-var _window = window,
-    $ = _window.$;
-/* harmony default export */ var SegmentGeneratorvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    addInitialCondition: Boolean,
-    visitSegmentsOnly: Boolean,
-    idsite: {
-      type: [String, Number],
-      default: function _default() {
-        return external_CoreHome_["Matomo"].idSite;
-      }
-    },
-    modelValue: {
-      type: String,
-      default: ''
-    }
-  },
-  components: {
-    ActivityIndicator: external_CoreHome_["ActivityIndicator"],
-    Field: external_CorePluginsAdmin_["Field"],
-    ValueInput: ValueInput
-  },
-  data: function data() {
-    return {
-      conditions: [],
-      queriedSegments: [],
-      matches: initialMatches(),
-      conditionValuesLoading: {},
-      segmentDefinition: ''
-    };
-  },
-  emits: ['update:modelValue'],
-  watch: {
-    modelValue: function modelValue(newVal) {
-      if ((newVal || '') !== (this.segmentDefinition || '')) {
-        this.setSegmentString(newVal);
-      }
-    },
-    conditions: {
-      deep: true,
-      handler: function handler() {
-        this.computeSegmentDefinition();
-      }
-    },
-    segmentDefinition: function segmentDefinition(newVal) {
-      if ((newVal || '') !== (this.modelValue || '')) {
-        this.$emit('update:modelValue', newVal);
-      }
-    },
-    idsite: function idsite(newVal) {
-      this.reloadSegments(newVal, this.visitSegmentsOnly);
-    }
-  },
-  created: function created() {
-    this.matches[''] = this.matches.dimension;
-    this.setSegmentString(this.modelValue);
-    this.segmentDefinition = this.modelValue;
-    this.reloadSegments(this.idsite, this.visitSegmentsOnly);
-  },
-  methods: {
-    reloadSegments: function reloadSegments(idsite, visitSegmentsOnly) {
-      var _this = this;
-
-      SegmentGenerator_store.loadSegments(idsite, visitSegmentsOnly).then(function (segments) {
-        _this.queriedSegments = segments.map(function (s) {
-          return Object.assign(Object.assign({}, s), {}, {
-            category: s.category || 'Others'
-          });
-        });
-
-        if (_this.addInitialCondition && _this.conditions.length === 0) {
-          _this.addNewAndCondition();
-        }
-      });
-    },
-    addAndCondition: function addAndCondition(condition) {
-      this.conditions.push(condition);
-    },
-    addNewOrCondition: function addNewOrCondition(condition) {
-      var orCondition = {
-        segment: this.firstSegment,
-        matches: this.firstMatch,
-        value: ''
-      };
-      this.addOrCondition(condition, orCondition);
-    },
-    addOrCondition: function addOrCondition(condition, orCondition) {
-      var _this2 = this;
-
-      this.conditionValuesLoading[orCondition.id] = false;
-      orCondition.id = generateUniqueId();
-      condition.orConditions.push(orCondition);
-      Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(function () {
-        _this2.updateAutocomplete(orCondition);
-      });
-    },
-    updateAutocomplete: function updateAutocomplete(orCondition) {
-      var _this3 = this;
-
-      this.conditionValuesLoading[orCondition.id] = true;
-      $(".orCondId".concat(orCondition.id, " .metricValueBlock input"), this.$refs.root).autocomplete({
-        source: [],
-        minLength: 0
-      });
-      var abortController = new AbortController();
-      var resolved = false;
-      external_CoreHome_["AjaxHelper"].fetch({
-        module: 'API',
-        format: 'json',
-        method: 'API.getSuggestedValuesForSegment',
-        segmentName: orCondition.segment
-      }).then(function (response) {
-        _this3.conditionValuesLoading[orCondition.id] = false;
-        resolved = true;
-        var autocompleteValues = response;
-
-        if (Array.isArray(autocompleteValues)) {
-          autocompleteValues = autocompleteValues.map(function (v) {
-            return "".concat(v);
-          });
-        }
-
-        var inputElement = $(".orCondId".concat(orCondition.id, " .metricValueBlock input")).autocomplete({
-          source: autocompleteValues,
-          minLength: 0,
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          select: function select(event, ui) {
-            event.preventDefault();
-            orCondition.value = ui.item.value;
-
-            _this3.computeSegmentDefinition(); // deep watch doesn't catch this change
-
-
-            _this3.$forceUpdate();
-          }
-        }).off('click').click(function () {
-          $(inputElement).autocomplete('search', orCondition.value);
-        });
-      }).catch(function () {
-        resolved = true;
-        _this3.conditionValuesLoading[orCondition.id] = false;
-        $(".orCondId".concat(orCondition.id, " .metricValueBlock input")).autocomplete({
-          source: [],
-          minLength: 0
-        }).autocomplete('search', orCondition.value);
-      });
-      setTimeout(function () {
-        if (!resolved) {
-          abortController.abort();
-        }
-      }, 20000);
-    },
-    removeOrCondition: function removeOrCondition(condition, orCondition) {
-      var index = condition.orConditions.indexOf(orCondition);
-
-      if (index > -1) {
-        condition.orConditions.splice(index, 1);
-      }
-
-      if (condition.orConditions.length === 0) {
-        var andCondIndex = this.conditions.indexOf(condition);
-
-        if (index > -1) {
-          this.conditions.splice(andCondIndex, 1);
-        }
-      }
-    },
-    setSegmentString: function setSegmentString(segmentStr) {
-      var _this4 = this;
-
-      this.conditions = [];
-
-      if (!segmentStr) {
-        return;
-      }
-
-      var blocks = segmentStr.split(';').map(function (b) {
-        return b.split(',');
-      });
-      this.conditions = blocks.map(function (block) {
-        var condition = {
-          orConditions: []
-        };
-        block.forEach(function (innerBlock) {
-          var orCondition = findAndExplodeByMatch(innerBlock);
-
-          _this4.addOrCondition(condition, orCondition);
-        });
-        return condition;
-      });
-    },
-    addNewAndCondition: function addNewAndCondition() {
-      var condition = {
-        orConditions: []
-      };
-      this.addAndCondition(condition);
-      this.addNewOrCondition(condition);
-      return condition;
-    },
-    // NOTE: can't use a computed property since we need to recompute on changes inside the
-    //       structure. don't have to if we don't do in-place changes, but with nested structures,
-    //       that's complicated.
-    computeSegmentDefinition: function computeSegmentDefinition() {
-      var segmentStr = '';
-      this.conditions.forEach(function (condition) {
-        if (!condition.orConditions.length) {
-          return;
-        }
-
-        var subSegmentStr = '';
-        condition.orConditions.forEach(function (orCondition) {
-          if (!orCondition.value && !orCondition.segment && !orCondition.matches) {
-            return;
-          }
-
-          if (subSegmentStr !== '') {
-            subSegmentStr += ','; // OR operator
-          } // one encode for urldecode on value, one encode for urldecode on condition
-
-
-          var value = encodeURIComponent(encodeURIComponent(orCondition.value));
-          subSegmentStr += "".concat(orCondition.segment).concat(orCondition.matches).concat(value);
-        });
-
-        if (segmentStr !== '') {
-          segmentStr += ';'; // add AND operator between segment blocks
-        }
-
-        segmentStr += subSegmentStr;
-      });
-      this.segmentDefinition = segmentStr;
-    }
-  },
-  computed: {
-    firstSegment: function firstSegment() {
-      return this.queriedSegments[0].segment;
-    },
-    firstMatch: function firstMatch() {
-      var segment = this.queriedSegments[0];
-
-      if (!segment) {
-        return null;
-      }
-
-      if (segment.type && this.matches[segment.type]) {
-        return this.matches[segment.type][0].key;
-      }
-
-      return this.matches[''][0].key;
-    },
-    segments: function segments() {
-      var result = {};
-      this.queriedSegments.forEach(function (s) {
-        result[s.segment] = s;
-      });
-      return result;
-    },
-    segmentList: function segmentList() {
-      return this.queriedSegments.map(function (s) {
-        return {
-          group: s.category,
-          key: s.segment,
-          value: s.name,
-          tooltip: s.acceptedValues ? stripTags(s.acceptedValues) : undefined
-        };
-      });
-    },
-    addNewOrConditionLinkText: function addNewOrConditionLinkText() {
-      return "+".concat(Object(external_CoreHome_["translate"])('SegmentEditor_AddANDorORCondition', "<span>".concat(Object(external_CoreHome_["translate"])('SegmentEditor_OperatorOR'), "</span>")));
-    },
-    andConditionLabel: function andConditionLabel() {
-      return this.conditions.length ? Object(external_CoreHome_["translate"])('SegmentEditor_OperatorAND') : '';
-    },
-    addNewAndConditionLinkText: function addNewAndConditionLinkText() {
-      return "+".concat(Object(external_CoreHome_["translate"])('SegmentEditor_AddANDorORCondition', "<span>".concat(this.andConditionLabel, "</span>")));
-    },
-    isLoading: function isLoading() {
-      return SegmentGenerator_store.state.value.isLoading;
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue
-
-
-
-SegmentGeneratorvue_type_script_lang_ts.render = render
-
-/* harmony default export */ var SegmentGenerator = (SegmentGeneratorvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/index.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! CoreHome */ \"CoreHome\");\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(CoreHome__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! CorePluginsAdmin */ \"CorePluginsAdmin\");\n/* harmony import */ var CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2__);\n/* harmony import */ var _SegmentGenerator_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SegmentGenerator.store */ \"./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.store.ts\");\n/* harmony import */ var _ValueInput_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ValueInput.vue */ \"./plugins/SegmentEditor/vue/src/SegmentGenerator/ValueInput.vue\");\n\n\n\n\n\n\nfunction initialMatches() {\n  return {\n    metric: [{\n      key: '==',\n      value: Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('General_OperationEquals')\n    }, {\n      key: '!=',\n      value: Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('General_OperationNotEquals')\n    }, {\n      key: '<=',\n      value: Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('General_OperationAtMost')\n    }, {\n      key: '>=',\n      value: Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('General_OperationAtLeast')\n    }, {\n      key: '<',\n      value: Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('General_OperationLessThan')\n    }, {\n      key: '>',\n      value: Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('General_OperationGreaterThan')\n    }],\n    dimension: [{\n      key: '==',\n      value: Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('General_OperationIs')\n    }, {\n      key: '!=',\n      value: Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('General_OperationIsNot')\n    }, {\n      key: '=@',\n      value: Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('General_OperationContains')\n    }, {\n      key: '!@',\n      value: Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('General_OperationDoesNotContain')\n    }, {\n      key: '=^',\n      value: Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('General_OperationStartsWith')\n    }, {\n      key: '=$',\n      value: Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('General_OperationEndsWith')\n    }]\n  };\n}\n\nfunction generateUniqueId() {\n  var id = '';\n  var chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';\n\n  for (var i = 1; i <= 10; i += 1) {\n    id += chars.charAt(Math.floor(Math.random() * chars.length));\n  }\n\n  return id;\n}\n\nfunction findAndExplodeByMatch(metric) {\n  var matches = ['==', '!=', '<=', '>=', '=@', '!@', '<', '>', '=^', '=$'];\n  var newMetric = {};\n  var minPos = metric.length;\n  var match;\n  var index;\n  var singleChar = false;\n\n  for (var key = 0; key < matches.length; key += 1) {\n    match = matches[key];\n    index = metric.indexOf(match);\n\n    if (index !== -1) {\n      if (index < minPos) {\n        minPos = index;\n\n        if (match.length === 1) {\n          singleChar = true;\n        }\n      }\n    }\n  }\n\n  if (minPos < metric.length) {\n    // sth found - explode\n    if (singleChar === true) {\n      newMetric.segment = metric.slice(0, minPos);\n      newMetric.matches = metric.slice(minPos, minPos + 1);\n      newMetric.value = decodeURIComponent(metric.slice(minPos + 1));\n    } else {\n      newMetric.segment = metric.slice(0, minPos);\n      newMetric.matches = metric.slice(minPos, minPos + 2);\n      newMetric.value = decodeURIComponent(metric.slice(minPos + 2));\n    } // if value is only '' -> change to empty string\n\n\n    if (newMetric.value === '\"\"') {\n      newMetric.value = '';\n    }\n  }\n\n  try {\n    // Decode again to deal with double-encoded segments in database\n    newMetric.value = decodeURIComponent(newMetric.value);\n  } catch (e) {// Expected if the segment was not double-encoded\n  }\n\n  return newMetric;\n}\n\nfunction stripTags(text) {\n  return text ? \"\".concat(text).replace(/(<([^>]+)>)/ig, '') : text;\n}\n\nvar _window = window,\n    $ = _window.$;\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {\n    addInitialCondition: Boolean,\n    visitSegmentsOnly: Boolean,\n    idsite: {\n      type: [String, Number],\n      default: function _default() {\n        return CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].idSite;\n      }\n    },\n    modelValue: {\n      type: String,\n      default: ''\n    }\n  },\n  components: {\n    ActivityIndicator: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"ActivityIndicator\"],\n    Field: CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2__[\"Field\"],\n    ValueInput: _ValueInput_vue__WEBPACK_IMPORTED_MODULE_4__[\"default\"]\n  },\n  data: function data() {\n    return {\n      conditions: [],\n      queriedSegments: [],\n      matches: initialMatches(),\n      conditionValuesLoading: {},\n      segmentDefinition: ''\n    };\n  },\n  emits: ['update:modelValue'],\n  watch: {\n    modelValue: function modelValue(newVal) {\n      if ((newVal || '') !== (this.segmentDefinition || '')) {\n        this.setSegmentString(newVal);\n      }\n    },\n    conditions: {\n      deep: true,\n      handler: function handler() {\n        this.computeSegmentDefinition();\n      }\n    },\n    segmentDefinition: function segmentDefinition(newVal) {\n      if ((newVal || '') !== (this.modelValue || '')) {\n        this.$emit('update:modelValue', newVal);\n      }\n    },\n    idsite: function idsite(newVal) {\n      this.reloadSegments(newVal, this.visitSegmentsOnly);\n    }\n  },\n  created: function created() {\n    this.matches[''] = this.matches.dimension;\n    this.setSegmentString(this.modelValue);\n    this.segmentDefinition = this.modelValue;\n    this.reloadSegments(this.idsite, this.visitSegmentsOnly);\n  },\n  methods: {\n    reloadSegments: function reloadSegments(idsite, visitSegmentsOnly) {\n      var _this = this;\n\n      _SegmentGenerator_store__WEBPACK_IMPORTED_MODULE_3__[\"default\"].loadSegments(idsite, visitSegmentsOnly).then(function (segments) {\n        _this.queriedSegments = segments.map(function (s) {\n          return Object.assign(Object.assign({}, s), {}, {\n            category: s.category || 'Others'\n          });\n        });\n\n        if (_this.addInitialCondition && _this.conditions.length === 0) {\n          _this.addNewAndCondition();\n        }\n      });\n    },\n    addAndCondition: function addAndCondition(condition) {\n      this.conditions.push(condition);\n    },\n    addNewOrCondition: function addNewOrCondition(condition) {\n      var orCondition = {\n        segment: this.firstSegment,\n        matches: this.firstMatch,\n        value: ''\n      };\n      this.addOrCondition(condition, orCondition);\n    },\n    addOrCondition: function addOrCondition(condition, orCondition) {\n      var _this2 = this;\n\n      this.conditionValuesLoading[orCondition.id] = false;\n      orCondition.id = generateUniqueId();\n      condition.orConditions.push(orCondition);\n      Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"nextTick\"])(function () {\n        _this2.updateAutocomplete(orCondition);\n      });\n    },\n    updateAutocomplete: function updateAutocomplete(orCondition) {\n      var _this3 = this;\n\n      this.conditionValuesLoading[orCondition.id] = true;\n      $(\".orCondId\".concat(orCondition.id, \" .metricValueBlock input\"), this.$refs.root).autocomplete({\n        source: [],\n        minLength: 0\n      });\n      var abortController = new AbortController();\n      var resolved = false;\n      CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"AjaxHelper\"].fetch({\n        module: 'API',\n        format: 'json',\n        method: 'API.getSuggestedValuesForSegment',\n        segmentName: orCondition.segment\n      }).then(function (response) {\n        _this3.conditionValuesLoading[orCondition.id] = false;\n        resolved = true;\n        var autocompleteValues = response;\n\n        if (Array.isArray(autocompleteValues)) {\n          autocompleteValues = autocompleteValues.map(function (v) {\n            return \"\".concat(v);\n          });\n        }\n\n        var inputElement = $(\".orCondId\".concat(orCondition.id, \" .metricValueBlock input\")).autocomplete({\n          source: autocompleteValues,\n          minLength: 0,\n          // eslint-disable-next-line @typescript-eslint/no-explicit-any\n          select: function select(event, ui) {\n            event.preventDefault();\n            orCondition.value = ui.item.value;\n\n            _this3.computeSegmentDefinition(); // deep watch doesn't catch this change\n\n\n            _this3.$forceUpdate();\n          }\n        }).off('click').click(function () {\n          $(inputElement).autocomplete('search', orCondition.value);\n        });\n      }).catch(function () {\n        resolved = true;\n        _this3.conditionValuesLoading[orCondition.id] = false;\n        $(\".orCondId\".concat(orCondition.id, \" .metricValueBlock input\")).autocomplete({\n          source: [],\n          minLength: 0\n        }).autocomplete('search', orCondition.value);\n      });\n      setTimeout(function () {\n        if (!resolved) {\n          abortController.abort();\n        }\n      }, 20000);\n    },\n    removeOrCondition: function removeOrCondition(condition, orCondition) {\n      var index = condition.orConditions.indexOf(orCondition);\n\n      if (index > -1) {\n        condition.orConditions.splice(index, 1);\n      }\n\n      if (condition.orConditions.length === 0) {\n        var andCondIndex = this.conditions.indexOf(condition);\n\n        if (index > -1) {\n          this.conditions.splice(andCondIndex, 1);\n        }\n      }\n    },\n    setSegmentString: function setSegmentString(segmentStr) {\n      var _this4 = this;\n\n      this.conditions = [];\n\n      if (!segmentStr) {\n        return;\n      }\n\n      var blocks = segmentStr.split(';').map(function (b) {\n        return b.split(',');\n      });\n      this.conditions = blocks.map(function (block) {\n        var condition = {\n          orConditions: []\n        };\n        block.forEach(function (innerBlock) {\n          var orCondition = findAndExplodeByMatch(innerBlock);\n\n          _this4.addOrCondition(condition, orCondition);\n        });\n        return condition;\n      });\n    },\n    addNewAndCondition: function addNewAndCondition() {\n      var condition = {\n        orConditions: []\n      };\n      this.addAndCondition(condition);\n      this.addNewOrCondition(condition);\n      return condition;\n    },\n    // NOTE: can't use a computed property since we need to recompute on changes inside the\n    //       structure. don't have to if we don't do in-place changes, but with nested structures,\n    //       that's complicated.\n    computeSegmentDefinition: function computeSegmentDefinition() {\n      var segmentStr = '';\n      this.conditions.forEach(function (condition) {\n        if (!condition.orConditions.length) {\n          return;\n        }\n\n        var subSegmentStr = '';\n        condition.orConditions.forEach(function (orCondition) {\n          if (!orCondition.value && !orCondition.segment && !orCondition.matches) {\n            return;\n          }\n\n          if (subSegmentStr !== '') {\n            subSegmentStr += ','; // OR operator\n          } // one encode for urldecode on value, one encode for urldecode on condition\n\n\n          var value = encodeURIComponent(encodeURIComponent(orCondition.value));\n          subSegmentStr += \"\".concat(orCondition.segment).concat(orCondition.matches).concat(value);\n        });\n\n        if (segmentStr !== '') {\n          segmentStr += ';'; // add AND operator between segment blocks\n        }\n\n        segmentStr += subSegmentStr;\n      });\n      this.segmentDefinition = segmentStr;\n    }\n  },\n  computed: {\n    firstSegment: function firstSegment() {\n      return this.queriedSegments[0].segment;\n    },\n    firstMatch: function firstMatch() {\n      var segment = this.queriedSegments[0];\n\n      if (!segment) {\n        return null;\n      }\n\n      if (segment.type && this.matches[segment.type]) {\n        return this.matches[segment.type][0].key;\n      }\n\n      return this.matches[''][0].key;\n    },\n    segments: function segments() {\n      var result = {};\n      this.queriedSegments.forEach(function (s) {\n        result[s.segment] = s;\n      });\n      return result;\n    },\n    segmentList: function segmentList() {\n      return this.queriedSegments.map(function (s) {\n        return {\n          group: s.category,\n          key: s.segment,\n          value: s.name,\n          tooltip: s.acceptedValues ? stripTags(s.acceptedValues) : undefined\n        };\n      });\n    },\n    addNewOrConditionLinkText: function addNewOrConditionLinkText() {\n      return \"+\".concat(Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('SegmentEditor_AddANDorORCondition', \"<span>\".concat(Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('SegmentEditor_OperatorOR'), \"</span>\")));\n    },\n    andConditionLabel: function andConditionLabel() {\n      return this.conditions.length ? Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('SegmentEditor_OperatorAND') : '';\n    },\n    addNewAndConditionLinkText: function addNewAndConditionLinkText() {\n      return \"+\".concat(Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('SegmentEditor_AddANDorORCondition', \"<span>\".concat(this.andConditionLabel, \"</span>\")));\n    },\n    isLoading: function isLoading() {\n      return _SegmentGenerator_store__WEBPACK_IMPORTED_MODULE_3__[\"default\"].state.value.isLoading;\n    }\n  }\n}));\n\n//# sourceURL=webpack://SegmentEditor/./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
 
+/***/ }),
 
+/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/SegmentEditor/vue/src/SegmentGenerator/ValueInput.vue?vue&type=script&lang=ts":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SegmentEditor/vue/src/SegmentGenerator/ValueInput.vue?vue&type=script&lang=ts ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! CoreHome */ \"CoreHome\");\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(CoreHome__WEBPACK_IMPORTED_MODULE_1__);\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {\n    or: Object\n  },\n  created: function created() {\n    this.onKeydownOrConditionValue = Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"debounce\"])(this.onKeydownOrConditionValue, 50);\n  },\n  emits: ['update'],\n  methods: {\n    onKeydownOrConditionValue: function onKeydownOrConditionValue(event) {\n      this.$emit('update', event.target.value);\n    }\n  }\n}));\n\n//# sourceURL=webpack://SegmentEditor/./plugins/SegmentEditor/vue/src/SegmentGenerator/ValueInput.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js":
+/*!**********************************************************************************!*\
+  !*** ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js ***!
+  \**********************************************************************************/
+/*! exports provided: SegmentGeneratorStore, SegmentGenerator */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _setPublicPath__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./setPublicPath */ \"./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js\");\n/* harmony import */ var _entry__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~entry */ \"./plugins/SegmentEditor/vue/src/index.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"SegmentGeneratorStore\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"SegmentGeneratorStore\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"SegmentGenerator\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"SegmentGenerator\"]; });\n\n\n\n\n\n//# sourceURL=webpack://SegmentEditor/./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js ***!
+  \***************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n// This file is imported into lib/wc client bundles.\n\nif (typeof window !== 'undefined') {\n  var currentScript = window.document.currentScript\n  if (false) { var getCurrentScript; }\n\n  var src = currentScript && currentScript.src.match(/(.+\\/)[^/]+\\.js(\\?.*)?$/)\n  if (src) {\n    __webpack_require__.p = src[1] // eslint-disable-line\n  }\n}\n\n// Indicate to webpack that this file can be concatenated\n/* harmony default export */ __webpack_exports__[\"default\"] = (null);\n\n\n//# sourceURL=webpack://SegmentEditor/./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js?");
+
+/***/ }),
+
+/***/ "./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.store.ts":
+/*!**********************************************************************************!*\
+  !*** ./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.store.ts ***!
+  \**********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! CoreHome */ \"CoreHome\");\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(CoreHome__WEBPACK_IMPORTED_MODULE_1__);\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\nfunction _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n\nvar SegmentGeneratorStore = /*#__PURE__*/function () {\n  function SegmentGeneratorStore() {\n    var _this = this;\n\n    _classCallCheck(this, SegmentGeneratorStore);\n\n    _defineProperty(this, \"privateState\", Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"reactive\"])({\n      isLoading: false,\n      segments: []\n    }));\n\n    _defineProperty(this, \"state\", Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"computed\"])(function () {\n      return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"readonly\"])(_this.privateState);\n    }));\n\n    _defineProperty(this, \"loadSegmentsAbort\", void 0);\n\n    _defineProperty(this, \"loadSegmentsPromise\", void 0);\n\n    _defineProperty(this, \"fetchedSiteId\", void 0);\n  }\n\n  _createClass(SegmentGeneratorStore, [{\n    key: \"loadSegments\",\n    value: function loadSegments(siteId, visitSegmentsOnly) {\n      var _this2 = this;\n\n      if (this.loadSegmentsAbort) {\n        this.loadSegmentsAbort.abort();\n        this.loadSegmentsAbort = undefined;\n      }\n\n      this.privateState.isLoading = true;\n\n      if (this.fetchedSiteId !== siteId) {\n        this.loadSegmentsAbort = undefined;\n        this.fetchedSiteId = siteId;\n      }\n\n      if (!this.loadSegmentsPromise) {\n        var idSites = undefined;\n        var idSite = undefined;\n\n        if (siteId === 'all' || !siteId) {\n          idSites = 'all';\n          idSite = 'all';\n        } else if (siteId) {\n          idSites = siteId;\n          idSite = siteId;\n        }\n\n        this.loadSegmentsAbort = new AbortController();\n        this.loadSegmentsPromise = CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"AjaxHelper\"].fetch({\n          method: 'API.getSegmentsMetadata',\n          filter_limit: '-1',\n          _hideImplementationData: 0,\n          idSites: idSites,\n          idSite: idSite\n        });\n      }\n\n      return this.loadSegmentsPromise.then(function (response) {\n        _this2.privateState.isLoading = false;\n\n        if (response) {\n          if (visitSegmentsOnly) {\n            _this2.privateState.segments = response.filter(function (s) {\n              return s.sqlSegment && s.sqlSegment.match(/log_visit\\./);\n            });\n          } else {\n            _this2.privateState.segments = response;\n          }\n        }\n\n        return _this2.state.value.segments;\n      }).finally(function () {\n        _this2.privateState.isLoading = false;\n      });\n    }\n  }]);\n\n  return SegmentGeneratorStore;\n}();\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (new SegmentGeneratorStore());\n\n//# sourceURL=webpack://SegmentEditor/./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.store.ts?");
+
+/***/ }),
+
+/***/ "./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue":
+/*!*****************************************************************************!*\
+  !*** ./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue ***!
+  \*****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _SegmentGenerator_vue_vue_type_template_id_790714ff__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SegmentGenerator.vue?vue&type=template&id=790714ff */ \"./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=template&id=790714ff\");\n/* harmony import */ var _SegmentGenerator_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SegmentGenerator.vue?vue&type=script&lang=ts */ \"./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_SegmentGenerator_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _SegmentGenerator_vue_vue_type_template_id_790714ff__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_SegmentGenerator_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_SegmentGenerator_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://SegmentEditor/./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?");
+
+/***/ }),
+
+/***/ "./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=script&lang=ts":
+/*!*****************************************************************************************************!*\
+  !*** ./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=script&lang=ts ***!
+  \*****************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_SegmentGenerator_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./SegmentGenerator.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_SegmentGenerator_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://SegmentEditor/./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?");
+
+/***/ }),
+
+/***/ "./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=template&id=790714ff":
+/*!***********************************************************************************************************!*\
+  !*** ./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=template&id=790714ff ***!
+  \***********************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_SegmentGenerator_vue_vue_type_template_id_790714ff__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./SegmentGenerator.vue?vue&type=template&id=790714ff */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=template&id=790714ff\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_SegmentGenerator_vue_vue_type_template_id_790714ff__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://SegmentEditor/./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?");
+
+/***/ }),
+
+/***/ "./plugins/SegmentEditor/vue/src/SegmentGenerator/ValueInput.vue":
+/*!***********************************************************************!*\
+  !*** ./plugins/SegmentEditor/vue/src/SegmentGenerator/ValueInput.vue ***!
+  \***********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _ValueInput_vue_vue_type_template_id_1cf071b8__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ValueInput.vue?vue&type=template&id=1cf071b8 */ \"./plugins/SegmentEditor/vue/src/SegmentGenerator/ValueInput.vue?vue&type=template&id=1cf071b8\");\n/* harmony import */ var _ValueInput_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ValueInput.vue?vue&type=script&lang=ts */ \"./plugins/SegmentEditor/vue/src/SegmentGenerator/ValueInput.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_ValueInput_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _ValueInput_vue_vue_type_template_id_1cf071b8__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_ValueInput_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/SegmentEditor/vue/src/SegmentGenerator/ValueInput.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_ValueInput_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://SegmentEditor/./plugins/SegmentEditor/vue/src/SegmentGenerator/ValueInput.vue?");
+
+/***/ }),
+
+/***/ "./plugins/SegmentEditor/vue/src/SegmentGenerator/ValueInput.vue?vue&type=script&lang=ts":
+/*!***********************************************************************************************!*\
+  !*** ./plugins/SegmentEditor/vue/src/SegmentGenerator/ValueInput.vue?vue&type=script&lang=ts ***!
+  \***********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_ValueInput_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./ValueInput.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/SegmentEditor/vue/src/SegmentGenerator/ValueInput.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_ValueInput_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://SegmentEditor/./plugins/SegmentEditor/vue/src/SegmentGenerator/ValueInput.vue?");
+
+/***/ }),
+
+/***/ "./plugins/SegmentEditor/vue/src/SegmentGenerator/ValueInput.vue?vue&type=template&id=1cf071b8":
+/*!*****************************************************************************************************!*\
+  !*** ./plugins/SegmentEditor/vue/src/SegmentGenerator/ValueInput.vue?vue&type=template&id=1cf071b8 ***!
+  \*****************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_ValueInput_vue_vue_type_template_id_1cf071b8__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./ValueInput.vue?vue&type=template&id=1cf071b8 */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/SegmentEditor/vue/src/SegmentGenerator/ValueInput.vue?vue&type=template&id=1cf071b8\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_ValueInput_vue_vue_type_template_id_1cf071b8__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://SegmentEditor/./plugins/SegmentEditor/vue/src/SegmentGenerator/ValueInput.vue?");
+
+/***/ }),
+
+/***/ "./plugins/SegmentEditor/vue/src/index.ts":
+/*!************************************************!*\
+  !*** ./plugins/SegmentEditor/vue/src/index.ts ***!
+  \************************************************/
+/*! exports provided: SegmentGeneratorStore, SegmentGenerator */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./types */ \"./plugins/SegmentEditor/vue/src/types.ts\");\n/* empty/unused harmony star reexport *//* harmony import */ var _SegmentGenerator_SegmentGenerator_store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SegmentGenerator/SegmentGenerator.store */ \"./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.store.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"SegmentGeneratorStore\", function() { return _SegmentGenerator_SegmentGenerator_store__WEBPACK_IMPORTED_MODULE_1__[\"default\"]; });\n\n/* harmony import */ var _SegmentGenerator_SegmentGenerator_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SegmentGenerator/SegmentGenerator.vue */ \"./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"SegmentGenerator\", function() { return _SegmentGenerator_SegmentGenerator_vue__WEBPACK_IMPORTED_MODULE_2__[\"default\"]; });\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n\n\n//# sourceURL=webpack://SegmentEditor/./plugins/SegmentEditor/vue/src/index.ts?");
+
+/***/ }),
+
+/***/ "./plugins/SegmentEditor/vue/src/types.ts":
+/*!************************************************!*\
+  !*** ./plugins/SegmentEditor/vue/src/types.ts ***!
+  \************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n//# sourceURL=webpack://SegmentEditor/./plugins/SegmentEditor/vue/src/types.ts?");
+
+/***/ }),
+
+/***/ "CoreHome":
+/*!***************************!*\
+  !*** external "CoreHome" ***!
+  \***************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = __WEBPACK_EXTERNAL_MODULE_CoreHome__;\n\n//# sourceURL=webpack://SegmentEditor/external_%22CoreHome%22?");
+
+/***/ }),
+
+/***/ "CorePluginsAdmin":
+/*!***********************************!*\
+  !*** external "CorePluginsAdmin" ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = __WEBPACK_EXTERNAL_MODULE_CorePluginsAdmin__;\n\n//# sourceURL=webpack://SegmentEditor/external_%22CorePluginsAdmin%22?");
+
+/***/ }),
+
+/***/ "vue":
+/*!******************************************************************!*\
+  !*** external {"commonjs":"vue","commonjs2":"vue","root":"Vue"} ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = __WEBPACK_EXTERNAL_MODULE_vue__;\n\n//# sourceURL=webpack://SegmentEditor/external_%7B%22commonjs%22:%22vue%22,%22commonjs2%22:%22vue%22,%22root%22:%22Vue%22%7D?");
 
 /***/ })
 
 /******/ });
 });
-//# sourceMappingURL=SegmentEditor.umd.js.map
