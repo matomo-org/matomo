@@ -151,7 +151,7 @@
         "SuperUserAccess": "Superuser Access",
         "FirstSiteInlineHelp": "It is required to give a new user a view role for a website upon creation. If no access is given, the user will see an error when logging in. You can give more permissions after the user is created in the 'Permissions' tab that will appear on the left.",
         "SuperUsersPermissionsNotice": "Super users have admin access to all websites, so there's no need to manage their permissions per website.",
-        "SuperUserIntro1": "Super users have the highest permissions. They can perform all administrative tasks such as adding new websites to monitor, adding users, changing user permissions, activating and deactivating plugins and even installing new plugins from the Marketplace. You can grant Super User access to other users of Divezone here.",
+        "SuperUserIntro1": "Super users have the highest permissions. They can perform all administrative tasks such as adding new websites to monitor, adding users, changing user permissions, activating and deactivating plugins and even installing new plugins from the Marketplace. You can grant Super User access to other users here.",
         "SuperUserIntro2": "Please use this feature carefully.",
         "HasSuperUserAccess": "Has Superuser Access",
         "AreYouSure": "Are you sure?",
