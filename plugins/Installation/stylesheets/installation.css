@@ -155,11 +155,11 @@ p.next-step:first-child {
     font-style: normal;
     font-variant: normal;
     text-transform: none;
-    font-size: 1.8em;
+    font-size: 1.6em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     display:inline-block;
-    margin-left:0.1em;
+    margin-left:0.20em;
     float:left;
 }
 
@@ -170,32 +170,31 @@ p.next-step:first-child {
 .copyToClipboardIconCheck {
     font-family: 'matomo' !important;
     font-style: normal;
-    font-weight: normal;
+    font-weight: 400;
     font-variant: normal;
     text-transform: none;
-    font-size: 1.8em;
+    font-size: 1.6em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     display:inline-block;
-    margin-left:0.1em;
+    margin-left:0.20em;
     float:left;
 }
 
 .copyToClipboardIconCheck:before {
-    content: "\e62e";
+    content: "\e906";
     color: #43a047 !important;
-    font-weight:800;
 }
 
 .copyToClipboardButton {
     position: absolute;
-    right: .2em;
-    top: .3em;
+    right: .5em;
+    top: .5em;
     margin-right: 0.2em;
     margin-top: 0.2em;
     border-radius: 100%;
-    width: 3em;
-    height: 3em;
+    width: 3.0em;
+    height: 3.0em;
     display: inline-block;
     transition: width 0.7s;
     overflow: hidden;
@@ -224,7 +223,7 @@ p.next-step:first-child {
 }
 
 .copyToClipboardButton:hover {
-    width: 6.5em;
+    width: 6.3em;
     border-radius: 10%;
 }
 
@@ -237,10 +236,9 @@ p.next-step:first-child {
     position: absolute;
     left: 2em;
     text-transform: uppercase;
-    padding-top: 0.4em;
+    padding-top: 0.35em;
 }
 
 .copyToClipboardWrapper {
     position: relative;
 }
-

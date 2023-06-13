@@ -427,3 +427,6 @@
 .icon-chevron-up:before {
   content: "\e90a";
 }
+.icon-done:before {
+  content: "\e906";
+}
