@@ -59,6 +59,8 @@ use Piwik\Piwik;
  */
 abstract class Archiver
 {
+    public static $ARCHIVE_DEPENDENT = true;
+
     /**
      * @var \Piwik\ArchiveProcessor
      */
@@ -200,6 +202,8 @@ abstract class Archiver
             }
 
             $this->aggregateDayReport();
+
+            $this->processDependentArchivesForPlugins();
         } finally {
             ErrorHandler::popFatalErrorBreadcrumb();
         }
@@ -240,6 +244,8 @@ abstract class Archiver
             }
 
             $this->aggregateMultipleReports();
+
+            $this->processDependentArchivesForPlugins();
         } finally {
             ErrorHandler::popFatalErrorBreadcrumb();
         }
@@ -256,7 +262,10 @@ abstract class Archiver
      * Aggregate log table rows using a {@link Piwik\DataAccess\LogAggregator} instance. Get a
      * {@link Piwik\DataAccess\LogAggregator} instance using the {@link getLogAggregator()} method.
      */
-    abstract public function aggregateDayReport();
+    public function aggregateDayReport()
+    {
+        // empty
+    }
 
     /**
      * Archives data for a non-day period.
@@ -269,7 +278,10 @@ abstract class Archiver
      * to aggregate archived reports. Get the {@link Piwik\ArchiveProcessor} instance using the {@link getProcessor()}
      * method.
      */
-    abstract public function aggregateMultipleReports();
+    public function aggregateMultipleReports()
+    {
+        // empty
+    }
 
     /**
      * Returns a {@link Piwik\ArchiveProcessor} instance that can be used to insert archive data for
@@ -322,11 +334,56 @@ abstract class Archiver
         return false;
     }
 
+    /**
+     * Returns a list of segments that should be pre-archived along with the segment currently being archived.
+     * The segments in this list will be added to the current segment via an AND condition and archiving
+     * for the current plugin will be launched. This process will not recurse further.
+     *
+     * If your plugin's API appends conditions to the requested segment when fetching data, you will want to
+     * use this method to make sure those segments get pre-archived. Otherwise, if browser archiving is disabled,
+     * the modified segments will appear to have no data.
+     *
+     * To archive another plugin, use an array instead of a string segment, for example:
+     *
+     * ```
+     * ['plugin' => 'VisitsSummary', 'segment' => '...']
+     * ```
+     *
+     * See the Goals and VisitFrequency plugins for examples.
+     *
+     * @return array
+     * @api
+     */
+    public function getDependentSegmentsToArchive(): array
+    {
+        return [];
+    }
+
     protected function isRequestedReport(string $reportName)
     {
         $requestedReport = $this->getProcessor()->getParams()->getArchiveOnlyReport();
 
         return empty($requestedReport) || $requestedReport == $reportName;
+    }
+
+    private function processDependentArchivesForPlugins()
+    {
+        if (!self::$ARCHIVE_DEPENDENT) {
+            return;
+        }
+
+        $dependentSegments = $this->getDependentSegmentsToArchive();
+        foreach ($dependentSegments as $dependentSegment) {
+            $plugin = $this->getPluginName();
+            $segment = $dependentSegment;
+
+            if (is_array($dependentSegment)) {
+                $plugin = $dependentSegment['plugin'] ?? $plugin;
+                $segment = $dependentSegment['segment'];
+            }
+
+            $this->getProcessor()->processDependentArchive($plugin, $segment);
+        }
     }
 
     private function getDefaultConstructibleClasses(array $classes): array
