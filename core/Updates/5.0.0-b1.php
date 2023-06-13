@@ -89,7 +89,7 @@ class Updates_5_0_0_b1 extends PiwikUpdates
     {
         if ($this->hasNewIndex()) {
             // correct index already exists, so don't perform anything
-        } else if ($this->hasCorrectlySetOldIndex() && $this->doesMySQLSupportRenameIndex()) {
+        } else if ($this->hasCorrectlySetOldIndex() && $this->doesDbSupportRenameIndex()) {
             // already existing index has the correct fields and mysql supports renaming an index, so we simply rename it
             $migrations[] = $this->migration->db->sql("ALTER TABLE `{$this->tableName}` RENAME INDEX `{$this->indexName}` TO `{$this->newIndexName}`");
         } else {
@@ -132,9 +132,15 @@ class Updates_5_0_0_b1 extends PiwikUpdates
         return DbHelper::tableHasIndex($this->tableName, $this->newIndexName);
     }
 
-    private function doesMySQLSupportRenameIndex(): bool
+    private function doesDbSupportRenameIndex(): bool
     {
-        return version_compare(Db::get()->getServerVersion(), '5.7', '>=');
+        $databaseVersion = Db::get()->getServerVersion();
+
+        if (strpos(strtolower($databaseVersion), 'mariadb')) {
+            return version_compare($databaseVersion, '10.5.2', '>=');
+        }
+
+        return version_compare($databaseVersion, '5.7', '>=');
     }
 
 }
