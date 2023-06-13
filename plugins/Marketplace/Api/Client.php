@@ -75,7 +75,7 @@ class Client
 
     /**
      * @param string $name
-     * @return array|null
+     * @return array
      * @throws Exception
      */
     public function getPluginInfo($name)
@@ -85,7 +85,7 @@ class Client
         $plugin = $this->fetch($action, array());
 
         if (empty($plugin['name']) || $this->shouldIgnorePlugin($plugin)) {
-            return null;
+            return [];
         }
 
         return $plugin;
