@@ -177,7 +177,7 @@
             <div class="right">
                 <img src="plugins/SitesManager/images/react-icon.png" style="height: 5rem;">
             </div>
-            {% include '@SitesManager/_reactTabInstructions.twig' %}
+            {{ postEvent('Template.embedReactTagManagerTrackingCode') }}
 
         </div>
     {% endif %}
