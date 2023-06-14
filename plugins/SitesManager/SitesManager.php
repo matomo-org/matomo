@@ -503,7 +503,6 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = 'SitesManager_SiteWithoutDataChoosePreferredWay';
         $translationKeys[] = 'SitesManager_DetectingYourSite';
         $translationKeys[] = 'SitesManager_SiteWithoutDataIgnoreMessage';
-        $translationKeys[] = "SitesManager_SiteWithoutDataCloudflare";
         $translationKeys[] = "SitesManager_SiteWithoutDataCloudflareDescription";
         $translationKeys[] = "SitesManager_GlobalListExcludedReferrers";
         $translationKeys[] = "SitesManager_GlobalListExcludedReferrersDesc";
@@ -515,7 +514,6 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = 'Goals_Optional';
         $translationKeys[] = "SitesManager_SiteWithoutDataGoogleTagManager";
         $translationKeys[] = "SitesManager_SiteWithoutDataGoogleTagManagerDescription";
-        $translationKeys[] = "SitesManager_SiteWithoutDataWordpress";
         $translationKeys[] = "SitesManager_SiteWithoutDataWordpressDescription";
         $translationKeys[] = "SitesManager_SiteWithoutDataStartTrackingDataHeader";
         $translationKeys[] = "SitesManager_SiteWithoutDataStartTrackingDataDescriptionLine1";
@@ -523,9 +521,7 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "SitesManager_EmailInstructionsButtonText";
         $translationKeys[] = "SitesManager_SiteWithoutDataIgnorePage";
         $translationKeys[] = "SitesManager_DemoSiteButtonText";
-        $translationKeys[] = "SitesManager_SiteWithoutDataVue";
         $translationKeys[] = "SitesManager_SiteWithoutDataVueDescription";
-        $translationKeys[] = "SitesManager_SiteWithoutDataReact";
         $translationKeys[] = "SitesManager_SiteWithoutDataReactDescription";
     }
 
