@@ -317,6 +317,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $request = \Piwik\Request::fromRequest();
         $piwikUrl = Url::getCurrentUrlWithoutFileName();
         $siteId = $request->getIntegerParameter('idSite', 1);
+        $configureComment = Piwik::translate('SitesManager_SiteWithoutDataVueFollowStep2ExampleCodeCommentConfigureMatomo');
+        $trackViewComment = Piwik::translate('SitesManager_SiteWithoutDataVueFollowStep2ExampleCodeCommentTrackPageView');
         if ($vueVersion == 2) {
             return <<<INST
 import { createApp } from 'vue'
@@ -324,15 +326,14 @@ import VueMatomo from 'vue-matomo'
 import App from './App.vue'
 
 createApp(App)
-    .use(VueMatomo, {
-        // Configure your matomo server and site by providing
-        host: '$piwikUrl',
-        siteId: $siteId,
-    })
-    .mount('#app')
+  .use(VueMatomo, {
+    // $configureComment
+    host: '$piwikUrl',
+    siteId: $siteId,
+  })
+  .mount('#app')
 
-
-window._paq.push(['trackPageView']); // To track a page view
+window._paq.push(['trackPageView']); // $trackViewComment
 INST;
         }
 
@@ -342,8 +343,8 @@ import App from './App.vue'
 import VueMatomo from 'vue-matomo'
 
 Vue.use(VueMatomo, {
-    host: '$piwikUrl',
-    siteId: $siteId
+  host: '$piwikUrl',
+  siteId: $siteId
 });
 
 new Vue({
@@ -353,7 +354,7 @@ new Vue({
   template: ''
 })
 
-window._paq.push(['trackPageView']); // To track a page view
+window._paq.push(['trackPageView']); // $trackViewComment
 INST;
     }
 

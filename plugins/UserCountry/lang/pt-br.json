@@ -1,6 +1,6 @@
 {
     "UserCountry": {
-        "CannotLocalizeLocalIP": "O endereço IP %s é um endereço local e não pode ser geolocalizado.",
+        "CannotLocalizeLocalIP": "O endereço IP \"%s\" é local, portanto não pode ser geolocalizado.",
         "City": "Cidade",
         "CityAndCountry": "%1$s, %2$s",
         "Continent": "Continente",
@@ -31,7 +31,7 @@
         "MaxMindLinkExplanation": "Se você estiver usando os bancos de dados de geolocalização da MaxMind e ainda não souber como gerar sua URL para baixar, %1$sclique aqui para saber como%2$s.",
         "NoDataForGeoIPReport1": "Não há dados para este relatório porque não há nenhum dado de localização disponível ou o endereço IP do visitante não pode ser geolocalizado.",
         "NoDataForGeoIPReport2": "Para ativar a geolocalização mais precisa, mude a configuração %1$s aqui%2$s e use uma %3$s base de dados no nível de cidade %4$s.",
-        "NoProviders": "No momento não há outros provedores de geolocalização disponíveis. O Matomo recomenda o uso das bases de dados %1$sdbip%2$s, mas isso requer ativar o plugin GeoIp2. (Como alternativa, você pode instalar do Marketplace um plugin de terceiros que tenha sua própria funcionalidade de geolocalização.)",
+        "NoProviders": "No momento não há outros provedores de geolocalização disponíveis. O Matomo recomenda o uso das bases de dados %1$sdbip%2$s, mas isso requer ativar o plugin GeoIp2. (Como alternativa, você pode instalar da loja de aplicativos um plugin de terceiros que tenha sua própria funcionalidade de geolocalização.)",
         "PluginDescription": "Informa a localização de seus visitantes: país, região, cidade e coordenadas geográficas (latitude / longitude).",
         "Region": "Região",
         "SubmenuLocations": "Locais",
