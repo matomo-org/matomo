@@ -89,17 +89,22 @@ class Updates_5_0_0_b1 extends PiwikUpdates
     {
         if ($this->hasNewIndex()) {
             // correct index already exists, so don't perform anything
-        } else if ($this->hasCorrectlySetOldIndex() && $this->doesDbSupportRenameIndex()) {
-            // already existing index has the correct fields and mysql supports renaming an index, so we simply rename it
-            $migrations[] = $this->migration->db->sql("ALTER TABLE `{$this->tableName}` RENAME INDEX `{$this->indexName}` TO `{$this->newIndexName}`");
-        } else {
-            // create the new index and drop the old one otherwise, as we either can't rename the existing index, or the old one isn't correct
-            $migrations[] = $this->migration->db->sql(
-                "ALTER TABLE `{$this->tableName}` ADD INDEX `{$this->newIndexName}` (`idsite`, `idvisitor`, `visit_last_action_time` DESC)",
-                [DbAlias::ERROR_CODE_DUPLICATE_KEY, DbAlias::ERROR_CODE_KEY_COLUMN_NOT_EXISTS]
-            );
-            $migrations[] = $this->migration->db->dropIndex('log_visit', $this->indexName);
+            return $migrations;
         }
+
+        if ($this->hasCorrectlySetOldIndex()) {
+            // already existing index has the correct fields. Try renaming, but ignore syntax error thrown if rename command does not exist
+            $migrations[] = $this->migration->db->sql(
+                "ALTER TABLE `{$this->tableName}` RENAME INDEX `{$this->indexName}` TO `{$this->newIndexName}`",
+                [DbAlias::ERROR_CODE_SYNTAX_ERROR]);
+        }
+
+        // create the new index if it does not yet exist and drop the old one
+        $migrations[] = $this->migration->db->sql(
+            "ALTER TABLE `{$this->tableName}` ADD INDEX `{$this->newIndexName}` (`idsite`, `idvisitor`, `visit_last_action_time` DESC)",
+            [DbAlias::ERROR_CODE_DUPLICATE_KEY, DbAlias::ERROR_CODE_KEY_COLUMN_NOT_EXISTS]
+        );
+        $migrations[] = $this->migration->db->dropIndex('log_visit', $this->indexName);
 
         return $migrations;
     }
@@ -131,16 +136,4 @@ class Updates_5_0_0_b1 extends PiwikUpdates
     {
         return DbHelper::tableHasIndex($this->tableName, $this->newIndexName);
     }
-
-    private function doesDbSupportRenameIndex(): bool
-    {
-        $databaseVersion = Db::get()->getServerVersion();
-
-        if (strpos(strtolower($databaseVersion), 'mariadb')) {
-            return version_compare($databaseVersion, '10.5.2', '>=');
-        }
-
-        return version_compare($databaseVersion, '5.7', '>=');
-    }
-
 }
