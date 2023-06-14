@@ -140,7 +140,6 @@
         "SiteWithoutDataOtherIntegrations": "Outras integrações",
         "SiteWithoutDataOtherWays": "Outras maneiras",
         "SiteWithoutDataReactDescription": "Você pode usar o \"%1$sMatomo Tag Manager%2$s\" para integrar o Matomo para rastrear dados, siga as instruções deste %3$sguia%4$s.",
-        "SiteWithoutDataReactFollowStep2": "Selecione o contêiner certo para o seu site. Observação: o Matomo pré-configura automaticamente um contêiner quando você adiciona um site. Por padrão, este contêiner é selecionado nos campos abaixo. Se você planeja usar um único contêiner para vários sites, certifique-se de selecionar esse contêiner específico.",
         "SiteWithoutDataReactFollowStepCompleted": "%1$sParabéns!%2$s Você instalou com sucesso o código de rastreamento Matomo Analytics por meio do Matomo Tag Manager. Para verificar se os acessos estão sendo rastreados, visite seu site e verifique se esses dados estão visíveis em sua instância do Matomo.",
         "SiteWithoutDataSetupTracking": "Por favor, configure o %1$scódigo de rastreamento%2$s abaixo em seu site ou aplicativo móvel, caso ainda não tenha feito.",
         "SiteWithoutDataSinglePageApplication": "Aplicativo de página única (SPA) ou aplicativo da Web progressivo (PWA)",

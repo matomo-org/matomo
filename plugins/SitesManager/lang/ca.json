@@ -150,7 +150,6 @@
         "SiteWithoutDataOtherIntegrations": "Altres integracions",
         "SiteWithoutDataOtherWays": "Altres maneres",
         "SiteWithoutDataReactDescription": "Podeu utilitzar el \"%1$sMatomo Tag Manager%2$s\" per integrar Matomo per fer un seguiment de les dades, seguiu les instruccions d'aquesta %3$sguia%4$s.",
-        "SiteWithoutDataReactFollowStep2": "Seleccioneu el contenidor adequat per al vostre lloc web. Nota: Matomo preconfigura automàticament un contenidor quan afegiu un lloc. De manera predeterminada, aquest contenidor està seleccionat als camps següents. Si teniu previst utilitzar un únic contenidor per a diversos llocs web, assegureu-vos de seleccionar aquest contenidor específic.",
         "SiteWithoutDataReactFollowStepCompleted": "%1$sEnhorabona!%2$s Heu instal·lat correctament el codi de seguiment de Matomo Analytics mitjançant el Gestor d'etiquetes de Matomo. Per verificar que s'està fent un seguiment de les visites, visiteu el vostre lloc web i comproveu que aquestes dades siguin visibles a la vostra instància de Matomo.",
         "SiteWithoutDataSetupTracking": "Configureu el %1$scodi de seguiment%2$s a continuació al vostre lloc web o aplicació mòbil si encara no ho heu fet.",
         "SiteWithoutDataSinglePageApplication": "Aplicació d'una sola pàgina o aplicació web progressiva",
