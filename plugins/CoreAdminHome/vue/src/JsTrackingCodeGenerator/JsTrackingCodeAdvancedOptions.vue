@@ -222,7 +222,6 @@ import {
   translate,
   AjaxHelper,
   SiteRef,
-  CopyToClipboard,
   debounce,
   Matomo,
 } from 'CoreHome';
@@ -317,9 +316,6 @@ export default defineComponent({
   emits: ['updateTrackingCode'],
   components: {
     Field,
-  },
-  directives: {
-    CopyToClipboard,
   },
   created() {
     this.onCustomVarNameKeydown = debounce(this.onCustomVarNameKeydown, 100);
