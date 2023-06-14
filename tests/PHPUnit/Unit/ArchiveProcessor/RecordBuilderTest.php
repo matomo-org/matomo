@@ -45,6 +45,7 @@ class RecordBuilderTest extends TestCase
     protected function tearDown(): void
     {
         Manager::getInstance()->deleteAll();
+        Site::clearCache();
 
         parent::tearDown();
     }
