@@ -82,7 +82,7 @@ export default {
       const sp = document.createElement('span');
       sp.className = 'copyToClipboardSpan';
       sp.innerHTML = translate('General_Copy');
-      lnk.appendChild(sp);
+      btn.appendChild(sp);
 
       const div = document.createElement('div');
       div.className = 'copyToClipboardCopiedDiv';
@@ -91,15 +91,15 @@ export default {
       const pe = el.parentElement;
       if (pe) {
         pe.classList.add('copyToClipboardWrapper');
-        pe.appendChild(lnk);
+        pe.appendChild(btn);
         pe.appendChild(div);
       }
 
       binding.value.onClickHandler = onClickHandler.bind(null, binding);
-      lnk.addEventListener('click', binding.value.onClickHandler);
+      btn.addEventListener('click', binding.value.onClickHandler);
 
       binding.value.onTransitionEndHandler = onTransitionEndHandler.bind(null, binding);
-      lnk.addEventListener('transitionend', binding.value.onTransitionEndHandler);
+      btn.addEventListener('transitionend', binding.value.onTransitionEndHandler);
     }
   },
   unmounted(el: HTMLElement, binding: DirectiveBinding<CopyToClipboardArgs>): void {
