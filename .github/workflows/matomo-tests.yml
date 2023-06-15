@@ -43,7 +43,7 @@ jobs:
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
-          ui-test-options: 'OneClickUpdate OneClickMajorUpdate'
+          ui-test-options: 'OneClickUpdate OneClickLastForcedUpdate'
           test-type: 'UI'
           php-version: '7.2'
           node-version: '16'
