@@ -71,9 +71,9 @@ export default {
     const tagName = el.tagName.toLowerCase();
 
     if (tagName === 'pre') {
-      const lnk = document.createElement('button');
-      lnk.setAttribute('type', 'button');
-      lnk.className = 'copyToClipboardButton';
+      const btn = document.createElement('button');
+      btn.setAttribute('type', 'button');
+      btn.className = 'copyToClipboardButton';
 
       const icon = document.createElement('i');
       icon.className = 'copyToClipboardIcon';
