@@ -9,12 +9,10 @@
 
 namespace Piwik\Tests\Fixtures;
 
-use Piwik\Version;
-
-class FirstPreviousMajorInstall extends LatestStableInstall
+class LastForcedInstall extends LatestStableInstall
 {
     protected function getDownloadUrl()
     {
-        return sprintf('http://builds.matomo.org/matomo-%s.0.0.zip', Version::MAJOR_VERSION-1);
+        return 'http://builds.matomo.org/matomo-4.15.0-b1.zip';
     }
 }

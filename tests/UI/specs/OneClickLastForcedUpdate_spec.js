@@ -13,8 +13,8 @@ var fs = require('fs'),
 const request = require('request-promise');
 const exec = require('child_process').exec;
 
-describe("OneClickMajorUpdate", function () {
-    this.fixture = "Piwik\\Tests\\Fixtures\\FirstPreviousMajorInstall";
+describe("OneClickLastForcedUpdate", function () {
+    this.fixture = "Piwik\\Tests\\Fixtures\\LastForcedInstall";
 
     var latestStableUrl = config.piwikUrl + '/latestStableInstall/index.php';
     var settingsUrl = latestStableUrl + '?module=CoreAdminHome&action=home&idSite=1&period=day&date=yesterday';
