@@ -179,8 +179,6 @@ class Controller extends \Piwik\Plugin\Controller
         $this->addCustomLogoInfo($view);
         $result = $view->render();
 
-        Filesystem::deleteAllCacheOnUpdate();
-
         return $result;
     }
 
