@@ -359,7 +359,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                     'site_idSite' => $result,
                     'site_name' => urlencode($name)
                 );
-                $this->addTrustedHosts($url);
 
                 $this->redirectToNextStep(__FUNCTION__, $params);
             } catch (Exception $e) {
@@ -412,6 +411,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'ga3Used' => $this->siteContentDetector->ga3,
             'ga4Used' => $this->siteContentDetector->ga4,
             'cloudflare' => $this->siteContentDetector->cloudflare,
+            'jsFramework' => $this->siteContentDetector->jsFramework,
             'consentManagerName' => $this->siteContentDetector->consentManagerName,
             'consentManagerUrl' => $this->siteContentDetector->consentManagerUrl,
             'consentManagerIsConnected' => $this->siteContentDetector->isConnected
@@ -430,6 +430,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $viewTrackingHelp->ga3Used = $this->siteContentDetector->ga3;
         $viewTrackingHelp->ga4Used = $this->siteContentDetector->ga4;
         $viewTrackingHelp->cloudflare = $this->siteContentDetector->cloudflare;
+        $viewTrackingHelp->jsFramework = $this->siteContentDetector->jsFramework;
         $viewTrackingHelp->consentManagerName = $this->siteContentDetector->consentManagerName;
         $viewTrackingHelp->consentManagerUrl = $this->siteContentDetector->consentManagerUrl;
         $viewTrackingHelp->consentManagerIsConnected = $this->siteContentDetector->isConnected;
@@ -630,6 +631,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $config->General['salt'] = Common::generateUniqId();
         $config->General['installation_in_progress'] = 1;
+        $this->setTrustedHost($config);
 
         $config->database = $dbInfos;
         $config->database['charset'] = DbHelper::getDefaultCharset();
@@ -696,41 +698,33 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      *
      * @return string|false
      */
-    private function extractHost($url)
+    private function extractHostAndPort($url)
     {
-        $urlParts = parse_url($url);
-        if (isset($urlParts['host']) && strlen($host = $urlParts['host'])) {
-            return $host;
+        $host = parse_url($url, PHP_URL_HOST) ?? false;
+
+        if (empty($host)) {
+            return false;
         }
 
-        return false;
+        $port = (int) parse_url($url, PHP_URL_PORT) ?? 0;
+
+        if (!empty($port) && $port !== 80 && $port !== 443) {
+            return $host . ':' . $port;
+        }
+
+        return $host;
     }
 
     /**
-     * Add trusted hosts
+     * Sets trusted hosts in config
      */
-    private function addTrustedHosts($siteUrl)
+    private function setTrustedHost(Config $config): void
     {
-        $trustedHosts = array();
+        $host = Url::getHost(false);
 
-        // extract host from the request header
-        if (($host = $this->extractHost('http://' . Url::getHost())) !== false) {
-            $trustedHosts[] = $host;
-        }
-
-        // extract host from first web site
-        if (($host = $this->extractHost(urldecode($siteUrl))) !== false) {
-            $trustedHosts[] = $host;
-        }
-
-        $trustedHosts = array_unique($trustedHosts);
-        if (count($trustedHosts)) {
-
-            $general = Config::getInstance()->General;
-            $general['trusted_hosts'] = $trustedHosts;
-            Config::getInstance()->General = $general;
-
-            Config::getInstance()->forceSave();
+        // check hostname in server variables is correctly parsable
+        if ($host === $this->extractHostAndPort('http://' . $host)) {
+            $config->General['trusted_hosts'] = [$host];
         }
     }
 
