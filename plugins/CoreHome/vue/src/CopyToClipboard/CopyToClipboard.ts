@@ -69,7 +69,6 @@ function onTransitionEndHandler(binding: DirectiveBinding<CopyToClipboardArgs>, 
 export default {
   mounted(el: HTMLElement, binding: DirectiveBinding<CopyToClipboardArgs>): void {
     const tagName = el.tagName.toLowerCase();
-
     if (tagName === 'pre') {
       const btn = document.createElement('button');
       btn.setAttribute('type', 'button');
@@ -77,7 +76,7 @@ export default {
 
       const icon = document.createElement('i');
       icon.className = 'copyToClipboardIcon';
-      lnk.appendChild(icon);
+      btn.appendChild(icon);
 
       const sp = document.createElement('span');
       sp.className = 'copyToClipboardSpan';
