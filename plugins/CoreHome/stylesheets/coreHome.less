@@ -305,12 +305,9 @@ a.Piwik_Popover_Error_Back {
 }
 
 .copyToClipboardButton {
-    position: absolute;
-    right: .5em;
-    top: .5em;
-    float: left;
+    position: relative;
+    float: right;
     margin-right: 0.2em;
-    margin-top: 0.2em;
     border-radius: 100%;
     min-width: 3.0em;
     max-width: 3.0em;
@@ -333,12 +330,18 @@ a.Piwik_Popover_Error_Back {
     border-radius: 5px;
 }
 
+.copyToClipboardPositionDiv {
+    position: absolute;
+    right: .5em;
+    top: .5em;
+}
+
 .copyToClipboardCopiedDiv {
     font-size: 0.8em;
     display: none;
-    position: absolute;
-    right: 22em;
-    top: 1.6em;
+    position: relative;
+    float:right;
+    top: 0.8em;
     margin-right: 1em;
     width: auto;
     padding: 0.5em 1em;
@@ -350,8 +353,6 @@ a.Piwik_Popover_Error_Back {
 
 .copyToClipboardButton:hover span {
     overflow: visible;
-    margin-left: 2.2em;
-    transition: margin-left 0s ease-out 0s;
 }
 
 .copyToClipboardButton span {
@@ -361,11 +362,11 @@ a.Piwik_Popover_Error_Back {
     white-space: nowrap;
     overflow: hidden;
     position: relative;
-    width: calc(80% - 1.1em);
-    text-align:center;
+    width: calc(100% - 1.1em);
+    text-align:left;
     text-transform: uppercase;
     margin-top: -1.5em;
-    transition: margin-left 0s ease-out 2.5s;
+    margin-right: -1.5em;
 }
 
 .copyToClipboardWrapper {

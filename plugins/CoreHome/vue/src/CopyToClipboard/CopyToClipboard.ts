@@ -40,7 +40,7 @@ function onClickHandler(pre: HTMLElement) {
         (copied as HTMLDivElement).style.display = 'inline-block';
         setTimeout(() => {
           (copied as HTMLDivElement).style.display = 'none';
-        }, 2000);
+        }, 2500);
       }
     }
   }
@@ -70,6 +70,9 @@ export default {
       btn.setAttribute('type', 'button');
       btn.className = 'copyToClipboardButton';
 
+      const positionDiv = document.createElement('div');
+      positionDiv.className = 'copyToClipboardPositionDiv';
+
       const icon = document.createElement('i');
       icon.className = 'copyToClipboardIcon';
       btn.appendChild(icon);
@@ -79,15 +82,18 @@ export default {
       sp.innerHTML = translate('General_Copy');
       btn.appendChild(sp);
 
-      const div = document.createElement('div');
-      div.className = 'copyToClipboardCopiedDiv';
-      div.innerHTML = translate('General_CopiedToClipboard');
+      positionDiv.appendChild(btn);
+
+      const cdiv = document.createElement('div');
+      cdiv.className = 'copyToClipboardCopiedDiv';
+      cdiv.innerHTML = translate('General_CopiedToClipboard');
+
+      positionDiv.appendChild(cdiv);
 
       const pe = el.parentElement;
       if (pe) {
         pe.classList.add('copyToClipboardWrapper');
-        pe.appendChild(btn);
-        pe.appendChild(div);
+        pe.appendChild(positionDiv);
       }
 
       binding.value.onClickHandler = onClickHandler.bind(null, el);
