@@ -395,6 +395,8 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_PiwikXIsAvailablePleaseUpdateNow';
         $translationKeys[] = 'General_PiwikXIsAvailablePleaseNotifyPiwikAdmin';
         $translationKeys[] = 'General_YouAreCurrentlyUsing';
+        $translationKeys[] = 'General_Copy';
+        $translationKeys[] = 'General_CopiedToClipboard';
 
         // add admin menu translations
         if (SettingsPiwik::isMatomoInstalled()

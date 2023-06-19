@@ -45,7 +45,7 @@
         "JSTrackingIntro5": "If you want to do more than track page views, please check out the %1$sMatomo Javascript Tracking documentation%2$s for the list of available functions. Using these functions you can track goals, custom variables, ecommerce orders, abandoned carts and more.",
         "JSTracking_CampaignKwdParam": "Campaign Keyword parameter",
         "JSTracking_CampaignNameParam": "Campaign Name parameter",
-        "JSTracking_CodeNoteBeforeClosingHead": "Make sure this code is on every page of your website. We recommend pasting it immediately before the closing %1$s tag.",
+        "JSTracking_CodeNoteBeforeClosingHead": "Click on the button to copy the code snippet and paste it immediately before the closing %1$s tag (recommended)",
         "JSTracking_CodeNoteBeforeClosingHeadEmail": "Make sure this code is embedded within a script element on every page of your website. We recommend pasting it immediately before the closing head tag.",
         "JSTracking_ConsentManagerDetected": "%1$s consent manager was detected on your site. To learn about configuring Matomo to work with %1$s please visit %2$s",
         "JSTracking_ConsentManagerConnected": "%1$s appears to already be configured to work with Matomo.",
