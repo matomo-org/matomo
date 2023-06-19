@@ -21,6 +21,20 @@ describe("EmptySite", function () {
         expect(await pageElement.screenshot()).to.matchImage('emptySiteDashboard');
     });
 
+    it('should show the advanced tracking options when clicked', async function () {
+        await page.evaluate(() => $('.advance-option a').click());
+
+        const pageElement = await page.$('.page');
+        expect(await pageElement.screenshot()).to.matchImage('showAdvancedTrackingOptions');
+    });
+
+    it('should hide the advanced tracking options when clicked', async function () {
+        await page.evaluate(() => $('.advance-option a').click());
+
+        const pageElement = await page.$('.page');
+        expect(await pageElement.screenshot()).to.matchImage('hideAdvancedTrackingOptions');
+    });
+
     it('should have button to send tracking code to developer', async function() {
         var mailtoLink = await page.$eval('.emailTrackingCode', link => link.getAttribute('href'));
 
