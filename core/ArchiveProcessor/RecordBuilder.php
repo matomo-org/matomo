@@ -34,14 +34,14 @@ abstract class RecordBuilder
     protected $columnToSortByBeforeTruncation;
 
     /**
-     * @var int
+     * @var array|null
      */
-    protected $blobReportLimit;
+    protected $columnAggregationOps;
 
     /**
      * @var array|null
      */
-    protected $columnAggregationOps;
+    protected $columnToRenameAfterAggregation;
 
     /**
      * @param int|null $maxRowsInTable
@@ -50,12 +50,14 @@ abstract class RecordBuilder
      * @param array|null $columnAggregationOps
      */
     public function __construct(?int $maxRowsInTable = null, ?int $maxRowsInSubtable = null,
-                                ?string $columnToSortByBeforeTruncation = null, ?array $columnAggregationOps = null)
+                                ?string $columnToSortByBeforeTruncation = null, ?array $columnAggregationOps = null,
+                                ?array $columnToRenameAfterAggregation = null)
     {
         $this->maxRowsInTable = $maxRowsInTable;
         $this->maxRowsInSubtable = $maxRowsInSubtable;
         $this->columnToSortByBeforeTruncation = $columnToSortByBeforeTruncation;
         $this->columnAggregationOps = $columnAggregationOps;
+        $this->columnToRenameAfterAggregation = $columnToRenameAfterAggregation;
     }
 
     public function isEnabled(ArchiveProcessor $archiveProcessor): bool
@@ -80,6 +82,10 @@ abstract class RecordBuilder
 
         $recordMetadataByName = [];
         foreach ($recordsBuilt as $recordMetadata) {
+            if (!($recordMetadata instanceof Record)) {
+                continue;
+            }
+
             $recordMetadataByName[$recordMetadata->getName()] = $recordMetadata;
         }
 
@@ -137,10 +143,33 @@ abstract class RecordBuilder
         $numericRecords = array_filter($recordsBuilt, function (Record $r) { return $r->getType() == Record::TYPE_NUMERIC; });
         $blobRecords = array_filter($recordsBuilt, function (Record $r) { return $r->getType() == Record::TYPE_BLOB; });
 
+        $aggregatedCounts = [];
+
+        // make sure if there are requested numeric records that depend on blob records, that the blob records will be archived first
+        foreach ($numericRecords as $record) {
+            if (empty($record->getCountOfRecordName())
+                || !in_array($record->getName(), $requestedReports)
+            ) {
+                continue;
+            }
+
+            $dependentRecordName = $record->getCountOfRecordName();
+            if (!in_array($dependentRecordName, $requestedReports)) {
+                $requestedReports[] = $dependentRecordName;
+            }
+
+            // we need to aggregate the blob record to get the count, so even if it's found, we must re-aggregate it
+            // TODO: this could potentially be optimized away, but it would be non-trivial given the current ArchiveProcessor API
+            $indexInFoundRecords = array_search($dependentRecordName, $foundRequestedReports);
+            if ($indexInFoundRecords !== false) {
+                unset($foundRequestedReports[$indexInFoundRecords]);
+            }
+        }
+
         foreach ($blobRecords as $record) {
             if (!empty($requestedReports)
-                && !in_array($record->getName(), $requestedReports)
-                && !in_array($record->getName(), $foundRequestedReports)
+                && (!in_array($record->getName(), $requestedReports)
+                    || in_array($record->getName(), $foundRequestedReports))
             ) {
                 continue;
             }
@@ -148,24 +177,70 @@ abstract class RecordBuilder
             $maxRowsInTable = $record->getMaxRowsInTable() ?? $this->maxRowsInTable;
             $maxRowsInSubtable = $record->getMaxRowsInSubtable() ?? $this->maxRowsInSubtable;
             $columnToSortByBeforeTruncation = $record->getColumnToSortByBeforeTruncation() ?? $this->columnToSortByBeforeTruncation;
+            $columnToRenameAfterAggregation = $record->getColumnToRenameAfterAggregation() ?? $this->columnToRenameAfterAggregation;
+            $columnAggregationOps = $record->getBlobColumnAggregationOps() ?? $this->columnAggregationOps;
 
-            $archiveProcessor->aggregateDataTableRecords(
+            // only do recursive row count if there is a numeric record that depends on it
+            $countRecursiveRows = false;
+            foreach ($numericRecords as $numeric) {
+                if ($numeric->getCountOfRecordName() == $record->getName()
+                    && $numeric->getCountOfRecordNameIsRecursive()
+                ) {
+                    $countRecursiveRows = true;
+                    break;
+                }
+            }
+
+            $counts = $archiveProcessor->aggregateDataTableRecords(
                 $record->getName(),
                 $maxRowsInTable,
                 $maxRowsInSubtable,
                 $columnToSortByBeforeTruncation,
-                $this->columnAggregationOps
+                $columnAggregationOps,
+                $columnToRenameAfterAggregation,
+                $countRecursiveRows
             );
+
+            $aggregatedCounts = array_merge($aggregatedCounts, $counts);
         }
 
         if (!empty($numericRecords)) {
-            $numericMetrics = array_map(function (Record $r) { return $r->getName(); }, $numericRecords);
+            // handle metrics that are aggregated using metric values from child periods
+            $autoAggregateMetrics = array_filter($numericRecords, function (Record $r) { return empty($r->getCountOfRecordName()); });
+            $autoAggregateMetrics = array_map(function (Record $r) { return $r->getName(); }, $autoAggregateMetrics);
+
             if (!empty($requestedReports)) {
-                $numericMetrics = array_filter($numericMetrics, function ($name) use ($requestedReports, $foundRequestedReports) {
+                $autoAggregateMetrics = array_filter($autoAggregateMetrics, function ($name) use ($requestedReports, $foundRequestedReports) {
                     return in_array($name, $requestedReports) && !in_array($name, $foundRequestedReports);
                 });
             }
-            $archiveProcessor->aggregateNumericMetrics($numericMetrics, $this->columnAggregationOps);
+
+            $autoAggregateMetrics = array_values($autoAggregateMetrics);
+
+            if (!empty($autoAggregateMetrics)) {
+                $archiveProcessor->aggregateNumericMetrics($autoAggregateMetrics, $this->columnAggregationOps);
+            }
+
+            // handle metrics that are set to counts of blob records
+            $recordCountMetricValues = [];
+
+            $recordCountMetrics = array_filter($numericRecords, function (Record $r) { return !empty($r->getCountOfRecordName()); });
+            foreach ($recordCountMetrics as $record) {
+                $dependentRecordName = $record->getCountOfRecordName();
+                if (empty($aggregatedCounts[$dependentRecordName])) {
+                    continue; // dependent record not archived, so skip this metric
+                }
+
+                if ($record->getCountOfRecordNameIsRecursive()) {
+                    $recordCountMetricValues[$record->getName()] = $aggregatedCounts[$dependentRecordName]['recursive'];
+                } else {
+                    $recordCountMetricValues[$record->getName()] = $aggregatedCounts[$dependentRecordName]['level0'];
+                }
+            }
+
+            if (!empty($recordCountMetricValues)) {
+                $archiveProcessor->insertNumericRecords($recordCountMetricValues);
+            }
         }
     }
 

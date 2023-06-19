@@ -42,6 +42,26 @@ class Record
      */
     private $maxRowsInSubtable;
 
+    /**
+     * @var string|null
+     */
+    private $countOfRecordName = null;
+
+    /**
+     * @var bool
+     */
+    private $countOfRecordNameIsRecursive = false;
+
+    /**
+     * @var array|null
+     */
+    private $columnToRenameAfterAggregation = null;
+
+    /**
+     * @var array|null
+     */
+    private $blobColumnAggregationOps = null;
+
     public static function make($type, $name)
     {
         $record = new Record();
@@ -160,5 +180,64 @@ class Record
     public function getType(): string
     {
         return $this->type;
+    }
+
+    public function setIsCountOfBlobRecordRows(string $dependentRecordName, bool $isRecursive = false): Record
+    {
+        $this->countOfRecordName = $dependentRecordName;
+        $this->countOfRecordNameIsRecursive = $isRecursive;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCountOfRecordName(): ?string
+    {
+        return $this->countOfRecordName;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getCountOfRecordNameIsRecursive(): bool
+    {
+        return $this->countOfRecordNameIsRecursive;
+    }
+
+    /**
+     * @param array|null $columnToRenameAfterAggregation
+     * @return Record
+     */
+    public function setColumnToRenameAfterAggregation(?array $columnToRenameAfterAggregation): Record
+    {
+        $this->columnToRenameAfterAggregation = $columnToRenameAfterAggregation;
+        return $this;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getColumnToRenameAfterAggregation(): ?array
+    {
+        return $this->columnToRenameAfterAggregation;
+    }
+
+    /**
+     * @param array|null $blobColumnAggregationOps
+     * @return Record
+     */
+    public function setBlobColumnAggregationOps(?array $blobColumnAggregationOps): Record
+    {
+        $this->blobColumnAggregationOps = $blobColumnAggregationOps;
+        return $this;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getBlobColumnAggregationOps(): ?array
+    {
+        return $this->blobColumnAggregationOps;
     }
 }
