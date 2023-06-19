@@ -274,9 +274,10 @@ a.Piwik_Popover_Error_Back {
     font-size: 1.6em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    display:inline-block;
-    margin-left:4px;
-    float:left;
+    display: block;
+    margin-left: 4px;
+    float: left;
+    width: 1.1em;
 }
 
 .copyToClipboardIcon:before {
@@ -292,9 +293,10 @@ a.Piwik_Popover_Error_Back {
     font-size: 1.6em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    display:inline-block;
-    margin-left:4px;
-    float:left;
+    display: block;
+    margin-left: 4px;
+    float: left;
+    width: 1.1em;
 }
 
 .copyToClipboardIconCheck:before {
@@ -306,30 +308,40 @@ a.Piwik_Popover_Error_Back {
     position: absolute;
     right: .5em;
     top: .5em;
+    float: left;
     margin-right: 0.2em;
     margin-top: 0.2em;
     border-radius: 100%;
-    width: 3.0em;
+    min-width: 3.0em;
+    max-width: 3.0em;
     height: 3.0em;
-    display: inline-block;
-    transition: width 0.7s;
     overflow: hidden;
     background: #fefefe;
-    padding-left:4px;
-    padding-right:4px;
+    padding-left: 4px;
+    padding-right: 4px;
     cursor: pointer;
+    transition: max-width .5s ease-out 2s, border-radius 2s ease-out 2s;
+}
+
+.copyToClipboardButton:focus {
+    background: #fefefe;
+}
+
+.copyToClipboardButton:hover {
+    transition: max-width .5s ease-out 0s, border-radius 0.1s;
+    max-width: 18em;
+    border-radius: 10%;
 }
 
 .copyToClipboardCopiedDiv {
-    font-size:0.8em;
+    font-size: 0.8em;
     display: none;
     position: absolute;
-    right: 9em;
+    right: 22em;
     top: 1.6em;
     margin-right: 1em;
-    padding-top:0.4em;
-    width: 10.2em;
-    height: 2em;
+    width: auto;
+    padding: 0.5em 1em;
     border-radius: 5%;
     background: #fefefe;
     text-align: center;
@@ -338,23 +350,22 @@ a.Piwik_Popover_Error_Back {
 
 .copyToClipboardButton:hover span {
     overflow: visible;
-}
-
-.copyToClipboardButton:hover {
-    width: 6.3em;
-    border-radius: 10%;
+    margin-left: 2.2em;
+    transition: margin-left 0s ease-out 0s;
 }
 
 .copyToClipboardButton span {
-    display: inline-block;
-    line-height: 1.3em;
-    margin-left: 1em;
+    display: block;
+    float: left;
+    margin-left: 3em;
     white-space: nowrap;
     overflow: hidden;
-    position: absolute;
-    left: 2em;
+    position: relative;
+    width: calc(80% - 1.1em);
+    text-align:center;
     text-transform: uppercase;
-    padding-top: 0.35em;
+    margin-top: -1.5em;
+    transition: margin-left 0s ease-out 2.5s;
 }
 
 .copyToClipboardWrapper {
