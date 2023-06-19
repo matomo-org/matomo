@@ -17,52 +17,48 @@ interface CopyToClipboardArgs {
   onTransitionEndHandler?: (event: Event) => void;
 }
 
-function onClickHandler(binding: DirectiveBinding<CopyToClipboardArgs>, event: Event) {
-  if (event.target) {
-    const el = event.target as HTMLInputElement;
-    if (el.parentElement && el.parentElement.parentElement) {
-      const pre = el.parentElement.parentElement.getElementsByTagName('pre')[0];
-
-      if (pre) {
-        const textarea = document.createElement('textarea');
-        textarea.value = pre.innerHTML;
-        textarea.setAttribute('readonly', '');
-        textarea.style.position = 'absolute';
-        textarea.style.left = '-9999px';
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textarea);
-        const icon = el.parentElement.getElementsByTagName('i')[0];
-        if (icon) {
-          icon.classList.remove('copyToClipboardIcon');
-          icon.classList.add('copyToClipboardIconCheck');
-        }
-        const copied = el.parentElement.parentElement.getElementsByClassName('copyToClipboardCopiedDiv')[0];
-        if (copied) {
-          (copied as HTMLDivElement).style.display = 'inline-block';
-          setTimeout(() => { (copied as HTMLDivElement).style.display = 'none'; }, 2000);
-        }
+function onClickHandler(pre: HTMLElement) {
+  if (pre) {
+    const textarea = document.createElement('textarea');
+    textarea.value = pre.innerText;
+    textarea.setAttribute('readonly', '');
+    textarea.style.position = 'absolute';
+    textarea.style.left = '-9999px';
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    const btn = (pre.parentElement as HTMLButtonElement);
+    if (btn) {
+      const icon = btn.getElementsByTagName('i')[0];
+      if (icon) {
+        icon.classList.remove('copyToClipboardIcon');
+        icon.classList.add('copyToClipboardIconCheck');
+      }
+      const copied = btn.getElementsByClassName('copyToClipboardCopiedDiv')[0];
+      if (copied) {
+        (copied as HTMLDivElement).style.display = 'inline-block';
+        setTimeout(() => {
+          (copied as HTMLDivElement).style.display = 'none';
+        }, 2000);
       }
     }
   }
 }
 
-function onTransitionEndHandler(binding: DirectiveBinding<CopyToClipboardArgs>, event: Event) {
-  if (event.target) {
-    if (binding.value.transitionOpen) {
-      const el = event.target as HTMLInputElement;
-      if (el.parentElement && el.parentElement.parentElement) {
-        const icon = el.parentElement.getElementsByTagName('i')[0];
-        if (icon) {
-          icon.classList.remove('copyToClipboardIconCheck');
-          icon.classList.add('copyToClipboardIcon');
-        }
+function onTransitionEndHandler(el: HTMLElement, binding: DirectiveBinding<CopyToClipboardArgs>) {
+  if (binding.value.transitionOpen) {
+    const btn = (el.parentElement as HTMLButtonElement);
+    if (btn) {
+      const icon = btn.getElementsByTagName('i')[0];
+      if (icon) {
+        icon.classList.remove('copyToClipboardIconCheck');
+        icon.classList.add('copyToClipboardIcon');
       }
-      binding.value.transitionOpen = false;
-    } else {
-      binding.value.transitionOpen = true;
     }
+    binding.value.transitionOpen = false;
+  } else {
+    binding.value.transitionOpen = true;
   }
 }
 
@@ -94,10 +90,10 @@ export default {
         pe.appendChild(div);
       }
 
-      binding.value.onClickHandler = onClickHandler.bind(null, binding);
+      binding.value.onClickHandler = onClickHandler.bind(null, el);
       btn.addEventListener('click', binding.value.onClickHandler);
 
-      binding.value.onTransitionEndHandler = onTransitionEndHandler.bind(null, binding);
+      binding.value.onTransitionEndHandler = onTransitionEndHandler.bind(null, el, binding);
       btn.addEventListener('transitionend', binding.value.onTransitionEndHandler);
     }
   },
