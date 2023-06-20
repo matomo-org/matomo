@@ -160,7 +160,7 @@ abstract class SMSProvider
     {
         $GSMCharsetAsString = implode(array_keys(GSMCharset::$GSMCharset));
 
-        foreach (self::mb_str_split($string) as $char) {
+        foreach (self::mbStrSplit($string) as $char) {
             if (mb_strpos($GSMCharsetAsString, $char) === false) {
                 return true;
             }
@@ -199,7 +199,7 @@ abstract class SMSProvider
 
         $subStrToTruncate = '';
         $subStrSize = 0;
-        $reversedStringChars = array_reverse(self::mb_str_split($string));
+        $reversedStringChars = array_reverse(self::mbStrSplit($string));
         for ($i = 0; $subStrSize < $sizeToTruncate; $i++) {
             $subStrToTruncate = $reversedStringChars[$i] . $subStrToTruncate;
             $subStrSize = self::sizeOfSMSContent($subStrToTruncate, $smsContentContainsUCS2Chars);
@@ -208,7 +208,7 @@ abstract class SMSProvider
         return preg_replace('/' . preg_quote($subStrToTruncate, '/') . '$/', $appendedString, $string);
     }
 
-    private static function mb_str_split($string)
+    private static function mbStrSplit($string)
     {
         return preg_split('//u', $string, -1, PREG_SPLIT_NO_EMPTY);
     }
@@ -220,7 +220,7 @@ abstract class SMSProvider
         }
 
         $sizeOfSMSContent = 0;
-        foreach (self::mb_str_split($smsContent) as $char) {
+        foreach (self::mbStrSplit($smsContent) as $char) {
             $sizeOfSMSContent += GSMCharset::$GSMCharset[$char];
         }
         return $sizeOfSMSContent;

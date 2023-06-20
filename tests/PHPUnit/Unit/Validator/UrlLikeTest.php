@@ -22,8 +22,9 @@ class UrlLikeTest extends \PHPUnit\Framework\TestCase
      */
     public function test_validate_successValueIsLikeUri($validUrl)
     {
+        self::expectNotToPerformAssertions();
+
         $this->validate($validUrl);
-        $this->assertTrue(true);
     }
 
     public function getValidUrls()

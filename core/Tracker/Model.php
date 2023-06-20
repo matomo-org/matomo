@@ -16,8 +16,16 @@ use Piwik\Log\LoggerInterface;
 
 class Model
 {
-    const CACHE_KEY_INDEX_IDSITE_IDVISITOR = 'log_visit_has_index_idsite_idvisitor';
+    const CACHE_KEY_INDEX_IDSITE_IDVISITOR_TIME = 'log_visit_has_index_idsite_idvisitor_time';
 
+    /**
+     * Write an visit action record to the database
+     *
+     * @param array $visitAction
+     *
+     * @return int
+     * @throws Db\DbException
+     */
     public function createAction($visitAction)
     {
         $fields = implode(", ", array_keys($visitAction));
@@ -35,8 +43,17 @@ class Model
         return $id;
     }
 
+    /**
+     * Write a goal conversion to the database
+     *
+     * @param array $conversion
+     *
+     * @return bool
+     * @throws Db\DbException
+     */
     public function createConversion($conversion)
     {
+
         $fields     = implode(", ", array_keys($conversion));
         $bindFields = Common::getSqlStringFieldsArray($conversion);
         $table      = Common::prefixTable('log_conversion');
@@ -51,15 +68,26 @@ class Model
         return $db->rowCount($result) > 0;
     }
 
+    /**
+     * Update an existing goal conversion in the database
+     *
+     * @param int $idVisit
+     * @param int $idGoal
+     * @param array $newConversion
+     *
+     * @return bool
+     * @throws \DI\DependencyException
+     * @throws \DI\NotFoundException
+     */
     public function updateConversion($idVisit, $idGoal, $newConversion)
     {
-        $updateWhere = array(
+        $updateWhere = [
             'idvisit' => $idVisit,
             'idgoal'  => $idGoal,
             'buster'  => 0,
-        );
+        ];
 
-        $updateParts = $sqlBind = $updateWhereParts = array();
+        $updateParts = $sqlBind = $updateWhereParts = [];
 
         foreach ($newConversion as $name => $value) {
             $updateParts[] = $name . " = ?";
@@ -100,15 +128,15 @@ class Model
      */
     public function getAllItemsCurrentlyInTheCart($goal, $defaultIdOrder)
     {
-        $sql = "SELECT idaction_sku, idaction_name, idaction_category, idaction_category2, idaction_category3, idaction_category4, idaction_category5, price, quantity, deleted, idorder as idorder_original_value
+        $sql = "SELECT idaction_sku, idaction_name, idaction_category, idaction_category2, idaction_category3, idaction_category4, idaction_category5, price, quantity, deleted, idorder AS idorder_original_value
 				FROM " . Common::prefixTable('log_conversion_item') . "
 				WHERE idvisit = ? AND (idorder = ? OR idorder = ?)";
 
-        $bind = array(
+        $bind = [
             $goal['idvisit'],
             isset($goal['idorder']) ? $goal['idorder'] : $defaultIdOrder,
             $defaultIdOrder
-        );
+        ];
 
         $itemsInDb = $this->getDb()->fetchAll($sql, $bind);
 
@@ -118,11 +146,18 @@ class Model
         return $itemsInDb;
     }
 
+    /**
+     * Write ecommerce item to the conversion item table
+     *
+     * @param array $ecommerceItems
+     *
+     * @throws Db\DbException
+     */
     public function createEcommerceItems($ecommerceItems)
     {
         $sql = "INSERT IGNORE INTO " . Common::prefixTable('log_conversion_item');
         $i    = 0;
-        $bind = array();
+        $bind = [];
 
         foreach ($ecommerceItems as $item) {
             if ($i === 0) {
@@ -178,19 +213,34 @@ class Model
         return $realFirstActionId;
     }
 
+    /**
+     * Insert a new action into the DB
+     *
+     * @param string $name
+     * @param int $type
+     * @param string $urlPrefix
+     *
+     * @return int
+     * @throws Db\DbException
+     */
     private function insertNewAction($name, $type, $urlPrefix)
     {
         $table = Common::prefixTable('log_action');
         $sql   = "INSERT INTO $table (name, hash, type, url_prefix) VALUES (?,CRC32(?),?,?)";
 
         $db = $this->getDb();
-        $db->query($sql, array($name, $name, $type, $urlPrefix));
+        $db->query($sql, [$name, $name, $type, $urlPrefix]);
 
         $actionId = $db->lastInsertId();
 
         return $actionId;
     }
 
+    /**
+     * Get an idaction key from the DB
+     *
+     * @return string
+     */
     private function getSqlSelectActionId()
     {
         // it is possible for multiple actions to exist in the DB (due to rare concurrency issues), so the ORDER BY and
@@ -202,10 +252,19 @@ class Model
         return $sql;
     }
 
+    /**
+     * Get an idaction key from the DB by name and type
+     *
+     * @param string $name
+     * @param int $type
+     *
+     * @return bool|mixed|string
+     * @throws Exception
+     */
     public function getIdActionMatchingNameAndType($name, $type)
     {
         $sql  = $this->getSqlSelectActionId();
-        $bind = array($name, $name, $type);
+        $bind = [$name, $name, $type];
 
         $idAction = $this->getDb()->fetchOne($sql, $bind);
 
@@ -215,13 +274,13 @@ class Model
     /**
      * Returns the IDs for multiple actions based on name + type values.
      *
-     * @param array $actionsNameAndType Array like `array( array('name' => '...', 'type' => 1), ... )`
+     * @param array $actionsNameAndType Array like `[ ['name' => '...', 'type' => 1], ... ]`
      * @return array|false Array of DB rows w/ columns: **idaction**, **type**, **name**.
      */
     public function getIdsAction($actionsNameAndType)
     {
         $sql = "SELECT `idaction`, `type`, `name` FROM " . Common::prefixTable('log_action') . " WHERE";
-        $bind = array();
+        $bind = [];
 
         $i = 0;
         foreach ($actionsNameAndType as $actionNameType) {
@@ -250,14 +309,14 @@ class Model
 
         $rows = $this->getDb()->fetchAll($sql, $bind);
 
-        $actionsPerType = array();
+        $actionsPerType = [];
 
         foreach ($rows as $row) {
             $name = $row['name'];
             $type = $row['type'];
 
             if (!isset($actionsPerType[$type])) {
-                $actionsPerType[$type] = array();
+                $actionsPerType[$type] = [];
             }
 
             if (!isset($actionsPerType[$type][$name])) {
@@ -268,7 +327,7 @@ class Model
             }
         }
 
-        $actionsToReturn = array();
+        $actionsToReturn = [];
         foreach ($actionsPerType as $type => $actionsPerName) {
             foreach ($actionsPerName as $actionPerName) {
                 $actionsToReturn[] = $actionPerName;
@@ -278,9 +337,17 @@ class Model
         return $actionsToReturn;
     }
 
+    /**
+     * Update an existing ecommerce item in the conversion items table
+     *
+     * @param string $originalIdOrder
+     * @param array $newItem
+     *
+     * @throws Db\DbException
+     */
     public function updateEcommerceItem($originalIdOrder, $newItem)
     {
-        $updateParts = $sqlBind = array();
+        $updateParts = $sqlBind = [];
         foreach ($newItem as $name => $value) {
             $updateParts[] = $name . " = ?";
             $sqlBind[]     = $value;
@@ -298,6 +365,14 @@ class Model
         $this->getDb()->query($sql, $sqlBind);
     }
 
+    /**
+     * Create new visit in the DB
+     *
+     * @param array $visit
+     *
+     * @return int
+     * @throws Db\DbException
+     */
     public function createVisit($visit)
     {
         $fields = array_keys($visit);
@@ -314,9 +389,19 @@ class Model
         return $db->lastInsertId();
     }
 
+    /**
+     * Update an existing visit in the DB
+     *
+     * @param int $idSite
+     * @param int $idVisit
+     * @param $valuesToUpdate
+     *
+     * @return bool
+     * @throws Db\DbException
+     */
     public function updateVisit($idSite, $idVisit, $valuesToUpdate)
     {
-        list($updateParts, $sqlBind) = $this->fieldsToQuery($valuesToUpdate);
+        [$updateParts, $sqlBind] = $this->fieldsToQuery($valuesToUpdate);
 
         $parts = implode(', ',$updateParts);
         $table = Common::prefixTable('log_visit');
@@ -339,13 +424,22 @@ class Model
         return $wasInserted;
     }
 
+    /**
+     * Update an existing action in the database
+     *
+     * @param $idLinkVa
+     * @param $valuesToUpdate
+     *
+     * @return bool|void
+     * @throws Db\DbException
+     */
     public function updateAction($idLinkVa, $valuesToUpdate)
     {
         if (empty($idLinkVa)) {
             return;
         }
 
-        list($updateParts, $sqlBind) = $this->fieldsToQuery($valuesToUpdate);
+        [$updateParts, $sqlBind] = $this->fieldsToQuery($valuesToUpdate);
 
         $parts = implode(', ', $updateParts);
         $table = Common::prefixTable('log_link_visit_action');
@@ -367,7 +461,23 @@ class Model
         return $wasInserted;
     }
 
-    public function findVisitor($idSite, $configId, $idVisitor, $userId, $fieldsToRead, $shouldMatchOneFieldOnly, $isVisitorIdToLookup, $timeLookBack, $timeLookAhead)
+    /**
+     * Attempt to find an existing visit record in the database
+     *
+     * @param int    $idSite
+     * @param string $configId
+     * @param string $idVisitor
+     * @param string $userId
+     * @param array  $fieldsToRead
+     * @param bool   $shouldMatchOneFieldOnly
+     * @param bool   $isVisitorIdToLookup
+     * @param string $timeLookBack
+     * @param string $timeLookAhead
+     *
+     * @return array|bool|mixed
+     */
+    public function findVisitor($idSite, $configId, $idVisitor, $userId, $fieldsToRead, $shouldMatchOneFieldOnly,
+                                $isVisitorIdToLookup, $timeLookBack, $timeLookAhead)
     {
         $selectFields = implode(', ', $fieldsToRead);
 
@@ -376,18 +486,18 @@ class Model
 
         // Two use cases:
         // 1) there is no visitor ID so we try to match only on config_id (heuristics)
-        // 		Possible causes of no visitor ID: no browser cookie support, direct Tracking API request without visitor ID passed,
+        //         Possible causes of no visitor ID: no browser cookie support, direct Tracking API request without visitor ID passed,
         //        importing server access logs with import_logs.py, etc.
-        // 		In this case we use config_id heuristics to try find the visitor in tahhhe past. There is a risk to assign
-        // 		this page view to the wrong visitor, but this is better than creating artificial visits.
+        //         In this case we use config_id heuristics to try find the visitor in tahhhe past. There is a risk to assign
+        //         this page view to the wrong visitor, but this is better than creating artificial visits.
         // 2) there is a visitor ID and we trust it (config setting trust_visitors_cookies, OR it was set using &cid= in tracking API),
         //      and in these cases, we force to look up this visitor id
         $configIdWhere = "visit_last_action_time >= ? AND visit_last_action_time <= ? AND idsite = ?";
-        $configIdbindSql = array(
+        $configIdbindSql = [
             $timeLookBack,
             $timeLookAhead,
             $idSite
-        );
+        ];
 
         $visitorIdWhere = 'idsite = ? AND visit_last_action_time <= ?';
         $visitorIdbindSql = [$idSite, $timeLookAhead];
@@ -415,23 +525,44 @@ class Model
         return $visitRow;
     }
 
+    /**
+     * Return true if a visit record exists for the idvisit key and site
+     *
+     * @param int $idSite
+     * @param int $idVisit
+     *
+     * @return bool
+     * @throws Exception
+     */
     public function hasVisit($idSite, $idVisit)
     {
-        // will use INDEX index_idsite_idvisitor (idsite, idvisitor)
+        // will use INDEX index_idsite_idvisitor_time (idsite, idvisitor, visit_last_action_time)
         $sql = 'SELECT idsite FROM ' . Common::prefixTable('log_visit') . ' WHERE idvisit = ? LIMIT 1';
-        $bindSql = array($idVisit);
+        $bindSql = [$idVisit];
 
         $val = $this->getDb()->fetchOne($sql, $bindSql);
         return $val == $idSite;
     }
 
+    /**
+     * Attempt to find an existing visit record in the database by visitor id and passed query fragments
+     *
+     * @param string $idVisitor
+     * @param string $select
+     * @param string $from
+     * @param string $where
+     * @param array $bindSql
+     *
+     * @return array|bool|mixed
+     */
     private function findVisitorByVisitorId($idVisitor, $select, $from, $where, $bindSql)
     {
         $cache = Cache::getCacheGeneral();
 
-        // use INDEX index_idsite_idvisitor (idsite, idvisitor) if available
-        if (array_key_exists(self::CACHE_KEY_INDEX_IDSITE_IDVISITOR, $cache) && true === $cache[self::CACHE_KEY_INDEX_IDSITE_IDVISITOR]) {
-            $from .= ' FORCE INDEX (index_idsite_idvisitor) ';
+        // use INDEX index_idsite_idvisitor_time (idsite, idvisitor, visit_last_action_time) if available
+        if (array_key_exists(self::CACHE_KEY_INDEX_IDSITE_IDVISITOR_TIME,
+                             $cache) && true === $cache[self::CACHE_KEY_INDEX_IDSITE_IDVISITOR_TIME]) {
+            $from .= ' FORCE INDEX (index_idsite_idvisitor_time) ';
         }
 
         $where .= ' AND idvisitor = ?';
@@ -440,6 +571,17 @@ class Model
         return $this->fetchVisitor($select, $from, $where, $bindSql);
     }
 
+    /**
+     * Attempt to find an existing visit record in the database by config id and passed query fragments
+     *
+     * @param string $configId
+     * @param string $select
+     * @param string $from
+     * @param string $where
+     * @param array $bindSql
+     *
+     * @return array|bool|mixed
+     */
     private function findVisitorByConfigId($configId, $select, $from, $where, $bindSql)
     {
         // will use INDEX index_idsite_config_datetime (idsite, config_id, visit_last_action_time)
@@ -449,6 +591,17 @@ class Model
         return $this->fetchVisitor($select, $from, $where, $bindSql);
     }
 
+    /**
+     * Retrieve a visit row from the database using the passed query fragments
+     *
+     * @param string $select
+     * @param string $from
+     * @param string $where
+     * @param array $bindSql
+     *
+     * @return array|bool|mixed
+     * @throws Db\DbException
+     */
     private function fetchVisitor($select, $from, $where, $bindSql)
     {
         $sql = "$select $from WHERE " . $where . "
@@ -470,15 +623,22 @@ class Model
     {
         $sql = sprintf('SELECT idsite FROM %s WHERE idsite = ? limit 1', Common::prefixTable('log_visit'));
 
-        $result = \Piwik\Db::fetchOne($sql, array($siteId));
+        $result = \Piwik\Db::fetchOne($sql, [$siteId]);
 
         return $result == null;
     }
 
+    /**
+     * Build an array of fields and bind values
+     *
+     * @param array $valuesToUpdate
+     *
+     * @return array[]
+     */
     private function fieldsToQuery($valuesToUpdate)
     {
-        $updateParts = array();
-        $sqlBind     = array();
+        $updateParts = [];
+        $sqlBind     = [];
 
         foreach ($valuesToUpdate as $name => $value) {
             // Case where bind parameters don't work
@@ -492,22 +652,40 @@ class Model
             }
         }
 
-        return array($updateParts, $sqlBind);
+        return [$updateParts, $sqlBind];
     }
 
+    /**
+     * Delete an action record by key
+     *
+     * @param int $newActionId
+     *
+     * @throws Db\DbException
+     */
     private function deleteDuplicateAction($newActionId)
     {
         $sql = "DELETE FROM " . Common::prefixTable('log_action') . " WHERE idaction = ?";
 
         $db = $this->getDb();
-        $db->query($sql, array($newActionId));
+        $db->query($sql, [$newActionId]);
     }
 
+    /**
+     * Get the tracker DB object
+     *
+     * @return \Piwik\Db|Db\Mysqli|Db\Pdo\Mysql|null
+     * @throws Db\DbException
+     */
     private function getDb()
     {
         return Tracker::getDatabase();
     }
 
+    /**
+     * Get sql query where clauses used to match a single action
+     *
+     * @return string
+     */
     private function getSqlConditionToMatchSingleAction()
     {
         return "( hash = CRC32(?) AND name = ? AND type = ? )";

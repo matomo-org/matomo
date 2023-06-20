@@ -81,7 +81,7 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
             PIWIK_INCLUDE_PATH . '/lang' => $denyAll,
             StaticContainer::get('path.tmp') => $denyAll,
         );
-	    
+
         if (!empty($GLOBALS['CONFIG_INI_PATH_RESOLVER']) && is_callable($GLOBALS['CONFIG_INI_PATH_RESOLVER'])) {
             $file = call_user_func($GLOBALS['CONFIG_INI_PATH_RESOLVER']);
             $directoriesToProtect[dirname($file)] = $denyAll;
