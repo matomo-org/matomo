@@ -8,6 +8,7 @@
 
 namespace Piwik\Tests\Unit;
 
+use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\SiteContentDetector;
 
 /**
@@ -221,5 +222,147 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($scd->ga4);
         $this->assertFalse($scd->gtm);
         $this->assertFalse($scd->cloudflare);
+    }
+
+    /**
+     * @dataProvider provideVueTestData
+     */
+    public function test_detectVue($content, $output)
+    {
+        $scd = new SiteContentDetector();
+        $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($content));
+
+        $this->assertFalse($scd->ga3);
+        $this->assertFalse($scd->ga4);
+        $this->assertFalse($scd->gtm);
+        $this->assertFalse($scd->cloudflare);
+        $this->assertEquals($output, $scd->jsFramework);
+
+    }
+
+    public function provideVueTestData()
+    {
+        return [
+            ['node_modules/vue/dist/vue-develpment.min.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.cjs.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.cjs.min.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.cjs.prod.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.cjs.prod.min.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.esm-browser.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.esm-browser.min.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.esm-browser.prod.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.esm-browser.prod.min.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.esm-bundler.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.esm-bundler.min.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue-min.global.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.min.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.prod.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.prod.min.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.esm-browser.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.esm-browser.min.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.esm-browser.prod.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.esm-browser.prod.min.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.esm-bundler.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.esm-bundler.min.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.global.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.global.min.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.global.prod.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.global.prod.min.js', 'vue'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vuetmp.runtime.global.prod.min.js', 'unknown'],
+            ['test content', 'unknown'],
+            ['test content vue', 'unknown'],
+        ];
+    }
+    
+    public function test_detectReact_IfPresent()
+    {
+        $siteData = "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script><script>const root = ReactDOM.createRoot(container);</script></head><body>A site</body></html>";
+        $scd = new SiteContentDetector();
+        $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
+
+        $this->assertFalse($scd->ga3);
+        $this->assertFalse($scd->ga4);
+        $this->assertFalse($scd->gtm);
+        $this->assertFalse($scd->cloudflare);
+        $this->assertEquals('react', $scd->jsFramework);
+    }
+
+    public function test_detectReact_IfPresent2()
+    {
+        $siteData = "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script><script>console.log('abc');</script><script src='https://localhost.com/js/react.min.js'></script></head><body>A site</body></html>";
+        $scd = new SiteContentDetector();
+        $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
+
+        $this->assertFalse($scd->ga3);
+        $this->assertFalse($scd->ga4);
+        $this->assertFalse($scd->gtm);
+        $this->assertFalse($scd->cloudflare);
+        $this->assertEquals('react', $scd->jsFramework);
+    }
+
+    public function test_detectReact_IfPresent3()
+    {
+        $siteData = "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script><script>console.log('abc');</script><script src='https://localhost.com/js/react.development.min.js'></script></head><body>A site</body></html>";
+        $scd = new SiteContentDetector();
+        $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
+
+        $this->assertFalse($scd->ga3);
+        $this->assertFalse($scd->ga4);
+        $this->assertFalse($scd->gtm);
+        $this->assertFalse($scd->cloudflare);
+        $this->assertEquals('react', $scd->jsFramework);
+    }
+
+    public function test_detectReact_IfPresent4()
+    {
+        $siteData = "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script><script>console.log('abc');</script><script src='https://localhost.com/js/react-dom.development.min.js'></script></head><body>A site</body></html>";
+        $scd = new SiteContentDetector();
+        $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
+
+        $this->assertFalse($scd->ga3);
+        $this->assertFalse($scd->ga4);
+        $this->assertFalse($scd->gtm);
+        $this->assertFalse($scd->cloudflare);
+        $this->assertEquals('react', $scd->jsFramework);
+    }
+
+    public function test_detectReact_IfPresent5()
+    {
+        $siteData = "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script><script>console.log('abc');</script><script src='https://localhost.com/js/react.development.js'></script></head><body>A site</body></html>";
+        $scd = new SiteContentDetector();
+        $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
+
+        $this->assertFalse($scd->ga3);
+        $this->assertFalse($scd->ga4);
+        $this->assertFalse($scd->gtm);
+        $this->assertFalse($scd->cloudflare);
+        $this->assertEquals('react', $scd->jsFramework);
+    }
+
+    public function test_detectReact_IfPresent6()
+    {
+        $siteData = "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script><script>console.log('abc');</script><script src='https://localhost.com/js/react-dom.development.js'></script></head><body>A site</body></html>";
+        $scd = new SiteContentDetector();
+        $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
+
+        $this->assertFalse($scd->ga3);
+        $this->assertFalse($scd->ga4);
+        $this->assertFalse($scd->gtm);
+        $this->assertFalse($scd->cloudflare);
+        $this->assertEquals('react', $scd->jsFramework);
+    }
+
+    public function test_doesNotDetectsReact_IfNotPresent()
+    {
+        $siteData = "<html lang=\"en\"><head><title>A site</title><script><script>console.log('abc');</script></head><body>A site</body></html>";
+        $scd = new SiteContentDetector();
+        $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
+
+        $this->assertFalse($scd->ga3);
+        $this->assertFalse($scd->ga4);
+        $this->assertFalse($scd->gtm);
+        $this->assertFalse($scd->cloudflare);
+        $this->assertEquals(SitesManager::JS_FRAMEWORK_UNKNOWN, $scd->jsFramework);
     }
 }

@@ -333,7 +333,7 @@ class View implements ViewInterface
         $output = $this->twig->render($this->getTemplateFile(), $this->getTemplateVars());
 
         if ($this->enableCacheBuster) {
-            $output = $this->applyFilter_cacheBuster($output);
+            $output = $this->applyFilterCacheBuster($output);
         }
 
         $helper = new Theme;
@@ -341,7 +341,7 @@ class View implements ViewInterface
         return $output;
     }
 
-    protected function applyFilter_cacheBuster($output)
+    protected function applyFilterCacheBuster($output)
     {
         $cacheBuster = UIAssetCacheBuster::getInstance();
         $cache = Cache::getTransientCache();
