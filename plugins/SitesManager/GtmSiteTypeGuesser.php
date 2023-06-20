@@ -147,4 +147,40 @@ class GtmSiteTypeGuesser
 
         return false;
     }
+
+    /**
+     * Detect Js Framework being used on the site
+     *
+     * @param array $response Extended HTTP Response
+     * @return string
+     */
+    public function guessJsFrameworkFromResponse($response)
+    {
+        if (empty($response['data'])) {
+            return SitesManager::JS_FRAMEWORK_UNKNOWN;
+        }
+
+        $needles = ['react.min.js' ,'react.development.min.js', 'react-dom.development.min.js' ,'react.development.js',
+                    'react-dom.development.js', 'ReactDOM.', 'react.production.min.js', 'react-jsx-dev-runtime.development.js',
+                    'react-jsx-dev-runtime.development.min.js', 'react-jsx-dev-runtime.production.min.js',
+                    'react-jsx-dev-runtime.profiling.min.js', 'react-jsx-runtime.development.js', 'react-jsx-runtime.development.min.js',
+                    'react-jsx-runtime.production.min.js', 'react-jsx-runtime.profiling.min.js', 'react.shared-subset.development.js',
+                    'react.shared-subset.development.min.js', 'react.shared-subset.production.min.js', 'react.profiling.min.js'
+        ];
+        $hasReactNative = (stripos($response['data'], 'react-native') !== false);
+
+        foreach ($needles as $needle) {
+            if (stripos($response['data'], $needle) !== false && !$hasReactNative) {
+                return SitesManager::JS_FRAMEWORK_REACT;
+            }
+        }
+
+        // eg. vue.global.js
+        $pattern = "/vue\.\w.+.js|vue\-\w.+.js/i";
+        if (preg_match($pattern, $response['data']) === 1) {
+            return SitesManager::JS_FRAMEWORK_VUE;
+        }
+
+        return SitesManager::JS_FRAMEWORK_UNKNOWN;
+    }
 }

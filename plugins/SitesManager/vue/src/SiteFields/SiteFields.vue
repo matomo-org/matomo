@@ -162,6 +162,7 @@
         <div class="editingSiteFooter">
           <input
             v-show="!isLoading"
+            :disabled="isSaving"
             type="submit"
             class="btn"
             :value="translate('General_Save')"
@@ -169,6 +170,7 @@
           />
           <button
             class="btn btn-link"
+            :disabled="isSaving"
             @click="cancelEditSite(site)"
           >
             {{ translate('General_Cancel', '', '') }}
@@ -214,6 +216,7 @@ import SiteType from '../SiteTypesStore/SiteType';
 
 interface SiteFieldsState {
   isLoading: boolean;
+  isSaving: boolean;
   editMode: boolean;
   theSite: Site;
   measurableSettings: DeepReadonly<SettingsForSinglePlugin[]>;
@@ -258,6 +261,7 @@ export default defineComponent({
   data(): SiteFieldsState {
     return {
       isLoading: false,
+      isSaving: false,
       editMode: false,
       theSite: { ...(this.site as Site) },
       measurableSettings: [],
@@ -345,6 +349,12 @@ export default defineComponent({
       });
     },
     saveSite() {
+      if (this.isSaving) {
+        return; // saving already in progress
+      }
+
+      this.isSaving = true;
+
       const values: Record<string, unknown> = {
         siteName: this.theSite.name,
         timezone: this.theSite.timezone,
@@ -392,6 +402,7 @@ export default defineComponent({
         values,
       ).then((response) => {
         this.editMode = false;
+        this.isSaving = false;
 
         if (!this.theSite.idsite && response && response.value) {
           this.theSite.idsite = `${response.value}`;

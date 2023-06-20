@@ -1,24 +1,24 @@
 {
     "VisitorInterest": {
-        "BetweenXYMinutes": "%1$s-%2$s min",
-        "BetweenXYSeconds": "%1$s-%2$ss",
+        "BetweenXYMinutes": "%1$s–%2$s min",
+        "BetweenXYSeconds": "%1$s–%2$s s",
         "ColumnPagesPerVisit": "Páginas por visita",
         "ColumnVisitDuration": "Duração da visita",
         "Engagement": "Compromisso",
         "NPages": "%s páginas",
         "OnePage": "1 página",
-        "PluginDescription": "Relatórios sobre interesses dos visitantes: Número de páginas visitadas, tempo gasto no site, dias desde minha última visita, e muito mais.",
+        "PluginDescription": "Interesse do visitante: número de páginas visualizadas, tempo gasto no site, dias desde a última visita e muito mais.",
         "VisitNum": "Visita número",
         "VisitsByDaysSinceLast": "Visitas por dia desde a última visita",
-        "visitsByVisitCount": "Visitas por número da visita",
         "VisitsPerDuration": "Visitas por duração de visitas",
         "VisitsPerNbOfPages": "Visitas pelo número de páginas",
-        "WidgetLengths": "Duração das Visitas",
-        "WidgetLengthsDocumentation": "Neste relatório, você pode ver quantas visitas teve uma certa duração total. Inicialmente, o relatório é mostrado como uma nuvem de tags, durações mais comuns são exibidos em uma fonte maior.",
-        "WidgetPages": "Páginas por Visita",
-        "WidgetPagesDocumentation": "Neste relatório, você pode ver quantas visitas envolveu um certo número de exibições de página. Inicialmente, o relatório é mostrado como uma nuvem de tags, os números mais comuns de páginas são exibidos em uma fonte maior.",
-        "WidgetVisitsByDaysSinceLast": "Visitas por dia desde a última visita",
-        "WidgetVisitsByDaysSinceLastDocumentation": "Neste relatório, você pode ver quantas visitas foram dos visitantes, cuja última visita foi um certo número de dias atrás.",
-        "WidgetVisitsByNumDocumentation": "Neste relatório, você pode ver o número de visitas que estavam a visita Nth, ie. visitantes que visitaram o seu site pelo menos n vezes."
+        "WidgetLengths": "Duração das visitas",
+        "WidgetLengthsDocumentation": "Quantas visitas tiveram uma certa duração total. Inicialmente, o relatório é mostrado como uma nuvem de tags, em que as durações mais comuns têm uma fonte maior.",
+        "WidgetPages": "Páginas por visita",
+        "WidgetPagesDocumentation": "Quantas visitas envolveram um determinado número de visualizações de página. Inicialmente, o relatório é mostrado como uma nuvem de tags, em que os números mais comuns de páginas têm uma fonte maior.",
+        "WidgetVisitsByDaysSinceLast": "Visitas por dias desde a última visita",
+        "WidgetVisitsByDaysSinceLastDocumentation": "Quantas visitas foram de visitantes recorrentes cuja última visita foi há um determinado número de dias.",
+        "WidgetVisitsByNumDocumentation": "O número de visitantes que chegam à enésima visita. ou seja a quantidade total de visitantes que visitam seu site uma determinada quantidade de vezes ou mais.",
+        "visitsByVisitCount": "Visitas por número de visita"
     }
 }

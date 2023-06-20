@@ -163,8 +163,26 @@ class SparklinesConfigTest extends IntegrationTestCase
 
         $this->assertSame(array (
             'percent'  => '-52.4%',
+            'isLowerValueBetter' => false,
             'tooltip' => '1 visit compared to 2 visits',
             'trend' => -11
+        ), $sparklines[''][0]['evolution']);
+    }
+
+    public function test_addSparkline_shouldAddEvolutionWhereLowerValueIsBetter()
+    {
+        $evolution = array('currentValue' => 20, 'pastValue' => 41,
+                            'tooltip' => '2 bounces compared to 1 bounce',
+                            'isLowerValueBetter' => true);
+        $this->config->addSparkline($this->sparklineParams(), $value = 10, $description = 'Bounces', $evolution);
+
+        $sparklines = $this->config->getSortedSparklines();
+
+        $this->assertSame(array (
+            'percent'  => '-51.2%',
+            'isLowerValueBetter' => true,
+            'tooltip' => '2 bounces compared to 1 bounce',
+            'trend' => -21
         ), $sparklines[''][0]['evolution']);
     }
 

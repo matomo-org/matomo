@@ -170,6 +170,7 @@ return [
         '*.gitkeep',
         '*.gitmodules',
         '*.gitattributes',
+        '*.git-blame-ignore-revs',
         '*.bower.json',
         '*.travis.yml',
     ]),

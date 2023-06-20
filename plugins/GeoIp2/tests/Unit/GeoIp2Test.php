@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,7 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\UserCountry\tests\Unit;
+namespace Piwik\Plugins\GeoIp2\tests\Unit;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\GeoIp2\GeoIP2AutoUpdater;
@@ -29,7 +30,7 @@ class GeoIp2Test extends \PHPUnit\Framework\TestCase
         $this->createEmptyISPFile();
 
         // run redundant checks
-        $updater = new Piwik_GeoIp2_GeoIP2AutoUpdater_publictest();
+        $updater = new PiwikGeoIp2GeoIP2AutoUpdaterPublicTest();
         $updater->performRedundantDbChecks();
 
         // check that files are renamed correctly
@@ -53,7 +54,7 @@ class GeoIp2Test extends \PHPUnit\Framework\TestCase
         // unset translations, otherwise Exception message will be translated
         StaticContainer::get('Piwik\Translation\Translator')->reset();
 
-        $updater = new Piwik_GeoIp2_GeoIP2AutoUpdater_publictest();
+        $updater = new PiwikGeoIp2GeoIP2AutoUpdaterPublicTest();
         try {
             $updater->downloadFile('loc', $url);
             $this->fail("Downloading invalid url succeeded!");
@@ -115,7 +116,7 @@ class GeoIp2Test extends \PHPUnit\Framework\TestCase
     }
 }
 
-class Piwik_GeoIp2_GeoIP2AutoUpdater_publictest extends GeoIP2AutoUpdater
+class PiwikGeoIp2GeoIP2AutoUpdaterPublicTest extends GeoIP2AutoUpdater
 {
     public function __construct()
     {

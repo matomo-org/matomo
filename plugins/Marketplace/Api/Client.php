@@ -73,14 +73,19 @@ class Client
         return $this->environment;
     }
 
+    /**
+     * @param string $name
+     * @return array
+     * @throws Exception
+     */
     public function getPluginInfo($name)
     {
         $action = sprintf('plugins/%s/info', $name);
 
         $plugin = $this->fetch($action, array());
 
-        if (!empty($plugin) && $this->shouldIgnorePlugin($plugin)) {
-            return;
+        if (empty($plugin['name']) || $this->shouldIgnorePlugin($plugin)) {
+            return [];
         }
 
         return $plugin;
@@ -191,13 +196,13 @@ class Client
 
     /**
      * @param \Piwik\Plugin[] $plugins
-     * @return array
+     * @return array (pluginName => pluginDetails)
      */
-    public function getInfoOfPluginsHavingUpdate($plugins)
+    public function getInfoOfPluginsHavingUpdate($plugins): array
     {
         $hasUpdates = $this->checkUpdates($plugins);
 
-        $pluginDetails = array();
+        $pluginDetails = [];
 
         foreach ($hasUpdates as $pluginHavingUpdate) {
             if (empty($pluginHavingUpdate)) {
@@ -213,7 +218,7 @@ class Client
 
             if (!empty($plugin)) {
                 $plugin['repositoryChangelogUrl'] = $pluginHavingUpdate['repositoryChangelogUrl'];
-                $pluginDetails[] = $plugin;
+                $pluginDetails[$pluginHavingUpdate['name']] = $plugin;
             }
         }
 
