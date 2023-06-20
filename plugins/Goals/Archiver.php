@@ -44,6 +44,60 @@ class Archiver extends \Piwik\Plugin\Archiver
     }
 
     /**
+     * This array stores the ranges to use when displaying the 'visits to conversion' report
+     */
+    public static $visitCountRanges = [
+        [1, 1],
+        [2, 2],
+        [3, 3],
+        [4, 4],
+        [5, 5],
+        [6, 6],
+        [7, 7],
+        [8, 8],
+        [9, 14],
+        [15, 25],
+        [26, 50],
+        [51, 100],
+        [100],
+    ];
+
+    /**
+     * This array stores the ranges to use when displaying the 'days to conversion' report
+     */
+    public static $daysToConvRanges = [
+        [0, 0],
+        [1, 1],
+        [2, 2],
+        [3, 3],
+        [4, 4],
+        [5, 5],
+        [6, 6],
+        [7, 7],
+        [8, 14],
+        [15, 30],
+        [31, 60],
+        [61, 120],
+        [121, 364],
+        [364],
+    ];
+
+    protected $dimensionRecord = [
+        self::SKU_FIELD      => self::ITEMS_SKU_RECORD_NAME,
+        self::NAME_FIELD     => self::ITEMS_NAME_RECORD_NAME,
+        self::CATEGORY_FIELD => self::ITEMS_CATEGORY_RECORD_NAME
+    ];
+    protected $actionMapping = [
+        self::SKU_FIELD      => 'idaction_product_sku',
+        self::NAME_FIELD     => 'idaction_product_name',
+        self::CATEGORY_FIELD => 'idaction_product_cat',
+        self::CATEGORY2_FIELD => 'idaction_product_cat2',
+        self::CATEGORY3_FIELD => 'idaction_product_cat3',
+        self::CATEGORY4_FIELD => 'idaction_product_cat4',
+        self::CATEGORY5_FIELD => 'idaction_product_cat5',
+    ];
+
+    /**
      * @param string $recordName 'nb_conversions'
      * @param int|bool $idGoal idGoal to return the metrics for, or false to return overall
      * @return string Archive record name

@@ -14,7 +14,7 @@
         "DatabaseErrorConnect": "Fehler beim Verbindungsaufbau zur Datenbank",
         "DatabaseServerVersion": "Version des Datenbankserver",
         "DatabaseSetup": "Datenbank einrichten",
-        "DatabaseSetupAdapter": "Adapter/Zwischenteil",
+        "DatabaseSetupAdapter": "Adapter",
         "DatabaseSetupDatabaseName": "Datenbankname",
         "DatabaseSetupLogin": "Benutzer",
         "DatabaseSetupServer": "Datenbank-Server",

@@ -19,6 +19,8 @@
         "EventValue": "事件值",
         "EventValueTooltip": "事件值總計是由 %1$s 的事件值 %2$s 從最小值 %3$s 到最大值 %4$s 之間的值加總。",
         "Events": "事件",
+        "EventsSubcategoryHelp1": "事件部分提供與您的網站關聯的自定事件的報表。事件通常需要自定設定。設定完成後，您可以查閲按類別、動作和名稱細分的報表。",
+        "EventsSubcategoryHelp2": "在此了解更多關於事件追蹤的資訊。",
         "EventsWithValue": "含有值的事件",
         "EventsWithValueDocumentation": "有設定值的事件數量",
         "MaxValue": "最大事件值",

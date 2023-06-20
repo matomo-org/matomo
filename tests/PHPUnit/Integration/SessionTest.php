@@ -19,17 +19,17 @@ use Piwik\Tests\Framework\Fixture;
  */
 class SessionTest extends \PHPUnit\Framework\TestCase
 {
-	public function test_session_should_not_be_started_if_it_was_already_started()
-	{
+    public function test_session_should_not_be_started_if_it_was_already_started()
+    {
         $url = Fixture::getRootUrl() . '/tests/resources/sessionStarter.php';
-	    $result = Http::sendHttpRequest($url, 5);
-	    $this->assertSame('ok', trim($result));
-	}
+        $result = Http::sendHttpRequest($url, 5);
+        $this->assertSame('ok', trim($result));
+    }
 
     /**
      * @dataProvider getCookieTests
      */
-	public function testWriteCookie($expected, $name, $value, $expires, $path, $domain, $secure, $httpOnly, $sameSite)
+    public function testWriteCookie($expected, $name, $value, $expires, $path, $domain, $secure, $httpOnly, $sameSite)
     {
         $result = Session::writeCookie($name, $value, $expires, $path, $domain, $secure, $httpOnly, $sameSite);
         $this->assertEquals($expected, $result);

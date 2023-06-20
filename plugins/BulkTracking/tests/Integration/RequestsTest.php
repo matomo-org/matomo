@@ -97,19 +97,19 @@ class RequestsTest extends IntegrationTestCase
 
     public function test_authenticateRequests_shouldNotFail_IfAllTokensAreValid()
     {
+        self::expectNotToPerformAssertions();
+
         $superUserToken = $this->getSuperUserToken();
 
         $requests = array($this->buildDummyRequest($superUserToken), $this->buildDummyRequest($superUserToken));
         $this->requests->authenticateRequests($requests);
-
-        $this->assertTrue(true);
     }
 
     public function test_authenticateRequests_shouldNotFail_IfEmptyRequestSetGiven()
     {
-        $this->requests->authenticateRequests(array());
+        self::expectNotToPerformAssertions();
 
-        $this->assertTrue(true);
+        $this->requests->authenticateRequests(array());
     }
 
     private function getSuperUserToken()
