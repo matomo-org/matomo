@@ -60,8 +60,8 @@ class Get extends \Piwik\Plugin\Report
 
         $this->subcategoryId = 'General_Overview';
         // Used to process metrics, not displayed/used directly
-//								'sum_visit_length',
-//								'nb_visits_converted',
+//                                'sum_visit_length',
+//                                'nb_visits_converted',
         $this->order = 1;
     }
 
@@ -155,6 +155,7 @@ class Get extends \Piwik\Plugin\Report
                     return [
                         'currentValue' => $value,
                         'pastValue' => $pastValue,
+                        'isLowerValueBetter' => Metrics::isLowerValueBetter($columnName),
                         'tooltip' => Piwik::translate('General_EvolutionSummaryGeneric', [
                             $currentValueFormatted.' '.$columnTranslation,
                             $currentPrettyDate,

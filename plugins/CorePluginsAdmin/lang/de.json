@@ -36,6 +36,7 @@
         "MenuPlatform": "Plattform",
         "MissingRequirementsNotice": "Bitte aktualisieren Sie %1$s %2$s auf eine neuere Version, %1$s %3$s wird benötigt.",
         "MissingRequirementsPleaseInstallNotice": "Bitte installiere %1$s %2$s da es von %3$s benötigt wird.",
+        "NUpdatesAvailable": "%1$s Update(s) verfügbar",
         "NoPluginSettings": "Es gibt keine Einstellungen dieser Erweiterung, die konfiguriert werden können",
         "NoZipFileSelected": "Bitte wählen Sie eine ZIP Datei.",
         "NotDownloadable": "Kann nicht heruntergeladen werden",

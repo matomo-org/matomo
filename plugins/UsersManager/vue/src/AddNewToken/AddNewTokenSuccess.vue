@@ -13,10 +13,12 @@
       <br>
       {{ translate('UsersManager_DoNotStoreToken') }}
     </p>
-    <pre v-select-on-focus="{}"
+    <div>
+    <pre v-copy-to-clipboard="{}"
          style="font-size: 40px;"
          class="generatedTokenAuth"
     ><code>{{ generatedToken }}</code></pre>
+    </div>
 
     <a :href="userSecurityLink" class="btn" style="height:auto">
       {{ translate('UsersManager_ConfirmTokenCopied') }}
@@ -27,7 +29,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { ContentBlock, SelectOnFocus, MatomoUrl } from 'CoreHome';
+import { ContentBlock, CopyToClipboard, MatomoUrl } from 'CoreHome';
 
 export default defineComponent({
   props: {
@@ -40,7 +42,7 @@ export default defineComponent({
     ContentBlock,
   },
   directives: {
-    SelectOnFocus,
+    CopyToClipboard,
   },
   computed: {
     userSecurityLink() {

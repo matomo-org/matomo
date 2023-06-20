@@ -61,6 +61,7 @@ class CoreAdminHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreAdminHome/stylesheets/generalSettings.less";
         $stylesheets[] = "plugins/CoreAdminHome/vue/src/TrackingFailures/TrackingFailures.less";
         $stylesheets[] = "plugins/CoreAdminHome/stylesheets/whatIsNew.less";
+        $stylesheets[] = "plugins/CoreAdminHome/stylesheets/trackingCodeGenerator.less";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -211,5 +212,10 @@ class CoreAdminHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreAdminHome_JSTracking_ConsentManagerConnected';
         $translationKeys[] = 'CoreAdminHome_GoogleTagManagerDescription';
         $translationKeys[] = 'CoreAdminHome_WordpressDescription';
+        $translationKeys[] = 'CoreAdminHome_VueDescription';
+        $translationKeys[] = 'CoreAdminHome_ShowAdvancedOptions';
+        $translationKeys[] = 'CoreAdminHome_HideAdvancedOptions';
+        $translationKeys[] = 'CoreAdminHome_JSTrackingDocumentationHelp';
+        $translationKeys[] = 'CoreAdminHome_ReactDescription';
     }
 }

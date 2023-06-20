@@ -140,7 +140,7 @@ class Rss extends Renderer
          * table = array
          * ROW1 = col1 | col2 | col3 | metadata | idSubTable
          * ROW2 = col1 | col2 (no value but appears) | col3 | metadata | idSubTable
-         * 		subtable here
+         *         subtable here
          */
         $allColumns = array();
         foreach ($table->getRows() as $row) {

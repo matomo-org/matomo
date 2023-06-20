@@ -493,29 +493,33 @@ class API extends \Piwik\Plugin\API
         );
 
         foreach ($segments as $appendToMetricName => $predefinedSegment) {
-            if (!empty($predefinedSegment)) {
-                // we are disabling the archiving of these segments as the archiver archives them already using
-                // archiveProcessDependend logic. Otherwise we would eg archive reports that we don't need:
-                // userid=5;visitorType%3D%3Dnew;visitorType%3D%3Dreturning%2CvisitorType%3D%3DreturningCustomer
-                // userid=5;visitorType%3D%3Dreturning%2CvisitorType%3D%3DreturningCustomer;visitorType%3D%3Dnew;
-                // it would also archive dependends for these segments that we already combined here and then combine
-                // segments again when archiving dependends
-                Archiver::$ARCHIVE_DEPENDENT = false;
-            }
-            $segmentToUse = $this->appendSegment($segment, $predefinedSegment);
+            $startingArchiveDependent = \Piwik\Plugin\Archiver::$ARCHIVE_DEPENDENT;
+            try {
+                if (!empty($predefinedSegment)) {
+                    // we are disabling the archiving of these segments as the archiver archives them already using
+                    // archiveProcessDependend logic. Otherwise we would eg archive reports that we don't need:
+                    // userid=5;visitorType%3D%3Dnew;visitorType%3D%3Dreturning%2CvisitorType%3D%3DreturningCustomer
+                    // userid=5;visitorType%3D%3Dreturning%2CvisitorType%3D%3DreturningCustomer;visitorType%3D%3Dnew;
+                    // it would also archive dependends for these segments that we already combined here and then combine
+                    // segments again when archiving dependends
+                    \Piwik\Plugin\Archiver::$ARCHIVE_DEPENDENT = false;
+                }
+                $segmentToUse = $this->appendSegment($segment, $predefinedSegment);
 
-            /** @var DataTable|DataTable\Map $tableSegmented */
-            $tableSegmented = Request::processRequest('Goals.getMetrics', array(
-                'segment' => $segmentToUse,
-                'idSite' => $idSite,
-                'period' => $period,
-                'date' => $date,
-                'idGoal' => $idGoal,
-                'columns' => $columns,
-                'showAllGoalSpecificMetrics' => $showAllGoalSpecificMetrics,
-                'format_metrics' => !empty($compare) ? 0 : Common::getRequestVar('format_metrics', 'bc'),
-            ), $default = []);
-            Archiver::$ARCHIVE_DEPENDENT = true;
+                /** @var DataTable|DataTable\Map $tableSegmented */
+                $tableSegmented = Request::processRequest('Goals.getMetrics', array(
+                    'segment' => $segmentToUse,
+                    'idSite' => $idSite,
+                    'period' => $period,
+                    'date' => $date,
+                    'idGoal' => $idGoal,
+                    'columns' => $columns,
+                    'showAllGoalSpecificMetrics' => $showAllGoalSpecificMetrics,
+                    'format_metrics' => !empty($compare) ? 0 : Common::getRequestVar('format_metrics', 'bc'),
+                ), $default = []);
+            } finally {
+                \Piwik\Plugin\Archiver::$ARCHIVE_DEPENDENT = $startingArchiveDependent;
+            }
             $tableSegmented->filter('Piwik\Plugins\Goals\DataTable\Filter\AppendNameToColumnNames',
                 array($appendToMetricName));
 

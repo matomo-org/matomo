@@ -111,7 +111,7 @@ class Goals extends \Piwik\Plugin
         return $hooks;
     }
 
-    public function addRecordBuilders(&$recordBuilders)
+    public function addRecordBuilders(array &$recordBuilders): void
     {
         $recordBuilders[] = new ProductRecord(ProductRecord::SKU_FIELD, ProductRecord::ITEMS_SKU_RECORD_NAME);
         $recordBuilders[] = new ProductRecord(ProductRecord::NAME_FIELD, ProductRecord::ITEMS_NAME_RECORD_NAME);
