@@ -81,4 +81,20 @@ describe("Menus", function () {
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('mobile_top');
     });
+
+    // left menu on mobile
+    it('should load the admin reporting menu correctly on mobile', async function() {
+        page.webpage.setViewport({ width: 768, height: 512 });
+        await page.goto("?" + generalParams + "&module=CoreHome&action=index");
+        await page.waitForSelector('.widget');
+        await page.waitForNetworkIdle();
+        await page.evaluate(function(){
+            $('.activateLeftMenu>span').click();
+        });
+        await page.waitForTimeout(250);
+        await (await page.jQuery('#mobile-left-menu>li>ul:contains(Goals)')).click();
+        await page.waitForTimeout(250);
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('mobile_left');
+    });
 });

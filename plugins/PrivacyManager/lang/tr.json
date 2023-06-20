@@ -117,6 +117,8 @@
         "GeolocationAnonymizeIpNote": "Not: Coğrafi konum yaklaşık olarak 1 bayt anonim kılma ile aynı sonucu verir. 2 ya da daha fazla bayt ile yapılan anonim kılmalarda coğrafi konum doğruluğu kalmaz.",
         "GetPurgeEstimate": "Temizlik öngörüsünü görüntüle",
         "HowDoIAskForConsent": "Kullanıcılardan nasıl onay isterim?",
+        "HowDoIAskForConsentIntro": "Şu yaygın rıza yönetimi uygulamalarıyla çalışmak için Matomo ayarlama rehberleri vardır:",
+        "HowDoIAskForConsentOutro": "Yukarıdaki rıza yöneticilerinden birini kullanmıyorsanız, %1$sizlemeyi Matomo JavaScript API kullanarak rıza ile %2$s uygulayabilirsiniz.",
         "IPAddress": "IP adresi",
         "Imprint": "Künye",
         "ImprintUrl": "Künye adresi",
@@ -220,6 +222,9 @@
         "VisitsMatchedCriteria": "Bu ziyaretler seçilmiş ölçüte uyuyor.",
         "VisitsSuccessfullyDeleted": "Ziyaretler silindi",
         "VisitsSuccessfullyExported": "Ziyaretler dışa aktarıldı",
+        "WhenConsentIsNeededPart1": "%1$sGDPR gizlilik düzenlemeleri%2$s, bazı durumlarda kişisel verileri işlerken kullanıcılarınızdan izin almanızı gerektirir. Onay istemeniz gerekip gerekmediğini belirlemek için, kişisel verileri işlemeye ilişkin yasal dayanağınızı belirlemeniz gerekir. Bu, \"Rıza\" veya \"Meşru menfaat\" olabilir ya da kişisel verileri toplamaktan tamamen kaçınabilirsiniz.",
+        "WhenConsentIsNeededPart2": "Kişisel verileri GDPR kapsamında işlemenin yasal dayanağı hakkında daha fazla bilgi edinmeniz önerilir. Bu konu hakkında ayrıntılı bilgiyi %1$sblogumuzda%2$s bulabilirsiniz.",
+        "WhenConsentIsNeededPart3": "Kullanıcılarınızın onayına gerek duyuyorsanız ve geçmişte onların \"Rızasını\" aldığınızı kanıtlayamıyorsanız, lütfen daha önce izlenen kullanıcılarınızın ham verilerini anonimleştirmenizi önerdiğimizi unutmayın. Daha önce izlenen kullanıcılarınızın ham verilerinin anonimleştirilmesi, Matomo içindeki Gizlilik Yönetimi bölümünden yapılabilir. %1$sAyrıntılı bilgi alın%2$s.",
         "WhenDoINeedConsent": "Kullanıcı onayını ne zaman sormalıyım?"
     }
 }

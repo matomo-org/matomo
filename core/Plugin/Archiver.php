@@ -57,8 +57,10 @@ use Piwik\Piwik;
  *
  * @api
  */
-class Archiver
+abstract class Archiver
 {
+    public static $ARCHIVE_DEPENDENT = true;
+
     /**
      * @var \Piwik\ArchiveProcessor
      */
@@ -75,41 +77,21 @@ class Archiver
     protected $maximumRows;
 
     /**
-     * Used if a plugin has RecordBuilders but no Archiver subclass.
-     *
-     * @var string|null
-     */
-    private $pluginName = null;
-
-    /**
      * Constructor.
      *
      * @param ArchiveProcessor $processor The ArchiveProcessor instance to use when persisting archive
      *                                    data.
      */
-    public function __construct(ArchiveProcessor $processor, ?string $pluginName = null)
+    public function __construct(ArchiveProcessor $processor)
     {
         $this->maximumRows = PiwikConfig::getInstance()->General['datatable_archiving_maximum_rows_standard'];
         $this->processor = $processor;
         $this->enabled = true;
-        $this->pluginName = $pluginName;
     }
 
-    private function getPluginName()
+    private function getPluginName(): string
     {
-        $plugin = $this->pluginName;
-        if (empty($plugin)) {
-            $className = get_class($this);
-            $parts = explode('\\', $className);
-            $parts = array_filter($parts);
-            $plugin = $parts[2];
-        }
-
-        if (!Manager::getInstance()->isPluginLoaded($plugin)) {
-            return null;
-        }
-
-        return $plugin;
+        return Piwik::getPluginNameOfMatomoClass(get_class($this));
     }
 
     /**
@@ -117,40 +99,23 @@ class Archiver
      * @throws \DI\DependencyException
      * @throws \DI\NotFoundException
      */
-    private function getRecordBuilders(): array
-    {
-        $recordBuilders = self::getAllRecordBuilders();
-
-        $requestedReports = $this->processor->getParams()->getArchiveOnlyReport();
-        if (!empty($requestedReports)) {
-            $requestedReports = is_string($requestedReports) ? [$requestedReports] : $requestedReports;
-
-            $recordBuilders = array_filter($recordBuilders, function (ArchiveProcessor\RecordBuilder $builder) use ($requestedReports) {
-                return $builder->isBuilderForAtLeastOneOf($this->processor, $requestedReports);
-            });
-        }
-
-        return $recordBuilders;
-    }
-
-    /**
-     * @return ArchiveProcessor\RecordBuilder[]
-     */
-    public static function getAllRecordBuilders(): array
+    private function getRecordBuilders(string $pluginName): array
     {
         $transientCache = Cache::getTransientCache();
-        $cacheKey = CacheId::siteAware(CacheId::pluginAware('Archiver.RecordBuilders'));
+        $cacheKey = CacheId::siteAware('Archiver.RecordBuilders') . '.' . $pluginName;
 
         $recordBuilders = $transientCache->fetch($cacheKey);
         if ($recordBuilders === false) {
-            $recordBuilderClasses = Manager::getInstance()->findMultipleComponents('RecordBuilders', ArchiveProcessor\RecordBuilder::class);
+            $recordBuilderClasses = $this->getAllRecordBuilderClasses();
+
+            // only select RecordBuilders for the selected plugin
+            $recordBuilderClasses = array_filter($recordBuilderClasses, function ($className) use ($pluginName) {
+                return Piwik::getPluginNameOfMatomoClass($className) == $pluginName;
+            });
 
             $recordBuilders = array_map(function ($className) {
-                if ((new \ReflectionClass($className))->getConstructor()->getNumberOfRequiredParameters() == 0) {
-                    return StaticContainer::getContainer()->make($className);
-                }
+                return StaticContainer::getContainer()->make($className);
             }, $recordBuilderClasses);
-            $recordBuilders = array_filter($recordBuilders);
 
             /**
              * Triggered to add new RecordBuilders that cannot be picked up automatically by the platform.
@@ -167,42 +132,38 @@ class Archiver
              * @param ArchiveProcessor\RecordBuilder[] $recordBuilders An array of RecordBuilder instances
              * @api
              */
-            Piwik::postEvent('Archiver.addRecordBuilders', [&$recordBuilders]);
-
-            /**
-             * Triggered to filter / restrict reports.
-             *
-             * **Example**
-             *
-             *     public function filterRecordBuilders(&$recordBuilders)
-             *     {
-             *         foreach ($reports as $index => $recordBuilder) {
-             *              if ($recordBuilders instanceof AnotherPluginRecordBuilder) {
-             *                  unset($reports[$index]);
-             *              }
-             *         }
-             *     }
-             *
-             * @param ArchiveProcessor\RecordBuilder[] $recordBuilders An array of RecordBuilder instances
-             * @api
-             */
-            Piwik::postEvent('Archiver.filterRecordBuilders', [&$recordBuilders]);
+            Piwik::postEvent('Archiver.addRecordBuilders', [&$recordBuilders], false, [$pluginName]);
 
             $transientCache->save($cacheKey, $recordBuilders);
         }
 
-        return $recordBuilders;
-    }
+        /**
+         * Triggered to filter / restrict reports.
+         *
+         * **Example**
+         *
+         *     public function filterRecordBuilders(&$recordBuilders)
+         *     {
+         *         foreach ($reports as $index => $recordBuilder) {
+         *              if ($recordBuilders instanceof AnotherPluginRecordBuilder) {
+         *                  unset($reports[$index]);
+         *              }
+         *         }
+         *     }
+         *
+         * @param ArchiveProcessor\RecordBuilder[] $recordBuilders An array of RecordBuilder instances
+         * @api
+         */
+        Piwik::postEvent('Archiver.filterRecordBuilders', [&$recordBuilders]);
 
-    public static function doesPluginHaveRecordBuilders(string $pluginName): bool
-    {
-        $recordBuilders = self::getAllRecordBuilders();
-        foreach ($recordBuilders as $builder) {
-            if ($pluginName === $builder->getPluginName()) {
-                return true;
-            }
+        $requestedReports = $this->processor->getParams()->getArchiveOnlyReportAsArray();
+        if (!empty($requestedReports)) {
+            $recordBuilders = array_filter($recordBuilders, function (ArchiveProcessor\RecordBuilder $builder) use ($requestedReports) {
+                return $builder->isBuilderForAtLeastOneOf($this->processor, $requestedReports);
+            });
         }
-        return false;
+
+        return $recordBuilders;
     }
 
     /**
@@ -215,13 +176,11 @@ class Archiver
 
             $pluginName = $this->getPluginName();
 
-            if (!empty($pluginName)) {
-                $recordBuilders = $this->getRecordBuilders();
+            if (Manager::getInstance()->isPluginLoaded($pluginName)) {
+                $recordBuilders = $this->getRecordBuilders($pluginName);
 
                 foreach ($recordBuilders as $recordBuilder) {
-                    if ($recordBuilder->getPluginName() != $pluginName
-                        || !$recordBuilder->isEnabled($this->getProcessor())
-                    ) {
+                    if (!$recordBuilder->isEnabled($this->getProcessor())) {
                         continue;
                     }
 
@@ -235,7 +194,7 @@ class Archiver
                     $newQueryHint = $originalQueryHint . ' ' . $recordBuilder->getQueryOriginHint();
                     try {
                         $this->getProcessor()->getLogAggregator()->setQueryOriginHint($newQueryHint);
-                        $recordBuilder->build($this->getProcessor());
+                        $recordBuilder->buildFromLogs($this->getProcessor());
                     } finally {
                         $this->getProcessor()->getLogAggregator()->setQueryOriginHint($originalQueryHint);
                     }
@@ -243,6 +202,8 @@ class Archiver
             }
 
             $this->aggregateDayReport();
+
+            $this->processDependentArchivesForPlugins();
         } finally {
             ErrorHandler::popFatalErrorBreadcrumb();
         }
@@ -258,12 +219,10 @@ class Archiver
 
             $pluginName = $this->getPluginName();
 
-            if (!empty($pluginName)) {
-                $recordBuilders = $this->getRecordBuilders();
+            if (Manager::getInstance()->isPluginLoaded($pluginName)) {
+                $recordBuilders = $this->getRecordBuilders($pluginName);
                 foreach ($recordBuilders as $recordBuilder) {
-                    if ($recordBuilder->getPluginName() != $pluginName
-                        || !$recordBuilder->isEnabled($this->getProcessor())
-                    ) {
+                    if (!$recordBuilder->isEnabled($this->getProcessor())) {
                         continue;
                     }
 
@@ -277,7 +236,7 @@ class Archiver
                     $newQueryHint = $originalQueryHint . ' ' . $recordBuilder->getQueryOriginHint();
                     try {
                         $this->getProcessor()->getLogAggregator()->setQueryOriginHint($newQueryHint);
-                        $recordBuilder->buildMultiplePeriod($this->getProcessor());
+                        $recordBuilder->buildForNonDayPeriod($this->getProcessor());
                     } finally {
                         $this->getProcessor()->getLogAggregator()->setQueryOriginHint($originalQueryHint);
                     }
@@ -285,6 +244,8 @@ class Archiver
             }
 
             $this->aggregateMultipleReports();
+
+            $this->processDependentArchivesForPlugins();
         } finally {
             ErrorHandler::popFatalErrorBreadcrumb();
         }
@@ -373,8 +334,77 @@ class Archiver
         return false;
     }
 
+    /**
+     * Returns a list of segments that should be pre-archived along with the segment currently being archived.
+     * The segments in this list will be added to the current segment via an AND condition and archiving
+     * for the current plugin will be launched. This process will not recurse further.
+     *
+     * If your plugin's API appends conditions to the requested segment when fetching data, you will want to
+     * use this method to make sure those segments get pre-archived. Otherwise, if browser archiving is disabled,
+     * the modified segments will appear to have no data.
+     *
+     * To archive another plugin, use an array instead of a string segment, for example:
+     *
+     * ```
+     * ['plugin' => 'VisitsSummary', 'segment' => '...']
+     * ```
+     *
+     * See the Goals and VisitFrequency plugins for examples.
+     *
+     * @return array
+     * @api
+     */
+    public function getDependentSegmentsToArchive(): array
+    {
+        return [];
+    }
+
     protected function isRequestedReport(string $reportName)
     {
-        return $this->getProcessor()->getParams()->isRequestedReport($reportName);
+        $requestedReport = $this->getProcessor()->getParams()->getArchiveOnlyReport();
+
+        return empty($requestedReport) || $requestedReport == $reportName;
+    }
+
+    private function processDependentArchivesForPlugins()
+    {
+        if (!self::$ARCHIVE_DEPENDENT) {
+            return;
+        }
+
+        $dependentSegments = $this->getDependentSegmentsToArchive();
+        foreach ($dependentSegments as $dependentSegment) {
+            $plugin = $this->getPluginName();
+            $segment = $dependentSegment;
+
+            if (is_array($dependentSegment)) {
+                $plugin = $dependentSegment['plugin'] ?? $plugin;
+                $segment = $dependentSegment['segment'];
+            }
+
+            $this->getProcessor()->processDependentArchive($plugin, $segment);
+        }
+    }
+
+    private function getDefaultConstructibleClasses(array $classes): array
+    {
+        return array_filter($classes, function ($className) {
+            return (new \ReflectionClass($className))->getConstructor()->getNumberOfRequiredParameters() == 0;
+        });
+    }
+
+    private function getAllRecordBuilderClasses(): array
+    {
+        $transientCache = Cache::getTransientCache();
+        $cacheKey = CacheId::siteAware('RecordBuilders.allRecordBuilders');
+
+        $recordBuilderClasses = $transientCache->fetch($cacheKey);
+        if ($recordBuilderClasses === false) {
+            $recordBuilderClasses = Manager::getInstance()->findMultipleComponents('RecordBuilders', ArchiveProcessor\RecordBuilder::class);
+            $recordBuilderClasses = $this->getDefaultConstructibleClasses($recordBuilderClasses);
+
+            $transientCache->save($cacheKey, $recordBuilderClasses);
+        }
+        return $recordBuilderClasses;
     }
 }

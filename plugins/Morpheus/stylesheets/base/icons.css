@@ -28,7 +28,6 @@
 .icon-merge:before {
   content: "\e904";
 }
-
 .icon-outlink:before {
   content: "\f08e";
 }
@@ -412,4 +411,22 @@
 }
 .icon-arrow-right-2:before {
   content: "\ea3c";
+}
+.icon-content-copy:before {
+  content: "\e905";
+}
+.icon-chevron-left:before {
+  content: "\e907";
+}
+.icon-chevron-down:before {
+  content: "\e908";
+}
+.icon-chevron-right:before {
+  content: "\e909";
+}
+.icon-chevron-up:before {
+  content: "\e90a";
+}
+.icon-done:before {
+  content: "\e906";
 }

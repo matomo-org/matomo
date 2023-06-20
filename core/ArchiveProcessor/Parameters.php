@@ -274,7 +274,7 @@ class Parameters
     {
         $requestedReports = $this->getArchiveOnlyReport();
         if (is_array($requestedReports)) {
-            $requestedReports = json_encode($requestedReports);
+            $requestedReports = implode(', ', $requestedReports);
         }
         return "[idSite = {$this->getSite()->getId()}, period = {$this->getPeriod()->getLabel()} {$this->getPeriod()->getRangeString()}, segment = {$this->getSegment()->getString()}, plugin = {$this->getRequestedPlugin()}, report = {$requestedReports}]";
     }
@@ -322,19 +322,5 @@ class Parameters
     public function getFoundRequestedReports()
     {
         return $this->foundRequestedReports ?: [];
-    }
-
-    /**
-     * Returns `true` if there is a requested report for this archiving request and the requested
-     * report is the same as `$reportName`. `false` if otherwise.
-     *
-     * @param string $reportName
-     * @return bool
-     */
-    public function isRequestedReport(string $reportName): bool
-    {
-        $requestedReport = $this->getArchiveOnlyReport();
-
-        return empty($requestedReport) || $requestedReport == $reportName;
     }
 }

@@ -312,6 +312,7 @@ class Config extends \Piwik\ViewDataTable\Config
             if ($evolutionPercent != 0 || $evolution['currentValue'] != 0) {
                 $sparkline['evolution'] = array(
                     'percent' => $evolutionPercent,
+                    'isLowerValueBetter' => !empty($evolution['isLowerValueBetter']) ? $evolution['isLowerValueBetter'] : false,
                     'tooltip' => !empty($evolution['tooltip']) ? $evolution['tooltip'] : null,
                     'trend' => $evolution['currentValue'] - $evolution['pastValue'],
                 );

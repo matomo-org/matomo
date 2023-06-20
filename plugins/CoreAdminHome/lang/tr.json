@@ -167,6 +167,7 @@
         "UserInviteSubject": "%1$s, sizi %2$s için Matomo Analytics platformuna katılmaya çağırdı.",
         "ValidPiwikHostname": "Geçerli Matomo sunucu adı",
         "ViewAllTrackingFailures": "Tüm izleme sorunlarını görüntüle",
+        "VueDescription": "Web siteniz Vue.js kullanıyorsa, lütfen %1$sbu rehbere%2$s bakın.",
         "WhatIsNew": "Yenilikler",
         "WhatIsNewNoChanges": "Şu anda herhangi bir yenilik yok",
         "WhatIsNewNoChangesTitle": "Son zamanlarda bir değişiklik yapılmamış",
