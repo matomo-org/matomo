@@ -27,14 +27,14 @@ class Configuration extends RecordBuilder
         $this->columnToSortByBeforeTruncation = Metrics::INDEX_NB_VISITS;
     }
 
-    public function getRecordMetadata(ArchiveProcessor $archiveProcessor)
+    public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
     {
         return [
             Record::make(Record::TYPE_BLOB, Archiver::CONFIGURATION_RECORD_NAME),
         ];
     }
 
-    protected function aggregate(ArchiveProcessor $archiveProcessor)
+    protected function aggregate(ArchiveProcessor $archiveProcessor): array
     {
         $record = new DataTable();
 
