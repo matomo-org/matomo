@@ -26,7 +26,7 @@ use Piwik\Plugins\LanguagesManager\TranslationWriter\Writer;
  */
 class GenerateIntl extends ConsoleCommand
 {
-    public $CLDRVersion = "39.0.0";
+    public $CLDRVersion = "43.0.0";
 
     public function isEnabled()
     {
@@ -116,6 +116,7 @@ class GenerateIntl extends ConsoleCommand
             $this->fetchLayoutDirection($transformedLangCode, $requestLangCode, $translations);
             $this->fetchUnitData($transformedLangCode, $requestLangCode, $translations);
             $this->fetchNumberFormattingData($transformedLangCode, $requestLangCode, $translations);
+            $this->fetchListingLayouts($transformedLangCode, $requestLangCode, $translations);
 
             // fix missing language name for territory specific languages (like es-AR)
             if (empty($translations['Intl']['OriginalLanguageName']) && strpos($transformedLangCode, '-')) {
@@ -256,7 +257,8 @@ class GenerateIntl extends ConsoleCommand
                 }
             }
 
-            if (array_key_exists($langCode, $languageData) && $languageData[$langCode] != $langCode) {
+            if (array_key_exists($langCode, $languageData) && $languageData[$langCode] != $langCode && $langCode !== 'pt') {
+                // We ignore `pt` here, as we otherwise would end up with having `pt` and `pt_BR` using the same original name
                 $translations['Intl']['OriginalLanguageName'] = $this->transform($languageData[$langCode]);
             } else if (array_key_exists($requestLangCode, $languageData) && $languageData[$requestLangCode] != $requestLangCode) {
                 $translations['Intl']['OriginalLanguageName'] = $this->transform($languageData[$requestLangCode]);
@@ -622,6 +624,39 @@ class GenerateIntl extends ConsoleCommand
             $this->getOutput()->writeln('Saved currency data for ' . $langCode);
         } catch (\Exception $e) {
             $this->getOutput()->writeln('Unable to import currency data for ' . $langCode);
+        }
+    }
+
+    protected function fetchListingLayouts($langCode, $requestLangCode, &$translations)
+    {
+        $listingLayoutsUrl = 'https://raw.githubusercontent.com/unicode-org/cldr-json/%s/cldr-json/cldr-misc-full/main/%s/listPatterns.json';
+
+        try {
+            $listingLayouts = Http::fetchRemoteFile(sprintf($listingLayoutsUrl, $this->CLDRVersion, $requestLangCode));
+            $listingLayouts = json_decode($listingLayouts, true);
+            $listingLayouts = $listingLayouts['main'][$requestLangCode]['listPatterns'] ?? [];
+
+            if (empty($listingLayouts)) {
+                throw new \Exception();
+            }
+
+            if (isset($listingLayouts['listPattern-type-standard'])) {
+                $translations['Intl']['ListPatternAndStart'] = $listingLayouts['listPattern-type-standard']['start'];
+                $translations['Intl']['ListPatternAndMiddle'] = $listingLayouts['listPattern-type-standard']['middle'];
+                $translations['Intl']['ListPatternAndEnd'] = $listingLayouts['listPattern-type-standard']['end'];
+                $translations['Intl']['ListPatternAnd2'] = $listingLayouts['listPattern-type-standard']['2'];
+            }
+
+            if (isset($listingLayouts['listPattern-type-or'])) {
+                $translations['Intl']['ListPatternOrStart'] = $listingLayouts['listPattern-type-or']['start'];
+                $translations['Intl']['ListPatternOrMiddle'] = $listingLayouts['listPattern-type-or']['middle'];
+                $translations['Intl']['ListPatternOrEnd'] = $listingLayouts['listPattern-type-or']['end'];
+                $translations['Intl']['ListPatternOr2'] = $listingLayouts['listPattern-type-or']['2'];
+            }
+
+            $this->getOutput()->writeln('Saved listing layout data for ' . $langCode);
+        } catch (\Exception $e) {
+            $this->getOutput()->writeln('Unable to import listing layout data for ' . $langCode);
         }
     }
 

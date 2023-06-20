@@ -262,7 +262,8 @@ class ArchiveProcessor
      * as metrics for the current period.
      *
      * @param array|string $columns Array of metric names to aggregate.
-     * @param bool|string $operationToApply The operation to apply to the metric. Either `'sum'`, `'max'` or `'min'`.
+     * @param bool|string|string[] $operationToApply The operation to apply to the metric. Either `'sum'`, `'max'` or `'min'`.
+     *                                               Can also be an array mapping record names to operations.
      * @return array|int Returns the array of aggregate values. If only one metric was aggregated,
      *                   the aggregate value will be returned as is, not in an array.
      *                   For example, if `array('nb_visits', 'nb_hits')` is supplied for `$columns`,
@@ -276,9 +277,9 @@ class ArchiveProcessor
      *                   then `3040` would be returned.
      * @api
      */
-    public function aggregateNumericMetrics($columns, $operationToApply = false)
+    public function aggregateNumericMetrics($columns, $operationsToApply = false)
     {
-        $metrics = $this->getAggregatedNumericMetrics($columns, $operationToApply);
+        $metrics = $this->getAggregatedNumericMetrics($columns, $operationsToApply);
 
         foreach ($metrics as $column => $value) {
             $this->insertNumericRecord($column, $value);
@@ -489,7 +490,7 @@ class ArchiveProcessor
     {
         $operationForColumn = array();
         foreach ($columns as $name) {
-            $operation = $defaultOperation;
+            $operation = is_array($defaultOperation) ? ($defaultOperation[$name] ?? null) : $defaultOperation;
             if (empty($operation)) {
                 $operation = $this->guessOperationForColumn($name);
             }
@@ -688,13 +689,13 @@ class ArchiveProcessor
         }
     }
 
-    protected function getAggregatedNumericMetrics($columns, $operationToApply)
+    protected function getAggregatedNumericMetrics($columns, $operationsToApply)
     {
         if (!is_array($columns)) {
             $columns = array($columns);
         }
 
-        $operationForColumn = $this->getOperationForColumns($columns, $operationToApply);
+        $operationForColumn = $this->getOperationForColumns($columns, $operationsToApply);
 
         $dataTable = $this->getArchive()->getDataTableFromNumeric($columns);
 

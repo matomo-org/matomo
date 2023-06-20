@@ -29,6 +29,7 @@
         "InvalidNonceToken": "Problema di sicurezza nel form, i token non coincidono. Per favore, ricarica il form e controlla che i cookies siano abilitati.",
         "InvalidNonceUnexpectedReferrer": "Problema di sicurezza nel form; l'header \"Referer\" è diverso da quello previsto. Verifica che sia stato inviato correttamente.",
         "InvalidOrExpiredToken": "Token non valido o scaduto",
+        "InvalidOrExpiredTokenV2": "La password è già stata impostata o il link è scaduto.",
         "InvalidUsernameEmail": "Nome utente o indirizzo e-mail non validi",
         "InvitationDeclineBody": "Vuoi davvero rifiutare questo invito?",
         "InvitationDeclineTitle": "Rifiuta l'invito",
