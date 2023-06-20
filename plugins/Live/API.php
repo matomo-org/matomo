@@ -70,12 +70,12 @@ class API extends \Piwik\Plugin\API
      */
     public function getCounters($idSite, int $lastMinutes, $segment = false, $showColumns = array(), $hideColumns = array())
     {
-        Piwik::checkUserHasViewAccess($idSite);
-        $model = new Model();
-
         if ($lastMinutes < 1 || $lastMinutes > 2880) {
             throw new \InvalidArgumentException('lastMinutes only accepts values between 1 and 2880');
         }
+
+        Piwik::checkUserHasViewAccess($idSite);
+        $model = new Model();
 
         if (is_string($showColumns)) {
             $showColumns = explode(',', $showColumns);
