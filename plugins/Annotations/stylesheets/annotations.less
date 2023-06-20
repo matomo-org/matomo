@@ -77,11 +77,6 @@ span.annotation {
     color: transparent;
 }
 
-.annotation-controls a:hover {
-    text-decoration: underline;
-}
-
-
 .annotation-controls>a {
     font-size:14px;
     font-style: normal;
@@ -183,11 +178,11 @@ span.annotation {
     color: #666666;
     text-decoration: none;
     display: NONE;
-}
 
-.delete-annotation:hover {
-    color: #cc3300;
-    text-decoration: none;
+    &:hover {
+      color: #cc3300;
+      text-decoration: none;
+    }
 }
 
 .annotation-manager .submit {
@@ -200,10 +195,10 @@ span.annotation {
     font-style: italic;
     padding: 6px 5px;
     margin-top: -5px;
-}
 
-.edit-annotation:hover {
-    text-decoration: none;
+    &:hover {
+      text-decoration: none;
+    }
 }
 
 .annotation-period-edit {
@@ -214,17 +209,18 @@ span.annotation {
     border: 1px solid #e4e5e4;
     padding: 5px 5px 6px 3px;
     border-radius: 4px;
-}
 
-.annotation-period-edit:hover {
-    background: #f1f0eb;
-    border-color: #a9a399;
+    &:hover {
+      background: #f1f0eb;
+      border-color: #a9a399;
+    }
 }
 
 .annotation-period-edit>a {
     text-decoration: none;
     cursor: pointer;
     display: block;
+    font-size: 14px;
 }
 
 .annotation-period-edit>.datepicker {
@@ -247,8 +243,4 @@ td.padding {
 
 td.wider {
   width: 80px;
-}
-
-a.font   {
-  font-size: 14px;
 }
