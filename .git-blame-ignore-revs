@@ -23,3 +23,5 @@ d3de8d64f477d14bf10d5cd1d17521f0c19950ed
 593437a3fd35381c13fe5cf7fabae5767dc3a519
 # [PHPCS] Enable PSR1 coding standard (#20724)
 aa2674a8241d5e4e55a2f7fbb74292e06eab8780
+[PHPCS] disallow using tabs for intending
+d40e11f6decbe84834ed5f33406189055e6989b8
