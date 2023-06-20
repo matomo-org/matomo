@@ -282,7 +282,7 @@ THIRD-PARTY CONTENT
 	License: GPL
 	By: Alessandro Rei - http://www.kde-look.org/usermanager/search.php?username=mentalrey
 
-	Name: Material icons ("icon-info2", "icon-outline", "icon-settings", "icon-form", "icon-play", "icon-pause", "icon-replay", "icon-skip-next", "icon-skip-forward", "icon-stop", "icon-fast-forward", "icon-fast-rewind", "icon-bug", "icon-upload", "icon-segmented-visits-log", "icon-clock") in plugins/Morpheus/fonts, and plugins/Morpheus/images/compare.svg
+	Name: Material icons ("icon-info2", "icon-outline", "icon-settings", "icon-form", "icon-play", "icon-pause", "icon-replay", "icon-skip-next", "icon-skip-forward", "icon-stop", "icon-fast-forward", "icon-fast-rewind", "icon-bug", "icon-upload", "icon-segmented-visits-log", "icon-clock", "icon-content-copy", "icon-done") in plugins/Morpheus/fonts, and plugins/Morpheus/images/compare.svg
 	Link: https://design.google.com/icons/
 	License: Apache License Version 2.0
 
@@ -290,7 +290,7 @@ THIRD-PARTY CONTENT
 	Link: https://icomoon.io/#icons-icomoon
 	License: GPL
 
-	Name: FontAwesome icons ("icon-minus-square", "icon-plus-square", "icon-arrowup", "icon-arrowdown", "icon-outlink") in plugins/Morpheus/fonts
+	Name: FontAwesome icons ("icon-minus-square", "icon-plus-square", "icon-arrowup", "icon-arrowdown", "icon-outlink", "icon-chevron-right", "icon-chevron-left", "icon-chevron-down", "icon-chevron-up") in plugins/Morpheus/fonts
 	Link: https://fontawesome.com/
 	License: CC BY 4.0
 

@@ -117,6 +117,8 @@
         "GeolocationAnonymizeIpNote": "Opmerking: geolocatie heeft ongeveer dezelfde resultaten met 1 byte geanonimiseerd. Met 2 bytes of meer zal geolocatie onnauwkeurig zijn.",
         "GetPurgeEstimate": "Schat het aantal teruggewonnen ruimte",
         "HowDoIAskForConsent": "Hoe vraag ik gebruikers om toestemming?",
+        "HowDoIAskForConsentIntro": "Matomo heeft handleidingen beschikbaar voor het instellen van toestemmingstracking met de volgende populaire toestemmingsbeheerders:",
+        "HowDoIAskForConsentOutro": "Indien u geen van de bovenstaande toestemmingsbeheerders gebruikt, kunt u %1$stracking met toestemming implementeren met behulp van de Matomo JavaScript API%2$s.",
         "IPAddress": "IP-adres",
         "Imprint": "Afdruk",
         "ImprintUrl": "Afdruk-URL",
@@ -220,6 +222,9 @@
         "VisitsMatchedCriteria": "Deze bezoeken voldoen aan de geselecteerde criteria.",
         "VisitsSuccessfullyDeleted": "Bezoeken zijn succesvol verwijderd",
         "VisitsSuccessfullyExported": "Bezoeken zijn succesvol geëxporteerd",
+        "WhenConsentIsNeededPart1": "De %1$sGDPR privacyregelgeving%2$s vereist in sommige gevallen dat u toestemming vraagt aan uw gebruikers bij het verwerken van persoonsgegevens. Om te bepalen of u om toestemming moet vragen, moet u de rechtsgrond voor het verwerken van persoonsgegevens vaststellen. Dit kan \"Toestemming\" of \"Legitiem belang\" zijn, of u kunt het verzamelen van persoonsgegevens helemaal vermijden.",
+        "WhenConsentIsNeededPart2": "Het is aan te raden om meer te lezen over de wettelijke basis voor de verwerking van persoonsgegevens onder de GDPR. U kunt meer informatie over dit onderwerp vinden op %1$sonze blog%2$s.",
+        "WhenConsentIsNeededPart3": "Let op: als u toestemming nodig heeft van uw gebruikers en u kunt niet bewijzen dat u in het verleden hun \"toestemming\" heeft gekregen, dan raden we u aan om de ruwe data van uw eerder getrackte gebruikers te anonimiseren. Anonimiseren kan via de Privacy Manager in Matomo, zie %1$svoor meer informatie%2$s.",
         "WhenDoINeedConsent": "Wanneer moet ik toestemming van de gebruiker vragen?"
     }
 }

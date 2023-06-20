@@ -128,32 +128,32 @@ class Model
             $visits = $readerDb->fetchAll($sql, $bind);
         } catch (Exception $e) {
             $this->handleMaxExecutionTimeError($readerDb, $e, $segment, $dateStart, $dateEnd, $minTimestamp, $limit, ['sql' => $sql, 'bind' => $bind,]);
-	        throw $e;
+            throw $e;
         }
         return $visits;
     }
 
-	/**
-	 * @param \Piwik\Tracker\Db|\Piwik\Db\AdapterInterface|\Piwik\Db $readerDb
-	 * @param Exception $e
-	 * @param $segment
-	 * @param $dateStart
-	 * @param $dateEnd
-	 * @param $minTimestamp
-	 * @param $limit
-	 * @param $parameters
-	 *
-	 * @throws MaxExecutionTimeExceededException
-	 */
+    /**
+     * @param \Piwik\Tracker\Db|\Piwik\Db\AdapterInterface|\Piwik\Db $readerDb
+     * @param Exception $e
+     * @param $segment
+     * @param $dateStart
+     * @param $dateEnd
+     * @param $minTimestamp
+     * @param $limit
+     * @param $parameters
+     *
+     * @throws MaxExecutionTimeExceededException
+     */
     public static function handleMaxExecutionTimeError($readerDb, $e, $segment, $dateStart, $dateEnd, $minTimestamp, $limit, $parameters)
     {
-	    // we also need to check for the 'maximum statement execution time exceeded' text as the query might be
-	    // aborted at different stages and we can't really know all the possible codes at which it may be aborted etc
-	    $isMaxExecutionTimeError = $readerDb->isErrNo($e, DbMigration::ERROR_CODE_MAX_EXECUTION_TIME_EXCEEDED_QUERY_INTERRUPTED)
-	                               || $readerDb->isErrNo($e, DbMigration::ERROR_CODE_MAX_EXECUTION_TIME_EXCEEDED_SORT_ABORTED)
-	                               || strpos($e->getMessage(), 'maximum statement execution time exceeded') !== false;
+        // we also need to check for the 'maximum statement execution time exceeded' text as the query might be
+        // aborted at different stages and we can't really know all the possible codes at which it may be aborted etc
+        $isMaxExecutionTimeError = $readerDb->isErrNo($e, DbMigration::ERROR_CODE_MAX_EXECUTION_TIME_EXCEEDED_QUERY_INTERRUPTED)
+                                   || $readerDb->isErrNo($e, DbMigration::ERROR_CODE_MAX_EXECUTION_TIME_EXCEEDED_SORT_ABORTED)
+                                   || strpos($e->getMessage(), 'maximum statement execution time exceeded') !== false;
 
-	    if (false === $isMaxExecutionTimeError) {
+        if (false === $isMaxExecutionTimeError) {
             return;
         }
 
