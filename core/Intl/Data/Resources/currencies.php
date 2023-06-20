@@ -57,7 +57,7 @@ return array(
     'KMF' => array('Fr', 'Comorian franc'),
     'CDF' => array('Fr', 'Congolese franc'),
     'CRC' => array('₡', 'Costa Rican colón'),
-    'HRK' => array('kn', 'Croatian kuna'),
+    'HRK' => array('kn', 'Croatian kuna'), // till 2023-01-14
     'XPF' => array('F', 'CFP franc'),
     'CUC' => array('$', 'Cuban convertible peso'),
     'CUP' => array('$', 'Cuban peso'),
@@ -69,7 +69,7 @@ return array(
     'EGP' => array('ج.م', 'Egyptian pound'),
     'ERN' => array('Nfk', 'Eritrean nakfa'),
     'ETB' => array('Br', 'Ethiopian birr'),
-//			'EUR' => array('€', 'Euro'),
+//            'EUR' => array('€', 'Euro'),
     'FKP' => array('£', 'Falkland Islands pound'),
     'FJD' => array('$', 'Fijian dollar'),
     'GMD' => array('D', 'Gambian dalasi'),
@@ -143,7 +143,8 @@ return array(
     'SAR' => array('ر.س', 'Saudi riyal'),
     'RSD' => array('дин. or din.', 'Serbian dinar'),
     'SCR' => array('₨', 'Seychellois rupee'),
-    'SLL' => array('Le', 'Sierra Leonean leone'),
+    'SLE' => array('Le', 'Sierra Leonean leone'), // from 2022-07-01
+    'SLL' => array('Le', 'Sierra Leonean leone'), // till 2022-07-01
     'SGD' => array('$', 'Singapore dollar'),
     'SBD' => array('$', 'Solomon Islands dollar'),
     'SOS' => array('Sh', 'Somali shilling'),

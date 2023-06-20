@@ -154,18 +154,3 @@ class API extends \Piwik\Plugin\API
         return $return;
     }
 }
-
-/**
- * Magic Object
- *
- */
-class MagicObject
-{
-    function Incredible()
-    {
-        return 'Incroyable';
-    }
-
-    protected $wonderful = 'magnifique';
-    public $great = 'formidable';
-}

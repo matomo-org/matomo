@@ -52,8 +52,6 @@ class MeasurableSettingsTest extends IntegrationTestCase
 
         $this->assertStoredSettingsValue(array('value2'), 'sitesearch_keyword_parameters');
         $this->assertStoredSettingsValue(array('value3'), 'sitesearch_category_parameters');
-
-        $this->assertTrue(true); // pass
     }
 
     public function test_save_shouldCheckAdminPermissionsForThatSite()

@@ -18,6 +18,7 @@ describe("Installation", function () {
         testEnvironment.testUseMockAuth = 0;
         testEnvironment.configFileLocal = path.join(PIWIK_INCLUDE_PATH, "/tmp/test.config.ini.php");
         testEnvironment.dontUseTestConfig = true;
+        testEnvironment.ignoreClearAllViewDataTableParameters = 1;
         testEnvironment.tablesPrefix = 'piwik_';
         testEnvironment.save();
 
@@ -35,7 +36,7 @@ describe("Installation", function () {
     });
 
     it("should display an error message when trying to access a resource w/o a config.ini.php file", async function() {
-        await page.goto("?module=CoreHome&action=index&ignoreClearAllViewDataTableParameters=1");
+        await page.goto("?module=CoreHome&action=index");
 
         await page.evaluate(function () {
             // ensure screenshots are reporting same config file for comparison
@@ -50,7 +51,7 @@ describe("Installation", function () {
     });
 
     it("should start the installation process when the index is visited w/o a config.ini.php file", async function() {
-        await page.goto("?ignoreClearAllViewDataTableParameters=1");
+        await page.goto("");
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('start');
     });
