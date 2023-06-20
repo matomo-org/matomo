@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Goals\Reports;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\Goals\Columns\VisitsUntilConversion;
+use Piwik\Plugins\Goals\RecordBuilders\GeneralGoalsRecords;
 
 class GetVisitsUntilConversion extends Base
 {
