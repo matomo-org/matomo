@@ -1,4 +1,6 @@
 # .git-blame-ignore-revs
+# Mass conversion of all files to the newly agreed coding standard: PSR 1/2
+ae4b03163792f0b6e933933e5d37df87dc3fd566
 # converted some links to use @link
 b40e4d1da3296b05e5aa1abe64ee12548023da77
 #  Remove all occurences of @Package / @subpackage / @category from core/ files.
