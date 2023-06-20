@@ -32,7 +32,7 @@
         {% endif %}
     </div>
     {% if not noData %}
-    <div class="dataTableFeatures" style="padding-top:0;">
+    <div class="dataTableFeatures">
         <div class="dataTableFooterIcons">
             <div class="dataTableFooterWrap" var="graphVerticalBar">
                 <img class="UserCountryMap-activeItem dataTableFooterActiveItem" src="plugins/Morpheus/images/data_table_footer_active_item.png" style="left: 25px;" />
@@ -46,12 +46,12 @@
                 </div>
                 <div class="tableIconsGroup UserCountryMap-view-mode-buttons">
                     <span class="tableAllColumnsSwitch">
-                        <a var="tableAllColumns" class="UserCountryMap-btn-region tableIcon activeIcon" format="tableAllColumns"
+                        <a class="UserCountryMap-btn-region tableIcon activeIcon"
                            data-region="{{ 'UserCountryMap_Regions'|translate }}" data-country="{{ 'UserCountryMap_Countries'|translate }}">
                             <img src="plugins/UserCountryMap/images/regions.png" title="Show visitors per region/country" />
                             <span style="margin:0;">{{ 'UserCountryMap_Countries'|translate }}</span>&nbsp;
                         </a>
-                        <a var="tableGoals" class="UserCountryMap-btn-city tableIcon inactiveIco" format="tableGoals">
+                        <a class="UserCountryMap-btn-city tableIcon inactiveIcon" style="display: none;">
                             <img src="plugins/UserCountryMap/images/cities.png" title="Show visitors per city" />
                             <span style="margin:0;">{{ 'UserCountryMap_Cities'|translate }}</span>&nbsp;
                         </a>
@@ -86,8 +86,6 @@
     config._ = JSON.parse('{{ localeJSON|e('js') }}');
     config.reqParams = JSON.parse('{{ reqParamsJSON|e('js') }}');
     config.countryNames = JSON.parse('{{ countriesByIso|json_encode|e('js') }}');
-
-    $('.UserCountryMap').addClass('dataTable');
 
     if ($('#dashboardWidgetsArea').length) {
         // dashboard mode

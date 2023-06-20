@@ -205,7 +205,6 @@
         "ExceptionInvalidRendererFormat": "Rendering format '%1$s' ikke gyldigt. Prøv et af følgende i stedet: %2$s.",
         "ExceptionInvalidReportRendererFormat": "Rapportformat '%1$s' er ikke gyldigt. Prøv i stedet et af følgende: %2$s.",
         "ExceptionInvalidStaticGraphType": "Statisk diagramtype '%1$s' ikke gyldigt. Prøv en af følgende i stedet: %2$s.",
-        "ExceptionInvalidToken": "Token er ikke gyldig.",
         "ExceptionLanguageFileNotFound": "Sprogfil '%s' blev ikke fundet.",
         "ExceptionMethodNotFound": "Metoden '%1$s' eksisterer ikke eller er ikke tilgængelig i modulet '%2$s'.",
         "ExceptionMissingFile": "Mangler fil: %s",

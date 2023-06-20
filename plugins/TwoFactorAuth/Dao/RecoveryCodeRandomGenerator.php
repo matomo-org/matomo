@@ -16,4 +16,3 @@ class RecoveryCodeRandomGenerator
        return Common::getRandomString(16);
     }
 }
-

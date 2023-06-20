@@ -27,9 +27,6 @@ class ApiRendererTest extends \PHPUnit\Framework\TestCase
         $renderer = ApiRenderer::factory('xml', array());
         $this->assertInstanceOf('Piwik\Plugins\API\Renderer\Xml', $renderer);
 
-        $renderer = ApiRenderer::factory('JSON2', array());
-        $this->assertInstanceOf('Piwik\Plugins\API\Renderer\Json', $renderer);
-
         $renderer = ApiRenderer::factory('XML', array());
         $this->assertInstanceOf('Piwik\Plugins\API\Renderer\Xml', $renderer);
 

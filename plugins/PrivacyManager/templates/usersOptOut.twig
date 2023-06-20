@@ -3,35 +3,13 @@
 {% set title %}{{ 'PrivacyManager_GDPR'|translate }}{% endset %}
 
 {% block content %}
-    <div piwik-content-block content-title="{{ 'PrivacyManager_TrackingOptOut'|translate|e('html_attr') }}">
-        <div vue-entry="PrivacyManager.OptOutCustomizer"
-             matomo-url="{{ piwikUrl }}"
-             current-language-code="{{ currentLanguageCode }}"
-             language-options="{{ languageOptions|json_encode|e('html_attr') }}"
-        >
-        </div>
-    </div>
-
-    {% if isSuperUser %}
-        <div piwik-content-block
-             id="DNT"
-             content-title="{{ 'PrivacyManager_DoNotTrack_SupportDNTPreference'|translate|e('html_attr') }}">
-            <p>
-                {% if dntSupport %}
-                    <strong>{{ 'PrivacyManager_DoNotTrack_Enabled'|translate }}</strong>
-                    <br/>
-                    {{ 'PrivacyManager_DoNotTrack_EnabledMoreInfo'|translate }}
-                {% else %}
-                    {{ 'PrivacyManager_DoNotTrack_Disabled'|translate }} {{ 'PrivacyManager_DoNotTrack_DisabledMoreInfo'|translate }}
-                {% endif %}
-            </p>
-
-      <div
-        vue-entry="PrivacyManager.DoNotTrackPreference"
-        dnt-support="{{ dntSupport|default(null)|json_encode|e('html_attr') }}"
-        do-not-track-options="{{ doNotTrackOptions|default(null)|json_encode|e('html_attr') }}"
-      ></div>
-
-        </div>
-    {% endif %}
+    <div
+        vue-entry="PrivacyManager.UsersOptOut"
+        matomo-url="{{ piwikUrl|json_encode }}"
+        language="{{ language|json_encode }}"
+        language-options="{{ languageOptions|json_encode }}"
+        is-super-user="{{ isSuperUser|json_encode }}"
+        dnt-support="{{ dntSupport|json_encode }}"
+        do-not-track-options="{{ doNotTrackOptions|default(null)|json_encode }}"
+    ></div>
 {% endblock %}

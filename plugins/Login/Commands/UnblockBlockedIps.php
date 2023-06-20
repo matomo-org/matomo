@@ -11,8 +11,6 @@ namespace Piwik\Plugins\Login\Commands;
 use Piwik\API\Request;
 use Piwik\Piwik;
 use Piwik\Plugin\ConsoleCommand;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class UnblockBlockedIps extends ConsoleCommand
 {
@@ -22,11 +20,13 @@ class UnblockBlockedIps extends ConsoleCommand
         $this->setDescription('Unblocks all currently blocked IPs. Useful if you cannot log in to your Matomo anymore because your own IP is blocked');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
         Request::processRequest('Login.unblockBruteForceIPs');
         $message = sprintf('<info>%s</info>', Piwik::translate('General_Done'));
 
-        $output->writeln($message);
+        $this->getOutput()->writeln($message);
+
+        return self::SUCCESS;
     }
 }

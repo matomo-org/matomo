@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>page_A</label>
+		<nb_visits>1</nb_visits>
+		<nb_hits>1</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<entry_nb_visits>1</entry_nb_visits>
+		<entry_nb_actions>2</entry_nb_actions>
+		<entry_sum_visit_length>362</entry_sum_visit_length>
+		<entry_bounce_count>0</entry_bounce_count>
+		<exit_nb_visits>1</exit_nb_visits>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				<revenue>10</revenue>
+				<nb_conv_pages_before>1</nb_conv_pages_before>
+				<nb_conversions_attrib>1</nb_conversions_attrib>
+				<nb_conversions_page_rate>1</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>1</nb_conversions_page_uniq>
+				<revenue_attrib>10</revenue_attrib>
+				<revenue_entry>10</revenue_entry>
+				<nb_conversions_entry_rate>1</nb_conversions_entry_rate>
+				<revenue_per_entry>10</revenue_per_entry>
+				<nb_conversions_entry>1</nb_conversions_entry>
+			</row>
+		</goals>
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_page_load_time>0</avg_page_load_time>
+		<conversion_rate>0%</conversion_rate>
+		<nb_actions_per_visit>0</nb_actions_per_visit>
+		<avg_time_on_site>0</avg_time_on_site>
+		<bounce_rate>0%</bounce_rate>
+		<revenue_per_visit>10</revenue_per_visit>
+		<goal_1_conversion_rate>100%</goal_1_conversion_rate>
+		<goal_1_nb_conversions>1</goal_1_nb_conversions>
+		<goal_1_revenue_per_visit>10</goal_1_revenue_per_visit>
+		<goal_1_revenue>10</goal_1_revenue>
+		<avg_time_on_page>0</avg_time_on_page>
+		<exit_rate>100%</exit_rate>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fpage_A</segment>
+		<subtable>
+			<row>
+				<label>/index.html</label>
+				<nb_visits>1</nb_visits>
+				<nb_hits>1</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth />
+				<max_bandwidth />
+				<entry_nb_visits>1</entry_nb_visits>
+				<entry_nb_actions>2</entry_nb_actions>
+				<entry_sum_visit_length>362</entry_sum_visit_length>
+				<entry_bounce_count>0</entry_bounce_count>
+				<exit_nb_visits>1</exit_nb_visits>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>1</nb_conversions>
+						<revenue>10</revenue>
+						<nb_conv_pages_before>1</nb_conv_pages_before>
+						<nb_conversions_attrib>1</nb_conversions_attrib>
+						<nb_conversions_page_rate>0</nb_conversions_page_rate>
+						<nb_conversions_page_uniq>1</nb_conversions_page_uniq>
+						<revenue_attrib>10</revenue_attrib>
+						<revenue_entry>10</revenue_entry>
+						<nb_conversions_entry_rate>1</nb_conversions_entry_rate>
+						<revenue_per_entry>10</revenue_per_entry>
+						<nb_conversions_entry>1</nb_conversions_entry>
+					</row>
+				</goals>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
+				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
+				<avg_time_on_page>0</avg_time_on_page>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>100%</exit_rate>
+				<url>http://example.org/page_A/index.html</url>
+				<segment>entryPageUrl==http%253A%252F%252Fexample.org%252Fpage_A%252Findex.html</segment>
+			</row>
+		</subtable>
+	</row>
+</result>

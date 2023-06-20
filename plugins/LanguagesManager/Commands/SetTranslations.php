@@ -18,10 +18,6 @@ use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\UnnecassaryWhitespac
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Validate\CoreTranslations;
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Validate\NoScripts;
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Writer;
-use Symfony\Component\Console\Helper\DialogHelper;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class SetTranslations extends TranslationBase
 {
@@ -29,34 +25,34 @@ class SetTranslations extends TranslationBase
     {
         $this->setName('translations:set')
              ->setDescription('Sets new translations for a given language')
-             ->addOption('code', 'c', InputOption::VALUE_REQUIRED, 'code of the language to set translations for')
-             ->addOption('file', 'f', InputOption::VALUE_REQUIRED, 'json file to load new translations from')
-             ->addOption('plugin', 'pl', InputOption::VALUE_OPTIONAL, 'optional name of plugin to set translations for')
-             ->addOption('validate', '', InputOption::VALUE_OPTIONAL, 'when set, the file will not be written, but validated. The given value will be used as filename to write filter results to.');
+             ->addRequiredValueOption('code', 'c', 'code of the language to set translations for')
+             ->addRequiredValueOption('file', 'f', 'json file to load new translations from')
+             ->addOptionalValueOption('plugin', 'pl', 'optional name of plugin to set translations for')
+             ->addOptionalValueOption('validate', '', 'when set, the file will not be written, but validated. The given value will be used as filename to write filter results to.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
-        /** @var DialogHelper $dialog */
-        $dialog = $this->getHelperSet()->get('dialog');
-
+        $input        = $this->getInput();
+        $output       = $this->getOutput();
         $languageCode = $input->getOption('code');
         $filename     = $input->getOption('file');
 
         $languageCodes = (new API())->getAvailableLanguages(true);
 
         if (empty($languageCode) || !in_array($languageCode, $languageCodes)) {
-            $languageCode = $dialog->askAndValidate($output, 'Please provide a valid language code: ', function ($code) use ($languageCodes) {
-                if (!in_array($code, array_values($languageCodes))) {
-                    throw new \InvalidArgumentException(sprintf('Language code "%s" is invalid.', $code));
-                }
+            $languageCode = $this->askAndValidate('Please provide a valid language code: ',
+                function ($code) use ($languageCodes) {
+                    if (!in_array($code, array_values($languageCodes))) {
+                        throw new \InvalidArgumentException(sprintf('Language code "%s" is invalid.', $code));
+                    }
 
-                return $code;
-            });
+                    return $code;
+                });
         }
 
         if (empty($filename) || !file_exists($filename)) {
-            $filename = $dialog->askAndValidate($output, 'Please provide a file to load translations from: ', function ($file) {
+            $filename = $this->askAndValidate('Please provide a file to load translations from: ', function ($file) {
                 if (!file_exists($file)) {
                     throw new \InvalidArgumentException(sprintf('File "%s" does not exist.', $file));
                 }
@@ -90,12 +86,12 @@ class SetTranslations extends TranslationBase
 
         if (!$translationWriter->isValid()) {
             $output->writeln("Failed setting translations:" . $translationWriter->getValidationMessage());
-            return;
+            return self::FAILURE;
         }
 
         if (!$translationWriter->hasTranslations()) {
             $output->writeln("No translations available");
-            return;
+            return self::SUCCESS;
         }
 
         if ($input->getOption('validate')) {
@@ -118,5 +114,7 @@ class SetTranslations extends TranslationBase
         }
 
         $output->writeln("Finished.");
+
+        return self::SUCCESS;
     }
 }

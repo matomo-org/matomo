@@ -12,7 +12,9 @@ use Piwik\Common;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\Metrics;
 use Piwik\NoAccessException;
+use Piwik\Period;
 use Piwik\Period\Range;
+use Piwik\Piwik;
 use Piwik\Site;
 use Piwik\Url;
 
@@ -40,8 +42,7 @@ class Config extends \Piwik\ViewDataTable\Config
     private $evolutionGraphLinkable = true;
 
     /**
-     * Adds possibility to set html attributes on the sparklines title / headline. For example can be used
-     * to set an angular directive
+     * Adds possibility to set html attributes on the sparklines title / headline.
      * @var string
      */
     public $title_attributes = array();
@@ -284,8 +285,11 @@ class Config extends \Piwik\ViewDataTable\Config
             $groupedMetrics[$metricGroup][] = $metricInfo;
         }
 
+        $tooltip = $this->generateSparklineTooltip($requestParamsForSparkline);
+
         $sparkline = array(
             'url' => $this->getUrlSparkline($requestParamsForSparkline),
+            'tooltip' => $tooltip,
             'metrics' => $groupedMetrics,
             'order' => $this->getSparklineOrder($order),
             'title' => $title,
@@ -308,6 +312,7 @@ class Config extends \Piwik\ViewDataTable\Config
             if ($evolutionPercent != 0 || $evolution['currentValue'] != 0) {
                 $sparkline['evolution'] = array(
                     'percent' => $evolutionPercent,
+                    'isLowerValueBetter' => !empty($evolution['isLowerValueBetter']) ? $evolution['isLowerValueBetter'] : false,
                     'tooltip' => !empty($evolution['tooltip']) ? $evolution['tooltip'] : null,
                     'trend' => $evolution['currentValue'] - $evolution['pastValue'],
                 );
@@ -316,6 +321,27 @@ class Config extends \Piwik\ViewDataTable\Config
         }
 
         $this->sparklines[] = $sparkline;
+    }
+
+    public function generateSparklineTooltip($params)
+    {
+        $tooltip = '';
+        if (!empty($params['period'])) {
+            $periodTranslated = Piwik::translate('Intl_Period' . ucfirst($params['period']));
+            $tooltip = Piwik::translate('General_SparklineTooltipUsedPeriod', $periodTranslated);
+            if (!empty($params['date'])) {
+                $period = Period\Factory::build('day', $params['date']);
+                $tooltip .= ' ' . Piwik::translate('General_Period') . ': ' . $period->getLocalizedShortString() . '.';
+
+                if (!empty($params['compareDates'])) {
+                    foreach ($params['compareDates'] as $index => $comparisonDate) {
+                        $comparePeriod = Period\Factory::build('day', $comparisonDate);
+                        $tooltip .= ' ' . Piwik::translate('General_Period') . ' '.($index+2).': ' . $comparePeriod->getLocalizedShortString() . '.';
+                    }
+                }
+            }
+        }
+        return $tooltip;
     }
 
     /**
@@ -385,10 +411,15 @@ class Config extends \Piwik\ViewDataTable\Config
 
         $params = $this->getGraphParamsModified($customParameters);
 
-        // convert array values to comma separated
-        foreach ($params as &$value) {
-            if (is_array($value)) {
-                $value = rawurlencode(implode(',', $value));
+        foreach ($params as $key => $value) {
+            if (is_array($value) && in_array($key, ['compareDates', 'comparePeriods'])) {
+                foreach ($value as $index => $inner) {
+                    $value[$index] = rawurlencode($inner);
+                }
+                $params[$key] = $value;
+            } elseif (is_array($value)) {
+                // convert array values to comma separated
+                $params[$key] = rawurlencode(implode(',', $value));
             }
         }
         $url = Url::getCurrentQueryStringWithParametersModified($params);
@@ -409,7 +440,7 @@ class Config extends \Piwik\ViewDataTable\Config
      * @throws \Piwik\NoAccessException
      * @return array
      */
-    private function getGraphParamsModified($paramsToSet = array())
+    public function getGraphParamsModified($paramsToSet = array())
     {
         if (!isset($paramsToSet['period'])) {
             $period = Common::getRequestVar('period');
@@ -448,13 +479,11 @@ class Config extends \Piwik\ViewDataTable\Config
         if (!isset($paramsToSet['date'])
             || !Range::isMultiplePeriod($paramsToSet['date'], $period)
         ) {
-            $paramDate = Range::getRelativeToEndDate($period, $range, $endDate, $site);
-        } else {
-            $paramDate = $paramsToSet['date'];
+            $paramsToSet['date'] = Range::getRelativeToEndDate($period, $range, $endDate, $site);
+            $paramsToSet['period'] = $period;
         }
 
-        $params = array_merge($paramsToSet, array('date' => $paramDate));
-        return $params;
+        return $paramsToSet;
     }
 
 }

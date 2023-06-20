@@ -76,7 +76,6 @@
         "GeolocationAnonymizeIpNote": "NOTKA: Geolokalizacja zwróci zbliżone wyniki przy anonimizacji 1 bajtu. 2 bajty lub więcej znacząco obniżą dokładność.",
         "GetPurgeEstimate": "Oszacuj wzrost wolnego miejsca",
         "HowDoIAskForConsent": "Jak pytać użytkowników o zgodę?",
-        "HowDoIAskForConsentIntroduction": "Dowiedz się wszystkiego odnośnie %1$szapytania o zgodę na pliki cookies lub śledzenie w naszym przewodniku integracji.%2$s",
         "KeepBasicMetrics": "Zachowaj podstawowe wskaźniki ()wizyty, odsłony stron, wskaźnik porzuceń, konwersje celów, konwersje e-commerce, itd.)",
         "KeepDataFor": "Zachowaj wszystkie dane przez",
         "KeepReportSegments": "Zachowaj raporty grup dla zachowanych powyżej danych",
@@ -113,7 +112,6 @@
         "UseDeleteLog": "Regularnie kasuj stare nieprzetworzone dane z bazy",
         "UseDeleteReports": "Regularnie usuwaj stare raporty z bazy danych",
         "UsersOptOut": "Rezygnacja ze śledzenia",
-        "WhenConsentIsNeeded2": "Pamiętaj, że jeśli wymagasz zgody swoich użytkowników i jeśli nie możesz udowodnić, że otrzymałeś od swoich użytkowników \"Zgodę\" w przeszłości, zaleca się %1$sanonimizację danych surowych poprzednio śledzonych użytkowników%2$s.",
         "WhenDoINeedConsent": "Kiedy muszę prosić o zgodę użytkownika?"
     }
 }

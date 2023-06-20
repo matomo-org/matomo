@@ -198,6 +198,22 @@ class Plugin
     }
 
     /**
+     * Return true here if you want your plugin's Vue module to be loaded on demand, when it is first
+     * referenced, rather than on page load. This can be used to improve initial page load time,
+     * especially if your plugin includes a lot of Vue code.
+     *
+     * Note: doing this means that any other plugins that depend on yours will no longer
+     * be able to do a normal `import ... from 'MyPlugin';`, they will instead have to
+     * use the `importPluginUmd()` function in `CoreHome` which returns a Promise.
+     *
+     * @return boolean
+     */
+    public function shouldLoadUmdOnDemand()
+    {
+        return false;
+    }
+
+    /**
      * Returns a list of events with associated event observers.
      *
      * Derived classes should use this method to associate callbacks with events.
@@ -473,8 +489,8 @@ class Plugin
      * Note: the time frame is limited by the `[General] rearchive_reports_in_past_last_n_months`
      * INI config value.
      *
-     * @throws \DI\DependencyException
-     * @throws \DI\NotFoundException
+     * @throws \Piwik\Exception\DI\DependencyException
+     * @throws \Piwik\Exception\DI\NotFoundException
      */
     public function schedulePluginReArchiving()
     {
@@ -673,4 +689,3 @@ class Plugin
 }
 
 }
-    

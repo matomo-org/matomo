@@ -14,7 +14,7 @@ use Piwik\Scheduler\Scheduler;
 use Piwik\Scheduler\Task;
 use Piwik\Scheduler\Timetable;
 use Piwik\Tests\Framework\Mock\PiwikOption;
-use Psr\Log\NullLogger;
+use Piwik\Log\NullLogger;
 use ReflectionProperty;
 
 /**
@@ -146,7 +146,7 @@ class SchedulerTest extends \PHPUnit\Framework\TestCase
                 // configured tasks
                 array(
                     $scheduledTaskOne,
-//					$scheduledTaskTwo, Not configured anymore (ie. not returned after TaskScheduler::GET_TASKS_EVENT is issued)
+//                    $scheduledTaskTwo, Not configured anymore (ie. not returned after TaskScheduler::GET_TASKS_EVENT is issued)
                     $scheduledTaskThree,
                 )
             ),

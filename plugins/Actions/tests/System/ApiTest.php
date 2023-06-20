@@ -70,7 +70,6 @@ class ApiTest extends IntegrationTestCase
             'segment' => $pageSegment,
             'flat' => '1',
         ]);
-
         $this->assertEquals(1, $pagesWithSegment->getRowsCount());
 
         // NOTE: the label here is incorrect due to SafeDecodeLabel. this is a known issue, but changing it would

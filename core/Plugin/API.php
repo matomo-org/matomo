@@ -10,11 +10,10 @@
 
 namespace Piwik\Plugin;
 
-use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugins\Login\PasswordVerifier;
-use Psr\Log\LoggerInterface;
+use Piwik\Log\LoggerInterface;
 use Exception;
 
 /**
@@ -49,6 +48,8 @@ abstract class API
 {
     private static $instances;
 
+    protected $autoSanitizeInputParams = true;
+
     /**
      * Returns the singleton instance for the derived class. If the singleton instance
      * has not been created, this method will create it.
@@ -68,7 +69,7 @@ abstract class API
                 self::$instances[$class] = $container->get($class);
             } else {
                 /** @var LoggerInterface $logger */
-                $logger = $container->get('Psr\Log\LoggerInterface');
+                $logger = $container->get(LoggerInterface::class);
 
                 // BC with API defining a protected constructor
                 $logger->notice('The API class {class} defines a protected constructor which is deprecated, make the constructor public instead', ['class' => $class]);
@@ -129,8 +130,6 @@ abstract class API
             throw new Exception(Piwik::translate('UsersManager_ConfirmWithPassword'));
         }
 
-        $passwordConfirmation = Common::unsanitizeInputValue($passwordConfirmation);
-
         try {
             if (
                 !StaticContainer::get(PasswordVerifier::class)->isPasswordCorrect(
@@ -144,5 +143,14 @@ abstract class API
             // in case of any error (e.g. the provided password is too weak)
             throw new Exception(Piwik::translate('UsersManager_CurrentPasswordNotCorrect'));
         }
+    }
+
+    /**
+     * @return bool
+     * @internal
+     */
+    public function usesAutoSanitizeInputParams()
+    {
+        return $this->autoSanitizeInputParams;
     }
 }

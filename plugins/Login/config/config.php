@@ -1,5 +1,5 @@
 <?php
 
 return array(
-    'Piwik\Auth' => DI\create('Piwik\Plugins\Login\Auth')
+    'Piwik\Auth' => Piwik\DI::create('Piwik\Plugins\Login\Auth')
 );

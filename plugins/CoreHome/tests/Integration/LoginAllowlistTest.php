@@ -131,7 +131,7 @@ class LoginAllowlistTest extends IntegrationTestCase
 
     public function test_getAllowlistedLoginIps_shouldResolveIp()
     {
-        $this->setGeneralConfig('login_allowlist_ip', ['192.168.33.1', 'matomo.org', '127.0.0.1']);
+        $this->setGeneralConfig('login_allowlist_ip', ['192.168.33.1', 'origin.matomo.org', '127.0.0.1']);
         $this->assertSame(['192.168.33.1', '185.31.40.177', '2a00:b6e0:1:200:177::1', '127.0.0.1'], $this->allowlist->getAllowlistedLoginIps());
     }
 
@@ -200,15 +200,13 @@ class LoginAllowlistTest extends IntegrationTestCase
         $this->setGeneralConfig('login_allowlist_ip', $ipsAllowed);
 
         if ($expectedIsAllowed) {
+            self::expectNotToPerformAssertions();
+
             $this->allowlist->checkIsAllowed($ipString);
-            $this->assertTrue(true);
         } else {
-            try {
-                $this->allowlist->checkIsAllowed($ipString);
-                $this->fail('An expected exception has not been thrown');
-            } catch (NoAccessException $e) {
-                $this->assertTrue(true);
-            }
+            self::expectException(NoAccessException::class);
+
+            $this->allowlist->checkIsAllowed($ipString);
         }
     }
 

@@ -39,7 +39,7 @@
                                             {{ name|translate|rawSafeDecoded }}
                                         </a>
                                         {% if urlParameters._help %}
-                                            <div piwik-show-help-link name="{{ urlParameters._name }}" message="{{ urlParameters._help|e('html_attr') }}"></div>
+                                            <div vue-entry="CoreHome.ShowHelpLink" name="{{ urlParameters._name }}" message="{{ urlParameters._help|e('html_attr') }}"></div>
                                         {% endif %}
                                     </li>
                                 {% endif %}
@@ -52,38 +52,6 @@
                 {% endif %}
             {% endfor %}
         </ul>
-        <ul id="mobile-left-menu" class="sidenav hide-on-large-only">
-            {% for level1,level2 in menu %}
-
-            {% set hasSubmenuItem = false %}
-            {% for name,urlParameters in level2 %}
-                {% if name|slice(0,1) != '_' %}
-                    {% set hasSubmenuItem = true %}
-                {% endif %}
-            {% endfor %}
-
-            {% if hasSubmenuItem %}
-            <li class="no-padding">
-                <ul class="collapsible collapsible-accordion" piwik-side-nav="nav .activateLeftMenu">
-                    <li>
-                        <a class="collapsible-header">{{ level1|translate }}<i class="{{ level2._icon|default('icon-arrow-down') }}"></i></a>
-                        <div class="collapsible-body">
-                            <ul>
-                                {% for name,urlParameters in level2 %}
-                                    {% if name|slice(0,1) != '_' %}
-                                        <li>
-                                            <a title="{{ urlParameters._tooltip|default('')|translate|e('html_attr') }}" target="_self"
-                                               href="index.php?{{ urlParameters._url|urlRewriteWithParameters|slice(1) }}">{{ name|translate }}</a>
-                                        </li>
-                                    {% endif %}
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-                {% endif %}
-                {% endfor %}
-            </li>
-        </ul>
+        <div vue-entry="CoreHome.MobileLeftMenu" menu="{{ menu|json_encode }}"></div>
     </div>
 {% endmacro %}

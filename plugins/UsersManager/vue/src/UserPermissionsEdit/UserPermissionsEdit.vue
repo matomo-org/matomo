@@ -273,6 +273,7 @@
             <Field
               :model-value="entry.role"
               @update:model-value="onRoleChange(entry, $event);"
+              :model-modifiers="{abortable: true}"
               uicontrol="select"
               :options="filteredAccessLevels"
               :full-width="true"
@@ -342,7 +343,7 @@
           href=""
           class="modal-action modal-close modal-no"
           @click.prevent="
-            siteAccessToChange.role = previousRole;
+            accessChangeEvent && accessChangeEvent.abort();
             siteAccessToChange = null;
             roleToChangeTo = null;"
         >{{ translate('General_No') }}</a>
@@ -382,7 +383,7 @@ import {
   Site,
   Matomo,
 } from 'CoreHome';
-import { Field } from 'CorePluginsAdmin';
+import { Field, AbortableEvent } from 'CorePluginsAdmin';
 import CapabilitiesEdit from '../CapabilitiesEdit/CapabilitiesEdit.vue';
 import Capability from '../CapabilitiesStore/Capability';
 
@@ -411,7 +412,7 @@ interface UserPermissionsEditState {
   selectedRows: Record<string, boolean>;
   isBulkActionsDisabled: boolean;
   areAllResultsSelected: boolean;
-  previousRole: string|null;
+  accessChangeEvent: AbortableEvent<string>|null;
   hasAccessToAtLeastOneSite: boolean;
   isRoleHelpToggled: boolean;
   isCapabilitiesHelpToggled: boolean;
@@ -463,7 +464,7 @@ export default defineComponent({
       selectedRows: {},
       isBulkActionsDisabled: true,
       areAllResultsSelected: false,
-      previousRole: null,
+      accessChangeEvent: null,
       hasAccessToAtLeastOneSite: true,
       isRoleHelpToggled: false,
       isCapabilitiesHelpToggled: false,
@@ -623,6 +624,9 @@ export default defineComponent({
     showChangeAccessConfirm() {
       $(this.$refs.changeAccessConfirmModal as HTMLElement).modal({
         dismissible: false,
+        onCloseEnd: () => {
+          this.accessChangeEvent = null;
+        },
       }).modal('open');
     },
     getRoleDisplay(role: string|null) {
@@ -669,10 +673,10 @@ export default defineComponent({
         }
       });
     },
-    onRoleChange(entry: SiteAccess, newRole: string) {
-      this.previousRole = entry.role;
-      this.roleToChangeTo = newRole;
+    onRoleChange(entry: SiteAccess, event: AbortableEvent<string>) {
       this.siteAccessToChange = entry;
+      this.roleToChangeTo = event.value;
+      this.accessChangeEvent = event;
       this.showChangeAccessConfirm();
     },
   },

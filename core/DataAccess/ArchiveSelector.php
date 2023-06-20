@@ -20,7 +20,7 @@ use Piwik\Db;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Segment;
-use Psr\Log\LoggerInterface;
+use Piwik\Log\LoggerInterface;
 
 /**
  * Data Access object used to query archives
@@ -70,6 +70,8 @@ class ArchiveSelector
         $numericTable = ArchiveTableCreator::getNumericTable($dateStart);
 
         $requestedPlugin = $params->getRequestedPlugin();
+        $requestedReport = $params->getArchiveOnlyReport();
+
         $segment         = $params->getSegment();
         $plugins = array("VisitsSummary", $requestedPlugin);
         $plugins = array_filter($plugins);
@@ -83,7 +85,15 @@ class ArchiveSelector
 
         $results = self::getModel()->getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, null, $doneFlags);
         if (empty($results)) { // no archive found
-            return [false, false, false, false, false, false];
+            return self::archiveInfoBcResult([
+                'idArchives' => false,
+                'visits' => false,
+                'visitsConverted' => false,
+                'archiveExists' => false,
+                'tsArchived' => false,
+                'doneFlagValue' => false,
+                'existingRecords' => null,
+            ]);
         }
 
         $result = self::findArchiveDataWithLatestTsArchived($results, $requestedPluginDoneFlags, $allPluginsDoneFlag);
@@ -93,16 +103,43 @@ class ArchiveSelector
         $visitsConverted = isset($result['nb_visits_converted']) ? $result['nb_visits_converted'] : false;
         $value = isset($result['value']) ? $result['value'] : false;
 
+        $existingRecords = null;
+
         $result['idarchive'] = empty($result['idarchive']) ? [] : [$result['idarchive']];
-        if (isset($result['partial'])) {
-            $result['idarchive'] = array_merge($result['idarchive'], $result['partial']);
+        if (!empty($result['partial'])) {
+            // when we are not looking for a specific report, or if we have found a non-partial archive
+            // that we expect to have the full set of reports for the requested plugin, then we can just
+            // return it with the additionally found partial archives.
+            //
+            // if, however, there is no full archive, and only a set of partial archives, then
+            // we have to check whether the requested data is actually within them. if we just report the
+            // partial archives, Archive.php will find no archive data and simply report this. returning no
+            // idarchive here, however, will initiate archiving, causing the missing data to populate.
+            if (empty($requestedReport)
+                || !empty($result['idarchive'])
+            ) {
+                $result['idarchive'] = array_merge($result['idarchive'], $result['partial']);
+            } else {
+                $existingRecords = self::getModel()->getRecordsContainedInArchives($dateStart, $result['partial'], $requestedReport);
+                if (!empty($existingRecords)) {
+                    $result['idarchive'] = array_merge($result['idarchive'], $result['partial']);
+                }
+            }
         }
 
         if (empty($result['idarchive'])
             || (isset($result['value'])
                 && !in_array($result['value'], $doneFlagValues))
         ) { // the archive cannot be considered valid for this request (has wrong done flag value)
-            return [false, $visits, $visitsConverted, true, $tsArchived, $value];
+            return self::archiveInfoBcResult([
+                'idArchives' => false,
+                'visits' => $visits,
+                'visitsConverted' => $visitsConverted,
+                'archiveExists' => true,
+                'tsArchived' => $tsArchived,
+                'doneFlagValue' => $value,
+                'existingRecords' => null,
+            ]);
         }
 
         if (!empty($minDatetimeArchiveProcessedUTC) && !is_object($minDatetimeArchiveProcessedUTC)) {
@@ -114,12 +151,28 @@ class ArchiveSelector
             && !empty($result['idarchive'])
             && Date::factory($tsArchived)->isEarlier($minDatetimeArchiveProcessedUTC)
         ) {
-            return [false, $visits, $visitsConverted, true, $tsArchived, $value];
+            return self::archiveInfoBcResult([
+                'idArchives' => false,
+                'visits' => $visits,
+                'visitsConverted' => $visitsConverted,
+                'archiveExists' => true,
+                'tsArchived' => $tsArchived,
+                'doneFlagValue' => $value,
+                'existingRecords' => null,
+            ]);
         }
 
         $idArchives = !empty($result['idarchive']) ? $result['idarchive'] : false;
 
-        return [$idArchives, $visits, $visitsConverted, true, $tsArchived, $value];
+        return self::archiveInfoBcResult([
+            'idArchives' => $idArchives,
+            'visits' => $visits,
+            'visitsConverted' => $visitsConverted,
+            'archiveExists' => true,
+            'tsArchived' => $tsArchived,
+            'doneFlagValue' => $value,
+            'existingRecords' => $existingRecords,
+        ]);
     }
 
     /**
@@ -163,7 +216,6 @@ class ArchiveSelector
                                FROM %s
                               WHERE idsite IN (" . implode(',', $siteIds) . ")
                                 AND " . self::getNameCondition($plugins, $segment, $includeInvalidated) . "
-                                AND ts_archived IS NOT NULL
                                 AND %s
                            GROUP BY idsite, date1, date2";
 
@@ -259,60 +311,22 @@ class ArchiveSelector
     public static function getArchiveData($archiveIds, $recordNames, $archiveDataType, $idSubtable)
     {
         $chunk = new Chunk();
-
         $db = Db::get();
 
-        // create the SQL to select archive data
         $loadAllSubtables = $idSubtable === Archive::ID_SUBTABLE_LOAD_ALL_SUBTABLES;
-        if ($loadAllSubtables) {
-            $name = reset($recordNames);
+        [$getValuesSql, $bind] = self::getSqlTemplateToFetchArchiveData($recordNames, $idSubtable);
 
-            // select blobs w/ name like "$name_[0-9]+" w/o using RLIKE
-            $nameEnd = strlen($name) + 1;
-            $nameEndAppendix = $nameEnd + 1;
-            $appendix = $chunk->getAppendix();
-            $lenAppendix = strlen($appendix);
-
-            $checkForChunkBlob  = "SUBSTRING(name, $nameEnd, $lenAppendix) = '$appendix'";
-            $checkForSubtableId = "(SUBSTRING(name, $nameEndAppendix, 1) >= '0'
-                                    AND SUBSTRING(name, $nameEndAppendix, 1) <= '9')";
-
-            $whereNameIs = "(name = ? OR (name LIKE ? AND ( $checkForChunkBlob OR $checkForSubtableId ) ))";
-            $bind = array($name, $name . '%');
-        } else {
-            if ($idSubtable === null) {
-                // select root table or specific record names
-                $bind = array_values($recordNames);
-            } else {
-                // select a subtable id
-                $bind = array();
-                foreach ($recordNames as $recordName) {
-                    // to be backwards compatible we need to look for the exact idSubtable blob and for the chunk
-                    // that stores the subtables (a chunk stores many blobs in one blob)
-                    $bind[] = $chunk->getRecordNameForTableId($recordName, $idSubtable);
-                    $bind[] = self::appendIdSubtable($recordName, $idSubtable);
-                }
-            }
-
-            $inNames     = Common::getSqlStringFieldsArray($bind);
-            $whereNameIs = "name IN ($inNames)";
-        }
-
-        $getValuesSql = "SELECT value, name, idsite, date1, date2, ts_archived
-                                FROM %s
-                                WHERE idarchive IN (%s)
-                                  AND " . $whereNameIs . "
-                             ORDER BY ts_archived ASC"; // ascending order so we use the latest data found
+        $archiveIdsPerMonth = self::getArchiveIdsByYearMonth($archiveIds);
 
         // get data from every table we're querying
         $rows = array();
-        foreach ($archiveIds as $period => $ids) {
+        foreach ($archiveIdsPerMonth as $yearMonth => $ids) {
             if (empty($ids)) {
-                throw new Exception("Unexpected: id archive not found for period '$period' '");
+                throw new Exception("Unexpected: id archive not found for period '$yearMonth' '");
             }
 
-            // $period = "2009-01-04,2009-01-04",
-            $date = Date::factory(substr($period, 0, 10));
+            // $yearMonth = "2022-11",
+            $date = Date::factory($yearMonth . '-01');
 
             $isNumeric = $archiveDataType === 'numeric';
             if ($isNumeric) {
@@ -321,6 +335,7 @@ class ArchiveSelector
                 $table = ArchiveTableCreator::getBlobTable($date);
             }
 
+            $ids      = array_map('intval', $ids);
             $sql      = sprintf($getValuesSql, $table, implode(',', $ids));
             $dataRows = $db->fetchAll($sql, $bind);
 
@@ -372,7 +387,7 @@ class ArchiveSelector
         return $recordName . "_" . $id;
     }
 
-    private static function uncompress($data)
+    public static function uncompress($data)
     {
         return @gzuncompress($data);
     }
@@ -485,5 +500,199 @@ class ArchiveSelector
         }
 
         return $archiveData;
+    }
+
+    /**
+     * provides BC result for getArchiveIdAndVisits
+     * @param array $archiveInfo
+     * @return array
+     */
+    private static function archiveInfoBcResult(array $archiveInfo)
+    {
+        $archiveInfo[0] = $archiveInfo['idArchives'];
+        $archiveInfo[1] = $archiveInfo['visits'];
+        $archiveInfo[2] = $archiveInfo['visitsConverted'];
+        $archiveInfo[3] = $archiveInfo['archiveExists'];
+        $archiveInfo[4] = $archiveInfo['tsArchived'];
+        $archiveInfo[5] = $archiveInfo['doneFlagValue'];
+        return $archiveInfo;
+    }
+
+    public static function querySingleBlob(array $archiveIds, string $recordName)
+    {
+        $chunk = new Chunk();
+
+        [$getValuesSql, $bind] = self::getSqlTemplateToFetchArchiveData(
+            [$recordName], Archive::ID_SUBTABLE_LOAD_ALL_SUBTABLES, true);
+
+        $archiveIdsPerMonth = self::getArchiveIdsByYearMonth($archiveIds);
+
+        $periodsSeen = [];
+
+        // $yearMonth = "2022-11",
+        foreach ($archiveIdsPerMonth as $yearMonth => $ids) {
+            $date = Date::factory($yearMonth . '-01');
+
+            $table = ArchiveTableCreator::getBlobTable($date);
+
+            $ids      = array_map('intval', $ids);
+            $sql      = sprintf($getValuesSql, $table, implode(',', $ids));
+
+            $cursor = Db::get()->query($sql, $bind);
+            while ($row = $cursor->fetch()) {
+                $period = $row['date1'] . ',' . $row['date2'];
+                $recordName = $row['name'];
+
+                // FIXME: This hack works around a strange bug that occurs when getting
+                //         archive IDs through ArchiveProcessing instances. When a table
+                //         does not already exist, for some reason the archive ID for
+                //         today (or from two days ago) will be added to the Archive
+                //         instances list. The Archive instance will then select data
+                //         for periods outside of the requested set.
+                //         working around the bug here, but ideally, we need to figure
+                //         out why incorrect idarchives are being selected.
+                if (empty($archiveIds[$period])) {
+                    continue;
+                }
+
+                // only use the first period/blob name combination seen (since we order by ts_archived descending)
+                if (!empty($periodsSeen[$period][$recordName])) {
+                    continue;
+                }
+
+                $periodsSeen[$period][$recordName] = true;
+
+                $row['value'] = ArchiveSelector::uncompress($row['value']);
+                if ($chunk->isRecordNameAChunk($row['name'])) {
+                    // $blobs = array([subtableID] = [blob of subtableId])
+                    $blobs = Common::safe_unserialize($row['value']);
+                    if (!is_array($blobs)) {
+                        yield $row;
+                    }
+
+                    ksort($blobs);
+
+                    // $rawName = eg 'PluginName_ArchiveName'
+                    $rawName = $chunk->getRecordNameWithoutChunkAppendix($row['name']);
+                    foreach ($blobs as $subtableId => $blob) {
+                        yield array_merge($row, [
+                            'value' => $blob,
+                            'name' => ArchiveSelector::appendIdSubtable($rawName, $subtableId),
+                        ]);
+                    }
+                } else {
+                    yield $row;
+                }
+            }
+        }
+    }
+
+    /**
+     * Returns SQL to fetch data from an archive table. The SQL has two %s placeholders, one for the
+     * archive table name and another for the comma separated list of archive IDs to look for.
+     *
+     * @param array $recordNames The list of records to look for.
+     * @param string|int $idSubtable The idSubtable to look for or 'all' to load all of them.
+     * @param boolean $orderBySubtableId If true, orders the result set by start date ascending, subtable ID
+     *                                   ascending and ts_archived descending. Only applied if loading all
+     *                                   subtables for a single record.
+     *
+     *                                   This parameter is used when aggregating blob data for a single record
+     *                                   without loading entire datatable trees in memory.
+     * @return array The sql and bind values.
+     */
+    private static function getSqlTemplateToFetchArchiveData(array $recordNames, $idSubtable, $orderBySubtableId = false)
+    {
+        $chunk = new Chunk();
+
+        $orderBy = 'ORDER BY ts_archived ASC';
+
+        // create the SQL to select archive data
+        $loadAllSubtables = $idSubtable === Archive::ID_SUBTABLE_LOAD_ALL_SUBTABLES;
+        if ($loadAllSubtables) {
+            $name = reset($recordNames);
+
+            // select blobs w/ name like "$name_[0-9]+" w/o using RLIKE
+            $nameEnd = strlen($name) + 1;
+            $nameEndAppendix = $nameEnd + 1;
+            $appendix = $chunk->getAppendix();
+            $lenAppendix = strlen($appendix);
+
+            $checkForChunkBlob  = "SUBSTRING(name, $nameEnd, $lenAppendix) = '$appendix'";
+            $checkForSubtableId = "(SUBSTRING(name, $nameEndAppendix, 1) >= '0'
+                                    AND SUBSTRING(name, $nameEndAppendix, 1) <= '9')";
+
+            $whereNameIs = "(name = ? OR (name LIKE ? AND ( $checkForChunkBlob OR $checkForSubtableId ) ))";
+            $bind = array($name, $name . '%');
+
+            if ($orderBySubtableId && count($recordNames) == 1) {
+                $idSubtableAsInt = self::getExtractIdSubtableFromBlobNameSql($chunk, $name);
+
+                $orderBy = "ORDER BY date1 ASC, " . // ordering by date just so column order in tests will be predictable
+                    " $idSubtableAsInt ASC,
+                  ts_archived DESC"; // ascending order so we use the latest data found
+            }
+        } else {
+            if ($idSubtable === null) {
+                // select root table or specific record names
+                $bind = array_values($recordNames);
+            } else {
+                // select a subtable id
+                $bind = array();
+                foreach ($recordNames as $recordName) {
+                    // to be backwards compatible we need to look for the exact idSubtable blob and for the chunk
+                    // that stores the subtables (a chunk stores many blobs in one blob)
+                    $bind[] = $chunk->getRecordNameForTableId($recordName, $idSubtable);
+                    $bind[] = self::appendIdSubtable($recordName, $idSubtable);
+                }
+            }
+
+            $inNames     = Common::getSqlStringFieldsArray($bind);
+            $whereNameIs = "name IN ($inNames)";
+        }
+
+        $getValuesSql = "SELECT value, name, idsite, date1, date2, ts_archived
+                                FROM %s
+                                WHERE idarchive IN (%s)
+                                  AND " . $whereNameIs . "
+                             $orderBy"; // ascending order so we use the latest data found
+
+        return [$getValuesSql, $bind];
+    }
+
+    private static function getArchiveIdsByYearMonth(array $archiveIds)
+    {
+        // We want to fetch as many archives at once as possible instead of fetching each period individually
+        // eg instead of issueing one query per day we'll merge all the IDs of a given month into one query
+        // we group by YYYY-MM as we have one archive table per month
+        $archiveIdsPerMonth = [];
+        foreach ($archiveIds as $period => $ids) {
+            $yearMonth = substr($period, 0, 7); // eg 2022-11
+            if (empty($archiveIdsPerMonth[$yearMonth])) {
+                $archiveIdsPerMonth[$yearMonth] = [];
+            }
+            $archiveIdsPerMonth[$yearMonth] = array_merge($archiveIdsPerMonth[$yearMonth], $ids);
+        }
+        return $archiveIdsPerMonth;
+    }
+
+    // public for tests
+    public static function getExtractIdSubtableFromBlobNameSql(Chunk $chunk, $name)
+    {
+        // select blobs w/ name like "$name_[0-9]+" w/o using RLIKE
+        $nameEnd = strlen($name) + 1;
+        $nameEndAfterUnderscore = $nameEnd + 1;
+        $appendix = $chunk->getAppendix();
+        $lenAppendix = strlen($appendix);
+        $chunkEnd = $nameEnd + $lenAppendix;
+
+        $checkForChunkBlob  = "SUBSTRING(name, $nameEnd, $lenAppendix) = '$appendix'";
+
+        $extractSuffix = "SUBSTRING(name, IF($checkForChunkBlob, $chunkEnd, $nameEndAfterUnderscore))";
+        $locateSecondUnderscore = "IF((@secondunderscore := LOCATE('_', $extractSuffix) - 1) < 0, LENGTH(name), @secondunderscore)";
+        $extractIdSubtableStart = "IF( (@idsubtable := SUBSTRING($extractSuffix, 1, $locateSecondUnderscore)) = '', -1, @idsubtable )";
+        $idSubtableAsInt = "CAST($extractIdSubtableStart AS SIGNED)";
+
+        return $idSubtableAsInt;
     }
 }

@@ -56,7 +56,6 @@ class Controller extends \Piwik\Plugin\Controller
     public function index()
     {
         $view = $this->_getDashboardView('@Dashboard/index');
-        $view->dashboardSettingsControl = new DashboardManagerControl();
         $view->hasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
         $view->dashboards = array();
         if (!Piwik::isUserIsAnonymous()) {
@@ -129,7 +128,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $this->checkTokenInUrl();
 
-        $layout      = Common::unsanitizeInputValue(Common::getRequestVar('layout'));
+        $layout      = \Piwik\Request::fromRequest()->getStringParameter('layout');
         $layout      = strip_tags($layout);
         $idDashboard = Common::getRequestVar('idDashboard', 1, 'int');
         $name        = Common::getRequestVar('name', '', 'string');
@@ -154,7 +153,7 @@ class Controller extends \Piwik\Plugin\Controller
         $this->checkTokenInUrl();
 
         if (Piwik::hasUserSuperUserAccess()) {
-            $layout = Common::unsanitizeInputValue(Common::getRequestVar('layout'));
+            $layout = \Piwik\Request::fromRequest()->getStringParameter('layout');
             $layout = strip_tags($layout);
             $this->getModel()->createOrUpdateDashboard('', '1', $layout);
         }
@@ -208,4 +207,3 @@ class Controller extends \Piwik\Plugin\Controller
         );
     }
 }
-

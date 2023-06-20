@@ -47,6 +47,9 @@ widgetsHelper.getAvailableWidgets = function (callback) {
 
         $.each(categorized, function (category, widgets) {
             $.each(widgets, function (subcategory, subwidgets) {
+                if (!subwidgets.length) {
+                  return;
+                }
 
                 var categoryToUse = category;
                 if (subwidgets.length >= 3 && subcategory !== '-') {
@@ -311,14 +314,16 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                 if ($('.' + settings.categorylistClass + ' .' + settings.choosenClass, widgetPreview).length) {
                     var position = $('.' + settings.categorylistClass + ' .' + settings.choosenClass, widgetPreview).position().top -
                         $('.' + settings.categorylistClass, widgetPreview).position().top +
-                        $('.dashboard-manager .addWidget').outerHeight();
+                        ($('.dashboard-manager .addWidget').outerHeight() || 0);
 
                     if (!$('#content.admin').length) {
                         position += 5; // + padding defined in dashboard view
                     }
 
-                    $('.' + settings.widgetlistClass, widgetPreview).css('top', position);
-                    $('.' + settings.widgetlistClass, widgetPreview).css('marginBottom', position);
+                    $('.' + settings.widgetlistClass, widgetPreview).css({
+                        top: position,
+                        marginBottom: position
+                    });
                 }
 
                 return $('.' + settings.widgetlistClass, widgetPreview);
@@ -430,7 +435,6 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                         var widgetElement = $(document.getElementById(widgetUniqueId));
                         // document.getElementById needed for widgets with uniqueid like widgetOpens+Contact+Form
                         $('.widgetContent', widgetElement).html($(response));
-                        piwikHelper.compileAngularComponents($('.widgetContent', widgetElement), { forceNewScope: true });
                         piwikHelper.compileVueEntryComponents($('.widgetContent', widgetElement));
                         $('.widgetContent', widgetElement).trigger('widget:create');
                         settings.onPreviewLoaded(widgetUniqueId, widgetElement);

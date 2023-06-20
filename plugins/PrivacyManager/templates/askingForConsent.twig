@@ -3,36 +3,11 @@
 {% set title %}{{ 'PrivacyManager_GDPR'|translate }}{% endset %}
 
 {% block content %}
-    <div piwik-content-intro>
-        <h2>{{ 'PrivacyManager_AskingForConsent'|translate }}</h2>
-        <p>{{ 'PrivacyManager_ConsentExplanation'|translate }}</p>
-    </div>
-
-    <div piwik-content-block content-title="{{ 'PrivacyManager_WhenDoINeedConsent'|translate|e('html_attr') }}" class="privacyAskingForConsent">
-        <p>
-            {{ 'PrivacyManager_WhenConsentIsNeeded1'|translate(
-                '<a href="https://matomo.org/docs/gdpr/" target="_blank" rel="noreferrer noopener">', '</a>',
-                '<a href="https://matomo.org/blog/2018/04/lawful-basis-for-processing-personal-data-under-gdpr-with-matomo/" target="_blank" rel="noreferrer noopener">', '</a>'
-            )|raw }} 
-            <br /><br />
-            {{ 'PrivacyManager_WhenConsentIsNeeded2'|translate('<a href="' ~ linkTo({module: 'PrivacyManager', action: 'privacySettings'}) ~ '">', '</a>.')|raw }}
-        </p>
-    </div>
-
-    <div piwik-content-block content-title="{{ 'PrivacyManager_HowDoIAskForConsent'|translate|e('html_attr') }}" class="privacyAskingForConsent">
-        <p>{{ 'PrivacyManager_HowDoIAskForConsentIntroduction'|translate('<a href="https://developer.matomo.org/guides/tracking-consent" target="_blank" rel="noreferrer noopener">', '</a>')|raw }}
-        </p>
-    </div>
-
-   {% if consentManagerName %}
-    <div piwik-content-block content-title="{{ 'PrivacyManager_ConsentManager'|translate|e('html_attr') }}" class="privacyAskingForConsent">
-        <p> {{ 'PrivacyManager_ConsentManagerDetected'|translate(consentManagerName, '<a href="' ~ consentManagerUrl ~ '" target="_blank" rel="noreferrer noopener">', '</a')|raw }}
-        </p>
-        {% if consentManagerIsConnected %}
-            <p> {{ 'PrivacyManager_ConsentManagerConnected'|translate(consentManagerName)|raw }}
-            </p>
-        {% endif %}
-    </div>
-   {% endif %}
-
+    <div
+        vue-entry="PrivacyManager.AskingForConsent"
+        consent-manager-name="{{ consentManagerName|default('')|json_encode }}"
+        consent-manager-url="{{ consentManagerUrl|default('')|json_encode }}"
+        consent-manager-is-connected="{{ consentManagerIsConnected|default(false)|json_encode }}"
+        consent-managers="{{ knownConsentManagers|json_encode }}"
+    ></div>
 {% endblock %}

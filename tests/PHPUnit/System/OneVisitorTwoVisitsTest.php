@@ -161,7 +161,7 @@ class OneVisitorTwoVisitsTest extends SystemTestCase
                                                   'otherRequestParameters' => array(
                                                       'hideColumns' => 'nb_visits_converted,xyzaug,entry_nb_visits,' .
                                                           'bounce_rate,nb_hits,nb_visits,avg_time_on_page,' .
-														  'avg_time_generation,nb_hits_with_time_generation'
+                                                          'avg_time_generation,nb_hits_with_time_generation'
                                                   ))),
 
             array('API.getProcessedReport', array('idSite'                 => $idSite, 'date' => $dateTime,
@@ -234,7 +234,7 @@ class OneVisitorTwoVisitsTest extends SystemTestCase
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\Config' => \DI\decorate(function ($previous) {
+            'Piwik\Config' => \Piwik\DI::decorate(function ($previous) {
                 $general = $previous->General;
                 $general['action_title_category_delimiter'] = "/";
                 $previous->General = $general;

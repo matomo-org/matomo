@@ -70,6 +70,7 @@ describe("SegmentSelectorEditorTest", function () {
 
     it("should update segment expression when selecting different segment", async function() {
         await selectDimension('.segmentRow0', 'Behaviour', 'Action URL');
+        await selectFieldValue('.segmentRow0 .segment-row:first .metricMatchBlock', 'Is not');
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('dimension_drag_drop');
     });
@@ -113,7 +114,7 @@ describe("SegmentSelectorEditorTest", function () {
           await page.evaluate(function (i) {
             $(`.metricValueBlock input:eq(${i})`).val('value ' + i).change();
           }, i);
-          await page.waitForTimeout(200);
+          await page.waitForTimeout(250);
         }
 
         await page.type('input.edit_segment_name', 'new segment');
@@ -267,7 +268,7 @@ describe("SegmentSelectorEditorTest", function () {
         await (await page.jQuery('.segmentRow0 .segment-row:first .metricValueBlock input')).type(complexValue);
         await page.waitForTimeout(200);
 
-        await page.click('.segment-add-or');
+        await page.evaluate(() => $('.segment-add-or > div').click());
         await page.waitForFunction(() => !! $('.segmentRow0 .segment-row:eq(1)').length);
 
         // configure or condition
@@ -277,7 +278,7 @@ describe("SegmentSelectorEditorTest", function () {
         await (await page.jQuery('.segmentRow0 .segment-row:eq(1) .metricValueBlock input')).type(complexValue);
         await page.waitForTimeout(200);
 
-        await page.click('.segment-add-row');
+        await page.evaluate(() => $('.segment-add-row > div').click());
         await page.waitForSelector('.segmentRow1 .segment-row');
 
         // configure and condition

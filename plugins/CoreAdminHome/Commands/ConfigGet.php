@@ -13,10 +13,6 @@ use Piwik\Config;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Plugin\SystemConfigSetting;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 use Spyc;
 
 class ConfigGet extends ConsoleCommand
@@ -35,14 +31,13 @@ class ConfigGet extends ConsoleCommand
     {
         $this->setName('config:get');
         $this->setDescription('Get a config value or section');
-        $this->addArgument(
+        $this->addOptionalArgument(
             'argument',
-            InputArgument::OPTIONAL,
             "A config setting in the format Section.key or Section.array_key[], e.g. 'Database.username' or 'PluginsInstalled'"
         );
-        $this->addOption('section', 's', InputOption::VALUE_REQUIRED, 'The section the INI config setting belongs to.');
-        $this->addOption('key', 'k', InputOption::VALUE_REQUIRED, 'The name of the INI config setting.');
-        $this->addOption('format', 'f', InputOption::VALUE_OPTIONAL, 'Format the output as ' . json_encode(self::OUTPUT_FORMATS) . '; Default is ' . self::OUTPUT_FORMAT_DEFAULT, self::OUTPUT_FORMAT_DEFAULT);
+        $this->addRequiredValueOption('section', 's', 'The section the INI config setting belongs to.');
+        $this->addRequiredValueOption('key', 'k', 'The name of the INI config setting.');
+        $this->addOptionalValueOption('format', 'f', 'Format the output as ' . json_encode(self::OUTPUT_FORMATS) . '; Default is ' . self::OUTPUT_FORMAT_DEFAULT, self::OUTPUT_FORMAT_DEFAULT);
 
         $this->setHelp("This command can be used to get a INI config setting or a whole section of settings on a Piwik instance.
 
@@ -75,8 +70,11 @@ NOTES:
 ");
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
+
         // Gather options, then discard ones with an empty value so we do not need to check for empty later.
         $options = array_filter([
             'section' => $input->getOption('section'),
@@ -124,7 +122,7 @@ NOTES:
             $output->writeln($this->formatVariableForOutput($setting, $result, $format));
         }
 
-        //Many matomo script output Done when they're done.  IMO it's not needed: $output->writeln(self::wrapInTag('info', 'Done.'));
+        return self::SUCCESS;
     }
 
     /**
@@ -199,19 +197,6 @@ NOTES:
             // Section name.
             $matches[1]
         );
-    }
-
-    /**
-     * Wrap the input string in an open and closing HTML/XML tag.
-     * E.g. wrap_in_tag('info', 'my string') returns '<info>my string</info>'
-     *
-     * @param string $tagname Tag name to wrap the string in.
-     * @param string $str String to wrap with the tag.
-     * @return string The wrapped string.
-     */
-    public static function wrapInTag(string $tagname, string $str): string
-    {
-        return "<$tagname>$str</$tagname>";
     }
 
     /**

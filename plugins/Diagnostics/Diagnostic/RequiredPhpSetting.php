@@ -2,7 +2,7 @@
 
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
-class RequiredPhpSetting
+class RequiredPhpSetting implements \JsonSerializable
 {
     
     /** @var string */
@@ -91,7 +91,7 @@ class RequiredPhpSetting
         return $return;
     }
     
-    public function __toString()
+    public function __toString(): string
     {
         $checks = array();
         foreach($this->requiredValues as $requiredValue){
@@ -100,5 +100,9 @@ class RequiredPhpSetting
         
         return $this->setting . ' ' . implode(' OR ', $checks);
     }
-    
+
+    public function jsonSerialize(): string
+    {
+        return $this->__toString();
+    }
 }

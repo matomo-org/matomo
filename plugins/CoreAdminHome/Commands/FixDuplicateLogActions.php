@@ -16,10 +16,7 @@ use Piwik\Date;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\CoreAdminHome\Model\DuplicateActionRemover;
 use Piwik\Timer;
-use Psr\Log\LoggerInterface;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
+use Piwik\Log\LoggerInterface;
 
 /**
  * Finds duplicate actions rows in log_action and removes them. Fixes references to duplicate
@@ -79,20 +76,23 @@ class FixDuplicateLogActions extends ConsoleCommand
         $this->archiveInvalidator = $invalidator ?: StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
         $this->duplicateActionRemover = $duplicateActionRemover ?: new DuplicateActionRemover();
         $this->actionsAccess = $actionsAccess ?: new Actions();
-        $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
+        $this->logger = $logger ?: StaticContainer::get(LoggerInterface::class);
     }
 
     protected function configure()
     {
         $this->setName('core:fix-duplicate-log-actions');
-        $this->addOption('invalidate-archives', null, InputOption::VALUE_NONE, "If supplied, archives for logs that use duplicate actions will be invalidated."
+        $this->addNoValueOption('invalidate-archives', null, "If supplied, archives for logs that use duplicate actions will be invalidated."
             . " On the next cron archive run, the reports for those dates will be re-processed.");
         $this->setDescription('Removes duplicates in the log action table and fixes references to the duplicates in '
                             . 'related tables. NOTE: This action can take a long time to run!');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
+
         $invalidateArchives = $input->getOption('invalidate-archives');
 
         $timer = new Timer();
@@ -100,48 +100,50 @@ class FixDuplicateLogActions extends ConsoleCommand
         $duplicateActions = $this->duplicateActionRemover->getDuplicateIdActions();
         if (empty($duplicateActions)) {
             $output->writeln("Found no duplicate actions.");
-            return;
+            return self::SUCCESS;
         }
 
         $output->writeln("<info>Found " . count($duplicateActions) . " actions with duplicates.</info>");
 
-        list($numberRemoved, $allArchivesAffected) = $this->fixDuplicateActionReferences($duplicateActions, $output);
+        list($numberRemoved, $allArchivesAffected) = $this->fixDuplicateActionReferences($duplicateActions);
 
-        $this->deleteDuplicatesFromLogAction($output, $duplicateActions);
+        $this->deleteDuplicatesFromLogAction($duplicateActions);
 
         if ($invalidateArchives) {
-            $this->invalidateArchivesUsingActionDuplicates($allArchivesAffected, $output);
+            $this->invalidateArchivesUsingActionDuplicates($allArchivesAffected);
         } else {
-            $this->printAffectedArchives($allArchivesAffected, $output);
+            $this->printAffectedArchives($allArchivesAffected);
         }
 
         $logActionTable = Common::prefixTable('log_action');
-        $this->writeSuccessMessage($output, array(
+        $this->writeSuccessMessage(array(
             "Found and deleted $numberRemoved duplicate action entries in the $logActionTable table.",
             "References in log_link_visit_action, log_conversion and log_conversion_item were corrected.",
             $timer->__toString()
         ));
+
+        return self::SUCCESS;
     }
 
-    private function invalidateArchivesUsingActionDuplicates($archivesAffected, OutputInterface $output)
+    private function invalidateArchivesUsingActionDuplicates($archivesAffected)
     {
-        $output->write("Invalidating archives affected by duplicates fixed...");
+        $this->getOutput()->write("Invalidating archives affected by duplicates fixed...");
         foreach ($archivesAffected as $archiveInfo) {
             $dates = array(Date::factory($archiveInfo['server_time']));
             $this->archiveInvalidator->markArchivesAsInvalidated(array($archiveInfo['idsite']), $dates, $period = false);
         }
-        $output->writeln("Done.");
+        $this->getOutput()->writeln("Done.");
     }
 
-    private function printAffectedArchives($allArchivesAffected, OutputInterface $output)
+    private function printAffectedArchives($allArchivesAffected)
     {
-        $output->writeln("The following archives used duplicate actions and should be invalidated if you want correct reports:");
+        $this->getOutput()->writeln("The following archives used duplicate actions and should be invalidated if you want correct reports:");
         foreach ($allArchivesAffected as $archiveInfo) {
-            $output->writeln("\t[ idSite = {$archiveInfo['idsite']}, date = {$archiveInfo['server_time']} ]");
+            $this->getOutput()->writeln("\t[ idSite = {$archiveInfo['idsite']}, date = {$archiveInfo['server_time']} ]");
         }
     }
 
-    private function fixDuplicateActionReferences($duplicateActions, OutputInterface $output)
+    private function fixDuplicateActionReferences($duplicateActions)
     {
         $dupeCount = count($duplicateActions);
 
@@ -155,7 +157,7 @@ class FixDuplicateLogActions extends ConsoleCommand
 
             $numberRemoved += count($fromIdActions);
 
-            $output->writeln("<info>[$index / $dupeCount]</info> Fixing duplicates for '$name'");
+            $this->getOutput()->writeln("<info>[$index / $dupeCount]</info> Fixing duplicates for '$name'");
 
             $this->logger->debug("  idaction = {idaction}, duplicate idactions = {duplicateIdActions}", array(
                 'idaction' => $toIdAction,
@@ -163,7 +165,7 @@ class FixDuplicateLogActions extends ConsoleCommand
             ));
 
             foreach (DuplicateActionRemover::$tablesWithIdActionColumns as $table) {
-                $archivesAffected = $this->fixDuplicateActionsInTable($output, $table, $toIdAction, $fromIdActions);
+                $archivesAffected = $this->fixDuplicateActionsInTable($table, $toIdAction, $fromIdActions);
                 $allArchivesAffected = array_merge($allArchivesAffected, $archivesAffected);
             }
         }
@@ -173,7 +175,7 @@ class FixDuplicateLogActions extends ConsoleCommand
         return array($numberRemoved, $allArchivesAffected);
     }
 
-    private function fixDuplicateActionsInTable(OutputInterface $output, $table, $toIdAction, $fromIdActions)
+    private function fixDuplicateActionsInTable($table, $toIdAction, $fromIdActions)
     {
         $timer = new Timer();
 
@@ -181,17 +183,17 @@ class FixDuplicateLogActions extends ConsoleCommand
 
         $this->duplicateActionRemover->fixDuplicateActionsInTable($table, $toIdAction, $fromIdActions);
 
-        $output->writeln("\tFixed duplicates in " . Common::prefixTable($table) . ". <comment>" . $timer->__toString() . "</comment>.");
+        $this->getOutput()->writeln("\tFixed duplicates in " . Common::prefixTable($table) . ". <comment>" . $timer->__toString() . "</comment>.");
 
         return $archivesAffected;
     }
 
-    private function deleteDuplicatesFromLogAction(OutputInterface $output, $duplicateActions)
+    private function deleteDuplicatesFromLogAction($duplicateActions)
     {
         $logActionTable = Common::prefixTable('log_action');
-        $output->writeln("<info>Deleting duplicate actions from $logActionTable...</info>");
+        $this->getOutput()->writeln("<info>Deleting duplicate actions from $logActionTable...</info>");
 
-        $idActions = array();
+        $idActions = [];
         foreach ($duplicateActions as $dupeInfo) {
             $idActions = array_merge($idActions, $dupeInfo['duplicateIdActions']);
         }

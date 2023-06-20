@@ -17,7 +17,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\SegmentEditor\Model as SegmentEditorModel;
 use Piwik\Segment;
 use Piwik\Site;
-use Psr\Log\LoggerInterface;
+use Piwik\Log\LoggerInterface;
 
 class ArchiveFilter
 {

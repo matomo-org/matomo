@@ -11,17 +11,12 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 use Piwik\AssetManager;
 use Piwik\Development;
 use Piwik\Metrics\Formatter;
-use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugin\Manager;
 use Piwik\ProxyHttp;
 use Piwik\SettingsPiwik;
 use Piwik\Theme;
-use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class ComputeJsAssetSize extends ConsoleCommand
 {
@@ -31,9 +26,8 @@ class ComputeJsAssetSize extends ConsoleCommand
     {
         $this->setName('development:compute-js-asset-size');
         $this->setDescription('Generates production assets and computes the size of the resulting code.');
-        $this->addOption('exclude-angular', null, InputOption::VALUE_NONE);
-        $this->addOption('no-delete', null, InputOption::VALUE_NONE, 'Do not delete files after creating them.');
-        $this->addOption('plugin', null, InputOption::VALUE_REQUIRED, 'For submodule plugins and 3rd party plugins.');
+        $this->addNoValueOption('no-delete', null, 'Do not delete files after creating them.');
+        $this->addRequiredValueOption('plugin', null, 'For submodule plugins and 3rd party plugins.');
     }
 
     public function isEnabled()
@@ -41,9 +35,10 @@ class ComputeJsAssetSize extends ConsoleCommand
         return SettingsPiwik::isGitDeployment();
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
-        $excludeAngular = $input->getOption('exclude-angular');
+        $input = $this->getInput();
+        $output = $this->getOutput();
         $noDelete = $input->getOption('no-delete');
         $plugin = $input->getOption('plugin');
 
@@ -55,23 +50,21 @@ class ComputeJsAssetSize extends ConsoleCommand
 
         $fetcher = $this->makeUmdFetcher();
 
-        if ($excludeAngular) {
-            $this->excludeAngular($output);
-        }
-
         $this->deleteMergedAssets();
         $this->buildAssets($fetcher);
 
         $output->writeln("");
 
-        $this->printCurrentGitHashAndBranch($output, $excludeAngular, $plugin);
+        $this->printCurrentGitHashAndBranch($plugin);
 
         $output->writeln("");
-        $this->printFilesizes($fetcher, $output);
+        $this->printFilesizes($fetcher);
 
         if (!$noDelete) {
             $this->deleteMergedAssets();
         }
+
+        return self::SUCCESS;
     }
 
     private function ensureThirdPartyPluginsActivated($plugin = null)
@@ -184,24 +177,6 @@ class ComputeJsAssetSize extends ConsoleCommand
         }
     }
 
-    private function excludeAngular(OutputInterface $output)
-    {
-        Piwik::addAction('AssetManager.getJavaScriptFiles', function (&$files) use ($output) {
-            $newFiles = [];
-            foreach ($files as $filePath) {
-                if (strpos($filePath, 'node_modules/angular') !== false) {
-                    if ($output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
-                        $output->writeln("<comment>  Excluding angular file $filePath.</comment>");
-                    }
-                    continue;
-                }
-
-                $newFiles[] = $filePath;
-            }
-            $files = $newFiles;
-        });
-    }
-
     private function buildAssets(AssetManager\UIAssetFetcher\PluginUmdAssetFetcher $fetcher)
     {
         AssetManager::getInstance()->getMergedCoreJavaScript();
@@ -218,7 +193,7 @@ class ComputeJsAssetSize extends ConsoleCommand
         AssetManager::getInstance()->removeMergedAssets();
     }
 
-    private function printFilesizes(AssetManager\UIAssetFetcher\PluginUmdAssetFetcher $fetcher, OutputInterface $output)
+    private function printFilesizes(AssetManager\UIAssetFetcher\PluginUmdAssetFetcher $fetcher)
     {
         $fileSizes = [];
 
@@ -237,9 +212,7 @@ class ComputeJsAssetSize extends ConsoleCommand
         $fileSizes[] = [];
         $fileSizes[] = ['Total', $this->getFormattedSize($this->totals['merged']), $this->getFormattedSize($this->totals['gzip'])];
 
-        $table = new Table($output);
-        $table->setHeaders(['File', 'Size', 'Size (gzipped)'])->setRows($fileSizes);
-        $table->render();
+        $this->renderTable(['File', 'Size', 'Size (gzipped)'], $fileSizes);
     }
 
     private function getFileSize($fileLocation, $type)
@@ -277,7 +250,7 @@ class ComputeJsAssetSize extends ConsoleCommand
         return $this->getFileSize($compressedPath, 'gzip');
     }
 
-    private function printCurrentGitHashAndBranch(OutputInterface $output, $excludeAngular, $plugin = null)
+    private function printCurrentGitHashAndBranch($plugin = null)
     {
         $branchName = trim(`git rev-parse --abbrev-ref HEAD`);
         $lastCommit = trim(`git log --pretty=format:'%h' -n 1`);
@@ -292,8 +265,7 @@ class ComputeJsAssetSize extends ConsoleCommand
             $pluginSuffix = " [$plugin: $pluginBranchName ($pluginLastCommit)]";
         }
 
-        $output->writeln("<info>$branchName ($lastCommit)$pluginSuffix</info> <comment>"
-            . ($excludeAngular ? '(without angularjs)' : '') . "</comment>");
+        $this->getOutput()->writeln("<info>$branchName ($lastCommit)$pluginSuffix</info>");
     }
 
     private function makeUmdFetcher()

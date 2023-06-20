@@ -11,8 +11,6 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\Filesystem;
 use Piwik\Plugin\ConsoleCommand;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  */
@@ -28,11 +26,13 @@ class ClearCaches extends ConsoleCommand
     /**
      * Execute command like: ./console core:clear-caches
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
         // Note: the logic for this command must be refactored in this helper function below.
         Filesystem::deleteAllCacheOnUpdate();
 
-        $this->writeSuccessMessage($output, array('Caches cleared'));
+        $this->writeSuccessMessage(array('Caches cleared'));
+
+        return self::SUCCESS;
     }
 }

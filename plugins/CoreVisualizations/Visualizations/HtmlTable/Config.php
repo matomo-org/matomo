@@ -16,7 +16,6 @@ use Piwik\ViewDataTable\Config as VisualizationConfig;
  */
 class Config extends VisualizationConfig
 {
-
     /**
      * If this property is set to true, subtables will be shown as embedded in the original table.
      * If false, subtables will be shown as whole tables between rows.
@@ -54,6 +53,15 @@ class Config extends VisualizationConfig
      * Default value: false
      */
     public $disable_row_evolution = false;
+
+    /**
+     * Controls whether the summary row is displayed on every page of the datatable view or not.
+     * If false, the summary row will be treated as the last row of the dataset and will only visible
+     * when viewing the last rows.
+     *
+     * Default value: false
+     */
+    public $keep_summary_row = false;
 
     /**
      * If true, the 'label', 'nb_visits', 'nb_uniq_visitors' (if present), 'nb_actions',
@@ -106,6 +114,20 @@ class Config extends VisualizationConfig
      */
     public $show_dimensions = false;
 
+    /**
+     * The minimum width for the label column in table visualizations.
+     *
+     * @var null|int
+     */
+    public $min_label_width = 125;
+
+    /**
+     * The maximum allowed width for the label column in table visualizations.
+     *
+     * @var null|int
+     */
+    public $max_label_width = 440;
+
     public function __construct()
     {
         parent::__construct();
@@ -122,6 +144,9 @@ class Config extends VisualizationConfig
             'keep_summary_row',
             'subtable_controller_action',
             'show_dimensions',
+            'row_identifier',
+            'min_label_width',
+            'max_label_width',
         ));
 
         $this->addPropertiesThatCanBeOverwrittenByQueryParams(array(

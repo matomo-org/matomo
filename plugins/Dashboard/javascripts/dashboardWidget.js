@@ -136,15 +136,12 @@
                 if (currentWidget.parents('body').length) {
                     // there might be race conditions, eg widget might be just refreshed while whole dashboard is also
                     // removed from DOM
-                    piwikHelper.compileAngularComponents($widgetContent, { forceNewScope: true });
                     piwikHelper.compileVueEntryComponents($widgetContent);
                 }
                 $widgetContent.removeClass('loading');
                 $widgetContent.trigger('widget:create', [self]);
 
-                angular.element(document).injector().invoke(['notifications', function (notifications) {
-                    notifications.parseNotificationDivs();
-                }]);
+                window.CoreHome.NotificationsStore.parseNotificationDivs();
             }
 
             // Reading segment from hash tag (standard case) or from the URL (when embedding dashboard)

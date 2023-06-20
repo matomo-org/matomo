@@ -23,8 +23,7 @@ class GetExampleVue extends Widget
 
     public function render()
     {
-        // using the AngularJS adapter until the Vue migration is complete.
-        return '<div example-vue-component></div>';
+        return '<div vue-entry="ExampleVue.ExampleComponent"></div>';
     }
 
 }

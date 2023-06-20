@@ -140,20 +140,26 @@
           <p>
             {{ translate('CustomDimensions_HowToTrackManuallyViaJs') }}
           </p>
-          <pre v-select-on-focus="{}"><code
+          <div>
+          <pre v-copy-to-clipboard="{}"><code
             v-html="$sanitize(manuallyTrackCodeViaJs(dimension))"
           ></code></pre>
+          </div>
           <p v-html="$sanitize(howToTrackManuallyText)"/>
           <p>
             {{ translate('CustomDimensions_HowToTrackManuallyViaPhp') }}
           </p>
+          <div>
           <pre
-            v-select-on-focus="{}"
+            v-copy-to-clipboard="{}"
           ><code v-html="$sanitize(manuallyTrackCodeViaPhp(dimension))"></code></pre>
+          </div>
           <p>
             {{ translate('CustomDimensions_HowToTrackManuallyViaHttp') }}
           </p>
-          <pre v-select-on-focus="{}"><code v-html="$sanitize(manuallyTrackCode)"></code></pre>
+          <div>
+            <pre v-copy-to-clipboard="{}"><code v-html="$sanitize(manuallyTrackCode)"></code></pre>
+          </div>
         </div>
       </div>
     </ContentBlock>
@@ -167,7 +173,7 @@ import {
   translate,
   Matomo,
   ContentBlock,
-  SelectOnFocus,
+  CopyToClipboard,
   NotificationsStore,
   NotificationType,
   MatomoUrl,
@@ -197,7 +203,7 @@ export default defineComponent({
     Field,
   },
   directives: {
-    SelectOnFocus,
+    CopyToClipboard,
   },
   data(): EditState {
     return {
@@ -232,9 +238,14 @@ export default defineComponent({
 
       CustomDimensionsStore.fetch().then(() => {
         if (this.edit && this.dimensionId) {
-          this.dimension = clone(
-            CustomDimensionsStore.customDimensionsById.value[this.dimensionId],
-          ) as unknown as CustomDimension;
+          // no dimension for this site and dimensionId, so go back to /list
+          const dimensionInfo = CustomDimensionsStore.customDimensionsById.value[this.dimensionId];
+          if (!dimensionInfo) {
+            MatomoUrl.updateHashToUrl('/list');
+            return;
+          }
+
+          this.dimension = clone(dimensionInfo) as unknown as CustomDimension;
 
           if (this.dimension && !this.dimension.extractions.length) {
             this.addExtraction();

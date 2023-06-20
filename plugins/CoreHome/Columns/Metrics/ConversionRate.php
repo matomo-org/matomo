@@ -7,6 +7,7 @@
  */
 namespace Piwik\Plugins\CoreHome\Columns\Metrics;
 
+use Piwik\Columns\Dimension;
 use Piwik\DataTable\Row;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
@@ -46,5 +47,10 @@ class ConversionRate extends ProcessedMetric
         $nbVisitsConverted = $this->getMetric($row, 'nb_visits_converted');
         $nbVisits = $this->getMetric($row, 'nb_visits');
         return Piwik::getQuotientSafe($nbVisitsConverted, $nbVisits, $precision = 4);
+    }
+
+    public function getSemanticType(): ?string
+    {
+        return Dimension::TYPE_PERCENT;
     }
 }

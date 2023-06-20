@@ -75,7 +75,7 @@ class MobileMessaging extends \Piwik\Plugin
             'ScheduledReports.getReportRecipients'      => 'getReportRecipients',
             'ScheduledReports.allowMultipleReports'     => 'allowMultipleReports',
             'ScheduledReports.sendReport'               => 'sendReport',
-            'Template.reportParametersScheduledReports' => 'template_reportParametersScheduledReports',
+            'Template.reportParametersScheduledReports' => 'templateReportParametersScheduledReports',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
         );
     }
@@ -120,6 +120,12 @@ class MobileMessaging extends \Piwik\Plugin
         $translationKeys[] = 'MobileMessaging_MobileReport_MobileMessagingSettingsLink';
         $translationKeys[] = 'ScheduledReports_SendReportTo';
         $translationKeys[] = 'MobileMessaging_PhoneNumbers';
+        $translationKeys[] = 'MobileMessaging_Settings_DelegatedSmsProviderOnlyAppliesToYou';
+        $translationKeys[] = 'MobileMessaging_Settings_CredentialNotProvided';
+        $translationKeys[] = 'MobileMessaging_Settings_CredentialNotProvidedByAdmin';
+        $translationKeys[] = 'MobileMessaging_Settings_DeleteAccountConfirm';
+        $translationKeys[] = 'MobileMessaging_Settings_SuspiciousPhoneNumber';
+        $translationKeys[] = 'MobileMessaging_SettingsMenu';
     }
     
     public function validateReportParameters(&$parameters, $reportType)
@@ -240,7 +246,7 @@ class MobileMessaging extends \Piwik\Plugin
         }
     }
 
-    public function template_reportParametersScheduledReports(&$out, $context = '')
+    public function templateReportParametersScheduledReports(&$out, $context = '')
     {
         if (Piwik::isUserIsAnonymous()) {
             return;

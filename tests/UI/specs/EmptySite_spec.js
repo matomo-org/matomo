@@ -21,23 +21,38 @@ describe("EmptySite", function () {
         expect(await pageElement.screenshot()).to.matchImage('emptySiteDashboard');
     });
 
+    it('should show the advanced tracking options when clicked', async function () {
+        await page.evaluate(() => $('.advance-option a').click());
+
+        const pageElement = await page.$('.page');
+        expect(await pageElement.screenshot()).to.matchImage('showAdvancedTrackingOptions');
+    });
+
+    it('should hide the advanced tracking options when clicked', async function () {
+        await page.evaluate(() => $('.advance-option a').click());
+
+        const pageElement = await page.$('.page');
+        expect(await pageElement.screenshot()).to.matchImage('hideAdvancedTrackingOptions');
+    });
+
     it('should have button to send tracking code to developer', async function() {
-        var mailtoLink = await page.$eval('#emailTrackingCodeBtn', btn => btn.getAttribute('href'));
+        var mailtoLink = await page.$eval('.emailTrackingCode', link => link.getAttribute('href'));
 
         // Check that it's a mailto link with correct subject line
         expect(mailtoLink).to.include('mailto:?subject=Matomo%20Analytics%20Tracking%20Code&body');
         // Check that template rendered and only contains chars that are OK in all mail clients (e.g. no HTML at all)
-        expect(mailtoLink).to.match(/^mailto:\?[a-zA-Z0-9&%=.,-_]*$/);
+        expect(mailtoLink).to.match(/^mailto:\?[a-zA-Z0-9&%=.,_*()\[\]'"-]*$/);
     });
 
     it('should be possible to ignore this screen for one hour', async function () {
         await page.reload();
 
         await page.click('.ignoreSitesWithoutData');
-        await page.waitForSelector('.widget');
+        await page.waitForSelector('#dashboardWidgetsArea');
         await page.waitForNetworkIdle();
 
-        const pageElement = await page.$('.page');
-        expect(await pageElement.screenshot()).to.matchImage('emptySiteDashboard_ignored');
+        // ensure dashbord widgets are loaded
+        const widgetsCount = await page.evaluate(() => $('.widget').length);
+        expect(widgetsCount).to.be.greaterThan(1);
     });
 });

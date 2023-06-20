@@ -36,6 +36,7 @@
         "MenuPlatform": "Plataforma",
         "MissingRequirementsNotice": "Por favor actualice %1$s %2$s a una versión más reciente, se requiere %1$s %3$s.",
         "MissingRequirementsPleaseInstallNotice": "Por favor instale %1$s %2$s en tanto es requerido por %3$s.",
+        "NUpdatesAvailable": "%1$s Actualización(es) disponible(s)",
         "NoPluginSettings": "No hay ajustes para este complemento que puedan ser configurados",
         "NoZipFileSelected": "Por favor selecciona un archivo ZIP.",
         "NotDownloadable": "No es descargable",

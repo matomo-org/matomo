@@ -32,7 +32,7 @@ use Piwik\Tracker\Failures;
 use Piwik\Site;
 use Piwik\Tracker\FingerprintSalt;
 use Piwik\Tracker\Visit\ReferrerSpamFilter;
-use Psr\Log\LoggerInterface;
+use Piwik\Log\LoggerInterface;
 use Piwik\SettingsPiwik;
 
 class Tasks extends \Piwik\Plugin\Tasks
@@ -245,12 +245,16 @@ class Tasks extends \Piwik\Plugin\Tasks
 
         foreach ($archiveTables as $table) {
             $date = ArchiveTableCreator::getDateFromTableName($table);
-            list($year, $month) = explode('_', $date);
+            [$year, $month] = explode('_', $date);
 
             // Somehow we may have archive tables created with older dates, prevent exception from being thrown
             if ($year > 1990) {
                 if (empty($datesPurged[$date])) {
-                    $dateObj = Date::factory("$year-$month-15");
+                    try {
+                        $dateObj = Date::factory("$year-$month-15");
+                    } catch (\Exception $e) {
+                        continue; // skip invalid dates
+                    }
 
                     $this->archivePurger->purgeOutdatedArchives($dateObj);
                     $this->archivePurger->purgeArchivesWithPeriodRange($dateObj);
@@ -353,9 +357,13 @@ class Tasks extends \Piwik\Plugin\Tasks
         $datesPurged = array();
         foreach ($archiveTables as $table) {
             $date = ArchiveTableCreator::getDateFromTableName($table);
-            list($year, $month) = explode('_', $date);
+            [$year, $month] = explode('_', $date);
 
-            $dateObj = Date::factory("$year-$month-15");
+            try {
+                $dateObj = Date::factory("$year-$month-15");
+            } catch (\Exception $e) {
+                continue; // skip invalid dates
+            }
 
             $this->archivePurger->purgeDeletedSiteArchives($dateObj);
             if (count($deletedSegments)) {

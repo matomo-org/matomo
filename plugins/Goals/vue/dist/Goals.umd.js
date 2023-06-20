@@ -128,7 +128,6 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.d(__webpack_exports__, "GoalPageLink", function() { return /* reexport */ GoalPageLink_GoalPageLink; });
 __webpack_require__.d(__webpack_exports__, "ManageGoals", function() { return /* reexport */ ManageGoals; });
 __webpack_require__.d(__webpack_exports__, "ManageGoalsStore", function() { return /* reexport */ ManageGoals_store; });
-__webpack_require__.d(__webpack_exports__, "PiwikApiMock", function() { return /* reexport */ PiwikApiMock; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -158,16 +157,16 @@ var external_CoreHome_ = __webpack_require__("19dc");
  */
 
 var _window = window,
-    GoalPageLink_$ = _window.$; // usage v-goal-page-link="{ idGoal: 5 }"
+    $ = _window.$; // usage v-goal-page-link="{ idGoal: 5 }"
 
 var GoalPageLink = {
   mounted: function mounted(el, binding) {
-    if (!external_CoreHome_["Matomo"].helper.isAngularRenderingThePage()) {
+    if (!external_CoreHome_["Matomo"].helper.isReportingPage()) {
       return;
     }
 
-    var title = GoalPageLink_$(el).text();
-    var link = GoalPageLink_$('<a></a>');
+    var title = $(el).text();
+    var link = $('<a></a>');
     link.text(title);
     link.attr('title', Object(external_CoreHome_["translate"])('Goals_ClickToViewThisGoal'));
     link.click(function (e) {
@@ -177,7 +176,7 @@ var GoalPageLink = {
         subcategory: binding.value.idGoal
       }));
     });
-    GoalPageLink_$(el).html(link[0]);
+    $(el).html(link[0]);
   }
 };
 /* harmony default export */ var GoalPageLink_GoalPageLink = (GoalPageLink); // manually handle occurrence of goal-page-link on datatable html attributes since dataTable.js is
@@ -186,11 +185,11 @@ var GoalPageLink = {
 
 external_CoreHome_["Matomo"].on('Matomo.processDynamicHtml', function ($element) {
   $element.find('[goal-page-link]').each(function (i, e) {
-    if (GoalPageLink_$(e).attr('goal-page-link-handled')) {
+    if ($(e).attr('goal-page-link-handled')) {
       return;
     }
 
-    var idGoal = GoalPageLink_$(e).attr('goal-page-link');
+    var idGoal = $(e).attr('goal-page-link');
 
     if (idGoal) {
       GoalPageLink.mounted(e, {
@@ -204,39 +203,13 @@ external_CoreHome_["Matomo"].on('Matomo.processDynamicHtml', function ($element)
       });
     }
 
-    GoalPageLink_$(e).attr('goal-page-link-handled', '1');
+    $(e).attr('goal-page-link-handled', '1');
   });
 });
-// CONCATENATED MODULE: ./plugins/Goals/vue/src/GoalPageLink/GoalPageLink.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-function piwikGoalPageLink() {
-  return {
-    restrict: 'A',
-    link: function piwikGoalPageLinkLink(scope, element, attrs) {
-      var binding = {
-        instance: null,
-        value: {
-          idGoal: attrs.piwikGoalPageLink
-        },
-        oldValue: null,
-        modifiers: {},
-        dir: {}
-      };
-      GoalPageLink_GoalPageLink.mounted(element[0], binding);
-    }
-  };
-}
-window.angular.module('piwikApp').directive('piwikGoalPageLink', piwikGoalPageLink);
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=1317ed06
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=0b9944b2
 
 var _hoisted_1 = {
   class: "manageGoals"
@@ -433,6 +406,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_Alert = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Alert");
 
+  var _component_VueEntryContainer = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("VueEntryContainer");
+
   var _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
 
   var _directive_content_table = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-table");
@@ -625,9 +600,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         }),
         title: _ctx.translate('Goals_UseEventValueAsRevenue'),
         "inline-help": _ctx.useEventValueAsRevenueHelp
-      }, null, 8, ["modelValue", "title", "inline-help"]), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.goal.match_attribute === 'event']])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_61, [_ctx.endEditTableComponent ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDynamicComponent"])(_ctx.endEditTableComponent), {
-        key: 0
-      })) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 512), _hoisted_62, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
+      }, null, 8, ["modelValue", "title", "inline-help"]), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.goal.match_attribute === 'event']])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_61, [_ctx.endEditTable ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_VueEntryContainer, {
+        key: 0,
+        html: _ctx.endEditTable
+      }, null, 8, ["html"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 512), _hoisted_62, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
         saving: _ctx.isLoading,
         onConfirm: _cache[13] || (_cache[13] = function ($event) {
           return _ctx.save();
@@ -644,12 +620,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   }, 8, ["content-title"])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showEditGoal]])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.userCanEditGoals]]), _hoisted_65]);
 }
-// CONCATENATED MODULE: ./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=1317ed06
+// CONCATENATED MODULE: ./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=0b9944b2
 
 // EXTERNAL MODULE: external "CorePluginsAdmin"
 var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
 
-// CONCATENATED MODULE: ./plugins/Goals/vue/src/ManageGoals/PiwikApiMock.ts
+// CONCATENATED MODULE: ./plugins/Goals/vue/src/ManageGoals/ManageGoals.store.ts
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -657,70 +633,6 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
-* Matomo - free/libre analytics platform
-*
-* @link https://matomo.org
-* @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
-*/
-// the piwikApi angularjs service is passed in some frontend events to allow plugins to modify
-// a request before it is sent. for the time being in Vue we use this mock, which has the same
-// API as the piwikApi service, to modify the input used with AjaxHelper. this provides BC
-// with for plugins that haven't been converted.
-//
-// should be removed in Matomo 5.
-var PiwikApiMock = /*#__PURE__*/function () {
-  function PiwikApiMock(parameters, options) {
-    _classCallCheck(this, PiwikApiMock);
-
-    _defineProperty(this, "parameters", void 0);
-
-    _defineProperty(this, "options", void 0);
-
-    this.parameters = parameters;
-    this.options = options;
-  }
-
-  _createClass(PiwikApiMock, [{
-    key: "addParams",
-    value: function addParams(params) {
-      Object.assign(this.parameters, params);
-    }
-  }, {
-    key: "withTokenInUrl",
-    value: function withTokenInUrl() {
-      this.options.withTokenInUrl = true;
-    }
-  }, {
-    key: "reset",
-    value: function reset() {
-      var _this = this;
-
-      Object.keys(this.parameters).forEach(function (name) {
-        delete _this.parameters[name];
-      });
-      delete this.options.postParams;
-    }
-  }, {
-    key: "addPostParams",
-    value: function addPostParams(params) {
-      this.options.postParams = Object.assign(Object.assign({}, this.options.postParams), params);
-    }
-  }]);
-
-  return PiwikApiMock;
-}();
-
-
-// CONCATENATED MODULE: ./plugins/Goals/vue/src/ManageGoals/ManageGoals.store.ts
-function ManageGoals_store_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function ManageGoals_store_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function ManageGoals_store_createClass(Constructor, protoProps, staticProps) { if (protoProps) ManageGoals_store_defineProperties(Constructor.prototype, protoProps); if (staticProps) ManageGoals_store_defineProperties(Constructor, staticProps); return Constructor; }
-
-function ManageGoals_store_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 /*!
  * Matomo - free/libre analytics platform
@@ -734,16 +646,16 @@ var ManageGoals_store_ManageGoalsStore = /*#__PURE__*/function () {
   function ManageGoalsStore() {
     var _this = this;
 
-    ManageGoals_store_classCallCheck(this, ManageGoalsStore);
+    _classCallCheck(this, ManageGoalsStore);
 
-    ManageGoals_store_defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({}));
+    _defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({}));
 
-    ManageGoals_store_defineProperty(this, "idGoal", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+    _defineProperty(this, "idGoal", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       return _this.privateState.idGoal;
     }));
   }
 
-  ManageGoals_store_createClass(ManageGoalsStore, [{
+  _createClass(ManageGoalsStore, [{
     key: "setIdGoalShown",
     value: function setIdGoalShown(idGoal) {
       this.privateState.idGoal = idGoal;
@@ -755,7 +667,6 @@ var ManageGoals_store_ManageGoalsStore = /*#__PURE__*/function () {
 
 /* harmony default export */ var ManageGoals_store = (new ManageGoals_store_ManageGoalsStore());
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=script&lang=ts
-
 
 
 
@@ -807,7 +718,8 @@ function ambiguousBoolToInt(n) {
     ContentBlock: external_CoreHome_["ContentBlock"],
     ActivityIndicator: external_CoreHome_["ActivityIndicator"],
     Field: external_CorePluginsAdmin_["Field"],
-    Alert: external_CoreHome_["Alert"]
+    Alert: external_CoreHome_["Alert"],
+    VueEntryContainer: external_CoreHome_["VueEntryContainer"]
   },
   directives: {
     ContentTable: external_CoreHome_["ContentTable"],
@@ -820,35 +732,13 @@ function ambiguousBoolToInt(n) {
     ManageGoals_store.setIdGoalShown(undefined);
   },
   mounted: function mounted() {
-    var _this = this;
-
     if (this.showAddGoal) {
       this.createGoal();
     } else if (this.showGoal) {
       this.editGoal(this.showGoal);
     } else {
       this.showListOfReports();
-    } // this component can be used in multiple places, one where
-    // Matomo.helper.compileAngularComponents() is already called, one where it's not.
-    // to make sure this function is only applied once to the slot data, we explicitly do not
-    // add it to vue, then on the next update, add it and call compileAngularComponents()
-
-
-    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(function () {
-      _this.addEditTableComponent = true;
-      Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(function () {
-        var el = _this.$refs.endedittable;
-        var scope = external_CoreHome_["Matomo"].helper.getAngularDependency('$rootScope').$new(true);
-        $(el).data('scope', scope);
-        external_CoreHome_["Matomo"].helper.compileAngularComponents(el, {
-          scope: scope
-        });
-      });
-    });
-  },
-  beforeUnmount: function beforeUnmount() {
-    var el = this.$refs.endedittable;
-    $(el).data('scope').$destroy();
+    }
   },
   methods: {
     scrollToTop: function scrollToTop() {
@@ -919,25 +809,25 @@ function ambiguousBoolToInt(n) {
       this.scrollToTop();
     },
     deleteGoal: function deleteGoal(goalId) {
-      var _this2 = this;
+      var _this = this;
 
       this.goalToDelete = this.goals["".concat(goalId)];
       external_CoreHome_["Matomo"].helper.modalConfirm(this.$refs.confirm, {
         yes: function yes() {
-          _this2.isLoading = true;
+          _this.isLoading = true;
           external_CoreHome_["AjaxHelper"].fetch({
             idGoal: goalId,
             method: 'Goals.deleteGoal'
           }).then(function () {
             window.location.reload();
           }).finally(function () {
-            _this2.isLoading = false;
+            _this.isLoading = false;
           });
         }
       });
     },
     save: function save() {
-      var _this3 = this;
+      var _this2 = this;
 
       var parameters = {}; // TODO: test removal of encoding, should be handled by ajax request
 
@@ -969,12 +859,17 @@ function ambiguousBoolToInt(n) {
       var isCreate = parameters.method === 'Goals.addGoal';
       var isUpdate = parameters.method === 'Goals.updateGoal';
       var options = {};
-      var piwikApiMock = new PiwikApiMock(parameters, options);
 
       if (isUpdate) {
-        external_CoreHome_["Matomo"].postEvent('Goals.beforeUpdateGoal', parameters, piwikApiMock);
+        external_CoreHome_["Matomo"].postEvent('Goals.beforeUpdateGoal', {
+          parameters: parameters,
+          options: options
+        });
       } else if (isCreate) {
-        external_CoreHome_["Matomo"].postEvent('Goals.beforeAddGoal', parameters, piwikApiMock);
+        external_CoreHome_["Matomo"].postEvent('Goals.beforeAddGoal', {
+          parameters: parameters,
+          options: options
+        });
       }
 
       if (parameters !== null && parameters !== void 0 && parameters.cancelRequest) {
@@ -985,21 +880,21 @@ function ambiguousBoolToInt(n) {
       external_CoreHome_["AjaxHelper"].fetch(parameters, options).then(function () {
         var subcategory = external_CoreHome_["MatomoUrl"].parsed.value.subcategory;
 
-        if (subcategory === 'Goals_AddNewGoal' && external_CoreHome_["Matomo"].helper.isAngularRenderingThePage()) {
+        if (subcategory === 'Goals_AddNewGoal' && external_CoreHome_["Matomo"].helper.isReportingPage()) {
           // when adding a goal for the first time we need to load manage goals page afterwards
           external_CoreHome_["ReportingMenuStore"].reloadMenuItems().then(function () {
             external_CoreHome_["MatomoUrl"].updateHash(Object.assign(Object.assign({}, external_CoreHome_["MatomoUrl"].hashParsed.value), {}, {
               subcategory: 'Goals_ManageGoals'
             }));
-            _this3.isLoading = false;
+            _this2.isLoading = false;
           });
         } else {
           window.location.reload();
         }
       }).catch(function () {
-        _this3.scrollToTop();
+        _this2.scrollToTop();
 
-        _this3.isLoading = false;
+        _this2.isLoading = false;
       });
     },
     changedTriggerType: function changedTriggerType() {
@@ -1070,7 +965,7 @@ function ambiguousBoolToInt(n) {
       };
     },
     beforeGoalListActionsBodyComponent: function beforeGoalListActionsBodyComponent() {
-      var _this4 = this;
+      var _this3 = this;
 
       if (!this.beforeGoalListActionsBody) {
         return {};
@@ -1078,7 +973,7 @@ function ambiguousBoolToInt(n) {
 
       var componentsByIdGoal = {};
       Object.values(this.goals).forEach(function (g) {
-        var template = _this4.beforeGoalListActionsBody[g.idgoal];
+        var template = _this3.beforeGoalListActionsBody[g.idgoal];
 
         if (!template) {
           return;
@@ -1089,22 +984,6 @@ function ambiguousBoolToInt(n) {
         };
       });
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["markRaw"])(componentsByIdGoal);
-    },
-    endEditTableComponent: function endEditTableComponent() {
-      if (!this.endEditTable || !this.addEditTableComponent) {
-        return null;
-      }
-
-      var endedittable = this.$refs.endedittable;
-      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["markRaw"])({
-        template: this.endEditTable,
-        mounted: function mounted() {
-          external_CoreHome_["Matomo"].helper.compileVueEntryComponents(endedittable);
-        },
-        beforeUnmount: function beforeUnmount() {
-          external_CoreHome_["Matomo"].helper.destroyVueComponent(endedittable);
-        }
-      });
     },
     beforeGoalListActionsHeadComponent: function beforeGoalListActionsHeadComponent() {
       if (!this.beforeGoalListActionsHead) {
@@ -1133,69 +1012,6 @@ function ambiguousBoolToInt(n) {
 ManageGoalsvue_type_script_lang_ts.render = render
 
 /* harmony default export */ var ManageGoals = (ManageGoalsvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/Goals/vue/src/ManageGoals/ManageGoals.adapter.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-/* harmony default export */ var ManageGoals_adapter = (Object(external_CoreHome_["createAngularJsAdapter"])({
-  component: ManageGoals,
-  directiveName: 'piwikManageGoals',
-  scope: {
-    userCanEditGoals: {
-      angularJsBind: '<'
-    },
-    onlyShowAddNewGoal: {
-      angularJsBind: '<'
-    },
-    ecommerceEnabled: {
-      angularJsBind: '<'
-    },
-    goals: {
-      angularJsBind: '<'
-    },
-    showGoal: {
-      angularJsBind: '<'
-    },
-    showAddGoal: {
-      angularJsBind: '<'
-    },
-    addNewGoalIntro: {
-      angularJsBind: '<'
-    },
-    goalTriggerTypeOptions: {
-      angularJsBind: '<'
-    },
-    goalMatchAttributeOptions: {
-      angularJsBind: '<'
-    },
-    eventTypeOptions: {
-      angularJsBind: '<'
-    },
-    patternTypeOptions: {
-      angularJsBind: '<'
-    },
-    numericComparisonTypeOptions: {
-      angularJsBind: '<'
-    },
-    allowMultipleOptions: {
-      angularJsBind: '<'
-    },
-    beforeGoalListActionsBody: {
-      angularJsBind: '<'
-    },
-    endEditTable: {
-      angularJsBind: '<'
-    },
-    beforeGoalListActionsHead: {
-      angularJsBind: '<'
-    }
-  }
-}));
 // CONCATENATED MODULE: ./plugins/Goals/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -1203,9 +1019,6 @@ ManageGoalsvue_type_script_lang_ts.render = render
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 */
-
-
-
 
 
 

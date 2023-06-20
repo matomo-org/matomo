@@ -27,6 +27,14 @@
 			<exit_rate>Exit rate</exit_rate>
 			<avg_time_generation>Avg. generation time</avg_time_generation>
 		</processedMetrics>
+		<metricTypes>
+			<nb_hits>number</nb_hits>
+			<nb_visits>number</nb_visits>
+			<avg_time_on_page>duration_s</avg_time_on_page>
+			<bounce_rate>percent</bounce_rate>
+			<exit_rate>percent</exit_rate>
+			<avg_time_generation>duration_s</avg_time_generation>
+		</metricTypes>
 		<actionToLoadSubTables>getPageTitles</actionToLoadSubTables>
 		<relatedReports>
 			<row>

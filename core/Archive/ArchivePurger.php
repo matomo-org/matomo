@@ -15,8 +15,7 @@ use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\Model;
 use Piwik\Date;
 use Piwik\Piwik;
-use Psr\Log\LoggerInterface;
-use Psr\Log\LogLevel;
+use Piwik\Log\LoggerInterface;
 
 /**
  * Service that purges temporary, error-ed, invalid and custom range archives from archive tables.
@@ -79,7 +78,7 @@ class ArchivePurger
         $this->yesterday = Date::factory('yesterday');
         $this->today = Date::factory('today');
         $this->now = time();
-        $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
+        $this->logger = $logger ?: StaticContainer::get(LoggerInterface::class);
     }
 
     /**
@@ -98,9 +97,6 @@ class ArchivePurger
             $this->logger->debug("No invalidated archives found in {table} with newer, valid archives.", array('table' => $numericTable));
             return 0;
         }
-
-        $emptyIdArchives = $this->model->getPlaceholderArchiveIds($numericTable);
-        $archiveIds = array_merge($archiveIds, $emptyIdArchives);
 
         $this->logger->info("Found {countArchiveIds} invalidated archives safe to delete in {table}.", array(
             'table' => $numericTable, 'countArchiveIds' => count($archiveIds)
@@ -242,8 +238,8 @@ class ArchivePurger
         $deletedCount = $this->model->deleteArchivesWithPeriod(
             $numericTable, $blobTable, Piwik::$idPeriods['range'], $this->purgeCustomRangesOlderThan);
 
-        $level = $deletedCount == 0 ? LogLevel::DEBUG : LogLevel::INFO;
-        $this->logger->log($level, "Purged {count} range archive rows from {numericTable} & {blobTable}.", array(
+        $level = $deletedCount == 0 ? 'debug' : 'info';
+        $this->logger->$level("Purged {count} range archive rows from {numericTable} & {blobTable}.", array(
             'count' => $deletedCount,
             'numericTable' => $numericTable,
             'blobTable' => $blobTable

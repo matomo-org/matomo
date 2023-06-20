@@ -11,6 +11,7 @@ use Piwik\DataTable\Row;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
+use Piwik\Columns\Dimension;
 
 /**
  * The average number of seconds spent on the site per visit. Calculated as:
@@ -49,5 +50,10 @@ class AverageTimeOnSite extends ProcessedMetric
     public function getDependentMetrics()
     {
         return array('sum_visit_length', 'nb_visits');
+    }
+
+    public function getSemanticType(): ?string
+    {
+        return Dimension::TYPE_DURATION_S;
     }
 }

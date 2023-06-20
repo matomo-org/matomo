@@ -1,0 +1,247 @@
+{% autoescape false %}
+# Action for running tests
+# This file has been automatically created.
+# To recreate it you can run this command
+# ./console generate:test-action
+        {%- if plugin %} --plugin="{{ plugin }}"{% endif %}
+        {{- ' ' }}--php-versions="{{ phpVersions|join(',') }}"
+        {%- if enableRedis and plugin %} --enable-redis{% endif %}
+        {%- if dependentPlugins and plugin %} --dependent-plugins="{{ dependentPlugins|join(',') }}"{% endif %}
+        {%- if protectArtifacts %} --protect-artifacts{% endif %}
+        {%- if setupScript %} --setup-script="{{ setupScript }}"{% endif %}
+        {%- if hasSubmodules %} --has-submodules{% endif %}
+        {%- if scheduleCron %} --schedule-cron="{{ scheduleCron }}"{% endif %}
+
+
+name: {% if plugin %}Plugin {{ plugin }}{% else %}Matomo{% endif %} Tests
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+  push:
+    branches:
+      - '**.x-dev'
+{% if not plugin %}
+      - 'next_release'
+{% endif %}
+  workflow_dispatch:
+{% if scheduleCron %}
+  schedule:
+  - cron: "{{ scheduleCron }}"
+{% endif %}
+
+permissions:
+  actions: read
+  checks: none
+  contents: read
+  deployments: none
+  issues: read
+  packages: none
+  pull-requests: read
+  repository-projects: none
+  security-events: none
+  statuses: none
+
+concurrency:
+  group: php-${{ '{{' }} github.ref {{ '}}' }}
+  cancel-in-progress: true
+
+jobs:
+{% if not plugin %}
+  PHP:
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        type: [ 'UnitTests', 'SystemTestsPlugins', 'SystemTestsCore', 'IntegrationTestsCore', 'IntegrationTestsPlugins' ]
+        php: [ '{{ phpVersions|join("', '") }}' ]
+        adapter: [ 'PDO_MYSQL', 'MYSQLI' ]
+{% if phpVersions|length > 1 %}
+        exclude:
+{% for version in phpVersions %}
+          - php: '{{ version }}'
+            adapter: '{% if loop.first %}MYSQLI{% else %}PDO_MYSQL{% endif %}'
+{% endfor %}
+{% endif %}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          lfs: false
+          persist-credentials: false
+          submodules: true
+          path: matomo
+      - name: running tests
+        uses: matomo-org/github-action-tests@main
+        with:
+          test-type: ${{ '{{' }} matrix.type {{ '}}' }}
+          mysql-driver: ${{ '{{' }} matrix.adapter {{ '}}' }}
+          php-version: ${{ '{{' }} matrix.php {{ '}}' }}
+          redis-service: true
+          artifacts-pass: ${{ '{{' }} secrets.ARTIFACTS_PASS {{ '}}' }}
+          upload-artifacts: ${{ '{{' }} matrix.php == '{{ phpVersions|first }}' {{ '}}' }}
+{% if protectArtifacts %}
+          artifacts-protected: true
+{% endif %}
+{% elseif hasPluginTests %}
+  PluginTests:
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [ '{{ phpVersions|join("', '") }}' ]
+        target: [{% if plugin != 'TagManager' %}'minimum_required_matomo', {% endif %}'maximum_supported_matomo']
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          lfs: true
+          persist-credentials: false
+{% if hasSubmodules %}
+          submodules: true
+{% endif %}
+      - name: Run tests
+        uses: matomo-org/github-action-tests@main
+        with:
+          plugin-name: '{{ plugin }}'
+          php-version: ${{ '{{' }} matrix.php {{ '}}' }}
+          test-type: 'PluginTests'
+          matomo-test-branch: ${{ '{{' }} matrix.target {{ '}}' }}
+{% if setupScript %}
+          setup-script: '{{ setupScript }}'
+{% endif %}
+{% if enableRedis %}
+          redis-service: true
+{% endif %}
+          artifacts-pass: ${{ '{{' }} secrets.ARTIFACTS_PASS {{ '}}' }}
+          upload-artifacts: ${{ '{{' }} matrix.php == '{{ phpVersions|first }}' && matrix.target == 'maximum_supported_matomo' {{ '}}' }}
+{% if protectArtifacts %}
+          artifacts-protected: true
+{% endif %}
+{% if dependentPlugins %}
+          dependent-plugins: '{{ dependentPlugins|join(',') }}'
+          github-token: ${{ '{{' }} secrets.TESTS_ACCESS_TOKEN || secrets.GITHUB_TOKEN {{ '}}' }}
+{% endif %}
+{% endif %}
+
+{%- if not plugin or hasJavaScriptTests %}
+  Javascript:
+    runs-on: ubuntu-20.04
+    timeout-minutes: 15
+{% if plugin %}
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [{% if plugin != 'TagManager' %}'minimum_required_matomo', {% endif %}'maximum_supported_matomo']
+{% endif %}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          lfs: false
+          persist-credentials: false
+{% if not plugin or hasSubmodules %}
+          submodules: true
+{% endif %}
+{% if not plugin %}
+          path: matomo
+{% endif %}
+      - name: running tests
+        uses: matomo-org/github-action-tests@main
+        with:
+{% if plugin %}
+          plugin-name: '{{ plugin }}'
+          matomo-test-branch: ${{ '{{' }} matrix.target {{ '}}' }}
+{% endif %}
+          test-type: 'JS'
+          php-version: '{{ phpVersions|first }}'
+          node-version: '12'
+{% if dependentPlugins %}
+          dependent-plugins: '{{ dependentPlugins|join(',') }}'
+          github-token: ${{ '{{' }} secrets.TESTS_ACCESS_TOKEN || secrets.GITHUB_TOKEN {{ '}}' }}
+{% endif %}
+{% endif %}
+
+{%- if not plugin or hasClientTests %}
+  Client:
+    runs-on: ubuntu-20.04
+    timeout-minutes: 15
+{% if plugin %}
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [{% if plugin != 'TagManager' %}'minimum_required_matomo', {% endif %}'maximum_supported_matomo']
+{% endif %}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          lfs: false
+          persist-credentials: false
+{% if not plugin or hasSubmodules %}
+          submodules: true
+{% endif %}
+{% if not plugin %}
+          path: matomo
+{% endif %}
+      - name: running tests
+        uses: matomo-org/github-action-tests@main
+        with:
+{% if plugin %}
+          plugin-name: '{{ plugin }}'
+          matomo-test-branch: ${{ '{{' }} matrix.target {{ '}}' }}
+{% endif %}
+          test-type: 'Client'
+          node-version: '16'
+          mysql-service: false
+{% if dependentPlugins %}
+          dependent-plugins: '{{ dependentPlugins|join(',') }}'
+          github-token: ${{ '{{' }} secrets.TESTS_ACCESS_TOKEN || secrets.GITHUB_TOKEN {{ '}}' }}
+{% endif %}
+{% endif %}
+
+{%- if not plugin or hasUITests %}
+  UI:
+    runs-on: ubuntu-20.04
+{% if not plugin %}
+    strategy:
+      fail-fast: false
+      matrix:
+        parts: [ 0,1,2,3 ]
+{%  endif %}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          lfs: true
+          persist-credentials: false
+{% if not plugin or hasSubmodules %}
+          submodules: true
+{% endif %}
+{% if not plugin %}
+          path: matomo
+{% endif %}
+      - name: running tests
+        uses: matomo-org/github-action-tests@main
+        with:
+{% if plugin %}
+          plugin-name: '{{ plugin }}'
+          matomo-test-branch: 'maximum_supported_matomo'
+{% if setupScript %}
+          setup-script: '{{ setupScript }}'
+{% endif %}
+{% else %}
+          ui-test-options: '--num-test-groups=4 --test-group=${{ '{{' }} matrix.parts {{ '}}' }}'
+{% endif %}
+          test-type: 'UI'
+          php-version: '{{ phpVersions|first }}'
+          node-version: '16'
+{% if enableRedis %}
+          redis-service: true
+{% endif %}
+          artifacts-pass: ${{ '{{' }} secrets.ARTIFACTS_PASS {{ '}}' }}
+          upload-artifacts: true
+{% if protectArtifacts %}
+          artifacts-protected: true
+{% endif %}
+{% if dependentPlugins %}
+          dependent-plugins: '{{ dependentPlugins|join(',') }}'
+          github-token: ${{ '{{' }} secrets.TESTS_ACCESS_TOKEN || secrets.GITHUB_TOKEN {{ '}}' }}
+{% endif %}
+{% endif %}
+{% endautoescape  %}

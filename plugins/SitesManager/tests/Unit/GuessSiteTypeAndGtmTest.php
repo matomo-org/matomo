@@ -50,6 +50,9 @@ class GuessSiteTypeAndGtmTest extends \PHPUnit\Framework\TestCase
         ];
 
         $this->assertTrue($this->guesser->guessGtmFromResponse($response));
+
+        $response['data'] = 'foo bar googletagmanager.js ffoo';
+        $this->assertTrue($this->guesser->guessGtmFromResponse($response));
     }
 
     /**
@@ -58,6 +61,48 @@ class GuessSiteTypeAndGtmTest extends \PHPUnit\Framework\TestCase
     public function testSiteTypesByResponse($expected, $response)
     {
         $this->assertEquals($expected, $this->guesser->guessSiteTypeFromResponse($response));
+    }
+
+    /**
+     * All your actual test methods should start with the name "test"
+     */
+    public function testDetectionOfGa3()
+    {
+        $response = $this->makeSiteResponse("<html><head></head><body>UA-00000-00</body></html>");
+        $this->assertTrue($this->guesser->detectGA3FromResponse($response));
+
+        $response = $this->makeSiteResponse("<html><head></head><body><script src='google-analytics.com/analytics.js'/></body></html>");
+        $this->assertTrue($this->guesser->detectGA3FromResponse($response));
+
+        $response = $this->makeSiteResponse("<html><head></head><body><script>window.ga=window.ga;</script></body></html>");
+        $this->assertTrue($this->guesser->detectGA3FromResponse($response));
+
+        $response = $this->makeSiteResponse("<html><head></head><body><script>google-ANALYTICS</script></body></html>");
+        $this->assertTrue($this->guesser->detectGA3FromResponse($response));
+    }
+
+    public function testDetectionOfGa3_noResult()
+    {
+        $this->assertFalse($this->guesser->detectGA3FromResponse([]));
+    }
+
+    public function testDetectionOfGa4()
+    {
+        $response = $this->makeSiteResponse("<html><head></head><body>G-12345ABC</body></html>");
+        $this->assertTrue($this->guesser->detectGA4FromResponse($response));
+
+        $response = $this->makeSiteResponse("<html><head></head><body>properties/1234</body></html>");
+        $this->assertTrue($this->guesser->detectGA4FromResponse($response));
+    }
+
+    public function testDetectionOfGa4_noResult()
+    {
+        $this->assertFalse($this->guesser->detectGA4FromResponse([]));
+    }
+
+    private function makeSiteResponse($data, $headers = [])
+    {
+        return ['data' => $data, 'headers' => $headers, 'status' => 200];
     }
 
     public function responseProvider()

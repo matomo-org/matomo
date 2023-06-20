@@ -109,7 +109,7 @@
             <div class="collapsible-body">
               <ul>
                 <li v-for="subcategory in category.subcategories" :key="subcategory.id">
-                  <span v-if="subcategory.isGroup">
+                  <template v-if="subcategory.isGroup">
                     <a
                       @click="loadSubcategory(category, subcat)"
                       :href="`#?${makeUrl(category, subcat)}`"
@@ -118,15 +118,15 @@
                     >
                       {{ subcat.name }}
                     </a>
-                  </span>
-                  <span v-if="!subcategory.isGroup">
+                  </template>
+                  <template v-if="!subcategory.isGroup">
                     <a
                       @click="loadSubcategory(category, subcategory)"
                       :href="`#?${makeUrl(category, subcategory)}`"
                     >
                       {{ subcategory.name }}
                     </a>
-                  </span>
+                  </template>
                 </li>
               </ul>
             </div>
@@ -221,7 +221,7 @@ export default defineComponent({
       );
     });
 
-    Matomo.on('piwikPageChange', () => {
+    Matomo.on('matomoPageChange', () => {
       if (!this.initialLoad) {
         window.globalAjaxQueue.abort();
       }

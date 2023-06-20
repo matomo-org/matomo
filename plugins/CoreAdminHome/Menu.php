@@ -63,7 +63,7 @@ class Menu extends \Piwik\Plugin\Menu
                     $icon = ($newChangesStatus === ChangesModel::NEW_CHANGES_EXIST ? 'icon-notifications_on' : 'icon-reporting-actions');
 
                     $menu->registerMenuIcon('CoreAdminHome_WhatIsNew', $icon);
-                    $menu->addItem('CoreAdminHome_WhatIsNew', null, null, 990,
+                    $menu->addItem('CoreAdminHome_WhatIsNew', null, 'javascript:', 990,
                         Piwik::translate('CoreAdminHome_WhatIsNewTooltip'),
                         $icon, "Piwik_Popover.createPopupAndLoadUrl('module=CoreAdminHome&action=whatIsNew', '".
                         addslashes(Piwik::translate('CoreAdminHome_WhatIsNewTooltip'))."','what-is-new-popup')");

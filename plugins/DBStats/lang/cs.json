@@ -1,12 +1,12 @@
 {
     "DBStats": {
-        "DatabaseUsage": "Využití databáze",
-        "DataSize": "Velikost dat",
         "DBSize": "Velikost databáze",
+        "DataSize": "Velikost dat",
+        "DatabaseUsage": "Využití databáze",
         "EstimatedSize": "Odhadovaná velikost",
         "IndexSize": "Velikost indexu",
         "LearnMore": "Abyste lépe zjistili, jak Matomo zpracovává data a jak jej nastavit pro weby se středním a velkým provozem, podívejte se do dokumentace %s.",
-        "MainDescription": "Matomo ukládá všechna vaše data webové analýzy v MySQL databázi. Nyní tabulky Matomou využívají %s.",
+        "MainDescription": "Matomo ukládá všechna vaše data webové analýzy v MySQL databázi. Nyní tabulky Matoma zabírají %s.",
         "MetricDataByYear": "Tabulky měření za rok",
         "MetricTables": "Tabulky měření",
         "OtherTables": "Ostatní tabulky",

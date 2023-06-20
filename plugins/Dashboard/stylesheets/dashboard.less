@@ -431,9 +431,13 @@ div.widgetpreview-preview {
 .ui-button, .ui-dialog-titlebar-close {
   .btn;
   color: @theme-color-brand-contrast !important;
-  background-color: @color-red-piwik !important;
+  background-color: @color-red-matomo !important;
   &:hover {
     background: none;
     background-color: transparent;
   }
+}
+
+[vue-entry="Dashboard.DashboardSettings"] {
+  display: inline;
 }

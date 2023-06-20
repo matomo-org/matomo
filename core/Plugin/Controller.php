@@ -754,6 +754,7 @@ abstract class Controller
 
         $pluginManager = Plugin\Manager::getInstance();
         $view->relativePluginWebDirs = (object) $pluginManager->getWebRootDirectoriesForCustomPluginDirs();
+        $view->pluginsToLoadOnDemand = $pluginManager->getPluginUmdsToLoadOnDemand();
         $view->isMultiSitesEnabled = $pluginManager->isPluginActivated('MultiSites');
         $view->isSingleSite = Access::doAsSuperUser(function() {
             $allSites = Request::processRequest('SitesManager.getAllSitesId', [], []);
@@ -1005,7 +1006,7 @@ abstract class Controller
         }
 
         if ($tokenRequest !== $tokenUser) {
-            throw new NoAccessException(Piwik::translate('General_ExceptionInvalidToken'));
+            throw new NoAccessException(Piwik::translate('General_ExceptionSecurityCheckFailed'));
         }
     }
 
@@ -1081,4 +1082,3 @@ abstract class Controller
         }
     }
 }
-

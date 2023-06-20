@@ -19,12 +19,12 @@ class WhiteListedValueTest extends \PHPUnit\Framework\TestCase
 {
     public function test_validate_successValueNotEmpty()
     {
+        self::expectNotToPerformAssertions();
+
         $this->validate('foo');
         $this->validate('bar');
         $this->validate('baz');
         $this->validate('lorem');
-
-        $this->assertTrue(true);
     }
 
     /**

@@ -7,6 +7,7 @@
  */
 namespace Piwik\Tests\Fixtures;
 
+use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\SiteContentDetector;
 use Piwik\Tests\Framework\Mock\FakeSiteContentDetector;
@@ -28,11 +29,12 @@ class EmptySiteWithSiteContentDetectionGA3 extends Fixture
             'isConnected' => false,
             'ga3' => true,
             'ga4' => false,
-            'gtm' => false
+            'gtm' => false,
+            'cms' => SitesManager::SITE_TYPE_UNKNOWN
         ];
 
         return [
-            SiteContentDetector::class => \DI\autowire(FakeSiteContentDetector::class)
+            SiteContentDetector::class => \Piwik\DI::autowire(FakeSiteContentDetector::class)
                  ->constructorParameter('mockData', $mockData)
         ];
     }

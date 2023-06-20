@@ -142,6 +142,8 @@ END;
     private function getMockRequestParser($supportsAsync, $psOutput)
     {
         $mock = new class($supportsAsync, $psOutput) extends RequestParser {
+            public $psOutput;
+
             public function __construct($supportsAsync, $psOutput)
             {
                 parent::__construct($supportsAsync);

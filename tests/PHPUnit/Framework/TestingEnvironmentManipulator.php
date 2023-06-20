@@ -8,7 +8,7 @@
 
 namespace Piwik\Tests\Framework;
 
-use Psr\Container\ContainerInterface;
+use Piwik\Container\Container;
 use Piwik\Application\EnvironmentManipulator;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Application\Kernel\PluginList;
@@ -120,9 +120,9 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
 
     public function onEnvironmentBootstrapped()
     {
-        if (empty($_GET['ignoreClearAllViewDataTableParameters'])
+        if (empty($this->vars->ignoreClearAllViewDataTableParameters)
             && !SettingsServer::isTrackerApiRequest()
-        ) { // TODO: should use testingEnvironment variable, not query param
+        ) {
             try {
                 \Piwik\ViewDataTable\Manager::clearAllViewDataTableParameters();
             } catch (\Exception $ex) {
@@ -188,9 +188,9 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
 
         $plugins = $this->getPluginsToLoadDuringTest();
         $diConfigs[] = array(
-            'observers.global' => \DI\add($this->globalObservers),
+            'observers.global' => \Piwik\DI::add($this->globalObservers),
 
-            'Piwik\Config' => \DI\decorate(function (Config $config, ContainerInterface $c) use ($plugins) {
+            'Piwik\Config' => \Piwik\DI::decorate(function (Config $config, Container $c) use ($plugins) {
                 /** @var PluginList $pluginList */
                 $pluginList = $c->get('Piwik\Application\Kernel\PluginList');
                 $plugins = $pluginList->sortPlugins($plugins);

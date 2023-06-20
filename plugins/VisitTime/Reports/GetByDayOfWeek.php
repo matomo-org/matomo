@@ -42,7 +42,9 @@ class GetByDayOfWeek extends Base
         $view->config->show_footer_message = Piwik::translate('General_ReportGeneratedFrom', $this->getDateRangeForFooterMessage());
         $view->config->addTranslation('label', $this->dimension->getName());
 
-        $view->config->disable_row_evolution = true;
+        if (property_exists($view->config, 'disable_row_evolution')) {
+            $view->config->disable_row_evolution = true;
+        }
 
         if ($view->isViewDataTableId(Graph::ID)) {
             $view->config->max_graph_elements = false;

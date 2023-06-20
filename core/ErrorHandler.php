@@ -10,7 +10,7 @@ namespace Piwik;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\ErrorException;
-use Psr\Log\LoggerInterface;
+use Piwik\Log\LoggerInterface;
 
 /**
  * Piwik's error handler function.

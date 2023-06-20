@@ -14,11 +14,7 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Timer;
-use Psr\Log\NullLogger;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
+use Piwik\Log\NullLogger;
 
 /**
  * Command that allows users to force purge old or invalid archive data. In the event of a failure
@@ -51,32 +47,41 @@ class PurgeOldArchiveData extends ConsoleCommand
     {
         $this->setName('core:purge-old-archive-data');
         $this->setDescription('Purges out of date and invalid archive data from archive tables.');
-        $this->addArgument("dates", InputArgument::IS_ARRAY | InputArgument::OPTIONAL,
-            "The months of the archive tables to purge data from. By default, only deletes from the current month. Use '" . self::ALL_DATES_STRING. "' for all dates.",
-            array(self::getToday()->toString()));
-        $this->addOption('exclude-outdated', null, InputOption::VALUE_NONE, "Do not purge outdated archive data.");
-        $this->addOption('exclude-invalidated', null, InputOption::VALUE_NONE, "Do not purge invalidated archive data.");
-        $this->addOption('exclude-ranges', null, InputOption::VALUE_NONE, "Do not purge custom ranges.");
-        $this->addOption('skip-optimize-tables', null, InputOption::VALUE_NONE, "Do not run OPTIMIZE TABLES query on affected archive tables.");
-        $this->addOption('include-year-archives', null, InputOption::VALUE_NONE, "If supplied, the command will purge archive tables that contain year archives for every supplied date.");
+        $this->addOptionalArgument(
+            "dates",
+            sprintf(
+                "The months of the archive tables to purge data from. By default, only deletes from the current month. Use '%s' for all dates.",
+                self::ALL_DATES_STRING
+            ),
+            [self::getToday()->toString()],
+            true
+        );
+        $this->addNoValueOption('exclude-outdated', null, "Do not purge outdated archive data.");
+        $this->addNoValueOption('exclude-invalidated', null, "Do not purge invalidated archive data.");
+        $this->addNoValueOption('exclude-ranges', null, "Do not purge custom ranges.");
+        $this->addNoValueOption('skip-optimize-tables', null, "Do not run OPTIMIZE TABLES query on affected archive tables.");
+        $this->addNoValueOption('include-year-archives', null, "If supplied, the command will purge archive tables that contain year archives for every supplied date.");
         $this->setHelp("By default old and invalidated archives are purged. Custom ranges are also purged with outdated archives.\n\n"
                      . "Note: archive purging is done during scheduled task execution, so under normal circumstances, you should not need to "
                      . "run this command manually.");
 
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
+
         // during normal command execution, we don't want the INFO level logs logged by the ArchivePurger service
         // to display in the console, so we use a NullLogger for the service
         $logger = null;
-        if ($output->getVerbosity() <= OutputInterface::VERBOSITY_NORMAL) {
+        if (!$output->isVerbose()) {
             $logger = new NullLogger();
         }
 
         $archivePurger = $this->archivePurger ?: new ArchivePurger($model = null, $purgeDatesOlderThan = null, $logger);
 
-        $dates = $this->getDatesToPurgeFor($input);
+        $dates = $this->getDatesToPurgeFor();
 
         $excludeOutdated = $input->getOption('exclude-outdated');
         if ($excludeOutdated) {
@@ -84,7 +89,7 @@ class PurgeOldArchiveData extends ConsoleCommand
         } else {
             foreach ($dates as $date) {
                 $message = sprintf("Purging outdated archives for %s...", $date->toString('Y_m'));
-                $this->performTimedPurging($output, $message, function () use ($date, $archivePurger) {
+                $this->performTimedPurging($message, function () use ($date, $archivePurger) {
                     $archivePurger->purgeOutdatedArchives($date);
                 });
             }
@@ -96,7 +101,7 @@ class PurgeOldArchiveData extends ConsoleCommand
         } else {
             foreach ($dates as $date) {
                 $message = sprintf("Purging invalidated archives for %s...", $date->toString('Y_m'));
-                $this->performTimedPurging($output, $message, function () use ($archivePurger, $date) {
+                $this->performTimedPurging($message, function () use ($archivePurger, $date) {
                     $archivePurger->purgeInvalidatedArchivesFrom($date);
                 });
             }
@@ -108,7 +113,7 @@ class PurgeOldArchiveData extends ConsoleCommand
         } else {
             foreach ($dates as $date) {
                 $message = sprintf("Purging custom range archives for %s...", $date->toString('Y_m'));
-                $this->performTimedPurging($output, $message, function () use ($date, $archivePurger) {
+                $this->performTimedPurging($message, function () use ($date, $archivePurger) {
                     $archivePurger->purgeArchivesWithPeriodRange($date);
                 });
             }
@@ -118,23 +123,24 @@ class PurgeOldArchiveData extends ConsoleCommand
         if ($skipOptimizeTables) {
             $output->writeln("Skipping OPTIMIZE TABLES.");
         } else {
-            $this->optimizeArchiveTables($output, $dates);
+            $this->optimizeArchiveTables($dates);
         }
+
+        return self::SUCCESS;
     }
 
     /**
-     * @param InputInterface $input
      * @return Date[]
      */
-    private function getDatesToPurgeFor(InputInterface $input)
+    private function getDatesToPurgeFor()
     {
         $dates = array();
 
-        $dateSpecifier = $input->getArgument('dates');
+        $dateSpecifier = $this->getInput()->getArgument('dates');
         if (count($dateSpecifier) === 1
             && reset($dateSpecifier) == self::ALL_DATES_STRING
         ) {
-            foreach (ArchiveTableCreator::getTablesArchivesInstalled() as $table) {
+            foreach (ArchiveTableCreator::getTablesArchivesInstalled(ArchiveTableCreator::NUMERIC_TABLE) as $table) {
                 $tableDate = ArchiveTableCreator::getDateFromTableName($table);
 
                 list($year, $month) = explode('_', $tableDate);
@@ -147,7 +153,7 @@ class PurgeOldArchiveData extends ConsoleCommand
                 }
             }
         } else {
-            $includeYearArchives = $input->getOption('include-year-archives');
+            $includeYearArchives = $this->getInput()->getOption('include-year-archives');
 
             foreach ($dateSpecifier as $date) {
                 $dateObj = Date::factory($date);
@@ -167,36 +173,35 @@ class PurgeOldArchiveData extends ConsoleCommand
             $dates = array_values($dates);
         }
 
-        return $dates;
+        return array_unique($dates);
     }
 
-    private function performTimedPurging(OutputInterface $output, $startMessage, $callback)
+    private function performTimedPurging($startMessage, $callback)
     {
         $timer = new Timer();
 
-        $output->write($startMessage);
+        $this->getOutput()->write($startMessage);
 
         $callback();
 
-        $output->writeln("Done. <comment>[" . $timer->__toString() . "]</comment>");
+        $this->getOutput()->writeln("Done. <comment>[" . $timer->__toString() . "]</comment>");
     }
 
     /**
-     * @param OutputInterface $output
      * @param Date[] $dates
      */
-    private function optimizeArchiveTables(OutputInterface $output, $dates)
+    private function optimizeArchiveTables($dates)
     {
-        $output->writeln("Optimizing archive tables...");
+        $this->getOutput()->writeln("Optimizing archive tables...");
 
         foreach ($dates as $date) {
             $numericTable = ArchiveTableCreator::getNumericTable($date);
-            $this->performTimedPurging($output, "Optimizing table $numericTable...", function () use ($numericTable) {
+            $this->performTimedPurging("Optimizing table $numericTable...", function () use ($numericTable) {
                 Db::optimizeTables($numericTable, $force = true);
             });
 
             $blobTable = ArchiveTableCreator::getBlobTable($date);
-            $this->performTimedPurging($output, "Optimizing table $blobTable...", function () use ($blobTable) {
+            $this->performTimedPurging("Optimizing table $blobTable...", function () use ($blobTable) {
                 Db::optimizeTables($blobTable, $force = true);
             });
         }

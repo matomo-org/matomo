@@ -48,7 +48,7 @@ describe("TwoFactorAuthUsersManager", function () {
     });
 
     it('should be possible to confirm the reset', async function () {
-        await page.type('.confirm-password-modal input[name=currentUserPassword]', 'superUserPass');
+        await page.type('.confirm-password-modal input[name=currentUserPassword]', superUserPassword);
         await (await page.jQuery('.confirm-password-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
         await page.waitForTimeout(100); // wait for modal to close

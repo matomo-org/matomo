@@ -11,10 +11,6 @@ namespace Piwik\Plugins\CoreAdminHome\Commands;
 use Piwik\Config;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\CoreAdminHome\Commands\SetConfig\ConfigSettingManipulation;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class SetConfig extends ConsoleCommand
 {
@@ -22,11 +18,10 @@ class SetConfig extends ConsoleCommand
     {
         $this->setName('config:set');
         $this->setDescription('Set one or more config settings in the file config/config.ini.php');
-        $this->addArgument('assignment', InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
-            "List of config setting assignments, eg, Section.key=1 or Section.array_key[]=value");
-        $this->addOption('section', null, InputOption::VALUE_REQUIRED, 'The section the INI config setting belongs to.');
-        $this->addOption('key', null, InputOption::VALUE_REQUIRED, 'The name of the INI config setting.');
-        $this->addOption('value', null, InputOption::VALUE_REQUIRED, 'The value of the setting. (Not JSON encoded)');
+        $this->addOptionalArgument('assignment', 'List of config setting assignments, eg, Section.key=1 or Section.array_key[]=value', null, true);
+        $this->addRequiredValueOption('section', null, 'The section the INI config setting belongs to.');
+        $this->addRequiredValueOption('key', null, 'The name of the INI config setting.');
+        $this->addRequiredValueOption('value', null, 'The value of the setting. (Not JSON encoded)');
         $this->setHelp("This command can be used to set INI config settings on a Piwik instance.
 
 You can set config values two ways, via --section, --key, --value or by command arguments.
@@ -54,13 +49,15 @@ array setting to empty in INI config.
 ");
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
         $section = $input->getOption('section');
         $key = $input->getOption('key');
         $value = $input->getOption('value');
 
-        $manipulations = $this->getAssignments($input);
+        $manipulations = $this->getAssignments();
 
         $isSingleAssignment = !empty($section) && !empty($key) && $value !== false;
         if ($isSingleAssignment) {
@@ -82,16 +79,17 @@ array setting to empty in INI config.
 
         $config->forceSave();
 
+        return self::SUCCESS;
     }
 
     /**
      * @return ConfigSettingManipulation[]
      */
-    private function getAssignments(InputInterface $input)
+    private function getAssignments()
     {
-        $assignments = $input->getArgument('assignment');
+        $assignments = $this->getInput()->getArgument('assignment');
 
-        $result = array();
+        $result = [];
         foreach ($assignments as $assignment) {
             $result[] = ConfigSettingManipulation::make($assignment);
         }

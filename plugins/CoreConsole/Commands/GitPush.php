@@ -12,8 +12,6 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 use Piwik\Development;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\SettingsPiwik;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  */
@@ -30,19 +28,12 @@ class GitPush extends ConsoleCommand
         $this->setDescription('Push Piwik repo and all submodules');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
         $cmd = sprintf('cd %s && git push --recurse-submodules=on-demand', PIWIK_DOCUMENT_ROOT);
-        $output->writeln('Executing command: ' . $cmd);
+        $this->getOutput()->writeln('Executing command: ' . $cmd);
         passthru($cmd);
-    }
 
-    private function hasUnpushedCommits()
-    {
-        $cmd = sprintf('cd %s && git log @{u}..',PIWIK_DOCUMENT_ROOT);
-        $hasUnpushedCommits = shell_exec($cmd);
-        $hasUnpushedCommits = trim($hasUnpushedCommits);
-
-        return !empty($hasUnpushedCommits);
+        return self::SUCCESS;
     }
 }

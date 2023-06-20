@@ -89,7 +89,7 @@ class ScheduledReports extends \Piwik\Plugin
             'ScheduledReports.processReports'           => 'processReports',
             'ScheduledReports.allowMultipleReports'     => 'allowMultipleReports',
             'ScheduledReports.sendReport'               => 'sendReport',
-            'Template.reportParametersScheduledReports' => 'template_reportParametersScheduledReports',
+            'Template.reportParametersScheduledReports' => 'templateReportParametersScheduledReports',
             'UsersManager.deleteUser'                   => 'deleteUserReport',
             'UsersManager.removeSiteAccess'             => 'deleteUserReportForSites',
             'SitesManager.deleteSite.end'               => 'deleteSiteReport',
@@ -147,7 +147,6 @@ class ScheduledReports extends \Piwik\Plugin
         $translationKeys[] = 'ScheduledReports_ReportType';
         $translationKeys[] = 'ScheduledReports_AggregateReportsFormat';
         $translationKeys[] = 'ScheduledReports_EvolutionGraph';
-        $translationKeys[] = 'ScheduledReports_EvolutionGraphsShowForPreviousN';
         $translationKeys[] = 'ScheduledReports_ReportsIncluded';
         $translationKeys[] = 'ScheduledReports_ReportIncludeNWebsites';
         $translationKeys[] = 'SegmentEditor_LoadingSegmentedDataMayTakeSomeTime';
@@ -341,8 +340,8 @@ class ScheduledReports extends \Piwik\Plugin
      * @param $additionalFiles
      * @param Period|null $period
      * @param $force
-     * @throws \DI\DependencyException
-     * @throws \DI\NotFoundException
+     * @throws \Piwik\Exception\DI\DependencyException
+     * @throws \Piwik\Exception\DI\NotFoundException
      */
     public function sendReport($reportType, $report, $contents, $filename, $prettyDate, $reportSubject, $reportTitle,
                                $additionalFiles, $period, $force)
@@ -509,7 +508,7 @@ class ScheduledReports extends \Piwik\Plugin
         $recipients = array_values(array_filter($recipients));
     }
 
-    public static function template_reportParametersScheduledReports(&$out)
+    public static function templateReportParametersScheduledReports(&$out)
     {
         $view = new View('@ScheduledReports/reportParametersScheduledReports');
         $view->currentUserEmail = Piwik::getCurrentUserEmail();

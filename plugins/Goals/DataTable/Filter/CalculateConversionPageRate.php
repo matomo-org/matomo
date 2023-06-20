@@ -84,6 +84,10 @@ class CalculateConversionPageRate extends BaseFilter
     {
         $goalTotals = [];
 
+        if (empty($goalIds)) {
+            return $goalTotals;
+        }
+
         /** @var Site $site */
         $site = $table->getMetadata('site');
         if (empty($site)) {
@@ -98,12 +102,17 @@ class CalculateConversionPageRate extends BaseFilter
         $segment = $table->getMetadata('segment');
         $archive = Archive::build($idSite, $periodName, $date, $segment);
 
+        $names = [];
         foreach ($goalIds as $idGoal => $g) {
-            $total = $archive->getNumeric(GoalsArchiver::getRecordName('nb_conversions', $idGoal));
-            if (is_array($total) && count($total)) {
-                $goalTotals[$idGoal] = reset($total);
-            } else if (is_numeric($total)) {
-                $goalTotals[$idGoal] = $total;
+            $names[$idGoal] = GoalsArchiver::getRecordName('nb_conversions', $idGoal);
+        }
+
+        $sum = $archive->getNumeric($names);
+        foreach ($names as $idGoal => $name) {
+            if (is_array($sum) && array_key_exists($name, $sum) && is_numeric($sum[$name])) {
+                $goalTotals[$idGoal] = $sum[$name];
+            } elseif (is_numeric($sum)) {
+                $goalTotals[$idGoal] = $sum;
             }
         }
 

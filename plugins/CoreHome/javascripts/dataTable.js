@@ -110,10 +110,12 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         this.loadedSubDataTable = {};
         this.isEmpty = $('.pk-emptyDataTable', domElem).length > 0;
-        this.bindEventsAndApplyStyle(domElem);
-        this._init(domElem);
-        this.enableStickHead(domElem);
-        this.initialized = true;
+        window.Vue.nextTick().then(() => {
+          this.bindEventsAndApplyStyle(domElem);
+          this._init(domElem);
+          this.enableStickHead(domElem);
+          this.initialized = true;
+        });
     },
 
     enableStickHead: function (domElem) {
@@ -343,7 +345,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             piwikHelper.lazyScrollTo(content[0], 400);
         }
 
-        piwikHelper.compileAngularComponents(content);
+        piwikHelper.compileVueEntryComponents(content);
 
         return content;
     },
@@ -567,7 +569,12 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             var tableWidth = getTableWidth(domElem);
             var labelColumnMinWidth = getLabelColumnMinWidth(domElem);
             var labelColumnMaxWidth = getLabelColumnMaxWidth(domElem);
-            var labelColumnWidth    = getLabelWidth(domElem, tableWidth, 125, 440);
+            var labelColumnWidth    = getLabelWidth(
+              domElem,
+              tableWidth,
+              self.props.min_label_width || 125,
+              self.props.max_label_width || 440
+            );
             if (labelColumnMinWidth > labelColumnWidth) {
                 labelColumnWidth = labelColumnMinWidth;
             }
@@ -772,7 +779,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 return;
             }
 
-            var piwikPeriods = piwikHelper.getAngularDependency('piwikPeriods');
+            var piwikPeriods = window.CoreHome.Periods;
+            var formatDate = window.CoreHome.format;
             if (self.param['dateUsedInGraph']) {
                 // this parameter is passed along when switching between periods. So we perfer using
                 // it, to avoid a change in the end date shown in the graph
@@ -781,7 +789,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 var currentPeriod = piwikPeriods.parse(self.param['period'], self.param['date']);
             }
             var endDateOfPeriod = currentPeriod.getDateRange()[1];
-            endDateOfPeriod = piwikPeriods.format(endDateOfPeriod);
+            endDateOfPeriod = formatDate(endDateOfPeriod);
 
             var newPeriod = piwikPeriods.get(period);
             $('.periodName', domElem).html(newPeriod.getDisplayText());
@@ -1256,31 +1264,26 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         }
 
         if ((typeof self.numberOfSubtables == 'undefined' || self.numberOfSubtables == 0)
-            && (typeof self.param.flat == 'undefined' || self.param.flat != 1)) {
+            && (typeof self.param.flat == 'undefined' || self.param.flat != 1)
+        ) {
             // if there are no subtables, remove the flatten action
-            $('.dataTableFlatten', domElem).parent().remove();
+            const dataTableActionsVueApp = $('[vue-entry="CoreHome.DataTableActions"]', domElem).data('vueAppInstance');
+            if (dataTableActionsVueApp) {
+              dataTableActionsVueApp.showFlattenTable_ = false;
+            }
         }
 
         var ul = $('ul.tableConfiguration', domElem);
-        function hideConfigurationIcon() {
-            // hide the icon when there are no actions available or we're not in a table view
-            $('.dropdownConfigureIcon', domElem).remove();
-        }
-
         if (!ul.find('li').length) {
-            hideConfigurationIcon();
             return;
         }
-
-        var icon = $('a.dropdownConfigureIcon', domElem);
-        var iconHighlighted = false;
 
         var generateClickCallback = function (paramName, callbackAfterToggle, setParamCallback) {
             return function () {
                 if (setParamCallback) {
                     var data = setParamCallback();
                 } else {
-                    self.param[paramName] = (1 - self.param[paramName]) + '';
+                    self.param[paramName] = (1 - (self.param[paramName] || 0)) + '';
                     var data = {};
                 }
                 self.param.filter_offset = 0;
@@ -1292,70 +1295,19 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             };
         };
 
-        var getText = function (text, addDefault, replacement) {
-            if (/(%(.\$)?s+)/g.test(_pk_translate(text))) {
-                var values = ['<br /><span class="action">'];
-                if(replacement) {
-                    values.push(replacement);
-                }
-                text = _pk_translate(text, values);
-                if (addDefault) text += ' (' + _pk_translate('CoreHome_Default') + ')';
-                text += '</span>';
-                return text;
-            }
-            return _pk_translate(text);
-        };
-
-        var setText = function (el, paramName, textA, textB) {
-            if (typeof self.param[paramName] != 'undefined' && self.param[paramName] == 1) {
-                $(el).html(getText(textA, true));
-                iconHighlighted = true;
-            }
-            else {
-                self.param[paramName] = 0;
-                $(el).html(getText(textB));
-            }
-        };
-
         // handle low population
         $('.dataTableExcludeLowPopulation', domElem)
-            .each(function () {
-                // Set the text, either "Exclude low pop" or "Include all"
-                if (typeof self.param.enable_filter_excludelowpop == 'undefined') {
-                    self.param.enable_filter_excludelowpop = 0;
-                }
-                if (Number(self.param.enable_filter_excludelowpop) != 0) {
-                    var string = getText('CoreHome_IncludeRowsWithLowPopulation', true);
-                    self.param.enable_filter_excludelowpop = 1;
-                    iconHighlighted = true;
-                }
-                else {
-                    var string = getText('CoreHome_ExcludeRowsWithLowPopulation');
-                    self.param.enable_filter_excludelowpop = 0;
-                }
-                $(this).html(string);
-            })
             .click(generateClickCallback('enable_filter_excludelowpop'));
 
         // handle flatten
         $('.dataTableFlatten', domElem)
-            .each(function () {
-                setText(this, 'flat', 'CoreHome_UnFlattenDataTable', 'CoreHome_FlattenDataTable');
-            })
             .click(generateClickCallback('flat'));
 
         // handle flatten
         $('.dataTableShowTotalsRow', domElem)
-            .each(function () {
-                setText(this, 'keep_totals_row', 'CoreHome_RemoveTotalsRowDataTable', 'CoreHome_AddTotalsRowDataTable');
-            })
             .click(generateClickCallback('keep_totals_row'));
 
         $('.dataTableIncludeAggregateRows', domElem)
-            .each(function () {
-                setText(this, 'include_aggregate_rows', 'CoreHome_DataTableExcludeAggregateRows',
-                    'CoreHome_DataTableIncludeAggregateRows');
-            })
             .click(generateClickCallback('include_aggregate_rows', function () {
                 if (self.param.include_aggregate_rows == 1) {
                     // when including aggregate rows is enabled, we remove the sorting
@@ -1366,25 +1318,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }));
 
         $('.dataTableShowDimensions', domElem)
-            .each(function () {
-                setText(this, 'show_dimensions', 'CoreHome_DataTableCombineDimensions',
-                    'CoreHome_DataTableShowDimensions');
-            })
             .click(generateClickCallback('show_dimensions'));
 
         // handle pivot by
         $('.dataTablePivotBySubtable', domElem)
-            .each(function () {
-                if (self.param.pivotBy
-                    && self.param.pivotBy != '0'
-                ) {
-                    $(this).html(getText('CoreHome_UndoPivotBySubtable', true));
-                    iconHighlighted = true;
-                } else {
-                    var optionLabelText = getText('CoreHome_PivotBySubtable', false, self.props.pivot_dimension_name);
-                    $(this).html(optionLabelText);
-                }
-            })
             .click(generateClickCallback('pivotBy', null, function () {
                 if (self.param.pivotBy
                     && self.param.pivotBy != '0'
@@ -1402,19 +1339,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 self.param.filter_sort_column = '';
                 return {filter_sort_column: ''};
             }));
-
-        // handle highlighted icon
-        if (iconHighlighted) {
-            icon.addClass('highlighted');
-        }
-
-        if (!iconHighlighted
-            && !(self.param.viewDataTable == 'table'
-            || self.param.viewDataTable == 'tableAllColumns'
-            || self.param.viewDataTable == 'tableGoals')) {
-            hideConfigurationIcon();
-            return;
-        }
     },
 
     notifyWidgetParametersChange: function (domWidget, parameters) {
@@ -1745,11 +1669,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                         // hackish solution to get binded html of p tag within the help node
                         // at this point the ng-bind-html is not yet converted into html when report is not
                         // initially loaded. Using $compile doesn't work. So get and set it manually
-                        var helpParagraph = $('p[ng-bind-html]', $doc);
+                        var helpParagraph = $doc.attr('data-content');
 
                         if (helpParagraph.length) {
-                            var $parse = angular.element(document).injector().get('$parse');
-                            helpParagraph.html($parse(helpParagraph.attr('ng-bind-html')));
+                            helpParagraph.html(window.vueSanitize(helpParagraph));
                         }
 
                         scope.inlineHelp = $.trim($doc.html());

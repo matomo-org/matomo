@@ -18,6 +18,7 @@ use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\CoreHome\SystemSummary;
+use Piwik\Plugins\Goals\RecordBuilders\ProductRecord;
 use Piwik\Tracker\GoalManager;
 use Piwik\Category\Subcategory;
 
@@ -100,12 +101,26 @@ class Goals extends \Piwik\Plugin
             'SitesManager.deleteSite.end'            => 'deleteSiteGoals',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Metrics.getDefaultMetricTranslations'   => 'addMetricTranslations',
+            'Metrics.getDefaultMetricSemanticTypes'  => 'addMetricSemanticTypes',
             'Category.addSubcategories'              => 'addSubcategories',
             'Metric.addMetrics'                      => 'addMetrics',
             'Metric.addComputedMetrics'              => 'addComputedMetrics',
             'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
+            'Archiver.addRecordBuilders'             => 'addRecordBuilders',
         );
         return $hooks;
+    }
+
+    public function addRecordBuilders(array &$recordBuilders): void
+    {
+        $recordBuilders[] = new ProductRecord(ProductRecord::SKU_FIELD, ProductRecord::ITEMS_SKU_RECORD_NAME);
+        $recordBuilders[] = new ProductRecord(ProductRecord::NAME_FIELD, ProductRecord::ITEMS_NAME_RECORD_NAME);
+        $recordBuilders[] = new ProductRecord(ProductRecord::CATEGORY_FIELD, ProductRecord::ITEMS_CATEGORY_RECORD_NAME, [
+            ProductRecord::CATEGORY2_FIELD,
+            ProductRecord::CATEGORY3_FIELD,
+            ProductRecord::CATEGORY4_FIELD,
+            ProductRecord::CATEGORY5_FIELD,
+        ]);
     }
 
     public function addSystemSummaryItems(&$systemSummary)
@@ -225,6 +240,23 @@ class Goals extends \Piwik\Plugin
         $translations = array_merge($translations, $metrics);
     }
 
+    public function addMetricSemanticTypes(array &$types): void
+    {
+        $goalMetricTypes = array(
+            'orders'            => Dimension::TYPE_NUMBER,
+            'ecommerce_revenue' => Dimension::TYPE_MONEY,
+            'quantity'          => Dimension::TYPE_NUMBER,
+            'revenue_subtotal'  => Dimension::TYPE_MONEY,
+            'revenue_tax'       => Dimension::TYPE_MONEY,
+            'revenue_shipping'  => Dimension::TYPE_MONEY,
+            'revenue_discount'  => Dimension::TYPE_MONEY,
+            'avg_order_revenue' => Dimension::TYPE_MONEY,
+            'items'             => Dimension::TYPE_NUMBER,
+        );
+
+        $types = array_merge($types, $goalMetricTypes);
+    }
+
     /**
      * Delete goals recorded for this site
      */
@@ -256,6 +288,13 @@ class Goals extends \Piwik\Plugin
             'revenue'         => Piwik::translate('General_ColumnRevenue')
         );
 
+        $goalMetricTypes = [
+            'revenue_per_visit' => Dimension::TYPE_MONEY,
+            'nb_conversions' => Dimension::TYPE_NUMBER,
+            'conversion_rate' => Dimension::TYPE_PERCENT,
+            'revenue' => Dimension::TYPE_MONEY,
+        ];
+
         $reportsWithGoals = self::getAllReportsWithGoalMetrics();
 
         foreach ($reportsWithGoals as $reportWithGoals) {
@@ -269,9 +308,11 @@ class Goals extends \Piwik\Plugin
 
                 if ($apiReportToUpdate['module'] == $reportWithGoals['module']
                     && $apiReportToUpdate['action'] == $reportWithGoals['action']
-                    && empty($apiReportToUpdate['parameters'])) {
+                    && empty($apiReportToUpdate['parameters'])
+                ) {
                     $apiReportToUpdate['metricsGoal'] = $goalMetrics;
                     $apiReportToUpdate['processedMetricsGoal'] = $goalProcessedMetrics;
+                    $apiReportToUpdate['metricTypesGoal'] = $goalMetricTypes;
                     break;
                 }
             }
@@ -404,7 +445,6 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'Goals_CaseSensitive';
         $translationKeys[] = 'Goals_Download';
         $translationKeys[] = 'Events_EventAction';
-        $translationKeys[] = 'Events_EventCategory';
         $translationKeys[] = 'Events_EventName';
         $translationKeys[] = 'Goals_YouCanEnableEcommerceReports';
         $translationKeys[] = 'Goals_CategoryTextGeneral_Actions';

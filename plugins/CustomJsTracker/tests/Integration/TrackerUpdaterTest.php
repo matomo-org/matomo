@@ -106,10 +106,10 @@ class TrackerUpdaterTest extends IntegrationTestCase
 
     public function test_checkWillSucceed_shouldNotThrowExceptionIfPiwikJsTargetIsWritable()
     {
+        self::expectNotToPerformAssertions();
+
         $updater = $this->makeUpdater();
         $updater->checkWillSucceed();
-
-        $this->assertTrue(true);
     }
 
     public function test_checkWillSucceed_shouldNotThrowExceptionIfTargetIsNotWritable()
@@ -184,7 +184,6 @@ var myArray = [];
     {
         $updater = $this->makeUpdater(null, $this->dir . 'not-writable/MyNotExisIngFilessss.js');
         $updater->update();
-        $this->assertTrue(true);
         $this->assertNull($this->trackerJsChangedEventPath);
     }
 
@@ -236,8 +235,8 @@ var myArray = [];
     public function provideContainerConfig()
     {
         return [
-            'observers.global' => \DI\add([
-                ['CustomJsTracker.trackerJsChanged', \DI\value(function ($path) {
+            'observers.global' => \Piwik\DI::add([
+                ['CustomJsTracker.trackerJsChanged', \Piwik\DI::value(function ($path) {
                     $this->trackerJsChangedEventPath = $path;
                 })],
             ]),

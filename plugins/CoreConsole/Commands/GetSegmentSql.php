@@ -17,9 +17,6 @@ use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\SitesManager\Model;
 use Piwik\Segment;
 use Piwik\Site;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class GetSegmentSql extends ConsoleCommand
 {
@@ -32,13 +29,15 @@ class GetSegmentSql extends ConsoleCommand
     {
         $this->setName('development:get-segment-sql');
         $this->setDescription('Print out the SQL used to query for a segment. Used for debugging or diagnosing segment issues. The site ID and dates are hardcoded in the query.');
-        $this->addOption('segment', null, InputOption::VALUE_REQUIRED, 'The segment, correctly encoded.');
-        $this->addOption('idSites', null, InputOption::VALUE_REQUIRED, 'Comma separated list of site IDs for the segment. (optional)');
-        $this->addOption('queryType', null, InputOption::VALUE_REQUIRED, 'The query type to generate: visit, action or conversion');
+        $this->addRequiredValueOption('segment', null, 'The segment, correctly encoded.');
+        $this->addRequiredValueOption('idSites', null, 'Comma separated list of site IDs for the segment. (optional)');
+        $this->addRequiredValueOption('queryType', null, 'The query type to generate: visit, action or conversion');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input   = $this->getInput();
+        $output  = $this->getOutput();
         $idSites = $input->getOption('idSites') ?: '';
         $idSites = explode(',', $idSites);
         $idSites = array_map('intval', $idSites);
@@ -102,5 +101,7 @@ class GetSegmentSql extends ConsoleCommand
         foreach ($query['bind'] as $key => $value) {
             $output->writeln('  BIND #' . $key . ': ' . $value);
         }
+
+        return self::SUCCESS;
     }
 }

@@ -23,6 +23,15 @@ button,
   color: @theme-color-text;
 }
 
+select {
+  // opacity is set to 0 by materialize css
+  opacity: 1;
+
+  &:disabled {
+    opacity: 0.7;
+  }
+}
+
 h2 {
   font-weight: normal;
   font-size: 24px;
@@ -334,7 +343,7 @@ table.dataTable {
           padding-left: 13px;
         }
 
-        #thDIV {
+        #thDIV,.thDIV {
           display: inline;
           position: relative;
         }

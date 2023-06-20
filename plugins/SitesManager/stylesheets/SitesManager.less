@@ -66,10 +66,12 @@
 
     .search_ico {
         cursor: pointer;
-        display: block;
-        left: 205px;
-        margin: -32px 0 17px -21px;
-        position: relative;
+        position: absolute;
+        right: 0;
+        display: inline;
+        color: #666;
+        font-size: 16px;
+        top: 17px;
     }
 
     .sitesButtonBar {
@@ -101,6 +103,7 @@
         display: inline-block;
         text-align: right;
         float: right;
+        position: relative;
 
         input {
             padding-right: 29px;
@@ -121,6 +124,13 @@ td.editable-site-field:hover {
     text-decoration: underline;
 }
 
+#site-without-data {
+    background: @color-white;
+    .top_controls {
+        background: @color-white;
+    }
+}
+
 .site-without-data {
     h3 {
         font-weight: bold;
@@ -129,10 +139,158 @@ td.editable-site-field:hover {
     p {
         padding-bottom: 0.25rem;
     }
+
+    .no-data-screen-ul-tabs {
+        overflow: auto !important;height: auto !important;
+        li.col {
+            width: unset !important;
+            float: unset !important;
+        }
+
+        a:not(.active) {
+            text-decoration: none !important;
+            color: @color-black !important;
+
+            &:hover {
+                background-color: @color-gray-bright !important;
+                opacity: unset;
+            }
+
+            &:focus {
+                background-color: @color-jetstream !important;
+                opacity: unset;
+            }
+        }
+
+        a.active {
+            color: @color-green-matomo !important;
+            text-decoration: none !important;
+            font-weight: bold;
+
+            &:hover {
+                opacity: unset;
+            }
+        }
+
+        .indicator {
+            border-bottom: 2px solid @color-green-matomo;
+            z-index: 10;
+            bottom: 0.3rem;
+        }
+
+        .tab {
+            text-transform: unset;
+
+            a {
+                font-size: 16px;
+            }
+        }
+    }
+
+    .no-data-screen-ul-tabs::after {
+        border-bottom: 0.5px solid @color-gray-400;
+        width: 100%;
+        content: '';
+        display: block;
+        overflow: hidden;
+        bottom: 0.3rem;
+        z-index: 2;
+        position: absolute;
+    }
+
+    .no-data-footer {
+        position: sticky;
+        width: inherit;
+        bottom: 0;
+        background: @color-white;
+        z-index: 100;
+
+        .col {
+            width: unset !important;
+        }
+
+        .m-bottom-1 {
+            margin-bottom: 1rem;
+        }
+
+        hr {
+            margin-bottom: 1rem !important;
+        }
+    }
+
+    #start-tracking-data-header {
+        font-weight: bold;
+    }
+
+    .no-data-tabs-main-div .col:not(.tabs-row):not(.tabs-row .col) {
+        padding-top: 1rem;
+    }
+
+    #wordpress, #vue {
+        .steps-to-start-tracking-header {
+            font-weight: bold;
+        }
+
+        .no-list-style, .no-list-style-footer {
+            list-style: none;
+            list-style-position: inside;
+            margin-left: -1rem;
+        }
+
+        .no-list-style-footer {
+            margin-left: unset;
+        }
+
+        .list-style-decimal {
+            list-style: decimal;
+            list-style-position: inside;
+        }
+    }
+
+    .tagManagerTrackingCode {
+        .row {
+            margin-bottom: -0.5rem !important;
+            margin-top: -1.5rem !important;
+        }
+
+        label[for="containers"], label[for="environment"] {
+            top: 7px !important;
+        }
+    }
+
+    .no-mt-top {
+        margin-top: 0 !important;
+    }
+
+    .merged-notification {
+        line-height: 4px;
+
+        p:first-child {
+            padding-top: 0.4rem;
+        }
+    }
+
+    .fw-bold {
+        font-weight: bold;
+    }
+
+    .list-style-decimal {
+        list-style: decimal inside;
+    }
+
+    .list-style-disc {
+        list-style: disc inside;
+    }
 }
 
 #js-visitor-cv-extra th {
     font-weight: normal;
     text-transform: uppercase;
     font-size: 11px;
+}
+
+.add-site-dialog {
+    button {
+        margin: 10px;
+    }
 }

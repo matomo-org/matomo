@@ -24,7 +24,7 @@ use Piwik\Plugins\CoreHome\LoginAllowlist;
 use Piwik\SettingsServer;
 use Piwik\Url;
 use Piwik\UrlHelper;
-use Psr\Log\LoggerInterface;
+use Piwik\Log\LoggerInterface;
 
 /**
  * Dispatches API requests to the appropriate API method.
@@ -514,6 +514,17 @@ class Request
         // we do not need to reload.
 
         return $tokenAuth != Access::getInstance()->getTokenAuth();
+    }
+
+    /**
+     * Returns true if a token_auth parameter was supplied via a POST request and is not present as a URL parameter
+     *
+     * @return bool True if token supplied via POST request
+     */
+    public static function isTokenAuthPosted(): bool
+    {
+        return (\Piwik\Request::fromGet()->getStringParameter('token_auth', '') === '' &&
+                \Piwik\Request::fromPost()->getStringParameter('token_auth', '') !== '');
     }
 
     /**

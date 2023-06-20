@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\Goals\Columns\Metrics;
 
+use Piwik\Columns\Dimension;
 use Piwik\DataTable\Row;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
@@ -50,5 +51,10 @@ class ProductConversionRate extends ProcessedMetric
     public function getDependentMetrics()
     {
         return array('orders', 'abandoned_carts', 'nb_visits');
+    }
+
+    public function getSemanticType(): ?string
+    {
+        return Dimension::TYPE_PERCENT;
     }
 }

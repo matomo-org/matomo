@@ -10,10 +10,6 @@ namespace Piwik\Plugins\CorePluginsAdmin\Commands;
 
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugin\Manager;
-use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * plugin:list console command.
@@ -24,16 +20,17 @@ class ListPlugins extends ConsoleCommand
     {
         $this->setName('plugin:list');
         $this->setDescription('List installed plugins.');
-        $this->addOption('filter-plugin', null, InputOption::VALUE_OPTIONAL, 'If given, prints only plugins that contain this term.');
+        $this->addOptionalValueOption('filter-plugin', null, 'If given, prints only plugins that contain this term.');
+        $this->addNoValueOption('json', null, 'If given, outputs JSON formatted data.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
         $pluginManager = Manager::getInstance();
 
         $plugins = $pluginManager->getInstalledPluginsName();
 
-        $pluginFilter = $input->getOption('filter-plugin');
+        $pluginFilter = $this->getInput()->getOption('filter-plugin');
 
         if (!empty($pluginFilter)) {
             $plugins = array_filter($plugins, function ($pluginName) use ($pluginFilter) {
@@ -41,24 +38,57 @@ class ListPlugins extends ConsoleCommand
             });
         }
 
-        $plugins = array_map(function ($plugin) use ($pluginManager) {
-            return array(
-                '<info>' . $plugin . '</info>',
-                $pluginManager->isPluginBundledWithCore($plugin) ? 'Core' : 'Optional',
-                $pluginManager->isPluginActivated($plugin) ? 'Activated' : '<comment>Not activated</comment>',
+        $verbose = $this->getOutput()->isVerbose();
+
+        $plugins = array_map(function ($plugin) use ($pluginManager, $verbose) {
+            $pluginInformation = array(
+                "plugin" => $plugin,
+                "core" => $pluginManager->isPluginBundledWithCore($plugin),
+                "activated" => !$pluginManager->isPluginInFilesystem($plugin) ? null : $pluginManager->isPluginActivated($plugin),
             );
+            if ($verbose) {
+                $pluginInformation["version"] = $pluginManager->getVersion($plugin);
+            }
+            return $pluginInformation;
         }, $plugins);
 
-        // Sort Core plugins first
-        usort($plugins, function ($a, $b) {
-            return strcmp($a[1], $b[1]);
-        });
+        if ($this->getInput()->getOption('json')) {
+            $plugins = array_map(function ($plugin) {
+                $plugin["comment"] = !isset($plugin["activated"]) ? 'Plugin not found in filesystem.' : '';
+                if (isset($plugin["version"]) && !isset($plugin["activated"])) {
+                    $plugin["version"] = '';
+                }
+                $plugin["activated"] = isset($plugin["activated"]);
+                return $plugin;
+            }, $plugins);
 
-        $table = new Table($output);
-        $table
-            ->setHeaders(array('Plugin', 'Core or optional?', 'Status'))
-            ->setRows($plugins)
-        ;
-        $table->render();
+            // write JSON output
+            $this->getOutput()->write(json_encode($plugins));
+        } else {
+            // Decorate the plugin information
+            $plugins = array_map(function ($plugin) {
+                $plugin["plugin"] = self::wrapInTag('info', $plugin["plugin"]);
+                $plugin["core"] = $plugin["core"] ? 'Core' : 'Optional';
+                if (isset($plugin["version"]) && !isset($plugin["activated"])) {
+                    $plugin["version"] = '';
+                }
+                $plugin["activated"] = !isset($plugin["activated"]) ? self::wrapInTag('error', 'Not found') : ($plugin["activated"] ? 'Activated' : self::wrapInTag('comment', 'Not activated'));
+                return $plugin;
+            }, $plugins);
+
+            // Sort Core plugins first
+            uasort($plugins, function ($a, $b) {
+                return strcmp($a["core"], $b["core"]);
+            });
+            if (!$verbose) {
+                $this->renderTable(['Plugin', 'Core or optional?', 'Status'], $plugins);
+            } else {
+                $this->renderTable(['Plugin', 'Core or optional?', 'Status', 'Version'], $plugins);
+            }
+        }
+
+
+        return self::SUCCESS;
     }
+
 }

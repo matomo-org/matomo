@@ -5,7 +5,7 @@
     {% include "@CoreHome/_siteSelectHeader.twig" %}
     {% include "@CoreHome/_periodSelect.twig" %}
     {{ postEvent("Template.nextToCalendar") }}
-    {% render dashboardSettingsControl %}
+    <div vue-entry="Dashboard.DashboardSettings"></div>
     {% include "@CoreHome/_headerMessage.twig" %}
 {% endblock %}
 
@@ -15,7 +15,7 @@
 
     <div id="content" class="home">
         {% if content %}{{ content }}{% endif %}
-        <div piwik-reporting-page ng-cloak></div>
+        <div vue-entry="CoreHome.ReportingPage"></div>
     </div>
     <div class="clear"></div>
 

@@ -12,6 +12,5 @@ export interface QRCodeConstructor {
 declare global {
   interface Window {
     QRCode: QRCodeConstructor;
-    twoFaBarCodeSetupUrl: string;
   }
 }

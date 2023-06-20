@@ -1,8 +1,8 @@
 {
     "DBStats": {
-        "DatabaseUsage": "Database gebruik",
-        "DataSize": "Data omvang",
         "DBSize": "DB grootte",
+        "DataSize": "Data omvang",
+        "DatabaseUsage": "Database gebruik",
         "EstimatedSize": "Geschatte grootte",
         "IndexSize": "Index grootte",
         "LearnMore": "Voor meer informatie over de manier waarop Matomo de data verwerkt en over de werking van Matomo in combinatie met middelgrote en grote website's, zie de documentatie %s.",
@@ -10,7 +10,7 @@
         "MetricDataByYear": "Metric tabellen per jaar",
         "MetricTables": "Metric tabellen",
         "OtherTables": "Andere tabellen",
-        "PluginDescription": "Toont gedetailleerde rapporten over MySQL database gebruik. Deze zijn beschikbaar voor Super Users onder Diagnose.",
+        "PluginDescription": "Biedt gedetailleerde gebruiksrapporten over de MySQL database. Beschikbaar voor Superusers onder Diagnoses.",
         "ReportDataByYear": "Rapport tabellen per jaar",
         "ReportTables": "Rapport tabellen",
         "RowCount": "Aantal rijen",

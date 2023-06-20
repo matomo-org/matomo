@@ -20,11 +20,13 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\Settings\Storage\Backend\MeasurableSettingsTable;
-use Piwik\SettingsServer;
+use Piwik\SettingsPiwik;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\FingerprintSalt;
 use Piwik\Tracker\Model as TrackerModel;
 use Piwik\Session\SessionNamespace;
+use Piwik\Url;
+use Piwik\View;
 
 /**
  *
@@ -43,6 +45,9 @@ class SitesManager extends \Piwik\Plugin
     const SITE_TYPE_SHOPIFY = 'shopify';
     const SITE_TYPE_WEBFLOW = 'webflow';
     const SITE_TYPE_DRUPAL = 'drupal';
+    const JS_FRAMEWORK_UNKNOWN = 'unknown';
+    const JS_FRAMEWORK_VUE = 'vue';
+    const JS_FRAMEWORK_REACT = 'react';
 
     /**
      * @see \Piwik\Plugin::registerEvents
@@ -57,6 +62,8 @@ class SitesManager extends \Piwik\Plugin
             'SitesManager.deleteSite.end'            => 'onSiteDeleted',
             'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
             'Request.dispatch'                       => 'redirectDashboardToWelcomePage',
+            'Template.noDataPageGTMTabInstructions'  => 'noDataPageGTMTabInstructions',
+            'Template.noDataPageWordpressTabInstructions'  => 'noDataPageWordpressTabInstructions',
         ];
     }
 
@@ -384,33 +391,17 @@ class SitesManager extends \Piwik\Plugin
         return $map[$siteType] ?? false;
     }
 
-    public static function getInstructionBySiteType(string $siteType): string
+    public static function getInstructionByCms(?string $cms): string
     {
-        if ($siteType === self::SITE_TYPE_UNKNOWN) {
+        if ($cms === self::SITE_TYPE_UNKNOWN || $cms === self::SITE_TYPE_WORDPRESS) {
             return '';
-        }
-
-        if ($siteType === self::SITE_TYPE_WORDPRESS && !SettingsServer::isMatomoForWordPress()) {
-            return sprintf(
-                '%s<br /><br />%s<br /><br />',
-                Piwik::translate('SitesManager_SiteWithoutDataDetectedSiteWordpress', [
-                    '<a target="_blank" rel="noreferrer noopener" href="' . self::getInstructionUrlBySiteType($siteType) . '#wpmatomo">',
-                    '</a>',
-                    '<a target="_blank" rel="noreferrer noopener" href="https://wordpress.org/plugins/wp-piwik/">',
-                    '</a>',
-                ]),
-                Piwik::translate('SitesManager_SiteWithoutDataDetectedSiteWordpress2', [
-                    '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/how-to-install/which-plugin-should-i-use-with-wordpress/">',
-                    '</a>',
-                ])
-            );
         }
 
         return Piwik::translate(
             'SitesManager_SiteWithoutDataDetectedSite',
             [
-                ucfirst($siteType),
-                '<a target="_blank" rel="noreferrer noopener" href="' . self::getInstructionUrlBySiteType($siteType) . '">',
+                ucfirst($cms),
+                '<a target="_blank" rel="noreferrer noopener" href="' . self::getInstructionUrlBySiteType($cms) . '">',
                 '</a>'
             ]
         );
@@ -506,6 +497,13 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "SitesManager_JsTrackingTagHelp";
         $translationKeys[] = "SitesManager_SiteWithoutDataSinglePageApplication";
         $translationKeys[] = "SitesManager_SiteWithoutDataSinglePageApplicationDescription";
+        $translationKeys[] = 'SitesManager_SiteWithoutDataTitle';
+        $translationKeys[] = 'SitesManager_SiteWithoutDataDescription';
+        $translationKeys[] = 'SitesManager_SiteWithoutDataMessageDisappears';
+        $translationKeys[] = 'SitesManager_SiteWithoutDataChoosePreferredWay';
+        $translationKeys[] = 'SitesManager_DetectingYourSite';
+        $translationKeys[] = 'SitesManager_SiteWithoutDataIgnoreMessage';
+        $translationKeys[] = "SitesManager_SiteWithoutDataCloudflareDescription";
         $translationKeys[] = "SitesManager_GlobalListExcludedReferrers";
         $translationKeys[] = "SitesManager_GlobalListExcludedReferrersDesc";
         $translationKeys[] = "SitesManager_ExcludedReferrers";
@@ -513,5 +511,51 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "SitesManager_ExcludedReferrersHelpDetails";
         $translationKeys[] = "SitesManager_ExcludedReferrersHelpExamples";
         $translationKeys[] = "SitesManager_ExcludedReferrersHelpSubDomains";
+        $translationKeys[] = 'Goals_Optional';
+        $translationKeys[] = "SitesManager_SiteWithoutDataGoogleTagManager";
+        $translationKeys[] = "SitesManager_SiteWithoutDataGoogleTagManagerDescription";
+        $translationKeys[] = "SitesManager_SiteWithoutDataWordpressDescription";
+        $translationKeys[] = "SitesManager_SiteWithoutDataStartTrackingDataHeader";
+        $translationKeys[] = "SitesManager_SiteWithoutDataStartTrackingDataDescriptionLine1";
+        $translationKeys[] = "SitesManager_SiteWithoutDataStartTrackingDataDescriptionLine2";
+        $translationKeys[] = "SitesManager_EmailInstructionsButtonText";
+        $translationKeys[] = "SitesManager_SiteWithoutDataIgnorePage";
+        $translationKeys[] = "SitesManager_DemoSiteButtonText";
+        $translationKeys[] = "SitesManager_SiteWithoutDataVueDescription";
+        $translationKeys[] = "SitesManager_SiteWithoutDataReactDescription";
+    }
+
+    public function noDataPageGTMTabInstructions(&$out)
+    {
+        Piwik::checkUserHasSomeViewAccess();
+        $piwikUrl = Url::getCurrentUrlWithoutFileName();
+        $jsTag = Request::processRequest('SitesManager.getJavascriptTag', ['idSite' => Common::getRequestVar('idSite'), 'piwikUrl' => $piwikUrl]);
+        $view = new View("@SitesManager/_gtmTabInstructions");
+        $view->jsTag = $jsTag;
+        $out = $view->render();
+    }
+
+    public function noDataPageWordpressTabInstructions(&$out)
+    {
+        Piwik::checkUserHasSomeViewAccess();
+        $view = new View("@SitesManager/_wordpressTabInstructions");
+        $faqLink = 'https://matomo.org/faq/general/faq_114/';
+        $authLink = '';
+        if (Piwik::isUserHasSomeViewAccess()) {
+            $request = \Piwik\Request::fromRequest();
+            $idSite = $request->getIntegerParameter('idSite', 0);
+            $period = $request->getStringParameter('period', 'day');
+            $date = $request->getStringParameter('date', 'yesterday');
+            $authLink = SettingsPiwik::getPiwikUrl() . 'index.php?' . Url::getQueryStringFromParameters([
+                    'idSite' => $idSite,
+                    'date' => $date,
+                    'period' => $period,
+                    'module' => 'UsersManager',
+                    'action' => 'addNewToken',
+                ]);
+        }
+        $view->authLink = $authLink;
+        $view->faqLink = $faqLink;
+        $out = $view->render();
     }
 }

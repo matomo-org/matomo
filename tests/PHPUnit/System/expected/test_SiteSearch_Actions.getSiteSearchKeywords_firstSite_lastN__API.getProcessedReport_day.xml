@@ -23,6 +23,14 @@
 		<processedMetrics>
 			<exit_rate>% Search Exits</exit_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_pages_per_search>number</nb_pages_per_search>
+			<avg_time_on_page>duration_s</avg_time_on_page>
+			<bounce_rate>percent</bounce_rate>
+			<exit_rate>percent</exit_rate>
+			<avg_time_generation>duration_s</avg_time_generation>
+		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getSiteSearchKeywords&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getSiteSearchKeywords&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphEvolutionUrl>
 		<uniqueId>Actions_getSiteSearchKeywords</uniqueId>

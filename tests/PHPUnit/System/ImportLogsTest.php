@@ -195,7 +195,7 @@ class ImportLogsTest extends SystemTestCase
 
         $testingEnvironment = new TestingEnvironmentVariables();
         if ($testingEnvironment->_triggerTrackerFailure) {
-            $observers[] = array('Tracker.newHandler', \DI\value(function () {
+            $observers[] = array('Tracker.newHandler', \Piwik\DI::value(function () {
                 @http_response_code(500);
 
                 throw new \Exception("injected exception");
@@ -205,7 +205,7 @@ class ImportLogsTest extends SystemTestCase
         if ($testingEnvironment->_triggerInvalidRequests) {
             // we trigger an invalid request by checking for triggerInvalid=1 in a request, and if found replacing the
             // request w/ a request that has an nonexistent idsite
-            $observers[] = array('Tracker.initRequestSet', \DI\value(function (RequestSet $requestSet) {
+            $observers[] = array('Tracker.initRequestSet', \Piwik\DI::value(function (RequestSet $requestSet) {
                 $requests = $requestSet->getRequests();
                 foreach ($requests as $index => $request) {
                     $url = $request->getParam('url');
@@ -221,7 +221,7 @@ class ImportLogsTest extends SystemTestCase
         }
 
         if (!empty($observers)) {
-            $result['observers.global'] = \DI\add($observers);
+            $result['observers.global'] = \Piwik\DI::add($observers);
         }
 
         return $result;

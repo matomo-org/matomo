@@ -10,8 +10,6 @@ namespace Piwik\Plugins\CoreAdminHome\Commands;
 
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Version;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
 
 class VersionInfo extends ConsoleCommand
@@ -23,8 +21,10 @@ class VersionInfo extends ConsoleCommand
         $this->setHelp("This command can be used to set get the version information of the current Matomo instance.");
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
-        $output->writeln(Version::VERSION);
+        $this->getOutput()->writeln(Version::VERSION);
+
+        return self::SUCCESS;
     }
 }

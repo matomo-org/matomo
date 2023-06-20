@@ -3,10 +3,10 @@
 use Piwik\Notification;
 
 return [
-    'observers.global' => DI\add([
+    'observers.global' => Piwik\DI::add([
         [
             'Request.dispatch',
-            DI\value(
+            Piwik\DI::value(
                 function () {
                     if (!empty($_GET['setNotifications']) && $_GET['setNotifications'] == 1) {
                         // trigger some notification

@@ -104,7 +104,7 @@ class AssetManagerTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\Plugin\Manager' => \DI\autowire('Piwik\Tests\Unit\AssetManager\PluginManagerMock')
+            'Piwik\Plugin\Manager' => \Piwik\DI::autowire('Piwik\Tests\Unit\AssetManager\PluginManagerMock')
         );
     }
 
@@ -206,6 +206,7 @@ class AssetManagerTest extends IntegrationTestCase
     {
         $this->pluginManager->setPlugins(
             array(
+                 new PluginMock('Login'), // PluginUmdAssetFetcher assumes Login is always available
                  $this->getCoreTheme()->getPlugin(),
                  $this->getNonCoreTheme()->getPlugin(),
                  $this->getCorePlugin(),

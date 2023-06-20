@@ -4,15 +4,8 @@
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 */
-import './FormField/FormField.adapter';
-import './Field/Field.adapter';
-import './PluginSettings/PluginSettings.adapter';
-import './Plugins/PluginManagement.adapter';
-import './Plugins/PluginUpload.adapter';
-import './Plugins/PluginFilter.adapter';
-import './SaveButton/SaveButton.adapter';
-import './Form/Form.adapter';
 
+export { default as expressions } from './expressions';
 export { default as AbortableEvent } from './FormField/AbortableEvent';
 export { default as FormField } from './FormField/FormField.vue';
 export { default as Field } from './Field/Field.vue';
@@ -24,5 +17,11 @@ export { default as PluginManagement } from './Plugins/PluginManagement';
 export { default as PluginUpload } from './Plugins/PluginUpload';
 export { default as SaveButton } from './SaveButton/SaveButton.vue';
 export { default as Form } from './Form/Form';
-export { default as GroupedSettings } from './GroupedSettings/GroupedSettings';
+export { default as GroupedSettings } from './GroupedSettings/GroupedSettings.vue';
+export { default as PluginsIntro } from './PluginsIntro/PluginsIntro.vue';
+export { default as ThemesIntro } from './ThemesIntro/ThemesIntro.vue';
 export { default as PasswordConfirmation } from './PasswordConfirmation/PasswordConfirmation.vue';
+export { default as PluginName } from './Plugins/PluginName';
+export { default as PluginsTable } from './PluginsTable/PluginsTable.vue';
+export { default as PluginsTableWithUpdates } from './PluginsTable/PluginsTableWithUpdates.vue';
+export { default as UploadPluginDialog } from './UploadPluginDialog/UploadPluginDialog.vue';

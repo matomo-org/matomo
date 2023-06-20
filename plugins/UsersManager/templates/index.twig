@@ -3,15 +3,16 @@
 {% set title %}{{ 'UsersManager_ManageAccess'|translate }}{% endset %}
 
 {% block content %}
-<piwik-users-manager
-    initial-site-id="{{ idSiteSelected }}"
+<div
+    vue-entry="UsersManager.UsersManager"
+    initial-site-id="{{ idSiteSelected|json_encode }}"
     invite-token-expiry-days="{{ inviteTokenExpiryDays }}"
-    initial-site-name="{{ defaultReportSiteName|rawSafeDecoded }}"
-    current-user-role="'{{ currentUserRole }}'"
-    access-levels="{{ accessLevels|json_encode|e('html_attr') }}"
-    filter-access-levels="{{ filterAccessLevels|json_encode|e('html_attr') }}"
-    filter-status-levels="{{ statusAccessLevels|json_encode|e('html_attr') }}"
+    initial-site-name="{{ defaultReportSiteName|json_encode }}"
+    current-user-role="{{ currentUserRole|json_encode }}"
+    access-levels="{{ accessLevels|json_encode }}"
+    filter-access-levels="{{ filterAccessLevels|json_encode }}"
+    filter-status-levels="{{ statusAccessLevels|json_encode }}"
 >
-</piwik-users-manager>
+</div>
 
 {% endblock %}

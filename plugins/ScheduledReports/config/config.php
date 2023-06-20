@@ -12,17 +12,17 @@ use Piwik\Plugins\ScheduledReports\ReportEmailGenerator\AttachedFileReportEmailG
 use Piwik\Plugins\ScheduledReports\ReportEmailGenerator\HtmlReportEmailGenerator;
 
 return [
-    ReportEmailGenerator::class . '.pdf' => DI\autowire(AttachedFileReportEmailGenerator::class)
+    ReportEmailGenerator::class . '.pdf' => Piwik\DI::autowire(AttachedFileReportEmailGenerator::class)
         ->constructorParameter('attachedFileExtension', '.pdf')
         ->constructorParameter('attachedFileMimeType', 'application/pdf'),
 
-    ReportEmailGenerator::class . '.csv' => DI\autowire(AttachedFileReportEmailGenerator::class)
+    ReportEmailGenerator::class . '.csv' => Piwik\DI::autowire(AttachedFileReportEmailGenerator::class)
         ->constructorParameter('attachedFileExtension', '.csv')
         ->constructorParameter('attachedFileMimeType', 'application/csv'),
 
-    ReportEmailGenerator::class . '.tsv' => DI\autowire(AttachedFileReportEmailGenerator::class)
+    ReportEmailGenerator::class . '.tsv' => Piwik\DI::autowire(AttachedFileReportEmailGenerator::class)
         ->constructorParameter('attachedFileExtension', '.tsv')
         ->constructorParameter('attachedFileMimeType', 'application/tsv'),
 
-    ReportEmailGenerator::class . '.html' => DI\create(HtmlReportEmailGenerator::class),
+    ReportEmailGenerator::class . '.html' => Piwik\DI::create(HtmlReportEmailGenerator::class),
 ];

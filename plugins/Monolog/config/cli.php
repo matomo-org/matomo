@@ -1,16 +1,15 @@
 <?php
 
-use Psr\Container\ContainerInterface;
-use Monolog\Logger;
+use Piwik\Container\Container;
+use Piwik\Log\Logger;
 use Piwik\Plugins\Monolog\Handler\FailureLogMessageDetector;
-use Symfony\Bridge\Monolog\Formatter\ConsoleFormatter;
 use Symfony\Bridge\Monolog\Handler\ConsoleHandler;
 use Symfony\Component\Console\Output\OutputInterface;
 
 return array(
 
     // Log
-    'log.handlers' => DI\factory(function (\DI\Container $c) {
+    'log.handlers' => Piwik\DI::factory(function (Container $c) {
         $writers = [];
         $writers[] = $c->get(FailureLogMessageDetector::class);
         $writers[] = $c->get('Symfony\Bridge\Monolog\Handler\ConsoleHandler');
@@ -23,7 +22,7 @@ return array(
         return $writers;
     }),
 
-    'Symfony\Bridge\Monolog\Handler\ConsoleHandler' => function (ContainerInterface $c) {
+    'Symfony\Bridge\Monolog\Handler\ConsoleHandler' => function (Container $c) {
         // Override the default verbosity map to make it more verbose by default
         $verbosityMap = array(
             OutputInterface::VERBOSITY_NORMAL => Logger::INFO,
@@ -32,7 +31,10 @@ return array(
             OutputInterface::VERBOSITY_DEBUG => Logger::DEBUG,
         );
         $handler = new ConsoleHandler(null, true, $verbosityMap);
-        $handler->setFormatter(new ConsoleFormatter($c->get('log.console.format'), null, true, true));
+        $handler->setFormatter(new \Piwik\Plugins\Monolog\Formatter\ConsoleFormatter([
+            'format' => $c->get('log.console.format'),
+            'multiline' => true
+        ]));
         return $handler;
     },
 

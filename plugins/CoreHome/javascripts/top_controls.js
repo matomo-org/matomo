@@ -43,9 +43,15 @@ function initTopControls() {
         });
 
         if (allRendered) {
+            var alreadyRendered = $('.top_controls').css('visibility') === 'visible';
+
             // we make top controls visible only after all selectors are rendered
             $('.top_controls').css('visibility', 'visible');
             $('.top_controls').css('opacity', '1');
+
+            if (!alreadyRendered) {
+              window.CoreHome.Matomo.postEvent('Matomo.topControlsRendered');
+            }
         }
 
     }

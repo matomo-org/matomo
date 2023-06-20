@@ -13,6 +13,9 @@
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
+		<metricTypes>
+			<nb_conversions>number</nb_conversions>
+		</metricTypes>
 		<constantRowsCount>1</constantRowsCount>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
@@ -21,6 +24,12 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetricsGoal>
+		<metricTypesGoal>
+			<revenue_per_visit>money</revenue_per_visit>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+		</metricTypesGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
 		<uniqueId>Goals_getDaysToConversion</uniqueId>
 	</metadata>

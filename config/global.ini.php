@@ -232,14 +232,6 @@ enabled_periods_API = "day,week,month,year,range"
 ; * use a reader database for archiving in case you have configured a database reader
 enable_segments_cache = 1
 
-; whether to enable subquery cache for Custom Segment archiving queries
-enable_segments_subquery_cache = 0
-; Any segment subquery that matches more than segments_subquery_cache_limit IDs will not be cached,
-; and the original subquery executed instead.
-segments_subquery_cache_limit  = 100000
-; TTL: Time to live for cache files, in seconds. Default to 60 minutes
-segments_subquery_cache_ttl  = 3600
-
 ; when set to 1, all requests to Matomo will return a maintenance message without connecting to the DB
 ; this is useful when upgrading using the shell command, to prevent other users from accessing the UI while Upgrade is in progress
 maintenance_mode = 0
@@ -543,6 +535,12 @@ enable_framed_settings = 0
 ; information view the FAQ: https://matomo.org/faq/troubleshooting/faq_147/
 enable_framed_allow_write_admin_token_auth = 0
 
+; Set to 1 to only allow tokens to be used in POST requests. This will completely prevent using
+; token_auth as URL parameter in GET requests. When enabled all new authentication tokens
+; will be created as POST only. Previously created tokens will only be accepted in POST requests.
+; Recommended for best security.
+only_allow_posted_auth_tokens = 0
+
 ; language cookie name for session
 language_cookie_name = matomo_lang
 
@@ -690,7 +688,7 @@ proxy_uri_header = 0
 ; If set to 1 we use the last IP in the list of proxy IPs when determining the client IP. Using the last IP can be more
 ; secure when using proxy headers in combination with a load balancer. By default the first IP is read according to RFC7239
 ; which is required when the client sends the IP through a proxy header as well as the load balancer.
-proxy_ip_read_last_in_list = 0
+proxy_ip_read_last_in_list = 1
 
 ; Whether to enable trusted host checking. This can be disabled if you're running Matomo
 ; on several URLs and do not wish to constantly edit the trusted host list.
@@ -713,15 +711,15 @@ enable_trusted_host_check = 1
 ; Or you may allow cross domain requests for all domains with:
 ;cors_domains[] = *
 
-; If you use this Matomo instance over multiple hostnames, Matomo will need to know
-; a unique instance_id for this instance, so that Matomo can serve the right custom logo and tmp/* assets,
-; independently of the hostname Matomo is currently running under.
+; If you use this Matomo instance over multiple hostnames, Matomo will need to know a unique instance_id for this
+; instance, so that Matomo can serve the right custom logo and tmp/* assets, independently of the hostname Matomo is
+; currently running under. Only the characters `a-z`, `0-9` and the special characters `._-` are supported.
 ; instance_id = stats.example.com
 
 ; The API server is an essential part of the Matomo infrastructure/ecosystem to
 ; provide services to Matomo installations, e.g., getLatestVersion and
 ; subscribeNewsletter.
-api_service_url = http://api.matomo.org
+api_service_url = https://api.matomo.org
 
 ; When the ImageGraph plugin is activated, report metadata have an additional entry : 'imageGraphUrl'.
 ; This entry can be used to request a static graph for the requested report.

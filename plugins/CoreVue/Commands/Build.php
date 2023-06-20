@@ -12,11 +12,7 @@ use Piwik\AssetManager\UIAssetFetcher\PluginUmdAssetFetcher;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\Plugin\ConsoleCommand;
-use Psr\Log\LoggerInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
+use Piwik\Log\LoggerInterface;
 
 class Build extends ConsoleCommand
 {
@@ -28,10 +24,11 @@ class Build extends ConsoleCommand
     {
         $this->setName('vue:build');
         $this->setDescription('Builds vue modules for one or more plugins.');
-        $this->addArgument('plugins', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'Plugins whose vue modules to build. Defaults to all plugins.', []);
-        $this->addOption('watch', null, InputOption::VALUE_NONE, 'If supplied, will watch for changes and automatically rebuild.');
-        $this->addOption('clear-webpack-cache', null, InputOption::VALUE_NONE);
-        $this->addOption('print-build-command', null, InputOption::VALUE_NONE);
+        $this->addOptionalArgument('plugins', 'Plugins whose vue modules to build. Defaults to all plugins.', [], true);
+        $this->addNoValueOption('bail', null, 'If supplied, will exit immediately.');
+        $this->addNoValueOption('watch', null, 'If supplied, will watch for changes and automatically rebuild.');
+        $this->addNoValueOption('clear-webpack-cache');
+        $this->addNoValueOption('print-build-command');
     }
 
     public function isEnabled()
@@ -39,10 +36,13 @@ class Build extends ConsoleCommand
         return \Piwik\Development::isEnabled();
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
+
         self::checkVueCliServiceAvailable();
-        $this->checkNodeJsVersion($output);
+        $this->checkNodeJsVersion();
 
         $clearWebpackCache = $input->getOption('clear-webpack-cache');
         if ($clearWebpackCache) {
@@ -55,11 +55,13 @@ class Build extends ConsoleCommand
         $plugins = $input->getArgument('plugins');
         if (empty($plugins)) {
             $plugins = $this->getAllPluginsWithVueLibrary();
+            $output->writeln("<info>Going to build all plugins with Vue libraries: "
+                . implode(', ', $plugins));
         } else {
             $plugins = $this->filterPluginsWithoutVueLibrary($plugins);
             if (empty($plugins)) {
                 $output->writeln("<error>No plugins to build!</error>");
-                return 1;
+                return self::FAILURE;
             }
         }
 
@@ -69,8 +71,10 @@ class Build extends ConsoleCommand
         // remove webpack cache since it can result in strange builds if present
         Filesystem::unlinkRecursive(PIWIK_INCLUDE_PATH . '/node_modules/.cache', true);
 
-        $failed = $this->build($output, $plugins, $printBuildCommand, $watch);
-        return $failed;
+        $bail = $input->getOption('bail');
+
+        $failed = $this->build($plugins, $printBuildCommand, $watch, $bail);
+        return $failed > 0 ? self::FAILURE : self::SUCCESS;
     }
 
     private function ensureUntranspiledPluginDependenciesArePresent($plugins)
@@ -93,23 +97,29 @@ class Build extends ConsoleCommand
         return is_file($typeDirectory);
     }
 
-    private function build(OutputInterface $output, $plugins, $printBuildCommand, $watch = false)
+    private function build($plugins, $printBuildCommand, $watch = false, $bail = false)
     {
         if ($watch) {
-            $this->watch($plugins, $printBuildCommand, $output);
-            return;
+            $this->watch($plugins, $printBuildCommand);
+            return 0;
         }
 
         $failed = 0;
 
         foreach ($plugins as $plugin) {
-            $failed += (int) $this->buildFiles($output, $plugin, $printBuildCommand);
+            $buildFailed = (int) $this->buildFiles($plugin, $printBuildCommand);
+            if ($buildFailed && $bail) {
+                $this->getOutput()->writeln("<error>Build failed, bailing.</error>");
+                return $failed;
+            }
+
+            $failed += $buildFailed;
         }
 
         return $failed;
     }
 
-    private function watch($plugins, $printBuildCommand, OutputInterface $output)
+    private function watch($plugins, $printBuildCommand)
     {
         $commandSingle = "BROWSERSLIST_IGNORE_OLD_DATA=1 FORCE_COLOR=1 MATOMO_CURRENT_PLUGIN=%1\$s "
             . 'node ' . self::getVueCliServiceProxyBin() . ' build --mode=development --target lib --name '
@@ -121,15 +131,16 @@ class Build extends ConsoleCommand
         }
 
         if ($printBuildCommand) {
-            $output->writeln("<comment>$command</comment>");
+            $this->getOutput()->writeln("<comment>$command</comment>");
             return;
         }
 
         passthru($command);
     }
 
-    private function buildFiles(OutputInterface $output, $plugin, $printBuildCommand)
+    private function buildFiles($plugin, $printBuildCommand)
     {
+        $output = $this->getOutput();
         $command = "BROWSERSLIST_IGNORE_OLD_DATA=1 FORCE_COLOR=1 MATOMO_CURRENT_PLUGIN=$plugin "
             . 'node ' . self::getVueCliServiceProxyBin() . ' build --target lib --name ' . $plugin
             . " ./plugins/$plugin/vue/src/index.ts --dest ./plugins/$plugin/vue/dist";
@@ -142,7 +153,7 @@ class Build extends ConsoleCommand
         $this->clearPluginTypes($plugin);
 
         $output->writeln("<comment>Building $plugin...</comment>");
-        if ($output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
+        if ($output->isVerbose()) {
             passthru($command);
         } else {
             $attempts = 0;
@@ -248,8 +259,9 @@ class Build extends ConsoleCommand
         Filesystem::unlinkRecursive($path, true);
     }
 
-    private function checkNodeJsVersion(OutputInterface $output)
+    private function checkNodeJsVersion()
     {
+        $output = $this->getOutput();
         $nodeVersion = ltrim(trim(`node -v`), 'v');
         $npmVersion = ltrim(trim(`npm -v`), 'v');
 

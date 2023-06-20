@@ -20,10 +20,7 @@ use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Site;
 use Piwik\Period\Factory as PeriodFactory;
-use Psr\Log\LoggerInterface;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
+use Piwik\Log\LoggerInterface;
 
 /**
  * Provides a simple interface for invalidating report data by date ranges, site IDs and periods.
@@ -38,29 +35,29 @@ class InvalidateReportData extends ConsoleCommand
     {
         $this->setName('core:invalidate-report-data');
         $this->setDescription('Invalidate archived report data by date range, site and period.');
-        $this->addOption('dates', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
-            'List of dates or date ranges to invalidate report data for, eg, 2015-01-03 or 2015-01-05,2015-02-12.');
-        $this->addOption('sites', null, InputOption::VALUE_REQUIRED,
+        $this->addRequiredValueOption('dates', null,
+            'List of dates or date ranges to invalidate report data for, eg, 2015-01-03 or 2015-01-05,2015-02-12.', null, true);
+        $this->addRequiredValueOption('sites', null,
             'List of site IDs to invalidate report data for, eg, "1,2,3,4" or "all" for all sites.',
             self::ALL_OPTION_VALUE);
-        $this->addOption('periods', null, InputOption::VALUE_REQUIRED,
+        $this->addRequiredValueOption('periods', null,
             'List of period types to invalidate report data for. Can be one or more of the following values: day, '
             . 'week, month, year or "all" for all of them.',
             self::ALL_OPTION_VALUE);
-        $this->addOption('segment', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
+        $this->addRequiredValueOption('segment', null,
             'List of segments to invalidate report data for. This can be the segment string itself, the segment name from the UI or the ID of the segment.'
-            . ' If specifying the segment definition, make sure it is encoded properly (it should be the same as the segment parameter in the URL.');
-        $this->addOption('cascade', null, InputOption::VALUE_NONE,
+            . ' If specifying the segment definition, make sure it is encoded properly (it should be the same as the segment parameter in the URL.', null, true);
+        $this->addNoValueOption('cascade', null,
             'If supplied, invalidation will cascade, invalidating child period types even if they aren\'t specified in'
             . ' --periods. For example, if --periods=week, --cascade will cause the days within those weeks to be '
             . 'invalidated as well. If --periods=month, then weeks and days will be invalidated. Note: if a period '
             . 'falls partly outside of a date range, then --cascade will also invalidate data for child periods '
             . 'outside the date range. For example, if --dates=2015-09-14,2015-09-15 & --periods=week, --cascade will'
             . ' also invalidate all days within 2015-09-13,2015-09-19, even those outside the date range.');
-        $this->addOption('dry-run', null, InputOption::VALUE_NONE, 'For tests. Runs the command w/o actually '
+        $this->addNoValueOption('dry-run', null, 'For tests. Runs the command w/o actually '
             . 'invalidating anything.');
-        $this->addOption('plugin', null, InputOption::VALUE_REQUIRED, 'To invalidate data for a specific plugin only.');
-        $this->addOption('ignore-log-deletion-limit', null, InputOption::VALUE_NONE,
+        $this->addRequiredValueOption('plugin', null, 'To invalidate data for a specific plugin only.');
+        $this->addNoValueOption('ignore-log-deletion-limit', null,
             'Ignore the log purging limit when invalidating archives. If a date is older than the log purging threshold (which means '
             . 'there should be no log data for it), we normally skip invalidating it in order to prevent losing any report data. In some cases, '
             . 'however it is useful, if, for example, your site was imported from Google, and there is never any log data.');
@@ -69,8 +66,11 @@ class InvalidateReportData extends ConsoleCommand
             . 'command can be used to make sure reports are generated using the new, changed log data.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
+
         $invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
 
         $cascade = $input->getOption('cascade');
@@ -78,10 +78,10 @@ class InvalidateReportData extends ConsoleCommand
         $plugin = $input->getOption('plugin');
         $ignoreLogDeletionLimit = $input->getOption('ignore-log-deletion-limit');
 
-        $sites = $this->getSitesToInvalidateFor($input);
-        $periodTypes = $this->getPeriodTypesToInvalidateFor($input);
-        $dateRanges = $this->getDateRangesToInvalidateFor($input);
-        $segments = $this->getSegmentsToInvalidateFor($input, $sites, $output);
+        $sites = $this->getSitesToInvalidateFor();
+        $periodTypes = $this->getPeriodTypesToInvalidateFor();
+        $dateRanges = $this->getDateRangesToInvalidateFor();
+        $segments = $this->getSegmentsToInvalidateFor($sites);
 
         $logger = StaticContainer::get(LoggerInterface::class);
 
@@ -109,7 +109,7 @@ class InvalidateReportData extends ConsoleCommand
                         $invalidationResult = $invalidator->markArchivesAsInvalidated($sites, $dates, $periodType, $segment, $cascade,
                             false, $plugin, $ignoreLogDeletionLimit);
 
-                        if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
+                        if ($output->getVerbosity() > $output::VERBOSITY_NORMAL) {
                             foreach ($invalidationResult->makeOutputLogs() as $outputLog) {
                                 $logger->info($outputLog);
                             }
@@ -143,11 +143,13 @@ class InvalidateReportData extends ConsoleCommand
                 }
             }
         }
+
+        return self::SUCCESS;
     }
 
-    private function getSitesToInvalidateFor(InputInterface $input)
+    private function getSitesToInvalidateFor()
     {
-        $sites = $input->getOption('sites');
+        $sites = $this->getInput()->getOption('sites');
 
         $siteIds = Site::getIdSitesFromIdSitesString($sites);
         if (empty($siteIds)) {
@@ -164,9 +166,9 @@ class InvalidateReportData extends ConsoleCommand
         return $siteIds;
     }
 
-    private function getPeriodTypesToInvalidateFor(InputInterface $input)
+    private function getPeriodTypesToInvalidateFor()
     {
-        $periods = $input->getOption('periods');
+        $periods = $this->getInput()->getOption('periods');
         if (empty($periods)) {
             throw new \InvalidArgumentException("The --periods argument is required.");
         }
@@ -189,12 +191,11 @@ class InvalidateReportData extends ConsoleCommand
     }
 
     /**
-     * @param InputInterface $input
      * @return Date[][]
      */
-    private function getDateRangesToInvalidateFor(InputInterface $input)
+    private function getDateRangesToInvalidateFor()
     {
-        $dateRanges = $input->getOption('dates');
+        $dateRanges = $this->getInput()->getOption('dates');
         if (empty($dateRanges)) {
             throw new \InvalidArgumentException("The --dates option is required.");
         }
@@ -229,8 +230,10 @@ class InvalidateReportData extends ConsoleCommand
         return $result;
     }
 
-    private function getSegmentsToInvalidateFor(InputInterface $input, $idSites, OutputInterface $output)
+    private function getSegmentsToInvalidateFor($idSites)
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
         $segments = $input->getOption('segment');
         $segments = array_map('trim', $segments);
         $segments = array_unique($segments);
@@ -251,7 +254,7 @@ class InvalidateReportData extends ConsoleCommand
         return $result;
     }
 
-    private function findSegment($segmentOptionValue, $idSites, InputInterface $input, OutputInterface $output)
+    private function findSegment($segmentOptionValue, $idSites)
     {
         $logger = StaticContainer::get(LoggerInterface::class);
 

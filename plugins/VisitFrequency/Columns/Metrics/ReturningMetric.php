@@ -69,4 +69,9 @@ class ReturningMetric extends ProcessedMetric
     {
         return array();
     }
+
+    public function getSemanticType(): ?string
+    {
+        return $this->wrapped->getSemanticType();
+    }
 }

@@ -18,7 +18,7 @@
         "ExceptionDimensionIsNotActive": "Dimensie %1$d voor website %2$d is niet actief.",
         "ExtractValue": "Extracte waarde",
         "Extractions": "Extracties",
-        "ExtractionsHelp": "Dit is optioneel. Een regex kan gebruikt worden om de waarde van een aangepaste dimensie automatisch te filteren uit een pagina URL of een pagina titel.Op deze manier, hoeft de aangepaste dimensie niet handmatig toegevoegd te worden via een tracking client. Een waarde kan nog steeds handmatig vastgesteld worden via de Matomo tracker API. Dimensiewaarden die handmatig zijn ingesteld in trackingclients, hebben altijd voorrang op extracties. Als meerdere extracties zijn gedefinieerd, wordt de eerste extractie die overeenkomt met gebruikt.",
+        "ExtractionsHelp": "Dit is optioneel. Een regex kan gebruikt worden om de waarde van een aangepaste dimensie automatisch uit een pagina URL of een pagina titel te halen. Op deze manier, hoeft de aangepaste dimensie niet handmatig ingesteld te worden via een tracking client. Een waarde kan nog steeds handmatig ingesteld worden via de Matomo tracker API. Dimensiewaarden die handmatig zijn ingesteld in tracking clients, hebben altijd voorrang op extracties. Als meerdere extracties zijn gedefinieerd, wordt de extractie van de eerste overeenkomst gebruikt. U hoeft geen backslashes te gebruiken want dit doet Matomo automatisch voor u. Bijvoorbeeld gebruik /news/ in plaats van \\/news\\/.",
         "HowToCreateCustomDimension": "Om nieuwe Custom Dimensions the maken voer het volgende commando uit voor je Matomo installatie:",
         "HowToManyCreateCustomDimensions": "Wanneer je meerdere nieuwe Custom Dimensions in één keer wil aanmaken, voeg dan het aantal dimensions wat je nodig hebt. Omdat alle database wijzigingen doorgevoerd worden via één opdracht, neemt het niet meer tijd in beslag om in één keer meerdere Custom Dimensions toe te voegen.",
         "HowToTrackManuallyTitle": "Voor het handmatig bijhouden van een waarde voor deze dimensie",
@@ -26,7 +26,7 @@
         "HowToTrackManuallyViaJs": "Om een waarde te verzamelen met het Javascript Tracker verzoek:",
         "HowToTrackManuallyViaJsDetails": "Voor meer informatie lees de %1$sJavaScript Tracker handleiding voor Custom Dimensions%2$s",
         "HowToTrackManuallyViaPhp": "Om een waarde te verzamelen met de PHP tracker aanroep:",
-        "IncreaseAvailableCustomDimensionsTakesLong": "Het aanmaken van een nieuwe Custom Dimension kan langer duren afhankelijk van de grote van de database omdat het tabel wijzigingen doorvoert in de database. Om deze reden is het toevoegen alleen mogelijk via een opdracht op de commandline",
+        "IncreaseAvailableCustomDimensionsTakesLong": "Het aanmaken van een nieuwe aangepaste dimensie kan lang duren afhankelijk van de database-grootte omdat het tabelwijzigingen doorvoert in de database. Om deze reden is het toevoegen alleen mogelijk via een commando op de opdrachtprompt.",
         "IncreaseAvailableCustomDimensionsTitle": "Verhoog het aantal beschikbare Custom Dimensions",
         "NameAllowedCharacters": "Toegestane karakters zijn elke letter, nummer, spatie, een streep en een underscore.",
         "NameIsRequired": "Een naam is vereist.",
@@ -37,8 +37,11 @@
         "PluginDescription": "Breid Matomo uit naar je behoeften door aangepaste dimensies te definiëren en te volgen in scope Actie of Bezoek",
         "ScopeDescriptionAction": "Custom Dimensions in het bereik 'Actie' kan samen gestuurd worden met elke andere actie (pagina bezoek, download, gebeurtenis, etc.).",
         "ScopeDescriptionActionMoreInfo": "Extracties kunnen zo worden gedefinieerd dat de aangepaste dimensie aangepaste wordt gefilterd uit de pagina-URL, paginatitel of een pagina-URL-queryparameter.",
-        "ScopeDescriptionVisit": "Custom Dimensions in het bereik 'Bezoek' kunnen samen met andere tracking verzoeken worden verzameld en worden bewaard in het bezoek van de bezoekers.",
+        "ScopeDescriptionVisit": "Aangepaste dimensies in het bereik 'Bezoek' kunnen samen met andere tracking verzoeken worden verzameld en worden bewaard in de bezoeken.",
         "ScopeDescriptionVisitMoreInfo": "Wanneer je een waarde van een custom dimension wijzigt gedurende een bezoek aan website, dan zal de laatste waarde welke is ingevuld gebruikt worden.",
+        "ScopeTitleAction": "Activiteiten dimensies",
+        "ScopeTitleVisit": "Bezoeken dimensies",
+        "UrlQueryStringParameter": "URL query string parameter",
         "XofYLeft": "%1$s van %2$s dimensies over"
     }
 }

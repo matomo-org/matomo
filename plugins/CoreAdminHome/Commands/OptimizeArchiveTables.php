@@ -13,10 +13,6 @@ use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Plugin\ConsoleCommand;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Administration command that optimizes archive tables (even if they use InnoDB).
@@ -30,29 +26,34 @@ class OptimizeArchiveTables extends ConsoleCommand
     {
         $this->setName('database:optimize-archive-tables');
         $this->setDescription("Runs an OPTIMIZE TABLE query on the specified archive tables.");
-        $this->addArgument("dates", InputArgument::IS_ARRAY | InputArgument::REQUIRED,
+        $this->addRequiredArgument("dates",
             "The months of the archive tables to optimize. Use '" . self::ALL_TABLES_STRING. "' for all dates or '" .
-            self::CURRENT_MONTH_STRING . "' to optimize the current month only.");
-        $this->addOption('dry-run', null, InputOption::VALUE_NONE, 'For testing purposes.');
+            self::CURRENT_MONTH_STRING . "' to optimize the current month only.", null, true);
+        $this->addNoValueOption('dry-run', null, 'For testing purposes.');
         $this->setHelp("This command can be used to ease or automate maintenance. Instead of manually running "
             . "OPTIMIZE TABLE queries, the command can be used.\n\nYou should run the command if you find your "
             . "archive tables grow and do not shrink after purging. Optimizing them will reclaim some space.");
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input = $this->getInput();
         $dryRun = $input->getOption('dry-run');
 
-        $tableMonths = $this->getTableMonthsToOptimize($input);
+        $tableMonths = $this->getTableMonthsToOptimize();
 
         foreach ($tableMonths as $month) {
-            $this->optimizeTable($output, $dryRun, 'archive_numeric_' . $month);
-            $this->optimizeTable($output, $dryRun, 'archive_blob_' . $month);
+            $this->optimizeTable($dryRun, 'archive_numeric_' . $month);
+            $this->optimizeTable($dryRun, 'archive_blob_' . $month);
         }
+
+        return self::SUCCESS;
     }
 
-    private function optimizeTable(OutputInterface $output, $dryRun, $table)
+    private function optimizeTable($dryRun, $table)
     {
+        $output = $this->getOutput();
+
         $output->write("Optimizing table '$table'...");
 
         if ($dryRun) {
@@ -64,9 +65,9 @@ class OptimizeArchiveTables extends ConsoleCommand
         $output->writeln("Done.");
     }
 
-    private function getTableMonthsToOptimize(InputInterface $input)
+    private function getTableMonthsToOptimize()
     {
-        $dateSpecifiers = $input->getArgument('dates');
+        $dateSpecifiers = $this->getInput()->getArgument('dates');
         if (count($dateSpecifiers) === 1) {
             $dateSpecifier = reset($dateSpecifiers);
 

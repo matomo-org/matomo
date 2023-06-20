@@ -11,10 +11,6 @@ namespace Piwik\Plugins\LanguagesManager\Commands;
 
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\LanguagesManager\API;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  */
@@ -24,14 +20,16 @@ class Validate extends TranslationBase
     {
         $this->setName('translations:validate')
             ->setDescription('Validates translation files')
-            ->addOption('token', 't', InputOption::VALUE_OPTIONAL, 'Weblate API token')
-            ->addOption('slug', 's', InputOption::VALUE_OPTIONAL, 'Weblate project slug')
-            ->addOption('all', 'a', InputOption::VALUE_NONE, 'Force to update all plugins (even non core). Can not be used with plugin option')
-            ->addOption('plugin', 'P', InputOption::VALUE_OPTIONAL, 'optional name of plugin to update translations for');
+            ->addOptionalValueOption('token', 't', 'Weblate API token')
+            ->addOptionalValueOption('slug', 's', 'Weblate project slug')
+            ->addNoValueOption('all', 'a', 'Force to update all plugins (even non core). Can not be used with plugin option')
+            ->addOptionalValueOption('plugin', 'P', 'optional name of plugin to update translations for');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
         $output->setDecorated(true);
 
         $start = microtime(true);
@@ -58,7 +56,7 @@ class Validate extends TranslationBase
             $output->writeln("");
 
             // fetch base or specific plugin
-            $this->fetchTranslations($input, $output, $plugin);
+            $this->fetchTranslations($plugin);
 
             $files = _glob(FetchTranslations::getDownloadPath() . DIRECTORY_SEPARATOR . '*.json');
 
@@ -68,26 +66,23 @@ class Validate extends TranslationBase
             }
 
             foreach ($files as $filename) {
-
-                $code = basename($filename, '.json');
-
-                $command = $this->getApplication()->find('translations:set');
-                $arguments = array(
-                    'command' => 'translations:set',
-                    '--code' => $code,
-                    '--file' => $filename,
-                    '--plugin' => $plugin,
-                    '--validate' => PIWIK_DOCUMENT_ROOT . '/filter.txt'
+                $this->runCommand(
+                    'translations:set',
+                    [
+                        '--code' => basename($filename, '.json'),
+                        '--file' => $filename,
+                        '--plugin' => $plugin,
+                        '--validate' => PIWIK_DOCUMENT_ROOT . '/filter.txt'
+                    ]
                 );
-                $inputObject = new ArrayInput($arguments);
-                $inputObject->setInteractive($input->isInteractive());
-                $command->run($inputObject, $output);
             }
 
             $output->writeln('');
         }
 
         $output->writeln("Finished in " . round(microtime(true)-$start, 3) . "s");
+
+        return self::SUCCESS;
     }
 
     /**
@@ -116,24 +111,19 @@ class Validate extends TranslationBase
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
      * @param string $plugin
      * @throws \Exception
      */
-    protected function fetchTranslations(InputInterface $input, OutputInterface $output, $plugin)
+    protected function fetchTranslations($plugin)
     {
-
-        $command = $this->getApplication()->find('translations:fetch');
-        $arguments = array(
-            'command'  => 'translations:fetch',
-            '--token'  => $input->getOption('token'),
-            '--slug'   => $input->getOption('slug'),
-            '--plugin' => $plugin
+        $input = $this->getInput();
+        $this->runCommand(
+            'translations:fetch',
+            [
+                '--token'    => $input->getOption('token'),
+                '--slug'     => $input->getOption('slug'),
+                '--plugin'   => $plugin
+            ]
         );
-
-        $inputObject = new ArrayInput($arguments);
-        $inputObject->setInteractive($input->isInteractive());
-        $command->run($inputObject, $output);
     }
 }

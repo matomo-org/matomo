@@ -313,6 +313,45 @@ class DbHelper
     }
 
     /**
+     * Add an origin hint to the query to identify the main parameters and segment for debugging
+     *
+     * @param string        $sql        SQL query string
+     * @param string        $origin     Origin string to describe the source of the query
+     * @param Date|null     $dateStart  Start date used in the query, optional
+     * @param Date|null     $dateEnd    End date used in the query, optional
+     * @param array|null    $sites      Sites list used in the query, optional
+     * @param Segment|null  $segment    Segment, the segment hash will be added if this is set
+     *
+     * @return string   Modified SQL query string with hint added
+     */
+    public static function addOriginHintToQuery(string $sql, string $origin, ?Date $dateStart = null, ?Date $dateEnd = null,
+                                          ?array $sites = null, ?Segment $segment = null): string
+    {
+        $select = 'SELECT';
+        if ($origin && 0 === strpos(trim($sql), $select)) {
+            $sql = trim($sql);
+            $sql = 'SELECT /* ' . $origin . ' */' . substr($sql, strlen($select));
+        }
+
+        if ($dateStart !== null && $dateEnd !== null && 0 === strpos(trim($sql), $select)) {
+            $sql = trim($sql);
+            $sql = 'SELECT /* ' . $dateStart->toString() . ',' . $dateEnd->toString() . ' */' . substr($sql, strlen($select));
+        }
+
+        if ($sites && is_array($sites) && 0 === strpos(trim($sql), $select)) {
+            $sql = trim($sql);
+            $sql = 'SELECT /* ' . 'sites ' . implode(',', array_map('intval', $sites)) . ' */' . substr($sql, strlen($select));
+        }
+
+        if ($segment && !$segment->isEmpty() && 0 === strpos(trim($sql), $select)) {
+            $sql = trim($sql);
+            $sql = 'SELECT /* ' . 'segmenthash ' . $segment->getHash(). ' */' . substr($sql, strlen($select));
+        }
+
+        return $sql;
+    }
+
+    /**
      * Returns true if the string is a valid database name for MySQL. MySQL allows + in the database names.
      * Database names that start with a-Z or 0-9 and contain a-Z, 0-9, underscore(_), dash(-), plus(+), and dot(.) will be accepted.
      * File names beginning with anything but a-Z or 0-9 will be rejected (including .htaccess for example).

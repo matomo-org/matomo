@@ -17,12 +17,12 @@ use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Db;
 use Piwik\DbHelper;
-use Piwik\Development;
 use Piwik\Filesystem;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\CoreVue\CoreVue;
+use Piwik\Plugins\Diagnostics\DiagnosticReport;
 use Piwik\Plugins\Diagnostics\DiagnosticService;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
@@ -130,6 +130,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $diagnosticService = StaticContainer::get('Piwik\Plugins\Diagnostics\DiagnosticService');
         $view->diagnosticReport = $diagnosticService->runDiagnostics();
         $view->isInstallation = true;
+        $view->systemCheckInfo = $this->getSystemCheckTextareaValue($view->diagnosticReport);
 
         $view->showNextStep = !$view->diagnosticReport->hasErrors();
 
@@ -358,7 +359,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                     'site_idSite' => $result,
                     'site_name' => urlencode($name)
                 );
-                $this->addTrustedHosts($url);
 
                 $this->redirectToNextStep(__FUNCTION__, $params);
             } catch (Exception $e) {
@@ -410,6 +410,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'gtmUsed' => $this->siteContentDetector->gtm,
             'ga3Used' => $this->siteContentDetector->ga3,
             'ga4Used' => $this->siteContentDetector->ga4,
+            'cloudflare' => $this->siteContentDetector->cloudflare,
+            'jsFramework' => $this->siteContentDetector->jsFramework,
             'consentManagerName' => $this->siteContentDetector->consentManagerName,
             'consentManagerUrl' => $this->siteContentDetector->consentManagerUrl,
             'consentManagerIsConnected' => $this->siteContentDetector->isConnected
@@ -427,6 +429,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $viewTrackingHelp->gtmUsed = $this->siteContentDetector->gtm;
         $viewTrackingHelp->ga3Used = $this->siteContentDetector->ga3;
         $viewTrackingHelp->ga4Used = $this->siteContentDetector->ga4;
+        $viewTrackingHelp->cloudflare = $this->siteContentDetector->cloudflare;
+        $viewTrackingHelp->jsFramework = $this->siteContentDetector->jsFramework;
         $viewTrackingHelp->consentManagerName = $this->siteContentDetector->consentManagerName;
         $viewTrackingHelp->consentManagerUrl = $this->siteContentDetector->consentManagerUrl;
         $viewTrackingHelp->consentManagerIsConnected = $this->siteContentDetector->isConnected;
@@ -521,6 +525,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         /** @var DiagnosticService $diagnosticService */
         $diagnosticService = StaticContainer::get('Piwik\Plugins\Diagnostics\DiagnosticService');
         $view->diagnosticReport = $diagnosticService->runDiagnostics();
+        $view->systemCheckInfo = $this->getSystemCheckTextareaValue($view->diagnosticReport);
         return $view->render();
     }
 
@@ -551,7 +556,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'plugins/Morpheus/stylesheets/base/bootstrap.css',
             'plugins/Morpheus/stylesheets/base/icons.css',
             "node_modules/jquery-ui-dist/jquery-ui.theme.min.css",
-            'node_modules/materialize-css/dist/css/materialize.min.css',
+            'node_modules/@materializecss/materialize/dist/css/materialize.min.css',
             'plugins/Morpheus/stylesheets/base.less',
             'plugins/Morpheus/stylesheets/general/_forms.less',
             'plugins/Installation/stylesheets/installation.css'
@@ -573,19 +578,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $files = array(
             "node_modules/jquery/dist/jquery.min.js",
             "node_modules/jquery-ui-dist/jquery-ui.min.js",
-            'node_modules/materialize-css/dist/js/materialize.min.js',
+            'node_modules/@materializecss/materialize/dist/js/materialize.min.js',
             "plugins/CoreHome/javascripts/materialize-bc.js",
-            'node_modules/angular/angular.min.js',
-            'node_modules/angular-sanitize/angular-sanitize.min.js',
-            'node_modules/angular-animate/angular-animate.min.js',
-            'node_modules/angular-cookies/angular-cookies.min.js',
-            'node_modules/ng-dialog/js/ngDialog.min.js',
-            'plugins/CoreHome/angularjs/common/services/service.module.js',
-            'plugins/CoreHome/angularjs/common/filters/filter.module.js',
-            'plugins/CoreHome/angularjs/common/filters/translate.js',
-            'plugins/CoreHome/angularjs/common/directives/directive.module.js',
-            'plugins/CoreHome/angularjs/piwikApp.config.js',
-            'plugins/CoreHome/angularjs/piwikApp.js',
             'plugins/Installation/javascripts/installation.js',
             'plugins/Morpheus/javascripts/piwikHelper.js',
             "plugins/CoreHome/javascripts/broadcast.js",
@@ -593,8 +587,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         CoreVue::addJsFilesTo($files);
 
-        $coreHomeUmd = Development::isEnabled() ? 'CoreHome.umd.js' : 'CoreHome.umd.min.js';
-        $files[] = "plugins/CoreHome/vue/dist/$coreHomeUmd";
+        $files[] = AssetManager\UIAssetFetcher\PluginUmdAssetFetcher::getUmdFileToUseForPlugin('CoreHome');
+        $files[] = AssetManager\UIAssetFetcher\PluginUmdAssetFetcher::getUmdFileToUseForPlugin('Installation');
 
         if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE
             && file_exists(PIWIK_DOCUMENT_ROOT . '/tests/resources/screenshot-override/override.js')) {
@@ -637,6 +631,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $config->General['salt'] = Common::generateUniqId();
         $config->General['installation_in_progress'] = 1;
+        $this->setTrustedHost($config);
 
         $config->database = $dbInfos;
         $config->database['charset'] = DbHelper::getDefaultCharset();
@@ -703,41 +698,33 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      *
      * @return string|false
      */
-    private function extractHost($url)
+    private function extractHostAndPort($url)
     {
-        $urlParts = parse_url($url);
-        if (isset($urlParts['host']) && strlen($host = $urlParts['host'])) {
-            return $host;
+        $host = parse_url($url, PHP_URL_HOST) ?? false;
+
+        if (empty($host)) {
+            return false;
         }
 
-        return false;
+        $port = (int) parse_url($url, PHP_URL_PORT) ?? 0;
+
+        if (!empty($port) && $port !== 80 && $port !== 443) {
+            return $host . ':' . $port;
+        }
+
+        return $host;
     }
 
     /**
-     * Add trusted hosts
+     * Sets trusted hosts in config
      */
-    private function addTrustedHosts($siteUrl)
+    private function setTrustedHost(Config $config): void
     {
-        $trustedHosts = array();
+        $host = Url::getHost(false);
 
-        // extract host from the request header
-        if (($host = $this->extractHost('http://' . Url::getHost())) !== false) {
-            $trustedHosts[] = $host;
-        }
-
-        // extract host from first web site
-        if (($host = $this->extractHost(urldecode($siteUrl))) !== false) {
-            $trustedHosts[] = $host;
-        }
-
-        $trustedHosts = array_unique($trustedHosts);
-        if (count($trustedHosts)) {
-
-            $general = Config::getInstance()->General;
-            $general['trusted_hosts'] = $trustedHosts;
-            Config::getInstance()->General = $general;
-
-            Config::getInstance()->forceSave();
+        // check hostname in server variables is correctly parsable
+        if ($host === $this->extractHostAndPort('http://' . $host)) {
+            $config->General['trusted_hosts'] = [$host];
         }
     }
 
@@ -797,4 +784,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         });
     }
 
+    private function getSystemCheckTextareaValue(DiagnosticReport $diagnosticReport)
+    {
+        $view = new \Piwik\View('@Installation/_systemCheckSection');
+        $view->diagnosticReport = $diagnosticReport;
+        return $view->render();
+    }
 }

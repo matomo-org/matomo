@@ -14,8 +14,6 @@ use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Updater;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Command to selectively delete visits.
@@ -28,10 +26,12 @@ class MigrateTokenAuths extends ConsoleCommand
         $this->setDescription('Only needed for the matomo 3 to matomo 4 migration');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
         self::migrate();
-        $output->writeln('Done');
+        $this->getOutput()->writeln('Done');
+
+        return self::SUCCESS;
     }
 
     public static function migrate()

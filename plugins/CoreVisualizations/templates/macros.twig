@@ -1,16 +1,17 @@
 
 {% macro sparklineEvolution(evolution) %}
+    {% set isLowerValueBetter = evolution.isLowerValueBetter is defined ? evolution.isLowerValueBetter : false %}
     {% set evolutionPretty = evolution.percent %}
     {% set compareValue = evolution.trend is defined ? evolution.trend : evolution.percent %}
     {% if compareValue < 0 %}
-        {% set evolutionClass = 'negative-evolution' %}
-        {% set evolutionIcon  = 'arrow_down.png' %}
+        {% set evolutionClass = isLowerValueBetter ? 'positive-evolution' : 'negative-evolution' %}
+        {% set evolutionIcon  = isLowerValueBetter ? 'arrow_down_green.png' : 'arrow_down.png' %}
     {% elseif compareValue == 0 or compareValue == '0%' %}
         {% set evolutionClass = 'neutral-evolution' %}
         {% set evolutionIcon  = 'stop.png' %}
     {% else %}
-        {% set evolutionClass  = 'positive-evolution' %}
-        {% set evolutionIcon   = 'arrow_up.png' %}
+        {% set evolutionClass = isLowerValueBetter ? 'negative-evolution' : 'positive-evolution' %}
+        {% set evolutionIcon  = isLowerValueBetter ? 'arrow_up_red.png' : 'arrow_up.png' %}
         {% set evolutionPretty = '+' ~ evolution.percent %}
     {% endif %}
 
@@ -25,7 +26,9 @@
          {% if sparkline.seriesIndices|default is not empty %}data-series-indices="{{ sparkline.seriesIndices|json_encode|e('html_attr') }}"{% endif %}
          {% if sparkline.graphParams|default is not empty %}data-graph-params="{{ sparkline.graphParams|json_encode|e('html_attr') }}"{% endif %}
     >
-        <div>
+        <div
+            {% if sparkline.tooltip|default %}title="{{ sparkline.tooltip|e('html_attr') }}"{% endif %}
+        >
             {% if sparkline.title|default is not empty %}<h6 class="sparkline-title" title="{{ sparkline.title|rawSafeDecoded|e('html_attr') }}">{{ sparkline.title }}</h6>{% endif %}
             {% if sparkline.url %}{{ sparkline(sparkline.url)|raw }}{% endif %}
         </div>

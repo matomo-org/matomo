@@ -29,7 +29,7 @@ piwik.updateDateInTitle = function updateDateInTitle(date: string, period: strin
 };
 
 piwik.hasUserCapability = function hasUserCapability(capability: string) {
-  return window.angular.isArray(piwik.userCapabilities)
+  return Array.isArray(piwik.userCapabilities)
     && piwik.userCapabilities.indexOf(capability) !== -1;
 };
 
@@ -49,25 +49,12 @@ piwik.off = function removeMatomoEventListener(eventName: string, listener: Wrap
   }
 };
 
-piwik.postEventNoEmit = function postEventNoEmit(
+piwik.postEvent = function postMatomoEvent(
   eventName: string,
   ...args: any[] // eslint-disable-line
 ): void {
   const event = new CustomEvent(eventName, { detail: args });
   window.dispatchEvent(event);
-};
-
-piwik.postEvent = function postMatomoEvent(
-  eventName: string,
-  ...args: any[] // eslint-disable-line
-): void {
-  piwik.postEventNoEmit(eventName, ...args);
-
-  // required until angularjs is removed
-  window.angular.element(() => {
-    const $rootScope = piwik.helper.getAngularDependency('$rootScope') as any; // eslint-disable-line
-    $rootScope.$oldEmit(eventName, ...args);
-  });
 };
 
 const Matomo = piwik;

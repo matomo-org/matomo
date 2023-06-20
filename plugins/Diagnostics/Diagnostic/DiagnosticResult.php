@@ -15,7 +15,7 @@ use Piwik\Common;
  *
  * @api
  */
-class DiagnosticResult
+class DiagnosticResult implements \JsonSerializable
 {
     const STATUS_ERROR = 'error';
     const STATUS_WARNING = 'warning';
@@ -70,7 +70,7 @@ class DiagnosticResult
         }
 
         if ($escapeComment) {
-            $comment = Common::fixLbrace(Common::sanitizeInputValue($comment));
+            $comment = Common::sanitizeInputValue($comment);
         }
 
         return self::singleResult($label, self::STATUS_INFORMATIONAL, $comment);
@@ -141,5 +141,14 @@ class DiagnosticResult
         }
 
         return $status;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'label' => $this->label,
+            'longErrorMessage' => $this->longErrorMessage,
+            'items' => $this->items,
+        ];
     }
 }

@@ -13,10 +13,6 @@ use Piwik\Config;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Plugin\SystemConfigSetting;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class ConfigDelete extends ConsoleCommand
 {
@@ -30,14 +26,13 @@ class ConfigDelete extends ConsoleCommand
     {
         $this->setName('config:delete');
         $this->setDescription('Delete a config setting');
-        $this->addArgument(
+        $this->addOptionalArgument(
             'argument',
-            InputArgument::OPTIONAL,
             "A config setting in the format Section.key or Section.array_key[], e.g. 'Database.username' or 'PluginsInstalled.PluginsInstalled.CustomDimensions'"
         );
-        $this->addOption('section', 's', InputOption::VALUE_REQUIRED, 'The section the INI config setting belongs to.');
-        $this->addOption('key', 'k', InputOption::VALUE_REQUIRED, 'The name of the INI config setting.');
-        $this->addOption('value', 'i', InputOption::VALUE_REQUIRED, 'For arrays, specify the array value to be deleted.');
+        $this->addRequiredValueOption('section', 's', 'The section the INI config setting belongs to.');
+        $this->addRequiredValueOption('key', 'k', 'The name of the INI config setting.');
+        $this->addRequiredValueOption('value', 'i', 'For arrays, specify the array value to be deleted.');
 
         $this->setHelp("This command can be used to delete a INI config setting.
 
@@ -68,8 +63,11 @@ NOTES:
 ");
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
+
         // Gather options, then discard ones that are empty so we do not need to check for empty later.
         $options = array_filter([
             'section' => $input->getOption('section'),
@@ -121,6 +119,8 @@ NOTES:
                 $output->writeln($this->wrapInTag('info', self::MSG_SUCCESS));
             }
         }
+
+        return self::SUCCESS;
     }
 
     /**
@@ -237,7 +237,7 @@ NOTES:
     {
 
         $matches = [];
-        if (!preg_match('/^([a-zA-Z0-9_]+)(?:\.([a-zA-Z0-9_]+))?(?:\[\])?(?:\.([a-zA-Z0-9_]+))?/', $settingStr, $matches) || empty($matches[1])) {
+        if (!preg_match('/^([a-zA-Z0-9_]+)(?:\.([a-zA-Z0-9_]+))?(?:\[\])?(?:\.(.+))?/', $settingStr, $matches) || empty($matches[1])) {
             throw new \InvalidArgumentException("Invalid input string='{$settingStr}': expected section.name or section.name[]");
         }
 
@@ -265,18 +265,5 @@ NOTES:
         }
 
         return $settingWrappedNew;
-    }
-
-    /**
-     * Wrap the input string in an open and closing HTML/XML tag.
-     * E.g. wrap_in_tag('info', 'my string') returns '<info>my string</info>'
-     *
-     * @param string $tagname Tag name to wrap the string in.
-     * @param string $str String to wrap with the tag.
-     * @return string The wrapped string.
-     */
-    public static function wrapInTag(string $tagname, string $str): string
-    {
-        return "<$tagname>$str</$tagname>";
     }
 }

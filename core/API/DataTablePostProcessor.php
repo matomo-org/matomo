@@ -284,8 +284,20 @@ class DataTablePostProcessor
         }
 
         if ($addGoalProcessedMetrics !== null) {
-            $idGoal = Common::getRequestVar(
-                'idGoal', DataTable\Filter\AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW, 'string', $this->request);
+            // if no idGoal is present, but filter_show_goal_columns_process_goals is set to one goal,
+            // default idGoal to that value. this allows us to use filter_update_columns_when_show_all_goals
+            // w/ API.getProcessedReport w/o setting idGoal, which affects the search for report metadata.
+            if (!empty($goalsToProcess)
+                && count($goalsToProcess) == 1
+                && $goalsToProcess[0] !== '0'
+                && $goalsToProcess[0] !== 0
+            ) {
+                $defaultIdGoal = $goalsToProcess[0];
+            } else {
+                $defaultIdGoal = DataTable\Filter\AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW;
+            }
+
+            $idGoal = Common::getRequestVar('idGoal', $defaultIdGoal, 'string', $this->request);
 
             $dataTable->filter('AddColumnsProcessedMetricsGoal', array($ignore = true, $idGoal, $goalsToProcess));
         }
@@ -363,7 +375,19 @@ class DataTablePostProcessor
         if (!empty($label)) {
             $addLabelIndex = Common::getRequestVar('labelFilterAddLabelIndex', 0, 'int', $this->request) == 1;
 
-            $filter = new LabelFilter($this->apiModule, $this->apiMethod, $this->request);
+            $labelColumn = 'label';
+            if ($this->report) {
+                // allow DataTables to set a metadata for the column used to uniquely identify a row. primarily
+                // so this can be tested w/o creating a test plugin w/ a test report.
+                $dataTableRowIdentifier = null;
+                $dataTable->filter(function (DataTable $table) use (&$dataTableRowIdentifier) {
+                    $dataTableRowIdentifier = $dataTableRowIdentifier ?: $table->getMetadata(DataTable::ROW_IDENTIFIER_METADATA_NAME);
+                });
+
+                $labelColumn = $dataTableRowIdentifier ?: $this->report->getRowIdentifier() ?: $labelColumn;
+            }
+
+            $filter = new LabelFilter($this->apiModule, $this->apiMethod, $this->request, $labelColumn);
             $dataTable = $filter->filter($label, $dataTable, $addLabelIndex);
         }
         return $dataTable;
@@ -447,7 +471,7 @@ class DataTablePostProcessor
             }
 
             foreach ($dataTable->getRows() as $row) {
-                if ($row->getColumn($name) !== false) { // only compute the metric if it has not been computed already
+                if ($row->hasColumn($name)) { // only compute the metric if it has not been computed already
                     continue;
                 }
 
@@ -506,4 +530,3 @@ class DataTablePostProcessor
         return $dataTable;
     }
 }
-

@@ -11,7 +11,7 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\TableMetadata;
 use Piwik\Db;
-use Psr\Log\LoggerInterface;
+use Piwik\Log\LoggerInterface;
 
 /**
  * Provides methods to find duplicate actions and fix duplicate action references in tables
@@ -59,7 +59,7 @@ class DuplicateActionRemover
     public function __construct(TableMetadata $tableMetadataAccess = null, LoggerInterface $logger = null)
     {
         $this->tableMetadataAccess = $tableMetadataAccess ?: new TableMetadata();
-        $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
+        $this->logger = $logger ?: StaticContainer::get(LoggerInterface::class);
     }
 
     /**

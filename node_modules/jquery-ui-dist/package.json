@@ -2,11 +2,11 @@
 	"name": "jquery-ui-dist",
 	"title": "jQuery UI",
 	"description": "A curated set of user interface interactions, effects, widgets, and themes built on top of the jQuery JavaScript Library.",
-	"version": "1.13.1",
+	"version": "1.13.2",
 	"homepage": "http://jqueryui.com",
 	"author": {
 		"name": "jQuery Foundation and other contributors",
-		"url": "https://github.com/jquery/jquery-ui/blob/1.13.1/AUTHORS.txt"
+		"url": "https://github.com/jquery/jquery-ui/blob/1.13.2/AUTHORS.txt"
 	},
 	"main": "ui/widget.js",
 	"maintainers": [
@@ -54,7 +54,7 @@
 		"commitplease": "3.2.0",
 		"eslint-config-jquery": "3.0.0",
 		"glob": "7.2.0",
-		"grunt": "1.4.1",
+		"grunt": "1.5.3",
 		"grunt-bowercopy": "1.2.5",
 		"grunt-cli": "1.4.3",
 		"grunt-compare-size": "0.4.2",

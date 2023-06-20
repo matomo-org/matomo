@@ -19,4 +19,3 @@ class Segment extends \Piwik\Plugin\Segment
         $this->setSqlFilter('\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment');
     }
 }
-

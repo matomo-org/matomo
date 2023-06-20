@@ -51,7 +51,7 @@
         "LicenseMissingDeactivatedDescription": "Geçerli bir lisansınız olmadığı için şu uygulama ekleri devre dışı bırakılmış: %1$s. %2$sBu sorunu çözmek için lisans anahtarınızı güncelleyin, %3$sbir abonelik satın alın%4$s ya da uygulama ekini devre dışı bırakın.",
         "LicenseRenewsNextPaymentDate": "Sonraki ödeme tarihinde yenilenecek",
         "Marketplace": "Mağaza",
-        "MultiServerEnvironmentWarning": "Matomo uygulamasını birden çok sunucu üzerinde kullandığınızdan uygulama ekini doğrudan kuramaz ya da güncelleyemezsiniz. Uygulama eki yalnız bir sunucu üzerine kurulmalıdır. Bu nedenle uygulama ekini indirin ve tüm sunucularınıza el ile dağıtın.",
+        "MultiServerEnvironmentWarning": "Matomo uygulamasını birden çok sunucu üzerinde kullandığınızdan uygulama ekini doğrudan kuramaz ya da güncelleyemezsiniz. Uygulama eki yalnızca bir sunucu üzerine kurulmalıdır. Bu nedenle uygulama ekini indirin ve tüm sunucularınıza el ile dağıtın.",
         "NewVersion": "yeni sürüm",
         "NoPluginsFound": "Herhangi bir uygulama eki bulunamadı",
         "NoSubscriptionsFound": "Herhangi bir abonelik bulunamadı",

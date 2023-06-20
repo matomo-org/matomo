@@ -28,6 +28,13 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_actions>number</nb_actions>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+			<bounce_rate>percent</bounce_rate>
+			<nb_actions_per_visit>number</nb_actions_per_visit>
+		</metricTypes>
 		<actionToLoadSubTables>getCustomDimension</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomDimensions&amp;apiAction=getCustomDimension&amp;idDimension=1&amp;period=year&amp;date=2013-01-23</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomDimensions&amp;apiAction=getCustomDimension&amp;idDimension=1&amp;period=year&amp;date=2004-01-01,2013-12-31</imageGraphEvolutionUrl>

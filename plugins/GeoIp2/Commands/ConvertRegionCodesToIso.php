@@ -15,8 +15,6 @@ use Piwik\Option;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class ConvertRegionCodesToIso extends ConsoleCommand
 {
@@ -35,16 +33,16 @@ class ConvertRegionCodesToIso extends ConsoleCommand
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return void|int
+     * @return int
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $output = $this->getOutput();
+
         // chick if option is set to disable second run
         if (Option::get(self::OPTION_NAME)) {
             $output->writeln('Converting region codes already done.');
-            return;
+            return self::SUCCESS;
         }
 
         $output->setDecorated(true);
@@ -118,7 +116,7 @@ class ConvertRegionCodesToIso extends ConsoleCommand
         Option::set(self::OPTION_NAME, true);
 
         $output->writeln('All region codes converted.');
+
+        return self::SUCCESS;
     }
-
-
 }

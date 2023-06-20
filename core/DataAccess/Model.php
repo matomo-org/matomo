@@ -22,7 +22,7 @@ use Piwik\Segment;
 use Piwik\Sequence;
 use Piwik\SettingsServer;
 use Piwik\Site;
-use Psr\Log\LoggerInterface;
+use Piwik\Log\LoggerInterface;
 
 /**
  * Cleans up outdated archives
@@ -36,7 +36,7 @@ class Model
 
     public function __construct(LoggerInterface $logger = null)
     {
-        $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
+        $this->logger = $logger ?: StaticContainer::get(LoggerInterface::class);
     }
 
     /**
@@ -64,7 +64,6 @@ class Model
                        GROUP_CONCAT(idarchive, '.', value ORDER BY ts_archived DESC) as archives
                   FROM `$archiveTable`
                  WHERE name LIKE 'done%'
-                   AND ts_archived IS NOT NULL
                    AND `value` NOT IN (" . ArchiveWriter::DONE_ERROR . ")
               GROUP BY idsite, date1, date2, period, name HAVING count(*) > 1";
 
@@ -106,14 +105,6 @@ class Model
         }
 
         return $archiveIds;
-    }
-
-    public function getPlaceholderArchiveIds($archiveTable)
-    {
-        $sql = "SELECT DISTINCT idarchive FROM `$archiveTable` WHERE ts_archived IS NULL";
-        $result = Db::fetchAll($sql);
-        $result = array_column($result, 'idarchive');
-        return $result;
     }
 
     public function updateArchiveAsInvalidated($archiveTable, $idSites, $allPeriodsToInvalidate, Segment $segment = null,
@@ -461,7 +452,6 @@ class Model
                          AND arc1.period = ?
                          AND ($sqlWhereArchiveName)
                          $timeStampWhere
-                         AND arc1.ts_archived IS NOT NULL
                      ORDER BY arc1.ts_archived DESC, arc1.idarchive DESC";
 
         $results = Db::fetchAll($sqlQuery, $bindSQL);
@@ -983,6 +973,40 @@ class Model
         return $query->rowCount();
     }
 
+    public function getRecordsContainedInArchives(Date $archiveStartDate, array $idArchives, $requestedRecords): array
+    {
+        $idArchives = array_map('intval', $idArchives);
+        $idArchives = implode(',', $idArchives);
+
+        $requestedRecords = is_string($requestedRecords) ? [$requestedRecords] : $requestedRecords;
+        $placeholders = Common::getSqlStringFieldsArray($requestedRecords);
+
+        $countSql = "SELECT DISTINCT name FROM %s WHERE idarchive IN ($idArchives) AND name IN ($placeholders) LIMIT " . count($requestedRecords);
+
+        $numericTable = ArchiveTableCreator::getNumericTable($archiveStartDate);
+        $blobTable = ArchiveTableCreator::getBlobTable($archiveStartDate);
+
+        // if the requested metrics look numeric, prioritize the numeric table, otherwise the blob table. this way, if all the metrics are
+        // found in this table (which will be most of the time), we don't have to query the other table
+        if ($this->doRequestedRecordsLookNumeric($requestedRecords)) {
+            $tablesToSearch = [$numericTable, $blobTable];
+        } else {
+            $tablesToSearch = [$blobTable, $numericTable];
+        }
+
+        $existingRecords = [];
+        foreach ($tablesToSearch as $tableName) {
+            $sql = sprintf($countSql, $tableName);
+            $rows = Db::fetchAll($sql, $requestedRecords);
+            $existingRecords = array_merge($existingRecords, array_column($rows, 'name'));
+
+            if (count($existingRecords) == count($requestedRecords)) {
+                break;
+            }
+        }
+        return $existingRecords;
+    }
+
     private function isCutOffGroupConcatResult($pair)
     {
         $position = strpos($pair, '.');
@@ -993,5 +1017,15 @@ class Model
     {
         preg_match('/^done([a-zA-Z0-9]+)/', $doneFlag, $matches);
         return $matches[1] ?? '';
+    }
+
+    private function doRequestedRecordsLookNumeric(array $requestedRecords): bool
+    {
+        foreach ($requestedRecords as $record) {
+            if (preg_match('/^nb_/', $record)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

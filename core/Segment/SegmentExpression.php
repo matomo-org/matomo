@@ -50,12 +50,13 @@ class SegmentExpression
     const INDEX_OPERAND_NAME = 0;
     const INDEX_OPERAND_OPERATOR = 1;
     const INDEX_OPERAND_VALUE = 2;
+    const INDEX_OPERAND_JOIN_COLUMN = 3;
+    const INDEX_OPERAND_SEGMENT_INFO = 4;
 
     const SQL_WHERE_DO_NOT_MATCH_ANY_ROW = "(1 = 0)";
     const SQL_WHERE_MATCHES_ALL_ROWS = "(1 = 1)";
 
     protected $string;
-    protected $joins = [];
     protected $valuesBind = [];
     protected $tree = [];
     protected $parsedSubExpressions = [];
@@ -163,7 +164,6 @@ class SegmentExpression
     {
         $sqlSubExpressions = array();
         $this->valuesBind = array();
-        $this->joins = array();
 
         foreach ($this->parsedSubExpressions as $leaf) {
             $operator = $leaf[self::INDEX_BOOL_OPERATOR];
@@ -203,127 +203,161 @@ class SegmentExpression
      */
     protected function getSqlMatchFromDefinition($def, &$availableTables)
     {
-        $field     = $def[0];
-        $matchType = $def[1];
-        $value     = $def[2];
+        $field     = $def[self::INDEX_OPERAND_NAME];
+        $matchType = $def[self::INDEX_OPERAND_OPERATOR];
+        $value     = $def[self::INDEX_OPERAND_VALUE];
+        $join      = $def[self::INDEX_OPERAND_JOIN_COLUMN] ?? null;
+        $segment   = $def[self::INDEX_OPERAND_SEGMENT_INFO] ?? null;
 
-        // Segment::getCleanedExpression() may return array(null, $matchType, null)
-        $operandWillNotMatchAnyRow = empty($field) && is_null($value);
-        if($operandWillNotMatchAnyRow) {
-            if($matchType == self::MATCH_EQUAL) {
-                // eg. pageUrl==DoesNotExist
-                // Equal to NULL means it will match none
-                $sqlExpression = self::SQL_WHERE_DO_NOT_MATCH_ANY_ROW;
-            } elseif($matchType == self::MATCH_NOT_EQUAL) {
-                // eg. pageUrl!=DoesNotExist
-                // Not equal to NULL means it matches all rows
-                $sqlExpression = self::SQL_WHERE_MATCHES_ALL_ROWS;
-            } elseif($matchType == self::MATCH_CONTAINS
-                  || $matchType == self::MATCH_DOES_NOT_CONTAIN
-                  || $matchType == self::MATCH_STARTS_WITH
-                  || $matchType == self::MATCH_ENDS_WITH) {
-                // no action was found for CONTAINS / DOES NOT CONTAIN
-                // eg. pageUrl=@DoesNotExist -> matches no row
-                // eg. pageUrl!@DoesNotExist -> matches no rows
-                $sqlExpression = self::SQL_WHERE_DO_NOT_MATCH_ANY_ROW;
-            } else {
-                // it is not expected to reach this code path
-                throw new Exception("Unexpected match type $matchType for your segment. " .
-                    "Please report this issue to the Matomo team with the segment you are using.");
+        // Note: we save the SQL used in the subquery (if there is one), as we don't want to run
+        // self::checkFieldIsAvailable() on it.
+        $innerSql = null;
+
+        if (empty($sqlExpression)) {
+            // Segment::getCleanedExpression() may return array(null, $matchType, null)
+            $operandWillNotMatchAnyRow = empty($field) && is_null($value);
+            if ($operandWillNotMatchAnyRow) {
+                if ($matchType == self::MATCH_EQUAL) {
+                    // eg. pageUrl==DoesNotExist
+                    // Equal to NULL means it will match none
+                    $sqlExpression = self::SQL_WHERE_DO_NOT_MATCH_ANY_ROW;
+                } elseif ($matchType == self::MATCH_NOT_EQUAL) {
+                    // eg. pageUrl!=DoesNotExist
+                    // Not equal to NULL means it matches all rows
+                    $sqlExpression = self::SQL_WHERE_MATCHES_ALL_ROWS;
+                } elseif ($matchType == self::MATCH_CONTAINS
+                    || $matchType == self::MATCH_DOES_NOT_CONTAIN
+                    || $matchType == self::MATCH_STARTS_WITH
+                    || $matchType == self::MATCH_ENDS_WITH) {
+                    // no action was found for CONTAINS / DOES NOT CONTAIN
+                    // eg. pageUrl=@DoesNotExist -> matches no row
+                    // eg. pageUrl!@DoesNotExist -> matches no rows
+                    $sqlExpression = self::SQL_WHERE_DO_NOT_MATCH_ANY_ROW;
+                } else {
+                    // it is not expected to reach this code path
+                    throw new Exception("Unexpected match type $matchType for your segment. " .
+                        "Please report this issue to the Matomo team with the segment you are using.");
+                }
+
+                return array($sqlExpression, $value = null);
             }
 
-            return array($sqlExpression, $value = null);
+            $alsoMatchNULLValues = false;
+            switch ($matchType) {
+                case self::MATCH_EQUAL:
+                    $sqlMatch = '%s =';
+                    break;
+                case self::MATCH_NOT_EQUAL:
+                    $sqlMatch = '%s <>';
+                    $alsoMatchNULLValues = true;
+                    break;
+                case self::MATCH_GREATER:
+                    $sqlMatch = '%s >';
+                    break;
+                case self::MATCH_LESS:
+                    $sqlMatch = '%s <';
+                    break;
+                case self::MATCH_GREATER_OR_EQUAL:
+                    $sqlMatch = '%s >=';
+                    break;
+                case self::MATCH_LESS_OR_EQUAL:
+                    $sqlMatch = '%s <=';
+                    break;
+                case self::MATCH_CONTAINS:
+                    $sqlMatch = '%s LIKE';
+                    $value = '%' . $this->escapeLikeString($value) . '%';
+                    break;
+                case self::MATCH_DOES_NOT_CONTAIN:
+                    $sqlMatch = '%s NOT LIKE';
+                    $value = '%' . $this->escapeLikeString($value) . '%';
+                    $alsoMatchNULLValues = true;
+                    break;
+                case self::MATCH_STARTS_WITH:
+                    $sqlMatch = '%s LIKE';
+                    $value = $this->escapeLikeString($value) . '%';
+                    break;
+                case self::MATCH_ENDS_WITH:
+                    $sqlMatch = '%s LIKE';
+                    $value = '%' . $this->escapeLikeString($value);
+                    break;
+
+                case self::MATCH_IS_NOT_NULL_NOR_EMPTY:
+                    $sqlMatch = '%s IS NOT NULL AND %s <> \'\' AND %s <> \'0\'';
+                    $value = null;
+                    break;
+
+                case self::MATCH_IS_NULL_OR_EMPTY:
+                    $sqlMatch = '%s IS NULL OR %s = \'\' OR %s = \'0\'';
+                    $value = null;
+                    break;
+
+                case self::MATCH_ACTIONS_CONTAINS:
+                    // this match type is not accessible from the outside
+                    // (it won't be matched in self::parseSubExpressions())
+                    // it can be used internally to inject sub-expressions into the query.
+                    // see Segment::getCleanedExpression()
+                    $innerSql = $value['SQL'];
+                    $sqlMatch = '%s IN (%innerSql%)';
+                    $value = $value['bind'];
+                    break;
+                case self::MATCH_ACTIONS_NOT_CONTAINS:
+                    // this match type is not accessible from the outside
+                    // (it won't be matched in self::parseSubExpressions())
+                    // it can be used internally to inject sub-expressions into the query.
+                    // see Segment::getCleanedExpression()
+                    $innerSql = $value['sql'];
+                    $sqlMatch = '%s NOT IN (%innerSql%)';
+                    $value = $value['bind'];
+                    break;
+                default:
+                    throw new Exception("Filter contains the match type '" . $matchType . "' which is not supported");
+                    break;
+            }
+
+            // We match NULL values when rows are excluded only when we are not doing a
+            $alsoMatchNULLValues = $alsoMatchNULLValues && !empty($value);
+
+            if ($matchType === self::MATCH_ACTIONS_CONTAINS || $matchType === self::MATCH_ACTIONS_NOT_CONTAINS
+                || is_null($value)
+            ) {
+                $sqlExpression = "( $sqlMatch )";
+            } else {
+                if ($alsoMatchNULLValues) {
+                    $sqlExpression = "( $field IS NULL OR $sqlMatch ? )";
+                } else {
+                    $sqlExpression = "$sqlMatch ?";
+                }
+            }
         }
 
-        $alsoMatchNULLValues = false;
-        switch ($matchType) {
-            case self::MATCH_EQUAL:
-                $sqlMatch = '%s =';
-                break;
-            case self::MATCH_NOT_EQUAL:
-                $sqlMatch = '%s <>';
-                $alsoMatchNULLValues = true;
-                break;
-            case self::MATCH_GREATER:
-                $sqlMatch = '%s >';
-                break;
-            case self::MATCH_LESS:
-                $sqlMatch = '%s <';
-                break;
-            case self::MATCH_GREATER_OR_EQUAL:
-                $sqlMatch = '%s >=';
-                break;
-            case self::MATCH_LESS_OR_EQUAL:
-                $sqlMatch = '%s <=';
-                break;
-            case self::MATCH_CONTAINS:
-                $sqlMatch = '%s LIKE';
-                $value    = '%' . $this->escapeLikeString($value) . '%';
-                break;
-            case self::MATCH_DOES_NOT_CONTAIN:
-                $sqlMatch = '%s NOT LIKE';
-                $value    = '%' . $this->escapeLikeString($value) . '%';
-                $alsoMatchNULLValues = true;
-                break;
-            case self::MATCH_STARTS_WITH:
-                $sqlMatch = '%s LIKE';
-                $value    = $this->escapeLikeString($value) . '%';
-                break;
-            case self::MATCH_ENDS_WITH:
-                $sqlMatch = '%s LIKE';
-                $value    = '%' . $this->escapeLikeString($value);
-                break;
-
-            case self::MATCH_IS_NOT_NULL_NOR_EMPTY:
-                $sqlMatch = '%s IS NOT NULL AND %s <> \'\' AND %s <> \'0\'';
-                $value    = null;
-                break;
-
-            case self::MATCH_IS_NULL_OR_EMPTY:
-                $sqlMatch = '%s IS NULL OR %s = \'\' OR %s = \'0\'';
-                $value    = null;
-                break;
-
-            case self::MATCH_ACTIONS_CONTAINS:
-                // this match type is not accessible from the outside
-                // (it won't be matched in self::parseSubExpressions())
-                // it can be used internally to inject sub-expressions into the query.
-                // see Segment::getCleanedExpression()
-                $sqlMatch = '%s IN (' . $value['SQL'] . ')';
-                $value    = $value['bind'];
-                break;
-            case self::MATCH_ACTIONS_NOT_CONTAINS:
-                // this match type is not accessible from the outside
-                // (it won't be matched in self::parseSubExpressions())
-                // it can be used internally to inject sub-expressions into the query.
-                // see Segment::getCleanedExpression()
-                $sqlMatch = '%s NOT IN (' . $value['sql'] . ')';
-                $value    = $value['bind'];
-                break;
-            default:
-                throw new Exception("Filter contains the match type '" . $matchType . "' which is not supported");
-                break;
-        }
-
-        // We match NULL values when rows are excluded only when we are not doing a
-        $alsoMatchNULLValues = $alsoMatchNULLValues && !empty($value);
-        $sqlMatch = str_replace('%s', $field, $sqlMatch);
-
-        if ($matchType === self::MATCH_ACTIONS_CONTAINS || $matchType === self::MATCH_ACTIONS_NOT_CONTAINS
-            || is_null($value)
-        ) {
-            $sqlExpression = "( $sqlMatch )";
+        if (!empty($join['field'])) {
+            $sqlExpression = str_replace('%s', $join['field'], $sqlExpression);
         } else {
-            if ($alsoMatchNULLValues) {
-                $sqlExpression = "( $field IS NULL OR $sqlMatch ? )";
-            } else {
-                $sqlExpression = "$sqlMatch ?";
+            $sqlExpression = str_replace('%s', $field, $sqlExpression);
+        }
+
+        if (!empty($join['discriminator'])) {
+            $sqlExpression = '(' . $sqlExpression . ' AND ' . $join['discriminator'] . ')';
+        }
+
+        $columns = self::parseColumnsFromSqlExpr($sqlExpression);
+        foreach ($columns as $column) {
+            $this->checkFieldIsAvailable($column, $availableTables, $join);
+        }
+
+        if (!empty($join['field'])) {
+            $this->checkFieldIsAvailable($join['field'], $availableTables, $join);
+        }
+
+        if (!empty($join['joinOn'])) {
+            $joinOnColumns = self::parseColumnsFromSqlExpr($join['joinOn']);
+            foreach ($joinOnColumns as $column) {
+                $this->checkFieldIsAvailable($column, $availableTables, $join);
             }
         }
 
-        $columns = self::parseColumnsFromSqlExpr($field);
-        foreach ($columns as $column) {
-            $this->checkFieldIsAvailable($column, $availableTables);
+        if ($innerSql) {
+            $sqlExpression = str_replace('%innerSql%', $innerSql, $sqlExpression);
         }
 
         return array($sqlExpression, $value);
@@ -355,7 +389,7 @@ class SegmentExpression
      * @param string $field
      * @param array $availableTables
      */
-    private function checkFieldIsAvailable($field, &$availableTables)
+    private function checkFieldIsAvailable($field, &$availableTables, $join)
     {
         $fieldParts = explode('.', $field);
 
@@ -364,6 +398,7 @@ class SegmentExpression
         // remove sql functions from field name
         // example: `HOUR(log_visit.visit_last_action_time)` gets `HOUR(log_visit` => remove `HOUR(`
         $table = preg_replace('/^[A-Z_]+\(/', '', $table);
+
         $tableExists = !$table || in_array($table, $availableTables);
 
         if ($tableExists) {
@@ -382,7 +417,16 @@ class SegmentExpression
             }
         }
 
-        $availableTables[] = $table;
+        if ($join
+            && ((empty($join['tableAlias']) && $table == $join['table'])
+                || $table == $join['tableAlias']
+            )
+        ) {
+            $availableTables[] = $join;
+        } else {
+            $availableTables[] = $table;
+        }
+
     }
 
     /**
@@ -457,11 +501,10 @@ class SegmentExpression
 
     /**
      * Given the array of parsed boolean logic, will return
-     * an array containing the full SQL string representing the filter,
-     * the needed joins and the values to bind to the query
+     * an array containing the full SQL string representing the filter and the values to bind to the query
      *
      * @throws Exception
-     * @return array SQL Query, Joins and Bind parameters
+     * @return array SQL Query and Bind parameters
      */
     public function getSql()
     {
@@ -497,11 +540,10 @@ class SegmentExpression
         if ($subExpression) {
             $sql .= ')';
         }
+
         return array(
             'where' => $sql,
             'bind'  => $this->valuesBind,
-            'join'  => implode(' ', $this->joins)
         );
     }
 }
-

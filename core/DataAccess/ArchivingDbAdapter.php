@@ -12,7 +12,7 @@ namespace Piwik\DataAccess;
 use Piwik\Config;
 use Piwik\Db\AdapterInterface;
 use Piwik\DbHelper;
-use Psr\Log\LoggerInterface;
+use Piwik\Log\LoggerInterface;
 use Exception;
 
 class ArchivingDbAdapter

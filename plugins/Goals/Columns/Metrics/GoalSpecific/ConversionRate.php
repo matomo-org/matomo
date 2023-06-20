@@ -7,6 +7,7 @@
  */
 namespace Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific;
 
+use Piwik\Columns\Dimension;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
 use Piwik\Metrics\Formatter;
@@ -60,5 +61,10 @@ class ConversionRate extends GoalSpecificProcessedMetric
         $conversions = $this->getMetric($goalMetrics, 'nb_conversions', $mappingFromNameToIdGoal);
 
         return Piwik::getQuotientSafe($conversions, $nbVisits, GoalManager::REVENUE_PRECISION + 2);
+    }
+
+    public function getSemanticType(): ?string
+    {
+        return Dimension::TYPE_PERCENT;
     }
 }

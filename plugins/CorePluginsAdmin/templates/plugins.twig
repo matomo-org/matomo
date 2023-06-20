@@ -7,50 +7,39 @@
 
 {% block content %}
 
-    {% include '@Marketplace/uploadPluginDialog.twig' %}
+    <div
+        vue-entry="CorePluginsAdmin.UploadPluginDialog"
+        is-plugin-upload-enabled="{{ isPluginUploadEnabled|default(null)|json_encode }}"
+        upload-limit="{{ uploadLimit|default(null)|json_encode }}"
+        install-nonce="{{ installNonce|default(null)|json_encode }}"
+    ></div>
 
-    <div piwik-content-intro>
-        <h2 piwik-enriched-headline>
-            {{ title|e('html_attr') }}
-        </h2>
+    <div
+        vue-entry="CorePluginsAdmin.PluginsIntro"
+        is-marketplace-enabled="{{ isMarketplaceEnabled|default(null)|json_encode }}"
+        is-plugin-upload-enabled="{{ isPluginUploadEnabled|default(null)|json_encode }}"
+        is-plugins-admin-enabled="{{ isPluginsAdminEnabled|default(null)|json_encode }}"
+    ></div>
 
-        <p>{{ 'CorePluginsAdmin_PluginsExtendPiwik'|translate }}
-            {{ 'CorePluginsAdmin_OncePluginIsInstalledYouMayActivateHere'|translate }}
+    <div
+        vue-entry="CorePluginsAdmin.PluginsTableWithUpdates"
+        plugins-having-update="{{ pluginsHavingUpdate|default({})|json_encode }}"
+        plugin-update-nonces="{{ pluginUpdateNonces|default({})|json_encode }}"
+        update-nonce="{{ updateNonce|json_encode }}"
+        is-multi-server-environment="{{ isMultiServerEnvironment|default(false)|json_encode }}"
+    ></div>
 
-            {% if isMarketplaceEnabled or isPluginUploadEnabled %}
-                {{ 'CorePluginsAdmin_TeaserExtendPiwikByPlugin'|translate(
-                    '<a href="' ~ linkTo({'module':'Marketplace', 'action':'overview', 'sort': null, 'activated': null})|e('html_attr') ~ '">',
-                    '</a>',
-                    '<a href="#" class="uploadPlugin">',
-                    '</a>'
-                )|raw }}
-            {% endif %}
-
-            {% if not isPluginsAdminEnabled %}
-                <br/>{{ 'CorePluginsAdmin_DoMoreContactPiwikAdmins'|translate }}
-            {% endif %}
-
-            {{ 'CorePluginsAdmin_ChangeLookByManageThemes'|translate('<a href="' ~ linkTo({'action': 'themes', 'activated': null})|e('html_attr') ~'">', '</a>')|raw }}
-        </p>
-    </div>
-
-    {% if pluginsHavingUpdate|length %}
-        <div piwik-content-block content-title="{{ pluginsHavingUpdate|length }} Update(s) available">
-
-            <p>{{ 'CorePluginsAdmin_InfoPluginUpdateIsRecommended'|translate }}</p>
-
-            {{ plugins.tablePluginUpdates(pluginsHavingUpdate, updateNonce, isMultiServerEnvironment) }}
-        </div>
-    {% endif %}
-
-    <div piwik-content-block content-title="{{ 'CorePluginsAdmin_InstalledPlugins'|translate|e('html_attr') }}"
-         class="pluginsManagement"
-         piwik-plugin-management>
-
-        {{ plugins.pluginsFilter() }}
-
-        {{ plugins.tablePlugins(pluginsInfo, pluginNamesHavingSettings, activateNonce, deactivateNonce, uninstallNonce, false, marketplacePluginNames, isPluginsAdminEnabled) }}
-
-    </div>
+    <div
+        vue-entry="CorePluginsAdmin.PluginsTable"
+        title="{{ 'CorePluginsAdmin_InstalledPlugins'|translate|json_encode }}"
+        is-theme="false"
+        display-admin-links="{{ isPluginsAdminEnabled|default(null)|json_encode }}"
+        plugins-info="{{ pluginsInfo|default({})|json_encode }}"
+        uninstall-nonce="{{ uninstallNonce|json_encode }}"
+        deactivate-nonce="{{ deactivateNonce|json_encode }}"
+        activate-nonce="{{ activateNonce|json_encode }}"
+        marketplace-plugin-names="{{ marketplacePluginNames|default([])|json_encode }}"
+        plugin-names-having-settings="{{ pluginNamesHavingSettings|default([])|json_encode }}"
+    ></div>
 
 {% endblock %}

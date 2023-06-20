@@ -216,7 +216,7 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             'VisitTime.getVisitInformationPerServerTime',
 
              // the Actions.getPageTitles test fails for unknown reason, so skipping it
-             // eg. https://travis-ci.org/piwik/piwik/jobs/24449365
+             // @todo check if that still the case
             'Actions.getPageTitles',
             'Actions.getEntryPageTitles', // segment values can differ due to missing metadata in old reports
             'Actions.getExitPageTitles',
@@ -293,7 +293,7 @@ class BackwardsCompatibility1XTest extends SystemTestCase
     public function provideContainerConfig()
     {
         return [
-            'Piwik\Config' => \DI\decorate(function ($previous) {
+            'Piwik\Config' => \Piwik\DI::decorate(function ($previous) {
                 $general = $previous->General;
                 $general['action_title_category_delimiter'] = "/";
                 $previous->General = $general;

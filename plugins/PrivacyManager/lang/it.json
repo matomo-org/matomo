@@ -104,7 +104,6 @@
         "GeolocationAnonymizeIpNote": "Nota: La Geolocalizzazione avrà circa gli stessi risultati con 1 byte anonimo. Con 2 byte o più, la Geolocalizzazione sarà imprecisa.",
         "GetPurgeEstimate": "Ottieni stima pulizia",
         "HowDoIAskForConsent": "Come devo chiedere il consenso agli utenti?",
-        "HowDoIAskForConsentIntroduction": "Scopri tutto sulla %1$srichiesta di cookie o il consenso al monitoraggio nella nostra guida all'integrazione%2$s.",
         "Imprint": "Colophon",
         "ImprintUrl": "URL Colophon",
         "ImprintUrlDescription": "Link alla tua Pagina Colophon",
@@ -186,8 +185,6 @@
         "VisitsMatchedCriteria": "Queste visite corrispondono ai criteri selezionati.",
         "VisitsSuccessfullyDeleted": "Visite cancellate con successo",
         "VisitsSuccessfullyExported": "Visite esportate con successo",
-        "WhenConsentIsNeeded1": "Nel contesto delle %1$snorme sulla privacy del GDPR%2$s, quando si elaborano dati personali, in alcuni casi è necessario richiedere il consenso degli utenti. Per stabilire se è necessario richiedere il consenso, è necessario determinare se la base legale per l'elaborazione dei dati personali è il Consenso o l'Interesse legittimo o se è possibile evitare completamente la raccolta di dati personali. Raccomandiamo di saperne di più sulla %3$sbase legale ai sensi del GDPR per Matomo%4$s.",
-        "WhenConsentIsNeeded2": "Tieni presente che quando chiedi il consenso ai tuoi utenti e se non riesci a dimostrare di aver ottenuto il \"Consenso\" dei tuoi utenti in passato, ti consigliamo di %1$srendere anonimi i dati grezzi dei tuoi utenti precedentemente monitorati%2$s.",
         "WhenDoINeedConsent": "Quando devi richiedere il consenso dell'utente?"
     }
 }

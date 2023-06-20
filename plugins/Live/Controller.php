@@ -48,6 +48,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view = $this->setCounters($view);
         $view->liveRefreshAfterMs = (int)Config::getInstance()->General['live_widget_refresh_after_seconds'] * 1000;
         $view->visitors = $this->getLastVisitsStart();
+        $view->initialTotalVisitors = $this->ajaxTotalVisitors();
         $view->liveTokenAuth = Piwik::getCurrentUserTokenAuth();
         return $this->render($view);
     }
@@ -153,8 +154,8 @@ class Controller extends \Piwik\Plugin\Controller
 
         $view->visitorsCountHalfHour = $last30min['visits'];
         $view->visitorsCountToday = $today['visits'];
-        $view->pisHalfhour = $last30min['actions'];
-        $view->pisToday = $today['actions'];
+        $view->pisHalfhour = (int)$last30min['actions'];
+        $view->pisToday = (int)$today['actions'];
         return $view;
     }
 

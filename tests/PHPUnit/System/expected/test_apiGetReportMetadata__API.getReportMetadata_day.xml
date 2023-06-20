@@ -30,6 +30,22 @@
 			<orders_evolution>Ecommerce Orders Evolution</orders_evolution>
 			<ecommerce_revenue_evolution>Product Revenue Evolution</ecommerce_revenue_evolution>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_actions>number</nb_actions>
+			<nb_pageviews>number</nb_pageviews>
+			<revenue>money</revenue>
+			<nb_conversions>number</nb_conversions>
+			<orders>number</orders>
+			<ecommerce_revenue>money</ecommerce_revenue>
+			<visits_evolution>percent</visits_evolution>
+			<actions_evolution>percent</actions_evolution>
+			<pageviews_evolution>percent</pageviews_evolution>
+			<revenue_evolution>percent</revenue_evolution>
+			<nb_conversions_evolution>percent</nb_conversions_evolution>
+			<orders_evolution>percent</orders_evolution>
+			<ecommerce_revenue_evolution>percent</ecommerce_revenue_evolution>
+		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=MultiSites&amp;apiAction=getAll&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=MultiSites&amp;apiAction=getAll&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>MultiSites_getAll</uniqueId>
@@ -64,6 +80,22 @@
 			<orders_evolution>Ecommerce Orders Evolution</orders_evolution>
 			<ecommerce_revenue_evolution>Product Revenue Evolution</ecommerce_revenue_evolution>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_actions>number</nb_actions>
+			<nb_pageviews>number</nb_pageviews>
+			<revenue>money</revenue>
+			<nb_conversions>number</nb_conversions>
+			<orders>number</orders>
+			<ecommerce_revenue>money</ecommerce_revenue>
+			<visits_evolution>percent</visits_evolution>
+			<actions_evolution>percent</actions_evolution>
+			<pageviews_evolution>percent</pageviews_evolution>
+			<revenue_evolution>percent</revenue_evolution>
+			<nb_conversions_evolution>percent</nb_conversions_evolution>
+			<orders_evolution>percent</orders_evolution>
+			<ecommerce_revenue_evolution>percent</ecommerce_revenue_evolution>
+		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=MultiSites&amp;apiAction=getOne&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=MultiSites&amp;apiAction=getOne&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>MultiSites_getOne</uniqueId>
@@ -96,6 +128,16 @@
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Visit Duration (in seconds)</avg_time_on_site>
 		</processedMetrics>
+		<metricTypes>
+			<nb_uniq_visitors>number</nb_uniq_visitors>
+			<nb_visits>number</nb_visits>
+			<nb_users>number</nb_users>
+			<nb_actions>number</nb_actions>
+			<max_actions>number</max_actions>
+			<bounce_rate>percent</bounce_rate>
+			<nb_actions_per_visit>number</nb_actions_per_visit>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitsSummary&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitsSummary&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>VisitsSummary_get</uniqueId>
@@ -127,6 +169,15 @@
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_uniq_visitors>number</nb_uniq_visitors>
+			<nb_actions>number</nb_actions>
+			<nb_actions_per_visit>number</nb_actions_per_visit>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+			<bounce_rate>percent</bounce_rate>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
@@ -134,6 +185,12 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetricsGoal>
+		<metricTypesGoal>
+			<revenue_per_visit>money</revenue_per_visit>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+		</metricTypesGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCountry&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCountry&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>UserCountry_getCountry</uniqueId>
@@ -165,6 +222,15 @@
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_uniq_visitors>number</nb_uniq_visitors>
+			<nb_actions>number</nb_actions>
+			<nb_actions_per_visit>number</nb_actions_per_visit>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+			<bounce_rate>percent</bounce_rate>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
@@ -172,6 +238,12 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetricsGoal>
+		<metricTypesGoal>
+			<revenue_per_visit>money</revenue_per_visit>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+		</metricTypesGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getContinent&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getContinent&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>UserCountry_getContinent</uniqueId>
@@ -203,6 +275,15 @@
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_uniq_visitors>number</nb_uniq_visitors>
+			<nb_actions>number</nb_actions>
+			<nb_actions_per_visit>number</nb_actions_per_visit>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+			<bounce_rate>percent</bounce_rate>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
@@ -210,6 +291,12 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetricsGoal>
+		<metricTypesGoal>
+			<revenue_per_visit>money</revenue_per_visit>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+		</metricTypesGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getRegion&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getRegion&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>UserCountry_getRegion</uniqueId>
@@ -244,6 +331,16 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_uniq_visitors>number</nb_uniq_visitors>
+			<nb_actions>number</nb_actions>
+			<nb_users>number</nb_users>
+			<nb_actions_per_visit>number</nb_actions_per_visit>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+			<bounce_rate>percent</bounce_rate>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<relatedReports>
 			<row>
 				<name>Language code</name>
@@ -282,6 +379,15 @@
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_uniq_visitors>number</nb_uniq_visitors>
+			<nb_actions>number</nb_actions>
+			<nb_actions_per_visit>number</nb_actions_per_visit>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+			<bounce_rate>percent</bounce_rate>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
@@ -289,6 +395,12 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetricsGoal>
+		<metricTypesGoal>
+			<revenue_per_visit>money</revenue_per_visit>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+		</metricTypesGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCity&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCity&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>UserCountry_getCity</uniqueId>
@@ -323,6 +435,16 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_uniq_visitors>number</nb_uniq_visitors>
+			<nb_actions>number</nb_actions>
+			<nb_users>number</nb_users>
+			<nb_actions_per_visit>number</nb_actions_per_visit>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+			<bounce_rate>percent</bounce_rate>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<relatedReports>
 			<row>
 				<name>Web-browser language</name>
@@ -363,6 +485,16 @@
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_uniq_visitors>number</nb_uniq_visitors>
+			<nb_actions>number</nb_actions>
+			<nb_users>number</nb_users>
+			<nb_actions_per_visit>number</nb_actions_per_visit>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+			<bounce_rate>percent</bounce_rate>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
@@ -370,6 +502,12 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetricsGoal>
+		<metricTypesGoal>
+			<revenue_per_visit>money</revenue_per_visit>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+		</metricTypesGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getType&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getType&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>DevicesDetection_getType</uniqueId>
@@ -403,6 +541,16 @@
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_uniq_visitors>number</nb_uniq_visitors>
+			<nb_actions>number</nb_actions>
+			<nb_users>number</nb_users>
+			<nb_actions_per_visit>number</nb_actions_per_visit>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+			<bounce_rate>percent</bounce_rate>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
@@ -410,6 +558,12 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetricsGoal>
+		<metricTypesGoal>
+			<revenue_per_visit>money</revenue_per_visit>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+		</metricTypesGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getModel&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getModel&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>DevicesDetection_getModel</uniqueId>
@@ -443,6 +597,16 @@
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_uniq_visitors>number</nb_uniq_visitors>
+			<nb_actions>number</nb_actions>
+			<nb_users>number</nb_users>
+			<nb_actions_per_visit>number</nb_actions_per_visit>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+			<bounce_rate>percent</bounce_rate>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
@@ -450,6 +614,12 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetricsGoal>
+		<metricTypesGoal>
+			<revenue_per_visit>money</revenue_per_visit>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+		</metricTypesGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getBrand&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getBrand&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>DevicesDetection_getBrand</uniqueId>
@@ -484,6 +654,16 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_uniq_visitors>number</nb_uniq_visitors>
+			<nb_actions>number</nb_actions>
+			<nb_users>number</nb_users>
+			<nb_actions_per_visit>number</nb_actions_per_visit>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+			<bounce_rate>percent</bounce_rate>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<relatedReports>
 			<row>
 				<name>Configurations</name>
@@ -525,6 +705,16 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_uniq_visitors>number</nb_uniq_visitors>
+			<nb_actions>number</nb_actions>
+			<nb_users>number</nb_users>
+			<nb_actions_per_visit>number</nb_actions_per_visit>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+			<bounce_rate>percent</bounce_rate>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<relatedReports>
 			<row>
 				<name>Operating System families</name>
@@ -565,6 +755,16 @@
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_uniq_visitors>number</nb_uniq_visitors>
+			<nb_actions>number</nb_actions>
+			<nb_users>number</nb_users>
+			<nb_actions_per_visit>number</nb_actions_per_visit>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+			<bounce_rate>percent</bounce_rate>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<relatedReports>
 			<row>
 				<name>Browser version</name>
@@ -579,6 +779,12 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetricsGoal>
+		<metricTypesGoal>
+			<revenue_per_visit>money</revenue_per_visit>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+		</metricTypesGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getBrowsers&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getBrowsers&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>DevicesDetection_getBrowsers</uniqueId>
@@ -613,6 +819,16 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_uniq_visitors>number</nb_uniq_visitors>
+			<nb_actions>number</nb_actions>
+			<nb_users>number</nb_users>
+			<nb_actions_per_visit>number</nb_actions_per_visit>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+			<bounce_rate>percent</bounce_rate>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<relatedReports>
 			<row>
 				<name>Browsers</name>
@@ -654,6 +870,16 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_uniq_visitors>number</nb_uniq_visitors>
+			<nb_actions>number</nb_actions>
+			<nb_users>number</nb_users>
+			<nb_actions_per_visit>number</nb_actions_per_visit>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+			<bounce_rate>percent</bounce_rate>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<relatedReports>
 			<row>
 				<name>Screen Resolution</name>
@@ -695,6 +921,16 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_uniq_visitors>number</nb_uniq_visitors>
+			<nb_actions>number</nb_actions>
+			<nb_users>number</nb_users>
+			<nb_actions_per_visit>number</nb_actions_per_visit>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+			<bounce_rate>percent</bounce_rate>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<relatedReports>
 			<row>
 				<name>Operating System versions</name>
@@ -736,6 +972,16 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_uniq_visitors>number</nb_uniq_visitors>
+			<nb_actions>number</nb_actions>
+			<nb_users>number</nb_users>
+			<nb_actions_per_visit>number</nb_actions_per_visit>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+			<bounce_rate>percent</bounce_rate>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getBrowserEngines&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicesDetection&amp;apiAction=getBrowserEngines&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>DevicesDetection_getBrowserEngines</uniqueId>
@@ -757,6 +1003,10 @@
 		<processedMetrics>
 			<nb_visits_percentage>% Visits</nb_visits_percentage>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_visits_percentage>percent</nb_visits_percentage>
+		</metricTypes>
 		<constantRowsCount>1</constantRowsCount>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=DevicePlugins&amp;apiAction=getPlugin&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>DevicePlugins_getPlugin</uniqueId>
@@ -791,6 +1041,16 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_uniq_visitors>number</nb_uniq_visitors>
+			<nb_actions>number</nb_actions>
+			<nb_users>number</nb_users>
+			<nb_actions_per_visit>number</nb_actions_per_visit>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+			<bounce_rate>percent</bounce_rate>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<constantRowsCount>1</constantRowsCount>
 		<relatedReports>
 			<row>
@@ -831,6 +1091,16 @@
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_uniq_visitors>number</nb_uniq_visitors>
+			<nb_actions>number</nb_actions>
+			<nb_users>number</nb_users>
+			<nb_actions_per_visit>number</nb_actions_per_visit>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+			<bounce_rate>percent</bounce_rate>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<constantRowsCount>1</constantRowsCount>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
@@ -839,6 +1109,12 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetricsGoal>
+		<metricTypesGoal>
+			<revenue_per_visit>money</revenue_per_visit>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+		</metricTypesGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitTime&amp;apiAction=getVisitInformationPerServerTime&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>VisitTime_getVisitInformationPerServerTime</uniqueId>
 	</row>
@@ -872,6 +1148,16 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_uniq_visitors>number</nb_uniq_visitors>
+			<nb_actions>number</nb_actions>
+			<nb_users>number</nb_users>
+			<nb_actions_per_visit>number</nb_actions_per_visit>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+			<bounce_rate>percent</bounce_rate>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<constantRowsCount>1</constantRowsCount>
 		<relatedReports>
 			<row>
@@ -912,6 +1198,15 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_actions>number</nb_actions>
+			<nb_visits_converted>number</nb_visits_converted>
+			<nb_actions_per_visit>number</nb_actions_per_visit>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+			<bounce_rate>percent</bounce_rate>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserId&amp;apiAction=getUsers&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserId&amp;apiAction=getUsers&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>UserId_getUsers</uniqueId>
@@ -950,6 +1245,16 @@
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_uniq_visitors>number</nb_uniq_visitors>
+			<nb_actions>number</nb_actions>
+			<nb_users>number</nb_users>
+			<nb_actions_per_visit>number</nb_actions_per_visit>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+			<bounce_rate>percent</bounce_rate>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<actionToLoadSubTables>getCustomVariablesValuesFromNameId</actionToLoadSubTables>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
@@ -958,6 +1263,12 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetricsGoal>
+		<metricTypesGoal>
+			<revenue_per_visit>money</revenue_per_visit>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+		</metricTypesGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomVariables&amp;apiAction=getCustomVariables&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomVariables&amp;apiAction=getCustomVariables&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>CustomVariables_getCustomVariables</uniqueId>
@@ -991,6 +1302,17 @@
 		<processedMetrics>
 			<avg_time_generation>Avg. generation time</avg_time_generation>
 		</processedMetrics>
+		<metricTypes>
+			<nb_pageviews>number</nb_pageviews>
+			<nb_uniq_pageviews>number</nb_uniq_pageviews>
+			<nb_downloads>number</nb_downloads>
+			<nb_uniq_downloads>number</nb_uniq_downloads>
+			<nb_outlinks>number</nb_outlinks>
+			<nb_uniq_outlinks>number</nb_uniq_outlinks>
+			<nb_searches>number</nb_searches>
+			<nb_keywords>number</nb_keywords>
+			<avg_time_generation>duration_s</avg_time_generation>
+		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Actions_get</uniqueId>
@@ -1010,6 +1332,11 @@
 			<nb_total_pageview_bandwidth>Bytes transferred pageviews</nb_total_pageview_bandwidth>
 			<nb_total_overall_bandwidth>Bytes transferred overall</nb_total_overall_bandwidth>
 		</processedMetrics>
+		<metricTypes>
+			<nb_total_overall_bandwidth>number</nb_total_overall_bandwidth>
+			<nb_total_pageview_bandwidth>number</nb_total_pageview_bandwidth>
+			<nb_total_download_bandwidth>number</nb_total_download_bandwidth>
+		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Bandwidth&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Bandwidth&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Bandwidth_get</uniqueId>
@@ -1040,6 +1367,14 @@
 			<exit_rate>Exit rate</exit_rate>
 			<avg_time_generation>Avg. generation time</avg_time_generation>
 		</processedMetrics>
+		<metricTypes>
+			<nb_hits>number</nb_hits>
+			<nb_visits>number</nb_visits>
+			<avg_time_on_page>duration_s</avg_time_on_page>
+			<bounce_rate>percent</bounce_rate>
+			<exit_rate>percent</exit_rate>
+			<avg_time_generation>duration_s</avg_time_generation>
+		</metricTypes>
 		<actionToLoadSubTables>getPageUrls</actionToLoadSubTables>
 		<relatedReports>
 			<row>
@@ -1079,6 +1414,14 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<avg_time_generation>Avg. generation time</avg_time_generation>
 		</processedMetrics>
+		<metricTypes>
+			<entry_nb_visits>number</entry_nb_visits>
+			<entry_bounce_count>number</entry_bounce_count>
+			<avg_time_on_page>duration_s</avg_time_on_page>
+			<bounce_rate>percent</bounce_rate>
+			<exit_rate>percent</exit_rate>
+			<avg_time_generation>duration_s</avg_time_generation>
+		</metricTypes>
 		<actionToLoadSubTables>getEntryPageUrls</actionToLoadSubTables>
 		<relatedReports>
 			<row>
@@ -1113,6 +1456,14 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<avg_time_generation>Avg. generation time</avg_time_generation>
 		</processedMetrics>
+		<metricTypes>
+			<entry_nb_visits>number</entry_nb_visits>
+			<entry_bounce_count>number</entry_bounce_count>
+			<avg_time_on_page>duration_s</avg_time_on_page>
+			<bounce_rate>percent</bounce_rate>
+			<exit_rate>percent</exit_rate>
+			<avg_time_generation>duration_s</avg_time_generation>
+		</metricTypes>
 		<actionToLoadSubTables>getEntryPageTitles</actionToLoadSubTables>
 		<relatedReports>
 			<row>
@@ -1154,6 +1505,14 @@
 			<exit_rate>Exit rate</exit_rate>
 			<avg_time_generation>Avg. generation time</avg_time_generation>
 		</processedMetrics>
+		<metricTypes>
+			<exit_nb_visits>number</exit_nb_visits>
+			<nb_visits>number</nb_visits>
+			<avg_time_on_page>duration_s</avg_time_on_page>
+			<bounce_rate>percent</bounce_rate>
+			<exit_rate>percent</exit_rate>
+			<avg_time_generation>duration_s</avg_time_generation>
+		</metricTypes>
 		<actionToLoadSubTables>getExitPageUrls</actionToLoadSubTables>
 		<relatedReports>
 			<row>
@@ -1188,6 +1547,14 @@
 			<exit_rate>Exit rate</exit_rate>
 			<avg_time_generation>Avg. generation time</avg_time_generation>
 		</processedMetrics>
+		<metricTypes>
+			<exit_nb_visits>number</exit_nb_visits>
+			<nb_visits>number</nb_visits>
+			<avg_time_on_page>duration_s</avg_time_on_page>
+			<bounce_rate>percent</bounce_rate>
+			<exit_rate>percent</exit_rate>
+			<avg_time_generation>duration_s</avg_time_generation>
+		</metricTypes>
 		<actionToLoadSubTables>getExitPageTitles</actionToLoadSubTables>
 		<relatedReports>
 			<row>
@@ -1231,6 +1598,14 @@
 			<exit_rate>Exit rate</exit_rate>
 			<avg_time_generation>Avg. generation time</avg_time_generation>
 		</processedMetrics>
+		<metricTypes>
+			<nb_hits>number</nb_hits>
+			<nb_visits>number</nb_visits>
+			<avg_time_on_page>duration_s</avg_time_on_page>
+			<bounce_rate>percent</bounce_rate>
+			<exit_rate>percent</exit_rate>
+			<avg_time_generation>duration_s</avg_time_generation>
+		</metricTypes>
 		<actionToLoadSubTables>getPageTitles</actionToLoadSubTables>
 		<relatedReports>
 			<row>
@@ -1269,6 +1644,14 @@
 		<processedMetrics>
 			<exit_rate>% Search Exits</exit_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_pages_per_search>number</nb_pages_per_search>
+			<avg_time_on_page>duration_s</avg_time_on_page>
+			<bounce_rate>percent</bounce_rate>
+			<exit_rate>percent</exit_rate>
+			<avg_time_generation>duration_s</avg_time_generation>
+		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getSiteSearchKeywords&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getSiteSearchKeywords&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Actions_getSiteSearchKeywords</uniqueId>
@@ -1290,6 +1673,14 @@
 			<nb_hits_following_search>The number of times this Page was visited after a visitor did a search on your website, and clicked on this page in the search results.</nb_hits_following_search>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 		</metricsDocumentation>
+		<metricTypes>
+			<nb_hits_following_search>number</nb_hits_following_search>
+			<nb_hits>number</nb_hits>
+			<avg_time_on_page>duration_s</avg_time_on_page>
+			<bounce_rate>percent</bounce_rate>
+			<exit_rate>percent</exit_rate>
+			<avg_time_generation>duration_s</avg_time_generation>
+		</metricTypes>
 		<relatedReports>
 			<row>
 				<name>Page Titles Following a Site Search</name>
@@ -1320,6 +1711,13 @@
 		<processedMetrics>
 			<exit_rate>% Search Exits</exit_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<avg_time_on_page>duration_s</avg_time_on_page>
+			<bounce_rate>percent</bounce_rate>
+			<exit_rate>percent</exit_rate>
+			<avg_time_generation>duration_s</avg_time_generation>
+		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getSiteSearchNoResultKeywords&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getSiteSearchNoResultKeywords&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Actions_getSiteSearchNoResultKeywords</uniqueId>
@@ -1341,6 +1739,14 @@
 			<nb_hits_following_search>The number of times this Page was visited after a visitor did a search on your website, and clicked on this page in the search results.</nb_hits_following_search>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 		</metricsDocumentation>
+		<metricTypes>
+			<nb_hits_following_search>number</nb_hits_following_search>
+			<nb_hits>number</nb_hits>
+			<avg_time_on_page>duration_s</avg_time_on_page>
+			<bounce_rate>percent</bounce_rate>
+			<exit_rate>percent</exit_rate>
+			<avg_time_generation>duration_s</avg_time_generation>
+		</metricTypes>
 		<relatedReports>
 			<row>
 				<name>Pages Following a Site Search</name>
@@ -1371,6 +1777,11 @@
 			<nb_pages_per_search>Visitors will search on your website, and sometimes click &quot;next&quot; to view more results. This is the average number of search results pages viewed for this keyword.</nb_pages_per_search>
 			<exit_rate>The percentage of visits that left the website after searching for this Keyword on your Site Search engine.</exit_rate>
 		</metricsDocumentation>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_pages_per_search>number</nb_pages_per_search>
+			<exit_rate>percent</exit_rate>
+		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getSiteSearchCategories&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getSiteSearchCategories&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Actions_getSiteSearchCategories</uniqueId>
@@ -1391,6 +1802,10 @@
 			<nb_visits>The number of visits that involved a click on this link. If a link was clicked multiple times during one visit, it is only counted once.</nb_visits>
 			<nb_hits>The number of times this link was clicked.</nb_hits>
 		</metricsDocumentation>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_hits>number</nb_hits>
+		</metricTypes>
 		<actionToLoadSubTables>getOutlinks</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getOutlinks&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getOutlinks&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -1412,6 +1827,10 @@
 			<nb_visits>The number of visits that involved a click on this link. If a link was clicked multiple times during one visit, it is only counted once.</nb_visits>
 			<nb_hits>The number of times this link was clicked.</nb_hits>
 		</metricsDocumentation>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_hits>number</nb_hits>
+		</metricTypes>
 		<actionToLoadSubTables>getDownloads</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getDownloads&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getDownloads&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -1448,6 +1867,14 @@
 		<processedMetrics>
 			<avg_event_value>The average of all values for this event</avg_event_value>
 		</processedMetrics>
+		<metricTypes>
+			<nb_events>number</nb_events>
+			<sum_event_value>number</sum_event_value>
+			<min_event_value>number</min_event_value>
+			<max_event_value>number</max_event_value>
+			<nb_events_with_value>number</nb_events_with_value>
+			<avg_event_value>number</avg_event_value>
+		</metricTypes>
 		<actionToLoadSubTables>getActionFromCategoryId</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Events&amp;apiAction=getCategory&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Events&amp;apiAction=getCategory&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -1484,6 +1911,14 @@
 		<processedMetrics>
 			<avg_event_value>The average of all values for this event</avg_event_value>
 		</processedMetrics>
+		<metricTypes>
+			<nb_events>number</nb_events>
+			<sum_event_value>number</sum_event_value>
+			<min_event_value>number</min_event_value>
+			<max_event_value>number</max_event_value>
+			<nb_events_with_value>number</nb_events_with_value>
+			<avg_event_value>number</avg_event_value>
+		</metricTypes>
 		<actionToLoadSubTables>getNameFromActionId</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Events&amp;apiAction=getAction&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Events&amp;apiAction=getAction&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -1520,6 +1955,14 @@
 		<processedMetrics>
 			<avg_event_value>The average of all values for this event</avg_event_value>
 		</processedMetrics>
+		<metricTypes>
+			<nb_events>number</nb_events>
+			<sum_event_value>number</sum_event_value>
+			<min_event_value>number</min_event_value>
+			<max_event_value>number</max_event_value>
+			<nb_events_with_value>number</nb_events_with_value>
+			<avg_event_value>number</avg_event_value>
+		</metricTypes>
 		<actionToLoadSubTables>getActionFromNameId</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Events&amp;apiAction=getName&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Events&amp;apiAction=getName&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -1546,6 +1989,11 @@
 		<processedMetrics>
 			<interaction_rate>Interaction Rate</interaction_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_impressions>number</nb_impressions>
+			<nb_interactions>number</nb_interactions>
+			<interaction_rate>percent</interaction_rate>
+		</metricTypes>
 		<actionToLoadSubTables>getContentNames</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Contents&amp;apiAction=getContentNames&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Contents&amp;apiAction=getContentNames&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -1572,6 +2020,11 @@
 		<processedMetrics>
 			<interaction_rate>Interaction Rate</interaction_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_impressions>number</nb_impressions>
+			<nb_interactions>number</nb_interactions>
+			<interaction_rate>percent</interaction_rate>
+		</metricTypes>
 		<actionToLoadSubTables>getContentPieces</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Contents&amp;apiAction=getContentPieces&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Contents&amp;apiAction=getContentPieces&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -1591,6 +2044,9 @@
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
 		</metricsDocumentation>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+		</metricTypes>
 		<constantRowsCount>1</constantRowsCount>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitorInterest&amp;apiAction=getNumberOfVisitsPerVisitDuration&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>VisitorInterest_getNumberOfVisitsPerVisitDuration</uniqueId>
@@ -1609,6 +2065,9 @@
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
 		</metricsDocumentation>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+		</metricTypes>
 		<constantRowsCount>1</constantRowsCount>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitorInterest&amp;apiAction=getNumberOfVisitsPerPage&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>VisitorInterest_getNumberOfVisitsPerPage</uniqueId>
@@ -1630,6 +2089,10 @@
 		<processedMetrics>
 			<nb_visits_percentage>% Visits</nb_visits_percentage>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_visits_percentage>percent</nb_visits_percentage>
+		</metricTypes>
 		<constantRowsCount>1</constantRowsCount>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitorInterest&amp;apiAction=getNumberOfVisitsByVisitCount&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>VisitorInterest_getNumberOfVisitsByVisitCount</uniqueId>
@@ -1648,6 +2111,9 @@
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
 		</metricsDocumentation>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+		</metricTypes>
 		<constantRowsCount>1</constantRowsCount>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitorInterest&amp;apiAction=getNumberOfVisitsByDaysSinceLast&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>VisitorInterest_getNumberOfVisitsByDaysSinceLast</uniqueId>
@@ -1679,6 +2145,24 @@
 			<nb_actions_per_visit_new>Avg. Actions per New Visit</nb_actions_per_visit_new>
 			<bounce_rate_new>Bounce Rate for New Visits</bounce_rate_new>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits_returning>number</nb_visits_returning>
+			<nb_actions_returning>number</nb_actions_returning>
+			<nb_uniq_visitors_returning>number</nb_uniq_visitors_returning>
+			<nb_users_returning>number</nb_users_returning>
+			<max_actions_returning>number</max_actions_returning>
+			<nb_visits_new>number</nb_visits_new>
+			<nb_actions_new>number</nb_actions_new>
+			<nb_uniq_visitors_new>number</nb_uniq_visitors_new>
+			<nb_users_new>number</nb_users_new>
+			<max_actions_new>number</max_actions_new>
+			<avg_time_on_site_returning>duration_s</avg_time_on_site_returning>
+			<nb_actions_per_visit_returning>number</nb_actions_per_visit_returning>
+			<bounce_rate_returning>percent</bounce_rate_returning>
+			<avg_time_on_site_new>duration_s</avg_time_on_site_new>
+			<nb_actions_per_visit_new>number</nb_actions_per_visit_new>
+			<bounce_rate_new>percent</bounce_rate_new>
+		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitFrequency&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitFrequency&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>VisitFrequency_get</uniqueId>
@@ -1718,6 +2202,15 @@
 			<avg_time_on_load>Avg. on load time</avg_time_on_load>
 			<avg_page_load_time>Avg. page load time</avg_page_load_time>
 		</processedMetrics>
+		<metricTypes>
+			<avg_time_network>duration_s</avg_time_network>
+			<avg_time_server>duration_s</avg_time_server>
+			<avg_time_transfer>duration_s</avg_time_transfer>
+			<avg_time_dom_processing>duration_s</avg_time_dom_processing>
+			<avg_time_dom_completion>duration_s</avg_time_dom_completion>
+			<avg_time_on_load>duration_s</avg_time_on_load>
+			<avg_page_load_time>duration_s</avg_page_load_time>
+		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=PagePerformance&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=PagePerformance&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>PagePerformance_get</uniqueId>
@@ -1745,6 +2238,23 @@
 			<Referrers_distinctKeywords>Distinct keywords</Referrers_distinctKeywords>
 			<Referrers_distinctCampaigns>Distinct campaigns</Referrers_distinctCampaigns>
 		</metrics>
+		<metricTypes>
+			<Referrers_visitorsFromSearchEngines>number</Referrers_visitorsFromSearchEngines>
+			<Referrers_visitorsFromSearchEngines_percent>percent</Referrers_visitorsFromSearchEngines_percent>
+			<Referrers_visitorsFromSocialNetworks>number</Referrers_visitorsFromSocialNetworks>
+			<Referrers_visitorsFromSocialNetworks_percent>percent</Referrers_visitorsFromSocialNetworks_percent>
+			<Referrers_visitorsFromDirectEntry>number</Referrers_visitorsFromDirectEntry>
+			<Referrers_visitorsFromDirectEntry_percent>percent</Referrers_visitorsFromDirectEntry_percent>
+			<Referrers_visitorsFromWebsites>number</Referrers_visitorsFromWebsites>
+			<Referrers_visitorsFromWebsites_percent>percent</Referrers_visitorsFromWebsites_percent>
+			<Referrers_visitorsFromCampaigns>number</Referrers_visitorsFromCampaigns>
+			<Referrers_visitorsFromCampaigns_percent>percent</Referrers_visitorsFromCampaigns_percent>
+			<Referrers_distinctSearchEngines>number</Referrers_distinctSearchEngines>
+			<Referrers_distinctSocialNetworks>number</Referrers_distinctSocialNetworks>
+			<Referrers_distinctWebsites>number</Referrers_distinctWebsites>
+			<Referrers_distinctKeywords>number</Referrers_distinctKeywords>
+			<Referrers_distinctCampaigns>number</Referrers_distinctCampaigns>
+		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Referrers_get</uniqueId>
@@ -1778,6 +2288,16 @@
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_uniq_visitors>number</nb_uniq_visitors>
+			<nb_actions>number</nb_actions>
+			<nb_users>number</nb_users>
+			<nb_actions_per_visit>number</nb_actions_per_visit>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+			<bounce_rate>percent</bounce_rate>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<constantRowsCount>1</constantRowsCount>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
@@ -1786,6 +2306,12 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetricsGoal>
+		<metricTypesGoal>
+			<revenue_per_visit>money</revenue_per_visit>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+		</metricTypesGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getReferrerType&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getReferrerType&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Referrers_getReferrerType</uniqueId>
@@ -1820,6 +2346,16 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_uniq_visitors>number</nb_uniq_visitors>
+			<nb_actions>number</nb_actions>
+			<nb_users>number</nb_users>
+			<nb_actions_per_visit>number</nb_actions_per_visit>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+			<bounce_rate>percent</bounce_rate>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getAll&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Referrers_getAll</uniqueId>
 	</row>
@@ -1856,6 +2392,16 @@
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_uniq_visitors>number</nb_uniq_visitors>
+			<nb_actions>number</nb_actions>
+			<nb_users>number</nb_users>
+			<nb_actions_per_visit>number</nb_actions_per_visit>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+			<bounce_rate>percent</bounce_rate>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<actionToLoadSubTables>getSearchEnginesFromKeywordId</actionToLoadSubTables>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
@@ -1864,6 +2410,12 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetricsGoal>
+		<metricTypesGoal>
+			<revenue_per_visit>money</revenue_per_visit>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+		</metricTypesGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getKeywords&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getKeywords&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Referrers_getKeywords</uniqueId>
@@ -1901,6 +2453,16 @@
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_uniq_visitors>number</nb_uniq_visitors>
+			<nb_actions>number</nb_actions>
+			<nb_users>number</nb_users>
+			<nb_actions_per_visit>number</nb_actions_per_visit>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+			<bounce_rate>percent</bounce_rate>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<actionToLoadSubTables>getKeywordsFromSearchEngineId</actionToLoadSubTables>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
@@ -1909,6 +2471,12 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetricsGoal>
+		<metricTypesGoal>
+			<revenue_per_visit>money</revenue_per_visit>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+		</metricTypesGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getSearchEngines&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getSearchEngines&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Referrers_getSearchEngines</uniqueId>
@@ -1946,6 +2514,16 @@
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_uniq_visitors>number</nb_uniq_visitors>
+			<nb_actions>number</nb_actions>
+			<nb_users>number</nb_users>
+			<nb_actions_per_visit>number</nb_actions_per_visit>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+			<bounce_rate>percent</bounce_rate>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<actionToLoadSubTables>getUrlsFromWebsiteId</actionToLoadSubTables>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
@@ -1954,6 +2532,12 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetricsGoal>
+		<metricTypesGoal>
+			<revenue_per_visit>money</revenue_per_visit>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+		</metricTypesGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getWebsites&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getWebsites&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Referrers_getWebsites</uniqueId>
@@ -1992,6 +2576,16 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_uniq_visitors>number</nb_uniq_visitors>
+			<nb_actions>number</nb_actions>
+			<nb_users>number</nb_users>
+			<nb_actions_per_visit>number</nb_actions_per_visit>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+			<bounce_rate>percent</bounce_rate>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<actionToLoadSubTables>getUrlsForSocial</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getSocials&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getSocials&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -2031,6 +2625,16 @@
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_uniq_visitors>number</nb_uniq_visitors>
+			<nb_actions>number</nb_actions>
+			<nb_users>number</nb_users>
+			<nb_actions_per_visit>number</nb_actions_per_visit>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+			<bounce_rate>percent</bounce_rate>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<actionToLoadSubTables>getKeywordsFromCampaignId</actionToLoadSubTables>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
@@ -2039,6 +2643,12 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetricsGoal>
+		<metricTypesGoal>
+			<revenue_per_visit>money</revenue_per_visit>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+		</metricTypesGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getCampaigns&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=getCampaigns&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Referrers_getCampaigns</uniqueId>
@@ -2069,6 +2679,17 @@
 		<processedMetrics>
 			<avg_order_revenue>Average Order Value</avg_order_revenue>
 		</processedMetrics>
+		<metricTypes>
+			<nb_conversions>number</nb_conversions>
+			<nb_visits_converted>number</nb_visits_converted>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+			<revenue_subtotal>money</revenue_subtotal>
+			<revenue_tax>money</revenue_tax>
+			<revenue_shipping>money</revenue_shipping>
+			<revenue_discount>money</revenue_discount>
+			<avg_order_revenue>money</avg_order_revenue>
+		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=ecommerceOrder&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=ecommerceOrder&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Goals_get_idGoal--ecommerceOrder</uniqueId>
@@ -2086,6 +2707,9 @@
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
+		<metricTypes>
+			<nb_conversions>number</nb_conversions>
+		</metricTypes>
 		<constantRowsCount>1</constantRowsCount>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;idGoal=ecommerceOrder&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getVisitsUntilConversion_idGoal--ecommerceOrder</uniqueId>
@@ -2103,6 +2727,9 @@
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
+		<metricTypes>
+			<nb_conversions>number</nb_conversions>
+		</metricTypes>
 		<constantRowsCount>1</constantRowsCount>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;idGoal=ecommerceOrder&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getDaysToConversion_idGoal--ecommerceOrder</uniqueId>
@@ -2128,6 +2755,13 @@
 		<processedMetrics>
 			<avg_order_revenue>Average Order Value</avg_order_revenue>
 		</processedMetrics>
+		<metricTypes>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+			<items>number</items>
+			<avg_order_revenue>money</avg_order_revenue>
+		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=ecommerceAbandonedCart&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=ecommerceAbandonedCart&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Goals_get_idGoal--ecommerceAbandonedCart</uniqueId>
@@ -2145,6 +2779,9 @@
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
+		<metricTypes>
+			<nb_conversions>number</nb_conversions>
+		</metricTypes>
 		<constantRowsCount>1</constantRowsCount>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;idGoal=ecommerceAbandonedCart&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getVisitsUntilConversion_idGoal--ecommerceAbandonedCart</uniqueId>
@@ -2162,6 +2799,9 @@
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
+		<metricTypes>
+			<nb_conversions>number</nb_conversions>
+		</metricTypes>
 		<constantRowsCount>1</constantRowsCount>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;idGoal=ecommerceAbandonedCart&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getDaysToConversion_idGoal--ecommerceAbandonedCart</uniqueId>
@@ -2185,6 +2825,15 @@
 			<avg_quantity>Average Quantity</avg_quantity>
 			<conversion_rate>Product Conversion Rate</conversion_rate>
 		</processedMetrics>
+		<metricTypes>
+			<revenue>money</revenue>
+			<quantity>number</quantity>
+			<orders>number</orders>
+			<nb_visits>number</nb_visits>
+			<avg_price>money</avg_price>
+			<avg_quantity>number</avg_quantity>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsName&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsName&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Goals_getItemsName</uniqueId>
@@ -2208,6 +2857,15 @@
 			<avg_quantity>Average Quantity</avg_quantity>
 			<conversion_rate>Product Conversion Rate</conversion_rate>
 		</processedMetrics>
+		<metricTypes>
+			<revenue>money</revenue>
+			<quantity>number</quantity>
+			<orders>number</orders>
+			<nb_visits>number</nb_visits>
+			<avg_price>money</avg_price>
+			<avg_quantity>number</avg_quantity>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsSku&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsSku&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Goals_getItemsSku</uniqueId>
@@ -2231,6 +2889,15 @@
 			<avg_quantity>Average Quantity</avg_quantity>
 			<conversion_rate>Product Conversion Rate</conversion_rate>
 		</processedMetrics>
+		<metricTypes>
+			<revenue>money</revenue>
+			<quantity>number</quantity>
+			<orders>number</orders>
+			<nb_visits>number</nb_visits>
+			<avg_price>money</avg_price>
+			<avg_quantity>number</avg_quantity>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsCategory&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsCategory&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Goals_getItemsCategory</uniqueId>
@@ -2253,6 +2920,12 @@
 		<processedMetrics>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_conversions>number</nb_conversions>
+			<nb_visits_converted>number</nb_visits_converted>
+			<revenue>money</revenue>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Goals_get</uniqueId>
@@ -2268,6 +2941,9 @@
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
+		<metricTypes>
+			<nb_conversions>number</nb_conversions>
+		</metricTypes>
 		<constantRowsCount>1</constantRowsCount>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
@@ -2276,6 +2952,12 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetricsGoal>
+		<metricTypesGoal>
+			<revenue_per_visit>money</revenue_per_visit>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+		</metricTypesGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getVisitsUntilConversion</uniqueId>
 	</row>
@@ -2290,6 +2972,9 @@
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
+		<metricTypes>
+			<nb_conversions>number</nb_conversions>
+		</metricTypes>
 		<constantRowsCount>1</constantRowsCount>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
@@ -2298,6 +2983,12 @@
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 		</processedMetricsGoal>
+		<metricTypesGoal>
+			<revenue_per_visit>money</revenue_per_visit>
+			<nb_conversions>number</nb_conversions>
+			<conversion_rate>percent</conversion_rate>
+			<revenue>money</revenue>
+		</metricTypesGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getDaysToConversion</uniqueId>
 	</row>
@@ -2322,6 +3013,12 @@
 		<processedMetrics>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_conversions>number</nb_conversions>
+			<nb_visits_converted>number</nb_visits_converted>
+			<revenue>money</revenue>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=0&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=0&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Goals_get_idGoal--0</uniqueId>
@@ -2340,6 +3037,9 @@
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
+		<metricTypes>
+			<nb_conversions>number</nb_conversions>
+		</metricTypes>
 		<constantRowsCount>1</constantRowsCount>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;idGoal=0&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getVisitsUntilConversion_idGoal--0</uniqueId>
@@ -2358,6 +3058,9 @@
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
+		<metricTypes>
+			<nb_conversions>number</nb_conversions>
+		</metricTypes>
 		<constantRowsCount>1</constantRowsCount>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;idGoal=0&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getDaysToConversion_idGoal--0</uniqueId>
@@ -2383,6 +3086,12 @@
 		<processedMetrics>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_conversions>number</nb_conversions>
+			<nb_visits_converted>number</nb_visits_converted>
+			<revenue>money</revenue>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=1&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=1&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Goals_get_idGoal--1</uniqueId>
@@ -2401,6 +3110,9 @@
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
+		<metricTypes>
+			<nb_conversions>number</nb_conversions>
+		</metricTypes>
 		<constantRowsCount>1</constantRowsCount>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;idGoal=1&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getVisitsUntilConversion_idGoal--1</uniqueId>
@@ -2419,6 +3131,9 @@
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
+		<metricTypes>
+			<nb_conversions>number</nb_conversions>
+		</metricTypes>
 		<constantRowsCount>1</constantRowsCount>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;idGoal=1&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getDaysToConversion_idGoal--1</uniqueId>
@@ -2444,6 +3159,12 @@
 		<processedMetrics>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_conversions>number</nb_conversions>
+			<nb_visits_converted>number</nb_visits_converted>
+			<revenue>money</revenue>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=2&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=2&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Goals_get_idGoal--2</uniqueId>
@@ -2462,6 +3183,9 @@
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
+		<metricTypes>
+			<nb_conversions>number</nb_conversions>
+		</metricTypes>
 		<constantRowsCount>1</constantRowsCount>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;idGoal=2&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getVisitsUntilConversion_idGoal--2</uniqueId>
@@ -2480,6 +3204,9 @@
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
+		<metricTypes>
+			<nb_conversions>number</nb_conversions>
+		</metricTypes>
 		<constantRowsCount>1</constantRowsCount>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;idGoal=2&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getDaysToConversion_idGoal--2</uniqueId>
@@ -2505,6 +3232,12 @@
 		<processedMetrics>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_conversions>number</nb_conversions>
+			<nb_visits_converted>number</nb_visits_converted>
+			<revenue>money</revenue>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=3&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=3&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Goals_get_idGoal--3</uniqueId>
@@ -2523,6 +3256,9 @@
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
+		<metricTypes>
+			<nb_conversions>number</nb_conversions>
+		</metricTypes>
 		<constantRowsCount>1</constantRowsCount>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;idGoal=3&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getVisitsUntilConversion_idGoal--3</uniqueId>
@@ -2541,6 +3277,9 @@
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
+		<metricTypes>
+			<nb_conversions>number</nb_conversions>
+		</metricTypes>
 		<constantRowsCount>1</constantRowsCount>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;idGoal=3&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getDaysToConversion_idGoal--3</uniqueId>
@@ -2574,6 +3313,16 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_uniq_visitors>number</nb_uniq_visitors>
+			<nb_actions>number</nb_actions>
+			<nb_users>number</nb_users>
+			<nb_actions_per_visit>number</nb_actions_per_visit>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+			<bounce_rate>percent</bounce_rate>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=ExampleUI&amp;apiAction=getTemperatures&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=ExampleUI&amp;apiAction=getTemperatures&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>ExampleUI_getTemperatures</uniqueId>
@@ -2606,6 +3355,16 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_uniq_visitors>number</nb_uniq_visitors>
+			<nb_actions>number</nb_actions>
+			<nb_users>number</nb_users>
+			<nb_actions_per_visit>number</nb_actions_per_visit>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+			<bounce_rate>percent</bounce_rate>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=ExampleUI&amp;apiAction=getTemperaturesEvolution&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=ExampleUI&amp;apiAction=getTemperaturesEvolution&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>ExampleUI_getTemperaturesEvolution</uniqueId>
@@ -2639,6 +3398,16 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_uniq_visitors>number</nb_uniq_visitors>
+			<nb_actions>number</nb_actions>
+			<nb_users>number</nb_users>
+			<nb_actions_per_visit>number</nb_actions_per_visit>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+			<bounce_rate>percent</bounce_rate>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=ExampleUI&amp;apiAction=getPlanetRatios&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=ExampleUI&amp;apiAction=getPlanetRatios&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>ExampleUI_getPlanetRatios</uniqueId>
@@ -2672,6 +3441,16 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
 		</processedMetrics>
+		<metricTypes>
+			<nb_visits>number</nb_visits>
+			<nb_uniq_visitors>number</nb_uniq_visitors>
+			<nb_actions>number</nb_actions>
+			<nb_users>number</nb_users>
+			<nb_actions_per_visit>number</nb_actions_per_visit>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+			<bounce_rate>percent</bounce_rate>
+			<conversion_rate>percent</conversion_rate>
+		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=ExampleUI&amp;apiAction=getPlanetRatiosWithLogos&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=ExampleUI&amp;apiAction=getPlanetRatiosWithLogos&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>ExampleUI_getPlanetRatiosWithLogos</uniqueId>
@@ -2783,6 +3562,70 @@
 			<nb_total_pageview_bandwidth>Bytes transferred pageviews</nb_total_pageview_bandwidth>
 			<nb_total_overall_bandwidth>Bytes transferred overall</nb_total_overall_bandwidth>
 		</processedMetrics>
+		<metricTypes>
+			<nb_pageviews>number</nb_pageviews>
+			<nb_uniq_pageviews>number</nb_uniq_pageviews>
+			<nb_downloads>number</nb_downloads>
+			<nb_uniq_downloads>number</nb_uniq_downloads>
+			<nb_outlinks>number</nb_outlinks>
+			<nb_uniq_outlinks>number</nb_uniq_outlinks>
+			<nb_searches>number</nb_searches>
+			<nb_keywords>number</nb_keywords>
+			<Referrers_visitorsFromSearchEngines>number</Referrers_visitorsFromSearchEngines>
+			<Referrers_visitorsFromSearchEngines_percent>percent</Referrers_visitorsFromSearchEngines_percent>
+			<Referrers_visitorsFromSocialNetworks>number</Referrers_visitorsFromSocialNetworks>
+			<Referrers_visitorsFromSocialNetworks_percent>percent</Referrers_visitorsFromSocialNetworks_percent>
+			<Referrers_visitorsFromDirectEntry>number</Referrers_visitorsFromDirectEntry>
+			<Referrers_visitorsFromDirectEntry_percent>percent</Referrers_visitorsFromDirectEntry_percent>
+			<Referrers_visitorsFromWebsites>number</Referrers_visitorsFromWebsites>
+			<Referrers_visitorsFromWebsites_percent>percent</Referrers_visitorsFromWebsites_percent>
+			<Referrers_visitorsFromCampaigns>number</Referrers_visitorsFromCampaigns>
+			<Referrers_visitorsFromCampaigns_percent>percent</Referrers_visitorsFromCampaigns_percent>
+			<Referrers_distinctSearchEngines>number</Referrers_distinctSearchEngines>
+			<Referrers_distinctSocialNetworks>number</Referrers_distinctSocialNetworks>
+			<Referrers_distinctWebsites>number</Referrers_distinctWebsites>
+			<Referrers_distinctKeywords>number</Referrers_distinctKeywords>
+			<Referrers_distinctCampaigns>number</Referrers_distinctCampaigns>
+			<nb_conversions>number</nb_conversions>
+			<nb_visits_converted>number</nb_visits_converted>
+			<revenue>money</revenue>
+			<nb_uniq_visitors>number</nb_uniq_visitors>
+			<nb_visits>number</nb_visits>
+			<nb_users>number</nb_users>
+			<nb_actions>number</nb_actions>
+			<max_actions>number</max_actions>
+			<nb_visits_returning>number</nb_visits_returning>
+			<nb_actions_returning>number</nb_actions_returning>
+			<nb_uniq_visitors_returning>number</nb_uniq_visitors_returning>
+			<nb_users_returning>number</nb_users_returning>
+			<max_actions_returning>number</max_actions_returning>
+			<nb_visits_new>number</nb_visits_new>
+			<nb_actions_new>number</nb_actions_new>
+			<nb_uniq_visitors_new>number</nb_uniq_visitors_new>
+			<nb_users_new>number</nb_users_new>
+			<max_actions_new>number</max_actions_new>
+			<avg_time_network>duration_s</avg_time_network>
+			<avg_time_server>duration_s</avg_time_server>
+			<avg_time_transfer>duration_s</avg_time_transfer>
+			<avg_time_dom_processing>duration_s</avg_time_dom_processing>
+			<avg_time_dom_completion>duration_s</avg_time_dom_completion>
+			<avg_time_on_load>duration_s</avg_time_on_load>
+			<avg_page_load_time>duration_s</avg_page_load_time>
+			<nb_total_overall_bandwidth>number</nb_total_overall_bandwidth>
+			<nb_total_pageview_bandwidth>number</nb_total_pageview_bandwidth>
+			<nb_total_download_bandwidth>number</nb_total_download_bandwidth>
+			<avg_time_generation>duration_s</avg_time_generation>
+			<conversion_rate>percent</conversion_rate>
+			<bounce_rate>percent</bounce_rate>
+			<nb_actions_per_visit>number</nb_actions_per_visit>
+			<avg_time_on_site>duration_s</avg_time_on_site>
+			<avg_time_on_site_returning>duration_s</avg_time_on_site_returning>
+			<nb_actions_per_visit_returning>number</nb_actions_per_visit_returning>
+			<bounce_rate_returning>percent</bounce_rate_returning>
+			<avg_time_on_site_new>duration_s</avg_time_on_site_new>
+			<nb_actions_per_visit_new>number</nb_actions_per_visit_new>
+			<bounce_rate_new>percent</bounce_rate_new>
+		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=API&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=API&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>API_get</uniqueId>

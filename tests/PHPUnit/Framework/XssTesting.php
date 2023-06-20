@@ -33,6 +33,7 @@ class XssTesting
         return $result;
     }
 
+    // kept after vue migration for proof angularjs injection does not apply
     public function forAngular($type, $sanitize = false)
     {
         $n = $this->addXssEntry($type, 'angular');
@@ -91,7 +92,7 @@ JS;
     public static function getJavaScriptAddEvent()
     {
         $xssTesting = new XssTesting();
-        return ['Template.jsGlobalVariables', \DI\value(function (&$out) use ($xssTesting) {
+        return ['Template.jsGlobalVariables', \Piwik\DI::value(function (&$out) use ($xssTesting) {
             $out .= $xssTesting->getJavaScriptCode();
         })];
     }

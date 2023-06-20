@@ -19,7 +19,7 @@ use Piwik\Http;
 use Piwik\Plugin;
 use Piwik\Plugins\Marketplace\Environment;
 use Piwik\SettingsServer;
-use Psr\Log\LoggerInterface;
+use Piwik\Log\LoggerInterface;
 
 /**
  *
@@ -73,14 +73,19 @@ class Client
         return $this->environment;
     }
 
+    /**
+     * @param string $name
+     * @return array
+     * @throws Exception
+     */
     public function getPluginInfo($name)
     {
         $action = sprintf('plugins/%s/info', $name);
 
         $plugin = $this->fetch($action, array());
 
-        if (!empty($plugin) && $this->shouldIgnorePlugin($plugin)) {
-            return;
+        if (empty($plugin['name']) || $this->shouldIgnorePlugin($plugin)) {
+            return [];
         }
 
         return $plugin;
@@ -191,13 +196,13 @@ class Client
 
     /**
      * @param \Piwik\Plugin[] $plugins
-     * @return array
+     * @return array (pluginName => pluginDetails)
      */
-    public function getInfoOfPluginsHavingUpdate($plugins)
+    public function getInfoOfPluginsHavingUpdate($plugins): array
     {
         $hasUpdates = $this->checkUpdates($plugins);
 
-        $pluginDetails = array();
+        $pluginDetails = [];
 
         foreach ($hasUpdates as $pluginHavingUpdate) {
             if (empty($pluginHavingUpdate)) {
@@ -213,7 +218,7 @@ class Client
 
             if (!empty($plugin)) {
                 $plugin['repositoryChangelogUrl'] = $pluginHavingUpdate['repositoryChangelogUrl'];
-                $pluginDetails[] = $plugin;
+                $pluginDetails[$pluginHavingUpdate['name']] = $plugin;
             }
         }
 
@@ -327,12 +332,21 @@ class Client
     }
 
     /**
-     * this will return the api.matomo.org through right protocols
-     * @return string
+     * Return the api.matomo.org URL with the correct protocol prefix
+     *
+     * @return string|null
      */
-    public static function getApiServiceUrl()
+    public static function getApiServiceUrl(): ?string
     {
-        return GeneralConfig::getConfigValue('api_service_url');
+        // Default is now https://
+        $url = GeneralConfig::getConfigValue('api_service_url');
+
+        if (GeneralConfig::getConfigValue('force_matomo_http_request')) {
+            // http is being forced, downgrade the protocol to http
+            $url = str_replace('https', 'http', $url);
+        }
+
+        return $url;
     }
 
 }

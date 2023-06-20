@@ -11,7 +11,7 @@ namespace Piwik\Plugins\SEO\Metric;
 use Piwik\Http;
 use Piwik\NumberFormatter;
 use Piwik\Piwik;
-use Psr\Log\LoggerInterface;
+use Piwik\Log\LoggerInterface;
 
 /**
  * Fetches the number of pages indexed in Bing.

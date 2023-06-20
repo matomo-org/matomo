@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,6 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\ExampleAPI;
 
 use Piwik\DataTable\Row;
@@ -21,12 +23,21 @@ use Piwik\Version;
  */
 class API extends \Piwik\Plugin\API
 {
+    /**
+     * Defines if the parameters passed to the public API methods in this class will be automatically sanitized or not.
+     * When setting this value to false, please ensure to handle all input parameters with care.
+     * Especially parameters provided in an unspecific type, as string or array might contain harmful content.
+     * If those values are persisted and displayed in the UI somewhere, ensure to sanitize/escape them for output.
+     *
+     * @var bool
+     */
+    protected $autoSanitizeInputParams = true;
 
     /**
      * Get Matomo version
      * @return string
      */
-    public function getMatomoVersion()
+    public function getMatomoVersion(): string
     {
         Piwik::checkUserHasSomeViewAccess();
         return Version::VERSION;
@@ -34,9 +45,9 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Get Answer to Life
-     * @return integer
+     * @return int
      */
-    public function getAnswerToLife()
+    public function getAnswerToLife(): int
     {
         return 42;
     }
@@ -49,7 +60,7 @@ class API extends \Piwik\Plugin\API
      *
      * @return MagicObject Will return a standard Matomo error when called from the Web APIs
      */
-    public function getObject()
+    public function getObject(): MagicObject
     {
         return new MagicObject();
     }
@@ -60,17 +71,13 @@ class API extends \Piwik\Plugin\API
      * when the API function is called. You can also use default values
      * as shown in this example.
      *
-     * @param float|int $a
-     * @param float|int $b
+     * @param float $a
+     * @param float $b
      * @return float
      */
-    public function getSum($a = 0, $b = 0)
+    public function getSum(float $a = 0, float $b = 0): float
     {
-        if (!is_numeric($a) || !is_numeric($b)) {
-            throw new \Exception('Given parameters need to be numeric');
-        }
-
-        return (float)($a + $b);
+        return $a + $b;
     }
 
     /**
@@ -90,7 +97,7 @@ class API extends \Piwik\Plugin\API
      *
      * @return array
      */
-    public function getDescriptionArray()
+    public function getDescriptionArray(): array
     {
         return array('piwik', 'free/libre', 'web analytics', 'free', 'Strong message: Свободный Тибет');
     }
@@ -102,7 +109,7 @@ class API extends \Piwik\Plugin\API
      *
      * @return DataTable
      */
-    public function getCompetitionDatatable()
+    public function getCompetitionDatatable(): DataTable
     {
         $dataTable = new DataTable();
 
@@ -124,7 +131,7 @@ class API extends \Piwik\Plugin\API
      *
      * @return string
      */
-    public function getMoreInformationAnswerToLife()
+    public function getMoreInformationAnswerToLife(): string
     {
         return "Check http://en.wikipedia.org/wiki/The_Answer_to_Life,_the_Universe,_and_Everything";
     }
@@ -135,7 +142,7 @@ class API extends \Piwik\Plugin\API
      *
      * @return array
      */
-    public function getMultiArray()
+    public function getMultiArray(): array
     {
         $return = array(
             'Limitation'       => array(
@@ -146,19 +153,4 @@ class API extends \Piwik\Plugin\API
         );
         return $return;
     }
-}
-
-/**
- * Magic Object
- *
- */
-class MagicObject
-{
-    function Incredible()
-    {
-        return 'Incroyable';
-    }
-
-    protected $wonderful = 'magnifique';
-    public $great = 'formidable';
 }

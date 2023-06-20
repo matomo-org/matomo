@@ -1,13 +1,16 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\PagePerformance\tests\Fixtures;
 
 use Piwik\Date;
+use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Tests\Framework\Fixture;
 
 /**
@@ -22,6 +25,14 @@ class VisitsWithPagePerformanceMetrics extends Fixture
     {
         $this->setUpWebsitesAndGoals();
         $this->trackVisits();
+
+        APISegmentEditor::getInstance()->add(
+            'my segment',
+            'actions>=1',
+            $idSite = 1,
+            $autoArchive = false,
+            $enabledAllUsers = true
+        );
     }
 
     public function tearDown(): void
@@ -113,6 +124,5 @@ class VisitsWithPagePerformanceMetrics extends Fixture
         $t->setUrl('http://example.org/Contact/ThankYou');
         $t->setPerformanceTimings(69, 77, 412, 1140, 444, 120);
         self::checkResponse($t->doTrackPageView('Contact'));
-
     }
 }

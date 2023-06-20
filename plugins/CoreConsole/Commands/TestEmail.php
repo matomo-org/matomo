@@ -13,9 +13,6 @@ use Piwik\Config;
 use Piwik\Mail;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\SettingsPiwik;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  */
@@ -25,14 +22,14 @@ class TestEmail extends ConsoleCommand
     {
         $this->setName('core:test-email');
         $this->setDescription('Send a test email');
-        $this->addArgument('emailAddress', InputArgument::REQUIRED, 'The destination email address');
+        $this->addRequiredArgument('emailAddress', 'The destination email address');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
         $config = Config::getInstance();
 
-        $email = $input->getArgument('emailAddress');
+        $email = $this->getInput()->getArgument('emailAddress');
         $matomoUrl = SettingsPiwik::getPiwikUrl();
         $body    = "Hello, world! <br/> This is a test email sent from $matomoUrl";
         $subject = "This is a test email sent from $matomoUrl";
@@ -44,6 +41,8 @@ class TestEmail extends ConsoleCommand
         $mail->setSubject($subject);
         $mail->setWrappedHtmlBody($body);
         $mail->send();
-        $output->writeln('Message sent to ' . $email);
+        $this->getOutput()->writeln('Message sent to ' . $email);
+
+        return self::SUCCESS;
     }
 }

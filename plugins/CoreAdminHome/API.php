@@ -10,7 +10,7 @@ namespace Piwik\Plugins\CoreAdminHome;
 
 use Exception;
 use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
+use Piwik\Log\Logger;
 use Piwik\Access;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\ArchiveProcessor;
@@ -19,6 +19,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\CronArchive;
 use Piwik\Date;
+use Piwik\Log\LoggerInterface;
 use Piwik\Period\Factory;
 use Piwik\Piwik;
 use Piwik\Segment;
@@ -167,7 +168,7 @@ class API extends \Piwik\Plugin\API
         }
 
         /** Date[]|string[] $dates */
-        list($dates, $invalidDates) = $this->getDatesToInvalidateFromString($dates, $period);
+        [$dates, $invalidDates] = $this->getDatesToInvalidateFromString($dates, $period);
 
         $invalidationResult = $this->invalidator->markArchivesAsInvalidated($idSites, $dates, $period, $segment, (bool)$cascadeDown, (bool)$_forceInvalidateNonexistent);
 
@@ -177,7 +178,7 @@ class API extends \Piwik\Plugin\API
                 implode("', '", $invalidDates) . "'. Matomo simply ignored those and proceeded with the others.";
         }
 
-        return $invalidationResult->makeOutputLogs();
+        return $output;
     }
 
     /**
@@ -190,8 +191,8 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSuperUserAccess();
 
         // HTTP request: logs needs to be dumped in the HTTP response (on top of existing log destinations)
-        /** @var \Monolog\Logger $logger */
-        $logger = StaticContainer::get('Psr\Log\LoggerInterface');
+        /** @var \Piwik\Log\Logger $logger */
+        $logger = StaticContainer::get(LoggerInterface::class);
         $handler = new StreamHandler('php://output', Logger::INFO);
         $handler->setFormatter(StaticContainer::get('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter'));
         $logger->pushHandler($handler);
@@ -273,7 +274,17 @@ class API extends \Piwik\Plugin\API
         $invalidateBeforeArchiving = !$isArchivePhpTriggered;
 
         $period = Factory::build($period, $date);
-        $parameters = new ArchiveProcessor\Parameters(new Site($idSite), $period, new Segment($segment, [$idSite], $period->getDateTimeStart(), $period->getDateTimeEnd()));
+        $site = new Site($idSite);
+        $parameters = new ArchiveProcessor\Parameters(
+            $site,
+            $period,
+            new Segment(
+                $segment,
+                [$idSite],
+                $period->getDateTimeStart()->setTimezone($site->getTimezone()),
+                $period->getDateTimeEnd()->setTimezone($site->getTimezone())
+            )
+        );
         if ($report) {
             $parameters->setArchiveOnlyReport($report);
         }
@@ -294,16 +305,22 @@ class API extends \Piwik\Plugin\API
     /**
      * Ensure the specified dates are valid.
      * Store invalid date so we can log them
-     * @param array|string $dates
+     * @param array|string  $dates
+     * @param string        $period
+     *
      * @return array
      */
-    private function getDatesToInvalidateFromString($dates, $period)
+    private function getDatesToInvalidateFromString($dates, string $period): array
     {
-        $toInvalidate = array();
-        $invalidDates = array();
+        $toInvalidate = [];
+        $invalidDates = [];
 
         if (!is_array($dates)) {
-            $dates = explode(',', trim($dates));
+            if ($period !== 'range') {
+                $dates = explode(',', trim($dates));
+            } else {
+                $dates = [trim($dates)];
+            }
         }
 
         $dates = array_unique($dates);
@@ -313,14 +330,14 @@ class API extends \Piwik\Plugin\API
 
             if ($period == 'range') {
                 try {
-                    $period = Factory::build('range', $theDate);
+                    $periodObj = Factory::build('range', $theDate);
+                    $subPeriods = $periodObj->getSubperiods();
                 } catch (\Exception $e) {
                     $invalidDates[] = $theDate;
                     continue;
                 }
-
-                if ($period->getRangeString() == $theDate) {
-                    $toInvalidate[] = $theDate;
+                if (count($subPeriods)) {
+                    $toInvalidate[] = $periodObj->getRangeString();
                 } else {
                     $invalidDates[] = $theDate;
                 }
@@ -340,7 +357,7 @@ class API extends \Piwik\Plugin\API
             }
         }
 
-        return array($toInvalidate, $invalidDates);
+        return [$toInvalidate, $invalidDates];
     }
 
     /**

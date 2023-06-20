@@ -47,6 +47,45 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         return $table;
     }
 
+    protected function _getSimpleTestDataTable2()
+    {
+        $table = new DataTable;
+        $table->addRowsFromArray(
+            array(
+                array(Row::COLUMNS => array('label' => 'ten', 'count' => 10)),
+                array(Row::COLUMNS => array('label' => 'ninety', 'count' => 20)),
+                array(Row::COLUMNS => array('label' => 'hundred', 'count' => 30)),
+                DataTable::ID_SUMMARY_ROW => array(Row::COLUMNS => array('label' => 'summary', 'count' => 60))
+            )
+        );
+        $table->setTotalsRow(new Row(array(Row::COLUMNS => array('label' => 'Total', 'count' => 60))));
+        return $table;
+    }
+
+    public function testMultiFilter()
+    {
+        $table = $this->_getSimpleTestDataTable();
+        $table2 = $this->_getSimpleTestDataTable2();
+
+        $result = $table->multiFilter([$table2], function ($thisTable, $otherTable) {
+            $thisTable->addDataTable($otherTable);
+            return 5;
+        });
+
+        $tableExpected = new DataTable();
+        $tableExpected->addRowsFromArray(
+            [
+                array(Row::COLUMNS => array('label' => 'ten', 'count' => 20)),
+                array(Row::COLUMNS => array('label' => 'ninety', 'count' => 110)),
+                array(Row::COLUMNS => array('label' => 'hundred', 'count' => 130)),
+                DataTable::ID_SUMMARY_ROW => array(Row::COLUMNS => array('label' => 'summary', 'count' => 260))
+            ]
+        );
+
+        $this->assertEquals(5, $result);
+        $this->assertEquals($tableExpected->getRows(), $table->getRows());
+    }
+
     public function testRenameColumn()
     {
         $table = $this->_getSimpleTestDataTable();

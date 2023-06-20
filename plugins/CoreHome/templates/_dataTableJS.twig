@@ -1,5 +1,7 @@
-<script type="text/javascript" defer="defer">
+<script type="text/javascript">
     $(document).ready(function () {
-        require('piwik/UI/DataTable').initNewDataTables({{ reportId|json_encode|raw }});
+        window.Vue.nextTick(function () {
+            require('piwik/UI/DataTable').initNewDataTables({{ reportId|json_encode|raw }});
+        });
     });
 </script>

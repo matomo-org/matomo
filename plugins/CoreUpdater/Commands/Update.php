@@ -19,10 +19,6 @@ use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\CoreUpdater\Commands\Update\CliUpdateObserver;
 use Piwik\Plugins\CoreUpdater\NoUpdatesFoundException;
 use Piwik\Updater;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
  * @package CoreUpdater
@@ -40,15 +36,17 @@ class Update extends ConsoleCommand
 
         $this->setDescription(Piwik::translate('CoreUpdater_ConsoleCommandDescription'));
 
-        $this->addOption('yes', null, InputOption::VALUE_NONE, Piwik::translate('CoreUpdater_ConsoleParameterDescription'));
-        $this->addOption('skip-cache-clear', null, InputOption::VALUE_NONE, Piwik::translate('CoreUpdater_SkipCacheClearDesc'));
+        $this->addNoValueOption('yes', null, Piwik::translate('CoreUpdater_ConsoleParameterDescription'));
+        $this->addNoValueOption('skip-cache-clear', null, Piwik::translate('CoreUpdater_SkipCacheClearDesc'));
     }
 
     /**
      * Execute command like: ./console core:update --yes
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
         $skipCacheClear = $input->getOption('skip-cache-clear');
         try {
             if ($skipCacheClear) {
@@ -62,40 +60,37 @@ class Update extends ConsoleCommand
             $yes = $input->getOption('yes');
 
             try {
-                $this->makeUpdate($input, $output, true);
+                $this->makeUpdate(true);
 
                 if (!$yes) {
-                    $yes = $this->askForUpdateConfirmation($input, $output);
+                    $yes = $this->askForConfirmation(
+                        '<comment>' . Piwik::translate('CoreUpdater_ExecuteDbUpgrade') . ' (y/N) </comment>',
+                        false
+                    );
                 }
 
                 if ($yes) {
                     $output->writeln("\n" . Piwik::translate('CoreUpdater_ConsoleStartingDbUpgrade'));
 
-                    $this->makeUpdate($input, $output, false);
+                    $this->makeUpdate(false);
 
-                    $this->writeSuccessMessage($output, array(Piwik::translate('CoreUpdater_PiwikHasBeenSuccessfullyUpgraded')));
+                    $this->writeSuccessMessage(array(Piwik::translate('CoreUpdater_PiwikHasBeenSuccessfullyUpgraded')));
                 } else {
-                    $this->writeSuccessMessage($output, array(Piwik::translate('CoreUpdater_DbUpgradeNotExecuted')));
+                    $this->writeSuccessMessage(array(Piwik::translate('CoreUpdater_DbUpgradeNotExecuted')));
                 }
 
-                $this->writeAlertMessageWhenCommandExecutedWithUnexpectedUser($output);
+                $this->writeAlertMessageWhenCommandExecutedWithUnexpectedUser();
 
 
             } catch (NoUpdatesFoundException $e) {
                 // Do not fail if no updates were found
-                $this->writeSuccessMessage($output, array($e->getMessage()));
+                $this->writeSuccessMessage(array($e->getMessage()));
             }
         } finally {
             Filesystem::$skipCacheClearOnUpdate = false;
         }
-    }
 
-    private function askForUpdateConfirmation(InputInterface $input, OutputInterface $output)
-    {
-        $helper   = $this->getHelper('question');
-        $question = new ConfirmationQuestion('<comment>'.Piwik::translate('CoreUpdater_ExecuteDbUpgrade').' (y/N) </comment>', false);
-
-        return $helper->ask($input, $output, $question);
+        return self::SUCCESS;
     }
 
     protected function executeClearCaches()
@@ -103,11 +98,12 @@ class Update extends ConsoleCommand
         Filesystem::deleteAllCacheOnUpdate();
     }
 
-    protected function makeUpdate(InputInterface $input, OutputInterface $output, $doDryRun)
+    protected function makeUpdate($doDryRun)
     {
-        $this->checkAllRequiredOptionsAreNotEmpty($input);
+        $output = $this->getOutput();
+        $this->checkAllRequiredOptionsAreNotEmpty();
 
-        $updater = $this->makeUpdaterInstance($output);
+        $updater = $this->makeUpdaterInstance();
 
         $componentsWithUpdateFile = $updater->getComponentUpdates();
         if (empty($componentsWithUpdateFile)) {
@@ -121,7 +117,9 @@ class Update extends ConsoleCommand
 
         // handle case of existing database with no tables
         if (!DbHelper::isInstalled()) {
-            $this->handleCoreError($output, Piwik::translate('CoreUpdater_EmptyDatabaseError', Config::getInstance()->database['dbname']));
+            $this->handleCoreError(
+                Piwik::translate('CoreUpdater_EmptyDatabaseError', Config::getInstance()->database['dbname'])
+            );
             return;
         }
 
@@ -159,14 +157,15 @@ class Update extends ConsoleCommand
         $output->writeln("");
 
         if ($doDryRun) {
-            $this->doDryRun($updater, $output);
+            $this->doDryRun($updater);
         } else {
-            $this->doRealUpdate($updater, $componentsWithUpdateFile, $output);
+            $this->doRealUpdate($updater, $componentsWithUpdateFile);
         }
     }
 
-    private function doDryRun(Updater $updater, OutputInterface $output)
+    private function doDryRun(Updater $updater)
     {
+        $output = $this->getOutput();
         $migrationQueries = $this->getMigrationQueriesToExecute($updater);
 
         if(empty($migrationQueries)) {
@@ -194,23 +193,24 @@ class Update extends ConsoleCommand
         $output->writeln(array("", "    *** " . Piwik::translate('CoreUpdater_DryRunEnd') . " ***", ""));
     }
 
-    private function doRealUpdate(Updater $updater, $componentsWithUpdateFile, OutputInterface $output)
+    private function doRealUpdate(Updater $updater, $componentsWithUpdateFile)
     {
+        $output = $this->getOutput();
         $output->writeln(array("    " . Piwik::translate('CoreUpdater_TheUpgradeProcessMayTakeAWhilePleaseBePatient'), ""));
 
         $updaterResult = $updater->updateComponents($componentsWithUpdateFile);
 
         if (@$updaterResult['coreError']) {
-            $this->handleCoreError($output, $updaterResult['errors'], $includeDiyHelp = true);
+            $this->handleCoreError($updaterResult['errors'], $includeDiyHelp = true);
             return;
         }
 
         if (!empty($updaterResult['warnings'])) {
-            $this->outputUpdaterWarnings($output, $updaterResult['warnings']);
+            $this->outputUpdaterWarnings($updaterResult['warnings']);
         }
 
         if (!empty($updaterResult['errors'])) {
-            $this->outputUpdaterErrors($output, $updaterResult['errors'], $updaterResult['deactivatedPlugins']);
+            $this->outputUpdaterErrors($updaterResult['errors'], $updaterResult['deactivatedPlugins']);
         }
 
         if (!empty($updaterResult['warnings'])
@@ -224,12 +224,13 @@ class Update extends ConsoleCommand
         }
     }
 
-    private function handleCoreError(OutputInterface $output, $errors, $includeDiyHelp = false)
+    private function handleCoreError($errors, $includeDiyHelp = false)
     {
         if (!is_array($errors)) {
             $errors = array($errors);
         }
 
+        $output = $this->getOutput();
         $output->writeln(array(
             "",
             "    [X] " . Piwik::translate('CoreUpdater_CriticalErrorDuringTheUpgradeProcess'),
@@ -266,8 +267,9 @@ class Update extends ConsoleCommand
         throw new \RuntimeException(Piwik::translate('CoreUpdater_ConsoleUpdateFailure'));
     }
 
-    private function outputUpdaterWarnings(OutputInterface $output, $warnings)
+    private function outputUpdaterWarnings($warnings)
     {
+        $output = $this->getOutput();
         $output->writeln(array(
             "",
             "    [!] " . Piwik::translate('CoreUpdater_WarningMessages'),
@@ -279,8 +281,9 @@ class Update extends ConsoleCommand
         }
     }
 
-    private function outputUpdaterErrors(OutputInterface $output, $errors, $deactivatedPlugins)
+    private function outputUpdaterErrors($errors, $deactivatedPlugins)
     {
+        $output = $this->getOutput();
         $output->writeln(array(
             "",
             "    [X] " . Piwik::translate('CoreUpdater_ErrorDuringPluginsUpdates'),
@@ -357,20 +360,19 @@ class Update extends ConsoleCommand
         return $this->migrationQueries;
     }
 
-    private function makeUpdaterInstance(OutputInterface $output)
+    private function makeUpdaterInstance()
     {
         $updater = new Updater();
 
         $migrationQueryCount = count($this->getMigrationQueriesToExecute($updater));
-        $updater->addUpdateObserver(new CliUpdateObserver($output, $migrationQueryCount));
+        $updater->addUpdateObserver(new CliUpdateObserver($this->getOutput(), $migrationQueryCount));
 
         return $updater;
     }
 
     /**
-     * @param OutputInterface $output
      */
-    protected function writeAlertMessageWhenCommandExecutedWithUnexpectedUser(OutputInterface $output)
+    protected function writeAlertMessageWhenCommandExecutedWithUnexpectedUser()
     {
         if (SettingsServer::isWindows()) {
             // does not work on windows
@@ -384,7 +386,7 @@ class Update extends ConsoleCommand
             // current process user/group appear to be same as the Matomo filesystem user/group -> OK
             return;
         }
-        $output->writeln(
+        $this->getOutput()->writeln(
             sprintf("<comment>%s</comment>", Piwik::translate('CoreUpdater_ConsoleUpdateUnexpectedUserWarning', [
                 $processUserAndGroup,
                 $fileOwnerUserAndGroup,

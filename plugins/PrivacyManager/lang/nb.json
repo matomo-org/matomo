@@ -3,6 +3,7 @@
         "AddUserIdToSearch": "Klikk for å legge denne bruker-ID-en i søket",
         "AddVisitorIPToSearch": "Klikk for å legge denne besøks-IP-en i søket",
         "AddVisitorIdToSearch": "Klikk for å legge denne besøks-ID-en i søket",
+        "Anonymize": "Anonymiser",
         "AnonymizeData": "Anonymiser data",
         "AnonymizeDataConfirm": "Anonymiser data for valgt(e) nettside(r) og tidsrom? Dette kan ikke angres, ta lang tid, og data kan bli slettes som forespurt.",
         "AnonymizeDataNow": "Anonymiser tidligere data for valgt side og tid",
@@ -88,9 +89,9 @@
         "FontColor": "Skriftfarge",
         "FontFamily": "Skriftfamilie",
         "FontSize": "Skriftstørrelse",
-        "ForceCookielessTracking": "Påtving sporing uten kaker",
+        "ForceCookielessTracking": "Påtving sporing uten informasjonskapsler",
         "ForceCookielessTrackingDescription": "Å skru på dette oppdaterer %1$s automatisk slik at det inneholder litt ytterligere kode for å forsikre at alle sporere ikke bruker informasjonskapsler. Ytterligere vil Matomo spore alle sporings-informasjonskapsler på tjenersiden.",
-        "ForceCookielessTrackingDescription2": "Kaker vil bli skrudd av selv når du bruker samtykkemetodene i Matomo-sporeren og påkalling av for eksempel kake-samtykkemetodene vil ikke skru på kaker.",
+        "ForceCookielessTrackingDescription2": "Informasjonskapsler vil bli skrudd av selv når du bruker samtykkemetodene i Matomo-sporeren og påkalling av for eksempel informasjonskapselssamtykkemetodene vil ikke skru på informasjonskapsler.",
         "ForceCookielessTrackingDescriptionNotWritable": "JavaScript-sporingsfilen «%1$s» er ikke skrivbar, noe som er påkrevd for at denne funksjonen skal fungere helt. Når JavaScript-sporingsfilen ikke er skrivbar vil informasjonskapsler kun bli ignorert på tjenersiden, men informasjonskapsler kan fremdeles bli satt i nettleseren. For å løse dette problemet må du eller en systemadministrator endre filtilgangene slik at din vev-tjener kan endre denne filen.",
         "GDPR": "GDPR",
         "GdprChecklistDesc1": "Hvis du behandler personvernsdata om europeiske borgere gjennom Matomo, må du oppfylle kravene selv om bedriften din befinner seg utenfor Europa. Denne veiledningen hjelper deg.",
@@ -109,7 +110,6 @@
         "GeolocationAnonymizeIpNote": "Merk: Geoposisjonering vil ha omtrent de samme resultatene med en byte anonymisert. Med to byte eller mer, vil geoposisjonering være unøyaktig.",
         "GetPurgeEstimate": "Hent estimering av rensning",
         "HowDoIAskForConsent": "Hvordan spør jeg brukere om samtykke?",
-        "HowDoIAskForConsentIntroduction": "Lær alt om å %1$sspørre om kake- eller sporingssamtykke i integrasjonsveiledningen.%2$s",
         "Imprint": "Impressum",
         "ImprintUrl": "Impressum-nettadresse",
         "ImprintUrlDescription": "En lenke til din impressums-side",
@@ -202,8 +202,6 @@
         "VisitsMatchedCriteria": "Disse besøkene samsvarer med valgte kriterium",
         "VisitsSuccessfullyDeleted": "Besøk ble slettet",
         "VisitsSuccessfullyExported": "Besøk ble eksportert",
-        "WhenConsentIsNeeded1": "I henseende %1$sGDPR-personvernsreguleringer%2$s er det når du behandler personvernsdata noen fall der du må spørre brukere om samtykke. For å finne ut om du trenger det må du fastsette hvorvidt din lovige basis for å behandle personvernsdata er «Samtykke» eller «Legitim interesse», eller hvorvidt du kan unngå å samle inn personvernsdata overhodet. Det anbefales at du lærer mer om%3$slovlig basis under GDPR for Matomo%4$s.",
-        "WhenConsentIsNeeded2": "Merk at når du kreves å hente brukersamtykke og hvis du ikke kan bevise at du innhentet «Samtykke» for dine brukere i fortiden, anbefales det å %1$sanonymisere rådata om de brukerne du har sporet%2$s",
         "WhenDoINeedConsent": "Når må jeg pørre om brukersamtykke?"
     }
 }

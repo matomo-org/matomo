@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\Goals\Columns;
 
 use Piwik\Columns\DimensionMetricFactory;
-use Piwik\Columns\Join;
 use Piwik\Columns\MetricsList;
 use Piwik\Plugin\Dimension\ConversionDimension;
 
@@ -25,10 +24,5 @@ class IdGoal extends ConversionDimension
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {
         // do not create any metrics for this dimension, they don't really make much sense and are rather confusing
-    }
-
-    public function getDbColumnJoin()
-    {
-        return new Join\GoalNameJoin();
     }
 }

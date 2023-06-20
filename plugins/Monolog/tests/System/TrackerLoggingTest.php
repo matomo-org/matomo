@@ -10,6 +10,8 @@ namespace Piwik\Plugins\Monolog\tests\System;
 
 use Piwik\Config;
 use Piwik\Date;
+use Piwik\Log\Logger;
+use Piwik\Log\LoggerInterface;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Framework\TestingEnvironmentVariables;
@@ -88,8 +90,8 @@ class TrackerLoggingTest extends SystemTestCase
     public static function provideContainerConfigBeforeClass()
     {
         return array(
-            'Psr\Log\LoggerInterface' => \DI\get('Monolog\Logger'),
-            Config::class => \DI\decorate(function (Config $config) {
+            LoggerInterface::class => \Piwik\DI::get(Logger::class),
+            Config::class => \Piwik\DI::decorate(function (Config $config) {
                 $config->tests['enable_logging'] = 1;
                 $config->log['log_writers'] = ['screen'];
                 return $config;

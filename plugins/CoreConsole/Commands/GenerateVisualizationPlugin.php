@@ -10,9 +10,6 @@
 namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\Plugin\Manager;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  */
@@ -22,21 +19,21 @@ class GenerateVisualizationPlugin extends GeneratePlugin
     {
         $this->setName('generate:visualizationplugin')
             ->setDescription('Generates a new visualization plugin including all needed files')
-            ->addOption('name', null, InputOption::VALUE_REQUIRED, 'Plugin name ([a-Z0-9_-])')
-            ->addOption('visualizationname', null, InputOption::VALUE_REQUIRED, 'Visualization name ([a-Z0-9])')
-            ->addOption('description', null, InputOption::VALUE_REQUIRED, 'Plugin description, max 150 characters')
-            ->addOption('pluginversion', null, InputOption::VALUE_OPTIONAL, 'Plugin version')
-            ->addOption('overwrite', null, InputOption::VALUE_NONE, 'Generate even if plugin directory already exists.')
-            ->addOption('full', null, InputOption::VALUE_OPTIONAL, 'If a value is set, an API and a Controller will be created as well. Option is only available for creating plugins, not for creating themes.');
+            ->addRequiredValueOption('name', null, 'Plugin name ([a-Z0-9_-])')
+            ->addRequiredValueOption('visualizationname', null, 'Visualization name ([a-Z0-9])')
+            ->addRequiredValueOption('description', null, 'Plugin description, max 150 characters')
+            ->addOptionalValueOption('pluginversion', null, 'Plugin version')
+            ->addNoValueOption('overwrite', null, 'Generate even if plugin directory already exists.')
+            ->addOptionalValueOption('full', null, 'If a value is set, an API and a Controller will be created as well. Option is only available for creating plugins, not for creating themes.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
-        $pluginName  = $this->getPluginName($input, $output);
-        $this->checkAndUpdateRequiredPiwikVersion($pluginName, $output);
-        $description = $this->getPluginDescription($input, $output);
-        $version     = $this->getPluginVersion($input, $output);
-        $visualizationName = $this->getVisualizationName($input, $output);
+        $pluginName  = $this->getPluginName();
+        $this->checkAndUpdateRequiredPiwikVersion($pluginName);
+        $description = $this->getPluginDescription();
+        $version     = $this->getPluginVersion();
+        $visualizationName = $this->getVisualizationName();
 
         $this->generatePluginFolder($pluginName);
 
@@ -51,23 +48,22 @@ class GenerateVisualizationPlugin extends GeneratePlugin
 
         $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $allowListFiles = array());
 
-        $this->writeSuccessMessage($output, array(
+        $this->writeSuccessMessage(array(
              sprintf('Visualization plugin %s %s generated.', $pluginName, $version),
              'Enjoy!'
         ));
+
+        return self::SUCCESS;
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
      * @return string
      * @throws \RuntimeException
      */
-    private function getVisualizationName(InputInterface $input, OutputInterface $output)
+    private function getVisualizationName()
     {
-        $self = $this;
-
-        $validate = function ($visualizationName) use ($self) {
+        $input = $this->getInput();
+        $validate = function ($visualizationName) {
             if (empty($visualizationName)) {
                 throw new \RuntimeException('You have to enter a visualization name');
             }
@@ -82,8 +78,7 @@ class GenerateVisualizationPlugin extends GeneratePlugin
         $visualizationName = $input->getOption('visualizationname');
 
         if (empty($visualizationName)) {
-            $dialog = $this->getHelperSet()->get('dialog');
-            $visualizationName = $dialog->askAndValidate($output, 'Enter a visualization name (only AlNum allowed): ', $validate);
+            $visualizationName = $this->askAndValidate('Enter a visualization name (only AlNum allowed): ', $validate);
         } else {
             $validate($visualizationName);
         }

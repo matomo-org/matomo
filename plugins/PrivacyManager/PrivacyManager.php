@@ -199,7 +199,7 @@ class PrivacyManager extends Plugin
         // We disable the post processor for this API method as it passes through the results of
         // `Live.getLastVisitsDetails`, which is already post processed.
         // Otherwise, the PostProcessor would trigger warning when trying to calculate a totals row.
-        if ($request['method'] === 'PrivacyManager.findDataSubjects') {
+        if (isset($request['method']) && ($request['method'] === 'PrivacyManager.findDataSubjects')) {
             $shouldDisable = true;
         }
     }
@@ -249,6 +249,7 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'General_Details';
         $translationKeys[] = 'General_Id';
         $translationKeys[] = 'General_MonthlyReports';
+        $translationKeys[] = 'General_Ok';
         $translationKeys[] = 'General_RangeReports';
         $translationKeys[] = 'General_Recommended';
         $translationKeys[] = 'General_UserId';
@@ -265,6 +266,7 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_AddUserIdToSearch';
         $translationKeys[] = 'PrivacyManager_AddVisitorIPToSearch';
         $translationKeys[] = 'PrivacyManager_AddVisitorIdToSearch';
+        $translationKeys[] = 'PrivacyManager_AnonymizeData';
         $translationKeys[] = 'PrivacyManager_AnonymizeDataConfirm';
         $translationKeys[] = 'PrivacyManager_AnonymizeDataNow';
         $translationKeys[] = 'PrivacyManager_AnonymizeIp';
@@ -283,15 +285,30 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_AnonymizeSites';
         $translationKeys[] = 'PrivacyManager_AnonymizeUserId';
         $translationKeys[] = 'PrivacyManager_AnonymizeUserIdHelp';
+        $translationKeys[] = 'PrivacyManager_AskingForConsent';
+        $translationKeys[] = 'PrivacyManager_AwarenessDocumentation';
+        $translationKeys[] = 'PrivacyManager_AwarenessDocumentationDesc1';
+        $translationKeys[] = 'PrivacyManager_AwarenessDocumentationDesc2';
+        $translationKeys[] = 'PrivacyManager_AwarenessDocumentationDesc3';
+        $translationKeys[] = 'PrivacyManager_AwarenessDocumentationDesc4';
+        $translationKeys[] = 'PrivacyManager_AwarenessDocumentationIntro';
+        $translationKeys[] = 'PrivacyManager_BackgroundColor';
+        $translationKeys[] = 'PrivacyManager_ConsentExplanation';
         $translationKeys[] = 'PrivacyManager_ApplyStyling';
         $translationKeys[] = 'PrivacyManager_BackgroundColor';
         $translationKeys[] = 'PrivacyManager_BuildYourOwn';
         $translationKeys[] = 'PrivacyManager_DBPurged';
+        $translationKeys[] = 'PrivacyManager_DataRetention';
+        $translationKeys[] = 'PrivacyManager_DataRetentionInMatomo';
+        $translationKeys[] = 'PrivacyManager_DataRetentionOverall';
         $translationKeys[] = 'PrivacyManager_DeleteAggregateReportsDetailedInfo';
         $translationKeys[] = 'PrivacyManager_DeleteBothConfirm';
+        $translationKeys[] = 'PrivacyManager_DeleteDataDescription';
         $translationKeys[] = 'PrivacyManager_DeleteDataInterval';
         $translationKeys[] = 'PrivacyManager_DeleteLogsConfirm';
         $translationKeys[] = 'PrivacyManager_DeleteLogsOlderThan';
+        $translationKeys[] = 'PrivacyManager_DeleteOldAggregatedReports';
+        $translationKeys[] = 'PrivacyManager_DeleteOldRawData';
         $translationKeys[] = 'PrivacyManager_DeleteRawDataInfo';
         $translationKeys[] = 'PrivacyManager_DeleteReportsConfirm';
         $translationKeys[] = 'PrivacyManager_DeleteReportsInfo2';
@@ -302,6 +319,12 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_DeleteVisitsConfirm';
         $translationKeys[] = 'PrivacyManager_DeletionFromMatomoOnly';
         $translationKeys[] = 'PrivacyManager_DoNotTrack_Description';
+        $translationKeys[] = 'PrivacyManager_DoNotTrack_Disabled';
+        $translationKeys[] = 'PrivacyManager_DoNotTrack_DisabledMoreInfo';
+        $translationKeys[] = 'PrivacyManager_DoNotTrack_Enabled';
+        $translationKeys[] = 'PrivacyManager_DoNotTrack_EnabledMoreInfo';
+        $translationKeys[] = 'PrivacyManager_DoNotTrack_SupportDNTPreference';
+        $translationKeys[] = 'PrivacyManager_DoNotTrack_Deprecated';
         $translationKeys[] = 'PrivacyManager_ExportSelectedVisits';
         $translationKeys[] = 'PrivacyManager_ExportingNote';
         $translationKeys[] = 'PrivacyManager_FindDataSubjectsBy';
@@ -313,6 +336,12 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_ForceCookielessTrackingDescription';
         $translationKeys[] = 'PrivacyManager_ForceCookielessTrackingDescription2';
         $translationKeys[] = 'PrivacyManager_ForceCookielessTrackingDescriptionNotWritable';
+        $translationKeys[] = 'PrivacyManager_GdprChecklistDesc1';
+        $translationKeys[] = 'PrivacyManager_GdprChecklistDesc2';
+        $translationKeys[] = 'PrivacyManager_GdprChecklists';
+        $translationKeys[] = 'PrivacyManager_GdprOverview';
+        $translationKeys[] = 'PrivacyManager_GdprOverviewIntro1';
+        $translationKeys[] = 'PrivacyManager_GdprOverviewIntro2';
         $translationKeys[] = 'PrivacyManager_GdprTools';
         $translationKeys[] = 'PrivacyManager_GdprToolsOverviewHint';
         $translationKeys[] = 'PrivacyManager_GdprToolsPageIntro1';
@@ -321,6 +350,18 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_GdprToolsPageIntroEraseRight';
         $translationKeys[] = 'PrivacyManager_GeolocationAnonymizeIpNote';
         $translationKeys[] = 'PrivacyManager_GetPurgeEstimate';
+        $translationKeys[] = 'PrivacyManager_HowDoIAskForConsent';
+        $translationKeys[] = 'PrivacyManager_HowDoIAskForConsentIntro';
+        $translationKeys[] = 'PrivacyManager_HowDoIAskForConsentOutro';
+        $translationKeys[] = 'PrivacyManager_IndividualsRights';
+        $translationKeys[] = 'PrivacyManager_IndividualsRightsAccess';
+        $translationKeys[] = 'PrivacyManager_IndividualsRightsChildren';
+        $translationKeys[] = 'PrivacyManager_IndividualsRightsErasure';
+        $translationKeys[] = 'PrivacyManager_IndividualsRightsInform';
+        $translationKeys[] = 'PrivacyManager_IndividualsRightsIntro';
+        $translationKeys[] = 'PrivacyManager_IndividualsRightsObject';
+        $translationKeys[] = 'PrivacyManager_IndividualsRightsPortability';
+        $translationKeys[] = 'PrivacyManager_IndividualsRightsRectification';
         $translationKeys[] = 'PrivacyManager_KeepBasicMetrics';
         $translationKeys[] = 'PrivacyManager_KeepBasicMetricsReportsDetailedInfo';
         $translationKeys[] = 'PrivacyManager_KeepDataFor';
@@ -348,15 +389,28 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_PseudonymizeUserId';
         $translationKeys[] = 'PrivacyManager_PseudonymizeUserIdNote';
         $translationKeys[] = 'PrivacyManager_PseudonymizeUserIdNote2';
-        $translationKeys[] = 'PrivacyManager_PurgingData';
         $translationKeys[] = 'PrivacyManager_PurgeNow';
         $translationKeys[] = 'PrivacyManager_PurgeNowConfirm';
+        $translationKeys[] = 'PrivacyManager_PurgingData';
+        $translationKeys[] = 'PrivacyManager_RawDataNeverRemoved';
+        $translationKeys[] = 'PrivacyManager_RawDataRemovedAfter';
         $translationKeys[] = 'PrivacyManager_ReportsDataSavedEstimate';
+        $translationKeys[] = 'PrivacyManager_ReportsNeverRemoved';
+        $translationKeys[] = 'PrivacyManager_ReportsRemovedAfter';
         $translationKeys[] = 'PrivacyManager_ResultIncludesAllVisits';
         $translationKeys[] = 'PrivacyManager_ResultTruncated';
         $translationKeys[] = 'PrivacyManager_SaveSettingsBeforePurge';
         $translationKeys[] = 'PrivacyManager_SearchForDataSubject';
+        $translationKeys[] = 'PrivacyManager_SecurityProcedures';
+        $translationKeys[] = 'PrivacyManager_SecurityProceduresDesc1';
+        $translationKeys[] = 'PrivacyManager_SecurityProceduresDesc2';
+        $translationKeys[] = 'PrivacyManager_SecurityProceduresDesc3';
+        $translationKeys[] = 'PrivacyManager_SecurityProceduresDesc4';
+        $translationKeys[] = 'PrivacyManager_SecurityProceduresIntro';
+        $translationKeys[] = 'PrivacyManager_SeeAlsoOurOfficialGuidePrivacy';
         $translationKeys[] = 'PrivacyManager_SelectWebsite';
+        $translationKeys[] = 'PrivacyManager_TeaserHeader';
+        $translationKeys[] = 'PrivacyManager_TrackingOptOut';
         $translationKeys[] = 'PrivacyManager_ShowIntro';
         $translationKeys[] = 'PrivacyManager_UnsetActionColumns';
         $translationKeys[] = 'PrivacyManager_UnsetActionColumnsHelp';
@@ -364,6 +418,7 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_UnsetVisitColumnsHelp';
         $translationKeys[] = 'PrivacyManager_UseAnonymizeIp';
         $translationKeys[] = 'PrivacyManager_UseAnonymizeOrderId';
+        $translationKeys[] = 'PrivacyManager_UseAnonymizeTrackingData';
         $translationKeys[] = 'PrivacyManager_UseAnonymizedIpForVisitEnrichment';
         $translationKeys[] = 'PrivacyManager_UseAnonymizedIpForVisitEnrichmentNote';
         $translationKeys[] = 'PrivacyManager_UseDeleteLog';
@@ -371,7 +426,36 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_VisitsMatchedCriteria';
         $translationKeys[] = 'PrivacyManager_VisitsSuccessfullyDeleted';
         $translationKeys[] = 'PrivacyManager_VisitsSuccessfullyExported';
+        $translationKeys[] = 'PrivacyManager_WhenConsentIsNeededPart1';
+        $translationKeys[] = 'PrivacyManager_WhenConsentIsNeededPart2';
+        $translationKeys[] = 'PrivacyManager_WhenConsentIsNeededPart3';
+        $translationKeys[] = 'PrivacyManager_WhenDoINeedConsent';
         $translationKeys[] = 'UsersManager_AllWebsites';
+        $translationKeys[] = 'PrivacyManager_ConsentManager';
+        $translationKeys[] = 'PrivacyManager_ConsentManagerDetected';
+        $translationKeys[] = 'PrivacyManager_ConsentManagerConnected';
+        $translationKeys[] = 'PrivacyManager_PreviousRawDataAnonymizations';
+        $translationKeys[] = 'PrivacyManager_Requester';
+        $translationKeys[] = 'PrivacyManager_AffectedIDSites';
+        $translationKeys[] = 'PrivacyManager_AffectedDate';
+        $translationKeys[] = 'PrivacyManager_Anonymize';
+        $translationKeys[] = 'PrivacyManager_VisitColumns';
+        $translationKeys[] = 'CorePluginsAdmin_Status';
+        $translationKeys[] = 'PrivacyManager_LinkVisitActionColumns';
+        $translationKeys[] = 'PrivacyManager_IPAddress';
+        $translationKeys[] = 'PrivacyManager_ScheduledDate';
+        $translationKeys[] = 'PrivacyManager_JobStartDate';
+        $translationKeys[] = 'PrivacyManager_JobFinishDate';
+        $translationKeys[] = 'PrivacyManager_CurrentOutput';
+        $translationKeys[] = 'PrivacyManager_Output';
+        $translationKeys[] = 'PrivacyManager_Scheduled';
+        $translationKeys[] = 'PrivacyManager_InProgress';
+        $translationKeys[] = 'PrivacyManager_AnonymizePreviousData';
+        $translationKeys[] = 'PrivacyManager_AnonymizePreviousDataDescription';
+        $translationKeys[] = 'PrivacyManager_AnonymizePreviousDataOnlySuperUser';
+        $translationKeys[] = 'Overlay_Location';
+        $translationKeys[] = 'General_UserId';
+        $translationKeys[] = 'General_Done';
     }
 
     public function setTrackerCacheGeneral(&$cacheContent)
@@ -404,14 +488,6 @@ class PrivacyManager extends Plugin
     {
         $form->addElement(
             'checkbox',
-            'do_not_track',
-            null,
-            [
-                'content' => '<div class="form-help">' . Piwik::translate('PrivacyManager_DoNotTrack_EnabledMoreInfo') . '</div> &nbsp;&nbsp;' . Piwik::translate('PrivacyManager_DoNotTrack_Enable')
-            ]
-        );
-        $form->addElement(
-            'checkbox',
             'anonymise_ip',
             null,
             [
@@ -433,14 +509,6 @@ class PrivacyManager extends Plugin
      */
     public function installationFormSubmit(FormDefaultSettings $form)
     {
-        $doNotTrack = (bool) $form->getSubmitValue('do_not_track');
-        $dntChecker = new DoNotTrackHeaderChecker();
-        if ($doNotTrack) {
-            $dntChecker->activate();
-        } else {
-            $dntChecker->deactivate();
-        }
-
         $anonymiseIp = (bool) $form->getSubmitValue('anonymise_ip');
         if ($anonymiseIp) {
             IPAnonymizer::activate();

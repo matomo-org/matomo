@@ -1,6 +1,6 @@
 {
     "CoreHome": {
-        "CategoryNoData": "በዚህ ፈርጅ ምንም ውሂብ የለም. \"ሁሉንም ምድብ\" ለማጠቃለል ይሞክሩ።",
+        "CategoryNoData": "No data in this category. Try to \"Include all population\".",
         "ShowJSCode": "ለማስገባት የጃቫ ስክሪፕትን ኮድ አሳይ",
         "SystemSummaryPhpVersion": "የፒ ኤች ፒ ስሪት"
     }

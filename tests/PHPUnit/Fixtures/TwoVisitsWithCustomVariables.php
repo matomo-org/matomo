@@ -123,6 +123,7 @@ class TwoVisitsWithCustomVariables extends Fixture
         }
         $visitorB->setUrlReferrer('');
 
+        // Test campaigns that are specified using the _rcn tracker parameter, only conversions will be attributed to the campaign
         $attribution = array(
             ' CAMPAIGN NAME -%20YEAH! ',
             ' CAMPAIGN%20KEYWORD - RIGHT... ',

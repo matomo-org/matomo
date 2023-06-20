@@ -59,13 +59,13 @@ class TrackerDisallowedIpTest extends IntegrationTestCase
     public static function provideContainerConfigBeforeClass()
     {
         return [
-            'observers.global' => \DI\add(array(
-                array('Environment.bootstrapped', \DI\value(function () {
+            'observers.global' => \Piwik\DI::add(array(
+                array('Environment.bootstrapped', \Piwik\DI::value(function () {
                     // ensure tracking request uses an IP that is not local or on allow list
                     $_SERVER['REMOTE_ADDR'] = '3.3.3.3';
                 }))
             )),
-            Config::class => \DI\decorate(function (Config $config) {
+            Config::class => \Piwik\DI::decorate(function (Config $config) {
                 $config->General['login_allowlist_ip'] = ['1.1.1.1'];
                 return $config;
             }),

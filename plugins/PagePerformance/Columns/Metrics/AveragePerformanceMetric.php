@@ -12,6 +12,7 @@ use Piwik\DataTable\Row;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
+use Piwik\Columns\Dimension;
 
 /**
  * The average amount for a certain performance metric. Calculated as
@@ -95,5 +96,10 @@ abstract class AveragePerformanceMetric extends ProcessedMetric
     private function hasAverageMetric(DataTable $table)
     {
         return $table->getFirstRow()->getColumn($this->getName()) !== false;
+    }
+
+    public function getSemanticType(): ?string
+    {
+        return Dimension::TYPE_DURATION_S;
     }
 }

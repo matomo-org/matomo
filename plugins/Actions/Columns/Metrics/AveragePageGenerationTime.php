@@ -13,6 +13,7 @@ use Piwik\Metrics;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
+use Piwik\Columns\Dimension;
 
 /**
  * The average amount of time it takes to generate a page. Calculated as
@@ -108,5 +109,10 @@ class AveragePageGenerationTime extends ProcessedMetric
     private function hasAverageTimeGeneration(DataTable $table)
     {
         return $table->getFirstRow()->getColumn('avg_time_generation') !== false;
+    }
+
+    public function getSemanticType(): ?string
+    {
+        return Dimension::TYPE_DURATION_S;
     }
 }

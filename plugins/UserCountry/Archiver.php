@@ -54,22 +54,30 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     public function aggregateMultipleReports()
     {
-        $dataTableToSum = array(
-            self::COUNTRY_RECORD_NAME,
+        $dataTableToSum = [
             self::REGION_RECORD_NAME,
             self::CITY_RECORD_NAME,
-        );
+        ];
         $columnsAggregationOperation = null;
 
-        $nameToCount = $this->getProcessor()->aggregateDataTableRecords(
+        $this->getProcessor()->aggregateDataTableRecords(
             $dataTableToSum,
-            $maximumRowsInDataTableLevelZero = null,
-            $maximumRowsInSubDataTable = null,
-            $columnToSortByBeforeTruncation = null,
+            $this->maximumRows, $this->maximumRows, Metrics::INDEX_NB_VISITS,
             $columnsAggregationOperation,
             $columnsToRenameAfterAggregation = null,
-            $countRowsRecursive = array()
+            $countRowsRecursive = []
         );
+
+        $nameToCount = $this->getProcessor()->aggregateDataTableRecords(
+            [self::COUNTRY_RECORD_NAME],
+            null,
+            null,
+            Metrics::INDEX_NB_VISITS,
+            $columnsAggregationOperation,
+            $columnsToRenameAfterAggregation = null,
+            $countRowsRecursive = []
+        );
+
         $this->getProcessor()->insertNumericRecord(self::DISTINCT_COUNTRIES_METRIC,
             $nameToCount[self::COUNTRY_RECORD_NAME]['level0']);
     }

@@ -9,25 +9,22 @@
 namespace Piwik\Plugins\CoreVue\Commands;
 
 use Piwik\Plugin\Manager;
-use Piwik\Plugins\CoreConsole\Commands\GenerateAngularConstructBase;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
+use Piwik\Plugins\CoreConsole\Commands\GenerateVueConstructBase;
 
-class GenerateVueComponent extends GenerateAngularConstructBase
+class GenerateVueComponent extends GenerateVueConstructBase
 {
     protected function configure()
     {
         $this->setName('generate:vue-component')
             ->setDescription('Generates a vue component for a plugin.')
-            ->addOption('pluginname', null, InputOption::VALUE_REQUIRED, 'The name of an existing plugin')
-            ->addOption('component', null, InputOption::VALUE_REQUIRED, 'The name of the component.');
+            ->addRequiredValueOption('pluginname', null, 'The name of an existing plugin')
+            ->addRequiredValueOption('component', null, 'The name of the component.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
-        $pluginName = $this->getPluginName($input, $output);
-        $component  = $this->getConstructName($input, $output, $optionName = 'component', $constructType = 'component');
+        $pluginName = $this->getPluginName();
+        $component  = $this->getConstructName($optionName = 'component', $constructType = 'component');
         $pluginPath = $this->getPluginPath($pluginName);
 
         $targetFile = $pluginPath . '/vue/src/' . $component . '.vue';
@@ -38,13 +35,11 @@ class GenerateVueComponent extends GenerateAngularConstructBase
         }
 
         $exampleFolder = Manager::getPluginDirectory('ExampleVue');
-        $adapterFunctionName = lcfirst($component) . 'Adapter';
         $replace = array(
             'ExampleVue'       => $pluginName,
             'ExampleComponent' => $component,
             'exampleVueComponent' => lcfirst($component),
             'AsyncExampleComponent' => 'Async' . $component,
-            'exampleVueComponentAdapter' => $adapterFunctionName,
         );
 
         $allowlistFiles = array(
@@ -52,7 +47,6 @@ class GenerateVueComponent extends GenerateAngularConstructBase
             '/vue/src',
             '/vue/src/ExampleComponent',
             '/vue/src/ExampleComponent/ExampleComponent.vue',
-            '/vue/src/ExampleComponent/ExampleComponent.adapter.ts',
         );
 
         $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $allowlistFiles);
@@ -61,14 +55,15 @@ class GenerateVueComponent extends GenerateAngularConstructBase
         if (!file_exists($indexFile)) {
             file_put_contents($indexFile, '');
         }
-        file_put_contents($indexFile, "export { default as $adapterFunctionName } from './$component/$component.adapter';\n", FILE_APPEND);
         file_put_contents($indexFile, "export { default as $component } from './$component/$component.vue';\n", FILE_APPEND);
 
         // TODO: generate a less file as well?
 
-        $this->writeSuccessMessage($output, array(
+        $this->writeSuccessMessage(array(
             sprintf('Vue component "%s" for plugin "%s" in "%s" generated', $component, $pluginName, $targetFile),
             sprintf('You should now build the vue library using the vue:build command (use --watch to continuously build after making changes).'),
         ));
+
+        return self::SUCCESS;
     }
 }

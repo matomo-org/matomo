@@ -237,6 +237,7 @@ describe("Dashboard", function () {
         await page.mouse.move(-10, -10);
         await page.waitForSelector('.widget');
         await page.waitForNetworkIdle();
+        await page.waitForTimeout(500); // wait for widgets to render fully
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('reset');
     });
@@ -283,7 +284,7 @@ describe("Dashboard", function () {
             await page.waitForTimeout(500); // sometimes the text doesn't seem to type fast enough
 
             var value = await page.evaluate(function() {
-                return $('#createDashboardName').attr('value');
+                return $('#createDashboardName').prop('value');
             });
 
             if (value === name) {

@@ -28,4 +28,3 @@ class FakeMeasurableSettings extends \Piwik\Plugins\ExampleSettingsPlugin\Measur
     }
 
 }
-

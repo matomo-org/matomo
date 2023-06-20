@@ -164,7 +164,7 @@ class FactoryTest extends UnitTestCase
     public function provideContainerConfig()
     {
         return [
-            \Piwik\Plugin\Manager::class => \DI\autowire(MockPluginManager::class),
+            \Piwik\Plugin\Manager::class => \Piwik\DI::autowire(MockPluginManager::class),
         ];
     }
 }

@@ -8,7 +8,9 @@
 
 namespace Piwik\Container;
 
-use DI\Container;
+use Piwik\Container\Container;
+use Piwik\Exception\DI\DependencyException;
+use Piwik\Exception\DI\NotFoundException;
 
 /**
  * This class provides a static access to the container.
@@ -74,11 +76,17 @@ class StaticContainer
      *
      * @param string $name Container entry name.
      * @return mixed
-     * @throws \DI\NotFoundException|\DI\DependencyException
+     * @throws NotFoundException|DependencyException
      */
     public static function get($name)
     {
-        return self::getContainer()->get($name);
+        try {
+            return self::getContainer()->get($name);
+        } catch (\DI\NotFoundException $e) {
+            throw new NotFoundException($e->getMessage(), $e->getCode(), $e);
+        } catch (\DI\DependencyException $e) {
+            throw new DependencyException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 
     public static function getDefinitions()

@@ -7,6 +7,7 @@
         "Resolutions": "Resoluties",
         "WidgetGlobalVisitors": "Bezoekersconfiguratie",
         "WidgetGlobalVisitorsDocumentation": "Dit rapport toont de meest voorkomende configuraties die uw bezoekers hadden. Een configuratie is de combinatie van besturingssysteem, browsertype en schermresolutie.",
-        "WidgetResolutions": "Schermresolutie"
+        "WidgetResolutions": "Schermresolutie",
+        "WidgetResolutionsDocumentation": "Dit rapport toont de schermresoluties waarmee uw bezoekers uw website bekijken."
     }
 }

@@ -1,6 +1,8 @@
 {
     "CustomJsTracker": {
+        "DiagnosticPiwikJsMakeWritable": "We adviseren %1$s schrijfbaar te maken door het volgende commando uit te voeren: %2$s",
+        "DiagnosticPiwikJsNotWritable": "Het Matomo Javascript Tracker bestand %s is niet schrijfbaar waardoor andere plugins deze niet kunnen uitbreiden. Het is zelfs mogelijk dat in de toekomst sommige basisfunctionaliteiten niet goed zullen werken.",
         "DiagnosticPiwikJsWritable": "Schrijfbare JavaScript-tracker (%s)",
-        "DiagnosticPiwikJsMakeWritable": "We adviseren %1$s schrijfbaar te maken door het volgende commando uit te voeren: %2$s"
+        "PluginDescription": "Laat elke plugin toe om het Matomo Javascript Tracking bestand (matomo.js) uit te breiden en nieuwe functionaliteit en meetmogelijkheden voor websites toe te voegen."
     }
 }

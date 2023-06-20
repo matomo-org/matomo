@@ -1,6 +1,5 @@
 <?php
 
-use Psr\Container\ContainerInterface;
 use Matomo\Cache\Eager;
 use Piwik\SettingsServer;
 
@@ -10,7 +9,7 @@ return [
 
     'path.misc.user' => 'misc/user/',
 
-    'path.tmp' => function (ContainerInterface $c) {
+    'path.tmp' => function (\Piwik\Container\Container $c) {
         $root = PIWIK_USER_PATH;
 
         // TODO remove that special case and instead have plugins override 'path.tmp' to add the instance id
@@ -29,15 +28,15 @@ return [
         return $root . $tmp . $instanceId;
     },
 
-    'path.tmp.templates' => DI\string('{path.tmp}/templates_c'),
+    'path.tmp.templates' => Piwik\DI::string('{path.tmp}/templates_c'),
 
-    'path.cache' => DI\string('{path.tmp}/cache/tracker/'),
+    'path.cache' => Piwik\DI::string('{path.tmp}/cache/tracker/'),
 
     'view.clearcompiledtemplates.enable' => true,
 
-    'twig.cache' => DI\string('{path.tmp.templates}'),
+    'twig.cache' => Piwik\DI::string('{path.tmp.templates}'),
 
-    'Matomo\Cache\Eager' => function (ContainerInterface $c) {
+    'Matomo\Cache\Eager' => function (\Piwik\Container\Container $c) {
         $backend = $c->get('Matomo\Cache\Backend');
         $cacheId = $c->get('cache.eager.cache_id');
 
@@ -56,7 +55,7 @@ return [
 
         return $cache;
     },
-    'Matomo\Cache\Backend' => function (ContainerInterface $c) {
+    'Matomo\Cache\Backend' => function (\Piwik\Container\Container $c) {
         // If Piwik is not installed yet, it's possible the tmp/ folder is not writable
         // we prevent failing with an unclear message eg. coming from doctrine-cache
         // by forcing to use a cache backend which always works ie. array
@@ -65,7 +64,7 @@ return [
         } else {
             try {
                 $backend = $c->get('ini.Cache.backend');
-            } catch (\DI\NotFoundException $ex) {
+            } catch (\Piwik\Exception\DI\NotFoundException $ex) {
                 $backend = 'chained'; // happens if global.ini.php is not available
             }
         }
@@ -76,14 +75,38 @@ return [
         return 'eagercache-' . str_replace(['.', '-'], '', \Piwik\Version::VERSION) . '-';
     },
 
-    'entities.idNames' => DI\add(['idGoal', 'idDimension']),
+    /**
+     * A list of API query parameters that map to entity IDs, for example, `idGoal` for goals.
+     *
+     * If your plugin introduces new entities that can be fetched or manipulated by ID through
+     * API requests, you should add the query parameters that represent the new entity's IDs
+     * to this array.
+     */
+    'entities.idNames' => Piwik\DI::add(['idGoal', 'idDimension']),
 
-    'Psr\Log\LoggerInterface' => DI\create('Psr\Log\NullLogger'),
+    /**
+     * If your plugin uses custom query parameters in API requests (that is, query parameters not used
+     * by a core plugin), and you want to be able to use those query parameters in system tests, you
+     * will need to add them, via DI, to this array. Otherwise, in system tests, they will be
+     * silently ignored.
+     *
+     * Note: if the query parameter has been added to `'entities.idNames'`, it does not need to be added
+     * here as well.
+     */
+    'DocumentationGenerator.customParameters' => [],
 
-    'Piwik\Translation\Loader\LoaderInterface' => DI\autowire('Piwik\Translation\Loader\LoaderCache')
-        ->constructorParameter('loader', DI\get('Piwik\Translation\Loader\JsonFileLoader')),
+    \Piwik\Log\LoggerInterface::class => Piwik\DI::create(\Piwik\Log\NullLogger::class),
 
-    'DeviceDetector\Cache\Cache' => DI\autowire('Piwik\DeviceDetector\DeviceDetectorCache')->constructor(86400),
+    'Piwik\Translation\Loader\LoaderInterface' => Piwik\DI::autowire('Piwik\Translation\Loader\LoaderCache')
+        ->constructorParameter('loader', Piwik\DI::get('Piwik\Translation\Loader\JsonFileLoader')),
+
+    'DeviceDetector\Cache\Cache' => Piwik\DI::autowire('Piwik\DeviceDetector\DeviceDetectorCache')->constructor(86400),
+
+    // specify plugins to load on demand via DI config. mostly for tests.
+    'plugins.shouldLoadOnDemand' => [],
+
+    // allow users to override plugin hardcoded value and avoid loading on demand
+    'plugins.shouldNotLoadOnDemand' => [],
 
     'observers.global' => [],
 
@@ -98,7 +121,7 @@ return [
      */
     'EnableDbVersionCheck' => true,
 
-    'fileintegrity.ignore' => DI\add([
+    'fileintegrity.ignore' => Piwik\DI::add([
         '*.htaccess',
         '*web.config',
         'bootstrap.php',
@@ -147,13 +170,14 @@ return [
         '*.gitkeep',
         '*.gitmodules',
         '*.gitattributes',
+        '*.git-blame-ignore-revs',
         '*.bower.json',
         '*.travis.yml',
     ]),
 
-    'Piwik\EventDispatcher' => DI\autowire()->constructorParameter('observers', DI\get('observers.global')),
+    'Piwik\EventDispatcher' => Piwik\DI::autowire()->constructorParameter('observers', Piwik\DI::get('observers.global')),
 
-    'login.allowlist.ips' => function (ContainerInterface $c) {
+    'login.allowlist.ips' => function (\Piwik\Container\Container $c) {
         /** @var Piwik\Config\ $config */
         $config = $c->get('Piwik\Config');
         $general = $config->General;
@@ -215,23 +239,23 @@ return [
         '*.amazonaws.com',
     ],
 
-    'Piwik\Tracker\VisitorRecognizer' => DI\autowire()
-        ->constructorParameter('trustCookiesOnly', DI\get('ini.Tracker.trust_visitors_cookies'))
-        ->constructorParameter('visitStandardLength', DI\get('ini.Tracker.visit_standard_length'))
-        ->constructorParameter('lookbackNSecondsCustom', DI\get('ini.Tracker.window_look_back_for_visitor')),
+    'Piwik\Tracker\VisitorRecognizer' => Piwik\DI::autowire()
+        ->constructorParameter('trustCookiesOnly', Piwik\DI::get('ini.Tracker.trust_visitors_cookies'))
+        ->constructorParameter('visitStandardLength', Piwik\DI::get('ini.Tracker.visit_standard_length'))
+        ->constructorParameter('lookbackNSecondsCustom', Piwik\DI::get('ini.Tracker.window_look_back_for_visitor')),
 
-    'Piwik\Tracker\Settings' => DI\autowire()
+    'Piwik\Tracker\Settings' => Piwik\DI::autowire()
         ->constructorParameter(
             'isSameFingerprintsAcrossWebsites',
-            DI\get('ini.Tracker.enable_fingerprinting_across_websites')
+            Piwik\DI::get('ini.Tracker.enable_fingerprinting_across_websites')
         ),
 
     'archiving.performance.logger' => null,
 
-    \Piwik\CronArchive\Performance\Logger::class => DI\autowire()
-        ->constructorParameter('logger', DI\get('archiving.performance.logger')),
+    \Piwik\CronArchive\Performance\Logger::class => Piwik\DI::autowire()
+        ->constructorParameter('logger', Piwik\DI::get('archiving.performance.logger')),
 
-    \Piwik\Concurrency\LockBackend::class => \DI\get(\Piwik\Concurrency\LockBackend\MySqlLockBackend::class),
+    \Piwik\Concurrency\LockBackend::class => \Piwik\DI::get(\Piwik\Concurrency\LockBackend\MySqlLockBackend::class),
 
     \Piwik\Segment\SegmentsList::class => function () {
         return \Piwik\Segment\SegmentsList::get();

@@ -1,0 +1,39 @@
+<script type="text/javascript" charset="utf-8">
+    $(document).on( 'click', '#wordpress-email-instructions', function() {
+        var emailTrackingCodeLink = $('.emailTrackingCode');
+        if (emailTrackingCodeLink.length) {
+            emailTrackingCodeLink[0].click();
+        }
+    });
+</script>
+<p>{{ 'SitesManager_SiteWithoutDataWordpressIntroductionLine1'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/">', '</a>')|raw }}</p>
+<p>{{ 'SitesManager_SiteWithoutDataWordpressIntroductionLine2'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-manually-insert-the-matomo-tracking-code-on-wordpress/">', '</a>', '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/start-tracking-with-a-wordpress-com-site-that-cannot-use-plugins/">', '</a>')|raw }}</p>
+<br>
+<p class="steps-to-start-tracking-header">{{ 'SitesManager_SiteWithoutDataWordpressFollowStepsIntro'|translate }}</p>
+<ol class="list-style-decimal">
+    <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps1'|translate }}</li>
+    <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps2'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-manually-insert-the-matomo-tracking-code-on-wordpress/">','</a>')|raw }}</li>
+    <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps3'|translate }}</li>
+    <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps4'|translate }}</li>
+    <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps5'|translate }}</li>
+    <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps6'|translate }}</li>
+    <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps7'|translate }}</li>
+    <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps8'|translate }}<div><pre style="text-indent: 1.2rem;padding-top:2em;padding-bottom:2em" vue-directive="CoreHome.CopyToClipboard">{{ piwikUrl }}</pre></div></li>
+    {% if authLink %}
+        <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps9'|translate('<a target="_blank" rel="noreferrer noopener" href="'~authLink~'">','</a>','<a target="_blank" rel="noreferrer noopener" href="'~faqLink~'">','</a>')|raw }}</li>
+    {% else %}
+        <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps9'|translate('','','<a target="_blank" rel="noreferrer noopener" href="'~faqLink~'">','</a>')|raw }}</li>
+    {% endif %}
+    <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps10'|translate }}</li>
+    <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps11'|translate }}</li>
+    <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps12'|translate }}</li>
+    <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps13'|translate }}</li>
+    <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps14'|translate }}</li>
+    <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps15'|translate }}</li>
+    <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps16'|translate }}</li>
+    <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps17'|translate }}</li>
+</ol>
+<br>
+<p>{{ 'SitesManager_SiteWithoutDataWordpressFollowStepCompleted'|translate('<strong>', '</strong>')|raw }}</p>
+<br>
+<p>{{ 'SitesManager_SiteWithoutDataWordpressFollowStepNote'|translate('<a target="_blank" rel="noreferrer noopener" href="https://wordpress.org/plugins/wp-piwik/">WP-Matomo Integration (WP-Piwik)</a>')|raw }}</p>

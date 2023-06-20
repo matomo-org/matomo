@@ -11,9 +11,6 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\Common;
 use Piwik\Plugin\Manager;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  */
@@ -23,16 +20,16 @@ class GenerateTest extends GeneratePluginBase
     {
         $this->setName('generate:test')
             ->setDescription('Adds a test to an existing plugin')
-            ->addOption('pluginname', null, InputOption::VALUE_REQUIRED, 'The name of an existing plugin')
-            ->addOption('testname', null, InputOption::VALUE_REQUIRED, 'The name of the test to create')
-            ->addOption('testtype', null, InputOption::VALUE_REQUIRED, 'Whether you want to create a "unit", "integration", "system", or "ui" test');
+            ->addRequiredValueOption('pluginname', null, 'The name of an existing plugin')
+            ->addRequiredValueOption('testname', null, 'The name of the test to create')
+            ->addRequiredValueOption('testtype', null, 'Whether you want to create a "unit", "integration", "system", or "ui" test');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
-        $pluginName = $this->getPluginName($input, $output);
-        $testType   = $this->getTestType($input, $output);
-        $testName   = $this->getTestName($input, $output, $testType);
+        $pluginName = $this->getPluginName();
+        $testType   = $this->getTestType();
+        $testName   = $this->getTestName($testType);
 
         $exampleFolder = Manager::getPluginDirectory('ExamplePlugin');
         $replace       = array(
@@ -62,18 +59,18 @@ class GenerateTest extends GeneratePluginBase
 
         $messages[] = 'Enjoy!';
 
-        $this->writeSuccessMessage($output, $messages);
+        $this->writeSuccessMessage($messages);
+
+        return self::SUCCESS;
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
      * @return string
      * @throws \RuntimeException
      */
-    private function getTestName(InputInterface $input, OutputInterface $output, $testType)
+    private function getTestName($testType)
     {
-        $testname = $input->getOption('testname');
+        $testname = $this->getInput()->getOption('testname');
 
         $validate = function ($testname) {
             if (empty($testname)) {
@@ -84,8 +81,7 @@ class GenerateTest extends GeneratePluginBase
         };
 
         if (empty($testname)) {
-            $dialog   = $this->getHelperSet()->get('dialog');
-            $testname = $dialog->askAndValidate($output, 'Enter the name of the test: ', $validate);
+            $testname = $this->askAndValidate('Enter the name of the test: ', $validate);
         } else {
             $validate($testname);
         }
@@ -100,17 +96,15 @@ class GenerateTest extends GeneratePluginBase
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return array
+     * @return string
      * @throws \RuntimeException
      */
-    protected function getPluginName(InputInterface $input, OutputInterface $output)
+    protected function getPluginName()
     {
         $pluginNames = $this->getPluginNames();
         $invalidName = 'You have to enter the name of an existing plugin';
 
-        return $this->askPluginNameAndValidate($input, $output, $pluginNames, $invalidName);
+        return $this->askPluginNameAndValidate($pluginNames, $invalidName);
     }
 
     public function getValidTypes()
@@ -119,13 +113,11 @@ class GenerateTest extends GeneratePluginBase
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
      * @return string Unit, Integration, System
      */
-    private function getTestType(InputInterface $input, OutputInterface $output)
+    private function getTestType()
     {
-        $testtype = $input->getOption('testtype');
+        $testtype = $this->getInput()->getOption('testtype');
 
         $self = $this;
 
@@ -137,8 +129,12 @@ class GenerateTest extends GeneratePluginBase
         };
 
         if (empty($testtype)) {
-            $dialog   = $this->getHelperSet()->get('dialog');
-            $testtype = $dialog->askAndValidate($output, 'Enter the type of the test to generate ('. implode(", ", $this->getValidTypes()).'): ', $validate, false, null, $this->getValidTypes());
+            $testtype = $this->askAndValidate(
+                'Enter the type of the test to generate (' . implode(", ", $this->getValidTypes()) . '): ',
+                $validate,
+                null,
+                $this->getValidTypes()
+            );
         } else {
             $validate($testtype);
         }

@@ -8,25 +8,39 @@
     background: #D5D3C8;
 }
 
-.UserCountryMap .unlocatableCount {
-  font-size: 11px;
-  color: @color-silver-l60;
-}
+.UserCountryMap {
+    .unlocatableCount {
+        font-size: 11px;
+        color: @color-silver-l60;
+    }
 
-.UserCountryMap .loadingPiwik {
-    position: absolute !important;
-    top: 42% !important;
-    right: 10px !important;
-    left: 10px !important;
-    z-index: 100 !important;
-    display: block;
-    font-size: 12px;
-    color: #000;
-    vertical-align: middle !important;
-    text-align: center;
-    text-shadow: 0 0 5px #fff;
-}
+    .loadingPiwik {
+        height: 30px;
+        right: 10px !important;
+        left: 10px !important;
+        z-index: 100 !important;
+        display: block;
+        font-size: 12px;
+        color: #000;
+        vertical-align: middle !important;
+        text-align: center;
+        text-shadow: 0 0 5px #fff;
+    }
 
+    .mapWidgetStatus {
+        .pk-emptyDataTable {
+            padding-bottom: 35px;
+        }
+        h2 {
+            padding-top: 0;
+        }
+    }
+
+    .dataTableFeatures {
+        padding-top: 25px;
+        overflow: auto;
+    }
+}
 .tableIcon.inactiveIcon {
     color: #99a;
 }
@@ -53,6 +67,10 @@
     background: rgba(255, 255, 255, 0.9);
 }
 
+.UserCountryMap-tooltip .content.unlocated-stats {
+    padding: 0;
+}
+
 .UserCountryMap-title {
     top: 5px;
     left: 5px;
@@ -65,9 +83,9 @@
 }
 
 .UserCountryMap-info {
-    left: 5px;
+    left: 40px;
     font-size: 11px;
-    bottom: 60px;
+    bottom: 62px;
     max-width: 42%;
 }
 
@@ -76,12 +94,16 @@
     width: 16px;
     height: 16px;
     cursor: pointer;
-    left: 13px;
-    bottom: 40px;
+    left: 20px;
+    bottom: 62px;
     position: absolute;
     z-index: 700;
     opacity: 0.9;
     display: none;
+}
+
+.UserCountryMap .dataTableFooterWrap {
+    margin-left: 0;
 }
 
 /* this should me moved to TableView css sometimes */
@@ -99,9 +121,6 @@
     filter: alpha(opacity=3);
 }
 
-.mapWidgetStatus {
-    padding-bottom: 24px;
-}
 
 .widgetUserCountryMapvisitorMap .widgetTop .button {
     z-index: 3;

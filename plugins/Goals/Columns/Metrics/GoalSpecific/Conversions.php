@@ -7,6 +7,7 @@
  */
 namespace Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific;
 
+use Piwik\Columns\Dimension;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
 use Piwik\Piwik;
@@ -40,5 +41,10 @@ class Conversions extends GoalSpecificProcessedMetric
 
         $goalMetrics = $this->getGoalMetrics($row);
         return (int) $this->getMetric($goalMetrics, 'nb_conversions', $mappingFromNameToIdGoal);
+    }
+
+    public function getSemanticType(): ?string
+    {
+        return Dimension::TYPE_NUMBER;
     }
 }

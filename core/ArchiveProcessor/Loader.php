@@ -9,6 +9,7 @@
 namespace Piwik\ArchiveProcessor;
 
 use Piwik\Archive\ArchiveInvalidator;
+use Piwik\ArchiveProcessor;
 use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Config;
@@ -23,7 +24,7 @@ use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\SettingsServer;
 use Piwik\Site;
-use Psr\Log\LoggerInterface;
+use Piwik\Log\LoggerInterface;
 use Piwik\CronArchive\SegmentArchiving;
 
 /**
@@ -133,10 +134,10 @@ class Loader
         if (sizeof($data) == 2) {
             return $data;
         }
-        list($idArchives, $visits, $visitsConverted) = $data;
+        list($idArchives, $visits, $visitsConverted, $foundRecords) = $data;
 
         // only lock meet those conditions
-        if ($this->params->isRootArchiveRequest() && !SettingsServer::isArchivePhpTriggered()) {
+        if (ArchiveProcessor::$isRootArchivingRequest && !SettingsServer::isArchivePhpTriggered()) {
             $lockId = $this->makeArchivingLockId();
 
             //ini lock
@@ -152,15 +153,15 @@ class Loader
                     return $data;
                 }
 
-                list($idArchives, $visits, $visitsConverted) = $data;
+                list($idArchives, $visits, $visitsConverted, $foundRecords) = $data;
 
-                return $this->insertArchiveData($visits, $visitsConverted);
+                return $this->insertArchiveData($visits, $visitsConverted, $idArchives, $foundRecords);
             } finally {
                 $lock->unlock();
             }
         } else {
 
-            return $this->insertArchiveData($visits, $visitsConverted);
+            return $this->insertArchiveData($visits, $visitsConverted, $idArchives, $foundRecords);
         }
     }
 
@@ -170,17 +171,27 @@ class Loader
      * @param $visitsConverted
      * @return array|false[]
      */
-    protected function insertArchiveData($visits, $visitsConverted)
+    protected function insertArchiveData($visits, $visitsConverted, $existingArchives, $foundRecords)
     {
         if (SettingsServer::isArchivePhpTriggered()) {
             $this->logger->info("initiating archiving via core:archive for " . $this->params);
         }
 
+        if (!empty($foundRecords)) {
+            $this->params->setFoundRequestedReports($foundRecords);
+        }
+
         list($visits, $visitsConverted) = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
         list($idArchive, $visits) = $this->prepareAllPluginsArchive($visits, $visitsConverted);
 
-        if ($this->isThereSomeVisits($visits) || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()) {
-            return [[$idArchive], $visits];
+        if ($this->isThereSomeVisits($visits)
+            || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()
+        ) {
+            $idArchivesToQuery = [$idArchive];
+            if (!empty($foundRecords)) {
+                $idArchivesToQuery = array_merge($idArchivesToQuery, $existingArchives ?: []);
+            }
+            return [$idArchivesToQuery, $visits];
         }
 
         return [false, false];
@@ -207,11 +218,22 @@ class Loader
         // this hack was used to check the main function goes to return or continue
         // NOTE: $idArchives will contain the latest DONE_OK/DONE_INVALIDATED archive as well as any partial archives
         // with a ts_archived >= the DONE_OK/DONE_INVALIDATED date.
-        list($idArchives, $visits, $visitsConverted, $isAnyArchiveExists, $tsArchived, $value) = $this->loadExistingArchiveIdFromDb();
+        $archiveInfo = $this->loadExistingArchiveIdFromDb();
+        $idArchives = $archiveInfo['idArchives'];
+        $visits = $archiveInfo['visits'];
+        $visitsConverted = $archiveInfo['visitsConverted'];
+        $tsArchived = $archiveInfo['tsArchived'];
+        $doneFlagValue = $archiveInfo['doneFlagValue'];
+        $existingArchives = $archiveInfo['existingRecords'];
+
+        $requestedRecords = $this->params->getArchiveOnlyReportAsArray();
+        $isMissingRequestedRecords = !empty($requestedRecords) && is_array($existingArchives) && count($requestedRecords) != count($existingArchives);
 
         if (!empty($idArchives)
             && !Rules::isActuallyForceArchivingSinglePlugin()
-            && !$this->shouldForceInvalidatedArchive($value, $tsArchived)) {
+            && !$this->shouldForceInvalidatedArchive($doneFlagValue, $tsArchived)
+            && !$isMissingRequestedRecords
+        ) {
             // we have a usable idarchive (it's not invalidated and it's new enough), and we are not archiving
             // a single report
             return [$idArchives, $visits];
@@ -231,7 +253,7 @@ class Loader
             }
         }
 
-        return [$idArchives, $visits, $visitsConverted];
+        return [$idArchives, $visits, $visitsConverted, $existingArchives];
     }
 
     /**
@@ -330,7 +352,14 @@ class Loader
 
             // return no usable archive found, and no existing archive. this will skip invalidation, which should
             // be fine since we just force archiving.
-            return [false, false, false, false, false, false];
+            return [
+                'idArchives' => false,
+                'visits' => false,
+                'visitsConverted' => false,
+                'archiveExists' => false,
+                'tsArchived' => false,
+                'doneFlagValue' => false,
+            ];
         }
 
         $minDatetimeArchiveProcessedUTC = $this->getMinTimeArchiveProcessed();

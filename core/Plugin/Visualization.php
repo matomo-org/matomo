@@ -34,7 +34,7 @@ use Piwik\SettingsPiwik;
 use Piwik\View;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 use Piwik\Plugin\Manager as PluginManager;
-use Psr\Log\LoggerInterface;
+use Piwik\Log\LoggerInterface;
 
 /**
  * The base class for report visualizations that output HTML and use JavaScript.
@@ -250,6 +250,7 @@ class Visualization extends ViewDataTable
         $view->isWidget    = Common::getRequestVar('widget', 0, 'int');
         $view->notifications = [];
         $view->isComparing = $this->isComparing();
+        $view->rowIdentifier = $this->report ? ($this->report->getRowIdentifier() ?: 'label') : 'label';
 
         if (!$this->supportsComparison()
             && DataComparisonFilter::isCompareParamsPresent()

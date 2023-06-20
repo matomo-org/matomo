@@ -58,7 +58,7 @@ describe("PrivacyManager", function () {
     async function typeUserPassword()
     {
         var elem = await page.jQuery('.modal.open #currentUserPassword');
-        await elem.type('superUserPass');
+        await elem.type(superUserPassword);
         await page.waitForTimeout(100);
     }
 
@@ -272,6 +272,7 @@ describe("PrivacyManager", function () {
     it('should be able to show visitor profile', async function() {
         var elem = await page.jQuery('.visitorLogTooltip:first');
         await elem.click();
+        await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector('.ui-dialog')).to.matchImage('gdpr_tools_visits_showprofile');

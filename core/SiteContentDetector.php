@@ -12,6 +12,8 @@ namespace Piwik;
 
 use Matomo\Cache\Lazy;
 use Piwik\Config\GeneralConfig;
+use Piwik\Plugins\SitesManager\GtmSiteTypeGuesser;
+use Piwik\Plugins\SitesManager\SitesManager;
 
 /**
  * This class provides detection functions for specific content on a site. It can be used to easily detect the
@@ -28,6 +30,7 @@ use Piwik\Config\GeneralConfig;
  *      // site is using GA3
  * }
  *
+ * @api
  */
 class SiteContentDetector
 {
@@ -37,6 +40,8 @@ class SiteContentDetector
     const GA3 = 3;
     const GA4 = 4;
     const GTM = 5;
+    const CMS = 6;
+    const JS_FRAMEWORK = 7;
 
     // Detection detail
     public $consentManagerId;       // Id of the detected consent manager, eg. 'osano'
@@ -46,11 +51,22 @@ class SiteContentDetector
     public $ga3;                    // True if GA3 was detected on the site
     public $ga4;                    // True if GA4 was detected on the site
     public $gtm;                    // True if GTM was detected on the site
+    public $cms;                    // The CMS that was detected on the site
+    public $cloudflare;             // true if website is hosted on cloudflare
+    public $jsFramework;            // The JS framework that was detected on the site
 
-    private $siteData;
+    private $siteResponse = [
+        'data' => '',
+        'headers' => []
+    ];
 
     /** @var Lazy */
     private $cache;
+
+    /**
+     * @var GtmSiteTypeGuesser
+     */
+    private $siteGuesser;
 
     public function __construct(?Lazy $cache = null)
     {
@@ -59,6 +75,7 @@ class SiteContentDetector
         } else {
             $this->cache = $cache;
         }
+        $this->siteGuesser = new GtmSiteTypeGuesser();
     }
 
     /**
@@ -75,6 +92,9 @@ class SiteContentDetector
         $this->ga3 = false;
         $this->ga4 = false;
         $this->gtm = false;
+        $this->cms = SitesManager::SITE_TYPE_UNKNOWN;
+        $this->cloudflare = false;
+        $this->jsFramework = SitesManager::JS_FRAMEWORK_UNKNOWN;
     }
 
     /**
@@ -84,19 +104,19 @@ class SiteContentDetector
      * @param array       $detectContent Array of content type for which to check, defaults to all, limiting this list
      *                                   will speed up the detection check
      * @param ?int        $idSite        Override the site ID, will use the site from the current request if null
-     * @param string|null $siteData      String containing the site data to search, if blank then data will be retrieved
+     * @param ?array      $siteResponse  String containing the site data to search, if blank then data will be retrieved
      *                                   from the current request site via an http request
      * @param int         $timeOut       How long to wait for the site to response, defaults to 5 seconds
      * @return void
      */
     public function detectContent(array $detectContent = [SiteContentDetector::ALL_CONTENT],
-                                  ?int $idSite = null, ?string $siteData = null, int $timeOut = 5): void
+                                  ?int $idSite = null, ?array $siteResponse = null, int $timeOut = 5): void
     {
         $this->resetDetectionProperties();
 
         // If site data was passed in, then just run the detection checks against it and return.
-        if ($siteData) {
-            $this->siteData = $siteData;
+        if ($siteResponse) {
+            $this->siteResponse = $siteResponse;
             $this->detectionChecks($detectContent);
             return;
         }
@@ -114,8 +134,10 @@ class SiteContentDetector
             }
         }
 
+        $url = Site::getMainUrlFor($idSite);
+
         // Check and load previously cached site content detection data if it exists
-        $cacheKey = 'SiteContentDetector_' . $idSite;
+        $cacheKey = 'SiteContentDetector_' . md5($url);
         $requiredProperties = $this->getRequiredProperties($detectContent);
         $siteContentDetectionCache = $this->cache->fetch($cacheKey);
 
@@ -127,14 +149,14 @@ class SiteContentDetector
         }
 
         // No cache hit, no passed data, so make a request for the site content
-        $siteData = $this->requestSiteData($idSite, $timeOut);
+        $siteResponse = $this->requestSiteResponse($url, $timeOut);
 
         // Abort if still no site data
-        if ($siteData === null || $siteData === '') {
+        if (empty($siteResponse['data'])) {
             return;
         }
 
-        $this->siteData = $siteData;
+        $this->siteResponse = $siteResponse;
 
         // We now have site data to analyze, so run the detection checks
         $this->detectionChecks($detectContent);
@@ -169,6 +191,14 @@ class SiteContentDetector
 
         if (in_array(SiteContentDetector::GTM, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
             $requiredProperties[] = 'gtm';
+        }
+
+        if (in_array(SiteContentDetector::CMS, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
+            $requiredProperties[] = 'cms';
+        }
+
+        if (in_array(SiteContentDetector::JS_FRAMEWORK, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
+            $requiredProperties[] = 'jsFramework';
         }
 
         return $requiredProperties;
@@ -223,7 +253,6 @@ class SiteContentDetector
      */
     private function savePropertiesToCache(string $cacheKey, array $properties, int $cacheLife): void
     {
-
         $cacheData = [];
 
         // Load any existing cached values
@@ -254,44 +283,61 @@ class SiteContentDetector
         }
 
         if (in_array(SiteContentDetector::GA3, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
-            $this->detectGA3();
+            $this->ga3 = $this->siteGuesser->detectGA3FromResponse($this->siteResponse);
         }
 
         if (in_array(SiteContentDetector::GA4, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
-            $this->detectGA4();
+            $this->ga4 = $this->siteGuesser->detectGA4FromResponse($this->siteResponse);
         }
 
         if (in_array(SiteContentDetector::GTM, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
-            $this->detectGTM();
+            $this->gtm = $this->siteGuesser->guessGtmFromResponse($this->siteResponse);
+        }
+
+        if (in_array(SiteContentDetector::CMS, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
+            $this->cms = $this->siteGuesser->guessSiteTypeFromResponse($this->siteResponse);
+        }
+
+        if (in_array(SiteContentDetector::JS_FRAMEWORK, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
+            $this->jsFramework = $this->siteGuesser->guessJsFrameworkFromResponse($this->siteResponse);
+        }
+
+        if (
+            (!empty($this->siteResponse['headers']['server']) && stripos($this->siteResponse['headers']['server'], 'cloudflare') !== false) ||
+            (!empty($this->siteResponse['headers']['Server']) && stripos($this->siteResponse['headers']['Server'], 'cloudflare') !== false) ||
+            (!empty($this->siteResponse['headers']['SERVER']) && stripos($this->siteResponse['headers']['SERVER'], 'cloudflare') !== false) ||
+            !empty($this->siteResponse['headers']['cf-ray']) ||
+            !empty($this->siteResponse['headers']['Cf-Ray']) ||
+            !empty($this->siteResponse['headers']['CF-RAY'])
+        ) {
+            $this->cloudflare = true;
         }
     }
 
     /**
      * Retrieve data from the specified site using an HTTP request
      *
-     * @param int $idSite
+     * @param string $url
      * @param int $timeOut
      *
-     * @return string|null
+     * @return array
      */
-    private function requestSiteData(int $idSite, int $timeOut): ?string
+    private function requestSiteResponse(string $url, int $timeOut): array
     {
+        if (!$url) {
+            return [];
+        }
+
         // If internet features are disabled, we don't try to fetch any site content
         if (0 === (int) GeneralConfig::getConfigValue('enable_internet_features')) {
-            return null;
+            return [];
         }
 
-        $url = Site::getMainUrlFor($idSite);
-
-        if (!$url) {
-            return null;
-        }
-
-        $siteData = null;
+        $siteData = [];
 
         try {
             $siteData = Http::sendHttpRequestBy(Http::getTransportMethod(), $url, $timeOut, null, null,
-                null, 0, false, true);
+                null, 0, false, true, false, true);
         } catch (\Exception $e) {
         }
 
@@ -307,15 +353,23 @@ class SiteContentDetector
      */
     private function detectConsentManager(): void
     {
-        $defs = SiteContentDetector::getConsentManagerDefinitions();
+        $defs = self::getConsentManagerDefinitions();
 
         if (!$defs) {
             return;
         }
 
+        if (empty($this->siteResponse['data'])) {
+            return;
+        }
+
         foreach ($defs as $consentManagerId => $consentManagerDef) {
             foreach ($consentManagerDef['detectStrings'] as $dStr) {
-                if (strpos($this->siteData, $dStr) !== false && array_key_exists($consentManagerId, $defs)) {
+                if (empty($dStr)) {
+                    continue; // skip empty detections
+                }
+
+                if (strpos($this->siteResponse['data'], $dStr) !== false && array_key_exists($consentManagerId, $defs)) {
                     $this->consentManagerId = $consentManagerId;
                     $this->consentManagerName = $consentManagerDef['name'];
                     $this->consentManagerUrl = $consentManagerDef['url'];
@@ -330,7 +384,7 @@ class SiteContentDetector
 
         // If a consent manager was detected then perform an additional check to see if it has been connected to Matomo
         foreach ($defs[$this->consentManagerId]['connectedStrings'] as $cStr) {
-            if (strpos($this->siteData, $cStr) !== false) {
+            if (strpos($this->siteResponse['data'], $cStr) !== false) {
                 $this->isConnected = true;
                 break;
             }
@@ -338,44 +392,12 @@ class SiteContentDetector
     }
 
     /**
-     * Detect GA3 usage from the site data
-     *
-     * @return void
-     */
-    private function detectGA3(): void
-    {
-        if (strpos($this->siteData, '(i,s,o,g,r,a,m)') !== false) {
-             $this->ga3 = true;
-        }
-    }
-
-    /**
-     * Detect GA4 usage from the site data
-     *
-     * @return void
-     */
-    private function detectGA4(): void
-    {
-        if (strpos($this->siteData, 'gtag.js') !== false) {
-             $this->ga4 = true;
-        }
-    }
-
-    /**
-     * Detect GTM usage from the site data
-     *
-     * @return void
-     */
-    private function detectGTM(): void
-    {
-        if (strpos($this->siteData, 'gtm.js') !== false) {
-             $this->gtm = true;
-        }
-    }
-
-    /**
      * Return an array of consent manager definitions which can be used to detect their presence on the site and show
      * the associated guide links
+     *
+     * Note: This list is also used to display the known / supported consent managers on the "Ask for Consent" page
+     * For adding a new consent manager to this page, it needs to be added here. If a consent manager can't be detected
+     * automatically, simply leave the detections empty.
      *
      * @return array[]
      */

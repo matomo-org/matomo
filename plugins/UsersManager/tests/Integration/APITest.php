@@ -16,12 +16,14 @@ use Piwik\Access\Role\Write;
 use Piwik\API\Request;
 use Piwik\Auth\Password;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\EventDispatcher;
 use Piwik\Mail;
 use Piwik\NoAccessException;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugins\UsersManager\SystemSettings;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Model;
@@ -311,6 +313,16 @@ class APITest extends IntegrationTestCase
         $this->api->setUserPreference($user2, 'ohOH_myPreferenceName', 'valueForUser2');
     }
 
+    public function test_addUser_FailsWhenEmailDomainNotAllowed()
+    {
+        $this->expectExceptionMessage('UsersManager_ErrorEmailDomainNotAllowed');
+
+        $settings = StaticContainer::get(SystemSettings::class);
+        $settings->allowedEmailDomains->setValue(['example.org', 'password.de', 'matomo.com']);
+
+        $this->api->addUser('userLogin2', 'password', 'userlogin2@password.com');
+    }
+
     public function testUpdateUser()
     {
         $capturedMails = [];
@@ -340,6 +352,19 @@ class APITest extends IntegrationTestCase
                                 'UsersManager_EmailChangeNotificationSubject',
                                 'UsersManager_PasswordChangeNotificationSubject',
                             ], $subjects);
+    }
+
+
+    public function test_updateUser_FailsWhenEmailDomainNotAllowed()
+    {
+        $this->expectExceptionMessage('UsersManager_ErrorEmailDomainNotAllowed');
+
+        $settings = StaticContainer::get(SystemSettings::class);
+        $settings->allowedEmailDomains->setValue(['example.org', 'password.de', 'matomo.com']);
+
+        $this->api->addUser('userLogin2', 'passwordtest12', 'userlogin2@password.de');
+
+        $this->api->updateUser('userLogin2', false, 'email@example.com', false, 'passwordtest12');
     }
 
     public function testUpdateUserDoesNotSendEmailsIfTurnedOffInConfig()
@@ -1262,6 +1287,24 @@ class APITest extends IntegrationTestCase
         );
     }
 
+    public function testInviteUserFailsWhenDomainNotAllowed()
+    {
+        $this->expectExceptionMessage('UsersManager_ErrorEmailDomainNotAllowed');
+
+        $settings = StaticContainer::get(SystemSettings::class);
+        $settings->allowedEmailDomains->setValue(['example.org', 'matomo.com', 'password.de']);
+
+        Request::processRequest(
+            'UsersManager.inviteUser',
+            [
+                'userLogin' => 'foobar',
+                'email' => 'foobar@matomo.org',
+                'initialIdSite' => 1,
+                'expiryInDays' => 7
+            ]
+        );
+    }
+
     public function testInviteUserInitialIdSiteError()
     {
         $this->expectException(\Exception::class);
@@ -1509,18 +1552,18 @@ class APITest extends IntegrationTestCase
     {
         return [
             'Piwik\Access'                       => new FakeAccess(),
-            'usersmanager.user_preference_names' => \DI\add(
+            'usersmanager.user_preference_names' => \Piwik\DI::add(
                 [
                     'randomDoesNotExist',
                     'RandomNOTREQUESTED',
                     'preferenceName',
                 ]
             ),
-            'observers.global'                   => \DI\add(
+            'observers.global'                   => \Piwik\DI::add(
                 [
                     [
                         'Access.Capability.addCapabilities',
-                        \DI\value(function (&$capabilities) {
+                        \Piwik\DI::value(function (&$capabilities) {
                             $capabilities[] = new TestCap1();
                             $capabilities[] = new TestCap2();
                             $capabilities[] = new TestCap3();

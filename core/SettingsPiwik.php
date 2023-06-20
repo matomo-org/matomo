@@ -342,8 +342,8 @@ class SettingsPiwik
      * If Piwik uses per-domain config file, make sure CustomLogo is unique
      * @param string $path
      * @return string
-     * @throws \DI\DependencyException
-     * @throws \DI\NotFoundException
+     * @throws \Piwik\Exception\DI\DependencyException
+     * @throws \Piwik\Exception\DI\NotFoundException
      * @throws Exception
      */
     public static function rewriteMiscUserPathWithInstanceId(string $path): string
@@ -481,7 +481,7 @@ class SettingsPiwik
 
         $instanceId = GeneralConfig::getConfigValue('instance_id');
         if (!empty($instanceId)) {
-            return $instanceId;
+            return preg_replace('/[^\w\.-]/', '', $instanceId);
         }
 
         // do not rewrite the path as Matomo uses the standard config.ini.php file

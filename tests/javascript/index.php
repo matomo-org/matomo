@@ -33,7 +33,7 @@ try {
 use \Piwik\Plugins\CustomJsTracker\TrackerUpdater;
 use \Piwik\Plugins\CustomJsTracker\TrackingCode\JsTestPluginTrackerFiles;
 
-$targetFileName = '/tests/resources/matomo2.test.js';
+$targetFileName = '/tests/resources/matomo.test.js';
 $sourceFile = PIWIK_DOCUMENT_ROOT . TrackerUpdater::DEVELOPMENT_PIWIK_JS;
 $targetFile = PIWIK_DOCUMENT_ROOT . $targetFileName;
 
@@ -66,6 +66,9 @@ function getOptInToken() {
     return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
 }
 function getAlwaysUseSendBeaconToken() {
+    return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
+}
+function getBrowserFeatureToken() {
     return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
 }
 <?php
@@ -106,7 +109,7 @@ testTrackPageViewAsync();
         include_once $file;
     }
     if ($testPluginPath !== '*') {
-        // Travis would always include tag manager
+        // CI would always include tag manager
         $files = \Piwik\Filesystem::globr($root . '/plugins/TagManager/tests/javascript', 'head.php');
         foreach ($files as $file) {
             include_once $file;
@@ -3286,7 +3289,7 @@ function PiwikTest() {
         expect(5);
 
         var tracker = Piwik.getTracker();
-        tracker.disableBrowserFeatureDetection(); // avoid client hint queue
+        // tracker.disableBrowserFeatureDetection(); // avoid client hint queue
         tracker.setTrackerUrl("matomo.php");
         tracker.setSiteId(1);
         tracker.setCustomData({ "token": '---' });
@@ -3693,7 +3696,7 @@ if ($mysql) {
     });
 
     test("tracking", function() {
-        expect(182);
+        expect(185);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
@@ -3981,6 +3984,10 @@ if ($mysql) {
         equal(3, requestQueue.requests.length, "does not increase number of queued requests but send it directly");
         requestQueue.enabled = true;
 
+        var fullQueueRequest = tracker.getRequest('myQueue=bar&queue=5');
+        tracker.trackPageView('is full request');
+        tracker.queueRequest(fullQueueRequest, true);
+
         // Custom variables
         tracker.storeCustomVariablesInCookie();
         tracker.setCookieNamePrefix("PREFIX");
@@ -4204,6 +4211,14 @@ if ($mysql) {
         window.onerror = oldOnError;
         // Testing JavaScriptErrorTracking END
 
+        // Tracking file protocol
+        tracker.setCustomUrl('file://Downloads/File.pdf');
+        tracker.trackPageView('FileProtocolShouldNotBeTracked');
+
+        tracker.enableFileTracking();
+        tracker.setCustomUrl('file://Downloads/AnotherFile.pdf');
+        tracker.trackPageView('FileProtocolShouldBeTrackedWhenEnabled');
+
         // add tracker
         _paq.push(["addTracker", null, 13]);
         var createdNewTracker = Piwik.getAsyncTracker(null, 13);
@@ -4211,17 +4226,17 @@ if ($mysql) {
 
         createdNewTracker.setCustomData({ "token" : getToken() });
         _paq.push(['trackPageView', 'twoTrackers']);
-        tracker.removeAllAsyncTrackersButFirst();
 
         stop();
         setTimeout(function() {
+            tracker.removeAllAsyncTrackersButFirst();
             xhr.open("GET", "matomo.php?requests=" + getToken(), false);
             xhr.send(null);
             results = xhr.responseText;
             var countTrackingEvents = /<span\>([0-9]+)\<\/span\>/.exec(results);
             ok (countTrackingEvents, "countTrackingEvents is set");
             if(countTrackingEvents) {
-                equal( countTrackingEvents[1], "56", "count tracking events" );
+                equal( countTrackingEvents[1], "59", "count tracking events" );
             }
 
             // firing callback
@@ -4266,6 +4281,8 @@ if ($mysql) {
             ok( /myQueue=bar&queue=2/.test( results ), "queueRequest sends queued requests");
             ok( /myQueue=bar&queue=3/.test( results ), "queueRequest sends queued requests");
             ok( /myQueueDisabled=bar&queue=4/.test( results ), "queueRequest sends queued requests when disabled directly");
+
+            ok( results.indexOf(fullQueueRequest + '&uadata=%7B%7D</span>') !== -1, "queueRequest does not duplicate params if isFullRequest is used queued");
 
             // Test Custom variables
             ok( /SaveCustomVariableCookie.*&cvar=%7B%222%22%3A%5B%22cookiename2PAGE%22%2C%22cookievalue2PAGE%22%5D%7D.*&_cvar=%7B%221%22%3A%5B%22cookiename%22%2C%22cookievalue%22%5D%2C%222%22%3A%5B%22cookiename2%22%2C%22cookievalue2%22%5D%7D/.test(results), "test custom vars are set");
@@ -4342,6 +4359,8 @@ if ($mysql) {
             ok( ! /ShouldNotHave_pf_1_2_3_4_5_6_7_8.*pf_net=1&pf_srv=2&pf_tfr=3&pf_dm1=4&pf_dm2=5&pf_onl=6/.test(results), 'setPagePerformanceTiming only sets 6 parameters in request');
             //  /check setPagePerformanceTiming function
 
+            ok( ! /action_name=FileProtocolShouldNotBeTracked/.test(results), 'file protocol should not be tracked by default');
+            ok( /action_name=FileProtocolShouldBeTrackedWhenEnabled/.test(results), 'file protocol should be tracked when enabled');
             start();
         }, 5000);
     });
@@ -4933,23 +4952,21 @@ if ($mysql) {
 
         tracker.enableLinkTracking();
 
-        wait(300);
+        wait(500);
 
         var token2 = '2' + token;
         resetTracker(tracker, token2);
         preventClickDefault('#isWithinOutlink');
         triggerEvent(_s('#isWithinOutlink'), 'click'); // click on an element within a link
 
-        wait(300);
-
+        wait(500);
 
         var token3 = '3' + token;
         resetTracker(tracker, token3);
         preventClickDefault('#isOutlink');
         triggerEvent(_s('#isOutlink'), 'click'); // click on the link element itself
 
-        wait(300);
-
+        wait(500);
 
         var token4 = '4' + token;
         resetTracker(tracker, token4);
@@ -4960,7 +4977,8 @@ if ($mysql) {
         var token5 = '5' + token;
         resetTracker(tracker, token5);
         preventClickDefault('#internalLink');
-        wait(300);
+
+        wait(500);
 
         stop();
         setTimeout(function() {
@@ -5008,7 +5026,6 @@ if ($mysql) {
 
         var queue;
         var tracker = Piwik.getTracker();
-        tracker.disableBrowserFeatureDetection(); // avoid client hint queue
         tracker.setCustomData('token', getConsentToken() + '1');
         deepEqual(tracker.getConsentRequestsQueue(), [], "getConsentRequestsQueue, by default is empty" );
         strictEqual(tracker.hasRememberedConsent(), false, "hasRememberedConsent, has no consent given by default" );
@@ -5020,64 +5037,66 @@ if ($mysql) {
         tracker.requireConsent();
         ok(!tracker.areCookiesEnabled(), 'require consent disables cookies');
 
-
-
         ok(tracker.isConsentRequired(), 'consent is required after requiring it')
         deepEqual(tracker.getConsentRequestsQueue(), [], "getConsentRequestsQueue, still empty after requiring consent" );
 
         tracker.trackRequest('myFoo=bar&baz=1');
-        queue = tracker.getConsentRequestsQueue();
-        strictEqual(1, queue.length, "getConsentRequestsQueue, did not execute tracking request when requiring consent but added this request to the queue" );
-        strictEqual(0, queue[0].indexOf('myFoo=bar&baz=1'), "getConsentRequestsQueue, the request contains the tracking request" );
-
-        tracker.trackRequest('myFoo=bar&baz=2');
-        queue = tracker.getConsentRequestsQueue();
-        strictEqual(2, queue.length, "getConsentRequestsQueue, did not execute tracking request again and added a second request to the queue" );
-        strictEqual(0, queue[1].indexOf('myFoo=bar&baz=2'), "getConsentRequestsQueue, the request contains the tracking request" );
-
-        tracker.setConsentGiven();
-        deepEqual(tracker.getConsentRequestsQueue(), [], "setConsentGiven, should reset queued requests" );
-        strictEqual(tracker.hasRememberedConsent(), false, "getConsentRequestsQueue, has not remembered consent" );
-        strictEqual(tracker.getRememberedConsent(), null, "getConsentRequestsQueue, does not return consent cookie content as no consent given" );
-
-        tracker.requireConsent();
-        ok(!tracker.areCookiesEnabled(), 'after requiring consent, cookies are disabled');
-        tracker.rememberConsentGiven();
-        ok(tracker.areCookiesEnabled(), 'remember cookie consent enables cookies');
-
-        strictEqual(tracker.hasRememberedConsent(), true, "rememberConsentGiven, sets cookie to remember consent" );
-        var rememberedConsent = tracker.getRememberedConsent();
-        strictEqual(String(rememberedConsent).length, 13, "getRememberedConsent, returns the data in milliseconds eg '1522200406749'" );
-        strictEqual(String(rememberedConsent).slice(0, 2), '16', "getRememberedConsent, starts with correct data" );
-
-        tracker.requireConsent();
-        strictEqual(tracker.hasConsent(), true, "when requiring consent, and we remembered consent, consent should be given" );
-
-        tracker.forgetConsentGiven();
-        strictEqual(tracker.hasConsent(), false, "forgetConsentGiven(), will remove remembered consent and require consent again" );
-        strictEqual(tracker.hasRememberedConsent(), false, "forgetConsentGiven, has forgotten consent" );
-        strictEqual(tracker.getRememberedConsent(), null, "forgetConsentGiven, has no longer a date for consent given stored" );
-
-        tracker.trackRequest('myFoo=bar&baz=3');
-
-        deleteCookies();
-
-        var tracker2 = Piwik.getTracker();
-        tracker2.setCustomData({ "token" : getConsentToken() + '2' });
-        tracker2.trackRequest('myFoo=bar&baz=3');
-
         stop();
+        // wait for client hints to be detected
         setTimeout(function() {
-            var results = fetchTrackedRequests(getConsentToken() + '1');
-            strictEqual(true, results.indexOf('myFoo=bar&baz=1') > 0, "setConsentGiven does replay all queued requests" );
-            strictEqual(true, results.indexOf('myFoo=bar&baz=2') > 0, "setConsentGiven does replay all queued requests" );
-            strictEqual(true, results.indexOf('ping=1') > 0, "setConsentGiven does replay all queued requests" );// sent when enabling cookies as part of setConsentGiven. Called twice in total
-            strictEqual(4, (results.match(/consent=1/g) || []).length, "consent=1 parameter appears in URL when explicit consent given");
+            queue = tracker.getConsentRequestsQueue();
+            strictEqual(1, queue.length, "getConsentRequestsQueue, did not execute tracking request when requiring consent but added this request to the queue" );
+            strictEqual(0, queue[0].indexOf('myFoo=bar&baz=1'), "getConsentRequestsQueue, the request contains the tracking request" );
 
-            var results2 = fetchTrackedRequests(getConsentToken() + '2');
-            strictEqual(true, results2.indexOf('myFoo=bar&baz=3') > 0, "normal request" );
-            strictEqual(0, (results2.match(/consent=1/g) || []).length, "consent=1 parameter not added when consent is assumed");
-            start();
+            tracker.trackRequest('myFoo=bar&baz=2');
+            queue = tracker.getConsentRequestsQueue();
+            strictEqual(2, queue.length, "getConsentRequestsQueue, did not execute tracking request again and added a second request to the queue" );
+            strictEqual(0, queue[1].indexOf('myFoo=bar&baz=2'), "getConsentRequestsQueue, the request contains the tracking request" );
+
+            tracker.setConsentGiven();
+            deepEqual(tracker.getConsentRequestsQueue(), [], "setConsentGiven, should reset queued requests" );
+            strictEqual(tracker.hasRememberedConsent(), false, "getConsentRequestsQueue, has not remembered consent" );
+            strictEqual(tracker.getRememberedConsent(), null, "getConsentRequestsQueue, does not return consent cookie content as no consent given" );
+
+            tracker.requireConsent();
+            ok(!tracker.areCookiesEnabled(), 'after requiring consent, cookies are disabled');
+            tracker.rememberConsentGiven();
+            ok(tracker.areCookiesEnabled(), 'remember cookie consent enables cookies');
+
+            strictEqual(tracker.hasRememberedConsent(), true, "rememberConsentGiven, sets cookie to remember consent" );
+            var rememberedConsent = tracker.getRememberedConsent();
+            strictEqual(String(rememberedConsent).length, 13, "getRememberedConsent, returns the data in milliseconds eg '1522200406749'" );
+            strictEqual(String(rememberedConsent).slice(0, 2), '16', "getRememberedConsent, starts with correct data" );
+
+            tracker.requireConsent();
+            strictEqual(tracker.hasConsent(), true, "when requiring consent, and we remembered consent, consent should be given" );
+
+            tracker.forgetConsentGiven();
+            strictEqual(tracker.hasConsent(), false, "forgetConsentGiven(), will remove remembered consent and require consent again" );
+            strictEqual(tracker.hasRememberedConsent(), false, "forgetConsentGiven, has forgotten consent" );
+            strictEqual(tracker.getRememberedConsent(), null, "forgetConsentGiven, has no longer a date for consent given stored" );
+
+            tracker.trackRequest('myFoo=bar&baz=3');
+
+            deleteCookies();
+
+            var tracker2 = Piwik.getTracker();
+            tracker2.disableBrowserFeatureDetection();
+            tracker2.setCustomData({ "token" : getConsentToken() + '2' });
+            tracker2.trackRequest('myFoo=bar&baz=3');
+
+            setTimeout(function() {
+                var results = fetchTrackedRequests(getConsentToken() + '1');
+                strictEqual(true, results.indexOf('myFoo=bar&baz=1') > 0, "setConsentGiven does replay all queued requests" );
+                strictEqual(true, results.indexOf('myFoo=bar&baz=2') > 0, "setConsentGiven does replay all queued requests" );
+                strictEqual(true, results.indexOf('ping=1') > 0, "setConsentGiven does replay all queued requests" );// sent when enabling cookies as part of setConsentGiven. Called twice in total
+                strictEqual(4, (results.match(/consent=1/g) || []).length, "consent=1 parameter appears in URL when explicit consent given");
+
+                var results2 = fetchTrackedRequests(getConsentToken() + '2');
+                strictEqual(true, results2.indexOf('myFoo=bar&baz=3') > 0, "normal request" );
+                strictEqual(0, (results2.match(/consent=1/g) || []).length, "consent=1 parameter not added when consent is assumed");
+                start();
+            }, 3000);
         }, 2000);
     });
 
@@ -5281,7 +5300,7 @@ if ($mysql) {
 
         var startTime, stopTime;
 
-        wait(1000); // in case there is  a previous expireDateTime set
+        wait(1500); // in case there is  a previous expireDateTime set
 
         equal( typeof tracker.hook.test._beforeUnloadHandler, 'function', 'beforeUnloadHandler' );
 
@@ -5289,7 +5308,7 @@ if ($mysql) {
         tracker.hook.test._beforeUnloadHandler();
         stopTime = new Date();
         var msSinceStarted = (stopTime.getTime() - startTime.getTime());
-        ok( msSinceStarted < 540, 'beforeUnloadHandler(): ' + msSinceStarted + ' was greater than 540 ' );
+        ok( msSinceStarted < 580, 'beforeUnloadHandler(): ' + msSinceStarted + ' was greater than 580 ' );
 
         tracker.disableAlwaysUseSendBeacon();
         tracker.setLinkTrackingTimer(2000);
@@ -5302,21 +5321,38 @@ if ($mysql) {
     });
 
     test("Browser detector feature Disable and enable", function() {
+        expect(9);
         var pattern = /(res=)|(cookie=)/;
-        var tracker = Piwik.getTracker();
         var siteIdPattern = /idsite/;
+        var tracker = Piwik.getTracker();
+        tracker.setCustomData({ "token" : getBrowserFeatureToken() });
 
-        tracker.enableBrowserFeatureDetection();
-        var requestWithFingerprint = tracker.getRequest('hello=world');
+        // browser feature should be enabled by default
+        tracker.trackPageView('hello=world');
 
-        equal(siteIdPattern.test(requestWithFingerprint), true);
-        equal(pattern.test(requestWithFingerprint), true, 'When browser fingerprint is enabled the request should include browser resolution or cookie');
+        stop();
+        setTimeout(function() {
+            // wait till client hints were resolved
+            tracker.disableBrowserFeatureDetection();
+            tracker.trackPageView('hello=world');
 
-        tracker.disableBrowserFeatureDetection();
-        var requestWithoutFingerprint = tracker.getRequest('hello=world');
+            tracker.enableBrowserFeatureDetection();
+            tracker.trackPageView('hello=world');
 
-        equal(siteIdPattern.test(requestWithoutFingerprint), true);
-        equal(pattern.test(requestWithoutFingerprint), false, 'When browser fingerprint is disabled the request should not include browser resolution or cookie');
+            setTimeout(function() {
+                // wait till client hints were resolved
+                var results = fetchTrackedRequests(getBrowserFeatureToken(), true);
+                ok(siteIdPattern.test(results[0]), 'Request should include idSite');
+                ok(pattern.test(results[0]), 'Browser features should be included by default');
+
+                ok(siteIdPattern.test(results[1]), 'Request should include idSite');
+                ok(!pattern.test(results[1]), 'Browser features should not be included when manually disabled');
+
+                ok(siteIdPattern.test(results[2]), 'Request should include idSite');
+                ok(pattern.test(results[2]), 'Browser features should be included again if enabled again');
+                start();
+            }, 1500);
+        }, 1500);
     });
 
 <?php
@@ -5376,7 +5412,7 @@ function customAddEventListener(element, eventType, eventHandler, useCapture) {
         include_once $file;
     }
     if ($testPluginPath !== '*') {
-        // Travis would always include tag manager
+        // CI would always include tag manager
         $files = \Piwik\Filesystem::globr($root . '/plugins/TagManager/tests/javascript', 'index.php');
         foreach ($files as $file) {
             include_once $file;

@@ -14,10 +14,10 @@ use Piwik\API\ResponseBuilder;
 use Piwik\Archive;
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\DataTable\Filter\ColumnCallbackAddColumnPercentage;
 use Piwik\Date;
 use Piwik\Metrics;
 use Piwik\Piwik;
+use Piwik\Plugins\Referrers\Columns\Metrics\VisitorsFromReferrerPercent;
 use Piwik\Plugins\Referrers\DataTable\Filter\GroupDifferentSocialWritings;
 use Piwik\Site;
 
@@ -52,20 +52,22 @@ class API extends \Piwik\Plugin\API
 
         $totalVisits = array_sum($dataTableReferrersType->getColumn(Metrics::INDEX_NB_VISITS));
 
-        $percentColumns = [
-            'Referrers_visitorsFromDirectEntry',
-            'Referrers_visitorsFromSearchEngines',
-            'Referrers_visitorsFromCampaigns',
-            'Referrers_visitorsFromSocialNetworks',
-            'Referrers_visitorsFromWebsites',
-        ];
-        foreach ($percentColumns as $column) {
-            $dataTable->filter(ColumnCallbackAddColumnPercentage::class, [
-                $column . '_percent',
-                $column,
-                $totalVisits,
-            ]);
-        }
+        $dataTable->filter(function (DataTable $table) use ($totalVisits) {
+            $processedMetrics = $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME) ?: [];
+
+            $percentColumns = [
+                'Referrers_visitorsFromDirectEntry',
+                'Referrers_visitorsFromSearchEngines',
+                'Referrers_visitorsFromCampaigns',
+                'Referrers_visitorsFromSocialNetworks',
+                'Referrers_visitorsFromWebsites',
+            ];
+            foreach ($percentColumns as $column) {
+                $processedMetrics[] = new VisitorsFromReferrerPercent($column . '_percent', $column, $totalVisits);
+            }
+
+            $table->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $processedMetrics);
+        });
 
         if (!empty($requestedColumns)) {
             $requestedColumns = Piwik::getArrayFromApiParameter($columns);
@@ -139,9 +141,6 @@ class API extends \Piwik\Plugin\API
             }
 
             if ($result) {
-                $result->filter('ColumnCallbackDeleteMetadata', array('segment'));
-                $result->filter('ColumnCallbackDeleteMetadata', array('segmentValue'));
-
                 return $this->removeSubtableIds($result); // this report won't return subtables of individual reports
             }
         }
@@ -183,7 +182,7 @@ class API extends \Piwik\Plugin\API
     {
         $idSites = Site::getIdSitesFromIdSitesString($idSite);
 
-        if (count($idSites) > 1) {
+        if (count($idSites) > 1 || 'all' === $idSite) {
             throw new Exception("Referrers.$method with multiple sites is not supported (yet).");
         }
     }
@@ -227,7 +226,7 @@ class API extends \Piwik\Plugin\API
         if ($flat) {
             $dataTable->filterSubtables('Piwik\Plugins\Referrers\DataTable\Filter\SearchEnginesFromKeywordId', array($dataTable));
         } else {
-            $dataTable->filter('AddSegmentValue');
+            $dataTable->filter('AddSegmentByLabel', ['referrerKeyword', '', $allowEmptyValue = true]);
             $dataTable->queueFilter('PrependSegment', array('referrerType==search;'));
         }
 
@@ -421,6 +420,9 @@ class API extends \Piwik\Plugin\API
         $dataTable = $this->completeSocialTablesWithOldReports($dataTable, $idSite, $period, $date, $segment, $expanded, $flat);
 
         $dataTable->filter('MetadataCallbackAddMetadata', array('url', 'logo', function ($url) { return Social::getInstance()->getLogoFromUrl($url); }));
+
+        $dataTable->filter('AddSegmentByLabel', array('referrerName'));
+        $dataTable->queueFilter('PrependSegment', array('referrerType==social;'));
 
         return $dataTable;
     }

@@ -362,9 +362,14 @@ export default defineComponent({
         this.conditionValuesLoading[orCondition.id!] = false;
         resolved = true;
 
+        let autocompleteValues = response;
+        if (Array.isArray(autocompleteValues)) {
+          autocompleteValues = autocompleteValues.map((v) => `${v}`);
+        }
+
         const inputElement = $(`.orCondId${orCondition.id} .metricValueBlock input`)
           .autocomplete({
-            source: response,
+            source: autocompleteValues,
             minLength: 0,
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             select: (event: Event, ui: any) => {
@@ -413,7 +418,7 @@ export default defineComponent({
         }
       }
     },
-    setSegmentString(segmentStr: string) {
+    setSegmentString(segmentStr?: string|null) {
       this.conditions = [];
 
       if (!segmentStr) {

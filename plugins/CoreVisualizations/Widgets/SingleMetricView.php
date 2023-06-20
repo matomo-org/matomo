@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -11,7 +12,6 @@ namespace Piwik\Plugins\CoreVisualizations\Widgets;
 
 use Piwik\API\Request;
 use Piwik\Common;
-use Piwik\View;
 use Piwik\Widget\WidgetConfig;
 use Piwik\Plugin\Manager as PluginManager;
 
@@ -63,20 +63,23 @@ class SingleMetricView extends \Piwik\Widget\Widget
             );
             $metricDocumentations = array_merge($metricDocumentations, $reportMetadata['metricsDocumentation']);
 
-            $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
+            $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], []);
         }
 
-        $view = new View("@CoreHome/_angularComponent.twig");
-        $view->componentName = 'piwik-single-metric-view';
-        $view->componentParameters = [
-            'metric' => json_encode($column),
-            'id-goal' => $idGoal === false ? 'undefined' : $idGoal,
-            'goal-metrics' => json_encode($goalMetrics),
-            'goals' => json_encode($goals),
-            'metric-translations' => json_encode($metricTranslations),
-            'metric-documentations' => json_encode($metricDocumentations),
-        ];
+        return '<div vue-entry="CoreVisualizations.SingleMetricView"
+            metric="' . $this->getVueEntryValue($column) . '"
+            id-goal="' . $this->getVueEntryValue($idGoal === false ? null : $idGoal) . '"
+            goal-metrics="' . $this->getVueEntryValue($goalMetrics) . '"
+            goals="' . $this->getVueEntryValue($goals) . '"
+            metric-translations="' . $this->getVueEntryValue($metricTranslations) . '"
+            metric-documentations="' . $this->getVueEntryValue($metricDocumentations) . '"
+        ></div>';
+    }
 
-        return $view->render();
+    private function getVueEntryValue($value)
+    {
+        $result = json_encode($value);
+        $result = Common::sanitizeInputValue($result);
+        return $result;
     }
 }

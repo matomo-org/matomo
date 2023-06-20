@@ -117,6 +117,12 @@
         "UserHasNoPermission": "%1$s currently has %2$s to %3$s",
         "UsersManagement": "Users Management",
         "UsersManagementMainDescription": "Create new users or update the existing users. You can then set their permissions above.",
+        "ErrorEmailDomainNotAllowed": "The email \"%1$s\" cannot be used, as only emails with the domains \"%2$s\" are allowed.",
+        "SettingRestrictLoginEmailDomains": "Restrict login email domains",
+        "SettingRestrictLoginEmailDomainsHelp": "This feature restricts the email domains that can be used when inviting, adding or updating users. This is good for privacy protection as it can prevent data sharing with third parties. It can also improve security by preventing users from changing their email address to a personal email. Additionally, it can act as an extra layer of protection against security attacks. For example, accidental typos in the email address.",
+        "SettingRestrictLoginEmailDomainsHelpInUse": "Currently, these email domains are in use and would need to be allowed:",
+        "SettingRestrictLoginEmailDomainsErrorOtherDomainsInUse": "Setting the domains is not possible as other domains (%s) are already in use by other users. To change this setting, you either need to delete users with other domains or you need to allow these domains as well.",
+        "SettingFieldAllowedEmailDomain": "Allowed email domain",
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "When users are not logged in and visit Matomo, they should initially see",
         "YourUsernameCannotBeChanged": "Your username cannot be changed.",
         "YourVisitsAreIgnoredOnDomain": "%1$sYour visits are ignored by Matomo on %2$s %3$s (the Matomo ignore cookie was found in your browser).",
@@ -145,7 +151,7 @@
         "SuperUserAccess": "Superuser Access",
         "FirstSiteInlineHelp": "It is required to give a new user a view role for a website upon creation. If no access is given, the user will see an error when logging in. You can give more permissions after the user is created in the 'Permissions' tab that will appear on the left.",
         "SuperUsersPermissionsNotice": "Super users have admin access to all websites, so there's no need to manage their permissions per website.",
-        "SuperUserIntro1": "Super users have the highest permissions. They can perform all administrative tasks such as adding new websites to monitor, adding users, changing user permissions, activating and deactivating plugins and even installing new plugins from the Marketplace. You can grant Super User access to other users of Divezone here.",
+        "SuperUserIntro1": "Super users have the highest permissions. They can perform all administrative tasks such as adding new websites to monitor, adding users, changing user permissions, activating and deactivating plugins and even installing new plugins from the Marketplace. You can grant Super User access to other users here.",
         "SuperUserIntro2": "Please use this feature carefully.",
         "HasSuperUserAccess": "Has Superuser Access",
         "AreYouSure": "Are you sure?",
@@ -211,6 +217,10 @@
         "BackToUser": "Back to Users",
         "InviteActionNotes": "Please notes that resending an invite or copy invite link will extend the time limit for previous invites by %1$s days.",
         "CopyDenied": "The request is not allowed due to your browser's settings.",
-        "CopyDeniedHints": "Please try again by either switching browsers or copying and sharing this link directly instead: %1$s"
+        "CopyDeniedHints": "Please try again by either switching browsers or copying and sharing this link directly instead: %1$s",
+        "AuthTokenPostOnlyHelp": "Enable this option to only allow this token to be used for POST requests, this is recommended as a best security practice. The token will then not be valid as a URL parameter in GET requests.",
+        "AuthTokenPostOnlyHelpForced": "The system administrator has configured Matomo to only allow tokens to be created for use in POST requests, you cannot change this token option.",
+        "OnlyAllowPostRequests": "Only allow POST requests",
+        "PostOnly": "POST only"
     }
 }

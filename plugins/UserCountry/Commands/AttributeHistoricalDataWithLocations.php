@@ -13,10 +13,6 @@ use Piwik\Plugins\UserCountry\VisitorGeolocator;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Timer;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class AttributeHistoricalDataWithLocations extends ConsoleCommand
 {
@@ -74,29 +70,29 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
     {
         $this->setName('usercountry:attribute');
         $this->setDescription("Re-attribute existing raw data (visits & conversions) with geolocated location data, using the specified or configured location provider.");
-        $this->addArgument(self::DATES_RANGE_ARGUMENT, InputArgument::REQUIRED, 'Attribute visits in this date range. Eg, 2012-01-01,2013-01-01');
-        $this->addOption(self::PERCENT_STEP_ARGUMENT, null, InputArgument::OPTIONAL,
+        $this->addRequiredArgument(self::DATES_RANGE_ARGUMENT, 'Attribute visits in this date range. Eg, 2012-01-01,2013-01-01');
+        $this->addOptionalValueOption(self::PERCENT_STEP_ARGUMENT, null,
             'How often to display the command progress. A status update will be printed after N percent of visits are processed, '
             . 'where N is the value of this option.', self::PERCENT_STEP_ARGUMENT_DEFAULT);
-        $this->addOption(self::PROVIDER_ARGUMENT, null, InputOption::VALUE_REQUIRED, 'Provider id which should be used to attribute visits. If empty then'
+        $this->addRequiredValueOption(self::PROVIDER_ARGUMENT, null, 'Provider id which should be used to attribute visits. If empty then'
             . ' Piwik will use the currently configured provider. If no provider is configured, the default provider is used.');
-        $this->addOption(self::SEGMENT_LIMIT_OPTION, null, InputOption::VALUE_OPTIONAL, 'Number of visits to process at a time.', self::SEGMENT_LIMIT_OPTION_DEFAULT);
-        $this->addOption(self::FORCE_OPTION, null, InputOption::VALUE_NONE, "Force geolocation, even if the requested provider does not appear to work. It is not "
+        $this->addOptionalValueOption(self::SEGMENT_LIMIT_OPTION, null, 'Number of visits to process at a time.', self::SEGMENT_LIMIT_OPTION_DEFAULT);
+        $this->addNoValueOption(self::FORCE_OPTION, null, "Force geolocation, even if the requested provider does not appear to work. It is not "
                                                                           . "recommended to use this option.");
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return void|int
+     * @return int
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
-        list($from, $to) = $this->getDateRangeToAttribute($input);
+        $input = $this->getInput();
+        $output = $this->getOutput();
+        [$from, $to] = $this->getDateRangeToAttribute();
 
-        $this->visitorGeolocator = $this->createGeolocator($output, $input);
+        $this->visitorGeolocator = $this->createGeolocator();
 
-        $this->percentStep = $this->getPercentStep($input);
+        $this->percentStep    = $this->getPercentStep();
         $this->amountOfVisits = $this->dao->countVisitsWithDatesLimit($from, $to);
 
         $output->writeln(
@@ -106,28 +102,27 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
 
         $this->timer = new Timer();
 
-        $this->processSpecifiedLogsInChunks($output, $from, $to, $input->getOption(self::SEGMENT_LIMIT_OPTION));
+        $this->processSpecifiedLogsInChunks($from, $to, $input->getOption(self::SEGMENT_LIMIT_OPTION));
 
         $output->writeln("Completed. <comment>" . $this->timer->__toString() . "</comment>");
 
-        return 0;
+        return self::SUCCESS;
     }
 
-    protected function processSpecifiedLogsInChunks(OutputInterface $output, $from, $to, $segmentLimit)
+    protected function processSpecifiedLogsInChunks($from, $to, $segmentLimit)
     {
         $self = $this;
-        $this->visitorGeolocator->reattributeVisitLogs($from, $to, $idSite = null, $segmentLimit, function () use ($output, $self) {
-            $self->onVisitProcessed($output);
+        $this->visitorGeolocator->reattributeVisitLogs($from, $to, $idSite = null, $segmentLimit, function () use ($self) {
+            $self->onVisitProcessed();
         });
     }
 
     /**
-     * @param InputInterface $input
      * @return int
      */
-    protected function getPercentStep(InputInterface $input)
+    protected function getPercentStep()
     {
-        $percentStep = $input->getOption(self::PERCENT_STEP_ARGUMENT);
+        $percentStep = $this->getInput()->getOption(self::PERCENT_STEP_ARGUMENT);
 
         if (!is_numeric($percentStep)) {
             return self::PERCENT_STEP_ARGUMENT_DEFAULT;
@@ -143,9 +138,8 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
 
     /**
      * Print information about progress.
-     * @param OutputInterface $output
      */
-    public function onVisitProcessed(OutputInterface $output)
+    public function onVisitProcessed()
     {
         ++$this->processed;
 
@@ -154,15 +148,15 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
         if ($percent > $this->processedPercent
             && $percent % $this->percentStep === 0
         ) {
-            $output->writeln(sprintf('%d%% processed. <comment>%s</comment>', $percent, $this->timer->__toString()));
+            $this->getOutput()->writeln(sprintf('%d%% processed. <comment>%s</comment>', $percent, $this->timer->__toString()));
 
             $this->processedPercent = $percent;
         }
     }
 
-    private function getDateRangeToAttribute(InputInterface $input)
+    private function getDateRangeToAttribute()
     {
-        $dateRangeString = $input->getArgument(self::DATES_RANGE_ARGUMENT);
+        $dateRangeString = $this->getInput()->getArgument(self::DATES_RANGE_ARGUMENT);
 
         $dates = explode(',', $dateRangeString);
         $dates = array_map(array('Piwik\Date', 'factory'), $dates);
@@ -174,8 +168,10 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
         return $dates;
     }
 
-    private function createGeolocator(OutputInterface $output, InputInterface $input)
+    private function createGeolocator()
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
         $providerId = $input->getOption(self::PROVIDER_ARGUMENT);
         $geolocator = new VisitorGeolocator(LocationProvider::getProviderById($providerId) ?: null);
 

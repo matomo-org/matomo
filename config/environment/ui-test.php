@@ -1,16 +1,19 @@
 <?php
 
 use Piwik\Container\StaticContainer;
+use Piwik\Plugins\Diagnostics\Diagnostic\FileIntegrityCheck;
+use Piwik\Plugins\Diagnostics\Diagnostic\PhpVersionCheck;
+use Piwik\Plugins\Diagnostics\Diagnostic\RequiredPrivateDirectories;
 
-return array(
+return [
 
     // UI tests will remove the port from all URLs to the test server. if a test
     // requires the ports in UI tests (eg, Overlay), add the api/controller methods
     // to one of these blacklists
-    'tests.ui.url_normalizer_blacklist.api' => array(),
-    'tests.ui.url_normalizer_blacklist.controller' => array(),
+    'tests.ui.url_normalizer_blacklist.api' => [],
+    'tests.ui.url_normalizer_blacklist.controller' => [],
 
-    'twig.cache' => function (\Psr\Container\ContainerInterface $container) {
+    'twig.cache' => function (\Piwik\Container\Container $container) {
         $templatesPath = $container->get('path.tmp.templates');
         return new class($templatesPath) extends \Twig\Cache\FilesystemCache {
             public function write(string $key, string $content): void
@@ -35,7 +38,7 @@ return array(
         };
     },
 
-    'Piwik\Config' => \DI\decorate(function (\Piwik\Config $config) {
+    'Piwik\Config' => \Piwik\DI::decorate(function (\Piwik\Config $config) {
         $config->General['cors_domains'][] = '*';
         $config->General['trusted_hosts'][] = '127.0.0.1';
         $config->General['trusted_hosts'][] = $config->tests['http_host'];
@@ -43,11 +46,11 @@ return array(
         return $config;
     }),
 
-    'observers.global' => \DI\add([
+    'observers.global' => \Piwik\DI::add([
 
         // removes port from all URLs to the test Piwik server so UI tests will pass no matter
         // what port is used
-        array('Request.dispatch.end', DI\value(function (&$result) {
+        ['Request.dispatch.end', Piwik\DI::value(function (&$result) {
             $request = $_GET + $_POST;
 
             $apiblacklist = StaticContainer::get('tests.ui.url_normalizer_blacklist.api');
@@ -75,14 +78,22 @@ return array(
             }
 
             // remove PIWIK_INCLUDE_PATH from result so tests don't change based on the machine used
-            $result = str_replace(realpath(PIWIK_INCLUDE_PATH), '', $result ?? '');
-        })),
+            $path = realpath(PIWIK_INCLUDE_PATH);
+            $pathInJson = str_replace('/', '\\/', $path);
+            $result = str_replace([$path, $pathInJson], '', $result ?? '');
+        })],
 
-        array('Controller.RssWidget.rssPiwik.end', DI\value(function (&$result, $parameters) {
-            $result = "";
-        })),
+        ['Controller.RssWidget.rssPiwik.end', Piwik\DI::value(function (&$result, $parameters) {
+            $result = '';
+        })],
 
         \Piwik\Tests\Framework\XssTesting::getJavaScriptAddEvent(),
     ]),
 
-);
+    // disable some diagnostics for UI tests
+    'diagnostics.disabled'  => \Piwik\DI::add([
+        \Piwik\DI::get(FileIntegrityCheck::class),
+        \Piwik\DI::get(RequiredPrivateDirectories::class),
+        \Piwik\DI::get(PhpVersionCheck::class),
+    ]),
+];

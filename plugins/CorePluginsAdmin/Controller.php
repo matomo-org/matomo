@@ -109,7 +109,7 @@ class Controller extends Plugin\ControllerAdmin
         $nonce = Common::getRequestVar('nonce', null, 'string');
 
         if (!Nonce::verifyNonce(MarketplaceController::INSTALL_NONCE, $nonce)) {
-            throw new \Exception($this->translator->translate('General_ExceptionNonceMismatch'));
+            throw new \Exception($this->translator->translate('General_ExceptionSecurityCheckFailed'));
         }
 
         Nonce::discardNonce(MarketplaceController::INSTALL_NONCE);
@@ -222,13 +222,18 @@ class Controller extends Plugin\ControllerAdmin
         $view->isMarketplaceEnabled = Marketplace::isMarketplaceEnabled();
         $view->isPluginsAdminEnabled = CorePluginsAdmin::isPluginsAdminEnabled();
 
-        $view->pluginsHavingUpdate    = array();
-        $view->marketplacePluginNames = array();
+        $view->pluginsHavingUpdate    = [];
+        $view->marketplacePluginNames = [];
 
         if (Marketplace::isMarketplaceEnabled() && $this->marketplacePlugins) {
             try {
                 $view->marketplacePluginNames = $this->marketplacePlugins->getAvailablePluginNames($themesOnly);
                 $view->pluginsHavingUpdate    = $this->marketplacePlugins->getPluginsHavingUpdate();
+
+                $view->pluginUpdateNonces = [];
+                foreach ($view->pluginsHavingUpdate as $name => $plugin) {
+                    $view->pluginUpdateNonces[$name] = Nonce::getNonce($plugin['name']);
+                }
             } catch(Exception $e) {
                 // curl exec connection error (ie. server not connected to internet)
             }
@@ -572,7 +577,7 @@ class Controller extends Plugin\ControllerAdmin
         $nonce = Common::getRequestVar('nonce', null, 'string');
 
         if (!Nonce::verifyNonce($nonceName, $nonce)) {
-            throw new \Exception($this->translator->translate('General_ExceptionNonceMismatch'));
+            throw new \Exception($this->translator->translate('General_ExceptionSecurityCheckFailed'));
         }
 
         Nonce::discardNonce($nonceName);

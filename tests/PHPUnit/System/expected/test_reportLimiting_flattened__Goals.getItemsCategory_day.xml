@@ -8,6 +8,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productCategory==Books+Cat+%230</segment>
 		<Ecommerce_ProductCategory>Books Cat #0</Ecommerce_ProductCategory>
 	</row>
 	<row>
@@ -18,6 +19,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productCategory==Books+Cat+%231</segment>
 		<Ecommerce_ProductCategory>Books Cat #1</Ecommerce_ProductCategory>
 	</row>
 	<row>
@@ -28,6 +30,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productCategory==Books+Cat+%232</segment>
 		<Ecommerce_ProductCategory>Books Cat #2</Ecommerce_ProductCategory>
 	</row>
 	<row>
@@ -38,6 +41,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productCategory==Books+Cat+%233</segment>
 		<Ecommerce_ProductCategory>Books Cat #3</Ecommerce_ProductCategory>
 	</row>
 	<row>
@@ -48,6 +52,7 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<segment>productCategory==Books+Cat+%234</segment>
 		<Ecommerce_ProductCategory>Books Cat #4</Ecommerce_ProductCategory>
 	</row>
 </result>

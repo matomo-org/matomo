@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\CoreHome\Columns\Metrics;
 
+use Piwik\Columns\Dimension;
 use Piwik\DataTable;
 use Piwik\Archive\DataTableFactory;
 use Piwik\DataTable\Row;
@@ -267,5 +268,10 @@ class EvolutionMetric extends ProcessedMetric
 
         return round($ratio, 3);
 
+    }
+
+    public function getSemanticType(): ?string
+    {
+        return Dimension::TYPE_PERCENT;
     }
 }
