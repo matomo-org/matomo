@@ -160,7 +160,7 @@ class GtmSiteTypeGuesser
             return SitesManager::JS_FRAMEWORK_UNKNOWN;
         }
 
-	    $needles = ['react.min.js' ,'react.development.min.js', 'react-dom.development.min.js' ,'react.development.js',
+        $needles = ['react.min.js' ,'react.development.min.js', 'react-dom.development.min.js' ,'react.development.js',
                     'react-dom.development.js', 'ReactDOM.', 'react.production.min.js', 'react-jsx-dev-runtime.development.js',
                     'react-jsx-dev-runtime.development.min.js', 'react-jsx-dev-runtime.production.min.js',
                     'react-jsx-dev-runtime.profiling.min.js', 'react-jsx-runtime.development.js', 'react-jsx-runtime.development.min.js',
