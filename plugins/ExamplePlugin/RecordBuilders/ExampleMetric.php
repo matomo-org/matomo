@@ -45,7 +45,7 @@ class ExampleMetric extends RecordBuilder
      * This method should return the list of records this RecordBuilder creates. This example
      * archives one metric, so we return some information about them.
      */
-    public function getRecordMetadata(ArchiveProcessor $archiveProcessor)
+    public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
     {
         return [
             Record::make(Record::TYPE_NUMERIC, self::EXAMPLEPLUGIN_METRIC_NAME),
@@ -67,7 +67,7 @@ class ExampleMetric extends RecordBuilder
      *
      * non-day periods will automatically be aggregated together
      */
-    protected function aggregate(ArchiveProcessor $archiveProcessor)
+    protected function aggregate(ArchiveProcessor $archiveProcessor): array
     {
         $params = $archiveProcessor->getParams();
 
