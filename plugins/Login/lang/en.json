@@ -68,6 +68,12 @@
         "BySigningUpPrivacyPolicyAndTermsAndCondition": "By signing up, I accept the %1$sprivacy policy%2$s and the %3$sterms &amp; conditions%4$s",
         "AcceptPrivacyPolicy": "You need to accept the privacy policy.",
         "AcceptTermsAndCondition": "You need to accept the terms &amp; conditions.",
-        "AcceptPrivacyPolicyAndTermsAndCondition": "You need to accept the privacy policy and the terms &amp; conditions."
+        "AcceptPrivacyPolicyAndTermsAndCondition": "You need to accept the privacy policy and the terms &amp; conditions.",
+        "CreatePassword": "Create Password",
+        "CreatePasswordDescription": "Make sure you remember this password and keep it in a safe place.",
+        "Password": "Password",
+        "ConfirmPassword": "Confirm Password",
+        "Confirm": "Confirm"
+
     }
 }

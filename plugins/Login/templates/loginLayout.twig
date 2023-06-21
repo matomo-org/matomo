@@ -14,6 +14,9 @@
 
 {% set bodyId = 'loginPage' %}
 
+{% set centeredLogo = isCenteredLogo is defined ? isCenteredLogo : true %}
+{% set colClass = colClassOverride is defined ? colClassOverride : 'col s12 m6 push-m3 l4 push-l4' %}
+
 {% block body %}
 
     {{ postEvent("Template.beforeTopBar", "login") }}
@@ -25,12 +28,12 @@
     </div>
     <nav>
         <div class="nav-wrapper">
-            {% include "@CoreHome/_logo.twig" with { 'logoLink': 'https://matomo.org', 'centeredLogo': true, 'useLargeLogo': false } %}
+            {% include "@CoreHome/_logo.twig" with { 'logoLink': 'https://matomo.org', 'centeredLogo': centeredLogo, 'useLargeLogo': false } %}
         </div>
     </nav>
 
     <section class="loginSection row">
-        <div class="col s12 m6 push-m3 l4 push-l4">
+        <div class="{{ colClass }}">
 
         {# untrusted host warning #}
         {% if (isValidHost is defined and invalidHostMessage is defined and isValidHost == false) %}
@@ -41,6 +44,12 @@
         {% endif %}
 
         </div>
+
+        {% if showImageDiv is defined %}
+        <div class="col s4 offset-s1" style="height: 35rem;">
+            <img src="plugins/Login/images/create-password-logo.png">
+        </div>
+        {% endif %}
     </section>
 
 {% endblock %}
