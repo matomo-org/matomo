@@ -127,10 +127,11 @@
       </SaveButton>
       <div v-show="generatedUrl">
         <h3>{{ translate('Referrers_URLCampaignBuilderResult') }}</h3>
-        <pre
-          id="urlCampaignBuilderResult"
-          v-select-on-focus="{}"
-        ><code v-text="generatedUrl" /></pre>
+        <div>
+          <pre id="urlCampaignBuilderResult" v-copy-to-clipboard="{}">
+            <code v-text="generatedUrl" />
+          </pre>
+        </div>
       </div>
     </form>
   </div>
@@ -138,7 +139,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { SelectOnFocus } from 'CoreHome';
+import { CopyToClipboard } from 'CoreHome';
 import { Field, SaveButton } from 'CorePluginsAdmin';
 
 interface CampaignBuilderState {
@@ -168,7 +169,7 @@ export default defineComponent({
     SaveButton,
   },
   directives: {
-    SelectOnFocus,
+    CopyToClipboard,
   },
   data(): CampaignBuilderState {
     return {

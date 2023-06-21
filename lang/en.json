@@ -120,6 +120,7 @@
         "Continue": "Continue",
         "ContinueToPiwik": "Continue to Matomo",
         "Copy": "Copy",
+        "CopiedToClipboard": "Copied to clipboard",
         "CreatedByUser": "created by %s",
         "CreationDate": "Creation date",
         "CurrentMonth": "Current Month",

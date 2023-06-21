@@ -279,7 +279,7 @@ THIRD-PARTY CONTENT
 	License: GPL
 	By: Alessandro Rei - http://www.kde-look.org/usermanager/search.php?username=mentalrey
 
-	Name: Material icons ("icon-info2", "icon-outline", "icon-settings", "icon-form", "icon-play", "icon-pause", "icon-replay", "icon-skip-next", "icon-skip-forward", "icon-stop", "icon-fast-forward", "icon-fast-rewind", "icon-bug", "icon-upload", "icon-segmented-visits-log", "icon-clock") in plugins/Morpheus/fonts, and plugins/Morpheus/images/compare.svg
+	Name: Material icons ("icon-info2", "icon-outline", "icon-settings", "icon-form", "icon-play", "icon-pause", "icon-replay", "icon-skip-next", "icon-skip-forward", "icon-stop", "icon-fast-forward", "icon-fast-rewind", "icon-bug", "icon-upload", "icon-segmented-visits-log", "icon-clock", "icon-content-copy", "icon-done")) in plugins/Morpheus/fonts, and plugins/Morpheus/images/compare.svg
 	Link: https://design.google.com/icons/
 	License: Apache License Version 2.0
 

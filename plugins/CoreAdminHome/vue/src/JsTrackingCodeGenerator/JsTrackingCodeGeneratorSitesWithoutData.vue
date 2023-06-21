@@ -1,6 +1,8 @@
 <template>
   <div id="javascript-text">
-    <pre v-select-on-focus="{}" class="codeblock" v-text="trackingCode" ref="trackingCode"/>
+    <div>
+      <pre v-copy-to-clipboard="{}" class="codeblock" v-text="trackingCode" ref="trackingCode"/>
+    </div>
   </div>
   <JsTrackingCodeAdvancedOptions
     :default-site="defaultSite"
@@ -14,7 +16,7 @@
 import { defineComponent } from 'vue';
 import {
   SiteRef,
-  SelectOnFocus,
+  CopyToClipboard,
 } from 'CoreHome';
 
 import JsTrackingCodeAdvancedOptions from './JsTrackingCodeAdvancedOptions.vue';
@@ -66,7 +68,7 @@ export default defineComponent({
     JsTrackingCodeAdvancedOptions,
   },
   directives: {
-    SelectOnFocus,
+    CopyToClipboard,
   },
   data(): JsTrackingCodeGeneratorState {
     return {
