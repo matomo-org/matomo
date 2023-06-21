@@ -63,8 +63,8 @@
             <p>{{ 'CoreAdminHome_JSTrackingIntro3b'|translate|raw }}</p>
             <br>
             <p>{{ 'SitesManager_ExtraInformationNeeded'|translate }}</p>
-            <p>Matomo URL: <code vue-directive="CoreHome.SelectOnFocus">{{ piwikUrl }}</code></p>
-            <p>{{ 'SitesManager_EmailInstructionsYourSiteId'|translate('<code vue-directive="CoreHome.SelectOnFocus">' ~ idSite ~ '</code>')|raw }}</p>
+            <p>Matomo URL: <code vue-directive="CoreHome.CopyToClipboard">{{ piwikUrl }}</code></p>
+            <p>{{ 'SitesManager_EmailInstructionsYourSiteId'|translate('<code vue-directive="CoreHome.CopyToClipboard">' ~ idSite ~ '</code>')|raw }}</p>
         {% endif %}
     </div>
 
@@ -144,7 +144,7 @@
                 <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep04'|translate }}</li>
                 <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep05'|translate }}</li>
                 <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep06'|translate }}</li>
-                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep07'|translate }}<div style="text-indent: 1.2rem;">Matomo URL: <code vue-directive="CoreHome.SelectOnFocus">{{ piwikUrl }}</code></div><div style="text-indent: 1.2rem;">{{ 'SitesManager_EmailInstructionsYourSiteId'|translate('<code vue-directive="CoreHome.SelectOnFocus">' ~ idSite ~ '</code>')|raw }}</div></li>
+                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep07'|translate }}<div style="text-indent: 1.2rem;">Matomo URL: <code vue-directive="CoreHome.CopyToClipboard">{{ piwikUrl }}</code></div><div style="text-indent: 1.2rem;">{{ 'SitesManager_EmailInstructionsYourSiteId'|translate('<code vue-directive="CoreHome.CopyToClipboard">' ~ idSite ~ '</code>')|raw }}</div></li>
                 <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep08'|translate }}</li>
                 <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep09'|translate }}</li>
                 <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep10'|translate }}</li>
