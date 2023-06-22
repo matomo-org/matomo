@@ -170,6 +170,7 @@ __webpack_require__.d(__webpack_exports__, "ExpandOnHover", function() { return 
 __webpack_require__.d(__webpack_exports__, "ShowSensitiveData", function() { return /* reexport */ ShowSensitiveData; });
 __webpack_require__.d(__webpack_exports__, "DropdownButton", function() { return /* reexport */ DropdownButton; });
 __webpack_require__.d(__webpack_exports__, "SelectOnFocus", function() { return /* reexport */ SelectOnFocus; });
+__webpack_require__.d(__webpack_exports__, "CopyToClipboard", function() { return /* reexport */ CopyToClipboard; });
 __webpack_require__.d(__webpack_exports__, "SideNav", function() { return /* reexport */ SideNav; });
 __webpack_require__.d(__webpack_exports__, "EnrichedHeadline", function() { return /* reexport */ EnrichedHeadline; });
 __webpack_require__.d(__webpack_exports__, "ContentBlock", function() { return /* reexport */ ContentBlock; });
@@ -3432,6 +3433,134 @@ function piwikSelectOnFocus() {
   };
 }
 window.angular.module('piwikApp').directive('piwikSelectOnFocus', piwikSelectOnFocus);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/CopyToClipboard/CopyToClipboard.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+function CopyToClipboard_onClickHandler(pre) {
+  if (pre) {
+    var textarea = document.createElement('textarea');
+    textarea.value = pre.innerText;
+    textarea.setAttribute('readonly', '');
+    textarea.style.position = 'absolute';
+    textarea.style.left = '-9999px';
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    var btn = pre.parentElement;
+
+    if (btn) {
+      var icon = btn.getElementsByTagName('i')[0];
+
+      if (icon) {
+        icon.classList.remove('copyToClipboardIcon');
+        icon.classList.add('copyToClipboardIconCheck');
+      }
+
+      var copied = btn.getElementsByClassName('copyToClipboardCopiedDiv')[0];
+
+      if (copied) {
+        copied.style.display = 'inline-block';
+        setTimeout(function () {
+          copied.style.display = 'none';
+        }, 2500);
+      }
+    }
+  }
+}
+
+function onTransitionEndHandler(el, binding) {
+  if (binding.value.transitionOpen) {
+    var btn = el.parentElement;
+
+    if (btn) {
+      var icon = btn.getElementsByTagName('i')[0];
+
+      if (icon) {
+        icon.classList.remove('copyToClipboardIconCheck');
+        icon.classList.add('copyToClipboardIcon');
+      }
+    }
+
+    binding.value.transitionOpen = false;
+  } else {
+    binding.value.transitionOpen = true;
+  }
+}
+
+/* harmony default export */ var CopyToClipboard = ({
+  mounted: function mounted(el, binding) {
+    var tagName = el.tagName.toLowerCase();
+
+    if (tagName === 'pre') {
+      var btn = document.createElement('button');
+      btn.setAttribute('type', 'button');
+      btn.className = 'copyToClipboardButton';
+      var positionDiv = document.createElement('div');
+      positionDiv.className = 'copyToClipboardPositionDiv';
+      var icon = document.createElement('i');
+      icon.className = 'copyToClipboardIcon';
+      btn.appendChild(icon);
+      var sp = document.createElement('span');
+      sp.className = 'copyToClipboardSpan';
+      sp.innerHTML = translate('General_Copy');
+      btn.appendChild(sp);
+      positionDiv.appendChild(btn);
+      var cdiv = document.createElement('div');
+      cdiv.className = 'copyToClipboardCopiedDiv';
+      cdiv.innerHTML = translate('General_CopiedToClipboard');
+      positionDiv.appendChild(cdiv);
+      var pe = el.parentElement;
+
+      if (pe) {
+        pe.classList.add('copyToClipboardWrapper');
+        pe.appendChild(positionDiv);
+      }
+
+      binding.value.onClickHandler = CopyToClipboard_onClickHandler.bind(null, el);
+      btn.addEventListener('click', binding.value.onClickHandler);
+      binding.value.onTransitionEndHandler = onTransitionEndHandler.bind(null, el, binding);
+      btn.addEventListener('transitionend', binding.value.onTransitionEndHandler);
+    }
+  },
+  unmounted: function unmounted(el, binding) {
+    el.removeEventListener('click', binding.value.onClickHandler);
+    el.removeEventListener('transitionend', binding.value.onTransitionEndHandler);
+  }
+});
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/CopyToClipboard/CopyToClipboard.adapter.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+function matomoCopyToClipboard() {
+  return {
+    restrict: 'A',
+    link: function matomoCopyToClipboardLink(scope, element) {
+      var binding = {
+        instance: null,
+        value: {},
+        oldValue: null,
+        modifiers: {},
+        dir: {}
+      };
+      CopyToClipboard.mounted(element[0], binding);
+      element.on('$destroy', function () {
+        return CopyToClipboard.unmounted(element[0], binding);
+      });
+    }
+  };
+}
+window.angular.module('piwikApp').directive('matomoCopyToClipboard', matomoCopyToClipboard);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/SideNav/SideNav.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -12382,6 +12511,8 @@ function deleteCookie(name) {
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+
 
 
 

@@ -18,7 +18,7 @@
     <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps5'|translate }}</li>
     <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps6'|translate }}</li>
     <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps7'|translate }}</li>
-    <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps8'|translate }}<div style="text-indent: 1.2rem;">Matomo URL: <code vue-directive="CoreHome.SelectOnFocus">{{ piwikUrl }}</code></div></li>
+    <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps8'|translate }}{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps8'|translate }}<div><pre style="text-indent: 1.2rem;padding-top:2em;padding-bottom:2em" vue-directive="CoreHome.CopyToClipboard">{{ piwikUrl }}</pre></div></li>
     {% if authLink %}
         <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps9'|translate('<a target="_blank" rel="noreferrer noopener" href="'~authLink~'">','</a>','<a target="_blank" rel="noreferrer noopener" href="'~faqLink~'">','</a>')|raw }}</li>
     {% else %}

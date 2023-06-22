@@ -421,3 +421,12 @@
 .icon-chevron-up:before {
   content: "\e90a";
 }
+.icon-content-copy:before {
+  content: "\e905";
+}
+.icon-chevron-left:before {
+  content: "\e907";
+}
+.icon-done:before {
+  content: "\e906";
+}

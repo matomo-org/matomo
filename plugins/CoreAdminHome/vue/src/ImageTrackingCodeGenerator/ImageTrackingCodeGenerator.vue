@@ -76,7 +76,9 @@
         <h3>{{ translate('CoreAdminHome_ImageTrackingLink') }}</h3>
 
         <div id="image-tracking-text">
-          <pre v-select-on-focus="{}" v-text="trackingCode" ref="trackingCode"></pre>
+          <div>
+            <pre v-copy-to-clipboard="{}" v-text="trackingCode" ref="trackingCode"></pre>
+          </div>
         </div>
       </div>
     </div>
@@ -91,7 +93,7 @@ import {
   AjaxHelper,
   SiteRef,
   Site,
-  SelectOnFocus,
+  CopyToClipboard,
   debounce,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
@@ -140,7 +142,7 @@ export default defineComponent({
     Field,
   },
   directives: {
-    SelectOnFocus,
+    CopyToClipboard,
   },
   data(): ImageTrackingCodeGeneratorState {
     return {

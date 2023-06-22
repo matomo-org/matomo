@@ -15,7 +15,9 @@
 
     <p>{{ 'CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead'|translate("&lt;/head&gt;")|raw }}</p>
 
-    <pre piwik-select-on-focus>{{ jsTag|raw }}</pre>
+    <div>
+        <pre matomo-copy-to-clipboard>{{ jsTag|raw }}</pre>
+    </div>
 
     <p>{{ 'CoreAdminHome_JSTrackingIntro5'|translate('<a rel="noreferrer noopener" target="_blank" href="https://developer.matomo.org/guides/tracking-javascript-guide">','</a>')|raw }}</p>
 

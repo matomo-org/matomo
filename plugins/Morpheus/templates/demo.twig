@@ -508,13 +508,15 @@
 
         <div class="demo">
             <p>Or you can display a code block:</p>
-            <pre piwik-select-on-focus>&lt;!-- Matomo --&gt;
+            <div>
+                 <pre matomo-copy-to-clipboard>&lt;!-- Matomo --&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
 &lt;/script&gt;
 &lt;!-- End Matomo Code --&gt;</pre>
+            </div>
         </div>
         <div class="demo-code">
-            &lt;pre piwik-select-on-focus&gt;...&lt;/pre&gt;
+            &lt;div&gt;&lt;pre matomo-copy-to-clipboard&gt;...&lt;/pre&gt;&lt;/div&gt;
         </div>
 
         <h2>Tables</h2>
@@ -756,7 +758,9 @@
                         'bug',
                         'upload',
                         'embed',
-                        'heart'
+                        'heart',
+                        'content-copy',
+                        'done'
                     ]
                 };
 

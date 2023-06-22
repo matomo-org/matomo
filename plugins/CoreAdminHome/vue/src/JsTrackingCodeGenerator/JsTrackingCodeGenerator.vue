@@ -63,7 +63,10 @@
         </div>
         </div>
         <div id="javascript-text">
-          <pre v-select-on-focus="{}" class="codeblock" v-text="trackingCode" ref="trackingCode"/>
+          <div>
+            <pre v-copy-to-clipboard="{}" class="codeblock" v-text="trackingCode"
+                 ref="trackingCode"/>
+          </div>
         </div>
       </div>
     </div>
@@ -85,7 +88,7 @@ import {
   translate,
   AjaxHelper,
   SiteRef,
-  SelectOnFocus,
+  CopyToClipboard,
   Matomo,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
@@ -173,7 +176,7 @@ export default defineComponent({
     Field,
   },
   directives: {
-    SelectOnFocus,
+    CopyToClipboard,
   },
   created() {
     if (this.site && this.site.id) {
