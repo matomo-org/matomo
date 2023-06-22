@@ -1,7 +1,8 @@
 {% set isCenteredLogo = false %}
 {% set showImageDiv = true %}
+{% set imageToShow = 'plugins/Login/images/01_Create password.png' %}
 {% set colClassOverride = 'col l3 offset-l1 m12' %}
-{% set bodyClass = 'acceptInvitation' %}
+{% set bodyClass = 'onBoarding' %}
 {% extends '@Login/loginLayout.twig' %}
 
 {% block loginContent %}
@@ -76,9 +77,9 @@
                         </div>
                     {% endif %}
                 </div>
-                <div class="row actions invitation_form_row">
+                <div class="row actions invitation_form_row formSubmitButtonRow">
                     <div class="col s12">
-                        <input class="submit btn uppercase" name="invitation_form" id="login_form_submit" type="submit"
+                        <input class="submit btn uppercase formSubmitButton" name="invitation_form" id="login_form_submit" type="submit"
                                value="{{ 'Login_Confirm'|translate }}"
                                tabindex="100"/>
                     </div>

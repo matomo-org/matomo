@@ -1,0 +1,55 @@
+{% set isCenteredLogo = false %}
+{% set colClassOverride = 'col l3 offset-l1 m12' %}
+{% set showImageDiv = true %}
+{% set imageToShow = 'plugins/Login/images/05_Data.png' %}
+{% set bodyClass = 'onBoarding' %}
+{% set pageTitle = 'Lets Get Started' %}
+
+{% extends '@Login/loginLayout.twig' %}
+
+
+{% block loginContent %}
+    <div class="getStarted" id="getStarted">
+        <br>
+        <br>
+        <p class="welcomeHeader">{{ 'Login_StartTrackingData'|translate }}</p>
+        <br>
+        <p>{{ 'Login_StartTrackingDataDescriptionLine1'|translate }}</p>
+        <br>
+        <p>{{ 'Login_StartTrackingDataDescriptionLine2'|translate }}</p>
+        {% block content %}
+        <form method="post"
+              action="{{ linkTo({'module': loginPlugin, 'action': 'welcome'}) }}">
+            <input type="hidden" name="nonce" value="{{ nonce }}"/>
+
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <div class="row actions start_tracking_row formSubmitButtonRow">
+                <div class="row viewDemoSite hide-on-large-only">
+                    <div class="col s12">
+                        <a class="uppercase" href="https://demo.matomo.cloud/" target="_blank" rel="noreferrer noopener">{{ 'Login_ViewDemoSite'|translate }}</a>
+                    </div>
+                </div>
+                <div class="col s12 show-on-medium-and-down">
+                    <input class="submit btn uppercase formSubmitButton" name="start_tracking_form" id="start_tracking_form_button"
+                           type="submit"
+                           value="{{ 'Login_StartTrackingNow'|translate }}"
+                           tabindex="100"/>
+                </div>
+            </div>
+            <div class="row viewDemoSite hide-on-med-and-down">
+                <div class="col s12">
+                    <a class="uppercase" href="https://demo.matomo.cloud/" target="_blank" rel="noreferrer noopener">{{ 'Login_ViewDemoSite'|translate }}</a>
+                </div>
+            </div>
+        </form>
+        {% endblock %}
+    </div>
+{% endblock %}

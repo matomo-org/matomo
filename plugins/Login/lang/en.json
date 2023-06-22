@@ -73,7 +73,18 @@
         "CreatePasswordDescription": "Make sure you remember this password and keep it in a safe place.",
         "Password": "Password",
         "ConfirmPassword": "Confirm Password",
-        "Confirm": "Confirm"
-
+        "Confirm": "Confirm",
+        "WelcomeToMatomo": "Welcome to Matomo!",
+        "WelcomeTextDescriptionLine1": "As the ethical choice in analytics, our mission has always been to empower people to take back control of their data, and today you’ve joined ranks with millions of others who’ve done just that",
+        "WelcomeTextDescriptionLine2": "Along with powerful insights, you can now rest easy knowing you have 100% data ownership, are protecting user privacy, and are choosing to do your part for your business and visitors.",
+        "WelcomeTextDescriptionLine3": "If you need anything from us, please don’t hesitate to reach out.",
+        "WelcomeTextDescriptionLine4": "Best of luck!",
+        "WelcomeTextDescriptionLine5": "The Matomo team",
+        "LetsGetStarted": "Lets Get Started",
+        "StartTrackingData": "Start tracking data",
+        "StartTrackingDataDescriptionLine1": "There are many easy ways to start tracking your website with Matomo. On the next screen you will see the most popular options, and step-by-step instructions how to get started with them.",
+        "StartTrackingDataDescriptionLine2": "Alternatively, you can view our demo site to get more familiar with Matomo.",
+        "StartTrackingNow": "Start Tracking Now",
+        "ViewDemoSite": "View Demo Site"
     }
 }

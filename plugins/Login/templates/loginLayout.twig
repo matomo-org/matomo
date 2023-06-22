@@ -8,7 +8,8 @@
     {{ parent() }}
 {% endblock %}
 
-{% set title %}{{ 'Login_LogIn'|translate }}{% endset %}
+
+{% set title %}{{ (pageTitle is defined) ? pageTitle : 'Login_LogIn'|translate }}{% endset %}
 
 {% block pageDescription %}{{ 'General_OpenSourceWebAnalytics'|translate }}{% endblock %}
 
@@ -45,9 +46,9 @@
 
         </div>
 
-        {% if showImageDiv is defined %}
-        <div class="col s4 offset-s1 hide-on-med-and-down">
-            <img src="plugins/Login/images/01_Create password.png">
+        {% if showImageDiv is defined and imageToShow is defined %}
+        <div class="col l4 offset-l1 hide-on-med-and-down">
+            <img src="{{ imageToShow }}">
         </div>
         {% endif %}
     </section>
