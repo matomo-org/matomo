@@ -28,7 +28,6 @@ class Order extends BaseConversion
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {
         $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_UNIQUE);
-        $metric->setTranslatedName(Piwik::translate('Ecommerce_OrderId'));
         $metricsList->addMetric($metric);
     }
 
