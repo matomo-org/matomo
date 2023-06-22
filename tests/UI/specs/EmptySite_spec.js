@@ -37,7 +37,6 @@ describe("EmptySite", function () {
 
 
     it('should show the SPA/PWA tab when clicked', async function () {
-        await page.waitForSelector('#spa .codeblock', { visible: true });
         await page.evaluate(function () {
           // since containerID will be random and keeps changing
           var selector = $('#spa .codeblock');
