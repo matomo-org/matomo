@@ -419,6 +419,9 @@ class QueueConsumer
         $segment = new Segment($invalidatedArchive['segment'], [$invalidatedArchive['idsite']]);
 
         $params = new Parameters($site, $period, $segment);
+        if (!empty($invalidatedArchive['plugin'])) {
+            $params->setRequestedPlugin($invalidatedArchive['plugin']);
+        }
 
         $loader = new Loader($params);
         return $loader->canSkipThisArchive(); // if no point in archiving, skip
@@ -612,6 +615,9 @@ class QueueConsumer
         $segment = new Segment($invalidatedArchive['segment'], [$invalidatedArchive['idsite']]);
 
         $params = new Parameters($site, $period, $segment);
+        if (!empty($invalidatedArchive['plugin'])) {
+            $params->setRequestedPlugin($invalidatedArchive['plugin']);
+        }
 
         // if latest archive includes today and is usable (DONE_OK or DONE_INVALIDATED and recent enough), skip
         $today = Date::factoryInTimezone('today', Site::getTimezoneFor($site->getId()));
