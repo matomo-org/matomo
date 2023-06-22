@@ -37,6 +37,12 @@ describe("EmptySite", function () {
 
 
     it('should show the SPA/PWA tab when clicked', async function () {
+        await page.waitForSelector('#spa .codeblock', { visible: true });
+        await page.evaluate(function () {
+          // since containerID will be random and keeps changing
+          var selector = $('#spa .codeblock');
+          selector.text(selector.text().replace(/container_(.*).js/g, 'container_test123.js'));
+        });
         await page.evaluate(() => $('.no-data-screen-ul-tabs a[href="#spa"]')[0].click());
 
         const pageElement = await page.$('.page');
