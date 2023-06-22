@@ -365,8 +365,8 @@ class View implements ViewInterface
         $pattern = array(
             '~<script type=[\'"]text/javascript[\'"] src=[\'"]([^\'"]+)[\'"]>~',
             '~<script src=[\'"]([^\'"]+)[\'"] type=[\'"]text/javascript[\'"]>~',
-            '~<script type=[\'"]text/javascript[\'"] src=[\'"]([^\'"]+?chunk=[^\'"]+)[\'"] defer>~',
-            '~<script type=[\'"]text/javascript[\'"] src=[\'"]([^\'"]+)[\'"] defer>~',
+            '~<script type=[\'"]text/javascript[\'"] src=[\'"]([^\'"?]*\?[^\'"]+)[\'"] defer>~',
+            '~<script type=[\'"]text/javascript[\'"] src=[\'"]([^\'"?]+)[\'"] defer>~',
             '~<link rel=[\'"]stylesheet[\'"] type=[\'"]text/css[\'"] href=[\'"]([^\'"]+)[\'"] ?/?>~',
             // removes the double ?cb= tag
             '~(src|href)=\"index.php\?module=([A-Za-z0-9_]+)&action=([A-Za-z0-9_]+)\?cb=~',
