@@ -1,15 +1,16 @@
 {% set isCenteredLogo = false %}
 {% set showImageDiv = true %}
-{% set colClassOverride = 'col s3 offset-s1' %}
+{% set colClassOverride = 'col l3 offset-l1 m12' %}
+{% set bodyClass = 'acceptInvitation' %}
 {% extends '@Login/loginLayout.twig' %}
 
 {% block loginContent %}
-    <div class="contentForm invitationForm">
+    <div class="contentForm invitationForm" id="invitationForm">
         <br>
         <br>
-        <p style="text-transform: uppercase;">{{ 'Login_CreatePassword'|translate }}</p>
+        <p class="uppercase header-p">{{ 'Login_CreatePassword'|translate }}</p>
         <p>&nbsp;</p>
-        <p>{{ 'Login_CreatePasswordDescription'|translate }}</p>
+        <p class="header-p">{{ 'Login_CreatePasswordDescription'|translate }}</p>
         <p>&nbsp;</p>
 
         {% if AccessErrorString is defined %}
@@ -74,17 +75,12 @@
                             </label>
                         </div>
                     {% endif %}
-                    <div style="margin-top:10px;text-transform: uppercase;" class="col">
-                        <input class="submit btn" name="invitation_form" id="login_form_submit" type="submit"
+                </div>
+                <div class="row actions invitation_form_row">
+                    <div class="col s12">
+                        <input class="submit btn uppercase" name="invitation_form" id="login_form_submit" type="submit"
                                value="{{ 'Login_Confirm'|translate }}"
                                tabindex="100"/>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <div class="footerLinks">
-                            <a>PRIVACY POLICY</a> | <a>TERMS & CONDITIONS</a>
-                        </div>
                     </div>
                 </div>
             </form>

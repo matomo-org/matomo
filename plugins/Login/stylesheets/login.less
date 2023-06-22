@@ -112,3 +112,49 @@
         color: gray;
     }
 }
+
+.acceptInvitation {
+    background: white;
+
+    .uppercase {
+        text-transform: uppercase;
+    }
+
+    .header-p {
+        line-height: 24px;
+    }
+
+    label {
+        font-weight: 600;
+        color: unset !important;
+    }
+
+    .footerLinks {
+        font-weight: 400;
+        font-size: 10px;
+        top: 1rem;
+        position: relative;
+    }
+
+    #login_form_submit {
+        float: unset;
+    }
+
+    #footerLinks {
+        display: none;
+    }
+
+    @media screen {
+        @media (max-width: 999px) {
+            .invitation_form_row {
+                position: absolute;
+                width: 100%;
+                bottom: 0;
+            }
+
+            #login_form_submit {
+                width: 100% !important;
+            }
+        }
+    }
+}
