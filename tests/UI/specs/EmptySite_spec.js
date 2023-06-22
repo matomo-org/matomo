@@ -43,6 +43,7 @@ describe("EmptySite", function () {
           selector.text(selector.text().replace(/container_(.*).js/g, 'container_test123.js'));
         });
         await page.evaluate(() => $('.no-data-screen-ul-tabs a[href="#spa"]')[0].click());
+        await page.waitForTimeout(500);
 
         const pageElement = await page.$('.page');
         expect(await pageElement.screenshot()).to.matchImage('spa_pwa_page');
