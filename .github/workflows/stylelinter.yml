@@ -24,4 +24,6 @@ jobs:
           lfs: false
           persist-credentials: false
       - name: stylelint
-        uses: actions-hub/stylelint@1bbab914fb5f91d6231c1d92223990d4e5508495
+        run: |
+          npm install
+          npx stylelint "**/*.{css,less}" -f github
