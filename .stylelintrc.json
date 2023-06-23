@@ -1,0 +1,12 @@
+{
+    "overrides": [
+        {
+            "files": ["**/*.less"],
+            "customSyntax": "postcss-less"
+        }
+    ],
+    "ignoreFiles": ["node_modules/**/*", "vendor/**/*", "tests/**/*", "tmp/**/*", "misc/**/*"],
+    "rules": {
+        "color-no-invalid-hex": true
+    }
+}
