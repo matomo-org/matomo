@@ -1,5 +1,5 @@
 {% set isCenteredLogo = false %}
-{% set colClassOverride = 'col l3 offset-l1 m12' %}
+{% set colClassOverride = 'col l4 offset-l2 m12' %}
 {% set showImageDiv = true %}
 {% set imageToShow = 'plugins/Login/images/02_Welcome.png' %}
 {% set bodyClass = 'onBoarding' %}
@@ -9,7 +9,6 @@
 
 {% block loginContent %}
     <div class="welcome" id="welcome">
-        <br>
         <p class="welcomeHeader">{{ 'Login_WelcomeToMatomo'|translate }}</p>
         <br>
         <p>{{ 'Login_WelcomeTextDescriptionLine1'|translate }}</p>
@@ -20,6 +19,7 @@
         <br>
         <p>{{ 'Login_WelcomeTextDescriptionLine4'|translate }}</p>
         <p>{{ 'Login_WelcomeTextDescriptionLine5'|translate }}</p>
+        <br>
         <br>
 
         {% block content %}

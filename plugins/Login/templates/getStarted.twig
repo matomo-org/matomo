@@ -1,5 +1,5 @@
 {% set isCenteredLogo = false %}
-{% set colClassOverride = 'col l3 offset-l1 m12' %}
+{% set colClassOverride = 'col l4 offset-l2 m12' %}
 {% set showImageDiv = true %}
 {% set imageToShow = 'plugins/Login/images/05_Data.png' %}
 {% set bodyClass = 'onBoarding' %}
@@ -10,8 +10,6 @@
 
 {% block loginContent %}
     <div class="getStarted" id="getStarted">
-        <br>
-        <br>
         <p class="welcomeHeader">{{ 'Login_StartTrackingData'|translate }}</p>
         <br>
         <p>{{ 'Login_StartTrackingDataDescriptionLine1'|translate }}</p>
@@ -19,18 +17,8 @@
         <p>{{ 'Login_StartTrackingDataDescriptionLine2'|translate }}</p>
         {% block content %}
         <form method="post"
-              action="{{ linkTo({'module': loginPlugin, 'action': 'welcome'}) }}">
+              action="{{ linkTo({'module': loginPlugin, 'action': 'getStarted'}) }}" style="margin-top: 10rem;">
             <input type="hidden" name="nonce" value="{{ nonce }}"/>
-
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
             <div class="row actions start_tracking_row formSubmitButtonRow">
                 <div class="row viewDemoSite hide-on-large-only">
                     <div class="col s12">

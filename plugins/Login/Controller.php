@@ -644,7 +644,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                  */
                 Piwik::postEvent('UsersManager.inviteUser.accepted', [$user['login'], $user['email'], $user['invited_by']]);
 
-                Option::set(Login::getOnBoardingStepKey($user['login']), Login::ON_BOARDING_FLOW_STEP_1);
+                $this->updateOnBoardingFlowStep($user['login'], Login::ON_BOARDING_FLOW_STEP_1);
 
                 $this->authenticateAndRedirect($user['login'], $passwordConfirmation);
             }
@@ -727,7 +727,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public function welcome()
     {
         Piwik::isUserHasSomeViewAccess();
-        $this->redirectIfNotAllowedToViewOnBoardingScreen(Login::ON_BOARDING_FLOW_STEP_1);
 
         $form = Request::fromRequest()->getStringParameter('welcome_form', '');
 
@@ -736,9 +735,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             Nonce::checkNonce(self::NONCE_WELCOME, $nonce);
 
             $login = Piwik::getCurrentUserLogin();
-            Option::set(Login::getOnBoardingStepKey($login), Login::ON_BOARDING_FLOW_STEP_2);
+            $this->updateOnBoardingFlowStep($login, Login::ON_BOARDING_FLOW_STEP_2);
             $this->checkAndRedirectIfOnBoardingFlowActive($login);
         }
+
+        $this->redirectIfNotAllowedToViewOnBoardingScreen(Login::ON_BOARDING_FLOW_STEP_1);
 
         return $this->renderTemplate('@Login/welcome', [
             'nonce'             => Nonce::getNonce(self::NONCE_WELCOME, 1200),
@@ -749,6 +750,17 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public function getStarted()
     {
         Piwik::isUserHasSomeViewAccess();
+
+        $form = Request::fromRequest()->getStringParameter('start_tracking_form', '');
+        if (!empty($form)) {
+            $nonce = Request::fromRequest()->getStringParameter('nonce', '');
+            Nonce::checkNonce(self::NONCE_LETS_GET_STARTED, $nonce);
+
+            $login = Piwik::getCurrentUserLogin();
+            $this->updateOnBoardingFlowStep($login, Login::ON_BOARDING_FLOW_STEP_COMPLETE);
+            $this->checkAndRedirectIfOnBoardingFlowActive($login);
+        }
+
         $this->redirectIfNotAllowedToViewOnBoardingScreen(Login::ON_BOARDING_FLOW_STEP_2);
 
         return $this->renderTemplate('@Login/getStarted', [
@@ -760,7 +772,21 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     private function checkAndRedirectIfOnBoardingFlowActive($login)
     {
         $onBoardingStep = Option::get(Login::getOnBoardingStepKey($login));
-        if ($onBoardingStep == Login::ON_BOARDING_FLOW_STEP_1) {
+        if (empty($onBoardingStep) || $onBoardingStep === Login::ON_BOARDING_FLOW_STEP_COMPLETE) {
+            return;
+        }
+        $redirectUrl = '';
+        /**
+         * Triggered before a user is redirected to any onBoarding step
+         *
+         * @param string $onBoardingStep The current onBoarding step the user will be redirected too.
+         * @param string $redirectUrl The redirectURL to update for redirection.
+         */
+        Piwik::postEvent('Login.onBoardingFlowRedirect', [$onBoardingStep, &$redirectUrl]);
+
+        if (!empty($redirectUrl)) {
+            Url::redirectToUrl($redirectUrl);
+        } else if ($onBoardingStep == Login::ON_BOARDING_FLOW_STEP_1) {
             Piwik::redirectToModule(Piwik::getLoginPluginName(), 'welcome');
         } else if ($onBoardingStep == Login::ON_BOARDING_FLOW_STEP_2) {
             Piwik::redirectToModule(Piwik::getLoginPluginName(), 'getStarted');
@@ -774,5 +800,16 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $this->checkAndRedirectIfOnBoardingFlowActive($login);
             Url::redirectToUrl(Url::getCurrentUrlWithoutQueryString());
         }
+    }
+
+    private function updateOnBoardingFlowStep($login, $stepToBeUpdated)
+    {
+        /**
+         * Triggered before any onBoarding step is updated
+         *
+         * @param string $stepToBeUpdated The next onBoarding step that will be updated.
+         */
+        Piwik::postEvent('Login.onBoardingFlowStepUpdate.before', [&$stepToBeUpdated]);
+        Option::set(Login::getOnBoardingStepKey($login), $stepToBeUpdated);
     }
 }
