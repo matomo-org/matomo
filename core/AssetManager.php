@@ -138,9 +138,10 @@ class AssetManager extends Singleton
     /**
      * Return JS file inclusion directive(s) using the markup <script>
      *
+     * @param bool $deferJS
      * @return string
      */
-    public function getJsInclusionDirective()
+    public function getJsInclusionDirective(bool $deferJS = false): string
     {
         $result = "<script type=\"text/javascript\">\n" . StaticContainer::get('Piwik\Translation\Translator')->getJavascriptTranslations() . "\n</script>";
 
@@ -150,8 +151,8 @@ class AssetManager extends Singleton
 
             $result .= $this->getIndividualCoreAndNonCoreJsIncludes();
         } else {
-            $result .= sprintf(self::JS_IMPORT_DIRECTIVE, self::GET_CORE_JS_MODULE_ACTION);
-            $result .= sprintf(self::JS_IMPORT_DIRECTIVE, self::GET_NON_CORE_JS_MODULE_ACTION);
+            $result .= sprintf($deferJS ? self::JS_DEFER_IMPORT_DIRECTIVE : self::JS_IMPORT_DIRECTIVE, self::GET_CORE_JS_MODULE_ACTION);
+            $result .= sprintf($deferJS ? self::JS_DEFER_IMPORT_DIRECTIVE : self::JS_IMPORT_DIRECTIVE, self::GET_NON_CORE_JS_MODULE_ACTION);
 
             $result .= $this->getPluginUmdChunks();
         }
@@ -376,7 +377,7 @@ class AssetManager extends Singleton
      *
      * @return string
      */
-    protected function getIndividualCoreAndNonCoreJsIncludes()
+    protected function getIndividualCoreAndNonCoreJsIncludes(): string
     {
         return
             $this->getIndividualJsIncludesFromAssetFetcher($this->getCoreJScriptFetcher()) .
@@ -388,7 +389,7 @@ class AssetManager extends Singleton
      * @param UIAssetFetcher $assetFetcher
      * @return string
      */
-    protected function getIndividualJsIncludesFromAssetFetcher($assetFetcher)
+    protected function getIndividualJsIncludesFromAssetFetcher($assetFetcher): string
     {
         $jsIncludeString = '';
 
