@@ -583,15 +583,42 @@ class Metrics
         return $percentVisitsLabel;
     }
 
-    public static function makeGoalColumnsRow(int $idGoal, array $goals): array
+    /**
+     * This is a utility method used when building records through log aggregation.
+     *
+     * In records with per-goal conversion metrics the metrics are stored within DataTable Rows
+     * as a column with an array a value. The array is indexed by the goal ID and the column name
+     * is set to `Metrics::INDEX_GOALS`, for example:
+     *
+     * ```
+     * $columns = [
+     *     Metrics::INDEX_GOALS = [
+     *         $idGoal => [
+     *             // ... conversion metrics ...
+     *         ],
+     *     ],
+     * ];
+     * $row = new Row([DataTable::COLUMNS => $columns]);
+     * ```
+     *
+     * This methods returns an array like `$columns` above based on a goal ID and a row of
+     * metric values for the goal. The result can be added directly to a DataTable record via `sumRowWithLabel()`.
+     *
+     * The goal metrics returned will differ based on whether the goal is user defined or an ecommerce goal.
+     *
+     * @param int $idGoal
+     * @param array $goalsMetrics
+     * @return array
+     */
+    public static function makeGoalColumnsRow(int $idGoal, array $goalsMetrics): array
     {
-        if ($idGoal > GoalManager::IDGOAL_ORDER) {
+        if ($idGoal > GoalManager::IDGOAL_ORDER) { // user defined goal
             $columns = [
                 Metrics::INDEX_GOAL_NB_CONVERSIONS,
                 Metrics::INDEX_GOAL_NB_VISITS_CONVERTED,
                 Metrics::INDEX_GOAL_REVENUE,
             ];
-        } else if ($idGoal == GoalManager::IDGOAL_ORDER) {
+        } else if ($idGoal == GoalManager::IDGOAL_ORDER) { // ecommerce order
             $columns = [
                 Metrics::INDEX_GOAL_NB_CONVERSIONS,
                 Metrics::INDEX_GOAL_NB_VISITS_CONVERTED,
@@ -602,7 +629,7 @@ class Metrics
                 Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT,
                 Metrics::INDEX_GOAL_ECOMMERCE_ITEMS,
             ];
-        } else { // idGoal == GoalManager::IDGOAL_CART
+        } else { // idGoal == GoalManager::IDGOAL_CART (abandoned cart)
             $columns = [
                 Metrics::INDEX_GOAL_NB_CONVERSIONS,
                 Metrics::INDEX_GOAL_NB_VISITS_CONVERTED,
@@ -613,7 +640,7 @@ class Metrics
 
         $values = [];
         foreach ($columns as $column) {
-            $values[$column] = $goals[$column] ?? 0;
+            $values[$column] = $goalsMetrics[$column] ?? 0;
         }
         return $values;
     }

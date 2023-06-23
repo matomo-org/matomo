@@ -14,7 +14,6 @@ use Piwik\ArchiveProcessor\Record;
 use Piwik\ArchiveProcessor\RecordBuilder;
 use Piwik\Config;
 use Piwik\DataAccess\LogAggregator;
-use Piwik\DataArray;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Plugins\Actions\Metrics as ActionsMetrics;
@@ -69,7 +68,7 @@ class CustomDimension extends RecordBuilder
         $recordName = Archiver::buildRecordNameForCustomDimensionId($dimension['idcustomdimension']);
 
         $valueField = LogTable::buildCustomDimensionColumnName($dimension);
-        $dimensions = array($valueField);
+        $dimensions = [$valueField];
 
         if ($dimension['scope'] === CustomDimensions::SCOPE_VISIT) {
             $this->aggregateFromVisits($report, $logAggregator, $valueField, $dimensions, " log_visit.$valueField is not null");
@@ -86,7 +85,7 @@ class CustomDimension extends RecordBuilder
     }
 
     private function aggregateFromVisits(DataTable $report, LogAggregator $logAggregator, string $valueField,
-                                         array $dimensions, string $where)
+                                         array $dimensions, string $where): void
     {
         if ($this->rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($this->rankingQueryLimit);
@@ -98,7 +97,16 @@ class CustomDimension extends RecordBuilder
             $query = $logAggregator->queryVisitsByDimension($dimensions, $where);
         }
 
-        $defaultColumns = DataArray::makeEmptyRow();
+        $defaultColumns = [
+            Metrics::INDEX_NB_UNIQ_VISITORS    => 0,
+            Metrics::INDEX_NB_VISITS           => 0,
+            Metrics::INDEX_NB_ACTIONS          => 0,
+            Metrics::INDEX_NB_USERS            => 0,
+            Metrics::INDEX_MAX_ACTIONS         => 0,
+            Metrics::INDEX_SUM_VISIT_LENGTH    => 0,
+            Metrics::INDEX_BOUNCE_COUNT        => 0,
+            Metrics::INDEX_NB_VISITS_CONVERTED => 0,
+        ];
 
         while ($row = $query->fetch()) {
             $customDimensionValue = $this->cleanCustomDimensionValue($row[$valueField]);
@@ -114,7 +122,7 @@ class CustomDimension extends RecordBuilder
     }
 
     private function aggregateFromConversions(DataTable $report, LogAggregator $logAggregator, string $valueField,
-                                              array $dimensions, string $where)
+                                              array $dimensions, string $where): void
     {
         if ($this->rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($this->rankingQueryLimit);
@@ -140,7 +148,7 @@ class CustomDimension extends RecordBuilder
         }
     }
 
-    protected function aggregateFromActions(DataTable $report, LogAggregator $logAggregator, $valueField)
+    protected function aggregateFromActions(DataTable $report, LogAggregator $logAggregator, $valueField): void
     {
         $metricsConfig = ActionsMetrics::getActionMetrics();
 
@@ -193,16 +201,16 @@ class CustomDimension extends RecordBuilder
 
         $select = $this->addMetricsToSelect($select, $metricsConfig);
 
-        $from = array(
+        $from = [
             "log_link_visit_action",
-            array(
+            [
                 "table"  => "log_visit",
                 "joinOn" => "log_visit.idvisit = log_link_visit_action.idvisit"
-            ),
-            array(
+            ],
+            [
                 "table"  => "log_action",
                 "joinOn" => "log_link_visit_action.idaction_url = log_action.idaction"
-            )
+            ]
         );
 
         $where  = $logAggregator->getWhereStatement('log_link_visit_action', 'server_time');
@@ -220,7 +228,7 @@ class CustomDimension extends RecordBuilder
 
         if ($this->rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($this->rankingQueryLimit);
-            $rankingQuery->addLabelColumn(array($valueField, 'url'));
+            $rankingQuery->addLabelColumn([$valueField, 'url']);
 
             $sumMetrics = [
                 Metrics::INDEX_PAGE_SUM_TIME_SPENT,
@@ -267,7 +275,7 @@ class CustomDimension extends RecordBuilder
         return Archiver::LABEL_CUSTOM_VALUE_NOT_DEFINED;
     }
 
-    private function addMetricsToSelect($select, $metricsConfig)
+    private function addMetricsToSelect(string $select, array $metricsConfig): string
     {
         if (!empty($metricsConfig)) {
             foreach ($metricsConfig as $metric => $config) {
