@@ -211,7 +211,7 @@ class CustomDimension extends RecordBuilder
                 "table"  => "log_action",
                 "joinOn" => "log_link_visit_action.idaction_url = log_action.idaction"
             ]
-        );
+        ];
 
         $where  = $logAggregator->getWhereStatement('log_link_visit_action', 'server_time');
         $where .= " AND log_link_visit_action.$valueField is not null";

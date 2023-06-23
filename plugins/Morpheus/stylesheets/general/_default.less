@@ -119,16 +119,17 @@ body {
   font-size: 1em;
 }
 
-a {
-  color: #255792;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
 #root {
   margin: 0 10px;
   position: relative;
 }
+
+a {
+ color: @theme-color-link;
+ text-decoration: none;
+ cursor: pointer;
+}
+
 
 /* Make sure the scroll bar is always displayed so the content does not shift when reloading menu with/without scrollbar */
 html {

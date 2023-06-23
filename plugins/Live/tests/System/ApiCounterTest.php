@@ -75,9 +75,22 @@ class ApiCounterTest extends SystemTestCase
 
         $counters = $this->api->getCounters($this->idSite, 20);
         $this->assertEquals($this->buildCounter(24, 60, 20, 40), $counters);
+    }
 
-        $counters = $this->api->getCounters($this->idSite, 0);
-        $this->assertEquals($this->buildCounter(0, 0, 0, 0), $counters);
+    /**
+     * @dataProvider getInvalidLastMinutesValues
+     */
+    public function testGetCounterShouldThrowExceptionIfLastMinutesInvalid($lastMinutes)
+    {
+        self::expectException(\InvalidArgumentException::class);
+        $this->api->getCounters($this->idSite, $lastMinutes);
+    }
+
+    public function getInvalidLastMinutesValues()
+    {
+        return [
+            [-5], [0], [3000]
+        ];
     }
 
     public function test_GetCounters_ShouldHideAllColumnsIfRequested()
