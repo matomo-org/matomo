@@ -1032,6 +1032,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             '*phpstan.neon',
             '*phpstan.neon.dist',
             '*package.xml',
+            '*.stylelintrc.json'
         ];
 
         return $this->isFilePathFoundInArray($file, $filesAndFoldersToDeleteFromPackage);
