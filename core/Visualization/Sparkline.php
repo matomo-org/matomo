@@ -43,11 +43,11 @@ class Sparkline implements ViewInterface
 
     /**
      * Array with format: array( x, y, z, ... )
-     * @param array $data,...
+     * @param array ...$data
      */
-    public function setValues()
+    public function setValues(...$data)
     {
-        $this->serieses = func_get_args();
+        $this->serieses = $data;
     }
 
     public function addSeries(array $values)

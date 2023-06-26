@@ -10,18 +10,18 @@ namespace DI;
 
 if (!function_exists("\DI\object")) {
 
-    function object()
+    function object(...$params)
     {
-        return call_user_func_array("\Piwik\DI::autowire", func_get_args());
+        return \Piwik\DI::autowire(...$params);
     }
 
 }
 
 if (!function_exists("\DI\link")) {
 
-    function link()
+    function link(...$params)
     {
-        return call_user_func_array("\Piwik\DI::get", func_get_args());
+        return \Piwik\DI::get(...$params);
     }
 
 }
