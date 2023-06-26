@@ -27,6 +27,9 @@
             {% if jsFramework == 'react' %}
                 <li class="tab col s2"><a {% if activeTab == 'react' %} class="active" {% endif %} href="#react">{{ 'SitesManager_SiteWithoutDataReact'|translate }}</a></li>
             {% endif %}
+            {%  if tagManagerActive %}
+                <li class="tab col {{ columnClass }}"><a href="#spa">SPA / PWA</a></li>
+            {% endif %}
             <li class="tab col {{ columnClass }}"><a href="#other">{{ 'SitesManager_SiteWithoutDataOtherWays'|translate }}</a></li>
         </ul>
     </div>
@@ -179,6 +182,12 @@
             </div>
             {{ postEvent('Template.embedReactTagManagerTrackingCode') }}
 
+        </div>
+    {% endif %}
+
+    {%  if tagManagerActive %}
+        <div id="spa" class="col s12">
+            {% include '@SitesManager/_spa.twig' %}
         </div>
     {% endif %}
 
