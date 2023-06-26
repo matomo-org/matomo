@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -15,7 +16,7 @@ namespace Piwik\Db;
 interface SchemaInterface
 {
     /**
-     * Get the SQL to create a specific Piwik table
+     * Get the SQL to create a specific Matomo table
      *
      * @param string $tableName
      * @return string  SQL
@@ -23,7 +24,7 @@ interface SchemaInterface
     public function getTableCreateSql($tableName);
 
     /**
-     * Get the SQL to create Piwik tables
+     * Get the SQL to create Matomo tables
      *
      * @return array  array of strings containing SQL
      */
@@ -32,7 +33,7 @@ interface SchemaInterface
     /**
      * Creates a new table in the database.
      *
-     * @param string $nameWithoutPrefix   The name of the table without any piwik prefix.
+     * @param string $nameWithoutPrefix   The name of the table without any prefix.
      * @param string $createDefinition    The table create definition
      */
     public function createTable($nameWithoutPrefix, $createDefinition);
@@ -75,7 +76,7 @@ interface SchemaInterface
     public function truncateAllTables();
 
     /**
-     * Names of all the prefixed tables in piwik
+     * Names of all the prefixed tables in Matomo
      * Doesn't use the DB
      *
      * @return array  Table names
@@ -105,4 +106,13 @@ interface SchemaInterface
      * @return bool  True if tables exist; false otherwise
      */
     public function hasTables();
+
+    /**
+     * Adds a MAX_EXECUTION_TIME hint into a SELECT query if $limit is bigger than 0
+     *
+     * @param string $sql  query to add hint to
+     * @param float $limit  time limit in seconds
+     * @return string
+     */
+    public function addMaxExecutionTimeHintToQuery(string $sql, float $limit): string;
 }

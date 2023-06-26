@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,6 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Db;
 
 use Piwik\Config;
@@ -13,8 +15,6 @@ use Piwik\Singleton;
 
 /**
  * Schema abstraction
- *
- * Note: no relation to the ZF proposals for Zend_Db_Schema_Manager
  *
  * @method static \Piwik\Db\Schema getInstance()
  */
@@ -25,7 +25,7 @@ class Schema extends Singleton
     /**
      * Type of database schema
      *
-     * @var string
+     * @var SchemaInterface
      */
     private $schema = null;
 
@@ -35,7 +35,7 @@ class Schema extends Singleton
      * @param string $schemaName
      * @return string
      */
-    private static function getSchemaClassName($schemaName)
+    private static function getSchemaClassName($schemaName): string
     {
         // Upgrade from pre 2.0.4
         if (strtolower($schemaName) == 'myisam'
@@ -51,7 +51,7 @@ class Schema extends Singleton
     /**
      * Load schema
      */
-    private function loadSchema()
+    private function loadSchema(): void
     {
         $config     = Config::getInstance();
         $dbInfos    = $config->database;
@@ -64,9 +64,9 @@ class Schema extends Singleton
     /**
      * Returns an instance that subclasses Schema
      *
-     * @return \Piwik\Db\SchemaInterface
+     * @return SchemaInterface
      */
-    private function getSchema()
+    private function getSchema(): SchemaInterface
     {
         if ($this->schema === null) {
             $this->loadSchema();
@@ -99,7 +99,7 @@ class Schema extends Singleton
     /**
      * Creates a new table in the database.
      *
-     * @param string $nameWithoutPrefix   The name of the table without any piwik prefix.
+     * @param string $nameWithoutPrefix   The name of the table without any prefix.
      * @param string $createDefinition    The table create definition
      */
     public function createTable($nameWithoutPrefix, $createDefinition)
@@ -128,7 +128,7 @@ class Schema extends Singleton
     /**
      * Create all tables
      */
-    public function createTables()
+    public function createTables(): void
     {
         $this->getSchema()->createTables();
     }
@@ -136,7 +136,7 @@ class Schema extends Singleton
     /**
      * Creates an entry in the User table for the "anonymous" user.
      */
-    public function createAnonymousUser()
+    public function createAnonymousUser(): void
     {
         $this->getSchema()->createAnonymousUser();
     }
@@ -144,7 +144,7 @@ class Schema extends Singleton
     /**
      * Records the Matomo version a user used when installing this Matomo for the first time
      */
-    public function recordInstallVersion()
+    public function recordInstallVersion(): void
     {
         $this->getSchema()->recordInstallVersion();
     }
@@ -160,13 +160,13 @@ class Schema extends Singleton
     /**
      * Truncate all tables
      */
-    public function truncateAllTables()
+    public function truncateAllTables(): void
     {
         $this->getSchema()->truncateAllTables();
     }
 
     /**
-     * Names of all the prefixed tables in piwik
+     * Names of all the prefixed tables in Matomo
      * Doesn't use the DB
      *
      * @return array Table names
@@ -200,12 +200,24 @@ class Schema extends Singleton
     }
 
     /**
-     * Returns true if Piwik tables exist
+     * Returns true if Matomo tables exist
      *
      * @return bool  True if tables exist; false otherwise
      */
     public function hasTables()
     {
         return $this->getSchema()->hasTables();
+    }
+
+    /**
+     * Adds a MAX_EXECUTION_TIME hint into a SELECT query if $limit is bigger than 0
+     *
+     * @param string $sql  query to add hint to
+     * @param float $limit  time limit in seconds
+     * @return string
+     */
+    public function addMaxExecutionTimeHintToQuery(string $sql, float $limit): string
+    {
+        return $this->getSchema()->addMaxExecutionTimeHintToQuery($sql, $limit);
     }
 }
