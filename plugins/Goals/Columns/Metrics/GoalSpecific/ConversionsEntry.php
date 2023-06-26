@@ -29,7 +29,7 @@ class ConversionsEntry extends GoalSpecificProcessedMetric
 
     public function getTranslatedName()
     {
-        return Piwik::translate('Goals_Conversions', $this->getGoalNameForDocs());
+        return Piwik::translate('Goals_Conversions', $this->getGoalName());
     }
 
     public function getDocumentation()

@@ -24,6 +24,9 @@ use Piwik\Tests\Fixtures\SomePageGoalVisitsWithConversions;
  */
 class TrackGoalsPagesTest extends SystemTestCase
 {
+    /**
+     * @var SomePageGoalVisitsWithConversions
+     */
     public static $fixture = null;
 
     /**
@@ -69,6 +72,19 @@ class TrackGoalsPagesTest extends SystemTestCase
                     'filter_update_columns_when_show_all_goals' => '1',
                     'apiModule' => 'Actions',
                     'apiAction' => 'getEntryPageTitles',
+                ],
+            ]],
+
+            ['API.getProcessedReport', [
+                'idSite' => self::$fixture->idSite,
+                'date' => self::$fixture->dateTime,
+                'period' => 'day',
+                'testSuffix' => 'showGoalsMetricsPageReport',
+                'otherRequestParameters' => [
+                    'filter_update_columns_when_show_all_goals' => '1',
+                    'filter_show_goal_columns_process_goals' => '1',
+                    'apiModule' => 'Actions',
+                    'apiAction' => 'getPageTitles',
                 ],
             ]],
         ];

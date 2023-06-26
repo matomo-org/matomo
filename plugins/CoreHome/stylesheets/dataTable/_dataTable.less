@@ -232,10 +232,10 @@ table.dataTable img {
 }
 
 .dataTablePages {
-  color: #BFBFBF;
-  font-weight: bold;
   margin: 10px;
-  font-size: 12px;
+  color: @theme-color-text;
+  font-weight: normal;
+  .font-default(13px, 14px);
 }
 
 .dataTableSearchInput {
@@ -329,20 +329,22 @@ table.dataTable img {
 }
 
 .datatableRelatedReports {
-  color: #888;
+  color: #808080;
   font-size: 12px;
   padding-bottom: 5px;
   margin-top: 6px;
   @media print{
     display: none;
   }
-}
 
-.datatableRelatedReports span {
-  cursor: pointer;
-  font-weight: bold;
-  &:hover {
-    text-decoration: underline;
+  span {
+    color: @theme-color-text;
+    cursor: pointer;
+    font-weight: normal;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
 
@@ -408,12 +410,19 @@ table.dataTable img {
   margin: 1px 0 1px 10px;
 }
 
+.tableIcon {
+  &.activeIcon {
+    background-color: @theme-color-background-tinyContrast;
+  }
+}
+
 .tableIconsGroup > span > span {
   position:relative;
   float:left;
 }
 
 .dataTableFooterActiveItem {
+  display: none;
   position: absolute;
   top: -6px;
   left: 0;

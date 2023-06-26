@@ -20,7 +20,7 @@
         "Settings_DelegatedSmsProviderOnlyAppliesToYou": "Yapılandırılmış SMS hizmeti sağlayıcısını yalnızca siz kullanabilirsiniz, diğer kullanıcılar kullanamaz.",
         "Settings_DeleteAccountConfirm": "Bu SMS hesabını silmek istediğinize emin misiniz?",
         "Settings_EnterActivationCode": "Etkinleştirme kodunu yazın",
-        "Settings_InvalidActivationCode": "Yazılan kod geçersiz, lütfen yeniden deneyin.",
+        "Settings_InvalidActivationCode": "Yazılan kod geçersiz. Lütfen yeniden deneyin.",
         "Settings_LetUsersManageAPICredential": "Kullanıcılar kendi SMS hizmeti sağlayıcılarını yönetebilsin",
         "Settings_LetUsersManageAPICredential_No_Help": "Tüm kullanıcılar SMS iletileri alabilir ve hesap kredisini kullanabilir.",
         "Settings_LetUsersManageAPICredential_Yes_Help": "Tüm kullanıcılar kendi SMS API hesaplarını kurabilir ve sizin kredinizi kullanmaz.",
