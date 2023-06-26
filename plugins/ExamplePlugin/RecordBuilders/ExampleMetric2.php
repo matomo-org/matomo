@@ -45,12 +45,16 @@ class ExampleMetric2 extends RecordBuilder
      * to process daily reports. this code for example, uses idvisitor to group results:
      *
      * ```
-     * $visitorMetrics = $this
-     * ->getLogAggregator()
-     * ->getMetricsFromVisitByDimension('idvisitor')
-     * ->asDataTable();
-     * $visitorReport = $visitorMetrics->getSerialized();
-     * return [self::EXAMPLEPLUGIN_ARCHIVE_RECORD => $visitorReport];
+     * $record = new DataTable();
+     *
+     * $query = $archiveProcessor->getLogAggregator()->queryVisitsByDimension(['idvisitor']);
+     * while ($row = $query->fetch()) {
+     *     $label = $row['idvisitor'];
+     *     unset($row['idvisitor']);
+     *     $record->sumRowWithLabel($label, $row);
+     * }
+     *
+     * return [self::EXAMPLEPLUGIN_ARCHIVE_RECORD => $record];
      * ```
      *
      * non-day periods will automatically be aggregated together
