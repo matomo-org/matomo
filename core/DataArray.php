@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\DataTable\Filter\EnrichRecordWithGoalMetricSums;
 use Piwik\Tracker\GoalManager;
 
 /**
@@ -378,31 +379,7 @@ class DataArray
     protected function enrichWithConversions(&$data)
     {
         foreach ($data as &$values) {
-            if (!isset($values[Metrics::INDEX_GOALS])) {
-                continue;
-            }
-
-            $revenue = $conversions = 0;
-            foreach ($values[Metrics::INDEX_GOALS] as $idgoal => $goalValues) {
-                // Do not sum Cart revenue since it is a lost revenue
-                if ($idgoal >= GoalManager::IDGOAL_ORDER) {
-                    $revenue += $goalValues[Metrics::INDEX_GOAL_REVENUE];
-                    $conversions += $goalValues[Metrics::INDEX_GOAL_NB_CONVERSIONS];
-                }
-            }
-            $values[Metrics::INDEX_NB_CONVERSIONS] = $conversions;
-
-            // 25.00 recorded as 25
-            if (round($revenue) == $revenue) {
-                $revenue = round($revenue);
-            }
-            $values[Metrics::INDEX_REVENUE] = $revenue;
-
-            // if there are no "visit" column, we force one to prevent future complications
-            // eg. This helps the setDefaultColumnsToDisplay() call
-            if (!isset($values[Metrics::INDEX_NB_VISITS])) {
-                $values[Metrics::INDEX_NB_VISITS] = 0;
-            }
+            EnrichRecordWithGoalMetricSums::enrichWithConversions($values);
         }
     }
 

@@ -57,6 +57,7 @@ tests/ export-ignore
 .phpstorm.meta.php export-ignore
 .scrutinizer.yml export-ignore
 .travis.yml export-ignore
+.stylelintrc.json export-ignore
 PULL_REQUEST_TEMPLATE export-ignore
 
 # Linguist: language statistics
