@@ -145,6 +145,8 @@
         "SiteWithoutDataSetupTracking": "Bitte fügen Sie den folgenden %1$sTracking Code%2$s auf ihrer Webseite ein, falls Sie dies noch nicht gemacht haben.",
         "SiteWithoutDataSinglePageApplication": "Single-Page-Anwendung oder Progressive Web App",
         "SiteWithoutDataSinglePageApplicationDescription": "Für das Tracking von Single-Page-Anwendungen oder progressiven Web-Apps. Lesen Sie unseren %1$sLeitfaden%2$s.",
+        "SiteWithoutDataSPADescription": "Es ist einfach, die Besucher Ihrer Single-Page-Anwendung (SPA) oder Progressive Web App (PWA) mit Matomo Analytics aufzuzeichnen. Der einfachste Weg dazu ist die Verwendung des Matomo Tag Manager (%1$smehr erfahren%2$s) mit den folgenden Schritten. Alternativ können Sie den JavaScript-Trackingcode verwenden (%3$sfolgen Sie dieser Anleitung%4$s).",
+        "SiteWithoutDataSPAFollowStepCompleted": "%1$sHerzlichen Glückwunsch!%2$s Sie haben den Matomo Analytics-Trackingcode erfolgreich über den Matomo Tag Manager installiert. Um zu überprüfen, ob die Zugriffe erfasst werden, besuchen Sie Ihre SPA / PWA und überprüfen Sie, ob diese Daten in Ihrer Matomo-Instanz sichtbar sind.",
         "SiteWithoutDataStartTrackingDataDescriptionLine1": "Wählen Sie unten Ihre bevorzugte Tracking-Methode aus. Wenn Sie Hilfe benötigen, können Sie diese %1$sAnweisungen per E-Mail teilen%2$s oder %3$sweitere Benutzer einladen%4$s, Ihnen bei der Einrichtung zu helfen.",
         "SiteWithoutDataStartTrackingDataDescriptionLine2": "Hinweis: Dieser Bildschirm verschwindet, sobald Daten für diese Website erfasst werden. Alternativ können Sie %1$shier klicken, um diese Seite für eine Stunde auszublenden%2$s.",
         "SiteWithoutDataStartTrackingDataHeader": "Datenaufzeichnung starten",
