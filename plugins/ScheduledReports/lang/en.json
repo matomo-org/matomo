@@ -10,7 +10,7 @@
         "CreateAndScheduleReport": "Create and Schedule a report",
         "CreateReport": "Create Report",
         "CustomVisitorSegment": "Custom Visitor Segment:",
-        "DescriptionOnFirstPage": "The report description will be displayed on the first page of the report.",
+        "DescriptionOnFirstPage": "The report description will be displayed in the email message, as well as on the first page of the report.",
         "DisplayFormat_TablesOnly": "Display Tables only (no graphs)",
         "EmailHello": "Hello,",
         "EmailReports": "Email Reports",
