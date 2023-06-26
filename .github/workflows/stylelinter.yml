@@ -3,16 +3,16 @@ name: Stylelint
 on: pull_request
 
 permissions:
-  actions: read
-  checks: read
-  contents: read
+  actions: none
+  checks: none
+  contents: none
   deployments: none
-  issues: read
+  issues: none
   packages: none
   pull-requests: read
   repository-projects: none
   security-events: none
-  statuses: read
+  statuses: none
 
 jobs:
   phpcs:
