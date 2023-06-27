@@ -7,6 +7,7 @@
     ],
     "ignoreFiles": ["node_modules/**/*", "vendor/**/*", "tests/**/*", "tmp/**/*", "misc/**/*", "plugins/*/vue/dist/*"],
     "rules": {
-        "color-no-invalid-hex": true
+        "color-no-invalid-hex": true,
+        "no-irregular-whitespace": true
     }
 }
