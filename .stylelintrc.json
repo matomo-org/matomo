@@ -9,6 +9,9 @@
     "rules": {
         "color-no-invalid-hex": true,
         "no-irregular-whitespace": true,
-        "length-zero-no-unit": true
+        "length-zero-no-unit": true,
+        "block-no-empty": true,
+        "comment-no-empty": true,
+        "no-empty-source": true
     }
 }
