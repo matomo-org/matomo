@@ -12,6 +12,12 @@
         "length-zero-no-unit": true,
         "block-no-empty": true,
         "comment-no-empty": true,
-        "no-empty-source": true
+        "no-empty-source": true,
+        "declaration-block-no-duplicate-properties": [
+            true,
+            { "ignore": ["consecutive-duplicates"] }
+        ],
+        "font-family-no-duplicate-names": true,
+        "no-duplicate-at-import-rules": true
     }
 }
