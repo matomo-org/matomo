@@ -21,9 +21,6 @@ body {
     position: relative;
 }
 
-#Dashboard > ul > li {
-    list-style: square inside none;
-}
 #Dashboard > ul {
     list-style: square inside none;
     background: #f7f7f7;
@@ -40,6 +37,7 @@ body {
 }
 
 #Dashboard > ul > li {
+    list-style: square inside none;
     float: left;
     margin-right: 15px;
 }

@@ -24,6 +24,11 @@
 
 #visitsLive .settings {
     border-bottom: 1px solid @color-silver-l90;
+    background: @theme-color-widget-background none repeat scroll 0 0;
+
+    a {
+        text-decoration: none;
+    }
 }
 
 #visitsLive .datetime, #visitsLive .country, #visitsLive .settings, #visitsLive .returning {
@@ -55,14 +60,6 @@
 #visitsLive .pagesTitle {
     display: block;
     float: left;
-}
-
-#visitsLive .settings {
-    background: @theme-color-widget-background none repeat scroll 0 0;
-}
-
-#visitsLive .settings a {
-    text-decoration: none;
 }
 
 #visitsLive .returning {
@@ -144,11 +141,11 @@ ol.visitorLog {
 
 .truncated-text-line {
     overflow: hidden;
+    overflow: -moz-hidden-unscrollable;
     text-overflow: ellipsis;
     white-space: nowrap;
     display: inline-block;
     max-width: 90%;
-    overflow: -moz-hidden-unscrollable;
 }
 
 ol.actionList > li:not(.pageviewActions) {
@@ -217,6 +214,10 @@ ol.actionList > li:not(.pageviewActions) {
         &:before {
             margin-left: -5px;
             visibility: hidden;
+            margin-top: 2px;
+            float: left;
+            margin-right: 5px;
+            .matomo-icon();
         }
 
         &.expanded:before {
@@ -225,13 +226,6 @@ ol.actionList > li:not(.pageviewActions) {
 
         &.collapsed:before {
             content: "\f103";
-        }
-
-        &:before {
-            margin-top: 2px;
-            float: left;
-            margin-right: 5px;
-            .matomo-icon();
         }
     }
 }
@@ -496,14 +490,23 @@ a.visitor-log-visitor-profile-link {
 .visitorLogIcons {
     position: relative;
     display: block;
+
+    .visitorDetails, .visitorType {
+        display: block;
+        margin-top: 4px;
+    }
+
+    & > span > span > img {
+        margin: auto 5px auto 0;
+    }
+
+    & > span.visitorRank > img {
+        margin: auto 0;
+    }
 }
 
 .visitorLogIconWithDetails .details {
     display: none;
-}
-
-.visitorLogIcons > span > span > img {
-    margin: auto 5px auto 0;
 }
 
 .visitorLogIconWithDetails > img {
@@ -517,17 +520,6 @@ a.visitor-log-visitor-profile-link {
 
 .visitorLogIconWithDetails.flag > img {
     border: 1px solid lightgray;
-}
-
-.visitorLogIcons > span.visitorRank > img {
-    margin: auto 0;
-}
-
-.visitorLogIcons {
-    .visitorDetails, .visitorType {
-        display: block;
-        margin-top: 4px;
-    }
 }
 
 .visitorType {

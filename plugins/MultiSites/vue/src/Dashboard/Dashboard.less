@@ -73,6 +73,20 @@
     @media print{
       display: none;
     }
+    label {
+      position: static;
+    }
+    .row,.input-field {
+      margin-bottom: 0;
+    }
+    input {
+      margin-right: 0;
+      margin-left: 25px;
+      padding-right: 25px;
+      width: 250px;
+      height: 3rem;
+      padding-left: 5px;
+    }
   }
 
   .multisites-evolution,
@@ -119,30 +133,8 @@
     text-align: right;
     padding-right: 0 !important;
 
-    &#evolution {
-      text-align: center;
-    }
-
     &.columnSorted {
       font-weight: normal !important;
-    }
-  }
-
-  .site_search input {
-    margin-right: 0;
-    margin-left: 25px;
-    padding-right: 25px;
-    width: 250px;
-    height: 3rem;
-    padding-left: 5px;
-  }
-
-  .site_search {
-    label {
-      position: static;
-    }
-    .row,.input-field {
-      margin-bottom: 0;
     }
   }
 
@@ -195,6 +187,7 @@
   }
 
   th#evolution {
+    text-align: center;
     width:350px;
   }
 

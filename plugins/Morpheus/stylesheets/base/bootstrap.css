@@ -130,7 +130,7 @@ code,
 kbd,
 pre,
 samp {
-  font-family: monospace, monospace;
+  font-family: monospace;
   font-size: 1em;
 }
 
@@ -174,11 +174,6 @@ th {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-}
-
-html {
-  font-size: 10px;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 body {
