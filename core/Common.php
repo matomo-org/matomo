@@ -70,13 +70,13 @@ class Common
     /**
      * Returns an array containing the prefixed table names of every passed argument.
      *
-     * @param string ... The table names to prefix, ie "log_visit"
+     * @param string ...$tables The table names to prefix, ie "log_visit"
      * @return array The prefixed names in an array.
      */
-    public static function prefixTables()
+    public static function prefixTables(...$tables)
     {
         $result = array();
-        foreach (func_get_args() as $table) {
+        foreach ($tables as $table) {
             $result[] = self::prefixTable($table);
         }
         return $result;
