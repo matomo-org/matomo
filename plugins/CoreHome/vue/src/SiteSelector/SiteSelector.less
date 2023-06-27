@@ -94,13 +94,19 @@
   padding: 0 0 5px 0;
 }
 
-.siteSelector .custom_select_ul_list li a,
-.siteSelector .custom_select_all a {
-  line-height: 18px;
-  height: auto;
-  display: block;
-  text-decoration: none;
-  padding-left: 5px;
+.siteSelector .custom_select_ul_list li,
+.siteSelector .custom_select_all {
+  a, div {
+    line-height: 18px;
+    height: auto;
+    display: block;
+    text-decoration: none;
+  }
+
+  div.noresult {
+    font-style: italic;
+    margin-bottom: 5px;
+  }
 }
 
 .siteSelector .custom_select_ul_list li a:hover,
