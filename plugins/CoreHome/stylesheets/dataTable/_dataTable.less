@@ -59,7 +59,7 @@ table.subDataTable img {
 table.dataTable img {
   border: 0;
   margin-right: 1em;
-  margin-left: 0.5em;
+  margin-left: 0;
 }
 
 table.dataTable tr td .icon-outlink {
@@ -206,10 +206,6 @@ table.dataTable td #urlLink {
   display: none;
 }
 
-table.dataTable img {
-  margin-left: 0;
-}
-
 .subDataTable > .dataTableWrapper {
   width: 95%;
 }
@@ -286,6 +282,7 @@ table.dataTable img {
 
   .dataTableSearchInput {
     visibility: visible;
+    opacity: 1;
   }
 
   .icon-close {
@@ -309,10 +306,6 @@ table.dataTable img {
       color: #333 !important;
     }
   }
-
-  .dataTableSearchInput {
-    opacity: 1;
-  }
 }
 
 .dataTableNext,
@@ -320,6 +313,7 @@ table.dataTable img {
   font-size: 12px;
   color: #184A83;
   cursor: pointer;
+  visibility: hidden;
   &:hover {
     text-decoration: underline;
   }
@@ -350,11 +344,12 @@ table.dataTable img {
 
 .dataTableFeatures {
   text-align: center;
-}
 
-.dataTableNext,
-.dataTablePrevious {
-  visibility: hidden;
+  &.hasEvolution {
+    .dataTableFooterIcons {
+      margin-top: 17px;
+    }
+  }
 }
 
 .dataTablePaginationControl {
@@ -371,14 +366,6 @@ table.dataTable img {
   padding-bottom: 5px;
   display: block;
   text-align: center;
-}
-
-.dataTableFeatures {
-  &.hasEvolution {
-    .dataTableFooterIcons {
-      margin-top: 17px;
-    }
-  }
 }
 
 .widget .dataTableFeatures {

@@ -5,7 +5,7 @@
             "customSyntax": "postcss-less"
         }
     ],
-    "ignoreFiles": ["node_modules/**/*", "vendor/**/*", "tests/**/*", "tmp/**/*", "misc/**/*", "plugins/*/vue/dist/*"],
+    "ignoreFiles": ["node_modules/**/*", "vendor/**/*", "tests/**/*", "tmp/**/*", "misc/**/*", "plugins/*/vue/dist/*", "plugins/Morpheus/stylesheets/base/bootstrap.css"],
     "rules": {
         "color-no-invalid-hex": true,
         "no-irregular-whitespace": true,
@@ -18,6 +18,7 @@
             { "ignore": ["consecutive-duplicates"] }
         ],
         "font-family-no-duplicate-names": true,
-        "no-duplicate-at-import-rules": true
+        "no-duplicate-at-import-rules": true,
+        "no-duplicate-selectors": true
     }
 }

@@ -28,7 +28,7 @@
 
 .hovered {
     border-radius: 4px;
-    border: 2px dashed #000 !important;
+    border: 2px dashed #a0a0a0 !important;
     padding: 0;
 }
 
@@ -60,8 +60,12 @@ div.scrollable {
 }
 
 .no_results {
-    position: absolute;
-    margin: -225px 0 0 10px;
+    margin: 0;
+    position: relative;
+
+    a {
+        cursor: default;
+    }
 }
 
 .segment-element {
@@ -72,6 +76,13 @@ div.scrollable {
     position: absolute;
     left: -1px;
     top: 37px;
+    z-index: 999;
+    width: 940px;
+
+    @media screen and (max-width: 940px) {
+        width: 95vw;
+        padding: 1em;
+    }
 }
 
 .segment-element .custom_select_search {
@@ -171,12 +182,12 @@ div.scrollable {
 }
 
 .segment-element .segment-footer a.delete {
-    color: red;
+    color: #d4291f !important;
 }
 
 .segment-element .segment-footer a {
     font-size: 14px;
-    color: #255792;
+    color: @theme-color-link !important;
     margin: 0 5px;
     text-decoration: none;
 }
@@ -379,10 +390,6 @@ html.comparisonsDisabled .segmentationContainer ul.submenu {
     padding-right: 18px;
 }
 
-.hovered {
-    border-color: #a0a0a0 !important;
-}
-
 a.metric_category {
     display: block;
     width: 100%;
@@ -390,15 +397,6 @@ a.metric_category {
 
 .segment-content > h3 {
     padding-bottom: 7px;
-}
-
-.no_results {
-    margin: 0;
-    position: relative;
-}
-
-.no_results a {
-    cursor: default;
 }
 
 .ui-widget-segmentation {
@@ -419,16 +417,6 @@ a.metric_category {
 
 .segmentationContainer {
     z-index: 120;
-}
-
-.segment-element {
-    z-index: 999;
-    width: 940px;
-
-    @media screen and (max-width: 940px) {
-        width: 95vw;
-        padding: 1em;
-    }
 }
 
 .segmentationSelectorContainer {
@@ -508,10 +496,14 @@ a.metric_category {
 
 .segment-element .segment-nav a.dropdown {
     max-width: 180px;
+    padding: 0;
+    display: inline-block;
+    background: url("plugins/Morpheus/images/sort_subtable_desc.png") no-repeat scroll 100% -2px transparent !important;
 }
 
 .segname {
     max-width: 145px;
+    display: inline-block;
 }
 
 .segmentEditorPanel .segmentationTitle {
@@ -529,19 +521,9 @@ a.metric_category {
     padding-bottom: 10px;
 }
 
-.segment-element .segment-nav a.dropdown,
-.segname {
-    display: inline-block;
-}
-
-.segment-element .segment-nav a.dropdown,
 .segment-element .segment-top a.dropdown {
     padding: 0;
     background: none !important;
-}
-
-.segment-element .segment-nav a.dropdown {
-    background: url("plugins/Morpheus/images/sort_subtable_desc.png") no-repeat scroll 100% -2px transparent !important;
 }
 
 .segment-element .segment-top a.dropdown:after {
@@ -562,14 +544,6 @@ a.metric_category {
     li {
         font-style: normal;
     }
-}
-
-.segment-element .segment-footer a.delete {
-    color: #d4291f !important;
-}
-
-.segment-element .segment-footer a {
-    color: @theme-color-link !important;
 }
 
 .enable_all_users, .visible_to_website, .auto_archive {

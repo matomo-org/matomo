@@ -16,23 +16,33 @@
     }
   }
 
-  .segment-input input {
-    display: block;
-    width: 96%;
-    padding: 8px 2%;
-  }
-  .segment-input label {
-    display: block;
-    margin: 0 0 5px 0;
-    font-size: 11px;
-    color: #505050;
-  }
   .segment-input {
-     float: left;
-     padding: 6px 0 5px 3px;
-     border: 2px dashed #EFEFEB;
-     margin-right: 3px;
-   }
+    float: left;
+    padding: 6px 0 5px 3px;
+    border: 2px dashed #EFEFEB;
+    margin-right: 3px;
+
+    label {
+      display: block;
+      margin: 0 0 5px 0;
+      font-size: 11px;
+      color: #505050;
+    }
+
+    input {
+      display: block;
+      width: 96%;
+      padding: 8px 2%;
+    }
+
+    select, input {
+      .font-default(12px, 14px);
+      color: @theme-color-text;
+      font-weight: 600;
+      margin: 0;
+      height: 32px;
+    }
+  }
 
   .segment-rows {
     padding: 4px;
@@ -66,16 +76,6 @@
   .segment-add-or > div a {
     color: #b9b9b9;
     text-decoration: none;
-  }
-
-  .segment-input {
-    select, input {
-      .font-default(12px, 14px);
-      color: @theme-color-text;
-      font-weight: 600;
-      margin: 0;
-      height: 32px;
-    }
   }
 
   .segment-add-row > div a span,

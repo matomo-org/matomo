@@ -1,20 +1,6 @@
 #dashboard {
   margin: 0 -8px;
-}
 
-body#standalone {
-  background-color: @theme-color-widget-exported-background-base;
-
-  .top_controls {
-    z-index: 999;
-    background-color: @theme-color-widget-exported-background-base;
-  }
-  #dashboard {
-    margin: -10px -6px 0;
-  }
-}
-
-#dashboard {
   #dashboardWidgetsArea {
     margin-left: auto;
     margin-right: auto;
@@ -29,6 +15,18 @@ body#standalone {
     >.sortable {
       padding: 5px 0 13px 0;
     }
+  }
+}
+
+body#standalone {
+  background-color: @theme-color-widget-exported-background-base;
+
+  .top_controls {
+    z-index: 999;
+    background-color: @theme-color-widget-exported-background-base;
+  }
+  #dashboard {
+    margin: -10px -6px 0;
   }
 }
 
