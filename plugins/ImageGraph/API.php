@@ -14,6 +14,7 @@ use Piwik\Archive\DataTableFactory;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Map;
+use Piwik\DataTable\Simple;
 use Piwik\Exception\InvalidDimensionException;
 use Piwik\Filesystem;
 use Piwik\Period;
@@ -432,13 +433,11 @@ class API extends \Piwik\Plugin\API
                 }
             } else // if the report has no dimension we have multiple reports each with only one row within the reportData
             {
-                // $periodsData instanceof Simple[]
+                /** @var Simple[] $periodsData */
                 $periodsData = array_values($reportData->getDataTables());
                 $periodsCount = count($periodsData);
 
                 for ($i = 0; $i < $periodsCount; $i++) {
-                    // $periodsData[$i] instanceof Simple
-                    // $rows instanceof Row[]
                     if (empty($periodsData[$i])) {
                         continue;
                     }
@@ -477,7 +476,7 @@ class API extends \Piwik\Plugin\API
                 throw new Exception(Piwik::translate('General_NoDataForGraph'));
             }
 
-            //Setup the graph
+            /** @var StaticGraph $graph */
             $graph = StaticGraph::factory($graphType);
             $graph->setWidth($width);
             $graph->setHeight($height);
@@ -502,7 +501,6 @@ class API extends \Piwik\Plugin\API
                 $graph->setForceSkippedLabels(6);
             }
 
-            // render graph
             $graph->renderGraph();
         } catch (InvalidDimensionException $e) {
             throw $e;

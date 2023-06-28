@@ -32,6 +32,8 @@ class CustomLogTablesTest extends SystemTestCase
      */
     public function testNoApiReturnsError($segment)
     {
+        self::expectNotToPerformAssertions();
+
         $dateTime = self::$fixture->dateTime;
         $idSite1 = self::$fixture->idSite;
 
@@ -56,8 +58,6 @@ class CustomLogTablesTest extends SystemTestCase
                 $this->fail('API returned an error when requesting ' . http_build_query($requestUrl) . "\nMessage: " . $decoded['message']);
             }
         }
-
-        $this->assertTrue(true);
     }
 
     public function getSegmentsToTest()

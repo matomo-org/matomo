@@ -57,7 +57,7 @@
         "PluginRequirement": "%1$s потрібно %2$s.",
         "PluginRequiresInternet": "Цей плагін вимагає робочого підключення до Інтернету. Будь ласка, перевірте значення конфігурації для `enable_internet_features` якщо ви хочете використовувати цю функцію.",
         "PluginsExtendPiwik": "Плагіни розширюють функціональність Matomo.",
-        "PluginsManagement": "Управління плагінами",
+        "PluginsManagement": "Керування плагінами",
         "Status": "Статус",
         "SuccessfullyActicated": "Ви успішно задіяли <strong>%s</strong>.",
         "TagManagerEmailSuperUserToActivate": "Надішліть листа суперкористувачам, щоб активувати цю нову функцію",

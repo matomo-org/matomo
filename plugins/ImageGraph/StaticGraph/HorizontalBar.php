@@ -151,7 +151,7 @@ class HorizontalBar extends GridGraph
             )
         );
 
-//		// display icons
+//        // display icons
         $graphData = $this->pData->getData();
         $numberOfRows = count($this->abscissaSeries);
         $logoInterleave = $this->getGraphHeight(true, $verticalLegend) / $numberOfRows;

@@ -471,7 +471,7 @@ class DataTablePostProcessor
             }
 
             foreach ($dataTable->getRows() as $row) {
-                if ($row->getColumn($name) !== false) { // only compute the metric if it has not been computed already
+                if ($row->hasColumn($name)) { // only compute the metric if it has not been computed already
                     continue;
                 }
 

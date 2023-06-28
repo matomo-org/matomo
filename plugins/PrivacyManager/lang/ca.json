@@ -117,6 +117,8 @@
         "GeolocationAnonymizeIpNote": "Nota: la geolocalització tindrà aproximadament els mateixos resultats amb 1 byte emmascarat. Amb 2 bytes o més, la geolocalització serà inexacta.",
         "GetPurgeEstimate": "Obteniu una estimació de purga",
         "HowDoIAskForConsent": "Com puc demanar el consentiment als usuaris?",
+        "HowDoIAskForConsentIntro": "Matomo té guies disponibles per configurar el seguiment del consentiment amb els següents gestors de consentiment populars:",
+        "HowDoIAskForConsentOutro": "Si no feu servir cap dels gestors de consentiment anteriors, podeu implementar %1$sseguiment amb consentiment mitjançant l'API de JavaScript de Matomo%2$s.",
         "IPAddress": "Adreça IP",
         "Imprint": "Empremta",
         "ImprintUrl": "URL d'impressió",
@@ -220,6 +222,9 @@
         "VisitsMatchedCriteria": "Aquestes visites coincideixen amb els criteris seleccionats.",
         "VisitsSuccessfullyDeleted": "Les visites s'han suprimit amb èxit",
         "VisitsSuccessfullyExported": "Les visites s'han exportat amb èxit",
+        "WhenConsentIsNeededPart1": "En alguns casos les normes de privadesa del %1$sGDPR%2$s requereixen que demaneu el consentiment dels vostres usuaris quan processeu dades personals. Per determinar si necessiteu sol·licitar el consentiment, heu d'identificar la vostra base legal per al tractament de dades personals. Això pot ser \"Consentiment\" o \"Interès legítim\", o és possible que pugueu evitar la recollida de dades personals del tot.",
+        "WhenConsentIsNeededPart2": "Es recomana obtenir més informació sobre la base legal per al tractament de dades personals segons el GDPR. Podeu trobar més informació sobre aquest tema %1$sal nostre bloc%2$s.",
+        "WhenConsentIsNeededPart3": "Tingueu en compte que si necessiteu el consentiment dels vostres usuaris i no podeu demostrar que heu obtingut el seu \"Consentiment\" en el passat, us recomanem que anonimitzeu les dades en brut dels vostres usuaris amb seguiment anterior. L'anonimització de les dades en brut dels usuaris amb seguiment anterior es pot fer mitjançant el Gestor de privadesa de Matomo %1$smés informació%2$s.",
         "WhenDoINeedConsent": "Quan he de demanar el consentiment de l'usuari?"
     }
 }

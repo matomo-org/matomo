@@ -411,8 +411,8 @@ Canon SLR,"$1,500",1,1,"$1,500",1,0%,0
 PRODUCT name,"$1,011.22",3,2,$255.61,1.5,100%,2
 PRODUCT name BIS,$600,6,1,$100,6,0%,0
 TRIPOD - bought day after,$200,2,1,$100,2,0%,0
-PRODUCT TWO LEFT in cart,$0,0,0,$0,0,0%,3
 PRODUCT THREE LEFT in cart,$0,0,0,"$1,332",0,0%,3
+PRODUCT TWO LEFT in cart,$0,0,0,$0,0,0%,3
 
 Product SKU
 label,revenue,quantity,orders,nb_visits,avg_price,avg_quantity,conversion_rate
@@ -508,11 +508,11 @@ label,nb_conversions
 121-364 days,0
 365+ days,0
 
-Goal title match  triggered ONCE
+"Goal title match, triggered ONCE"
 nb_conversions,nb_visits_converted,revenue,conversion_rate
 1,1,$10,20%
 
-title match  triggered ONCE - Visits to Conversion
+"title match, triggered ONCE - Visits to Conversion"
 label,nb_conversions
 1 visit,1
 2 visits,0
@@ -528,7 +528,7 @@ label,nb_conversions
 51-100 visits,0
 101+ visits,0
 
-title match  triggered ONCE - Days to Conversion
+"title match, triggered ONCE - Days to Conversion"
 label,nb_conversions
 0 days,1
 1 day,0

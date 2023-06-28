@@ -6,7 +6,7 @@
 
 .ui-datepicker {
   th,
- th.ui-datepicker-week-end {
+  th.ui-datepicker-week-end {
     background: @calendarHeaderBackground !important;
     color: @calendarHeaderColor !important;
   }
@@ -29,9 +29,20 @@
     }
   }
 
-
   .ui-datepicker-title select {
     font-size: 11px;
+  }
+
+  .ui-datepicker-month,
+  .ui-datepicker-year {
+    min-height: 0;
+    background-position: 140%;
+    padding-left: 5px;
+    display: inline-block;
+    color: #666;
+    border: 0;
+    height: 19px;
+    line-height: 19px;
   }
 }
 
@@ -138,20 +149,6 @@
   color: @theme-color-text !important;
   text-transform: uppercase;
   .font-default(10px, 12px);
-}
-
-.ui-datepicker {
-  .ui-datepicker-month,
-  .ui-datepicker-year {
-    min-height: 0;
-    background-position: 140%;
-    padding-left: 5px;
-    display: inline-block;
-    color: #666;
-    border: 0;
-    height: 19px;
-    line-height: 19px;
-  }
 }
 
 #periodString {

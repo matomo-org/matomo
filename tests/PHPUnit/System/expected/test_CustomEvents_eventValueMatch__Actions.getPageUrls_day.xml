@@ -99,11 +99,11 @@
 			<row idgoal='3'>
 				<nb_conversions>3</nb_conversions>
 				<revenue>31</revenue>
-				<nb_conv_pages_before>3</nb_conv_pages_before>
-				<nb_conversions_attrib>0.9999</nb_conversions_attrib>
+				<nb_conv_pages_before>1</nb_conv_pages_before>
+				<nb_conversions_attrib>3</nb_conversions_attrib>
 				<nb_conversions_page_rate>1</nb_conversions_page_rate>
 				<nb_conversions_page_uniq>3</nb_conversions_page_uniq>
-				<revenue_attrib>10.33</revenue_attrib>
+				<revenue_attrib>31</revenue_attrib>
 				<revenue_entry>31</revenue_entry>
 				<nb_conversions_entry_rate>3</nb_conversions_entry_rate>
 				<revenue_per_entry>31</revenue_per_entry>

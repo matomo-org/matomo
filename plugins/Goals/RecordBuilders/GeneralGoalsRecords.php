@@ -12,7 +12,6 @@ namespace Piwik\Plugins\Goals\RecordBuilders;
 use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Record;
 use Piwik\DataAccess\LogAggregator;
-use Piwik\DataArray;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Plugin\Manager;
@@ -23,67 +22,31 @@ use Piwik\Tracker\GoalManager;
 
 class GeneralGoalsRecords extends Base
 {
-    const VISITS_UNTIL_RECORD_NAME = 'visits_until_conv';
-    const DAYS_UNTIL_CONV_RECORD_NAME = 'days_until_conv';
     const VISITS_COUNT_FIELD = 'visitor_count_visits';
     const LOG_CONVERSION_TABLE = 'log_conversion';
     const SECONDS_SINCE_FIRST_VISIT_FIELD = 'visitor_seconds_since_first';
 
-    /**
-     * This array stores the ranges to use when displaying the 'visits to conversion' report
-     */
-    public static $visitCountRanges = array(
-        array(1, 1),
-        array(2, 2),
-        array(3, 3),
-        array(4, 4),
-        array(5, 5),
-        array(6, 6),
-        array(7, 7),
-        array(8, 8),
-        array(9, 14),
-        array(15, 25),
-        array(26, 50),
-        array(51, 100),
-        array(100)
-    );
-
-    /**
-     * This array stores the ranges to use when displaying the 'days to conversion' report
-     */
-    public static $daysToConvRanges = array(
-        array(0, 0),
-        array(1, 1),
-        array(2, 2),
-        array(3, 3),
-        array(4, 4),
-        array(5, 5),
-        array(6, 6),
-        array(7, 7),
-        array(8, 14),
-        array(15, 30),
-        array(31, 60),
-        array(61, 120),
-        array(121, 364),
-        array(364)
-    );
-
-    protected function aggregate(ArchiveProcessor $archiveProcessor)
+    protected function aggregate(ArchiveProcessor $archiveProcessor): array
     {
-        $prefixes = array(
-            self::VISITS_UNTIL_RECORD_NAME    => 'vcv',
-            self::DAYS_UNTIL_CONV_RECORD_NAME => 'vdsf',
-        );
+        $idSite = $this->getSiteId($archiveProcessor);
+        if (empty($idSite)) {
+            return [];
+        }
+
+        $prefixes = [
+            Archiver::VISITS_UNTIL_RECORD_NAME    => 'vcv',
+            Archiver::DAYS_UNTIL_CONV_RECORD_NAME => 'vdsf',
+        ];
 
         $totalConversions = 0;
         $totalRevenue = 0;
 
-        $goals = new DataArray();
+        $goalMetrics = [];
 
         $visitsToConversions = [];
         $daysToConversions = [];
 
-        $siteHasEcommerceOrGoals = $this->hasAnyGoalOrEcommerce($this->getSiteId($archiveProcessor));
+        $siteHasEcommerceOrGoals = $this->hasAnyGoalOrEcommerce($idSite);
 
         // Special handling for sites that contain subordinated sites, like in roll up reporting.
         // A roll up site, might not have ecommerce enabled or any configured goals,
@@ -106,10 +69,10 @@ class GeneralGoalsRecords extends Base
         if ($siteHasEcommerceOrGoals) {
             $selects = [];
             $selects = array_merge($selects, LogAggregator::getSelectsFromRangedColumn(
-                self::VISITS_COUNT_FIELD, self::$visitCountRanges, self::LOG_CONVERSION_TABLE, $prefixes[self::VISITS_UNTIL_RECORD_NAME]
+                self::VISITS_COUNT_FIELD, Archiver::$visitCountRanges, self::LOG_CONVERSION_TABLE, $prefixes[Archiver::VISITS_UNTIL_RECORD_NAME]
             ));
             $selects = array_merge($selects, LogAggregator::getSelectsFromRangedColumn(
-                'FLOOR(log_conversion.' . self::SECONDS_SINCE_FIRST_VISIT_FIELD . ' / 86400)', self::$daysToConvRanges, self::LOG_CONVERSION_TABLE, $prefixes[self::DAYS_UNTIL_CONV_RECORD_NAME]
+                'FLOOR(log_conversion.' . self::SECONDS_SINCE_FIRST_VISIT_FIELD . ' / 86400)', Archiver::$daysToConvRanges, self::LOG_CONVERSION_TABLE, $prefixes[Archiver::DAYS_UNTIL_CONV_RECORD_NAME]
             ));
 
             $query = $logAggregator->queryConversionsByDimension([], false, $selects);
@@ -123,22 +86,20 @@ class GeneralGoalsRecords extends Base
                 unset($row['idgoal']);
                 unset($row['label']);
 
-                $values = [];
                 foreach ($conversionMetrics as $field => $statement) {
-                    $values[$field] = $row[$field];
+                    $goalMetrics[$idGoal][$field] = ($goalMetrics[$idGoal][$field] ?? 0) + $row[$field];
                 }
-                $goals->sumMetrics($idGoal, $values);
 
                 if (empty($visitsToConversions[$idGoal])) {
                     $visitsToConversions[$idGoal] = new DataTable();
                 }
-                $array = LogAggregator::makeArrayOneColumn($row, Metrics::INDEX_NB_CONVERSIONS, $prefixes[self::VISITS_UNTIL_RECORD_NAME]);
+                $array = LogAggregator::makeArrayOneColumn($row, Metrics::INDEX_NB_CONVERSIONS, $prefixes[Archiver::VISITS_UNTIL_RECORD_NAME]);
                 $visitsToConversions[$idGoal]->addDataTable(DataTable::makeFromIndexedArray($array));
 
                 if (empty($daysToConversions[$idGoal])) {
                     $daysToConversions[$idGoal] = new DataTable();
                 }
-                $array = LogAggregator::makeArrayOneColumn($row, Metrics::INDEX_NB_CONVERSIONS, $prefixes[self::DAYS_UNTIL_CONV_RECORD_NAME]);
+                $array = LogAggregator::makeArrayOneColumn($row, Metrics::INDEX_NB_CONVERSIONS, $prefixes[Archiver::DAYS_UNTIL_CONV_RECORD_NAME]);
                 $daysToConversions[$idGoal]->addDataTable(DataTable::makeFromIndexedArray($array));
 
                 // We don't want to sum Abandoned cart metrics in the overall revenue/conversions/converted visits
@@ -151,7 +112,7 @@ class GeneralGoalsRecords extends Base
         }
 
         // Stats by goal, for all visitors
-        $numericRecords = $this->getConversionsNumericMetrics($goals);
+        $numericRecords = $this->getConversionsNumericMetrics($goalMetrics);
 
         $nbConvertedVisits = $archiveProcessor->getNumberOfVisitsConverted();
 
@@ -163,21 +124,21 @@ class GeneralGoalsRecords extends Base
         ], $numericRecords);
 
         foreach ($visitsToConversions as $idGoal => $table) {
-            $recordName = Archiver::getRecordName(self::VISITS_UNTIL_RECORD_NAME, $idGoal);
+            $recordName = Archiver::getRecordName(Archiver::VISITS_UNTIL_RECORD_NAME, $idGoal);
             $result[$recordName] = $table;
         }
-        $result[Archiver::getRecordName(self::VISITS_UNTIL_RECORD_NAME)] = $this->getOverviewFromGoalTables($visitsToConversions);
+        $result[Archiver::getRecordName(Archiver::VISITS_UNTIL_RECORD_NAME)] = $this->getOverviewFromGoalTables($visitsToConversions);
 
         foreach ($daysToConversions as $idGoal => $table) {
-            $recordName = Archiver::getRecordName(self::DAYS_UNTIL_CONV_RECORD_NAME, $idGoal);
+            $recordName = Archiver::getRecordName(Archiver::DAYS_UNTIL_CONV_RECORD_NAME, $idGoal);
             $result[$recordName] = $table;
         }
-        $result[Archiver::getRecordName(self::DAYS_UNTIL_CONV_RECORD_NAME)] = $this->getOverviewFromGoalTables($daysToConversions);
+        $result[Archiver::getRecordName(Archiver::DAYS_UNTIL_CONV_RECORD_NAME)] = $this->getOverviewFromGoalTables($daysToConversions);
 
         return $result;
     }
 
-    protected function getOverviewFromGoalTables($tableByGoal)
+    private function getOverviewFromGoalTables(array $tableByGoal): DataTable
     {
         $overview = new DataTable();
         foreach ($tableByGoal as $idGoal => $table) {
@@ -188,12 +149,12 @@ class GeneralGoalsRecords extends Base
         return $overview;
     }
 
-    protected function isStandardGoal($idGoal)
+    private function isStandardGoal(int $idGoal): bool
     {
         return !in_array($idGoal, $this->getEcommerceIdGoals());
     }
 
-    public function getRecordMetadata(ArchiveProcessor $archiveProcessor)
+    public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
     {
         $goals = API::getInstance()->getGoals($this->getSiteId($archiveProcessor));
         $goals = array_keys($goals);
@@ -212,16 +173,15 @@ class GeneralGoalsRecords extends Base
                 $records[] = Record::make(Record::TYPE_NUMERIC, Archiver::getRecordName($metricName, $idGoal));
             }
 
-            $records[] = Record::make(Record::TYPE_BLOB, Archiver::getRecordName(self::VISITS_UNTIL_RECORD_NAME, $idGoal));
-            $records[] = Record::make(Record::TYPE_BLOB, Archiver::getRecordName(self::DAYS_UNTIL_CONV_RECORD_NAME, $idGoal));
+            $records[] = Record::make(Record::TYPE_BLOB, Archiver::getRecordName(Archiver::VISITS_UNTIL_RECORD_NAME, $idGoal));
+            $records[] = Record::make(Record::TYPE_BLOB, Archiver::getRecordName(Archiver::DAYS_UNTIL_CONV_RECORD_NAME, $idGoal));
         }
         return $records;
     }
 
-    protected function getConversionsNumericMetrics(DataArray $goals)
+    protected function getConversionsNumericMetrics(array $goals): array
     {
-        $numericRecords = array();
-        $goals = $goals->getDataArray();
+        $numericRecords = [];
         foreach ($goals as $idGoal => $array) {
             foreach ($array as $metricId => $value) {
                 $metricName = Metrics::$mappingFromIdToNameGoal[$metricId];
@@ -232,7 +192,7 @@ class GeneralGoalsRecords extends Base
         return $numericRecords;
     }
 
-    public function isEnabled(ArchiveProcessor $archiveProcessor)
+    public function isEnabled(ArchiveProcessor $archiveProcessor): bool
     {
         return $archiveProcessor->getNumberOfVisitsConverted() > 0;
     }

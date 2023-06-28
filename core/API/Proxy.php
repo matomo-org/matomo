@@ -22,6 +22,8 @@ use ReflectionMethod;
 // prevent upgrade error eg from Matomo 3.x to Matomo 4.x. Refs https://github.com/matomo-org/matomo/pull/16468
 // the `false` is important otherwise it would fail and try to load the proxy.php file again.
 if (!class_exists('Piwik\API\NoDefaultValue', false)) {
+
+    // phpcs:ignoreFile PSR1.Classes.ClassDeclaration.MultipleClasses
     class NoDefaultValue
     {
     }

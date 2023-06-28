@@ -191,7 +191,7 @@
         "SuperUserAccessManagement": "Beheer Super Gebruiker toegang",
         "SuperUserAccessManagementGrantMore": "Hier kan je andere gebruikers van Matomo Super User rechten geven. Gebruik deze optie met zorg.",
         "SuperUserAccessManagementMainDescription": "Superusers hebben de meeste rechten. Zij kunnen alle beheerstaken uitvoeren zoals nieuwe websites toevoegen, gebruikers beheren, gebruikersrechten aanpassen, plugins activeren en deactiveren en zelfs nieuwe plugins uit de Marketplace installeren.",
-        "SuperUserIntro1": "Superusers hebben de meeste machtigingen. Zij kunnen alle beheertaken uitvoeren zoals nieuwe te monitoren websites toevoegen, gebruikers toevoegen, gebruikersmachtigingen wijzigen, plugins activeren en deactiveren en zelfs nieuwe plugins uit de Marketplace installeren. U kan hier Superuser-machtigingen verlenen aan andere gebruikers van de Divezone.",
+        "SuperUserIntro1": "Superusers hebben de meeste machtigingen. Zij kunnen alle beheertaken uitvoeren zoals nieuwe websites toevoegen om te monitoren, gebruikers toevoegen, gebruikersmachtigingen wijzigen, plugins activeren en deactiveren en zelfs nieuwe plugins uit de Marktplaats installeren. U kan hier Superuser-machtigingen verlenen aan andere gebruikers.",
         "SuperUserIntro2": "Wees voorzichtig bij het gebruik van deze functie.",
         "SuperUsersPermissionsNotice": "Superusers hebben beheertoegang voor alle websites. U hoeft de machtigingen dus niet per website in te stellen.",
         "TheDisplayedUsersAreSelected": "De %1$s getoonde gebruikers zijn geselecteerd.",

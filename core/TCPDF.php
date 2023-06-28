@@ -14,6 +14,7 @@ use Exception;
 /**
  * TCPDF class wrapper.
  *
+ * phpcs:ignoreFile PSR1.Methods.CamelCapsMethodName.NotCamelCaps
  */
 class TCPDF extends \TCPDF
 {

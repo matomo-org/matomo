@@ -50,9 +50,9 @@
     background: #f7f7f7;
     border: 1px solid #a9a399;
     border-radius: 10px;
-    -webkit-box-shadow: 0px 0px 9px 0px #999;
-    -moz-box-shadow: 0px 0px 9px 0px #999;
-    box-shadow: 0px 0px 9px 0px #999;
+    -webkit-box-shadow: 0 0 9px 0 #999;
+    -moz-box-shadow: 0 0 9px 0 #999;
+    box-shadow: 0 0 9px 0 #999;
     z-index: 1507;
 }
 
@@ -226,19 +226,25 @@ body .ui-tooltip.Transitions_Tooltip_Small {
     #Transitions_Canvas_Loops {
         z-index: 985;
     }
-}
-
-.widget #Transitions_Container h3 {
-    padding: 0 !important;
-}
-
-#transitions_report {
     div[name=actionType] {
         margin-left: -0.75rem;
     }
     div[name=actionName] {
         margin-right: -0.75rem;
     }
+    & > .row {
+        margin-left: 0;
+        margin-right: 0;
+
+        body.widgetized & {
+            margin-left: 0.75rem;
+            margin-right: 0.75rem;
+        }
+    }
+}
+
+.widget #Transitions_Container h3 {
+    padding: 0 !important;
 }
 
 #dashboardWidgetsArea {
@@ -246,15 +252,5 @@ body .ui-tooltip.Transitions_Tooltip_Small {
         #Transitions_Container {
             overflow: scroll;
         }
-    }
-}
-
-#transitions_report > .row {
-    margin-left: 0;
-    margin-right: 0;
-
-    body.widgetized & {
-        margin-left: 0.75rem;
-        margin-right: 0.75rem;
     }
 }

@@ -24,7 +24,7 @@ class CountryCallingCodes
         'al' => '355',
         'am' => '374',
         'ao' => '244',
-//		'aq' => 'MISSING CODE', // @wikipedia In Antarctica dialing is dependent on the parent country of each base
+//        'aq' => 'MISSING CODE', // @wikipedia In Antarctica dialing is dependent on the parent country of each base
         'ar' => '54',
         'as' => '1684', // @wikipedia original value: 1 684
         'at' => '43',
@@ -49,7 +49,7 @@ class CountryCallingCodes
         'br' => '55',
         'bs' => '1242', // @wikipedia original value: 1 242
         'bt' => '975',
-//		'bv' => 'MISSING CODE',
+//        'bv' => 'MISSING CODE',
         'bw' => '267',
         'by' => '375',
         'bz' => '501',
@@ -76,7 +76,7 @@ class CountryCallingCodes
         'dj' => '253',
         'dk' => '45',
         'dm' => '1767', // @wikipedia original value: 1 767
-//		'do' => 'MISSING CODE', // @wikipedia original values: 1 809, 1 829, 1 849
+//        'do' => 'MISSING CODE', // @wikipedia original values: 1 809, 1 829, 1 849
         'dz' => '213',
         'ec' => '593',
         'ee' => '372',
@@ -111,7 +111,7 @@ class CountryCallingCodes
         'gw' => '245',
         'gy' => '592',
         'hk' => '852',
-//		'hm' => 'MISSING CODE',
+//        'hm' => 'MISSING CODE',
         'hn' => '504',
         'hr' => '385',
         'ht' => '509',
@@ -140,7 +140,7 @@ class CountryCallingCodes
         'kr' => '82',
         'kw' => '965',
         'ky' => '1345', // @wikipedia original value: 1 345
-//		'kz' => 'MISSING CODE', // @wikipedia original values: 7 6, 7 7
+//        'kz' => 'MISSING CODE', // @wikipedia original values: 7 6, 7 7
         'la' => '856',
         'lb' => '961',
         'lc' => '1758', // @wikipedia original value: 1 758
@@ -197,7 +197,7 @@ class CountryCallingCodes
         'pl' => '48',
         'pm' => '508',
         'pn' => '672',
-//		'pr' => 'MISSING CODE', // @wikipedia original values: 1 787, 1 939
+//        'pr' => 'MISSING CODE', // @wikipedia original values: 1 787, 1 939
         'ps' => '970',
         'pt' => '351',
         'pw' => '680',
@@ -231,7 +231,7 @@ class CountryCallingCodes
         'sz' => '268',
         'tc' => '1649', // @wikipedia original value: 1 649
         'td' => '235',
-//		'tf' => 'MISSING CODE',
+//        'tf' => 'MISSING CODE',
         'tg' => '228',
         'th' => '66',
         'tj' => '992',
@@ -247,11 +247,11 @@ class CountryCallingCodes
         'tz' => '255',
         'ua' => '380',
         'ug' => '256',
-//		'um' => 'MISSING CODE',
+//        'um' => 'MISSING CODE',
         'us' => '1',
         'uy' => '598',
         'uz' => '998',
-//		'va' => 'MISSING CODE', // @wikipedia original values: 39 066, assigned 379
+//        'va' => 'MISSING CODE', // @wikipedia original values: 39 066, assigned 379
         'vc' => '1784', // @wikipedia original value: 1 784
         've' => '58',
         'vg' => '1284', // @wikipedia original value: 1 284

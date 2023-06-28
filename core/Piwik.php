@@ -968,4 +968,21 @@ class Piwik
 
         return Date::yesterday()->subMonth($lastNMonthsToInvalidate)->setDay(1);
     }
+
+    /**
+     * Given the fully qualified name of a class located within a Matomo plugin,
+     * returns the name of the plugin.
+     *
+     * Uses the fact that Matomo plugins have namespaces like Piwik\Plugins\MyPlugin.
+     *
+     * @param string $className the name of a class located within a Matomo plugin
+     * @return string the plugin name
+     */
+    public static function getPluginNameOfMatomoClass(string $className): string
+    {
+        $parts = explode('\\', $className);
+        $parts = array_filter($parts);
+        $plugin = $parts[2] ?? '';
+        return $plugin;
+    }
 }

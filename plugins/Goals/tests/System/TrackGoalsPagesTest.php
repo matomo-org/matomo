@@ -9,6 +9,8 @@
 
 namespace Piwik\Plugins\Goals\tests\System;
 
+use Piwik\Common;
+use Piwik\Db;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\SomePageGoalVisitsWithConversions;
 
@@ -22,6 +24,9 @@ use Piwik\Tests\Fixtures\SomePageGoalVisitsWithConversions;
  */
 class TrackGoalsPagesTest extends SystemTestCase
 {
+    /**
+     * @var SomePageGoalVisitsWithConversions
+     */
     public static $fixture = null;
 
     /**
@@ -69,6 +74,46 @@ class TrackGoalsPagesTest extends SystemTestCase
                     'apiAction' => 'getEntryPageTitles',
                 ],
             ]],
+
+            ['API.getProcessedReport', [
+                'idSite' => self::$fixture->idSite,
+                'date' => self::$fixture->dateTime,
+                'period' => 'day',
+                'testSuffix' => 'showGoalsMetricsPageReport',
+                'otherRequestParameters' => [
+                    'filter_update_columns_when_show_all_goals' => '1',
+                    'filter_show_goal_columns_process_goals' => '1',
+                    'apiModule' => 'Actions',
+                    'apiAction' => 'getPageTitles',
+                ],
+            ]],
+        ];
+    }
+
+    /**
+     * Check that the log_conversion.pageviews_before column was correctly calculated
+     *
+     * @dataProvider getConversionPagesBeforeExpected
+     */
+    public function test_conversionPagesBeforeValues($id, $expected)
+    {
+        $actual = Db::get()->fetchOne('SELECT pageviews_before FROM ' . Common::prefixTable('log_conversion') .
+                                      ' WHERE idlink_va = ?', [$id]);
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    public static function getConversionPagesBeforeExpected()
+    {
+        return [
+            ['id' => 5, 'expected' => 4],
+            ['id' => 9, 'expected' => 3],
+            ['id' => 14, 'expected' => 2],
+            ['id' => 18, 'expected' => 5],
+            ['id' => 23, 'expected' => 4],
+            ['id' => 27, 'expected' => 7],
+            ['id' => 29, 'expected' => 1],
+            ['id' => 33, 'expected' => 3]
         ];
     }
 

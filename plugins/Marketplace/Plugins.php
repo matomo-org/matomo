@@ -172,10 +172,9 @@ class Plugins
     }
 
     /**
-     * @param bool $themesOnly
-     * @return array
+     * @return array (pluginName => pluginDetails)
      */
-    public function getPluginsHavingUpdate()
+    public function getPluginsHavingUpdate(): array
     {
         $this->pluginManager->loadAllPluginsAndGetTheirInfo();
         $loadedPlugins = $this->pluginManager->getLoadedPlugins();
@@ -186,23 +185,23 @@ class Plugins
             $pluginsHavingUpdate = array();
         }
 
-        foreach ($pluginsHavingUpdate as $key => $updatePlugin) {
+        foreach ($pluginsHavingUpdate as $pluginName => $updatePlugin) {
             foreach ($loadedPlugins as $loadedPlugin) {
                 if (!empty($updatePlugin['name'])
                     && $loadedPlugin->getPluginName() == $updatePlugin['name']
                 ) {
                     $updatePlugin['currentVersion'] = $loadedPlugin->getVersion();
                     $updatePlugin['isActivated'] = $this->pluginManager->isPluginActivated($updatePlugin['name']);
-                    $pluginsHavingUpdate[$key] = $this->addMissingRequirements($updatePlugin);
+                    $pluginsHavingUpdate[$pluginName] = $this->addMissingRequirements($updatePlugin);
                     break;
                 }
             }
         }
 
         // remove plugins that have updates but for some reason are not loaded
-        foreach ($pluginsHavingUpdate as $key => $updatePlugin) {
+        foreach ($pluginsHavingUpdate as $pluginName => $updatePlugin) {
             if (empty($updatePlugin['currentVersion'])) {
-                unset($pluginsHavingUpdate[$key]);
+                unset($pluginsHavingUpdate[$pluginName]);
             }
         }
 

@@ -242,7 +242,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         it('should load visitors > overview page correctly', async function () {
             await page.keyboard.press('Escape'); // close shortcut screen
 
-            testEnvironment.queryParamOverride['ignoreClearAllViewDataTableParameters'] = 1;
+            testEnvironment.ignoreClearAllViewDataTableParameters = 1;
+            testEnvironment.save();
 
             // use columns query param to make sure columns works when supplied in URL fragment
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=General_Overview&columns=nb_visits,nb_actions");
@@ -279,7 +280,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         it('should keep the limit when reload the page', async function () {
             await page.reload();
 
-            delete testEnvironment.queryParamOverride['ignoreClearAllViewDataTableParameters'];
+            delete testEnvironment.ignoreClearAllViewDataTableParameters;
+            testEnvironment.save();
 
             pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('visitors_overview_limit');
@@ -476,6 +478,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         });
 
         it('should load the actions > downloads page correctly', async function () {
+            await page.goto('about:blank');
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Downloads");
             await page.waitForTimeout(500);
             await page.waitForNetworkIdle();
@@ -569,7 +572,10 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
             await page.waitForTimeout(100);
 
-            expect(await tip.screenshot()).to.matchImage('metric_tooltip');
+            expect(await tip.screenshot()).to.matchImage({
+              imageName: 'metric_tooltip',
+              comparisonThreshold: 0.008
+            });
         });
 
         it('should load the referrers > search engines & keywords page correctly', async function () {

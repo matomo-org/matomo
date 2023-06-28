@@ -54,6 +54,8 @@ class PeriodTest extends \PHPUnit\Framework\TestCase
 
     public function testValidate_ValidDates()
     {
+        self::expectNotToPerformAssertions();
+
         Period::checkDateFormat('today');
         Period::checkDateFormat('yesterday');
         Period::checkDateFormat('yesterdaySameTime');
@@ -64,8 +66,6 @@ class PeriodTest extends \PHPUnit\Framework\TestCase
         Period::checkDateFormat('previous30');
         Period::checkDateFormat('+1 day');
         Period::checkDateFormat('next Thursday');
-
-        $this->assertTrue(true);
     }
 
     /**

@@ -274,7 +274,7 @@ class Parameters
     {
         $requestedReports = $this->getArchiveOnlyReport();
         if (is_array($requestedReports)) {
-            $requestedReports = json_encode($requestedReports);
+            $requestedReports = implode(', ', $requestedReports);
         }
         return "[idSite = {$this->getSite()->getId()}, period = {$this->getPeriod()->getLabel()} {$this->getPeriod()->getRangeString()}, segment = {$this->getSegment()->getString()}, plugin = {$this->getRequestedPlugin()}, report = {$requestedReports}]";
     }

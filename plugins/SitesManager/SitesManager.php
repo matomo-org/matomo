@@ -45,6 +45,9 @@ class SitesManager extends \Piwik\Plugin
     const SITE_TYPE_SHOPIFY = 'shopify';
     const SITE_TYPE_WEBFLOW = 'webflow';
     const SITE_TYPE_DRUPAL = 'drupal';
+    const JS_FRAMEWORK_UNKNOWN = 'unknown';
+    const JS_FRAMEWORK_VUE = 'vue';
+    const JS_FRAMEWORK_REACT = 'react';
 
     /**
      * @see \Piwik\Plugin::registerEvents
@@ -500,7 +503,6 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = 'SitesManager_SiteWithoutDataChoosePreferredWay';
         $translationKeys[] = 'SitesManager_DetectingYourSite';
         $translationKeys[] = 'SitesManager_SiteWithoutDataIgnoreMessage';
-        $translationKeys[] = "SitesManager_SiteWithoutDataCloudflare";
         $translationKeys[] = "SitesManager_SiteWithoutDataCloudflareDescription";
         $translationKeys[] = "SitesManager_GlobalListExcludedReferrers";
         $translationKeys[] = "SitesManager_GlobalListExcludedReferrersDesc";
@@ -512,7 +514,6 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = 'Goals_Optional';
         $translationKeys[] = "SitesManager_SiteWithoutDataGoogleTagManager";
         $translationKeys[] = "SitesManager_SiteWithoutDataGoogleTagManagerDescription";
-        $translationKeys[] = "SitesManager_SiteWithoutDataWordpress";
         $translationKeys[] = "SitesManager_SiteWithoutDataWordpressDescription";
         $translationKeys[] = "SitesManager_SiteWithoutDataStartTrackingDataHeader";
         $translationKeys[] = "SitesManager_SiteWithoutDataStartTrackingDataDescriptionLine1";
@@ -520,6 +521,8 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "SitesManager_EmailInstructionsButtonText";
         $translationKeys[] = "SitesManager_SiteWithoutDataIgnorePage";
         $translationKeys[] = "SitesManager_DemoSiteButtonText";
+        $translationKeys[] = "SitesManager_SiteWithoutDataVueDescription";
+        $translationKeys[] = "SitesManager_SiteWithoutDataReactDescription";
     }
 
     public function noDataPageGTMTabInstructions(&$out)

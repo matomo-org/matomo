@@ -15,7 +15,7 @@
     class="{% if row.getColumn('isMoverAndShaker') %}isMoverAndShaker{% endif %}">
     <td class="label">
         <span class="title">
-            {{ row.getColumn('label') }}
+            {{ row.getColumn('label')|rawSafeDecoded }}
         </span>
     </td>
 
