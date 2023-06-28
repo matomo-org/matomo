@@ -46,14 +46,14 @@ abstract class Base extends RecordBuilder
         $this->enrichWithConversionMetrics = $enrichWithConversionMetrics;
     }
 
-    public function getRecordMetadata(ArchiveProcessor $archiveProcessor)
+    public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
     {
         return [
             Record::make(Record::TYPE_BLOB, $this->recordName),
         ];
     }
 
-    protected function aggregate(ArchiveProcessor $archiveProcessor)
+    protected function aggregate(ArchiveProcessor $archiveProcessor): array
     {
         $logAggregator = $archiveProcessor->getLogAggregator();
 
