@@ -17,14 +17,14 @@ use Piwik\Plugins\VisitTime\Archiver;
 
 class LocalTime extends Base
 {
-    public function getRecordMetadata(ArchiveProcessor $archiveProcessor)
+    public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
     {
         return [
             Record::make(Record::TYPE_BLOB, Archiver::LOCAL_TIME_RECORD_NAME),
         ];
     }
 
-    protected function aggregate(ArchiveProcessor $archiveProcessor)
+    protected function aggregate(ArchiveProcessor $archiveProcessor): array
     {
         $logAggregator = $archiveProcessor->getLogAggregator();
 
