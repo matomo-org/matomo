@@ -162,7 +162,7 @@
         "SiteWithoutDataGoogleTagManagerFollowStepCompleted": "%1$sCongratulations!%2$s You have successfully installed the Matomo Analytics tracking code via Google Tag Manager. To verify that hits are being tracked, visit your website and check that this data is visible in your Matomo instance.",
         "SiteWithoutDataWordpressDescription": "You can use the Matomo easy WordPress plugin to track data, follow the instructions from this %1$sguide%2$s.",
         "SiteWithoutDataWordpressFollowSteps1": "Log in to your WordPress site as the administrator.",
-        "SiteWithoutDataWordpressFollowSteps2": "In the left menu, Click on \"Plugins\" > \"Add new\" (if you can’t see the \"Plugins\" menu, then you can instead %1$sfollow these steps to insert the Matomo tracking code manually in your WordPress Theme files%2$s).",
+        "SiteWithoutDataWordpressFollowSteps2": "In the left menu, click on \"Plugins\" > \"Add new\" (if you can’t see the \"Plugins\" menu, then you can instead %1$sfollow these steps to insert the Matomo tracking code manually in your WordPress Theme files%2$s).",
         "SiteWithoutDataWordpressFollowSteps3": "Search for \"Connect Matomo\" in the Keyword field on the \"Add Plugins\" page.",
         "SiteWithoutDataWordpressFollowSteps4": "Click on \"Install Now\" next to the \"WP-Matomo Integration (WP-Piwik)\" plugin.",
         "SiteWithoutDataWordpressFollowSteps5": "Now that the plugin is successfully installed, click on \"Activate\".",
