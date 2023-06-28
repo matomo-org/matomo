@@ -35,7 +35,19 @@ class ServerTime extends Base
         $query = $logAggregator->queryVisitsByDimension(["label" => "HOUR(log_visit.visit_first_action_time)"]);
         while ($row = $query->fetch()) {
             $row['label'] = $this->convertTimeToLocalTimezone($row['label'], $archiveProcessor);
-            $record->sumRowWithLabel($row['label'], $row);
+
+            $columns = [
+                Metrics::INDEX_NB_UNIQ_VISITORS => $row[Metrics::INDEX_NB_UNIQ_VISITORS],
+                Metrics::INDEX_NB_VISITS => $row[Metrics::INDEX_NB_VISITS],
+                Metrics::INDEX_NB_ACTIONS => $row[Metrics::INDEX_NB_ACTIONS],
+                Metrics::INDEX_NB_USERS => $row[Metrics::INDEX_NB_USERS],
+                Metrics::INDEX_MAX_ACTIONS => $row[Metrics::INDEX_MAX_ACTIONS],
+                Metrics::INDEX_SUM_VISIT_LENGTH => $row[Metrics::INDEX_SUM_VISIT_LENGTH],
+                Metrics::INDEX_BOUNCE_COUNT => $row[Metrics::INDEX_BOUNCE_COUNT],
+                Metrics::INDEX_NB_VISITS_CONVERTED => $row[Metrics::INDEX_NB_VISITS_CONVERTED],
+            ];
+
+            $record->sumRowWithLabel($row['label'], $columns);
         }
 
         $query = $logAggregator->queryConversionsByDimension(["label" => "HOUR(log_conversion.server_time)"]);
