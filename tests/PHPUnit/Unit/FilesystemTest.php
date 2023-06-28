@@ -167,11 +167,12 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
 
     public function test_unlinkTargetFilesNotPresentInSource_shouldNotFail_IfBothEmpty()
     {
+        self::expectNotToPerformAssertions();
+
         $source = $this->createEmptySource();
         $target = $this->createEmptyTarget();
 
         Filesystem::unlinkTargetFilesNotPresentInSource($source, $target);
-        $this->assertTrue(true);
     }
 
     public function test_unlinkTargetFilesNotPresentInSource_shouldUnlinkAllTargetFiles_IfSourceIsEmpty()

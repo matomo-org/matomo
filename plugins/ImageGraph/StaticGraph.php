@@ -238,7 +238,9 @@ abstract class StaticGraph extends BaseFactory
 
         foreach ($this->ordinateSeries as $column => $data) {
             $this->pData->addPoints($data, $column);
-            $this->pData->setSerieDescription($column, $this->ordinateLabels[$column]);
+            if (isset($this->ordinateLabels[$column])) {
+                $this->pData->setSerieDescription($column, $this->ordinateLabels[$column]);
+            }
 
             if (isset($this->ordinateLogos[$column])) {
                 $ordinateLogo = $this->createResizedImageCopyIfNeeded($this->ordinateLogos[$column]);
@@ -333,7 +335,7 @@ abstract class StaticGraph extends BaseFactory
         $maxHeight = 0;
         foreach ($values as $data) {
             foreach ($data as $value) {
-                list($valueWidth, $valueHeight) = $this->getTextWidthHeight($value);
+                [$valueWidth, $valueHeight] = $this->getTextWidthHeight($value);
 
                 if ($valueWidth > $maxWidth) {
                     $maxWidth = $valueWidth;

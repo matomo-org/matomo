@@ -35,11 +35,11 @@ class ScopeTest extends \PHPUnit\Framework\TestCase
 
     public function test_check_shouldNotFailWhenScopeIsValid()
     {
+        self::expectNotToPerformAssertions();
+
         $this->buildScope('action')->check();
         $this->buildScope('visit')->check();
         $this->buildScope('conversion')->check();
-
-        self::assertTrue(true);
     }
 
     private function buildScope($scope)

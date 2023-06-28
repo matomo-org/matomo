@@ -18,8 +18,6 @@ use Piwik\Metrics;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\Chart;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 
-require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/JqplotDataGenerator/Evolution.php';
-
 /**
  * Generates JSON data used to configure and populate JQPlot graphs.
  *

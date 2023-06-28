@@ -15,7 +15,9 @@
 
     <p>{{ 'CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead'|translate("&lt;/head&gt;")|raw }}</p>
 
-    <pre vue-directive="CoreHome.SelectOnFocus">{{ jsTag|raw }}</pre>
+    <div>
+        <pre vue-directive="CoreHome.CopyToClipboard">{{ jsTag|raw }}</pre>
+    </div>
 
     <p>{{ 'CoreAdminHome_JSTrackingIntro5'|translate('<a rel="noreferrer noopener" target="_blank" href="https://developer.matomo.org/guides/tracking-javascript-guide">','</a>')|raw }}</p>
 
@@ -42,13 +44,18 @@
     <h3>{{ 'SitesManager_SiteWithoutDataGoogleTagManager'|translate }}</h3>
     <p>{{ 'SitesManager_SiteWithoutDataGoogleTagManagerDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-within-gtm-google-tag-manager/">','</a>')|raw }}</p>
 
-    <h3>{{ 'SitesManager_SiteWithoutDataWordpress'|translate }}</h3>
+    <h3>WordPress</h3>
     <p>{{ 'SitesManager_SiteWithoutDataWordpressDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/">','</a>')|raw }}</p>
 
-    <h3>{{ 'SitesManager_SiteWithoutDataCloudflare'|translate }}</h3>
+    <h3>Cloudflare</h3>
     <p>{{ 'SitesManager_SiteWithoutDataCloudflareDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-cloudflare-setup/">','</a>')|raw }}</p>
 
-    <p></p>
+    <h3>Vue.js</h3>
+    <p>{{ 'SitesManager_SiteWithoutDataVueDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://github.com/AmazingDreams/vue-matomo">vue-matomo</a>', '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-websites-that-use-vue-js/">','</a>')|raw }}</p>
 
+    <h3>React.js</h3>
+    <p>{{ 'SitesManager_SiteWithoutDataReactDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/guide/tag-manager/">', '</a>', '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-start-tracking-data-with-matomo-on-websites-that-use-react/">','</a>')|raw }}</p>
+
+    <p></p>
     {{ postEvent('Template.endTrackingHelpPage') }}
 </div>

@@ -191,7 +191,7 @@
         "SuperUserAccessManagement": "Gestiona l'accés de superusuari",
         "SuperUserAccessManagementGrantMore": "Aquí podeu concedir accés de superusuari a d'altres usuaris de Matomo. Si us plau utilitzeu aquesta funció amb cura.",
         "SuperUserAccessManagementMainDescription": "Els superusuaris tenen els permisos més elevats. Poden realitzar totes les tasques administratives, com ara afegir nous llocs web per supervisar, afegir usuaris, canviar els permisos d'usuari, activar i desactivar connectors i fins i tot instal·lar connectors nous des del Marketplace.",
-        "SuperUserIntro1": "Els superusuaris tenen els permisos més elevats. Poden realitzar totes les tasques administratives, com ara afegir nous llocs web per supervisar, afegir usuaris, canviar els permisos d'usuari, activar i desactivar connectors i fins i tot instal·lar connectors nous des del Marketplace. Podeu concedir accés de superusuari a d'altres usuaris de Divezone aquí.",
+        "SuperUserIntro1": "Els superusuaris tenen els permisos més elevats. Poden realitzar totes les tasques administratives, com ara afegir nous llocs web per supervisar, afegir usuaris, canviar els permisos d'usuari, activar i desactivar connectors i fins i tot instal·lar connectors nous des del Marketplace. Podeu concedir accés de superusuari a d'altres usuaris aquí.",
         "SuperUserIntro2": "Si us plau utilitzeu aquesta funció amb cura.",
         "SuperUsersPermissionsNotice": "Els superusuaris tenen accés d'administrador a tots els llocs web, de manera que no cal gestionar els seus permisos per cada lloc web.",
         "TheDisplayedUsersAreSelected": "S'han seleccionat els %1$s usuaris que es mostren.",

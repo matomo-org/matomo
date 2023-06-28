@@ -47,12 +47,23 @@ class AutoSuggestAPITest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 
+    private static $originalAutoSuggestLookBack = null;
+
     protected static $processed = 0;
     protected static $skipped = array();
     private static $hasArchivedData = false;
 
     public static function setUpBeforeClass(): void
     {
+        $date = mktime(0, 0, 0, 1, 1, 2018);
+
+        $lookBack = ceil((time() - $date) / 86400);
+
+        self::$originalAutoSuggestLookBack = API::$_autoSuggestLookBack;
+
+        API::$_autoSuggestLookBack = $lookBack;
+        self::$fixture->dateTime = Date::factory($date)->getDatetime();
+
         parent::setUpBeforeClass();
 
         API::setSingletonInstance(CachedAPI::getInstance());
@@ -60,6 +71,8 @@ class AutoSuggestAPITest extends SystemTestCase
 
     public static function tearDownAfterClass(): void
     {
+        API::$_autoSuggestLookBack = self::$originalAutoSuggestLookBack;
+
         parent::tearDownAfterClass();
 
         CachedAPI::$cache = [];
@@ -293,11 +306,4 @@ class AutoSuggestAPITest extends SystemTestCase
     }
 }
 
-$date = mktime(0, 0, 0, 1, 1, 2018);
-
-$lookBack = ceil((time() - $date) / 86400);
-
-API::$_autoSuggestLookBack = $lookBack;
-
 \Piwik\Plugins\API\tests\System\AutoSuggestAPITest::$fixture = new ManyVisitsWithGeoIPAndEcommerce();
-\Piwik\Plugins\API\tests\System\AutoSuggestAPITest::$fixture->dateTime = Date::factory($date)->getDatetime();

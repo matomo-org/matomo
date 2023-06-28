@@ -115,7 +115,7 @@ class OneVisitorTwoVisits extends Fixture
         // Record 1st page view
         $urlPage1 = 'http://example.org/index.htm?excluded_Parameter=SHOULD_NOT_DISPLAY&parameter=Should display';
         $t->setUrl($urlPage1);
-		$t->setPerformanceTimings(33, 105, 205, 1325, 390, 222);
+        $t->setPerformanceTimings(33, 105, 205, 1325, 390, 222);
         self::checkResponse($t->doTrackPageView('incredible title!'));
 
         // testing that / and index.htm above record with different URLs

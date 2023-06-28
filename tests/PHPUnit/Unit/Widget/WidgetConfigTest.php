@@ -187,10 +187,10 @@ class WidgetConfigTest extends \PHPUnit\Framework\TestCase
 
     public function test_checkIsEnabled_shouldNotThrowException_IfEnabled()
     {
+        self::expectNotToPerformAssertions();
+
         $this->config->enable();
         $this->config->checkIsEnabled();
-
-        $this->assertTrue(true);
     }
 
     public function test_checkIsEnabled_shouldThrowException_IfDisabled()

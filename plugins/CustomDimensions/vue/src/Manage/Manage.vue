@@ -19,12 +19,16 @@
           <br/><br/>{{ translate('CustomDimensions_HowToCreateCustomDimension') }}
           <br/><br/>
         </p>
-        <pre v-select-on-focus="{}"><code v-text="addCustomDimCode"></code></pre>
+        <div>
+          <pre v-copy-to-clipboard="{}"><code v-text="addCustomDimCode"></code></pre>
+        </div>
         <p>
           {{ translate('CustomDimensions_HowToManyCreateCustomDimensions') }}
           {{ translate('CustomDimensions_ExampleCreateCustomDimensions', 5) }}
         </p>
-        <pre v-select-on-focus="{}"><code v-text="addMultipleCustomDimCode"></code></pre>
+        <div>
+          <pre v-copy-to-clipboard="{}"><code v-text="addMultipleCustomDimCode"></code></pre>
+        </div>
       </ContentBlock>
     </div>
     <div v-if="editMode">
@@ -43,7 +47,7 @@ import { watch, defineComponent } from 'vue';
 import {
   Matomo,
   ContentBlock,
-  SelectOnFocus,
+  CopyToClipboard,
   MatomoUrl,
 } from 'CoreHome';
 import CustomDimensionsList from '../List/List';
@@ -62,7 +66,7 @@ export default defineComponent({
     CustomDimensionsEdit,
   },
   directives: {
-    SelectOnFocus,
+    CopyToClipboard,
   },
   data(): ManageState {
     return {

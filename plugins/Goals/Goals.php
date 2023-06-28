@@ -13,6 +13,7 @@ use Piwik\Columns\ComputedMetricFactory;
 use Piwik\Columns\Dimension;
 use Piwik\Columns\MetricsList;
 use Piwik\Common;
+use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
@@ -111,7 +112,7 @@ class Goals extends \Piwik\Plugin
         return $hooks;
     }
 
-    public function addRecordBuilders(&$recordBuilders)
+    public function addRecordBuilders(array &$recordBuilders): void
     {
         $recordBuilders[] = new ProductRecord(ProductRecord::SKU_FIELD, ProductRecord::ITEMS_SKU_RECORD_NAME);
         $recordBuilders[] = new ProductRecord(ProductRecord::NAME_FIELD, ProductRecord::ITEMS_NAME_RECORD_NAME);
@@ -295,24 +296,92 @@ class Goals extends \Piwik\Plugin
             'revenue' => Dimension::TYPE_MONEY,
         ];
 
+        // special goal metrics for Actions page reports
+        $pageGoalMetrics = array_merge($goalMetrics, [
+            'nb_conversions_attrib' => Piwik::translate('Goals_ColumnConversions'),
+            'revenue_attrib' => Piwik::translate('General_ColumnRevenue'),
+        ]);
+        unset($pageGoalMetrics['revenue']);
+
+        $pageGoalProcessedMetrics = array_merge($goalProcessedMetrics, [
+            'nb_conversions_page_rate' => Piwik::translate('Goals_ConversionRatePageViewedBeforeGeneric'),
+        ]);
+
+        $pageGoalMetricTypes = array_merge($goalMetricTypes, [
+            'nb_conversions_attrib' => Dimension::TYPE_NUMBER,
+            'revenue_attrib' => Dimension::TYPE_MONEY,
+            'nb_conversions_page_rate' => Dimension::TYPE_PERCENT,
+        ]);
+        unset($pageGoalMetricTypes['revenue']);
+
+        // special goal metrics for Actions entry page reports
+        $entryPageGoalMetrics = array_merge($goalMetrics, [
+            'nb_conversions_entry' => Piwik::translate('Goals_ColumnConversions'),
+            'revenue_entry' => Piwik::translate('General_ColumnRevenue'),
+        ]);
+        unset($entryPageGoalMetrics['revenue']);
+
+        $entryPageGoalProcessedMetrics = array_merge($goalProcessedMetrics, [
+            'revenue_per_entry' => Piwik::translate('General_ColumnValuePerEntry'),
+            'nb_conversions_entry_rate' => Piwik::translate('General_ColumnConversionRate'),
+        ]);
+
+        $entryPageGoalMetricTypes = array_merge($goalMetricTypes, [
+            'nb_conversions_entry' => Dimension::TYPE_NUMBER,
+            'revenue_entry' => Dimension::TYPE_MONEY,
+            'revenue_per_entry' => Dimension::TYPE_NUMBER,
+            'nb_conversions_entry_rate' => Dimension::TYPE_PERCENT,
+        ]);
+        unset($entryPageGoalMetricTypes['revenue']);
+
+        // add ecommerce metrics if idGoal is an ecommerce goal
+        $idGoal = \Piwik\Request::fromRequest()->getParameter('idGoal', '');
+        if ($idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER || $idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
+            $extraEcommerceProcessedMetrics = [
+                'avg_order_revenue' => Piwik::translate('General_AverageOrderValue'),
+                'items' => Piwik::translate('General_PurchasedProducts'),
+            ];
+
+            $extraEcommerceMetricTypes = [
+                'avg_order_revenue' => Dimension::TYPE_MONEY,
+                'itmes' => Dimension::TYPE_NUMBER,
+            ];
+
+            $pageGoalProcessedMetrics = array_merge($pageGoalProcessedMetrics, $extraEcommerceProcessedMetrics);
+            $entryPageGoalProcessedMetrics = array_merge($entryPageGoalProcessedMetrics, $extraEcommerceProcessedMetrics);
+
+            $pageGoalMetricTypes = array_merge($pageGoalMetricTypes, $extraEcommerceMetricTypes);
+            $entryPageGoalMetricTypes = array_merge($entryPageGoalMetricTypes, $extraEcommerceMetricTypes);
+        }
+
         $reportsWithGoals = self::getAllReportsWithGoalMetrics();
 
         foreach ($reportsWithGoals as $reportWithGoals) {
+            $goalMetricsToUse = $goalMetrics;
+            $goalProcessedMetricsToUse = $goalProcessedMetrics;
+            $goalMetricTypesToUse = $goalMetricTypes;
+
+            $request = $reportWithGoals['module'] . '.' . $reportWithGoals['action'];
+            if (in_array($request, AddColumnsProcessedMetricsGoal::ACTIONS_PAGE_REPORTS_WITH_GOAL_METRICS)) {
+                $goalMetricsToUse = $pageGoalMetrics;
+                $goalProcessedMetricsToUse = $pageGoalProcessedMetrics;
+                $goalMetricTypesToUse = $pageGoalMetricTypes;
+            } else if (in_array($request, AddColumnsProcessedMetricsGoal::ACTIONS_ENTRY_PAGE_REPORTS_WITH_GOAL_METRICS)) {
+                $goalMetricsToUse = $entryPageGoalMetrics;
+                $goalProcessedMetricsToUse = $entryPageGoalProcessedMetrics;
+                $goalMetricTypesToUse = $entryPageGoalMetricTypes;
+            }
+
             // Select this report from the API metadata array
             // and add the Goal metrics to it
             foreach ($reports as &$apiReportToUpdate) {
-                // We do not add anything for Action reports, as no overall metrics are processed there at the moment
-                if ($apiReportToUpdate['module'] === 'Actions') {
-                    continue;
-                }
-
                 if ($apiReportToUpdate['module'] == $reportWithGoals['module']
                     && $apiReportToUpdate['action'] == $reportWithGoals['action']
                     && empty($apiReportToUpdate['parameters'])
                 ) {
-                    $apiReportToUpdate['metricsGoal'] = $goalMetrics;
-                    $apiReportToUpdate['processedMetricsGoal'] = $goalProcessedMetrics;
-                    $apiReportToUpdate['metricTypesGoal'] = $goalMetricTypes;
+                    $apiReportToUpdate['metricsGoal'] = $goalMetricsToUse;
+                    $apiReportToUpdate['processedMetricsGoal'] = $goalProcessedMetricsToUse;
+                    $apiReportToUpdate['metricTypesGoal'] = $goalMetricTypesToUse;
                     break;
                 }
             }

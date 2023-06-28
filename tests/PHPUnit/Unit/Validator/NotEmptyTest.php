@@ -19,10 +19,11 @@ class NotEmptyTest extends \PHPUnit\Framework\TestCase
 {
     public function test_validate_successValueNotEmpty()
     {
+        self::expectNotToPerformAssertions();
+
         $this->validate('5');
         $this->validate(true);
         $this->validate(99);
-        $this->assertTrue(true);
     }
 
     /**

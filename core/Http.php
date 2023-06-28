@@ -247,7 +247,7 @@ class Http
         if ( !empty($requestBody ) && is_array($requestBody )) {
             $requestBodyQuery = self::buildQuery($requestBody );
         } else {
-	        $requestBodyQuery = $requestBody;
+            $requestBodyQuery = $requestBody;
         }
 
         // Piwik services behave like a proxy, so we should act like one.
@@ -281,48 +281,48 @@ class Http
 
         $httpAuthIsUsed = !empty($httpUsername) || !empty($httpPassword);
 
-	    $httpAuth = '';
-	    if ($httpAuthIsUsed) {
-		    $httpAuth = 'Authorization: Basic ' . base64_encode($httpUsername.':'.$httpPassword) . "\r\n";
-	    }
+        $httpAuth = '';
+        if ($httpAuthIsUsed) {
+            $httpAuth = 'Authorization: Basic ' . base64_encode($httpUsername.':'.$httpPassword) . "\r\n";
+        }
 
-	    $httpEventParams = array(
-		    'httpMethod' => $httpMethod,
-		    'body' => $requestBody,
-		    'userAgent' => $userAgent,
-		    'timeout' => $timeout,
-		    'headers' => array_map('trim', array_filter(array_merge(array(
-			    $rangeHeader, $via, $xff, $httpAuth, $acceptLanguage
-		    ), $additionalHeaders))),
-		    'verifySsl' => !$acceptInvalidSslCertificate,
-		    'destinationPath' => $destinationPath
-	    );
+        $httpEventParams = array(
+            'httpMethod' => $httpMethod,
+            'body' => $requestBody,
+            'userAgent' => $userAgent,
+            'timeout' => $timeout,
+            'headers' => array_map('trim', array_filter(array_merge(array(
+                $rangeHeader, $via, $xff, $httpAuth, $acceptLanguage
+            ), $additionalHeaders))),
+            'verifySsl' => !$acceptInvalidSslCertificate,
+            'destinationPath' => $destinationPath
+        );
 
-	    /**
-	     * Triggered to send an HTTP request. Allows plugins to resolve the HTTP request themselves or to find out
-	     * when an HTTP request is triggered to log this information for example to a monitoring tool.
-	     *
-	     * @param string $url The URL that needs to be requested
-	     * @param array $params HTTP params like
-	     *                      - 'httpMethod' (eg GET, POST, ...),
-	     *                      - 'body' the request body if the HTTP method needs to be posted
-	     *                      - 'userAgent'
-	     *                      - 'timeout' After how many seconds a request should time out
-	     *                      - 'headers' An array of header strings like array('Accept-Language: en', '...')
-	     *                      - 'verifySsl' A boolean whether SSL certificate should be verified
-	     *                      - 'destinationPath' If set, the response of the HTTP request should be saved to this file
-	     * @param string &$response A plugin listening to this event should assign the HTTP response it received to this variable, for example "{value: true}"
-	     * @param string &$status A plugin listening to this event should assign the HTTP status code it received to this variable, for example "200"
-	     * @param array &$headers A plugin listening to this event should assign the HTTP headers it received to this variable, eg array('Content-Length' => '5')
-	     */
+        /**
+         * Triggered to send an HTTP request. Allows plugins to resolve the HTTP request themselves or to find out
+         * when an HTTP request is triggered to log this information for example to a monitoring tool.
+         *
+         * @param string $url The URL that needs to be requested
+         * @param array $params HTTP params like
+         *                      - 'httpMethod' (eg GET, POST, ...),
+         *                      - 'body' the request body if the HTTP method needs to be posted
+         *                      - 'userAgent'
+         *                      - 'timeout' After how many seconds a request should time out
+         *                      - 'headers' An array of header strings like array('Accept-Language: en', '...')
+         *                      - 'verifySsl' A boolean whether SSL certificate should be verified
+         *                      - 'destinationPath' If set, the response of the HTTP request should be saved to this file
+         * @param string &$response A plugin listening to this event should assign the HTTP response it received to this variable, for example "{value: true}"
+         * @param string &$status A plugin listening to this event should assign the HTTP status code it received to this variable, for example "200"
+         * @param array &$headers A plugin listening to this event should assign the HTTP headers it received to this variable, eg array('Content-Length' => '5')
+         */
         Piwik::postEvent('Http.sendHttpRequest', array($aUrl, $httpEventParams, &$response, &$status, &$headers));
 
-	    if ($response !== null || $status !== null || !empty($headers)) {
-	    	// was handled by event above...
-		    /**
-		     * described below
-		     * @ignore
-		     */
+        if ($response !== null || $status !== null || !empty($headers)) {
+            // was handled by event above...
+            /**
+             * described below
+             * @ignore
+             */
                     Piwik::postEvent('Http.sendHttpRequest.end', array($aUrl, $httpEventParams, &$response, &$status, &$headers));
 
                     if ($destinationPath && file_exists($destinationPath)) {
@@ -334,10 +334,10 @@ class Http
                             'headers' => $headers,
                             'data'    => $response
                         );
-		    } else {
+            } else {
                         return trim($response);
-		    }
-	    }
+            }
+        }
 
         if ($method == 'socket') {
             if (!self::isSocketEnabled()) {
@@ -784,24 +784,24 @@ class Http
             return true;
         }
 
-	    /**
-	     * Triggered when an HTTP request finished. A plugin can for example listen to this and alter the response,
-	     * status code, or finish a timer in case the plugin is measuring how long it took to execute the request
-	     *
-	     * @param string $url The URL that needs to be requested
-	     * @param array $params HTTP params like
-	     *                      - 'httpMethod' (eg GET, POST, ...),
-	     *                      - 'body' the request body if the HTTP method needs to be posted
-	     *                      - 'userAgent'
-	     *                      - 'timeout' After how many seconds a request should time out
-	     *                      - 'headers' An array of header strings like array('Accept-Language: en', '...')
-	     *                      - 'verifySsl' A boolean whether SSL certificate should be verified
-	     *                      - 'destinationPath' If set, the response of the HTTP request should be saved to this file
-	     * @param string &$response The response of the HTTP request, for example "{value: true}"
-	     * @param string &$status The returned HTTP status code, for example "200"
-	     * @param array &$headers The returned headers, eg array('Content-Length' => '5')
-	     */
-	    Piwik::postEvent('Http.sendHttpRequest.end', array($aUrl, $httpEventParams, &$response, &$status, &$headers));
+        /**
+         * Triggered when an HTTP request finished. A plugin can for example listen to this and alter the response,
+         * status code, or finish a timer in case the plugin is measuring how long it took to execute the request
+         *
+         * @param string $url The URL that needs to be requested
+         * @param array $params HTTP params like
+         *                      - 'httpMethod' (eg GET, POST, ...),
+         *                      - 'body' the request body if the HTTP method needs to be posted
+         *                      - 'userAgent'
+         *                      - 'timeout' After how many seconds a request should time out
+         *                      - 'headers' An array of header strings like array('Accept-Language: en', '...')
+         *                      - 'verifySsl' A boolean whether SSL certificate should be verified
+         *                      - 'destinationPath' If set, the response of the HTTP request should be saved to this file
+         * @param string &$response The response of the HTTP request, for example "{value: true}"
+         * @param string &$status The returned HTTP status code, for example "200"
+         * @param array &$headers The returned headers, eg array('Content-Length' => '5')
+         */
+        Piwik::postEvent('Http.sendHttpRequest.end', array($aUrl, $httpEventParams, &$response, &$status, &$headers));
 
         if (!$getExtendedInfo) {
             return trim($response);

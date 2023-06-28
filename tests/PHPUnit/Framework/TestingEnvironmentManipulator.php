@@ -120,9 +120,9 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
 
     public function onEnvironmentBootstrapped()
     {
-        if (empty($_GET['ignoreClearAllViewDataTableParameters'])
+        if (empty($this->vars->ignoreClearAllViewDataTableParameters)
             && !SettingsServer::isTrackerApiRequest()
-        ) { // TODO: should use testingEnvironment variable, not query param
+        ) {
             try {
                 \Piwik\ViewDataTable\Manager::clearAllViewDataTableParameters();
             } catch (\Exception $ex) {

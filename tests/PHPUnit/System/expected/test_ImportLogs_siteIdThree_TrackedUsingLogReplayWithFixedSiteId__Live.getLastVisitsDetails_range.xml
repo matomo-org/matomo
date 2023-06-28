@@ -1564,13 +1564,13 @@
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
-		<country>Turkey</country>
+		<country>Türkiye</country>
 		<countryCode>tr</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/tr.png</countryFlag>
 		<region>Rize</region>
 		<regionCode>53</regionCode>
 		<city>Esentepe</city>
-		<location>Esentepe, Rize, Turkey</location>
+		<location>Esentepe, Rize, Türkiye</location>
 		<latitude>40.979000</latitude>
 		<longitude>40.415000</longitude>
 		<visitLocalTime>02:32:21</visitLocalTime>

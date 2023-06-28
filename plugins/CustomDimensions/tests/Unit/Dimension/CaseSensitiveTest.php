@@ -40,14 +40,14 @@ class CaseSensitiveTest extends \PHPUnit\Framework\TestCase
 
     public function test_check_shouldNotFailWhenActiveIsValid()
     {
+        self::expectNotToPerformAssertions();
+
         $this->buildCaseSensitive(true)->check();
         $this->buildCaseSensitive(false)->check();
         $this->buildCaseSensitive(0)->check();
         $this->buildCaseSensitive(1)->check();
         $this->buildCaseSensitive('0')->check();
         $this->buildCaseSensitive('1')->check();
-
-        self::assertTrue(true);
     }
 
     private function buildCaseSensitive($caseSensitive)

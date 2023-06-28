@@ -55,7 +55,6 @@ class GetUsers extends Base
          */
         $view->config->columns_to_display = $this->metrics;
         $view->config->show_all_views_icons = false;
-        $view->config->show_active_view_icon = false;
         $view->config->show_related_reports = false;
         $view->config->show_insights = false;
         $view->config->show_pivot_by_subtable = false;

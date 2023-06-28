@@ -33,9 +33,9 @@ class UrlHelper
     * @param $test String to test.
     * @param $patterns Array of strings or regexs.
     *
-    * @return true if $test matches or is equal to one of the regex/string in $patterns, false otherwise.
+    * @return bool true if $test matches or is equal to one of the regex/string in $patterns, false otherwise.
     */
-    protected static function in_array_matches_regex($test, $patterns)
+    protected static function inArrayMatchesRegex($test, $patterns): bool
     {
         foreach($patterns as $val) {
             if(@preg_match($val, null) === false) {
@@ -70,7 +70,7 @@ class UrlHelper
             // decode encoded square brackets
             $name = str_replace(array('%5B', '%5D'), array('[', ']'), $name);
 
-            if (!self::in_array_matches_regex(strtolower($name), $parametersToExclude)) {
+            if (!self::inArrayMatchesRegex(strtolower($name), $parametersToExclude)) {
                 if (is_array($value)) {
                     foreach ($value as $param) {
                         if ($param === false) {
@@ -222,7 +222,7 @@ class UrlHelper
         $separator = '&';
 
         $urlQuery = $separator . $urlQuery;
-        //		$urlQuery = str_replace(array('%20'), ' ', $urlQuery);
+        //        $urlQuery = str_replace(array('%20'), ' ', $urlQuery);
         $referrerQuery = trim($urlQuery);
 
         $values = explode($separator, $referrerQuery);

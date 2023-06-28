@@ -60,11 +60,11 @@ class Controller extends \Piwik\Plugin\Controller
         $view->availableReports = $availableReports;
         $view->graphTypes = array(
             '', // default graph type
-//			'evolution',
-//			'verticalBar',
-//			'horizontalBar',
-//			'pie',
-//			'3dPie',
+//            'evolution',
+//            'verticalBar',
+//            'horizontalBar',
+//            'pie',
+//            '3dPie',
         );
         $view->graphSizes = array(
             array(null, null), // default graph size

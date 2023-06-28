@@ -62,7 +62,9 @@ export default defineComponent({
     },
   },
   mounted() {
-    window.Materialize.updateTextFields();
+    setTimeout(() => {
+      window.Materialize.updateTextFields();
+    });
   },
   methods: {
     onChange(changedIndex: number) {

@@ -805,8 +805,8 @@ class API extends \Piwik\Plugin\API
     }
 }
 
-/**
- */
+
+// phpcs:ignore PSR1.Classes.ClassDeclaration.MultipleClasses
 class Plugin extends \Piwik\Plugin
 {
     public function __construct()

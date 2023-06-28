@@ -203,17 +203,18 @@ td.editable-site-field:hover {
         width: inherit;
         bottom: 0;
         background: @color-white;
+        z-index: 100;
 
         .col {
             width: unset !important;
         }
 
-        @media only screen {
-            @media (max-width: 800px) {
-                .m-bottom-1 {
-                    margin-bottom: 1rem;
-                }
-            }
+        .m-bottom-1 {
+            margin-bottom: 1rem;
+        }
+
+        hr {
+            margin-bottom: 1rem !important;
         }
     }
 
@@ -223,6 +224,62 @@ td.editable-site-field:hover {
 
     .no-data-tabs-main-div .col:not(.tabs-row):not(.tabs-row .col) {
         padding-top: 1rem;
+    }
+
+    #wordpress, #vue {
+        .steps-to-start-tracking-header {
+            font-weight: bold;
+        }
+
+        .no-list-style, .no-list-style-footer {
+            list-style: none;
+            list-style-position: inside;
+            margin-left: -1rem;
+        }
+
+        .no-list-style-footer {
+            margin-left: unset;
+        }
+
+        .list-style-decimal {
+            list-style: decimal;
+            list-style-position: inside;
+        }
+    }
+
+    .tagManagerTrackingCode {
+        .row {
+            margin-bottom: -0.5rem !important;
+            margin-top: -1.5rem !important;
+        }
+
+        label[for="containers"], label[for="environment"] {
+            top: 7px !important;
+        }
+    }
+
+    .no-mt-top {
+        margin-top: 0 !important;
+    }
+
+    .merged-notification {
+        line-height: 4px;
+
+        p:first-child {
+            padding-top: 0.4rem;
+        }
+    }
+
+    .fw-bold {
+        font-weight: bold;
+    }
+
+    .list-style-decimal {
+        list-style: decimal inside;
+    }
+
+    .list-style-disc {
+        list-style: disc inside;
     }
 }
 

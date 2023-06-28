@@ -57,7 +57,7 @@ class ConsoleCommand extends SymfonyCommand
         $this->getOutput()->writeln('');
 
         foreach ($messages as $message) {
-            $this->getOutput()->writeln('<info>' . $message . '</info>');
+            $this->getOutput()->writeln(self::wrapInTag('info', $message ));
         }
 
         $this->getOutput()->writeln('');
@@ -74,7 +74,7 @@ class ConsoleCommand extends SymfonyCommand
         $this->getOutput()->writeln('');
 
         foreach ($messages as $message) {
-            $this->getOutput()->writeln('<comment>' . $message . '</comment>');
+            $this->getOutput()->writeln(self::wrapInTag('comment' , $message ));
         }
 
         $this->getOutput()->writeln('');
@@ -487,5 +487,18 @@ class ConsoleCommand extends SymfonyCommand
         $inputObject = new ArrayInput($arguments);
         $inputObject->setInteractive($this->getInput()->isInteractive());
         return $command->run($inputObject, $hideOutput ? new NullOutput() : $this->getOutput());
+    }
+
+    /**
+     * Wrap the input string in an open and closing HTML/XML tag.
+     * E.g. wrap_in_tag('info', 'my string') returns '<info>my string</info>'
+     *
+     * @param string $tagname Tag name to wrap the string in.
+     * @param string $str String to wrap with the tag.
+     * @return string The wrapped string.
+     */
+    public static function wrapInTag(string $tagname, string $str): string
+    {
+        return "<$tagname>$str</$tagname>";
     }
 }

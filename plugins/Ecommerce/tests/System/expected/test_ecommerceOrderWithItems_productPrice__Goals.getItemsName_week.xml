@@ -34,16 +34,6 @@
 		<segment>productName==PRODUCT+name+BIS</segment>
 	</row>
 	<row>
-		<label>PRODUCT TWO LEFT in cart</label>
-		<nb_visits>3</nb_visits>
-		<nb_actions>3</nb_actions>
-		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
-		<avg_price>0</avg_price>
-		<avg_quantity>0</avg_quantity>
-		<conversion_rate>0%</conversion_rate>
-		<segment>productName==PRODUCT+TWO+LEFT+in+cart</segment>
-	</row>
-	<row>
 		<label>PRODUCT THREE LEFT in cart</label>
 		<nb_visits>3</nb_visits>
 		<nb_actions>6</nb_actions>
@@ -52,5 +42,15 @@
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 		<segment>productName==PRODUCT+THREE+LEFT+in+cart</segment>
+	</row>
+	<row>
+		<label>PRODUCT TWO LEFT in cart</label>
+		<nb_visits>3</nb_visits>
+		<nb_actions>3</nb_actions>
+		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+		<avg_price>0</avg_price>
+		<avg_quantity>0</avg_quantity>
+		<conversion_rate>0%</conversion_rate>
+		<segment>productName==PRODUCT+TWO+LEFT+in+cart</segment>
 	</row>
 </result>

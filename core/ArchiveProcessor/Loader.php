@@ -223,7 +223,7 @@ class Loader
         $visits = $archiveInfo['visits'];
         $visitsConverted = $archiveInfo['visitsConverted'];
         $tsArchived = $archiveInfo['tsArchived'];
-        $value = $archiveInfo['doneFlagValue'];
+        $doneFlagValue = $archiveInfo['doneFlagValue'];
         $existingArchives = $archiveInfo['existingRecords'];
 
         $requestedRecords = $this->params->getArchiveOnlyReportAsArray();
@@ -231,7 +231,7 @@ class Loader
 
         if (!empty($idArchives)
             && !Rules::isActuallyForceArchivingSinglePlugin()
-            && !$this->shouldForceInvalidatedArchive($value, $tsArchived)
+            && !$this->shouldForceInvalidatedArchive($doneFlagValue, $tsArchived)
             && !$isMissingRequestedRecords
         ) {
             // we have a usable idarchive (it's not invalidated and it's new enough), and we are not archiving

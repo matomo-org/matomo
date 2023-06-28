@@ -227,7 +227,7 @@ class Csv extends Renderer
      * @param mixed $value
      * @return string
      */
-    protected function formatValue($value)
+    public function formatValue($value)
     {
         if (is_string($value)
             && !is_numeric($value)

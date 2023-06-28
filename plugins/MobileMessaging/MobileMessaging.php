@@ -75,7 +75,7 @@ class MobileMessaging extends \Piwik\Plugin
             'ScheduledReports.getReportRecipients'      => 'getReportRecipients',
             'ScheduledReports.allowMultipleReports'     => 'allowMultipleReports',
             'ScheduledReports.sendReport'               => 'sendReport',
-            'Template.reportParametersScheduledReports' => 'template_reportParametersScheduledReports',
+            'Template.reportParametersScheduledReports' => 'templateReportParametersScheduledReports',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
         );
     }
@@ -246,7 +246,7 @@ class MobileMessaging extends \Piwik\Plugin
         }
     }
 
-    public function template_reportParametersScheduledReports(&$out, $context = '')
+    public function templateReportParametersScheduledReports(&$out, $context = '')
     {
         if (Piwik::isUserIsAnonymous()) {
             return;

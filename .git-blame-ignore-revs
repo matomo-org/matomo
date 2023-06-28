@@ -1,0 +1,29 @@
+# .git-blame-ignore-revs
+# Mass conversion of all files to the newly agreed coding standard: PSR 1/2
+ae4b03163792f0b6e933933e5d37df87dc3fd566
+# converted some links to use @link
+b40e4d1da3296b05e5aa1abe64ee12548023da77
+#  Remove all occurences of @Package / @subpackage / @category from core/ files.
+f9d52ca9433e33783e59b209554dfba58f30cec4
+# Piwik is a free/libre analytics platform. Refs #4455 GNU Package requirement to use free/libre instead of open source
+a8fbaf86abc13de414f1e2ceb855a49bb28de593
+# removed lots of trailing whitespace
+d9adcfe6169c6c10059a670f2ed984908eb4e105
+# coding style fixes, some PHPStorm inspection fixes, improved readability of code, few refactorings, all as part of our code cleanup strategy
+a00487b0b841c4b15463b591c7f62176c4b84d15
+# fix core folder with php-cs-fixer for psr-2
+a2a63d34ebb460174e1a3e8d8022fe3e3ab4b469
+# Update the link tag for all php files (#14635)
+b16a791aa3650d85af829156129c2bd44c7cb075
+# many typo fixes in the code thanks to codespell (#15730)
+2c5c72e2da4c015efa78069c9c1b407fc55a6483
+# Update doc blocks with new name (#15857)
+115527353a9e75e01aa4d263408956ae45403bea
+# Typofixes (#19805)
+d3de8d64f477d14bf10d5cd1d17521f0c19950ed
+# [PHPCS] force new line at end of php file (#20715)
+593437a3fd35381c13fe5cf7fabae5767dc3a519
+# [PHPCS] Enable PSR1 coding standard (#20724)
+aa2674a8241d5e4e55a2f7fbb74292e06eab8780
+# [PHPCS] disallow using tabs for intending
+d40e11f6decbe84834ed5f33406189055e6989b8
