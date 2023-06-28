@@ -3,6 +3,7 @@
     height: 18px;
     width: 100%;
     cursor: pointer;
+    margin-top: 3px;
 
     .icon-annotation {
         font-size: 16px;
@@ -12,14 +13,10 @@
     .icon-annotation.starred {
         color: @theme-color-brand;
     }
-}
 
-.evolution-annotations > span {
-    position: absolute;
-}
-
-.evolution-annotations  {
-  margin-top: 3px;
+    & > span {
+        position: absolute;
+    }
 }
 
 .annotation-manager {
@@ -73,14 +70,9 @@ span.annotation {
 .annotation-controls {
     display: inline-block;
     margin:0;
-    padding: 50px 0px 10px 10px;
+    padding: 50px 0 10px 10px;
     color: transparent;
 }
-
-.annotation-controls a:hover {
-    text-decoration: underline;
-}
-
 
 .annotation-controls>a {
     font-size:14px;
@@ -183,11 +175,11 @@ span.annotation {
     color: #666666;
     text-decoration: none;
     display: NONE;
-}
 
-.delete-annotation:hover {
-    color: #cc3300;
-    text-decoration: none;
+    &:hover {
+      color: #cc3300;
+      text-decoration: none;
+    }
 }
 
 .annotation-manager .submit {
@@ -200,10 +192,10 @@ span.annotation {
     font-style: italic;
     padding: 6px 5px;
     margin-top: -5px;
-}
 
-.edit-annotation:hover {
-    text-decoration: none;
+    &:hover {
+      text-decoration: none;
+    }
 }
 
 .annotation-period-edit {
@@ -214,17 +206,18 @@ span.annotation {
     border: 1px solid #e4e5e4;
     padding: 5px 5px 6px 3px;
     border-radius: 4px;
-}
 
-.annotation-period-edit:hover {
-    background: #f1f0eb;
-    border-color: #a9a399;
+    &:hover {
+      background: #f1f0eb;
+      border-color: #a9a399;
+    }
 }
 
 .annotation-period-edit>a {
     text-decoration: none;
     cursor: pointer;
     display: block;
+    font-size: 14px;
 }
 
 .annotation-period-edit>.datepicker {
@@ -247,8 +240,4 @@ td.padding {
 
 td.wider {
   width: 80px;
-}
-
-a.font   {
-  font-size: 14px;
 }

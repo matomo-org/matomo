@@ -180,6 +180,7 @@
         "Errors": "Erroreak",
         "EvolutionOverPeriod": "Bilakaera periodoan zehar",
         "ExceptionCapabilityAccessWebsite": "Ezin zara baliabide honetara sartu %1$s gaitasuna behar baitu id = %2$d duen webgunean.",
+        "ExceptionCheckUserHasSuperUserAccessOrIsTheUser": "Erabiltzaileak Super Erabiltzailea edo '%s' erabiltzailea bera izan behar du.",
         "ExceptionConfigurationFileExistsButNotReadable": "Badirudi %s konfigurazio fitxategia existitzen dela baina Matomok ezin izan du irakurri.",
         "ExceptionConfigurationFileNotFound": "{%s} konfigurazio-fitxategia ez da aurkitu.",
         "ExceptionDatabaseAccess": "Datubasera sarbidea ukatua",

@@ -170,9 +170,11 @@
   </div>
 
   <div>
-    <pre v-select-on-focus="{}" ref="pre">
+    <div>
+      <pre v-copy-to-clipboard="{}" ref="pre">
 {{ codeBox }}
-    </pre>
+      </pre>
+    </div>
     <p
       v-html="$sanitize(optOutExplanationIntro)">
     </p>
@@ -207,7 +209,7 @@
 import { defineComponent } from 'vue';
 import {
   translate,
-  SelectOnFocus,
+  CopyToClipboard,
   debounce,
   MatomoUrl,
   AjaxHelper,
@@ -255,7 +257,7 @@ export default defineComponent({
     Field,
   },
   directives: {
-    SelectOnFocus,
+    CopyToClipboard,
   },
   data(): OptOutCustomizerState {
     return {

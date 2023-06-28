@@ -10,6 +10,8 @@
 /**
  * This contains the bridge classes which were used prior to Piwik 2.0
  * The serialized reports contains these classes below, which were not using namespaces yet
+ *
+ * phpcs:ignoreFile Squiz.Classes.ValidClassName.NotCamelCaps
  */
 namespace {
 

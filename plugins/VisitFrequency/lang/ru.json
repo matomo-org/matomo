@@ -1,5 +1,6 @@
 {
     "VisitFrequency": {
+        "ColumnActionsByNewVisits": "Действия новых посетителей",
         "ColumnActionsByReturningVisits": "Действий за повторное посещение",
         "ColumnAverageVisitDurationForReturningVisitors": "Средняя продолжительность посещения для возвратившихся посетителей (секунд)",
         "ColumnAvgActionsPerReturningVisit": "Среднее количество действий за повторное посещение",
@@ -7,18 +8,18 @@
         "ColumnBounceRateForReturningVisits": "Для отскочивих среди повторных посетителей",
         "ColumnMaxActionsInReturningVisit": "Максимум действий за одно вернувшееся посещение",
         "ColumnNbReturningVisitsConverted": "Число конверсии вернувшихся посетителей",
+        "ColumnReturningUsers": "Вернувшиеся пользователи",
         "ColumnReturningVisits": "Повторные посещения",
         "ColumnSumVisitLengthReturning": "Общее время, проведенное вернувшимися посетителями (в секундах)",
         "ColumnUniqueReturningVisitors": "Уникальные вернувшиеся посетители",
-        "ColumnReturningUsers": "Вернувшиеся пользователи",
         "PluginDescription": "Отчеты метрики о ваших новых посетителей и постоянных посетителей.",
         "ReturnActions": "действий по повторным визитам",
         "ReturnAverageVisitDuration": "средняя продолжительность посещения для вернувшихся посетителей",
         "ReturnAvgActions": "действий за повторный визит",
         "ReturnBounceRate": "отскоков повторных посещений (покинули сайт после одной страницы)",
+        "ReturnVisits": "повторные посещения",
         "ReturningVisitDocumentation": "Вернувшийся посетитель (не путать с новым посещением) — это тот, кто хотя бы раз посещал сайт ранее.",
         "ReturningVisitsDocumentation": "Это обзор повторных (вернувшихся) посещений.",
-        "ReturnVisits": "повторные посещения",
         "SubmenuFrequency": "Частота",
         "WidgetGraphReturning": "График повторных посещений",
         "WidgetOverview": "Обзор частоты посещений"

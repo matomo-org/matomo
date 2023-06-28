@@ -22,8 +22,9 @@ class EmailTest extends \PHPUnit\Framework\TestCase
      */
     public function test_validate_successValueIsLikeUri($validEmail)
     {
+        self::expectNotToPerformAssertions();
+
         $this->validate($validEmail);
-        $this->assertTrue(true);
     }
 
     public function getValidEmails()

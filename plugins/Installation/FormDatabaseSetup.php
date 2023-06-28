@@ -22,7 +22,7 @@ use Piwik\QuickForm2;
 use Zend_Db_Adapter_Exception;
 
 /**
- *
+ * phpcs:ignoreFile PSR1.Classes.ClassDeclaration.MultipleClasses
  */
 class FormDatabaseSetup extends QuickForm2
 {
@@ -33,9 +33,15 @@ class FormDatabaseSetup extends QuickForm2
 
     function init()
     {
-        HTML_QuickForm2_Factory::registerRule('checkValidFilename', 'Piwik\Plugins\Installation\FormDatabaseSetup_Rule_checkValidFilename');
-        HTML_QuickForm2_Factory::registerRule('checkValidDbname', 'Piwik\Plugins\Installation\FormDatabaseSetup_Rule_checkValidDbname');
-        HTML_QuickForm2_Factory::registerRule('checkUserPrivileges', 'Piwik\Plugins\Installation\Rule_checkUserPrivileges');
+        HTML_QuickForm2_Factory::registerRule('checkValidFilename',
+                                              'Piwik\Plugins\Installation\FormDatabaseSetupRuleCheckValidFilename'
+        );
+        HTML_QuickForm2_Factory::registerRule('checkValidDbname',
+                                              'Piwik\Plugins\Installation\FormDatabaseSetupRuleCheckValidDbname'
+        );
+        HTML_QuickForm2_Factory::registerRule('checkUserPrivileges',
+                                              'Piwik\Plugins\Installation\RuleCheckUserPrivileges'
+        );
 
         $availableAdapters = Adapter::getAdapters();
         $adapters = array();
@@ -53,7 +59,7 @@ class FormDatabaseSetup extends QuickForm2
         $user = $this->addElement('text', 'username')
             ->setLabel(Piwik::translate('Installation_DatabaseSetupLogin'));
         $user->addRule('required', Piwik::translate('General_Required', Piwik::translate('Installation_DatabaseSetupLogin')));
-        $requiredPrivileges = Rule_checkUserPrivileges::getRequiredPrivilegesPretty();
+        $requiredPrivileges = RuleCheckUserPrivileges::getRequiredPrivilegesPretty();
         $user->addRule('checkUserPrivileges',
             Piwik::translate('Installation_InsufficientPrivilegesMain', $requiredPrivileges . '<br/><br/>') .
             Piwik::translate('Installation_InsufficientPrivilegesHelp'));
@@ -182,7 +188,7 @@ class FormDatabaseSetup extends QuickForm2
  * - CREATE TEMPORARY TABLES
  *
  */
-class Rule_checkUserPrivileges extends HTML_QuickForm2_Rule
+class RuleCheckUserPrivileges extends HTML_QuickForm2_Rule
 {
     const TEST_TABLE_NAME = 'piwik_test_table';
     const TEST_TEMP_TABLE_NAME = 'piwik_test_table_temp';
@@ -327,7 +333,7 @@ class Rule_checkUserPrivileges extends HTML_QuickForm2_Rule
  * Filename check for prefix
  *
  */
-class FormDatabaseSetup_Rule_checkValidFilename extends HTML_QuickForm2_Rule
+class FormDatabaseSetupRuleCheckValidFilename extends HTML_QuickForm2_Rule
 {
     function validateOwner()
     {
@@ -341,7 +347,7 @@ class FormDatabaseSetup_Rule_checkValidFilename extends HTML_QuickForm2_Rule
  * Filename check for DB name
  *
  */
-class FormDatabaseSetup_Rule_checkValidDbname extends HTML_QuickForm2_Rule
+class FormDatabaseSetupRuleCheckValidDbname extends HTML_QuickForm2_Rule
 {
     function validateOwner()
     {

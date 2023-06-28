@@ -229,7 +229,7 @@ if (typeof window.Matomo !== 'object') {
         /*
          * Is property an object?
          *
-         * @return bool Returns true if property is null, an Object, or subclass of Object (i.e., an instanceof String, Date, etc.)
+         * @returns {boolean} Returns true if property is null, an Object, or subclass of Object (i.e., an instanceof String, Date, etc.)
          */
         function isObject(property) {
             return typeof property === 'object';
@@ -288,7 +288,7 @@ if (typeof window.Matomo !== 'object') {
         /*
          * apply wrapper
          *
-         * @param array parameterArray An array comprising either:
+         * @param {Array} parameterArray An array comprising either:
          *      [ 'methodName', optional_parameters ]
          * or:
          *      [ functionObject, optional_parameters ]
@@ -2081,7 +2081,7 @@ if (typeof window.Matomo !== 'object') {
         /*
          * Check whether this is a page overlay session
          *
-         * @return boolean
+         * @returns {boolean}
          *
          * {@internal side-effect: modifies window.name }}
          */
@@ -2743,7 +2743,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Whether the specified referrer url matches one of the configured excluded referrers.
              *
-             * @param string referrerUrl
+             * @param {string} referrerUrl
              * @returns {boolean}
              */
             function isReferrerExcluded(referrerUrl)
@@ -3578,7 +3578,7 @@ if (typeof window.Matomo !== 'object') {
             /*
              * Loads the referrer attribution information
              *
-             * @returns array
+             * @returns {Array}
              *  0: campaign name
              *  1: campaign keyword
              *  2: timestamp
@@ -5206,7 +5206,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Get the visitor information (from first party cookie)
              *
-             * @return array
+             * @returns {Array}
              */
             this.getVisitorInfo = function () {
                 if (!getCookie(getCookieName('id'))) {
@@ -5221,7 +5221,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Get visitor ID (from first party cookie)
              *
-             * @return string Visitor ID in hexits (or empty string, if not yet known)
+             * @returns {string} Visitor ID in hexits (or empty string, if not yet known)
              */
             this.getVisitorId = function () {
                 return this.getVisitorInfo()[1];
@@ -5233,7 +5233,7 @@ if (typeof window.Matomo !== 'object') {
              * It is useful only when used in conjunction with Tracker API function setAttributionInfo()
              * To access specific data point, you should use the other functions getAttributionReferrer* and getAttributionCampaign*
              *
-             * @return array Attribution array, Example use:
+             * @returns {Array} Attribution array, Example use:
              *   1) Call windowAlias.JSON.stringify(matomoTracker.getAttributionInfo())
              *   2) Pass this json encoded string to the Tracking API (php or java client): setAttributionInfo()
              */
@@ -5245,7 +5245,7 @@ if (typeof window.Matomo !== 'object') {
              * Get the Campaign name that was parsed from the landing page URL when the visitor
              * landed on the site originally
              *
-             * @return string
+             * @returns {string}
              */
             this.getAttributionCampaignName = function () {
                 return loadReferrerAttributionCookie()[0];
@@ -5255,7 +5255,7 @@ if (typeof window.Matomo !== 'object') {
              * Get the Campaign keyword that was parsed from the landing page URL when the visitor
              * landed on the site originally
              *
-             * @return string
+             * @returns {string}
              */
             this.getAttributionCampaignKeyword = function () {
                 return loadReferrerAttributionCookie()[1];
@@ -5264,7 +5264,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Get the time at which the referrer (used for Goal Attribution) was detected
              *
-             * @return int Timestamp or 0 if no referrer currently set
+             * @returns {int} Timestamp or 0 if no referrer currently set
              */
             this.getAttributionReferrerTimestamp = function () {
                 return loadReferrerAttributionCookie()[2];
@@ -5273,7 +5273,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Get the full referrer URL that will be used for Goal Attribution
              *
-             * @return string Raw URL, or empty string '' if no referrer currently set
+             * @returns {string} Raw URL, or empty string '' if no referrer currently set
              */
             this.getAttributionReferrerUrl = function () {
                 return loadReferrerAttributionCookie()[3];
@@ -5282,7 +5282,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Specify the Matomo tracking URL
              *
-             * @param string trackerUrl
+             * @param {string} trackerUrl
              */
             this.setTrackerUrl = function (trackerUrl) {
                 configTrackerUrl = trackerUrl;
@@ -5290,7 +5290,7 @@ if (typeof window.Matomo !== 'object') {
 
             /**
              * Returns the Matomo tracking URL
-             * @returns string
+             * @returns {string}
              */
             this.getTrackerUrl = function () {
                 return configTrackerUrl;
@@ -5299,7 +5299,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Returns the Matomo server URL.
              *
-             * @returns string
+             * @returns {string}
              */
             this.getMatomoUrl = function () {
                 return getMatomoUrlForOverlay(this.getTrackerUrl(), configApiUrl);
@@ -5308,7 +5308,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Returns the Matomo server URL.
              * @deprecated since Matomo 4.0.0 use `getMatomoUrl()` instead.
-             * @returns string
+             * @returns {string}
              */
             this.getPiwikUrl = function () {
                 return this.getMatomoUrl();
@@ -5317,9 +5317,9 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Adds a new tracker. All sent requests will be also sent to the given siteId and matomoUrl.
              *
-             * @param string matomoUrl  The tracker URL of the current tracker instance
-             * @param int|string siteId
-             * @return Tracker
+             * @param {string} matomoUrl  The tracker URL of the current tracker instance
+             * @param {int|string} siteId
+             * @returns {Tracker}
              */
             this.addTracker = function (matomoUrl, siteId) {
                 if (!isDefined(matomoUrl) || null === matomoUrl) {
@@ -5338,7 +5338,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Returns the site ID
              *
-             * @returns int
+             * @returns {int}
              */
             this.getSiteId = function() {
                 return configTrackerSiteId;
@@ -5347,7 +5347,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Specify the site ID
              *
-             * @param int|string siteId
+             * @param {int|string} siteId
              */
             this.setSiteId = function (siteId) {
                 setSiteId(siteId);
@@ -5363,7 +5363,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Sets a User ID to this user (such as an email address or a username)
              *
-             * @param string User ID
+             * @param {string} userId User ID
              */
             this.setUserId = function (userId) {
                 if (isNumberOrHasLength(userId)) {
@@ -5375,7 +5375,7 @@ if (typeof window.Matomo !== 'object') {
              * Sets a Visitor ID to this visitor. Should be a 16 digit hex string.
              * The visitorId won't be persisted in a cookie or something similar and needs to be set every time.
              *
-             * @param string User ID
+             * @param {string} visitorId Visitor ID
              */
             this.setVisitorId = function (visitorId) {
                 var validation = /[0-9A-Fa-f]{16}/g;
@@ -5390,7 +5390,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Gets the User ID if set.
              *
-             * @returns string User ID
+             * @returns {string} User ID
              */
             this.getUserId = function() {
                 return configUserId;
@@ -5403,8 +5403,8 @@ if (typeof window.Matomo !== 'object') {
              *   tracker.setCustomData(object);
              *   tracker.setCustomData(key, value);
              *
-             * @param mixed key_or_obj
-             * @param mixed opt_value
+             * @param {*} key_or_obj
+             * @param {*} opt_value
              */
             this.setCustomData = function (key_or_obj, opt_value) {
                 if (isObject(key_or_obj)) {
@@ -5420,7 +5420,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Get custom data
              *
-             * @return mixed
+             * @returns {*}
              */
             this.getCustomData = function () {
                 return configCustomData;
@@ -5441,7 +5441,7 @@ if (typeof window.Matomo !== 'object') {
              *     return JSON.stringify(result);
              *   });
              *
-             * @param function customRequestContentProcessingLogic
+             * @param {Function} customRequestContentProcessingLogic
              */
             this.setCustomRequestProcessing = function (customRequestContentProcessingLogic) {
                 configCustomRequestContentProcessing = customRequestContentProcessingLogic;
@@ -5450,7 +5450,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Appends the specified query string to the matomo.php?... Tracking API URL
              *
-             * @param string queryString eg. 'lat=140&long=100'
+             * @param {string} queryString eg. 'lat=140&long=100'
              */
             this.appendToTrackingUrl = function (queryString) {
                 configAppendToTrackingUrl = queryString;
@@ -5472,8 +5472,8 @@ if (typeof window.Matomo !== 'object') {
              * The callback function will be called whenever a tracking request is sent.
              * This can be used to append data to the tracking request, or execute other custom logic.
              *
-             * @param string pluginName
-             * @param Object pluginObj
+             * @param {string} pluginName
+             * @param {Object} pluginObj
              */
             this.addPlugin = function (pluginName, pluginObj) {
                 plugins[pluginName] = pluginObj;
@@ -5483,8 +5483,8 @@ if (typeof window.Matomo !== 'object') {
              * Set Custom Dimensions. Set Custom Dimensions will not be cleared after a tracked pageview and will
              * be sent along all following tracking requests. It is possible to remove/clear a value via `deleteCustomDimension`.
              *
-             * @param int index A Custom Dimension index
-             * @param string value
+             * @param {int} customDimensionId A Custom Dimension index
+             * @param {string} value
              */
             this.setCustomDimension = function (customDimensionId, value) {
                 customDimensionId = parseInt(customDimensionId, 10);
@@ -5502,7 +5502,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Get a stored value for a specific Custom Dimension index.
              *
-             * @param int index A Custom Dimension index
+             * @param {int} customDimensionId A Custom Dimension index
              */
             this.getCustomDimension = function (customDimensionId) {
                 customDimensionId = parseInt(customDimensionId, 10);
@@ -5514,7 +5514,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Delete a custom dimension.
              *
-             * @param int index Custom dimension Id
+             * @param {int} customDimensionId Custom dimension Id
              */
             this.deleteCustomDimension = function (customDimensionId) {
                 customDimensionId = parseInt(customDimensionId, 10);
@@ -5526,10 +5526,10 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Set custom variable within this visit
              *
-             * @param int index Custom variable slot ID from 1-5
-             * @param string name
-             * @param string value
-             * @param string scope Scope of Custom Variable:
+             * @param {int} index Custom variable slot ID from 1-5
+             * @param {string} name
+             * @param {string} value
+             * @param {string} scope Scope of Custom Variable:
              *                     - "visit" will store the name/value in the visit and will persist it in the cookie for the duration of the visit,
              *                     - "page" will store the name/value in the next page view tracked.
              *                     - "event" will store the name/value in the next event tracked.
@@ -5565,8 +5565,8 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Get custom variable
              *
-             * @param int index Custom variable slot ID from 1-5
-             * @param string scope Scope of Custom Variable: "visit" or "page" or "event"
+             * @param {int} index Custom variable slot ID from 1-5
+             * @param {string} scope Scope of Custom Variable: "visit" or "page" or "event"
              */
             this.getCustomVariable = function (index, scope) {
                 var cvar;
@@ -5595,8 +5595,8 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Delete custom variable
              *
-             * @param int index Custom variable slot ID from 1-5
-             * @param string scope
+             * @param {int} index Custom variable slot ID from 1-5
+             * @param {string} scope
              */
             this.deleteCustomVariable = function (index, scope) {
                 // Only delete if it was there already
@@ -5608,7 +5608,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Deletes all custom variables for a certain scope.
              *
-             * @param string scope
+             * @param {string} scope
              */
             this.deleteCustomVariables = function (scope) {
                 if (scope === "page" || scope === 3) {
@@ -5633,7 +5633,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Set delay for link tracking (in milliseconds)
              *
-             * @param int delay
+             * @param {int} delay Delay [ms]
              */
             this.setLinkTrackingTimer = function (delay) {
                 configTrackerPause = delay;
@@ -5642,7 +5642,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Get delay for link tracking (in milliseconds)
              *
-             * @param int delay
+             * @returns {int} Delay [ms]
              */
             this.getLinkTrackingTimer = function () {
                 return configTrackerPause;
@@ -5651,7 +5651,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Set list of file extensions to be recognized as downloads
              *
-             * @param string|array extensions
+             * @param {string|Array} extensions
              */
             this.setDownloadExtensions = function (extensions) {
                 if(isString(extensions)) {
@@ -5663,7 +5663,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Specify additional file extensions to be recognized as downloads
              *
-             * @param string|array extensions  for example 'custom' or ['custom1','custom2','custom3']
+             * @param {string|Array} extensions  for example 'custom' or ['custom1','custom2','custom3']
              */
             this.addDownloadExtensions = function (extensions) {
                 var i;
@@ -5678,7 +5678,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Removes specified file extensions from the list of recognized downloads
              *
-             * @param string|array extensions  for example 'custom' or ['custom1','custom2','custom3']
+             * @param {string|Array} extensions  for example 'custom' or ['custom1','custom2','custom3']
              */
             this.removeDownloadExtensions = function (extensions) {
                 var i, newExtensions = [];
@@ -5711,7 +5711,7 @@ if (typeof window.Matomo !== 'object') {
              * feature, for Matomo JS Tracker to work correctly in all cases, one needs to specify all hosts
              * manually.
              *
-             * @param string|array hostsAlias
+             * @param {string|Array} hostsAlias
              */
             this.setDomains = function (hostsAlias) {
                 configHostsAlias = isString(hostsAlias) ? [hostsAlias] : hostsAlias;
@@ -5753,7 +5753,7 @@ if (typeof window.Matomo !== 'object') {
            *
            * Domains added with setDomains will automatically be excluded as referrers.
            *
-           * @param string|array excludedReferrers
+           * @param {string|Array} excludedReferrers
            */
             this.setExcludedReferrers = function(excludedReferrers) {
                 configExcludedReferrers = isString(excludedReferrers) ? [excludedReferrers] : excludedReferrers;
@@ -5792,7 +5792,7 @@ if (typeof window.Matomo !== 'object') {
 
             /**
              * Detect whether cross domain linking is enabled or not. See enableCrossDomainLinking();
-             * @returns bool
+             * @returns {boolean}
              */
             this.isCrossDomainLinkingEnabled = function () {
                 return crossDomainTrackingEnabled;
@@ -5828,7 +5828,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Set array of classes to be ignored if present in link
              *
-             * @param string|array ignoreClasses
+             * @param {string|Array} ignoreClasses
              */
             this.setIgnoreClasses = function (ignoreClasses) {
                 configIgnoreClasses = isString(ignoreClasses) ? [ignoreClasses] : ignoreClasses;
@@ -5837,7 +5837,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Set request method. If you specify GET then it will automatically disable sendBeacon.
              *
-             * @param string method GET or POST; default is GET
+             * @param {string} method GET or POST; default is GET
              */
             this.setRequestMethod = function (method) {
                 if (method) {
@@ -5857,7 +5857,7 @@ if (typeof window.Matomo !== 'object') {
              * See XMLHttpRequest Level 2 spec, section 4.7.2 for invalid headers
              * @link http://dvcs.w3.org/hg/xhr/raw-file/tip/Overview.html
              *
-             * @param string requestContentType; default is 'application/x-www-form-urlencoded; charset=UTF-8'
+             * @param {string} requestContentType; default is 'application/x-www-form-urlencoded; charset=UTF-8'
              */
             this.setRequestContentType = function (requestContentType) {
                 configRequestContentType = requestContentType || defaultRequestContentType;
@@ -5916,7 +5916,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Override referrer
              *
-             * @param string url
+             * @param {string} url
              */
             this.setReferrerUrl = function (url) {
                 configReferrerUrl = url;
@@ -5925,7 +5925,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Override url
              *
-             * @param string url
+             * @param {string} url
              */
             this.setCustomUrl = function (url) {
                 configCustomUrl = resolveRelativeReference(locationHrefAlias, url);
@@ -5942,7 +5942,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Override document.title
              *
-             * @param string title
+             * @param {string} title
              */
             this.setDocumentTitle = function (title) {
                 configTitle = title;
@@ -5952,7 +5952,7 @@ if (typeof window.Matomo !== 'object') {
              * Override PageView id for every use of logPageView(). Do not use this if you call trackPageView()
              * multiple times during tracking (if, for example, you are tracking a single page application).
              *
-             * @param string pageView
+             * @param {string} pageView
              */
             this.setPageViewId = function (pageView) {
                 configIdPageView = pageView;
@@ -5963,7 +5963,7 @@ if (typeof window.Matomo !== 'object') {
              * Set the URL of the Matomo API. It is used for Page Overlay.
              * This method should only be called when the API URL differs from the tracker URL.
              *
-             * @param string apiUrl
+             * @param {string} apiUrl
              */
             this.setAPIUrl = function (apiUrl) {
                 configApiUrl = apiUrl;
@@ -5972,7 +5972,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Set array of classes to be treated as downloads
              *
-             * @param string|array downloadClasses
+             * @param {string|Array} downloadClasses
              */
             this.setDownloadClasses = function (downloadClasses) {
                 configDownloadClasses = isString(downloadClasses) ? [downloadClasses] : downloadClasses;
@@ -5981,7 +5981,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Set array of classes to be treated as outlinks
              *
-             * @param string|array linkClasses
+             * @param {string|Array} linkClasses
              */
             this.setLinkClasses = function (linkClasses) {
                 configLinkClasses = isString(linkClasses) ? [linkClasses] : linkClasses;
@@ -5991,7 +5991,7 @@ if (typeof window.Matomo !== 'object') {
              * Set array of campaign name parameters
              *
              * @see https://matomo.org/faq/how-to/faq_120
-             * @param string|array campaignNames
+             * @param {string|Array} campaignNames
              */
             this.setCampaignNameKey = function (campaignNames) {
                 configCampaignNameParameters = isString(campaignNames) ? [campaignNames] : campaignNames;
@@ -6001,7 +6001,7 @@ if (typeof window.Matomo !== 'object') {
              * Set array of campaign keyword parameters
              *
              * @see https://matomo.org/faq/how-to/faq_120
-             * @param string|array campaignKeywords
+             * @param {string|Array} campaignKeywords
              */
             this.setCampaignKeywordKey = function (campaignKeywords) {
                 configCampaignKeywordParameters = isString(campaignKeywords) ? [campaignKeywords] : campaignKeywords;
@@ -6012,7 +6012,7 @@ if (typeof window.Matomo !== 'object') {
              * Note: this can be done in the Matomo>Settings>Websites on a per-website basis
              *
              * @deprecated
-             * @param bool enableFilter
+             * @param {boolean} enableFilter
              */
             this.discardHashTag = function (enableFilter) {
                 configDiscardHashTag = enableFilter;
@@ -6021,7 +6021,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Set first-party cookie name prefix
              *
-             * @param string cookieNamePrefix
+             * @param {string} cookieNamePrefix
              */
             this.setCookieNamePrefix = function (cookieNamePrefix) {
                 configCookieNamePrefix = cookieNamePrefix;
@@ -6034,7 +6034,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Set first-party cookie domain
              *
-             * @param string domain
+             * @param {string} domain
              */
             this.setCookieDomain = function (domain) {
                 var domainFixed = domainFixup(domain);
@@ -6050,7 +6050,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Set an array of query parameters to be excluded if in the url
              *
-             * @param string|array excludedQueryParams  'uid' or ['uid', 'sid']
+             * @param {string|Array} excludedQueryParams  'uid' or ['uid', 'sid']
              */
             this.setExcludedQueryParams = function (excludedQueryParams) {
                 configExcludedQueryParams = isString(excludedQueryParams) ? [excludedQueryParams] : excludedQueryParams;
@@ -6073,9 +6073,9 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Set a first-party cookie for the duration of the session.
              *
-             * @param string cookieName
-             * @param string cookieValue
-             * @param int msToExpire Defaults to session cookie timeout
+             * @param {string} cookieName
+             * @param {string} cookieValue
+             * @param {int} msToExpire Defaults to session cookie timeout
              */
             this.setSessionCookie = function (cookieName, cookieValue, msToExpire) {
                 if (!cookieName) {
@@ -6096,7 +6096,7 @@ if (typeof window.Matomo !== 'object') {
              *
              * Returns null if cookies are disabled or if no cookie could be found for this name.
              *
-             * @param string cookieName
+             * @param {string} cookieName
              */
             this.getCookie = function (cookieName) {
                 var cookieValue = getCookie(getCookieName(cookieName));
@@ -6111,7 +6111,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Set first-party cookie path.
              *
-             * @param string domain
+             * @param {string} path Cookie path
              */
             this.setCookiePath = function (path) {
                 configCookiePath = path;
@@ -6121,9 +6121,9 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Get first-party cookie path.
              *
-             * @param string domain
+             * @returns {string} Cookie path
              */
-            this.getCookiePath = function (path) {
+            this.getCookiePath = function () {
                 return configCookiePath;
             };
 
@@ -6131,7 +6131,7 @@ if (typeof window.Matomo !== 'object') {
              * Set visitor cookie timeout (in seconds)
              * Defaults to 13 months (timeout=33955200)
              *
-             * @param int timeout
+             * @param {int} timeout
              */
             this.setVisitorCookieTimeout = function (timeout) {
                 configVisitorCookieTimeout = timeout * 1000;
@@ -6141,7 +6141,7 @@ if (typeof window.Matomo !== 'object') {
              * Set session cookie timeout (in seconds).
              * Defaults to 30 minutes (timeout=1800)
              *
-             * @param int timeout
+             * @param {int} timeout
              */
             this.setSessionCookieTimeout = function (timeout) {
                 configSessionCookieTimeout = timeout * 1000;
@@ -6158,7 +6158,7 @@ if (typeof window.Matomo !== 'object') {
              * Set referral cookie timeout (in seconds).
              * Defaults to 6 months (15768000000)
              *
-             * @param int timeout
+             * @param {int} timeout
              */
             this.setReferralCookieTimeout = function (timeout) {
                 configReferralCookieTimeout = timeout * 1000;
@@ -6167,7 +6167,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Set conversion attribution to first referrer and campaign
              *
-             * @param bool if true, use first referrer (and first campaign)
+             * @param {boolean} enable If true, use first referrer (and first campaign)
              *             if false, use the last referrer (or campaign)
              */
             this.setConversionAttributionFirstReferrer = function (enable) {
@@ -6182,7 +6182,7 @@ if (typeof window.Matomo !== 'object') {
              * Warning: If your site is available under http and https,
              * setting this might lead to duplicate or incomplete visits.
              *
-             * @param bool
+             * @param {boolean} enable
              */
             this.setSecureCookie = function (enable) {
                 if(enable && location.protocol !== 'https:') {
@@ -6203,7 +6203,7 @@ if (typeof window.Matomo !== 'object') {
              * If your site is available under http and https,
              * using "None" might lead to duplicate or incomplete visits.
              *
-             * @param string either Lax, None or Strict
+             * @param {string} sameSite Either Lax, None or Strict
              */
             this.setCookieSameSite = function (sameSite) {
                 sameSite = String(sameSite);
@@ -6303,7 +6303,7 @@ if (typeof window.Matomo !== 'object') {
              * in milliseconds since 1970/01/01 which is the date when the user has given cookie consent. Please note that
              * the returned time depends on the users local time which may not always be correct.
              *
-             * @returns number|string
+             * @returns {number|string}
              */
             this.getRememberedCookieConsent = function () {
                 return getCookie(COOKIE_CONSENT_COOKIE_NAME);
@@ -6334,7 +6334,7 @@ if (typeof window.Matomo !== 'object') {
              * cookieDomain and cookiePath. Depending on your website structure, you may need to restrict or widen the
              * scope of the cookie domain/path to ensure the consent is applied to the sites you want.
              *
-             * @param int hoursToExpire After how many hours the cookie consent should expire. By default the consent is valid
+             * @param {int} hoursToExpire After how many hours the cookie consent should expire. By default the consent is valid
              *                          for 30 years unless cookies are deleted by the user or the browser prior to this
              */
             this.rememberCookieConsentGiven = function (hoursToExpire) {
@@ -6359,7 +6359,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Handle do-not-track requests
              *
-             * @param bool enable If true, don't track if user agent sends 'do-not-track' header
+             * @param {boolean} enable If true, don't track if user agent sends 'do-not-track' header
              */
             this.setDoNotTrack = function (enable) {
                 var dnt = navigatorAlias.doNotTrack || navigatorAlias.msDoNotTrack;
@@ -6396,8 +6396,8 @@ if (typeof window.Matomo !== 'object') {
              * Add click listener to a specific link element.
              * When clicked, Matomo will log the click automatically.
              *
-             * @param DOMElement element
-             * @param bool enable If false, do not use pseudo click-handler (middle click + context menu)
+             * @param {Element} element
+             * @param {boolean} enable If false, do not use pseudo click-handler (middle click + context menu)
              */
             this.addListener = function (element, enable) {
                 addClickListener(element, enable, false);
@@ -6421,7 +6421,7 @@ if (typeof window.Matomo !== 'object') {
              *
              * @see https://bugs.webkit.org/show_bug.cgi?id=54783
              *
-             * @param bool enable Defaults to true.
+             * @param {boolean} enable Defaults to true.
              *                    * If "true", use pseudo click-handler (treat middle click and open contextmenu as
              *                    left click). A right click (or any click that opens the context menu) on a link
              *                    will be tracked as clicked even if "Open in new tab" is not selected.
@@ -6506,7 +6506,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Set heartbeat (in seconds)
              *
-             * @param int heartBeatDelayInSeconds Defaults to 15s. Cannot be lower than 5.
+             * @param {int} heartBeatDelayInSeconds Defaults to 15s. Cannot be lower than 5.
              */
             this.enableHeartBeatTimer = function (heartBeatDelayInSeconds) {
                 heartBeatDelayInSeconds = Math.max(heartBeatDelayInSeconds || 15, 5);
@@ -6551,7 +6551,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Redirect if browsing offline (aka file: buster)
              *
-             * @param string url Redirect to this URL
+             * @param {string} url Redirect to this URL
              */
             this.redirectFile = function (url) {
                 if (windowAlias.location.protocol === 'file:') {
@@ -6562,7 +6562,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Count sites in pre-rendered state
              *
-             * @param bool enable If true, track when in pre-rendered state
+             * @param {boolean} enable If true, track when in pre-rendered state
              */
             this.setCountPreRendered = function (enable) {
                 configCountPreRendered = enable;
@@ -6571,10 +6571,10 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Trigger a goal
              *
-             * @param int|string idGoal
-             * @param int|float customRevenue
-             * @param mixed customData
-             * @param function callback
+             * @param {int|string} idGoal
+             * @param {int|float} customRevenue
+             * @param {*} customData
+             * @param {Function} callback
              */
             this.trackGoal = function (idGoal, customRevenue, customData, callback) {
                 trackCallback(function () {
@@ -6585,10 +6585,10 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Manually log a click from your own code
              *
-             * @param string sourceUrl
-             * @param string linkType
-             * @param mixed customData
-             * @param function callback
+             * @param {string} sourceUrl
+             * @param {string} linkType
+             * @param {*} customData
+             * @param {Function} callback
              */
             this.trackLink = function (sourceUrl, linkType, customData, callback) {
                 trackCallback(function () {
@@ -6606,9 +6606,9 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Log visit to this page
              *
-             * @param string customTitle
-             * @param mixed customData
-             * @param function callback
+             * @param {string} customTitle
+             * @param {*} customData
+             * @param {Function} callback
              */
             this.trackPageView = function (customTitle, customData, callback) {
                 trackedContentImpressions = [];
@@ -6684,14 +6684,14 @@ if (typeof window.Matomo !== 'object') {
              * o Call `trackVisibleContentImpressions()` at any time again to rescan the entire DOM for newly visible content blocks or
              * o Call `trackContentImpressionsWithinNode(node)` at any time to rescan only a part of the DOM for newly visible content blocks
              *
-             * @param boolean [checkOnScroll=true] Optional, you can disable rescanning the entire DOM automatically
+             * @param {boolean} [checkOnScroll=true] Optional, you can disable rescanning the entire DOM automatically
              *                                     after each scroll event by passing the value `false`. If enabled,
              *                                     we check whether a previously hidden content blocks became visible
              *                                     after a scroll and if so track the impression.
              *                                     Note: If a content block is placed within a scrollable element
              *                                     (`overflow: scroll`), we can currently not detect when this block
              *                                     becomes visible.
-             * @param integer [timeIntervalInMs=750] Optional, you can define an interval to rescan the entire DOM
+             * @param {int} [timeIntervalInMs=750] Optional, you can define an interval to rescan the entire DOM
              *                                     for new impressions every X milliseconds by passing
              *                                     for instance `timeIntervalInMs=500` (rescan DOM every 500ms).
              *                                     Rescanning the entire DOM and detecting the visible state of content
@@ -6729,9 +6729,9 @@ if (typeof window.Matomo !== 'object') {
              * Tracks a content impression using the specified values. You should not call this method too often
              * as each call causes an XHR tracking request and can slow down your site or your server.
              *
-             * @param string contentName  For instance "Ad Sale".
-             * @param string [contentPiece='Unknown'] For instance a path to an image or the text of a text ad.
-             * @param string [contentTarget] For instance the URL of a landing page.
+             * @param {string} contentName  For instance "Ad Sale".
+             * @param {string} [contentPiece='Unknown'] For instance a path to an image or the text of a text ad.
+             * @param {string} [contentTarget] For instance the URL of a landing page.
              */
             this.trackContentImpression = function (contentName, contentPiece, contentTarget) {
                 if (isOverlaySession(configTrackerSiteId)) {
@@ -6760,7 +6760,7 @@ if (typeof window.Matomo !== 'object') {
              * upfront only visible content blocks will be tracked. You can use this method if you, for instance,
              * dynamically add an element using JavaScript to your DOM after we have tracked the initial impressions.
              *
-             * @param Element domNode
+             * @param {Element} domNode
              */
             this.trackContentImpressionsWithinNode = function (domNode) {
                 if (isOverlaySession(configTrackerSiteId) || !domNode) {
@@ -6793,10 +6793,10 @@ if (typeof window.Matomo !== 'object') {
              * with `trackContentImpression()`. The specified `contentName` and `contentPiece` has to be exactly the
              * same as the ones that were used in `trackContentImpression()`. Otherwise the interaction will not count.
              *
-             * @param string contentInteraction The type of interaction that happened. For instance 'click' or 'submit'.
-             * @param string contentName  The name of the content. For instance "Ad Sale".
-             * @param string [contentPiece='Unknown'] The actual content. For instance a path to an image or the text of a text ad.
-             * @param string [contentTarget] For instance the URL of a landing page.
+             * @param {string} contentInteraction The type of interaction that happened. For instance 'click' or 'submit'.
+             * @param {string} contentName  The name of the content. For instance "Ad Sale".
+             * @param {string} [contentPiece='Unknown'] The actual content. For instance a path to an image or the text of a text ad.
+             * @param {string} [contentTarget] For instance the URL of a landing page.
              */
             this.trackContentInteraction = function (contentInteraction, contentName, contentPiece, contentTarget) {
                 if (isOverlaySession(configTrackerSiteId)) {
@@ -6830,10 +6830,10 @@ if (typeof window.Matomo !== 'object') {
              * Make sure to disable the automatic interaction tracking in this case by specifying either the CSS
              * class `matomoContentIgnoreInteraction` or the attribute `data-content-ignoreinteraction`.
              *
-             * @param Element domNode  This element itself or any of its parent elements has to be a content block
+             * @param {Element} domNode  This element itself or any of its parent elements has to be a content block
              *                         element. Meaning one of those has to have a `matomoTrackContent` CSS class or
              *                         a `data-track-content` attribute.
-             * @param string [contentInteraction='Unknown] The name of the interaction that happened. For instance
+             * @param {string} [contentInteraction='Unknown] The name of the interaction that happened. For instance
              *                                             'click', 'formSubmit', 'DblClick', ...
              */
             this.trackContentInteractionNode = function (domNode, contentInteraction) {
@@ -6872,12 +6872,12 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Records an event
              *
-             * @param string category The Event Category (Videos, Music, Games...)
-             * @param string action The Event's Action (Play, Pause, Duration, Add Playlist, Downloaded, Clicked...)
-             * @param string name (optional) The Event's object Name (a particular Movie name, or Song name, or File name...)
-             * @param float value (optional) The Event's value
-             * @param function callback
-             * @param mixed customData
+             * @param {string} category The Event Category (Videos, Music, Games...)
+             * @param {string} action The Event's Action (Play, Pause, Duration, Add Playlist, Downloaded, Clicked...)
+             * @param {string} name (optional) The Event's object Name (a particular Movie name, or Song name, or File name...)
+             * @param {float} value (optional) The Event's value
+             * @param {Function} callback
+             * @param {*} customData
              */
             this.trackEvent = function (category, action, name, value, customData, callback) {
                 trackCallback(function () {
@@ -6888,10 +6888,10 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Log special pageview: Internal search
              *
-             * @param string keyword
-             * @param string category
-             * @param int resultsCount
-             * @param mixed customData
+             * @param {string} keyword
+             * @param {string} category
+             * @param {int} resultsCount
+             * @param {*} customData
              */
             this.trackSiteSearch = function (keyword, category, resultsCount, customData) {
                 trackedContentImpressions = [];
@@ -6909,10 +6909,10 @@ if (typeof window.Matomo !== 'object') {
              * Tracking Product/Category page views will allow Matomo to report on Product & Categories
              * conversion rates (Conversion rate = Ecommerce orders containing this product or category / Visits to the product or category)
              *
-             * @param string sku Item's SKU code being viewed
-             * @param string name Item's Name being viewed
-             * @param string category Category page being viewed. On an Item's page, this is the item's category
-             * @param float price Item's display price, not use in standard Matomo reports, but output in API product reports.
+             * @param {string} sku Item's SKU code being viewed
+             * @param {string} name Item's Name being viewed
+             * @param {string} category Category page being viewed. On an Item's page, this is the item's category
+             * @param {float} price Item's display price, not use in standard Matomo reports, but output in API product reports.
              */
             this.setEcommerceView = function (sku, name, category, price) {
                 ecommerceProductView = {};
@@ -6959,7 +6959,7 @@ if (typeof window.Matomo !== 'object') {
              *
              * Note: the cart will be cleared after an order.
              *
-             * @returns array
+             * @returns {Array}
              */
             this.getEcommerceItems = function () {
                 return JSON.parse(JSON.stringify(ecommerceItems));
@@ -6974,11 +6974,11 @@ if (typeof window.Matomo !== 'object') {
              * If there is already a saved item for the given sku, it will be updated with the
              * new information.
              *
-             * @param string sku (required) Item's SKU Code. This is the unique identifier for the product.
-             * @param string name (optional) Item's name
-             * @param string name (optional) Item's category, or array of up to 5 categories
-             * @param float price (optional) Item's price. If not specified, will default to 0
-             * @param float quantity (optional) Item's quantity. If not specified, will default to 1
+             * @param {string} sku (required) Item's SKU Code. This is the unique identifier for the product.
+             * @param {string} name (optional) Item's name
+             * @param {string} category (optional) Item's category, or array of up to 5 categories
+             * @param {float} price (optional) Item's price. If not specified, will default to 0
+             * @param {float} quantity (optional) Item's quantity. If not specified, will default to 1
              */
             this.addEcommerceItem = function (sku, name, category, price, quantity) {
                 if (isNumberOrHasLength(sku)) {
@@ -6989,7 +6989,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Removes a single ecommerce item by SKU from the current cart.
              *
-             * @param string sku (required) Item's SKU Code. This is the unique identifier for the product.
+             * @param {string} sku (required) Item's SKU Code. This is the unique identifier for the product.
              */
             this.removeEcommerceItem = function (sku) {
                 if (isNumberOrHasLength(sku)) {
@@ -7013,14 +7013,14 @@ if (typeof window.Matomo !== 'object') {
              * Parameters orderId and grandTotal are required. For others, you can set to false if you don't need to specify them.
              * After calling this method, items added to the cart will be removed from this JavaScript object.
              *
-             * @param string|int orderId (required) Unique Order ID.
+             * @param {string|int} orderId (required) Unique Order ID.
              *                   This will be used to count this order only once in the event the order page is reloaded several times.
              *                   orderId must be unique for each transaction, even on different days, or the transaction will not be recorded by Matomo.
-             * @param float grandTotal (required) Grand Total revenue of the transaction (including tax, shipping, etc.)
-             * @param float subTotal (optional) Sub total amount, typically the sum of items prices for all items in this order (before Tax and Shipping costs are applied)
-             * @param float tax (optional) Tax amount for this order
-             * @param float shipping (optional) Shipping amount for this order
-             * @param float discount (optional) Discounted amount in this order
+             * @param {float} grandTotal (required) Grand Total revenue of the transaction (including tax, shipping, etc.)
+             * @param {float} subTotal (optional) Sub total amount, typically the sum of items prices for all items in this order (before Tax and Shipping costs are applied)
+             * @param {float} tax (optional) Tax amount for this order
+             * @param {float} shipping (optional) Shipping amount for this order
+             * @param {float} discount (optional) Discounted amount in this order
              */
             this.trackEcommerceOrder = function (orderId, grandTotal, subTotal, tax, shipping, discount) {
                 logEcommerceOrder(orderId, grandTotal, subTotal, tax, shipping, discount);
@@ -7032,7 +7032,7 @@ if (typeof window.Matomo !== 'object') {
              * Then you can call this function with the Cart grandTotal (typically the sum of all items' prices)
              * Calling this method does not remove from this JavaScript object the items that were added to the cart via addEcommerceItem
              *
-             * @param float grandTotal (required) Items (products) amount in the Cart
+             * @param {float} grandTotal (required) Items (products) amount in the Cart
              */
             this.trackEcommerceCartUpdate = function (grandTotal) {
                 logEcommerceCartUpdate(grandTotal);
@@ -7106,7 +7106,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Returns whether consent is required or not.
              *
-             * @returns boolean
+             * @returns {boolean}
              */
             this.isConsentRequired = function()
             {
@@ -7118,7 +7118,7 @@ if (typeof window.Matomo !== 'object') {
              * in milliseconds since 1970/01/01 which is the date when the user has given consent. Please note that
              * the returned time depends on the users local time which may not always be correct.
              *
-             * @returns number|string
+             * @returns {number|string}
              */
             this.getRememberedConsent = function () {
                 var value = getCookie(CONSENT_COOKIE_NAME);
@@ -7141,7 +7141,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Detects whether the user has given consent previously.
              *
-             * @returns bool
+             * @returns {boolean}
              */
             this.hasRememberedConsent = function () {
                 return !!this.getRememberedConsent();
@@ -7194,7 +7194,7 @@ if (typeof window.Matomo !== 'object') {
              *
              * It will also automatically enable cookies if they were disabled previously.
              *
-             * @param bool [setCookieConsent=true] Internal parameter. Defines whether cookies should be enabled or not.
+             * @param {boolean} [setCookieConsent=true] Internal parameter. Defines whether cookies should be enabled or not.
              */
             this.setConsentGiven = function (setCookieConsent) {
                 configHasConsent = true;
@@ -7242,7 +7242,7 @@ if (typeof window.Matomo !== 'object') {
              * you may need to restrict or widen the scope of the cookie domain/path to ensure the consent is applied
              * to the sites you want.
              *
-             * @param int hoursToExpire After how many hours the consent should expire. By default the consent is valid
+             * @param {int} hoursToExpire After how many hours the consent should expire. By default the consent is valid
              *                          for 30 years unless cookies are deleted by the user or the browser prior to this
              */
             this.rememberConsentGiven = function (hoursToExpire) {
@@ -7266,7 +7266,7 @@ if (typeof window.Matomo !== 'object') {
             * want to re-ask for consent after a specific time period. You can optionally define the lifetime of
             * the CONSENT_REMOVED_COOKIE_NAME cookie in hours using a parameter.
             *
-            * @param int hoursToExpire After how many hours the CONSENT_REMOVED_COOKIE_NAME cookie should expire.
+            * @param {int} hoursToExpire After how many hours the CONSENT_REMOVED_COOKIE_NAME cookie should expire.
             * By default the consent is valid for 30 years unless cookies are deleted by the user or the browser
             * prior to this
             */
@@ -7565,7 +7565,7 @@ if (typeof window.Matomo !== 'object') {
                  *
                  * If the DOM is already loaded, the function will be executed immediately.
                  *
-                 * @param function callback
+                 * @param {Function} callback
                  */
                 onLoad: trackCallbackOnLoad,
 
@@ -7574,7 +7574,7 @@ if (typeof window.Matomo !== 'object') {
                  *
                  * If the DOM is already ready, the function will be executed immediately.
                  *
-                 * @param function callback
+                 * @param {Function} callback
                  */
                 onReady: trackCallbackOnReady,
 
@@ -7592,8 +7592,8 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Listen to an event and invoke the handler when a the event is triggered.
              *
-             * @param string event
-             * @param function handler
+             * @param {string} event
+             * @param {Function} handler
              */
             on: function (event, handler) {
                 if (!eventHandlers[event]) {
@@ -7606,8 +7606,8 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Remove a handler to no longer listen to the event. Must pass the same handler that was used when
              * attaching the event via ".on".
-             * @param string event
-             * @param function handler
+             * @param {string} event
+             * @param {Function} handler
              */
             off: function (event, handler) {
                 if (!eventHandlers[event]) {
@@ -7625,9 +7625,9 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Triggers the given event and passes the parameters to all handlers.
              *
-             * @param string event
-             * @param Array extraParameters
-             * @param Object context  If given the handler will be executed in this context
+             * @param {string} event
+             * @param {Array} extraParameters
+             * @param {Object} context  If given the handler will be executed in this context
              */
             trigger: function (event, extraParameters, context) {
                 if (!eventHandlers[event]) {
@@ -7643,8 +7643,8 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Add plugin
              *
-             * @param string pluginName
-             * @param Object pluginObj
+             * @param {string} pluginName
+             * @param {Object} pluginObj
              */
             addPlugin: function (pluginName, pluginObj) {
                 plugins[pluginName] = pluginObj;
@@ -7653,9 +7653,9 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Get Tracker (factory method)
              *
-             * @param string matomoUrl
-             * @param int|string siteId
-             * @return Tracker
+             * @param {string} matomoUrl
+             * @param {int|string} siteId
+             * @returns {Tracker}
              */
             getTracker: function (matomoUrl, siteId) {
                 if (!isDefined(siteId)) {
@@ -7671,7 +7671,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Get all created async trackers
              *
-             * @return Tracker[]
+             * @returns {Tracker[]}
              */
             getAsyncTrackers: function () {
                 return asyncTrackers;
@@ -7681,9 +7681,9 @@ if (typeof window.Matomo !== 'object') {
              * Adds a new tracker. All sent requests will be also sent to the given siteId and matomoUrl.
              * If matomoUrl is not set, current url will be used.
              *
-             * @param null|string matomoUrl  If null, will reuse the same tracker URL of the current tracker instance
-             * @param int|string siteId
-             * @return Tracker
+             * @param {null|string} matomoUrl  If null, will reuse the same tracker URL of the current tracker instance
+             * @param {int|string} siteId
+             * @returns {Tracker}
              */
             addTracker: function (matomoUrl, siteId) {
                 var tracker;
@@ -7701,9 +7701,9 @@ if (typeof window.Matomo !== 'object') {
              * If no parameters are given, it returns the internal asynchronous tracker object. If a matomoUrl and idSite
              * is given, it will try to find an optional
              *
-             * @param string matomoUrl
-             * @param int|string siteId
-             * @return Tracker
+             * @param {string} matomoUrl
+             * @param {int|string} siteId
+             * @returns {Tracker}
              */
             getAsyncTracker: function (matomoUrl, siteId) {
 
@@ -7853,10 +7853,10 @@ if (typeof window.Matomo !== 'object') {
 /**
  * Track page visit
  *
- * @param string documentTitle
- * @param int|string siteId
- * @param string matomoUrl
- * @param mixed customData
+ * @param {string} documentTitle
+ * @param {int|string} siteId
+ * @param {string} matomoUrl
+ * @param {*} customData
  */
 if (typeof window.piwik_log !== 'function') {
     window.piwik_log = function (documentTitle, siteId, matomoUrl, customData) {
@@ -7914,10 +7914,10 @@ if (typeof window.piwik_log !== 'function') {
             /**
              * Track click manually (function is defined below)
              *
-             * @param string sourceUrl
-             * @param int|string siteId
-             * @param string matomoUrl
-             * @param string linkType
+             * @param {string} sourceUrl
+             * @param {int|string} siteId
+             * @param {string} matomoUrl
+             * @param {string} linkType
              */
             piwik_track = function (sourceUrl, siteId, matomoUrl, linkType) {
                 matomoTracker.setSiteId(siteId);

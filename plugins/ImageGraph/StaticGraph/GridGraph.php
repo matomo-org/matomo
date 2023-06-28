@@ -424,69 +424,69 @@ abstract class GridGraph extends StaticGraph
     // e.g: it is not possible to remove the box border & the square icon
     // it would require modifying pChart code base which we try to avoid
     // see https://github.com/piwik/piwik/issues/3396
-//	protected function displayMinMaxValues()
-//	{
-//		if ($displayMinMax)
-//		{
-//			// when plotting multiple metrics, display min & max on both series
-//			// to fix: in vertical bars, labels are hidden when multiple metrics are plotted, hence the restriction on count($this->ordinateSeries) == 1
-//			if ($this->multipleMetrics && count($this->ordinateSeries) == 1)
-//			{
-//				$colorIndex = 1;
-//				foreach($this->ordinateSeries as $column => $data)
-//				{
-//					$color = $this->colors[self::GRAPHIC_COLOR_KEY . $colorIndex++];
+//    protected function displayMinMaxValues()
+//    {
+//        if ($displayMinMax)
+//        {
+//            // when plotting multiple metrics, display min & max on both series
+//            // to fix: in vertical bars, labels are hidden when multiple metrics are plotted, hence the restriction on count($this->ordinateSeries) == 1
+//            if ($this->multipleMetrics && count($this->ordinateSeries) == 1)
+//            {
+//                $colorIndex = 1;
+//                foreach($this->ordinateSeries as $column => $data)
+//                {
+//                    $color = $this->colors[self::GRAPHIC_COLOR_KEY . $colorIndex++];
 //
-//					$this->pImage->writeLabel(
-//						$column,
-//						self::locateMinMaxValue($data),
-//						$Format = array(
-//							'NoTitle' => true,
-//							'DrawPoint' => false,
-//							'DrawSerieColor' => true,
-//							'TitleMode' => LABEL_TITLE_NOBACKGROUND,
-//							'GradientStartR' => $color['R'],
-//							'GradientStartG' => $color['G'],
-//							'GradientStartB' => $color['B'],
-//							'GradientEndR' => 255,
-//							'GradientEndG' => 255,
-//							'GradientEndB' => 255,
-//							'BoxWidth' => 0,
-//							'VerticalMargin' => 9,
-//							'HorizontalMargin' => 7,
-//						)
-//					);
-//				}
-//			}
-//			else
-//			{
-//				// display only one min & max label
-//			}
-//		}
-//	}
+//                    $this->pImage->writeLabel(
+//                        $column,
+//                        self::locateMinMaxValue($data),
+//                        $Format = array(
+//                            'NoTitle' => true,
+//                            'DrawPoint' => false,
+//                            'DrawSerieColor' => true,
+//                            'TitleMode' => LABEL_TITLE_NOBACKGROUND,
+//                            'GradientStartR' => $color['R'],
+//                            'GradientStartG' => $color['G'],
+//                            'GradientStartB' => $color['B'],
+//                            'GradientEndR' => 255,
+//                            'GradientEndG' => 255,
+//                            'GradientEndB' => 255,
+//                            'BoxWidth' => 0,
+//                            'VerticalMargin' => 9,
+//                            'HorizontalMargin' => 7,
+//                        )
+//                    );
+//                }
+//            }
+//            else
+//            {
+//                // display only one min & max label
+//            }
+//        }
+//    }
 
-//	protected static function locateMinMaxValue($data)
-//	{
-//		$firstValue = $data[0];
-//		$minValue = $firstValue;
-//		$minValueIndex = 0;
-//		$maxValue = $firstValue;
-//		$maxValueIndex = 0;
-//		foreach($data as $index => $value)
-//		{
-//			if ($value > $maxValue)
-//			{
-//				$maxValue = $value;
-//				$maxValueIndex = $index;
-//			}
+//    protected static function locateMinMaxValue($data)
+//    {
+//        $firstValue = $data[0];
+//        $minValue = $firstValue;
+//        $minValueIndex = 0;
+//        $maxValue = $firstValue;
+//        $maxValueIndex = 0;
+//        foreach($data as $index => $value)
+//        {
+//            if ($value > $maxValue)
+//            {
+//                $maxValue = $value;
+//                $maxValueIndex = $index;
+//            }
 //
-//			if ($value < $minValue)
-//			{
-//				$minValue = $value;
-//				$minValueIndex = $index;
-//			}
-//		}
+//            if ($value < $minValue)
+//            {
+//                $minValue = $value;
+//                $minValueIndex = $index;
+//            }
+//        }
 //
-//		return array($minValueIndex, $maxValueIndex);
-//	}
+//        return array($minValueIndex, $maxValueIndex);
+//    }
 }

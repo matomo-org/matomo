@@ -43,6 +43,7 @@
         name="js-tracker-website"
         class="jsTrackingCodeWebsite"
         v-model="site"
+        ref="site"
         :introduction="translate('General_Website')"
       />
 
@@ -62,219 +63,20 @@
         </div>
         </div>
         <div id="javascript-text">
-          <pre v-select-on-focus="{}" class="codeblock" v-text="trackingCode" ref="trackingCode"/>
+          <div>
+            <pre v-copy-to-clipboard="{}" class="codeblock" v-text="trackingCode"
+                 ref="trackingCode"/>
+          </div>
         </div>
       </div>
-
-      <div id="optional-js-tracking-options">
-        <!-- track across all subdomains -->
-        <div id="jsTrackAllSubdomainsInlineHelp" class="inline-help-node">
-          <span v-html="$sanitize(mergeSubdomainsDesc)"></span>
-          <span v-html="$sanitize(learnMoreText)"></span>
-        </div>
-
-        <Field
-          uicontrol="checkbox"
-          name="javascript-tracking-all-subdomains"
-          :model-value="trackAllSubdomains"
-          @update:model-value="trackAllSubdomains = $event; updateTrackingCode()"
-          :disabled="isLoading"
-          :introduction="translate('General_Options')"
-          :title="`${translate(
-            'CoreAdminHome_JSTracking_MergeSubdomains',
-          )} ${currentSiteName}`"
-          inline-help="#jsTrackAllSubdomainsInlineHelp"
-        />
-      </div>
-
-      <!-- group page titles by site domain -->
-      <div id="jsTrackGroupByDomainInlineHelp" class="inline-help-node">
-        {{ translate('CoreAdminHome_JSTracking_GroupPageTitlesByDomainDesc1', currentSiteHost) }}
-      </div>
-
-      <Field
-        uicontrol="checkbox"
-        name="javascript-tracking-group-by-domain"
-        :model-value="groupByDomain"
-        @update:model-value="groupByDomain = $event; updateTrackingCode()"
-        :disabled="isLoading"
-        :title="translate('CoreAdminHome_JSTracking_GroupPageTitlesByDomain')"
-        inline-help="#jsTrackGroupByDomainInlineHelp"
-      />
-
-      <!-- track across all site aliases -->
-      <div id="jsTrackAllAliasesInlineHelp" class="inline-help-node">
-        {{ translate('CoreAdminHome_JSTracking_MergeAliasesDesc', currentSiteAlias) }}
-      </div>
-
-      <Field
-        uicontrol="checkbox"
-        name="javascript-tracking-all-aliases"
-        :model-value="trackAllAliases"
-        @update:model-value="trackAllAliases = $event; updateTrackingCode()"
-        :disabled="isLoading"
-        :title="`${translate('CoreAdminHome_JSTracking_MergeAliases')} ${currentSiteName}`"
-        inline-help="#jsTrackAllAliasesInlineHelp"
-      />
     </div>
-
-    <Field
-      uicontrol="checkbox"
-      name="javascript-tracking-noscript"
-      :model-value="trackNoScript"
-      @update:model-value="trackNoScript = $event; updateTrackingCode()"
-      :disabled="isLoading"
-      :title="translate('CoreAdminHome_JSTracking_TrackNoScript')"
-    />
-
-    <h3>{{ translate('Mobile_Advanced') }}</h3>
-
-    <p>
-      <a href="javascript:;"
-         v-show="!showAdvanced"
-         @click.prevent="showAdvanced = true">{{ translate('General_Show') }}</a>
-      <a href="javascript:;"
-         v-show="showAdvanced"
-         @click.prevent="showAdvanced = false">{{ translate('General_Hide') }}</a>
-    </p>
-
-    <div id="javascript-advanced-options" v-show="showAdvanced">
-
-      <!-- visitor custom variable -->
-      <Field
-        uicontrol="checkbox"
-        name="javascript-tracking-visitor-cv-check"
-        :model-value="trackCustomVars"
-        @update:model-value="trackCustomVars = $event; updateTrackingCode()"
-        :disabled="isLoading"
-        :title="translate('CoreAdminHome_JSTracking_VisitorCustomVars')"
-        :inline-help="translate('CoreAdminHome_JSTracking_VisitorCustomVarsDesc')"
-      />
-
-      <div id="javascript-tracking-visitor-cv" v-show="trackCustomVars">
-        <div class="row">
-          <div class="col s12 m3">
-            {{ translate('General_Name') }}
-          </div>
-          <div class="col s12 m3">
-            {{ translate('General_Value') }}
-          </div>
-        </div>
-        <div class="row" v-for="(customVar, index) in customVars" :key="index">
-          <div class="col s12 m6 l3">
-            <input type="text" class="custom-variable-name"
-                   @keydown="onCustomVarNameKeydown($event, index)"
-                   placeholder="e.g. Type"/>
-          </div>
-          <div class="col s12 m6 l3">
-            <input type="text" class="custom-variable-value"
-                   @keydown="onCustomVarValueKeydown($event, index)"
-                   placeholder="e.g. Customer"/>
-          </div>
-        </div>
-        <div class="row" v-show="canAddMoreCustomVariables">
-          <div class="col s12">
-            <a href="javascript:;"
-               @click="addCustomVar()"
-               class="add-custom-variable"
-            >
-              <span class="icon-add"></span> {{ translate('General_Add') }}
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- cross domain support -->
-      <div id="jsCrossDomain" class="inline-help-node">
-        {{ translate('CoreAdminHome_JSTracking_CrossDomain') }}
-        <br/>
-        {{ translate('CoreAdminHome_JSTracking_CrossDomain_NeedsMultipleDomains') }}
-      </div>
-
-      <Field
-        uicontrol="checkbox"
-        name="javascript-tracking-cross-domain"
-        :model-value="crossDomain"
-        @update:model-value="crossDomain = $event; updateTrackingCode(); onCrossDomainToggle();"
-        :disabled="isLoading || !hasManySiteUrls"
-        :title="translate('CoreAdminHome_JSTracking_EnableCrossDomainLinking')"
-        inline-help="#jsCrossDomain"
-      />
-
-      <!-- do not track support -->
-      <div id="jsDoNotTrackInlineHelp" class="inline-help-node">
-        {{ translate('CoreAdminHome_JSTracking_EnableDoNotTrackDesc') }}
-        <span v-if="serverSideDoNotTrackEnabled">
-        <br/>
-        {{ translate('CoreAdminHome_JSTracking_EnableDoNotTrack_AlreadyEnabled') }}
-        </span>
-      </div>
-
-      <Field
-        uicontrol="checkbox"
-        name="javascript-tracking-do-not-track"
-        :model-value="doNotTrack"
-        @update:model-value="doNotTrack = $event; updateTrackingCode()"
-        :disabled="isLoading"
-        :title="translate('CoreAdminHome_JSTracking_EnableDoNotTrack')"
-        inline-help="#jsDoNotTrackInlineHelp"
-      />
-
-      <!-- disable all cookies options -->
-      <Field
-        uicontrol="checkbox"
-        name="javascript-tracking-disable-cookies"
-        :model-value="disableCookies"
-        @update:model-value="disableCookies = $event; updateTrackingCode()"
-        :disabled="isLoading"
-        :title="translate('CoreAdminHome_JSTracking_DisableCookies')"
-        :inline-help="translate('CoreAdminHome_JSTracking_DisableCookiesDesc')"
-      />
-
-      <!-- custom campaign name/keyword query params -->
-      <div id="jsTrackCampaignParamsInlineHelp"
-           class="inline-help-node"
-           v-html="$sanitize(jsTrackCampaignParamsInlineHelp)">
-      </div>
-
-      <Field
-        uicontrol="checkbox"
-        name="custom-campaign-query-params-check"
-        :model-value="useCustomCampaignParams"
-        @update:model-value="useCustomCampaignParams = $event; updateTrackingCode()"
-        :disabled="isLoading"
-        :title="translate('CoreAdminHome_JSTracking_CustomCampaignQueryParam')"
-        inline-help="#jsTrackCampaignParamsInlineHelp"
-      />
-
-      <div v-show="useCustomCampaignParams" id="js-campaign-query-param-extra">
-        <div class="row">
-          <div class="col s12">
-            <Field
-              uicontrol="text"
-              name="custom-campaign-name-query-param"
-              :model-value="customCampaignName"
-              @update:model-value="customCampaignName = $event; updateTrackingCode()"
-              :disabled="isLoading"
-              :title="translate('CoreAdminHome_JSTracking_CampaignNameParam')"
-            />
-          </div>
-        </div>
-        <div class="row">
-          <div class="col s12">
-            <Field
-              uicontrol="text"
-              name="custom-campaign-keyword-query-param"
-              :model-value="customCampaignKeyword"
-              @update:model-value="customCampaignKeyword = $event; updateTrackingCode()"
-              :disabled="isLoading"
-              :title="translate('CoreAdminHome_JSTracking_CampaignKwdParam')"
-            />
-          </div>
-        </div>
-      </div>
-
-    </div>
+    <JsTrackingCodeAdvancedOptions
+      :default-site="defaultSite"
+      :max-custom-variables="maxCustomVariables"
+      :server-side-do-not-track-enabled="serverSideDoNotTrackEnabled"
+      :showBottomHR="false"
+      @updateTrackingCode="updateTrackingCode"
+      ref="jsTrackingCodeAdvanceOption"/>
 
   </ContentBlock>
 </template>
@@ -286,11 +88,11 @@ import {
   translate,
   AjaxHelper,
   SiteRef,
-  SelectOnFocus,
-  debounce,
+  CopyToClipboard,
   Matomo,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
+import JsTrackingCodeAdvancedOptions from './JsTrackingCodeAdvancedOptions.vue';
 
 interface CustomVar {
   name: string;
@@ -325,23 +127,10 @@ interface JsTrackingCodeGeneratorState {
   consentManagerIsConnected: boolean;
 }
 
-interface GetJavascriptTagResponse {
-  value: string;
-}
-
 function getHostNameFromUrl(url: string) {
   const urlObj = new URL(url);
   return urlObj.hostname;
 }
-
-function getCustomVarArray(cvars: CustomVar[]) {
-  return cvars.map((cv) => [cv.name, cv.value]);
-}
-
-const { $ } = window;
-
-const piwikHost = window.location.host;
-const piwikPath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
 
 export default defineComponent({
   props: {
@@ -382,18 +171,14 @@ export default defineComponent({
     };
   },
   components: {
+    JsTrackingCodeAdvancedOptions,
     ContentBlock,
     Field,
   },
   directives: {
-    SelectOnFocus,
+    CopyToClipboard,
   },
   created() {
-    this.onCustomVarNameKeydown = debounce(this.onCustomVarNameKeydown, 100);
-    this.onCustomVarValueKeydown = debounce(this.onCustomVarValueKeydown, 100);
-
-    this.addCustomVar();
-
     if (this.site && this.site.id) {
       this.onSiteChanged(this.site);
     }
@@ -404,6 +189,19 @@ export default defineComponent({
     },
   },
   methods: {
+    updateTrackingCode(code:string) {
+      this.trackingCode = code;
+
+      const jsCodeTextarea = $(this.$refs.trackingCode as HTMLElement);
+      if (jsCodeTextarea && !this.isHighlighting) {
+        this.isHighlighting = true;
+        jsCodeTextarea.effect('highlight', {
+          complete: () => {
+            this.isHighlighting = false;
+          },
+        }, 1500);
+      }
+    },
     onSiteChanged(newValue: SiteRef) {
       const idSite = newValue.id;
 
@@ -479,9 +277,11 @@ export default defineComponent({
       }
 
       Promise.all(promises).then(() => {
+        // eslint-disable-next-line
+        const refs = (this.$refs.jsTrackingCodeAdvanceOption as any);
         this.isLoading = false;
         this.updateCurrentSiteInfo();
-        this.updateTrackingCode();
+        refs.updateTrackingCode(newValue);
       });
     },
     sendEmail() {
@@ -508,102 +308,11 @@ export default defineComponent({
       const linkText = `mailto:?subject=${subjectLine}&body=${bodyText}`;
       window.location.href = linkText;
     },
-    onCrossDomainToggle() {
-      if (this.crossDomain) {
-        this.trackAllAliases = true;
-      }
-    },
-    updateTrackingCode() {
-      const { site } = this;
-
-      // get params used to generate JS code
-      const params: Record<string, unknown> = {
-        piwikUrl: `${piwikHost}${piwikPath}`,
-        groupPageTitlesByDomain: this.groupByDomain ? 1 : 0,
-        mergeSubdomains: this.trackAllSubdomains ? 1 : 0,
-        mergeAliasUrls: this.trackAllAliases ? 1 : 0,
-        visitorCustomVariables: this.trackCustomVars ? getCustomVarArray(this.customVars) : 0,
-        customCampaignNameQueryParam: null,
-        customCampaignKeywordParam: null,
-        doNotTrack: this.doNotTrack ? 1 : 0,
-        disableCookies: this.disableCookies ? 1 : 0,
-        crossDomain: this.crossDomain ? 1 : 0,
-        trackNoScript: this.trackNoScript ? 1 : 0,
-        forceMatomoEndpoint: 1,
-      };
-
-      if (this.siteExcludedQueryParams[site.id]) {
-        params.excludedQueryParams = this.siteExcludedQueryParams[site.id];
-      }
-
-      if (this.siteExcludedReferrers[site.id]) {
-        params.excludedReferrers = this.siteExcludedReferrers[site.id];
-      }
-
-      if (this.useCustomCampaignParams) {
-        params.customCampaignNameQueryParam = this.customCampaignName;
-        params.customCampaignKeywordParam = this.customCampaignKeyword;
-      }
-
-      if (this.trackingCodeAbortController) {
-        this.trackingCodeAbortController.abort();
-        this.trackingCodeAbortController = null;
-      }
-
-      this.trackingCodeAbortController = new AbortController();
-
-      AjaxHelper.post<GetJavascriptTagResponse>(
-        {
-          module: 'API',
-          format: 'json',
-          method: 'SitesManager.getJavascriptTag',
-          idSite: site.id,
-        },
-        params,
-        {
-          abortController: this.trackingCodeAbortController,
-        },
-      ).then((response) => {
-        this.trackingCodeAbortController = null;
-
-        this.trackingCode = response.value;
-
-        const jsCodeTextarea = $(this.$refs.trackingCode as HTMLElement);
-        if (jsCodeTextarea && !this.isHighlighting) {
-          this.isHighlighting = true;
-          jsCodeTextarea.effect('highlight', {
-            complete: () => {
-              this.isHighlighting = false;
-            },
-          }, 1500);
-        }
-      });
-    },
     updateCurrentSiteInfo() {
       if (!this.hasManySiteUrls) {
         // we make sure to disable cross domain if it has only one url or less
         this.crossDomain = false;
       }
-    },
-    addCustomVar() {
-      if (this.canAddMoreCustomVariables) {
-        this.customVars.push({ name: '', value: '' });
-      }
-
-      this.canAddMoreCustomVariables = !!this.maxCustomVariables
-        && this.maxCustomVariables > this.customVars.length;
-    },
-    onCustomVarNameKeydown(event: KeyboardEvent, index: number) {
-      setTimeout(() => {
-        this.customVars[index].name = (event.target as HTMLInputElement).value;
-        this.updateTrackingCode();
-      });
-    },
-    onCustomVarValueKeydown(event: KeyboardEvent, index: number) {
-      setTimeout(() => {
-        this.customVars[index].value = (event.target as HTMLInputElement).value;
-        this.updateTrackingCode();
-      });
     },
   },
   computed: {
@@ -649,29 +358,6 @@ export default defineComponent({
         'CoreAdminHome_JSTrackingIntro5',
         '<a rel="noreferrer noopener" target="_blank" '
         + 'href="https://developer.matomo.org/guides/tracking-javascript-guide">',
-        '</a>',
-      );
-    },
-    mergeSubdomainsDesc() {
-      return translate(
-        'CoreAdminHome_JSTracking_MergeSubdomainsDesc',
-        `x.${this.currentSiteHost}`,
-        `y.${this.currentSiteHost}`,
-      );
-    },
-    learnMoreText() {
-      const subdomainsLink = 'https://developer.matomo.org/guides/tracking-javascript-guide'
-        + '#measuring-domains-andor-sub-domains';
-      return translate(
-        'General_LearnMore',
-        ` (<a href="${subdomainsLink}" rel="noreferrer noopener" target="_blank">`,
-        '</a>)',
-      );
-    },
-    jsTrackCampaignParamsInlineHelp() {
-      return translate(
-        'CoreAdminHome_JSTracking_CustomCampaignQueryParamDesc',
-        '<a href="https://matomo.org/faq/general/faq_119" rel="noreferrer noopener" target="_blank">',
         '</a>',
       );
     },

@@ -1272,7 +1272,7 @@ class RangeTest extends BasePeriodTest
     public function testGetLocalizedLongString()
     {
         $month = new Range('range', '2023-05-09,2023-05-21');
-        $shouldBe = 'May 8 – 21, 2023';
+        $shouldBe = 'May 9 – 21, 2023';
         $this->assertEquals($shouldBe, $month->getLocalizedLongString());
     }
 

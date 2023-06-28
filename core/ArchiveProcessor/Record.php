@@ -91,6 +91,10 @@ class Record
      */
     public function setName(string $name): Record
     {
+        if (!preg_match('/^[a-zA-Z0-9_-]+$/', $name)) {
+            throw new \Exception('Invalid record name: ' . $name . '. Only alphanumeric characters, hyphens and underscores are allowed.');
+        }
+
         $this->name = $name;
         return $this;
     }

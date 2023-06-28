@@ -1,3 +1,7 @@
+#ajaxLoadingCalendar {
+  white-space: nowrap;
+}
+
 #periodString {
   display: block;
   color: @theme-color-text-light;
@@ -8,83 +12,77 @@
   position: absolute;
   z-index: 122; /* must be higher than segmentEditor z-index */
   background-color: #f7f7f7;
-}
 
-#ajaxLoadingCalendar {
-  white-space: nowrap;
-}
+  &:hover {
+    background-color: #f1f0eb;
+    border-color: #a9a399;
+  }
 
-#periodString:hover {
-  background-color: #f1f0eb;
-  border-color: #a9a399;
-}
+  td {
+    vertical-align: top;
+    border-radius: 0;
+  }
 
-#periodString td {
-  vertical-align: top;
-  border-radius: 0;
-}
-
-#periodString {
   .ui-widget-header,
   .ui-datepicker {
     &.ui-helper-clearfix::before,
- &.ui-helper-clearfix::after {
+    &.ui-helper-clearfix::after {
       display: inline;
       clear: none;
       content: none !important;
     }
   }
-}
 
-#periodString .calendar-icon {
-  width: 13px;
-  height: 15px;
-  display: inline-block;
-  position: absolute;
-  right: 19px;
-  top: 9px;
-  background: url("plugins/Morpheus/images/icon-calendar.png") no-repeat scroll;
-  cursor: pointer;
-}
-
-#periodString strong {
-  color: #255792;
-}
-
-#periodString h6 {
-  font-size: 14px;
-  padding: 0 0 4px 0;
-}
-
-#periodString .period-date,
-#periodString .period-range {
-  padding: 0 16px 0 0;
-}
-
-#periodString .period-type {
-  padding: 0;
-}
-
-#periodString .period-type label {
-  &, span {
-    font-size: 13px;
-    white-space: nowrap;
-  }
-}
-
-#periodString label.selected-period-label {
-  text-decoration: underline;
-}
-
-#periodString .compareCheckbox {
-  transform: scale(.8);
-  margin-left: -29px;
-
-  .form-group {
-    margin: 15px 0 0;
+  .calendar-icon {
+    width: 13px;
+    height: 15px;
+    display: inline-block;
+    position: absolute;
+    right: 19px;
+    top: 9px;
+    background: url("plugins/Morpheus/images/icon-calendar.png") no-repeat scroll;
+    cursor: pointer;
   }
 
-  label {
-    padding-left: 25px;
+  strong {
+    color: #255792;
+  }
+
+  h6 {
+    font-size: 14px;
+    padding: 0 0 4px 0;
+  }
+
+  .period-date,
+  .period-range {
+    padding: 0 16px 0 0;
+  }
+
+  .period-type {
+    padding: 0;
+  }
+
+  .period-type label {
+    &, span {
+      font-size: 13px;
+      white-space: nowrap;
+    }
+  }
+
+  label.selected-period-label {
+    text-decoration: underline;
+  }
+
+  .compareCheckbox {
+    transform: scale(.8);
+    margin-left: -29px;
+
+    .form-group {
+      margin: 15px 0 0;
+    }
+
+    label {
+      padding-left: 25px;
+    }
   }
 }

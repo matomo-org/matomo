@@ -15,6 +15,7 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\Date;
+use Piwik\Metrics;
 use Piwik\NumberFormatter;
 use Piwik\Period;
 use Piwik\Period\Factory;
@@ -74,7 +75,7 @@ class Get extends Base
             $view->config->addTranslations($this->getSparklineTranslations());
 
             // add evolution values
-            list($lastPeriodDate, $ignore) = Range::getLastDate();
+            [$lastPeriodDate, $ignore] = Range::getLastDate();
             if ($lastPeriodDate !== false) {
                 $date = Common::getRequestVar('date');
 
@@ -98,6 +99,7 @@ class Get extends Base
                     return [
                         'currentValue' => $value,
                         'pastValue' => $pastValue,
+                        'isLowerValueBetter' => Metrics::isLowerValueBetter($columnName),
                         'tooltip' => Piwik::translate('General_EvolutionSummaryGeneric', array(
                             Piwik::translate('General_NVisits', $currentValueFormatted),
                             $date,

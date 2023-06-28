@@ -142,14 +142,16 @@ class FileTest extends IntegrationTestCase
 
     public function test_checkReadable_shouldNotThrowException_IfIsReadable()
     {
+        self::expectNotToPerformAssertions();
+
         $this->makeFile()->checkReadable();
-        $this->assertTrue(true);
     }
 
     public function test_checkWritable_shouldNotThrowException_IfIsWritable()
     {
+        self::expectNotToPerformAssertions();
+
         $this->makeFile()->checkWritable();
-        $this->assertTrue(true);
     }
 
     public function test_checkReadable_shouldThrowException_IfNotIsReadable()

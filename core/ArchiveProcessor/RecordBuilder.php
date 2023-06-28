@@ -11,6 +11,7 @@ namespace Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\Piwik;
 
 /**
  * Inherit from this class to define archiving logic for one or more records.
@@ -28,14 +29,9 @@ abstract class RecordBuilder
     protected $maxRowsInSubtable;
 
     /**
-     * @var string|int
+     * @var string|null
      */
     protected $columnToSortByBeforeTruncation;
-
-    /**
-     * @var int
-     */
-    protected $blobReportLimit;
 
     /**
      * @var array|null
@@ -50,12 +46,12 @@ abstract class RecordBuilder
     /**
      * @param int|null $maxRowsInTable
      * @param int|null $maxRowsInSubtable
-     * @param string|int|null $columnToSortByBeforeTruncation
+     * @param string|null $columnToSortByBeforeTruncation
      * @param array|null $columnAggregationOps
      */
-    public function __construct($maxRowsInTable = null, $maxRowsInSubtable = null,
-                                $columnToSortByBeforeTruncation = null, $columnAggregationOps = null,
-                                $columnToRenameAfterAggregation = null)
+    public function __construct(?int $maxRowsInTable = null, ?int $maxRowsInSubtable = null,
+                                ?string $columnToSortByBeforeTruncation = null, ?array $columnAggregationOps = null,
+                                ?array $columnToRenameAfterAggregation = null)
     {
         $this->maxRowsInTable = $maxRowsInTable;
         $this->maxRowsInSubtable = $maxRowsInSubtable;
@@ -64,12 +60,19 @@ abstract class RecordBuilder
         $this->columnToRenameAfterAggregation = $columnToRenameAfterAggregation;
     }
 
-    public function isEnabled(ArchiveProcessor $archiveProcessor)
+    public function isEnabled(ArchiveProcessor $archiveProcessor): bool
     {
         return true;
     }
 
-    public function build(ArchiveProcessor $archiveProcessor)
+    /**
+     * Uses the protected `aggregate()` function to build records by aggregating log table data directly, then
+     * inserts them as archive data.
+     *
+     * @param ArchiveProcessor $archiveProcessor
+     * @return void
+     */
+    public function buildFromLogs(ArchiveProcessor $archiveProcessor): void
     {
         if (!$this->isEnabled($archiveProcessor)) {
             return;
@@ -79,6 +82,10 @@ abstract class RecordBuilder
 
         $recordMetadataByName = [];
         foreach ($recordsBuilt as $recordMetadata) {
+            if (!($recordMetadata instanceof Record)) {
+                continue;
+            }
+
             $recordMetadataByName[$recordMetadata->getName()] = $recordMetadata;
         }
 
@@ -86,6 +93,13 @@ abstract class RecordBuilder
 
         $records = $this->aggregate($archiveProcessor);
         foreach ($records as $recordName => $recordValue) {
+            if (empty($recordMetadataByName[$recordName])) {
+                if ($recordValue instanceof DataTable) {
+                    Common::destroy($recordValue);
+                }
+                continue;
+            }
+
             if ($recordValue instanceof DataTable) {
                 $record = $recordMetadataByName[$recordName];
 
@@ -93,7 +107,7 @@ abstract class RecordBuilder
                 $maxRowsInSubtable = $record->getMaxRowsInSubtable() ?? $this->maxRowsInSubtable;
                 $columnToSortByBeforeTruncation = $record->getColumnToSortByBeforeTruncation() ?? $this->columnToSortByBeforeTruncation;
 
-                $this->insertRecord($archiveProcessor, $recordName, $recordValue, $maxRowsInTable, $maxRowsInSubtable, $columnToSortByBeforeTruncation);
+                $this->insertBlobRecord($archiveProcessor, $recordName, $recordValue, $maxRowsInTable, $maxRowsInSubtable, $columnToSortByBeforeTruncation);
 
                 Common::destroy($recordValue);
             } else {
@@ -108,7 +122,14 @@ abstract class RecordBuilder
         }
     }
 
-    public function buildMultiplePeriod(ArchiveProcessor $archiveProcessor)
+    /**
+     * Builds records for non-day periods by aggregating day records together, then inserts
+     * them as archive data.
+     *
+     * @param ArchiveProcessor $archiveProcessor
+     * @return void
+     */
+    public function buildForNonDayPeriod(ArchiveProcessor $archiveProcessor): void
     {
         if (!$this->isEnabled($archiveProcessor)) {
             return;
@@ -124,7 +145,7 @@ abstract class RecordBuilder
 
         $aggregatedCounts = [];
 
-        // make sure if there are requested numeric records that depend on blob records, that the blob records will be archived
+        // make sure if there are requested numeric records that depend on blob records, that the blob records will be archived first
         foreach ($numericRecords as $record) {
             if (empty($record->getCountOfRecordName())
                 || !in_array($record->getName(), $requestedReports)
@@ -136,12 +157,19 @@ abstract class RecordBuilder
             if (!in_array($dependentRecordName, $requestedReports)) {
                 $requestedReports[] = $dependentRecordName;
             }
+
+            // we need to aggregate the blob record to get the count, so even if it's found, we must re-aggregate it
+            // TODO: this could potentially be optimized away, but it would be non-trivial given the current ArchiveProcessor API
+            $indexInFoundRecords = array_search($dependentRecordName, $foundRequestedReports);
+            if ($indexInFoundRecords !== false) {
+                unset($foundRequestedReports[$indexInFoundRecords]);
+            }
         }
 
         foreach ($blobRecords as $record) {
             if (!empty($requestedReports)
-                && !in_array($record->getName(), $requestedReports)
-                && !in_array($record->getName(), $foundRequestedReports)
+                && (!in_array($record->getName(), $requestedReports)
+                    || in_array($record->getName(), $foundRequestedReports))
             ) {
                 continue;
             }
@@ -177,7 +205,7 @@ abstract class RecordBuilder
         }
 
         if (!empty($numericRecords)) {
-            // handle metrics that are aggregated together
+            // handle metrics that are aggregated using metric values from child periods
             $autoAggregateMetrics = array_filter($numericRecords, function (Record $r) { return empty($r->getCountOfRecordName()); });
             $autoAggregateMetrics = array_map(function (Record $r) { return $r->getName(); }, $autoAggregateMetrics);
 
@@ -187,7 +215,11 @@ abstract class RecordBuilder
                 });
             }
 
-            $archiveProcessor->aggregateNumericMetrics($autoAggregateMetrics, $this->columnAggregationOps);
+            $autoAggregateMetrics = array_values($autoAggregateMetrics);
+
+            if (!empty($autoAggregateMetrics)) {
+                $archiveProcessor->aggregateNumericMetrics($autoAggregateMetrics, $this->columnAggregationOps);
+            }
 
             // handle metrics that are set to counts of blob records
             $recordCountMetricValues = [];
@@ -225,7 +257,7 @@ abstract class RecordBuilder
      *
      * @return Record[]
      */
-    public abstract function getRecordMetadata(ArchiveProcessor $archiveProcessor);
+    public abstract function getRecordMetadata(ArchiveProcessor $archiveProcessor): array;
 
     /**
      * Derived classes should define this method to aggregate log data for a single day and return the records
@@ -233,10 +265,10 @@ abstract class RecordBuilder
      *
      * @return (DataTable|int|float|string)[] Record values indexed by their record name, eg, `['MyPlugin_MyRecord' => new DataTable()]`
      */
-    protected abstract function aggregate(ArchiveProcessor $archiveProcessor);
+    protected abstract function aggregate(ArchiveProcessor $archiveProcessor): array;
 
-    private function insertRecord(ArchiveProcessor $archiveProcessor, $recordName, DataTable $record,
-                                  $maxRowsInTable, $maxRowsInSubtable, $columnToSortByBeforeTruncation)
+    protected function insertBlobRecord(ArchiveProcessor $archiveProcessor, string $recordName, DataTable $record,
+                                        ?int $maxRowsInTable, ?int $maxRowsInSubtable, ?string $columnToSortByBeforeTruncation): void
     {
         $serialized = $record->getSerialized(
             $maxRowsInTable ?: $this->maxRowsInTable,
@@ -247,28 +279,24 @@ abstract class RecordBuilder
         unset($serialized);
     }
 
-    public function getMaxRowsInTable()
+    public function getMaxRowsInTable(): ?int
     {
         return $this->maxRowsInTable;
     }
 
-    public function getMaxRowsInSubtable()
+    public function getMaxRowsInSubtable(): ?int
     {
         return $this->maxRowsInSubtable;
     }
 
-    public function getColumnToSortByBeforeTruncation()
+    public function getColumnToSortByBeforeTruncation(): ?string
     {
         return $this->columnToSortByBeforeTruncation;
     }
 
-    public function getPluginName()
+    public function getPluginName(): string
     {
-        $className = get_class($this);
-        $parts = explode('\\', $className);
-        $parts = array_filter($parts);
-        $plugin = $parts[2];
-        return $plugin;
+        return Piwik::getPluginNameOfMatomoClass(get_class($this));
     }
 
     /**
@@ -277,7 +305,7 @@ abstract class RecordBuilder
      *
      * @return string
      */
-    public function getQueryOriginHint()
+    public function getQueryOriginHint(): string
     {
         $recordBuilderName = get_class($this);
         $recordBuilderName = explode('\\', $recordBuilderName);
@@ -293,7 +321,7 @@ abstract class RecordBuilder
      * @param string[] $requestedReports The list of requested reports to check for.
      * @return bool
      */
-    public function isBuilderForAtLeastOneOf(ArchiveProcessor $archiveProcessor, array $requestedReports)
+    public function isBuilderForAtLeastOneOf(ArchiveProcessor $archiveProcessor, array $requestedReports): bool
     {
         $recordMetadata = $this->getRecordMetadata($archiveProcessor);
         foreach ($recordMetadata as $record) {

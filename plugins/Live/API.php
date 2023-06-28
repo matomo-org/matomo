@@ -62,14 +62,18 @@ class API extends \Piwik\Plugin\API
      * This will return simple counters, for a given website ID, for visits over the last N minutes
      *
      * @param int $idSite Id Site
-     * @param int $lastMinutes Number of minutes to look back at
+     * @param int $lastMinutes Number of minutes to look back at (between 1 and 2880)
      * @param bool|string $segment
      * @param array $showColumns The columns to show / not to request. Eg 'visits', 'actions', ...
      * @param array $hideColumns The columns to hide / not to request. Eg 'visits', 'actions', ...
      * @return array( visits => N, actions => M, visitsConverted => P )
      */
-    public function getCounters($idSite, $lastMinutes, $segment = false, $showColumns = array(), $hideColumns = array())
+    public function getCounters($idSite, int $lastMinutes, $segment = false, $showColumns = array(), $hideColumns = array())
     {
+        if ($lastMinutes < 1 || $lastMinutes > 2880) {
+            throw new \InvalidArgumentException('lastMinutes only accepts values between 1 and 2880');
+        }
+
         Piwik::checkUserHasViewAccess($idSite);
         $model = new Model();
 

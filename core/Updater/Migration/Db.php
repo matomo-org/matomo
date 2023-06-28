@@ -46,7 +46,12 @@ abstract class Db extends Migration
      * Duplicate entry '%s' for key %d
      */
     const ERROR_CODE_DUPLICATE_ENTRY = 1062;
-    
+
+    /**
+     * Syntax error
+     */
+    const ERROR_CODE_SYNTAX_ERROR = 1064;
+
     /**
      * Multiple primary key defined
      */
