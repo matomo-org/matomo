@@ -116,11 +116,10 @@ class Csv extends ReportRenderer
 
         $reportData = $csvRenderer->render($processedReport);
         if (empty($reportData)) {
-            $reportData = Piwik::translate('CoreHome_ThereIsNoDataForThisReport');
+            $reportData = $csvRenderer->formatValue(Piwik::translate('CoreHome_ThereIsNoDataForThisReport'));
         }
 
-        $replaceBySpace = array( $csvRenderer->separator, ";");
-        $reportName = str_replace($replaceBySpace, " ", $processedReport['metadata']['name']);
+        $reportName = $csvRenderer->formatValue($processedReport['metadata']['name']);
         $this->rendered .= implode(
             '',
             array(

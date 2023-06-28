@@ -146,7 +146,7 @@ class SchedulerTest extends \PHPUnit\Framework\TestCase
                 // configured tasks
                 array(
                     $scheduledTaskOne,
-//					$scheduledTaskTwo, Not configured anymore (ie. not returned after TaskScheduler::GET_TASKS_EVENT is issued)
+//                    $scheduledTaskTwo, Not configured anymore (ie. not returned after TaskScheduler::GET_TASKS_EVENT is issued)
                     $scheduledTaskThree,
                 )
             ),

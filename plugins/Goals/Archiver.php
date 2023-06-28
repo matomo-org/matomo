@@ -30,7 +30,57 @@ class Archiver extends \Piwik\Plugin\Archiver
     const VISITS_COUNT_FIELD = 'visitor_count_visits';
     const SECONDS_SINCE_FIRST_VISIT_FIELD = 'visitor_seconds_since_first';
 
-    public static $ARCHIVE_DEPENDENT = true;
+    public function getDependentSegmentsToArchive(): array
+    {
+        $hasConversions = $this->getProcessor()->getNumberOfVisitsConverted() > 0;
+        if (!$hasConversions) {
+            return [];
+        }
+
+        return [
+            VisitFrequencyAPI::NEW_VISITOR_SEGMENT,
+            VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT,
+        ];
+    }
+
+    /**
+     * This array stores the ranges to use when displaying the 'visits to conversion' report
+     */
+    public static $visitCountRanges = [
+        [1, 1],
+        [2, 2],
+        [3, 3],
+        [4, 4],
+        [5, 5],
+        [6, 6],
+        [7, 7],
+        [8, 8],
+        [9, 14],
+        [15, 25],
+        [26, 50],
+        [51, 100],
+        [100],
+    ];
+
+    /**
+     * This array stores the ranges to use when displaying the 'days to conversion' report
+     */
+    public static $daysToConvRanges = [
+        [0, 0],
+        [1, 1],
+        [2, 2],
+        [3, 3],
+        [4, 4],
+        [5, 5],
+        [6, 6],
+        [7, 7],
+        [8, 14],
+        [15, 30],
+        [31, 60],
+        [61, 120],
+        [121, 364],
+        [364],
+    ];
 
     protected $dimensionRecord = [
         self::SKU_FIELD      => self::ITEMS_SKU_RECORD_NAME,
@@ -46,15 +96,6 @@ class Archiver extends \Piwik\Plugin\Archiver
         self::CATEGORY4_FIELD => 'idaction_product_cat4',
         self::CATEGORY5_FIELD => 'idaction_product_cat5',
     ];
-
-    public function aggregateDayReport()
-    {
-        $hasConversions = $this->getProcessor()->getNumberOfVisitsConverted() > 0;
-        if (self::$ARCHIVE_DEPENDENT && $hasConversions) {
-            $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::NEW_VISITOR_SEGMENT);
-            $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT);
-        }
-    }
 
     /**
      * @param string $recordName 'nb_conversions'
@@ -73,17 +114,5 @@ class Archiver extends \Piwik\Plugin\Archiver
     public static function getItemRecordNameAbandonedCart($recordName)
     {
         return $recordName . '_Cart';
-    }
-
-    /**
-     * @internal param $this->getProcessor()
-     */
-    public function aggregateMultipleReports()
-    {
-        $hasConversions = $this->getProcessor()->getNumberOfVisitsConverted() > 0;
-        if (self::$ARCHIVE_DEPENDENT && $hasConversions) {
-            $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::NEW_VISITOR_SEGMENT);
-            $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT);
-        }
     }
 }

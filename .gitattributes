@@ -53,7 +53,34 @@ tests/ export-ignore
 .gitignore export-ignore
 .gitattributes export-ignore
 .gitmodules export-ignore
+.git-blame-ignore-revs export-ignore
 .phpstorm.meta.php export-ignore
 .scrutinizer.yml export-ignore
 .travis.yml export-ignore
+.stylelintrc.json export-ignore
 PULL_REQUEST_TEMPLATE export-ignore
+
+# Linguist: language statistics
+# + test resources: exclude
+plugins/*/tests/System/expected/** -linguist-detectable
+plugins/*/tests/System/resources/** -linguist-detectable
+plugins/*/tests/UI/expected-screenshots/** -linguist-detectable
+tests/resources/** -linguist-detectable
+tests/PHPUnit/System/expected/** -linguist-detectable
+tests/UI/expected-screenshots/** -linguist-detectable
+# + generated code: exclude and suppress in diffs
+*.min.css linguist-generated
+*.min.js linguist-generated
+/matomo.js linguist-generated
+/piwik.js linguist-generated
+plugins/*/vue/dist/** linguist-generated
+plugins/Intl/lang/* linguist-generated
+# + vendor code: exclude
+libs/** linguist-vendored
+node_modules/** linguist-vendored
+plugins/*/libs/** linguist-vendored
+tests/lib/** linguist-vendored
+tests/javascript/assets/** linguist-vendored
+tests/javascript/frameworks/** linguist-vendored
+tests/javascript/jash/** linguist-vendored
+tests/javascript/jslint/** linguist-vendored

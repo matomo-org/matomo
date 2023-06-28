@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,6 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\Installation;
 
 use HTML_QuickForm2_DataSource_Array;
@@ -16,7 +18,7 @@ use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\QuickForm2;
 
 /**
- *
+ * phpcs:ignoreFile PSR1.Classes.ClassDeclaration.MultipleClasses
  */
 class FormSuperUser extends QuickForm2
 {
@@ -27,8 +29,8 @@ class FormSuperUser extends QuickForm2
 
     function init()
     {
-        HTML_QuickForm2_Factory::registerRule('checkLogin', 'Piwik\Plugins\Installation\Rule_isValidLoginString');
-        HTML_QuickForm2_Factory::registerRule('checkEmail', 'Piwik\Plugins\Installation\Rule_isValidEmailString');
+        HTML_QuickForm2_Factory::registerRule('checkLogin', 'Piwik\Plugins\Installation\RuleIsValidLoginString');
+        HTML_QuickForm2_Factory::registerRule('checkEmail', 'Piwik\Plugins\Installation\RuleIsValidEmailString');
 
         $login = $this->addElement('text', 'login')
             ->setLabel(Piwik::translate('Installation_SuperUserLogin'));
@@ -84,7 +86,7 @@ class FormSuperUser extends QuickForm2
  * Login id validation rule
  *
  */
-class Rule_isValidLoginString extends HTML_QuickForm2_Rule
+class RuleIsValidLoginString extends HTML_QuickForm2_Rule
 {
     function validateOwner()
     {
@@ -105,7 +107,7 @@ class Rule_isValidLoginString extends HTML_QuickForm2_Rule
  * Email address validation rule
  *
  */
-class Rule_isValidEmailString extends HTML_QuickForm2_Rule
+class RuleIsValidEmailString extends HTML_QuickForm2_Rule
 {
     function validateOwner()
     {

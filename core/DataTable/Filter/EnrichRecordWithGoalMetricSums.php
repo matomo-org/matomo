@@ -35,7 +35,7 @@ class EnrichRecordWithGoalMetricSums extends BaseFilter
         }
     }
 
-    public static function enrichWithConversions(&$values)
+    public static function enrichWithConversions(&$values): void
     {
         if (!isset($values[Metrics::INDEX_GOALS])) {
             return;

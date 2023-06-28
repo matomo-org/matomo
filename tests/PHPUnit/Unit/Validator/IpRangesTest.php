@@ -19,6 +19,8 @@ class IpRangesTest extends \PHPUnit\Framework\TestCase
 {
     public function test_validate_success()
     {
+        self::expectNotToPerformAssertions();
+
         $this->validate(array(
             '12.12.12.12/32',
             '14.14.14.14',
@@ -28,8 +30,6 @@ class IpRangesTest extends \PHPUnit\Framework\TestCase
         $this->validate(false);
         $this->validate('');
         $this->validate(null);
-
-        $this->assertTrue(true);
     }
 
     public function test_validate_failNotValidIpRange()

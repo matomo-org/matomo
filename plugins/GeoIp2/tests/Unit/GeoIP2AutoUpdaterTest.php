@@ -11,7 +11,7 @@ namespace Piwik\Plugins\GeoIp2\tests\Unit;
 use Piwik\Config;
 use Piwik\Plugins\GeoIp2\GeoIP2AutoUpdater;
 
-class public_GeoIP2AutoUpdater extends GeoIP2AutoUpdater
+class PublicGeoIP2AutoUpdater extends GeoIP2AutoUpdater
 {
     public static function isPaidDbIpUrl($url)
     {
@@ -38,7 +38,7 @@ class GeoIP2AutoUpdaterTest extends \PHPUnit\Framework\TestCase
      */
     public function testIsPaidDbIpUrl($expected, $url)
     {
-        $this->assertEquals($expected, public_GeoIP2AutoUpdater::isPaidDbIpUrl($url));
+        $this->assertEquals($expected, PublicGeoIP2AutoUpdater::isPaidDbIpUrl($url));
     }
 
     public function getPaidDbTestUrls()
@@ -76,7 +76,7 @@ class GeoIP2AutoUpdaterTest extends \PHPUnit\Framework\TestCase
     {
         $url = 'https://db-ip.com/account/ad446bf4cb9a44e4fff3f215deabc710f12f3/db/ip-to-country/mmdb/url';
 
-        $mock = $this->getMockBuilder(public_GeoIP2AutoUpdater::class)
+        $mock = $this->getMockBuilder(PublicGeoIP2AutoUpdater::class)
             ->setMethods(['fetchUrl'])
             ->disableOriginalConstructor()
             ->getMock();
@@ -92,7 +92,7 @@ class GeoIP2AutoUpdaterTest extends \PHPUnit\Framework\TestCase
     {
         $url = 'https://db-ip.com/account/ad446bf4cb9a44e4fff3f215deabc710f12f3/db/ip-to-country/mmdb';
 
-        $mock = $this->getMockBuilder(public_GeoIP2AutoUpdater::class)
+        $mock = $this->getMockBuilder(PublicGeoIP2AutoUpdater::class)
             ->setMethods(['fetchUrl'])
             ->disableOriginalConstructor()
             ->getMock();
@@ -117,7 +117,7 @@ class GeoIP2AutoUpdaterTest extends \PHPUnit\Framework\TestCase
     {
         $url = 'https://db-ip.com/account/ad446bf4cb9a44e4fff3f215deabc710f12f3/db/ip-to-country';
 
-        $mock = $this->getMockBuilder(public_GeoIP2AutoUpdater::class)
+        $mock = $this->getMockBuilder(PublicGeoIP2AutoUpdater::class)
             ->setMethods(['fetchUrl'])
             ->disableOriginalConstructor()
             ->getMock();
@@ -160,7 +160,7 @@ class GeoIP2AutoUpdaterTest extends \PHPUnit\Framework\TestCase
         } else {
             $this->expectNotToPerformAssertions();
         }
-        public_GeoIP2AutoUpdater::checkGeoIPUpdateUrl($url);
+        PublicGeoIP2AutoUpdater::checkGeoIPUpdateUrl($url);
     }
 
     public function getUpdaterUrlOptions()
@@ -185,6 +185,6 @@ class GeoIP2AutoUpdaterTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectNotToPerformAssertions();
         Config::getInstance()->General['geolocation_download_from_trusted_hosts'][] = 'matomo.org';
-        public_GeoIP2AutoUpdater::checkGeoIPUpdateUrl('http://matomo.org/download/geoip.mmdb');
+        PublicGeoIP2AutoUpdater::checkGeoIPUpdateUrl('http://matomo.org/download/geoip.mmdb');
     }
 }

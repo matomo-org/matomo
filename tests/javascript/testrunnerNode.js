@@ -9,7 +9,10 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0; // ignore ssl errors
 
 const puppeteer = require('puppeteer');
-const url = process.argv[2] || 'http://localhost/tests/javascript/';
+const baseUrl = process.argv[2] || 'http://localhost/tests/javascript/';
+
+const pluginArg = process.argv.find((arg) => /--plugin=(.*?)/.test(arg));
+const plugin = pluginArg ?pluginArg.split('=', 2)[1] : null;
 
 main();
 
@@ -21,6 +24,11 @@ async function main() {
     page.on('console', async (consoleMessage) => {
         console.log("[" + consoleMessage.type()  + "] " + consoleMessage.text());
     });
+
+    let url = baseUrl;
+    if (plugin) {
+      url += `?module=${encodeURIComponent(plugin)}`;
+    }
 
     await page.goto(url);
     await page.waitForFunction(() => window.QUnit);

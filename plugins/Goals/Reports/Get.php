@@ -249,6 +249,7 @@ class Get extends Base
                         return [
                             'currentValue' => $value,
                             'pastValue'    => $pastValue,
+                            'isLowerValueBetter' => Metrics::isLowerValueBetter($columnName),
                             'tooltip'      => Piwik::translate('General_EvolutionSummaryGeneric', [
                                 $currentValueFormatted . ' ' . $columnTranslation,
                                 $currentPrettyDate,
