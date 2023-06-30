@@ -401,5 +401,6 @@ function formatYAxis($value)
  */
 function formatYAxisNonUnifont($value)
 {
-    return str_replace("\xE2\x80\xAF", " ", NumberFormatter::getInstance()->format($value));
+    // Replace any narrow non-breaking spaces with non-breaking spaces as some fonts may not support it
+    return str_replace("\xE2\x80\xAF", "\xC2\xA0", NumberFormatter::getInstance()->format($value));
 }
