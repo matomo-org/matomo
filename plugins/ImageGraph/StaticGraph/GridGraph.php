@@ -22,10 +22,10 @@ abstract class GridGraph extends StaticGraph
 
     const DEFAULT_TICK_ALPHA = 20;
     const DEFAULT_SERIE_WEIGHT = 0.5;
-    const LEFT_GRID_MARGIN = 4;
+    const LEFT_GRID_MARGIN = 20;
     const BOTTOM_GRID_MARGIN = 10;
-    const TOP_GRID_MARGIN_HORIZONTAL_GRAPH = 1;
-    const RIGHT_GRID_MARGIN_HORIZONTAL_GRAPH = 4;
+    const TOP_GRID_MARGIN_HORIZONTAL_GRAPH = 10;
+    const RIGHT_GRID_MARGIN_HORIZONTAL_GRAPH = 20;
     const OUTER_TICK_WIDTH = 5;
     const INNER_TICK_WIDTH = 0;
     const LABEL_SPACE_VERTICAL_GRAPH = 7;
@@ -33,7 +33,7 @@ abstract class GridGraph extends StaticGraph
     const HORIZONTAL_LEGEND_TOP_MARGIN = 5;
     const HORIZONTAL_LEGEND_LEFT_MARGIN = 10;
     const HORIZONTAL_LEGEND_BOTTOM_MARGIN = 10;
-    const VERTICAL_LEGEND_TOP_MARGIN = 8;
+    const VERTICAL_LEGEND_TOP_MARGIN = 10;
     const VERTICAL_LEGEND_LEFT_MARGIN = 6;
     const VERTICAL_LEGEND_MAX_WIDTH_PCT = 0.70;
     const LEGEND_LINE_BULLET_WIDTH = 14;
@@ -358,7 +358,7 @@ abstract class GridGraph extends StaticGraph
         if ($horizontalGraph) {
             $topMargin = $ordinateMaxHeight + self::TOP_GRID_MARGIN_HORIZONTAL_GRAPH + self::OUTER_TICK_WIDTH;
         } else {
-            $topMargin = $ordinateMaxHeight / 2;
+            $topMargin = $ordinateMaxHeight / 2 + self::TOP_GRID_MARGIN_HORIZONTAL_GRAPH;
         }
 
         if ($this->showLegend && !$verticalLegend) {
@@ -398,7 +398,7 @@ abstract class GridGraph extends StaticGraph
             list($ordinateMaxWidth, $ordinateMaxHeight) = $this->getMaximumTextWidthHeight($this->ordinateSeries);
             return self::RIGHT_GRID_MARGIN_HORIZONTAL_GRAPH + $ordinateMaxWidth;
         } else {
-            return 0;
+            return self::RIGHT_GRID_MARGIN_HORIZONTAL_GRAPH;
         }
     }
 
