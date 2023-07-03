@@ -61,6 +61,11 @@ table.entityTable {
   border: 0;
   color: inherit !important;
   display: inline-block;
+
+  a&[class^="icon-"], a&[class*=" icon-"] {
+    text-decoration: none!important;
+  }
+
   &:hover {
     background-color: @theme-color-background-base !important;
     box-shadow: 0 1px 2px 0 rgba(0,0,0,0.16), 0 1px 5px 0 rgba(0,0,0,0.12);
