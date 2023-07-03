@@ -8,7 +8,8 @@
 
 namespace Piwik\Tests\Unit;
 
-use Piwik\Plugins\SitesManager\SitesManager;
+use Piwik\Plugins\SitesManager\SiteContentDetection\ReactJs;
+use Piwik\Plugins\SitesManager\SiteContentDetection\VueJs;
 use Piwik\SiteContentDetector;
 
 /**
@@ -232,12 +233,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $scd = new SiteContentDetector();
         $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($content));
 
-        $this->assertFalse($scd->ga3);
-        $this->assertFalse($scd->ga4);
-        $this->assertFalse($scd->gtm);
-        $this->assertFalse($scd->cloudflare);
-        $this->assertEquals($output, $scd->jsFramework);
-
+        self::assertContains(VueJs::getId(), $scd->detectedContent[VueJs::getContentType()]);
     }
 
     public function provideVueTestData()
@@ -281,11 +277,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $scd = new SiteContentDetector();
         $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
 
-        $this->assertFalse($scd->ga3);
-        $this->assertFalse($scd->ga4);
-        $this->assertFalse($scd->gtm);
-        $this->assertFalse($scd->cloudflare);
-        $this->assertEquals('react', $scd->jsFramework);
+        self::assertContains(ReactJs::getId(), $scd->detectedContent[ReactJs::getContentType()]);
     }
 
     public function test_detectReact_IfPresent2()
@@ -294,11 +286,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $scd = new SiteContentDetector();
         $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
 
-        $this->assertFalse($scd->ga3);
-        $this->assertFalse($scd->ga4);
-        $this->assertFalse($scd->gtm);
-        $this->assertFalse($scd->cloudflare);
-        $this->assertEquals('react', $scd->jsFramework);
+        self::assertContains(ReactJs::getId(), $scd->detectedContent[ReactJs::getContentType()]);
     }
 
     public function test_detectReact_IfPresent3()
@@ -307,11 +295,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $scd = new SiteContentDetector();
         $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
 
-        $this->assertFalse($scd->ga3);
-        $this->assertFalse($scd->ga4);
-        $this->assertFalse($scd->gtm);
-        $this->assertFalse($scd->cloudflare);
-        $this->assertEquals('react', $scd->jsFramework);
+        self::assertContains(ReactJs::getId(), $scd->detectedContent[ReactJs::getContentType()]);
     }
 
     public function test_detectReact_IfPresent4()
@@ -320,11 +304,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $scd = new SiteContentDetector();
         $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
 
-        $this->assertFalse($scd->ga3);
-        $this->assertFalse($scd->ga4);
-        $this->assertFalse($scd->gtm);
-        $this->assertFalse($scd->cloudflare);
-        $this->assertEquals('react', $scd->jsFramework);
+        self::assertContains(ReactJs::getId(), $scd->detectedContent[ReactJs::getContentType()]);
     }
 
     public function test_detectReact_IfPresent5()
@@ -333,11 +313,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $scd = new SiteContentDetector();
         $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
 
-        $this->assertFalse($scd->ga3);
-        $this->assertFalse($scd->ga4);
-        $this->assertFalse($scd->gtm);
-        $this->assertFalse($scd->cloudflare);
-        $this->assertEquals('react', $scd->jsFramework);
+        self::assertContains(ReactJs::getId(), $scd->detectedContent[ReactJs::getContentType()]);
     }
 
     public function test_detectReact_IfPresent6()
@@ -346,11 +322,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $scd = new SiteContentDetector();
         $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
 
-        $this->assertFalse($scd->ga3);
-        $this->assertFalse($scd->ga4);
-        $this->assertFalse($scd->gtm);
-        $this->assertFalse($scd->cloudflare);
-        $this->assertEquals('react', $scd->jsFramework);
+        self::assertContains(ReactJs::getId(), $scd->detectedContent[ReactJs::getContentType()]);
     }
 
     public function test_doesNotDetectsReact_IfNotPresent()
@@ -359,10 +331,6 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $scd = new SiteContentDetector();
         $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
 
-        $this->assertFalse($scd->ga3);
-        $this->assertFalse($scd->ga4);
-        $this->assertFalse($scd->gtm);
-        $this->assertFalse($scd->cloudflare);
-        $this->assertEquals(SitesManager::JS_FRAMEWORK_UNKNOWN, $scd->jsFramework);
+        self::assertNotContains(ReactJs::getId(), $scd->detectedContent[ReactJs::getContentType()]);
     }
 }

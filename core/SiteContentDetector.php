@@ -12,7 +12,11 @@ namespace Piwik;
 
 use Matomo\Cache\Lazy;
 use Piwik\Config\GeneralConfig;
-use Piwik\Plugins\SitesManager\GtmSiteTypeGuesser;
+use Piwik\Container\StaticContainer;
+use Piwik\Plugins\SitesManager\SiteContentDetection\GoogleAnalytics3;
+use Piwik\Plugins\SitesManager\SiteContentDetection\GoogleAnalytics4;
+use Piwik\Plugins\SitesManager\SiteContentDetection\GoogleTagManager;
+use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
 use Piwik\Plugins\SitesManager\SitesManager;
 
 /**
@@ -48,13 +52,16 @@ class SiteContentDetector
     public $consentManagerName;     // Display name of the detected consent manager, eg. 'Osano'
     public $consentManagerUrl;      // Url for the configuration guide for the detected consent manager
     public $isConnected = false;    // True if the detected consent manager is already connected with Matomo
-    public $ga3;                    // True if GA3 was detected on the site
-    public $ga4;                    // True if GA4 was detected on the site
-    public $gtm;                    // True if GTM was detected on the site
-    public $cms;                    // The CMS that was detected on the site
-    public $cloudflare;             // true if website is hosted on cloudflare
-    public $jsFramework;            // The JS framework that was detected on the site
 
+    /**
+     * @var array<string, array<string, SiteContentDetectionAbstract>>
+     */
+    public $detectedContent = [
+        SiteContentDetectionAbstract::TYPE_TRACKER => [],
+        SiteContentDetectionAbstract::TYPE_CMS => [],
+        SiteContentDetectionAbstract::TYPE_JS_FRAMEWORK => [],
+        SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER => [],
+    ];
     private $siteResponse = [
         'data' => '',
         'headers' => []
@@ -63,11 +70,6 @@ class SiteContentDetector
     /** @var Lazy */
     private $cache;
 
-    /**
-     * @var GtmSiteTypeGuesser
-     */
-    private $siteGuesser;
-
     public function __construct(?Lazy $cache = null)
     {
         if ($cache === null) {
@@ -75,7 +77,47 @@ class SiteContentDetector
         } else {
             $this->cache = $cache;
         }
-        $this->siteGuesser = new GtmSiteTypeGuesser();
+    }
+
+
+    /**
+     * @return array<string, SiteContentDetectionAbstract[]>
+     */
+    public function getSiteContentDetectionsByType()
+    {
+        $instancesByType = [];
+        $classes = $this->getAllSiteContentDetectionClasses();
+
+        foreach ($classes as $className) {
+           $instancesByType[$className::getContentType()][] = StaticContainer::get($className);
+        }
+
+        return $instancesByType;
+    }
+
+    /**
+     * @param string $id
+     * @return SiteContentDetectionAbstract|null
+     */
+    public function getSiteContentDetectionById(string $id): ?SiteContentDetectionAbstract
+    {
+        $classes = $this->getAllSiteContentDetectionClasses();
+
+        foreach ($classes as $className) {
+            if ($className::getId() === $id) {
+                return StaticContainer::get($className);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function getAllSiteContentDetectionClasses(): array
+    {
+        return Plugin\Manager::getInstance()->findMultipleComponents('SiteContentDetection', SiteContentDetectionAbstract::class);
     }
 
     /**
@@ -89,12 +131,6 @@ class SiteContentDetector
         $this->consentManagerUrl = null;
         $this->consentManagerName = null;
         $this->isConnected = false;
-        $this->ga3 = false;
-        $this->ga4 = false;
-        $this->gtm = false;
-        $this->cms = SitesManager::SITE_TYPE_UNKNOWN;
-        $this->cloudflare = false;
-        $this->jsFramework = SitesManager::JS_FRAMEWORK_UNKNOWN;
     }
 
     /**
@@ -181,26 +217,6 @@ class SiteContentDetector
             $requiredProperties = array_merge($requiredProperties, ['consentManagerId', 'consentManagerName', 'consentManagerUrl', 'isConnected']);
         }
 
-        if (in_array(SiteContentDetector::GA3, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
-            $requiredProperties[] = 'ga3';
-        }
-
-        if (in_array(SiteContentDetector::GA4, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
-            $requiredProperties[] = 'ga4';
-        }
-
-        if (in_array(SiteContentDetector::GTM, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
-            $requiredProperties[] = 'gtm';
-        }
-
-        if (in_array(SiteContentDetector::CMS, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
-            $requiredProperties[] = 'cms';
-        }
-
-        if (in_array(SiteContentDetector::JS_FRAMEWORK, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
-            $requiredProperties[] = 'jsFramework';
-        }
-
         return $requiredProperties;
     }
 
@@ -282,35 +298,20 @@ class SiteContentDetector
             $this->detectConsentManager();
         }
 
-        if (in_array(SiteContentDetector::GA3, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
-            $this->ga3 = $this->siteGuesser->detectGA3FromResponse($this->siteResponse);
-        }
+        $detections = $this->getSiteContentDetectionsByType();
 
-        if (in_array(SiteContentDetector::GA4, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
-            $this->ga4 = $this->siteGuesser->detectGA4FromResponse($this->siteResponse);
-        }
-
-        if (in_array(SiteContentDetector::GTM, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
-            $this->gtm = $this->siteGuesser->guessGtmFromResponse($this->siteResponse);
-        }
-
-        if (in_array(SiteContentDetector::CMS, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
-            $this->cms = $this->siteGuesser->guessSiteTypeFromResponse($this->siteResponse);
-        }
-
-        if (in_array(SiteContentDetector::JS_FRAMEWORK, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
-            $this->jsFramework = $this->siteGuesser->guessJsFrameworkFromResponse($this->siteResponse);
-        }
-
-        if (
-            (!empty($this->siteResponse['headers']['server']) && stripos($this->siteResponse['headers']['server'], 'cloudflare') !== false) ||
-            (!empty($this->siteResponse['headers']['Server']) && stripos($this->siteResponse['headers']['Server'], 'cloudflare') !== false) ||
-            (!empty($this->siteResponse['headers']['SERVER']) && stripos($this->siteResponse['headers']['SERVER'], 'cloudflare') !== false) ||
-            !empty($this->siteResponse['headers']['cf-ray']) ||
-            !empty($this->siteResponse['headers']['Cf-Ray']) ||
-            !empty($this->siteResponse['headers']['CF-RAY'])
-        ) {
-            $this->cloudflare = true;
+        foreach ($detections as $type => $typeDetections) {
+            foreach ($typeDetections as $typeDetection) {
+                if (in_array($type, $detectContent) ||
+                    in_array($typeDetection::getId(), $detectContent) ||
+                    in_array(SiteContentDetector::ALL_CONTENT, $detectContent))
+                {
+                    if (!$typeDetection->showInstructionTabOnlyOnDetection() ||
+                        $typeDetection->detectSiteByContent($this->siteResponse['data'], $this->siteResponse['headers'])) {
+                        $this->detectedContent[$type][] = $typeDetection::getId();
+                    }
+                }
+            }
         }
     }
 

@@ -411,7 +411,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'ga3Used' => $this->siteContentDetector->ga3,
             'ga4Used' => $this->siteContentDetector->ga4,
             'cloudflare' => $this->siteContentDetector->cloudflare,
-            'jsFramework' => $this->siteContentDetector->jsFramework,
             'consentManagerName' => $this->siteContentDetector->consentManagerName,
             'consentManagerUrl' => $this->siteContentDetector->consentManagerUrl,
             'consentManagerIsConnected' => $this->siteContentDetector->isConnected
@@ -430,7 +429,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $viewTrackingHelp->ga3Used = $this->siteContentDetector->ga3;
         $viewTrackingHelp->ga4Used = $this->siteContentDetector->ga4;
         $viewTrackingHelp->cloudflare = $this->siteContentDetector->cloudflare;
-        $viewTrackingHelp->jsFramework = $this->siteContentDetector->jsFramework;
         $viewTrackingHelp->consentManagerName = $this->siteContentDetector->consentManagerName;
         $viewTrackingHelp->consentManagerUrl = $this->siteContentDetector->consentManagerUrl;
         $viewTrackingHelp->consentManagerIsConnected = $this->siteContentDetector->isConnected;

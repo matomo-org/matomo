@@ -20,6 +20,14 @@ use Piwik\Plugin\Manager;
 use Piwik\Plugin;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
+use Piwik\Plugins\SitesManager\SiteContentDetection\Cloudflare;
+use Piwik\Plugins\SitesManager\SiteContentDetection\GoogleAnalytics3;
+use Piwik\Plugins\SitesManager\SiteContentDetection\GoogleAnalytics4;
+use Piwik\Plugins\SitesManager\SiteContentDetection\GoogleTagManager;
+use Piwik\Plugins\SitesManager\SiteContentDetection\ReactJs;
+use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
+use Piwik\Plugins\SitesManager\SiteContentDetection\VueJs;
+use Piwik\Plugins\SitesManager\SiteContentDetection\Wordpress;
 use Piwik\Site;
 use Piwik\SiteContentDetector;
 use Piwik\Session;
@@ -27,22 +35,17 @@ use Piwik\SettingsPiwik;
 use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\Translation\Translator;
 use Piwik\Url;
-use Matomo\Cache\Lazy;
 
 /**
  *
  */
 class Controller extends \Piwik\Plugin\ControllerAdmin
 {
-    /** @var Lazy */
-    private $cache;
-
     /** @var SiteContentDetector */
     private $siteContentDetector;
 
-    public function __construct(Lazy $cache, SiteContentDetector $siteContentDetector)
+    public function __construct(SiteContentDetector $siteContentDetector)
     {
-        $this->cache = $cache;
         $this->siteContentDetector = $siteContentDetector;
 
         parent::__construct();
@@ -163,25 +166,16 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'trackingUrl' => $trackingUrl,
             'idSite' => $this->idSite,
             'consentManagerName' => false,
-            'cloudflare' => false,
-            'ga3Used' => false,
-            'ga4Used' => false,
-            'gtmUsed' => false,
-            'cms' => false,
-            'jsFramework' => false,
         ];
 
-        $this->siteContentDetector->detectContent([SiteContentDetector::ALL_CONTENT]);
+        $this->siteContentDetector->detectContent();
         if ($this->siteContentDetector->consentManagerId) {
             $emailTemplateData['consentManagerName'] = $this->siteContentDetector->consentManagerName;
             $emailTemplateData['consentManagerUrl'] = $this->siteContentDetector->consentManagerUrl;
         }
-        $emailTemplateData['ga3Used'] = $this->siteContentDetector->ga3;
-        $emailTemplateData['ga4Used'] = $this->siteContentDetector->ga4;
-        $emailTemplateData['gtmUsed'] = $this->siteContentDetector->gtm;
-        $emailTemplateData['cloudflare'] = $this->siteContentDetector->cloudflare;
-        $emailTemplateData['cms'] = $this->siteContentDetector->cms;
-        $emailTemplateData['jsFramework'] = $this->siteContentDetector->jsFramework;
+        $emailTemplateData['cms'] = $this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_CMS];
+        $emailTemplateData['jsFrameworks'] = $this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_JS_FRAMEWORK];
+        $emailTemplateData['trackers'] = $this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_TRACKER];
 
         $emailContent = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', $emailTemplateData, $viewType = 'basic');
         $inviteUserLink = $this->getInviteUserLink();
@@ -192,7 +186,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'piwikUrl'                                            => $piwikUrl,
             'emailBody'                                           => $emailContent,
             'siteWithoutDataStartTrackingTranslationKey'          => StaticContainer::get('SitesManager.SiteWithoutDataStartTrackingTranslation'),
-            'SiteWithoutDataVueFollowStepNote2Key'                => StaticContainer::get('SitesManager.SiteWithoutDataVueFollowStepNote2'),
             'inviteUserLink'                                      => $inviteUserLink
         ], $viewType = 'basic');
     }
@@ -227,10 +220,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             Piwik::postEvent('SitesManager.siteWithoutData.customizeImporterMessage', [&$googleAnalyticsImporterMessage]);
         }
 
-        $tagManagerActive = false;
-        if (Manager::getInstance()->isPluginActivated('TagManager')) {
-            $tagManagerActive = true;
-        }
         $this->siteContentDetector->detectContent([SiteContentDetector::ALL_CONTENT], $this->idSite);
         $dntChecker = new DoNotTrackHeaderChecker();
 
@@ -240,18 +229,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'jsTag'         => $jsTag,
             'piwikUrl'      => $piwikUrl,
             'showMatomoLinks' => $showMatomoLinks,
-            'siteType' => $this->siteContentDetector->cms,
-            'instruction' => SitesManager::getInstructionByCms($this->siteContentDetector->cms),
-            'gtmUsed' => $this->siteContentDetector->gtm,
-            'ga3Used' => $this->siteContentDetector->ga3,
-            'ga4Used' => $this->siteContentDetector->ga4,
+            'cms' => $this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_CMS],
+            'trackers' => $this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_TRACKER],
+            'jsFrameworks' => $this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_JS_FRAMEWORK],
+            'instruction' => $this->getCmsInstruction(),
             'googleAnalyticsImporterMessage' => $googleAnalyticsImporterMessage,
-            'tagManagerActive' => $tagManagerActive,
             'consentManagerName' => false,
-            'cloudflare' => $this->siteContentDetector->cloudflare,
-            'jsFramework' => $this->siteContentDetector->jsFramework,
-            'cms' => $this->siteContentDetector->cms,
-            'SiteWithoutDataVueFollowStepNote2Key' => StaticContainer::get('SitesManager.SiteWithoutDataVueFollowStepNote2'),
             'defaultSiteDecoded' => [
                 'id' => $this->idSite,
                 'name' => Common::unsanitizeInputValue(Site::getNameFor($this->idSite)),
@@ -261,42 +244,109 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'isJsTrackerInstallCheckAvailable' => Manager::getInstance()->isPluginActivated('JsTrackerInstallCheck'),
         ];
 
-        $templateData['showGAImportTab'] = $this->shouldShowGAImportTab($templateData);
-
         if ($this->siteContentDetector->consentManagerId) {
             $templateData['consentManagerName'] = $this->siteContentDetector->consentManagerName;
             $templateData['consentManagerUrl'] = $this->siteContentDetector->consentManagerUrl;
             $templateData['consentManagerIsConnected'] = $this->siteContentDetector->isConnected;
         }
 
-        $templateData['activeTab'] = $this->getActiveTabOnLoad($templateData);
+        $templateData['tabs'] = [];
+        $templateData['instructionUrls'] = [];
+        $templateData['othersInstructions'] = [];
 
-        if ($this->siteContentDetector->jsFramework === SitesManager::JS_FRAMEWORK_VUE) {
-            $templateData['vue3Code'] = $this->getVueInitializeCode(3);
-            $templateData['vue2Code'] = $this->getVueInitializeCode(2);
+        foreach ($this->siteContentDetector->getSiteContentDetectionsByType() as $detections) {
+            foreach ($detections as $obj) {
+                $tabContent        = $obj->renderInstructionsTab();
+                $othersInstruction = $obj->renderOthersInstruction();
+                $instructionUrl    = $obj->getInstructionUrl();
+
+                Piwik::postEvent('Template.siteWithoutDataTab.' . $obj::getId() . '.content', [&$tabContent]);
+
+                if (!empty($tabContent) && in_array($obj::getId(), $this->siteContentDetector->detectedContent[$obj::getContentType()])) {
+                    $templateData['tabs'][] = [
+                        'id'                => $obj::getId(),
+                        'name'              => $obj::getName(),
+                        'type'              => $obj::getContentType(),
+                        'content'           => $tabContent,
+                        'priority'          => $obj::getPriority(),
+                    ];
+                }
+
+                if (!empty($othersInstruction)) {
+                    $templateData['othersInstructions'][] = [
+                        'id'                => $obj::getId(),
+                        'name'              => $obj::getName(),
+                        'type'              => $obj::getContentType(),
+                        'othersInstruction' => $obj->renderOthersInstruction(),
+                    ];
+                }
+
+                if (!empty($instructionUrl)) {
+                    $templateData['instructionUrls'][] = [
+                        'id'             => $obj::getId(),
+                        'name'           => $obj::getName(),
+                        'type'           => $obj::getContentType(),
+                        'instructionUrl' => $obj::getInstructionUrl(),
+                    ];
+                }
+            }
         }
 
+        usort($templateData['tabs'], function($a, $b) {
+            return strcmp($a['priority'], $b['priority']);
+        });
+
+        usort($templateData['othersInstructions'], function($a, $b) {
+            return strnatcmp($a['name'], $b['name']);
+        });
+
+        usort($templateData['instructionUrls'], function($a, $b) {
+            return strnatcmp($a['name'], $b['name']);
+        });
+
+        $templateData['activeTab'] = $this->getActiveTabOnLoad($templateData);
         $this->mergeMultipleNotification($templateData);
 
         return $this->renderTemplateAs('_siteWithoutDataTabs', $templateData, $viewType = 'basic');
+    }
+
+    private function getCmsInstruction()
+    {
+        if (empty($this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_CMS])
+            || in_array(Wordpress::getId(), $this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_CMS])) {
+            return '';
+        }
+
+        $detectedCms = $this->siteContentDetector->getSiteContentDetectionById(reset($this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_CMS]));
+
+        if (null === $detectedCms) {
+            return '';
+        }
+
+        Piwik::translate(
+            'SitesManager_SiteWithoutDataDetectedSite',
+            [
+                $detectedCms::getName(),
+                '<a target="_blank" rel="noreferrer noopener" href="' . $detectedCms::getInstructionUrl() . '">',
+                '</a>'
+            ]
+        );
     }
 
     private function getActiveTabOnLoad($templateData)
     {
         $tabToDisplay = '';
 
-        if (!empty($templateData['gtmUsed'])) {
-            $tabToDisplay = 'gtm';
-        } else if (!empty($templateData['cms']) && $templateData['cms'] === SitesManager::SITE_TYPE_WORDPRESS) {
-            $tabToDisplay = 'wordpress';
-        } else if (!empty($templateData['showGAImportTab'])) {
-            $tabToDisplay = 'ga-import';
-        } else if (!empty($templateData['cloudflare'])) {
-            $tabToDisplay = 'cloudflare';
-        } else if (!empty($templateData['jsFramework']) && $templateData['jsFramework'] === SitesManager::JS_FRAMEWORK_VUE) {
-            $tabToDisplay = 'vue';
-        } else if (!empty($templateData['jsFramework']) && $templateData['jsFramework'] === SitesManager::JS_FRAMEWORK_REACT && Manager::getInstance()->isPluginActivated('TagManager')) {
-            $tabToDisplay = 'react';
+        if (!empty(in_array(GoogleTagManager::getId(), $this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_TRACKER]))) {
+            $tabToDisplay = GoogleTagManager::getId();
+        } else if (in_array(Wordpress::getId(), $this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_CMS])) {
+            $tabToDisplay = Wordpress::getId();
+        } else if (in_array(Cloudflare::getId(), $this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_CMS])) {
+            $tabToDisplay = Cloudflare::getId();
+        } else if (in_array(VueJs::getId(), $this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_JS_FRAMEWORK])) {
+            $tabToDisplay = VueJs::getId();
+        } else if (in_array(ReactJs::getId(), $this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_TRACKER]) && Manager::getInstance()->isPluginActivated('TagManager')) {
+            $tabToDisplay = ReactJs::getId();
         } else if (!empty($templateData['consentManagerName'])) {
             $tabToDisplay = 'consentManager';
         }
@@ -319,60 +369,16 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             ]);
     }
 
-    private function getVueInitializeCode($vueVersion = '3')
-    {
-        $request = \Piwik\Request::fromRequest();
-        $piwikUrl = Url::getCurrentUrlWithoutFileName();
-        $siteId = $request->getIntegerParameter('idSite', 1);
-        $configureComment = Piwik::translate('SitesManager_SiteWithoutDataVueFollowStep2ExampleCodeCommentConfigureMatomo');
-        $trackViewComment = Piwik::translate('SitesManager_SiteWithoutDataVueFollowStep2ExampleCodeCommentTrackPageView');
-        if ($vueVersion == 2) {
-            return <<<INST
-import { createApp } from 'vue'
-import VueMatomo from 'vue-matomo'
-import App from './App.vue'
-
-createApp(App)
-  .use(VueMatomo, {
-    // $configureComment
-    host: '$piwikUrl',
-    siteId: $siteId,
-  })
-  .mount('#app')
-
-window._paq.push(['trackPageView']); // $trackViewComment
-INST;
-        }
-
-        return <<<INST
-import Vue from 'vue'
-import App from './App.vue'
-import VueMatomo from 'vue-matomo'
-
-Vue.use(VueMatomo, {
-  host: '$piwikUrl',
-  siteId: $siteId
-});
-
-new Vue({
-  el: '#app',
-  router,
-  components: {App},
-  template: ''
-})
-
-window._paq.push(['trackPageView']); // $trackViewComment
-INST;
-    }
-
     private function mergeMultipleNotification(&$templateData)
     {
         $isNotificationsMerged = false;
         $bannerMessage = '';
         $guides = [];
         $message = [];
+        $ga3Used = in_array(GoogleAnalytics3::getId(), $this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_TRACKER]);
+        $ga4Used = in_array(GoogleAnalytics4::getId(), $this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_TRACKER]);
 
-        if ($templateData['ga3Used'] || $templateData['ga4Used']) {
+        if ($ga3Used || $ga4Used) {
             $message[0] = 'Google Analytics ';
             $ga3GuideUrl =  '<a href="https://matomo.org/faq/how-to/migrate-from-google-analytics-3-to-matomo/" target="_blank" rel="noreferrer noopener">Google Analytics 3</a>';
             $ga4GuideUrl =  '<a href="https://matomo.org/faq/how-to/migrate-from-google-analytics-4-to-matomo/" target="_blank" rel="noreferrer noopener">Google Analytics 4</a>';
@@ -382,8 +388,8 @@ INST;
                 $guides[] = $ga4GuideUrl;
                 $message[0] .= '3 & 4';
             } else {
-                $message[0] .= ($templateData['ga3Used'] ? 3 : 4);
-                $guides[] = ($templateData['ga3Used'] ? $ga3GuideUrl : $ga4GuideUrl);
+                $message[0] .= ($ga3Used ? 3 : 4);
+                $guides[] = ($ga3Used ? $ga3GuideUrl : $ga4GuideUrl);
             }
         }
 
@@ -421,21 +427,12 @@ INST;
             if (!empty($templateData['consentManagerIsConnected'])) {
                 $info['notificationMessage'] .= '<p>' . Piwik::translate('SitesManager_ConsentManagerConnected', [$templateData['consentManagerName']]) . '</p>';
             }
-        } else if (!empty($templateData['ga3Used'])) {
+        } else if (in_array(GoogleAnalytics3::getId(), $this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_TRACKER])) {
             $info['notificationMessage'] = '<p>' . Piwik::translate('SitesManager_GADetected', ['Google Analytics 3', 'GA', '', '', '<a href="https://matomo.org/faq/how-to/migrate-from-google-analytics-3-to-matomo/" target="_blank" rel="noreferrer noopener">', '</a>']) . '</p>';
-        } else if (!empty($templateData['ga4Used'])) {
+        } else if (in_array(GoogleAnalytics4::getId(), $this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_TRACKER])) {
             $info['notificationMessage'] = '<p>' . Piwik::translate('SitesManager_GADetected', ['Google Analytics 4', 'GA', '', '', '<a href="https://matomo.org/faq/how-to/migrate-from-google-analytics-4-to-matomo/" target="_blank" rel="noreferrer noopener">', '</a>']) . '</p>';
         }
 
         return $info;
-    }
-
-    private function shouldShowGAImportTab($templateData)
-    {
-        if (Piwik::hasUserSuperUserAccess() && Manager::getInstance()->isPluginActivated('GoogleAnalyticsImporter') && (!empty($templateData['ga3Used']) || !empty($templateData['ga4Used']))) {
-            return true;
-        }
-
-        return false;
     }
 }
