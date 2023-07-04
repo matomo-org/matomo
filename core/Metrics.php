@@ -640,7 +640,7 @@ class Metrics
 
         $values = [];
         foreach ($columns as $column) {
-            $values[$column] = $goalsMetrics[$column] ?? 0;
+            $values[$column] = (float)($goalsMetrics[$column] ?? 0);
         }
         return $values;
     }
