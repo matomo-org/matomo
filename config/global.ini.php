@@ -1273,7 +1273,7 @@ PluginsInstalled[] = Monolog
 PluginsInstalled[] = Intl
 PluginsInstalled[] = JsTrackerInstallCheck
 
-[PluginPagePerformance]
+[PagePerformance]
 ; The values used in reports 'sum/total' and 'average' are capped to reduce the impact of single failed performance measurements.
 ;
 ; Default caps are at 100-fold an avg/high value. Thereby one wrong value in 10000 values results in a 1% deviation:

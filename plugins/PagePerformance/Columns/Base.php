@@ -25,7 +25,7 @@ abstract class Base extends ActionDimension
 
     public function getConfigValueCap()
     {
-        return Config::getInstance()->PluginPagePerformance[$this->columnName . '_cap_' . $this->type];
+        return Config::getInstance()->PagePerformance[$this->columnName . '_cap_' . $this->type];
     }
 
     public function getSqlCappedValue()
