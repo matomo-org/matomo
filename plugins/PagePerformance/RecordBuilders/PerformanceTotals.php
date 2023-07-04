@@ -13,6 +13,7 @@ use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Record;
 use Piwik\ArchiveProcessor\RecordBuilder;
 use Piwik\Plugins\PagePerformance\Archiver;
+use Piwik\Plugins\PagePerformance\Columns\Base;
 use Piwik\Plugins\PagePerformance\Columns\TimeDomCompletion;
 use Piwik\Plugins\PagePerformance\Columns\TimeDomProcessing;
 use Piwik\Plugins\PagePerformance\Columns\TimeNetwork;
@@ -51,6 +52,9 @@ class PerformanceTotals extends RecordBuilder
         $selects = $totalColumns = $allColumns = [];
         $table  = 'log_link_visit_action';
 
+        /**
+         * @var Base[] $performanceDimensions
+         */
         $performanceDimensions = [
             new TimeNetwork(),
             new TimeServer(),
@@ -62,9 +66,9 @@ class PerformanceTotals extends RecordBuilder
 
         foreach($performanceDimensions as $dimension) {
             $column = $dimension->getColumnName();
-            $selects[] = "sum($table.$column) as {$column}_total";
+            $selects[] = "sum(" . sprintf($dimension->getSqlCappedValue(), $table . '.' . $column) . ") as {$column}_total";
             $selects[] = "sum(if($table.$column is null, 0, 1)) as {$column}_hits";
-            $totalColumns[] = "IFNULL($table.$column,0)";
+            $totalColumns[] = sprintf($dimension->getSqlCappedValue(), $table . '.' . $column);
             $allColumns[]  = "$table.$column";
         }
 
