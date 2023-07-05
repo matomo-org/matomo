@@ -21,6 +21,12 @@ window.define = function(id, dependencies, factory) {};
 
 window.define.amd = {};
 
+window.AnalyticsTracker;
+
+window.Matomo_Overlay_Client;
+
+window.Matomo_Overlay_Client.initialize;
+
 /*
  ************************************************************
  * Matomo: Public data and methods
