@@ -2174,12 +2174,16 @@ if (typeof window.Matomo !== 'object') {
          * End Page Overlay
          ************************************************************/
 
-        /*
+        /**
          * Matomo Tracker class
          *
          * trackerUrl and trackerSiteId are optional arguments to the constructor
          *
          * See: Tracker.setTrackerUrl() and Tracker.setSiteId()
+         *
+         * @param {string} [trackerUrl]
+         * @param {number|string} [siteId]
+         * @constructor
          */
         function Tracker(trackerUrl, siteId) {
 
@@ -7348,6 +7352,10 @@ if (typeof window.Matomo !== 'object') {
             });
         }
 
+      /**
+       * @returns {{push: apply}}
+       * @constructor
+       */
         function TrackerProxy() {
             return {
                 push: apply
