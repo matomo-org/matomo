@@ -169,9 +169,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         ];
 
         $this->siteContentDetector->detectContent();
-        if ($this->siteContentDetector->consentManagerId) {
-            $emailTemplateData['consentManagerName'] = $this->siteContentDetector->consentManagerName;
-            $emailTemplateData['consentManagerUrl'] = $this->siteContentDetector->consentManagerUrl;
+        if (!empty($this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER])) {
+            $consentManagerId = reset($this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER]);
+            $consentManager = $this->siteContentDetector->getSiteContentDetectionById($consentManagerId);
+            $emailTemplateData['consentManagerName'] = $consentManager::getName();
+            $emailTemplateData['consentManagerUrl'] = $consentManager::getInstructionUrl();
         }
         $emailTemplateData['cms'] = $this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_CMS];
         $emailTemplateData['jsFrameworks'] = $this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_JS_FRAMEWORK];
@@ -244,10 +246,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'isJsTrackerInstallCheckAvailable' => Manager::getInstance()->isPluginActivated('JsTrackerInstallCheck'),
         ];
 
-        if ($this->siteContentDetector->consentManagerId) {
-            $templateData['consentManagerName'] = $this->siteContentDetector->consentManagerName;
-            $templateData['consentManagerUrl'] = $this->siteContentDetector->consentManagerUrl;
-            $templateData['consentManagerIsConnected'] = $this->siteContentDetector->isConnected;
+        if (!empty($this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER])) {
+            $consentManagerId = reset($this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER]);
+            $consentManager = $this->siteContentDetector->getSiteContentDetectionById($consentManagerId);
+            $templateData['consentManagerName'] = $consentManager::getName();
+            $templateData['consentManagerUrl'] = $consentManager::getInstructionUrl();
+            $templateData['consentManagerIsConnected'] = in_array($consentManagerId, $this->siteContentDetector->connectedContentManagers);
         }
 
         $templateData['tabs'] = [];

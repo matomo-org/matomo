@@ -13,6 +13,7 @@ namespace Piwik;
 use Matomo\Cache\Lazy;
 use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
+use Piwik\Plugins\SitesManager\SiteContentDetection\ConsentManagerDetectionAbstract;
 use Piwik\Plugins\SitesManager\SiteContentDetection\GoogleAnalytics3;
 use Piwik\Plugins\SitesManager\SiteContentDetection\GoogleAnalytics4;
 use Piwik\Plugins\SitesManager\SiteContentDetection\GoogleTagManager;
@@ -47,21 +48,18 @@ class SiteContentDetector
     const CMS = 6;
     const JS_FRAMEWORK = 7;
 
-    // Detection detail
-    public $consentManagerId;       // Id of the detected consent manager, eg. 'osano'
-    public $consentManagerName;     // Display name of the detected consent manager, eg. 'Osano'
-    public $consentManagerUrl;      // Url for the configuration guide for the detected consent manager
-    public $isConnected = false;    // True if the detected consent manager is already connected with Matomo
-
     /**
-     * @var array<string, array<string, SiteContentDetectionAbstract>>
+     * @var array<string, ?array<string, SiteContentDetectionAbstract>>
      */
     public $detectedContent = [
-        SiteContentDetectionAbstract::TYPE_TRACKER => [],
-        SiteContentDetectionAbstract::TYPE_CMS => [],
-        SiteContentDetectionAbstract::TYPE_JS_FRAMEWORK => [],
-        SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER => [],
+        SiteContentDetectionAbstract::TYPE_TRACKER => null,
+        SiteContentDetectionAbstract::TYPE_CMS => null,
+        SiteContentDetectionAbstract::TYPE_JS_FRAMEWORK => null,
+        SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER => null,
     ];
+
+    public $connectedContentManagers = [];
+
     private $siteResponse = [
         'data' => '',
         'headers' => []
@@ -83,10 +81,10 @@ class SiteContentDetector
     /**
      * @return array<string, SiteContentDetectionAbstract[]>
      */
-    public function getSiteContentDetectionsByType()
+    public static function getSiteContentDetectionsByType()
     {
         $instancesByType = [];
-        $classes = $this->getAllSiteContentDetectionClasses();
+        $classes = self::getAllSiteContentDetectionClasses();
 
         foreach ($classes as $className) {
            $instancesByType[$className::getContentType()][] = StaticContainer::get($className);
@@ -115,22 +113,25 @@ class SiteContentDetector
     /**
      * @return string[]
      */
-    protected function getAllSiteContentDetectionClasses(): array
+    protected static function getAllSiteContentDetectionClasses(): array
     {
         return Plugin\Manager::getInstance()->findMultipleComponents('SiteContentDetection', SiteContentDetectionAbstract::class);
     }
 
     /**
-     * Reset the detection properties
+     * Reset the detections
      *
      * @return void
      */
-    private function resetDetectionProperties(): void
+    private function resetDetections(): void
     {
-        $this->consentManagerId = null;
-        $this->consentManagerUrl = null;
-        $this->consentManagerName = null;
-        $this->isConnected = false;
+        $this->detectedContent = [
+            SiteContentDetectionAbstract::TYPE_TRACKER => null,
+            SiteContentDetectionAbstract::TYPE_CMS => null,
+            SiteContentDetectionAbstract::TYPE_JS_FRAMEWORK => null,
+            SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER => null,
+        ];
+        $this->connectedContentManagers = [];
     }
 
     /**
@@ -148,7 +149,7 @@ class SiteContentDetector
     public function detectContent(array $detectContent = [SiteContentDetector::ALL_CONTENT],
                                   ?int $idSite = null, ?array $siteResponse = null, int $timeOut = 5): void
     {
-        $this->resetDetectionProperties();
+        $this->resetDetections();
 
         // If site data was passed in, then just run the detection checks against it and return.
         if ($siteResponse) {
@@ -173,13 +174,12 @@ class SiteContentDetector
         $url = Site::getMainUrlFor($idSite);
 
         // Check and load previously cached site content detection data if it exists
-        $cacheKey = 'SiteContentDetector_' . md5($url);
-        $requiredProperties = $this->getRequiredProperties($detectContent);
+        $cacheKey = 'SiteContentDetection_' . md5($url);
         $siteContentDetectionCache = $this->cache->fetch($cacheKey);
 
         if ($siteContentDetectionCache !== false) {
-            if ($this->checkCacheHasRequiredProperties($requiredProperties, $siteContentDetectionCache)) {
-                $this->loadRequiredPropertiesFromCache($requiredProperties, $siteContentDetectionCache);
+            if ($this->checkCacheHasRequiredProperties($detectContent, $siteContentDetectionCache)) {
+                $this->loadRequiredPropertiesFromCache($detectContent, $siteContentDetectionCache);
                 return;
             }
         }
@@ -199,25 +199,7 @@ class SiteContentDetector
 
         // A request was made to get this data and it isn't currently cached, so write it to the cache now
         $cacheLife = (60 * 60 * 24 * 7);
-        $this->savePropertiesToCache($cacheKey, $requiredProperties, $cacheLife);
-    }
-
-    /**
-     * Returns an array of properties required by the detect content array
-     *
-     * @param array $detectContent
-     *
-     * @return array
-     */
-    private function getRequiredProperties(array $detectContent): array
-    {
-        $requiredProperties = [];
-
-        if (in_array(SiteContentDetector::CONSENT_MANAGER, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
-            $requiredProperties = array_merge($requiredProperties, ['consentManagerId', 'consentManagerName', 'consentManagerUrl', 'isConnected']);
-        }
-
-        return $requiredProperties;
+        $this->savePropertiesToCache($cacheKey, $detectContent, $cacheLife);
     }
 
     /**
@@ -231,7 +213,7 @@ class SiteContentDetector
     private function checkCacheHasRequiredProperties(array $properties, array $cache): bool
     {
         foreach ($properties as $prop) {
-            if (!array_key_exists($prop, $cache)) {
+            if (!array_key_exists($prop, $cache) || $cache[$prop] === null) {
                 return false;
             }
         }
@@ -254,7 +236,7 @@ class SiteContentDetector
                 continue;
             }
 
-            $this->{$prop} = $cache[$prop];
+            $this->detectedContent[$prop] = $cache[$prop];
         }
     }
 
@@ -262,12 +244,12 @@ class SiteContentDetector
      * Save properties to the cache
      *
      * @param string $cacheKey
-     * @param array  $properties
+     * @param array  $detectionTypes
      * @param int    $cacheLife
      *
      * @return void
      */
-    private function savePropertiesToCache(string $cacheKey, array $properties, int $cacheLife): void
+    private function savePropertiesToCache(string $cacheKey, array $detectionTypes, int $cacheLife): void
     {
         $cacheData = [];
 
@@ -278,8 +260,8 @@ class SiteContentDetector
             $cacheData = $siteContentDetectionCache;
         }
 
-        foreach ($properties as $prop) {
-            $cacheData[$prop] = $this->{$prop};
+        foreach ($detectionTypes as $type) {
+            $cacheData[$type] = $this->detectedContent[$type];
         }
 
         $this->cache->save($cacheKey, $cacheData, $cacheLife);
@@ -294,10 +276,6 @@ class SiteContentDetector
      */
     private function detectionChecks($detectContent): void
     {
-        if (in_array(SiteContentDetector::CONSENT_MANAGER, $detectContent) || in_array(SiteContentDetector::ALL_CONTENT, $detectContent)) {
-            $this->detectConsentManager();
-        }
-
         $detections = $this->getSiteContentDetectionsByType();
 
         foreach ($detections as $type => $typeDetections) {
@@ -306,8 +284,11 @@ class SiteContentDetector
                     in_array($typeDetection::getId(), $detectContent) ||
                     in_array(SiteContentDetector::ALL_CONTENT, $detectContent))
                 {
-                    if (!$typeDetection->showInstructionTabOnlyOnDetection() ||
-                        $typeDetection->detectSiteByContent($this->siteResponse['data'], $this->siteResponse['headers'])) {
+                    if ($typeDetection->detectSiteByContent($this->siteResponse['data'], $this->siteResponse['headers'])) {
+                        if ($typeDetection instanceof ConsentManagerDetectionAbstract
+                            && $typeDetection->checkIsConnected($this->siteResponse['data'], $this->siteResponse['headers']) ) {
+                            $this->connectedContentManagers[] = $typeDetection::getId();
+                        }
                         $this->detectedContent[$type][] = $typeDetection::getId();
                     }
                 }
@@ -346,53 +327,6 @@ class SiteContentDetector
     }
 
     /**
-     * Detect known consent managers in the site data
-     *
-     * Populate this object's properties with the results
-     *
-     * @return void
-     */
-    private function detectConsentManager(): void
-    {
-        $defs = self::getConsentManagerDefinitions();
-
-        if (!$defs) {
-            return;
-        }
-
-        if (empty($this->siteResponse['data'])) {
-            return;
-        }
-
-        foreach ($defs as $consentManagerId => $consentManagerDef) {
-            foreach ($consentManagerDef['detectStrings'] as $dStr) {
-                if (empty($dStr)) {
-                    continue; // skip empty detections
-                }
-
-                if (strpos($this->siteResponse['data'], $dStr) !== false && array_key_exists($consentManagerId, $defs)) {
-                    $this->consentManagerId = $consentManagerId;
-                    $this->consentManagerName = $consentManagerDef['name'];
-                    $this->consentManagerUrl = $consentManagerDef['url'];
-                    break 2;
-                }
-            }
-        }
-
-        if (!isset($defs[$this->consentManagerId]['connectedStrings'])) {
-            return;
-        }
-
-        // If a consent manager was detected then perform an additional check to see if it has been connected to Matomo
-        foreach ($defs[$this->consentManagerId]['connectedStrings'] as $cStr) {
-            if (strpos($this->siteResponse['data'], $cStr) !== false) {
-                $this->isConnected = true;
-                break;
-            }
-        }
-    }
-
-    /**
      * Return an array of consent manager definitions which can be used to detect their presence on the site and show
      * the associated guide links
      *
@@ -402,55 +336,20 @@ class SiteContentDetector
      *
      * @return array[]
      */
-    public static function getConsentManagerDefinitions(): array
+    public static function getKnownConsentManagers(): array
     {
-        return [
+        $detections = self::getSiteContentDetectionsByType();
+        $cmDetections = $detections[SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER];
 
-            'osano' => [
-                'name' => 'Osano',
-                'detectStrings' => ['osano.com'],
-                'connectedStrings' => ["Osano.cm.addEventListener('osano-cm-consent-changed', (change) => { console.log('cm-change'); consentSet(change); });"],
-                'url' => 'https://matomo.org/faq/how-to/using-osano-consent-manager-with-matomo',
-                ],
+        $consentManagers = [];
 
-            'cookiebot' => [
-                'name' => 'Cookiebot',
-                'detectStrings' => ['cookiebot.com'],
-                'connectedStrings' => ["typeof _paq === 'undefined' || typeof Cookiebot === 'undefined'"],
-                'url' => 'https://matomo.org/faq/how-to/using-cookiebot-consent-manager-with-matomo',
-                ],
-
-            'cookieyes' => [
-                'name' => 'CookieYes',
-                'detectStrings' => ['cookieyes.com'],
-                'connectedStrings' => ['document.addEventListener("cookieyes_consent_update", function (eventData)'],
-                'url' => 'https://matomo.org/faq/how-to/using-cookieyes-consent-manager-with-matomo',
-                ],
-
-            // Note: tarte au citron pro is configured server side so we cannot tell if it has been connected by
-            // crawling the website, however setup of Matomo with the pro version is automatic, so displaying the guide
-            // link for pro isn't necessary. Only the open source version is detected by this definition.
-            'tarteaucitron' => [
-                'name' => 'Tarte au Citron',
-                'detectStrings' => ['tarteaucitron.js'],
-                'connectedStrings' => ['tarteaucitron.user.matomoHost'],
-                'url' => 'https://matomo.org/faq/how-to/using-tarte-au-citron-consent-manager-with-matomo',
-                ],
-
-            'klaro' => [
-                'name' => 'Klaro',
-                'detectStrings' => ['klaro.js', 'kiprotect.com'],
-                'connectedStrings' => ['KlaroWatcher()', "title: 'Matomo',"],
-                'url' => 'https://matomo.org/faq/how-to/using-klaro-consent-manager-with-matomo',
-                ],
-
-            'complianz' => [
-                'name' => 'Complianz',
-                'detectStrings' => ['complianz-gdpr'],
-                'connectedStrings' => ["if (!cmplz_in_array( 'statistics', consentedCategories )) {
-		_paq.push(['forgetCookieConsentGiven']);"],
-                'url' => 'https://matomo.org/faq/how-to/using-complianz-for-wordpress-consent-manager-with-matomo',
-                ],
+        foreach ($cmDetections as $detection) {
+            $consentManagers[$detection::getId()] = [
+                'name' => $detection::getName(),
+                'intructionUrl' => $detection::getInstructionUrl(),
             ];
+        }
+
+        return $consentManagers;
     }
 }

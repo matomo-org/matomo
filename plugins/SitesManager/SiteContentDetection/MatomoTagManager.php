@@ -31,7 +31,7 @@ class MatomoTagManager extends SiteContentDetectionAbstract
 
     public function detectSiteByContent(?string $data = null, ?array $headers = null): bool
     {
-        $tests = ['/matomo ?tag ?manager/i', '/_mtm\./push'];
+        $tests = ['/matomo ?tag ?manager/i', '/_mtm\.push/'];
         foreach ($tests as $test) {
             if (preg_match($test, $data) === 1) {
                 return true;
