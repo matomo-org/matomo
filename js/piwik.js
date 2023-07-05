@@ -1106,17 +1106,17 @@ if (typeof window.Matomo !== 'object') {
              * Checks if a DOM element is visible. Takes into
              * consideration its parents and overflow.
              *
-             * @param (el)      the DOM element to check if is visible
+             * @param [el]      the DOM element to check if is visible
              *
              * These params are optional that are sent in recursively,
              * you typically won't use these:
              *
-             * @param (t)       Top corner position number
-             * @param (r)       Right corner position number
-             * @param (b)       Bottom corner position number
-             * @param (l)       Left corner position number
-             * @param (w)       Element width number
-             * @param (h)       Element height number
+             * @param [t]       Top corner position number
+             * @param [r]       Right corner position number
+             * @param [b]       Bottom corner position number
+             * @param [l]       Left corner position number
+             * @param [w]       Element width number
+             * @param [h]       Element height number
              */
             function _isVisible(el, t, r, b, l, w, h) {
                 var p = el.parentNode,
@@ -7671,7 +7671,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Get all created async trackers
              *
-             * @returns {Tracker[]}
+             * @returns {Array<Tracker>}
              */
             getAsyncTrackers: function () {
                 return asyncTrackers;
