@@ -12,6 +12,7 @@ php_errors.log
 /documentation
 /docs/
 /favicon.ico
+/js/closure-compiler*
 /js/yui*
 /misc/*.dat
 /misc/*.dat.gz
