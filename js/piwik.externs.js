@@ -1426,8 +1426,12 @@ Tracker.isUserOptedOut = function () {};
 /**
  * Alias for forgetConsentGiven(). After calling this function, the user will no longer be tracked,
  * (even if they come back to the site).
+ *
+ * @param {int} hoursToExpire After how many hours the CONSENT_REMOVED_COOKIE_NAME cookie should expire.
+ * By default the consent is valid for 30 years unless cookies are deleted by the user or the browser
+ * prior to this
  */
-Tracker.optUserOut = this.forgetConsentGiven;
+Tracker.optUserOut = function (hoursToExpire) {};
 
 /**
  * Alias for rememberConsentGiven(). After calling this function, the current user will be tracked.
