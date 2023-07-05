@@ -132,6 +132,13 @@
 /*members error */
 /*members log */
 
+/**
+ * @fileoverview JavaScript tracking client
+ * Matomo - free/libre analytics platform
+ *
+ * @suppress {checkTypes}
+ */
+
 // asynchronous tracker (or proxy)
 if (typeof _paq !== 'object') {
     _paq = [];
