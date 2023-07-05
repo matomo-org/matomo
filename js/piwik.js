@@ -7850,15 +7850,16 @@ if (typeof window.Matomo !== 'object') {
 /*global piwik_log:true */
 /*global piwik_track:true */
 
-/**
- * Track page visit
- *
- * @param {string} documentTitle
- * @param {int|string} siteId
- * @param {string} matomoUrl
- * @param {*} customData
- */
 if (typeof window.piwik_log !== 'function') {
+
+    /**
+     * Track page visit
+     *
+     * @param {string} documentTitle
+     * @param {int|string} siteId
+     * @param {string} matomoUrl
+     * @param {*} customData
+     */
     window.piwik_log = function (documentTitle, siteId, matomoUrl, customData) {
         'use strict';
 
