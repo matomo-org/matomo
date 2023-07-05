@@ -7869,6 +7869,7 @@ if (typeof window.piwik_log !== 'function') {
 
     /**
      * Track page visit
+     * @deprecated
      *
      * @param {string} documentTitle
      * @param {int|string} siteId
@@ -7929,6 +7930,7 @@ if (typeof window.piwik_log !== 'function') {
 
             /**
              * Track click manually (function is defined below)
+             * @deprecated
              *
              * @param {string} sourceUrl
              * @param {int|string} siteId
