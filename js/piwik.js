@@ -2135,7 +2135,7 @@ if (typeof window.Matomo !== 'object') {
             loadScript(
                 matomoUrl + 'plugins/Overlay/client/client.js?v=1',
                 function () {
-                    Matomo_Overlay_Client.initialize(matomoUrl, configTrackerSiteId, period, date, segment);
+                    windowAlias.Matomo_Overlay_Client.initialize(matomoUrl, configTrackerSiteId, period, date, segment);
                 }
             );
         }
@@ -7920,7 +7920,7 @@ if (typeof window.piwik_log !== 'function') {
              * @param {string} matomoUrl
              * @param {string} linkType
              */
-            piwik_track = function (sourceUrl, siteId, matomoUrl, linkType) {
+            window.piwik_track = function (sourceUrl, siteId, matomoUrl, linkType) {
                 matomoTracker.setSiteId(siteId);
                 matomoTracker.setTrackerUrl(matomoUrl);
                 matomoTracker.trackLink(sourceUrl, linkType);
