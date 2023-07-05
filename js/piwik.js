@@ -7718,7 +7718,7 @@ if (typeof window.Matomo !== 'object') {
              *
              * @param {string} matomoUrl
              * @param {int|string} siteId
-             * @returns {Tracker}
+             * @returns {Tracker|undefined}
              */
             getAsyncTracker: function (matomoUrl, siteId) {
 
