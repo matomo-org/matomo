@@ -1916,9 +1916,9 @@ if (typeof window.Matomo !== 'object') {
                 target = this.trim(target);
 
                 return {
-                    name: name || 'Unknown',
-                    piece: piece || 'Unknown',
-                    target: target || ''
+                    'name': name || 'Unknown',
+                    'piece': piece || 'Unknown',
+                    'target': target || ''
                 };
             },
             collectContent: function (contentNodes)
@@ -2806,12 +2806,12 @@ if (typeof window.Matomo !== 'object') {
                 image.onload = function () {
                     iterator = 0; // To avoid JSLint warning of empty block
                     if (typeof callback === 'function') {
-                        callback({request: request, trackerUrl: configTrackerUrl, success: true});
+                        callback({'request': request, 'trackerUrl': configTrackerUrl, 'success': true});
                     }
                 };
                 image.onerror = function () {
                     if (typeof callback === 'function') {
-                        callback({request: request, trackerUrl: configTrackerUrl, success: false});
+                        callback({'request': request, 'trackerUrl': configTrackerUrl, 'success': false});
                     }
                 };
                 image.src = configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
@@ -2841,7 +2841,7 @@ if (typeof window.Matomo !== 'object') {
                     return false;
                 }
 
-                var headers = {type: 'application/x-www-form-urlencoded; charset=UTF-8'};
+                var headers = {'type': 'application/x-www-form-urlencoded; charset=UTF-8'};
                 var success = false;
 
                 var url = configTrackerUrl;
@@ -2863,7 +2863,7 @@ if (typeof window.Matomo !== 'object') {
                 }
 
                 if (success && typeof callback === 'function') {
-                    callback({request: request, trackerUrl: configTrackerUrl, success: true, isSendBeacon: true});
+                    callback({'request': request, 'trackerUrl': configTrackerUrl, 'success': true, 'isSendBeacon': true});
                 }
 
                 return success;
@@ -2917,12 +2917,12 @@ if (typeof window.Matomo !== 'object') {
                                 if (!sentViaBeacon && fallbackToGet) {
                                     getImage(request, callback);
                                 } else if (typeof callback === 'function') {
-                                    callback({request: request, trackerUrl: configTrackerUrl, success: false, xhr: this});
+                                    callback({'request': request, 'trackerUrl': configTrackerUrl, 'success': false, 'xhr': this});
                                 }
 
                             } else {
                                 if (this.readyState === 4 && (typeof callback === 'function')) {
-                                    callback({request: request, trackerUrl: configTrackerUrl, success: true, xhr: this});
+                                    callback({'request': request, 'trackerUrl': configTrackerUrl, 'success': true, 'xhr': this});
                                 }
                             }
                         };
@@ -2937,7 +2937,7 @@ if (typeof window.Matomo !== 'object') {
                         if (!sentViaBeacon && fallbackToGet) {
                             getImage(request, callback);
                         } else if (typeof callback === 'function') {
-                            callback({request: request, trackerUrl: configTrackerUrl, success: false});
+                            callback({'request': request, 'trackerUrl': configTrackerUrl, 'success': false});
                         }
                     }
                 }, 50);
@@ -3000,7 +3000,7 @@ if (typeof window.Matomo !== 'object') {
                 // when using multiple trackers then we need to add this event for each tracker
                 coreHeartBeatCounter++;
                 Matomo.addPlugin('HeartBeat' + coreHeartBeatCounter, {
-                    unload: function () {
+                    'unload': function () {
                         // we can't remove the unload plugin event when disabling heart beat timer but we at least
                         // check if it is still enabled... note: when enabling heart beat, then disabling, then
                         // enabling then this could trigger two requests under circumstances maybe. it's edge case though
@@ -3094,8 +3094,8 @@ if (typeof window.Matomo !== 'object') {
 
                 // Initialize with low entropy values that are always available
                 clientHints = {
-                    brands: navigatorAlias.userAgentData.brands,
-                    platform: navigatorAlias.userAgentData.platform
+                    'brands': navigatorAlias.userAgentData.brands,
+                    'platform': navigatorAlias.userAgentData.platform
                 };
 
                 // try to gather high entropy values
@@ -3307,19 +3307,19 @@ if (typeof window.Matomo !== 'object') {
                     mimeType,
                     pluginMap = {
                         // document types
-                        pdf: 'application/pdf',
+                        'pdf': 'application/pdf',
 
                         // media players
-                        qt: 'video/quicktime',
-                        realp: 'audio/x-pn-realaudio-plugin',
-                        wma: 'application/x-mplayer2',
+                        'qt': 'video/quicktime',
+                        'realp': 'audio/x-pn-realaudio-plugin',
+                        'wma': 'application/x-mplayer2',
 
                         // interactive multimedia
-                        fla: 'application/x-shockwave-flash',
+                        'fla': 'application/x-shockwave-flash',
 
                         // RIA
-                        java: 'application/x-java-vm',
-                        ag: 'application/x-silverlight'
+                        'java': 'application/x-java-vm',
+                        'ag': 'application/x-silverlight'
                     };
 
                 // detect browser features except IE < 11 (IE 11 user agent is no longer MSIE)
@@ -4061,7 +4061,7 @@ if (typeof window.Matomo !== 'object') {
                 setSessionCookie();
 
                 // tracker plugin hook
-                request += executePluginMethod(pluginMethod, {tracker: trackerInstance, request: request});
+                request += executePluginMethod(pluginMethod, {'tracker': trackerInstance, 'request': request});
 
                 if (configAppendToTrackingUrl.length) {
                     request += '&' + configAppendToTrackingUrl;
@@ -5085,7 +5085,7 @@ if (typeof window.Matomo !== 'object') {
                         // Matomo.addPlugin might not be defined at this point, we add the plugin directly also to make
                         // JSLint happy.
                         plugins[trackerQueueId] = {
-                            unload: function () {
+                            'unload': function () {
                                 if (requestQueue.timeout) {
                                     clearTimeout(requestQueue.timeout);
                                 }
@@ -5898,12 +5898,12 @@ if (typeof window.Matomo !== 'object') {
             ) {
                 /*members pf_net, pf_srv, pf_tfr, pf_dm1, pf_dm2, pf_onl */
                 var data = {
-                    pf_net: networkTimeInMs,
-                    pf_srv: serverTimeInMs,
-                    pf_tfr: transferTimeInMs,
-                    pf_dm1: domProcessingTimeInMs,
-                    pf_dm2: domCompletionTimeInMs,
-                    pf_onl: onloadTimeInMs
+                    'pf_net': networkTimeInMs,
+                    'pf_srv': serverTimeInMs,
+                    'pf_tfr': transferTimeInMs,
+                    'pf_dm1': domProcessingTimeInMs,
+                    'pf_dm2': domCompletionTimeInMs,
+                    'pf_onl': onloadTimeInMs
                 };
 
                 try {
@@ -7189,7 +7189,7 @@ if (typeof window.Matomo !== 'object') {
                 // We also want to make sure to define an unload listener for each tracker, not only one tracker.
                 coreConsentCounter++;
                 plugins['CoreConsent' + coreConsentCounter] = {
-                    unload: function () {
+                    'unload': function () {
                         if (!configHasConsent) {
                             // we want to make sure to remove all previously set cookies again
                             deleteCookies();
@@ -7337,7 +7337,7 @@ if (typeof window.Matomo !== 'object') {
 
             Matomo.addPlugin('TrackerVisitorIdCookie' + uniqueTrackerId, {
                 // if no tracking request was sent we refresh the visitor id cookie on page unload
-                unload: function () {
+                'unload': function () {
                     if (supportsClientHints() && !clientHintsResolved) {
                         clientHintsResolved = true;
                         processClientHintsQueue(); // ensure possible queued request are sent out
@@ -7358,7 +7358,7 @@ if (typeof window.Matomo !== 'object') {
        */
         function TrackerProxy() {
             return {
-                push: apply
+                'push': apply
             };
         }
 
@@ -7520,16 +7520,16 @@ if (typeof window.Matomo !== 'object') {
                 // Make a message to tell the optout iframe about the current state
 
                 postMessageToCorrectFrame({
-                    maq_opted_in: data.maq_initial_value && tracker.hasConsent(),
-                    maq_url: tracker.getMatomoUrl(),
-                    maq_optout_by_default: tracker.isConsentRequired()
+                    'maq_opted_in': data.maq_initial_value && tracker.hasConsent(),
+                    'maq_url': tracker.getMatomoUrl(),
+                    'maq_optout_by_default': tracker.isConsentRequired()
                 });
-            } else if (isDefined(data.maq_opted_in)) {
+            } else if (isDefined(data['maq_opted_in'])) {
                 // perform the opt in or opt out...
                 trackers = Matomo.getAsyncTrackers();
                 for (i = 0; i < trackers.length; i++) {
                     tracker = trackers[i];
-                    if (data.maq_opted_in) {
+                    if (data['maq_opted_in']) {
                         tracker.rememberConsentGiven();
                     } else {
                         tracker.forgetConsentGiven();
@@ -7538,9 +7538,9 @@ if (typeof window.Matomo !== 'object') {
 
                 // Make a message to tell the optout iframe about the current state
                 postMessageToCorrectFrame({
-                    maq_confirm_opted_in: tracker.hasConsent(),
-                    maq_url: tracker.getMatomoUrl(),
-                    maq_optout_by_default: tracker.isConsentRequired()
+                    'maq_confirm_opted_in': tracker.hasConsent(),
+                    'maq_url': tracker.getMatomoUrl(),
+                    'maq_optout_by_default': tracker.isConsentRequired()
                 });
             }
         }, false);
@@ -7828,7 +7828,7 @@ if (typeof window.Matomo !== 'object') {
             // Matomo.getAsyncTrackers() would return unconfigured trackers
             window.Matomo.addTracker();
         } else {
-            _paq = {push: function (args) {
+            _paq = {'push': function (args) {
                     // needed to write it this way for jslint
                     var consoleType = typeof console;
                     if (consoleType !== 'undefined' && console && console.error) {
