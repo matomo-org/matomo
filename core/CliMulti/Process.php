@@ -256,7 +256,7 @@ class Process
     private static function awkExistsAndRunsCorrectly()
     {
         $testResult = @shell_exec('echo " 537 s000 Ss 0:00.05 login -pfl theuser /bin/bash -c exec -la bash /bin/bash" | ' . self::AWK_COMMAND . ' 2>/dev/null');
-        return $testResult !== null ? trim($testResult) == '537' : false;
+        return trim($testResult ?? '') == '537';
     }
 
     private static function isSystemNotSupported()
