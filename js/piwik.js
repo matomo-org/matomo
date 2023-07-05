@@ -711,9 +711,9 @@ if (typeof window.Matomo !== 'object') {
 
                 var param;
                 var paramsArr = queryString.split('&');
-                var i = paramsArr.length - 1;
+                var i;
 
-                for (i; i >= 0; i--) {
+                for (i = paramsArr.length - 1; i >= 0; i--) {
                     param = paramsArr[i].split('=')[0];
                     if (param === name) {
                         paramsArr.splice(i, 1);
@@ -3170,11 +3170,11 @@ if (typeof window.Matomo !== 'object') {
                     return [theArray];
                 }
 
-                var index = 0;
+                var index;
                 var arrLength = theArray.length;
                 var chunks = [];
 
-                for (index; index < arrLength; index += chunkSize) {
+                for (index = 0; index < arrLength; index += chunkSize) {
                     chunks.push(theArray.slice(index, index + chunkSize));
                 }
 
@@ -3205,8 +3205,8 @@ if (typeof window.Matomo !== 'object') {
                 makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
                     var chunks = arrayChunk(requests, 50);
 
-                    var i = 0, bulk;
-                    for (i; i < chunks.length; i++) {
+                    var i, bulk;
+                    for (i = 0; i < chunks.length; i++) {
                         bulk = '{"requests":["?' + injectBrowserFeaturesAndClientHints(chunks[i]).join('","?') + '"],"send_image":0}';
                         if (configAlwaysUseSendBeacon && sendPostRequestViaSendBeacon(bulk, null, false)) {
                             // makes sure to load the next page faster by not waiting as long
@@ -5716,8 +5716,8 @@ if (typeof window.Matomo !== 'object') {
             this.setDomains = function (hostsAlias) {
                 configHostsAlias = isString(hostsAlias) ? [hostsAlias] : hostsAlias;
 
-                var hasDomainAliasAlready = false, i = 0, alias;
-                for (i; i < configHostsAlias.length; i++) {
+                var hasDomainAliasAlready = false, i, alias;
+                for (i = 0; i < configHostsAlias.length; i++) {
                     alias = String(configHostsAlias[i]);
 
                     if (isSameHost(domainAlias, domainFixup(alias))) {
@@ -7614,8 +7614,8 @@ if (typeof window.Matomo !== 'object') {
                     return;
                 }
 
-                var i = 0;
-                for (i; i < eventHandlers[event].length; i++) {
+                var i;
+                for (i = 0; i < eventHandlers[event].length; i++) {
                     if (eventHandlers[event][i] === handler) {
                         eventHandlers[event].splice(i, 1);
                     }
@@ -7634,8 +7634,8 @@ if (typeof window.Matomo !== 'object') {
                     return;
                 }
 
-                var i = 0;
-                for (i; i < eventHandlers[event].length; i++) {
+                var i;
+                for (i = 0; i < eventHandlers[event].length; i++) {
                     eventHandlers[event][i].apply(context || windowAlias, extraParameters);
                 }
             },
@@ -7728,8 +7728,8 @@ if (typeof window.Matomo !== 'object') {
                     matomoUrl = firstTracker.getTrackerUrl();
                 }
 
-                var tracker, i = 0;
-                for (i; i < asyncTrackers.length; i++) {
+                var tracker, i;
+                for (i = 0; i < asyncTrackers.length; i++) {
                     tracker = asyncTrackers[i];
                     if (tracker
                         && String(tracker.getSiteId()) === String(siteId)
@@ -7750,8 +7750,8 @@ if (typeof window.Matomo !== 'object') {
             retryMissedPluginCalls: function () {
                 var missedCalls = missedPluginTrackerCalls;
                 missedPluginTrackerCalls = [];
-                var i = 0;
-                for (i; i < missedCalls.length; i++) {
+                var i;
+                for (i = 0; i < missedCalls.length; i++) {
                     apply(missedCalls[i]);
                 }
             }
@@ -7790,8 +7790,8 @@ if (typeof window.Matomo !== 'object') {
     if (window
         && 'object' === typeof window.matomoPluginAsyncInit
         && window.matomoPluginAsyncInit.length) {
-        var i = 0;
-        for (i; i < window.matomoPluginAsyncInit.length; i++) {
+        var i;
+        for (i = 0; i < window.matomoPluginAsyncInit.length; i++) {
             if (typeof window.matomoPluginAsyncInit[i] === 'function') {
                 window.matomoPluginAsyncInit[i]();
             }
