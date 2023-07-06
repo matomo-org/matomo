@@ -29,9 +29,9 @@ jobs:
      - uses: actions/checkout@v3
      - name: Compare stylesheet to base branch
        run: |
-         if [[ $(wget -O - -o /dev/null https://raw.githubusercontent.com/matomo-org/matomo/$GITHUB_BASE_REF/plugins/Morpheus/stylesheets/base/icons.css | sed '4q;d') == $(sed>
+         if [[ $(wget -O - -o /dev/null https://raw.githubusercontent.com/matomo-org/matomo/$GITHUB_BASE_REF/plugins/Morpheus/stylesheets/base/icons.css | sed '4q;d') == $(sed '4q;d' plugins/Morpheus/stylesheets/base/icons.css) ]]
          then
-           echo "::error Font cachebuster paramater not updated see https://developer.matomo.org/guides/matomo-font"
+           echo "::error Font cachebuster parameter not updated see https://developer.matomo.org/guides/matomo-font"
            exit 1
          else
           exit 0
