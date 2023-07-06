@@ -27,7 +27,7 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
      - uses: actions/checkout@v3
-         bash:
+         run: |
            if [[ $(wget -O - -o /dev/null https://raw.githubusercontent.com/matomo-org/matomo/$GITHUB_BASE_REF/plugins/Morpheus/stylesheets/base/icons.css | sed '4q;d') == $(sed>
            then
              echo "::error Font cachebuster paramater not updated see https://developer.matomo.org/guides/matomo-font"
