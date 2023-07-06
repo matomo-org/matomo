@@ -16,16 +16,16 @@
                 <li class="tab col s2"><a {% if activeTab == 'gtm' %} class="active" {% endif %} href="#google-tag-manager">{{ 'SitesManager_SiteWithoutDataGoogleTagManager'|translate }}</a></li>
             {% endif %}
             {% if cms == 'wordpress' %}
-                <li class="tab col s2"><a {% if activeTab == 'wordpress' %} class="active" {% endif %} href="#wordpress">{{ 'SitesManager_SiteWithoutDataWordpress'|translate }}</a></li>
+                <li class="tab col s2"><a {% if activeTab == 'wordpress' %} class="active" {% endif %} href="#wordpress">WordPress</a></li>
             {% endif %}
             {% if cloudflare %}
-                <li class="tab col s2"><a {% if activeTab == 'cloudflare' %} class="active" {% endif %} href="#cloudflare">{{ 'SitesManager_SiteWithoutDataCloudflare'|translate }}</a></li>
+                <li class="tab col s2"><a {% if activeTab == 'cloudflare' %} class="active" {% endif %} href="#cloudflare">Cloudflare</a></li>
             {% endif %}
             {% if jsFramework == 'vue' %}
-                <li class="tab col s2"><a {% if activeTab == 'vue' %} class="active" {% endif %} href="#vue">{{ 'SitesManager_SiteWithoutDataVue'|translate }}</a></li>
+                <li class="tab col s2"><a {% if activeTab == 'vue' %} class="active" {% endif %} href="#vue">Vue.js</a></li>
             {% endif %}
             {% if jsFramework == 'react' %}
-                <li class="tab col s2"><a {% if activeTab == 'react' %} class="active" {% endif %} href="#react">{{ 'SitesManager_SiteWithoutDataReact'|translate }}</a></li>
+                <li class="tab col s2"><a {% if activeTab == 'react' %} class="active" {% endif %} href="#react">React.js</a></li>
             {% endif %}
             {%  if tagManagerActive %}
                 <li class="tab col {{ columnClass }}"><a href="#spa">SPA / PWA</a></li>
@@ -141,15 +141,16 @@
             <br>
             <p>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStepsIntro'|translate }}</p>
             <ol style="list-style: decimal;list-style-position: inside;">
-                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep1'|translate('<a target="_blank" rel="noreferrer noopener" href="https://dash.cloudflare.com/">','</a>')|raw }}</li>
-                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep2'|translate }}</li>
-                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep3'|translate }}</li>
-                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep4'|translate }}</li>
-                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep5'|translate }}</li>
-                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep6'|translate }}</li>
-                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep7'|translate }}<div style="text-indent: 1.2rem;">Matomo URL: <code vue-directive="CoreHome.SelectOnFocus">{{ piwikUrl }}</code></div><div style="text-indent: 1.2rem;">{{ 'SitesManager_EmailInstructionsYourSiteId'|translate('<code vue-directive="CoreHome.SelectOnFocus">' ~ idSite ~ '</code>')|raw }}</div></li>
-                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep8'|translate }}</li>
-                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep9'|translate }}</li>
+                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep01'|translate('<a target="_blank" rel="noreferrer noopener" href="https://dash.cloudflare.com/">','</a>')|raw }}</li>
+                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep02'|translate }}</li>
+                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep03'|translate }}</li>
+                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep04'|translate }}</li>
+                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep05'|translate }}</li>
+                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep06'|translate }}</li>
+                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep07'|translate }}<div style="text-indent: 1.2rem;">Matomo URL: <code vue-directive="CoreHome.SelectOnFocus">{{ piwikUrl }}</code></div><div style="text-indent: 1.2rem;">{{ 'SitesManager_EmailInstructionsYourSiteId'|translate('<code vue-directive="CoreHome.CopyToClipboard">' ~ idSite ~ '</code>')|raw }}</div></li>
+                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep08'|translate }}</li>
+                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep09'|translate }}</li>
+                <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep10'|translate }}</li>
             </ol>
             <br>
             <p>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStepCompleted'|translate('<strong>','</strong>')|raw }}</p>
@@ -213,19 +214,19 @@
         <h3>{{ 'SitesManager_SiteWithoutDataGoogleTagManager'|translate }}</h3>
         <p>{{ 'SitesManager_SiteWithoutDataGoogleTagManagerDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-within-gtm-google-tag-manager">','</a>')|raw }}</p>
 
-        <h3>{{ 'SitesManager_SiteWithoutDataWordpress'|translate }}</h3>
+        <h3>WordPress</h3>
         <p>{{ 'SitesManager_SiteWithoutDataWordpressDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/">','</a>')|raw }}</p>
 
         <h3>{{ 'SitesManager_SiteWithoutDataSinglePageApplication'|translate }}</h3>
         <p>{{ 'SitesManager_SiteWithoutDataSinglePageApplicationDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://developer.matomo.org/guides/spa-tracking">','</a>')|raw }}</p>
 
-        <h3>{{ 'SitesManager_SiteWithoutDataCloudflare'|translate }}</h3>
+        <h3>Cloudflare</h3>
         <p>{{ 'SitesManager_SiteWithoutDataCloudflareDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-cloudflare-setup/">','</a>')|raw }}</p>
 
-        <h3>{{ 'SitesManager_SiteWithoutDataVue'|translate }}</h3>
+        <h3>Vue.js</h3>
         <p>{{ 'SitesManager_SiteWithoutDataVueDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://github.com/AmazingDreams/vue-matomo">vue-matomo</a>', '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-websites-that-use-vue-js/">','</a>')|raw }}</p>
 
-        <h3>{{ 'SitesManager_SiteWithoutDataReact'|translate }}</h3>
+        <h3>React.js</h3>
         <p>{{ 'SitesManager_SiteWithoutDataReactDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/guide/tag-manager/">', '</a>', '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-start-tracking-data-with-matomo-on-websites-that-use-react/">','</a>')|raw }}</p>
 
         {% if googleAnalyticsImporterMessage is defined %}
