@@ -139,7 +139,7 @@ class API extends \Piwik\Plugin\API
         }
 
         $useUnicodeFont = array(
-            'am', 'ar', 'el', 'fa', 'fi', 'fr', 'he', 'ja', 'ka', 'ko', 'te', 'th', 'zh-cn', 'zh-tw',
+            'am', 'ar', 'el', 'fa', 'fi', 'he', 'ja', 'ka', 'ko', 'te', 'th', 'zh-cn', 'zh-tw',
         );
         $languageLoaded = StaticContainer::get('Piwik\Translation\Translator')->getCurrentLanguage();
         $font = self::getFontPath(self::DEFAULT_FONT);
