@@ -1,0 +1,37 @@
+name: Font update check
+
+# **What it does**: Checks that the font cachebuster parameter has been updated if the font file has changed
+# **Why we have it**: To make sure that browser font caching is invalidated and the updated font is used
+# **Who does it impact**: Any PR which changes the font file
+
+on:
+  pull_request_target:
+    types: [opened, reopened]
+    paths:
+      - 'plugins/Morpheus/fonts/matomo.woff2'
+
+permissions:
+  actions: read
+  checks: read
+  contents: read
+  deployments: none
+  issues: read
+  packages: none
+  pull-requests: read
+  repository-projects: none
+  security-events: none
+  statuses: read
+
+jobs:
+  check:
+    runs-on: "ubuntu-latest"
+    steps:
+     - uses: actions/checkout@v3
+         bash:
+           if [[ $(wget -O - -o /dev/null https://raw.githubusercontent.com/matomo-org/matomo/$GITHUB_BASE_REF/plugins/Morpheus/stylesheets/base/icons.css | sed '4q;d') == $(sed>
+           then
+             echo "::error Font cachebuster paramater not updated see https://developer.matomo.org/guides/matomo-font"
+             exit 1
+           else
+            exit 0
+           fi
