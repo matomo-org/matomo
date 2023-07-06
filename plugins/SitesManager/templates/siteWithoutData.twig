@@ -36,7 +36,7 @@
             <p>{{ 'SitesManager_SiteWithoutDataStartTrackingDataDescriptionLine2'|translate('<a rel="noreferrer noopener" class="ignoreSitesWithoutData" href="' ~ linkTo({module: 'SitesManager', action: 'ignoreNoDataMessage'}) ~'">', '</a>')|raw }}</p>
             <p>&nbsp;</p>
 
-            <div piwik-widget-loader='{"module":"SitesManager","action":"siteWithoutDataTabs"}' loading-message="{{ 'SitesManager_DetectingYourSite'|translate|e('html_attr') }}..."></div>
+            <div piwik-widget-loader='{{ noDataLoader|json_encode }}' loading-message="{{ 'SitesManager_DetectingYourSite'|translate|e('html_attr') }}..."></div>
 
             {% set afterIntroEventContent %}{{ postEvent('Template.siteWithoutData.afterIntro') }}{% endset %}
             <div class="no-data-footer row">

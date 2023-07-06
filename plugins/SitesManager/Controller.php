@@ -185,6 +185,16 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $emailContent = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', $emailTemplateData, $viewType = 'basic');
         $inviteUserLink = $this->getInviteUserLink();
 
+        $noDataLoader = [
+            'module' => 'SitesManager',
+            'action' => 'siteWithoutDataTabs',
+        ];
+
+        $gaSelectedConfigOption = Common::getRequestVar('gaSelectedConfigOption', '');
+        if ($gaSelectedConfigOption) {
+            $noDataLoader['gaSelectedConfigOption'] = $gaSelectedConfigOption;
+        }
+
         return $this->renderTemplateAs('siteWithoutData', [
             'siteName'                                            => $this->site->getName(),
             'idSite'                                              => $this->idSite,
@@ -192,7 +202,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'emailBody'                                           => $emailContent,
             'siteWithoutDataStartTrackingTranslationKey'          => StaticContainer::get('SitesManager.SiteWithoutDataStartTrackingTranslation'),
             'SiteWithoutDataVueFollowStepNote2Key'                => StaticContainer::get('SitesManager.SiteWithoutDataVueFollowStepNote2'),
-            'inviteUserLink'                                      => $inviteUserLink
+            'inviteUserLink'                                      => $inviteUserLink,
+            'noDataLoader'                                        => $noDataLoader,
         ], $viewType = 'basic');
     }
 
@@ -259,6 +270,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'serverSideDoNotTrackEnabled' => $dntChecker->isActive()
         ];
 
+        $templateData['showGAImportTab'] = $this->shouldShowGAImportTab($templateData);
+
         if ($this->siteContentDetector->consentManagerId) {
             $templateData['consentManagerName'] = $this->siteContentDetector->consentManagerName;
             $templateData['consentManagerUrl'] = $this->siteContentDetector->consentManagerUrl;
@@ -285,6 +298,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $tabToDisplay = 'gtm';
         } else if (!empty($templateData['cms']) && $templateData['cms'] === SitesManager::SITE_TYPE_WORDPRESS) {
             $tabToDisplay = 'wordpress';
+        } else if (!empty($templateData['showGAImportTab'])) {
+            $tabToDisplay = 'ga-import';
         } else if (!empty($templateData['cloudflare'])) {
             $tabToDisplay = 'cloudflare';
         } else if (!empty($templateData['jsFramework']) && $templateData['jsFramework'] === SitesManager::JS_FRAMEWORK_VUE) {
@@ -417,5 +432,14 @@ INST;
         }
 
         return $info;
+    }
+
+    private function shouldShowGAImportTab($templateData)
+    {
+        if (Piwik::hasUserSuperUserAccess() && Manager::getInstance()->isPluginActivated('GoogleAnalyticsImporter') && (!empty($templateData['ga3Used']) || !empty($templateData['ga4Used']))) {
+            return true;
+        }
+
+        return false;
     }
 }
