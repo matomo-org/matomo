@@ -212,6 +212,6 @@
         "ReactDetectedEmail": "React.js was detected on your website. Did you know you can use the \"Matomo Tag Manager\" to track the website data? Learn more here: %1$s",
         "SiteWithoutDataSPADescription": "It is easy to start tracking your Single Page Application (SPA) or Progressive Web App (PWA) using Matomo Analytics. The easiest way to do this is using the Matomo Tag Manager (%1$slearn more%2$s) using the steps below, alternatively you can use the JavaScript Tracking code (%3$sfollowing this guide%4$s).",
         "SiteWithoutDataSPAFollowStepCompleted": "%1$sCongratulations!%2$s You have successfully installed the Matomo Analytics tracking code via the Matomo Tag Manager. To verify that hits are being tracked, visit your SPA / PWA and check that this data is visible in your Matomo instance.",
-        "SiteWithoutDataGoogleAnalyticsImport": "Google Analytics Import"
+        "SiteWithoutDataGoogleAnalyticsImport": "Google Analytics Import "
     }
 }
