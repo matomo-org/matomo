@@ -38,7 +38,7 @@ class Extraction
         $dimensions = $this->getSupportedDimensions();
         if (!array_key_exists($this->dimension, $dimensions)) {
             $dimensions = implode(', ', array_keys($dimensions));
-            throw new Exception("Invald dimension '$this->dimension' used in an extraction. Available dimensions are: " . $dimensions);
+            throw new Exception("Invalid dimension '$this->dimension' used in an extraction. Available dimensions are: " . $dimensions);
         }
         
         //Count the number of non-capturing groups in order to omit them from being counted as capturing groups
