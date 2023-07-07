@@ -1276,23 +1276,28 @@ PluginsInstalled[] = JsTrackerInstallCheck
 [PagePerformance]
 ; The values used in reports 'sum/total' and 'average' are capped to reduce the impact of single failed performance measurements.
 ;
-; Default caps are at 100-fold an avg/high value. Thereby one wrong value in 10000 values results in a 1% deviation:
+; The recommended caps are at 100-fold an avg/high value. Thereby one wrong value in 10000 values results in a 1% deviation:
 ; (1x 100N + 9999x N) / 10000 ~= 101% N
 ;
-; To disable capping set cap to: 0
-;
+; By default capping is disabled. To enable capping add single lines below as needed to section '[PagePerformance]' in 'config.ini.php'.
+
 ; Network: avg/high 100ms
-time_network_cap_duration_ms = 10000
+;time_network_cap_duration_ms = 10000
+
 ; Server: avg/high 500ms
-time_server_cap_duration_ms = 50000
+;time_server_cap_duration_ms = 50000
+
 ; Transfer: avg/high 250ms
-time_transfer_cap_duration_ms = 25000
+;time_transfer_cap_duration_ms = 25000
+
 ; DOM processing: avg/high 500ms
-time_dom_processing_cap_duration_ms = 50000
+;time_dom_processing_cap_duration_ms = 50000
+
 ; DOM completion: avg/high 1500ms
-time_dom_completion_cap_duration_ms = 150000
+;time_dom_completion_cap_duration_ms = 150000
+
 ; On load: avg/high 2500ms
-time_on_load_cap_duration_ms = 250000
+;time_on_load_cap_duration_ms = 250000
 
 [APISettings]
 ; Any key/value pair can be added in this section, they will be available via the REST call

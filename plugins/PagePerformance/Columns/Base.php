@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\PagePerformance\Columns;
 
+use Exception;
 use Piwik\Config;
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Plugin\Dimension\ActionDimension;
@@ -25,7 +26,13 @@ abstract class Base extends ActionDimension
 
     public function getConfigValueCap()
     {
-        return Config::getInstance()->PagePerformance[$this->columnName . '_cap_' . $this->type];
+        try {
+            $valueCap = Config::getInstance()->PagePerformance[$this->columnName . '_cap_' . $this->type];
+        } catch (Exception $ex) {
+            // 0 disables cap
+            return 0;
+        }
+        return $valueCap;
     }
 
     public function getSqlCappedValue()
