@@ -58,7 +58,7 @@ class ExtractionsTest extends \PHPUnit\Framework\TestCase
     public function test_check_shouldAlsoCheckExtractionAndFailIfValueIsInvalid()
     {
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage("Invald dimension 'invalId' used in an extraction. Available dimensions are: url, urlparam, action_name");
+        $this->expectExceptionMessage("Invalid dimension 'invalId' used in an extraction. Available dimensions are: url, urlparam, action_name");
 
         $extraction1 = array('dimension' => 'url', 'pattern' => 'index(.+).html');
         $extraction2 = array('dimension' => 'invalId', 'pattern' => 'index');
