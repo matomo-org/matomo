@@ -24,7 +24,7 @@ abstract class Base extends ActionDimension
 
     abstract public function getRequestParam();
 
-    public function getConfigValueCap()
+    private function getConfigValueCap()
     {
         try {
             $valueCap = Config::getInstance()->PagePerformance[$this->columnName . '_cap_' . $this->type];
