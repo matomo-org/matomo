@@ -10,7 +10,6 @@
         "CloseSearch": "Close search",
         "CloseWidgetDirections": "You can close this widget by clicking on the 'X' icon at the top of the widget.",
         "ChooseX": "Choose %1$s",
-        "ClickX": "Click \"%1$s\"",
         "DataForThisReportHasBeenPurged": "The data for this report is more than %s months old and has been purged.",
         "DataForThisReportHasBeenDisabled": "Segmentation is currently disabled for this report. Please check %1$sthis FAQ%2$s for more details.",
         "DataTableExcludeAggregateRows": "Aggregate rows are shown %s Hide them",

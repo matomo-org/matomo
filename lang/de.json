@@ -37,6 +37,7 @@
         "ClickHere": "Klicken Sie hier für weitere Informationen.",
         "ClickToRemoveComp": "Klicken Sie, um diesen Vergleich zu entfernen.",
         "ClickToSearch": "Zum Suchen klicken",
+        "ClickX": "Klicken Sie auf \"%1$s\"",
         "Close": "Schließen",
         "ColumnActionsPerVisit": "Aktionen pro Besuch",
         "ColumnActionsPerVisitDocumentation": "Die durchschnittliche Anzahl der Aktionen (Seitenaufrufe, Downloads, ausgehende Verweise oder interne Suchen), die während der Besuche durchgeführt wurden.",
