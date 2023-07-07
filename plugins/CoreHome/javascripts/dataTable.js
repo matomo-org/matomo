@@ -496,8 +496,11 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             if (allColumns > 2 * firstTableColumn) {
                 amount = 2 * firstTableColumn;
             }
-
-            return parseInt(labelWidth / amount, 10);
+            var newWidth = parseInt(labelWidth / amount, 10)
+            if (newWidth == 0) {
+                newWidth = minLabelWidth; // fallback to the minimum width if zero
+            }
+            return newWidth;
         }
 
         function getLabelColumnMinWidth(domElem)
