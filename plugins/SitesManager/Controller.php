@@ -185,16 +185,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $emailContent = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', $emailTemplateData, $viewType = 'basic');
         $inviteUserLink = $this->getInviteUserLink();
 
-        $noDataLoader = [
-            'module' => 'SitesManager',
-            'action' => 'siteWithoutDataTabs',
-        ];
-
-        $gaSelectedConfigOption = Common::getRequestVar('gaSelectedConfigOption', '');
-        if ($gaSelectedConfigOption) {
-            $noDataLoader['gaSelectedConfigOption'] = $gaSelectedConfigOption;
-        }
-
         return $this->renderTemplateAs('siteWithoutData', [
             'siteName'                                            => $this->site->getName(),
             'idSite'                                              => $this->idSite,
@@ -202,8 +192,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'emailBody'                                           => $emailContent,
             'siteWithoutDataStartTrackingTranslationKey'          => StaticContainer::get('SitesManager.SiteWithoutDataStartTrackingTranslation'),
             'SiteWithoutDataVueFollowStepNote2Key'                => StaticContainer::get('SitesManager.SiteWithoutDataVueFollowStepNote2'),
-            'inviteUserLink'                                      => $inviteUserLink,
-            'noDataLoader'                                        => $noDataLoader,
+            'inviteUserLink'                                      => $inviteUserLink
         ], $viewType = 'basic');
     }
 
