@@ -139,6 +139,18 @@
  * @suppress {checkTypes}
  */
 
+/**
+ * @define {boolean} DEBUG is provided as a convenience so that debugging code
+ * that should not be included in a production js_binary can be easily stripped
+ * by specifying --define DEBUG=false to the JSCompiler. For example, most
+ * toString() methods should be declared inside an "if (DEBUG)" conditional
+ * because they are generally used for debugging purposes and it is difficult
+ * for the JSCompiler to statically determine whether they are used.
+ */
+/*<DEBUG>*/
+var DEBUG = true;
+/*</DEBUG>*/
+
 // asynchronous tracker (or proxy)
 if (typeof _paq !== 'object') {
     _paq = [];
@@ -2191,14 +2203,15 @@ if (typeof window.Matomo !== 'object') {
              * Private members
              ************************************************************/
 
+            /*<DEBUG>*/ if (DEBUG) {
             var
-                /*<DEBUG>*/
                 /*
                  * registered test hooks
                  */
-                registeredHooks = {},
-                /*</DEBUG>*/
+                registeredHooks = {};
+            } /*</DEBUG>*/
 
+            var
                 trackerInstance = this,
 
                 // constants
@@ -5004,12 +5017,12 @@ if (typeof window.Matomo !== 'object') {
                 });
             }
 
-            /*<DEBUG>*/
+            /*<DEBUG>*/ if (DEBUG) {
             /*
              * Register a test hook. Using eval() permits access to otherwise
              * privileged members.
              */
-            function registerHook(hookName, userHook) {
+            var registerHook = function (hookName, userHook) {
                 var hookObj = null;
 
                 if (isString(hookName) && !isDefined(registeredHooks[hookName]) && userHook) {
@@ -5025,9 +5038,9 @@ if (typeof window.Matomo !== 'object') {
                 }
 
                 return hookObj;
-            }
+            };
 
-            /*</DEBUG>*/
+            } /*</DEBUG>*/
 
             var requestQueue = {
                 enabled: true,
@@ -5104,19 +5117,19 @@ if (typeof window.Matomo !== 'object') {
              */
             updateDomainHash();
 
-            /*<DEBUG>*/
+            /*<DEBUG>*/ if (DEBUG) {
             /*
              * initialize test plugin
              */
             executePluginMethod('run', null, registerHook);
-            /*</DEBUG>*/
+            } /*</DEBUG>*/
 
             /************************************************************
              * Public data and methods
              ************************************************************/
 
 
-            /*<DEBUG>*/
+            /*<DEBUG>*/ if (DEBUG) {
             /*
              * Test hook accessors
              */
@@ -5209,7 +5222,7 @@ if (typeof window.Matomo !== 'object') {
                 isPageUnloading = false;
             };
             this.getRemainingVisitorCookieTimeout = getRemainingVisitorCookieTimeout;
-            /*</DEBUG>*/
+            } /*</DEBUG>*/
             this.hasConsent = function () {
                 return configHasConsent;
             };

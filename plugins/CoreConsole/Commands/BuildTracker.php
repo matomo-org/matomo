@@ -57,7 +57,7 @@ class BuildTracker extends ConsoleCommand
             }
             passthru($command);
 
-            $command = "cd $jsPath && sed '/<DEBUG>/,/<\\/DEBUG>/d' < piwik.js | sed 's/eval/replacedEvilString/' | java -jar closure-compiler-v20230502.jar --language_in ECMASCRIPT3 --language_out ECMASCRIPT3 --compilation_level ADVANCED_OPTIMIZATIONS --externs piwik.externs.js | sed 's/replacedEvilString/eval/' | sed 's/^[/][*]/\\/*!/' > piwik.experimental.min.js";
+            $command = "cd $jsPath && java -jar closure-compiler-v20230502.jar --language_in ECMASCRIPT3 --language_out ECMASCRIPT3 --compilation_level ADVANCED_OPTIMIZATIONS --define DEBUG=false --js piwik.js piwik.externs.js | sed 's/^[/][*]/\\/*!/' > piwik.experimental.min.js";
             if ($output->isVerbose()) {
                 $output->writeln("Command (experimental): $command");
             }
@@ -76,7 +76,7 @@ class BuildTracker extends ConsoleCommand
         }
         passthru($command);
 
-        $command = "cd $jsPath && cat $pluginTrackerJs | java -jar closure-compiler-v20230502.jar --language_in ECMASCRIPT3 --language_out ECMASCRIPT3 --compilation_level SIMPLE_OPTIMIZATIONS | sed 's/^[/][*]/\\/*!/' > $pluginTrackerExperimentalMinJs";
+        $command = "cd $jsPath && java -jar closure-compiler-v20230502.jar --language_in ECMASCRIPT3 --language_out ECMASCRIPT3 --compilation_level SIMPLE_OPTIMIZATIONS --js $pluginTrackerJs | sed 's/^[/][*]/\\/*!/' > $pluginTrackerExperimentalMinJs";
         if ($output->isVerbose()) {
             $output->writeln("Command (experimental): $command");
         }
