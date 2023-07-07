@@ -709,12 +709,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/referrer-spam-list.git",
-                "reference": "43dd0750e9d6129320f43e8016944b2b025bca9e"
+                "reference": "4caf208ac69ea3874debf568c686021a1b39d8d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/referrer-spam-list/zipball/43dd0750e9d6129320f43e8016944b2b025bca9e",
-                "reference": "43dd0750e9d6129320f43e8016944b2b025bca9e",
+                "url": "https://api.github.com/repos/matomo-org/referrer-spam-list/zipball/4caf208ac69ea3874debf568c686021a1b39d8d0",
+                "reference": "4caf208ac69ea3874debf568c686021a1b39d8d0",
                 "shasum": ""
             },
             "replace": {
@@ -732,7 +732,7 @@
                 "issues": "https://github.com/matomo-org/referrer-spam-list/issues",
                 "source": "https://github.com/matomo-org/referrer-spam-list/tree/master"
             },
-            "time": "2023-05-11T17:27:23+00:00"
+            "time": "2023-07-01T02:42:50+00:00"
         },
         {
             "name": "matomo/searchengine-and-social-list",
