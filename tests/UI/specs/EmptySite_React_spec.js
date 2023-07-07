@@ -16,7 +16,7 @@ describe("EmptySite_React", function () {
     it('should show the tracking code if the website has no recorded data and React guide', async function () {
         const urlToTest = "?" + generalParams + "&module=CoreHome&action=index";
         await page.goto(urlToTest);
-        await page.waitForSelector('#react .tagManagerTrackingCode .codeblock', { visible: true });
+        await page.waitForSelector('#react .tagManagerTrackingCode', { visible: true });
         await page.evaluate(function () {
             // since containerID will be random and keeps changing
             var selector = $('#react .tagManagerTrackingCode .codeblock');
