@@ -1296,8 +1296,8 @@ PluginsInstalled[] = JsTrackerInstallCheck
 ; DOM completion: avg/high 1500ms
 ;time_dom_completion_cap_duration_ms = 150000
 
-; On load: avg/high 2500ms
-;time_on_load_cap_duration_ms = 250000
+; On load: avg/high 10ms (time 'DOM complete' to 'Onload-event')
+;time_on_load_cap_duration_ms = 1000
 
 [APISettings]
 ; Any key/value pair can be added in this section, they will be available via the REST call
