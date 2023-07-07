@@ -50,7 +50,7 @@
         "JSTrackingIntro5": "Se você quiser fazer mais do que rastrear visualizações de página, verifique a documentação %1$sMatomo Javascript Tracking%2$s para obter a lista de funções disponíveis. Usando essas funções, você pode rastrear metas, variáveis personalizadas, pedidos de comércio eletrônico, carrinhos abandonados e muito mais.",
         "JSTracking_CampaignKwdParam": "Parâmetro de Palavra-Chave da campanha",
         "JSTracking_CampaignNameParam": "Parâmetro Nome da Campanha",
-        "JSTracking_CodeNoteBeforeClosingHead": "Certifique-se de que este código esteja em todas as páginas do seu site. Recomendamos colá-lo imediatamente antes da tag %1$s de fechamento.",
+        "JSTracking_CodeNoteBeforeClosingHead": "Clique no botão para copiar o trecho de código e cole-o imediatamente antes da tag %1$s de fechamento (recomendado)",
         "JSTracking_CodeNoteBeforeClosingHeadEmail": "Certifique-se de que este código esteja dentro de um elemento script em todas as páginas do seu site. Recomendamos colá-lo imediatamente antes da tag head de fechamento.",
         "JSTracking_ConsentManagerConnected": "%1$s parece já estar configurado para funcionar com o Matomo.",
         "JSTracking_ConsentManagerDetected": "O gerenciador de consentimento de %1$s foi detectado no seu site. Para saber como configurar o Matomo para funcionar com %1$s favor visite %2$s",

@@ -47,6 +47,7 @@
         "ConversionByTypeReportDocumentation": "Esse relatório fornece informações detalhadas sobre o desempenho objetivo (conversões, taxas de conversão e receita por visita) para cada uma das categorias disponíveis no painel esquerdo. %1$s Por favor, clique em uma das categorias para ver o relatório. %2$s para mais informações, leia a documentação %3$sTracking Metas em piwik.org%4$s",
         "ConversionRate": "%s taxa de conversão",
         "ConversionRatePageViewedBefore": "Visualizado antes da taxa de %s",
+        "ConversionRatePageViewedBeforeGeneric": "Visualizado antes da taxa de conversão",
         "Conversions": "%s conversões",
         "ConversionsDescription": "conversões",
         "ConversionsOverview": "Visão geral de conversões",
