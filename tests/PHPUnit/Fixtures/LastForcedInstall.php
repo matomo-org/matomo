@@ -13,6 +13,6 @@ class LastForcedInstall extends LatestStableInstall
 {
     protected function getDownloadUrl()
     {
-        return 'http://builds.matomo.org/matomo-4.15.0-b1.zip';
+        return 'http://builds.matomo.org/matomo-4.15.0.zip';
     }
 }
