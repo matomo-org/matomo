@@ -10,7 +10,7 @@
         "CreateAndScheduleReport": "Créer et planifier un rapport",
         "CreateReport": "Créer le rapport",
         "CustomVisitorSegment": "Segment de visiteur personnalisé :",
-        "DescriptionOnFirstPage": "La description du rapport sera affichée sur la première page du rapport.",
+        "DescriptionOnFirstPage": "La description du rapport sera affichée dans le message électronique, ainsi que sur la première page du rapport.",
         "DisplayFormat_TablesOnly": "Afficher uniquement les tableaux (pas de graphiques)",
         "EmailHello": "Bonjour,",
         "EmailReports": "Rapports e-mail",

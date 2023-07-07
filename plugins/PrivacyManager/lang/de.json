@@ -65,7 +65,7 @@
         "DeleteLogsOlderThan": "Logs löschen, die älter sind als",
         "DeleteMaxRows": "Maximale Anzahl der Datensätze, die pro Durchlauf gelöscht werden dürfen:",
         "DeleteMaxRowsNoLimit": "Keine Begrenzung",
-        "DeleteOldAggregatedReports": "Alte vereinigte Berichtdaten löschen",
+        "DeleteOldAggregatedReports": "Alte aggregierte Berichtdaten löschen",
         "DeleteOldRawData": "Lösche regelmäßig alte Daten aus der Datenbank",
         "DeleteOldVisitorLogs": "Alte Besucher-Logs löschen",
         "DeleteRawDataInfo": "Die Rohdaten enthalten alle Details über jeden individuellen Besuch und jede vom Besucher getätigte Aktion. Wenn Sie Rohdaten löschen, dann ist die gelöschte Information nicht mehr im Besucher-Log verfügbar. Außerdem werden segmentierte Berichte für dieses gelöschte Zeitfenster nicht mehr verfügbar sein, wenn Sie später beschließen, ein Segment zu erstellen, weil alle aggregierten Berichte aus diesen Rohdaten generiert werden.",

@@ -50,7 +50,7 @@
         "JSTrackingIntro5": "Si desitja fer més que rastrejar visites de pàgina, revisa la %1$sDocumentació javascript de Matomo %2$s sobre la llista de funcions disponibles. Utilitzant aquestes funcions, pots rastrejar objectius, variables personalitzades, compres d'e-comerç, compres abandonades i més.",
         "JSTracking_CampaignKwdParam": "Paràmetre de paraula clau de campanya",
         "JSTracking_CampaignNameParam": "Paràmetre de nom de campanya",
-        "JSTracking_CodeNoteBeforeClosingHead": "Assegureu-vos que aquest codi estigui a totes les pàgines del vostre lloc web. Recomanem enganxar-lo just abans de l'etiqueta de tancament %1$s.",
+        "JSTracking_CodeNoteBeforeClosingHead": "Feu clic al botó per copiar el fragment de codi i enganxar-lo immediatament abans de l'etiqueta de tancament %1$s (recomanat)",
         "JSTracking_CodeNoteBeforeClosingHeadEmail": "Assegureu-vos que aquest codi estigui incrustat dins d'un element d'script a cada pàgina del vostre lloc web. Recomanem enganxar-lo just abans de l'etiqueta de tancament HEAD.",
         "JSTracking_ConsentManagerConnected": "Sembla que %1$s ja està configurat per funcionar amb Matomo.",
         "JSTracking_ConsentManagerDetected": "S'ha detectat %1$s gestor de consentiments al vostre lloc. Per obtenir informació sobre com es configura Matomo perquè funcioni amb %1$s, visiteu %2$s",

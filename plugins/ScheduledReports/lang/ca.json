@@ -10,7 +10,7 @@
         "CreateAndScheduleReport": "Crear i programar un informe",
         "CreateReport": "Crear un informe",
         "CustomVisitorSegment": "Segment de visitants personalitzat:",
-        "DescriptionOnFirstPage": "La descripció del informes es mostrarà a la primera pàgina del informe.",
+        "DescriptionOnFirstPage": "La descripció de l'informe es mostrarà en el missatge de correu, i també a la primera pàgina de l'informe.",
         "DisplayFormat_TablesOnly": "Mostra només taules (sense gràfics)",
         "EmailHello": "Hola,",
         "EmailReports": "Informes per correu electrònic",
