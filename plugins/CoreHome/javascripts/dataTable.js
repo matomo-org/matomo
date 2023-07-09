@@ -498,7 +498,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
             var newWidth = parseInt(labelWidth / amount, 10)
             if (newWidth == 0) {
-                newWidth = minLabelWidth; // fallback to the minimum width if zero
+                newWidth = maxLabelWidth; // fallback to the maximum width if zero
             }
             return newWidth;
         }
