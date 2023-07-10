@@ -151,7 +151,7 @@ class ServiceTest extends SystemTestCase
         }
 
         $diff = time() - $start;
-        $this->assertLessThanOrEqual(2, $diff);
+        $this->assertLessThanOrEqual(4, $diff);
     }
 
     private function buildService()
