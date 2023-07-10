@@ -57,10 +57,12 @@ class Referrers extends RecordBuilder
                 ->setIsCountOfBlobRecordRows(Archiver::CAMPAIGNS_RECORD_NAME),
             Record::make(Record::TYPE_NUMERIC, Archiver::METRIC_DISTINCT_WEBSITE_RECORD_NAME)
                 ->setIsCountOfBlobRecordRows(Archiver::WEBSITES_RECORD_NAME),
+
             Record::make(Record::TYPE_NUMERIC, Archiver::METRIC_DISTINCT_URLS_RECORD_NAME)
                 ->setIsCountOfBlobRecordRows(Archiver::WEBSITES_RECORD_NAME, true)
+                // for non day periods, set the count to the count of the recursive row count - the toplevel row count (which is just the domains)
                 ->setMultiplePeriodTransform(function (float $value, array $counts) {
-                    return $counts['recursive'] - $counts['level0'];
+                    return $value - $counts['level0'];
                 }),
         ];
     }
@@ -114,7 +116,7 @@ class Referrers extends RecordBuilder
         }
     }
 
-    protected function makeReferrerTypeNonEmpty(&$row)
+    protected function makeReferrerTypeNonEmpty(&$row): void
     {
         if (empty($row['referer_type'])) {
             $row['referer_type'] = Common::REFERRER_TYPE_DIRECT_ENTRY;
@@ -124,7 +126,7 @@ class Referrers extends RecordBuilder
     /**
      * @param DataTable[] $reports
      */
-    protected function aggregateVisitRow($row, array $reports, array &$distinctUrls)
+    protected function aggregateVisitRow($row, array $reports, array &$distinctUrls): void
     {
         $columns = [
             Metrics::INDEX_NB_UNIQ_VISITORS => $row[Metrics::INDEX_NB_UNIQ_VISITORS],
