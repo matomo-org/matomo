@@ -4,7 +4,7 @@
         "MysqlTemporaryTablesWarning": "El permiso \"CREATE TEMPORARY TABLES\" de MySQL es requerido para que Matomo funcione correctamente.",
         "MysqlTransactionLevel": "Cambiar el nivel de transacción de aislamiento no está soportado. El archivado aún funcionará pero podría ser más lento y es recomendado cambiar, por ejemplo, \"binlog_format\" a \"row\", de ser posible.",
         "MysqlMaxPacketSize": "Tamaño máximo del paquete",
-        "MysqlMaxPacketSizeWarning": "Se recomienda configurar el tamaño de \"max_allowed_packet\" en tu base de datos MySQL en al menos %1$s. La configuración actual es de %2$s.",
+        "MysqlMaxPacketSizeWarning": "Se recomienda configurar el tamaño de \"%1$smax_allowed_packet%2$s\" en tu base de datos MySQL en al menos %3$s. La configuración actual es de %4$s.",
         "ConfigFileIntroduction": "Acá podés ver la configuración de Matomo. Si estás ejecutando Matomo en un entorno de carga balanceada, la página podría ser diferente dependiendo desde qué servidor se página esta página. Las filas con diferente fondo de color son valores de configuración cambiadas que están especificadas, por ejemplo, en el archivo %1$s.",
         "HideUnchanged": "Sí sólo querés ver valores cambiados, podés %1$socultar todos los valores sin cambios%2$s.",
         "Sections": "Secciones",

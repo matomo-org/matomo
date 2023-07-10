@@ -20,7 +20,7 @@
         "HideUnchanged": "Nëse dëshironi të shihni vetëm vlerat e ndryshuara, mund të %1$sfshihni krejt vlerat e pandryshuara%2$s.",
         "HtaccessWarningNginx": "Që të garantohet se kartela rezervat s’mund të përdoren drejtpërsëdrejti, rekomandohet ta formësoni shërbyesin tuaj të kufizojë hyrjen në disa drejtori. Për më tepër hollësi, ju lutemi, shihni %1$s formësimin zyrtar të shërbyesit nginx %2$s",
         "MysqlMaxPacketSize": "Maksimum Madhësie Paketi",
-        "MysqlMaxPacketSizeWarning": "Këshillohet të formësoni te baza juaj e të dhënave MySQL një madhësi 'max_allowed_packet' të paktën %1$s. Formësimi i tanishëm për të është %2$s.",
+        "MysqlMaxPacketSizeWarning": "Këshillohet të formësoni te baza juaj e të dhënave MySQL një madhësi '%1$smax_allowed_packet%2$s' të paktën %3$s. Formësimi i tanishëm për të është %4$s.",
         "MysqlTemporaryTablesWarning": "Leja MySQL CREATE TEMPORARY TABLES është e domosdoshme që Matomo të funksionojë si duhet.",
         "MysqlTransactionLevel": "Nuk mbulohet ndryshimi i shkallës së izolimit. Arkivimi do të funksionojë, por mund të jetë më i ngadaltë dhe rekomandohet të ndryshohet, për shembull `binlog_format` në `row`, në qoftë e mundur.",
         "NoDataForReportArchivingNotRun": "Arkivimi i raporteve tuaja nuk ka ngjarë tani së fundi, %1$smësoni më tepër se si të prodhoni raportet tuaja.%2$s",

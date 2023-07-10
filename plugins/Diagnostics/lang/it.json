@@ -20,7 +20,7 @@
         "HideUnchanged": "Se vuoi vedere soltanto i valori cambiati, puoi %1$snascondere tutti quelli che non sono cambiati%2$s.",
         "HtaccessWarningNginx": "Per garantire che i file sensibili non siano accessibili direttamente, si consiglia di configurare il server web per limitare l'accesso a determinate directory. Per maggiori informazioni, consultare la %1$s configurazione ufficiale del server nginx %2$s",
         "MysqlMaxPacketSize": "Dimensione Massima Pacchetto",
-        "MysqlMaxPacketSizeWarning": "Si raccomanda di impostare la dimensione 'max_allowed_packet' nel tuo database MySQL ad almeno %1$s. Quella impostata al momento è %2$s.",
+        "MysqlMaxPacketSizeWarning": "Si raccomanda di impostare la dimensione '%1$smax_allowed_packet%2$s' nel tuo database MySQL ad almeno %3$s. Quella impostata al momento è %4$s.",
         "MysqlTemporaryTablesWarning": "È richiesta da Matomo per funzionare correttamente l'autorizzazione CREATE TEMPORARY TABLES",
         "MysqlTransactionLevel": "La modifica del livello di isolamento delle transazioni non è supportata. L'archiviazione continuerà a funzionare ma potrebbe essere più lenta e, se possibile, si consiglia di cambiare ad esempio `binlog_format` in` row`.",
         "NoDataForReportArchivingNotRun": "L'archiviazione dei tuoi report non è stata eseguita di recente, %1$sleggi di più su come generare i tuoi report.%2$s",
