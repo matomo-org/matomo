@@ -44,7 +44,7 @@ class DbMaxPacket implements Diagnostic
             $pretty = $formatter->getPrettySizeFromBytes($maxPacketBytes['Value'], 'M', $precision = 1);
             $configured = str_replace(array(' M', '&nbsp;M'), 'MB', $pretty);
             $comment = Piwik::translate('Diagnostics_MysqlMaxPacketSizeWarning',
-                ['<a href="https://dev.mysql.com/doc/refman/8.0/en/packet-too-large.html" rel="noreferrer noopener" target="_blank">',
+                ['<a href="https://dev.mysql.com/doc/refman/en/packet-too-large.html" rel="noreferrer noopener" target="_blank">',
                  '</a>', '64MB', $configured]);
         }
 
