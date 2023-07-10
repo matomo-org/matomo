@@ -60,13 +60,7 @@ class Response
         $this->logExceptionToErrorLog($e);
 
         if ($tracker->isDebugModeEnabled()) {
-            Common::sendHeader('Content-Type: text/html; charset=utf-8');
-            $trailer = '<span style="color: #888888">Backtrace:<br /><pre>' . $e->getTraceAsString() . '</pre></span>';
-            $headerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Morpheus/templates/simpleLayoutHeader.tpl');
-            $footerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Morpheus/templates/simpleLayoutFooter.tpl');
-            $headerPage = str_replace('{$HTML_TITLE}', 'Matomo &rsaquo; Error', $headerPage);
-
-            echo $headerPage . '<p>' . $this->getMessageFromException($e) . '</p>' . $trailer . $footerPage;
+            echo "\nAn exception occurred: " . $this->getMessageFromException($e) . "\n\n";
         } else {
             $this->outputApiResponse($tracker);
         }
@@ -84,7 +78,7 @@ class Response
             }
             Common::printDebug("Empty request => Matomo page");
             echo "This resource is part of Matomo. Keep full control of your data with the leading free and open source <a href='https://matomo.org' target='_blank' rel='noopener noreferrer nofollow'>web analytics & conversion optimisation platform</a>.<br>\n";
-            echo "This file is the endpoint for the Matomo tracking API. If you want to access the Matomo UI or use the Reporting API, please use <a href='index.php'>index.php</a> instead.";
+            echo "This file is the endpoint for the Matomo tracking API. If you want to access the Matomo UI or use the Reporting API, please use <a href='index.php'>index.php</a> instead.\n";
         } else {
             $this->outputApiResponse($tracker);
             Common::printDebug("Nothing to notice => default behaviour");

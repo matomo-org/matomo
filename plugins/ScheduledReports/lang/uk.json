@@ -10,7 +10,7 @@
         "CreateAndScheduleReport": "Створити і налаштувати розклад звітів",
         "CreateReport": "Створити звітність",
         "CustomVisitorSegment": "Cегмент відвідувачів:",
-        "DescriptionOnFirstPage": "Опис звіту відображається на першій сторінці звіту.",
+        "DescriptionOnFirstPage": "Опис звіту буде показано в електронному повідомленні, а також на першій сторінці звіту.",
         "DisplayFormat_TablesOnly": "Відображати тільки таблиці (без графіків)",
         "EmailHello": "Привіт,",
         "EmailReports": "Email-звіти",

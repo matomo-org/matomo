@@ -20,7 +20,7 @@
         "HideUnchanged": "Om du vill se endast ändrade värden så kan du %1$s dölja alla oförändrade värden%2$s.",
         "HtaccessWarningNginx": "För att säkerställa att känsliga filer inte kan nås direkt rekommenderas du att konfigurera din webbserver att begränsa åtkomsten till vissa kataloger. För mer information kan du läsa om den %1$s officiella nginx server konfigurationen %2$s",
         "MysqlMaxPacketSize": "Max paketstorlek",
-        "MysqlMaxPacketSizeWarning": "Det rekommenderas att du konfigurerar en 'max_allowed_packet'-storlek i din MySQL-databas med minst %1$s. Konfigurerad är för närvarande %2$s.",
+        "MysqlMaxPacketSizeWarning": "Det rekommenderas att du konfigurerar en '%1$smax_allowed_packet%2$s'-storlek i din MySQL-databas med minst %3$s. Konfigurerad är för närvarande %4$s.",
         "MysqlTemporaryTablesWarning": "MySQL-tillstånd CREATE TEMPORARY TABLES krävs för att Matomo ska fungera korrekt.",
         "MysqlTransactionLevel": "Ändring av transaktionsisoleringsnivå stöds inte. Arkivering kommer fortfarande att fungera men det kan gå långsammare och det rekommenderas att ändra till exempel `binlog_format` till `row` om möjligt.",
         "NoDataForReportArchivingNotRun": "Arkiveringen av dina rapporter har inte genomförts på senaste tiden, %1$släs mer om hur du genererar dina rapporter.%2$s",
