@@ -23,7 +23,7 @@
         "FileUploadDisabled": "Uploading files is not enabled in your PHP configuration. To upload your custom logo please set %s in php.ini and restart your webserver.",
         "ForBetaTestersOnly": "For beta testers only",
         "HttpTrackingApi": "HTTP Tracking API",
-        "HttpTrackingApiDescription": "The %1$sHTTP Tracking API%2$s allows you to track anything. This may be useful if you are using a programming language for which no SDK exists yet. It may also be useful when you want to track devices or application in a special way.",
+        "HttpTrackingApiDescription": "The %1$sHTTP Tracking API%2$s allows you to track anything. This may be useful if you are using a programming language for which no SDK exists yet. It may also be useful when you want to track devices or applications in a special way.",
         "SinglePageApplicationDescription": "If you are tracking a single-page application (SPA) or progressive web application (PWA), please see %1$sthis guide%2$s.",
         "CloudflareDescription": "If your website is hosted on Cloudflare, please see %1$sthis guide%2$s.",
         "ImageTracking": "Image Tracking",
