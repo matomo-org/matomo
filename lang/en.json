@@ -37,7 +37,7 @@
         "ClickHere": "Click here for more information.",
         "ClickToRemoveComp": "Click to remove this comparison.",
         "ClickToSearch": "Click to search",
-        "ClickX": "Click \"%1$s\"",
+        "ClickX": "Click \"%1$s\".",
         "Close": "Close",
         "ColumnActionsPerVisit": "Actions per Visit",
         "ColumnActionsPerVisitDocumentation": "The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.",
