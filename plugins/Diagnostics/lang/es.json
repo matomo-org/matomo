@@ -11,7 +11,7 @@
         "DatabaseReaderConnection": "Conexión con el lector de la base de datos",
         "HideUnchanged": "Si desea ver solo los valores modificados puede %1$socultar todos los valores no modificados%2$s.",
         "MysqlMaxPacketSize": "Tamaño máximo del paquete",
-        "MysqlMaxPacketSizeWarning": "Es recomendable configurar un tamaño de al menos %1$sen 'max_allowed_packet' en su base de datos MySQL. Actualmente está configurada en %2$s.",
+        "MysqlMaxPacketSizeWarning": "Es recomendable configurar un tamaño de al menos %3$sen '%1$smax_allowed_packet%2$s' en su base de datos MySQL. Actualmente está configurada en %4$s.",
         "MysqlTemporaryTablesWarning": "Se necesita el permiso de MySQL CREATE TEMPORARY TABLES para que Matomo funcione correctamente.",
         "MysqlTransactionLevel": "No se puede cambiar el nivel de aislamiento de la transacción. El archivado funcionará, pero puede ser más lento, y se recomienda cambiar por ejemplo de `binlog_format` a `row` si es posible.",
         "NoDataForReportArchivingNotRun": "El archivado de sus informes no se han ejecutado ultimamente, %1$ssepa más cómo generar sus informes.%2$s",

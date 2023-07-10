@@ -20,7 +20,7 @@
         "HideUnchanged": "Yalnızca değiştirilmiş değerlerin görüntülenmesi için %1$sdeğiştirilmemiş tüm değerleri gizleyin%2$s.",
         "HtaccessWarningNginx": "Hassas dosyalara doğrudan erişilemediğinden emin olmak için, site sunucunuzu belirli klasörlere erişimi engelleyecek şekilde yapılandırmanız önerilir. Ayrıntılı bilgi almak için %1$s resmi Nginx sunucu yapılandırmasına %2$s bakabilirsiniz",
         "MysqlMaxPacketSize": "En büyük paket boyutu",
-        "MysqlMaxPacketSizeWarning": "MySQL veri tabanınız için 'max_allowed_packet' değerini en az %1$s olarak ayarlamanız önerilir. Şu anda %2$s olarak ayarlanmış.",
+        "MysqlMaxPacketSizeWarning": "MySQL veri tabanınız için '%1$smax_allowed_packet%2$s' değerini en az %3$s olarak ayarlamanız önerilir. Şu anda %4$s olarak ayarlanmış.",
         "MysqlTemporaryTablesWarning": "Matomo uygulamasının düzgün çalışabilmesi için CREATE TEMPORARY TABLES MySQL izninin verilmiş olması gereklidir.",
         "MysqlTransactionLevel": "İşlem yalıtma düzeyinin değiştirilmesi desteklenmiyor. Arşivleme çalışır ancak daha yavaş olabilir. Olabiliyorsa `binlog_format` seçeneğinin `row` olarak değiştirilmesi önerilir.",
         "NoDataForReportArchivingNotRun": "Yakın zamanda raporlarınız arşivlenmemiş. %1$sRaporlarınızı üretmek hakkında ayrıntılı bilgi almak için buraya tıklayabilirsiniz.%2$s",

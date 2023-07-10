@@ -4,7 +4,7 @@
         "MysqlTemporaryTablesWarning": "Matomo必须具备MySQL权限CREATE TEMPORARY TABLES才能正常工作。",
         "MysqlTransactionLevel": "不支持更改事务隔离级别。 归档仍然可以，但是可能会比较慢，因此建议将“ binlog_format”更改为“ row”。",
         "MysqlMaxPacketSize": "最大包大小",
-        "MysqlMaxPacketSizeWarning": "建议在您的MySQL数据库中配置至少%1$s的'max_allowed_packet'大小。 配置目前为%2$s。",
+        "MysqlMaxPacketSizeWarning": "建议在您的MySQL数据库中配置至少%3$s的'%1$smax_allowed_packet%2$s'大小。 配置目前为%4$s。",
         "ConfigFileIntroduction": "在这里，您可以查看Matomo配置。 如果您在负载平衡环境中运行Matomo，则页面可能会有所不同，具体取决于加载此页面的服务器。 具有不同背景颜色的行是更改的配置值，例如在%1$s文件中指定。",
         "HideUnchanged": "如果只想看改变的值可以%1$s，隐藏所有为改变的值%2$s。",
         "Sections": "部分",
