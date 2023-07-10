@@ -5,9 +5,10 @@ name: Font update check
 # **Who does it impact**: Any PR which changes the font file
 
 on:
-  pull_request_target:
+  pull_request:
+    types: [synchronize, opened]
     paths:
-      - 'plugins/Morpheus/fonts/matomo.woff2'
+      - 'plugins/Morpheus/fonts/matomo.*'
 
 permissions:
   actions: read
@@ -30,7 +31,8 @@ jobs:
        run: |
          if [[ $(wget -O - -o /dev/null https://raw.githubusercontent.com/matomo-org/matomo/$GITHUB_BASE_REF/plugins/Morpheus/stylesheets/base/icons.css | grep -m1  -- "format('woff2')") == $(grep -m1  -- "format('woff2')" plugins/Morpheus/stylesheets/base/icons.css) ]]
          then
-           echo "::error Font cachebuster parameter not updated see https://developer.matomo.org/guides/matomo-font"
+           line=$(grep -n "format('woff2')" plugins/Morpheus/stylesheets/base/icons.css | cut -f1 -d:)
+           echo "::error file=plugins/Morpheus/stylesheets/base/icons.css,line=$line::Font cachebuster parameter not updated. See https://developer.matomo.org/guides/matomo-font"
            exit 1
          else
            exit 0
