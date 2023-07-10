@@ -207,6 +207,8 @@ class Updater
             throw new UpdaterException($e, $messages);
         }
 
+        Filesystem::deleteAllCacheOnUpdate();
+
         return $messages;
     }
 
