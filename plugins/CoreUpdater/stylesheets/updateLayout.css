@@ -65,3 +65,7 @@ strong {
 .ui-button {
     background-color: #43a047 !important;
 }
+
+.no-close .ui-dialog-titlebar-close {
+    display: none
+}

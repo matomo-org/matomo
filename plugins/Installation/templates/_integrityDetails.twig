@@ -12,7 +12,13 @@
         $("#integrity-results").dialog({
             modal: true,
             autoOpen: false,
-            width: 600
+            width: 600,
+            dialogClass: "no-close",
+            buttons: {
+                Ok: function () {
+                    $(this).dialog('close');
+                },
+            }
         });
     });
     $('#more-results').click(function () {
