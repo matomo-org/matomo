@@ -2,7 +2,7 @@
     {% for item in items %}
         {% if item is not empty %}
             <div class="systemSummaryItem {% if item.getKey %}{{ item.getKey }}{% endif %}">
-                {% if item.getIcon %}<span class="icon {{ item.getIcon }}">&nbsp;</span>{% endif %}
+                {% if item.getIcon %}<span class="icon {{ item.getIcon }}"></span>{% endif %}
 
                 {%- if item.getUrlParams -%}
                     <a href="{{ linkTo(item.getUrlParams) }}" class="itemLabel">
@@ -10,7 +10,7 @@
                     <span class="itemLabel">
                 {%- endif -%}
 
-                {{ item.getLabel }}{% if item.getValue %}:{% endif %}
+                {{ item.getLabel }}{% if item.getValue %}: {% endif %}
 
                 {%- if item.getUrlParams -%}
                     </a>
