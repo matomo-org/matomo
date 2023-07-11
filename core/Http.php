@@ -250,11 +250,6 @@ class Http
             $requestBodyQuery = $requestBody;
         }
 
-        // Piwik services behave like a proxy, so we should act like one.
-        $xff = 'X-Forwarded-For: '
-            . (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && !empty($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] . ',' : '')
-            . IP::getIpFromHeader();
-
         if (empty($userAgent)) {
             $userAgent = self::getUserAgent();
         }
@@ -291,9 +286,9 @@ class Http
             'body' => $requestBody,
             'userAgent' => $userAgent,
             'timeout' => $timeout,
-            'headers' => array_map('trim', array_filter(array_merge(array(
-                $rangeHeader, $via, $xff, $httpAuth, $acceptLanguage
-            ), $additionalHeaders))),
+            'headers' => array_map('trim', array_filter(array_merge([
+                $rangeHeader, $via, $httpAuth, $acceptLanguage
+            ], $additionalHeaders))),
             'verifySsl' => !$acceptInvalidSslCertificate,
             'destinationPath' => $destinationPath
         );
