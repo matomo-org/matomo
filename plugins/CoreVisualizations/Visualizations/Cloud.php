@@ -47,10 +47,11 @@ class Cloud extends Visualization
 
     public function beforeLoadDataTable()
     {
+        $this->requestConfig->request_parameters_to_modify['format_metrics'] = 0;
         $this->checkRequestIsNotForMultiplePeriods();
     }
 
-    public function beforeGenericFiltersAreAppliedToLoadedDataTable()
+    public function afterAllFiltersAreApplied()
     {
         if ($this->dataTable->getRowsCount() == 0) {
             return;
