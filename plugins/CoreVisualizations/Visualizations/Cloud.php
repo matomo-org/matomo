@@ -50,7 +50,7 @@ class Cloud extends Visualization
         $this->checkRequestIsNotForMultiplePeriods();
     }
 
-    public function afterAllFiltersAreApplied()
+    public function beforeGenericFiltersAreAppliedToLoadedDataTable()
     {
         if ($this->dataTable->getRowsCount() == 0) {
             return;
