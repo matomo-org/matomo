@@ -49,6 +49,15 @@ describe("CoreUpdaterDb", function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('main');
     });
 
+    it("should show the file integrity dialog", async function() {
+        await page.click('#more-results');
+        await page.waitForTimeout(50);
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('file-integrity');
+        await page.click('.ui-button');
+        await page.waitForTimeout(50);
+    });
+
     it("should show instance id in updating screen", async function() {
         testEnvironment.configOverride.General = {
             instance_id: 'custom.instance'
