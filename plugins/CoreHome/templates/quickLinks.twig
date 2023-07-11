@@ -2,17 +2,15 @@
     {% if hasSitesAdmin %}
     <div class="quickLink">
         <span class="icon icon-open-source">&nbsp;</span>
-        <a href="{{ linkTo({'module': 'SitesManager', 'action': 'index', 'showaddsite': '1'}) }}" class="itemLabel">
-            {{ 'SitesManager_AddSite'|translate|e }}
-        </a>
+        <a href="{{ linkTo({'module': 'SitesManager', 'action': 'index', 'showaddsite': '1'}) }}"
+           class="itemLabel">{{ 'SitesManager_AddSite'|translate|e }}</a>
     </div>
     {% endif %}
     {% if hasUsersAdmin %}
     <div class="quickLink">
         <span class="icon icon-user-add">&nbsp;</span>
-        <a href="{{ linkTo({'module': 'UsersManager', 'action': 'index', 'showadduser': '1'}) }}" class="itemLabel">
-            {{ 'UsersManager_InviteNewUser'|translate|e }}
-        </a>
+        <a href="{{ linkTo({'module': 'UsersManager', 'action': 'index', 'showadduser': '1'}) }}"
+           class="itemLabel">{{ 'UsersManager_InviteNewUser'|translate|e }}</a>
     </div>
     {% endif %}
     <br />
