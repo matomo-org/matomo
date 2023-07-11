@@ -124,11 +124,15 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $rawDataRetention .= $days . ' ' . Piwik::translate($days > 1 ? 'Intl_PeriodDays' : 'Intl_PeriodDay');
         }
 
+        $afterGDPROverviewIntroContent = '';
+        Piwik::postEvent('Template.afterGDPROverviewIntro', [&$afterGDPROverviewIntroContent]);
+
         return $this->renderTemplate('gdprOverview', [
             'reportRetention'     => trim($reportRetention),
             'rawDataRetention'    => trim($rawDataRetention),
             'deleteLogsEnable'    => $purgeDataSettings['delete_logs_enable'],
             'deleteReportsEnable' => $purgeDataSettings['delete_reports_enable'],
+            'afterGDPROverviewIntroContent' => $afterGDPROverviewIntroContent,
         ]);
     }
 
