@@ -21,11 +21,20 @@ window.define = function(id, dependencies, factory) {};
 
 window.define.amd = {};
 
+window.mozPerformance;
+window.msPerformance;
+window.webkitPerformance;
+
+navigator.doNotTrack;
+navigator.msDoNotTrack;
+window.doNotTrack;
+
 window.AnalyticsTracker;
 
 window.Matomo_Overlay_Client;
-
 window.Matomo_Overlay_Client.initialize;
+
+window._paq;
 
 /*
  ************************************************************
@@ -1442,6 +1451,18 @@ Tracker.forgetUserOptOut = function () {};
  * enable protocol file: format tracking
  */
 Tracker.enableFileTracking = function () {};
+
+/*
+ ************************************************************
+ * pluginTrackerHook
+ ************************************************************
+ */
+
+window.matomoPluginAsyncInit;
+
+window.piwikAsyncInit = function () {};
+
+window.matomoAsyncInit = function () {};
 
 /*
  ************************************************************
