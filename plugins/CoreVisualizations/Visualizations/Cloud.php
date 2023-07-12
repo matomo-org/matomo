@@ -31,18 +31,13 @@ class Cloud extends Visualization
     public static $debugDisableShuffle = false;
     public $truncatingLimit = 50;
 
-    protected $wordsArray = array();
+    protected $wordsArray = [];
+    private $rawValues = []; // Raw values stored before metric formatting
+    private $formattedValues = []; // Formatted values stored after metric formatting
 
     public static function getDefaultConfig()
     {
         return new Cloud\Config();
-    }
-
-    public function beforeRender()
-    {
-        $this->config->show_exclude_low_population = false;
-        $this->config->show_offset_information     = false;
-        $this->config->show_limit_control          = false;
     }
 
     public function beforeLoadDataTable()
@@ -51,6 +46,9 @@ class Cloud extends Visualization
         $this->checkRequestIsNotForMultiplePeriods();
     }
 
+    /**
+     * First pass: metric formatting filters have not been applied, store the raw values for each word
+     */
     public function afterAllFiltersAreApplied()
     {
         if ($this->dataTable->getRowsCount() == 0) {
@@ -58,7 +56,32 @@ class Cloud extends Visualization
         }
 
         $columnToDisplay = isset($this->config->columns_to_display[1]) ? $this->config->columns_to_display[1] : 'nb_visits';
-        $labelMetadata   = array();
+        foreach ($this->dataTable->getRows() as $row) {
+            $label = $row->getColumn('label');
+            $this->rawValues[$label] = $row->getColumn($columnToDisplay);
+        }
+    }
+
+    public function beforeRender()
+    {
+        $this->config->show_exclude_low_population = false;
+        $this->config->show_offset_information     = false;
+        $this->config->show_limit_control          = false;
+
+        // Second pass: enable metric formatting, reapply the filters and then generate the tag cloud data
+        $this->requestConfig->request_parameters_to_modify['format_metrics'] = 1;
+        $this->applyMetricsFormatting();
+        $this->generateCloudData();
+    }
+
+    private function generateCloudData()
+    {
+        if ($this->dataTable->getRowsCount() == 0) {
+            return;
+        }
+
+        $columnToDisplay = isset($this->config->columns_to_display[1]) ? $this->config->columns_to_display[1] : 'nb_visits';
+        $labelMetadata   = [];
 
         foreach ($this->dataTable->getRows() as $row) {
             $logo = false;
@@ -68,12 +91,14 @@ class Cloud extends Visualization
 
             $label = $row->getColumn('label');
 
-            $labelMetadata[$label] = array(
+            $labelMetadata[$label] = [
                 'logo' => $logo,
                 'url'  => $row->getMetadata('url'),
-            );
+            ];
 
-            $this->addWord($label, $row->getColumn($columnToDisplay));
+            $this->addWord($label, $this->rawValues[$label]);
+
+            $this->formattedValues[$label] = $row->getColumn($columnToDisplay);
         }
 
         $cloudValues = $this->getCloudValues();
@@ -106,25 +131,25 @@ class Cloud extends Visualization
         $this->shuffleCloud();
 
         if (empty($this->wordsArray)) {
-            return array();
+            return [];
         }
 
-        $return   = array();
         $maxValue = max($this->wordsArray);
 
+        $return = [];
         foreach ($this->wordsArray as $word => $popularity) {
 
             $wordTruncated = $this->truncateWordIfNeeded($word);
             $percent       = $this->getPercentage($popularity, $maxValue);
             $sizeRange     = $this->getClassFromPercent($percent);
 
-            $return[$word] = array(
+            $return[$word] = [
                 'word'          => $word,
                 'wordTruncated' => $wordTruncated,
-                'value'         => $popularity,
                 'size'          => $sizeRange,
+                'value'         => $this->formattedValues[$word],
                 'percent'       => $percent,
-            );
+            ];
         }
 
         return $return;
@@ -147,7 +172,7 @@ class Cloud extends Visualization
 
             $tmpArray = $this->wordsArray;
 
-            $this->wordsArray = array();
+            $this->wordsArray = [];
             foreach ($keys as $value) {
                 $this->wordsArray[$value] = $tmpArray[$value];
             }
@@ -164,7 +189,7 @@ class Cloud extends Visualization
      */
     protected function getClassFromPercent($percent)
     {
-        $mapping = array(95, 70, 50, 30, 15, 5, 0);
+        $mapping = [95, 70, 50, 30, 15, 5, 0];
         foreach ($mapping as $key => $value) {
             if ($percent >= $value) {
                 return $key;
