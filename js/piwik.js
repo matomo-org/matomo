@@ -1229,7 +1229,7 @@ if (typeof window.Matomo !== 'object') {
 
                 return nodes;
             },
-            find: function (selector)
+            findSingle: function (selector)
             {
                 // we use querySelectorAll only on document, not on nodes because of its unexpected behavior. See for
                 // instance http://stackoverflow.com/questions/11503534/jquery-vs-document-queryselectorall and
@@ -1251,7 +1251,7 @@ if (typeof window.Matomo !== 'object') {
                 var index, foundNodes;
                 var nodes = [];
                 for (index = 0; index < selectors.length; index++) {
-                    foundNodes = this.find(selectors[index]);
+                    foundNodes = this.findSingle(selectors[index]);
                     nodes = nodes.concat(foundNodes);
                 }
 
@@ -1823,7 +1823,7 @@ if (typeof window.Matomo !== 'object') {
                     }
                 }
             },
-            trim: function (text)
+            trimAlias: function (text)
             {
                 return trim(text);
             },
@@ -1923,9 +1923,9 @@ if (typeof window.Matomo !== 'object') {
                 var piece  = this.findContentPiece(node);
                 var target = this.findContentTarget(node);
 
-                name   = this.trim(name);
-                piece  = this.trim(piece);
-                target = this.trim(target);
+                name   = this.trimAlias(name);
+                piece  = this.trimAlias(piece);
+                target = this.trimAlias(target);
 
                 return {
                     _name: name || 'Unknown',
@@ -5067,10 +5067,10 @@ if (typeof window.Matomo !== 'object') {
 
                     var i;
                     for (i = 0; i < requests.length; i++) {
-                        this.push(requests[i]);
+                        this.pushSingle(requests[i]);
                     }
                 },
-                push: function (requestUrl) {
+                pushSingle: function (requestUrl) {
                     if (!requestUrl) {
                         return;
                     }
@@ -5138,10 +5138,12 @@ if (typeof window.Matomo !== 'object') {
                 return registeredHooks[hookName];
             };
             this.getQuery = function () {
+                query['find'] = query.findSingle;
                 return query;
             };
             this.getContent = function () {
                 content['location'] = content._location;
+                content['trim'] = content.trimAlias;
                 return content;
             };
             this.isUsingAlwaysUseSendBeacon = function () {
@@ -5218,6 +5220,7 @@ if (typeof window.Matomo !== 'object') {
                 requestQueue['interval'] = requestQueue._interval;
                 requestQueue['requests'] = requestQueue._requests;
                 requestQueue['timeout'] = requestQueue._timeout;
+                requestQueue['push'] = requestQueue.pushSingle;
                 return requestQueue;
             };
             this.getJavascriptErrors = function () {
@@ -6779,7 +6782,7 @@ if (typeof window.Matomo !== 'object') {
 
                 trackCallback(function () {
                     var request = buildContentImpressionRequest(contentName, contentPiece, contentTarget);
-                    requestQueue.push(request);
+                    requestQueue.pushSingle(request);
                 });
             };
 
@@ -6846,7 +6849,7 @@ if (typeof window.Matomo !== 'object') {
                 trackCallback(function () {
                     var request = buildContentInteractionRequest(contentInteraction, contentName, contentPiece, contentTarget);
                     if (request) {
-                        requestQueue.push(request);
+                        requestQueue.pushSingle(request);
                     }
                 });
             };
@@ -6875,7 +6878,7 @@ if (typeof window.Matomo !== 'object') {
                 trackCallback(function () {
                     theRequest = buildContentInteractionRequestNode(domNode, contentInteraction);
                     if (theRequest) {
-                        requestQueue.push(theRequest);
+                        requestQueue.pushSingle(theRequest);
                     }
                 });
                 //note: return value is only for tests... will only work if dom is already ready...
@@ -7135,7 +7138,7 @@ if (typeof window.Matomo !== 'object') {
             this.queueRequest = function (request, isFullRequest) {
               trackCallback(function () {
                 var fullRequest = isFullRequest ? request : getRequest(request);
-                requestQueue.push(fullRequest);
+                requestQueue.pushSingle(fullRequest);
               });
             };
 
