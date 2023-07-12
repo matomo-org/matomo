@@ -122,8 +122,13 @@ del {
 
 a {
  color: @theme-color-link;
- text-decoration: none;
+ text-decoration: underline;
  cursor: pointer;
+
+ &>[class^="icon-"], &>[class*=" icon-"] {
+  // avoids underlining icons in links
+  display: inline-block;
+ }
 }
 
 

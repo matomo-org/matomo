@@ -148,6 +148,14 @@ table.dataTable td a {
   color: @theme-color-text-light;
 }
 
+table.dataTable td a span.value {
+  text-decoration: underline;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 td.clean {
   background-color: @theme-color-background-base;
 }
@@ -314,6 +322,7 @@ table.dataTable td #urlLink {
   color: #184A83;
   cursor: pointer;
   visibility: hidden;
+  text-decoration: underline;
   &:hover {
     text-decoration: underline;
   }
@@ -335,6 +344,7 @@ table.dataTable td #urlLink {
     color: @theme-color-text;
     cursor: pointer;
     font-weight: normal;
+    text-decoration: underline;
 
     &:hover {
       text-decoration: underline;
@@ -398,6 +408,12 @@ table.dataTable td #urlLink {
 }
 
 .tableIcon {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+
   &.activeIcon {
     background-color: @theme-color-background-tinyContrast;
   }
