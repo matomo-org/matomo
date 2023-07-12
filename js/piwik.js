@@ -7529,11 +7529,11 @@ if (typeof window.Matomo !== 'object') {
             // initialise the configHasConsent value and send back the result so that the display can be updated.
             // 2) maq_opted_in => sent by optout iframe when the user changes their optout setting.  We need to update
             // our first-party cookie.
-            if (isDefined(data.maq_initial_value)) {
+            if (isDefined(data['maq_initial_value'])) {
                 // Make a message to tell the optout iframe about the current state
 
                 postMessageToCorrectFrame({
-                    'maq_opted_in': data.maq_initial_value && tracker.hasConsent(),
+                    'maq_opted_in': data['maq_initial_value'] && tracker.hasConsent(),
                     'maq_url': tracker.getMatomoUrl(),
                     'maq_optout_by_default': tracker.isConsentRequired()
                 });
