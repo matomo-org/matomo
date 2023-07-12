@@ -72,11 +72,13 @@ class Controller extends \Piwik\Plugin\Controller
             'plugins/Morpheus/stylesheets/base/bootstrap.css',
             'plugins/Morpheus/stylesheets/base/icons.css',
             "node_modules/jquery-ui-dist/jquery-ui.theme.min.css",
+            "node_modules/jquery-ui-dist/jquery-ui.structure.min.css",
             'node_modules/@materializecss/materialize/dist/css/materialize.min.css',
             'plugins/Morpheus/stylesheets/base.less',
             'plugins/Morpheus/stylesheets/general/_forms.less',
             'plugins/Morpheus/stylesheets/simple_structure.css',
             'plugins/CoreHome/stylesheets/jquery.ui.autocomplete.css',
+            'plugins/Dashboard/stylesheets/dashboard.less',
             'plugins/CoreUpdater/stylesheets/updateLayout.css'
         );
 

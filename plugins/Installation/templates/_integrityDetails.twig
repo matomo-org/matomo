@@ -8,16 +8,16 @@
     </table>
 </div>
 <script type="text/javascript">
-    <!--
     $(function () {
         $("#integrity-results").dialog({
             modal: true,
             autoOpen: false,
             width: 600,
+            dialogClass: "no-close",
             buttons: {
                 Ok: function () {
                     $(this).dialog('close');
-                }
+                },
             }
         });
     });
@@ -33,5 +33,4 @@
     }).mouseup(function () {
         $(this).removeClass("ui-state-active");
     });
-    //-->
 </script>
