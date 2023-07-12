@@ -54,8 +54,6 @@ describe("CoreUpdaterDb", function () {
         await page.waitForTimeout(50);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('file-integrity');
-        await page.click('.ui-button');
-        await page.waitForTimeout(50);
     });
 
     it("should show instance id in updating screen", async function() {
