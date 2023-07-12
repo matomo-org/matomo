@@ -1544,7 +1544,7 @@ if (typeof window.Matomo !== 'object') {
             CONTENT_IGNOREINTERACTION_ATTR: 'data-content-ignoreinteraction',
             CONTENT_IGNOREINTERACTION_CLASS: 'matomoContentIgnoreInteraction',
             LEGACY_CONTENT_IGNOREINTERACTION_CLASS: 'piwikContentIgnoreInteraction',
-            location: undefined,
+            _location: undefined,
 
             findContentNodes: function ()
             {
@@ -1928,9 +1928,9 @@ if (typeof window.Matomo !== 'object') {
                 target = this.trim(target);
 
                 return {
-                    'name': name || 'Unknown',
-                    'piece': piece || 'Unknown',
-                    'target': target || ''
+                    _name: name || 'Unknown',
+                    _piece: piece || 'Unknown',
+                    _target: target || ''
                 };
             },
             collectContent: function (contentNodes)
@@ -1953,11 +1953,11 @@ if (typeof window.Matomo !== 'object') {
             },
             setLocation: function (location)
             {
-                this.location = location;
+                this._location = location;
             },
             getLocation: function ()
             {
-                var locationAlias = this.location || windowAlias.location;
+                var locationAlias = this._location || windowAlias.location;
 
                 if (!locationAlias.origin) {
                     locationAlias.origin = locationAlias.protocol + "//" + locationAlias.hostname + (locationAlias.port ? ':' + locationAlias.port: '');
@@ -3560,16 +3560,16 @@ if (typeof window.Matomo !== 'object') {
                     createTs = cookieVisitorIdValue[2];
 
                 return {
-                    newVisitor: newVisitor,
-                    uuid: uuid,
-                    createTs: createTs
+                    _newVisitor: newVisitor,
+                    _uuid: uuid,
+                    _createTs: createTs
                 };
             }
 
             function getRemainingVisitorCookieTimeout() {
                 var now = new Date(),
                     nowTs = now.getTime(),
-                    cookieCreatedTs = getValuesFromVisitorIdCookie().createTs;
+                    cookieCreatedTs = getValuesFromVisitorIdCookie()._createTs;
 
                 var createTs = parseInt(cookieCreatedTs, 10);
                 var originalTimeout = (createTs * 1000) + configVisitorCookieTimeout - nowTs;
@@ -3593,8 +3593,8 @@ if (typeof window.Matomo !== 'object') {
                     visitorIdCookieValues = getValuesFromVisitorIdCookie();
                 }
 
-                var cookieValue = visitorIdCookieValues.uuid + '.' +
-                    visitorIdCookieValues.createTs + '.';
+                var cookieValue = visitorIdCookieValues._uuid + '.' +
+                    visitorIdCookieValues._createTs + '.';
 
                 setCookie(getCookieName('id'), cookieValue, getRemainingVisitorCookieTimeout(), configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
             }
@@ -3971,8 +3971,8 @@ if (typeof window.Matomo !== 'object') {
                     '&url=' + encodeWrapper(purify(currentUrl)) +
                     (configReferrerUrl.length && !isReferrerExcluded(configReferrerUrl) && !hasIgnoreReferrerParam ? '&urlref=' + encodeWrapper(purify(configReferrerUrl)) : '') +
                     (isNumberOrHasLength(configUserId) ? '&uid=' + encodeWrapper(configUserId) : '') +
-                    '&_id=' + cookieVisitorIdValues.uuid +
-                    '&_idn=' + cookieVisitorIdValues.newVisitor + // currently unused
+                    '&_id=' + cookieVisitorIdValues._uuid +
+                    '&_idn=' + cookieVisitorIdValues._newVisitor + // currently unused
                     (charSet ? '&cs=' + encodeWrapper(charSet) : '') +
                     '&send_image=0';
 
@@ -4307,8 +4307,8 @@ if (typeof window.Matomo !== 'object') {
 
                     if (linkType) {
                         return {
-                            type: linkType,
-                            href: sourceHref
+                            _type: linkType,
+                            _href: sourceHref
                         };
                     }
                 }
@@ -4375,11 +4375,11 @@ if (typeof window.Matomo !== 'object') {
                     return;
                 }
 
-                if (!contentBlock.target && fallbackTarget) {
-                    contentBlock.target = fallbackTarget;
+                if (!contentBlock._target && fallbackTarget) {
+                    contentBlock._target = fallbackTarget;
                 }
 
-                return content.buildInteractionRequestParams(interaction, contentBlock.name, contentBlock.piece, contentBlock.target);
+                return content.buildInteractionRequestParams(interaction, contentBlock._name, contentBlock._piece, contentBlock._target);
             }
 
             function wasContentImpressionAlreadyTracked(contentBlock)
@@ -4394,9 +4394,9 @@ if (typeof window.Matomo !== 'object') {
                     trackedContent = trackedContentImpressions[index];
 
                     if (trackedContent &&
-                        trackedContent.name === contentBlock.name &&
-                        trackedContent.piece === contentBlock.piece &&
-                        trackedContent.target === contentBlock.target) {
+                        trackedContent._name === contentBlock._name &&
+                        trackedContent._piece === contentBlock._piece &&
+                        trackedContent._target === contentBlock._target) {
                         return true;
                     }
                 }
@@ -4438,8 +4438,8 @@ if (typeof window.Matomo !== 'object') {
 
                     var link = getLinkIfShouldBeProcessed(theTargetNode);
 
-                    if (linkTrackingEnabled && link && link.type) {
-                        return link.type; // will be handled via outlink or download.
+                    if (linkTrackingEnabled && link && link._type) {
+                        return link._type; // will be handled via outlink or download.
                     }
 
                     return trackerInstance.trackContentInteractionNode(interactedElement, 'click');
@@ -4496,7 +4496,7 @@ if (typeof window.Matomo !== 'object') {
                 for (index = 0; index < contents.length; index++) {
 
                     request = getRequest(
-                        content.buildImpressionRequestParams(contents[index].name, contents[index].piece, contents[index].target),
+                        content.buildImpressionRequestParams(contents[index]._name, contents[index]._piece, contents[index]._target),
                         undefined,
                         'contentImpressions'
                     );
@@ -4568,7 +4568,7 @@ if (typeof window.Matomo !== 'object') {
                     contentInteraction = 'Unknown';
                 }
 
-                return buildContentInteractionRequest(contentInteraction, contentBlock.name, contentBlock.piece, contentBlock.target);
+                return buildContentInteractionRequest(contentInteraction, contentBlock._name, contentBlock._piece, contentBlock._target);
             }
 
             function buildEventRequest(category, action, name, value)
@@ -4769,9 +4769,9 @@ if (typeof window.Matomo !== 'object') {
                 var link = getLinkIfShouldBeProcessed(sourceElement);
 
                 // not a link to same domain or the same website (as set in setDomains())
-                if (link && link.type) {
-                    link.href = safeDecodeWrapper(link.href);
-                    logLink(link.href, link.type, undefined, null, sourceElement);
+                if (link && link._type) {
+                    link._href = safeDecodeWrapper(link._href);
+                    logLink(link._href, link._type, undefined, null, sourceElement);
                     return;
                 }
 
@@ -5043,13 +5043,13 @@ if (typeof window.Matomo !== 'object') {
             } /*</DEBUG>*/
 
             var requestQueue = {
-                enabled: true,
-                requests: [],
-                timeout: null,
-                interval: 2500,
+                _enabled: true,
+                _requests: [],
+                _timeout: null,
+                _interval: 2500,
                 sendRequests: function () {
-                    var requestsToTrack = this.requests;
-                    this.requests = [];
+                    var requestsToTrack = this._requests;
+                    this._requests = [];
                     if (requestsToTrack.length === 1) {
                         sendRequest(requestsToTrack[0], configTrackerPause);
                     } else {
@@ -5057,7 +5057,7 @@ if (typeof window.Matomo !== 'object') {
                     }
                 },
                 canQueue: function () {
-                    return !isPageUnloading && this.enabled;
+                    return !isPageUnloading && this._enabled;
                 },
                 pushMultiple: function (requests) {
                     if (!this.canQueue()) {
@@ -5080,17 +5080,17 @@ if (typeof window.Matomo !== 'object') {
                         return;
                     }
 
-                    requestQueue.requests.push(requestUrl);
+                    requestQueue._requests.push(requestUrl);
 
-                    if (this.timeout) {
-                        clearTimeout(this.timeout);
-                        this.timeout = null;
+                    if (this._timeout) {
+                        clearTimeout(this._timeout);
+                        this._timeout = null;
                     }
                     // we always extend by another 2.5 seconds after receiving a tracking request
-                    this.timeout = setTimeout(function () {
-                        requestQueue.timeout = null;
+                    this._timeout = setTimeout(function () {
+                        requestQueue._timeout = null;
                         requestQueue.sendRequests();
-                    }, requestQueue.interval);
+                    }, requestQueue._interval);
 
                     var trackerQueueId = 'RequestQueue' + uniqueTrackerId;
                     if (!Object.prototype.hasOwnProperty.call(plugins, trackerQueueId)) {
@@ -5099,8 +5099,8 @@ if (typeof window.Matomo !== 'object') {
                         // JSLint happy.
                         plugins[trackerQueueId] = {
                             'unload': function () {
-                                if (requestQueue.timeout) {
-                                    clearTimeout(requestQueue.timeout);
+                                if (requestQueue._timeout) {
+                                    clearTimeout(requestQueue._timeout);
                                 }
                                 requestQueue.sendRequests();
                             }
@@ -5141,6 +5141,7 @@ if (typeof window.Matomo !== 'object') {
                 return query;
             };
             this.getContent = function () {
+                content['location'] = content._location;
                 return content;
             };
             this.isUsingAlwaysUseSendBeacon = function () {
@@ -5213,6 +5214,10 @@ if (typeof window.Matomo !== 'object') {
                 return requests;
             };
             this.getRequestQueue = function () {
+                requestQueue['enabled'] = requestQueue._enabled;
+                requestQueue['interval'] = requestQueue._interval;
+                requestQueue['requests'] = requestQueue._requests;
+                requestQueue['timeout'] = requestQueue._timeout;
                 return requestQueue;
             };
             this.getJavascriptErrors = function () {
@@ -6884,7 +6889,14 @@ if (typeof window.Matomo !== 'object') {
              */
             this.logAllContentBlocksOnPage = function () {
                 var contentNodes = content.findContentNodes();
-                var contents = content.collectContent(contentNodes);
+                var contentsWithMungedPropertyNames = content.collectContent(contentNodes);
+                var contents = [];
+
+                var i;
+                for (i = 0; i < contentsWithMungedPropertyNames.length; i++) {
+                    var item = contentsWithMungedPropertyNames[i];
+                    contents[i] = {'name': item._name, 'piece': item._piece, 'target': item._target};
+                }
 
                 // needed to write it this way for jslint
                 var consoleType = typeof console;
@@ -7094,7 +7106,7 @@ if (typeof window.Matomo !== 'object') {
              * Disables sending requests queued
              */
             this.disableQueueRequest = function () {
-                requestQueue.enabled = false;
+                requestQueue._enabled = false;
             };
 
             /**
@@ -7105,7 +7117,7 @@ if (typeof window.Matomo !== 'object') {
                 if (interval < 1000) {
                     throw new Error('Request queue interval needs to be at least 1000ms');
                 }
-                requestQueue.interval = interval;
+                requestQueue._interval = interval;
             };
 
             /**
