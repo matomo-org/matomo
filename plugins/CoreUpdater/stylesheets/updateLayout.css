@@ -69,3 +69,7 @@ strong {
 .no-close .ui-dialog-titlebar-close {
     display: none
 }
+
+.ui-dialog .ui-dialog-titlebar {
+    padding-left: 0.5em;
+}
