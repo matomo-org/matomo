@@ -905,4 +905,19 @@ class Visualization extends ViewDataTable
 
         return $request;
     }
+
+    /**
+     * Apply the metrics formatting filter to the dataset
+     *
+     * This is a workaround to allow visualizations to access unformatted data via format_metrics=0 and then
+     * subsequently apply formatting without needed to reload the dataset or reapply other filters. This method may
+     * be removed in the future.
+     *
+     * @internal
+     */
+    protected function applyMetricsFormatting()
+    {
+        $postProcessor = $this->makeDataTablePostProcessor(); // must be created after requestConfig is final
+        $this->dataTable = $postProcessor->applyMetricsFormatting($this->dataTable);
+    }
 }
