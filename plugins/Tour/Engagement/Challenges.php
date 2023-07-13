@@ -50,7 +50,7 @@ class Challenges
         $challenges[] = StaticContainer::get(ChallengeCustomLogo::class);
 
         if ($this->isActivePlugin('UsersManager') && UsersManager::isUsersAdminEnabled()) {
-            $challenges[] = StaticContainer::get(ChallengeAddedUser::class);
+            $challenges[] = StaticContainer::get(ChallengeInvitedUser::class);
         }
         if ($this->isActivePlugin('SitesManager') && SitesManager::isSitesAdminEnabled()) {
             $challenges[] = StaticContainer::get(ChallengeAddedWebsite::class);
