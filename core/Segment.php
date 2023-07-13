@@ -266,48 +266,38 @@ class Segment
         // convert segments name to sql segment
         // check that user is allowed to view this segment
         // and apply a filter to the value to match if necessary (to map DB fields format)
-        $cleanedExpressions = array();
-        foreach ($expressions as $expression) {
-            $operand = $expression[SegmentExpression::INDEX_OPERAND];
-            $expression[SegmentExpression::INDEX_OPERAND] = $this->getCleanedExpression($operand);
-            $cleanedExpressions[] = $expression;
-        }
+        $cleanedExpressions = array_map(function (array $orExpressions) {
+            return array_map(function (array $operand) {
+                return $this->getCleanedExpression($operand);
+            }, $orExpressions);
+        }, $expressions);
 
         $segment->setSubExpressionsAfterCleanup($cleanedExpressions);
     }
 
-    private function getExpressionsWithUnionsResolved($expressions)
+    private function getExpressionsWithUnionsResolved(array $expressions): array
     {
-        $expressionsWithUnions = array();
-        foreach ($expressions as $expression) {
-            $operand = $expression[SegmentExpression::INDEX_OPERAND];
-            $name    = $operand[SegmentExpression::INDEX_OPERAND_NAME];
+        $expressionsWithUnions = array_map(function ($orExpressions) {
+            $mappedOrExpressions = [];
+            foreach ($orExpressions as $operand) {
+                $name    = $operand[SegmentExpression::INDEX_OPERAND_NAME];
 
-            $availableSegment = $this->getSegmentByName($name);
+                $availableSegment = $this->getSegmentByName($name);
 
-            // We leave segments using !@ and != operands untouched for segments not on log_visit table as they will be build using a subquery
-            if (!$this->doesSegmentNeedSubquery($operand[SegmentExpression::INDEX_OPERAND_OPERATOR], $name) && !empty($availableSegment['unionOfSegments'])) {
-                $count = 0;
-                foreach ($availableSegment['unionOfSegments'] as $segmentNameOfUnion) {
-                    $count++;
-                    $operator = SegmentExpression::BOOL_OPERATOR_OR; // we connect all segments within that union via OR
-                    if ($count === count($availableSegment['unionOfSegments'])) {
-                        $operator = $expression[SegmentExpression::INDEX_BOOL_OPERATOR];
+                // We leave segments using !@ and != operands untouched for segments not on log_visit table as they will be build using a subquery
+                if (!$this->doesSegmentNeedSubquery($operand[SegmentExpression::INDEX_OPERAND_OPERATOR], $name)
+                    && !empty($availableSegment['unionOfSegments'])
+                ) {
+                    foreach ($availableSegment['unionOfSegments'] as $segmentNameOfUnion) {
+                        $operand[SegmentExpression::INDEX_OPERAND_NAME] = $segmentNameOfUnion;
+                        $mappedOrExpressions[] = $operand;
                     }
-
-                    $operand[SegmentExpression::INDEX_OPERAND_NAME] = $segmentNameOfUnion;
-                    $expressionsWithUnions[] = array(
-                        SegmentExpression::INDEX_BOOL_OPERATOR => $operator,
-                        SegmentExpression::INDEX_OPERAND => $operand
-                    );
+                } else {
+                    $mappedOrExpressions[] = $operand;
                 }
-            } else {
-                $expressionsWithUnions[] = array(
-                    SegmentExpression::INDEX_BOOL_OPERATOR => $expression[SegmentExpression::INDEX_BOOL_OPERATOR],
-                    SegmentExpression::INDEX_OPERAND => $operand
-                );
             }
-        }
+            return $mappedOrExpressions;
+        }, $expressions);
 
         return $expressionsWithUnions;
     }
@@ -390,7 +380,7 @@ class Segment
             || Rules::isSegmentPreProcessed($idSites, $this);
     }
 
-    protected function getCleanedExpression($expression)
+    protected function getCleanedExpression(array $expression): array
     {
         $name      = $expression[SegmentExpression::INDEX_OPERAND_NAME];
         $matchType = $expression[SegmentExpression::INDEX_OPERAND_OPERATOR];
