@@ -431,10 +431,12 @@ ${translate('UsersManager_CopyDeniedHints', [`<br><span class="invite-link">${va
     },
     onResendInvite(password: string) {
       if (password === '') return;
-      AjaxHelper.fetch<AjaxHelper>(
+      AjaxHelper.post<AjaxHelper>(
         {
           method: 'UsersManager.resendInvite',
           userLogin: this.userBeingEdited!.login,
+        },
+        {
           passwordConfirmation: password,
         },
       ).then(() => {
