@@ -30,6 +30,9 @@
             {%  if tagManagerActive %}
                 <li class="tab col {{ columnClass }}"><a href="#spa">SPA / PWA</a></li>
             {% endif %}
+            {% if showGAImportTab %}
+                <li class="tab col {{ columnClass }}"><a {% if activeTab == 'ga-import' %} class="active" {% endif %} href="#ga-import">{{ 'SitesManager_SiteWithoutDataGoogleAnalyticsImport'|translate }}</a></li>
+            {% endif %}
             <li class="tab col {{ columnClass }}"><a href="#other">{{ 'SitesManager_SiteWithoutDataOtherWays'|translate }}</a></li>
         </ul>
     </div>
@@ -190,6 +193,12 @@
         <div id="spa" class="col s12">
             {% include '@SitesManager/_spa.twig' %}
         </div>
+    {% endif %}
+
+    {% if showGAImportTab %}
+    <div id="ga-import" class="col s12">
+        {{ postEvent('Template.embedGAImportNoData', ga3Used) }}
+    </div>
     {% endif %}
 
     <div id="other" class="col s12">
