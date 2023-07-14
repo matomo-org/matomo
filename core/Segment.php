@@ -262,6 +262,7 @@ class Segment
         // parse segments
         $expressions = $segment->parseSubExpressions();
         $expressions = $this->getExpressionsWithUnionsResolved($expressions);
+        $expressions = $this->mergeSubqueryExpressions($expressions);
 
         // convert segments name to sql segment
         // check that user is allowed to view this segment
@@ -429,7 +430,8 @@ class Segment
 
         // Build subqueries for segments that are not on log_visit table but use !@ or != as operator
         // This is required to ensure segments like actionUrl!@value really do not include any visit having an action containing `value`
-        if ($this->doesSegmentNeedSubquery($matchType, $name)) {
+        if ($this->doesSegmentNeedSubquery($matchType, $name) &&
+            $matchType == SegmentExpression::MATCH_IDVISIT_NOT_IN) {
             $operator = $this->getInvertedOperatorForSubQuery($matchType);
             $stringSegment = $name . $operator . $this->escapeSegmentValue($value);
             $segmentObj = new Segment($stringSegment, $this->idSites, $this->startDate, $this->endDate);
@@ -458,9 +460,10 @@ class Segment
             $query = $segmentObj->getSelectQuery($select, $from, implode(' AND ', $where), $bind);
             $logQueryBuilder->forceInnerGroupBySubselect($forceGroupByBackup);
 
-            return ['log_visit.idvisit', SegmentExpression::MATCH_ACTIONS_NOT_CONTAINS, $query, null, $segment];
+            return ['log_visit.idvisit', SegmentExpression::MATCH_ACTIONS_NOT_CONTAINS, $query, null, null]; // TODO: removed $segment as last element. ok to do that?
         }
 
+        $segment = $this->getSegmentByName($name);
         if ($matchType != SegmentExpression::MATCH_IS_NOT_NULL_NOR_EMPTY
             && $matchType != SegmentExpression::MATCH_IS_NULL_OR_EMPTY) {
 
@@ -705,6 +708,87 @@ class Segment
     }
 
     /**
+     * TODO
+    // Build subqueries for segments that are not on log_visit table but use !@ or != as operator
+    // This is required to ensure segments like actionUrl!@value really do not include any visit having an action containing `value`
+     */
+    private function mergeSubqueryExpressions(array $expressions): array
+    {
+        // TODO: code redundancy here
+        // merge subquery OR expressions
+        $andExpressions = array_map(function ($orExpressions) {
+            if (count($orExpressions) <= 1) {
+                return $orExpressions;
+            }
+
+            $mappedOrExpressions = [];
+            $idvisitNotInExpressions = [];
+
+            foreach ($orExpressions as $operand) {
+                $name = $operand[SegmentExpression::INDEX_OPERAND_NAME];
+                $matchType = $operand[SegmentExpression::INDEX_OPERAND_OPERATOR];
+                $value = $operand[SegmentExpression::INDEX_OPERAND_VALUE];
+
+                if (!$this->doesSegmentNeedSubquery($matchType, $name)) {
+                    $mappedOrExpressions[] = $operand;
+                    continue;
+                }
+
+                $operator = $this->getInvertedOperatorForSubQuery($matchType);
+                $idvisitNotInExpressions[] = $name . $operator . $value;
+            }
+
+            if (!empty($idvisitNotInExpressions)) {
+                $mappedOrExpressions[] = [
+                    SegmentExpression::INDEX_OPERAND_NAME => null,
+                    SegmentExpression::INDEX_OPERAND_OPERATOR => SegmentExpression::MATCH_IDVISIT_NOT_IN,
+                    SegmentExpression::INDEX_OPERAND_VALUE => implode(SegmentExpression::AND_DELIMITER, $idvisitNotInExpressions),
+                ];
+            }
+
+            return $mappedOrExpressions;
+        }, $expressions);
+
+        // merge subquery and conditions
+        $mappedAndExpressions = [];
+        $idvisitNotInExpressions = [];
+
+        foreach ($andExpressions as $orExpressions) {
+            if (count($orExpressions) > 1) {
+                $mappedAndExpressions[] = $orExpressions;
+                continue;
+            }
+
+            $operand = $orExpressions[0];
+
+            $name = $operand[SegmentExpression::INDEX_OPERAND_NAME];
+            $matchType = $operand[SegmentExpression::INDEX_OPERAND_OPERATOR];
+            $value = $operand[SegmentExpression::INDEX_OPERAND_VALUE];
+
+            if (!$this->doesSegmentNeedSubquery($matchType, $name)) {
+                $mappedAndExpressions[] = $orExpressions;
+                continue;
+            }
+
+            $operator = $this->getInvertedOperatorForSubQuery($matchType);
+            $idvisitNotInExpressions[] = $name . $operator . $value;
+        }
+
+        if (!empty($idvisitNotInExpressions)) {
+            $mappedAndExpressions[] = [
+                [
+                    SegmentExpression::INDEX_OPERAND_NAME => null,
+                    SegmentExpression::INDEX_OPERAND_OPERATOR => SegmentExpression::MATCH_IDVISIT_NOT_IN,
+                    SegmentExpression::INDEX_OPERAND_VALUE => implode(SegmentExpression::OR_DELIMITER, $idvisitNotInExpressions),
+                ],
+            ];
+        }
+
+        return $mappedAndExpressions;
+    }
+
+
+    /**
      * Escapes segment expression delimiters in a segment value with a backslash if not already done.
      */
     private function escapeSegmentValue(string $value): string
@@ -714,4 +798,5 @@ class Segment
 
         return preg_replace($pattern, '\\\$1', $value);
     }
+
 }
