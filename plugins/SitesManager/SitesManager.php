@@ -107,7 +107,7 @@ class SitesManager extends \Piwik\Plugin
             return;
         }
 
-        $shouldPerformEmptySiteCheck = self::shouldPerormEmptySiteCheck($siteId);
+        $shouldPerformEmptySiteCheck = self::shouldPeformEmptySiteCheck($siteId);
         if (!$shouldPerformEmptySiteCheck) {
             return;
         }
@@ -140,7 +140,7 @@ class SitesManager extends \Piwik\Plugin
         return !$trackerModel->isSiteEmpty($siteId);
     }
 
-    public static function shouldPerormEmptySiteCheck($siteId)
+    public static function shouldPeformEmptySiteCheck($siteId)
     {
         $shouldPerformEmptySiteCheck = true;
 
