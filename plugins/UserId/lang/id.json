@@ -1,10 +1,10 @@
 {
     "UserId": {
         "PluginDescription": "Tampilkan laporan pengguna",
-        "ThereIsNoDataForThisReportHelp": "%1$sPelajari lebih lanjut tentang cara menghasilkan data untuk laporan ini di panduan pengguna kami.%2$s",
+        "ThereIsNoDataForThisReportHelp": "%1$sBaca panduan pengguna untuk mempelajari cara untuk menghasilkan data untuk laporan ini.%2$s",
         "UserId": "ID Pengguna",
-        "UserReportDocumentation": "Laporan ini menunjukkan kunjungan dan metrik umum lainnya untuk setiap ID Pengguna individual.",
+        "UserReportDocumentation": "Tampilkan kunjungan dan metrik umum lainnya untuk setiap ID Pengguna individual.",
         "UserReportTitle": "ID pengguna",
-        "VisitorsUserSubcategoryHelp": "Laporan ID Pengguna menunjukkan tentang kunjungan yang terkait dengan semua pengguna Anda yang terdaftar dan masuk. Anda dapat menggunakan bagian ini untuk memahami penggunaan situs web oleh pengguna tertentu dan mengidentifikasi siapa pengguna yang paling aktif dan paling tidak aktif."
+        "VisitorsUserSubcategoryHelp": "Laporan ID pengguna menunjukkan tentang kunjungan yang terkait dengan semua pengguna Anda yang terdaftar dan masuk. Untuk memahami penggunaan situs web oleh pengguna tertentu dan menemukan siapa pengguna yang paling aktif dan paling tidak aktif."
     }
 }
