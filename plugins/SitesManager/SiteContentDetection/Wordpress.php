@@ -44,6 +44,11 @@ class Wordpress extends SiteContentDetectionAbstract
         return (strpos($data, $needle) !== false);
     }
 
+    public function shouldHighlightTabIfShown(): bool
+    {
+        return true;
+    }
+
     public function renderInstructionsTab(array $detections = []): string
     {
         $view     = new View("@SitesManager/_wordpressTabInstructions");

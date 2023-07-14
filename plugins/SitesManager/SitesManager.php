@@ -20,16 +20,11 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\CoreHome\SystemSummary;
-use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
-use Piwik\Plugins\SitesManager\SiteContentDetection\Wordpress;
 use Piwik\Settings\Storage\Backend\MeasurableSettingsTable;
-use Piwik\SettingsPiwik;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\FingerprintSalt;
 use Piwik\Tracker\Model as TrackerModel;
 use Piwik\Session\SessionNamespace;
-use Piwik\Url;
-use Piwik\View;
 
 /**
  *

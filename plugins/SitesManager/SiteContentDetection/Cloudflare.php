@@ -48,6 +48,11 @@ class Cloudflare extends SiteContentDetectionAbstract
         );
     }
 
+    public function shouldHighlightTabIfShown(): bool
+    {
+        return true;
+    }
+
     public function renderInstructionsTab(array $detections = []): string
     {
         $view     = new View("@SitesManager/_cloudflareTabInstructions");

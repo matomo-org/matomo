@@ -83,6 +83,17 @@ abstract class SiteContentDetectionAbstract
     }
 
     /**
+     * Defines if the tab on the no data page should be preselected if shown.
+     * If multiple detections match the one with higher priority wins.
+     *
+     * @return bool
+     */
+    public function shouldHighlightTabIfShown(): bool
+    {
+        return false;
+    }
+
+    /**
      * Returns the content that should be rendered into a new Tab on the no data page
      *
      * @param array $detections

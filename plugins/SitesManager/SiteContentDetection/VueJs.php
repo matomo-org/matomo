@@ -42,6 +42,11 @@ class VueJs extends SiteContentDetectionAbstract
         return preg_match("/vue\.\w.+.js|vue\-\w.+.js/i", $data) === 1;
     }
 
+    public function shouldHighlightTabIfShown(): bool
+    {
+        return true;
+    }
+
     public function renderInstructionsTab(array $detections = []): string
     {
         $view     = new View("@SitesManager/_vueTabInstructions");

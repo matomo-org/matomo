@@ -54,6 +54,11 @@ class ReactJs extends SiteContentDetectionAbstract
         return false;
     }
 
+    public function shouldHighlightTabIfShown(): bool
+    {
+        return true;
+    }
+
     public function renderInstructionsTab(array $detections = []): string
     {
         return '

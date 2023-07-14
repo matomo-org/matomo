@@ -258,6 +258,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $templateData['instructionUrls'] = [];
         $templateData['othersInstructions'] = [];
 
+        $activeTab = null;
+        $activeTabPriority = 1000;
+
         foreach ($this->siteContentDetector->getSiteContentDetectionsByType() as $detections) {
             foreach ($detections as $obj) {
                 $tabContent        = $obj->renderInstructionsTab([]);
@@ -274,6 +277,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                         'content'           => $tabContent,
                         'priority'          => $obj::getPriority(),
                     ];
+
+                    if ($obj->shouldHighlightTabIfShown() && $obj::getPriority() < $activeTabPriority) {
+                        $activeTab = $obj::getId();
+                        $activeTabPriority = $obj::getPriority();
+                    }
                 }
 
                 if (!empty($othersInstruction)) {
@@ -308,7 +316,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             return strnatcmp($a['name'], $b['name']);
         });
 
-        $templateData['activeTab'] = $this->getActiveTabOnLoad($templateData);
+        $templateData['activeTab'] = $activeTab;
         $this->mergeMultipleNotification($templateData);
 
         return $this->renderTemplateAs('_siteWithoutDataTabs', $templateData, $viewType = 'basic');
@@ -335,27 +343,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 '</a>'
             ]
         );
-    }
-
-    private function getActiveTabOnLoad($templateData)
-    {
-        $tabToDisplay = '';
-
-        if (!empty(in_array(GoogleTagManager::getId(), $this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_TRACKER]))) {
-            $tabToDisplay = GoogleTagManager::getId();
-        } else if (in_array(Wordpress::getId(), $this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_CMS])) {
-            $tabToDisplay = Wordpress::getId();
-        } else if (in_array(Cloudflare::getId(), $this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_CMS])) {
-            $tabToDisplay = Cloudflare::getId();
-        } else if (in_array(VueJs::getId(), $this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_JS_FRAMEWORK])) {
-            $tabToDisplay = VueJs::getId();
-        } else if (in_array(ReactJs::getId(), $this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_JS_FRAMEWORK]) && Manager::getInstance()->isPluginActivated('TagManager')) {
-            $tabToDisplay = ReactJs::getId();
-        } else if (!empty($templateData['consentManagerName'])) {
-            $tabToDisplay = 'consentManager';
-        }
-
-        return $tabToDisplay;
     }
 
     private function getInviteUserLink()
