@@ -166,7 +166,7 @@
         "SiteWithoutDataVueFollowStep2ExampleCodeCommentConfigureMatomo": "Configureer uw Matomo-server en website met de volgende details:",
         "SiteWithoutDataVueFollowStep2ExampleCodeCommentTrackPageView": "Om een paginaweergave bij te houden",
         "SiteWithoutDataVueFollowStepCompleted": "%1$sGefeliciteerd!%2$s Je hebt succesvol de Matomo Analytics-trackingcode geïnstalleerd via het \"%3$s\" npm-pakket. Controleer of de hits worden bijgehouden door je website te bezoeken en te controleren of deze gegevens zichtbaar zijn in je Matomo-instantie.",
-        "SiteWithoutDataVueFollowStepNote1": " Nu kun je via %1$s toegang krijgen tot Matomo in je componenten.",
+        "SiteWithoutDataVueFollowStepNote1": "Nu kun je via %1$s toegang krijgen tot Matomo in je componenten.",
         "SiteWithoutDataVueFollowStepNote2": "Als je deze stappen hebt gevolgd en er komen geen gegevens binnen in Matomo, probeer dan de %1$sMatomo Tag Manager%2$s (gebruik deze link voor %3$sSingle Page Applications%4$s).",
         "SiteWithoutDataVueIntro": "Het bijhouden van je Vue.js-website of -applicatie is eenvoudig met Matomo, zelfs voor Single Page Applications.",
         "SiteWithoutDataWordpressDescription": "U kunt de eenvoudige Matomo WordPress-plugin gebruiken om gegevens bij te houden. Volg de instructies in deze %1$s handleiding%2$s.",

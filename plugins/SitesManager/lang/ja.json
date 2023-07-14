@@ -166,7 +166,7 @@
         "SiteWithoutDataVueFollowStep2ExampleCodeCommentConfigureMatomo": "Matomoサーバーとサイトを設定します：",
         "SiteWithoutDataVueFollowStep2ExampleCodeCommentTrackPageView": "ページビューを追跡するには",
         "SiteWithoutDataVueFollowStepCompleted": "%1$sおめでとうございます！%2$s \"%3$s \"npmパッケージを使用して、Matomo Analyticsトラッキングコードを正常にインストールしました。ヒットがトラッキングされていることを確認するには、ウェブサイトにアクセスし、このデータが Matomo インスタンスに表示されていることを確認してください。",
-        "SiteWithoutDataVueFollowStepNote1": " これで、コンポーネント内の Matomo に %1$s からアクセスできるようになりました。",
+        "SiteWithoutDataVueFollowStepNote1": "これで、コンポーネント内の Matomo に %1$s からアクセスできるようになりました。",
         "SiteWithoutDataVueFollowStepNote2": "これらの手順を踏んでもMatomoにデータが入らない場合は、代わりに%1$sMatomo Tag Manager%2$sを試してみてください（%3$sSingle Page Applications%4$sはこのリンクを使用してください）。",
         "SiteWithoutDataVueIntro": "Vue.jsのウェブサイトやアプリのトラッキングは、シングルページアプリケーションでもMatomoを使えば簡単です。",
         "SiteWithoutDataWordpressDescription": "Matomo簡単 WordPress プラグインを使用してデータを追跡できます。この %1$sguide%2$s の指示に従ってください。",

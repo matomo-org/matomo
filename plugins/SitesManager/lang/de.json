@@ -161,7 +161,7 @@
         "SiteWithoutDataVueFollowStep2ExampleCodeCommentConfigureMatomo": "Konfigurieren Sie hier Ihren Matomo-Server und Ihre Website",
         "SiteWithoutDataVueFollowStep2ExampleCodeCommentTrackPageView": "Um eine Seitenansicht aufzuzeichnen",
         "SiteWithoutDataVueFollowStepCompleted": "%1$sHerzlichen Glückwunsch!%2$s Sie haben den Matomo Analytics-Tracking-Code erfolgreich über das \"%3$s\" npm-Paket installiert. Überprüfen Sie, ob die Zugriffe in Ihrer Matomo-Instanz sichtbar sind, indem Sie Ihre Website besuchen.",
-        "SiteWithoutDataVueFollowStepNote1": " Sie können nun über %1$s auf Matomo in Ihren Komponenten zugreifen.",
+        "SiteWithoutDataVueFollowStepNote1": "Sie können nun über %1$s auf Matomo in Ihren Komponenten zugreifen.",
         "SiteWithoutDataVueFollowStepNote2": "Wenn Sie diese Schritte befolgt haben und keine Daten in Matomo angezeigt werden, können Sie stattdessen den %1$sMatomo Tag Manager%2$s ausprobieren (verwenden Sie diesen Link für %3$sSingle-Page-Webanwendungen%4$s).",
         "SiteWithoutDataVueIntro": "Das Aufzeichnen der Besucher Ihrer Vue.js-Website oder -App ist mit Matomo einfach, auch für Single-Page-Webanwendungen.",
         "SiteWithoutDataWordpressDescription": "Mit dem einfachen Matomo WordPress-Plugin können Sie Daten erfassen. Befolgen Sie die Anweisungen in diesem %1$sLeitfaden%2$s.",

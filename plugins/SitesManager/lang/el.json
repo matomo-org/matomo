@@ -166,7 +166,7 @@
         "SiteWithoutDataVueFollowStep2ExampleCodeCommentConfigureMatomo": "Παραμετροποιήστε το διακομιστή του Matomo εισαγάγοντας:",
         "SiteWithoutDataVueFollowStep2ExampleCodeCommentTrackPageView": "Για να ιχνηλατείται μια προβολή σελίδας",
         "SiteWithoutDataVueFollowStepCompleted": "%1$sΣυγχαρητήρια!%2$s Έχετε εγκαταστήσει με επιτυχία τον κώδικα ιχνηλάτησης του Matomo Analytics μέσω του πακέτου npm \"%3$s\". Για να επαληθεύσετε ότι οι επισκέψεις ιχνηλατούνται, επισκεφθείτε τον ιστοτόπο σας και ελέγξτε αν αυτά τα δεδομένα είναι ορατά στο στιγμιότυπο του Matomo σας.",
-        "SiteWithoutDataVueFollowStepNote1": " Τώρα μπορείτε να προσπελάσετε το Matomo στα συστατικά σας μέσω του %1$s.",
+        "SiteWithoutDataVueFollowStepNote1": "Τώρα μπορείτε να προσπελάσετε το Matomo στα συστατικά σας μέσω του %1$s.",
         "SiteWithoutDataVueFollowStepNote2": "Αν ακολουθήσατε τα βήματα αυτά και δεν έχετε δεδομένα να έρχονται στο Matomo, μπορείτε εναλλακτικά να δοκιμάσετε το %1$sΔιαχειριστή Σημάνσεων του Matomo%2$s (χρησιμοποιήστε αυτό το σύνδεσμο για %3$sΕφαρμογές Μονής Σελίδας%4$s).",
         "SiteWithoutDataVueIntro": "Η ιχνηλάτηση του ιστοτόπου σας Vue.js ή εφαρμογής είναι εύκολη με το Matomo, ακόμη και για Εφαρμογές Μονής Σελίδας.",
         "SiteWithoutDataWordpressDescription": "Μπορείτε να χρησιμοποιήσετε εύκολα το πρόσθετο Matomo WordPress για να ιχνηλατείτε τα δεδομένα σας, ακολουθήστε τις οδηγίες σε αυτόν τον %1$sοδηγό%2$s.",

@@ -166,7 +166,7 @@
         "SiteWithoutDataVueFollowStep2ExampleCodeCommentConfigureMatomo": "Configure seu servidor e site Matomo fornecendo:",
         "SiteWithoutDataVueFollowStep2ExampleCodeCommentTrackPageView": "Para rastrear uma exibição de página",
         "SiteWithoutDataVueFollowStepCompleted": "%1$sParabéns!%2$s Você instalou com sucesso o código de rastreamento Matomo Analytics por meio do pacote npm \"%3$s\". Para verificar se os acessos estão sendo rastreados, visite seu site e verifique se esses dados estão visíveis em sua instância do Matomo.",
-        "SiteWithoutDataVueFollowStepNote1": " Agora você pode acessar o Matomo em seus componentes através de %1$s.",
+        "SiteWithoutDataVueFollowStepNote1": "Agora você pode acessar o Matomo em seus componentes através de %1$s.",
         "SiteWithoutDataVueFollowStepNote2": "Se você seguiu estas etapas e não tem dados entrando no Matomo, você pode tentar o %1$sGerenciador de Tags do Matomo%2$s (use este link para %3$sAplicativos de Página Única%4$s).",
         "SiteWithoutDataVueIntro": "Rastrear seu site ou aplicativo Vue.js é fácil com o Matomo, mesmo para aplicativos de página única.",
         "SiteWithoutDataWordpressDescription": "Você pode usar o plug-in Matomo easy WordPress para rastrear dados, siga as instruções deste %1$sguia%2$s.",

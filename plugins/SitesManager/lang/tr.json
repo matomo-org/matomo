@@ -166,7 +166,7 @@
         "SiteWithoutDataVueFollowStep2ExampleCodeCommentConfigureMatomo": "Şunu belirterek Matomo sunucunuzu ve sitenizi yapılandırın:",
         "SiteWithoutDataVueFollowStep2ExampleCodeCommentTrackPageView": "Bir sayfa görüntülemesini izlemek için",
         "SiteWithoutDataVueFollowStepCompleted": "%1$sTebrikler!%2$s Matomo istatistikleri izleme kodunu \"%3$s\" npm paketi ile kurdunuz. Ziyaretlerin izlendiğini doğrulamak için sitenizi ziyaret edin ve bu verilerin Matomo kopyanızda görünür olup olmadığını denetleyin.",
-        "SiteWithoutDataVueFollowStepNote1": " Artık bileşenlerinizdeki %1$s üzerinden Matomo erişimi sağlayabilirsiniz.",
+        "SiteWithoutDataVueFollowStepNote1": "Artık bileşenlerinizdeki %1$s üzerinden Matomo erişimi sağlayabilirsiniz.",
         "SiteWithoutDataVueFollowStepNote2": "Bu adımları izlediyseniz ve Matomo üzerine veri gelmiyorsa, bunun yerine %1$sMatomo etiket yöneticisi%2$s üzerine erişmeyi deneyebilirsiniz ( %3$stek sayfa uygulamalar%4$s için bu bağlantıyı kullanın).",
         "SiteWithoutDataVueIntro": "Vue.js sitenizi ya da uygulamanızı Matomo ile izlemek, tek sayfa uygulamalar için bile kolaydır.",
         "SiteWithoutDataWordpressDescription": "Verileri izlemek için Matomo WordPress eklentisini kullanabilirsiniz. Bu %1$s rehberdeki %2$s yönergeleri izleyin.",

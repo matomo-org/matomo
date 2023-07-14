@@ -151,7 +151,7 @@
         "SiteWithoutDataVueFollowStep2ExampleCodeCommentConfigureMatomo": "Configurez votre instance Matomo en renseignant",
         "SiteWithoutDataVueFollowStep2ExampleCodeCommentTrackPageView": "Pour suivre les visites sur vos pages",
         "SiteWithoutDataVueFollowStepCompleted": "%1$sFélicitations !%2$s Vous avez réussi à installer le code de suivi de Matomo Analytics via le paquet npm \"%3$s\". Pour vérifier que les visites sont bien suivies, visitez votre site et vérifiez que ces données sont visibles dans votre instance Matomo.",
-        "SiteWithoutDataVueFollowStepNote1": " Désormais, vous pouvez accéder à Matomo dans vos composants via %1$s.",
+        "SiteWithoutDataVueFollowStepNote1": "Désormais, vous pouvez accéder à Matomo dans vos composants via %1$s.",
         "SiteWithoutDataVueFollowStepNote2": "Si vous avez suivi ces étapes et que vous n'avez pas de données dans Matomo, vous pouvez essayer %1$sMatomo Tag Manager%2$s à la place (visitez ce lien pour les %3$sapplications mono-page%4$s).",
         "SiteWithoutDataVueIntro": "Suivre votre site ou votre application Vue.js avec Matomo est facile, même pour les applications mono-page.",
         "SiteWithoutDataWordpressDescription": "Vous pouvez utiliser le plugin WordPress facile Matomo pour suivre les données, suivez les instructions de ce %1$sguide%2$s.",
