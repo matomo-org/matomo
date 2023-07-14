@@ -41,12 +41,12 @@ class MatomoTagManager extends SiteContentDetectionAbstract
         return false;
     }
 
-    public function showInstructionTabOnlyOnDetection(): bool
+    public function shouldShowInstructionTab(array $detections = []): bool
     {
-        return false;
+        return true;
     }
 
-    public function renderInstructionsTab(): string
+    public function renderInstructionsTab(array $detections = []): string
     {
         return '<h3>' . Piwik::translate('SitesManager_SiteWithoutDataMatomoTagManager') . '</h3>
             <p>' . Piwik::translate( 'SitesManager_SiteWithoutDataMatomoTagManagerNotActive', ['<a href="https://matomo.org/docs/tag-manager/" rel="noreferrer noopener" target="_blank">', '</a>']) . '</p>';

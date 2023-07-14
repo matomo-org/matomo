@@ -54,12 +54,7 @@ class ReactJs extends SiteContentDetectionAbstract
         return false;
     }
 
-    public function showInstructionTabOnlyOnDetection(): bool
-    {
-        return true;
-    }
-
-    public function renderInstructionsTab(): string
+    public function renderInstructionsTab(array $detections = []): string
     {
         return '
             <p></p><p></p>

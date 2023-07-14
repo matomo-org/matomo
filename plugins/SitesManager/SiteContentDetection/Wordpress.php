@@ -44,12 +44,7 @@ class Wordpress extends SiteContentDetectionAbstract
         return (strpos($data, $needle) !== false);
     }
 
-    public function showInstructionTabOnlyOnDetection(): bool
-    {
-        return true;
-    }
-
-    public function renderInstructionsTab(): string
+    public function renderInstructionsTab(array $detections = []): string
     {
         $view     = new View("@SitesManager/_wordpressTabInstructions");
         $faqLink  = 'https://matomo.org/faq/general/faq_114/';

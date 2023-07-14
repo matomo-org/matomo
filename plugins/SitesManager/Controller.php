@@ -260,13 +260,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         foreach ($this->siteContentDetector->getSiteContentDetectionsByType() as $detections) {
             foreach ($detections as $obj) {
-                $tabContent        = $obj->renderInstructionsTab();
+                $tabContent        = $obj->renderInstructionsTab([]);
                 $othersInstruction = $obj->renderOthersInstruction();
                 $instructionUrl    = $obj->getInstructionUrl();
 
                 Piwik::postEvent('Template.siteWithoutDataTab.' . $obj::getId() . '.content', [&$tabContent]);
 
-                if (!empty($tabContent) && in_array($obj::getId(), $this->siteContentDetector->detectedContent[$obj::getContentType()])) {
+                if (!empty($tabContent) && $obj->shouldShowInstructionTab($this->siteContentDetector->detectedContent)) {
                     $templateData['tabs'][] = [
                         'id'                => $obj::getId(),
                         'name'              => $obj::getName(),
@@ -349,7 +349,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $tabToDisplay = Cloudflare::getId();
         } else if (in_array(VueJs::getId(), $this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_JS_FRAMEWORK])) {
             $tabToDisplay = VueJs::getId();
-        } else if (in_array(ReactJs::getId(), $this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_TRACKER]) && Manager::getInstance()->isPluginActivated('TagManager')) {
+        } else if (in_array(ReactJs::getId(), $this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_JS_FRAMEWORK]) && Manager::getInstance()->isPluginActivated('TagManager')) {
             $tabToDisplay = ReactJs::getId();
         } else if (!empty($templateData['consentManagerName'])) {
             $tabToDisplay = 'consentManager';

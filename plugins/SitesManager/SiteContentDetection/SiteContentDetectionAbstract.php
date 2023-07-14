@@ -16,6 +16,7 @@ abstract class SiteContentDetectionAbstract
     public const TYPE_CMS = 2;
     public const TYPE_JS_FRAMEWORK = 3;
     public const TYPE_CONSENT_MANAGER = 4;
+    public const TYPE_OTHER = 99;
     public function __construct()
     {
     }
@@ -71,21 +72,23 @@ abstract class SiteContentDetectionAbstract
     abstract public function detectSiteByContent(?string $data = null, ?array $headers = null): bool;
 
     /**
-     * Returns whether the instruction tab on the no data page should only be shown if the detection matched
+     * Returns whether the instruction tab should be shown. Default behavior is to show it if the detection was successful
      *
+     * @param array $detections
      * @return bool
      */
-    public function showInstructionTabOnlyOnDetection(): bool
+    public function shouldShowInstructionTab(array $detections = []): bool
     {
-        return true;
+        return isset($detections[static::getContentType()]) && in_array(static::getId(), $detections[static::getContentType()]);
     }
 
     /**
      * Returns the content that should be rendered into a new Tab on the no data page
      *
+     * @param array $detections
      * @return string|null
      */
-    public function renderInstructionsTab(): ?string
+    public function renderInstructionsTab(array $detections = []): ?string
     {
         return null;
     }

@@ -39,16 +39,10 @@ class VueJs extends SiteContentDetectionAbstract
 
     public function detectSiteByContent(?string $data = null, ?array $headers = null): bool
     {
-        return true;
         return preg_match("/vue\.\w.+.js|vue\-\w.+.js/i", $data) === 1;
     }
 
-    public function showInstructionTabOnlyOnDetection(): bool
-    {
-        return true;
-    }
-
-    public function renderInstructionsTab(): string
+    public function renderInstructionsTab(array $detections = []): string
     {
         $view     = new View("@SitesManager/_vueTabInstructions");
         $view->sendHeadersWhenRendering = false;

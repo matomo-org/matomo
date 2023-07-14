@@ -48,12 +48,7 @@ class Cloudflare extends SiteContentDetectionAbstract
         );
     }
 
-    public function showInstructionTabOnlyOnDetection(): bool
-    {
-        return true;
-    }
-
-    public function renderInstructionsTab(): string
+    public function renderInstructionsTab(array $detections = []): string
     {
         $view     = new View("@SitesManager/_cloudflareTabInstructions");
         $view->idSite = Request::fromRequest()->getIntegerParameter('idSite');

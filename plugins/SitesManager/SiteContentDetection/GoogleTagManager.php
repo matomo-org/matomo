@@ -59,12 +59,7 @@ class GoogleTagManager extends SiteContentDetectionAbstract
         return false;
     }
 
-    public function showInstructionTabOnlyOnDetection(): bool
-    {
-        return true;
-    }
-
-    public function renderInstructionsTab(): string
+    public function renderInstructionsTab(array $detections = []): string
     {
         $piwikUrl = Url::getCurrentUrlWithoutFileName();
         $jsTag = Request::processRequest(
