@@ -260,6 +260,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'serverSideDoNotTrackEnabled' => $dntChecker->isActive()
         ];
 
+        $templateData['showGAImportTab'] = $this->shouldShowGAImportTab($templateData);
+
         if ($this->siteContentDetector->consentManagerId) {
             $templateData['consentManagerName'] = $this->siteContentDetector->consentManagerName;
             $templateData['consentManagerUrl'] = $this->siteContentDetector->consentManagerUrl;
@@ -286,6 +288,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $tabToDisplay = 'gtm';
         } else if (!empty($templateData['cms']) && $templateData['cms'] === SitesManager::SITE_TYPE_WORDPRESS) {
             $tabToDisplay = 'wordpress';
+        } else if (!empty($templateData['showGAImportTab'])) {
+            $tabToDisplay = 'ga-import';
         } else if (!empty($templateData['cloudflare'])) {
             $tabToDisplay = 'cloudflare';
         } else if (!empty($templateData['jsFramework']) && $templateData['jsFramework'] === SitesManager::JS_FRAMEWORK_VUE) {
@@ -421,5 +425,14 @@ INST;
         }
 
         return $info;
+    }
+
+    private function shouldShowGAImportTab($templateData)
+    {
+        if (Piwik::hasUserSuperUserAccess() && Manager::getInstance()->isPluginActivated('GoogleAnalyticsImporter') && (!empty($templateData['ga3Used']) || !empty($templateData['ga4Used']))) {
+            return true;
+        }
+
+        return false;
     }
 }
