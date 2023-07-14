@@ -39,7 +39,7 @@
         "ImportFromGoogleAnalyticsDescription": "Google アナリティクスのプロパティがあり、Matomo に切り替える場合、%1$sGoogleAnalyticsImporter%2$s プラグインを使用して既存のデータをインポートできます。",
         "ImportingServerLogs": "サーバーログインポート",
         "ImportingServerLogsDesc": "ブラウザ経由で ( JavaScript または画像リンク経由で ) ビジターを追跡する代わりに、サーバーログを継続的にインポートすることもできます。 %1$sサーバーログファイル分析%2$sの詳細をご覧ください。",
-        "InvalidPluginsWarning": "以下のプラグインは、 %1$s と互換性がないためロードできませんでした。　:%2$s.",
+        "InvalidPluginsWarning": "以下のプラグインは、 %1$s と互換性がないためロードできませんでした。:%2$s.",
         "InvalidPluginsYouCanUninstall": "これらのプラグインは、 %1$sプラグイン管理%2$s ページでアップデートまたはアンインストールすることができます。",
         "JSTrackingDocumentationHelp": "簡単にアクセスできるように、最も一般的な詳細オプションを以下に示します。さらに多くのオプション（目標、カスタム変数、eコマース注文、放棄されたカートを追跡する方法を含む）については、%1$sMatomo Javascript Tracking documentation%2$s をご覧ください。",
         "JSTrackingIntro1": "Web サイトへのビジターをさまざまな方法で追跡できます。 推奨される方法は JavaScript を使用することです。 この方法を使用するには、Web サイトのすべての Web ページに JavaScript コードがあることを確認する必要があります。これはここで生成できます。",

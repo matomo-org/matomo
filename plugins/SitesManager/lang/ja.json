@@ -191,7 +191,7 @@
         "SiteWithoutDataWordpressFollowSteps9": "%1$sこちらをクリックしてください%2$s Matomo Auth トークンを作成します (%3$slearn more%4$s)。",
         "SiteWithoutDataWordpressFollowStepsIntro": "Matomoでトラッキングを開始する手順",
         "SiteWithoutDataWordpressIntroductionLine1": "MatomoのトラッキングをWordPressサイトに追加するには、以下のステップを踏むか、%1$sfollow this guide%2$sをご覧ください。",
-        "SiteWithoutDataWordpressIntroductionLine2": "プラグインを使用できない（または使用しない）場合は、%1$JavaScriptコード%2$をインストールするか、%3$画像ビーコン%4$をインストールしてトラッキングを開始することができます。",
+        "SiteWithoutDataWordpressIntroductionLine2": "プラグインを使用できない（または使用しない）場合は、%1$sJavaScriptコード%2$sをインストールするか、%3$s画像ビーコン%4$sをインストールしてトラッキングを開始することができます。",
         "SiteWithoutDataWordpressRequirement1": "WordPressの管理者アカウント。",
         "SiteWithoutDataWordpressRequirement2": "ビジネス、コマース、エンタープライズプランのWordPress.comサイト、またはセルフホストWordPressサイト。",
         "SiteWithoutDataWordpressRequirementHeader": "プラグインの要件:",
