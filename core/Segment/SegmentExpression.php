@@ -44,6 +44,11 @@ class SegmentExpression
     const MATCH_ACTIONS_CONTAINS = 'IN';
     const MATCH_ACTIONS_NOT_CONTAINS = 'NOTIN';
 
+    /**
+     * TODO
+     */
+    const MATCH_IDVISIT_NOT_IN = 'IDVISIT_NOTIN';
+
     const INDEX_OPERAND_NAME = 0;
     const INDEX_OPERAND_OPERATOR = 1;
     const INDEX_OPERAND_VALUE = 2;
