@@ -47,6 +47,7 @@
         "ConversionByTypeReportDocumentation": "Bu rapor, sol panoda bulunan kategoriler için ayrıntılı hedef başarımı bilgilerini içerir (dönüşümler, dönüşüm oranları ve her bir ziyaretin geliri). %1$s Lütfen raporu görüntülemek için kategorilerden birine tıklayın. %2$s Ayrıntılı bilgi almak için %3$sizleme hedefleri belgelerine bakın%4$s",
         "ConversionRate": "'%s' dönüşüm oranı",
         "ConversionRatePageViewedBefore": "%s oranından önce görüntülenen",
+        "ConversionRatePageViewedBeforeGeneric": "Dönüşüm oranından önce görüntülendi",
         "Conversions": "'%s' dönüşüm",
         "ConversionsDescription": "dönüşüm",
         "ConversionsOverview": "Dönüşüm özeti",

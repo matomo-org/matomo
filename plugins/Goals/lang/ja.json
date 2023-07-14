@@ -47,6 +47,7 @@
         "ConversionByTypeReportDocumentation": "このレポートでは、左側のパネルで使用可能なカテゴリごとの目標のパフォーマンス（コンバージョン、コンバージョン率、ビジットあたりの収益）に関する詳細な情報を提供します。 %1$s レポートを表示するには、カテゴリのいずれかをクリックしてください。%2$s 詳細については、%3$s piwik.org のトラッキングゴールのドキュメント %4$s を参照してください。",
         "ConversionRate": "%s コンバージョン率",
         "ConversionRatePageViewedBefore": "%s レート前に閲覧",
+        "ConversionRatePageViewedBeforeGeneric": "コンバージョン前の閲覧率",
         "Conversions": "%s コンバージョン",
         "ConversionsDescription": "コンバージョン",
         "ConversionsOverview": "コンバージョンの概観",
