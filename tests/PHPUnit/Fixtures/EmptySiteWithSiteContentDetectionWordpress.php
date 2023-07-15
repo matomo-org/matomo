@@ -7,6 +7,8 @@
  */
 namespace Piwik\Tests\Fixtures;
 
+use Piwik\Plugins\SitesManager\SiteContentDetection\Cloudflare;
+use Piwik\Plugins\SitesManager\SiteContentDetection\Wordpress;
 use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\SiteContentDetector;
@@ -22,21 +24,9 @@ class EmptySiteWithSiteContentDetectionWordpress extends Fixture
 
     public function provideContainerConfig()
     {
-        $mockData = [
-            'consentManagerId' => null,
-            'consentManagerName' => null,
-            'consentManagerUrl' => null,
-            'isConnected' => false,
-            'ga3' => false,
-            'ga4' => false,
-            'gtm' => false,
-            'cms' => SitesManager::SITE_TYPE_WORDPRESS,
-            'cloudflare' => true
-        ];
-
         return [
             SiteContentDetector::class => \DI\autowire(FakeSiteContentDetector::class)
-                ->constructorParameter('mockData', $mockData)
+                ->constructorParameter('detectedContentDetections', [Wordpress::getId(), Cloudflare::getId()])
         ];
     }
 

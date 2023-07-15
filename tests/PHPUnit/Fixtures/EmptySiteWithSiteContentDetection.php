@@ -7,6 +7,7 @@
  */
 namespace Piwik\Tests\Fixtures;
 
+use Piwik\Plugins\SitesManager\SiteContentDetection\Osano;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\SiteContentDetector;
 use Piwik\Tests\Framework\Mock\FakeSiteContentDetector;
@@ -21,19 +22,10 @@ class EmptySiteWithSiteContentDetection extends Fixture
 
     public function provideContainerConfig()
     {
-        $mockData = [
-            'consentManagerId' => 'osano',
-            'consentManagerName' => 'Osano',
-            'consentManagerUrl' => 'https://matomo.org/faq/how-to/using-osano-consent-manager-with-matomo',
-            'isConnected' => true,
-            'ga3' => false,
-            'ga4' => false,
-            'gtm' => false
-        ];
-
         return [
             SiteContentDetector::class => \Piwik\DI::autowire(FakeSiteContentDetector::class)
-                 ->constructorParameter('mockData', $mockData)
+                 ->constructorParameter('detectedContentDetections', [Osano::getId()])
+                 ->constructorParameter('connectedContentManagers', [Osano::getId()])
         ];
     }
 
