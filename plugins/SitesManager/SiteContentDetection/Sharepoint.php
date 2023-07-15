@@ -27,7 +27,7 @@ class Sharepoint extends SiteContentDetectionAbstract
         return 'https://matomo.org/faq/how-to-install/faq_19424/';
     }
 
-    public function detectSiteByContent(?string $data = null, ?array $headers = null): bool
+    protected function detectSiteByContent(?string $data = null, ?array $headers = null): bool
     {
         $needle = 'content="Microsoft SharePoint';
         return (strpos($data, $needle) !== false);

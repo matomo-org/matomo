@@ -6,19 +6,27 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Tests\Unit;
+namespace Piwik\Tests\Integration;
 
+use Piwik\Plugins\SitesManager\SiteContentDetection\Cloudflare;
+use Piwik\Plugins\SitesManager\SiteContentDetection\GoogleAnalytics3;
+use Piwik\Plugins\SitesManager\SiteContentDetection\GoogleAnalytics4;
+use Piwik\Plugins\SitesManager\SiteContentDetection\GoogleTagManager;
+use Piwik\Plugins\SitesManager\SiteContentDetection\Joomla;
+use Piwik\Plugins\SitesManager\SiteContentDetection\Osano;
 use Piwik\Plugins\SitesManager\SiteContentDetection\ReactJs;
 use Piwik\Plugins\SitesManager\SiteContentDetection\VueJs;
+use Piwik\Plugins\SitesManager\SiteContentDetection\Wix;
+use Piwik\Plugins\SitesManager\SiteContentDetection\Wordpress;
 use Piwik\SiteContentDetector;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
  * @group Core
  * @group SiteContentDetectorTest
 */
-class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
+class SiteContentDetectorTest extends IntegrationTestCase
 {
-
     public function test_detectsConsentManager_NotConnected()
     {
         $siteData = '<html lang="en"><head><title>A site</title></head><script src="https://osano.com/uhs9879874hthg.js"></script></head><body>A site</body></html>';
@@ -26,8 +34,8 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $scd = new SiteContentDetector();
         $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
 
-        $this->assertEquals('osano', $scd->consentManagerId);
-        $this->assertFalse($scd->isConnected);
+        self::assertTrue($scd->wasDetected(Osano::getId()));
+        self::assertNotContains(Osano::getId(), $scd->connectedContentManagers);
     }
 
     public function test_detectsConsentManager_Connected()
@@ -36,8 +44,8 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $scd = new SiteContentDetector();
         $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
 
-        $this->assertEquals('osano', $scd->consentManagerId);
-        $this->assertTrue($scd->isConnected);
+        self::assertTrue($scd->wasDetected(Osano::getId()));
+        self::assertContains(Osano::getId(), $scd->connectedContentManagers);
     }
 
     public function test_detectsCMS_wordPress()
@@ -46,7 +54,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $scd = new SiteContentDetector();
         $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
 
-        $this->assertEquals('wordpress', $scd->cms);
+        self::assertTrue($scd->wasDetected(Wordpress::getId()));
     }
 
     public function test_detectsCMS_joomla()
@@ -56,7 +64,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $scd = new SiteContentDetector();
         $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData, $headers));
 
-        $this->assertEquals('joomla', $scd->cms);
+        self::assertTrue($scd->wasDetected(Joomla::getId()));
     }
 
     public function test_detectsCMS_wix()
@@ -65,7 +73,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $scd = new SiteContentDetector();
         $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
 
-        $this->assertEquals('wix', $scd->cms);
+        self::assertTrue($scd->wasDetected(Wix::getId()));
     }
 
     private function makeSiteResponse($data, $headers = [])
@@ -84,12 +92,9 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
                      ga('send', 'pageview');
                      </script></head><body>A site</body></html>";
         $scd = new SiteContentDetector();
-        $scd->detectContent([SiteContentDetector::GA3], null, $this->makeSiteResponse($siteData));
+        $scd->detectContent([GoogleAnalytics3::getId()], null, $this->makeSiteResponse($siteData));
 
-        $this->assertEmpty($scd->consentManagerId);
-        $this->assertFalse($scd->ga4);
-        $this->assertFalse($scd->gtm);
-        $this->assertTrue($scd->ga3);
+        self::assertTrue($scd->wasDetected(GoogleAnalytics3::getId()));
     }
 
     public function test_detectsGA4_IfPresent()
@@ -104,11 +109,9 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
                     </script>
                     </head><body>A site</body></html>";
         $scd = new SiteContentDetector();
-        $scd->detectContent([SiteContentDetector::GA4], null, $this->makeSiteResponse($siteData));
+        $scd->detectContent([GoogleAnalytics4::getId()], null, $this->makeSiteResponse($siteData));
 
-        $this->assertFalse($scd->ga3);
-        $this->assertFalse($scd->gtm);
-        $this->assertTrue($scd->ga4);
+        self::assertTrue($scd->wasDetected(GoogleAnalytics4::getId()));
     }
 
     public function test_detectsGTM_IfPresent()
@@ -123,11 +126,9 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
                      <!-- End Google Tag Manager -->                     
                      </head><body>A site</body></html>";
         $scd = new SiteContentDetector();
-        $scd->detectContent([SiteContentDetector::GTM], null, $this->makeSiteResponse($siteData));
+        $scd->detectContent([GoogleTagManager::getId()], null, $this->makeSiteResponse($siteData));
 
-        $this->assertFalse($scd->ga3);
-        $this->assertFalse($scd->ga4);
-        $this->assertTrue($scd->gtm);
+        self::assertTrue($scd->wasDetected(GoogleTagManager::getId()));
     }
 
     public function test_doesNotDetectsGA_IfNotPresent()
@@ -136,9 +137,9 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $scd = new SiteContentDetector();
         $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
 
-        $this->assertFalse($scd->ga3);
-        $this->assertFalse($scd->ga4);
-        $this->assertFalse($scd->gtm);
+        self::assertFalse($scd->wasDetected(GoogleAnalytics3::getId()));
+        self::assertFalse($scd->wasDetected(GoogleAnalytics4::getId()));
+        self::assertFalse($scd->wasDetected(GoogleTagManager::getId()));
     }
 
     public function test_detectCloudFlare_IfPresent()
@@ -147,10 +148,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $scd = new SiteContentDetector();
         $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData, ['server' => 'cloudflare']));
 
-        $this->assertFalse($scd->ga3);
-        $this->assertFalse($scd->ga4);
-        $this->assertFalse($scd->gtm);
-        $this->assertTrue($scd->cloudflare);
+        self::assertTrue($scd->wasDetected(Cloudflare::getId()));
     }
 
     public function test_detectCloudFlare_IfPresent2()
@@ -159,10 +157,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $scd = new SiteContentDetector();
         $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData, ['Server' => 'cloudflare']));
 
-        $this->assertFalse($scd->ga3);
-        $this->assertFalse($scd->ga4);
-        $this->assertFalse($scd->gtm);
-        $this->assertTrue($scd->cloudflare);
+        self::assertTrue($scd->wasDetected(Cloudflare::getId()));
     }
 
     public function test_detectCloudFlare_IfPresent3()
@@ -171,10 +166,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $scd = new SiteContentDetector();
         $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData, ['SERVER' => 'cloudflare']));
 
-        $this->assertFalse($scd->ga3);
-        $this->assertFalse($scd->ga4);
-        $this->assertFalse($scd->gtm);
-        $this->assertTrue($scd->cloudflare);
+        self::assertTrue($scd->wasDetected(Cloudflare::getId()));
     }
 
     public function test_detectCloudFlare_IfPresent4()
@@ -183,10 +175,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $scd = new SiteContentDetector();
         $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData, ['cf-ray' => 'test']));
 
-        $this->assertFalse($scd->ga3);
-        $this->assertFalse($scd->ga4);
-        $this->assertFalse($scd->gtm);
-        $this->assertTrue($scd->cloudflare);
+        self::assertTrue($scd->wasDetected(Cloudflare::getId()));
     }
 
     public function test_detectCloudFlare_IfPresent5()
@@ -195,10 +184,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $scd = new SiteContentDetector();
         $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData, ['Cf-Ray' => 'test']));
 
-        $this->assertFalse($scd->ga3);
-        $this->assertFalse($scd->ga4);
-        $this->assertFalse($scd->gtm);
-        $this->assertTrue($scd->cloudflare);
+        self::assertTrue($scd->wasDetected(Cloudflare::getId()));
     }
 
     public function test_detectCloudFlare_IfPresent6()
@@ -207,10 +193,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $scd = new SiteContentDetector();
         $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData, ['CF-RAY' => 'test']));
 
-        $this->assertFalse($scd->ga3);
-        $this->assertFalse($scd->ga4);
-        $this->assertFalse($scd->gtm);
-        $this->assertTrue($scd->cloudflare);
+        self::assertTrue($scd->wasDetected(Cloudflare::getId()));
     }
 
     public function test_doesNotDetectsCloudflare_IfNotPresent()
@@ -219,55 +202,52 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $scd = new SiteContentDetector();
         $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
 
-        $this->assertFalse($scd->ga3);
-        $this->assertFalse($scd->ga4);
-        $this->assertFalse($scd->gtm);
-        $this->assertFalse($scd->cloudflare);
+        self::assertFalse($scd->wasDetected(Cloudflare::getId()));
     }
 
     /**
      * @dataProvider provideVueTestData
      */
-    public function test_detectVue($content, $output)
+    public function test_detectVue($content, $result)
     {
         $scd = new SiteContentDetector();
         $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($content));
 
-        self::assertContains(VueJs::getId(), $scd->detectedContent[VueJs::getContentType()]);
+        self::assertSame($result, $scd->wasDetected(VueJs::getId()));
     }
 
     public function provideVueTestData()
     {
         return [
-            ['node_modules/vue/dist/vue-develpment.min.js', 'vue'],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.cjs.js', 'vue'],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.cjs.min.js', 'vue'],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.cjs.prod.js', 'vue'],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.cjs.prod.min.js', 'vue'],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.esm-browser.js', 'vue'],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.esm-browser.min.js', 'vue'],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.esm-browser.prod.js', 'vue'],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.esm-browser.prod.min.js', 'vue'],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.esm-bundler.js', 'vue'],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.esm-bundler.min.js', 'vue'],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.js', 'vue'],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue-min.global.js', 'vue'],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.min.js', 'vue'],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.prod.js', 'vue'],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.prod.min.js', 'vue'],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.esm-browser.js', 'vue'],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.esm-browser.min.js', 'vue'],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.esm-browser.prod.js', 'vue'],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.esm-browser.prod.min.js', 'vue'],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.esm-bundler.js', 'vue'],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.esm-bundler.min.js', 'vue'],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.global.js', 'vue'],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.global.min.js', 'vue'],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.global.prod.js', 'vue'],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.global.prod.min.js', 'vue'],
-            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vuetmp.runtime.global.prod.min.js', 'unknown'],
-            ['test content', 'unknown'],
-            ['test content vue', 'unknown'],
+            ['node_modules/vue/dist/vue-develpment.min.js', true],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.cjs.js', true],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.cjs.min.js', true],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.cjs.prod.js', true],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.cjs.prod.min.js', true],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.esm-browser.js', true],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.esm-browser.min.js', true],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.esm-browser.prod.js', true],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.esm-browser.prod.min.js', true],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.esm-bundler.js', true],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.esm-bundler.min.js', true],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.js', true],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue-min.global.js', true],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.min.js', true],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.prod.js', true],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.prod.min.js', true],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.esm-browser.js', true],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.esm-browser.min.js', true],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.esm-browser.prod.js', true],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.esm-browser.prod.min.js', true],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.esm-bundler.js', true],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.esm-bundler.min.js', true],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.global.js', true],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.global.min.js', true],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.global.prod.js', true],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.runtime.global.prod.min.js', true],
+            ['https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vuetmp.runtime.global.prod.min.js', false],
+            ['test content', false],
+            ['test content vue', false],
         ];
     }
     
@@ -277,7 +257,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $scd = new SiteContentDetector();
         $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
 
-        self::assertContains(ReactJs::getId(), $scd->detectedContent[ReactJs::getContentType()]);
+        self::assertTrue($scd->wasDetected(ReactJs::getId()));
     }
 
     public function test_detectReact_IfPresent2()
@@ -286,7 +266,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $scd = new SiteContentDetector();
         $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
 
-        self::assertContains(ReactJs::getId(), $scd->detectedContent[ReactJs::getContentType()]);
+        self::assertTrue($scd->wasDetected(ReactJs::getId()));
     }
 
     public function test_detectReact_IfPresent3()
@@ -295,7 +275,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $scd = new SiteContentDetector();
         $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
 
-        self::assertContains(ReactJs::getId(), $scd->detectedContent[ReactJs::getContentType()]);
+        self::assertTrue($scd->wasDetected(ReactJs::getId()));
     }
 
     public function test_detectReact_IfPresent4()
@@ -304,7 +284,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $scd = new SiteContentDetector();
         $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
 
-        self::assertContains(ReactJs::getId(), $scd->detectedContent[ReactJs::getContentType()]);
+        self::assertTrue($scd->wasDetected(ReactJs::getId()));
     }
 
     public function test_detectReact_IfPresent5()
@@ -313,7 +293,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $scd = new SiteContentDetector();
         $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
 
-        self::assertContains(ReactJs::getId(), $scd->detectedContent[ReactJs::getContentType()]);
+        self::assertTrue($scd->wasDetected(ReactJs::getId()));
     }
 
     public function test_detectReact_IfPresent6()
@@ -322,7 +302,7 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $scd = new SiteContentDetector();
         $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
 
-        self::assertContains(ReactJs::getId(), $scd->detectedContent[ReactJs::getContentType()]);
+        self::assertTrue($scd->wasDetected(ReactJs::getId()));
     }
 
     public function test_doesNotDetectsReact_IfNotPresent()
@@ -331,6 +311,6 @@ class SiteContentDetectorTest extends \PHPUnit\Framework\TestCase
         $scd = new SiteContentDetector();
         $scd->detectContent([SiteContentDetector::ALL_CONTENT], null, $this->makeSiteResponse($siteData));
 
-        self::assertNotContains(ReactJs::getId(), $scd->detectedContent[ReactJs::getContentType()]);
+        self::assertFalse($scd->wasDetected(ReactJs::getId()));
     }
 }

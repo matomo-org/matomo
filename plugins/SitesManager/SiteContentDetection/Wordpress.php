@@ -38,7 +38,7 @@ class Wordpress extends SiteContentDetectionAbstract
         return 30;
     }
 
-    public function detectSiteByContent(?string $data = null, ?array $headers = null): bool
+    protected function detectSiteByContent(?string $data = null, ?array $headers = null): bool
     {
         $needle = '/wp-content';
         return (strpos($data, $needle) !== false);

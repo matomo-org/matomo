@@ -177,10 +177,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view = new View('@PrivacyManager/askingForConsent');
 
         $this->siteContentDetector->detectContent([SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER]);
-        $consentManager = reset($this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER]);
+        $consentManager = $this->siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER);
         $view->consentManagerName = null;
         if (!empty($consentManager)) {
-            $contentManager = $this->siteContentDetector->getSiteContentDetectionById($consentManager);
+            $contentManager = $this->siteContentDetector->getSiteContentDetectionById(reset($consentManager));
             $view->consentManagerName = $contentManager::getName();
             $view->consentManagerUrl = $consentManager::getInstructionUrl();
             $view->consentManagerIsConnected = in_array($contentManager::getId(), $this->siteContentDetector->connectedContentManagers);

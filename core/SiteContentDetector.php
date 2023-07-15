@@ -41,21 +41,16 @@ class SiteContentDetector
 {
     // Content types
     const ALL_CONTENT = 1;
-    const CONSENT_MANAGER = 2;
-    const GA3 = 3;
-    const GA4 = 4;
-    const GTM = 5;
-    const CMS = 6;
-    const JS_FRAMEWORK = 7;
 
     /**
      * @var array<string, ?array<string, SiteContentDetectionAbstract>>
      */
     public $detectedContent = [
-        SiteContentDetectionAbstract::TYPE_TRACKER => null,
-        SiteContentDetectionAbstract::TYPE_CMS => null,
-        SiteContentDetectionAbstract::TYPE_JS_FRAMEWORK => null,
-        SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER => null,
+        SiteContentDetectionAbstract::TYPE_TRACKER => [],
+        SiteContentDetectionAbstract::TYPE_CMS => [],
+        SiteContentDetectionAbstract::TYPE_JS_FRAMEWORK => [],
+        SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER => [],
+        SiteContentDetectionAbstract::TYPE_OTHER => [],
     ];
 
     public $connectedContentManagers = [];
@@ -126,10 +121,11 @@ class SiteContentDetector
     private function resetDetections(): void
     {
         $this->detectedContent = [
-            SiteContentDetectionAbstract::TYPE_TRACKER => null,
-            SiteContentDetectionAbstract::TYPE_CMS => null,
-            SiteContentDetectionAbstract::TYPE_JS_FRAMEWORK => null,
-            SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER => null,
+            SiteContentDetectionAbstract::TYPE_TRACKER => [],
+            SiteContentDetectionAbstract::TYPE_CMS => [],
+            SiteContentDetectionAbstract::TYPE_JS_FRAMEWORK => [],
+            SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER => [],
+            SiteContentDetectionAbstract::TYPE_OTHER => [],
         ];
         $this->connectedContentManagers = [];
     }
@@ -146,7 +142,7 @@ class SiteContentDetector
      * @param int         $timeOut       How long to wait for the site to response, defaults to 5 seconds
      * @return void
      */
-    public function detectContent(array $detectContent = [SiteContentDetector::ALL_CONTENT],
+    public function detectContent(array $detectContent = [],
                                   ?int $idSite = null, ?array $siteResponse = null, int $timeOut = 5): void
     {
         $this->resetDetections();
@@ -178,8 +174,9 @@ class SiteContentDetector
         $siteContentDetectionCache = $this->cache->fetch($cacheKey);
 
         if ($siteContentDetectionCache !== false) {
-            if ($this->checkCacheHasRequiredProperties($detectContent, $siteContentDetectionCache)) {
-                $this->loadRequiredPropertiesFromCache($detectContent, $siteContentDetectionCache);
+            $cachedSiteContentDetection = Common::safe_unserialize($siteContentDetectionCache, self::getAllSiteContentDetectionClasses());
+            if ($this->checkCacheHasRequiredProperties($detectContent, $cachedSiteContentDetection)) {
+                $this->detectedContent = $cachedSiteContentDetection;
                 return;
             }
         }
@@ -200,6 +197,39 @@ class SiteContentDetector
         // A request was made to get this data and it isn't currently cached, so write it to the cache now
         $cacheLife = (60 * 60 * 24 * 7);
         $this->savePropertiesToCache($cacheKey, $detectContent, $cacheLife);
+    }
+
+    /**
+     * Returns if the detection with the provided id was detected or not
+     *
+     * Note: self::detectContent needs to be called before.
+     *
+     * @param string $detectionClassId
+     * @return bool
+     */
+    public function wasDetected(string $detectionClassId): bool
+    {
+        foreach ($this->detectedContent as $type => $detectedClassIds) {
+            if (array_key_exists($detectionClassId, $detectedClassIds)) {
+                return $detectedClassIds[$detectionClassId] ?? false;
+            }
+        }
+
+        return false;
+    }
+
+    public function getDetectsByType(string $type): array
+    {
+        $detected = [];
+
+        foreach ($this->detectedContent[$type] as $objId => $wasDetected) {
+            if (true === $wasDetected) {
+                $detected[] = $objId;
+            }
+        }
+
+
+        return $detected;
     }
 
     /**
@@ -280,16 +310,20 @@ class SiteContentDetector
 
         foreach ($detections as $type => $typeDetections) {
             foreach ($typeDetections as $typeDetection) {
+                $this->detectedContent[$type][$typeDetection::getId()] = null;
+
                 if (in_array($type, $detectContent) ||
                     in_array($typeDetection::getId(), $detectContent) ||
                     in_array(SiteContentDetector::ALL_CONTENT, $detectContent))
                 {
-                    if ($typeDetection->detectSiteByContent($this->siteResponse['data'], $this->siteResponse['headers'])) {
+                    $this->detectedContent[$type][$typeDetection::getId()] = false;
+
+                    if ($typeDetection->runSiteDetectionByContent($this->siteResponse['data'], $this->siteResponse['headers'])) {
                         if ($typeDetection instanceof ConsentManagerDetectionAbstract
                             && $typeDetection->checkIsConnected($this->siteResponse['data'], $this->siteResponse['headers']) ) {
                             $this->connectedContentManagers[] = $typeDetection::getId();
                         }
-                        $this->detectedContent[$type][] = $typeDetection::getId();
+                        $this->detectedContent[$type][$typeDetection::getId()] = true;
                     }
                 }
             }

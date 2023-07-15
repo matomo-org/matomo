@@ -27,7 +27,7 @@ class Drupal extends SiteContentDetectionAbstract
         return 'https://matomo.org/faq/new-to-piwik/how-to-integrate-with-drupal/';
     }
 
-    public function detectSiteByContent(?string $data = null, ?array $headers = null): bool
+    protected function detectSiteByContent(?string $data = null, ?array $headers = null): bool
     {
         $needle = '<meta name="Generator" content="Drupal';
         if (strpos($data, $needle) !== false) {

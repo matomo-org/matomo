@@ -37,7 +37,7 @@ class VueJs extends SiteContentDetectionAbstract
         return 50;
     }
 
-    public function detectSiteByContent(?string $data = null, ?array $headers = null): bool
+    protected function detectSiteByContent(?string $data = null, ?array $headers = null): bool
     {
         return preg_match("/vue\.\w.+.js|vue\-\w.+.js/i", $data) === 1;
     }

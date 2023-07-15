@@ -11,6 +11,7 @@
 namespace Piwik\Plugins\SitesManager\SiteContentDetection;
 
 use Piwik\Piwik;
+use Piwik\SiteContentDetector;
 
 class MatomoTagManager extends SiteContentDetectionAbstract
 {
@@ -29,7 +30,7 @@ class MatomoTagManager extends SiteContentDetectionAbstract
         return 10;
     }
 
-    public function detectSiteByContent(?string $data = null, ?array $headers = null): bool
+    protected function detectSiteByContent(?string $data = null, ?array $headers = null): bool
     {
         $tests = ['/matomo ?tag ?manager/i', '/_mtm\.push/'];
         foreach ($tests as $test) {
@@ -41,7 +42,7 @@ class MatomoTagManager extends SiteContentDetectionAbstract
         return false;
     }
 
-    public function shouldShowInstructionTab(array $detections = []): bool
+    public function shouldShowInstructionTab(SiteContentDetector $detector = null): bool
     {
         return true;
     }

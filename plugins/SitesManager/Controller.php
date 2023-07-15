@@ -20,13 +20,9 @@ use Piwik\Plugin\Manager;
 use Piwik\Plugin;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
-use Piwik\Plugins\SitesManager\SiteContentDetection\Cloudflare;
 use Piwik\Plugins\SitesManager\SiteContentDetection\GoogleAnalytics3;
 use Piwik\Plugins\SitesManager\SiteContentDetection\GoogleAnalytics4;
-use Piwik\Plugins\SitesManager\SiteContentDetection\GoogleTagManager;
-use Piwik\Plugins\SitesManager\SiteContentDetection\ReactJs;
 use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
-use Piwik\Plugins\SitesManager\SiteContentDetection\VueJs;
 use Piwik\Plugins\SitesManager\SiteContentDetection\Wordpress;
 use Piwik\Site;
 use Piwik\SiteContentDetector;
@@ -169,15 +165,16 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         ];
 
         $this->siteContentDetector->detectContent();
-        if (!empty($this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER])) {
-            $consentManagerId = reset($this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER]);
+        $detectedConsentManagers = $this->siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER);
+        if (!empty($detectedConsentManagers)) {
+            $consentManagerId = reset($detectedConsentManagers);
             $consentManager = $this->siteContentDetector->getSiteContentDetectionById($consentManagerId);
             $emailTemplateData['consentManagerName'] = $consentManager::getName();
             $emailTemplateData['consentManagerUrl'] = $consentManager::getInstructionUrl();
         }
-        $emailTemplateData['cms'] = $this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_CMS];
-        $emailTemplateData['jsFrameworks'] = $this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_JS_FRAMEWORK];
-        $emailTemplateData['trackers'] = $this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_TRACKER];
+        $emailTemplateData['cms'] = $this->siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_CMS);
+        $emailTemplateData['jsFrameworks'] = $this->siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_JS_FRAMEWORK);
+        $emailTemplateData['trackers'] = $this->siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_TRACKER);
 
         $emailContent = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', $emailTemplateData, $viewType = 'basic');
         $inviteUserLink = $this->getInviteUserLink();
@@ -231,9 +228,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'jsTag'         => $jsTag,
             'piwikUrl'      => $piwikUrl,
             'showMatomoLinks' => $showMatomoLinks,
-            'cms' => $this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_CMS],
-            'trackers' => $this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_TRACKER],
-            'jsFrameworks' => $this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_JS_FRAMEWORK],
+            'cms' => $this->siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_CMS),
+            'trackers' => $this->siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_TRACKER),
+            'jsFrameworks' => $this->siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_JS_FRAMEWORK),
             'instruction' => $this->getCmsInstruction(),
             'googleAnalyticsImporterMessage' => $googleAnalyticsImporterMessage,
             'consentManagerName' => false,
@@ -246,8 +243,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'isJsTrackerInstallCheckAvailable' => Manager::getInstance()->isPluginActivated('JsTrackerInstallCheck'),
         ];
 
-        if (!empty($this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER])) {
-            $consentManagerId = reset($this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER]);
+        $consentManagers = $this->siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER);
+        if (!empty($consentManagers)) {
+            $consentManagerId = reset($consentManagers);
             $consentManager = $this->siteContentDetector->getSiteContentDetectionById($consentManagerId);
             $templateData['consentManagerName'] = $consentManager::getName();
             $templateData['consentManagerUrl'] = $consentManager::getInstructionUrl();
@@ -269,7 +267,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
                 Piwik::postEvent('Template.siteWithoutDataTab.' . $obj::getId() . '.content', [&$tabContent]);
 
-                if (!empty($tabContent) && $obj->shouldShowInstructionTab($this->siteContentDetector->detectedContent)) {
+                if (!empty($tabContent) && $obj->shouldShowInstructionTab($this->siteContentDetector)) {
                     $templateData['tabs'][] = [
                         'id'                => $obj::getId(),
                         'name'              => $obj::getName(),
@@ -324,18 +322,20 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     private function getCmsInstruction()
     {
-        if (empty($this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_CMS])
-            || in_array(Wordpress::getId(), $this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_CMS])) {
+        $detectedCMSes = $this->siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_CMS);
+
+        if (empty($detectedCMSes)
+            || $this->siteContentDetector->wasDetected(Wordpress::getId())) {
             return '';
         }
 
-        $detectedCms = $this->siteContentDetector->getSiteContentDetectionById(reset($this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_CMS]));
+        $detectedCms = $this->siteContentDetector->getSiteContentDetectionById(reset($detectedCMSes));
 
         if (null === $detectedCms) {
             return '';
         }
 
-        Piwik::translate(
+        return Piwik::translate(
             'SitesManager_SiteWithoutDataDetectedSite',
             [
                 $detectedCms::getName(),
@@ -366,8 +366,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $bannerMessage = '';
         $guides = [];
         $message = [];
-        $ga3Used = in_array(GoogleAnalytics3::getId(), $this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_TRACKER]);
-        $ga4Used = in_array(GoogleAnalytics4::getId(), $this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_TRACKER]);
+        $ga3Used = $this->siteContentDetector->wasDetected(GoogleAnalytics3::getId());
+        $ga4Used = $this->siteContentDetector->wasDetected(GoogleAnalytics4::getId());;
 
         if ($ga3Used || $ga4Used) {
             $message[0] = 'Google Analytics ';
@@ -418,9 +418,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             if (!empty($templateData['consentManagerIsConnected'])) {
                 $info['notificationMessage'] .= '<p>' . Piwik::translate('SitesManager_ConsentManagerConnected', [$templateData['consentManagerName']]) . '</p>';
             }
-        } else if (in_array(GoogleAnalytics3::getId(), $this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_TRACKER])) {
+        } else if ($this->siteContentDetector->wasDetected(GoogleAnalytics3::getId())) {
             $info['notificationMessage'] = '<p>' . Piwik::translate('SitesManager_GADetected', ['Google Analytics 3', 'GA', '', '', '<a href="https://matomo.org/faq/how-to/migrate-from-google-analytics-3-to-matomo/" target="_blank" rel="noreferrer noopener">', '</a>']) . '</p>';
-        } else if (in_array(GoogleAnalytics4::getId(), $this->siteContentDetector->detectedContent[SiteContentDetectionAbstract::TYPE_TRACKER])) {
+        } else if ($this->siteContentDetector->wasDetected(GoogleAnalytics4::getId())) {
             $info['notificationMessage'] = '<p>' . Piwik::translate('SitesManager_GADetected', ['Google Analytics 4', 'GA', '', '', '<a href="https://matomo.org/faq/how-to/migrate-from-google-analytics-4-to-matomo/" target="_blank" rel="noreferrer noopener">', '</a>']) . '</p>';
         }
 

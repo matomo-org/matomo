@@ -11,6 +11,7 @@
 namespace Piwik\Plugins\SitesManager\SiteContentDetection;
 
 use Piwik\Piwik;
+use Piwik\SiteContentDetector;
 
 class SpaPwa extends SiteContentDetectionAbstract
 {
@@ -29,12 +30,12 @@ class SpaPwa extends SiteContentDetectionAbstract
         return 70;
     }
 
-    public function detectSiteByContent(?string $data = null, ?array $headers = null): bool
+    protected function detectSiteByContent(?string $data = null, ?array $headers = null): bool
     {
         return false;
     }
 
-    public function shouldShowInstructionTab(array $detections = []): bool
+    public function shouldShowInstructionTab(SiteContentDetector $detector = null): bool
     {
         return true;
     }

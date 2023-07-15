@@ -36,7 +36,7 @@ class Cloudflare extends SiteContentDetectionAbstract
         return 40;
     }
 
-    public function detectSiteByContent(?string $data = null, ?array $headers = null): bool
+    protected function detectSiteByContent(?string $data = null, ?array $headers = null): bool
     {
         return (
             (!empty($headers['server']) && stripos($headers['server'], 'cloudflare') !== false) ||
