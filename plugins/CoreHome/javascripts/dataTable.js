@@ -560,7 +560,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             return labelWidth - paddingLeft - paddingRight;
         }
 
-        setMaxTableWidthIfNeeded(domElem, 1200);
+        setMaxTableWidthIfNeeded(domElem, 1600);
 
         var isTableVisualization = this.param.viewDataTable
             && typeof this.param.viewDataTable === 'string'
