@@ -62,6 +62,11 @@ class Record
      */
     private $blobColumnAggregationOps = null;
 
+    /**
+     * @var callable|null
+     */
+    private $multiplePeriodTransform = null;
+
     public static function make($type, $name)
     {
         $record = new Record();
@@ -86,6 +91,10 @@ class Record
      */
     public function setName(string $name): Record
     {
+        if (!preg_match('/^[a-zA-Z0-9_-]+$/', $name)) {
+            throw new \Exception('Invalid record name: ' . $name . '. Only alphanumeric characters, hyphens and underscores are allowed.');
+        }
+
         $this->name = $name;
         return $this;
     }
@@ -235,5 +244,23 @@ class Record
     public function getBlobColumnAggregationOps(): ?array
     {
         return $this->blobColumnAggregationOps;
+    }
+
+    /**
+     * @param ?callable $multiplePeriodTransform
+     * @return Record
+     */
+    public function setMultiplePeriodTransform(?callable $multiplePeriodTransform): Record
+    {
+        $this->multiplePeriodTransform = $multiplePeriodTransform;
+        return $this;
+    }
+
+    /**
+     * @return callable
+     */
+    public function getMultiplePeriodTransform(): ?callable
+    {
+        return $this->multiplePeriodTransform;
     }
 }

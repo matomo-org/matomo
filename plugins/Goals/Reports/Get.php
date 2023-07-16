@@ -249,6 +249,7 @@ class Get extends Base
                         return [
                             'currentValue' => $value,
                             'pastValue'    => $pastValue,
+                            'isLowerValueBetter' => Metrics::isLowerValueBetter($columnName),
                             'tooltip'      => Piwik::translate('General_EvolutionSummaryGeneric', [
                                 $currentValueFormatted . ' ' . $columnTranslation,
                                 $currentPrettyDate,
@@ -261,7 +262,7 @@ class Get extends Base
                 };
             }
         } elseif ($view->isViewDataTableId(Evolution::ID)) {
-            if (!empty($idSite) && Piwik::isUserHasWriteAccess($idSite)) {
+            if (!empty($idSite) && Piwik::isUserHasWriteAccess($idSite) && $idGoal > GoalManager::IDGOAL_ORDER) {
                 $view->config->title_edit_entity_url = 'index.php' . Url::getCurrentQueryStringWithParametersModified([
                     'module' => 'Goals',
                     'action' => 'manage',

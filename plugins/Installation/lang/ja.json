@@ -45,6 +45,7 @@
         "LoadDataInfileRecommended": "Matomo サーバーがトラフィックの多い Web サイト (たとえば、1 か月あたり 100,000 ページ以上) を追跡する場合、この問題を修正する必要があります。",
         "LoadDataInfileUnavailableHelp": "ヒント: %1$s を使用して、PHP と MySQL ソフトウェアを更新し、データベース ユーザーが %2$s 権限を持っていることを確認して、Matomo のアーカイブ プロセスを大幅に高速化します。",
         "MatomoHttpRequestConfigInfo": "一般設定のオプション force_matomo_http_request がオンになっています。セキュリティ上の理由からオフにすることを強くお勧めします。 詳細については、%1$sFAQ%2$sをお読みください",
+        "MatomoHttpsNotSupported": "HTTPS を初期化できませんでした。matomo.org への接続は、セキュリティのためにデフォルトで HTTPS を使用します。お使いの環境で HTTPS が動作することを確認するか、オプション `force_matomo_http_request` を有効にしてください。詳細は %1$show to disable https for matomo.org requests%2$s をご覧ください。",
         "NfsFilesystemWarning": "サーバーは、NFS ファイルシステムを使用しています。",
         "NfsFilesystemWarningSuffixAdmin": "これは、ファイルベースのセッションを使用すると Matomo が非常に遅くなることを意味します。",
         "NfsFilesystemWarningSuffixInstall": "NFS でファイルベースのセッションを使用するのは非常に遅いため、Matomo はデータベース セッションを使用します。 多数の同時ダッシュボード ユーザーがいる場合は、データベース サーバーへのクライアント接続の最大数を増やす必要がある場合があります。",

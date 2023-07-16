@@ -42,8 +42,9 @@ class APITest extends IntegrationTestCase
 
     public function test_unblockBruteForceIPs_doesNotFailWhenNothingToRemove()
     {
+        self::expectNotToPerformAssertions();
+
         $this->api->unblockBruteForceIPs();
-        $this->assertTrue(true);
     }
 
     public function test_unblockBruteForceIPs_removesBlockedIps()

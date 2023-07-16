@@ -479,7 +479,7 @@ export default defineComponent({
 });
 </script>',
             'vue_embed' => '<p>
-  You can put code in a text using the <code v-select-on-focus="{}">code</code> tag.
+  You can put code in a text using the <div><code v-select-on-focus="{}">code</code></div> tag.
 </p>',
             'directives' => [
                 ['plugin' => 'CoreHome', 'directive' => 'SelectOnFocus'],
@@ -495,21 +495,21 @@ export default defineComponent({
 
 <script lang="ts">
 import { defineComponent } from \'vue\';
-import { SelectOnFocus } from \'CoreHome\';
+import { CopyToClipboard } from \'CoreHome\';
 
 export default defineComponent({
   directives: {
-    SelectOnFocus,
+    CopyToClipboard,
   },
 });
 </script>',
             'vue_embed' => '<p>Or you can display a code block:</p>
-<pre v-select-on-focus="{}">&lt;!-- Matomo --&gt;
+<div><pre v-copy-to-clipboard="{}">&lt;!-- Matomo --&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
 &lt;/script&gt;
-&lt;!-- End Matomo Code --&gt;</pre>',
+&lt;!-- End Matomo Code --&gt;</pre></div>',
             'directives' => [
-                ['plugin' => 'CoreHome', 'directive' => 'SelectOnFocus'],
+                ['plugin' => 'CoreHome', 'directive' => 'CopyToClipboard'],
             ],
         ];
 
@@ -665,7 +665,11 @@ export default defineComponent({
                 'more-horiz',
                 'more-verti',
                 'arrowup',
-                'arrowdown'
+                'arrowdown',
+                'chevron-right',
+                'chevron-left',
+                'chevron-down',
+                'chevron-up',
             ],
             'Window-Widget' => [
                 'minimise',
@@ -765,6 +769,7 @@ export default defineComponent({
                 'embed',
                 'heart',
                 'merge',
+                'content-copy'
             ],
         ];
 

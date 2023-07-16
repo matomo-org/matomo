@@ -70,6 +70,7 @@ describe("SegmentSelectorEditorTest", function () {
 
     it("should update segment expression when selecting different segment", async function() {
         await selectDimension('.segmentRow0', 'Behaviour', 'Action URL');
+        await selectFieldValue('.segmentRow0 .segment-row:first .metricMatchBlock', 'Is not');
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('dimension_drag_drop');
     });

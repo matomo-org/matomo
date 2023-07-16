@@ -1,3 +1,6 @@
+.dataTableRowActions {
+  background: none !important;
+}
 
 table.dataTable .dataTableRowActions {
   position: absolute;
@@ -14,6 +17,11 @@ table.dataTable .dataTableRowActions a {
   padding: 6px 4px 6px 0;
   margin: 0;
   width: auto!important;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
 
   .rowActionIcon {
     font-size: 19px;

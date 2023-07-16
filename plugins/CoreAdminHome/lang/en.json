@@ -23,7 +23,7 @@
         "FileUploadDisabled": "Uploading files is not enabled in your PHP configuration. To upload your custom logo please set %s in php.ini and restart your webserver.",
         "ForBetaTestersOnly": "For beta testers only",
         "HttpTrackingApi": "HTTP Tracking API",
-        "HttpTrackingApiDescription": "The %1$sHTTP Tracking API%2$s allows you to track anything. This may be useful if you are using a programming language for which no SDK exists yet. It may also be useful when you want to track devices or application in a special way.",
+        "HttpTrackingApiDescription": "The %1$sHTTP Tracking API%2$s allows you to track anything. This may be useful if you are using a programming language for which no SDK exists yet. It may also be useful when you want to track devices or applications in a special way.",
         "SinglePageApplicationDescription": "If you are tracking a single-page application (SPA) or progressive web application (PWA), please see %1$sthis guide%2$s.",
         "CloudflareDescription": "If your website is hosted on Cloudflare, please see %1$sthis guide%2$s.",
         "ImageTracking": "Image Tracking",
@@ -45,7 +45,7 @@
         "JSTrackingIntro5": "If you want to do more than track page views, please check out the %1$sMatomo Javascript Tracking documentation%2$s for the list of available functions. Using these functions you can track goals, custom variables, ecommerce orders, abandoned carts and more.",
         "JSTracking_CampaignKwdParam": "Campaign Keyword parameter",
         "JSTracking_CampaignNameParam": "Campaign Name parameter",
-        "JSTracking_CodeNoteBeforeClosingHead": "Make sure this code is on every page of your website. We recommend pasting it immediately before the closing %1$s tag.",
+        "JSTracking_CodeNoteBeforeClosingHead": "Click on the button to copy the code snippet and paste it immediately before the closing %1$s tag (recommended)",
         "JSTracking_CodeNoteBeforeClosingHeadEmail": "Make sure this code is embedded within a script element on every page of your website. We recommend pasting it immediately before the closing head tag.",
         "JSTracking_ConsentManagerDetected": "%1$s consent manager was detected on your site. To learn about configuring Matomo to work with %1$s please visit %2$s",
         "JSTracking_ConsentManagerConnected": "%1$s appears to already be configured to work with Matomo.",
@@ -179,6 +179,11 @@
         "NeedHelp": "Need help?",
         "HowToGetHelp": "There are different ways you can get help. There is free support via the Matomo Community and paid support provided by the Matomo team and partners of Matomo. Or maybe do you have a bug to report or want to suggest a new feature?",
         "GoogleTagManagerDescription": "If your website is using Google Tag Manager, please see %1$sthis guide%2$s.",
-        "WordpressDescription": "If your website is using Wordpress, please see %1$sthis guide%2$s."
+        "WordpressDescription": "If your website is using Wordpress, please see %1$sthis guide%2$s.",
+        "VueDescription": "If your website is using Vue.js, please see %1$sthis guide%2$s.",
+        "ShowAdvancedOptions": "Show advanced options",
+        "HideAdvancedOptions": "Hide advanced options",
+        "JSTrackingDocumentationHelp": "For easy access, the most popular advanced options are available below. For even more options (including how to track goals, custom variables, ecommerce orders and abandoned carts) please check out the %1$sMatomo Javascript Tracking documentation%2$s.",
+        "ReactDescription": "If your website is using React, please see %1$sthis guide%2$s."
     }
 }

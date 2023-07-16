@@ -3,7 +3,7 @@
         "ConfigFileTitle": "設定檔",
         "MysqlTemporaryTablesWarning": "Matomo 需要 MySQL CREATE TEMPORARY TABLES 權限以正常運作。",
         "MysqlMaxPacketSize": "最大封包大小",
-        "MysqlMaxPacketSizeWarning": "推薦將 MySQL 資料庫中的「max_allowed_packet」值至少設定為 %1$s。目前的設定為 %2$s。",
+        "MysqlMaxPacketSizeWarning": "推薦將 MySQL 資料庫中的「%1$smax_allowed_packet%2$s」值至少設定為 %3$s。目前的設定為 %4$s。",
         "HideUnchanged": "如果你只想看有變更過值的設定，你可以%1$s隱藏未修改的值%2$s。",
         "Sections": "分區",
         "CronArchivingLastRunCheck": "上次成功彙整報表的時間",

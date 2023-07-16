@@ -8,30 +8,20 @@
     </table>
 </div>
 <script type="text/javascript">
-    <!--
     $(function () {
         $("#integrity-results").dialog({
             modal: true,
             autoOpen: false,
             width: 600,
+            dialogClass: "no-close",
             buttons: {
                 Ok: function () {
                     $(this).dialog('close');
-                }
+                },
             }
         });
     });
     $('#more-results').click(function () {
         $('#integrity-results').dialog('open');
-    }).hover(function () {
-        $(this).addClass("ui-state-hover");
-    },
-    function () {
-        $(this).removeClass("ui-state-hover");
-    }).mousedown(function () {
-        $(this).addClass("ui-state-active");
-    }).mouseup(function () {
-        $(this).removeClass("ui-state-active");
     });
-    //-->
 </script>

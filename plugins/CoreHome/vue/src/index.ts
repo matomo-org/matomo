@@ -42,6 +42,7 @@ export { default as ExpandOnHover } from './ExpandOnHover/ExpandOnHover';
 export { default as ShowSensitiveData } from './ShowSensitiveData/ShowSensitiveData';
 export { default as DropdownButton } from './DropdownButton/DropdownButton';
 export { default as SelectOnFocus } from './SelectOnFocus/SelectOnFocus';
+export { default as CopyToClipboard } from './CopyToClipboard/CopyToClipboard';
 export { default as SideNav } from './SideNav/SideNav';
 export { default as EnrichedHeadline } from './EnrichedHeadline/EnrichedHeadline.vue';
 export { default as ContentBlock } from './ContentBlock/ContentBlock.vue';

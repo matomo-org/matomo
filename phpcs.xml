@@ -16,7 +16,7 @@
     <exclude-pattern>*/libs/*</exclude-pattern>
 
     <!-- exclude all plugins included as submodule as long as they might not fully follow this CS -->
-    <exclude-pattern>plugins/(AnonymousPiwikUsageMeasurement|Bandwidth|CustomAlerts|CustomVariables|DeviceDetectorCache|LogViewer|LoginLdap|MarketingCampaignsReporting|Provider|QueuedTracking|SecurityInfo|TagManager|TrackingSpamPrevention|TreemapVisualization|VisitorGenerator)/*</exclude-pattern>
+    <exclude-pattern>plugins/(AnonymousPiwikUsageMeasurement|Bandwidth|CustomAlerts|CustomVariables|DeviceDetectorCache|LogViewer|LoginLdap|MarketingCampaignsReporting|Provider|QueuedTracking|SecurityInfo|TagManager|TasksTimetable|TrackingSpamPrevention|TreemapVisualization|VisitorGenerator)/*</exclude-pattern>
 
     <config name="installed_paths" value="../../slevomat/coding-standard"/>
 
@@ -48,6 +48,9 @@
 
 
     <!-- Additional rules that are not covered by PSR above -->
+
+    <!-- Disallow using tabs for indenting -->
+    <rule ref="Generic.WhiteSpace.DisallowTabIndent"/>
 
     <!-- Expect a file to end with a new line -->
     <rule ref="PSR2.Files.EndFileNewline"/>

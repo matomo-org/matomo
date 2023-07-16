@@ -24,47 +24,9 @@ use Piwik\Tracker\GoalManager;
 
 class GeneralGoalsRecords extends Base
 {
-    const VISITS_UNTIL_RECORD_NAME = 'visits_until_conv';
-    const DAYS_UNTIL_CONV_RECORD_NAME = 'days_until_conv';
-
-    /**
-     * This array stores the ranges to use when displaying the 'visits to conversion' report
-     */
-    public static $visitCountRanges = [
-        [1, 1],
-        [2, 2],
-        [3, 3],
-        [4, 4],
-        [5, 5],
-        [6, 6],
-        [7, 7],
-        [8, 8],
-        [9, 14],
-        [15, 25],
-        [26, 50],
-        [51, 100],
-        [100],
-    ];
-
-    /**
-     * This array stores the ranges to use when displaying the 'days to conversion' report
-     */
-    public static $daysToConvRanges = [
-        [0, 0],
-        [1, 1],
-        [2, 2],
-        [3, 3],
-        [4, 4],
-        [5, 5],
-        [6, 6],
-        [7, 7],
-        [8, 14],
-        [15, 30],
-        [31, 60],
-        [61, 120],
-        [121, 364],
-        [364],
-    ];
+    const VISITS_COUNT_FIELD = 'visitor_count_visits';
+    const LOG_CONVERSION_TABLE = 'log_conversion';
+    const SECONDS_SINCE_FIRST_VISIT_FIELD = 'visitor_seconds_since_first';
 
     protected function aggregate(ArchiveProcessor $archiveProcessor): array
     {
@@ -105,8 +67,8 @@ class GeneralGoalsRecords extends Base
             $query = $archiveProcessor->newLogQuery('log_conversion');
             $query->addDimension(new IdGoal(), 'idgoal');
             $query->addConversionMetrics();
-            $query->addHistogram('daysToConversion', new DaysToConversion(), Metrics::INDEX_NB_CONVERSIONS, self::$daysToConvRanges);
-            $query->addHistogram('visitsCount', new VisitsCount(), Metrics::INDEX_NB_CONVERSIONS, self::$visitCountRanges);
+            $query->addHistogram('daysToConversion', new DaysToConversion(), Metrics::INDEX_NB_CONVERSIONS, Archiver::$daysToConvRanges);
+            $query->addHistogram('visitsCount', new VisitsCount(), Metrics::INDEX_NB_CONVERSIONS, Archiver::$visitCountRanges);
 
             $resultSet = $query->execute();
             foreach ($resultSet as $row) {
@@ -150,16 +112,16 @@ class GeneralGoalsRecords extends Base
         ], $numericRecords);
 
         foreach ($visitsToConversions as $idGoal => $table) {
-            $recordName = Archiver::getRecordName(self::VISITS_UNTIL_RECORD_NAME, $idGoal);
+            $recordName = Archiver::getRecordName(Archiver::VISITS_UNTIL_RECORD_NAME, $idGoal);
             $result[$recordName] = $table;
         }
-        $result[Archiver::getRecordName(self::VISITS_UNTIL_RECORD_NAME)] = $this->getOverviewFromGoalTables($visitsToConversions);
+        $result[Archiver::getRecordName(Archiver::VISITS_UNTIL_RECORD_NAME)] = $this->getOverviewFromGoalTables($visitsToConversions);
 
         foreach ($daysToConversions as $idGoal => $table) {
-            $recordName = Archiver::getRecordName(self::DAYS_UNTIL_CONV_RECORD_NAME, $idGoal);
+            $recordName = Archiver::getRecordName(Archiver::DAYS_UNTIL_CONV_RECORD_NAME, $idGoal);
             $result[$recordName] = $table;
         }
-        $result[Archiver::getRecordName(self::DAYS_UNTIL_CONV_RECORD_NAME)] = $this->getOverviewFromGoalTables($daysToConversions);
+        $result[Archiver::getRecordName(Archiver::DAYS_UNTIL_CONV_RECORD_NAME)] = $this->getOverviewFromGoalTables($daysToConversions);
 
         return $result;
     }
@@ -199,15 +161,15 @@ class GeneralGoalsRecords extends Base
                 $records[] = Record::make(Record::TYPE_NUMERIC, Archiver::getRecordName($metricName, $idGoal));
             }
 
-            $records[] = Record::make(Record::TYPE_BLOB, Archiver::getRecordName(self::VISITS_UNTIL_RECORD_NAME, $idGoal));
-            $records[] = Record::make(Record::TYPE_BLOB, Archiver::getRecordName(self::DAYS_UNTIL_CONV_RECORD_NAME, $idGoal));
+            $records[] = Record::make(Record::TYPE_BLOB, Archiver::getRecordName(Archiver::VISITS_UNTIL_RECORD_NAME, $idGoal));
+            $records[] = Record::make(Record::TYPE_BLOB, Archiver::getRecordName(Archiver::DAYS_UNTIL_CONV_RECORD_NAME, $idGoal));
         }
         return $records;
     }
 
     protected function getConversionsNumericMetrics(array $goals): array
     {
-        $numericRecords = array();
+        $numericRecords = [];
         foreach ($goals as $idGoal => $array) {
             foreach ($array as $metricId => $value) {
                 $metricName = Metrics::$mappingFromIdToNameGoal[$metricId];

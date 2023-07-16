@@ -31,6 +31,7 @@
         "SaveAndApply": "Guardar e aplicar",
         "SegmentDisplayedAllWebsites": "todos os sites",
         "SegmentDisplayedThisWebsiteOnly": "apenas este site",
+        "SegmentEditor": "Editor de segmentos",
         "SegmentIsDisplayedForWebsite": "e processado para",
         "SegmentNotApplied": "Segmento '%s' não aplicado",
         "SegmentNotAppliedMessage": "Está a solicitar dados para o Segmento personalizado '%s'; esta configuração do Matomo atualmente previne o processamento em tempo real de relatórios por questões de desempenho.",

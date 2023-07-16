@@ -149,3 +149,98 @@ p.next-step:first-child {
     float: right;
     margin-top: -10px;
 }
+
+.copyToClipboardIcon {
+    font-family: 'matomo' !important;
+    font-style: normal;
+    font-variant: normal;
+    text-transform: none;
+    font-size: 1.6em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display:inline-block;
+    margin-left:4px;
+    float:left;
+}
+
+.copyToClipboardIcon:before {
+    content: "\e905";
+}
+
+.copyToClipboardIconCheck {
+    font-family: 'matomo' !important;
+    font-style: normal;
+    font-weight: 400;
+    font-variant: normal;
+    text-transform: none;
+    font-size: 1.6em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display:inline-block;
+    margin-left:4px;
+    float:left;
+}
+
+.copyToClipboardIconCheck:before {
+    content: "\e906";
+    color: #43a047 !important;
+}
+
+.copyToClipboardButton {
+    position: absolute;
+    right: .5em;
+    top: .5em;
+    margin-right: 0.2em;
+    margin-top: 0.2em;
+    border-radius: 100%;
+    width: 3.0em;
+    height: 3.0em;
+    display: inline-block;
+    transition: width 0.7s;
+    overflow: hidden;
+    background: #fefefe;
+    padding-left:4px;
+    padding-right:4px;
+    cursor: pointer;
+}
+
+.copyToClipboardCopiedDiv {
+    font-size:0.8em;
+    display: none;
+    position: absolute;
+    right: 9em;
+    top: 1.6em;
+    margin-right: 1em;
+    padding-top:0.4em;
+    width: 10.2em;
+    height: 2em;
+    border-radius: 5%;
+    background: #fefefe;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.copyToClipboardButton:hover span {
+    overflow: visible;
+}
+
+.copyToClipboardButton:hover {
+    width: 6.3em;
+    border-radius: 10%;
+}
+
+.copyToClipboardButton span {
+    display: inline-block;
+    line-height: 1.3em;
+    margin-left: 1em;
+    white-space: nowrap;
+    overflow: hidden;
+    position: absolute;
+    left: 2em;
+    text-transform: uppercase;
+    padding-top: 0.35em;
+}
+
+.copyToClipboardWrapper {
+    position: relative;
+}

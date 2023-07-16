@@ -59,7 +59,7 @@ class PartialArchiveTest extends IntegrationTestCase
         // check archive is all plugins archive as expected
         [$idArchives, $archiveInfo] = $this->getArchiveInfo('2020_04', 5, false);
         $this->assertEquals([
-            ['idsite' => 1, 'date1' => '2020-04-06', 'date2' => '2020-04-09', 'period' => 5, 'name' => 'done', 'value' => 1, 'blob_count' => 57],
+            ['idsite' => 1, 'date1' => '2020-04-06', 'date2' => '2020-04-09', 'period' => 5, 'name' => 'done', 'value' => 1, 'blob_count' => 58],
         ], $archiveInfo);
 
         $maxIdArchive = $this->getMaxIdArchive('2020_04');
@@ -115,7 +115,7 @@ class PartialArchiveTest extends IntegrationTestCase
         // check archive is all plugins archive as expected
         [$idArchives, $archiveInfo] = $this->getArchiveInfo('2020_04', 5, false);
         $this->assertEquals([
-            ['idsite' => 1, 'date1' => '2020-04-06', 'date2' => '2020-04-09', 'period' => 5, 'name' => 'done', 'value' => 1, 'blob_count' => 57],
+            ['idsite' => 1, 'date1' => '2020-04-06', 'date2' => '2020-04-09', 'period' => 5, 'name' => 'done', 'value' => 1, 'blob_count' => 58],
         ], $archiveInfo);
 
         $maxIdArchive = $this->getMaxIdArchive('2020_04');

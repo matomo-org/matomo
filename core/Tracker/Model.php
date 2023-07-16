@@ -16,7 +16,7 @@ use Piwik\Log\LoggerInterface;
 
 class Model
 {
-    const CACHE_KEY_INDEX_IDSITE_IDVISITOR = 'log_visit_has_index_idsite_idvisitor';
+    const CACHE_KEY_INDEX_IDSITE_IDVISITOR_TIME = 'log_visit_has_index_idsite_idvisitor_time';
 
     /**
      * Write an visit action record to the database
@@ -401,7 +401,7 @@ class Model
      */
     public function updateVisit($idSite, $idVisit, $valuesToUpdate)
     {
-        list($updateParts, $sqlBind) = $this->fieldsToQuery($valuesToUpdate);
+        [$updateParts, $sqlBind] = $this->fieldsToQuery($valuesToUpdate);
 
         $parts = implode(', ',$updateParts);
         $table = Common::prefixTable('log_visit');
@@ -439,7 +439,7 @@ class Model
             return;
         }
 
-        list($updateParts, $sqlBind) = $this->fieldsToQuery($valuesToUpdate);
+        [$updateParts, $sqlBind] = $this->fieldsToQuery($valuesToUpdate);
 
         $parts = implode(', ', $updateParts);
         $table = Common::prefixTable('log_link_visit_action');
@@ -486,10 +486,10 @@ class Model
 
         // Two use cases:
         // 1) there is no visitor ID so we try to match only on config_id (heuristics)
-        // 		Possible causes of no visitor ID: no browser cookie support, direct Tracking API request without visitor ID passed,
+        //         Possible causes of no visitor ID: no browser cookie support, direct Tracking API request without visitor ID passed,
         //        importing server access logs with import_logs.py, etc.
-        // 		In this case we use config_id heuristics to try find the visitor in tahhhe past. There is a risk to assign
-        // 		this page view to the wrong visitor, but this is better than creating artificial visits.
+        //         In this case we use config_id heuristics to try find the visitor in tahhhe past. There is a risk to assign
+        //         this page view to the wrong visitor, but this is better than creating artificial visits.
         // 2) there is a visitor ID and we trust it (config setting trust_visitors_cookies, OR it was set using &cid= in tracking API),
         //      and in these cases, we force to look up this visitor id
         $configIdWhere = "visit_last_action_time >= ? AND visit_last_action_time <= ? AND idsite = ?";
@@ -536,7 +536,7 @@ class Model
      */
     public function hasVisit($idSite, $idVisit)
     {
-        // will use INDEX index_idsite_idvisitor (idsite, idvisitor)
+        // will use INDEX index_idsite_idvisitor_time (idsite, idvisitor, visit_last_action_time)
         $sql = 'SELECT idsite FROM ' . Common::prefixTable('log_visit') . ' WHERE idvisit = ? LIMIT 1';
         $bindSql = [$idVisit];
 
@@ -559,9 +559,10 @@ class Model
     {
         $cache = Cache::getCacheGeneral();
 
-        // use INDEX index_idsite_idvisitor (idsite, idvisitor) if available
-        if (array_key_exists(self::CACHE_KEY_INDEX_IDSITE_IDVISITOR, $cache) && true === $cache[self::CACHE_KEY_INDEX_IDSITE_IDVISITOR]) {
-            $from .= ' FORCE INDEX (index_idsite_idvisitor) ';
+        // use INDEX index_idsite_idvisitor_time (idsite, idvisitor, visit_last_action_time) if available
+        if (array_key_exists(self::CACHE_KEY_INDEX_IDSITE_IDVISITOR_TIME,
+                             $cache) && true === $cache[self::CACHE_KEY_INDEX_IDSITE_IDVISITOR_TIME]) {
+            $from .= ' FORCE INDEX (index_idsite_idvisitor_time) ';
         }
 
         $where .= ' AND idvisitor = ?';

@@ -101,6 +101,10 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
      */
     const GOALS_FULL_TABLE = 0;
 
+    const ACTIONS_PAGE_REPORTS_WITH_GOAL_METRICS = ['Actions.getPageUrls', 'Actions.getPageTitles'];
+
+    const ACTIONS_ENTRY_PAGE_REPORTS_WITH_GOAL_METRICS = ['Actions.getEntryPageUrls', 'Actions.getEntryPageTitles'];
+
     /**
      * @var string
      */
@@ -217,5 +221,33 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
             }
         }
         return array_unique($result);
+    }
+
+    /**
+     * Returns an idGoal override to use for the processOnlyIdGoal parameter of this filter if $requestMethod
+     * is for a Actions page report or an Actions entry page report.
+     *
+     * @param int|string|null $idGoal if set to ecommerceOrder or ecommerceAbandonedCart, returns a processOnlyIdGoal value
+     *                                that will result in extra ecommerce metrics being computed
+     * @return int|string|null
+     */
+    public static function getProcessOnlyIdGoalToUseForReport($idGoal, string $requestMethod)
+    {
+        // Check if one of the pages display types should be used
+        if (in_array($requestMethod, self::ACTIONS_PAGE_REPORTS_WITH_GOAL_METRICS)) {
+            if ($idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER || $idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
+                return self::GOALS_PAGES_ECOMMERCE;
+            } else {
+                return self::GOALS_PAGES;
+            }
+        } elseif (in_array($requestMethod, self::ACTIONS_ENTRY_PAGE_REPORTS_WITH_GOAL_METRICS)) {
+            if ($idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER || $idGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
+                return self::GOALS_ENTRY_PAGES_ECOMMERCE;
+            } else {
+                return self::GOALS_ENTRY_PAGES;
+            }
+        }
+
+        return $idGoal;
     }
 }

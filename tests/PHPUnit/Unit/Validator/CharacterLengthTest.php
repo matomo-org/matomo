@@ -19,13 +19,13 @@ class CharacterLengthTest extends \PHPUnit\Framework\TestCase
 {
     public function test_validate_successValueNotEmpty()
     {
+        self::expectNotToPerformAssertions();
+
         $this->validate('mytest', '2', '10');
         $this->validate('mytest', 4, '6');
         $this->validate('mytest', 6, 6);
         $this->validate('', 0, 6);
         $this->validate('testwewe', 0, 10);
-
-        $this->assertTrue(true);
     }
 
     public function test_validate_failValueIsTooShort()

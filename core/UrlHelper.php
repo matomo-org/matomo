@@ -222,7 +222,7 @@ class UrlHelper
         $separator = '&';
 
         $urlQuery = $separator . $urlQuery;
-        //		$urlQuery = str_replace(array('%20'), ' ', $urlQuery);
+        //        $urlQuery = str_replace(array('%20'), ' ', $urlQuery);
         $referrerQuery = trim($urlQuery);
 
         $values = explode($separator, $referrerQuery);

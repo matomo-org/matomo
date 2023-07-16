@@ -38,7 +38,7 @@
         "HelpMessageIntroductionWhenError": "Acima está a mensagem de erro principal. Ela deve ajudar a explicar a causa, mas se você precisar de mais ajuda por favor:",
         "HelpMessageIntroductionWhenWarning": "A atualização se completou com sucesso, contudo houve alguns problemas durante o processo. Por favor leia a descrição acima para os detalhes. Para mais ajuda:",
         "HighTrafficPiwikServerEnableMaintenance": "Se você gerencia um servidor Matomo com alto tráfego, recomendamos %1$sdesativar momentaneamente o Rastreamento de visitantes e colocar a interface de usuário do servidor Matomo no modo de manutenção%2$s.",
-        "IncompatbilePluginsWillBeDisabledInfo": "Obs: alguns plugins não são compatíveis com o Matomo %s. Nós iremos atualizá-los se houver uma atualização no Marketplace, caso contrário iremos desabilitá-los quando você atualizar:",
+        "IncompatbilePluginsWillBeDisabledInfo": "Obs: alguns plugins não são compatíveis com o Matomo %s. Nós iremos atualizá-los se houver uma atualização na loja de aplicativos, caso contrário iremos desabilitá-los quando você atualizar:",
         "InstallingTheLatestVersion": "Instalando a versão mais recente",
         "LatestBetaRelease": "Último lançamento beta",
         "LatestStableRelease": "Último lançamento estável",

@@ -190,9 +190,10 @@ class TasksTest extends IntegrationTestCase
 
     public function test_cleanupTrackingFailures_doesNotCauseAnyException()
     {
+        self::expectNotToPerformAssertions();
+
         // it is only calling one method which is already tested... no need to write complex tests for it
         $this->tasks->cleanupTrackingFailures();
-        $this->assertTrue(true);
     }
 
     public function test_notifyTrackingFailures_doesNotSendAnyMailWhenThereAreNoTrackingRequests()

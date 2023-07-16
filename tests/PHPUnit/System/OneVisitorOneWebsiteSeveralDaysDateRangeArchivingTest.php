@@ -121,8 +121,8 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
 
         $tests = array(
             'archive_blob_2010_12'    => ( ($expectedActionsBlobs+1) /*Actions*/
-                    + 2 /* Resolution */
-                    + 2 /* VisitTime */) * 3,
+                    + 1 /* Resolution */
+                    + 1 /* VisitTime */) * 3,
 
             /**
              * segments: 9 (including all visits)

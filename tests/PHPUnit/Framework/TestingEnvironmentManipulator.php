@@ -13,6 +13,8 @@ use Piwik\Application\EnvironmentManipulator;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Application\Kernel\PluginList;
 use Piwik\Config;
+use Piwik\DataTable;
+use Piwik\DataTable\DataTableInterface;
 use Piwik\DbHelper;
 use Piwik\Option;
 use Piwik\Plugin;
@@ -120,9 +122,9 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
 
     public function onEnvironmentBootstrapped()
     {
-        if (empty($_GET['ignoreClearAllViewDataTableParameters'])
+        if (empty($this->vars->ignoreClearAllViewDataTableParameters)
             && !SettingsServer::isTrackerApiRequest()
-        ) { // TODO: should use testingEnvironment variable, not query param
+        ) {
             try {
                 \Piwik\ViewDataTable\Manager::clearAllViewDataTableParameters();
             } catch (\Exception $ex) {
@@ -202,6 +204,28 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
                 return $config;
             }),
         );
+
+        if (!empty($this->vars->multiplicateTableResults)) {
+            $diConfigs[] = [
+                'observers.global' => \Piwik\DI::add([
+                    ['API.Request.dispatch.end', \Piwik\DI::value(function($returnedValue) {
+                        if ($returnedValue instanceof DataTableInterface) {
+                            $returnedValue->filter(function(DataTable $dataTable) {
+                                foreach ($dataTable->getRows() as $row) {
+                                    $columns = $row->getColumns();
+                                    foreach($columns as $name => &$value) {
+                                        if ($name !== 'label' && is_numeric($value)) {
+                                            $value *= $this->vars->multiplicateTableResults;
+                                        }
+                                    }
+                                    $row->setColumns($columns);
+                                }
+                            });
+                        }
+                    })
+                ]])
+            ];
+        }
 
         return $diConfigs;
     }

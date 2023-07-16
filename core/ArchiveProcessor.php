@@ -498,7 +498,7 @@ class ArchiveProcessor
     {
         $operationForColumn = array();
         foreach ($columns as $name) {
-            $operation = is_array($defaultOperation) ? $defaultOperation[$name] : $defaultOperation;
+            $operation = is_array($defaultOperation) ? ($defaultOperation[$name] ?? null) : $defaultOperation;
             if (empty($operation)) {
                 $operation = $this->guessOperationForColumn($name);
             }

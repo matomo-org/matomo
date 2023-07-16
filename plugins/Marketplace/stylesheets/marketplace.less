@@ -90,19 +90,13 @@
             padding-bottom: 0;
             margin-bottom: 10px;
             .more {
-                text-decoration: underline;
                 color: @theme-color-text;
+                white-space: nowrap;
             }
         }
         img.preview {
             max-width: 250px;
             width: 100%;
-        }
-        .footer {
-            .download.plugin-details {
-                padding-left: 0;
-                padding-right: 0;
-            }
         }
         .metadata {
             color: @color-silver-l50;
@@ -134,6 +128,11 @@
         }
         .footer {
             padding: 12px 40px;
+
+            .download.plugin-details {
+                padding-left: 0;
+                padding-right: 0;
+            }
 
             .btn-link.plugin-details {
                 padding-left: 0;

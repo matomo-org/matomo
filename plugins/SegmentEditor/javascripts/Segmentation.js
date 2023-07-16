@@ -1104,7 +1104,6 @@ $(document).ready(function() {
                 && !$(e.target).is('.ui-menu-item-wrapper')
                 && !$(e.target).is('.segment-element')
                 && $(e.target).hasClass("ui-corner-all") == false
-                && $(e.target).hasClass("ddmetric") == false
                 && $(e.target).hasClass("ui-icon-closethick") == false
                 && $(e.target).hasClass("ui-button-text") == false
                 && $(".segment-element:visible", self.$element).length == 1

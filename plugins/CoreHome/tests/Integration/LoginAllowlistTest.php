@@ -200,15 +200,13 @@ class LoginAllowlistTest extends IntegrationTestCase
         $this->setGeneralConfig('login_allowlist_ip', $ipsAllowed);
 
         if ($expectedIsAllowed) {
+            self::expectNotToPerformAssertions();
+
             $this->allowlist->checkIsAllowed($ipString);
-            $this->assertTrue(true);
         } else {
-            try {
-                $this->allowlist->checkIsAllowed($ipString);
-                $this->fail('An expected exception has not been thrown');
-            } catch (NoAccessException $e) {
-                $this->assertTrue(true);
-            }
+            self::expectException(NoAccessException::class);
+
+            $this->allowlist->checkIsAllowed($ipString);
         }
     }
 

@@ -180,6 +180,7 @@ sleep 2
 echo "Starting '$FLAVOUR' build...."
 
 if [ "$VERSION" == "build" ]; then
+  rm -rf $LOCAL_REPO
   mkdir $LOCAL_REPO
   cp -pdr !($LOCAL_REPO) $LOCAL_REPO
   cp -r .git $LOCAL_REPO

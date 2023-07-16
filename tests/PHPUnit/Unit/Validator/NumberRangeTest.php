@@ -19,6 +19,8 @@ class NumberRangeTest extends \PHPUnit\Framework\TestCase
 {
     public function test_validate_successValueNotEmpty()
     {
+        self::expectNotToPerformAssertions();
+
         $this->validate('5', '4', '5');
         $this->validate('5', '5', '5');
         $this->validate('5', '5', '7');
@@ -29,8 +31,6 @@ class NumberRangeTest extends \PHPUnit\Framework\TestCase
         $this->validate('5', 4);
         $this->validate('5', null, '6');
         $this->validate('-5', -10, '-4');
-
-        $this->assertTrue(true);
     }
 
     public function test_validate_failValueIsTooLow()

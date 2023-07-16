@@ -163,7 +163,7 @@ div.pk-emptyGraph {
 
 .Piwik_Popover_Loading_Subject {
     padding: 0 70px 55px 70px;
-    color: #7e7363;
+    color: @theme-color-link !important;
     text-align: center;
     font-size: 14px;
 }
@@ -223,6 +223,7 @@ a.Piwik_Popover_Error_Back {
     .icon {
         width: 16px;
         display: inline-block;
+        margin-right: 4px;
     }
     .icon-user {
         font-size: 11px;
@@ -264,4 +265,111 @@ a.Piwik_Popover_Error_Back {
         float: left;
         margin-top: 5px;
     }
+}
+
+.copyToClipboardIcon {
+    font-family: 'matomo' !important;
+    font-style: normal;
+    font-variant: normal;
+    text-transform: none;
+    font-size: 1.6em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display: block;
+    margin-left: 4px;
+    float: left;
+    width: 1.1em;
+}
+
+.copyToClipboardIcon:before {
+    content: "\e905";
+}
+
+.copyToClipboardIconCheck {
+    font-family: 'matomo' !important;
+    font-style: normal;
+    font-weight: 400;
+    font-variant: normal;
+    text-transform: none;
+    font-size: 1.6em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display: block;
+    margin-left: 4px;
+    float: left;
+    width: 1.1em;
+}
+
+.copyToClipboardIconCheck:before {
+    content: "\e906";
+    color: #43a047 !important;
+}
+
+.copyToClipboardButton {
+    position: relative;
+    float: right;
+    margin-right: 0.2em;
+    border-radius: 100%;
+    min-width: 3.0em;
+    max-width: 3.0em;
+    height: 3.0em;
+    overflow: hidden;
+    background: #fefefe;
+    padding-left: 4px;
+    padding-right: 4px;
+    cursor: pointer;
+    transition: max-width .5s ease-out 2s, border-radius 2s ease-out 2s;
+}
+
+.copyToClipboardButton:focus {
+    background: #fefefe;
+}
+
+.copyToClipboardButton:hover {
+    transition: max-width .5s ease-out 0s, border-radius 0.1s;
+    max-width: 18em;
+    border-radius: 5px;
+}
+
+.copyToClipboardPositionDiv {
+    position: absolute;
+    right: .5em;
+    top: .5em;
+}
+
+.copyToClipboardCopiedDiv {
+    font-size: 0.8em;
+    display: none;
+    position: relative;
+    float:right;
+    top: 0.8em;
+    margin-right: 1em;
+    width: auto;
+    padding: 0.5em 1em;
+    border-radius: 5px;
+    background: #fefefe;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.copyToClipboardButton:hover span {
+    overflow: visible;
+}
+
+.copyToClipboardButton span {
+    display: block;
+    float: left;
+    margin-left: 3em;
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
+    width: calc(100% - 1.1em);
+    text-align:left;
+    text-transform: uppercase;
+    margin-top: -1.5em;
+    margin-right: -1.5em;
+}
+
+.copyToClipboardWrapper {
+    position: relative;
 }

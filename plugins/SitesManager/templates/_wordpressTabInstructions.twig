@@ -11,14 +11,14 @@
 <br>
 <p class="steps-to-start-tracking-header">{{ 'SitesManager_SiteWithoutDataWordpressFollowStepsIntro'|translate }}</p>
 <ol class="list-style-decimal">
-    <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps1'|translate('<a id="wordpress-email-instructions">', '</a>')|raw }}</li>
+    <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps1'|translate }}</li>
     <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps2'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-manually-insert-the-matomo-tracking-code-on-wordpress/">','</a>')|raw }}</li>
-    <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps3'|translate('<a target="_blank" rel="noreferrer noopener" href="https://wordpress.org/plugins/wp-piwik/">WP-Matomo Integration (WP-Piwik)</a>', 'Matomo Analytics – Ethical Stats. Powerful Insights.')|raw }}</li>
+    <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps3'|translate }}</li>
     <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps4'|translate }}</li>
     <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps5'|translate }}</li>
     <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps6'|translate }}</li>
     <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps7'|translate }}</li>
-    <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps8'|translate }}<div style="text-indent: 1.2rem;">Matomo URL: <code vue-directive="CoreHome.SelectOnFocus">{{ piwikUrl }}</code></div></li>
+    <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps8'|translate }}<div><pre style="text-indent: 1.2rem;padding-top:2em;padding-bottom:2em" vue-directive="CoreHome.CopyToClipboard">{{ piwikUrl }}</pre></div></li>
     {% if authLink %}
         <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps9'|translate('<a target="_blank" rel="noreferrer noopener" href="'~authLink~'">','</a>','<a target="_blank" rel="noreferrer noopener" href="'~faqLink~'">','</a>')|raw }}</li>
     {% else %}
@@ -34,6 +34,6 @@
     <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps17'|translate }}</li>
 </ol>
 <br>
-<p>{{ 'SitesManager_SiteWithoutDataWordpressFollowStepCompleted'|translate }}</p>
+<p>{{ 'SitesManager_SiteWithoutDataWordpressFollowStepCompleted'|translate('<strong>', '</strong>')|raw }}</p>
 <br>
 <p>{{ 'SitesManager_SiteWithoutDataWordpressFollowStepNote'|translate('<a target="_blank" rel="noreferrer noopener" href="https://wordpress.org/plugins/wp-piwik/">WP-Matomo Integration (WP-Piwik)</a>')|raw }}</p>

@@ -74,11 +74,12 @@ class AccessTest extends IntegrationTestCase
         $access->setSuperUserAccess(false);
         $this->assertEquals('admin', $access->getRoleForSite($idSite));
         $access->checkUserHasCapability($idSite, TestCustomCap::ID);
-        $this->assertTrue(true);
     }
 
     public function test_loadSitesIfNeeded_doesNotAutomaticallyAssignCapabilityWhenNotIncludedInRole()
     {
+        self::expectException(NoAccessException::class);
+
         Piwik::addAction('Access.Capability.addCapabilities', function (&$cap) {
             $cap[] = new TestCustomCap();
         });
@@ -93,13 +94,7 @@ class AccessTest extends IntegrationTestCase
         $access->setSuperUserAccess(false);
         $this->assertEquals('write', $access->getRoleForSite($idSite));
 
-        try {
-
-            $access->checkUserHasCapability($idSite, TestCustomCap::ID);
-            $this->fail('an expected exception has not been triggered');
-        } catch (NoAccessException $e) {
-            $this->assertTrue(true);
-        }
+        $access->checkUserHasCapability($idSite, TestCustomCap::ID);
     }
 
     public function testGetTokenAuthWithEmptyAccess()
@@ -175,10 +170,11 @@ class AccessTest extends IntegrationTestCase
 
     public function testCheckUserHasSuperUserAccessWithSuperUserAccess()
     {
+        self::expectNotToPerformAssertions();
+
         $access = $this->getAccess();
         $access->setSuperUserAccess(true);
         $access->checkUserHasSuperUserAccess();
-        $this->assertTrue(true); // pass
     }
 
     public function testCheckUserHasSomeAdminAccessWithEmptyAccess()
@@ -190,17 +186,19 @@ class AccessTest extends IntegrationTestCase
 
     public function testCheckUserHasSomeAdminAccessWithSuperUserAccess()
     {
+        self::expectNotToPerformAssertions();
+
         $access = $this->getAccess();
         $access->setSuperUserAccess(true);
         $access->checkUserHasSomeAdminAccess();
-        $this->assertTrue(true); // pass
     }
 
     public function test_isUserHasSomeAdminAccess_WithSuperUserAccess()
     {
+        self::expectNotToPerformAssertions();
+
         $access = $this->getAccess();
         $access->setSuperUserAccess(true);
-        $this->assertTrue($access->isUserHasSomeAdminAccess());
     }
 
     public function test_isUserHasSomeAdminAccess_WithOnlyViewAccess()
@@ -257,10 +255,11 @@ class AccessTest extends IntegrationTestCase
 
     public function testCheckUserHasSomeViewAccessWithSuperUserAccess()
     {
+        self::expectNotToPerformAssertions();
+
         $access = $this->getAccess();
         $access->setSuperUserAccess(true);
         $access->checkUserHasSomeViewAccess();
-        $this->assertTrue(true); // pass
     }
 
     public function testCheckUserHasSomeViewAccessWithSomeAccess()
@@ -306,10 +305,11 @@ class AccessTest extends IntegrationTestCase
 
     public function testCheckUserHasViewAccessWithSuperUserAccess()
     {
+        self::expectNotToPerformAssertions();
+
         $access = Access::getInstance();
         $access->setSuperUserAccess(true);
         $access->checkUserHasViewAccess(array());
-        $this->assertTrue(true); // pass
     }
 
     public function testCheckUserHasViewAccessWithSomeAccessSuccessIdSitesAsString()
@@ -357,10 +357,11 @@ class AccessTest extends IntegrationTestCase
 
     public function testCheckUserHasWriteAccessWithSuperUserAccess()
     {
+        self::expectNotToPerformAssertions();
+
         $access = Access::getInstance();
         $access->setSuperUserAccess(true);
         $access->checkUserHasWriteAccess(array());
-        $this->assertTrue(true); // pass
     }
 
     public function testCheckUserHasWriteAccessWithSomeAccessFailure()
@@ -377,10 +378,11 @@ class AccessTest extends IntegrationTestCase
 
     public function testCheckUserHasAdminAccessWithSuperUserAccess()
     {
+        self::expectNotToPerformAssertions();
+
         $access = $this->getAccess();
         $access->setSuperUserAccess(true);
         $access->checkUserHasAdminAccess(array());
-        $this->assertTrue(true); // pass
     }
 
     public function testCheckUserHasAdminAccessWithEmptyAccessNoSiteIdsGiven()
@@ -392,6 +394,8 @@ class AccessTest extends IntegrationTestCase
 
     public function testCheckUserHasAdminAccessWithSomeAccessSuccessIdSitesAsString()
     {
+        self::expectNotToPerformAssertions();
+
         $mock = $this->createPartialMock(
             'Piwik\Access',
             array('getSitesIdWithAdminAccess')
@@ -402,12 +406,12 @@ class AccessTest extends IntegrationTestCase
             ->will($this->returnValue(array(1, 2, 3, 4)));
 
         $mock->checkUserHasAdminAccess('1,3');
-
-        $this->assertTrue(true); // pass
     }
 
     public function testCheckUserHasAdminAccessWithSomeAccessSuccessAllSites()
     {
+        self::expectNotToPerformAssertions();
+
         $mock = $this->createPartialMock(
             'Piwik\Access',
             array('getSitesIdWithAdminAccess', 'getSitesIdWithAtLeastViewAccess')
@@ -422,8 +426,6 @@ class AccessTest extends IntegrationTestCase
             ->will($this->returnValue(array(1, 2, 3, 4)));
 
         $mock->checkUserHasAdminAccess('all');
-
-        $this->assertTrue(true); // pass
     }
 
     public function testCheckUserHasAdminAccessWithSomeAccessFailure()

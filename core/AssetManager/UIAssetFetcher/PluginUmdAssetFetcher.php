@@ -360,12 +360,22 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
 
     private function shouldLoadUmdOnDemand(string $pluginName)
     {
-        $pluginsToNotLoadOnDemand = StaticContainer::get('plugins.shouldNotLoadOnDemand');
+        try {
+            $pluginsToNotLoadOnDemand = StaticContainer::get('plugins.shouldNotLoadOnDemand');
+        } catch (\Exception $e) {
+            // ignore errors, as this might be loaded during the update, before it is defined
+            $pluginsToNotLoadOnDemand = [];
+        }
         if (in_array($pluginName, $pluginsToNotLoadOnDemand)) {
             return false;
         }
 
-        $pluginsToLoadOnDemand = StaticContainer::get('plugins.shouldLoadOnDemand');
+        try {
+            $pluginsToLoadOnDemand = StaticContainer::get('plugins.shouldLoadOnDemand');
+        } catch (\Exception $e) {
+            // ignore errors, as this might be loaded during the update, before it is defined
+            $pluginsToLoadOnDemand = [];
+        }
         if (in_array($pluginName, $pluginsToLoadOnDemand)) {
             return true;
         }

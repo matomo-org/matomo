@@ -132,6 +132,7 @@ function createWebsite($dateTime)
     // Clear the memory Website cache
     Site::clearCache();
     Cache::deleteCacheWebsiteAttributes($idSite);
+    Cache::updateGeneralCache();
 
     return $idSite;
 }
@@ -212,6 +213,8 @@ copy(PIWIK_INCLUDE_PATH . '/../tests/PHPUnit/Fixtures/LatestStableInstall/GitCom
 $settings = StaticContainer::get(CoreUpdater\SystemSettings::class);
 $settings->releaseChannel->setValue('git_commit');
 $settings->releaseChannel->save();
+
+\Piwik\UpdateCheck::check(true); // ensure new version is detected correctly
 
 print "set release channel\n";
 

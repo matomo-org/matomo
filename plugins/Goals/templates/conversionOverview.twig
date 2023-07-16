@@ -20,7 +20,7 @@
     </ul>
 {% if visitorLogEnabled %}
 <a href="javascript:;" class="segmentedlog" onclick="SegmentedVisitorLog.show('Goals.getMetrics', 'visitConvertedGoalId=={{ idGoal }}', {})">
-    <span class="icon-visitor-profile rowActionIcon"></span> {{ 'Live_RowActionTooltipWithDimension'|translate('General_Goal'|translate) }}
+    <span class="icon-visitor-profile rowActionIcon">&nbsp;</span>{{ 'Live_RowActionTooltipWithDimension'|translate('General_Goal'|translate) }}
 </a>
 {% endif %}
 {{ postEvent("Template.afterGoalConversionOverviewReport") }}

@@ -496,8 +496,11 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             if (allColumns > 2 * firstTableColumn) {
                 amount = 2 * firstTableColumn;
             }
-
-            return parseInt(labelWidth / amount, 10);
+            var newWidth = parseInt(labelWidth / amount, 10)
+            if (newWidth == 0) {
+                newWidth = maxLabelWidth; // fallback to the maximum width if zero
+            }
+            return newWidth;
         }
 
         function getLabelColumnMinWidth(domElem)
@@ -557,7 +560,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             return labelWidth - paddingLeft - paddingRight;
         }
 
-        setMaxTableWidthIfNeeded(domElem, 1200);
+        setMaxTableWidthIfNeeded(domElem, 1600);
 
         var isTableVisualization = this.param.viewDataTable
             && typeof this.param.viewDataTable === 'string'
