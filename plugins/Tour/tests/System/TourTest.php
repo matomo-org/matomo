@@ -12,7 +12,7 @@ use Piwik\API\Request;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Plugins\Tour\Engagement\ChallengeAddedAnnotation;
-use Piwik\Plugins\Tour\Engagement\ChallengeAddedUser;
+use Piwik\Plugins\Tour\Engagement\ChallengeInvitedUser;
 use Piwik\Plugins\Tour\Engagement\ChallengeCreatedGoal;
 use Piwik\Plugins\Tour\tests\Fixtures\SimpleFixtureTrackFewVisits;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
@@ -49,10 +49,10 @@ class TourTest extends SystemTestCase
 
     public function test_hasAddedUser()
     {
-        $user = StaticContainer::get(ChallengeAddedUser::class);
+        $user = StaticContainer::get(ChallengeInvitedUser::class);
         $this->assertFalse($user->isCompleted());
 
-        Request::processRequest('UsersManager.addUser', array('userLogin' => 'myerwerwer', 'password' => '2342k4234234', 'email' => 'tesr@matomo.org'));
+        Request::processRequest('UsersManager.inviteUser', array('userLogin' => 'myerwerwer', 'email' => 'tesr@matomo.org', 'initialIdSite' => 1));
 
         $this->assertTrue($user->isCompleted());
     }

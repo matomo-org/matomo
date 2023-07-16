@@ -15,7 +15,7 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparkline;
 use Piwik\Plugins\Tour\Engagement\Challenge;
 use Piwik\Plugins\Tour\Engagement\ChallengeAddedAnnotation;
-use Piwik\Plugins\Tour\Engagement\ChallengeAddedUser;
+use Piwik\Plugins\Tour\Engagement\ChallengeInvitedUser;
 use Piwik\Plugins\Tour\Engagement\ChallengeBrowseMarketplace;
 use Piwik\Plugins\Tour\Engagement\ChallengeChangeVisualisation;
 use Piwik\Plugins\Tour\Engagement\ChallengeCreatedGoal;
@@ -36,7 +36,7 @@ class Tour extends \Piwik\Plugin
             'Dashboard.changeDefaultDashboardLayout' => 'changeDefaultDashboardLayout',
             'API.Annotations.add.end' => 'onAnnotationAdded',
             'API.Goals.addGoal.end' => 'onGoalAdded',
-            'API.UsersManager.addUser' => 'onUserAdded',
+            'UsersManager.inviteUser.end' => 'onUserInvited',
             'Controller.CoreHome.getRowEvolutionPopover' => 'onViewRowEvolution',
             'Controller.Live.getLastVisitsDetails' => 'onViewVisitorLog',
             'Controller.Live.getVisitorProfilePopup' => 'onViewVisitorProfile',
@@ -112,10 +112,10 @@ class Tour extends \Piwik\Plugin
         }
     }
 
-    public function onUserAdded($response)
+    public function onUserInvited()
     {
         if (Piwik::hasUserSuperUserAccess()) {
-            $annotation = new ChallengeAddedUser();
+            $annotation = new ChallengeInvitedUser();
             $annotation->setCompleted();
         }
     }

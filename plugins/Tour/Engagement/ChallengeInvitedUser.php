@@ -11,11 +11,11 @@ namespace Piwik\Plugins\Tour\Engagement;
 use Piwik\Piwik;
 use Piwik\Url;
 
-class ChallengeAddedUser extends Challenge
+class ChallengeInvitedUser extends Challenge
 {
     public function getName()
     {
-        return Piwik::translate('Tour_AddUser');
+        return Piwik::translate('Tour_InviteUser');
     }
 
     public function getDescription()
@@ -25,6 +25,7 @@ class ChallengeAddedUser extends Challenge
 
     public function getId()
     {
+        // still named `add_user`, so users, that directly added users before we introduced the invite system don't see the challenge again
         return 'add_user';
     }
 
