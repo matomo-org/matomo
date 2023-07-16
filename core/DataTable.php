@@ -2130,7 +2130,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     public function sumSimpleArrayTraversable($simpleArrays): void
     {
         foreach ($simpleArrays as $columns) {
-            $this->aggregateRowFromSimpleTable(new Row([Row::COLUMNS => $columns]));
+            $this->aggregateRowWithLabel(new Row([Row::COLUMNS => $columns]));
         }
     }
 
