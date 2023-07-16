@@ -36,7 +36,8 @@ class FakeSiteContentDetector extends SiteContentDetector
         $result = [];
 
         foreach ($this->detectedContentDetections as $detectedContentDetection) {
-            if ($detectedContentDetection::getContentType() === $type) {
+            $class = $this->getSiteContentDetectionById($detectedContentDetection);
+            if ($class::getContentType() === $type) {
                 $result[] = $detectedContentDetection;
             }
         }

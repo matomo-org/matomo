@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Tour\tests\System;
 
 use Piwik\Piwik;
+use Piwik\Plugins\SitesManager\SiteContentDetection\Osano;
 use Piwik\Plugins\Tour\Engagement\ChallengeSetupConsentManager;
 use Piwik\SiteContentDetector;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
@@ -39,7 +40,7 @@ class ConsentManagerDetectionTest extends SystemTestCase
         $challenge = new ChallengeSetupConsentManager(new SiteContentDetector(), $siteData);
         $this->assertFalse($challenge->isDisabled());
         $this->assertFalse($challenge->isCompleted(Piwik::getCurrentUserLogin()));
-        $this->assertEquals('osano', $challenge->getConsentManagerId());
+        $this->assertEquals(Osano::getId(), $challenge->getConsentManagerId());
     }
 
     public function test_detectConsentManager_detectedAndConnected()
@@ -48,7 +49,7 @@ class ConsentManagerDetectionTest extends SystemTestCase
         $challenge = new ChallengeSetupConsentManager(new SiteContentDetector(), $siteData);
         $this->assertFalse($challenge->isDisabled());
         $this->assertTrue($challenge->isCompleted(Piwik::getCurrentUserLogin()));
-        $this->assertEquals('osano', $challenge->getConsentManagerId());
+        $this->assertEquals(Osano::getId(), $challenge->getConsentManagerId());
     }
 
     private function makeSiteResponse($data, $headers = [])
