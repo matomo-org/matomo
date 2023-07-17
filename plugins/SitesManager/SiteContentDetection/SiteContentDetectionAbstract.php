@@ -12,7 +12,7 @@ namespace Piwik\Plugins\SitesManager\SiteContentDetection;
 
 use Piwik\SiteContentDetector;
 
-abstract class SiteContentDetectionAbstract implements \Serializable
+abstract class SiteContentDetectionAbstract
 {
     public const TYPE_TRACKER = 1;
     public const TYPE_CMS = 2;
@@ -29,27 +29,6 @@ abstract class SiteContentDetectionAbstract implements \Serializable
 
     public function __construct()
     {
-    }
-
-    /**
-     * Serializes the detection state, so the object can be easily cached
-     *
-     * @return bool|null
-     */
-    public function serialize()
-    {
-        return \json_encode($this->wasDetected);
-    }
-
-    /**
-     * Unserializes the object with the detection state
-     *
-     * @param ?bool $data
-     * @return void
-     */
-    public function unserialize($data)
-    {
-        $this->wasDetected = \json_decode($data);
     }
 
     public static function getId(): string
@@ -94,37 +73,13 @@ abstract class SiteContentDetectionAbstract implements \Serializable
     }
 
     /**
-     * Forces the detection to return a certain state
-     *
-     * @param bool $wasDetected
-     * @return bool returns the provided value
-     */
-    public function setWasDetected(bool $wasDetected): bool
-    {
-        $this->wasDetected = $wasDetected;
-        return $this->wasDetected;
-    }
-
-    /**
-     * Method executed for detection
+     * Returns if the current detection succeeded for the provided site content or not.
      *
      * @param string|null $data
      * @param array|null  $headers
      * @return bool
      */
-    final public function runSiteDetectionByContent(?string $data = null, ?array $headers = null): bool
-    {
-        return $this->setWasDetected($this->detectSiteByContent($data, $headers));
-    }
-
-    /**
-     * Returns if the current detection succeeded for the provided site content or not.
-     *
-     * @param string|null $data
-     * @param array|null $headers
-     * @return bool
-     */
-    abstract protected function detectSiteByContent(?string $data = null, ?array $headers = null): bool;
+    abstract public function detectByContent(?string $data = null, ?array $headers = null): bool;
 
     /**
      * Returns whether the instruction tab should be shown. Default behavior is to show it if the detection was successful
@@ -134,7 +89,7 @@ abstract class SiteContentDetectionAbstract implements \Serializable
      */
     public function shouldShowInstructionTab(SiteContentDetector $detector = null): bool
     {
-        return $this->wasDetected;
+        return $detector->wasDetected(static::getId());
     }
 
     /**

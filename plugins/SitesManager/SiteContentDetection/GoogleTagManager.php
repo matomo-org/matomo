@@ -37,7 +37,7 @@ class GoogleTagManager extends SiteContentDetectionAbstract
         return 20;
     }
 
-    protected function detectSiteByContent(?string $data = null, ?array $headers = null): bool
+    public function detectByContent(?string $data = null, ?array $headers = null): bool
     {
         $needle = 'gtm.start';
 

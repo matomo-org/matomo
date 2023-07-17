@@ -30,7 +30,7 @@ class MatomoTagManager extends SiteContentDetectionAbstract
         return 10;
     }
 
-    protected function detectSiteByContent(?string $data = null, ?array $headers = null): bool
+    public function detectByContent(?string $data = null, ?array $headers = null): bool
     {
         $tests = ['/matomo ?tag ?manager/i', '/_mtm\.push/'];
         foreach ($tests as $test) {

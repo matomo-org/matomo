@@ -37,6 +37,6 @@ class SiteContentDetectorTest extends IntegrationTestCase
         self::assertTrue($scd->wasDetected(Wordpress::getId()));
         self::assertTrue($scd->wasDetected(ReactJs::getId()));
         self::assertTrue($scd->wasDetected(Cloudflare::getId()));
-        self::assertContains(Osano::getId(), $scd->connectedContentManagers);
+        self::assertContains(Osano::getId(), $scd->connectedConsentManagers);
     }
 }

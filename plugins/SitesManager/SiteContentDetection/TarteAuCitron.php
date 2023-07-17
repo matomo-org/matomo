@@ -25,7 +25,7 @@ class TarteAuCitron extends ConsentManagerDetectionAbstract
         return 'https://matomo.org/faq/how-to/using-tarte-au-citron-consent-manager-with-matomo';
     }
 
-    protected function detectSiteByContent(?string $data = null, ?array $headers = null): bool
+    public function detectByContent(?string $data = null, ?array $headers = null): bool
     {
         $needle = 'tarteaucitron.js';
         return (strpos($data, $needle) !== false);

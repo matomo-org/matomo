@@ -27,7 +27,7 @@ class Wix extends SiteContentDetectionAbstract
         return 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-wix/';
     }
 
-    protected function detectSiteByContent(?string $data = null, ?array $headers = null): bool
+    public function detectByContent(?string $data = null, ?array $headers = null): bool
     {
         $needle = 'X-Wix-Published-Version';
         return (strpos($data, $needle) !== false);

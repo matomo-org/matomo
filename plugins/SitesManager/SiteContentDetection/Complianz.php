@@ -22,7 +22,7 @@ class Complianz extends ConsentManagerDetectionAbstract
         return 'https://matomo.org/faq/how-to/using-complianz-for-wordpress-consent-manager-with-matomo';
     }
 
-    protected function detectSiteByContent(?string $data = null, ?array $headers = null): bool
+    public function detectByContent(?string $data = null, ?array $headers = null): bool
     {
         $needle = 'complianz-gdpr';
         return (strpos($data, $needle) !== false);

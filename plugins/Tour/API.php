@@ -92,7 +92,7 @@ class API extends \Piwik\Plugin\API
             $consentManager = $this->siteContentDetector->getSiteContentDetectionById(reset($consentManagers));
             return ['name' => $consentManager::getName(),
                     'url' => $consentManager::getInstructionUrl(),
-                    'isConnected' => in_array($consentManager::getId(), $this->siteContentDetector->connectedContentManagers)
+                    'isConnected' => in_array($consentManager::getId(), $this->siteContentDetector->connectedConsentManagers)
                 ];
         }
 

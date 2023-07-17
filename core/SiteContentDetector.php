@@ -53,7 +53,7 @@ class SiteContentDetector
         SiteContentDetectionAbstract::TYPE_OTHER => [],
     ];
 
-    public $connectedContentManagers = [];
+    public $connectedConsentManagers = [];
 
     private $siteResponse = [
         'data' => '',
@@ -120,14 +120,14 @@ class SiteContentDetector
      */
     private function resetDetections(): void
     {
-        $this->detectedContent = [
+        $this->detectedContent          = [
             SiteContentDetectionAbstract::TYPE_TRACKER => [],
             SiteContentDetectionAbstract::TYPE_CMS => [],
             SiteContentDetectionAbstract::TYPE_JS_FRAMEWORK => [],
             SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER => [],
             SiteContentDetectionAbstract::TYPE_OTHER => [],
         ];
-        $this->connectedContentManagers = [];
+        $this->connectedConsentManagers = [];
     }
 
     /**
@@ -252,25 +252,6 @@ class SiteContentDetector
     }
 
     /**
-     * Load object properties from the cache array
-     *
-     * @param array $properties
-     * @param array $cache
-     *
-     * @return void
-     */
-    private function loadRequiredPropertiesFromCache(array $properties, array $cache): void
-    {
-        foreach ($properties as $prop) {
-            if (!array_key_exists($prop, $cache)) {
-                continue;
-            }
-
-            $this->detectedContent[$prop] = $cache[$prop];
-        }
-    }
-
-    /**
      * Save properties to the cache
      *
      * @param string $cacheKey
@@ -318,10 +299,10 @@ class SiteContentDetector
                 {
                     $this->detectedContent[$type][$typeDetection::getId()] = false;
 
-                    if ($typeDetection->runSiteDetectionByContent($this->siteResponse['data'], $this->siteResponse['headers'])) {
+                    if ($typeDetection->detectByContent($this->siteResponse['data'], $this->siteResponse['headers'])) {
                         if ($typeDetection instanceof ConsentManagerDetectionAbstract
                             && $typeDetection->checkIsConnected($this->siteResponse['data'], $this->siteResponse['headers']) ) {
-                            $this->connectedContentManagers[] = $typeDetection::getId();
+                            $this->connectedConsentManagers[] = $typeDetection::getId();
                         }
                         $this->detectedContent[$type][$typeDetection::getId()] = true;
                     }

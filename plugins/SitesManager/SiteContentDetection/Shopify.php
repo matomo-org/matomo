@@ -27,7 +27,7 @@ class Shopify extends SiteContentDetectionAbstract
         return 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-shopify-store/';
     }
 
-    protected function detectSiteByContent(?string $data = null, ?array $headers = null): bool
+    public function detectByContent(?string $data = null, ?array $headers = null): bool
     {
         $needle = 'Shopify.theme';
         return (strpos($data, $needle) !== false);

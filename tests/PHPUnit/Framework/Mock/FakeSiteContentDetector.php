@@ -16,7 +16,7 @@ class FakeSiteContentDetector extends SiteContentDetector
     public function __construct($detectedContentDetections = [], $connectedConsentManagers = [])
     {
         $this->detectedContentDetections = $detectedContentDetections;
-        $this->connectedContentManagers = $connectedConsentManagers;
+        $this->connectedConsentManagers  = $connectedConsentManagers;
         parent::__construct(null);
     }
 

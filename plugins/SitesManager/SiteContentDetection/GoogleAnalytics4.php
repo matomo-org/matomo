@@ -22,7 +22,7 @@ class GoogleAnalytics4 extends SiteContentDetectionAbstract
         return self::TYPE_TRACKER;
     }
 
-    protected function detectSiteByContent(?string $data = null, ?array $headers = null): bool
+    public function detectByContent(?string $data = null, ?array $headers = null): bool
     {
         if (empty($data)) {
             return false;

@@ -27,7 +27,7 @@ class EmptySiteWithSiteContentDetectionMergeNotification extends Fixture
         return [
             SiteContentDetector::class => \Piwik\DI::autowire(FakeSiteContentDetector::class)
                  ->constructorParameter('detectedContentDetections', [GoogleAnalytics3::getId(), GoogleAnalytics4::getId(), Osano::getId()])
-                 ->constructorParameter('connectedContentManagers', [Osano::getId()])
+                 ->constructorParameter('connectedConsentManagers', [Osano::getId()])
         ];
     }
 

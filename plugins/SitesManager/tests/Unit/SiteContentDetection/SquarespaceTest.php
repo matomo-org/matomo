@@ -21,10 +21,10 @@ class SquarespaceTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider responseProvider
      */
-    public function testRunSiteDetectionByContent($expected, $data, $headers)
+    public function testdetectByContent($expected, $data, $headers)
     {
         $detection = new Squarespace();
-        self::assertSame($expected, $detection->runSiteDetectionByContent($data, $headers));
+        self::assertSame($expected, $detection->detectByContent($data, $headers));
     }
 
     public function responseProvider()

@@ -34,7 +34,7 @@ class ReactJs extends SiteContentDetectionAbstract
         return 60;
     }
 
-    protected function detectSiteByContent(?string $data = null, ?array $headers = null): bool
+    public function detectByContent(?string $data = null, ?array $headers = null): bool
     {
         $needles = ['react.min.js' ,'react.development.min.js', 'react-dom.development.min.js' ,'react.development.js',
                     'react-dom.development.js', 'ReactDOM.', 'react.production.min.js', 'react-jsx-dev-runtime.development.js',

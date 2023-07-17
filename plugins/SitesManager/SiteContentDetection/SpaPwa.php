@@ -30,7 +30,7 @@ class SpaPwa extends SiteContentDetectionAbstract
         return 70;
     }
 
-    protected function detectSiteByContent(?string $data = null, ?array $headers = null): bool
+    public function detectByContent(?string $data = null, ?array $headers = null): bool
     {
         return false;
     }

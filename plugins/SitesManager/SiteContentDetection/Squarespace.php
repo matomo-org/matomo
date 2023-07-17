@@ -27,7 +27,7 @@ class Squarespace extends SiteContentDetectionAbstract
         return 'https://matomo.org/faq/new-to-piwik/how-do-i-integrate-matomo-with-squarespace-website/';
     }
 
-    protected function detectSiteByContent(?string $data = null, ?array $headers = null): bool
+    public function detectByContent(?string $data = null, ?array $headers = null): bool
     {
         $needle = '<!-- This is Squarespace. -->';
         return (strpos($data, $needle) !== false);

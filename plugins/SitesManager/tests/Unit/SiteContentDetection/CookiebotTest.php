@@ -21,10 +21,10 @@ class CookiebotTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider responseProvider
      */
-    public function testRunSiteDetectionByContent($expected, $isConnected, $data, $headers)
+    public function testdetectByContent($expected, $isConnected, $data, $headers)
     {
         $detection = new Cookiebot();
-        self::assertSame($expected, $detection->runSiteDetectionByContent($data, $headers));
+        self::assertSame($expected, $detection->detectByContent($data, $headers));
         self::assertSame($isConnected, $detection->checkIsConnected($data, $headers));
     }
 

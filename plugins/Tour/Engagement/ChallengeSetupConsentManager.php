@@ -78,7 +78,7 @@ class ChallengeSetupConsentManager extends Challenge
             return true;
         }
 
-        return in_array($this->detectedContentManager::getId(), $this->siteContentDetector->connectedContentManagers);
+        return in_array($this->detectedContentManager::getId(), $this->siteContentDetector->connectedConsentManagers);
     }
 
     public function isDisabled()

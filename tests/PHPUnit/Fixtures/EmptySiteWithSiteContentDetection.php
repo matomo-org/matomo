@@ -25,7 +25,7 @@ class EmptySiteWithSiteContentDetection extends Fixture
         return [
             SiteContentDetector::class => \Piwik\DI::autowire(FakeSiteContentDetector::class)
                  ->constructorParameter('detectedContentDetections', [Osano::getId()])
-                 ->constructorParameter('connectedContentManagers', [Osano::getId()])
+                 ->constructorParameter('connectedConsentManagers', [Osano::getId()])
         ];
     }
 

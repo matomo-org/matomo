@@ -183,7 +183,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $contentManager = $this->siteContentDetector->getSiteContentDetectionById(reset($consentManager));
             $view->consentManagerName = $contentManager::getName();
             $view->consentManagerUrl = $consentManager::getInstructionUrl();
-            $view->consentManagerIsConnected = in_array($contentManager::getId(), $this->siteContentDetector->connectedContentManagers);
+            $view->consentManagerIsConnected = in_array($contentManager::getId(), $this->siteContentDetector->connectedConsentManagers);
         }
 
         $consentManagers = SiteContentDetector::getKnownConsentManagers();
