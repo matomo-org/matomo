@@ -96,6 +96,7 @@
             <Field
               v-model="theUser.login"
               :disabled="isSavingUserInfo || !isAdd || isShowingPasswordConfirm"
+              autocomplete="off"
               uicontrol="text"
               name="user_login"
               :maxlength="100"
@@ -111,6 +112,7 @@
               @update:model-value="theUser.password = $event; isPasswordModified = true"
               uicontrol="password"
               name="user_password"
+              autocomplete="off"
               :title="translate('General_Password')"
             />
           </div>
@@ -122,6 +124,7 @@
               v-if="currentUserRole === 'superuser' || isAdd"
               uicontrol="text"
               name="user_email"
+              autocomplete="off"
               :maxlength="100"
               :title="translate('UsersManager_Email')"
             />
