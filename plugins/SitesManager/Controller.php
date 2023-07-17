@@ -23,7 +23,7 @@ use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
 use Piwik\Plugins\SitesManager\SiteContentDetection\GoogleAnalytics3;
 use Piwik\Plugins\SitesManager\SiteContentDetection\GoogleAnalytics4;
 use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
-use Piwik\Plugins\SitesManager\SiteContentDetection\Wordpress;
+use Piwik\Plugins\SitesManager\SiteContentDetection\WordPress;
 use Piwik\Site;
 use Piwik\SiteContentDetector;
 use Piwik\Session;
@@ -325,7 +325,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $detectedCMSes = $this->siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_CMS);
 
         if (empty($detectedCMSes)
-            || $this->siteContentDetector->wasDetected(Wordpress::getId())) {
+            || $this->siteContentDetector->wasDetected(WordPress::getId())) {
             return '';
         }
 
@@ -367,13 +367,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $guides = [];
         $message = [];
         $ga3Used = $this->siteContentDetector->wasDetected(GoogleAnalytics3::getId());
-        $ga4Used = $this->siteContentDetector->wasDetected(GoogleAnalytics4::getId());;
+        $ga4Used = $this->siteContentDetector->wasDetected(GoogleAnalytics4::getId());
 
         if ($ga3Used || $ga4Used) {
             $message[0] = 'Google Analytics ';
             $ga3GuideUrl =  '<a href="https://matomo.org/faq/how-to/migrate-from-google-analytics-3-to-matomo/" target="_blank" rel="noreferrer noopener">Google Analytics 3</a>';
             $ga4GuideUrl =  '<a href="https://matomo.org/faq/how-to/migrate-from-google-analytics-4-to-matomo/" target="_blank" rel="noreferrer noopener">Google Analytics 4</a>';
-            if ($templateData['ga3Used'] && $templateData['ga4Used']) {
+            if ($ga3Used && $ga4Used) {
                 $isNotificationsMerged = true;
                 $guides[] = $ga3GuideUrl;
                 $guides[] = $ga4GuideUrl;

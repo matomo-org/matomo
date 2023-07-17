@@ -16,11 +16,11 @@ use Piwik\SettingsPiwik;
 use Piwik\Url;
 use Piwik\View;
 
-class Wordpress extends SiteContentDetectionAbstract
+class WordPress extends SiteContentDetectionAbstract
 {
     public static function getName(): string
     {
-        return 'Wordpress';
+        return 'WordPress';
     }
 
     public static function getContentType(): string

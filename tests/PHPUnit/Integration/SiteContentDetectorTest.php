@@ -11,7 +11,7 @@ namespace Piwik\Tests\Integration;
 use Piwik\Plugins\SitesManager\SiteContentDetection\Cloudflare;
 use Piwik\Plugins\SitesManager\SiteContentDetection\Osano;
 use Piwik\Plugins\SitesManager\SiteContentDetection\ReactJs;
-use Piwik\Plugins\SitesManager\SiteContentDetection\Wordpress;
+use Piwik\Plugins\SitesManager\SiteContentDetection\WordPress;
 use Piwik\SiteContentDetector;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -34,7 +34,7 @@ class SiteContentDetectorTest extends IntegrationTestCase
         ]);
 
         self::assertTrue($scd->wasDetected(Osano::getId()));
-        self::assertTrue($scd->wasDetected(Wordpress::getId()));
+        self::assertTrue($scd->wasDetected(WordPress::getId()));
         self::assertTrue($scd->wasDetected(ReactJs::getId()));
         self::assertTrue($scd->wasDetected(Cloudflare::getId()));
         self::assertContains(Osano::getId(), $scd->connectedConsentManagers);

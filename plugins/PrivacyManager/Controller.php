@@ -21,6 +21,7 @@ use Piwik\Plugin\Manager;
 use Piwik\Plugins\CustomJsTracker\File;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
+use Piwik\Plugins\SitesManager\SiteContentDetection\ConsentManagerDetectionAbstract;
 use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
 use Piwik\SiteContentDetector;
 use Piwik\Scheduler\Scheduler;
@@ -180,10 +181,15 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $consentManager = $this->siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER);
         $view->consentManagerName = null;
         if (!empty($consentManager)) {
-            $contentManager = $this->siteContentDetector->getSiteContentDetectionById(reset($consentManager));
-            $view->consentManagerName = $contentManager::getName();
-            $view->consentManagerUrl = $consentManager::getInstructionUrl();
-            $view->consentManagerIsConnected = in_array($contentManager::getId(), $this->siteContentDetector->connectedConsentManagers);
+            $consentManager = $this->siteContentDetector->getSiteContentDetectionById(reset($consentManager));
+            if ($consentManager instanceof ConsentManagerDetectionAbstract) {
+                $view->consentManagerName = $consentManager::getName();
+                $view->consentManagerUrl = $consentManager::getInstructionUrl();
+                $view->consentManagerIsConnected = in_array(
+                    $consentManager::getId(),
+                    $this->siteContentDetector->connectedConsentManagers
+                );
+            }
         }
 
         $consentManagers = SiteContentDetector::getKnownConsentManagers();

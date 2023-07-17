@@ -9,7 +9,7 @@
 
 namespace Piwik\Plugins\SitesManager\tests\Unit\SiteContentDetection;
 
-use Piwik\Plugins\SitesManager\SiteContentDetection\Wordpress;
+use Piwik\Plugins\SitesManager\SiteContentDetection\WordPress;
 
 /**
  * @group SitesManager
@@ -23,7 +23,7 @@ class WordpressTest extends \PHPUnit\Framework\TestCase
      */
     public function testdetectByContent($expected, $data, $headers)
     {
-        $detection = new Wordpress();
+        $detection = new WordPress();
         self::assertSame($expected, $detection->detectByContent($data, $headers));
     }
 

@@ -174,7 +174,7 @@ class SiteContentDetector
         $siteContentDetectionCache = $this->cache->fetch($cacheKey);
 
         if ($siteContentDetectionCache !== false) {
-            $cachedSiteContentDetection = Common::safe_unserialize($siteContentDetectionCache, self::getAllSiteContentDetectionClasses());
+            $cachedSiteContentDetection = $siteContentDetectionCache;
             if ($this->checkCacheHasRequiredProperties($detectContent, $cachedSiteContentDetection)) {
                 $this->detectedContent = $cachedSiteContentDetection;
                 return;
@@ -196,7 +196,7 @@ class SiteContentDetector
 
         // A request was made to get this data and it isn't currently cached, so write it to the cache now
         $cacheLife = (60 * 60 * 24 * 7);
-        $this->savePropertiesToCache($cacheKey, $detectContent, $cacheLife);
+        $this->savePropertiesToCache($cacheKey, $this->detectedContent, $cacheLife);
     }
 
     /**
@@ -242,11 +242,7 @@ class SiteContentDetector
      */
     private function checkCacheHasRequiredProperties(array $properties, array $cache): bool
     {
-        foreach ($properties as $prop) {
-            if (!array_key_exists($prop, $cache) || $cache[$prop] === null) {
-                return false;
-            }
-        }
+        // todo implement
 
         return true;
     }
@@ -361,7 +357,7 @@ class SiteContentDetector
         foreach ($cmDetections as $detection) {
             $consentManagers[$detection::getId()] = [
                 'name' => $detection::getName(),
-                'intructionUrl' => $detection::getInstructionUrl(),
+                'instructionUrl' => $detection::getInstructionUrl(),
             ];
         }
 

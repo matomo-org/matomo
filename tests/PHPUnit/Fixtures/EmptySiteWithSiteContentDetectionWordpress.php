@@ -8,7 +8,7 @@
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Plugins\SitesManager\SiteContentDetection\Cloudflare;
-use Piwik\Plugins\SitesManager\SiteContentDetection\Wordpress;
+use Piwik\Plugins\SitesManager\SiteContentDetection\WordPress;
 use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\SiteContentDetector;
@@ -26,7 +26,7 @@ class EmptySiteWithSiteContentDetectionWordpress extends Fixture
     {
         return [
             SiteContentDetector::class => \DI\autowire(FakeSiteContentDetector::class)
-                ->constructorParameter('detectedContentDetections', [Wordpress::getId(), Cloudflare::getId()])
+                ->constructorParameter('detectedContentDetections', [WordPress::getId(), Cloudflare::getId()])
         ];
     }
 

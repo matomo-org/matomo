@@ -9,7 +9,7 @@ namespace Piwik\Tests\Fixtures;
 
 use Piwik\Plugins\SitesManager\SiteContentDetection\Cloudflare;
 use Piwik\Plugins\SitesManager\SiteContentDetection\GoogleTagManager;
-use Piwik\Plugins\SitesManager\SiteContentDetection\Wordpress;
+use Piwik\Plugins\SitesManager\SiteContentDetection\WordPress;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\SiteContentDetector;
 use Piwik\Tests\Framework\Mock\FakeSiteContentDetector;
@@ -26,7 +26,7 @@ class EmptySiteWithSiteContentDetectionGTM extends Fixture
     {
         return [
             SiteContentDetector::class => \Piwik\DI::autowire(FakeSiteContentDetector::class)
-                 ->constructorParameter('detectedContentDetections', [GoogleTagManager::getId(), Cloudflare::getId(), Wordpress::getId()])
+                 ->constructorParameter('detectedContentDetections', [GoogleTagManager::getId(), Cloudflare::getId(), WordPress::getId()])
         ];
     }
 
