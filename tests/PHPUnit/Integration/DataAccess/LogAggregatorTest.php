@@ -104,7 +104,7 @@ class LogAggregatorTest extends IntegrationTestCase
 			WHERE
 				( 1=1 )
                 AND
-                ( log_visit.user_id = ? )
+                (log_visit.user_id = ?)
 			ORDER BY
 				5',
             'bind' => array (
