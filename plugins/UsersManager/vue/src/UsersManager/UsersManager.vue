@@ -386,9 +386,10 @@ export default defineComponent({
       }
       this.loading = true;
       try {
-        const res = await AjaxHelper.fetch<{ value: string }>(
+        const res = await AjaxHelper.post<{ value: string }>(
           {
             method: 'UsersManager.generateInviteLink',
+          }, {
             userLogin: this.userBeingEdited!.login,
             passwordConfirmation: password,
           },
