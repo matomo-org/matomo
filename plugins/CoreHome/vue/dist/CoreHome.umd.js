@@ -1998,6 +1998,11 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
       if (Array.isArray(params)) {
         helper.setBulkRequests.apply(helper, AjaxHelper_toConsumableArray(params));
       } else {
+        Object.keys(params).forEach(function (key) {
+          if (/password/i.test(key)) {
+            throw new Error("Password parameters are not allowed to be sent as GET parameter. Please send ".concat(key, " as POST parameter instead."));
+          }
+        });
         helper.addParams(Object.assign(Object.assign({
           module: 'API',
           format: options.format || 'json'
