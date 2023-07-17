@@ -136,6 +136,7 @@ export default defineComponent({
         date: '',
         segment: '',
         widget: '',
+        activeTab: '',
       });
 
       paramsToForward.forEach((key) => {

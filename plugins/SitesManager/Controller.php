@@ -193,6 +193,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'emailBody'                                           => $emailContent,
             'siteWithoutDataStartTrackingTranslationKey'          => StaticContainer::get('SitesManager.SiteWithoutDataStartTrackingTranslation'),
             'SiteWithoutDataVueFollowStepNote2Key'                => StaticContainer::get('SitesManager.SiteWithoutDataVueFollowStepNote2'),
+            'activeTab'                                           => \Piwik\Request::fromRequest()->getStringParameter('activeTab', ''),
             'inviteUserLink'                                      => $inviteUserLink
         ], $viewType = 'basic');
     }
@@ -283,6 +284,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     private function getActiveTabOnLoad($templateData)
     {
         $tabToDisplay = '';
+
+        $activeTab = \Piwik\Request::fromRequest()->getStringParameter('activeTab', '');
+
+        $allowedActiveTab = ['gtm', 'wordpress', 'ga-import', 'cloudflare', 'vue', 'react'];
+
+        if (!empty($activeTab) && in_array($activeTab, $allowedActiveTab)) {
+            return $activeTab;
+        }
 
         if (!empty($templateData['gtmUsed'])) {
             $tabToDisplay = 'gtm';
