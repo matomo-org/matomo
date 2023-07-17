@@ -24,25 +24,25 @@ class SegmentExpressionTest extends \PHPUnit\Framework\TestCase
     {
         return array(
             // classic expressions
-            array('A', " A "),
-            array('A,B', " (A OR B )"),
-            array('A;B', " A AND B "),
-            array('A;B;C', " A AND B AND C "),
-            array('A,B;C,D;E,F,G', " (A OR B) AND (C OR D) AND (E OR F OR G )"),
+            array('A', "A"),
+            array('A,B', "(A OR B )"),
+            array('A;B', "A AND B"),
+            array('A;B;C', "A AND B AND C"),
+            array('A,B;C,D;E,F,G', "(A OR B) AND (C OR D) AND (E OR F OR G)"),
 
             // unescape the backslash
-            array('A\,B\,C,D', " (A,B,C OR D )"),
+            array('A\,B\,C,D', "(A,B,C OR D)"),
             array('\,A', ' ,A '),
             // unescape only when it was escaping a known delimiter
             array('\\\A', ' \\\A '),
             // unescape at the end
-            array('\,\;\A\B,\,C,D\;E\,', ' (,;\A\B OR ,C OR D;E, )'),
+            array('\,\;\A\B,\,C,D\;E\,', '(,;\A\B OR ,C OR D;E,)'),
 
             // only replace when a following expression is detected
-            array('A,', ' A, '),
-            array('A;', ' A; '),
-            array('A;B;', ' A AND B; '),
-            array('A,B,', ' (A OR B, )'),
+            array('A,', 'A,'),
+            array('A;', 'A;'),
+            array('A;B;', 'A AND B;'),
+            array('A,B,', '(A OR B,)'),
         );
     }
 
@@ -66,32 +66,32 @@ class SegmentExpressionTest extends \PHPUnit\Framework\TestCase
     {
         // Filter expression => SQL string + Bind values
         return array(
-            array('A==B%', array('where' => " A = ? ", 'bind' => array('B%'))),
-            array('ABCDEF====B===', array('where' => " ABCDEF = ? ", 'bind' => array('==B==='))),
-            array('A===B;CDEF!=C!=', array('where' => " A = ? AND ( CDEF IS NULL OR CDEF <> ? ) ", 'bind' => array('=B', 'C!='))),
-            array('A==B,C==D', array('where' => " (A = ? OR C = ? )", 'bind' => array('B', 'D'))),
-            array('A!=B;C==D', array('where' => " ( A IS NULL OR A <> ? ) AND C = ? ", 'bind' => array('B', 'D'))),
-            array('A!=B;C==D,E!=Hello World!=', array('where' => " ( A IS NULL OR A <> ? ) AND (C = ? OR ( E IS NULL OR E <> ? ) )", 'bind' => array('B', 'D', 'Hello World!='))),
-            array('A=@B;C=$D', array('where' => " A LIKE ? AND C LIKE ? ", 'bind' => array('%B%', '%D'))),
+            array('A==B%', array('where' => "A = ?", 'bind' => array('B%'))),
+            array('ABCDEF====B===', array('where' => "ABCDEF = ?", 'bind' => array('==B==='))),
+            array('A===B;CDEF!=C!=', array('where' => "A = ? AND ( CDEF IS NULL OR CDEF <> ? )", 'bind' => array('=B', 'C!='))),
+            array('A==B,C==D', array('where' => "(A = ? OR C = ?)", 'bind' => array('B', 'D'))),
+            array('A!=B;C==D', array('where' => "(A IS NULL OR A <> ?) AND C = ?", 'bind' => array('B', 'D'))),
+            array('A!=B;C==D,E!=Hello World!=', array('where' => "( A IS NULL OR A <> ? ) AND ( C = ? OR ( E IS NULL OR E <> ? ))", 'bind' => array('B', 'D', 'Hello World!='))),
+            array('A=@B;C=$D', array('where' => "A LIKE ? AND C LIKE ?", 'bind' => array('%B%', '%D'))),
 
-            array('A>B', array('where' => " A > ? ", 'bind' => array('B'))),
-            array('A<B', array('where' => " A < ? ", 'bind' => array('B'))),
-            array('A<=B', array('where' => " A <= ? ", 'bind' => array('B'))),
-            array('A>=B', array('where' => " A >= ? ", 'bind' => array('B'))),
-            array('ABCDEF>=>=>=B===', array('where' => " ABCDEF >= ? ", 'bind' => array('>=>=B==='))),
-            array('A>=<=B;CDEF>G;H>=I;J<K;L<=M', array('where' => " A >= ? AND CDEF > ? AND H >= ? AND J < ? AND L <= ? ", 'bind' => array('<=B', 'G', 'I', 'K', 'M'))),
-            array('A>=B;C>=D,E<w_ow great!', array('where' => " A >= ? AND (C >= ? OR E < ? )", 'bind' => array('B', 'D', 'w_ow great!'))),
+            array('A>B', array('where' => "A > ?", 'bind' => array('B'))),
+            array('A<B', array('where' => "A < ?", 'bind' => array('B'))),
+            array('A<=B', array('where' => "A <= ?", 'bind' => array('B'))),
+            array('A>=B', array('where' => "A >= ?", 'bind' => array('B'))),
+            array('ABCDEF>=>=>=B===', array('where' => "ABCDEF >= ?", 'bind' => array('>=>=B==='))),
+            array('A>=<=B;CDEF>G;H>=I;J<K;L<=M', array('where' => "A >= ? AND CDEF > ? AND H >= ? AND J < ? AND L <= ?", 'bind' => array('<=B', 'G', 'I', 'K', 'M'))),
+            array('A>=B;C>=D,E<w_ow great!', array('where' => "A >= ? AND ( C >= ? OR E < ?)", 'bind' => array('B', 'D', 'w_ow great!'))),
 
-            array('A=@B_', array('where' => " A LIKE ? ", 'bind' => array('%B\_%'))),
-            array('A!@B%', array('where' => " ( A IS NULL OR A NOT LIKE ? ) ", 'bind' => array('%B\%%'))),
-            array('A=$B%', array('where' => " A LIKE ? ", 'bind' => array('%B\%'))),
-            array('A=^B%', array('where' => " A LIKE ? ", 'bind' => array('B\%%'))),
+            array('A=@B_', array('where' => "A LIKE ?", 'bind' => array('%B\_%'))),
+            array('A!@B%', array('where' => "( A IS NULL OR A NOT LIKE ? )", 'bind' => array('%B\%%'))),
+            array('A=$B%', array('where' => "A LIKE ?", 'bind' => array('%B\%'))),
+            array('A=^B%', array('where' => "A LIKE ?", 'bind' => array('B\%%'))),
 
-            array('log_visit.A==3', ['where' => ' log_visit.A = ? ', 'bind' => ['3']], [], ['log_visit']),
-            array('log_visit.A==3;log_conversion.B>4', ['where' => ' log_visit.A = ? AND log_conversion.B > ? ', 'bind' => ['3', '4']], [], ['log_visit', 'log_conversion']),
-            array('(UNIX_TIMESTAMP(log_visit.A)-log_visit.B)==3', ['where' => ' (UNIX_TIMESTAMP(log_visit.A)-log_visit.B) = ? ', 'bind' => ['3']], ['log_conversion'], ['log_conversion', 'log_visit']),
-            array('(UNIX_TIMESTAMP(`log_visit`.A)-log_visit.`B`)==3', ['where' => ' (UNIX_TIMESTAMP(`log_visit`.A)-log_visit.`B`) = ? ', 'bind' => ['3']], ['log_conversion'], ['log_conversion', 'log_visit']),
-            array('(UNIX_TIMESTAMP(`log_visit.A`)-`log_visit`.`B`)==3', ['where' => ' (UNIX_TIMESTAMP(`log_visit.A`)-`log_visit`.`B`) = ? ', 'bind' => ['3']], ['log_conversion'], ['log_conversion', 'log_visit']),
+            array('log_visit.A==3', ['where' => 'log_visit.A = ?', 'bind' => ['3']], [], ['log_visit']),
+            array('log_visit.A==3;log_conversion.B>4', ['where' => 'log_visit.A = ? AND log_conversion.B > ?', 'bind' => ['3', '4']], [], ['log_visit', 'log_conversion']),
+            array('(UNIX_TIMESTAMP(log_visit.A)-log_visit.B)==3', ['where' => '(UNIX_TIMESTAMP(log_visit.A)-log_visit.B) = ?', 'bind' => ['3']], ['log_conversion'], ['log_conversion', 'log_visit']),
+            array('(UNIX_TIMESTAMP(`log_visit`.A)-log_visit.`B`)==3', ['where' => '(UNIX_TIMESTAMP(`log_visit`.A)-log_visit.`B`) = ?', 'bind' => ['3']], ['log_conversion'], ['log_conversion', 'log_visit']),
+            array('(UNIX_TIMESTAMP(`log_visit.A`)-`log_visit`.`B`)==3', ['where' => '(UNIX_TIMESTAMP(`log_visit.A`)-`log_visit`.`B`) = ?', 'bind' => ['3']], ['log_conversion'], ['log_conversion', 'log_visit']),
         );
     }
 
