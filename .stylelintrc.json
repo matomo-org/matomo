@@ -20,6 +20,7 @@
         "font-family-no-duplicate-names": true,
         "no-duplicate-at-import-rules": true,
         "no-duplicate-selectors": true,
-        "comment-whitespace-inside": "always"
+        "comment-whitespace-inside": "always",
+        "unit-no-unknown": true
     }
 }
