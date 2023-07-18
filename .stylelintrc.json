@@ -21,6 +21,7 @@
         "no-duplicate-at-import-rules": true,
         "no-duplicate-selectors": true,
         "comment-whitespace-inside": "always",
-        "unit-no-unknown": true
+        "unit-no-unknown": true,
+        "selector-anb-no-unmatchable": true
     }
 }
