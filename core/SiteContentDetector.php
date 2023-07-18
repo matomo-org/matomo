@@ -14,17 +14,13 @@ use Matomo\Cache\Lazy;
 use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\SitesManager\SiteContentDetection\ConsentManagerDetectionAbstract;
-use Piwik\Plugins\SitesManager\SiteContentDetection\GoogleAnalytics3;
-use Piwik\Plugins\SitesManager\SiteContentDetection\GoogleAnalytics4;
-use Piwik\Plugins\SitesManager\SiteContentDetection\GoogleTagManager;
 use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
-use Piwik\Plugins\SitesManager\SitesManager;
 
 /**
  * This class provides detection functions for specific content on a site. It can be used to easily detect the
  * presence of known third party code.
  *
- * Note: Calling the detect() method will create a HTTP request to the site to retrieve data, only the main site URL
+ * Note: Calling the `detectContent()` method will create a HTTP request to the site to retrieve data, only the main site URL
  * will be checked
  *
  * Usage:
@@ -167,9 +163,9 @@ class SiteContentDetector
         $siteContentDetectionCache = $this->cache->fetch($cacheKey);
 
         if ($siteContentDetectionCache !== false) {
-            $cachedSiteContentDetection = $siteContentDetectionCache;
-            if ($this->checkCacheHasRequiredProperties($detectContent, $cachedSiteContentDetection)) {
-                $this->detectedContent = $cachedSiteContentDetection;
+            if ($this->checkCacheHasRequiredProperties($detectContent, $siteContentDetectionCache)) {
+                $this->detectedContent = $siteContentDetectionCache['detectedContent'];
+                $this->connectedConsentManagers = $siteContentDetectionCache['connectedConsentManagers'];
                 return;
             }
         }
@@ -189,7 +185,7 @@ class SiteContentDetector
 
         // A request was made to get this data and it isn't currently cached, so write it to the cache now
         $cacheLife = (60 * 60 * 24 * 7);
-        $this->savePropertiesToCache($cacheKey, $this->detectedContent, $cacheLife);
+        $this->saveToCache($cacheKey, $cacheLife);
     }
 
     /**
@@ -226,32 +222,62 @@ class SiteContentDetector
     }
 
     /**
-     * Checks that all required properties are in the cache array
+     * Checks that all required detections are in the cache array
      *
-     * @param array $properties
+     * @param array $detectContent
      * @param array $cache
      *
      * @return bool
      */
-    private function checkCacheHasRequiredProperties(array $properties, array $cache): bool
+    private function checkCacheHasRequiredProperties(array $detectContent, array $cache): bool
     {
-        // todo implement
+        if (empty($detectContent)) {
+            foreach (self::getSiteContentDetectionsByType() as $type => $entries) {
+                foreach ($entries as $entry) {
+                    if (!isset($cache['detectedContent'][$type][$entry::getId()])) {
+                        return false; // random detection missing
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        foreach ($detectContent as $requestedDetection) {
+            if (is_string($requestedDetection)) { // specific detection
+                $detectionObj = $this->getSiteContentDetectionById($requestedDetection);
+                if (null !== $detectionObj && !isset($cache['detectedContent'][$detectionObj::getContentType()][$detectionObj::getId()])) {
+                    return false; // specific detection was run before
+                }
+            } elseif (is_int($requestedDetection)) { // detection type requested
+                $detectionsByType = self::getSiteContentDetectionsByType();
+                if (isset($detectionsByType[$requestedDetection])) {
+                    foreach ($detectionsByType[$requestedDetection] as $detectionObj) {
+                        if (!isset($cache['detectedContent'][$requestedDetection][$detectionObj::getId()])) {
+                            return false; // random detection missing
+                        }
+                    }
+                }
+            }
+        }
 
         return true;
     }
 
     /**
-     * Save properties to the cache
+     * Save data to the cache
      *
      * @param string $cacheKey
-     * @param array  $detectionTypes
      * @param int    $cacheLife
      *
      * @return void
      */
-    private function savePropertiesToCache(string $cacheKey, array $detectionTypes, int $cacheLife): void
+    private function saveToCache(string $cacheKey, int $cacheLife): void
     {
-        $cacheData = [];
+        $cacheData = [
+            'detectedContent' => [],
+            'connectedConsentManagers' => [],
+        ];
 
         // Load any existing cached values
         $siteContentDetectionCache = $this->cache->fetch($cacheKey);
@@ -260,9 +286,17 @@ class SiteContentDetector
             $cacheData = $siteContentDetectionCache;
         }
 
-        foreach ($detectionTypes as $type) {
-            $cacheData[$type] = $this->detectedContent[$type];
+        foreach ($this->detectedContent as $type => $detections) {
+            if (!isset($cacheData['detectedContent'][$type])) {
+                $cacheData['detectedContent'][$type] = [];
+            }
+            foreach ($detections as $detectionId => $wasDetected)
+                if (null !== $wasDetected) {
+                    $cacheData['detectedContent'][$type][$detectionId] = $wasDetected;
+                }
         }
+
+        $cacheData['connectedConsentManagers'] = array_merge($cacheData['connectedConsentManagers'], $this->connectedConsentManagers);
 
         $this->cache->save($cacheKey, $cacheData, $cacheLife);
     }
