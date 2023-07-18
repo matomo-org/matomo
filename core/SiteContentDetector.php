@@ -39,9 +39,6 @@ use Piwik\Plugins\SitesManager\SitesManager;
  */
 class SiteContentDetector
 {
-    // Content types
-    const ALL_CONTENT = 1;
-
     /**
      * @var array<string, ?array<string, SiteContentDetectionAbstract>>
      */
@@ -287,7 +284,7 @@ class SiteContentDetector
 
                 if (in_array($type, $detectContent) ||
                     in_array($typeDetection::getId(), $detectContent) ||
-                    in_array(SiteContentDetector::ALL_CONTENT, $detectContent))
+                    empty($detectContent))
                 {
                     $this->detectedContent[$type][$typeDetection::getId()] = false;
 

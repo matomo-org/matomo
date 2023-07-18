@@ -164,7 +164,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'consentManagerName' => false,
         ];
 
-        $this->siteContentDetector->detectContent([SiteContentDetector::ALL_CONTENT], $this->idSite);
+        $this->siteContentDetector->detectContent([], $this->idSite);
         $detectedConsentManagers = $this->siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER);
         if (!empty($detectedConsentManagers)) {
             $consentManagerId = reset($detectedConsentManagers);
@@ -219,7 +219,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             Piwik::postEvent('SitesManager.siteWithoutData.customizeImporterMessage', [&$googleAnalyticsImporterMessage]);
         }
 
-        $this->siteContentDetector->detectContent([SiteContentDetector::ALL_CONTENT], $this->idSite);
+        $this->siteContentDetector->detectContent([], $this->idSite);
         $dntChecker = new DoNotTrackHeaderChecker();
 
         $templateData = [
