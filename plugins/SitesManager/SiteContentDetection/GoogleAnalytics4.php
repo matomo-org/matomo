@@ -41,5 +41,4 @@ class GoogleAnalytics4 extends SiteContentDetectionAbstract
 
         return false;
     }
-
 }

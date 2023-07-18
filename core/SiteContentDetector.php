@@ -36,7 +36,7 @@ use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract
 class SiteContentDetector
 {
     /**
-     * @var array<string, ?array<string, SiteContentDetectionAbstract>>
+     * @var array<string, array<string, SiteContentDetectionAbstract>>
      */
     public $detectedContent = [
         SiteContentDetectionAbstract::TYPE_TRACKER => [],
@@ -82,6 +82,8 @@ class SiteContentDetector
     }
 
     /**
+     * Returns the site content detection object with the provided id, or null if it can't be found
+     *
      * @param string $id
      * @return SiteContentDetectionAbstract|null
      */
@@ -128,7 +130,11 @@ class SiteContentDetector
      * the details of the detected content
      *
      * @param array       $detectContent Array of content type for which to check, defaults to all, limiting this list
-     *                                   will speed up the detection check
+     *                                   will speed up the detection check.
+     *                                   Allowed values are:
+     *                                   * empty array - to run all detections
+     *                                   * an array containing ids of detections, e.g. Wordpress::getId() or any of the
+     *                                     type constants, e.g. SiteContentDetectionAbstract::TYPE_TRACKER
      * @param ?int        $idSite        Override the site ID, will use the site from the current request if null
      * @param ?array      $siteResponse  String containing the site data to search, if blank then data will be retrieved
      *                                   from the current request site via an http request
@@ -207,6 +213,12 @@ class SiteContentDetector
         return false;
     }
 
+    /**
+     * Returns an array containing ids of all detected detections of the given type
+     *
+     * @param string $type One of the SiteContentDetectionAbstract::TYPE_* constants
+     * @return array
+     */
     public function getDetectsByType(string $type): array
     {
         $detected = [];
@@ -216,7 +228,6 @@ class SiteContentDetector
                 $detected[] = $objId;
             }
         }
-
 
         return $detected;
     }
@@ -308,7 +319,7 @@ class SiteContentDetector
      *
      * @return void
      */
-    private function detectionChecks($detectContent): void
+    private function detectionChecks(array $detectContent): void
     {
         $detections = $this->getSiteContentDetectionsByType();
 

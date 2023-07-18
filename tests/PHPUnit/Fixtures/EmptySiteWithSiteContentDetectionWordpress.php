@@ -9,7 +9,6 @@ namespace Piwik\Tests\Fixtures;
 
 use Piwik\Plugins\SitesManager\SiteContentDetection\Cloudflare;
 use Piwik\Plugins\SitesManager\SiteContentDetection\WordPress;
-use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\SiteContentDetector;
 use Piwik\Tests\Framework\Mock\FakeSiteContentDetector;

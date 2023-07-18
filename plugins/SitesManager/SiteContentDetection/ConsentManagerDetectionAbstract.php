@@ -25,5 +25,4 @@ abstract class ConsentManagerDetectionAbstract extends SiteContentDetectionAbstr
      * @return bool
      */
     abstract public function checkIsConnected(?string $data = null, ?array $headers = null): bool;
-
 }

@@ -208,7 +208,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         Piwik::postEvent('SitesManager.showMatomoLinksInTrackingCodeEmail', [&$showMatomoLinks]);
 
         $googleAnalyticsImporterMessage = '';
-        if (Manager::getInstance()->isPluginLoaded('GoogleAnalyticsImporter')) {
+        if (!Manager::getInstance()->isPluginLoaded('GoogleAnalyticsImporter')) {
             $googleAnalyticsImporterMessage = '<h3>' . Piwik::translate('CoreAdminHome_ImportFromGoogleAnalytics') . '</h3>'
                 . '<p>' . Piwik::translate('CoreAdminHome_ImportFromGoogleAnalyticsDescription', ['<a href="https://plugins.matomo.org/GoogleAnalyticsImporter" rel="noopener noreferrer" target="_blank">', '</a>']) . '</p>'
                 . '<p></p>';
@@ -265,7 +265,18 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 $othersInstruction = $obj->renderOthersInstruction();
                 $instructionUrl    = $obj->getInstructionUrl();
 
+                /**
+                 * Event that can be used to manipulate the content of a certain tab on the no data page
+                 *
+                 * @param string $tabContent  Content of the tab
+                 */
                 Piwik::postEvent('Template.siteWithoutDataTab.' . $obj::getId() . '.content', [&$tabContent]);
+                /**
+                 * Event that can be used to manipulate the content of a record on the others tab on the no data page
+                 *
+                 * @param string $othersInstruction  Content of the record
+                 */
+                Piwik::postEvent('Template.siteWithoutDataTab.' . $obj::getId() . '.others', [&$othersInstruction]);
 
                 if (!empty($tabContent) && $obj->shouldShowInstructionTab($this->siteContentDetector)) {
                     $templateData['tabs'][] = [

@@ -21,13 +21,19 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 */
 class SiteContentDetectorTest extends IntegrationTestCase
 {
-
-
     public function testSiteWithMultipleDetections()
     {
         $scd = new SiteContentDetector();
         $scd->detectContent([], null, [
-            'data' => "<html lang='en'><head><title>A site</title></head><script src='https://localhost.com/js/react.min.js'></script><script src='https://osano.com/uhs9879874hthg.js'></script><script>Osano.cm.addEventListener('osano-cm-consent-changed', (change) => { console.log('cm-change'); consentSet(change); });</script></><body>A site<img src='/wp-content/uploads/images.gif'</body></html>",
+            'data' => "<html lang='en'>
+                        <head>
+                            <title>A site</title>
+                            <script src='https://localhost.com/js/react.min.js'></script>
+                            <script src='https://osano.com/uhs9879874hthg.js'></script>
+                            <script>Osano.cm.addEventListener('osano-cm-consent-changed', (change) => { console.log('cm-change'); consentSet(change); });</script>
+                        </head>
+                        <body>A site<img src='/wp-content/uploads/images.gif'</body>
+                       </html>",
             'headers' => [
                 'CF-RAY' => 'test'
             ],

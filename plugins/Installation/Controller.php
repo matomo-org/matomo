@@ -401,7 +401,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $trackingUrl = trim(SettingsPiwik::getPiwikUrl(), '/') . '/' . $javascriptGenerator->getPhpTrackerEndpoint();
 
-        $this->siteContentDetector->detectContent();
+        $this->siteContentDetector->detectContent([], $idSite);
 
         $emailTemplateData = [
             'jsTag' => $rawJsTag,

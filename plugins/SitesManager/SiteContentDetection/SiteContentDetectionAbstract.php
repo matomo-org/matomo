@@ -20,17 +20,15 @@ abstract class SiteContentDetectionAbstract
     public const TYPE_CONSENT_MANAGER = 4;
     public const TYPE_OTHER = 99;
 
-    /**
-     * Holds the detection state, once it was executed
-     *
-     * @var null|bool
-     */
-    protected $wasDetected = null;
-
     public function __construct()
     {
     }
 
+    /**
+     * Returns the ID of the current detection. Automatically built from the class name (without namespace)
+     *
+     * @return string
+     */
     public static function getId(): string
     {
         $classParts = explode('\\', static::class);

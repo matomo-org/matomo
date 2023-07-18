@@ -44,5 +44,4 @@ class GoogleAnalytics3 extends SiteContentDetectionAbstract
         }
         return false;
     }
-
 }
