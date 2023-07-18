@@ -106,10 +106,10 @@ abstract class SiteContentDetectionAbstract
     /**
      * Returns the content that should be rendered into a new Tab on the no data page
      *
-     * @param array $detections
+     * @param SiteContentDetector|null $detector
      * @return string|null
      */
-    public function renderInstructionsTab(array $detections = []): ?string
+    public function renderInstructionsTab(SiteContentDetector $detector = null): ?string
     {
         return null;
     }

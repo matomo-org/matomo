@@ -40,7 +40,7 @@ class SpaPwa extends SiteContentDetectionAbstract
         return true;
     }
 
-    public function renderInstructionsTab(array $detections = []): string
+    public function renderInstructionsTab(SiteContentDetector $detector = null): string
     {
         return '';
     }

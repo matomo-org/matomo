@@ -11,6 +11,7 @@
 namespace Piwik\Plugins\SitesManager\SiteContentDetection;
 
 use Piwik\Piwik;
+use Piwik\SiteContentDetector;
 
 class ReactJs extends SiteContentDetectionAbstract
 {
@@ -59,7 +60,7 @@ class ReactJs extends SiteContentDetectionAbstract
         return true;
     }
 
-    public function renderInstructionsTab(array $detections = []): string
+    public function renderInstructionsTab(SiteContentDetector $detector = null): string
     {
         return '
             <p></p><p></p>

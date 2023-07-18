@@ -34,17 +34,6 @@ class SitesManager extends \Piwik\Plugin
     const KEEP_URL_FRAGMENT_USE_DEFAULT = 0;
     const KEEP_URL_FRAGMENT_YES = 1;
     const KEEP_URL_FRAGMENT_NO = 2;
-    const SITE_TYPE_UNKNOWN = 'unknown';
-    const SITE_TYPE_WORDPRESS = 'wordpress';
-    const SITE_TYPE_SQUARESPACE = 'squarespace';
-    const SITE_TYPE_WIX = 'wix';
-    const SITE_TYPE_SHAREPOINT = 'sharepoint';
-    const SITE_TYPE_JOOMLA = 'joomla';
-    const SITE_TYPE_SHOPIFY = 'shopify';
-    const SITE_TYPE_WEBFLOW = 'webflow';
-    const SITE_TYPE_DRUPAL = 'drupal';
-    const JS_FRAMEWORK_VUE = 'vue';
-    const JS_FRAMEWORK_REACT = 'react';
 
     /**
      * @see \Piwik\Plugin::registerEvents

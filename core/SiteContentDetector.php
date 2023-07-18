@@ -30,7 +30,7 @@ use Piwik\Plugins\SitesManager\SitesManager;
  * Usage:
  *
  * $contentDetector = new SiteContentDetector();
- * $contentDetector->detectContent([SiteContentDetector::GA3]);
+ * $contentDetector->detectContent([GoogleAnalytics3::getId()]);
  * if ($contentDetector->ga3) {
  *      // site is using GA3
  * }
@@ -156,11 +156,7 @@ class SiteContentDetector
 
         // Get the site id from the request object if not explicitly passed
         if ($idSite === null) {
-            if (!isset($_REQUEST['idSite'])) {
-                return;
-            }
-
-            $idSite = Common::getRequestVar('idSite', null, 'int');
+            $idSite = Request::fromRequest()->getIntegerParameter('idSite', 0);
 
             if (!$idSite) {
                 return;

@@ -19,7 +19,7 @@ describe("EmptySite_React", function () {
         await page.waitForSelector('#reactjs .codeblock', { visible: true });
         await page.evaluate(function () {
             // since containerID will be random and keeps changing
-            var selector = $('#react .codeblock');
+            var selector = $('#reactjs .codeblock');
             selector.text(selector.text().replace(/container_(.*).js/g, 'container_test123.js'));
         });
 

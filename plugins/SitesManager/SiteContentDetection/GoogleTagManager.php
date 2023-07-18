@@ -12,6 +12,7 @@ namespace Piwik\Plugins\SitesManager\SiteContentDetection;
 
 use Piwik\API\Request;
 use Piwik\Piwik;
+use Piwik\SiteContentDetector;
 use Piwik\Url;
 use Piwik\View;
 
@@ -64,7 +65,7 @@ class GoogleTagManager extends SiteContentDetectionAbstract
         return true;
     }
 
-    public function renderInstructionsTab(array $detections = []): string
+    public function renderInstructionsTab(SiteContentDetector $detector = null): string
     {
         $piwikUrl = Url::getCurrentUrlWithoutFileName();
         $jsTag = Request::processRequest(

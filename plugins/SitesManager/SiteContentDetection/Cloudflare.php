@@ -12,6 +12,7 @@ namespace Piwik\Plugins\SitesManager\SiteContentDetection;
 
 use Piwik\Piwik;
 use Piwik\Request;
+use Piwik\SiteContentDetector;
 use Piwik\View;
 
 class Cloudflare extends SiteContentDetectionAbstract
@@ -53,7 +54,7 @@ class Cloudflare extends SiteContentDetectionAbstract
         return true;
     }
 
-    public function renderInstructionsTab(array $detections = []): string
+    public function renderInstructionsTab(SiteContentDetector $detector = null): string
     {
         $view     = new View("@SitesManager/_cloudflareTabInstructions");
         $view->idSite = Request::fromRequest()->getIntegerParameter('idSite');

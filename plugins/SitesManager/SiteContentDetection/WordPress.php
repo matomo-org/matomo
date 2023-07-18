@@ -13,6 +13,7 @@ namespace Piwik\Plugins\SitesManager\SiteContentDetection;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\SettingsPiwik;
+use Piwik\SiteContentDetector;
 use Piwik\Url;
 use Piwik\View;
 
@@ -49,7 +50,7 @@ class WordPress extends SiteContentDetectionAbstract
         return true;
     }
 
-    public function renderInstructionsTab(array $detections = []): string
+    public function renderInstructionsTab(SiteContentDetector $detector = null): string
     {
         $view     = new View("@SitesManager/_wordpressTabInstructions");
         $faqLink  = 'https://matomo.org/faq/general/faq_114/';

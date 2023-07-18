@@ -164,7 +164,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'consentManagerName' => false,
         ];
 
-        $this->siteContentDetector->detectContent();
+        $this->siteContentDetector->detectContent([SiteContentDetector::ALL_CONTENT], $this->idSite);
         $detectedConsentManagers = $this->siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER);
         if (!empty($detectedConsentManagers)) {
             $consentManagerId = reset($detectedConsentManagers);
@@ -261,7 +261,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         foreach ($this->siteContentDetector->getSiteContentDetectionsByType() as $detections) {
             foreach ($detections as $obj) {
-                $tabContent        = $obj->renderInstructionsTab([]);
+                $tabContent        = $obj->renderInstructionsTab($this->siteContentDetector);
                 $othersInstruction = $obj->renderOthersInstruction();
                 $instructionUrl    = $obj->getInstructionUrl();
 
