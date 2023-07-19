@@ -10,6 +10,20 @@
     <div class="review-links">
       <div class="review-link">
         <a
+          href="https://www.softwarereviews.com/6g24l"
+          target="_blank"
+        >
+          <div class="image">
+            <img
+              loading="lazy"
+              src="plugins/Feedback/images/softwarereviews.svg"
+            />
+          </div>
+          <div class="link">Software Reviews</div>
+        </a>
+      </div>
+      <div class="review-link">
+        <a
           href="https://www.capterra.com/p/182627/Matomo-Analytics/"
           target="_blank"
         >
