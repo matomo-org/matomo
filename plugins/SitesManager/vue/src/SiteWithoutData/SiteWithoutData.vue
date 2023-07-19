@@ -14,8 +14,7 @@
       <p>&nbsp;</p>
 
       <WidgetLoader
-        :widget-params="{module: 'SitesManager', action: 'siteWithoutDataTabs',
-        activeTab: activeTab}"
+        :widget-params="{module: 'SitesManager', action: 'siteWithoutDataTabs'}"
         :loading-message="`${translate('SitesManager_DetectingYourSite')}...`"
       />
 
@@ -54,7 +53,6 @@ export default defineComponent({
     },
     afterIntroEventContent: String,
     afterTrackingHelpEventContent: String,
-    activeTab: String,
   },
   components: {
     WidgetLoader,

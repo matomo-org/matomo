@@ -1,6 +1,18 @@
 <script type="text/javascript">
     $(document).ready(function(){
-        $('.tabs').tabs();
+        $('.tabs').tabs({
+            'onShow': function (element) {
+                var id = element.getAttribute('id');
+                if (!id) {
+                    return;
+                }
+                if(history.pushState) {
+                    history.pushState(null, null, '#' + id);
+                } else {
+                    window.location.hash = id;
+                }
+            }
+        });
     });
 </script>
 

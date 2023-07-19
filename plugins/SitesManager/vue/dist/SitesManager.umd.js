@@ -2097,45 +2097,44 @@ function ManageGlobalSettingsvue_type_template_id_5467128a_render(_ctx, _cache, 
 ManageGlobalSettingsvue_type_script_lang_ts.render = ManageGlobalSettingsvue_type_template_id_5467128a_render
 
 /* harmony default export */ var ManageGlobalSettings = (ManageGlobalSettingsvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SitesManager/vue/src/SiteWithoutData/SiteWithoutData.vue?vue&type=template&id=6f7c1ad7
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SitesManager/vue/src/SiteWithoutData/SiteWithoutData.vue?vue&type=template&id=eb2335da
 
-var SiteWithoutDatavue_type_template_id_6f7c1ad7_hoisted_1 = {
+var SiteWithoutDatavue_type_template_id_eb2335da_hoisted_1 = {
   id: "start-tracking-data-header"
 };
-var SiteWithoutDatavue_type_template_id_6f7c1ad7_hoisted_2 = ["innerHTML"];
-var SiteWithoutDatavue_type_template_id_6f7c1ad7_hoisted_3 = ["innerHTML"];
+var SiteWithoutDatavue_type_template_id_eb2335da_hoisted_2 = ["innerHTML"];
+var SiteWithoutDatavue_type_template_id_eb2335da_hoisted_3 = ["innerHTML"];
 
-var SiteWithoutDatavue_type_template_id_6f7c1ad7_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, " ", -1);
+var SiteWithoutDatavue_type_template_id_eb2335da_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, " ", -1);
 
-var SiteWithoutDatavue_type_template_id_6f7c1ad7_hoisted_5 = {
+var SiteWithoutDatavue_type_template_id_eb2335da_hoisted_5 = {
   class: "no-data-footer row"
 };
-var SiteWithoutDatavue_type_template_id_6f7c1ad7_hoisted_6 = {
+var SiteWithoutDatavue_type_template_id_eb2335da_hoisted_6 = {
   key: 0
 };
-function SiteWithoutDatavue_type_template_id_6f7c1ad7_render(_ctx, _cache, $props, $setup, $data, $options) {
+function SiteWithoutDatavue_type_template_id_eb2335da_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_WidgetLoader = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("WidgetLoader");
 
   var _component_VueEntryContainer = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("VueEntryContainer");
 
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h1", SiteWithoutDatavue_type_template_id_6f7c1ad7_hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('SitesManager_SiteWithoutDataStartTrackingDataHeader')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h1", SiteWithoutDatavue_type_template_id_eb2335da_hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('SitesManager_SiteWithoutDataStartTrackingDataHeader')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
     innerHTML: _ctx.$sanitize(_ctx.siteWithoutDataDescLine1)
-  }, null, 8, SiteWithoutDatavue_type_template_id_6f7c1ad7_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
+  }, null, 8, SiteWithoutDatavue_type_template_id_eb2335da_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
     innerHTML: _ctx.$sanitize(_ctx.siteWithoutDataDescLine2)
-  }, null, 8, SiteWithoutDatavue_type_template_id_6f7c1ad7_hoisted_3), SiteWithoutDatavue_type_template_id_6f7c1ad7_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_WidgetLoader, {
+  }, null, 8, SiteWithoutDatavue_type_template_id_eb2335da_hoisted_3), SiteWithoutDatavue_type_template_id_eb2335da_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_WidgetLoader, {
     "widget-params": {
       module: 'SitesManager',
-      action: 'siteWithoutDataTabs',
-      activeTab: _ctx.activeTab
+      action: 'siteWithoutDataTabs'
     },
     "loading-message": "".concat(_ctx.translate('SitesManager_DetectingYourSite'), "...")
-  }, null, 8, ["widget-params", "loading-message"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", SiteWithoutDatavue_type_template_id_6f7c1ad7_hoisted_5, [_ctx.afterIntroEventContent ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("hr", SiteWithoutDatavue_type_template_id_6f7c1ad7_hoisted_6)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_VueEntryContainer, {
+  }, null, 8, ["loading-message"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", SiteWithoutDatavue_type_template_id_eb2335da_hoisted_5, [_ctx.afterIntroEventContent ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("hr", SiteWithoutDatavue_type_template_id_eb2335da_hoisted_6)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_VueEntryContainer, {
     html: _ctx.afterIntroEventContent
   }, null, 8, ["html"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_VueEntryContainer, {
     html: _ctx.afterTrackingHelpEventContent
   }, null, 8, ["html"])]);
 }
-// CONCATENATED MODULE: ./plugins/SitesManager/vue/src/SiteWithoutData/SiteWithoutData.vue?vue&type=template&id=6f7c1ad7
+// CONCATENATED MODULE: ./plugins/SitesManager/vue/src/SiteWithoutData/SiteWithoutData.vue?vue&type=template&id=eb2335da
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SitesManager/vue/src/SiteWithoutData/SiteWithoutData.vue?vue&type=script&lang=ts
 
@@ -2155,8 +2154,7 @@ function SiteWithoutDatavue_type_template_id_6f7c1ad7_render(_ctx, _cache, $prop
       required: true
     },
     afterIntroEventContent: String,
-    afterTrackingHelpEventContent: String,
-    activeTab: String
+    afterTrackingHelpEventContent: String
   },
   components: {
     WidgetLoader: external_CoreHome_["WidgetLoader"],
@@ -2189,7 +2187,7 @@ function SiteWithoutDatavue_type_template_id_6f7c1ad7_render(_ctx, _cache, $prop
 
 
 
-SiteWithoutDatavue_type_script_lang_ts.render = SiteWithoutDatavue_type_template_id_6f7c1ad7_render
+SiteWithoutDatavue_type_script_lang_ts.render = SiteWithoutDatavue_type_template_id_eb2335da_render
 
 /* harmony default export */ var SiteWithoutData = (SiteWithoutDatavue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/SitesManager/vue/src/index.ts
