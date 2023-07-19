@@ -474,6 +474,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.mouse.move(0, 0);
 
             pageWrap = await page.$('.ui-dialog');
+            await page.waitForTimeout(150);
             expect(await pageWrap.screenshot()).to.matchImage('actions_outlinks_vlog');
         });
 
