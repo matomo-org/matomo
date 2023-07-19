@@ -300,7 +300,10 @@ export default defineComponent({
 
       NotificationsStore.remove(REPORTING_HELP_NOTIFICATION_ID);
 
-      if (subcategory && subcategory.id === this.activeSubcategory) {
+      if (subcategory
+        && subcategory.id === MatomoUrl.parsed.value.subcategory
+        && category.id === MatomoUrl.parsed.value.category
+      ) {
         this.helpShownCategory = null;
 
         // this menu item is already active, a location change success would not be triggered,

@@ -315,6 +315,13 @@ PageRenderer.prototype.waitForNetworkIdle = async function () {
           });
         }
     });
+
+    // if the visitor map is shown trigger a window resize, to ensure map always has the same height/width
+    await this.webpage.evaluate(function () {
+        if (window.jQuery && window.jQuery('.UserCountryMap_map').length) {
+            window.jQuery(window).trigger('resize');
+        }
+    });
 };
 
 PageRenderer.prototype.waitForLazyImages = async function () {
