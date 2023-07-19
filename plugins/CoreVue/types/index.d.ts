@@ -112,6 +112,7 @@ declare global {
     propagateNewPopoverParameter(handleName: string, value?: string);
     buildReportingUrl(ajaxUrl: string): string;
     isLoginPage(): boolean;
+    isNoDataPage(): boolean;
     resetPopoverStack(): void;
     addPopoverHandler(handlerName: string, callback: (string) => void): void;
 

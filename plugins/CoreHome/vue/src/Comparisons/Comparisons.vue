@@ -112,7 +112,9 @@ export default defineComponent({
   setup() {
     // accessing has to be done through a computed property so we can use the computed
     // instance directly in the template. unfortunately, vue won't register to changes.
-    const isComparing = computed(() => ComparisonsStoreInstance.isComparing());
+    const isComparing = computed(
+      () => ComparisonsStoreInstance.isComparing() && !window.broadcast.isNoDataPage(),
+    );
     const segmentComparisons = computed(() => ComparisonsStoreInstance.getSegmentComparisons());
     const periodComparisons = computed(() => ComparisonsStoreInstance.getPeriodComparisons());
     const getSeriesColor = ComparisonsStoreInstance.getSeriesColor.bind(ComparisonsStoreInstance);
