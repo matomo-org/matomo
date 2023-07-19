@@ -11,10 +11,10 @@ describe("EmptySite_CloudflareOverGTM", function () {
 
     this.fixture = "Piwik\\Tests\\Fixtures\\EmptySiteWithSiteContentDetectionGTM";
 
-    const generalParams = 'idSite=1&period=day&date=2010-01-03#cloudflare';
+    const generalParams = 'idSite=1&period=day&date=2010-01-03';
 
     it('should show the tracking code if the website has no recorded data and GTM guide', async function () {
-        const urlToTest = "?" + generalParams + "&module=CoreHome&action=index";
+        const urlToTest = "?" + generalParams + "&module=CoreHome&action=index#cloudflare";
         await page.goto(urlToTest);
 
         const pageElement = await page.$('.page');
