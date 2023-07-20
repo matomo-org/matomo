@@ -295,6 +295,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $tabToDisplay = 'vue';
         } else if (!empty($templateData['jsFramework']) && $templateData['jsFramework'] === SitesManager::JS_FRAMEWORK_REACT && Manager::getInstance()->isPluginActivated('TagManager')) {
             $tabToDisplay = 'react';
+        } else if (!empty($templateData['consentManagerName'])) {
+            $tabToDisplay = 'consentManager';
         }
 
         return $tabToDisplay;
