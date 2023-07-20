@@ -54,9 +54,9 @@ abstract class Challenge
      *
      * @return bool
      */
-    public function isCompleted()
+    public function isCompleted(string $login)
     {
-        return $this->hasAttribute(self::APPENDIX_COMPLETED);
+        return $this->hasAttribute($login, self::APPENDIX_COMPLETED);
     }
 
     /**
@@ -92,15 +92,15 @@ abstract class Challenge
         return '';
     }
 
-    private function getPluginSettingsInstance()
+    private function getPluginSettingsInstance(string $login)
     {
-        return new PluginSettingsTable('Tour', Piwik::getCurrentUserLogin());
+        return new PluginSettingsTable('Tour', $login);
     }
 
-    private function getSettings()
+    private function getSettings(string $login)
     {
         if (!isset(self::$settings)) {
-            $pluginSettings = $this->getPluginSettingsInstance();
+            $pluginSettings = $this->getPluginSettingsInstance($login);
             self::$settings = $pluginSettings->load();
         }
 
@@ -117,9 +117,9 @@ abstract class Challenge
      * @ignore
      * @return bool
      */
-    public function isSkipped()
+    public function isSkipped(string $login)
     {
-        return $this->hasAttribute(self::APPENDIX_SKIPPED);
+        return $this->hasAttribute($login, self::APPENDIX_SKIPPED);
     }
 
     /**
@@ -127,23 +127,23 @@ abstract class Challenge
      * @ignore
      * @return bool
      */
-    public function skipChallenge()
+    public function skipChallenge(string $login)
     {
-        $this->storeAttribute(self::APPENDIX_SKIPPED);
+        $this->storeAttribute($login, self::APPENDIX_SKIPPED);
     }
 
     /**
      * Set this challenge was completed successfully by the current user. Only works for a super user.
      * @return bool
      */
-    public function setCompleted()
+    public function setCompleted(string $login)
     {
-        $this->storeAttribute(self::APPENDIX_COMPLETED);
+        $this->storeAttribute($login, self::APPENDIX_COMPLETED);
     }
 
-    private function hasAttribute($appendix)
+    private function hasAttribute(string $login, $appendix)
     {
-        $settings = $this->getSettings();
+        $settings = $this->getSettings($login);
 
         if (!empty($settings[$this->getId() . $appendix])) {
             return true;
@@ -152,12 +152,12 @@ abstract class Challenge
         return false;
     }
 
-    private function storeAttribute($appendix)
+    private function storeAttribute(string $login, $appendix)
     {
         if (!Piwik::hasUserSuperUserAccess()) {
             return;
         }
-        $pluginSettings = $this->getPluginSettingsInstance();
+        $pluginSettings = $this->getPluginSettingsInstance($login);
         $settings = $pluginSettings->load();
 
         if (empty($settings[$this->getId() . $appendix])) {

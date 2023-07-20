@@ -44,10 +44,10 @@ class ChallengeAddedWebsite extends Challenge
         return 'add_website';
     }
 
-    public function isCompleted()
+    public function isCompleted(string $login)
     {
         if (!isset($this->completed)) {
-            $this->completed = $this->finder->hasAddedWebsite(Piwik::getCurrentUserLogin());
+            $this->completed = $this->finder->hasAddedWebsite($login);
         }
         return $this->completed;
     }

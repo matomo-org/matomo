@@ -43,10 +43,9 @@ class ChallengeCustomiseDashboard extends Challenge
         return 'customise_dashboard';
     }
 
-    public function isCompleted()
+    public function isCompleted(string $login)
     {
         if (!isset($this->completed)) {
-            $login = Piwik::getCurrentUserLogin();
             $this->completed = $this->finder->hasAddedOrCustomisedDashboard($login);
         }
         return $this->completed;

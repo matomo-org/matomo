@@ -44,7 +44,7 @@ class ChallengeTrackingCode extends Challenge
         return 'track_data';
     }
 
-    public function isCompleted()
+    public function isCompleted(string $login)
     {
         if (!isset($this->completed)) {
             $this->completed = $this->finder->hasTrackedData();
