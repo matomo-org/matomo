@@ -6,13 +6,13 @@
                 if (!id) {
                     return;
                 }
-                if(history.pushState) {
-                    history.pushState(null, null, '#' + id);
-                } else {
-                    window.location.hash = id;
-                }
+                window.CoreHome.MatomoUrl.updateHash({...window.CoreHome.MatomoUrl.hashParsed.value, activeTab: id})
             }
         });
+        var selectedTab = window.CoreHome.MatomoUrl.hashParsed.value.activeTab;
+        if (selectedTab) {
+            M.Tabs.getInstance($('.tabs')).select(selectedTab);
+        }
     });
 </script>
 
