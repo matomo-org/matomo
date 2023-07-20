@@ -23,7 +23,7 @@ class ChallengeDisableBrowserArchiving extends Challenge
         return 'disable_browser_archiving';
     }
 
-    public function isCompleted()
+    public function isCompleted(string $login)
     {
         return !Rules::isBrowserTriggerEnabled();
     }

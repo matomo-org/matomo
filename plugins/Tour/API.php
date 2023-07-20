@@ -52,6 +52,8 @@ class API extends \Piwik\Plugin\API
 
         $challenges = array();
 
+        $login = Piwik::getCurrentUserLogin();
+
         foreach ($this->challenges->getChallenges() as $challenge) {
 
             if ($challenge->isDisabled()) {
@@ -62,8 +64,8 @@ class API extends \Piwik\Plugin\API
                 'id' => $challenge->getId(),
                 'name' => $challenge->getName(),
                 'description' => $challenge->getDescription(),
-                'isCompleted' => $challenge->isCompleted(),
-                'isSkipped' => $challenge->isSkipped(),
+                'isCompleted' => $challenge->isCompleted($login),
+                'isSkipped' => $challenge->isSkipped($login),
                 'url' => $challenge->getUrl()
             ];
         }
@@ -103,10 +105,12 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccess();
 
+        $login = Piwik::getCurrentUserLogin();
+
         foreach ($this->challenges->getChallenges() as $challenge) {
             if ($challenge->getId() === $id) {
-                if (!$challenge->isCompleted()) {
-                    $challenge->skipChallenge();
+                if (!$challenge->isCompleted($login)) {
+                    $challenge->skipChallenge($login);
                     return true;
                 }
 

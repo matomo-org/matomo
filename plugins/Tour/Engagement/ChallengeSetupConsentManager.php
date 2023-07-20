@@ -50,9 +50,8 @@ class ChallengeSetupConsentManager extends Challenge
         return $this->siteContentDetector->consentManagerId;
     }
 
-    public function isCompleted()
+    public function isCompleted(string $login)
     {
-
         if (!$this->siteContentDetector->consentManagerId) {
             return true;
         }

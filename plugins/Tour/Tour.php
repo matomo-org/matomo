@@ -77,7 +77,7 @@ class Tour extends \Piwik\Plugin
         if (Piwik::hasUserSuperUserAccess()) {
             /** @var Challenge $challenge */
             $challenge = StaticContainer::get($className);
-            $challenge->setCompleted();
+            $challenge->setCompleted(Piwik::getCurrentUserLogin());
         }
     }
 
@@ -100,7 +100,7 @@ class Tour extends \Piwik\Plugin
     {
         if (Piwik::hasUserSuperUserAccess() && !empty($response)) {
             $annotation = new ChallengeAddedAnnotation();
-            $annotation->setCompleted();
+            $annotation->setCompleted(Piwik::getCurrentUserLogin());
         }
     }
 
@@ -108,7 +108,7 @@ class Tour extends \Piwik\Plugin
     {
         if (Piwik::hasUserSuperUserAccess() && !empty($response)) {
             $annotation = new ChallengeCreatedGoal();
-            $annotation->setCompleted();
+            $annotation->setCompleted(Piwik::getCurrentUserLogin());
         }
     }
 
@@ -116,7 +116,7 @@ class Tour extends \Piwik\Plugin
     {
         if (Piwik::hasUserSuperUserAccess()) {
             $annotation = new ChallengeInvitedUser();
-            $annotation->setCompleted();
+            $annotation->setCompleted(Piwik::getCurrentUserLogin());
         }
     }
 

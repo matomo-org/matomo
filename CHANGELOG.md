@@ -22,6 +22,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * By default, the last ip address in the proxy list will now be used rather than the first ip address. To force the first ip address to be used set the config option `proxy_ip_read_last_in_list = 0`.
 * The deprecated method `Piwik\Log::setLogLevel()` has been removed
 * The deprecated method `Piwik\Log::getLogLevel()` has been removed
+* A parameter `$login` has been added to the methods `setCompleted()`, `isCompleted()`, `skipChallenge()` and `isSkipped()` in the `Piwik\Plugins\Tour\Engagement\Challenge` class
 * In order to encapsulate Matomo's dependencies from direct usage in plugins we introduce some proxy classes and patterns that need to be used instead. For plugin development avoid using any external Matomo dependency directly. 
   * Use `Piwik\Log\Logger` instead of `Monolog\Logger`
   * Use `Piwik\Log\LoggerInterface` instead of `Psr\Log\LoggerInterface`
