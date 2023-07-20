@@ -178,7 +178,7 @@ https://www.example.org/</placeholder>
 						<uiControlAttributes>
 						</uiControlAttributes>
 						<availableValues />
-						<description>Query parameter (Default): q,query,s,search,searchword,k,keyword &amp; Category parameter: </description>
+						<description>Query parameter (Default): q,query,s,search,searchword,k,keyword,keywords &amp; Category parameter: </description>
 						<inlineHelp />
 						<introduction />
 						<condition>1 &amp;&amp; sitesearch</condition>
@@ -483,7 +483,7 @@ https://www.example.org/</placeholder>
 						<uiControlAttributes>
 						</uiControlAttributes>
 						<availableValues />
-						<description>Query parameter (Default): q,query,s,search,searchword,k,keyword &amp; Category parameter: </description>
+						<description>Query parameter (Default): q,query,s,search,searchword,k,keyword,keywords &amp; Category parameter: </description>
 						<inlineHelp />
 						<introduction />
 						<condition>1 &amp;&amp; sitesearch</condition>
