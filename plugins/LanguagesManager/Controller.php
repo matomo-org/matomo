@@ -14,6 +14,7 @@ use Piwik\DbHelper;
 use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\Url;
+use Piwik\Updater as PiwikCoreUpdater;
 
 /**
  */
@@ -28,8 +29,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $language = Common::getRequestVar('language');
         $nonce = Common::getRequestVar('nonce', '');
 
-        // Prevent CSRF only when piwik is not installed yet (During install user can change language)
-        if (DbHelper::isInstalled()) {
+        // Check if is an update in progress
+        $updater = new PiwikCoreUpdater();
+        $updating = ($updater->getComponentUpdates() !== null);
+
+        // Prevent CSRF if Matomo is not installed yet or is updating
+        // (During install/update user can change language)
+        if (DbHelper::isInstalled() && !$updating) {
             $this->checkTokenInUrl();
         }
 
