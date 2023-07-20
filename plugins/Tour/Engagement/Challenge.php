@@ -24,7 +24,7 @@ abstract class Challenge
     const APPENDIX_SKIPPED = '_skipped';
     const APPENDIX_COMPLETED = '_completed';
 
-    private static $settings = null;
+    private static $settings = [];
 
     public function __construct()
     {
@@ -99,17 +99,17 @@ abstract class Challenge
 
     private function getSettings(string $login)
     {
-        if (!isset(self::$settings)) {
+        if (!isset(self::$settings[$login])) {
             $pluginSettings = $this->getPluginSettingsInstance($login);
-            self::$settings = $pluginSettings->load();
+            self::$settings[$login] = $pluginSettings->load();
         }
 
-        return self::$settings;
+        return self::$settings[$login];
     }
 
     public static function clearCache()
     {
-        self::$settings = null;
+        self::$settings = [];
     }
 
     /**
