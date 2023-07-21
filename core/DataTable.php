@@ -1555,10 +1555,9 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             return;
         }
 
-        $exceptionText = " Data structure returned is not convertible in the requested format." .
+        $exceptionText = "Data structure returned is not convertible in the requested format: %s" .
             " Try to call this method with the parameters '&format=original&serialize=1'" .
-            "; you will get the original php data structure serialized." .
-            " The data structure looks like this: \n \$data = %s; ";
+            "; you will get the original php data structure serialized.";
 
         // first pass to see if the array has the structure
         // array(col1_name => val1, col2_name => val2, etc.)
@@ -1600,12 +1599,12 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
                 // this key, we throw an explicit exception.
                 if (is_string($key)) {
                     // we define an exception we may throw if at one point we notice that we cannot handle the data structure
-                    throw new Exception(sprintf($exceptionText, var_export($array, true)));
+                    throw new Exception(sprintf($exceptionText, "Only integer keys supported for base level. Unsupported string '$key' found."));
                 }
                 // if any of the sub elements of row is an array we cannot handle this data structure...
-                foreach ($row as $subRow) {
+                foreach ($row as $name => $subRow) {
                     if (is_array($subRow)) {
-                        throw new Exception(sprintf($exceptionText, var_export($array, true)));
+                        throw new Exception(sprintf($exceptionText, "Multidimensional column values not supported. Found array value for column '$name' in row '$key'."));
                     }
                 }
                 $row = new Row(array(Row::COLUMNS => $row));
