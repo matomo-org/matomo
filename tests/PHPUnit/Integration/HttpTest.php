@@ -399,7 +399,6 @@ class HttpTest extends \PHPUnit\Framework\TestCase
             'headers' => array(
                 'Range: bytes=10-20',
                 'Via: ' . Version::VERSION . '  (Matomo/' . Version::VERSION . ')',
-                'X-Forwarded-For: 127.0.0.1',
             ),
             'verifySsl' => true,
             'destinationPath' => $destinationPath
@@ -415,7 +414,6 @@ class HttpTest extends \PHPUnit\Framework\TestCase
             'headers' => array(
                 'Range: bytes=10-20',
                 'Via: ' . Version::VERSION . '  (Matomo/' . Version::VERSION . ')',
-                'X-Forwarded-For: 127.0.0.1',
             ),
             'verifySsl' => true,
             'destinationPath' => $destinationPath
