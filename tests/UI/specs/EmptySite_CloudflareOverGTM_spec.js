@@ -13,8 +13,8 @@ describe("EmptySite_CloudflareOverGTM", function () {
 
     const generalParams = 'idSite=1&period=day&date=2010-01-03';
 
-    it('should show the tracking code if the website has no recorded data and GTM guide', async function () {
-        const urlToTest = "?" + generalParams + "&module=CoreHome&action=index#cloudflare";
+    it('should select the tab provided by hash param', async function () {
+        const urlToTest = "?" + generalParams + "&module=CoreHome&action=index#?" + generalParams + "&activeTab=cloudflare";
         await page.goto(urlToTest);
 
         const pageElement = await page.$('.page');
