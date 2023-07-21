@@ -112,7 +112,7 @@
               @update:model-value="theUser.password = $event; isPasswordModified = true"
               uicontrol="password"
               name="user_password"
-              autocomplete="off"
+              autocomplete="new-password"
               :title="translate('General_Password')"
             />
           </div>
