@@ -398,7 +398,6 @@ class Http
                 . ($proxyAuth ? $proxyAuth : '')
                 . 'User-Agent: ' . $userAgent . "\r\n"
                 . ($acceptLanguage ? $acceptLanguage . "\r\n" : '')
-                . $xff . "\r\n"
                 . $via . "\r\n"
                 . $rangeHeader
                 . (!empty($additionalHeaders) ? implode("\r\n", $additionalHeaders) . "\r\n" : '')
@@ -560,7 +559,6 @@ class Http
                         'header'        => 'User-Agent: ' . $userAgent . "\r\n"
                             . ($httpAuth ? $httpAuth : '')
                             . ($acceptLanguage ? $acceptLanguage . "\r\n" : '')
-                            . $xff . "\r\n"
                             . $via . "\r\n"
                             . (!empty($additionalHeaders) ? implode("\r\n", $additionalHeaders) . "\r\n" : '')
                             . $rangeHeader,
@@ -645,7 +643,6 @@ class Http
                 CURLOPT_URL            => $aUrl,
                 CURLOPT_USERAGENT      => $userAgent,
                 CURLOPT_HTTPHEADER     => array_merge(array(
-                    $xff,
                     $via,
                     $acceptLanguage
                 ), $additionalHeaders),
