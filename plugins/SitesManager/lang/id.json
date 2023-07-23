@@ -3,7 +3,7 @@
         "AddMeasurable": "Tambah pengukuran baru",
         "AddSite": "Tambahkan situs web baru",
         "AdvancedTimezoneSupportNotFound": "Dukungan zona waktu lanjutan tidak ditemukan di PHP Anda (didukung di PHP&gt;=5.2). Anda masih dapat memilih offset UTC manual.",
-        "AliasUrlHelp": "Disarankan, tetapi tidak diharuskan, untuk menentukan berbagai URL, satu per baris, yang digunakan pengunjung Anda untuk mengakses situs web ini. URL Alias untuk situs web tidak akan muncul di laporan Perujuk &gt; Situs web. Perhatikan bahwa tidak perlu menentukan URL dengan dan tanpa 'www' karena Matomo secara otomatis akan mempertimbangkan keduanya.",
+        "AliasUrlHelp": "Disarankan, tetapi tidak diharuskan, untuk menentukan berbagai URL, satu per baris, yang digunakan oleh pengunjung Anda untuk mengakses situs web ini. URL Alias untuk situs web tidak akan muncul di laporan Perujuk → Laporan situs web. Perhatikan bahwa tidak perlu menentukan URL dengan dan tanpa 'www' karena Matomo secara otomatis akan mempertimbangkan keduanya.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Mengubah zona waktu Anda hanya akan memengaruhi data di masa mendatang, dan tidak akan diterapkan secara retroaktif.",
         "ChooseMeasurableTypeHeadline": "Apa yang ingin Anda ukur?",
         "Currency": "Mata Uang",

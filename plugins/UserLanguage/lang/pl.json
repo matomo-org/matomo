@@ -1,9 +1,9 @@
 {
     "UserLanguage": {
-        "BrowserLanguage": "Język przeglądarki",
+        "BrowserLanguage": "Język przeglądarki internetowej",
         "LanguageCode": "Kod języka",
-        "PluginDescription": "Zestawienie języków używane przez przeglądarki odwiedzających.",
-        "getLanguageDocumentation": "Ten raport wyświetla język używany przez przeglądarkę odwiedzającego (np. \"angielski\")",
-        "getLanguageCodeDocumentation": "Ten raport wyświetla oznaczenie języka z dialektem używanego przez przeglądarkę odwiedzającego (np. \"niemiecki - Austria (de-at)\")"
+        "PluginDescription": "Zgłasza podstawowy język przeglądarki internetowej używany przez odwiedzających.",
+        "getLanguageCodeDocumentation": "Pokazuje, jaki dokładnie kod języka jest ustawiony w przeglądarkach osób odwiedzających. (np. „niemiecki — Austria (de-at)”)",
+        "getLanguageDocumentation": "Pokazuje, jakiego języka używają przeglądarki osób odwiedzających. (np. \"francuski\")"
     }
 }

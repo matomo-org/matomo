@@ -36,7 +36,7 @@
         "StepX": "Tahap %s",
         "TwoFAShort": "2FA",
         "TwoFactorAuthentication": "Autentikasi dua faktor",
-        "TwoFactorAuthenticationIntro": "%1$sAutentikasi dua faktor%2$s meningkatkan keamanan akun Anda dengan menambah lapisan verifikasi tambahan saat Anda masuk. Setiap kali Anda log masuk, Anda tidak hanya diminta untuk memberikan log masuk dan kata sandi, namun juga token autentikasi tambahan yang berubah secara berkala dan dihasilkan, misalnya, pada perangkat seluler Anda. Jadi, meskipun seseorang mengetahui nama pengguna dan kata sandi Anda, mereka tetap tidak dapat masuk kecuali jika mereka memiliki akses ke perangkat seluler Anda, misalnya.",
+        "TwoFactorAuthenticationIntro": "%1$sAutentikasi dua faktor%2$s meningkatkan keamanan akun dengan meminta kode yang dibuat untuk perangkat seluler, atau salah satu dari kode pemulihan yang tersisa (selain kata sandi Anda) untuk masuk.",
         "TwoFactorAuthenticationIsDisabled": "Autentikasi dua faktor saat ini dinonaktifkan.",
         "TwoFactorAuthenticationIsEnabled": "Autentikasi dua faktor saat ini diaktifkan.",
         "TwoFactorAuthenticationRequired": "Autentikasi dua faktor diperlukan untuk diaktifkan oleh semua orang, Anda tidak dapat menonaktifkannya.",

@@ -1,7 +1,7 @@
 {
     "VisitorInterest": {
-        "BetweenXYMinutes": "%1$s-%2$s menit",
-        "BetweenXYSeconds": "%1$s-%2$ss",
+        "BetweenXYMinutes": "%1$s–%2$s menit",
+        "BetweenXYSeconds": "%1$s–%2$sd",
         "ColumnPagesPerVisit": "Halaman tiap kunjungan",
         "ColumnVisitDuration": "Waktu kunjungan",
         "Engagement": "Keterlibatan",

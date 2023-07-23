@@ -36,6 +36,7 @@
         "MenuPlatform": "プラットフォーム",
         "MissingRequirementsNotice": "%1$s %3$s が必要です。 %1$s %2$s を最新バージョンにアップデートしてください。",
         "MissingRequirementsPleaseInstallNotice": "%3$sで必要とされる、 %1$s%2$sをインストールしてください。",
+        "NUpdatesAvailable": "%1$s アップデートが利用可能です",
         "NoPluginSettings": "設定可能なプラグイン設定はありません",
         "NoZipFileSelected": "ZIP ファイルを選択してください。",
         "NotDownloadable": "ダウンロード不可",

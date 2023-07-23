@@ -155,7 +155,7 @@
         "SiteWithoutDataVueFollowStepNote2": "Si vous avez suivi ces étapes et que vous n'avez pas de données dans Matomo, vous pouvez essayer %1$sMatomo Tag Manager%2$s à la place (visitez ce lien pour les %3$sapplications mono-page%4$s).",
         "SiteWithoutDataVueIntro": "Suivre votre site ou votre application Vue.js avec Matomo est facile, même pour les applications mono-page.",
         "SiteWithoutDataWordpressDescription": "Vous pouvez utiliser le plugin WordPress facile Matomo pour suivre les données, suivez les instructions de ce %1$sguide%2$s.",
-        "SiteWithoutDataWordpressFollowStepCompleted": "Félicitations, vous devriez maintenant suivre avec succès les visiteurs avec Matomo Analytics sur votre site WordPress ! Bonnes analyses.",
+        "SiteWithoutDataWordpressFollowStepCompleted": "%1$sFélicitations%2$s, vous devriez maintenant suivre avec succès les visiteurs avec Matomo Analytics sur votre site WordPress ! Bonnes analyses.",
         "SiteWithoutDataWordpressFollowStepNote": "Une fois les étapes ci-dessus terminées, visitez votre site web et générez une visite de test. Si vous rencontrez ce message, assurez-vous d'avoir le plugin \"%1$s\" installé.",
         "SiteWithoutDataWordpressFollowSteps1": "Connectez-vous à votre site WordPress en tant qu'administrateur.",
         "SiteWithoutDataWordpressFollowSteps10": "Copiez le jeton d'authentification généré.",
