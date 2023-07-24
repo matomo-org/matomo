@@ -47,7 +47,7 @@
         "matomo/matomo-php-tracker": "~3.0",
         "matomo/network": "~2.0",
         "matomo/referrer-spam-list": "dev-master",
-        "matomo/searchengine-and-social-list": "~3.0",
+        "matomo/searchengine-and-social-list": "dev-master",
         "monolog/monolog": "~1.11",
         "mustangostang/spyc": "^0.6.0",
         "pear/pear_exception": "~1.0.0",
