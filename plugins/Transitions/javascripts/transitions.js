@@ -261,7 +261,10 @@ Piwik_Transitions.prototype.showPopover = function (showEmbeddedInReport) {
             self.canvas.narrowMode();
         }
 
+        // truncate already placed elements, so height can be calculated correctly.
+        self.canvas.truncateVisibleBoxTexts();
         self.render();
+        // truncate elements added during render()
         self.canvas.truncateVisibleBoxTexts();
     };
 
@@ -514,6 +517,7 @@ Piwik_Transitions.prototype.renderLoops = function () {
     this.addTooltipShowingPercentageOfAllPageviews(loops, 'loops');
 
     this.canvas.renderLoops(this.model.getPercentage('loops'));
+    loops.css({marginTop: $('#Transitions_CenterBox').outerHeight() + 45});
 };
 
 Piwik_Transitions.prototype.renderEntries = function (onlyBg) {
@@ -1037,8 +1041,6 @@ Piwik_Transitions_Canvas.prototype.truncateVisibleBoxTexts = function () {
             text = leftPart + '...' + rightPart;
             span.html(piwikHelper.addBreakpointsToUrl(text));
         }
-
-        span.removeClass('Transitions_Truncate');
     });
 };
 
@@ -1255,7 +1257,7 @@ Piwik_Transitions_Canvas.prototype.renderLoops = function (share) {
 
     // curve from the upper left connection to the center box to the lower left connection to the text box
     var point1 = {x: this.leftCurveEndX, y: this.leftCurvePositionY};
-    var point2 = {x: this.leftCurveEndX, y: 470};
+    var point2 = {x: this.leftCurveEndX, y: $('#Transitions_CenterBox').outerHeight() + 70};
 
     var cpLeftX = (this.leftCurveBeginX + this.leftCurveEndX) / 2 + 30;
     var cp1 = {x: cpLeftX, y: point1.y};
