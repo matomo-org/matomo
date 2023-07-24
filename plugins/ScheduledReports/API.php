@@ -122,6 +122,10 @@ class API extends \Piwik\Plugin\API
 
         self::validateCommonReportAttributes($period, $hour, $description, $idSegment, $reportType, $reportFormat, $evolutionPeriodFor, $evolutionPeriodN);
 
+        if (null !== $periodParam) {
+            self::validatePeriodParam($periodParam);
+        }
+
         // report parameters validations
         $parameters = self::validateReportParameters($reportType, $parameters);
 
@@ -194,6 +198,10 @@ class API extends \Piwik\Plugin\API
         self::ensureLanguageSetForUser($currentUser);
 
         self::validateCommonReportAttributes($period, $hour, $description, $idSegment, $reportType, $reportFormat, $evolutionPeriodFor, $evolutionPeriodN);
+
+        if (null !== $periodParam) {
+            self::validatePeriodParam($periodParam);
+        }
 
         // report parameters validations
         $parameters = self::validateReportParameters($reportType, $parameters);
@@ -621,6 +629,7 @@ class API extends \Piwik\Plugin\API
         $report = reset($reports);
 
         if (!empty($period)) {
+            self::validatePeriodParam($period);
             $report['period_param'] = $period;
         }
 
@@ -842,6 +851,17 @@ class API extends \Piwik\Plugin\API
         $availablePeriods = ['day', 'week', 'month', 'never'];
         if (!in_array($period, $availablePeriods)) {
             throw new Exception('Period schedule must be one of the following: ' . implode(', ', $availablePeriods) . ' (got ' . $period . ')');
+        }
+    }
+
+    private static function validatePeriodParam($period)
+    {
+        $periodValidator = new Period\PeriodValidator();
+        $allowedPeriods = array_flip($periodValidator->getPeriodsAllowedForAPI());
+        unset($allowedPeriods['range']);
+
+        if (!array_key_exists($period, $allowedPeriods)) {
+            throw new Exception('Report period must be one of the following: ' . implode(', ', array_keys($allowedPeriods)) . ' (got ' . $period . ')');
         }
     }
 
