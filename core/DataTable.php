@@ -1599,7 +1599,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
                 // this key, we throw an explicit exception.
                 if (is_string($key)) {
                     // we define an exception we may throw if at one point we notice that we cannot handle the data structure
-                    throw new Exception(sprintf($exceptionText, "Only integer keys supported for base level. Unsupported string '$key' found."));
+                    throw new Exception(sprintf($exceptionText, "Only integer keys supported for array columns on base level. Unsupported string '$key' found."));
                 }
                 // if any of the sub elements of row is an array we cannot handle this data structure...
                 foreach ($row as $name => $subRow) {

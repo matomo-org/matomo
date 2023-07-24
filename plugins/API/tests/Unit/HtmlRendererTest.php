@@ -454,7 +454,7 @@ message', $response);
     public function test_renderArray_ShouldConvertMultiDimensionalAssociativeArrayToJson()
     {
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Data structure returned is not convertible in the requested format: Only integer keys supported for base level.');
+        $this->expectExceptionMessage("Data structure returned is not convertible in the requested format: Only integer keys supported for array columns on base level. Unsupported string 'secondElement' found.");
 
         $input = array(
             "firstElement"  => "isFirst",
@@ -470,7 +470,7 @@ message', $response);
     public function test_renderArray_ShouldConvertMultiDimensionalIndexArrayToJson()
     {
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Data structure returned is not convertible in the requested format: Multidimensional column values not supported.');
+        $this->expectExceptionMessage("Data structure returned is not convertible in the requested format: Multidimensional column values not supported. Found array value for column '1' in row '0'.");
 
         $input = array(array("firstElement",
             array(
@@ -485,7 +485,7 @@ message', $response);
     public function test_renderArray_ShouldConvertMultiDimensionalMixedArrayToJson()
     {
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Data structure returned is not convertible in the requested format: Only integer keys supported for base level.');
+        $this->expectExceptionMessage("Data structure returned is not convertible in the requested format: Only integer keys supported for array columns on base level. Unsupported string 'thirdElement' found.");
 
         $input = array(
             "firstElement" => "isFirst",
