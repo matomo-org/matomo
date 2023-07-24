@@ -417,49 +417,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             return parseInt(totalWidth, 10);
         }
 
-        function setMaxTableWidthIfNeeded (domElem, maxTableWidth)
-        {
-            var $domElem = $(domElem);
-            var dataTableInCard = $domElem.parents('.card').first();
-            var parentDataTable = $domElem.parent('.dataTable');
-
-            if ($domElem.is('.dataTableVizEvolution,.dataTableVizStackedBarEvolution')) {
-                return; // don't resize evolution charts
-            }
-
-            dataTableInCard.width('');
-            $domElem.width('');
-            parentDataTable.width('');
-
-            var tableWidth = getTableWidth(domElem);
-
-            if (tableWidth <= maxTableWidth && tableWidth > 0) {
-                return;
-            }
-
-            if (self.isWidgetized() || self.isDashboard()) {
-                return;
-            }
-
-            if (dataTableInCard && dataTableInCard.length) {
-                // makes sure card has the same width
-                dataTableInCard.css('max-width', maxTableWidth);
-            } else {
-                $domElem.css('max-width', maxTableWidth);
-            }
-
-            if (parentDataTable && parentDataTable.length) {
-                // makes sure dataTableWrapper and DataTable has same size => makes sure maxLabelWidth does not get
-                // applied in getLabelWidth() since they will have the same size.
-
-                if (dataTableInCard.length) {
-                    dataTableInCard.css('max-width', maxTableWidth);
-                } else {
-                    parentDataTable.css('max-width', maxTableWidth);
-                }
-            }
-        }
-
         function getLabelWidth(domElem, tableWidth, minLabelWidth, maxLabelWidth)
         {
             var labelWidth = minLabelWidth;
@@ -559,8 +516,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
             return labelWidth - paddingLeft - paddingRight;
         }
-
-        setMaxTableWidthIfNeeded(domElem, 1600);
 
         var isTableVisualization = this.param.viewDataTable
             && typeof this.param.viewDataTable === 'string'
