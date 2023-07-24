@@ -1599,12 +1599,31 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
                 // this key, we throw an explicit exception.
                 if (is_string($key)) {
                     // we define an exception we may throw if at one point we notice that we cannot handle the data structure
-                    throw new Exception(sprintf($exceptionText, "Only integer keys supported for array columns on base level. Unsupported string '$key' found."));
+                    throw new Exception(
+                        sprintf(
+                            $exceptionText,
+                            sprintf(
+                                "Only integer keys supported for array columns on base level. Unsupported string '%s' found for row '%s'.",
+                                $key,
+                                substr(var_export($row, true), 0, 500)
+                            )
+                        )
+                    );
                 }
                 // if any of the sub elements of row is an array we cannot handle this data structure...
                 foreach ($row as $name => $subRow) {
                     if (is_array($subRow)) {
-                        throw new Exception(sprintf($exceptionText, "Multidimensional column values not supported. Found array value for column '$name' in row '$key'."));
+                        throw new Exception(
+                            sprintf(
+                                $exceptionText,
+                                sprintf(
+                                    "Multidimensional column values not supported. Found unexpected array value for column '%s' in row '%s': '%s'.",
+                                    $name,
+                                    $key,
+                                    substr(var_export($subRow, true), 0, 500)
+                                )
+                            )
+                        );
                     }
                 }
                 $row = new Row(array(Row::COLUMNS => $row));
