@@ -66,13 +66,6 @@
           src="plugins/CoreHome/images/reset_search.png"
         />
       </div>
-      <div v-if="allSitesLocation === 'top' && showAllSitesItem">
-        <AllSitesLink
-          :href="urlAllSites"
-          :all-sites-text="allSitesText"
-          @click="onAllSitesClick($event)"
-        />
-      </div>
       <div class="custom_select_container">
         <ul
           class="custom_select_ul_list"
@@ -104,13 +97,6 @@
           </li>
         </ul>
       </div>
-      <div v-if="allSitesLocation === 'bottom' && showAllSitesItem">
-        <AllSitesLink
-          :href="urlAllSites"
-          :all-sites-text="allSitesText"
-          @click="onAllSitesClick($event)"
-        />
-      </div>
     </div>
   </div>
 </template>
@@ -119,7 +105,6 @@
 import { DeepReadonly, defineComponent } from 'vue';
 import FocusAnywhereButHere from '../FocusAnywhereButHere/FocusAnywhereButHere';
 import FocusIf from '../FocusIf/FocusIf';
-import AllSitesLink from './AllSitesLink.vue';
 import Matomo from '../Matomo/Matomo';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import { translate } from '../translate';
@@ -143,10 +128,6 @@ export default defineComponent({
     showSelectedSite: {
       type: Boolean,
       default: false,
-    },
-    showAllSitesItem: {
-      type: Boolean,
-      default: true,
     },
     switchSiteOnSelect: {
       type: Boolean,
@@ -176,9 +157,6 @@ export default defineComponent({
     },
   },
   emits: ['update:modelValue', 'blur'],
-  components: {
-    AllSitesLink,
-  },
   directives: {
     FocusAnywhereButHere,
     FocusIf,
@@ -303,10 +281,6 @@ export default defineComponent({
         this.isLoading = true;
         this.searchSite(this.searchTerm);
       }
-    },
-    onAllSitesClick(event: MouseEvent) {
-      this.switchSite({ id: 'all', name: this.$props.allSitesText }, event);
-      this.showSitesList = false;
     },
     switchSite(site: SiteRef, event: KeyboardEvent|MouseEvent) {
       // for Mac OS cmd key needs to be pressed, ctrl key on other systems
