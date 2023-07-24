@@ -138,6 +138,7 @@
         "SiteWithoutDataGTMFollowStep7": "Bu JavaScript izleme kodunu Etiket yapılandırma HTML alanına yapıştırın.",
         "SiteWithoutDataGTMFollowStep8": "Aşağı kaydırın ve \"Tetikleme\" üzerine tıklayın.",
         "SiteWithoutDataGTMFollowStep9": "Tüm sayfalarda \"Matomo izleme etiketi\" kullanılması için tetikleyici bölümünden \"Tüm sayfalar\" seçeneğini seçin.",
+        "SiteWithoutDataGoogleAnalyticsImport": "Google Analytics içe aktarma",
         "SiteWithoutDataGoogleTagManager": "Google etiket yöneticisi",
         "SiteWithoutDataGoogleTagManagerDescription": "Matomo uygulamasını Google etiket yöneticisi ile kullanabilirsiniz. Matomo izlemesini Google etiket yöneticisi üzerine kurmak için %1$sbu rehberdeki%2$s yönergeleri izleyin.",
         "SiteWithoutDataGoogleTagManagerFollowStepCompleted": "%1$s Tebrikler! %2$s Matomo Analytics izleme kodunu Google etiket yöneticisi ile kurdunuz. Erişimlerin izlendiğini doğrulamak için sitenizi ziyaret edin ve bu verilerin Matomo bulut sunucunuzda görünür olup olmadığını denetleyin.",

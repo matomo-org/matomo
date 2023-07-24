@@ -135,7 +135,7 @@
         "SiteWithoutDataVueFollowStepNote2": "Si has seguido estos pasos y no hay datos llegando a Matomo, puedes probar el %1$sGestor de etiquetas de Matomo%2$s en su lugar (utiliza este enlace para %3$saplicaciones de página única%4$s).",
         "SiteWithoutDataVueIntro": "Realizar un seguimiento de tu sitio web o aplicación Vue.js es fácil con Matomo, incluso en aplicaciones de página única.",
         "SiteWithoutDataWordpressDescription": "Puedes utilizar el sencillo plugin de WordPress Matomo para realizar un seguimiento de los datos, sigue las instrucciones de esta %1$sguía%2$s.",
-        "SiteWithoutDataWordpressFollowStepCompleted": "¡Felicitaciones! Ahora deberías estar realizando un seguimiento exitoso de los visitantes con Matomo Analytics a través de tu sitio de WordPress. ¡Feliz análisis!",
+        "SiteWithoutDataWordpressFollowStepCompleted": "%1$s¡Felicitaciones!%2$s Ahora deberías estar realizando un seguimiento exitoso de los visitantes con Matomo Analytics a través de tu sitio de WordPress. ¡Feliz análisis!",
         "SiteWithoutDataWordpressFollowStepNote": "Una vez que hayas completado los pasos anteriores, visita tu sitio web y genera una visita de prueba. Si encuentras este mensaje, asegúrate de tener instalado el plugin \"%1$s\".",
         "SiteWithoutDataWordpressFollowSteps1": "Inicia sesión en tu sitio de WordPress como administrador.",
         "SiteWithoutDataWordpressFollowSteps10": "Copia el token de autenticación generado.",

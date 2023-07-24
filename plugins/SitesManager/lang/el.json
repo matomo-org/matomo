@@ -138,6 +138,7 @@
         "SiteWithoutDataGTMFollowStep7": "Επικολλήστε τον κώδικα ιχνηλάτησης JavaScript στο πεδίο Παραμετροποίησης Σήμανσης HTML.",
         "SiteWithoutDataGTMFollowStep8": "Μεταβείτε προς τα κάτω και κάντε κλικ στο \"Εναύσματα\".",
         "SiteWithoutDataGTMFollowStep9": "Επιλέξτε το \"Όλες οι σελίδες\" για να γίνεται έναυσμα της \"σήμανσης ιχνηλάτησης του Matomo\" σε όλες τις σελίδες σας.",
+        "SiteWithoutDataGoogleAnalyticsImport": "Εισαγωγή από Google Analytics",
         "SiteWithoutDataGoogleTagManager": "Διαχειριστής Σημάνσεων Google",
         "SiteWithoutDataGoogleTagManagerDescription": "Μπορείτε να χρησιμοποιήσετε το Matomo με το Διαχειριστή Σημάνσεων του Google. Για να ρυθμίσετε την ιχνηλάτηση του Matomo στο Διαχειριστή Σημάνσεων του Google, ακολουθήστε τις οδηγίες από αυτόν τον %1$sοδηγό%2$s.",
         "SiteWithoutDataGoogleTagManagerFollowStepCompleted": "%1$sΣυγχαρητήρια!%2$s Έχετε εγκαταστήσει με επιτυχία τον κώδικα ιχνηλάτησης αναλυτικών του Matomo μέσω του Διαχειριστή Σημάνσεων της Google. Για να επιβεβαιώσετε ότι οι επισκέψεις ιχνηλατούνται, επισκεφθείτε τον ιστοτόπο σας και ελέγξτε ότι τα δεδομένα είναι ορατά στο στιγμιότυπο του Matomo.",

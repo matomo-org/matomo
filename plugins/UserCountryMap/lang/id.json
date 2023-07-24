@@ -13,7 +13,7 @@
         "None": "Tidak Ada",
         "PluginDescription": "Menyediakan widget \"Peta Pengunjung\" dan \"Peta Waktu Nyata\". Membutuhkan pengaya \"UserCountry\".",
         "RealTimeMap": "Peta Waktu Nyata",
-        "RealTimeMapHelp": "Menunjukkan lokasi pengunjung situs web selama 30 menit terakhir, dan berkedip untuk informasi yang baru. Kunjungan baru-baru ini ditampilkan sebagai gelembung oranye besar, dan yang lama sebagai gelembung abu-abu yang lebih kecil. Tampilan ini diperbarui setiap lima detik sekali.",
+        "RealTimeMapHelp": "Menunjukkan lokasi pengunjung situs web selama 30 menit terakhir dan berkedip saat ada informasi yang baru. Kunjungan baru-baru ini ditampilkan sebagai gelembung oranye besar dan yang lama sebagai gelembung abu-abu yang lebih kecil. Tampilan ini diperbarui setiap lima detik sekali.",
         "Regions": "Wilayah",
         "Searches": "%s pencarian",
         "SecondsAgo": "%s detik lalu",

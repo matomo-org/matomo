@@ -10,7 +10,7 @@
         "CreateAndScheduleReport": "Buat dan Jadwalkan laporan",
         "CreateReport": "Buat Laporan",
         "CustomVisitorSegment": "Segmen Pengunjung Khusus:",
-        "DescriptionOnFirstPage": "Penjelasan laporan akan ditampilkan dalam halaman pertama laporan.",
+        "DescriptionOnFirstPage": "Deskripsi laporan akan ditampilkan di pesan surel, serta di halaman pertama laporan.",
         "DisplayFormat_TablesOnly": "Hanya tampilkan Tabel (tanpa grafik)",
         "EmailHello": "Halo,",
         "EmailReports": "Laporan Surel",

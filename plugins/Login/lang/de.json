@@ -41,7 +41,7 @@
         "LoginOrEmail": "Benutzername oder E-Mail",
         "LoginPasswordNotCorrect": "Benutzername und/oder Passwort ist nicht korrekt.",
         "LostYourPassword": "Passwort vergessen?",
-        "MailPasswordChangeBody2": "Hallo %1$s,\n\neine Passwortzurücksetzung wurde von %2$s angefordert. Um diese Passwortänderung zu bestätigen, und sich mit Ihren neuen Anmeldeoptionen einloggen zu können, kopieren Sie den folgenden Link und fügen ihn in Ihrem Browser ein:\n\n%3$s\n\nHinweis: Der Link ist nur 24 Stunden gültig.\n\nVielen Dank, dass Sie Matomo verwenden!",
+        "MailPasswordChangeBody2": "Hallo %1$s,\n\nEine Anfrage zum Zurücksetzen des Kennworts wurde von %2$s empfangen. Kopieren Sie den folgenden Link und fügen Sie ihn innerhalb von 24 Stunden in Ihren Webbrowser ein, um sich mit Ihrem neuen Benutzernamen und Passwort anzumelden:\n\n%3$s\n\nVielen Dank, dass Sie Matomo verwenden.",
         "MailTopicPasswordChange": "Passwortänderung bestätigen",
         "NewPassword": "Neues Passwort",
         "NewPasswordRepeat": "Neues Passwort wiederholen",

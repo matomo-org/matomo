@@ -41,8 +41,8 @@
         "Settings_ValidatePhoneNumber": "Mengesahkan",
         "Settings_VerificationCodeJustSent": "Kami baru saja mengirim SMS ke nomor ini dengan kode: masukkan kode ini di atas dan klik \"Validasi\".",
         "TopLinkTooltip": "Dapatkan Laporan Analisis Web yang dikirimkan ke kotak masuk surel atau ponsel Anda.",
-        "TopMenu": "Laporan Surel &amp; SMS",
+        "TopMenu": "Surel &amp; Laporan SMS",
         "UserKey": "Kunci pengguna",
-        "VerificationText": "Kodenya adalah %1$s. Untuk memvalidasi nomor telepon Anda dan menerima laporan SMS Matomo, silakan salin kode ini dalam formulir yang dapat diakses melalui Matomo =&gt; %2$s =&gt; %3$s."
+        "VerificationText": "Kodenya adalah %1$s. Untuk memvalidasi nomor telepon Anda dan menerima laporan SMS Matomo, silakan salin kode ini dalam formulir yang dapat diakses melalui Matomo → %2$s → %3$s."
     }
 }
