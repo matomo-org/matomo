@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e842742aaaf3f593d3d9f0ee17e81377",
+    "content-hash": "7af8579462ad6955997d761e29598959",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -736,21 +736,22 @@
         },
         {
             "name": "matomo/searchengine-and-social-list",
-            "version": "3.14.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/searchengine-and-social-list.git",
-                "reference": "2331533592dbfc5df354fd2313136907b1a19075"
+                "reference": "a4ec44a6388ac09ef35fb17ceba118e116bb5bfb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/searchengine-and-social-list/zipball/2331533592dbfc5df354fd2313136907b1a19075",
-                "reference": "2331533592dbfc5df354fd2313136907b1a19075",
+                "url": "https://api.github.com/repos/matomo-org/searchengine-and-social-list/zipball/a4ec44a6388ac09ef35fb17ceba118e116bb5bfb",
+                "reference": "a4ec44a6388ac09ef35fb17ceba118e116bb5bfb",
                 "shasum": ""
             },
             "replace": {
                 "piwik/searchengine-and-social-list": "*"
             },
+            "default-branch": true,
             "type": "library",
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -759,9 +760,9 @@
             "description": "Search engine and social network definitions used by Matomo (formerly Piwik)",
             "support": {
                 "issues": "https://github.com/matomo-org/searchengine-and-social-list/issues",
-                "source": "https://github.com/matomo-org/searchengine-and-social-list/tree/3.14.0"
+                "source": "https://github.com/matomo-org/searchengine-and-social-list/tree/master"
             },
-            "time": "2023-01-20T11:12:22+00:00"
+            "time": "2023-07-24T11:32:38+00:00"
         },
         {
             "name": "maxmind-db/reader",
@@ -5293,7 +5294,8 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "lox/xhprof": 20,
-        "matomo/referrer-spam-list": 20
+        "matomo/referrer-spam-list": 20,
+        "matomo/searchengine-and-social-list": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
