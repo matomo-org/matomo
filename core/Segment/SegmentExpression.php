@@ -470,9 +470,11 @@ class SegmentExpression
             return urlencode($char);
         }, $segmentStr);
 
-        $andExpressions = explode(self::AND_DELIMITER, $segmentStr);
-        $andExpressions = array_map(function ($subexpr) {
-            $orExpressions = explode(self::OR_DELIMITER, $subexpr);
+        $bothDelimeters = preg_quote(self::AND_DELIMITER . self::OR_DELIMITER);
+
+        $andExpressions = preg_split('/' . self::AND_DELIMITER . '(?![' . $bothDelimeters . ']|$)/', $segmentStr);
+        $andExpressions = array_map(function ($subexpr) use ($bothDelimeters) {
+            $orExpressions = preg_split('/' . self::OR_DELIMITER . '(?![' . $bothDelimeters . ']|$)/', $subexpr);
             return $orExpressions;
         }, $andExpressions);
         return $andExpressions;
