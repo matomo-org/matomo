@@ -25,24 +25,24 @@ class SegmentExpressionTest extends \PHPUnit\Framework\TestCase
         return array(
             // classic expressions
             array('A', "A"),
-            array('A,B', "(A OR B )"),
+            array('A,B', "( A OR B)"),
             array('A;B', "A AND B"),
             array('A;B;C', "A AND B AND C"),
-            array('A,B;C,D;E,F,G', "(A OR B) AND (C OR D) AND (E OR F OR G)"),
+            array('A,B;C,D;E,F,G', "( A OR B) AND ( C OR D) AND ( E OR F OR G)"),
 
             // unescape the backslash
-            array('A\,B\,C,D', "(A,B,C OR D)"),
-            array('\,A', ' ,A '),
+            array('A\,B\,C,D', "( A%2CB%2CC OR D)"),
+            array('\,A', '%2CA'),
             // unescape only when it was escaping a known delimiter
-            array('\\\A', ' \\\A '),
+            array('\\\A', '%5CA'),
             // unescape at the end
-            array('\,\;\A\B,\,C,D\;E\,', '(,;\A\B OR ,C OR D;E,)'),
+            array('\,\;\A\B,\,C,D\;E\,', '( %2C%3BAB OR %2CC OR D%3BE%2C)'),
 
             // only replace when a following expression is detected
             array('A,', 'A,'),
             array('A;', 'A;'),
             array('A;B;', 'A AND B;'),
-            array('A,B,', '(A OR B,)'),
+            array('A,B,', '( A OR B,)'),
         );
     }
 
@@ -69,8 +69,8 @@ class SegmentExpressionTest extends \PHPUnit\Framework\TestCase
             array('A==B%', array('where' => "A = ?", 'bind' => array('B%'))),
             array('ABCDEF====B===', array('where' => "ABCDEF = ?", 'bind' => array('==B==='))),
             array('A===B;CDEF!=C!=', array('where' => "A = ? AND ( CDEF IS NULL OR CDEF <> ? )", 'bind' => array('=B', 'C!='))),
-            array('A==B,C==D', array('where' => "(A = ? OR C = ?)", 'bind' => array('B', 'D'))),
-            array('A!=B;C==D', array('where' => "(A IS NULL OR A <> ?) AND C = ?", 'bind' => array('B', 'D'))),
+            array('A==B,C==D', array('where' => "( A = ? OR C = ?)", 'bind' => array('B', 'D'))),
+            array('A!=B;C==D', array('where' => "( A IS NULL OR A <> ? ) AND C = ?", 'bind' => array('B', 'D'))),
             array('A!=B;C==D,E!=Hello World!=', array('where' => "( A IS NULL OR A <> ? ) AND ( C = ? OR ( E IS NULL OR E <> ? ))", 'bind' => array('B', 'D', 'Hello World!='))),
             array('A=@B;C=$D', array('where' => "A LIKE ? AND C LIKE ?", 'bind' => array('%B%', '%D'))),
 
