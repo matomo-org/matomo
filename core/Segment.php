@@ -259,7 +259,7 @@ class Segment
         // parse segments
         $expressions = $segment->parseSubExpressions();
         $expressions = $this->getExpressionsWithUnionsResolved($expressions);
-        $expressions = $this->mergeSubqueryExpressions($expressions);
+        $expressions = $this->mergeSubqueryExpressionsInTree($expressions);
 
         // convert segments name to sql segment
         // check that user is allowed to view this segment
@@ -690,82 +690,76 @@ class Segment
     }
 
     /**
-     * TODO
-    // Build subqueries for segments that are not on log_visit table but use !@ or != as operator
-    // This is required to ensure segments like actionUrl!@value really do not include any visit having an action containing `value`
+     * Build subqueries for segments that are not on log_visit table but use !@ or != as operator
+     * This is required to ensure segments like actionUrl!@value really do not include any visit having an action containing `value`
+     *
+     * Adjacent segment conditions that both require subqueries are merged here into single NOT IN sql subqueries,
+     * which improves performance.
+     *
+     * Subquery segment conditions that are next to each other in a chain of OR's are merged together and
+     * subquery segment conditions that are next to each other in a chain of AND's, but are also alone and not
+     * a part of an OR expression, are merged.
+     *
+     * The operands for the merged conditions in the parsed intermediate structure use the special MATCH_IDVISIT_NOT_IN
+     * operator.
      */
-    private function mergeSubqueryExpressions(array $expressions): array
+    private function mergeSubqueryExpressionsInTree(array $tree): array
     {
-        // TODO: code redundancy here
-        // merge subquery OR expressions
         $andExpressions = array_map(function ($orExpressions) {
-            if (count($orExpressions) <= 1) {
-                return $orExpressions;
-            }
+            return $this->mergeSubqueryExpressionsInExpr($orExpressions, false);
+        }, $tree);
 
-            $mappedOrExpressions = [];
-            $idvisitNotInExpressions = [];
+        $mappedAndExpressions = $this->mergeSubqueryExpressionsInExpr($andExpressions, true);
 
-            foreach ($orExpressions as $operand) {
-                $name = $operand[SegmentExpression::INDEX_OPERAND_NAME];
-                $matchType = $operand[SegmentExpression::INDEX_OPERAND_OPERATOR];
-                $value = $operand[SegmentExpression::INDEX_OPERAND_VALUE];
+        return $mappedAndExpressions;
+    }
 
-                if (!$this->doesSegmentNeedSubquery($matchType, $name)) {
-                    $mappedOrExpressions[] = $operand;
-                    continue;
-                }
+    private function mergeSubqueryExpressionsInExpr(array $expressions, bool $isAndChain): array
+    {
+        // nothing to merge if there's only one expression
+        if (!$isAndChain && count($expressions) <= 1) {
+            return $expressions;
+        }
 
-                $operator = $this->getInvertedOperatorForSubQuery($matchType);
-                $idvisitNotInExpressions[] = $name . $operator . $value;
-            }
-
-            if (!empty($idvisitNotInExpressions)) {
-                $mappedOrExpressions[] = [
-                    SegmentExpression::INDEX_OPERAND_NAME => null,
-                    SegmentExpression::INDEX_OPERAND_OPERATOR => SegmentExpression::MATCH_IDVISIT_NOT_IN,
-                    SegmentExpression::INDEX_OPERAND_VALUE => implode(SegmentExpression::AND_DELIMITER, $idvisitNotInExpressions),
-                ];
-            }
-
-            return $mappedOrExpressions;
-        }, $expressions);
-
-        // merge subquery and conditions
-        $mappedAndExpressions = [];
+        $mappedExpressions = [];
         $idvisitNotInExpressions = [];
 
-        foreach ($andExpressions as $orExpressions) {
-            if (count($orExpressions) > 1) {
-                $mappedAndExpressions[] = $orExpressions;
+        foreach ($expressions as $childExpressionsOrOperand) {
+            // if this is an AND chain w/ more than one sub-expression being OR-ed together, we can't do anything about the NOT IN subqueries there
+            if ($isAndChain
+                && count($childExpressionsOrOperand) > 1
+            ) {
+                $mappedExpressions[] = $childExpressionsOrOperand;
                 continue;
             }
 
-            $operand = $orExpressions[0];
+            $operand = $isAndChain ? $childExpressionsOrOperand[0] : $childExpressionsOrOperand;
 
             $name = $operand[SegmentExpression::INDEX_OPERAND_NAME];
             $matchType = $operand[SegmentExpression::INDEX_OPERAND_OPERATOR];
             $value = $operand[SegmentExpression::INDEX_OPERAND_VALUE];
 
             if (!$this->doesSegmentNeedSubquery($matchType, $name)) {
-                $mappedAndExpressions[] = $orExpressions;
+                $mappedExpressions[] = $childExpressionsOrOperand;
                 continue;
             }
 
+            // if the segment is pageTitle!=def, then NOT IN sql will have to be idvisit NOT IN (... WHERE pageTitle == def),
+            // so we must invert the operator before we create a MATCH_IDVISIT_NOT_IN operand below
             $operator = $this->getInvertedOperatorForSubQuery($matchType);
             $idvisitNotInExpressions[] = $name . $operator . $value;
         }
 
         if (!empty($idvisitNotInExpressions)) {
-            $mappedAndExpressions[] = [
-                [
-                    SegmentExpression::INDEX_OPERAND_NAME => null,
-                    SegmentExpression::INDEX_OPERAND_OPERATOR => SegmentExpression::MATCH_IDVISIT_NOT_IN,
-                    SegmentExpression::INDEX_OPERAND_VALUE => implode(SegmentExpression::OR_DELIMITER, $idvisitNotInExpressions),
-                ],
+            $newOperand = [
+                SegmentExpression::INDEX_OPERAND_NAME => null,
+                SegmentExpression::INDEX_OPERAND_OPERATOR => SegmentExpression::MATCH_IDVISIT_NOT_IN,
+                SegmentExpression::INDEX_OPERAND_VALUE => implode($isAndChain ? SegmentExpression::OR_DELIMITER : SegmentExpression::AND_DELIMITER, $idvisitNotInExpressions),
             ];
+
+            $mappedExpressions[] = $isAndChain ? [$newOperand] : $newOperand;
         }
 
-        return $mappedAndExpressions;
+        return $mappedExpressions;
     }
 }
