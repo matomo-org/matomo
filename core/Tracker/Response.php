@@ -144,6 +144,8 @@ class Response
             Common::sendHeader('Cache-Control: no-store');
         }
 
+        Common::sendHeader('X-Frame-Options: SAMEORIGIN');
+
         if (array_key_exists('send_image', $request) && $request['send_image'] === '0') {
             Common::sendResponseCode(204);
             return;
