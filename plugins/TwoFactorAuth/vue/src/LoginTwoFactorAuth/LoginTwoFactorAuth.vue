@@ -43,12 +43,11 @@
             autocorrect="off"
             autocapitalize="none"
             autocomplete="off"
-            tabindex="10"
             autofocus="autofocus"
           />
 
           <label for="login_form_authcode">
-            <i class="icon-user icon"></i>
+            <i class="icon-user icon" aria-hidden="true"></i>
             {{ translate('TwoFactorAuth_AuthenticationCode') }}
           </label>
         </div>
@@ -61,7 +60,6 @@
             id="login_form_submit"
             type="submit"
             :value="translate('TwoFactorAuth_Verify')"
-            tabindex="100"
           />
         </div>
       </div>

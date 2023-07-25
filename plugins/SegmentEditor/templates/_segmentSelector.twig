@@ -1,9 +1,9 @@
 <div class="SegmentEditor" style="display:none;">
     <div class="segmentationContainer listHtml" title="{{ 'SegmentEditor_ChooseASegment'|translate }}. {{ 'SegmentEditor_CurrentlySelectedSegment'|translate(segmentDescription) }}">
-        <a class="title" tabindex="4"><span class="icon icon-segment"></span><span class="segmentationTitle"></span></a>
+        <a class="title"><span class="icon icon-segment"></span><span class="segmentationTitle"></span></a>
         <div class="dropdown dropdown-body">
             <div class="segmentFilterContainer">
-                <input class="segmentFilter browser-default" type="text" tabindex="4" value="{{ 'General_Search'|translate }}"/>
+                <input class="segmentFilter browser-default" type="text" value="{{ 'General_Search'|translate }}"/>
                 <span></span>
             </div>
             <ul class="submenu">
@@ -16,7 +16,7 @@
             </ul>
 
             {% if authorizedToCreateSegments %}
-                <a tabindex="4" class="add_new_segment btn">{{ 'SegmentEditor_AddNewSegment'|translate }}</a>
+                <a class="add_new_segment btn">{{ 'SegmentEditor_AddNewSegment'|translate }}</a>
             {% else %}
                 <hr/>
                 <ul class="submenu">

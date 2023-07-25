@@ -7,7 +7,6 @@
 <template>
   <a
     class="item-help-icon"
-    tabindex="5"
     href="javascript:"
     @click="showHelp"
   >

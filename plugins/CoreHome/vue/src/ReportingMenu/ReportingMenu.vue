@@ -20,7 +20,6 @@
       >
         <a
           class="item"
-          tabindex="5"
           href=""
           @click.prevent="loadCategory(category)"
         >
@@ -49,7 +48,6 @@
             >
               <a
                 class="item"
-                tabindex="5"
                 :class="{
                   active: subcat.id === activeSubsubcategory
                     && subcategory.id === displayedSubcategory
@@ -74,7 +72,6 @@
             </a>
             <a
               class="item-help-icon"
-              tabindex="5"
               href="javascript:"
               v-if="subcategory.help"
               @click="showHelp(category, subcategory, $event)"

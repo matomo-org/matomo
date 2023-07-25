@@ -22,26 +22,26 @@
                             <div class="col s12 input-field">
                                 <input type="text" name="email" value="{{ user.email }}" size="20" readonly="readonly"
                                        tabindex="0"/>
-                                <label><i class="icon-user icon"></i> {{ 'UsersManager_Email'|translate }}</label>
+                                <label><i class="icon-user icon" aria-hidden="true"></i> {{ 'UsersManager_Email'|translate }}</label>
                             </div>
                             <div class="col s12 input-field">
                                 <input type="password" placeholder="" name="password" id="password" class="input" value="" size="20"
                                        autocorrect="off" autocapitalize="none" spellcheck="false"
-                                       tabindex="1" required/>
-                                <label for="password"><i class="icon-locked icon"></i> {{ 'Login_NewPassword'|translate }}</label>
+                                        required/>
+                                <label for="password"><i class="icon-locked icon" aria-hidden="true"></i> {{ 'Login_NewPassword'|translate }}</label>
                             </div>
                             <div class="col s12 input-field">
                                 <input type="password" placeholder="" name="passwordConfirmation" id="password_confirm" class="input" value="" size="20"
                                        autocorrect="off" autocapitalize="none" spellcheck="false"
-                                       tabindex="2" required/>
-                                <label for="password_confirm"><i class="icon-locked icon"></i> {{ 'Login_NewPasswordRepeat'|translate }}</label>
+                                        required/>
+                                <label for="password_confirm"><i class="icon-locked icon" aria-hidden="true"></i> {{ 'Login_NewPasswordRepeat'|translate }}</label>
                             </div>
                         </div>
                         <div class="row actions">
                             {% if privacyPolicyUrl|default('') is not empty or termsAndCondition|default('') is not empty %}
                                 <div class="col s12">
                                     <label>
-                                        <input name="conditionCheck" type="checkbox" id="conditionCheck" value="1" tabindex="89"/>
+                                        <input name="conditionCheck" type="checkbox" id="conditionCheck" value="1"/>
                                         <span>
                                             {% if privacyPolicyUrl|default('') is not empty and termsAndCondition|default('') is empty %}
                                                 {{ 'Login_BySigningUpPrivacyPolicy'|translate(
@@ -66,8 +66,7 @@
                                 </div>
                             {% endif %}
                             <div style="margin-top:10px" class="col s12">
-                                <input class="submit btn" name="invitation_form" id="login_form_submit" type="submit" value="{{ 'Login_Accept'|translate }}"
-                                       tabindex="100"/>
+                                <input class="submit btn" name="invitation_form" id="login_form_submit" type="submit" value="{{ 'Login_Accept'|translate }}"/>
                             </div>
                         </div>
                     </form>

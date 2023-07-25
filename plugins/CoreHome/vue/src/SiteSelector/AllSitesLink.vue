@@ -12,7 +12,6 @@
     <a
       @click="$event.preventDefault()"
       v-html="$sanitize(allSitesText)"
-      tabindex="4"
       :href="href"
     />
   </div>
