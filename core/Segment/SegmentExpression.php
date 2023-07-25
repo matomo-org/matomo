@@ -45,7 +45,8 @@ class SegmentExpression
     const MATCH_ACTIONS_NOT_CONTAINS = 'NOTIN';
 
     /**
-     * TODO
+     * A special match type for segments that require rejecting a visit if any action/conversion/etc. in the visit matches a condition.
+     * These operands result in `idvisit NOT IN (...)` subqueries.
      */
     const MATCH_IDVISIT_NOT_IN = 'IDVISIT_NOTIN';
 
