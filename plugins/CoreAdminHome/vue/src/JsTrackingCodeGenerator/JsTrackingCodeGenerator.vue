@@ -71,10 +71,9 @@
       </div>
     </div>
     <JsTrackingCodeAdvancedOptions
-      :default-site="defaultSite"
+      :site="site"
       :max-custom-variables="maxCustomVariables"
       :server-side-do-not-track-enabled="serverSideDoNotTrackEnabled"
-      :showBottomHR="false"
       @updateTrackingCode="updateTrackingCode"
       ref="jsTrackingCodeAdvanceOption"/>
 
@@ -89,47 +88,17 @@ import {
   AjaxHelper,
   SiteRef,
   CopyToClipboard,
-  Matomo,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 import JsTrackingCodeAdvancedOptions from './JsTrackingCodeAdvancedOptions.vue';
 
-interface CustomVar {
-  name: string;
-  value: string;
-}
-
 interface JsTrackingCodeGeneratorState {
-  showAdvanced: boolean;
   site: SiteRef;
   trackingCode: string;
-  trackAllSubdomains: boolean;
-  isLoading: boolean;
-  siteUrls: Record<string, string[]>;
-  siteExcludedQueryParams: Record<string, string[]>,
-  siteExcludedReferrers: Record<string, string[]>,
-  crossDomain: boolean;
-  groupByDomain: boolean;
-  trackAllAliases: boolean;
-  trackNoScript: boolean;
-  trackCustomVars: boolean;
-  customVars: CustomVar[];
-  canAddMoreCustomVariables: boolean;
-  doNotTrack: boolean;
-  disableCookies: boolean;
-  useCustomCampaignParams: boolean;
-  customCampaignName: string;
-  customCampaignKeyword: string;
-  trackingCodeAbortController: AbortController|null;
   isHighlighting: boolean;
   consentManagerName: string;
   consentManagerUrl: string;
   consentManagerIsConnected: boolean;
-}
-
-function getHostNameFromUrl(url: string) {
-  const urlObj = new URL(url);
-  return urlObj.hostname;
 }
 
 export default defineComponent({
@@ -143,27 +112,8 @@ export default defineComponent({
   },
   data(): JsTrackingCodeGeneratorState {
     return {
-      showAdvanced: false,
       site: this.defaultSite as SiteRef,
       trackingCode: '',
-      trackAllSubdomains: false,
-      isLoading: false,
-      siteUrls: {},
-      siteExcludedQueryParams: {},
-      siteExcludedReferrers: {},
-      crossDomain: false,
-      groupByDomain: false,
-      trackAllAliases: false,
-      trackNoScript: false,
-      trackCustomVars: false,
-      customVars: [],
-      canAddMoreCustomVariables: !!this.maxCustomVariables && this.maxCustomVariables > 0,
-      doNotTrack: false,
-      disableCookies: false,
-      useCustomCampaignParams: false,
-      customCampaignName: '',
-      customCampaignKeyword: '',
-      trackingCodeAbortController: null,
       isHighlighting: false,
       consentManagerName: '',
       consentManagerUrl: '',
@@ -205,83 +155,22 @@ export default defineComponent({
     onSiteChanged(newValue: SiteRef) {
       const idSite = newValue.id;
 
-      // if data is already loaded, don't do an AJAX request
-
-      const promises: Promise<unknown>[] = [];
-      if (!this.siteUrls[idSite]) {
-        this.isLoading = true;
-
-        promises.push(
-          AjaxHelper.fetch(
-            {
-              module: 'API',
-              format: 'json',
-              method: 'Tour.detectConsentManager',
-              idSite,
-              filter_limit: '-1',
-            },
-          ).then((response) => {
-            if (Object.prototype.hasOwnProperty.call(response, 'name')) {
-              this.consentManagerName = response.name;
-            }
-            if (Object.prototype.hasOwnProperty.call(response, 'url')) {
-              this.consentManagerUrl = response.url;
-            }
-            this.consentManagerIsConnected = response.isConnected;
-          }),
-        );
-
-        promises.push(
-          AjaxHelper.fetch({
-            module: 'API',
-            method: 'SitesManager.getSiteUrlsFromId',
-            idSite,
-            filter_limit: '-1',
-          }).then((data) => {
-            this.siteUrls[idSite] = data || [];
-          }),
-        );
-      }
-
-      if (!this.siteExcludedQueryParams[idSite]) {
-        this.isLoading = true;
-
-        promises.push(
-          AjaxHelper.fetch({
-            module: 'API',
-            method: 'Overlay.getExcludedQueryParameters',
-            idSite,
-            filter_limit: '-1',
-          }).then((data) => {
-            this.siteExcludedQueryParams[idSite] = data || [];
-          }),
-        );
-      }
-
-      if (!this.siteExcludedReferrers[idSite]) {
-        this.isLoading = true;
-
-        promises.push(
-          AjaxHelper.fetch({
-            module: 'API',
-            method: 'SitesManager.getExcludedReferrers',
-            idSite,
-            filter_limit: '-1',
-          }).then((data) => {
-            this.siteExcludedReferrers[idSite] = [];
-            Object.values(data || []).forEach((referrer: unknown) => {
-              this.siteExcludedReferrers[idSite].push((referrer as string).replace(/^https?:\/\//, ''));
-            });
-          }),
-        );
-      }
-
-      Promise.all(promises).then(() => {
-        // eslint-disable-next-line
-        const refs = (this.$refs.jsTrackingCodeAdvanceOption as any);
-        this.isLoading = false;
-        this.updateCurrentSiteInfo();
-        refs.updateTrackingCode(newValue);
+      AjaxHelper.fetch(
+        {
+          module: 'API',
+          format: 'json',
+          method: 'Tour.detectConsentManager',
+          idSite,
+          filter_limit: '-1',
+        },
+      ).then((response) => {
+        if (Object.prototype.hasOwnProperty.call(response, 'name')) {
+          this.consentManagerName = response.name;
+        }
+        if (Object.prototype.hasOwnProperty.call(response, 'url')) {
+          this.consentManagerUrl = response.url;
+        }
+        this.consentManagerIsConnected = response.isConnected;
       });
     },
     sendEmail() {
@@ -308,34 +197,8 @@ export default defineComponent({
       const linkText = `mailto:?subject=${subjectLine}&body=${bodyText}`;
       window.location.href = linkText;
     },
-    updateCurrentSiteInfo() {
-      if (!this.hasManySiteUrls) {
-        // we make sure to disable cross domain if it has only one url or less
-        this.crossDomain = false;
-      }
-    },
   },
   computed: {
-    hasManySiteUrls() {
-      const { site } = this;
-      return this.siteUrls[site.id] && this.siteUrls[site.id].length > 1;
-    },
-    currentSiteHost() {
-      const siteUrl = this.siteUrls[this.site.id]?.[0];
-      if (!siteUrl) {
-        return '';
-      }
-
-      return getHostNameFromUrl(siteUrl);
-    },
-    currentSiteAlias() {
-      const defaultAliasUrl = `x.${this.currentSiteHost}`;
-      const alias = this.siteUrls[this.site.id]?.[1];
-      return alias || defaultAliasUrl;
-    },
-    currentSiteName() {
-      return Matomo.helper.htmlEntities(this.site.name);
-    },
     jsTrackingIntro3a() {
       return translate(
         'CoreAdminHome_JSTrackingIntro3a',
