@@ -18,7 +18,6 @@ use Piwik\IP;
 use Piwik\NoAccessException;
 use Piwik\Piwik;
 use Piwik\Plugins\Login\Security\BruteForceDetection;
-use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Session;
 use Piwik\SettingsServer;
 
@@ -254,4 +253,6 @@ class Login extends \Piwik\Plugin
 
         return $login;
     }
+
+
 }

@@ -20,7 +20,6 @@ use Piwik\Exception\RedirectException;
 use Piwik\IP;
 use Piwik\Log;
 use Piwik\Nonce;
-use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\Emails\UserAcceptInvitationEmail;
 use Piwik\Plugins\CoreAdminHome\Emails\UserDeclinedInvitationEmail;
