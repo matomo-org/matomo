@@ -1,6 +1,18 @@
 <script type="text/javascript">
     $(document).ready(function(){
-        $('.tabs').tabs();
+        $('.tabs').tabs({
+            'onShow': function (element) {
+                var id = element.getAttribute('id');
+                if (!id) {
+                    return;
+                }
+                window.CoreHome.MatomoUrl.updateHash({...window.CoreHome.MatomoUrl.hashParsed.value, activeTab: id})
+            }
+        });
+        var selectedTab = window.CoreHome.MatomoUrl.hashParsed.value.activeTab;
+        if (selectedTab) {
+            M.Tabs.getInstance($('.tabs')).select(selectedTab);
+        }
     });
 </script>
 
@@ -10,7 +22,7 @@
     <div class="col s12 tabs-row">
         <ul class="tabs no-data-screen-ul-tabs">
             <li class="tab col {{ columnClass }}"><a {% if siteType != constant('Piwik\\Plugins\\SitesManager\\SitesManager::SITE_TYPE_UNKNOWN') and (consentManagerName == false) and (activeTab == '') %} class="active" {% endif %} href="#integrations">{{ 'SitesManager_Integrations'|translate }}</a></li>
-            <li class="tab col {{ columnClass }}"><a {% if (siteType == constant('Piwik\\Plugins\\SitesManager\\SitesManager::SITE_TYPE_UNKNOWN') and (activeTab == '')) or consentManagerName %} class="active" {% endif %} href="#tracking-code">{{ 'CoreAdminHome_TrackingCode'|translate }}</a></li>
+            <li class="tab col {{ columnClass }}"><a {% if (siteType == constant('Piwik\\Plugins\\SitesManager\\SitesManager::SITE_TYPE_UNKNOWN') and (activeTab == '') or activeTab == 'consentManager') %} class="active" {% endif %} href="#tracking-code">{{ 'CoreAdminHome_TrackingCode'|translate }}</a></li>
             <li class="tab col {{ columnClass }}"><a href="#mtm">{{ 'SitesManager_SiteWithoutDataMatomoTagManager'|translate }}</a></li>
             {% if gtmUsed %}
                 <li class="tab col s2"><a {% if activeTab == 'gtm' %} class="active" {% endif %} href="#google-tag-manager">{{ 'SitesManager_SiteWithoutDataGoogleTagManager'|translate }}</a></li>
@@ -26,6 +38,12 @@
             {% endif %}
             {% if jsFramework == 'react' %}
                 <li class="tab col s2"><a {% if activeTab == 'react' %} class="active" {% endif %} href="#react">React.js</a></li>
+            {% endif %}
+            {%  if tagManagerActive %}
+                <li class="tab col {{ columnClass }}"><a href="#spa">SPA / PWA</a></li>
+            {% endif %}
+            {% if showGAImportTab %}
+                <li class="tab col {{ columnClass }}"><a {% if activeTab == 'ga-import' %} class="active" {% endif %} href="#ga-import">{{ 'SitesManager_SiteWithoutDataGoogleAnalyticsImport'|translate }}</a></li>
             {% endif %}
             <li class="tab col {{ columnClass }}"><a href="#other">{{ 'SitesManager_SiteWithoutDataOtherWays'|translate }}</a></li>
         </ul>
@@ -181,6 +199,18 @@
             {{ postEvent('Template.embedReactTagManagerTrackingCode') }}
 
         </div>
+    {% endif %}
+
+    {%  if tagManagerActive %}
+        <div id="spa" class="col s12">
+            {% include '@SitesManager/_spa.twig' %}
+        </div>
+    {% endif %}
+
+    {% if showGAImportTab %}
+    <div id="ga-import" class="col s12">
+        {{ postEvent('Template.embedGAImportNoData', ga3Used) }}
+    </div>
     {% endif %}
 
     <div id="other" class="col s12">

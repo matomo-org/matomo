@@ -86,7 +86,7 @@
         "ExceptionLoginExists": "'%s' kullanıcı adı zaten var.",
         "ExceptionLoginExistsAsEmail": "'%s' kullanıcı adı zaten bir e-posta adresi olarak kullanılmış.",
         "ExceptionMultipleRoleSet": "Yalnızca bir rol ayarlanması gerekli ancak birden çok rol ayarlanmış. Yalnızca birini kullanın: %s",
-        "ExceptionNoCapabilitiesWithoutRole": "%2$s kodlu site için %1$s kullanıcısına herhangi bir yetenek verilemiyor. Kullanıcının en azından görüntüleme erişimi olmalı.",
+        "ExceptionNoCapabilitiesWithoutRole": "%2$s kimlikli site için %1$s kullanıcısına herhangi bir izin verilemedi. Kullanıcının en azından görüntüleme erişimi olmalı.",
         "ExceptionNoRoleSet": "Herhangi bir rol ayarlanmamış ancak şunlardan birinin ayarlanması gerekli: %s",
         "ExceptionNoValueForUsernameOrEmail": "Lütfen bir kullanıcı adı ve e-posta adresi yazın.",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth işlevi MD5 karmalı bir parola bekliyor (32 karakter uzunluğunda bir dizge). Bu işlevi çağırmadan önce parola üzerinde md5() işlevini çağırın.",

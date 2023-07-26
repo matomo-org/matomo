@@ -20,7 +20,7 @@
         "HideUnchanged": "Si voleu veure només els valors canviats, podeu %1$samagar tots els valors sense canvis%2$s.",
         "HtaccessWarningNginx": "Per garantir que no es pot accedir directament als fitxers sensibles, es recomana configurar el servidor web per restringir l'accés a determinats directoris. Per obtenir més informació, consulteu %1$sla configuració oficial del servidor nginx%2$s",
         "MysqlMaxPacketSize": "Mida màxima del paquet",
-        "MysqlMaxPacketSizeWarning": "Es recomana configurar una mida 'max_allowed_packet' a la vostra base de dades MySQL d'almenys %1$s. La configuració actualment és %2$s.",
+        "MysqlMaxPacketSizeWarning": "Es recomana configurar una mida '%1$smax_allowed_packet%2$s' a la vostra base de dades MySQL d'almenys %3$s. La configuració actualment és %4$s.",
         "MysqlTemporaryTablesWarning": "És necessari el permís de MySQL CREATE TEMPORARY TABLES perquè el Matomo funcioni correctament.",
         "MysqlTransactionLevel": "No s'admet el canvi del nivell d'aïllament de la transacció. L'arxivat seguirà funcionant, però pot ser més lent i es recomana canviar, per exemple, el `binlog_format` a `row` si és possible.",
         "NoDataForReportArchivingNotRun": "L'arxivat dels vostres informes no s'ha executat recentment, %1$sobteniu més informació sobre com generar els vostres informes.%2$s",

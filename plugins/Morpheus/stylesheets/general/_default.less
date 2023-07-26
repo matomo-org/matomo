@@ -83,6 +83,8 @@ body {
   line-height: 1.33;
   background-color: white;
   color: #333;
+  font-family: @theme-fontFamily-base;
+  font-size: 1em;
 }
 
 ol,
@@ -113,22 +115,22 @@ del {
   text-decoration: line-through;
 }
 
-/* start piwik styles */
-body {
-  font-family: @theme-fontFamily-base;
-  font-size: 1em;
-}
-
-a {
-  color: #255792;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
 #root {
   margin: 0 10px;
   position: relative;
 }
+
+a {
+ color: @theme-color-link;
+ text-decoration: underline;
+ cursor: pointer;
+
+ &>[class^="icon-"], &>[class*=" icon-"] {
+  // avoids underlining icons in links
+  display: inline-block;
+ }
+}
+
 
 /* Make sure the scroll bar is always displayed so the content does not shift when reloading menu with/without scrollbar */
 html {

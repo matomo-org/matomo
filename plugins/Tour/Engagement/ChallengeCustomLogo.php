@@ -45,7 +45,7 @@ class ChallengeCustomLogo extends Challenge
         return 'custom_logo';
     }
 
-    public function isCompleted()
+    public function isCompleted(string $login)
     {
         if (!isset($this->completed)) {
             $logo = new CustomLogo();

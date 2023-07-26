@@ -12,6 +12,7 @@ use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Nonce;
+use Piwik\Period\PeriodValidator;
 use Piwik\Piwik;
 use Piwik\Plugins\ImageGraph\ImageGraph;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
@@ -46,7 +47,11 @@ class Controller extends \Piwik\Plugin\Controller
         $view->displayFormats = ScheduledReports::getDisplayFormats();
 
         $view->paramPeriods = [];
-        foreach (Piwik::$idPeriods as $label => $id) {
+
+        $periodValidator = new PeriodValidator();
+        $allowedPeriods = $periodValidator->getPeriodsAllowedForAPI();
+
+        foreach ($allowedPeriods as $label) {
             if ($label === 'range') {
                 continue;
             }

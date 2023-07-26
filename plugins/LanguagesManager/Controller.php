@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\LanguagesManager;
 
 use Piwik\Common;
-use Piwik\DbHelper;
 use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\Url;
@@ -27,11 +26,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $language = Common::getRequestVar('language');
         $nonce = Common::getRequestVar('nonce', '');
-
-        // Prevent CSRF only when piwik is not installed yet (During install user can change language)
-        if (DbHelper::isInstalled()) {
-            $this->checkTokenInUrl();
-        }
 
         Nonce::checkNonce(LanguagesManager::LANGUAGE_SELECTION_NONCE, $nonce);
 

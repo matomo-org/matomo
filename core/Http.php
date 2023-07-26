@@ -250,11 +250,6 @@ class Http
             $requestBodyQuery = $requestBody;
         }
 
-        // Piwik services behave like a proxy, so we should act like one.
-        $xff = 'X-Forwarded-For: '
-            . (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && !empty($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] . ',' : '')
-            . IP::getIpFromHeader();
-
         if (empty($userAgent)) {
             $userAgent = self::getUserAgent();
         }
@@ -291,9 +286,9 @@ class Http
             'body' => $requestBody,
             'userAgent' => $userAgent,
             'timeout' => $timeout,
-            'headers' => array_map('trim', array_filter(array_merge(array(
-                $rangeHeader, $via, $xff, $httpAuth, $acceptLanguage
-            ), $additionalHeaders))),
+            'headers' => array_map('trim', array_filter(array_merge([
+                $rangeHeader, $via, $httpAuth, $acceptLanguage
+            ], $additionalHeaders))),
             'verifySsl' => !$acceptInvalidSslCertificate,
             'destinationPath' => $destinationPath
         );
@@ -403,7 +398,6 @@ class Http
                 . ($proxyAuth ? $proxyAuth : '')
                 . 'User-Agent: ' . $userAgent . "\r\n"
                 . ($acceptLanguage ? $acceptLanguage . "\r\n" : '')
-                . $xff . "\r\n"
                 . $via . "\r\n"
                 . $rangeHeader
                 . (!empty($additionalHeaders) ? implode("\r\n", $additionalHeaders) . "\r\n" : '')
@@ -565,7 +559,6 @@ class Http
                         'header'        => 'User-Agent: ' . $userAgent . "\r\n"
                             . ($httpAuth ? $httpAuth : '')
                             . ($acceptLanguage ? $acceptLanguage . "\r\n" : '')
-                            . $xff . "\r\n"
                             . $via . "\r\n"
                             . (!empty($additionalHeaders) ? implode("\r\n", $additionalHeaders) . "\r\n" : '')
                             . $rangeHeader,
@@ -650,7 +643,6 @@ class Http
                 CURLOPT_URL            => $aUrl,
                 CURLOPT_USERAGENT      => $userAgent,
                 CURLOPT_HTTPHEADER     => array_merge(array(
-                    $xff,
                     $via,
                     $acceptLanguage
                 ), $additionalHeaders),

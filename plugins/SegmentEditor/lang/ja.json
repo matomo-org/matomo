@@ -31,6 +31,7 @@
         "SaveAndApply": "保存して適用",
         "SegmentDisplayedAllWebsites": "全ウェブサイト",
         "SegmentDisplayedThisWebsiteOnly": "このウェブサイトのみ",
+        "SegmentEditor": "セグメントエディタ",
         "SegmentIsDisplayedForWebsite": "処理された",
         "SegmentNotApplied": "セグメント '%s' が適用されませんでした",
         "SegmentNotAppliedMessage": "Custom Segment '%s'のデータを要求していますが、この Matomo の設定では現在、パフォーマンス上の理由からレポートのリアルタイム処理ができません。",

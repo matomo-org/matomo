@@ -10,6 +10,8 @@
         "Default": "mặc định",
         "DonateCall1": "Matomo sẽ luôn luôn cho bạn thấy không có gì để sử dụng, nhưng điều đó không có nghĩa là nó cho thấy chúng ta không có gì để làm.",
         "DonateCall2": "Matomo cần sự hỗ trợ của bạn để phát triển và phát triển mạnh hơn.",
+        "EndShortcut": "Kết Thúc",
+        "ExceptionNotAllowlistedIP": "Bạn không thế sử dụng Matomo vì địa chỉ IP %s của bạn không được cho phép.",
         "ExcludeRowsWithLowPopulation": "Tất cả các hàng được hiển thị %s Loại trừ dân số thấp",
         "ExternalHelp": "Giúp đỡ (mở trong tab mới)",
         "FlattenDataTable": "Báo cáo này là phân cấp %s Làm cho nó minh bạch",

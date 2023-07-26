@@ -493,9 +493,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $nonce = Nonce::getNonce(self::NONCE_CONFIRMRESETPASSWORD);
 
-        return $this->renderTemplateAs('confirmResetPassword', [
+        return $this->renderTemplateAs('@Login/confirmResetPassword', [
           'nonce'        => $nonce,
-          'errorMessage' => $errorMessage
+          'errorMessage' => $errorMessage,
+          'loginPlugin' => Piwik::getLoginPluginName(),
         ], 'basic');
     }
 

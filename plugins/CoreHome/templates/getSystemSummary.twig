@@ -4,19 +4,19 @@
             <div class="systemSummaryItem {% if item.getKey %}{{ item.getKey }}{% endif %}">
                 {% if item.getIcon %}<span class="icon {{ item.getIcon }}"></span>{% endif %}
 
-                {% if item.getUrlParams -%}
+                {%- if item.getUrlParams -%}
                     <a href="{{ linkTo(item.getUrlParams) }}" class="itemLabel">
-                {% else -%}
+                {%- else -%}
                     <span class="itemLabel">
-                {% endif -%}
+                {%- endif -%}
 
-                {{ item.getLabel }}{% if item.getValue %}:{% endif %}
+                {{ item.getLabel }}{% if item.getValue %}: {% endif %}
 
-                {%- if item.getUrlParams %}
+                {%- if item.getUrlParams -%}
                     </a>
-                {%- else %}
+                {%- else -%}
                     </span>
-                {%- endif %}
+                {%- endif -%}
 
                 {% if item.getValue %}<span class="itemValue">{{ item.getValue }}</span>{% endif %}
             </div>

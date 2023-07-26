@@ -57,7 +57,7 @@ use Piwik\Piwik;
  *
  * @api
  */
-abstract class Archiver
+class Archiver
 {
     public static $ARCHIVE_DEPENDENT = true;
 
@@ -77,21 +77,29 @@ abstract class Archiver
     protected $maximumRows;
 
     /**
+     * Used if a plugin has RecordBuilders but no Archiver subclass.
+     *
+     * @var string|null
+     */
+    private $pluginName = null;
+
+    /**
      * Constructor.
      *
      * @param ArchiveProcessor $processor The ArchiveProcessor instance to use when persisting archive
      *                                    data.
      */
-    public function __construct(ArchiveProcessor $processor)
+    public function __construct(ArchiveProcessor $processor, ?string $pluginName = null)
     {
         $this->maximumRows = PiwikConfig::getInstance()->General['datatable_archiving_maximum_rows_standard'];
         $this->processor = $processor;
         $this->enabled = true;
+        $this->pluginName = $pluginName;
     }
 
     private function getPluginName(): string
     {
-        return Piwik::getPluginNameOfMatomoClass(get_class($this));
+        return $this->pluginName ?: Piwik::getPluginNameOfMatomoClass(get_class($this));
     }
 
     /**
@@ -386,14 +394,14 @@ abstract class Archiver
         }
     }
 
-    private function getDefaultConstructibleClasses(array $classes): array
+    private static function getDefaultConstructibleClasses(array $classes): array
     {
         return array_filter($classes, function ($className) {
             return (new \ReflectionClass($className))->getConstructor()->getNumberOfRequiredParameters() == 0;
         });
     }
 
-    private function getAllRecordBuilderClasses(): array
+    private static function getAllRecordBuilderClasses(): array
     {
         $transientCache = Cache::getTransientCache();
         $cacheKey = CacheId::siteAware('RecordBuilders.allRecordBuilders');
@@ -401,10 +409,21 @@ abstract class Archiver
         $recordBuilderClasses = $transientCache->fetch($cacheKey);
         if ($recordBuilderClasses === false) {
             $recordBuilderClasses = Manager::getInstance()->findMultipleComponents('RecordBuilders', ArchiveProcessor\RecordBuilder::class);
-            $recordBuilderClasses = $this->getDefaultConstructibleClasses($recordBuilderClasses);
+            $recordBuilderClasses = self::getDefaultConstructibleClasses($recordBuilderClasses);
 
             $transientCache->save($cacheKey, $recordBuilderClasses);
         }
         return $recordBuilderClasses;
+    }
+
+    public static function doesPluginHaveRecordBuilders(string $pluginName): bool
+    {
+        $recordBuilders = self::getAllRecordBuilderClasses();
+        foreach ($recordBuilders as $builder) {
+            if ($pluginName === Piwik::getPluginNameOfMatomoClass($builder)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

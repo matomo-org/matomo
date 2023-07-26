@@ -3,7 +3,7 @@
 	border-color:#00CC3A; 
 	border-style: solid;
 	border-width: 1px;
-	margin: 0pt 0pt 16px 8px;
+	margin: 0 0 16px 8px;
 	padding: 12px;			
 	line-height:4em;
 }
@@ -12,14 +12,14 @@
 }
 
 .page_api{
-	padding:0px 15px 0 15px; 
+	padding:0 15px 0 15px; 
 	font-size:13px; 
 }
 
 .page_api h2 {
 	border-bottom:1px solid #DADADA;
-	margin:10px -15px 15px 0px;
-	padding:0pt 0px 5px 0pt;
+	margin:10px -15px 15px 0;
+	padding:0 0 5px 0;
 	font-size:24px;
 }
 

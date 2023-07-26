@@ -312,9 +312,9 @@ class SiteUrlsTest extends IntegrationTestCase
         $this->assertEquals($expectedUrls, $urls);
     }
 
-    private function addSite($urls)
+    private function addSite(...$urls)
     {
-        $this->api->addSite('siteName', func_get_args());
+        $this->api->addSite('siteName', $urls);
     }
 
     private function assertValueInCache($value)

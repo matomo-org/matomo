@@ -28,9 +28,9 @@ class ChallengeSetupTwoFa extends Challenge
         return 'setup_twofa';
     }
 
-    public function isCompleted()
+    public function isCompleted(string $login)
     {
-        return TwoFactorAuthentication::isUserUsingTwoFactorAuthentication(Piwik::getCurrentUserLogin());
+        return TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($login);
     }
 
     public function getUrl()

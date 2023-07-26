@@ -1,4 +1,4 @@
-/* ADDITIONAL STYLES*/
+/* ADDITIONAL STYLES */
 .youMustBeLoggedIn {
     font-size: 8pt;
     font-style: italic;
@@ -6,11 +6,11 @@
 }
 
 .searchFound {
-    border: 0px solid red;
+    border: 0 solid red;
 }
 
 .others {
-    border: 0px solid green;
+    border: 0 solid green;
 }
 
 .clear {
@@ -28,8 +28,8 @@
 
 .hovered {
     border-radius: 4px;
-    border: 2px dashed #000 !important;
-    padding: 0px;
+    border: 2px dashed #a0a0a0 !important;
+    padding: 0;
 }
 
 .metricListBlock {
@@ -60,8 +60,12 @@ div.scrollable {
 }
 
 .no_results {
-    position: absolute;
-    margin: -225px 0 0 10px;
+    margin: 0;
+    position: relative;
+
+    a {
+        cursor: default;
+    }
 }
 
 .segment-element {
@@ -72,6 +76,13 @@ div.scrollable {
     position: absolute;
     left: -1px;
     top: 37px;
+    z-index: 999;
+    width: 940px;
+
+    @media screen and (max-width: 940px) {
+        width: 95vw;
+        padding: 1em;
+    }
 }
 
 .segment-element .custom_select_search {
@@ -171,12 +182,12 @@ div.scrollable {
 }
 
 .segment-element .segment-footer a.delete {
-    color: red;
+    color: #d4291f !important;
 }
 
 .segment-element .segment-footer a {
     font-size: 14px;
-    color: #255792;
+    color: @theme-color-link !important;
     margin: 0 5px;
     text-decoration: none;
 }
@@ -322,7 +333,6 @@ html.comparisonsDisabled .segmentationContainer ul.submenu {
 .segmentEditorPanel.expanded .segmentFilterContainer > input[type="text"] {
     font-size: 11px;
     width: 206px;
-    padding: 0;
     border: 1px solid #d0d0d0;
     border-width: 1px;
     color: #999;
@@ -370,22 +380,7 @@ html.comparisonsDisabled .segmentationContainer ul.submenu {
     background: transparent !important;
 }
 
-/* ADDITIONAL STYLES*/
-body > a.ddmetric {
-    display: block;
-    cursor: move;
-    padding: 1px 0 2px 18px;
-    background: #eae8e3 url(plugins/SegmentEditor/images/segment-move.png) 100% 50% no-repeat;
-    color: @theme-color-text-light;
-    font-weight: normal;
-    font-size: 11px;
-    text-decoration: none;
-    text-shadow: 0 1px 0 #fff;
-    border: 1px solid #cfccbd;
-    border-top: 1px solid #fff;
-    border-bottom: 1px solid #7c7a72;
-}
-
+/* ADDITIONAL STYLES */
 .segment-element .segment-nav div > ul > li ul {
     margin-left: 0;
 }
@@ -395,10 +390,6 @@ body > a.ddmetric {
     padding-right: 18px;
 }
 
-.hovered {
-    border-color: #a0a0a0 !important;
-}
-
 a.metric_category {
     display: block;
     width: 100%;
@@ -406,15 +397,6 @@ a.metric_category {
 
 .segment-content > h3 {
     padding-bottom: 7px;
-}
-
-.no_results {
-    margin: 0;
-    position: relative;
-}
-
-.no_results a {
-    cursor: default;
 }
 
 .ui-widget-segmentation {
@@ -435,16 +417,6 @@ a.metric_category {
 
 .segmentationContainer {
     z-index: 120;
-}
-
-.segment-element {
-    z-index: 999;
-    width: 940px;
-
-    @media screen and (max-width: 940px) {
-        width: 95vw;
-        padding: 1em;
-    }
 }
 
 .segmentationSelectorContainer {
@@ -524,10 +496,14 @@ a.metric_category {
 
 .segment-element .segment-nav a.dropdown {
     max-width: 180px;
+    padding: 0;
+    display: inline-block;
+    background: url("plugins/Morpheus/images/sort_subtable_desc.png") no-repeat scroll 100% -2px transparent !important;
 }
 
 .segname {
     max-width: 145px;
+    display: inline-block;
 }
 
 .segmentEditorPanel .segmentationTitle {
@@ -545,24 +521,14 @@ a.metric_category {
     padding-bottom: 10px;
 }
 
-.segment-element .segment-nav a.dropdown,
-.segname {
-    display: inline-block;
-}
-
-.segment-element .segment-nav a.dropdown,
 .segment-element .segment-top a.dropdown {
     padding: 0;
     background: none !important;
 }
 
-.segment-element .segment-nav a.dropdown {
-    background: url("plugins/Morpheus/images/sort_subtable_desc.png") no-repeat scroll 100% -2px transparent !important;
-}
-
 .segment-element .segment-top a.dropdown:after {
     content: " \25BC";
-    font-size: 0px;
+    font-size: 0;
     color: @theme-color-brand;
     border-left: 4px solid rgba(0, 0, 0, 0);
     border-right: 4px solid rgba(0, 0, 0, 0);
@@ -578,14 +544,6 @@ a.metric_category {
     li {
         font-style: normal;
     }
-}
-
-.segment-element .segment-footer a.delete {
-    color: #d4291f !important;
-}
-
-.segment-element .segment-footer a {
-    color: @theme-color-link !important;
 }
 
 .enable_all_users, .visible_to_website, .auto_archive {

@@ -36,7 +36,7 @@ class ChallengeConfigureGeolocation extends Challenge
         return 'configure_geolocation';
     }
 
-    public function isCompleted()
+    public function isCompleted(string $login)
     {
         if (!isset($this->completed)) {
             $locationDiagnostic = StaticContainer::get(GeolocationDiagnostic::class);

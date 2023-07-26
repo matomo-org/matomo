@@ -231,10 +231,17 @@ abstract class RecordBuilder
                     continue; // dependent record not archived, so skip this metric
                 }
 
+                $count = $aggregatedCounts[$dependentRecordName];
+
                 if ($record->getCountOfRecordNameIsRecursive()) {
-                    $recordCountMetricValues[$record->getName()] = $aggregatedCounts[$dependentRecordName]['recursive'];
+                    $recordCountMetricValues[$record->getName()] = $count['recursive'];
                 } else {
-                    $recordCountMetricValues[$record->getName()] = $aggregatedCounts[$dependentRecordName]['level0'];
+                    $recordCountMetricValues[$record->getName()] = $count['level0'];
+                }
+
+                $transform = $record->getMultiplePeriodTransform();
+                if (!empty($transform)) {
+                    $recordCountMetricValues[$record->getName()] = $transform($recordCountMetricValues[$record->getName()], $count);
                 }
             }
 
