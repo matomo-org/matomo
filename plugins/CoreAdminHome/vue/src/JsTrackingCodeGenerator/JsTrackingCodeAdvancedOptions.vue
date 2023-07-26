@@ -265,7 +265,7 @@ function getHostNameFromUrl(url: string) {
 }
 
 function getCustomVarArray(cvars: CustomVar[]) {
-  return cvars.map((cv) => [cv.name, cv.value]);
+  return cvars.filter((cv) => !!cv.name).map((cv) => [cv.name, cv.value]);
 }
 
 const piwikHost = window.location.host;
