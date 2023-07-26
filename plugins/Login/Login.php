@@ -27,11 +27,6 @@ use Piwik\SettingsServer;
  */
 class Login extends \Piwik\Plugin
 {
-    const ON_BOARDING_FLOW_STEP_KEY = 'on_boarding_flow_step';
-    const ON_BOARDING_FLOW_STEP_1 = 'welcome';
-    const ON_BOARDING_FLOW_STEP_2 = 'lets_get_started';
-    const ON_BOARDING_FLOW_STEP_COMPLETE = 'complete';
-
     private $hasAddedFailedAttempt = false;
     private $hasPerformedBruteForceCheck = false;
     private $hasPerformedBruteForceCheckForUserPwdLogin = false;
@@ -258,10 +253,5 @@ class Login extends \Piwik\Plugin
         }
 
         return $login;
-    }
-
-    public static function getOnBoardingStepKey($uerLogin)
-    {
-        return $uerLogin . UsersManagerAPI::OPTION_NAME_PREFERENCE_SEPARATOR . self::ON_BOARDING_FLOW_STEP_KEY;
     }
 }

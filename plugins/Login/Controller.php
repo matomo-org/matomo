@@ -44,8 +44,6 @@ use Piwik\View;
 class Controller extends \Piwik\Plugin\ControllerAdmin
 {
     const NONCE_CONFIRMRESETPASSWORD = 'loginConfirmResetPassword';
-    const NONCE_WELCOME = 'loginWelcome';
-    const NONCE_LETS_GET_STARTED = 'loginLetsGetStarted';
 
     /**
      * @var PasswordResetter
@@ -337,8 +335,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         // remove password reset entry if it exists
         $this->passwordResetter->removePasswordResetInfo($login);
 
-        $this->checkAndRedirectIfOnBoardingFlowActive($login);
-
         $parsedUrl = parse_url($urlToRedirect);
 
         if (!empty($urlToRedirect) && false === $parsedUrl) {
@@ -355,7 +351,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         if (empty($urlToRedirect)) {
-
             $redirect = Request::fromRequest()->getStringParameter('form_redirect', '');
             $module = Request::fromQueryString(UrlHelper::getQueryFromUrl($redirect))->getStringParameter('module', '');
             // when module is login, we redirect to home...
@@ -645,8 +640,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                  */
                 Piwik::postEvent('UsersManager.inviteUser.accepted', [$user['login'], $user['email'], $user['invited_by']]);
 
-                $this->updateOnBoardingFlowStep($user['login'], Login::ON_BOARDING_FLOW_STEP_1);
-
                 $this->authenticateAndRedirect($user['login'], $passwordConfirmation);
             }
 
@@ -723,94 +716,5 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $this->configureView($view);
         self::setHostValidationVariablesView($view);
         return $view->render();
-    }
-
-    public function welcome()
-    {
-        Piwik::isUserHasSomeViewAccess();
-
-        $form = Request::fromRequest()->getStringParameter('welcome_form', '');
-
-        if (!empty($form)) {
-            $nonce = Request::fromRequest()->getStringParameter('nonce', '');
-            Nonce::checkNonce(self::NONCE_WELCOME, $nonce);
-
-            $login = Piwik::getCurrentUserLogin();
-            $this->updateOnBoardingFlowStep($login, Login::ON_BOARDING_FLOW_STEP_2);
-            $this->checkAndRedirectIfOnBoardingFlowActive($login);
-        }
-
-        $this->redirectIfNotAllowedToViewOnBoardingScreen(Login::ON_BOARDING_FLOW_STEP_1);
-
-        return $this->renderTemplate('@Login/welcome', [
-            'nonce'             => Nonce::getNonce(self::NONCE_WELCOME, 1200),
-            'loginPlugin'       => Piwik::getLoginPluginName(),
-        ]);
-    }
-
-    public function getStarted()
-    {
-        Piwik::isUserHasSomeViewAccess();
-
-        $form = Request::fromRequest()->getStringParameter('start_tracking_form', '');
-        if (!empty($form)) {
-            $nonce = Request::fromRequest()->getStringParameter('nonce', '');
-            Nonce::checkNonce(self::NONCE_LETS_GET_STARTED, $nonce);
-
-            $login = Piwik::getCurrentUserLogin();
-            $this->updateOnBoardingFlowStep($login, Login::ON_BOARDING_FLOW_STEP_COMPLETE);
-            $this->checkAndRedirectIfOnBoardingFlowActive($login);
-        }
-
-        $this->redirectIfNotAllowedToViewOnBoardingScreen(Login::ON_BOARDING_FLOW_STEP_2);
-
-        return $this->renderTemplate('@Login/getStarted', [
-            'nonce'             => Nonce::getNonce(self::NONCE_LETS_GET_STARTED, 1200),
-            'loginPlugin'       => Piwik::getLoginPluginName(),
-        ]);
-    }
-
-    private function checkAndRedirectIfOnBoardingFlowActive($login)
-    {
-        $onBoardingStep = Option::get(Login::getOnBoardingStepKey($login));
-        if (empty($onBoardingStep) || $onBoardingStep === Login::ON_BOARDING_FLOW_STEP_COMPLETE) {
-            return;
-        }
-        $redirectUrl = '';
-        /**
-         * Triggered before a user is redirected to any onBoarding step
-         *
-         * @param string $onBoardingStep The current onBoarding step the user will be redirected too.
-         * @param string $redirectUrl The redirectURL to update for redirection.
-         */
-        Piwik::postEvent('Login.onBoardingFlowRedirect', [$onBoardingStep, &$redirectUrl]);
-
-        if (!empty($redirectUrl)) {
-            Url::redirectToUrl($redirectUrl);
-        } else if ($onBoardingStep == Login::ON_BOARDING_FLOW_STEP_1) {
-            Piwik::redirectToModule(Piwik::getLoginPluginName(), 'welcome');
-        } else if ($onBoardingStep == Login::ON_BOARDING_FLOW_STEP_2) {
-            Piwik::redirectToModule(Piwik::getLoginPluginName(), 'getStarted');
-        }
-    }
-
-    private function redirectIfNotAllowedToViewOnBoardingScreen($step)
-    {
-        $login = Piwik::getCurrentUserLogin();
-        if ($step != Option::get(Login::getOnBoardingStepKey($login))) {
-            $this->checkAndRedirectIfOnBoardingFlowActive($login);
-            Url::redirectToUrl(Url::getCurrentUrlWithoutQueryString());
-        }
-    }
-
-    private function updateOnBoardingFlowStep($login, $stepToBeUpdated)
-    {
-        /**
-         * Triggered before any onBoarding step is updated
-         *
-         * @param string $stepToBeUpdated The next onBoarding step that will be updated.
-         */
-        Piwik::postEvent('Login.onBoardingFlowStepUpdate.before', [&$stepToBeUpdated]);
-        Option::set(Login::getOnBoardingStepKey($login), $stepToBeUpdated);
     }
 }
