@@ -15,8 +15,8 @@ class Archiver extends \Piwik\Plugin\Archiver
     public function getDependentSegmentsToArchive(): array
     {
         return [
-            ['plugin' => 'VisitFrequency', 'segment' => VisitFrequencyAPI::NEW_VISITOR_SEGMENT],
-            ['plugin' => 'VisitFrequency', 'segment' => VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT],
+            ['plugin' => 'VisitsSummary', 'segment' => VisitFrequencyAPI::NEW_VISITOR_SEGMENT],
+            ['plugin' => 'VisitsSummary', 'segment' => VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT],
         ];
     }
 }
