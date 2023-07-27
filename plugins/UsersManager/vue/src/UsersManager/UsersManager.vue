@@ -386,9 +386,10 @@ export default defineComponent({
       }
       this.loading = true;
       try {
-        const res = await AjaxHelper.fetch<{ value: string }>(
+        const res = await AjaxHelper.post<{ value: string }>(
           {
             method: 'UsersManager.generateInviteLink',
+          }, {
             userLogin: this.userBeingEdited!.login,
             passwordConfirmation: password,
           },
@@ -431,10 +432,12 @@ ${translate('UsersManager_CopyDeniedHints', [`<br><span class="invite-link">${va
     },
     onResendInvite(password: string) {
       if (password === '') return;
-      AjaxHelper.fetch<AjaxHelper>(
+      AjaxHelper.post<AjaxHelper>(
         {
           method: 'UsersManager.resendInvite',
           userLogin: this.userBeingEdited!.login,
+        },
+        {
           passwordConfirmation: password,
         },
       ).then(() => {
