@@ -10,14 +10,14 @@
 {% endblock %}
 
 
-{% set title %}{{ (pageTitle is defined) ? pageTitle : 'Login_LogIn'|translate }}{% endset %}
+{% set title %}{{ pageTitle|default('Login_LogIn'|translate) }}{% endset %}
 
 {% block pageDescription %}{{ 'General_OpenSourceWebAnalytics'|translate }}{% endblock %}
 
 {% set bodyId = 'loginPage' %}
 
 {% set centeredLogo = isCenteredLogo is defined ? isCenteredLogo : true %}
-{% set colClass = colClassOverride is defined ? colClassOverride : 'col s12 m6 push-m3 l4 push-l4' %}
+{% set colClass %}{{ colClassOverride|default('col s12 m6 push-m3 l4 push-l4') }}{% endset %}
 
 {% block body %}
 

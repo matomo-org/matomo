@@ -1,6 +1,6 @@
 {% set isCenteredLogo = false %}
 {% set showImageDiv = true %}
-{% set imageToShow = 'plugins/Login/images/01_Create password.png' %}
+{% set imageToShow = 'plugins/Login/images/invitation-image.png' %}
 {% set colClassOverride = 'col l4 offset-l2 m12' %}
 {% set bodyClass = 'onBoarding' %}
 {% extends '@Login/loginLayout.twig' %}
@@ -8,9 +8,7 @@
 {% block loginContent %}
     <div class="contentForm invitationForm" id="invitationForm">
         <p class="uppercase header-p m-top">{{ 'General_CreatePassword'|translate }}</p>
-        <p>&nbsp;</p>
         <p class="header-p">{{ 'Login_CreatePasswordDescription'|translate }}</p>
-        <p>&nbsp;</p>
 
         {% if AccessErrorString is defined %}
             <div vue-entry="CoreHome.Notification"
