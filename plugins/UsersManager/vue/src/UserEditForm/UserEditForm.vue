@@ -475,6 +475,7 @@ export default defineComponent({
       this.isResetting2FA = true;
       return AjaxHelper.post({
         method: 'TwoFactorAuth.resetTwoFactorAuth',
+      }, {
         userLogin: this.theUser.login,
         passwordConfirmation: password,
       }).catch((e) => {
