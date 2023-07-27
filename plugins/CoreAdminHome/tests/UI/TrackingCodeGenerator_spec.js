@@ -12,6 +12,14 @@ describe("TrackingCodeGenerator", function () {
 
   var generalParams = 'idSite=1&period=year&date=2023-08-09';
 
+  before(async function () {
+    await testEnvironment.callApi("SitesManager.setSiteAliasUrls", {idSite: 7, urls: ['https://another.site.com']});
+  });
+
+  after(async function () {
+    await testEnvironment.callApi("SitesManager.setSiteAliasUrls", {idSite: 7, urls: []});
+  });
+
   it('should load the Tracking Code admin page correctly', async function () {
     await page.goto("?" + generalParams + "&module=CoreAdminHome&action=trackingCodeGenerator");
 
@@ -71,6 +79,23 @@ describe("TrackingCodeGenerator", function () {
 
     pageWrap = await page.$('[vue-entry="CoreAdminHome.JsTrackingCodeGenerator"]');
     expect(await pageWrap.screenshot()).to.matchImage('advanced_campaign');
+  });
+
+  it('should allow selecting cross domain when multiple site urls configured', async function () {
+    await page.goto("?idSite=7&period=year&date=2023-08-09&module=CoreAdminHome&action=trackingCodeGenerator");
+    await page.click('.advance-option a');
+
+    pageWrap = await page.$('[vue-entry="CoreAdminHome.JsTrackingCodeGenerator"]');
+    expect(await pageWrap.screenshot()).to.matchImage('cross_domain');
+  });
+
+  it('selecting cross domain will also check outlink option', async function () {
+    await page.click('#javascript-tracking-cross-domain');
+    await page.waitForNetworkIdle();
+    await page.waitForTimeout(500); // wait till tracking code was updated
+
+    pageWrap = await page.$('[vue-entry="CoreAdminHome.JsTrackingCodeGenerator"]');
+    expect(await pageWrap.screenshot()).to.matchImage('cross_domain_checked');
   });
 
 });
