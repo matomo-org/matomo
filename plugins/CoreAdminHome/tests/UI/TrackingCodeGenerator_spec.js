@@ -35,7 +35,7 @@ describe("TrackingCodeGenerator", function () {
   it('should be possible to show advanced options', async function () {
     await page.click('.advance-option a');
 
-    pageWrap = await page.$('[vue-entry="CoreAdminHome.JsTrackingCodeGenerator"]');
+    pageWrap = await page.$('[matomo-js-tracking-code-generator]');
     expect(await pageWrap.screenshot()).to.matchImage('advanced');
   });
 
@@ -52,7 +52,7 @@ describe("TrackingCodeGenerator", function () {
     await page.waitForNetworkIdle();
     await page.waitForTimeout(500); // wait till tracking code was updated
 
-    pageWrap = await page.$('[vue-entry="CoreAdminHome.JsTrackingCodeGenerator"]');
+    pageWrap = await page.$('[matomo-js-tracking-code-generator]');
     expect(await pageWrap.screenshot()).to.matchImage('advanced_selected_options');
   });
 
@@ -67,7 +67,7 @@ describe("TrackingCodeGenerator", function () {
     await page.waitForNetworkIdle();
     await page.waitForTimeout(500); // wait till tracking code was updated
 
-    pageWrap = await page.$('[vue-entry="CoreAdminHome.JsTrackingCodeGenerator"]');
+    pageWrap = await page.$('[matomo-js-tracking-code-generator]');
     expect(await pageWrap.screenshot()).to.matchImage('advanced_cvars');
   });
 
@@ -77,7 +77,7 @@ describe("TrackingCodeGenerator", function () {
     await page.waitForNetworkIdle();
     await page.waitForTimeout(500); // wait till tracking code was updated
 
-    pageWrap = await page.$('[vue-entry="CoreAdminHome.JsTrackingCodeGenerator"]');
+    pageWrap = await page.$('[matomo-js-tracking-code-generator]');
     expect(await pageWrap.screenshot()).to.matchImage('advanced_campaign');
   });
 
@@ -85,7 +85,7 @@ describe("TrackingCodeGenerator", function () {
     await page.goto("?idSite=7&period=year&date=2023-08-09&module=CoreAdminHome&action=trackingCodeGenerator");
     await page.click('.advance-option a');
 
-    pageWrap = await page.$('[vue-entry="CoreAdminHome.JsTrackingCodeGenerator"]');
+    pageWrap = await page.$('[matomo-js-tracking-code-generator]');
     expect(await pageWrap.screenshot()).to.matchImage('cross_domain');
   });
 
@@ -94,7 +94,7 @@ describe("TrackingCodeGenerator", function () {
     await page.waitForNetworkIdle();
     await page.waitForTimeout(500); // wait till tracking code was updated
 
-    pageWrap = await page.$('[vue-entry="CoreAdminHome.JsTrackingCodeGenerator"]');
+    pageWrap = await page.$('[matomo-js-tracking-code-generator]');
     expect(await pageWrap.screenshot()).to.matchImage('cross_domain_checked');
   });
 
