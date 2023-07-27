@@ -35,7 +35,7 @@ class DeviceModel extends Base
         $model = $parser->getModel();
 
         if (!empty($model)) {
-            return $model;
+            return mb_substr($model, 0, 100);
         }
 
         $deviceType = $parser->getDeviceName();
