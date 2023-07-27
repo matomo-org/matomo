@@ -450,9 +450,7 @@ class Archive implements ArchiveQuery
             $result[$plugin][] = $name;
         }
 
-        $result = array_map('array_unique', $result);
-
-        return $result;
+        return array_map('array_unique', $result);
     }
 
     /**
@@ -747,10 +745,10 @@ class Archive implements ArchiveQuery
     {
         $requestedReport = $this->getRequestedReport();
 
-        $shouldOnlyProcessRequestedRecords = empty($requestedReport)
+        $shouldOnlyProcessRequestedArchives = empty($requestedReport)
             && Rules::shouldProcessOnlyReportsRequestedInArchiveQuery($this->getPeriodLabel());
 
-        if ($shouldOnlyProcessRequestedRecords) {
+        if ($shouldOnlyProcessRequestedArchives) {
             return Rules::getDoneFlagArchiveContainsOnePlugin($this->params->getSegment(), $plugin);
         }
 
@@ -914,13 +912,15 @@ class Archive implements ArchiveQuery
             $doneFlag = $this->getDoneStringForPlugin($plugin, $idSites);
             $this->initializeArchiveIdCache($doneFlag);
 
+            $reportsToArchiveForThisPlugin = (empty($requestedReport) && $shouldOnlyProcessRequestedArchives) ? $archiveNames : $requestedReport;
+
             $prepareResult = $coreAdminHomeApi->archiveReports(
                 $site->getId(),
                 $period->getLabel(),
                 $periodDateStr,
                 $this->params->getSegment()->getOriginalString(),
                 $plugin,
-                empty($requestedReport) && $shouldOnlyProcessRequestedArchives ? $archiveNames : $requestedReport
+                $reportsToArchiveForThisPlugin
             );
 
             if (

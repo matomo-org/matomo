@@ -70,13 +70,13 @@ class Common
     /**
      * Returns an array containing the prefixed table names of every passed argument.
      *
-     * @param string ... The table names to prefix, ie "log_visit"
+     * @param string ...$tables The table names to prefix, ie "log_visit"
      * @return array The prefixed names in an array.
      */
-    public static function prefixTables()
+    public static function prefixTables(...$tables)
     {
         $result = array();
-        foreach (func_get_args() as $table) {
+        foreach ($tables as $table) {
             $result[] = self::prefixTable($table);
         }
         return $result;
@@ -188,7 +188,7 @@ class Common
      * @return string
      * @deprecated since 4.4 - directly use mb_substr instead
      */
-    public static function mb_substr($string, $start, $length = null)
+    public static function mb_substr($string, $start, $length = null) // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
     {
         return mb_substr($string, $start, $length, 'UTF-8');
     }
@@ -227,7 +227,7 @@ class Common
      * @return int
      * @deprecated since 4.4 - directly use mb_strlen instead
      */
-    public static function mb_strlen($string)
+    public static function mb_strlen($string) // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
     {
         return mb_strlen($string, 'UTF-8');
     }
@@ -241,7 +241,7 @@ class Common
      * @return string
      * @deprecated since 4.4 - directly use mb_strtolower instead
      */
-    public static function mb_strtolower($string)
+    public static function mb_strtolower($string) // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
     {
         return mb_strtolower($string, 'UTF-8');
     }
@@ -255,7 +255,7 @@ class Common
      * @return string
      * @deprecated since 4.4 - directly use mb_strtoupper instead
      */
-    public static function mb_strtoupper($string)
+    public static function mb_strtoupper($string) // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
     {
         return mb_strtoupper($string, 'UTF-8');
     }
@@ -294,7 +294,7 @@ class Common
      * @param bool $rethrow Whether to rethrow exceptions or not.
      * @return mixed
      */
-    public static function safe_unserialize($string, $allowedClasses = [], $rethrow = false)
+    public static function safe_unserialize($string, $allowedClasses = [], $rethrow = false)  // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
     {
         try {
             // phpcs:ignore Generic.PHP.ForbiddenFunctions

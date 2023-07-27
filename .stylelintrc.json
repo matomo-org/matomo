@@ -1,0 +1,27 @@
+{
+    "overrides": [
+        {
+            "files": ["**/*.less"],
+            "customSyntax": "postcss-less"
+        }
+    ],
+    "ignoreFiles": ["node_modules/**/*", "vendor/**/*", "tests/**/*", "tmp/**/*", "misc/**/*", "plugins/*/vue/dist/*", "plugins/*/tests/**/*", "plugins/Morpheus/stylesheets/base/bootstrap.css"],
+    "rules": {
+        "color-no-invalid-hex": true,
+        "no-irregular-whitespace": true,
+        "length-zero-no-unit": true,
+        "block-no-empty": true,
+        "comment-no-empty": true,
+        "no-empty-source": true,
+        "declaration-block-no-duplicate-properties": [
+            true,
+            { "ignore": ["consecutive-duplicates"] }
+        ],
+        "font-family-no-duplicate-names": true,
+        "no-duplicate-at-import-rules": true,
+        "no-duplicate-selectors": true,
+        "comment-whitespace-inside": "always",
+        "unit-no-unknown": true,
+        "selector-anb-no-unmatchable": true
+    }
+}

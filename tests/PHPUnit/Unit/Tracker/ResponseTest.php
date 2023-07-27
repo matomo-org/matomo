@@ -66,8 +66,8 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
 
         $content = $this->response->getOutput();
 
-        self::assertStringContainsString('<title>Matomo &rsaquo; Error</title>', $content);
-        self::assertStringContainsString('<p>My Custom Message', $content);
+        self::assertStringContainsString('An exception occurred', $content);
+        self::assertStringContainsString('My Custom Message', $content);
     }
 
     public function test_outputResponse_shouldOutputStandardApiResponse()
@@ -128,7 +128,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
         $tracker->setCountOfLoggedRequests(0);
         $this->response->outputResponse($tracker);
 
-        $this->assertEquals("This resource is part of Matomo. Keep full control of your data with the leading free and open source <a href='https://matomo.org' target='_blank' rel='noopener noreferrer nofollow'>web analytics & conversion optimisation platform</a>.<br>\nThis file is the endpoint for the Matomo tracking API. If you want to access the Matomo UI or use the Reporting API, please use <a href='index.php'>index.php</a> instead.",
+        $this->assertEquals("This resource is part of Matomo. Keep full control of your data with the leading free and open source <a href='https://matomo.org' target='_blank' rel='noopener noreferrer nofollow'>web analytics & conversion optimisation platform</a>.<br>\nThis file is the endpoint for the Matomo tracking API. If you want to access the Matomo UI or use the Reporting API, please use <a href='index.php'>index.php</a> instead.\n",
             $this->response->getOutput());
     }
 

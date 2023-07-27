@@ -121,6 +121,7 @@ class PasswordResetter
         }
         $this->usersManagerApi = $usersManagerApi;
 
+        $this->confirmPasswordModule = Piwik::getLoginPluginName();
         if (!empty($confirmPasswordModule)) {
             $this->confirmPasswordModule = $confirmPasswordModule;
         }

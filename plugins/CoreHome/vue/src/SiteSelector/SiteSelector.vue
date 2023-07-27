@@ -95,16 +95,12 @@
         </ul>
         <ul
           v-show="!sites.length && searchTerm"
-          class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all
-                 siteSelect"
+          class="custom_select_ul_list"
         >
-          <li class="ui-menu-item">
-            <a
-              class="ui-corner-all"
-              tabindex="-1"
-            >
+          <li>
+            <div class="noresult">
               {{ translate('SitesManager_NotFound') + ' ' + searchTerm }}
-            </a>
+            </div>
           </li>
         </ul>
       </div>

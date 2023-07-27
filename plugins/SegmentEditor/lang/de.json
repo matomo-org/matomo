@@ -31,6 +31,7 @@
         "SaveAndApply": "Speichern und Übernehmen",
         "SegmentDisplayedAllWebsites": "alle Webseiten",
         "SegmentDisplayedThisWebsiteOnly": "nur diese Webseite",
+        "SegmentEditor": "Segment Editor",
         "SegmentIsDisplayedForWebsite": "und wird berechnet für",
         "SegmentNotApplied": "Segment '%s' nicht angewendet",
         "SegmentNotAppliedMessage": "Sie haben Daten für das benutzerdefinierte Segment '%s' angefordert, diese Matomo Konfiguration verhindert aktuell die Echtzeitverarbeitung der Berichte aus Performancegründen.",

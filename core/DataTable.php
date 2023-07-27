@@ -1555,10 +1555,9 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             return;
         }
 
-        $exceptionText = " Data structure returned is not convertible in the requested format." .
+        $exceptionText = "Data structure returned is not convertible in the requested format: %s" .
             " Try to call this method with the parameters '&format=original&serialize=1'" .
-            "; you will get the original php data structure serialized." .
-            " The data structure looks like this: \n \$data = %s; ";
+            "; you will get the original php data structure serialized.";
 
         // first pass to see if the array has the structure
         // array(col1_name => val1, col2_name => val2, etc.)
@@ -1600,12 +1599,31 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
                 // this key, we throw an explicit exception.
                 if (is_string($key)) {
                     // we define an exception we may throw if at one point we notice that we cannot handle the data structure
-                    throw new Exception(sprintf($exceptionText, var_export($array, true)));
+                    throw new Exception(
+                        sprintf(
+                            $exceptionText,
+                            sprintf(
+                                "Only integer keys supported for array columns on base level. Unsupported string '%s' found for row '%s'.",
+                                $key,
+                                substr(var_export($row, true), 0, 500)
+                            )
+                        )
+                    );
                 }
                 // if any of the sub elements of row is an array we cannot handle this data structure...
-                foreach ($row as $subRow) {
+                foreach ($row as $name => $subRow) {
                     if (is_array($subRow)) {
-                        throw new Exception(sprintf($exceptionText, var_export($array, true)));
+                        throw new Exception(
+                            sprintf(
+                                $exceptionText,
+                                sprintf(
+                                    "Multidimensional column values not supported. Found unexpected array value for column '%s' in row '%s': '%s'.",
+                                    $name,
+                                    $key,
+                                    substr(var_export($subRow, true), 0, 500)
+                                )
+                            )
+                        );
                     }
                 }
                 $row = new Row(array(Row::COLUMNS => $row));
@@ -2069,5 +2087,29 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     public function offsetUnset($offset): void
     {
         $this->deleteRow($offset);
+    }
+
+    public function sumRowWithLabel($label, array $columns, ?array $aggregationOps = null): DataTable\Row
+    {
+        $tableRow = new DataTable\Row([DataTable\Row::COLUMNS => ['label' => $label] + $columns]);
+
+        if ($label === RankingQuery::LABEL_SUMMARY_ROW) {
+            $existingRow = $this->getSummaryRow();
+        } else {
+            $existingRow = $this->getRowFromLabel($label);
+        }
+
+        if (empty($existingRow)) {
+            if ($label === RankingQuery::LABEL_SUMMARY_ROW) {
+                $this->addSummaryRow($tableRow);
+            } else {
+                $this->addRow($tableRow);
+            }
+
+            $existingRow = $tableRow;
+        } else {
+            $existingRow->sumRow($tableRow, true, $aggregationOps);
+        }
+        return $existingRow;
     }
 }

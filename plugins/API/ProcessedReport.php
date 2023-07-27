@@ -16,6 +16,7 @@ use Piwik\Cache as PiwikCache;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
+use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\DataTable\Row;
 use Piwik\DataTable\Simple;
 use Piwik\Date;
@@ -367,6 +368,11 @@ class ProcessedReport
 
         if (!empty($segment)) {
             $parameters['segment'] = $segment;
+        }
+
+        $actionsIdGoalOverride = $this->getIdGoalToUseForActionsReports($idGoal,$apiModule . '.' . $apiAction);
+        if ($actionsIdGoalOverride) {
+            $parameters['idGoal'] = $actionsIdGoalOverride;
         }
 
         if (!empty($reportMetadata['processedMetrics'])
@@ -864,10 +870,10 @@ class ProcessedReport
         }
 
         // Display time in human readable
-		if (strpos($columnName, 'time_generation') !== false) {
-			return $formatter->getPrettyTimeFromSeconds($value, true);
-		} 
-		if (strpos($columnName, 'time') !== false) {
+        if (strpos($columnName, 'time_generation') !== false) {
+            return $formatter->getPrettyTimeFromSeconds($value, true);
+        } 
+        if (strpos($columnName, 'time') !== false) {
             return $formatter->getPrettyTimeFromSeconds($value);
         }
 
@@ -894,5 +900,13 @@ class ProcessedReport
             $result[$columnName . '_change'] = Piwik::translate('General_ChangeInX', lcfirst($columnName));
         }
         return $result;
+    }
+
+    private function getIdGoalToUseForActionsReports($idGoal, string $requestMethod)
+    {
+        if (\Piwik\Request::fromRequest()->getStringParameter('filter_show_goal_columns_process_goals', '')) {
+            return AddColumnsProcessedMetricsGoal::getProcessOnlyIdGoalToUseForReport($idGoal, $requestMethod);
+        }
+        return $idGoal;
     }
 }

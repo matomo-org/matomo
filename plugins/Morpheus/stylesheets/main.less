@@ -56,10 +56,6 @@ h3 {
   margin: 32px 0 16px 0;
 }
 
-.pageWrap a:hover {
-  text-decoration: underline;
-}
-
 p {
   color: @theme-color-text;
 }
@@ -447,7 +443,6 @@ table.dataTable {
       }
 
       a {
-        text-decoration: none !important;
         color: @theme-color-link;
         width: inherit;
 
@@ -566,12 +561,12 @@ h6.sparkline-title {
 
 div.sparkline {
   display: -ms-flexbox;
-  -ms-box-orient: horizontal;
-  -ms-box-pack: center;
   display: -webkit-flex;
   display: -moz-flex;
   display: -ms-flex;
   display: flex;
+  -ms-box-orient: horizontal;
+  -ms-box-pack: center;
   -webkit-justify-content: flex-start;
   -moz-justify-content: flex-start;
   -ms-justify-content: flex-start;
@@ -682,8 +677,7 @@ tr:hover #token_auth {
   background: #fffff7;
 }
 
-#header_message .dropdown a,
-#header_message #updateCheckLinkContainer:hover {
+#header_message .dropdown a {
   text-decoration: underline;
 }
 
@@ -701,6 +695,7 @@ tr:hover #token_auth {
 .dropdown-content li > a,
  .dropdown-content li > span {
   color: @theme-color-link !important;
+  text-decoration: none;
 }
 
 .dropdown-content li:hover,

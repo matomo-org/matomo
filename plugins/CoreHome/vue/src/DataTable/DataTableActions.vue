@@ -121,10 +121,11 @@
       href
       :title="translate('General_Search')"
       style="margin-right:3.5px"
+      draggable="false"
       @click.prevent
     >
-      <span class="icon-search"></span>
-      <span class="icon-close" :title="translate('CoreHome_CloseSearch')"></span>
+      <span class="icon-search" draggable="false"></span>
+      <span class="icon-close" draggable="false" :title="translate('CoreHome_CloseSearch')"></span>
       <input
         :id="`widgetSearch_${reportId}`"
         :title="translate('CoreHome_DataTableHowToSearch')"

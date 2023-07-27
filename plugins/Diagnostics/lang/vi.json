@@ -2,7 +2,7 @@
     "Diagnostics": {
         "ConfigFileTitle": "Tập tin cấu hình",
         "MysqlMaxPacketSize": "Kích thước gói tối đa",
-        "MysqlMaxPacketSizeWarning": "Bạn nên định cấu hình kích thước 'max_allowed_packet' trong cơ sở dữ liệu MySQL của bạn ít nhất %1$s. Cấu hình hiện tại là %2$s.",
+        "MysqlMaxPacketSizeWarning": "Bạn nên định cấu hình kích thước '%1$smax_allowed_packet%2$s' trong cơ sở dữ liệu MySQL của bạn ít nhất %3$s. Cấu hình hiện tại là %4$s.",
         "HideUnchanged": "Nếu bạn chỉ muốn xem các giá trị đã được thay đổi, bạn có thể %1$sẩn tất cả các giá trị không thay đổi%2$s.",
         "Sections": "Phân mục"
     }

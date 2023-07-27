@@ -11,8 +11,9 @@ namespace Piwik\Plugins\Tour\tests\System;
 use Piwik\API\Request;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\Piwik;
 use Piwik\Plugins\Tour\Engagement\ChallengeAddedAnnotation;
-use Piwik\Plugins\Tour\Engagement\ChallengeAddedUser;
+use Piwik\Plugins\Tour\Engagement\ChallengeInvitedUser;
 use Piwik\Plugins\Tour\Engagement\ChallengeCreatedGoal;
 use Piwik\Plugins\Tour\tests\Fixtures\SimpleFixtureTrackFewVisits;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
@@ -38,34 +39,34 @@ class TourTest extends SystemTestCase
     {
         $goal = StaticContainer::get(ChallengeCreatedGoal::class);
 
-        $this->assertFalse($goal->isCompleted());
+        $this->assertFalse($goal->isCompleted(Piwik::getCurrentUserLogin()));
 
         Request::processRequest('Goals.addGoal', array(
             'idSite' => self::$fixture->idSite, 'name' => 'MyGoal', 'matchAttribute' => 'url', 'pattern' => 'foobar', 'patternType' => 'contains'
         ));
 
-        $this->assertTrue($goal->isCompleted());
+        $this->assertTrue($goal->isCompleted(Piwik::getCurrentUserLogin()));
     }
 
     public function test_hasAddedUser()
     {
-        $user = StaticContainer::get(ChallengeAddedUser::class);
-        $this->assertFalse($user->isCompleted());
+        $user = StaticContainer::get(ChallengeInvitedUser::class);
+        $this->assertFalse($user->isCompleted(Piwik::getCurrentUserLogin()));
 
-        Request::processRequest('UsersManager.addUser', array('userLogin' => 'myerwerwer', 'password' => '2342k4234234', 'email' => 'tesr@matomo.org'));
+        Request::processRequest('UsersManager.inviteUser', array('userLogin' => 'myerwerwer', 'email' => 'tesr@matomo.org', 'initialIdSite' => 1));
 
-        $this->assertTrue($user->isCompleted());
+        $this->assertTrue($user->isCompleted(Piwik::getCurrentUserLogin()));
     }
 
     public function test_hasAddedAnnotation()
     {
         $annotation = StaticContainer::get(ChallengeAddedAnnotation::class);
-        $this->assertFalse($annotation->isCompleted());
+        $this->assertFalse($annotation->isCompleted(Piwik::getCurrentUserLogin()));
 
         Request::processRequest('Annotations.add', array(
             'idSite' => self::$fixture->idSite, 'date' => Date::now()->getDatetime(), 'note' => 'foo bar'));
 
-        $this->assertTrue($annotation->isCompleted());
+        $this->assertTrue($annotation->isCompleted(Piwik::getCurrentUserLogin()));
     }
 
     public static function getOutputPrefix()

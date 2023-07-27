@@ -89,7 +89,7 @@ class ScheduledReports extends \Piwik\Plugin
             'ScheduledReports.processReports'           => 'processReports',
             'ScheduledReports.allowMultipleReports'     => 'allowMultipleReports',
             'ScheduledReports.sendReport'               => 'sendReport',
-            'Template.reportParametersScheduledReports' => 'template_reportParametersScheduledReports',
+            'Template.reportParametersScheduledReports' => 'templateReportParametersScheduledReports',
             'UsersManager.deleteUser'                   => 'deleteUserReport',
             'UsersManager.removeSiteAccess'             => 'deleteUserReportForSites',
             'SitesManager.deleteSite.end'               => 'deleteSiteReport',
@@ -508,7 +508,7 @@ class ScheduledReports extends \Piwik\Plugin
         $recipients = array_values(array_filter($recipients));
     }
 
-    public static function template_reportParametersScheduledReports(&$out)
+    public static function templateReportParametersScheduledReports(&$out)
     {
         $view = new View('@ScheduledReports/reportParametersScheduledReports');
         $view->currentUserEmail = Piwik::getCurrentUserEmail();

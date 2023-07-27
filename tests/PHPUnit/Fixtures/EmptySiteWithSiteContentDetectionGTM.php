@@ -31,7 +31,7 @@ class EmptySiteWithSiteContentDetectionGTM extends Fixture
             'ga4' => false,
             'gtm' => true,
             'cloudflare' => true,
-            'cms' => SitesManager::SITE_TYPE_WORDPRESS
+            'cms' => SitesManager::SITE_TYPE_WORDPRESS,
         ];
 
         return [

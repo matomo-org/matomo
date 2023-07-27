@@ -217,7 +217,7 @@ for x in .git .github ; do
 done
 
 # delete unwanted common files, recursively
-for x in .gitignore .gitmodules .gitattributes .bowerrc .bower.json bower.json \
+for x in .gitignore .gitmodules .gitattributes .git-blame-ignore-revs .bowerrc .bower.json bower.json \
     .coveralls.yml .editorconfig .gitkeep .jshintrc .php_cs .php_cs.dist \
     phpunit.xml.dist phpunit.xml .phpcs.xml.dist phpcs.xml Gruntfile.js gruntfile.js \
     *.map .travis.yml installed.json package.json package-lock.json yarn.lock\
@@ -225,6 +225,6 @@ for x in .gitignore .gitmodules .gitattributes .bowerrc .bower.json bower.json \
     .phpstorm.meta.php .lfsconfig .travis.sh tsconfig.json tsconfig.spec.json \
     .eslintrc.js .eslintignore .eslintrc .browserslistrc babel.config.js jest.config.js \
     karma.conf.js karma-conf.js vue.config.js .npmignore .ncurc.json .prettierrc .jscsrc \
-    phpstan.neon phpstan.neon.dist package.xml; do
+    phpstan.neon phpstan.neon.dist package.xml .stylelintrc.json; do
     find . -name "$x" -exec rm -f {} \;
 done

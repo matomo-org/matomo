@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'matomo';
   src:
-          url('plugins/Morpheus/fonts/matomo.woff2?rjeutj') format('woff2'),
-          url('plugins/Morpheus/fonts/matomo.woff?rjeutj') format('woff'),
-          url('plugins/Morpheus/fonts/matomo.ttf?rjeutj') format('truetype'),
-          url('plugins/Morpheus/fonts/matomo.svg?rjeutj#matomo') format('svg');
+          url('plugins/Morpheus/fonts/matomo.woff2?rzeu9j') format('woff2'),
+          url('plugins/Morpheus/fonts/matomo.woff?rzeu9j') format('woff'),
+          url('plugins/Morpheus/fonts/matomo.ttf?rzeu9j') format('truetype'),
+          url('plugins/Morpheus/fonts/matomo.svg?rzeu9j#matomo') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -28,7 +28,6 @@
 .icon-merge:before {
   content: "\e904";
 }
-
 .icon-outlink:before {
   content: "\f08e";
 }
@@ -412,4 +411,22 @@
 }
 .icon-arrow-right-2:before {
   content: "\ea3c";
+}
+.icon-content-copy:before {
+  content: "\e905";
+}
+.icon-chevron-left:before {
+  content: "\e907";
+}
+.icon-chevron-down:before {
+  content: "\e908";
+}
+.icon-chevron-right:before {
+  content: "\e909";
+}
+.icon-chevron-up:before {
+  content: "\e90a";
+}
+.icon-done:before {
+  content: "\e906";
 }

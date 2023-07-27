@@ -13,7 +13,8 @@ use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Record;
 use Piwik\Config;
 use Piwik\DataAccess\LogAggregator;
-use Piwik\DataArray;
+use Piwik\DataTable;
+use Piwik\DataTable\Row;
 use Piwik\Metrics;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\Goals\Archiver;
@@ -70,12 +71,12 @@ class ProductRecord extends Base
         $this->dimensionsToAggregate = array_merge([$dimension], $otherDimensionsToAggregate);
     }
 
-    public function isEnabled(ArchiveProcessor $archiveProcessor)
+    public function isEnabled(ArchiveProcessor $archiveProcessor): bool
     {
         return Manager::getInstance()->isPluginActivated('Ecommerce');
     }
 
-    public function getRecordMetadata(ArchiveProcessor $archiveProcessor)
+    public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
     {
         $abandonedCartRecordName = Archiver::getItemRecordNameAbandonedCart($this->recordName);
 
@@ -85,11 +86,11 @@ class ProductRecord extends Base
         ];
     }
 
-    protected function aggregate(ArchiveProcessor $archiveProcessor)
+    protected function aggregate(ArchiveProcessor $archiveProcessor): array
     {
         $itemReports = [];
         foreach ($this->getEcommerceIdGoals() as $ecommerceType) {
-            $itemReports[$ecommerceType] = new DataArray();
+            $itemReports[$ecommerceType] = new DataTable();
         }
 
         $logAggregator = $archiveProcessor->getLogAggregator();
@@ -111,36 +112,41 @@ class ProductRecord extends Base
         }
 
         $records = [];
-        foreach ($itemReports as $ecommerceType => $itemAggregate) {
+        foreach ($itemReports as $ecommerceType => $table) {
             $recordName = $this->recordName;
             if ($ecommerceType == GoalManager::IDGOAL_CART) {
                 $recordName = Archiver::getItemRecordNameAbandonedCart($recordName);
             }
-
-            $table = $itemAggregate->asDataTable();
             $records[$recordName] = $table;
         }
         return $records;
     }
 
-    protected function aggregateFromEcommerceItems($itemReports, $query, $dimension)
+    protected function aggregateFromEcommerceItems(array $itemReports, $query, string $dimension): void
     {
         while ($row = $query->fetch()) {
             $ecommerceType = $row['ecommerceType'];
 
             $label = $this->cleanupRowGetLabel($row, $dimension);
-            if ($label === false) {
+            if ($label === null) {
                 continue;
             }
 
-            $array = $itemReports[$ecommerceType];
-
             $this->roundColumnValues($row);
-            $array->sumMetrics($label, $row);
+
+            $table = $itemReports[$ecommerceType];
+
+            $tableRow = new Row([Row::COLUMNS => ['label' => $label] + $row]);
+            $existingRow = $table->getRowFromLabel($label);
+            if (!empty($existingRow)) {
+                $existingRow->sumRow($tableRow);
+            } else {
+                $table->addRow($tableRow);
+            }
         }
     }
 
-    protected function aggregateFromEcommerceViews($itemReports, $query, $dimension)
+    protected function aggregateFromEcommerceViews(array $itemReports, $query, string $dimension): void
     {
         while ($row = $query->fetch()) {
             $label = $this->getRowLabel($row, $dimension);
@@ -150,18 +156,24 @@ class ProductRecord extends Base
 
             unset($row['label']);
 
-            if (isset($row['avg_price_viewed'])) {
-                $row['avg_price_viewed'] = round($row['avg_price_viewed'], GoalManager::REVENUE_PRECISION);
+            if (array_key_exists('avg_price_viewed', $row)) {
+                $row['avg_price_viewed'] = round($row['avg_price_viewed'] ?: 0, GoalManager::REVENUE_PRECISION);
             }
 
             // add views to all types
-            foreach ($itemReports as $ecommerceType => $dataArray) {
-                $dataArray->sumMetrics($label, $row);
+            foreach ($itemReports as $table) {
+                $tableRow = new Row([Row::COLUMNS => ['label' => $label] + $row]);
+                $existingRow = $table->getRowFromLabel($label);
+                if (!empty($existingRow)) {
+                    $existingRow->sumRow($tableRow);
+                } else {
+                    $table->addRow($tableRow);
+                }
             }
         }
     }
 
-    protected function queryItemViewsForDimension(LogAggregator $logAggregator, $dimension)
+    protected function queryItemViewsForDimension(LogAggregator $logAggregator, string $dimension)
     {
         $column = $this->actionMapping[$dimension];
         $where  = "log_link_visit_action.$column is not null";
@@ -176,7 +188,7 @@ class ProductRecord extends Base
         );
     }
 
-    protected function roundColumnValues(&$row)
+    protected function roundColumnValues(array &$row): void
     {
         $columnsToRound = array(
             Metrics::INDEX_ECOMMERCE_ITEM_REVENUE,
@@ -193,20 +205,20 @@ class ProductRecord extends Base
         }
     }
 
-    protected function getRowLabel(&$row, $dimension)
+    protected function getRowLabel(array &$row, string $dimension): ?string
     {
         $label = $row['label'];
         if (empty($label)) {
             // An empty additional category -> skip this iteration
             if ($dimension != $this->dimension) {
-                return false;
+                return null;
             }
             $label = "Value not defined";
         }
         return $label;
     }
 
-    protected function cleanupRowGetLabel(&$row, $dimension)
+    protected function cleanupRowGetLabel(array &$row, string $dimension): ?string
     {
         $label = $this->getRowLabel($row, $dimension);
 

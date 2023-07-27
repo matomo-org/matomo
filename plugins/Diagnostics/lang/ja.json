@@ -20,7 +20,7 @@
         "HideUnchanged": "変更された値だけを表示する場合は、変更されていない値%2$sをすべて非表示にすることができます%1$s。",
         "HtaccessWarningNginx": "機密ファイルに直接アクセスできないようにするには、特定のディレクトリへのアクセスを制限するように Web サーバーを構成することをお勧めします。 詳細については、%1$s 公式の nginx サーバー構成 %2$s を参照してください",
         "MysqlMaxPacketSize": "最大パケットサイズ",
-        "MysqlMaxPacketSizeWarning": "少なくとも %1$s の MySQL データベースに 'max_allowed_packet' サイズを設定することをお勧めします。 設定は現在 %2$s です。",
+        "MysqlMaxPacketSizeWarning": "少なくとも %3$s の MySQL データベースに '%1$smax_allowed_packet%2$s' サイズを設定することをお勧めします。 設定は現在 %4$s です。",
         "MysqlTemporaryTablesWarning": "Matomo が適切に動作するには、MySQL パーミッション CREATE TEMPORARY TABLES が必要です。",
         "MysqlTransactionLevel": "トランザクション分離レベルの変更はサポートされていません。 アーカイブは引き続き機能しますが、遅くなる可能性があるため、可能であれば、たとえば `binlog_format` を `row` に変更することをお勧めします。",
         "NoDataForReportArchivingNotRun": "レポートのアーカイブは最近実行されていません。 %1$sレポートの生成方法について詳しく学んでください。%2$s",

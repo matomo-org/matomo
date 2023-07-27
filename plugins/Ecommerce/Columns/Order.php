@@ -11,7 +11,6 @@ namespace Piwik\Plugins\Ecommerce\Columns;
 use Piwik\Columns\DimensionMetricFactory;
 use Piwik\Columns\Discriminator;
 use Piwik\Columns\MetricsList;
-use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Tracker\GoalManager;
 
@@ -28,7 +27,6 @@ class Order extends BaseConversion
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {
         $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_UNIQUE);
-        $metric->setTranslatedName(Piwik::translate('Ecommerce_OrderId'));
         $metricsList->addMetric($metric);
     }
 

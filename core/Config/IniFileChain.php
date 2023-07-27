@@ -440,7 +440,7 @@ class IniFileChain
      * @author Daniel <daniel (at) danielsmedegaardbuus (dot) dk>
      * @author Gabriel Sobrinho <gabriel (dot) sobrinho (at) gmail (dot) com>
      */
-    private function array_merge_recursive_distinct(array &$array1, array &$array2)
+    private function array_merge_recursive_distinct(array &$array1, array &$array2) // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
     {
         $merged = $array1;
         foreach ($array2 as $key => &$value) {

@@ -19,20 +19,20 @@ class DateTimeTest extends \PHPUnit\Framework\TestCase
 {
     public function test_validate_successValueNotEmpty()
     {
+        self::expectNotToPerformAssertions();
+
         $this->validate('2014-05-06 10:13:14');
         $this->validate('2014-05-06T10:13:14');
         $this->validate('2014-05-06 10:13:14Z');
         $this->validate('2014-05-06T10:13:14Z');
-
-        $this->assertTrue(true);
     }
 
     public function test_validate_successValueMayBeEmpty()
     {
+        self::expectNotToPerformAssertions();
+
         $this->validate(false);
         $this->validate('');
-
-        $this->assertTrue(true);
     }
 
     /**

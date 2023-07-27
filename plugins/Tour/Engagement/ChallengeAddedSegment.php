@@ -43,10 +43,9 @@ class ChallengeAddedSegment extends Challenge
         return 'add_segment';
     }
 
-    public function isCompleted()
+    public function isCompleted(string $login)
     {
         if (!isset($this->completed)) {
-            $login = Piwik::getCurrentUserLogin();
             $this->completed = $this->finder->hasAddedSegment($login);
         }
         return $this->completed;

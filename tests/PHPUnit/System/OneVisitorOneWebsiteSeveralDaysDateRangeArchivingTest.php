@@ -112,33 +112,33 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
             $archivePurger->purgeInvalidatedArchivesFrom(Date::factory($date));
         }
 
-        // we expect 6 blobs for Actions plugins, because flat=1 or expanded=1 was not set
+        // we expect 1 blobs for Actions plugins, because we query for only one Actions report and flat=1 or expanded=1 was not set
         // so we only archived the parent table
-        $expectedActionsBlobs = 6;
+        $expectedActionsBlobs = 1;
 
         // When flat=1, Actions plugin will process 5 + 1 extra chunk blobs (URL = 'http://example.org/sub1/sub2/sub3/news')
         $expectedActionsBlobsWhenFlattened = $expectedActionsBlobs + 1;
 
         $tests = array(
             'archive_blob_2010_12'    => ( ($expectedActionsBlobs+1) /*Actions*/
-                    + 2 /* Resolution */
-                    + 2 /* VisitTime */) * 3,
+                    + 1 /* Resolution */
+                    + 1 /* VisitTime */) * 3,
 
             /**
              * segments: 9 (including all visits)
              * plugins: 4 different plugins
              *   VisitsSummary: 9 archives (8 segments + all visits) (4 metrics in each + 3 bounce_counts across 3 archives)
-             *   Actions: 3 archives (2 segments + all visits) (2 metrics in each)
+             *   Actions: 3 archives (2 segments + all visits) (0 metrics in each, since no metrics are requested for period=range)
              *   Resolution: 3 archives (2 segments + all visits) (0 metrics in each)
              *   VisitTime: 3 archives (2 segments + all visits) (0 metrics in each)
              *
              * Total: 9 VisitsSummary done flags + ((4 * 9) + 3) VisitsSummary metrics
-             *   + 3 Actions done flags + 3 * 2 Actions metrics
+             *   + 3 Actions done flags
              *   + 3 Resolution done flags
              *   + 3 VisitTime done flags
              * = 63
              */
-            'archive_numeric_2010_12' => 63,
+            'archive_numeric_2010_12' => 57,
 
             /**
              * In the January date range,
@@ -149,9 +149,9 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
 
             /**
              *   5 metrics + 1 flag // VisitsSummary
-             * + 2 metrics + 1 flag // Actions
+             * + 1 flag // Actions (no metrics, just blobs)
              */
-            'archive_numeric_2011_01' => (6 + 3),
+            'archive_numeric_2011_01' => (6 + 1),
 
             // nothing in Feb
             'archive_blob_2011_02'    => 0,

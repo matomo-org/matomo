@@ -539,6 +539,8 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
 
     private function checkFilesAreInFormat($files, $format)
     {
+        self::expectNotToPerformAssertions();
+
         $errors = array();
         foreach ($files as $file) {
             // skip files in these folders
@@ -561,8 +563,6 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             $icons = implode(" ", $errors);
             $this->fail("$format format failed for following icons $icons \n");
         }
-
-        $this->assertTrue(true); // pass
     }
 
     /**
@@ -797,7 +797,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
     private function getComposerRequireDevPackages()
     {
         $composerJson = $this->getComposerLockAsArray();
-        $composerDependencyDevOnly = array_keys($composerJson["packages-dev"]);
+        $composerDependencyDevOnly = array_column($composerJson['packages-dev'], 'name');
         return $composerDependencyDevOnly;
     }
 
@@ -984,6 +984,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             '*.gitignore',
             '*.gitmodules',
             '*.gitattributes',
+            '*.git-blame-ignore-revs',
             '*.bowerrc',
             '*.bower.json',
             '*bower.json',
@@ -1031,6 +1032,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             '*phpstan.neon',
             '*phpstan.neon.dist',
             '*package.xml',
+            '*.stylelintrc.json'
         ];
 
         return $this->isFilePathFoundInArray($file, $filesAndFoldersToDeleteFromPackage);

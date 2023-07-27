@@ -72,7 +72,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
     public function testCustomByteRange($method)
     {
         if ($method == 'fopen') {
-            $this->assertTrue(true); // pass
+            self::expectNotToPerformAssertions();
             return; // not supported w/ this method
         }
 
@@ -102,7 +102,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
     public function testHEADOperation($method)
     {
         if ($method == 'fopen') {
-            $this->assertTrue(true); // pass
+            self::expectNotToPerformAssertions();
             return; // not supported w/ this method
         }
 
@@ -399,7 +399,6 @@ class HttpTest extends \PHPUnit\Framework\TestCase
             'headers' => array(
                 'Range: bytes=10-20',
                 'Via: ' . Version::VERSION . '  (Matomo/' . Version::VERSION . ')',
-                'X-Forwarded-For: 127.0.0.1',
             ),
             'verifySsl' => true,
             'destinationPath' => $destinationPath
@@ -415,7 +414,6 @@ class HttpTest extends \PHPUnit\Framework\TestCase
             'headers' => array(
                 'Range: bytes=10-20',
                 'Via: ' . Version::VERSION . '  (Matomo/' . Version::VERSION . ')',
-                'X-Forwarded-For: 127.0.0.1',
             ),
             'verifySsl' => true,
             'destinationPath' => $destinationPath

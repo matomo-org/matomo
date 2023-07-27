@@ -21,6 +21,7 @@ class ListPlugins extends ConsoleCommand
         $this->setName('plugin:list');
         $this->setDescription('List installed plugins.');
         $this->addOptionalValueOption('filter-plugin', null, 'If given, prints only plugins that contain this term.');
+        $this->addNoValueOption('json', null, 'If given, outputs JSON formatted data.');
     }
 
     protected function doExecute(): int
@@ -41,27 +42,53 @@ class ListPlugins extends ConsoleCommand
 
         $plugins = array_map(function ($plugin) use ($pluginManager, $verbose) {
             $pluginInformation = array(
-                '<info>' . $plugin . '</info>',
-                $pluginManager->isPluginBundledWithCore($plugin) ? 'Core' : 'Optional',
-                !$pluginManager->isPluginInFilesystem($plugin) ? '<error>Not found</error>' : ($pluginManager->isPluginActivated($plugin) ? 'Activated' : '<comment>Not activated</comment>'),
+                "plugin" => $plugin,
+                "core" => $pluginManager->isPluginBundledWithCore($plugin),
+                "activated" => !$pluginManager->isPluginInFilesystem($plugin) ? null : $pluginManager->isPluginActivated($plugin),
             );
             if ($verbose) {
-                $pluginInformation[] =  $pluginManager->getVersion($plugin) ?? 'Unknown';
+                $pluginInformation["version"] = $pluginManager->getVersion($plugin);
             }
             return $pluginInformation;
         }, $plugins);
 
-        // Sort Core plugins first
-        usort($plugins, function ($a, $b) {
-            return strcmp($a[1], $b[1]);
-        });
+        if ($this->getInput()->getOption('json')) {
+            $plugins = array_map(function ($plugin) {
+                $plugin["comment"] = !isset($plugin["activated"]) ? 'Plugin not found in filesystem.' : '';
+                if (isset($plugin["version"]) && !isset($plugin["activated"])) {
+                    $plugin["version"] = '';
+                }
+                $plugin["activated"] = isset($plugin["activated"]);
+                return $plugin;
+            }, $plugins);
 
-        if (!$verbose){
-            $this->renderTable(['Plugin', 'Core or optional?', 'Status'], $plugins);
+            // write JSON output
+            $this->getOutput()->write(json_encode($plugins));
         } else {
-            $this->renderTable(['Plugin', 'Core or optional?', 'Status', 'Version'], $plugins);
+            // Decorate the plugin information
+            $plugins = array_map(function ($plugin) {
+                $plugin["plugin"] = self::wrapInTag('info', $plugin["plugin"]);
+                $plugin["core"] = $plugin["core"] ? 'Core' : 'Optional';
+                if (isset($plugin["version"]) && !isset($plugin["activated"])) {
+                    $plugin["version"] = '';
+                }
+                $plugin["activated"] = !isset($plugin["activated"]) ? self::wrapInTag('error', 'Not found') : ($plugin["activated"] ? 'Activated' : self::wrapInTag('comment', 'Not activated'));
+                return $plugin;
+            }, $plugins);
+
+            // Sort Core plugins first
+            uasort($plugins, function ($a, $b) {
+                return strcmp($a["core"], $b["core"]);
+            });
+            if (!$verbose) {
+                $this->renderTable(['Plugin', 'Core or optional?', 'Status'], $plugins);
+            } else {
+                $this->renderTable(['Plugin', 'Core or optional?', 'Status', 'Version'], $plugins);
+            }
         }
+
 
         return self::SUCCESS;
     }
+
 }

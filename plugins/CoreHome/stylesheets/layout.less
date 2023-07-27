@@ -78,6 +78,7 @@ nav {
 
   ul a {
     color: @theme-color-header-text;
+    text-decoration: none;
 
     &:hover {
       text-decoration: none;
@@ -124,17 +125,13 @@ nav {
     padding-right: 18px;
   }
 
-  #secondNavBar {
-    box-shadow: none !important;
-  }
-
   #secondNavBar + .pageWrap {
     margin-left: 224px;
   }
 
-    &>.top_controls {
-      .icon-arrowup:before, .icon-arrowdown:before {
-      padding: 17px 0 0 0px;
+  &>.top_controls {
+    .icon-arrowup:before, .icon-arrowdown:before {
+      padding: 17px 0 0 0;
       display: inline-block;
       cursor: pointer;
 
@@ -194,6 +191,7 @@ nav {
     width: 224px;
     float:left;
     background-color: @theme-color-menu-contrast-background;
+    box-shadow: none !important;
 
     .navbar {
       padding-top: 16px;
@@ -201,6 +199,7 @@ nav {
 
       .menu-icon {
         padding-right: 13px;
+        display: inline;
       }
 
       > li {
@@ -229,7 +228,7 @@ nav {
           opacity: 0.2;
           position: absolute;
           right: 21px;
-          top: 0px;
+          top: 0;
           line-height: 13px;
           padding-left: 16px;
           padding-right: 16px;
@@ -377,6 +376,7 @@ nav {
       }
       .menu-icon {
         padding-right: 13px;
+        display: inline;
       }
     }
 
@@ -399,9 +399,7 @@ nav {
       padding: 0;
     }
   }
-}
 
-#root {
   .top_controls {
     visibility: hidden;
     opacity: 0;
@@ -481,7 +479,7 @@ nav {
     background-color: @theme-color-background-base;
     border: 0;
     transition: box-shadow 150ms linear;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    box-shadow: @default-box-shade;
     border-radius: 2px;
     &.expanded,
     &:hover, &:focus {
@@ -517,7 +515,7 @@ nav {
 
   #root{
     #secondNavBar + .pageWrap {
-      margin-left: 0px;
+      margin-left: 0;
     }
 
     .top_controls{
@@ -547,6 +545,4 @@ nav {
 .z-depth-1, nav, .card-panel, .card, .toast, .btn, .btn-large, .btn-floating, .dropdown-content, .collapsible, .side-nav {
   box-shadow: @default-box-shade;
 }
-#root .borderedControl, #standalone .borderedControl, .ui-dialog .borderedControl, .ngdialog .borderedControl {
-  box-shadow: @default-box-shade;
-}
+

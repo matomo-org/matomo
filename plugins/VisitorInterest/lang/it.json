@@ -13,12 +13,12 @@
         "VisitsPerDuration": "Visite per durata della visita",
         "VisitsPerNbOfPages": "Visite per numero di pagine",
         "WidgetLengths": "Durata delle visite",
-        "WidgetLengthsDocumentation": "In questo report, puoi vedere quante visite hanno avuto una certa durata totale. Inizialmente, il report viene visualizzato come una tag cloud, le durate più comuni sono visualizzate in un carattere più grande.",
+        "WidgetLengthsDocumentation": "Quante visite hanno avuto una certa durata totale. Inizialmente, il report viene visualizzato come una nuvola di tag, dove le durate più comuni sono visualizzate in un carattere più grande.",
         "WidgetPages": "Pagine per visita",
-        "WidgetPagesDocumentation": "In questo report, puoi vedere quante visite hanno coinvolto un certo numero di pagine visualizzate. Inizialmente, il report viene visualizzato come una tag cloud, i numeri più comuni di pagine vengono visualizzati in un carattere più grande.",
-        "WidgetVisitsByDaysSinceLast": "Visite per Giorni Dall'Ultima Visita",
-        "WidgetVisitsByDaysSinceLastDocumentation": "In questo report puoi vedere quante visite ci sono state da parte di visitatori la cui ultima visita c'è stata un certo numero di giorni fa.",
-        "WidgetVisitsByNumDocumentation": "In questo report puoi vedere il numero di visite che erano l'ennesima visita, vale a dire i visitatori che hanno visitato il vostro sito almeno N volte.",
+        "WidgetPagesDocumentation": "Quante visite hanno coinvolto un certo numero di pagine visualizzate. Inizialmente, il report viene visualizzato come una nuvola di tag, dove i conteggi pagine più comuni vengono visualizzati in un carattere più grande.",
+        "WidgetVisitsByDaysSinceLast": "Visite per giorno dall'ultima visita",
+        "WidgetVisitsByDaysSinceLastDocumentation": "Quante visite ci sono state da parte di visitatori di ritorno la cui ultima visita è stata un certo numero di giorni fa.",
+        "WidgetVisitsByNumDocumentation": "Il numero di visitatori che han fatto la loro visita numero N, cioè il numero totale di visitatori che hanno visitato il vostro sito almeno un certo numero di volte.",
         "visitsByVisitCount": "Visite per numero di visite"
     }
 }

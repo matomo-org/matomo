@@ -44,14 +44,14 @@ class ActiveTest extends \PHPUnit\Framework\TestCase
 
     public function test_check_shouldNotFailWhenActiveIsValid()
     {
+        self::expectNotToPerformAssertions();
+
         $this->buildActive(true)->check();
         $this->buildActive(false)->check();
         $this->buildActive(0)->check();
         $this->buildActive(1)->check();
         $this->buildActive('0')->check();
         $this->buildActive('1')->check();
-
-        self::assertTrue(true);
     }
 
     private function buildActive($active)

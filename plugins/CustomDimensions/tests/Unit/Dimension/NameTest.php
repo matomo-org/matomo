@@ -72,8 +72,9 @@ class NameTest extends \PHPUnit\Framework\TestCase
      */
     public function test_check_shouldNotFailWhenScopeIsValid($name)
     {
+        self::expectNotToPerformAssertions();
+
         $this->buildName($name)->check();
-        self::assertTrue(true);
     }
 
     public function getValidNames()

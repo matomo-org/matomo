@@ -238,7 +238,9 @@ abstract class StaticGraph extends BaseFactory
 
         foreach ($this->ordinateSeries as $column => $data) {
             $this->pData->addPoints($data, $column);
-            $this->pData->setSerieDescription($column, $this->ordinateLabels[$column]);
+            if (isset($this->ordinateLabels[$column])) {
+                $this->pData->setSerieDescription($column, $this->ordinateLabels[$column]);
+            }
 
             if (isset($this->ordinateLogos[$column])) {
                 $ordinateLogo = $this->createResizedImageCopyIfNeeded($this->ordinateLogos[$column]);
@@ -246,7 +248,12 @@ abstract class StaticGraph extends BaseFactory
             }
         }
 
-        $this->pData->setAxisDisplay(0, AXIS_FORMAT_CUSTOM, '\\Piwik\\Plugins\\ImageGraph\\formatYAxis');
+        // Use a different formating method if not using unifont
+        $formatMethodName = 'formatYAxis';
+        if (strpos($this->font, 'unifont') === false) {
+            $formatMethodName = 'formatYAxisNonUnifont';
+        }
+        $this->pData->setAxisDisplay(0, AXIS_FORMAT_CUSTOM, '\\Piwik\\Plugins\\ImageGraph\\' . $formatMethodName);
 
         $this->pData->addPoints($this->abscissaSeries, self::ABSCISSA_SERIE_NAME);
         $this->pData->setAbscissa(self::ABSCISSA_SERIE_NAME);
@@ -333,7 +340,7 @@ abstract class StaticGraph extends BaseFactory
         $maxHeight = 0;
         foreach ($values as $data) {
             foreach ($data as $value) {
-                list($valueWidth, $valueHeight) = $this->getTextWidthHeight($value);
+                [$valueWidth, $valueHeight] = $this->getTextWidthHeight($value);
 
                 if ($valueWidth > $maxWidth) {
                     $maxWidth = $valueWidth;
@@ -374,7 +381,7 @@ abstract class StaticGraph extends BaseFactory
 }
 
 /**
- * Global format method
+ * Global format method - unifont
  *
  * required to format y axis values using CpChart internal format callbacks
  * @param $value
@@ -383,4 +390,17 @@ abstract class StaticGraph extends BaseFactory
 function formatYAxis($value)
 {
     return NumberFormatter::getInstance()->format($value);
+}
+
+/**
+ * Global format method - non-unifont
+ *
+ * required to format y axis values using CpChart internal format callbacks
+ * @param $value
+ * @return mixed
+ */
+function formatYAxisNonUnifont($value)
+{
+    // Replace any narrow non-breaking spaces with non-breaking spaces as some fonts may not support it
+    return str_replace("\xE2\x80\xAF", "\xC2\xA0", NumberFormatter::getInstance()->format($value));
 }

@@ -26,7 +26,7 @@
                     {%- if challenge.isCompleted or challenge.isSkipped %}
                         <span class="icon-ok" title="{{ 'Tour_ChallengeCompleted'|translate|e('html_attr') }}"></span>
                     {% else %}
-                        <a href="javascript:void 0;" onclick="tourEngagement.skipChallenge('{{ challenge.id|e('js') }}')" title="{{ 'Tour_SkipThisChallenge'|translate|e('html_attr') }}"><span class="icon-hide"></span></a>
+                        <a href="javascript:void 0;" class="skip-challenge" onclick="tourEngagement.skipChallenge('{{ challenge.id|e('js') }}')" title="{{ 'Tour_SkipThisChallenge'|translate|e('html_attr') }}"><span class="icon-hide"></span></a>
                     {% endif %}
                     {% if challenge.url is not empty %}
                         <a href="{{ challenge.url|safelink|e('html_attr') }}" target="_blank" rel="noreferrer noopener">{{ challenge.name }}</a>

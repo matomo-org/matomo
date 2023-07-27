@@ -333,7 +333,7 @@ class View implements ViewInterface
         $output = $this->twig->render($this->getTemplateFile(), $this->getTemplateVars());
 
         if ($this->enableCacheBuster) {
-            $output = $this->applyFilter_cacheBuster($output);
+            $output = $this->applyFilterCacheBuster($output);
         }
 
         $helper = new Theme;
@@ -341,7 +341,7 @@ class View implements ViewInterface
         return $output;
     }
 
-    protected function applyFilter_cacheBuster($output)
+    protected function applyFilterCacheBuster($output)
     {
         $cacheBuster = UIAssetCacheBuster::getInstance();
         $cache = Cache::getTransientCache();
@@ -365,7 +365,8 @@ class View implements ViewInterface
         $pattern = array(
             '~<script type=[\'"]text/javascript[\'"] src=[\'"]([^\'"]+)[\'"]>~',
             '~<script src=[\'"]([^\'"]+)[\'"] type=[\'"]text/javascript[\'"]>~',
-            '~<script type=[\'"]text/javascript[\'"] src=[\'"]([^\'"]+?chunk=[^\'"]+)[\'"] defer>~',
+            '~<script type=[\'"]text/javascript[\'"] src=[\'"]([^\'"?]*\?[^\'"]+)[\'"] defer>~',
+            '~<script type=[\'"]text/javascript[\'"] src=[\'"]([^\'"?]+)[\'"] defer>~',
             '~<link rel=[\'"]stylesheet[\'"] type=[\'"]text/css[\'"] href=[\'"]([^\'"]+)[\'"] ?/?>~',
             // removes the double ?cb= tag
             '~(src|href)=\"index.php\?module=([A-Za-z0-9_]+)&action=([A-Za-z0-9_]+)\?cb=~',
@@ -375,6 +376,7 @@ class View implements ViewInterface
             '<script type="text/javascript" src="$1?' . $tagJs . '">',
             '<script type="text/javascript" src="$1?' . $tagJs . '">',
             '<script type="text/javascript" src="$1&' . $tagJs . '" defer>',
+            '<script type="text/javascript" src="$1?' . $tagJs . '" defer>',
             '<link rel="stylesheet" type="text/css" href="$1?' . $tagCss . '" />',
             '$1="index.php?module=$2&amp;action=$3&amp;cb=',
         );

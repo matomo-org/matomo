@@ -620,7 +620,7 @@ live_widget_refresh_after_seconds = 5
 
 ; by default, the Live! real time visitor count widget will check to see how many visitors your
 ; website received in the last 3 minutes. changing this value will change the number of minutes
-; the widget looks in.
+; the widget looks in. Only values between 1 and 2880 are allowed.
 live_widget_visitor_count_last_minutes = 3
 
 ; by default visitor profile will show aggregated information for the last up to 100 visits of a visitor

@@ -55,3 +55,21 @@ strong {
 #logo img {
     height: 40px;
 }
+
+#more-results {
+    text-decoration: underline;
+    color: #1976d2;
+    cursor: pointer;
+}
+
+.ui-button {
+    background-color: #43a047 !important;
+}
+
+.no-close .ui-dialog-titlebar-close {
+    display: none
+}
+
+.ui-dialog .ui-dialog-titlebar {
+    padding-left: 0.5em;
+}

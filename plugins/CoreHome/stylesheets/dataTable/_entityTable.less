@@ -13,7 +13,6 @@ table.entityTable {
         vertical-align: middle !important;
         text-align: left !important;
         font-size: 15px;
-        padding: 16px 10px;
         white-space: nowrap;
         padding: 22px 16px !important;
         margin: 0;
@@ -48,16 +47,6 @@ table.entityTable {
         padding: 16px;
         border-bottom: 1px solid @theme-color-background-tinyContrast !important;
         border-radius: 0;
-
-        a {
-          color: @theme-color-link;
-          text-decoration: none;
-
-          &:hover {
-            text-decoration: underline !important;
-          }
-        }
-
       }
     }
   }
@@ -72,6 +61,11 @@ table.entityTable {
   border: 0;
   color: inherit !important;
   display: inline-block;
+
+  a&[class^="icon-"], a&[class*=" icon-"] {
+    text-decoration: none!important;
+  }
+
   &:hover {
     background-color: @theme-color-background-base !important;
     box-shadow: 0 1px 2px 0 rgba(0,0,0,0.16), 0 1px 5px 0 rgba(0,0,0,0.12);
@@ -94,7 +88,6 @@ table.entityTable {
     height: 36px;
     line-height: 36px;
     box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12) !important;
-    background-color: @color-silver-l60;
     color: @theme-color-text;
     background-image: none !important;
     font-size: 12px;
@@ -113,7 +106,7 @@ table.entityTable {
     vertical-align: middle;
     -webkit-tap-highlight-color: transparent;
     &:hover {
-      text-decoration: underline;
+      text-decoration: none;
     }
   }
 

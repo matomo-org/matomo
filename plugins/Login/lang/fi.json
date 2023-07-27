@@ -31,7 +31,7 @@
         "SettingBruteForceMaxFailedLogins": "Sallittujen kirjautumisyritysten määrä ajanjaksolla",
         "SettingBruteForceTimeRangeHelp": "Kirjoita numero minuuteissa.",
         "SettingBruteForceWhitelistIp": "Älä koskaan estä seuraavia IP:itä kirjautumasta sisään",
-        "SuspiciousLoginAttemptsInLastHourEmailSubject": "Olemme huomanneet epäilyttäviä kirjautumisyrityksiä tilillesi...",
+        "SuspiciousLoginAttemptsInLastHourEmailSubject": "Olemme huomanneet epäilyttäviä kirjautumisyrityksiä tilillesi…",
         "UnblockAllIPs": "Poista kaikki voimassa olevat IP-osoitteiden estot",
         "WrongPasswordEntered": "Kirjoita oikea salasana."
     }

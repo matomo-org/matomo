@@ -325,7 +325,7 @@ DataTable_RowActions_RowEvolution.prototype.performAction = function (label, tr,
         }
     } else {
       var labelPretty = this.getPrettyLabel(originalRow || tr);
-      if (labelPretty != label) {
+      if (labelPretty && labelPretty != label) {
         extraParams['labelPretty'] = labelPretty;
       }
     }
@@ -369,6 +369,10 @@ DataTable_RowActions_RowEvolution.prototype.performAction = function (label, tr,
 };
 
 DataTable_RowActions_RowEvolution.prototype.getPrettyLabel = function getPrettyLabel(tr) {
+  if (tr.closest('.dataTableActions').length) {
+    return null; // actions tables don't need to override the pretty label, since they should not have a custom row identifier
+  }
+
   var prettyLabel = [];
 
   var row = $(tr);
@@ -402,7 +406,7 @@ DataTable_RowActions_RowEvolution.prototype.addMultiEvolutionRow = function (lab
 
         if (!found) {
             this.multiEvolutionRows.push(label);
-            this.multiEvolutionRowsPretty.push(this.getPrettyLabel(tr))
+            this.multiEvolutionRowsPretty.push(this.getPrettyLabel(tr));
             this.multiEvolutionRowsSeries.push(seriesIndex);
         }
     } else if ($.inArray(label, this.multiEvolutionRows) === -1) {

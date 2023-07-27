@@ -9,9 +9,6 @@
 
 namespace Piwik\Plugins\DevicesDetection;
 
-use Piwik\Common;
-use Piwik\Metrics;
-
 class Archiver extends \Piwik\Plugin\Archiver
 {
     const BROWSER_SEPARATOR = ';';
@@ -32,71 +29,4 @@ class Archiver extends \Piwik\Plugin\Archiver
     const BROWSER_FIELD = "config_browser_name";
     const BROWSER_ENGINE_FIELD = "config_browser_engine";
     const BROWSER_VERSION_DIMENSION = "CONCAT(log_visit.config_browser_name, ';', log_visit.config_browser_version)";
-
-    public function aggregateDayReport()
-    {
-        $this->aggregateByLabel(self::DEVICE_TYPE_FIELD, self::DEVICE_TYPE_RECORD_NAME);
-        $this->aggregateByLabel(self::DEVICE_BRAND_FIELD, self::DEVICE_BRAND_RECORD_NAME);
-        $this->aggregateByLabel(self::DEVICE_MODEL_FIELD, self::DEVICE_MODEL_RECORD_NAME);
-        $this->aggregateByLabel(self::OS_FIELD, self::OS_RECORD_NAME);
-        $this->aggregateByLabel(self::OS_VERSION_FIELD, self::OS_VERSION_RECORD_NAME);
-        $this->aggregateByLabel(self::BROWSER_FIELD, self::BROWSER_RECORD_NAME);
-        $this->aggregateByLabel(self::BROWSER_ENGINE_FIELD, self::BROWSER_ENGINE_RECORD_NAME);
-        $this->aggregateByLabel(self::BROWSER_VERSION_DIMENSION, self::BROWSER_VERSION_RECORD_NAME);
-    }
-
-    public function aggregateMultipleReports()
-    {
-        $dataTablesToSum = array(
-            self::DEVICE_TYPE_RECORD_NAME,
-            self::DEVICE_BRAND_RECORD_NAME,
-            self::DEVICE_MODEL_RECORD_NAME,
-            self::OS_RECORD_NAME,
-            self::OS_VERSION_RECORD_NAME,
-            self::BROWSER_RECORD_NAME,
-            self::BROWSER_ENGINE_RECORD_NAME,
-            self::BROWSER_VERSION_RECORD_NAME
-        );
-
-        $columnsAggregationOperation = null;
-
-        foreach ($dataTablesToSum as $dt) {
-            $this->getProcessor()->aggregateDataTableRecords(
-                $dt,
-                $this->maximumRows,
-                $this->maximumRows,
-                $columnToSort = 'nb_visits',
-                $columnsAggregationOperation,
-                $columnsToRenameAfterAggregation = null,
-                $countRowsRecursive = array());
-        }
-    }
-
-    private function aggregateByLabel($labelSQL, $recordName)
-    {
-        $metrics = $this->getLogAggregator()->getMetricsFromVisitByDimension($labelSQL);
-
-        if (in_array($recordName, array(self::DEVICE_TYPE_RECORD_NAME, self::DEVICE_BRAND_RECORD_NAME, self::DEVICE_MODEL_RECORD_NAME, self::BROWSER_RECORD_NAME))) {
-
-            $labelSQL = str_replace('log_visit.', 'log_conversion.', $labelSQL);
-
-            $query = $this->getLogAggregator()->queryConversionsByDimension(array($labelSQL));
-
-            if ($query === false) {
-                return;
-            }
-
-            while ($conversionRow = $query->fetch()) {
-                $metrics->sumMetricsGoals(isset($conversionRow[$labelSQL]) ? $conversionRow[$labelSQL] : null, $conversionRow);
-            }
-            $metrics->enrichMetricsWithConversions();
-        }
-
-        $table = $metrics->asDataTable();
-        $report = $table->getSerialized($this->maximumRows, null, Metrics::INDEX_NB_VISITS);
-        Common::destroy($table);
-        $this->getProcessor()->insertBlobRecord($recordName, $report);
-        unset($table, $report);
-    }
-
 }

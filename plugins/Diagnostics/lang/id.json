@@ -20,7 +20,7 @@
         "HideUnchanged": "Jika Anda hanya ingin melihat nilai yang sudah diubah, Anda dapat %1$smenyembunyikan semua nilai yang tidak berubah%2$s.",
         "HtaccessWarningNginx": "Untuk memastikan bahwa berkas sensitif tidak dapat diakses secara langsung, disarankan untuk mengkonfigurasi server web Anda untuk membatasi akses ke direktori tertentu. Untuk informasi lebih lanjut, silakan lihat %1$s konfigurasi server nginx resmi %2$s",
         "MysqlMaxPacketSize": "Ukuran Paket Maksimum",
-        "MysqlMaxPacketSizeWarning": "Disarankan untuk mengonfigurasi 'max_allowed_packet' minimal ke %1$s di basis data MySQL Anda. Saat ini disetel ke %2$s.",
+        "MysqlMaxPacketSizeWarning": "Disarankan untuk mengonfigurasi '%1$smax_allowed_packet%2$s' minimal ke %3$s di basis data MySQL Anda. Saat ini disetel ke %4$s.",
         "MysqlTemporaryTablesWarning": "Izin MySQL CREATE TEMPORARY TABLES diperlukan agar Matomo berfungsi dengan baik.",
         "MysqlTransactionLevel": "Mengubah tingkat isolasi transaksi tidak didukung. Pengarsipan akan tetap berfungsi, namun mungkin lebih lambat dan disarankan untuk mengubah, misalnya, `binlog_format` menjadi `baris` jika memungkinkan.",
         "NoDataForReportArchivingNotRun": "Pengarsipan laporan Anda belum dijalankan baru-baru ini, %1$spelajari lebih lanjut tentang cara membuat laporan.%2$s",

@@ -12,6 +12,8 @@ namespace Piwik\Plugins\ExamplePlugin;
 use Piwik\Archive;
 use Piwik\DataTable;
 use Piwik\Piwik;
+use Piwik\Plugins\ExamplePlugin\RecordBuilders\ExampleMetric;
+use Piwik\Plugins\ExamplePlugin\RecordBuilders\ExampleMetric2;
 use Piwik\Segment;
 
 /**
@@ -73,7 +75,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasViewAccess($idSite);
 
         $archive = Archive::build($idSite, $period, $date, $segment);
-        return $archive->getDataTableFromNumeric([Archiver::EXAMPLEPLUGIN_METRIC_NAME, Archiver::EXAMPLEPLUGIN_CONST_METRIC_NAME]);
+        return $archive->getDataTableFromNumeric([ExampleMetric::EXAMPLEPLUGIN_METRIC_NAME, ExampleMetric2::EXAMPLEPLUGIN_CONST_METRIC_NAME]);
     }
 
     public function getSegmentHash(string $idSite, string $segment)

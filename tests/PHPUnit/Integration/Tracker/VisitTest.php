@@ -107,7 +107,7 @@ class VisitTest extends IntegrationTestCase
         foreach ($tests as $ip => $expected) {
             $request->setParam('cip', $ip);
 
-            $excluded = new VisitExcluded_public($request);
+            $excluded = new VisitExcludedPublic($request);
             $this->assertSame($expected, $excluded->public_isVisitorIpExcluded($ip));
         }
     }
@@ -193,7 +193,7 @@ class VisitTest extends IntegrationTestCase
         $request = new RequestAuthenticated(array('idsite' => $idsite, 'cip' => $ip));
 
         $_SERVER['HTTP_VIA'] = '1.1 Chrome-Compression-Proxy';
-        $excluded = new VisitExcluded_public($request);
+        $excluded = new VisitExcludedPublic($request);
         $isBot = $excluded->public_isNonHumanBot();
         unset($_SERVER['HTTP_VIA']);
         $this->assertSame($isNonHumanBot, $isBot);
@@ -269,7 +269,7 @@ class VisitTest extends IntegrationTestCase
         // test that user agents that contain excluded user agent strings are excluded
         foreach ($tests as $ua => $expected) {
             $request->setParam('ua', $ua);
-            $excluded = new VisitExcluded_public($request);
+            $excluded = new VisitExcludedPublic($request);
 
             $this->assertSame($expected, $excluded->public_isUserAgentExcluded(), "Result if isUserAgentExcluded('$ua') was not " . ($expected ? 'true' : 'false') . ".");
         }
@@ -302,7 +302,7 @@ class VisitTest extends IntegrationTestCase
                 'idsite' => $idsite,
                 'urlref' => $spamUrl
             ));
-            $excluded = new VisitExcluded_public($request);
+            $excluded = new VisitExcludedPublic($request);
 
             $this->assertSame($expectedIsReferrerSpam, $excluded->public_isReferrerSpamExcluded(), $spamUrl);
         }
@@ -339,7 +339,7 @@ class VisitTest extends IntegrationTestCase
 
         foreach ($isIpBot as $ip => $isBot) {
             $request->setParam('cip', $ip);
-            $excluded = new VisitExcluded_public($request);
+            $excluded = new VisitExcludedPublic($request);
 
             $this->assertSame($isBot, $excluded->public_isNonHumanBot(), $ip);
         }
@@ -389,7 +389,7 @@ class VisitTest extends IntegrationTestCase
                 'ua' => $userAgent,
             ));
 
-            $excluded = new VisitExcluded_public($request);
+            $excluded = new VisitExcludedPublic($request);
 
             $this->assertSame($isBot, $excluded->public_isNonHumanBot(), $userAgent);
         }
@@ -455,7 +455,7 @@ class VisitTest extends IntegrationTestCase
     private function assertRememberedArchivedReportsThatShouldBeInvalidated($idsite, $requestDate, $expectedRemeberedArchivedReports)
     {
         /** @var Visit $visit */
-        list($visit) = $this->prepareVisitWithRequest(array(
+        [$visit] = $this->prepareVisitWithRequest(array(
             'idsite' => $idsite,
             'rec' => 1,
             'cip' => '156.146.156.146',
@@ -506,7 +506,7 @@ class VisitTest extends IntegrationTestCase
     }
 }
 
-class VisitExcluded_public extends VisitExcluded
+class VisitExcludedPublic extends VisitExcluded
 {
     public function public_isVisitorIpExcluded($ip)
     {

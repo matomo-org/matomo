@@ -16,7 +16,7 @@
         "DatabaseSetup": "Εγκατάσταση βάσης δεδομένων",
         "DatabaseSetupAdapter": "Προσαρμογέας",
         "DatabaseSetupDatabaseName": "Ονομασία βάσης δεδομένων",
-        "DatabaseSetupLogin": "Όνομα χρήστη",
+        "DatabaseSetupLogin": "Είσοδος",
         "DatabaseSetupServer": "Διακομιστής βάσης δεδομένων",
         "DatabaseSetupTablePrefix": "Πρόθεμα πινάκων",
         "DefaultSettings": "Προκαθορισμένες ρυθμίσεις του Matomo",

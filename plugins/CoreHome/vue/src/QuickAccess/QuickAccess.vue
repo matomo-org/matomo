@@ -105,6 +105,8 @@ import Site from '../SiteSelector/Site';
 import Matomo from '../Matomo/Matomo';
 import debounce from '../debounce';
 
+const { ListingFormatter } = window;
+
 interface SubMenuItem {
   name: string;
   index: number;
@@ -223,7 +225,6 @@ export default defineComponent({
       );
     },
     quickAccessTitle() {
-      let searchAreasTitle = '';
       const searchAreas = [translate('CoreHome_MenuEntries')];
 
       if (this.hasSegmentSelector) {
@@ -234,16 +235,7 @@ export default defineComponent({
         searchAreas.push(translate('SitesManager_Sites'));
       }
 
-      while (searchAreas.length) {
-        searchAreasTitle += searchAreas.shift();
-        if (searchAreas.length >= 2) {
-          searchAreasTitle += ', ';
-        } else if (searchAreas.length === 1) {
-          searchAreasTitle += ` ${translate('General_And')} `;
-        }
-      }
-
-      return translate('CoreHome_QuickAccessTitle', searchAreasTitle);
+      return translate('CoreHome_QuickAccessTitle', ListingFormatter.formatAnd(searchAreas));
     },
   },
   emits: ['itemSelected', 'blur'],

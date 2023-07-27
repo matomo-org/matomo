@@ -1025,11 +1025,12 @@ class CronArchive
         // empty plugins param since we only check for an 'all' archive
         $archiveInfo = ArchiveSelector::getArchiveIdAndVisits($params, $minArchiveProcessedTime, $includeInvalidated = $isPeriodIncludesToday);
         $idArchive = $archiveInfo['idArchives'];
+        $tsArchived = $archiveInfo['tsArchived'];
 
         // day has changed since the archive was created, we need to reprocess it
         if ($isYesterday
             && !empty($idArchive)
-            && Date::factory($archiveInfo['tsArchived'])->toString() != $today->toString()
+            && Date::factory($tsArchived)->toString() != $today->toString()
         ) {
             return false;
         }
