@@ -201,6 +201,12 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
     if (Array.isArray(params)) {
       helper.setBulkRequests(...(params as QueryParameters[]));
     } else {
+      Object.keys(params).forEach((key) => {
+        if (/password/i.test(key)) {
+          throw new Error(`Password parameters are not allowed to be sent as GET parameter. Please send ${key} as POST parameter instead.`);
+        }
+      });
+
       helper.addParams({
         module: 'API',
         format: options.format || 'json',
