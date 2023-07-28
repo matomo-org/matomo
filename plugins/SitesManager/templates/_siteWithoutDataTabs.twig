@@ -214,35 +214,55 @@
     {% endif %}
 
     <div id="other" class="col s12">
-        <h3 class="no-mt-top">{{ 'SitesManager_LogAnalytics'|translate }}</h3>
+        <p>{{ 'SitesManager_OtherWaysTabDescription'|translate }}</p>
+        <br>
+        <p>{{ 'SitesManager_OtherWaysTabFollowStep'|translate }}</p>
+        <p>Matomo URL: <code vue-directive="CoreHome.CopyToClipboard">{{ piwikUrl }}</code></p>
+        <p>{{ 'SitesManager_EmailInstructionsYourSiteId'|translate('<code vue-directive="CoreHome.CopyToClipboard">' ~ idSite ~ '</code>')|raw }}</p>
+        <br>
+
+        <h3>{{ 'CoreAdminHome_ImageTracking'|translate }}</h3>
+        <p>{{ 'SitesManager_ImageTrackingDescription'|translate('<a href="https://matomo.org/docs/tracking-api/reference/" rel="noreferrer noopener" target="_blank">', '</a>')|raw }}</p>
+
+        <h3>{{ 'SitesManager_LogAnalytics'|translate }}</h3>
         <p>{{ 'SitesManager_LogAnalyticsDescription'|translate('<a href="https://matomo.org/log-analytics/" rel="noreferrer noopener" target="_blank">', '</a>')|raw }}</p>
 
-        <h3>{{ 'SitesManager_MobileAppsAndSDKs'|translate }}</h3>
+        <h3>{{ 'SitesManager_MobileAppsAndSDKsModified'|translate }}</h3>
         <p>{{ 'SitesManager_MobileAppsAndSDKsDescription'|translate('<a href="https://matomo.org/integrate/#programming-language-platforms-and-frameworks" rel="noreferrer noopener" target="_blank">','</a>')|raw }}</p>
 
         <h3>{{ 'CoreAdminHome_HttpTrackingApi'|translate }}</h3>
         <p>{{ 'CoreAdminHome_HttpTrackingApiDescription'|translate('<a href="https://developer.matomo.org/api-reference/tracking-api" rel="noreferrer noopener" target="_blank">','</a>')|raw }}</p>
 
-        <h3>{{ 'SitesManager_SiteWithoutDataGoogleTagManager'|translate }}</h3>
-        <p>{{ 'SitesManager_SiteWithoutDataGoogleTagManagerDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-within-gtm-google-tag-manager">','</a>')|raw }}</p>
+        {% if not gtmUsed %}
+            <h3>{{ 'SitesManager_SiteWithoutDataGoogleTagManager'|translate }}</h3>
+            <p>{{ 'SitesManager_SiteWithoutDataGoogleTagManagerDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-within-gtm-google-tag-manager">','</a>')|raw }}</p>
+        {% endif %}
 
-        <h3>WordPress</h3>
-        <p>{{ 'SitesManager_SiteWithoutDataWordpressDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/">','</a>')|raw }}</p>
+        {% if cms is not same as('wordpress') %}
+            <h3>WordPress</h3>
+            <p>{{ 'SitesManager_SiteWithoutDataWordpressDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/">','</a>')|raw }}</p>
+        {% endif %}
 
-        <h3>{{ 'SitesManager_SiteWithoutDataSinglePageApplication'|translate }}</h3>
-        <p>{{ 'SitesManager_SiteWithoutDataSinglePageApplicationDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://developer.matomo.org/guides/spa-tracking">','</a>')|raw }}</p>
+        {% if not cloudflare %}
+            <h3>Cloudflare</h3>
+            <p>{{ 'SitesManager_SiteWithoutDataCloudflareDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-cloudflare-setup/">','</a>')|raw }}</p>
+        {% endif %}
 
-        <h3>Cloudflare</h3>
-        <p>{{ 'SitesManager_SiteWithoutDataCloudflareDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-cloudflare-setup/">','</a>')|raw }}</p>
+        {% if jsFramework is not same as('vue')  %}
+            <h3>Vue.js</h3>
+            <p>{{ 'SitesManager_SiteWithoutDataVueDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://github.com/AmazingDreams/vue-matomo">vue-matomo</a>', '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-websites-that-use-vue-js/">','</a>')|raw }}</p>
+        {% endif %}
 
-        <h3>Vue.js</h3>
-        <p>{{ 'SitesManager_SiteWithoutDataVueDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://github.com/AmazingDreams/vue-matomo">vue-matomo</a>', '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-websites-that-use-vue-js/">','</a>')|raw }}</p>
+        {% if jsFramework is not same as('react') %}
+            <h3>React.js</h3>
+            <p>{{ 'SitesManager_SiteWithoutDataReactDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/guide/tag-manager/">', '</a>', '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-start-tracking-data-with-matomo-on-websites-that-use-react/">','</a>')|raw }}</p>
+        {% endif %}
 
-        <h3>React.js</h3>
-        <p>{{ 'SitesManager_SiteWithoutDataReactDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/guide/tag-manager/">', '</a>', '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-start-tracking-data-with-matomo-on-websites-that-use-react/">','</a>')|raw }}</p>
-
-        {% if googleAnalyticsImporterMessage is defined %}
+        {% if googleAnalyticsImporterMessage is defined and googleAnalyticsImporterMessage is not empty  %}
             {{ googleAnalyticsImporterMessage|raw }}
+        {% elseif not ga3Used and not ga4Used %}
+            <h3>{{ 'SitesManager_ImportDataFromGoogleAnalytics'|translate }}</h3>
+            <p>{{ 'SitesManager_ImportDataFromGoogleAnalyticsDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/guide/installation-maintenance/import-google-analytics/">', '</a>')|raw }}</p>
         {% endif %}
     </div>
 </div>
