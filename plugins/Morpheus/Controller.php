@@ -69,6 +69,7 @@ export default defineComponent({
             ],
         ];
 
+        // Alerts
         $snippets[] = [
             'id' => 'Alert',
             'title' => 'Alerts',
@@ -96,12 +97,52 @@ export default defineComponent({
   <strong>Warning!</strong> Better <a>check</a> yourself, you\'re not looking too good.
 </Alert>
 <Alert severity="danger">
-  <strong>Error!</strong> Change <a>a few things</a> up and try submitting again.
+  <strong>Error!</strong> Change <a>a few things</a> and try submitting again.
 </Alert>',
             'components' => [
                 ['plugin' => 'CoreHome', 'component' => 'Alert'],
             ],
         ];
+
+        // Notifications
+        $snippets[] = [
+            'id' => 'Notification',
+            'title' => 'Notifications',
+            'code' => '<template>
+  %vue_embed%
+</template>       
+<script lang="ts">
+import { defineComponent } from \'vue\';
+import { Notification } from \'CoreHome\';
+
+export default defineComponent({
+  components: {
+    Notification,
+  },
+});
+</script>',
+            'vue_embed' => '<Notification context="info">
+      <strong>Info</strong>:
+      This notification needs <a>your attention</a> but it\'s not super important.
+    </Notification>
+    <Notification context="success">
+      <strong>Success</strong>:
+      You successfully read this important <a>alert message</a>.
+    </Notification>
+    <Notification context="warning" :noclear="true">
+      <strong>Warning</strong>:
+      Better <a>check</a> yourself, you\'re not looking too good.
+    </Notification>
+    <Notification context="error" :noclear="true">
+      <strong>Error</strong>:
+      Change <a>a few things</a> and try submitting again. 
+    </Notification>',
+            'desc' => 'This is a Vue component. You can use the :noclear="true" property to hide the close button',
+            'components' => [
+                ['plugin' => 'CoreHome', 'component' => 'Notification'],
+            ],
+        ];
+
 
         // forms
         $snippets[] = [

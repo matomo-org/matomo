@@ -7,118 +7,63 @@
 }
 
 .alert {
+  color: #212121 !important;
   padding: 20px 20px 20px 60px;
   margin-bottom: 20px;
-  border: 1px solid transparent;
+  border: 2px solid;
   border-radius: 2px;
   font-size: 14px;
   position: relative;
   &:before {
     font-family: "matomo";
-    content: "\e625";
+    content: "\e624";
     position: absolute;
     left: 20px;
     line-height: 100%; // line-height = font-size
     font-size: 24px;
+    margin-top: -3px
   }
 
   a {
-    color: inherit;
+    color: #212121 !important;
     text-decoration: underline;
+    &:hover {
+      text-decoration: underline;
+    }
   }
-}
-
-body #content .alert-success p {
-  color: @color-green-matomo;
 }
 
 .alert-success {
-  color: @color-green-matomo;
-  border-color: @color-green-matomo;
+  background-color: #ebf2eb;
+  border-color: #378039;
   &:before {
     content: "\e63d";
-    color: @color-green-matomo;
+    color: #378039;
   }
-  p {
-    color: @color-green-matomo;
-  }
-  a {
-    color: @color-green-matomo;
-    text-decoration: underline;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-}
-
-body #content .alert-info p {
-  color: #838383;
 }
 
 .alert-info {
-  color: #838383;
-  background-color: #F5F5F5;
-  font-size: 14px;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  p {
-    color: #838383;
-  }
+  background-color: #ecf7fe;
+  border-color: #0d94e3;
   &:before {
-    color: #afafaf;
-    font-size: 20px;
+    color: #0d94e3;
   }
-  a {
-    color: #838383;
-    text-decoration: underline;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-}
-
-body #content .alert-warning p {
-  color: #fbf7f1;
 }
 
 .alert-warning {
-  color: @color-orange-brand;
-  border-color: @color-orange-brand;
+  background-color: #fefbe9;
+  border-color: #a18a0b;
   &:before {
     content: "\e621";
-    color: @color-orange-brand;
+    color: #a18a0b;
   }
-  p {
-    color: @color-orange-brand;
-  }
-  a {
-    color: @color-orange-brand;
-    text-decoration: underline;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-}
-
-body #content .alert-danger p {
-  color: @color-red-matomo;
 }
 
 .alert-danger {
-  color: @color-red-matomo;
-  border-color: @color-red-matomo;
+  background-color: #faeaea;
+  border-color: #d2312d;
   &:before {
     content: "\e616";
-    color: @color-red-matomo;
-  }
-  p {
-    color: @color-red-matomo;
-  }
-  a {
-    color: @color-red-matomo;
-    text-decoration: underline;
-    &:hover {
-      text-decoration: underline;
-    }
+    color: #d2312d;
   }
 }
