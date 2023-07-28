@@ -141,9 +141,6 @@ rm -rf node_modules/jquery-ui-dist/jquery-ui.js
 rm -rf node_modules/jquery-ui-dist/jquery-ui.structure.css
 rm -rf node_modules/jquery-ui-dist/jquery-ui.theme.css
 
-rm -rf node_modules/jquery.browser/test
-rm -rf node_modules/jquery.browser/dist/jquery.browser.js
-
 rm -rf node_modules/jquery.dotdotdot/gulpfile.js
 rm -rf node_modules/jquery.dotdotdot/index.html
 rm -rf node_modules/jquery.dotdotdot/dotdotdot.jquery.json

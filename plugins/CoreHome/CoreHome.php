@@ -164,7 +164,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "node_modules/jquery-ui-dist/jquery-ui.min.js";
         $jsFiles[] = "node_modules/@materializecss/materialize/dist/js/materialize.min.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/materialize-bc.js";
-        $jsFiles[] = "node_modules/jquery.browser/dist/jquery.browser.min.js";
         $jsFiles[] = "node_modules/jquery.scrollto/jquery.scrollTo.min.js";
         $jsFiles[] = "node_modules/sprintf-js/dist/sprintf.min.js";
         $jsFiles[] = "node_modules/mousetrap/mousetrap.min.js";

@@ -38,7 +38,6 @@
     "jquery": "^3.6.3",
     "jquery-mousewheel": "^3.1.13",
     "jquery-ui-dist": "^1.13.1",
-    "jquery.browser": "^0.1.0",
     "jquery.dotdotdot": "^3.2.3",
     "jquery.scrollto": "^2.1.2",
     "mathjs": "^10.6.4",

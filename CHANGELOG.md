@@ -44,6 +44,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
       * Tables can be rendered using the new method `renderTable`
     * For executing another command within your command use the new method `runCommand`
 * Requests sent by Matomo to plugins.matomo.org will no longer include an `HTTP_X_FORWARDED_FOR` header containing the current user's IP address. If you use an outbound proxy rule that used this header to allow access for Matomo then it should be replaced with rule allowing access by IP and/or URL.    
+* Matomo does no longer include the jQuery browser plugin. If your plugin requires it, you need to include it yourself.
 
 ### New APIs
 
