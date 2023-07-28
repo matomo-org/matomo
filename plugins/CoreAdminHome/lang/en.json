@@ -56,7 +56,7 @@
         "JSTracking_CustomCampaignQueryParamDesc": "Note: %1$sMatomo will automatically detect Google Analytics parameters.%2$s",
         "JSTracking_DisableCookies": "Disable all tracking cookies",
         "JSTracking_DisableCookiesDesc": "Disables all first party cookies. Existing Matomo cookies for this website will be deleted on the next pageview.",
-        "JSTracking_EnableCrossDomainLinking": "Enables cross domain linking",
+        "JSTracking_EnableCrossDomainLinking": "Enable cross domain linking",
         "JSTracking_EnableDoNotTrack": "Enable client side DoNotTrack detection",
         "JSTracking_EnableDoNotTrackDesc": "So tracking requests will not be sent if visitors do not wish to be tracked.",
         "JSTracking_EnableDoNotTrack_AlreadyEnabled": "Note: Server side DoNotTrack support has been enabled, so this option will have no effect.",
