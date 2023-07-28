@@ -2,13 +2,13 @@
 {% set showImageDiv = true %}
 {% set imageToShow = 'plugins/Login/images/invitation-image.png' %}
 {% set colClassOverride = 'col l4 offset-l2 m12' %}
-{% set bodyClass = 'onBoarding' %}
+{% set bodyClass = 'onboarding' %}
 {% extends '@Login/loginLayout.twig' %}
 
 {% block loginContent %}
     <div class="contentForm invitationForm" id="invitationForm">
-        <p class="uppercase header-p m-top">{{ 'General_CreatePassword'|translate }}</p>
-        <p class="header-p">{{ 'Login_CreatePasswordDescription'|translate }}</p>
+        <h1>{{ 'General_CreatePassword'|translate }}</h1>
+        <p class="description">{{ 'Login_CreatePasswordDescription'|translate }}</p>
 
         {% if AccessErrorString is defined %}
             <div vue-entry="CoreHome.Notification"
@@ -23,9 +23,9 @@
                 <input type="hidden" name="token" value="{{ token }}"/>
                 <div class="row">
                     <div class="col l10 s12 input-field">
-                        <input type="text" name="email" value="{{ user.email }}" size="20" readonly="readonly"
+                        <input type="text" name="email" id="email" value="{{ user.email }}" size="20" readonly="readonly"
                                tabindex="0"/>
-                        <label>{{ 'UsersManager_Email'|translate }}</label>
+                        <label for="email">{{ 'UsersManager_Email'|translate }}</label>
                     </div>
                     <div class="col l10 s12 input-field">
                         <input type="password" placeholder="" name="password" id="password" class="input" value=""
@@ -75,7 +75,7 @@
                 </div>
                 <div class="row actions invitation_form_row formSubmitButtonRow">
                     <div class="col l10 s12">
-                        <input class="submit btn uppercase formSubmitButton" name="invitation_form" id="login_form_submit" type="submit"
+                        <input class="submit btn formSubmitButton" name="invitation_form" id="login_form_submit" type="submit"
                                value="{{ 'General_Confirm'|translate }}"
                                tabindex="100"/>
                     </div>
