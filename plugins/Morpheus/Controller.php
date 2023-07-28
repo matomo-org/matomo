@@ -817,7 +817,7 @@ export default defineComponent({
                 'admin-development',
                 'admin-settings',
 
-                
+
             ],
         ];
 
