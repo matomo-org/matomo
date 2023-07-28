@@ -123,19 +123,19 @@ export default defineComponent({
 </script>',
             'vue_embed' => '<Notification context="info">
       <strong>Info</strong>:
-      This notification needs <a>your attention</a> but it\'s not super important.
+      This notification needs <a>your attention</a> but it\'s not super important and has a close button.
     </Notification>
     <Notification context="success">
       <strong>Success</strong>:
-      You successfully read this important <a>alert message</a>.
+      You successfully read this important <a>alert message</a>, it also has a close button.
     </Notification>
     <Notification context="warning" :noclear="true">
       <strong>Warning</strong>:
-      Better <a>check</a> yourself, you\'re not looking too good.
+      Better <a>check</a> yourself, you\'re not looking too good. There is no close button.
     </Notification>
     <Notification context="error" :noclear="true">
-      <strong>Error</strong>:
-      Change <a>a few things</a> and try submitting again. 
+      <strong>Error</strong><br>
+      Change <a>a few things</a> and try submitting again, this notification does not have a close button, but it does contain multiple lines of text. Textus sine sensu ultra finem lineae pergit ante movens infra et iterum ad sinistram.
     </Notification>',
             'desc' => 'This is a Vue component. You can use the :noclear="true" property to hide the close button',
             'components' => [
