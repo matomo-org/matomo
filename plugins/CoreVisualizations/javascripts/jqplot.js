@@ -897,14 +897,6 @@ RowEvolutionSeriesToggle.prototype.attachEvents = function () {
             el.find('td').css('opacity', .5);
         }
 
-        // prevent selecting in ie & opera (they don't support doing this via css)
-        if ($.browser.msie) {
-            this.ondrag = function () { return false; };
-            this.onselectstart = function () { return false; };
-        } else if ($.browser.opera) {
-            $(this).attr('unselectable', 'on');
-        }
-
         // the API outputs the label double encoded when it shouldn't. so when looking for a matching label we have
         // to check if one is double encoded.
         function labelMatches(lhs, rhs) {
