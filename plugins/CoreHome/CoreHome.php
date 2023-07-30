@@ -164,7 +164,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "node_modules/jquery-ui-dist/jquery-ui.min.js";
         $jsFiles[] = "node_modules/@materializecss/materialize/dist/js/materialize.min.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/materialize-bc.js";
-        $jsFiles[] = "node_modules/jquery.browser/dist/jquery.browser.min.js";
         $jsFiles[] = "node_modules/jquery.scrollto/jquery.scrollTo.min.js";
         $jsFiles[] = "node_modules/sprintf-js/dist/sprintf.min.js";
         $jsFiles[] = "node_modules/mousetrap/mousetrap.min.js";
@@ -186,7 +185,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/notification.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/numberFormatter.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/listingFormatter.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/noreferrer.js";
 
         // we have to load these CorePluginsAdmin files here. If we loaded them in CorePluginsAdmin,
         // there would be JS errors as CorePluginsAdmin is loaded first. Meaning it is loaded before

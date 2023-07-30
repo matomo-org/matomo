@@ -927,8 +927,6 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             'node_modules/jquery-ui-dist/jquery-ui.js',
             'node_modules/jquery-ui-dist/jquery-ui.structure.css',
             'node_modules/jquery-ui-dist/jquery-ui.theme.css',
-            'node_modules/jquery.browser/test',
-            'node_modules/jquery.browser/dist/jquery.browser.js',
             'node_modules/jquery.dotdotdot/gulpfile.js',
             'node_modules/jquery.dotdotdot/index.html',
             'node_modules/jquery.dotdotdot/dotdotdot.jquery.json',

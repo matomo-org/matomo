@@ -160,7 +160,7 @@ abstract class UIAssetFetcher
         "libs/bower_components/iframe-resizer/js/iframeResizer.min.js" => "node_modules/iframe-resizer/js/iframeResizer.min.js",
         "libs/bower_components/qrcode.js/qrcode.js" => "node_modules/qrcodejs2/qrcode.min.js",
         "libs/bower_components/chroma-js/chroma.min.js" => "node_modules/chroma-js/chroma.min.js",
-        "libs/jquery/jquery.browser.js" => "node_modules/jquery.browser/dist/jquery.browser.min.js",
+        "libs/jquery/jquery.browser.js" => null,
         "libs/jquery/jquery.truncate.js" => null,
 
         "libs/jquery/themes/base/jquery-ui.min.css" => "node_modules/jquery-ui-dist/jquery-ui.min.css",
