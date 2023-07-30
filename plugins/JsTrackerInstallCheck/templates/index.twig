@@ -1,0 +1,6 @@
+{% extends 'admin.twig' %}
+
+{% block content %}
+    <div vue-entry="JsTrackerInstallCheck.TestJsTrackerInstall" check-nonce="{{ nonce|json_encode|e('html_attr') }}">
+    </div>
+{% endblock %}

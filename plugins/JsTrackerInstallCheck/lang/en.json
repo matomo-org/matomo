@@ -1,0 +1,9 @@
+{
+  "JsTrackerInstallCheck": {
+    "EnterSiteUrl": "Enter the URL of the page that you want to test. The page will open in a new tab and close after a few seconds.",
+    "StartTestBtnText": "Start test",
+    "TestHelpText": "Note: This only tests that the tracking code is loaded on the page and able to send requests to this instance of Matomo. It doesn't test any other settings or functionality.",
+    "TestSuccessMessage": "The tracking code appears to be installed and working!",
+    "TestFailureMessage": "The tracking code doesn't appear to be working."
+  }
+}

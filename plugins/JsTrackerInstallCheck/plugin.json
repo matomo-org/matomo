@@ -1,0 +1,29 @@
+{
+    "name": "JsTrackerInstallCheck",
+    "description": "Validate whether the JS tracking code has been installed on a site and that it can send tracking requests back to your Matomo instance",
+    "version": "0.1.0",
+    "theme": false,
+    "require": {
+        "matomo": ">=4.15.0-stable,<5.0.0-b1"
+    },
+    "authors": [
+        {
+            "name": "Matomo",
+            "email": "",
+            "homepage": ""
+        }
+    ],
+    "support": {
+        "email": "",
+        "issues": "",
+        "forum": "",
+        "irc": "",
+        "wiki": "",
+        "source": "",
+        "docs": "",
+        "rss": ""
+    },
+    "homepage": "",
+    "license": "GPL v3+",
+    "keywords": []
+}
