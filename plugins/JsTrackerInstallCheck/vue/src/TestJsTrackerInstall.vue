@@ -31,10 +31,12 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import {
-  AjaxHelper, NotificationsStore, translate,
+  AjaxHelper,
+  NotificationsStore,
+  translate,
+  ContentBlock,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
-import ContentBlock from '../../../CoreHome/vue/src/ContentBlock/ContentBlock.vue';
 
 export default defineComponent({
   components: { ContentBlock, Field },
