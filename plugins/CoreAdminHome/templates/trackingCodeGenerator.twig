@@ -20,7 +20,7 @@
             {{ 'General_GoTo2'|translate }}:
             <a href="#/javaScriptTracking">{{ 'CoreAdminHome_JavaScriptTracking'|translate  }}</a>
             <a href="#/imageTracking">{{ 'CoreAdminHome_ImageTracking'|translate }}</a>
-            <a href="#/importServerLogs">{{ 'CoreAdminHome_ImportingServerLogs'|translate }}</a>
+            <a href="#/importServerLogs">{{ 'SitesManager_LogAnalytics'|translate }}</a>
             <a href="#/mobileAppsAndSdks">{{ 'SitesManager_MobileAppsAndSDKs'|translate }}</a>
             <a href="#/trackingApi">{{ 'CoreAdminHome_HttpTrackingApi'|translate }}</a>
             <a href="#/singlePageApplication">{{ 'SitesManager_SiteWithoutDataSinglePageApplication'|translate }}</a>
@@ -48,7 +48,7 @@
     default-site="{{ defaultSiteDecoded|json_encode }}"
 ></div>
 
-<div vue-entry="CoreHome.ContentBlock" content-title="{{ 'CoreAdminHome_ImportingServerLogs'|translate }}"
+<div vue-entry="CoreHome.ContentBlock" content-title="{{ 'SitesManager_LogAnalytics'|translate }}"
      anchor="importServerLogs">
     <p>
         {{ 'CoreAdminHome_ImportingServerLogsDesc'|translate('<a href="https://matomo.org/log-analytics/" rel="noreferrer noopener" target="_blank">','</a>')|raw }}

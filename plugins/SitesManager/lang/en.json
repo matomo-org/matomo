@@ -212,8 +212,7 @@
         "SiteWithoutDataSPADescription": "It is easy to start tracking your Single Page Application (SPA) or Progressive Web App (PWA) using Matomo Analytics. The easiest way to do this is using the Matomo Tag Manager (%1$slearn more%2$s) using the steps below, alternatively you can use the JavaScript Tracking code (%3$sfollowing this guide%4$s).",
         "SiteWithoutDataSPAFollowStepCompleted": "%1$sCongratulations!%2$s You have successfully installed the Matomo Analytics tracking code via the Matomo Tag Manager. To verify that hits are being tracked, visit your SPA / PWA and check that this data is visible in your Matomo instance.",
         "SiteWithoutDataGoogleAnalyticsImport": "Google Analytics Import",
-        "OtherWaysTabDescription": "Even if the solutions provided on the other tabs were not right for you, you can easily setup Matomo with any of the alternative methods below.",
-        "OtherWaysTabFollowStep": "For some of these methods, you may need the following information:",
+        "OtherWaysTabDescription": "Even if the solutions provided in the other tabs were not right for you, you can easily setup Matomo with one of the methods below. You may need the following information:",
         "ImageTrackingDescription": "When a visitor has disabled JavaScript, or when JavaScript cannot be used, you can use an image tracking link to track visitors. For the whole list of options you can use with an image tracking link, see the %1$sTracking API Documentation%2$s.",
         "ImportDataFromGoogleAnalytics": "Import Data from Google Analytics",
         "ImportDataFromGoogleAnalyticsDescription": "Import your Google Analytics properties and reporting data to create a backup and analyse them using Matomo’s powerful analytics tools. Check out our %1$sguide%2$s."
