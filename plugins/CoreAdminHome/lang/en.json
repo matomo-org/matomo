@@ -33,7 +33,6 @@
         "ImageTrackingLink": "Image Tracking Link",
         "ImportFromGoogleAnalytics": "Import from Google Analytics",
         "ImportFromGoogleAnalyticsDescription": "If you have a Google Analytics property and are switching to Matomo, you can import your existing data using the %1$sGoogleAnalyticsImporter%2$s plugin.",
-        "ImportingServerLogs": "Importing Server Logs",
         "ImportingServerLogsDesc": "An alternative to tracking visitors through the browser (either via JavaScript or an image link) is to continuously import server logs. Learn more about %1$sServer Log File Analytics%2$s.",
         "InvalidPluginsWarning": "The following plugins are not compatible with %1$s and could not be loaded: %2$s.",
         "InvalidPluginsYouCanUninstall": "You can update or uninstall these plugins on the %1$sManage Plugins%2$s page.",
