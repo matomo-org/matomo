@@ -115,9 +115,10 @@ abstract class SiteContentDetectionAbstract
     /**
      * Returns the content that should be displayed in the Others tab on the no data page
      *
+     * @param SiteContentDetector|null $detector
      * @return string|null
      */
-    public function renderOthersInstruction(): ?string
+    public function renderOthersInstruction(SiteContentDetector $detector = null): ?string
     {
         return null;
     }

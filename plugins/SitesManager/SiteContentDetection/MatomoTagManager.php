@@ -53,7 +53,7 @@ class MatomoTagManager extends SiteContentDetectionAbstract
             <p>' . Piwik::translate( 'SitesManager_SiteWithoutDataMatomoTagManagerNotActive', ['<a href="https://matomo.org/docs/tag-manager/" rel="noreferrer noopener" target="_blank">', '</a>']) . '</p>';
     }
 
-    public function renderOthersInstruction(): string
+    public function renderOthersInstruction(SiteContentDetector $detector = null): string
     {
         return sprintf(
             '<p>%s</p>',

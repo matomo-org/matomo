@@ -262,7 +262,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         foreach ($this->siteContentDetector->getSiteContentDetectionsByType() as $detections) {
             foreach ($detections as $obj) {
                 $tabContent        = $obj->renderInstructionsTab($this->siteContentDetector);
-                $othersInstruction = $obj->renderOthersInstruction();
+                $othersInstruction = $obj->renderOthersInstruction($this->siteContentDetector);
                 $instructionUrl    = $obj->getInstructionUrl();
 
                 /**
@@ -298,7 +298,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                         'id'                => $obj::getId(),
                         'name'              => $obj::getName(),
                         'type'              => $obj::getContentType(),
-                        'othersInstruction' => $obj->renderOthersInstruction(),
+                        'othersInstruction' => $othersInstruction,
                     ];
                 }
 

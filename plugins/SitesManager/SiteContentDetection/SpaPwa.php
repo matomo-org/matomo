@@ -45,7 +45,7 @@ class SpaPwa extends SiteContentDetectionAbstract
         return '';
     }
 
-    public function renderOthersInstruction(): string
+    public function renderOthersInstruction(SiteContentDetector $detector = null): string
     {
         return sprintf(
             '<p>%s</p>',

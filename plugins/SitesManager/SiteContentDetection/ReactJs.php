@@ -82,8 +82,12 @@ class ReactJs extends SiteContentDetectionAbstract
 ';
     }
 
-    public function renderOthersInstruction(): string
+    public function renderOthersInstruction(SiteContentDetector $detector = null): string
     {
+        if ($detector->wasDetected(self::class)) {
+            return ''; // don't show on others page if tab is being displayed
+        }
+
         return sprintf(
             '<p>%s</p>',
             Piwik::translate(
