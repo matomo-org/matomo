@@ -360,7 +360,7 @@ class API extends \Piwik\Plugin\API
         }
         krsort($columnsByPlugin);
 
-        $mergedDataTable = false;
+        $mergedDataTable = null;
         $params = compact('idSite', 'period', 'date', 'segment');
         foreach ($columnsByPlugin as $plugin => $columns) {
             // load the data
@@ -373,7 +373,7 @@ class API extends \Piwik\Plugin\API
             });
 
             // merge reports
-            if ($mergedDataTable === false) {
+            if ($mergedDataTable === null) {
                 $mergedDataTable = $dataTable;
             } else {
                 $merger = new MergeDataTables(true);
@@ -387,7 +387,7 @@ class API extends \Piwik\Plugin\API
             $mergedDataTable->queueFilter('ColumnDelete', array(false, array_keys($columnsMap)));
         }
 
-        return $mergedDataTable;
+        return $mergedDataTable ?? new DataTable();
     }
 
     /**
