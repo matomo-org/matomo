@@ -1690,10 +1690,6 @@ Piwik_Transitions_Util = {
             }
             span.addClass(spanClass);
         }
-        if ($.browser.msie && parseFloat($.browser.version) < 8) {
-            // ie7 fix
-            value += '&nbsp;';
-        }
         span.html(value);
     }
 

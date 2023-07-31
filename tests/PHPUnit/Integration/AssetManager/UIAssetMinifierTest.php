@@ -28,7 +28,6 @@ class UIAssetMinifierTest extends \PHPUnit\Framework\TestCase
         return array(
             array('node_modules/jquery/dist/jquery.min.js', true),
             array('node_modules/jquery-ui-dist/jquery-ui.min.js', true),
-            array('node_modules/jquery.browser/dist/jquery.browser.min.js', true),
             array('libs/jqplot/jqplot-custom.min.js', true),
             array('plugins/TreemapVisualization/libs/Jit/jit-2.0.1-yc.js', true),
             array('plugins/TreemapVisualization/javascripts/treemapViz.js', false),
