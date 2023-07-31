@@ -438,9 +438,26 @@ abstract class Base extends VisitDimension
     }
 
 
+    /**
+     * Check if campaign parameters were directly provided in tracking request.
+     * This might e.g. be the case when using image tracking
+     *
+     * @param Request $request
+     * @return bool
+     */
     protected function detectReferrerCampaignFromTrackerParams(Request $request)
     {
-        $campaignName = $this->getReferrerCampaignQueryParam($request, '_rcn');
+        $campaignName = null;
+        $campaignParameters = Common::getCampaignParameters();
+        $allTrackingParams = $request->getRawParams();
+
+        foreach ($campaignParameters[0] as $parameter) {
+            if (!empty($allTrackingParams[$parameter])) {
+                $campaignName = $allTrackingParams[$parameter];
+                break;
+            }
+        }
+
         if (empty($campaignName)) {
             return false;
         }
@@ -448,9 +465,11 @@ abstract class Base extends VisitDimension
         $this->typeReferrerAnalyzed = Common::REFERRER_TYPE_CAMPAIGN;
         $this->nameReferrerAnalyzed = $campaignName;
 
-        $keyword = $this->getReferrerCampaignQueryParam($request, '_rck');
-        if (!empty($keyword)) {
-            $this->keywordReferrerAnalyzed = $keyword;
+        foreach ($campaignParameters[1] as $parameter) {
+            if (!empty($allTrackingParams[$parameter])) {
+                $this->keywordReferrerAnalyzed = $allTrackingParams[$parameter];
+                break;
+            }
         }
 
         return true;
@@ -567,8 +586,8 @@ abstract class Base extends VisitDimension
     protected function detectReferrerCampaign(Request $request, Visitor $visitor)
     {
         $this->detectReferrerCampaignFromLandingUrl();
-
         $this->detectCampaignKeywordFromReferrerUrl();
+        $this->detectReferrerCampaignFromTrackerParams($request);
 
         $referrerNameAnalayzed = mb_strtolower($this->nameReferrerAnalyzed);
         $referrerNameAnalayzed = $this->truncateReferrerName($referrerNameAnalayzed);
