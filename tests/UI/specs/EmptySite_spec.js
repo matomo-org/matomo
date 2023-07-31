@@ -49,6 +49,14 @@ describe("EmptySite", function () {
         expect(await pageElement.screenshot()).to.matchImage('spa_pwa_page');
       });
 
+    it('should show the Other tab when clicked', async function () {
+        await page.evaluate(() => $('.no-data-screen-ul-tabs a[href="#other"]')[0].click());
+        await page.waitForTimeout(500);
+
+        const pageElement = await page.$('.page');
+        expect(await pageElement.screenshot()).to.matchImage('other_page');
+    });
+
     it('should have button to send tracking code to developer', async function() {
         var mailtoLink = await page.$eval('.emailTrackingCode', link => link.getAttribute('href'));
 
