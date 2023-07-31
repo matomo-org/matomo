@@ -56,6 +56,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 * The method `Common::getRequestVar` is now deprecated, but will remain API until Matomo 6. You may already start using the new class `Piwik\Request` instead, but ensure to handle needed sanitizing / escaping yourself.
 * The brand related less variables for colors `color-black-piwik`, `color-blue-piwik`, `color-red-piwik` and `color-green-piwik` are now deprecated and will be removed in Matomo 6. New variables where `piwik` was replaced with `matomo` have been introduced. E.g. `color-black-matomo`
+* Support for jQuery UI is now depreated and might be removed in one of the next major releases. Please consider using Materialize CSS or Vue.js instead.
 
 ### Removed Config
 
