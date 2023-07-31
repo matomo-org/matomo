@@ -215,10 +215,8 @@
 
     <div id="other" class="col s12">
         <p>{{ 'SitesManager_OtherWaysTabDescription'|translate }}</p>
-        <ol class="list-style-disc">
-            <li><span>Matomo URL: <code vue-directive="CoreHome.CopyToClipboard">{{ piwikUrl }}</code></span></li>
-            <li><span>{{ 'SitesManager_EmailInstructionsYourSiteId'|translate('<code vue-directive="CoreHome.CopyToClipboard">' ~ idSite ~ '</code>')|raw }}</span></li>
-        </ol>
+        <p>Matomo URL: <code vue-directive="CoreHome.CopyToClipboard">{{ piwikUrl }}</code></p>
+        <p>{{ 'SitesManager_EmailInstructionsYourSiteId'|translate('<code vue-directive="CoreHome.CopyToClipboard">' ~ idSite ~ '</code>')|raw }}</p>
 
         <h3>{{ 'CoreAdminHome_ImageTracking'|translate }}</h3>
         <p>{{ 'SitesManager_ImageTrackingDescription'|translate('<a href="https://matomo.org/docs/tracking-api/reference/" rel="noreferrer noopener" target="_blank">', '</a>')|raw }}</p>
