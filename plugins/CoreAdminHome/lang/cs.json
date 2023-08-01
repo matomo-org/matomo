@@ -31,7 +31,6 @@
         "ImageTrackingLink": "Odkaz pro sledování obrázkem",
         "ImportFromGoogleAnalytics": "import z Google Analytics",
         "ImportFromGoogleAnalyticsDescription": "Pokud používáte službu Google Analytics a přecházíte na Matomo, můžete stávající data importovat pomocí %1$s GoogleAnalyticsImporter pluginu %2$s.",
-        "ImportingServerLogs": "Důležitá serverová hlášení.",
         "ImportingServerLogsDesc": "Alternativou ke sledování návštěvníků pomocí javascriptu nebo obrázku je neustálý import logu web serveru. Více informací najdeve v dokumentaci %1$sanalýzy log souborů%2$s.",
         "InvalidPluginsWarning": "Následující zásuvné moduly nejsou kompatibilní s %1$s a nemohly být načteny %2$s.",
         "InvalidPluginsYouCanUninstall": "Tyto zásuvné moduly můžete aktualizovat nebo odinstalovat na stránce %1$ssprávy zásuvných modulů%2$s.",

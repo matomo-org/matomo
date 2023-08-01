@@ -11,7 +11,7 @@
         "AnonymizeDataNow": "Vergangene Daten für die gewählte Seite und Zeit werden anonymisiert",
         "AnonymizeIp": "IP anonymisieren",
         "AnonymizeIpDescription": "Wählen Sie \"Ja\", wenn Matomo keine vollständigen IP-Adressen speichern soll.",
-        "AnonymizeIpExtendedHelp": "Wenn Benutzer Ihre Webseite besuchen, wird Matomo nicht die komplette IP-Adresse (so wie %1$s) benützen, sondern sie stattdessen zuerst anonymisieren (zu %2$s). Die Anonymisierung der IP-Adresse ist in einigen Ländern eine gesetzliche Pflicht, zum Beispiel in Deutschland vorgegeben durch das Datenschutzrecht.",
+        "AnonymizeIpExtendedHelp": "Wenn Benutzer Ihre Webseite besuchen, wird Matomo nicht die komplette IP-Adresse (so wie %1$s) benutzen, sondern sie stattdessen zuerst anonymisieren (zu %2$s). Die Anonymisierung der IP-Adresse ist in einigen Ländern eine gesetzliche Pflicht, zum Beispiel in Deutschland vorgegeben durch das Datenschutzrecht.",
         "AnonymizeIpHelp": "Diese Aktion kann nicht rückgängig gemacht werden. Falls aktiviert, werden für alle Besuche während dieser Zeit bei der IP mindestens 2 Bytes anonymisiert, zum Beispiel '192.168.xxx.xxx'. Wenn Sie aktuell konfiguriert haben 3 Bytes zu anonymisieren, dann wird diese Einstellung respektiert und bei allen IPs werden 3 Bytes anonymisiert.",
         "AnonymizeIpInlineHelp": "Um den Datenschutzbestimmungen Ihres Landes gerecht zu werden, können Sie mit diesem Plugin die letzten Bytes der IP-Adresse Ihrer Besucher anonymisieren.",
         "AnonymizeIpMaskFully": "IP Adresse komplett maskieren",
@@ -21,6 +21,7 @@
         "AnonymizeLocationHelp": "Diese Aktion kann nicht rückgängig gemacht werden. Re-evaluiert den Ort basierend auf der anonymisierten IP (mindestens 2 Byte der IP werden anonymisiert).",
         "AnonymizeOrderIdNote": "Da eine Bestellnummer mit einem anderen System referenziert sein kann, typischerweise einem E-Commerce Shop, könnte die Bestellnummer zu den persönlichen Informationen zählen, welche unter die DSGVO fallen. Wenn diese Einstellung aktiviert wird, dann wird die Bestellnummer automatisch anonymisiert, um keine persönlichen Informationen zu speichern.",
         "AnonymizePreviousData": "Zuvor getrackte Rohdaten anonymisieren",
+        "AnonymizePreviousDataDescription": "Wenn Sie personenbezogene Daten wie die vollständige IP-Adresse des Besuchers verfolgt haben, sollten Sie diese Daten jetzt anonymisieren, falls Sie keine Zustimmung für diese Daten oder kein berechtigtes Interesse mehr daran haben.",
         "AnonymizePreviousDataOnlySuperUser": "Nur ein Benutzer mit Hauptadministratorenrechten kann zuvor getrackte Rohdaten anonymisieren.",
         "AnonymizeProcessInfo": "Diese Aktion kann lange dauern und wird deshalb nicht sofort ausgeführt. Sie werden in der Lage sein, den aktuellen Status des Prozesses unten zu verfolgen. Die Anonymisierung sollte normalerweise innerhalb einer Stunde starten.",
         "AnonymizeReferrer": "Verweis anonymisieren",
@@ -77,6 +78,7 @@
         "DeleteSelectedVisits": "Angewählte Besuche löschen",
         "DeleteVisitsConfirm": "Sind Sie sicher, dass Sie die angewählten Besuche löschen wollen? Diese Aktion kann nicht rückgängig gemacht werden.",
         "DeletionFromMatomoOnly": "Bitte beachten Sie außerdem, dass sämtliche Daten nur aus der Matomo Datenbank gelöscht werden, aber nicht aus Ihren Webserver Logdateien. Zudem ist zu beachten dass, wenn Sie alte Daten wieder importieren, zum Beispiel aus Logdateien, dass dann sämtliche zuvor gelöschten Daten möglicherweise wieder importiert werden.",
+        "DoNotTrack_Deprecated": "Die Unterstützung für den \"Do Not Track\" Header ist veraltet. Da immer mehr Browser damit begonnen haben, diese Kopfzeile automatisch zu senden, ohne den Benutzern die Möglichkeit zu geben, sie zu ändern, oder die Unterstützung dafür komplett eingestellt haben, empfehlen wir nicht mehr, diese Option zu aktivieren. Diese Funktion wird möglicherweise in einer der nächsten Hauptversionen vollständig entfernt.",
         "DoNotTrack_Description": "Do-not-Track ist eine Technologie und ein Richtlinienvorschlag, der es Benutzern ermöglichen soll, selbständig zu entscheiden, ob ihr Verhalten von Webseiten, Werbenetzwerken und Sozialen Netzwerken verfolgt wird.",
         "DoNotTrack_Disable": "Do-not-Track Unterstützung deaktivieren",
         "DoNotTrack_Disabled": "Matomo verfolgt derzeit das Verhalten aller Besucher, auch derjenigen, die explizit in ihrem Browser \"Ich möchte nicht getrackt werden\" eingestellt haben.",
@@ -115,6 +117,8 @@
         "GeolocationAnonymizeIpNote": "Hinweis: Standorterkennung wird ungefähr das gleiche Ergebnis haben, wenn 1 Byte anonymisiert ist. Bei 2 Bytes oder mehr wird Geolokalisierung sehr ungenau werden.",
         "GetPurgeEstimate": "Hochrechnung der Auswirkungen anzeigen",
         "HowDoIAskForConsent": "Wie bitte ich Benutzer um eine Einverständniserklärung?",
+        "HowDoIAskForConsentIntro": "Matomo verfügt über Anleitungen zur Einrichtung der Nachverfolgung von Einwilligungen mit den folgenden beliebten Einwilligungsmanagern:",
+        "HowDoIAskForConsentOutro": "Wenn Sie keinen der oben aufgelisteten Zustimmungsmanager verwenden, können Sie %1$stracking mit Zustimmung mit Hilfe der Matomo JavaScript API%2$s implementieren.",
         "IPAddress": "IP Adresse",
         "Imprint": "Impressum",
         "ImprintUrl": "Impressum URL",
@@ -218,6 +222,9 @@
         "VisitsMatchedCriteria": "Diese Besuche passen zu den gewählten Kriterien.",
         "VisitsSuccessfullyDeleted": "Besuche wurden erfolgreich gelöscht",
         "VisitsSuccessfullyExported": "Besuche wurden erfolgreich exportiert",
+        "WhenConsentIsNeededPart1": "Die %1$sDatenschutz-Grundverordnung%2$s verlangt von Ihnen, die Erlaubnis Ihrer Besucher einzuholen, wenn Sie bestimmte persönliche Daten sammeln. Um herauszufinden, ob die Frage um Erlaubnis nötig ist, müssen Sie Ihre Rechtsgrundlage für die Verarbeitung personenbezogener Daten angeben. Dabei kann es sich entweder um eine \"Einwilligung\" oder ein \"berechtigtes Interesse\" handeln, oder Sie vermeiden die Erhebung personenbezogener Daten komplett.",
+        "WhenConsentIsNeededPart2": "Es empfiehlt sich, mehr über die Rechtsgrundlage für die Verarbeitung personenbezogener Daten nach DSGVO zu erfahren. Weitere Informationen zu diesem Thema finden Sie in %1$sunserem Blog%2$s.",
+        "WhenConsentIsNeededPart3": "Beachten Sie bitte, dass wenn Sie die Zustimmung Ihrer Besucher benötigen und nicht nachweisen können, dass Sie in der Vergangenheit deren \"Zustimmung\" erhalten haben, wird empfohlen, die Rohdaten Ihrer zuvor getrackten Besucher zu anonymisieren. Die Anonymisierung der Rohdaten Ihrer zuvor getrackten Besucher kann über den Datenschutz-Manager in Matomo erfolgen %1$smehr dazu%2$s.",
         "WhenDoINeedConsent": "Wann muss ich die Einverständniserklärung der Benutzer einholen?"
     }
 }

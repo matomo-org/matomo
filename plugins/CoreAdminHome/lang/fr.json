@@ -34,7 +34,6 @@
         "ImageTrackingLink": "Lien de suivi par image",
         "ImportFromGoogleAnalytics": "Importer depuis Google Analytics",
         "ImportFromGoogleAnalyticsDescription": "Si vous avez une propriété Google Analytics et que vous passez à Matomo, vous pouvez importer vos données existantes en utilisant l'extension %1$sGoogleAnalyticsImporter%2$s.",
-        "ImportingServerLogs": "Importation des logs du serveur",
         "ImportingServerLogsDesc": "Une alternative au suivi des visiteurs via leur navigateur (par JavaScript ou par image) est d'importer de manière continue les logs du serveur. Apprenez-en plus à propos des %1$sstatistiques via les logs serveur%2$s.",
         "InvalidPluginsWarning": "Les extensions suivantes ne sont pas compatibles avec %1$s et ne peuvent pas être chargées : %2$s.",
         "InvalidPluginsYouCanUninstall": "Vous pouvez mettre à jour ou désinstaller ces extensions sur la page %1$sExtensions%2$s.",

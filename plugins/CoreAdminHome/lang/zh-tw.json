@@ -36,7 +36,6 @@
         "ImageTrackingLink": "圖片追蹤連結",
         "ImportFromGoogleAnalytics": "從 Google 分析匯入",
         "ImportFromGoogleAnalyticsDescription": "如果你有現成的 Google Analytics 設定檔且想要切換至 Matomo，你可以使用 %1$s GoogleAnalyticsImporter %2$s 外掛匯入你現有的資料。",
-        "ImportingServerLogs": "匯入伺服器紀錄檔",
         "ImportingServerLogsDesc": "從瀏覽器（JavaScript 或圖片連結）追蹤訪客的替代方案是連續性的匯入伺服器紀錄檔。了解更多關於%1$s伺服器紀錄檔分析%2$s。",
         "InvalidPluginsWarning": "以下外掛不相容於 %1$s 並且無法載入：%2$s。",
         "InvalidPluginsYouCanUninstall": "你可以在%1$s外掛管理%2$s頁面更新或移除這些外掛。",

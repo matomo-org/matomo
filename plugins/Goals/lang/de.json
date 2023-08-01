@@ -47,6 +47,7 @@
         "ConversionByTypeReportDocumentation": "In diesem Bericht finden Sie detaillierte Informationen über die Performance Ihrer Ziele für jede der Kategorien in der linken Leiste. %1$s Klicken Sie auf eine der Kategorien, um den entsprechenden Bericht anzuzeigen. %2$s Weitere Informationen finden Sie in der %3$sZiel-Dokumentation auf piwik.org%4$s",
         "ConversionRate": "%s Konversionsrate",
         "ConversionRatePageViewedBefore": "Angezeigt vor der %s Rate",
+        "ConversionRatePageViewedBeforeGeneric": "Angeschaut vor Umwandlungsrate",
         "Conversions": "%s Konversionen",
         "ConversionsDescription": "Konversionen",
         "ConversionsOverview": "Konversions-Überblick",

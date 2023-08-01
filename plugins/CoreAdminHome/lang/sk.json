@@ -14,7 +14,6 @@
         "ImageTracking": "Sledovanie obrázkom",
         "ImageTrackingIntro1": "Keď má návštevník vypnutý JavaScript, alebo keď JavaScript nemôže byť použitý, môžete použiť obrázkový sledovací odkaz pre sledovanie návštevníkov.",
         "ImageTrackingLink": "Link pre Sledovanie obrázkom",
-        "ImportingServerLogs": "Importujem Serverové logy",
         "InvalidPluginsWarning": "Nasledujúce moduly nie sú kompatibilné s %1$s a nemohli byť načítané: %2$s.",
         "InvalidPluginsYouCanUninstall": "Môžete aktualizovať alebo odinštalovať tieto moduly na stránke %1$sSpráva modulov%2$s.",
         "JSTrackingIntro2": "Akonáhle máte JavaScriptový sledovací kód pre Vašu webovú stránku, skopírujte a vložte ho na všetky stránky, ktoré chcete sledovať Matomoom.",

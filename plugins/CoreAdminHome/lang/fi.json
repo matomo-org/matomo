@@ -28,7 +28,6 @@
         "ImageTrackingIntro3": "Nähdäksesi kaikki kuvaseurannan vaihtoehdot, katso %1$sAPI-seurannan dokumentit%2$s.",
         "ImageTrackingLink": "Kuvaseurantalinkki",
         "ImportFromGoogleAnalytics": "Tuo Google Analyticsista",
-        "ImportingServerLogs": "Palvelinlokien tuominen",
         "ImportingServerLogsDesc": "Vaihtoehto kävijöiden seuraamiselle selaimen kautta (joko JavaScriptin tai kuvalinkin kautta) on tuoda jatkuvasti palvelimen lokitietoja. Lue lisää %1$sPalvellimen lokitietoanalyysistä%2$s.",
         "InvalidPluginsWarning": "Seuraavat liitännäiset eivät sovi yhteen %1$s:n kanssa, eikä niitä voitu ladata: %2$s.",
         "InvalidPluginsYouCanUninstall": "Voit päivittää tai poistaa näiden liitännäisten asennuksen sivulla %1$sliitännäisten hallinnointi%2$s",

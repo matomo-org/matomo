@@ -37,7 +37,6 @@
         "ImageTrackingLink": "Tautan Pelacakan Gambar",
         "ImportFromGoogleAnalytics": "Impor dari Google Analytics",
         "ImportFromGoogleAnalyticsDescription": "Jika Anda memiliki atribut Google Analytics dan beralih ke Matomo, Anda dapat mengimpor data yang ada menggunakan pengaya %1$sGoogleAnalyticsImporter%2$s.",
-        "ImportingServerLogs": "Mengimpor Catatan Peladen",
         "ImportingServerLogsDesc": "Sebuah cara alternatif untuk melacak pengunjung melalui peramban (melalui JavaScript atau tautan gambar) adalah secara berkelanjutan mengimpor catatan peladen. Pelajari selengkapnya tentang %1$sAnalisis Berkas Catatan Peladen%2$s.",
         "InvalidPluginsWarning": "Pengaya berikut ini tidak kompatibel dengan %1$s dan tidak dapat dimuat: %2$s.",
         "InvalidPluginsYouCanUninstall": "Anda dapat memperbarui atau mencopot pemasangan pengaya ini di halaman %1$sKelola Pengaya%2$s.",

@@ -16,7 +16,6 @@
         "ImageTrackingIntro2": "Sinh đường dẫn dưới đây và sao chép-dán mã HTML đã được sinh vào trang. Nếu bạn muốn rút đoạn mã khỏi JavaScript tracking, bạn có thể bao nó lại bằng thẻ %1$s.",
         "ImageTrackingIntro3": "Cho toàn bộ danh sách các tùy chọn, bạn có thể sử dụng với một liên kết theo dõi hình ảnh, xem %1$s Tài liệu theo dõi API %2$s.",
         "ImageTrackingLink": "Liên kết theo dõi bằng hình ảnh",
-        "ImportingServerLogs": "Nhập file log của server",
         "ImportingServerLogsDesc": "Một cách khác để theo dõi người truy nhập thông qua trình duyệt (kể cả thông qua Java Script hoặc một link hình ảnh) là phép ghi liên tục vào log nằm trên server. Xem thêm về %1$sServer Log File Analytics%2$s",
         "InvalidPluginsWarning": "Các plugin sau đây không tương thích với %1$s và không thể nạp: %2$s.",
         "InvalidPluginsYouCanUninstall": "Bạn có thể cập nhật hoặc gỡ bỏ cài đặt các plug-in trên trang %1$s Plugins Quản lý %2$s.",

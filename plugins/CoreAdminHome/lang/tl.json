@@ -15,7 +15,6 @@
         "ImageTrackingIntro1": "Kapag ang bisita ay dinisable ang JavaScript, o kapag hindi magamit ang JavaScript, maaari mong gamitin ang link sa pagsubaybay ng imahe, para masundan ang mga bisita",
         "ImageTrackingIntro2": "Buuhin ang link sa ibaba at kopyahin at i-paste ang nabuong HTML sa pahina. Kung ginagamit mo ito bilang isang fallback para sa pagsubaybay ng JavaScript, maaari mo itong palibutan ng %1$s na tag.",
         "ImageTrackingLink": "Pag-import ng mga Tala sa Server",
-        "ImportingServerLogs": "Pag-import ng Log ng Server",
         "ImportingServerLogsDesc": "Ang isang alternatibo sa pagsusubaybay sa mga bisita sa pamamagitan ng browser (alinman sa pamamagitan ng JavaScript o link ng isang imahe) ay ang patuloy na pag-import ng mga tala sa server. Matuto nang higit pa tungkol sa %1$sServer na Tala File Analytic%2$s.",
         "InvalidPluginsWarning": "Ang sumusunod na mga plugin ay hindi tugma sa %1$s at hindi kayang i-load: %2$s",
         "InvalidPluginsYouCanUninstall": "Maaaring i-update o i-uninstall ang mga plugin sa %1$sPamahalaan ang mga Plugin%2$s na pahina.",
