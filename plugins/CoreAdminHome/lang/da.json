@@ -34,7 +34,6 @@
         "ImageTrackingLink": "Link til sporing af vha. et billede",
         "ImportFromGoogleAnalytics": "Importer fra Google Analytics",
         "ImportFromGoogleAnalyticsDescription": "Hvis du har en Google Analytics bruger og er ved at skifte til Matomo, kan du importere din eksisterende data ved hjælp af %1$sGoogleAnalyticsImporter%2$s plugin'et.",
-        "ImportingServerLogs": "Import af serverlogfiler",
         "ImportingServerLogsDesc": "Et alternativ til sporing af besøgende gennem browseren (enten via JavaScript eller et billed-link) er løbende at importere serverlogfiler. Lær mere om %1$sServerlogfiler analyse%2$s.",
         "InvalidPluginsWarning": "Følgende udvidelsesmoduler er ikke kompatible med %1$s og kunne ikke indlæses: %2$s.",
         "InvalidPluginsYouCanUninstall": "Du kan opdatere eller afinstallere disse udvidelsesmoduler på %1$sManage Plugins%2$s-siden.",
