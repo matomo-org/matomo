@@ -37,7 +37,6 @@
         "ImageTrackingLink": "画像トラッキングリンク",
         "ImportFromGoogleAnalytics": "Google アナリティクス からインポート",
         "ImportFromGoogleAnalyticsDescription": "Google アナリティクスのプロパティがあり、Matomo に切り替える場合、%1$sGoogleAnalyticsImporter%2$s プラグインを使用して既存のデータをインポートできます。",
-        "ImportingServerLogs": "サーバーログインポート",
         "ImportingServerLogsDesc": "ブラウザ経由で ( JavaScript または画像リンク経由で ) ビジターを追跡する代わりに、サーバーログを継続的にインポートすることもできます。 %1$sサーバーログファイル分析%2$sの詳細をご覧ください。",
         "InvalidPluginsWarning": "以下のプラグインは、 %1$s と互換性がないためロードできませんでした。:%2$s.",
         "InvalidPluginsYouCanUninstall": "これらのプラグインは、 %1$sプラグイン管理%2$s ページでアップデートまたはアンインストールすることができます。",
