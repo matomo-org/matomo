@@ -34,7 +34,6 @@
         "ImageTrackingLink": "Ссылка на изображение для отслеживания",
         "ImportFromGoogleAnalytics": "Импорт из Google Analytics",
         "ImportFromGoogleAnalyticsDescription": "Если у вас есть свойство Google Analytics и вы переходите на Matomo, вы можете импортировать существующие данные с помощью плагина %1$sGoogleAnalyticsImporter%2$s.",
-        "ImportingServerLogs": "Импортирование логов сервера",
         "ImportingServerLogsDesc": "Альтернативой отслеживания посетителей через браузер (вместо JavaScript или ссылки на изображение) является постоянно импортировать логи сервера. Узнать больше о %1$sServer Log File Analytics%2$s.",
         "InvalidPluginsWarning": "Следующие плагины не совместимы с %1$s и не могут быть загружены: %2$s.",
         "InvalidPluginsYouCanUninstall": "Вы можете обновить или удалить эти плагины на странице %1$sУправления плагинами%2$s.",
