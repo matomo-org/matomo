@@ -409,13 +409,13 @@ abstract class Base extends VisitDimension
         return !empty($this->keywordReferrerAnalyzed);
     }
 
-    protected function detectReferrerCampaignFromLandingUrl()
+    protected function detectReferrerCampaignFromLandingUrl(): void
     {
         if (
             !isset($this->currentUrlParse['query'])
             && !isset($this->currentUrlParse['fragment'])
         ) {
-            return false;
+            return;
         }
         $campaignParameters = Common::getCampaignParameters();
         $this->campaignNames = $campaignParameters[0];
@@ -443,9 +443,9 @@ abstract class Base extends VisitDimension
      * This might e.g. be the case when using image tracking
      *
      * @param Request $request
-     * @return bool
+     * @return void
      */
-    protected function detectReferrerCampaignFromTrackerParams(Request $request)
+    protected function detectReferrerCampaignFromTrackerParams(Request $request): void
     {
         $campaignName = null;
         $campaignParameters = Common::getCampaignParameters();
@@ -459,7 +459,7 @@ abstract class Base extends VisitDimension
         }
 
         if (empty($campaignName)) {
-            return false;
+            return;
         }
 
         $this->typeReferrerAnalyzed = Common::REFERRER_TYPE_CAMPAIGN;
@@ -471,8 +471,6 @@ abstract class Base extends VisitDimension
                 break;
             }
         }
-
-        return true;
     }
 
     private function getCachedUrlsByHostAndIdSite()
@@ -529,14 +527,14 @@ abstract class Base extends VisitDimension
         return false;
     }
 
-    protected function detectCampaignKeywordFromReferrerUrl()
+    protected function detectCampaignKeywordFromReferrerUrl(): void
     {
         if (
             !empty($this->nameReferrerAnalyzed)
             && !empty($this->keywordReferrerAnalyzed)
         ) {
             // keyword is already set, we skip
-            return true;
+            return;
         }
 
         // Set the Campaign keyword to the keyword found in the Referrer URL if any
