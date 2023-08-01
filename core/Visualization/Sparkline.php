@@ -35,7 +35,7 @@ class Sparkline implements ViewInterface
      * @var int
      */
     protected $_height = self::DEFAULT_HEIGHT;
-    private $serieses = array();
+    private $serieses = [];
     /**
      * @var \Davaxi\Sparkline
      */
@@ -215,6 +215,12 @@ class Sparkline implements ViewInterface
     }
 
     public function render() {
+        if (empty($this->sparkline->getSeriesCount())) {
+            // ensure to have at least one series & point in sparkline to avoid possible php notices/errors
+            // a sparkline will then be displayed with a zero line
+            $this->sparkline->addSeries([0]);
+        }
+
         if ($this->sparkline instanceof \Davaxi\Sparkline) {
             $this->sparkline->display();
             $this->sparkline->destroy();
