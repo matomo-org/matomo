@@ -37,7 +37,6 @@
         "ImageTrackingLink": "Hiperligação de Monitorização de Imagem",
         "ImportFromGoogleAnalytics": "Importar do Google Analytics",
         "ImportFromGoogleAnalyticsDescription": "Se está a utilizar uma propriedade do Google Analytics e está a mudar para o Matomo, pode importar os dados existentes utilizando a extensão %1$sGoogleAnalyticsImporter%2$s.",
-        "ImportingServerLogs": "A importar registos do servidor",
         "ImportingServerLogsDesc": "Uma alternativa para monitorizar os visitantes através do navegador (seja via JavaScript ou de uma hiperligação de imagem) é através da importação contínua dos registos do servidor. Saiba mais sobre a %1$sAnalítica de Ficheiros de Registo do Servidor%2$s.",
         "InvalidPluginsWarning": "As seguintes extensões não são compatíveis com %1$s e não puderam ser carregadas: %2$s.",
         "InvalidPluginsYouCanUninstall": "Pode atualizar ou desinstalar estas extensões na página de %1$sGerir Extensões%2$s.",
