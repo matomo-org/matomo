@@ -215,7 +215,6 @@ class Sparkline implements ViewInterface
     }
 
     public function render() {
-
         if (empty($this->sparkline->getSeriesCount())) {
             // ensure to have at least one series & point in sparkline to avoid possible php notices/errors
             // a sparkline will then be displayed with a zero line
