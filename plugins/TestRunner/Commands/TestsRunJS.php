@@ -39,19 +39,6 @@ class TestsRunJS extends ConsoleCommand
 
         passthru($cmdNode, $returnCodeNode);
 
-        $cmdPhantom = "phantomjs $javascriptTestingDir/testrunnerPhantom.js '$matomoUrl/tests/javascript/'";
-        if (!empty($plugin)) {
-            $cmdPhantom .= ' --plugin=' . escapeshellarg($plugin);
-        }
-
-        $output->writeln('');
-        $output->writeln('');
-        $output->writeln('Executing command: <info>' . $cmdPhantom . '</info>');
-        $output->writeln('');
-
-        passthru($cmdPhantom, $returnCodePhantom);
-
-
-        return $returnCodeNode + $returnCodePhantom;
+        return $returnCodeNode;
     }
 }
