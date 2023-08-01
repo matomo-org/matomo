@@ -17,7 +17,6 @@
         "ImageTrackingIntro2": "Generišite link i iskopirajte HTML na web stranicu. Ukoliko ovo koristite kao rezervni plan za praćenje putem JavaScript-a, možete ga zaokružiti %1$s tagovima.",
         "ImageTrackingIntro3": "Za ceo spisak opcija koje možete koristiti uz link za praćenje preko slike, %1$spogledajte dokumentaciju%2$s.",
         "ImageTrackingLink": "Link za praćenje preko slike",
-        "ImportingServerLogs": "Uvoz serverskih zapisa",
         "ImportingServerLogsDesc": "Alternativa praćenju posetilaca kroz čitač (bilo pomoću JavaScripta ili slike sa linkom) je konstantan uvoz serverskih logova. Pročitajte više o tome u %1$sAnalizi serverskih logova%2$s.",
         "InvalidPluginsWarning": "Sledeći dodaci nisu kompatibilni sa %1$s te ne mogu biti učitani: %2$s.",
         "InvalidPluginsYouCanUninstall": "Možete osvežiti ili deinstalirati ove dodatke na stranici %1$sUpravljanje dodacima%2$s.",
