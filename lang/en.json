@@ -540,7 +540,9 @@
         "YourChangesHaveBeenSaved": "Your changes have been saved.",
         "YourSessionHasExpired": "Your session has expired due to inactivity. Please log in to continue.",
         "Update": "Update",
-        "Create": "Create"
+        "Create": "Create",
+        "CreatePassword": "Create Password",
+        "ConfirmPassword": "Confirm Password"
     },
     "Mobile": {
         "AboutPiwikMobile": "About Matomo Mobile",

@@ -1,48 +1,55 @@
+{% set isCenteredLogo = false %}
+{% set showImageDiv = true %}
+{% set imageToShow = 'plugins/Login/images/invitation-image.png' %}
+{% set colClassOverride = 'col l4 offset-l2 m12' %}
+{% set bodyClass = 'onboarding' %}
 {% extends '@Login/loginLayout.twig' %}
 
 {% block loginContent %}
-    <div class="contentForm invitationForm">
-        <div class="card">
-            <div class="card-content">
-                <div class="card-title">
-                    {{ "Login_InvitationTitle"|translate }}
-                </div>
+    <div class="contentForm invitationForm" id="invitationForm">
+        <h1>{{ 'General_CreatePassword'|translate }}</h1>
+        <p class="description">{{ 'Login_CreatePasswordDescription'|translate }}</p>
 
-                {% if AccessErrorString is defined %}
-                    <div piwik-notification
-                         noclear="true"
-                         context="error">
-                        <strong>{{ 'General_Error'|translate }}</strong>: {{ AccessErrorString|raw }}<br/>
+        {% if AccessErrorString is defined %}
+            <div vue-entry="CoreHome.Notification"
+                 noclear="true"
+                 context="error">
+                <strong>{{ 'General_Error'|translate }}</strong>: {{ AccessErrorString|raw }}<br/>
+            </div>
+        {% endif %}
+        {% block content %}
+            <form method="post"
+                  action="{{ linkTo({'module': loginPlugin, 'action': 'acceptInvitation', 'token': null}) }}">
+                <input type="hidden" name="token" value="{{ token }}"/>
+                <div class="row">
+                    <div class="col l10 s12 input-field">
+                        <input type="text" name="email" id="email" value="{{ user.email }}" size="20" readonly="readonly"
+                               tabindex="0"/>
+                        <label for="email">{{ 'UsersManager_Email'|translate }}</label>
                     </div>
-                {% endif %}
-                {% block content %}
-                    <form method="post" action="{{ linkTo({'module': loginPlugin, 'action': 'acceptInvitation', 'token': null}) }}">
-                        <input type="hidden" name="token" value="{{ token }}"/>
-                        <div class="row">
-                            <div class="col s12 input-field">
-                                <input type="text" name="email" value="{{ user.email }}" size="20" readonly="readonly"
-                                       tabindex="0"/>
-                                <label><i class="icon-user icon"></i> {{ 'UsersManager_Email'|translate }}</label>
-                            </div>
-                            <div class="col s12 input-field">
-                                <input type="password" placeholder="" name="password" id="password" class="input" value="" size="20"
-                                       autocorrect="off" autocapitalize="none"
-                                       tabindex="1" required/>
-                                <label for="password"><i class="icon-locked icon"></i> {{ 'Login_NewPassword'|translate }}</label>
-                            </div>
-                            <div class="col s12 input-field">
-                                <input type="password" placeholder="" name="passwordConfirmation" id="password_confirm" class="input" value="" size="20"
-                                       autocorrect="off" autocapitalize="none"
-                                       tabindex="2" required/>
-                                <label for="password_confirm"><i class="icon-locked icon"></i> {{ 'Login_NewPasswordRepeat'|translate }}</label>
-                            </div>
-                        </div>
-                        <div class="row actions">
-                            {% if privacyPolicyUrl|default('') is not empty or termsAndCondition|default('') is not empty %}
-                                <div class="col s12">
-                                    <label>
-                                        <input name="conditionCheck" type="checkbox" id="conditionCheck" value="1" tabindex="89"/>
-                                        <span>
+                    <div class="col l10 s12 input-field">
+                        <input type="password" placeholder="" name="password" id="password" class="input" value=""
+                               size="20"
+                               autocorrect="off" autocapitalize="none" spellcheck="false"
+                               tabindex="1" required/>
+                        <label for="password">{{ 'General_Password'|translate }}
+                        </label>
+                    </div>
+                    <div class="col l10 s12 input-field">
+                        <input type="password" placeholder="" name="passwordConfirmation" id="password_confirm"
+                               class="input" value="" size="20"
+                               autocorrect="off" autocapitalize="none" spellcheck="false"
+                               tabindex="2" required/>
+                        <label for="password_confirm">{{ 'General_ConfirmPassword'|translate }}</label>
+                    </div>
+                </div>
+                <div class="row actions">
+                    {% if privacyPolicyUrl|default('') is not empty or termsAndCondition|default('') is not empty %}
+                        <div class="col l10 s12">
+                            <label>
+                                <input name="conditionCheck" type="checkbox" id="conditionCheck" value="1"
+                                       tabindex="89"/>
+                                <span>
                                             {% if privacyPolicyUrl|default('') is not empty and termsAndCondition|default('') is empty %}
                                                 {{ 'Login_BySigningUpPrivacyPolicy'|translate(
                                                     '<a target="_blank" rel="noreferrer noopener" href="' ~ privacyPolicyUrl|safelink|e('html_attr') ~ '">',
@@ -62,22 +69,23 @@
                                                 )|raw }}
                                             {% endif %}
                                     </span>
-                                    </label>
-                                </div>
-                            {% endif %}
-                            <div style="margin-top:10px" class="col s12">
-                                <input class="submit btn" name="invitation_form" id="login_form_submit" type="submit" value="{{ 'Login_Accept'|translate }}"
-                                       tabindex="100"/>
-                            </div>
+                            </label>
                         </div>
-                    </form>
-                    {% if isCustomLogo %}
-                        <p id="piwik">
-                            <i><a href="https://matomo.org/" rel="noreferrer noopener" target="_blank">{{ linkTitle }}</a></i>
-                        </p>
                     {% endif %}
-                {% endblock %}
-            </div>
-        </div>
+                </div>
+                <div class="row actions invitation_form_row formSubmitButtonRow">
+                    <div class="col l10 s12">
+                        <input class="submit btn formSubmitButton" name="invitation_form" id="login_form_submit" type="submit"
+                               value="{{ 'General_Confirm'|translate }}"
+                               tabindex="100"/>
+                    </div>
+                </div>
+            </form>
+            {% if isCustomLogo %}
+                <p id="piwik">
+                    <i><a href="https://matomo.org/" rel="noreferrer noopener" target="_blank">{{ linkTitle }}</a></i>
+                </p>
+            {% endif %}
+        {% endblock %}
     </div>
 {% endblock %}

@@ -8,11 +8,14 @@
     {{ parent() }}
 {% endblock %}
 
-{% set title %}{{ 'Login_LogIn'|translate }}{% endset %}
+{% set title %}{{ pageTitle|default('Login_LogIn'|translate) }}{% endset %}
 
 {% block pageDescription %}{{ 'General_OpenSourceWebAnalytics'|translate }}{% endblock %}
 
 {% set bodyId = 'loginPage' %}
+
+{% set centeredLogo = isCenteredLogo is defined ? isCenteredLogo : true %}
+{% set colClass %}{{ colClassOverride|default('col s12 m6 push-m3 l4 push-l4') }}{% endset %}
 
 {% block body %}
 
@@ -25,12 +28,12 @@
     </div>
     <nav>
         <div class="nav-wrapper">
-            {% include "@CoreHome/_logo.twig" with { 'logoLink': 'https://matomo.org', 'centeredLogo': true, 'useLargeLogo': false } %}
+            {% include "@CoreHome/_logo.twig" with { 'logoLink': 'https://matomo.org', 'centeredLogo': centeredLogo, 'useLargeLogo': false } %}
         </div>
     </nav>
 
     <section class="loginSection row">
-        <div class="col s12 m6 push-m3 l4 push-l4">
+        <div class="{{ colClass }}">
 
         {# untrusted host warning #}
         {% if (isValidHost is defined and invalidHostMessage is defined and isValidHost == false) %}
@@ -41,6 +44,12 @@
         {% endif %}
 
         </div>
+
+        {% if showImageDiv is defined and imageToShow is defined %}
+            <div class="col l4 hide-on-med-and-down onboardingImage">
+                <img class="responsive-img" src="{{ imageToShow }}">
+            </div>
+        {% endif %}
     </section>
 
 {% endblock %}
