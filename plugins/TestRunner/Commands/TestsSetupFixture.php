@@ -78,7 +78,7 @@ class TestsSetupFixture extends ConsoleCommand
             "Saves the current configuration file as a config for a new Piwik domain. For example save-config --matomo-domain=mytest.localhost.com will create "
           . "a mytest.config.ini.php file in the config/ directory. Using /etc/hosts you can redirect to 127.0.0.1 and use the saved "
           . "config.");
-        $this->addNoValueOption('set-phantomjs-symlinks', null,
+        $this->addNoValueOption('set-symlinks', null,
             "Used by UI tests. Creates symlinks to root directory in tests/PHPUnit/proxy.");
         $this->addRequiredValueOption('server-global', null,
             "Used by UI tests. Sets the \$_SERVER global variable from a JSON string.");
@@ -131,7 +131,7 @@ class TestsSetupFixture extends ConsoleCommand
             }
         }
 
-        if ($input->getOption('set-phantomjs-symlinks')) {
+        if ($input->getOption('set-symlinks')) {
             $this->createSymbolicLinksForUITests();
         }
 

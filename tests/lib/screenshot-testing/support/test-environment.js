@@ -171,7 +171,7 @@ TestingEnvironment.prototype.setupFixture = function (fixtureClass, done) {
 
     var args = [
         fixtureClass || DEFAULT_UI_TEST_FIXTURE_NAME,
-        '--set-phantomjs-symlinks',
+        '--set-symlinks',
         '--server-global=' + JSON.stringify(config.phpServer),
         '-vvv',
     ];
