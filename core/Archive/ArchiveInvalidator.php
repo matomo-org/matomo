@@ -313,8 +313,9 @@ class ArchiveInvalidator
          * @param string $period A string containing the period to be invalidated.
          * @param Segment $segment A Segment Object containing segment to invalidate.
          * @param string $name A string containing the name of the archive to be invalidated.
+         * @param bool $isPrivacyDeleteData A boolean value if event is triggered via Privacy delete visit action.
          */
-        Piwik::postEvent('Archiving.getIdSitesToMarkArchivesAsInvalidated', array(&$idSites, $dates, $period, $segment, $name));
+        Piwik::postEvent('Archiving.getIdSitesToMarkArchivesAsInvalidated', array(&$idSites, $dates, $period, $segment, $name, $isPrivacyDeleteData = false));
         // we trigger above event on purpose here and it is good that the segment was created like
         // `new Segment($segmentString, $idSites)` because when a user adds a site via this event, the added idSite
         // might not have this segment meaning we avoid a possible error. For the workflow to work, any added or removed
