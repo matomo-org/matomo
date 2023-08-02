@@ -35,6 +35,8 @@ describe("Dashboard", function () {
     var setup = async function() {
         // make sure live widget doesn't refresh constantly for UI tests
         testEnvironment.overrideConfig('General', 'live_widget_refresh_after_seconds', 1000000);
+        // ensure tour widget always shows the same state
+        testEnvironment.completeAllChallenges = 1;
         testEnvironment.testUseMockAuth = 1;
         testEnvironment.save();
 
