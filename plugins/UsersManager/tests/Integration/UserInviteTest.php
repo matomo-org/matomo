@@ -49,6 +49,13 @@ class UserInviteTest extends IntegrationTestCase
         $this->model = new Model();
     }
 
+    protected static function configureFixture($fixture)
+    {
+        parent::configureFixture($fixture);
+
+        $fixture->extraTestEnvVars['loadRealTranslations'] = true;
+    }
+
     public function testCopyLink()
     {
         Request::processRequest(
@@ -74,7 +81,7 @@ class UserInviteTest extends IntegrationTestCase
             10
         );
 
-        $this->assertStringContainsString('Accept invitation', $response, 'error on accept invite page');
+        $this->assertStringContainsString('Create Password', $response, 'error on accept invite page');
     }
 
     public function testInviteUser()
@@ -99,7 +106,7 @@ class UserInviteTest extends IntegrationTestCase
             10
         );
 
-        $this->assertStringContainsString('Accept invitation', $response, 'error on accept invite page');
+        $this->assertStringContainsString('Create Password', $response, 'error on accept invite page');
 
         $response = Http::sendHttpRequest(
             Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php?module=Login&action=declineInvitation&token=' . $this->capturedToken,
