@@ -58,6 +58,8 @@ describe("Overlay", function () {
 
             it("should load correctly" + descAppendix, async function () {
                 await page.goto(getUrl(useTokenAuth));
+                // wait for sidebar to be finished loading
+                await page.waitForSelector('#overlaySidebar', {visible: true});
 
                 await removeOptOutIframe(page);
                 expect(await page.screenshot({fullPage: true})).to.matchImage('loaded');
@@ -82,6 +84,8 @@ describe("Overlay", function () {
 
             it("should show stats for new links when dropdown opened" + descAppendix, async function () {
                 await page.reload();
+                // wait for sidebar to be finished loading
+                await page.waitForSelector('#overlaySidebar', {visible: true});
                 const frame = page.frames().find(f => f.name() === 'overlayIframe');
                 await (await frame.$('.dropdown-toggle')).click();
 
@@ -159,7 +163,8 @@ describe("Overlay", function () {
 
             it("should load an overlay with segment" + descAppendix, async function () {
                 await page.goto(getUrl(useTokenAuth, true));
-                await page.waitForNetworkIdle();
+                // wait for sidebar to be finished loading
+                await page.waitForSelector('#overlaySidebar', {visible: true});
 
                 await page.waitForTimeout(2000);
 
