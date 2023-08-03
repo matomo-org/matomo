@@ -16,6 +16,7 @@ describe("EmptySite_Vue", function () {
   it('should show the tracking code if the website has no recorded data and Vue guide', async function () {
     const urlToTest = "?" + generalParams + "&module=CoreHome&action=index";
     await page.goto(urlToTest);
+    await page.waitForTimeout(200); // svg takes some time to render
 
     const pageElement = await page.$('.page');
     expect(await pageElement.screenshot()).to.matchImage('emptySiteDashboard');
