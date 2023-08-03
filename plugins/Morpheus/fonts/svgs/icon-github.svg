@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="24"
+   height="24"
+   viewBox="0 0 24 24"
+   fill="none"
+   version="1.1"
+   id="svg11"
+   sodipodi:docname="icon-github.svg">
+  <metadata
+     id="metadata15">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1870"
+     inkscape:window-height="1079"
+     id="namedview13"
+     showgrid="false"/>
+  <path
+     style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;stop-color:#000000;stop-opacity:1;opacity:1"
+     d="M 5.2890625 -0.025390625 C 5.0495661 -0.018798492 4.8046875 0.041015625 4.8046875 0.041015625 A 1.0001 1.0001 0 0 0 4.1699219 0.60742188 C 3.6309149 1.8650034 3.6165382 3.2496702 3.96875 4.5605469 C 3.061975 5.7025052 2.4935234 7.0814958 2.5 8.5507812 C 2.5 8.5522689 2.4999995 8.5532003 2.5 8.5546875 C 2.5000033 8.555339 2.4999965 8.5559891 2.5 8.5566406 C 2.501448 11.465976 3.4466577 13.480429 4.8984375 14.701172 C 5.9334688 15.571488 7.1473293 15.965437 8.359375 16.232422 C 8.3340717 16.293177 8.2784374 16.336468 8.2558594 16.398438 C 8.0570274 16.944256 7.9878645 17.525922 8.015625 18.105469 C 7.3593627 18.220324 6.6790406 18.348876 6.3066406 18.261719 C 5.782326 18.139007 5.4353519 17.896289 5.0820312 17.542969 C 4.7287106 17.189648 4.404267 16.721347 3.9960938 16.242188 C 3.5879205 15.763028 3.0465459 15.230386 2.2421875 15.029297 A 1 1 0 0 0 1.0292969 15.757812 A 1 1 0 0 0 1.7578125 16.970703 C 1.9534541 17.019614 2.1620795 17.174472 2.4726562 17.539062 C 2.783233 17.903653 3.1462894 18.435352 3.6679688 18.957031 C 4.1896481 19.478711 4.905174 19.987946 5.8496094 20.208984 C 6.4404152 20.347258 7.2526442 20.151667 8 20.052734 L 8 22 A 1 1 0 0 0 9 23 A 1 1 0 0 0 10 22 L 10 19.017578 L 10 18.130859 A 1.0001 1.0001 0 0 0 9.9980469 18.060547 C 9.9747049 17.728667 10.020828 17.394803 10.134766 17.082031 C 10.248654 16.769445 10.426761 16.485274 10.658203 16.246094 A 1.0001 1.0001 0 0 0 10.0625 14.558594 C 8.573436 14.373646 7.1676541 13.997689 6.1855469 13.171875 C 5.2034396 12.346061 4.5 11.057813 4.5 8.5507812 A 1.0001 1.0001 0 0 0 4.5 8.5449219 C 4.4938932 7.3966002 4.9327878 6.2926249 5.7246094 5.4609375 A 1.0001 1.0001 0 0 0 5.9375 4.4199219 C 5.6523742 3.6559129 5.6773334 2.8432319 5.8652344 2.0605469 C 6.358188 2.1754786 7.1876815 2.4688269 8.4433594 3.3105469 A 1.0001 1.0001 0 0 0 9.2617188 3.4453125 C 11.382473 2.8705437 13.617527 2.8705437 15.738281 3.4453125 A 1.0001 1.0001 0 0 0 16.556641 3.3105469 C 17.812318 2.4688269 18.641812 2.1754786 19.134766 2.0605469 C 19.322674 2.8432435 19.347639 3.6559433 19.0625 4.4199219 A 1.0001 1.0001 0 0 0 19.275391 5.4589844 C 20.061333 6.2845137 20.499755 7.3815805 20.5 8.5214844 C 20.499547 11.048402 19.793791 12.34839 18.814453 13.171875 C 17.834801 13.995625 16.433542 14.361894 14.949219 14.527344 A 1.0001 1.0001 0 0 0 14.341797 16.216797 C 14.575881 16.458264 14.757064 16.745945 14.871094 17.0625 C 14.985068 17.3789 15.030281 17.717383 15.003906 18.052734 A 1.0001 1.0001 0 0 0 15 18.130859 L 15 22 A 1 1 0 0 0 16 23 A 1 1 0 0 0 17 22 L 17 18.130859 L 16.996094 18.208984 C 17.044719 17.590735 16.962179 16.968366 16.751953 16.384766 C 16.72899 16.321018 16.670373 16.27732 16.644531 16.214844 C 17.855685 15.957595 19.068478 15.569851 20.101562 14.701172 C 21.55691 13.477429 22.5 11.450983 22.5 8.5195312 C 22.499686 7.0599799 21.932262 5.6928224 21.03125 4.5585938 C 21.382891 3.2482336 21.368795 1.8643746 20.830078 0.60742188 A 1.0001 1.0001 0 0 0 20.195312 0.041015625 C 20.195312 0.041015625 19.950434 -0.018798492 19.710938 -0.025390625 C 19.471441 -0.031982758 19.154416 -0.0090550916 18.761719 0.078125 C 18.071443 0.2313684 17.040405 0.72090366 15.845703 1.4609375 C 13.642406 0.93280753 11.357594 0.93280753 9.1542969 1.4609375 C 7.9595952 0.72090366 6.9285571 0.2313684 6.2382812 0.078125 C 5.8455837 -0.0090550916 5.5285589 -0.031982758 5.2890625 -0.025390625 z "
+     id="path2" />
+  <defs
+     id="defs9">
+    <clipPath
+       id="clip0_1336_1360">
+      <rect
+         width="24"
+         height="24"
+         fill="white"
+         id="rect6" />
+    </clipPath>
+  </defs>
+</svg>
