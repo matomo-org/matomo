@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'matomo';
   src:
-          url('plugins/Morpheus/fonts/matomo.woff2?pz8nz8') format('woff2'),
-          url('plugins/Morpheus/fonts/matomo.woff?pz8nz8') format('woff'),
-          url('plugins/Morpheus/fonts/matomo.ttf?pz8nz8') format('truetype'),
-          url('plugins/Morpheus/fonts/matomo.svg?pz8nz8#matomo') format('svg');
+          url('plugins/Morpheus/fonts/matomo.woff2?pz8nzj') format('woff2'),
+          url('plugins/Morpheus/fonts/matomo.woff?pz8nzj') format('woff'),
+          url('plugins/Morpheus/fonts/matomo.ttf?pz8nzj') format('truetype'),
+          url('plugins/Morpheus/fonts/matomo.svg?pz8nzj#matomo') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -185,7 +185,7 @@
   content: "\e62d";
 }
 .icon-ok:before {
-  content: "\e906";
+  content: "\e62e";
 }
 .icon-open-source:before {
   content: "\e62f";
@@ -317,7 +317,7 @@
   content: "\e658";
 }
 .icon-user-platform:before {
-  content: "\e64f";
+  content: "\e659";
 }
 .icon-form:before {
   content: "\e85d";
@@ -429,16 +429,4 @@
 }
 .icon-done:before {
   content: "\e906";
-}
-.icon-add:before {
-  content: "\e630";
-}
-.icon-minus:before {
-  content: "\e62c";
-}
-.icon-add1:before {
-  content: "\e62e";
-}
-.icon-remove:before {
-  content: "\e643";
 }
