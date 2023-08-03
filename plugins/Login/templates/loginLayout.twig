@@ -9,14 +9,12 @@
     {{ parent() }}
 {% endblock %}
 
-
 {% set title %}{{ pageTitle|default('Login_LogIn'|translate) }}{% endset %}
 
 {% block pageDescription %}{{ 'General_OpenSourceWebAnalytics'|translate }}{% endblock %}
 
 {% set bodyId = 'loginPage' %}
 
-{% set centeredLogo = isCenteredLogo is defined ? isCenteredLogo : true %}
 {% set colClass %}{{ colClassOverride|default('col s12 m6 push-m3 l4 push-l4') }}{% endset %}
 
 {% block body %}
@@ -30,7 +28,7 @@
     </div>
     <nav>
         <div class="nav-wrapper">
-            {% include "@CoreHome/_logo.twig" with { 'logoLink': 'https://matomo.org', 'centeredLogo': centeredLogo, 'useLargeLogo': false } %}
+            {% include "@CoreHome/_logo.twig" with { 'logoLink': 'https://matomo.org', 'centeredLogo': (isCenteredLogo ?? true), 'useLargeLogo': false } %}
         </div>
     </nav>
 
