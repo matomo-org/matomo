@@ -44,18 +44,4 @@ class SpaPwa extends SiteContentDetectionAbstract
     {
         return '';
     }
-
-    public function renderOthersInstruction(SiteContentDetector $detector = null): string
-    {
-        return sprintf(
-            '<p>%s</p>',
-            Piwik::translate(
-                'SitesManager_SiteWithoutDataSinglePageApplicationDescription',
-                [
-                    '<a target="_blank" rel="noreferrer noopener" href="https://developer.matomo.org/guides/spa-tracking">',
-                    '</a>',
-                ]
-            )
-        );
-    }
 }
