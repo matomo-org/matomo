@@ -52,18 +52,4 @@ class MatomoTagManager extends SiteContentDetectionAbstract
         return '<h3>' . Piwik::translate('SitesManager_SiteWithoutDataMatomoTagManager') . '</h3>
             <p>' . Piwik::translate( 'SitesManager_SiteWithoutDataMatomoTagManagerNotActive', ['<a href="https://matomo.org/docs/tag-manager/" rel="noreferrer noopener" target="_blank">', '</a>']) . '</p>';
     }
-
-    public function renderOthersInstruction(SiteContentDetector $detector = null): string
-    {
-        return sprintf(
-            '<p>%s</p>',
-            Piwik::translate(
-                'SitesManager_SiteWithoutDataGoogleTagManagerDescription',
-                [
-                    '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-within-gtm-google-tag-manager">',
-                    '</a>'
-                ]
-            )
-        );
-    }
 }

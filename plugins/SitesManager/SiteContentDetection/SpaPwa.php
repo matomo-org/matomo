@@ -10,7 +10,6 @@
 
 namespace Piwik\Plugins\SitesManager\SiteContentDetection;
 
-use Piwik\Piwik;
 use Piwik\SiteContentDetector;
 
 class SpaPwa extends SiteContentDetectionAbstract
