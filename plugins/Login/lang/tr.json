@@ -15,6 +15,7 @@
         "ConfirmPasswordToContinue": "İlerlemek için parolanızı yazın",
         "ConfirmationLinkSent": "Parola değişikliği isteğinizi onaylamak için e-posta olarak gönderilen ve onaylama bağlantısını açın.",
         "ContactAdmin": "Olası neden: Sunucunuzda mail() işlevi devre dışı bırakılmış olabilir. <br />Lütfen Matomo yöneticinizle görüşün.",
+        "CreatePasswordDescription": "Bu parolayı unutmayacağınızdan emin olun ve güvenli bir yerde saklayın.",
         "CurrentlyBlockedIPs": "Engellenmiş IP adresleri",
         "CurrentlyBlockedIPsUnblockConfirm": "Engellenmiş tüm IP adreslerinin engellemesi kaldırılsın mı?",
         "CurrentlyBlockedIPsUnblockInfo": "Yeniden oturum açmalarına izin vermek için yanlışlıkla engellenmiş IP adreslerinin engellemesini kaldırabilirsiniz.",

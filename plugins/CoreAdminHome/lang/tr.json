@@ -60,7 +60,7 @@
         "JSTracking_CustomCampaignQueryParamDesc": "Not: %1$sMatomo Google Analytics parametrelerini otomatik olarak algılar. %2$s",
         "JSTracking_DisableCookies": "Tüm izleme çerezlerini devre dışı bırak",
         "JSTracking_DisableCookiesDesc": "Bu seçenek etkinleştirildiğinde, birinci elden tüm çerezler devre dışı bırakılır. Bu site için var olan Matomo çerezleri sayfanın sonraki görüntülenmesinde silinir.",
-        "JSTracking_EnableCrossDomainLinking": "Etki alanlarının bağlanmasını sağlar",
+        "JSTracking_EnableCrossDomainLinking": "Etki alanları arası bağlantı kurulabilsin",
         "JSTracking_EnableDoNotTrack": "İstemci tarafında izlenmek istemiyorum algılaması kullanılsın",
         "JSTracking_EnableDoNotTrackDesc": "Böylece izlenmek istemeyen ziyaretçilere, izleme istekleri gönderilmez.",
         "JSTracking_EnableDoNotTrack_AlreadyEnabled": "Not: Sunucu tarafında izlenmek istemiyorum özelliği etkinleştirilmiş olduğundan bu seçeneğin herhangi bir etkisi olmaz.",
