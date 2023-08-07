@@ -70,9 +70,9 @@ class ReferrerTypeTest extends IntegrationTestCase
     /**
      * @dataProvider getReferrerUrls
      */
-    public function testOnNewVisitShouldDetectCorrectReferrerType($expectedType, $idSite, $url, $referrerUrl)
+    public function testOnNewVisitShouldDetectCorrectReferrerType($expectedType, $idSite, $url, $referrerUrl, $additionalTrackingParams = [])
     {
-        $request = $this->getRequest(['idsite' => $idSite, 'url' => $url, 'urlref' => $referrerUrl]);
+        $request = $this->getRequest(['idsite' => $idSite, 'url' => $url, 'urlref' => $referrerUrl] + $additionalTrackingParams);
         $type = $this->referrerType->onNewVisit($request, $this->getNewVisitor(), $action = null);
 
         $this->assertSame($expectedType, $type);
@@ -112,6 +112,9 @@ class ReferrerTypeTest extends IntegrationTestCase
             [Common::REFERRER_TYPE_CAMPAIGN,     $this->idSite1, $url . '?pk_campaign=test', $referrer],
             [Common::REFERRER_TYPE_CAMPAIGN,     $this->idSite2, $url . '?pk_campaign=test', $referrer],
             [Common::REFERRER_TYPE_CAMPAIGN,     $this->idSite3, $url . '?pk_campaign=test', $referrer],
+
+            // should detect campaign, when campaign parameter directly provided as tracking parameter
+            [Common::REFERRER_TYPE_CAMPAIGN,     $this->idSite1, $url, $referrer, ['mtm_campaign' => 'test']],
 
             // campaign parameters provided as array should simply be ignored (and not produce an error)
             [Common::REFERRER_TYPE_DIRECT_ENTRY,     $this->idSite1, $url . '?pk_campaign[]=test', $referrer],
