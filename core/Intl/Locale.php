@@ -28,9 +28,10 @@ class Locale
                 $newLocale[] = $localeVariant;
             }
         }
-        
+
+        $systemLC_CTYPE = setlocale(LC_CTYPE, 0);
         setlocale(LC_ALL, $newLocale);
-        setlocale(LC_CTYPE, '');
+        setlocale(LC_CTYPE, $systemLC_CTYPE);
         // Always use english for numbers. otherwise the decimal separator might get localized when casting a float to string
         setlocale(LC_NUMERIC, array('en_US.UTF-8', 'en-US', 'C.UTF-8', 'C'));
     }
