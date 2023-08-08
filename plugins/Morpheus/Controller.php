@@ -429,7 +429,7 @@ export default defineComponent({
     name="enableFeature"
     title="Enable feature"
     var-type="array"
-    :options="{today: \'Today\', yesterday: \'Yesterday\',week: \'Previous 30 days (not including today)\'}"
+    :options=\'[{"name":"enableFeatures[]", "key":"today", "value":"Today"},{"name":"enableFeatures[]", "key":"yesterday", "value":"Yesterday"},{"name":"enableFeatures[]", "key":"week", "value":"Previous 30 days (not including today)"}]\'
     inline-help="This field shows multiple checkboxes as we declare we want to get an array of values."
     v-model="enableArray"
   />
