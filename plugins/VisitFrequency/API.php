@@ -15,6 +15,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\API\DataTable\MergeDataTables;
 use Piwik\Segment;
 use Piwik\Segment\SegmentExpression;
+use Piwik\Site;
 
 /**
  * VisitFrequency API lets you access a list of metrics related to Returning Visitors.
@@ -49,7 +50,7 @@ class API extends \Piwik\Plugin\API
         $columns = Piwik::getArrayFromApiParameter($columns);
 
         /** @var \Piwik\DataTable\DataTableInterface $resultSet */
-        if ($idSite === 'all') {
+        if ($idSite === 'all' || count(Site::getIdSitesFromIdSitesString($idSite)) > 1) {
             $resultSet = new DataTable\Map();
             $resultSet->setKeyName('idSite');
         } else if (Period::isMultiplePeriod($date, $period)) {
