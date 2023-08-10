@@ -22,12 +22,11 @@ use Piwik\DataAccess\LogAggregator;
 use Piwik\Metrics;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\LogTablesProvider;
+use Piwik\RankingQuery;
 use Piwik\Tracker\GoalManager;
 
 /**
  * TODO
- *
- * TODO: rankingquery support
  *
  * TODO: member docs
  */
@@ -78,11 +77,31 @@ class LogAggregationQuery
     private $groupBy = [];
 
     /**
+     * @var string|null
+     */
+    private $orderBySelect = null;
+
+    /**
+     * @var string|null
+     */
+    private $orderByDirection = null;
+
+    /**
      * TODO
      *
      * @var callable
      */
     private $rowProcessor;
+
+    /**
+     * @var bool|number
+     */
+    private $rankingQueryLimit = false;
+
+    /**
+     * @var array
+     */
+    private $rankingQueryAggregations = [];
 
     public function __construct(string $table, LogAggregator $logAggregator)
     {
@@ -372,6 +391,17 @@ class LogAggregationQuery
 
     /**
      * TODO
+     * @return $this
+     */
+    public function useRankingQuery($rankingQueryLimit, array $metricAggregations = [])
+    {
+        $this->rankingQueryLimit = $rankingQueryLimit;
+        $this->rankingQueryAggregations = $metricAggregations;
+        return $this;
+    }
+
+    /**
+     * TODO
      * @return string[]
      */
     public function getDimensionFields(): array
@@ -442,8 +472,6 @@ class LogAggregationQuery
             $bind = array_merge($bind, $selectInfo['bind']);
         }
 
-        // TODO: support order by as well
-
         $from = $this->from;
 
         $where = [];
@@ -457,18 +485,51 @@ class LogAggregationQuery
 
         $groupBy = implode(', ', $this->groupBy);
 
+        $orderBy = !empty($this->orderBySelect) ? ($this->orderBySelect . ' ' . $this->orderByDirection) : null;
+
         $query = $this->logAggregator->generateQuery(
             implode(",\n ", $selects),
             $from,
             implode(' AND ', $where),
             $groupBy,
-            $orderBy = false
+            $orderBy
         );
+
+        // TODO: timeLimitInMs support
+
+        if ($this->rankingQueryLimit) {
+            $rankingQuery = new RankingQuery($this->rankingQueryLimit);
+            foreach ($this->dimensions as $dimensionSelectAs) {
+                if (!array_key_exists($dimensionSelectAs, $this->rankingQueryAggregations)) {
+                    $rankingQuery->addLabelColumn($dimensionSelectAs);
+                }
+            }
+
+            foreach ($this->rankingQueryAggregations as $metric => $aggregation) {
+                $rankingQuery->addColumn($metric, $aggregation);
+            }
+
+            $query['sql'] = $rankingQuery->generateRankingQuery($query['sql']);
+        }
 
         // TODO: bind only works up til where statement. adding placeholders after bind won't work.
         $query['bind'] = array_merge($bind, $query['bind']);
 
         return $query;
+    }
+
+    /**
+     * TODO
+     *
+     * @param string $select
+     * @param string $direction
+     * @return $this
+     */
+    public function orderBy(string $select, string $direction = 'desc')
+    {
+        $this->orderBySelect = $select;
+        $this->orderByDirection = $direction;
+        return $this;
     }
 
     private function getDimensionSelectSql(Dimension $dimension): string
