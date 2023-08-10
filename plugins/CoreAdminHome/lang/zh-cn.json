@@ -34,7 +34,6 @@
         "ImageTrackingLink": "img标签追踪链接",
         "ImportFromGoogleAnalytics": "从 Google Analytics（谷歌网站分析）导入",
         "ImportFromGoogleAnalyticsDescription": "如果您拥有 Google Analytics（谷歌网站分析）资源，并且要切换到Matomo，则可以使用%1$s GoogleAnalyticsImporter%2$s插件导入现有数据。",
-        "ImportingServerLogs": "导入服务器日志",
         "ImportingServerLogsDesc": "除了通过浏览器（用 JavaScript 或图片链接）追踪访客，另外一种方法是持续导入服务器日志。更多详情请参见 %1$s服务器日志分析%2$s。",
         "InvalidPluginsWarning": "以下插件不兼容 %1$s，无法加载：%2$s。",
         "InvalidPluginsYouCanUninstall": "您可以在%1$s插件管理%2$s页面更新或者卸载这些插件。",

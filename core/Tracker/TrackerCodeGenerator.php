@@ -97,7 +97,7 @@ class TrackerCodeGenerator
         if (Manager::getInstance()->isPluginActivated('CustomVariables')) {
             $maxCustomVars = CustomVariables::getNumUsableCustomVariables();
 
-            if ($visitorCustomVariables && count($visitorCustomVariables) > 0) {
+            if (is_array($visitorCustomVariables) && count($visitorCustomVariables) > 0) {
                 $options .= '  // you can set up to ' . $maxCustomVars . ' custom variables for each visitor' . "\n";
                 $index   = 1;
                 foreach ($visitorCustomVariables as $visitorCustomVariable) {
@@ -114,7 +114,7 @@ class TrackerCodeGenerator
                     );
                 }
             }
-            if ($pageCustomVariables && count($pageCustomVariables) > 0) {
+            if (is_array($pageCustomVariables) && count($pageCustomVariables) > 0) {
                 $options .= '  // you can set up to ' . $maxCustomVars . ' custom variables for each action (page view, download, click, site search)' . "\n";
                 $index   = 1;
                 foreach ($pageCustomVariables as $pageCustomVariable) {

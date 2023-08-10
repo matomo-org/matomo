@@ -32,7 +32,7 @@
         "NHour": "%sh",
         "PluginDescription": "Restituisce l'ora locale e del server di quando i visitatori hanno visto il tuo sito o l'app.",
         "ServerTime": "Visite per ora del server",
-        "SubmenuTimes": "Volte",
+        "SubmenuTimes": "Orari",
         "TimesSubcategoryHelp": "La sezione Orari ti mostra quando le persone visitano il tuo sito. Puoi vedere gli orari locali più popolari in cui i tuoi utenti visitano, così puoi capire dove si inserisce il tuo sito nella loro vita. Inoltre, mostra gli orari dei server più popolari, il che può rivelare le richieste sul tuo stack tecnologico.",
         "VisitsByDayOfWeek": "Visite per giorno della settimana",
         "WidgetByDayOfWeekDocumentation": "Il grafico mostra il numero di visite che il tuo sito ha ricevuto in ciascun giorno della settimana.",

@@ -34,7 +34,6 @@
         "ImageTrackingLink": "Bildesporingslenke",
         "ImportFromGoogleAnalytics": "Importer fra Google Analytics",
         "ImportFromGoogleAnalyticsDescription": "Hvis du har en Google Analytics-data og bytter til Matomo, kan du importere den ved bruk av %1$sGoogle Analytics-import%2$s-programtillegget.",
-        "ImportingServerLogs": "Importerer serverlogger",
         "ImportingServerLogsDesc": "Som alternativ til å spore besøkende gjennom nettleseren (enten via JavaScript eller bildesporingslenke), kan du importere tjenerlogger regelmessig. Lær mer om %1$stjenerlogganalyse%2$s.",
         "InvalidPluginsWarning": "De følgende utvidelsene er ikke kompatible med %1$s og kunne ikke lastes inn: %2$s.",
         "InvalidPluginsYouCanUninstall": "Du kan oppdatere eller avinstallere disse utvidelsene på %1$sAdministrer utvidelser%2$s-siden.",

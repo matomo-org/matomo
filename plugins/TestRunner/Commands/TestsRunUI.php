@@ -33,8 +33,8 @@ class TestsRunUI extends ConsoleCommand
         $this->addNoValueOption('skip-delete-assets', null, "Skip deleting of merged assets (will speed up a test run, but not by a lot).");
         $this->addNoValueOption('screenshot-repo', null, "For tests");
         $this->addNoValueOption('store-in-ui-tests-repo', null, "For tests");
-        $this->addNoValueOption('debug', null, "Enable phantomjs debugging");
-        $this->addRequiredValueOption('extra-options', null, "Extra options to pass to phantomjs.");
+        $this->addNoValueOption('debug', null, "Enables node inspector");
+        $this->addRequiredValueOption('extra-options', null, "Extra options to pass to node.");
         $this->addNoValueOption('enable-logging', null, 'Enable logging to the configured log file during tests.');
         $this->addRequiredValueOption('timeout', null, 'Custom test timeout value.');
     }
@@ -66,8 +66,8 @@ class TestsRunUI extends ConsoleCommand
 
         $this->writeJsConfig();
 
-        $options = array();
-        $phantomJsOptions = array();
+        $options = [];
+        $additionalOptions = [];
 
         if ($matomoDomain) {
             $options[] = "--matomo-domain=$matomoDomain";
@@ -110,7 +110,7 @@ class TestsRunUI extends ConsoleCommand
         }
 
         if ($debug) {
-            $phantomJsOptions[] = "--debug=true";
+            $additionalOptions[] = "--inspect";
         }
 
         if ($enableLogging) {
@@ -126,12 +126,12 @@ class TestsRunUI extends ConsoleCommand
         }
 
         $options = implode(" ", $options);
-        $phantomJsOptions = implode(" ", $phantomJsOptions);
+        $additionalOptions = implode(" ", $additionalOptions);
 
         $specs = implode(" ", $specs);
 
         $screenshotTestingDir = PIWIK_INCLUDE_PATH . "/tests/lib/screenshot-testing/";
-        $cmd = "cd '$screenshotTestingDir' && NODE_PATH='$screenshotTestingDir/node_modules' node " . $phantomJsOptions . " run-tests.js $options $specs";
+        $cmd = "cd '$screenshotTestingDir' && NODE_PATH='$screenshotTestingDir/node_modules' node " . $additionalOptions . " run-tests.js $options $specs";
 
         $output->writeln('Executing command: <info>' . $cmd . '</info>');
         $output->writeln('');

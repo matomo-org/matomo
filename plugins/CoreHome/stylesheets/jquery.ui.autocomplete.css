@@ -1,5 +1,5 @@
 /* Autocomplete
-----------------------------------*/
+---------------------------------- */
 .ui-autocomplete {
     position: absolute;
     cursor: default;
@@ -16,7 +16,7 @@
 }
 
 /* Menu
-----------------------------------*/
+---------------------------------- */
 .ui-menu {
     list-style: none;
     padding: 6px;

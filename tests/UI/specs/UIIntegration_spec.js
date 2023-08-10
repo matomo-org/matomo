@@ -474,6 +474,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.mouse.move(0, 0);
 
             pageWrap = await page.$('.ui-dialog');
+            await page.waitForTimeout(150);
             expect(await pageWrap.screenshot()).to.matchImage('actions_outlinks_vlog');
         });
 
@@ -796,18 +797,6 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
             pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('admin_manage_websites');
-        });
-
-        it('should load the Manage > Tracking Code admin page correctly', async function () {
-            await page.goto("?" + generalParams + "&module=CoreAdminHome&action=trackingCodeGenerator");
-
-            // replace container id in tagmanager code, as it changes when updating omnifixture
-            await page.evaluate(function () {
-                $('.tagManagerTrackingCode pre').html($('.tagManagerTrackingCode pre').html().replace(/container_[A-z0-9]+\.js/, 'container_REPLACED.js'));
-            });
-
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('admin_manage_tracking_code');
         });
 
         it('should load the Settings > General Settings admin page correctly', async function () {

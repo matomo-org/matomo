@@ -409,13 +409,13 @@ abstract class Base extends VisitDimension
         return !empty($this->keywordReferrerAnalyzed);
     }
 
-    protected function detectReferrerCampaignFromLandingUrl()
+    protected function detectReferrerCampaignFromLandingUrl(): void
     {
         if (
             !isset($this->currentUrlParse['query'])
             && !isset($this->currentUrlParse['fragment'])
         ) {
-            return false;
+            return;
         }
         $campaignParameters = Common::getCampaignParameters();
         $this->campaignNames = $campaignParameters[0];
@@ -438,22 +438,39 @@ abstract class Base extends VisitDimension
     }
 
 
-    protected function detectReferrerCampaignFromTrackerParams(Request $request)
+    /**
+     * Check if campaign parameters were directly provided in tracking request.
+     * This might e.g. be the case when using image tracking
+     *
+     * @param Request $request
+     * @return void
+     */
+    protected function detectReferrerCampaignFromTrackerParams(Request $request): void
     {
-        $campaignName = $this->getReferrerCampaignQueryParam($request, '_rcn');
+        $campaignName = null;
+        $campaignParameters = Common::getCampaignParameters();
+        $allTrackingParams = $request->getRawParams();
+
+        foreach ($campaignParameters[0] as $parameter) {
+            if (!empty($allTrackingParams[$parameter])) {
+                $campaignName = $allTrackingParams[$parameter];
+                break;
+            }
+        }
+
         if (empty($campaignName)) {
-            return false;
+            return;
         }
 
         $this->typeReferrerAnalyzed = Common::REFERRER_TYPE_CAMPAIGN;
         $this->nameReferrerAnalyzed = $campaignName;
 
-        $keyword = $this->getReferrerCampaignQueryParam($request, '_rck');
-        if (!empty($keyword)) {
-            $this->keywordReferrerAnalyzed = $keyword;
+        foreach ($campaignParameters[1] as $parameter) {
+            if (!empty($allTrackingParams[$parameter])) {
+                $this->keywordReferrerAnalyzed = $allTrackingParams[$parameter];
+                break;
+            }
         }
-
-        return true;
     }
 
     private function getCachedUrlsByHostAndIdSite()
@@ -510,14 +527,14 @@ abstract class Base extends VisitDimension
         return false;
     }
 
-    protected function detectCampaignKeywordFromReferrerUrl()
+    protected function detectCampaignKeywordFromReferrerUrl(): void
     {
         if (
             !empty($this->nameReferrerAnalyzed)
             && !empty($this->keywordReferrerAnalyzed)
         ) {
             // keyword is already set, we skip
-            return true;
+            return;
         }
 
         // Set the Campaign keyword to the keyword found in the Referrer URL if any
@@ -567,8 +584,8 @@ abstract class Base extends VisitDimension
     protected function detectReferrerCampaign(Request $request, Visitor $visitor)
     {
         $this->detectReferrerCampaignFromLandingUrl();
-
         $this->detectCampaignKeywordFromReferrerUrl();
+        $this->detectReferrerCampaignFromTrackerParams($request);
 
         $referrerNameAnalayzed = mb_strtolower($this->nameReferrerAnalyzed);
         $referrerNameAnalayzed = $this->truncateReferrerName($referrerNameAnalayzed);

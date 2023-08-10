@@ -33,7 +33,6 @@
         "ImageTrackingLink": "Bildspårningslänk",
         "ImportFromGoogleAnalytics": "Importera från Google Analytics",
         "ImportFromGoogleAnalyticsDescription": "Om du har en Google Analytics egendom och byter till Matomo kan du importera dina befintliga data genom att använda insticksprogram %1$s GoogleAnalyticsImporter%2$s.",
-        "ImportingServerLogs": "Importerar Serverloggar",
         "ImportingServerLogsDesc": "Ett alternativ till att spåra besökare via webbläsaren (antingen via JavaScript eller en bildlänk) är att kontinuerligt importera serverloggar. Läs mer om %1$sServer loggfilanalys%2$s.",
         "InvalidPluginsWarning": "Följande plugin är inte kompatibelt med %1$s och kunde inte laddas: %2$s.",
         "InvalidPluginsYouCanUninstall": "Du kan uppdatera eller installera plugins på vår %1$shantera plugin sida%2$s.",

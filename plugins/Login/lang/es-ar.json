@@ -48,7 +48,7 @@
         "SuspiciousLoginAttemptsInLastHourEmail3": "Asegurate de que tu contraseña es segura y de una longitud considerable (por ejemplo, al menos unos 30 caracteres).",
         "SuspiciousLoginAttemptsInLastHourEmail4": "Establecé la autenticación de dos factores, así los atacantes necesitarán más información que sólo una contraseña para acceder.",
         "SuspiciousLoginAttemptsInLastHourEmail5": "Adicionalmente, si tu cuenta de Matomo tiene establecida una cantidad de usuarios o direcciones IP a través de la cuales los usuarios pueden acceder, sería beneficioso configurar una lista de direcciones IP permitidas. %1$sLeé nuestra documentación para más información.%2$s",
-        "SuspiciousLoginAttemptsInLastHourEmailSubject": "Notamos algunos intentos sospechosos de inicio de sesión a tu cuenta...",
+        "SuspiciousLoginAttemptsInLastHourEmailSubject": "Notamos algunos intentos sospechosos de inicio de sesión a tu cuenta…",
         "UnblockAllIPs": "Desbloquear todas las direcciones IP bloqueadas actualmente",
         "WrongPasswordEntered": "Por favor, ingresá tu contraseña correcta."
     }

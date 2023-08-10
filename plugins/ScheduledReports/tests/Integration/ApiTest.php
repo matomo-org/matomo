@@ -479,7 +479,7 @@ class ApiTest extends IntegrationTestCase
         );
         $getReportSubjectAndReportTitle->setAccessible(true);
 
-        list($reportSubject, $reportTitle) = $getReportSubjectAndReportTitle->invoke( APIScheduledReports::getInstance(), $websiteName, $reports);
+        [$reportSubject, $reportTitle] = $getReportSubjectAndReportTitle->invoke( APIScheduledReports::getInstance(), $websiteName, $reports);
         $this->assertEquals($expectedReportSubject, $reportSubject);
         $this->assertEquals($expectedReportTitle, $reportTitle);
     }
@@ -584,6 +584,37 @@ class ApiTest extends IntegrationTestCase
         );
     }
 
+    public function testAddReportValidatesPeriodParam()
+    {
+        $invalidPeriod = 'tomorrow';
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage(
+            'Report period must be one of the following: day, week, month, year (got ' . $invalidPeriod . ')'
+        );
+
+        self::setSuperUser();
+
+        APIScheduledReports::getInstance()->addReport(
+            1,
+            '',
+            Schedule::PERIOD_DAY,
+            0,
+            ScheduledReports::EMAIL_TYPE,
+            ReportRenderer::HTML_FORMAT,
+            [
+                'VisitsSummary_get',
+                'UserCountry_getCountry',
+                'Referrers_getWebsites',
+            ],
+            [ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY],
+            false,
+            'each',
+            null,
+            $invalidPeriod
+        );
+    }
+
     public function test_addReport_validatesEvolutionPeriodNParam()
     {
         $this->expectException(\Exception::class);
@@ -633,6 +664,51 @@ class ApiTest extends IntegrationTestCase
             false,
             'each',
             5
+        );
+    }
+
+    public function testUpdateReportValidatesPeriodParam()
+    {
+        $invalidPeriod = 'tomorrow';
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage(
+            'Report period must be one of the following: day, week, month, year (got ' . $invalidPeriod . ')'
+        );
+
+        self::setSuperUser();
+
+        $idReport = APIScheduledReports::getInstance()->addReport(
+            1,
+            '',
+            Schedule::PERIOD_DAY,
+            0,
+            ScheduledReports::EMAIL_TYPE,
+            ReportRenderer::HTML_FORMAT,
+            [
+                'VisitsSummary_get',
+            ],
+            [ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY]
+        );
+
+        APIScheduledReports::getInstance()->updateReport(
+            $idReport,
+            1,
+            '',
+            Schedule::PERIOD_DAY,
+            0,
+            ScheduledReports::EMAIL_TYPE,
+            ReportRenderer::HTML_FORMAT,
+            [
+                'VisitsSummary_get',
+                'UserCountry_getCountry',
+                'Referrers_getWebsites',
+            ],
+            [ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY],
+            false,
+            'each',
+            null,
+            $invalidPeriod
         );
     }
 

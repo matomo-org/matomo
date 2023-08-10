@@ -118,7 +118,7 @@
         "GetPurgeEstimate": "パージ推定値を取得",
         "HowDoIAskForConsent": "ユーザーに同意を求めるにはどうすればよいですか？",
         "HowDoIAskForConsentIntro": "Piwik には、次の一般的な同意マネージャーを使用して同意追跡を設定するためのガイドが用意されています。",
-        "HowDoIAskForConsentOutro": "上記の同意マネージャを使用しない場合、Matomo JavaScript API%2$s を使用して、同意による %1$ ストラッキングを実装することができます。",
+        "HowDoIAskForConsentOutro": "上記の同意マネージャを使用しない場合、Matomo JavaScript API%2$s を使用して、同意による %1$s ストラッキングを実装することができます。",
         "IPAddress": "IPアドレス",
         "Imprint": "インプリント",
         "ImprintUrl": "インプリントURL",
@@ -222,7 +222,7 @@
         "VisitsMatchedCriteria": "これらのビジットは、選択した基準に一致します。",
         "VisitsSuccessfullyDeleted": "ビジットは正常に削除されました",
         "VisitsSuccessfullyExported": "ビジットが正常にエクスポートされました",
-        "WhenConsentIsNeededPart1": "1$sGDPRプライバシー規則%2$sでは、個人データを処理する際にユーザーの同意を求める必要がある場合があります。同意を求める必要があるかどうかを判断するには、個人データ処理の合法的根拠を特定する必要があります。これは「同意」または「正当な利益」のいずれかであり、個人データの収集を完全に回避できる場合もあります。",
+        "WhenConsentIsNeededPart1": "%1$sGDPRプライバシー規則%2$sでは、個人データを処理する際にユーザーの同意を求める必要がある場合があります。同意を求める必要があるかどうかを判断するには、個人データ処理の合法的根拠を特定する必要があります。これは「同意」または「正当な利益」のいずれかであり、個人データの収集を完全に回避できる場合もあります。",
         "WhenConsentIsNeededPart2": "GDPR に基づく個人データの処理の法的根拠について詳しく学ぶことをお勧めします。 このトピックの詳細については、%1$sour ブログ%2$s をご覧ください。",
         "WhenConsentIsNeededPart3": "ユーザーの同意が必要であり、過去に「同意」を得たことを証明できない場合は、過去に追跡したユーザーの生データを匿名化することをお勧めします。過去に追跡されたユーザーの生データを匿名化するには、Matomo %1$slearn more%2$s のプライバシーマネージャを使用します。",
         "WhenDoINeedConsent": "いつユーザーの同意を求める必要がありますか？"

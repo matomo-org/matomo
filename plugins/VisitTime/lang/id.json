@@ -1,7 +1,7 @@
 {
     "VisitTime": {
-        "ColumnLocalHour": "Waktu setempat - jam (Awal kunjungan)",
-        "ColumnLocalMinute": "Waktu setempat - menit (Awal kunjungan)",
+        "ColumnLocalHour": "Waktu setempat — jam (awal kunjungan)",
+        "ColumnLocalMinute": "Waktu setempat — menit (awal kunjungan)",
         "ColumnLocalTime": "Waktu setempat",
         "ColumnServerHour": "Waktu server - jam",
         "ColumnServerMinute": "Waktu server - menit",

@@ -178,7 +178,7 @@ DataTable_RowAction.prototype.trigger = function (tr, e, subTableLabel, original
     }
 
     // ascend in action reports
-    if (subtable.closest('div.dataTableActions').length) {
+    if (subtable.closest('div.dataTable').data('table-type') === 'ActionsDataTable') {
         var allClasses = tr.attr('class');
         var matches = allClasses.match(/level[0-9]+/);
         var level = parseInt(matches[0].substring(5, matches[0].length), 10);

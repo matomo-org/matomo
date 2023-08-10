@@ -15,7 +15,6 @@
         "ImageTrackingIntro2": "Genereaza linkul mai jos si fa copy/paste la codul HTML generat pe pagina. Daca folosesti aceasta ca rezerva/fallback pentru trackingul JavaScript, il poti pune intre taguri %1$s.",
         "ImageTrackingIntro3": "Pentru intreaga lista de optiuni poti folosi un link de tracking tip imagine, vezi %1$sTracking API Documentation%2$s.",
         "ImageTrackingLink": "Link-ul către imaginea de urmărire",
-        "ImportingServerLogs": "Importarea log-urilor server-ului",
         "ImportingServerLogsDesc": "O alternativa pentru a contoriza vizitatorii prin intermediul browserului (indiferent daca este prin intermediul JavaScript sau link de tip imagine) este de a importa continuu logurile serveului (server logs). Citeste mai multe despre %1$sServer Log File Analytics%2$s.",
         "InvalidPluginsWarning": "Urmatoarele pluginuri nu sunt compatibile cu %1$s si nu pot fi rulate: %2$s.",
         "InvalidPluginsYouCanUninstall": "Poţi actualiza sau deinstala aceste plugin-uri pe pagina %1$sManage Plugins%2$s.",

@@ -37,7 +37,6 @@
         "ImageTrackingLink": "Enllaç de seguiment amb imatge",
         "ImportFromGoogleAnalytics": "Importar des de Google Analytics",
         "ImportFromGoogleAnalyticsDescription": "Si teniu una propietat de Google Analytics i esteu canviant a Matomo, podeu importar les vostres dades existents mitjançant el connector %1$sGoogleAnalyticsImporter%2$s.",
-        "ImportingServerLogs": "Important els Registres del Servidor",
         "ImportingServerLogsDesc": "Una alternativa a seguir els visitants a través del navegador (tant amb JavaScript com amb un enllaç de imatge) és important continuament els registres del servidor. Informeu-vos més a %1$sServer Log File Analytics%2$s.",
         "InvalidPluginsWarning": "Els connectors següents no són compatibles amb %1$s i no s'han pogut carregar: %2$s.",
         "InvalidPluginsYouCanUninstall": "Podeu actualitzar o desinstal·lar aquests connectors a la pàgina %1$sGestiona els connectors%2$s.",

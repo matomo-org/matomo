@@ -12,15 +12,11 @@ use Piwik\Plugins\VisitFrequency\API as VisitFrequencyAPI;
 
 class Archiver extends \Piwik\Plugin\Archiver
 {
-    public function aggregateDayReport()
+    public function getDependentSegmentsToArchive(): array
     {
-        $this->getProcessor()->processDependentArchive('VisitsSummary', VisitFrequencyAPI::NEW_VISITOR_SEGMENT);
-        $this->getProcessor()->processDependentArchive('VisitsSummary', VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT);
-    }
-
-    public function aggregateMultipleReports()
-    {
-        $this->getProcessor()->processDependentArchive('VisitsSummary', VisitFrequencyAPI::NEW_VISITOR_SEGMENT);
-        $this->getProcessor()->processDependentArchive('VisitsSummary', VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT);
+        return [
+            ['plugin' => 'VisitsSummary', 'segment' => VisitFrequencyAPI::NEW_VISITOR_SEGMENT],
+            ['plugin' => 'VisitsSummary', 'segment' => VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT],
+        ];
     }
 }

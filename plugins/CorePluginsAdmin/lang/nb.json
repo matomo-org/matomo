@@ -78,7 +78,7 @@
         "UpdateSelected": "Oppdatering valgt",
         "Version": "Versjon",
         "ViewAllMarketplacePlugins": "Se alle utvidelsene på Markedsplassen",
-        "WeCouldNotLoadThePluginAsItHasMissingDependencies": "%1$s-programtillegget %1$skunne ikke lastes inn fordi det har manglende avhengigheter: %2$s",
+        "WeCouldNotLoadThePluginAsItHasMissingDependencies": "programtillegget %1$s kunne ikke lastes inn fordi det har manglende avhengigheter: %2$s",
         "Websites": "Nettsteder",
         "WhatIsTagManager": "Hva er en taggbehandler?",
         "WhatIsTagManagerDetails1": "På lignende vis som et versjonskontrollsystem (VKS) får du all fleksibilitet til å publisere innhold på nettsiden din uten å ha teknisk HTML/CSS-kunnskap. Et taggbehandlingssystem (TMS) gir deg en måte å innebygge sporingstagger fra første- og tredjepartsprogrammer (også kjent som kodesnutter eller piksler) på nettsiden din.",

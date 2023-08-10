@@ -52,7 +52,7 @@
         "SuspiciousLoginAttemptsInLastHourEmail3": "Pastikan kata sandi Anda adalah kata sandi acak yang aman dengan panjang yang sesuai (misalnya, setidaknya 30 karakter).",
         "SuspiciousLoginAttemptsInLastHourEmail4": "Siapkan autentikasi dua faktor sehingga penyerang akan membutuhkan lebih banyak informasi daripada sekadar kata sandi Anda untuk log masuk.",
         "SuspiciousLoginAttemptsInLastHourEmail5": "Selain itu, jika Matomo Anda memiliki sekumpulan pengguna atau IP terbatas yang dapat digunakan pengguna untuk mengaksesnya, mungkin akan bermanfaat untuk menyiapkan daftar alamat IP yang diizinkan. %1$sBaca dokumen kami untuk informasi lebih lanjut.%2$s",
-        "SuspiciousLoginAttemptsInLastHourEmailSubject": "Kami telah melihat beberapa upaya log masuk yang mencurigakan ke akun Anda...",
+        "SuspiciousLoginAttemptsInLastHourEmailSubject": "Kami telah melihat beberapa upaya log masuk yang mencurigakan ke akun Anda…",
         "UnblockAllIPs": "Buka blokir semua IP yang saat ini diblokir",
         "WrongPasswordEntered": "Silakan masukkan kata sandi Anda yang benar."
     }

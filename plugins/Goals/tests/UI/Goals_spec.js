@@ -39,8 +39,22 @@ describe("Goals", function () {
         expect(await report.screenshot()).to.matchImage('goals_by_pages');
     });
 
-    it('should show goals by page titles', async function() {
+    it('should load row evolution with goal metrics for subtable row', async function() {
+      const row = await page.jQuery('.dataTable tr.level1:eq(1)');
+      await row.hover();
 
+      const icon = await page.jQuery('.dataTable tr.level1:eq(1) a.actionRowEvolution');
+      await icon.click();
+
+      await page.waitForSelector('.ui-dialog');
+      await page.waitForNetworkIdle();
+
+      const dialog = await page.$('.ui-dialog');
+      expect(await dialog.screenshot()).to.matchImage('goals_by_pages_row_evolution');
+    });
+
+    it('should show goals by page titles', async function() {
+        await page.click('.ui-widget .ui-dialog-titlebar-close');
         await page.evaluate(function(){
             $('div.dimensionCategory:nth-child(2) > ul:nth-child(1) > li:nth-child(4)').click();
         });

@@ -5,10 +5,9 @@
     </div>
   </div>
   <JsTrackingCodeAdvancedOptions
-    :default-site="defaultSite"
+    :site="site"
     :max-custom-variables="maxCustomVariables"
     :server-side-do-not-track-enabled="serverSideDoNotTrackEnabled"
-    :showBottomHR="true"
     @updateTrackingCode="updateTrackingCode"
     ref="jsTrackingCodeAdvanceOption"/>
 </template>
@@ -21,37 +20,10 @@ import {
 
 import JsTrackingCodeAdvancedOptions from './JsTrackingCodeAdvancedOptions.vue';
 
-interface CustomVar {
-  name: string;
-  value: string;
-}
-
-interface JsTrackingCodeGeneratorState {
-  showAdvanced: boolean;
+interface JsTrackingCodeGeneratorSitesWithoutDataState {
   site: SiteRef;
   trackingCode: string;
-  trackAllSubdomains: boolean;
-  isLoading: boolean;
-  siteUrls: Record<string, string[]>;
-  siteExcludedQueryParams: Record<string, string[]>,
-  siteExcludedReferrers: Record<string, string[]>,
-  crossDomain: boolean;
-  groupByDomain: boolean;
-  trackAllAliases: boolean;
-  trackNoScript: boolean;
-  trackCustomVars: boolean;
-  customVars: CustomVar[];
-  canAddMoreCustomVariables: boolean;
-  doNotTrack: boolean;
-  disableCookies: boolean;
-  useCustomCampaignParams: boolean;
-  customCampaignName: string;
-  customCampaignKeyword: string;
-  trackingCodeAbortController: AbortController|null;
   isHighlighting: boolean;
-  consentManagerName: string;
-  consentManagerUrl: string;
-  consentManagerIsConnected: boolean;
 }
 
 export default defineComponent({
@@ -70,33 +42,11 @@ export default defineComponent({
   directives: {
     CopyToClipboard,
   },
-  data(): JsTrackingCodeGeneratorState {
+  data(): JsTrackingCodeGeneratorSitesWithoutDataState {
     return {
-      showAdvanced: false,
       site: this.defaultSite as SiteRef,
       trackingCode: '',
-      trackAllSubdomains: false,
-      isLoading: false,
-      siteUrls: {},
-      siteExcludedQueryParams: {},
-      siteExcludedReferrers: {},
-      crossDomain: false,
-      groupByDomain: false,
-      trackAllAliases: false,
-      trackNoScript: false,
-      trackCustomVars: false,
-      customVars: [],
-      canAddMoreCustomVariables: !!this.maxCustomVariables && this.maxCustomVariables > 0,
-      doNotTrack: false,
-      disableCookies: false,
-      useCustomCampaignParams: false,
-      customCampaignName: '',
-      customCampaignKeyword: '',
-      trackingCodeAbortController: null,
       isHighlighting: false,
-      consentManagerName: '',
-      consentManagerUrl: '',
-      consentManagerIsConnected: false,
     };
   },
   created() {

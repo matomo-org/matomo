@@ -56,7 +56,7 @@ use Piwik\UrlHelper;
  */
 class API extends \Piwik\Plugin\API
 {
-    const DEFAULT_SEARCH_KEYWORD_PARAMETERS = 'q,query,s,search,searchword,k,keyword';
+    const DEFAULT_SEARCH_KEYWORD_PARAMETERS = 'q,query,s,search,searchword,k,keyword,keywords';
     const OPTION_EXCLUDED_IPS_GLOBAL = 'SitesManager_ExcludedIpsGlobal';
     const OPTION_DEFAULT_TIMEZONE = 'SitesManager_DefaultTimezone';
     const OPTION_DEFAULT_CURRENCY = 'SitesManager_DefaultCurrency';
@@ -100,38 +100,39 @@ class API extends \Piwik\Plugin\API
      * @param bool   $mergeSubdomains
      * @param bool   $groupPageTitlesByDomain
      * @param bool   $mergeAliasUrls
-     * @param bool   $visitorCustomVariables
-     * @param bool   $pageCustomVariables
-     * @param bool   $customCampaignNameQueryParam
-     * @param bool   $customCampaignKeywordParam
+     * @param array  $visitorCustomVariables
+     * @param array  $pageCustomVariables
+     * @param string $customCampaignNameQueryParam
+     * @param string $customCampaignKeywordParam
      * @param bool   $doNotTrack
      * @param bool   $disableCookies
      * @param bool   $trackNoScript
      * @param bool   $crossDomain
      * @param bool   $forceMatomoEndpoint Whether the Matomo endpoint should be forced if Matomo was installed prior 3.7.0.
-     * @param bool   $excludedQueryParams
-     * @param mixed  $excludedReferrers array or comma separated string of ignored referrers. Defaults to configured ignored referrers
+     * @param string|array  $excludedQueryParams array or comma separated string of excluded query parameters.
+     * @param string|array  $excludedReferrers array or comma separated string of ignored referrers. Defaults to configured ignored referrers
      *
      * @return string The Javascript tag ready to be included on the HTML pages
      * @throws Exception
+     * @unsanitized
      */
     public function getJavascriptTag(
-        $idSite,
-        $piwikUrl = '',
-        $mergeSubdomains = false,
-        $groupPageTitlesByDomain = false,
-        $mergeAliasUrls = false,
-        $visitorCustomVariables = false,
-        $pageCustomVariables = false,
-        $customCampaignNameQueryParam = false,
-        $customCampaignKeywordParam = false,
-        $doNotTrack = false,
-        $disableCookies = false,
-        $trackNoScript = false,
-        $crossDomain = false,
-        $forceMatomoEndpoint = false,
-        $excludedQueryParams = false,
-        $excludedReferrers = false
+        int $idSite,
+        string $piwikUrl = '',
+        bool $mergeSubdomains = false,
+        bool $groupPageTitlesByDomain = false,
+        bool $mergeAliasUrls = false,
+        array $visitorCustomVariables = [],
+        array $pageCustomVariables = [],
+        string $customCampaignNameQueryParam = '',
+        string $customCampaignKeywordParam = '',
+        bool $doNotTrack = false,
+        bool $disableCookies = false,
+        bool $trackNoScript = false,
+        bool $crossDomain = false,
+        bool $forceMatomoEndpoint = false,
+        $excludedQueryParams = '',
+        $excludedReferrers = ''
     ) {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -139,18 +140,9 @@ class API extends \Piwik\Plugin\API
             $piwikUrl = SettingsPiwik::getPiwikUrl();
         }
 
-        // Revert the automatic encoding
-        // TODO remove that when https://github.com/piwik/piwik/issues/4231 is fixed
-        $piwikUrl = Common::unsanitizeInputValue($piwikUrl);
-        $visitorCustomVariables = Common::unsanitizeInputValues($visitorCustomVariables);
-        $pageCustomVariables = Common::unsanitizeInputValues($pageCustomVariables);
-        $customCampaignNameQueryParam = Common::unsanitizeInputValue($customCampaignNameQueryParam);
-        $customCampaignKeywordParam = Common::unsanitizeInputValue($customCampaignKeywordParam);
-
         if (is_array($excludedQueryParams)) {
             $excludedQueryParams = implode(',', $excludedQueryParams);
         }
-        $excludedQueryParams = Common::unsanitizeInputValue($excludedQueryParams);
 
         $generator = new TrackerCodeGenerator();
         if ($forceMatomoEndpoint) {

@@ -1,6 +1,6 @@
 {
     "UserCountry": {
-        "CannotLocalizeLocalIP": "Alamat IP %s merupakan alamat lokal dan tidak dapat diperiksa oleh geolokasi.",
+        "CannotLocalizeLocalIP": "Alamat IP \"%s\" merupakan alamat lokal sehingga tidak dapat diperiksa oleh geolokasi.",
         "City": "Kota",
         "CityAndCountry": "%1$s, %2$s",
         "Continent": "Benua",

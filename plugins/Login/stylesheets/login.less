@@ -108,3 +108,60 @@
         color: gray;
     }
 }
+
+.onboarding {
+    background: white;
+
+    h1 {
+        margin-top: 4rem;
+        margin-bottom: 1.5rem;
+        line-height: 24px;
+    }
+
+    .description {
+        margin-bottom: 1.5rem;
+        line-height: 24px;
+    }
+
+    label {
+        font-weight: 600;
+        color: unset !important;
+    }
+
+    .formSubmitButton {
+        text-transform: uppercase;
+        float: unset;
+    }
+
+    #footerLinks {
+        display: none;
+    }
+
+    .onboardingImage {
+        max-width: 620px;
+    }
+
+    .actions {
+        label {
+            font-weight: unset;
+        }
+    }
+
+    @media screen {
+        @media (max-width: 999px) {
+            .formSubmitButtonRow {
+                position: fixed;
+                width: 100%;
+                bottom: 0;
+            }
+
+            .formSubmitButton {
+                width: 100% !important;
+            }
+
+            h1 {
+                margin-top: 0;
+            }
+        }
+    }
+}

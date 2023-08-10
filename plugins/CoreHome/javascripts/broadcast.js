@@ -62,6 +62,14 @@ var broadcast = {
     },
 
     /**
+     * Returns if the current page is the no data page
+     * @return {boolean}
+     */
+    isNoDataPage: function() {
+        return !!$('body#site-without-data').length;
+    },
+
+    /**
      * Returns the current hash with updated parameters that were provided in ajaxUrl
      *
      * Parameters like idGoal and idDashboard will be automatically reset if the won't be relevant anymore

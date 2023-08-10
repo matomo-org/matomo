@@ -22,6 +22,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * By default, the last ip address in the proxy list will now be used rather than the first ip address. To force the first ip address to be used set the config option `proxy_ip_read_last_in_list = 0`.
 * The deprecated method `Piwik\Log::setLogLevel()` has been removed
 * The deprecated method `Piwik\Log::getLogLevel()` has been removed
+* A parameter `$login` has been added to the methods `setCompleted()`, `isCompleted()`, `skipChallenge()` and `isSkipped()` in the `Piwik\Plugins\Tour\Engagement\Challenge` class
 * In order to encapsulate Matomo's dependencies from direct usage in plugins we introduce some proxy classes and patterns that need to be used instead. For plugin development avoid using any external Matomo dependency directly. 
   * Use `Piwik\Log\Logger` instead of `Monolog\Logger`
   * Use `Piwik\Log\LoggerInterface` instead of `Psr\Log\LoggerInterface`
@@ -42,6 +43,8 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
       * For progress bars use the methods `initProgressBar`, `startProgressBar`, `advanceProgressBar` and `finishProgressBar`
       * Tables can be rendered using the new method `renderTable`
     * For executing another command within your command use the new method `runCommand`
+* Requests sent by Matomo to plugins.matomo.org will no longer include an `HTTP_X_FORWARDED_FOR` header containing the current user's IP address. If you use an outbound proxy rule that used this header to allow access for Matomo then it should be replaced with rule allowing access by IP and/or URL.    
+* Matomo does no longer include the jQuery browser plugin. If your plugin requires it, you need to include it yourself.
 
 ### New APIs
 
@@ -53,6 +56,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 * The method `Common::getRequestVar` is now deprecated, but will remain API until Matomo 6. You may already start using the new class `Piwik\Request` instead, but ensure to handle needed sanitizing / escaping yourself.
 * The brand related less variables for colors `color-black-piwik`, `color-blue-piwik`, `color-red-piwik` and `color-green-piwik` are now deprecated and will be removed in Matomo 6. New variables where `piwik` was replaced with `matomo` have been introduced. E.g. `color-black-matomo`
+* Support for jQuery UI is now depreated and might be removed in one of the next major releases. Please consider using Materialize CSS or Vue.js instead.
 
 ### Removed Config
 

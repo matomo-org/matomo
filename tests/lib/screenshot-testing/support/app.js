@@ -60,7 +60,7 @@ var Application = function () {
 };
 
 Application.prototype.printHelpAndExit = function () {
-    console.log("Usage: phantomjs run-tests.js [options] [test-files]");
+    console.log("Usage: node run-tests.js [options] [test-files]");
     console.log();
     console.log("Available options:");
     console.log("  --help:                   Prints this message.");
@@ -70,7 +70,7 @@ Application.prototype.printHelpAndExit = function () {
     console.log("  --plugin=name:            Runs all tests for a plugin.");
     console.log("  --keep-symlinks:          If supplied, the recursive symlinks created in tests/PHPUnit/proxy");
     console.log("                            aren't deleted after tests are run. Specify this option if you'd like");
-    console.log("                            to view pages phantomjs captures in a browser.");
+    console.log("                            to view pages puppeteer captures in a browser.");
     console.log("  --print-logs:             Prints webpage logs even if tests succeed.");
     console.log("  --store-in-ui-tests-repo: Stores processed screenshots within the UI tests repository even if");
     console.log("                            the tests are in another plugin. For use with CI build.");
@@ -281,7 +281,7 @@ Application.prototype.loadTestModules = function () {
 };
 
 Application.prototype.runTests = function (mocha) {
-    // make sure all necessary directories exist (symlinks handled by PHP since phantomjs can't create any)
+    // make sure all necessary directories exist (symlinks handled by PHP since puppeteer can't create any)
     var dirsToCreate = [
         path.join(PIWIK_INCLUDE_PATH, 'tmp/sessions')
     ];

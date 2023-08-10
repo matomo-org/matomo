@@ -30,41 +30,41 @@ async function main() {
       url += `?module=${encodeURIComponent(plugin)}`;
     }
 
-    await page.goto(url);
-    await page.waitForFunction(() => window.QUnit);
-
-    await page.evaluate(() => {
+    page.on('domcontentloaded', async () => {
+      await page.evaluate(() => {
         window.testsDone = false;
         window.testsSuccessfull = false;
 
         QUnit.done(function (obj) {
-            console.info("Tests passed: " + obj.passed);
-            console.info("Tests failed: " + obj.failed);
-            console.info("Total tests:  " + obj.total);
-            console.info("Runtime (ms): " + obj.runtime);
-            window.testsDone = true;
-            window.testsSuccessfull = (obj.failed == 0);
+          console.info("Tests passed: " + obj.passed);
+          console.info("Tests failed: " + obj.failed);
+          console.info("Total tests:  " + obj.total);
+          console.info("Runtime (ms): " + obj.runtime);
+          window.testsDone = true;
+          window.testsSuccessfull = (obj.failed == 0);
         });
 
         QUnit.log(function (obj) {
-            if (!obj.result) {
-                var errorMessage = "Test failed in module " + obj.module + ": '" + obj.name + "' \nError: " + obj.message;
+          if (!obj.result) {
+            var errorMessage = "Test failed in module " + obj.module + ": '" + obj.name + "' \nError: " + obj.message;
 
-                if (obj.actual) {
-                    errorMessage += " \nActual: " + obj.actual;
-                }
-
-                if (obj.expected) {
-                    errorMessage += " \nExpected: " + obj.expected;
-                }
-
-                errorMessage += " \nSource: " + obj.source + "\n\n";
-
-                console.info(errorMessage);
+            if (obj.actual) {
+              errorMessage += " \nActual: " + obj.actual;
             }
+
+            if (obj.expected) {
+              errorMessage += " \nExpected: " + obj.expected;
+            }
+
+            errorMessage += " \nSource: " + obj.source + "\n\n";
+
+            console.info(errorMessage);
+          }
         });
+      });
     });
 
+    await page.goto(url);
     await page.waitForFunction(() => !!window.testsDone, {timeout: 600000});
 
     var success = await page.evaluate(function() {

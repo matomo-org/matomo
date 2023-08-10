@@ -3,6 +3,7 @@
         "AddUserIdToSearch": "Klik untuk menambahkan ID pengguna ini ke dalam pencarian",
         "AddVisitorIPToSearch": "Klik untuk menambahkan IP pengunjung ini ke dalam pencarian",
         "AddVisitorIdToSearch": "Klik untuk menambahkan ID pengunjung ini ke dalam pencarian",
+        "Anonymize": "Menganonimkan",
         "AnonymizeData": "Menganonimkan data",
         "AnonymizeDataConfirm": "Apakah Anda yakin ingin menganonimkan data untuk situs web dan rentang waktu yang dipilih? Tindakan ini tidak dapat diurungkan, data dapat dihapus sesuai permintaan, dan proses ini mungkin memakan waktu lama.",
         "AnonymizeDataNow": "Menganonimkan data masa lalu untuk situs dan waktu yang dipilih",

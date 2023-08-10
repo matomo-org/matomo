@@ -34,7 +34,6 @@
         "ImageTrackingLink": "Lidhje Ndjekjeje Figure",
         "ImportFromGoogleAnalytics": "Importim prej Google Analytics",
         "ImportFromGoogleAnalyticsDescription": "Nëse keni një zotërim Google Analytics dhe po kaloni në Matomo, mund të importoni të dhënat tuaja ekzistuese duke përdorur shtojcën %1$sGoogleAnalyticsImporter%2$s.",
-        "ImportingServerLogs": "Importim Regjistrash Shërbyesi",
         "ImportingServerLogsDesc": "Një alternativë kundrejt ndjekjes së vizitorëve përmes shfletuesit (ose përmes JavaScript-it, ose përmes një lidhjeje figurash) është importimi i vazhdueshëm i regjistrave të shërbyesit. Mësoni më tepër rreth %1$sAnalizave me bazë Kartelash Regjistër të Shërbyesit%2$s.",
         "InvalidPluginsWarning": "Shtojcat vijuese s’janë të përputhshme me %1$s dhe s’u ngarkuan dot: %2$s.",
         "InvalidPluginsYouCanUninstall": "Këto shtojca mund t’i përditësoni ose çinstaloni që nga faqja %1$sAdministroni Shtojca%2$s.",
