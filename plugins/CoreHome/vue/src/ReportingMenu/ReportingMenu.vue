@@ -104,7 +104,7 @@
         >
           <li>
             <a class="collapsible-header">
-              <i :class="category.icon ? category.icon : 'icon-arrow-bottom'" />{{ category.name }}
+              <i :class="category.icon ? category.icon : 'icon-chevron-down'" />{{ category.name }}
             </a>
             <div class="collapsible-body">
               <ul>

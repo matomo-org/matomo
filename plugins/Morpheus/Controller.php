@@ -677,16 +677,16 @@ export default defineComponent({
                 'delete',
                 'plus',
                 'minus',
-                'archive'
+                'archive',
+                'add1',
+                'remove'
             ],
             'Alerts' => [
                 'error',
                 'warning',
                 'info',
-                'info2',
                 'success',
                 'help',
-                'help-alt',
                 'ok'
             ],
             'Navigation' => [
@@ -696,7 +696,6 @@ export default defineComponent({
                 'arrow-right-2',
                 'arrow-top',
                 'arrow-bottom',
-                'arrow-collapsed',
                 'zoom-in',
                 'zoom-out',
                 'show',
@@ -717,7 +716,6 @@ export default defineComponent({
                 'fullscreen',
                 'close',
                 'maximise',
-                'newtab',
                 'refresh',
                 'reload'
             ],
@@ -726,8 +724,6 @@ export default defineComponent({
                 'table-more',
                 'chart-bar',
                 'chart-pie',
-                'chart-line',
-                'chart-line-details',
                 'evolution',
                 'funnel',
                 'form',
@@ -740,10 +736,12 @@ export default defineComponent({
                 'user',
                 'user-add',
                 'users',
-                'alien'
+                'user-personal'
             ],
             'Date-picker' => [
-                'calendar'
+                'calendar',
+                'datepicker-arr-l',
+                'datepicker-arr-r'
             ],
             'Annotations' => [
                 'annotation'
@@ -766,10 +764,18 @@ export default defineComponent({
                 'segmented-visits-log'
             ],
             'Lock' => [
-                'locked',
-                'locked-2',
-                'locked-3',
-                'locked-4'
+                'locked'
+            ],
+            'Media' => [
+                'audio',
+                'play',
+                'pause',
+                'replay',
+                'stop',
+                'fast-forward',
+                'fast-rewind',
+                'skip-next',
+                'skip-previous'
             ],
             'Other' => [
                 'configure',
@@ -785,22 +791,11 @@ export default defineComponent({
                 'business',
                 'finance',
                 'folder',
-                'folder-charts',
                 'github',
                 'open-source',
                 'puzzle',
                 'server',
-                'server-alt',
                 'tag-cloud',
-                'audio',
-                'play',
-                'pause',
-                'replay',
-                'stop',
-                'fast-forward',
-                'fast-rewind',
-                'skip-next',
-                'skip-previous',
                 'sign-in',
                 'sign-out',
                 'settings',
@@ -810,7 +805,19 @@ export default defineComponent({
                 'embed',
                 'heart',
                 'merge',
-                'content-copy'
+                'content-copy',
+                'new_releases',
+                'notifications_on',
+                'reporting-dashboard',
+                'reporting-actions',
+                'reporting-visitors',
+                'reporting-referer',
+                'admin-diagnostic',
+                'admin-platform',
+                'admin-development',
+                'admin-settings',
+
+                
             ],
         ];
 

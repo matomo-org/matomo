@@ -12,11 +12,11 @@
    viewBox="0 0 24 24"
    fill="none"
    version="1.1"
-   id="svg6"
-   sodipodi:docname="icon-minus-square.svg"
+   id="svg937"
+   sodipodi:docname="chevrons-left.svg"
    inkscape:version="1.0.2 (e86c870879, 2021-01-15)">
   <metadata
-     id="metadata12">
+     id="metadata943">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
@@ -27,7 +27,7 @@
     </rdf:RDF>
   </metadata>
   <defs
-     id="defs10" />
+     id="defs941" />
   <sodipodi:namedview
      pagecolor="#ffffff"
      bordercolor="#666666"
@@ -37,23 +37,23 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1550"
-     inkscape:window-height="1014"
-     id="namedview8"
+     inkscape:window-width="1307"
+     inkscape:window-height="913"
+     id="namedview939"
      showgrid="false"
      inkscape:zoom="29.791667"
      inkscape:cx="12"
      inkscape:cy="12"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:window-x="328"
+     inkscape:window-y="181"
      inkscape:window-maximized="0"
-     inkscape:current-layer="svg6" />
+     inkscape:current-layer="svg937" />
   <path
      style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;stop-color:#000000;stop-opacity:1;opacity:1"
-     d="M 5 2 C 3.3549904 2 2 3.3549904 2 5 L 2 19 C 2 20.645025 3.3550085 22 5 22 L 19 22 C 20.645007 22 22 20.645007 22 19 L 22 5 C 22 3.3550085 20.645025 2 19 2 L 5 2 z M 5 4 L 19 4 C 19.564175 4 20 4.4358515 20 5 L 20 19 C 20 19.564193 19.564193 20 19 20 L 5 20 C 4.4358515 20 4 19.564175 4 19 L 4 5 C 4 4.4358696 4.4358696 4 5 4 z "
-     id="path2" />
+     d="M 11.029297 6 A 1 1 0 0 0 10.292969 6.2929688 L 5.2929688 11.292969 A 1.0001 1.0001 0 0 0 5.2929688 12.707031 L 10.292969 17.707031 A 1 1 0 0 0 11.707031 17.707031 A 1 1 0 0 0 11.707031 16.292969 L 7.4140625 12 L 11.707031 7.7070312 A 1 1 0 0 0 11.707031 6.2929688 A 1 1 0 0 0 11.029297 6 z "
+     id="path933" />
   <path
      style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;stop-color:#000000;stop-opacity:1;opacity:1"
-     d="M 8 11 A 1 1 0 0 0 7 12 A 1 1 0 0 0 8 13 L 16 13 A 1 1 0 0 0 17 12 A 1 1 0 0 0 16 11 L 8 11 z "
-     id="path4" />
+     d="M 18.029297 6 A 1 1 0 0 0 17.292969 6.2929688 L 12.292969 11.292969 A 1.0001 1.0001 0 0 0 12.292969 12.707031 L 17.292969 17.707031 A 1 1 0 0 0 18.707031 17.707031 A 1 1 0 0 0 18.707031 16.292969 L 14.414062 12 L 18.707031 7.7070312 A 1 1 0 0 0 18.707031 6.2929688 A 1 1 0 0 0 18.029297 6 z "
+     id="path935" />
 </svg>

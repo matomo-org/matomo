@@ -16,7 +16,7 @@
       :title="tooltip"
     >
       <span v-html="$sanitize(this.actualMenuTitle)" />
-      <span class="icon-arrow-bottom" />
+      <span class="icon-chevron-down" />
     </span>
     <div
       class="items"

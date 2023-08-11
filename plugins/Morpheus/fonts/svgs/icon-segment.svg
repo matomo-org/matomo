@@ -8,15 +8,15 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="24"
-   height="25"
-   viewBox="0 0 24 25"
+   height="24"
+   viewBox="0 0 24 24"
    fill="none"
    version="1.1"
-   id="svg12"
-   sodipodi:docname="icon-transition.svg"
+   id="svg14"
+   sodipodi:docname="icon-segment.svg"
    inkscape:version="1.0.2 (e86c870879, 2021-01-15)">
   <metadata
-     id="metadata18">
+     id="metadata20">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
@@ -27,7 +27,7 @@
     </rdf:RDF>
   </metadata>
   <defs
-     id="defs16" />
+     id="defs18" />
   <sodipodi:namedview
      pagecolor="#ffffff"
      bordercolor="#666666"
@@ -37,35 +37,39 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1821"
-     inkscape:window-height="1051"
-     id="namedview14"
+     inkscape:window-width="1450"
+     inkscape:window-height="1000"
+     id="namedview16"
      showgrid="false"
-     inkscape:zoom="28.6"
+     inkscape:zoom="29.791667"
      inkscape:cx="12"
-     inkscape:cy="12.5"
+     inkscape:cy="12"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="0"
-     inkscape:current-layer="svg12" />
+     inkscape:current-layer="svg14" />
   <path
      style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;stop-color:#000000;stop-opacity:1;opacity:1"
-     d="M 16 2.6835938 A 1 1 0 0 0 15 3.6835938 A 1 1 0 0 0 16 4.6835938 L 20 4.6835938 L 20 8.6835938 A 1 1 0 0 0 21 9.6835938 A 1 1 0 0 0 22 8.6835938 L 22 3.6835938 A 1.0001 1.0001 0 0 0 21 2.6835938 L 16 2.6835938 z "
+     d="M 9 14 C 7.8512634 14 6.7932823 14.618655 6.078125 15.572266 C 5.3629507 16.525772 5 17.740482 5 19 L 5 21 A 1 1 0 0 0 6 22 A 1 1 0 0 0 7 21 L 7 19 C 7 18.137718 7.2676887 17.318178 7.6777344 16.771484 C 8.0877971 16.224695 8.5574366 16 9 16 L 15 16 C 15.442491 16 15.910276 16.22472 16.320312 16.771484 A 1.0001 1.0001 0 0 0 16.322266 16.771484 C 16.732316 17.318194 17 18.137736 17 19 L 17 21 A 1 1 0 0 0 18 22 A 1 1 0 0 0 19 21 L 19 19 C 19 17.740464 18.637025 16.525756 17.921875 15.572266 C 17.206712 14.61863 16.148709 14 15 14 L 9 14 z "
      id="path2" />
   <path
      style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;stop-color:#000000;stop-opacity:1;opacity:1"
-     d="M 21.029297 2.6835938 A 1 1 0 0 0 20.292969 2.9765625 L 3.2929688 19.976562 A 1 1 0 0 0 3.2929688 21.390625 A 1 1 0 0 0 4.7070312 21.390625 L 21.707031 4.390625 A 1 1 0 0 0 21.707031 2.9765625 A 1 1 0 0 0 21.029297 2.6835938 z "
+     d="M 19 13 A 1 1 0 0 0 18 14 A 1 1 0 0 0 19 15 L 20.5 15 C 20.809858 15 21.152382 15.154416 21.46875 15.576172 C 21.785001 15.997863 22 16.648627 22 17.333984 L 22 19 A 1 1 0 0 0 23 20 A 1 1 0 0 0 24 19 L 24 17.333984 C 24 16.251342 23.689708 15.205462 23.068359 14.376953 C 22.446927 13.548509 21.516142 13 20.5 13 L 19 13 z "
      id="path4" />
   <path
      style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;stop-color:#000000;stop-opacity:1;opacity:1"
-     d="M 21 15.683594 A 1 1 0 0 0 20 16.683594 L 20 20.683594 L 16 20.683594 A 1 1 0 0 0 15 21.683594 A 1 1 0 0 0 16 22.683594 L 21 22.683594 A 1.0001 1.0001 0 0 0 22 21.683594 L 22 16.683594 A 1 1 0 0 0 21 15.683594 z "
+     d="M 3.5 13 C 2.483839 13 1.5530243 13.548468 0.93164062 14.376953 C 0.31022676 15.205478 -7.4014868e-17 16.251349 0 17.333984 L 0 19 A 1 1 0 0 0 1 20 A 1 1 0 0 0 2 19 L 2 17.333984 C 2 16.648619 2.2149839 15.997847 2.53125 15.576172 C 2.8475463 15.154457 3.190081 15 3.5 15 L 5 15 A 1 1 0 0 0 6 14 A 1 1 0 0 0 5 13 L 3.5 13 z "
      id="path6" />
   <path
      style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;stop-color:#000000;stop-opacity:1;opacity:1"
-     d="M 15.029297 14.683594 A 1 1 0 0 0 14.292969 14.976562 A 1 1 0 0 0 14.292969 16.390625 L 20.292969 22.390625 A 1 1 0 0 0 21.707031 22.390625 A 1 1 0 0 0 21.707031 20.976562 L 15.707031 14.976562 A 1 1 0 0 0 15.029297 14.683594 z "
+     d="M 12 2 C 9.2504204 2 7 4.2504204 7 7 C 7 9.7495796 9.2504204 12 12 12 C 14.749549 12 17 9.7495916 17 7 C 17 4.2504084 14.749549 2 12 2 z M 12 4 C 13.668651 4 15 5.3313116 15 7 C 15 8.6686884 13.668651 10 12 10 C 10.3313 10 9 8.6687004 9 7 C 9 5.3312996 10.3313 4 12 4 z "
      id="path8" />
   <path
      style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;stop-color:#000000;stop-opacity:1;opacity:1"
-     d="M 4.0292969 3.6835938 A 1 1 0 0 0 3.2929688 3.9765625 A 1 1 0 0 0 3.2929688 5.390625 L 8.2929688 10.390625 A 1 1 0 0 0 9.7070312 10.390625 A 1 1 0 0 0 9.7070312 8.9765625 L 4.7070312 3.9765625 A 1 1 0 0 0 4.0292969 3.6835938 z "
+     d="M 18.730469 4.0917969 A 1 1 0 0 0 17.767578 4.8457031 A 1 1 0 0 0 18.492188 6.0605469 C 19.356363 6.278517 20 7.0547102 20 8 C 20 9.1163867 19.116328 10 18 10 C 17.945228 10 17.891908 9.9984566 17.837891 9.9941406 A 1 1 0 0 0 16.761719 10.910156 A 1 1 0 0 0 17.677734 11.986328 C 17.783917 11.994812 17.891372 12 18 12 C 20.197272 12 22 10.197313 22 8 C 22 6.1394698 20.718293 4.5594236 18.980469 4.1210938 A 1 1 0 0 0 18.730469 4.0917969 z "
      id="path10" />
+  <path
+     style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;stop-color:#000000;stop-opacity:1;opacity:1"
+     d="M 5.2421875 4.0917969 A 1 1 0 0 0 5.0195312 4.1210938 C 3.2817032 4.5594245 2 6.139484 2 8 C 2 10.197293 3.8026947 12 6 12 C 6.1086278 12 6.2160702 11.994818 6.3222656 11.986328 A 1 1 0 0 0 7.2382812 10.910156 A 1 1 0 0 0 6.1621094 9.9941406 C 6.1082048 9.9984503 6.0547722 10 6 10 C 4.8836053 10 4 9.1164068 4 8 C 4 7.054696 4.6436406 6.2785161 5.5078125 6.0605469 A 1 1 0 0 0 6.2324219 4.8457031 A 1 1 0 0 0 5.2421875 4.0917969 z "
+     id="path12" />
 </svg>
