@@ -342,17 +342,17 @@ class SegmentExpression
 
         $columns = self::parseColumnsFromSqlExpr($sqlExpression);
         foreach ($columns as $column) {
-            $this->checkFieldIsAvailable($column, $availableTables, $join);
+            self::checkFieldIsAvailable($column, $availableTables, $join);
         }
 
         if (!empty($join['field'])) {
-            $this->checkFieldIsAvailable($join['field'], $availableTables, $join);
+            self::checkFieldIsAvailable($join['field'], $availableTables, $join);
         }
 
         if (!empty($join['joinOn'])) {
             $joinOnColumns = self::parseColumnsFromSqlExpr($join['joinOn']);
             foreach ($joinOnColumns as $column) {
-                $this->checkFieldIsAvailable($column, $availableTables, $join);
+                self::checkFieldIsAvailable($column, $availableTables, $join);
             }
         }
 
@@ -389,7 +389,7 @@ class SegmentExpression
      * @param string $field
      * @param array $availableTables
      */
-    private function checkFieldIsAvailable($field, &$availableTables, $join)
+    public static function checkFieldIsAvailable($field, &$availableTables, $join)
     {
         $fieldParts = explode('.', $field);
 

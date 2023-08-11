@@ -235,8 +235,45 @@ class JoinGenerator
         $table = $logTable->getName();
 
         foreach ($availableLogTables as $availableLogTable) {
-            if ($logTable->getColumnToJoinOnIdVisit() && $availableLogTable->getColumnToJoinOnIdVisit()) {
+            // TODO: code redundancy here & below
+            // TODO: this change will need to be reflected in other places getWaysToJoinToOtherLogTables() is used. and should probably be put into a single place
+            $otherJoins = $logTable->getWaysToJoinToOtherLogTables();
+            foreach ($otherJoins as $joinTable => $columns) {
+                if($availableLogTable->getName() == $joinTable) {
+                    $columns = is_array($columns) ? $columns : [$columns];
 
+                    $joinParts = [];
+                    foreach ($columns as $column) {
+                        $joinParts[] = sprintf("`%s`.`%s` = `%s`.`%s`", $table, $column, $availableLogTable->getName(), $column);
+                    }
+                    $join = implode(' AND ', $joinParts);
+                    break;
+                }
+            }
+
+            if (!empty($join)) {
+                break;
+            }
+
+            $otherJoins = $availableLogTable->getWaysToJoinToOtherLogTables();
+            foreach ($otherJoins as $joinTable => $columns) {
+                if ($table == $joinTable) {
+                    $columns = is_array($columns) ? $columns : [$columns];
+
+                    $joinParts = [];
+                    foreach ($columns as $column) {
+                        $joinParts[] = sprintf("`%s`.`%s` = `%s`.`%s`", $table, $column, $availableLogTable->getName(), $column);
+                    }
+                    $join = implode(' AND ', $joinParts);
+                    break;
+                }
+            }
+
+            if (!empty($join)) {
+                break;
+            }
+
+            if ($logTable->getColumnToJoinOnIdVisit() && $availableLogTable->getColumnToJoinOnIdVisit()) {
                 $join = sprintf("%s.%s = %s.%s", $table, $logTable->getColumnToJoinOnIdVisit(),
                                                  $availableLogTable->getName(), $availableLogTable->getColumnToJoinOnIdVisit());
                 $alternativeJoin = sprintf("%s.%s = %s.%s", $availableLogTable->getName(), $availableLogTable->getColumnToJoinOnIdVisit(),
@@ -255,22 +292,6 @@ class JoinGenerator
                 }
 
                 break;
-            }
-
-            $otherJoins = $logTable->getWaysToJoinToOtherLogTables();
-            foreach ($otherJoins as $joinTable => $column) {
-                if($availableLogTable->getName() == $joinTable) {
-                    $join = sprintf("`%s`.`%s` = `%s`.`%s`", $table, $column, $availableLogTable->getName(), $column);
-                    break;
-                }
-            }
-
-            $otherJoins = $availableLogTable->getWaysToJoinToOtherLogTables();
-            foreach ($otherJoins as $joinTable => $column) {
-                if ($table == $joinTable) {
-                    $join = sprintf("`%s`.`%s` = `%s`.`%s`", $table, $column, $availableLogTable->getName(), $column);
-                    break;
-                }
             }
         }
 

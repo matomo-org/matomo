@@ -23,6 +23,7 @@ use Piwik\Metrics;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\LogTablesProvider;
 use Piwik\RankingQuery;
+use Piwik\Segment\SegmentExpression;
 use Piwik\Tracker\GoalManager;
 
 /**
@@ -472,16 +473,17 @@ class LogAggregationQuery
             $bind = array_merge($bind, $selectInfo['bind']);
         }
 
-        $from = $this->from;
+        $from = $this->getFromWithAutoJoinedTables();
 
         $where = [];
+
+        $datetimeField = $this->getDatetimeFieldForTable();
+        $where[] = $this->logAggregator->getWhereStatement($this->table, $datetimeField);
+
         foreach ($this->whereConditions as $whereInfo) {
             $where[] = $whereInfo['sql'];
             $bind = array_merge($bind, $whereInfo['bind']);
         }
-
-        $datetimeField = $this->getDatetimeFieldForTable();
-        $where[] = $this->logAggregator->getWhereStatement($this->table, $datetimeField);
 
         $groupBy = implode(', ', $this->groupBy);
 
@@ -554,5 +556,22 @@ class LogAggregationQuery
             throw new \Exception('LogAggregationQuery can only be used with tables that provide a datetime column and a \Piwik\Tracker\LogTable class to define this metadata.');
         }
         return $logTableInfo->getDateTimeColumn();
+    }
+
+    private function getFromWithAutoJoinedTables()
+    {
+        $partsToCheckForAutoJoinTables = array_merge($this->whereConditions, $this->selects);
+
+        $from = $this->from;
+
+        foreach ($partsToCheckForAutoJoinTables as $sqlPart) {
+            $sql = $sqlPart['sql'];
+            $joinOnColumns = SegmentExpression::parseColumnsFromSqlExpr($sql);
+            foreach ($joinOnColumns as $column) {
+                SegmentExpression::checkFieldIsAvailable($column, $from, null);
+            }
+        }
+
+        return $from;
     }
 }
