@@ -78,14 +78,14 @@ class LogAggregationQuery
     private $groupBy = [];
 
     /**
-     * @var string|null
+     * @var string[]
      */
-    private $orderBySelect = null;
+    private $orderBySelect = [];
 
     /**
-     * @var string|null
+     * @var string[]
      */
-    private $orderByDirection = null;
+    private $orderByDirection = [];
 
     /**
      * TODO
@@ -487,7 +487,11 @@ class LogAggregationQuery
 
         $groupBy = implode(', ', $this->groupBy);
 
-        $orderBy = !empty($this->orderBySelect) ? ($this->orderBySelect . ' ' . $this->orderByDirection) : null;
+        $orderBy = [];
+        foreach ($this->orderBySelect as $i => $orderBySelect) {
+            $orderBy[] = $orderBySelect . ' ' . $this->orderByDirection[$i];
+        }
+        $orderBy = implode(', ', $orderBy);
 
         $query = $this->logAggregator->generateQuery(
             implode(",\n ", $selects),
@@ -529,8 +533,8 @@ class LogAggregationQuery
      */
     public function orderBy(string $select, string $direction = 'desc')
     {
-        $this->orderBySelect = $select;
-        $this->orderByDirection = $direction;
+        $this->orderBySelect[] = $select;
+        $this->orderByDirection[] = $direction;
         return $this;
     }
 
