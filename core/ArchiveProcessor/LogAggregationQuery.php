@@ -95,14 +95,9 @@ class LogAggregationQuery
     private $rowProcessor;
 
     /**
-     * @var bool|number
+     * @var RankingQuery|null
      */
-    private $rankingQueryLimit = false;
-
-    /**
-     * @var array
-     */
-    private $rankingQueryAggregations = [];
+    private $rankingQuery = null;
 
     public function __construct(string $table, LogAggregator $logAggregator)
     {
@@ -394,11 +389,31 @@ class LogAggregationQuery
      * TODO
      * @return $this
      */
-    public function useRankingQuery($rankingQueryLimit, array $metricAggregations = [])
+    public function useRankingQuery($rankingQueryLimit, array $metricAggregations = []): LogAggregationQuery
     {
-        $this->rankingQueryLimit = $rankingQueryLimit;
-        $this->rankingQueryAggregations = $metricAggregations;
+        $rankingQuery = new RankingQuery($rankingQueryLimit);
+        foreach ($this->dimensions as $dimensionSelectAs) {
+            if (!array_key_exists($dimensionSelectAs, $metricAggregations)) {
+                $rankingQuery->addLabelColumn($dimensionSelectAs);
+            }
+        }
+
+        foreach ($metricAggregations as $metric => $aggregation) {
+            $rankingQuery->addColumn($metric, $aggregation);
+        }
+
+        $this->rankingQuery = $rankingQuery;
         return $this;
+    }
+
+    /**
+     * TODO
+     *
+     * @return RankingQuery|null
+     */
+    public function getRankingQuery(): ?RankingQuery
+    {
+        return $this->rankingQuery;
     }
 
     /**
@@ -446,9 +461,9 @@ class LogAggregationQuery
     /**
      * TODO
      *
-     * @return \Traversable
+     * @return \Generator
      */
-    public function execute(): \Traversable
+    public function execute(): \Generator
     {
         $query = $this->buildQuery();
 
@@ -456,6 +471,15 @@ class LogAggregationQuery
 
         $currentRowProcessor = $this->rowProcessor;
         return $currentRowProcessor($cursor);
+    }
+
+    /**
+     * @return array
+     */
+    public function fetchRow(): array
+    {
+        $cursor = $this->execute();
+        return $cursor->current();
     }
 
     /**
@@ -503,19 +527,8 @@ class LogAggregationQuery
 
         // TODO: timeLimitInMs support
 
-        if ($this->rankingQueryLimit) {
-            $rankingQuery = new RankingQuery($this->rankingQueryLimit);
-            foreach ($this->dimensions as $dimensionSelectAs) {
-                if (!array_key_exists($dimensionSelectAs, $this->rankingQueryAggregations)) {
-                    $rankingQuery->addLabelColumn($dimensionSelectAs);
-                }
-            }
-
-            foreach ($this->rankingQueryAggregations as $metric => $aggregation) {
-                $rankingQuery->addColumn($metric, $aggregation);
-            }
-
-            $query['sql'] = $rankingQuery->generateRankingQuery($query['sql']);
+        if ($this->rankingQuery) {
+            $query['sql'] = $this->rankingQuery->generateRankingQuery($query['sql']);
         }
 
         // TODO: bind only works up til where statement. adding placeholders after bind won't work.
