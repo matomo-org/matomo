@@ -42,6 +42,7 @@ class DimensionMetadataProvider
     {
         $result = array(
             'log_link_visit_action' => array('idaction_url',
+                'idaction_name'
                 'idaction_url_ref',
                 'idaction_name_ref'
             ),
