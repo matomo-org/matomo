@@ -25,7 +25,7 @@
           @click.prevent="loadCategory(category)"
         >
           <span
-            :class="`menu-icon ${category.icon ? category.icon : 'icon-arrow-right'}`"
+            :class="`menu-icon ${category.icon ? category.icon : 'icon-chevron-down'}`"
           />{{ category.name }}
           <span class="hidden">
             {{ translate('CoreHome_Menu') }}

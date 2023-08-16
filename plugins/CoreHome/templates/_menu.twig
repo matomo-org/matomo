@@ -14,7 +14,7 @@
                 {% if hasSubmenuItem %}
                     {% set subMenu %}
                         <a class="item {% if collapsible %}collapsible-header{% endif %}" tabindex="5">
-                            <span class="menu-icon {{ level2._icon|default('icon-arrow-right') }}"></span>{{ level1|translate }}
+                            <span class="menu-icon {{ level2._icon|default('icon-chevron-down') }}"></span>{{ level1|translate }}
                             <span class="hidden">
                              {{ 'CoreHome_Menu'|translate }}
                            </span>
