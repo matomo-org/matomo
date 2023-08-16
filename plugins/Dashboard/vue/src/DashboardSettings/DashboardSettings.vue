@@ -18,7 +18,7 @@
       tabindex="4"
       ref="expander"
     >
-      <span class="icon icon-arrow-bottom"></span>{{ translate('Dashboard_Dashboard') }}
+      <span class="icon icon-chevron-down"></span>{{ translate('Dashboard_Dashboard') }}
     </a>
     <div class="dropdown positionInViewport">
       <ul class="submenu">

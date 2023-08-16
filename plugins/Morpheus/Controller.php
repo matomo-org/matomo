@@ -69,6 +69,7 @@ export default defineComponent({
             ],
         ];
 
+        // Alerts
         $snippets[] = [
             'id' => 'Alert',
             'title' => 'Alerts',
@@ -96,12 +97,52 @@ export default defineComponent({
   <strong>Warning!</strong> Better <a>check</a> yourself, you\'re not looking too good.
 </Alert>
 <Alert severity="danger">
-  <strong>Error!</strong> Change <a>a few things</a> up and try submitting again.
+  <strong>Error!</strong> Change <a>a few things</a> and try submitting again.
 </Alert>',
             'components' => [
                 ['plugin' => 'CoreHome', 'component' => 'Alert'],
             ],
         ];
+
+        // Notifications
+        $snippets[] = [
+            'id' => 'Notification',
+            'title' => 'Notifications',
+            'code' => '<template>
+  %vue_embed%
+</template>       
+<script lang="ts">
+import { defineComponent } from \'vue\';
+import { Notification } from \'CoreHome\';
+
+export default defineComponent({
+  components: {
+    Notification,
+  },
+});
+</script>',
+            'vue_embed' => '<Notification context="info">
+      <strong>Info</strong>:
+      This notification needs <a>your attention</a> but it\'s not super important and has a close button.
+    </Notification>
+    <Notification context="success">
+      <strong>Success</strong>:
+      You successfully read this important <a>alert message</a>, it also has a close button.
+    </Notification>
+    <Notification context="warning" :noclear="true">
+      <strong>Warning</strong>:
+      Better <a>check</a> yourself, you\'re not looking too good. There is no close button.
+    </Notification>
+    <Notification context="error" :noclear="true">
+      <strong>Error</strong><br>
+      Change <a>a few things</a> and try submitting again, this notification does not have a close button, but it does contain multiple lines of text. Textus sine sensu ultra finem lineae pergit ante movens infra et iterum ad sinistram.
+    </Notification>',
+            'desc' => 'This is a Vue component. You can use the :noclear="true" property to hide the close button',
+            'components' => [
+                ['plugin' => 'CoreHome', 'component' => 'Notification'],
+            ],
+        ];
+
 
         // forms
         $snippets[] = [
@@ -636,16 +677,16 @@ export default defineComponent({
                 'delete',
                 'plus',
                 'minus',
-                'archive'
+                'archive',
+                'add1',
+                'remove'
             ],
             'Alerts' => [
                 'error',
                 'warning',
                 'info',
-                'info2',
                 'success',
                 'help',
-                'help-alt',
                 'ok'
             ],
             'Navigation' => [
@@ -655,7 +696,6 @@ export default defineComponent({
                 'arrow-right-2',
                 'arrow-top',
                 'arrow-bottom',
-                'arrow-collapsed',
                 'zoom-in',
                 'zoom-out',
                 'show',
@@ -676,7 +716,6 @@ export default defineComponent({
                 'fullscreen',
                 'close',
                 'maximise',
-                'newtab',
                 'refresh',
                 'reload'
             ],
@@ -685,8 +724,6 @@ export default defineComponent({
                 'table-more',
                 'chart-bar',
                 'chart-pie',
-                'chart-line',
-                'chart-line-details',
                 'evolution',
                 'funnel',
                 'form',
@@ -699,10 +736,12 @@ export default defineComponent({
                 'user',
                 'user-add',
                 'users',
-                'alien'
+                'user-personal'
             ],
             'Date-picker' => [
-                'calendar'
+                'calendar',
+                'datepicker-arr-l',
+                'datepicker-arr-r'
             ],
             'Annotations' => [
                 'annotation'
@@ -725,10 +764,18 @@ export default defineComponent({
                 'segmented-visits-log'
             ],
             'Lock' => [
-                'locked',
-                'locked-2',
-                'locked-3',
-                'locked-4'
+                'locked'
+            ],
+            'Media' => [
+                'audio',
+                'play',
+                'pause',
+                'replay',
+                'stop',
+                'fast-forward',
+                'fast-rewind',
+                'skip-next',
+                'skip-previous'
             ],
             'Other' => [
                 'configure',
@@ -744,22 +791,11 @@ export default defineComponent({
                 'business',
                 'finance',
                 'folder',
-                'folder-charts',
                 'github',
                 'open-source',
                 'puzzle',
                 'server',
-                'server-alt',
                 'tag-cloud',
-                'audio',
-                'play',
-                'pause',
-                'replay',
-                'stop',
-                'fast-forward',
-                'fast-rewind',
-                'skip-next',
-                'skip-previous',
                 'sign-in',
                 'sign-out',
                 'settings',
@@ -769,7 +805,19 @@ export default defineComponent({
                 'embed',
                 'heart',
                 'merge',
-                'content-copy'
+                'content-copy',
+                'new_releases',
+                'notifications_on',
+                'reporting-dashboard',
+                'reporting-actions',
+                'reporting-visitors',
+                'reporting-referer',
+                'admin-diagnostic',
+                'admin-platform',
+                'admin-development',
+                'admin-settings',
+
+
             ],
         ];
 

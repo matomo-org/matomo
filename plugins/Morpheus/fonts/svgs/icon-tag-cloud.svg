@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   width="24"
+   height="24"
+   viewBox="0 0 24 24"
+   fill="none"
+   version="1.1"
+   id="svg11"
+   sodipodi:docname="icon-cloud.svg">
+  <metadata
+     id="metadata15">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"     
+     id="namedview13" />
+  <path
+     style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;stop-color:#000000;stop-opacity:1;opacity:1"
+     d="M 8.3125 3.0253906 C 7.4812087 3.088503 6.6585431 3.268312 5.8691406 3.5605469 C 4.2903352 4.1450167 2.9073984 5.1608624 1.8769531 6.4921875 C 0.84650655 7.8235143 0.21097264 9.4168405 0.041015625 11.091797 C -0.12895024 12.76665 0.17402044 14.455561 0.91601562 15.966797 C 1.6580134 17.477949 2.8090757 18.750901 4.2382812 19.640625 C 5.6674722 20.53022 7.3164782 21.001237 9 21 L 18 21 C 19.590937 21 21.117299 20.367196 22.242188 19.242188 C 23.367196 18.117299 24 16.590937 24 15 C 24 13.409063 23.367196 11.882701 22.242188 10.757812 C 21.117299 9.6328036 19.590937 9 18 9 L 17.398438 9 C 16.926002 7.6791271 16.218894 6.4526128 15.197266 5.4804688 C 13.9776 4.3199749 12.457549 3.5249563 10.808594 3.1855469 C 9.9841312 3.015835 9.1437913 2.9622782 8.3125 3.0253906 z M 8.4648438 5.0195312 C 9.1113725 4.9704462 9.7649525 5.0125231 10.40625 5.1445312 C 11.688895 5.4085418 12.871578 6.0269813 13.820312 6.9296875 C 14.768962 7.8323877 15.444137 8.9820866 15.771484 10.25 A 1.0001 1.0001 0 0 0 16.740234 11 L 18 11 C 19.061263 11 20.077814 11.421484 20.828125 12.171875 C 21.578516 12.922186 22 13.938737 22 15 C 22 16.061263 21.578516 17.077814 20.828125 17.828125 C 20.077814 18.578516 19.061263 19 18 19 L 9 19 C 7.6904818 19.000963 6.4066709 18.635364 5.2949219 17.943359 C 4.1832074 17.251283 3.2880997 16.261385 2.7109375 15.085938 C 2.1337527 13.910374 1.8970927 12.595716 2.0292969 11.292969 C 2.1614999 9.9900851 2.657451 8.750417 3.4589844 7.7148438 C 4.2605191 6.6792689 5.3363785 5.890177 6.5644531 5.4355469 C 7.1784906 5.2082317 7.818315 5.0686163 8.4648438 5.0195312 z "
+     id="path2" />
+  <defs
+     id="defs9">
+    <clipPath
+       id="clip0_1336_1319">
+      <rect
+         width="24"
+         height="24"
+         fill="white"
+         id="rect6" />
+    </clipPath>
+  </defs>
+</svg>

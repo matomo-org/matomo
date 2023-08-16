@@ -22,7 +22,7 @@
             <span v-html="$sanitize(typeof item.comment !== 'string' ? '' : item.comment)"></span>
           </span>
           <span v-else-if="item.status === 'informational'">
-            <span class="icon-info2"></span>
+            <span class="icon-info"></span>
             <span v-html="$sanitize(typeof item.comment !== 'string' ? '' : item.comment)"></span>
           </span>
           <span v-else>
