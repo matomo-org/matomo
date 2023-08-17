@@ -1245,6 +1245,7 @@ Plugins[] = CustomJsTracker
 Plugins[] = Tour
 Plugins[] = PagePerformance
 Plugins[] = CustomDimensions
+Plugins[] = JsTrackerInstallCheck
 
 [PluginsInstalled]
 PluginsInstalled[] = Diagnostics
@@ -1255,6 +1256,7 @@ PluginsInstalled[] = SitesManager
 PluginsInstalled[] = Installation
 PluginsInstalled[] = Monolog
 PluginsInstalled[] = Intl
+PluginsInstalled[] = JsTrackerInstallCheck
 
 [APISettings]
 ; Any key/value pair can be added in this section, they will be available via the REST call

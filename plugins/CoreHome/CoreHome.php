@@ -156,6 +156,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/vue/src/FieldArray/FieldArray.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/Comparisons/Comparisons.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/vue-transitions.less";
+        $stylesheets[] = "plugins/CoreHome//vue/src/JsTrackerInstallCheck/JsTrackerInstallCheck.less";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -395,6 +396,11 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_YouAreCurrentlyUsing';
         $translationKeys[] = 'General_Copy';
         $translationKeys[] = 'General_CopiedToClipboard';
+        $translationKeys[] = 'CoreHome_TestInstallationDescription';
+        $translationKeys[] = 'CoreHome_TestInstallationBtnText';
+        $translationKeys[] = 'CoreHome_JsTrackingCodeInstallCheckSuccessMessage';
+        $translationKeys[] = 'CoreHome_JsTrackingCodeInstallCheckFailureMessage';
+        $translationKeys[] = 'General_Testing';
 
         // add admin menu translations
         if (SettingsPiwik::isMatomoInstalled()
