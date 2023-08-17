@@ -11,7 +11,6 @@ namespace Piwik\Plugins\JsTrackerInstallCheck;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Option;
-use Piwik\Piwik;
 use Piwik\Tracker\Request;
 use Psr\Log\LoggerInterface;
 
