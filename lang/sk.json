@@ -84,6 +84,7 @@
         "ColumnUniqueExits": "Unikátne odchody",
         "ColumnUniquePageviews": "Unikátne zobrazenia stránok",
         "ColumnUniquePageviewsDocumentation": "Počet návštev zarhnutých do stránky. Viacnásobné zobrazenie stránky počas jednej návštevy sa počíta len raz.",
+        "ColumnValuePerEntry": "Príjmy za vstup",
         "ColumnValuePerVisit": "Tržba na návštevu",
         "ColumnViewedAfterSearch": "Kliknutie vo výsledkoch vyhľadávania",
         "ColumnViewedAfterSearchDocumentation": "Počet krát koľko bola táto stránka navštívená po tom, ako návštevník spravil vyhľadávanie na Vašom webe a klikol na túto stránku vo výsledkoch vyhľadávania.",
