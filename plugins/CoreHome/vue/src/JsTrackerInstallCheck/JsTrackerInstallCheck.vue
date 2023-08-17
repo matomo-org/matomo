@@ -26,6 +26,9 @@ import ActivityIndicator from '../ActivityIndicator/ActivityIndicator.vue';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
 import SiteRef from '../SiteSelector/SiteRef';
 
+const MAX_NUM_API_CALLS = 10;
+const TIME_BETWEEN_API_CALLS = 1000;
+
 export default defineComponent({
   components: {
     ActivityIndicator,
@@ -84,14 +87,14 @@ export default defineComponent({
             if (windowRef && !windowRef.closed) {
               windowRef.close();
               // Set the timeout to the max since we've already waited too long
-              this.testTimeoutCount = 10;
+              this.testTimeoutCount = MAX_NUM_API_CALLS;
             }
-          }, 10000);
+          }, MAX_NUM_API_CALLS * TIME_BETWEEN_API_CALLS);
         }
       });
     },
     setCheckInTime() {
-      setTimeout(this.checkWhetherSuccessWasRecorded, 1000);
+      setTimeout(this.checkWhetherSuccessWasRecorded, TIME_BETWEEN_API_CALLS);
     },
     checkWhetherSuccessWasRecorded() {
       const siteRef = this.site as SiteRef;
@@ -109,7 +112,7 @@ export default defineComponent({
       ).then((response) => {
         this.isTestSuccess = response && response.isSuccess;
         // If the test isn't successful but hasn't exceeded the timeout count, wait and check again
-        if (this.checkNonce && !this.isTestSuccess && this.testTimeoutCount < 10) {
+        if (this.checkNonce && !this.isTestSuccess && this.testTimeoutCount < MAX_NUM_API_CALLS) {
           this.testTimeoutCount += 1;
           this.setCheckInTime();
           return;
