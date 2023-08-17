@@ -33,11 +33,11 @@ class DimensionMetadataProviderTest extends IntegrationTestCase
         $expectedColumns = array(
             'log_link_visit_action' => array(
                 'idaction_url',
+                'idaction_name',
                 'idaction_url_ref',
                 'idaction_name_ref',
                 'idaction_event_action',
                 'idaction_event_category',
-                'idaction_name',
                 'idaction_content_interaction',
                 'idaction_content_name',
                 'idaction_content_piece',
@@ -70,6 +70,7 @@ class DimensionMetadataProviderTest extends IntegrationTestCase
     {
         $dimensionMetadataProvider = new DimensionMetadataProvider(array(
             'log_link_visit_action' => array('idaction_url',
+                'idaction_name',
                 'idaction_event_category'
             ),
 
@@ -85,11 +86,11 @@ class DimensionMetadataProviderTest extends IntegrationTestCase
         $expectedColumns = array(
             'log_link_visit_action' => array(
                 'idaction_url',
+                'idaction_name',
                 'idaction_url_ref',
                 'idaction_name_ref',
                 'idaction_event_action',
                 'idaction_event_category',
-                'idaction_name',
                 'idaction_content_interaction',
                 'idaction_content_name',
                 'idaction_content_piece',
