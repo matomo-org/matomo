@@ -160,7 +160,7 @@ class Plugin
 
     private function hasDefinedPluginInformationInPluginClass()
     {
-        $myClassName = get_class();
+        $myClassName = Plugin::class;
         $pluginClassName = get_class($this);
 
         if ($pluginClassName == $myClassName) {
