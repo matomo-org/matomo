@@ -40,8 +40,8 @@
             <span
               class="secondary-content"
               :class='{
-                "icon-arrow-right": showCategory !== options.group,
-                "icon-arrow-bottom": showCategory === options.group
+                "icon-chevron-right": showCategory !== options.group,
+                "icon-chevron-down": showCategory === options.group
               }'
             />
           </h4>
