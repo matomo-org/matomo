@@ -78,8 +78,15 @@ export default defineComponent({
         const isSuccess = response && response.url && response.nonce;
         if (isSuccess) {
           this.checkNonce = response.nonce;
-          window.open(response.url);
+          const windowRef = window.open(response.url);
           this.setCheckInTime();
+          setTimeout(() => {
+            if (windowRef && !windowRef.closed) {
+              windowRef.close();
+              // Set the timeout to the max since we've already waited too long
+              this.testTimeoutCount = 10;
+            }
+          }, 10000);
         }
       });
     },
