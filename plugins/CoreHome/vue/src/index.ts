@@ -93,4 +93,3 @@ export {
 } from './VersionInfoHeaderMessage/VersionInfoHeaderMessage.vue';
 export { default as MobileLeftMenu } from './MobileLeftMenu/MobileLeftMenu.vue';
 export { default as scrollToAnchorInUrl } from './scrollToAnchorInUrl';
-export { default as JsTrackerInstallCheck } from './JsTrackerInstallCheck/JsTrackerInstallCheck.vue';

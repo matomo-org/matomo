@@ -1,30 +1,32 @@
 <template>
-    <li>{{ translate('CoreHome_TestInstallationDescription') }}</li>
+    <li>{{ translate('JsTrackerInstallCheck_TestInstallationDescription') }}</li>
     <div class="jsTrackerInstallCheck">
       <span
           class="btn testInstallBtn"
           v-show="!isTesting && !isTestSuccess"
           @click="initiateTrackerTest">
-        {{ translate('CoreHome_TestInstallationBtnText') }}
+        {{ translate('JsTrackerInstallCheck_TestInstallationBtnText') }}
       </span>
       <ActivityIndicator :loading="isTesting" :loadingMessage="translate('General_Testing')"/>
       <div class="system-success success-message"
            v-show="isTestSuccess">
         <span class="icon-ok"></span>
-        {{ translate('CoreHome_JsTrackingCodeInstallCheckSuccessMessage') }}
+        {{ translate('JsTrackerInstallCheck_JsTrackingCodeInstallCheckSuccessMessage') }}
       </div>
       <div class="system-errors test-error" v-show="isTestComplete && !isTestSuccess">
         <span class="icon-warning"></span>
-        {{ translate('CoreHome_JsTrackingCodeInstallCheckFailureMessage') }}
+        {{ translate('JsTrackerInstallCheck_JsTrackingCodeInstallCheckFailureMessage') }}
       </div>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import ActivityIndicator from '../ActivityIndicator/ActivityIndicator.vue';
-import AjaxHelper from '../AjaxHelper/AjaxHelper';
-import SiteRef from '../SiteSelector/SiteRef';
+import {
+  ActivityIndicator,
+  AjaxHelper,
+  SiteRef,
+} from 'CoreHome';
 
 const MAX_NUM_API_CALLS = 10;
 const TIME_BETWEEN_API_CALLS = 1000;

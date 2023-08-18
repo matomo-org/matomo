@@ -26,7 +26,23 @@ class JsTrackerInstallCheck extends \Piwik\Plugin
     {
         return [
             'Tracker.isExcludedVisit' => 'isExcludedVisit',
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
         ];
+    }
+
+    public function getClientSideTranslationKeys(&$translationKeys)
+    {
+        $translationKeys[] = 'JsTrackerInstallCheck_TestInstallationDescription';
+        $translationKeys[] = 'JsTrackerInstallCheck_TestInstallationBtnText';
+        $translationKeys[] = 'JsTrackerInstallCheck_JsTrackingCodeInstallCheckSuccessMessage';
+        $translationKeys[] = 'JsTrackerInstallCheck_JsTrackingCodeInstallCheckFailureMessage';
+        $translationKeys[] = 'General_Testing';
+    }
+
+    public function getStylesheetFiles(&$stylesheets)
+    {
+        $stylesheets[] = "plugins/JsTrackerInstallCheck/vue/src/JsTrackerInstallCheck/JsTrackerInstallCheck.less";
     }
 
     public function isExcludedVisit(&$excluded, Request $request)
