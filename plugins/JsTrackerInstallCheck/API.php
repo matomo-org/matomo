@@ -14,12 +14,7 @@
  */
 namespace Piwik\Plugins\JsTrackerInstallCheck;
 
-use Piwik\Common;
-use Piwik\Date;
-use Piwik\Option;
 use Piwik\Piwik;
-use Piwik\Plugins\SitesManager\API as SitesManagerApi;
-use Piwik\SettingsPiwik;
 
 class API extends \Piwik\Plugin\API
 {
@@ -70,25 +65,12 @@ class API extends \Piwik\Plugin\API
      * @return array containing the URL constructed using the main URL for the site and the newly created nonce as a
      * query parameter.
      * E.g ['url' => 'https://some-site.com?tracker_install_check=c3dfa1abbbab6381baca0793b8dd5d', 'nonce' => 'c3dfa1abbbab6381baca0793b8dd5d']
-     * @throws \Exception
+     * @throws \Exception If the user doesn't have the right permissions
      */
     public function initiateJsTrackerInstallTest(string $idSite): array
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        $nonceString = md5(SettingsPiwik::getSalt() . time() . Common::generateUniqId());
-        Option::set(JsTrackerInstallCheck::OPTION_NAME_PREFIX . $idSite, json_encode([
-            'nonce' => $nonceString,
-            'time' => Date::getNowTimestamp(),
-            'isSuccessful' => false
-        ]));
-
-        // Look up the site so that we can get the main URL
-        $site = SitesManagerApi::getInstance()->getSiteFromId($idSite);
-
-        $url = $site['main_url'];
-        $url .= (parse_url($url, PHP_URL_QUERY) ? '&' : '?') . JsTrackerInstallCheck::QUERY_PARAM_NAME . '=' . $nonceString;
-
-        return ['url' => $url, 'nonce' => $nonceString];
+        return $this->jsTrackerInstallCheck->initiateJsTrackerInstallTest($idSite);
     }
 }
