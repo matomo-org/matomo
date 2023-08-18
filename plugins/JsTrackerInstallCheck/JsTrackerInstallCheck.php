@@ -11,11 +11,11 @@ namespace Piwik\Plugins\JsTrackerInstallCheck;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\Log\LoggerInterface;
 use Piwik\Option;
 use Piwik\Plugins\SitesManager\API as SitesManagerApi;
 use Piwik\SettingsPiwik;
 use Piwik\Tracker\Request;
-use Psr\Log\LoggerInterface;
 
 class JsTrackerInstallCheck extends \Piwik\Plugin
 {
