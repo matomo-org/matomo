@@ -57,7 +57,7 @@ class APITest extends IntegrationTestCase
      * @dataProvider getCheckForJsTrackerInstallTestSuccessTests
      * @param bool $createNonce Indicates whether to create a nonce option row
      * @param bool $setSuccess Indicates whether to mark the nonce option as successful
-     * @param int $idSite The site to check for the nonce
+     * @param int $siteNum The site to check for the nonce
      * @param string $nonceValue If left empty, the created nonce will be used when looking up the nonce. If not, the
      * provided value will be used to look up the nonce.
      * @param bool $isSuccess Indicates whether the returned array should indicate that the nonce was successful or not
@@ -94,6 +94,60 @@ class APITest extends IntegrationTestCase
         $this->assertSame($isSuccess, $result['isSuccess'], "Expected $isSuccess for site $idSite where $nonceCreatedString, $nonceSuccessString, and $nonceProvidedString.");
     }
 
+    /**
+     * @dataProvider getJsTrackerInstallTestResultTests
+     * @param bool $createNonce Indicates whether to create a nonce option row
+     * @param bool $setSuccess Indicates whether to mark the nonce option as successful
+     * @param int $siteNum The site to check for the nonce
+     * @param bool $isSuccess Indicates whether the returned array should indicate that the nonce was successful or not
+     * @return void
+     * @throws \Exception
+     */
+    public function testGetJsTrackerInstallTestResult(bool $createNonce, bool $setSuccess, int $siteNum, bool $isSuccess)
+    {
+        $idSite = $siteNum === 1 ? $this->idSite1 : $this->idSite2;
+        $nonceCreatedString = 'nonce not created';
+        $nonceSuccessString = 'nonce not successful';
+
+        // Generate the nonce and store it in the option table
+        if ($createNonce) {
+            $this->createNonceOption($this->idSite1);
+            $nonceCreatedString = 'nonce was created';
+        }
+        // Set the option nonce to successful
+        if ($setSuccess) {
+            $this->setNonceCheckAsSuccessful($this->idSite1);
+            $nonceSuccessString = 'nonce was successful';
+        }
+
+        $result = $this->api->getJsTrackerInstallTestResult($idSite);
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('isSuccess', $result);
+        $this->assertSame($isSuccess, $result['isSuccess'], "Expected $isSuccess for site $idSite where $nonceCreatedString and $nonceSuccessString.");
+    }
+
+    public function testInitiateJsTrackerInstallTest()
+    {
+        // Should return false because the option doesn't exist yet
+        $option = $this->getOptionForSite($this->idSite1);
+        $this->assertFalse($option);
+
+        $result = $this->jsTrackerInstallCheck->initiateJsTrackerInstallTest($this->idSite1);
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('url', $result);
+        $this->assertNotEmpty($result['url']);
+        $this->assertArrayHasKey('nonce', $result);
+        $this->assertNotEmpty($result['nonce']);
+        $this->assertSame('http://piwik.net?' . JsTrackerInstallCheck::QUERY_PARAM_NAME . '=' . $result['nonce'], $result['url']);
+
+        $option = $this->getOptionForSite($this->idSite1);
+        $this->assertNotEmpty($option);
+        $decodedOption = json_decode($option, true);
+        $this->assertIsArray($decodedOption);
+        $this->assertSame($result['nonce'], $decodedOption['nonce']);
+        $this->assertFalse($decodedOption['isSuccessful']);
+    }
+
     private function getCheckForJsTrackerInstallTestSuccessTests(): array
     {
         return [
@@ -102,7 +156,23 @@ class APITest extends IntegrationTestCase
             [true, true, 1, 'abc123', false],
             [true, false, 1, '', false],
             [true, true, 1, '', true],
+            [false, false, 2, 'abc123', false],
+            [true, false, 2, 'abc123', false],
+            [true, true, 2, 'abc123', false],
+            [true, false, 2, '', false],
             [true, true, 2, '', false],
+        ];
+    }
+
+    private function getJsTrackerInstallTestResultTests(): array
+    {
+        return [
+            [false, false, 1, false],
+            [true, false, 1, false],
+            [true, true, 1, true],
+            [false, false, 2, false],
+            [true, false, 2, false],
+            [true, true, 2, false],
         ];
     }
 
@@ -113,7 +183,8 @@ class APITest extends IntegrationTestCase
         );
     }
 
-    private function createNonceOption(int $idSite): string {
+    private function createNonceOption(int $idSite): string
+    {
         $initiateResult = $this->jsTrackerInstallCheck->initiateJsTrackerInstallTest((string) $idSite);
         $this->assertIsArray($initiateResult);
         $this->assertArrayHasKey('nonce', $initiateResult);
@@ -122,7 +193,8 @@ class APITest extends IntegrationTestCase
         return $initiateResult['nonce'];
     }
 
-    private function setNonceCheckAsSuccessful(int $idSite) {
+    private function setNonceCheckAsSuccessful(int $idSite)
+    {
         $optionKey = JsTrackerInstallCheck::OPTION_NAME_PREFIX . $idSite;
         $option = Option::get($optionKey);
         $this->assertNotEmpty($option);
@@ -132,5 +204,10 @@ class APITest extends IntegrationTestCase
 
         $decodedOption['isSuccessful'] = true;
         Option::set($optionKey, json_encode($decodedOption));
+    }
+
+    private function getOptionForSite(int $idSite)
+    {
+        return Option::get(JsTrackerInstallCheck::OPTION_NAME_PREFIX . $idSite);
     }
 }
