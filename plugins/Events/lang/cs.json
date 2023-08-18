@@ -1,6 +1,5 @@
 {
     "Events": {
-        "PluginDescription": "Sledujte události a získejte reporty o aktivitě vašich návštěvníků",
         "AvgEventValue": "Průměrná hodnota události je %s",
         "AvgValue": "Průměrná hodnota",
         "AvgValueDocumentation": "Průměr všech hodnot pro tuto událost",
@@ -17,15 +16,18 @@
         "EventNamesReportDocumentation": "Tento report zobrazuje jména spojená s každou sledovanou událostí a kolikrát k nim došlo. Akce a kategorie, které byly sledovány spolu s názvem každé události, můžete zobrazit v každé podtabulce každého řádku. To, co se zobrazí, můžete upravit změnou sekundární dimenze pomocí odkazu v dolní části sestavy.",
         "EventUrl": "URL události",
         "EventUrls": "URL událostí",
-        "Events": "Události",
-        "EventsWithValue": "Události s hodnotou",
-        "EventsWithValueDocumentation": "Počet událostí s nastavenou hodnotou",
         "EventValue": "Hodnota události",
         "EventValueTooltip": "Celková hodnota události je součet %1$s hodnot událostí %2$s mezi minimem %3$s a maximem %4$s.",
+        "Events": "Události",
+        "EventsSubcategoryHelp1": "Sekce Události nabízí reporty o vlastních událostech spojených s vaším webem. Události obvykle vyžadují vlastní konfiguraci. Jakmile jsou nakonfigurovány, můžete si prohlížet reporty rozdělené podle kategorie, akce a názvu.",
+        "EventsSubcategoryHelp2": "Zjistěte více informací o sledování událostí zde.",
+        "EventsWithValue": "Události s hodnotou",
+        "EventsWithValueDocumentation": "Počet událostí s nastavenou hodnotou",
         "MaxValue": "Maximální hodnota události",
         "MaxValueDocumentation": "Maximální hodnota pro tuto událost",
         "MinValue": "Minimální hodnota události",
         "MinValueDocumentation": "Minimální hodnota pro tuto událost",
+        "PluginDescription": "Sledujte události a získejte reporty o aktivitě vašich návštěvníků.",
         "SecondaryDimension": "Sekundární dimenze je %s.",
         "SwitchToSecondaryDimension": "Přepnout na %s",
         "TopEvents": "Nejčastější události",
@@ -33,8 +35,6 @@
         "TotalEventsDocumentation": "Celkový počet událostí",
         "TotalValue": "Hodnota události",
         "TotalValueDocumentation": "Součet hodnot událostí",
-        "ViewEvents": "Zobrazit události",
-        "EventsSubcategoryHelp1": "Sekce Události nabízí reporty o vlastních událostech spojených s vaším webem. Události obvykle vyžadují vlastní konfiguraci. Jakmile jsou nakonfigurovány, můžete si prohlížet reporty rozdělené podle kategorie, akce a názvu.",
-        "EventsSubcategoryHelp2": "Zjistěte více informací o sledování událostí zde."
+        "ViewEvents": "Zobrazit události"
     }
 }

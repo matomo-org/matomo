@@ -23,6 +23,7 @@ describe("EmptySite", function () {
 
     it('should show the advanced tracking options when clicked', async function () {
         await page.evaluate(() => $('.advance-option a').click());
+        await page.waitForTimeout(250);
 
         const pageElement = await page.$('.page');
         expect(await pageElement.screenshot()).to.matchImage('showAdvancedTrackingOptions');
@@ -37,13 +38,14 @@ describe("EmptySite", function () {
 
 
     it('should show the SPA/PWA tab when clicked', async function () {
+        await page.evaluate(() => $('.no-data-screen-ul-tabs a[href="#spa"]')[0].click());
+        await page.waitForTimeout(500);
+
         await page.evaluate(function () {
           // since containerID will be random and keeps changing
           var selector = $('#spa .codeblock');
           selector.text(selector.text().replace(/container_(.*).js/g, 'container_test123.js'));
         });
-        await page.evaluate(() => $('.no-data-screen-ul-tabs a[href="#spa"]')[0].click());
-        await page.waitForTimeout(500);
 
         const pageElement = await page.$('.page');
         expect(await pageElement.screenshot()).to.matchImage('spa_pwa_page');
