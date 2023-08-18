@@ -34,7 +34,7 @@
 	</row>
 	<row>
 		<id>add_website</id>
-		<name>Add a website</name>
+		<name>Add another website</name>
 		<description>Websites management lets you add a new website and edit existing websites.</description>
 		<isCompleted>1</isCompleted>
 		<isSkipped>0</isSkipped>
