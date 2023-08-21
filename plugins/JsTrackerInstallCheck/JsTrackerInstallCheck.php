@@ -64,7 +64,8 @@ class JsTrackerInstallCheck extends \Piwik\Plugin
         $excluded = true;
         StaticContainer::get(LoggerInterface::class)->debug('Excluding visit as JS tracker install test.');
 
-        $nonceOptionString = Option::get(self::OPTION_NAME_PREFIX . $request->getIdSite());
+        $idSite = $request->getIdSite();
+        $nonceOptionString = Option::get(self::OPTION_NAME_PREFIX . $idSite);
         if (empty($nonceOptionString)) {
             return;
         }
@@ -86,7 +87,7 @@ class JsTrackerInstallCheck extends \Piwik\Plugin
 
         // Since the nonce matches and hasn't expired, update the option indicating success
         $nonceOptionArray['isSuccessful'] = true;
-        Option::set(self::OPTION_NAME_PREFIX . $request->getIdSite(), json_encode($nonceOptionArray));
+        Option::set(self::OPTION_NAME_PREFIX . $idSite, json_encode($nonceOptionArray));
     }
 
     /**

@@ -8,38 +8,106 @@
 
 namespace Piwik\Plugins\JsTrackerInstallCheck\tests\Integration;
 
+use Piwik\Date;
 use Piwik\Plugins\JsTrackerInstallCheck\JsTrackerInstallCheck;
-use Piwik\Tests\Framework\Fixture;
-use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
  * @group JsTrackerInstallCheck
  * @group Plugins
  * @group JsTrackerInstallCheckTest
  */
-class JsTrackerInstallCheckTest extends IntegrationTestCase
+class JsTrackerInstallCheckTest extends JsTrackerInstallCheckIntegrationTestCase
 {
-    /**
-     * @var JsTrackerInstallCheck
-     */
-    protected $jsTrackerInstallCheck;
-
-    /**
-     * @var int
-     */
-    private $idSite1;
-
-    /**
-     * @var int
-     */
-    private $idSite2;
-
-    public function setUp(): void
+    public function testIsExcludedVisitNoParams()
     {
-        parent::setUp();
-        $this->jsTrackerInstallCheck = new JsTrackerInstallCheck();
+        $isExcluded = false;
+        $testRequest = $this->createRequestMock(false);
+        $this->jsTrackerInstallCheck->isExcludedVisit($isExcluded, $testRequest);
+        $this->assertFalse($isExcluded);
+    }
 
-        $this->idSite1 = Fixture::createWebsite('2014-01-01 00:00:00');
-        $this->idSite2 = Fixture::createWebsite('2014-01-01 00:00:00');
+    public function testIsExcludedVisitEmptyParam()
+    {
+        $isExcluded = false;
+        $testRequest = $this->createRequestMock(true, [JsTrackerInstallCheck::QUERY_PARAM_NAME => '']);
+        $this->jsTrackerInstallCheck->isExcludedVisit($isExcluded, $testRequest);
+        $this->assertFalse($isExcluded);
+    }
+
+    public function testIsExcludedVisitNoOption()
+    {
+        $isExcluded = false;
+        $testRequest = $this->createRequestMock(true, [JsTrackerInstallCheck::QUERY_PARAM_NAME => 'abc123'], $this->idSite1);
+        $this->jsTrackerInstallCheck->isExcludedVisit($isExcluded, $testRequest);
+        $this->assertTrue($isExcluded);
+    }
+
+    public function testIsExcludedVisitWrongNonce()
+    {
+        $isExcluded = false;
+        $nonce = $this->createNonceOption($this->idSite1);
+        $testRequest = $this->createRequestMock(true, [JsTrackerInstallCheck::QUERY_PARAM_NAME => 'abc123'], $this->idSite1);
+        $this->jsTrackerInstallCheck->isExcludedVisit($isExcluded, $testRequest);
+        $this->assertTrue($isExcluded);
+        $this->assertFalse($this->isNonceForSiteSuccessFul($this->idSite1));
+    }
+
+    public function testIsExcludedVisitExpiredNonce()
+    {
+        $isExcluded = false;
+        $nonce = $this->createNonceOption($this->idSite1);
+        // Update the nonce with an expired time
+        $this->setNonceCheckTimestamp($this->idSite1, Date::getNowTimestamp() - (JsTrackerInstallCheck::MAX_NONCE_AGE_SECONDS + 5));
+        $testRequest = $this->createRequestMock(true, [JsTrackerInstallCheck::QUERY_PARAM_NAME => $nonce], $this->idSite1);
+        $this->jsTrackerInstallCheck->isExcludedVisit($isExcluded, $testRequest);
+        $this->assertTrue($isExcluded);
+        $this->assertFalse($this->isNonceForSiteSuccessFul($this->idSite1));
+    }
+
+    public function testIsExcludedVisit()
+    {
+        $isExcluded = false;
+        $nonce = $this->createNonceOption($this->idSite1);
+        $testRequest = $this->createRequestMock(true, [JsTrackerInstallCheck::QUERY_PARAM_NAME => $nonce], $this->idSite1);
+        $this->jsTrackerInstallCheck->isExcludedVisit($isExcluded, $testRequest);
+        $this->assertTrue($isExcluded);
+        $this->assertTrue($this->isNonceForSiteSuccessFul($this->idSite1));
+    }
+
+    private function createRequestMock(bool $hasParam, array $allParams = [], int $idSite = 0)
+    {
+        $mock = $this->getMockBuilder('\Piwik\Tracker\Request')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $mock
+            ->expects($this->exactly(1))
+            ->method('hasParam')
+            ->will($this->returnValue($hasParam));
+
+        // It should only proceed to get the params if it has the desired param
+        if ($hasParam) {
+            $mock
+                ->expects($this->exactly(1))
+                ->method('getParams')
+                ->will($this->returnValue($allParams));
+        } else {
+            $mock
+                ->expects($this->exactly(0))
+                ->method('getParams');
+        }
+
+        if ($idSite) {
+            $mock
+                ->expects($this->exactly(1))
+                ->method('getIdSite')
+                ->will($this->returnValue($idSite));
+        } else {
+            $mock
+                ->expects($this->exactly(0))
+                ->method('getIdSite');
+        }
+
+        return $mock;
     }
 }
