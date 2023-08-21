@@ -13,7 +13,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Log\LoggerInterface;
 use Piwik\Option;
-use Piwik\Plugins\SitesManager\API as SitesManagerApi;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Tracker\Request;
@@ -22,6 +21,7 @@ class JsTrackerInstallCheck extends \Piwik\Plugin
 {
     const QUERY_PARAM_NAME = 'tracker_install_check';
     const OPTION_NAME_PREFIX = 'JsTrackerInstallCheck_';
+    const MAX_NONCE_AGE_SECONDS = 30;
 
     public function registerEvents()
     {
@@ -80,7 +80,7 @@ class JsTrackerInstallCheck extends \Piwik\Plugin
         }
 
         // If the nonce is older 30 seconds, ignore it. This should be plenty of time because an API call creates the nonce just before opening the site
-        if (empty($nonceOptionArray['time']) || Date::getNowTimestamp() - $nonceOptionArray['time'] > 30) {
+        if (empty($nonceOptionArray['time']) || Date::getNowTimestamp() - $nonceOptionArray['time'] > self::MAX_NONCE_AGE_SECONDS) {
             return;
         }
 
@@ -130,8 +130,20 @@ class JsTrackerInstallCheck extends \Piwik\Plugin
      */
     public function initiateJsTrackerInstallTest(string $idSite): array
     {
+        // Check if a nonce already exists from the past few seconds and reuse it if possible
+        $optionName = self::OPTION_NAME_PREFIX . $idSite;
+        $nonceOptionString = Option::get($optionName);
+        if (!empty($nonceOptionString)) {
+            $nonceOptionArray = json_decode($nonceOptionString, true);
+        }
+
         $nonceString = md5(SettingsPiwik::getSalt() . time() . Common::generateUniqId());
-        Option::set(self::OPTION_NAME_PREFIX . $idSite, json_encode([
+        // If a nonce already exists, and it's less than 15 seconds under the max age, return that.
+        if (!empty($nonceOptionArray['nonce']) && !empty($nonceOptionArray['time'])
+            && Date::getNowTimestamp() - $nonceOptionArray['time'] < (self::MAX_NONCE_AGE_SECONDS - 15)) {
+            $nonceString = $nonceOptionArray['nonce'];
+        }
+        Option::set($optionName, json_encode([
             'nonce' => $nonceString,
             'time' => Date::getNowTimestamp(),
             'isSuccessful' => false
