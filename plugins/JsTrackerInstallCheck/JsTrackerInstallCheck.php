@@ -15,6 +15,7 @@ use Piwik\Log\LoggerInterface;
 use Piwik\Option;
 use Piwik\Plugins\SitesManager\API as SitesManagerApi;
 use Piwik\SettingsPiwik;
+use Piwik\Site;
 use Piwik\Tracker\Request;
 
 class JsTrackerInstallCheck extends \Piwik\Plugin
@@ -97,26 +98,26 @@ class JsTrackerInstallCheck extends \Piwik\Plugin
      * @param string $idSite
      * @param string $nonce The unique nonce used to identify the test requests. Optionally can be left empty if simply
      * wanting to check if the site has been successfully tested.
-     * @return array list of containers ['isSuccess' => true]
+     * @return bool Indicating whether the nonce check was marked as successful or not
      */
-    public function checkForJsTrackerInstallTestSuccess(string $idSite, string $nonce = ''): array
+    public function checkForJsTrackerInstallTestSuccess(string $idSite, string $nonce = ''): bool
     {
         $nonceOptionString = Option::get(self::OPTION_NAME_PREFIX . $idSite);
         if (empty($nonceOptionString)) {
-            return ['isSuccess' => false];
+            return false;
         }
 
         $nonceOptionArray = json_decode($nonceOptionString, true);
         if (empty($nonceOptionArray)) {
-            return ['isSuccess' => false];
+            return false;
         }
 
         // Check if the nonce matches the recorded nonce
         if (!empty($nonce) && (empty($nonceOptionArray['nonce']) || $nonceOptionArray['nonce'] !== $nonce)) {
-            return ['isSuccess' => false];
+            return false;
         }
 
-        return ['isSuccess' => !empty($nonceOptionArray['isSuccessful'])];
+        return !empty($nonceOptionArray['isSuccessful']);
     }
 
     /**
@@ -138,10 +139,7 @@ class JsTrackerInstallCheck extends \Piwik\Plugin
             'isSuccessful' => false
         ]));
 
-        // Look up the site so that we can get the main URL
-        $site = SitesManagerApi::getInstance()->getSiteFromId($idSite);
-
-        $url = $site['main_url'];
+        $url = Site::getMainUrlFor($idSite);
         $url .= (parse_url($url, PHP_URL_QUERY) ? '&' : '?') . self::QUERY_PARAM_NAME . '=' . $nonceString;
 
         return ['url' => $url, 'nonce' => $nonceString];

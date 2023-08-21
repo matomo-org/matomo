@@ -2859,7 +2859,7 @@ if (typeof window.Matomo !== 'object') {
 
                 // If the query parameter indicating this is a test exists, close after first request is sent
                 if (wasJsTrackingCodeInstallCheckParamProvided()) {
-                    window.close();
+                    windowAlias.close();
                 }
 
                 return success;

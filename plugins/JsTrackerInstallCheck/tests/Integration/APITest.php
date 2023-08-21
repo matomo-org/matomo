@@ -19,7 +19,6 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  * @group JsTrackerInstallCheck
  * @group Plugins
  * @group APITest
- * @group Plugins
  */
 class APITest extends IntegrationTestCase
 {
