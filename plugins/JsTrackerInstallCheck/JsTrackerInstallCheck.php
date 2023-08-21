@@ -60,9 +60,7 @@ class JsTrackerInstallCheck extends \Piwik\Plugin
         }
 
         // If the request has already been excluded, we don't want to override that
-        if (empty($excluded)) {
-            $excluded = 'excluded: testing whether JS tracker is installed';
-        }
+        $excluded = true;
         StaticContainer::get(LoggerInterface::class)->debug('Excluding visit as JS tracker install test.');
 
         $nonceOptionString = Option::get(self::OPTION_NAME_PREFIX . $request->getIdSite());
