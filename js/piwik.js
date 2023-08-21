@@ -2834,7 +2834,7 @@ if (typeof window.Matomo !== 'object') {
                     return true;
                 }
 
-                trackerInstallCheckNonce = getUrlParameter(window.location.href, 'tracker_install_check');
+                trackerInstallCheckNonce = getUrlParameter(windowAlias.location.href, 'tracker_install_check');
 
                 return trackerInstallCheckNonce && trackerInstallCheckNonce.length > 0;
             }
