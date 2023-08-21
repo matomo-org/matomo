@@ -2824,6 +2824,21 @@ if (typeof window.Matomo !== 'object') {
                     && 'function' === typeof Blob;
             }
 
+            /*
+             * Checks if the special query parameter was included in the current URL indicating this
+             * is supposed to be a tracking code install test.
+             */
+            function wasJsTrackingCodeInstallCheckParamProvided()
+            {
+                if (trackerInstallCheckNonce && trackerInstallCheckNonce.length > 0) {
+                    return true;
+                }
+
+                trackerInstallCheckNonce = getUrlParameter(window.location.href, 'tracker_install_check');
+
+                return trackerInstallCheckNonce && trackerInstallCheckNonce.length > 0;
+            }
+
             function sendPostRequestViaSendBeacon(request, callback, fallbackToGet)
             {
                 var isSupported = supportsSendBeacon();
@@ -2858,7 +2873,7 @@ if (typeof window.Matomo !== 'object') {
                 }
 
                 // If the query parameter indicating this is a test exists, close after first request is sent
-                if (wasJsTrackingCodeInstallCheckParamProvided()) {
+                if (wasJsTrackingCodeInstallCheckParamProvided() && isObject(windowAlias)) {
                     windowAlias.close();
                 }
 
@@ -5002,21 +5017,6 @@ if (typeof window.Matomo !== 'object') {
                     }
 
                 });
-            }
-
-            /*
-             * Checks if the special query parameter was included in the current URL indicating this
-             * is supposed to be a tracking code install test.
-             */
-            function wasJsTrackingCodeInstallCheckParamProvided()
-            {
-                if (trackerInstallCheckNonce && trackerInstallCheckNonce.length > 0) {
-                    return true;
-                }
-
-                trackerInstallCheckNonce = getUrlParameter(window.location.href, 'tracker_install_check');
-
-                return trackerInstallCheckNonce && trackerInstallCheckNonce.length > 0;
             }
 
             /*<DEBUG>*/
