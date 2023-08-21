@@ -28,29 +28,16 @@ class API extends \Piwik\Plugin\API
      * Check whether a test request has been recorded for the provided nonce
      *
      * @param int $idSite
-     * @param string $nonce
+     * @param string $nonce Optional nonce string. If provided, it validates whether the success response matches the
+     * provided nonce. If omitted, it simply returns the most recent result for the provided site.
      * @return array list of containers ['isSuccess' => true]
      * @throws \Exception If the user doesn't have the right permissions
      */
-    public function checkForJsTrackerInstallTestSuccess(int $idSite, string $nonce): array
+    public function wasJsTrackerInstallTestSuccessful(int $idSite, string $nonce = ''): array
     {
         Piwik::checkUserHasViewAccess($idSite);
 
         return ['isSuccess' => $this->jsTrackerInstallCheck->checkForJsTrackerInstallTestSuccess($idSite, $nonce)];
-    }
-
-    /**
-     * Check whether a test request has been recorded for the provided site
-     *
-     * @param int $idSite
-     * @return array list of containers ['isSuccess' => true]
-     * @throws \Exception If the user doesn't have the right permissions
-     */
-    public function getJsTrackerInstallTestResult(int $idSite): array
-    {
-        Piwik::checkUserHasViewAccess($idSite);
-
-        return ['isSuccess' => $this->jsTrackerInstallCheck->checkForJsTrackerInstallTestSuccess($idSite)];
     }
 
     /**

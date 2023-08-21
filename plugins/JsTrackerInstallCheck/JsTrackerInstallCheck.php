@@ -123,13 +123,14 @@ class JsTrackerInstallCheck extends \Piwik\Plugin
      * Initiate a test whether the JS tracking code has been successfully installed for a site. It generates a nonce and
      * stores it in the option table so that it can be accessed later during the Tracker.isExcludedVisit event.
      *
-     * @param string $idSite
+     * @param int $idSite
+     * @param string $url Optional URL to append the nonce to. If not provided, it uses the main URL of the site
      * @return array containing the URL constructed using the main URL for the site and the newly created nonce as a
      * query parameter.
      * E.g ['url' => 'https://some-site.com?tracker_install_check=c3dfa1abbbab6381baca0793b8dd5d', 'nonce' => 'c3dfa1abbbab6381baca0793b8dd5d']
      * @throws \Exception
      */
-    public function initiateJsTrackerInstallTest(string $idSite): array
+    public function initiateJsTrackerInstallTest(int $idSite, string $url = ''): array
     {
         // Check if a nonce already exists from the past few seconds and reuse it if possible
         $optionName = self::OPTION_NAME_PREFIX . $idSite;
@@ -150,7 +151,10 @@ class JsTrackerInstallCheck extends \Piwik\Plugin
             'isSuccessful' => false
         ]));
 
-        $url = Site::getMainUrlFor($idSite);
+        // If the URL wasn't provided or isn't a valid URL, use the main URL configured for the site
+        if (empty($url) || !filter_var($url, FILTER_VALIDATE_URL)) {
+            $url = Site::getMainUrlFor($idSite);
+        }
         $url .= (parse_url($url, PHP_URL_QUERY) ? '&' : '?') . self::QUERY_PARAM_NAME . '=' . $nonceString;
 
         return ['url' => $url, 'nonce' => $nonceString];
