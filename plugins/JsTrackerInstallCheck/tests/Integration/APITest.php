@@ -192,7 +192,7 @@ class APITest extends IntegrationTestCase
         return $initiateResult['nonce'];
     }
 
-    private function setNonceCheckAsSuccessful(int $idSite)
+    private function setNonceCheckAsSuccessful(int $idSite): void
     {
         $optionKey = JsTrackerInstallCheck::OPTION_NAME_PREFIX . $idSite;
         $option = Option::get($optionKey);
