@@ -1,7 +1,7 @@
 {
     "JsTrackerInstallCheck": {
         "PluginDescription": "Validate whether the tracking code has been installed on your site and that it can send tracking requests back to your Matomo instance",
-        "TestInstallationDescription": "Click the button below to test the tracking code installation. A new tab will open, and should close within 10 seconds.",
+        "TestInstallationDescription": "Click the button below to test the tracking code installation. A new tab might open, and should close within 10 seconds.",
         "TestInstallationBtnText": "Test installation",
         "JsTrackingCodeInstallCheckSuccessMessage": "The tracking code is installed successfully! This screen will disappear as soon as some data is tracked for your website.",
         "JsTrackingCodeInstallCheckFailureMessage": "Tracking code verification failed. Please verify that you have installed the code correctly."
