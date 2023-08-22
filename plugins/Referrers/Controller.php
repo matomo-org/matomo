@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Referrers;
 
 use Piwik\Common;
+use Piwik\DataTable;
 use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
@@ -87,19 +88,58 @@ class Controller extends \Piwik\Plugin\Controller
             if ($typeReferrer === false) {
                 $typeReferrer = Common::getRequestVar('typeReferrer', Common::REFERRER_TYPE_DIRECT_ENTRY);
             }
-            $label = self::getTranslatedReferrerTypeLabel($typeReferrer);
-            $total = $this->translator->translate('General_Total');
 
             if (!empty($view->config->rows_to_display)) {
                 $visibleRows = $view->config->rows_to_display;
             } else {
-                $visibleRows = array($label, $total);
+                $visibleRows = array($typeReferrer, 'total');
             }
 
-            $view->requestConfig->request_parameters_to_modify['rows'] = $label . ',' . $total;
+            $view->requestConfig->request_parameters_to_modify['rows'] = $typeReferrer . ',total';
         }
-        $view->config->row_picker_match_rows_by = 'label';
-        $view->config->rows_to_display = $visibleRows;
+
+        // We need to configure a custom set of selectable rows
+        // by default this would be generated using the label, but as the label is different in each language we use the
+        // referrer_type metadata for identification instead. This is the same across languages.
+        $view->config->filters[] = function ($dataTable) use ($view, $visibleRows) {
+            /** @var DataTable $dataTable */
+
+            foreach ($dataTable->getRows() as $row) {
+                $rowLabel = $row->getColumn('label');
+                $rowType = (string) $row->getMetadata('referrer_type'); // needs to be a string for comparison in javascript
+
+                if (false === $rowLabel) {
+                    continue;
+                }
+
+                // build config
+                if (!isset($view->selectableRows[$rowLabel])) {
+                    $view->selectableRows[$rowType] = [
+                        'label'     => $rowLabel,
+                        'matcher'   => $rowType,
+                        'displayed' => in_array($rowType, $visibleRows)
+                    ];
+                }
+            }
+
+            $view->selectableRows['total'] = [
+                'label'     => Piwik::translate('General_Total'),
+                'matcher'   => 'total',
+                'displayed' => in_array('total', $visibleRows)
+            ];
+        };
+
+        $translatedRows = array_map(function($row) {
+            if (is_numeric($row)) {
+                return self::getTranslatedReferrerTypeLabel($row);
+            } else if ($row === 'total') {
+                return Piwik::translate('General_Total');
+            }
+            return $row;
+        }, $visibleRows);
+
+        $view->config->row_picker_match_rows_by = false;
+        $view->config->rows_to_display = $translatedRows;
 
         $view->config->documentation = $this->translator->translate('Referrers_EvolutionDocumentation') . '<br />'
             . $this->translator->translate('General_BrokenDownReportDocumentation') . '<br />'
