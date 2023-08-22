@@ -45,9 +45,6 @@ async function main() {
         ui: 'bdd',
         bail: false,
         reporter: 'node_modules/@testomatio/reporter/lib/adapter/mocha',
-        reporterOptions: {
-            apiKey: 'your-testomatio-api-key',
-        },
         useColors: true,
         timeout: options.timeout || 240000,
     });
