@@ -39,7 +39,7 @@
     addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies, setCookieConsentGiven,
     areCookiesEnabled, getRememberedCookieConsent, rememberCookieConsentGiven, forgetCookieConsentGiven, requireCookieConsent,
     cookie, domain, readyState, documentElement, doScroll, title, text, contentWindow, postMessage,
-    location, top, onerror, document, referrer, parent, links, href, protocol, name,
+    location, top, onerror, document, referrer, parent, links, href, protocol, name, close,
     performance, mozPerformance, msPerformance, webkitPerformance, timing, getEntriesByType, connectEnd, requestStart,
     responseStart, responseEnd, fetchStart, domInteractive, domLoading, domComplete, loadEventStart, loadEventEnd,
     event, which, button, srcElement, type, target, data,
