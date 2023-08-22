@@ -139,7 +139,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/JsTrackerInstallCheck/vue/src/JsTrackerInstallCheck/JsTrackerInstallCheck.vue?vue&type=template&id=ac2f57fc
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/JsTrackerInstallCheck/vue/src/JsTrackerInstallCheck/JsTrackerInstallCheck.vue?vue&type=template&id=23c24cd0
 
 var _hoisted_1 = {
   class: "jsTrackerInstallCheck"
@@ -173,7 +173,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     loadingMessage: _ctx.translate('General_Testing')
   }, null, 8, ["loading", "loadingMessage"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_2, [_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('JsTrackerInstallCheck_JsTrackingCodeInstallCheckSuccessMessage')), 1)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.isTestSuccess]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_4, [_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('JsTrackerInstallCheck_JsTrackingCodeInstallCheckFailureMessage')), 1)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.isTestComplete && !_ctx.isTestSuccess]])])], 64);
 }
-// CONCATENATED MODULE: ./plugins/JsTrackerInstallCheck/vue/src/JsTrackerInstallCheck/JsTrackerInstallCheck.vue?vue&type=template&id=ac2f57fc
+// CONCATENATED MODULE: ./plugins/JsTrackerInstallCheck/vue/src/JsTrackerInstallCheck/JsTrackerInstallCheck.vue?vue&type=template&id=23c24cd0
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -258,10 +258,9 @@ var TIME_BETWEEN_API_CALLS = 1000;
       var _this2 = this;
 
       var siteRef = this.site;
-      var methodName = this.checkNonce ? 'checkForJsTrackerInstallTestSuccess' : 'getJsTrackerInstallTestResult';
       var postParams = {
         idSite: siteRef.id,
-        nonce: this.checkNonce
+        nonce: ''
       };
 
       if (this.checkNonce) {
@@ -270,7 +269,7 @@ var TIME_BETWEEN_API_CALLS = 1000;
 
       external_CoreHome_["AjaxHelper"].post({
         module: 'API',
-        method: "JsTrackerInstallCheck.".concat(methodName)
+        method: 'JsTrackerInstallCheck.wasJsTrackerInstallTestSuccessful'
       }, postParams).then(function (response) {
         _this2.isTestSuccess = response && response.isSuccess; // If the test isn't successful but hasn't exceeded the timeout count, wait and check again
 

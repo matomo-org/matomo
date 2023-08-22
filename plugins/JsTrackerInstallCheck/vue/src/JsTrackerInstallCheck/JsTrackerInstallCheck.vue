@@ -100,15 +100,14 @@ export default defineComponent({
     },
     checkWhetherSuccessWasRecorded() {
       const siteRef = this.site as SiteRef;
-      const methodName = this.checkNonce ? 'checkForJsTrackerInstallTestSuccess' : 'getJsTrackerInstallTestResult';
-      const postParams = { idSite: siteRef.id, nonce: this.checkNonce };
+      const postParams = { idSite: siteRef.id, nonce: '' };
       if (this.checkNonce) {
         postParams.nonce = this.checkNonce;
       }
       AjaxHelper.post(
         {
           module: 'API',
-          method: `JsTrackerInstallCheck.${methodName}`,
+          method: 'JsTrackerInstallCheck.wasJsTrackerInstallTestSuccessful',
         },
         postParams,
       ).then((response) => {
