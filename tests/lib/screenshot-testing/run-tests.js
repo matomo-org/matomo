@@ -43,8 +43,11 @@ async function main() {
 
     mocha = new Mocha({
         ui: 'bdd',
-        reporter: config.reporter,
         bail: false,
+        reporter: 'node_modules/@testomatio/reporter/lib/adapter/mocha',
+        reporterOptions: {
+            apiKey: 'your-testomatio-api-key',
+        },
         useColors: true,
         timeout: options.timeout || 240000,
     });
