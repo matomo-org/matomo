@@ -75,6 +75,9 @@ class Controller extends \Piwik\Plugin\Controller
         $view->config->selectable_columns = $selectable;
 
         // configure displayed rows
+        $view->config->row_picker_match_rows_by = 'label';
+        $view->config->row_picker_identify_rows_by = 'referrer_type';
+
         $visibleRows = Common::getRequestVar('rows', false);
         if ($visibleRows !== false) {
             // this happens when the row picker has been used
@@ -92,24 +95,13 @@ class Controller extends \Piwik\Plugin\Controller
             if (!empty($view->config->rows_to_display)) {
                 $visibleRows = $view->config->rows_to_display;
             } else {
-                $visibleRows = array($typeReferrer, 'total');
+                $visibleRows = [$typeReferrer, 'total'];
             }
 
             $view->requestConfig->request_parameters_to_modify['rows'] = $typeReferrer . ',total';
         }
 
-        $translatedRows = array_map(function($row) {
-            if (is_numeric($row)) {
-                return self::getTranslatedReferrerTypeLabel($row);
-            } else if ($row === 'total') {
-                return Piwik::translate('General_Total');
-            }
-            return $row;
-        }, $visibleRows);
-
-        $view->config->row_picker_match_rows_by = 'label';
-        $view->config->row_picker_identify_rows_by = 'referrer_type';
-        $view->config->rows_to_display = $translatedRows;
+        $view->config->rows_to_display = $visibleRows;
 
         $view->config->documentation = $this->translator->translate('Referrers_EvolutionDocumentation') . '<br />'
             . $this->translator->translate('General_BrokenDownReportDocumentation') . '<br />'
