@@ -98,37 +98,6 @@ class Controller extends \Piwik\Plugin\Controller
             $view->requestConfig->request_parameters_to_modify['rows'] = $typeReferrer . ',total';
         }
 
-        // We need to configure a custom set of selectable rows
-        // by default this would be generated using the label, but as the label is different in each language we use the
-        // referrer_type metadata for identification instead. This is the same across languages.
-        $view->config->filters[] = function ($dataTable) use ($view, $visibleRows) {
-            /** @var DataTable $dataTable */
-
-            foreach ($dataTable->getRows() as $row) {
-                $rowLabel = $row->getColumn('label');
-                $rowType = (string) $row->getMetadata('referrer_type'); // needs to be a string for comparison in javascript
-
-                if (false === $rowLabel) {
-                    continue;
-                }
-
-                // build config
-                if (!isset($view->selectableRows[$rowLabel])) {
-                    $view->selectableRows[$rowType] = [
-                        'label'     => $rowLabel,
-                        'matcher'   => $rowType,
-                        'displayed' => in_array($rowType, $visibleRows)
-                    ];
-                }
-            }
-
-            $view->selectableRows['total'] = [
-                'label'     => Piwik::translate('General_Total'),
-                'matcher'   => 'total',
-                'displayed' => in_array('total', $visibleRows)
-            ];
-        };
-
         $translatedRows = array_map(function($row) {
             if (is_numeric($row)) {
                 return self::getTranslatedReferrerTypeLabel($row);
@@ -138,7 +107,8 @@ class Controller extends \Piwik\Plugin\Controller
             return $row;
         }, $visibleRows);
 
-        $view->config->row_picker_match_rows_by = false;
+        $view->config->row_picker_match_rows_by = 'label';
+        $view->config->row_picker_identify_rows_by = 'referrer_type';
         $view->config->rows_to_display = $translatedRows;
 
         $view->config->documentation = $this->translator->translate('Referrers_EvolutionDocumentation') . '<br />'

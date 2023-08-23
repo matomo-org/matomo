@@ -105,32 +105,45 @@ abstract class Graph extends Visualization
         $self = $this;
 
         $this->dataTable->filter(function ($dataTable) use ($self) {
+
+            $identifier = $self->config->row_picker_match_rows_by;
+
+            if ($this->config->row_picker_identify_rows_by !== false) {
+                $identifier = $self->config->row_picker_identify_rows_by;
+            }
+
             /** @var DataTable $dataTable */
-
             foreach ($dataTable->getRows() as $row) {
-                $rowLabel = $row->getColumn('label');
+                $rowLabel = $row->getColumn($this->config->row_picker_match_rows_by);
+                $rowIdentifier = $row->hasColumn($identifier) ? $row->getColumn($identifier) : $row->getMetadata($identifier);
 
-                if (false === $rowLabel) {
+                if (false === $rowLabel || false === $rowIdentifier) {
                     continue;
                 }
 
+                $rowIdentifier = (string) $rowIdentifier; // ensure we always have the same type
+
                 // build config
-                if (!isset($self->selectableRows[$rowLabel])) {
-                    $self->selectableRows[$rowLabel] = array(
+                if (!isset($self->selectableRows[$rowIdentifier])) {
+                    $self->selectableRows[$rowIdentifier] = [
                         'label'     => $rowLabel,
-                        'matcher'   => $rowLabel,
-                        'displayed' => $self->isRowVisible($rowLabel)
-                    );
+                        'matcher'   => $rowIdentifier,
+                        'displayed' => $self->isRowVisible($rowLabel, $rowIdentifier)
+                    ];
                 }
             }
         });
     }
 
-    public function isRowVisible($rowLabel)
+    public function isRowVisible($rowLabel, $rowIdentifier)
     {
         $isVisible = true;
-        if ('label' == $this->config->row_picker_match_rows_by) {
-            $isVisible = in_array($rowLabel, $this->config->rows_to_display === false ? [] : $this->config->rows_to_display);
+        if (false !== $this->config->row_picker_match_rows_by) {
+            $isVisible = is_array($this->config->rows_to_display) && in_array($rowLabel, $this->config->rows_to_display);
+        }
+
+        if (false !== $this->config->row_picker_identify_rows_by) {
+            $isVisible = $isVisible || (is_array($this->config->rows_to_display) && in_array($rowIdentifier, $this->config->rows_to_display));
         }
 
         return $isVisible;
@@ -162,10 +175,10 @@ abstract class Graph extends Visualization
     {
         if ($this->config->add_total_row) {
             $totalTranslation = Piwik::translate('General_Total');
-            $this->config->selectable_rows[] = array(
+            $this->selectableRows['total'] = array(
                 'label'     => $totalTranslation,
-                'matcher'   => $totalTranslation,
-                'displayed' => $this->isRowVisible($totalTranslation)
+                'matcher'   => 'total',
+                'displayed' => $this->isRowVisible($totalTranslation, 'total')
             );
         }
 
