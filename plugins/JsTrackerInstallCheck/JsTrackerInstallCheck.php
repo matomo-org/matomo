@@ -39,6 +39,7 @@ class JsTrackerInstallCheck extends \Piwik\Plugin
         $translationKeys[] = 'JsTrackerInstallCheck_JsTrackingCodeInstallCheckSuccessMessage';
         $translationKeys[] = 'JsTrackerInstallCheck_JsTrackingCodeInstallCheckFailureMessage';
         $translationKeys[] = 'General_Testing';
+        $translationKeys[] = 'JsTrackerInstallCheck_JsTrackingCodeInstallCheckFailureMessageWordpress';
     }
 
     public function getStylesheetFiles(&$stylesheets)

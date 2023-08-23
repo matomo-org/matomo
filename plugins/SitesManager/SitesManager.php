@@ -556,6 +556,7 @@ class SitesManager extends \Piwik\Plugin
         }
         $view->authLink = $authLink;
         $view->faqLink = $faqLink;
+        $view->site = ['id' => $idSite, 'name' => ''];
         $out = $view->render();
     }
 }

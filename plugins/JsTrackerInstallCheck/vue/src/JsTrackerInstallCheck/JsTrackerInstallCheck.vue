@@ -14,8 +14,8 @@
         {{ translate('JsTrackerInstallCheck_JsTrackingCodeInstallCheckSuccessMessage') }}
       </div>
       <div class="system-errors test-error" v-show="isTestComplete && !isTestSuccess">
-        <span class="icon-warning"></span>
-        {{ translate('JsTrackerInstallCheck_JsTrackingCodeInstallCheckFailureMessage') }}
+        <span class="icon-warning"></span>&nbsp;
+        <span v-html="$sanitize(getTestFailureMessage)"></span>
       </div>
     </div>
 </template>
@@ -25,7 +25,7 @@ import { defineComponent } from 'vue';
 import {
   ActivityIndicator,
   AjaxHelper,
-  SiteRef,
+  SiteRef, translate,
 } from 'CoreHome';
 
 const MAX_NUM_API_CALLS = 10;
@@ -48,6 +48,11 @@ export default defineComponent({
     site: {
       type: Object,
       required: true,
+    },
+    isWordpress: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
   created() {
@@ -121,6 +126,16 @@ export default defineComponent({
         this.isTestComplete = !!this.checkNonce;
         this.isTesting = false;
       });
+    },
+  },
+  computed: {
+    getTestFailureMessage() {
+      if (!this.isWordpress) {
+        return translate('JsTrackerInstallCheck_JsTrackingCodeInstallCheckFailureMessage');
+      }
+
+      return translate('JsTrackerInstallCheck_JsTrackingCodeInstallCheckFailureMessageWordpress',
+        '<a target="_blank" rel="noreferrer noopener" href="https://wordpress.org/plugins/wp-piwik/">WP-Matomo Integration (WP-Piwik)</a>');
     },
   },
 });
