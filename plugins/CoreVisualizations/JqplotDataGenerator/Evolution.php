@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,6 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 
 use Piwik\Archive\DataTableFactory;
@@ -66,7 +68,7 @@ class Evolution extends JqplotDataGenerator
         // if rows to display are not specified, default to all rows (TODO: perhaps this should be done elsewhere?)
         $rowsToDisplay = $this->properties['rows_to_display']
             ? : array_unique($dataTable->getColumn('label'))
-                ? : array(false) // make sure that a series is plotted even if there is no data
+                ? : [false] // make sure that a series is plotted even if there is no data
         ;
 
         $columnsToDisplay = array_values($this->properties['columns_to_display']);

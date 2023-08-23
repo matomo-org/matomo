@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,10 +7,10 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\Referrers;
 
 use Piwik\Common;
-use Piwik\DataTable;
 use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
@@ -41,7 +42,7 @@ class Controller extends \Piwik\Plugin\Controller
         return FrontController::getInstance()->fetchDispatch('Referrers', 'get');
     }
 
-    public function getEvolutionGraph($typeReferrer = false, array $columns = array(), array $defaultColumns = array())
+    public function getEvolutionGraph($typeReferrer = false, array $columns = [], array $defaultColumns = [])
     {
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Referrers.getReferrerType');
 
