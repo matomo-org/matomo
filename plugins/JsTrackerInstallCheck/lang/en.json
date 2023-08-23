@@ -5,6 +5,6 @@
         "TestInstallationBtnText": "Test installation",
         "JsTrackingCodeInstallCheckSuccessMessage": "The tracking code is installed successfully! This screen will disappear as soon as some data is tracked for your website.",
         "JsTrackingCodeInstallCheckFailureMessage": "Tracking code verification failed. Please verify that you have installed the code correctly.",
-        "JsTrackingCodeInstallCheckFailureMessageWordpress": "Tracking code verification failed. Please verify that you have the \"%1$s\" plugin or JavaScript code installed."
+        "JsTrackingCodeInstallCheckFailureMessageWordpress": "Tracking code verification failed. Please verify that you have installed the \"%1$s\" plugin and followed all steps."
     }
 }
