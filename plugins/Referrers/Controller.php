@@ -14,6 +14,7 @@ use Piwik\Common;
 use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
+use Piwik\Request;
 use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
 
@@ -76,8 +77,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->config->selectable_columns = $selectable;
 
         // configure displayed rows
-        $view->config->row_picker_match_rows_by = 'label';
-        $view->config->row_picker_identify_rows_by = 'referrer_type';
+        $view->config->row_picker_match_rows_by = 'referrer_type';
 
         $visibleRows = Common::getRequestVar('rows', false);
         if ($visibleRows !== false) {
@@ -90,13 +90,13 @@ class Controller extends \Piwik\Plugin\Controller
         } else {
             // use $typeReferrer as default
             if ($typeReferrer === false) {
-                $typeReferrer = Common::getRequestVar('typeReferrer', Common::REFERRER_TYPE_DIRECT_ENTRY);
+                $typeReferrer = Request::fromRequest()->getIntegerParameter('typeReferrer', Common::REFERRER_TYPE_DIRECT_ENTRY);
             }
 
             if (!empty($view->config->rows_to_display)) {
                 $visibleRows = $view->config->rows_to_display;
             } else {
-                $visibleRows = [$typeReferrer, 'total'];
+                $visibleRows = [(string) $typeReferrer, 'total'];
             }
 
             $view->requestConfig->request_parameters_to_modify['rows'] = $typeReferrer . ',total';

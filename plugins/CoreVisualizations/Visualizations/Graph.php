@@ -108,13 +108,9 @@ abstract class Graph extends Visualization
 
             $identifier = $self->config->row_picker_match_rows_by;
 
-            if ($this->config->row_picker_identify_rows_by !== false) {
-                $identifier = $self->config->row_picker_identify_rows_by;
-            }
-
             /** @var DataTable $dataTable */
             foreach ($dataTable->getRows() as $row) {
-                $rowLabel = $row->getColumn($this->config->row_picker_match_rows_by);
+                $rowLabel = $row->getColumn('label');
                 $rowIdentifier = $row->hasColumn($identifier) ? $row->getColumn($identifier) : $row->getMetadata($identifier);
 
                 if (false === $rowLabel || false === $rowIdentifier) {
@@ -137,16 +133,12 @@ abstract class Graph extends Visualization
 
     public function isRowVisible($rowLabel, $rowIdentifier): bool
     {
-        $isVisible = true;
         if (false !== $this->config->row_picker_match_rows_by) {
-            $isVisible = is_array($this->config->rows_to_display) && in_array($rowLabel, $this->config->rows_to_display);
+            return is_array($this->config->rows_to_display) &&
+                (in_array($rowLabel, $this->config->rows_to_display) || in_array($rowIdentifier, $this->config->rows_to_display));
         }
 
-        if (false !== $this->config->row_picker_identify_rows_by) {
-            $isVisible = $isVisible || (is_array($this->config->rows_to_display) && in_array($rowIdentifier, $this->config->rows_to_display));
-        }
-
-        return $isVisible;
+        return true;
     }
 
     /**
