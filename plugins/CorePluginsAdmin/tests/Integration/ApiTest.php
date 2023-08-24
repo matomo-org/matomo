@@ -49,10 +49,6 @@ class ApiTest extends IntegrationTestCase
 
     public function test_setSystemSettings_throwsIfNoPasswordConfirmation()
     {
-        if (version_compare(Version::VERSION, '4.4.0-b1', '<')) {
-            $this->markTestSkipped('Skipping test since passwordConfirmation is optional until version 4.4.');
-        }
-
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('UsersManager_ConfirmWithPassword');
 
@@ -62,10 +58,6 @@ class ApiTest extends IntegrationTestCase
 
     public function test_setSystemSettings_throwsIfPasswordConfirmationWrong()
     {
-        if (version_compare(Version::VERSION, '4.4.0-b1', '<')) {
-            $this->markTestSkipped('Skipping test since passwordConfirmation is optional until version 4.4.');
-        }
-
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('UsersManager_CurrentPasswordNotCorrect');
 
