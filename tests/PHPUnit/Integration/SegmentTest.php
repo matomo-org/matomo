@@ -791,8 +791,6 @@ class SegmentTest extends IntegrationTestCase
 
     private function assertQueryDoesNotFail($query)
     {
-        self::expectNotToPerformAssertions();
-
         Db::fetchAll($query['sql'], $query['bind']);
     }
 
