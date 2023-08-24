@@ -8,6 +8,7 @@
 namespace Piwik\Plugins\JsTrackerInstallCheck;
 
 use Piwik\Piwik;
+use Piwik\Site;
 
 /**
  * @internal
@@ -25,19 +26,25 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Check whether a test request has been recorded for the provided nonce
+     * Check whether a test request has been recorded for the provided nonce. If not request has been recorded or the
+     * nonce isn't found, return false. This also returns the main URL for the specified site so that we can auto-
+     * populate an input with it.
      *
      * @param int $idSite
      * @param string $nonce Optional nonce string. If provided, it validates whether the success response matches the
      * provided nonce. If omitted, it simply returns the most recent result for the provided site.
-     * @return array list of containers ['isSuccess' => true]
+     * @return array Indicates whether the check was successful and provides the main URL for the specified site.
+     * E.g. ['isSuccess' => true, 'mainUrl' => 'https://some-test-site.com']
      * @throws \Exception If the user doesn't have the right permissions
      */
     public function wasJsTrackerInstallTestSuccessful(int $idSite, string $nonce = ''): array
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        return ['isSuccess' => $this->jsTrackerInstallCheck->checkForJsTrackerInstallTestSuccess($idSite, $nonce)];
+        return [
+            'isSuccess' => $this->jsTrackerInstallCheck->checkForJsTrackerInstallTestSuccess($idSite, $nonce),
+            'mainUrl' => Site::getMainUrlFor($idSite),
+        ];
     }
 
     /**
@@ -45,15 +52,16 @@ class API extends \Piwik\Plugin\API
      * stores it in the option table so that it can be accessed later during the Tracker.isExcludedVisit event.
      *
      * @param int $idSite
+     * @param string $url Optional URL to append the nonce to. If not provided, it uses the main URL of the site
      * @return array containing the URL constructed using the main URL for the site and the newly created nonce as a
      * query parameter.
-     * E.g ['url' => 'https://some-site.com?tracker_install_check=c3dfa1abbbab6381baca0793b8dd5d', 'nonce' => 'c3dfa1abbbab6381baca0793b8dd5d']
+     * E.g. ['url' => 'https://some-site.com?tracker_install_check=c3dfa1abbbab6381baca0793b8dd5d', 'nonce' => 'c3dfa1abbbab6381baca0793b8dd5d']
      * @throws \Exception If the user doesn't have the right permissions
      */
-    public function initiateJsTrackerInstallTest(int $idSite): array
+    public function initiateJsTrackerInstallTest(int $idSite, string $url = ''): array
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        return $this->jsTrackerInstallCheck->initiateJsTrackerInstallTest($idSite);
+        return $this->jsTrackerInstallCheck->initiateJsTrackerInstallTest($idSite, $url);
     }
 }

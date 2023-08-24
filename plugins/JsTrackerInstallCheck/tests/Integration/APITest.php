@@ -69,6 +69,8 @@ class APITest extends JsTrackerInstallCheckIntegrationTestCase
         $result = $this->api->wasJsTrackerInstallTestSuccessful($idSite, $nonce);
         $this->assertIsArray($result);
         $this->assertArrayHasKey('isSuccess', $result);
+        $this->assertArrayHasKey('mainUrl', $result);
+        $this->assertSame('http://piwik.net', $result['mainUrl'], 'The main URL of the site should have been included in the response');
         $this->assertSame($isSuccess, $result['isSuccess'], "Expected $isSuccess for site $idSite where $nonceCreatedString, $nonceSuccessString, and $nonceProvidedString.");
     }
 

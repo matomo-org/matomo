@@ -13,6 +13,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Log\LoggerInterface;
 use Piwik\Option;
+use Piwik\Piwik;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Tracker\Request;
@@ -22,6 +23,11 @@ class JsTrackerInstallCheck extends \Piwik\Plugin
     const QUERY_PARAM_NAME = 'tracker_install_check';
     const OPTION_NAME_PREFIX = 'JsTrackerInstallCheck_';
     const MAX_NONCE_AGE_SECONDS = 30;
+
+    protected function getOptionName(int $idSite): string
+    {
+        return self::OPTION_NAME_PREFIX . $idSite . '_' . Piwik::getCurrentUserLogin();
+    }
 
     public function registerEvents()
     {
