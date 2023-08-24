@@ -87,6 +87,13 @@ class API extends \Piwik\Plugin\API
         return Version::VERSION;
     }
 
+    public function getHealthCheck(): array
+    {
+        return [
+            'status' => 'ok'
+        ];
+    }
+
     /**
      * Get PHP version
      * @return array
