@@ -96,6 +96,29 @@ class APITest extends JsTrackerInstallCheckIntegrationTestCase
         $this->assertFalse($decodedOption['isSuccessful']);
     }
 
+    public function testInitiateJsTrackerInstallTestCustomUrl()
+    {
+        // Should return false because the option doesn't exist yet
+        $option = $this->getOptionForSite($this->idSite1);
+        $this->assertFalse($option);
+
+        $customUrl = 'https://some-test-site.local';
+        $result = $this->api->initiateJsTrackerInstallTest($this->idSite1, $customUrl);
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('url', $result);
+        $this->assertNotEmpty($result['url']);
+        $this->assertArrayHasKey('nonce', $result);
+        $this->assertNotEmpty($result['nonce']);
+        $this->assertSame($customUrl . '?' . JsTrackerInstallCheck::QUERY_PARAM_NAME . '=' . $result['nonce'], $result['url']);
+
+        $option = $this->getOptionForSite($this->idSite1);
+        $this->assertNotEmpty($option);
+        $decodedOption = json_decode($option, true);
+        $this->assertIsArray($decodedOption);
+        $this->assertSame($result['nonce'], $decodedOption['nonce']);
+        $this->assertFalse($decodedOption['isSuccessful']);
+    }
+
     private function getWasJsTrackerInstallTestSuccessful(): array
     {
         return [
