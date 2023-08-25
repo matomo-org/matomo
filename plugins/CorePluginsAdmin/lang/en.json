@@ -72,7 +72,7 @@
         "WhyUsingATagManager": "Why a Tag Manager?",
         "WhyUsingATagManagerDetails1": "A Tag Manager makes your life easier! You no longer need to wait on a developer to modify any first or third-party snippets on your website as the Tag Manager gives you a stress-free experience to make these changes and deploy your website yourself.",
         "WhyUsingATagManagerDetails2": "It couldn't be more convenient and it not only lets you bring changes to the market faster, but also reduces cost.",
-        "WhyUsingATagManagerDetails3": "This keeps the marketing teams, digital teams and the IT guys happy... It’s a win-win for everyone!",
+        "WhyUsingATagManagerDetails3": "This keeps the marketing teams, digital teams and the IT guys happy… It’s a win-win for everyone!",
         "AreThereAnyRisks": "Are there any risks?",
         "AreThereAnyRisksDetails1": "When you activate the Tag Manager, users with admin access will be able to create custom HTML tags, triggers, and variables that may execute JavaScript on your website. These custom templates could be misused to steal, for example, sensitive information from your website visitors (known as %1$sXSS%2$s).",
         "AreThereAnyRisksDetails2": "You can disable these custom templates under \"Administration → General Settings\" once you have activated the Tag Manager. Alternatively, you can also restrict the usage of these templates to specific users or super users only.",
