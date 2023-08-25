@@ -12,7 +12,6 @@ namespace Piwik\Updates;
 
 use Piwik\Common;
 use Piwik\Updater;
-use Piwik\Updater\Migration\Db as DbAlias;
 use Piwik\Updates as PiwikUpdates;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
 
@@ -45,7 +44,7 @@ class Updates_5_0_0_rc2 extends PiwikUpdates
     public function getMigrations(Updater $updater)
     {
         $migration1 = $this->migration->db->sql(
-            'ALTER TABLE ' . Common::prefixTable('user_token_authuser') . ' RENAME COLUMN `post_only` TO `secure_only`');
+            'ALTER TABLE ' . Common::prefixTable('user_token_authuser') . ' RENAME COLUMN `post_only` TO `secure_only`'
         );
 
         return [
