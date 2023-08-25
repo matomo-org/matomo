@@ -848,6 +848,7 @@ class Plugin extends \Piwik\Plugin
             $out .= "piwik.isPagesComparisonApiDisabled = true;\n";
         }
     }
+    
     public function getClientSideTranslationKeys(&$translations)
     {
         $translations[] = 'API_Glossary';
