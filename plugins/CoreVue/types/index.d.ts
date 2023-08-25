@@ -171,6 +171,7 @@ declare global {
     userHasSomeAdminAccess: boolean;
     requiresPasswordConfirmation: boolean;
 
+    visitorLogEnabled: boolean;
     updatePeriodParamsFromUrl(): void;
     updateDateInTitle(date: string, period: string): void;
     hasUserCapability(capability: string): boolean;
