@@ -262,8 +262,8 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_AreYouSureAddCapability';
         $translationKeys[] = 'UsersManager_AreYouSureChangeDetails';
         $translationKeys[] = 'UsersManager_AreYouSureRemoveCapability';
-        $translationKeys[] = 'UsersManager_AuthTokenPostOnlyHelp';
-        $translationKeys[] = 'UsersManager_AuthTokenPostOnlyHelpForced';
+        $translationKeys[] = 'UsersManager_AuthTokenSecureOnlyHelp';
+        $translationKeys[] = 'UsersManager_AuthTokenSecureOnlyHelpForced';
         $translationKeys[] = 'UsersManager_AuthTokenPurpose';
         $translationKeys[] = 'UsersManager_AuthTokens';
         $translationKeys[] = 'UsersManager_BackToUser';

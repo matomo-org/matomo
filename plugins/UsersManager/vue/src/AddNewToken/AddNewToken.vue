@@ -32,7 +32,7 @@
 
       <Field
         uicontrol="checkbox"
-        name="post_only"
+        name="secure_only"
         :title="translate('UsersManager_OnlyAllowPostRequests')"
         :required="false"
         :inline-help=postOnlyHelp
@@ -105,8 +105,8 @@ export default defineComponent({
       return this.forcePostOnly;
     },
     postOnlyHelp() {
-      return (this.forcePostOnly ? translate('UsersManager_AuthTokenPostOnlyHelpForced')
-        : translate('UsersManager_AuthTokenPostOnlyHelp'));
+      return (this.forcePostOnly ? translate('UsersManager_AuthTokenSecureOnlyHelpForced')
+        : translate('UsersManager_AuthTokenSecureOnlyHelp'));
     },
   },
 });

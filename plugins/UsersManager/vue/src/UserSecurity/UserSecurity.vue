@@ -111,7 +111,7 @@
             {{ theToken.last_used ? theToken.last_used : translate('General_Never') }}
           </td>
           <td>
-            {{ parseInt(theToken.post_only, 10) === 1 ?
+            {{ parseInt(theToken.secure_only, 10) === 1 ?
                translate('General_Yes') : translate('General_No') }}
           </td>
           <td
