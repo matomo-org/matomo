@@ -15,7 +15,6 @@ use Piwik\Plugins\CoreUpdater\SystemSettings;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Version;
 
 class ApiTest extends IntegrationTestCase
 {
