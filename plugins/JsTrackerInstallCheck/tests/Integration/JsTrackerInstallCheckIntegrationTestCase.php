@@ -10,10 +10,11 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class JsTrackerInstallCheckIntegrationTestCase extends IntegrationTestCase
 {
-    /**
-     * @var JsTrackerInstallCheck
-     */
-    protected $jsTrackerInstallCheck;
+    const TEST_URL1 = 'https://some-test-site.local';
+    const TEST_URL2 = 'https://another-test-site.local';
+    const TEST_URL3 = 'https://nonexistent-test-site.local';
+    const TEST_NONCE1 = '1111111111';
+    const TEST_NONCE2 = '2222222222';
 
     /**
      * @var int
@@ -28,61 +29,8 @@ class JsTrackerInstallCheckIntegrationTestCase extends IntegrationTestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->jsTrackerInstallCheck = new JsTrackerInstallCheck();
 
-        $this->idSite1 = Fixture::createWebsite('2014-01-01 00:00:00');
-        $this->idSite2 = Fixture::createWebsite('2014-01-01 00:00:00');
-    }
-
-    protected function createNonceOption(int $idSite): string
-    {
-        $initiateResult = $this->jsTrackerInstallCheck->initiateJsTrackerInstallTest((string) $idSite);
-        $this->assertIsArray($initiateResult);
-        $this->assertArrayHasKey('nonce', $initiateResult);
-        $this->assertNotEmpty($initiateResult['nonce']);
-
-        return $initiateResult['nonce'];
-    }
-
-    protected function setNonceCheckAsSuccessful(int $idSite): void
-    {
-        $optionKey = JsTrackerInstallCheck::OPTION_NAME_PREFIX . $idSite;
-        $option = Option::get($optionKey);
-        $this->assertNotEmpty($option);
-        $decodedOption = json_decode($option, true);
-        $this->assertIsArray($decodedOption);
-        $this->assertArrayHasKey('isSuccessful', $decodedOption);
-
-        $decodedOption['isSuccessful'] = true;
-        Option::set($optionKey, json_encode($decodedOption));
-    }
-
-    protected function setNonceCheckTimestamp(int $idSite, int $timestamp): void
-    {
-        $optionKey = JsTrackerInstallCheck::OPTION_NAME_PREFIX . $idSite;
-        $option = Option::get($optionKey);
-        $this->assertNotEmpty($option);
-        $decodedOption = json_decode($option, true);
-        $this->assertIsArray($decodedOption);
-        $this->assertArrayHasKey('time', $decodedOption);
-
-        $decodedOption['time'] = $timestamp;
-        Option::set($optionKey, json_encode($decodedOption));
-    }
-
-    protected function getOptionForSite(int $idSite)
-    {
-        return Option::get(JsTrackerInstallCheck::OPTION_NAME_PREFIX . $idSite);
-    }
-
-    protected function isNonceForSiteSuccessFul(int $idSite): bool
-    {
-        $option = $this->getOptionForSite($idSite);
-        $this->assertNotEmpty($option);
-        $decodedOption = json_decode($option, true);
-        $this->assertIsArray($decodedOption);
-        $this->assertArrayHasKey('isSuccessful', $decodedOption);
-
-        return !empty($decodedOption['isSuccessful']);
+        $this->idSite1 = 1;
+        $this->idSite2 = 2;
     }
 }

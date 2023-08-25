@@ -12,15 +12,15 @@ use Piwik\Date;
 use Piwik\Option;
 use Piwik\Plugins\JsTrackerInstallCheck\JsTrackerInstallCheck;
 use Piwik\Plugins\JsTrackerInstallCheck\NonceOption\JsTrackerInstallCheckOption;
+use Piwik\Plugins\JsTrackerInstallCheck\tests\Integration\JsTrackerInstallCheckIntegrationTestCase;
 use Piwik\Site;
-use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
  * @group JsTrackerInstallCheck
  * @group Plugins
  * @group JsTrackerInstallCheckTest
  */
-class JsTrackerInstallCheckTest extends IntegrationTestCase
+class JsTrackerInstallCheckTest extends JsTrackerInstallCheckIntegrationTestCase
 {
     const TEST_URL1 = 'https://some-test-site.local';
     const TEST_URL2 = 'https://another-test-site.local';
@@ -94,9 +94,6 @@ class JsTrackerInstallCheckTest extends IntegrationTestCase
     {
         parent::setUp();
         $this->jsTrackerInstallCheck = new JsTrackerInstallCheck();
-
-        $this->idSite1 = 1;
-        $this->idSite2 = 2;
 
         $mock = $this->getMockBuilder('stdClass')
             ->addMethods(['getValue', 'setValue'])
