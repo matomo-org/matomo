@@ -27,6 +27,9 @@
             {% if gtmUsed %}
                 <li class="tab col s2"><a {% if activeTab == 'gtm' %} class="active" {% endif %} href="#google-tag-manager">{{ 'SitesManager_SiteWithoutDataGoogleTagManager'|translate }}</a></li>
             {% endif %}
+            {% if showGAImportTab %}
+                <li class="tab col {{ columnClass }}"><a {% if activeTab == 'ga-import' %} class="active" {% endif %} href="#ga-import">{{ 'SitesManager_SiteWithoutDataGoogleAnalyticsImport'|translate }}</a></li>
+            {% endif %}
             {% if cms == 'wordpress' %}
                 <li class="tab col s2"><a {% if activeTab == 'wordpress' %} class="active" {% endif %} href="#wordpress">WordPress</a></li>
             {% endif %}
@@ -41,9 +44,6 @@
             {% endif %}
             {%  if tagManagerActive %}
                 <li class="tab col {{ columnClass }}"><a href="#spa">SPA / PWA</a></li>
-            {% endif %}
-            {% if showGAImportTab %}
-                <li class="tab col {{ columnClass }}"><a {% if activeTab == 'ga-import' %} class="active" {% endif %} href="#ga-import">{{ 'SitesManager_SiteWithoutDataGoogleAnalyticsImport'|translate }}</a></li>
             {% endif %}
             <li class="tab col {{ columnClass }}"><a href="#other">{{ 'SitesManager_SiteWithoutDataOtherWays'|translate }}</a></li>
         </ul>
