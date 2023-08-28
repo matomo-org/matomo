@@ -91,15 +91,16 @@
             </div>
         {% endif %}
 
-        <p>{{ 'CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead'|translate("&lt;/head&gt;")|raw }}</p>
-
-        <div
-                vue-entry="CoreAdminHome.JsTrackingCodeGeneratorSitesWithoutData"
-                default-site="{{ defaultSiteDecoded|json_encode }}"
-                max-custom-variables="{{ maxCustomVariables|json_encode }}"
-                server-side-do-not-track-enabled="{{ serverSideDoNotTrackEnabled|json_encode }}"
-                js-tag="{{ jsTag|raw }}"
-        ></div>
+        <ol class="list-style-decimal">
+            <div
+                    vue-entry="CoreAdminHome.JsTrackingCodeGeneratorSitesWithoutData"
+                    default-site="{{ defaultSiteDecoded|json_encode }}"
+                    max-custom-variables="{{ maxCustomVariables|json_encode }}"
+                    server-side-do-not-track-enabled="{{ serverSideDoNotTrackEnabled|json_encode }}"
+                    js-tag="{{ jsTag|raw }}"
+                    show-test-section="true"
+            ></div>
+        </ol>
     </div>
 
     <div id="mtm" class="col s12">
