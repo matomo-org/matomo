@@ -99,6 +99,7 @@ describe("OneClickUpdate", function () {
         await page.waitForSelector('.site-without-data', { visible: true });
         await page.waitForNetworkIdle();
         const element  = await page.$('.site-without-data');
+        await page.waitForNetworkIdle();
         expect(await element.screenshot()).to.matchImage('login');
     });
 
