@@ -3152,7 +3152,6 @@ if (typeof window.Matomo !== 'object') {
              * Send request
              */
             function sendRequest(request, delay, callback) {
-                console.log('SendRequest...');
                 refreshConsentStatus();
                 if (!configHasConsent) {
                     consentRequestsQueue.push([request, callback]);
@@ -3224,7 +3223,6 @@ if (typeof window.Matomo !== 'object') {
              */
             function sendBulkRequest(requests, delay)
             {
-                console.log('SendBulkRequest...');
                 if (!canSendBulkRequest(requests)) {
                     return;
                 }
