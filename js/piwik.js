@@ -2806,6 +2806,9 @@ if (typeof window.Matomo !== 'object') {
                     }
                 };
                 image.src = configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
+
+                // If the query parameter indicating this is a test exists, close after first request is sent
+                closeWindowIfJsTrackingCodeInstallCheck();
             }
 
             function shouldForcePost(request)
@@ -2837,6 +2840,17 @@ if (typeof window.Matomo !== 'object') {
                 trackerInstallCheckNonce = getUrlParameter(windowAlias.location.href, 'tracker_install_check');
 
                 return trackerInstallCheckNonce && trackerInstallCheckNonce.length > 0;
+            }
+
+            /**
+             * If the query parameter was included in the current URL indicating it's an install check, close the window
+             */
+            function closeWindowIfJsTrackingCodeInstallCheck()
+            {
+                // If the query parameter indicating this is a test exists
+                if (wasJsTrackingCodeInstallCheckParamProvided() && isObject(windowAlias)) {
+                    windowAlias.close();
+                }
             }
 
             function sendPostRequestViaSendBeacon(request, callback, fallbackToGet)
@@ -2873,9 +2887,7 @@ if (typeof window.Matomo !== 'object') {
                 }
 
                 // If the query parameter indicating this is a test exists, close after first request is sent
-                if (wasJsTrackingCodeInstallCheckParamProvided() && isObject(windowAlias)) {
-                    windowAlias.close();
-                }
+                closeWindowIfJsTrackingCodeInstallCheck();
 
                 return success;
             }
@@ -2951,6 +2963,9 @@ if (typeof window.Matomo !== 'object') {
                             callback({request: request, trackerUrl: configTrackerUrl, success: false});
                         }
                     }
+
+                    // If the query parameter indicating this is a test exists, close after first request is sent
+                    closeWindowIfJsTrackingCodeInstallCheck();
                 }, 50);
 
             }
@@ -3137,6 +3152,7 @@ if (typeof window.Matomo !== 'object') {
              * Send request
              */
             function sendRequest(request, delay, callback) {
+                console.log('SendRequest...');
                 refreshConsentStatus();
                 if (!configHasConsent) {
                     consentRequestsQueue.push([request, callback]);
@@ -3208,6 +3224,7 @@ if (typeof window.Matomo !== 'object') {
              */
             function sendBulkRequest(requests, delay)
             {
+                console.log('SendBulkRequest...');
                 if (!canSendBulkRequest(requests)) {
                     return;
                 }
