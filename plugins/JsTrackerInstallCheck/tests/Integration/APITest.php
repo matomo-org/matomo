@@ -35,9 +35,7 @@ class APITest extends JsTrackerInstallCheckIntegrationTestCase
 
     public function testWasJsTrackerInstallTestSuccessful()
     {
-        $mock = $this->getMockBuilder(JsTrackerInstallCheck::class)
-            ->addMethods(['checkForJsTrackerInstallTestSuccess'])
-            ->getMock();
+        $mock = $this->getMockBuilder(JsTrackerInstallCheck::class)->getMock();
         $mock->expects($this->any())->method('checkForJsTrackerInstallTestSuccess')->willReturnCallback(function (int $idSite, string $nonce) {
             return true;
         });
@@ -53,9 +51,7 @@ class APITest extends JsTrackerInstallCheckIntegrationTestCase
 
     public function testInitiateJsTrackerInstallTest()
     {
-        $mock = $this->getMockBuilder(JsTrackerInstallCheck::class)
-            ->addMethods(['initiateJsTrackerInstallTest'])
-            ->getMock();
+        $mock = $this->getMockBuilder(JsTrackerInstallCheck::class)->getMock();
         $mock->expects($this->any())->method('initiateJsTrackerInstallTest')->willReturnCallback(function (int $idSite, string $url = '') {
             return ['url' => self::TEST_URL1 . '?' . JsTrackerInstallCheck::QUERY_PARAM_NAME . '=' . self::TEST_NONCE1, 'nonce' => self::TEST_NONCE1];
         });

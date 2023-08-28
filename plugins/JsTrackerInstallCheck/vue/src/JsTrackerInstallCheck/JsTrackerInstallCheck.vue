@@ -40,7 +40,7 @@ import {
   SiteRef,
   translate,
 } from 'CoreHome';
-import Field from 'CorePluginsAdmin';
+import { Field } from 'CorePluginsAdmin';
 
 const MAX_NUM_API_CALLS = 10;
 const TIME_BETWEEN_API_CALLS = 1000;
