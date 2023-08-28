@@ -87,7 +87,7 @@
           <th>{{ translate('General_CreationDate') }}</th>
           <th>{{ translate('General_Description') }}</th>
           <th>{{ translate('UsersManager_LastUsed') }}</th>
-          <th>{{ translate('UsersManager_SecureOnly') }}</th>
+          <th>{{ translate('UsersManager_SecureUseOnly') }}</th>
           <th
             v-if="hasTokensWithExpireDate"
             :title="translate('UsersManager_TokensWithExpireDateCreationBySystem')"

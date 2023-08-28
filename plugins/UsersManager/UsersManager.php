@@ -371,7 +371,7 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_RoleFor';
         $translationKeys[] = 'UsersManager_RolesHelp';
         $translationKeys[] = 'UsersManager_SaveBasicInfo';
-        $translationKeys[] = 'UsersManager_SecureOnly';
+        $translationKeys[] = 'UsersManager_SecureUseOnly';
         $translationKeys[] = 'UsersManager_SendInvite';
         $translationKeys[] = 'UsersManager_SetPermission';
         $translationKeys[] = 'UsersManager_Status';
