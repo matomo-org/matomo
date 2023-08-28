@@ -174,7 +174,14 @@ class SegmentArchiving
         }
     }
 
-    private function getCreatedTimeOfSegment($storedSegment)
+    /**
+     * Retrieve the created and last edited time as date objects from the supplied segment array
+     *
+     * @param array|null $storedSegment
+     *
+     * @return array|null
+     */
+    private function getCreatedTimeOfSegment(array $storedSegment): ?array
     {
         // check for an earlier ts_created timestamp
         $createdTime = empty($storedSegment['ts_created']) ? null : Date::factory($storedSegment['ts_created']);
@@ -185,10 +192,10 @@ class SegmentArchiving
         }
 
         // check for a later ts_last_edit timestamp
-        $lastEditTime = empty($storedSegment['ts_last_edit']) || $storedSegment['ts_last_edit'] == '0000-00-00 00:00:00'
+        $lastEditTime = empty($storedSegment['ts_last_edit']) || $storedSegment['ts_last_edit'] === '0000-00-00 00:00:00'
             ? null : Date::factory($storedSegment['ts_last_edit']);
 
-        return array($createdTime, $lastEditTime);
+        return [$createdTime, $lastEditTime];
     }
 
     private function getEarliestVisitTimeFor($idSite)
