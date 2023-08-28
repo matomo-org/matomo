@@ -2,10 +2,6 @@
 
 namespace Piwik\Plugins\JsTrackerInstallCheck\tests\Integration;
 
-use Piwik\Option;
-use Piwik\Plugins\JsTrackerInstallCheck\JsTrackerInstallCheck;
-use Piwik\Plugins\JsTrackerInstallCheck\NonceOption\JsTrackerInstallCheckOption;
-use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class JsTrackerInstallCheckIntegrationTestCase extends IntegrationTestCase
