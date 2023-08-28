@@ -94,6 +94,7 @@ describe("OneClickLastForcedUpdate", function () {
         await page.waitForNetworkIdle();
         const element  = await page.$('.site-without-data');
         await page.waitForNetworkIdle();
+        await page.waitForTimeout(250);
         expect(await element.screenshot()).to.matchImage('login');
     });
 

@@ -2786,6 +2786,32 @@ if (typeof window.Matomo !== 'object') {
             }
 
             /*
+             * Checks if the special query parameter was included in the current URL indicating this
+             * is supposed to be a tracking code install test.
+             */
+            function wasJsTrackingCodeInstallCheckParamProvided()
+            {
+                if (trackerInstallCheckNonce && trackerInstallCheckNonce.length > 0) {
+                    return true;
+                }
+
+                trackerInstallCheckNonce = getUrlParameter(windowAlias.location.href, 'tracker_install_check');
+
+                return trackerInstallCheckNonce && trackerInstallCheckNonce.length > 0;
+            }
+
+            /**
+             * If the query parameter was included in the current URL indicating it's an install check, close the window
+             */
+            function closeWindowIfJsTrackingCodeInstallCheck()
+            {
+                // If the query parameter indicating this is a test exists
+                if (wasJsTrackingCodeInstallCheckParamProvided() && isObject(windowAlias)) {
+                    windowAlias.close();
+                }
+            }
+
+            /*
              * Send image request to Matomo server using GET.
              * The infamous web bug (or beacon) is a transparent, single pixel (1x1) image
              */
@@ -2825,32 +2851,6 @@ if (typeof window.Matomo !== 'object') {
                 return 'object' === typeof navigatorAlias
                     && 'function' === typeof navigatorAlias.sendBeacon
                     && 'function' === typeof Blob;
-            }
-
-            /*
-             * Checks if the special query parameter was included in the current URL indicating this
-             * is supposed to be a tracking code install test.
-             */
-            function wasJsTrackingCodeInstallCheckParamProvided()
-            {
-                if (trackerInstallCheckNonce && trackerInstallCheckNonce.length > 0) {
-                    return true;
-                }
-
-                trackerInstallCheckNonce = getUrlParameter(windowAlias.location.href, 'tracker_install_check');
-
-                return trackerInstallCheckNonce && trackerInstallCheckNonce.length > 0;
-            }
-
-            /**
-             * If the query parameter was included in the current URL indicating it's an install check, close the window
-             */
-            function closeWindowIfJsTrackingCodeInstallCheck()
-            {
-                // If the query parameter indicating this is a test exists
-                if (wasJsTrackingCodeInstallCheckParamProvided() && isObject(windowAlias)) {
-                    windowAlias.close();
-                }
             }
 
             function sendPostRequestViaSendBeacon(request, callback, fallbackToGet)
