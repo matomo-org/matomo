@@ -74,6 +74,20 @@ class SegmentArchivingTest extends IntegrationTestCase
                 '2020-04-13',
             ],
 
+            // creation time, last edit time is 0000-00-00,
+            [
+                SegmentArchiving::CREATION_TIME,
+                ['ts_created' => '2020-04-12 03:34:55', 'ts_last_edit' => '0000-00-00 00:00:00'],
+                '2020-04-12',
+            ],
+
+            // last edit time, last edit time is 0000-00-00
+            [
+                SegmentArchiving::LAST_EDIT_TIME,
+                ['ts_created' => '2020-04-12 03:34:55', 'ts_last_edit' => '0000-00-00 00:00:00'],
+                null,
+            ],
+
             // last edit time, no edit time in segment
             [
                 SegmentArchiving::LAST_EDIT_TIME,
