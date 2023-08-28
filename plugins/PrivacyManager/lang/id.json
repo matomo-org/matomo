@@ -143,7 +143,7 @@
         "PseudonymizeUserIdNote2": "Catatan: mengganti dengan nama samaran tidak sama dengan anonimitas. Dalam istilah GDPR: nama samaran ID Pengguna masih dianggap sebagai data pribadi. ID Pengguna asli masih dapat diidentifikasi jika informasi tambahan tertentu tersedia (yang hanya dapat diakses oleh Matomo dan pengolah data Anda).",
         "PurgeNow": "Bersihkan Basis Data Sekarang",
         "PurgeNowConfirm": "Anda akan menghapus data secara permanen dari basis data Anda. Apakah Anda yakin ingin melanjutkan?",
-        "PurgingData": "Membersihkan data...",
+        "PurgingData": "Membersihkan data…",
         "RawDataNeverRemoved": "kunjungan dan data mentah tindakan <strong>tidak pernah</strong> dihapus.",
         "RawDataRemovedAfter": "semua data mentah kunjungan dan tindakan akan dihapus setelah %1$s.",
         "RecommendedForPrivacy": "Direkomendasikan untuk privasi",

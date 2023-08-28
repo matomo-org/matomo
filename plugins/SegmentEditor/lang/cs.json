@@ -24,7 +24,7 @@
         "DefaultAllVisits": "Všechny návštěvy",
         "DragDropCondition": "Přetáhněte podmínku",
         "HideMessageInFuture": "Již tuto zprávu nezobrazovat",
-        "LoadingSegmentedDataMayTakeSomeTime": "Zpracování segmentovaných dat návštěvníků může pár minut trvat...",
+        "LoadingSegmentedDataMayTakeSomeTime": "Zpracování segmentovaných dat návštěvníků může pár minut trvat…",
         "OperatorAND": "AND",
         "OperatorOR": "OR",
         "PluginDescription": "Segment je soubor kritérií používaných k výběru pouze části celé sady návštěv. Pomocí segmentů můžete do přehledů vložit libovolný kontext.",

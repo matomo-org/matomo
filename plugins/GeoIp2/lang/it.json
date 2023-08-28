@@ -35,7 +35,7 @@
         "IPurchasedGeoIPDBs": "Ho acquistato database molto accurati da %3$sdbip%4$s o %1$sMaxMind%2$s e voglio impostare gli aggiornamenti automatici.",
         "ISPDatabase": "Database ISP",
         "ISPRequiresProviderPlugin": "Il monitoraggio dei provider di servizi Internet richiede l'installazione e l'attivazione del plug-in Provider.",
-        "IWantToDownloadFreeGeoIP": "Voglio scaricare il database gratuito DBIP...",
+        "IWantToDownloadFreeGeoIP": "Voglio scaricare il database gratuito DBIP…",
         "InvalidGeoIPUpdateHost": "L'host dell'url di aggiornamento GeoIP %1$s non è attendibile. Per consentire il download degli aggiornamenti GeoIP da host diversi da %2$s, modifica le impostazioni per %3$s nelle configrazioni.",
         "InvalidGeoIPUpdatePeriod": "Periodo non valido per il programma di aggiornamento di GeoIP: %1$s. I valori validi sono: %2$s.",
         "LocationDatabase": "Database Località",

@@ -108,7 +108,7 @@
         "SystemCheckJsonHelp": "Matomo krever php.json-utvidelsen for å lese og skrive JSON-data.",
         "SystemCheckMailHelp": "Tilbakemeldinger og «Glemt passord»-meldinger kan ikke sendes uten «mail()».",
         "SystemCheckMemoryLimit": "Minnegrense",
-        "SystemCheckMemoryLimitHelp": "På et nettsted med høy trafikk kan arkiveringsprossessen kreve mer minne enn det som nå er tillatt.&lt;br /&gt;Se på memory_limit i din php.ini fil hvis nødvendig.",
+        "SystemCheckMemoryLimitHelp": "På et nettsted med høy trafikk kan arkiveringsprossessen kreve mer minne enn det som nå er tillatt. Se på memory_limit i din php.ini fil hvis nødvendig.",
         "SystemCheckMemoryNoMemoryLimitSet": "Det er ikke satt noen minnegrense",
         "SystemCheckNoErrorsOrWarnings": "Ingen feil eller advarsler",
         "SystemCheckOpenURL": "Åpne URL",

@@ -1,5 +1,6 @@
 {
     "MobileMessaging": {
+        "Available_Credits": "Raspoloživi krediti: %1$s",
         "Exception_UnknownProvider": "Ime provajdera '%1$s' je nepoznato. Pokušajte sa nekim od ovih: %2$s.",
         "MobileReport_AdditionalPhoneNumbers": "Možete dodati više brojeva telefona preko",
         "MobileReport_MobileMessagingSettingsLink": "stranica sa podešavanjima za SMS",
@@ -7,16 +8,17 @@
         "MultiSites_Must_Be_Activated": "Da biste generisali SMS poruke za vaše statistike, molimo vas da u Matomo-u uključite MultiSites dodatak.",
         "PhoneNumbers": "Brojevi telefona",
         "PluginDescription": "Napravite i preuzmite SMS izveštaje koji će vam biti slati na vaš mobilni dnevno, nedeljno i mesečno.",
+        "SMS_Content_Too_Long": "Sadržaj poruke je predug",
+        "SettingsMenu": "SMS poruke",
         "Settings_APIKey": "API ključ",
         "Settings_CountryCode": "Kod zemlje",
-        "Settings_SelectCountry": "Izaberite zemlju",
+        "Settings_CredentialInvalid": "Kreiran je vaš %1$s SMS API nalog ali je došlo do greške prilikom provere stanja kredita.",
         "Settings_CredentialNotProvided": "Pre nego što budete u mogućnosti da upravljate brojevima telefona, molimo vas da povežete Matomo sa vašim SMS nalogom.",
         "Settings_CredentialNotProvidedByAdmin": "Da biste bili u mogućnosti da kreirate i upravljate telefonskim brojevima, zamolite administratora da poveže Matomo sa SMS nalogom.",
         "Settings_CredentialProvided": "Vaš %s SMS API je ispravno podešen.",
-        "Settings_CredentialInvalid": "Kreiran je vaš %1$s SMS API nalog ali je došlo do greške prilikom provere stanja kredita.",
-        "Settings_DeleteAccountConfirm": "Da li ste sigurni da želite da obrišete ovaj SMS nalog?",
-        "Settings_DelegatedSmsProviderOnlyAppliesToYou": "Izabrani SMS provajder će biti korišćen samo za vas, ne i za ostale korisnike.",
         "Settings_DelegatedPhoneNumbersOnlyUsedByYou": "Izabrane brojeve telefona možete videti i koristiti samo vi, ne i ostali korisnici.",
+        "Settings_DelegatedSmsProviderOnlyAppliesToYou": "Izabrani SMS provajder će biti korišćen samo za vas, ne i za ostale korisnike.",
+        "Settings_DeleteAccountConfirm": "Da li ste sigurni da želite da obrišete ovaj SMS nalog?",
         "Settings_EnterActivationCode": "Upišite aktivacioni kod",
         "Settings_InvalidActivationCode": "Kod koji ste uneli nije dobar, pokušajte ponovo.",
         "Settings_LetUsersManageAPICredential": "Omogući korisnicima da sami upravljaju svojim SMS API podešavanjima",
@@ -30,16 +32,14 @@
         "Settings_PleaseSignUp": "Da biste kreirali SMS izveštaje i primali poruke sa statistikama na mobilni, molimo vas da se prijavite sa SMS API-jem i da upišete svoje podatke.",
         "Settings_SMSAPIAccount": "Upravljanje SMS API nalogom",
         "Settings_SMSProvider": "SMS provajder",
+        "Settings_SelectCountry": "Izaberite zemlju",
         "Settings_SuperAdmin": "Podešavanja za superkorisnika",
         "Settings_SuspiciousPhoneNumber": "Ukoliko ne dobijete SMS poruku, pokušajte bez vodećih nula. Na primer %s",
         "Settings_UpdateOrDeleteAccount": "Ovaj nalog možete i %1$sažurirati%2$s ili %3$sobrisati%4$s.",
         "Settings_ValidatePhoneNumber": "Validacija",
-        "SettingsMenu": "SMS poruke",
-        "SMS_Content_Too_Long": "Sadržaj poruke je predug",
-        "Available_Credits": "Raspoloživi krediti: %1$s",
         "TopLinkTooltip": "Neka izveštaji i analitike stižu u vaše poštansko sanduče ili na mobilni!",
         "TopMenu": "Elektronski i SMS izveštaji",
         "UserKey": "Ključ",
-        "VerificationText": "Kod je %1$s. Da biste izvršili validaciju broja vašeg telefona i počeli da primate SMS izveštaje, molimo vas da kopirate ovaj kod u Matomo > %2$s > %3$s."
+        "VerificationText": "Kod je %1$s. Da biste izvršili validaciju broja vašeg telefona i počeli da primate SMS izveštaje, molimo vas da kopirate ovaj kod u Matomo → %2$s → %3$s."
     }
 }

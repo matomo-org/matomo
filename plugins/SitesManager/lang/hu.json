@@ -2,7 +2,7 @@
     "SitesManager": {
         "AddSite": "Új weboldal hozzáadása",
         "AdvancedTimezoneSupportNotFound": "Advanced timezones támogatás nem áll rendelkezésre a szerveren használt PHP verzióhoz (pedig PHP 5.2-től ez támogatott). Kézzel megadhatsz manual UTC offset-et.",
-        "AliasUrlHelp": "Javasolt, de nem kötelező megadni azokat a különböző URL-eket, melyek segítségével a látogatók elérhetik a weboldalt. Ezek az alternatív URL-ek nem fognak megjelenni a \\\"Forgalmi források » Weboldalak\\\" jelentésben. Nem szükséges azonban külön megadni www-vel és www nélkül is a domainneveket, mivel a Matomo mindkettőt automatikusan figyelembe veszi.",
+        "AliasUrlHelp": "Javasolt, de nem kötelező megadni azokat a különböző URL-eket, melyek segítségével a látogatók elérhetik a weboldalt. Ezek az alternatív URL-ek nem fognak megjelenni a \"Forgalmi források → Weboldalak\" jelentésben. Nem szükséges azonban külön megadni www-vel és www nélkül is a domainneveket, mivel a Matomo mindkettőt automatikusan figyelembe veszi.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Az időzóna megváltoztatása csak a jövőben gyűjtött adatokat érinti, visszamenőlegesen nem kerülnek módosításra a statisztikák az új időzónának megfelelően.",
         "Currency": "Pénznem",
         "CurrencySymbolWillBeUsedForGoals": "A választott pénznem szimbóluma a Célokat és bevételeket érintő jelentésekben jelenik meg.",
@@ -25,8 +25,8 @@
         "ListOfIpsToBeExcludedOnAllWebsites": "Az alábbi IP címekről érkező látogatók egyik weboldalon sem kerülnek regisztrálásra.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "Az alábbi URL paraméterek egyik weboldalon sem kerülnek regisztrálásra.",
         "MainDescription": "A webanalitikai jelentésekhez szükség van weboldalakra! Hozz létre, frissíts vagy törölj weboldalakat, vagy tekintsd meg a weblapokba beillesztendő JavaScript követőkódokat.",
-        "NotFound": "Ilyen weboldal nincs",
         "NoWebsites": "Nem került még létrehozásra egyetlen weboldal sem.",
+        "NotFound": "Ilyen weboldal nincs",
         "PiwikWillAutomaticallyExcludeCommonSessionParameters": "A Matomo automatikusan kiszűri az általánosan használt session paramétereket (%s).",
         "SelectACity": "Válassz egy várost",
         "SelectDefaultCurrency": "Kiválaszthatod, melyik legyen az alapértelmezett pénznem új weboldalak létrehozása esetén.",
@@ -35,9 +35,9 @@
         "Sites": "Weboldalak",
         "Timezone": "Időzóna",
         "TrackingTags": "Követőkód a következő weboldalhoz: %s",
-        "Urls": "URL-ek",
         "Type": "Típus",
         "UTCTimeIs": "UTC idő: %s",
+        "Urls": "URL-ek",
         "WebsitesManagement": "Weboldalak kezelése",
         "YourCurrentIpAddressIs": "Jelenlegi IP címed a következő: %s"
     }

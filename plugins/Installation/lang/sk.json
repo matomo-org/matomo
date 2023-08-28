@@ -50,7 +50,7 @@
         "SystemCheckExtensions": "Ostatné požadované rozšírenia",
         "SystemCheckFileIntegrity": "Integrita súborov",
         "SystemCheckFunctions": "Požadované funkcie",
-        "SystemCheckGDFreeType": "GD > 2.x + Freetype (grafika)",
+        "SystemCheckGDFreeType": "GD &gt; 2.x + Freetype (grafika)",
         "SystemCheckGDHelp": "„Sparklines“ (malé grafy) nebudú fungovať.",
         "SystemCheckMemoryLimit": "Pamäťový limit",
         "SystemCheckMemoryLimitHelp": "Na webstránkach s vysokou premávkou archivačný proces bude vyžadovať viac pamäte, než je to aktuálne povolené.<br /> Pozrite si direktívu memory_limit vo vašom php.ini súbore, ak je to potrebné.",

@@ -1,6 +1,6 @@
 {
     "Annotations": {
-        "AddAnnotationsFor": "Magdagdag ng mga anotasyon para sa %s ...",
+        "AddAnnotationsFor": "Magdagdag ng mga anotasyon para sa %s…",
         "AnnotationOnDate": "Anotasyon sa %1$s: %2$s",
         "Annotations": "Mga anotasyon",
         "ClickToDelete": "I-Click upang alisin ang anotasyong ito",
@@ -8,7 +8,7 @@
         "ClickToEditOrAdd": "I-Click upang baguhin o dagdagan ang anotasyong ito",
         "ClickToStarOrUnstar": "I-Click upang lagyan ng bituin o hindi ang anotasyong ito",
         "CreateNewAnnotation": "Gumawa ng bagong anotasyon…",
-        "EnterAnnotationText": "Ipasok ang iyong paalala...",
+        "EnterAnnotationText": "Ipasok ang iyong paalala…",
         "HideAnnotationsFor": "Itago ang mga anotasyon para sa %s…",
         "IconDesc": "Tingnan ang mga paalala para sa hanay ng petsa na ito.",
         "IconDescHideNotes": "Itago ang mga paalala para sa hanay ng petsa na ito.",

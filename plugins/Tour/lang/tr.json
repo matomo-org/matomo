@@ -1,9 +1,9 @@
 {
     "Tour": {
         "AddAnnotation": "Yeni bir not ekleyin",
+        "AddAnotherWebsite": "Başka bir site ekle",
         "AddReport": "Zamanlanmış bir rapor ekleyin",
         "AddSegment": "Yeni bir dilim ekleyin",
-        "AddWebsite": "Bir site ekleyin",
         "BecomeMatomoExpert": "Bir Matomo uzmanı olun",
         "BrowseMarketplace": "Mağazaya göz atın",
         "ChallengeCompleted": "Tebrikler bu eğitimi tamamladınız.",

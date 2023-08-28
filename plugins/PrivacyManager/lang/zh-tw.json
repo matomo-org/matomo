@@ -137,7 +137,7 @@
         "PseudonymizeUserIdNote2": "注意：以假名取代不等於匿名化。在 GDPR 的條款中：使用者 ID 假名依舊認定為個人資料。如果某些附加資訊可用，原始的使用者 ID 依舊可以被辨識（只有 Matomo 和你的資料處理器可存取）。",
         "PurgeNow": "立即清理資料庫",
         "PurgeNowConfirm": "你將要永久刪除資料庫內的數據。確定要繼續嗎？",
-        "PurgingData": "清除資料中...",
+        "PurgingData": "清除資料中…",
         "RawDataNeverRemoved": "訪問和動作的原始數據<strong>永遠不會</strong>被刪除。",
         "RawDataRemovedAfter": "所有訪問和動作的原始數據在 %1$s 後被刪除。",
         "RecommendedForPrivacy": "保護隱私時推薦",

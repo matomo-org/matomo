@@ -58,7 +58,7 @@
         "SystemCheckExtensions": "Muud nõutud laiendused",
         "SystemCheckFileIntegrity": "Failide terviklikkus",
         "SystemCheckFunctions": "Nõutud funktsioonid",
-        "SystemCheckGDFreeType": "GD > 2.x + Freetype (graafika)",
+        "SystemCheckGDFreeType": "GD &gt; 2.x + Freetype (graafika)",
         "SystemCheckGDHelp": "Statistika jaoks genereeritud graafikud (väiksed joongraafikud veebis, mobiilses rakenduses ja e-posti raportites) ei tööta.",
         "SystemCheckGzcompressHelp": "Sa pead aktiveerima zlib laienduse ja gzcompress funktsiooni.",
         "SystemCheckGzuncompressHelp": "Sa pead aktiveerima zlib laienduse ja gzuncompress funktsiooni.",

@@ -95,7 +95,7 @@
         "SystemCheckExtensions": "Další požadovaná rozšíření",
         "SystemCheckFileIntegrity": "Integrita souborů",
         "SystemCheckFunctions": "Vyžadované funkce",
-        "SystemCheckGDFreeType": "GT > 2.x + Freetype (grafika)",
+        "SystemCheckGDFreeType": "GT &gt; 2.x + Freetype (grafika)",
         "SystemCheckGDHelp": "Sparkliny (malé grafy) nebudou fungovat.",
         "SystemCheckGlobHelp": "Tato vestavěná funkce byla na vašem hostiteli vypnuta. Matomo se pokusí tuto funkci emulovat, ale můžete zaznamenat další bezpečnostní omezení. Toto může mít vliv na fungování.",
         "SystemCheckGzcompressHelp": "Musíte povolit rozšíření zlib a funkci gzcompress.",

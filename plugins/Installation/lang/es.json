@@ -90,7 +90,7 @@
         "SystemCheckExtensions": "Otras extensiones requeridas",
         "SystemCheckFileIntegrity": "Integridad de archivos",
         "SystemCheckFunctions": "Funciones requeridas",
-        "SystemCheckGDFreeType": "GD > 2.x + Freetype (gráfica)",
+        "SystemCheckGDFreeType": "GD &gt; 2.x + Freetype (gráfica)",
         "SystemCheckGDHelp": "Los minigráficos e imágenes de gráficos (en la aplicación móvil de Matomo y en los informes por correo electrónico) no funcionarán.",
         "SystemCheckGlobHelp": "Esta función integrada se ha desactivado en su host. Matomo intentará emular esta función, pero puede encontrarse con restricciones de seguridad. La funcionalidad puede verse afectada.",
         "SystemCheckGzcompressHelp": "Es necesario habilitar la extensión zlib y la función gzcompress.",

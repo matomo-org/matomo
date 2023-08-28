@@ -140,7 +140,7 @@
         "PseudonymizeUserIdNote2": "注意：用化名替换与匿名化不同。 用GDPR术语表示：用户ID假名仍然算作个人数据。 如果可以使用某些附加信息（只有Matomo和您的数据处理器可以访问），则仍可以标识原始用户ID。",
         "PurgeNow": "立刻清理数据库",
         "PurgeNowConfirm": "准备从数据库里永久删除数据，您确定要继续吗?",
-        "PurgingData": "清理数据...",
+        "PurgingData": "清理数据…",
         "RawDataNeverRemoved": "访问和操作原始数据永远<strong>不会</strong>删除。",
         "RawDataRemovedAfter": "所有访问和操作原始数据都会在%1$s之后删除。",
         "RecommendedForPrivacy": "推荐用于隐私",

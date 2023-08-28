@@ -1,5 +1,6 @@
 {
     "MobileMessaging": {
+        "Available_Credits": "Varoja jäljellä: %1$s",
         "Exception_UnknownProvider": "Tarjoajan nimi '%1$s' on tuntematon. Kokeile jotakin seuraavista: %2$s.",
         "MobileReport_AdditionalPhoneNumbers": "Voit lisätä puhelinnumeroita",
         "MobileReport_MobileMessagingSettingsLink": "Mobiiliviestinnän asetukset",
@@ -7,9 +8,10 @@
         "MultiSites_Must_Be_Activated": "Saadaksesi SMS-viestejä sivustosi tilastoista, sinun tulee ottaa käyttöön MultiSite-liitännäinen Matomossa.",
         "PhoneNumbers": "Puhelinnumerot",
         "PluginDescription": "Luo ja lataa mukautettuja SMS-raportteja ja saa ne puhelimeesi päivittäin, viikoittain tai kuukausittain.",
+        "SMS_Content_Too_Long": "[liian pitkä]",
+        "SettingsMenu": "Mobiiliviestit",
         "Settings_APIKey": "API-avain",
         "Settings_CountryCode": "Maakoodi",
-        "Settings_SelectCountry": "Valitse maa",
         "Settings_CredentialNotProvided": "Ennen kuin voit luoda ja hallinnoida puhelinnumeroita, sinun tulee yhdistää Matomo SMS-tiliisi yläpuolelta.",
         "Settings_CredentialNotProvidedByAdmin": "Ennen kuin voit luoda ja hallinnoida puhelinnumeroita, ota yhteyttä ylläpitäjääsi yhdistääksesi Matomo SMS-tiliin.",
         "Settings_CredentialProvided": "%s SMS API -tilisi on konfiguroitu oikein!",
@@ -27,17 +29,15 @@
         "Settings_PleaseSignUp": "Luodaksesi SMS-raportteja ja vastaanottaaksesi tekstiviestejä verkkosivusi tilastoista, kirjaudu SMS API:n avulla ja merkitse tiedot alle.",
         "Settings_SMSAPIAccount": "Hallinnoi SMS API -tiliä",
         "Settings_SMSProvider": "SMS-toimittaja",
+        "Settings_SelectCountry": "Valitse maa",
         "Settings_SuperAdmin": "Pääkäyttäjäasetukset",
         "Settings_SuspiciousPhoneNumber": "Jos et saa tekstiviestiä, kokeile ottaa ensimmäinen nolla pois numerosta, eli %s",
         "Settings_UpdateOrDeleteAccount": "Voit myös %1$späivittää%2$s tai %3$spoistaa%4$s tämän tilin.",
         "Settings_ValidatePhoneNumber": "Varmista",
         "Settings_VerificationCodeJustSent": "Lähetimme juuri tekstiviestin tähän numeroon koodilla varustettuna. Kirjoita koodi yläpuolelle ja klikkaa \"Varmista\".",
-        "SettingsMenu": "Mobiiliviestit",
-        "SMS_Content_Too_Long": "[liian pitkä]",
-        "Available_Credits": "Varoja jäljellä: %1$s",
         "TopLinkTooltip": "Saa verkkoanalyysiraportteja suoraan sähköpostiisi tai puhelimeesi!",
         "TopMenu": "Sähköposti- ja SMS-raportit",
         "UserKey": "Käyttäjäavain",
-        "VerificationText": "Koodi on %1$s. Varmistaaksesi puhelinnumerosi ja vastaanottaaksesi Matomon SMS-raportteja, kopioi tämä koodi lomakkeeseen, jonka löydät Matomosta kohdasta %2$s > %3$s."
+        "VerificationText": "Koodi on %1$s. Varmistaaksesi puhelinnumerosi ja vastaanottaaksesi Matomon SMS-raportteja, kopioi tämä koodi lomakkeeseen, jonka löydät Matomosta kohdasta %2$s → %3$s."
     }
 }
