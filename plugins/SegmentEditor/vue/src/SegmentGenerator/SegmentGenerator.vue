@@ -69,7 +69,7 @@
                       class="ui-helper-hidden-accessible"
                     />
                     <ValueInput
-                      :or="orCondition"
+                      :value="orCondition.value"
                       @update="orCondition.value = $event;
                       // deep watch doesn't catch this change
                       this.computeSegmentDefinition();"
