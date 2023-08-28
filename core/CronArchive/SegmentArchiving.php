@@ -179,9 +179,9 @@ class SegmentArchiving
      *
      * @param array $storedSegment
      *
-     * @return array|null
+     * @return array
      */
-    private function getCreatedTimeOfSegment(array $storedSegment): ?array
+    private function getCreatedTimeOfSegment(array $storedSegment): array
     {
         // check for an earlier ts_created timestamp
         $createdTime = empty($storedSegment['ts_created']) ? null : Date::factory($storedSegment['ts_created']);
