@@ -9,7 +9,7 @@
         "AlwaysActivatedPluginsList": "Şu uygulama eklerinin her zaman etkinleştirilmiş olması gerektiğinden devre dışı bırakılamaz: %s",
         "AreThereAnyRisks": "Herhangi bir risk var mı?",
         "AreThereAnyRisksDetails1": "Etiket yöneticisini etkinleştirdiğinizde, yönetici erişimine sahip kullanıcılar, sitenin JavaScript ile yürütülebilen özel HTML kod imleri, tetikleyiciler ve değişkenler ekleyebilir. Bu özel kalıplar, sitenin ziyaretçilerinden kişisel bilgileri çalmak için kötüye kullanılabilir (%1$sXSS%2$s olarak bilinir).",
-        "AreThereAnyRisksDetails2": "Etiket yöneticisini etkinleştirdikten sonra bu özel kalıpları \"Yönetim => Genel ayarlar\" bölümünden devre dışı bırakabilirsiniz. Alternatif olarak, bu kalıpların kullanımını belirli kullanıcılar ya da süper kullanıcılar ile kısıtlayabilirsiniz.",
+        "AreThereAnyRisksDetails2": "Etiket yöneticisini etkinleştirdikten sonra bu özel kalıpları \"Yönetim → Genel ayarlar\" bölümünden devre dışı bırakabilirsiniz. Alternatif olarak, bu kalıpların kullanımını belirli kullanıcılar ya da süper kullanıcılar ile kısıtlayabilirsiniz.",
         "AuthorHomepage": "Geliştirici sayfası",
         "ChangeLookByManageThemes": "%1$sTema yönetimi%2$s bölümünden Matomo görünümünü değiştirebilirsiniz.",
         "ChangeSettingsPossible": "Bu uygulama ekinin %1$sayarlarını%2$s değiştirebilirsiniz.",
@@ -86,6 +86,6 @@
         "WhyUsingATagManager": "Etiket yöneticisi neden gerekli?",
         "WhyUsingATagManagerDetails1": "Bir etiket yöneticisi kullanmak hayatınızı kolaylaştırır! Böylece bir sitedeki herhangi bir birinci ya da üçüncü taraf kod parçasını değiştirmek için bir yazılım geliştiriciyi beklemeniz gerekmez. Etiket yöneticisi sitede bu değişiklikleri yapmak ve yayınlamak için stresten uzak bir deneyim sağlar.",
         "WhyUsingATagManagerDetails2": "Daha uygun olamazdı, pazara değişiklikleri daha hızlı getirmenin yanında maliyetlerinizi de düşürür.",
-        "WhyUsingATagManagerDetails3": "Böylece pazarlama, sayısal reklam ve BT ekipleri mutlu olur... Herkes kazanır!"
+        "WhyUsingATagManagerDetails3": "Böylece pazarlama, sayısal reklam ve BT ekipleri mutlu olur… Herkes kazanır!"
     }
 }

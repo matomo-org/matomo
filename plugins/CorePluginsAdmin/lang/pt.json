@@ -9,7 +9,7 @@
         "AlwaysActivatedPluginsList": "As extensões seguintes estão sempre ativas e não podem ser desativadas: %s",
         "AreThereAnyRisks": "Existem riscos associados?",
         "AreThereAnyRisksDetails1": "Ao ativar o Gestor de tags, os utilizadores com privilégios de Administração serão capazes de criar etiquetas HTML personalizadas, acionadores e variáveis que podem executar JavaScript no seu site. Estes modelos personalizados podem ser utilizados indevidamente, por exemplo, para roubar informações sensíveis dos visitantes do seu site (também conhecido por %1$sXSS %2$s).",
-        "AreThereAnyRisksDetails2": "Pode desativar estes modelos personalizados ao aceder a \"Administração =&gt; Definições Gerais\" uma vez que tenha ativado o Gestor de tags. Em alternativa, pode também restringir a utilização destes modelos a determinados utilizadores ou apenas a super-utilizadores.",
+        "AreThereAnyRisksDetails2": "Pode desativar estes modelos personalizados ao aceder a \"Administração → Definições Gerais\" uma vez que tenha ativado o Gestor de tags. Em alternativa, pode também restringir a utilização destes modelos a determinados utilizadores ou apenas a super-utilizadores.",
         "AuthorHomepage": "Página do autor",
         "ChangeLookByManageThemes": "Pode alterar a aparência do Matomo %1$sGerindo os temas%2$s.",
         "ChangeSettingsPossible": "Pode alterar as %1$sdefinições%2$s para esta extensão.",

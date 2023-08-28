@@ -35,7 +35,7 @@
         "IPurchasedGeoIPDBs": "J'ai acheté des bases de données plus précises auprès de %3$sdbip%4$s ou %1$sMaxMind%2$s et je souhaite configurer des mises à jour automatiques.",
         "ISPDatabase": "Base de données ISP",
         "ISPRequiresProviderPlugin": "Le suivi des fournisseurs de services Internet nécessite l'installation et l'activation du plug-in Provider.",
-        "IWantToDownloadFreeGeoIP": "Je veux télécharger la base de données DBIP gratuite...",
+        "IWantToDownloadFreeGeoIP": "Je veux télécharger la base de données DBIP gratuite…",
         "InvalidGeoIPUpdateHost": "L'hôte de l'url de mise à jour GeoIP %1$s n'est pas approuvé. Pour autoriser le téléchargement des mises à jour GeoIP à partir d'hôtes autres que %2$s, veuillez ajuster le paramètre pour %3$s dans la configuration.",
         "InvalidGeoIPUpdatePeriod": "Période invalide pour la mise à jour de GeoIP : %1$s. Les valeurs valides sont %2$s.",
         "LocationDatabase": "Base de données de localisation",

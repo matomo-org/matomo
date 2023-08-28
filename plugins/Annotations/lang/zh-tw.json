@@ -1,22 +1,22 @@
 {
     "Annotations": {
-        "AddAnnotationsFor": "新增 %s 的註解...",
+        "AddAnnotationsFor": "新增 %s 的註解…",
         "AnnotationOnDate": "%1$s 的註解：%2$s",
         "Annotations": "註解",
         "ClickToDelete": "點擊刪除此註解。",
         "ClickToEdit": "點擊編輯此註解。",
         "ClickToEditOrAdd": "點擊以編輯或新增註解。",
         "ClickToStarOrUnstar": "點擊以標示或撤銷此註解的星號。",
-        "CreateNewAnnotation": "新增註解...",
-        "EnterAnnotationText": "輸入你的筆記...",
-        "HideAnnotationsFor": "隱藏 %s 的註解...",
+        "CreateNewAnnotation": "新增註解…",
+        "EnterAnnotationText": "輸入你的筆記…",
+        "HideAnnotationsFor": "隱藏 %s 的註解…",
         "IconDesc": "查看此日期範圍的筆記。",
         "IconDescHideNotes": "隱藏此日期範圍的筆記。",
         "InlineQuickHelp": "你可以建立註解來標記特殊事件（如部落格新文章或網頁重新設計），來保存你的資料分析或是任何你覺得重要的事。",
         "LoginToAnnotate": "登入以建立註解。",
         "NoAnnotations": "這個日期範圍內沒有註解。",
         "PluginDescription": "讓你可以在不同日期加入筆記來標記你的網站修改處，保存你的分析數據資料以及和你的同事分享你的想法。透過註解，你可以確保未來能記得為什麼你的資料看起來會是這樣。",
-        "ViewAndAddAnnotations": "查看並新增 %s 的註解...",
+        "ViewAndAddAnnotations": "查看並新增 %s 的註解…",
         "YouCannotModifyThisNote": "你無法編輯這個註解，因為你並沒有建立它，也沒有這個網站的管理權限。"
     }
 }

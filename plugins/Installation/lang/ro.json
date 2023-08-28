@@ -67,7 +67,7 @@
         "SystemCheckExtensions": "Alte extensii necesare",
         "SystemCheckFileIntegrity": "Fișier integrat",
         "SystemCheckFunctions": "Funcții necesare",
-        "SystemCheckGDFreeType": "GD > 2.x + Freetype (grafică)",
+        "SystemCheckGDFreeType": "GD &gt; 2.x + Freetype (grafică)",
         "SystemCheckGDHelp": "Sparklines (grafice mici) și graficele de imagine (în Matomo app mobile și rapoarte de e-mail) nu vor funcționa.",
         "SystemCheckGlobHelp": "Această funcție built-in a fost dezactivată de gazda dumneavoastra. Matomo va încerca să imite această funcție, dar poate întâlni alte restricții de securitate. Funcționalitatea poatr fi afectata.",
         "SystemCheckGzcompressHelp": "Trebuie sa se permita extinderea zlib și funcția gzcompress.",

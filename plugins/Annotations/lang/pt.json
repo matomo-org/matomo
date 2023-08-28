@@ -1,22 +1,22 @@
 {
     "Annotations": {
-        "AddAnnotationsFor": "Adicionar anotações para %s...",
+        "AddAnnotationsFor": "Adicionar anotações para %s…",
         "AnnotationOnDate": "Anotação em %1$s: %2$s",
         "Annotations": "Anotações",
         "ClickToDelete": "Clique para eliminar esta anotação.",
         "ClickToEdit": "Clique para editar esta anotação.",
         "ClickToEditOrAdd": "Clique para editar ou adicionar uma nova anotação.",
         "ClickToStarOrUnstar": "Clique para adicionar ou remover favorito desta anotação.",
-        "CreateNewAnnotation": "Criar uma nova anotação...",
-        "EnterAnnotationText": "Insira a sua nota...",
-        "HideAnnotationsFor": "Ocultar anotações para %s...",
+        "CreateNewAnnotation": "Criar uma nova anotação…",
+        "EnterAnnotationText": "Insira a sua nota…",
+        "HideAnnotationsFor": "Ocultar anotações para %s…",
         "IconDesc": "Ver notas para este intervalo de datas.",
         "IconDescHideNotes": "Ocultar notas para este intervalo de datas.",
         "InlineQuickHelp": "Pode criar anotações para marcar eventos especiais (tais como uma nova publicação no blogue, ou redesenho do site), para guardar as suas análises de dados ou para guardar qualquer outra coisa que considere ser importante.",
         "LoginToAnnotate": "Inicie a sessão para criar uma anotação.",
         "NoAnnotations": "Não existem anotações para este intervalo de datas.",
         "PluginDescription": "Permite que anexe notas a dias diferentes para marcar alterações realizadas ao seu site, guardar análises que realizou relativas aos seus dados e partilhar os seus pensamentos com os seus colegas. Ao anotar a sua informação, terá a certeza que se lembrará da razão pela qual esta tem o aspeto que tem.",
-        "ViewAndAddAnnotations": "Ver e adicionar anotações para %s...",
+        "ViewAndAddAnnotations": "Ver e adicionar anotações para %s…",
         "YouCannotModifyThisNote": "Não pode modificar esta anotação, porque não a criou, nem tem acesso de administrador para este site."
     }
 }

@@ -33,7 +33,7 @@
         "NextDelete": "Susunod na iskedyul sa pagtaggal sa",
         "PurgeNow": "I-purge ang DB Ngayon",
         "PurgeNowConfirm": "Iyo ng permanenteng tanggalin ang data mula sa iyong database. Sigurado ka bang gusto mo itong ituloy?",
-        "PurgingData": "Purging data...",
+        "PurgingData": "Purging data…",
         "ReportsDataSavedEstimate": "Laki ng database",
         "SaveSettingsBeforePurge": "Iyong binago ang mga setting ng pagtanggal ng data. Mangyaring i-save ang mga ito bago simulan ang isang pag purge.",
         "SeeAlsoOurOfficialGuidePrivacy": "Tingnan din ang aming opisyal na gabay: %1$s Privacy Web Analytics %2$s",

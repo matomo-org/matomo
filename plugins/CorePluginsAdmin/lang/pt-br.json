@@ -9,7 +9,7 @@
         "AlwaysActivatedPluginsList": "Os seguintes plugins estão sempre ativados e não podem ser desativados: %s",
         "AreThereAnyRisks": "Existe algum risco?",
         "AreThereAnyRisksDetails1": "Quando você ativa o Gerenciador de Tags, os usuários com acesso de administrador poderão criar tags HTML customizadas, gatilhos, e variáveis que podem executar JavaScript em seu site. Estes templates customizados podem ser mal utilizados para roubar, por exemplo, informação sensível dos visitantes do seu site (conhecidos como %1$sXSS%2$s).",
-        "AreThereAnyRisksDetails2": "Você pode desabilitar estes modelos customizados em \"Administração =&gt; Configurações gerais\" uma vez que você tenha ativado o Gerenciador de Tags. Alternativamente, você também pode restringir o uso destes modelos para apenas usuários específicos ou superusuários.",
+        "AreThereAnyRisksDetails2": "Você pode desabilitar estes modelos customizados em \"Administração → Configurações gerais\" uma vez que você tenha ativado o Gerenciador de Tags. Alternativamente, você também pode restringir o uso destes modelos para apenas usuários específicos ou superusuários.",
         "AuthorHomepage": "Página do autor",
         "ChangeLookByManageThemes": "Você pode alterar a aparência do Matomo %1$sGerenciando Temas%2$s.",
         "ChangeSettingsPossible": "Você pode alterar as %1$sconfigurações%2$s para este plugin.",

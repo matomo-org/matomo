@@ -2,8 +2,8 @@
     "SitesManager": {
         "AddMeasurable": "新增監測對象",
         "AddSite": "新增網站",
-        "AdvancedTimezoneSupportNotFound": "在你的 PHP 找不到進階時區支援（PHP>=5.2 支援）。你還是可以手動選擇 UTC 時區。",
-        "AliasUrlHelp": "推薦，但不是必要的，指定一些你的訪客進入此網站時可能的網址，一行一個。網站的網址別名將不會顯示在參造連結 > 網站報表裡。注意 Matomo 能兼顧包含及不包含「www」的網址。",
+        "AdvancedTimezoneSupportNotFound": "在你的 PHP 找不到進階時區支援（PHP&gt;=5.2 支援）。你還是可以手動選擇 UTC 時區。",
+        "AliasUrlHelp": "推薦，但不是必要的，指定一些你的訪客進入此網站時可能的網址，一行一個。網站的網址別名將不會顯示在參造連結 → 網站報表裡。注意 Matomo 能兼顧包含及不包含「www」的網址。",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "變更時區僅會影響往後的數據，不會溯及既往。",
         "ChooseMeasurableTypeHeadline": "你想要追蹤什麼？",
         "Currency": "貨幣",

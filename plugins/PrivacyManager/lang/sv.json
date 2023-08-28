@@ -172,7 +172,7 @@
         "PseudonymizeUserIdNote2": "OBS! Att byta ut med en pseudonym är inte detsamma som anonymisering. I GDPR-termer: Användarens ID-pseudonym räknas fortfarande som personuppgifter. Det ursprungliga användar-ID kan fortfarande identifieras om vissa ytterligare uppgifter är tillgängliga (som endast Matomo och din dataprocessor har tillgång till).",
         "PurgeNow": "Rensa databasen nu",
         "PurgeNowConfirm": "Du är på väg att permanent radera data från din databas. Är du säker på att du vill fortsätta?",
-        "PurgingData": "Rensar data...",
+        "PurgingData": "Rensar data…",
         "RawDataNeverRemoved": "besöks- och åtgärdsrådata raderas <strong>aldrig</strong>.",
         "RawDataRemovedAfter": "alla besök och åtgärders rådata raderas efter %1$s.",
         "RecommendedForPrivacy": "Rekommenderas för sekretess",

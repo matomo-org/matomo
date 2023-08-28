@@ -174,7 +174,7 @@
         "PseudonymizeUserIdNote2": "Obs: substituir por um pseudônimo não é o mesmo que anonimização. Em termos da GDPR: o pseudônimo do ID de usuário ainda conta como dado pessoal. O ID de usuário original ainda pode ser identificado se certas informações adicionais estiverem disponíveis (às quais apenas o Matomo e o seu processador de dados têm acesso).",
         "PurgeNow": "Purge DB Agora",
         "PurgeNowConfirm": "Você está prestes a excluir permanentemente os dados de seu banco de dados. Tem certeza de que quer continuar?",
-        "PurgingData": "Purgando dados...",
+        "PurgingData": "Purgando dados…",
         "RawDataNeverRemoved": "dados brutos de visitas e ações <strong>nunca</strong> são excluídos.",
         "RawDataRemovedAfter": "todos os dados brutos de visitas e ações são excluídos após %1$s.",
         "RecommendedForPrivacy": "Recomendado para privacidade",

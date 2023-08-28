@@ -143,7 +143,7 @@
         "PseudonymizeUserIdNote2": "Note : remplacer par un pseudonyme n'est pas identique à une anonymisation des données. Dans les termes énoncés par RGPD : un pseudonyme identifiant l'utilisateur compte toujours comme une données personnelle. L'identifiant utilisateur originel pourrait toujours être identifié si certaines informations complémentaires étaient disponibles (auxquelles uniquement Matomo et votre traitement de données ont accès).",
         "PurgeNow": "Purger la base de données maintenant",
         "PurgeNowConfirm": "Vous êtes sur le point de supprimer définitivement les données de votre base de données. Êtes-vous sûr(e) de vouloir continuer ?",
-        "PurgingData": "Purge des données...",
+        "PurgingData": "Purge des données…",
         "RawDataNeverRemoved": "les données brutes des visites et des actions ne sont <strong>jamais</strong> supprimées.",
         "RawDataRemovedAfter": "toutes les données brutes de visites et d'actions sont supprimées après %1$s.",
         "RecommendedForPrivacy": "Recommandé pour le respect de la vie privée",

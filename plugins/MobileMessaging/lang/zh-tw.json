@@ -1,5 +1,6 @@
 {
     "MobileMessaging": {
+        "Available_Credits": "可用額度：%1$s",
         "Exception_UnknownProvider": "未知的供應商名稱「%1$s」。試試下面的代替：%2$s。",
         "MobileReport_AdditionalPhoneNumbers": "你可以增加更多電話號碼，前往",
         "MobileReport_MobileMessagingSettingsLink": "手機簡訊設定頁面",
@@ -7,16 +8,17 @@
         "MultiSites_Must_Be_Activated": "要將網站數據產生簡訊，請先啟用 Matomo 中的 MultiSites 外掛。",
         "PhoneNumbers": "電話號碼",
         "PluginDescription": "建立和下載自訂簡訊報表，並令它們每日、每周或每月傳送至你的手機。",
+        "SMS_Content_Too_Long": "[太長]",
+        "SettingsMenu": "手機簡訊",
         "Settings_APIKey": "API 金鑰",
         "Settings_CountryCode": "國家代碼",
-        "Settings_SelectCountry": "選擇國家",
+        "Settings_CredentialInvalid": "你的簡訊帳號 %1$s 已配置，但是在嘗試接收可用額度時發生錯誤。",
         "Settings_CredentialNotProvided": "在你建立和管理電話號碼錢，請先在上方將 Matomo 連接到你的簡訊帳號。",
         "Settings_CredentialNotProvidedByAdmin": "在你建立和管理電話號碼錢，請先請求你的管理員將 Matomo 連接到你的簡訊帳號。",
         "Settings_CredentialProvided": "你的 %s 簡訊 API 帳號配置正確！",
-        "Settings_CredentialInvalid": "你的簡訊帳號 %1$s 已配置，但是在嘗試接收可用額度時發生錯誤。",
-        "Settings_DeleteAccountConfirm": "你確定要刪除這個簡訊帳號？",
-        "Settings_DelegatedSmsProviderOnlyAppliesToYou": "所配置的簡訊供應商只會由你自己使用。",
         "Settings_DelegatedPhoneNumbersOnlyUsedByYou": "所配置的電話號碼只會由你自己看到及使用。",
+        "Settings_DelegatedSmsProviderOnlyAppliesToYou": "所配置的簡訊供應商只會由你自己使用。",
+        "Settings_DeleteAccountConfirm": "你確定要刪除這個簡訊帳號？",
         "Settings_EnterActivationCode": "輸入啟用碼",
         "Settings_InvalidActivationCode": "驗證碼輸入錯誤，請重試。",
         "Settings_LetUsersManageAPICredential": "允許使用者管理自己的簡訊供應商",
@@ -30,16 +32,14 @@
         "Settings_PleaseSignUp": "要建立網站統計簡訊報表及在手機中接收簡訊，請先註冊簡訊 API，請在下方填入你的資訊。",
         "Settings_SMSAPIAccount": "管理簡訊 API 帳號",
         "Settings_SMSProvider": "簡訊供應商",
+        "Settings_SelectCountry": "選擇國家",
         "Settings_SuperAdmin": "超級使用者設定",
         "Settings_SuspiciousPhoneNumber": "如果你沒收到簡訊，你可以試著將開頭的 0 去除掉。例如 %s",
         "Settings_UpdateOrDeleteAccount": "你也可以%1$s更新%2$s或%3$s刪除%4$s此帳號。",
         "Settings_ValidatePhoneNumber": "驗證",
-        "SettingsMenu": "手機簡訊",
-        "SMS_Content_Too_Long": "[太長]",
-        "Available_Credits": "可用額度：%1$s",
         "TopLinkTooltip": "從信箱或手機取得網頁分析報表。",
         "TopMenu": "Email 和簡訊報表",
         "UserKey": "使用者金鑰",
-        "VerificationText": "驗證碼為 %1$s。請將此驗證碼填入 Matomo > %2$s > %3$s 的表單中來完成手機驗證。"
+        "VerificationText": "驗證碼為 %1$s。請將此驗證碼填入 Matomo → %2$s → %3$s 的表單中來完成手機驗證。"
     }
 }

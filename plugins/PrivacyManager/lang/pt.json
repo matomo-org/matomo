@@ -164,7 +164,7 @@
         "PseudonymizeUserIdNote2": "Nota: a substituição com um pseudónimo não é o mesmo que anonimização. Nos termos do RGPD: o pseudónimo do ID de utilizador ainda é considerado dado pessoal. O ID de utilizador ainda pode ser identificado se determinadas informações adicionais estiverem disponíveis (a que apenas o Matomo e o seu processador de dados têm acesso).",
         "PurgeNow": "Limpar a base de dados agora",
         "PurgeNowConfirm": "Está prestes a eliminar dados da sua base de dados de forma permanente. Tem a certeza de que pretende continuar?",
-        "PurgingData": "A limpar dados...",
+        "PurgingData": "A limpar dados…",
         "RawDataNeverRemoved": "visitas e dados fonte das ações <strong>nunca</strong> são eliminados.",
         "RawDataRemovedAfter": "todas as visitas e dados fonte das ações são eliminados depois de %1$s.",
         "RecommendedForPrivacy": "Recomendado para a privacidade",

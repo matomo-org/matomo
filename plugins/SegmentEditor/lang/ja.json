@@ -24,7 +24,7 @@
         "DefaultAllVisits": "すべてのビジット",
         "DragDropCondition": "ドラッグ＆ドロップ の条件",
         "HideMessageInFuture": "今後このメッセージを非表示にする",
-        "LoadingSegmentedDataMayTakeSomeTime": "ビジターデータのセグメント処理には、数分かかることがあります...",
+        "LoadingSegmentedDataMayTakeSomeTime": "ビジターデータのセグメント処理には、数分かかることがあります…",
         "OperatorAND": "AND（および）",
         "OperatorOR": "OR（または）",
         "PluginDescription": "セグメントは、一連の訪問全体の一部のみを選択するために使用される一連の基準です。 セグメントを使用すると、レポートに任意のコンテキストを挿入することができます。",

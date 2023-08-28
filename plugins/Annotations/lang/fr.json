@@ -1,22 +1,22 @@
 {
     "Annotations": {
-        "AddAnnotationsFor": "Ajouter des annotations pour %s...",
+        "AddAnnotationsFor": "Ajouter des annotations pour %s…",
         "AnnotationOnDate": "Annotation sur %1$s : %2$s",
         "Annotations": "Annotations",
         "ClickToDelete": "Cliquez pour supprimer cette annotation.",
         "ClickToEdit": "Cliquez pour modifier cette annotation.",
         "ClickToEditOrAdd": "Cliquez pour modifier ou ajouter une nouvelle annotation.",
         "ClickToStarOrUnstar": "Cliquez pour mettre en favori cette annotation ou l'enlever.",
-        "CreateNewAnnotation": "Créer une nouvelle annotation...",
-        "EnterAnnotationText": "Entrez votre note...",
-        "HideAnnotationsFor": "Masquer les annotations pour %s...",
+        "CreateNewAnnotation": "Créer une nouvelle annotation…",
+        "EnterAnnotationText": "Entrez votre note…",
+        "HideAnnotationsFor": "Masquer les annotations pour %s…",
         "IconDesc": "Afficher les notes pour cette plage de dates.",
         "IconDescHideNotes": "Masquer les notes pour cette plage de dates.",
         "InlineQuickHelp": "Vous pouvez créer des annotations pour marquer des événements spéciaux (comme un nouvel article de blog ou une refonte de site Web), pour enregistrer vos analyses de données ou pour enregistrer tout autre élément que vous jugez important.",
         "LoginToAnnotate": "Connectez-vous pour créer une annotation.",
         "NoAnnotations": "Il n'y a pas d'annotations pour cette plage de dates.",
         "PluginDescription": "Vous permet de joindre des notes à différents jours pour marquer les modifications apportées à votre site Web, enregistrer les analyses que vous faites concernant vos données et partager vos réflexions avec vos collègues. En annotant vos données, vous vous assurerez de vous rappeler pourquoi vos données ressemblent à ce qu'elles sont.",
-        "ViewAndAddAnnotations": "Afficher et ajouter des annotations pour %s...",
+        "ViewAndAddAnnotations": "Afficher et ajouter des annotations pour %s…",
         "YouCannotModifyThisNote": "Vous ne pouvez pas modifier cette annotation, car vous ne l'avez pas créée et vous n'avez pas non plus d'accès administrateur pour ce site."
     }
 }

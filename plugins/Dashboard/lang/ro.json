@@ -6,6 +6,7 @@
         "CopyDashboardToUser": "Crează o copie a panoului de control pentru utilizator",
         "CreateNewDashboard": "Creează un panou de control nou",
         "Dashboard": "Panou de control",
+        "DashboardCategoryHelp": "Aceasta este o pagină de bord. Tablourile de bord sunt o colecție de widget-uri Matomo pe care le adăugați pentru a se potrivi nevoilor dvs. specifice. Amestecați și potriviți oricare dintre widgeturile Matomo pentru a obține dintr-o privire datele %1$s de care *tu*%2$s ai nevoie.",
         "DashboardCopied": "Panoul de control copiat cu succes pentru utilizatorul selectat.",
         "DashboardEmptyNotification": "Panoul tău de control nu conţine niciun widget. Începi prin a adăuga câteva widget-uri sau doar resetează panoul de control către selecţia implicită de widget-uri.",
         "DashboardName": "Numele panoului de control:",
@@ -13,7 +14,7 @@
         "DefaultDashboard": "Panou de control implicit - Foloseşte widget-urile selectate şi coloanele implicite",
         "DeleteWidgetConfirm": "Esti sigur că doreşti să ştergi widget-ul din panoul de control?",
         "EmptyDashboard": "Panou de control gol - Alege widget-urile preferate",
-        "LoadingWidget": "Se incarca dispozitivul, asteapta...",
+        "LoadingWidget": "Se incarca dispozitivul, asteapta…",
         "ManageDashboard": "Administreză panou de control",
         "Maximise": "Maximizează",
         "Minimise": "Minimizează",
@@ -32,7 +33,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "Această selecţie de widget-uri şi aspectul coloanelor panoului de control va fi folosită când un utilizator creează un panou de control nou sau când este folosită caracteristica \"%s\".",
         "TopLinkTooltip": "Vizualizează rapoarte web analitică pentru %s.",
         "WidgetNotFound": "Dispozitivul nu exista",
-        "WidgetPreview": "Previzualizează widget-ul",
-        "DashboardCategoryHelp": "Aceasta este o pagină de bord. Tablourile de bord sunt o colecție de widget-uri Matomo pe care le adăugați pentru a se potrivi nevoilor dvs. specifice. Amestecați și potriviți oricare dintre widgeturile Matomo pentru a obține dintr-o privire datele %1$s de care *tu*%2$s ai nevoie."
+        "WidgetPreview": "Previzualizează widget-ul"
     }
 }

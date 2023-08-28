@@ -174,7 +174,7 @@
         "PseudonymizeUserIdNote2": "Nota: substituir per un pseudònim no és el mateix que anonimitzar. En termes de RGPD: el pseudònim de User ID encara compta com a dades personals. L'identificador d'usuari original encara es podria identificar si hi ha certa informació addicional disponible (a la qual només tenen accés Matomo i el seu processador de dades).",
         "PurgeNow": "Purgueu la base de dades ara",
         "PurgeNowConfirm": "Esteu a punt d'eliminar permanentment les dades de la vostra base de dades. Esteu segur que voleu continuar?",
-        "PurgingData": "Purgant les dades...",
+        "PurgingData": "Purgant les dades…",
         "RawDataNeverRemoved": "Les dades en brut de les visites i les accions no s'eliminen <strong>mai</strong> .",
         "RawDataRemovedAfter": "totes les dades en brut de visites i accions se suprimeixen després de %1$s.",
         "RecommendedForPrivacy": "Recomanat per privadesa",

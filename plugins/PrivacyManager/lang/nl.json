@@ -174,7 +174,7 @@
         "PseudonymizeUserIdNote2": "Opmerking: het vervangen door een pseudoniem is niet hetzelfde als anonimiseren. In GDPR termen: het gebruiker-ID pseudoniem telt nog steeds als persoonsgegeven. De oorspronkelijke gebruiker-ID kan nog steeds worden geïdentificeerd als bepaalde aanvullende informatie beschikbaar is (waartoe alleen Matomo en uw gegevensverwerker toegang hebben).",
         "PurgeNow": "Database nu legen",
         "PurgeNowConfirm": "Je staat op het punt om data permanent van je database te verwijderen. Weet je zeker dat je wilt doorgaan?",
-        "PurgingData": "Data opschonen...",
+        "PurgingData": "Data opschonen…",
         "RawDataNeverRemoved": "ruwe gegevens voor bezoeken en activiteiten worden <strong>nooit</strong> gewist.",
         "RawDataRemovedAfter": "alle ruwe gegevens voor bezoeken en activiteiten worden verwijderd na %1$s.",
         "RecommendedForPrivacy": "Aanbevolen voor privacy",

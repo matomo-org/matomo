@@ -6,6 +6,7 @@
         "CopyDashboardToUser": "Kopiuj pulpit do użytkownika",
         "CreateNewDashboard": "Utwórz nowy pulpit",
         "Dashboard": "Pulpit",
+        "DashboardCategoryHelp": "Strona pulpitu. Pulpity są kolekcją widżetów Matomo, które możesz samodzielnie dodawać, w zależności od potrzeb. Miksuj i dobieraj widżety Matomo, żeby mieć dane, których %1$s\"Ty\"%2$s potrzebujesz, pod ręką.",
         "DashboardCopied": "Bieżący pulpit został pomyślnie skopiowany do wybranego użytkownika.",
         "DashboardEmptyNotification": "Twój pulpit nie zawiera żadnych widżetów. Rozpocznij pracę od dodania kilku widżetów, lub po prostu zresetuj pulpit, aby przywrócić domyślny zestaw widżetów.",
         "DashboardName": "Nazwa pulpitu:",
@@ -13,7 +14,7 @@
         "DefaultDashboard": "Domyślny pulpit - używa domyślnego zestawu widżetów i układu kolumn.",
         "DeleteWidgetConfirm": "Czy jesteś pewien, że chcesz usunąć ten widżet z pulpitu?",
         "EmptyDashboard": "Pusty pulpit - wybierz swoje ulubione widżety",
-        "LoadingWidget": "Ładowanie widżetu, proszę czekać...",
+        "LoadingWidget": "Ładowanie widżetu, proszę czekać…",
         "ManageDashboard": "Zarządzaj pulpitem",
         "Maximise": "Maksymalizuj",
         "Minimise": "Minimalizuj",
@@ -32,7 +33,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "Ten zestaw widżetów i układ kolumn będzie używany, gdy jakikolwiek użytkownik stworzy nowy pulpit, albo gdy funkcja \"%s\" zostanie użyta.",
         "TopLinkTooltip": "Podgląd raportów Web Analytics dla %s.",
         "WidgetNotFound": "Widżet nie został znaleziony",
-        "WidgetPreview": "Podgląd widżetu",
-        "DashboardCategoryHelp": "Strona pulpitu. Pulpity są kolekcją widżetów Matomo, które możesz samodzielnie dodawać, w zależności od potrzeb. Miksuj i dobieraj widżety Matomo, żeby mieć dane, których %1$s\"Ty\"%2$s potrzebujesz, pod ręką."
+        "WidgetPreview": "Podgląd widżetu"
     }
 }

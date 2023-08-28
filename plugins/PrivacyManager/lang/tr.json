@@ -174,7 +174,7 @@
         "PseudonymizeUserIdNote2": "Not: Takma ad kullanılması anonim kılma ile aynı şey değildir. Genel Veri Koruma Yönetmeliği hükümlerine göre takma ad da kişisel veri sayılır. Belirli verilere sahip olunması durumunda (yalnızca Matomo ve veri işleyiciniz tarafından erişilebilen) takma ad kullanılarak gerçek kullanıcı kimliği bulunabilir.",
         "PurgeNow": "Veri tabanını temizle",
         "PurgeNowConfirm": "Veri tabanınızdaki verileri kalıcı olarak silmek üzeresiniz. İlerlemek istiyor musunuz?",
-        "PurgingData": "Veriler boşaltılıyor...",
+        "PurgingData": "Veriler boşaltılıyor…",
         "RawDataNeverRemoved": "ziyaret ve işlem ham verileri <strong>hiç</strong> silinmiyor.",
         "RawDataRemovedAfter": "tüm ziyaret ve işlem ham verileri %1$s sonra siliniyor.",
         "RecommendedForPrivacy": "Gizlilik için önerilir",

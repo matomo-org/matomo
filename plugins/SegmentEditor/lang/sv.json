@@ -24,7 +24,7 @@
         "DefaultAllVisits": "Alla besök",
         "DragDropCondition": "Dra &amp; Droppa villkor",
         "HideMessageInFuture": "Dölj detta meddelande i framtiden",
-        "LoadingSegmentedDataMayTakeSomeTime": "Att processa data för segmenterade besökare kan ta några minuter...",
+        "LoadingSegmentedDataMayTakeSomeTime": "Att processa data för segmenterade besökare kan ta några minuter…",
         "OperatorAND": "OCH",
         "OperatorOR": "ELLER",
         "PluginDescription": "Ett segment är en uppsättning kriterier som används för att bara välja en del av samtliga besök. Med hjälp av segment kan du föra in godtycklig kontext i dina rapporter.",

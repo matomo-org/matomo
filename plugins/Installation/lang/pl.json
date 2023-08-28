@@ -95,7 +95,7 @@
         "SystemCheckFileIntegrity": "Integralność pliku",
         "SystemCheckFilterHelp": "Musisz skonfigurować i odtworzyć PHP z obsługą \"filtrów\" (nie używaj --disable-filter).",
         "SystemCheckFunctions": "Wymagane funkcje",
-        "SystemCheckGDFreeType": "GD > 2.x + Freetype (graphics)",
+        "SystemCheckGDFreeType": "GD &gt; 2.x + Freetype (graphics)",
         "SystemCheckGDHelp": "Linie przerywane (mała grafika sparklines) nie będzie wyświetlana.",
         "SystemCheckGlobHelp": "Ta wbudowana funkcja została wyłączona przez twój hosting. Matomo podejmie próbę jej emulowania, ale może napotkać kolejne ograniczenia związane z bezpieczeństwem. Może to mieć wpływ na funkcjonalność.",
         "SystemCheckGzcompressHelp": "Musisz włączyć rozszerzenie zlib i funkcję gzcompress.",

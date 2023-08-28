@@ -9,7 +9,7 @@
         "AlwaysActivatedPluginsList": "Les composants suivants sont toujours activés et ne peuvent être désactivés : %s",
         "AreThereAnyRisks": "Est-ce qu'il y a des risques ?",
         "AreThereAnyRisksDetails1": "Lorsque vous activez le Gestionnaire de Balises, les utilisateurs avec un accès de type administrateur seront capables de créer des balises HTML, déclencheurs et variables personalisées et pourraient exécuter du JavaScript sur votre site web. Ces modèles personnalisés pourraient être utilisés pour, par exemple, subtiliser des données sensibles de vos utilisateurs (%1$sXSS%2$s).",
-        "AreThereAnyRisksDetails2": "Vous pouvez désactiver ces modèles personnalisés sous \"Administration =&gt; Paramètres Généraux\" une fois que vous avez activé le Gestionnaire de Balises. Vous pouvez aussi restreindre l'utilisation de ces modèles à des utilisateurs ou super utilisateurs spécifiques uniquement.",
+        "AreThereAnyRisksDetails2": "Vous pouvez désactiver ces modèles personnalisés sous \"Administration → Paramètres Généraux\" une fois que vous avez activé le Gestionnaire de Balises. Vous pouvez aussi restreindre l'utilisation de ces modèles à des utilisateurs ou super utilisateurs spécifiques uniquement.",
         "AuthorHomepage": "Page de l'auteur",
         "ChangeLookByManageThemes": "Vous pouvez changer l'apparence de Matomo en %1$sgérant les thèmes%2$s.",
         "ChangeSettingsPossible": "Vous pouvez modifier les %1$sparamètres%2$s de ce composant.",
