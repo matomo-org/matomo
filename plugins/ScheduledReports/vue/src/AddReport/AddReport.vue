@@ -7,7 +7,7 @@
 <template>
   <ContentBlock
     class="entityAddContainer"
-    :content-title="translate('ScheduledReports_CreateAndScheduleReport')"
+    :content-title="contentTitle"
   >
     <div class="clear" />
     <form
@@ -514,8 +514,14 @@ export default defineComponent({
     saveButtonTitle() {
       const { ReportPlugin } = window;
 
-      const isCreate = this.report.idreport > 0;
-      return isCreate ? ReportPlugin.createReportString : ReportPlugin.updateReportString;
+      const isEditing = this.report.idreport > 0;
+      return isEditing ? ReportPlugin.updateReportString : ReportPlugin.createReportString;
+    },
+    contentTitle() {
+      const { ReportPlugin } = window;
+
+      const isEditing = this.report.idreport > 0;
+      return isEditing ? ReportPlugin.updateReportString : translate('ScheduledReports_CreateAndScheduleReport');
     },
   },
 });
