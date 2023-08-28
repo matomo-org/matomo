@@ -1,4 +1,15 @@
 <template>
+  <div v-if="showTestSection">
+    <li>{{ translate('CoreAdminHome_JsTrackingCodeAdvancedOptionsStep') }}
+      <JsTrackingCodeAdvancedOptions
+          :site="site"
+          :max-custom-variables="maxCustomVariables"
+          :server-side-do-not-track-enabled="serverSideDoNotTrackEnabled"
+          @updateTrackingCode="updateTrackingCode"
+          ref="jsTrackingCodeAdvanceOption"/>
+    </li>
+    <li>{{ getCopyCodeStep }}</li>
+  </div>
   <div id="javascript-text">
     <div>
       <pre v-copy-to-clipboard="{}" class="codeblock" v-text="trackingCode" ref="trackingCode"/>
@@ -9,16 +20,21 @@
     :max-custom-variables="maxCustomVariables"
     :server-side-do-not-track-enabled="serverSideDoNotTrackEnabled"
     @updateTrackingCode="updateTrackingCode"
-    ref="jsTrackingCodeAdvanceOption"/>
+    ref="jsTrackingCodeAdvanceOption"
+    v-if="!showTestSection"/>
+  <JsTrackerInstallCheck :site="site" v-if="showTestSection"/>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue';
 import {
   SiteRef,
   CopyToClipboard,
+  translate,
 } from 'CoreHome';
 
 import JsTrackingCodeAdvancedOptions from './JsTrackingCodeAdvancedOptions.vue';
+import JsTrackerInstallCheck
+  from '../../../../JsTrackerInstallCheck/vue/src/JsTrackerInstallCheck/JsTrackerInstallCheck.vue';
 
 interface JsTrackingCodeGeneratorSitesWithoutDataState {
   site: SiteRef;
@@ -35,8 +51,14 @@ export default defineComponent({
     maxCustomVariables: Number,
     serverSideDoNotTrackEnabled: Boolean,
     jsTag: String,
+    showTestSection: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   components: {
+    JsTrackerInstallCheck,
     JsTrackingCodeAdvancedOptions,
   },
   directives: {
@@ -67,6 +89,11 @@ export default defineComponent({
           },
         }, 1500);
       }
+    },
+  },
+  computed: {
+    getCopyCodeStep() {
+      return translate('CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead', '</head>');
     },
   },
 });

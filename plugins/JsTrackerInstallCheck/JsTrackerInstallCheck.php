@@ -8,20 +8,15 @@
 
 namespace Piwik\Plugins\JsTrackerInstallCheck;
 
-use Piwik\Common;
 use Piwik\Container\StaticContainer;
-use Piwik\Date;
 use Piwik\Log\LoggerInterface;
-use Piwik\Option;
-use Piwik\SettingsPiwik;
+use Piwik\Plugins\JsTrackerInstallCheck\NonceOption\JsTrackerInstallCheckOption;
 use Piwik\Site;
 use Piwik\Tracker\Request;
 
 class JsTrackerInstallCheck extends \Piwik\Plugin
 {
     const QUERY_PARAM_NAME = 'tracker_install_check';
-    const OPTION_NAME_PREFIX = 'JsTrackerInstallCheck_';
-    const MAX_NONCE_AGE_SECONDS = 30;
 
     public function registerEvents()
     {
@@ -39,6 +34,7 @@ class JsTrackerInstallCheck extends \Piwik\Plugin
         $translationKeys[] = 'JsTrackerInstallCheck_JsTrackingCodeInstallCheckSuccessMessage';
         $translationKeys[] = 'JsTrackerInstallCheck_JsTrackingCodeInstallCheckFailureMessage';
         $translationKeys[] = 'General_Testing';
+        $translationKeys[] = 'JsTrackerInstallCheck_JsTrackingCodeInstallCheckFailureMessageWordpress';
     }
 
     public function getStylesheetFiles(&$stylesheets)
@@ -60,63 +56,52 @@ class JsTrackerInstallCheck extends \Piwik\Plugin
             return;
         }
 
-        // If the request has already been excluded, we don't want to override that
+        // Make sure that the request is marked as excluded if it isn't already
         $excluded = true;
         StaticContainer::get(LoggerInterface::class)->debug('Excluding visit as JS tracker install test.');
 
-        $idSite = $request->getIdSite();
-        $nonceOptionString = Option::get(self::OPTION_NAME_PREFIX . $idSite);
-        if (empty($nonceOptionString)) {
-            return;
-        }
-
-        $nonceOptionArray = json_decode($nonceOptionString, true);
-        if (empty($nonceOptionArray)) {
-            return;
-        }
-
-        // Make sure that the nonce matches
-        if (empty($nonceOptionArray['nonce']) || $nonceOptionArray['nonce'] !== $trackerInstallCheckParam) {
-            return;
-        }
-
-        // If the nonce is older 30 seconds, ignore it. This should be plenty of time because an API call creates the nonce just before opening the site
-        if (empty($nonceOptionArray['time']) || Date::getNowTimestamp() - $nonceOptionArray['time'] > self::MAX_NONCE_AGE_SECONDS) {
-            return;
-        }
-
-        // Since the nonce matches and hasn't expired, update the option indicating success
-        $nonceOptionArray['isSuccessful'] = true;
-        Option::set(self::OPTION_NAME_PREFIX . $idSite, json_encode($nonceOptionArray));
+        // If the nonce exists and isn't expired, update it to indicate success
+        StaticContainer::get(JsTrackerInstallCheckOption::class)->markNonceAsSuccessFul($request->getIdSite(), $trackerInstallCheckParam);
     }
 
     /**
      * Check whether a test request has been recorded for the provided nonce. If no nonce is provided, the recorded
-     * result for the site will be returned.
+     * result for the site will be returned. This is determined by whether there's only one previous nonce or if the URL
+     * matches the main URL of the site.
      *
-     * @param string $idSite
+     * @param int $idSite
      * @param string $nonce The unique nonce used to identify the test requests. Optionally can be left empty if simply
      * wanting to check if the site has been successfully tested.
-     * @return bool Indicating whether the nonce check was marked as successful or not
+     * @return bool Indicating whether the nonce check was marked as successful
      */
-    public function checkForJsTrackerInstallTestSuccess(string $idSite, string $nonce = ''): bool
+    public function checkForJsTrackerInstallTestSuccess(int $idSite, string $nonce = ''): bool
     {
-        $nonceOptionString = Option::get(self::OPTION_NAME_PREFIX . $idSite);
-        if (empty($nonceOptionString)) {
+        $optionHelper = StaticContainer::get(JsTrackerInstallCheckOption::class);
+        // If the nonce was provided, filter out the expired nonces
+        $nonceMap = !empty($nonce) ? $optionHelper->getCurrentNonceMap($idSite) : $optionHelper->getNonceMap($idSite);
+        if (!empty($nonce)) {
+            return !empty($nonceMap[$nonce]['isSuccessful']);
+        }
+
+        if (empty($nonceMap)) {
             return false;
         }
 
-        $nonceOptionArray = json_decode($nonceOptionString, true);
-        if (empty($nonceOptionArray)) {
-            return false;
+        // If there's only one nonce for the site, just use that result
+        if (count($nonceMap) === 1) {
+            return array_values($nonceMap)[0][JsTrackerInstallCheckOption::NONCE_DATA_IS_SUCCESS];
         }
 
-        // Check if the nonce matches the recorded nonce
-        if (!empty($nonce) && (empty($nonceOptionArray['nonce']) || $nonceOptionArray['nonce'] !== $nonce)) {
-            return false;
+        // Since there's more than one nonce, let's see if one of them matches the main URL of the site
+        $mainUrl = Site::getMainUrlFor($idSite);
+        foreach ($nonceMap as $nonceData) {
+            if (!empty($mainUrl) && !empty($nonceData[JsTrackerInstallCheckOption::NONCE_DATA_URL])
+                && $mainUrl === $nonceData[JsTrackerInstallCheckOption::NONCE_DATA_URL]) {
+                return !empty($nonceData['isSuccessful']);
+            }
         }
 
-        return !empty($nonceOptionArray['isSuccessful']);
+        return false;
     }
 
     /**
@@ -132,29 +117,13 @@ class JsTrackerInstallCheck extends \Piwik\Plugin
      */
     public function initiateJsTrackerInstallTest(int $idSite, string $url = ''): array
     {
-        // Check if a nonce already exists from the past few seconds and reuse it if possible
-        $optionName = self::OPTION_NAME_PREFIX . $idSite;
-        $nonceOptionString = Option::get($optionName);
-        if (!empty($nonceOptionString)) {
-            $nonceOptionArray = json_decode($nonceOptionString, true);
-        }
-
-        $nonceString = md5(SettingsPiwik::getSalt() . time() . Common::generateUniqId());
-        // If a nonce already exists, and it's less than 15 seconds under the max age, return that.
-        if (!empty($nonceOptionArray['nonce']) && !empty($nonceOptionArray['time'])
-            && Date::getNowTimestamp() - $nonceOptionArray['time'] < (self::MAX_NONCE_AGE_SECONDS - 15)) {
-            $nonceString = $nonceOptionArray['nonce'];
-        }
-        Option::set($optionName, json_encode([
-            'nonce' => $nonceString,
-            'time' => Date::getNowTimestamp(),
-            'isSuccessful' => false
-        ]));
-
         // If the URL wasn't provided or isn't a valid URL, use the main URL configured for the site
         if (empty($url) || !filter_var($url, FILTER_VALIDATE_URL)) {
             $url = Site::getMainUrlFor($idSite);
         }
+
+        $nonceString = StaticContainer::get(JsTrackerInstallCheckOption::class)->createNewNonce($idSite, $url);
+
         $url .= (parse_url($url, PHP_URL_QUERY) ? '&' : '?') . self::QUERY_PARAM_NAME . '=' . $nonceString;
 
         return ['url' => $url, 'nonce' => $nonceString];
