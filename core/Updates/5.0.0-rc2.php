@@ -10,7 +10,6 @@
 
 namespace Piwik\Updates;
 
-use Piwik\Common;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
@@ -30,36 +29,15 @@ class Updates_5_0_0_rc2 extends PiwikUpdates
         $this->migration = $factory;
     }
 
-    /**
-     * Return database migrations to be executed in this update.
-     *
-     * Database migrations should be defined here, instead of in `doUpdate()`, since this method is used
-     * in the `core:update` command when displaying the queries an update will run. If you execute
-     * migrations directly in `doUpdate()`, they won't be displayed to the user. Migrations will be executed in the
-     * order as positioned in the returned array.
-     *
-     * @param Updater $updater
-     * @return Migration\Db[]
-     */
     public function getMigrations(Updater $updater)
     {
-        $migration1 = $this->migration->db->sql(
-            'ALTER TABLE ' . Common::prefixTable('user_token_authuser') . ' RENAME COLUMN `post_only` TO `secure_only`'
-        );
+        $migration1 = $this->migration->db->changeColumn('user_token_auth', 'post_only', 'secure_only', "TINYINT(2) UNSIGNED NOT NULL DEFAULT '0'");
 
         return [
             $migration1,
         ];
     }
 
-    /**
-     * Perform the incremental version update.
-     *
-     * This method should perform all updating logic. If you define queries in the `getMigrations()` method,
-     * you must call {@link Updater::executeMigrations()} here.
-     *
-     * @param Updater $updater
-     */
     public function doUpdate(Updater $updater)
     {
         $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
