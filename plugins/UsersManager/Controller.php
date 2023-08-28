@@ -384,13 +384,13 @@ class Controller extends ControllerAdmin
             Nonce::checkNonce(self::NONCE_ADD_AUTH_TOKEN);
 
             $description = \Piwik\Request::fromRequest()->getStringParameter('description', '');
-            $postOnly = \Piwik\Request::fromRequest()->getBoolParameter('secure_only', false);
+            $secureOnly = \Piwik\Request::fromRequest()->getBoolParameter('secure_only', false);
 
             $login = Piwik::getCurrentUserLogin();
 
             $generatedToken = $this->userModel->generateRandomTokenAuth();
 
-            $this->userModel->addTokenAuth($login, $generatedToken, $description, Date::now()->getDatetime(), null, false, $postOnly);
+            $this->userModel->addTokenAuth($login, $generatedToken, $description, Date::now()->getDatetime(), null, false, $secureOnly);
 
             $container = StaticContainer::getContainer();
             $email = $container->make(TokenAuthCreatedEmail::class, [
