@@ -177,7 +177,7 @@ class SegmentArchiving
     /**
      * Retrieve the created and last edited time as date objects from the supplied segment array
      *
-     * @param array|null $storedSegment
+     * @param array $storedSegment
      *
      * @return array|null
      */
