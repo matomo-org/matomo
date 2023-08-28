@@ -1,9 +1,17 @@
 {
     "Widgetize": {
+        "DirectLink": "› Direktlänk",
+        "DisplayDashboardInIframe": "Du kan också visa hela instrumentpanelen från Matomo i din applikation eller webbplats med en IFRAME (%1$sse exempel%2$s). Datum-parametern kan sättas till ett visst kalenderdatum, \"idag\", \"igår\" eller \"år\". Periodparametern kan vara \"dag\", \"vecka\", \"månad\" eller \"år\".\nSpråkparametern kan sättas till språkkoden för en översättning, som language=fr. Till exempel, för idSite=1 och date=yesterday, kan du skriva:",
+        "DisplayDashboardInIframeAllSites": "Du kan också göra widget av hela webbplatsens instrumentpanel med en IFRAME (%1$sse exempel%2$s)",
+        "EmbedIframe": "› Bädda in iframe",
+        "Intro": "Med Matomo kan du %1$sexportera dina webbanalys-rapporter%2$s till din blogg, webbplats eller intranät... med ett enda klick.",
         "OpenInNewWindow": "Öppna i ett nytt fönster",
         "PluginDescription": "Visa alla Matomo-rapporter på din webbplats eller i din app med en enkel \"embed\" HTML-tagg .",
-        "TooHighAccessLevel": "Den här användaren har superanvändaråtkomst. För inbäddning av widgets är superanvändartoken-autentiseringar inte tillåtna. %1$sSe våra vanliga frågor för mer information.%2$s",
-        "TopLinkTooltip": "Exportera rapporter från Matomo som Widgets och bädda in instrumentpanelen i din app som en iframe.",
-        "ViewAccessRequired": "Den här användaren har åtminstone lite skrivåtkomst. Endast tokens för användare som bara har visningsåtkomst kan användas. Se %1$s för mer information."
+        "Reports": "Gör widget av rapport",
+        "SelectAReport": "Välj en rapport, kopiera och klistra in nedan inbäddningskod för din widget på din sida:",
+        "TooHighAccessLevel": "Den här användaren har superanvändaråtkomst. För inbäddning av widgets är superanvändartoken-autentisering inte tillåten. %1$sKolla vanliga frågor för mer info.%2$s",
+        "TopLinkTooltip": "Exportera rapporter från Matomo som widgets och bädda in instrumentpanelen i din app som en iframe.",
+        "ViewAccessRequired": "Den här användaren har åtminstone lite skrivåtkomst. Endast tokens för användare som bara har visningsåtkomst kan användas. Kontrollera %1$s för mer information.",
+        "ViewableAnonymously": "Ifall du vill att din widget ska synas för alla behöver du sätta 'visa'-behörighet till anonyma användare i %1$sAnvändarhanteringssektionen%2$s. <br>Alternativt, om du publicerar din widget på en lösenordsskyddad eller privat webbsida behöver du inte egentligen låta anonyma användare få se dina rapporter. I det fallet kan du ange en hemlig <code>token_auth</code> som parameter i din widgets URL. Du kan hantera dina auth-token på din %3$sSäkerhetssida%4$s."
     }
 }
