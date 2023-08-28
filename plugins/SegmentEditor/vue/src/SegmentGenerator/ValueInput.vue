@@ -11,7 +11,7 @@
     class="autocomplete"
     :title="translate('General_Value')"
     autocomplete="off"
-    :value="or.value"
+    :value="value"
     @keydown="onKeydownOrConditionValue($event)"
     @change="onKeydownOrConditionValue($event)"
   />
@@ -23,7 +23,7 @@ import { debounce } from 'CoreHome';
 
 export default defineComponent({
   props: {
-    or: Object,
+    value: null,
   },
   created() {
     this.onKeydownOrConditionValue = debounce(this.onKeydownOrConditionValue, 50);
