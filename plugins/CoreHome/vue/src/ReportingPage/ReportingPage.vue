@@ -211,6 +211,10 @@ export default defineComponent({
       this.renderPage(parsed.category as string, parsed.subcategory as string);
     },
     showOnlyRawDataMessageIfRequired() {
+      if (!Matomo.visitorLogEnabled) {
+        return;
+      }
+
       if (this.hasRawData && this.hasNoVisits) {
         showOnlyRawDataNotification();
       }
