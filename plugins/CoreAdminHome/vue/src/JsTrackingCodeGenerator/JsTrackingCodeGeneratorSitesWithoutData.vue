@@ -28,7 +28,8 @@
 import { defineComponent } from 'vue';
 import {
   SiteRef,
-  CopyToClipboard, translate,
+  CopyToClipboard,
+  translate,
 } from 'CoreHome';
 
 import JsTrackingCodeAdvancedOptions from './JsTrackingCodeAdvancedOptions.vue';

@@ -37,9 +37,10 @@ import { defineComponent } from 'vue';
 import {
   ActivityIndicator,
   AjaxHelper,
-  SiteRef, translate,
+  SiteRef,
+  translate,
 } from 'CoreHome';
-import Field from '../../../../CorePluginsAdmin/vue/src/Field/Field.vue';
+import Field from 'CorePluginsAdmin';
 
 const MAX_NUM_API_CALLS = 10;
 const TIME_BETWEEN_API_CALLS = 1000;
