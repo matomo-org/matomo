@@ -844,7 +844,7 @@ class Plugin extends \Piwik\Plugin
         // Do not perform page comparison check for glossary widget
         // This is performed here and not in Comparison.store.ts, as the widget might be used like on glossary.matomo.org
         // where url parameters are hidden in the request and javascript can't access the current module and action
-        if (Piwik::getModule() === 'API' && Piwik::getAction() === 'glossary' && \Piwik\Request::fromRequest()->getBoolParameter('widget')) {
+        if (Piwik::getModule() === 'API' && Piwik::getAction() === 'glossary' && \Piwik\Request::fromRequest()->getBoolParameter('widget', false)) {
             $out .= "piwik.isPagesComparisonApiDisabled = true;\n";
         }
     }
