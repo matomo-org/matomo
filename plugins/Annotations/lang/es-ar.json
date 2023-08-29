@@ -7,16 +7,16 @@
         "ClickToEdit": "Hacé clic para editar esta anotación.",
         "ClickToEditOrAdd": "Hacé clic para editar o agregar una nueva anotación.",
         "ClickToStarOrUnstar": "Hacé clic para destacar o quitar destacado a esta anotación.",
-        "CreateNewAnnotation": "Crear una nueva anotación",
+        "CreateNewAnnotation": "Crear una nueva anotación…",
         "EnterAnnotationText": "Ingresá tu nota…",
-        "HideAnnotationsFor": "Ocultar anotaciones para %s",
+        "HideAnnotationsFor": "Ocultar anotaciones para %s…",
         "IconDesc": "Ver las notas en este rango de fechas.",
         "IconDescHideNotes": "Ocultar las notas en este rango de fechas.",
         "InlineQuickHelp": "Podés crear anotaciones para marcar eventos especiales (como un nuevo artículo en el blog o el rediseño del sitio), para guardar tus análisis de los datos o para guardar cualquier otra cosa que te parezca importante.",
         "LoginToAnnotate": "Iniciá sesión para crear una anotación.",
         "NoAnnotations": "No existen anotaciones en este rango de fechas.",
         "PluginDescription": "Te permite adjuntar notas en diferentes¿s días para marcar cambios hechos a tu sitio web, guardar los análisis que hayás hecho sobre los datos y compartir tus ideas con tus colegas. Al agregar anotaciones a tus datos te asegurarás de recordar por qué los datos lucen así.",
-        "ViewAndAddAnnotations": "Ver y agregar anotaciones para %s",
+        "ViewAndAddAnnotations": "Ver y agregar anotaciones para %s…",
         "YouCannotModifyThisNote": "No podés modificar esta anotación porque ni la creaste vos, ni tenés privilegios de administrador en este sitio."
     }
 }

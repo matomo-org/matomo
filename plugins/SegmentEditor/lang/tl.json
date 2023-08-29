@@ -10,7 +10,7 @@
         "DataAvailableAtLaterDate": "Ang iyong segment na ulat ng analytics ay magiging available sa ibang pagkakataon. Kami ay humingi ng paumanhin sa abala.",
         "DefaultAllVisits": "Lahat ng pagbisita",
         "DragDropCondition": "Drag at Drop ang kondisyon",
-        "LoadingSegmentedDataMayTakeSomeTime": "Maaaring tumagal ng ilang minuto ang pagproseso ng kaputol na datos ng bisita.",
+        "LoadingSegmentedDataMayTakeSomeTime": "Maaaring tumagal ng ilang minuto ang pagproseso ng kaputol na datos ng bisita…",
         "OperatorAND": "AT",
         "OperatorOR": "OR",
         "PluginDescription": "Ang isang segment ay isang set ng mga pamantayan na ginagamit upang pumili lamang ng isang bahagi ng buong hanay ng mga pagbisita. Maaari mag-inject ng arbitraryo na konteksto pabalik sa iyong mga ulat sa pag-gamit ng segment.",

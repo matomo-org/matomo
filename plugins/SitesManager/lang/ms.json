@@ -3,7 +3,7 @@
         "AddMeasurable": "Tambah yang boleh diukur baharu",
         "AddSite": "Tambah tapak web baharu",
         "AdvancedTimezoneSupportNotFound": "Sokongan zon masa lanjutan tidak ditemui dalam PHP anda (disokong dalam PHP&gt;=5.2). Anda masih boleh memilih offset UTC manual.",
-        "AliasUrlHelp": "Adalah disyorkan, tetapi tidak diperlukan, untuk menentukan pelbagai URL, satu setiap baris, yang digunakan oleh pelawat anda untuk mengakses tapak web ini. URL alias untuk tapak web tidak akan muncul dalam laporan Perujuk &gt; Laman Web. Ambil perhatian bahawa tidak perlu untuk menentukan URL dengan dan tanpa 'www' kerana Matomo secara automatik menganggap kedua-duanya.",
+        "AliasUrlHelp": "Adalah disyorkan, tetapi tidak diperlukan, untuk menentukan pelbagai URL, satu setiap baris, yang digunakan oleh pelawat anda untuk mengakses tapak web ini. URL alias untuk tapak web tidak akan muncul dalam laporan Perujuk → Laman Web. Ambil perhatian bahawa tidak perlu untuk menentukan URL dengan dan tanpa 'www' kerana Matomo secara automatik menganggap kedua-duanya.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Menukar zon masa anda hanya akan menjejaskan data pada masa hadapan dan tidak akan digunakan secara retroaktif.",
         "Currency": "Mata wang",
         "CurrencySymbolWillBeUsedForGoals": "Simbol Mata Wang akan dipaparkan di sebelah hasil Matlamat.",

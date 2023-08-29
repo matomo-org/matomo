@@ -9,7 +9,7 @@
         "AlwaysActivatedPluginsList": "Els connectors següents sempre estan activats i no es poden desactivar: %s",
         "AreThereAnyRisks": "Hi ha cap risc?",
         "AreThereAnyRisksDetails1": "Quan activeu el Gestor d'etiquetes, els usuaris amb accés d'administrador podran crear etiquetes HTML personalitzades, activadors i variables que poden executar JavaScript al vostre lloc web. Aquestes plantilles personalitzades es podrien utilitzar malament per robar, per exemple, informació confidencial dels visitants del vostre lloc web (coneguda com a %1$sXSS%2$s).",
-        "AreThereAnyRisksDetails2": "Podeu desactivar aquestes plantilles personalitzades a \"Administració =&gt; Configuració general\" un cop hàgiu activat el Gestor d'etiquetes. Alternativament, també podeu restringir l'ús d'aquestes plantilles només a usuaris específics o superusuaris.",
+        "AreThereAnyRisksDetails2": "Podeu desactivar aquestes plantilles personalitzades a \"Administració → Configuració general\" un cop hàgiu activat el Gestor d'etiquetes. Alternativament, també podeu restringir l'ús d'aquestes plantilles només a usuaris específics o superusuaris.",
         "AuthorHomepage": "Pàgina d'inici de l'autor",
         "ChangeLookByManageThemes": "Podeu canviar l'aspecte de Matomo a %1$sGestió dels temes%2$s.",
         "ChangeSettingsPossible": "Podeu canviar %1$sla configuració%2$s per a aquest connector.",

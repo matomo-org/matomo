@@ -8,16 +8,16 @@
         "ChooseASegment": "Chọn một phân đoạn",
         "DefaultAllVisits": "Tất cả lượt truy cập",
         "DragDropCondition": "Kéo và thả",
-        "LoadingSegmentedDataMayTakeSomeTime": "Xử lý dữ liệu khách truy cập bị phân đoạn có thể mất một vài phút ...",
+        "LoadingSegmentedDataMayTakeSomeTime": "Xử lý dữ liệu khách truy cập bị phân đoạn có thể mất một vài phút …",
         "OperatorAND": "AND",
         "OperatorOR": "OR",
         "SaveAndApply": "Lưu và áp dụng",
         "SegmentDisplayedAllWebsites": "Tất cả các website",
         "SegmentDisplayedThisWebsiteOnly": "Chỉ website này",
+        "Test": "Thử nghiệm",
         "ThisSegmentIsVisibleTo": "Phân đoạn này có thể nhìn thấy:",
         "VisibleToAllUsers": "Tất cả người dùng",
         "VisibleToMe": "Tôi",
-        "YouMustBeLoggedInToCreateSegments": "Bạn phải đăng nhập để tạo và chỉnh sửa các phân đoạn khách hàng.",
-        "Test": "Thử nghiệm"
+        "YouMustBeLoggedInToCreateSegments": "Bạn phải đăng nhập để tạo và chỉnh sửa các phân đoạn khách hàng."
     }
 }

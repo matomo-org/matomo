@@ -67,7 +67,7 @@
         "PseudonymizeUserId": "Erstat bruger-ID med et pseudonym",
         "PurgeNow": "Ryd op i databasen nu",
         "PurgeNowConfirm": "Permanent sletning af data fra databasen. Bekræft for at fortsætte?",
-        "PurgingData": "Rydder op i data...",
+        "PurgingData": "Rydder op i data…",
         "ReportsDataSavedEstimate": "Database størrelse",
         "SaveSettingsBeforePurge": "Indstillinger for datasletning er ændret. Gem før oprydning.",
         "SecurityProcedures": "Sikkerhedsprocedurer",

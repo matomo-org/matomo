@@ -32,6 +32,6 @@
         "Settings_ValidatePhoneNumber": "확인",
         "TopLinkTooltip": "이메일 또는 휴대전화로 웹로그 분석을 보고할 수 있습니다!",
         "TopMenu": "이메일 및 SMS 보고서",
-        "VerificationText": "인증코드는 %1$s 입니다. Matomo SMS 보고서를 받기 위한 전화번호 확인을 위해 수신한 인증코드를 Matomo > %2$s > %3$s으로 이동하여 입력하세요."
+        "VerificationText": "인증코드는 %1$s 입니다. Matomo SMS 보고서를 받기 위한 전화번호 확인을 위해 수신한 인증코드를 Matomo → %2$s → %3$s으로 이동하여 입력하세요."
     }
 }

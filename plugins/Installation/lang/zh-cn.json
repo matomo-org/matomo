@@ -96,7 +96,7 @@
         "SystemCheckExtensions": "其他必须的扩展",
         "SystemCheckFileIntegrity": "文件完整性",
         "SystemCheckFunctions": "必需的功能",
-        "SystemCheckGDFreeType": "GD > 2.x + Freetype（图形功能）",
+        "SystemCheckGDFreeType": "GD &gt; 2.x + Freetype（图形功能）",
         "SystemCheckGDHelp": "迷你图（小图）和（Matomo 手机 app 和邮件报告中的）图片将无法显示！",
         "SystemCheckGlobHelp": "这个内置功能在您的主机上已停用。Matomo 会尝试模拟这个功能，但可能会遇到其它的安全限制。功能可能受到影响。",
         "SystemCheckGzcompressHelp": "需要启用 zlib 扩展和 gzcompress 功能。",

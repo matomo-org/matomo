@@ -9,7 +9,7 @@
         "AlwaysActivatedPluginsList": "Pengaya berikut ini selalu diaktifkan dan tidak dapat dinonaktifkan: %s",
         "AreThereAnyRisks": "Apakah ada risikonya?",
         "AreThereAnyRisksDetails1": "Saat Anda mengaktifkan Pengelola Tag, pengguna dengan akses admin akan dapat membuat tag, pemicu, dan variabel HTML khusus yang dapat menjalankan JavaScript di situs Anda. Templat khusus ini dapat disalahgunakan, misalnya untuk mencuri informasi sensitif dari pengunjung situs web Anda (dikenal sebagai %1$sXSS%2$s).",
-        "AreThereAnyRisksDetails2": "Anda dapat menonaktifkan templat khusus ini di bagian \"Administrasi =&gt; Pengaturan Umum\" setelah Anda mengaktifkan Pengelola Tag. Selain itu, Anda juga dapat membatasi penggunaan templat ini untuk pengguna tertentu atau pengguna super saja.",
+        "AreThereAnyRisksDetails2": "Anda dapat menonaktifkan templat khusus ini di bagian \"Administrasi → Pengaturan Umum\" setelah Anda mengaktifkan Pengelola Tag. Selain itu, Anda juga dapat membatasi penggunaan templat ini untuk pengguna tertentu atau pengguna super saja.",
         "AuthorHomepage": "Beranda Pencipta",
         "ChangeLookByManageThemes": "Anda dapat mengubah tampilan Matomo dengan %1$sMengelola Tema%2$s.",
         "ChangeSettingsPossible": "Anda dapat mengubah %1$spengaturan%2$s untuk pengaya ini.",

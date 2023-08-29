@@ -2,8 +2,8 @@
     "SitesManager": {
         "AddMeasurable": "Dodaj nowy wskaźnik",
         "AddSite": "Dodaj nowy serwis",
-        "AdvancedTimezoneSupportNotFound": "Zaawansowane wsparcie dla stref czasowych nie zostało wykryte w twoim środowisku PHP (wspierane od PHP>=5.2). Nadal jednak możesz wybrać je ręcznie jako UTC.",
-        "AliasUrlHelp": "Zalecane jest, ale nie jako wymóg, określenie różnych adresów URL, jeden na linię, których odwiedzający używają do wejścia na strony serwisu. Aliasy adresów URL dla serwisu internetowego nie zostaną ujęte w odsyłaczach > raportach stron. Można też zauważyć, że nie jest istotne ujęcie adresów URL z lub bez 'www', ponieważ Matomo automatycznie akceptuje oba typy.",
+        "AdvancedTimezoneSupportNotFound": "Zaawansowane wsparcie dla stref czasowych nie zostało wykryte w twoim środowisku PHP (wspierane od PHP&gt;=5.2). Nadal jednak możesz wybrać je ręcznie jako UTC.",
+        "AliasUrlHelp": "Zalecane jest, ale nie jako wymóg, określenie różnych adresów URL, jeden na linię, których odwiedzający używają do wejścia na strony serwisu. Aliasy adresów URL dla serwisu internetowego nie zostaną ujęte w odsyłaczach → raportach stron. Można też zauważyć, że nie jest istotne ujęcie adresów URL z lub bez 'www', ponieważ Matomo automatycznie akceptuje oba typy.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Zmiana strefy czasowej będzie miała wpływ tylko na kolejne dane, nie będzie miała wpływu na poprzednie zapisy.",
         "ChooseMeasurableTypeHeadline": "Co chesz zmierzyć?",
         "Currency": "Waluta",

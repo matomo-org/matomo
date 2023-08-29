@@ -142,7 +142,7 @@
         "PseudonymizeUserIdNote2": "Nota: la sostituzione con uno pseudonimo non è la stessa cosa dell'anonimato. In termini GDPR: lo pseudonimo di ID Utente conta ancora come un dato personale. L'ID Utente originale potrebbe ancora essere identificato se sono disponibili alcune informazioni aggiuntive (a cui solo Matomo e il tuo elaboratore di dati possono accedere).",
         "PurgeNow": "Pulisci il DB Ora",
         "PurgeNowConfirm": "Stai per cancellare definitivamente dei dati dal tuo database. Sei sicuro di voler continuare?",
-        "PurgingData": "Eliminazione dei dati...",
+        "PurgingData": "Eliminazione dei dati…",
         "RawDataNeverRemoved": "le righe di dati visite e azioni <strong>non</strong> vengono mai eliminate.",
         "RawDataRemovedAfter": "tutte le righe di dati visite e azioni vengono eliminate a partire da %1$s.",
         "RecommendedForPrivacy": "Raccomandato per la privacy",

@@ -9,19 +9,19 @@
         "DataAvailableAtLaterDate": "Rapoartele de analiză segmentate vor fi disponibile mai târziu. Ne cerem scuze pentru neplăcerile create.",
         "DefaultAllVisits": "Toate vizite",
         "DragDropCondition": "Conditie trage & lasa",
-        "LoadingSegmentedDataMayTakeSomeTime": "Prelucrarea datelor pe segmentul vizitatorii poate dura câteva minute ...",
+        "LoadingSegmentedDataMayTakeSomeTime": "Prelucrarea datelor pe segmentul vizitatorii poate dura câteva minute …",
         "OperatorAND": "ŞI",
         "OperatorOR": "SAU",
         "SaveAndApply": "Salvează şi aplică",
         "SegmentDisplayedAllWebsites": "toate siturile web",
         "SegmentDisplayedThisWebsiteOnly": "numai acest site web",
         "SegmentNotApplied": "Segmentul '%s' nu se aplica",
+        "Test": "Test",
         "ThisSegmentIsVisibleTo": "Acest segment este vizibil către:",
         "VisibleToAllUsers": "tuturor utilizatorilor",
         "VisibleToMe": "mie",
-        "YouMayChangeSetting": "Alternativ, puteți schimba setările în fișierul de configurare (%1$s), sau pentru a edita acest segment și alegeți '%2$s'.",
-        "YouMustBeLoggedInToCreateSegments": "Trebuie să fii logat pentru a crea și edita segmente de vizitatori personalizate.",
         "YouDontHaveAccessToCreateSegments": "Nu ai nivelul de acces necesar pentru a crea și edita segmente.",
-        "Test": "Test"
+        "YouMayChangeSetting": "Alternativ, puteți schimba setările în fișierul de configurare (%1$s), sau pentru a edita acest segment și alegeți '%2$s'.",
+        "YouMustBeLoggedInToCreateSegments": "Trebuie să fii logat pentru a crea și edita segmente de vizitatori personalizate."
     }
 }

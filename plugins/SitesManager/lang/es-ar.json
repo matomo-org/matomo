@@ -2,8 +2,8 @@
     "SitesManager": {
         "AddMeasurable": "Agregar un nuevo medible",
         "AddSite": "Agregar un nuevo sitio web",
-        "AdvancedTimezoneSupportNotFound": "No se encontró el soporte avanzado para zonas horarias en tu PHP (soportado en PHP>=5.2). Todavía podés elegir un corrimiento UTC manual.",
-        "AliasUrlHelp": "Se recomienda, pero no es obligatorio, especificar las diferentes direcciones web que tus visitantes usan para acceder a este sitio web. Los alias de las direcciones web para un sitio web no aparecerán en el informe Origen de visitante > Sitios web. Tené en cuenta que no es necesario especificar las direcciones web con y sin \"www\" ya que Matomo considera automáticamente ambas.",
+        "AdvancedTimezoneSupportNotFound": "No se encontró el soporte avanzado para zonas horarias en tu PHP (soportado en PHP&gt;=5.2). Todavía podés elegir un corrimiento UTC manual.",
+        "AliasUrlHelp": "Se recomienda, pero no es obligatorio, especificar las diferentes direcciones web que tus visitantes usan para acceder a este sitio web. Los alias de las direcciones web para un sitio web no aparecerán en el informe Origen de visitante → Sitios web. Tené en cuenta que no es necesario especificar las direcciones web con y sin \"www\" ya que Matomo considera automáticamente ambas.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Cambiar tu zona horaria sólo afectará a los datos en adelante, y no se aplicará retroactivamente.",
         "ChooseMeasurableTypeHeadline": "¿Qué te gustaría medir?",
         "Currency": "Moneda",

@@ -15,7 +15,7 @@
         "DefaultAllVisits": "所有訪問",
         "DragDropCondition": "拖放條件",
         "HideMessageInFuture": "未來隱藏此訊息",
-        "LoadingSegmentedDataMayTakeSomeTime": "處理區隔的訪客資料需要花上一些時間...",
+        "LoadingSegmentedDataMayTakeSomeTime": "處理區隔的訪客資料需要花上一些時間…",
         "OperatorAND": "並且",
         "OperatorOR": "或者",
         "PluginDescription": "區隔是一組在完整訪問資料中用於篩選的條件。通過使用區隔，您可以在設定報告的背景。",

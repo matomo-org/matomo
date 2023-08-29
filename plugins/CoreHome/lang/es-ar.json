@@ -40,7 +40,7 @@
         "ExpandSubtables": "Expandir subtablas",
         "ExportFormat": "Exportar formato",
         "ExportTooltip": "Nota: para usar la dirección web de exportación generada, vas a necesitar especificar una aplicación de autenticación de token. Podés configurar estos tokens en \"Administración\" > \"Seguridad\" > \"Autenticaciones de tokens\".",
-        "ExportTooltipWithLink": "Nota: para usar la dirección web de exportación generada, vas a necesitar una aplicación de autenticación de token. Podés configurar estos tokens en %1$s[\"Administración\" > \"Seguridad\" > \"Autenticaciones de tokens\"]%2$s. Reemplazá %3$s en la dirección web de exportación por tu token de autenticación. Advertencia: nunca compartas la dirección web con el token real con nadie.",
+        "ExportTooltipWithLink": "Nota: para usar la dirección web de exportación generada, vas a necesitar una aplicación de autenticación de token. Podés configurar estos tokens en %1$s[\"Administración\" → \"Seguridad\" → \"Autenticaciones de tokens\"]%2$s. Reemplazá %3$s en la dirección web de exportación por tu token de autenticación. Advertencia: nunca compartas la dirección web con el token real con nadie.",
         "ExternalHelp": "Ayuda (se abre en una nueva pestaña)",
         "FlattenDataTable": "Este informe es jerárquico %s Hacelo plano",
         "FlattenReport": "Aplanar informe",

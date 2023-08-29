@@ -76,7 +76,7 @@
         "SystemCheckExtensions": "Potrebna proširenja",
         "SystemCheckFileIntegrity": "Integritet datoteka",
         "SystemCheckFunctions": "Potrebne funkcije",
-        "SystemCheckGDFreeType": "GD > 2.x + Freetype (grafikoni)",
+        "SystemCheckGDFreeType": "GD &gt; 2.x + Freetype (grafikoni)",
         "SystemCheckGDHelp": "Mali grafikoni (linije sa tačkicama) neće raditi",
         "SystemCheckGlobHelp": "Ova funkcija je isključena na vašem serveru. Matomo će pokušati da je emulira ali može da naleti na neke dalja sigurnosna ograničenja. Svakako će biti uticaja na funkcionalnost.",
         "SystemCheckGzcompressHelp": "Potrebno je da uključite zlib proširenje i funkciju gzcompress",

@@ -24,7 +24,7 @@
         "DefaultAllVisits": "Tüm ziyaretler",
         "DragDropCondition": "Koşulu sürükleyip bırakın",
         "HideMessageInFuture": "Bu ileti bir daha görüntülenmesin",
-        "LoadingSegmentedDataMayTakeSomeTime": "Dilimlenmiş ziyaretçi verilerinin işlenmesi bir kaç dakika sürecek...",
+        "LoadingSegmentedDataMayTakeSomeTime": "Dilimlenmiş ziyaretçi verilerinin işlenmesi bir kaç dakika sürecek…",
         "OperatorAND": "VE",
         "OperatorOR": "VEYA",
         "PluginDescription": "Bir dilim, tüm ziyaretçi grubunun yalnızca bir bölümünü seçmek için kullanılan bir ölçüt kümesidir. Dilimleri kullanarak, raporlarınızda isteğinize bağlı olarak seçebileceğiniz içeriğin görüntülenmesini sağlayabilirsiniz.",
