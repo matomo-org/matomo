@@ -14,11 +14,11 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
  * @group UsersManager
- * @group TokenPostOnlyTest
+ * @group TokenSecureOnlyTest
  */
-class TokenPostOnlyTest extends IntegrationTestCase
+class TokenSecureOnlyTest extends IntegrationTestCase
 {
-    protected static $tokenPostOnly = 'f3fa8c38fd277a9af0fab7e35f9736fe';
+    protected static $tokenSecureOnly = 'f3fa8c38fd277a9af0fab7e35f9736fe';
 
     public static function beforeTableDataCached()
     {
@@ -36,20 +36,20 @@ class TokenPostOnlyTest extends IntegrationTestCase
             UsersManagerAPI::getInstance()->setUserAccess('user1', 'view', [1]);
 
             $userModel = new UsersManagerModel();
-            $userModel->addTokenAuth('user1', self::$tokenPostOnly, 'Post Only', '2020-01-02 03:04:05',
+            $userModel->addTokenAuth('user1', self::$tokenSecureOnly, 'Secure Only', '2020-01-02 03:04:05',
                 null, false, true);
         }
     }
 
     /**
-     * Post Only tokens should return a 401 code if used in a GET request
+     * Secure only tokens should return a 401 code if used in a GET request
      */
-    public function test_postOnlyToken_accessDeniedIfGet()
+    public function test_secureOnlyToken_accessDeniedIfGet()
     {
         $url = Fixture::getTestRootUrl().'?'.http_build_query([
                 'module' => 'API',
                 'method' => 'API.getMatomoVersion',
-                'token_auth' => self::$tokenPostOnly,
+                'token_auth' => self::$tokenSecureOnly,
             ]);
 
         $ch = curl_init();
@@ -64,9 +64,9 @@ class TokenPostOnlyTest extends IntegrationTestCase
     }
 
     /**
-     * Post only tokens should return a 200 code if used in a POST request
+     * Secure only tokens should return a 200 code if used in a POST request
      */
-    public function test_postOnlyToken_accessGrantedIfPost()
+    public function test_secureOnlyToken_accessGrantedIfPost()
     {
         $url = Fixture::getTestRootUrl().'?'.http_build_query([
                 'module' => 'API',
@@ -74,7 +74,7 @@ class TokenPostOnlyTest extends IntegrationTestCase
             ]);
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_POSTFIELDS, ['token_auth' => self::$tokenPostOnly]);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, ['token_auth' => self::$tokenSecureOnly]);
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_exec($ch);
