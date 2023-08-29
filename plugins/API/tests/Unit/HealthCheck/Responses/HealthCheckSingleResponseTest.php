@@ -5,6 +5,12 @@ namespace Piwik\Plugins\API\tests\Unit\HealthCheck\Responses;
 use PHPUnit\Framework\TestCase;
 use Piwik\Plugins\API\HealthCheck\Responses\HealthCheckSingleResponse;
 
+/**
+ * @group Plugin
+ * @group API
+ * @group HealthCheck
+ * @group HealthCheckSingleResponse
+ */
 final class HealthCheckSingleResponseTest extends TestCase
 {
     public function test_construct_throwsExceptionWhenInvalidStatus(): void

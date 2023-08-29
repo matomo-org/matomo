@@ -9,6 +9,7 @@ use Piwik\Plugins\API\HealthCheck\HealthCheckService;
 /**
  * @group Plugin
  * @group API
+ * @group HealthCheck
  * @group HealthCheckService
  */
 final class HealthCheckServiceTest extends TestCase

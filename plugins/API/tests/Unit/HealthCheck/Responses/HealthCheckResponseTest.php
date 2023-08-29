@@ -6,6 +6,12 @@ use PHPUnit\Framework\TestCase;
 use Piwik\Plugins\API\HealthCheck\Responses\HealthCheckResponse;
 use Piwik\Plugins\API\HealthCheck\Responses\HealthCheckSingleResponse;
 
+/**
+ * @group Plugin
+ * @group API
+ * @group HealthCheck
+ * @group HealthCheckResponse
+ */
 final class HealthCheckResponseTest extends TestCase
 {
     public function test_hasPassed_returnsTrueIfAllTestsPassed(): void
