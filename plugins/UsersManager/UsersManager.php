@@ -262,8 +262,8 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_AreYouSureAddCapability';
         $translationKeys[] = 'UsersManager_AreYouSureChangeDetails';
         $translationKeys[] = 'UsersManager_AreYouSureRemoveCapability';
-        $translationKeys[] = 'UsersManager_AuthTokenPostOnlyHelp';
-        $translationKeys[] = 'UsersManager_AuthTokenPostOnlyHelpForced';
+        $translationKeys[] = 'UsersManager_AuthTokenSecureOnlyHelp';
+        $translationKeys[] = 'UsersManager_AuthTokenSecureOnlyHelpForced';
         $translationKeys[] = 'UsersManager_AuthTokenPurpose';
         $translationKeys[] = 'UsersManager_AuthTokens';
         $translationKeys[] = 'UsersManager_BackToUser';
@@ -356,8 +356,7 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_PrivAdmin';
         $translationKeys[] = 'UsersManager_PrivNone';
         $translationKeys[] = 'UsersManager_PrivView';
-        $translationKeys[] = 'UsersManager_OnlyAllowPostRequests';
-        $translationKeys[] = 'UsersManager_PostOnly';
+        $translationKeys[] = 'UsersManager_OnlyAllowSecureRequests';
         $translationKeys[] = 'UsersManager_RemovePermissions';
         $translationKeys[] = 'UsersManager_RemoveSuperuserAccessConfirm';
         $translationKeys[] = 'UsersManager_RemoveUserAccess';
@@ -372,6 +371,7 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_RoleFor';
         $translationKeys[] = 'UsersManager_RolesHelp';
         $translationKeys[] = 'UsersManager_SaveBasicInfo';
+        $translationKeys[] = 'UsersManager_SecureUseOnly';
         $translationKeys[] = 'UsersManager_SendInvite';
         $translationKeys[] = 'UsersManager_SetPermission';
         $translationKeys[] = 'UsersManager_Status';

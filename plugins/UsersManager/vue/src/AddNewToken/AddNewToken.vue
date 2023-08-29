@@ -32,12 +32,12 @@
 
       <Field
         uicontrol="checkbox"
-        name="post_only"
-        :title="translate('UsersManager_OnlyAllowPostRequests')"
+        name="secure_only"
+        :title="translate('UsersManager_OnlyAllowSecureRequests')"
         :required="false"
-        :inline-help=postOnlyHelp
-        v-model="tokenPostOnly"
-        :disabled=forcePostOnlyCalc
+        :inline-help=secureOnlyHelp
+        v-model="tokenSecureOnly"
+        :disabled=forceSecureOnlyCalc
       />
 
       <input type="hidden" :value="formNonce" name="nonce">
@@ -61,14 +61,14 @@ import { Field } from 'CorePluginsAdmin';
 
 interface AddNewTokenState {
   tokenDescription: string;
-  tokenPostOnly: boolean;
+  tokenSecureOnly: boolean;
 }
 
 export default defineComponent({
   props: {
     formNonce: String,
     noDescription: Boolean,
-    forcePostOnly: Boolean,
+    forceSecureOnly: Boolean,
   },
   components: {
     ContentBlock,
@@ -77,7 +77,7 @@ export default defineComponent({
   data(): AddNewTokenState {
     return {
       tokenDescription: '',
-      tokenPostOnly: true,
+      tokenSecureOnly: true,
     };
   },
   computed: {
@@ -101,12 +101,12 @@ export default defineComponent({
         '</a>',
       );
     },
-    forcePostOnlyCalc() {
-      return this.forcePostOnly;
+    forceSecureOnlyCalc() {
+      return this.forceSecureOnly;
     },
-    postOnlyHelp() {
-      return (this.forcePostOnly ? translate('UsersManager_AuthTokenPostOnlyHelpForced')
-        : translate('UsersManager_AuthTokenPostOnlyHelp'));
+    secureOnlyHelp() {
+      return (this.forceSecureOnly ? translate('UsersManager_AuthTokenSecureOnlyHelpForced')
+        : translate('UsersManager_AuthTokenSecureOnlyHelp'));
     },
   },
 });
