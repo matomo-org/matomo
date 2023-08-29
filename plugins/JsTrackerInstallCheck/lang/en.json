@@ -1,10 +1,10 @@
 {
     "JsTrackerInstallCheck": {
         "PluginDescription": "Validate whether the tracking code has been installed on your site and that it can send tracking requests back to your Matomo instance",
-        "TestInstallationDescription": "To test your installation, enter the exact URL you are tracking and click on \"Test installation\". A new tab might open, and should close within 10 seconds.",
+        "TestInstallationDescription": "To test that the tracking code is able to send requests to your Matomo instance, enter the exact URL you are tracking and click on \"Test installation\". A new tab might open, and should close within 10 seconds.",
         "TestInstallationBtnText": "Test installation",
         "JsTrackingCodeInstallCheckSuccessMessage": "The tracking code is installed successfully! This screen will disappear as soon as some data is tracked for your website.",
-        "JsTrackingCodeInstallCheckFailureMessage": "Tracking code verification failed. Please verify that you have installed the code correctly.",
-        "JsTrackingCodeInstallCheckFailureMessageWordpress": "Tracking code verification failed. Please verify that you have installed the \"%1$s\" plugin and followed all steps."
+        "JsTrackingCodeInstallCheckFailureMessage": "Tracking code verification failed. Please verify that you have installed the code correctly. %1$sLearn more%2$s.",
+        "JsTrackingCodeInstallCheckFailureMessageWordpress": "Tracking code verification failed. Please verify that you have installed the \"%1$s\" plugin and followed all steps. %2$sLearn more%3$s."
     }
 }

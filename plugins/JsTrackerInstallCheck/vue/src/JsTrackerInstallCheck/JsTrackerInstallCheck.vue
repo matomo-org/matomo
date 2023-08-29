@@ -153,12 +153,15 @@ export default defineComponent({
   },
   computed: {
     getTestFailureMessage() {
+      const learnMoreLink = '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/troubleshooting/faq_58/">';
+      const closingTag = '</a>';
       if (!this.isWordpress) {
-        return translate('JsTrackerInstallCheck_JsTrackingCodeInstallCheckFailureMessage');
+        return translate('JsTrackerInstallCheck_JsTrackingCodeInstallCheckFailureMessage', learnMoreLink, closingTag);
       }
 
       return translate('JsTrackerInstallCheck_JsTrackingCodeInstallCheckFailureMessageWordpress',
-        '<a target="_blank" rel="noreferrer noopener" href="https://wordpress.org/plugins/wp-piwik/">WP-Matomo Integration (WP-Piwik)</a>');
+        '<a target="_blank" rel="noreferrer noopener" href="https://wordpress.org/plugins/wp-piwik/">WP-Matomo Integration (WP-Piwik)</a>',
+        learnMoreLink, closingTag);
     },
   },
 });

@@ -100,7 +100,7 @@ describe("OneClickUpdate", function () {
         await page.waitForNetworkIdle();
         const element  = await page.$('.site-without-data');
         await page.waitForNetworkIdle();
-        await page.waitForTimeout(250);
+        await page.waitForTimeout(500);
         expect(await element.screenshot()).to.matchImage('login');
     });
 
