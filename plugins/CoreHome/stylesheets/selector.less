@@ -25,7 +25,7 @@
     .icon {
       // remove relative: [class^="icon-"], [class*=" icon-"]{line-height:1em}
       .font-default(11px, 12px);
-      padding-right: 6px;
+      padding-left: 6px;
       display: inline-block;
       vertical-align: top;
 
@@ -35,9 +35,9 @@
     }
 
     .icon:not(.icon-fixed) {
-      float: left;
+      float: right;
       &:after {
-        clear:right;
+        clear:left;
         content: ' ';
       }
     }
