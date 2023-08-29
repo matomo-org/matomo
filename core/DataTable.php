@@ -2091,6 +2091,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
     public function sumRowWithLabel($label, array $columns, ?array $aggregationOps = null): DataTable\Row
     {
+        $label = $label ?? '';
+
         $tableRow = new DataTable\Row([DataTable\Row::COLUMNS => ['label' => $label] + $columns]);
 
         if ($label === RankingQuery::LABEL_SUMMARY_ROW) {
