@@ -31,10 +31,8 @@ import {
   CopyToClipboard,
   translate,
 } from 'CoreHome';
-
+import { JsTrackerInstallCheck } from 'JsTrackerInstallCheck';
 import JsTrackingCodeAdvancedOptions from './JsTrackingCodeAdvancedOptions.vue';
-import JsTrackerInstallCheck
-  from '../../../../JsTrackerInstallCheck/vue/src/JsTrackerInstallCheck/JsTrackerInstallCheck.vue';
 
 interface JsTrackingCodeGeneratorSitesWithoutDataState {
   site: SiteRef;
