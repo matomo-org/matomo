@@ -35,7 +35,7 @@
         "IPurchasedGeoIPDBs": "%3$sdbip%4$s または %1$sMaxMind%2$s からより正確なデータベースを購入しましたが、自動更新をセットアップしたいと考えています。",
         "ISPDatabase": "ISP データベース",
         "ISPRequiresProviderPlugin": "インターネット サービス プロバイダーを追跡するには、プロバイダー プラグインをインストールして有効にする必要があります。",
-        "IWantToDownloadFreeGeoIP": "無料のDBIPデータベースをダウンロードしたいのですが...",
+        "IWantToDownloadFreeGeoIP": "無料のDBIPデータベースをダウンロードしたいのですが…",
         "InvalidGeoIPUpdateHost": "GeoIP 更新 URL %1$s のホストは信頼されていません。 %2$s 以外のホストからの GeoIP 更新のダウンロードを許可するには、構成で %3$s の設定を調整してください。",
         "InvalidGeoIPUpdatePeriod": "GeoIP アップデーターに対する無効な期間は、%1$s です。有効な値は、%2$s です。",
         "LocationDatabase": "位置情報データベース",

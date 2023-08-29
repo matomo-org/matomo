@@ -152,7 +152,7 @@
         "PrivacyPolicyUrlDescription": "Një lidhje për te faqja juaj e Rregullave të Privatësisë.",
         "PrivacyPolicyUrlDescriptionSuffix": "Nëse e caktoni këtë, do të shfaqet në fund të faqes së hyrjeve dhe te faqe te të cilat mund të hyjë përdoruesi '%1$s'.",
         "PseudonymizeUserId": "Zëvendëso ID Përdoruesi me një pseudonim",
-        "PseudonymizeUserIdNote": "Kur aktivizoni këtë mundësi, ID-ja e Përdoruesit do të zëvendësohet me një pseudonim, për të shmangur depozitim dhe shfaqje të drejtpërdrejtë në ekran të dhënash personale të identifikueshme, f.v. një adresë email. Me terma teknike: kur i jepet ID-ja juaj e Përdoruesit, Matomo do të përgatisë pseudonimin e ID-së së Përdoruesit duke përdorur një funksion &lt;em&gt;salted hash&lt;/em&gt;.",
+        "PseudonymizeUserIdNote": "Kur aktivizoni këtë mundësi, ID-ja e Përdoruesit do të zëvendësohet me një pseudonim, për të shmangur depozitim dhe shfaqje të drejtpërdrejtë në ekran të dhënash personale të identifikueshme, f.v. një adresë email. Me terma teknike: kur i jepet ID-ja juaj e Përdoruesit, Matomo do të përgatisë pseudonimin e ID-së së Përdoruesit duke përdorur një funksion „salted hash“.",
         "PseudonymizeUserIdNote2": "Shënim: zëvendësimi me një pseudonim s’është e njëjta gjë me anonimizimin. Me termat e GDPR-së: Pseudonimi i ID-së së Përdoruesit merret si e dhënë personale. ID-ja origjinale e Përdoruesit prapë mund të identifikohet, nëse kihen disa hollësi shtesë (te të cilat mund të hyjë vetëm Matomo dhe përpunuesi i të dhënave tuaja).",
         "PurgeNow": "Pastroje DB-në Tani",
         "PurgeNowConfirm": "Ju ndan një hap nga fshirja përgjithmonë e të dhënave nga baza juaj e të dhënave. Jeni i sigurt se doni të vazhdohet?",

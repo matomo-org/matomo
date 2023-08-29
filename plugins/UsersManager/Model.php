@@ -324,7 +324,7 @@ class Model
      * @param       $dateCreated
      * @param null  $dateExpired
      * @param false $isSystemToken
-     * @param bool  $postOnly       True if this token can only be used in POST requests, default false
+     * @param bool  $secureOnly     True if this token can only be used in a secure way (e.g. POST requests), default false
      *
      * @return int                  Primary key of the new token auth
      * @throws \Piwik\Tracker\Db\DbException
@@ -336,7 +336,7 @@ class Model
       $dateCreated,
       $dateExpired = null,
       $isSystemToken = false,
-      bool $postOnly = false
+      bool $secureOnly = false
     ) {
         if (!$this->getUser($login)) {
             throw new \Exception('User ' . $login . ' does not exist');
@@ -351,13 +351,13 @@ class Model
 
         $isSystemToken = (int)$isSystemToken;
 
-        $insertSql = "INSERT INTO " . $this->tokenTable . ' (login, description, password, date_created, date_expired, system_token, hash_algo, post_only) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+        $insertSql = "INSERT INTO " . $this->tokenTable . ' (login, description, password, date_created, date_expired, system_token, hash_algo, secure_only) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
 
         $tokenAuth = $this->hashTokenAuth($tokenAuth);
 
         $db = $this->getDb();
         $db->query($insertSql,
-          [$login, $description, $tokenAuth, $dateCreated, $dateExpired, $isSystemToken, self::TOKEN_HASH_ALGO, $postOnly]);
+          [$login, $description, $tokenAuth, $dateCreated, $dateExpired, $isSystemToken, self::TOKEN_HASH_ALGO, $secureOnly]);
 
         return $db->lastInsertId();
     }
@@ -392,15 +392,16 @@ class Model
      * Attempt to load a valid auth token
      *
      * @param string|null $tokenAuth    The token auth string
-     * @param bool $isTokenPosted       True if the token was sent via a POST request
+     * @param bool $isTokenSecured      True if the token was sent via a secure mechanism (POST request, Auth header)
      *
      * @return array|bool               An array representing the token record, or null if not found
      * @throws \Exception
      */
-    private function getTokenByTokenAuthIfNotExpired(?string $tokenAuth, bool $isTokenPosted)
+    private function getTokenByTokenAuthIfNotExpired(?string $tokenAuth, bool $isTokenSecured)
     {
-        // If the token wasn't posted and use of posted tokens is enforced globally then don't attempt to find the token
-        if (GeneralConfig::getConfigValue('only_allow_posted_auth_tokens') && !$isTokenPosted) {
+        // If the token wasn't provided via a secure mechanism and use of secure tokens is enforced globally
+        // then don't attempt to find the token
+        if (GeneralConfig::getConfigValue('only_allow_secure_auth_tokens') && !$isTokenSecured) {
             return false;
         }
 
@@ -412,9 +413,9 @@ class Model
 
         $sql = "SELECT * FROM " . $this->tokenTable . " WHERE `password` = ? AND " . $expired['sql'];
 
-        // If the token was not send via a POST request then exclude post_only tokens
-        if (!$isTokenPosted) {
-            $sql .= " AND post_only = 0";
+        // If the token was not send via a secure mechanism then exclude secure_only tokens
+        if (!$isTokenSecured) {
+            $sql .= " AND secure_only = 0";
         }
 
         $token = $db->fetchRow($sql, $bind);
@@ -558,7 +559,7 @@ class Model
             return (is_array($row) ? $row : null);
         }
 
-        $token = $this->getTokenByTokenAuthIfNotExpired($tokenAuth, \Piwik\API\Request::isTokenAuthPosted());
+        $token = $this->getTokenByTokenAuthIfNotExpired($tokenAuth, \Piwik\API\Request::isTokenAuthProvidedSecurely());
         if (!empty($token)) {
             $db = $this->getDb();
             $row = $db->fetchRow("SELECT * FROM " . $this->userTable . " WHERE `login` = ?", $token['login']);

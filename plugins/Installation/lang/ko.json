@@ -76,7 +76,7 @@
         "SystemCheckExtensions": "필수 확장",
         "SystemCheckFileIntegrity": "파일 무결성",
         "SystemCheckFunctions": "필수 기능",
-        "SystemCheckGDFreeType": "GD > 2.x + Freetype (그래픽)",
+        "SystemCheckGDFreeType": "GD &gt; 2.x + Freetype (그래픽)",
         "SystemCheckGDHelp": "스파크라인(소규모 그래프)은 작동하지 않습니다.",
         "SystemCheckGlobHelp": "이 내장 함수는 호스트에서 비활성화되어 있습니다. Matomo이 함수의 에뮬레이션을 시도하지만, 새로운 보안 제한으로 발생하는 경우가 있습니다. 또한 기능에 영향을 미칠수 있습니다.",
         "SystemCheckGzcompressHelp": "zlib 확장과 gzcompress() 함수를 활성화해야합니다.",

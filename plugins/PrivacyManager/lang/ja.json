@@ -174,7 +174,7 @@
         "PseudonymizeUserIdNote2": "注：仮名に置き換えることは、匿名化と同じではありません。 GDPR では、仮名化されたユーザー ID は依然として個人データとみなされます。 特定の追加情報が利用可能な場合、元のユーザー ID を特定することができます。（必要な追加情報には Matomo とあなたのデータプロセッサのみがアクセス可能です）。",
         "PurgeNow": "今すぐ DB を削除する",
         "PurgeNowConfirm": "データベースから永久にデータを削除しようとしています。続けますか？",
-        "PurgingData": "データを削除しています...",
+        "PurgingData": "データを削除しています…",
         "RawDataNeverRemoved": "ビジットとアクションの生データは<strong>決して</strong>削除されません。",
         "RawDataRemovedAfter": "すべてのビジットとアクションの生データは%1$s後に削除されます。",
         "RecommendedForPrivacy": "プライバシー推奨",

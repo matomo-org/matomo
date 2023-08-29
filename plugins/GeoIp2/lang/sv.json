@@ -35,7 +35,7 @@
         "IPurchasedGeoIPDBs": "Jag köpte mer exakta databaser från %3$sdbip%4$s eller %1$sMaxMind%2$s och vill konfigurera automatiska uppdateringar.",
         "ISPDatabase": "ISP-databas",
         "ISPRequiresProviderPlugin": "Spårning av Internetleverantörer kräver att leverantörspluginet är installerat och aktiverat.",
-        "IWantToDownloadFreeGeoIP": "Jag vill ladda ner den kostnadsfria DBIP-databasen...",
+        "IWantToDownloadFreeGeoIP": "Jag vill ladda ner den kostnadsfria DBIP-databasen…",
         "InvalidGeoIPUpdateHost": "Värden för GeoIP-uppdaterings-URL:en %1$s är inte betrodd. För att tillåta nedladdning av GeoIP-uppdateringar från andra värdar än %2$s vänligen justera inställningen för %3$s i config.",
         "InvalidGeoIPUpdatePeriod": "Perioden för uppdateringar av GeoIP är ogiltig: Invalid period for the GeoIP updater: %1$s. Giltiga värden är %2$s.",
         "LocationDatabase": "Platsdatabas",

@@ -1,14 +1,15 @@
 {
     "SitesManager": {
         "AddSite": "Pridėti naują svetainę",
-        "AdvancedTimezoneSupportNotFound": "Išplėstas laiko juostų palaikymas nerastas Jūsų PHP (palaikoma nuo PHP>=5.2). Jūs vis tiek galite pasirinkti rankinį UTC padengimą.",
-        "AliasUrlHelp": "Rekomenduojama, nors ir nebūtina, nurodyti įvarius URLs, kuriais lankytojai pasiekia šią svetainę. Alternatyvių vardų URLs svetainei nebus atvaizduojama Šaltiniai > Svetainių ataskaitos. Nebūtina nurodyti URL su ar be 'www', kadangi Matomo automatiškai palaiko abu.",
+        "AdvancedTimezoneSupportNotFound": "Išplėstas laiko juostų palaikymas nerastas Jūsų PHP (palaikoma nuo PHP&gt;=5.2). Jūs vis tiek galite pasirinkti rankinį UTC padengimą.",
+        "AliasUrlHelp": "Rekomenduojama, nors ir nebūtina, nurodyti įvarius URLs, kuriais lankytojai pasiekia šią svetainę. Alternatyvių vardų URLs svetainei nebus atvaizduojama Šaltiniai → Svetainių ataskaitos. Nebūtina nurodyti URL su ar be 'www', kadangi Matomo automatiškai palaiko abu.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Laiko juostos pakeitimas įtakos tik vėlesnius duomenis ir neįtakos ankstesnių.",
         "Currency": "Valiuta",
         "CurrencySymbolWillBeUsedForGoals": "Valiutos simbolis bus rodomas šalia uždavinių pajamų.",
         "DefaultCurrencyForNewWebsites": "Numatytoji valiuta naujoms svetainėms",
         "DefaultTimezoneForNewWebsites": "Numatytoji laiko juosta naujoms svetainėms",
         "DeleteConfirm": "Ar tikrai norite pašalinti svetainę %s?",
+        "DeleteSiteExplanation": "Ištrinus svetainę, bus ištrinti visi tai svetainei surinkti žurnalo duomenys. Šis veiksmas yra visam laikui ir negalės būti atšauktas.",
         "EnableEcommerce": "Komercinė svetainė",
         "ExceptionDeleteSite": "Neįmanoma pašalinti svetainės, nes tai yra vienintelė registruota svetainė. Pirmiausia pridėkite naują svetainę, o vėliau ištrinkite šią.",
         "ExceptionEmptyName": "Svetainės pavadinimas negali būti tuščias.",
@@ -27,9 +28,9 @@
         "ListOfIpsToBeExcludedOnAllWebsites": "Žemiau nurodyti IP adresai nebus stebimi visose svetainėse.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "Užklausų URL parametrai nurodyti žemiau nebus įtraukiami į URL visose svetainėse.",
         "MainDescription": "Pridėkite, atnaujinkite, šalinkite svetaines ir gaukite JavaScript kodą.",
+        "NoWebsites": "Neturite jokių svetainių administravimui.",
         "NotAnEcommerceSite": "Nekomercinė svetainė",
         "NotFound": "Nerasta svetainių",
-        "NoWebsites": "Neturite jokių svetainių administravimui.",
         "PiwikWillAutomaticallyExcludeCommonSessionParameters": "Matomo automatiškai neįtrauks paplitusių sesijos parametrų (%s).",
         "SelectACity": "Pasirinkite miestą",
         "SelectDefaultCurrency": "Galite pasirinkti numatytąją valiutą naujoms svetainėms.",
@@ -38,12 +39,11 @@
         "Sites": "Svetainės",
         "Timezone": "Laiko juosta",
         "TrackingTags": "Sekimo žymės skirtos %s",
-        "Urls": "Adresai (URLs)",
         "Type": "Tipas",
         "UTCTimeIs": "UTC laikas yra %s.",
+        "Urls": "Adresai (URLs)",
         "WebsitesManagement": "Svetainių valdymas",
         "YouCurrentlyHaveAccessToNWebsites": "Šiuo metu turite prieigą prie %s svetainių.",
-        "YourCurrentIpAddressIs": "Jūsų dabartinis IP adresas yra %s",
-        "DeleteSiteExplanation": "Ištrinus svetainę, bus ištrinti visi tai svetainei surinkti žurnalo duomenys. Šis veiksmas yra visam laikui ir negalės būti atšauktas."
+        "YourCurrentIpAddressIs": "Jūsų dabartinis IP adresas yra %s"
     }
 }

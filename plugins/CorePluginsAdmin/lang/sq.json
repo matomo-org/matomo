@@ -9,7 +9,7 @@
         "AlwaysActivatedPluginsList": "Shtojcat vijuese janë përherë të aktivizuara dhe s’mund të çaktivizohen: %s",
         "AreThereAnyRisks": "A ka rreziqe?",
         "AreThereAnyRisksDetails1": "Kur aktivizoni Përgjegjësin e Etiketave, përdoruesit me leje hyrjeje përgjegjësi do të jenë në gjendje të krijojnë etiketa vetjake HTML, shkaktues dhe ndryshore që mund të ekzekutojnë në sajtin tuaj kod JavaScript. Këto gjedhe vetjake mund të përdoren për të vjedhur, për shembull, të dhëna me spec të vizitorëve të sajtit tuaj (e njohur kjo edhe si %1$sXSS%2$s).",
-        "AreThereAnyRisksDetails2": "Këto gjedhe vetjake mund t’i çaktivizoni që nga “Administrim =&gt; Rregullime të Përgjithshme”, pasi të keni aktivizuar Përgjegjësin e Etiketave. Përndryshe, mundeni edhe të kufizoni përdorimin e këtyre gjedheve vetëm nga përdorues apo superpërdorues të caktuar.",
+        "AreThereAnyRisksDetails2": "Këto gjedhe vetjake mund t’i çaktivizoni që nga “Administrim → Rregullime të Përgjithshme”, pasi të keni aktivizuar Përgjegjësin e Etiketave. Përndryshe, mundeni edhe të kufizoni përdorimin e këtyre gjedheve vetëm nga përdorues apo superpërdorues të caktuar.",
         "AuthorHomepage": "Faqja Hyrëse e Autorit",
         "ChangeLookByManageThemes": "Pamjen e Matomo-s mund ta ndryshoni që nga %1$sAdministrim Temash%2$s.",
         "ChangeSettingsPossible": "Mund të ndryshoni %1$srregullimet%2$s për këtë shtojcë.",

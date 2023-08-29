@@ -6,6 +6,7 @@
         "CopyDashboardToUser": "Kopiera instrumentpanel till användare",
         "CreateNewDashboard": "Skapa ny instrumentpanel",
         "Dashboard": "Instrumentpanel",
+        "DashboardCategoryHelp": "Det här är en instrumentpanel-sida. En instrumentpanel är en samling med Matomos widgets som du själv lägger till för att passa dina specifika behov. Blanda och matcha vilka som helst av Matomos widgets för att få den information som %1$s*du*%2$s vill få överblick av.",
         "DashboardCopied": "Den nuvarande instrumentpanelen har kopierats till den valda användaren.",
         "DashboardEmptyNotification": "Instrumentpanelen innehåller inga widgets. Börja med att lägga till widgets eller återställ instrumentpanelen till standardutseendet.",
         "DashboardName": "Instrumentpanelens namn:",
@@ -13,7 +14,7 @@
         "DefaultDashboard": "Standardinstrumentpanel - Använder standardval för widgets och kolumnlayout",
         "DeleteWidgetConfirm": "Är du säker på att du vill ta bort denna widget från instrumentpanelen?",
         "EmptyDashboard": "Tom instrumentpanel - Välj dina favoritwidgets",
-        "LoadingWidget": "Laddar widget, vänligen vänta...",
+        "LoadingWidget": "Laddar widget, vänligen vänta…",
         "ManageDashboard": "Hantera instrumentpanel",
         "Maximise": "Maximera",
         "Minimise": "Minimera",
@@ -32,7 +33,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "Det här valet av widgets och kolumnlayout kommer att användas när användare skapar en ny instrumentpanel, eller när \"%s\" används.",
         "TopLinkTooltip": "Visa webbanalysrapport för %s.",
         "WidgetNotFound": "Widgeten hittades inte",
-        "WidgetPreview": "Widget förhandsgranskning",
-        "DashboardCategoryHelp": "Det här är en instrumentpanel-sida. En instrumentpanel är en samling med Matomos widgets som du själv lägger till för att passa dina specifika behov. Blanda och matcha vilka som helst av Matomos widgets för att få den information som %1$s*du*%2$s vill få överblick av."
+        "WidgetPreview": "Widget förhandsgranskning"
     }
 }

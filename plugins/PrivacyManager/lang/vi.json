@@ -1,19 +1,19 @@
 {
     "PrivacyManager": {
-        "AnonymizeIpInlineHelp": "Làm ẩn danh những byte(s) cuối trên địa chỉ IP của khách để tuân thủ quy định\/luật nội bộ về quyền riêng tư.",
+        "AnonymizeIpInlineHelp": "Làm ẩn danh những byte(s) cuối trên địa chỉ IP của khách để tuân thủ quy định/luật nội bộ về quyền riêng tư.",
         "AnonymizeIpMaskLengtDescription": "Chọn bao nhiêu byte IPs của khách truy cập nên giấu.",
         "AnonymizeIpMaskLength": "%1$s byte(s) - ví dụ %2$s.",
         "ClickHereSettings": "Click chuột tại đây để truy cập các cài đặt %s.",
         "CurrentDBSize": "Kích thước cơ sở dữ liệu hiện tại",
         "DBPurged": "Loại bỏ DB.",
         "DeleteDataInterval": "Xóa mọi dữ liệu cũ",
+        "DeleteDataSettings": "Xóa các bản ghi và báo cáo cũ của khách truy cập",
         "DeleteLogDescription2": "Khi bạn kích hoạt xóa bản ghi tự động, bạn phải đảm bảo rằng tất cả các báo cáo hàng ngày trước đây đã được xử lý, do đó không có dữ liệu bị mất.",
         "DeleteLogsOlderThan": "Xóa các bản ghi cũ hơn",
         "DeleteMaxRows": "Số hàng lớn nhất phải xóa trong mỗi lần chạy:",
         "DeleteMaxRowsNoLimit": "không giới hạn",
         "DeleteReportsConfirm": "Bạn muốn cho phép xóa dữ liệu báo cáo. Nếu báo cáo cũ được loại bỏ, bạn sẽ phải xử lý lại chúng theo thứ tự xem. Bạn có chắc bạn muốn làm điều này?",
         "DeleteReportsOlderThan": "Xóa báo cáo cũ hơn",
-        "DeleteDataSettings": "Xóa các bản ghi và báo cáo cũ của khách truy cập",
         "DoNotTrack_Description": "Do Not Track là một công nghệ và đề xuất chính sách cho phép người dùng chọn không bị theo dõi bởi các trang web họ truy cập, bao gồm cả dịch vụ phân tích, mạng lưới quảng cáo, và các nền tảng xã hội.",
         "DoNotTrack_Disable": "Vô hiệu hóa Do Not Track hỗ trợ",
         "DoNotTrack_Enable": "Kích hoạt sự hỗ trợ Do Not Track",
@@ -32,12 +32,12 @@
         "NextDelete": "Xóa lịch trình tiếp theo trong",
         "PurgeNow": "Loại bỏ DB ngay",
         "PurgeNowConfirm": "Bạn muốn xóa vĩnh viễn dữ liệu từ cơ sở dữ liệu của bạn. Bạn có chắc muốn tiếp tục?",
-        "PurgingData": "Đang loại bỏ dữ liệu...",
+        "PurgingData": "Đang loại bỏ dữ liệu…",
         "ReportsDataSavedEstimate": "Kích cỡ cơ sở dữ liệu",
         "SaveSettingsBeforePurge": "Bạn đã thay đổi thiết lập việc xóa dữ liệu. Vui lòng lưu chúng trước khi bắt đầu loại bỏ.",
         "TeaserHeadline": "Thiết lập riêng tư",
-        "UseAnonymizedIpForVisitEnrichment": "Cũng sử dụng các địa chỉ IP ẩn danh khi làm phong phú thêm các lượt truy cập.",
         "UseAnonymizeIp": "Các địa chỉ IP của khách truy cập ẩn danh",
+        "UseAnonymizedIpForVisitEnrichment": "Cũng sử dụng các địa chỉ IP ẩn danh khi làm phong phú thêm các lượt truy cập.",
         "UseDeleteReports": "Thường xuyên xóa báo cáo cũ từ cơ sở dữ liệu"
     }
 }

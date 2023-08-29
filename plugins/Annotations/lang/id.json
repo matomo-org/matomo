@@ -1,22 +1,22 @@
 {
     "Annotations": {
-        "AddAnnotationsFor": "Tambahkan anotasi untuk %s...",
+        "AddAnnotationsFor": "Tambahkan anotasi untuk %s…",
         "AnnotationOnDate": "Anotasi pada %1$s: %2$s",
         "Annotations": "Anotasi",
         "ClickToDelete": "Klik untuk menghapus anotasi ini.",
         "ClickToEdit": "Klik untuk mengedit anotasi ini.",
         "ClickToEditOrAdd": "Klik untuk mengedit atau menambahkan anotasi baru.",
         "ClickToStarOrUnstar": "Klik untuk memberi atau menghapus bintang pada anotasi ini.",
-        "CreateNewAnnotation": "Buat anotasi baru...",
-        "EnterAnnotationText": "Masukkan catatan Anda...",
-        "HideAnnotationsFor": "Sembunyikan anotasi untuk %s...",
+        "CreateNewAnnotation": "Buat anotasi baru…",
+        "EnterAnnotationText": "Masukkan catatan Anda…",
+        "HideAnnotationsFor": "Sembunyikan anotasi untuk %s…",
         "IconDesc": "Lihat catatan untuk rentang data ini.",
         "IconDescHideNotes": "Sembunyikan catatan untuk rentang tanggal ini.",
         "InlineQuickHelp": "Anda dapat membuat anotasi untuk menandai peristiwa istimewa (seperti sebuah kiriman blog baru atau perubahan desain situs), untuk menyimpan analisa data Anda atau untuk menyimpan hal lain yang menurut Anda penting.",
         "LoginToAnnotate": "Log masuk untuk membuat anotasi.",
         "NoAnnotations": "Tidak tersedia anotasi untuk rentang tanggal ini.",
         "PluginDescription": "Memungkinkan Anda untuk melampirkan catatan dari hari berbeda untuk menandai perubahan dalam situs Anda, simpan analisa mengenai data Anda dan berbagi pemikiran tersebut dengan rekan Anda. Dengan memberi penjelasan terhadap data, akan membuat Anda ingat mengapa data tampak seperti saat ini terjadi.",
-        "ViewAndAddAnnotations": "Tampilkan dan tambahkan anotasi untuk %s...",
+        "ViewAndAddAnnotations": "Tampilkan dan tambahkan anotasi untuk %s…",
         "YouCannotModifyThisNote": "Anda tidak dapat mengubah anotasi ini, sebab Anda bukanlah pembuatnya, atau Anda tidak memiliki akses admin untuk situs ini."
     }
 }

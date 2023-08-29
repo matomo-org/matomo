@@ -24,7 +24,7 @@
         "DefaultAllVisits": "Totes les visites",
         "DragDropCondition": "Condició Drag &amp; Drop",
         "HideMessageInFuture": "Amaga aquest missatge en el futur",
-        "LoadingSegmentedDataMayTakeSomeTime": "El processament de les dades segmentades dels visitants pot trigar uns minuts...",
+        "LoadingSegmentedDataMayTakeSomeTime": "El processament de les dades segmentades dels visitants pot trigar uns minuts…",
         "OperatorAND": "AND",
         "OperatorOR": "OR",
         "PluginDescription": "Un segment és un conjunt de criteris utilitzats per seleccionar només una part de tot el conjunt de visites. Amb segments podeu tornar a injectar context arbitrari als vostres informes.",

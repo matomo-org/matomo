@@ -40,6 +40,6 @@
         "TopLinkTooltip": "Nechte si webové analýzy zasílat na e-mail nebo na svůj mobilní telefon.",
         "TopMenu": "Hlášení e-mailem a SMS",
         "UserKey": "Userkey",
-        "VerificationText": "Kód je %1$s. Pro ověření vašeh otelefonního čísla tento kód zkopírujte do formuláře přístupného na Matomo > %2$s > %3$s."
+        "VerificationText": "Kód je %1$s. Pro ověření vašeh otelefonního čísla tento kód zkopírujte do formuláře přístupného na Matomo → %2$s → %3$s."
     }
 }

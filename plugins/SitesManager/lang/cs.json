@@ -2,7 +2,7 @@
     "SitesManager": {
         "AddMeasurable": "Přidat nové měření",
         "AddSite": "Přídat nový web",
-        "AdvancedTimezoneSupportNotFound": "Pokročilá podpora časových zón nebyla ve vašem PHP (podporována v PHP >=5.2) nalezena. Stále můžete použít ruční UTF offset.",
+        "AdvancedTimezoneSupportNotFound": "Pokročilá podpora časových zón nebyla ve vašem PHP (podporována v PHP &gt;=5.2) nalezena. Stále můžete použít ruční UTF offset.",
         "AliasUrlHelp": "Je doporučeno, ale ne vyžadováno, specifikovat různé URL, jednu na řádku, které vaší návštěvníci používají pro přístup ke stránkám. Aliasy se neobjeví hlášení Odkazující stránky>WWW. Všimněte si, že není nutné zadávat URL s a bez 'www'. Matomo automaticky rozezná obě.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Změna vaší časové zóny se projeví pouze v nových datech a nebude aplikována zpětně.",
         "ChooseMeasurableTypeHeadline": "Co byste chtěl měřit?",

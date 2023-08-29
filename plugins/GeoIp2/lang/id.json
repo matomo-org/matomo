@@ -35,7 +35,7 @@
         "IPurchasedGeoIPDBs": "Saya membeli basis data yang lebih akurat dari %3$sdbip%4$s atau %1$sMaxMind%2$s dan ingin mengatur pembaruan otomatis.",
         "ISPDatabase": "Basis Data ISP",
         "ISPRequiresProviderPlugin": "Pelacakan penyedia layanan internet memerlukan pengaya Provider untuk dipasang dan diaktifkan.",
-        "IWantToDownloadFreeGeoIP": "Saya ingin mengunduh basis data DBIP gratis...",
+        "IWantToDownloadFreeGeoIP": "Saya ingin mengunduh basis data DBIP gratis…",
         "InvalidGeoIPUpdateHost": "Host pembaruan URL GeoIP %1$s tidak tepercaya. Untuk mengizinkan pengunduhan pembaruan GeoIP dari host selain %2$s, harap sesuaikan pengaturan untuk %3$s dikonfigurasi.",
         "InvalidGeoIPUpdatePeriod": "Periode tidak valid untuk pembaruan GeoIP: %1$s. Nilai yang valid adalah %2$s.",
         "LocationDatabase": "Basis Data Lokasi",

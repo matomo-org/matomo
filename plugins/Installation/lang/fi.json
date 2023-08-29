@@ -82,7 +82,7 @@
         "SystemCheckExtensions": "Muut vaaditut lisäosat",
         "SystemCheckFileIntegrity": "Tiedoston eheys",
         "SystemCheckFunctions": "Vaaditut funktiot",
-        "SystemCheckGDFreeType": "GD > 2.x + Freetype (grafiikka)",
+        "SystemCheckGDFreeType": "GD &gt; 2.x + Freetype (grafiikka)",
         "SystemCheckGDHelp": "Pienet graafit eivät toimi.",
         "SystemCheckGlobHelp": "Tämä sisäänrakennettu toiminnallisuus on poistettu käytöstä palvelimellasi. Matomo yrittää emuloida toimintoa, mutta saattaa törmätä uusiin turvallisuusrajoituksiin. Suorituskyky heikkenee.",
         "SystemCheckGzcompressHelp": "zlib-laajennus ja gzcompress-funktio täytyy olla käytössä.",

@@ -2,6 +2,7 @@
     "SegmentEditor": {
         "AddANDorORCondition": "Tilføj %s betingelse",
         "AddNewSegment": "Tilføj nyt segment",
+        "AddingSegmentForAllWebsitesDisabled": "Tilføjelse af segmenter for alle websteder er blevet deaktiveret.",
         "AreYouSureDeleteSegment": "Er du sikker på, at du vil slette dette segment?",
         "AutoArchivePreProcessed": "Segmenterede rapporter behandles på forhånd (er hurtigere, kræver archive.php cron)",
         "AutoArchiveRealTime": "Segmenterede rapporter behandles tidstro",
@@ -9,21 +10,20 @@
         "DataAvailableAtLaterDate": "Dine segmenterede analyserapporter vil være tilgængelig senere. Vi undskylder ulejligheden.",
         "DefaultAllVisits": "Alle besøg",
         "DragDropCondition": "Træk og slip-betingelse",
-        "LoadingSegmentedDataMayTakeSomeTime": "Behandling af segmenterede besøgsdata kan tage et par minutter...",
+        "LoadingSegmentedDataMayTakeSomeTime": "Behandling af segmenterede besøgsdata kan tage et par minutter…",
         "OperatorAND": "OG",
         "OperatorOR": "ELLER",
         "SaveAndApply": "Gem og anvend",
         "SegmentDisplayedAllWebsites": "alle websteder",
         "SegmentDisplayedThisWebsiteOnly": "kun dette websted",
         "SegmentNotApplied": "Segment '%s' anvendes ikke",
+        "Test": "Test",
         "ThisSegmentIsVisibleTo": "Segmentet er synligt for:",
         "VisibleToAllUsers": "alle brugere",
         "VisibleToMe": "mig",
-        "YouMayChangeSetting": "Alternativt kan du ændre indstillingen i konfigurationsfilen (%1$s), eller redigere dette segment og vælg '%2$s'.",
         "VisibleToSuperUser": "Synlig for dig, fordi du har superbrugeradgang",
-        "YouMustBeLoggedInToCreateSegments": "Du skal være logget ind for at oprette og anvende brugerdefinerede besøgssegmenter.",
         "YouDontHaveAccessToCreateSegments": "Du har ikke det nødvendige adgangsniveau til at oprette og redigere segmenter.",
-        "AddingSegmentForAllWebsitesDisabled": "Tilføjelse af segmenter for alle websteder er blevet deaktiveret.",
-        "Test": "Test"
+        "YouMayChangeSetting": "Alternativt kan du ændre indstillingen i konfigurationsfilen (%1$s), eller redigere dette segment og vælg '%2$s'.",
+        "YouMustBeLoggedInToCreateSegments": "Du skal være logget ind for at oprette og anvende brugerdefinerede besøgssegmenter."
     }
 }

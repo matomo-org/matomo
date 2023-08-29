@@ -9,7 +9,7 @@
         "AlwaysActivatedPluginsList": "下面的插件总是被启用的并且不可被停用：%s",
         "AreThereAnyRisks": "是否有任何风险？",
         "AreThereAnyRisksDetails1": "激活标签管理器后，具有管理员访问权限的用户将能够创建自定义HTML标签，触发器和变量，这些HTML，触发器和变量可能会在您的网站上执行JavaScript。 这些自定义模板可能被滥用，例如从您的网站访问者那里窃取敏感信息（称为%1$s，称为XSS%2$s）。",
-        "AreThereAnyRisksDetails2": "在您激活标签管理器后，可以在“管理=>常规设置”下禁用这些自定义模块。 或者，您也可以将这些模板的使用限制为仅特定用户或超级管理员用户。",
+        "AreThereAnyRisksDetails2": "在您激活标签管理器后，可以在“管理→常规设置”下禁用这些自定义模块。 或者，您也可以将这些模板的使用限制为仅特定用户或超级管理员用户。",
         "AuthorHomepage": "作者主页",
         "ChangeLookByManageThemes": "您可以进入%1$s管理主题%2$s来改变 Matomo 的外观。",
         "ChangeSettingsPossible": "您可以修改此插件的%1$s设置%2$s。",

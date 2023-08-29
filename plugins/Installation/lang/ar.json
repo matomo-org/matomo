@@ -85,7 +85,7 @@
         "SystemCheckExtensions": "الإضافات الأخرى المطلوبة",
         "SystemCheckFileIntegrity": "سلامة الملفات",
         "SystemCheckFunctions": "الدوال المطلوبة",
-        "SystemCheckGDFreeType": "GD > 2.x + Freetype (رسوم)",
+        "SystemCheckGDFreeType": "GD &gt; 2.x + Freetype (رسوم)",
         "SystemCheckGDHelp": "لن تعمل خاصية sparklines (الرسومات المصغرة).",
         "SystemCheckGlobHelp": "تم تعطيل هذه الدالة المبنية ضمنياً، وسيحاول Matomo تقليدها ولكنه قد يواجه اعتبارات أمنية أخرى. قد يتأثر عدد من الوظائف أيضاً.",
         "SystemCheckGzcompressHelp": "تحتاج إلى تفعيل إضافة zlib ودالة gzcompress.",

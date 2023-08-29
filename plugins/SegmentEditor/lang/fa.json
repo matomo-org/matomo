@@ -8,16 +8,16 @@
         "ChooseASegment": "انتخاب بخش",
         "DefaultAllVisits": "تمامی بازدیدکننده ها",
         "DragDropCondition": "کشیدن و رها کردن",
-        "LoadingSegmentedDataMayTakeSomeTime": "پردازش داده های بازدید کننده تقسیم ممکن است چند دقیقه طول بکشد ...",
+        "LoadingSegmentedDataMayTakeSomeTime": "پردازش داده های بازدید کننده تقسیم ممکن است چند دقیقه طول بکشد …",
         "OperatorAND": "و",
         "OperatorOR": "یا",
         "SaveAndApply": "ذخیره و درخواست",
         "SegmentDisplayedAllWebsites": "تمام وب سایت ها",
         "SegmentDisplayedThisWebsiteOnly": "این وب سایت فقط",
+        "Test": "آزمایش",
         "ThisSegmentIsVisibleTo": "این بخش قابل رؤیت است:",
         "VisibleToAllUsers": "تمام کاربران",
         "VisibleToMe": "من",
-        "YouMustBeLoggedInToCreateSegments": "شما باید برای ایجاد و ویرایش بخش های بازدید کننده سفارشی، وارد سیستم شوید.",
-        "Test": "آزمایش"
+        "YouMustBeLoggedInToCreateSegments": "شما باید برای ایجاد و ویرایش بخش های بازدید کننده سفارشی، وارد سیستم شوید."
     }
 }

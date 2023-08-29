@@ -2,8 +2,8 @@
     "SitesManager": {
         "AddMeasurable": "Lisää uusi mittauskohde",
         "AddSite": "Lisää uusi sivusto",
-        "AdvancedTimezoneSupportNotFound": "PHP-asennuksessasi ei ole edistyneiden aikavyöhykkeiden tukea (tuettu PHP>=5.2:ssa). Voit silti valita manuaalisesti poikkeaman UTC:stä.",
-        "AliasUrlHelp": "On suositeltavaa, muttei pakollista, määrittää kaikki ne osoitteet, joita sivuston kävijät käyttävät sivulle tullessaan. Vaihtoehtoisia-osoitteita ei näytetä Saapumiset -> Sivustot-raportissa. Osoitteita ei tarvitse kirjoittaa www-alkuosalla ja ilman, koska Matomo huomioi molemmat automaattisesti.",
+        "AdvancedTimezoneSupportNotFound": "PHP-asennuksessasi ei ole edistyneiden aikavyöhykkeiden tukea (tuettu PHP&gt;=5.2:ssa). Voit silti valita manuaalisesti poikkeaman UTC:stä.",
+        "AliasUrlHelp": "On suositeltavaa, muttei pakollista, määrittää kaikki ne osoitteet, joita sivuston kävijät käyttävät sivulle tullessaan. Vaihtoehtoisia-osoitteita ei näytetä Saapumiset → Sivustot-raportissa. Osoitteita ei tarvitse kirjoittaa www-alkuosalla ja ilman, koska Matomo huomioi molemmat automaattisesti.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Aikavyöhykkeen vaihtaminen vaikuttaa vain uusiin tietoihin, eikä vanhoja muutetaan.",
         "ChooseMeasurableTypeHeadline": "Mitä haluat mitata?",
         "Currency": "Valuutta",
