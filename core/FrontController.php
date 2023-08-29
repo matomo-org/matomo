@@ -504,6 +504,10 @@ class FrontController extends Singleton
             return;
         }
 
+        if ($this->isRequestToCoreApiHealthCheck() === true) {
+            return;
+        }
+
         // as request matomo behind load balancer should not return 503. https://github.com/matomo-org/matomo/issues/18054
         if (GeneralConfig::getConfigValue('multi_server_environment') != 1) {
             Common::sendResponseCode(503);
@@ -560,6 +564,11 @@ class FrontController extends Singleton
             return;
         }
         Url::redirectToHttps();
+    }
+
+    private function isRequestToCoreApiHealthCheck(): bool
+    {
+        return Piwik::getModule() === 'API' && \Piwik\Request::fromRequest()->getStringParameter('method') === 'API.getHealthCheck';
     }
 
     private function closeSessionEarlyForFasterUI()
