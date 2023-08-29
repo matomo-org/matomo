@@ -77,7 +77,13 @@ class APITest extends IntegrationTestCase
 
         $this->assertSame(
             [
-                'status' => 'ok'
+                'status' => 'PASS',
+                'checks' => [
+                    [
+                        'name' => 'dashboardAvailable',
+                        'status' => 'PASS'
+                    ]
+                ]
             ],
             $response
         );
