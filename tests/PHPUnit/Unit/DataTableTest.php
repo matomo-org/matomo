@@ -13,6 +13,7 @@ use Piwik\DataTable\Manager;
 use Piwik\DataTable\Row;
 use Piwik\DataTable;
 use Piwik\Date;
+use Piwik\RankingQuery;
 use Piwik\Timer;
 
 /**
@@ -1186,6 +1187,125 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         $dataTable->setMetadata('additionalMetadata', 'test');
         $dataTable = $dataTable->mergeSubtables();
         $this->assertEquals('test', $dataTable->getMetadata('additionalMetadata'));
+    }
+
+    public function test_sumRowWithLabel_addsNewRowIfTableDoesNotHaveRowWithSameLabel()
+    {
+        $dataTable = new DataTable();
+        $dataTable->addRowsFromSimpleArray([
+            ['label' => 'one', 'nb_visits' => 10],
+            ['label' => 'two', 'nb_visits' => 20],
+            ['label' => 'three', 'nb_visits' => 30],
+        ]);
+
+        $dataTable->sumRowWithLabel('four', ['nb_visits' => 40]);
+
+        $expectedRows = [
+            ['label' => 'one', 'nb_visits' => 10],
+            ['label' => 'two', 'nb_visits' => 20],
+            ['label' => 'three', 'nb_visits' => 30],
+            ['label' => 'four', 'nb_visits' => 40],
+        ];
+
+        $actualRows = $dataTable->getRows();
+        $actualRows = array_map(function (Row $r) { return $r->getColumns(); }, $actualRows);
+
+        $this->assertEquals($expectedRows, $actualRows);
+    }
+
+    public function test_sumRowWithLabel_sumsWithExistingRowIfTableDoesHaveRowWithSameLabel()
+    {
+        $dataTable = new DataTable();
+        $dataTable->addRowsFromSimpleArray([
+            ['label' => 'one', 'nb_visits' => 10],
+            ['label' => 'two', 'nb_visits' => 20],
+            ['label' => 'three', 'nb_visits' => 30],
+        ]);
+
+        $dataTable->sumRowWithLabel('three', ['nb_visits' => 40]);
+
+        $expectedRows = [
+            ['label' => 'one', 'nb_visits' => 10],
+            ['label' => 'two', 'nb_visits' => 20],
+            ['label' => 'three', 'nb_visits' => 70],
+        ];
+
+        $actualRows = $dataTable->getRows();
+        $actualRows = array_map(function (Row $r) { return $r->getColumns(); }, $actualRows);
+
+        $this->assertEquals($expectedRows, $actualRows);
+    }
+
+    public function test_sumRowWithLabel_usesSummaryRowIfLabelIsSpecialRankingQueryLabel()
+    {
+        $dataTable = new DataTable();
+        $dataTable->addRowsFromSimpleArray([
+            ['label' => 'one', 'nb_visits' => 10],
+            ['label' => 'two', 'nb_visits' => 20],
+            ['label' => 'three', 'nb_visits' => 30],
+        ]);
+        $dataTable->addSummaryRow(new Row([Row::COLUMNS => ['label' => DataTable::LABEL_SUMMARY_ROW, 'nb_visits' => 60]]));
+
+        $dataTable->sumRowWithLabel(RankingQuery::LABEL_SUMMARY_ROW, ['nb_visits' => 50]);
+
+        $expectedRows = [
+            0 => ['label' => 'one', 'nb_visits' => 10],
+            1 => ['label' => 'two', 'nb_visits' => 20],
+            2 => ['label' => 'three', 'nb_visits' => 30],
+            -1 => ['label' => DataTable::LABEL_SUMMARY_ROW, 'nb_visits' => 110],
+        ];
+
+        $actualRows = $dataTable->getRows();
+        $actualRows = array_map(function (Row $r) { return $r->getColumns(); }, $actualRows);
+
+        $this->assertEquals($expectedRows, $actualRows);
+    }
+
+    public function test_sumRowWithLabel_defaultsNullLabelToEmptyString()
+    {
+        $dataTable = new DataTable();
+        $dataTable->addRowsFromSimpleArray([
+            ['label' => 'one', 'nb_visits' => 10],
+            ['label' => 'two', 'nb_visits' => 20],
+            ['label' => 'three', 'nb_visits' => 30],
+        ]);
+
+        $dataTable->sumRowWithLabel(null, ['nb_visits' => 40]);
+
+        $expectedRows = [
+            ['label' => 'one', 'nb_visits' => 10],
+            ['label' => 'two', 'nb_visits' => 20],
+            ['label' => 'three', 'nb_visits' => 30],
+            ['label' => '', 'nb_visits' => 40],
+        ];
+
+        $actualRows = $dataTable->getRows();
+        $actualRows = array_map(function (Row $r) { return $r->getColumns(); }, $actualRows);
+
+        $this->assertEquals($expectedRows, $actualRows);
+    }
+
+    public function test_sumRowWithLabel_usesCustomAggregationOpsIfSupplied()
+    {
+        $dataTable = new DataTable();
+        $dataTable->addRowsFromSimpleArray([
+            ['label' => 'one', 'nb_visits' => 10],
+            ['label' => 'two', 'nb_visits' => 20],
+            ['label' => '', 'nb_visits' => 30],
+        ]);
+
+        $dataTable->sumRowWithLabel(null, ['nb_visits' => 40], ['nb_visits' => 'max']);
+
+        $expectedRows = [
+            ['label' => 'one', 'nb_visits' => 10],
+            ['label' => 'two', 'nb_visits' => 20],
+            ['label' => '', 'nb_visits' => 40],
+        ];
+
+        $actualRows = $dataTable->getRows();
+        $actualRows = array_map(function (Row $r) { return $r->getColumns(); }, $actualRows);
+
+        $this->assertEquals($expectedRows, $actualRows);
     }
 
     private function createDataTable($rows)
