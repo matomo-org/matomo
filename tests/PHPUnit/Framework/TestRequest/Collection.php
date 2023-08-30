@@ -341,7 +341,6 @@ class Collection
                                             'API.getPiwikVersion',
                                             'API.getPhpVersion',
                                             'API.getPagesComparisonsDisabledFor',
-                                            'API.getHealthCheck',
                                             'UserCountry.getLocationFromIP',
                                             'UserCountry.getCountryCodeMapping');
             } else {
