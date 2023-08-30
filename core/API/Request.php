@@ -517,11 +517,13 @@ class Request
     }
 
     /**
-     * Returns true if a token_auth parameter was supplied via a POST request and is not present as a URL parameter
+     * Returns true if a token_auth parameter was supplied via a secure mechanism and is not present as a URL parameter
+     * At the moment POST requests are checked, but in future other mechanism such as Authorisation HTTP header
+     * and bearer tokens might be used as well.
      *
-     * @return bool True if token supplied via POST request
+     * @return bool True if token was supplied in a secure way
      */
-    public static function isTokenAuthPosted(): bool
+    public static function isTokenAuthProvidedSecurely(): bool
     {
         return (\Piwik\Request::fromGet()->getStringParameter('token_auth', '') === '' &&
                 \Piwik\Request::fromPost()->getStringParameter('token_auth', '') !== '');

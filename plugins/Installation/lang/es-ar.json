@@ -96,7 +96,7 @@
         "SystemCheckFileIntegrity": "Integridad de archivo",
         "SystemCheckFilterHelp": "Necesitás configurar y reconstruir PHP con soporte de filtro habilitado (no usés \"--disable-filter\").",
         "SystemCheckFunctions": "Funciones requeridas",
-        "SystemCheckGDFreeType": "GD > 2.x + Freetype (gráficos)",
+        "SystemCheckGDFreeType": "GD &gt; 2.x + Freetype (gráficos)",
         "SystemCheckGDHelp": "Los minigráficos y gráficos de imagen (en la aplicación móvil de Matomo y en los informes de correo electrónico) no funcionarán.",
         "SystemCheckGlobHelp": "Esta función incorporada fue deshabilitada en tu servidor. Matomo intentará emular su función pero podría encontrar más restricciones de seguridad. La funcionalidad podría per perjudicada.",
         "SystemCheckGzcompressHelp": "Necesitás habilitar la extensión zlib y la función gzcompress.",

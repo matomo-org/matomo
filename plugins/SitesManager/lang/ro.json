@@ -1,8 +1,8 @@
 {
     "SitesManager": {
         "AddSite": "Adauga un site",
-        "AdvancedTimezoneSupportNotFound": "Suportul avansat de fus orar nu a fost găsit în PHP-ul (susținută în PHP >= 5.2). Puteți alege în continuare o UTC manual de offset.",
-        "AliasUrlHelp": "Este recomandat, dar nu este necesar, pentru a specifica diferite URL-uri, câte unul pe linie, pe care vizitatorii tai il folosesc pentru a accesa acest site. Alias URL-uri pentru un site web nu va apărea în referenți&gt; raport website. Rețineți că nu este necesar să se specifice URL-uri cu și fără \\\"www\\\" ca Matomo le consideră automat pe ambele.",
+        "AdvancedTimezoneSupportNotFound": "Suportul avansat de fus orar nu a fost găsit în PHP-ul (susținută în PHP &gt;= 5.2). Puteți alege în continuare o UTC manual de offset.",
+        "AliasUrlHelp": "Este recomandat, dar nu este necesar, pentru a specifica diferite URL-uri, câte unul pe linie, pe care vizitatorii tai il folosesc pentru a accesa acest site. Alias URL-uri pentru un site web nu va apărea în referenți → raport website. Rețineți că nu este necesar să se specifice URL-uri cu și fără \\\"www\\\" ca Matomo le consideră automat pe ambele.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Modificarea fusului orar va afecta numai datele de acum incolo , și nu se va aplica retroactiv.",
         "Currency": "Unitate monetară",
         "CurrencySymbolWillBeUsedForGoals": "Simbolul valutar va fi afișat lângă veniturile golobale.",

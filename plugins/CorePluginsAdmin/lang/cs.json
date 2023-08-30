@@ -9,7 +9,7 @@
         "AlwaysActivatedPluginsList": "Následující zásuvné moduly zůstávají vždy aktivní a nelze je vypnout: %s",
         "AreThereAnyRisks": "Existují nějaká rizika?",
         "AreThereAnyRisksDetails1": "Když aktivujete Správce značek, uživatelé s přístupem pro správce budou moci vytvářet vlastní značky HTML, spouštěče a proměnné, které mohou na vašem webu spustit JavaScript. Tyto vlastní šablony by mohly být zneužity k odcizení například citlivých informací od návštěvníků vašeho webu (známých jako %1$sXSS%2$s).",
-        "AreThereAnyRisksDetails2": "Po aktivaci Správce značek můžete zakázat tyto vlastní šablony v části „Správa => Obecná nastavení“. Použití těchto šablon můžete také omezit pouze na konkrétní uživatele nebo super uživatele.",
+        "AreThereAnyRisksDetails2": "Po aktivaci Správce značek můžete zakázat tyto vlastní šablony v části „Správa → Obecná nastavení“. Použití těchto šablon můžete také omezit pouze na konkrétní uživatele nebo super uživatele.",
         "AuthorHomepage": "Domovská stránka autorů",
         "ChangeLookByManageThemes": "Vzhled Matoma můžete změnit %1$sve správě motivů%2$s.",
         "ChangeSettingsPossible": "Pro tento zásuvný modul můžete změnit %1$snastavení%2$s.",

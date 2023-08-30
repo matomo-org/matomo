@@ -379,34 +379,34 @@ function ManageScheduledReportvue_type_template_id_243c7804_render(_ctx, _cache,
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/ScheduledReports/vue/src/AddReport/AddReport.vue?vue&type=template&id=06f9cd18
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/ScheduledReports/vue/src/AddReport/AddReport.vue?vue&type=template&id=3fa8f654
 
 
-var AddReportvue_type_template_id_06f9cd18_hoisted_1 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+var AddReportvue_type_template_id_3fa8f654_hoisted_1 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
   class: "clear"
 }, null, -1);
 
-var AddReportvue_type_template_id_06f9cd18_hoisted_2 = {
+var AddReportvue_type_template_id_3fa8f654_hoisted_2 = {
   key: 0
 };
-var AddReportvue_type_template_id_06f9cd18_hoisted_3 = ["innerHTML"];
-var AddReportvue_type_template_id_06f9cd18_hoisted_4 = {
+var AddReportvue_type_template_id_3fa8f654_hoisted_3 = ["innerHTML"];
+var AddReportvue_type_template_id_3fa8f654_hoisted_4 = {
   id: "emailScheduleInlineHelp",
   class: "inline-help-node"
 };
 
-var AddReportvue_type_template_id_06f9cd18_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+var AddReportvue_type_template_id_3fa8f654_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
-var AddReportvue_type_template_id_06f9cd18_hoisted_6 = {
+var AddReportvue_type_template_id_3fa8f654_hoisted_6 = {
   id: "emailReportPeriodInlineHelp",
   class: "inline-help-node"
 };
 
-var AddReportvue_type_template_id_06f9cd18_hoisted_7 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+var AddReportvue_type_template_id_3fa8f654_hoisted_7 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
-var AddReportvue_type_template_id_06f9cd18_hoisted_8 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+var AddReportvue_type_template_id_3fa8f654_hoisted_8 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
-var AddReportvue_type_template_id_06f9cd18_hoisted_9 = {
+var AddReportvue_type_template_id_3fa8f654_hoisted_9 = {
   key: 0,
   id: "reportHourHelpText",
   class: "inline-help-node"
@@ -461,7 +461,7 @@ var _hoisted_28 = {
 var _hoisted_29 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
 
 var _hoisted_30 = ["innerHTML"];
-function AddReportvue_type_template_id_06f9cd18_render(_ctx, _cache, $props, $setup, $data, $options) {
+function AddReportvue_type_template_id_3fa8f654_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
 
   var _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
@@ -472,10 +472,10 @@ function AddReportvue_type_template_id_06f9cd18_render(_ctx, _cache, $props, $se
 
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
     class: "entityAddContainer",
-    "content-title": _ctx.translate('ScheduledReports_CreateAndScheduleReport')
+    "content-title": _ctx.contentTitle
   }, {
     default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [AddReportvue_type_template_id_06f9cd18_hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("form", {
+      return [AddReportvue_type_template_id_3fa8f654_hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("form", {
         id: "addEditReport",
         onSubmit: _cache[13] || (_cache[13] = function ($event) {
           return _ctx.$emit('submit');
@@ -498,7 +498,7 @@ function AddReportvue_type_template_id_06f9cd18_render(_ctx, _cache, $props, $se
           });
         }),
         "inline-help": _ctx.translate('ScheduledReports_DescriptionOnFirstPage')
-      }, null, 8, ["title", "model-value", "inline-help"])]), _ctx.segmentEditorActivated ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", AddReportvue_type_template_id_06f9cd18_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+      }, null, 8, ["title", "model-value", "inline-help"])]), _ctx.segmentEditorActivated ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", AddReportvue_type_template_id_3fa8f654_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
         uicontrol: "select",
         name: "report_segment",
         title: _ctx.translate('SegmentEditor_ChooseASegment'),
@@ -517,7 +517,7 @@ function AddReportvue_type_template_id_06f9cd18_render(_ctx, _cache, $props, $se
             id: "reportSegmentInlineHelp",
             class: "inline-help-node",
             innerHTML: _ctx.$sanitize(_ctx.reportSegmentInlineHelp)
-          }, null, 8, AddReportvue_type_template_id_06f9cd18_hoisted_3)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)];
+          }, null, 8, AddReportvue_type_template_id_3fa8f654_hoisted_3)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)];
         }),
         _: 1
       }, 8, ["title", "model-value", "options"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
@@ -539,7 +539,7 @@ function AddReportvue_type_template_id_06f9cd18_render(_ctx, _cache, $props, $se
         options: _ctx.periods
       }, {
         "inline-help": Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-          return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", AddReportvue_type_template_id_06f9cd18_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('ScheduledReports_WeeklyScheduleHelp')) + " ", 1), AddReportvue_type_template_id_06f9cd18_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('ScheduledReports_MonthlyScheduleHelp')), 1)])];
+          return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", AddReportvue_type_template_id_3fa8f654_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('ScheduledReports_WeeklyScheduleHelp')) + " ", 1), AddReportvue_type_template_id_3fa8f654_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('ScheduledReports_MonthlyScheduleHelp')), 1)])];
         }),
         _: 1
       }, 8, ["model-value", "title", "options"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
@@ -556,7 +556,7 @@ function AddReportvue_type_template_id_06f9cd18_render(_ctx, _cache, $props, $se
         title: _ctx.translate('ScheduledReports_ReportPeriod')
       }, {
         "inline-help": Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-          return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", AddReportvue_type_template_id_06f9cd18_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('ScheduledReports_ReportPeriodHelp')) + " ", 1), AddReportvue_type_template_id_06f9cd18_hoisted_7, AddReportvue_type_template_id_06f9cd18_hoisted_8, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('ScheduledReports_ReportPeriodHelp2')), 1)])];
+          return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", AddReportvue_type_template_id_3fa8f654_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('ScheduledReports_ReportPeriodHelp')) + " ", 1), AddReportvue_type_template_id_3fa8f654_hoisted_7, AddReportvue_type_template_id_3fa8f654_hoisted_8, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('ScheduledReports_ReportPeriodHelp2')), 1)])];
         }),
         _: 1
       }, 8, ["model-value", "options", "title"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
@@ -573,7 +573,7 @@ function AddReportvue_type_template_id_06f9cd18_render(_ctx, _cache, $props, $se
         options: _ctx.reportHours
       }, {
         "inline-help": Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-          return [_ctx.timezoneOffset !== 0 && _ctx.timezoneOffset !== '0' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", AddReportvue_type_template_id_06f9cd18_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+          return [_ctx.timezoneOffset !== 0 && _ctx.timezoneOffset !== '0' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", AddReportvue_type_template_id_3fa8f654_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
             textContent: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.reportHourUtc)
           }, null, 8, _hoisted_10)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)];
         }),
@@ -712,7 +712,7 @@ function AddReportvue_type_template_id_06f9cd18_render(_ctx, _cache, $props, $se
     _: 3
   }, 8, ["content-title"]);
 }
-// CONCATENATED MODULE: ./plugins/ScheduledReports/vue/src/AddReport/AddReport.vue?vue&type=template&id=06f9cd18
+// CONCATENATED MODULE: ./plugins/ScheduledReports/vue/src/AddReport/AddReport.vue?vue&type=template&id=3fa8f654
 
 // CONCATENATED MODULE: ./plugins/ScheduledReports/vue/src/utilities.ts
 /*!
@@ -946,8 +946,14 @@ var _window = window,
     saveButtonTitle: function saveButtonTitle() {
       var _window4 = window,
           ReportPlugin = _window4.ReportPlugin;
-      var isCreate = this.report.idreport > 0;
-      return isCreate ? ReportPlugin.createReportString : ReportPlugin.updateReportString;
+      var isEditing = this.report.idreport > 0;
+      return isEditing ? ReportPlugin.updateReportString : ReportPlugin.createReportString;
+    },
+    contentTitle: function contentTitle() {
+      var _window5 = window,
+          ReportPlugin = _window5.ReportPlugin;
+      var isEditing = this.report.idreport > 0;
+      return isEditing ? ReportPlugin.updateReportString : Object(external_CoreHome_["translate"])('ScheduledReports_CreateAndScheduleReport');
     }
   }
 }));
@@ -957,7 +963,7 @@ var _window = window,
 
 
 
-AddReportvue_type_script_lang_ts.render = AddReportvue_type_template_id_06f9cd18_render
+AddReportvue_type_script_lang_ts.render = AddReportvue_type_template_id_3fa8f654_render
 
 /* harmony default export */ var AddReport = (AddReportvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/ScheduledReports/vue/src/ListReports/ListReports.vue?vue&type=template&id=5753851b

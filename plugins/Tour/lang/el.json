@@ -1,9 +1,9 @@
 {
     "Tour": {
         "AddAnnotation": "Προσθήκη σχολιασμού",
+        "AddAnotherWebsite": "Προσθήκη άλλου ιστοτόπου",
         "AddReport": "Προσθήκη προγραμματισμένης αναφοράς",
         "AddSegment": "Προσθήκη ενός τμήματος",
-        "AddWebsite": "Προσθήκη ενός ιστοτόπου",
         "BecomeMatomoExpert": "Γίνετε ειδικός στο Matomo",
         "BrowseMarketplace": "Περιήγηση της αγοράς",
         "ChallengeCompleted": "Συγχαρητήρια, η δοκιμασία ολοκληρώθηκε.",

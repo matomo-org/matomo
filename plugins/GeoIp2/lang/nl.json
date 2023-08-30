@@ -35,7 +35,7 @@
         "IPurchasedGeoIPDBs": "Ik heb een nauwkeuriger databases aangekocht van %3$sDBIP%4$s of %1$sMaxMind%2$s en wil automatische updates instellen.",
         "ISPDatabase": "ISP-database",
         "ISPRequiresProviderPlugin": "Het volgen van Internet Service Providers vereist dat de Provider plugin geïnstalleerd en geactiveerd is.",
-        "IWantToDownloadFreeGeoIP": "Ik wil de gratis DBIP-database downloaden...",
+        "IWantToDownloadFreeGeoIP": "Ik wil de gratis DBIP-database downloaden…",
         "InvalidGeoIPUpdateHost": "De host van de GeoIP update url %1$s is onbetrouwbaar. Om het downloaden van GeoIP updates van andere hosts dan %2$s toe te laten, moet u de instelling voor %3$s in de config aanpassen.",
         "InvalidGeoIPUpdatePeriod": "Ongeldige periode voor de GeoIP updater: %1$s. Geldige waardes zijn %2$s.",
         "LocationDatabase": "Locatiedatabase",

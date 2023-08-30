@@ -9,7 +9,7 @@
         "AlwaysActivatedPluginsList": "I seguenti plugin sono sempre attivati e non possono essere disabilitati: %s",
         "AreThereAnyRisks": "Ci sono rischi?",
         "AreThereAnyRisksDetails1": "Quando attivi Tag Manager, gli utenti con l'accesso di amministratore potranno creare tag HTML, trigger e variabili personalizzati che potrebbero eseguire del codice JavaScript sul tuo sito web. Questi modelli personalizzati potrebbero essere utilizzati in modo improprio per rubare, ad esempio, informazioni sensibili dai visitatori del tuo sito Web (%1$sXSS o Cross-site Scripting%2$s).",
-        "AreThereAnyRisksDetails2": "Puoi disabilitare questi template personalizzati in \"Amministrazione =&gt; Impostazioni Generali\", una volta che avrai attivato il Tag Manager. In alternativa, puoi anche limitarne l'utilizzo solo a utenti specifici o solo ai super utenti..",
+        "AreThereAnyRisksDetails2": "Puoi disabilitare questi template personalizzati in \"Amministrazione → Impostazioni Generali\", una volta che avrai attivato il Tag Manager. In alternativa, puoi anche limitarne l'utilizzo solo a utenti specifici o solo ai super utenti..",
         "AuthorHomepage": "Homepage Autore",
         "ChangeLookByManageThemes": "Puoi cambiare l'aspetto di Matomo tramite %1$sGestione Temi%2$s.",
         "ChangeSettingsPossible": "Puoi cambiare le %1$simpostazioni%2$s per questo plugin.",

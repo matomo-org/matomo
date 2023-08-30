@@ -93,7 +93,7 @@
         "PseudonymizeUserIdNote2": "UWAGA: zamiana ID Użytkownika pseudonimem w myśl RODO nie jest tym samym co anonimizacja. Pseudonim w dalszym ciągu jest zaliczany do danych osobowych. W tym przypadku ID Użytkownika może zostać powiązane z pseudonimem na podstawie dodatkowych danych (dostępnych dla Matomo i przetwarzającego Twoje dane).",
         "PurgeNow": "Oczyść bazę danych teraz",
         "PurgeNowConfirm": "Zamierzasz ostatecznie skasować dane z Twojej bazy danych. Czy na pewno chcesz kontynuować?",
-        "PurgingData": "Czyszczenie danych...",
+        "PurgingData": "Czyszczenie danych…",
         "RawDataNeverRemoved": "dane surowe dotyczące wizyt i akcji nie są <strong>nigdy</strong> usuwane.",
         "RawDataRemovedAfter": "wszystkie dane surowe wizyt i akcji są usuwane po %1$s.",
         "RecommendedForPrivacy": "Zalecenia Prywatności",

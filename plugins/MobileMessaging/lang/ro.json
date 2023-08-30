@@ -7,6 +7,8 @@
         "MultiSites_Must_Be_Activated": "Pentru a genera texte SMS de statistici pe site-ul dvs., vă rugăm să activați plugin MultiSites în Matomo.",
         "PhoneNumbers": "Numere de telefon",
         "PluginDescription": "Creati și descărcati rapoarte SMS personalizate și le puteti trimite pe telefonul mobil o bază de zi , săptămânal sau lunar.",
+        "SMS_Content_Too_Long": "[prea lung]",
+        "SettingsMenu": "Mesagerie mobil",
         "Settings_APIKey": "Cheie API",
         "Settings_CountryCode": "Codul ţării",
         "Settings_CredentialNotProvided": "Înainte de a putea crea și gestiona numerele de telefon, vă rugăm să vă conectați la contul dvs. SMS Matomo de mai sus.",
@@ -28,10 +30,8 @@
         "Settings_SuspiciousPhoneNumber": "Dacă nu primiți un mesaj text, puteți încerca fără primul zero. de exemplu. %s.",
         "Settings_UpdateOrDeleteAccount": "Puteți, de asemenea %1$sactualiza%2$s sau %3$ssterge%4$s acest cont.",
         "Settings_ValidatePhoneNumber": "Verifică",
-        "SettingsMenu": "Mesagerie mobil",
-        "SMS_Content_Too_Long": "[prea lung]",
         "TopLinkTooltip": "Web Analytics Rapoarte livrate pe email-ul sau telefonul mobil!",
         "TopMenu": "Email & SMS Rapoarte",
-        "VerificationText": "Codul este de %1$s. Pentru a valida numărul dvs. de telefon și pentru a primi rapoarte SMS Matomo vă rugăm să copiați acest cod în formă accesibilă prin intermediul Matomo > %2$s > %3$s."
+        "VerificationText": "Codul este de %1$s. Pentru a valida numărul dvs. de telefon și pentru a primi rapoarte SMS Matomo vă rugăm să copiați acest cod în formă accesibilă prin intermediul Matomo → %2$s → %3$s."
     }
 }

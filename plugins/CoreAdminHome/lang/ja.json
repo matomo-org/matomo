@@ -44,7 +44,7 @@
         "JSTrackingIntro1": "Web サイトへのビジターをさまざまな方法で追跡できます。 推奨される方法は JavaScript を使用することです。 この方法を使用するには、Web サイトのすべての Web ページに JavaScript コードがあることを確認する必要があります。これはここで生成できます。",
         "JSTrackingIntro2": "WebサイトのJavaScriptトラッキングコードを入手したら、それをコピーしてMatomoで追跡したいすべてのページに貼り付けます。",
         "JSTrackingIntro3a": "ほとんどの Web サイト、ブログ、CMS などでは、事前に作成されたプラグインを使用して技術的な作業を行うことができます。 （ %1$sMatomo の統合に使用されるプラグインのリスト%2$sを参照してください。）",
-        "JSTrackingIntro3b": "プラグインが存在しない場合は、ウェブサイトテンプレートを編集して、JavaScriptトラッキングコードを＆lt; / head＆gt;に追加できます。 'header.php'、 'header.tpl'または同様のテンプレートファイルで定義されることが多いタグ。",
+        "JSTrackingIntro3b": "プラグインが存在しない場合は、ウェブサイトテンプレートを編集して、JavaScriptトラッキングコードを&lt; / head&gt;に追加できます。 'header.php'、 'header.tpl'または同様のテンプレートファイルで定義されることが多いタグ。",
         "JSTrackingIntro4": "ビジターの追跡に JavaScript を使用したくない場合は、%1$s以下の画像によるトラッキングリンクを生成します。%2$s",
         "JSTrackingIntro5": "ページビューを追跡する以外にも、%1$sMatomo Javascript Tracking のドキュメント%2$sで利用可能な機能のリストを確認してください。 これらの機能を使用すると、目標、カスタム変数、e コマース注文、放棄されたカートなどを追跡できます。",
         "JSTracking_CampaignKwdParam": "キャンペーン用キーワードパラメータ",

@@ -9,7 +9,7 @@
         "AlwaysActivatedPluginsList": "次のプラグインは常に有効になっており、無効にすることはできません：%s",
         "AreThereAnyRisks": "リスクはありますか？",
         "AreThereAnyRisksDetails1": "タグマネージャをアクティブにすると、管理者権限を持つユーザーは、Web サイトで JavaScript を実行できるカスタムの HTML タグ、トリガー、および変数を作成できます。 これらのカスタムテンプレートは、たとえば、ウェブサイト訪問者（%1$sXSS%2$sとして知られる）からの機密情報を盗むために誤用される可能性があります。",
-        "AreThereAnyRisksDetails2": "これらのカスタムテンプレートは、Tag Managerを有効にした後は、「管理=&gt;一般設定」で無効にすることができます。 また、これらのテンプレートの使用を特定のユーザーまたはスーパーユーザーのみに制限することもできます。",
+        "AreThereAnyRisksDetails2": "これらのカスタムテンプレートは、Tag Managerを有効にした後は、「管理→一般設定」で無効にすることができます。 また、これらのテンプレートの使用を特定のユーザーまたはスーパーユーザーのみに制限することもできます。",
         "AuthorHomepage": "著者ホームページ",
         "ChangeLookByManageThemes": "%1$s テーマの管理 %2$sで Matomo の外観を変更できます。",
         "ChangeSettingsPossible": "このプラグインの%1$s設定%2$sを変えることができます。",
