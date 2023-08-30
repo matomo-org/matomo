@@ -13,6 +13,38 @@ use Piwik\HealthCheck\HealthCheckService;
  */
 final class HealthCheckServiceTest extends TestCase
 {
+    public function test_construct_throwsExceptionIfNoHealthChecksPassed(): void
+    {
+        $this->expectExceptionMessage('At least 1 health check is required to operate the health check service');
+        new HealthCheckService([]);
+    }
+
+    public function test_construct_performChecksIgnoresDuplicates(): void
+    {
+        $healthCheck1 = $this->createMock(HealthCheckInterface::class);
+        $healthCheck1
+            ->method('getName')
+            ->willReturn('sameName');
+        $healthCheck1
+            ->expects($this->never())
+            ->method('test');
+
+        $healthCheck2 = $this->createMock(HealthCheckInterface::class);
+        $healthCheck2
+            ->expects($this->once())
+            ->method('test');
+        $healthCheck2
+            ->method('getName')
+            ->willReturn('sameName');
+
+
+        $sut = new HealthCheckService([
+            $healthCheck1,
+            $healthCheck2
+        ]);
+        $sut->performChecks();
+    }
+
     public function test_performChecks_buildsResponseWithResultOfHealthCheck(): void
     {
         $healthCheckThatPasses = $this->createMock(HealthCheckInterface::class);

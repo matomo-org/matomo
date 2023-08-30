@@ -18,7 +18,13 @@ final class HealthCheckService
      */
     public function __construct(array $healthChecks)
     {
-        $this->healthChecks = $healthChecks;
+        if (empty($healthChecks)) {
+            throw new \RuntimeException('At least 1 health check is required to operate the health check service');
+        }
+
+        foreach ($healthChecks as $healthCheck) {
+            $this->healthChecks[$healthCheck->getName()] = $healthCheck;
+        }
     }
 
     public function performChecks(): HealthCheckResponse
@@ -31,7 +37,6 @@ final class HealthCheckService
                 $healthCheck->test() ? HealthCheckSingleResponse::HEALTH_CHECK_PASSED : HealthCheckSingleResponse::HEALTH_CHECK_FAILED
             );
         }
-
         return new HealthCheckResponse($healthCheckResponses);
     }
 }
