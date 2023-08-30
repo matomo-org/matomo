@@ -3,8 +3,8 @@
 namespace Piwik\HealthCheck;
 
 use Piwik\HealthCheck\Checks\HealthCheckInterface;
-use Piwik\HealthCheck\Responses\Responses\HealthCheckResponse;
-use Piwik\HealthCheck\Responses\Responses\HealthCheckSingleResponse;
+use Piwik\HealthCheck\Responses\HealthCheckResponse;
+use Piwik\HealthCheck\Responses\HealthCheckSingleResponse;
 
 final class HealthCheckService
 {
