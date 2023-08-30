@@ -1,13 +1,13 @@
 <?php
 
-namespace HealthCheck\HealthCheck\Responses;
+namespace Piwik\Tests\Unit\HealthCheck\Responses;
 
 use PHPUnit\Framework\TestCase;
-use Piwik\HealthCheck\HealthCheck\Responses\HealthCheckSingleResponse;
+use Piwik\HealthCheck\Responses\HealthCheckSingleResponse;
 
 /**
  * @group Core
- * @group HealthCheck
+ * @group HealthCheck2
  * @group HealthCheckService
  * @group HealthCheckSingleResponse
  */

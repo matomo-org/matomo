@@ -1,14 +1,14 @@
 <?php
 
-namespace HealthCheck\HealthCheck;
+namespace Piwik\Tests\Unit\HealthCheck;
 
 use PHPUnit\Framework\TestCase;
-use Piwik\HealthCheck\HealthCheck\Checks\HealthCheckInterface;
-use Piwik\HealthCheck\HealthCheck\HealthCheckService;
+use Piwik\HealthCheck\Checks\HealthCheckInterface;
+use Piwik\HealthCheck\HealthCheckService;
 
 /**
  * @group Core
- * @group HealthCheck
+ * @group HealthCheck2
  * @group HealthCheckService
  */
 final class HealthCheckServiceTest extends TestCase

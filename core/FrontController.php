@@ -19,8 +19,8 @@ use Piwik\Exception\DatabaseSchemaIsNewerThanCodebaseException;
 use Piwik\Exception\PluginDeactivatedException;
 use Piwik\Exception\PluginRequiresInternetException;
 use Piwik\Exception\StylesheetLessCompileException;
-use Piwik\HealthCheck\HealthCheck\Checks\DashboardAvailableHealthCheck;
-use Piwik\HealthCheck\HealthCheck\HealthCheckService;
+use Piwik\HealthCheck\Checks\DashboardAvailableHealthCheck;
+use Piwik\HealthCheck\HealthCheckService;
 use Piwik\Http\ControllerResolver;
 use Piwik\Http\Router;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
@@ -567,11 +567,6 @@ class FrontController extends Singleton
             return;
         }
         Url::redirectToHttps();
-    }
-
-    private function isRequestToCoreApiHealthCheck(): bool
-    {
-        return Piwik::getModule() === 'API' && \Piwik\Request::fromRequest()->getStringParameter('method') === 'API.getHealthCheck';
     }
 
     private function closeSessionEarlyForFasterUI()

@@ -1,6 +1,6 @@
 <?php
 
-namespace Piwik\HealthCheck\HealthCheck\Responses;
+namespace Piwik\HealthCheck\Responses;
 
 use RuntimeException;
 

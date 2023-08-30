@@ -1,14 +1,14 @@
 <?php
 
-namespace HealthCheck\HealthCheck\Responses;
+namespace Piwik\Tests\Unit\HealthCheck\Responses;
 
 use PHPUnit\Framework\TestCase;
-use Piwik\HealthCheck\HealthCheck\Responses\HealthCheckResponse;
-use Piwik\HealthCheck\HealthCheck\Responses\HealthCheckSingleResponse;
+use Piwik\HealthCheck\Responses\HealthCheckResponse;
+use Piwik\HealthCheck\Responses\HealthCheckSingleResponse;
 
 /**
  * @group Core
- * @group HealthCheck
+ * @group HealthCheck2
  * @group HealthCheckResponse
  */
 final class HealthCheckResponseTest extends TestCase

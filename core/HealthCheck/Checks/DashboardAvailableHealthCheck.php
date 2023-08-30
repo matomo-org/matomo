@@ -1,6 +1,6 @@
 <?php
 
-namespace Piwik\HealthCheck\HealthCheck\Checks;
+namespace Piwik\HealthCheck\Checks;
 
 use Piwik\Config\GeneralConfig;
 use Piwik\Plugin\Manager;
