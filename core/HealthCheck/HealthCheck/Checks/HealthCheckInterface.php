@@ -1,6 +1,6 @@
 <?php
 
-namespace Piwik\Plugins\API\HealthCheck\Checks;
+namespace Piwik\HealthCheck\HealthCheck\Checks;
 
 interface HealthCheckInterface
 {

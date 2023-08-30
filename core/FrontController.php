@@ -19,6 +19,8 @@ use Piwik\Exception\DatabaseSchemaIsNewerThanCodebaseException;
 use Piwik\Exception\PluginDeactivatedException;
 use Piwik\Exception\PluginRequiresInternetException;
 use Piwik\Exception\StylesheetLessCompileException;
+use Piwik\HealthCheck\HealthCheck\Checks\DashboardAvailableHealthCheck;
+use Piwik\HealthCheck\HealthCheck\HealthCheckService;
 use Piwik\Http\ControllerResolver;
 use Piwik\Http\Router;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
@@ -317,6 +319,11 @@ class FrontController extends Singleton
 
         Filechecks::dieIfDirectoriesNotWritable($directoriesToCheck);
 
+        if ($this->isHealthCheckRequest()) {
+            $this->handleHealthCheckRequest();
+            return;
+        }
+
         $this->handleMaintenanceMode();
         $this->handleProfiler();
         $this->handleSSLRedirection();
@@ -501,10 +508,6 @@ class FrontController extends Singleton
     protected function handleMaintenanceMode()
     {
         if ((GeneralConfig::getConfigValue('maintenance_mode') != 1) || Common::isPhpCliMode() ) {
-            return;
-        }
-
-        if ($this->isRequestToCoreApiHealthCheck() === true) {
             return;
         }
 
@@ -828,5 +831,28 @@ class FrontController extends Singleton
         }
 
         return false;
+    }
+
+    private function isHealthCheckRequest(): bool
+    {
+        return \Piwik\Request::fromRequest()->getBoolParameter('healthCheck', false) === true;
+    }
+
+    private function handleHealthCheckRequest(): void
+    {
+        $healthCheckService = new HealthCheckService([new DashboardAvailableHealthCheck()]);
+        $healthCheckResponse = $healthCheckService->performChecks();
+
+        Common::sendHeader('Content-Type: application/json; charset=utf-8');
+
+        if ($healthCheckResponse->hasPassed()) {
+            Common::sendResponseCode(200);
+
+        } else {
+            Common::sendResponseCode(503);
+        }
+
+        echo json_encode($healthCheckResponse->toArray());
+        self::$enableDispatch = false;
     }
 }

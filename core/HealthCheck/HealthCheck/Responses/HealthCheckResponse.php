@@ -1,6 +1,6 @@
 <?php
 
-namespace Piwik\Plugins\API\HealthCheck\Responses;
+namespace Piwik\HealthCheck\HealthCheck\Responses;
 
 final class HealthCheckResponse
 {

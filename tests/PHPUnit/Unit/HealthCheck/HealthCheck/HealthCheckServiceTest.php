@@ -1,14 +1,13 @@
 <?php
 
-namespace Piwik\Plugins\API\tests\Unit\HealthCheck;
+namespace HealthCheck\HealthCheck;
 
 use PHPUnit\Framework\TestCase;
-use Piwik\Plugins\API\HealthCheck\Checks\HealthCheckInterface;
-use Piwik\Plugins\API\HealthCheck\HealthCheckService;
+use Piwik\HealthCheck\HealthCheck\Checks\HealthCheckInterface;
+use Piwik\HealthCheck\HealthCheck\HealthCheckService;
 
 /**
- * @group Plugin
- * @group API
+ * @group Core
  * @group HealthCheck
  * @group HealthCheckService
  */

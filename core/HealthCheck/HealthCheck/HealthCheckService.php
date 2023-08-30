@@ -1,10 +1,10 @@
 <?php
 
-namespace Piwik\Plugins\API\HealthCheck;
+namespace Piwik\HealthCheck\HealthCheck;
 
-use Piwik\Plugins\API\HealthCheck\Checks\HealthCheckInterface;
-use Piwik\Plugins\API\HealthCheck\Responses\HealthCheckResponse;
-use Piwik\Plugins\API\HealthCheck\Responses\HealthCheckSingleResponse;
+use Piwik\HealthCheck\HealthCheck\Checks\HealthCheckInterface;
+use Piwik\HealthCheck\HealthCheck\Responses\HealthCheckResponse;
+use Piwik\HealthCheck\HealthCheck\Responses\HealthCheckSingleResponse;
 
 final class HealthCheckService
 {

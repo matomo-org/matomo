@@ -25,8 +25,6 @@ use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugin\SettingsProvider;
 use Piwik\Plugins\API\DataTable\MergeDataTables;
-use Piwik\Plugins\API\HealthCheck\Checks\DashboardAvailableHealthCheck;
-use Piwik\Plugins\API\HealthCheck\HealthCheckService;
 use Piwik\Plugins\CorePluginsAdmin\SettingsMetadata;
 use Piwik\Segment;
 use Piwik\Site;
@@ -87,21 +85,6 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSomeViewAccess();
         return Version::VERSION;
-    }
-
-    public function getHealthCheck(): array
-    {
-        $healthCheckService = new HealthCheckService([new DashboardAvailableHealthCheck()]);
-        $healthCheckResponse = $healthCheckService->performChecks();
-
-        if ($healthCheckResponse->hasPassed()) {
-            Common::sendResponseCode(200);
-
-        } else {
-            Common::sendResponseCode(503);
-        }
-
-        return $healthCheckResponse->toArray();
     }
 
     /**

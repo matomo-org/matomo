@@ -71,24 +71,6 @@ class APITest extends IntegrationTestCase
         $this->assertResponseIsSuccess($response[4]);
     }
 
-    public function test_getHealthCheck_ReturnsStatusOk(): void
-    {
-        $response = $this->api->getHealthCheck();
-
-        $this->assertSame(
-            [
-                'status' => 'PASS',
-                'checks' => [
-                    [
-                        'name' => 'dashboardAvailable',
-                        'status' => 'PASS'
-                    ]
-                ]
-            ],
-            $response
-        );
-    }
-
     private function assertResponseIsPermissionError($response)
     {
         $this->assertSame('error', $response['result']);

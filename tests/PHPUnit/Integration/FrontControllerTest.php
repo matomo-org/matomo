@@ -83,6 +83,17 @@ FORMAT;
         $this->assertEquals(Fixture::getTokenAuth(), $auth->getTokenAuth());
     }
 
+    public function test_ifHealthCheckParamPassedInUrl_ReturnsHealthCheckResponse(): void
+    {
+        $_GET = ['healthCheck' => 1];
+
+        ob_start();
+        FrontController::getInstance()->init();
+        $output = ob_get_clean();
+
+        $this->assertEquals('{"status":"PASS","checks":[{"name":"dashboardAvailable","status":"PASS"}]}', $output);
+    }
+
     private function cleanMessage($message)
     {
         $message = trim($message);
