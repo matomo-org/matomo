@@ -830,7 +830,7 @@ class FrontController extends Singleton
 
     private function isHealthCheckRequest(): bool
     {
-        return \Piwik\Request::fromRequest()->getBoolParameter('healthCheck', false) === true;
+        return \Piwik\Request::fromGet()->getBoolParameter('healthCheck', false) === true;
     }
 
     private function handleHealthCheckRequest(): void
