@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Archive\DataTableFactory;
+use Piwik\ArchiveProcessor\LogAggregationQuery;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Container\StaticContainer;
@@ -18,6 +19,7 @@ use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Manager;
 use Piwik\DataTable\Map;
 use Piwik\DataTable\Row;
+use Piwik\Plugin\LogTablesProvider;
 use Piwik\Segment\SegmentExpression;
 use Piwik\Log\LoggerInterface;
 
@@ -110,11 +112,17 @@ class ArchiveProcessor
 
     private $numberOfVisitsConverted = false;
 
+    /**
+     * @var LogTablesProvider
+     */
+    private $logTablesProvider;
+
     public function __construct(Parameters $params, ArchiveWriter $archiveWriter, LogAggregator $logAggregator)
     {
         $this->params = $params;
         $this->logAggregator = $logAggregator;
         $this->archiveWriter = $archiveWriter;
+        $this->logTablesProvider = StaticContainer::get(LogTablesProvider::class);
     }
 
     protected function getArchive()
@@ -782,5 +790,16 @@ class ArchiveProcessor
     public function getArchiveWriter()
     {
         return $this->archiveWriter;
+    }
+
+    public function newLogQuery(string $table): LogAggregationQuery
+    {
+        $tableInfo = $this->logTablesProvider->getLogTable($table);
+        $datetimeField = $tableInfo->getDateTimeColumn();
+        if (empty($datetimeField)) {
+            throw new \Exception("Cannot use LogAggregationQuery with $table: don't know what datetime field to use");
+        }
+
+        return new LogAggregationQuery($table, $this->logAggregator);
     }
 }

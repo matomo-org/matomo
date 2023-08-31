@@ -32,4 +32,8 @@ class ConversionItem extends LogTable
         return array('idvisit', 'idorder', 'idaction_sku');
     }
 
+    public function getDateTimeColumn(): string
+    {
+        return 'server_time';
+    }
 }

@@ -14,4 +14,5 @@ class DaysToConversion extends Dimension
 {
     protected $type = self::TYPE_NUMBER;
     protected $nameSingular = 'Goals_DaysToConv';
+    protected $sqlFilter = 'FLOOR(log_conversion.visitor_seconds_since_first / 86400)';
 }

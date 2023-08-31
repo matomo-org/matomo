@@ -33,7 +33,7 @@ abstract class RecordBuilder
      */
     protected $columnToSortByBeforeTruncation;
 
-    /**
+    /*
      * @var array|null
      */
     protected $columnAggregationOps;

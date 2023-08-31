@@ -14293,5 +14293,11 @@
             "idaction": "71",
             "name": "My product 211"
         }
+    ],
+    "log_action_log_conversion_item_idaction_category": [
+        {
+            "idaction": "38",
+            "name": "Sound Category"
+        }
     ]
 }

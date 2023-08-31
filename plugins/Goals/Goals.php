@@ -19,6 +19,13 @@ use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\CoreHome\SystemSummary;
+use Piwik\Plugins\Ecommerce\Columns\ProductCategory;
+use Piwik\Plugins\Ecommerce\Columns\ProductCategory2;
+use Piwik\Plugins\Ecommerce\Columns\ProductCategory3;
+use Piwik\Plugins\Ecommerce\Columns\ProductCategory4;
+use Piwik\Plugins\Ecommerce\Columns\ProductCategory5;
+use Piwik\Plugins\Ecommerce\Columns\ProductName;
+use Piwik\Plugins\Ecommerce\Columns\ProductSku;
 use Piwik\Plugins\Goals\RecordBuilders\ProductRecord;
 use Piwik\Tracker\GoalManager;
 use Piwik\Category\Subcategory;
@@ -114,13 +121,13 @@ class Goals extends \Piwik\Plugin
 
     public function addRecordBuilders(array &$recordBuilders): void
     {
-        $recordBuilders[] = new ProductRecord(ProductRecord::SKU_FIELD, ProductRecord::ITEMS_SKU_RECORD_NAME);
-        $recordBuilders[] = new ProductRecord(ProductRecord::NAME_FIELD, ProductRecord::ITEMS_NAME_RECORD_NAME);
-        $recordBuilders[] = new ProductRecord(ProductRecord::CATEGORY_FIELD, ProductRecord::ITEMS_CATEGORY_RECORD_NAME, [
-            ProductRecord::CATEGORY2_FIELD,
-            ProductRecord::CATEGORY3_FIELD,
-            ProductRecord::CATEGORY4_FIELD,
-            ProductRecord::CATEGORY5_FIELD,
+        $recordBuilders[] = new ProductRecord(new ProductSku(), ProductRecord::ITEMS_SKU_RECORD_NAME);
+        $recordBuilders[] = new ProductRecord(new ProductName(), ProductRecord::ITEMS_NAME_RECORD_NAME);
+        $recordBuilders[] = new ProductRecord(new ProductCategory(), ProductRecord::ITEMS_CATEGORY_RECORD_NAME, [
+            new ProductCategory2(),
+            new ProductCategory3(),
+            new ProductCategory4(),
+            new ProductCategory5(),
         ]);
     }
 

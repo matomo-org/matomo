@@ -145,6 +145,7 @@
         "ColumnRevenueAttributedDocumentation": "The share of all revenue for %s where this page was viewed before conversion.",
         "ColumnConversionsEntryDocumentation": "The total number of goal conversions where this page was the entry page.",
         "ColumnConversionEntryRateDocumentation": "The percent of entrances that were converted for %s.",
-        "ColumnRevenueEntryDocumentation": "The share of all revenue for %s where this page was the entry page."
+        "ColumnRevenueEntryDocumentation": "The share of all revenue for %s where this page was the entry page.",
+        "EcommerceType": "Ecommerce Type"
     }
 }

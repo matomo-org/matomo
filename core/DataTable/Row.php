@@ -839,7 +839,7 @@ class Row extends \ArrayObject
         return $periodStartDate->isLater($cloudDeployDate);
     }
 
-    public function sumRowWithLabelToSubtable(string $label, array $columns, ?array $aggregationOps = null): Row
+    public function aggregateRowWithLabelToSubtable(Row $row, ?array $aggregationOps = null): Row
     {
         $subtable = $this->getSubtable();
         if (empty($subtable)) {
@@ -847,6 +847,18 @@ class Row extends \ArrayObject
             $this->setSubtable($subtable);
         }
 
-        return $subtable->sumRowWithLabel($label, $columns, $aggregationOps);
+        return $subtable->aggregateRowWithLabel($row, $aggregationOps);
+    }
+
+    public function aggregateSimpleArrayWithLabelToSubtable(array $columns, ?array $aggregationOps = null): Row
+    {
+        return $this->aggregateRowWithLabelToSubtable(new Row([self::COLUMNS => $columns]),  $aggregationOps);
+    }
+
+    // TODO: no longer needed
+    public function sumRowWithLabelToSubtable(string $label, array $columns, ?array $aggregationOps = null): Row
+    {
+        $row = new Row([self::COLUMNS => ['label' => $label] + $columns]);
+        return $this->aggregateRowWithLabelToSubtable($row, $aggregationOps);
     }
 }
