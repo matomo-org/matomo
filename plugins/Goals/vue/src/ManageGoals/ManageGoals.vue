@@ -625,6 +625,7 @@ export default defineComponent({
 
         if (parameters.matchAttribute === 'event') {
           parameters.matchAttribute = this.eventType;
+          parameters.useEventValueAsRevenue = ambiguousBoolToInt(this.goal.event_value_as_revenue);
         }
 
         parameters.patternType = this.goal.pattern_type;
@@ -633,7 +634,6 @@ export default defineComponent({
       }
       parameters.revenue = this.goal.revenue || 0;
       parameters.allowMultipleConversionsPerVisit = ambiguousBoolToInt(this.goal.allow_multiple);
-      parameters.useEventValueAsRevenue = ambiguousBoolToInt(this.goal.event_value_as_revenue);
 
       parameters.idGoal = this.goal.idgoal;
       parameters.method = this.apiMethod;
