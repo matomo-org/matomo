@@ -158,7 +158,7 @@ export default defineComponent({
         {
           module: 'API',
           format: 'json',
-          method: 'Tour.detectConsentManager',
+          method: 'SitesManager.detectConsentManager',
           idSite,
           filter_limit: '-1',
         },

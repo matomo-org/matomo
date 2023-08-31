@@ -9,9 +9,6 @@
 namespace Piwik\Plugins\Tour;
 
 use Piwik\Piwik;
-use Piwik\Plugins\SitesManager\SiteContentDetection\ConsentManagerDetectionAbstract;
-use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
-use Piwik\SiteContentDetector;
 use Piwik\Plugins\Tour\Engagement\Levels;
 use Piwik\Plugins\Tour\Engagement\Challenges;
 
@@ -33,14 +30,11 @@ class API extends \Piwik\Plugin\API
      */
     private $levels;
 
-    /** @var SiteContentDetector */
-    private $siteContentDetector;
 
-    public function __construct(Challenges $challenges, Levels $levels, SiteContentDetector $siteContentDetector)
+    public function __construct(Challenges $challenges, Levels $levels)
     {
         $this->challenges = $challenges;
         $this->levels = $levels;
-        $this->siteContentDetector = $siteContentDetector;
     }
 
     /**
@@ -73,30 +67,6 @@ class API extends \Piwik\Plugin\API
         }
 
         return $challenges;
-    }
-
-    /**
-     * Detect consent manager details for a site
-     *
-     * @return null|array[]
-     * @internal
-     */
-    public function detectConsentManager($idSite, $timeOut = 60)
-    {
-        Piwik::checkUserHasViewAccess($idSite);
-
-        $this->siteContentDetector->detectContent([SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER]);
-        $consentManagers = $this->siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER);
-        if (!empty($consentManagers)) {
-            /** @var ConsentManagerDetectionAbstract $consentManager */
-            $consentManager = $this->siteContentDetector->getSiteContentDetectionById(reset($consentManagers));
-            return ['name' => $consentManager::getName(),
-                    'url' => $consentManager::getInstructionUrl(),
-                    'isConnected' => in_array($consentManager::getId(), $this->siteContentDetector->connectedConsentManagers)
-                ];
-        }
-
-        return null;
     }
 
     /**
