@@ -29,7 +29,7 @@ class RequestSetTest extends UnitTestCase
         parent::setUp();
 
         $this->requestSet = $this->createRequestSet();
-        $this->time = time();
+        $this->time = 1693386000;
     }
 
     private function createRequestSet()

@@ -287,25 +287,6 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             expect(await pageWrap.screenshot()).to.matchImage('visitors_overview_limit');
         });
 
-        // skipped as phantom seems to crash at this test sometimes
-        it.skip('should load visitors > visitor log page correctly', async function () {
-            await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=Live_VisitorLog");
-            await page.waitForNetworkIdle();
-
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('visitors_visitorlog');
-        });
-
-        // this test often fails for unknown reasons?
-        // the visitor log with site search is also currently tested in plugins/Live/tests/UI/expected-ui-screenshots/Live_visitor_log.png
-        it.skip('should load visitors with site search > visitor log page correctly', async function () {
-            await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=Live_VisitorLog&period=day&date=2012-01-11");
-            await page.waitForNetworkIdle();
-
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('visitors_with_site_search_visitorlog');
-        });
-
         it('should load the visitors > devices page correctly', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=DevicesDetection_Devices");
             await page.waitForNetworkIdle();

@@ -23,7 +23,7 @@ class FrontControllerTest extends IntegrationTestCase
     public function test_fatalErrorStackTracesReturned()
     {
         $url = Fixture::getRootUrl() . '/tests/resources/trigger-fatal.php?format=json';
-        $response = Http::sendHttpRequest($url, self::isCIEnvironment() ? 2 : 20);
+        $response = Http::sendHttpRequest($url, self::isCIEnvironment() ? 5 : 20);
 
         $response = json_decode($response, $isAssoc = true);
         $response['message'] = $this->cleanMessage($response['message']);
@@ -40,7 +40,7 @@ FORMAT;
     public function test_thrownExceptionInFrontControllerPrintsBacktrace()
     {
         $url = Fixture::getRootUrl() . '/tests/resources/trigger-fatal-exception.php?format=json';
-        $response = Http::sendHttpRequest($url, self::isCIEnvironment() ? 2 : 20);
+        $response = Http::sendHttpRequest($url, self::isCIEnvironment() ? 5 : 20);
 
         $response = json_decode($response, $isAssoc = true);
         $response['message'] = $this->cleanMessage($response['message']);

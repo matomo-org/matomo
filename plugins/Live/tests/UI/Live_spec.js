@@ -118,7 +118,7 @@ describe("Live", function () {
     it('should show action tooltip', async function() {
         var action = await page.jQuery('.visitor-profile-visits li:first-child .visitor-profile-actions .action:first-child');
         await action.hover();
-        await page.waitForSelector('.ui-tooltip');
+        await page.waitForSelector('.ui-tooltip', {visible: true});
         await page.waitForTimeout(250);
 
         const elem = await page.$('.ui-tooltip');
@@ -135,7 +135,7 @@ describe("Live", function () {
             $('.card:first-child .visitor-log-visitor-profile-link').click();
         });
 
-        await page.waitForSelector('.ui-dialog');
+        await page.waitForSelector('.ui-dialog', {visible: true});
         await page.waitForNetworkIdle();
         await page.mouse.move(-10, -10);
 

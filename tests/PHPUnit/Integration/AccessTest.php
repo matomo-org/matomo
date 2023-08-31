@@ -394,8 +394,6 @@ class AccessTest extends IntegrationTestCase
 
     public function testCheckUserHasAdminAccessWithSomeAccessSuccessIdSitesAsString()
     {
-        self::expectNotToPerformAssertions();
-
         $mock = $this->createPartialMock(
             'Piwik\Access',
             array('getSitesIdWithAdminAccess')
