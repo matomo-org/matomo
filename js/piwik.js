@@ -132,6 +132,25 @@
 /*members error */
 /*members log */
 
+/**
+ * @fileoverview JavaScript tracking client
+ * Matomo - free/libre analytics platform
+ *
+ * @suppress {checkTypes}
+ */
+
+/**
+ * @define {boolean} DEBUG is provided as a convenience so that debugging code
+ * that should not be included in a production js_binary can be easily stripped
+ * by specifying --define DEBUG=false to the JSCompiler. For example, most
+ * toString() methods should be declared inside an "if (DEBUG)" conditional
+ * because they are generally used for debugging purposes and it is difficult
+ * for the JSCompiler to statically determine whether they are used.
+ */
+/*<DEBUG>*/
+var DEBUG = true;
+/*</DEBUG>*/
+
 // asynchronous tracker (or proxy)
 if (typeof _paq !== 'object') {
     _paq = [];
@@ -711,9 +730,9 @@ if (typeof window.Matomo !== 'object') {
 
                 var param;
                 var paramsArr = queryString.split('&');
-                var i = paramsArr.length - 1;
+                var i;
 
-                for (i; i >= 0; i--) {
+                for (i = paramsArr.length - 1; i >= 0; i--) {
                     param = paramsArr[i].split('=')[0];
                     if (param === name) {
                         paramsArr.splice(i, 1);
@@ -1106,17 +1125,17 @@ if (typeof window.Matomo !== 'object') {
              * Checks if a DOM element is visible. Takes into
              * consideration its parents and overflow.
              *
-             * @param (el)      the DOM element to check if is visible
+             * @param [el]      the DOM element to check if is visible
              *
              * These params are optional that are sent in recursively,
              * you typically won't use these:
              *
-             * @param (t)       Top corner position number
-             * @param (r)       Right corner position number
-             * @param (b)       Bottom corner position number
-             * @param (l)       Left corner position number
-             * @param (w)       Element width number
-             * @param (h)       Element height number
+             * @param [t]       Top corner position number
+             * @param [r]       Right corner position number
+             * @param [b]       Bottom corner position number
+             * @param [l]       Left corner position number
+             * @param [w]       Element width number
+             * @param [h]       Element height number
              */
             function _isVisible(el, t, r, b, l, w, h) {
                 var p = el.parentNode,
@@ -1210,7 +1229,7 @@ if (typeof window.Matomo !== 'object') {
 
                 return nodes;
             },
-            find: function (selector)
+            findSingle: function (selector)
             {
                 // we use querySelectorAll only on document, not on nodes because of its unexpected behavior. See for
                 // instance http://stackoverflow.com/questions/11503534/jquery-vs-document-queryselectorall and
@@ -1232,7 +1251,7 @@ if (typeof window.Matomo !== 'object') {
                 var index, foundNodes;
                 var nodes = [];
                 for (index = 0; index < selectors.length; index++) {
-                    foundNodes = this.find(selectors[index]);
+                    foundNodes = this.findSingle(selectors[index]);
                     nodes = nodes.concat(foundNodes);
                 }
 
@@ -1525,7 +1544,7 @@ if (typeof window.Matomo !== 'object') {
             CONTENT_IGNOREINTERACTION_ATTR: 'data-content-ignoreinteraction',
             CONTENT_IGNOREINTERACTION_CLASS: 'matomoContentIgnoreInteraction',
             LEGACY_CONTENT_IGNOREINTERACTION_CLASS: 'piwikContentIgnoreInteraction',
-            location: undefined,
+            _location: undefined,
 
             findContentNodes: function ()
             {
@@ -1804,7 +1823,7 @@ if (typeof window.Matomo !== 'object') {
                     }
                 }
             },
-            trim: function (text)
+            trimAlias: function (text)
             {
                 return trim(text);
             },
@@ -1904,14 +1923,14 @@ if (typeof window.Matomo !== 'object') {
                 var piece  = this.findContentPiece(node);
                 var target = this.findContentTarget(node);
 
-                name   = this.trim(name);
-                piece  = this.trim(piece);
-                target = this.trim(target);
+                name   = this.trimAlias(name);
+                piece  = this.trimAlias(piece);
+                target = this.trimAlias(target);
 
                 return {
-                    name: name || 'Unknown',
-                    piece: piece || 'Unknown',
-                    target: target || ''
+                    _name: name || 'Unknown',
+                    _piece: piece || 'Unknown',
+                    _target: target || ''
                 };
             },
             collectContent: function (contentNodes)
@@ -1934,11 +1953,11 @@ if (typeof window.Matomo !== 'object') {
             },
             setLocation: function (location)
             {
-                this.location = location;
+                this._location = location;
             },
             getLocation: function ()
             {
-                var locationAlias = this.location || windowAlias.location;
+                var locationAlias = this._location || windowAlias.location;
 
                 if (!locationAlias.origin) {
                     locationAlias.origin = locationAlias.protocol + "//" + locationAlias.hostname + (locationAlias.port ? ':' + locationAlias.port: '');
@@ -2135,7 +2154,7 @@ if (typeof window.Matomo !== 'object') {
             loadScript(
                 matomoUrl + 'plugins/Overlay/client/client.js?v=1',
                 function () {
-                    Matomo_Overlay_Client.initialize(matomoUrl, configTrackerSiteId, period, date, segment);
+                    windowAlias.Matomo_Overlay_Client.initialize(matomoUrl, configTrackerSiteId, period, date, segment);
                 }
             );
         }
@@ -2167,12 +2186,16 @@ if (typeof window.Matomo !== 'object') {
          * End Page Overlay
          ************************************************************/
 
-        /*
+        /**
          * Matomo Tracker class
          *
          * trackerUrl and trackerSiteId are optional arguments to the constructor
          *
          * See: Tracker.setTrackerUrl() and Tracker.setSiteId()
+         *
+         * @param {string} [trackerUrl]
+         * @param {number|string} [siteId]
+         * @constructor
          */
         function Tracker(trackerUrl, siteId) {
 
@@ -2180,14 +2203,15 @@ if (typeof window.Matomo !== 'object') {
              * Private members
              ************************************************************/
 
+            /*<DEBUG>*/ if (DEBUG) {
             var
-                /*<DEBUG>*/
                 /*
                  * registered test hooks
                  */
-                registeredHooks = {},
-                /*</DEBUG>*/
+                registeredHooks = {};
+            } /*</DEBUG>*/
 
+            var
                 trackerInstance = this,
 
                 // constants
@@ -2795,12 +2819,12 @@ if (typeof window.Matomo !== 'object') {
                 image.onload = function () {
                     iterator = 0; // To avoid JSLint warning of empty block
                     if (typeof callback === 'function') {
-                        callback({request: request, trackerUrl: configTrackerUrl, success: true});
+                        callback({'request': request, 'trackerUrl': configTrackerUrl, 'success': true});
                     }
                 };
                 image.onerror = function () {
                     if (typeof callback === 'function') {
-                        callback({request: request, trackerUrl: configTrackerUrl, success: false});
+                        callback({'request': request, 'trackerUrl': configTrackerUrl, 'success': false});
                     }
                 };
                 image.src = configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
@@ -2830,7 +2854,7 @@ if (typeof window.Matomo !== 'object') {
                     return false;
                 }
 
-                var headers = {type: 'application/x-www-form-urlencoded; charset=UTF-8'};
+                var headers = {'type': 'application/x-www-form-urlencoded; charset=UTF-8'};
                 var success = false;
 
                 var url = configTrackerUrl;
@@ -2852,7 +2876,7 @@ if (typeof window.Matomo !== 'object') {
                 }
 
                 if (success && typeof callback === 'function') {
-                    callback({request: request, trackerUrl: configTrackerUrl, success: true, isSendBeacon: true});
+                    callback({'request': request, 'trackerUrl': configTrackerUrl, 'success': true, 'isSendBeacon': true});
                 }
 
                 return success;
@@ -2906,12 +2930,12 @@ if (typeof window.Matomo !== 'object') {
                                 if (!sentViaBeacon && fallbackToGet) {
                                     getImage(request, callback);
                                 } else if (typeof callback === 'function') {
-                                    callback({request: request, trackerUrl: configTrackerUrl, success: false, xhr: this});
+                                    callback({'request': request, 'trackerUrl': configTrackerUrl, 'success': false, 'xhr': this});
                                 }
 
                             } else {
                                 if (this.readyState === 4 && (typeof callback === 'function')) {
-                                    callback({request: request, trackerUrl: configTrackerUrl, success: true, xhr: this});
+                                    callback({'request': request, 'trackerUrl': configTrackerUrl, 'success': true, 'xhr': this});
                                 }
                             }
                         };
@@ -2926,7 +2950,7 @@ if (typeof window.Matomo !== 'object') {
                         if (!sentViaBeacon && fallbackToGet) {
                             getImage(request, callback);
                         } else if (typeof callback === 'function') {
-                            callback({request: request, trackerUrl: configTrackerUrl, success: false});
+                            callback({'request': request, 'trackerUrl': configTrackerUrl, 'success': false});
                         }
                     }
                 }, 50);
@@ -2989,7 +3013,7 @@ if (typeof window.Matomo !== 'object') {
                 // when using multiple trackers then we need to add this event for each tracker
                 coreHeartBeatCounter++;
                 Matomo.addPlugin('HeartBeat' + coreHeartBeatCounter, {
-                    unload: function () {
+                    'unload': function () {
                         // we can't remove the unload plugin event when disabling heart beat timer but we at least
                         // check if it is still enabled... note: when enabling heart beat, then disabling, then
                         // enabling then this could trigger two requests under circumstances maybe. it's edge case though
@@ -3083,8 +3107,8 @@ if (typeof window.Matomo !== 'object') {
 
                 // Initialize with low entropy values that are always available
                 clientHints = {
-                    brands: navigatorAlias.userAgentData.brands,
-                    platform: navigatorAlias.userAgentData.platform
+                    'brands': navigatorAlias.userAgentData.brands,
+                    'platform': navigatorAlias.userAgentData.platform
                 };
 
                 // try to gather high entropy values
@@ -3170,11 +3194,11 @@ if (typeof window.Matomo !== 'object') {
                     return [theArray];
                 }
 
-                var index = 0;
+                var index;
                 var arrLength = theArray.length;
                 var chunks = [];
 
-                for (index; index < arrLength; index += chunkSize) {
+                for (index = 0; index < arrLength; index += chunkSize) {
                     chunks.push(theArray.slice(index, index + chunkSize));
                 }
 
@@ -3205,8 +3229,8 @@ if (typeof window.Matomo !== 'object') {
                 makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
                     var chunks = arrayChunk(requests, 50);
 
-                    var i = 0, bulk;
-                    for (i; i < chunks.length; i++) {
+                    var i, bulk;
+                    for (i = 0; i < chunks.length; i++) {
                         bulk = '{"requests":["?' + injectBrowserFeaturesAndClientHints(chunks[i]).join('","?') + '"],"send_image":0}';
                         if (configAlwaysUseSendBeacon && sendPostRequestViaSendBeacon(bulk, null, false)) {
                             // makes sure to load the next page faster by not waiting as long
@@ -3296,19 +3320,19 @@ if (typeof window.Matomo !== 'object') {
                     mimeType,
                     pluginMap = {
                         // document types
-                        pdf: 'application/pdf',
+                        'pdf': 'application/pdf',
 
                         // media players
-                        qt: 'video/quicktime',
-                        realp: 'audio/x-pn-realaudio-plugin',
-                        wma: 'application/x-mplayer2',
+                        'qt': 'video/quicktime',
+                        'realp': 'audio/x-pn-realaudio-plugin',
+                        'wma': 'application/x-mplayer2',
 
                         // interactive multimedia
-                        fla: 'application/x-shockwave-flash',
+                        'fla': 'application/x-shockwave-flash',
 
                         // RIA
-                        java: 'application/x-java-vm',
-                        ag: 'application/x-silverlight'
+                        'java': 'application/x-java-vm',
+                        'ag': 'application/x-silverlight'
                     };
 
                 // detect browser features except IE < 11 (IE 11 user agent is no longer MSIE)
@@ -3536,16 +3560,16 @@ if (typeof window.Matomo !== 'object') {
                     createTs = cookieVisitorIdValue[2];
 
                 return {
-                    newVisitor: newVisitor,
-                    uuid: uuid,
-                    createTs: createTs
+                    _newVisitor: newVisitor,
+                    _uuid: uuid,
+                    _createTs: createTs
                 };
             }
 
             function getRemainingVisitorCookieTimeout() {
                 var now = new Date(),
                     nowTs = now.getTime(),
-                    cookieCreatedTs = getValuesFromVisitorIdCookie().createTs;
+                    cookieCreatedTs = getValuesFromVisitorIdCookie()._createTs;
 
                 var createTs = parseInt(cookieCreatedTs, 10);
                 var originalTimeout = (createTs * 1000) + configVisitorCookieTimeout - nowTs;
@@ -3569,8 +3593,8 @@ if (typeof window.Matomo !== 'object') {
                     visitorIdCookieValues = getValuesFromVisitorIdCookie();
                 }
 
-                var cookieValue = visitorIdCookieValues.uuid + '.' +
-                    visitorIdCookieValues.createTs + '.';
+                var cookieValue = visitorIdCookieValues._uuid + '.' +
+                    visitorIdCookieValues._createTs + '.';
 
                 setCookie(getCookieName('id'), cookieValue, getRemainingVisitorCookieTimeout(), configCookiePath, configCookieDomain, configCookieIsSecure, configCookieSameSite);
             }
@@ -3947,8 +3971,8 @@ if (typeof window.Matomo !== 'object') {
                     '&url=' + encodeWrapper(purify(currentUrl)) +
                     (configReferrerUrl.length && !isReferrerExcluded(configReferrerUrl) && !hasIgnoreReferrerParam ? '&urlref=' + encodeWrapper(purify(configReferrerUrl)) : '') +
                     (isNumberOrHasLength(configUserId) ? '&uid=' + encodeWrapper(configUserId) : '') +
-                    '&_id=' + cookieVisitorIdValues.uuid +
-                    '&_idn=' + cookieVisitorIdValues.newVisitor + // currently unused
+                    '&_id=' + cookieVisitorIdValues._uuid +
+                    '&_idn=' + cookieVisitorIdValues._newVisitor + // currently unused
                     (charSet ? '&cs=' + encodeWrapper(charSet) : '') +
                     '&send_image=0';
 
@@ -4050,7 +4074,7 @@ if (typeof window.Matomo !== 'object') {
                 setSessionCookie();
 
                 // tracker plugin hook
-                request += executePluginMethod(pluginMethod, {tracker: trackerInstance, request: request});
+                request += executePluginMethod(pluginMethod, {'tracker': trackerInstance, 'request': request});
 
                 if (configAppendToTrackingUrl.length) {
                     request += '&' + configAppendToTrackingUrl;
@@ -4283,8 +4307,8 @@ if (typeof window.Matomo !== 'object') {
 
                     if (linkType) {
                         return {
-                            type: linkType,
-                            href: sourceHref
+                            _type: linkType,
+                            _href: sourceHref
                         };
                     }
                 }
@@ -4351,11 +4375,11 @@ if (typeof window.Matomo !== 'object') {
                     return;
                 }
 
-                if (!contentBlock.target && fallbackTarget) {
-                    contentBlock.target = fallbackTarget;
+                if (!contentBlock._target && fallbackTarget) {
+                    contentBlock._target = fallbackTarget;
                 }
 
-                return content.buildInteractionRequestParams(interaction, contentBlock.name, contentBlock.piece, contentBlock.target);
+                return content.buildInteractionRequestParams(interaction, contentBlock._name, contentBlock._piece, contentBlock._target);
             }
 
             function wasContentImpressionAlreadyTracked(contentBlock)
@@ -4370,9 +4394,9 @@ if (typeof window.Matomo !== 'object') {
                     trackedContent = trackedContentImpressions[index];
 
                     if (trackedContent &&
-                        trackedContent.name === contentBlock.name &&
-                        trackedContent.piece === contentBlock.piece &&
-                        trackedContent.target === contentBlock.target) {
+                        trackedContent._name === contentBlock._name &&
+                        trackedContent._piece === contentBlock._piece &&
+                        trackedContent._target === contentBlock._target) {
                         return true;
                     }
                 }
@@ -4414,8 +4438,8 @@ if (typeof window.Matomo !== 'object') {
 
                     var link = getLinkIfShouldBeProcessed(theTargetNode);
 
-                    if (linkTrackingEnabled && link && link.type) {
-                        return link.type; // will be handled via outlink or download.
+                    if (linkTrackingEnabled && link && link._type) {
+                        return link._type; // will be handled via outlink or download.
                     }
 
                     return trackerInstance.trackContentInteractionNode(interactedElement, 'click');
@@ -4472,7 +4496,7 @@ if (typeof window.Matomo !== 'object') {
                 for (index = 0; index < contents.length; index++) {
 
                     request = getRequest(
-                        content.buildImpressionRequestParams(contents[index].name, contents[index].piece, contents[index].target),
+                        content.buildImpressionRequestParams(contents[index]._name, contents[index]._piece, contents[index]._target),
                         undefined,
                         'contentImpressions'
                     );
@@ -4544,7 +4568,7 @@ if (typeof window.Matomo !== 'object') {
                     contentInteraction = 'Unknown';
                 }
 
-                return buildContentInteractionRequest(contentInteraction, contentBlock.name, contentBlock.piece, contentBlock.target);
+                return buildContentInteractionRequest(contentInteraction, contentBlock._name, contentBlock._piece, contentBlock._target);
             }
 
             function buildEventRequest(category, action, name, value)
@@ -4745,9 +4769,9 @@ if (typeof window.Matomo !== 'object') {
                 var link = getLinkIfShouldBeProcessed(sourceElement);
 
                 // not a link to same domain or the same website (as set in setDomains())
-                if (link && link.type) {
-                    link.href = safeDecodeWrapper(link.href);
-                    logLink(link.href, link.type, undefined, null, sourceElement);
+                if (link && link._type) {
+                    link._href = safeDecodeWrapper(link._href);
+                    logLink(link._href, link._type, undefined, null, sourceElement);
                     return;
                 }
 
@@ -4993,12 +5017,12 @@ if (typeof window.Matomo !== 'object') {
                 });
             }
 
-            /*<DEBUG>*/
+            /*<DEBUG>*/ if (DEBUG) {
             /*
              * Register a test hook. Using eval() permits access to otherwise
              * privileged members.
              */
-            function registerHook(hookName, userHook) {
+            var registerHook = function (hookName, userHook) {
                 var hookObj = null;
 
                 if (isString(hookName) && !isDefined(registeredHooks[hookName]) && userHook) {
@@ -5014,18 +5038,18 @@ if (typeof window.Matomo !== 'object') {
                 }
 
                 return hookObj;
-            }
+            };
 
-            /*</DEBUG>*/
+            } /*</DEBUG>*/
 
             var requestQueue = {
-                enabled: true,
-                requests: [],
-                timeout: null,
-                interval: 2500,
+                _enabled: true,
+                _requests: [],
+                _timeout: null,
+                _interval: 2500,
                 sendRequests: function () {
-                    var requestsToTrack = this.requests;
-                    this.requests = [];
+                    var requestsToTrack = this._requests;
+                    this._requests = [];
                     if (requestsToTrack.length === 1) {
                         sendRequest(requestsToTrack[0], configTrackerPause);
                     } else {
@@ -5033,7 +5057,7 @@ if (typeof window.Matomo !== 'object') {
                     }
                 },
                 canQueue: function () {
-                    return !isPageUnloading && this.enabled;
+                    return !isPageUnloading && this._enabled;
                 },
                 pushMultiple: function (requests) {
                     if (!this.canQueue()) {
@@ -5043,10 +5067,10 @@ if (typeof window.Matomo !== 'object') {
 
                     var i;
                     for (i = 0; i < requests.length; i++) {
-                        this.push(requests[i]);
+                        this.pushSingle(requests[i]);
                     }
                 },
-                push: function (requestUrl) {
+                pushSingle: function (requestUrl) {
                     if (!requestUrl) {
                         return;
                     }
@@ -5056,17 +5080,17 @@ if (typeof window.Matomo !== 'object') {
                         return;
                     }
 
-                    requestQueue.requests.push(requestUrl);
+                    requestQueue._requests.push(requestUrl);
 
-                    if (this.timeout) {
-                        clearTimeout(this.timeout);
-                        this.timeout = null;
+                    if (this._timeout) {
+                        clearTimeout(this._timeout);
+                        this._timeout = null;
                     }
                     // we always extend by another 2.5 seconds after receiving a tracking request
-                    this.timeout = setTimeout(function () {
-                        requestQueue.timeout = null;
+                    this._timeout = setTimeout(function () {
+                        requestQueue._timeout = null;
                         requestQueue.sendRequests();
-                    }, requestQueue.interval);
+                    }, requestQueue._interval);
 
                     var trackerQueueId = 'RequestQueue' + uniqueTrackerId;
                     if (!Object.prototype.hasOwnProperty.call(plugins, trackerQueueId)) {
@@ -5074,9 +5098,9 @@ if (typeof window.Matomo !== 'object') {
                         // Matomo.addPlugin might not be defined at this point, we add the plugin directly also to make
                         // JSLint happy.
                         plugins[trackerQueueId] = {
-                            unload: function () {
-                                if (requestQueue.timeout) {
-                                    clearTimeout(requestQueue.timeout);
+                            'unload': function () {
+                                if (requestQueue._timeout) {
+                                    clearTimeout(requestQueue._timeout);
                                 }
                                 requestQueue.sendRequests();
                             }
@@ -5093,19 +5117,19 @@ if (typeof window.Matomo !== 'object') {
              */
             updateDomainHash();
 
-            /*<DEBUG>*/
+            /*<DEBUG>*/ if (DEBUG) {
             /*
              * initialize test plugin
              */
             executePluginMethod('run', null, registerHook);
-            /*</DEBUG>*/
+            } /*</DEBUG>*/
 
             /************************************************************
              * Public data and methods
              ************************************************************/
 
 
-            /*<DEBUG>*/
+            /*<DEBUG>*/ if (DEBUG) {
             /*
              * Test hook accessors
              */
@@ -5114,9 +5138,12 @@ if (typeof window.Matomo !== 'object') {
                 return registeredHooks[hookName];
             };
             this.getQuery = function () {
+                query['find'] = query.findSingle;
                 return query;
             };
             this.getContent = function () {
+                content['location'] = content._location;
+                content['trim'] = content.trimAlias;
                 return content;
             };
             this.isUsingAlwaysUseSendBeacon = function () {
@@ -5189,6 +5216,11 @@ if (typeof window.Matomo !== 'object') {
                 return requests;
             };
             this.getRequestQueue = function () {
+                requestQueue['enabled'] = requestQueue._enabled;
+                requestQueue['interval'] = requestQueue._interval;
+                requestQueue['requests'] = requestQueue._requests;
+                requestQueue['timeout'] = requestQueue._timeout;
+                requestQueue['push'] = requestQueue.pushSingle;
                 return requestQueue;
             };
             this.getJavascriptErrors = function () {
@@ -5198,7 +5230,7 @@ if (typeof window.Matomo !== 'object') {
                 isPageUnloading = false;
             };
             this.getRemainingVisitorCookieTimeout = getRemainingVisitorCookieTimeout;
-            /*</DEBUG>*/
+            } /*</DEBUG>*/
             this.hasConsent = function () {
                 return configHasConsent;
             };
@@ -5716,8 +5748,8 @@ if (typeof window.Matomo !== 'object') {
             this.setDomains = function (hostsAlias) {
                 configHostsAlias = isString(hostsAlias) ? [hostsAlias] : hostsAlias;
 
-                var hasDomainAliasAlready = false, i = 0, alias;
-                for (i; i < configHostsAlias.length; i++) {
+                var hasDomainAliasAlready = false, i, alias;
+                for (i = 0; i < configHostsAlias.length; i++) {
                     alias = String(configHostsAlias[i]);
 
                     if (isSameHost(domainAlias, domainFixup(alias))) {
@@ -5887,12 +5919,12 @@ if (typeof window.Matomo !== 'object') {
             ) {
                 /*members pf_net, pf_srv, pf_tfr, pf_dm1, pf_dm2, pf_onl */
                 var data = {
-                    pf_net: networkTimeInMs,
-                    pf_srv: serverTimeInMs,
-                    pf_tfr: transferTimeInMs,
-                    pf_dm1: domProcessingTimeInMs,
-                    pf_dm2: domCompletionTimeInMs,
-                    pf_onl: onloadTimeInMs
+                    'pf_net': networkTimeInMs,
+                    'pf_srv': serverTimeInMs,
+                    'pf_tfr': transferTimeInMs,
+                    'pf_dm1': domProcessingTimeInMs,
+                    'pf_dm2': domCompletionTimeInMs,
+                    'pf_onl': onloadTimeInMs
                 };
 
                 try {
@@ -6750,7 +6782,7 @@ if (typeof window.Matomo !== 'object') {
 
                 trackCallback(function () {
                     var request = buildContentImpressionRequest(contentName, contentPiece, contentTarget);
-                    requestQueue.push(request);
+                    requestQueue.pushSingle(request);
                 });
             };
 
@@ -6817,7 +6849,7 @@ if (typeof window.Matomo !== 'object') {
                 trackCallback(function () {
                     var request = buildContentInteractionRequest(contentInteraction, contentName, contentPiece, contentTarget);
                     if (request) {
-                        requestQueue.push(request);
+                        requestQueue.pushSingle(request);
                     }
                 });
             };
@@ -6846,7 +6878,7 @@ if (typeof window.Matomo !== 'object') {
                 trackCallback(function () {
                     theRequest = buildContentInteractionRequestNode(domNode, contentInteraction);
                     if (theRequest) {
-                        requestQueue.push(theRequest);
+                        requestQueue.pushSingle(theRequest);
                     }
                 });
                 //note: return value is only for tests... will only work if dom is already ready...
@@ -6860,7 +6892,14 @@ if (typeof window.Matomo !== 'object') {
              */
             this.logAllContentBlocksOnPage = function () {
                 var contentNodes = content.findContentNodes();
-                var contents = content.collectContent(contentNodes);
+                var contentsWithMungedPropertyNames = content.collectContent(contentNodes);
+                var contents = [];
+
+                var i;
+                for (i = 0; i < contentsWithMungedPropertyNames.length; i++) {
+                    var item = contentsWithMungedPropertyNames[i];
+                    contents[i] = {'name': item._name, 'piece': item._piece, 'target': item._target};
+                }
 
                 // needed to write it this way for jslint
                 var consoleType = typeof console;
@@ -7070,7 +7109,7 @@ if (typeof window.Matomo !== 'object') {
              * Disables sending requests queued
              */
             this.disableQueueRequest = function () {
-                requestQueue.enabled = false;
+                requestQueue._enabled = false;
             };
 
             /**
@@ -7081,7 +7120,7 @@ if (typeof window.Matomo !== 'object') {
                 if (interval < 1000) {
                     throw new Error('Request queue interval needs to be at least 1000ms');
                 }
-                requestQueue.interval = interval;
+                requestQueue._interval = interval;
             };
 
             /**
@@ -7099,7 +7138,7 @@ if (typeof window.Matomo !== 'object') {
             this.queueRequest = function (request, isFullRequest) {
               trackCallback(function () {
                 var fullRequest = isFullRequest ? request : getRequest(request);
-                requestQueue.push(fullRequest);
+                requestQueue.pushSingle(fullRequest);
               });
             };
 
@@ -7178,7 +7217,7 @@ if (typeof window.Matomo !== 'object') {
                 // We also want to make sure to define an unload listener for each tracker, not only one tracker.
                 coreConsentCounter++;
                 plugins['CoreConsent' + coreConsentCounter] = {
-                    unload: function () {
+                    'unload': function () {
                         if (!configHasConsent) {
                             // we want to make sure to remove all previously set cookies again
                             deleteCookies();
@@ -7326,7 +7365,7 @@ if (typeof window.Matomo !== 'object') {
 
             Matomo.addPlugin('TrackerVisitorIdCookie' + uniqueTrackerId, {
                 // if no tracking request was sent we refresh the visitor id cookie on page unload
-                unload: function () {
+                'unload': function () {
                     if (supportsClientHints() && !clientHintsResolved) {
                         clientHintsResolved = true;
                         processClientHintsQueue(); // ensure possible queued request are sent out
@@ -7341,9 +7380,13 @@ if (typeof window.Matomo !== 'object') {
             });
         }
 
+      /**
+       * @returns {{push: apply}}
+       * @constructor
+       */
         function TrackerProxy() {
             return {
-                push: apply
+                'push': apply
             };
         }
 
@@ -7501,20 +7544,20 @@ if (typeof window.Matomo !== 'object') {
             // initialise the configHasConsent value and send back the result so that the display can be updated.
             // 2) maq_opted_in => sent by optout iframe when the user changes their optout setting.  We need to update
             // our first-party cookie.
-            if (isDefined(data.maq_initial_value)) {
+            if (isDefined(data['maq_initial_value'])) {
                 // Make a message to tell the optout iframe about the current state
 
                 postMessageToCorrectFrame({
-                    maq_opted_in: data.maq_initial_value && tracker.hasConsent(),
-                    maq_url: tracker.getMatomoUrl(),
-                    maq_optout_by_default: tracker.isConsentRequired()
+                    'maq_opted_in': data['maq_initial_value'] && tracker.hasConsent(),
+                    'maq_url': tracker.getMatomoUrl(),
+                    'maq_optout_by_default': tracker.isConsentRequired()
                 });
-            } else if (isDefined(data.maq_opted_in)) {
+            } else if (isDefined(data['maq_opted_in'])) {
                 // perform the opt in or opt out...
                 trackers = Matomo.getAsyncTrackers();
                 for (i = 0; i < trackers.length; i++) {
                     tracker = trackers[i];
-                    if (data.maq_opted_in) {
+                    if (data['maq_opted_in']) {
                         tracker.rememberConsentGiven();
                     } else {
                         tracker.forgetConsentGiven();
@@ -7523,9 +7566,9 @@ if (typeof window.Matomo !== 'object') {
 
                 // Make a message to tell the optout iframe about the current state
                 postMessageToCorrectFrame({
-                    maq_confirm_opted_in: tracker.hasConsent(),
-                    maq_url: tracker.getMatomoUrl(),
-                    maq_optout_by_default: tracker.isConsentRequired()
+                    'maq_confirm_opted_in': tracker.hasConsent(),
+                    'maq_url': tracker.getMatomoUrl(),
+                    'maq_optout_by_default': tracker.isConsentRequired()
                 });
             }
         }, false);
@@ -7614,8 +7657,8 @@ if (typeof window.Matomo !== 'object') {
                     return;
                 }
 
-                var i = 0;
-                for (i; i < eventHandlers[event].length; i++) {
+                var i;
+                for (i = 0; i < eventHandlers[event].length; i++) {
                     if (eventHandlers[event][i] === handler) {
                         eventHandlers[event].splice(i, 1);
                     }
@@ -7634,8 +7677,8 @@ if (typeof window.Matomo !== 'object') {
                     return;
                 }
 
-                var i = 0;
-                for (i; i < eventHandlers[event].length; i++) {
+                var i;
+                for (i = 0; i < eventHandlers[event].length; i++) {
                     eventHandlers[event][i].apply(context || windowAlias, extraParameters);
                 }
             },
@@ -7671,7 +7714,7 @@ if (typeof window.Matomo !== 'object') {
             /**
              * Get all created async trackers
              *
-             * @returns {Tracker[]}
+             * @returns {Array<Tracker>}
              */
             getAsyncTrackers: function () {
                 return asyncTrackers;
@@ -7703,7 +7746,7 @@ if (typeof window.Matomo !== 'object') {
              *
              * @param {string} matomoUrl
              * @param {int|string} siteId
-             * @returns {Tracker}
+             * @returns {Tracker|undefined}
              */
             getAsyncTracker: function (matomoUrl, siteId) {
 
@@ -7728,8 +7771,8 @@ if (typeof window.Matomo !== 'object') {
                     matomoUrl = firstTracker.getTrackerUrl();
                 }
 
-                var tracker, i = 0;
-                for (i; i < asyncTrackers.length; i++) {
+                var tracker, i;
+                for (i = 0; i < asyncTrackers.length; i++) {
                     tracker = asyncTrackers[i];
                     if (tracker
                         && String(tracker.getSiteId()) === String(siteId)
@@ -7750,8 +7793,8 @@ if (typeof window.Matomo !== 'object') {
             retryMissedPluginCalls: function () {
                 var missedCalls = missedPluginTrackerCalls;
                 missedPluginTrackerCalls = [];
-                var i = 0;
-                for (i; i < missedCalls.length; i++) {
+                var i;
+                for (i = 0; i < missedCalls.length; i++) {
                     apply(missedCalls[i]);
                 }
             }
@@ -7790,8 +7833,8 @@ if (typeof window.Matomo !== 'object') {
     if (window
         && 'object' === typeof window.matomoPluginAsyncInit
         && window.matomoPluginAsyncInit.length) {
-        var i = 0;
-        for (i; i < window.matomoPluginAsyncInit.length; i++) {
+        var i;
+        for (i = 0; i < window.matomoPluginAsyncInit.length; i++) {
             if (typeof window.matomoPluginAsyncInit[i] === 'function') {
                 window.matomoPluginAsyncInit[i]();
             }
@@ -7813,7 +7856,7 @@ if (typeof window.Matomo !== 'object') {
             // Matomo.getAsyncTrackers() would return unconfigured trackers
             window.Matomo.addTracker();
         } else {
-            _paq = {push: function (args) {
+            _paq = {'push': function (args) {
                     // needed to write it this way for jslint
                     var consoleType = typeof console;
                     if (consoleType !== 'undefined' && console && console.error) {
@@ -7850,15 +7893,17 @@ if (typeof window.Matomo !== 'object') {
 /*global piwik_log:true */
 /*global piwik_track:true */
 
-/**
- * Track page visit
- *
- * @param {string} documentTitle
- * @param {int|string} siteId
- * @param {string} matomoUrl
- * @param {*} customData
- */
 if (typeof window.piwik_log !== 'function') {
+
+    /**
+     * Track page visit
+     * @deprecated
+     *
+     * @param {string} documentTitle
+     * @param {int|string} siteId
+     * @param {string} matomoUrl
+     * @param {*} customData
+     */
     window.piwik_log = function (documentTitle, siteId, matomoUrl, customData) {
         'use strict';
 
@@ -7913,13 +7958,14 @@ if (typeof window.piwik_log !== 'function') {
 
             /**
              * Track click manually (function is defined below)
+             * @deprecated
              *
              * @param {string} sourceUrl
              * @param {int|string} siteId
              * @param {string} matomoUrl
              * @param {string} linkType
              */
-            piwik_track = function (sourceUrl, siteId, matomoUrl, linkType) {
+            window.piwik_track = function (sourceUrl, siteId, matomoUrl, linkType) {
                 matomoTracker.setSiteId(siteId);
                 matomoTracker.setTrackerUrl(matomoUrl);
                 matomoTracker.trackLink(sourceUrl, linkType);

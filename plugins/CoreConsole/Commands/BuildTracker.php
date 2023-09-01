@@ -16,6 +16,7 @@ use Piwik\Unzip;
 class BuildTracker extends ConsoleCommand
 {
     const YUI_COMPRESSOR_URL = 'https://github.com/yui/yuicompressor/releases/download/v2.4.8/yuicompressor-2.4.8.zip';
+    const CLOSURE_COMPILER_URL = 'https://repo1.maven.org/maven2/com/google/javascript/closure-compiler/v20230502/closure-compiler-v20230502.jar';
 
     protected function configure()
     {
@@ -37,6 +38,7 @@ class BuildTracker extends ConsoleCommand
         }
 
         $this->installYuiCompressorIfNeeded();
+        $this->installClosureCompilerIfNeeded();
         $this->compress($plugin);
 
         return self::SUCCESS;
@@ -54,15 +56,29 @@ class BuildTracker extends ConsoleCommand
                 $output->writeln("Command: $command");
             }
             passthru($command);
+
+            $command = "cd $jsPath && java -jar closure-compiler-v20230502.jar --language_in ECMASCRIPT3 --language_out ECMASCRIPT3 --compilation_level ADVANCED_OPTIMIZATIONS --define DEBUG=false --js piwik.js piwik.externs.js | sed 's/^[/][*]/\\/*!/' > piwik.experimental.min.js";
+            if ($output->isVerbose()) {
+                $output->writeln("Command (experimental): $command");
+            }
+            passthru($command);
+
             return;
         }
 
         $pluginTrackerJs = PIWIK_INCLUDE_PATH . '/plugins/' . $plugin . '/tracker.js';
         $pluginTrackerMinJs = PIWIK_INCLUDE_PATH . '/plugins/' . $plugin . '/tracker.min.js';
+        $pluginTrackerExperimentalMinJs = PIWIK_INCLUDE_PATH . '/plugins/' . $plugin . '/tracker.experimental.min.js';
 
         $command = "cd $jsPath && cat $pluginTrackerJs | java -jar yuicompressor-2.4.8.jar --type js --line-break 1000 | sed 's/^[/][*]/\\/*!/' > $pluginTrackerMinJs";
         if ($output->isVerbose()) {
             $output->writeln("Command: $command");
+        }
+        passthru($command);
+
+        $command = "cd $jsPath && java -jar closure-compiler-v20230502.jar --language_in ECMASCRIPT3 --language_out ECMASCRIPT3 --compilation_level SIMPLE_OPTIMIZATIONS --js $pluginTrackerJs | sed 's/^[/][*]/\\/*!/' > $pluginTrackerExperimentalMinJs";
+        if ($output->isVerbose()) {
+            $output->writeln("Command (experimental): $command");
         }
         passthru($command);
 
@@ -82,5 +98,16 @@ class BuildTracker extends ConsoleCommand
 
         $unzip = Unzip::factory('PclZip', $zipPath);
         $unzip->extract(PIWIK_INCLUDE_PATH . '/js/');
+    }
+
+    private function installClosureCompilerIfNeeded()
+    {
+        $jarPath = PIWIK_INCLUDE_PATH . '/js/closure-compiler-v20230502.jar';
+        if (is_file($jarPath)) {
+            return;
+        }
+
+        $this->getOutput()->writeln("Downloading Closure Compiler...");
+        Http::fetchRemoteFile(self::CLOSURE_COMPILER_URL, $jarPath);
     }
 }
