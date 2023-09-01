@@ -24,7 +24,6 @@ use Piwik\Plugins\SitesManager\SiteContentDetection\GoogleAnalytics3;
 use Piwik\Plugins\SitesManager\SiteContentDetection\GoogleAnalytics4;
 use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
 use Piwik\Plugins\SitesManager\SiteContentDetection\WordPress;
-use Piwik\Site;
 use Piwik\SiteContentDetector;
 use Piwik\Session;
 use Piwik\SettingsPiwik;
@@ -236,7 +235,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'consentManagerName' => false,
             'defaultSiteDecoded' => [
                 'id' => $this->idSite,
-                'name' => Common::unsanitizeInputValue(Site::getNameFor($this->idSite)),
+                'name' => Common::unsanitizeInputValue($this->site->getName()),
             ],
             'maxCustomVariables' => $maxCustomVariables,
             'serverSideDoNotTrackEnabled' => $dntChecker->isActive(),

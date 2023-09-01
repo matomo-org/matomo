@@ -107,7 +107,7 @@
 
         {% if googleAnalyticsImporterMessage is defined and googleAnalyticsImporterMessage is not empty  %}
             {{ googleAnalyticsImporterMessage|raw }}
-        {% elseif not ga3Used and not ga4Used %}
+        {% elseif not 'GoogleAnalytics3' in jsFrameworks and not 'GoogleAnalytics4' in jsFrameworks %}
             <h3>{{ 'SitesManager_ImportDataFromGoogleAnalytics'|translate }}</h3>
             <p>{{ 'SitesManager_ImportDataFromGoogleAnalyticsDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/guide/installation-maintenance/import-google-analytics/">', '</a>')|raw }}</p>
         {% endif %}
