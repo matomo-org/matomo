@@ -72,7 +72,7 @@ class Mysql implements SchemaInterface
                           last_used DATETIME NULL,
                           date_created DATETIME NOT NULL,
                           date_expired DATETIME NULL,
-                          post_only TINYINT(2) unsigned NOT NULL DEFAULT '0',
+                          secure_only TINYINT(2) unsigned NOT NULL DEFAULT '0',
                             PRIMARY KEY(idusertokenauth),
                             UNIQUE KEY uniq_password(password)
                           ) ENGINE=$engine DEFAULT CHARSET=$charset
