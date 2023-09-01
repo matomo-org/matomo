@@ -244,7 +244,7 @@ class Range extends Period
                 }
             }
 
-            $lastN = $this->getMaxN($lastN);
+            $lastN = (int) $this->getMaxN($lastN);
 
             // last1 means only one result ; last2 means 2 results so we remove only 1 to the days/weeks/etc
             $lastN--;
