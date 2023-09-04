@@ -7,7 +7,15 @@ use RuntimeException;
 final class HealthCheckSingleResponse {
     public const HEALTH_CHECK_PASSED = 'PASS';
     public const HEALTH_CHECK_FAILED = 'FAIL';
+
+    /**
+     * @var string
+     */
     private $name;
+
+    /**
+     * @var string
+     */
     private $status;
 
     public function __construct(string $name, string $status)
