@@ -1776,14 +1776,14 @@ class API extends \Piwik\Plugin\API
     /**
      * Detect consent manager details for a site
      *
-     * @return null|array[]
      * @internal
+     * @unsanitized
      */
-    public function detectConsentManager($idSite, $timeOut = 60)
+    public function detectConsentManager(int $idSite, int $timeOut = 60): ?array
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        $this->siteContentDetector->detectContent([SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER]);
+        $this->siteContentDetector->detectContent([SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER], $idSite, null, $timeOut);
         $consentManagers = $this->siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER);
         if (!empty($consentManagers)) {
             /** @var ConsentManagerDetectionAbstract $consentManager */
