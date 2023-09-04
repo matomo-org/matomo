@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<error message="Segment 'userId' is not a supported segment.
+ 
+ --&gt; To temporarily debug this error further, set const PIWIK_PRINT_ERROR_BACKTRACE=true; in index.php" />
+</result>
