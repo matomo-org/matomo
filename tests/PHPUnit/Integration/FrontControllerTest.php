@@ -85,15 +85,16 @@ FORMAT;
 
     public function test_ifHealthCheckParamPassedInUrl_ReturnsHealthCheckResponse(): void
     {
-        $originalGet = $_GET;
-        $_GET = ['healthCheck' => 1];
+        $_GET['healthCheck'] = 1;
 
+        FrontController::clearAll();
         ob_start();
         FrontController::getInstance()->init();
         $output = ob_get_clean();
 
         $this->assertEquals('{"status":"PASS","checks":[{"name":"dashboardAvailable","status":"PASS"}]}', $output);
-        $_GET = $originalGet;
+
+        unset($_GET['healthCheck']);
     }
 
     private function cleanMessage($message)
