@@ -9,11 +9,14 @@
 namespace Piwik\Plugins\CoreHome\Columns;
 
 use Piwik\Cache;
+use Piwik\Columns\DimensionSegmentFactory;
 use Piwik\DataTable;
 use Piwik\DataTable\Map;
 use Piwik\Metrics;
 use Piwik\Plugin;
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugins\Live\Live;
+use Piwik\Segment\SegmentsList;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
@@ -42,6 +45,14 @@ class UserId extends VisitDimension
 
         if (Plugin\Manager::getInstance()->isPluginActivated('UserId')) {
             $this->suggestedValuesApi = 'UserId.getUsers';
+        }
+    }
+
+    public function configureSegments(SegmentsList $segmentsList, DimensionSegmentFactory $dimensionSegmentFactory)
+    {
+        // Configure userId segment only if visitor profile is available
+        if (Live::isVisitorProfileEnabled()) {
+            parent::configureSegments($segmentsList, $dimensionSegmentFactory);
         }
     }
 

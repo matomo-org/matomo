@@ -276,6 +276,15 @@ class ApiTest extends SystemTestCase
             ],
             'testSuffix' => 'disabledProfile2'
         ]);
+
+        // user id segment should be disabled if visitor profile isn't available
+        $this->runApiTests('VisitsSummary.get', [
+            'idSite'     => 1,
+            'date'       => self::$fixture->dateTime,
+            'periods'    => ['day'],
+            'segment'    => 'userId==' . urlencode('new-email@example.com'),
+            'testSuffix' => 'disabledProfile',
+        ]);
     }
 
     public static function getOutputPrefix()
