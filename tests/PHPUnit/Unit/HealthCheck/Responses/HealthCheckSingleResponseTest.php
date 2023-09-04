@@ -13,14 +13,14 @@ use Piwik\HealthCheck\Responses\HealthCheckSingleResponse;
  */
 final class HealthCheckSingleResponseTest extends TestCase
 {
-    public function test_construct_throwsExceptionWhenInvalidStatus(): void
+    public function testConstructThrowsExceptionWhenInvalidStatus(): void
     {
         $this->expectExceptionMessage('Status must be PASS or FAIL');
 
         new HealthCheckSingleResponse('name', 'bad status');
     }
 
-    public function test_toArray_returnsMappedArrayOfData(): void
+    public function testToArrayReturnsMappedArrayOfData(): void
     {
         $sut = new HealthCheckSingleResponse('name', 'PASS');
 

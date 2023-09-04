@@ -20,7 +20,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class FrontControllerTest extends IntegrationTestCase
 {
-    public function test_fatalErrorStackTracesReturned()
+    public function testFatalErrorStackTracesReturned()
     {
         $url = Fixture::getRootUrl() . '/tests/resources/trigger-fatal.php?format=json';
         $response = Http::sendHttpRequest($url, self::isCIEnvironment() ? 5 : 20);
@@ -37,7 +37,7 @@ FORMAT;
         $this->assertStringMatchesFormat($expectedFormat, $response['message']);
     }
 
-    public function test_thrownExceptionInFrontControllerPrintsBacktrace()
+    public function testThrownExceptionInFrontControllerPrintsBacktrace()
     {
         $url = Fixture::getRootUrl() . '/tests/resources/trigger-fatal-exception.php?format=json';
         $response = Http::sendHttpRequest($url, self::isCIEnvironment() ? 5 : 20);
@@ -64,7 +64,7 @@ FORMAT;
     /**
      * @runInSeparateProcess
      */
-    public function test_authImplementationConfigured_EvenIfSessionAuthSucceeds()
+    public function testAuthImplementationConfiguredEvenIfSessionAuthSucceeds()
     {
         Session::start();
 
@@ -83,7 +83,7 @@ FORMAT;
         $this->assertEquals(Fixture::getTokenAuth(), $auth->getTokenAuth());
     }
 
-    public function test_ifHealthCheckParamPassedInUrl_ReturnsHealthCheckResponse(): void
+    public function testIfHealthCheckParamPassedInUrlReturnsHealthCheckResponse(): void
     {
         $_GET['healthCheck'] = 1;
 

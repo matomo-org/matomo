@@ -13,7 +13,7 @@ use Piwik\HealthCheck\Responses\HealthCheckSingleResponse;
  */
 final class HealthCheckResponseTest extends TestCase
 {
-    public function test_hasPassed_returnsTrueIfAllTestsPassed(): void
+    public function testHasPassedReturnsTrueIfAllTestsPassed(): void
     {
         $checkSingleResponses = [
             new HealthCheckSingleResponse('name1', 'PASS'),
@@ -25,7 +25,7 @@ final class HealthCheckResponseTest extends TestCase
         $this->assertTrue($sut->hasPassed());
     }
 
-    public function test_hasPassed_returnsFalseIfOneTestFails(): void
+    public function testHasPassedReturnsFalseIfOneTestFails(): void
     {
         $checkSingleResponses = [
             new HealthCheckSingleResponse('name1', 'PASS'),
