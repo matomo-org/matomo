@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,6 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 
 use Piwik\Archive\DataTableFactory;
@@ -66,7 +68,7 @@ class Evolution extends JqplotDataGenerator
         // if rows to display are not specified, default to all rows (TODO: perhaps this should be done elsewhere?)
         $rowsToDisplay = $this->properties['rows_to_display']
             ? : array_unique($dataTable->getColumn('label'))
-                ? : array(false) // make sure that a series is plotted even if there is no data
+                ? : [false] // make sure that a series is plotted even if there is no data
         ;
 
         $columnsToDisplay = array_values($this->properties['columns_to_display']);
@@ -75,8 +77,19 @@ class Evolution extends JqplotDataGenerator
             $this->getSeriesMetadata($rowsToDisplay, $columnsToDisplay, $units, $dataTables);
 
         // collect series data to show. each row-to-display/column-to-display permutation creates a series.
-        $allSeriesData = array();
-        foreach ($rowsToDisplay as $rowLabel) {
+        $allSeriesData = [];
+        foreach ($rowsToDisplay as $rowIdentifier) {
+
+            $rowLabel = $rowIdentifier;
+
+            if (!empty($this->properties['selectable_rows'])) {
+                foreach ($this->properties['selectable_rows'] as $row) {
+                    if ($rowIdentifier === $row['matcher']) {
+                        $rowLabel = $row['label'];
+                    }
+                }
+            }
+
             foreach ($columnsToDisplay as $columnName) {
                 if (!$this->isComparing) {
                     $this->setNonComparisonSeriesData($allSeriesData, $rowLabel, $columnName, $dataTable);
