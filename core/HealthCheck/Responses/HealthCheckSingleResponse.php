@@ -5,9 +5,6 @@ namespace Piwik\HealthCheck\Responses;
 use RuntimeException;
 
 final class HealthCheckSingleResponse {
-    public const HEALTH_CHECK_PASSED = 'PASS';
-    public const HEALTH_CHECK_FAILED = 'FAIL';
-
     /**
      * @var string
      */
@@ -20,8 +17,8 @@ final class HealthCheckSingleResponse {
 
     public function __construct(string $name, string $status)
     {
-        if ($status !== self::HEALTH_CHECK_FAILED && $status !== self::HEALTH_CHECK_PASSED) {
-            throw new RuntimeException(sprintf("Status must be %s or %s", self::HEALTH_CHECK_PASSED, self::HEALTH_CHECK_FAILED));
+        if ($status !== HealthCheckStatus::HEALTH_CHECK_FAILED && $status !== HealthCheckStatus::HEALTH_CHECK_PASSED) {
+            throw new RuntimeException(sprintf("Status must be %s or %s", HealthCheckStatus::HEALTH_CHECK_PASSED, HealthCheckStatus::HEALTH_CHECK_FAILED));
         }
 
         $this->name = $name;
@@ -30,7 +27,7 @@ final class HealthCheckSingleResponse {
 
     public function hasPassed(): bool
     {
-        return $this->status === self::HEALTH_CHECK_PASSED;
+        return $this->status === HealthCheckStatus::HEALTH_CHECK_PASSED;
     }
 
     public function toArray(): array

@@ -4,9 +4,6 @@ namespace Piwik\HealthCheck\Responses;
 
 final class HealthCheckResponse
 {
-    private const HEALTH_CHECK_PASSED = 'PASS';
-    private const HEALTH_CHECK_FAILED = 'FAIL';
-
     /**
      * @var HealthCheckSingleResponse[]
      */
@@ -34,7 +31,7 @@ final class HealthCheckResponse
     public function toArray(): array
     {
         return [
-            'status' => $this->hasPassed() ? self::HEALTH_CHECK_PASSED : self::HEALTH_CHECK_FAILED,
+            'status' => $this->hasPassed() ? HealthCheckStatus::HEALTH_CHECK_PASSED : HealthCheckStatus::HEALTH_CHECK_FAILED,
             'checks' => array_map(function (HealthCheckSingleResponse $checkSingleResponse): array {
                 return $checkSingleResponse->toArray();
             }, $this->checkSingleResponses)
