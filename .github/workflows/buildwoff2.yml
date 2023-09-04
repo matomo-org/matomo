@@ -1,9 +1,3 @@
-name: Build woff2 font file
-
-on:
-  pull_request:
-    types: [synchronize, opened]
-
 permissions:
   actions: read
   checks: none
