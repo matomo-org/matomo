@@ -5,6 +5,7 @@ namespace Piwik\HealthCheck;
 use Piwik\HealthCheck\Checks\HealthCheckInterface;
 use Piwik\HealthCheck\Responses\HealthCheckResponse;
 use Piwik\HealthCheck\Responses\HealthCheckSingleResponse;
+use Piwik\HealthCheck\Responses\HealthCheckStatus;
 
 final class HealthCheckService
 {
@@ -34,7 +35,7 @@ final class HealthCheckService
         foreach ($this->healthChecks as $healthCheck) {
             $healthCheckResponses[] = new HealthCheckSingleResponse(
                 $healthCheck->getName(),
-                $healthCheck->test() ? HealthCheckSingleResponse::HEALTH_CHECK_PASSED : HealthCheckSingleResponse::HEALTH_CHECK_FAILED
+                $healthCheck->test() ? HealthCheckStatus::HEALTH_CHECK_PASSED : HealthCheckStatus::HEALTH_CHECK_FAILED
             );
         }
         return new HealthCheckResponse($healthCheckResponses);
