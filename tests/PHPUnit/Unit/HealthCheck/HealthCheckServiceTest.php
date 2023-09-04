@@ -8,7 +8,7 @@ use Piwik\HealthCheck\HealthCheckService;
 
 /**
  * @group Core
- * @group HealthCheck2
+ * @group HealthCheck
  * @group HealthCheckService
  */
 final class HealthCheckServiceTest extends TestCase
