@@ -85,6 +85,7 @@ FORMAT;
 
     public function testIfHealthCheckParamPassedInUrlReturnsHealthCheckResponse(): void
     {
+        $enableDispatch = FrontController::$enableDispatch;
         $_GET['healthCheck'] = 1;
 
         FrontController::clearAll();
@@ -95,6 +96,7 @@ FORMAT;
         $this->assertEquals('{"status":"PASS","checks":[{"name":"dashboardAvailable","status":"PASS"}]}', $output);
 
         unset($_GET['healthCheck']);
+        FrontController::$enableDispatch = $enableDispatch;
     }
 
     private function cleanMessage($message)
