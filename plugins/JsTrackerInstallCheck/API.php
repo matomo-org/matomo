@@ -9,6 +9,7 @@ namespace Piwik\Plugins\JsTrackerInstallCheck;
 
 use Piwik\Piwik;
 use Piwik\Site;
+use Piwik\UrlHelper;
 
 /**
  * @internal
@@ -19,6 +20,9 @@ class API extends \Piwik\Plugin\API
      * @var JsTrackerInstallCheck
      */
     protected $jsTrackerInstallCheck;
+
+    // disables automatic sanitizing for all public API methods in this class
+    protected $autoSanitizeInputParams = false;
 
     public function __construct(JsTrackerInstallCheck $jsTrackerInstallCheck)
     {
@@ -41,6 +45,10 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSite);
 
+        if (!empty($nonce) && !\preg_match('/^[a-f0-9]{32}$/i', $nonce)) {
+            throw new \Exception('The provided nonce is invalid.');
+        }
+
         return [
             'isSuccess' => $this->jsTrackerInstallCheck->checkForJsTrackerInstallTestSuccess($idSite, $nonce),
             'mainUrl' => Site::getMainUrlFor($idSite),
@@ -61,6 +69,10 @@ class API extends \Piwik\Plugin\API
     public function initiateJsTrackerInstallTest(int $idSite, string $url = ''): array
     {
         Piwik::checkUserHasViewAccess($idSite);
+
+        if (!UrlHelper::isLookLikeUrl($url)) {
+            throw new \Exception('Please provide a valid URL.');
+        }
 
         return $this->jsTrackerInstallCheck->initiateJsTrackerInstallTest($idSite, $url);
     }
