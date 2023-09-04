@@ -359,7 +359,7 @@ class CliMulti
         $this->processes[] = new Process($cmdId);
 
         $url = $this->appendTestmodeParamToUrlIfNeeded($url);
-        $query = UrlHelper::getQueryFromUrl($url, array('pid' => $cmdId, 'runid' => getmypid()));
+        $query = UrlHelper::getQueryFromUrl($url, ['pid' => $cmdId, 'runid' => Common::getProcessId()]);
         $hostname = Url::getHost($checkIfTrusted = false);
         $command = $this->buildCommand($hostname, $query, $output->getPathToFile());
 
