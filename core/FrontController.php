@@ -19,7 +19,7 @@ use Piwik\Exception\DatabaseSchemaIsNewerThanCodebaseException;
 use Piwik\Exception\PluginDeactivatedException;
 use Piwik\Exception\PluginRequiresInternetException;
 use Piwik\Exception\StylesheetLessCompileException;
-use Piwik\HealthCheck\Checks\DashboardAvailableHealthCheck;
+use Piwik\HealthCheck\Checks\ReportingAvailableHealthCheck;
 use Piwik\HealthCheck\HealthCheckService;
 use Piwik\Http\ControllerResolver;
 use Piwik\Http\Router;
@@ -835,7 +835,7 @@ class FrontController extends Singleton
 
     private function handleHealthCheckRequest(): void
     {
-        $healthCheckService = new HealthCheckService([new DashboardAvailableHealthCheck()]);
+        $healthCheckService = new HealthCheckService([new ReportingAvailableHealthCheck()]);
         $healthCheckResponse = $healthCheckService->performChecks();
 
         Common::sendHeader('Content-Type: application/json; charset=utf-8');
