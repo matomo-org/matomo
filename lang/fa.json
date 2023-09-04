@@ -236,7 +236,7 @@
         "HelloUser": "درود, %s!",
         "Help": "راهنما",
         "HelpResources": "منابع کمکی",
-        "HelpTranslatePiwik": "شاید مایل باشید %1$sبه ما در ترجمه‌ی Matomo کمک کنید%2$s.",
+        "HelpTranslatePiwik": "شاید مایل باشید %1$sبه ما در ترجمه‌ی Matomo کمک کنید%2$s?",
         "Hide": "پنهان شود",
         "HoursMinutes": "%1$s ساعت %2$s دقیقه",
         "IP": "ای پی",

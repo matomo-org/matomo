@@ -41,7 +41,7 @@
         "LoginNotAllowedBecauseUserLoginBlocked": "Son bir saat içinde hesabınızla şüpheli sayıda başarısız oturum açma girişiminde bulunulduğundan oturum açmanız engellendi.",
         "LoginOrEmail": "Kullanıcı adı ya da e-posta",
         "LoginPasswordNotCorrect": "Kullanıcı adı ve/veya parola yanlış.",
-        "LostYourPassword": "Parolamı unuttum",
+        "LostYourPassword": "Parolamı unuttum?",
         "MailPasswordChangeBody2": "Merhaba %1$s,\n\n%2$s tarafından bir parola sıfırlama isteği yapıldı. Yeni kullanıcı adı ve parolanızla oturum açmak için 24 saat içinde aşağıdaki bağlantıyı kopyalayıp tarayıcınıza yapıştırın:\n\n%3$s\n\nMatomo uygulamasını kullandığınız için teşekkürler.",
         "MailTopicPasswordChange": "Parola değiştirmeyi onayla",
         "NewPassword": "Yeni parola",

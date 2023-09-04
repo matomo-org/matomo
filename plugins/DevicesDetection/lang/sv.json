@@ -61,7 +61,7 @@
         "UserAgent": "User-Agent",
         "Wearable": "Bärbar",
         "WidgetBrowserVersionsDocumentation": "Denna rapport innehåller information om vilken typ av webbläsare dina besökare använde. Varje version av webbläsare är listad separat.",
-        "WidgetBrowsers": "Webbläsare",
+        "WidgetBrowsers": "Besökarens webbläsare",
         "WidgetBrowsersDocumentation": "Denna rapport innehåller information om vilken typ av webbläsare dina besökare använde.",
         "XVisitsFromDevices": "%1$s besök från %2$s enheter",
         "dataTableLabelBrands": "Märke",
