@@ -70,7 +70,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        if (!UrlHelper::isLookLikeUrl($url)) {
+        if (!empty($url) && !UrlHelper::isLookLikeUrl($url)) {
             throw new \Exception('Please provide a valid URL.');
         }
 
