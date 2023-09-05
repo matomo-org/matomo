@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,12 +7,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\Referrers;
 
 use Piwik\Common;
 use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
+use Piwik\Request;
 use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
 
@@ -40,7 +43,7 @@ class Controller extends \Piwik\Plugin\Controller
         return FrontController::getInstance()->fetchDispatch('Referrers', 'get');
     }
 
-    public function getEvolutionGraph($typeReferrer = false, array $columns = array(), array $defaultColumns = array())
+    public function getEvolutionGraph($typeReferrer = false, array $columns = [], array $defaultColumns = [])
     {
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Referrers.getReferrerType');
 
@@ -74,6 +77,8 @@ class Controller extends \Piwik\Plugin\Controller
         $view->config->selectable_columns = $selectable;
 
         // configure displayed rows
+        $view->config->row_picker_match_rows_by = 'referrer_type';
+
         $visibleRows = Common::getRequestVar('rows', false);
         if ($visibleRows !== false) {
             // this happens when the row picker has been used
@@ -85,20 +90,18 @@ class Controller extends \Piwik\Plugin\Controller
         } else {
             // use $typeReferrer as default
             if ($typeReferrer === false) {
-                $typeReferrer = Common::getRequestVar('typeReferrer', Common::REFERRER_TYPE_DIRECT_ENTRY);
+                $typeReferrer = Request::fromRequest()->getIntegerParameter('typeReferrer', Common::REFERRER_TYPE_DIRECT_ENTRY);
             }
-            $label = self::getTranslatedReferrerTypeLabel($typeReferrer);
-            $total = $this->translator->translate('General_Total');
 
             if (!empty($view->config->rows_to_display)) {
                 $visibleRows = $view->config->rows_to_display;
             } else {
-                $visibleRows = array($label, $total);
+                $visibleRows = [(string) $typeReferrer, 'total'];
             }
 
-            $view->requestConfig->request_parameters_to_modify['rows'] = $label . ',' . $total;
+            $view->requestConfig->request_parameters_to_modify['rows'] = $typeReferrer . ',total';
         }
-        $view->config->row_picker_match_rows_by = 'label';
+
         $view->config->rows_to_display = $visibleRows;
 
         $view->config->documentation = $this->translator->translate('Referrers_EvolutionDocumentation') . '<br />'

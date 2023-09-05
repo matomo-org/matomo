@@ -95,7 +95,7 @@ abstract class Graph extends Visualization
      * Determines what rows are selectable and stores them in the selectable_rows property in
      * a format the SeriesPicker JavaScript class can use.
      */
-    public function determineWhichRowsAreSelectable()
+    public function determineWhichRowsAreSelectable(): void
     {
         if ($this->config->row_picker_match_rows_by === false) {
             return;
@@ -105,35 +105,40 @@ abstract class Graph extends Visualization
         $self = $this;
 
         $this->dataTable->filter(function ($dataTable) use ($self) {
-            /** @var DataTable $dataTable */
 
+            $identifier = $self->config->row_picker_match_rows_by;
+
+            /** @var DataTable $dataTable */
             foreach ($dataTable->getRows() as $row) {
                 $rowLabel = $row->getColumn('label');
+                $rowIdentifier = $row->hasColumn($identifier) ? $row->getColumn($identifier) : $row->getMetadata($identifier);
 
-                if (false === $rowLabel) {
+                if (false === $rowLabel || false === $rowIdentifier) {
                     continue;
                 }
 
+                $rowIdentifier = (string) $rowIdentifier; // ensure we always have the same type
+
                 // build config
-                if (!isset($self->selectableRows[$rowLabel])) {
-                    $self->selectableRows[$rowLabel] = array(
+                if (!isset($self->selectableRows[$rowIdentifier])) {
+                    $self->selectableRows[$rowIdentifier] = [
                         'label'     => $rowLabel,
-                        'matcher'   => $rowLabel,
-                        'displayed' => $self->isRowVisible($rowLabel)
-                    );
+                        'matcher'   => $rowIdentifier,
+                        'displayed' => $self->isRowVisible($rowLabel, $rowIdentifier)
+                    ];
                 }
             }
         });
     }
 
-    public function isRowVisible($rowLabel)
+    public function isRowVisible($rowLabel, $rowIdentifier): bool
     {
-        $isVisible = true;
-        if ('label' == $this->config->row_picker_match_rows_by) {
-            $isVisible = in_array($rowLabel, $this->config->rows_to_display === false ? [] : $this->config->rows_to_display);
+        if (false !== $this->config->row_picker_match_rows_by) {
+            return is_array($this->config->rows_to_display) &&
+                (in_array($rowLabel, $this->config->rows_to_display) || in_array($rowIdentifier, $this->config->rows_to_display));
         }
 
-        return $isVisible;
+        return true;
     }
 
     /**
@@ -158,31 +163,31 @@ abstract class Graph extends Visualization
 
     }
 
-    protected function addTranslations()
+    protected function addTranslations(): void
     {
         if ($this->config->add_total_row) {
             $totalTranslation = Piwik::translate('General_Total');
-            $this->config->selectable_rows[] = array(
+            $this->selectableRows['total'] = [
                 'label'     => $totalTranslation,
-                'matcher'   => $totalTranslation,
-                'displayed' => $this->isRowVisible($totalTranslation)
-            );
+                'matcher'   => 'total',
+                'displayed' => $this->isRowVisible($totalTranslation, 'total')
+            ];
         }
 
         if ($this->config->show_goals) {
-            $this->config->addTranslations(array(
+            $this->config->addTranslations([
                 'nb_conversions' => Piwik::translate('Goals_ColumnConversions'),
                 'revenue'        => Piwik::translate('General_TotalRevenue')
-            ));
+            ]);
         }
 
-        $transformed = array();
+        $transformed = [];
         foreach ($this->config->selectable_columns as $column) {
-            $transformed[] = array(
+            $transformed[] = [
                 'column'      => $column,
                 'translation' => @$this->config->translations[$column],
                 'displayed'   => in_array($column, $this->config->columns_to_display)
-            );
+            ];
         }
         $this->config->selectable_columns = $transformed;
     }
