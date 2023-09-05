@@ -6,20 +6,20 @@
         "BrowserTriggeredArchivingEnabled": "Für eine optimale Leistung und ein schnelles Matomo wird dringend empfohlen, einen Crontab einzurichten, um Ihre Berichte automatisch zu archivieren und das Auslösen durch den Browser in den Matomo-Einstellungen zu deaktivieren. %1$sErfahren Sie mehr.%2$s",
         "ConfigFileIntroduction": "Hier können Sie die Matomo Konfiguration einsehen. Sollten Sie Matomo auf lastverteilten Systemen einsetzen, könnte diese Seite unterschiedlich sein, abhängig vom Server auf dem die Seite geladen wurde. Zeilen mit einer anderen Hintergrundfarbe sind geänderte Konfigurationswerte, die beispielsweise in der Datei %1$s definiert wurden.",
         "ConfigFileTitle": "Konfigurationsdatei",
-        "ConfigIniAccessible": "Wir haben auch herausgefunden, dass Matomos Konfigurationsverzeichnis öffentlich zugänglich ist. Zwar können Angreifer die Konfigurationsdatei nicht lesen, jedoch sind Ihre MySQL Anmeldeinformationen und andere Informationen für jeden zugänglich, wenn Ihr Webserver aus irgend einem Grund aufhört, PHP Dateien auszuführen. Bitte prüfen Sie Ihre Webserverkonfiguration und verwehren Sie den Zugriff zu diesem Verzeichnis.",
+        "ConfigIniAccessible": "Wir haben auch herausgefunden, dass Matomos Konfigurationsverzeichnis öffentlich zugänglich ist. Zwar können Angreifer die Konfigurationsdatei nicht lesen, jedoch sind Ihre MySQL-Anmeldeinformationen und andere Informationen für jeden zugänglich, wenn Ihr Webserver aus irgend einem Grund aufhört, PHP-Dateien auszuführen. Bitte prüfen Sie Ihre Webserverkonfiguration und verwehren Sie den Zugriff zu diesem Verzeichnis.",
         "CronArchivingHasNotRun": "Die Archivierung wurde noch nicht erfolgreich abgeschlossen.",
         "CronArchivingHasNotRunInAWhile": "Die Archivierung ist zuletzt am %1$s erfolgreich gelaufen, also vor %2$s.",
         "CronArchivingLastRunCheck": "Letzter erfolgreicher Abschluss der Archivierung",
         "CronArchivingRanSuccessfullyXAgo": "Der Archivierungsprozess wurde vor %1$s erfolgreich abgeschlossen.",
         "CronArchivingRunDetails": "Bitte überprüfen Sie, ob Sie einen Crontab eingerichtet haben, der den %1$s Konsolenbefehl aufruft, und ob Sie einen %2$s konfiguriert haben, um Fehler per E-Mail zu erhalten, wenn die Archivierung fehlschlägt. Sie können auch versuchen, den Konsolenbefehl auszuführen, um Ihre Berichte manuell zu archivieren: %3$s. %4$s Mehr erfahren.%5$s",
         "DatabaseReaderConnection": "Datenbankleserecht-Verbindung",
-        "DatabaseUtf8Requirement": "Dies ist nötig, um 4-Byte UTF8 Zeichen speichern zu können. Wenn utf8mb4 nicht verfügbar ist, werden spezielle Zeichen wie Emojis, selten verwendete Zeichen asiatischer Sprachen, historische Schriftzeichen oder mathematische Symbole mit %1$s ersetzt. Sie können mehr über dieses Thema in %2$sdiesen FAQ%3$s lesen.",
+        "DatabaseUtf8Requirement": "Dies ist nötig, um 4-Byte-UTF8-Zeichen speichern zu können. Wenn utf8mb4 nicht verfügbar ist, werden spezielle Zeichen wie Emojis, selten verwendete Zeichen asiatischer Sprachen, historische Schriftzeichen oder mathematische Symbole mit %1$s ersetzt. Sie können mehr über dieses Thema in %2$sdiesen FAQ%3$s lesen.",
         "DatabaseUtf8mb4CharsetAvailableButNotUsed": "Ihre Datenbank unterstützt den utf8mb4 Zeichensatz, aber Ihre Datenbanktabellen wurden noch nicht konvertiert. Sie können dies nachholen, indem Sie den Befehl %1$s ausführen oder die automatische Konvertierung in den generellen Einstellungen aktivieren.",
         "DatabaseUtf8mb4CharsetRecommended": "Ihre Datenbank unterstützt den utf8mb4 Zeichensatz noch nicht.",
         "EnableRequiredDirectoriesDiagnostic": "Diese Prüfung wurde übersprungen, da diese Prüfung in der Konfiguration deaktiviert ist. Um diese Prüfung zu aktivieren, setzen Sie [General] enable_required_directories_diagnostic = 1 in der Datei \"config/config.ini.php\".",
         "HideUnchanged": "Falls Sie nur die geänderten Werte einsehen möchten, können Sie %1$salle unveränderten Werte ausblenden%2$s.",
         "HtaccessWarningNginx": "Um sicherzustellen, dass auf sensible Dateien nicht direkt zugegriffen werden kann, wird empfohlen, Ihren Webserver so zu konfigurieren, dass der Zugriff auf bestimmte Verzeichnisse eingeschränkt wird. Weitere Informationen finden Sie in der %1$s offiziellen nginx-Serverkonfiguration %2$s",
-        "MysqlMaxPacketSize": "Maximale Packetgröße",
+        "MysqlMaxPacketSize": "Maximale Paketgröße",
         "MysqlMaxPacketSizeWarning": "Es wird empfohlen die '%1$smax_allowed_packet%2$s' Größe in Ihrer MySQL Datenbank auf mindestens %3$s zu erhöhen. Aktuell ist %4$s eingestellt.",
         "MysqlTemporaryTablesWarning": "Die MySQL Berechtigung CREATE TEMPORARY TABLES wird benötigt, damit Matomo korrekt funktioniert.",
         "MysqlTransactionLevel": "Ändern von Transaction Isolation Levels wird nicht unterstützt. Archivierung wird trotzdem funktionieren, aber es wird eventuell langsamer sein und es wird empfohlen, zum Beispiel das `binlog_format` auf `row` zu ändern, wenn möglich.",
@@ -33,6 +33,6 @@
         "RecommendedPrivateDirectories": "Empfohlene private Verzeichnisse",
         "RequiredPrivateDirectories": "Verzeichnisse, welche privat sein müssen",
         "Sections": "Sektionen",
-        "UrlsAccessibleViaBrowser": "Wir haben die obenstehenden URLs gefunden, welche über den Browser erreichbar sind, aber wir empfehlen das zu unterbinden. Wenn möglich, schränken Sie bitte den Zugriff auf sie ein."
+        "UrlsAccessibleViaBrowser": "Wir haben die obenstehenden URLs gefunden, welche über den Browser erreichbar sind, aber wir empfehlen, das zu unterbinden. Wenn möglich, schränken Sie bitte den Zugriff auf sie ein."
     }
 }
