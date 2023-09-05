@@ -32,12 +32,13 @@
     <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps15'|translate }}</li>
     <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps16'|translate }}</li>
     <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps17'|translate }}</li>
-    {% if site and site.id %}
-        <li vue-entry="JsTrackerInstallCheck.JsTrackerInstallCheck" site="{{ site|json_encode }}" is-wordpress="true"></li>
-    {% else %}
-        <br>
-        <p>{{ 'SitesManager_SiteWithoutDataWordpressFollowStepCompleted'|translate('<strong>', '</strong>')|raw }}</p>
-        <br>
-        <p>{{ 'SitesManager_SiteWithoutDataWordpressFollowStepNote'|translate('<a target="_blank" rel="noreferrer noopener" href="https://wordpress.org/plugins/wp-piwik/">WP-Matomo Integration (WP-Piwik)</a>')|raw }}</p>
-    {% endif %}
+{% if site and site.id %}
+    <li vue-entry="JsTrackerInstallCheck.JsTrackerInstallCheck" site="{{ site|json_encode }}" is-wordpress="true"></li>
 </ol>
+{% else %}
+</ol>
+<br>
+<p>{{ 'SitesManager_SiteWithoutDataWordpressFollowStepCompleted'|translate('<strong>', '</strong>')|raw }}</p>
+<br>
+<p>{{ 'SitesManager_SiteWithoutDataWordpressFollowStepNote'|translate('<a target="_blank" rel="noreferrer noopener" href="https://wordpress.org/plugins/wp-piwik/">WP-Matomo Integration (WP-Piwik)</a>')|raw }}</p>
+{% endif %}
