@@ -38,6 +38,9 @@ class Model
      */
     private $db;
 
+    /** @var array */
+    private $changeItems = null;
+
     /**
      * @param Db\AdapterInterface|null $db
      * @param PluginManager|null $pluginManager
@@ -139,11 +142,11 @@ class Model
      */
     public function doChangesExist(?int $newerThanId = null): int
     {
-        $changes = $this->getChangeItems();
+        $changeItems = $this->getChangeItems();
 
         $all = 0;
         $new = 0;
-        foreach ($changes as $c) {
+        foreach ($changeItems as $c) {
             $all++;
             if ($newerThanId === null || (isset($c['idchange']) && $c['idchange'] > $newerThanId)) {
                 $new++;
@@ -160,6 +163,25 @@ class Model
     }
 
     /**
+     * Get count of new
+     *
+     * @param int|null $newerThanId     Only count new changes as having a key > than this sequential key
+     *
+     * @return int
+     */
+    public function getNewChangesCount(?int $newerThanId = null): int
+    {
+        $changes = $this->getChangeItems();
+        $new = 0;
+        foreach ($changes as $c) {
+            if ($newerThanId === null || (isset($c['idchange']) && $c['idchange'] > $newerThanId)) {
+                $new++;
+            }
+        }
+        return $new;
+    }
+
+    /**
      * Return an array of change items from the changes table
      *
      * @return array
@@ -167,6 +189,11 @@ class Model
      */
     public function getChangeItems(): array
     {
+
+        if ($this->changeItems !== null) {
+            return $this->changeItems;
+        }
+
         $showAtLeast = 10; // Always show at least this number of changes
         $expireOlderThanDays = 90; // Don't show changes that were added to the table more than x days ago
 
@@ -213,7 +240,9 @@ class Model
          */
         Piwik::postEvent('Changes.filterChanges', array(&$changes));
 
-        return $changes;
+        $this->changeItems = $changes;
+
+        return $this->changeItems;
     }
 
 }

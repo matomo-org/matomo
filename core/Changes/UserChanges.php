@@ -42,10 +42,30 @@ class UserChanges
      */
     public function getNewChangesStatus(): int
     {
-        $idchangeLastViewed = (isset($this->user['idchange_last_viewed']) ? $this->user['idchange_last_viewed'] : null);
-
         $changesModel = new ChangesModel($this->db);
-        return $changesModel->doChangesExist($idchangeLastViewed);
+        return $changesModel->doChangesExist($this->getIdchangeLastViewed());
+    }
+
+    /**
+     * Return the count of new changes unseen by the user
+     *
+     * @return int   Change count
+     * @throws \Exception
+     */
+    public function getNewChangesCount(): int
+    {
+        $changesModel = new ChangesModel($this->db);
+        return $changesModel->getNewChangesCount($this->getIdchangeLastViewed());
+    }
+
+    /**
+     * Return the key of the last viewed change for the user, if any
+     *
+     * @return int
+     */
+    private function getIdchangeLastViewed(): ?int
+    {
+        return (isset($this->user['idchange_last_viewed']) ? $this->user['idchange_last_viewed'] : null);
     }
 
     /**

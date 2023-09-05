@@ -12,6 +12,9 @@
         {% if menu._html is defined %}
             {{ menu._html|raw }}
         {% else %}
+            {% if menu._badgecount > 0 %}
+            <div class="badge-menu-item-container">
+            {%  endif %}
             <a {% if menu._tooltip is defined %}title="{{ menu._tooltip }}"{% endif %}
                {% if menu._attribute is defined %}{{ menu._attribute }}{% endif %}
                {% if menu._onclick is defined %}onClick="{{ menu._onclick }}"{% endif %}
@@ -21,7 +24,21 @@
                {% else %}
                   href="{{ menu._url }}" rel="noreferrer noopener"
                {% endif %}
-               target="_self" tabindex="3">{{ _self.menuItemLabel(label, icon) }}</a>
+               target="_self" tabindex="3">
+                 {% if menu._badgecount > 0 %}
+                   <span class="badge-menu-item">
+                     {% if menu._badgecount > 0 and menu._badgecount < 10 %}
+                       {{ menu._badgecount }}
+                     {% elseif menu._badgecount > 9 %}
+                       9+
+                     {% endif %}
+                   </span>
+                 {%  endif %}
+                 {{ _self.menuItemLabel(label, icon) }}
+            </a>
+            {% if menu._badgecount > 0 %}
+            </div>
+            {% endif %}
         {% endif %}
     {% endmacro %}
 
