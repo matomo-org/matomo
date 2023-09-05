@@ -1,8 +1,9 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -36,9 +37,11 @@ class APITest extends JsTrackerInstallCheckIntegrationTestCase
     public function testWasJsTrackerInstallTestSuccessful()
     {
         $mock = $this->getMockBuilder(JsTrackerInstallCheck::class)->getMock();
-        $mock->expects($this->any())->method('checkForJsTrackerInstallTestSuccess')->willReturnCallback(function (int $idSite, string $nonce) {
-            return true;
-        });
+        $mock->expects($this->any())->method('checkForJsTrackerInstallTestSuccess')->willReturnCallback(
+            function (int $idSite, string $nonce) {
+                return true;
+            }
+        );
         $this->api = new API($mock);
 
         $result = $this->api->wasJsTrackerInstallTestSuccessful($this->idSite1, self::TEST_NONCE1);
@@ -46,15 +49,24 @@ class APITest extends JsTrackerInstallCheckIntegrationTestCase
         $this->assertArrayHasKey('isSuccess', $result);
         $this->assertTrue($result['isSuccess']);
         $this->assertArrayHasKey('mainUrl', $result);
-        $this->assertSame(self::TEST_URL1, $result['mainUrl'], 'The main URL of the site should have been included in the response');
+        $this->assertSame(
+            self::TEST_URL1,
+            $result['mainUrl'],
+            'The main URL of the site should have been included in the response'
+        );
     }
 
     public function testInitiateJsTrackerInstallTest()
     {
         $mock = $this->getMockBuilder(JsTrackerInstallCheck::class)->getMock();
-        $mock->expects($this->any())->method('initiateJsTrackerInstallTest')->willReturnCallback(function (int $idSite, string $url = '') {
-            return ['url' => self::TEST_URL1 . '?' . JsTrackerInstallCheck::QUERY_PARAM_NAME . '=' . self::TEST_NONCE1, 'nonce' => self::TEST_NONCE1];
-        });
+        $mock->expects($this->any())->method('initiateJsTrackerInstallTest')->willReturnCallback(
+            function (int $idSite, string $url = '') {
+                return [
+                    'url' => self::TEST_URL1 . '?' . JsTrackerInstallCheck::QUERY_PARAM_NAME . '=' . self::TEST_NONCE1,
+                    'nonce' => self::TEST_NONCE1,
+                ];
+            }
+        );
         $this->api = new API($mock);
 
         $result = $this->api->initiateJsTrackerInstallTest($this->idSite1);
@@ -63,13 +75,16 @@ class APITest extends JsTrackerInstallCheckIntegrationTestCase
         $this->assertNotEmpty($result['url']);
         $this->assertArrayHasKey('nonce', $result);
         $this->assertNotEmpty($result['nonce']);
-        $this->assertSame(self::TEST_URL1 . '?' . JsTrackerInstallCheck::QUERY_PARAM_NAME . '=' . $result['nonce'], $result['url']);
+        $this->assertSame(
+            self::TEST_URL1 . '?' . JsTrackerInstallCheck::QUERY_PARAM_NAME . '=' . $result['nonce'],
+            $result['url']
+        );
     }
 
     public function provideContainerConfig()
     {
-        return array(
-            'Piwik\Access' => new FakeAccess()
-        );
+        return [
+            'Piwik\Access' => new FakeAccess(),
+        ];
     }
 }
