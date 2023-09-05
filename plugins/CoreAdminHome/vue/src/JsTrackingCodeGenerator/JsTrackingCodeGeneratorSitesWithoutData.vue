@@ -5,8 +5,7 @@
           :site="site"
           :max-custom-variables="maxCustomVariables"
           :server-side-do-not-track-enabled="serverSideDoNotTrackEnabled"
-          @updateTrackingCode="updateTrackingCode"
-          ref="jsTrackingCodeAdvanceOption"/>
+          @updateTrackingCode="updateTrackingCode"/>
     </li>
     <li>{{ getCopyCodeStep }}</li>
   </div>
@@ -20,7 +19,6 @@
     :max-custom-variables="maxCustomVariables"
     :server-side-do-not-track-enabled="serverSideDoNotTrackEnabled"
     @updateTrackingCode="updateTrackingCode"
-    ref="jsTrackingCodeAdvanceOption"
     v-if="!showTestSection"/>
   <JsTrackerInstallCheck :site="site" v-if="showTestSection"/>
 </template>
