@@ -33,7 +33,7 @@
     <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps16'|translate }}</li>
     <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps17'|translate }}</li>
     {% if site and site.id %}
-        <div vue-entry="JsTrackerInstallCheck.JsTrackerInstallCheck" site="{{ site|json_encode }}" is-wordpress="true"></div>
+        <li vue-entry="JsTrackerInstallCheck.JsTrackerInstallCheck" site="{{ site|json_encode }}" is-wordpress="true"></li>
     {% else %}
         <br>
         <p>{{ 'SitesManager_SiteWithoutDataWordpressFollowStepCompleted'|translate('<strong>', '</strong>')|raw }}</p>

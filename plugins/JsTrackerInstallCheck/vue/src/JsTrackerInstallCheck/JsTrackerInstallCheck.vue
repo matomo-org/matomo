@@ -1,5 +1,5 @@
 <template>
-    <li>{{ translate('JsTrackerInstallCheck_TestInstallationDescription') }}</li>
+    <span>{{ translate('JsTrackerInstallCheck_TestInstallationDescription') }}</span>
     <div class="jsTrackerInstallCheck">
       <div class="row testInstallFields">
         <div class="col s2">

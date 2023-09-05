@@ -91,16 +91,13 @@
             </div>
         {% endif %}
 
-        <ol class="list-style-decimal">
-            <div
-                    vue-entry="CoreAdminHome.JsTrackingCodeGeneratorSitesWithoutData"
-                    default-site="{{ defaultSiteDecoded|json_encode }}"
-                    max-custom-variables="{{ maxCustomVariables|json_encode }}"
-                    server-side-do-not-track-enabled="{{ serverSideDoNotTrackEnabled|json_encode }}"
-                    js-tag="{{ jsTag|raw }}"
-                    show-test-section="true"
-            ></div>
-        </ol>
+        <div
+                vue-entry="CoreAdminHome.JsTrackingCodeGeneratorSitesWithoutData"
+                default-site="{{ defaultSiteDecoded|json_encode }}"
+                max-custom-variables="{{ maxCustomVariables|json_encode }}"
+                server-side-do-not-track-enabled="{{ serverSideDoNotTrackEnabled|json_encode }}"
+                js-tag="{{ jsTag|raw }}"
+        ></div>
     </div>
 
     <div id="mtm" class="col s12">

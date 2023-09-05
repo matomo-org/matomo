@@ -1,5 +1,5 @@
 <template>
-  <div v-if="showTestSection">
+  <ol class="list-style-decimal">
     <li>{{ translate('CoreAdminHome_JsTrackingCodeAdvancedOptionsStep') }}
       <JsTrackingCodeAdvancedOptions
           :site="site"
@@ -7,20 +7,16 @@
           :server-side-do-not-track-enabled="serverSideDoNotTrackEnabled"
           @updateTrackingCode="updateTrackingCode"/>
     </li>
-    <li>{{ getCopyCodeStep }}</li>
-  </div>
-  <div id="javascript-text">
-    <div>
-      <pre v-copy-to-clipboard="{}" class="codeblock" v-text="trackingCode" ref="trackingCode"/>
-    </div>
-  </div>
-  <JsTrackingCodeAdvancedOptions
-    :site="site"
-    :max-custom-variables="maxCustomVariables"
-    :server-side-do-not-track-enabled="serverSideDoNotTrackEnabled"
-    @updateTrackingCode="updateTrackingCode"
-    v-if="!showTestSection"/>
-  <JsTrackerInstallCheck :site="site" v-if="showTestSection"/>
+    <li>
+      <span>{{ getCopyCodeStep }}</span>
+      <div id="javascript-text">
+        <div>
+          <pre v-copy-to-clipboard="{}" class="codeblock" v-text="trackingCode" ref="trackingCode"/>
+        </div>
+      </div>
+    </li>
+    <li><JsTrackerInstallCheck :site="site"/></li>
+  </ol>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue';
@@ -47,11 +43,6 @@ export default defineComponent({
     maxCustomVariables: Number,
     serverSideDoNotTrackEnabled: Boolean,
     jsTag: String,
-    showTestSection: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
   },
   components: {
     JsTrackerInstallCheck,
