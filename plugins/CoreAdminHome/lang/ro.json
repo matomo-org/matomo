@@ -60,7 +60,7 @@
         "StableReleases": "Daca Matomo este un aspect foarte important al afacerii tale, noi recomandam sa folosesti ultima versiune stabila. Daca folosesti ultima versiune beta si gasesti un bug sau ai o sugestie, te rugam %1$suita-te aici%2$s.",
         "TrackAGoal": "Urmăreşte o ţintă",
         "TrackingCode": "Codul de urmărire",
-        "TrustedHostConfirm": "Eşti sigur că doreşti să schimbi numele hostului de încredere Matomo_",
+        "TrustedHostConfirm": "Eşti sigur că doreşti să schimbi numele hostului de încredere Matomo?",
         "TrustedHostSettings": "Hostname Matomo de incredere",
         "UncheckToOptOut": "Debifați această casetă pentru a renunța.",
         "UpdateSettings": "Actualizează setările",
