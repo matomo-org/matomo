@@ -18,6 +18,7 @@ describe("EmptySite_ConsentManager", function () {
         await page.goto(urlToTest);
 
         const pageElement = await page.$('.page');
+        await page.waitForNetworkIdle();
         expect(await pageElement.screenshot()).to.matchImage('emptySiteDashboard');
     });
 

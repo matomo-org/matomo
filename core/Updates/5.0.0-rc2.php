@@ -35,6 +35,7 @@ class Updates_5_0_0_rc2 extends PiwikUpdates
     {
         $migrations = [];
 
+        $migrations[] = $this->migration->plugin->activate('JsTrackerInstallCheck');
         $migrations[] = $this->migration->db->changeColumn('user_token_auth', 'post_only', 'secure_only', "TINYINT(2) UNSIGNED NOT NULL DEFAULT '0'");
 
         // We need to remove all stored view data table settings for referrers evolution chart, as the identifier for

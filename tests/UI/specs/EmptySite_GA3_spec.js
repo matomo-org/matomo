@@ -16,6 +16,7 @@ describe("EmptySite_GA3", function () {
     it('should show the tracking code if the website has no recorded data and GA3 guide', async function () {
         const urlToTest = "?" + generalParams + "&module=CoreHome&action=index";
         await page.goto(urlToTest);
+        await page.waitForNetworkIdle();
 
         const pageElement = await page.$('.page');
         expect(await pageElement.screenshot()).to.matchImage('emptySiteDashboard');
