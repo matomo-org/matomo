@@ -79,6 +79,7 @@
         "MainDescription": "Per generare i report dei tuoi siti web, devi configurarli in Matomo! Aggiungi, aggiorna, cancella i siti web e visualizza il codice JavaScript da inserire nelle tue pagine.",
         "MenuManage": "Amministrazione",
         "MergedNotificationLine1": "Sono stati rilevati %1$s sul tuo sito web.",
+        "MergedNotificationLine2": "Per saperne di più sulla configurazione di Matomo per lavorare con questi, segui queste guide: %1$s",
         "MobileAppsAndSDKs": "App Mobili ed SDK",
         "MobileAppsAndSDKsDescription": "Non tracci un sito web? In alternativa puoi tracciare un'app mobile o un qualunque altro tipo di applicazione utilizzando uno degli %1$sSDK disponibili%2$s.",
         "NoWebsites": "Non hai configurato alcun sito web da amministrare.",
