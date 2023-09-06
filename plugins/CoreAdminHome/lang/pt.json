@@ -29,7 +29,7 @@
         "HideAdvancedOptions": "Ocultar opções avançadas",
         "HowToGetHelp": "Existem diferentes maneiras de obter ajuda. Há o suporte gratuito por meio da Comunidade Matomo e o suporte pago fornecido pela equipe do Matomo e parceiros. Ou talvez você tenha um bug para relatar ou queira sugerir um novo recurso?",
         "HttpTrackingApi": "API HTTP de acompanhamento",
-        "HttpTrackingApiDescription": "A %1$sAPI HTTP de acompanhamento%2$s permite-lhe monitorizar tudo. Isto pode ser útil se está a utilizar uma linguagem de desenvolvimento para a qual ainda não exista SDK. Pode também ser útil quando pretende monitorizar dispositivos ou aplicações de uma forma específica.",
+        "HttpTrackingApiDescription": "A %1$sAPI HTTP de rastreametno%2$s permite-lhe monitorar tudo. Isto pode ser útil se você está utilizando uma linguagem de desenvolvimento para a qual ainda não existe SDK. Pode também ser útil quando pretende monitorar dispositivos ou aplicações de uma forma específica.",
         "ImageTracking": "Acompanhamento por imagem",
         "ImageTrackingIntro1": "Quando um visitante desativou o JavaScript ou quando o JavaScript não possa ser utilizado, pode utilizar uma ligação de imagem de acompanhamento para monitorizar os visitantes.",
         "ImageTrackingIntro2": "Construa a ligação abaixo e copie o código HTML gerado para a página. Se estiver a utilizar isto como uma alternativa para o acompanhamento por JavaScript, pode englobá-lo em tags %1$s.",

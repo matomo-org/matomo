@@ -25,7 +25,7 @@
         "DeleteOldAggregatedReports": "Slet gammelt aggregeret rapportdata",
         "DeleteOldRawData": "Slet regelmæssigt gammelt rådata",
         "DeleteOldVisitorLogs": "Slet gamle besøgslogfiler",
-        "DeleteReportsConfirm": "Aktiver rapportdata sletning. Hvis gamle rapporter fjernes, skal de forarbejdes igen dem med henblik på se dem. Bekræft sletning.",
+        "DeleteReportsConfirm": "Aktiver rapportdata sletning. Hvis gamle rapporter fjernes, skal de forarbejdes igen dem med henblik på se dem. Bekræft sletning?",
         "DeleteReportsOlderThan": "Slet rapporter ældre end",
         "DoNotTrack_Description": "Spor ikke er en teknologi og politisk forslag, der giver brugerne mulighed for at fravælge sporing af websteder, de ikke besøger, herunder analyse-tjenester, reklame netværk og sociale platforme.",
         "DoNotTrack_Disable": "Deaktiver spor ikke understøttelse",

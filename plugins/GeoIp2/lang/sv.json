@@ -56,7 +56,7 @@
         "UpdaterHasNotBeenRun": "Uppdateringen har aldrig körts.",
         "UpdaterIsNotScheduledToRun": "Den är inte planerad att köras i fortsättningen.",
         "UpdaterScheduledForNextRun": "Den är planerad att köras under den nästa archive.php tidssession.",
-        "UpdaterWasLastRun": "Sensate uppdateringen gjordes den %s.",
-        "UpdaterWillRunNext": "Den är planerar att köras på %s."
+        "UpdaterWasLastRun": "Senaste uppdateringen gjordes den %s.",
+        "UpdaterWillRunNext": "Den är planerad att köras %s."
     }
 }

@@ -117,6 +117,8 @@
         "GeolocationAnonymizeIpNote": "Notera: Geolocation kommer att ha ungefär samma resultat med 1 byte anonymiserad. Med 2 byte eller mer blir Geolocation vara felaktig.",
         "GetPurgeEstimate": "Hämta uppskattning för rensning",
         "HowDoIAskForConsent": "Hur ber jag användare om samtycke?",
+        "HowDoIAskForConsentIntro": "Matomo har guider för hur du sätter upp samtyckeshantering med följande populära lösningar:",
+        "HowDoIAskForConsentOutro": "Om du inte använder någon av ovanstående samtyckeshanterarna kan du implementera %1$sspårning med samtycke genom att använda Matomos JavaScript API%2$s.",
         "IPAddress": "IP-adress",
         "Imprint": "Avtryck",
         "ImprintUrl": "Webbadress för avtryck",
@@ -220,6 +222,9 @@
         "VisitsMatchedCriteria": "Dessa besök matchar de valda kriterierna.",
         "VisitsSuccessfullyDeleted": "Besök har raderats",
         "VisitsSuccessfullyExported": "Besök exporterades",
+        "WhenConsentIsNeededPart1": "%1$sGDPR:s integritetsregler%2$s kräver att du ber om användarens samtycke när du bearbetar deras personliga data i vissa fall. För att avgöra om du behöver be om samtycke bör du identifiera din lagliga grund att bearbeta personuppgifter. Detta göras antingen med \"Samtycke\" eller \"Berättigat intresse\", eller om du väljer att undviker att alls samla in denna typ av data.",
+        "WhenConsentIsNeededPart2": "Det rekommenderas att lära sig mer om laglig grund enligt GDPR för att bearbeta personuppgifter. Du kan hitta mer information om detta ämne på %1$svår blogg%2$s.",
+        "WhenConsentIsNeededPart3": "Vänligen notera att om du behöver användarens samtycke, och du inte kan visa att du fått ett samtycke tidigare, så rekommenderar vi att anonymisera tidigare insamlad rådata. Att anonymisera tidigare rådata kan göras i Matomos integritetshantering, %1$sse mer%2$s.",
         "WhenDoINeedConsent": "När behöver jag be om användarens samtycke?"
     }
 }
