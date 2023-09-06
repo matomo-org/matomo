@@ -30,7 +30,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Check whether a test request has been recorded for the provided nonce. If not request has been recorded or the
+     * Check whether a test request has been recorded for the provided nonce. If no request has been recorded or the
      * nonce isn't found, return false. This also returns the main URL for the specified site so that we can auto-
      * populate an input with it.
      *
