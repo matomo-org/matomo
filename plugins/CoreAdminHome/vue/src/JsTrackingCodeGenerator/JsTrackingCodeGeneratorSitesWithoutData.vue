@@ -15,7 +15,9 @@
         </div>
       </div>
     </li>
-    <li><JsTrackerInstallCheck :site="site"/></li>
+    <template v-if="isJsTrackerInstallCheckAvailable">
+      <li><component :is="testComponent" :site="site"></component></li>
+    </template>
   </ol>
 </template>
 <script lang="ts">
@@ -24,8 +26,8 @@ import {
   SiteRef,
   CopyToClipboard,
   translate,
+  useExternalPluginComponent,
 } from 'CoreHome';
-import { JsTrackerInstallCheck } from 'JsTrackerInstallCheck';
 import JsTrackingCodeAdvancedOptions from './JsTrackingCodeAdvancedOptions.vue';
 
 interface JsTrackingCodeGeneratorSitesWithoutDataState {
@@ -43,9 +45,9 @@ export default defineComponent({
     maxCustomVariables: Number,
     serverSideDoNotTrackEnabled: Boolean,
     jsTag: String,
+    isJsTrackerInstallCheckAvailable: Boolean,
   },
   components: {
-    JsTrackerInstallCheck,
     JsTrackingCodeAdvancedOptions,
   },
   directives: {
@@ -81,6 +83,12 @@ export default defineComponent({
   computed: {
     getCopyCodeStep() {
       return translate('CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead', '</head>');
+    },
+    testComponent() {
+      if (this.isJsTrackerInstallCheckAvailable) {
+        return useExternalPluginComponent('JsTrackerInstallCheck', 'JsTrackerInstallCheck');
+      }
+      return '';
     },
   },
 });

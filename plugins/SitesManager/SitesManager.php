@@ -18,6 +18,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\Settings\Storage\Backend\MeasurableSettingsTable;
 use Piwik\SettingsPiwik;
@@ -557,6 +558,7 @@ class SitesManager extends \Piwik\Plugin
         $view->authLink = $authLink;
         $view->faqLink = $faqLink;
         $view->site = ['id' => $idSite, 'name' => ''];
+        $view->isJsTrackerInstallCheckAvailable = Manager::getInstance()->isPluginActivated('JsTrackerInstallCheck');
         $out = $view->render();
     }
 }

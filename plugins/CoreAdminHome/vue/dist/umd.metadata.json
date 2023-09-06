@@ -1,7 +1,6 @@
 {
   "dependsOn": [
     "CoreHome",
-    "CorePluginsAdmin",
-    "JsTrackerInstallCheck"
+    "CorePluginsAdmin"
   ]
 }

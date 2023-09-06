@@ -32,7 +32,7 @@
     <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps15'|translate }}</li>
     <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps16'|translate }}</li>
     <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps17'|translate }}</li>
-{% if site and site.id %}
+{% if site and site.id and isJsTrackerInstallCheckAvailable %}
     <li vue-entry="JsTrackerInstallCheck.JsTrackerInstallCheck" site="{{ site|json_encode }}" is-wordpress="true"></li>
 </ol>
 {% else %}
