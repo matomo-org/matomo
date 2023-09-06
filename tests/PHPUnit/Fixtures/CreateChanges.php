@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Changes\Model as ChangesModel;
+use Piwik\Db;
 use Piwik\Tests\Framework\Fixture;
 
 class CreateChanges extends Fixture
@@ -38,6 +39,7 @@ class CreateChanges extends Fixture
         if (file_exists($this->file)) {
             unlink($this->file);
         }
+        Db::query("DELETE FROM changes WHERE title LIKE 'New feature%'");
     }
 
     private function createChanges()
