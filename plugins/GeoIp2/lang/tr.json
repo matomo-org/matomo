@@ -2,7 +2,7 @@
     "GeoIp2": {
         "AssumingNonApache": "apache_get_modules işlevi bulunamadığı için site sunucusunun Apache olmadığı varsayılıyor.",
         "AutomaticSetup": "Dbip veri tabanı kullanan coğrafi konum özelliği otomatik olarak yapılandırılsın",
-        "AutomaticSetupDescription": "Coğrafi konumların doğru olarak belirlenebilmesi için Matomo uygulamasının bir dış veri tabanı kullanması gerekir. Bu seçenek etkinleştirildiğinde, Matomo ilçe düzeyindeki güncel dbip veri tabanını indirecek şekilde otomatik olarak yapılandırılır. [%1$sLisans koşullarına bakın%2$s]",
+        "AutomaticSetupDescription": "Coğrafi konumların doğru olarak belirlenebilmesi için Matomo uygulamasının bir dış veri tabanı kullanması gerekir. Bu seçenek açıldığında, Matomo ilçe düzeyindeki güncel DBIP veri tabanını indirecek şekilde otomatik olarak yapılandırılır. [%1$sLisans koşullarına bakın%2$s]",
         "CannotFindGeoIPDatabaseInArchive": "%1$s tar arşivi dosyasında geçerli bir DB-IP / GeoIP veri tabanı bulunamadı!",
         "CannotFindGeoIPServerVar": "%s değişkeni ayarlanmamış. Sunucunuz doğru yapılandırılmamış olabilir.",
         "CannotListContent": "%1$s: %2$s içeriği listelenemedi",
@@ -35,7 +35,7 @@
         "IPurchasedGeoIPDBs": "Daha doğru %3$sDB-IP%4$s ya da %1$sMaxMind%2$s veritabanları satın aldım ve otomatik güncellemeleri kurmak istiyorum.",
         "ISPDatabase": "ISP veri tabanı",
         "ISPRequiresProviderPlugin": "İnternet hizmeti sağlayıcılarını izlemek için hizmet sağlayıcı uygulama eki kurulmuş ve etkinleştirilmiş olmalıdır.",
-        "IWantToDownloadFreeGeoIP": "Ücretsiz DB-IP veri tabanını indirmek istiyorum…",
+        "IWantToDownloadFreeGeoIP": "Ücretsiz DBIP veri tabanını indirmek istiyorum…",
         "InvalidGeoIPUpdateHost": "%1$s GeoIP güncelleme adresindeki sunucuya güvenilmiyor. GeoIP güncellemelerini %2$s dışındaki sunuculardan almak için yapılandırmadaki %3$s ayarını değiştirin.",
         "InvalidGeoIPUpdatePeriod": "GeoIP güncelleme sıklığı geçersiz: %1$s. Geçerli değerler şunlardır: %2$s.",
         "LocationDatabase": "Konum veri tabanı",

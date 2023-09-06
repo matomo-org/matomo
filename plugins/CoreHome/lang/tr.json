@@ -53,7 +53,7 @@
         "InjectedHostNonSuperUserWarning": "%1$sMatomo uygulamasına güvenli bir şekilde erişebilmek için buraya tıklayın%2$s ve bu uyarıdan kurtulun. Ayrıca Matomo yöneticiniz ile görüşerek bu sorunu bildirebilirsiniz (%3$se-posta göndermek için buraya tıklayın%4$s).",
         "InjectedHostSuperUserWarning": "Matomo hatalı şekilde yapılandırılmış olabilir (örneğin Matomo yakın zamanda yeni bir sunucu adresine taşınmış olabilir). %1$sBuraya tıklayarak %2$sgeçerli bir sunucu adı (güveniyorsanız) ekleyebilir%3$s ya da %4$sburaya tıklayarak%5$s güvenli bir Matomo erişimi sağlayabilirsiniz%6$s.",
         "InjectedHostWarningIntro": "Şu anda Matomo üzerinde %1$s kullanarak oturum açıyorsunuz ancak Matomo şu adreste çalışmak üzere yapılandırılmış: %2$s.",
-        "JavascriptDisabled": "Matomo uygulamasını standart görünümü ile kullanabilmek için JavaScript etkinleştirilmiş olmalıdır. Bununla birlikte JavaScript devre dışı bırakılmış ya da tarayıcınız tarafından desteklenmiyor gibi görünüyor.<br>Standart görünümü kullanabilmek için tarayıcı ayarlarınızdan JavaScript desteğini etkinleştirip %1$syeniden deneyin%2$s.<br>",
+        "JavascriptDisabled": "Matomo uygulamasını standart görünümü ile kullanabilmek için JavaScript desteği açılmış olmalıdır. Ancak JavaScript kapatılmış ya da tarayıcınız tarafından desteklenmiyor gibi görünüyor.<br>Standart görünümü kullanabilmek için tarayıcı ayarlarınızdan JavaScript desteğini açıp %1$syeniden deneyin%2$s.<br>",
         "JsDidntLoad": "Tarayıcınız bu sayfadaki betikleri yükleyemedi.",
         "LeadingAnalyticsPlatformRespectsYourPrivacy": "Gizliliğinize önem veren lider açık kaynaklı istatistik platformu.",
         "MacPageDown": "Fn + Sağ ok",
