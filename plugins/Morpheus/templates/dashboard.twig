@@ -58,4 +58,11 @@
         </div>
 
     </div>
+
+{% if whatisnewShow is defined and whatisnewShow %}
+    <script>
+        window.Piwik_Popover.createPopupAndLoadUrl('module=CoreAdminHome&action=whatIsNew', '{{ whatisnewTooltip }}', 'what-is-new-popup');
+    </script>
+{% endif %}
+
 {% endblock %}

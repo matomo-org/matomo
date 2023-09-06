@@ -12,6 +12,8 @@ use Exception;
 use Piwik\Access;
 use Piwik\API\Proxy;
 use Piwik\API\Request;
+use Piwik\Changes\Model as ChangesModel;
+use Piwik\Changes\UserChanges;
 use Piwik\Common;
 use Piwik\Config as PiwikConfig;
 use Piwik\Config\GeneralConfig;
@@ -32,6 +34,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
+use Piwik\Plugins\UsersManager\Model as UsersModel;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Url;
@@ -715,6 +718,8 @@ abstract class Controller
         $view->isUserIsAnonymous  = Piwik::isUserIsAnonymous();
         $view->hasSuperUserAccess = Piwik::hasUserSuperUserAccess();
 
+        $this->showWhatIsNew($view);
+
         if (!Piwik::isUserIsAnonymous()) {
             $view->contactEmail = implode(',', Piwik::getContactEmailAddresses());
 
@@ -807,6 +812,28 @@ abstract class Controller
         $customLogo = new CustomLogo();
         $view->isCustomLogo  = $customLogo->isEnabled();
         $view->customFavicon = $customLogo->getPathUserFavicon();
+    }
+
+    /**
+     * Set the template variables to show the what's new popup if appropriate
+     *
+     * @param View $view
+     * @return void
+     */
+    protected function showWhatIsNew(View $view): void
+    {
+        $view->whatisnewShow = false;
+
+        $model = new UsersModel();
+        $user = $model->getUser(Piwik::getCurrentUserLogin());
+        if ($user) {
+            $userChanges = new UserChanges($user);
+            $newChangesStatus = $userChanges->getNewChangesStatus();
+            if ($newChangesStatus == ChangesModel::NEW_CHANGES_EXIST) {
+                $view->whatisnewShow = true;
+            }
+        }
+        $view->whatisnewTooltip = Piwik::translate('CoreAdminHome_WhatIsNewTooltip');
     }
 
     /**
