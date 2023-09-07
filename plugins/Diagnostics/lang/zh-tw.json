@@ -1,17 +1,23 @@
 {
     "Diagnostics": {
+        "BrowserAndAutoArchivingEnabledLabel": "瀏覽器與自動封存已經啟用",
+        "BrowserTriggeredArchivingEnabled": "為使 Matomo 能最佳化，我們強烈建議你設定 crontab 工作排程來自動彙整你的報告，且在 Matomo 一般設定內關閉瀏覽器的自動觸發彙整。%1$s 了解更多。%2$s",
+        "ConfigFileIntroduction": "你可以在這裡檢視 Matomo 組態設定。若你在負載平衡環境中執行 Matomo，此頁面可能依不同的伺服器而有所差異。不同顏色的欄位代表已修改過的設定值，如範例檔案 %1$s 內。",
         "ConfigFileTitle": "設定檔",
-        "MysqlTemporaryTablesWarning": "Matomo 需要 MySQL CREATE TEMPORARY TABLES 權限以正常運作。",
-        "MysqlMaxPacketSize": "最大封包大小",
-        "MysqlMaxPacketSizeWarning": "推薦將 MySQL 資料庫中的「%1$smax_allowed_packet%2$s」值至少設定為 %3$s。目前的設定為 %4$s。",
-        "HideUnchanged": "如果你只想看有變更過值的設定，你可以%1$s隱藏未修改的值%2$s。",
-        "Sections": "分區",
-        "CronArchivingLastRunCheck": "上次成功彙整報表的時間",
         "CronArchivingHasNotRun": "報表尚未成功彙整過。",
         "CronArchivingHasNotRunInAWhile": "上次於 %1$s 時成功彙整了報表 ( %2$s 之前 )",
-        "CronArchivingRunDetails": "請你檢查是否已經設定了 crontab 工作排程指令 %1$s，且已設定了 %2$s 以便在報表彙整失敗時可以收到信件。你也能試著執行此指令來手動彙整報表：%3$s。%4$s了解更多。%5$s",
+        "CronArchivingLastRunCheck": "上次成功彙整報表的時間",
         "CronArchivingRanSuccessfullyXAgo": "報表彙整程序於 %1$s 前執行成功。",
-        "BrowserTriggeredArchivingEnabled": "為使 Matomo 能最佳化，我們強烈建議你設定 crontab 工作排程來自動彙整你的報告，且在 Matomo 一般設定內關閉瀏覽器的自動觸發彙整。%1$s 了解更多。%2$s",
-        "NoDataForReportArchivingNotRun": "你最近尚未執行彙整報表，%1$s 了解如何產生你的報表。%2$s"
+        "CronArchivingRunDetails": "請你檢查是否已經設定了 crontab 工作排程指令 %1$s，且已設定了 %2$s 以便在報表彙整失敗時可以收到信件。你也能試著執行此指令來手動彙整報表：%3$s。%4$s了解更多。%5$s",
+        "DatabaseReaderConnection": "資料庫讀取器連線",
+        "DatabaseUtf8Requirement": "必須啟用此設定才能儲存 4-byte UTF8 字元。特殊字元例如顏文字、不常用的亞洲語系字元、古代文字、數學符號等，會被取代為 %1$s，直到啟用 utf8mb4 支援。你可以在 %2$s這個 FAQ%3$s 內閱讀更多細節。",
+        "DatabaseUtf8mb4CharsetAvailableButNotUsed": "你的資料庫支援 utf8mb4 字符集，但是你的資料庫表格尚未轉換。你可以執行此指令 %1$s 或是在「一般設定」內啟用自動轉換。",
+        "DatabaseUtf8mb4CharsetRecommended": "你的資料庫尚未支援 utf8mb4 字符集。",
+        "HideUnchanged": "如果你只想看有變更過值的設定，你可以%1$s隱藏未修改的值%2$s。",
+        "MysqlMaxPacketSize": "最大封包大小",
+        "MysqlMaxPacketSizeWarning": "推薦將 MySQL 資料庫中的「%1$smax_allowed_packet%2$s」值至少設定為 %3$s。目前的設定為 %4$s。",
+        "MysqlTemporaryTablesWarning": "Matomo 需要 MySQL CREATE TEMPORARY TABLES 權限以正常運作。",
+        "NoDataForReportArchivingNotRun": "你最近尚未執行彙整報表，%1$s 了解如何產生你的報表。%2$s",
+        "Sections": "分區"
     }
 }

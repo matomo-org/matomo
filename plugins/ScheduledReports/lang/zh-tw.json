@@ -10,7 +10,7 @@
         "CreateAndScheduleReport": "建立並排程報表",
         "CreateReport": "建立報表",
         "CustomVisitorSegment": "自定訪客區隔：",
-        "DescriptionOnFirstPage": "報表說明將會顯示在報表的第一頁中。",
+        "DescriptionOnFirstPage": "報表說明將會顯示在電子郵件內文，與報表的第一頁中。",
         "DisplayFormat_TablesOnly": "只顯示表格（不顯示圖表）",
         "EmailHello": "你好，",
         "EmailReports": "報表信件",

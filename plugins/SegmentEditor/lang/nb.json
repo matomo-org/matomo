@@ -31,6 +31,7 @@
         "SaveAndApply": "Lagre og bruk",
         "SegmentDisplayedAllWebsites": "alle nettsteder",
         "SegmentDisplayedThisWebsiteOnly": "kun dette nettstedet",
+        "SegmentEditor": "Segmentredigerer",
         "SegmentIsDisplayedForWebsite": "og behandlet i",
         "SegmentNotApplied": "«%s»-segmentet brukes ikke",
         "SegmentNotAppliedMessage": "Du forespør data for det tilpassede segmentet «%s». Dette Matomo-oppsettet forhindrer for tiden sanntidsbehandling av rapporter av ytelseshensyn.",

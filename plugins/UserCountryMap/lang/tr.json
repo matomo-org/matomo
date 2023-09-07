@@ -11,7 +11,7 @@
         "NoVisitsInfo": "Bu aralıkta doğru coğrafi konum bilgilerine (enlem ve boylam) sahip bir ziyaret olmadığından, herhangi bir ziyaret görüntülenemiyor.",
         "NoVisitsInfo2": "Bu sorunu çözmek için GeoIP il veri tabanı olan bir GeoIP hizmeti sağlayıcısını kullandığınızdan emin olun. Ayrıca (düşük olasılıkla) ziyaretçilerin IP adreslerinin coğrafi kodlaması yapılamıyor olabilir.",
         "None": "Yok",
-        "PluginDescription": "\"Ziyaretçi haritası\" ve \"Gerçek zamanlı harita\" pano bileşenlerini görüntüler. \"Kullanıcı ülkesi\" uygulama ekine gerek duyar.",
+        "PluginDescription": "\"Ziyaretçi haritası\" ve \"Gerçek zamanlı harita\" pano bileşenlerini görüntüler. \"Kullanıcı ülkesi\" eklentisine gerek duyar.",
         "RealTimeMap": "Gerçek zamanlı harita",
         "RealTimeMapHelp": "Son 30 dakika içindeki site ziyaretçilerinin konumunu görüntüler ve yeni olanlar yanıp söner. Son ziyaretler büyük turuncu noktalarla, eski ziyaretler küçük gri noktalarla görüntülenir. Bu veriler beş saniyede bir yenilenir.",
         "Regions": "Bölgeler",
