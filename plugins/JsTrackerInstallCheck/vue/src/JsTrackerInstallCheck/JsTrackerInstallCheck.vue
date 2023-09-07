@@ -118,6 +118,8 @@ export default defineComponent({
             }
           }, MAX_NUM_API_CALLS * TIME_BETWEEN_API_CALLS);
         }
+      }).catch(() => {
+        this.isTesting = false;
       });
     },
     setCheckInTime() {
@@ -147,6 +149,8 @@ export default defineComponent({
           return;
         }
         this.isTestComplete = !!this.checkNonce;
+        this.isTesting = false;
+      }).catch(() => {
         this.isTesting = false;
       });
     },
