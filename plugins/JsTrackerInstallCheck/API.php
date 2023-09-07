@@ -71,7 +71,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasViewAccess($idSite);
 
         if (!empty($url) && !UrlHelper::isLookLikeUrl($url)) {
-            throw new \Exception('Please provide a valid URL.');
+            throw new \Exception(Piwik::translate('SitesManager_ExceptionInvalidUrl', $url));
         }
 
         return $this->jsTrackerInstallCheck->initiateJsTrackerInstallTest($idSite, $url);
