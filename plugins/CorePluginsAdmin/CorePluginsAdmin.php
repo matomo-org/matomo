@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\CorePluginsAdmin;
 
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\CoreHome\SystemSummary;
@@ -43,8 +44,7 @@ class CorePluginsAdmin extends Plugin
      */
     public function addPluginChanges(string $pluginName)
     {
-        $changes = new ChangesModel(Db::get(), PluginManager::getInstance());
-        $changes->addChanges($pluginName);
+        $this->getChangesModel()->addChanges($pluginName);
     }
 
     /**
@@ -54,8 +54,18 @@ class CorePluginsAdmin extends Plugin
      */
     public function removePluginChanges(string $pluginName)
     {
-        $changes = new ChangesModel(Db::get(), PluginManager::getInstance());
-        $changes->removeChanges($pluginName);
+        $this->getChangesModel()->removeChanges($pluginName);
+    }
+
+    /**
+     * Retrieve an instantiated ChangesModel object
+     *
+     * @return ChangesModel
+     */
+    private function getChangesModel(): ChangesModel
+    {
+        $changesModelClass = StaticContainer::get(\Piwik\Changes\Model::class);
+        return new $changesModelClass(Db::get(), PluginManager::getInstance());
     }
 
     public function onPluginActivated($pluginName)

@@ -8,8 +8,8 @@
  */
 namespace Piwik\Changes;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Db;
-use Piwik\Changes\Model as ChangesModel;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
 
 /**
@@ -21,17 +21,17 @@ class UserChanges
     /**
      * @var Db\AdapterInterface
      */
-    private $db;
     private $user;
+    private $changesModel;
 
     /**
      * @param array $user
-     * @param Db\AdapterInterface|null $db
      */
-    public function __construct(array $user, ?Db\AdapterInterface $db = null)
+    public function __construct(array $user)
     {
-        $this->db = ($db ?? Db::get());
         $this->user = $user;
+        $changesModelClass = StaticContainer::get(\Piwik\Changes\Model::class);
+        $this->changesModel = new $changesModelClass();
     }
 
     /**
@@ -42,8 +42,7 @@ class UserChanges
      */
     public function getNewChangesStatus(): int
     {
-        $changesModel = new ChangesModel($this->db);
-        return $changesModel->doChangesExist($this->getIdchangeLastViewed());
+        return $this->changesModel->doChangesExist($this->getIdchangeLastViewed());
     }
 
     /**
@@ -54,8 +53,7 @@ class UserChanges
      */
     public function getNewChangesCount(): int
     {
-        $changesModel = new ChangesModel($this->db);
-        return $changesModel->getNewChangesCount($this->getIdchangeLastViewed());
+        return $this->changesModel->getNewChangesCount($this->getIdchangeLastViewed());
     }
 
     /**
@@ -75,8 +73,7 @@ class UserChanges
      */
     public function getChanges(): array
     {
-        $changesModel = new ChangesModel(Db::get());
-        $changes = $changesModel->getChangeItems();
+        $changes = $this->changesModel->getChangeItems();
 
         // Record the time that changes were viewed for the current user
         $maxId = null;

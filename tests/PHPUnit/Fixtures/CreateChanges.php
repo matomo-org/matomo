@@ -68,7 +68,7 @@ class CreateChanges extends Fixture
         ];
 
         $changes = array_reverse($changes);
-        $changesModel = new ChangesModel();
+        $changesModel = new ChangesModel(); // Intentionally not using the FakeChangesModel, we want these changes added
         foreach ($changes as $change) {
             $changesModel->addChange('CoreHome', $change);
         }

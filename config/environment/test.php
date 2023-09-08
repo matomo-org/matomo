@@ -96,6 +96,16 @@ return array(
         }
     }),
 
+    // Prevent loading plugin changes, so the What's New popup isn't shown
+    'Piwik\Changes\Model' => \Piwik\DI::decorate(function ($previous, Container $c) {
+        $loadChanges = $c->get('test.vars.loadChanges');
+        if (!$loadChanges) {
+            return new \Piwik\Tests\Framework\Mock\FakeChangesModel();
+        } else {
+            return $previous;
+        }
+    }),
+
     'observers.global' => \Piwik\DI::add(array(
 
         array('AssetManager.getStylesheetFiles', \Piwik\DI::value(function (&$stylesheets) {
