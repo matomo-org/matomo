@@ -312,6 +312,11 @@ abstract class Controller
             $viewType = $this instanceof ControllerAdmin ? 'admin' : 'basic';
         }
 
+        // Set early so it can available for setGeneralVariables method calls
+        if (isset($variables['hideWhatIsNew'])) {
+            $view->hideWhatIsNew = $variables['hideWhatIsNew'];
+        }
+
         // alternatively we could check whether the templates extends either admin.twig or dashboard.twig and based on
         // that call the correct method. This will be needed once we unify Controller and ControllerAdmin see
         // https://github.com/piwik/piwik/issues/6151
@@ -823,6 +828,11 @@ abstract class Controller
     protected function showWhatIsNew(View $view): void
     {
         $view->whatisnewShow = false;
+        $view->whatisnewTooltip = addslashes(Piwik::translate('CoreAdminHome_WhatIsNewTooltip'));
+
+        if (isset($view->hideWhatIsNew) && $view->hideWhatIsNew) {
+            return;
+        }
 
         $model = new UsersModel();
         $user = $model->getUser(Piwik::getCurrentUserLogin());
@@ -833,7 +843,7 @@ abstract class Controller
                 $view->whatisnewShow = true;
             }
         }
-        $view->whatisnewTooltip = addslashes(Piwik::translate('CoreAdminHome_WhatIsNewTooltip'));
+
     }
 
     /**

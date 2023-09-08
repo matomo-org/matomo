@@ -193,7 +193,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'emailBody'                                           => $emailContent,
             'siteWithoutDataStartTrackingTranslationKey'          => StaticContainer::get('SitesManager.SiteWithoutDataStartTrackingTranslation'),
             'SiteWithoutDataVueFollowStepNote2Key'                => StaticContainer::get('SitesManager.SiteWithoutDataVueFollowStepNote2'),
-            'inviteUserLink'                                      => $inviteUserLink
+            'inviteUserLink'                                      => $inviteUserLink,
+            'hideWhatIsNew'                                       => true
         ], $viewType = 'basic');
     }
 
