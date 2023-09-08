@@ -833,7 +833,7 @@ abstract class Controller
                 $view->whatisnewShow = true;
             }
         }
-        $view->whatisnewTooltip = Piwik::translate('CoreAdminHome_WhatIsNewTooltip');
+        $view->whatisnewTooltip = addslashes(Piwik::translate('CoreAdminHome_WhatIsNewTooltip'));
     }
 
     /**
