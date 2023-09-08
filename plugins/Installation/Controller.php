@@ -26,7 +26,7 @@ use Piwik\Plugins\Diagnostics\DiagnosticReport;
 use Piwik\Plugins\Diagnostics\DiagnosticService;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
-use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
+use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Plugins\UsersManager\NewsletterSignup;
 use Piwik\Plugins\UsersManager\UserUpdater;
@@ -394,35 +394,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $javascriptGenerator = new TrackerCodeGenerator();
         $jsTag = $javascriptGenerator->generate($idSite, Url::getCurrentUrlWithoutFileName());
-        $rawJsTag = TrackerCodeGenerator::stripTags($jsTag);
 
-        $showMatomoLinks = true;
-        Piwik::postEvent('SitesManager.showMatomoLinksInTrackingCodeEmail', array(&$showMatomoLinks));
-
-        $trackingUrl = trim(SettingsPiwik::getPiwikUrl(), '/') . '/' . $javascriptGenerator->getPhpTrackerEndpoint();
-
-        $this->siteContentDetector->detectContent([], $idSite);
-
-        $emailTemplateData = [
-            'jsTag' => $rawJsTag,
-            'showMatomoLinks' => $showMatomoLinks,
-            'trackingUrl' => $trackingUrl,
-            'idSite' => $idSite,
-            'consentManagerName' => false,
-        ];
-
-        $detectedConsentManagers = $this->siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER);
-        if (!empty($detectedConsentManagers)) {
-            $consentManagerId = reset($detectedConsentManagers);
-            $consentManager = $this->siteContentDetector->getSiteContentDetectionById($consentManagerId);
-            $emailTemplateData['consentManagerName'] = $consentManager::getName();
-            $emailTemplateData['consentManagerUrl'] = $consentManager::getInstructionUrl();
-        }
-        $emailTemplateData['cms'] = $this->siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_CMS);
-        $emailTemplateData['jsFrameworks'] = $this->siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_JS_FRAMEWORK);
-        $emailTemplateData['trackers'] = $this->siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_TRACKER);
-
-        $emailBody = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', $emailTemplateData, $viewType = 'basic');
+        // Needs to be generated as super user, as API requests would otherwise fail
+        $emailBody = Access::doAsSuperUser(
+            function () use ($idSite) {
+                return SitesManager::renderTrackingCodeEmail($idSite);
+            }
+        );
 
         // Load the Tracking code and help text from the SitesManager
         $viewTrackingHelp = new \Piwik\View('@SitesManager/_displayJavascriptCode');

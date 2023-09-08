@@ -11,24 +11,16 @@
 namespace Piwik\Plugins\SitesManager;
 
 use Exception;
-use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
-use Piwik\Plugin;
-use Piwik\Plugins\CustomVariables\CustomVariables;
-use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
-use Piwik\Plugins\SitesManager\SiteContentDetection\GoogleAnalytics3;
-use Piwik\Plugins\SitesManager\SiteContentDetection\GoogleAnalytics4;
 use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
 use Piwik\Plugins\SitesManager\SiteContentDetection\WordPress;
 use Piwik\SiteContentDetector;
 use Piwik\Session;
 use Piwik\SettingsPiwik;
-use Piwik\Tracker\TrackerCodeGenerator;
-use Piwik\Translation\Translator;
 use Piwik\Url;
 
 /**
@@ -137,74 +129,16 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $this->checkSitePermission();
 
-        $javascriptGenerator = new TrackerCodeGenerator();
-        $javascriptGenerator->forceMatomoEndpoint();
-        $piwikUrl = Url::getCurrentUrlWithoutFileName();
-
-        $jsTag = Request::processRequest('SitesManager.getJavascriptTag', ['idSite' => $this->idSite, 'piwikUrl' => $piwikUrl]);
-
-        // Strip off open and close <script> tag and comments so that JS will be displayed in ALL mail clients
-        $rawJsTag = TrackerCodeGenerator::stripTags($jsTag);
-
-        $showMatomoLinks = true;
-        /**
-         * @ignore
-         */
-        Piwik::postEvent('SitesManager.showMatomoLinksInTrackingCodeEmail', [&$showMatomoLinks]);
-
-        $trackerCodeGenerator = new TrackerCodeGenerator();
-        $trackingUrl = trim(SettingsPiwik::getPiwikUrl(), '/') . '/' . $trackerCodeGenerator->getPhpTrackerEndpoint();
-
-        $emailTemplateData = [
-            'jsTag' => $rawJsTag,
-            'showMatomoLinks' => $showMatomoLinks,
-            'trackingUrl' => $trackingUrl,
-            'idSite' => $this->idSite,
-            'consentManagerName' => false,
-        ];
-
-        $this->siteContentDetector->detectContent([], $this->idSite);
-        $detectedConsentManagers = $this->siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER);
-        if (!empty($detectedConsentManagers)) {
-            $consentManagerId = reset($detectedConsentManagers);
-            $consentManager = $this->siteContentDetector->getSiteContentDetectionById($consentManagerId);
-            $emailTemplateData['consentManagerName'] = $consentManager::getName();
-            $emailTemplateData['consentManagerUrl'] = $consentManager::getInstructionUrl();
-        }
-        $emailTemplateData['cms'] = $this->siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_CMS);
-        $emailTemplateData['jsFrameworks'] = $this->siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_JS_FRAMEWORK);
-        $emailTemplateData['trackers'] = $this->siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_TRACKER);
-
-        $emailContent = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', $emailTemplateData, $viewType = 'basic');
-        $inviteUserLink = $this->getInviteUserLink();
-
         return $this->renderTemplateAs('siteWithoutData', [
-            'siteName'                                            => $this->site->getName(),
-            'idSite'                                              => $this->idSite,
-            'piwikUrl'                                            => $piwikUrl,
-            'emailBody'                                           => $emailContent,
+            'emailBody'                                           => SitesManager::renderTrackingCodeEmail($this->idSite),
             'siteWithoutDataStartTrackingTranslationKey'          => StaticContainer::get('SitesManager.SiteWithoutDataStartTrackingTranslation'),
-            'inviteUserLink'                                      => $inviteUserLink
+            'inviteUserLink'                                      => $this->getInviteUserLink()
         ], $viewType = 'basic');
     }
 
     public function siteWithoutDataTabs()
     {
         $this->checkSitePermission();
-
-        $piwikUrl = Url::getCurrentUrlWithoutFileName();
-        $jsTag = Request::processRequest('SitesManager.getJavascriptTag', ['idSite' => $this->idSite, 'piwikUrl' => $piwikUrl]);
-        $maxCustomVariables = 0;
-
-        if (Plugin\Manager::getInstance()->isPluginActivated('CustomVariables')) {
-            $maxCustomVariables = CustomVariables::getNumUsableCustomVariables();
-        }
-
-        $showMatomoLinks = true;
-        /**
-         * @ignore
-         */
-        Piwik::postEvent('SitesManager.showMatomoLinksInTrackingCodeEmail', [&$showMatomoLinks]);
 
         $googleAnalyticsImporterMessage = '';
         if (!Manager::getInstance()->isPluginLoaded('GoogleAnalyticsImporter')) {
@@ -219,37 +153,17 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         $this->siteContentDetector->detectContent([], $this->idSite);
-        $dntChecker = new DoNotTrackHeaderChecker();
 
         $templateData = [
-            'siteName'      => $this->site->getName(),
             'idSite'        => $this->idSite,
-            'jsTag'         => $jsTag,
-            'piwikUrl'      => $piwikUrl,
-            'showMatomoLinks' => $showMatomoLinks,
+            'matomoUrl'      => Url::getCurrentUrlWithoutFileName(),
             'cms' => $this->siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_CMS),
             'trackers' => $this->siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_TRACKER),
             'jsFrameworks' => $this->siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_JS_FRAMEWORK),
+            'consentManagers' => $this->siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER),
             'instruction' => $this->getCmsInstruction(),
             'googleAnalyticsImporterMessage' => $googleAnalyticsImporterMessage,
-            'consentManagerName' => false,
-            'defaultSiteDecoded' => [
-                'id' => $this->idSite,
-                'name' => Common::unsanitizeInputValue($this->site->getName()),
-            ],
-            'maxCustomVariables' => $maxCustomVariables,
-            'serverSideDoNotTrackEnabled' => $dntChecker->isActive(),
-            'isJsTrackerInstallCheckAvailable' => Manager::getInstance()->isPluginActivated('JsTrackerInstallCheck'),
         ];
-
-        $consentManagers = $this->siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER);
-        if (!empty($consentManagers)) {
-            $consentManagerId = reset($consentManagers);
-            $consentManager = $this->siteContentDetector->getSiteContentDetectionById($consentManagerId);
-            $templateData['consentManagerName'] = $consentManager::getName();
-            $templateData['consentManagerUrl'] = $consentManager::getInstructionUrl();
-            $templateData['consentManagerIsConnected'] = in_array($consentManagerId, $this->siteContentDetector->connectedConsentManagers);
-        }
 
         $templateData['tabs'] = [];
         $templateData['instructionUrls'] = [];
@@ -325,7 +239,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         });
 
         $templateData['activeTab'] = $activeTab;
-        $this->mergeMultipleNotification($templateData);
 
         return $this->renderTemplateAs('_siteWithoutDataTabs', $templateData, $viewType = 'basic');
     }
@@ -368,72 +281,5 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 'module' => 'UsersManager',
                 'action' => 'index',
             ]);
-    }
-
-    private function mergeMultipleNotification(&$templateData)
-    {
-        $isNotificationsMerged = false;
-        $bannerMessage = '';
-        $guides = [];
-        $message = [];
-        $ga3Used = $this->siteContentDetector->wasDetected(GoogleAnalytics3::getId());
-        $ga4Used = $this->siteContentDetector->wasDetected(GoogleAnalytics4::getId());
-
-        if ($ga3Used || $ga4Used) {
-            $message[0] = 'Google Analytics ';
-            $ga3GuideUrl =  '<a href="https://matomo.org/faq/how-to/migrate-from-google-analytics-3-to-matomo/" target="_blank" rel="noreferrer noopener">Google Analytics 3</a>';
-            $ga4GuideUrl =  '<a href="https://matomo.org/faq/how-to/migrate-from-google-analytics-4-to-matomo/" target="_blank" rel="noreferrer noopener">Google Analytics 4</a>';
-            if ($ga3Used && $ga4Used) {
-                $isNotificationsMerged = true;
-                $guides[] = $ga3GuideUrl;
-                $guides[] = $ga4GuideUrl;
-                $message[0] .= '3 & 4';
-            } else {
-                $message[0] .= ($ga3Used ? 3 : 4);
-                $guides[] = ($ga3Used ? $ga3GuideUrl : $ga4GuideUrl);
-            }
-        }
-
-        if (!empty($message) && $templateData['consentManagerName']) {
-            $isNotificationsMerged = true;
-            $message[] = $templateData['consentManagerName'];
-            $guides[] =  '<a href="' . $templateData['consentManagerUrl'] . '" target="_blank" rel="noreferrer noopener">' . $templateData['consentManagerName'] . '</a>';
-        }
-
-        if (!empty($message)) {
-            $bannerMessage = StaticContainer::get(Translator::class)->createAndListing($message);
-        }
-
-        if ($isNotificationsMerged && $bannerMessage) {
-            $info = [
-                'isNotificationsMerged' => $isNotificationsMerged,
-                'notificationMessage' => '<p class="fw-bold">' . Piwik::translate('SitesManager_MergedNotificationLine1', [$bannerMessage]) . '</p><p>' . Piwik::translate('SitesManager_MergedNotificationLine2', [(implode(' / ', $guides))]) . '</p>'
-            ];
-
-            if (!empty($templateData['consentManagerIsConnected'])) {
-                $info['notificationMessage'] .= '<p>' . Piwik::translate('SitesManager_ConsentManagerConnected', [$templateData['consentManagerName']]) . '</p>';
-            }
-        } else {
-            $info = $this->getSingleNotifications($templateData);
-        }
-
-        $templateData = array_merge($templateData, $info);
-    }
-
-    private function getSingleNotifications(&$templateData)
-    {
-        $info = ['isNotificationsMerged' => false, 'notificationMessage' => ''];
-        if (!empty($templateData['consentManagerName']) ) {
-            $info['notificationMessage'] = '<p>' . Piwik::translate('PrivacyManager_ConsentManagerDetected', [$templateData['consentManagerName'], '<a href="' . $templateData['consentManagerUrl'] . '" target="_blank" rel="noreferrer noopener">', '</a>']) . '</p>';
-            if (!empty($templateData['consentManagerIsConnected'])) {
-                $info['notificationMessage'] .= '<p>' . Piwik::translate('SitesManager_ConsentManagerConnected', [$templateData['consentManagerName']]) . '</p>';
-            }
-        } else if ($this->siteContentDetector->wasDetected(GoogleAnalytics3::getId())) {
-            $info['notificationMessage'] = '<p>' . Piwik::translate('SitesManager_GADetected', ['Google Analytics 3', 'GA', '', '', '<a href="https://matomo.org/faq/how-to/migrate-from-google-analytics-3-to-matomo/" target="_blank" rel="noreferrer noopener">', '</a>']) . '</p>';
-        } else if ($this->siteContentDetector->wasDetected(GoogleAnalytics4::getId())) {
-            $info['notificationMessage'] = '<p>' . Piwik::translate('SitesManager_GADetected', ['Google Analytics 4', 'GA', '', '', '<a href="https://matomo.org/faq/how-to/migrate-from-google-analytics-4-to-matomo/" target="_blank" rel="noreferrer noopener">', '</a>']) . '</p>';
-        }
-
-        return $info;
     }
 }

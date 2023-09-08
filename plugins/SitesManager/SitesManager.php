@@ -19,11 +19,17 @@ use Piwik\Date;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\SystemSummary;
+use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
 use Piwik\Settings\Storage\Backend\MeasurableSettingsTable;
+use Piwik\SettingsPiwik;
+use Piwik\SiteContentDetector;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\FingerprintSalt;
 use Piwik\Tracker\Model as TrackerModel;
 use Piwik\Session\SessionNamespace;
+use Piwik\Tracker\TrackerCodeGenerator;
+use Piwik\Url;
+use Piwik\View;
 
 /**
  *
@@ -472,5 +478,56 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "SitesManager_DemoSiteButtonText";
         $translationKeys[] = "SitesManager_SiteWithoutDataVueDescription";
         $translationKeys[] = "SitesManager_SiteWithoutDataReactDescription";
+    }
+
+    public static function renderTrackingCodeEmail(int $idSite)
+    {
+        $javascriptGenerator = new TrackerCodeGenerator();
+        $javascriptGenerator->forceMatomoEndpoint();
+        $matomoUrl = Url::getCurrentUrlWithoutFileName();
+
+        $jsTag = Request::processRequest(
+            'SitesManager.getJavascriptTag',
+            ['idSite' => $idSite, 'piwikUrl' => $matomoUrl]
+        );
+
+        // Strip off open and close <script> tag and comments so that JS will be displayed in ALL mail clients
+        $rawJsTag = TrackerCodeGenerator::stripTags($jsTag);
+
+        $showMatomoLinks = true;
+        /**
+         * @ignore
+         */
+        Piwik::postEvent('SitesManager.showMatomoLinksInTrackingCodeEmail', [&$showMatomoLinks]);
+
+        $trackerCodeGenerator = new TrackerCodeGenerator();
+        $trackingUrl = trim(SettingsPiwik::getPiwikUrl(), '/') . '/' . $trackerCodeGenerator->getPhpTrackerEndpoint();
+
+        $emailTemplateData = [
+            'jsTag' => $rawJsTag,
+            'showMatomoLinks' => $showMatomoLinks,
+            'trackingUrl' => $trackingUrl,
+            'idSite' => $idSite,
+            'consentManagerName' => false,
+        ];
+
+        $siteContentDetector = StaticContainer::get(SiteContentDetector::class);
+
+        $siteContentDetector->detectContent([], $idSite);
+        $detectedConsentManagers = $siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER);
+        if (!empty($detectedConsentManagers)) {
+            $consentManagerId = reset($detectedConsentManagers);
+            $consentManager = $siteContentDetector->getSiteContentDetectionById($consentManagerId);
+            $emailTemplateData['consentManagerName'] = $consentManager::getName();
+            $emailTemplateData['consentManagerUrl'] = $consentManager::getInstructionUrl();
+        }
+        $emailTemplateData['cms'] = $siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_CMS);
+        $emailTemplateData['jsFrameworks'] = $siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_JS_FRAMEWORK);
+        $emailTemplateData['trackers'] = $siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_TRACKER);
+
+        $view = new View('@SitesManager/_trackingCodeEmail');
+        $view->assign($emailTemplateData);
+
+        return $view->render();
     }
 }

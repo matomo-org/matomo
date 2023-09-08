@@ -21,16 +21,20 @@
 <div class="row no-data-tabs-main-div">
     <div class="col s12 tabs-row">
         <ul class="tabs no-data-screen-ul-tabs">
-            <li class="tab col {{ columnClass }}"><a {% if (cms|length == 0 or consentManagerName) and activeTab == '' %} class="active" {% endif %} href="#tracking-code">{{ 'CoreAdminHome_TrackingCode'|translate }}</a></li>
-
             {% for tab in tabs %}
                 <li class="tab col {{ columnClass }}"><a href="#{{ tab.id|lower }}"{% if activeTab == tab.id %} class="active"{% endif %}>{{ tab.name }}</a></li>
             {% endfor %}
 
-            <li class="tab col {{ columnClass }}"><a {% if cms|length and consentManagerName == false and activeTab == '' %} class="active" {% endif %} href="#integrations">{{ 'SitesManager_Integrations'|translate }}</a></li>
+            <li class="tab col {{ columnClass }}"><a {% if cms|length > 0 and consentManagers|length == 0 and activeTab == '' %} class="active" {% endif %} href="#integrations">{{ 'SitesManager_Integrations'|translate }}</a></li>
             <li class="tab col {{ columnClass }}"><a href="#other">{{ 'SitesManager_SiteWithoutDataOtherWays'|translate }}</a></li>
         </ul>
     </div>
+
+    {% for tab in tabs %}
+        <div id="{{ tab.id|lower }}" class="col s12">
+            {{ tab.content|raw }}
+        </div>
+    {% endfor %}
 
     <div id="integrations" class="col s12">
         {% if instruction %}
@@ -54,38 +58,14 @@
             <p>{{ 'CoreAdminHome_JSTrackingIntro3b'|translate|raw }}</p>
             <br>
             <p>{{ 'SitesManager_ExtraInformationNeeded'|translate }}</p>
-            <p>Matomo URL: <code vue-directive="CoreHome.CopyToClipboard">{{ piwikUrl }}</code></p>
+            <p>Matomo URL: <code vue-directive="CoreHome.CopyToClipboard">{{ matomoUrl }}</code></p>
             <p>{{ 'SitesManager_EmailInstructionsYourSiteId'|translate('<code vue-directive="CoreHome.CopyToClipboard">' ~ idSite ~ '</code>')|raw }}</p>
         {% endif %}
     </div>
 
-    <div id="tracking-code" class="col s12">
-        {% if notificationMessage %}
-            <p></p><p></p>
-            <div class="system notification notification-info {{ isNotificationsMerged ? ' merged-notification' : ''}}">
-                {{ notificationMessage|raw }}
-            </div>
-        {% endif %}
-
-        <div
-                vue-entry="CoreAdminHome.JsTrackingCodeGeneratorSitesWithoutData"
-                default-site="{{ defaultSiteDecoded|json_encode }}"
-                max-custom-variables="{{ maxCustomVariables|json_encode }}"
-                server-side-do-not-track-enabled="{{ serverSideDoNotTrackEnabled|json_encode }}"
-                js-tag="{{ jsTag|raw }}"
-                is-js-tracker-install-check-available="{{ isJsTrackerInstallCheckAvailable|json_encode }}"
-        ></div>
-    </div>
-
-    {% for tab in tabs %}
-        <div id="{{ tab.id|lower }}" class="col s12">
-            {{ tab.content|raw }}
-        </div>
-    {% endfor %}
-
     <div id="other" class="col s12">
         <p>{{ 'SitesManager_OtherWaysTabDescription'|translate }}</p>
-        <p>Matomo URL: <code vue-directive="CoreHome.CopyToClipboard">{{ piwikUrl }}</code></p>
+        <p>Matomo URL: <code vue-directive="CoreHome.CopyToClipboard">{{ matomoUrl }}</code></p>
         <p>{{ 'SitesManager_EmailInstructionsYourSiteId'|translate('<code vue-directive="CoreHome.CopyToClipboard">' ~ idSite ~ '</code>')|raw }}</p>
 
         <h3>{{ 'CoreAdminHome_ImageTracking'|translate }}</h3>
