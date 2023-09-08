@@ -50,7 +50,7 @@
         "UnprocessedSegmentInVisitorLog1": "%1$sEinstweilen können Sie das Visitor Log verwenden%2$s um zu testen ob Ihr Segment Ihre Benutzer korrekt erfasst, in dem Sie es dort anwenden.",
         "UnprocessedSegmentInVisitorLog2": "Wenn angewandt, können Sie sofort sehen welche Besucher und Aktionen von Ihrem Segment betroffen sind.",
         "UnprocessedSegmentInVisitorLog3": "Dies kann Ihnen helfen sicherzustellen, dass Ihr Segment die erwarteten Benutzer und Aktionen registriert.",
-        "UnprocessedSegmentNoData1": "Diese Bereichte haben keine Daten, weil das von Ihnen gewünschte Segment %1$s noch nicht vom System bearbeitet wurde.",
+        "UnprocessedSegmentNoData1": "Diese Bereiche haben keine Daten, weil das von Ihnen gewünschte Segment %1$s noch nicht vom System bearbeitet wurde.",
         "UnprocessedSegmentNoData2": "Daten für dieses Segment sollten in ein paar Stunden verfügbar sein sobald die Verarbeitung abgeschlossen ist. (Falls nicht, liegt ein Problem vor.)",
         "UnprocessedSegmentNoData3": "Da die Konfiguration eine erneute Archivierung für diesen Zeitraum verhindert, kann Matomo keine Daten für das Segment %1$s anzeigen. Bitte wenden Sie sich an Ihren Administrator oder lesen Sie %2$sdiese FAQ%3$s, damit Sie dieses Problem lösen können.",
         "VisibleToAllUsers": "alle Benutzer",
