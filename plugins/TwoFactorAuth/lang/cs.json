@@ -1,1 +1,22 @@
-{}
+{
+    "TwoFactorAuth": {
+        "AuthenticationCode": "Ověřovací kód",
+        "ConfigureDifferentDevice": "Nastavit nové zařízení",
+        "InvalidAuthCode": "Chybný kód dvoufaktorového ověřování.",
+        "MissingAuthCodeAPI": "Zadejte dvoufaktorový ověřovací kód.",
+        "RequiredAuthCodeNotConfiguredAPI": "Je třeba nastavit dvoufaktorové ověřování. Za tímto účelem se přihlaste.",
+        "RequiredToSetUpTwoFactorAuthentication": "Před přihlášením je nutné nastavit dvoufaktorové ověřování.",
+        "SetUpTwoFactorAuthentication": "Nastavení dvoufaktorového ověřování (2FA)",
+        "StepX": "Krok %s",
+        "TwoFAShort": "2FA",
+        "TwoFactorAuthentication": "Dvoufaktorové ověření",
+        "TwoFactorAuthenticationIntro": "%1$sDvoufaktorové ověření%2$s zvyšuje zabezpečení účtu tím, že vás pro přihlášení požádá také o kód vygenerovaný na mobilním zařízení nebo o jeden ze zbývajících kódů pro obnovení (kromě hesla).",
+        "TwoFactorAuthenticationIsDisabled": "Dvoufaktorové ověřování vypnuto.",
+        "TwoFactorAuthenticationIsEnabled": "Dvoufaktorové ověřování zapnuto.",
+        "TwoFactorAuthenticationRequired": "Dvoufaktorové ověřování je povinné pro všechny, nelze jej vypnout.",
+        "Verify": "Ověřit",
+        "VerifyAuthCodeHelp": "Zadejte šestimístný kód vygenerovaný na mobilním zařízení po naskenování čárového kódu.",
+        "VerifyIdentifyExplanation": "Ověřte se otevřením aplikace dvoufaktorového ověřování ve svém zařízení a získejte ověřovací kód.",
+        "Your2FaAuthSecret": "Vaše tajemství dvoufaktorového ověřování"
+    }
+}

@@ -71,6 +71,8 @@
         "LogAnalyticsDescription": "S'il n'est pas possible d'utiliser le code de suivi JavaScript, vous pouvez utiliser %1$sl'analyse des logs serveur%2$s comme solution alternative pour suivre les utilisateurs de vos sites web.",
         "MainDescription": "Matomo a besoin de sites pour générer des rapports ! Ajoutez, éditez et supprimez des sites, et voyez le code JavaScript à inclure dans vos pages.",
         "MenuManage": "Gérer",
+        "MergedNotificationLine1": "%1$s ont été détectés sur votre site web.",
+        "MergedNotificationLine2": "Apprenez-en plus sur la configuration de Matomo pour travailler avec ces derniers en suivant ces guides : %1$s",
         "MobileAppsAndSDKs": "Applications mobiles et SDKs",
         "MobileAppsAndSDKsDescription": "Vous ne travaillez pas sur un site web ? Vous pouvez aussi suivre une app mobile ou n'importe quel autre type d'application en utilisant les %1$sSDK disponibles%2$s.",
         "NoWebsites": "Vous n'avez aucun site Internet à administrer.",

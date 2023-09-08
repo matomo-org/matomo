@@ -1,9 +1,22 @@
 {
     "Tour": {
+        "AddAnnotation": "新增一個註解",
+        "AddAnotherWebsite": "新增其他網站",
+        "AddReport": "新增定期報表",
+        "AddSegment": "新增一個區隔",
         "BrowseMarketplace": "瀏覽市集",
+        "ChangeVisualisation": "修改視覺化",
+        "ChangeVisualisationDescription": "檢視報表並選擇底部的視覺化圖示，以修改報表的視覺化方式。",
         "CompletionTitle": "做得好！",
         "Engagement": "參與度",
+        "FlattenActions": "將報表扁平化",
+        "InviteUser": "邀請使用者",
         "PluginDescription": "了解Matomo並完成挑戰，成爲一位專家。",
-        "Tour": "Tour"
+        "SelectDateRange": "選擇日期範圍",
+        "SelectDateRangeDescription": "在日曆中選擇時間範圍。",
+        "SetupX": "設定 %s",
+        "Tour": "Tour",
+        "UploadLogo": "上傳你的商標圖",
+        "ViewX": "檢視 %s"
     }
 }

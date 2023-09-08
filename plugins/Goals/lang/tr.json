@@ -95,7 +95,7 @@
         "LearnMoreAboutGoalTrackingDocumentation": "%1$sMatomo üzerinde hedef izleme%2$s hakkında ayrıntılı bilgi almak için kullanıcı belgelerine bakın.",
         "LeftInCart": "%s sepette bırakılma",
         "ManageGoals": "Hedef yönetimi",
-        "ManageGoalsSubcategoryHelp1": "Bu bölümde, ziyaretçilerin sitede belirli bir sayfayı açmak ya da belirli bir formu göndermek gibi gerçekleştirdiği belirli işlemler için hedefler oluşturulup düzenlenebilir. Hedef raporları değişkendir ve sitenin başarımının, potansiyel oluşturma, çevrimiçi satış ve artan marka görünürlüğü gibi iş hedeflerine göre izlenmesine yardımcı olabilir.",
+        "ManageGoalsSubcategoryHelp1": "Bu bölümde, ziyaretçilerin sitede belirli bir sayfayı açmak ya da belirli bir formu göndermek gibi gerçekleştirdiği belirli işlemler için hedefler oluşturulup düzenlenebilir. Hedef raporları değişkendir ve sitenin başarımının, potansiyel oluşturma, çevrim içi satış ve artan marka görünürlüğü gibi iş hedeflerine göre izlenmesine yardımcı olabilir.",
         "ManageGoalsSubcategoryHelp2": "Ayrıntılı bilgi almak için hedefler rehberine bakabilirsiniz.",
         "Manually": "El ile",
         "ManuallyTriggeredUsingJavascriptFunction": "Hedef trackGoal() JavaScript API işlevi kullanılarak el ile tetiklendi",

@@ -74,8 +74,7 @@
       :site="site"
       :max-custom-variables="maxCustomVariables"
       :server-side-do-not-track-enabled="serverSideDoNotTrackEnabled"
-      @updateTrackingCode="updateTrackingCode"
-      ref="jsTrackingCodeAdvanceOption"/>
+      @updateTrackingCode="updateTrackingCode"/>
 
   </ContentBlock>
 </template>

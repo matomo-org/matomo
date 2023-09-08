@@ -16,6 +16,7 @@ describe("EmptySite_MergedNotification", function () {
     it('should show the tracking code if the website has no recorded data with notifications merged into one', async function () {
         const urlToTest = "?" + generalParams + "&module=CoreHome&action=index";
         await page.goto(urlToTest);
+        await page.waitForNetworkIdle();
 
         const pageElement = await page.$('.page');
         expect(await pageElement.screenshot()).to.matchImage('emptySiteDashboard');

@@ -15,6 +15,7 @@
         "ConfirmPasswordToContinue": "Bekräfta ditt lösenord för att fortsätta",
         "ConfirmationLinkSent": "Klicka på länken i mejlet som skickats till dig för att bekräfta att ändra ditt lösenord.",
         "ContactAdmin": "Möjlig orsak: din värd kan ha inaktiverat mail() funktionen. <br>Vänligen kontakta din Matomo administratör.",
+        "CreatePasswordDescription": "Säkerställ att du kommer ihåg detta lösenord och sparar det på ett säkert ställe.",
         "CurrentlyBlockedIPs": "Blockerade IP-adresser",
         "CurrentlyBlockedIPsUnblockConfirm": "Avblockera samtliga nu blockerade IP-adresser?",
         "CurrentlyBlockedIPsUnblockInfo": "Du kan avblockera IP-adresser som blockerats av misstag. Då kan de logga in igen.",
