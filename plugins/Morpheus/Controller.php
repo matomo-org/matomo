@@ -788,6 +788,7 @@ export default defineComponent({
                 'code',
                 'star',
                 'drop',
+                'drop-crossed',
                 'business',
                 'finance',
                 'folder',

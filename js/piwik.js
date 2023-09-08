@@ -39,7 +39,7 @@
     addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies, setCookieConsentGiven,
     areCookiesEnabled, getRememberedCookieConsent, rememberCookieConsentGiven, forgetCookieConsentGiven, requireCookieConsent,
     cookie, domain, readyState, documentElement, doScroll, title, text, contentWindow, postMessage,
-    location, top, onerror, document, referrer, parent, links, href, protocol, name,
+    location, top, onerror, document, referrer, parent, links, href, protocol, name, close,
     performance, mozPerformance, msPerformance, webkitPerformance, timing, getEntriesByType, connectEnd, requestStart,
     responseStart, responseEnd, fetchStart, domInteractive, domLoading, domComplete, loadEventStart, loadEventEnd,
     event, which, button, srcElement, type, target, data,
@@ -187,7 +187,9 @@ if (typeof window.Matomo !== 'object') {
 
             trackerIdCounter = 0,
 
-            isPageUnloading = false;
+            isPageUnloading = false,
+
+            trackerInstallCheckNonce = '';
 
         /************************************************************
          * Private methods
@@ -2784,6 +2786,32 @@ if (typeof window.Matomo !== 'object') {
             }
 
             /*
+             * Checks if the special query parameter was included in the current URL indicating this
+             * is supposed to be a tracking code install test.
+             */
+            function wasJsTrackingCodeInstallCheckParamProvided()
+            {
+                if (trackerInstallCheckNonce && trackerInstallCheckNonce.length > 0) {
+                    return true;
+                }
+
+                trackerInstallCheckNonce = getUrlParameter(windowAlias.location.href, 'tracker_install_check');
+
+                return trackerInstallCheckNonce && trackerInstallCheckNonce.length > 0;
+            }
+
+            /**
+             * If the query parameter was included in the current URL indicating it's an install check, close the window
+             */
+            function closeWindowIfJsTrackingCodeInstallCheck()
+            {
+                // If the query parameter indicating this is a test exists
+                if (wasJsTrackingCodeInstallCheckParamProvided() && isObject(windowAlias)) {
+                    windowAlias.close();
+                }
+            }
+
+            /*
              * Send image request to Matomo server using GET.
              * The infamous web bug (or beacon) is a transparent, single pixel (1x1) image
              */
@@ -2804,6 +2832,9 @@ if (typeof window.Matomo !== 'object') {
                     }
                 };
                 image.src = configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
+
+                // If the query parameter indicating this is a test exists, close after first request is sent
+                closeWindowIfJsTrackingCodeInstallCheck();
             }
 
             function shouldForcePost(request)
@@ -2854,6 +2885,9 @@ if (typeof window.Matomo !== 'object') {
                 if (success && typeof callback === 'function') {
                     callback({request: request, trackerUrl: configTrackerUrl, success: true, isSendBeacon: true});
                 }
+
+                // If the query parameter indicating this is a test exists, close after first request is sent
+                closeWindowIfJsTrackingCodeInstallCheck();
 
                 return success;
             }
@@ -2929,6 +2963,9 @@ if (typeof window.Matomo !== 'object') {
                             callback({request: request, trackerUrl: configTrackerUrl, success: false});
                         }
                     }
+
+                    // If the query parameter indicating this is a test exists, close after first request is sent
+                    closeWindowIfJsTrackingCodeInstallCheck();
                 }, 50);
 
             }
@@ -4054,6 +4091,10 @@ if (typeof window.Matomo !== 'object') {
 
                 if (configAppendToTrackingUrl.length) {
                     request += '&' + configAppendToTrackingUrl;
+                }
+
+                if (wasJsTrackingCodeInstallCheckParamProvided()) {
+                    request += '&tracker_install_check=' + trackerInstallCheckNonce;
                 }
 
                 if (isFunction(configCustomRequestContentProcessing)) {

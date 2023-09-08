@@ -257,7 +257,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 'name' => Common::unsanitizeInputValue(Site::getNameFor($this->idSite)),
             ],
             'maxCustomVariables' => $maxCustomVariables,
-            'serverSideDoNotTrackEnabled' => $dntChecker->isActive()
+            'serverSideDoNotTrackEnabled' => $dntChecker->isActive(),
+            'isJsTrackerInstallCheckAvailable' => Manager::getInstance()->isPluginActivated('JsTrackerInstallCheck'),
         ];
 
         $templateData['showGAImportTab'] = $this->shouldShowGAImportTab($templateData);

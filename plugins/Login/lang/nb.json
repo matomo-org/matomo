@@ -15,6 +15,7 @@
         "ConfirmPasswordToContinue": "Bekreft passordet ditt for å fortsette.",
         "ConfirmationLinkSent": "En bekreftelseslenke har blitt sendt til din innboks. Sjekk din e-post og besøk denne lenken for å autorisere din forespørsel om å endre passord.",
         "ContactAdmin": "Mulig grunn: Din vert kan ha skrudd av mail()-funksjonen.<br>Kontakt din Matomo-administrator",
+        "CreatePasswordDescription": "Forsikre deg om at du husker dette passordet og oppbevar det på et trygt sted",
         "CurrentlyBlockedIPs": "IP-er som blokkeres",
         "CurrentlyBlockedIPsUnblockConfirm": "Avblokker alle blokkerte IP-adresser?",
         "CurrentlyBlockedIPsUnblockInfo": "Du kan avblokkere IP-er som er blokkert feilaktig og tillate dem å logge inn igjen.",

@@ -44,7 +44,7 @@
         "SiteSearchIntro": "Theo dõi các tìm kiếm mà khách đã thực hiện trên trang web của bạn là một cách hữu hiệu để hiểu hơn về thói quen tìm kiếm của khách hàng, và có thể giúp bạn tìm ra ý tưởng cho nội dung mới, sản phẩm thương mại điện tử mới mà những khách hàng tiềm năng có thể tìm kiếm, và cải thiện trải nghiệm của khách hàng trên trang web của bạn.",
         "SiteSearchKeyword": "Từ khóa (trang tìm kiếm)",
         "SiteSearchKeywordsDocumentation": "Báo cáo này liệt kê các từ khóa tìm kiếm mà người truy cập thực hiện tìm kiếm trên công cụ tìm kiếm nội bộ của bạn",
-        "SiteSearchKeywordsNoResultDocumentation": "Báo cáo này liệt kê các từ khóa tìm kiếm không trả lại bất cứ kết quả nào → Có thể cần cải thiện máy tìm kiếm, hoặc có thể do người dùng tìm kiếm thứ chưa có trên website.",
+        "SiteSearchKeywordsNoResultDocumentation": "Báo cáo này liệt kê các từ khóa tìm kiếm không trả lại bất cứ kết quả nào → Có thể cần cải thiện máy tìm kiếm, hoặc có thể do người dùng tìm kiếm thứ chưa có trên website?",
         "SubmenuPageTitles": "Tiêu đề trang",
         "SubmenuPagesEntry": "Trang khởi đầu",
         "SubmenuPagesExit": "Trang rời đi",

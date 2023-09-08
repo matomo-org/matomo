@@ -16,7 +16,7 @@
         "WidgetLengthsDocumentation": "Hur många besök som hade en viss total varaktighet. Inledningsvis så visas rapporten som ett taggmoln, vanligare varaktighet visas i ett större typsnitt.",
         "WidgetPages": "Sidor per besök",
         "WidgetPagesDocumentation": "Hur många besök som involverade ett visst antal sidvisningar. Inledningsvis så visas rapporten som ett taggmoln, vanligare sidor har ett större typsnitt.",
-        "WidgetVisitsByDaysSinceLast": "Besök per dag sedan senaste besöket",
+        "WidgetVisitsByDaysSinceLast": "Besök per antal dagar sedan senaste besöket",
         "WidgetVisitsByDaysSinceLastDocumentation": "Hur många besök som var från återkommande besökare vars senaste besök var ett visst antal dagar sedan.",
         "WidgetVisitsByNumDocumentation": "Antalet besökare som nådde sitt N:e besök, dvs. besökare som besökt din webbplats minst ett visst antal gånger.",
         "visitsByVisitCount": "Besök efter besöksnummer"

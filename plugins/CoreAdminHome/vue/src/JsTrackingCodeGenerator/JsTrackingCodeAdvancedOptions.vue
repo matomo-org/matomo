@@ -375,8 +375,6 @@ export default defineComponent({
       }
 
       Promise.all(promises).then(() => {
-        // eslint-disable-next-line
-        const refs = (this.$refs.jsTrackingCodeAdvanceOption as any);
         this.isLoading = false;
         this.updateCurrentSiteInfo();
         this.updateTrackingCode();
