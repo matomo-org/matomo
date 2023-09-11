@@ -24,6 +24,11 @@ class WordPress extends SiteContentDetectionAbstract
         return 'WordPress';
     }
 
+    public static function getIcon(): string
+    {
+        return './plugins/SitesManager/images/wordpress.svg';
+    }
+
     public static function getContentType(): string
     {
         return self::TYPE_CMS;
@@ -43,11 +48,6 @@ class WordPress extends SiteContentDetectionAbstract
     {
         $needle = '/wp-content';
         return (strpos($data, $needle) !== false);
-    }
-
-    public function shouldHighlightTabIfShown(): bool
-    {
-        return true;
     }
 
     public function renderInstructionsTab(SiteContentDetector $detector): string

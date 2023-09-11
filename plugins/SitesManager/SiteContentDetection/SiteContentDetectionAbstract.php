@@ -43,6 +43,16 @@ abstract class SiteContentDetectionAbstract
     abstract public static function getName(): string;
 
     /**
+     * Returns the location of the icon of this detection
+     *
+     * @return string
+     */
+    public static function getIcon(): string
+    {
+        return '';
+    }
+
+    /**
      * Returns the content type this detection provides
      * May be one of TYPE_TRACKER, TYPE_CMS, TYPE_JS_FRAMEWORK, TYPE_CONSENT_MANAGER
      *
@@ -78,28 +88,6 @@ abstract class SiteContentDetectionAbstract
      * @return bool
      */
     abstract public function isDetected(?string $data = null, ?array $headers = null): bool;
-
-    /**
-     * Returns whether the instruction tab should be shown. Default behavior is to show it if the detection was successful
-     *
-     * @param ?SiteContentDetector $detector
-     * @return bool
-     */
-    public function shouldShowInstructionTab(SiteContentDetector $detector = null): bool
-    {
-        return $detector->wasDetected(static::getId());
-    }
-
-    /**
-     * Defines if the tab on the no data page should be preselected if shown.
-     * If multiple detections match the one with higher priority wins.
-     *
-     * @return bool
-     */
-    public function shouldHighlightTabIfShown(): bool
-    {
-        return false;
-    }
 
     /**
      * Returns the content that should be rendered into a new Tab on the no data page

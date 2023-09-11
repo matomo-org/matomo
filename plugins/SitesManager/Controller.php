@@ -167,9 +167,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $templateData['instructionUrls'] = [];
         $templateData['othersInstructions'] = [];
 
-        $activeTab = null;
-        $activeTabPriority = 1000;
-
         foreach ($this->siteContentDetector->getSiteContentDetectionsByType() as $detections) {
             foreach ($detections as $obj) {
                 $tabContent        = $obj->renderInstructionsTab($this->siteContentDetector);
@@ -189,19 +186,15 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                  */
                 Piwik::postEvent('Template.siteWithoutDataTab.' . $obj::getId() . '.others', [&$othersInstruction]);
 
-                if (!empty($tabContent) && $obj->shouldShowInstructionTab($this->siteContentDetector)) {
+                if (!empty($tabContent)) {
                     $templateData['tabs'][] = [
                         'id'                => $obj::getId(),
                         'name'              => $obj::getName(),
                         'type'              => $obj::getContentType(),
                         'content'           => $tabContent,
+                        'icon'              => $obj::getIcon(),
                         'priority'          => $obj::getPriority(),
                     ];
-
-                    if ($obj->shouldHighlightTabIfShown() && $obj::getPriority() < $activeTabPriority) {
-                        $activeTab = $obj::getId();
-                        $activeTabPriority = $obj::getPriority();
-                    }
                 }
 
                 if (!empty($othersInstruction)) {
@@ -235,8 +228,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         usort($templateData['instructionUrls'], function($a, $b) {
             return strnatcmp($a['name'], $b['name']);
         });
-
-        $templateData['activeTab'] = $activeTab;
 
         return $this->renderTemplateAs('_siteWithoutDataTabs', $templateData, $viewType = 'basic');
     }

@@ -23,6 +23,11 @@ class VueJs extends SiteContentDetectionAbstract
         return 'Vue.js';
     }
 
+    public static function getIcon(): string
+    {
+        return './plugins/SitesManager/images/vuejs.svg';
+    }
+
     public static function getContentType(): string
     {
         return self::TYPE_JS_FRAMEWORK;
@@ -41,11 +46,6 @@ class VueJs extends SiteContentDetectionAbstract
     public function isDetected(?string $data = null, ?array $headers = null): bool
     {
         return preg_match("/vue\.\w.+.js|vue\-\w.+.js/i", $data) === 1;
-    }
-
-    public function shouldHighlightTabIfShown(): bool
-    {
-        return true;
     }
 
     public function renderInstructionsTab(SiteContentDetector $detector): string
