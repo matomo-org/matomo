@@ -6,32 +6,36 @@
 
 <template>
   <div>
-      <h1 id="start-tracking-data-header">
-        {{translate('SitesManager_SiteWithoutDataStartTrackingDataHeader')}}
-      </h1>
-      <p v-html="$sanitize(siteWithoutDataDescLine1)"></p>
-      <p v-html="$sanitize(siteWithoutDataDescLine2)"></p>
-      <p>&nbsp;</p>
+    <h1 id="start-tracking-data-header">
+      {{ translate('SitesManager_SiteWithoutDataChooseTrackingMethod') }}
+    </h1>
 
-      <WidgetLoader
-        :widget-params="{module: 'SitesManager', action: 'siteWithoutDataTabs'}"
-        :loading-message="`${translate('SitesManager_DetectingYourSite')}...`"
-      />
+    <div id="start-tracking-cta">
+      <a rel="noreferrer noopener" target="_blank" :href="inviteUserLink">
+        <span class="icon-user-add"></span>
+        {{ translate('UsersManager_InviteTeamMember') }}
+      </a>
+      <VueEntryContainer :html="additionalCtaContent"/>
+    </div>
 
-      <div class="no-data-footer row">
-        <hr v-if="afterIntroEventContent"/>
+    <WidgetLoader
+      :widget-params="{module: 'SitesManager', action: 'siteWithoutDataTabs'}"
+      :loading-message="`${translate('SitesManager_DetectingYourSite')}&hellip;`"
+    />
 
-        <VueEntryContainer :html="afterIntroEventContent"/>
-      </div>
-
-    <VueEntryContainer :html="afterTrackingHelpEventContent"/>
+    <div id="start-tracking-skip">
+      <h2>{{ translate('SitesManager_SiteWithoutDataNotYetReady') }}</h2>
+      <div>{{ translate('SitesManager_SiteWithoutDataTemporarilyHidePage') }}</div>
+      <a :href="ignoreSitesWithoutDataLink" class="ignoreSitesWithoutData">
+        {{ translate('SitesManager_SiteWithoutDataHidePageForHour') }}
+      </a>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import {
-  translate,
   MatomoUrl,
   WidgetLoader,
   VueEntryContainer,
@@ -39,48 +43,17 @@ import {
 
 export default defineComponent({
   props: {
-    emailBody: {
-      type: String,
-      required: true,
-    },
-    siteWithoutDataStartTrackingTranslationKey: {
-      type: String,
-      required: true,
-    },
     inviteUserLink: {
       type: String,
       required: true,
     },
-    afterIntroEventContent: String,
-    afterTrackingHelpEventContent: String,
+    additionalCtaContent: String,
   },
   components: {
     WidgetLoader,
     VueEntryContainer,
   },
   computed: {
-    siteWithoutDataDescLine1() {
-      return translate(
-        this.siteWithoutDataStartTrackingTranslationKey,
-        `<a rel="noreferrer noopener" target="_blank" class="emailTrackingCode" href="${this.emailInstructionsLink}">`,
-        '</a>',
-        `<a rel="noreferrer noopener" target="_blank" href="${this.inviteUserLink}">`,
-        '</a>',
-      );
-    },
-    siteWithoutDataDescLine2() {
-      return translate(
-        'SitesManager_SiteWithoutDataStartTrackingDataDescriptionLine2',
-        `<a href="${this.ignoreSitesWithoutDataLink}" class="ignoreSitesWithoutData">`,
-        '</a>',
-      );
-    },
-    emailInstructionsLink() {
-      return `mailto:?${MatomoUrl.stringify({
-        subject: translate('SitesManager_EmailInstructionsSubject'),
-        body: this.emailBody,
-      })}`;
-    },
     ignoreSitesWithoutDataLink() {
       return `?${MatomoUrl.stringify({
         ...MatomoUrl.urlParsed.value,
