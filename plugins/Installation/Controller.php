@@ -32,7 +32,6 @@ use Piwik\Plugins\UsersManager\NewsletterSignup;
 use Piwik\Plugins\UsersManager\UserUpdater;
 use Piwik\ProxyHeaders;
 use Piwik\SettingsPiwik;
-use Piwik\SiteContentDetector;
 use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\Translation\Translator;
 use Piwik\Updater;
@@ -47,14 +46,10 @@ use Zend_Db_Adapter_Exception;
 class Controller extends \Piwik\Plugin\ControllerAdmin
 {
 
-    public function __construct(SiteContentDetector $siteContentDetector)
+    public function __construct()
     {
-        $this->siteContentDetector = $siteContentDetector;
         parent::__construct();
     }
-
-    /** @var SiteContentDetector */
-    private $siteContentDetector;
 
     public $steps = array(
         'welcome'           => 'Installation_Welcome',
