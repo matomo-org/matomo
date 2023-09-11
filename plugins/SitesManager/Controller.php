@@ -130,10 +130,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $this->checkSitePermission();
 
         return $this->renderTemplateAs('siteWithoutData', [
-            'emailBody'                                           => SitesManager::renderTrackingCodeEmail($this->idSite),
-            'siteWithoutDataStartTrackingTranslationKey'          => StaticContainer::get('SitesManager.SiteWithoutDataStartTrackingTranslation'),
-            'inviteUserLink'                                      => $this->getInviteUserLink(),
-            'hideWhatIsNew'                                       => true
+            'inviteUserLink' => $this->getInviteUserLink(),
+            'hideWhatIsNew'  => true,
         ], $viewType = 'basic');
     }
 

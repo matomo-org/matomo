@@ -132,6 +132,62 @@ td.editable-site-field:hover {
 }
 
 .site-without-data {
+    max-width: 1120px;
+    margin: 0 auto;
+
+    h1#start-tracking-data-header {
+        font-weight: bold;
+        font-size: 32px;
+        float: left;
+        margin-bottom: 32px;
+    }
+
+    #start-tracking-cta {
+        float: right;
+        > a {
+            color: @color-silver-dark;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 24px;
+            text-transform: uppercase;
+            text-decoration: none;
+            padding: 12px;
+            display: inline-flex;
+
+            [class^="icon-"], [class*=" icon-"] {
+                font-size: 24px;
+                margin-right: 8px;
+            }
+        }
+    }
+
+    #start-tracking-skip {
+        clear: both;
+        margin-top: 40px;
+        font-size: 16px;
+        line-height: 21px;
+
+        h2 {
+            font-size: 16px;
+            font-weight: bold;
+            line-height: 21px;
+            padding: 0 0 8px 0;
+        }
+
+        a.ignoreSitesWithoutData {
+            margin-top: 16px;
+            color: @color-green-matomo;
+            text-transform: uppercase;
+            display: block;
+
+            &:hover {
+                color: @color-green-matomo;
+            }
+        }
+    }
+
+
+
     h3 {
         font-weight: bold;
     }
@@ -216,10 +272,6 @@ td.editable-site-field:hover {
         hr {
             margin-bottom: 1rem !important;
         }
-    }
-
-    #start-tracking-data-header {
-        font-weight: bold;
     }
 
     .no-data-tabs-main-div .col:not(.tabs-row):not(.tabs-row .col) {
