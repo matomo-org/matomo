@@ -27,7 +27,12 @@ class Matomo extends SiteContentDetectionAbstract
 {
     public static function getName(): string
     {
-        return Piwik::translate('CoreAdminHome_TrackingCode');
+        return Piwik::translate('CoreAdminHome_JavaScriptCode');
+    }
+
+    public static function getIcon(): string
+    {
+        return './plugins/SitesManager/images/code.svg';
     }
 
     public static function getContentType(): string
@@ -50,11 +55,6 @@ class Matomo extends SiteContentDetectionAbstract
         }
 
         return false;
-    }
-
-    public function shouldShowInstructionTab(SiteContentDetector $detector = null): bool
-    {
-        return true;
     }
 
     public function renderInstructionsTab(SiteContentDetector $detector): string

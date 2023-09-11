@@ -161,6 +161,10 @@ td.editable-site-field:hover {
         }
     }
 
+    .widgetLoader {
+        clear: both;
+    }
+
     #start-tracking-skip {
         clear: both;
         margin-top: 40px;
@@ -186,96 +190,84 @@ td.editable-site-field:hover {
         }
     }
 
+    #start-tracking-detection, #start-tracking-method-list {
+        clear: both;
+        width: 100%;
+        display: block;
+        border-radius: 4px;
+        border: 1px dashed @theme-color-background-lowContrast;
+        padding: 24px 24px 24px 88px;
+    }
 
+    #start-tracking-method-list {
+
+        position: relative;
+
+        .icon-search {
+            position: absolute;
+            top: 19px;
+            left: 24px;
+            font-size: 40px;
+        }
+
+        h2 {
+            font-size: 20px;
+            font-weight: bold;
+            color: @color-black;
+            padding: 0 0 16px 0;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 20px -20px 0;
+
+            li {
+                width: 288px;
+                height: 64px;
+                float: left;
+                border-radius: 4px;
+                border: 1px solid @theme-color-background-lowContrast;
+                margin: 20px;
+                position: relative;
+
+                a {
+                    text-decoration: none;
+                    color: @color-black;
+                    display: block;
+                    height: 100%;
+                    width: 100%;
+                }
+
+                img {
+                    height: 48px;
+                    width: 48px;
+                    position: absolute;
+                    left: 24px;
+                    top: 8px;
+                }
+
+                .list-entry-text {
+                    font-size: 16px;
+                    font-weight: bold;
+                    line-height: 24px;
+                    margin: 20px 0 0 88px;
+                    display: inline-block;
+                }
+            }
+        }
+
+    }
+
+    .start-tracking-method {
+        display: none;
+
+        p {
+            padding-bottom: 0.25rem;
+        }
+    }
 
     h3 {
         font-weight: bold;
-    }
-
-    p {
-        padding-bottom: 0.25rem;
-    }
-
-    .no-data-screen-ul-tabs {
-        overflow: auto !important;height: auto !important;
-        li.col {
-            width: unset !important;
-            float: unset !important;
-        }
-
-        a:not(.active) {
-            text-decoration: none !important;
-            color: @color-black !important;
-
-            &:hover {
-                background-color: @color-gray-bright !important;
-                opacity: unset;
-            }
-
-            &:focus {
-                background-color: @color-jetstream !important;
-                opacity: unset;
-            }
-        }
-
-        a.active {
-            color: @color-green-matomo !important;
-            text-decoration: none !important;
-            font-weight: bold;
-
-            &:hover {
-                opacity: unset;
-            }
-        }
-
-        .indicator {
-            border-bottom: 2px solid @color-green-matomo;
-            z-index: 10;
-            bottom: 0.3rem;
-        }
-
-        .tab {
-            text-transform: unset;
-
-            a {
-                font-size: 16px;
-            }
-        }
-    }
-
-    .no-data-screen-ul-tabs::after {
-        border-bottom: 0.5px solid @color-gray-400;
-        width: 100%;
-        content: '';
-        display: block;
-        overflow: hidden;
-        bottom: 0.3rem;
-        z-index: 2;
-        position: absolute;
-    }
-
-    .no-data-footer {
-        position: sticky;
-        width: inherit;
-        bottom: 0;
-        background: @color-white;
-        z-index: 100;
-
-        .col {
-            width: unset !important;
-        }
-
-        .m-bottom-1 {
-            margin-bottom: 1rem;
-        }
-
-        hr {
-            margin-bottom: 1rem !important;
-        }
-    }
-
-    .no-data-tabs-main-div .col:not(.tabs-row):not(.tabs-row .col) {
-        padding-top: 1rem;
     }
 
     #wordpress, #vue {

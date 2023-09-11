@@ -23,6 +23,11 @@ class GoogleTagManager extends SiteContentDetectionAbstract
         return Piwik::translate('SitesManager_SiteWithoutDataGoogleTagManager');
     }
 
+    public static function getIcon(): string
+    {
+        return './plugins/SitesManager/images/gtm.svg';
+    }
+
     public static function getContentType(): string
     {
         return self::TYPE_TRACKER;
@@ -58,11 +63,6 @@ class GoogleTagManager extends SiteContentDetectionAbstract
         }
 
         return false;
-    }
-
-    public function shouldHighlightTabIfShown(): bool
-    {
-        return true;
     }
 
     public function renderInstructionsTab(SiteContentDetector $detector): string

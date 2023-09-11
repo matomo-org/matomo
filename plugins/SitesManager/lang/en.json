@@ -188,6 +188,8 @@
         "SiteWithoutDataChooseTrackingMethod": "Choose your tracking method",
         "SiteWithoutDataNotYetReady": "Not ready to install Matomo just yet?",
         "SiteWithoutDataTemporarilyHidePage": "Temporarily hide this page and come back to it later.",
+        "SiteWithoutDataOtherInstallMethods": "Other methods to install Matomo",
+        "SiteWithoutDataOtherInstallMethodsIntro": "We offer multiple tracking paths — pick yours to unlock data-driven success.",
         "SiteWithoutDataHidePageForHour": "Hide page for an hour",
         "SiteWithoutDataStartTrackingDataDescriptionLine1": "Choose your preferred tracking method below. If you need help, you can share these %1$sinstructions via email%2$s or %3$sinvite another user%4$s for assistance.",
         "EmailInstructionsButtonText": "Email instructions",

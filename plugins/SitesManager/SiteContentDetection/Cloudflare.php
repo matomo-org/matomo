@@ -22,6 +22,11 @@ class Cloudflare extends SiteContentDetectionAbstract
         return 'Cloudflare';
     }
 
+    public static function getIcon(): string
+    {
+        return './plugins/SitesManager/images/cloudflare.svg';
+    }
+
     public static function getContentType(): string
     {
         return self::TYPE_CMS;
@@ -47,11 +52,6 @@ class Cloudflare extends SiteContentDetectionAbstract
             !empty($headers['Cf-Ray']) ||
             !empty($headers['CF-RAY'])
         );
-    }
-
-    public function shouldHighlightTabIfShown(): bool
-    {
-        return true;
     }
 
     public function renderInstructionsTab(SiteContentDetector $detector): string

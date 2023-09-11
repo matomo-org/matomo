@@ -478,6 +478,7 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = 'SitesManager_YouCurrentlyHaveAccessToNWebsites';
         $translationKeys[] = 'SitesManager_YourCurrentIpAddressIs';
         $translationKeys[] = 'UsersManager_InviteTeamMember';
+        $translationKeys[] = 'SitesManager_SiteWithoutDataOtherInstallMethods';
     }
 
     public static function renderTrackingCodeEmail(int $idSite)

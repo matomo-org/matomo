@@ -20,6 +20,11 @@ class ReactJs extends SiteContentDetectionAbstract
         return 'React.js';
     }
 
+    public static function getIcon(): string
+    {
+        return './plugins/SitesManager/images/reactjs.svg';
+    }
+
     public static function getContentType(): string
     {
         return self::TYPE_JS_FRAMEWORK;
@@ -53,11 +58,6 @@ class ReactJs extends SiteContentDetectionAbstract
         }
 
         return false;
-    }
-
-    public function shouldHighlightTabIfShown(): bool
-    {
-        return true;
     }
 
     public function renderInstructionsTab(SiteContentDetector $detector): string

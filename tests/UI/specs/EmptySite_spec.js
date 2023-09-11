@@ -39,7 +39,7 @@ describe("EmptySite", function () {
 
 
     it('should show the SPA/PWA tab when clicked', async function () {
-        await page.evaluate(() => $('.no-data-screen-ul-tabs a[href="#spapwa"]')[0].click());
+        await page.evaluate(() => $('#start-tracking-method-list a[href="#spapwa"]')[0].click());
         await page.waitForTimeout(500);
 
         await page.evaluate(function () {
@@ -53,7 +53,7 @@ describe("EmptySite", function () {
       });
 
     it('should show the Other tab when clicked', async function () {
-        await page.evaluate(() => $('.no-data-screen-ul-tabs a[href="#other"]')[0].click());
+        await page.evaluate(() => $('#start-tracking-method-list a[href="#other"]')[0].click());
         await page.waitForTimeout(500);
 
         const pageElement = await page.$('.page');
