@@ -166,6 +166,7 @@ import PeriodDatePicker from '../PeriodDatePicker/PeriodDatePicker.vue';
 import ActivityIndicator from '../ActivityIndicator/ActivityIndicator.vue';
 import Matomo from '../Matomo/Matomo';
 import { translate } from '../translate';
+import type { PeriodComparison } from '../Comparisons/Comparisons.store';
 import ComparisonsStore from '../Comparisons/Comparisons.store.instance';
 import useExternalPluginComponent from '../useExternalPluginComponent';
 import {
@@ -179,6 +180,8 @@ import MatomoUrl from '../MatomoUrl/MatomoUrl';
 const Field = useExternalPluginComponent('CorePluginsAdmin', 'Field');
 
 const NBSP = Matomo.helper.htmlDecode('&nbsp;');
+
+const COMPARE_PERIOD_TYPES = ['custom', 'previousPeriod', 'previousYear'];
 
 const COMPARE_PERIOD_OPTIONS = [
   { key: 'custom', value: translate('General_Custom') },
@@ -259,12 +262,16 @@ export default defineComponent({
       window.$(this.$refs.root as HTMLElement).parent('#periodString').show();
     });
 
-    this.updateSelectedValuesFromHash();
-    watch(() => MatomoUrl.parsed.value, this.updateSelectedValuesFromHash);
-
     this.isComparing = ComparisonsStore.isComparingPeriods();
     watch(() => ComparisonsStore.isComparingPeriods(), (newVal) => {
       this.isComparing = newVal;
+    });
+
+    this.updateSelectedValuesFromHash();
+    this.updateComparisonValuesFromHash();
+    watch(() => MatomoUrl.parsed.value, () => {
+      this.updateSelectedValuesFromHash();
+      this.updateComparisonValuesFromHash();
     });
 
     window.initTopControls(); // must be called when a top control changes width
@@ -310,6 +317,7 @@ export default defineComponent({
       if (this.comparePeriodType === 'custom') {
         return {
           comparePeriods: ['range'],
+          comparePeriodType: 'custom',
           compareDates: [`${this.compareStartDate},${this.compareEndDate}`],
         };
       }
@@ -317,6 +325,7 @@ export default defineComponent({
       if (this.comparePeriodType === 'previousPeriod') {
         return {
           comparePeriods: [this.selectedPeriod],
+          comparePeriodType: 'previousPeriod',
           compareDates: [this.previousPeriodDateToSelectedPeriod],
         };
       }
@@ -336,12 +345,14 @@ export default defineComponent({
         if (this.selectedPeriod === 'range') {
           return {
             comparePeriods: ['range'],
+            comparePeriodType: 'previousYear',
             compareDates: [`${format(currentDateRange[0])},${format(currentDateRange[1])}`],
           };
         }
 
         return {
           comparePeriods: [this.selectedPeriod],
+          comparePeriodType: 'previousYear',
           compareDates: [format(currentDateRange[0])],
         };
       }
@@ -440,6 +451,7 @@ export default defineComponent({
       // get params without comparePeriods/compareSegments/compareDates
       const paramsWithoutCompare = { ...baseParams };
       delete paramsWithoutCompare.comparePeriods;
+      delete paramsWithoutCompare.comparePeriodType;
       delete paramsWithoutCompare.compareDates;
 
       MatomoUrl.updateLocation({
@@ -463,6 +475,44 @@ export default defineComponent({
       }
 
       this.setPiwikPeriodAndDate(this.selectedPeriod, this.dateValue!);
+    },
+    updateComparisonValuesFromHash() {
+      this.comparePeriodType = 'previousPeriod';
+      this.compareStartDate = '';
+      this.compareEndDate = '';
+
+      if (!this.isComparing) {
+        return;
+      }
+
+      const comparePeriodType = MatomoUrl.parsed.value.comparePeriodType as string;
+
+      if (!COMPARE_PERIOD_TYPES.includes(comparePeriodType)) {
+        return;
+      }
+
+      const {
+        params: {
+          date: periodDate,
+          period: periodType,
+        },
+      } = ComparisonsStore.getPeriodComparisons().slice(-1).pop() as PeriodComparison;
+
+      try {
+        Periods.parse(periodType, periodDate);
+      } catch (e) {
+        return;
+      }
+
+      this.comparePeriodType = comparePeriodType;
+
+      if (this.comparePeriodType === 'custom') {
+        const periodObj = Periods.get(periodType).parse(periodDate) as Range;
+        const [startDate, endDate] = periodObj.getDateRange();
+
+        this.compareStartDate = format(startDate);
+        this.compareEndDate = format(endDate);
+      }
     },
     updateSelectedValuesFromHash() {
       const date = MatomoUrl.parsed.value.date as string;
