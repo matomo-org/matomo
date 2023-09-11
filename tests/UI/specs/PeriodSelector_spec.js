@@ -137,7 +137,7 @@ describe("PeriodSelector", function () {
 
     it('should preselect previous "compare to custom range" on load', async function() {
         await page.goto('about:blank');
-        await page.goto(url + '&comparePeriods[]=range&compareDates[]=2013-01-01,2013-01-02');
+        await page.goto(url + '&comparePeriods[]=range&comparePeriodType=custom&compareDates[]=2013-01-01,2013-01-02');
         await page.waitForNetworkIdle();
         await page.click('.periodSelector .title');
         await page.waitForSelector('#periodMore', {visible: true, timeout: 250});
@@ -147,7 +147,7 @@ describe("PeriodSelector", function () {
 
     it('should preselect previous "compare to previous period" on load', async function() {
         await page.goto('about:blank');
-        await page.goto(url + '&comparePeriods[]=day&compareDates[]=2011-12-31');
+        await page.goto(url + '&comparePeriods[]=day&comparePeriodType=previousPeriod&compareDates[]=2011-12-31');
         await page.click('.periodSelector .title');
         await page.waitForSelector('#periodMore', {visible: true, timeout: 250});
 
@@ -156,7 +156,7 @@ describe("PeriodSelector", function () {
 
     it('should preselect previous "compare to previous year" on load', async function() {
         await page.goto('about:blank');
-        await page.goto(url + '&comparePeriods[]=day&compareDates[]=2011-01-01');
+        await page.goto(url + '&comparePeriods[]=day&comparePeriodType=previousYear&compareDates[]=2011-01-01');
         await page.waitForNetworkIdle();
         await page.click('.periodSelector .title');
         await page.waitForSelector('#periodMore', {visible: true, timeout: 250});
