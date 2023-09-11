@@ -39,7 +39,7 @@ class WordPress extends SiteContentDetectionAbstract
         return 30;
     }
 
-    public function detectByContent(?string $data = null, ?array $headers = null): bool
+    public function isDetected(?string $data = null, ?array $headers = null): bool
     {
         $needle = '/wp-content';
         return (strpos($data, $needle) !== false);
@@ -50,7 +50,7 @@ class WordPress extends SiteContentDetectionAbstract
         return true;
     }
 
-    public function renderInstructionsTab(SiteContentDetector $detector = null): string
+    public function renderInstructionsTab(SiteContentDetector $detector): string
     {
         $view     = new View("@SitesManager/_wordpressTabInstructions");
         $faqLink  = 'https://matomo.org/faq/general/faq_114/';
@@ -77,7 +77,7 @@ class WordPress extends SiteContentDetectionAbstract
         return $view->render();
     }
 
-    public function renderOthersInstruction(SiteContentDetector $detector = null): string
+    public function renderOthersInstruction(SiteContentDetector $detector): string
     {
         if ($detector->wasDetected(self::class)) {
             return ''; // don't show on others page if tab is being displayed

@@ -22,7 +22,7 @@ class Cookiebot extends ConsentManagerDetectionAbstract
         return 'https://matomo.org/faq/how-to/using-cookiebot-consent-manager-with-matomo';
     }
 
-    public function detectByContent(?string $data = null, ?array $headers = null): bool
+    public function isDetected(?string $data = null, ?array $headers = null): bool
     {
         $needle = 'cookiebot.com';
         return (strpos($data, $needle) !== false);

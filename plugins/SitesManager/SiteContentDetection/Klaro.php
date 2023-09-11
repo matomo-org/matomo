@@ -22,7 +22,7 @@ class Klaro extends ConsentManagerDetectionAbstract
         return 'https://matomo.org/faq/how-to/using-klaro-consent-manager-with-matomo';
     }
 
-    public function detectByContent(?string $data = null, ?array $headers = null): bool
+    public function isDetected(?string $data = null, ?array $headers = null): bool
     {
         $needle1 = 'klaro.js';
         $needle2 = 'kiprotect.com';

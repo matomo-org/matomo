@@ -24,7 +24,7 @@ class GoogleAnalytics4Test extends \PHPUnit\Framework\TestCase
     public function testdetectByContent($expected, $data, $headers)
     {
         $detection = new GoogleAnalytics4();
-        self::assertSame($expected, $detection->detectByContent($data, $headers));
+        self::assertSame($expected, $detection->isDetected($data, $headers));
     }
 
     public function responseProvider()

@@ -30,7 +30,7 @@ class MatomoTagManager extends SiteContentDetectionAbstract
         return 10;
     }
 
-    public function detectByContent(?string $data = null, ?array $headers = null): bool
+    public function isDetected(?string $data = null, ?array $headers = null): bool
     {
         $tests = ['/matomo ?tag ?manager/i', '/_mtm\.push/'];
         foreach ($tests as $test) {
@@ -47,7 +47,7 @@ class MatomoTagManager extends SiteContentDetectionAbstract
         return true;
     }
 
-    public function renderInstructionsTab(SiteContentDetector $detector = null): string
+    public function renderInstructionsTab(SiteContentDetector $detector): string
     {
         return '<h3>' . Piwik::translate('SitesManager_SiteWithoutDataMatomoTagManager') . '</h3>
             <p>' . Piwik::translate( 'SitesManager_SiteWithoutDataMatomoTagManagerNotActive', ['<a href="https://matomo.org/docs/tag-manager/" rel="noreferrer noopener" target="_blank">', '</a>']) . '</p>';

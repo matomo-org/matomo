@@ -24,7 +24,7 @@ class CookieYesTest extends \PHPUnit\Framework\TestCase
     public function testdetectByContent($expected, $isConnected, $data, $headers)
     {
         $detection = new CookieYes();
-        self::assertSame($expected, $detection->detectByContent($data, $headers));
+        self::assertSame($expected, $detection->isDetected($data, $headers));
         self::assertSame($isConnected, $detection->checkIsConnected($data, $headers));
     }
 

@@ -77,7 +77,7 @@ abstract class SiteContentDetectionAbstract
      * @param array|null  $headers
      * @return bool
      */
-    abstract public function detectByContent(?string $data = null, ?array $headers = null): bool;
+    abstract public function isDetected(?string $data = null, ?array $headers = null): bool;
 
     /**
      * Returns whether the instruction tab should be shown. Default behavior is to show it if the detection was successful
@@ -104,22 +104,22 @@ abstract class SiteContentDetectionAbstract
     /**
      * Returns the content that should be rendered into a new Tab on the no data page
      *
-     * @param SiteContentDetector|null $detector
-     * @return string|null
+     * @param SiteContentDetector $detector
+     * @return string
      */
-    public function renderInstructionsTab(SiteContentDetector $detector = null): ?string
+    public function renderInstructionsTab(SiteContentDetector $detector): string
     {
-        return null;
+        return '';
     }
 
     /**
      * Returns the content that should be displayed in the Others tab on the no data page
      *
-     * @param SiteContentDetector|null $detector
-     * @return string|null
+     * @param SiteContentDetector $detector
+     * @return string
      */
-    public function renderOthersInstruction(SiteContentDetector $detector = null): ?string
+    public function renderOthersInstruction(SiteContentDetector $detector): string
     {
-        return null;
+        return '';
     }
 }

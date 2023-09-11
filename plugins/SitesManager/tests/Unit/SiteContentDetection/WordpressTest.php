@@ -24,7 +24,7 @@ class WordpressTest extends \PHPUnit\Framework\TestCase
     public function testdetectByContent($expected, $data, $headers)
     {
         $detection = new WordPress();
-        self::assertSame($expected, $detection->detectByContent($data, $headers));
+        self::assertSame($expected, $detection->isDetected($data, $headers));
     }
 
     public function responseProvider()

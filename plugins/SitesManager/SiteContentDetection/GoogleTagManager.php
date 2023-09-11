@@ -38,7 +38,7 @@ class GoogleTagManager extends SiteContentDetectionAbstract
         return 20;
     }
 
-    public function detectByContent(?string $data = null, ?array $headers = null): bool
+    public function isDetected(?string $data = null, ?array $headers = null): bool
     {
         $needle = 'gtm.start';
 
@@ -65,7 +65,7 @@ class GoogleTagManager extends SiteContentDetectionAbstract
         return true;
     }
 
-    public function renderInstructionsTab(SiteContentDetector $detector = null): string
+    public function renderInstructionsTab(SiteContentDetector $detector): string
     {
         $piwikUrl = Url::getCurrentUrlWithoutFileName();
         $jsTag = Request::processRequest(
@@ -81,7 +81,7 @@ class GoogleTagManager extends SiteContentDetectionAbstract
         return $view->render();
     }
 
-    public function renderOthersInstruction(SiteContentDetector $detector = null): string
+    public function renderOthersInstruction(SiteContentDetector $detector): string
     {
         if ($detector->wasDetected(self::class)) {
             return ''; // don't show on others page if tab is being displayed

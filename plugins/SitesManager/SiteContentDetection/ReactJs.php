@@ -35,7 +35,7 @@ class ReactJs extends SiteContentDetectionAbstract
         return 60;
     }
 
-    public function detectByContent(?string $data = null, ?array $headers = null): bool
+    public function isDetected(?string $data = null, ?array $headers = null): bool
     {
         $needles = ['react.min.js' ,'react.development.min.js', 'react-dom.development.min.js' ,'react.development.js',
                     'react-dom.development.js', 'ReactDOM.', 'react.production.min.js', 'react-jsx-dev-runtime.development.js',
@@ -60,7 +60,7 @@ class ReactJs extends SiteContentDetectionAbstract
         return true;
     }
 
-    public function renderInstructionsTab(SiteContentDetector $detector = null): string
+    public function renderInstructionsTab(SiteContentDetector $detector): string
     {
         return '
             <p></p><p></p>
@@ -82,7 +82,7 @@ class ReactJs extends SiteContentDetectionAbstract
 ';
     }
 
-    public function renderOthersInstruction(SiteContentDetector $detector = null): string
+    public function renderOthersInstruction(SiteContentDetector $detector): string
     {
         if ($detector->wasDetected(self::class)) {
             return ''; // don't show on others page if tab is being displayed

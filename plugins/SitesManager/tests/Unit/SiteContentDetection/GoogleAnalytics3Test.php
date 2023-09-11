@@ -24,7 +24,7 @@ class GoogleAnalytics3Test extends \PHPUnit\Framework\TestCase
     public function testdetectByContent($expected, $data, $headers)
     {
         $detection = new GoogleAnalytics3();
-        self::assertSame($expected, $detection->detectByContent($data, $headers));
+        self::assertSame($expected, $detection->isDetected($data, $headers));
     }
 
     public function responseProvider()

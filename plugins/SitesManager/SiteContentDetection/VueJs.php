@@ -38,7 +38,7 @@ class VueJs extends SiteContentDetectionAbstract
         return 50;
     }
 
-    public function detectByContent(?string $data = null, ?array $headers = null): bool
+    public function isDetected(?string $data = null, ?array $headers = null): bool
     {
         return preg_match("/vue\.\w.+.js|vue\-\w.+.js/i", $data) === 1;
     }
@@ -48,7 +48,7 @@ class VueJs extends SiteContentDetectionAbstract
         return true;
     }
 
-    public function renderInstructionsTab(SiteContentDetector $detector = null): string
+    public function renderInstructionsTab(SiteContentDetector $detector): string
     {
         $view     = new View("@SitesManager/_vueTabInstructions");
         $view->sendHeadersWhenRendering = false;
@@ -58,7 +58,7 @@ class VueJs extends SiteContentDetectionAbstract
         return $view->render();
     }
 
-    public function renderOthersInstruction(SiteContentDetector $detector = null): string
+    public function renderOthersInstruction(SiteContentDetector $detector): string
     {
         if ($detector->wasDetected(self::class)) {
             return ''; // don't show on others page if tab is being displayed

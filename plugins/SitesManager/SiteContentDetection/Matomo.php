@@ -40,7 +40,7 @@ class Matomo extends SiteContentDetectionAbstract
         return 1;
     }
 
-    public function detectByContent(?string $data = null, ?array $headers = null): bool
+    public function isDetected(?string $data = null, ?array $headers = null): bool
     {
         $tests = ['/matomo\.js/i', '/piwik\.js/i', '/_paq\.push/i'];
         foreach ($tests as $test) {
@@ -57,7 +57,7 @@ class Matomo extends SiteContentDetectionAbstract
         return true;
     }
 
-    public function renderInstructionsTab(SiteContentDetector $detector = null): string
+    public function renderInstructionsTab(SiteContentDetector $detector): string
     {
         $view = new View('@SitesManager/_matomoTabInstructions');
         $dntChecker = new DoNotTrackHeaderChecker();

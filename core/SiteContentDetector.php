@@ -69,7 +69,7 @@ class SiteContentDetector
     /**
      * @return array<string, SiteContentDetectionAbstract[]>
      */
-    public static function getSiteContentDetectionsByType()
+    public static function getSiteContentDetectionsByType(): array
     {
         $instancesByType = [];
         $classes = self::getAllSiteContentDetectionClasses();
@@ -333,7 +333,7 @@ class SiteContentDetector
                 {
                     $this->detectedContent[$type][$typeDetection::getId()] = false;
 
-                    if ($typeDetection->detectByContent($this->siteResponse['data'], $this->siteResponse['headers'])) {
+                    if ($typeDetection->isDetected($this->siteResponse['data'], $this->siteResponse['headers'])) {
                         if ($typeDetection instanceof ConsentManagerDetectionAbstract
                             && $typeDetection->checkIsConnected($this->siteResponse['data'], $this->siteResponse['headers']) ) {
                             $this->connectedConsentManagers[] = $typeDetection::getId();

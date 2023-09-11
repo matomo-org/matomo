@@ -22,7 +22,7 @@ class CookieYes extends ConsentManagerDetectionAbstract
         return 'https://matomo.org/faq/how-to/using-cookieyes-consent-manager-with-matomo';
     }
 
-    public function detectByContent(?string $data = null, ?array $headers = null): bool
+    public function isDetected(?string $data = null, ?array $headers = null): bool
     {
         $needle = 'cookieyes.com';
         return (strpos($data, $needle) !== false);

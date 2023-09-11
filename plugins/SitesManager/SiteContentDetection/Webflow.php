@@ -27,7 +27,7 @@ class Webflow extends SiteContentDetectionAbstract
         return 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-webflow';
     }
 
-    public function detectByContent(?string $data = null, ?array $headers = null): bool
+    public function isDetected(?string $data = null, ?array $headers = null): bool
     {
         $pattern = '/data-wf-(?:domain|page)=/i';
         return (preg_match($pattern, $data) === 1);
