@@ -11,12 +11,19 @@
     </h1>
 
     <div id="start-tracking-cta">
-      <a rel="noreferrer noopener" target="_blank" :href="inviteUserLink">
-        <span class="icon-user-add"></span>
-        {{ translate('UsersManager_InviteTeamMember') }}
-      </a>
-      <VueEntryContainer :html="additionalCtaContent"/>
+      <div>
+        <a rel="noreferrer noopener" target="_blank" :href="inviteUserLink">
+          <span class="icon-user-add"></span>
+          {{ translate('UsersManager_InviteTeamMember') }}
+        </a>
+      </div>
+      <VueEntryContainer :html="additionalCtaContent" v-if="additionalCtaContent"/>
     </div>
+
+    <SiteSelector v-if="!isSingleSite"
+      :show-selected-site="true"
+      :show-all-sites-item="false"
+    />
 
     <WidgetLoader
       :widget-params="{module: 'SitesManager', action: 'siteWithoutDataTabs'}"
@@ -37,6 +44,7 @@
 import { defineComponent } from 'vue';
 import {
   MatomoUrl,
+  SiteSelector,
   WidgetLoader,
   VueEntryContainer,
 } from 'CoreHome';
@@ -48,8 +56,10 @@ export default defineComponent({
       required: true,
     },
     additionalCtaContent: String,
+    isSingleSite: Boolean,
   },
   components: {
+    SiteSelector,
     WidgetLoader,
     VueEntryContainer,
   },

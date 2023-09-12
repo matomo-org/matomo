@@ -126,14 +126,21 @@ td.editable-site-field:hover {
 
 #site-without-data {
     background: @color-white;
-    .top_controls {
-        background: @color-white;
-    }
-}
 
-.site-without-data {
-    max-width: 1120px;
-    margin: 0 auto;
+    .top_controls {
+        display: none;
+    }
+
+    .pageWrap {
+        max-width: 1120px;
+        margin: 48px auto 0;
+
+        .siteSelector {
+            clear: both;
+            margin: 0 0 40px 0;
+            float: left;
+        }
+    }
 
     h1#start-tracking-data-header {
         font-weight: bold;
@@ -144,19 +151,29 @@ td.editable-site-field:hover {
 
     #start-tracking-cta {
         float: right;
-        > a {
-            color: @color-silver-dark;
-            font-size: 14px;
-            font-weight: 500;
-            line-height: 24px;
-            text-transform: uppercase;
-            text-decoration: none;
-            padding: 12px;
+        margin-bottom: 32px;
+
+        > div {
+            padding: 12px 24px 12px 0;
             display: inline-flex;
 
-            [class^="icon-"], [class*=" icon-"] {
-                font-size: 24px;
-                margin-right: 8px;
+            a {
+                color: @color-silver-dark;
+                font-size: 14px;
+                font-weight: 500;
+                line-height: 24px;
+                text-transform: uppercase;
+                text-decoration: none;
+                display: inline-flex;
+
+                [class^="icon-"], [class*=" icon-"] {
+                    font-size: 24px;
+                    margin-right: 8px;
+                }
+            }
+
+            &:last-child {
+                padding-right: 0;
             }
         }
     }
@@ -172,6 +189,7 @@ td.editable-site-field:hover {
         line-height: 21px;
 
         h2 {
+            color: @theme-color-text;
             font-size: 16px;
             font-weight: bold;
             line-height: 21px;
@@ -197,6 +215,25 @@ td.editable-site-field:hover {
         border-radius: 4px;
         border: 1px dashed @theme-color-background-lowContrast;
         padding: 24px 24px 24px 88px;
+
+        @media only screen and (max-width: 992px) {
+            padding: 24px;
+            min-width: 312px;
+        }
+
+        h2 {
+            font-size: 20px;
+            line-height: 30px;
+            font-weight: bold;
+            color: @theme-color-text;
+            padding: 0 0 16px 0;
+
+            @media only screen and (max-width: 992px) {
+                padding-left: 64px
+            }
+        }
+
+
     }
 
     #start-tracking-method-list {
@@ -205,21 +242,18 @@ td.editable-site-field:hover {
 
         .icon-search {
             position: absolute;
-            top: 19px;
-            left: 24px;
-            font-size: 40px;
-        }
-
-        h2 {
-            font-size: 20px;
-            font-weight: bold;
-            color: @color-black;
-            padding: 0 0 16px 0;
+            top: 22px;
+            left: 28px;
+            font-size: 33px;
         }
 
         ul {
             list-style-type: none;
             margin: 20px -20px 0;
+
+            @media only screen and (max-width: 992px) {
+                margin: 20px -12px;
+            }
 
             li {
                 width: 288px;
@@ -227,12 +261,17 @@ td.editable-site-field:hover {
                 float: left;
                 border-radius: 4px;
                 border: 1px solid @theme-color-background-lowContrast;
-                margin: 20px;
+                margin: 16px 20px;
                 position: relative;
+
+                @media only screen and (max-width: 992px) {
+                    width: 264px;
+                    margin: 12px 12px;
+                }
 
                 a {
                     text-decoration: none;
-                    color: @color-black;
+                    color: @theme-color-text;
                     display: block;
                     height: 100%;
                     width: 100%;
@@ -244,6 +283,10 @@ td.editable-site-field:hover {
                     position: absolute;
                     left: 24px;
                     top: 8px;
+
+                    @media only screen and (max-width: 992px) {
+                        left: 16px;
+                    }
                 }
 
                 .list-entry-text {
@@ -252,6 +295,10 @@ td.editable-site-field:hover {
                     line-height: 24px;
                     margin: 20px 0 0 88px;
                     display: inline-block;
+
+                    @media only screen and (max-width: 992px) {
+                        margin-left: 72px;
+                    }
                 }
             }
         }

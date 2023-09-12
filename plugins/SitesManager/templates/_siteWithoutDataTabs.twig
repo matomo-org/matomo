@@ -1,8 +1,10 @@
 {% set columnClass = tabs|length ? 's2' : 's3' %}
 
+{% if recommendedMethod %}
 <div class="row" id="start-tracking-detection">
 
 </div>
+{% endif %}
 
 <div class="row" id="start-tracking-method-list">
     <span class="icon-search"></span>
@@ -41,8 +43,6 @@
         {{ tab.content|raw }}
     </div>
 {% endfor %}
-
-
 
 <div id="integrations" class="start-tracking-method">
     {% if instruction %}
