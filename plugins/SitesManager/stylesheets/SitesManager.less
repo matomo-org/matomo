@@ -215,6 +215,7 @@ td.editable-site-field:hover {
         border-radius: 4px;
         border: 1px dashed @theme-color-background-lowContrast;
         padding: 24px 24px 24px 88px;
+        position: relative;
 
         @media only screen and (max-width: 992px) {
             padding: 24px;
@@ -236,10 +237,21 @@ td.editable-site-field:hover {
 
     }
 
+    #start-tracking-detection {
+        img {
+            position: absolute;
+            top: 22px;
+            left: 28px;
+            font-size: 33px;
+        }
+
+        a.btn {
+            margin-top: 24px;
+            font-weight: bold;
+        }
+    }
+
     #start-tracking-method-list {
-
-        position: relative;
-
         .icon-search {
             position: absolute;
             top: 22px;

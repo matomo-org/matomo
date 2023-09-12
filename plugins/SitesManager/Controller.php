@@ -15,6 +15,7 @@ use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
+use Piwik\Plugins\SitesManager\SiteContentDetection\Matomo;
 use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
 use Piwik\Plugins\SitesManager\SiteContentDetection\WordPress;
 use Piwik\SiteContentDetector;
@@ -193,6 +194,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                         'content'           => $tabContent,
                         'icon'              => $obj::getIcon(),
                         'priority'          => $obj::getPriority(),
+                        'wasDetected'       => $this->siteContentDetector->wasDetected($obj::getId())
                     ];
                 }
 
@@ -229,6 +231,15 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         });
 
         $templateData['recommendedMethod'] = null;
+
+        foreach ($templateData['tabs'] as $index => $tab) {
+            // Note: We never show Matomo (JavaScript Code) as recommended even if it was detected
+            if ($tab['wasDetected'] && $tab['id'] !== Matomo::getId()) {
+                $templateData['recommendedMethod'] = $tab;
+                unset($templateData['tabs'][$index]);
+                break;
+            }
+        }
 
         return $this->renderTemplateAs('_siteWithoutDataTabs', $templateData, $viewType = 'basic');
     }
