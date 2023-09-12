@@ -15,8 +15,6 @@ use Piwik\Plugin;
 use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\Plugins\CorePluginsAdmin\Model\TagManagerTeaser;
 use Piwik\Changes\Model as ChangesModel;
-use Piwik\Db;
-use Piwik\Plugin\Manager as PluginManager;
 
 class CorePluginsAdmin extends Plugin
 {
