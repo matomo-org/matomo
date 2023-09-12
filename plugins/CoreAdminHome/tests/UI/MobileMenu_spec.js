@@ -23,7 +23,12 @@ describe("MobileMenu", function () {
         await page.waitForNetworkIdle();
         await page.click('[data-target="mobile-left-menu"]');
         await page.waitForTimeout(150);
+        await page.click('ul#mobile-left-menu > li:nth-child(1) a');
         await page.click('ul#mobile-left-menu > li:nth-child(2) a');
+        await page.click('ul#mobile-left-menu > li:nth-child(3) a');
+        await page.click('ul#mobile-left-menu > li:nth-child(4) a');
+        await page.click('ul#mobile-left-menu > li:nth-child(5) a');
+        await page.click('ul#mobile-left-menu > li:nth-child(6) a');
         await page.waitForTimeout(250);
 
         expect(await page.screenshotSelector(contentSelector)).to.matchImage(screenshotName);
