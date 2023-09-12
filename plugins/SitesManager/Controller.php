@@ -13,7 +13,6 @@ namespace Piwik\Plugins\SitesManager;
 use Exception;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
-use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
@@ -229,6 +228,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         usort($templateData['instructionUrls'], function($a, $b) {
             return strnatcmp($a['name'], $b['name']);
         });
+
+        $templateData['recommendedMethod'] = null;
 
         return $this->renderTemplateAs('_siteWithoutDataTabs', $templateData, $viewType = 'basic');
     }

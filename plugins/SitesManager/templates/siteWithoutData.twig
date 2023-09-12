@@ -4,10 +4,6 @@
     {% include "@CoreHome/_notifications.twig" %}
 {% endblock %}
 
-{% block topcontrols %}
-    {% include "@CoreHome/_siteSelectHeader.twig" %}
-{% endblock %}
-
 {% set bodyId = 'site-without-data' %}
 
 {% block content %}
@@ -28,14 +24,13 @@
         });
     </script>
 
-    <div class="site-without-data">
-        {% set additionalCtaEventContent %}{{ postEvent('Template.siteWithoutData.additionalCta') }}{% endset %}
+    {% set additionalCtaEventContent %}{{ postEvent('Template.siteWithoutData.additionalCta') }}{% endset %}
 
-        <div
-            vue-entry="SitesManager.SiteWithoutData"
-            additional-cta-content="{{ additionalCtaEventContent|json_encode }}"
-            invite-user-link="{{ inviteUserLink|json_encode }}"
-        ></div>
-    </div>
+    <div
+        vue-entry="SitesManager.SiteWithoutData"
+        additional-cta-content="{{ additionalCtaEventContent|json_encode }}"
+        invite-user-link="{{ inviteUserLink|json_encode }}"
+        is-single-site="{{ isSingleSite|json_encode }}"
+    ></div>
 
 {% endblock %}
