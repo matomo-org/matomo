@@ -24,7 +24,7 @@ describe("MobileMenu", function () {
         await page.click('[data-target="mobile-left-menu"]');
         await page.waitForTimeout(150);
         await page.click('ul#mobile-left-menu > li:nth-child(2) a');
-        await page.waitForTimeout(200);
+        await page.waitForTimeout(250);
 
         expect(await page.screenshotSelector(contentSelector)).to.matchImage(screenshotName);
     });
