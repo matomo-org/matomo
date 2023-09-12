@@ -11,12 +11,10 @@
     </h1>
 
     <div id="start-tracking-cta">
-      <div>
-        <a rel="noreferrer noopener" target="_blank" :href="inviteUserLink">
-          <span class="icon-user-add"></span>
-          {{ translate('UsersManager_InviteTeamMember') }}
-        </a>
-      </div>
+      <a rel="noreferrer noopener" target="_blank" :href="inviteUserLink">
+        <span class="icon-user-add"></span>
+        {{ translate('UsersManager_InviteTeamMember') }}
+      </a>
       <VueEntryContainer :html="additionalCtaContent" v-if="additionalCtaContent"/>
     </div>
 

@@ -149,33 +149,32 @@ td.editable-site-field:hover {
         margin-bottom: 32px;
     }
 
-    #start-tracking-cta {
+    #start-tracking-cta, #share-button {
         float: right;
-        margin-bottom: 32px;
 
-        > div {
-            padding: 12px 24px 12px 0;
+        > a {
+            color: @color-silver-dark;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 24px;
+            text-transform: uppercase;
+            text-decoration: none;
             display: inline-flex;
+            padding: 12px 24px 12px 0;
 
-            a {
-                color: @color-silver-dark;
-                font-size: 14px;
-                font-weight: 500;
-                line-height: 24px;
-                text-transform: uppercase;
-                text-decoration: none;
-                display: inline-flex;
-
-                [class^="icon-"], [class*=" icon-"] {
-                    font-size: 24px;
-                    margin-right: 8px;
-                }
+            [class^="icon-"], [class*=" icon-"] {
+                font-size: 24px;
+                margin-right: 8px;
             }
 
             &:last-child {
                 padding-right: 0;
             }
         }
+    }
+
+    #start-tracking-cta {
+        margin-bottom: 32px;
     }
 
     .widgetLoader {
@@ -230,7 +229,7 @@ td.editable-site-field:hover {
             padding: 0 0 16px 0;
 
             @media only screen and (max-width: 992px) {
-                padding-left: 64px
+                clear: both;
             }
         }
 
@@ -240,9 +239,16 @@ td.editable-site-field:hover {
     #start-tracking-detection {
         img {
             position: absolute;
-            top: 22px;
-            left: 28px;
-            font-size: 33px;
+            top: 16px;
+            left: 24px;
+
+            @media only screen and (max-width: 992px) {
+                position: relative;
+                float: left;
+                top: 0;
+                left: 0;
+                margin-bottom: 16px;
+            }
         }
 
         a.btn {
@@ -252,6 +258,13 @@ td.editable-site-field:hover {
     }
 
     #start-tracking-method-list {
+
+        h2 {
+            @media only screen and (max-width: 992px) {
+                padding-left: 64px
+            }
+        }
+
         .icon-search {
             position: absolute;
             top: 22px;

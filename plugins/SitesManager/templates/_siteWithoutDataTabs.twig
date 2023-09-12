@@ -2,6 +2,12 @@
 
 {% if recommendedMethod %}
 <div class="row" id="start-tracking-detection">
+    <!--div id="share-button">
+        <a href="">
+            <span class="icon-upload"></span>
+            Share
+        </a>
+    </div-->
     <img src="{{ recommendedMethod.icon  }}" alt="{{ recommendedMethod.name }} logo" />
     <h2>Install Matomo with {{ recommendedMethod.name }} (recommended for you)</h2>
     <p>We have detected {{ recommendedMethod.name }} on your site, so you can set up Matomo within a few minutes with our official {{ recommendedMethod.name }} integration.</p>
