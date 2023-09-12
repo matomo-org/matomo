@@ -64,8 +64,7 @@ class CorePluginsAdmin extends Plugin
      */
     private function getChangesModel(): ChangesModel
     {
-        $changesModelClass = StaticContainer::get(\Piwik\Changes\Model::class);
-        return new $changesModelClass(Db::get(), PluginManager::getInstance());
+        return StaticContainer::get(\Piwik\Changes\Model::class);
     }
 
     public function onPluginActivated($pluginName)

@@ -30,8 +30,7 @@ class UserChanges
     public function __construct(array $user)
     {
         $this->user = $user;
-        $changesModelClass = StaticContainer::get(\Piwik\Changes\Model::class);
-        $this->changesModel = new $changesModelClass();
+        $this->changesModel = StaticContainer::get(\Piwik\Changes\Model::class);
     }
 
     /**

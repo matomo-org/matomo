@@ -28,9 +28,7 @@ class ChangesTest extends IntegrationTestCase
     public function test_CoreHomeChanges_ShouldSortChangeListMostRecentFirst()
     {
         $json = '{"idchange":3,"plugin_name":"CoreHome","version":"4.6.0b5","title":"New feature x added","description":"Now you can do a with b like this","link_name":"For more information go here","link":"https:\/\/www.matomo.org"}';
-        $changesModelClass = StaticContainer::get(\Piwik\Changes\Model::class);
-        $changesModel = new $changesModelClass();
-        $changes = $changesModel->getChangeItems();
+        $changes = StaticContainer::get(\Piwik\Changes\Model::class)->getChangeItems();
         $r = reset($changes);
         unset($r['created_time']);
         $this->assertEquals($json, json_encode($r, true));
@@ -39,9 +37,7 @@ class ChangesTest extends IntegrationTestCase
     public function test_CoreHomeChanges_ShouldAllowChangeItemAddWithoutLink()
     {
         $json = '{"idchange":2,"plugin_name":"CoreHome","version":"4.5.0","title":"New feature y added","description":"Now you can do c with d like this","link_name":null,"link":null}';
-        $changesModelClass = StaticContainer::get(\Piwik\Changes\Model::class);
-        $changesModel = new $changesModelClass();
-        $changes = $changesModel->getChangeItems();
+        $changes = StaticContainer::get(\Piwik\Changes\Model::class)->getChangeItems();
         $r = $changes[1];
         unset($r['created_time']);
         $this->assertEquals($json, json_encode($r, true));

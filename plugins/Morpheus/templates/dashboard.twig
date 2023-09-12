@@ -62,7 +62,8 @@
 {% if whatisnewShow is defined and whatisnewShow %}
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
-            window.Piwik_Popover.createPopupAndLoadUrl('module=CoreAdminHome&action=whatIsNew', '{{ whatisnewTooltip|raw }}', 'what-is-new-popup');
+            const tooltip = '{{ 'CoreAdminHome_WhatIsNewTooltip'|translate }}';
+            window.Piwik_Popover.createPopupAndLoadUrl('module=CoreAdminHome&action=whatIsNew', tooltip.replace(/&#039;/g,"'"), 'what-is-new-popup');
         });
     </script>
 {% endif %}

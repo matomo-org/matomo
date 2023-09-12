@@ -31,8 +31,6 @@ class Model
     const CHANGES_EXIST = 1;
     const NEW_CHANGES_EXIST = 2;
 
-    private $pluginManager;
-
     /**
      * @var Db\AdapterInterface
      */
@@ -41,14 +39,9 @@ class Model
     /** @var array */
     private $changeItems = null;
 
-    /**
-     * @param Db\AdapterInterface|null $db
-     * @param PluginManager|null $pluginManager
-     */
-    public function __construct(?Db\AdapterInterface $db = null, ?PluginManager $pluginManager = null)
+    public function __construct()
     {
-        $this->db = ($db ?? Db::get());
-        $this->pluginManager = ($pluginManager ?? PluginManager::getInstance());
+        $this->db = Db::get();
     }
 
     /**
@@ -60,9 +53,11 @@ class Model
      */
     public function addChanges(string $pluginName): void
     {
-        if ($this->pluginManager->isValidPluginName($pluginName) && $this->pluginManager->isPluginInFilesystem($pluginName)) {
+        $pluginManager = PluginManager::getInstance();
 
-            $plugin = $this->pluginManager->loadPlugin($pluginName);
+        if ($pluginManager && $pluginManager->isValidPluginName($pluginName) && $pluginManager->isPluginInFilesystem($pluginName)) {
+
+            $plugin = $pluginManager->loadPlugin($pluginName);
             if (!$plugin) {
                 return;
             }

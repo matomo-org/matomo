@@ -312,7 +312,7 @@ abstract class Controller
             $viewType = $this instanceof ControllerAdmin ? 'admin' : 'basic';
         }
 
-        // Set early so it can available for setGeneralVariables method calls
+        // Set early so it is available for setGeneralVariables method calls
         if (isset($variables['hideWhatIsNew'])) {
             $view->hideWhatIsNew = $variables['hideWhatIsNew'];
         }
@@ -828,7 +828,6 @@ abstract class Controller
     protected function showWhatIsNew(View $view): void
     {
         $view->whatisnewShow = false;
-        $view->whatisnewTooltip = addslashes(Piwik::translate('CoreAdminHome_WhatIsNewTooltip'));
 
         if (isset($view->hideWhatIsNew) && $view->hideWhatIsNew) {
             return;
