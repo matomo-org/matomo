@@ -28,7 +28,7 @@ class GoogleTagManager extends SiteContentDetectionAbstract
         return './plugins/SitesManager/images/gtm.svg';
     }
 
-    public static function getContentType(): string
+    public static function getContentType(): int
     {
         return self::TYPE_TRACKER;
     }

@@ -35,7 +35,7 @@ class Matomo extends SiteContentDetectionAbstract
         return './plugins/SitesManager/images/code.svg';
     }
 
-    public static function getContentType(): string
+    public static function getContentType(): int
     {
         return self::TYPE_TRACKER;
     }
