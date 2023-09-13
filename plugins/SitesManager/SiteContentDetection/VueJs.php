@@ -52,6 +52,7 @@ class VueJs extends SiteContentDetectionAbstract
     {
         $view     = new View("@SitesManager/_vueTabInstructions");
         $view->sendHeadersWhenRendering = false;
+        $view->wasDetected = $detector->wasDetected(self::getId());
         $view->SiteWithoutDataVueFollowStepNote2Key = StaticContainer::get('SitesManager.SiteWithoutDataVueFollowStepNote2');
         $view->vue3Code = $this->getVueInitializeCode(3);
         $view->vue2Code = $this->getVueInitializeCode(2);
