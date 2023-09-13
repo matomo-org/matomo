@@ -159,14 +159,16 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                  * Event that can be used to manipulate the content of a certain tab on the no data page
                  *
                  * @param string $tabContent  Content of the tab
+                 * @param SiteContentDetector $detector  Instance of SiteContentDetector, holding current detection results
                  */
-                Piwik::postEvent('Template.siteWithoutDataTab.' . $obj::getId() . '.content', [&$tabContent]);
+                Piwik::postEvent('Template.siteWithoutDataTab.' . $obj::getId() . '.content', [&$tabContent, $this->siteContentDetector]);
                 /**
                  * Event that can be used to manipulate the content of a record on the others tab on the no data page
                  *
                  * @param string $othersInstruction  Content of the record
+                 * @param SiteContentDetector $detector  Instance of SiteContentDetector, holding current detection results
                  */
-                Piwik::postEvent('Template.siteWithoutDataTab.' . $obj::getId() . '.others', [&$othersInstruction]);
+                Piwik::postEvent('Template.siteWithoutDataTab.' . $obj::getId() . '.others', [&$othersInstruction, $this->siteContentDetector]);
 
                 if (!empty($tabContent)) {
                     $trackingMethods[] = [
