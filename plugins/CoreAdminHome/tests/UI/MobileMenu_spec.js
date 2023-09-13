@@ -18,7 +18,7 @@ describe("MobileMenu", function () {
         const screenshotName  = 'mobileMenuPartial';
         const contentSelector = '#mobile-left-menu';
 
-        await page.webpage.setViewport({ width: 815, height: 512 });
+        await page.webpage.setViewport({ width: 815, height: 1500 });
         await page.goto('?module=CoreAdminHome&action=home');
         await page.waitForNetworkIdle();
         await page.click('[data-target="mobile-left-menu"]');
