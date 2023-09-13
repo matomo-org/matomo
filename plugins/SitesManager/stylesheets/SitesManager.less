@@ -249,7 +249,7 @@ td.editable-site-field:hover {
 
     #start-tracking-details,
     #start-tracking-detection {
-        img {
+        > img {
             position: absolute;
             height: 48px;
             width: 48px;
@@ -380,13 +380,15 @@ td.editable-site-field:hover {
         }
 
         .tagManagerTrackingCode {
+            padding-top: 1rem;
+
             > .row, > .row .row {
                 margin-bottom: -0.5rem !important;
                 margin-top: -1.5rem !important;
             }
 
             label[for="containers"], label[for="environment"] {
-                top: 7px !important;
+                top: -4px !important;
             }
         }
 
@@ -400,10 +402,6 @@ td.editable-site-field:hover {
 
         .fw-bold {
             font-weight: bold;
-        }
-
-        .list-style-decimal {
-            list-style: decimal inside;
         }
 
         .list-style-disc {
