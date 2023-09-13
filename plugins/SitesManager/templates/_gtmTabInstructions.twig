@@ -1,7 +1,8 @@
-<p></p><p></p>
+{% if wasDetected %}
 <div class="system notification notification-info">
     {{ 'SitesManager_GTMDetected'|translate('<a href="https://matomo.org/faq/tag-manager/migrating-from-google-tag-manager/" target="_blank" rel="noreferrer noopener">', '</a>')|raw }}
 </div>
+{% endif %}
 
 <p>{{ 'SitesManager_SiteWithoutDataGoogleTagManagerIntro'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-within-gtm-google-tag-manager/">','</a>')|raw }}</p>
 <br>

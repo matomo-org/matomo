@@ -76,6 +76,7 @@ class GoogleTagManager extends SiteContentDetectionAbstract
             ]
         );
         $view = new View('@SitesManager/_gtmTabInstructions');
+        $view->wasDetected = $detector->wasDetected(self::getId());
         $view->jsTag = $jsTag;
         $view->sendHeadersWhenRendering = false;
         return $view->render();

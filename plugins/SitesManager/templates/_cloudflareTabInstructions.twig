@@ -1,7 +1,8 @@
-<p></p><p></p>
+{% if wasDetected %}
 <div class="system notification notification-info">
     {{ 'SitesManager_CloudflareDetected'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-cloudflare-setup/">','</a>')|raw }}
 </div>
+{% endif %}
 
 <p>{{ 'SitesManager_SiteWithoutDataCloudflareIntro'|translate }}</p>
 <br>
