@@ -500,19 +500,21 @@ export default defineComponent({
 
       try {
         Periods.parse(periodType, periodDate);
-      } catch (e) {
+      } catch {
         return;
       }
 
       this.comparePeriodType = comparePeriodType;
 
-      if (this.comparePeriodType === 'custom') {
-        const periodObj = Periods.get(periodType).parse(periodDate) as Range;
-        const [startDate, endDate] = periodObj.getDateRange();
-
-        this.compareStartDate = format(startDate);
-        this.compareEndDate = format(endDate);
+      if (this.comparePeriodType !== 'custom') {
+        return;
       }
+
+      const periodObj = Periods.get(periodType).parse(periodDate) as Range;
+      const [startDate, endDate] = periodObj.getDateRange();
+
+      this.compareStartDate = format(startDate);
+      this.compareEndDate = format(endDate);
     },
     updateSelectedValuesFromHash() {
       const date = MatomoUrl.parsed.value.date as string;
