@@ -128,18 +128,16 @@ td.editable-site-field:hover {
     background: @color-white;
 
     .top_controls {
-        display: none;
+        background: @color-white;
+
+        .quick-access {
+            display: none;
+        }
     }
 
     .pageWrap {
         max-width: 1120px;
         margin: 48px auto 0;
-
-        .siteSelector {
-            clear: both;
-            margin: 0 0 40px 0;
-            float: left;
-        }
     }
 
     h1#start-tracking-data-header {
@@ -177,7 +175,7 @@ td.editable-site-field:hover {
         margin-bottom: 32px;
     }
 
-    .widgetLoader {
+    .loadingPiwik {
         clear: both;
     }
 
@@ -232,8 +230,6 @@ td.editable-site-field:hover {
                 clear: both;
             }
         }
-
-
     }
 
     #start-tracking-detection {
