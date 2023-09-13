@@ -6,6 +6,10 @@
 
 {% set bodyId = 'site-without-data' %}
 
+{% block topcontrols %}
+    {% include "@CoreHome/_siteSelectHeader.twig" %}
+{% endblock %}
+
 {% block content %}
 
     <script type="text/javascript" charset="utf-8">
