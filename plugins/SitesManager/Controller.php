@@ -138,13 +138,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         ], $viewType = 'basic');
     }
 
-    public function siteWithoutDataTabs()
+    public function getTrackingMethodsForSite()
     {
         $this->checkSitePermission();
 
         $this->siteContentDetector->detectContent([], $this->idSite);
 
-        $tabs = [];
+        $trackingMethods = [];
         $instructionUrls = [];
         $othersInstructions = [];
 
@@ -168,7 +168,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 Piwik::postEvent('Template.siteWithoutDataTab.' . $obj::getId() . '.others', [&$othersInstruction]);
 
                 if (!empty($tabContent)) {
-                    $tabs[] = [
+                    $trackingMethods[] = [
                         'id'                => $obj::getId(),
                         'name'              => $obj::getName(),
                         'type'              => $obj::getContentType(),
@@ -199,7 +199,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
         }
 
-        usort($tabs, function($a, $b) {
+        usort($trackingMethods, function($a, $b) {
             return strcmp($a['priority'], $b['priority']);
         });
 
@@ -212,7 +212,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         });
 
         // add integration and others tab
-        $tabs[] = [
+        $trackingMethods[] = [
             'id'                => 'Integrations',
             'name'              => Piwik::translate('SitesManager_Integrations'),
             'type'              => SiteContentDetectionAbstract::TYPE_OTHER,
@@ -221,7 +221,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'priority'          => 10000,
             'wasDetected'       => false
         ];
-        $tabs[] = [
+        $trackingMethods[] = [
             'id'                => 'Other',
             'name'              => Piwik::translate('SitesManager_SiteWithoutDataOtherWays'),
             'type'              => SiteContentDetectionAbstract::TYPE_OTHER,
@@ -233,22 +233,20 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $recommendedMethod = null;
 
-        foreach ($tabs as $index => $tab) {
+        foreach ($trackingMethods as $index => $tab) {
             // Note: We never show Matomo (JavaScript Code) as recommended even if it was detected
             if ($tab['wasDetected'] && $tab['id'] !== Matomo::getId()) {
                 $recommendedMethod = $tab;
-                unset($tabs[$index]);
+                unset($trackingMethods[$index]);
                 break;
             }
         }
 
         Json::sendHeaderJSON();
-        echo json_encode(
-            [
-                'tabs' => $tabs,
-                'recommendedMethod' => $recommendedMethod
-            ]
-        );
+        echo json_encode([
+            'trackingMethods' => $trackingMethods,
+            'recommendedMethod' => $recommendedMethod
+        ]);
         exit;
     }
 
