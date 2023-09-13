@@ -166,7 +166,6 @@ import PeriodDatePicker from '../PeriodDatePicker/PeriodDatePicker.vue';
 import ActivityIndicator from '../ActivityIndicator/ActivityIndicator.vue';
 import Matomo from '../Matomo/Matomo';
 import { translate } from '../translate';
-import type { PeriodComparison } from '../Comparisons/Comparisons.store';
 import ComparisonsStore from '../Comparisons/Comparisons.store.instance';
 import useExternalPluginComponent from '../useExternalPluginComponent';
 import {
@@ -268,11 +267,10 @@ export default defineComponent({
     });
 
     this.updateSelectedValuesFromHash();
-    this.updateComparisonValuesFromHash();
-    watch(() => MatomoUrl.parsed.value, () => {
-      this.updateSelectedValuesFromHash();
-      this.updateComparisonValuesFromHash();
-    });
+    watch(() => MatomoUrl.parsed.value, this.updateSelectedValuesFromHash);
+
+    this.updateComparisonValuesFromStore();
+    watch(() => ComparisonsStore.getPeriodComparisons(), this.updateComparisonValuesFromStore);
 
     window.initTopControls(); // must be called when a top control changes width
 
@@ -476,12 +474,15 @@ export default defineComponent({
 
       this.setPiwikPeriodAndDate(this.selectedPeriod, this.dateValue!);
     },
-    updateComparisonValuesFromHash() {
+    updateComparisonValuesFromStore() {
       this.comparePeriodType = 'previousPeriod';
       this.compareStartDate = '';
       this.compareEndDate = '';
 
-      if (!this.isComparing) {
+      // first is selected period, second is period to compare to
+      const comparePeriods = ComparisonsStore.getPeriodComparisons();
+
+      if (comparePeriods.length < 2) {
         return;
       }
 
@@ -491,26 +492,23 @@ export default defineComponent({
         return;
       }
 
-      const {
-        params: {
-          date: periodDate,
-          period: periodType,
-        },
-      } = ComparisonsStore.getPeriodComparisons().slice(-1).pop() as PeriodComparison;
+      this.comparePeriodType = comparePeriodType;
+
+      if (this.comparePeriodType !== 'custom' || comparePeriods[1].params.period !== 'range') {
+        return;
+      }
+
+      let periodObj;
 
       try {
-        Periods.parse(periodType, periodDate);
+        periodObj = Periods.parse(
+          comparePeriods[1].params.period,
+          comparePeriods[1].params.date,
+        ) as Range;
       } catch {
         return;
       }
 
-      this.comparePeriodType = comparePeriodType;
-
-      if (this.comparePeriodType !== 'custom') {
-        return;
-      }
-
-      const periodObj = Periods.get(periodType).parse(periodDate) as Range;
       const [startDate, endDate] = periodObj.getDateRange();
 
       this.compareStartDate = format(startDate);
