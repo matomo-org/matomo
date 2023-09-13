@@ -56,9 +56,9 @@ abstract class SiteContentDetectionAbstract
      * Returns the content type this detection provides
      * May be one of TYPE_TRACKER, TYPE_CMS, TYPE_JS_FRAMEWORK, TYPE_CONSENT_MANAGER
      *
-     * @return string
+     * @return int
      */
-    abstract public static function getContentType(): string;
+    abstract public static function getContentType(): int;
 
     /**
      * Returns the URL to the instruction FAQ on how to integrate Matomo (if applicable)

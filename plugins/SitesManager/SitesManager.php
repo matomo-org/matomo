@@ -458,6 +458,7 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = 'SitesManager_SiteWithoutDataGoogleTagManagerDescription';
         $translationKeys[] = 'SitesManager_SiteWithoutDataHidePageForHour';
         $translationKeys[] = 'SitesManager_SiteWithoutDataNotYetReady';
+        $translationKeys[] = 'SitesManager_SiteWithoutDataOtherInstallMethodsIntro';
         $translationKeys[] = 'SitesManager_SiteWithoutDataReactDescription';
         $translationKeys[] = 'SitesManager_SiteWithoutDataStartTrackingDataDescriptionLine1';
         $translationKeys[] = 'SitesManager_SiteWithoutDataTemporarilyHidePage';
@@ -465,6 +466,7 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = 'SitesManager_SiteWithoutDataVueDescription';
         $translationKeys[] = 'SitesManager_SiteWithoutDataWordpressDescription';
         $translationKeys[] = 'SitesManager_Sites';
+        $translationKeys[] = 'SitesManager_StepByStepGuide';
         $translationKeys[] = 'SitesManager_SuperUserAccessCan';
         $translationKeys[] = 'SitesManager_Timezone';
         $translationKeys[] = 'SitesManager_TrackingSiteSearch';
@@ -479,6 +481,7 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = 'SitesManager_YourCurrentIpAddressIs';
         $translationKeys[] = 'UsersManager_InviteTeamMember';
         $translationKeys[] = 'SitesManager_SiteWithoutDataOtherInstallMethods';
+        $translationKeys[] = 'Mobile_NavigationBack';
     }
 
     public static function renderTrackingCodeEmail(int $idSite)

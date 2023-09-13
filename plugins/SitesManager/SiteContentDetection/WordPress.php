@@ -29,7 +29,7 @@ class WordPress extends SiteContentDetectionAbstract
         return './plugins/SitesManager/images/wordpress.svg';
     }
 
-    public static function getContentType(): string
+    public static function getContentType(): int
     {
         return self::TYPE_CMS;
     }

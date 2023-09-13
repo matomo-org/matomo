@@ -28,7 +28,7 @@ class VueJs extends SiteContentDetectionAbstract
         return './plugins/SitesManager/images/vuejs.svg';
     }
 
-    public static function getContentType(): string
+    public static function getContentType(): int
     {
         return self::TYPE_JS_FRAMEWORK;
     }

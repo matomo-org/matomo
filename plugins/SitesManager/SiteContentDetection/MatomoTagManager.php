@@ -25,7 +25,7 @@ class MatomoTagManager extends SiteContentDetectionAbstract
         return './plugins/SitesManager/images/mtm.png';
     }
 
-    public static function getContentType(): string
+    public static function getContentType(): int
     {
         return self::TYPE_TRACKER;
     }

@@ -27,7 +27,7 @@ class Cloudflare extends SiteContentDetectionAbstract
         return './plugins/SitesManager/images/cloudflare.svg';
     }
 
-    public static function getContentType(): string
+    public static function getContentType(): int
     {
         return self::TYPE_CMS;
     }

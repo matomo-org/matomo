@@ -6,6 +6,14 @@
 
 <template>
   <div>
+    <a id="start-tracking-back"
+       v-if="showMethodDetails"
+       @click="showOverview();"
+    >
+      <span class="icon-chevron-left"></span>
+      {{ translate('Mobile_NavigationBack') }}
+    </a>
+
     <h1 id="start-tracking-data-header">
       {{ headline }}
     </h1>
@@ -23,7 +31,7 @@
       :loading="loading"
     />
 
-    <template v-if="!loading">
+    <template v-if="!loading && !showMethodDetails">
       <div class="row" id="start-tracking-detection" v-if="recommendedMethod">
         <!--div id="share-button">
             <a href="">
@@ -37,7 +45,8 @@
           We have detected {{ recommendedMethod.name }} on your site, so you can set up Matomo
           within a few minutes with our official {{ recommendedMethod.name }} integration.
         </p>
-        <a href="" class="btn">Install with {{ recommendedMethod.name }}</a>
+        <a :href="`#${recommendedMethod.id.toLowerCase()}`" class="btn" id="showMethod"
+           @click="showMethod(recommendedMethod)">Install with {{ recommendedMethod.name }}</a>
       </div>
 
       <div class="row" id="start-tracking-method-list">
@@ -54,19 +63,27 @@
         </ul>
       </div>
 
-      <div :id="method.id.toLowerCase()" v-for="method in trackingMethods" :key="method.id"
-           class="start-tracking-method">
-        <VueEntryContainer :html="method.content"/>
+      <div id="start-tracking-skip">
+        <h2>{{ translate('SitesManager_SiteWithoutDataNotYetReady') }}</h2>
+        <div>{{ translate('SitesManager_SiteWithoutDataTemporarilyHidePage') }}</div>
+        <a :href="ignoreSitesWithoutDataLink" class="ignoreSitesWithoutData">
+          {{ translate('SitesManager_SiteWithoutDataHidePageForHour') }}
+        </a>
       </div>
     </template>
 
-    <div id="start-tracking-skip">
-      <h2>{{ translate('SitesManager_SiteWithoutDataNotYetReady') }}</h2>
-      <div>{{ translate('SitesManager_SiteWithoutDataTemporarilyHidePage') }}</div>
-      <a :href="ignoreSitesWithoutDataLink" class="ignoreSitesWithoutData">
-        {{ translate('SitesManager_SiteWithoutDataHidePageForHour') }}
-      </a>
+    <div id="start-tracking-details" v-if="showMethodDetails">
+      <!--div id="share-button">
+          <a href="">
+              <span class="icon-upload"></span>
+              Share
+          </a>
+      </div-->
+      <img :src="showMethodDetails.icon" :alt="`${showMethodDetails.name} logo`" />
+      <h2>{{ translate('SitesManager_StepByStepGuide') }}</h2>
+      <VueEntryContainer :html="showMethodDetails.content" />
     </div>
+
   </div>
 </template>
 
@@ -83,7 +100,7 @@ import {
 interface TrackingMethod {
   id: string,
   name: string,
-  type: string,
+  type: number,
   content: string,
   icon: string,
   priority: number,
@@ -91,6 +108,7 @@ interface TrackingMethod {
 }
 interface SiteWithoutDataState {
   loading: boolean,
+  showMethodDetails: TrackingMethod|null;
   recommendedMethod: TrackingMethod|null,
   trackingMethods: Array<TrackingMethod>,
 }
@@ -111,6 +129,7 @@ export default defineComponent({
   data(): SiteWithoutDataState {
     return {
       loading: true,
+      showMethodDetails: null,
       recommendedMethod: null,
       trackingMethods: [],
     };
@@ -127,6 +146,14 @@ export default defineComponent({
       this.loading = false;
     });
   },
+  methods: {
+    showMethod(tab: TrackingMethod) {
+      this.showMethodDetails = tab;
+    },
+    showOverview() {
+      this.showMethodDetails = null;
+    },
+  },
   computed: {
     ignoreSitesWithoutDataLink() {
       return `?${MatomoUrl.stringify({
@@ -136,6 +163,12 @@ export default defineComponent({
       })}`;
     },
     headline() {
+      if (this.showMethodDetails && this.showMethodDetails.name) {
+        if (this.showMethodDetails.type === 99) {
+          return this.showMethodDetails.name;
+        }
+        return `Install with ${this.showMethodDetails.name}`;
+      }
       return translate('SitesManager_SiteWithoutDataChooseTrackingMethod');
     },
   },

@@ -17,7 +17,7 @@ class Joomla extends SiteContentDetectionAbstract
         return 'Joomla';
     }
 
-    public static function getContentType(): string
+    public static function getContentType(): int
     {
         return self::TYPE_CMS;
     }

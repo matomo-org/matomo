@@ -137,7 +137,20 @@ td.editable-site-field:hover {
 
     .pageWrap {
         max-width: 1120px;
-        margin: 48px auto 0;
+        margin: 0 auto;
+    }
+
+    a#start-tracking-back {
+        color: @theme-color-text;
+        text-decoration: none;
+        margin-bottom: 16px;
+        line-height: 24px;
+        display: block;
+
+        [class^="icon-"], [class*=" icon-"] {
+            position: relative;
+            top: 1px;
+        }
     }
 
     h1#start-tracking-data-header {
@@ -205,7 +218,9 @@ td.editable-site-field:hover {
         }
     }
 
-    #start-tracking-detection, #start-tracking-method-list {
+    #start-tracking-details,
+    #start-tracking-detection,
+    #start-tracking-method-list {
         clear: both;
         width: 100%;
         display: block;
@@ -232,9 +247,12 @@ td.editable-site-field:hover {
         }
     }
 
+    #start-tracking-details,
     #start-tracking-detection {
         img {
             position: absolute;
+            height: 48px;
+            width: 48px;
             top: 16px;
             left: 24px;
 
@@ -246,15 +264,14 @@ td.editable-site-field:hover {
                 margin-bottom: 16px;
             }
         }
+    }
 
-        a.btn {
-            margin-top: 24px;
-            font-weight: bold;
-        }
+    a#showMethod {
+        margin-top: 24px;
+        font-weight: bold;
     }
 
     #start-tracking-method-list {
-
         h2 {
             @media only screen and (max-width: 992px) {
                 padding-left: 64px
@@ -338,7 +355,11 @@ td.editable-site-field:hover {
         font-weight: bold;
     }
 
-    #wordpress, #vue {
+    #start-tracking-details {
+        p {
+            padding-bottom: 0.25rem;
+        }
+
         .steps-to-start-tracking-header {
             font-weight: bold;
         }
@@ -357,54 +378,50 @@ td.editable-site-field:hover {
             list-style: decimal;
             list-style-position: inside;
         }
-    }
 
-    .tagManagerTrackingCode {
-        > .row, > .row .row {
-            margin-bottom: -0.5rem !important;
-            margin-top: -1.5rem !important;
-        }
+        .tagManagerTrackingCode {
+            > .row, > .row .row {
+                margin-bottom: -0.5rem !important;
+                margin-top: -1.5rem !important;
+            }
 
-        label[for="containers"], label[for="environment"] {
-            top: 7px !important;
-        }
-    }
-
-    .no-mt-top {
-        margin-top: 0 !important;
-    }
-
-    .merged-notification {
-        line-height: 4px;
-
-        p:first-child {
-            padding-top: 0.4rem;
-        }
-    }
-
-    .fw-bold {
-        font-weight: bold;
-    }
-
-    .list-style-decimal {
-        list-style: decimal inside;
-    }
-
-    .list-style-disc {
-        list-style: disc inside;
-    }
-
-    @media screen {
-        @media (max-width: 999px) {
-            .right img {
-                display: none;
+            label[for="containers"], label[for="environment"] {
+                top: 7px !important;
             }
         }
-    }
 
-    #other {
-        h3 {
-            margin-bottom: 0.4rem;
+        .merged-notification {
+            line-height: 4px;
+
+            p:first-child {
+                padding-top: 0.4rem;
+            }
+        }
+
+        .fw-bold {
+            font-weight: bold;
+        }
+
+        .list-style-decimal {
+            list-style: decimal inside;
+        }
+
+        .list-style-disc {
+            list-style: disc inside;
+        }
+
+        @media screen {
+            @media (max-width: 999px) {
+                .right img {
+                    display: none;
+                }
+            }
+        }
+
+        #other {
+            h3 {
+                margin-bottom: 0.4rem;
+            }
         }
     }
 }

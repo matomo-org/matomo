@@ -25,7 +25,7 @@ class ReactJs extends SiteContentDetectionAbstract
         return './plugins/SitesManager/images/reactjs.svg';
     }
 
-    public static function getContentType(): string
+    public static function getContentType(): int
     {
         return self::TYPE_JS_FRAMEWORK;
     }
