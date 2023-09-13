@@ -8,7 +8,7 @@
   <div>
     <a id="start-tracking-back"
        v-if="showMethodDetails"
-       @click="showOverview();"
+       @click.prevent="showOverview();"
     >
       <span class="icon-chevron-left"></span>
       {{ translate('Mobile_NavigationBack') }}
@@ -45,8 +45,11 @@
           We have detected {{ recommendedMethod.name }} on your site, so you can set up Matomo
           within a few minutes with our official {{ recommendedMethod.name }} integration.
         </p>
-        <a :href="`#${recommendedMethod.id.toLowerCase()}`" class="btn" id="showMethod"
-           @click="showMethod(recommendedMethod)">Install with {{ recommendedMethod.name }}</a>
+        <a :href="`#${recommendedMethod.id.toLowerCase()}`"
+           class="btn" id="showMethod"
+           @click.prevent="showMethod(recommendedMethod.id)">
+          Install with {{ recommendedMethod.name }}
+        </a>
       </div>
 
       <div class="row" id="start-tracking-method-list">
@@ -55,7 +58,7 @@
         <p>{{ translate('SitesManager_SiteWithoutDataOtherInstallMethodsIntro') }}</p>
         <ul>
           <li class="list-entry" v-for="method in trackingMethods" :key="method.id">
-            <a :href="`#${method.id.toLowerCase()}`" @click="showMethod(method)">
+            <a :href="`#${method.id.toLowerCase()}`" @click.prevent="showMethod(method.id)">
               <img :src="method.icon" class="list-entry-icon" v-if="method.icon" />
               <span class="list-entry-text">{{ method.name }}</span>
             </a>
@@ -88,7 +91,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, watch } from 'vue';
 import {
   translate,
   ActivityIndicator,
@@ -137,21 +140,47 @@ export default defineComponent({
   created() {
     const params: QueryParameters = {
       module: 'SitesManager',
-      action: 'siteWithoutDataTabs',
+      action: 'getTrackingMethodsForSite',
     };
 
     AjaxHelper.fetch(params).then((response) => {
-      this.trackingMethods = response.tabs;
+      this.trackingMethods = response.trackingMethods;
       this.recommendedMethod = response.recommendedMethod;
       this.loading = false;
+
+      // set up watch once all data was fetched, to ensure tracking methods are available
+      watch(() => MatomoUrl.hashParsed.value.activeTab as string, (activeTab) => {
+        this.showMethodDetails = this.findTrackingMethod(activeTab);
+      });
+
+      if (MatomoUrl.hashParsed.value.activeTab) {
+        this.showMethodDetails = this.findTrackingMethod(
+          MatomoUrl.hashParsed.value.activeTab as string,
+        );
+      }
     });
   },
   methods: {
-    showMethod(tab: TrackingMethod) {
-      this.showMethodDetails = tab;
+    findTrackingMethod(methodId: string) {
+      if (this.recommendedMethod && this.recommendedMethod.id === methodId) {
+        return this.recommendedMethod;
+      }
+
+      let trackingMethod = null;
+      console.log(this.trackingMethods);
+      Object.entries(this.trackingMethods).forEach(([, method]) => {
+        if (method.id === methodId) {
+          trackingMethod = method;
+        }
+      });
+
+      return trackingMethod;
+    },
+    showMethod(methodId: string) {
+      MatomoUrl.updateHash({ ...MatomoUrl.hashParsed.value, activeTab: methodId });
     },
     showOverview() {
-      this.showMethodDetails = null;
+      MatomoUrl.updateHash({ ...MatomoUrl.hashParsed.value, activeTab: null });
     },
   },
   computed: {
