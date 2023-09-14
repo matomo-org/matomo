@@ -20,11 +20,11 @@
                 :key="name"
               >
                 <a
-                  :title="params._tooltip ? translate(params._tooltip) : ''"
+                  :title="params._tooltip ? translateIfNecessary(params._tooltip) : ''"
                   target="_self"
                   :href="getMenuUrl(params._url)"
                 >
-                  {{ translateNameIfNecessary(name) }}
+                  {{ translateIfNecessary(name) }}
                 </a>
               </li>
             </ul>
@@ -67,7 +67,7 @@ export default defineComponent({
         ...params,
       })}`;
     },
-    translateNameIfNecessary(name: string) {
+    translateIfNecessary(name: string) {
       if (name.includes('_')) {
         return translate(name);
       }
