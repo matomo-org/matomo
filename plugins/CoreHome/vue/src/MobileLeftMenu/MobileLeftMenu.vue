@@ -24,7 +24,7 @@
                   target="_self"
                   :href="getMenuUrl(params._url)"
                 >
-                  {{ translate(name) }}
+                  {{ translateNameIfNecessary(name) }}
                 </a>
               </li>
             </ul>
@@ -39,6 +39,7 @@
 import { defineComponent } from 'vue';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import SideNav from '../SideNav/SideNav';
+import { translate } from '../translate';
 
 interface UrlParamsInfo {
   _tooltip: string;
@@ -65,6 +66,13 @@ export default defineComponent({
         ...MatomoUrl.urlParsed.value,
         ...params,
       })}`;
+    },
+    translateNameIfNecessary(name: string) {
+      if (name.includes('_')) {
+        return translate(name);
+      }
+
+      return name;
     },
   },
   computed: {
