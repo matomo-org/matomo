@@ -7,7 +7,9 @@
 {% set bodyId = 'site-without-data' %}
 
 {% block topcontrols %}
+    {% if not isSingleSite %}
     {% include "@CoreHome/_siteSelectHeader.twig" %}
+    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -34,7 +36,6 @@
         vue-entry="SitesManager.SiteWithoutData"
         additional-cta-content="{{ additionalCtaEventContent|json_encode }}"
         invite-user-link="{{ inviteUserLink|json_encode }}"
-        is-single-site="{{ isSingleSite|json_encode }}"
     ></div>
 
 {% endblock %}

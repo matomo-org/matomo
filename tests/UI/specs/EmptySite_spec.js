@@ -125,8 +125,8 @@ describe("EmptySite", function () {
   });
 
   // take one full screenshot when a detected method is shown
-  it('should suggest cloudflare method when detected', async function () {
-    testEnvironment.detectedContentDetections = ['Cloudflare'];
+  it('should suggest cloudflare method when detected, other detections should be shown first', async function () {
+    testEnvironment.detectedContentDetections = ['Cloudflare', 'VueJs'];
     testEnvironment.connectedConsentManagers = [];
     testEnvironment.save();
 

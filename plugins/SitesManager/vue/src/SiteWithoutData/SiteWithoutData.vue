@@ -123,7 +123,6 @@ export default defineComponent({
       required: true,
     },
     additionalCtaContent: String,
-    isSingleSite: Boolean,
   },
   components: {
     ActivityIndicator,
