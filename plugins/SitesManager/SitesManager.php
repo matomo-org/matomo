@@ -379,6 +379,7 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = 'General_Previous';
         $translationKeys[] = 'General_Save';
         $translationKeys[] = 'General_Search';
+        $translationKeys[] = 'General_Share';
         $translationKeys[] = 'Goals_Ecommerce';
         $translationKeys[] = 'Goals_Optional';
         $translationKeys[] = 'SitesManager_AddMeasurable';
