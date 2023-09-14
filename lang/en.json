@@ -430,6 +430,7 @@
         "SelectYesIfYouWantToSendEmailsViaServer": "Select \"Yes\" if you want or have to send e-mail via a named server instead of the local mail function",
         "Settings": "Settings",
         "Shipping": "Shipping",
+        "Share": "Share",
         "Show": "show",
         "SingleWebsitesDashboard": "Single Website dashboard",
         "SmallTrafficYouCanLeaveDefault": "For small traffic websites, you can leave the default %s seconds, and access all reports in real time.",

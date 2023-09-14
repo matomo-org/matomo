@@ -12,7 +12,7 @@ var fs = require('fs'),
 describe("Installation", function () {
     this.timeout(0);
 
-    this.fixture = "Piwik\\Tests\\Fixtures\\DisableSiteContentDetection";
+    this.fixture = "Piwik\\Tests\\Fixtures\\EmptySite";
 
     before(function () {
         testEnvironment.testUseMockAuth = 0;

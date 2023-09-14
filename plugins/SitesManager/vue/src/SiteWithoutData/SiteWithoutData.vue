@@ -36,7 +36,7 @@
         <!--div id="share-button">
             <a href="">
                 <span class="icon-upload"></span>
-                Share
+                {{ translate('General_Share') }}
             </a>
         </div-->
         <img :src="recommendedMethod.icon" :alt="`${recommendedMethod.name} logo`" />
@@ -79,7 +79,7 @@
       <!--div id="share-button">
           <a href="">
               <span class="icon-upload"></span>
-              Share
+              {{ translate('General_Share') }}
           </a>
       </div-->
       <img :src="showMethodDetails.icon" :alt="`${showMethodDetails.name} logo`" />
@@ -167,7 +167,7 @@ export default defineComponent({
       }
 
       let trackingMethod = null;
-      console.log(this.trackingMethods);
+
       Object.entries(this.trackingMethods).forEach(([, method]) => {
         if (method.id === methodId) {
           trackingMethod = method;
