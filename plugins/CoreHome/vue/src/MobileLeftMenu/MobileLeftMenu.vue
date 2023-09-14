@@ -71,6 +71,7 @@ export default defineComponent({
       if (name.includes('_')) {
         return translate(name);
       }
+
       return name;
     },
   },
