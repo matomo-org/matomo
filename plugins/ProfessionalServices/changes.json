@@ -1,0 +1,9 @@
+[
+  {
+    "title": "New Plugin Alert: Never miss a bug again with Crash Analytics!",
+    "description": "This powerful new Matomo On-Premise plugin automatically tracks JavaScript errors in real-time, allowing for rapid bug resolution. With custom alerts, scheduled crash reports and the ability to precisely trace the steps a web visitor took to generate a bug, you can enhance your website's reliability, boost conversion rates and ultimately drive revenue.",
+    "version": "5.0.0-rc3",
+    "link_name": "Try it free for 30 days",
+    "link": "https://plugins.matomo.org/CrashAnalytics"
+  }
+]
