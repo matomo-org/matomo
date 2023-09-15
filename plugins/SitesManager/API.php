@@ -24,6 +24,8 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\SettingsProvider;
 use Piwik\Plugins\CorePluginsAdmin\SettingsMetadata;
+use Piwik\Plugins\SitesManager\SiteContentDetection\ConsentManagerDetectionAbstract;
+use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
 use Piwik\Plugins\WebsiteMeasurable\Settings\Urls;
 use Piwik\ProxyHttp;
 use Piwik\Scheduler\Scheduler;
@@ -32,6 +34,7 @@ use Piwik\Settings\Measurable\MeasurableSettings;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Site;
+use Piwik\SiteContentDetector;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\Translation\Translator;
@@ -84,11 +87,15 @@ class API extends \Piwik\Plugin\API
 
     private $timezoneNameCache = [];
 
-    public function __construct(SettingsProvider $provider, SettingsMetadata $settingsMetadata, Translator $translator)
+    /** @var SiteContentDetector */
+    private $siteContentDetector;
+
+    public function __construct(SettingsProvider $provider, SettingsMetadata $settingsMetadata, Translator $translator, SiteContentDetector $siteContentDetector)
     {
         $this->settingsProvider = $provider;
         $this->settingsMetadata = $settingsMetadata;
         $this->translator = $translator;
+        $this->siteContentDetector = $siteContentDetector;
     }
 
     /**
@@ -1763,5 +1770,30 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSomeViewAccess();
 
         return SettingsPiwik::getWebsitesCountToDisplay();
+    }
+
+
+    /**
+     * Detect consent manager details for a site
+     *
+     * @internal
+     * @unsanitized
+     */
+    public function detectConsentManager(int $idSite, int $timeOut = 60): ?array
+    {
+        Piwik::checkUserHasViewAccess($idSite);
+
+        $this->siteContentDetector->detectContent([SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER], $idSite, null, $timeOut);
+        $consentManagers = $this->siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER);
+        if (!empty($consentManagers)) {
+            /** @var ConsentManagerDetectionAbstract $consentManager */
+            $consentManager = $this->siteContentDetector->getSiteContentDetectionById(reset($consentManagers));
+            return ['name' => $consentManager::getName(),
+                    'url' => $consentManager::getInstructionUrl(),
+                    'isConnected' => in_array($consentManager::getId(), $this->siteContentDetector->connectedConsentManagers)
+            ];
+        }
+
+        return null;
     }
 }

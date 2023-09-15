@@ -18,14 +18,16 @@ use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Piwik;
-use Piwik\Plugin\Manager;
 use Piwik\Plugins\CoreHome\SystemSummary;
+use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
 use Piwik\Settings\Storage\Backend\MeasurableSettingsTable;
 use Piwik\SettingsPiwik;
+use Piwik\SiteContentDetector;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\FingerprintSalt;
 use Piwik\Tracker\Model as TrackerModel;
 use Piwik\Session\SessionNamespace;
+use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\Url;
 use Piwik\View;
 
@@ -37,18 +39,6 @@ class SitesManager extends \Piwik\Plugin
     const KEEP_URL_FRAGMENT_USE_DEFAULT = 0;
     const KEEP_URL_FRAGMENT_YES = 1;
     const KEEP_URL_FRAGMENT_NO = 2;
-    const SITE_TYPE_UNKNOWN = 'unknown';
-    const SITE_TYPE_WORDPRESS = 'wordpress';
-    const SITE_TYPE_SQUARESPACE = 'squarespace';
-    const SITE_TYPE_WIX = 'wix';
-    const SITE_TYPE_SHAREPOINT = 'sharepoint';
-    const SITE_TYPE_JOOMLA = 'joomla';
-    const SITE_TYPE_SHOPIFY = 'shopify';
-    const SITE_TYPE_WEBFLOW = 'webflow';
-    const SITE_TYPE_DRUPAL = 'drupal';
-    const JS_FRAMEWORK_UNKNOWN = 'unknown';
-    const JS_FRAMEWORK_VUE = 'vue';
-    const JS_FRAMEWORK_REACT = 'react';
 
     /**
      * @see \Piwik\Plugin::registerEvents
@@ -63,8 +53,6 @@ class SitesManager extends \Piwik\Plugin
             'SitesManager.deleteSite.end'            => 'onSiteDeleted',
             'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
             'Request.dispatch'                       => 'redirectDashboardToWelcomePage',
-            'Template.noDataPageGTMTabInstructions'  => 'noDataPageGTMTabInstructions',
-            'Template.noDataPageWordpressTabInstructions'  => 'noDataPageWordpressTabInstructions',
         ];
     }
 
@@ -108,7 +96,7 @@ class SitesManager extends \Piwik\Plugin
             return;
         }
 
-        $shouldPerformEmptySiteCheck = self::shouldPerormEmptySiteCheck($siteId);
+        $shouldPerformEmptySiteCheck = self::shouldPerformEmptySiteCheck($siteId);
         if (!$shouldPerformEmptySiteCheck) {
             return;
         }
@@ -141,7 +129,7 @@ class SitesManager extends \Piwik\Plugin
         return !$trackerModel->isSiteEmpty($siteId);
     }
 
-    public static function shouldPerormEmptySiteCheck($siteId)
+    public static function shouldPerformEmptySiteCheck($siteId)
     {
         $shouldPerformEmptySiteCheck = true;
 
@@ -376,38 +364,6 @@ class SitesManager extends \Piwik\Plugin
         return $hosts;
     }
 
-    public static function getInstructionUrlBySiteType($siteType)
-    {
-        $map = [
-            self::SITE_TYPE_JOOMLA => 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-joomla',
-            self::SITE_TYPE_SHAREPOINT => 'https://matomo.org/faq/how-to-install/faq_19424',
-            self::SITE_TYPE_SHOPIFY => 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-shopify-store',
-            self::SITE_TYPE_SQUARESPACE => 'https://matomo.org/faq/new-to-piwik/how-do-i-integrate-matomo-with-squarespace-website',
-            self::SITE_TYPE_WIX => 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-wix',
-            self::SITE_TYPE_WORDPRESS => 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/',
-            self::SITE_TYPE_DRUPAL => 'https://matomo.org/faq/new-to-piwik/how-to-integrate-with-drupal/',
-            self::SITE_TYPE_WEBFLOW => 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-webflow',
-        ];
-
-        return $map[$siteType] ?? false;
-    }
-
-    public static function getInstructionByCms(?string $cms): string
-    {
-        if ($cms === self::SITE_TYPE_UNKNOWN || $cms === self::SITE_TYPE_WORDPRESS) {
-            return '';
-        }
-
-        return Piwik::translate(
-            'SitesManager_SiteWithoutDataDetectedSite',
-            [
-                ucfirst($cms),
-                '<a target="_blank" rel="noreferrer noopener" href="' . self::getInstructionUrlBySiteType($cms) . '">',
-                '</a>'
-            ]
-        );
-    }
-
     public function getClientSideTranslationKeys(&$translationKeys)
     {
         $translationKeys[] = "General_Save";
@@ -496,8 +452,6 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "SitesManager_EmailInstructionsButton";
         $translationKeys[] = "SitesManager_EmailInstructionsSubject";
         $translationKeys[] = "SitesManager_JsTrackingTagHelp";
-        $translationKeys[] = "SitesManager_SiteWithoutDataSinglePageApplication";
-        $translationKeys[] = "SitesManager_SiteWithoutDataSinglePageApplicationDescription";
         $translationKeys[] = 'SitesManager_SiteWithoutDataTitle';
         $translationKeys[] = 'SitesManager_SiteWithoutDataDescription';
         $translationKeys[] = 'SitesManager_SiteWithoutDataMessageDisappears';
@@ -526,39 +480,54 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "SitesManager_SiteWithoutDataReactDescription";
     }
 
-    public function noDataPageGTMTabInstructions(&$out)
+    public static function renderTrackingCodeEmail(int $idSite)
     {
-        Piwik::checkUserHasSomeViewAccess();
-        $piwikUrl = Url::getCurrentUrlWithoutFileName();
-        $jsTag = Request::processRequest('SitesManager.getJavascriptTag', ['idSite' => Common::getRequestVar('idSite'), 'piwikUrl' => $piwikUrl]);
-        $view = new View("@SitesManager/_gtmTabInstructions");
-        $view->jsTag = $jsTag;
-        $out = $view->render();
-    }
+        $javascriptGenerator = new TrackerCodeGenerator();
+        $javascriptGenerator->forceMatomoEndpoint();
+        $matomoUrl = Url::getCurrentUrlWithoutFileName();
 
-    public function noDataPageWordpressTabInstructions(&$out)
-    {
-        Piwik::checkUserHasSomeViewAccess();
-        $view = new View("@SitesManager/_wordpressTabInstructions");
-        $faqLink = 'https://matomo.org/faq/general/faq_114/';
-        $authLink = '';
-        if (Piwik::isUserHasSomeViewAccess()) {
-            $request = \Piwik\Request::fromRequest();
-            $idSite = $request->getIntegerParameter('idSite', 0);
-            $period = $request->getStringParameter('period', 'day');
-            $date = $request->getStringParameter('date', 'yesterday');
-            $authLink = SettingsPiwik::getPiwikUrl() . 'index.php?' . Url::getQueryStringFromParameters([
-                    'idSite' => $idSite,
-                    'date' => $date,
-                    'period' => $period,
-                    'module' => 'UsersManager',
-                    'action' => 'addNewToken',
-                ]);
+        $jsTag = Request::processRequest(
+            'SitesManager.getJavascriptTag',
+            ['idSite' => $idSite, 'piwikUrl' => $matomoUrl]
+        );
+
+        // Strip off open and close <script> tag and comments so that JS will be displayed in ALL mail clients
+        $rawJsTag = TrackerCodeGenerator::stripTags($jsTag);
+
+        $showMatomoLinks = true;
+        /**
+         * @ignore
+         */
+        Piwik::postEvent('SitesManager.showMatomoLinksInTrackingCodeEmail', [&$showMatomoLinks]);
+
+        $trackerCodeGenerator = new TrackerCodeGenerator();
+        $trackingUrl = trim(SettingsPiwik::getPiwikUrl(), '/') . '/' . $trackerCodeGenerator->getPhpTrackerEndpoint();
+
+        $emailTemplateData = [
+            'jsTag' => $rawJsTag,
+            'showMatomoLinks' => $showMatomoLinks,
+            'trackingUrl' => $trackingUrl,
+            'idSite' => $idSite,
+            'consentManagerName' => false,
+        ];
+
+        $siteContentDetector = StaticContainer::get(SiteContentDetector::class);
+
+        $siteContentDetector->detectContent([], $idSite);
+        $detectedConsentManagers = $siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER);
+        if (!empty($detectedConsentManagers)) {
+            $consentManagerId = reset($detectedConsentManagers);
+            $consentManager = $siteContentDetector->getSiteContentDetectionById($consentManagerId);
+            $emailTemplateData['consentManagerName'] = $consentManager::getName();
+            $emailTemplateData['consentManagerUrl'] = $consentManager::getInstructionUrl();
         }
-        $view->authLink = $authLink;
-        $view->faqLink = $faqLink;
-        $view->site = ['id' => $idSite, 'name' => ''];
-        $view->isJsTrackerInstallCheckAvailable = Manager::getInstance()->isPluginActivated('JsTrackerInstallCheck');
-        $out = $view->render();
+        $emailTemplateData['cms'] = $siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_CMS);
+        $emailTemplateData['jsFrameworks'] = $siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_JS_FRAMEWORK);
+        $emailTemplateData['trackers'] = $siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_TRACKER);
+
+        $view = new View('@SitesManager/_trackingCodeEmail');
+        $view->assign($emailTemplateData);
+
+        return $view->render();
     }
 }

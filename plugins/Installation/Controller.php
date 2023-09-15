@@ -26,12 +26,12 @@ use Piwik\Plugins\Diagnostics\DiagnosticReport;
 use Piwik\Plugins\Diagnostics\DiagnosticService;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Plugins\UsersManager\NewsletterSignup;
 use Piwik\Plugins\UsersManager\UserUpdater;
 use Piwik\ProxyHeaders;
 use Piwik\SettingsPiwik;
-use Piwik\SiteContentDetector;
 use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\Translation\Translator;
 use Piwik\Updater;
@@ -46,14 +46,10 @@ use Zend_Db_Adapter_Exception;
 class Controller extends \Piwik\Plugin\ControllerAdmin
 {
 
-    public function __construct(SiteContentDetector $siteContentDetector)
+    public function __construct()
     {
-        $this->siteContentDetector = $siteContentDetector;
         parent::__construct();
     }
-
-    /** @var SiteContentDetector */
-    private $siteContentDetector;
 
     public $steps = array(
         'welcome'           => 'Installation_Welcome',
@@ -393,29 +389,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $javascriptGenerator = new TrackerCodeGenerator();
         $jsTag = $javascriptGenerator->generate($idSite, Url::getCurrentUrlWithoutFileName());
-        $rawJsTag = TrackerCodeGenerator::stripTags($jsTag);
 
-        $showMatomoLinks = true;
-        Piwik::postEvent('SitesManager.showMatomoLinksInTrackingCodeEmail', array(&$showMatomoLinks));
-
-        $trackingUrl = trim(SettingsPiwik::getPiwikUrl(), '/') . '/' . $javascriptGenerator->getPhpTrackerEndpoint();
-
-        $this->siteContentDetector->detectContent([SiteContentDetector::ALL_CONTENT]);
-
-        $emailBody = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', array(
-            'jsTag' => $rawJsTag,
-            'showMatomoLinks' => $showMatomoLinks,
-            'trackingUrl' => $trackingUrl,
-            'idSite' => $idSite,
-            'gtmUsed' => $this->siteContentDetector->gtm,
-            'ga3Used' => $this->siteContentDetector->ga3,
-            'ga4Used' => $this->siteContentDetector->ga4,
-            'cloudflare' => $this->siteContentDetector->cloudflare,
-            'jsFramework' => $this->siteContentDetector->jsFramework,
-            'consentManagerName' => $this->siteContentDetector->consentManagerName,
-            'consentManagerUrl' => $this->siteContentDetector->consentManagerUrl,
-            'consentManagerIsConnected' => $this->siteContentDetector->isConnected
-        ), $viewType = 'basic');
+        // Needs to be generated as super user, as API requests would otherwise fail
+        $emailBody = Access::doAsSuperUser(
+            function () use ($idSite) {
+                return SitesManager::renderTrackingCodeEmail($idSite);
+            }
+        );
 
         // Load the Tracking code and help text from the SitesManager
         $viewTrackingHelp = new \Piwik\View('@SitesManager/_displayJavascriptCode');
@@ -425,15 +405,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $viewTrackingHelp->idSite = $idSite;
         $viewTrackingHelp->piwikUrl = Url::getCurrentUrlWithoutFileName();
         $viewTrackingHelp->isInstall = true;
-
-        $viewTrackingHelp->gtmUsed = $this->siteContentDetector->gtm;
-        $viewTrackingHelp->ga3Used = $this->siteContentDetector->ga3;
-        $viewTrackingHelp->ga4Used = $this->siteContentDetector->ga4;
-        $viewTrackingHelp->cloudflare = $this->siteContentDetector->cloudflare;
-        $viewTrackingHelp->jsFramework = $this->siteContentDetector->jsFramework;
-        $viewTrackingHelp->consentManagerName = $this->siteContentDetector->consentManagerName;
-        $viewTrackingHelp->consentManagerUrl = $this->siteContentDetector->consentManagerUrl;
-        $viewTrackingHelp->consentManagerIsConnected = $this->siteContentDetector->isConnected;
 
         $view->trackingHelp = $viewTrackingHelp->render();
         $view->displaySiteName = $siteName;

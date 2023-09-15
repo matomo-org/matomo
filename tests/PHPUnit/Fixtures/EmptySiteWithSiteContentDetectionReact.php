@@ -7,7 +7,7 @@
  */
 namespace Piwik\Tests\Fixtures;
 
-use Piwik\Plugins\SitesManager\SitesManager;
+use Piwik\Plugins\SitesManager\SiteContentDetection\ReactJs;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\SiteContentDetector;
 use Piwik\Tests\Framework\Mock\FakeSiteContentDetector;
@@ -22,22 +22,9 @@ class EmptySiteWithSiteContentDetectionReact extends Fixture
 
     public function provideContainerConfig()
     {
-        $mockData = [
-            'consentManagerId' => null,
-            'consentManagerName' => null,
-            'consentManagerUrl' => null,
-            'isConnected' => false,
-            'ga3' => false,
-            'ga4' => false,
-            'gtm' => false,
-            'cms' => SitesManager::SITE_TYPE_UNKNOWN,
-            'cloudflare' => false,
-            'jsFramework' => SitesManager::JS_FRAMEWORK_REACT,
-        ];
-
         return [
             SiteContentDetector::class => \Piwik\DI::autowire(FakeSiteContentDetector::class)
-                ->constructorParameter('mockData', $mockData)
+                ->constructorParameter('detectedContentDetections', [ReactJs::getId()])
         ];
     }
 

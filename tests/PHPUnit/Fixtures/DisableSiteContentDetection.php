@@ -7,7 +7,6 @@
  */
 namespace Piwik\Tests\Fixtures;
 
-use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\SiteContentDetector;
 use Piwik\Tests\Framework\Mock\FakeSiteContentDetector;
@@ -23,20 +22,8 @@ class DisableSiteContentDetection extends Fixture
 
     public function provideContainerConfig()
     {
-        $mockData = [
-            'consentManagerId' => null,
-            'consentManagerName' => null,
-            'consentManagerUrl' => null,
-            'isConnected' => false,
-            'ga3' => false,
-            'ga4' => false,
-            'gtm' => false,
-            'cms' => SitesManager::SITE_TYPE_UNKNOWN,
-        ];
-
         return [
             SiteContentDetector::class => \Piwik\DI::autowire(FakeSiteContentDetector::class)
-                 ->constructorParameter('mockData', $mockData)
         ];
     }
 

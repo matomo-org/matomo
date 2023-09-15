@@ -7,6 +7,9 @@
  */
 namespace Piwik\Tests\Fixtures;
 
+use Piwik\Plugins\SitesManager\SiteContentDetection\GoogleAnalytics3;
+use Piwik\Plugins\SitesManager\SiteContentDetection\GoogleAnalytics4;
+use Piwik\Plugins\SitesManager\SiteContentDetection\Osano;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\SiteContentDetector;
 use Piwik\Tests\Framework\Mock\FakeSiteContentDetector;
@@ -21,19 +24,10 @@ class EmptySiteWithSiteContentDetectionMergeNotification extends Fixture
 
     public function provideContainerConfig()
     {
-        $mockData = [
-            'consentManagerId' => 'osano',
-            'consentManagerName' => 'Osano',
-            'consentManagerUrl' => 'https://matomo.org/faq/how-to/using-osano-consent-manager-with-matomo',
-            'isConnected' => true,
-            'ga3' => true,
-            'ga4' => true,
-            'gtm' => false
-        ];
-
         return [
             SiteContentDetector::class => \Piwik\DI::autowire(FakeSiteContentDetector::class)
-                 ->constructorParameter('mockData', $mockData)
+                 ->constructorParameter('detectedContentDetections', [GoogleAnalytics3::getId(), GoogleAnalytics4::getId(), Osano::getId()])
+                 ->constructorParameter('connectedConsentManagers', [Osano::getId()])
         ];
     }
 

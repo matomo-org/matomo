@@ -7,7 +7,9 @@
  */
 namespace Piwik\Tests\Fixtures;
 
-use Piwik\Plugins\SitesManager\SitesManager;
+use Piwik\Plugins\SitesManager\SiteContentDetection\Cloudflare;
+use Piwik\Plugins\SitesManager\SiteContentDetection\GoogleTagManager;
+use Piwik\Plugins\SitesManager\SiteContentDetection\WordPress;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\SiteContentDetector;
 use Piwik\Tests\Framework\Mock\FakeSiteContentDetector;
@@ -22,21 +24,9 @@ class EmptySiteWithSiteContentDetectionGTM extends Fixture
 
     public function provideContainerConfig()
     {
-        $mockData = [
-            'consentManagerId' => null,
-            'consentManagerName' => null,
-            'consentManagerUrl' => null,
-            'isConnected' => false,
-            'ga3' => false,
-            'ga4' => false,
-            'gtm' => true,
-            'cloudflare' => true,
-            'cms' => SitesManager::SITE_TYPE_WORDPRESS,
-        ];
-
         return [
             SiteContentDetector::class => \Piwik\DI::autowire(FakeSiteContentDetector::class)
-                 ->constructorParameter('mockData', $mockData)
+                 ->constructorParameter('detectedContentDetections', [GoogleTagManager::getId(), Cloudflare::getId(), WordPress::getId()])
         ];
     }
 

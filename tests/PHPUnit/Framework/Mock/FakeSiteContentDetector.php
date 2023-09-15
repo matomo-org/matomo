@@ -2,27 +2,46 @@
 
 namespace Piwik\Tests\Framework\Mock;
 
+use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
 use Piwik\SiteContentDetector;
 
 class FakeSiteContentDetector extends SiteContentDetector
 {
 
-    private $mockData;
+    /**
+     * @var SiteContentDetectionAbstract[]
+     */
+    private $detectedContentDetections;
 
-    public function __construct($mockData = [])
+    public function __construct($detectedContentDetections = [], $connectedConsentManagers = [])
     {
-        $this->mockData = $mockData;
+        $this->detectedContentDetections = $detectedContentDetections;
+        $this->connectedConsentManagers  = $connectedConsentManagers;
         parent::__construct(null);
     }
 
-    public function detectContent(array $detectContent = [SiteContentDetector::ALL_CONTENT],
+    public function detectContent(array $detectContent = [],
                                   ?int $idSite = null, ?array $siteResponse = null, int $timeOut = 60): void
     {
-        foreach ($this->mockData as $property => $value) {
-            if (property_exists($this, $property)) {
-               $this->{$property} = $value;
-            }
-        }
+        // skip any detections
     }
 
+    public function wasDetected(string $detectionClassId): bool
+    {
+        return in_array($detectionClassId, $this->detectedContentDetections);
+    }
+
+    public function getDetectsByType(string $type): array
+    {
+        $result = [];
+
+        foreach ($this->detectedContentDetections as $detectedContentDetection) {
+            $class = $this->getSiteContentDetectionById($detectedContentDetection);
+            if ($class::getContentType() === $type) {
+                $result[] = $detectedContentDetection;
+            }
+        }
+
+        return $result;
+    }
 }

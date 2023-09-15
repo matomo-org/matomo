@@ -2,33 +2,33 @@
 {{ 'CoreAdminHome_JSTracking_ConsentManagerDetected'|translate(consentManagerName, consentManagerUrl) }}
 
 {% endif %}
-{% if ga3Used %}
+{% if 'GoogleAnalytics3' in trackers %}
 {{ 'SitesManager_GADetectedEmail'|translate('Google Analytics 3', 'GA', 'https://matomo.org/faq/how-to/migrate-from-google-analytics-3-to-matomo/')|raw }}
 
 {% endif %}
-{% if ga4Used %}
+{% if 'GoogleAnalytics4' in trackers %}
 {{ 'SitesManager_GADetectedEmail'|translate('Google Analytics 4', 'GA', 'https://matomo.org/faq/how-to/migrate-from-google-analytics-4-to-matomo/')|raw }}
 
 {% endif %}
-{% if gtmUsed %}
+{% if 'GoogleTagManager' in trackers %}
 {{ 'SitesManager_GTMDetectedEmail'|translate('https://matomo.org/faq/tag-manager/migrating-from-google-tag-manager/')|raw }}
 
 {% endif %}
-{% if cloudflare %}
+{% if 'Cloudflare' in cms %}
 {{ 'SitesManager_CloudflareDetectedEmail'|translate('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-cloudflare-setup/')|raw }}
 
 {% endif %}
 
-{% if jsFramework == 'vue' %}
+{% if 'VueJs' in jsFrameworks %}
     {{ 'SitesManager_VueDetectedEmail'|translate('vue-matomo', 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-websites-that-use-vue-js/')|raw }}
 
 {% endif %}
 
-{% if jsFramework == 'react' %}
+{% if 'ReactJs' in jsFrameworks %}
 {{ 'SitesManager_ReactDetectedEmail'|translate('https://matomo.org/faq/new-to-piwik/how-do-i-start-tracking-data-with-matomo-on-websites-that-use-react/')|raw }}
 
 {% endif %}
-{% if consentManagerName or ga3Used or ga4Used or gtmUsed or cloudflare or jsFramework == 'vue' %}
+{% if consentManagerName or 'GoogleAnalytics3' in trackers or 'GoogleAnalytics4' in trackers or 'GoogleTagManager' in trackers or 'Cloudflare' in cms or 'VueJs' in jsFrameworks %}
 {{ 'CoreAdminHome_JSTracking_ConsentManagerEmailNote'|translate }}
 
 {% endif %}
