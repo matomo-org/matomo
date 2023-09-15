@@ -1,11 +1,5 @@
-<script type="text/javascript" charset="utf-8">
-    $(document).on( 'click', '#wordpress-email-instructions', function() {
-        var emailTrackingCodeLink = $('.emailTrackingCode');
-        if (emailTrackingCodeLink.length) {
-            emailTrackingCodeLink[0].click();
-        }
-    });
-</script>
+<h2>{{ 'SitesManager_StepByStepGuide'|translate }}</h2>
+
 <p>{{ 'SitesManager_SiteWithoutDataWordpressIntroductionLine1'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/">', '</a>')|raw }}</p>
 <p>{{ 'SitesManager_SiteWithoutDataWordpressIntroductionLine2'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-manually-insert-the-matomo-tracking-code-on-wordpress/">', '</a>', '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/start-tracking-with-a-wordpress-com-site-that-cannot-use-plugins/">', '</a>')|raw }}</p>
 <br>

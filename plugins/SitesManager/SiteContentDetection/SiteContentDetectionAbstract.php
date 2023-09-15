@@ -10,6 +10,7 @@
 
 namespace Piwik\Plugins\SitesManager\SiteContentDetection;
 
+use Piwik\Piwik;
 use Piwik\SiteContentDetector;
 
 abstract class SiteContentDetectionAbstract
@@ -109,5 +110,20 @@ abstract class SiteContentDetectionAbstract
     public function renderOthersInstruction(SiteContentDetector $detector): string
     {
         return '';
+    }
+
+    /**
+     * Returns details used to render the recommendation on no data screen
+     *
+     * @param SiteContentDetector $detector
+     * @return array
+     */
+    public function getRecommendationDetails(SiteContentDetector $detector): array
+    {
+        return [
+            'title' => Piwik::translate('SitesManager_SiteWithoutDataInstallWithXRecommendation', [static::getName()]),
+            'text' => Piwik::translate('SitesManager_SiteWithoutDataRecommendationText', [static::getName()]),
+            'button' => Piwik::translate('SitesManager_SiteWithoutDataInstallWithX', [static::getName()]),
+        ];
     }
 }

@@ -151,9 +151,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         foreach ($this->siteContentDetector->getSiteContentDetectionsByType() as $detections) {
             foreach ($detections as $obj) {
-                $tabContent        = $obj->renderInstructionsTab($this->siteContentDetector);
-                $othersInstruction = $obj->renderOthersInstruction($this->siteContentDetector);
-                $instructionUrl    = $obj->getInstructionUrl();
+                $tabContent            = $obj->renderInstructionsTab($this->siteContentDetector);
+                $othersInstruction     = $obj->renderOthersInstruction($this->siteContentDetector);
+                $instructionUrl        = $obj->getInstructionUrl();
+                $recommendationDetails = $obj->getRecommendationDetails($this->siteContentDetector);
 
                 /**
                  * Event that can be used to manipulate the content of a certain tab on the no data page
@@ -178,7 +179,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                         'content'           => $tabContent,
                         'icon'              => $obj::getIcon(),
                         'priority'          => $obj::getPriority(),
-                        'wasDetected'       => $this->siteContentDetector->wasDetected($obj::getId())
+                        'wasDetected'       => $this->siteContentDetector->wasDetected($obj::getId()),
+                        'recommendationTitle' => $recommendationDetails['title'],
+                        'recommendationText' => $recommendationDetails['text'],
+                        'recommendationButton' => $recommendationDetails['button'],
                     ];
                 }
 
@@ -220,33 +224,51 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         // add integration and others tab
         $trackingMethods[] = [
-            'id'                => 'Integrations',
-            'name'              => Piwik::translate('SitesManager_Integrations'),
-            'type'              => SiteContentDetectionAbstract::TYPE_OTHER,
-            'content'           => $this->renderIntegrationsTab($instructionUrls),
-            'icon'              => './plugins/SitesManager/images/integrations.svg',
-            'priority'          => 10000,
-            'wasDetected'       => false
+            'id'                   => 'Integrations',
+            'name'                 => Piwik::translate('SitesManager_Integrations'),
+            'type'                 => SiteContentDetectionAbstract::TYPE_OTHER,
+            'content'              => $this->renderIntegrationsTab($instructionUrls),
+            'icon'                 => './plugins/SitesManager/images/integrations.svg',
+            'priority'             => 10000,
+            'wasDetected'          => false,
+            'recommendationTitle'  => '',
+            'recommendationText'   => '',
+            'recommendationButton' => '',
         ];
         $trackingMethods[] = [
-            'id'                => 'Other',
-            'name'              => Piwik::translate('SitesManager_SiteWithoutDataOtherWays'),
-            'type'              => SiteContentDetectionAbstract::TYPE_OTHER,
-            'content'           => $this->renderOthersTab($othersInstructions),
-            'icon'              => './plugins/SitesManager/images/others.svg',
-            'priority'          => 10001,
-            'wasDetected'       => false
+            'id'                   => 'Other',
+            'name'                 => Piwik::translate('SitesManager_SiteWithoutDataOtherWays'),
+            'type'                 => SiteContentDetectionAbstract::TYPE_OTHER,
+            'content'              => $this->renderOthersTab($othersInstructions),
+            'icon'                 => './plugins/SitesManager/images/others.svg',
+            'priority'             => 10001,
+            'wasDetected'          => false,
+            'recommendationTitle'  => '',
+            'recommendationText'   => '',
+            'recommendationButton' => '',
         ];
 
         $recommendedMethod = null;
+        $matomoIndex = null;
 
         foreach ($trackingMethods as $index => $tab) {
-            // Note: We never show Matomo (JavaScript Code) as recommended even if it was detected
+            // Note: We recommend the first method that was detected - unless it was Matomo JavaScript Tracker itself
+            // as that should only be recommended if nothing else was detected
             if ($tab['wasDetected'] && $tab['id'] !== Matomo::getId()) {
                 $recommendedMethod = $tab;
                 unset($trackingMethods[$index]);
                 break;
             }
+
+            if ($tab['id'] === Matomo::getId()) {
+                $matomoIndex = $index;
+            }
+        }
+
+        // fall back to javascript code recommendation if nothing was detected
+        if (null === $recommendedMethod && null !== $matomoIndex) {
+            $recommendedMethod = $trackingMethods[$matomoIndex];
+            unset($trackingMethods[$matomoIndex]);
         }
 
         Json::sendHeaderJSON();
