@@ -82,6 +82,13 @@ class Matomo extends SiteContentDetectionAbstract
         return $view->render();
     }
 
+    public function getRecommendationDetails(SiteContentDetector $detector): array
+    {
+        $details = parent::getRecommendationDetails($detector);
+        $details['text'] = Piwik::translate('SitesManager_SetupMatomoTracker');
+        return $details;
+    }
+
     private function getNotification(SiteContentDetector $detector = null): array
     {
         if (empty($detector)) {

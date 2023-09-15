@@ -40,15 +40,14 @@
             </a>
         </div-->
         <img :src="recommendedMethod.icon" :alt="`${recommendedMethod.name} logo`" />
-        <h2>Install Matomo with {{ recommendedMethod.name }} (recommended for you)</h2>
+        <h2>{{ recommendedMethod.recommendationTitle }}</h2>
         <p>
-          We have detected {{ recommendedMethod.name }} on your site, so you can set up Matomo
-          within a few minutes with our official {{ recommendedMethod.name }} integration.
+          {{ recommendedMethod.recommendationText }}
         </p>
         <a :href="`#${recommendedMethod.id.toLowerCase()}`"
            class="btn" id="showMethod"
            @click.prevent="showMethod(recommendedMethod.id)">
-          Install with {{ recommendedMethod.name }}
+          {{ recommendedMethod.recommendationButton }}
         </a>
       </div>
 
@@ -83,7 +82,6 @@
           </a>
       </div-->
       <img :src="showMethodDetails.icon" :alt="`${showMethodDetails.name} logo`" />
-      <h2>{{ translate('SitesManager_StepByStepGuide') }}</h2>
       <VueEntryContainer :html="showMethodDetails.content" />
     </div>
 
@@ -105,6 +103,9 @@ interface TrackingMethod {
   name: string,
   type: number,
   content: string,
+  recommendationText: string,
+  recommendationTitle: string,
+  recommendationButton: string,
   icon: string,
   priority: number,
   wasDetected: boolean
