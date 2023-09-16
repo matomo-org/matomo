@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<nb_conversions>1</nb_conversions>
+	<nb_visits_converted>1</nb_visits_converted>
+	<revenue>1000</revenue>
+	<items>2</items>
+	<avg_order_revenue>1000</avg_order_revenue>
+	<conversion_rate>50%</conversion_rate>
+	<nb_conversions_new_visit>1</nb_conversions_new_visit>
+	<nb_visits_converted_new_visit>1</nb_visits_converted_new_visit>
+	<revenue_new_visit>1000</revenue_new_visit>
+	<items_new_visit>2</items_new_visit>
+	<avg_order_revenue_new_visit>1000</avg_order_revenue_new_visit>
+	<conversion_rate_new_visit>50%</conversion_rate_new_visit>
+	<nb_conversions_returning_visit>0</nb_conversions_returning_visit>
+	<nb_visits_converted_returning_visit>0</nb_visits_converted_returning_visit>
+	<revenue_returning_visit>0</revenue_returning_visit>
+	<items_returning_visit>0</items_returning_visit>
+	<avg_order_revenue_returning_visit>0</avg_order_revenue_returning_visit>
+	<conversion_rate_returning_visit>0%</conversion_rate_returning_visit>
+</result>
