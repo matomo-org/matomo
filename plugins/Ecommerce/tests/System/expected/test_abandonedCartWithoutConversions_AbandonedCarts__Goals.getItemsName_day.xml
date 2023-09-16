@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>PRODUCT ONE LEFT in cart</label>
+		<revenue>1000.22</revenue>
+		<quantity>2</quantity>
+		<abandoned_carts>1</abandoned_carts>
+		<avg_price>500.11</avg_price>
+		<avg_quantity>2</avg_quantity>
+		<conversion_rate>0%</conversion_rate>
+	</row>
+</result>
