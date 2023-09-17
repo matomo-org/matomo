@@ -12,6 +12,6 @@
         "ReportingApiReference": "Reference API hlášení",
         "TopLinkTooltip": "Zpřístupněte svoje Webové analýzy programově skrze jednoduché API pomocí json, xml a dalších.",
         "UserAuthentication": "Autentifikace uživatele",
-        "UsingTokenAuth": "Pokud chcete %1$s načíst data ze skriptu, cronu, atd. %2$s Potřebujete přidat parametr %3$s k voláním API, které vyžadují přihlášení"
+        "UsingTokenAuth": "Pokud chcete %1$snačíst data ze skriptu, cronu, atd.%2$s, potřebujete přidat parametr '%3$s' k voláním API, která vyžadují přihlášení."
     }
 }

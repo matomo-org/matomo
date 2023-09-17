@@ -138,7 +138,6 @@
         "SiteWithoutDataGTMFollowStep7": "このJavaScriptトラッキングコードをタグ設定HTMLフィールドに貼り付けます。",
         "SiteWithoutDataGTMFollowStep8": "下にスクロールして「トリガー」をクリックします。",
         "SiteWithoutDataGTMFollowStep9": "すべてのページ」を選択すると、すべてのページで「Matomoトラッキングタグ」が使用されます。",
-        "SiteWithoutDataGoogleAnalyticsImport": "Google Analyticsインポート",
         "SiteWithoutDataGoogleTagManager": "Googleタグマネージャー",
         "SiteWithoutDataGoogleTagManagerDescription": "MatomoはGoogleTagManagerで使用できます。 Google TagManagerでMatomoTrackingを設定するには、この%1$sガイド%2$sの指示に従ってください。",
         "SiteWithoutDataGoogleTagManagerFollowStepCompleted": "%1$sおめでとうございます！%2$s Google タグマネージャ経由で Matomo Analytics トラッキングコードを正常にインストールしました。ヒットがトラッキングされていることを確認するには、ウェブサイトにアクセスし、このデータが Matomo インスタンスで表示されていることを確認してください。",

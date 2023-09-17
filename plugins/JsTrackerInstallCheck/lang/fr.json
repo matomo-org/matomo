@@ -1,1 +1,10 @@
-{}
+{
+    "JsTrackerInstallCheck": {
+        "JsTrackingCodeInstallCheckFailureMessage": "La vérification du code de suivi a échoué. Veuillez vérifier que vous avez installé le code correctement. %1$sEn savoir plus%2$s.",
+        "JsTrackingCodeInstallCheckFailureMessageWordpress": "La vérification du code de suivi a échoué. Veuillez vérifier que vous avez installé le composant %1$s et suivi l'ensemble des étapes. %2$sEn savoir plus%3$s.",
+        "JsTrackingCodeInstallCheckSuccessMessage": "Le code de suivi a correctement été installé ! Cet écran va disparaître dès que des données de suivi auront été collectées pour votre site web.",
+        "PluginDescription": "Vérifie si le code de suivi a été installé sur votre site et peut envoyer des requêtes de suivi à votre instance Matomo",
+        "TestInstallationBtnText": "Test de l'installation",
+        "TestInstallationDescription": "Pour tester que le code de suivi peut envoyer des requêtes à votre instance Matomo, entrez l'URL exacte que vous souhaitez suivre, et cliquez sur \"Test de l'installation\". Un nouvel onglet va s'ouvrir et devrait se fermer dans les 10 secondes."
+    }
+}

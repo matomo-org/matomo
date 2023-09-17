@@ -142,7 +142,6 @@
         "SiteWithoutDataGTMFollowStep7": "Cole este código de rastreamento JavaScript no campo HTML de configuração da tag.",
         "SiteWithoutDataGTMFollowStep8": "Role para baixo e clique em \"Acionar\".",
         "SiteWithoutDataGTMFollowStep9": "Selecione \"Todas as páginas\" para disparar a \"tag de rastreamento Matomo\" em todas as suas páginas.",
-        "SiteWithoutDataGoogleAnalyticsImport": "Importação do Google Analytics",
         "SiteWithoutDataGoogleTagManager": "Gerenciador de tags do Google",
         "SiteWithoutDataGoogleTagManagerDescription": "Você pode usar o Matomo com o Gerenciador de tags do Google. Para configurar o Matomo Tracking no Google Tag Manager, siga as instruções deste %1$sguia%2$s.",
         "SiteWithoutDataGoogleTagManagerFollowStepCompleted": "%1$sParabéns!%2$s Você instalou com sucesso o código de rastreamento do Matomo Analytics por meio do Google Tag Manager. Para verificar se os acessos estão sendo rastreados, visite seu site e verifique se esses dados estão visíveis em sua instância do Matomo.",

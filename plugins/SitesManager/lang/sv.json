@@ -142,7 +142,6 @@
         "SiteWithoutDataGTMFollowStep7": "Klistra in Javascript-spårningskoden i taggkonfigurationens HTML-fält.",
         "SiteWithoutDataGTMFollowStep8": "Skrolla ner och klicka på \"Triggering\".",
         "SiteWithoutDataGTMFollowStep9": "Välj \"All Pages\" för att fyra av \"Matomo tracking tag\" på alla dina sidor.",
-        "SiteWithoutDataGoogleAnalyticsImport": "Google Analytics-import",
         "SiteWithoutDataGoogleTagManager": "Google Tag Manager",
         "SiteWithoutDataGoogleTagManagerDescription": "Du kan använda Matomo med Google Tag Manager. För att sätta upp Matomo-spårning i Google Tag Manager, följ instruktionerna i denna %1$sguide%2$s.",
         "SiteWithoutDataGoogleTagManagerFollowStepCompleted": "%1$sGrattis!%2$s Du har lyckats installera Matomo Analytics spårningskod via Google Tag Manager. För att verifiera att besök spåras så besöker du din webbplats och kontrolelrar att denna data syns i din Matomo-instans.",

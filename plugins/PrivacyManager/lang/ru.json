@@ -1,8 +1,10 @@
 {
     "PrivacyManager": {
+        "Anonymize": "Анонимизировать",
         "AnonymizeData": "Анонимизировать данные",
         "AnonymizeIpDescription": "Выберите «Да», если вы хотите, чтобы Matomo не отслеживал полностью определенные IP-адреса.",
         "AnonymizeIpInlineHelp": "Скрыть последний байт IP-адресов ваших посетителей согласно вашим принципам конфиденциальности или законодательству.",
+        "AnonymizeIpMaskFully": "Полностью замаскировать IP-адрес",
         "AnonymizeIpMaskLengtDescription": "Выберите, как много байтов IP-адреса посетителей должно быть скрыто.",
         "AnonymizeIpMaskLength": "%1$s байт(ов), например, %2$s",
         "AnonymizeUserId": "Заменить ID пользователя всевдонимом",

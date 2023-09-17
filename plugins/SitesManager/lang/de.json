@@ -142,7 +142,6 @@
         "SiteWithoutDataGTMFollowStep7": "Fügen Sie diesen JavaScript-Tracking-Code in das HTML-Feld der Tag-Konfiguration ein.",
         "SiteWithoutDataGTMFollowStep8": "Scrollen Sie nach unten und klicken Sie auf \"Trigger\".",
         "SiteWithoutDataGTMFollowStep9": "Wählen Sie \"All pages\", um das \"Matomo-Tracking-Tag\" auf allen Ihren Seiten auszulösen.",
-        "SiteWithoutDataGoogleAnalyticsImport": "Google Analytics Import",
         "SiteWithoutDataGoogleTagManager": "Google Tag Manager",
         "SiteWithoutDataGoogleTagManagerDescription": "Sie können Matomo mit dem Google Tag Manager verwenden. Um das Matomo Tracking im Google Tag Manager einzurichten, folgen Sie den Instruktionen dieser %1$sAnleitung%2$s.",
         "SiteWithoutDataGoogleTagManagerFollowStepCompleted": "%1$sHerzlichen Glückwunsch!%2$s Sie haben den Matomo Analytics Tracking-Code erfolgreich über Google Tag Manager installiert. Um zu überprüfen, ob Zugriffe erfasst werden, besuchen Sie Ihre Website und prüfen Sie, ob diese Daten in Ihrer Matomo-Instanz sichtbar sind.",

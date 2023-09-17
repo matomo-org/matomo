@@ -50,7 +50,7 @@
         "DefaultRevenueLabel": "Výchozí příjem cíle",
         "DeleteGoalConfirm": "Opravdu chcete vymazat tento cíl %s?",
         "Details": "Detaily cíle",
-        "DocumentationRevenueGeneratedByProductSales": "Tržby produktu. Nepočítají se daně, poplatky za doručení a slevy.",
+        "DocumentationRevenueGeneratedByProductSales": "Tržby produktu. Nepočítají se daně, dopravné ani slevy",
         "Download": "Stažení souboru",
         "Ecommerce": "Obchody",
         "EcommerceAndGoalsMenu": "Obchody a Cíle",
