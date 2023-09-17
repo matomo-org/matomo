@@ -154,6 +154,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 $tabContent            = $obj->renderInstructionsTab($this->siteContentDetector);
                 $othersInstruction     = $obj->renderOthersInstruction($this->siteContentDetector);
                 $instructionUrl        = $obj->getInstructionUrl();
+                $isRecommended         = $obj->isRecommended($this->siteContentDetector);
                 $recommendationDetails = $obj->getRecommendationDetails($this->siteContentDetector);
 
                 /**
@@ -173,15 +174,16 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
                 if (!empty($tabContent)) {
                     $trackingMethods[] = [
-                        'id'                => $obj::getId(),
-                        'name'              => $obj::getName(),
-                        'type'              => $obj::getContentType(),
-                        'content'           => $tabContent,
-                        'icon'              => $obj::getIcon(),
-                        'priority'          => $obj::getPriority(),
-                        'wasDetected'       => $this->siteContentDetector->wasDetected($obj::getId()),
-                        'recommendationTitle' => $recommendationDetails['title'],
-                        'recommendationText' => $recommendationDetails['text'],
+                        'id'                   => $obj::getId(),
+                        'name'                 => $obj::getName(),
+                        'type'                 => $obj::getContentType(),
+                        'content'              => $tabContent,
+                        'icon'                 => $obj::getIcon(),
+                        'priority'             => $obj::getPriority(),
+                        'wasDetected'          => $this->siteContentDetector->wasDetected($obj::getId()),
+                        'isRecommended'        => $isRecommended,
+                        'recommendationTitle'  => $recommendationDetails['title'],
+                        'recommendationText'   => $recommendationDetails['text'],
                         'recommendationButton' => $recommendationDetails['button'],
                     ];
                 }
@@ -231,6 +233,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'icon'                 => './plugins/SitesManager/images/integrations.svg',
             'priority'             => 10000,
             'wasDetected'          => false,
+            'isRecommended'        => false,
             'recommendationTitle'  => '',
             'recommendationText'   => '',
             'recommendationButton' => '',
@@ -243,6 +246,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'icon'                 => './plugins/SitesManager/images/others.svg',
             'priority'             => 10001,
             'wasDetected'          => false,
+            'isRecommended'        => false,
             'recommendationTitle'  => '',
             'recommendationText'   => '',
             'recommendationButton' => '',
@@ -252,9 +256,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $matomoIndex = null;
 
         foreach ($trackingMethods as $index => $tab) {
-            // Note: We recommend the first method that was detected - unless it was Matomo JavaScript Tracker itself
-            // as that should only be recommended if nothing else was detected
-            if ($tab['wasDetected'] && $tab['id'] !== Matomo::getId()) {
+            // Note: We recommend the first method that is recommended (after sorting by priority)
+            if (true === $tab['isRecommended']) {
                 $recommendedMethod = $tab;
                 unset($trackingMethods[$index]);
                 break;

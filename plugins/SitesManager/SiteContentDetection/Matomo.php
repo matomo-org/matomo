@@ -82,6 +82,11 @@ class Matomo extends SiteContentDetectionAbstract
         return $view->render();
     }
 
+    public function isRecommended(SiteContentDetector $detector): bool
+    {
+        return false; // do not recommend this, as it's used as fall back
+    }
+
     public function getRecommendationDetails(SiteContentDetector $detector): array
     {
         $details = parent::getRecommendationDetails($detector);

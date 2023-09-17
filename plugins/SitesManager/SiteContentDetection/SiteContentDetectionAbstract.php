@@ -113,6 +113,17 @@ abstract class SiteContentDetectionAbstract
     }
 
     /**
+     * Returns if the method should be recommended. Returns true if the method was detected
+     *
+     * @param SiteContentDetector $detector
+     * @return bool
+     */
+    public function isRecommended(SiteContentDetector $detector): bool
+    {
+        return $detector->wasDetected(static::getId());
+    }
+
+    /**
      * Returns details used to render the recommendation on no data screen
      *
      * @param SiteContentDetector $detector
