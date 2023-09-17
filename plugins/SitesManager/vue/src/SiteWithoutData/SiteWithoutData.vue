@@ -74,7 +74,7 @@
       </div>
     </template>
 
-    <div id="start-tracking-details" v-if="showMethodDetails">
+    <div id="start-tracking-details" :data-method="showMethodDetails.id" v-if="showMethodDetails">
       <!--div id="share-button">
           <a href="">
               <span class="icon-upload"></span>
