@@ -838,7 +838,8 @@ abstract class Controller
         if ($user) {
             $userChanges = new UserChanges($user);
             $newChangesStatus = $userChanges->getNewChangesStatus();
-            if ($newChangesStatus == ChangesModel::NEW_CHANGES_EXIST) {
+            $shownRecently = $userChanges->shownRecently();
+            if ($newChangesStatus == ChangesModel::NEW_CHANGES_EXIST && !$shownRecently) {
                 $view->whatisnewShow = true;
             }
         }

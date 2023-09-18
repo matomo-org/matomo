@@ -161,6 +161,8 @@
         "WhatIsNewTitle": "Here's what's new in Matomo",
         "WhatIsNewNoChangesTitle": "No recent changes",
         "WhatIsNewNoChanges": "There's nothing new at the moment",
+        "WhatIsNewDoNotShowAgain": "Do not show these changes again",
+        "WhatIsNewRemindMeLater": "Remind me later",
         "WithOptionalRevenue": "with optional revenue",
         "YouAreNotOptedOut": "You are not opted out.",
         "YouAreOptedOut": "You are currently opted out.",

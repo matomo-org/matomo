@@ -9,6 +9,7 @@
 namespace Piwik\Changes;
 
 use Piwik\Container\StaticContainer;
+use Piwik\Date;
 use Piwik\Db;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
 
@@ -66,15 +67,43 @@ class UserChanges
     }
 
     /**
-     * Return an array of changes and update the user's changes last viewed value
+     * Return true if the changes popup is snoozed
+     *
+     * @return bool If changes were shown to the user in the last 24hrs then this will be true, otherwise false
+     */
+    public function shownRecently(): bool
+    {
+        $lastShown = (isset($this->user['ts_changes_shown']) ? $this->user['ts_changes_shown'] : null);
+        if (!$lastShown) {
+            return false; // Never shown
+        }
+        // Less than 24hrs since last shown
+        return ((Date::factory('now')->getTimestamp() - Date::factory($lastShown)->getTimestamp()) < 86400);
+    }
+
+    /**
+     * Return an array of changes and update the user's popup last shown timestamp
      *
      * @return array
      */
     public function getChanges(): array
     {
-        $changes = $this->changesModel->getChangeItems();
+        $usersModel = new UsersModel();
+        $usersModel->updateUserFields($this->user['login'], ['ts_changes_shown' => Date::now()->getDatetime()]);
 
-        // Record the time that changes were viewed for the current user
+        return $this->changesModel->getChangeItems();
+    }
+
+    /**
+     * Record all changes as read
+     *
+     * @return void
+     * @throws \Piwik\Tracker\Db\DbException
+     */
+    public function markChangesAsRead(): void
+    {
+        $changes =  $this->changesModel->getChangeItems();
+
         $maxId = null;
         foreach ($changes as $k => $change) {
             if ($maxId < $change['idchange']) {
@@ -86,8 +115,6 @@ class UserChanges
             $usersModel = new UsersModel();
             $usersModel->updateUserFields($this->user['login'], ['idchange_last_viewed' => $maxId]);
         }
-
-        return $changes;
     }
 
 }
