@@ -412,10 +412,10 @@ export default defineComponent({
       const category = translate('CoreHome_Menu');
 
       const topMenuItems: SubMenuItem[] = [];
-      document.querySelectorAll('nav .sidenav li > a').forEach((element) => {
+      document.querySelectorAll('nav .sidenav li > a, nav .sidenav li > div > a').forEach((element) => {
         let text = element.textContent?.trim();
 
-        if (!text) {
+        if (!text || element.parentElement.tagName === 'DIV') {
           text = element.getAttribute('title')?.trim(); // possibly a icon, use title instead
         }
 

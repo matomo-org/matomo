@@ -8,8 +8,8 @@
  */
 namespace Piwik\Changes;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Db;
-use Piwik\Changes\Model as ChangesModel;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
 
 /**
@@ -21,17 +21,16 @@ class UserChanges
     /**
      * @var Db\AdapterInterface
      */
-    private $db;
     private $user;
+    private $changesModel;
 
     /**
      * @param array $user
-     * @param Db\AdapterInterface|null $db
      */
-    public function __construct(array $user, ?Db\AdapterInterface $db = null)
+    public function __construct(array $user)
     {
-        $this->db = ($db ?? Db::get());
         $this->user = $user;
+        $this->changesModel = StaticContainer::get(\Piwik\Changes\Model::class);
     }
 
     /**
@@ -42,10 +41,28 @@ class UserChanges
      */
     public function getNewChangesStatus(): int
     {
-        $idchangeLastViewed = (isset($this->user['idchange_last_viewed']) ? $this->user['idchange_last_viewed'] : null);
+        return $this->changesModel->doChangesExist($this->getIdchangeLastViewed());
+    }
 
-        $changesModel = new ChangesModel($this->db);
-        return $changesModel->doChangesExist($idchangeLastViewed);
+    /**
+     * Return the count of new changes unseen by the user
+     *
+     * @return int   Change count
+     * @throws \Exception
+     */
+    public function getNewChangesCount(): int
+    {
+        return $this->changesModel->getNewChangesCount($this->getIdchangeLastViewed());
+    }
+
+    /**
+     * Return the key of the last viewed change for the user, if any
+     *
+     * @return int
+     */
+    private function getIdchangeLastViewed(): ?int
+    {
+        return (isset($this->user['idchange_last_viewed']) ? $this->user['idchange_last_viewed'] : null);
     }
 
     /**
@@ -55,8 +72,7 @@ class UserChanges
      */
     public function getChanges(): array
     {
-        $changesModel = new ChangesModel(Db::get());
-        $changes = $changesModel->getChangeItems();
+        $changes = $this->changesModel->getChangeItems();
 
         // Record the time that changes were viewed for the current user
         $maxId = null;

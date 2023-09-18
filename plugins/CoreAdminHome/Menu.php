@@ -56,8 +56,8 @@ class Menu extends \Piwik\Plugin\Menu
             $user = $model->getUser(Piwik::getCurrentUserLogin());
             if ($user) {
                 $userChanges = new UserChanges($user);
-
                 $newChangesStatus = $userChanges->getNewChangesStatus();
+
                 if ($newChangesStatus !== ChangesModel::NO_CHANGES_EXIST) {
 
                     $icon = ($newChangesStatus === ChangesModel::NEW_CHANGES_EXIST ? 'icon-notifications_on' : 'icon-reporting-actions');
@@ -66,7 +66,8 @@ class Menu extends \Piwik\Plugin\Menu
                     $menu->addItem('CoreAdminHome_WhatIsNew', null, 'javascript:', 990,
                         Piwik::translate('CoreAdminHome_WhatIsNewTooltip'),
                         $icon, "Piwik_Popover.createPopupAndLoadUrl('module=CoreAdminHome&action=whatIsNew', '".
-                        addslashes(Piwik::translate('CoreAdminHome_WhatIsNewTooltip'))."','what-is-new-popup')");
+                        addslashes(Piwik::translate('CoreAdminHome_WhatIsNewTooltip'))."','what-is-new-popup')",
+                        null, null, $userChanges->getNewChangesCount());
                 }
             }
         }
