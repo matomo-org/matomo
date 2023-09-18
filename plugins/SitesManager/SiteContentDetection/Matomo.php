@@ -12,14 +12,12 @@ namespace Piwik\Plugins\SitesManager\SiteContentDetection;
 
 use Piwik\API\Request;
 use Piwik\Common;
-use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
 use Piwik\Site;
 use Piwik\SiteContentDetector;
-use Piwik\Translation\Translator;
 use Piwik\Url;
 use Piwik\View;
 

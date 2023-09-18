@@ -36,7 +36,7 @@ describe("EmptySite", function () {
   });
 
   it('should show the tracking code when selected', async function () {
-    await page.evaluate(() => $('#start-tracking-method-list a[href="#matomo"]')[0].click());
+    await page.evaluate(() => $('#start-tracking-detection a[href="#matomo"]')[0].click());
 
     // wait till url check field is filled with data, which means loading has finished.
     await page.waitForFunction(() => $('#baseUrl').val());
@@ -166,7 +166,23 @@ describe("EmptySite", function () {
   });
 
 
+  it('should should show a notification on the tracking code screen when a consent manager is detected', async function () {
+    testEnvironment.detectedContentDetections = ['Osano'];
+    testEnvironment.connectedConsentManagers = ['Osano'];
+    testEnvironment.save();
 
+    await page.goto('about:blank');
+    await page.goto(urlToTest);
+    await page.waitForSelector('#start-tracking-method-list'); // wait till list is shown
+
+    await page.evaluate(() => $('#start-tracking-detection a[href="#matomo"]')[0].click());
+
+    // wait till url check field is filled with data, which means loading has finished.
+    await page.waitForFunction(() => $('#baseUrl').val());
+
+    const pageElement = await page.$('.page');
+    expect(await pageElement.screenshot()).to.matchImage('detected_osano');
+  });
 
 
   it.skip('should have button to send tracking code to developer', async function () {
