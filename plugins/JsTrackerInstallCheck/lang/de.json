@@ -1,1 +1,7 @@
-{}
+{
+    "JsTrackerInstallCheck": {
+        "PluginDescription": "Überprüfen Sie, ob der Tracking-Code auf Ihrer Website installiert wurde und ob er Tracking-Anfragen an Ihre Matomo-Instanz zurücksenden kann",
+        "TestInstallationBtnText": "Test Installation",
+        "TestInstallationDescription": "Um zu testen, ob der Tracking-Code in der Lage ist, Anfragen an Ihre Matomo-Instanz zu senden, geben Sie die genaue URL ein, die Sie tracken möchten, und klicken Sie auf \"Installation testen\". Es öffnet sich ein neuer Tab, der sich innerhalb von 10 Sekunden schließen sollte."
+    }
+}

@@ -3,9 +3,9 @@
         "ChangeYourPassword": "Změnit své heslo",
         "ConfirmationLinkSent": "Pro potvrzení požadavku na změnu hesla navštivte odkaz uvedený v e-mailu zaslaném do vaší schránky.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Uživatel se super-uživatelským přístupem nemůže být ověřen mechanismem %s.",
-        "ExceptionPasswordMD5HashExpected": "Parametr hesla je očekáván jako MD5 hash hesla",
+        "ExceptionPasswordMD5HashExpected": "Parametr hesla je očekáván jako MD5 hash hesla.",
         "InvalidNonceSSLMisconfigured": "Můžete také %1$s přinutit Matomo používat zabezpečené připojení%2$s: ve svém konfiguračním souboru %3$s nastavte %4$s pod sekci %5$s",
-        "InvalidOrExpiredToken": "Klíč je neplatný, nebo vypršel",
+        "InvalidOrExpiredToken": "Token není platný, nebo jeho platnost vypršela.",
         "InvalidUsernameEmail": "Neplatné uživatelské jméno nebo e-mailová adresa.",
         "LogIn": "Přihlásit",
         "LoginOrEmail": "Uživatelské jméno nebo E-mail",
@@ -16,7 +16,7 @@
         "NewPasswordRepeat": "Nové heslo (opakovat)",
         "PasswordChanged": "Vaše heslo bylo změněno.",
         "PasswordRepeat": "Heslo (pro kontrolu)",
-        "PasswordsDoNotMatch": "Hesla si neodpovídají",
+        "PasswordsDoNotMatch": "Hesla se neshodují.",
         "PluginDescription": "Poskytuje autentizaci jménem a heslem a funkcionalitu obnovy hesla. Metodu přihlašování můžete změnit pomocí zásuvného modulu přihlašování, kterým je například LoginLdap dostupný z obchodu.",
         "RememberMe": "Zapamatovat si"
     }

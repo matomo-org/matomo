@@ -77,6 +77,7 @@
         "JSTracking_VisitorCustomVars": "為此訪客追蹤自訂變數",
         "JSTracking_VisitorCustomVarsDesc": "例如變數名稱為「類型」，值為「顧客」。",
         "JavaScriptTracking": "JavaScript 追蹤程式碼",
+        "JsTrackingCodeAdvancedOptionsStep": "可選：利用進階設定來客製化您的追蹤程式碼。",
         "JsTrackingCodeMissingEmail1": "幾天前你在你的 Matomo 分析中新增了網站「%s」。我們剛剛檢查了你的 Matomo 似乎沒有記錄到這個網站的任何流量。",
         "JsTrackingCodeMissingEmail2": "你必須在你的網站上或行動應用程式中設定追蹤程式碼以開始追蹤資料和深入了解你的使用者。以網站來說，只要將追蹤程式碼嵌入 %s 標籤之前即可。",
         "JsTrackingCodeMissingEmail3": "要尋找和自訂你的追蹤程式碼，%1$s點擊這裡%2$s（或看看%3$sJavaScript 追蹤客戶端指南%4$s）。",

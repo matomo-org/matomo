@@ -61,7 +61,7 @@
         "ColumnExits": "Uscite",
         "ColumnExitsDocumentation": "Il numero delle visite che sono finite in questa pagina.",
         "ColumnGenerationTime": "Tempo di generazione",
-        "ColumnHits": "Visite",
+        "ColumnHits": "Accessi",
         "ColumnKeyword": "Parola chiave",
         "ColumnLabel": "Etichetta",
         "ColumnMaxActions": "Numero massimo di azioni in una visita",

@@ -9,7 +9,7 @@
         "CancelAndReturnToReports": "Zrušit a %1$svrátit se k seznamu hlášení%2$s",
         "CreateAndScheduleReport": "Vytvořit a naplánovat hlášení",
         "CreateReport": "Vytvořit hlášení",
-        "CustomVisitorSegment": "Vlastní segment návštěvníka",
+        "CustomVisitorSegment": "Vlastní segment návštěvníka:",
         "DescriptionOnFirstPage": "Popis hlášení bude zobrazen na první jeho straně.",
         "DisplayFormat_TablesOnly": "Pouze zobrazit tabulky (žádné grafy)",
         "EmailHello": "Ahoj,",
@@ -19,7 +19,7 @@
         "EvolutionGraphsShowForEachInPeriod": "Grafy vývoje ukazují vývoj pro %1$skaždý den%2$s v posledních %3$s",
         "EvolutionGraphsShowForPreviousN": "Evoluční grafy ukazují vývoj oproti předchozímu N %s",
         "FrontPage": "Hlavní strana",
-        "MonthlyScheduleHelp": "Měsíční plán: hlášení bude odesláno první den měsíce",
+        "MonthlyScheduleHelp": "Měsíční plán: hlášení bude odesláno první den měsíce.",
         "MustBeLoggedIn": "Musíte být přihlášen, abyste mohl vytvářet vlastní hlášení.",
         "NoRecipients": "Toto hlášení nemá příjemce",
         "NoSubscriptionFound": "Nebyl nalezen žádný odběr. Možná že odběr hlášení byl již odhlášen nebo odstraněn.",
@@ -58,6 +58,6 @@
         "UnsubscribeFooter": "Chcete-li odhlásit odběr tohoto hlášení, klikněte na tento odkaz: %1$s",
         "UnsubscribeReportConfirmation": "Opravdu chcete odhlásit odběr hlášení %1$s?",
         "UpdateReport": "Aktualizovat hlášení",
-        "WeeklyScheduleHelp": "Týdenní plán: hlášení bude odesláno každé pondělí"
+        "WeeklyScheduleHelp": "Týdenní plán: hlášení bude odesláno každé pondělí."
     }
 }
