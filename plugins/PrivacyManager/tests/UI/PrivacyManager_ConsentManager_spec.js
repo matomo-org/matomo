@@ -10,13 +10,21 @@
 describe("PrivacyManager_ConsentManager", function () {
     this.timeout(0);
 
-    this.fixture = "Piwik\\Tests\\Fixtures\\EmptySiteWithSiteContentDetection";
+    this.fixture = "Piwik\\Tests\\Fixtures\\EmptySite";
 
     var generalParams = 'idSite=1&period=day&date=2017-01-02',
         urlBase = '?module=PrivacyManager&' + generalParams + '&action=';
 
     before(function () {
         testEnvironment.pluginsToLoad = ['PrivacyManager'];
+        testEnvironment.detectedContentDetections = ['Osano'];
+        testEnvironment.connectedConsentManagers = ['Osano'];
+        testEnvironment.save();
+    });
+
+    after(function () {
+        testEnvironment.detectedContentDetections = [];
+        testEnvironment.connectedConsentManagers = [];
         testEnvironment.save();
     });
 
