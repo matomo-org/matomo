@@ -46,6 +46,6 @@ describe('Invite', function () {
     });
     // should show site without data page
     await page.waitForNetworkIdle();
-    await page.waitForSelector('.site-without-data');
+    await page.waitForSelector('#site-without-data');
   });
 });
