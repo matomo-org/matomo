@@ -20,7 +20,7 @@ describe("WhatIsNew", function () {
 
     it('should show the what is new changes popup', async function() {
         await page.goto('?module=CoreHome');
-        await page.waitForTimeout(6000);
+        await page.waitForTimeout(7500); // Unfortunately it is taking this long to load
         await page.waitForNetworkIdle();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('what_is_new');
     });
