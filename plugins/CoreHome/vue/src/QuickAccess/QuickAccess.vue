@@ -415,7 +415,8 @@ export default defineComponent({
       document.querySelectorAll('nav .sidenav li > a, nav .sidenav li > div > a').forEach((element) => {
         let text = element.textContent?.trim();
 
-        if (!text || element.parentElement.tagName === 'DIV') {
+        if (!text || (element.parentElement != null && element.parentElement.tagName != null
+          && element.parentElement.tagName === 'DIV')) {
           text = element.getAttribute('title')?.trim(); // possibly a icon, use title instead
         }
 
