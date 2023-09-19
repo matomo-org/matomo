@@ -136,8 +136,9 @@ td.editable-site-field:hover {
     }
 
     .pageWrap {
-        max-width: 1120px;
+        max-width: 1168px; /* 1120px + padding */
         margin: 0 auto;
+        padding: 0 24px;
     }
 
     a#start-tracking-back {
@@ -226,7 +227,7 @@ td.editable-site-field:hover {
         display: block;
         border-radius: 4px;
         border: 1px dashed @theme-color-background-lowContrast;
-        padding: 24px 24px 24px 88px;
+        padding: 24px 87px 24px 87px;
         position: relative;
 
         @media only screen and (max-width: 992px) {
@@ -356,35 +357,21 @@ td.editable-site-field:hover {
             font-weight: bold;
         }
 
-        .no-list-style, .no-list-style-footer {
-            list-style: none;
-            list-style-position: inside;
-            margin-left: -1rem;
-        }
+        ol.list-style-decimal > li {
+            .copyToClipboardWrapper {
+                width: 100%;
+                display: inline-block;
+            }
 
-        .no-list-style-footer {
-            margin-left: unset;
+            .copyToClipboardPositionDiv {
+                top: 1.5em;
+            }
         }
 
         .testInstallFields {
             margin-left: 0;
         }
 
-        .merged-notification {
-            line-height: 4px;
-
-            p:first-child {
-                padding-top: 0.4rem;
-            }
-        }
-
-        .fw-bold {
-            font-weight: bold;
-        }
-
-        .list-style-disc {
-            list-style: disc inside;
-        }
 
         @media screen {
             @media (max-width: 999px) {

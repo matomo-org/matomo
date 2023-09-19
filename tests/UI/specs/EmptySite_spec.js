@@ -27,6 +27,21 @@ describe("EmptySite", function () {
     testEnvironment.save();
   });
 
+  async function makeTrackingCodeStatic() {
+    await page.waitForNetworkIdle();
+    await page.evaluate(function () {
+      // ensure hostname and container id is always the same
+      var selector = $('.codeblock, [vue-directive="CoreHome.CopyToClipboard"]');
+      selector.each(function(){
+        let $elem = $(this);
+        $elem.text($elem.text().replace(/u="\/\/(.*)";/g, 'u="//localhost/tests/PHPUnit/proxy/";'));
+        $elem.text($elem.text().replace(/host='http\/\/(.*)',/g, 'host=\'http://localhost/tests/PHPUnit/proxy/\','));
+        $elem.text($elem.text().replace(/http(.*)container_(.*).js/g, 'http://localhost/js/container_test123.js'));
+        $elem.text($elem.text().replace(new RegExp('https?://' + document.location.host + '/'), 'http://localhost/'));
+      });
+    });
+  }
+
   it('should initially show the no data page overview', async function () {
     await page.goto(urlToTest);
     await page.waitForSelector('#start-tracking-method-list'); // wait till list is shown
@@ -40,6 +55,7 @@ describe("EmptySite", function () {
 
     // wait till url check field is filled with data, which means loading has finished.
     await page.waitForFunction(() => $('#baseUrl').val());
+    await makeTrackingCodeStatic();
 
     const pageElement = await page.$('.page');
     expect(await pageElement.screenshot()).to.matchImage('trackingCode');
@@ -65,13 +81,7 @@ describe("EmptySite", function () {
     await page.click('#start-tracking-back');
     await page.evaluate(() => $('#start-tracking-method-list a[href="#spapwa"]')[0].click());
 
-    await page.waitForSelector('#start-tracking-details .codeblock');
-
-    await page.evaluate(function () {
-      // since containerID will be random and keeps changing
-      var selector = $('#start-tracking-details .codeblock');
-      selector.text(selector.text().replace(/http(.*)container_(.*).js/g, 'http://localhost/js/container_test123.js'));
-    });
+    await makeTrackingCodeStatic();
 
     const pageElement = await page.$('.page');
     expect(await pageElement.screenshot()).to.matchImage('spa_pwa');
@@ -80,6 +90,7 @@ describe("EmptySite", function () {
   it('should show the Other methods when clicked', async function () {
     await page.click('#start-tracking-back');
     await page.evaluate(() => $('#start-tracking-method-list a[href="#other"]')[0].click());
+    await makeTrackingCodeStatic();
 
     const pageElement = await page.$('.page');
     expect(await pageElement.screenshot()).to.matchImage('other');
@@ -88,6 +99,7 @@ describe("EmptySite", function () {
   it('should show the google tag manager details when clicked', async function () {
     await page.click('#start-tracking-back');
     await page.evaluate(() => $('#start-tracking-method-list a[href="#googletagmanager"]')[0].click());
+    await makeTrackingCodeStatic();
 
     const pageElement = await page.$('.page');
     expect(await pageElement.screenshot()).to.matchImage('gtm');
@@ -99,6 +111,7 @@ describe("EmptySite", function () {
 
     // wait till url check field is filled with data, which means loading has finished.
     await page.waitForFunction(() => $('#baseUrl').val());
+    await makeTrackingCodeStatic();
 
     const pageElement = await page.$('.page');
     expect(await pageElement.screenshot()).to.matchImage('wordpress');
@@ -107,6 +120,7 @@ describe("EmptySite", function () {
   it('should show the vue js details when clicked', async function () {
     await page.click('#start-tracking-back');
     await page.evaluate(() => $('#start-tracking-method-list a[href="#vuejs"]')[0].click());
+    await makeTrackingCodeStatic();
 
     const pageElement = await page.$('.page');
     expect(await pageElement.screenshot()).to.matchImage('vuejs');
@@ -119,6 +133,7 @@ describe("EmptySite", function () {
 
     await page.goto(urlToTest + "#?" + generalParams + "&activeTab=cloudflare");
     await page.waitForSelector('#start-tracking-details'); // wait till details ar shown
+    await makeTrackingCodeStatic();
 
     const pageElement = await page.$('.page');
     expect(await pageElement.screenshot()).to.matchImage('cloudflare');
@@ -179,6 +194,7 @@ describe("EmptySite", function () {
 
     // wait till url check field is filled with data, which means loading has finished.
     await page.waitForFunction(() => $('#baseUrl').val());
+    await makeTrackingCodeStatic();
 
     const pageElement = await page.$('.page');
     expect(await pageElement.screenshot()).to.matchImage('detected_osano');
