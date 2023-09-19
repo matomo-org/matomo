@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Changes\Model as ChangesModel;
+use Piwik\Date;
 use Piwik\Db;
 use Piwik\Tests\Framework\Fixture;
 
@@ -15,14 +16,16 @@ class CreateChanges extends Fixture
 {
 
     private $file;
+    private $idSite = 1;
 
     public function setUp(): void
     {
         parent::setUp();
         Fixture::createSuperUser();
-        if (!self::siteCreated($idSite = 1)) {
+        if (!self::siteCreated($idSite = $this->idSite)) {
             self::createWebsite('2021-01-01');
         }
+        $this->trackVisits();
 
         $this->file = PIWIK_DOCUMENT_ROOT . '/plugins/CoreAdminHome/changes.json';
         $this->createChanges();
@@ -74,4 +77,14 @@ class CreateChanges extends Fixture
         }
 
     }
+
+    private function trackVisits()
+    {
+        $dateTime = Date::today()->toString();
+        $t = self::getTracker($this->idSite, $dateTime, $defaultInit = true);
+
+        $t->setUrl('http://example.org/index.htm');
+        self::checkResponse($t->doTrackPageView('0'));
+    }
+
 }
