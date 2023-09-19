@@ -113,9 +113,6 @@ describe('VersionInfoHeaderMessage', function() {
 
         makeUpdateAvailable();
 
-        // result parsing is broken
-        return;
-
         await page.click(selectorUpdateLink);
         await page.waitForNetworkIdle();
 

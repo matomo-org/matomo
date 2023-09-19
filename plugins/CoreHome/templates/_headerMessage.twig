@@ -1,12 +1,12 @@
 {# testing, remove test_ from var names #}
-{% set test_latest_version_available="4.0.0" %}
-{% set test_piwikUrl='https://demo.matomo.org/' %}
+{% set test_latest_version_available = '6.0.0' %}
+{% set test_piwikUrl = 'https://demo.matomo.org/' %}
 {% set isPiwikDemo %}{{ piwikUrl == 'http://demo.matomo.org/' or piwikUrl == 'https://demo.matomo.org/' or piwikUrl == 'https://demo.matomo.cloud/' or piwikUrl == 'http://demo.matomo.cloud/' }}{% endset %}
 
 {% set updateCheck %}
     <span id="updateCheckLinkContainer">
         <span class="icon icon-fixed icon-reload"></span>
-                {{ 'CoreHome_CheckForUpdates'|translate }}
+        {{ 'CoreHome_CheckForUpdates'|translate }}
     </span>
 {% endset %}
 

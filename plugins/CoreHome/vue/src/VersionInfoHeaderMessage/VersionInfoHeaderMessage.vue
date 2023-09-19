@@ -40,7 +40,7 @@
         rel="noreferrer noopener"
       >
         <span id="updateCheckLinkContainer">
-            {{ translate('CoreHome_SeeAvailableVersions') }}
+          {{ translate('CoreHome_SeeAvailableVersions') }}
         </span>
       </a>
     </Passthrough>
