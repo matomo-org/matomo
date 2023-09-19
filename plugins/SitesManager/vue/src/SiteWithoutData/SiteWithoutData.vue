@@ -161,9 +161,10 @@ export default defineComponent({
     });
   },
   methods: {
-    findTrackingMethod(methodId: string) {
+    findTrackingMethod(methodId: string|null) {
       if (
         this.recommendedMethod
+        && methodId
         && this.recommendedMethod.id.toLowerCase() === methodId.toLowerCase()
       ) {
         return this.recommendedMethod;
@@ -172,7 +173,7 @@ export default defineComponent({
       let trackingMethod = null;
 
       Object.entries(this.trackingMethods).forEach(([, method]) => {
-        if (method.id.toLowerCase() === methodId.toLowerCase()) {
+        if (methodId && method.id.toLowerCase() === methodId.toLowerCase()) {
           trackingMethod = method;
         }
       });
