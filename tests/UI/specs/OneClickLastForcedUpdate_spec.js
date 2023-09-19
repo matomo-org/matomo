@@ -90,11 +90,8 @@ describe("OneClickLastForcedUpdate", function () {
             }
         }
 
-        await page.waitForSelector('.site-without-data', { visible: true });
+        await page.waitForSelector('#start-tracking-method-list', { visible: true });
         await page.waitForNetworkIdle();
-        const element  = await page.$('.site-without-data');
-        await page.waitForNetworkIdle();
-        await page.waitForTimeout(250);
         expect(await element.screenshot()).to.matchImage('login');
     });
 
