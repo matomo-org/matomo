@@ -25,6 +25,7 @@
         class="title"
         href="?module=CoreUpdater&action=newVersionAvailable"
         style="cursor:pointer;"
+        ref="expander"
       >
         {{ translate('General_NewUpdatePiwikX', latestVersionAvailable) }}
         <span class="icon-warning"></span>

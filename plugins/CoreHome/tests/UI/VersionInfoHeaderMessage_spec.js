@@ -123,15 +123,13 @@ describe('VersionInfoHeaderMessage', function() {
         this.title = parentSuite.title; // to make sure the screenshot prefix is the same
 
         it('looks great', async function() {
-          makeUpdateAvailable();
+          await page.evaluate(function(selectorComponent, selectorMessageDropdown) {
+            const component = document.querySelector(selectorComponent);
+            const messageDropdown = document.querySelector(selectorMessageDropdown);
+            const matomoVersion = JSON.parse(component.getAttribute('piwik-version'));
 
-          await page.goto(urlAdminHome);
-          await page.waitForNetworkIdle();
-
-          expect(await page.screenshotSelector(selectorMessage)).to.matchImage('update_available');
-
-          // hover is broken
-          return;
+            messageDropdown.innerHTML = messageDropdown.innerHTML.replace(matomoVersion, '5.x-uitest');
+          }, selectorComponent, selectorMessageDropdown);
 
           await page.hover(selectorMessage);
           await page.waitForSelector(selectorMessageDropdown, {visible: true, timeout: 250});
