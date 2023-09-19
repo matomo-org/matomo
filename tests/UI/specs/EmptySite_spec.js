@@ -117,7 +117,7 @@ describe("EmptySite", function () {
     testEnvironment.connectedConsentManagers = [];
     testEnvironment.save();
 
-    await page.goto(urlToTest + "#?" + generalParams + "&activeTab=Cloudflare");
+    await page.goto(urlToTest + "#?" + generalParams + "&activeTab=cloudflare");
     await page.waitForSelector('#start-tracking-details'); // wait till details ar shown
 
     const pageElement = await page.$('.page');

@@ -162,14 +162,17 @@ export default defineComponent({
   },
   methods: {
     findTrackingMethod(methodId: string) {
-      if (this.recommendedMethod && this.recommendedMethod.id === methodId) {
+      if (
+        this.recommendedMethod
+        && this.recommendedMethod.id.toLowerCase() === methodId.toLowerCase()
+      ) {
         return this.recommendedMethod;
       }
 
       let trackingMethod = null;
 
       Object.entries(this.trackingMethods).forEach(([, method]) => {
-        if (method.id === methodId) {
+        if (method.id.toLowerCase() === methodId.toLowerCase()) {
           trackingMethod = method;
         }
       });
@@ -177,7 +180,7 @@ export default defineComponent({
       return trackingMethod;
     },
     showMethod(methodId: string) {
-      MatomoUrl.updateHash({ ...MatomoUrl.hashParsed.value, activeTab: methodId });
+      MatomoUrl.updateHash({ ...MatomoUrl.hashParsed.value, activeTab: methodId.toLowerCase() });
     },
     showOverview() {
       MatomoUrl.updateHash({ ...MatomoUrl.hashParsed.value, activeTab: null });
