@@ -116,7 +116,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     public function aggregateDayReport()
     {
         $hasConversions = $this->getProcessor()->getNumberOfVisitsConverted() > 0;
-        if ($hasConversions) {
+        if ($hasConversions || $this->usesEcommerce($this->getSiteId())) {
             $this->aggregateGeneralGoalMetrics();
         }
 
@@ -531,7 +531,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         }
 
         // overall numeric metrics
-        if ($hasConversions) {
+        if ($hasConversions || $this->usesEcommerce($this->getSiteId())) {
             $fieldsToSum = array();
             foreach ($goalIdsToSum as $goalId) {
                 $metricsToSum = Goals::getGoalColumns($goalId);
