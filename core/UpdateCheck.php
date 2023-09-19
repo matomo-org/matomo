@@ -19,7 +19,7 @@ class UpdateCheck
     const UI_CLICK_CHECK_INTERVAL = 10; // every 10s when user clicks UI link
     const LAST_TIME_CHECKED = 'UpdateCheck_LastTimeChecked';
     const LATEST_VERSION = 'UpdateCheck_LatestVersion';
-    const SOCKET_TIMEOUT = 2;
+    const SOCKET_TIMEOUT = 5;
 
     /**
      * Check for a newer version
