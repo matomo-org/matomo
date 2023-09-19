@@ -208,11 +208,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         usort($trackingMethods, function($a, $b) {
-            if ($a['wasDetected'] === $b['wasDetected']) {
+            if ($a['isRecommended'] === $b['isRecommended']) {
                 return $a['priority'] === $b['priority'] ? 0 : ($a['priority'] < $b['priority'] ? -1 : 1);
             }
 
-            return $a['wasDetected'] ? -1 : 1;
+            return $a['isRecommended'] ? -1 : 1;
         });
 
         usort($othersInstructions, function($a, $b) {
