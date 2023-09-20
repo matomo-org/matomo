@@ -3,11 +3,12 @@
 {% set imageToShow = 'plugins/Login/images/invitation-image.png' %}
 {% set colClassOverride = 'col l4 offset-l2 m12' %}
 {% set bodyClass = 'onboarding' %}
+{% set pageTitle = 'Matomo - Set Password' %}
 {% extends '@Login/loginLayout.twig' %}
 
 {% block loginContent %}
     <div class="contentForm invitationForm" id="invitationForm">
-        <h1>{{ 'General_CreatePassword'|translate }}</h1>
+        <h1>{{ 'General_SetPassword'|translate }}</h1>
         <p class="description">{{ 'Login_CreatePasswordDescription'|translate }}</p>
 
         {% if AccessErrorString is defined %}
@@ -21,12 +22,8 @@
             <form method="post"
                   action="{{ linkTo({'module': loginPlugin, 'action': 'acceptInvitation', 'token': null}) }}">
                 <input type="hidden" name="token" value="{{ token }}"/>
+                <input type="hidden" name="email" value="{{ user.email }}"/>
                 <div class="row">
-                    <div class="col l10 s12 input-field">
-                        <input type="text" name="email" id="email" value="{{ user.email }}" size="20" readonly="readonly"
-                               tabindex="0"/>
-                        <label for="email">{{ 'UsersManager_Email'|translate }}</label>
-                    </div>
                     <div class="col l10 s12 input-field">
                         <input type="password" placeholder="" name="password" id="password" class="input" value=""
                                size="20"
@@ -40,7 +37,7 @@
                                class="input" value="" size="20"
                                autocorrect="off" autocapitalize="none" spellcheck="false"
                                tabindex="2" required/>
-                        <label for="password_confirm">{{ 'General_ConfirmPassword'|translate }}</label>
+                        <label for="password_confirm">{{ 'General_PasswordConfirmation'|translate }}</label>
                     </div>
                 </div>
                 <div class="row actions">
