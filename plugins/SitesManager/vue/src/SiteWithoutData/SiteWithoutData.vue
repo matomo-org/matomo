@@ -94,6 +94,7 @@ import {
   translate,
   ActivityIndicator,
   AjaxHelper,
+  Matomo,
   MatomoUrl,
   VueEntryContainer,
 } from 'CoreHome';
@@ -112,6 +113,9 @@ interface TrackingMethod {
 }
 interface SiteWithoutDataState {
   loading: boolean,
+  updateCheckInterval: number,
+  currentInterval: number,
+  maxInterval: number,
   showMethodDetails: TrackingMethod|null;
   recommendedMethod: TrackingMethod|null,
   trackingMethods: Array<TrackingMethod>,
@@ -132,6 +136,9 @@ export default defineComponent({
   data(): SiteWithoutDataState {
     return {
       loading: true,
+      updateCheckInterval: 1000,
+      currentInterval: 1000,
+      maxInterval: 30000,
       showMethodDetails: null,
       recommendedMethod: null,
       trackingMethods: [],
@@ -158,6 +165,8 @@ export default defineComponent({
           MatomoUrl.hashParsed.value.activeTab as string,
         );
       }
+
+      this.checkIfSiteHasData();
     });
   },
   methods: {
@@ -185,6 +194,37 @@ export default defineComponent({
     },
     showOverview() {
       MatomoUrl.updateHash({ ...MatomoUrl.hashParsed.value, activeTab: null });
+    },
+    checkIfSiteHasData() {
+      const params: QueryParameters = {
+        module: 'API',
+        method: 'Live.getLastVisitsDetails',
+        date: 'today',
+        period: 'day',
+        filter_limit: 1,
+        idSite: Matomo.idSite,
+        doNotFetchActions: 0,
+      };
+
+      const options = {
+        // don't show error messages returned from API as notification
+        createErrorNotification: false,
+      };
+
+      AjaxHelper.fetch(params, options).then((response) => {
+        if (response.length > 0) {
+          window.broadcast.propagateNewPage('date=today');
+          return;
+        }
+
+        window.setTimeout(this.checkIfSiteHasData, this.currentInterval);
+        this.currentInterval = Math.min(
+          this.currentInterval + this.updateCheckInterval,
+          this.maxInterval,
+        );
+      }).catch(() => {
+        // ignore errors to no distract user with an error message
+      });
     },
   },
   computed: {
