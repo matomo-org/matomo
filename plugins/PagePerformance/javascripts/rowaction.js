@@ -70,7 +70,7 @@
         },
 
         isAvailableOnRow: function (dataTableParams, tr) {
-            return true;
+            return !tr.is('.totalsRow');
         },
 
         createInstance: function (dataTable, param) {
