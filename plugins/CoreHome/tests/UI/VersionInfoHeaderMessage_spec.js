@@ -126,7 +126,7 @@ describe('VersionInfoHeaderMessage', function() {
         await page.click(selectorUpdateLink);
         await page.waitForNetworkIdle();
 
-        expect(await getUpdateLinkText()).to.match(/Check for updates/);
+        expect(await getUpdateLinkText()).to.match(/Please try again/);
 
         makeUpdateAvailable();
 
