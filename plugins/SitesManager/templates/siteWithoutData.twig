@@ -13,23 +13,6 @@
 {% endblock %}
 
 {% block content %}
-
-    <script type="text/javascript" charset="utf-8">
-        $(document).ready(function () {
-            $('<div />').insertAfter('[vue-entry="SitesManager.SiteWithoutData"]').liveWidget({
-                interval: 1000,
-                onUpdate: function () {
-                    // reload page as soon as a visit was detected
-                    broadcast.propagateNewPage('date=today');
-                },
-                dataUrlParams: {
-                    module: 'Live',
-                    action: 'getLastVisitsStart'
-                }
-            });
-        });
-    </script>
-
     {% set additionalCtaEventContent %}{{ postEvent('Template.siteWithoutData.additionalCta') }}{% endset %}
 
     <div
