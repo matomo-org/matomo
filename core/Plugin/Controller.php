@@ -835,13 +835,14 @@ abstract class Controller
 
         $model = new UsersModel();
         $user = $model->getUser(Piwik::getCurrentUserLogin());
-        if ($user) {
-            $userChanges = new UserChanges($user);
-            $newChangesStatus = $userChanges->getNewChangesStatus();
-            $shownRecently = $userChanges->shownRecently();
-            if ($newChangesStatus == ChangesModel::NEW_CHANGES_EXIST && !$shownRecently) {
-                $view->whatisnewShow = true;
-            }
+        if (!$user) {
+            return;
+        }
+        $userChanges = new UserChanges($user);
+        $newChangesStatus = $userChanges->getNewChangesStatus();
+        $shownRecently = $userChanges->shownRecently();
+        if ($newChangesStatus == ChangesModel::NEW_CHANGES_EXIST && !$shownRecently) {
+            $view->whatisnewShow = true;
         }
     }
 
