@@ -216,10 +216,10 @@ class SiteContentDetector
     /**
      * Returns an array containing ids of all detected detections of the given type
      *
-     * @param string $type One of the SiteContentDetectionAbstract::TYPE_* constants
+     * @param int $type One of the SiteContentDetectionAbstract::TYPE_* constants
      * @return array
      */
-    public function getDetectsByType(string $type): array
+    public function getDetectsByType(int $type): array
     {
         $detected = [];
 
