@@ -16,8 +16,6 @@ use Piwik\Common;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
-use Piwik\Plugins\SitesManager\SiteContentDetection\GoogleAnalytics3;
-use Piwik\Plugins\SitesManager\SiteContentDetection\GoogleAnalytics4;
 use Piwik\Plugins\SitesManager\SiteContentDetection\Matomo;
 use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
 use Piwik\Plugins\SitesManager\SiteContentDetection\WordPress;
@@ -292,23 +290,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 'type'              => SiteContentDetectionAbstract::TYPE_OTHER,
                 'othersInstruction' => Piwik::translate('CoreAdminHome_ImportFromGoogleAnalyticsDescription', ['<a href="https://plugins.matomo.org/GoogleAnalyticsImporter" rel="noopener noreferrer" target="_blank">', '</a>']),
             ];
-
-            /**
-             * @ignore
-             */
-            Piwik::postEvent('SitesManager.siteWithoutData.customizeImporterMessage', [&$googleAnalyticsImporterInstruction]);
         }
 
-        if (empty($googleAnalyticsImporterInstruction)
-            && !$this->siteContentDetector->wasDetected(GoogleAnalytics3::getId())
-            && !$this->siteContentDetector->wasDetected(GoogleAnalytics4::getId())) {
-            $googleAnalyticsImporterInstruction = [
-                'id'                => 'GoogleAnalyticsImporter',
-                'name'              => Piwik::translate('SitesManager_ImportDataFromGoogleAnalytics'),
-                'type'              => SiteContentDetectionAbstract::TYPE_OTHER,
-                'othersInstruction' => Piwik::translate('SitesManager_ImportDataFromGoogleAnalyticsDescription', ['<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/guide/installation-maintenance/import-google-analytics/">', '</a>']),
-            ];
-        }
+        /**
+         * @ignore
+         */
+        Piwik::postEvent('SitesManager.siteWithoutData.customizeImporterMessage', [&$googleAnalyticsImporterInstruction]);
 
         return $googleAnalyticsImporterInstruction;
     }
