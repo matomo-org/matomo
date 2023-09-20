@@ -130,10 +130,11 @@ class UpdateCheckTest extends TestCase
             ->willReturn($lastTimeChecked);
 
         $this->mockOptions
-            ->expects(self::exactly(2))
+            ->expects(self::exactly(3))
             ->method('setValue')
             ->withConsecutive(
                 [UpdateCheck::LAST_TIME_CHECKED, self::greaterThan(0)],
+                [UpdateCheck::LAST_CHECK_FAILED, false],
                 [UpdateCheck::LATEST_VERSION, self::RELEASE_VERSION]
             );
 
@@ -159,11 +160,21 @@ class UpdateCheckTest extends TestCase
 
     public function testStoresEmptyVersionIfUpdateCheckHttpRequestFails(): void
     {
+        $lastTimeChecked = 123456;
+
         $this->mockOptions
-            ->expects(self::exactly(2))
+            ->expects(self::once())
+            ->method('getValue')
+            ->with(UpdateCheck::LAST_TIME_CHECKED)
+            ->willReturn($lastTimeChecked);
+
+        $this->mockOptions
+            ->expects(self::exactly(4))
             ->method('setValue')
             ->withConsecutive(
                 [UpdateCheck::LAST_TIME_CHECKED, self::greaterThan(0)],
+                [UpdateCheck::LAST_TIME_CHECKED, $lastTimeChecked],
+                [UpdateCheck::LAST_CHECK_FAILED, true],
                 [UpdateCheck::LATEST_VERSION, '']
             );
 
@@ -186,6 +197,17 @@ class UpdateCheckTest extends TestCase
             ->willReturn(self::RELEASE_VERSION);
 
         self::assertSame(self::RELEASE_VERSION, UpdateCheck::getLatestVersion());
+    }
+
+    public function testHasLastCheckFailed(): void
+    {
+        $this->mockOptions
+            ->expects(self::once())
+            ->method('getValue')
+            ->with(UpdateCheck::LAST_CHECK_FAILED)
+            ->willReturn('1');
+
+        self::assertTrue(UpdateCheck::hasLastCheckFailed());
     }
 
     /**

@@ -8,7 +8,10 @@
     v-expand-on-hover="{expander: 'expander'}"
     id="header_message"
     class="piwikSelector"
-    :class="{header_info: !latestVersionAvailable, update_available: latestVersionAvailable}"
+    :class="{
+      header_info: !latestVersionAvailable || lastUpdateCheckFailed,
+      update_available: latestVersionAvailable
+    }"
   >
     <Passthrough v-if="latestVersionAvailable && !isPiwikDemo">
       <span
@@ -31,7 +34,7 @@
         <span class="icon-warning"></span>
       </a>
     </Passthrough>
-    <Passthrough v-else-if="isSuperUser && isAdminArea">
+    <Passthrough v-else-if="isSuperUser && (isAdminArea || lastUpdateCheckFailed)">
       <a v-if="isInternetEnabled" class="title" v-html="$sanitize(updateCheck)"></a>
       <a
         v-else
@@ -67,6 +70,7 @@ import Passthrough from '../Passthrough/Passthrough.vue';
 export default defineComponent({
   props: {
     isMultiServerEnvironment: Boolean,
+    lastUpdateCheckFailed: Boolean,
     latestVersionAvailable: String,
     isPiwikDemo: Boolean,
     isSuperUser: Boolean,

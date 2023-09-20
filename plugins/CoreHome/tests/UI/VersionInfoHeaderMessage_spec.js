@@ -45,6 +45,13 @@ describe('VersionInfoHeaderMessage', function() {
 
   const makeUpdateAvailable = function() {
     testEnvironment.optionsOverride['UpdateCheck_LatestVersion'] = '99.99.99';
+    testEnvironment.optionsOverride['UpdateCheck_LastCheckFailed'] = false;
+    testEnvironment.save();
+  };
+
+  const makeUpdateFail = function() {
+    testEnvironment.optionsOverride['UpdateCheck_LatestVersion'] = '';
+    testEnvironment.optionsOverride['UpdateCheck_LastCheckFailed'] = true;
     testEnvironment.save();
   };
 
@@ -53,6 +60,7 @@ describe('VersionInfoHeaderMessage', function() {
     testEnvironment.useOverrideCss = false;
 
     testEnvironment.optionsOverride = {
+      UpdateCheck_LastCheckFailed: false,
       UpdateCheck_LastTimeChecked: 2147468400,
       UpdateCheck_LatestVersion: '',
     };
@@ -110,6 +118,15 @@ describe('VersionInfoHeaderMessage', function() {
       it('should check for a new version on request', async function() {
         await page.goto(urlAdminHome);
         await page.waitForNetworkIdle();
+
+        expect(await getUpdateLinkText()).to.match(/Check for updates/);
+
+        makeUpdateFail();
+
+        await page.click(selectorUpdateLink);
+        await page.waitForNetworkIdle();
+
+        expect(await getUpdateLinkText()).to.match(/Check for updates/);
 
         makeUpdateAvailable();
 

@@ -17,6 +17,7 @@ class UpdateCheck
 {
     const CHECK_INTERVAL = 28800; // every 8 hours
     const UI_CLICK_CHECK_INTERVAL = 10; // every 10s when user clicks UI link
+    const LAST_CHECK_FAILED = 'UpdateCheck_LastCheckFailed';
     const LAST_TIME_CHECKED = 'UpdateCheck_LastTimeChecked';
     const LATEST_VERSION = 'UpdateCheck_LatestVersion';
     const SOCKET_TIMEOUT = 5;
@@ -51,6 +52,12 @@ class UpdateCheck
                 $latestVersion = '';
             }
 
+            if ('' === $latestVersion) {
+                // retry check on next request if previous attempt failed
+                Option::set(self::LAST_TIME_CHECKED, $lastTimeChecked, $autoLoad = 1);
+            }
+
+            Option::set(self::LAST_CHECK_FAILED, '' === $latestVersion, $autoLoad = 1);
             Option::set(self::LATEST_VERSION, $latestVersion);
         }
     }
@@ -85,6 +92,16 @@ class UpdateCheck
     public static function getLatestVersion()
     {
         return Option::get(self::LATEST_VERSION);
+    }
+
+    /**
+     * Returns whether the last update check was flagged as having failed or not.
+     *
+     * @return bool
+     */
+    public static function hasLastCheckFailed(): bool
+    {
+        return (bool) Option::get(self::LAST_CHECK_FAILED);
     }
 
     /**
