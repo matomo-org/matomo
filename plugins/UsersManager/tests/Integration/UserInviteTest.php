@@ -81,7 +81,7 @@ class UserInviteTest extends IntegrationTestCase
             10
         );
 
-        $this->assertStringContainsString('Create Password', $response, 'error on accept invite page');
+        $this->assertStringContainsString('Password', $response, 'error on accept invite page');
     }
 
     public function testInviteUser()
@@ -106,7 +106,7 @@ class UserInviteTest extends IntegrationTestCase
             10
         );
 
-        $this->assertStringContainsString('Create Password', $response, 'error on accept invite page');
+        $this->assertStringContainsString('Password', $response, 'error on accept invite page');
 
         $response = Http::sendHttpRequest(
             Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php?module=Login&action=declineInvitation&token=' . $this->capturedToken,

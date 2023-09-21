@@ -543,8 +543,8 @@
         "YourSessionHasExpired": "Your session has expired due to inactivity. Please log in to continue.",
         "Update": "Update",
         "Create": "Create",
-        "CreatePassword": "Create Password",
-        "ConfirmPassword": "Confirm Password"
+        "SetPassword": "Set Password",
+        "PasswordConfirmation": "Password confirmation"
     },
     "Mobile": {
         "AboutPiwikMobile": "About Matomo Mobile",
