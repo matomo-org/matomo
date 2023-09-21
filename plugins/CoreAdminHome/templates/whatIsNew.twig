@@ -42,7 +42,7 @@
  <script>
      function doNotShowAgain() {
         var ajaxRequest = new ajaxHelper();
-        ajaxRequest.addParams({module: 'API', method: 'CoreAdminHome.whatIsNewReadAll'}, 'get');
+        ajaxRequest.addParams({module: 'API', method: 'CoreAdminHome.whatIsNewMarkAllChangesReadForCurrentUser'}, 'get');
         ajaxRequest.withTokenInUrl();
         ajaxRequest.setFormat('json');
         ajaxRequest.send();

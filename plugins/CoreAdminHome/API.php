@@ -414,7 +414,7 @@ class API extends \Piwik\Plugin\API
      *
      * @internal
      */
-    public function whatIsNewReadAll()
+    public function whatIsNewMarkAllChangesReadForCurrentUser()
     {
         Piwik::checkUserHasSomeViewAccess();
         Piwik::checkUserIsNotAnonymous();

@@ -25,8 +25,7 @@ describe("WhatIsNew", function () {
 
     it('should show the what is new changes popup', async function() {
         await page.goto('?module=CoreHome');
-        await page.$('.whatisnew');
-        await page.waitForTimeout(1000);
+        await page.waitForSelector('.whatisnew', {visible:true});
         expect(await page.screenshot({ fullPage: true })).to.matchImage('what_is_new');
     });
 });

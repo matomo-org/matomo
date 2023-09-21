@@ -158,7 +158,7 @@ class Model
     }
 
     /**
-     * Get count of new
+     * Get count of new changes
      *
      * @param int|null $newerThanId     Only count new changes as having a key > than this sequential key
      *
