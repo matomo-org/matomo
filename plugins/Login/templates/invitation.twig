@@ -9,7 +9,7 @@
 {% block loginContent %}
     <div class="contentForm invitationForm" id="invitationForm">
         <h1>{{ 'General_SetPassword'|translate }}</h1>
-        <p class="description">{{ 'Login_CreatePasswordDescription'|translate }}</p>
+        <p class="description" id="invite-user-description">{{ 'Login_CreatePasswordDescription'|translate }}</p>
 
         {% if AccessErrorString is defined %}
             <div vue-entry="CoreHome.Notification"
