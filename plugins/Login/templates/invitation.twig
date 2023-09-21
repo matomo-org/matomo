@@ -1,7 +1,7 @@
 {% set isCenteredLogo = false %}
 {% set showImageDiv = true %}
 {% set imageToShow = 'plugins/Login/images/invitation-image.png' %}
-{% set colClassOverride = 'col l4 offset-l2 m12' %}
+{% set colClassOverride = 'col l4 offset-l2 m12 invite-form-section-div' %}
 {% set bodyClass = 'onboarding' %}
 {% set pageTitle = 'General_SetPassword'|translate %}
 {% extends '@Login/loginLayout.twig' %}
@@ -28,7 +28,7 @@
                                tabindex="0"/>
                         <label for="email">{{ 'UsersManager_Email'|translate }}</label>
                     </div>
-                    <div class="col l10 s12 input-field">
+                    <div class="col l10 s12 input-field invite-user-pwd-div">
                         <input type="password" placeholder="" name="password" id="password" class="input" value=""
                                size="20"
                                autocorrect="off" autocapitalize="none" spellcheck="false"
@@ -36,7 +36,7 @@
                         <label for="password">{{ 'General_Password'|translate }}
                         </label>
                     </div>
-                    <div class="col l10 s12 input-field">
+                    <div class="col l10 s12 input-field invite-user-pwd-div">
                         <input type="password" placeholder="" name="passwordConfirmation" id="password_confirm"
                                class="input" value="" size="20"
                                autocorrect="off" autocapitalize="none" spellcheck="false"
