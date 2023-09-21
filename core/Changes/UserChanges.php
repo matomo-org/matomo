@@ -10,7 +10,6 @@ namespace Piwik\Changes;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
-use Piwik\Db;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
 
 /**
