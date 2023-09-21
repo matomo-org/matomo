@@ -48,6 +48,19 @@ return [
 
     'observers.global' => \Piwik\DI::add([
 
+         ['Http.sendHttpRequest', \Piwik\DI::value(function ($aUrl, $httpEventParams, &$response, &$status, &$headers) {
+             // try to prevent marketplace & api from being called on every test many times slowing test downs massively
+             if (
+                 strpos($aUrl, 'plugins.matomo.org')
+                 || strpos($aUrl, 'plugins.piwik.org')
+                 || strpos($aUrl, 'api.matomo.org')
+                 || strpos($aUrl, 'api.piwik.org')
+             ) {
+                 $response = false;
+                 $status = 200;
+             }
+         })],
+
         // removes port from all URLs to the test Piwik server so UI tests will pass no matter
         // what port is used
         ['Request.dispatch.end', Piwik\DI::value(function (&$result) {
