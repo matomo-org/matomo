@@ -19,9 +19,6 @@ use Piwik\Plugins\UsersManager\Model as UsersModel;
 class UserChanges
 {
 
-    /**
-     * @var Db\AdapterInterface
-     */
     private $user;
     private $changesModel;
 
@@ -63,7 +60,7 @@ class UserChanges
      */
     private function getIdchangeLastViewed(): ?int
     {
-        return (isset($this->user['idchange_last_viewed']) ? $this->user['idchange_last_viewed'] : null);
+        return (isset($this->user['idchange_last_viewed']) ? intval($this->user['idchange_last_viewed']) : null);
     }
 
     /**

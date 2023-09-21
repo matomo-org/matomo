@@ -15,15 +15,18 @@ describe("WhatIsNew", function () {
       testEnvironment.optionsOverride = {
           loadChanges: '1'
       };
+
+      testEnvironment.overrideConfig('General', {
+        enable_internet_features: 0
+      });
+
       testEnvironment.save();
     });
 
     it('should show the what is new changes popup', async function() {
         await page.goto('?module=CoreHome');
-        await page.waitForNetworkIdle();
+        await page.$('.whatisnew');
         await page.waitForTimeout(1000);
-
-        const dialog = await page.$('.ui-dialog');
-        expect(await dialog.screenshot()).to.matchImage('what_is_new');
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('what_is_new');
     });
 });

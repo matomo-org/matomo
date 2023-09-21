@@ -15,7 +15,6 @@ use Piwik\Tests\Framework\Fixture;
 class CreateChanges extends Fixture
 {
 
-    private $file;
     private $idSite = 1;
 
     public function setUp(): void
@@ -26,22 +25,17 @@ class CreateChanges extends Fixture
             self::createWebsite('2021-01-01');
         }
         $this->trackVisits();
-
-        $this->file = PIWIK_DOCUMENT_ROOT . '/plugins/CoreAdminHome/changes.json';
         $this->createChanges();
     }
 
     public function tearDown(): void
     {
-        parent::tearDown();
         self::cleanup();
+        parent::tearDown();
     }
 
     protected function cleanup(): void
     {
-        if (file_exists($this->file)) {
-            unlink($this->file);
-        }
         Db::query("DELETE FROM changes WHERE title LIKE 'New feature%'");
     }
 
