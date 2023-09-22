@@ -1,1 +1,10 @@
-{}
+{
+    "JsTrackerInstallCheck": {
+        "JsTrackingCodeInstallCheckFailureMessage": "La verifica del codice di monitoraggio è fallito. Verificare di aver installato correttamente il codice. %1$s Scorpi di più%2$s.",
+        "JsTrackingCodeInstallCheckFailureMessageWordpress": "La verifica del codice di monitoraggio è fallito. Verificare di aver installato il plugin \"%1$s\" e seguire tutti i passi. %2$s Scorpi di più%3$s.",
+        "JsTrackingCodeInstallCheckSuccessMessage": "Il codice di monitoraggio è stato installato con successo! Questa schermata scomparirà non appena alcuni dati saranno tracciati per il tuo sito.",
+        "PluginDescription": "Verificare se il codice di monitoraggio è stato installato sul tuo sito e che possa inviare richieste di tracciamento alla tua istanza Matomo",
+        "TestInstallationBtnText": "Testa installazione",
+        "TestInstallationDescription": "Per testare che il codice di monitoraggio possa inviare richieste alla tua istanza Matomo, inserisci il corretto URL che stai monitorando e clicca su \"Testa installazione\". Verrà aperta una nuova scheda che dovrebbe chiudersi entro 10 secondi."
+    }
+}

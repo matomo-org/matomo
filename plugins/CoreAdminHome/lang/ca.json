@@ -77,6 +77,7 @@
         "JSTracking_VisitorCustomVars": "Feu un seguiment de les variables personalitzades per a aquest visitant",
         "JSTracking_VisitorCustomVarsDesc": "Per exemple, amb el nom de la variable \"Tipus\" i el valor \"Client\".",
         "JavaScriptTracking": "Seguiment amb Javascript",
+        "JsTrackingCodeAdvancedOptionsStep": "Opcional: utilitzeu les opcions avançades per personalitzar el vostre codi de seguiment.",
         "JsTrackingCodeMissingEmail1": "Fa uns dies vau afegir el lloc web '%s' al vostre Matomo Analytics. Ho acabem de comprovar i el vostre Matomo no sembla tenir cap trànsit registrat per a aquest lloc web.",
         "JsTrackingCodeMissingEmail2": "Per començar a fer un seguiment de les dades i obtenir informació sobre els vostres usuaris, haureu de configurar el seguiment al vostre lloc web o a l'aplicació mòbil. Per als llocs web, simplement inseriu el codi de seguiment just abans de l'etiqueta %s.",
         "JsTrackingCodeMissingEmail3": "Per trobar i personalitzar el vostre codi de seguiment, %1$sfeu clic aquí%2$s (o feu una ullada a la %3$sGuia del client de seguiment de JavaScript%4$s).",

@@ -77,6 +77,7 @@
         "JSTracking_VisitorCustomVars": "Spåra anpassade variabler för denna besökare",
         "JSTracking_VisitorCustomVarsDesc": "Till exempel med varierande namn \"sort\" och värde \"kund\".",
         "JavaScriptTracking": "Spårning med JavaScript",
+        "JsTrackingCodeAdvancedOptionsStep": "Valfritt: Använd de avancerade inställningarna för att skräddarsy din spårningskod.",
         "JsTrackingCodeMissingEmail1": "För några dagar sedan lade du till webbsidan '1%s' till Matomo Analytics. Vi kontrollerade precis och din Matomo ser inte ut att ha någon trafik registrerad för webbsidan.",
         "JsTrackingCodeMissingEmail2": "För att börja spåra data och få insikt om dina användare behöver du starta spårningen på din webbsida eller app. För webbsidor är det bara att lägga till spårningskoden precis innan %s-taggen.",
         "JsTrackingCodeMissingEmail3": "%1$sKlicka här%2$s för att visa eller anpassa din spårningskod (eller ta en titt på %3$sJavaScript Tracking Client-guiden%4$s).",

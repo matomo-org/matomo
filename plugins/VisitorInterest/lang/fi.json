@@ -1,8 +1,8 @@
 {
     "VisitorInterest": {
-        "BetweenXYMinutes": "%1$s-%2$s min",
-        "BetweenXYSeconds": "%1$s-%2$s s",
-        "ColumnPagesPerVisit": "Sivuja \/ käynti",
+        "BetweenXYMinutes": "%1$s–%2$s min",
+        "BetweenXYSeconds": "%1$s–%2$s s",
+        "ColumnPagesPerVisit": "Sivuja / käynti",
         "ColumnVisitDuration": "Käynnin kesto",
         "Engagement": "Sitoutuminen",
         "NPages": "%s sivua",
@@ -10,15 +10,15 @@
         "PluginDescription": "Raportoi kävijöiden kiinnostuksen: käytyjen sivujen määrän, sivuilla vietetyn ajan, ajan edellisestä käynnistä jne.",
         "VisitNum": "Käynnin numero",
         "VisitsByDaysSinceLast": "Käynnit lajiteltuna aikavälillä edelliseen käyntiin",
-        "visitsByVisitCount": "Käynnit käyntinumeron mukaan",
         "VisitsPerDuration": "Käynnit keston mukaan",
         "VisitsPerNbOfPages": "Käynnit sivujen määrän mukaan",
         "WidgetLengths": "Käyntien pituus",
         "WidgetLengthsDocumentation": "Tässä raportissa näet, kuinka moni käynti kesti tietyn ajan. Aluksi tämä raportti on tagipilvenä. Yleisimmät kestot näytetään isommalla fontilla.",
-        "WidgetPages": "Sivuja \/ käynti",
+        "WidgetPages": "Sivuja / käynti",
         "WidgetPagesDocumentation": "Tässä raportissa näet, kuinka monella käynnillä oli tietty määrä sivunlatauksia. Aluksi tämä raportti on tagipilvenä. Yleisimmät sivumäärät näytetään isommalla fontilla.",
         "WidgetVisitsByDaysSinceLast": "Päiviä edellisestä käynnistä",
         "WidgetVisitsByDaysSinceLastDocumentation": "Tässä raportissa näet, kuinka monen kävijän edellisestä käynnistä on valittu määrä päiviä.",
-        "WidgetVisitsByNumDocumentation": "Tässä raportissa näet N:n kerran sivuilla olevien käyntien määrän, ts. vierailijat, jotka ovat käyneet sivuillasi vähintään N kertaa."
+        "WidgetVisitsByNumDocumentation": "Tässä raportissa näet N:n kerran sivuilla olevien käyntien määrän, ts. vierailijat, jotka ovat käyneet sivuillasi vähintään N kertaa.",
+        "visitsByVisitCount": "Käynnit käyntinumeron mukaan"
     }
 }

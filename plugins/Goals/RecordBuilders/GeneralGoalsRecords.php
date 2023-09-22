@@ -194,6 +194,6 @@ class GeneralGoalsRecords extends Base
 
     public function isEnabled(ArchiveProcessor $archiveProcessor): bool
     {
-        return $archiveProcessor->getNumberOfVisitsConverted() > 0;
+        return $archiveProcessor->getNumberOfVisitsConverted() > 0 || $this->usesEcommerce($archiveProcessor->getParams()->getSite()->getId());
     }
 }

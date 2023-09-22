@@ -28,8 +28,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             visitorId: testEnvironment.forcedIdVisitor,
             realtimeWindow: 'false'
         };
-        testEnvironment.save();
-
+        testEnvironment.completeNoChallenge = true;
         testEnvironment.pluginsToLoad = ['CustomDirPlugin'];
         testEnvironment.save();
 
@@ -52,6 +51,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     after(function () {
         delete testEnvironment.queryParamOverride;
+        delete testEnvironment.completeNoChallenge;
         testEnvironment.testUseMockAuth = 1;
         testEnvironment.save();
     });

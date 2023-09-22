@@ -1,14 +1,15 @@
 {% set isCenteredLogo = false %}
 {% set showImageDiv = true %}
 {% set imageToShow = 'plugins/Login/images/invitation-image.png' %}
-{% set colClassOverride = 'col l4 offset-l2 m12' %}
+{% set colClassOverride = 'col l4 offset-l2 m12 invite-form-section-div' %}
 {% set bodyClass = 'onboarding' %}
+{% set pageTitle = 'General_SetPassword'|translate %}
 {% extends '@Login/loginLayout.twig' %}
 
 {% block loginContent %}
     <div class="contentForm invitationForm" id="invitationForm">
-        <h1>{{ 'General_CreatePassword'|translate }}</h1>
-        <p class="description">{{ 'Login_CreatePasswordDescription'|translate }}</p>
+        <h1>{{ 'General_SetPassword'|translate }}</h1>
+        <p class="description" id="invite-user-description">{{ 'Login_CreatePasswordDescription'|translate }}</p>
 
         {% if AccessErrorString is defined %}
             <div vue-entry="CoreHome.Notification"
@@ -22,12 +23,12 @@
                   action="{{ linkTo({'module': loginPlugin, 'action': 'acceptInvitation', 'token': null}) }}">
                 <input type="hidden" name="token" value="{{ token }}"/>
                 <div class="row">
-                    <div class="col l10 s12 input-field">
+                    <div class="col l10 s12 input-field" id="invite-user-email-div">
                         <input type="text" name="email" id="email" value="{{ user.email }}" size="20" readonly="readonly"
                                tabindex="0"/>
                         <label for="email">{{ 'UsersManager_Email'|translate }}</label>
                     </div>
-                    <div class="col l10 s12 input-field">
+                    <div class="col l10 s12 input-field invite-user-pwd-div">
                         <input type="password" placeholder="" name="password" id="password" class="input" value=""
                                size="20"
                                autocorrect="off" autocapitalize="none" spellcheck="false"
@@ -35,12 +36,12 @@
                         <label for="password">{{ 'General_Password'|translate }}
                         </label>
                     </div>
-                    <div class="col l10 s12 input-field">
+                    <div class="col l10 s12 input-field invite-user-pwd-div">
                         <input type="password" placeholder="" name="passwordConfirmation" id="password_confirm"
                                class="input" value="" size="20"
                                autocorrect="off" autocapitalize="none" spellcheck="false"
                                tabindex="2" required/>
-                        <label for="password_confirm">{{ 'General_ConfirmPassword'|translate }}</label>
+                        <label for="password_confirm">{{ 'General_PasswordConfirmation'|translate }}</label>
                     </div>
                 </div>
                 <div class="row actions">

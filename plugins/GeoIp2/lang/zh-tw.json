@@ -50,7 +50,7 @@
         "ServerBasedVariablesConfiguration": "GeoIP 2 伺服器模組所使用的伺服器變數設定檔",
         "ServerVariableFor": "%s 的伺服器變數",
         "SetupAutomaticUpdatesOfGeoIP": "設立地理位置資料庫的自動更新",
-        "ShowCustomServerVariablesConfig": "我使用 Geoip2 伺服器模組（Nginx、Apache...）並希望配置伺服器變數",
+        "ShowCustomServerVariablesConfig": "我使用 Geoip2 伺服器模組（Nginx、Apache…）並希望配置伺服器變數",
         "ThisUrlIsNotAValidGeoIPDB": "下載的檔案不是有效的地理位置資料庫。請重新檢查網址或手動下載檔案。",
         "UnsupportedArchiveType": "遇到不支援的壓縮檔類型 %1$s。",
         "UpdaterHasNotBeenRun": "還沒有自動更新過。",

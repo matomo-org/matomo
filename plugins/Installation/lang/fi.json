@@ -2,7 +2,7 @@
     "Installation": {
         "CannotConnectToDb": "Tietokantaan yhdistäminen epäonnistui",
         "CannotConnectToDbResolvingExplanation": "Tämä saattaa olla väliaikainen ongelma, %1$syritä päivittää sivu%2$s. Jos ongelma ilmenee uudelleen, ole yhteydessä tämän Matomo-instanssin ylläpitoon.",
-        "CollaborativeProject": "Matomo on yhteistyöprojekti, jonka parissa ovat työskennelleet ihmiset ympäri maailmaa suurella sydämellä.",
+        "CollaborativeProject": "Matomo on suurella sydämellä rakennettu yhteistyöprojekti.",
         "ConfirmDeleteExistingTables": "Haluatko varmasti poistaa seuraavat taulut tietokannasta: %s? VAROITUS: TAULUJEN TIETOJA EI VOI PALAUTTAA EIKÄ POISTAMISTA VOI KUMOTA!",
         "Congratulations": "Onnittelut",
         "CongratulationsHelp": "<p>Onnittelut! Matomo-asennus valmistui.</p><p>Varmista, että JavaScript-seurantakoodi on lisätty sivuillesi ja sen jälkeen voit odottaa ensimmäisiä kävijöitä.</p>",

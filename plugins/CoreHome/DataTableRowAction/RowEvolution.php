@@ -12,6 +12,7 @@ use Exception;
 use Piwik\API\DataTablePostProcessor;
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\DataTable\DataTableInterface;
 use Piwik\Date;
 use Piwik\Metrics;
 use Piwik\NumberFormatter;
@@ -419,11 +420,13 @@ class RowEvolution
         $dataTableMap = $report['reportData'];
 
         // If the dataTable specifies a label_html, use this instead
-        $labelPretty = $dataTableMap->getColumn('label_html');
-        $labelPretty = array_filter($labelPretty, 'strlen');
-        $labelPretty = current($labelPretty);
-        if (!empty($labelPretty)) {
-            return $labelPretty;
+        if ($dataTableMap instanceof DataTableInterface) {
+            $labelPretty = $dataTableMap->getColumn('label_html');
+            $labelPretty = array_filter($labelPretty, 'strlen');
+            $labelPretty = current($labelPretty);
+            if (!empty($labelPretty)) {
+                return $labelPretty;
+            }
         }
         return $rowLabel;
     }

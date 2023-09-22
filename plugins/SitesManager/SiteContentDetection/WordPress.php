@@ -79,7 +79,7 @@ class WordPress extends SiteContentDetectionAbstract
 
     public function renderOthersInstruction(SiteContentDetector $detector): string
     {
-        if ($detector->wasDetected(self::class)) {
+        if ($detector->wasDetected(self::getId())) {
             return ''; // don't show on others page if tab is being displayed
         }
 

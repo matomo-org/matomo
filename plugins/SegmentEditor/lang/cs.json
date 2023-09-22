@@ -18,7 +18,7 @@
         "CustomUnprocessedSegmentApiError3": "(Alternativně můžete vytvořit nový segment programově pomocí metody API SegmentEditor.add).",
         "CustomUnprocessedSegmentApiError4": "Po vytvoření segmentu v editoru (nebo prostřednictvím rozhraní API) tato chybová zpráva zmizí a během několika hodin uvidíte data segmentovaných sestav poté, co byla data segmentů předběžně zpracována. (Pokud tomu tak není, mohlo dojít k problému.)",
         "CustomUnprocessedSegmentApiError5": "Jestli bude Váš segment fungovat, můžete vyzskoušet, aniž byste museli čekat na jeho zpracování, pomocí API Live.getLastVisitsDetails.",
-        "CustomUnprocessedSegmentApiError6": "Při použití této API metody uvidíte, kterým uživatelům a akcím odpovídal váš &segment= parameter.",
+        "CustomUnprocessedSegmentApiError6": "Při použití této API metody uvidíte, kterým uživatelům a akcím odpovídal váš &amp;segment= parameter.",
         "CustomUnprocessedSegmentNoData": "Chcete -li zobrazit data pro tento segment, musíte tento segment vytvořit ručně v Segment Editoru a poté několik hodin počkat, než se předzpracování dokončí.",
         "DataAvailableAtLaterDate": "Vaše segmentovaná analytická hlášení budou dostupná později. Omlouváme se za tuto nepříjemnost.",
         "DefaultAllVisits": "Všechny návštěvy",

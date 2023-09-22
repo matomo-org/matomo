@@ -18,7 +18,7 @@
         "Unlocated": "<b>%1$s</b> %2$s käynneistä %3$s:sta ei voitu geopaikantaa.",
         "VisitorMap": "Kartta kävijöistä",
         "WithUnknownCity": "%s tuntemattomista kaupungeista",
-        "WithUnknownRegion": "%s tuntemattomalta alueelta",
+        "WithUnknownRegion": "%s tuntemattomilta alueilta",
         "WorldWide": "Maailmanlaajuinen",
         "map": "kartta"
     }

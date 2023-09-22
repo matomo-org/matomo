@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row key="1">
+		<idsite>1</idsite>
+		<idgoal>1</idgoal>
+		<name>title match, triggered NEVER</name>
+		<description />
+		<match_attribute>title</match_attribute>
+		<pattern>saldkfjaslkdfjsalkdjf</pattern>
+		<pattern_type>contains</pattern_type>
+		<case_sensitive>0</case_sensitive>
+		<allow_multiple>1</allow_multiple>
+		<revenue>10</revenue>
+		<deleted>0</deleted>
+		<event_value_as_revenue>0</event_value_as_revenue>
+	</row>
+</result>
