@@ -302,6 +302,7 @@ td.editable-site-field:hover {
                 border: 1px solid @theme-color-background-lowContrast;
                 margin: 16px 20px;
                 position: relative;
+                display: table;
 
                 @media only screen and (max-width: 992px) {
                     width: 264px;
@@ -311,9 +312,10 @@ td.editable-site-field:hover {
                 a {
                     text-decoration: none;
                     color: @theme-color-text;
-                    display: block;
+                    display: table-cell;
                     height: 100%;
                     width: 100%;
+                    vertical-align: middle;
                 }
 
                 img {
@@ -321,7 +323,7 @@ td.editable-site-field:hover {
                     width: 48px;
                     position: absolute;
                     left: 24px;
-                    top: 8px;
+                    top: 7px;
 
                     @media only screen and (max-width: 992px) {
                         left: 16px;
@@ -332,7 +334,7 @@ td.editable-site-field:hover {
                     font-size: 16px;
                     font-weight: bold;
                     line-height: 24px;
-                    margin: 20px 0 0 88px;
+                    margin: 0 0 0 88px;
                     display: inline-block;
 
                     @media only screen and (max-width: 992px) {
