@@ -1,0 +1,95 @@
+name: Bug Report
+description: File a bug report
+title: "[Bug]: "
+labels: ["Potential Bug", "To Triage"]
+assignees: achakko
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please contact the Matomo community forum for questions: https://forum.matomo.org/
+        If this bug is regarding a premium plugin you purchased on plugins.matomo.org, please email shop@matomo.org instead of creating a bug report here.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Please tell us what happens instead of the expected behavior.
+      placeholder: Tell us what you see!
+      value: "A bug happened!"
+    validations:
+      required: true
+  - type: textarea
+    id: what-should-actually-happen
+    attributes:
+      label: What should happen?
+      description: Please tell us what should happen. How has this issue affected you? What are you trying to accomplish?
+      placeholder: Tell us what you expected to see!
+      value: "This is what should happen!"
+    validations:
+      required: true
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: How can this be reproduced?
+      description: For UI bugs, please try to reproduce that on our demo (https://demo.matomo.cloud/) If that is possible, please include the URLs and steps how to reproduce it there. For other bugs or UI bugs that cant be reproduced on Demo, please include any relevant URLs or commands your are using that may help us to reproduce the bug
+      placeholder: Steps to Reproduce
+      value: "This is how it happens!"
+    validations:
+      required: true
+  - type: dropdown
+    id: version
+    attributes:
+      label: Matomo Version
+      description: What version of Matomo are you running?
+      options:
+        - Matomo 3
+        - Matomo 4
+      default: 0
+    validations:
+      required: true
+  - type: input
+    id: php-version
+    attributes:
+      label: PHP Version
+      description: What version of PHP are you running?
+    validations:
+      required: true
+  - type: input
+    id: server-os
+    attributes:
+      label: Server Operating System
+      description: What Server Operating System are you using?
+    validations:
+      required: true
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: What browsers are you seeing the problem on?
+      multiple: true
+      options:
+        - Firefox
+        - Chrome
+        - Safari
+        - Microsoft Edge
+        - Not Applicable
+  - type: input
+    id: machine-os
+    attributes:
+      label: Computer Operating System
+      description: What Operating System are you using on your computer?
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      render: shell
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Contributing Guidelines](https://github.com/matomo-org/matomo/blob/18b9700c61747f8ede0fb2d5caca1cf3fed42d56/CONTRIBUTING.md) and [Security Policy](https://github.com/matomo-org/matomo/blob/18b9700c61747f8ede0fb2d5caca1cf3fed42d56/SECURITY.md)
+      options:
+        - label: I agree to follow this projects Contributing Guidelines and Security Policy
+          required: true
