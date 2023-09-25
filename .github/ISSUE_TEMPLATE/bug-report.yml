@@ -31,7 +31,7 @@ body:
     id: steps-to-reproduce
     attributes:
       label: How can this be reproduced?
-      description: For UI bugs, please try to reproduce that on our demo (https://demo.matomo.cloud/) If that is possible, please include the URLs and steps how to reproduce it there. For other bugs or UI bugs that cant be reproduced on Demo, please include any relevant URLs or commands your are using that may help us to reproduce the bug
+      description: For UI bugs, please try to reproduce that on our Demo (https://demo.matomo.cloud). If possible, please include the URLs and steps how to reproduce it there. For other bugs or UI bugs that can't be reproduced on Demo, please include any relevant URLs or commands you are using that may help us to reproduce the bug.
       placeholder: Steps to Reproduce
       value: "This is how it happens!"
     validations:
