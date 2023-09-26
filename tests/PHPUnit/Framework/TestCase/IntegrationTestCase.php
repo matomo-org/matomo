@@ -114,8 +114,9 @@ abstract class IntegrationTestCase extends SystemTestCase
      */
     protected static function configureFixture($fixture)
     {
-        $fixture->createSuperUser     = false;
-        $fixture->configureComponents = false;
+        $fixture->createSuperUser        = false;
+        $fixture->configureComponents    = false;
+        $fixture->dropDatabaseInTearDown = false;
 
         $fixture->extraTestEnvVars['loadRealTranslations'] = false;
     }
