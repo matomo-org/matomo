@@ -10,6 +10,9 @@
 describe("WhatIsNew", function () {
     this.timeout(0);
     this.fixture = 'Piwik\\Tests\\Fixtures\\CreateChanges';
+    this.optionsOverride = {
+      'persist-fixture-data': false
+    };
 
     before(function () {
       testEnvironment.optionsOverride = {
@@ -24,9 +27,18 @@ describe("WhatIsNew", function () {
     });
 
     it('should show the what is new changes popup', async function() {
-        await page.goto('?module=CoreHome');
+        await page.goto('');
         await page.waitForSelector('.whatisnew', {visible:true});
         await page.waitForNetworkIdle();
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('what_is_new');
+
+        const popup = await page.$('.what-is-new-popup');
+        expect(await popup.screenshot()).to.matchImage('what_is_new');
+    });
+
+    it('should show a badge with count in menu', async function() {
+        await page.click('.ui-dialog-titlebar-close');
+        await page.waitForSelector('.ui-widget-overlay', {hidden: true});
+        const menu = await page.$('.nav-wrapper .right');
+        expect(await menu.screenshot()).to.matchImage('menu');
     });
 });
