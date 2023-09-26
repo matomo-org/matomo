@@ -67,6 +67,8 @@ abstract class IntegrationTestCase extends SystemTestCase
     public static function tearDownAfterClass(): void
     {
         self::$tableData = array();
+
+        parent::tearDownAfterClass();
     }
 
     /**
