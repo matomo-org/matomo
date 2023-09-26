@@ -228,6 +228,11 @@ class Request
 
             // create the response
             $response = new ResponseBuilder($outputFormat, $this->request);
+            // do not send any header when processing a nested API request,
+            // as the headers might remain for to the original response
+            if (!self::isCurrentApiRequestTheRootApiRequest()) {
+                $response->disableSendHeader();
+            }
             if ($disablePostProcessing) {
                 $response->disableDataTablePostProcessor();
             }
@@ -249,8 +254,8 @@ class Request
             // read parameters
             $moduleMethod = Common::getRequestVar('method', null, 'string', $this->request);
 
-            list($module, $method) = $this->extractModuleAndMethod($moduleMethod);
-            list($module, $method) = self::getRenamedModuleAndAction($module, $method);
+            [$module, $method] = $this->extractModuleAndMethod($moduleMethod);
+            [$module, $method] = self::getRenamedModuleAndAction($module, $method);
 
             PluginManager::getInstance()->checkIsPluginActivated($module);
 
@@ -680,7 +685,7 @@ class Request
         if (empty($this->request['apiAction'])) {
             $this->request['apiAction'] = null;
         }
-        list($this->request['apiModule'], $this->request['apiAction']) = $this->getRenamedModuleAndAction($this->request['apiModule'], $this->request['apiAction']);
+        [$this->request['apiModule'], $this->request['apiAction']] = $this->getRenamedModuleAndAction($this->request['apiModule'], $this->request['apiAction']);
     }
 
     /**
