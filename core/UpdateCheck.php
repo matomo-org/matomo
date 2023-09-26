@@ -52,12 +52,13 @@ class UpdateCheck
                 $latestVersion = '';
             }
 
-            if ('' === $latestVersion) {
+            $hasLastCheckFailed = '' === $latestVersion;
+            if ($hasLastCheckFailed) {
                 // retry check on next request if previous attempt failed
                 Option::set(self::LAST_TIME_CHECKED, $lastTimeChecked, $autoLoad = 1);
             }
 
-            Option::set(self::LAST_CHECK_FAILED, '' === $latestVersion, $autoLoad = 1);
+            Option::set(self::LAST_CHECK_FAILED, $hasLastCheckFailed, $autoLoad = 1);
             Option::set(self::LATEST_VERSION, $latestVersion);
         }
     }
