@@ -18,16 +18,20 @@ use Piwik\Changes\Model as ChangesModel;
  */
 class FakeChangesModel extends ChangesModel
 {
-
-    /**
-     * Add a change item to the database table
-     *
-     * @param string $pluginName
-     * @param array  $change
-     */
-    public function addChange(string $pluginName, array $change): void
+    public function addChanges(string $pluginName): void
     {
-        // Do not load any changes
     }
 
+    public function addChange(string $pluginName, array $change): void
+    {
+    }
+
+    public function removeChanges(string $pluginName): void
+    {
+    }
+
+    public function getChangeItems(): array
+    {
+        return [];
+    }
 }
