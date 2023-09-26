@@ -2,7 +2,6 @@ name: Bug Report
 description: File a bug report
 title: "[Bug]: "
 labels: ["Potential Bug", "To Triage"]
-assignees: achakko
 body:
   - type: markdown
     attributes:
@@ -44,7 +43,15 @@ body:
       options:
         - Matomo 3
         - Matomo 4
+        - Matomo 5
       default: 0
+    validations:
+      required: true
+  - type: input
+    id: matomo-minor-patch
+    attributes:
+      label: Matomo Patch or Minor
+      description: What patch or minor version of Matomo's release above are you running?
     validations:
       required: true
   - type: input
@@ -71,7 +78,8 @@ body:
         - Chrome
         - Safari
         - Microsoft Edge
-        - Not Applicable
+        - Other
+        - Not applicable (e.g. an API call etc.)
   - type: input
     id: machine-os
     attributes:
@@ -86,10 +94,16 @@ body:
       description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
       render: shell
   - type: checkboxes
-    id: terms
+    id: code
     attributes:
-      label: Code of Conduct
-      description: By submitting this issue, you agree to follow our [Contributing Guidelines](https://github.com/matomo-org/matomo/blob/18b9700c61747f8ede0fb2d5caca1cf3fed42d56/CONTRIBUTING.md) and [Security Policy](https://github.com/matomo-org/matomo/blob/18b9700c61747f8ede0fb2d5caca1cf3fed42d56/SECURITY.md)
+      label: Validations
+      description: Before submitting the issue, please make sure you do the following
       options:
-        - label: I agree to follow this projects Contributing Guidelines and Security Policy
+        - label: Read our [Contributing Guidelines](https://github.com/matomo-org/matomo/blob/5.x-dev/CONTRIBUTING.md).
+          required: true
+        - label: Follow our [Security Policy](https://github.com/matomo-org/matomo/blob/5.x-dev/SECURITY.md).
+          required: true
+        - label: Check that there isn't already an issue that reports the same bug to avoid creating duplicates.
+          required: true
+        - label: The provided steps to reproduce is a [minimal reproducible](https://stackoverflow.com/help/minimal-reproducible-example) of the Bug.
           required: true
