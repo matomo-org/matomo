@@ -158,7 +158,7 @@ class UpdateCheckTest extends TestCase
         yield 'interval exceeded' => [false, (string) (time() - 86400), 3600];
     }
 
-    public function testStoresEmptyVersionIfUpdateCheckHttpRequestFails(): void
+    public function testCheckDoesNotSetNewLatestVersionIfHttpRequestFails(): void
     {
         $lastTimeChecked = 123456;
 
@@ -169,13 +169,12 @@ class UpdateCheckTest extends TestCase
             ->willReturn($lastTimeChecked);
 
         $this->mockOptions
-            ->expects(self::exactly(4))
+            ->expects(self::exactly(3))
             ->method('setValue')
             ->withConsecutive(
                 [UpdateCheck::LAST_TIME_CHECKED, self::greaterThan(0)],
-                [UpdateCheck::LAST_TIME_CHECKED, $lastTimeChecked],
                 [UpdateCheck::LAST_CHECK_FAILED, true],
-                [UpdateCheck::LATEST_VERSION, '']
+                [UpdateCheck::LAST_TIME_CHECKED, $lastTimeChecked]
             );
 
         EventDispatcher::getInstance()->addObserver(

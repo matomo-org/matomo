@@ -53,13 +53,15 @@ class UpdateCheck
             }
 
             $hasLastCheckFailed = '' === $latestVersion;
+
+            Option::set(self::LAST_CHECK_FAILED, $hasLastCheckFailed);
+
             if ($hasLastCheckFailed) {
                 // retry check on next request if previous attempt failed
                 Option::set(self::LAST_TIME_CHECKED, $lastTimeChecked, $autoLoad = 1);
+            } else {
+                Option::set(self::LATEST_VERSION, $latestVersion);
             }
-
-            Option::set(self::LAST_CHECK_FAILED, $hasLastCheckFailed, $autoLoad = 1);
-            Option::set(self::LATEST_VERSION, $latestVersion);
         }
     }
 
