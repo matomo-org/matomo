@@ -116,13 +116,10 @@ describe("Live", function () {
     });
 
     it('should show action tooltip', async function() {
-        var action = await page.jQuery('.visitor-profile-visits li:first-child .visitor-profile-actions .action:first-child');
-        await action.hover();
-        await page.waitForSelector('.ui-tooltip', {visible: true});
-        await page.waitForTimeout(250);
+        await page.hover('.visitor-profile-visits li:first-child .visitor-profile-actions .action:first-child');
+        await page.waitForSelector('.ui-tooltip', {visible: true, timeout: 250});
 
-        const elem = await page.$('.ui-tooltip');
-        expect(await elem.screenshot()).to.matchImage('visitor_profile_action_tooltip');
+        expect(await page.screenshotSelector('.ui-tooltip')).to.matchImage('visitor_profile_action_tooltip');
     });
 
     it('should show limited profile message', async function () {
@@ -168,7 +165,4 @@ describe("Live", function () {
         var report = await page.$('.reporting-page');
         expect(await report.screenshot()).to.matchImage('visitor_log_purged');
     });
-
-
-
 });
