@@ -68,7 +68,7 @@ type AnyFunction = (...params:any[]) => any; // eslint-disable-line
  */
 function defaultErrorCallback(deferred: XMLHttpRequest, status: string): void {
   // do not display error message if request was aborted
-  if (status === 'abort') {
+  if (status === 'abort' || !deferred || deferred.status === 0) {
     return;
   }
 
@@ -533,7 +533,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
           return;
         }
 
-        if (xhr.statusText === 'abort') {
+        if (xhr.statusText === 'abort' || xhr.status === 0) {
           return;
         }
 
