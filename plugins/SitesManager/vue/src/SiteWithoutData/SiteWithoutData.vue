@@ -18,13 +18,7 @@
       {{ headline }}
     </h1>
 
-    <div id="start-tracking-cta">
-      <a rel="noreferrer noopener" target="_blank" :href="inviteUserLink">
-        <span class="icon-user-add"></span>
-        {{ translate('UsersManager_InviteTeamMember') }}
-      </a>
-      <VueEntryContainer :html="additionalCtaContent" v-if="additionalCtaContent"/>
-    </div>
+    <VueEntryContainer id="start-tracking-cta" :html="ctaContent" />
 
     <ActivityIndicator
       :loading-message="`${translate('SitesManager_DetectingYourSite')}&hellip;`"
@@ -123,11 +117,7 @@ interface SiteWithoutDataState {
 
 export default defineComponent({
   props: {
-    inviteUserLink: {
-      type: String,
-      required: true,
-    },
-    additionalCtaContent: String,
+    ctaContent: String,
   },
   components: {
     ActivityIndicator,

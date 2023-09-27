@@ -13,12 +13,17 @@
 {% endblock %}
 
 {% block content %}
-    {% set additionalCtaEventContent %}{{ postEvent('Template.siteWithoutData.additionalCta') }}{% endset %}
+    {% set ctaEventContent %}
+        <a rel="noreferrer noopener" target="_blank" href="{{ inviteUserLink }}">
+            <span class="icon-user-add"></span>
+            {{ 'UsersManager_InviteTeamMember'|translate }}
+        </a>
+        {{ postEvent('Template.siteWithoutData.additionalCta') }}
+    {% endset %}
 
     <div
         vue-entry="SitesManager.SiteWithoutData"
-        additional-cta-content="{{ additionalCtaEventContent|json_encode }}"
-        invite-user-link="{{ inviteUserLink|json_encode }}"
+        cta-content="{{ ctaEventContent|json_encode }}"
     ></div>
 
 {% endblock %}
