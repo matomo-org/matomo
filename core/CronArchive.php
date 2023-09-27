@@ -1457,7 +1457,7 @@ class CronArchive
             return new FixedSiteIds($websitesIds);
         }
 
-        if (!empty($this->shouldArchiveSpecifiedSites)) {
+        if (!empty($this->shouldArchiveSpecifiedSites) || !SharedSiteIds::isSupported()) {
             $this->logger->info("- Will process specified sites: " . implode(', ', $websitesIds));
             return new FixedSiteIds($websitesIds);
         }

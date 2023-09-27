@@ -122,7 +122,7 @@ class Process
 
     public function startProcess()
     {
-        $this->writePidFileContent(getmypid());
+        $this->writePidFileContent(Common::getProcessId());
     }
 
     public function isRunning()
@@ -235,7 +235,7 @@ class Process
         if (!self::psExistsAndRunsCorrectly()) {
             $reasons[] = 'shell_exec(' . self::PS_COMMAND . '" 2> /dev/null") did not return a success code';
         } else if (!$getMyPidDisabled) {
-            $pid = @getmypid();
+            $pid = @\getmypid();
             if (empty($pid) || !in_array($pid, self::getRunningProcesses())) {
                 $reasons[] = 'could not find our pid (from getmypid()) in the output of `' . self::PS_COMMAND . '`';
             }

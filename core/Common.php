@@ -211,7 +211,7 @@ class Common
             if (Process::isMethodDisabled('getmypid')) {
                 $pid = Common::getRandomInt(12);
             } else {
-                $pid = getmypid();
+                $pid = \getmypid();
             }
         }
 

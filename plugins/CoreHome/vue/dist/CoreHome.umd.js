@@ -1353,7 +1353,7 @@ window.globalAjaxQueue.abort = function globalAjaxQueueAbort() {
 
 function defaultErrorCallback(deferred, status) {
   // do not display error message if request was aborted
-  if (status === 'abort') {
+  if (status === 'abort' || !deferred || deferred.status === 0) {
     return;
   }
 
@@ -1363,14 +1363,10 @@ function defaultErrorCallback(deferred, status) {
     return;
   }
 
-  var loadingError = AjaxHelper_$('#loadingError');
-
   if (Piwik_Popover.isOpen() && deferred && deferred.status === 500) {
-    if (deferred && deferred.status === 500) {
-      AjaxHelper_$(document.body).html(piwikHelper.escape(deferred.responseText));
-    }
+    AjaxHelper_$(document.body).html(piwikHelper.escape(deferred.responseText));
   } else {
-    loadingError.show();
+    AjaxHelper_$('#loadingError').show();
   }
 }
 
@@ -1690,7 +1686,7 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
             return;
           }
 
-          if (xhr.statusText === 'abort') {
+          if (xhr.statusText === 'abort' || xhr.status === 0) {
             return;
           }
 
