@@ -9,7 +9,6 @@
 		
 		
 		
-		
 		<uses_2fa>0</uses_2fa>
 	</row>
 	<row>
@@ -18,7 +17,6 @@
 		<superuser_access>0</superuser_access>
 		
 		<invited_by />
-		
 		
 		
 		
