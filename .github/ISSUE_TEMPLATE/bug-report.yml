@@ -14,7 +14,7 @@ body:
       label: What happened?
       description: Please tell us what happens instead of the expected behavior.
       placeholder: Tell us what you see!
-      value: "An error messaged shows when I visit Visitors Overview"
+      value: "An error messaged shows when I visit Overview under Visitors"
     validations:
       required: true
   - type: textarea
