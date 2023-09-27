@@ -50,7 +50,7 @@ body:
   - type: input
     id: matomo-minor-patch
     attributes:
-      label: Matomo Patch or Minor
+      label: Matomo Patch or Minor Version
       description: What patch or minor version of Matomo's release above are you running?
     validations:
       required: true
