@@ -273,6 +273,8 @@ class Controller extends \Piwik\Plugin\Controller
         UpdateCheck::check($force = false, UpdateCheck::UI_CLICK_CHECK_INTERVAL);
 
         $view = new View('@CoreHome/checkForUpdates');
+        $view->isManualUpdateCheck = true;
+        $view->lastUpdateCheckFailed = UpdateCheck::hasLastCheckFailed();
         $this->setGeneralVariablesView($view);
         return $view->render();
     }

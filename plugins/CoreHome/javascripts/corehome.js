@@ -6,76 +6,73 @@
  */
 
 (function ($) {
-
+    //
+    // 'check for updates' behavior
+    //
     $(function () {
+        var initUpdateCheck = function() {
+            var COMPONENT_SELECTOR = 'div[vue-entry="CoreHome.VersionInfoHeaderMessage"]';
 
-        //
-        // 'check for updates' behavior
-        //
+            var headerComponentParent = $(COMPONENT_SELECTOR).parent();
 
-        var headerMessageParent = $('#header_message').parent();
+            // when 'check for updates...' link is clicked, force a check & display the result
+            headerComponentParent.one('click', '#updateCheckLinkContainer', function (e) {
+                var headerComponent = $(this)
+                  .closest(COMPONENT_SELECTOR);
+                var headerMessage = headerComponent.find('#header_message');
+
+                var $titleElement = headerMessage.find('.title');
+                if ($titleElement.attr('target')) { // if this is an external link, internet access is not available on the server
+                    return;
+                }
+
+                e.preventDefault();
+
+                var ajaxRequest = new ajaxHelper();
+                ajaxRequest.setLoadingElement('#header_message .loadingPiwik');
+                ajaxRequest.addParams({
+                    module: 'CoreHome',
+                    action: 'checkForUpdates'
+                }, 'get');
+
+                ajaxRequest.withTokenInUrl();
+
+                $titleElement.addClass('activityIndicator');
+
+                ajaxRequest.setCallback(function (response) {
+                    headerMessage.fadeOut('slow', function () {
+                        response = $(COMPONENT_SELECTOR, $('<div>' + response + '</div>'));
+
+                        $titleElement.removeClass('activityIndicator');
+
+                        if (response.length) {
+                            headerComponent.replaceWith(response);
+                            piwikHelper.compileVueDirectives(response);
+                            piwikHelper.compileVueEntryComponents(response);
+
+                            initUpdateCheck();
+                        } else {
+                            headerMessage.find('.title')
+                              .html(_pk_translate('CoreHome_YouAreUsingTheLatestVersion'));
+                            headerMessage.show();
+                            setTimeout(function () {
+                                headerMessage.fadeOut('slow', function () {
+                                    headerComponent.remove();
+                                });
+                            }, 4000);
+                        }
+                    });
+                });
+                ajaxRequest.setFormat('html');
+                ajaxRequest.send();
+
+                return false;
+            });
+        };
 
         initTopControls();
-
-        // when 'check for updates...' link is clicked, force a check & display the result
-        headerMessageParent.on('click', '#updateCheckLinkContainer', function (e) {
-            var headerMessage = $(this).closest('#header_message');
-
-            var $titleElement = headerMessage.find('.title');
-            if ($titleElement.attr('target')) { // if this is an external link, internet access is not available on the server
-                return;
-            }
-
-            e.preventDefault();
-
-            var ajaxRequest = new ajaxHelper();
-            ajaxRequest.setLoadingElement('#header_message .loadingPiwik');
-            ajaxRequest.addParams({
-                module: 'CoreHome',
-                action: 'checkForUpdates'
-            }, 'get');
-
-            ajaxRequest.withTokenInUrl();
-
-            $titleElement.addClass('activityIndicator');
-
-            ajaxRequest.setCallback(function (response) {
-                headerMessage.fadeOut('slow', function () {
-                    response = $('#header_message', $('<div>' + response + '</div>'));
-
-                    $titleElement.removeClass('activityIndicator');
-
-                    var newVersionAvailable = response.hasClass('update_available');
-                    if (newVersionAvailable) {
-                        headerMessage.replaceWith(response);
-                        headerMessage.show();
-                    }
-                    else {
-                        headerMessage.find('.title').html(_pk_translate('CoreHome_YouAreUsingTheLatestVersion'));
-                        headerMessage.show();
-                        setTimeout(function () {
-                            headerMessage.fadeOut('slow', function () {
-                                headerMessage.replaceWith(response);
-                            });
-                        }, 4000);
-                    }
-                });
-            });
-            ajaxRequest.setFormat('html');
-            ajaxRequest.send();
-
-            return false;
-        });
-
-        // when clicking the header message, show the long message w/o needing to hover
-        headerMessageParent.on('click', '#header_message', function (e) {
-            if (e.target.tagName.toLowerCase() != 'a') {
-                $(this).toggleClass('expanded');
-            }
-        });
-
+        initUpdateCheck();
     });
-
 }(jQuery));
 
 
