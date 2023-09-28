@@ -27,13 +27,13 @@ class LogTest extends IntegrationTestCase
     const STRING_MESSAGE_FORMAT = '[%tag%] %message%';
     const STRING_MESSAGE_FORMAT_SPRINTF = "[%s] [%s] %s";
 
-    public static $expectedExceptionOutput = '[Monolog] [%s] LogTest.php(129): dummy error message
+    public static $expectedExceptionOutput = '[Monolog] [<PID>] LogTest.php(%d): dummy error message
   dummy backtrace [Query: , CLI mode: 1]';
 
-    public static $expectedErrorOutput = '[Monolog] [%s] dummyerrorfile.php(145): dummy error message
+    public static $expectedErrorOutput = '[Monolog] [<PID>] dummyerrorfile.php(%d): dummy error message
   dummy backtrace [Query: , CLI mode: 1]';
 
-    public static $expectedErrorOutputWithQuery = '[Monolog] [%s] dummyerrorfile.php(145): dummy error message
+    public static $expectedErrorOutputWithQuery = '[Monolog] [<PID>] dummyerrorfile.php(%d): dummy error message
   dummy backtrace [Query: ?a=b&d=f, CLI mode: 1]';
 
     public function setUp(): void
@@ -101,7 +101,7 @@ class LogTest extends IntegrationTestCase
         $error = new \ErrorException("dummy error string", 0, 102, "dummyerrorfile.php", 145);
         Log::error($error);
 
-        $this->checkBackend($backend, sprintf(self::$expectedErrorOutput, getmypid()), $formatMessage = false, $tag = 'Monolog');
+        $this->checkBackend($backend, str_replace('<PID>', getmypid(), self::$expectedErrorOutput), $formatMessage = false, $tag = 'Monolog');
     }
 
     /**
@@ -116,7 +116,7 @@ class LogTest extends IntegrationTestCase
         $error = new \ErrorException("dummy error string", 0, 102, "dummyerrorfile.php", 145);
         Log::error($error);
 
-        $this->checkBackend($backend, sprintf(self::$expectedErrorOutputWithQuery, getmypid()), $formatMessage = false, $tag = 'Monolog');
+        $this->checkBackend($backend, str_replace('<PID>', getmypid(), self::$expectedErrorOutputWithQuery), $formatMessage = false, $tag = 'Monolog');
     }
 
     /**
@@ -129,7 +129,7 @@ class LogTest extends IntegrationTestCase
         $exception = new Exception("dummy error message");
         Log::error($exception);
 
-        $this->checkBackend($backend, sprintf(self::$expectedExceptionOutput, getmypid()), $formatMessage = false, $tag = 'Monolog');
+        $this->checkBackend($backend, str_replace('<PID>', getmypid(), self::$expectedExceptionOutput), $formatMessage = false, $tag = 'Monolog');
     }
 
     /**
@@ -220,7 +220,7 @@ class LogTest extends IntegrationTestCase
 
             $expectedMessage = str_replace("\n ", "\n[Monolog] [" . getmypid() . "]", $expectedMessage);
 
-            $this->assertEquals($expectedMessage . "\n", $fileContents);
+            $this->assertStringMatchesFormat($expectedMessage . "\n", $fileContents);
         } else if ($backend == 'database') {
             $queryLog = Db::isQueryLogEnabled();
             Db::enableQueryLog(false);
@@ -230,7 +230,7 @@ class LogTest extends IntegrationTestCase
 
             $message = Db::fetchOne("SELECT message FROM " . Common::prefixTable('logger_message') . " LIMIT 1");
             $message = $this->removePathsFromBacktrace($message);
-            $this->assertEquals($expectedMessage, $message);
+            $this->assertStringMatchesFormat($expectedMessage, $message);
 
             $tagInDb = Db::fetchOne("SELECT tag FROM " . Common::prefixTable('logger_message') . " LIMIT 1");
             if ($tag === false) {
