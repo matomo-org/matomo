@@ -386,6 +386,7 @@ class Fixture extends \PHPUnit\Framework\Assert
 
         self::clearInMemoryCaches();
 
+        Db::destroyDatabaseObject();
         Log::unsetInstance();
 
         $this->destroyEnvironment();
