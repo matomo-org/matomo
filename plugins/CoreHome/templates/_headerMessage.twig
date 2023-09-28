@@ -1,18 +1,24 @@
-{# testing, remove test_ from var names #}
-{% set test_latest_version_available="4.0.0" %}
-{% set test_piwikUrl='https://demo.matomo.org/' %}
 {% set isPiwikDemo %}{{ piwikUrl == 'http://demo.matomo.org/' or piwikUrl == 'https://demo.matomo.org/' or piwikUrl == 'https://demo.matomo.cloud/' or piwikUrl == 'http://demo.matomo.cloud/' }}{% endset %}
 
 {% set updateCheck %}
     <span id="updateCheckLinkContainer">
         <span class="icon icon-fixed icon-reload"></span>
-                {{ 'CoreHome_CheckForUpdates'|translate }}
+        {{ (lastUpdateCheckFailed|default(false) ? 'General_ErrorTryAgain' : 'CoreHome_CheckForUpdates')|translate }}
     </span>
 {% endset %}
 
-{% if (latest_version_available and not isPiwikDemo and hasSomeViewAccess and not isUserIsAnonymous and showUpdateNotificationToUser) or (isSuperUser and isAdminArea is defined and isAdminArea) %}
+{% if
+    (latest_version_available and not isPiwikDemo and hasSomeViewAccess and not isUserIsAnonymous and showUpdateNotificationToUser)
+    or (
+        isSuperUser
+        and (
+            (isManualUpdateCheck is defined and isManualUpdateCheck and lastUpdateCheckFailed is defined and lastUpdateCheckFailed)
+            or (isAdminArea is defined and isAdminArea)
+        )
+    ) %}
 <div
     vue-entry="CoreHome.VersionInfoHeaderMessage"
+    last-update-check-failed="{{ lastUpdateCheckFailed|default(false)|json_encode }}"
     latest-version-available="{{ latest_version_available|default(null)|json_encode }}"
     is-multi-server-environment="{{ isMultiServerEnvironment|default(false)|json_encode }}"
     is-piwik-demo="{{ isPiwikDemo|default(false)|json_encode }}"

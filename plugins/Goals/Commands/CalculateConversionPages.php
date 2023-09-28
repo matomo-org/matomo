@@ -273,6 +273,10 @@ class CalculateConversionPages extends ConsoleCommand
 
             $result = Db::fetchOne($sql, $bind);
 
+            if (!$result) {
+                return [];
+            }
+
             $startDatetime = $result;
             $endDatetime = Date::factory('now')->getDatetime();
         }

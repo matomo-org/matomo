@@ -8,7 +8,7 @@ Critical security issues will be rewarded up to 13,000 USD. Critical issue in Ma
 
 (Note: If a Remote Code Execution (RCE) is only available when logged in as a Super User, the issue will qualify as "High" and not "Critical".)
 
-High security issues that can cause a direct attack (CSRF, XSS, Auth bypass, etc.) will be rewarded with up to 1.777 USD.
+High security issues that can cause a direct attack (CSRF, XSS, Auth bypass, etc.) will be rewarded with up to 1,777 USD.
 
 Other issues will typically be rewarded by 777 USD (or more or less depending on the impact.)
 
