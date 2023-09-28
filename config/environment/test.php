@@ -3,6 +3,7 @@
 use Piwik\Container\Container;
 use Piwik\Piwik;
 use Piwik\Tests\Framework\Mock\FakeAccess;
+use Piwik\Tests\Framework\Mock\FakeChangesModel;
 use Piwik\Tests\Framework\Mock\TestConfig;
 
 return array(
@@ -91,6 +92,16 @@ return array(
                 FakeAccess::$idSitesCapabilities = (array) $idSitesCapabilities;
             }
             return $access;
+        } else {
+            return $previous;
+        }
+    }),
+
+    // Prevent loading plugin changes, so the What's New popup isn't shown
+    'Piwik\Changes\Model' => \Piwik\DI::decorate(function ($previous, Container $c) {
+        $loadChanges = $c->get('test.vars.loadChanges');
+        if (!$loadChanges) {
+            return new FakeChangesModel();
         } else {
             return $previous;
         }
