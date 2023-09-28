@@ -1,5 +1,5 @@
 name: Bug Report
-description: File a bug report
+description: Open a bug report
 title: "[Bug]: "
 labels: ["Potential Bug", "To Triage"]
 body:
@@ -13,8 +13,7 @@ body:
     attributes:
       label: What happened?
       description: Please tell us what happens instead of the expected behavior.
-      placeholder: Tell us what you see!
-      value: "An error messaged shows when I visit Overview under Visitors"
+      placeholder: Tell us what you see, e.g. "An error messaged shows when I visit Overview under Visitors"
     validations:
       required: true
   - type: textarea
@@ -22,8 +21,7 @@ body:
     attributes:
       label: What should happen?
       description: Please tell us what should happen. How has this issue affected you? What are you trying to accomplish?
-      placeholder: Tell us what you expected to see!
-      value: "I should see Visits Over Time and Visits Overview"
+      placeholder: Tell us what you expected to see, e.g. "I should see Visits Over Time and Visits Overview"
     validations:
       required: true
   - type: textarea
@@ -31,8 +29,7 @@ body:
     attributes:
       label: How can this be reproduced?
       description: For UI bugs, please try to reproduce that on our Demo (https://demo.matomo.cloud). If possible, please include the URLs and steps how to reproduce it there. For other bugs or UI bugs that can't be reproduced on Demo, please include any relevant URLs or commands you are using that may help us to reproduce the bug.
-      placeholder: Steps to Reproduce
-      value: "Go to [Matomo-URL] > Click on Visitors > Click Overview"
+      placeholder: Steps to Reproduce, e.g. "Go to [Matomo-URL] > Click on Visitors > Click Overview"
     validations:
       required: true
   - type: dropdown
