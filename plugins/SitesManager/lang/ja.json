@@ -123,7 +123,7 @@
         "SiteWithoutDataCloudflareFollowStepsIntro": "次の手順に従って設定してください：",
         "SiteWithoutDataCloudflareIntro": "Cloudflareを使用している場合、Cloudflareで利用可能なMatomoアプリを使用して、Matomoでシームレスにデータのトラッキングを開始できます。",
         "SiteWithoutDataDescription": "まだ追加していない場合は、Webサイトまたはモバイルアプリにコードを追加する必要があります。 以下のオプションを確認するか、%1$sすべての指示をチームメイトに送信してください%2$s。",
-        "SiteWithoutDataDetectedGtm": "また、Googleタグマネージャーを使用していることも検出されました。 GTMを使用してMatomoをセットアップする場合は、この%2$sガイド%3$sに従ってください。",
+        "SiteWithoutDataDetectedGtm": "また、Googleタグマネージャーを使用していることも検出されました。 GTMを使用してMatomoをセットアップする場合は、この%1$sガイド%2$sに従ってください。",
         "SiteWithoutDataDetectedSite": "%1$sサイトを使用していることが検出されました。 この%2$sガイド%3$sの指示に従ってください。",
         "SiteWithoutDataDetectedSiteWordpress": "WordPress サイトを使用していることが検出されました。 %1$sこのガイドの指示に従って%2$s、%3$sWP-Matomo プラグイン%4$sをインストールしてください。",
         "SiteWithoutDataDetectedSiteWordpress2": "WordPress プラグインをセットアップ済みですが、データが表示されませんか? ヘルプについては、%1$sこの FAQ を確認してください%2$s。",

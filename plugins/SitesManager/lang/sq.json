@@ -99,7 +99,7 @@
         "SiteSearchUse": "Mund ta përdorni Matomo-n për të ndjekur dhe raportuar se çfarë kërkojnë vizitorët me motorin e kërkimeve të brendshme në sajtin tuaj .",
         "SiteWithoutDataChoosePreferredWay": "Zgjidhni mënyrën tuaj të parapëlqyer të ujdisjes",
         "SiteWithoutDataDescription": "Duhet të shtoni ca kod ekstra te sajti juaj ose aplikacioni juaj për celular, nëse s’e keni bërë tashmë. Shihni mundësinë tuaj më poshtë, ose %1$sdërgojini krejt udhëzimet te dikush në ekip%2$s.",
-        "SiteWithoutDataDetectedGtm": "Pikasëm gjithashtu se përdorni një Përgjegjës Google Etiketash. Nëse parapëlqeni ta ujdisni Matomo-n duke përdorur PGE-në, ju lutemi, ndiqni këtë %2$sudhërrëfyes%3$s.",
+        "SiteWithoutDataDetectedGtm": "Pikasëm gjithashtu se përdorni një Përgjegjës Google Etiketash. Nëse parapëlqeni ta ujdisni Matomo-n duke përdorur PGE-në, ju lutemi, ndiqni këtë %1$sudhërrëfyes%2$s.",
         "SiteWithoutDataDetectedSite": "Pikasëm se po përdorni një sajt %1$s. Thjesht ndiqni udhëzimet nga ky %2$sudhërrëfyes%3$s.",
         "SiteWithoutDataDetectedSiteWordpress": "Kemi pikasur se përdorni një sajt Wordpress. Që të instaloni %3$sshtojcën WP-Matomo%4$s thjesht %1$sndiqni udhëzimet prej këtij udhërrëfyesi%2$s.",
         "SiteWithoutDataDetectedSiteWordpress2": "Ujdisët tashmë shtojcën WordPress dhe nuk shihni ndonjë të dhënë? Ju lutemi, shihni %1$skëto PBR për ndihmë%2$s.",

@@ -97,7 +97,7 @@
         "SiteSearchUse": "Anda dapat menggunakan Matomo untuk melacak dan melaporkan apa yang dicari oleh pengunjung di mesin pencari internal situs web Anda.",
         "SiteWithoutDataChoosePreferredWay": "Pilih cara yang Anda inginkan untuk menyiapkan",
         "SiteWithoutDataDescription": "Anda perlu menambahkan beberapa kode tambahan ke situs web atau aplikasi seluler Anda jika Anda belum melakukannya. Periksa opsi Anda di bawah ini atau %1$skirim semua instruksi ke rekan satu tim%2$s.",
-        "SiteWithoutDataDetectedGtm": "Kami juga mendeteksi bahwa Anda menggunakan Pengelola Tag Google. Jika Anda lebih suka mengatur Matomo menggunakan Pengelola Tag Google, ikuti %2$spanduan ini%3$s.",
+        "SiteWithoutDataDetectedGtm": "Kami juga mendeteksi bahwa Anda menggunakan Pengelola Tag Google. Jika Anda lebih suka mengatur Matomo menggunakan Pengelola Tag Google, ikuti %1$spanduan ini%2$s.",
         "SiteWithoutDataDetectedSite": "Kami mendeteksi bahwa Anda menggunakan situs %1$s. Cukup ikuti instruksi dari %2$spanduan%3$s ini.",
         "SiteWithoutDataGoogleTagManager": "Pengelola Tag Google",
         "SiteWithoutDataGoogleTagManagerDescription": "Anda dapat menggunakan Matomo dengan Pengelola Tag Google. Untuk menyiapkan Pelacakan Matomo di Pengelola Tag Google, ikuti petunjuk dari %1$spanduan%2$s ini.",

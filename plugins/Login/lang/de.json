@@ -15,6 +15,7 @@
         "ConfirmPasswordToContinue": "Bitte bestätigen Sie Ihr Passwort um fortzufahren",
         "ConfirmationLinkSent": "Öffnen Sie den Bestätigungslink in Ihrem E-Mail-Posteingang, um die Änderung Ihres Passworts zu bestätigen.",
         "ContactAdmin": "Möglicher Grund: Der Server könnte die mail()-Funktion deaktiviert haben.<br>Bitte sprechen Sie mit Ihrem Matomo Administrator.",
+        "CreatePasswordDescription": "Stellen Sie sicher, dass Sie sich an dieses Passwort erinnern und es an einem sicheren Ort aufbewahren.",
         "CurrentlyBlockedIPs": "Aktuell geblockte IP-Adressen",
         "CurrentlyBlockedIPsUnblockConfirm": "Sind Sie sicher, dass Sie die Blockierung aller aktuell geblockten IPs aufheben wollen?",
         "CurrentlyBlockedIPsUnblockInfo": "Sie können versehentlich blockierte IPs entsperren, damit sie sich erneut anmelden können.",

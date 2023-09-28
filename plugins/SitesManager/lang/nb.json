@@ -99,7 +99,7 @@
         "SiteSearchUse": "Du kan bruke Matomo for å spore og rapportere hva besøkere søker etter i ditt nettsteds interne søkemotor.",
         "SiteWithoutDataChoosePreferredWay": "Velg din foretrukne metode for oppsett",
         "SiteWithoutDataDescription": "Du trenger litt ekstra kode på nettsiden eller mobilprogrammet hvis du ikke har det allerede. Sjekk alternativene nedenfor eller %1$ssend alle instruksjonene til et lagmedlem%2$s.",
-        "SiteWithoutDataDetectedGtm": "Du bruker også Google Tag Manager. Hvis du foretrekker og sette opp Matomo med Google Tag Manager kan du følge %2$sdenne veiledningen%3$s.",
+        "SiteWithoutDataDetectedGtm": "Du bruker også Google Tag Manager. Hvis du foretrekker og sette opp Matomo med Google Tag Manager kan du følge %1$sdenne veiledningen%2$s.",
         "SiteWithoutDataDetectedSite": "Du bruker en %1$s-side. Følg instruksen fra %2$sdenne veiledningen%3$s.",
         "SiteWithoutDataDetectedSiteWordpress": "Du bruker en Wordpress-side. %1$sFølg denne instruksen%2$s for å installere %3$sWP-Matomo -programtillegget%4$s.",
         "SiteWithoutDataDetectedSiteWordpress2": "Satt opp WordPress-programtillegget og ingen data? Sjekk %1$sO-S-S for hjelp%2$s.",
