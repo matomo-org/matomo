@@ -15,10 +15,7 @@ describe("WhatIsNew", function () {
   };
 
   before(function () {
-    testEnvironment.optionsOverride = {
-      loadChanges: '1'
-    };
-
+    testEnvironment.loadChanges = 1;
     testEnvironment.overrideConfig('General', {
       enable_internet_features: 0
     });
@@ -27,7 +24,7 @@ describe("WhatIsNew", function () {
   });
 
   it('should show the what is new changes popup', async function () {
-    await page.goto('');
+    await page.goto('?module=CoreHome&action=index&idSite=1&period=day&date=today');
     await page.waitForSelector('.whatisnew', {visible: true});
     await page.waitForNetworkIdle();
 

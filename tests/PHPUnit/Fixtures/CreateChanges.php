@@ -9,7 +9,6 @@ namespace Piwik\Tests\Fixtures;
 
 use Piwik\Changes\Model as ChangesModel;
 use Piwik\Date;
-use Piwik\Db;
 use Piwik\Tests\Framework\Fixture;
 
 class CreateChanges extends Fixture
@@ -26,17 +25,6 @@ class CreateChanges extends Fixture
         }
         $this->trackVisits();
         $this->createChanges();
-    }
-
-    public function tearDown(): void
-    {
-        self::cleanup();
-        parent::tearDown();
-    }
-
-    protected function cleanup(): void
-    {
-        Db::query("DELETE FROM changes WHERE title LIKE 'New feature%'");
     }
 
     private function createChanges()
