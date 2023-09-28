@@ -10,6 +10,7 @@ namespace Piwik\Plugins\CoreHome\tests\Integration;
 
 use Piwik\Tests\Fixtures\CreateChanges;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Changes\Model as ChangesModel;
 
 /**
  * @group CoreHome
@@ -27,7 +28,8 @@ class ChangesTest extends IntegrationTestCase
     public function test_CoreHomeChanges_ShouldSortChangeListMostRecentFirst()
     {
         $json = '{"idchange":3,"plugin_name":"CoreHome","version":"4.6.0b5","title":"New feature x added","description":"Now you can do a with b like this","link_name":"For more information go here","link":"https:\/\/www.matomo.org"}';
-        $changes = (new \Piwik\Changes\Model())->getChangeItems();
+        $changesModel = new ChangesModel();
+        $changes = $changesModel->getChangeItems();
         $r = reset($changes);
         unset($r['created_time']);
         $this->assertEquals($json, json_encode($r, true));
@@ -36,7 +38,8 @@ class ChangesTest extends IntegrationTestCase
     public function test_CoreHomeChanges_ShouldAllowChangeItemAddWithoutLink()
     {
         $json = '{"idchange":2,"plugin_name":"CoreHome","version":"4.5.0","title":"New feature y added","description":"Now you can do c with d like this","link_name":null,"link":null}';
-        $changes = (new \Piwik\Changes\Model())->getChangeItems();
+        $changesModel = new ChangesModel();
+        $changes = $changesModel->getChangeItems();
         $r = $changes[1];
         unset($r['created_time']);
         $this->assertEquals($json, json_encode($r, true));
