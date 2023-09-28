@@ -168,7 +168,7 @@ class Php extends GeoIp2
                     case 'GeoLite2-ASN':
                     case 'DBIP-ASN-Lite (compat=GeoLite2-ASN)':
                         $lookupResult = $ispGeoIp->asn($ip);
-                        $result[self::ISP_KEY] = $lookupResult->autonomousSystemOrganization;
+                        $result[self::ISP_KEY] = $lookupResult->autonomousSystemNumber;
                         $result[self::ORG_KEY] = $lookupResult->autonomousSystemOrganization;
                         break;
                     case 'GeoIP2-Enterprise':
