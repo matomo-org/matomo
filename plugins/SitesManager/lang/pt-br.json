@@ -127,7 +127,7 @@
         "SiteWithoutDataCloudflareFollowStepsIntro": "Siga estas etapas para configurá-lo:",
         "SiteWithoutDataCloudflareIntro": "Se você usa o Cloudflare, pode começar a rastrear dados no Matomo perfeitamente usando o aplicativo Matomo disponível no Cloudflare.",
         "SiteWithoutDataDescription": "Você precisa adicionar algum código extra ao seu site ou aplicativo para dispositivos móveis, caso ainda não tenha feito isso. Marque sua opção abaixo ou %1$senvie todas as instruções para um colega de equipe%2$s.",
-        "SiteWithoutDataDetectedGtm": "Também detectamos que você está usando um gerenciador de tags do Google. Se você preferir configurar o Matomo usando GTG, por favor, siga este %2$sguia%3$s.",
+        "SiteWithoutDataDetectedGtm": "Também detectamos que você está usando um gerenciador de tags do Google. Se você preferir configurar o Matomo usando GTG, por favor, siga este %1$sguia%2$s.",
         "SiteWithoutDataDetectedSite": "Detectamos que você está usando um site %1$s. Basta seguir as instruções deste %2$sguia%3$s.",
         "SiteWithoutDataDetectedSiteWordpress": "Detectamos que você está usando um site Wordpress. Simplesmente %1$ssiga as instruções deste guia%2$s para instalar o %3$splugin WP-Matomo%4$s.",
         "SiteWithoutDataDetectedSiteWordpress2": "Já configurou o plugin do WordPress e não está vendo nenhum dado? Verifique %1$sesta FAQ para obter ajuda%2$s.",
