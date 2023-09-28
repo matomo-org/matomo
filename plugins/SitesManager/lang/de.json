@@ -127,7 +127,7 @@
         "SiteWithoutDataCloudflareFollowStepsIntro": "Befolgen Sie diese Schritte zur Einrichtung:",
         "SiteWithoutDataCloudflareIntro": "Wenn Sie Cloudflare verwenden, können Sie problemlos Daten in Matomo aufzeichnen, indem Sie die in Cloudflare verfügbare Matomo-App verwenden.",
         "SiteWithoutDataDescription": "Sie müssen zusätzlichen Code in Ihrer Webseite oder mobilen App platzieren, falls Sie das nicht bereits haben. Wählen Sie die untenstehende Option oder %1$ssenden Sie alle Instruktionen einem Teammitglied%2$s.",
-        "SiteWithoutDataDetectedGtm": "Wir haben außerdem entdeckt, dass Sie den Google Tag Manager verwenden. Wenn Sie vorhaben, Matomo unter Verwendung des GTM aufzusetzen, folgen Sie bitte dieser %2$sAnleitung%3$s.",
+        "SiteWithoutDataDetectedGtm": "Wir haben außerdem entdeckt, dass Sie den Google Tag Manager verwenden. Wenn Sie vorhaben, Matomo unter Verwendung des GTM aufzusetzen, folgen Sie bitte dieser %1$sAnleitung%2$s.",
         "SiteWithoutDataDetectedSite": "Wir haben festgestellt, dass Sie eine %1$s Seite verwenden. Folgen Sie bitte einfach den Instruktionen dieser %2$sAnleitung%3$s.",
         "SiteWithoutDataDetectedSiteWordpress": "Wir haben festgestellt, dass Sie eine Wordpress-Webseite verwenden. Folgen Sie einfach %1$sden Anweisungen in dieser Anleitung%2$s, um das %3$sWP-Matomo-Plugin%4$s zu installieren.",
         "SiteWithoutDataDetectedSiteWordpress2": "Haben Sie das WordPress-Plugin bereits eingerichtet und sehen keine Daten? Bitte lesen Sie %1$sdiese FAQ für Hilfe%2$s.",
