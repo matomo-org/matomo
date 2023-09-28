@@ -127,7 +127,7 @@
         "SiteWithoutDataCloudflareFollowStepsIntro": "Följ dessa steg för konfiguration:",
         "SiteWithoutDataCloudflareIntro": "Om du använder Cloudflare kan du börja spåra data i Matomo sömlöst genom Matomo-appen hos Cloudflare.",
         "SiteWithoutDataDescription": "Om du inte redan gjort det så behöver du lägga till lite extra kod på webbplatsen eller appen. Kontrollera dina inställningar nedan eller %1$sskicka alla instruktionerna till någon i ditt team%2$s.",
-        "SiteWithoutDataDetectedGtm": "Vi har också upptäckt att du använder Google Tag Manager. Ifall du föredrar att sätta upp Matomo med GTM vänligen följ denna %2$sguide%3$s.",
+        "SiteWithoutDataDetectedGtm": "Vi har också upptäckt att du använder Google Tag Manager. Ifall du föredrar att sätta upp Matomo med GTM vänligen följ denna %1$sguide%2$s.",
         "SiteWithoutDataDetectedSite": "Vi har upptäckt att du använder en %1$s webbplats. Följ därför instruktionerna i denna %2$sguide%3$s.",
         "SiteWithoutDataDetectedSiteWordpress": "Vi har upptäckt att du har en webbplats byggd på Wordpress. %1$sFölj instruktionerna i denna guide%2$s för att installera %3$stillägget WP-Matomo%4$s.",
         "SiteWithoutDataDetectedSiteWordpress2": "Har du redan satt upp Wordpress-pluginet men ser ingen data? Vänligen kolla %1$sdetta i vår FAQ%2$s.",
