@@ -10,6 +10,7 @@ namespace Piwik\Plugins\CoreAdminHome;
 
 use Exception;
 use Monolog\Handler\StreamHandler;
+use Piwik\Changes\UserChanges;
 use Piwik\Log\Logger;
 use Piwik\Access;
 use Piwik\ArchiveProcessor\Rules;
@@ -28,6 +29,7 @@ use Piwik\SettingsServer;
 use Piwik\Site;
 use Piwik\Tracker\Failures;
 use Piwik\Url;
+use Piwik\Plugins\UsersManager\Model as UsersModel;
 
 /**
  * @method static \Piwik\Plugins\CoreAdminHome\API getInstance()
@@ -406,5 +408,25 @@ class API extends \Piwik\Plugin\API
         return $this->optOutManager->getOptOutSelfContainedEmbedCode($backgroundColor, $fontColor, $fontSize, $fontFamily, $applyStyling, $showIntro);
     }
 
+
+    /**
+     * Mark all "what's new" changes as having been read by the user
+     *
+     * @internal
+     */
+    public function whatIsNewMarkAllChangesReadForCurrentUser()
+    {
+        Piwik::checkUserHasSomeViewAccess();
+        Piwik::checkUserIsNotAnonymous();
+
+        $model = new UsersModel();
+        $user = $model->getUser(Piwik::getCurrentUserLogin());
+        if (is_array($user)) {
+            $userChanges = new UserChanges($user);
+            $userChanges->markChangesAsRead();
+            return true;
+        }
+        return false;
+    }
 
 }

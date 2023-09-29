@@ -3,6 +3,8 @@
 </div>
 <div class="whatisnew">
 
+    <div class="whatisnew-changelist">
+
     {% for change in changes %}
 
         <div class="card">
@@ -25,4 +27,34 @@
 
     {% endfor %}
 
+    </div>
+
+    <button href="javascript:void 0;" class="btn whatisnew-btn whatisnew-remind-me-later" onclick="Piwik_Popover.close()"
+       title="{{ 'CoreAdminHome_WhatIsNewRemindMeLater'|translate|e('html_attr') }}">{{ 'CoreAdminHome_WhatIsNewRemindMeLater'|translate|e('html_attr') }}
+    </button>
+
+    <button href="javascript:void 0;" class="btn whatisnew-btn whatisnew-do-not-show-again" onclick="doNotShowAgain()"
+       title="{{ 'CoreAdminHome_WhatIsNewDoNotShowAgain'|translate|e('html_attr') }}">{{ 'CoreAdminHome_WhatIsNewDoNotShowAgain'|translate|e('html_attr') }}
+    </button>
+
 </div>
+
+ <script>
+     function doNotShowAgain() {
+        var ajaxRequest = new ajaxHelper();
+        ajaxRequest.addParams({module: 'API', method: 'CoreAdminHome.whatIsNewMarkAllChangesReadForCurrentUser'}, 'get');
+        ajaxRequest.withTokenInUrl();
+        ajaxRequest.setFormat('json');
+        ajaxRequest.send();
+        var link = document.querySelector('a[onclick*="CoreAdminHome&action=whatIsNew"] > .badge-menu-item');
+        if (link) {
+            link.style.display = "none";
+        }
+        var icon = document.querySelector('a[onclick*="CoreAdminHome&action=whatIsNew"] > .navbar-icon');
+        if (icon) {
+            icon.classList.remove('icon-notifications_on');
+            icon.classList.add('icon-reporting-actions');
+        }
+        Piwik_Popover.close();
+     }
+</script>

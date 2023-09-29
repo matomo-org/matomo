@@ -132,7 +132,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return $this->renderTemplateAs('siteWithoutData', [
             'emailBody'                                           => SitesManager::renderTrackingCodeEmail($this->idSite),
             'siteWithoutDataStartTrackingTranslationKey'          => StaticContainer::get('SitesManager.SiteWithoutDataStartTrackingTranslation'),
-            'inviteUserLink'                                      => $this->getInviteUserLink()
+            'inviteUserLink'                                      => $this->getInviteUserLink(),
+            'hideWhatIsNew'                                       => true
         ], $viewType = 'basic');
     }
 

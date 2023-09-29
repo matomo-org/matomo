@@ -117,7 +117,7 @@
         "SiteWithoutDataCloudflareFollowStepsIntro": "按以下步驟完成設定：",
         "SiteWithoutDataCloudflareIntro": "如果您使用 Cloudflare，您可以使用 Cloudflare 中的 Matomo 應用程式輕鬆開始在 Matomo 中追蹤資料。",
         "SiteWithoutDataDescription": "如果您還沒有做這一步，您需要在您的網站或手機應用程式中加入一些額外程式碼。檢查下面您的選項或%1$s將操作指示傳送給另一位團隊成員%2$s。",
-        "SiteWithoutDataDetectedGtm": "我們偵測到您在使用 Google 代碼管理工具。如果您想要透過 Google 代碼管理工具來設定 Matomo，請按這份%2$s指南%3$s設定。",
+        "SiteWithoutDataDetectedGtm": "我們偵測到您在使用 Google 代碼管理工具。如果您想要透過 Google 代碼管理工具來設定 Matomo，請按這份%1$s指南%2$s設定。",
         "SiteWithoutDataDetectedSite": "我們偵測到您在使用一個 %1$s 網站。可以簡單地按這份%2$s指南%3$s中的指示操作。",
         "SiteWithoutDataDetectedSiteWordpress": "我們偵測到您正使用一個 Wordpress 網站。%1$s按照這份指南中的指示%2$s，輕鬆安裝 %3$sWP-Matomo 外掛%4$s。",
         "SiteWithoutDataDetectedSiteWordpress2": "已經設定好 WordPress 外掛但看不到任何資料？請查閱%1$s FAQ 以獲得幫助%2$s。",

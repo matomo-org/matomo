@@ -49,19 +49,19 @@ class ApiTest extends SystemTestCase
     /**
      * @dataProvider getApiForTesting
      */
-    public function testApi($api, $params = array())
+    public function testApi($api, $params = [])
     {
         $apiId = implode('_', $params);
-        $logins = array(
+        $logins = [
             'login1' => 'when_superuseraccess',
             'login2' => 'when_adminaccess',
             'login4' => 'when_viewaccess'
-        );
+        ];
 
         // login1 = super user, login2 = some admin access, login4 = only view access
         foreach ($logins as $login => $appendix) {
             $params['token_auth'] = self::$fixture->users[$login]['token'];
-            $xmlFieldsToRemove = array(
+            $xmlFieldsToRemove = [
               'date_registered',
               'invite_token',
               'invite_accept_at',
@@ -71,8 +71,9 @@ class ApiTest extends SystemTestCase
               'token_auth',
               'ts_password_modified',
               'idchange_last_viewed',
-              'invite_status'
-            );
+              'invite_status',
+              'ts_changes_shown'
+            ];
 
             $this->runAnyApiTest($api, $apiId . '_' . $appendix, $params, array('xmlFieldsToRemove' => $xmlFieldsToRemove));
         }

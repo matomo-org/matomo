@@ -172,10 +172,10 @@ Matomo encountered an error: Allowed memory size of X bytes exhausted (tried to 
   'type' => 1,
   'message' => 'Allowed memory size of X bytes exhausted (tried to allocate X bytes)',
   'file' => '/tests/PHPUnit/System/ConsoleTest.php',
-  'line' => 84,
-  'backtrace' => ' on /tests/PHPUnit/System/ConsoleTest.php(84)
-#0 /tests/PHPUnit/System/ConsoleTest.php(69): Piwik\\\\Tests\\\\System\\\\TestCommandWithFatalError->executeImpl()
-#1 /core/Plugin/ConsoleCommand.php(110): Piwik\\\\Tests\\\\System\\\\TestCommandWithFatalError->doExecute()
+  'line' => %d,
+  'backtrace' => ' on /tests/PHPUnit/System/ConsoleTest.php(%d)
+#0 /tests/PHPUnit/System/ConsoleTest.php(%d): Piwik\\\\Tests\\\\System\\\\TestCommandWithFatalError->executeImpl()
+#1 /core/Plugin/ConsoleCommand.php(%d): Piwik\\\\Tests\\\\System\\\\TestCommandWithFatalError->doExecute()
 ',
 ))
 END;
@@ -184,7 +184,7 @@ END;
             $expected = "#!/usr/bin/env php\n" . $expected;
         }
 
-        $this->assertEquals($expected, $output);
+        $this->assertStringMatchesFormat($expected, $output);
     }
 
     public function test_Console_handlesExceptionsCorrectly()
@@ -199,7 +199,7 @@ END;
         $expected = <<<END
 *** IN SAFEMODE ***
 
-In ConsoleTest.php line 103:
+In ConsoleTest.php line %d:
               \n  test error  \n              \n
 test-command-with-exception
 
@@ -210,7 +210,7 @@ END;
             $expected = "#!/usr/bin/env php\n" . $expected;
         }
 
-        $this->assertEquals($expected, $output);
+        $this->assertStringMatchesFormat($expected, $output);
     }
 
     public static function provideContainerConfigBeforeClass()

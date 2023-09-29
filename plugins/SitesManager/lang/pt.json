@@ -99,7 +99,7 @@
         "SiteSearchUse": "Pode utilizar o Matomo para acompanhar e analisar o que os visitantes estão a pesquisar no motor de pesquisa interno do seu site.",
         "SiteWithoutDataChoosePreferredWay": "Escolha sua maneira preferida de configurar",
         "SiteWithoutDataDescription": "Você precisa adicionar algum código extra ao seu site ou aplicativo móvel, caso ainda não o tenha feito. Marque sua opção abaixo ou %1$senvie todas as instruções para um companheiro de equipe%2$s.",
-        "SiteWithoutDataDetectedGtm": "Também detectamos que você está usando um Gerenciador de tags do Google. Se você preferir configurar o Matomo usando o GTM, siga %2$seste guia%3$s.",
+        "SiteWithoutDataDetectedGtm": "Também detectamos que você está usando um Gerenciador de tags do Google. Se você preferir configurar o Matomo usando o GTM, siga %1$seste guia%2$s.",
         "SiteWithoutDataDetectedSite": "Detectamos que você está usando um site %1$s. Basta seguir as instruções deste %2$sguia%3$s.",
         "SiteWithoutDataDetectedSiteWordpress": "Detectamos que você está usando um site Wordpress. Simplesmente %1$ssiga as instruções deste guia%2$s para instalar o %3$splug-in WP-Matomo%4$s.",
         "SiteWithoutDataDetectedSiteWordpress2": "Já configurou o plugin do WordPress e não está vendo nenhum dado? Verifique %1$seste FAQ para obter ajuda%2$s.",

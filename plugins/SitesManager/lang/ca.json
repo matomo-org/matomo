@@ -127,7 +127,7 @@
         "SiteWithoutDataCloudflareFollowStepsIntro": "Seguiu aquests passos per configurar-lo:",
         "SiteWithoutDataCloudflareIntro": "Si utilitzeu Cloudflare, podeu començar a fer un seguiment de les dades a Matomo sense problemes mitjançant l'aplicació Matomo disponible a Cloudflare.",
         "SiteWithoutDataDescription": "Heu d'afegir un codi addicional al vostre lloc web o a l'aplicació mòbil si encara no ho heu fet. Comproveu la vostra opció a continuació o %1$senvieu totes les instruccions a un company d'equip%2$s.",
-        "SiteWithoutDataDetectedGtm": "També hem detectat que feu servir un Gestor d'etiquetes de Google. Si preferiu configurar Matomo amb GTM, seguiu aquesta %2$sguia%3$s.",
+        "SiteWithoutDataDetectedGtm": "També hem detectat que feu servir un Gestor d'etiquetes de Google. Si preferiu configurar Matomo amb GTM, seguiu aquesta %1$sguia%2$s.",
         "SiteWithoutDataDetectedSite": "Hem detectat que esteu utilitzant un lloc %1$s. Simplement seguiu les instruccions d'aquesta %2$sguia%3$s.",
         "SiteWithoutDataDetectedSiteWordpress": "Hem detectat que esteu utilitzant un lloc de Wordpress. Simplement %1$sseguiu les instruccions d'aquesta guia%2$s per instal·lar el connector %3$sWP-Matomo%4$s.",
         "SiteWithoutDataDetectedSiteWordpress2": "Heu configurat el connector de WordPress i encara no veieu cap dada? Si us plau, consulteu %1$saquestes FAQ per obtenir ajuda%2$s.",

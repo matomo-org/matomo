@@ -58,6 +58,7 @@ class Mysql implements SchemaInterface
                           invite_link_token VARCHAR(191) NULL,
                           invite_expired_at TIMESTAMP NULL,
                           invite_accept_at TIMESTAMP NULL,
+                          ts_changes_shown TIMESTAMP NULL,
                             PRIMARY KEY(login),
                             UNIQUE INDEX `uniq_email` (`email`)
                           ) ENGINE=$engine DEFAULT CHARSET=$charset

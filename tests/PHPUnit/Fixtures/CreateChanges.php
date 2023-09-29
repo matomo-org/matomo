@@ -8,36 +8,23 @@
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Changes\Model as ChangesModel;
+use Piwik\Date;
 use Piwik\Tests\Framework\Fixture;
 
 class CreateChanges extends Fixture
 {
 
-    private $file;
+    private $idSite = 1;
 
     public function setUp(): void
     {
         parent::setUp();
         Fixture::createSuperUser();
-        if (!self::siteCreated($idSite = 1)) {
+        if (!self::siteCreated($idSite = $this->idSite)) {
             self::createWebsite('2021-01-01');
         }
-
-        $this->file = PIWIK_DOCUMENT_ROOT . '/plugins/CoreAdminHome/changes.json';
+        $this->trackVisits();
         $this->createChanges();
-    }
-
-    public function tearDown(): void
-    {
-        parent::tearDown();
-        self::cleanup();
-    }
-
-    protected function cleanup(): void
-    {
-        if (file_exists($this->file)) {
-            unlink($this->file);
-        }
     }
 
     private function createChanges()
@@ -66,10 +53,20 @@ class CreateChanges extends Fixture
         ];
 
         $changes = array_reverse($changes);
-        $changesModel = new ChangesModel();
+        $changesModel = new ChangesModel(); // Intentionally not using the FakeChangesModel, we want these changes added
         foreach ($changes as $change) {
             $changesModel->addChange('CoreHome', $change);
         }
 
     }
+
+    private function trackVisits()
+    {
+        $dateTime = Date::today()->toString();
+        $t = self::getTracker($this->idSite, $dateTime, $defaultInit = true);
+
+        $t->setUrl('http://example.org/index.htm');
+        self::checkResponse($t->doTrackPageView('0'));
+    }
+
 }

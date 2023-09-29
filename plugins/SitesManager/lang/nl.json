@@ -127,7 +127,7 @@
         "SiteWithoutDataCloudflareFollowStepsIntro": "Volg deze stappen om het in te stellen:",
         "SiteWithoutDataCloudflareIntro": "Indien u Cloudflare gebruikt, kunt u naadloos het volgen van gegevens starten in Matomo via de Matomo App die beschikbaar is in Cloudflare.",
         "SiteWithoutDataDescription": "U moet wat extra code toevoegen aan uw website of mobiele app als u dat nog niet hebt gedaan. Controleer uw optie hieronder of %1$sstuur alle instructies naar een teamgenoot%2$s.",
-        "SiteWithoutDataDetectedGtm": "We hebben ook gedetecteerd dat je Google tag manager gebruikt. Als u Matomo liever instelt met GTM volg dan deze %2$shandleiding%3$s.",
+        "SiteWithoutDataDetectedGtm": "We hebben ook gedetecteerd dat je Google tag manager gebruikt. Als u Matomo liever instelt met GTM volg dan deze %1$shandleiding%2$s.",
         "SiteWithoutDataDetectedSite": "We hebben gedetecteerd dat u een %1$s site gebruikt. Volg eenvoudig de instructies van deze %2$shandleiding%3$s.",
         "SiteWithoutDataDetectedSiteWordpress": "We hebben gedetecteerd dat u een Wordpress site gebruikt. Volg eenvoudig %1$sde instructies van deze handleiding%2$s om de %3$sWP-Matomo plugin%4$s te installeren.",
         "SiteWithoutDataDetectedSiteWordpress2": "Heeft u de WordPress plugin reeds ingesteld en ziet u geen gegevens? Kijk dan op %1$sdeze FAQ voor hulp%2$s.",

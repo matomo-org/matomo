@@ -64,6 +64,13 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
         parent::__construct($config);
     }
 
+    public function closeConnection()
+    {
+        $this->cachePreparedStatement = [];
+
+        parent::closeConnection();
+    }
+
     /**
      * Returns connection handle
      *

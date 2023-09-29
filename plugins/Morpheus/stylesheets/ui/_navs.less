@@ -65,6 +65,27 @@ nav .sidenav-trigger {
   margin: 0;
 }
 
-.sidenav li>a {
-  text-decoration: none;
+.sidenav {
+  li {
+    > a {
+      text-decoration: none;
+    }
+
+    > div > a {
+      text-decoration: none;
+      color: rgba(0,0,0,.87);
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      height: 48px;
+      line-height: 48px;
+      padding: 0 32px;
+
+      > .badge-menu-item {
+        top: 6px;
+        right: 20px;
+        left: unset;
+      }
+    }
+  }
 }

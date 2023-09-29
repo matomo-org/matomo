@@ -117,7 +117,7 @@
         "SiteWithoutDataCloudflareFollowStepsIntro": "Suivez ces étapes pour la configuration :",
         "SiteWithoutDataCloudflareIntro": "Si vous utilisez Cloudflare, vous pouvez commencer à suivre les données dans Matomo de manière transparente en utilisant l'application Matomo disponible dans Cloudflare.",
         "SiteWithoutDataDescription": "Vous devez ajouter un code supplémentaire à votre site Web ou à votre application mobile si ce n'est pas déjà fait. Cochez votre option ci-dessous ou %1$senvoyez toutes les instructions à un coéquipier%2$s.",
-        "SiteWithoutDataDetectedGtm": "Nous avons également détecté que vous utilisez un gestionnaire de balises Google. Si vous préférez configurer Matomo en utilisant GTM, veuillez suivre ce %2$sguide%3$s.",
+        "SiteWithoutDataDetectedGtm": "Nous avons également détecté que vous utilisez un gestionnaire de balises Google. Si vous préférez configurer Matomo en utilisant GTM, veuillez suivre ce %1$sguide%2$s.",
         "SiteWithoutDataDetectedSite": "Nous avons détecté que vous utilisez un site %1$s. Suivez simplement les instructions de ce %2$sguide%3$s.",
         "SiteWithoutDataGTMFollowStep1": "%1$sConnectez-vous%2$s à votre compte Google Tag Manager.",
         "SiteWithoutDataGTMFollowStep10": "Cliquez sur \"Enregistrer\".",
