@@ -1,22 +1,22 @@
-<p></p><p></p>
+<h2>{{ 'SitesManager_StepByStepGuide'|translate }}</h2>
+
+{% if wasDetected %}
 <div class="system notification notification-info">
     {{ 'SitesManager_CloudflareDetected'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-cloudflare-setup/">','</a>')|raw }}
 </div>
+{% endif %}
 
-<div class="right">
-    <img src="plugins/SitesManager/images/cloudflare-icon.png" style="height: 12rem;width: 12rem;margin-top: -4rem;">
-</div>
 <p>{{ 'SitesManager_SiteWithoutDataCloudflareIntro'|translate }}</p>
 <br>
 <p>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStepsIntro'|translate }}</p>
-<ol style="list-style: decimal;list-style-position: inside;">
+<ol class="list-style-decimal">
     <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep01'|translate('<a target="_blank" rel="noreferrer noopener" href="https://dash.cloudflare.com/">','</a>')|raw }}</li>
     <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep02'|translate }}</li>
     <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep03'|translate }}</li>
     <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep04'|translate }}</li>
     <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep05'|translate }}</li>
     <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep06'|translate }}</li>
-    <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep07'|translate }}<div style="text-indent: 1.2rem;">Matomo URL: <code vue-directive="CoreHome.CopyToClipboard">{{ piwikUrl }}</code></div><div style="text-indent: 1.2rem;">{{ 'SitesManager_EmailInstructionsYourSiteId'|translate('<code vue-directive="CoreHome.CopyToClipboard">' ~ idSite ~ '</code>')|raw }}</div></li>
+    <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep07'|translate }}<div>Matomo URL: <code vue-directive="CoreHome.CopyToClipboard">{{ piwikUrl }}</code></div><div>{{ 'SitesManager_EmailInstructionsYourSiteId'|translate('<code vue-directive="CoreHome.CopyToClipboard">' ~ idSite ~ '</code>')|raw }}</div></li>
     <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep08'|translate }}</li>
     <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep09'|translate }}</li>
     <li>{{ 'SitesManager_SiteWithoutDataCloudflareFollowStep10'|translate }}</li>

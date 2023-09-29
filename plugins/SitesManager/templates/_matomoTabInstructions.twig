@@ -1,6 +1,8 @@
+<h2>{{ 'SitesManager_StepByStepGuide'|translate }}</h2>
+
 {% if notificationMessage is defined and notificationMessage %}
     <p></p><p></p>
-    <div class="system notification notification-info {{ isNotificationsMerged ? ' merged-notification' : ''}}">
+    <div class="system notification notification-info">
         {{ notificationMessage|raw }}
     </div>
 {% endif %}

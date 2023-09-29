@@ -89,6 +89,26 @@ p {
   }
 }
 
+.list-style-decimal {
+  list-style: none;
+  counter-reset: steplist;
+  display: table;
+  width: 100%;
+
+  > li {
+    counter-increment: steplist;
+    display: table-row;
+  }
+
+  > li::before {
+    content: counter(steplist) ".";
+    display: table-cell;
+    text-align: left;
+    padding-right: 5px;
+    width: 0;
+  }
+}
+
 #content .card-content {
   p {
     color: @theme-color-text;

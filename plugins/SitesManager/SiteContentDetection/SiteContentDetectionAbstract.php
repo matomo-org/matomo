@@ -10,6 +10,7 @@
 
 namespace Piwik\Plugins\SitesManager\SiteContentDetection;
 
+use Piwik\Piwik;
 use Piwik\SiteContentDetector;
 
 abstract class SiteContentDetectionAbstract
@@ -43,12 +44,22 @@ abstract class SiteContentDetectionAbstract
     abstract public static function getName(): string;
 
     /**
-     * Returns the content type this detection provides
-     * May be one of TYPE_TRACKER, TYPE_CMS, TYPE_JS_FRAMEWORK, TYPE_CONSENT_MANAGER
+     * Returns the location of the icon of this detection
      *
      * @return string
      */
-    abstract public static function getContentType(): string;
+    public static function getIcon(): string
+    {
+        return '';
+    }
+
+    /**
+     * Returns the content type this detection provides
+     * May be one of TYPE_TRACKER, TYPE_CMS, TYPE_JS_FRAMEWORK, TYPE_CONSENT_MANAGER
+     *
+     * @return int
+     */
+    abstract public static function getContentType(): int;
 
     /**
      * Returns the URL to the instruction FAQ on how to integrate Matomo (if applicable)
@@ -80,28 +91,6 @@ abstract class SiteContentDetectionAbstract
     abstract public function isDetected(?string $data = null, ?array $headers = null): bool;
 
     /**
-     * Returns whether the instruction tab should be shown. Default behavior is to show it if the detection was successful
-     *
-     * @param ?SiteContentDetector $detector
-     * @return bool
-     */
-    public function shouldShowInstructionTab(SiteContentDetector $detector = null): bool
-    {
-        return $detector->wasDetected(static::getId());
-    }
-
-    /**
-     * Defines if the tab on the no data page should be preselected if shown.
-     * If multiple detections match the one with higher priority wins.
-     *
-     * @return bool
-     */
-    public function shouldHighlightTabIfShown(): bool
-    {
-        return false;
-    }
-
-    /**
      * Returns the content that should be rendered into a new Tab on the no data page
      *
      * @param SiteContentDetector $detector
@@ -121,5 +110,31 @@ abstract class SiteContentDetectionAbstract
     public function renderOthersInstruction(SiteContentDetector $detector): string
     {
         return '';
+    }
+
+    /**
+     * Returns if the method should be recommended. Returns true if the method was detected
+     *
+     * @param SiteContentDetector $detector
+     * @return bool
+     */
+    public function isRecommended(SiteContentDetector $detector): bool
+    {
+        return $detector->wasDetected(static::getId());
+    }
+
+    /**
+     * Returns details used to render the recommendation on no data screen
+     *
+     * @param SiteContentDetector $detector
+     * @return array
+     */
+    public function getRecommendationDetails(SiteContentDetector $detector): array
+    {
+        return [
+            'title' => Piwik::translate('SitesManager_SiteWithoutDataInstallWithXRecommendation', [static::getName()]),
+            'text' => Piwik::translate('SitesManager_SiteWithoutDataRecommendationText', [static::getName()]),
+            'button' => Piwik::translate('SitesManager_SiteWithoutDataInstallWithX', [static::getName()]),
+        ];
     }
 }

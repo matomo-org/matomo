@@ -17,7 +17,7 @@ class Drupal extends SiteContentDetectionAbstract
         return 'Drupal';
     }
 
-    public static function getContentType(): string
+    public static function getContentType(): int
     {
         return self::TYPE_CMS;
     }

@@ -20,7 +20,12 @@ class MatomoTagManager extends SiteContentDetectionAbstract
         return Piwik::translate('SitesManager_SiteWithoutDataMatomoTagManager');
     }
 
-    public static function getContentType(): string
+    public static function getIcon(): string
+    {
+        return './plugins/SitesManager/images/mtm.png';
+    }
+
+    public static function getContentType(): int
     {
         return self::TYPE_TRACKER;
     }
@@ -40,11 +45,6 @@ class MatomoTagManager extends SiteContentDetectionAbstract
         }
 
         return false;
-    }
-
-    public function shouldShowInstructionTab(SiteContentDetector $detector = null): bool
-    {
-        return true;
     }
 
     public function renderInstructionsTab(SiteContentDetector $detector): string

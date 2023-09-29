@@ -20,7 +20,12 @@ class ReactJs extends SiteContentDetectionAbstract
         return 'React.js';
     }
 
-    public static function getContentType(): string
+    public static function getIcon(): string
+    {
+        return './plugins/SitesManager/images/reactjs.svg';
+    }
+
+    public static function getContentType(): int
     {
         return self::TYPE_JS_FRAMEWORK;
     }
@@ -55,31 +60,9 @@ class ReactJs extends SiteContentDetectionAbstract
         return false;
     }
 
-    public function shouldHighlightTabIfShown(): bool
-    {
-        return true;
-    }
-
     public function renderInstructionsTab(SiteContentDetector $detector): string
     {
-        return '
-            <p></p><p></p>
-            <div class="system notification notification-info">
-                ' . Piwik::translate(
-                        'SitesManager_ReactDetected',
-                        [
-                            '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/guide/tag-manager/">',
-                            '</a>',
-                            '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-start-tracking-data-with-matomo-on-websites-that-use-react/">',
-                            '</a>'
-                        ]
-            ) . '
-            </div>
-
-            <div class="right">
-                <img src="plugins/SitesManager/images/react-icon.png" style="height: 5rem;">
-            </div>
-';
+        return '';
     }
 
     public function renderOthersInstruction(SiteContentDetector $detector): string

@@ -22,7 +22,12 @@ class Cloudflare extends SiteContentDetectionAbstract
         return 'Cloudflare';
     }
 
-    public static function getContentType(): string
+    public static function getIcon(): string
+    {
+        return './plugins/SitesManager/images/cloudflare.svg';
+    }
+
+    public static function getContentType(): int
     {
         return self::TYPE_CMS;
     }
@@ -49,15 +54,11 @@ class Cloudflare extends SiteContentDetectionAbstract
         );
     }
 
-    public function shouldHighlightTabIfShown(): bool
-    {
-        return true;
-    }
-
     public function renderInstructionsTab(SiteContentDetector $detector): string
     {
         $view     = new View("@SitesManager/_cloudflareTabInstructions");
         $view->idSite = Request::fromRequest()->getIntegerParameter('idSite');
+        $view->wasDetected = $detector->wasDetected(self::getId());
         $view->sendHeadersWhenRendering = false;
         return $view->render();
     }

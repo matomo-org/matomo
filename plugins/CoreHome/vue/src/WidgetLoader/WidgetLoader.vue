@@ -7,7 +7,7 @@
 <template>
   <div class="widgetLoader">
     <ActivityIndicator
-      :loading-message="loadingMessage"
+      :loading-message="finalLoadingMessage"
       :loading="loading"
     />
     <div v-show="loadingFailed">
@@ -65,6 +65,7 @@ export default defineComponent({
   props: {
     widgetParams: Object,
     widgetName: String,
+    loadingMessage: String,
   },
   components: {
     ActivityIndicator,
@@ -86,7 +87,11 @@ export default defineComponent({
     },
   },
   computed: {
-    loadingMessage() {
+    finalLoadingMessage() {
+      if (this.loadingMessage) {
+        return this.loadingMessage;
+      }
+
       if (!this.widgetName) {
         return translate('General_LoadingData');
       }

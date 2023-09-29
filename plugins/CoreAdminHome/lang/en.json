@@ -136,6 +136,7 @@
         "SystemPluginSettings": "System Plugin Settings",
         "TrackAGoal": "Track a goal",
         "TrackingCode": "Tracking Code",
+        "JavaScriptCode": "JavaScript Code",
         "TrackingCodeIntro": "Matomo offers you various ways to embed the tracking code for your website, mobile app, and even for any device or application.",
         "TrackingFailureAuthenticationProblem": "Request was not authenticated but authentication was required.",
         "TrackingFailureAuthenticationSolution": "Set or correct a \"token_auth\" in your tracking request.",

@@ -4,42 +4,26 @@
     {% include "@CoreHome/_notifications.twig" %}
 {% endblock %}
 
-{% block topcontrols %}
-    {% include "@CoreHome/_siteSelectHeader.twig" %}
-{% endblock %}
-
 {% set bodyId = 'site-without-data' %}
 
+{% block topcontrols %}
+    {% if not isSingleSite %}
+    {% include "@CoreHome/_siteSelectHeader.twig" %}
+    {% endif %}
+{% endblock %}
+
 {% block content %}
+    {% set ctaEventContent %}
+        <a rel="noreferrer noopener" target="_blank" href="{{ inviteUserLink }}">
+            <span class="icon-user-add"></span>
+            {{ 'UsersManager_InviteTeamMember'|translate }}
+        </a>
+        {{ postEvent('Template.siteWithoutData.additionalCta') }}
+    {% endset %}
 
-    <script type="text/javascript" charset="utf-8">
-        $(document).ready(function () {
-            $('<div />').insertAfter('.site-without-data').liveWidget({
-                interval: 1000,
-                onUpdate: function () {
-                    // reload page as soon as a visit was detected
-                    broadcast.propagateNewPage('date=today');
-                },
-                dataUrlParams: {
-                    module: 'Live',
-                    action: 'getLastVisitsStart'
-                }
-            });
-        });
-    </script>
-
-    <div class="site-without-data">
-        {% set afterIntroEventContent %}{{ postEvent('Template.siteWithoutData.afterIntro') }}{% endset %}
-        {% set afterTrackingHelpEventContent %}{{ postEvent('Template.siteWithoutData.afterTrackingHelp') }}{% endset %}
-
-        <div
-            vue-entry="SitesManager.SiteWithoutData"
-            email-body="{{ emailBody|json_encode }}"
-            site-without-data-start-tracking-translation-key="{{ siteWithoutDataStartTrackingTranslationKey|json_encode }}"
-            after-intro-event-content="{{ afterIntroEventContent|json_encode }}"
-            after-tracking-help-event-content="{{ afterTrackingHelpEventContent|json_encode }}"
-            invite-user-link="{{ inviteUserLink|json_encode }}"
-        ></div>
-    </div>
+    <div
+        vue-entry="SitesManager.SiteWithoutData"
+        cta-content="{{ ctaEventContent|json_encode }}"
+    ></div>
 
 {% endblock %}

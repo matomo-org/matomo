@@ -126,173 +126,263 @@ td.editable-site-field:hover {
 
 #site-without-data {
     background: @color-white;
+
     .top_controls {
         background: @color-white;
-    }
-}
 
-.site-without-data {
+        .quick-access {
+            display: none;
+        }
+    }
+
+    .pageWrap {
+        max-width: 1168px; /* 1120px + padding */
+        margin: 0 auto;
+        padding: 0 24px;
+    }
+
+    a#start-tracking-back {
+        color: @theme-color-text;
+        text-decoration: none;
+        margin-bottom: 16px;
+        line-height: 24px;
+        display: block;
+
+        [class^="icon-"], [class*=" icon-"] {
+            position: relative;
+            top: 1px;
+        }
+    }
+
+    h1#start-tracking-data-header {
+        font-weight: bold;
+        font-size: 32px;
+        float: left;
+        margin-bottom: 32px;
+    }
+
+    #start-tracking-cta, #share-button {
+        float: right;
+
+        > a, > span > a {
+            color: @color-silver-dark;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 24px;
+            text-transform: uppercase;
+            text-decoration: none;
+            display: inline-flex;
+            padding: 12px 24px 12px 0;
+
+            [class^="icon-"], [class*=" icon-"] {
+                font-size: 24px;
+                margin-right: 8px;
+            }
+
+            &:last-child {
+                padding-right: 0;
+            }
+        }
+    }
+
+    #start-tracking-cta {
+        margin-bottom: 32px;
+    }
+
+    .loadingPiwik {
+        clear: both;
+    }
+
+    #start-tracking-skip {
+        clear: both;
+        margin-top: 40px;
+        font-size: 16px;
+        line-height: 21px;
+
+        h2 {
+            color: @theme-color-text;
+            font-size: 16px;
+            font-weight: bold;
+            line-height: 21px;
+            padding: 0 0 8px 0;
+        }
+
+        a.ignoreSitesWithoutData {
+            margin-top: 16px;
+            color: @color-green-matomo;
+            text-transform: uppercase;
+            display: block;
+
+            &:hover {
+                color: @color-green-matomo;
+            }
+        }
+    }
+
+    #start-tracking-details,
+    #start-tracking-detection,
+    #start-tracking-method-list {
+        clear: both;
+        width: 100%;
+        display: block;
+        border-radius: 4px;
+        border: 1px dashed @theme-color-background-lowContrast;
+        padding: 24px 87px 24px 87px;
+        position: relative;
+
+        @media only screen and (max-width: 992px) {
+            padding: 24px;
+            min-width: 312px;
+        }
+
+        h2 {
+            font-size: 20px;
+            line-height: 30px;
+            font-weight: bold;
+            color: @theme-color-text;
+            padding: 0 0 16px 0;
+
+            @media only screen and (max-width: 992px) {
+                clear: both;
+            }
+        }
+    }
+
+    #start-tracking-details,
+    #start-tracking-detection {
+        > img {
+            position: absolute;
+            height: 48px;
+            width: 48px;
+            top: 16px;
+            left: 24px;
+
+            @media only screen and (max-width: 992px) {
+                position: relative;
+                float: left;
+                top: 0;
+                left: 0;
+                margin-bottom: 16px;
+            }
+        }
+    }
+
+    a#showMethod {
+        margin-top: 24px;
+        font-weight: bold;
+    }
+
+    #start-tracking-method-list {
+        h2 {
+            @media only screen and (max-width: 992px) {
+                padding-left: 64px
+            }
+        }
+
+        .icon-search {
+            position: absolute;
+            top: 22px;
+            left: 28px;
+            font-size: 33px;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 20px -20px 0;
+
+            @media only screen and (max-width: 992px) {
+                margin: 20px -12px;
+            }
+
+            li {
+                width: 288px;
+                height: 64px;
+                float: left;
+                border-radius: 4px;
+                border: 1px solid @theme-color-background-lowContrast;
+                margin: 16px 20px;
+                position: relative;
+
+                @media only screen and (max-width: 992px) {
+                    width: 264px;
+                    margin: 12px 12px;
+                }
+
+                a {
+                    text-decoration: none;
+                    color: @theme-color-text;
+                    height: 100%;
+                    width: 100%;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: left;
+                }
+
+                img {
+                    height: 48px;
+                    width: 48px;
+                    margin: 8px 16px 8px 24px;
+
+                    @media only screen and (max-width: 992px) {
+                        margin: 8px 8px 8px 16px;
+                    }
+                }
+
+                .list-entry-text {
+                    font-size: 16px;
+                    font-weight: bold;
+                    line-height: 24px;
+                    max-height: 48px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    -webkit-line-clamp: 2;
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                }
+            }
+        }
+
+    }
+
     h3 {
         font-weight: bold;
     }
 
-    p {
-        padding-bottom: 0.25rem;
-    }
-
-    .no-data-screen-ul-tabs {
-        overflow: auto !important;height: auto !important;
-        li.col {
-            width: unset !important;
-            float: unset !important;
+    #start-tracking-details {
+        p {
+            padding-bottom: 0.25rem;
         }
 
-        a:not(.active) {
-            text-decoration: none !important;
-            color: @color-black !important;
-
-            &:hover {
-                background-color: @color-gray-bright !important;
-                opacity: unset;
-            }
-
-            &:focus {
-                background-color: @color-jetstream !important;
-                opacity: unset;
-            }
-        }
-
-        a.active {
-            color: @color-green-matomo !important;
-            text-decoration: none !important;
-            font-weight: bold;
-
-            &:hover {
-                opacity: unset;
-            }
-        }
-
-        .indicator {
-            border-bottom: 2px solid @color-green-matomo;
-            z-index: 10;
-            bottom: 0.3rem;
-        }
-
-        .tab {
-            text-transform: unset;
-
-            a {
-                font-size: 16px;
-            }
-        }
-    }
-
-    .no-data-screen-ul-tabs::after {
-        border-bottom: 0.5px solid @color-gray-400;
-        width: 100%;
-        content: '';
-        display: block;
-        overflow: hidden;
-        bottom: 0.3rem;
-        z-index: 2;
-        position: absolute;
-    }
-
-    .no-data-footer {
-        position: sticky;
-        width: inherit;
-        bottom: 0;
-        background: @color-white;
-        z-index: 100;
-
-        .col {
-            width: unset !important;
-        }
-
-        .m-bottom-1 {
-            margin-bottom: 1rem;
-        }
-
-        hr {
-            margin-bottom: 1rem !important;
-        }
-    }
-
-    #start-tracking-data-header {
-        font-weight: bold;
-    }
-
-    .no-data-tabs-main-div .col:not(.tabs-row):not(.tabs-row .col) {
-        padding-top: 1rem;
-    }
-
-    #wordpress, #vue {
         .steps-to-start-tracking-header {
             font-weight: bold;
         }
 
-        .no-list-style, .no-list-style-footer {
-            list-style: none;
-            list-style-position: inside;
-            margin-left: -1rem;
+        .testInstallFields {
+            margin-left: 0;
         }
 
-        .no-list-style-footer {
-            margin-left: unset;
-        }
+        .list-style-decimal .copyToClipboardWrapper {
+            display: grid;
+            margin: 15px 0;
 
-        .list-style-decimal {
-            list-style: decimal;
-            list-style-position: inside;
-        }
-    }
-
-    .tagManagerTrackingCode {
-        > .row, > .row .row {
-            margin-bottom: -0.5rem !important;
-            margin-top: -1.5rem !important;
-        }
-
-        label[for="containers"], label[for="environment"] {
-            top: 7px !important;
-        }
-    }
-
-    .no-mt-top {
-        margin-top: 0 !important;
-    }
-
-    .merged-notification {
-        line-height: 4px;
-
-        p:first-child {
-            padding-top: 0.4rem;
-        }
-    }
-
-    .fw-bold {
-        font-weight: bold;
-    }
-
-    .list-style-decimal {
-        list-style: decimal inside;
-    }
-
-    .list-style-disc {
-        list-style: disc inside;
-    }
-
-    @media screen {
-        @media (max-width: 999px) {
-            .right img {
-                display: none;
+            pre, .codeblock {
+                margin: 0;
             }
         }
-    }
 
-    #other {
-        h3 {
-            margin-bottom: 0.4rem;
+        @media screen {
+            @media (max-width: 999px) {
+                .right img {
+                    display: none;
+                }
+            }
+        }
+
+        &[data-method="Other"] {
+            h3 {
+                margin-bottom: 0.4rem;
+            }
         }
     }
 }
