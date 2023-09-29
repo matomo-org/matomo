@@ -23,7 +23,12 @@ class GoogleTagManager extends SiteContentDetectionAbstract
         return Piwik::translate('SitesManager_SiteWithoutDataGoogleTagManager');
     }
 
-    public static function getContentType(): string
+    public static function getIcon(): string
+    {
+        return './plugins/SitesManager/images/gtm.svg';
+    }
+
+    public static function getContentType(): int
     {
         return self::TYPE_TRACKER;
     }
@@ -60,11 +65,6 @@ class GoogleTagManager extends SiteContentDetectionAbstract
         return false;
     }
 
-    public function shouldHighlightTabIfShown(): bool
-    {
-        return true;
-    }
-
     public function renderInstructionsTab(SiteContentDetector $detector): string
     {
         $piwikUrl = Url::getCurrentUrlWithoutFileName();
@@ -76,6 +76,7 @@ class GoogleTagManager extends SiteContentDetectionAbstract
             ]
         );
         $view = new View('@SitesManager/_gtmTabInstructions');
+        $view->wasDetected = $detector->wasDetected(self::getId());
         $view->jsTag = $jsTag;
         $view->sendHeadersWhenRendering = false;
         return $view->render();

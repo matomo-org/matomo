@@ -17,7 +17,7 @@ class GoogleAnalytics4 extends SiteContentDetectionAbstract
         return 'Google Analytics 4';
     }
 
-    public static function getContentType(): string
+    public static function getContentType(): int
     {
         return self::TYPE_TRACKER;
     }

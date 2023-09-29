@@ -12,14 +12,12 @@ namespace Piwik\Plugins\SitesManager\SiteContentDetection;
 
 use Piwik\API\Request;
 use Piwik\Common;
-use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
 use Piwik\Site;
 use Piwik\SiteContentDetector;
-use Piwik\Translation\Translator;
 use Piwik\Url;
 use Piwik\View;
 
@@ -27,10 +25,15 @@ class Matomo extends SiteContentDetectionAbstract
 {
     public static function getName(): string
     {
-        return Piwik::translate('CoreAdminHome_TrackingCode');
+        return Piwik::translate('CoreAdminHome_JavaScriptCode');
     }
 
-    public static function getContentType(): string
+    public static function getIcon(): string
+    {
+        return './plugins/SitesManager/images/code.svg';
+    }
+
+    public static function getContentType(): int
     {
         return self::TYPE_TRACKER;
     }
@@ -50,11 +53,6 @@ class Matomo extends SiteContentDetectionAbstract
         }
 
         return false;
-    }
-
-    public function shouldShowInstructionTab(SiteContentDetector $detector = null): bool
-    {
-        return true;
     }
 
     public function renderInstructionsTab(SiteContentDetector $detector): string
@@ -78,39 +76,26 @@ class Matomo extends SiteContentDetectionAbstract
             'id' => $idSite,
             'name' => Common::unsanitizeInputValue(Site::getNameFor($idSite)),
         ];
-        $view->assign($this->getNotification($detector));
+        $view->notificationMessage = $this->getConsentManagerNotification($detector);
         return $view->render();
     }
 
-    private function getNotification(SiteContentDetector $detector = null): array
+    public function isRecommended(SiteContentDetector $detector): bool
     {
-        if (empty($detector)) {
-            return [];
-        }
+        return false; // do not recommend this, as it's used as fall back
+    }
 
-        $isNotificationsMerged = false;
+    public function getRecommendationDetails(SiteContentDetector $detector): array
+    {
+        $details = parent::getRecommendationDetails($detector);
+        $details['text'] = Piwik::translate('SitesManager_SetupMatomoTracker');
+        return $details;
+    }
+
+    private function getConsentManagerNotification(SiteContentDetector $detector): string
+    {
+        $notificationMessage = '';
         $consentManagerName = null;
-        $bannerMessage = '';
-        $guides = [];
-        $message = [];
-        $ga3Used = $detector->wasDetected(GoogleAnalytics3::getId());
-        $ga4Used = $detector->wasDetected(GoogleAnalytics4::getId());
-
-        if ($ga3Used || $ga4Used) {
-            $message[0] = 'Google Analytics ';
-            $ga3GuideUrl =  '<a href="https://matomo.org/faq/how-to/migrate-from-google-analytics-3-to-matomo/" target="_blank" rel="noreferrer noopener">Google Analytics 3</a>';
-            $ga4GuideUrl =  '<a href="https://matomo.org/faq/how-to/migrate-from-google-analytics-4-to-matomo/" target="_blank" rel="noreferrer noopener">Google Analytics 4</a>';
-            if ($ga3Used && $ga4Used) {
-                $isNotificationsMerged = true;
-                $guides[] = $ga3GuideUrl;
-                $guides[] = $ga4GuideUrl;
-                $message[0] .= '3 & 4';
-            } else {
-                $message[0] .= ($ga3Used ? 3 : 4);
-                $guides[] = ($ga3Used ? $ga3GuideUrl : $ga4GuideUrl);
-            }
-        }
-
         $consentManagers = $detector->getDetectsByType(SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER);
         if (!empty($consentManagers)) {
             $consentManagerId = reset($consentManagers);
@@ -120,39 +105,13 @@ class Matomo extends SiteContentDetectionAbstract
             $consentManagerIsConnected = in_array($consentManagerId, $detector->connectedConsentManagers);
         }
 
-        if (!empty($message) && $consentManagerName) {
-            $isNotificationsMerged = true;
-            $message[] = $consentManagerName;
-            $guides[] =  '<a href="' . $consentManagerUrl . '" target="_blank" rel="noreferrer noopener">' . $consentManagerName . '</a>';
-        }
-
-        if (!empty($message)) {
-            $bannerMessage = StaticContainer::get(Translator::class)->createAndListing($message);
-        }
-
-        if ($isNotificationsMerged && $bannerMessage) {
-            $info = [
-                'isNotificationsMerged' => true,
-                'notificationMessage' => '<p class="fw-bold">' . Piwik::translate('SitesManager_MergedNotificationLine1', [$bannerMessage]) . '</p><p>' . Piwik::translate('SitesManager_MergedNotificationLine2', [(implode(' / ', $guides))]) . '</p>'
-            ];
-
+        if (!empty($consentManagerName) ) {
+            $notificationMessage = '<p>' . Piwik::translate('PrivacyManager_ConsentManagerDetected', [$consentManagerName, '<a href="' . $consentManagerUrl . '" target="_blank" rel="noreferrer noopener">', '</a>']) . '</p>';
             if (!empty($consentManagerIsConnected)) {
-                $info['notificationMessage'] .= '<p>' . Piwik::translate('SitesManager_ConsentManagerConnected', [$consentManagerName]) . '</p>';
-            }
-        } else {
-            $info['isNotificationsMerged'] = false;
-            if (!empty($consentManagerName) ) {
-                $info['notificationMessage'] = '<p>' . Piwik::translate('PrivacyManager_ConsentManagerDetected', [$consentManagerName, '<a href="' . $consentManagerUrl . '" target="_blank" rel="noreferrer noopener">', '</a>']) . '</p>';
-                if (!empty($consentManagerIsConnected)) {
-                    $info['notificationMessage'] .= '<p>' . Piwik::translate('SitesManager_ConsentManagerConnected', [$consentManagerName]) . '</p>';
-                }
-            } elseif ($detector->wasDetected(GoogleAnalytics3::getId())) {
-                $info['notificationMessage'] = '<p>' . Piwik::translate('SitesManager_GADetected', ['Google Analytics 3', 'GA', '', '', '<a href="https://matomo.org/faq/how-to/migrate-from-google-analytics-3-to-matomo/" target="_blank" rel="noreferrer noopener">', '</a>']) . '</p>';
-            } elseif ($detector->wasDetected(GoogleAnalytics4::getId())) {
-                $info['notificationMessage'] = '<p>' . Piwik::translate('SitesManager_GADetected', ['Google Analytics 4', 'GA', '', '', '<a href="https://matomo.org/faq/how-to/migrate-from-google-analytics-4-to-matomo/" target="_blank" rel="noreferrer noopener">', '</a>']) . '</p>';
+                $notificationMessage .= '<p>' . Piwik::translate('SitesManager_ConsentManagerConnected', [$consentManagerName]) . '</p>';
             }
         }
 
-        return $info;
+        return $notificationMessage;
     }
 }

@@ -1,16 +1,15 @@
-<p></p><p></p>
+<h2>{{ 'SitesManager_StepByStepGuide'|translate }}</h2>
+
+{% if wasDetected %}
 <div class="system notification notification-info">
     {{ 'SitesManager_GTMDetected'|translate('<a href="https://matomo.org/faq/tag-manager/migrating-from-google-tag-manager/" target="_blank" rel="noreferrer noopener">', '</a>')|raw }}
 </div>
-
-<div class="right">
-    <img src="plugins/SitesManager/images/google-tag-manager-icon.png" style="margin-top: -3rem;">
-</div>
+{% endif %}
 
 <p>{{ 'SitesManager_SiteWithoutDataGoogleTagManagerIntro'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-within-gtm-google-tag-manager/">','</a>')|raw }}</p>
 <br>
 <p>{{ 'SitesManager_SiteWithoutDataGoogleTagManagerFollowStepsIntro'|translate }}</p>
-<ol style="list-style: decimal;list-style-position: inside;">
+<ol class="list-style-decimal">
     <li>{{ 'SitesManager_SiteWithoutDataGTMFollowStep1'|translate('<a target="_blank" rel="noreferrer noopener" href="https://tagmanager.google.com/">','</a>')|raw }}</li>
     <li>{{ 'SitesManager_SiteWithoutDataGTMFollowStep2'|translate }}</li>
     <li>{{ 'SitesManager_SiteWithoutDataGTMFollowStep3'|translate }}</li>

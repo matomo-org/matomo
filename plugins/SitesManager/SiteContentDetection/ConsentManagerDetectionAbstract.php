@@ -12,7 +12,7 @@ namespace Piwik\Plugins\SitesManager\SiteContentDetection;
 
 abstract class ConsentManagerDetectionAbstract extends SiteContentDetectionAbstract
 {
-    final public static function getContentType(): string
+    final public static function getContentType(): int
     {
         return self::TYPE_CONSENT_MANAGER;
     }

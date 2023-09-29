@@ -23,7 +23,12 @@ class VueJs extends SiteContentDetectionAbstract
         return 'Vue.js';
     }
 
-    public static function getContentType(): string
+    public static function getIcon(): string
+    {
+        return './plugins/SitesManager/images/vuejs.svg';
+    }
+
+    public static function getContentType(): int
     {
         return self::TYPE_JS_FRAMEWORK;
     }
@@ -43,15 +48,11 @@ class VueJs extends SiteContentDetectionAbstract
         return preg_match("/vue\.\w.+.js|vue\-\w.+.js/i", $data) === 1;
     }
 
-    public function shouldHighlightTabIfShown(): bool
-    {
-        return true;
-    }
-
     public function renderInstructionsTab(SiteContentDetector $detector): string
     {
         $view     = new View("@SitesManager/_vueTabInstructions");
         $view->sendHeadersWhenRendering = false;
+        $view->wasDetected = $detector->wasDetected(self::getId());
         $view->SiteWithoutDataVueFollowStepNote2Key = StaticContainer::get('SitesManager.SiteWithoutDataVueFollowStepNote2');
         $view->vue3Code = $this->getVueInitializeCode(3);
         $view->vue2Code = $this->getVueInitializeCode(2);
