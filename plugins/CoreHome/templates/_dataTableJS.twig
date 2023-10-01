@@ -1,7 +1,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
-        window.Vue.nextTick(function () {
+        setTimeout(function () {
             require('piwik/UI/DataTable').initNewDataTables({{ reportId|json_encode|raw }});
-        });
+        }, 250);
     });
 </script>
