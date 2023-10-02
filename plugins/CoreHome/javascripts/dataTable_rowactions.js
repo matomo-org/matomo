@@ -370,6 +370,10 @@ DataTable_RowActions_RowEvolution.prototype.performAction = function (label, tr,
 };
 
 DataTable_RowActions_RowEvolution.prototype.getPrettyLabel = function getPrettyLabel(tr) {
+  if (!this.dataTable.props.row_identifier || this.dataTable.props.row_identifier === 'label') {
+    return null; // only necessary if a custom row identifier is provided for the report
+  }
+  
   var prettyLabel = [];
 
   var row = $(tr);
