@@ -9,6 +9,7 @@
 
 describe('VersionInfoHeaderMessage', function() {
   const parentSuite = this;
+  this.fixture = "Piwik\\Tests\\Fixtures\\OneVisit";
 
   const selectorComponent = 'div[vue-entry="CoreHome.VersionInfoHeaderMessage"]';
   const selectorMessage = '#header_message';
