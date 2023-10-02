@@ -68,8 +68,6 @@
         "SelectDefaultTimezone": "Možete izabrati koja će biti podrazumevana vremenska zona za nove sajtove.",
         "ShowTrackingTag": "prikaži kod",
         "SiteSearchUse": "Možete koristiti Matomo za praćenje i kreiranje izveštaja o tome šta posetioci traže na vašem sajtu koristeći polje za pretragu.",
-        "SiteWithoutDataMessageDisappears": "Ova poruka će nestati čim se zabeleži neki saobraćaj na sajtu.",
-        "SiteWithoutDataSetupTracking": "Molimo vas da postavite sledeći %1$skod za praćenje%2$s na vaš sajt ili mobilnu aplikaciju ukoliko to već niste učinili.",
         "Sites": "Sajtovi",
         "SuperUserAccessCan": "Korisnik sa superkorisničkim nivoom pristupa može i da %1$spostavi globalna podešavanja%2$s za nove sajtove.",
         "Timezone": "Vremenska zona",

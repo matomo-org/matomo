@@ -39,6 +39,7 @@
         "ReportUpdated": "Raportti päivitetty",
         "ReportsIncluded": "Tilastot mukana",
         "SegmentAppliedToReports": "Segmentti '%s' on asetettu raportteihin.",
+        "SegmentDeleted": "Segmentti poistettu",
         "Segment_Deletion_Error": "Tätä ryhmää ei voida poistaa tai tehdä näkymättömäksi muille käyttäjille, koska sitä käytetään sähköpostiraportin tai -raporttien %s luomiseen. Yritä uudelleen poistettuasi tämä ryhmä raport(e)ista.",
         "Segment_Help": "Voit valita olemassa olevan kävijäryhmän sovellettavaksi dataan tässä sähköpostiraportissa. Voit luoda ja muokata kävijäryhmiä ohjauspaneelista %1$s(klikkaa tästä avataksesi)%2$s, klikkaa sitten ruutua \"%3$s, sen jälkeen \"%4$s\".",
         "SendReportNow": "Lähetä raportti nyt",

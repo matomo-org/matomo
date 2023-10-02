@@ -8,7 +8,7 @@
         "MoreInformation": "Lisätietoa Matomon APIsta löytyy sivulta %1$sJohdatus Matomon APIin%2$s ja %3$sMatomon API%4$s.",
         "PluginDescription": "Kaikki Matomossa olevat tiedot on saatavilla yksinkertaisten APIen kautta. Tämä lisäosa on API verkkosivuille. Tämän lisäosan kautta voit ladata tiedot xml:nä, json:ina, php:nä, csv:nä jne.",
         "ReportingApiReference": "Raportointi-API:n referenssi",
-        "TopLinkTooltip": "Hae analytiikkatietoja automaattisesti yksinkertaisella API:lla JSON:lla, XML:llä jne.",
+        "TopLinkTooltip": "Hae analytiikkatietoja ohjelmallisesti rajapinnasta JSON-muodossa, XML:nä jne.",
         "UserAuthentication": "Käyttäjän autentikointi"
     }
 }
