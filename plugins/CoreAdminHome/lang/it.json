@@ -78,6 +78,7 @@
         "JSTracking_VisitorCustomVars": "Traccia le variabili personalizzate per questo visitatore",
         "JSTracking_VisitorCustomVarsDesc": "Per esempio, con il nome di variabile \"Tipo\" e il valore \"Cliente\".",
         "JavaScriptTracking": "Tracciamento JavaScript",
+        "JsTrackingCodeAdvancedOptionsStep": "Opzionale: usa le opzioni avanzate per personalizzare il tuo codice di tracciamento.",
         "JsTrackingCodeMissingEmail1": "Qualche giorno fa hai aggiunto il sito web '%s' al tuo Matomo Analytics. Abbiamo appena controllato, e il tuo Matomo non sembra avere alcun traffico registrato per questo sito.",
         "JsTrackingCodeMissingEmail2": "Per iniziare a monitorare i dati e ottenere informazioni approfondite sui tuoi utenti, devi impostare il tracking nel tuo sito web o nella tua app per dispositivi mobili. Per i siti web è sufficiente incorporare il codice di tracking subito prima del tag %s.",
         "JsTrackingCodeMissingEmail3": "Per trovare e personalizzare il codice di monitoraggio, %1$sclicca qui%2$s (o dai un'occhiata alla %3$sGuida del Client di Tracking JavaScript%4$s).",

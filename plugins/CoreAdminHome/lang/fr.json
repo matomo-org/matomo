@@ -73,6 +73,7 @@
         "JSTracking_VisitorCustomVars": "Effectuer le suivi des variables personnalisées pour ce visiteur",
         "JSTracking_VisitorCustomVarsDesc": "Par exemple, avec une variable nommée « type » et la valeur « client ».",
         "JavaScriptTracking": "Suivi par JavaScript",
+        "JsTrackingCodeAdvancedOptionsStep": "Optionnel : utilisez les options avancées pour personnaliser votre code de suivi.",
         "JsTrackingCodeMissingEmail1": "Il y a quelques jours vous avez ajouté le site web '%s' à votre Matomo. Nous venons de vérifier et il semble que votre Matomo n'ait pas enregistré de trafic pour ce site web.",
         "JsTrackingCodeMissingEmail2": "Pour commencer à suivre les données et obtenir des informations sur vos utilisateurs, vous devez configurer le suivi sur votre site Web ou votre application mobile. Pour les sites Web, intégrez simplement le code de suivi juste avant la balise %s.",
         "JsTrackingCodeMissingEmail3": "Afin de trouver et de personnaliser votre code de suivi, %1$scliquez ici%2$s (or bien consultez le %3$sguide du client JavaScript de suivi %4$s).",

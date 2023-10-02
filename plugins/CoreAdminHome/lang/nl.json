@@ -78,6 +78,7 @@
         "JSTracking_VisitorCustomVars": "Houd aangepaste variabelen bij voor deze bezoeker",
         "JSTracking_VisitorCustomVarsDesc": "Bijvoorbeeld met variabele naam \"Type\" en waarde \"Klant\".",
         "JavaScriptTracking": "JavaScript Tracking",
+        "JsTrackingCodeAdvancedOptionsStep": "Optioneel: gebruik de geavanceerde opties om je trackingcode aan te passen.",
         "JsTrackingCodeMissingEmail1": "Een par dagen geleden heb je de website '%s' aan je Matomo Analyses toegevoegd. We hebben net een controle uitgevoerd en het lijkt alsof Matomo helemaal geen verkeer heeft vastgelegd voor deze website.",
         "JsTrackingCodeMissingEmail2": "Om te beginnen met tracking data en daardoor inzicht te krijgen in je bezoekers moet je eerst tracking inrichten op je website of mobiele app. Voor een website voeg je simpelweg de tracking code in vlak voor de %s tag.",
         "JsTrackingCodeMissingEmail3": "Om je tracking code te vinden en aan te passen, %1$s klik hier%2$s (of kijk in de %3$sJavaScript Tracking Client handleiding%4$s).",
