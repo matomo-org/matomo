@@ -723,9 +723,9 @@ abstract class Controller
         $view->isUserIsAnonymous  = Piwik::isUserIsAnonymous();
         $view->hasSuperUserAccess = Piwik::hasUserSuperUserAccess();
 
-        $this->showWhatIsNew($view);
-
         if (!Piwik::isUserIsAnonymous()) {
+            $this->showWhatIsNew($view);
+
             $view->contactEmail = implode(',', Piwik::getContactEmailAddresses());
 
             // for BC only. Use contactEmail instead
