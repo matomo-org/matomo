@@ -43,12 +43,9 @@ class Updates_5_0_0_rc2 extends PiwikUpdates
         $viewDataTableSettings = Option::getLike('viewDataTableParameters_%_Referrers.getEvolutionGraph');
 
         foreach ($viewDataTableSettings as $name => $value) {
-            $migrations[] = $this->migration->db->sql(
-                sprintf(
-                    'DELETE FROM %s WHERE option_name = "%s"',
-                    Common::prefixTable('option'),
-                    $name
-                )
+            $migrations[] = $this->migration->db->boundSql(
+                sprintf('DELETE FROM `%s` WHERE option_name = ?', Common::prefixTable('option')),
+                [$name]
             );
         }
 
