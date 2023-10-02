@@ -15,6 +15,7 @@
         "DefaultTimezoneForNewWebsites": "Zona Horaria predeterminada para los nuevos sitios de internet",
         "DeleteConfirm": "¿Está seguro que desea eliminar el sitio de internet %s?",
         "DeleteSiteExplanation": "Eliminando un sitio web eliminará todos los datos de registro que se hayan recopilado para el mismo. Esta acción es permanente y no se puede deshacer.",
+        "DetectingYourSite": "Detectando tu sitio",
         "DisableSiteSearch": "No rastrear búsquedas del sitio",
         "EcommerceHelp": "Cuando es habilitado, el informe \"Metas\" poseerá una nueva sección \"Comercio electrónico\".",
         "EmailInstructionsButton": "Envía por correo estas instrucciones",
