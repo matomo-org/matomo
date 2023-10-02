@@ -10,7 +10,7 @@
         <div class="card">
             <div class="card-content">
                 <span style="float: left; font-size:32px; color:#3450A3; margin-right:10px" class="icon-new_releases"></span>
-                {% if change.plugin_name == "CoreHome" %}
+                {% if change.plugin_name == "CoreHome" or change.plugin_name == "ProfessionalServices"%}
                     <h2 class="card-title">{{ change.title }}</h2>
                 {% else %}
                     <h2 class="card-title">{{ change.plugin_name }} - {{ change.title }}</h2>
