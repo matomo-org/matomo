@@ -127,6 +127,7 @@
         "InviteNewUser": "Convida un usuari nou",
         "InviteSuccess": "Invitació enviada.",
         "InviteSuccessNotification": "L'usuari convidat rebrà un correu electrònic per acceptar la invitació, que és vàlida durant %1$s dies. La podeu reenviar i eliminar des de la pàgina de gestió d'usuaris.",
+        "InviteTeamMember": "Convideu un membre de l'equip",
         "InviteUser": "Convida l'usuari",
         "LastSeen": "Vist per últim cop",
         "LastUsed": "Últim utilitzat",
