@@ -203,6 +203,19 @@
         "WebsitesManagement": "Beheer websites",
         "XManagement": "%s beheren",
         "YouCurrentlyHaveAccessToNWebsites": "U heeft momenteel toegang tot %s websites .",
-        "YourCurrentIpAddressIs": "Uw huidige IP-adres is %s"
+        "YourCurrentIpAddressIs": "Uw huidige IP-adres is %s",
+        "SiteWithoutDataChooseTrackingMethod": "Kies uw trackingmethode",
+        "SiteWithoutDataNotYetReady": "Nog niet klaar om Matomo te installeren?",
+        "SiteWithoutDataTemporarilyHidePage": "Verberg deze pagina tijdelijk en kom later terug.",
+        "SiteWithoutDataOtherInstallMethods": "Andere methoden om Matomo te installeren",
+        "SiteWithoutDataOtherInstallMethodsIntro": "We bieden meerdere trackingmethoden - kies degene die bij u past om gegevensgestuurd succes te behalen.",
+        "SiteWithoutDataHidePageForHour": "Verberg pagina voor een uur",
+        "MoreMethods": "Meer methoden om Matomo te installeren",
+        "CmsAndWebsiteBuilders": "CMS en websitebouwers",
+        "SiteWithoutDataRecommendationText": "We hebben %1$s op uw site gedetecteerd, dus u kunt Matomo binnen enkele minuten configureren met onze officiële %1$s-integratie.",
+        "SiteWithoutDataInstallWithXRecommendation": "Installeer Matomo met %1$s (aanbevolen voor u)",
+        "SiteWithoutDataInstallWithX": "Installeren met %1$s",
+        "SetupMatomoTracker": "U kunt Matomo binnen enkele minuten instellen door onze stapsgewijze handleiding te volgen.",
+        "StepByStepGuide": "Stapsgewijze handleiding"
     }
 }

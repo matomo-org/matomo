@@ -40,6 +40,7 @@
         "ImportingServerLogsDesc": "Eine Alternative zum Tracken der Besucher im Browser (entweder mit JavaScript oder mit einem Bild-Link) ist der kontinuierliche Import von Server Logdateien. Erfahren Sie mehr über %1$sServer Logdatei Analyse%2$s.",
         "InvalidPluginsWarning": "Folgende Plugins sind nicht kompatibel mit %1$s und konnten nicht geladen werden: %2$s.",
         "InvalidPluginsYouCanUninstall": "Sie können diese Plugins auf der %1$sPlugins verwalten%2$s Seite aktualisieren oder deinstallieren.",
+        "JavaScriptCode": "JavaScript-Code",
         "JSTrackingDocumentationHelp": "Die beliebtesten erweiterten Optionen sind für einen einfachen Zugriff untenstehend verfügbar. Für den Zugriff auf weitere Optionen (inklusive wie man Ziele, benutzerdefinierte Variablen, E-Commerce Bestellungen und verwaiste Warenkörbe verwendet) verwenden Sie die %1$sMatomo Javascript Tracking Dokumentation%2$s.",
         "JSTrackingIntro1": "Es gibt viele verschiedene Möglichkeiten, Besucher Ihrer Webseite zu tracken. Die empfohlene Art und Weise dies zu tun, ist die Verwendung von JavaScript. Um diese Methode zu nutzen, müssen Sie sicher stellen, dass auf jeder Seite Ihrer Webseite der entsprechende JavaScript-Code eingebunden ist. Diesen können Sie hier generieren.",
         "JSTrackingIntro2": "Sobald Sie den JavaScript Tracking Code für Ihre Webseite haben, fügen Sie ihn auf allen Seiten ein, die Sie mit Matomo überwachen möchten.",

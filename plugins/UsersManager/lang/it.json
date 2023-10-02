@@ -116,6 +116,7 @@
         "InviteNewUser": "Invita un nuovo utente",
         "InviteSuccess": "Fatto! L'invito è stato inviato.",
         "InviteSuccessNotification": "L'utente invitato riceverà un'e-mail per accettare l'invito. Questo invito è valido per %1$s giorni. È inoltre possibile inviare nuovamente ed eliminare l'invito nella pagina di gestione degli utenti.",
+        "InviteTeamMember": "Invita un membro del team",
         "InviteUser": "Invita utente",
         "LastSeen": "Visto l'ultima volta",
         "LastUsed": "Ultimo utilizzo",

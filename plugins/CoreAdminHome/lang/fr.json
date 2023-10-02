@@ -38,6 +38,7 @@
         "ImportingServerLogsDesc": "Une alternative au suivi des visiteurs via leur navigateur (par JavaScript ou par image) est d'importer de manière continue les logs du serveur. Apprenez-en plus à propos des %1$sstatistiques via les logs serveur%2$s.",
         "InvalidPluginsWarning": "Les extensions suivantes ne sont pas compatibles avec %1$s et ne peuvent pas être chargées : %2$s.",
         "InvalidPluginsYouCanUninstall": "Vous pouvez mettre à jour ou désinstaller ces extensions sur la page %1$sExtensions%2$s.",
+        "JavaScriptCode": "Code JavaScript",
         "JSTrackingDocumentationHelp": "Pour un accès facile, les options avancées les plus populaires sont disponibles ci-dessous. Pour encore plus d'options (y compris comment suivre les objectifs, les variables personnalisées, les commandes de commerce électronique et les paniers abandonnés), veuillez consulter la %1$sdocumentation du suivi Javascript de Matomo%2$s.",
         "JSTrackingIntro1": "Vous pouvez suivre les visiteurs de votre site web de différentes manières. La méthode recommandée est de le faire via JavaScript. Pour utiliser cette méthode, vous devez vous assurer que chaque page de votre site web contient du code JavaScript ; que vous pouvez générer ici.",
         "JSTrackingIntro2": "Une fois que vous avez le code de suivi JavaScript pour votre site web, copiez-collez le sur toutes les pages dont vous voulez effectuer le suivi avec Matomo.",

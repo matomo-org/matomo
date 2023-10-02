@@ -38,6 +38,7 @@
         "ImportingServerLogsDesc": "Una alternativa para el seguimiento de los visitantes a través del navegador (ya sea a través de JavaScript o un enlace de imagen) es importar continuamente los registros del servidor. Aprenda más acerca del %1$sarchivo de registro analítico del servidor%2$s.",
         "InvalidPluginsWarning": "Los siguientes complementos no son compatibles con %1$s y podrían no ser cargados: %2$s.",
         "InvalidPluginsYouCanUninstall": "Puede actualizar o desinstalar estos complementos en la página %1$sGestionar Complementos%2$s.",
+        "JavaScriptCode": "Código JavaScript",
         "JSTrackingDocumentationHelp": "Para un acceso fácil, las opciones avanzadas más populares están disponibles a continuación. Para obtener aún más opciones (incluyendo cómo rastrear objetivos, variables personalizadas, pedidos de comercio electrónico y carritos abandonados), consulte la %1$sdocumentación de seguimiento de Javascript de Matomo%2$s.",
         "JSTrackingIntro1": "Puedes rastrear visitantes hacia su sitio web de muchas maneras. La forma recomendada de hacerlo es con JavaScript. Para usar este método solo debe asegurarse de que cada página de su sitio de internet tenga cierto código JavaScript, el cual puede generar aquí.",
         "JSTrackingIntro2": "Una vez que tenga el código de seguimiento JavaScript para su sitio web, cópielo y péguelo en todas las páginas que desee rastrear con Matomo.",
