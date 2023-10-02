@@ -90,6 +90,7 @@
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Si desea cambiar la contraseña ingrese una nueva. Si no, déjelo vacío.",
         "IncludedInUsersRole": "Incluído en el rol del usuario.",
         "InjectedHostCannotChangePwd": "Está actualmente visitando con un medio desconocido (%1$s). No puede cambiar su contraseña hasta que el problema esté soluionado.",
+        "InviteTeamMember": "Invitar a un miembro del equipo",
         "LastSeen": "Última visita",
         "MainDescription": "Decida qué usuarios poseen acceso a sus sitios de internet. También puede otorgarles acceso a todos los sitios de una vez simplemente eligiendo la opción \"Usar en todos los sitios\" en el selector de los mismos.",
         "ManageAccess": "Administrar el acceso",

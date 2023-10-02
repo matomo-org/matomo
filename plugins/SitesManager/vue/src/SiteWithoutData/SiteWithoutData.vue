@@ -230,7 +230,7 @@ export default defineComponent({
         if (this.showMethodDetails.type === 99) {
           return this.showMethodDetails.name;
         }
-        return `Install with ${this.showMethodDetails.name}`;
+        return translate('SitesManager_SiteWithoutDataInstallWithX', this.showMethodDetails.name);
       }
       return translate('SitesManager_SiteWithoutDataChooseTrackingMethod');
     },

@@ -15,6 +15,7 @@
         "DefaultTimezoneForNewWebsites": "Zona Horaria predeterminada para los nuevos sitios de internet",
         "DeleteConfirm": "¿Está seguro que desea eliminar el sitio de internet %s?",
         "DeleteSiteExplanation": "Eliminando un sitio web eliminará todos los datos de registro que se hayan recopilado para el mismo. Esta acción es permanente y no se puede deshacer.",
+        "DetectingYourSite": "Detectando tu sitio",
         "DisableSiteSearch": "No rastrear búsquedas del sitio",
         "EcommerceHelp": "Cuando es habilitado, el informe \"Metas\" poseerá una nueva sección \"Comercio electrónico\".",
         "EmailInstructionsButton": "Envía por correo estas instrucciones",
@@ -173,6 +174,19 @@
         "WebsitesManagement": "Administración de sitios de internet",
         "XManagement": "Administrar %s",
         "YouCurrentlyHaveAccessToNWebsites": "Actualmente posee acceso a %s sitios de internet.",
-        "YourCurrentIpAddressIs": "Su dirección IP actual es %s"
+        "YourCurrentIpAddressIs": "Su dirección IP actual es %s",
+        "SiteWithoutDataChooseTrackingMethod": "Elige tu método de seguimiento",
+        "SiteWithoutDataNotYetReady": "¿Todavía no estás listo para instalar Matomo?",
+        "SiteWithoutDataTemporarilyHidePage": "Oculta temporalmente esta página y vuelve más tarde.",
+        "SiteWithoutDataOtherInstallMethods": "Otros métodos para instalar Matomo",
+        "SiteWithoutDataOtherInstallMethodsIntro": "Ofrecemos múltiples formas de seguimiento, elige la tuya para desbloquear el éxito basado en datos.",
+        "SiteWithoutDataHidePageForHour": "Ocultar página durante una hora",
+        "MoreMethods": "Más métodos para instalar Matomo",
+        "CmsAndWebsiteBuilders": "CMS y creadores de sitios web",
+        "SiteWithoutDataRecommendationText": "Hemos detectado %1$s en tu sitio, por lo que puedes configurar Matomo en pocos minutos con nuestra integración oficial de %1$s.",
+        "SiteWithoutDataInstallWithXRecommendation": "Instalar Matomo con %1$s (recomendado para ti)",
+        "SiteWithoutDataInstallWithX": "Instalar con %1$s",
+        "SetupMatomoTracker": "Puedes configurar Matomo en pocos minutos siguiendo nuestra guía paso a paso.",
+        "StepByStepGuide": "Guía paso a paso"
     }
 }

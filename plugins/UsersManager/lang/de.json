@@ -125,6 +125,7 @@
         "InviteNewUser": "Einen neuen Benutzer einladen",
         "InviteSuccess": "Einladung gesendet.",
         "InviteSuccessNotification": "Der eingeladene Benutzer erhält eine E-Mail, um die Einladung zu akzeptieren. Diese Einladung ist %1$s Tage gültig. Sie können diese Einladung im Benutzermanagement nochmal senden oder löschen.",
+        "InviteTeamMember": "Teammitglied einladen",
         "InviteUser": "Benutzer einladen",
         "LastSeen": "Zuletzt gesehen",
         "LastUsed": "Zuletzt verwendet",

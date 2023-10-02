@@ -1,1 +1,11 @@
-{}
+{
+  "JsTrackerInstallCheck": {
+    "JsTrackingCodeAdvancedOptionsStep": "Opcional: utiliza las opciones avanzadas para personalizar tu código de seguimiento.",
+    "PluginDescription": "Valida si el código de seguimiento ha sido instalado en tu sitio y si puede enviar solicitudes de seguimiento a tu instancia de Matomo.",
+    "TestInstallationDescription": "Para probar que el código de seguimiento puede enviar solicitudes a tu instancia de Matomo, ingresa la URL exacta que estás siguiendo y haz clic en \"Probar instalación\". Se abrirá una nueva pestaña y se cerrará en 10 segundos.",
+    "TestInstallationBtnText": "Probar instalación",
+    "JsTrackingCodeInstallCheckSuccessMessage": "¡El código de seguimiento se ha instalado correctamente! Esta pantalla desaparecerá tan pronto como se registren algunos datos para tu sitio web.",
+    "JsTrackingCodeInstallCheckFailureMessage": "Fallo en la verificación del código de seguimiento. Verifica que has instalado el código correctamente. %1$sSaber más%2$s.",
+    "JsTrackingCodeInstallCheckFailureMessageWordpress": "Fallo en la verificación del código de seguimiento. Verifica que has instalado el plugin \"%1$s\" y seguido todos los pasos correctamente. %2$sSaber más%3$s."
+  }
+}

@@ -191,6 +191,19 @@
         "WebsitesManagement": "Gestion des sites",
         "XManagement": "Gérer %s",
         "YouCurrentlyHaveAccessToNWebsites": "Vous avez actuellement accès à %s sites web.",
-        "YourCurrentIpAddressIs": "Votre adresse IP actuelle est %s"
+        "YourCurrentIpAddressIs": "Votre adresse IP actuelle est %s",
+        "SiteWithoutDataChooseTrackingMethod": "Choisissez votre méthode de suivi",
+        "SiteWithoutDataNotYetReady": "Pas encore prêt à installer Matomo ?",
+        "SiteWithoutDataTemporarilyHidePage": "Masquer temporairement cette page et revenez plus tard.",
+        "SiteWithoutDataOtherInstallMethods": "Autres méthodes pour installer Matomo",
+        "SiteWithoutDataOtherInstallMethodsIntro": "Nous proposons plusieurs méthodes de suivi, choisissez la vôtre pour obtenir le succès grâce aux données.",
+        "SiteWithoutDataHidePageForHour": "Masquer la page pendant une heure",
+        "MoreMethods": "Plus de méthodes pour installer Matomo",
+        "CmsAndWebsiteBuilders": "CMS et créateurs de sites web",
+        "SiteWithoutDataRecommendationText": "Nous avons détecté %1$s sur votre site, vous pouvez donc configurer Matomo en quelques minutes avec notre intégration officielle %1$s.",
+        "SiteWithoutDataInstallWithXRecommendation": "Installer Matomo avec %1$s (recommandé pour vous)",
+        "SiteWithoutDataInstallWithX": "Installer avec %1$s",
+        "SetupMatomoTracker": "Vous pouvez configurer Matomo en quelques minutes en suivant notre guide étape par étape.",
+        "StepByStepGuide": "Guide étape par étape"
     }
 }
