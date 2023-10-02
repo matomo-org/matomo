@@ -76,6 +76,7 @@
         "JSTracking_TrackNoScript": "Seguiment dels usuaris amb JavaScript desactivat",
         "JSTracking_VisitorCustomVars": "Feu un seguiment de les variables personalitzades per a aquest visitant",
         "JSTracking_VisitorCustomVarsDesc": "Per exemple, amb el nom de la variable \"Tipus\" i el valor \"Client\".",
+        "JavaScriptCode": "Codi Javascript",
         "JavaScriptTracking": "Seguiment amb Javascript",
         "JsTrackingCodeAdvancedOptionsStep": "Opcional: utilitzeu les opcions avançades per personalitzar el vostre codi de seguiment.",
         "JsTrackingCodeMissingEmail1": "Fa uns dies vau afegir el lloc web '%s' al vostre Matomo Analytics. Ho acabem de comprovar i el vostre Matomo no sembla tenir cap trànsit registrat per a aquest lloc web.",
