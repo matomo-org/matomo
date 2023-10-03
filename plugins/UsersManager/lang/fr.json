@@ -124,6 +124,7 @@
         "InviteNewUser": "Inviter un nouvel utilisateur",
         "InviteSuccess": "Invitation envoyée.",
         "InviteSuccessNotification": "L'utilisateur invité recevra un courriel pour accepter l'invitation. Cette invitation est valable pendant %1$s jours. Vous pouvez également renvoyer et supprimer l'invitation sur la page de gestion des utilisateurs.",
+        "InviteTeamMember": "Inviter un membre de l'équipe",
         "InviteUser": "Inviter un utilisateur",
         "LastSeen": "Vu pour la dernière fois",
         "LastUsed": "Dernière utilisation",

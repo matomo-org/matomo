@@ -9,7 +9,7 @@
         "CountryCode": "Codice nazione",
         "CurrentLocationIntro": "Questo provider determina la tua posizione attuale",
         "DefaultLocationProviderDesc1": "Il provider di posizione predefinito determina il paese da cui i visitatori si connettono in base alla lingua selezionata.",
-        "DefaultLocationProviderDesc2": "Questo non è molto accurato, dunque %1$installa e utilizza %2$sun database di geolocalizzazione%3$s%4$s.",
+        "DefaultLocationProviderDesc2": "Questo non è molto accurato, dunque %1$sinstalla e utilizza %2$sun database di geolocalizzazione%3$s%4$s.",
         "DefaultLocationProviderExplanation": "Stai utilizzando il provier di posizione, quindi il paese da cui i tuoi visitatori si connettono sarà determinato dalla lingua da loro selezionata. %1$sLeggi come impostare una geolocalizzazione più accurata%2$s.",
         "DisabledLocationProvider": "Disattiva geolocalizzazione.",
         "DistinctCountries": "%s continenti differenti",

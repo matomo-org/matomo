@@ -76,6 +76,7 @@
         "JSTracking_TrackNoScript": "Παρακολούθηση χρηστών με απενεργοποιημένη τη JavaScript",
         "JSTracking_VisitorCustomVars": "Παρακολούθηση προσαρμοσμένων μεταβλητών για αυτόν τον επισκέπτη",
         "JSTracking_VisitorCustomVarsDesc": "Για παράδειγμα, με όνομα της μεταβλητής \"Τύπος\" και τιμή \"Πελάτης\".",
+        "JavaScriptCode": "Κώδικας JavaScript",
         "JavaScriptTracking": "Παρακολούθηση με JavaScript",
         "JsTrackingCodeAdvancedOptionsStep": "Προαιρετικά: χρησιμοποιήστε τις επιλογές για προχωρημένους για να διαμορφώσετε τον κώδικα ιχνηλάτησης.",
         "JsTrackingCodeMissingEmail1": "Λίγες μέρες πριν, προσθέσατε τον ιστοτόπο '%s' στο Matomo Analytics. Μόλις έγινε έλεγχος και το Matomo δεν φαίνεται να έχει καταγράψει κίνηση για τον ιστοτόπο αυτόν.",

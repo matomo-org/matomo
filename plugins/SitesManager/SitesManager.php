@@ -479,6 +479,7 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_InviteTeamMember';
         $translationKeys[] = 'SitesManager_SiteWithoutDataOtherInstallMethods';
         $translationKeys[] = 'Mobile_NavigationBack';
+        $translationKeys[] = 'SitesManager_SiteWithoutDataInstallWithX';
     }
 
     public static function renderTrackingCodeEmail(int $idSite)

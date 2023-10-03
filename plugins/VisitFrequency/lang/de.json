@@ -28,7 +28,7 @@
         "ReturnAverageVisitDuration": "durchschnittliche Verweildauer wiederkehrender Besucher",
         "ReturnAvgActions": "Aktionen pro wiederkehrendem Besuch",
         "ReturnBounceRate": "Absprung wiederkehrender Besucher (Verlassen der Webseite nach einer Seite)",
-        "ReturnVisits": "wiederkehrende Besucher",
+        "ReturnVisits": "wiederkehrende Besuche",
         "ReturningVisitDocumentation": "Ein wiederkehrender Besuch wird (im Vergleich zu einem neuen Besuch) von jemandem gemacht, der bereits mindestens einmal die Webseite besucht hat.",
         "ReturningVisitsDocumentation": "Dies ist eine Übersicht über die wiederkehrenden Besuche.",
         "SubmenuFrequency": "Häufigkeit",
