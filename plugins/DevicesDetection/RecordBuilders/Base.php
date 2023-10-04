@@ -82,7 +82,7 @@ abstract class Base extends RecordBuilder
             while ($conversionRow = $query->fetch()) {
                 $label = $conversionRow['label'] ?? '';
 
-                $idGoal = $conversionRow['idgoal'];
+                $idGoal = (int) $conversionRow['idgoal'];
                 $columns = [
                     Metrics::INDEX_GOALS => [
                         $idGoal => Metrics::makeGoalColumnsRow($idGoal, $conversionRow),

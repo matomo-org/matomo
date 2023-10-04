@@ -154,7 +154,7 @@ class Locations extends RecordBuilder
             $this->makeRegionCityLabelsUnique($row);
 
             foreach ($records as $recordName => $table) {
-                $idGoal = $row['idgoal'];
+                $idGoal = (int) $row['idgoal'];
                 $columns = [
                     Metrics::INDEX_GOALS => [
                         $idGoal => Metrics::makeGoalColumnsRow($idGoal, $row),

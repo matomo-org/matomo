@@ -137,7 +137,7 @@ class CustomDimension extends RecordBuilder
             $value = $this->cleanCustomDimensionValue($row[$valueField]);
             unset($row[$valueField]);
 
-            $idGoal = $row['idgoal'];
+            $idGoal = (int) $row['idgoal'];
             $columns = [
                 Metrics::INDEX_GOALS => [
                     $idGoal => Metrics::makeGoalColumnsRow($idGoal, $row),

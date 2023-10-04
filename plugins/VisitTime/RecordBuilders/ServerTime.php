@@ -52,7 +52,7 @@ class ServerTime extends Base
 
         $query = $logAggregator->queryConversionsByDimension(["label" => "HOUR(log_conversion.server_time)"]);
         while ($conversionRow = $query->fetch()) {
-            $idGoal = $conversionRow['idgoal'];
+            $idGoal = (int) $conversionRow['idgoal'];
             $columns = [
                 Metrics::INDEX_GOALS => [
                     $idGoal => Metrics::makeGoalColumnsRow($idGoal, $conversionRow),
