@@ -393,12 +393,17 @@ class Segment
         $matchType = $expression[SegmentExpression::INDEX_OPERAND_OPERATOR];
         $value     = $expression[SegmentExpression::INDEX_OPERAND_VALUE];
 
-        $segmentsList = Context::changeIdSite(implode(',', $this->idSites ?: []), function () {
-            return SegmentsList::get();
-        });
-        $segmentObject = $segmentsList->getSegment($name);
-
         $segment = $this->getSegmentByName($name);
+
+        if (empty($this->idSites)) {
+            $segmentsList = SegmentsList::get();
+        } else {
+            $segmentsList = Context::changeIdSite(implode(',', $this->idSites), function () {
+                return SegmentsList::get();
+            });
+        }
+
+        $segmentObject = $segmentsList->getSegment($name);
         $sqlName = $segmentObject->getSqlSegment();
 
         $joinTable = null;
