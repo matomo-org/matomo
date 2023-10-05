@@ -245,8 +245,10 @@ class CalculateConversionPages extends ConsoleCommand
 
             // Since MySQL doesn't support multi-table updates with a LIMIT clause we will find the exact date time of
             // the lastN record and use that as a date range start with the current date time as the date range end
+            /** @noinspection SqlResolve SqlUnused */
             $sql = "
-                    SELECT MIN(c.server_time) 
+                    SELECT MIN(s.t) FROM (
+                    SELECT c.server_time AS t
                     FROM " . Common::prefixTable('log_conversion') . " c                                 
                     ";
 
@@ -269,7 +271,7 @@ class CalculateConversionPages extends ConsoleCommand
                 $sql .= ' WHERE '.ltrim($where, 'AND ');
             }
 
-            $sql .= " ORDER BY c.server_time DESC LIMIT " . $lastN;
+            $sql .= " ORDER BY c.server_time DESC LIMIT " . $lastN . ") AS s";
 
             $result = Db::fetchOne($sql, $bind);
 
