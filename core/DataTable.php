@@ -830,7 +830,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         ) {
             $label = $row->getColumn('label');
             if ($label !== false) {
-                $this->rowsIndexByLabel[$label] = count($this->rows) - 1;
+                $this->rowsIndexByLabel[(string) $label] = count($this->rows) - 1;
             }
         }
         return $row;
