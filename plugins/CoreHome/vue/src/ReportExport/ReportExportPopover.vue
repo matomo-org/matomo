@@ -277,6 +277,8 @@ export default defineComponent({
 
       if (this.requestParams && typeof this.requestParams === 'string') {
         requestParams = JSON.parse(this.requestParams);
+      } else if (this.requestParams && typeof this.requestParams === 'object') {
+        requestParams = this.requestParams as Record<string, unknown>;
       }
 
       const {
