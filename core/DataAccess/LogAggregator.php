@@ -659,45 +659,74 @@ class LogAggregator
     }
 
     /**
-     * Returns the dimensions array, where
-     * (1) the table name is prepended to the field
-     * (2) the "AS `label` " is appended to the field
+     * Returns an array of select expressions based on the provided dimensions array
+     * Each dimension will be prefixed with the table name, if it's not an expression and will be alias
+     * with the dimension name or an custom alias if one was provided as array key.
      *
-     * @param $dimensions
-     * @param $tableName
-     * @param bool $appendSelectAs
-     * @return mixed
+     * @param array $dimensions An array of dimensions, where an alias can be provided as key
+     * @param string $tableName
+     * @return array
      */
-    protected function getSelectDimensions($dimensions, $tableName, $appendSelectAs = true)
+    protected function getSelectDimensions(array $dimensions, string $tableName): array
     {
-        foreach ($dimensions as $selectAs => &$field) {
-            $selectAsString = $field;
+        $selectDimensions = [];
 
-            if (!is_numeric($selectAs)) {
-                $selectAsString = $selectAs;
-            } else if ($this->isFieldFunctionOrComplexExpression($field)) {
-                // if complex expression has a select as, use it
-                if (!$appendSelectAs && preg_match('/\s+AS\s+(.*?)\s*$/', $field, $matches)) {
-                    $field = $matches[1];
-                    continue;
-                }
+        foreach ($dimensions as $selectAs => $field) {
 
-                // if function w/o select as, do not alias or prefix
-                $selectAsString = $appendSelectAs = false;
+            if ($this->isFieldFunctionOrComplexExpression($field) && is_numeric($selectAs)) {
+                // an expression or field function without an alias should be used as is
+                $selectDimensions[] = $field;
+                continue;
             }
 
-            $isKnownField = !in_array($field, array('referrer_data'));
+            $selectAlias = !is_numeric($selectAs) ? $selectAs : $field;
 
-            if ($selectAsString == $field && $isKnownField) {
+            if (!$this->isFieldFunctionOrComplexExpression($field)) {
+                // prefix field name with table if it's not an expression
                 $field = $this->prefixColumn($field, $tableName);
             }
 
-            if ($appendSelectAs && $selectAsString) {
-                $field = $this->prefixColumn($field, $tableName) . $this->getSelectAliasAs($selectAsString);
-            }
+            // append " AS alias"
+            $field .= $this->getSelectAliasAs($selectAlias);
+            $selectDimensions[] = $field;
         }
 
-        return $dimensions;
+        return $selectDimensions;
+    }
+
+    /**
+     * Returns an array of fields to be used in an grouped by statement.
+     * For that either the alias, the field expression or prefixed column name of the provided dimensions will be used.
+     *
+     * @param array $dimensions An array of dimensions, where an alias can be provided as key
+     * @param string $tableName
+     * @return array
+     */
+    protected function getGroupByDimensions(array $dimensions, string $tableName): array
+    {
+        $orderByDimensions = [];
+
+        foreach ($dimensions as $selectAs => $field) {
+            if (!is_numeric($selectAs)) {
+                $orderByDimensions[] = $selectAs;
+                continue;
+            }
+
+            if ($this->isFieldFunctionOrComplexExpression($field)) {
+                // if complex expression has a select as, use it
+                if (preg_match('/\s+AS\s+(.*?)\s*$/', $field, $matches)) {
+                    $orderByDimensions[] = $matches[1];
+                    continue;
+                }
+
+                $orderByDimensions[] = $field;
+                continue;
+            }
+
+            $orderByDimensions[] = $this->prefixColumn($field, $tableName);
+        }
+
+        return $orderByDimensions;
     }
 
     /**
@@ -755,7 +784,7 @@ class LogAggregator
 
     protected function getGroupByStatement($dimensions, $tableName)
     {
-        $dimensions = $this->getSelectDimensions($dimensions, $tableName, $appendSelectAs = false);
+        $dimensions = $this->getGroupByDimensions($dimensions, $tableName);
         $groupBy    = implode(", ", $dimensions);
 
         return $groupBy;
