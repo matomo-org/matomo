@@ -55,7 +55,11 @@ class Model
     {
         $pluginManager = PluginManager::getInstance();
 
-        if ($pluginManager && $pluginManager->isValidPluginName($pluginName) && $pluginManager->isPluginInFilesystem($pluginName)) {
+        if ($pluginManager &&
+            $pluginManager->isValidPluginName($pluginName) &&
+            $pluginManager->isPluginInFilesystem($pluginName) &&
+            $pluginManager->isPluginActivated($pluginName))
+        {
 
             $plugin = $pluginManager->loadPlugin($pluginName);
             if (!$plugin) {

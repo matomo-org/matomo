@@ -28,17 +28,16 @@ class CorePluginsAdmin extends Plugin
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-            'PluginManager.pluginActivated'          => 'onPluginActivated',
-            'PluginManager.pluginInstalled'          => 'addPluginChanges',
             'Updater.componentUpdated'               => 'addPluginChanges',
-            'PluginManager.pluginUninstalled'        => 'removePluginChanges'
+            'PluginManager.pluginActivated'          => 'onPluginActivated',
+            'PluginManager.pluginDeactivated'        => 'removePluginChanges'
         );
     }
 
     /**
-     * Add any changes from newly installed or updated plugins to the changes table
+     * Add any changes from newly activated or updated plugins to the changes table
      *
-     * @param string $pluginName The name of the plugin that was updated or installed
+     * @param string $pluginName The name of the plugin that was updated or activated
      */
     public function addPluginChanges(string $pluginName)
     {
@@ -72,6 +71,8 @@ class CorePluginsAdmin extends Plugin
             $tagManagerTeaser = new TagManagerTeaser(Piwik::getCurrentUserLogin());
             $tagManagerTeaser->disableGlobally();
         }
+
+        $this->addPluginChanges($pluginName);
     }
 
     public function addSystemSummaryItems(&$systemSummary)
