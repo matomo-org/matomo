@@ -4,7 +4,7 @@
     show-footer-icons="{{ properties.show_footer_icons|json_encode }}"
     footer-icons="{{ footerIcons|json_encode }}"
     report-title="{{ properties.title|json_encode }}"
-    request-params="{{ properties.request_params_to_modify|default({})|json_encode }}"
+    request-params="{{ properties.request_parameters_to_modify|default({})|json_encode }}"
     api-method-to-request-data-table="{{ properties.apiMethodToRequestDataTable|json_encode }}"
     max-filter-limit="{{ properties.max_export_filter_limit|json_encode }}"
     show-export="{{ properties.show_export|json_encode }}"
