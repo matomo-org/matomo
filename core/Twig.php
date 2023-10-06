@@ -134,6 +134,7 @@ class Twig
         $this->addFilterMd5();
         $this->addFilterOnlyDomain();
         $this->addFilterSafelink();
+        $this->addFilterTrackMatomoLink();
         $this->addFilterImplode();
         $this->twig->addFilter(new TwigFilter('ucwords', 'ucwords'));
         $this->twig->addFilter(new TwigFilter('lcfirst', 'lcfirst'));
@@ -582,6 +583,17 @@ class Twig
             return $url;
         });
         $this->twig->addFilter($safelink);
+    }
+
+    /**
+     * Modify any links to matomo domains to add campaign tracking parameters
+     */
+    private function addFilterTrackMatomoLink()
+    {
+        $tracklink = new TwigFilter('trackmatomolink', function ($url) {
+            return Url::addCampaignParametersToMatomoLink($url);
+        });
+        $this->twig->addFilter($tracklink);
     }
 
     private function addFilterImplode()

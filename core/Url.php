@@ -829,4 +829,44 @@ class Url
         }
         return $host;
     }
+
+    /**
+     * Add campaign parameters to URLs linking to matomo.org to improve understanding of how online help is being
+     * used for different parts of the application, no personally identifiable information is included.
+     *
+     * @param string|null $url  www.matomo.org/faq/123
+     *
+     * @return string|null      www.matomo.org/faq/123?mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=CoreAdminHome.trackingCodeGenerator
+     */
+    public static function addCampaignParametersToMatomoLink(?string $url = null): ?string
+    {
+        // Ignore nulls
+        if ($url === null) {
+            return $url;
+        }
+
+        // Ignore non-matomo domains
+        $domain = self::getHostFromUrl($url);
+        if (!in_array($domain, ['matomo.org', 'www.matomo.org'])) {
+            return $url;
+        }
+
+        // Build parameters
+        $appType = (\Piwik\Plugin\Manager::getInstance()->isPluginLoaded('Cloud') ? 'Cloud' : 'OnPremise');
+        $module = Piwik::getModule();
+        $action = Piwik::getAction();
+        if (empty($module) || empty($action)) {
+            return $url; // Ignore if no module or action
+        }
+        $newParams = [
+            'mtm_campaign' => 'Matomo_App',
+            'mtm_source' => 'Matomo_App_' . $appType,
+            'mtm_medium' => $module . '.' . $action
+            ];
+
+        // Add parameters to the link, overriding any existing campaign parameters while preserving the path and query string
+        $pathAndQueryString = UrlHelper::getPathAndQueryFromUrl($url, $newParams, true);
+        return 'https://' . $domain . '/' . $pathAndQueryString;
+    }
+
 }
