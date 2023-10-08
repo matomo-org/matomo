@@ -832,14 +832,27 @@ class Url
 
     /**
      * Add campaign parameters to URLs linking to matomo.org to improve understanding of how online help is being
-     * used for different parts of the application, no personally identifiable information is included.
+     * used for different parts of the application, no personally identifiable information is included, just the area
+     * of the application from which the link originated.
      *
-     * @param string|null $url  www.matomo.org/faq/123
+     * @param string|null $url      eg. www.matomo.org/faq/123 or https://matomo.org/faq/456
+     * @param string|null $campaign Optional campaign override, defaults to 'Matomo_App'
+     * @param string|null $source   Optional campaign source override, defaults to either 'Matomo_App_OnPremise' or
+     *                              'Matomo_App_Cloud'
+     * @param string|null $medium   Optional campaign medium, defaults to [module].[action] where module and action are
+     *                              taken from the currently viewed application page, eg. 'CoreAdminHome.trackingCodeGenerator'
      *
      * @return string|null      www.matomo.org/faq/123?mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=CoreAdminHome.trackingCodeGenerator
      */
-    public static function addCampaignParametersToMatomoLink(?string $url = null): ?string
+    public static function addCampaignParametersToMatomoLink(?string $url = null, ?string $campaign = null,
+                                                             ?string $source = null, ?string $medium = null): ?string
     {
+
+        // Ignore if disabled by config setting
+        if (Config::getInstance()->General['disable_tracking_matomo_app_links']) {
+            return $url;
+        }
+
         // Ignore nulls
         if ($url === null) {
             return $url;
@@ -852,16 +865,18 @@ class Url
         }
 
         // Build parameters
-        $appType = (\Piwik\Plugin\Manager::getInstance()->isPluginLoaded('Cloud') ? 'Cloud' : 'OnPremise');
-        $module = Piwik::getModule();
-        $action = Piwik::getAction();
-        if (empty($module) || empty($action)) {
-            return $url; // Ignore if no module or action
+        if ($medium === null) {
+            $module = Piwik::getModule();
+            $action = Piwik::getAction();
+            if (empty($module) || empty($action)) {
+                return $url; // Ignore if no module or action
+            }
+            $medium = $module.'.'.$action;
         }
         $newParams = [
-            'mtm_campaign' => 'Matomo_App',
-            'mtm_source' => 'Matomo_App_' . $appType,
-            'mtm_medium' => $module . '.' . $action
+            'mtm_campaign' => $campaign ?? 'Matomo_App',
+            'mtm_source' => $source ?? 'Matomo_App_' . (\Piwik\Plugin\Manager::getInstance()->isPluginLoaded('Cloud') ? 'Cloud' : 'OnPremise'),
+            'mtm_medium' => $medium
             ];
 
         // Add parameters to the link, overriding any existing campaign parameters while preserving the path and query string

@@ -870,6 +870,13 @@ enable_required_directories_diagnostic = 1
 ; When set to 0, the definitions will be loaded from the local definitions (updated with core).
 enable_referrer_definition_syncs = 1
 
+; If set to 1, then links to matomo.org shown in the Matomo app will not include campaign tracking parameters which
+; describe where in the application the link originated. This information is used to improve the quality and relevance
+; of inline help links on matomo.org and contains no identifying information. Presence of the campaign parameters in
+; the link url could be used by third parties monitoring network requests to identify that the Matomo app is being used,
+; so it can be disabled here if necessary.
+disable_tracking_matomo_app_links = 0
+
 [Tracker]
 
 ; When enabled and a userId is set, then the visitorId will be automatically set based on the userId. This allows to

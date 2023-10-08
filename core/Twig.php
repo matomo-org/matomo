@@ -587,11 +587,25 @@ class Twig
 
     /**
      * Modify any links to matomo domains to add campaign tracking parameters
+     *
+     * Typical usage:
+     *
+     * Apply default campaign tracking parameters:
+     * {{ 'https://matomo.org/faq/123'|trackmatomolink }}
+     *
+     * Apply custom campaign tracking parameters:
+     * {{ 'https://matomo.org/faq/123'|trackmatomolink('SomeCampaign', 'SomeSource', 'SomeMedium') }}
+     *
      */
     private function addFilterTrackMatomoLink()
     {
         $tracklink = new TwigFilter('trackmatomolink', function ($url) {
-            return Url::addCampaignParametersToMatomoLink($url);
+            $params = func_get_args();
+            array_shift($params);
+            $campaign = (count($params) > 0 ? $params[0] : null);
+            $source = (count($params) > 1 ? $params[1] : null);
+            $medium = (count($params) > 2 ? $params[2] : null);
+            return Url::addCampaignParametersToMatomoLink($url, $campaign, $source, $medium);
         });
         $this->twig->addFilter($tracklink);
     }
