@@ -767,7 +767,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         foreach ($this->rows as $id => $row) {
             $label = $row->getColumn('label');
             if ($label !== false) {
-                $this->rowsIndexByLabel[$label] = $id;
+                $this->rowsIndexByLabel[(string) $label] = $id;
             }
         }
 
