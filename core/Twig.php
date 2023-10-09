@@ -143,6 +143,8 @@ class Twig
             return preg_replace($pattern, $replacement, $subject);
         }));
 
+        $this->addFunctionExternalLink();
+        $this->addFunctionExternalRawLink();
         $this->addFunctionIncludeAssets();
         $this->addFunctionLinkTo();
         $this->addFunctionSparkline();
@@ -266,6 +268,42 @@ class Twig
             return 'index.php' . Url::getCurrentQueryStringWithParametersModified($params);
         });
         $this->twig->addFunction($urlFunction);
+    }
+
+    /**
+     * Build an external link for a URL
+     *
+     * Usage:
+     *     externallink(url, [optional appends tags], [bool nohtml])
+     *
+     */
+    private function addFunctionExternalLink()
+    {
+        $externalLink = new TwigFunction('externallink', function ($url) {
+            // Add tracking parameters if a matomo.org link
+            $url =  Url::addCampaignParametersToMatomoLink($url);
+
+            // Support optional extra parameter for addition HTML tags to append to the link tag
+            $params = func_get_args();
+            array_shift($params);
+
+            // Support
+            if (count($params > 1) && intval($params[1]) == 1) {
+                return $url;
+            }
+
+            return "<a target='_blank' rel='noreferrer noopener' href=" . $url . ">" . (count($params) ? $params[0] : '');
+        });
+        $this->twig->addFunction($externalLink);
+    }
+
+    private function addFunctionExternalRawLink()
+    {
+        $externalRawLink = new TwigFunction('externalrawlink', function ($url) {
+            // Add tracking parameters if a matomo.org link
+            return Url::addCampaignParametersToMatomoLink($url);
+        });
+        $this->twig->addFunction($externalRawLink);
     }
 
     /**
@@ -599,7 +637,7 @@ class Twig
      */
     private function addFilterTrackMatomoLink()
     {
-        $tracklink = new TwigFilter('trackmatomolink', function ($url) {
+        $trackLink = new TwigFilter('trackmatomolink', function ($url) {
             $params = func_get_args();
             array_shift($params);
             $campaign = (count($params) > 0 ? $params[0] : null);
@@ -607,7 +645,7 @@ class Twig
             $medium = (count($params) > 2 ? $params[2] : null);
             return Url::addCampaignParametersToMatomoLink($url, $campaign, $source, $medium);
         });
-        $this->twig->addFilter($tracklink);
+        $this->twig->addFilter($trackLink);
     }
 
     private function addFilterImplode()

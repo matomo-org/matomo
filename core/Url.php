@@ -860,7 +860,7 @@ class Url
 
         // Ignore non-matomo domains
         $domain = self::getHostFromUrl($url);
-        if (!in_array($domain, ['matomo.org', 'www.matomo.org'])) {
+        if (!in_array($domain, ['matomo.org', 'www.matomo.org', 'developer.matomo.org', 'plugins.matomo.org'])) {
             return $url;
         }
 
