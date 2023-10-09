@@ -192,6 +192,10 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    newSecret: {
+      type: String,
+      required: true,
+    },
     codes: Array,
     twoFaBarCodeSetupUrl: {
       type: String,
