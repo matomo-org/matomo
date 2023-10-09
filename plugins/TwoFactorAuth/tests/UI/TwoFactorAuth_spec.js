@@ -32,9 +32,7 @@ describe("TwoFactorAuth", function () {
 
         // make sure to log out previous session
         await page.goto(logoutUrl);
-        await page.waitForNetworkIdle();
-        await page.waitForTimeout(100);
-        await page.waitForNetworkIdle();
+        await page.waitForSelector('.loginSection', {visible: true});
 
         var cookies = await page.cookies();
         cookies.forEach(cookie => {
@@ -156,10 +154,8 @@ describe("TwoFactorAuth", function () {
 
     it('should be possible to show recovery codes step1 authentication', async function () {
         await page.click('.showRecoveryCodesLink');
-        await page.waitForNetworkIdle();
-        const element = await page.$('.loginSection');
-        await page.waitForNetworkIdle();
-        await page.waitForTimeout(1000);
+        const element = await page.waitForSelector('.loginSection', {visible: true});
+        await page.waitForTimeout(200);
         expect(await element.screenshot()).to.matchImage('show_recovery_codes_step1');
     });
 
@@ -171,7 +167,8 @@ describe("TwoFactorAuth", function () {
     it('should show user settings when two-fa enabled', async function () {
         requireTwoFa();
         await page.goto(userSettings);
-        await page.waitForTimeout(1000);
+        await page.waitForSelector('.userSettings2FA', {visible: true});
+        await page.waitForTimeout(200);
         expect(await page.screenshotSelector('.userSettings2FA')).to.matchImage('usersettings_twofa_enabled_required');
     });
 
@@ -190,9 +187,9 @@ describe("TwoFactorAuth", function () {
 
     it('should be possible to disable two factor step 2 confirmed', async function () {
         await selectModalButton('Yes');
-        await page.waitForTimeout(150);
 
-        const element = await page.$('.loginSection');
+        const element = await page.waitForSelector('.loginSection', {visible: true});
+        await page.waitForTimeout(150);
         expect(await element.screenshot()).to.matchImage('usersettings_twofa_disable_step2');
     });
 
@@ -210,7 +207,7 @@ describe("TwoFactorAuth", function () {
         await page.waitForNetworkIdle();
         await page.click('.enable2FaLink');
         await confirmPassword();
-        await page.waitForTimeout(1000);
+        await page.waitForSelector('.setupTwoFactorAuthentication');
         const element = await page.$('#content');
         expect(await element.screenshot()).to.matchImage('twofa_setup_step1');
     });
@@ -242,7 +239,7 @@ describe("TwoFactorAuth", function () {
 
     it('should move to third step in setup - step 3', async function () {
         await page.click('.modal.open .modal-close'); // close modal
-        await page.waitForTimeout(100);
+        await page.waitForTimeout(500);
         await page.click('.setupTwoFactorAuthentication .goToStep3');
         await page.waitForSelector('.setupConfirmAuthCodeForm', {visible: true});
         await page.waitForTimeout(100);
