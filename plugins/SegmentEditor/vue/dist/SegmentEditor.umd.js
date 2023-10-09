@@ -253,6 +253,7 @@ var SegmentGenerator_store_SegmentGeneratorStore = /*#__PURE__*/function () {
         return _this2.state.value.segments;
       }).finally(function () {
         _this2.privateState.isLoading = false;
+        delete _this2.loadSegmentsPromise;
       });
     }
   }]);
