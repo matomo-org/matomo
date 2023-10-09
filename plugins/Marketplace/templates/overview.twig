@@ -30,14 +30,14 @@
         {% include '@Marketplace/plugin-list.twig' %}
 
         <div class="footer-message center">
-            {{ 'Marketplace_DevelopersLearnHowToDevelopPlugins'|translate('<a target="_blank" rel="noreferrer noopener" href="https://developer.matomo.org/develop">', '</a>')|raw }}
+            {{ 'Marketplace_DevelopersLearnHowToDevelopPlugins'|translate(externallink('https://developer.matomo.org/develop'), '</a>')|raw }}
             <br />
             <br />
             <br />
-            <a rel="noreferrer noopener" href="https://shop.matomo.org/faq/" target="_blank">FAQ</a> |
-            <a rel="noreferrer noopener" href="https://shop.matomo.org/terms-conditions/" target="_blank">Terms</a> |
-            <a rel="noreferrer noopener" href="https://matomo.org/privacy-policy/" target="_blank">Privacy</a> |
-            <a rel="noreferrer noopener" href="https://matomo.org/contact/" target="_blank">Contact</a>
+            <a rel="noreferrer noopener" href="{{ 'https://shop.matomo.org/faq/'|trackmatomolink }}" target="_blank">FAQ</a> |
+            <a rel="noreferrer noopener" href="{{ 'https://shop.matomo.org/terms-conditions/'|trackmatomolink }}" target="_blank">Terms</a> |
+            <a rel="noreferrer noopener" href="{{ 'https://matomo.org/privacy-policy/'|trackmatomolink }}" target="_blank">Privacy</a> |
+            <a rel="noreferrer noopener" href="{{ 'https://matomo.org/contact/'|trackmatomolink }}" target="_blank">Contact</a>
         </div>
 
     </div>

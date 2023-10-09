@@ -2,7 +2,7 @@
     {% if isSegmentToPreprocess %}
         {% if not canBeArchived %}
             <p>
-                {{ 'SegmentEditor_UnprocessedSegmentNoData3'|translate('<strong>(' ~ segmentName ~ ')</strong>', '<a href="https://matomo.org/faq/troubleshooting/faq_141/" rel="noreferrer noopener">', '</a>')|raw }}
+                {{ 'SegmentEditor_UnprocessedSegmentNoData3'|translate('<strong>(' ~ segmentName ~ ')</strong>', externallink('https://matomo.org/faq/troubleshooting/faq_141/'), '</a>')|raw }}
             </p>
         {% else %}
             <p>

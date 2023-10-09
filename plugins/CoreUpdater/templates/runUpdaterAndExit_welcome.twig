@@ -11,7 +11,7 @@
     <div class="content" style="text-align:left;">
 
         {% set helpMessage %}
-            {{ 'CoreUpdater_HelpMessageContent'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/">','</a>','</li><li>')|raw }}
+            {{ 'CoreUpdater_HelpMessageContent'|translate(externallink('https://matomo.org/faq/'),'</a>','</li><li>')|raw }}
         {% endset %}
 
         {% if coreError %}
@@ -51,7 +51,7 @@
                 {% endif %}
                 <p>{{ 'CoreUpdater_TheUpgradeProcessMayFailExecuteCommand'|translate('') }}</p>
                 <pre>{{ commandUpgradePiwik }}</pre>
-                <p>{{ 'CoreUpdater_HighTrafficPiwikServerEnableMaintenance'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/how-to/faq_111">', '</a>')|raw }}</p>
+                <p>{{ 'CoreUpdater_HighTrafficPiwikServerEnableMaintenance'|translate(externallink('https://matomo.org/faq/how-to/faq_111'), '</a>')|raw }}</p>
 
                 {% if migrations is not empty %}
                     <p>{{ 'CoreUpdater_ListOfSqlQueriesFYI'|translate(piwik_version) }}</p>
@@ -64,7 +64,7 @@
                 {% endif %}
 
                 <h2>{{ 'CoreUpdater_NeedHelpUpgrading'|translate }}</h2>
-                <p>{{ 'CoreUpdater_NeedHelpUpgradingText'|translate("<a rel='noreferrer noopener' target='_blank' href='https://matomo.org/support-plans/?pk_campaign=App_Upgrading&pk_source=Matomo_App&pk_medium=NeedHelpUpgrading'>", "</a>")|raw }}</p>
+                <p>{{ 'CoreUpdater_NeedHelpUpgradingText'|translate(externallink('https://matomo.org/support-plans/'), "</a>")|raw }}</p>
 
                 <h2>{{ 'CoreUpdater_ReadyToGo'|translate }}</h2>
                 <p>{{ 'CoreUpdater_TheUpgradeProcessMayTakeAWhilePleaseBePatient'|translate }}</p>

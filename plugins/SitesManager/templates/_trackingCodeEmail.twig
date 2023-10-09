@@ -3,29 +3,29 @@
 
 {% endif %}
 {% if 'GoogleAnalytics3' in trackers %}
-{{ 'SitesManager_GADetectedEmail'|translate('Google Analytics 3', 'GA', 'https://matomo.org/faq/how-to/migrate-from-google-analytics-3-to-matomo/')|raw }}
+{{ 'SitesManager_GADetectedEmail'|translate('Google Analytics 3', 'GA', externalrawlink('https://matomo.org/faq/how-to/migrate-from-google-analytics-3-to-matomo/'))|raw }}
 
 {% endif %}
 {% if 'GoogleAnalytics4' in trackers %}
-{{ 'SitesManager_GADetectedEmail'|translate('Google Analytics 4', 'GA', 'https://matomo.org/faq/how-to/migrate-from-google-analytics-4-to-matomo/')|raw }}
+{{ 'SitesManager_GADetectedEmail'|translate('Google Analytics 4', 'GA', externalrawlink('https://matomo.org/faq/how-to/migrate-from-google-analytics-4-to-matomo/'))|raw }}
 
 {% endif %}
 {% if 'GoogleTagManager' in trackers %}
-{{ 'SitesManager_GTMDetectedEmail'|translate('https://matomo.org/faq/tag-manager/migrating-from-google-tag-manager/')|raw }}
+{{ 'SitesManager_GTMDetectedEmail'|translate(externalrawlink('https://matomo.org/faq/tag-manager/migrating-from-google-tag-manager/'))|raw }}
 
 {% endif %}
 {% if 'Cloudflare' in cms %}
-{{ 'SitesManager_CloudflareDetectedEmail'|translate('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-cloudflare-setup/')|raw }}
+{{ 'SitesManager_CloudflareDetectedEmail'|translate(externalrawlink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-cloudflare-setup/'))|raw }}
 
 {% endif %}
 
 {% if 'VueJs' in jsFrameworks %}
-    {{ 'SitesManager_VueDetectedEmail'|translate('vue-matomo', 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-websites-that-use-vue-js/')|raw }}
+    {{ 'SitesManager_VueDetectedEmail'|translate('vue-matomo', externalrawlink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-websites-that-use-vue-js/'))|raw }}
 
 {% endif %}
 
 {% if 'ReactJs' in jsFrameworks %}
-{{ 'SitesManager_ReactDetectedEmail'|translate('https://matomo.org/faq/new-to-piwik/how-do-i-start-tracking-data-with-matomo-on-websites-that-use-react/')|raw }}
+{{ 'SitesManager_ReactDetectedEmail'|translate(externalrawlink('https://matomo.org/faq/new-to-piwik/how-do-i-start-tracking-data-with-matomo-on-websites-that-use-react/'))|raw }}
 
 {% endif %}
 {% if consentManagerName or 'GoogleAnalytics3' in trackers or 'GoogleAnalytics4' in trackers or 'GoogleTagManager' in trackers or 'Cloudflare' in cms or 'VueJs' in jsFrameworks %}
@@ -37,54 +37,54 @@
 {{ 'CoreAdminHome_JSTracking_CodeNoteBeforeClosingHeadEmail'|translate("'head'") }}
 {{ jsTag|raw }}
 
-{% if showMatomoLinks %}{{ 'SitesManager_EmailInstructionsDocsPlainText'|translate('https://developer.matomo.org/guides/tracking-javascript-guide')|raw }}{% endif %}
+{% if showMatomoLinks %}{{ 'SitesManager_EmailInstructionsDocsPlainText'|translate(externalrawlink('https://developer.matomo.org/guides/tracking-javascript-guide'))|raw }}{% endif %}
 
 {{ 'SitesManager_EmailInstructionsGenerateTrackingCode'|translate(piwikUrl ~ linkTo({'module': 'CoreAdminHome', 'action': 'trackingCodeGenerator'}))|raw }}
 
 {% if showMatomoLinks %}
 ** {{ 'SitesManager_InstallationGuides'|translate }}
-WordPress: https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/
-Squarespace: https://matomo.org/faq/new-to-piwik/how-do-i-integrate-matomo-with-squarespace-website/
-Wix: https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-wix/
-SharePoint: https://matomo.org/faq/how-to-install/faq_19424/
-Joomla: https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-joomla/
-Shopify: https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-shopify-store/
-Google Tag Manager: https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-within-gtm-google-tag-manager/
-Cloudflare: https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-cloudflare-setup/
-Vue.js: https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-websites-that-use-vue-js/
-React: https://matomo.org/faq/new-to-piwik/how-do-i-start-tracking-data-with-matomo-on-websites-that-use-react/
+WordPress: {{ externalrawlink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/') }}
+Squarespace: {{ externalrawlink('https://matomo.org/faq/new-to-piwik/how-do-i-integrate-matomo-with-squarespace-website/') }}
+Wix: {{ externalrawlink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-wix/') }}
+SharePoint: {{ externalrawlink('https://matomo.org/faq/how-to-install/faq_19424/') }}
+Joomla: {{ externalrawlink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-joomla/') }}
+Shopify: {{ externalrawlink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-shopify-store/') }}
+Google Tag Manager: {{ externalrawlink('https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-within-gtm-google-tag-manager/') }}
+Cloudflare: {{ externalrawlink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-cloudflare-setup/') }}
+Vue.js: {{ externalrawlink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-websites-that-use-vue-js/') }}
+React: {{ externalrawlink('https://matomo.org/faq/new-to-piwik/how-do-i-start-tracking-data-with-matomo-on-websites-that-use-react/') }}
 
 ** {{ 'SitesManager_Integrations'|translate }}
 {{ 'CoreAdminHome_JSTrackingIntro3a'|translate('', '') }}
-https://matomo.org/integrate/
+{{ externalrawlink('https://matomo.org/integrate/') }}
 
 ** {{ 'SitesManager_LogAnalytics'|translate }}
 {{ 'SitesManager_LogAnalyticsDescription'|translate('', '') }}
-https://matomo.org/log-analytics/
+{{ externalrawlink('https://matomo.org/log-analytics/') }}
 
 ** {{ 'SitesManager_MobileAppsAndSDKs'|translate }}
 {{ 'SitesManager_MobileAppsAndSDKsDescription'|translate('', '') }}
-https://matomo.org/integrate/#programming-language-platforms-and-frameworks
+{{ externalrawlink('https://matomo.org/integrate/#programming-language-platforms-and-frameworks') }}
 
 ** {{ 'CoreAdminHome_HttpTrackingApi'|translate }}
 {{ 'CoreAdminHome_HttpTrackingApiDescription'|translate('', '') }}
-https://developer.matomo.org/api-reference/tracking-api
+{{ externalrawlink('https://developer.matomo.org/api-reference/tracking-api') }}
 
 ** {{ 'SitesManager_SiteWithoutDataSinglePageApplication'|translate }}
 {{ 'CoreAdminHome_SinglePageApplicationDescription'|translate('', '') }}
-https://developer.matomo.org/guides/spa-tracking
+{{ externalrawlink('https://developer.matomo.org/guides/spa-tracking') }}
 
 ** Cloudflare
 {{ 'CoreAdminHome_CloudflareDescription'|translate('', '') }}
-https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-cloudflare-setup/
+{{ externalrawlink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-cloudflare-setup/') }}
 
 ** Vue.js
 {{ 'CoreAdminHome_VueDescription'|translate('', '') }}
-https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-websites-that-use-vue-js/
+{{ externalrawlink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-websites-that-use-vue-js/') }}
 
 ** React.js
 {{ 'CoreAdminHome_ReactDescription'|translate('', '') }}
-https://matomo.org/faq/new-to-piwik/how-do-i-start-tracking-data-with-matomo-on-websites-that-use-react/
+{{ externalrawlink('https://matomo.org/faq/new-to-piwik/how-do-i-start-tracking-data-with-matomo-on-websites-that-use-react/') }}
 
 ** {{ 'SitesManager_EmailInstructionsSiteDetailsHeading'|translate }}
 {{ 'SitesManager_EmailInstructionsSiteDetails'|translate }}
