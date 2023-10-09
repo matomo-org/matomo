@@ -274,7 +274,7 @@ class Twig
      * Build an external link for a URL
      *
      * Usage:
-     *     externallink(url, [optional appends tags], [bool nohtml])
+     *     externallink(url)
      *
      */
     private function addFunctionExternalLink()
@@ -283,16 +283,7 @@ class Twig
             // Add tracking parameters if a matomo.org link
             $url =  Url::addCampaignParametersToMatomoLink($url);
 
-            // Support optional extra parameter for addition HTML tags to append to the link tag
-            $params = func_get_args();
-            array_shift($params);
-
-            // Support
-            if (count($params > 1) && intval($params[1]) == 1) {
-                return $url;
-            }
-
-            return "<a target='_blank' rel='noreferrer noopener' href=" . $url . ">" . (count($params) ? $params[0] : '');
+            return "<a target='_blank' rel='noreferrer noopener' href='" . $url . "'>";
         });
         $this->twig->addFunction($externalLink);
     }
