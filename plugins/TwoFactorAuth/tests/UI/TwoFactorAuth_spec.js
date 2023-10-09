@@ -229,10 +229,23 @@ describe("TwoFactorAuth", function () {
         expect(await element.screenshot()).to.matchImage('twofa_setup_step2');
     });
 
+    it('should show the OTP code in modal', async function () {
+        await page.click('.setupTwoFactorAuthentication .setupStep2Link');
+        await page.waitForSelector('.modal.open', {visible: true});
+
+        const codeLength = await page.evaluate(() => {
+            return $('.modal.open code').text().length;
+        });
+
+        expect(codeLength).to.equal(16);
+    });
+
     it('should move to third step in setup - step 3', async function () {
+        await page.click('.modal.open .modal-close'); // close modal
+        await page.waitForTimeout(100);
         await page.click('.setupTwoFactorAuthentication .goToStep3');
-        await page.waitForNetworkIdle();
-        await page.waitForTimeout(1000);
+        await page.waitForSelector('.setupConfirmAuthCodeForm', {visible: true});
+        await page.waitForTimeout(100);
 
         const element = await page.$('#content');
         expect(await element.screenshot()).to.matchImage('twofa_setup_step3');
@@ -272,8 +285,8 @@ describe("TwoFactorAuth", function () {
 
     it('should force user to setup 2fa when not set up yet but enforced step 3', async function () {
         await page.click('.setupTwoFactorAuthentication .goToStep3');
+        await page.waitForSelector('.setupConfirmAuthCodeForm', {visible: true});
         await page.waitForTimeout(100);
-        await page.waitForNetworkIdle();
         await page.mouse.move(-10, -10);
         expect(await page.screenshotSelector('.loginSection,#content,#notificationContainer')).to.matchImage('twofa_forced_step3');
     });
