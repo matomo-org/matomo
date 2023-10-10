@@ -81,8 +81,6 @@ class GetExitPageUrls extends Base
             'action' => 'getExitPageUrls',
         ));
 
-        $view->config->addTranslations(array('label' => $this->dimension->getName()));
-
         $view->config->title = $this->name;
 
         $view->config->columns_to_display        = array('label', 'exit_nb_visits', 'nb_visits', 'exit_rate');

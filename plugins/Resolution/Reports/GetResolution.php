@@ -29,8 +29,6 @@ class GetResolution extends Base
     public function configureView(ViewDataTable $view)
     {
         $this->getBasicResolutionDisplayProperties($view);
-
-        $view->config->addTranslation('label', $this->dimension->getName());
     }
 
     public function getRelatedReports()

@@ -52,8 +52,6 @@ class GetSiteSearchCategories extends SiteSearchBase
 
     public function configureView(ViewDataTable $view)
     {
-        $view->config->addTranslations(array('label' => $this->dimension->getName()));
-
         $view->config->columns_to_display     = array('label', 'nb_visits', 'nb_pages_per_search');
         $view->config->show_table_all_columns = false;
         $view->config->show_bar_chart         = false;

@@ -29,7 +29,6 @@ class GetBrowserVersions extends Base
     {
         $view->config->show_search = true;
         $view->config->show_exclude_low_population = false;
-        $view->config->addTranslation('label', $this->dimension->getName());
     }
 
     public function getRelatedReports()

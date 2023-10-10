@@ -60,7 +60,6 @@ class GetSiteSearchNoResultKeywords extends SiteSearchBase
 
     public function configureView(ViewDataTable $view)
     {
-        $view->config->addTranslation('label', $this->dimension->getName());
         $view->config->columns_to_display = array('label', 'nb_visits', 'exit_rate');
 
         $this->addSiteSearchDisplayProperties($view);

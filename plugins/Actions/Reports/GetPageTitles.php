@@ -74,7 +74,6 @@ class GetPageTitles extends Base
 
         $view->config->title = $this->name;
 
-        $view->config->addTranslation('label', $this->dimension->getName());
         $view->config->columns_to_display = array('label', 'nb_hits', 'nb_visits', 'bounce_rate',
                                                   'avg_time_on_page', 'exit_rate');
 
