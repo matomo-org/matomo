@@ -63,10 +63,10 @@ export function externalLink(
   const action = urlParams.get('action');
 
   // Apply campaign parameters if domain is ok, config is not disabled and a value for medium exists
-  if (validDomain && !window.piwik.disableTrackingMatomoAppLinks
+  if (validDomain && !window.PiwikGlobal.disableTrackingMatomoAppLinks
     && ((module && action) || mediumOverride)) {
     const campaign = (campaignOverride === undefined ? 'Matomo_App' : campaignOverride);
-    let source = (!window.Cloud ? 'OnPremise' : 'Cloud');
+    let source = (window.Cloud === undefined ? 'OnPremise' : 'Cloud');
     if (sourceOverride !== undefined) {
       source = sourceOverride;
     }

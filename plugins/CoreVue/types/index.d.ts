@@ -170,6 +170,7 @@ declare global {
     userLogin?: string;
     userHasSomeAdminAccess: boolean;
     requiresPasswordConfirmation: boolean;
+    disableTrackingMatomoAppLinks: boolean;
 
     visitorLogEnabled: boolean;
     updatePeriodParamsFromUrl(): void;
@@ -257,6 +258,7 @@ declare global {
     Piwik_Transitions: TransitionsGlobal;
     SegmentedVisitorLog: SegmentedVisitorLogService;
     DataTable_RowActions_Registry: DataTableRowActionsRegisteryService;
+    Cloud
 
     _pk_translate(translationStringId: string, values: (string|number|boolean)[]): string;
     require(p: string): any;
