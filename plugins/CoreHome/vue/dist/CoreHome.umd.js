@@ -139,6 +139,7 @@ __webpack_require__.d(__webpack_exports__, "VueEntryContainer", function() { ret
 __webpack_require__.d(__webpack_exports__, "ActivityIndicator", function() { return /* reexport */ ActivityIndicator; });
 __webpack_require__.d(__webpack_exports__, "translate", function() { return /* reexport */ translate; });
 __webpack_require__.d(__webpack_exports__, "translateOrDefault", function() { return /* reexport */ translateOrDefault; });
+__webpack_require__.d(__webpack_exports__, "externalLink", function() { return /* reexport */ externalLink; });
 __webpack_require__.d(__webpack_exports__, "Alert", function() { return /* reexport */ Alert; });
 __webpack_require__.d(__webpack_exports__, "AjaxHelper", function() { return /* reexport */ AjaxHelper_AjaxHelper; });
 __webpack_require__.d(__webpack_exports__, "setCookie", function() { return /* reexport */ setCookie; });
@@ -2625,6 +2626,87 @@ function ActivityIndicatorvue_type_template_id_7c5fe406_render(_ctx, _cache, $pr
 ActivityIndicatorvue_type_script_lang_ts.render = ActivityIndicatorvue_type_template_id_7c5fe406_render
 
 /* harmony default export */ var ActivityIndicator = (ActivityIndicatorvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/externalLink.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+/**
+ * Add or replace a URL parameter
+ * @param url
+ * @param paramName
+ * @param paramValue
+ */
+function addParameterToUrl(url, paramName, paramValue) {
+  var returnUrl = url;
+  /* eslint-disable prefer-template */
+
+  var rx = new RegExp('\\b(' + paramName + '=).*?(&|#|$)'); // Replace any existing parameter
+
+  if (returnUrl.search(rx) >= 0) {
+    /* eslint-disable prefer-template */
+    return returnUrl.replace(rx, '$1' + paramValue + '$2');
+  } // Add new parameter
+
+
+  returnUrl = returnUrl.replace(/[?#]$/, '');
+  /* eslint-disable prefer-template */
+
+  return returnUrl + (returnUrl.indexOf('?') > 0 ? '&' : '?') + paramName + '=' + paramValue;
+}
+/**
+ * Takes a raw URL and returns an HTML link tag for the URL, if the URL is for a matomo.org
+ * domain then the URL will be modified to include campaign parameters
+ *
+ * @param url              URL to
+ * @param campaignOverride Optional
+ * @param sourceOverride   Optional
+ * @param mediumOverride   Optional
+ */
+
+
+function externalLink(url, campaignOverride, sourceOverride, mediumOverride) {
+  if (!url) {
+    return '';
+  } // Check if matomo.org domain
+
+
+  var domains = ['matomo.org', 'www.matomo.org', 'developer.matomo.org', 'plugins.matomo.org'];
+  var length = domains.length;
+  var validDomain = false;
+
+  for (var i = 0; i < length; i += 1) {
+    if (url.includes(domains[i])) {
+      validDomain = true;
+    }
+  }
+
+  var returnUrl = url;
+  var urlParams = new URLSearchParams(window.location.search);
+  var module = urlParams.get('module');
+  var action = urlParams.get('action'); // Apply campaign parameters if domain is ok, config is not disabled and a value for medium exists
+
+  if (validDomain && !window.piwik.disableTrackingMatomoAppLinks && (module && action || mediumOverride)) {
+    var campaign = campaignOverride === undefined ? 'Matomo_App' : campaignOverride;
+    var source = window.Cloud === undefined ? 'OnPremise' : 'Cloud';
+
+    if (sourceOverride !== undefined) {
+      source = sourceOverride;
+    }
+
+    var medium = mediumOverride === undefined ? module + '.' + action : mediumOverride;
+    returnUrl = addParameterToUrl(returnUrl, 'mtm_campaign', campaign);
+    returnUrl = addParameterToUrl(returnUrl, 'mtm_source', source);
+    returnUrl = addParameterToUrl(returnUrl, 'mtm_medium', medium);
+  }
+  /* eslint-disable prefer-template */
+
+
+  return '<a target="_blank" rel="noreferrer noopener" href="' + returnUrl + '">';
+}
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=template&id=c3863ae2
 function Alertvue_type_template_id_c3863ae2_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -11802,6 +11884,7 @@ function scrollToAnchorInUrl() {
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 
 
