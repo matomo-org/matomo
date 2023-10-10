@@ -46,8 +46,6 @@ export function externalLink(
     return '';
   }
 
-  // TODO Detect 'disable_tracking_matomo_app_links' = 1 and ignore
-
   // Check if matomo.org domain
   const domains = ['matomo.org', 'www.matomo.org', 'developer.matomo.org', 'plugins.matomo.org'];
   const { length } = domains;
@@ -64,10 +62,9 @@ export function externalLink(
   const module = urlParams.get('module');
   const action = urlParams.get('action');
 
-  window.console.log(window);
-
-  // Apply campaign parameters
-  if (validDomain && ((module && action) || mediumOverride)) {
+  // Apply campaign parameters if domain is ok, config is not disabled and a value for medium exists
+  if (validDomain && !window.piwik.disableTrackingMatomoAppLinks
+    && ((module && action) || mediumOverride)) {
     const campaign = (campaignOverride === undefined ? 'Matomo_App' : campaignOverride);
     let source = (!window.Cloud ? 'OnPremise' : 'Cloud');
     if (sourceOverride !== undefined) {
