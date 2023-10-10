@@ -6,32 +6,10 @@
  */
 
 /**
- * Add or replace a URL parameter
- * @param url
- * @param paramName
- * @param paramValue
- */
-function addParameterToUrl(url: string, paramName:string, paramValue:string): string {
-  let returnUrl = url;
-  /* eslint-disable prefer-template */
-  const rx = new RegExp('\\b(' + paramName + '=).*?(&|#|$)');
-
-  // Replace any existing parameter
-  if (returnUrl.search(rx) >= 0) {
-    /* eslint-disable prefer-template */
-    return returnUrl.replace(rx, '$1' + paramValue + '$2');
-  }
-  // Add new parameter
-  returnUrl = returnUrl.replace(/[?#]$/, '');
-  /* eslint-disable prefer-template */
-  return returnUrl + (returnUrl.indexOf('?') > 0 ? '&' : '?') + paramName + '=' + paramValue;
-}
-
-/**
  * Takes a raw URL and returns an HTML link tag for the URL, if the URL is for a matomo.org
  * domain then the URL will be modified to include campaign parameters
  *
- * @param url              URL to
+ * @param url              URL to process
  * @param campaignOverride Optional
  * @param sourceOverride   Optional
  * @param mediumOverride   Optional
@@ -46,18 +24,8 @@ export function externalRawLink(
     return '';
   }
 
-  // Check if matomo.org domain
-  const domains = ['matomo.org'];
-  const { length } = domains;
-  let validDomain = false;
-  for (let i = 0; i < length; i += 1) {
-    if (url.includes(domains[i])) {
-      validDomain = true;
-    }
-  }
-
-  let returnUrl = url;
-
+  const returnURL = new URL(url);
+  const validDomain = returnURL.host.endsWith('matomo.org');
   const urlParams = new URLSearchParams(window.location.search);
   const module = urlParams.get('module');
   const action = urlParams.get('action');
@@ -70,22 +38,23 @@ export function externalRawLink(
     if (sourceOverride !== undefined) {
       source = sourceOverride;
     }
+
+    /* eslint-disable prefer-template */
     const medium = (mediumOverride === undefined ? module + '.' + action : mediumOverride);
 
-    returnUrl = addParameterToUrl(returnUrl, 'mtm_campaign', campaign);
-    returnUrl = addParameterToUrl(returnUrl, 'mtm_source', source);
-    returnUrl = addParameterToUrl(returnUrl, 'mtm_medium', medium);
+    returnURL.searchParams.set('mtm_campaign', campaign);
+    returnURL.searchParams.set('mtm_source', source);
+    returnURL.searchParams.set('mtm_medium', medium);
   }
 
-  /* eslint-disable prefer-template */
-  return returnUrl;
+  return returnURL.toString();
 }
 
 /**
  * Takes a raw URL and returns an HTML link tag for the URL, if the URL is for a matomo.org
  * domain then the URL will be modified to include campaign parameters
  *
- * @param url              URL to
+ * @param url              URL to process
  * @param campaignOverride Optional
  * @param sourceOverride   Optional
  * @param mediumOverride   Optional
