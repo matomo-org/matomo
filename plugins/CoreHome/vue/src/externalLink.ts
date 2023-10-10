@@ -36,7 +36,7 @@ function addParameterToUrl(url: string, paramName:string, paramValue:string): st
  * @param sourceOverride   Optional
  * @param mediumOverride   Optional
  */
-export function externalLink(
+export function externalRawLink(
   url: string,
   campaignOverride: string,
   sourceOverride: string,
@@ -47,7 +47,7 @@ export function externalLink(
   }
 
   // Check if matomo.org domain
-  const domains = ['matomo.org', 'www.matomo.org', 'developer.matomo.org', 'plugins.matomo.org'];
+  const domains = ['matomo.org'];
   const { length } = domains;
   let validDomain = false;
   for (let i = 0; i < length; i += 1) {
@@ -76,6 +76,30 @@ export function externalLink(
     returnUrl = addParameterToUrl(returnUrl, 'mtm_source', source);
     returnUrl = addParameterToUrl(returnUrl, 'mtm_medium', medium);
   }
+
+  /* eslint-disable prefer-template */
+  return returnUrl;
+}
+
+/**
+ * Takes a raw URL and returns an HTML link tag for the URL, if the URL is for a matomo.org
+ * domain then the URL will be modified to include campaign parameters
+ *
+ * @param url              URL to
+ * @param campaignOverride Optional
+ * @param sourceOverride   Optional
+ * @param mediumOverride   Optional
+ */
+export function externalLink(
+  url: string,
+  campaignOverride: string,
+  sourceOverride: string,
+  mediumOverride: string,
+): string {
+  if (!url) {
+    return '';
+  }
+  const returnUrl = externalRawLink(url, campaignOverride, sourceOverride, mediumOverride);
 
   /* eslint-disable prefer-template */
   return '<a target="_blank" rel="noreferrer noopener" href="' + returnUrl + '">';

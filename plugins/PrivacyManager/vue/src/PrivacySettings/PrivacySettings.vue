@@ -100,6 +100,7 @@ import {
   ContentIntro,
   EnrichedHeadline,
   translate,
+  externalLink,
 } from 'CoreHome';
 import AnonymizeIp from '../AnonymizeIp/AnonymizeIp.vue';
 import DeleteOldLogs from '../DeleteOldLogs/DeleteOldLogs.vue';
@@ -183,7 +184,7 @@ export default defineComponent({
     seeAlsoOurOfficialGuide() {
       return translate(
         'PrivacyManager_SeeAlsoOurOfficialGuidePrivacy',
-        '<a href="https://matomo.org/docs/privacy/" rel="noreferrer noopener" target="_blank">',
+        externalLink('https://matomo.org/privacy/'),
         '</a>',
       );
     },
