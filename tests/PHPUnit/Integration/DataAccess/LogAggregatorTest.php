@@ -58,11 +58,113 @@ class LogAggregatorTest extends IntegrationTestCase
         $this->site = new Site($idSite);
         $date = Date::factory('2010-03-06');
         $this->period = Period\Factory::build('month', $date);
-        $segment = new Segment('', array($this->site->getId()));
-
+        $segment = new Segment('', [$this->site->getId()]);
 
         $params = new Parameters($this->site, $this->period, $segment);
         $this->logAggregator = new LogAggregator($params);
+    }
+
+    /**
+     * @dataProvider getSelectDimensionTestData
+     */
+    public function testGetSelectDimensions($dimensions, $tableName, $expectedResult)
+    {
+        $class = new \ReflectionClass(LogAggregator::class);
+        $method = $class->getMethod('getSelectDimensions');
+        $method->setAccessible(true);
+        $output = $method->invoke($this->logAggregator, $dimensions, $tableName);
+        $this->assertEquals($expectedResult, $output);
+    }
+
+    public function getSelectDimensionTestData(): iterable
+    {
+        yield 'normal column names' => [
+            ['column', 'column2'],
+            'log_visit',
+            ['log_visit.column AS `column`', 'log_visit.column2 AS `column2`']
+        ];
+
+        yield 'normal column names with alias' => [
+            ['alias' => 'column', 'alias2' => 'column2'],
+            'log_conversion',
+            ['log_conversion.column AS `alias`', 'log_conversion.column2 AS `alias2`']
+        ];
+
+        yield 'normal column names with and without alias' => [
+            ['alias' => 'column', 'column2'],
+            'log_conversion',
+            ['log_conversion.column AS `alias`', 'log_conversion.column2 AS `column2`']
+        ];
+
+        yield 'column expression' => [
+            ["CONCAT(log_visit.config_os, ';', COALESCE(log_visit.config_os_version, ''))"],
+            'log_conversion',
+            ["CONCAT(log_visit.config_os, ';', COALESCE(log_visit.config_os_version, ''))"]
+        ];
+
+        yield 'column expression with alias' => [
+            ['alias' => "CONCAT(log_visit.config_os, ';', COALESCE(log_visit.config_os_version, ''))"],
+            'log_conversion',
+            ["CONCAT(log_visit.config_os, ';', COALESCE(log_visit.config_os_version, '')) AS `alias`"]
+        ];
+
+        yield 'mixed dimension content' => [
+            ['alias' => "CONCAT(log_visit.config_os, ';', COALESCE(log_visit.config_os_version, ''))", 'mycolumn', 'newalias' => 'column2'],
+            'log_conversion',
+            ["CONCAT(log_visit.config_os, ';', COALESCE(log_visit.config_os_version, '')) AS `alias`", 'log_conversion.mycolumn AS `mycolumn`', 'log_conversion.column2 AS `newalias`']
+        ];
+    }
+
+
+    /**
+     * @dataProvider getGroupByDimensionTestData
+     */
+    public function testGetGroupByDimensions($dimensions, $tableName, $expectedResult)
+    {
+        $class = new \ReflectionClass(LogAggregator::class);
+        $method = $class->getMethod('getGroupByDimensions');
+        $method->setAccessible(true);
+        $output = $method->invoke($this->logAggregator, $dimensions, $tableName);
+        $this->assertEquals($expectedResult, $output);
+    }
+
+    public function getGroupByDimensionTestData(): iterable
+    {
+        yield 'normal column names' => [
+            ['column', 'column2'],
+            'log_visit',
+            ['log_visit.column', 'log_visit.column2']
+        ];
+
+        yield 'normal column names with alias' => [
+            ['alias' => 'column', 'alias2' => 'column2'],
+            'log_conversion',
+            ['alias', 'alias2']
+        ];
+
+        yield 'normal column names with and without alias' => [
+            ['alias' => 'column', 'column2'],
+            'log_conversion',
+            ['alias', 'log_conversion.column2']
+        ];
+
+        yield 'column expression' => [
+            ["CONCAT(log_visit.config_os, ';', COALESCE(log_visit.config_os_version, ''))"],
+            'log_conversion',
+            ["CONCAT(log_visit.config_os, ';', COALESCE(log_visit.config_os_version, ''))"]
+        ];
+
+        yield 'column expression with alias' => [
+            ['alias' => "CONCAT(log_visit.config_os, ';', COALESCE(log_visit.config_os_version, ''))"],
+            'log_conversion',
+            ['alias']
+        ];
+
+        yield 'mixed dimension content' => [
+            ['alias' => "CONCAT(log_visit.config_os, ';', COALESCE(log_visit.config_os_version, ''))", 'mycolumn', 'newalias' => 'column2'],
+            'log_conversion',
+            ['alias', 'log_conversion.mycolumn', 'newalias']
+        ];
     }
 
     public function test_generateQuery()
