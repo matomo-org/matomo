@@ -45,8 +45,6 @@ class GetVisitsUntilConversion extends Base
         $view->requestConfig->filter_sort_column = 'label';
         $view->requestConfig->filter_sort_order  = 'asc';
         $view->requestConfig->filter_limit       = count(Archiver::$visitCountRanges);
-
-        $view->config->addTranslations(array('label' => $this->dimension->getName()));
     }
 
     public function configureReportMetadata(&$availableReports, $infos)

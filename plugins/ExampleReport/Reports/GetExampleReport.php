@@ -59,10 +59,6 @@ class GetExampleReport extends Base
      */
     public function configureView(ViewDataTable $view)
     {
-        if (!empty($this->dimension)) {
-            $view->config->addTranslations(array('label' => $this->dimension->getName()));
-        }
-
         // $view->config->show_search = false;
         // $view->requestConfig->filter_sort_column = 'nb_visits';
         // $view->requestConfig->filter_limit = 10';

@@ -50,8 +50,6 @@ class GetOutlinks extends Base
 
     public function configureView(ViewDataTable $view)
     {
-        $view->config->addTranslations(array('label' => $this->dimension->getName()));
-
         $view->config->columns_to_display          = array('label', 'nb_visits', 'nb_hits');
         $view->config->show_exclude_low_population = false;
 
