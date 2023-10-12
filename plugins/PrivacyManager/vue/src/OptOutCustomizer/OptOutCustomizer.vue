@@ -213,6 +213,7 @@ import {
   debounce,
   MatomoUrl,
   AjaxHelper,
+  externalLink,
 } from 'CoreHome';
 import {
   Field,
@@ -369,10 +370,9 @@ export default defineComponent({
       return `${this.matomoUrl}index.php?${query}`;
     },
     readThisToLearnMore() {
-      const link = 'https://matomo.org/faq/how-to/faq_25918/';
       return translate(
         'General_ReadThisToLearnMore',
-        `<a rel='noreferrer noopener' target='_blank' href='${link}'>`,
+        externalLink('https://matomo.org/faq/how-to/faq_25918/'),
         '</a>',
       );
     },
@@ -387,7 +387,7 @@ export default defineComponent({
       const link = 'https://developer.matomo.org/guides/tracking-javascript-guide#optional-creating-a-custom-opt-out-form';
       return translate(
         'CoreAdminHome_OptOutCustomOptOutLink',
-        `<a href="${link}" rel="noreferrer noopener" target="_blank">`,
+        externalLink(link),
         '</a>',
       );
     },

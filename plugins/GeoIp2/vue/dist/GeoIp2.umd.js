@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("CoreHome"), require("vue"), require("CorePluginsAdmin"));
+		module.exports = factory(require("CoreHome"), require("CorePluginsAdmin"), require("vue"));
 	else if(typeof define === 'function' && define.amd)
-		define(["CoreHome", , "CorePluginsAdmin"], factory);
+		define(["CoreHome", "CorePluginsAdmin", ], factory);
 	else if(typeof exports === 'object')
-		exports["GeoIp2"] = factory(require("CoreHome"), require("vue"), require("CorePluginsAdmin"));
+		exports["GeoIp2"] = factory(require("CoreHome"), require("CorePluginsAdmin"), require("vue"));
 	else
-		root["GeoIp2"] = factory(root["CoreHome"], root["Vue"], root["CorePluginsAdmin"]);
-})((typeof self !== 'undefined' ? self : this), function(__WEBPACK_EXTERNAL_MODULE__19dc__, __WEBPACK_EXTERNAL_MODULE__8bbf__, __WEBPACK_EXTERNAL_MODULE_a5a2__) {
+		root["GeoIp2"] = factory(root["CoreHome"], root["CorePluginsAdmin"], root["Vue"]);
+})((typeof self !== 'undefined' ? self : this), function(__WEBPACK_EXTERNAL_MODULE_CoreHome__, __WEBPACK_EXTERNAL_MODULE_CorePluginsAdmin__, __WEBPACK_EXTERNAL_MODULE_vue__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -91,513 +91,139 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "fae3");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "19dc":
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE__19dc__;
-
-/***/ }),
-
-/***/ "8bbf":
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE__8bbf__;
-
-/***/ }),
-
-/***/ "a5a2":
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE_a5a2__;
-
-/***/ }),
-
-/***/ "fae3":
+/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/GeoIp2/vue/src/GeoIp2Updater/GeoIp2Updater.vue?vue&type=template&id=04ad0d3a":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/GeoIp2/vue/src/GeoIp2Updater/GeoIp2Updater.vue?vue&type=template&id=04ad0d3a ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-// ESM COMPAT FLAG
-__webpack_require__.r(__webpack_exports__);
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nvar _hoisted_1 = {\n  key: 0\n};\nvar _hoisted_2 = {\n  key: 0\n};\nvar _hoisted_3 = {\n  id: \"manage-geoip-dbs\"\n};\nvar _hoisted_4 = {\n  class: \"row\",\n  id: \"geoipdb-screen1\"\n};\nvar _hoisted_5 = {\n  class: \"geoipdb-column-1 col s6\"\n};\n\nvar _hoisted_6 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"sup\", null, [/*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"small\", null, \"*\")], -1\n/* HOISTED */\n);\n\nvar _hoisted_7 = {\n  class: \"geoipdb-column-2 col s6\"\n};\nvar _hoisted_8 = [\"innerHTML\"];\nvar _hoisted_9 = {\n  class: \"geoipdb-column-1 col s6\"\n};\nvar _hoisted_10 = [\"value\"];\nvar _hoisted_11 = {\n  class: \"geoipdb-column-2 col s6\"\n};\nvar _hoisted_12 = [\"value\"];\nvar _hoisted_13 = {\n  class: \"row\"\n};\n\nvar _hoisted_14 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(\"* \");\n\nvar _hoisted_15 = [\"innerHTML\"];\nvar _hoisted_16 = {\n  id: \"geoipdb-screen2-download\"\n};\nvar _hoisted_17 = {\n  key: 1,\n  id: \"geoipdb-update-info\"\n};\nvar _hoisted_18 = [\"innerHTML\"];\n\nvar _hoisted_19 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_20 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_21 = [\"innerHTML\"];\nvar _hoisted_22 = [\"innerHTML\"];\n\nvar _hoisted_23 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_24 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_25 = {\n  id: \"locationProviderUpdatePeriodInlineHelp\",\n  class: \"inline-help-node\",\n  ref: \"inlineHelpNode\"\n};\nvar _hoisted_26 = [\"innerHTML\"];\nvar _hoisted_27 = {\n  key: 1\n};\n\nvar _hoisted_28 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_29 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_30 = [\"innerHTML\"];\nvar _hoisted_31 = [\"value\"];\n\nvar _hoisted_32 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", {\n  id: \"done-updating-updater\"\n}, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_33 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", {\n  id: \"geoipdb-update-info-error\"\n}, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_34 = [\"innerHTML\"];\nvar _hoisted_35 = {\n  key: 1\n};\nvar _hoisted_36 = {\n  class: \"form-description\"\n};\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  var _component_Progressbar = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"Progressbar\");\n\n  var _component_Field = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"Field\");\n\n  var _component_ContentBlock = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"ContentBlock\");\n\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createBlock\"])(_component_ContentBlock, {\n    \"content-title\": _ctx.contentTitle,\n    id: \"geoip-db-mangement\"\n  }, {\n    default: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withCtx\"])(function () {\n      return [_ctx.showGeoipUpdateSection ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_1, [!_ctx.geoipDatabaseInstalled ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_2, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"h3\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('GeoIp2_NotManagingGeoIPDBs')), 1\n      /* TEXT */\n      ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_3, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_4, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_5, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"p\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('GeoIp2_IWantToDownloadFreeGeoIP')), 1\n      /* TEXT */\n      ), _hoisted_6])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_7, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"p\", {\n        innerHTML: _ctx.$sanitize(_ctx.purchasedGeoIpText)\n      }, null, 8\n      /* PROPS */\n      , _hoisted_8)]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_9, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"input\", {\n        type: \"button\",\n        class: \"btn\",\n        onClick: _cache[0] || (_cache[0] = function ($event) {\n          return _ctx.startDownloadFreeGeoIp();\n        }),\n        value: \"\".concat(_ctx.translate('General_GetStarted'), \"...\")\n      }, null, 8\n      /* PROPS */\n      , _hoisted_10)]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_11, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"input\", {\n        type: \"button\",\n        class: \"btn\",\n        id: \"start-automatic-update-geoip\",\n        onClick: _cache[1] || (_cache[1] = function ($event) {\n          return _ctx.startAutomaticUpdateGeoIp();\n        }),\n        value: \"\".concat(_ctx.translate('General_GetStarted'), \"...\")\n      }, null, 8\n      /* PROPS */\n      , _hoisted_12)])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_13, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"p\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"sup\", null, [_hoisted_14, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"small\", {\n        innerHTML: _ctx.$sanitize(_ctx.accuracyNote)\n      }, null, 8\n      /* PROPS */\n      , _hoisted_15)])])])])], 512\n      /* NEED_PATCH */\n      ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.showPiwikNotManagingInfo]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_16, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Progressbar, {\n        label: _ctx.freeProgressbarLabel,\n        progress: _ctx.progressFreeDownload\n      }, null, 8\n      /* PROPS */\n      , [\"label\", \"progress\"])])], 512\n      /* NEED_PATCH */\n      ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.showFreeDownload]])])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true), _ctx.geoipDatabaseInstalled && !_ctx.downloadErrorMessage ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_17, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"p\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n        innerHTML: _ctx.$sanitize(_ctx.geoIPUpdaterInstructions)\n      }, null, 8\n      /* PROPS */\n      , _hoisted_18), _hoisted_19, _hoisted_20, !!_ctx.dbipLiteUrl ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"span\", {\n        key: 0,\n        innerHTML: _ctx.$sanitize(_ctx.geoliteCityLink)\n      }, null, 8\n      /* PROPS */\n      , _hoisted_21)) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n        innerHTML: _ctx.$sanitize(_ctx.maxMindLinkExplanation)\n      }, null, 8\n      /* PROPS */\n      , _hoisted_22), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", null, [_hoisted_23, _hoisted_24, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('GeoIp2_GeoIPUpdaterIntro')) + \": \", 1\n      /* TEXT */\n      )], 512\n      /* NEED_PATCH */\n      ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.geoipDatabaseInstalled]])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n        uicontrol: \"text\",\n        name: \"geoip-location-db\",\n        introduction: _ctx.translate('GeoIp2_LocationDatabase'),\n        title: _ctx.translate('Actions_ColumnDownloadURL'),\n        \"inline-help\": _ctx.translate('GeoIp2_LocationDatabaseHint'),\n        modelValue: _ctx.locationDbUrl,\n        \"onUpdate:modelValue\": _cache[2] || (_cache[2] = function ($event) {\n          return _ctx.locationDbUrl = $event;\n        })\n      }, null, 8\n      /* PROPS */\n      , [\"introduction\", \"title\", \"inline-help\", \"modelValue\"])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n        uicontrol: \"text\",\n        name: \"geoip-isp-db\",\n        introduction: _ctx.translate('GeoIp2_ISPDatabase'),\n        title: _ctx.translate('Actions_ColumnDownloadURL'),\n        \"inline-help\": _ctx.providerPluginHelp,\n        modelValue: _ctx.ispDbUrl,\n        \"onUpdate:modelValue\": _cache[3] || (_cache[3] = function ($event) {\n          return _ctx.ispDbUrl = $event;\n        }),\n        disabled: !_ctx.isProviderPluginActive\n      }, null, 8\n      /* PROPS */\n      , [\"introduction\", \"title\", \"inline-help\", \"modelValue\", \"disabled\"])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n        uicontrol: \"radio\",\n        name: \"geoip-update-period\",\n        introduction: _ctx.translate('GeoIp2_DownloadNewDatabasesEvery'),\n        modelValue: _ctx.updatePeriod,\n        \"onUpdate:modelValue\": _cache[4] || (_cache[4] = function ($event) {\n          return _ctx.updatePeriod = $event;\n        }),\n        options: _ctx.updatePeriodOptions\n      }, {\n        \"inline-help\": Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withCtx\"])(function () {\n          return [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_25, [_ctx.lastTimeUpdaterRun ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"span\", {\n            key: 0,\n            innerHTML: _ctx.$sanitize(_ctx.translate('GeoIp2_UpdaterWasLastRun', _ctx.lastTimeUpdaterRun))\n          }, null, 8\n          /* PROPS */\n          , _hoisted_26)) : (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"span\", _hoisted_27, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('GeoIp2_UpdaterHasNotBeenRun')), 1\n          /* TEXT */\n          )), _hoisted_28, _hoisted_29, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", {\n            id: \"geoip-updater-next-run-time\",\n            innerHTML: _ctx.$sanitize(_ctx.nextRunTimeText)\n          }, null, 8\n          /* PROPS */\n          , _hoisted_30)], 512\n          /* NEED_PATCH */\n          )];\n        }),\n        _: 1\n        /* STABLE */\n\n      }, 8\n      /* PROPS */\n      , [\"introduction\", \"modelValue\", \"options\"])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"input\", {\n        type: \"button\",\n        class: \"btn\",\n        onClick: _cache[5] || (_cache[5] = function ($event) {\n          return _ctx.saveGeoIpLinks();\n        }),\n        value: _ctx.buttonUpdateSaveText\n      }, null, 8\n      /* PROPS */\n      , _hoisted_31), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [_hoisted_32, _hoisted_33, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Progressbar, {\n        progress: _ctx.progressUpdateDownload,\n        label: _ctx.progressUpdateLabel\n      }, null, 8\n      /* PROPS */\n      , [\"progress\", \"label\"]), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.isUpdatingGeoIpDatabase]])])])])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true), _ctx.downloadErrorMessage ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", {\n        key: 2,\n        innerHTML: _ctx.$sanitize(_ctx.downloadErrorMessage)\n      }, null, 8\n      /* PROPS */\n      , _hoisted_34)) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true)])) : (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_35, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"p\", _hoisted_36, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('GeoIp2_CannotSetupGeoIPAutoUpdating')), 1\n      /* TEXT */\n      )]))];\n    }),\n    _: 1\n    /* STABLE */\n\n  }, 8\n  /* PROPS */\n  , [\"content-title\"]);\n}\n\n//# sourceURL=webpack://GeoIp2/./plugins/GeoIp2/vue/src/GeoIp2Updater/GeoIp2Updater.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
 
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "GeoIp2Updater", function() { return /* reexport */ GeoIp2Updater; });
+/***/ }),
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
-// This file is imported into lib/wc client bundles.
+/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/GeoIp2/vue/src/GeoIp2Updater/GeoIp2Updater.vue?vue&type=script&lang=ts":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/GeoIp2/vue/src/GeoIp2Updater/GeoIp2Updater.vue?vue&type=script&lang=ts ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-if (typeof window !== 'undefined') {
-  var currentScript = window.document.currentScript
-  if (false) { var getCurrentScript; }
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! CoreHome */ \"CoreHome\");\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(CoreHome__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! CorePluginsAdmin */ \"CorePluginsAdmin\");\n/* harmony import */ var CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2__);\n\n\n\nvar _window = window,\n    $ = _window.$;\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {\n    geoipDatabaseStartedInstalled: Boolean,\n    showGeoipUpdateSection: {\n      type: Boolean,\n      required: true\n    },\n    dbipLiteUrl: {\n      type: String,\n      required: true\n    },\n    dbipLiteFilename: {\n      type: String,\n      required: true\n    },\n    geoipLocUrl: String,\n    isProviderPluginActive: Boolean,\n    geoipIspUrl: String,\n    lastTimeUpdaterRun: String,\n    geoipUpdatePeriod: String,\n    updatePeriodOptions: {\n      type: Object,\n      required: true\n    },\n    nextRunTime: Number,\n    nextRunTimePretty: String\n  },\n  components: {\n    Progressbar: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Progressbar\"],\n    Field: CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2__[\"Field\"],\n    ContentBlock: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"ContentBlock\"]\n  },\n  data: function data() {\n    return {\n      geoipDatabaseInstalled: !!this.geoipDatabaseStartedInstalled,\n      showFreeDownload: false,\n      showPiwikNotManagingInfo: true,\n      progressFreeDownload: 0,\n      progressUpdateDownload: 0,\n      buttonUpdateSaveText: Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('General_Save'),\n      progressUpdateLabel: '',\n      locationDbUrl: this.geoipLocUrl || '',\n      ispDbUrl: this.geoipIspUrl || '',\n      orgDbUrl: '',\n      updatePeriod: this.geoipUpdatePeriod || 'month',\n      isUpdatingGeoIpDatabase: false,\n      downloadErrorMessage: null,\n      nextRunTimePrettyUpdated: undefined\n    };\n  },\n  methods: {\n    startDownloadFreeGeoIp: function startDownloadFreeGeoIp() {\n      var _this = this;\n\n      this.showFreeDownload = true;\n      this.showPiwikNotManagingInfo = false;\n      this.progressFreeDownload = 0; // start download of free dbs\n\n      this.downloadNextChunk('downloadFreeDBIPLiteDB', function (v) {\n        _this.progressFreeDownload = v;\n      }, false, {}).then(function () {\n        window.location.reload();\n      }).catch(function (e) {\n        _this.geoipDatabaseInstalled = true;\n        _this.downloadErrorMessage = e.message;\n      });\n    },\n    startAutomaticUpdateGeoIp: function startAutomaticUpdateGeoIp() {\n      this.buttonUpdateSaveText = Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('General_Continue');\n      this.showGeoIpUpdateInfo();\n    },\n    showGeoIpUpdateInfo: function showGeoIpUpdateInfo() {\n      this.geoipDatabaseInstalled = true; // todo we need to replace this the proper way eventually\n    },\n    saveGeoIpLinks: function saveGeoIpLinks() {\n      var _this2 = this;\n\n      return CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"AjaxHelper\"].post({\n        period: this.updatePeriod,\n        module: 'GeoIp2',\n        action: 'updateGeoIPLinks'\n      }, {\n        loc_db: this.locationDbUrl,\n        isp_db: this.ispDbUrl,\n        org_db: this.orgDbUrl\n      }, {\n        withTokenInUrl: true\n      }).then(function (response) {\n        return _this2.downloadNextFileIfNeeded(response, null);\n      }).then(function (response) {\n        _this2.progressUpdateLabel = '';\n        _this2.isUpdatingGeoIpDatabase = false;\n        CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"NotificationsStore\"].show({\n          message: Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('General_Done'),\n          placeat: '#done-updating-updater',\n          context: 'success',\n          noclear: true,\n          type: 'toast',\n          style: {\n            display: 'inline-block'\n          },\n          id: 'userCountryGeoIpUpdate'\n        });\n        _this2.nextRunTimePrettyUpdated = response.nextRunTime;\n        $(_this2.$refs.inlineHelpNode).effect('highlight', {\n          color: '#FFFFCB'\n        }, 2000);\n        return undefined;\n      }).catch(function (e) {\n        _this2.isUpdatingGeoIpDatabase = false;\n        CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"NotificationsStore\"].show({\n          message: e.message,\n          placeat: '#geoipdb-update-info-error',\n          context: 'error',\n          style: {\n            display: 'inline-block'\n          },\n          id: 'userCountryGeoIpUpdate',\n          type: 'transient'\n        });\n      });\n    },\n    downloadNextFileIfNeeded: function downloadNextFileIfNeeded(response, currentDownloading) {\n      var _this3 = this;\n\n      if (response !== null && response !== void 0 && response.to_download) {\n        var continuing = currentDownloading === response.to_download;\n        this.progressUpdateDownload = 0;\n        this.progressUpdateLabel = response.to_download_label;\n        this.isUpdatingGeoIpDatabase = true; // start/continue download\n\n        return this.downloadNextChunk('downloadMissingGeoIpDb', function (v) {\n          _this3.progressUpdateDownload = v;\n        }, continuing, {\n          key: response.to_download\n        }).then(function (r) {\n          return _this3.downloadNextFileIfNeeded(r, response.to_download);\n        });\n      }\n\n      return Promise.resolve(response);\n    },\n    downloadNextChunk: function downloadNextChunk(action, progressBarSet, cont, extraData) {\n      var _this4 = this;\n\n      var data = Object.assign({}, extraData);\n      return CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"AjaxHelper\"].post({\n        module: 'GeoIp2',\n        action: action,\n        continue: cont ? 1 : 0\n      }, data, {\n        withTokenInUrl: true\n      }).catch(function () {\n        throw new Error(Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('GeoIp2_FatalErrorDuringDownload'));\n      }).then(function (response) {\n        if (response.error) {\n          throw new Error(response.error);\n        } // update progress bar\n\n\n        var newProgressVal = Math.floor(response.current_size / response.expected_file_size * 100); // if incomplete, download next chunk, otherwise, show updater manager\n\n        progressBarSet(Math.min(newProgressVal, 100));\n\n        if (newProgressVal < 100) {\n          return _this4.downloadNextChunk(action, progressBarSet, true, extraData);\n        }\n\n        return response;\n      });\n    }\n  },\n  computed: {\n    nextRunTimeText: function nextRunTimeText() {\n      if (this.nextRunTimePrettyUpdated) {\n        return this.nextRunTimePrettyUpdated;\n      }\n\n      if (!this.nextRunTime) {\n        return Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('GeoIp2_UpdaterIsNotScheduledToRun');\n      }\n\n      if (this.nextRunTime * 1000 < Date.now()) {\n        return Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('GeoIp2_UpdaterScheduledForNextRun');\n      }\n\n      return Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('GeoIp2_UpdaterWillRunNext', \"<strong>\".concat(this.nextRunTimePretty, \"</strong>\"));\n    },\n    providerPluginHelp: function providerPluginHelp() {\n      if (this.isProviderPluginActive) {\n        return undefined;\n      }\n\n      var text = Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('GeoIp2_ISPRequiresProviderPlugin');\n      return \"<div style=\\\"margin:0\\\" class='alert alert-warning'>\".concat(text, \"</div>\");\n    },\n    contentTitle: function contentTitle() {\n      return Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])(this.geoipDatabaseInstalled ? 'GeoIp2_SetupAutomaticUpdatesOfGeoIP' : 'GeoIp2_GeoIPDatabases');\n    },\n    accuracyNote: function accuracyNote() {\n      return Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('UserCountry_GeoIpDbIpAccuracyNote', '<a href=\"https://dev.maxmind.com/geoip/geoip2/geolite2/?rId=piwik\" rel=\"noreferrer noopener\" target=\"_blank\">', '</a>');\n    },\n    purchasedGeoIpText: function purchasedGeoIpText() {\n      var maxMindLink = 'http://www.maxmind.com/en/geolocation_landing?rId=piwik';\n      return Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('GeoIp2_IPurchasedGeoIPDBs', \"<a rel=\\\"noreferrer noopener\\\" href=\\\"\".concat(maxMindLink, \"\\\" target=\\\"_blank\\\">\"), '</a>', '<a rel=\"noreferrer noopener\" href=\"https://db-ip.com/db/?refid=mtm\" target=\"_blank\">', '</a>');\n    },\n    geoIPUpdaterInstructions: function geoIPUpdaterInstructions() {\n      return Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('GeoIp2_GeoIPUpdaterInstructions', '<a href=\"http://www.maxmind.com/?rId=piwik\" rel=\"noreferrer noopener\" target=\"_blank\">', '</a>', '<a rel=\"noreferrer noopener\" href=\"https://db-ip.com/?refid=mtm\" target=\"_blank\">', '</a>');\n    },\n    geoliteCityLink: function geoliteCityLink() {\n      var translation = Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('GeoIp2_GeoLiteCityLink', \"<a rel=\\\"noreferrer noopener\\\" href=\\\"\".concat(this.dbipLiteUrl, \"\\\" target=\\\"_blank\\\">\"), this.dbipLiteUrl, '</a>');\n      return \"\".concat(translation, \"<br /><br />\");\n    },\n    maxMindLinkExplanation: function maxMindLinkExplanation() {\n      return Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('UserCountry_MaxMindLinkExplanation', Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"externalLink\"])('https://matomo.org/faq/how-to/' + 'how-do-i-get-the-geolocation-download-url-for-the-free-maxmind-db/'), \"<a href=\\\"\".concat(link, \"\\\" rel=\\\"noreferrer noopener\\\" target=\\\"_blank\\\">\"), '</a>');\n    },\n    freeProgressbarLabel: function freeProgressbarLabel() {\n      return Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('GeoIp2_DownloadingDb', \"<a href=\\\"\".concat(this.dbipLiteUrl, \"\\\">\").concat(this.dbipLiteFilename, \"</a>...\"));\n    }\n  }\n}));\n\n//# sourceURL=webpack://GeoIp2/./plugins/GeoIp2/vue/src/GeoIp2Updater/GeoIp2Updater.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
 
-  var src = currentScript && currentScript.src.match(/(.+\/)[^/]+\.js(\?.*)?$/)
-  if (src) {
-    __webpack_require__.p = src[1] // eslint-disable-line
-  }
-}
+/***/ }),
 
-// Indicate to webpack that this file can be concatenated
-/* harmony default export */ var setPublicPath = (null);
+/***/ "./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js":
+/*!**********************************************************************************!*\
+  !*** ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js ***!
+  \**********************************************************************************/
+/*! exports provided: GeoIp2Updater */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-// EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
-var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _setPublicPath__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./setPublicPath */ \"./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js\");\n/* harmony import */ var _entry__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~entry */ \"./plugins/GeoIp2/vue/src/index.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"GeoIp2Updater\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"GeoIp2Updater\"]; });\n\n\n\n\n\n//# sourceURL=webpack://GeoIp2/./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js?");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/GeoIp2/vue/src/GeoIp2Updater/GeoIp2Updater.vue?vue&type=template&id=55b13210
+/***/ }),
 
-var _hoisted_1 = {
-  key: 0
-};
-var _hoisted_2 = {
-  key: 0
-};
-var _hoisted_3 = {
-  id: "manage-geoip-dbs"
-};
-var _hoisted_4 = {
-  class: "row",
-  id: "geoipdb-screen1"
-};
-var _hoisted_5 = {
-  class: "geoipdb-column-1 col s6"
-};
+/***/ "./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js ***!
+  \***************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-var _hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("sup", null, [/*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("small", null, "*")], -1);
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n// This file is imported into lib/wc client bundles.\n\nif (typeof window !== 'undefined') {\n  var currentScript = window.document.currentScript\n  if (false) { var getCurrentScript; }\n\n  var src = currentScript && currentScript.src.match(/(.+\\/)[^/]+\\.js(\\?.*)?$/)\n  if (src) {\n    __webpack_require__.p = src[1] // eslint-disable-line\n  }\n}\n\n// Indicate to webpack that this file can be concatenated\n/* harmony default export */ __webpack_exports__[\"default\"] = (null);\n\n\n//# sourceURL=webpack://GeoIp2/./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js?");
 
-var _hoisted_7 = {
-  class: "geoipdb-column-2 col s6"
-};
-var _hoisted_8 = ["innerHTML"];
-var _hoisted_9 = {
-  class: "geoipdb-column-1 col s6"
-};
-var _hoisted_10 = ["value"];
-var _hoisted_11 = {
-  class: "geoipdb-column-2 col s6"
-};
-var _hoisted_12 = ["value"];
-var _hoisted_13 = {
-  class: "row"
-};
+/***/ }),
 
-var _hoisted_14 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("* ");
+/***/ "./plugins/GeoIp2/vue/src/GeoIp2Updater/GeoIp2Updater.vue":
+/*!****************************************************************!*\
+  !*** ./plugins/GeoIp2/vue/src/GeoIp2Updater/GeoIp2Updater.vue ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-var _hoisted_15 = ["innerHTML"];
-var _hoisted_16 = {
-  id: "geoipdb-screen2-download"
-};
-var _hoisted_17 = {
-  key: 1,
-  id: "geoipdb-update-info"
-};
-var _hoisted_18 = ["innerHTML"];
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _GeoIp2Updater_vue_vue_type_template_id_04ad0d3a__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GeoIp2Updater.vue?vue&type=template&id=04ad0d3a */ \"./plugins/GeoIp2/vue/src/GeoIp2Updater/GeoIp2Updater.vue?vue&type=template&id=04ad0d3a\");\n/* harmony import */ var _GeoIp2Updater_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GeoIp2Updater.vue?vue&type=script&lang=ts */ \"./plugins/GeoIp2/vue/src/GeoIp2Updater/GeoIp2Updater.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_GeoIp2Updater_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _GeoIp2Updater_vue_vue_type_template_id_04ad0d3a__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_GeoIp2Updater_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/GeoIp2/vue/src/GeoIp2Updater/GeoIp2Updater.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_GeoIp2Updater_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://GeoIp2/./plugins/GeoIp2/vue/src/GeoIp2Updater/GeoIp2Updater.vue?");
 
-var _hoisted_19 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+/***/ }),
 
-var _hoisted_20 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+/***/ "./plugins/GeoIp2/vue/src/GeoIp2Updater/GeoIp2Updater.vue?vue&type=script&lang=ts":
+/*!****************************************************************************************!*\
+  !*** ./plugins/GeoIp2/vue/src/GeoIp2Updater/GeoIp2Updater.vue?vue&type=script&lang=ts ***!
+  \****************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-var _hoisted_21 = ["innerHTML"];
-var _hoisted_22 = ["innerHTML"];
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_GeoIp2Updater_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./GeoIp2Updater.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/GeoIp2/vue/src/GeoIp2Updater/GeoIp2Updater.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_GeoIp2Updater_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://GeoIp2/./plugins/GeoIp2/vue/src/GeoIp2Updater/GeoIp2Updater.vue?");
 
-var _hoisted_23 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+/***/ }),
 
-var _hoisted_24 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+/***/ "./plugins/GeoIp2/vue/src/GeoIp2Updater/GeoIp2Updater.vue?vue&type=template&id=04ad0d3a":
+/*!**********************************************************************************************!*\
+  !*** ./plugins/GeoIp2/vue/src/GeoIp2Updater/GeoIp2Updater.vue?vue&type=template&id=04ad0d3a ***!
+  \**********************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-var _hoisted_25 = {
-  id: "locationProviderUpdatePeriodInlineHelp",
-  class: "inline-help-node",
-  ref: "inlineHelpNode"
-};
-var _hoisted_26 = ["innerHTML"];
-var _hoisted_27 = {
-  key: 1
-};
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_GeoIp2Updater_vue_vue_type_template_id_04ad0d3a__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./GeoIp2Updater.vue?vue&type=template&id=04ad0d3a */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/GeoIp2/vue/src/GeoIp2Updater/GeoIp2Updater.vue?vue&type=template&id=04ad0d3a\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_GeoIp2Updater_vue_vue_type_template_id_04ad0d3a__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://GeoIp2/./plugins/GeoIp2/vue/src/GeoIp2Updater/GeoIp2Updater.vue?");
 
-var _hoisted_28 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+/***/ }),
 
-var _hoisted_29 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+/***/ "./plugins/GeoIp2/vue/src/index.ts":
+/*!*****************************************!*\
+  !*** ./plugins/GeoIp2/vue/src/index.ts ***!
+  \*****************************************/
+/*! exports provided: GeoIp2Updater */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-var _hoisted_30 = ["innerHTML"];
-var _hoisted_31 = ["value"];
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _GeoIp2Updater_GeoIp2Updater_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GeoIp2Updater/GeoIp2Updater.vue */ \"./plugins/GeoIp2/vue/src/GeoIp2Updater/GeoIp2Updater.vue\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"GeoIp2Updater\", function() { return _GeoIp2Updater_GeoIp2Updater_vue__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n//# sourceURL=webpack://GeoIp2/./plugins/GeoIp2/vue/src/index.ts?");
 
-var _hoisted_32 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
-  id: "done-updating-updater"
-}, null, -1);
+/***/ }),
 
-var _hoisted_33 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
-  id: "geoipdb-update-info-error"
-}, null, -1);
+/***/ "CoreHome":
+/*!***************************!*\
+  !*** external "CoreHome" ***!
+  \***************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
 
-var _hoisted_34 = ["innerHTML"];
-var _hoisted_35 = {
-  key: 1
-};
-var _hoisted_36 = {
-  class: "form-description"
-};
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_Progressbar = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Progressbar");
+eval("module.exports = __WEBPACK_EXTERNAL_MODULE_CoreHome__;\n\n//# sourceURL=webpack://GeoIp2/external_%22CoreHome%22?");
 
-  var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
+/***/ }),
 
-  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
+/***/ "CorePluginsAdmin":
+/*!***********************************!*\
+  !*** external "CorePluginsAdmin" ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
 
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
-    "content-title": _ctx.contentTitle,
-    id: "geoip-db-mangement"
-  }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [_ctx.showGeoipUpdateSection ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_1, [!_ctx.geoipDatabaseInstalled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('GeoIp2_NotManagingGeoIPDBs')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('GeoIp2_IWantToDownloadFreeGeoIP')), 1), _hoisted_6])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
-        innerHTML: _ctx.$sanitize(_ctx.purchasedGeoIpText)
-      }, null, 8, _hoisted_8)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-        type: "button",
-        class: "btn",
-        onClick: _cache[0] || (_cache[0] = function ($event) {
-          return _ctx.startDownloadFreeGeoIp();
-        }),
-        value: "".concat(_ctx.translate('General_GetStarted'), "...")
-      }, null, 8, _hoisted_10)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_11, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-        type: "button",
-        class: "btn",
-        id: "start-automatic-update-geoip",
-        onClick: _cache[1] || (_cache[1] = function ($event) {
-          return _ctx.startAutomaticUpdateGeoIp();
-        }),
-        value: "".concat(_ctx.translate('General_GetStarted'), "...")
-      }, null, 8, _hoisted_12)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_13, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("sup", null, [_hoisted_14, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("small", {
-        innerHTML: _ctx.$sanitize(_ctx.accuracyNote)
-      }, null, 8, _hoisted_15)])])])])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showPiwikNotManagingInfo]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_16, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Progressbar, {
-        label: _ctx.freeProgressbarLabel,
-        progress: _ctx.progressFreeDownload
-      }, null, 8, ["label", "progress"])])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showFreeDownload]])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.geoipDatabaseInstalled && !_ctx.downloadErrorMessage ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_17, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-        innerHTML: _ctx.$sanitize(_ctx.geoIPUpdaterInstructions)
-      }, null, 8, _hoisted_18), _hoisted_19, _hoisted_20, !!_ctx.dbipLiteUrl ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
-        key: 0,
-        innerHTML: _ctx.$sanitize(_ctx.geoliteCityLink)
-      }, null, 8, _hoisted_21)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-        innerHTML: _ctx.$sanitize(_ctx.maxMindLinkExplanation)
-      }, null, 8, _hoisted_22), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, [_hoisted_23, _hoisted_24, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('GeoIp2_GeoIPUpdaterIntro')) + ": ", 1)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.geoipDatabaseInstalled]])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "text",
-        name: "geoip-location-db",
-        introduction: _ctx.translate('GeoIp2_LocationDatabase'),
-        title: _ctx.translate('Actions_ColumnDownloadURL'),
-        "inline-help": _ctx.translate('GeoIp2_LocationDatabaseHint'),
-        modelValue: _ctx.locationDbUrl,
-        "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
-          return _ctx.locationDbUrl = $event;
-        })
-      }, null, 8, ["introduction", "title", "inline-help", "modelValue"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "text",
-        name: "geoip-isp-db",
-        introduction: _ctx.translate('GeoIp2_ISPDatabase'),
-        title: _ctx.translate('Actions_ColumnDownloadURL'),
-        "inline-help": _ctx.providerPluginHelp,
-        modelValue: _ctx.ispDbUrl,
-        "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
-          return _ctx.ispDbUrl = $event;
-        }),
-        disabled: !_ctx.isProviderPluginActive
-      }, null, 8, ["introduction", "title", "inline-help", "modelValue", "disabled"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "radio",
-        name: "geoip-update-period",
-        introduction: _ctx.translate('GeoIp2_DownloadNewDatabasesEvery'),
-        modelValue: _ctx.updatePeriod,
-        "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
-          return _ctx.updatePeriod = $event;
-        }),
-        options: _ctx.updatePeriodOptions
-      }, {
-        "inline-help": Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-          return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_25, [_ctx.lastTimeUpdaterRun ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
-            key: 0,
-            innerHTML: _ctx.$sanitize(_ctx.translate('GeoIp2_UpdaterWasLastRun', _ctx.lastTimeUpdaterRun))
-          }, null, 8, _hoisted_26)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", _hoisted_27, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('GeoIp2_UpdaterHasNotBeenRun')), 1)), _hoisted_28, _hoisted_29, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
-            id: "geoip-updater-next-run-time",
-            innerHTML: _ctx.$sanitize(_ctx.nextRunTimeText)
-          }, null, 8, _hoisted_30)], 512)];
-        }),
-        _: 1
-      }, 8, ["introduction", "modelValue", "options"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-        type: "button",
-        class: "btn",
-        onClick: _cache[5] || (_cache[5] = function ($event) {
-          return _ctx.saveGeoIpLinks();
-        }),
-        value: _ctx.buttonUpdateSaveText
-      }, null, 8, _hoisted_31), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [_hoisted_32, _hoisted_33, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Progressbar, {
-        progress: _ctx.progressUpdateDownload,
-        label: _ctx.progressUpdateLabel
-      }, null, 8, ["progress", "label"]), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.isUpdatingGeoIpDatabase]])])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.downloadErrorMessage ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
-        key: 2,
-        innerHTML: _ctx.$sanitize(_ctx.downloadErrorMessage)
-      }, null, 8, _hoisted_34)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_35, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", _hoisted_36, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('GeoIp2_CannotSetupGeoIPAutoUpdating')), 1)]))];
-    }),
-    _: 1
-  }, 8, ["content-title"]);
-}
-// CONCATENATED MODULE: ./plugins/GeoIp2/vue/src/GeoIp2Updater/GeoIp2Updater.vue?vue&type=template&id=55b13210
+eval("module.exports = __WEBPACK_EXTERNAL_MODULE_CorePluginsAdmin__;\n\n//# sourceURL=webpack://GeoIp2/external_%22CorePluginsAdmin%22?");
 
-// EXTERNAL MODULE: external "CoreHome"
-var external_CoreHome_ = __webpack_require__("19dc");
+/***/ }),
 
-// EXTERNAL MODULE: external "CorePluginsAdmin"
-var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
+/***/ "vue":
+/*!******************************************************************!*\
+  !*** external {"commonjs":"vue","commonjs2":"vue","root":"Vue"} ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/GeoIp2/vue/src/GeoIp2Updater/GeoIp2Updater.vue?vue&type=script&lang=ts
-
-
-
-var _window = window,
-    $ = _window.$;
-/* harmony default export */ var GeoIp2Updatervue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    geoipDatabaseStartedInstalled: Boolean,
-    showGeoipUpdateSection: {
-      type: Boolean,
-      required: true
-    },
-    dbipLiteUrl: {
-      type: String,
-      required: true
-    },
-    dbipLiteFilename: {
-      type: String,
-      required: true
-    },
-    geoipLocUrl: String,
-    isProviderPluginActive: Boolean,
-    geoipIspUrl: String,
-    lastTimeUpdaterRun: String,
-    geoipUpdatePeriod: String,
-    updatePeriodOptions: {
-      type: Object,
-      required: true
-    },
-    nextRunTime: Number,
-    nextRunTimePretty: String
-  },
-  components: {
-    Progressbar: external_CoreHome_["Progressbar"],
-    Field: external_CorePluginsAdmin_["Field"],
-    ContentBlock: external_CoreHome_["ContentBlock"]
-  },
-  data: function data() {
-    return {
-      geoipDatabaseInstalled: !!this.geoipDatabaseStartedInstalled,
-      showFreeDownload: false,
-      showPiwikNotManagingInfo: true,
-      progressFreeDownload: 0,
-      progressUpdateDownload: 0,
-      buttonUpdateSaveText: Object(external_CoreHome_["translate"])('General_Save'),
-      progressUpdateLabel: '',
-      locationDbUrl: this.geoipLocUrl || '',
-      ispDbUrl: this.geoipIspUrl || '',
-      orgDbUrl: '',
-      updatePeriod: this.geoipUpdatePeriod || 'month',
-      isUpdatingGeoIpDatabase: false,
-      downloadErrorMessage: null,
-      nextRunTimePrettyUpdated: undefined
-    };
-  },
-  methods: {
-    startDownloadFreeGeoIp: function startDownloadFreeGeoIp() {
-      var _this = this;
-
-      this.showFreeDownload = true;
-      this.showPiwikNotManagingInfo = false;
-      this.progressFreeDownload = 0; // start download of free dbs
-
-      this.downloadNextChunk('downloadFreeDBIPLiteDB', function (v) {
-        _this.progressFreeDownload = v;
-      }, false, {}).then(function () {
-        window.location.reload();
-      }).catch(function (e) {
-        _this.geoipDatabaseInstalled = true;
-        _this.downloadErrorMessage = e.message;
-      });
-    },
-    startAutomaticUpdateGeoIp: function startAutomaticUpdateGeoIp() {
-      this.buttonUpdateSaveText = Object(external_CoreHome_["translate"])('General_Continue');
-      this.showGeoIpUpdateInfo();
-    },
-    showGeoIpUpdateInfo: function showGeoIpUpdateInfo() {
-      this.geoipDatabaseInstalled = true; // todo we need to replace this the proper way eventually
-    },
-    saveGeoIpLinks: function saveGeoIpLinks() {
-      var _this2 = this;
-
-      return external_CoreHome_["AjaxHelper"].post({
-        period: this.updatePeriod,
-        module: 'GeoIp2',
-        action: 'updateGeoIPLinks'
-      }, {
-        loc_db: this.locationDbUrl,
-        isp_db: this.ispDbUrl,
-        org_db: this.orgDbUrl
-      }, {
-        withTokenInUrl: true
-      }).then(function (response) {
-        return _this2.downloadNextFileIfNeeded(response, null);
-      }).then(function (response) {
-        _this2.progressUpdateLabel = '';
-        _this2.isUpdatingGeoIpDatabase = false;
-        external_CoreHome_["NotificationsStore"].show({
-          message: Object(external_CoreHome_["translate"])('General_Done'),
-          placeat: '#done-updating-updater',
-          context: 'success',
-          noclear: true,
-          type: 'toast',
-          style: {
-            display: 'inline-block'
-          },
-          id: 'userCountryGeoIpUpdate'
-        });
-        _this2.nextRunTimePrettyUpdated = response.nextRunTime;
-        $(_this2.$refs.inlineHelpNode).effect('highlight', {
-          color: '#FFFFCB'
-        }, 2000);
-        return undefined;
-      }).catch(function (e) {
-        _this2.isUpdatingGeoIpDatabase = false;
-        external_CoreHome_["NotificationsStore"].show({
-          message: e.message,
-          placeat: '#geoipdb-update-info-error',
-          context: 'error',
-          style: {
-            display: 'inline-block'
-          },
-          id: 'userCountryGeoIpUpdate',
-          type: 'transient'
-        });
-      });
-    },
-    downloadNextFileIfNeeded: function downloadNextFileIfNeeded(response, currentDownloading) {
-      var _this3 = this;
-
-      if (response !== null && response !== void 0 && response.to_download) {
-        var continuing = currentDownloading === response.to_download;
-        this.progressUpdateDownload = 0;
-        this.progressUpdateLabel = response.to_download_label;
-        this.isUpdatingGeoIpDatabase = true; // start/continue download
-
-        return this.downloadNextChunk('downloadMissingGeoIpDb', function (v) {
-          _this3.progressUpdateDownload = v;
-        }, continuing, {
-          key: response.to_download
-        }).then(function (r) {
-          return _this3.downloadNextFileIfNeeded(r, response.to_download);
-        });
-      }
-
-      return Promise.resolve(response);
-    },
-    downloadNextChunk: function downloadNextChunk(action, progressBarSet, cont, extraData) {
-      var _this4 = this;
-
-      var data = Object.assign({}, extraData);
-      return external_CoreHome_["AjaxHelper"].post({
-        module: 'GeoIp2',
-        action: action,
-        continue: cont ? 1 : 0
-      }, data, {
-        withTokenInUrl: true
-      }).catch(function () {
-        throw new Error(Object(external_CoreHome_["translate"])('GeoIp2_FatalErrorDuringDownload'));
-      }).then(function (response) {
-        if (response.error) {
-          throw new Error(response.error);
-        } // update progress bar
-
-
-        var newProgressVal = Math.floor(response.current_size / response.expected_file_size * 100); // if incomplete, download next chunk, otherwise, show updater manager
-
-        progressBarSet(Math.min(newProgressVal, 100));
-
-        if (newProgressVal < 100) {
-          return _this4.downloadNextChunk(action, progressBarSet, true, extraData);
-        }
-
-        return response;
-      });
-    }
-  },
-  computed: {
-    nextRunTimeText: function nextRunTimeText() {
-      if (this.nextRunTimePrettyUpdated) {
-        return this.nextRunTimePrettyUpdated;
-      }
-
-      if (!this.nextRunTime) {
-        return Object(external_CoreHome_["translate"])('GeoIp2_UpdaterIsNotScheduledToRun');
-      }
-
-      if (this.nextRunTime * 1000 < Date.now()) {
-        return Object(external_CoreHome_["translate"])('GeoIp2_UpdaterScheduledForNextRun');
-      }
-
-      return Object(external_CoreHome_["translate"])('GeoIp2_UpdaterWillRunNext', "<strong>".concat(this.nextRunTimePretty, "</strong>"));
-    },
-    providerPluginHelp: function providerPluginHelp() {
-      if (this.isProviderPluginActive) {
-        return undefined;
-      }
-
-      var text = Object(external_CoreHome_["translate"])('GeoIp2_ISPRequiresProviderPlugin');
-      return "<div style=\"margin:0\" class='alert alert-warning'>".concat(text, "</div>");
-    },
-    contentTitle: function contentTitle() {
-      return Object(external_CoreHome_["translate"])(this.geoipDatabaseInstalled ? 'GeoIp2_SetupAutomaticUpdatesOfGeoIP' : 'GeoIp2_GeoIPDatabases');
-    },
-    accuracyNote: function accuracyNote() {
-      return Object(external_CoreHome_["translate"])('UserCountry_GeoIpDbIpAccuracyNote', '<a href="https://dev.maxmind.com/geoip/geoip2/geolite2/?rId=piwik" rel="noreferrer noopener" target="_blank">', '</a>');
-    },
-    purchasedGeoIpText: function purchasedGeoIpText() {
-      var maxMindLink = 'http://www.maxmind.com/en/geolocation_landing?rId=piwik';
-      return Object(external_CoreHome_["translate"])('GeoIp2_IPurchasedGeoIPDBs', "<a rel=\"noreferrer noopener\" href=\"".concat(maxMindLink, "\" target=\"_blank\">"), '</a>', '<a rel="noreferrer noopener" href="https://db-ip.com/db/?refid=mtm" target="_blank">', '</a>');
-    },
-    geoIPUpdaterInstructions: function geoIPUpdaterInstructions() {
-      return Object(external_CoreHome_["translate"])('GeoIp2_GeoIPUpdaterInstructions', '<a href="http://www.maxmind.com/?rId=piwik" rel="noreferrer noopener" target="_blank">', '</a>', '<a rel="noreferrer noopener" href="https://db-ip.com/?refid=mtm" target="_blank">', '</a>');
-    },
-    geoliteCityLink: function geoliteCityLink() {
-      var translation = Object(external_CoreHome_["translate"])('GeoIp2_GeoLiteCityLink', "<a rel=\"noreferrer noopener\" href=\"".concat(this.dbipLiteUrl, "\" target=\"_blank\">"), this.dbipLiteUrl, '</a>');
-      return "".concat(translation, "<br /><br />");
-    },
-    maxMindLinkExplanation: function maxMindLinkExplanation() {
-      var link = 'https://matomo.org/faq/how-to/' + 'how-do-i-get-the-geolocation-download-url-for-the-free-maxmind-db/';
-      return Object(external_CoreHome_["translate"])('UserCountry_MaxMindLinkExplanation', "<a href=\"".concat(link, "\" rel=\"noreferrer noopener\" target=\"_blank\">"), '</a>');
-    },
-    freeProgressbarLabel: function freeProgressbarLabel() {
-      return Object(external_CoreHome_["translate"])('GeoIp2_DownloadingDb', "<a href=\"".concat(this.dbipLiteUrl, "\">").concat(this.dbipLiteFilename, "</a>..."));
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/GeoIp2/vue/src/GeoIp2Updater/GeoIp2Updater.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/GeoIp2/vue/src/GeoIp2Updater/GeoIp2Updater.vue
-
-
-
-GeoIp2Updatervue_type_script_lang_ts.render = render
-
-/* harmony default export */ var GeoIp2Updater = (GeoIp2Updatervue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/GeoIp2/vue/src/index.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js
-
-
-
+eval("module.exports = __WEBPACK_EXTERNAL_MODULE_vue__;\n\n//# sourceURL=webpack://GeoIp2/external_%7B%22commonjs%22:%22vue%22,%22commonjs2%22:%22vue%22,%22root%22:%22Vue%22%7D?");
 
 /***/ })
 
 /******/ });
 });
-//# sourceMappingURL=GeoIp2.umd.js.map

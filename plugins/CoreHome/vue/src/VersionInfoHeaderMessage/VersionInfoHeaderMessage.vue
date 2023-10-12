@@ -39,7 +39,7 @@
       <a
         v-else
         class="title"
-        href="https://matomo.org/changelog/"
+        href="{{ externalRawLink('https://matomo.org/changelog/') }}"
         target="_blank"
         rel="noreferrer noopener"
       >
@@ -66,6 +66,7 @@ import { defineComponent } from 'vue';
 import { translate } from '../translate';
 import ExpandOnHover from '../ExpandOnHover/ExpandOnHover';
 import Passthrough from '../Passthrough/Passthrough.vue';
+import { externalLink, externalRawLink } from '../externalLink';
 
 export default defineComponent({
   props: {
@@ -93,7 +94,7 @@ export default defineComponent({
       let text = '';
 
       if (this.isMultiServerEnvironment) {
-        const link = `https://builds.matomo.org/piwik-${this.latestVersionAvailable}.zip`;
+        const link = externalRawLink(`https://builds.matomo.org/piwik-${this.latestVersionAvailable}.zip`);
         text = translate(
           'CoreHome_OneClickUpdateNotPossibleAsMultiServerEnvironment',
           `<a rel="noreferrer noopener" href="${link}">builds.matomo.org</a>`,
@@ -104,7 +105,7 @@ export default defineComponent({
           this.latestVersionAvailable || '',
           '<br /><a href="index.php?module=CoreUpdater&amp;action=newVersionAvailable">',
           '</a>',
-          '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/changelog/">',
+          externalLink('href="https://matomo.org/changelog/'),
           '</a>',
         );
       }
@@ -116,8 +117,9 @@ export default defineComponent({
         'General_NewUpdatePiwikX',
         this.latestVersionAvailable || '',
       );
-      const matomoLink = '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/">Matomo</a>';
-      const changelogLinkStart = '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/changelog/">';
+      /* eslint-disable prefer-template */
+      const matomoLink = externalLink('https://matomo.org/') + 'Matomo</a>';
+      const changelogLinkStart = externalLink('https://matomo.org/changelog/');
 
       const text = translate(
         'General_PiwikXIsAvailablePleaseNotifyPiwikAdmin',

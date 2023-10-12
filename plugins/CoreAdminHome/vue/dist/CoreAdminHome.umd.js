@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("CoreHome"), require("vue"), require("CorePluginsAdmin"));
+		module.exports = factory(require("CoreHome"), require("CorePluginsAdmin"), require("vue"));
 	else if(typeof define === 'function' && define.amd)
-		define(["CoreHome", , "CorePluginsAdmin"], factory);
+		define(["CoreHome", "CorePluginsAdmin", ], factory);
 	else if(typeof exports === 'object')
-		exports["CoreAdminHome"] = factory(require("CoreHome"), require("vue"), require("CorePluginsAdmin"));
+		exports["CoreAdminHome"] = factory(require("CoreHome"), require("CorePluginsAdmin"), require("vue"));
 	else
-		root["CoreAdminHome"] = factory(root["CoreHome"], root["Vue"], root["CorePluginsAdmin"]);
-})((typeof self !== 'undefined' ? self : this), function(__WEBPACK_EXTERNAL_MODULE__19dc__, __WEBPACK_EXTERNAL_MODULE__8bbf__, __WEBPACK_EXTERNAL_MODULE_a5a2__) {
+		root["CoreAdminHome"] = factory(root["CoreHome"], root["CorePluginsAdmin"], root["Vue"]);
+})((typeof self !== 'undefined' ? self : this), function(__WEBPACK_EXTERNAL_MODULE_CoreHome__, __WEBPACK_EXTERNAL_MODULE_CorePluginsAdmin__, __WEBPACK_EXTERNAL_MODULE_vue__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -91,2405 +91,619 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "fae3");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "19dc":
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE__19dc__;
-
-/***/ }),
-
-/***/ "8bbf":
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE__8bbf__;
-
-/***/ }),
-
-/***/ "a5a2":
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE_a5a2__;
-
-/***/ }),
-
-/***/ "fae3":
+/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreAdminHome/vue/src/ArchivingSettings/ArchivingSettings.vue?vue&type=template&id=a6bc2e98":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/ArchivingSettings/ArchivingSettings.vue?vue&type=template&id=a6bc2e98 ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-// ESM COMPAT FLAG
-__webpack_require__.r(__webpack_exports__);
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "ArchivingSettings", function() { return /* reexport */ ArchivingSettings; });
-__webpack_require__.d(__webpack_exports__, "BrandingSettings", function() { return /* reexport */ BrandingSettings; });
-__webpack_require__.d(__webpack_exports__, "SmtpSettings", function() { return /* reexport */ SmtpSettings; });
-__webpack_require__.d(__webpack_exports__, "JsTrackingCodeGenerator", function() { return /* reexport */ JsTrackingCodeGenerator; });
-__webpack_require__.d(__webpack_exports__, "JsTrackingCodeGeneratorSitesWithoutData", function() { return /* reexport */ JsTrackingCodeGeneratorSitesWithoutData; });
-__webpack_require__.d(__webpack_exports__, "ImageTrackingCodeGenerator", function() { return /* reexport */ ImageTrackingCodeGenerator; });
-__webpack_require__.d(__webpack_exports__, "TrackingFailures", function() { return /* reexport */ TrackingFailures; });
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
-// This file is imported into lib/wc client bundles.
-
-if (typeof window !== 'undefined') {
-  var currentScript = window.document.currentScript
-  if (false) { var getCurrentScript; }
-
-  var src = currentScript && currentScript.src.match(/(.+\/)[^/]+\.js(\?.*)?$/)
-  if (src) {
-    __webpack_require__.p = src[1] // eslint-disable-line
-  }
-}
-
-// Indicate to webpack that this file can be concatenated
-/* harmony default export */ var setPublicPath = (null);
-
-// EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
-var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/ArchivingSettings/ArchivingSettings.vue?vue&type=template&id=ed65b600
-
-var _hoisted_1 = {
-  class: "form-group row"
-};
-var _hoisted_2 = {
-  class: "col s12"
-};
-var _hoisted_3 = {
-  class: "col s12 m6"
-};
-var _hoisted_4 = {
-  class: "form-description",
-  style: {
-    "margin-left": "4px"
-  }
-};
-var _hoisted_5 = {
-  for: "enableBrowserTriggerArchiving2"
-};
-var _hoisted_6 = ["innerHTML"];
-var _hoisted_7 = {
-  class: "col s12 m6"
-};
-var _hoisted_8 = ["innerHTML"];
-var _hoisted_9 = {
-  class: "form-group row"
-};
-var _hoisted_10 = {
-  class: "col s12"
-};
-var _hoisted_11 = {
-  class: "input-field col s12 m6"
-};
-var _hoisted_12 = ["disabled"];
-var _hoisted_13 = {
-  class: "form-description"
-};
-var _hoisted_14 = {
-  class: "col s12 m6"
-};
-var _hoisted_15 = {
-  key: 0,
-  class: "form-help"
-};
-var _hoisted_16 = {
-  key: 0
-};
-
-var _hoisted_17 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
-var _hoisted_18 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
-var _hoisted_19 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
-
-  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
-
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
-    "content-title": _ctx.translate('CoreAdminHome_ArchivingSettings'),
-    anchor: "archivingSettings",
-    class: "matomo-archiving-settings"
-  }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", _hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_AllowPiwikArchivingToTriggerBrowser')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-        type: "radio",
-        id: "enableBrowserTriggerArchiving1",
-        name: "enableBrowserTriggerArchiving",
-        value: "1",
-        "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-          return _ctx.enableBrowserTriggerArchivingValue = $event;
-        })
-      }, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelRadio"], _ctx.enableBrowserTriggerArchivingValue]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Yes')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Default')), 1)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", _hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-        type: "radio",
-        id: "enableBrowserTriggerArchiving2",
-        name: "enableBrowserTriggerArchiving",
-        value: "0",
-        "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-          return _ctx.enableBrowserTriggerArchivingValue = $event;
-        })
-      }, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelRadio"], _ctx.enableBrowserTriggerArchivingValue]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_No')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-        class: "form-description",
-        innerHTML: _ctx.$sanitize(_ctx.archivingTriggerDesc),
-        style: {
-          "margin-left": "4px"
-        }
-      }, null, 8, _hoisted_6)])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
-        class: "form-help",
-        innerHTML: _ctx.$sanitize(_ctx.archivingInlineHelp)
-      }, null, 8, _hoisted_8)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", _hoisted_10, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ReportsContainingTodayWillBeProcessedAtMostEvery')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_11, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-        type: "text",
-        "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
-          return _ctx.todayArchiveTimeToLiveValue = $event;
-        }),
-        id: "todayArchiveTimeToLive",
-        disabled: !_ctx.isGeneralSettingsAdminEnabled
-      }, null, 8, _hoisted_12), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelText"], _ctx.todayArchiveTimeToLiveValue]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_13, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_RearchiveTimeIntervalOnlyForTodayReports')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_14, [_ctx.isGeneralSettingsAdminEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_15, [_ctx.showWarningCron ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("strong", _hoisted_16, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_NewReportsWillBeProcessedByCron')), 1), _hoisted_17, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ReportsWillBeProcessedAtMostEveryHour')) + " " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_IfArchivingIsFastYouCanSetupCronRunMoreOften')), 1), _hoisted_18])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_SmallTrafficYouCanLeaveDefault', _ctx.todayArchiveTimeToLiveDefault)) + " ", 1), _hoisted_19, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_MediumToHighTrafficItIsRecommendedTo', 1800, 3600)), 1)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
-        saving: _ctx.isLoading,
-        onConfirm: _cache[3] || (_cache[3] = function ($event) {
-          return _ctx.save();
-        })
-      }, null, 8, ["saving"])])])];
-    }),
-    _: 1
-  }, 8, ["content-title"]);
-}
-// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/ArchivingSettings/ArchivingSettings.vue?vue&type=template&id=ed65b600
-
-// EXTERNAL MODULE: external "CoreHome"
-var external_CoreHome_ = __webpack_require__("19dc");
-
-// EXTERNAL MODULE: external "CorePluginsAdmin"
-var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/ArchivingSettings/ArchivingSettings.vue?vue&type=script&lang=ts
-
-
-
-/* harmony default export */ var ArchivingSettingsvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    enableBrowserTriggerArchiving: Boolean,
-    showSegmentArchiveTriggerInfo: Boolean,
-    isGeneralSettingsAdminEnabled: Boolean,
-    showWarningCron: Boolean,
-    todayArchiveTimeToLive: Number,
-    todayArchiveTimeToLiveDefault: Number
-  },
-  components: {
-    ContentBlock: external_CoreHome_["ContentBlock"],
-    SaveButton: external_CorePluginsAdmin_["SaveButton"]
-  },
-  data: function data() {
-    return {
-      isLoading: false,
-      enableBrowserTriggerArchivingValue: this.enableBrowserTriggerArchiving ? 1 : 0,
-      todayArchiveTimeToLiveValue: this.todayArchiveTimeToLive
-    };
-  },
-  watch: {
-    enableBrowserTriggerArchiving: function enableBrowserTriggerArchiving(newValue) {
-      this.enableBrowserTriggerArchivingValue = newValue ? 1 : 0;
-    },
-    todayArchiveTimeToLive: function todayArchiveTimeToLive(newValue) {
-      this.todayArchiveTimeToLiveValue = newValue;
-    }
-  },
-  computed: {
-    archivingTriggerDesc: function archivingTriggerDesc() {
-      var result = '';
-      result += Object(external_CoreHome_["translate"])('General_ArchivingTriggerDescription', '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/docs/setup-auto-archiving/">', '</a>');
-
-      if (this.showSegmentArchiveTriggerInfo) {
-        result += Object(external_CoreHome_["translate"])('General_ArchivingTriggerSegment');
-      }
-
-      return result;
-    },
-    archivingInlineHelp: function archivingInlineHelp() {
-      var result = Object(external_CoreHome_["translate"])('General_ArchivingInlineHelp');
-      result += '<br/>';
-      result += Object(external_CoreHome_["translate"])('General_SeeTheOfficialDocumentationForMoreInformation', '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/docs/setup-auto-archiving/">', '</a>');
-      return result;
-    }
-  },
-  methods: {
-    save: function save() {
-      var _this = this;
-
-      this.isLoading = true;
-      external_CoreHome_["AjaxHelper"].post({
-        module: 'API',
-        method: 'CoreAdminHome.setArchiveSettings'
-      }, {
-        enableBrowserTriggerArchiving: this.enableBrowserTriggerArchivingValue,
-        todayArchiveTimeToLive: this.todayArchiveTimeToLiveValue
-      }).then(function () {
-        _this.isLoading = false;
-        var notificationId = external_CoreHome_["NotificationsStore"].show({
-          message: Object(external_CoreHome_["translate"])('CoreAdminHome_SettingsSaveSuccess'),
-          type: 'transient',
-          id: 'generalSettings',
-          context: 'success'
-        });
-        external_CoreHome_["NotificationsStore"].scrollToNotification(notificationId);
-      }).finally(function () {
-        _this.isLoading = false;
-      });
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/ArchivingSettings/ArchivingSettings.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/ArchivingSettings/ArchivingSettings.vue
-
-
-
-ArchivingSettingsvue_type_script_lang_ts.render = render
-
-/* harmony default export */ var ArchivingSettings = (ArchivingSettingsvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/BrandingSettings/BrandingSettings.vue?vue&type=template&id=1802cbc6
-
-var BrandingSettingsvue_type_template_id_1802cbc6_hoisted_1 = {
-  id: "logoSettings"
-};
-var BrandingSettingsvue_type_template_id_1802cbc6_hoisted_2 = {
-  id: "logoUploadForm",
-  ref: "logoUploadForm",
-  method: "post",
-  enctype: "multipart/form-data",
-  action: "index.php?module=CoreAdminHome&format=json&action=uploadCustomLogo"
-};
-var BrandingSettingsvue_type_template_id_1802cbc6_hoisted_3 = {
-  key: 0
-};
-var BrandingSettingsvue_type_template_id_1802cbc6_hoisted_4 = ["value"];
-
-var BrandingSettingsvue_type_template_id_1802cbc6_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-  type: "hidden",
-  name: "force_api_session",
-  value: "1"
-}, null, -1);
-
-var BrandingSettingsvue_type_template_id_1802cbc6_hoisted_6 = {
-  key: 0
-};
-var BrandingSettingsvue_type_template_id_1802cbc6_hoisted_7 = {
-  key: 0,
-  class: "alert alert-warning uploaderror"
-};
-var BrandingSettingsvue_type_template_id_1802cbc6_hoisted_8 = {
-  class: "row"
-};
-var BrandingSettingsvue_type_template_id_1802cbc6_hoisted_9 = {
-  class: "col s12"
-};
-var BrandingSettingsvue_type_template_id_1802cbc6_hoisted_10 = ["src"];
-var BrandingSettingsvue_type_template_id_1802cbc6_hoisted_11 = {
-  class: "row"
-};
-var BrandingSettingsvue_type_template_id_1802cbc6_hoisted_12 = {
-  class: "col s12"
-};
-var BrandingSettingsvue_type_template_id_1802cbc6_hoisted_13 = ["src"];
-var BrandingSettingsvue_type_template_id_1802cbc6_hoisted_14 = {
-  key: 1
-};
-var BrandingSettingsvue_type_template_id_1802cbc6_hoisted_15 = ["innerHTML"];
-var BrandingSettingsvue_type_template_id_1802cbc6_hoisted_16 = {
-  key: 1
-};
-var BrandingSettingsvue_type_template_id_1802cbc6_hoisted_17 = {
-  class: "alert alert-warning"
-};
-function BrandingSettingsvue_type_template_id_1802cbc6_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
-  var _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
-
-  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
-
-  var _directive_form = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("form");
-
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
-    "content-title": _ctx.translate('CoreAdminHome_BrandingSettings'),
-    anchor: "brandingSettings"
-  }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreAdminHome_CustomLogoHelpText')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        name: "useCustomLogo",
-        uicontrol: "checkbox",
-        "model-value": _ctx.enabled,
-        "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-          return _ctx.onUseCustomLogoChange($event);
-        }),
-        title: _ctx.translate('CoreAdminHome_UseCustomLogo'),
-        "inline-help": _ctx.help
-      }, null, 8, ["model-value", "title", "inline-help"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", BrandingSettingsvue_type_template_id_1802cbc6_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("form", BrandingSettingsvue_type_template_id_1802cbc6_hoisted_2, [_ctx.fileUploadEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", BrandingSettingsvue_type_template_id_1802cbc6_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-        type: "hidden",
-        name: "token_auth",
-        value: _ctx.tokenAuth
-      }, null, 8, BrandingSettingsvue_type_template_id_1802cbc6_hoisted_4), BrandingSettingsvue_type_template_id_1802cbc6_hoisted_5, _ctx.logosWriteable ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", BrandingSettingsvue_type_template_id_1802cbc6_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Transition"], {
-        name: "fade-out"
-      }, {
-        default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-          return [_ctx.showUploadError ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", BrandingSettingsvue_type_template_id_1802cbc6_hoisted_7, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreAdminHome_LogoUploadFailed')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)];
-        }),
-        _: 1
-      }), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "file",
-        name: "customLogo",
-        "model-value": _ctx.customLogo,
-        "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-          return _ctx.onCustomLogoChange($event);
-        }),
-        title: _ctx.translate('CoreAdminHome_LogoUpload'),
-        "inline-help": _ctx.translate('CoreAdminHome_LogoUploadHelp', 'JPG / PNG / GIF', '110')
-      }, null, 8, ["model-value", "title", "inline-help"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", BrandingSettingsvue_type_template_id_1802cbc6_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", BrandingSettingsvue_type_template_id_1802cbc6_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
-        src: _ctx.pathUserLogoWithBuster,
-        id: "currentLogo",
-        style: {
-          "max-height": "150px"
-        },
-        ref: "currentLogo"
-      }, null, 8, BrandingSettingsvue_type_template_id_1802cbc6_hoisted_10)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "file",
-        name: "customFavicon",
-        "model-value": _ctx.customFavicon,
-        "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
-          return _ctx.onFaviconChange($event);
-        }),
-        title: _ctx.translate('CoreAdminHome_FaviconUpload'),
-        "inline-help": _ctx.translate('CoreAdminHome_LogoUploadHelp', 'JPG / PNG / GIF', '16')
-      }, null, 8, ["model-value", "title", "inline-help"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", BrandingSettingsvue_type_template_id_1802cbc6_hoisted_11, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", BrandingSettingsvue_type_template_id_1802cbc6_hoisted_12, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
-        src: _ctx.pathUserFaviconWithBuster,
-        id: "currentFavicon",
-        width: "16",
-        height: "16",
-        ref: "currentFavicon"
-      }, null, 8, BrandingSettingsvue_type_template_id_1802cbc6_hoisted_13)])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.logosWriteable ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", BrandingSettingsvue_type_template_id_1802cbc6_hoisted_14, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
-        class: "alert alert-warning",
-        innerHTML: _ctx.$sanitize(_ctx.logosNotWriteableWarning)
-      }, null, 8, BrandingSettingsvue_type_template_id_1802cbc6_hoisted_15)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.fileUploadEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", BrandingSettingsvue_type_template_id_1802cbc6_hoisted_16, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", BrandingSettingsvue_type_template_id_1802cbc6_hoisted_17, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreAdminHome_FileUploadDisabled', "file_uploads=1")), 1)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 512)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.enabled]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
-        onConfirm: _cache[3] || (_cache[3] = function ($event) {
-          return _ctx.save();
-        }),
-        saving: _ctx.isLoading
-      }, null, 8, ["saving"])], 512), [[_directive_form]])];
-    }),
-    _: 1
-  }, 8, ["content-title"]);
-}
-// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/BrandingSettings/BrandingSettings.vue?vue&type=template&id=1802cbc6
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/BrandingSettings/BrandingSettings.vue?vue&type=script&lang=ts
-
-
-
-var _window = window,
-    BrandingSettingsvue_type_script_lang_ts_$ = _window.$;
-/* harmony default export */ var BrandingSettingsvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    fileUploadEnabled: {
-      type: Boolean,
-      required: true
-    },
-    logosWriteable: {
-      type: Boolean,
-      required: true
-    },
-    useCustomLogo: {
-      type: Boolean,
-      required: true
-    },
-    pathUserLogoDirectory: {
-      type: String,
-      required: true
-    },
-    pathUserLogo: {
-      type: String,
-      required: true
-    },
-    pathUserLogoSmall: {
-      type: String,
-      required: true
-    },
-    pathUserLogoSvg: {
-      type: String,
-      required: true
-    },
-    hasUserLogo: {
-      type: Boolean,
-      required: true
-    },
-    pathUserFavicon: {
-      type: String,
-      required: true
-    },
-    hasUserFavicon: {
-      type: Boolean,
-      required: true
-    },
-    isPluginsAdminEnabled: {
-      type: Boolean,
-      required: true
-    }
-  },
-  components: {
-    Field: external_CorePluginsAdmin_["Field"],
-    ContentBlock: external_CoreHome_["ContentBlock"],
-    SaveButton: external_CorePluginsAdmin_["SaveButton"]
-  },
-  directives: {
-    Form: external_CorePluginsAdmin_["Form"]
-  },
-  data: function data() {
-    return {
-      isLoading: false,
-      enabled: this.useCustomLogo,
-      customLogo: this.pathUserLogo,
-      customFavicon: this.pathUserFavicon,
-      showUploadError: false,
-      currentLogoSrcExists: this.hasUserLogo,
-      currentFaviconSrcExists: this.hasUserFavicon,
-      currentLogoCacheBuster: new Date().getTime(),
-      currentFaviconCacheBuster: new Date().getTime()
-    };
-  },
-  computed: {
-    tokenAuth: function tokenAuth() {
-      return external_CoreHome_["Matomo"].token_auth;
-    },
-    logosNotWriteableWarning: function logosNotWriteableWarning() {
-      return Object(external_CoreHome_["translate"])('CoreAdminHome_LogoNotWriteableInstruction', "<code>".concat(this.pathUserLogoDirectory, "</code><br/>"), "".concat(this.pathUserLogo, ", ").concat(this.pathUserLogoSmall, ", ").concat(this.pathUserLogoSvg));
-    },
-    help: function help() {
-      if (!this.isPluginsAdminEnabled) {
-        return undefined;
-      }
-
-      var giveUsFeedbackText = "\"".concat(Object(external_CoreHome_["translate"])('General_GiveUsYourFeedback'), "\"");
-      var linkStart = '<a href="?module=CorePluginsAdmin&action=plugins" ' + 'rel="noreferrer noopener" target="_blank">';
-      return Object(external_CoreHome_["translate"])('CoreAdminHome_CustomLogoFeedbackInfo', giveUsFeedbackText, linkStart, '</a>');
-    },
-    pathUserLogoWithBuster: function pathUserLogoWithBuster() {
-      if (this.currentLogoSrcExists && this.pathUserLogo) {
-        return "".concat(this.pathUserLogo, "?").concat(this.currentLogoCacheBuster);
-      }
-
-      return '';
-    },
-    pathUserFaviconWithBuster: function pathUserFaviconWithBuster() {
-      if (this.currentFaviconSrcExists && this.pathUserFavicon) {
-        return "".concat(this.pathUserFavicon, "?").concat(this.currentFaviconCacheBuster);
-      }
-
-      return '';
-    }
-  },
-  methods: {
-    onUseCustomLogoChange: function onUseCustomLogoChange(newValue) {
-      this.enabled = newValue;
-    },
-    onCustomLogoChange: function onCustomLogoChange(newValue) {
-      this.customLogo = newValue;
-      this.updateLogo();
-    },
-    onFaviconChange: function onFaviconChange(newValue) {
-      this.customFavicon = newValue;
-      this.updateLogo();
-    },
-    save: function save() {
-      var _this = this;
-
-      this.isLoading = true;
-      external_CoreHome_["AjaxHelper"].post({
-        module: 'API',
-        method: 'CoreAdminHome.setBrandingSettings'
-      }, {
-        useCustomLogo: this.enabled ? '1' : '0'
-      }).then(function () {
-        var notificationInstanceId = external_CoreHome_["NotificationsStore"].show({
-          message: Object(external_CoreHome_["translate"])('CoreAdminHome_SettingsSaveSuccess'),
-          type: 'transient',
-          id: 'generalSettings',
-          context: 'success'
-        });
-        external_CoreHome_["NotificationsStore"].scrollToNotification(notificationInstanceId);
-      }).finally(function () {
-        _this.isLoading = false;
-      });
-    },
-    updateLogo: function updateLogo() {
-      var _this2 = this;
-
-      var isSubmittingLogo = !!this.customLogo;
-      var isSubmittingFavicon = !!this.customFavicon;
-
-      if (!isSubmittingLogo && !isSubmittingFavicon) {
-        return;
-      }
-
-      this.showUploadError = false;
-      var frameName = "upload".concat(new Date().getTime());
-      var uploadFrame = BrandingSettingsvue_type_script_lang_ts_$("<iframe name=\"".concat(frameName, "\" />"));
-      uploadFrame.css('display', 'none');
-      uploadFrame.on('load', function () {
-        setTimeout(function () {
-          var frameContent = (BrandingSettingsvue_type_script_lang_ts_$(uploadFrame.contents()).find('body').html() || '').trim();
-
-          if (frameContent === '0') {
-            _this2.showUploadError = true;
-          } else {
-            // Upload succeed, so we update the images availability
-            // according to what have been uploaded
-            if (isSubmittingLogo) {
-              _this2.currentLogoSrcExists = true;
-              _this2.currentLogoCacheBuster = new Date().getTime(); // force re-fetch
-            }
-
-            if (isSubmittingFavicon) {
-              _this2.currentFaviconSrcExists = true;
-              _this2.currentFaviconCacheBuster = new Date().getTime(); // force re-fetch
-            }
-          }
-
-          if (frameContent === '1' || frameContent === '0') {
-            uploadFrame.remove();
-          }
-        }, 1000);
-      });
-      BrandingSettingsvue_type_script_lang_ts_$('body:first').append(uploadFrame);
-      var submittingForm = BrandingSettingsvue_type_script_lang_ts_$(this.$refs.logoUploadForm);
-      submittingForm.attr('target', frameName);
-      submittingForm.submit();
-      this.customLogo = '';
-      this.customFavicon = '';
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/BrandingSettings/BrandingSettings.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/BrandingSettings/BrandingSettings.vue
-
-
-
-BrandingSettingsvue_type_script_lang_ts.render = BrandingSettingsvue_type_template_id_1802cbc6_render
-
-/* harmony default export */ var BrandingSettings = (BrandingSettingsvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.vue?vue&type=template&id=14e9a186
-
-var SmtpSettingsvue_type_template_id_14e9a186_hoisted_1 = {
-  id: "smtpSettings"
-};
-function SmtpSettingsvue_type_template_id_14e9a186_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
-  var _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
-
-  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
-
-  var _directive_form = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("form");
-
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
-    "content-title": _ctx.translate('CoreAdminHome_EmailServerSettings'),
-    anchor: "mailSettings"
-  }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "checkbox",
-        name: "mailUseSmtp",
-        modelValue: _ctx.enabled,
-        "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-          return _ctx.enabled = $event;
-        }),
-        title: _ctx.translate('General_UseSMTPServerForEmail'),
-        "inline-help": _ctx.translate('General_SelectYesIfYouWantToSendEmailsViaServer')
-      }, null, 8, ["modelValue", "title", "inline-help"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", SmtpSettingsvue_type_template_id_14e9a186_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "text",
-        name: "mailHost",
-        "model-value": _ctx.mailHost,
-        "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-          return _ctx.onUpdateMailHost($event);
-        }),
-        title: _ctx.translate('General_SmtpServerAddress')
-      }, null, 8, ["model-value", "title"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "text",
-        name: "mailPort",
-        modelValue: _ctx.mailPort,
-        "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
-          return _ctx.mailPort = $event;
-        }),
-        title: _ctx.translate('General_SmtpPort'),
-        "inline-help": _ctx.translate('General_OptionalSmtpPort')
-      }, null, 8, ["modelValue", "title", "inline-help"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "select",
-        name: "mailType",
-        modelValue: _ctx.mailType,
-        "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
-          return _ctx.mailType = $event;
-        }),
-        title: _ctx.translate('General_AuthenticationMethodSmtp'),
-        options: _ctx.mailTypes,
-        "inline-help": _ctx.translate('General_OnlyUsedIfUserPwdIsSet')
-      }, null, 8, ["modelValue", "title", "options", "inline-help"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "text",
-        name: "mailUsername",
-        modelValue: _ctx.mailUsername,
-        "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
-          return _ctx.mailUsername = $event;
-        }),
-        title: _ctx.translate('General_SmtpUsername'),
-        "inline-help": _ctx.translate('General_OnlyEnterIfRequired'),
-        autocomplete: 'off'
-      }, null, 8, ["modelValue", "title", "inline-help"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "password",
-        name: "mailPassword",
-        "model-value": _ctx.mailPassword,
-        "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
-          return _ctx.onMailPasswordChange($event);
-        }),
-        onClick: _cache[6] || (_cache[6] = function ($event) {
-          !_ctx.passwordChanged && $event.target.select();
-        }),
-        title: _ctx.translate('General_SmtpPassword'),
-        "inline-help": _ctx.passwordHelp,
-        autocomplete: 'off'
-      }, null, 8, ["model-value", "title", "inline-help"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "text",
-        name: "mailFromAddress",
-        modelValue: _ctx.mailFromAddress,
-        "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
-          return _ctx.mailFromAddress = $event;
-        }),
-        title: _ctx.translate('General_SmtpFromAddress'),
-        "inline-help": _ctx.translate('General_SmtpFromEmailHelp', _ctx.mailHost),
-        autocomplete: 'off'
-      }, null, 8, ["modelValue", "title", "inline-help"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "text",
-        name: "mailFromName",
-        modelValue: _ctx.mailFromName,
-        "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
-          return _ctx.mailFromName = $event;
-        }),
-        title: _ctx.translate('General_SmtpFromName'),
-        "inline-help": _ctx.translate('General_NameShownInTheSenderColumn'),
-        autocomplete: 'off'
-      }, null, 8, ["modelValue", "title", "inline-help"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "select",
-        name: "mailEncryption",
-        modelValue: _ctx.mailEncryption,
-        "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
-          return _ctx.mailEncryption = $event;
-        }),
-        title: _ctx.translate('General_SmtpEncryption'),
-        options: _ctx.mailEncryptions,
-        "inline-help": _ctx.translate('General_EncryptedSmtpTransport')
-      }, null, 8, ["modelValue", "title", "options", "inline-help"])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.enabled]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
-        onConfirm: _cache[10] || (_cache[10] = function ($event) {
-          return _ctx.save();
-        }),
-        saving: _ctx.isLoading
-      }, null, 8, ["saving"])], 512), [[_directive_form]])];
-    }),
-    _: 1
-  }, 8, ["content-title"]);
-}
-// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.vue?vue&type=template&id=14e9a186
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.vue?vue&type=script&lang=ts
-
-
-
-/* harmony default export */ var SmtpSettingsvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    mail: {
-      type: Object,
-      required: true
-    },
-    mailTypes: {
-      type: Object,
-      required: true
-    },
-    mailEncryptions: {
-      type: Object,
-      required: true
-    }
-  },
-  data: function data() {
-    var mail = this.mail;
-    return {
-      isLoading: false,
-      enabled: mail.transport === 'smtp',
-      mailHost: mail.host,
-      passwordChanged: false,
-      mailPort: mail.port,
-      mailType: mail.type,
-      mailUsername: mail.username,
-      mailPassword: mail.password ? '******' : '',
-      mailFromAddress: mail.noreply_email_address,
-      mailFromName: mail.noreply_email_name,
-      mailEncryption: mail.encryption
-    };
-  },
-  components: {
-    ContentBlock: external_CoreHome_["ContentBlock"],
-    Field: external_CorePluginsAdmin_["Field"],
-    SaveButton: external_CorePluginsAdmin_["SaveButton"]
-  },
-  directives: {
-    Form: external_CorePluginsAdmin_["Form"]
-  },
-  computed: {
-    passwordHelp: function passwordHelp() {
-      var part1 = "".concat(Object(external_CoreHome_["translate"])('General_OnlyEnterIfRequiredPassword'), "<br/>");
-      var part2 = "".concat(Object(external_CoreHome_["translate"])('General_WarningPasswordStored', '<strong>', '</strong>'), "<br/>");
-      return "".concat(part1, "\n").concat(part2);
-    }
-  },
-  methods: {
-    onUpdateMailHost: function onUpdateMailHost(newValue) {
-      this.mailHost = newValue;
-
-      if (this.passwordChanged) {
-        return;
-      }
-
-      this.mailPassword = '';
-      this.passwordChanged = true;
-    },
-    onMailPasswordChange: function onMailPasswordChange(newValue) {
-      this.mailPassword = newValue;
-      this.passwordChanged = true;
-    },
-    save: function save() {
-      var _this = this;
-
-      this.isLoading = true;
-      var mailSettings = {
-        mailUseSmtp: this.enabled ? '1' : '0',
-        mailPort: this.mailPort,
-        mailHost: this.mailHost,
-        mailType: this.mailType,
-        mailUsername: this.mailUsername,
-        mailFromAddress: this.mailFromAddress,
-        mailFromName: this.mailFromName,
-        mailEncryption: this.mailEncryption
-      };
-
-      if (this.passwordChanged) {
-        mailSettings.mailPassword = this.mailPassword;
-      }
-
-      external_CoreHome_["AjaxHelper"].post({
-        module: 'CoreAdminHome',
-        action: 'setMailSettings'
-      }, mailSettings, {
-        withTokenInUrl: true
-      }).then(function () {
-        var notificationInstanceId = external_CoreHome_["NotificationsStore"].show({
-          message: Object(external_CoreHome_["translate"])('CoreAdminHome_SettingsSaveSuccess'),
-          type: 'transient',
-          id: 'generalSettings',
-          context: 'success'
-        });
-        external_CoreHome_["NotificationsStore"].scrollToNotification(notificationInstanceId);
-      }).finally(function () {
-        _this.isLoading = false;
-      });
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.vue
-
-
-
-SmtpSettingsvue_type_script_lang_ts.render = SmtpSettingsvue_type_template_id_14e9a186_render
-
-/* harmony default export */ var SmtpSettings = (SmtpSettingsvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGenerator.vue?vue&type=template&id=0055e292
-
-var JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_1 = {
-  id: "js-code-options"
-};
-
-var JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
-var JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
-var JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_4 = ["innerHTML"];
-var JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_5 = ["innerHTML"];
-
-var JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
-var JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_7 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
-var JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_8 = ["innerHTML"];
-
-var JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_9 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
-var JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_10 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
-var JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_11 = ["innerHTML"];
-
-var JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_12 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
-var JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_13 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
-var JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_14 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-  href: "https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/",
-  target: "_blank",
-  rel: "noopener"
-}, "WordPress", -1);
-
-var JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_15 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" | ");
-
-var JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_16 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-  href: "https://matomo.org/faq/new-to-piwik/how-do-i-integrate-matomo-with-squarespace-website/",
-  target: "_blank",
-  rel: "noopener"
-}, "Squarespace", -1);
-
-var JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_17 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" | ");
-
-var JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_18 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-  href: "https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-wix/",
-  target: "_blank",
-  rel: "noopener"
-}, "Wix", -1);
-
-var JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_19 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" | ");
-
-var _hoisted_20 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-  href: "https://matomo.org/faq/how-to-install/faq_19424/",
-  target: "_blank",
-  rel: "noopener"
-}, "SharePoint", -1);
-
-var _hoisted_21 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" | ");
-
-var _hoisted_22 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-  href: "https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-joomla/",
-  target: "_blank",
-  rel: "noopener"
-}, "Joomla", -1);
-
-var _hoisted_23 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" | ");
-
-var _hoisted_24 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-  href: "https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-shopify-store/",
-  target: "_blank",
-  rel: "noopener"
-}, "Shopify", -1);
-
-var _hoisted_25 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" | ");
-
-var _hoisted_26 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-  href: "https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-within-gtm-google-tag-manager/",
-  target: "_blank",
-  rel: "noopener"
-}, "Google Tag Manager", -1);
-
-var _hoisted_27 = {
-  id: "javascript-output-section"
-};
-var _hoisted_28 = {
-  class: "valign-wrapper trackingHelpHeader matchWidth"
-};
-var _hoisted_29 = {
-  id: "javascript-email-button"
-};
-var _hoisted_30 = {
-  id: "javascript-text"
-};
-var _hoisted_31 = ["textContent"];
-function JsTrackingCodeGeneratorvue_type_template_id_0055e292_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
-  var _component_JsTrackingCodeAdvancedOptions = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("JsTrackingCodeAdvancedOptions");
-
-  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
-
-  var _directive_copy_to_clipboard = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("copy-to-clipboard");
-
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
-    anchor: "javaScriptTracking",
-    "content-title": _ctx.translate('CoreAdminHome_JavaScriptTracking')
-  }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreAdminHome_JSTrackingIntro1')) + " ", 1), JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_2, JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreAdminHome_JSTrackingIntro2')) + " ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-        innerHTML: _ctx.$sanitize(_ctx.jsTrackingIntro3a)
-      }, null, 8, JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_4), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-        innerHTML: _ctx.$sanitize(' ' + _ctx.jsTrackingIntro3b)
-      }, null, 8, JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_5), JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_6, JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_7, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-        innerHTML: _ctx.$sanitize(_ctx.jsTrackingIntro4a)
-      }, null, 8, JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_8), JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_9, JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_10, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-        innerHTML: _ctx.$sanitize(_ctx.jsTrackingIntro5)
-      }, null, 8, JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_11), JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_12, JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_13, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('SitesManager_InstallationGuides')) + " : ", 1), JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_14, JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_15, JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_16, JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_17, JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_18, JsTrackingCodeGeneratorvue_type_template_id_0055e292_hoisted_19, _hoisted_20, _hoisted_21, _hoisted_22, _hoisted_23, _hoisted_24, _hoisted_25, _hoisted_26]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "site",
-        name: "js-tracker-website",
-        class: "jsTrackingCodeWebsite",
-        modelValue: _ctx.site,
-        "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-          return _ctx.site = $event;
-        }),
-        ref: "site",
-        introduction: _ctx.translate('General_Website')
-      }, null, 8, ["modelValue", "introduction"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_27, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_28, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_JsTrackingTag')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead', "</head>")), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_29, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
-        class: "btn",
-        id: "emailJsBtn",
-        onClick: _cache[1] || (_cache[1] = function ($event) {
-          return _ctx.sendEmail();
-        })
-      }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('SitesManager_EmailInstructionsButton')), 1)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_30, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("pre", {
-        class: "codeblock",
-        textContent: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.trackingCode),
-        ref: "trackingCode"
-      }, null, 8, _hoisted_31), [[_directive_copy_to_clipboard, {}]])])])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_JsTrackingCodeAdvancedOptions, {
-        site: _ctx.site,
-        "max-custom-variables": _ctx.maxCustomVariables,
-        "server-side-do-not-track-enabled": _ctx.serverSideDoNotTrackEnabled,
-        onUpdateTrackingCode: _ctx.updateTrackingCode
-      }, null, 8, ["site", "max-custom-variables", "server-side-do-not-track-enabled", "onUpdateTrackingCode"])];
-    }),
-    _: 1
-  }, 8, ["content-title"]);
-}
-// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGenerator.vue?vue&type=template&id=0055e292
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeAdvancedOptions.vue?vue&type=template&id=cc111ec2
-
-var JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_1 = {
-  class: "trackingCodeAdvancedOptions"
-};
-var JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_2 = {
-  class: "advance-option"
-};
-
-var JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-  class: "icon-chevron-down"
-}, null, -1);
-
-var JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-  class: "icon-chevron-up"
-}, null, -1);
-
-var JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_5 = {
-  id: "javascript-advanced-options"
-};
-var JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_6 = ["innerHTML"];
-var JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_7 = {
-  id: "optional-js-tracking-options"
-};
-var JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_8 = {
-  id: "jsTrackAllSubdomainsInlineHelp",
-  class: "inline-help-node"
-};
-var JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_9 = ["innerHTML"];
-var JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_10 = ["innerHTML"];
-var JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_11 = {
-  id: "jsTrackGroupByDomainInlineHelp",
-  class: "inline-help-node"
-};
-var JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_12 = {
-  id: "jsTrackAllAliasesInlineHelp",
-  class: "inline-help-node"
-};
-var JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_13 = {
-  id: "javascript-tracking-visitor-cv"
-};
-var JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_14 = {
-  class: "row"
-};
-var JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_15 = {
-  class: "col s12 m3"
-};
-var JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_16 = {
-  class: "col s12 m3"
-};
-var JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_17 = {
-  class: "col s12 m6 l3"
-};
-var JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_18 = ["onKeydown"];
-var JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_19 = {
-  class: "col s12 m6 l3"
-};
-var JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_20 = ["onKeydown"];
-var JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_21 = {
-  class: "row"
-};
-var JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_22 = {
-  class: "col s12"
-};
-
-var JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_23 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-  class: "icon-add"
-}, null, -1);
-
-var JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_24 = {
-  id: "jsCrossDomain",
-  class: "inline-help-node"
-};
-
-var JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_25 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
-var JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_26 = {
-  id: "jsDoNotTrackInlineHelp",
-  class: "inline-help-node"
-};
-var JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_27 = {
-  key: 0
-};
-
-var JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_28 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
-var JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_29 = ["innerHTML"];
-var JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_30 = {
-  id: "js-campaign-query-param-extra"
-};
-var JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_31 = {
-  class: "row"
-};
-var _hoisted_32 = {
-  class: "col s12"
-};
-var _hoisted_33 = {
-  class: "row"
-};
-var _hoisted_34 = {
-  class: "col s12"
-};
-function JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, [!_ctx.showAdvanced ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
-    key: 0,
-    href: "javascript:;",
-    onClick: _cache[0] || (_cache[0] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
-      return _ctx.showAdvanced = true;
-    }, ["prevent"]))
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreAdminHome_ShowAdvancedOptions')) + " ", 1), JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_3])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.showAdvanced ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
-    key: 1,
-    href: "javascript:;",
-    onClick: _cache[1] || (_cache[1] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
-      return _ctx.showAdvanced = false;
-    }, ["prevent"]))
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreAdminHome_HideAdvancedOptions')) + " ", 1), JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_4])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
-    innerHTML: _ctx.$sanitize(_ctx.trackingDocumentationHelp)
-  }, null, 8, JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_6), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-    innerHTML: _ctx.$sanitize(_ctx.mergeSubdomainsDesc)
-  }, null, 8, JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_9), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-    innerHTML: _ctx.$sanitize(_ctx.learnMoreText)
-  }, null, 8, JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_10)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-    uicontrol: "checkbox",
-    name: "javascript-tracking-all-subdomains",
-    "model-value": _ctx.trackAllSubdomains,
-    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
-      _ctx.trackAllSubdomains = $event;
-
-      _ctx.updateTrackingCode();
-    }),
-    disabled: _ctx.isLoading,
-    title: "".concat(_ctx.translate('CoreAdminHome_JSTracking_MergeSubdomains'), " ").concat(_ctx.currentSiteName),
-    "inline-help": "#jsTrackAllSubdomainsInlineHelp"
-  }, null, 8, ["model-value", "disabled", "title"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_11, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreAdminHome_JSTracking_GroupPageTitlesByDomainDesc1', _ctx.currentSiteHost)), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-    uicontrol: "checkbox",
-    name: "javascript-tracking-group-by-domain",
-    "model-value": _ctx.groupByDomain,
-    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
-      _ctx.groupByDomain = $event;
-
-      _ctx.updateTrackingCode();
-    }),
-    disabled: _ctx.isLoading,
-    title: _ctx.translate('CoreAdminHome_JSTracking_GroupPageTitlesByDomain'),
-    "inline-help": "#jsTrackGroupByDomainInlineHelp"
-  }, null, 8, ["model-value", "disabled", "title"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_12, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreAdminHome_JSTracking_MergeAliasesDesc', _ctx.currentSiteAlias)), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-    uicontrol: "checkbox",
-    name: "javascript-tracking-all-aliases",
-    "model-value": _ctx.trackAllAliases,
-    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
-      _ctx.trackAllAliases = $event;
-
-      _ctx.updateTrackingCode();
-    }),
-    disabled: _ctx.isLoading,
-    title: "".concat(_ctx.translate('CoreAdminHome_JSTracking_MergeAliases'), " ").concat(_ctx.currentSiteName),
-    "inline-help": "#jsTrackAllAliasesInlineHelp"
-  }, null, 8, ["model-value", "disabled", "title"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-    uicontrol: "checkbox",
-    name: "javascript-tracking-noscript",
-    "model-value": _ctx.trackNoScript,
-    "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
-      _ctx.trackNoScript = $event;
-
-      _ctx.updateTrackingCode();
-    }),
-    disabled: _ctx.isLoading,
-    title: _ctx.translate('CoreAdminHome_JSTracking_TrackNoScript')
-  }, null, 8, ["model-value", "disabled", "title"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-    uicontrol: "checkbox",
-    name: "javascript-tracking-visitor-cv-check",
-    "model-value": _ctx.trackCustomVars,
-    "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
-      _ctx.trackCustomVars = $event;
-
-      _ctx.updateTrackingCode();
-    }),
-    disabled: _ctx.isLoading,
-    title: _ctx.translate('CoreAdminHome_JSTracking_VisitorCustomVars'),
-    "inline-help": _ctx.translate('CoreAdminHome_JSTracking_VisitorCustomVarsDesc')
-  }, null, 8, ["model-value", "disabled", "title", "inline-help"]), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.maxCustomVariables > 0]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_13, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_14, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_15, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Name')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_16, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Value')), 1)]), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.customVars, function (customVar, index) {
-    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
-      class: "row",
-      key: index
-    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_17, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-      type: "text",
-      class: "custom-variable-name",
-      onKeydown: function onKeydown($event) {
-        return _ctx.onCustomVarNameKeydown($event, index);
-      },
-      placeholder: "e.g. Type"
-    }, null, 40, JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_18)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_19, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-      type: "text",
-      class: "custom-variable-value",
-      onKeydown: function onKeydown($event) {
-        return _ctx.onCustomVarValueKeydown($event, index);
-      },
-      placeholder: "e.g. Customer"
-    }, null, 40, JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_20)])]);
-  }), 128)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_21, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_22, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-    href: "javascript:;",
-    onClick: _cache[7] || (_cache[7] = function ($event) {
-      return _ctx.addCustomVar();
-    }),
-    class: "add-custom-variable"
-  }, [JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_23, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Add')), 1)])])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.canAddMoreCustomVariables]])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.trackCustomVars]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_24, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreAdminHome_JSTracking_CrossDomain')) + " ", 1), JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_25, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreAdminHome_JSTracking_CrossDomain_NeedsMultipleDomains')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-    uicontrol: "checkbox",
-    name: "javascript-tracking-cross-domain",
-    "model-value": _ctx.crossDomain,
-    "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
-      _ctx.crossDomain = $event;
-
-      _ctx.updateTrackingCode();
-
-      _ctx.onCrossDomainToggle();
-    }),
-    disabled: _ctx.isLoading || !_ctx.hasManySiteUrls,
-    title: _ctx.translate('CoreAdminHome_JSTracking_EnableCrossDomainLinking'),
-    "inline-help": "#jsCrossDomain"
-  }, null, 8, ["model-value", "disabled", "title"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_26, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreAdminHome_JSTracking_EnableDoNotTrackDesc')) + " ", 1), _ctx.serverSideDoNotTrackEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_27, [JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_28, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreAdminHome_JSTracking_EnableDoNotTrack_AlreadyEnabled')), 1)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-    uicontrol: "checkbox",
-    name: "javascript-tracking-do-not-track",
-    "model-value": _ctx.doNotTrack,
-    "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
-      _ctx.doNotTrack = $event;
-
-      _ctx.updateTrackingCode();
-    }),
-    disabled: _ctx.isLoading,
-    title: _ctx.translate('CoreAdminHome_JSTracking_EnableDoNotTrack'),
-    "inline-help": "#jsDoNotTrackInlineHelp"
-  }, null, 8, ["model-value", "disabled", "title"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-    uicontrol: "checkbox",
-    name: "javascript-tracking-disable-cookies",
-    "model-value": _ctx.disableCookies,
-    "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
-      _ctx.disableCookies = $event;
-
-      _ctx.updateTrackingCode();
-    }),
-    disabled: _ctx.isLoading,
-    title: _ctx.translate('CoreAdminHome_JSTracking_DisableCookies'),
-    "inline-help": _ctx.translate('CoreAdminHome_JSTracking_DisableCookiesDesc')
-  }, null, 8, ["model-value", "disabled", "title", "inline-help"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
-    id: "jsTrackCampaignParamsInlineHelp",
-    class: "inline-help-node",
-    innerHTML: _ctx.$sanitize(_ctx.jsTrackCampaignParamsInlineHelp)
-  }, null, 8, JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_29), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-    uicontrol: "checkbox",
-    name: "custom-campaign-query-params-check",
-    "model-value": _ctx.useCustomCampaignParams,
-    "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
-      _ctx.useCustomCampaignParams = $event;
-
-      _ctx.updateTrackingCode();
-    }),
-    disabled: _ctx.isLoading,
-    title: _ctx.translate('CoreAdminHome_JSTracking_CustomCampaignQueryParam'),
-    "inline-help": "#jsTrackCampaignParamsInlineHelp"
-  }, null, 8, ["model-value", "disabled", "title"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_30, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_hoisted_31, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_32, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-    uicontrol: "text",
-    name: "custom-campaign-name-query-param",
-    "model-value": _ctx.customCampaignName,
-    "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
-      _ctx.customCampaignName = $event;
-
-      _ctx.updateTrackingCode();
-    }),
-    disabled: _ctx.isLoading,
-    title: _ctx.translate('CoreAdminHome_JSTracking_CampaignNameParam')
-  }, null, 8, ["model-value", "disabled", "title"])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_33, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_34, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-    uicontrol: "text",
-    name: "custom-campaign-keyword-query-param",
-    "model-value": _ctx.customCampaignKeyword,
-    "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
-      _ctx.customCampaignKeyword = $event;
-
-      _ctx.updateTrackingCode();
-    }),
-    disabled: _ctx.isLoading,
-    title: _ctx.translate('CoreAdminHome_JSTracking_CampaignKwdParam')
-  }, null, 8, ["model-value", "disabled", "title"])])])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.useCustomCampaignParams]])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showAdvanced]])]);
-}
-// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeAdvancedOptions.vue?vue&type=template&id=cc111ec2
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeAdvancedOptions.vue?vue&type=script&lang=ts
-
-
-
-
-function getHostNameFromUrl(url) {
-  var urlObj = new URL(url);
-  return urlObj.hostname;
-}
-
-function getCustomVarArray(cvars) {
-  return cvars.filter(function (cv) {
-    return !!cv.name;
-  }).map(function (cv) {
-    return [cv.name, cv.value];
-  });
-}
-
-var piwikHost = window.location.host;
-var piwikPath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
-/* harmony default export */ var JsTrackingCodeAdvancedOptionsvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    site: {
-      type: Object,
-      required: true
-    },
-    maxCustomVariables: Number,
-    serverSideDoNotTrackEnabled: Boolean
-  },
-  data: function data() {
-    return {
-      showAdvanced: false,
-      trackAllSubdomains: false,
-      isLoading: false,
-      siteUrls: {},
-      siteExcludedQueryParams: {},
-      siteExcludedReferrers: {},
-      crossDomain: false,
-      groupByDomain: false,
-      trackAllAliases: false,
-      trackNoScript: false,
-      trackCustomVars: false,
-      customVars: [],
-      canAddMoreCustomVariables: !!this.maxCustomVariables && this.maxCustomVariables > 0,
-      doNotTrack: false,
-      disableCookies: false,
-      useCustomCampaignParams: false,
-      customCampaignName: '',
-      customCampaignKeyword: '',
-      trackingCodeAbortController: null
-    };
-  },
-  emits: ['updateTrackingCode'],
-  components: {
-    Field: external_CorePluginsAdmin_["Field"]
-  },
-  created: function created() {
-    if (this.site && this.site.id) {
-      this.onSiteChanged(this.site);
-    }
-
-    this.onCustomVarNameKeydown = Object(external_CoreHome_["debounce"])(this.onCustomVarNameKeydown, 100);
-    this.onCustomVarValueKeydown = Object(external_CoreHome_["debounce"])(this.onCustomVarValueKeydown, 100);
-    this.addCustomVar();
-  },
-  watch: {
-    site: function site(newValue) {
-      this.onSiteChanged(newValue);
-    }
-  },
-  methods: {
-    onSiteChanged: function onSiteChanged(newValue) {
-      var _this = this;
-
-      var idSite = newValue.id;
-      var promises = [];
-
-      if (!this.siteUrls[idSite]) {
-        this.isLoading = true;
-        promises.push(external_CoreHome_["AjaxHelper"].fetch({
-          module: 'API',
-          method: 'SitesManager.getSiteUrlsFromId',
-          idSite: idSite,
-          filter_limit: '-1'
-        }).then(function (data) {
-          _this.siteUrls[idSite] = data || [];
-        }));
-      }
-
-      if (!this.siteExcludedQueryParams[idSite]) {
-        this.isLoading = true;
-        promises.push(external_CoreHome_["AjaxHelper"].fetch({
-          module: 'API',
-          method: 'Overlay.getExcludedQueryParameters',
-          idSite: idSite,
-          filter_limit: '-1'
-        }).then(function (data) {
-          _this.siteExcludedQueryParams[idSite] = data || [];
-        }));
-      }
-
-      if (!this.siteExcludedReferrers[idSite]) {
-        this.isLoading = true;
-        promises.push(external_CoreHome_["AjaxHelper"].fetch({
-          module: 'API',
-          method: 'SitesManager.getExcludedReferrers',
-          idSite: idSite,
-          filter_limit: '-1'
-        }).then(function (data) {
-          _this.siteExcludedReferrers[idSite] = [];
-          Object.values(data || []).forEach(function (referrer) {
-            _this.siteExcludedReferrers[idSite].push(referrer.replace(/^https?:\/\//, ''));
-          });
-        }));
-      }
-
-      Promise.all(promises).then(function () {
-        _this.isLoading = false;
-
-        _this.updateCurrentSiteInfo();
-
-        _this.updateTrackingCode();
-      });
-    },
-    updateCurrentSiteInfo: function updateCurrentSiteInfo() {
-      if (!this.hasManySiteUrls) {
-        // we make sure to disable cross domain if it has only one url or less
-        this.crossDomain = false;
-      }
-    },
-    onCrossDomainToggle: function onCrossDomainToggle() {
-      if (this.crossDomain) {
-        this.trackAllAliases = true;
-      }
-    },
-    updateTrackingCode: function updateTrackingCode() {
-      var _this2 = this;
-
-      // get params used to generate JS code
-      var params = {
-        piwikUrl: "".concat(piwikHost).concat(piwikPath),
-        groupPageTitlesByDomain: this.groupByDomain ? 1 : 0,
-        mergeSubdomains: this.trackAllSubdomains ? 1 : 0,
-        mergeAliasUrls: this.trackAllAliases ? 1 : 0,
-        visitorCustomVariables: this.trackCustomVars ? getCustomVarArray(this.customVars) : 0,
-        customCampaignNameQueryParam: null,
-        customCampaignKeywordParam: null,
-        doNotTrack: this.doNotTrack ? 1 : 0,
-        disableCookies: this.disableCookies ? 1 : 0,
-        crossDomain: this.crossDomain ? 1 : 0,
-        trackNoScript: this.trackNoScript ? 1 : 0,
-        forceMatomoEndpoint: 1
-      };
-
-      if (this.siteExcludedQueryParams[this.site.id]) {
-        params.excludedQueryParams = this.siteExcludedQueryParams[this.site.id];
-      }
-
-      if (this.siteExcludedReferrers[this.site.id]) {
-        params.excludedReferrers = this.siteExcludedReferrers[this.site.id];
-      }
-
-      if (this.useCustomCampaignParams) {
-        params.customCampaignNameQueryParam = this.customCampaignName;
-        params.customCampaignKeywordParam = this.customCampaignKeyword;
-      }
-
-      if (this.trackingCodeAbortController) {
-        this.trackingCodeAbortController.abort();
-        this.trackingCodeAbortController = null;
-      }
-
-      this.trackingCodeAbortController = new AbortController();
-      external_CoreHome_["AjaxHelper"].post({
-        module: 'API',
-        format: 'json',
-        method: 'SitesManager.getJavascriptTag',
-        idSite: this.site.id
-      }, params, {
-        abortController: this.trackingCodeAbortController
-      }).then(function (response) {
-        _this2.trackingCodeAbortController = null;
-
-        _this2.$emit('updateTrackingCode', response.value);
-      });
-    },
-    addCustomVar: function addCustomVar() {
-      if (this.canAddMoreCustomVariables) {
-        this.customVars.push({
-          name: '',
-          value: ''
-        });
-      }
-
-      this.canAddMoreCustomVariables = !!this.maxCustomVariables && this.maxCustomVariables > this.customVars.length;
-    },
-    onCustomVarNameKeydown: function onCustomVarNameKeydown(event, index) {
-      var _this3 = this;
-
-      setTimeout(function () {
-        _this3.customVars[index].name = event.target.value;
-
-        _this3.updateTrackingCode();
-      });
-    },
-    onCustomVarValueKeydown: function onCustomVarValueKeydown(event, index) {
-      var _this4 = this;
-
-      setTimeout(function () {
-        _this4.customVars[index].value = event.target.value;
-
-        _this4.updateTrackingCode();
-      });
-    }
-  },
-  computed: {
-    hasManySiteUrls: function hasManySiteUrls() {
-      var site = this.site;
-      return this.siteUrls[site.id] && this.siteUrls[site.id].length > 1;
-    },
-    currentSiteHost: function currentSiteHost() {
-      var _this$siteUrls$this$s;
-
-      var siteUrl = (_this$siteUrls$this$s = this.siteUrls[this.site.id]) === null || _this$siteUrls$this$s === void 0 ? void 0 : _this$siteUrls$this$s[0];
-
-      if (!siteUrl) {
-        return '';
-      }
-
-      return getHostNameFromUrl(siteUrl);
-    },
-    currentSiteAlias: function currentSiteAlias() {
-      var _this$siteUrls$this$s2;
-
-      var defaultAliasUrl = "x.".concat(this.currentSiteHost);
-      var alias = (_this$siteUrls$this$s2 = this.siteUrls[this.site.id]) === null || _this$siteUrls$this$s2 === void 0 ? void 0 : _this$siteUrls$this$s2[1];
-      return alias || defaultAliasUrl;
-    },
-    currentSiteName: function currentSiteName() {
-      return external_CoreHome_["Matomo"].helper.htmlEntities(this.site.name);
-    },
-    mergeSubdomainsDesc: function mergeSubdomainsDesc() {
-      return Object(external_CoreHome_["translate"])('CoreAdminHome_JSTracking_MergeSubdomainsDesc', "x.".concat(this.currentSiteHost), "y.".concat(this.currentSiteHost));
-    },
-    learnMoreText: function learnMoreText() {
-      var subdomainsLink = 'https://developer.matomo.org/guides/tracking-javascript-guide' + '#measuring-domains-andor-sub-domains';
-      return Object(external_CoreHome_["translate"])('General_LearnMore', " (<a href=\"".concat(subdomainsLink, "\" rel=\"noreferrer noopener\" target=\"_blank\">"), '</a>)');
-    },
-    jsTrackCampaignParamsInlineHelp: function jsTrackCampaignParamsInlineHelp() {
-      return Object(external_CoreHome_["translate"])('CoreAdminHome_JSTracking_CustomCampaignQueryParamDesc', '<a href="https://matomo.org/faq/general/faq_119" rel="noreferrer noopener" target="_blank">', '</a>');
-    },
-    trackingDocumentationHelp: function trackingDocumentationHelp() {
-      return Object(external_CoreHome_["translate"])('CoreAdminHome_JSTrackingDocumentationHelp', '<a rel="noreferrer noopener" target="_blank" href="https://developer.matomo.org/guides/tracking-javascript-guide">', '</a>');
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeAdvancedOptions.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeAdvancedOptions.vue
-
-
-
-JsTrackingCodeAdvancedOptionsvue_type_script_lang_ts.render = JsTrackingCodeAdvancedOptionsvue_type_template_id_cc111ec2_render
-
-/* harmony default export */ var JsTrackingCodeAdvancedOptions = (JsTrackingCodeAdvancedOptionsvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGenerator.vue?vue&type=script&lang=ts
-
-
-
-
-/* harmony default export */ var JsTrackingCodeGeneratorvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    defaultSite: {
-      type: Object,
-      required: true
-    },
-    maxCustomVariables: Number,
-    serverSideDoNotTrackEnabled: Boolean
-  },
-  data: function data() {
-    return {
-      site: this.defaultSite,
-      trackingCode: '',
-      isHighlighting: false,
-      consentManagerName: '',
-      consentManagerUrl: '',
-      consentManagerIsConnected: false
-    };
-  },
-  components: {
-    JsTrackingCodeAdvancedOptions: JsTrackingCodeAdvancedOptions,
-    ContentBlock: external_CoreHome_["ContentBlock"],
-    Field: external_CorePluginsAdmin_["Field"]
-  },
-  directives: {
-    CopyToClipboard: external_CoreHome_["CopyToClipboard"]
-  },
-  created: function created() {
-    if (this.site && this.site.id) {
-      this.onSiteChanged(this.site);
-    }
-  },
-  watch: {
-    site: function site(newValue) {
-      this.onSiteChanged(newValue);
-    }
-  },
-  methods: {
-    updateTrackingCode: function updateTrackingCode(code) {
-      var _this = this;
-
-      this.trackingCode = code;
-      var jsCodeTextarea = $(this.$refs.trackingCode);
-
-      if (jsCodeTextarea && !this.isHighlighting) {
-        this.isHighlighting = true;
-        jsCodeTextarea.effect('highlight', {
-          complete: function complete() {
-            _this.isHighlighting = false;
-          }
-        }, 1500);
-      }
-    },
-    onSiteChanged: function onSiteChanged(newValue) {
-      var _this2 = this;
-
-      var idSite = newValue.id;
-      external_CoreHome_["AjaxHelper"].fetch({
-        module: 'API',
-        format: 'json',
-        method: 'SitesManager.detectConsentManager',
-        idSite: idSite,
-        filter_limit: '-1'
-      }).then(function (response) {
-        if (Object.prototype.hasOwnProperty.call(response, 'name')) {
-          _this2.consentManagerName = response.name;
-        }
-
-        if (Object.prototype.hasOwnProperty.call(response, 'url')) {
-          _this2.consentManagerUrl = response.url;
-        }
-
-        _this2.consentManagerIsConnected = response.isConnected;
-      });
-    },
-    sendEmail: function sendEmail() {
-      var subjectLine = Object(external_CoreHome_["translate"])('SitesManager_EmailInstructionsSubject');
-      subjectLine = encodeURIComponent(subjectLine);
-      var trackingCode = this.trackingCode;
-      trackingCode = trackingCode.replace(/<[^>]+>/g, '');
-      var bodyText = "".concat(Object(external_CoreHome_["translate"])('SitesManager_JsTrackingTagHelp'), ". ").concat(Object(external_CoreHome_["translate"])('CoreAdminHome_JSTracking_CodeNoteBeforeClosingHeadEmail', '\'head'), "\n").concat(trackingCode);
-
-      if (this.consentManagerName !== '' && this.consentManagerUrl !== '') {
-        bodyText += Object(external_CoreHome_["translate"])('CoreAdminHome_JSTracking_ConsentManagerDetected', this.consentManagerName, this.consentManagerUrl);
-
-        if (this.consentManagerIsConnected) {
-          bodyText += "\n".concat(Object(external_CoreHome_["translate"])('CoreAdminHome_JSTracking_ConsentManagerConnected', this.consentManagerName));
-        }
-      }
-
-      bodyText = encodeURIComponent(bodyText);
-      var linkText = "mailto:?subject=".concat(subjectLine, "&body=").concat(bodyText);
-      window.location.href = linkText;
-    }
-  },
-  computed: {
-    jsTrackingIntro3a: function jsTrackingIntro3a() {
-      return Object(external_CoreHome_["translate"])('CoreAdminHome_JSTrackingIntro3a', '<a href="https://matomo.org/integrate/" rel="noreferrer noopener" target="_blank">', '</a>');
-    },
-    jsTrackingIntro3b: function jsTrackingIntro3b() {
-      return Object(external_CoreHome_["translate"])('CoreAdminHome_JSTrackingIntro3b');
-    },
-    jsTrackingIntro4a: function jsTrackingIntro4a() {
-      return Object(external_CoreHome_["translate"])('CoreAdminHome_JSTrackingIntro4', '<a href="#image-tracking-link">', '</a>');
-    },
-    jsTrackingIntro5: function jsTrackingIntro5() {
-      return Object(external_CoreHome_["translate"])('CoreAdminHome_JSTrackingIntro5', '<a rel="noreferrer noopener" target="_blank" ' + 'href="https://developer.matomo.org/guides/tracking-javascript-guide">', '</a>');
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGenerator.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGenerator.vue
-
-
-
-JsTrackingCodeGeneratorvue_type_script_lang_ts.render = JsTrackingCodeGeneratorvue_type_template_id_0055e292_render
-
-/* harmony default export */ var JsTrackingCodeGenerator = (JsTrackingCodeGeneratorvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGeneratorSitesWithoutData.vue?vue&type=template&id=06b9935e
-
-var JsTrackingCodeGeneratorSitesWithoutDatavue_type_template_id_06b9935e_hoisted_1 = {
-  class: "list-style-decimal"
-};
-var JsTrackingCodeGeneratorSitesWithoutDatavue_type_template_id_06b9935e_hoisted_2 = {
-  id: "javascript-text"
-};
-var JsTrackingCodeGeneratorSitesWithoutDatavue_type_template_id_06b9935e_hoisted_3 = ["textContent"];
-var JsTrackingCodeGeneratorSitesWithoutDatavue_type_template_id_06b9935e_hoisted_4 = {
-  key: 0
-};
-function JsTrackingCodeGeneratorSitesWithoutDatavue_type_template_id_06b9935e_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_JsTrackingCodeAdvancedOptions = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("JsTrackingCodeAdvancedOptions");
-
-  var _directive_copy_to_clipboard = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("copy-to-clipboard");
-
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("ol", JsTrackingCodeGeneratorSitesWithoutDatavue_type_template_id_06b9935e_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreAdminHome_JsTrackingCodeAdvancedOptionsStep')) + " ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_JsTrackingCodeAdvancedOptions, {
-    site: _ctx.site,
-    "max-custom-variables": _ctx.maxCustomVariables,
-    "server-side-do-not-track-enabled": _ctx.serverSideDoNotTrackEnabled,
-    onUpdateTrackingCode: _ctx.updateTrackingCode
-  }, null, 8, ["site", "max-custom-variables", "server-side-do-not-track-enabled", "onUpdateTrackingCode"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.getCopyCodeStep), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", JsTrackingCodeGeneratorSitesWithoutDatavue_type_template_id_06b9935e_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("pre", {
-    class: "codeblock",
-    textContent: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.trackingCode),
-    ref: "trackingCode"
-  }, null, 8, JsTrackingCodeGeneratorSitesWithoutDatavue_type_template_id_06b9935e_hoisted_3), [[_directive_copy_to_clipboard, {}]])])])]), _ctx.isJsTrackerInstallCheckAvailable ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", JsTrackingCodeGeneratorSitesWithoutDatavue_type_template_id_06b9935e_hoisted_4, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDynamicComponent"])(_ctx.testComponent), {
-    site: _ctx.site
-  }, null, 8, ["site"]))])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
-}
-// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGeneratorSitesWithoutData.vue?vue&type=template&id=06b9935e
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGeneratorSitesWithoutData.vue?vue&type=script&lang=ts
-
-
-
-/* harmony default export */ var JsTrackingCodeGeneratorSitesWithoutDatavue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    defaultSite: {
-      type: Object,
-      required: true
-    },
-    maxCustomVariables: Number,
-    serverSideDoNotTrackEnabled: Boolean,
-    jsTag: String,
-    isJsTrackerInstallCheckAvailable: Boolean
-  },
-  components: {
-    JsTrackingCodeAdvancedOptions: JsTrackingCodeAdvancedOptions
-  },
-  directives: {
-    CopyToClipboard: external_CoreHome_["CopyToClipboard"]
-  },
-  data: function data() {
-    return {
-      site: this.defaultSite,
-      trackingCode: '',
-      isHighlighting: false
-    };
-  },
-  created: function created() {
-    if (this.jsTag) {
-      this.trackingCode = this.jsTag;
-    }
-  },
-  methods: {
-    updateTrackingCode: function updateTrackingCode(code) {
-      var _this = this;
-
-      this.trackingCode = code;
-      var jsCodeTextarea = $(this.$refs.trackingCode);
-
-      if (jsCodeTextarea && !this.isHighlighting) {
-        this.isHighlighting = true;
-        jsCodeTextarea.effect('highlight', {
-          complete: function complete() {
-            _this.isHighlighting = false;
-          }
-        }, 1500);
-      }
-    }
-  },
-  computed: {
-    getCopyCodeStep: function getCopyCodeStep() {
-      return Object(external_CoreHome_["translate"])('CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead', '</head>');
-    },
-    testComponent: function testComponent() {
-      if (this.isJsTrackerInstallCheckAvailable) {
-        return Object(external_CoreHome_["useExternalPluginComponent"])('JsTrackerInstallCheck', 'JsTrackerInstallCheck');
-      }
-
-      return '';
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGeneratorSitesWithoutData.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGeneratorSitesWithoutData.vue
-
-
-
-JsTrackingCodeGeneratorSitesWithoutDatavue_type_script_lang_ts.render = JsTrackingCodeGeneratorSitesWithoutDatavue_type_template_id_06b9935e_render
-
-/* harmony default export */ var JsTrackingCodeGeneratorSitesWithoutData = (JsTrackingCodeGeneratorSitesWithoutDatavue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/ImageTrackingCodeGenerator/ImageTrackingCodeGenerator.vue?vue&type=template&id=ccc6b740
-
-
-var ImageTrackingCodeGeneratorvue_type_template_id_ccc6b740_hoisted_1 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-  name: "image-tracking-link"
-}, null, -1);
-
-var ImageTrackingCodeGeneratorvue_type_template_id_ccc6b740_hoisted_2 = {
-  id: "image-tracking-code-options"
-};
-var ImageTrackingCodeGeneratorvue_type_template_id_ccc6b740_hoisted_3 = ["innerHTML"];
-var ImageTrackingCodeGeneratorvue_type_template_id_ccc6b740_hoisted_4 = ["innerHTML"];
-var ImageTrackingCodeGeneratorvue_type_template_id_ccc6b740_hoisted_5 = {
-  id: "image-tracking-goal-sub"
-};
-var ImageTrackingCodeGeneratorvue_type_template_id_ccc6b740_hoisted_6 = {
-  class: "row"
-};
-var ImageTrackingCodeGeneratorvue_type_template_id_ccc6b740_hoisted_7 = {
-  class: "col s12 m6"
-};
-var ImageTrackingCodeGeneratorvue_type_template_id_ccc6b740_hoisted_8 = {
-  class: "col s12 m6"
-};
-var ImageTrackingCodeGeneratorvue_type_template_id_ccc6b740_hoisted_9 = {
-  id: "image-link-output-section"
-};
-var ImageTrackingCodeGeneratorvue_type_template_id_ccc6b740_hoisted_10 = {
-  id: "image-tracking-text"
-};
-var ImageTrackingCodeGeneratorvue_type_template_id_ccc6b740_hoisted_11 = ["textContent"];
-function ImageTrackingCodeGeneratorvue_type_template_id_ccc6b740_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
-  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
-
-  var _directive_copy_to_clipboard = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("copy-to-clipboard");
-
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
-    "content-title": _ctx.translate('CoreAdminHome_ImageTracking'),
-    anchor: "imageTracking"
-  }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [ImageTrackingCodeGeneratorvue_type_template_id_ccc6b740_hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ImageTrackingCodeGeneratorvue_type_template_id_ccc6b740_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
-        innerHTML: _ctx.$sanitize(_ctx.imageTrackingIntro)
-      }, null, 8, ImageTrackingCodeGeneratorvue_type_template_id_ccc6b740_hoisted_3), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
-        innerHTML: _ctx.$sanitize(_ctx.imageTrackingIntro3)
-      }, null, 8, ImageTrackingCodeGeneratorvue_type_template_id_ccc6b740_hoisted_4), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "site",
-        name: "image-tracker-website",
-        modelValue: _ctx.site,
-        "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-          return _ctx.site = $event;
-        }),
-        introduction: _ctx.translate('General_Website')
-      }, null, 8, ["modelValue", "introduction"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "text",
-        name: "image-tracker-action-name",
-        "model-value": _ctx.pageName,
-        "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-          _ctx.pageName = $event;
-
-          _ctx.updateTrackingCode();
-        }),
-        disabled: _ctx.isLoading,
-        introduction: _ctx.translate('General_Options'),
-        title: _ctx.translate('Actions_ColumnPageName')
-      }, null, 8, ["model-value", "disabled", "introduction", "title"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "checkbox",
-        name: "image-tracking-goal-check",
-        "model-value": _ctx.trackGoal,
-        "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
-          _ctx.trackGoal = $event;
-
-          _ctx.updateTrackingCode();
-        }),
-        disabled: _ctx.isLoading,
-        title: _ctx.translate('CoreAdminHome_TrackAGoal')
-      }, null, 8, ["model-value", "disabled", "title"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ImageTrackingCodeGeneratorvue_type_template_id_ccc6b740_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ImageTrackingCodeGeneratorvue_type_template_id_ccc6b740_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ImageTrackingCodeGeneratorvue_type_template_id_ccc6b740_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "select",
-        name: "image-tracker-goal",
-        options: _ctx.siteGoals,
-        disabled: _ctx.isLoading,
-        "model-value": _ctx.trackIdGoal,
-        "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
-          _ctx.trackIdGoal = $event;
-
-          _ctx.updateTrackingCode();
-        })
-      }, null, 8, ["options", "disabled", "model-value"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ImageTrackingCodeGeneratorvue_type_template_id_ccc6b740_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "text",
-        name: "image-revenue",
-        "model-value": _ctx.revenue,
-        "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
-          _ctx.revenue = $event;
-
-          _ctx.updateTrackingCode();
-        }),
-        disabled: _ctx.isLoading,
-        "full-width": true,
-        title: "".concat(_ctx.translate('CoreAdminHome_WithOptionalRevenue'), " ").concat(_ctx.currentSiteCurrency)
-      }, null, 8, ["model-value", "disabled", "title"])])])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.trackGoal]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ImageTrackingCodeGeneratorvue_type_template_id_ccc6b740_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreAdminHome_ImageTrackingLink')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ImageTrackingCodeGeneratorvue_type_template_id_ccc6b740_hoisted_10, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("pre", {
-        textContent: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.trackingCode),
-        ref: "trackingCode"
-      }, null, 8, ImageTrackingCodeGeneratorvue_type_template_id_ccc6b740_hoisted_11), [[_directive_copy_to_clipboard, {}]])])])])])];
-    }),
-    _: 1
-  }, 8, ["content-title"]);
-}
-// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/ImageTrackingCodeGenerator/ImageTrackingCodeGenerator.vue?vue&type=template&id=ccc6b740
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/ImageTrackingCodeGenerator/ImageTrackingCodeGenerator.vue?vue&type=script&lang=ts
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-
-
-
-var currencySymbols = null;
-var ImageTrackingCodeGeneratorvue_type_script_lang_ts_window = window,
-    ImageTrackingCodeGeneratorvue_type_script_lang_ts_$ = ImageTrackingCodeGeneratorvue_type_script_lang_ts_window.$;
-var ImageTrackingCodeGeneratorvue_type_script_lang_ts_piwikHost = window.location.host;
-var ImageTrackingCodeGeneratorvue_type_script_lang_ts_piwikPath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
-/* harmony default export */ var ImageTrackingCodeGeneratorvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    defaultSite: {
-      type: Object,
-      required: true
-    }
-  },
-  components: {
-    ContentBlock: external_CoreHome_["ContentBlock"],
-    Field: external_CorePluginsAdmin_["Field"]
-  },
-  directives: {
-    CopyToClipboard: external_CoreHome_["CopyToClipboard"]
-  },
-  data: function data() {
-    return {
-      isLoading: false,
-      site: this.defaultSite,
-      pageName: '',
-      trackGoal: false,
-      trackIdGoal: null,
-      revenue: '',
-      trackingCode: '',
-      sites: {},
-      goals: {},
-      trackingCodeAbortController: null,
-      isHighlighting: false
-    };
-  },
-  created: function created() {
-    this.updateTrackingCode = Object(external_CoreHome_["debounce"])(this.updateTrackingCode);
-
-    if (this.site && this.site.id) {
-      this.onSiteChanged(this.site);
-    }
-  },
-  watch: {
-    site: function site(newValue) {
-      this.onSiteChanged(newValue);
-    }
-  },
-  methods: {
-    onSiteChanged: function onSiteChanged(newValue) {
-      var _this = this;
-
-      this.trackIdGoal = null;
-      var currencyPromise;
-
-      if (currencySymbols) {
-        currencyPromise = Promise.resolve(currencySymbols);
-      } else {
-        this.isLoading = true;
-        currencyPromise = external_CoreHome_["AjaxHelper"].fetch({
-          method: 'SitesManager.getCurrencySymbols',
-          filter_limit: '-1'
-        });
-      }
-
-      var sitePromise;
-
-      if (this.sites[newValue.id]) {
-        sitePromise = Promise.resolve(this.sites[newValue.id]);
-      } else {
-        this.isLoading = true;
-        sitePromise = external_CoreHome_["AjaxHelper"].fetch({
-          module: 'API',
-          method: 'SitesManager.getSiteFromId',
-          idSite: newValue.id
-        });
-      }
-
-      var goalPromise;
-
-      if (this.goals[newValue.id]) {
-        goalPromise = Promise.resolve(this.goals[newValue.id]);
-      } else {
-        this.isLoading = true;
-        goalPromise = external_CoreHome_["AjaxHelper"].fetch({
-          module: 'API',
-          method: 'Goals.getGoals',
-          filter_limit: '-1',
-          idSite: newValue.id
-        });
-      }
-
-      return Promise.all([currencyPromise, sitePromise, goalPromise]).then(function (_ref) {
-        var _ref2 = _slicedToArray(_ref, 3),
-            currencyResponse = _ref2[0],
-            site = _ref2[1],
-            goalsResponse = _ref2[2];
-
-        _this.isLoading = false;
-        currencySymbols = currencyResponse;
-        _this.sites[newValue.id] = site;
-        _this.goals[newValue.id] = goalsResponse;
-
-        _this.updateTrackingCode();
-      });
-    },
-    updateTrackingCode: function updateTrackingCode() {
-      var _this2 = this;
-
-      // get data used to generate the link
-      var postParams = {
-        piwikUrl: "".concat(ImageTrackingCodeGeneratorvue_type_script_lang_ts_piwikHost).concat(ImageTrackingCodeGeneratorvue_type_script_lang_ts_piwikPath),
-        actionName: this.pageName,
-        forceMatomoEndpoint: 1
-      };
-
-      if (this.trackGoal && this.trackIdGoal) {
-        postParams.idGoal = this.trackIdGoal;
-        postParams.revenue = this.revenue;
-      }
-
-      if (this.trackingCodeAbortController) {
-        this.trackingCodeAbortController.abort();
-        this.trackingCodeAbortController = null;
-      }
-
-      this.trackingCodeAbortController = new AbortController();
-      external_CoreHome_["AjaxHelper"].post({
-        module: 'API',
-        format: 'json',
-        method: 'SitesManager.getImageTrackingCode',
-        idSite: this.site.id
-      }, postParams, {
-        abortController: this.trackingCodeAbortController
-      }).then(function (response) {
-        _this2.trackingCodeAbortController = null;
-        _this2.trackingCode = response.value;
-        var imageCodeTextarea = ImageTrackingCodeGeneratorvue_type_script_lang_ts_$(_this2.$refs.trackingCode);
-
-        if (imageCodeTextarea && !_this2.isHighlighting) {
-          _this2.isHighlighting = true;
-          imageCodeTextarea.effect('highlight', {
-            complete: function complete() {
-              _this2.isHighlighting = false;
-            }
-          }, 1500);
-        }
-      });
-    }
-  },
-  computed: {
-    currentSiteCurrency: function currentSiteCurrency() {
-      if (!currencySymbols) {
-        return '';
-      }
-
-      return currencySymbols[(this.sites[this.site.id].currency || '').toUpperCase()];
-    },
-    siteGoals: function siteGoals() {
-      var goalsResponse = this.goals[this.site.id];
-      return [{
-        key: '',
-        value: Object(external_CoreHome_["translate"])('UserCountryMap_None')
-      }].concat(Object.values(goalsResponse || []).map(function (g) {
-        return {
-          key: "".concat(g.idgoal),
-          value: g.name
-        };
-      }));
-    },
-    imageTrackingIntro: function imageTrackingIntro() {
-      var first = Object(external_CoreHome_["translate"])('CoreAdminHome_ImageTrackingIntro1');
-      var second = Object(external_CoreHome_["translate"])('CoreAdminHome_ImageTrackingIntro2', '<code>&lt;noscript&gt;&lt;/noscript&gt;</code>');
-      return "".concat(first, " ").concat(second);
-    },
-    imageTrackingIntro3: function imageTrackingIntro3() {
-      var link = 'https://matomo.org/docs/tracking-api/reference/';
-      return Object(external_CoreHome_["translate"])('CoreAdminHome_ImageTrackingIntro3', "<a href=\"".concat(link, "\" rel=\"noreferrer noopener\" target=\"_blank\">"), '</a>');
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/ImageTrackingCodeGenerator/ImageTrackingCodeGenerator.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/ImageTrackingCodeGenerator/ImageTrackingCodeGenerator.vue
-
-
-
-ImageTrackingCodeGeneratorvue_type_script_lang_ts.render = ImageTrackingCodeGeneratorvue_type_template_id_ccc6b740_render
-
-/* harmony default export */ var ImageTrackingCodeGenerator = (ImageTrackingCodeGeneratorvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/TrackingFailures/TrackingFailures.vue?vue&type=template&id=209e7186
-
-
-var TrackingFailuresvue_type_template_id_209e7186_hoisted_1 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
-var TrackingFailuresvue_type_template_id_209e7186_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
-var TrackingFailuresvue_type_template_id_209e7186_hoisted_3 = ["value"];
-var TrackingFailuresvue_type_template_id_209e7186_hoisted_4 = {
-  class: "action"
-};
-var TrackingFailuresvue_type_template_id_209e7186_hoisted_5 = {
-  colspan: "7"
-};
-
-var TrackingFailuresvue_type_template_id_209e7186_hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-  class: "icon-ok"
-}, null, -1);
-
-var TrackingFailuresvue_type_template_id_209e7186_hoisted_7 = {
-  class: "ui-confirm",
-  id: "confirmDeleteAllTrackingFailures"
-};
-var TrackingFailuresvue_type_template_id_209e7186_hoisted_8 = ["value"];
-var TrackingFailuresvue_type_template_id_209e7186_hoisted_9 = ["value"];
-var TrackingFailuresvue_type_template_id_209e7186_hoisted_10 = {
-  class: "ui-confirm",
-  id: "confirmDeleteThisTrackingFailure"
-};
-var TrackingFailuresvue_type_template_id_209e7186_hoisted_11 = ["value"];
-var TrackingFailuresvue_type_template_id_209e7186_hoisted_12 = ["value"];
-function TrackingFailuresvue_type_template_id_209e7186_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
-
-  var _component_FailureRow = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("FailureRow");
-
-  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
-
-  var _directive_content_table = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-table");
-
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
-    class: "matomoTrackingFailures",
-    "content-title": _ctx.translate('CoreAdminHome_TrackingFailures')
-  }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreAdminHome_TrackingFailuresIntroduction', '2')) + " ", 1), TrackingFailuresvue_type_template_id_209e7186_hoisted_1, TrackingFailuresvue_type_template_id_209e7186_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-        class: "btn deleteAllFailures",
-        type: "button",
-        onClick: _cache[0] || (_cache[0] = function ($event) {
-          return _ctx.deleteAll();
-        }),
-        value: _ctx.translate('CoreAdminHome_DeleteAllFailures')
-      }, null, 8, TrackingFailuresvue_type_template_id_209e7186_hoisted_3), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !_ctx.isLoading && _ctx.failures.length > 0]])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
-        loading: _ctx.isLoading
-      }, null, 8, ["loading"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("table", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("thead", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tr", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", {
-        onClick: _cache[1] || (_cache[1] = function ($event) {
-          return _ctx.changeSortOrder('idsite');
-        })
-      }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Measurable')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", {
-        onClick: _cache[2] || (_cache[2] = function ($event) {
-          return _ctx.changeSortOrder('problem');
-        })
-      }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreAdminHome_Problem')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", {
-        onClick: _cache[3] || (_cache[3] = function ($event) {
-          return _ctx.changeSortOrder('solution');
-        })
-      }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreAdminHome_Solution')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", {
-        onClick: _cache[4] || (_cache[4] = function ($event) {
-          return _ctx.changeSortOrder('date_first_occurred');
-        })
-      }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Date')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", {
-        onClick: _cache[5] || (_cache[5] = function ($event) {
-          return _ctx.changeSortOrder('url');
-        })
-      }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Actions_ColumnPageURL')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", {
-        onClick: _cache[6] || (_cache[6] = function ($event) {
-          return _ctx.changeSortOrder('request_url');
-        })
-      }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreAdminHome_TrackingURL')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", TrackingFailuresvue_type_template_id_209e7186_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Action')), 1)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tbody", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tr", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", TrackingFailuresvue_type_template_id_209e7186_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreAdminHome_NoKnownFailures')) + " ", 1), TrackingFailuresvue_type_template_id_209e7186_hoisted_6], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !_ctx.isLoading && _ctx.failures.length === 0]])]), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.sortedFailures, function (failure, index) {
-        return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("tr", {
-          key: index
-        }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_FailureRow, {
-          failure: failure,
-          onDelete: _cache[7] || (_cache[7] = function ($event) {
-            return _ctx.deleteFailure($event.idSite, $event.idFailure);
-          })
-        }, null, 8, ["failure"])]);
-      }), 128))])], 512), [[_directive_content_table]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", TrackingFailuresvue_type_template_id_209e7186_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreAdminHome_ConfirmDeleteAllTrackingFailures')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-        type: "button",
-        role: "yes",
-        value: _ctx.translate('General_Yes')
-      }, null, 8, TrackingFailuresvue_type_template_id_209e7186_hoisted_8), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-        type: "button",
-        role: "no",
-        value: _ctx.translate('General_No')
-      }, null, 8, TrackingFailuresvue_type_template_id_209e7186_hoisted_9)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", TrackingFailuresvue_type_template_id_209e7186_hoisted_10, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreAdminHome_ConfirmDeleteThisTrackingFailure')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-        type: "button",
-        role: "yes",
-        value: _ctx.translate('General_Yes')
-      }, null, 8, TrackingFailuresvue_type_template_id_209e7186_hoisted_11), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-        type: "button",
-        role: "no",
-        value: _ctx.translate('General_No')
-      }, null, 8, TrackingFailuresvue_type_template_id_209e7186_hoisted_12)])];
-    }),
-    _: 1
-  }, 8, ["content-title"]);
-}
-// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/TrackingFailures/TrackingFailures.vue?vue&type=template&id=209e7186
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/TrackingFailures/FailureRow.vue?vue&type=template&id=62acb18a
-
-var FailureRowvue_type_template_id_62acb18a_hoisted_1 = ["href"];
-var FailureRowvue_type_template_id_62acb18a_hoisted_2 = {
-  class: "datetime"
-};
-var FailureRowvue_type_template_id_62acb18a_hoisted_3 = ["title"];
-var FailureRowvue_type_template_id_62acb18a_hoisted_4 = ["title"];
-function FailureRowvue_type_template_id_62acb18a_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.failure.site_name) + " (" + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Id')) + " " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.failure.idsite) + ")", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.failure.problem), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.failure.solution) + " ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-    rel: "noopener noreferrer",
-    href: _ctx.failure.solution_url
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreAdminHome_LearnMore')), 9, FailureRowvue_type_template_id_62acb18a_hoisted_1), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.failure.solution_url]])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", FailureRowvue_type_template_id_62acb18a_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.failure.pretty_date_first_occurred), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.failure.url), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-    onClick: _cache[0] || (_cache[0] = function ($event) {
-      return _ctx.showFullRequestUrl = true;
-    }),
-    title: _ctx.translate('CoreHome_ClickToSeeFullInformation')
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.limtedRequestUrl) + "...", 9, FailureRowvue_type_template_id_62acb18a_hoisted_3), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !_ctx.showFullRequestUrl]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.failure.request_url), 513), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.failure.showFullRequestUrl]])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-    class: "table-action icon-delete",
-    onClick: _cache[1] || (_cache[1] = function ($event) {
-      return _ctx.deleteFailure(_ctx.failure.idsite, _ctx.failure.idfailure);
-    }),
-    title: _ctx.translate('General_Delete')
-  }, null, 8, FailureRowvue_type_template_id_62acb18a_hoisted_4)])], 64);
-}
-// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/TrackingFailures/FailureRow.vue?vue&type=template&id=62acb18a
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/TrackingFailures/FailureRow.vue?vue&type=script&lang=ts
-
-/* harmony default export */ var FailureRowvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    failure: {
-      type: Object,
-      required: true
-    }
-  },
-  emits: ['delete'],
-  data: function data() {
-    return {
-      showFullRequestUrl: false
-    };
-  },
-  computed: {
-    limtedRequestUrl: function limtedRequestUrl() {
-      return this.failure.request_url.substring(0, 100);
-    }
-  },
-  methods: {
-    deleteFailure: function deleteFailure(idSite, idFailure) {
-      this.$emit('delete', {
-        idSite: idSite,
-        idFailure: idFailure
-      });
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/TrackingFailures/FailureRow.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/TrackingFailures/FailureRow.vue
-
-
-
-FailureRowvue_type_script_lang_ts.render = FailureRowvue_type_template_id_62acb18a_render
-
-/* harmony default export */ var FailureRow = (FailureRowvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/TrackingFailures/TrackingFailures.vue?vue&type=script&lang=ts
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || TrackingFailuresvue_type_script_lang_ts_unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function TrackingFailuresvue_type_script_lang_ts_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return TrackingFailuresvue_type_script_lang_ts_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return TrackingFailuresvue_type_script_lang_ts_arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return TrackingFailuresvue_type_script_lang_ts_arrayLikeToArray(arr); }
-
-function TrackingFailuresvue_type_script_lang_ts_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-
-
-
-/* harmony default export */ var TrackingFailuresvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  components: {
-    ContentBlock: external_CoreHome_["ContentBlock"],
-    ActivityIndicator: external_CoreHome_["ActivityIndicator"],
-    FailureRow: FailureRow
-  },
-  directives: {
-    ContentTable: external_CoreHome_["ContentTable"]
-  },
-  data: function data() {
-    return {
-      failures: [],
-      sortColumn: 'idsite',
-      sortReverse: false,
-      isLoading: false
-    };
-  },
-  created: function created() {
-    this.fetchAll();
-  },
-  methods: {
-    changeSortOrder: function changeSortOrder(columnToSort) {
-      if (this.sortColumn === columnToSort) {
-        this.sortReverse = !this.sortReverse;
-      } else {
-        this.sortColumn = columnToSort;
-      }
-    },
-    fetchAll: function fetchAll() {
-      var _this = this;
-
-      this.failures = [];
-      this.isLoading = true;
-      external_CoreHome_["AjaxHelper"].fetch({
-        method: 'CoreAdminHome.getTrackingFailures',
-        filter_limit: '-1'
-      }).then(function (failures) {
-        _this.failures = failures;
-        _this.isLoading = false;
-      }).finally(function () {
-        _this.isLoading = false;
-      });
-    },
-    deleteAll: function deleteAll() {
-      var _this2 = this;
-
-      external_CoreHome_["Matomo"].helper.modalConfirm('#confirmDeleteAllTrackingFailures', {
-        yes: function yes() {
-          _this2.failures = [];
-          external_CoreHome_["AjaxHelper"].fetch({
-            method: 'CoreAdminHome.deleteAllTrackingFailures'
-          }).then(function () {
-            _this2.fetchAll();
-          });
-        }
-      });
-    },
-    deleteFailure: function deleteFailure(idSite, idFailure) {
-      var _this3 = this;
-
-      external_CoreHome_["Matomo"].helper.modalConfirm('#confirmDeleteThisTrackingFailure', {
-        yes: function yes() {
-          _this3.failures = [];
-          external_CoreHome_["AjaxHelper"].fetch({
-            method: 'CoreAdminHome.deleteTrackingFailure',
-            idSite: idSite,
-            idFailure: idFailure
-          }).then(function () {
-            _this3.fetchAll();
-          });
-        }
-      });
-    }
-  },
-  computed: {
-    sortedFailures: function sortedFailures() {
-      var sortColumn = this.sortColumn;
-
-      var sorted = _toConsumableArray(this.failures);
-
-      if (this.sortReverse) {
-        sorted.sort(function (lhs, rhs) {
-          if (lhs[sortColumn] > rhs[sortColumn]) {
-            return -1;
-          }
-
-          if (lhs[sortColumn] < rhs[sortColumn]) {
-            return 1;
-          }
-
-          return 0;
-        });
-      } else {
-        sorted.sort(function (lhs, rhs) {
-          if (lhs[sortColumn] < rhs[sortColumn]) {
-            return -1;
-          }
-
-          if (lhs[sortColumn] > rhs[sortColumn]) {
-            return 1;
-          }
-
-          return 0;
-        });
-      }
-
-      return sorted;
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/TrackingFailures/TrackingFailures.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/TrackingFailures/TrackingFailures.vue
-
-
-
-TrackingFailuresvue_type_script_lang_ts.render = TrackingFailuresvue_type_template_id_209e7186_render
-
-/* harmony default export */ var TrackingFailures = (TrackingFailuresvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CoreAdminHome/vue/src/index.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
-*/
-
-
-
-
-
-
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nvar _hoisted_1 = {\n  class: \"form-group row\"\n};\nvar _hoisted_2 = {\n  class: \"col s12\"\n};\nvar _hoisted_3 = {\n  class: \"col s12 m6\"\n};\nvar _hoisted_4 = {\n  class: \"form-description\",\n  style: {\n    \"margin-left\": \"4px\"\n  }\n};\nvar _hoisted_5 = {\n  for: \"enableBrowserTriggerArchiving2\"\n};\nvar _hoisted_6 = [\"innerHTML\"];\nvar _hoisted_7 = {\n  class: \"col s12 m6\"\n};\nvar _hoisted_8 = [\"innerHTML\"];\nvar _hoisted_9 = {\n  class: \"form-group row\"\n};\nvar _hoisted_10 = {\n  class: \"col s12\"\n};\nvar _hoisted_11 = {\n  class: \"input-field col s12 m6\"\n};\nvar _hoisted_12 = [\"disabled\"];\nvar _hoisted_13 = {\n  class: \"form-description\"\n};\nvar _hoisted_14 = {\n  class: \"col s12 m6\"\n};\nvar _hoisted_15 = {\n  key: 0,\n  class: \"form-help\"\n};\nvar _hoisted_16 = {\n  key: 0\n};\n\nvar _hoisted_17 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_18 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_19 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  var _component_SaveButton = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"SaveButton\");\n\n  var _component_ContentBlock = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"ContentBlock\");\n\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createBlock\"])(_component_ContentBlock, {\n    \"content-title\": _ctx.translate('CoreAdminHome_ArchivingSettings'),\n    anchor: \"archivingSettings\",\n    class: \"matomo-archiving-settings\"\n  }, {\n    default: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withCtx\"])(function () {\n      return [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_1, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"h3\", _hoisted_2, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_AllowPiwikArchivingToTriggerBrowser')), 1\n      /* TEXT */\n      ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_3, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"p\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"label\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"input\", {\n        type: \"radio\",\n        id: \"enableBrowserTriggerArchiving1\",\n        name: \"enableBrowserTriggerArchiving\",\n        value: \"1\",\n        \"onUpdate:modelValue\": _cache[0] || (_cache[0] = function ($event) {\n          return _ctx.enableBrowserTriggerArchivingValue = $event;\n        })\n      }, null, 512\n      /* NEED_PATCH */\n      ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vModelRadio\"], _ctx.enableBrowserTriggerArchivingValue]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_Yes')), 1\n      /* TEXT */\n      ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", _hoisted_4, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_Default')), 1\n      /* TEXT */\n      )])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"p\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"label\", _hoisted_5, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"input\", {\n        type: \"radio\",\n        id: \"enableBrowserTriggerArchiving2\",\n        name: \"enableBrowserTriggerArchiving\",\n        value: \"0\",\n        \"onUpdate:modelValue\": _cache[1] || (_cache[1] = function ($event) {\n          return _ctx.enableBrowserTriggerArchivingValue = $event;\n        })\n      }, null, 512\n      /* NEED_PATCH */\n      ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vModelRadio\"], _ctx.enableBrowserTriggerArchivingValue]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_No')), 1\n      /* TEXT */\n      ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n        class: \"form-description\",\n        innerHTML: _ctx.$sanitize(_ctx.archivingTriggerDesc),\n        style: {\n          \"margin-left\": \"4px\"\n        }\n      }, null, 8\n      /* PROPS */\n      , _hoisted_6)])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_7, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", {\n        class: \"form-help\",\n        innerHTML: _ctx.$sanitize(_ctx.archivingInlineHelp)\n      }, null, 8\n      /* PROPS */\n      , _hoisted_8)])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_9, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"h3\", _hoisted_10, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_ReportsContainingTodayWillBeProcessedAtMostEvery')), 1\n      /* TEXT */\n      ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_11, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"input\", {\n        type: \"text\",\n        \"onUpdate:modelValue\": _cache[2] || (_cache[2] = function ($event) {\n          return _ctx.todayArchiveTimeToLiveValue = $event;\n        }),\n        id: \"todayArchiveTimeToLive\",\n        disabled: !_ctx.isGeneralSettingsAdminEnabled\n      }, null, 8\n      /* PROPS */\n      , _hoisted_12), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vModelText\"], _ctx.todayArchiveTimeToLiveValue]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", _hoisted_13, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_RearchiveTimeIntervalOnlyForTodayReports')), 1\n      /* TEXT */\n      )]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_14, [_ctx.isGeneralSettingsAdminEnabled ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_15, [_ctx.showWarningCron ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"strong\", _hoisted_16, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_NewReportsWillBeProcessedByCron')), 1\n      /* TEXT */\n      ), _hoisted_17, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(\" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_ReportsWillBeProcessedAtMostEveryHour')) + \" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_IfArchivingIsFastYouCanSetupCronRunMoreOften')), 1\n      /* TEXT */\n      ), _hoisted_18])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(\" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_SmallTrafficYouCanLeaveDefault', _ctx.todayArchiveTimeToLiveDefault)) + \" \", 1\n      /* TEXT */\n      ), _hoisted_19, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(\" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_MediumToHighTrafficItIsRecommendedTo', 1800, 3600)), 1\n      /* TEXT */\n      )])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true)])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_SaveButton, {\n        saving: _ctx.isLoading,\n        onConfirm: _cache[3] || (_cache[3] = function ($event) {\n          return _ctx.save();\n        })\n      }, null, 8\n      /* PROPS */\n      , [\"saving\"])])])];\n    }),\n    _: 1\n    /* STABLE */\n\n  }, 8\n  /* PROPS */\n  , [\"content-title\"]);\n}\n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/ArchivingSettings/ArchivingSettings.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
 
+/***/ }),
 
+/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreAdminHome/vue/src/BrandingSettings/BrandingSettings.vue?vue&type=template&id=1a621024":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/BrandingSettings/BrandingSettings.vue?vue&type=template&id=1a621024 ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nvar _hoisted_1 = {\n  id: \"logoSettings\"\n};\nvar _hoisted_2 = {\n  id: \"logoUploadForm\",\n  ref: \"logoUploadForm\",\n  method: \"post\",\n  enctype: \"multipart/form-data\",\n  action: \"index.php?module=CoreAdminHome&format=json&action=uploadCustomLogo\"\n};\nvar _hoisted_3 = {\n  key: 0\n};\nvar _hoisted_4 = [\"value\"];\n\nvar _hoisted_5 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"input\", {\n  type: \"hidden\",\n  name: \"force_api_session\",\n  value: \"1\"\n}, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_6 = {\n  key: 0\n};\nvar _hoisted_7 = {\n  key: 0,\n  class: \"alert alert-warning uploaderror\"\n};\nvar _hoisted_8 = {\n  class: \"row\"\n};\nvar _hoisted_9 = {\n  class: \"col s12\"\n};\nvar _hoisted_10 = [\"src\"];\nvar _hoisted_11 = {\n  class: \"row\"\n};\nvar _hoisted_12 = {\n  class: \"col s12\"\n};\nvar _hoisted_13 = [\"src\"];\nvar _hoisted_14 = {\n  key: 1\n};\nvar _hoisted_15 = [\"innerHTML\"];\nvar _hoisted_16 = {\n  key: 1\n};\nvar _hoisted_17 = {\n  class: \"alert alert-warning\"\n};\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  var _component_Field = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"Field\");\n\n  var _component_SaveButton = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"SaveButton\");\n\n  var _component_ContentBlock = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"ContentBlock\");\n\n  var _directive_form = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveDirective\"])(\"form\");\n\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createBlock\"])(_component_ContentBlock, {\n    \"content-title\": _ctx.translate('CoreAdminHome_BrandingSettings'),\n    anchor: \"brandingSettings\"\n  }, {\n    default: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withCtx\"])(function () {\n      return [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"p\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CoreAdminHome_CustomLogoHelpText')), 1\n      /* TEXT */\n      ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n        name: \"useCustomLogo\",\n        uicontrol: \"checkbox\",\n        \"model-value\": _ctx.enabled,\n        \"onUpdate:modelValue\": _cache[0] || (_cache[0] = function ($event) {\n          return _ctx.onUseCustomLogoChange($event);\n        }),\n        title: _ctx.translate('CoreAdminHome_UseCustomLogo'),\n        \"inline-help\": _ctx.help\n      }, null, 8\n      /* PROPS */\n      , [\"model-value\", \"title\", \"inline-help\"]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_1, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"form\", _hoisted_2, [_ctx.fileUploadEnabled ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_3, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"input\", {\n        type: \"hidden\",\n        name: \"token_auth\",\n        value: _ctx.tokenAuth\n      }, null, 8\n      /* PROPS */\n      , _hoisted_4), _hoisted_5, _ctx.logosWriteable ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_6, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(vue__WEBPACK_IMPORTED_MODULE_0__[\"Transition\"], {\n        name: \"fade-out\"\n      }, {\n        default: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withCtx\"])(function () {\n          return [_ctx.showUploadError ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_7, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CoreAdminHome_LogoUploadFailed')), 1\n          /* TEXT */\n          )) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true)];\n        }),\n        _: 1\n        /* STABLE */\n\n      }), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n        uicontrol: \"file\",\n        name: \"customLogo\",\n        \"model-value\": _ctx.customLogo,\n        \"onUpdate:modelValue\": _cache[1] || (_cache[1] = function ($event) {\n          return _ctx.onCustomLogoChange($event);\n        }),\n        title: _ctx.translate('CoreAdminHome_LogoUpload'),\n        \"inline-help\": _ctx.translate('CoreAdminHome_LogoUploadHelp', 'JPG / PNG / GIF', '110')\n      }, null, 8\n      /* PROPS */\n      , [\"model-value\", \"title\", \"inline-help\"]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_8, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_9, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"img\", {\n        src: _ctx.pathUserLogoWithBuster,\n        id: \"currentLogo\",\n        style: {\n          \"max-height\": \"150px\"\n        },\n        ref: \"currentLogo\"\n      }, null, 8\n      /* PROPS */\n      , _hoisted_10)])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n        uicontrol: \"file\",\n        name: \"customFavicon\",\n        \"model-value\": _ctx.customFavicon,\n        \"onUpdate:modelValue\": _cache[2] || (_cache[2] = function ($event) {\n          return _ctx.onFaviconChange($event);\n        }),\n        title: _ctx.translate('CoreAdminHome_FaviconUpload'),\n        \"inline-help\": _ctx.translate('CoreAdminHome_LogoUploadHelp', 'JPG / PNG / GIF', '16')\n      }, null, 8\n      /* PROPS */\n      , [\"model-value\", \"title\", \"inline-help\"]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_11, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_12, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"img\", {\n        src: _ctx.pathUserFaviconWithBuster,\n        id: \"currentFavicon\",\n        width: \"16\",\n        height: \"16\",\n        ref: \"currentFavicon\"\n      }, null, 8\n      /* PROPS */\n      , _hoisted_13)])])])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true), !_ctx.logosWriteable ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_14, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", {\n        class: \"alert alert-warning\",\n        innerHTML: _ctx.$sanitize(_ctx.logosNotWriteableWarning)\n      }, null, 8\n      /* PROPS */\n      , _hoisted_15)])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true)])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true), !_ctx.fileUploadEnabled ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_16, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_17, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CoreAdminHome_FileUploadDisabled', \"file_uploads=1\")), 1\n      /* TEXT */\n      )])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true)], 512\n      /* NEED_PATCH */\n      )], 512\n      /* NEED_PATCH */\n      ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.enabled]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_SaveButton, {\n        onConfirm: _cache[3] || (_cache[3] = function ($event) {\n          return _ctx.save();\n        }),\n        saving: _ctx.isLoading\n      }, null, 8\n      /* PROPS */\n      , [\"saving\"])], 512\n      /* NEED_PATCH */\n      ), [[_directive_form]])];\n    }),\n    _: 1\n    /* STABLE */\n\n  }, 8\n  /* PROPS */\n  , [\"content-title\"]);\n}\n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/BrandingSettings/BrandingSettings.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreAdminHome/vue/src/ImageTrackingCodeGenerator/ImageTrackingCodeGenerator.vue?vue&type=template&id=dee18124":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/ImageTrackingCodeGenerator/ImageTrackingCodeGenerator.vue?vue&type=template&id=dee18124 ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\n\nvar _hoisted_1 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"a\", {\n  name: \"image-tracking-link\"\n}, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_2 = {\n  id: \"image-tracking-code-options\"\n};\nvar _hoisted_3 = [\"innerHTML\"];\nvar _hoisted_4 = [\"innerHTML\"];\nvar _hoisted_5 = {\n  id: \"image-tracking-goal-sub\"\n};\nvar _hoisted_6 = {\n  class: \"row\"\n};\nvar _hoisted_7 = {\n  class: \"col s12 m6\"\n};\nvar _hoisted_8 = {\n  class: \"col s12 m6\"\n};\nvar _hoisted_9 = {\n  id: \"image-link-output-section\"\n};\nvar _hoisted_10 = {\n  id: \"image-tracking-text\"\n};\nvar _hoisted_11 = [\"textContent\"];\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  var _component_Field = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"Field\");\n\n  var _component_ContentBlock = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"ContentBlock\");\n\n  var _directive_copy_to_clipboard = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveDirective\"])(\"copy-to-clipboard\");\n\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createBlock\"])(_component_ContentBlock, {\n    \"content-title\": _ctx.translate('CoreAdminHome_ImageTracking'),\n    anchor: \"imageTracking\"\n  }, {\n    default: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withCtx\"])(function () {\n      return [_hoisted_1, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_2, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"p\", {\n        innerHTML: _ctx.$sanitize(_ctx.imageTrackingIntro)\n      }, null, 8\n      /* PROPS */\n      , _hoisted_3), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"p\", {\n        innerHTML: _ctx.$sanitize(_ctx.imageTrackingIntro3)\n      }, null, 8\n      /* PROPS */\n      , _hoisted_4), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\" website \"), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n        uicontrol: \"site\",\n        name: \"image-tracker-website\",\n        modelValue: _ctx.site,\n        \"onUpdate:modelValue\": _cache[0] || (_cache[0] = function ($event) {\n          return _ctx.site = $event;\n        }),\n        introduction: _ctx.translate('General_Website')\n      }, null, 8\n      /* PROPS */\n      , [\"modelValue\", \"introduction\"]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\" action_name \"), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n        uicontrol: \"text\",\n        name: \"image-tracker-action-name\",\n        \"model-value\": _ctx.pageName,\n        \"onUpdate:modelValue\": _cache[1] || (_cache[1] = function ($event) {\n          _ctx.pageName = $event;\n\n          _ctx.updateTrackingCode();\n        }),\n        disabled: _ctx.isLoading,\n        introduction: _ctx.translate('General_Options'),\n        title: _ctx.translate('Actions_ColumnPageName')\n      }, null, 8\n      /* PROPS */\n      , [\"model-value\", \"disabled\", \"introduction\", \"title\"]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\" goal \"), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n        uicontrol: \"checkbox\",\n        name: \"image-tracking-goal-check\",\n        \"model-value\": _ctx.trackGoal,\n        \"onUpdate:modelValue\": _cache[2] || (_cache[2] = function ($event) {\n          _ctx.trackGoal = $event;\n\n          _ctx.updateTrackingCode();\n        }),\n        disabled: _ctx.isLoading,\n        title: _ctx.translate('CoreAdminHome_TrackAGoal')\n      }, null, 8\n      /* PROPS */\n      , [\"model-value\", \"disabled\", \"title\"]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_5, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_6, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_7, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n        uicontrol: \"select\",\n        name: \"image-tracker-goal\",\n        options: _ctx.siteGoals,\n        disabled: _ctx.isLoading,\n        \"model-value\": _ctx.trackIdGoal,\n        \"onUpdate:modelValue\": _cache[3] || (_cache[3] = function ($event) {\n          _ctx.trackIdGoal = $event;\n\n          _ctx.updateTrackingCode();\n        })\n      }, null, 8\n      /* PROPS */\n      , [\"options\", \"disabled\", \"model-value\"])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_8, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n        uicontrol: \"text\",\n        name: \"image-revenue\",\n        \"model-value\": _ctx.revenue,\n        \"onUpdate:modelValue\": _cache[4] || (_cache[4] = function ($event) {\n          _ctx.revenue = $event;\n\n          _ctx.updateTrackingCode();\n        }),\n        disabled: _ctx.isLoading,\n        \"full-width\": true,\n        title: \"\".concat(_ctx.translate('CoreAdminHome_WithOptionalRevenue'), \" \").concat(_ctx.currentSiteCurrency)\n      }, null, 8\n      /* PROPS */\n      , [\"model-value\", \"disabled\", \"title\"])])])], 512\n      /* NEED_PATCH */\n      ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.trackGoal]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_9, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"h3\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CoreAdminHome_ImageTrackingLink')), 1\n      /* TEXT */\n      ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_10, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"pre\", {\n        textContent: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.trackingCode),\n        ref: \"trackingCode\"\n      }, null, 8\n      /* PROPS */\n      , _hoisted_11), [[_directive_copy_to_clipboard, {}]])])])])])];\n    }),\n    _: 1\n    /* STABLE */\n\n  }, 8\n  /* PROPS */\n  , [\"content-title\"]);\n}\n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/ImageTrackingCodeGenerator/ImageTrackingCodeGenerator.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeAdvancedOptions.vue?vue&type=template&id=f5684876":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeAdvancedOptions.vue?vue&type=template&id=f5684876 ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nvar _hoisted_1 = {\n  class: \"trackingCodeAdvancedOptions\"\n};\nvar _hoisted_2 = {\n  class: \"advance-option\"\n};\n\nvar _hoisted_3 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n  class: \"icon-chevron-down\"\n}, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_4 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n  class: \"icon-chevron-up\"\n}, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_5 = {\n  id: \"javascript-advanced-options\"\n};\nvar _hoisted_6 = [\"innerHTML\"];\nvar _hoisted_7 = {\n  id: \"optional-js-tracking-options\"\n};\nvar _hoisted_8 = {\n  id: \"jsTrackAllSubdomainsInlineHelp\",\n  class: \"inline-help-node\"\n};\nvar _hoisted_9 = [\"innerHTML\"];\nvar _hoisted_10 = [\"innerHTML\"];\nvar _hoisted_11 = {\n  id: \"jsTrackGroupByDomainInlineHelp\",\n  class: \"inline-help-node\"\n};\nvar _hoisted_12 = {\n  id: \"jsTrackAllAliasesInlineHelp\",\n  class: \"inline-help-node\"\n};\nvar _hoisted_13 = {\n  id: \"javascript-tracking-visitor-cv\"\n};\nvar _hoisted_14 = {\n  class: \"row\"\n};\nvar _hoisted_15 = {\n  class: \"col s12 m3\"\n};\nvar _hoisted_16 = {\n  class: \"col s12 m3\"\n};\nvar _hoisted_17 = {\n  class: \"col s12 m6 l3\"\n};\nvar _hoisted_18 = [\"onKeydown\"];\nvar _hoisted_19 = {\n  class: \"col s12 m6 l3\"\n};\nvar _hoisted_20 = [\"onKeydown\"];\nvar _hoisted_21 = {\n  class: \"row\"\n};\nvar _hoisted_22 = {\n  class: \"col s12\"\n};\n\nvar _hoisted_23 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n  class: \"icon-add\"\n}, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_24 = {\n  id: \"jsCrossDomain\",\n  class: \"inline-help-node\"\n};\n\nvar _hoisted_25 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_26 = {\n  id: \"jsDoNotTrackInlineHelp\",\n  class: \"inline-help-node\"\n};\nvar _hoisted_27 = {\n  key: 0\n};\n\nvar _hoisted_28 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_29 = [\"innerHTML\"];\nvar _hoisted_30 = {\n  id: \"js-campaign-query-param-extra\"\n};\nvar _hoisted_31 = {\n  class: \"row\"\n};\nvar _hoisted_32 = {\n  class: \"col s12\"\n};\nvar _hoisted_33 = {\n  class: \"row\"\n};\nvar _hoisted_34 = {\n  class: \"col s12\"\n};\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  var _component_Field = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"Field\");\n\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_1, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_2, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", null, [!_ctx.showAdvanced ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"a\", {\n    key: 0,\n    href: \"javascript:;\",\n    onClick: _cache[0] || (_cache[0] = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withModifiers\"])(function ($event) {\n      return _ctx.showAdvanced = true;\n    }, [\"prevent\"]))\n  }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CoreAdminHome_ShowAdvancedOptions')) + \" \", 1\n  /* TEXT */\n  ), _hoisted_3])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true), _ctx.showAdvanced ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"a\", {\n    key: 1,\n    href: \"javascript:;\",\n    onClick: _cache[1] || (_cache[1] = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withModifiers\"])(function ($event) {\n      return _ctx.showAdvanced = false;\n    }, [\"prevent\"]))\n  }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CoreAdminHome_HideAdvancedOptions')) + \" \", 1\n  /* TEXT */\n  ), _hoisted_4])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true)])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_5, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"p\", {\n    innerHTML: _ctx.$sanitize(_ctx.trackingDocumentationHelp)\n  }, null, 8\n  /* PROPS */\n  , _hoisted_6), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_7, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\" track across all subdomains \"), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_8, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n    innerHTML: _ctx.$sanitize(_ctx.mergeSubdomainsDesc)\n  }, null, 8\n  /* PROPS */\n  , _hoisted_9), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n    innerHTML: _ctx.$sanitize(_ctx.learnMoreText)\n  }, null, 8\n  /* PROPS */\n  , _hoisted_10)]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n    uicontrol: \"checkbox\",\n    name: \"javascript-tracking-all-subdomains\",\n    \"model-value\": _ctx.trackAllSubdomains,\n    \"onUpdate:modelValue\": _cache[2] || (_cache[2] = function ($event) {\n      _ctx.trackAllSubdomains = $event;\n\n      _ctx.updateTrackingCode();\n    }),\n    disabled: _ctx.isLoading,\n    title: \"\".concat(_ctx.translate('CoreAdminHome_JSTracking_MergeSubdomains'), \" \").concat(_ctx.currentSiteName),\n    \"inline-help\": \"#jsTrackAllSubdomainsInlineHelp\"\n  }, null, 8\n  /* PROPS */\n  , [\"model-value\", \"disabled\", \"title\"])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\" group page titles by site domain \"), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_11, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CoreAdminHome_JSTracking_GroupPageTitlesByDomainDesc1', _ctx.currentSiteHost)), 1\n  /* TEXT */\n  ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n    uicontrol: \"checkbox\",\n    name: \"javascript-tracking-group-by-domain\",\n    \"model-value\": _ctx.groupByDomain,\n    \"onUpdate:modelValue\": _cache[3] || (_cache[3] = function ($event) {\n      _ctx.groupByDomain = $event;\n\n      _ctx.updateTrackingCode();\n    }),\n    disabled: _ctx.isLoading,\n    title: _ctx.translate('CoreAdminHome_JSTracking_GroupPageTitlesByDomain'),\n    \"inline-help\": \"#jsTrackGroupByDomainInlineHelp\"\n  }, null, 8\n  /* PROPS */\n  , [\"model-value\", \"disabled\", \"title\"]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\" track across all site aliases \"), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_12, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CoreAdminHome_JSTracking_MergeAliasesDesc', _ctx.currentSiteAlias)), 1\n  /* TEXT */\n  ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n    uicontrol: \"checkbox\",\n    name: \"javascript-tracking-all-aliases\",\n    \"model-value\": _ctx.trackAllAliases,\n    \"onUpdate:modelValue\": _cache[4] || (_cache[4] = function ($event) {\n      _ctx.trackAllAliases = $event;\n\n      _ctx.updateTrackingCode();\n    }),\n    disabled: _ctx.isLoading,\n    title: \"\".concat(_ctx.translate('CoreAdminHome_JSTracking_MergeAliases'), \" \").concat(_ctx.currentSiteName),\n    \"inline-help\": \"#jsTrackAllAliasesInlineHelp\"\n  }, null, 8\n  /* PROPS */\n  , [\"model-value\", \"disabled\", \"title\"]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n    uicontrol: \"checkbox\",\n    name: \"javascript-tracking-noscript\",\n    \"model-value\": _ctx.trackNoScript,\n    \"onUpdate:modelValue\": _cache[5] || (_cache[5] = function ($event) {\n      _ctx.trackNoScript = $event;\n\n      _ctx.updateTrackingCode();\n    }),\n    disabled: _ctx.isLoading,\n    title: _ctx.translate('CoreAdminHome_JSTracking_TrackNoScript')\n  }, null, 8\n  /* PROPS */\n  , [\"model-value\", \"disabled\", \"title\"]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\" visitor custom variable \"), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n    uicontrol: \"checkbox\",\n    name: \"javascript-tracking-visitor-cv-check\",\n    \"model-value\": _ctx.trackCustomVars,\n    \"onUpdate:modelValue\": _cache[6] || (_cache[6] = function ($event) {\n      _ctx.trackCustomVars = $event;\n\n      _ctx.updateTrackingCode();\n    }),\n    disabled: _ctx.isLoading,\n    title: _ctx.translate('CoreAdminHome_JSTracking_VisitorCustomVars'),\n    \"inline-help\": _ctx.translate('CoreAdminHome_JSTracking_VisitorCustomVarsDesc')\n  }, null, 8\n  /* PROPS */\n  , [\"model-value\", \"disabled\", \"title\", \"inline-help\"]), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.maxCustomVariables > 0]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_13, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_14, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_15, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_Name')), 1\n  /* TEXT */\n  ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_16, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_Value')), 1\n  /* TEXT */\n  )]), (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(vue__WEBPACK_IMPORTED_MODULE_0__[\"Fragment\"], null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"renderList\"])(_ctx.customVars, function (customVar, index) {\n    return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", {\n      class: \"row\",\n      key: index\n    }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_17, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"input\", {\n      type: \"text\",\n      class: \"custom-variable-name\",\n      onKeydown: function onKeydown($event) {\n        return _ctx.onCustomVarNameKeydown($event, index);\n      },\n      placeholder: \"e.g. Type\"\n    }, null, 40\n    /* PROPS, HYDRATE_EVENTS */\n    , _hoisted_18)]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_19, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"input\", {\n      type: \"text\",\n      class: \"custom-variable-value\",\n      onKeydown: function onKeydown($event) {\n        return _ctx.onCustomVarValueKeydown($event, index);\n      },\n      placeholder: \"e.g. Customer\"\n    }, null, 40\n    /* PROPS, HYDRATE_EVENTS */\n    , _hoisted_20)])]);\n  }), 128\n  /* KEYED_FRAGMENT */\n  )), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_21, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_22, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"a\", {\n    href: \"javascript:;\",\n    onClick: _cache[7] || (_cache[7] = function ($event) {\n      return _ctx.addCustomVar();\n    }),\n    class: \"add-custom-variable\"\n  }, [_hoisted_23, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(\" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_Add')), 1\n  /* TEXT */\n  )])])], 512\n  /* NEED_PATCH */\n  ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.canAddMoreCustomVariables]])], 512\n  /* NEED_PATCH */\n  ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.trackCustomVars]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\" cross domain support \"), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_24, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CoreAdminHome_JSTracking_CrossDomain')) + \" \", 1\n  /* TEXT */\n  ), _hoisted_25, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(\" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CoreAdminHome_JSTracking_CrossDomain_NeedsMultipleDomains')), 1\n  /* TEXT */\n  )]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n    uicontrol: \"checkbox\",\n    name: \"javascript-tracking-cross-domain\",\n    \"model-value\": _ctx.crossDomain,\n    \"onUpdate:modelValue\": _cache[8] || (_cache[8] = function ($event) {\n      _ctx.crossDomain = $event;\n\n      _ctx.updateTrackingCode();\n\n      _ctx.onCrossDomainToggle();\n    }),\n    disabled: _ctx.isLoading || !_ctx.hasManySiteUrls,\n    title: _ctx.translate('CoreAdminHome_JSTracking_EnableCrossDomainLinking'),\n    \"inline-help\": \"#jsCrossDomain\"\n  }, null, 8\n  /* PROPS */\n  , [\"model-value\", \"disabled\", \"title\"]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\" do not track support \"), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_26, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CoreAdminHome_JSTracking_EnableDoNotTrackDesc')) + \" \", 1\n  /* TEXT */\n  ), _ctx.serverSideDoNotTrackEnabled ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"span\", _hoisted_27, [_hoisted_28, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(\" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CoreAdminHome_JSTracking_EnableDoNotTrack_AlreadyEnabled')), 1\n  /* TEXT */\n  )])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true)]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n    uicontrol: \"checkbox\",\n    name: \"javascript-tracking-do-not-track\",\n    \"model-value\": _ctx.doNotTrack,\n    \"onUpdate:modelValue\": _cache[9] || (_cache[9] = function ($event) {\n      _ctx.doNotTrack = $event;\n\n      _ctx.updateTrackingCode();\n    }),\n    disabled: _ctx.isLoading,\n    title: _ctx.translate('CoreAdminHome_JSTracking_EnableDoNotTrack'),\n    \"inline-help\": \"#jsDoNotTrackInlineHelp\"\n  }, null, 8\n  /* PROPS */\n  , [\"model-value\", \"disabled\", \"title\"]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\" disable all cookies options \"), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n    uicontrol: \"checkbox\",\n    name: \"javascript-tracking-disable-cookies\",\n    \"model-value\": _ctx.disableCookies,\n    \"onUpdate:modelValue\": _cache[10] || (_cache[10] = function ($event) {\n      _ctx.disableCookies = $event;\n\n      _ctx.updateTrackingCode();\n    }),\n    disabled: _ctx.isLoading,\n    title: _ctx.translate('CoreAdminHome_JSTracking_DisableCookies'),\n    \"inline-help\": _ctx.translate('CoreAdminHome_JSTracking_DisableCookiesDesc')\n  }, null, 8\n  /* PROPS */\n  , [\"model-value\", \"disabled\", \"title\", \"inline-help\"]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\" custom campaign name/keyword query params \"), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", {\n    id: \"jsTrackCampaignParamsInlineHelp\",\n    class: \"inline-help-node\",\n    innerHTML: _ctx.$sanitize(_ctx.jsTrackCampaignParamsInlineHelp)\n  }, null, 8\n  /* PROPS */\n  , _hoisted_29), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n    uicontrol: \"checkbox\",\n    name: \"custom-campaign-query-params-check\",\n    \"model-value\": _ctx.useCustomCampaignParams,\n    \"onUpdate:modelValue\": _cache[11] || (_cache[11] = function ($event) {\n      _ctx.useCustomCampaignParams = $event;\n\n      _ctx.updateTrackingCode();\n    }),\n    disabled: _ctx.isLoading,\n    title: _ctx.translate('CoreAdminHome_JSTracking_CustomCampaignQueryParam'),\n    \"inline-help\": \"#jsTrackCampaignParamsInlineHelp\"\n  }, null, 8\n  /* PROPS */\n  , [\"model-value\", \"disabled\", \"title\"]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_30, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_31, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_32, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n    uicontrol: \"text\",\n    name: \"custom-campaign-name-query-param\",\n    \"model-value\": _ctx.customCampaignName,\n    \"onUpdate:modelValue\": _cache[12] || (_cache[12] = function ($event) {\n      _ctx.customCampaignName = $event;\n\n      _ctx.updateTrackingCode();\n    }),\n    disabled: _ctx.isLoading,\n    title: _ctx.translate('CoreAdminHome_JSTracking_CampaignNameParam')\n  }, null, 8\n  /* PROPS */\n  , [\"model-value\", \"disabled\", \"title\"])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_33, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_34, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n    uicontrol: \"text\",\n    name: \"custom-campaign-keyword-query-param\",\n    \"model-value\": _ctx.customCampaignKeyword,\n    \"onUpdate:modelValue\": _cache[13] || (_cache[13] = function ($event) {\n      _ctx.customCampaignKeyword = $event;\n\n      _ctx.updateTrackingCode();\n    }),\n    disabled: _ctx.isLoading,\n    title: _ctx.translate('CoreAdminHome_JSTracking_CampaignKwdParam')\n  }, null, 8\n  /* PROPS */\n  , [\"model-value\", \"disabled\", \"title\"])])])], 512\n  /* NEED_PATCH */\n  ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.useCustomCampaignParams]])], 512\n  /* NEED_PATCH */\n  ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.showAdvanced]])]);\n}\n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeAdvancedOptions.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGenerator.vue?vue&type=template&id=67751088":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGenerator.vue?vue&type=template&id=67751088 ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nvar _hoisted_1 = {\n  id: \"js-code-options\"\n};\n\nvar _hoisted_2 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_3 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_4 = [\"innerHTML\"];\nvar _hoisted_5 = [\"innerHTML\"];\n\nvar _hoisted_6 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_7 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_8 = [\"innerHTML\"];\n\nvar _hoisted_9 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_10 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_11 = [\"innerHTML\"];\n\nvar _hoisted_12 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_13 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_14 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"a\", {\n  href: \"{{ externalRawLink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/', 'abc123', 'def456', 'ghi789') }}\",\n  target: \"_blank\",\n  rel: \"noopener\"\n}, \"WordPress\", -1\n/* HOISTED */\n);\n\nvar _hoisted_15 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(\" | \");\n\nvar _hoisted_16 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"a\", {\n  href: \"{{ externalRawLink('https://matomo.org/faq/new-to-piwik/how-do-i-integrate-matomo-with-squarespace-website/') }}\",\n  target: \"_blank\",\n  rel: \"noopener\"\n}, \"Squarespace\", -1\n/* HOISTED */\n);\n\nvar _hoisted_17 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(\" | \");\n\nvar _hoisted_18 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"a\", {\n  href: \"{{ externalRawLink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-wix/') }}\",\n  target: \"_blank\",\n  rel: \"noopener\"\n}, \"Wix\", -1\n/* HOISTED */\n);\n\nvar _hoisted_19 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(\" | \");\n\nvar _hoisted_20 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"a\", {\n  href: \"{{ externalRawLink('https://matomo.org/faq/how-to-install/faq_19424/') }}\",\n  target: \"_blank\",\n  rel: \"noopener\"\n}, \"SharePoint\", -1\n/* HOISTED */\n);\n\nvar _hoisted_21 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(\" | \");\n\nvar _hoisted_22 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"a\", {\n  href: \"{{ externalRawLink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-joomla/') }}\",\n  target: \"_blank\",\n  rel: \"noopener\"\n}, \"Joomla\", -1\n/* HOISTED */\n);\n\nvar _hoisted_23 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(\" | \");\n\nvar _hoisted_24 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"a\", {\n  href: \"{{ externalRawLink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-shopify-store/') }}\",\n  target: \"_blank\",\n  rel: \"noopener\"\n}, \"Shopify\", -1\n/* HOISTED */\n);\n\nvar _hoisted_25 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(\" | \");\n\nvar _hoisted_26 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"a\", {\n  href: \"{{ externalRawLink('https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-within-gtm-google-tag-manager/') }}\",\n  target: \"_blank\",\n  rel: \"noopener\"\n}, \"Google Tag Manager\", -1\n/* HOISTED */\n);\n\nvar _hoisted_27 = {\n  id: \"javascript-output-section\"\n};\nvar _hoisted_28 = {\n  class: \"valign-wrapper trackingHelpHeader matchWidth\"\n};\nvar _hoisted_29 = {\n  id: \"javascript-email-button\"\n};\nvar _hoisted_30 = {\n  id: \"javascript-text\"\n};\nvar _hoisted_31 = [\"textContent\"];\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  var _component_Field = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"Field\");\n\n  var _component_JsTrackingCodeAdvancedOptions = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"JsTrackingCodeAdvancedOptions\");\n\n  var _component_ContentBlock = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"ContentBlock\");\n\n  var _directive_copy_to_clipboard = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveDirective\"])(\"copy-to-clipboard\");\n\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createBlock\"])(_component_ContentBlock, {\n    anchor: \"javaScriptTracking\",\n    \"content-title\": _ctx.translate('CoreAdminHome_JavaScriptTracking')\n  }, {\n    default: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withCtx\"])(function () {\n      return [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_1, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"p\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CoreAdminHome_JSTrackingIntro1')) + \" \", 1\n      /* TEXT */\n      ), _hoisted_2, _hoisted_3, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(\" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CoreAdminHome_JSTrackingIntro2')) + \" \", 1\n      /* TEXT */\n      ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n        innerHTML: _ctx.$sanitize(_ctx.jsTrackingIntro3a)\n      }, null, 8\n      /* PROPS */\n      , _hoisted_4), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n        innerHTML: _ctx.$sanitize(' ' + _ctx.jsTrackingIntro3b)\n      }, null, 8\n      /* PROPS */\n      , _hoisted_5), _hoisted_6, _hoisted_7, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n        innerHTML: _ctx.$sanitize(_ctx.jsTrackingIntro4a)\n      }, null, 8\n      /* PROPS */\n      , _hoisted_8), _hoisted_9, _hoisted_10, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n        innerHTML: _ctx.$sanitize(_ctx.jsTrackingIntro5)\n      }, null, 8\n      /* PROPS */\n      , _hoisted_11), _hoisted_12, _hoisted_13, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(\" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('SitesManager_InstallationGuides')) + \" : \", 1\n      /* TEXT */\n      ), _hoisted_14, _hoisted_15, _hoisted_16, _hoisted_17, _hoisted_18, _hoisted_19, _hoisted_20, _hoisted_21, _hoisted_22, _hoisted_23, _hoisted_24, _hoisted_25, _hoisted_26]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n        uicontrol: \"site\",\n        name: \"js-tracker-website\",\n        class: \"jsTrackingCodeWebsite\",\n        modelValue: _ctx.site,\n        \"onUpdate:modelValue\": _cache[0] || (_cache[0] = function ($event) {\n          return _ctx.site = $event;\n        }),\n        ref: \"site\",\n        introduction: _ctx.translate('General_Website')\n      }, null, 8\n      /* PROPS */\n      , [\"modelValue\", \"introduction\"]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_27, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_28, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"h3\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_JsTrackingTag')), 1\n      /* TEXT */\n      ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"p\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead', \"</head>\")), 1\n      /* TEXT */\n      )]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_29, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"button\", {\n        class: \"btn\",\n        id: \"emailJsBtn\",\n        onClick: _cache[1] || (_cache[1] = function ($event) {\n          return _ctx.sendEmail();\n        })\n      }, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('SitesManager_EmailInstructionsButton')), 1\n      /* TEXT */\n      )])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_30, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"pre\", {\n        class: \"codeblock\",\n        textContent: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.trackingCode),\n        ref: \"trackingCode\"\n      }, null, 8\n      /* PROPS */\n      , _hoisted_31), [[_directive_copy_to_clipboard, {}]])])])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_JsTrackingCodeAdvancedOptions, {\n        site: _ctx.site,\n        \"max-custom-variables\": _ctx.maxCustomVariables,\n        \"server-side-do-not-track-enabled\": _ctx.serverSideDoNotTrackEnabled,\n        onUpdateTrackingCode: _ctx.updateTrackingCode\n      }, null, 8\n      /* PROPS */\n      , [\"site\", \"max-custom-variables\", \"server-side-do-not-track-enabled\", \"onUpdateTrackingCode\"])];\n    }),\n    _: 1\n    /* STABLE */\n\n  }, 8\n  /* PROPS */\n  , [\"content-title\"]);\n}\n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGenerator.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGeneratorSitesWithoutData.vue?vue&type=template&id=bdb8407c":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGeneratorSitesWithoutData.vue?vue&type=template&id=bdb8407c ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nvar _hoisted_1 = {\n  class: \"list-style-decimal\"\n};\nvar _hoisted_2 = {\n  id: \"javascript-text\"\n};\nvar _hoisted_3 = [\"textContent\"];\nvar _hoisted_4 = {\n  key: 0\n};\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  var _component_JsTrackingCodeAdvancedOptions = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"JsTrackingCodeAdvancedOptions\");\n\n  var _directive_copy_to_clipboard = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveDirective\"])(\"copy-to-clipboard\");\n\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"ol\", _hoisted_1, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"li\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CoreAdminHome_JsTrackingCodeAdvancedOptionsStep')) + \" \", 1\n  /* TEXT */\n  ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_JsTrackingCodeAdvancedOptions, {\n    site: _ctx.site,\n    \"max-custom-variables\": _ctx.maxCustomVariables,\n    \"server-side-do-not-track-enabled\": _ctx.serverSideDoNotTrackEnabled,\n    onUpdateTrackingCode: _ctx.updateTrackingCode\n  }, null, 8\n  /* PROPS */\n  , [\"site\", \"max-custom-variables\", \"server-side-do-not-track-enabled\", \"onUpdateTrackingCode\"])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"li\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.getCopyCodeStep), 1\n  /* TEXT */\n  ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_2, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"pre\", {\n    class: \"codeblock\",\n    textContent: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.trackingCode),\n    ref: \"trackingCode\"\n  }, null, 8\n  /* PROPS */\n  , _hoisted_3), [[_directive_copy_to_clipboard, {}]])])])]), _ctx.isJsTrackerInstallCheckAvailable ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"li\", _hoisted_4, [(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createBlock\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveDynamicComponent\"])(_ctx.testComponent), {\n    site: _ctx.site\n  }, null, 8\n  /* PROPS */\n  , [\"site\"]))])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true)]);\n}\n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGeneratorSitesWithoutData.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.vue?vue&type=template&id=415dbb4e":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.vue?vue&type=template&id=415dbb4e ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nvar _hoisted_1 = {\n  id: \"smtpSettings\"\n};\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  var _component_Field = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"Field\");\n\n  var _component_SaveButton = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"SaveButton\");\n\n  var _component_ContentBlock = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"ContentBlock\");\n\n  var _directive_form = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveDirective\"])(\"form\");\n\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createBlock\"])(_component_ContentBlock, {\n    \"content-title\": _ctx.translate('CoreAdminHome_EmailServerSettings'),\n    anchor: \"mailSettings\"\n  }, {\n    default: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withCtx\"])(function () {\n      return [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n        uicontrol: \"checkbox\",\n        name: \"mailUseSmtp\",\n        modelValue: _ctx.enabled,\n        \"onUpdate:modelValue\": _cache[0] || (_cache[0] = function ($event) {\n          return _ctx.enabled = $event;\n        }),\n        title: _ctx.translate('General_UseSMTPServerForEmail'),\n        \"inline-help\": _ctx.translate('General_SelectYesIfYouWantToSendEmailsViaServer')\n      }, null, 8\n      /* PROPS */\n      , [\"modelValue\", \"title\", \"inline-help\"]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_1, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n        uicontrol: \"text\",\n        name: \"mailHost\",\n        \"model-value\": _ctx.mailHost,\n        \"onUpdate:modelValue\": _cache[1] || (_cache[1] = function ($event) {\n          return _ctx.onUpdateMailHost($event);\n        }),\n        title: _ctx.translate('General_SmtpServerAddress')\n      }, null, 8\n      /* PROPS */\n      , [\"model-value\", \"title\"]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n        uicontrol: \"text\",\n        name: \"mailPort\",\n        modelValue: _ctx.mailPort,\n        \"onUpdate:modelValue\": _cache[2] || (_cache[2] = function ($event) {\n          return _ctx.mailPort = $event;\n        }),\n        title: _ctx.translate('General_SmtpPort'),\n        \"inline-help\": _ctx.translate('General_OptionalSmtpPort')\n      }, null, 8\n      /* PROPS */\n      , [\"modelValue\", \"title\", \"inline-help\"]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n        uicontrol: \"select\",\n        name: \"mailType\",\n        modelValue: _ctx.mailType,\n        \"onUpdate:modelValue\": _cache[3] || (_cache[3] = function ($event) {\n          return _ctx.mailType = $event;\n        }),\n        title: _ctx.translate('General_AuthenticationMethodSmtp'),\n        options: _ctx.mailTypes,\n        \"inline-help\": _ctx.translate('General_OnlyUsedIfUserPwdIsSet')\n      }, null, 8\n      /* PROPS */\n      , [\"modelValue\", \"title\", \"options\", \"inline-help\"]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n        uicontrol: \"text\",\n        name: \"mailUsername\",\n        modelValue: _ctx.mailUsername,\n        \"onUpdate:modelValue\": _cache[4] || (_cache[4] = function ($event) {\n          return _ctx.mailUsername = $event;\n        }),\n        title: _ctx.translate('General_SmtpUsername'),\n        \"inline-help\": _ctx.translate('General_OnlyEnterIfRequired'),\n        autocomplete: 'off'\n      }, null, 8\n      /* PROPS */\n      , [\"modelValue\", \"title\", \"inline-help\"]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n        uicontrol: \"password\",\n        name: \"mailPassword\",\n        \"model-value\": _ctx.mailPassword,\n        \"onUpdate:modelValue\": _cache[5] || (_cache[5] = function ($event) {\n          return _ctx.onMailPasswordChange($event);\n        }),\n        onClick: _cache[6] || (_cache[6] = function ($event) {\n          !_ctx.passwordChanged && $event.target.select();\n        }),\n        title: _ctx.translate('General_SmtpPassword'),\n        \"inline-help\": _ctx.passwordHelp,\n        autocomplete: 'off'\n      }, null, 8\n      /* PROPS */\n      , [\"model-value\", \"title\", \"inline-help\"]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n        uicontrol: \"text\",\n        name: \"mailFromAddress\",\n        modelValue: _ctx.mailFromAddress,\n        \"onUpdate:modelValue\": _cache[7] || (_cache[7] = function ($event) {\n          return _ctx.mailFromAddress = $event;\n        }),\n        title: _ctx.translate('General_SmtpFromAddress'),\n        \"inline-help\": _ctx.translate('General_SmtpFromEmailHelp', _ctx.mailHost),\n        autocomplete: 'off'\n      }, null, 8\n      /* PROPS */\n      , [\"modelValue\", \"title\", \"inline-help\"]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n        uicontrol: \"text\",\n        name: \"mailFromName\",\n        modelValue: _ctx.mailFromName,\n        \"onUpdate:modelValue\": _cache[8] || (_cache[8] = function ($event) {\n          return _ctx.mailFromName = $event;\n        }),\n        title: _ctx.translate('General_SmtpFromName'),\n        \"inline-help\": _ctx.translate('General_NameShownInTheSenderColumn'),\n        autocomplete: 'off'\n      }, null, 8\n      /* PROPS */\n      , [\"modelValue\", \"title\", \"inline-help\"]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n        uicontrol: \"select\",\n        name: \"mailEncryption\",\n        modelValue: _ctx.mailEncryption,\n        \"onUpdate:modelValue\": _cache[9] || (_cache[9] = function ($event) {\n          return _ctx.mailEncryption = $event;\n        }),\n        title: _ctx.translate('General_SmtpEncryption'),\n        options: _ctx.mailEncryptions,\n        \"inline-help\": _ctx.translate('General_EncryptedSmtpTransport')\n      }, null, 8\n      /* PROPS */\n      , [\"modelValue\", \"title\", \"options\", \"inline-help\"])], 512\n      /* NEED_PATCH */\n      ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.enabled]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_SaveButton, {\n        onConfirm: _cache[10] || (_cache[10] = function ($event) {\n          return _ctx.save();\n        }),\n        saving: _ctx.isLoading\n      }, null, 8\n      /* PROPS */\n      , [\"saving\"])], 512\n      /* NEED_PATCH */\n      ), [[_directive_form]])];\n    }),\n    _: 1\n    /* STABLE */\n\n  }, 8\n  /* PROPS */\n  , [\"content-title\"]);\n}\n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreAdminHome/vue/src/TrackingFailures/FailureRow.vue?vue&type=template&id=9fd856c4":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/TrackingFailures/FailureRow.vue?vue&type=template&id=9fd856c4 ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nvar _hoisted_1 = [\"href\"];\nvar _hoisted_2 = {\n  class: \"datetime\"\n};\nvar _hoisted_3 = [\"title\"];\nvar _hoisted_4 = [\"title\"];\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(vue__WEBPACK_IMPORTED_MODULE_0__[\"Fragment\"], null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"td\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.failure.site_name) + \" (\" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_Id')) + \" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.failure.idsite) + \")\", 1\n  /* TEXT */\n  ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"td\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.failure.problem), 1\n  /* TEXT */\n  ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"td\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.failure.solution) + \" \", 1\n  /* TEXT */\n  ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"a\", {\n    rel: \"noopener noreferrer\",\n    href: _ctx.failure.solution_url\n  }, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CoreAdminHome_LearnMore')), 9\n  /* TEXT, PROPS */\n  , _hoisted_1), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.failure.solution_url]])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"td\", _hoisted_2, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.failure.pretty_date_first_occurred), 1\n  /* TEXT */\n  ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"td\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.failure.url), 1\n  /* TEXT */\n  ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"td\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n    onClick: _cache[0] || (_cache[0] = function ($event) {\n      return _ctx.showFullRequestUrl = true;\n    }),\n    title: _ctx.translate('CoreHome_ClickToSeeFullInformation')\n  }, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.limtedRequestUrl) + \"...\", 9\n  /* TEXT, PROPS */\n  , _hoisted_3), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], !_ctx.showFullRequestUrl]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.failure.request_url), 513\n  /* TEXT, NEED_PATCH */\n  ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.failure.showFullRequestUrl]])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"td\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n    class: \"table-action icon-delete\",\n    onClick: _cache[1] || (_cache[1] = function ($event) {\n      return _ctx.deleteFailure(_ctx.failure.idsite, _ctx.failure.idfailure);\n    }),\n    title: _ctx.translate('General_Delete')\n  }, null, 8\n  /* PROPS */\n  , _hoisted_4)])], 64\n  /* STABLE_FRAGMENT */\n  );\n}\n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/TrackingFailures/FailureRow.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreAdminHome/vue/src/TrackingFailures/TrackingFailures.vue?vue&type=template&id=245d942e":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/TrackingFailures/TrackingFailures.vue?vue&type=template&id=245d942e ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\n\nvar _hoisted_1 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_2 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_3 = [\"value\"];\nvar _hoisted_4 = {\n  class: \"action\"\n};\nvar _hoisted_5 = {\n  colspan: \"7\"\n};\n\nvar _hoisted_6 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n  class: \"icon-ok\"\n}, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_7 = {\n  class: \"ui-confirm\",\n  id: \"confirmDeleteAllTrackingFailures\"\n};\nvar _hoisted_8 = [\"value\"];\nvar _hoisted_9 = [\"value\"];\nvar _hoisted_10 = {\n  class: \"ui-confirm\",\n  id: \"confirmDeleteThisTrackingFailure\"\n};\nvar _hoisted_11 = [\"value\"];\nvar _hoisted_12 = [\"value\"];\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  var _component_ActivityIndicator = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"ActivityIndicator\");\n\n  var _component_FailureRow = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"FailureRow\");\n\n  var _component_ContentBlock = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"ContentBlock\");\n\n  var _directive_content_table = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveDirective\"])(\"content-table\");\n\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createBlock\"])(_component_ContentBlock, {\n    class: \"matomoTrackingFailures\",\n    \"content-title\": _ctx.translate('CoreAdminHome_TrackingFailures')\n  }, {\n    default: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withCtx\"])(function () {\n      return [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"p\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CoreAdminHome_TrackingFailuresIntroduction', '2')) + \" \", 1\n      /* TEXT */\n      ), _hoisted_1, _hoisted_2, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"input\", {\n        class: \"btn deleteAllFailures\",\n        type: \"button\",\n        onClick: _cache[0] || (_cache[0] = function ($event) {\n          return _ctx.deleteAll();\n        }),\n        value: _ctx.translate('CoreAdminHome_DeleteAllFailures')\n      }, null, 8\n      /* PROPS */\n      , _hoisted_3), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], !_ctx.isLoading && _ctx.failures.length > 0]])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_ActivityIndicator, {\n        loading: _ctx.isLoading\n      }, null, 8\n      /* PROPS */\n      , [\"loading\"]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"table\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"thead\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"tr\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"th\", {\n        onClick: _cache[1] || (_cache[1] = function ($event) {\n          return _ctx.changeSortOrder('idsite');\n        })\n      }, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_Measurable')), 1\n      /* TEXT */\n      ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"th\", {\n        onClick: _cache[2] || (_cache[2] = function ($event) {\n          return _ctx.changeSortOrder('problem');\n        })\n      }, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CoreAdminHome_Problem')), 1\n      /* TEXT */\n      ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"th\", {\n        onClick: _cache[3] || (_cache[3] = function ($event) {\n          return _ctx.changeSortOrder('solution');\n        })\n      }, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CoreAdminHome_Solution')), 1\n      /* TEXT */\n      ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"th\", {\n        onClick: _cache[4] || (_cache[4] = function ($event) {\n          return _ctx.changeSortOrder('date_first_occurred');\n        })\n      }, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_Date')), 1\n      /* TEXT */\n      ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"th\", {\n        onClick: _cache[5] || (_cache[5] = function ($event) {\n          return _ctx.changeSortOrder('url');\n        })\n      }, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Actions_ColumnPageURL')), 1\n      /* TEXT */\n      ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"th\", {\n        onClick: _cache[6] || (_cache[6] = function ($event) {\n          return _ctx.changeSortOrder('request_url');\n        })\n      }, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CoreAdminHome_TrackingURL')), 1\n      /* TEXT */\n      ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"th\", _hoisted_4, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_Action')), 1\n      /* TEXT */\n      )])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"tbody\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"tr\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"td\", _hoisted_5, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CoreAdminHome_NoKnownFailures')) + \" \", 1\n      /* TEXT */\n      ), _hoisted_6], 512\n      /* NEED_PATCH */\n      ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], !_ctx.isLoading && _ctx.failures.length === 0]])]), (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(vue__WEBPACK_IMPORTED_MODULE_0__[\"Fragment\"], null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"renderList\"])(_ctx.sortedFailures, function (failure, index) {\n        return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"tr\", {\n          key: index\n        }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_FailureRow, {\n          failure: failure,\n          onDelete: _cache[7] || (_cache[7] = function ($event) {\n            return _ctx.deleteFailure($event.idSite, $event.idFailure);\n          })\n        }, null, 8\n        /* PROPS */\n        , [\"failure\"])]);\n      }), 128\n      /* KEYED_FRAGMENT */\n      ))])], 512\n      /* NEED_PATCH */\n      ), [[_directive_content_table]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_7, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"h2\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CoreAdminHome_ConfirmDeleteAllTrackingFailures')), 1\n      /* TEXT */\n      ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"input\", {\n        type: \"button\",\n        role: \"yes\",\n        value: _ctx.translate('General_Yes')\n      }, null, 8\n      /* PROPS */\n      , _hoisted_8), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"input\", {\n        type: \"button\",\n        role: \"no\",\n        value: _ctx.translate('General_No')\n      }, null, 8\n      /* PROPS */\n      , _hoisted_9)]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_10, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"h2\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('CoreAdminHome_ConfirmDeleteThisTrackingFailure')), 1\n      /* TEXT */\n      ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"input\", {\n        type: \"button\",\n        role: \"yes\",\n        value: _ctx.translate('General_Yes')\n      }, null, 8\n      /* PROPS */\n      , _hoisted_11), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"input\", {\n        type: \"button\",\n        role: \"no\",\n        value: _ctx.translate('General_No')\n      }, null, 8\n      /* PROPS */\n      , _hoisted_12)])];\n    }),\n    _: 1\n    /* STABLE */\n\n  }, 8\n  /* PROPS */\n  , [\"content-title\"]);\n}\n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/TrackingFailures/TrackingFailures.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreAdminHome/vue/src/ArchivingSettings/ArchivingSettings.vue?vue&type=script&lang=ts":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/ArchivingSettings/ArchivingSettings.vue?vue&type=script&lang=ts ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! CoreHome */ \"CoreHome\");\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(CoreHome__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! CorePluginsAdmin */ \"CorePluginsAdmin\");\n/* harmony import */ var CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2__);\n\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {\n    enableBrowserTriggerArchiving: Boolean,\n    showSegmentArchiveTriggerInfo: Boolean,\n    isGeneralSettingsAdminEnabled: Boolean,\n    showWarningCron: Boolean,\n    todayArchiveTimeToLive: Number,\n    todayArchiveTimeToLiveDefault: Number\n  },\n  components: {\n    ContentBlock: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"ContentBlock\"],\n    SaveButton: CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2__[\"SaveButton\"]\n  },\n  data: function data() {\n    return {\n      isLoading: false,\n      enableBrowserTriggerArchivingValue: this.enableBrowserTriggerArchiving ? 1 : 0,\n      todayArchiveTimeToLiveValue: this.todayArchiveTimeToLive\n    };\n  },\n  watch: {\n    enableBrowserTriggerArchiving: function enableBrowserTriggerArchiving(newValue) {\n      this.enableBrowserTriggerArchivingValue = newValue ? 1 : 0;\n    },\n    todayArchiveTimeToLive: function todayArchiveTimeToLive(newValue) {\n      this.todayArchiveTimeToLiveValue = newValue;\n    }\n  },\n  computed: {\n    archivingTriggerDesc: function archivingTriggerDesc() {\n      var result = '';\n      result += Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('General_ArchivingTriggerDescription', Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"externalLink\"])('https://matomo.org/docs/setup-auto-archiving/'), '</a>');\n\n      if (this.showSegmentArchiveTriggerInfo) {\n        result += Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('General_ArchivingTriggerSegment');\n      }\n\n      return result;\n    },\n    archivingInlineHelp: function archivingInlineHelp() {\n      var result = Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('General_ArchivingInlineHelp');\n      result += '<br/>';\n      result += Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('General_SeeTheOfficialDocumentationForMoreInformation', Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"externalLink\"])('https://matomo.org/docs/setup-auto-archiving/'), '</a>');\n      return result;\n    }\n  },\n  methods: {\n    save: function save() {\n      var _this = this;\n\n      this.isLoading = true;\n      CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"AjaxHelper\"].post({\n        module: 'API',\n        method: 'CoreAdminHome.setArchiveSettings'\n      }, {\n        enableBrowserTriggerArchiving: this.enableBrowserTriggerArchivingValue,\n        todayArchiveTimeToLive: this.todayArchiveTimeToLiveValue\n      }).then(function () {\n        _this.isLoading = false;\n        var notificationId = CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"NotificationsStore\"].show({\n          message: Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('CoreAdminHome_SettingsSaveSuccess'),\n          type: 'transient',\n          id: 'generalSettings',\n          context: 'success'\n        });\n        CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"NotificationsStore\"].scrollToNotification(notificationId);\n      }).finally(function () {\n        _this.isLoading = false;\n      });\n    }\n  }\n}));\n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/ArchivingSettings/ArchivingSettings.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreAdminHome/vue/src/BrandingSettings/BrandingSettings.vue?vue&type=script&lang=ts":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/BrandingSettings/BrandingSettings.vue?vue&type=script&lang=ts ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! CoreHome */ \"CoreHome\");\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(CoreHome__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! CorePluginsAdmin */ \"CorePluginsAdmin\");\n/* harmony import */ var CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2__);\n\n\n\nvar _window = window,\n    $ = _window.$;\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {\n    fileUploadEnabled: {\n      type: Boolean,\n      required: true\n    },\n    logosWriteable: {\n      type: Boolean,\n      required: true\n    },\n    useCustomLogo: {\n      type: Boolean,\n      required: true\n    },\n    pathUserLogoDirectory: {\n      type: String,\n      required: true\n    },\n    pathUserLogo: {\n      type: String,\n      required: true\n    },\n    pathUserLogoSmall: {\n      type: String,\n      required: true\n    },\n    pathUserLogoSvg: {\n      type: String,\n      required: true\n    },\n    hasUserLogo: {\n      type: Boolean,\n      required: true\n    },\n    pathUserFavicon: {\n      type: String,\n      required: true\n    },\n    hasUserFavicon: {\n      type: Boolean,\n      required: true\n    },\n    isPluginsAdminEnabled: {\n      type: Boolean,\n      required: true\n    }\n  },\n  components: {\n    Field: CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2__[\"Field\"],\n    ContentBlock: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"ContentBlock\"],\n    SaveButton: CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2__[\"SaveButton\"]\n  },\n  directives: {\n    Form: CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2__[\"Form\"]\n  },\n  data: function data() {\n    return {\n      isLoading: false,\n      enabled: this.useCustomLogo,\n      customLogo: this.pathUserLogo,\n      customFavicon: this.pathUserFavicon,\n      showUploadError: false,\n      currentLogoSrcExists: this.hasUserLogo,\n      currentFaviconSrcExists: this.hasUserFavicon,\n      currentLogoCacheBuster: new Date().getTime(),\n      currentFaviconCacheBuster: new Date().getTime()\n    };\n  },\n  computed: {\n    tokenAuth: function tokenAuth() {\n      return CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].token_auth;\n    },\n    logosNotWriteableWarning: function logosNotWriteableWarning() {\n      return Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('CoreAdminHome_LogoNotWriteableInstruction', \"<code>\".concat(this.pathUserLogoDirectory, \"</code><br/>\"), \"\".concat(this.pathUserLogo, \", \").concat(this.pathUserLogoSmall, \", \").concat(this.pathUserLogoSvg));\n    },\n    help: function help() {\n      if (!this.isPluginsAdminEnabled) {\n        return undefined;\n      }\n\n      var giveUsFeedbackText = \"\\\"\".concat(Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('General_GiveUsYourFeedback'), \"\\\"\");\n      var linkStart = '<a href=\"?module=CorePluginsAdmin&action=plugins\" ' + 'rel=\"noreferrer noopener\" target=\"_blank\">';\n      return Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('CoreAdminHome_CustomLogoFeedbackInfo', giveUsFeedbackText, linkStart, '</a>');\n    },\n    pathUserLogoWithBuster: function pathUserLogoWithBuster() {\n      if (this.currentLogoSrcExists && this.pathUserLogo) {\n        return \"\".concat(this.pathUserLogo, \"?\").concat(this.currentLogoCacheBuster);\n      }\n\n      return '';\n    },\n    pathUserFaviconWithBuster: function pathUserFaviconWithBuster() {\n      if (this.currentFaviconSrcExists && this.pathUserFavicon) {\n        return \"\".concat(this.pathUserFavicon, \"?\").concat(this.currentFaviconCacheBuster);\n      }\n\n      return '';\n    }\n  },\n  methods: {\n    onUseCustomLogoChange: function onUseCustomLogoChange(newValue) {\n      this.enabled = newValue;\n    },\n    onCustomLogoChange: function onCustomLogoChange(newValue) {\n      this.customLogo = newValue;\n      this.updateLogo();\n    },\n    onFaviconChange: function onFaviconChange(newValue) {\n      this.customFavicon = newValue;\n      this.updateLogo();\n    },\n    save: function save() {\n      var _this = this;\n\n      this.isLoading = true;\n      CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"AjaxHelper\"].post({\n        module: 'API',\n        method: 'CoreAdminHome.setBrandingSettings'\n      }, {\n        useCustomLogo: this.enabled ? '1' : '0'\n      }).then(function () {\n        var notificationInstanceId = CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"NotificationsStore\"].show({\n          message: Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('CoreAdminHome_SettingsSaveSuccess'),\n          type: 'transient',\n          id: 'generalSettings',\n          context: 'success'\n        });\n        CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"NotificationsStore\"].scrollToNotification(notificationInstanceId);\n      }).finally(function () {\n        _this.isLoading = false;\n      });\n    },\n    updateLogo: function updateLogo() {\n      var _this2 = this;\n\n      var isSubmittingLogo = !!this.customLogo;\n      var isSubmittingFavicon = !!this.customFavicon;\n\n      if (!isSubmittingLogo && !isSubmittingFavicon) {\n        return;\n      }\n\n      this.showUploadError = false;\n      var frameName = \"upload\".concat(new Date().getTime());\n      var uploadFrame = $(\"<iframe name=\\\"\".concat(frameName, \"\\\" />\"));\n      uploadFrame.css('display', 'none');\n      uploadFrame.on('load', function () {\n        setTimeout(function () {\n          var frameContent = ($(uploadFrame.contents()).find('body').html() || '').trim();\n\n          if (frameContent === '0') {\n            _this2.showUploadError = true;\n          } else {\n            // Upload succeed, so we update the images availability\n            // according to what have been uploaded\n            if (isSubmittingLogo) {\n              _this2.currentLogoSrcExists = true;\n              _this2.currentLogoCacheBuster = new Date().getTime(); // force re-fetch\n            }\n\n            if (isSubmittingFavicon) {\n              _this2.currentFaviconSrcExists = true;\n              _this2.currentFaviconCacheBuster = new Date().getTime(); // force re-fetch\n            }\n          }\n\n          if (frameContent === '1' || frameContent === '0') {\n            uploadFrame.remove();\n          }\n        }, 1000);\n      });\n      $('body:first').append(uploadFrame);\n      var submittingForm = $(this.$refs.logoUploadForm);\n      submittingForm.attr('target', frameName);\n      submittingForm.submit();\n      this.customLogo = '';\n      this.customFavicon = '';\n    }\n  }\n}));\n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/BrandingSettings/BrandingSettings.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreAdminHome/vue/src/ImageTrackingCodeGenerator/ImageTrackingCodeGenerator.vue?vue&type=script&lang=ts":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/ImageTrackingCodeGenerator/ImageTrackingCodeGenerator.vue?vue&type=script&lang=ts ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! CoreHome */ \"CoreHome\");\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(CoreHome__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! CorePluginsAdmin */ \"CorePluginsAdmin\");\n/* harmony import */ var CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2__);\nfunction _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }\n\nfunction _nonIterableRest() { throw new TypeError(\"Invalid attempt to destructure non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\"); }\n\nfunction _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === \"string\") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === \"Object\" && o.constructor) n = o.constructor.name; if (n === \"Map\" || n === \"Set\") return Array.from(o); if (n === \"Arguments\" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }\n\nfunction _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }\n\nfunction _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== \"undefined\" && arr[Symbol.iterator] || arr[\"@@iterator\"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i[\"return\"] != null) _i[\"return\"](); } finally { if (_d) throw _e; } } return _arr; }\n\nfunction _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }\n\n\n\n\nvar currencySymbols = null;\nvar _window = window,\n    $ = _window.$;\nvar piwikHost = window.location.host;\nvar piwikPath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {\n    defaultSite: {\n      type: Object,\n      required: true\n    }\n  },\n  components: {\n    ContentBlock: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"ContentBlock\"],\n    Field: CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2__[\"Field\"]\n  },\n  directives: {\n    CopyToClipboard: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"CopyToClipboard\"]\n  },\n  data: function data() {\n    return {\n      isLoading: false,\n      site: this.defaultSite,\n      pageName: '',\n      trackGoal: false,\n      trackIdGoal: null,\n      revenue: '',\n      trackingCode: '',\n      sites: {},\n      goals: {},\n      trackingCodeAbortController: null,\n      isHighlighting: false\n    };\n  },\n  created: function created() {\n    this.updateTrackingCode = Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"debounce\"])(this.updateTrackingCode);\n\n    if (this.site && this.site.id) {\n      this.onSiteChanged(this.site);\n    }\n  },\n  watch: {\n    site: function site(newValue) {\n      this.onSiteChanged(newValue);\n    }\n  },\n  methods: {\n    onSiteChanged: function onSiteChanged(newValue) {\n      var _this = this;\n\n      this.trackIdGoal = null;\n      var currencyPromise;\n\n      if (currencySymbols) {\n        currencyPromise = Promise.resolve(currencySymbols);\n      } else {\n        this.isLoading = true;\n        currencyPromise = CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"AjaxHelper\"].fetch({\n          method: 'SitesManager.getCurrencySymbols',\n          filter_limit: '-1'\n        });\n      }\n\n      var sitePromise;\n\n      if (this.sites[newValue.id]) {\n        sitePromise = Promise.resolve(this.sites[newValue.id]);\n      } else {\n        this.isLoading = true;\n        sitePromise = CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"AjaxHelper\"].fetch({\n          module: 'API',\n          method: 'SitesManager.getSiteFromId',\n          idSite: newValue.id\n        });\n      }\n\n      var goalPromise;\n\n      if (this.goals[newValue.id]) {\n        goalPromise = Promise.resolve(this.goals[newValue.id]);\n      } else {\n        this.isLoading = true;\n        goalPromise = CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"AjaxHelper\"].fetch({\n          module: 'API',\n          method: 'Goals.getGoals',\n          filter_limit: '-1',\n          idSite: newValue.id\n        });\n      }\n\n      return Promise.all([currencyPromise, sitePromise, goalPromise]).then(function (_ref) {\n        var _ref2 = _slicedToArray(_ref, 3),\n            currencyResponse = _ref2[0],\n            site = _ref2[1],\n            goalsResponse = _ref2[2];\n\n        _this.isLoading = false;\n        currencySymbols = currencyResponse;\n        _this.sites[newValue.id] = site;\n        _this.goals[newValue.id] = goalsResponse;\n\n        _this.updateTrackingCode();\n      });\n    },\n    updateTrackingCode: function updateTrackingCode() {\n      var _this2 = this;\n\n      // get data used to generate the link\n      var postParams = {\n        piwikUrl: \"\".concat(piwikHost).concat(piwikPath),\n        actionName: this.pageName,\n        forceMatomoEndpoint: 1\n      };\n\n      if (this.trackGoal && this.trackIdGoal) {\n        postParams.idGoal = this.trackIdGoal;\n        postParams.revenue = this.revenue;\n      }\n\n      if (this.trackingCodeAbortController) {\n        this.trackingCodeAbortController.abort();\n        this.trackingCodeAbortController = null;\n      }\n\n      this.trackingCodeAbortController = new AbortController();\n      CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"AjaxHelper\"].post({\n        module: 'API',\n        format: 'json',\n        method: 'SitesManager.getImageTrackingCode',\n        idSite: this.site.id\n      }, postParams, {\n        abortController: this.trackingCodeAbortController\n      }).then(function (response) {\n        _this2.trackingCodeAbortController = null;\n        _this2.trackingCode = response.value;\n        var imageCodeTextarea = $(_this2.$refs.trackingCode);\n\n        if (imageCodeTextarea && !_this2.isHighlighting) {\n          _this2.isHighlighting = true;\n          imageCodeTextarea.effect('highlight', {\n            complete: function complete() {\n              _this2.isHighlighting = false;\n            }\n          }, 1500);\n        }\n      });\n    }\n  },\n  computed: {\n    currentSiteCurrency: function currentSiteCurrency() {\n      if (!currencySymbols) {\n        return '';\n      }\n\n      return currencySymbols[(this.sites[this.site.id].currency || '').toUpperCase()];\n    },\n    siteGoals: function siteGoals() {\n      var goalsResponse = this.goals[this.site.id];\n      return [{\n        key: '',\n        value: Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('UserCountryMap_None')\n      }].concat(Object.values(goalsResponse || []).map(function (g) {\n        return {\n          key: \"\".concat(g.idgoal),\n          value: g.name\n        };\n      }));\n    },\n    imageTrackingIntro: function imageTrackingIntro() {\n      var first = Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('CoreAdminHome_ImageTrackingIntro1');\n      var second = Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('CoreAdminHome_ImageTrackingIntro2', '<code>&lt;noscript&gt;&lt;/noscript&gt;</code>');\n      return \"\".concat(first, \" \").concat(second);\n    },\n    imageTrackingIntro3: function imageTrackingIntro3() {\n      var link = Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"externalRawLink\"])('https://matomo.org/docs/tracking-api/reference/');\n      return Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('CoreAdminHome_ImageTrackingIntro3', \"<a href=\\\"\".concat(link, \"\\\" rel=\\\"noreferrer noopener\\\" target=\\\"_blank\\\">\"), '</a>');\n    }\n  }\n}));\n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/ImageTrackingCodeGenerator/ImageTrackingCodeGenerator.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeAdvancedOptions.vue?vue&type=script&lang=ts":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeAdvancedOptions.vue?vue&type=script&lang=ts ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! CoreHome */ \"CoreHome\");\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(CoreHome__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! CorePluginsAdmin */ \"CorePluginsAdmin\");\n/* harmony import */ var CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2__);\n\n\n\n\nfunction getHostNameFromUrl(url) {\n  var urlObj = new URL(url);\n  return urlObj.hostname;\n}\n\nfunction getCustomVarArray(cvars) {\n  return cvars.filter(function (cv) {\n    return !!cv.name;\n  }).map(function (cv) {\n    return [cv.name, cv.value];\n  });\n}\n\nvar piwikHost = window.location.host;\nvar piwikPath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {\n    site: {\n      type: Object,\n      required: true\n    },\n    maxCustomVariables: Number,\n    serverSideDoNotTrackEnabled: Boolean\n  },\n  data: function data() {\n    return {\n      showAdvanced: false,\n      trackAllSubdomains: false,\n      isLoading: false,\n      siteUrls: {},\n      siteExcludedQueryParams: {},\n      siteExcludedReferrers: {},\n      crossDomain: false,\n      groupByDomain: false,\n      trackAllAliases: false,\n      trackNoScript: false,\n      trackCustomVars: false,\n      customVars: [],\n      canAddMoreCustomVariables: !!this.maxCustomVariables && this.maxCustomVariables > 0,\n      doNotTrack: false,\n      disableCookies: false,\n      useCustomCampaignParams: false,\n      customCampaignName: '',\n      customCampaignKeyword: '',\n      trackingCodeAbortController: null\n    };\n  },\n  emits: ['updateTrackingCode'],\n  components: {\n    Field: CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2__[\"Field\"]\n  },\n  created: function created() {\n    if (this.site && this.site.id) {\n      this.onSiteChanged(this.site);\n    }\n\n    this.onCustomVarNameKeydown = Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"debounce\"])(this.onCustomVarNameKeydown, 100);\n    this.onCustomVarValueKeydown = Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"debounce\"])(this.onCustomVarValueKeydown, 100);\n    this.addCustomVar();\n  },\n  watch: {\n    site: function site(newValue) {\n      this.onSiteChanged(newValue);\n    }\n  },\n  methods: {\n    onSiteChanged: function onSiteChanged(newValue) {\n      var _this = this;\n\n      var idSite = newValue.id;\n      var promises = [];\n\n      if (!this.siteUrls[idSite]) {\n        this.isLoading = true;\n        promises.push(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"AjaxHelper\"].fetch({\n          module: 'API',\n          method: 'SitesManager.getSiteUrlsFromId',\n          idSite: idSite,\n          filter_limit: '-1'\n        }).then(function (data) {\n          _this.siteUrls[idSite] = data || [];\n        }));\n      }\n\n      if (!this.siteExcludedQueryParams[idSite]) {\n        this.isLoading = true;\n        promises.push(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"AjaxHelper\"].fetch({\n          module: 'API',\n          method: 'Overlay.getExcludedQueryParameters',\n          idSite: idSite,\n          filter_limit: '-1'\n        }).then(function (data) {\n          _this.siteExcludedQueryParams[idSite] = data || [];\n        }));\n      }\n\n      if (!this.siteExcludedReferrers[idSite]) {\n        this.isLoading = true;\n        promises.push(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"AjaxHelper\"].fetch({\n          module: 'API',\n          method: 'SitesManager.getExcludedReferrers',\n          idSite: idSite,\n          filter_limit: '-1'\n        }).then(function (data) {\n          _this.siteExcludedReferrers[idSite] = [];\n          Object.values(data || []).forEach(function (referrer) {\n            _this.siteExcludedReferrers[idSite].push(referrer.replace(/^https?:\\/\\//, ''));\n          });\n        }));\n      }\n\n      Promise.all(promises).then(function () {\n        _this.isLoading = false;\n\n        _this.updateCurrentSiteInfo();\n\n        _this.updateTrackingCode();\n      });\n    },\n    updateCurrentSiteInfo: function updateCurrentSiteInfo() {\n      if (!this.hasManySiteUrls) {\n        // we make sure to disable cross domain if it has only one url or less\n        this.crossDomain = false;\n      }\n    },\n    onCrossDomainToggle: function onCrossDomainToggle() {\n      if (this.crossDomain) {\n        this.trackAllAliases = true;\n      }\n    },\n    updateTrackingCode: function updateTrackingCode() {\n      var _this2 = this;\n\n      // get params used to generate JS code\n      var params = {\n        piwikUrl: \"\".concat(piwikHost).concat(piwikPath),\n        groupPageTitlesByDomain: this.groupByDomain ? 1 : 0,\n        mergeSubdomains: this.trackAllSubdomains ? 1 : 0,\n        mergeAliasUrls: this.trackAllAliases ? 1 : 0,\n        visitorCustomVariables: this.trackCustomVars ? getCustomVarArray(this.customVars) : 0,\n        customCampaignNameQueryParam: null,\n        customCampaignKeywordParam: null,\n        doNotTrack: this.doNotTrack ? 1 : 0,\n        disableCookies: this.disableCookies ? 1 : 0,\n        crossDomain: this.crossDomain ? 1 : 0,\n        trackNoScript: this.trackNoScript ? 1 : 0,\n        forceMatomoEndpoint: 1\n      };\n\n      if (this.siteExcludedQueryParams[this.site.id]) {\n        params.excludedQueryParams = this.siteExcludedQueryParams[this.site.id];\n      }\n\n      if (this.siteExcludedReferrers[this.site.id]) {\n        params.excludedReferrers = this.siteExcludedReferrers[this.site.id];\n      }\n\n      if (this.useCustomCampaignParams) {\n        params.customCampaignNameQueryParam = this.customCampaignName;\n        params.customCampaignKeywordParam = this.customCampaignKeyword;\n      }\n\n      if (this.trackingCodeAbortController) {\n        this.trackingCodeAbortController.abort();\n        this.trackingCodeAbortController = null;\n      }\n\n      this.trackingCodeAbortController = new AbortController();\n      CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"AjaxHelper\"].post({\n        module: 'API',\n        format: 'json',\n        method: 'SitesManager.getJavascriptTag',\n        idSite: this.site.id\n      }, params, {\n        abortController: this.trackingCodeAbortController\n      }).then(function (response) {\n        _this2.trackingCodeAbortController = null;\n\n        _this2.$emit('updateTrackingCode', response.value);\n      });\n    },\n    addCustomVar: function addCustomVar() {\n      if (this.canAddMoreCustomVariables) {\n        this.customVars.push({\n          name: '',\n          value: ''\n        });\n      }\n\n      this.canAddMoreCustomVariables = !!this.maxCustomVariables && this.maxCustomVariables > this.customVars.length;\n    },\n    onCustomVarNameKeydown: function onCustomVarNameKeydown(event, index) {\n      var _this3 = this;\n\n      setTimeout(function () {\n        _this3.customVars[index].name = event.target.value;\n\n        _this3.updateTrackingCode();\n      });\n    },\n    onCustomVarValueKeydown: function onCustomVarValueKeydown(event, index) {\n      var _this4 = this;\n\n      setTimeout(function () {\n        _this4.customVars[index].value = event.target.value;\n\n        _this4.updateTrackingCode();\n      });\n    }\n  },\n  computed: {\n    hasManySiteUrls: function hasManySiteUrls() {\n      var site = this.site;\n      return this.siteUrls[site.id] && this.siteUrls[site.id].length > 1;\n    },\n    currentSiteHost: function currentSiteHost() {\n      var _this$siteUrls$this$s;\n\n      var siteUrl = (_this$siteUrls$this$s = this.siteUrls[this.site.id]) === null || _this$siteUrls$this$s === void 0 ? void 0 : _this$siteUrls$this$s[0];\n\n      if (!siteUrl) {\n        return '';\n      }\n\n      return getHostNameFromUrl(siteUrl);\n    },\n    currentSiteAlias: function currentSiteAlias() {\n      var _this$siteUrls$this$s2;\n\n      var defaultAliasUrl = \"x.\".concat(this.currentSiteHost);\n      var alias = (_this$siteUrls$this$s2 = this.siteUrls[this.site.id]) === null || _this$siteUrls$this$s2 === void 0 ? void 0 : _this$siteUrls$this$s2[1];\n      return alias || defaultAliasUrl;\n    },\n    currentSiteName: function currentSiteName() {\n      return CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].helper.htmlEntities(this.site.name);\n    },\n    mergeSubdomainsDesc: function mergeSubdomainsDesc() {\n      return Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('CoreAdminHome_JSTracking_MergeSubdomainsDesc', \"x.\".concat(this.currentSiteHost), \"y.\".concat(this.currentSiteHost));\n    },\n    learnMoreText: function learnMoreText() {\n      /* eslint-disable prefer-template */\n      var subdomainsLink = Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"externalRawLink\"])('https://developer.matomo.org/guides/tracking-javascript-guide') + '#measuring-domains-andor-sub-domains';\n      return Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('General_LearnMore', \" (<a href=\\\"\".concat(subdomainsLink, \"\\\" rel=\\\"noreferrer noopener\\\" target=\\\"_blank\\\">\"), '</a>)');\n    },\n    jsTrackCampaignParamsInlineHelp: function jsTrackCampaignParamsInlineHelp() {\n      return Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('CoreAdminHome_JSTracking_CustomCampaignQueryParamDesc', Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"externalLink\"])('https://matomo.org/faq/general/faq_119'), '</a>');\n    },\n    trackingDocumentationHelp: function trackingDocumentationHelp() {\n      return Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('CoreAdminHome_JSTrackingDocumentationHelp', Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"externalLink\"])('https://developer.matomo.org/guides/tracking-javascript-guide'), '</a>');\n    }\n  }\n}));\n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeAdvancedOptions.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGenerator.vue?vue&type=script&lang=ts":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGenerator.vue?vue&type=script&lang=ts ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! CoreHome */ \"CoreHome\");\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(CoreHome__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! CorePluginsAdmin */ \"CorePluginsAdmin\");\n/* harmony import */ var CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2__);\n/* harmony import */ var _JsTrackingCodeAdvancedOptions_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./JsTrackingCodeAdvancedOptions.vue */ \"./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeAdvancedOptions.vue\");\n\n\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {\n    defaultSite: {\n      type: Object,\n      required: true\n    },\n    maxCustomVariables: Number,\n    serverSideDoNotTrackEnabled: Boolean\n  },\n  data: function data() {\n    return {\n      site: this.defaultSite,\n      trackingCode: '',\n      isHighlighting: false,\n      consentManagerName: '',\n      consentManagerUrl: '',\n      consentManagerIsConnected: false\n    };\n  },\n  components: {\n    JsTrackingCodeAdvancedOptions: _JsTrackingCodeAdvancedOptions_vue__WEBPACK_IMPORTED_MODULE_3__[\"default\"],\n    ContentBlock: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"ContentBlock\"],\n    Field: CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2__[\"Field\"]\n  },\n  directives: {\n    CopyToClipboard: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"CopyToClipboard\"]\n  },\n  created: function created() {\n    if (this.site && this.site.id) {\n      this.onSiteChanged(this.site);\n    }\n  },\n  watch: {\n    site: function site(newValue) {\n      this.onSiteChanged(newValue);\n    }\n  },\n  methods: {\n    updateTrackingCode: function updateTrackingCode(code) {\n      var _this = this;\n\n      this.trackingCode = code;\n      var jsCodeTextarea = $(this.$refs.trackingCode);\n\n      if (jsCodeTextarea && !this.isHighlighting) {\n        this.isHighlighting = true;\n        jsCodeTextarea.effect('highlight', {\n          complete: function complete() {\n            _this.isHighlighting = false;\n          }\n        }, 1500);\n      }\n    },\n    onSiteChanged: function onSiteChanged(newValue) {\n      var _this2 = this;\n\n      var idSite = newValue.id;\n      CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"AjaxHelper\"].fetch({\n        module: 'API',\n        format: 'json',\n        method: 'SitesManager.detectConsentManager',\n        idSite: idSite,\n        filter_limit: '-1'\n      }).then(function (response) {\n        if (Object.prototype.hasOwnProperty.call(response, 'name')) {\n          _this2.consentManagerName = response.name;\n        }\n\n        if (Object.prototype.hasOwnProperty.call(response, 'url')) {\n          _this2.consentManagerUrl = response.url;\n        }\n\n        _this2.consentManagerIsConnected = response.isConnected;\n      });\n    },\n    sendEmail: function sendEmail() {\n      var subjectLine = Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('SitesManager_EmailInstructionsSubject');\n      subjectLine = encodeURIComponent(subjectLine);\n      var trackingCode = this.trackingCode;\n      trackingCode = trackingCode.replace(/<[^>]+>/g, '');\n      var bodyText = \"\".concat(Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('SitesManager_JsTrackingTagHelp'), \". \").concat(Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('CoreAdminHome_JSTracking_CodeNoteBeforeClosingHeadEmail', '\\'head'), \"\\n\").concat(trackingCode);\n\n      if (this.consentManagerName !== '' && this.consentManagerUrl !== '') {\n        bodyText += Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('CoreAdminHome_JSTracking_ConsentManagerDetected', this.consentManagerName, this.consentManagerUrl);\n\n        if (this.consentManagerIsConnected) {\n          bodyText += \"\\n\".concat(Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('CoreAdminHome_JSTracking_ConsentManagerConnected', this.consentManagerName));\n        }\n      }\n\n      bodyText = encodeURIComponent(bodyText);\n      var linkText = \"mailto:?subject=\".concat(subjectLine, \"&body=\").concat(bodyText);\n      window.location.href = linkText;\n    }\n  },\n  computed: {\n    jsTrackingIntro3a: function jsTrackingIntro3a() {\n      return Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('CoreAdminHome_JSTrackingIntro3a', Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"externalLink\"])('https://matomo.org/integrate/'), '</a>');\n    },\n    jsTrackingIntro3b: function jsTrackingIntro3b() {\n      return Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('CoreAdminHome_JSTrackingIntro3b');\n    },\n    jsTrackingIntro4a: function jsTrackingIntro4a() {\n      return Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('CoreAdminHome_JSTrackingIntro4', '<a href=\"#image-tracking-link\">', '</a>');\n    },\n    jsTrackingIntro5: function jsTrackingIntro5() {\n      return Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('CoreAdminHome_JSTrackingIntro5', Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"externalLink\"])('href=\"https://developer.matomo.org/guides/tracking-javascript-guide\">'), '</a>');\n    }\n  }\n}));\n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGenerator.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGeneratorSitesWithoutData.vue?vue&type=script&lang=ts":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGeneratorSitesWithoutData.vue?vue&type=script&lang=ts ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! CoreHome */ \"CoreHome\");\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(CoreHome__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var _JsTrackingCodeAdvancedOptions_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./JsTrackingCodeAdvancedOptions.vue */ \"./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeAdvancedOptions.vue\");\n\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {\n    defaultSite: {\n      type: Object,\n      required: true\n    },\n    maxCustomVariables: Number,\n    serverSideDoNotTrackEnabled: Boolean,\n    jsTag: String,\n    isJsTrackerInstallCheckAvailable: Boolean\n  },\n  components: {\n    JsTrackingCodeAdvancedOptions: _JsTrackingCodeAdvancedOptions_vue__WEBPACK_IMPORTED_MODULE_2__[\"default\"]\n  },\n  directives: {\n    CopyToClipboard: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"CopyToClipboard\"]\n  },\n  data: function data() {\n    return {\n      site: this.defaultSite,\n      trackingCode: '',\n      isHighlighting: false\n    };\n  },\n  created: function created() {\n    if (this.jsTag) {\n      this.trackingCode = this.jsTag;\n    }\n  },\n  methods: {\n    updateTrackingCode: function updateTrackingCode(code) {\n      var _this = this;\n\n      this.trackingCode = code;\n      var jsCodeTextarea = $(this.$refs.trackingCode);\n\n      if (jsCodeTextarea && !this.isHighlighting) {\n        this.isHighlighting = true;\n        jsCodeTextarea.effect('highlight', {\n          complete: function complete() {\n            _this.isHighlighting = false;\n          }\n        }, 1500);\n      }\n    }\n  },\n  computed: {\n    getCopyCodeStep: function getCopyCodeStep() {\n      return Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead', '</head>');\n    },\n    testComponent: function testComponent() {\n      if (this.isJsTrackerInstallCheckAvailable) {\n        return Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"useExternalPluginComponent\"])('JsTrackerInstallCheck', 'JsTrackerInstallCheck');\n      }\n\n      return '';\n    }\n  }\n}));\n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGeneratorSitesWithoutData.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.vue?vue&type=script&lang=ts":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.vue?vue&type=script&lang=ts ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! CoreHome */ \"CoreHome\");\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(CoreHome__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! CorePluginsAdmin */ \"CorePluginsAdmin\");\n/* harmony import */ var CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2__);\n\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {\n    mail: {\n      type: Object,\n      required: true\n    },\n    mailTypes: {\n      type: Object,\n      required: true\n    },\n    mailEncryptions: {\n      type: Object,\n      required: true\n    }\n  },\n  data: function data() {\n    var mail = this.mail;\n    return {\n      isLoading: false,\n      enabled: mail.transport === 'smtp',\n      mailHost: mail.host,\n      passwordChanged: false,\n      mailPort: mail.port,\n      mailType: mail.type,\n      mailUsername: mail.username,\n      mailPassword: mail.password ? '******' : '',\n      mailFromAddress: mail.noreply_email_address,\n      mailFromName: mail.noreply_email_name,\n      mailEncryption: mail.encryption\n    };\n  },\n  components: {\n    ContentBlock: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"ContentBlock\"],\n    Field: CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2__[\"Field\"],\n    SaveButton: CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2__[\"SaveButton\"]\n  },\n  directives: {\n    Form: CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2__[\"Form\"]\n  },\n  computed: {\n    passwordHelp: function passwordHelp() {\n      var part1 = \"\".concat(Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('General_OnlyEnterIfRequiredPassword'), \"<br/>\");\n      var part2 = \"\".concat(Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('General_WarningPasswordStored', '<strong>', '</strong>'), \"<br/>\");\n      return \"\".concat(part1, \"\\n\").concat(part2);\n    }\n  },\n  methods: {\n    onUpdateMailHost: function onUpdateMailHost(newValue) {\n      this.mailHost = newValue;\n\n      if (this.passwordChanged) {\n        return;\n      }\n\n      this.mailPassword = '';\n      this.passwordChanged = true;\n    },\n    onMailPasswordChange: function onMailPasswordChange(newValue) {\n      this.mailPassword = newValue;\n      this.passwordChanged = true;\n    },\n    save: function save() {\n      var _this = this;\n\n      this.isLoading = true;\n      var mailSettings = {\n        mailUseSmtp: this.enabled ? '1' : '0',\n        mailPort: this.mailPort,\n        mailHost: this.mailHost,\n        mailType: this.mailType,\n        mailUsername: this.mailUsername,\n        mailFromAddress: this.mailFromAddress,\n        mailFromName: this.mailFromName,\n        mailEncryption: this.mailEncryption\n      };\n\n      if (this.passwordChanged) {\n        mailSettings.mailPassword = this.mailPassword;\n      }\n\n      CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"AjaxHelper\"].post({\n        module: 'CoreAdminHome',\n        action: 'setMailSettings'\n      }, mailSettings, {\n        withTokenInUrl: true\n      }).then(function () {\n        var notificationInstanceId = CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"NotificationsStore\"].show({\n          message: Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('CoreAdminHome_SettingsSaveSuccess'),\n          type: 'transient',\n          id: 'generalSettings',\n          context: 'success'\n        });\n        CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"NotificationsStore\"].scrollToNotification(notificationInstanceId);\n      }).finally(function () {\n        _this.isLoading = false;\n      });\n    }\n  }\n}));\n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreAdminHome/vue/src/TrackingFailures/FailureRow.vue?vue&type=script&lang=ts":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/TrackingFailures/FailureRow.vue?vue&type=script&lang=ts ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {\n    failure: {\n      type: Object,\n      required: true\n    }\n  },\n  emits: ['delete'],\n  data: function data() {\n    return {\n      showFullRequestUrl: false\n    };\n  },\n  computed: {\n    limtedRequestUrl: function limtedRequestUrl() {\n      return this.failure.request_url.substring(0, 100);\n    }\n  },\n  methods: {\n    deleteFailure: function deleteFailure(idSite, idFailure) {\n      this.$emit('delete', {\n        idSite: idSite,\n        idFailure: idFailure\n      });\n    }\n  }\n}));\n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/TrackingFailures/FailureRow.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreAdminHome/vue/src/TrackingFailures/TrackingFailures.vue?vue&type=script&lang=ts":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/TrackingFailures/TrackingFailures.vue?vue&type=script&lang=ts ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! CoreHome */ \"CoreHome\");\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(CoreHome__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var _FailureRow_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./FailureRow.vue */ \"./plugins/CoreAdminHome/vue/src/TrackingFailures/FailureRow.vue\");\nfunction _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }\n\nfunction _nonIterableSpread() { throw new TypeError(\"Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\"); }\n\nfunction _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === \"string\") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === \"Object\" && o.constructor) n = o.constructor.name; if (n === \"Map\" || n === \"Set\") return Array.from(o); if (n === \"Arguments\" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }\n\nfunction _iterableToArray(iter) { if (typeof Symbol !== \"undefined\" && iter[Symbol.iterator] != null || iter[\"@@iterator\"] != null) return Array.from(iter); }\n\nfunction _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }\n\nfunction _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }\n\n\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  components: {\n    ContentBlock: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"ContentBlock\"],\n    ActivityIndicator: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"ActivityIndicator\"],\n    FailureRow: _FailureRow_vue__WEBPACK_IMPORTED_MODULE_2__[\"default\"]\n  },\n  directives: {\n    ContentTable: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"ContentTable\"]\n  },\n  data: function data() {\n    return {\n      failures: [],\n      sortColumn: 'idsite',\n      sortReverse: false,\n      isLoading: false\n    };\n  },\n  created: function created() {\n    this.fetchAll();\n  },\n  methods: {\n    changeSortOrder: function changeSortOrder(columnToSort) {\n      if (this.sortColumn === columnToSort) {\n        this.sortReverse = !this.sortReverse;\n      } else {\n        this.sortColumn = columnToSort;\n      }\n    },\n    fetchAll: function fetchAll() {\n      var _this = this;\n\n      this.failures = [];\n      this.isLoading = true;\n      CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"AjaxHelper\"].fetch({\n        method: 'CoreAdminHome.getTrackingFailures',\n        filter_limit: '-1'\n      }).then(function (failures) {\n        _this.failures = failures;\n        _this.isLoading = false;\n      }).finally(function () {\n        _this.isLoading = false;\n      });\n    },\n    deleteAll: function deleteAll() {\n      var _this2 = this;\n\n      CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].helper.modalConfirm('#confirmDeleteAllTrackingFailures', {\n        yes: function yes() {\n          _this2.failures = [];\n          CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"AjaxHelper\"].fetch({\n            method: 'CoreAdminHome.deleteAllTrackingFailures'\n          }).then(function () {\n            _this2.fetchAll();\n          });\n        }\n      });\n    },\n    deleteFailure: function deleteFailure(idSite, idFailure) {\n      var _this3 = this;\n\n      CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].helper.modalConfirm('#confirmDeleteThisTrackingFailure', {\n        yes: function yes() {\n          _this3.failures = [];\n          CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"AjaxHelper\"].fetch({\n            method: 'CoreAdminHome.deleteTrackingFailure',\n            idSite: idSite,\n            idFailure: idFailure\n          }).then(function () {\n            _this3.fetchAll();\n          });\n        }\n      });\n    }\n  },\n  computed: {\n    sortedFailures: function sortedFailures() {\n      var sortColumn = this.sortColumn;\n\n      var sorted = _toConsumableArray(this.failures);\n\n      if (this.sortReverse) {\n        sorted.sort(function (lhs, rhs) {\n          if (lhs[sortColumn] > rhs[sortColumn]) {\n            return -1;\n          }\n\n          if (lhs[sortColumn] < rhs[sortColumn]) {\n            return 1;\n          }\n\n          return 0;\n        });\n      } else {\n        sorted.sort(function (lhs, rhs) {\n          if (lhs[sortColumn] < rhs[sortColumn]) {\n            return -1;\n          }\n\n          if (lhs[sortColumn] > rhs[sortColumn]) {\n            return 1;\n          }\n\n          return 0;\n        });\n      }\n\n      return sorted;\n    }\n  }\n}));\n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/TrackingFailures/TrackingFailures.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js":
+/*!**********************************************************************************!*\
+  !*** ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js ***!
+  \**********************************************************************************/
+/*! exports provided: ArchivingSettings, BrandingSettings, SmtpSettings, JsTrackingCodeGenerator, JsTrackingCodeGeneratorSitesWithoutData, ImageTrackingCodeGenerator, TrackingFailures */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _setPublicPath__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./setPublicPath */ \"./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js\");\n/* harmony import */ var _entry__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~entry */ \"./plugins/CoreAdminHome/vue/src/index.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"ArchivingSettings\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"ArchivingSettings\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"BrandingSettings\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"BrandingSettings\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"SmtpSettings\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"SmtpSettings\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"JsTrackingCodeGenerator\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"JsTrackingCodeGenerator\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"JsTrackingCodeGeneratorSitesWithoutData\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"JsTrackingCodeGeneratorSitesWithoutData\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"ImageTrackingCodeGenerator\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"ImageTrackingCodeGenerator\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"TrackingFailures\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"TrackingFailures\"]; });\n\n\n\n\n\n//# sourceURL=webpack://CoreAdminHome/./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js ***!
+  \***************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n// This file is imported into lib/wc client bundles.\n\nif (typeof window !== 'undefined') {\n  var currentScript = window.document.currentScript\n  if (false) { var getCurrentScript; }\n\n  var src = currentScript && currentScript.src.match(/(.+\\/)[^/]+\\.js(\\?.*)?$/)\n  if (src) {\n    __webpack_require__.p = src[1] // eslint-disable-line\n  }\n}\n\n// Indicate to webpack that this file can be concatenated\n/* harmony default export */ __webpack_exports__[\"default\"] = (null);\n\n\n//# sourceURL=webpack://CoreAdminHome/./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js?");
+
+/***/ }),
+
+/***/ "./plugins/CoreAdminHome/vue/src/ArchivingSettings/ArchivingSettings.vue":
+/*!*******************************************************************************!*\
+  !*** ./plugins/CoreAdminHome/vue/src/ArchivingSettings/ArchivingSettings.vue ***!
+  \*******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _ArchivingSettings_vue_vue_type_template_id_a6bc2e98__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ArchivingSettings.vue?vue&type=template&id=a6bc2e98 */ \"./plugins/CoreAdminHome/vue/src/ArchivingSettings/ArchivingSettings.vue?vue&type=template&id=a6bc2e98\");\n/* harmony import */ var _ArchivingSettings_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ArchivingSettings.vue?vue&type=script&lang=ts */ \"./plugins/CoreAdminHome/vue/src/ArchivingSettings/ArchivingSettings.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_ArchivingSettings_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _ArchivingSettings_vue_vue_type_template_id_a6bc2e98__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_ArchivingSettings_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/CoreAdminHome/vue/src/ArchivingSettings/ArchivingSettings.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_ArchivingSettings_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/ArchivingSettings/ArchivingSettings.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreAdminHome/vue/src/ArchivingSettings/ArchivingSettings.vue?vue&type=script&lang=ts":
+/*!*******************************************************************************************************!*\
+  !*** ./plugins/CoreAdminHome/vue/src/ArchivingSettings/ArchivingSettings.vue?vue&type=script&lang=ts ***!
+  \*******************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_ArchivingSettings_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./ArchivingSettings.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreAdminHome/vue/src/ArchivingSettings/ArchivingSettings.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_ArchivingSettings_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/ArchivingSettings/ArchivingSettings.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreAdminHome/vue/src/ArchivingSettings/ArchivingSettings.vue?vue&type=template&id=a6bc2e98":
+/*!*************************************************************************************************************!*\
+  !*** ./plugins/CoreAdminHome/vue/src/ArchivingSettings/ArchivingSettings.vue?vue&type=template&id=a6bc2e98 ***!
+  \*************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_ArchivingSettings_vue_vue_type_template_id_a6bc2e98__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./ArchivingSettings.vue?vue&type=template&id=a6bc2e98 */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreAdminHome/vue/src/ArchivingSettings/ArchivingSettings.vue?vue&type=template&id=a6bc2e98\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_ArchivingSettings_vue_vue_type_template_id_a6bc2e98__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/ArchivingSettings/ArchivingSettings.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreAdminHome/vue/src/BrandingSettings/BrandingSettings.vue":
+/*!*****************************************************************************!*\
+  !*** ./plugins/CoreAdminHome/vue/src/BrandingSettings/BrandingSettings.vue ***!
+  \*****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _BrandingSettings_vue_vue_type_template_id_1a621024__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BrandingSettings.vue?vue&type=template&id=1a621024 */ \"./plugins/CoreAdminHome/vue/src/BrandingSettings/BrandingSettings.vue?vue&type=template&id=1a621024\");\n/* harmony import */ var _BrandingSettings_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./BrandingSettings.vue?vue&type=script&lang=ts */ \"./plugins/CoreAdminHome/vue/src/BrandingSettings/BrandingSettings.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_BrandingSettings_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _BrandingSettings_vue_vue_type_template_id_1a621024__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_BrandingSettings_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/CoreAdminHome/vue/src/BrandingSettings/BrandingSettings.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_BrandingSettings_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/BrandingSettings/BrandingSettings.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreAdminHome/vue/src/BrandingSettings/BrandingSettings.vue?vue&type=script&lang=ts":
+/*!*****************************************************************************************************!*\
+  !*** ./plugins/CoreAdminHome/vue/src/BrandingSettings/BrandingSettings.vue?vue&type=script&lang=ts ***!
+  \*****************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_BrandingSettings_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./BrandingSettings.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreAdminHome/vue/src/BrandingSettings/BrandingSettings.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_BrandingSettings_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/BrandingSettings/BrandingSettings.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreAdminHome/vue/src/BrandingSettings/BrandingSettings.vue?vue&type=template&id=1a621024":
+/*!***********************************************************************************************************!*\
+  !*** ./plugins/CoreAdminHome/vue/src/BrandingSettings/BrandingSettings.vue?vue&type=template&id=1a621024 ***!
+  \***********************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_BrandingSettings_vue_vue_type_template_id_1a621024__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./BrandingSettings.vue?vue&type=template&id=1a621024 */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreAdminHome/vue/src/BrandingSettings/BrandingSettings.vue?vue&type=template&id=1a621024\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_BrandingSettings_vue_vue_type_template_id_1a621024__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/BrandingSettings/BrandingSettings.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreAdminHome/vue/src/ImageTrackingCodeGenerator/ImageTrackingCodeGenerator.vue":
+/*!*************************************************************************************************!*\
+  !*** ./plugins/CoreAdminHome/vue/src/ImageTrackingCodeGenerator/ImageTrackingCodeGenerator.vue ***!
+  \*************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _ImageTrackingCodeGenerator_vue_vue_type_template_id_dee18124__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ImageTrackingCodeGenerator.vue?vue&type=template&id=dee18124 */ \"./plugins/CoreAdminHome/vue/src/ImageTrackingCodeGenerator/ImageTrackingCodeGenerator.vue?vue&type=template&id=dee18124\");\n/* harmony import */ var _ImageTrackingCodeGenerator_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ImageTrackingCodeGenerator.vue?vue&type=script&lang=ts */ \"./plugins/CoreAdminHome/vue/src/ImageTrackingCodeGenerator/ImageTrackingCodeGenerator.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_ImageTrackingCodeGenerator_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _ImageTrackingCodeGenerator_vue_vue_type_template_id_dee18124__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_ImageTrackingCodeGenerator_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/CoreAdminHome/vue/src/ImageTrackingCodeGenerator/ImageTrackingCodeGenerator.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_ImageTrackingCodeGenerator_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/ImageTrackingCodeGenerator/ImageTrackingCodeGenerator.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreAdminHome/vue/src/ImageTrackingCodeGenerator/ImageTrackingCodeGenerator.vue?vue&type=script&lang=ts":
+/*!*************************************************************************************************************************!*\
+  !*** ./plugins/CoreAdminHome/vue/src/ImageTrackingCodeGenerator/ImageTrackingCodeGenerator.vue?vue&type=script&lang=ts ***!
+  \*************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_ImageTrackingCodeGenerator_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./ImageTrackingCodeGenerator.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreAdminHome/vue/src/ImageTrackingCodeGenerator/ImageTrackingCodeGenerator.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_ImageTrackingCodeGenerator_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/ImageTrackingCodeGenerator/ImageTrackingCodeGenerator.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreAdminHome/vue/src/ImageTrackingCodeGenerator/ImageTrackingCodeGenerator.vue?vue&type=template&id=dee18124":
+/*!*******************************************************************************************************************************!*\
+  !*** ./plugins/CoreAdminHome/vue/src/ImageTrackingCodeGenerator/ImageTrackingCodeGenerator.vue?vue&type=template&id=dee18124 ***!
+  \*******************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_ImageTrackingCodeGenerator_vue_vue_type_template_id_dee18124__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./ImageTrackingCodeGenerator.vue?vue&type=template&id=dee18124 */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreAdminHome/vue/src/ImageTrackingCodeGenerator/ImageTrackingCodeGenerator.vue?vue&type=template&id=dee18124\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_ImageTrackingCodeGenerator_vue_vue_type_template_id_dee18124__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/ImageTrackingCodeGenerator/ImageTrackingCodeGenerator.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeAdvancedOptions.vue":
+/*!*************************************************************************************************!*\
+  !*** ./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeAdvancedOptions.vue ***!
+  \*************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _JsTrackingCodeAdvancedOptions_vue_vue_type_template_id_f5684876__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./JsTrackingCodeAdvancedOptions.vue?vue&type=template&id=f5684876 */ \"./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeAdvancedOptions.vue?vue&type=template&id=f5684876\");\n/* harmony import */ var _JsTrackingCodeAdvancedOptions_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./JsTrackingCodeAdvancedOptions.vue?vue&type=script&lang=ts */ \"./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeAdvancedOptions.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_JsTrackingCodeAdvancedOptions_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _JsTrackingCodeAdvancedOptions_vue_vue_type_template_id_f5684876__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_JsTrackingCodeAdvancedOptions_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeAdvancedOptions.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_JsTrackingCodeAdvancedOptions_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeAdvancedOptions.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeAdvancedOptions.vue?vue&type=script&lang=ts":
+/*!*************************************************************************************************************************!*\
+  !*** ./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeAdvancedOptions.vue?vue&type=script&lang=ts ***!
+  \*************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_JsTrackingCodeAdvancedOptions_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./JsTrackingCodeAdvancedOptions.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeAdvancedOptions.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_JsTrackingCodeAdvancedOptions_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeAdvancedOptions.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeAdvancedOptions.vue?vue&type=template&id=f5684876":
+/*!*******************************************************************************************************************************!*\
+  !*** ./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeAdvancedOptions.vue?vue&type=template&id=f5684876 ***!
+  \*******************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_JsTrackingCodeAdvancedOptions_vue_vue_type_template_id_f5684876__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./JsTrackingCodeAdvancedOptions.vue?vue&type=template&id=f5684876 */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeAdvancedOptions.vue?vue&type=template&id=f5684876\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_JsTrackingCodeAdvancedOptions_vue_vue_type_template_id_f5684876__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeAdvancedOptions.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGenerator.vue":
+/*!*******************************************************************************************!*\
+  !*** ./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGenerator.vue ***!
+  \*******************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _JsTrackingCodeGenerator_vue_vue_type_template_id_67751088__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./JsTrackingCodeGenerator.vue?vue&type=template&id=67751088 */ \"./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGenerator.vue?vue&type=template&id=67751088\");\n/* harmony import */ var _JsTrackingCodeGenerator_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./JsTrackingCodeGenerator.vue?vue&type=script&lang=ts */ \"./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGenerator.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_JsTrackingCodeGenerator_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _JsTrackingCodeGenerator_vue_vue_type_template_id_67751088__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_JsTrackingCodeGenerator_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGenerator.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_JsTrackingCodeGenerator_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGenerator.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGenerator.vue?vue&type=script&lang=ts":
+/*!*******************************************************************************************************************!*\
+  !*** ./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGenerator.vue?vue&type=script&lang=ts ***!
+  \*******************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_JsTrackingCodeGenerator_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./JsTrackingCodeGenerator.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGenerator.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_JsTrackingCodeGenerator_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGenerator.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGenerator.vue?vue&type=template&id=67751088":
+/*!*************************************************************************************************************************!*\
+  !*** ./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGenerator.vue?vue&type=template&id=67751088 ***!
+  \*************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_JsTrackingCodeGenerator_vue_vue_type_template_id_67751088__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./JsTrackingCodeGenerator.vue?vue&type=template&id=67751088 */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGenerator.vue?vue&type=template&id=67751088\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_JsTrackingCodeGenerator_vue_vue_type_template_id_67751088__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGenerator.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGeneratorSitesWithoutData.vue":
+/*!***********************************************************************************************************!*\
+  !*** ./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGeneratorSitesWithoutData.vue ***!
+  \***********************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _JsTrackingCodeGeneratorSitesWithoutData_vue_vue_type_template_id_bdb8407c__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./JsTrackingCodeGeneratorSitesWithoutData.vue?vue&type=template&id=bdb8407c */ \"./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGeneratorSitesWithoutData.vue?vue&type=template&id=bdb8407c\");\n/* harmony import */ var _JsTrackingCodeGeneratorSitesWithoutData_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./JsTrackingCodeGeneratorSitesWithoutData.vue?vue&type=script&lang=ts */ \"./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGeneratorSitesWithoutData.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_JsTrackingCodeGeneratorSitesWithoutData_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _JsTrackingCodeGeneratorSitesWithoutData_vue_vue_type_template_id_bdb8407c__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_JsTrackingCodeGeneratorSitesWithoutData_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGeneratorSitesWithoutData.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_JsTrackingCodeGeneratorSitesWithoutData_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGeneratorSitesWithoutData.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGeneratorSitesWithoutData.vue?vue&type=script&lang=ts":
+/*!***********************************************************************************************************************************!*\
+  !*** ./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGeneratorSitesWithoutData.vue?vue&type=script&lang=ts ***!
+  \***********************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_JsTrackingCodeGeneratorSitesWithoutData_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./JsTrackingCodeGeneratorSitesWithoutData.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGeneratorSitesWithoutData.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_JsTrackingCodeGeneratorSitesWithoutData_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGeneratorSitesWithoutData.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGeneratorSitesWithoutData.vue?vue&type=template&id=bdb8407c":
+/*!*****************************************************************************************************************************************!*\
+  !*** ./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGeneratorSitesWithoutData.vue?vue&type=template&id=bdb8407c ***!
+  \*****************************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_JsTrackingCodeGeneratorSitesWithoutData_vue_vue_type_template_id_bdb8407c__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./JsTrackingCodeGeneratorSitesWithoutData.vue?vue&type=template&id=bdb8407c */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGeneratorSitesWithoutData.vue?vue&type=template&id=bdb8407c\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_JsTrackingCodeGeneratorSitesWithoutData_vue_vue_type_template_id_bdb8407c__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGeneratorSitesWithoutData.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.vue":
+/*!*********************************************************************!*\
+  !*** ./plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.vue ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _SmtpSettings_vue_vue_type_template_id_415dbb4e__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SmtpSettings.vue?vue&type=template&id=415dbb4e */ \"./plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.vue?vue&type=template&id=415dbb4e\");\n/* harmony import */ var _SmtpSettings_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SmtpSettings.vue?vue&type=script&lang=ts */ \"./plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_SmtpSettings_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _SmtpSettings_vue_vue_type_template_id_415dbb4e__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_SmtpSettings_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_SmtpSettings_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.vue?vue&type=script&lang=ts":
+/*!*********************************************************************************************!*\
+  !*** ./plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.vue?vue&type=script&lang=ts ***!
+  \*********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_SmtpSettings_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./SmtpSettings.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_SmtpSettings_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.vue?vue&type=template&id=415dbb4e":
+/*!***************************************************************************************************!*\
+  !*** ./plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.vue?vue&type=template&id=415dbb4e ***!
+  \***************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_SmtpSettings_vue_vue_type_template_id_415dbb4e__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./SmtpSettings.vue?vue&type=template&id=415dbb4e */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.vue?vue&type=template&id=415dbb4e\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_SmtpSettings_vue_vue_type_template_id_415dbb4e__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreAdminHome/vue/src/TrackingFailures/FailureRow.vue":
+/*!***********************************************************************!*\
+  !*** ./plugins/CoreAdminHome/vue/src/TrackingFailures/FailureRow.vue ***!
+  \***********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _FailureRow_vue_vue_type_template_id_9fd856c4__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FailureRow.vue?vue&type=template&id=9fd856c4 */ \"./plugins/CoreAdminHome/vue/src/TrackingFailures/FailureRow.vue?vue&type=template&id=9fd856c4\");\n/* harmony import */ var _FailureRow_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FailureRow.vue?vue&type=script&lang=ts */ \"./plugins/CoreAdminHome/vue/src/TrackingFailures/FailureRow.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_FailureRow_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _FailureRow_vue_vue_type_template_id_9fd856c4__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_FailureRow_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/CoreAdminHome/vue/src/TrackingFailures/FailureRow.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_FailureRow_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/TrackingFailures/FailureRow.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreAdminHome/vue/src/TrackingFailures/FailureRow.vue?vue&type=script&lang=ts":
+/*!***********************************************************************************************!*\
+  !*** ./plugins/CoreAdminHome/vue/src/TrackingFailures/FailureRow.vue?vue&type=script&lang=ts ***!
+  \***********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_FailureRow_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./FailureRow.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreAdminHome/vue/src/TrackingFailures/FailureRow.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_FailureRow_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/TrackingFailures/FailureRow.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreAdminHome/vue/src/TrackingFailures/FailureRow.vue?vue&type=template&id=9fd856c4":
+/*!*****************************************************************************************************!*\
+  !*** ./plugins/CoreAdminHome/vue/src/TrackingFailures/FailureRow.vue?vue&type=template&id=9fd856c4 ***!
+  \*****************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_FailureRow_vue_vue_type_template_id_9fd856c4__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./FailureRow.vue?vue&type=template&id=9fd856c4 */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreAdminHome/vue/src/TrackingFailures/FailureRow.vue?vue&type=template&id=9fd856c4\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_FailureRow_vue_vue_type_template_id_9fd856c4__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/TrackingFailures/FailureRow.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreAdminHome/vue/src/TrackingFailures/TrackingFailures.vue":
+/*!*****************************************************************************!*\
+  !*** ./plugins/CoreAdminHome/vue/src/TrackingFailures/TrackingFailures.vue ***!
+  \*****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _TrackingFailures_vue_vue_type_template_id_245d942e__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TrackingFailures.vue?vue&type=template&id=245d942e */ \"./plugins/CoreAdminHome/vue/src/TrackingFailures/TrackingFailures.vue?vue&type=template&id=245d942e\");\n/* harmony import */ var _TrackingFailures_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TrackingFailures.vue?vue&type=script&lang=ts */ \"./plugins/CoreAdminHome/vue/src/TrackingFailures/TrackingFailures.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_TrackingFailures_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _TrackingFailures_vue_vue_type_template_id_245d942e__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_TrackingFailures_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/CoreAdminHome/vue/src/TrackingFailures/TrackingFailures.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_TrackingFailures_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/TrackingFailures/TrackingFailures.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreAdminHome/vue/src/TrackingFailures/TrackingFailures.vue?vue&type=script&lang=ts":
+/*!*****************************************************************************************************!*\
+  !*** ./plugins/CoreAdminHome/vue/src/TrackingFailures/TrackingFailures.vue?vue&type=script&lang=ts ***!
+  \*****************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_TrackingFailures_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./TrackingFailures.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreAdminHome/vue/src/TrackingFailures/TrackingFailures.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_TrackingFailures_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/TrackingFailures/TrackingFailures.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreAdminHome/vue/src/TrackingFailures/TrackingFailures.vue?vue&type=template&id=245d942e":
+/*!***********************************************************************************************************!*\
+  !*** ./plugins/CoreAdminHome/vue/src/TrackingFailures/TrackingFailures.vue?vue&type=template&id=245d942e ***!
+  \***********************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_TrackingFailures_vue_vue_type_template_id_245d942e__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./TrackingFailures.vue?vue&type=template&id=245d942e */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/CoreAdminHome/vue/src/TrackingFailures/TrackingFailures.vue?vue&type=template&id=245d942e\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_TrackingFailures_vue_vue_type_template_id_245d942e__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/TrackingFailures/TrackingFailures.vue?");
+
+/***/ }),
+
+/***/ "./plugins/CoreAdminHome/vue/src/index.ts":
+/*!************************************************!*\
+  !*** ./plugins/CoreAdminHome/vue/src/index.ts ***!
+  \************************************************/
+/*! exports provided: ArchivingSettings, BrandingSettings, SmtpSettings, JsTrackingCodeGenerator, JsTrackingCodeGeneratorSitesWithoutData, ImageTrackingCodeGenerator, TrackingFailures */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _ArchivingSettings_ArchivingSettings_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ArchivingSettings/ArchivingSettings.vue */ \"./plugins/CoreAdminHome/vue/src/ArchivingSettings/ArchivingSettings.vue\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"ArchivingSettings\", function() { return _ArchivingSettings_ArchivingSettings_vue__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* harmony import */ var _BrandingSettings_BrandingSettings_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./BrandingSettings/BrandingSettings.vue */ \"./plugins/CoreAdminHome/vue/src/BrandingSettings/BrandingSettings.vue\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"BrandingSettings\", function() { return _BrandingSettings_BrandingSettings_vue__WEBPACK_IMPORTED_MODULE_1__[\"default\"]; });\n\n/* harmony import */ var _SmtpSettings_SmtpSettings_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SmtpSettings/SmtpSettings.vue */ \"./plugins/CoreAdminHome/vue/src/SmtpSettings/SmtpSettings.vue\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"SmtpSettings\", function() { return _SmtpSettings_SmtpSettings_vue__WEBPACK_IMPORTED_MODULE_2__[\"default\"]; });\n\n/* harmony import */ var _JsTrackingCodeGenerator_JsTrackingCodeGenerator_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./JsTrackingCodeGenerator/JsTrackingCodeGenerator.vue */ \"./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGenerator.vue\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"JsTrackingCodeGenerator\", function() { return _JsTrackingCodeGenerator_JsTrackingCodeGenerator_vue__WEBPACK_IMPORTED_MODULE_3__[\"default\"]; });\n\n/* harmony import */ var _JsTrackingCodeGenerator_JsTrackingCodeGeneratorSitesWithoutData_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./JsTrackingCodeGenerator/JsTrackingCodeGeneratorSitesWithoutData.vue */ \"./plugins/CoreAdminHome/vue/src/JsTrackingCodeGenerator/JsTrackingCodeGeneratorSitesWithoutData.vue\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"JsTrackingCodeGeneratorSitesWithoutData\", function() { return _JsTrackingCodeGenerator_JsTrackingCodeGeneratorSitesWithoutData_vue__WEBPACK_IMPORTED_MODULE_4__[\"default\"]; });\n\n/* harmony import */ var _ImageTrackingCodeGenerator_ImageTrackingCodeGenerator_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ImageTrackingCodeGenerator/ImageTrackingCodeGenerator.vue */ \"./plugins/CoreAdminHome/vue/src/ImageTrackingCodeGenerator/ImageTrackingCodeGenerator.vue\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"ImageTrackingCodeGenerator\", function() { return _ImageTrackingCodeGenerator_ImageTrackingCodeGenerator_vue__WEBPACK_IMPORTED_MODULE_5__[\"default\"]; });\n\n/* harmony import */ var _TrackingFailures_TrackingFailures_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./TrackingFailures/TrackingFailures.vue */ \"./plugins/CoreAdminHome/vue/src/TrackingFailures/TrackingFailures.vue\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"TrackingFailures\", function() { return _TrackingFailures_TrackingFailures_vue__WEBPACK_IMPORTED_MODULE_6__[\"default\"]; });\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n*/\n\n\n\n\n\n\n\n\n//# sourceURL=webpack://CoreAdminHome/./plugins/CoreAdminHome/vue/src/index.ts?");
+
+/***/ }),
+
+/***/ "CoreHome":
+/*!***************************!*\
+  !*** external "CoreHome" ***!
+  \***************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = __WEBPACK_EXTERNAL_MODULE_CoreHome__;\n\n//# sourceURL=webpack://CoreAdminHome/external_%22CoreHome%22?");
+
+/***/ }),
+
+/***/ "CorePluginsAdmin":
+/*!***********************************!*\
+  !*** external "CorePluginsAdmin" ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = __WEBPACK_EXTERNAL_MODULE_CorePluginsAdmin__;\n\n//# sourceURL=webpack://CoreAdminHome/external_%22CorePluginsAdmin%22?");
+
+/***/ }),
+
+/***/ "vue":
+/*!******************************************************************!*\
+  !*** external {"commonjs":"vue","commonjs2":"vue","root":"Vue"} ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = __WEBPACK_EXTERNAL_MODULE_vue__;\n\n//# sourceURL=webpack://CoreAdminHome/external_%7B%22commonjs%22:%22vue%22,%22commonjs2%22:%22vue%22,%22root%22:%22Vue%22%7D?");
 
 /***/ })
 
 /******/ });
 });
-//# sourceMappingURL=CoreAdminHome.umd.js.map

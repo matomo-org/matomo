@@ -156,6 +156,7 @@ import {
   Progressbar,
   ContentBlock,
   NotificationsStore,
+  externalLink,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 
@@ -456,10 +457,10 @@ export default defineComponent({
       return `${translation}<br /><br />`;
     },
     maxMindLinkExplanation() {
-      const link = 'https://matomo.org/faq/how-to/'
-        + 'how-do-i-get-the-geolocation-download-url-for-the-free-maxmind-db/';
       return translate(
         'UserCountry_MaxMindLinkExplanation',
+        externalLink('https://matomo.org/faq/how-to/'
+        + 'how-do-i-get-the-geolocation-download-url-for-the-free-maxmind-db/'),
         `<a href="${link}" rel="noreferrer noopener" target="_blank">`,
         '</a>',
       );

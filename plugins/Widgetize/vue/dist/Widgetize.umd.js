@@ -7,7 +7,7 @@
 		exports["Widgetize"] = factory(require("CoreHome"), require("vue"));
 	else
 		root["Widgetize"] = factory(root["CoreHome"], root["Vue"]);
-})((typeof self !== 'undefined' ? self : this), function(__WEBPACK_EXTERNAL_MODULE__19dc__, __WEBPACK_EXTERNAL_MODULE__8bbf__) {
+})((typeof self !== 'undefined' ? self : this), function(__WEBPACK_EXTERNAL_MODULE_CoreHome__, __WEBPACK_EXTERNAL_MODULE_vue__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -91,389 +91,248 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "fae3");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "19dc":
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE__19dc__;
-
-/***/ }),
-
-/***/ "8bbf":
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE__8bbf__;
-
-/***/ }),
-
-/***/ "fae3":
+/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/Widgetize/vue/src/ExportWidget/ExportWidget.vue?vue&type=template&id=cb6561e2":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Widgetize/vue/src/ExportWidget/ExportWidget.vue?vue&type=template&id=cb6561e2 ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-// ESM COMPAT FLAG
-__webpack_require__.r(__webpack_exports__);
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nvar _hoisted_1 = {\n  class: \"widgetize\"\n};\nvar _hoisted_2 = [\"innerHTML\"];\nvar _hoisted_3 = [\"innerHTML\"];\nvar _hoisted_4 = [\"innerHTML\"];\n\nvar _hoisted_5 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_6 = [\"textContent\"];\n\nvar _hoisted_7 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_8 = [\"innerHTML\"];\n\nvar _hoisted_9 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_10 = [\"textContent\"];\n\nvar _hoisted_11 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", {\n  class: \"clearfix\"\n}, null, -1\n/* HOISTED */\n);\n\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  var _component_EnrichedHeadline = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"EnrichedHeadline\");\n\n  var _component_ContentBlock = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"ContentBlock\");\n\n  var _component_WidgetPreview = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"WidgetPreview\");\n\n  var _directive_content_intro = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveDirective\"])(\"content-intro\");\n\n  var _directive_select_on_focus = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveDirective\"])(\"select-on-focus\");\n\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_1, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"h2\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_EnrichedHeadline, null, {\n    default: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withCtx\"])(function () {\n      return [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.title), 1\n      /* TEXT */\n      )];\n    }),\n    _: 1\n    /* STABLE */\n\n  })]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"p\", {\n    innerHTML: _ctx.$sanitize(_ctx.intro)\n  }, null, 8\n  /* PROPS */\n  , _hoisted_2)], 512\n  /* NEED_PATCH */\n  ), [[_directive_content_intro]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_ContentBlock, {\n    \"content-title\": \"Authentication\"\n  }, {\n    default: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withCtx\"])(function () {\n      return [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"p\", {\n        innerHTML: _ctx.$sanitize(_ctx.viewableAnonymously)\n      }, null, 8\n      /* PROPS */\n      , _hoisted_3)];\n    }),\n    _: 1\n    /* STABLE */\n\n  }), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_ContentBlock, {\n    \"content-title\": \"Widgetize dashboards\"\n  }, {\n    default: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withCtx\"])(function () {\n      return [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"p\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n        innerHTML: _ctx.$sanitize(_ctx.displayInIframe)\n      }, null, 8\n      /* PROPS */\n      , _hoisted_4), _hoisted_5]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"pre\", {\n        textContent: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.dashboardCode)\n      }, null, 8\n      /* PROPS */\n      , _hoisted_6), [[_directive_select_on_focus, {}]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"p\", null, [_hoisted_7, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n        innerHTML: _ctx.$sanitize(_ctx.displayInIframeAllSites)\n      }, null, 8\n      /* PROPS */\n      , _hoisted_8), _hoisted_9]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"pre\", {\n        textContent: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.allWebsitesDashboardCode)\n      }, null, 8\n      /* PROPS */\n      , _hoisted_10), [[_directive_select_on_focus, {}]])])];\n    }),\n    _: 1\n    /* STABLE */\n\n  }), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_ContentBlock, {\n    \"content-title\": _ctx.translate('Widgetize_Reports')\n  }, {\n    default: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withCtx\"])(function () {\n      return [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"p\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Widgetize_SelectAReport')), 1\n      /* TEXT */\n      ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_WidgetPreview)]), _hoisted_11])];\n    }),\n    _: 1\n    /* STABLE */\n\n  }, 8\n  /* PROPS */\n  , [\"content-title\"])]);\n}\n\n//# sourceURL=webpack://Widgetize/./plugins/Widgetize/vue/src/ExportWidget/ExportWidget.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
 
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "WidgetPreviewIframe", function() { return /* reexport */ WidgetPreviewIframe; });
-__webpack_require__.d(__webpack_exports__, "WidgetPreview", function() { return /* reexport */ WidgetPreview; });
-__webpack_require__.d(__webpack_exports__, "ExportWidget", function() { return /* reexport */ ExportWidget; });
+/***/ }),
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
-// This file is imported into lib/wc client bundles.
+/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreview.vue?vue&type=template&id=98919bce":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreview.vue?vue&type=template&id=98919bce ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-if (typeof window !== 'undefined') {
-  var currentScript = window.document.currentScript
-  if (false) { var getCurrentScript; }
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nvar _hoisted_1 = {\n  ref: \"root\"\n};\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_1, null, 512\n  /* NEED_PATCH */\n  );\n}\n\n//# sourceURL=webpack://Widgetize/./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreview.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
 
-  var src = currentScript && currentScript.src.match(/(.+\/)[^/]+\.js(\?.*)?$/)
-  if (src) {
-    __webpack_require__.p = src[1] // eslint-disable-line
-  }
-}
+/***/ }),
 
-// Indicate to webpack that this file can be concatenated
-/* harmony default export */ var setPublicPath = (null);
+/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreviewIframe.vue?vue&type=template&id=24673a1d":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreviewIframe.vue?vue&type=template&id=24673a1d ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-// EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
-var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nvar _hoisted_1 = {\n  id: \"embedThisWidgetIframe\"\n};\nvar _hoisted_2 = [\"innerHTML\"];\nvar _hoisted_3 = {\n  id: \"embedThisWidgetIframeInput\"\n};\nvar _hoisted_4 = {\n  readonly: \"true\",\n  id: \"iframeEmbed\"\n};\nvar _hoisted_5 = [\"innerHTML\"];\nvar _hoisted_6 = {\n  id: \"embedThisWidgetDirectLink\"\n};\nvar _hoisted_7 = {\n  readonly: \"true\",\n  id: \"directLinkEmbed\"\n};\n\nvar _hoisted_8 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(\" - \");\n\nvar _hoisted_9 = [\"href\"];\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  var _directive_select_on_focus = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveDirective\"])(\"select-on-focus\");\n\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(vue__WEBPACK_IMPORTED_MODULE_0__[\"Fragment\"], null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_1, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"label\", {\n    for: \"embedThisWidgetIframeInput\",\n    innerHTML: _ctx.$sanitize(_ctx.translate('Widgetize_EmbedIframe'))\n  }, null, 8\n  /* PROPS */\n  , _hoisted_2), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_3, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"pre\", _hoisted_4, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.widgetIframeHtml), 1\n  /* TEXT */\n  )], 512\n  /* NEED_PATCH */\n  ), [[_directive_select_on_focus, {}]])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"label\", {\n    for: \"embedThisWidgetDirectLink\",\n    innerHTML: _ctx.$sanitize(_ctx.translate('Widgetize_DirectLink'))\n  }, null, 8\n  /* PROPS */\n  , _hoisted_5), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_6, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"pre\", _hoisted_7, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.urlIframe), 1\n  /* TEXT */\n  )], 512\n  /* NEED_PATCH */\n  ), [[_directive_select_on_focus, {}]]), _hoisted_8, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"a\", {\n    href: _ctx.urlIframe,\n    rel: \"noreferrer noopener\",\n    target: \"_blank\"\n  }, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Widgetize_OpenInNewWindow')), 9\n  /* TEXT, PROPS */\n  , _hoisted_9)])])], 64\n  /* STABLE_FRAGMENT */\n  );\n}\n\n//# sourceURL=webpack://Widgetize/./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreviewIframe.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreviewIframe.vue?vue&type=template&id=83407632
+/***/ }),
 
-var _hoisted_1 = {
-  id: "embedThisWidgetIframe"
-};
-var _hoisted_2 = ["innerHTML"];
-var _hoisted_3 = {
-  id: "embedThisWidgetIframeInput"
-};
-var _hoisted_4 = {
-  readonly: "true",
-  id: "iframeEmbed"
-};
-var _hoisted_5 = ["innerHTML"];
-var _hoisted_6 = {
-  id: "embedThisWidgetDirectLink"
-};
-var _hoisted_7 = {
-  readonly: "true",
-  id: "directLinkEmbed"
-};
+/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/Widgetize/vue/src/ExportWidget/ExportWidget.vue?vue&type=script&lang=ts":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Widgetize/vue/src/ExportWidget/ExportWidget.vue?vue&type=script&lang=ts ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-var _hoisted_8 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" - ");
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! CoreHome */ \"CoreHome\");\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(CoreHome__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var _WidgetPreview_WidgetPreview_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../WidgetPreview/WidgetPreview.vue */ \"./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreview.vue\");\n\n\n\n\nfunction getIframeCode(iframeUrl) {\n  var url = iframeUrl.replace(/\"/g, '&quot;');\n  return \"<iframe src=\\\"\".concat(url, \"\\\" frameborder=\\\"0\\\" marginheight=\\\"0\\\" marginwidth=\\\"0\\\" width=\\\"100%\\\" \") + 'height=\"100%\"></iframe>';\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {\n    title: {\n      type: String,\n      required: true\n    }\n  },\n  components: {\n    EnrichedHeadline: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"EnrichedHeadline\"],\n    ContentBlock: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"ContentBlock\"],\n    WidgetPreview: _WidgetPreview_WidgetPreview_vue__WEBPACK_IMPORTED_MODULE_2__[\"default\"]\n  },\n  directives: {\n    ContentIntro: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"ContentIntro\"],\n    SelectOnFocus: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"SelectOnFocus\"]\n  },\n  data: function data() {\n    var port = window.location.port === '' ? '' : \":\".concat(window.location.port);\n    var path = window.location.pathname;\n    var urlPath = \"\".concat(window.location.protocol, \"//\").concat(window.location.hostname).concat(port).concat(path);\n    return {\n      dashboardUrl: \"\".concat(urlPath, \"?\").concat(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"MatomoUrl\"].stringify({\n        module: 'Widgetize',\n        action: 'iframe',\n        moduleToWidgetize: 'Dashboard',\n        actionToWidgetize: 'index',\n        idSite: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].idSite,\n        period: 'week',\n        date: 'yesterday'\n      })),\n      allWebsitesDashboardUrl: \"\".concat(urlPath, \"?\").concat(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"MatomoUrl\"].stringify({\n        module: 'Widgetize',\n        action: 'iframe',\n        moduleToWidgetize: 'MultiSites',\n        actionToWidgetize: 'standalone',\n        idSite: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].idSite,\n        period: 'week',\n        date: 'yesterday'\n      }))\n    };\n  },\n  computed: {\n    dashboardCode: function dashboardCode() {\n      return getIframeCode(this.dashboardUrl);\n    },\n    allWebsitesDashboardCode: function allWebsitesDashboardCode() {\n      return getIframeCode(this.allWebsitesDashboardUrl);\n    },\n    intro: function intro() {\n      return Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('Widgetize_Intro', Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"externalLink\"])('https://matomo.org/docs/embed-piwik-report/'), '</a>');\n    },\n    viewableAnonymously: function viewableAnonymously() {\n      return Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('Widgetize_ViewableAnonymously', \"<a\\n          href=\\\"index.php?module=UsersManager\\\"\\n          rel=\\\"noreferrer noopener\\\"\\n          target=\\\"_blank\\\"\\n        >\", '</a>', \"<a\\n          rel=\\\"noreferrer noopener\\\"\\n          target=\\\"_blank\\\"\\n          href=\\\"\".concat(this.linkTo({\n        module: 'UsersManager',\n        action: 'userSecurity'\n      }), \"\\\"\\n        >\"), '</a>');\n    },\n    displayInIframe: function displayInIframe() {\n      return Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('Widgetize_DisplayDashboardInIframe', \"<a\\n          rel=\\\"noreferrer noopener\\\"\\n          target=\\\"_blank\\\"\\n          href=\\\"\".concat(this.dashboardUrl, \"\\\"\\n        >\"), '</a>');\n    },\n    displayInIframeAllSites: function displayInIframeAllSites() {\n      return Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('Widgetize_DisplayDashboardInIframeAllSites', \"<a\\n          rel=\\\"noreferrer noopener\\\"\\n          target=\\\"_blank\\\"\\n          id=\\\"linkAllWebsitesDashboardUrl\\\"\\n          href=\\\"\".concat(this.allWebsitesDashboardUrl, \"\\\"\\n        >\"), '</a>');\n    }\n  },\n  methods: {\n    linkTo: function linkTo(params) {\n      return \"?\".concat(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"MatomoUrl\"].stringify(Object.assign(Object.assign({}, CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"MatomoUrl\"].urlParsed.value), params)));\n    }\n  }\n}));\n\n//# sourceURL=webpack://Widgetize/./plugins/Widgetize/vue/src/ExportWidget/ExportWidget.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
 
-var _hoisted_9 = ["href"];
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _directive_select_on_focus = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("select-on-focus");
+/***/ }),
 
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", {
-    for: "embedThisWidgetIframeInput",
-    innerHTML: _ctx.$sanitize(_ctx.translate('Widgetize_EmbedIframe'))
-  }, null, 8, _hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("pre", _hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.widgetIframeHtml), 1)], 512), [[_directive_select_on_focus, {}]])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", {
-    for: "embedThisWidgetDirectLink",
-    innerHTML: _ctx.$sanitize(_ctx.translate('Widgetize_DirectLink'))
-  }, null, 8, _hoisted_5), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("pre", _hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.urlIframe), 1)], 512), [[_directive_select_on_focus, {}]]), _hoisted_8, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-    href: _ctx.urlIframe,
-    rel: "noreferrer noopener",
-    target: "_blank"
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Widgetize_OpenInNewWindow')), 9, _hoisted_9)])])], 64);
-}
-// CONCATENATED MODULE: ./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreviewIframe.vue?vue&type=template&id=83407632
+/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreview.vue?vue&type=script&lang=ts":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreview.vue?vue&type=script&lang=ts ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-// EXTERNAL MODULE: external "CoreHome"
-var external_CoreHome_ = __webpack_require__("19dc");
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! CoreHome */ \"CoreHome\");\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(CoreHome__WEBPACK_IMPORTED_MODULE_1__);\n\n\nvar _window = window,\n    $ = _window.$,\n    widgetsHelper = _window.widgetsHelper;\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  mounted: function mounted() {\n    var _this = this;\n\n    var element = this.$refs.root; // eslint-disable-next-line @typescript-eslint/no-explicit-any\n\n    $(element).widgetPreview({\n      onPreviewLoaded: function onPreviewLoaded(widgetUniqueId, loadedWidgetElement) {\n        _this.callbackAddExportButtonsUnderWidget(widgetUniqueId, loadedWidgetElement);\n      }\n    });\n  },\n  methods: {\n    callbackAddExportButtonsUnderWidget: function callbackAddExportButtonsUnderWidget(widgetUniqueId, loadedWidgetElement) {\n      var _this2 = this;\n\n      widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId, function (widget) {\n        var widgetParameters = widget.parameters;\n        var exportButtonsElement = $('<div id=\"exportButtons\">');\n\n        var urlIframe = _this2.getEmbedUrl(widgetParameters, 'iframe');\n\n        var widgetIframeHtml = '<div id=\"widgetIframe\"><iframe width=\"100%\" height=\"350\" ' + \"src=\\\"\".concat(urlIframe, \"\\\" scrolling=\\\"yes\\\" frameborder=\\\"0\\\" marginheight=\\\"0\\\" marginwidth=\\\"0\\\">\") + '</iframe></div>';\n        var previewIframe = $('<div>').attr('vue-entry', 'Widgetize.WidgetPreviewIframe').attr('widget-iframe-html', JSON.stringify(widgetIframeHtml)).attr('url-iframe', JSON.stringify(urlIframe));\n        $(exportButtonsElement).append(previewIframe);\n        $(loadedWidgetElement).parent().append(exportButtonsElement);\n        CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].helper.compileVueEntryComponents(exportButtonsElement);\n      });\n    },\n    getEmbedUrl: function getEmbedUrl(parameters, exportFormat) {\n      var finalParams = Object.assign(Object.assign({}, parameters), {}, {\n        moduleToWidgetize: parameters.module,\n        actionToWidgetize: parameters.action,\n        module: 'Widgetize',\n        action: exportFormat,\n        idSite: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].idSite,\n        period: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].period,\n        date: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"MatomoUrl\"].urlParsed.value.date,\n        disableLink: 1,\n        widget: 1\n      });\n      var _window$location = window.location,\n          protocol = _window$location.protocol,\n          hostname = _window$location.hostname;\n      var port = window.location.port === '' ? '' : \":\".concat(window.location.port);\n      var path = window.location.pathname;\n      var query = CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"MatomoUrl\"].stringify(finalParams);\n      return \"\".concat(protocol, \"//\").concat(hostname).concat(port).concat(path, \"?\").concat(query);\n    }\n  }\n}));\n\n//# sourceURL=webpack://Widgetize/./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreview.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreviewIframe.vue?vue&type=script&lang=ts
+/***/ }),
 
+/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreviewIframe.vue?vue&type=script&lang=ts":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreviewIframe.vue?vue&type=script&lang=ts ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-/* harmony default export */ var WidgetPreviewIframevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    urlIframe: {
-      type: String,
-      required: true
-    },
-    widgetIframeHtml: {
-      type: String,
-      required: true
-    }
-  },
-  inheritAttrs: false,
-  directives: {
-    SelectOnFocus: external_CoreHome_["SelectOnFocus"]
-  }
-}));
-// CONCATENATED MODULE: ./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreviewIframe.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreviewIframe.vue
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! CoreHome */ \"CoreHome\");\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(CoreHome__WEBPACK_IMPORTED_MODULE_1__);\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {\n    urlIframe: {\n      type: String,\n      required: true\n    },\n    widgetIframeHtml: {\n      type: String,\n      required: true\n    }\n  },\n  inheritAttrs: false,\n  directives: {\n    SelectOnFocus: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"SelectOnFocus\"]\n  }\n}));\n\n//# sourceURL=webpack://Widgetize/./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreviewIframe.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
 
+/***/ }),
 
+/***/ "./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js":
+/*!**********************************************************************************!*\
+  !*** ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js ***!
+  \**********************************************************************************/
+/*! exports provided: WidgetPreviewIframe, WidgetPreview, ExportWidget */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-WidgetPreviewIframevue_type_script_lang_ts.render = render
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _setPublicPath__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./setPublicPath */ \"./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js\");\n/* harmony import */ var _entry__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~entry */ \"./plugins/Widgetize/vue/src/index.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"WidgetPreviewIframe\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"WidgetPreviewIframe\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"WidgetPreview\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"WidgetPreview\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"ExportWidget\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"ExportWidget\"]; });\n\n\n\n\n\n//# sourceURL=webpack://Widgetize/./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js?");
 
-/* harmony default export */ var WidgetPreviewIframe = (WidgetPreviewIframevue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreview.vue?vue&type=template&id=73d2ef45
+/***/ }),
 
-var WidgetPreviewvue_type_template_id_73d2ef45_hoisted_1 = {
-  ref: "root"
-};
-function WidgetPreviewvue_type_template_id_73d2ef45_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", WidgetPreviewvue_type_template_id_73d2ef45_hoisted_1, null, 512);
-}
-// CONCATENATED MODULE: ./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreview.vue?vue&type=template&id=73d2ef45
+/***/ "./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js ***!
+  \***************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreview.vue?vue&type=script&lang=ts
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n// This file is imported into lib/wc client bundles.\n\nif (typeof window !== 'undefined') {\n  var currentScript = window.document.currentScript\n  if (false) { var getCurrentScript; }\n\n  var src = currentScript && currentScript.src.match(/(.+\\/)[^/]+\\.js(\\?.*)?$/)\n  if (src) {\n    __webpack_require__.p = src[1] // eslint-disable-line\n  }\n}\n\n// Indicate to webpack that this file can be concatenated\n/* harmony default export */ __webpack_exports__[\"default\"] = (null);\n\n\n//# sourceURL=webpack://Widgetize/./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js?");
 
+/***/ }),
 
-var _window = window,
-    $ = _window.$,
-    widgetsHelper = _window.widgetsHelper;
-/* harmony default export */ var WidgetPreviewvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  mounted: function mounted() {
-    var _this = this;
+/***/ "./plugins/Widgetize/vue/src/ExportWidget/ExportWidget.vue":
+/*!*****************************************************************!*\
+  !*** ./plugins/Widgetize/vue/src/ExportWidget/ExportWidget.vue ***!
+  \*****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-    var element = this.$refs.root; // eslint-disable-next-line @typescript-eslint/no-explicit-any
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _ExportWidget_vue_vue_type_template_id_cb6561e2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ExportWidget.vue?vue&type=template&id=cb6561e2 */ \"./plugins/Widgetize/vue/src/ExportWidget/ExportWidget.vue?vue&type=template&id=cb6561e2\");\n/* harmony import */ var _ExportWidget_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ExportWidget.vue?vue&type=script&lang=ts */ \"./plugins/Widgetize/vue/src/ExportWidget/ExportWidget.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_ExportWidget_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _ExportWidget_vue_vue_type_template_id_cb6561e2__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_ExportWidget_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/Widgetize/vue/src/ExportWidget/ExportWidget.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_ExportWidget_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://Widgetize/./plugins/Widgetize/vue/src/ExportWidget/ExportWidget.vue?");
 
-    $(element).widgetPreview({
-      onPreviewLoaded: function onPreviewLoaded(widgetUniqueId, loadedWidgetElement) {
-        _this.callbackAddExportButtonsUnderWidget(widgetUniqueId, loadedWidgetElement);
-      }
-    });
-  },
-  methods: {
-    callbackAddExportButtonsUnderWidget: function callbackAddExportButtonsUnderWidget(widgetUniqueId, loadedWidgetElement) {
-      var _this2 = this;
+/***/ }),
 
-      widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId, function (widget) {
-        var widgetParameters = widget.parameters;
-        var exportButtonsElement = $('<div id="exportButtons">');
+/***/ "./plugins/Widgetize/vue/src/ExportWidget/ExportWidget.vue?vue&type=script&lang=ts":
+/*!*****************************************************************************************!*\
+  !*** ./plugins/Widgetize/vue/src/ExportWidget/ExportWidget.vue?vue&type=script&lang=ts ***!
+  \*****************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-        var urlIframe = _this2.getEmbedUrl(widgetParameters, 'iframe');
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_ExportWidget_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./ExportWidget.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/Widgetize/vue/src/ExportWidget/ExportWidget.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_ExportWidget_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://Widgetize/./plugins/Widgetize/vue/src/ExportWidget/ExportWidget.vue?");
 
-        var widgetIframeHtml = '<div id="widgetIframe"><iframe width="100%" height="350" ' + "src=\"".concat(urlIframe, "\" scrolling=\"yes\" frameborder=\"0\" marginheight=\"0\" marginwidth=\"0\">") + '</iframe></div>';
-        var previewIframe = $('<div>').attr('vue-entry', 'Widgetize.WidgetPreviewIframe').attr('widget-iframe-html', JSON.stringify(widgetIframeHtml)).attr('url-iframe', JSON.stringify(urlIframe));
-        $(exportButtonsElement).append(previewIframe);
-        $(loadedWidgetElement).parent().append(exportButtonsElement);
-        external_CoreHome_["Matomo"].helper.compileVueEntryComponents(exportButtonsElement);
-      });
-    },
-    getEmbedUrl: function getEmbedUrl(parameters, exportFormat) {
-      var finalParams = Object.assign(Object.assign({}, parameters), {}, {
-        moduleToWidgetize: parameters.module,
-        actionToWidgetize: parameters.action,
-        module: 'Widgetize',
-        action: exportFormat,
-        idSite: external_CoreHome_["Matomo"].idSite,
-        period: external_CoreHome_["Matomo"].period,
-        date: external_CoreHome_["MatomoUrl"].urlParsed.value.date,
-        disableLink: 1,
-        widget: 1
-      });
-      var _window$location = window.location,
-          protocol = _window$location.protocol,
-          hostname = _window$location.hostname;
-      var port = window.location.port === '' ? '' : ":".concat(window.location.port);
-      var path = window.location.pathname;
-      var query = external_CoreHome_["MatomoUrl"].stringify(finalParams);
-      return "".concat(protocol, "//").concat(hostname).concat(port).concat(path, "?").concat(query);
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreview.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreview.vue
+/***/ }),
 
+/***/ "./plugins/Widgetize/vue/src/ExportWidget/ExportWidget.vue?vue&type=template&id=cb6561e2":
+/*!***********************************************************************************************!*\
+  !*** ./plugins/Widgetize/vue/src/ExportWidget/ExportWidget.vue?vue&type=template&id=cb6561e2 ***!
+  \***********************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_ExportWidget_vue_vue_type_template_id_cb6561e2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./ExportWidget.vue?vue&type=template&id=cb6561e2 */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/Widgetize/vue/src/ExportWidget/ExportWidget.vue?vue&type=template&id=cb6561e2\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_ExportWidget_vue_vue_type_template_id_cb6561e2__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://Widgetize/./plugins/Widgetize/vue/src/ExportWidget/ExportWidget.vue?");
 
-WidgetPreviewvue_type_script_lang_ts.render = WidgetPreviewvue_type_template_id_73d2ef45_render
+/***/ }),
 
-/* harmony default export */ var WidgetPreview = (WidgetPreviewvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Widgetize/vue/src/ExportWidget/ExportWidget.vue?vue&type=template&id=6e0eecc8
+/***/ "./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreview.vue":
+/*!*******************************************************************!*\
+  !*** ./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreview.vue ***!
+  \*******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-var ExportWidgetvue_type_template_id_6e0eecc8_hoisted_1 = {
-  class: "widgetize"
-};
-var ExportWidgetvue_type_template_id_6e0eecc8_hoisted_2 = ["innerHTML"];
-var ExportWidgetvue_type_template_id_6e0eecc8_hoisted_3 = ["innerHTML"];
-var ExportWidgetvue_type_template_id_6e0eecc8_hoisted_4 = ["innerHTML"];
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _WidgetPreview_vue_vue_type_template_id_98919bce__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./WidgetPreview.vue?vue&type=template&id=98919bce */ \"./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreview.vue?vue&type=template&id=98919bce\");\n/* harmony import */ var _WidgetPreview_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./WidgetPreview.vue?vue&type=script&lang=ts */ \"./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreview.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_WidgetPreview_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _WidgetPreview_vue_vue_type_template_id_98919bce__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_WidgetPreview_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/Widgetize/vue/src/WidgetPreview/WidgetPreview.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_WidgetPreview_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://Widgetize/./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreview.vue?");
 
-var ExportWidgetvue_type_template_id_6e0eecc8_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+/***/ }),
 
-var ExportWidgetvue_type_template_id_6e0eecc8_hoisted_6 = ["textContent"];
+/***/ "./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreview.vue?vue&type=script&lang=ts":
+/*!*******************************************************************************************!*\
+  !*** ./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreview.vue?vue&type=script&lang=ts ***!
+  \*******************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-var ExportWidgetvue_type_template_id_6e0eecc8_hoisted_7 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_WidgetPreview_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./WidgetPreview.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreview.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_WidgetPreview_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://Widgetize/./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreview.vue?");
 
-var ExportWidgetvue_type_template_id_6e0eecc8_hoisted_8 = ["innerHTML"];
+/***/ }),
 
-var ExportWidgetvue_type_template_id_6e0eecc8_hoisted_9 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+/***/ "./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreview.vue?vue&type=template&id=98919bce":
+/*!*************************************************************************************************!*\
+  !*** ./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreview.vue?vue&type=template&id=98919bce ***!
+  \*************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-var _hoisted_10 = ["textContent"];
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_WidgetPreview_vue_vue_type_template_id_98919bce__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./WidgetPreview.vue?vue&type=template&id=98919bce */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreview.vue?vue&type=template&id=98919bce\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_WidgetPreview_vue_vue_type_template_id_98919bce__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://Widgetize/./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreview.vue?");
 
-var _hoisted_11 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", {
-  class: "clearfix"
-}, null, -1);
+/***/ }),
 
-function ExportWidgetvue_type_template_id_6e0eecc8_render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_EnrichedHeadline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("EnrichedHeadline");
+/***/ "./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreviewIframe.vue":
+/*!*************************************************************************!*\
+  !*** ./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreviewIframe.vue ***!
+  \*************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _WidgetPreviewIframe_vue_vue_type_template_id_24673a1d__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./WidgetPreviewIframe.vue?vue&type=template&id=24673a1d */ \"./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreviewIframe.vue?vue&type=template&id=24673a1d\");\n/* harmony import */ var _WidgetPreviewIframe_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./WidgetPreviewIframe.vue?vue&type=script&lang=ts */ \"./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreviewIframe.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_WidgetPreviewIframe_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _WidgetPreviewIframe_vue_vue_type_template_id_24673a1d__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_WidgetPreviewIframe_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/Widgetize/vue/src/WidgetPreview/WidgetPreviewIframe.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_WidgetPreviewIframe_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://Widgetize/./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreviewIframe.vue?");
 
-  var _component_WidgetPreview = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("WidgetPreview");
+/***/ }),
 
-  var _directive_content_intro = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-intro");
+/***/ "./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreviewIframe.vue?vue&type=script&lang=ts":
+/*!*************************************************************************************************!*\
+  !*** ./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreviewIframe.vue?vue&type=script&lang=ts ***!
+  \*************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-  var _directive_select_on_focus = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("select-on-focus");
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_WidgetPreviewIframe_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./WidgetPreviewIframe.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreviewIframe.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_WidgetPreviewIframe_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://Widgetize/./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreviewIframe.vue?");
 
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ExportWidgetvue_type_template_id_6e0eecc8_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_EnrichedHeadline, null, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.title), 1)];
-    }),
-    _: 1
-  })]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
-    innerHTML: _ctx.$sanitize(_ctx.intro)
-  }, null, 8, ExportWidgetvue_type_template_id_6e0eecc8_hoisted_2)], 512), [[_directive_content_intro]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
-    "content-title": "Authentication"
-  }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
-        innerHTML: _ctx.$sanitize(_ctx.viewableAnonymously)
-      }, null, 8, ExportWidgetvue_type_template_id_6e0eecc8_hoisted_3)];
-    }),
-    _: 1
-  }), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
-    "content-title": "Widgetize dashboards"
-  }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-        innerHTML: _ctx.$sanitize(_ctx.displayInIframe)
-      }, null, 8, ExportWidgetvue_type_template_id_6e0eecc8_hoisted_4), ExportWidgetvue_type_template_id_6e0eecc8_hoisted_5]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("pre", {
-        textContent: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.dashboardCode)
-      }, null, 8, ExportWidgetvue_type_template_id_6e0eecc8_hoisted_6), [[_directive_select_on_focus, {}]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [ExportWidgetvue_type_template_id_6e0eecc8_hoisted_7, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-        innerHTML: _ctx.$sanitize(_ctx.displayInIframeAllSites)
-      }, null, 8, ExportWidgetvue_type_template_id_6e0eecc8_hoisted_8), ExportWidgetvue_type_template_id_6e0eecc8_hoisted_9]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("pre", {
-        textContent: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.allWebsitesDashboardCode)
-      }, null, 8, _hoisted_10), [[_directive_select_on_focus, {}]])])];
-    }),
-    _: 1
-  }), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
-    "content-title": _ctx.translate('Widgetize_Reports')
-  }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Widgetize_SelectAReport')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_WidgetPreview)]), _hoisted_11])];
-    }),
-    _: 1
-  }, 8, ["content-title"])]);
-}
-// CONCATENATED MODULE: ./plugins/Widgetize/vue/src/ExportWidget/ExportWidget.vue?vue&type=template&id=6e0eecc8
+/***/ }),
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Widgetize/vue/src/ExportWidget/ExportWidget.vue?vue&type=script&lang=ts
+/***/ "./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreviewIframe.vue?vue&type=template&id=24673a1d":
+/*!*******************************************************************************************************!*\
+  !*** ./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreviewIframe.vue?vue&type=template&id=24673a1d ***!
+  \*******************************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_WidgetPreviewIframe_vue_vue_type_template_id_24673a1d__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./WidgetPreviewIframe.vue?vue&type=template&id=24673a1d */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreviewIframe.vue?vue&type=template&id=24673a1d\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_WidgetPreviewIframe_vue_vue_type_template_id_24673a1d__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://Widgetize/./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreviewIframe.vue?");
 
+/***/ }),
 
+/***/ "./plugins/Widgetize/vue/src/index.ts":
+/*!********************************************!*\
+  !*** ./plugins/Widgetize/vue/src/index.ts ***!
+  \********************************************/
+/*! exports provided: WidgetPreviewIframe, WidgetPreview, ExportWidget */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-function getIframeCode(iframeUrl) {
-  var url = iframeUrl.replace(/"/g, '&quot;');
-  return "<iframe src=\"".concat(url, "\" frameborder=\"0\" marginheight=\"0\" marginwidth=\"0\" width=\"100%\" ") + 'height="100%"></iframe>';
-}
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _WidgetPreview_WidgetPreviewIframe_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./WidgetPreview/WidgetPreviewIframe.vue */ \"./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreviewIframe.vue\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"WidgetPreviewIframe\", function() { return _WidgetPreview_WidgetPreviewIframe_vue__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* harmony import */ var _WidgetPreview_WidgetPreview_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./WidgetPreview/WidgetPreview.vue */ \"./plugins/Widgetize/vue/src/WidgetPreview/WidgetPreview.vue\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"WidgetPreview\", function() { return _WidgetPreview_WidgetPreview_vue__WEBPACK_IMPORTED_MODULE_1__[\"default\"]; });\n\n/* harmony import */ var _ExportWidget_ExportWidget_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ExportWidget/ExportWidget.vue */ \"./plugins/Widgetize/vue/src/ExportWidget/ExportWidget.vue\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"ExportWidget\", function() { return _ExportWidget_ExportWidget_vue__WEBPACK_IMPORTED_MODULE_2__[\"default\"]; });\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n\n\n//# sourceURL=webpack://Widgetize/./plugins/Widgetize/vue/src/index.ts?");
 
-/* harmony default export */ var ExportWidgetvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    title: {
-      type: String,
-      required: true
-    }
-  },
-  components: {
-    EnrichedHeadline: external_CoreHome_["EnrichedHeadline"],
-    ContentBlock: external_CoreHome_["ContentBlock"],
-    WidgetPreview: WidgetPreview
-  },
-  directives: {
-    ContentIntro: external_CoreHome_["ContentIntro"],
-    SelectOnFocus: external_CoreHome_["SelectOnFocus"]
-  },
-  data: function data() {
-    var port = window.location.port === '' ? '' : ":".concat(window.location.port);
-    var path = window.location.pathname;
-    var urlPath = "".concat(window.location.protocol, "//").concat(window.location.hostname).concat(port).concat(path);
-    return {
-      dashboardUrl: "".concat(urlPath, "?").concat(external_CoreHome_["MatomoUrl"].stringify({
-        module: 'Widgetize',
-        action: 'iframe',
-        moduleToWidgetize: 'Dashboard',
-        actionToWidgetize: 'index',
-        idSite: external_CoreHome_["Matomo"].idSite,
-        period: 'week',
-        date: 'yesterday'
-      })),
-      allWebsitesDashboardUrl: "".concat(urlPath, "?").concat(external_CoreHome_["MatomoUrl"].stringify({
-        module: 'Widgetize',
-        action: 'iframe',
-        moduleToWidgetize: 'MultiSites',
-        actionToWidgetize: 'standalone',
-        idSite: external_CoreHome_["Matomo"].idSite,
-        period: 'week',
-        date: 'yesterday'
-      }))
-    };
-  },
-  computed: {
-    dashboardCode: function dashboardCode() {
-      return getIframeCode(this.dashboardUrl);
-    },
-    allWebsitesDashboardCode: function allWebsitesDashboardCode() {
-      return getIframeCode(this.allWebsitesDashboardUrl);
-    },
-    intro: function intro() {
-      return Object(external_CoreHome_["translate"])('Widgetize_Intro', "<a\n          rel=\"noreferrer noopener\"\n          target=\"_blank\"\n          href=\"https://matomo.org/docs/embed-piwik-report/\"\n        >", '</a>');
-    },
-    viewableAnonymously: function viewableAnonymously() {
-      return Object(external_CoreHome_["translate"])('Widgetize_ViewableAnonymously', "<a\n          href=\"index.php?module=UsersManager\"\n          rel=\"noreferrer noopener\"\n          target=\"_blank\"\n        >", '</a>', "<a\n          rel=\"noreferrer noopener\"\n          target=\"_blank\"\n          href=\"".concat(this.linkTo({
-        module: 'UsersManager',
-        action: 'userSecurity'
-      }), "\"\n        >"), '</a>');
-    },
-    displayInIframe: function displayInIframe() {
-      return Object(external_CoreHome_["translate"])('Widgetize_DisplayDashboardInIframe', "<a\n          rel=\"noreferrer noopener\"\n          target=\"_blank\"\n          href=\"".concat(this.dashboardUrl, "\"\n        >"), '</a>');
-    },
-    displayInIframeAllSites: function displayInIframeAllSites() {
-      return Object(external_CoreHome_["translate"])('Widgetize_DisplayDashboardInIframeAllSites', "<a\n          rel=\"noreferrer noopener\"\n          target=\"_blank\"\n          id=\"linkAllWebsitesDashboardUrl\"\n          href=\"".concat(this.allWebsitesDashboardUrl, "\"\n        >"), '</a>');
-    }
-  },
-  methods: {
-    linkTo: function linkTo(params) {
-      return "?".concat(external_CoreHome_["MatomoUrl"].stringify(Object.assign(Object.assign({}, external_CoreHome_["MatomoUrl"].urlParsed.value), params)));
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/Widgetize/vue/src/ExportWidget/ExportWidget.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/Widgetize/vue/src/ExportWidget/ExportWidget.vue
+/***/ }),
 
+/***/ "CoreHome":
+/*!***************************!*\
+  !*** external "CoreHome" ***!
+  \***************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
 
+eval("module.exports = __WEBPACK_EXTERNAL_MODULE_CoreHome__;\n\n//# sourceURL=webpack://Widgetize/external_%22CoreHome%22?");
 
-ExportWidgetvue_type_script_lang_ts.render = ExportWidgetvue_type_template_id_6e0eecc8_render
+/***/ }),
 
-/* harmony default export */ var ExportWidget = (ExportWidgetvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/Widgetize/vue/src/index.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
+/***/ "vue":
+/*!******************************************************************!*\
+  !*** external {"commonjs":"vue","commonjs2":"vue","root":"Vue"} ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
 
-
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js
-
-
-
+eval("module.exports = __WEBPACK_EXTERNAL_MODULE_vue__;\n\n//# sourceURL=webpack://Widgetize/external_%7B%22commonjs%22:%22vue%22,%22commonjs2%22:%22vue%22,%22root%22:%22Vue%22%7D?");
 
 /***/ })
 
 /******/ });
 });
-//# sourceMappingURL=Widgetize.umd.js.map

@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("CoreHome"), require("vue"), require("CorePluginsAdmin"));
+		module.exports = factory(require("CoreHome"), require("CorePluginsAdmin"), require("vue"));
 	else if(typeof define === 'function' && define.amd)
-		define(["CoreHome", , "CorePluginsAdmin"], factory);
+		define(["CoreHome", "CorePluginsAdmin", ], factory);
 	else if(typeof exports === 'object')
-		exports["Goals"] = factory(require("CoreHome"), require("vue"), require("CorePluginsAdmin"));
+		exports["Goals"] = factory(require("CoreHome"), require("CorePluginsAdmin"), require("vue"));
 	else
-		root["Goals"] = factory(root["CoreHome"], root["Vue"], root["CorePluginsAdmin"]);
-})((typeof self !== 'undefined' ? self : this), function(__WEBPACK_EXTERNAL_MODULE__19dc__, __WEBPACK_EXTERNAL_MODULE__8bbf__, __WEBPACK_EXTERNAL_MODULE_a5a2__) {
+		root["Goals"] = factory(root["CoreHome"], root["CorePluginsAdmin"], root["Vue"]);
+})((typeof self !== 'undefined' ? self : this), function(__WEBPACK_EXTERNAL_MODULE_CoreHome__, __WEBPACK_EXTERNAL_MODULE_CorePluginsAdmin__, __WEBPACK_EXTERNAL_MODULE_vue__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -91,944 +91,163 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "fae3");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "19dc":
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE__19dc__;
-
-/***/ }),
-
-/***/ "8bbf":
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE__8bbf__;
-
-/***/ }),
-
-/***/ "a5a2":
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE_a5a2__;
-
-/***/ }),
-
-/***/ "fae3":
+/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=d4175112":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=d4175112 ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-// ESM COMPAT FLAG
-__webpack_require__.r(__webpack_exports__);
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "GoalPageLink", function() { return /* reexport */ GoalPageLink_GoalPageLink; });
-__webpack_require__.d(__webpack_exports__, "ManageGoals", function() { return /* reexport */ ManageGoals; });
-__webpack_require__.d(__webpack_exports__, "ManageGoalsStore", function() { return /* reexport */ ManageGoals_store; });
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
-// This file is imported into lib/wc client bundles.
-
-if (typeof window !== 'undefined') {
-  var currentScript = window.document.currentScript
-  if (false) { var getCurrentScript; }
-
-  var src = currentScript && currentScript.src.match(/(.+\/)[^/]+\.js(\?.*)?$/)
-  if (src) {
-    __webpack_require__.p = src[1] // eslint-disable-line
-  }
-}
-
-// Indicate to webpack that this file can be concatenated
-/* harmony default export */ var setPublicPath = (null);
-
-// EXTERNAL MODULE: external "CoreHome"
-var external_CoreHome_ = __webpack_require__("19dc");
-
-// CONCATENATED MODULE: ./plugins/Goals/vue/src/GoalPageLink/GoalPageLink.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-var _window = window,
-    $ = _window.$; // usage v-goal-page-link="{ idGoal: 5 }"
-
-var GoalPageLink = {
-  mounted: function mounted(el, binding) {
-    if (!external_CoreHome_["Matomo"].helper.isReportingPage()) {
-      return;
-    }
-
-    var title = $(el).text();
-    var link = $('<a></a>');
-    link.text(title);
-    link.attr('title', Object(external_CoreHome_["translate"])('Goals_ClickToViewThisGoal'));
-    link.click(function (e) {
-      e.preventDefault();
-      external_CoreHome_["MatomoUrl"].updateHash(Object.assign(Object.assign({}, external_CoreHome_["MatomoUrl"].hashParsed.value), {}, {
-        category: 'Goals_Goals',
-        subcategory: binding.value.idGoal
-      }));
-    });
-    $(el).html(link[0]);
-  }
-};
-/* harmony default export */ var GoalPageLink_GoalPageLink = (GoalPageLink); // manually handle occurrence of goal-page-link on datatable html attributes since dataTable.js is
-// not managed by vue.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-
-external_CoreHome_["Matomo"].on('Matomo.processDynamicHtml', function ($element) {
-  $element.find('[goal-page-link]').each(function (i, e) {
-    if ($(e).attr('goal-page-link-handled')) {
-      return;
-    }
-
-    var idGoal = $(e).attr('goal-page-link');
-
-    if (idGoal) {
-      GoalPageLink.mounted(e, {
-        instance: null,
-        value: {
-          idGoal: idGoal
-        },
-        oldValue: null,
-        modifiers: {},
-        dir: {}
-      });
-    }
-
-    $(e).attr('goal-page-link-handled', '1');
-  });
-});
-// EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
-var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=e6b1229c
-
-var _hoisted_1 = {
-  class: "manageGoals"
-};
-var _hoisted_2 = {
-  id: "entityEditContainer",
-  feature: "true",
-  class: "managegoals"
-};
-var _hoisted_3 = {
-  class: "contentHelp"
-};
-var _hoisted_4 = ["innerHTML"];
-var _hoisted_5 = {
-  key: 0
-};
-
-var _hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
-var _hoisted_7 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
-var _hoisted_8 = ["innerHTML"];
-var _hoisted_9 = {
-  class: "first"
-};
-var _hoisted_10 = {
-  key: 1
-};
-var _hoisted_11 = {
-  key: 2
-};
-var _hoisted_12 = {
-  key: 0
-};
-var _hoisted_13 = {
-  colspan: "8"
-};
-
-var _hoisted_14 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
-var _hoisted_15 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
-var _hoisted_16 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
-var _hoisted_17 = ["id"];
-var _hoisted_18 = {
-  class: "first"
-};
-var _hoisted_19 = {
-  class: "matchAttribute"
-};
-var _hoisted_20 = {
-  key: 0
-};
-var _hoisted_21 = {
-  key: 1
-};
-
-var _hoisted_22 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
-var _hoisted_23 = ["innerHTML"];
-var _hoisted_24 = {
-  key: 1,
-  style: {
-    "padding-top": "2px"
-  }
-};
-var _hoisted_25 = ["onClick", "title"];
-
-var _hoisted_26 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-  class: "icon-edit"
-}, null, -1);
-
-var _hoisted_27 = [_hoisted_26];
-var _hoisted_28 = {
-  key: 2,
-  style: {
-    "padding-top": "2px"
-  }
-};
-var _hoisted_29 = ["onClick", "title"];
-
-var _hoisted_30 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-  class: "icon-delete"
-}, null, -1);
-
-var _hoisted_31 = [_hoisted_30];
-var _hoisted_32 = {
-  key: 0,
-  class: "tableActionBar"
-};
-
-var _hoisted_33 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-  class: "icon-add"
-}, null, -1);
-
-var _hoisted_34 = {
-  class: "ui-confirm",
-  ref: "confirm"
-};
-var _hoisted_35 = ["value"];
-var _hoisted_36 = ["value"];
-var _hoisted_37 = {
-  class: "addEditGoal"
-};
-var _hoisted_38 = ["innerHTML"];
-var _hoisted_39 = {
-  class: "row goalIsTriggeredWhen"
-};
-var _hoisted_40 = {
-  class: "col s12"
-};
-var _hoisted_41 = {
-  class: "row"
-};
-var _hoisted_42 = {
-  class: "col s12 m6 goalTriggerType"
-};
-var _hoisted_43 = {
-  class: "col s12 m6"
-};
-var _hoisted_44 = ["innerHTML"];
-var _hoisted_45 = {
-  class: "row whereTheMatchAttrbiute"
-};
-var _hoisted_46 = {
-  class: "col s12"
-};
-var _hoisted_47 = {
-  class: "row"
-};
-var _hoisted_48 = {
-  class: "col s12 m6 l4"
-};
-var _hoisted_49 = {
-  key: 0,
-  class: "col s12 m6 l4"
-};
-var _hoisted_50 = {
-  key: 1,
-  class: "col s12 m6 l4"
-};
-var _hoisted_51 = {
-  class: "col s12 m6 l4"
-};
-var _hoisted_52 = {
-  id: "examples_pattern",
-  class: "col s12"
-};
-
-var _hoisted_53 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
-var _hoisted_54 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
-var _hoisted_55 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
-var _hoisted_56 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
-var _hoisted_57 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
-var _hoisted_58 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
-var _hoisted_59 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
-var _hoisted_60 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
-var _hoisted_61 = {
-  ref: "endedittable"
-};
-
-var _hoisted_62 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-  type: "hidden",
-  name: "goalIdUpdate",
-  value: ""
-}, null, -1);
-
-var _hoisted_63 = {
-  key: 0
-};
-var _hoisted_64 = ["innerHTML"];
-
-var _hoisted_65 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
-  id: "bottom"
-}, null, -1);
-
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _ctx$goalToDelete;
-
-  var _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
-
-  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
-
-  var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
-  var _component_Alert = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Alert");
-
-  var _component_VueEntryContainer = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("VueEntryContainer");
-
-  var _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
-
-  var _directive_content_table = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-table");
-
-  var _directive_form = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("form");
-
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
-    "content-title": _ctx.translate('Goals_ManageGoals')
-  }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
-        loading: _ctx.isLoading
-      }, null, 8, ["loading"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-        innerHTML: _ctx.$sanitize(_ctx.learnMoreAboutGoalTracking)
-      }, null, 8, _hoisted_4), !_ctx.ecommerceEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", _hoisted_5, [_hoisted_6, _hoisted_7, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_Optional')) + " " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_Ecommerce')) + ": ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-        innerHTML: _ctx.$sanitize(_ctx.youCanEnableEcommerceReports)
-      }, null, 8, _hoisted_8)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("table", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("thead", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tr", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", _hoisted_9, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Id')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_GoalName')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Description')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_GoalIsTriggeredWhen')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ColumnRevenue')), 1), _ctx.beforeGoalListActionsHeadComponent ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDynamicComponent"])(_ctx.beforeGoalListActionsHeadComponent), {
-        key: 0
-      })) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.userCanEditGoals ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("th", _hoisted_10, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Edit')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.userCanEditGoals ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("th", _hoisted_11, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Delete')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tbody", null, [!Object.keys(_ctx.goals || {}).length ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("tr", _hoisted_12, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", _hoisted_13, [_hoisted_14, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_ThereIsNoGoalToManage', _ctx.siteName)) + " ", 1), _hoisted_15, _hoisted_16])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.goals || [], function (goal) {
-        return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("tr", {
-          id: goal.idgoal,
-          key: goal.idgoal
-        }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", _hoisted_18, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(goal.idgoal), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(goal.name), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(goal.description), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_19, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.goalMatchAttributeTranslations[goal.match_attribute] || goal.match_attribute), 1), goal.match_attribute === 'visit_duration' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", _hoisted_20, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.lcfirst(_ctx.translate('General_OperationGreaterThan'))) + " " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Intl_NMinutes', goal.pattern)), 1)) : !!goal.pattern_type ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", _hoisted_21, [_hoisted_22, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_Pattern')) + " " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(goal.pattern_type) + ": " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(goal.pattern), 1)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", {
-          class: "center",
-          innerHTML: _ctx.$sanitize(goal.revenue === 0 || goal.revenue === '0' ? '-' : goal.revenue_pretty)
-        }, null, 8, _hoisted_23), _ctx.beforeGoalListActionsBodyComponent[goal.idgoal] ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDynamicComponent"])(_ctx.beforeGoalListActionsBodyComponent[goal.idgoal]), {
-          key: 0
-        })) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.userCanEditGoals ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("td", _hoisted_24, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
-          onClick: function onClick($event) {
-            return _ctx.editGoal(goal.idgoal);
-          },
-          class: "table-action",
-          title: _ctx.translate('General_Edit')
-        }, _hoisted_27, 8, _hoisted_25)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.userCanEditGoals ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("td", _hoisted_28, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
-          onClick: function onClick($event) {
-            return _ctx.deleteGoal(goal.idgoal);
-          },
-          class: "table-action",
-          title: _ctx.translate('General_Delete')
-        }, _hoisted_31, 8, _hoisted_29)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 8, _hoisted_17);
-      }), 128))])], 512), [[_directive_content_table]]), _ctx.userCanEditGoals && !_ctx.onlyShowAddNewGoal ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_32, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
-        id: "add-goal",
-        onClick: _cache[0] || (_cache[0] = function ($event) {
-          return _ctx.createGoal();
-        })
-      }, [_hoisted_33, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_AddNewGoal')), 1)])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)];
-    }),
-    _: 1
-  }, 8, ["content-title"])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showGoalList]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_34, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_DeleteGoalConfirm', "\"".concat((_ctx$goalToDelete = _ctx.goalToDelete) === null || _ctx$goalToDelete === void 0 ? void 0 : _ctx$goalToDelete.name, "\""))), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-    role: "yes",
-    type: "button",
-    value: _ctx.translate('General_Yes')
-  }, null, 8, _hoisted_35), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-    role: "no",
-    type: "button",
-    value: _ctx.translate('General_No')
-  }, null, 8, _hoisted_36)], 512)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !_ctx.onlyShowAddNewGoal]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_37, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
-    "content-title": _ctx.goal.idgoal ? _ctx.translate('Goals_UpdateGoal') : _ctx.translate('Goals_AddNewGoal')
-  }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
-        innerHTML: _ctx.$sanitize(_ctx.addNewGoalIntro)
-      }, null, 8, _hoisted_38), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "text",
-        name: "goal_name",
-        modelValue: _ctx.goal.name,
-        "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-          return _ctx.goal.name = $event;
-        }),
-        maxlength: 50,
-        title: _ctx.translate('Goals_GoalName')
-      }, null, 8, ["modelValue", "title"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "text",
-        name: "goal_description",
-        modelValue: _ctx.goal.description,
-        "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
-          return _ctx.goal.description = $event;
-        }),
-        maxlength: 255,
-        title: _ctx.translate('General_Description')
-      }, null, 8, ["modelValue", "title"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_39, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_40, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_GoalIsTriggered')), 1)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_41, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_42, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "select",
-        name: "trigger_type",
-        "model-value": _ctx.triggerType,
-        "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
-          _ctx.triggerType = $event;
-
-          _ctx.changedTriggerType();
-        }),
-        "full-width": true,
-        options: _ctx.goalTriggerTypeOptions
-      }, null, 8, ["model-value", "options"])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_43, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Alert, {
-        severity: "info"
-      }, {
-        default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-          return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-            innerHTML: _ctx.$sanitize(_ctx.whereVisitedPageManuallyCallsJsTrackerText)
-          }, null, 8, _hoisted_44)];
-        }),
-        _: 1
-      }, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.triggerType === 'manually']]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "radio",
-        name: "match_attribute",
-        "full-width": true,
-        "model-value": _ctx.goal.match_attribute,
-        "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
-          _ctx.goal.match_attribute = $event;
-
-          _ctx.initPatternType();
-        }),
-        options: _ctx.goalMatchAttributeOptions
-      }, null, 8, ["model-value", "options"]), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.triggerType !== 'manually']])])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_45, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", _hoisted_46, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_WhereThe')) + " ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_URL')), 513), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.goal.match_attribute === 'url']]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_PageTitle')), 513), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.goal.match_attribute === 'title']]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_Filename')), 513), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.goal.match_attribute === 'file']]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_ExternalWebsiteUrl')), 513), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.goal.match_attribute === 'external_website']]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_VisitDuration')), 513), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.goal.match_attribute === 'visit_duration']])])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.triggerType !== 'manually']]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_47, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_48, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "select",
-        name: "event_type",
-        modelValue: _ctx.eventType,
-        "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
-          return _ctx.eventType = $event;
-        }),
-        "full-width": true,
-        options: _ctx.eventTypeOptions
-      }, null, 8, ["modelValue", "options"])])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.goal.match_attribute === 'event']]), !_ctx.isMatchAttributeNumeric ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_49, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "select",
-        name: "pattern_type",
-        modelValue: _ctx.goal.pattern_type,
-        "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
-          return _ctx.goal.pattern_type = $event;
-        }),
-        "full-width": true,
-        options: _ctx.patternTypeOptions
-      }, null, 8, ["modelValue", "options"])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.isMatchAttributeNumeric ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_50, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "select",
-        name: "pattern_type",
-        modelValue: _ctx.goal.pattern_type,
-        "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
-          return _ctx.goal.pattern_type = $event;
-        }),
-        "full-width": true,
-        options: _ctx.numericComparisonTypeOptions
-      }, null, 8, ["modelValue", "options"])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_51, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "text",
-        name: "pattern",
-        modelValue: _ctx.goal.pattern,
-        "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
-          return _ctx.goal.pattern = $event;
-        }),
-        maxlength: 255,
-        title: _ctx.patternFieldLabel,
-        "full-width": true
-      }, null, 8, ["modelValue", "title"])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_52, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Alert, {
-        severity: "info"
-      }, {
-        default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-          return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ForExampleShort')) + " " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_Contains', "'checkout/confirmation'")) + " ", 1), _hoisted_53, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ForExampleShort')) + " " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_IsExactly', "'http://example.com/thank-you.html'")) + " ", 1), _hoisted_54, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ForExampleShort')) + " " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_MatchesExpression', "'(.*)\\\/demo\\\/(.*)'")), 1)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.goal.match_attribute === 'url']]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ForExampleShort')) + " " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_Contains', "'Order confirmation'")), 513), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.goal.match_attribute === 'title']]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ForExampleShort')) + " " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_Contains', "'files/brochure.pdf'")) + " ", 1), _hoisted_55, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ForExampleShort')) + " " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_IsExactly', "'http://example.com/files/brochure.pdf'")) + " ", 1), _hoisted_56, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ForExampleShort')) + " " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_MatchesExpression', "'(.*)\\\.zip'")), 1)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.goal.match_attribute === 'file']]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ForExampleShort')) + " " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_Contains', "'amazon.com'")) + " ", 1), _hoisted_57, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ForExampleShort')) + " " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_IsExactly', "'http://mypartner.com/landing.html'")) + " ", 1), _hoisted_58, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ForExampleShort')) + " " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.matchesExpressionExternal), 1)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.goal.match_attribute === 'external_website']]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ForExampleShort')) + " " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_Contains', "'video'")) + " ", 1), _hoisted_59, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ForExampleShort')) + " " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_IsExactly', "'click'")) + " ", 1), _hoisted_60, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ForExampleShort')) + " " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_MatchesExpression', "'(.*)_banner'")) + "\" ", 1)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.goal.match_attribute === 'event']]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ForExampleShort')) + " " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_AtLeastMinutes', '5', '0.5')), 513), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.goal.match_attribute === 'visit_duration']])];
-        }),
-        _: 1
-      })])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.triggerType !== 'manually']]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "checkbox",
-        name: "case_sensitive",
-        modelValue: _ctx.goal.case_sensitive,
-        "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
-          return _ctx.goal.case_sensitive = $event;
-        }),
-        title: _ctx.caseSensitiveTitle
-      }, null, 8, ["modelValue", "title"]), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.triggerType !== 'manually' && !_ctx.isMatchAttributeNumeric]])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [_ctx.goal.match_attribute !== 'visit_duration' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Field, {
-        key: 0,
-        uicontrol: "radio",
-        name: "allow_multiple",
-        "model-value": !!_ctx.goal.allow_multiple && _ctx.goal.allow_multiple !== '0' ? 1 : 0,
-        "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
-          return _ctx.goal.allow_multiple = $event;
-        }),
-        options: _ctx.allowMultipleOptions,
-        introduction: _ctx.translate('Goals_AllowMultipleConversionsPerVisit'),
-        "inline-help": _ctx.translate('Goals_HelpOneConversionPerVisit')
-      }, null, 8, ["model-value", "options", "introduction", "inline-help"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_GoalRevenue')) + " " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_Optional')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "number",
-        name: "revenue",
-        modelValue: _ctx.goal.revenue,
-        "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
-          return _ctx.goal.revenue = $event;
-        }),
-        placeholder: _ctx.translate('Goals_DefaultRevenueLabel'),
-        "inline-help": _ctx.translate('Goals_DefaultRevenueHelp')
-      }, null, 8, ["modelValue", "placeholder", "inline-help"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-        uicontrol: "checkbox",
-        name: "use_event_value",
-        modelValue: _ctx.goal.event_value_as_revenue,
-        "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
-          return _ctx.goal.event_value_as_revenue = $event;
-        }),
-        title: _ctx.translate('Goals_UseEventValueAsRevenue'),
-        "inline-help": _ctx.useEventValueAsRevenueHelp
-      }, null, 8, ["modelValue", "title", "inline-help"]), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.goal.match_attribute === 'event']])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_61, [_ctx.endEditTable ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_VueEntryContainer, {
-        key: 0,
-        html: _ctx.endEditTable
-      }, null, 8, ["html"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 512), _hoisted_62, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
-        saving: _ctx.isLoading,
-        onConfirm: _cache[13] || (_cache[13] = function ($event) {
-          return _ctx.save();
-        }),
-        value: _ctx.submitText
-      }, null, 8, ["saving", "value"]), !_ctx.onlyShowAddNewGoal ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_63, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
-        class: "entityCancel",
-        onClick: _cache[14] || (_cache[14] = function ($event) {
-          return _ctx.showListOfReports();
-        }),
-        innerHTML: _ctx.$sanitize(_ctx.cancelText)
-      }, null, 8, _hoisted_64), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showEditGoal]])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 512), [[_directive_form]])];
-    }),
-    _: 1
-  }, 8, ["content-title"])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showEditGoal]])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.userCanEditGoals]]), _hoisted_65]);
-}
-// CONCATENATED MODULE: ./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=e6b1229c
-
-// EXTERNAL MODULE: external "CorePluginsAdmin"
-var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
-
-// CONCATENATED MODULE: ./plugins/Goals/vue/src/ManageGoals/ManageGoals.store.ts
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-
-var ManageGoals_store_ManageGoalsStore = /*#__PURE__*/function () {
-  function ManageGoalsStore() {
-    var _this = this;
-
-    _classCallCheck(this, ManageGoalsStore);
-
-    _defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({}));
-
-    _defineProperty(this, "idGoal", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      return _this.privateState.idGoal;
-    }));
-  }
-
-  _createClass(ManageGoalsStore, [{
-    key: "setIdGoalShown",
-    value: function setIdGoalShown(idGoal) {
-      this.privateState.idGoal = idGoal;
-    }
-  }]);
-
-  return ManageGoalsStore;
-}();
-
-/* harmony default export */ var ManageGoals_store = (new ManageGoals_store_ManageGoalsStore());
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=script&lang=ts
-
-
-
-
-
-function ambiguousBoolToInt(n) {
-  return !!n && n !== '0' ? 1 : 0;
-}
-
-/* harmony default export */ var ManageGoalsvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  inheritAttrs: false,
-  props: {
-    onlyShowAddNewGoal: Boolean,
-    userCanEditGoals: Boolean,
-    ecommerceEnabled: Boolean,
-    goals: {
-      type: Object,
-      required: true
-    },
-    addNewGoalIntro: String,
-    goalTriggerTypeOptions: Object,
-    goalMatchAttributeOptions: Array,
-    eventTypeOptions: Array,
-    patternTypeOptions: Array,
-    numericComparisonTypeOptions: Array,
-    allowMultipleOptions: Array,
-    showAddGoal: Boolean,
-    showGoal: Number,
-    beforeGoalListActionsBody: Object,
-    endEditTable: String,
-    beforeGoalListActionsHead: String
-  },
-  data: function data() {
-    return {
-      showEditGoal: false,
-      showGoalList: true,
-      goal: {},
-      isLoading: false,
-      eventType: 'event_category',
-      triggerType: 'visitors',
-      apiMethod: '',
-      submitText: '',
-      goalToDelete: null,
-      addEditTableComponent: false
-    };
-  },
-  components: {
-    SaveButton: external_CorePluginsAdmin_["SaveButton"],
-    ContentBlock: external_CoreHome_["ContentBlock"],
-    ActivityIndicator: external_CoreHome_["ActivityIndicator"],
-    Field: external_CorePluginsAdmin_["Field"],
-    Alert: external_CoreHome_["Alert"],
-    VueEntryContainer: external_CoreHome_["VueEntryContainer"]
-  },
-  directives: {
-    ContentTable: external_CoreHome_["ContentTable"],
-    Form: external_CorePluginsAdmin_["Form"]
-  },
-  created: function created() {
-    ManageGoals_store.setIdGoalShown(this.showGoal);
-  },
-  unmounted: function unmounted() {
-    ManageGoals_store.setIdGoalShown(undefined);
-  },
-  mounted: function mounted() {
-    if (this.showAddGoal) {
-      this.createGoal();
-    } else if (this.showGoal) {
-      this.editGoal(this.showGoal);
-    } else {
-      this.showListOfReports();
-    }
-  },
-  methods: {
-    scrollToTop: function scrollToTop() {
-      setTimeout(function () {
-        external_CoreHome_["Matomo"].helper.lazyScrollTo('.pageWrap', 200);
-      });
-    },
-    initGoalForm: function initGoalForm(goalMethodAPI, submitText, goalName, description, matchAttribute, pattern, patternType, caseSensitive, revenue, allowMultiple, useEventValueAsRevenue, goalId) {
-      external_CoreHome_["Matomo"].postEvent('Goals.beforeInitGoalForm', goalMethodAPI, goalId);
-      this.apiMethod = goalMethodAPI;
-      this.goal = {};
-      this.goal.name = goalName;
-      this.goal.description = description;
-      var actualMatchAttribute = matchAttribute;
-
-      if (actualMatchAttribute === 'manually') {
-        this.triggerType = 'manually';
-        actualMatchAttribute = 'url';
-      } else {
-        this.triggerType = 'visitors';
-      }
-
-      if (actualMatchAttribute.indexOf('event') === 0) {
-        this.eventType = actualMatchAttribute;
-        actualMatchAttribute = 'event';
-      } else {
-        this.eventType = 'event_category';
-      }
-
-      this.goal.match_attribute = actualMatchAttribute;
-      this.goal.allow_multiple = allowMultiple;
-      this.goal.pattern_type = patternType;
-      this.goal.pattern = pattern;
-      this.goal.case_sensitive = caseSensitive;
-      this.goal.revenue = revenue;
-      this.goal.event_value_as_revenue = useEventValueAsRevenue;
-      this.submitText = submitText;
-      this.goal.idgoal = goalId;
-    },
-    showListOfReports: function showListOfReports() {
-      external_CoreHome_["Matomo"].postEvent('Goals.cancelForm');
-      this.showGoalList = true;
-      this.showEditGoal = false;
-      this.scrollToTop();
-    },
-    showAddEditForm: function showAddEditForm() {
-      this.showGoalList = false;
-      this.showEditGoal = true;
-    },
-    createGoal: function createGoal() {
-      var parameters = {
-        isAllowed: true
-      };
-      external_CoreHome_["Matomo"].postEvent('Goals.initAddGoal', parameters);
-
-      if (parameters && !parameters.isAllowed) {
-        return;
-      }
-
-      this.showAddEditForm();
-      this.initGoalForm('Goals.addGoal', Object(external_CoreHome_["translate"])('Goals_AddGoal'), '', '', 'url', '', 'contains', false, 0, false, false, 0);
-      this.scrollToTop();
-    },
-    editGoal: function editGoal(goalId) {
-      this.showAddEditForm();
-      var goal = this.goals["".concat(goalId)];
-      this.initGoalForm('Goals.updateGoal', Object(external_CoreHome_["translate"])('Goals_UpdateGoal'), goal.name, goal.description, goal.match_attribute, goal.pattern, goal.pattern_type, !!goal.case_sensitive && goal.case_sensitive !== '0', parseInt("".concat(goal.revenue), 10), !!goal.allow_multiple && goal.allow_multiple !== '0', !!goal.event_value_as_revenue && goal.event_value_as_revenue !== '0', goalId);
-      this.scrollToTop();
-    },
-    deleteGoal: function deleteGoal(goalId) {
-      var _this = this;
-
-      this.goalToDelete = this.goals["".concat(goalId)];
-      external_CoreHome_["Matomo"].helper.modalConfirm(this.$refs.confirm, {
-        yes: function yes() {
-          _this.isLoading = true;
-          external_CoreHome_["AjaxHelper"].fetch({
-            idGoal: goalId,
-            method: 'Goals.deleteGoal'
-          }).then(function () {
-            window.location.reload();
-          }).finally(function () {
-            _this.isLoading = false;
-          });
-        }
-      });
-    },
-    save: function save() {
-      var _this2 = this;
-
-      var parameters = {}; // TODO: test removal of encoding, should be handled by ajax request
-
-      parameters.name = this.goal.name;
-      parameters.description = this.goal.description;
-
-      if (this.isManuallyTriggered) {
-        parameters.matchAttribute = 'manually';
-        parameters.patternType = 'regex';
-        parameters.pattern = '.*';
-        parameters.caseSensitive = 0;
-      } else {
-        parameters.matchAttribute = this.goal.match_attribute;
-
-        if (parameters.matchAttribute === 'event') {
-          parameters.matchAttribute = this.eventType;
-          parameters.useEventValueAsRevenue = ambiguousBoolToInt(this.goal.event_value_as_revenue);
-        }
-
-        parameters.patternType = this.goal.pattern_type;
-        parameters.pattern = this.goal.pattern;
-        parameters.caseSensitive = ambiguousBoolToInt(this.goal.case_sensitive);
-      }
-
-      parameters.revenue = this.goal.revenue || 0;
-      parameters.allowMultipleConversionsPerVisit = ambiguousBoolToInt(this.goal.allow_multiple);
-      parameters.idGoal = this.goal.idgoal;
-      parameters.method = this.apiMethod;
-      var isCreate = parameters.method === 'Goals.addGoal';
-      var isUpdate = parameters.method === 'Goals.updateGoal';
-      var options = {};
-
-      if (isUpdate) {
-        external_CoreHome_["Matomo"].postEvent('Goals.beforeUpdateGoal', {
-          parameters: parameters,
-          options: options
-        });
-      } else if (isCreate) {
-        external_CoreHome_["Matomo"].postEvent('Goals.beforeAddGoal', {
-          parameters: parameters,
-          options: options
-        });
-      }
-
-      if (parameters !== null && parameters !== void 0 && parameters.cancelRequest) {
-        return;
-      }
-
-      this.isLoading = true;
-      external_CoreHome_["AjaxHelper"].fetch(parameters, options).then(function () {
-        var subcategory = external_CoreHome_["MatomoUrl"].parsed.value.subcategory;
-
-        if (subcategory === 'Goals_AddNewGoal' && external_CoreHome_["Matomo"].helper.isReportingPage()) {
-          // when adding a goal for the first time we need to load manage goals page afterwards
-          external_CoreHome_["ReportingMenuStore"].reloadMenuItems().then(function () {
-            external_CoreHome_["MatomoUrl"].updateHash(Object.assign(Object.assign({}, external_CoreHome_["MatomoUrl"].hashParsed.value), {}, {
-              subcategory: 'Goals_ManageGoals'
-            }));
-            _this2.isLoading = false;
-          });
-        } else {
-          window.location.reload();
-        }
-      }).catch(function () {
-        _this2.scrollToTop();
-
-        _this2.isLoading = false;
-      });
-    },
-    changedTriggerType: function changedTriggerType() {
-      if (!this.isManuallyTriggered && !this.goal.pattern_type) {
-        this.goal.pattern_type = 'contains';
-      }
-    },
-    initPatternType: function initPatternType() {
-      if (this.isMatchAttributeNumeric) {
-        this.goal.pattern_type = 'greater_than';
-      } else {
-        this.goal.pattern_type = 'contains';
-      }
-    },
-    lcfirst: function lcfirst(s) {
-      return "".concat(s.slice(0, 1).toLowerCase()).concat(s.slice(1));
-    },
-    ucfirst: function ucfirst(s) {
-      return "".concat(s.slice(0, 1).toUpperCase()).concat(s.slice(1));
-    }
-  },
-  computed: {
-    learnMoreAboutGoalTracking: function learnMoreAboutGoalTracking() {
-      return Object(external_CoreHome_["translate"])('Goals_LearnMoreAboutGoalTrackingDocumentation', '<a target="_blank" rel="noreferrer noopener" ' + 'href="https://matomo.org/docs/tracking-goals-web-analytics/">', '</a>');
-    },
-    youCanEnableEcommerceReports: function youCanEnableEcommerceReports() {
-      var link = external_CoreHome_["MatomoUrl"].stringify(Object.assign(Object.assign({}, external_CoreHome_["MatomoUrl"].urlParsed.value), {}, {
-        module: 'SitesManager',
-        action: 'index'
-      }));
-      var ecommerceReportsText = '<a href="https://matomo.org/docs/ecommerce-analytics/" ' + "rel=\"noreferrer noopener\" target=\"_blank\">".concat(Object(external_CoreHome_["translate"])('Goals_EcommerceReports'), "</a>");
-      var websiteManageText = "<a href='".concat(link, "'>").concat(Object(external_CoreHome_["translate"])('SitesManager_WebsitesManagement'), "</a>");
-      return Object(external_CoreHome_["translate"])('Goals_YouCanEnableEcommerceReports', ecommerceReportsText, websiteManageText);
-    },
-    siteName: function siteName() {
-      return external_CoreHome_["Matomo"].helper.htmlDecode(external_CoreHome_["Matomo"].siteName);
-    },
-    whereVisitedPageManuallyCallsJsTrackerText: function whereVisitedPageManuallyCallsJsTrackerText() {
-      var link = 'https://developer.matomo.org/guides/tracking-javascript-guide#manually-trigger-goal-conversions';
-      return Object(external_CoreHome_["translate"])('Goals_WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore', "<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"".concat(link, "\">"), '</a>');
-    },
-    caseSensitiveTitle: function caseSensitiveTitle() {
-      return "".concat(Object(external_CoreHome_["translate"])('Goals_CaseSensitive'), " ").concat(Object(external_CoreHome_["translate"])('Goals_Optional'));
-    },
-    useEventValueAsRevenueHelp: function useEventValueAsRevenueHelp() {
-      return "".concat(Object(external_CoreHome_["translate"])('Goals_EventValueAsRevenueHelp'), " <br/><br/> ").concat(Object(external_CoreHome_["translate"])('Goals_EventValueAsRevenueHelp2'));
-    },
-    cancelText: function cancelText() {
-      return Object(external_CoreHome_["translate"])('General_OrCancel', '<a class=\'entityCancelLink\'>', '</a>');
-    },
-    isMatchAttributeNumeric: function isMatchAttributeNumeric() {
-      return ['visit_duration'].indexOf(this.goal.match_attribute) > -1;
-    },
-    patternFieldLabel: function patternFieldLabel() {
-      return this.goal.match_attribute === 'visit_duration' ? Object(external_CoreHome_["translate"])('Goals_TimeInMinutes') : Object(external_CoreHome_["translate"])('Goals_Pattern');
-    },
-    goalMatchAttributeTranslations: function goalMatchAttributeTranslations() {
-      return {
-        manually: Object(external_CoreHome_["translate"])('Goals_ManuallyTriggeredUsingJavascriptFunction'),
-        file: Object(external_CoreHome_["translate"])('Goals_Download'),
-        url: Object(external_CoreHome_["translate"])('Goals_VisitUrl'),
-        title: Object(external_CoreHome_["translate"])('Goals_VisitPageTitle'),
-        external_website: Object(external_CoreHome_["translate"])('Goals_ClickOutlink'),
-        event_action: "".concat(Object(external_CoreHome_["translate"])('Goals_SendEvent'), " (").concat(Object(external_CoreHome_["translate"])('Events_EventAction'), ")"),
-        event_category: "".concat(Object(external_CoreHome_["translate"])('Goals_SendEvent'), " (").concat(Object(external_CoreHome_["translate"])('Events_EventCategory'), ")"),
-        event_name: "".concat(Object(external_CoreHome_["translate"])('Goals_SendEvent'), " (").concat(Object(external_CoreHome_["translate"])('Events_EventName'), ")"),
-        visit_duration: "".concat(this.ucfirst(Object(external_CoreHome_["translate"])('Goals_VisitDuration')))
-      };
-    },
-    beforeGoalListActionsBodyComponent: function beforeGoalListActionsBodyComponent() {
-      var _this3 = this;
-
-      if (!this.beforeGoalListActionsBody) {
-        return {};
-      }
-
-      var componentsByIdGoal = {};
-      Object.values(this.goals).forEach(function (g) {
-        var template = _this3.beforeGoalListActionsBody[g.idgoal];
-
-        if (!template) {
-          return;
-        }
-
-        componentsByIdGoal[g.idgoal] = {
-          template: template
-        };
-      });
-      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["markRaw"])(componentsByIdGoal);
-    },
-    beforeGoalListActionsHeadComponent: function beforeGoalListActionsHeadComponent() {
-      if (!this.beforeGoalListActionsHead) {
-        return null;
-      }
-
-      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["markRaw"])({
-        template: this.beforeGoalListActionsHead
-      });
-    },
-    isManuallyTriggered: function isManuallyTriggered() {
-      return this.triggerType === 'manually';
-    },
-    matchesExpressionExternal: function matchesExpressionExternal() {
-      var url = "'http://www.amazon.com\\/(.*)\\/yourAffiliateId'";
-      return Object(external_CoreHome_["translate"])('Goals_MatchesExpression', url);
-    }
-  }
-}));
-// CONCATENATED MODULE: ./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue
-
-
-
-ManageGoalsvue_type_script_lang_ts.render = render
-
-/* harmony default export */ var ManageGoals = (ManageGoalsvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/Goals/vue/src/index.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
-*/
-
-
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nvar _hoisted_1 = {\n  class: \"manageGoals\"\n};\nvar _hoisted_2 = {\n  id: \"entityEditContainer\",\n  feature: \"true\",\n  class: \"managegoals\"\n};\nvar _hoisted_3 = {\n  class: \"contentHelp\"\n};\nvar _hoisted_4 = [\"innerHTML\"];\nvar _hoisted_5 = {\n  key: 0\n};\n\nvar _hoisted_6 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_7 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_8 = [\"innerHTML\"];\nvar _hoisted_9 = {\n  class: \"first\"\n};\nvar _hoisted_10 = {\n  key: 1\n};\nvar _hoisted_11 = {\n  key: 2\n};\nvar _hoisted_12 = {\n  key: 0\n};\nvar _hoisted_13 = {\n  colspan: \"8\"\n};\n\nvar _hoisted_14 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_15 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_16 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_17 = [\"id\"];\nvar _hoisted_18 = {\n  class: \"first\"\n};\nvar _hoisted_19 = {\n  class: \"matchAttribute\"\n};\nvar _hoisted_20 = {\n  key: 0\n};\nvar _hoisted_21 = {\n  key: 1\n};\n\nvar _hoisted_22 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_23 = [\"innerHTML\"];\nvar _hoisted_24 = {\n  key: 1,\n  style: {\n    \"padding-top\": \"2px\"\n  }\n};\nvar _hoisted_25 = [\"onClick\", \"title\"];\n\nvar _hoisted_26 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n  class: \"icon-edit\"\n}, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_27 = [_hoisted_26];\nvar _hoisted_28 = {\n  key: 2,\n  style: {\n    \"padding-top\": \"2px\"\n  }\n};\nvar _hoisted_29 = [\"onClick\", \"title\"];\n\nvar _hoisted_30 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n  class: \"icon-delete\"\n}, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_31 = [_hoisted_30];\nvar _hoisted_32 = {\n  key: 0,\n  class: \"tableActionBar\"\n};\n\nvar _hoisted_33 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n  class: \"icon-add\"\n}, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_34 = {\n  class: \"ui-confirm\",\n  ref: \"confirm\"\n};\nvar _hoisted_35 = [\"value\"];\nvar _hoisted_36 = [\"value\"];\nvar _hoisted_37 = {\n  class: \"addEditGoal\"\n};\nvar _hoisted_38 = [\"innerHTML\"];\nvar _hoisted_39 = {\n  class: \"row goalIsTriggeredWhen\"\n};\nvar _hoisted_40 = {\n  class: \"col s12\"\n};\nvar _hoisted_41 = {\n  class: \"row\"\n};\nvar _hoisted_42 = {\n  class: \"col s12 m6 goalTriggerType\"\n};\nvar _hoisted_43 = {\n  class: \"col s12 m6\"\n};\nvar _hoisted_44 = [\"innerHTML\"];\nvar _hoisted_45 = {\n  class: \"row whereTheMatchAttrbiute\"\n};\nvar _hoisted_46 = {\n  class: \"col s12\"\n};\nvar _hoisted_47 = {\n  class: \"row\"\n};\nvar _hoisted_48 = {\n  class: \"col s12 m6 l4\"\n};\nvar _hoisted_49 = {\n  key: 0,\n  class: \"col s12 m6 l4\"\n};\nvar _hoisted_50 = {\n  key: 1,\n  class: \"col s12 m6 l4\"\n};\nvar _hoisted_51 = {\n  class: \"col s12 m6 l4\"\n};\nvar _hoisted_52 = {\n  id: \"examples_pattern\",\n  class: \"col s12\"\n};\n\nvar _hoisted_53 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_54 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_55 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_56 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_57 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_58 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_59 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_60 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_61 = {\n  ref: \"endedittable\"\n};\n\nvar _hoisted_62 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"input\", {\n  type: \"hidden\",\n  name: \"goalIdUpdate\",\n  value: \"\"\n}, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_63 = {\n  key: 0\n};\nvar _hoisted_64 = [\"innerHTML\"];\n\nvar _hoisted_65 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"a\", {\n  id: \"bottom\"\n}, null, -1\n/* HOISTED */\n);\n\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  var _ctx$goalToDelete;\n\n  var _component_ActivityIndicator = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"ActivityIndicator\");\n\n  var _component_ContentBlock = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"ContentBlock\");\n\n  var _component_Field = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"Field\");\n\n  var _component_Alert = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"Alert\");\n\n  var _component_VueEntryContainer = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"VueEntryContainer\");\n\n  var _component_SaveButton = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"SaveButton\");\n\n  var _directive_content_table = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveDirective\"])(\"content-table\");\n\n  var _directive_form = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveDirective\"])(\"form\");\n\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_1, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_2, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_ContentBlock, {\n    \"content-title\": _ctx.translate('Goals_ManageGoals')\n  }, {\n    default: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withCtx\"])(function () {\n      return [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_ActivityIndicator, {\n        loading: _ctx.isLoading\n      }, null, 8\n      /* PROPS */\n      , [\"loading\"]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_3, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n        innerHTML: _ctx.$sanitize(_ctx.learnMoreAboutGoalTracking)\n      }, null, 8\n      /* PROPS */\n      , _hoisted_4), !_ctx.ecommerceEnabled ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"span\", _hoisted_5, [_hoisted_6, _hoisted_7, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(\" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Goals_Optional')) + \" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Goals_Ecommerce')) + \": \", 1\n      /* TEXT */\n      ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n        innerHTML: _ctx.$sanitize(_ctx.youCanEnableEcommerceReports)\n      }, null, 8\n      /* PROPS */\n      , _hoisted_8)])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true)]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"table\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"thead\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"tr\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"th\", _hoisted_9, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_Id')), 1\n      /* TEXT */\n      ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"th\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Goals_GoalName')), 1\n      /* TEXT */\n      ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"th\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_Description')), 1\n      /* TEXT */\n      ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"th\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Goals_GoalIsTriggeredWhen')), 1\n      /* TEXT */\n      ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"th\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_ColumnRevenue')), 1\n      /* TEXT */\n      ), _ctx.beforeGoalListActionsHeadComponent ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createBlock\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveDynamicComponent\"])(_ctx.beforeGoalListActionsHeadComponent), {\n        key: 0\n      })) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true), _ctx.userCanEditGoals ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"th\", _hoisted_10, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_Edit')), 1\n      /* TEXT */\n      )) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true), _ctx.userCanEditGoals ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"th\", _hoisted_11, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_Delete')), 1\n      /* TEXT */\n      )) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true)])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"tbody\", null, [!Object.keys(_ctx.goals || {}).length ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"tr\", _hoisted_12, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"td\", _hoisted_13, [_hoisted_14, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(\" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Goals_ThereIsNoGoalToManage', _ctx.siteName)) + \" \", 1\n      /* TEXT */\n      ), _hoisted_15, _hoisted_16])])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true), (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(vue__WEBPACK_IMPORTED_MODULE_0__[\"Fragment\"], null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"renderList\"])(_ctx.goals || [], function (goal) {\n        return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"tr\", {\n          id: goal.idgoal,\n          key: goal.idgoal\n        }, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"td\", _hoisted_18, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(goal.idgoal), 1\n        /* TEXT */\n        ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"td\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(goal.name), 1\n        /* TEXT */\n        ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"td\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(goal.description), 1\n        /* TEXT */\n        ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"td\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", _hoisted_19, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.goalMatchAttributeTranslations[goal.match_attribute] || goal.match_attribute), 1\n        /* TEXT */\n        ), goal.match_attribute === 'visit_duration' ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"span\", _hoisted_20, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.lcfirst(_ctx.translate('General_OperationGreaterThan'))) + \" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Intl_NMinutes', goal.pattern)), 1\n        /* TEXT */\n        )) : !!goal.pattern_type ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"span\", _hoisted_21, [_hoisted_22, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(\" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Goals_Pattern')) + \" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(goal.pattern_type) + \": \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(goal.pattern), 1\n        /* TEXT */\n        )])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true)]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"td\", {\n          class: \"center\",\n          innerHTML: _ctx.$sanitize(goal.revenue === 0 || goal.revenue === '0' ? '-' : goal.revenue_pretty)\n        }, null, 8\n        /* PROPS */\n        , _hoisted_23), _ctx.beforeGoalListActionsBodyComponent[goal.idgoal] ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createBlock\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveDynamicComponent\"])(_ctx.beforeGoalListActionsBodyComponent[goal.idgoal]), {\n          key: 0\n        })) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true), _ctx.userCanEditGoals ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"td\", _hoisted_24, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"button\", {\n          onClick: function onClick($event) {\n            return _ctx.editGoal(goal.idgoal);\n          },\n          class: \"table-action\",\n          title: _ctx.translate('General_Edit')\n        }, _hoisted_27, 8\n        /* PROPS */\n        , _hoisted_25)])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true), _ctx.userCanEditGoals ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"td\", _hoisted_28, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"button\", {\n          onClick: function onClick($event) {\n            return _ctx.deleteGoal(goal.idgoal);\n          },\n          class: \"table-action\",\n          title: _ctx.translate('General_Delete')\n        }, _hoisted_31, 8\n        /* PROPS */\n        , _hoisted_29)])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true)], 8\n        /* PROPS */\n        , _hoisted_17);\n      }), 128\n      /* KEYED_FRAGMENT */\n      ))])], 512\n      /* NEED_PATCH */\n      ), [[_directive_content_table]]), _ctx.userCanEditGoals && !_ctx.onlyShowAddNewGoal ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_32, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"button\", {\n        id: \"add-goal\",\n        onClick: _cache[0] || (_cache[0] = function ($event) {\n          return _ctx.createGoal();\n        })\n      }, [_hoisted_33, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(\" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Goals_AddNewGoal')), 1\n      /* TEXT */\n      )])])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true)];\n    }),\n    _: 1\n    /* STABLE */\n\n  }, 8\n  /* PROPS */\n  , [\"content-title\"])], 512\n  /* NEED_PATCH */\n  ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.showGoalList]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_34, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"h2\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Goals_DeleteGoalConfirm', \"\\\"\".concat((_ctx$goalToDelete = _ctx.goalToDelete) === null || _ctx$goalToDelete === void 0 ? void 0 : _ctx$goalToDelete.name, \"\\\"\"))), 1\n  /* TEXT */\n  ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"input\", {\n    role: \"yes\",\n    type: \"button\",\n    value: _ctx.translate('General_Yes')\n  }, null, 8\n  /* PROPS */\n  , _hoisted_35), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"input\", {\n    role: \"no\",\n    type: \"button\",\n    value: _ctx.translate('General_No')\n  }, null, 8\n  /* PROPS */\n  , _hoisted_36)], 512\n  /* NEED_PATCH */\n  )], 512\n  /* NEED_PATCH */\n  ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], !_ctx.onlyShowAddNewGoal]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_37, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_ContentBlock, {\n    \"content-title\": _ctx.goal.idgoal ? _ctx.translate('Goals_UpdateGoal') : _ctx.translate('Goals_AddNewGoal')\n  }, {\n    default: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withCtx\"])(function () {\n      return [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", {\n        innerHTML: _ctx.$sanitize(_ctx.addNewGoalIntro)\n      }, null, 8\n      /* PROPS */\n      , _hoisted_38), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n        uicontrol: \"text\",\n        name: \"goal_name\",\n        modelValue: _ctx.goal.name,\n        \"onUpdate:modelValue\": _cache[1] || (_cache[1] = function ($event) {\n          return _ctx.goal.name = $event;\n        }),\n        maxlength: 50,\n        title: _ctx.translate('Goals_GoalName')\n      }, null, 8\n      /* PROPS */\n      , [\"modelValue\", \"title\"])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n        uicontrol: \"text\",\n        name: \"goal_description\",\n        modelValue: _ctx.goal.description,\n        \"onUpdate:modelValue\": _cache[2] || (_cache[2] = function ($event) {\n          return _ctx.goal.description = $event;\n        }),\n        maxlength: 255,\n        title: _ctx.translate('General_Description')\n      }, null, 8\n      /* PROPS */\n      , [\"modelValue\", \"title\"])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_39, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_40, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"h3\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Goals_GoalIsTriggered')), 1\n      /* TEXT */\n      )])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_41, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_42, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n        uicontrol: \"select\",\n        name: \"trigger_type\",\n        \"model-value\": _ctx.triggerType,\n        \"onUpdate:modelValue\": _cache[3] || (_cache[3] = function ($event) {\n          _ctx.triggerType = $event;\n\n          _ctx.changedTriggerType();\n        }),\n        \"full-width\": true,\n        options: _ctx.goalTriggerTypeOptions\n      }, null, 8\n      /* PROPS */\n      , [\"model-value\", \"options\"])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_43, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Alert, {\n        severity: \"info\"\n      }, {\n        default: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withCtx\"])(function () {\n          return [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n            innerHTML: _ctx.$sanitize(_ctx.whereVisitedPageManuallyCallsJsTrackerText)\n          }, null, 8\n          /* PROPS */\n          , _hoisted_44)];\n        }),\n        _: 1\n        /* STABLE */\n\n      }, 512\n      /* NEED_PATCH */\n      ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.triggerType === 'manually']]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n        uicontrol: \"radio\",\n        name: \"match_attribute\",\n        \"full-width\": true,\n        \"model-value\": _ctx.goal.match_attribute,\n        \"onUpdate:modelValue\": _cache[4] || (_cache[4] = function ($event) {\n          _ctx.goal.match_attribute = $event;\n\n          _ctx.initPatternType();\n        }),\n        options: _ctx.goalMatchAttributeOptions\n      }, null, 8\n      /* PROPS */\n      , [\"model-value\", \"options\"]), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.triggerType !== 'manually']])])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_45, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"h3\", _hoisted_46, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Goals_WhereThe')) + \" \", 1\n      /* TEXT */\n      ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Goals_URL')), 513\n      /* TEXT, NEED_PATCH */\n      ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.goal.match_attribute === 'url']]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Goals_PageTitle')), 513\n      /* TEXT, NEED_PATCH */\n      ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.goal.match_attribute === 'title']]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Goals_Filename')), 513\n      /* TEXT, NEED_PATCH */\n      ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.goal.match_attribute === 'file']]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Goals_ExternalWebsiteUrl')), 513\n      /* TEXT, NEED_PATCH */\n      ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.goal.match_attribute === 'external_website']]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Goals_VisitDuration')), 513\n      /* TEXT, NEED_PATCH */\n      ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.goal.match_attribute === 'visit_duration']])])], 512\n      /* NEED_PATCH */\n      ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.triggerType !== 'manually']]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_47, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_48, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n        uicontrol: \"select\",\n        name: \"event_type\",\n        modelValue: _ctx.eventType,\n        \"onUpdate:modelValue\": _cache[5] || (_cache[5] = function ($event) {\n          return _ctx.eventType = $event;\n        }),\n        \"full-width\": true,\n        options: _ctx.eventTypeOptions\n      }, null, 8\n      /* PROPS */\n      , [\"modelValue\", \"options\"])])], 512\n      /* NEED_PATCH */\n      ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.goal.match_attribute === 'event']]), !_ctx.isMatchAttributeNumeric ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_49, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n        uicontrol: \"select\",\n        name: \"pattern_type\",\n        modelValue: _ctx.goal.pattern_type,\n        \"onUpdate:modelValue\": _cache[6] || (_cache[6] = function ($event) {\n          return _ctx.goal.pattern_type = $event;\n        }),\n        \"full-width\": true,\n        options: _ctx.patternTypeOptions\n      }, null, 8\n      /* PROPS */\n      , [\"modelValue\", \"options\"])])])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true), _ctx.isMatchAttributeNumeric ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_50, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n        uicontrol: \"select\",\n        name: \"pattern_type\",\n        modelValue: _ctx.goal.pattern_type,\n        \"onUpdate:modelValue\": _cache[7] || (_cache[7] = function ($event) {\n          return _ctx.goal.pattern_type = $event;\n        }),\n        \"full-width\": true,\n        options: _ctx.numericComparisonTypeOptions\n      }, null, 8\n      /* PROPS */\n      , [\"modelValue\", \"options\"])])])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_51, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n        uicontrol: \"text\",\n        name: \"pattern\",\n        modelValue: _ctx.goal.pattern,\n        \"onUpdate:modelValue\": _cache[8] || (_cache[8] = function ($event) {\n          return _ctx.goal.pattern = $event;\n        }),\n        maxlength: 255,\n        title: _ctx.patternFieldLabel,\n        \"full-width\": true\n      }, null, 8\n      /* PROPS */\n      , [\"modelValue\", \"title\"])])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_52, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Alert, {\n        severity: \"info\"\n      }, {\n        default: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withCtx\"])(function () {\n          return [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_ForExampleShort')) + \" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Goals_Contains', \"'checkout/confirmation'\")) + \" \", 1\n          /* TEXT */\n          ), _hoisted_53, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_ForExampleShort')) + \" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Goals_IsExactly', \"'http://example.com/thank-you.html'\")) + \" \", 1\n          /* TEXT */\n          ), _hoisted_54, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_ForExampleShort')) + \" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Goals_MatchesExpression', \"'(.*)\\\\\\/demo\\\\\\/(.*)'\")), 1\n          /* TEXT */\n          )], 512\n          /* NEED_PATCH */\n          ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.goal.match_attribute === 'url']]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_ForExampleShort')) + \" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Goals_Contains', \"'Order confirmation'\")), 513\n          /* TEXT, NEED_PATCH */\n          ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.goal.match_attribute === 'title']]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_ForExampleShort')) + \" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Goals_Contains', \"'files/brochure.pdf'\")) + \" \", 1\n          /* TEXT */\n          ), _hoisted_55, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_ForExampleShort')) + \" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Goals_IsExactly', \"'http://example.com/files/brochure.pdf'\")) + \" \", 1\n          /* TEXT */\n          ), _hoisted_56, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_ForExampleShort')) + \" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Goals_MatchesExpression', \"'(.*)\\\\\\.zip'\")), 1\n          /* TEXT */\n          )], 512\n          /* NEED_PATCH */\n          ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.goal.match_attribute === 'file']]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_ForExampleShort')) + \" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Goals_Contains', \"'amazon.com'\")) + \" \", 1\n          /* TEXT */\n          ), _hoisted_57, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_ForExampleShort')) + \" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Goals_IsExactly', \"'http://mypartner.com/landing.html'\")) + \" \", 1\n          /* TEXT */\n          ), _hoisted_58, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_ForExampleShort')) + \" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.matchesExpressionExternal), 1\n          /* TEXT */\n          )], 512\n          /* NEED_PATCH */\n          ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.goal.match_attribute === 'external_website']]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_ForExampleShort')) + \" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Goals_Contains', \"'video'\")) + \" \", 1\n          /* TEXT */\n          ), _hoisted_59, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(\" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_ForExampleShort')) + \" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Goals_IsExactly', \"'click'\")) + \" \", 1\n          /* TEXT */\n          ), _hoisted_60, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_ForExampleShort')) + \" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Goals_MatchesExpression', \"'(.*)_banner'\")) + \"\\\" \", 1\n          /* TEXT */\n          )], 512\n          /* NEED_PATCH */\n          ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.goal.match_attribute === 'event']]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_ForExampleShort')) + \" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Goals_AtLeastMinutes', '5', '0.5')), 513\n          /* TEXT, NEED_PATCH */\n          ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.goal.match_attribute === 'visit_duration']])];\n        }),\n        _: 1\n        /* STABLE */\n\n      })])], 512\n      /* NEED_PATCH */\n      ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.triggerType !== 'manually']]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n        uicontrol: \"checkbox\",\n        name: \"case_sensitive\",\n        modelValue: _ctx.goal.case_sensitive,\n        \"onUpdate:modelValue\": _cache[9] || (_cache[9] = function ($event) {\n          return _ctx.goal.case_sensitive = $event;\n        }),\n        title: _ctx.caseSensitiveTitle\n      }, null, 8\n      /* PROPS */\n      , [\"modelValue\", \"title\"]), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.triggerType !== 'manually' && !_ctx.isMatchAttributeNumeric]])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [_ctx.goal.match_attribute !== 'visit_duration' ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createBlock\"])(_component_Field, {\n        key: 0,\n        uicontrol: \"radio\",\n        name: \"allow_multiple\",\n        \"model-value\": !!_ctx.goal.allow_multiple && _ctx.goal.allow_multiple !== '0' ? 1 : 0,\n        \"onUpdate:modelValue\": _cache[10] || (_cache[10] = function ($event) {\n          return _ctx.goal.allow_multiple = $event;\n        }),\n        options: _ctx.allowMultipleOptions,\n        introduction: _ctx.translate('Goals_AllowMultipleConversionsPerVisit'),\n        \"inline-help\": _ctx.translate('Goals_HelpOneConversionPerVisit')\n      }, null, 8\n      /* PROPS */\n      , [\"model-value\", \"options\", \"introduction\", \"inline-help\"])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true)]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"h3\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Goals_GoalRevenue')) + \" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Goals_Optional')), 1\n      /* TEXT */\n      ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n        uicontrol: \"number\",\n        name: \"revenue\",\n        modelValue: _ctx.goal.revenue,\n        \"onUpdate:modelValue\": _cache[11] || (_cache[11] = function ($event) {\n          return _ctx.goal.revenue = $event;\n        }),\n        placeholder: _ctx.translate('Goals_DefaultRevenueLabel'),\n        \"inline-help\": _ctx.translate('Goals_DefaultRevenueHelp')\n      }, null, 8\n      /* PROPS */\n      , [\"modelValue\", \"placeholder\", \"inline-help\"])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_Field, {\n        uicontrol: \"checkbox\",\n        name: \"use_event_value\",\n        modelValue: _ctx.goal.event_value_as_revenue,\n        \"onUpdate:modelValue\": _cache[12] || (_cache[12] = function ($event) {\n          return _ctx.goal.event_value_as_revenue = $event;\n        }),\n        title: _ctx.translate('Goals_UseEventValueAsRevenue'),\n        \"inline-help\": _ctx.useEventValueAsRevenueHelp\n      }, null, 8\n      /* PROPS */\n      , [\"modelValue\", \"title\", \"inline-help\"]), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.goal.match_attribute === 'event']])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_61, [_ctx.endEditTable ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createBlock\"])(_component_VueEntryContainer, {\n        key: 0,\n        html: _ctx.endEditTable\n      }, null, 8\n      /* PROPS */\n      , [\"html\"])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true)], 512\n      /* NEED_PATCH */\n      ), _hoisted_62, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_SaveButton, {\n        saving: _ctx.isLoading,\n        onConfirm: _cache[13] || (_cache[13] = function ($event) {\n          return _ctx.save();\n        }),\n        value: _ctx.submitText\n      }, null, 8\n      /* PROPS */\n      , [\"saving\", \"value\"]), !_ctx.onlyShowAddNewGoal ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_63, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", {\n        class: \"entityCancel\",\n        onClick: _cache[14] || (_cache[14] = function ($event) {\n          return _ctx.showListOfReports();\n        }),\n        innerHTML: _ctx.$sanitize(_ctx.cancelText)\n      }, null, 8\n      /* PROPS */\n      , _hoisted_64), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.showEditGoal]])])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true)], 512\n      /* NEED_PATCH */\n      ), [[_directive_form]])];\n    }),\n    _: 1\n    /* STABLE */\n\n  }, 8\n  /* PROPS */\n  , [\"content-title\"])], 512\n  /* NEED_PATCH */\n  ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.showEditGoal]])], 512\n  /* NEED_PATCH */\n  ), [[vue__WEBPACK_IMPORTED_MODULE_0__[\"vShow\"], _ctx.userCanEditGoals]]), _hoisted_65]);\n}\n\n//# sourceURL=webpack://Goals/./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
 
+/***/ }),
 
+/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=script&lang=ts":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=script&lang=ts ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! CoreHome */ \"CoreHome\");\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(CoreHome__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! CorePluginsAdmin */ \"CorePluginsAdmin\");\n/* harmony import */ var CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2__);\n/* harmony import */ var _ManageGoals_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ManageGoals.store */ \"./plugins/Goals/vue/src/ManageGoals/ManageGoals.store.ts\");\n\n\n\n\n\nfunction ambiguousBoolToInt(n) {\n  return !!n && n !== '0' ? 1 : 0;\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  inheritAttrs: false,\n  props: {\n    onlyShowAddNewGoal: Boolean,\n    userCanEditGoals: Boolean,\n    ecommerceEnabled: Boolean,\n    goals: {\n      type: Object,\n      required: true\n    },\n    addNewGoalIntro: String,\n    goalTriggerTypeOptions: Object,\n    goalMatchAttributeOptions: Array,\n    eventTypeOptions: Array,\n    patternTypeOptions: Array,\n    numericComparisonTypeOptions: Array,\n    allowMultipleOptions: Array,\n    showAddGoal: Boolean,\n    showGoal: Number,\n    beforeGoalListActionsBody: Object,\n    endEditTable: String,\n    beforeGoalListActionsHead: String\n  },\n  data: function data() {\n    return {\n      showEditGoal: false,\n      showGoalList: true,\n      goal: {},\n      isLoading: false,\n      eventType: 'event_category',\n      triggerType: 'visitors',\n      apiMethod: '',\n      submitText: '',\n      goalToDelete: null,\n      addEditTableComponent: false\n    };\n  },\n  components: {\n    SaveButton: CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2__[\"SaveButton\"],\n    ContentBlock: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"ContentBlock\"],\n    ActivityIndicator: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"ActivityIndicator\"],\n    Field: CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2__[\"Field\"],\n    Alert: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Alert\"],\n    VueEntryContainer: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"VueEntryContainer\"]\n  },\n  directives: {\n    ContentTable: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"ContentTable\"],\n    Form: CorePluginsAdmin__WEBPACK_IMPORTED_MODULE_2__[\"Form\"]\n  },\n  created: function created() {\n    _ManageGoals_store__WEBPACK_IMPORTED_MODULE_3__[\"default\"].setIdGoalShown(this.showGoal);\n  },\n  unmounted: function unmounted() {\n    _ManageGoals_store__WEBPACK_IMPORTED_MODULE_3__[\"default\"].setIdGoalShown(undefined);\n  },\n  mounted: function mounted() {\n    if (this.showAddGoal) {\n      this.createGoal();\n    } else if (this.showGoal) {\n      this.editGoal(this.showGoal);\n    } else {\n      this.showListOfReports();\n    }\n  },\n  methods: {\n    scrollToTop: function scrollToTop() {\n      setTimeout(function () {\n        CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].helper.lazyScrollTo('.pageWrap', 200);\n      });\n    },\n    initGoalForm: function initGoalForm(goalMethodAPI, submitText, goalName, description, matchAttribute, pattern, patternType, caseSensitive, revenue, allowMultiple, useEventValueAsRevenue, goalId) {\n      CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].postEvent('Goals.beforeInitGoalForm', goalMethodAPI, goalId);\n      this.apiMethod = goalMethodAPI;\n      this.goal = {};\n      this.goal.name = goalName;\n      this.goal.description = description;\n      var actualMatchAttribute = matchAttribute;\n\n      if (actualMatchAttribute === 'manually') {\n        this.triggerType = 'manually';\n        actualMatchAttribute = 'url';\n      } else {\n        this.triggerType = 'visitors';\n      }\n\n      if (actualMatchAttribute.indexOf('event') === 0) {\n        this.eventType = actualMatchAttribute;\n        actualMatchAttribute = 'event';\n      } else {\n        this.eventType = 'event_category';\n      }\n\n      this.goal.match_attribute = actualMatchAttribute;\n      this.goal.allow_multiple = allowMultiple;\n      this.goal.pattern_type = patternType;\n      this.goal.pattern = pattern;\n      this.goal.case_sensitive = caseSensitive;\n      this.goal.revenue = revenue;\n      this.goal.event_value_as_revenue = useEventValueAsRevenue;\n      this.submitText = submitText;\n      this.goal.idgoal = goalId;\n    },\n    showListOfReports: function showListOfReports() {\n      CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].postEvent('Goals.cancelForm');\n      this.showGoalList = true;\n      this.showEditGoal = false;\n      this.scrollToTop();\n    },\n    showAddEditForm: function showAddEditForm() {\n      this.showGoalList = false;\n      this.showEditGoal = true;\n    },\n    createGoal: function createGoal() {\n      var parameters = {\n        isAllowed: true\n      };\n      CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].postEvent('Goals.initAddGoal', parameters);\n\n      if (parameters && !parameters.isAllowed) {\n        return;\n      }\n\n      this.showAddEditForm();\n      this.initGoalForm('Goals.addGoal', Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('Goals_AddGoal'), '', '', 'url', '', 'contains', false, 0, false, false, 0);\n      this.scrollToTop();\n    },\n    editGoal: function editGoal(goalId) {\n      this.showAddEditForm();\n      var goal = this.goals[\"\".concat(goalId)];\n      this.initGoalForm('Goals.updateGoal', Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('Goals_UpdateGoal'), goal.name, goal.description, goal.match_attribute, goal.pattern, goal.pattern_type, !!goal.case_sensitive && goal.case_sensitive !== '0', parseInt(\"\".concat(goal.revenue), 10), !!goal.allow_multiple && goal.allow_multiple !== '0', !!goal.event_value_as_revenue && goal.event_value_as_revenue !== '0', goalId);\n      this.scrollToTop();\n    },\n    deleteGoal: function deleteGoal(goalId) {\n      var _this = this;\n\n      this.goalToDelete = this.goals[\"\".concat(goalId)];\n      CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].helper.modalConfirm(this.$refs.confirm, {\n        yes: function yes() {\n          _this.isLoading = true;\n          CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"AjaxHelper\"].fetch({\n            idGoal: goalId,\n            method: 'Goals.deleteGoal'\n          }).then(function () {\n            window.location.reload();\n          }).finally(function () {\n            _this.isLoading = false;\n          });\n        }\n      });\n    },\n    save: function save() {\n      var _this2 = this;\n\n      var parameters = {}; // TODO: test removal of encoding, should be handled by ajax request\n\n      parameters.name = this.goal.name;\n      parameters.description = this.goal.description;\n\n      if (this.isManuallyTriggered) {\n        parameters.matchAttribute = 'manually';\n        parameters.patternType = 'regex';\n        parameters.pattern = '.*';\n        parameters.caseSensitive = 0;\n      } else {\n        parameters.matchAttribute = this.goal.match_attribute;\n\n        if (parameters.matchAttribute === 'event') {\n          parameters.matchAttribute = this.eventType;\n          parameters.useEventValueAsRevenue = ambiguousBoolToInt(this.goal.event_value_as_revenue);\n        }\n\n        parameters.patternType = this.goal.pattern_type;\n        parameters.pattern = this.goal.pattern;\n        parameters.caseSensitive = ambiguousBoolToInt(this.goal.case_sensitive);\n      }\n\n      parameters.revenue = this.goal.revenue || 0;\n      parameters.allowMultipleConversionsPerVisit = ambiguousBoolToInt(this.goal.allow_multiple);\n      parameters.idGoal = this.goal.idgoal;\n      parameters.method = this.apiMethod;\n      var isCreate = parameters.method === 'Goals.addGoal';\n      var isUpdate = parameters.method === 'Goals.updateGoal';\n      var options = {};\n\n      if (isUpdate) {\n        CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].postEvent('Goals.beforeUpdateGoal', {\n          parameters: parameters,\n          options: options\n        });\n      } else if (isCreate) {\n        CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].postEvent('Goals.beforeAddGoal', {\n          parameters: parameters,\n          options: options\n        });\n      }\n\n      if (parameters !== null && parameters !== void 0 && parameters.cancelRequest) {\n        return;\n      }\n\n      this.isLoading = true;\n      CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"AjaxHelper\"].fetch(parameters, options).then(function () {\n        var subcategory = CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"MatomoUrl\"].parsed.value.subcategory;\n\n        if (subcategory === 'Goals_AddNewGoal' && CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].helper.isReportingPage()) {\n          // when adding a goal for the first time we need to load manage goals page afterwards\n          CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"ReportingMenuStore\"].reloadMenuItems().then(function () {\n            CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"MatomoUrl\"].updateHash(Object.assign(Object.assign({}, CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"MatomoUrl\"].hashParsed.value), {}, {\n              subcategory: 'Goals_ManageGoals'\n            }));\n            _this2.isLoading = false;\n          });\n        } else {\n          window.location.reload();\n        }\n      }).catch(function () {\n        _this2.scrollToTop();\n\n        _this2.isLoading = false;\n      });\n    },\n    changedTriggerType: function changedTriggerType() {\n      if (!this.isManuallyTriggered && !this.goal.pattern_type) {\n        this.goal.pattern_type = 'contains';\n      }\n    },\n    initPatternType: function initPatternType() {\n      if (this.isMatchAttributeNumeric) {\n        this.goal.pattern_type = 'greater_than';\n      } else {\n        this.goal.pattern_type = 'contains';\n      }\n    },\n    lcfirst: function lcfirst(s) {\n      return \"\".concat(s.slice(0, 1).toLowerCase()).concat(s.slice(1));\n    },\n    ucfirst: function ucfirst(s) {\n      return \"\".concat(s.slice(0, 1).toUpperCase()).concat(s.slice(1));\n    }\n  },\n  computed: {\n    learnMoreAboutGoalTracking: function learnMoreAboutGoalTracking() {\n      return Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('Goals_LearnMoreAboutGoalTrackingDocumentation', Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"externalLink\"])('https://matomo.org/docs/tracking-goals-web-analytics/'), '</a>');\n    },\n    youCanEnableEcommerceReports: function youCanEnableEcommerceReports() {\n      var link = CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"MatomoUrl\"].stringify(Object.assign(Object.assign({}, CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"MatomoUrl\"].urlParsed.value), {}, {\n        module: 'SitesManager',\n        action: 'index'\n      }));\n      /* eslint-disable prefer-template */\n\n      var ecommerceReportsText = Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"externalLink\"])('https://matomo.org/docs/ecommerce-analytics/') + Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('Goals_EcommerceReports') + '</a>';\n      var websiteManageText = \"<a href='\".concat(link, \"'>\").concat(Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('SitesManager_WebsitesManagement'), \"</a>\");\n      return Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('Goals_YouCanEnableEcommerceReports', ecommerceReportsText, websiteManageText);\n    },\n    siteName: function siteName() {\n      return CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].helper.htmlDecode(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].siteName);\n    },\n    whereVisitedPageManuallyCallsJsTrackerText: function whereVisitedPageManuallyCallsJsTrackerText() {\n      return Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('Goals_WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore', Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"externalLink\"])('https://developer.matomo.org/guides/tracking-javascript-guide#manually-trigger-goal-conversions'), '</a>');\n    },\n    caseSensitiveTitle: function caseSensitiveTitle() {\n      return \"\".concat(Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('Goals_CaseSensitive'), \" \").concat(Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('Goals_Optional'));\n    },\n    useEventValueAsRevenueHelp: function useEventValueAsRevenueHelp() {\n      return \"\".concat(Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('Goals_EventValueAsRevenueHelp'), \" <br/><br/> \").concat(Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('Goals_EventValueAsRevenueHelp2'));\n    },\n    cancelText: function cancelText() {\n      return Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('General_OrCancel', '<a class=\\'entityCancelLink\\'>', '</a>');\n    },\n    isMatchAttributeNumeric: function isMatchAttributeNumeric() {\n      return ['visit_duration'].indexOf(this.goal.match_attribute) > -1;\n    },\n    patternFieldLabel: function patternFieldLabel() {\n      return this.goal.match_attribute === 'visit_duration' ? Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('Goals_TimeInMinutes') : Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('Goals_Pattern');\n    },\n    goalMatchAttributeTranslations: function goalMatchAttributeTranslations() {\n      return {\n        manually: Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('Goals_ManuallyTriggeredUsingJavascriptFunction'),\n        file: Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('Goals_Download'),\n        url: Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('Goals_VisitUrl'),\n        title: Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('Goals_VisitPageTitle'),\n        external_website: Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('Goals_ClickOutlink'),\n        event_action: \"\".concat(Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('Goals_SendEvent'), \" (\").concat(Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('Events_EventAction'), \")\"),\n        event_category: \"\".concat(Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('Goals_SendEvent'), \" (\").concat(Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('Events_EventCategory'), \")\"),\n        event_name: \"\".concat(Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('Goals_SendEvent'), \" (\").concat(Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('Events_EventName'), \")\"),\n        visit_duration: \"\".concat(this.ucfirst(Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('Goals_VisitDuration')))\n      };\n    },\n    beforeGoalListActionsBodyComponent: function beforeGoalListActionsBodyComponent() {\n      var _this3 = this;\n\n      if (!this.beforeGoalListActionsBody) {\n        return {};\n      }\n\n      var componentsByIdGoal = {};\n      Object.values(this.goals).forEach(function (g) {\n        var template = _this3.beforeGoalListActionsBody[g.idgoal];\n\n        if (!template) {\n          return;\n        }\n\n        componentsByIdGoal[g.idgoal] = {\n          template: template\n        };\n      });\n      return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"markRaw\"])(componentsByIdGoal);\n    },\n    beforeGoalListActionsHeadComponent: function beforeGoalListActionsHeadComponent() {\n      if (!this.beforeGoalListActionsHead) {\n        return null;\n      }\n\n      return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"markRaw\"])({\n        template: this.beforeGoalListActionsHead\n      });\n    },\n    isManuallyTriggered: function isManuallyTriggered() {\n      return this.triggerType === 'manually';\n    },\n    matchesExpressionExternal: function matchesExpressionExternal() {\n      var url = \"'http://www.amazon.com\\\\/(.*)\\\\/yourAffiliateId'\";\n      return Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('Goals_MatchesExpression', url);\n    }\n  }\n}));\n\n//# sourceURL=webpack://Goals/./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js":
+/*!**********************************************************************************!*\
+  !*** ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js ***!
+  \**********************************************************************************/
+/*! exports provided: GoalPageLink, ManageGoals, ManageGoalsStore */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _setPublicPath__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./setPublicPath */ \"./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js\");\n/* harmony import */ var _entry__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~entry */ \"./plugins/Goals/vue/src/index.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"GoalPageLink\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"GoalPageLink\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"ManageGoals\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"ManageGoals\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"ManageGoalsStore\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"ManageGoalsStore\"]; });\n\n\n\n\n\n//# sourceURL=webpack://Goals/./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js ***!
+  \***************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n// This file is imported into lib/wc client bundles.\n\nif (typeof window !== 'undefined') {\n  var currentScript = window.document.currentScript\n  if (false) { var getCurrentScript; }\n\n  var src = currentScript && currentScript.src.match(/(.+\\/)[^/]+\\.js(\\?.*)?$/)\n  if (src) {\n    __webpack_require__.p = src[1] // eslint-disable-line\n  }\n}\n\n// Indicate to webpack that this file can be concatenated\n/* harmony default export */ __webpack_exports__[\"default\"] = (null);\n\n\n//# sourceURL=webpack://Goals/./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js?");
+
+/***/ }),
+
+/***/ "./plugins/Goals/vue/src/GoalPageLink/GoalPageLink.ts":
+/*!************************************************************!*\
+  !*** ./plugins/Goals/vue/src/GoalPageLink/GoalPageLink.ts ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! CoreHome */ \"CoreHome\");\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(CoreHome__WEBPACK_IMPORTED_MODULE_0__);\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\nvar _window = window,\n    $ = _window.$; // usage v-goal-page-link=\"{ idGoal: 5 }\"\n\nvar GoalPageLink = {\n  mounted: function mounted(el, binding) {\n    if (!CoreHome__WEBPACK_IMPORTED_MODULE_0__[\"Matomo\"].helper.isReportingPage()) {\n      return;\n    }\n\n    var title = $(el).text();\n    var link = $('<a></a>');\n    link.text(title);\n    link.attr('title', Object(CoreHome__WEBPACK_IMPORTED_MODULE_0__[\"translate\"])('Goals_ClickToViewThisGoal'));\n    link.click(function (e) {\n      e.preventDefault();\n      CoreHome__WEBPACK_IMPORTED_MODULE_0__[\"MatomoUrl\"].updateHash(Object.assign(Object.assign({}, CoreHome__WEBPACK_IMPORTED_MODULE_0__[\"MatomoUrl\"].hashParsed.value), {}, {\n        category: 'Goals_Goals',\n        subcategory: binding.value.idGoal\n      }));\n    });\n    $(el).html(link[0]);\n  }\n};\n/* harmony default export */ __webpack_exports__[\"default\"] = (GoalPageLink); // manually handle occurrence of goal-page-link on datatable html attributes since dataTable.js is\n// not managed by vue.\n// eslint-disable-next-line @typescript-eslint/no-explicit-any\n\nCoreHome__WEBPACK_IMPORTED_MODULE_0__[\"Matomo\"].on('Matomo.processDynamicHtml', function ($element) {\n  $element.find('[goal-page-link]').each(function (i, e) {\n    if ($(e).attr('goal-page-link-handled')) {\n      return;\n    }\n\n    var idGoal = $(e).attr('goal-page-link');\n\n    if (idGoal) {\n      GoalPageLink.mounted(e, {\n        instance: null,\n        value: {\n          idGoal: idGoal\n        },\n        oldValue: null,\n        modifiers: {},\n        dir: {}\n      });\n    }\n\n    $(e).attr('goal-page-link-handled', '1');\n  });\n});\n\n//# sourceURL=webpack://Goals/./plugins/Goals/vue/src/GoalPageLink/GoalPageLink.ts?");
+
+/***/ }),
+
+/***/ "./plugins/Goals/vue/src/ManageGoals/ManageGoals.store.ts":
+/*!****************************************************************!*\
+  !*** ./plugins/Goals/vue/src/ManageGoals/ManageGoals.store.ts ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\nfunction _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\nvar ManageGoalsStore = /*#__PURE__*/function () {\n  function ManageGoalsStore() {\n    var _this = this;\n\n    _classCallCheck(this, ManageGoalsStore);\n\n    _defineProperty(this, \"privateState\", Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"reactive\"])({}));\n\n    _defineProperty(this, \"idGoal\", Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"computed\"])(function () {\n      return _this.privateState.idGoal;\n    }));\n  }\n\n  _createClass(ManageGoalsStore, [{\n    key: \"setIdGoalShown\",\n    value: function setIdGoalShown(idGoal) {\n      this.privateState.idGoal = idGoal;\n    }\n  }]);\n\n  return ManageGoalsStore;\n}();\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (new ManageGoalsStore());\n\n//# sourceURL=webpack://Goals/./plugins/Goals/vue/src/ManageGoals/ManageGoals.store.ts?");
+
+/***/ }),
+
+/***/ "./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue":
+/*!***********************************************************!*\
+  !*** ./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _ManageGoals_vue_vue_type_template_id_d4175112__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ManageGoals.vue?vue&type=template&id=d4175112 */ \"./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=d4175112\");\n/* harmony import */ var _ManageGoals_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ManageGoals.vue?vue&type=script&lang=ts */ \"./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_ManageGoals_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _ManageGoals_vue_vue_type_template_id_d4175112__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_ManageGoals_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/Goals/vue/src/ManageGoals/ManageGoals.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_ManageGoals_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://Goals/./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?");
+
+/***/ }),
+
+/***/ "./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=script&lang=ts":
+/*!***********************************************************************************!*\
+  !*** ./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=script&lang=ts ***!
+  \***********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_ManageGoals_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./ManageGoals.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_ManageGoals_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://Goals/./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?");
+
+/***/ }),
+
+/***/ "./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=d4175112":
+/*!*****************************************************************************************!*\
+  !*** ./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=d4175112 ***!
+  \*****************************************************************************************/
+/*! exports provided: render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_ManageGoals_vue_vue_type_template_id_d4175112__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./ManageGoals.vue?vue&type=template&id=d4175112 */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=d4175112\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_ManageGoals_vue_vue_type_template_id_d4175112__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://Goals/./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?");
+
+/***/ }),
+
+/***/ "./plugins/Goals/vue/src/index.ts":
+/*!****************************************!*\
+  !*** ./plugins/Goals/vue/src/index.ts ***!
+  \****************************************/
+/*! exports provided: GoalPageLink, ManageGoals, ManageGoalsStore */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _GoalPageLink_GoalPageLink_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GoalPageLink/GoalPageLink.ts */ \"./plugins/Goals/vue/src/GoalPageLink/GoalPageLink.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"GoalPageLink\", function() { return _GoalPageLink_GoalPageLink_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* harmony import */ var _ManageGoals_ManageGoals_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ManageGoals/ManageGoals.vue */ \"./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"ManageGoals\", function() { return _ManageGoals_ManageGoals_vue__WEBPACK_IMPORTED_MODULE_1__[\"default\"]; });\n\n/* harmony import */ var _ManageGoals_ManageGoals_store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ManageGoals/ManageGoals.store */ \"./plugins/Goals/vue/src/ManageGoals/ManageGoals.store.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"ManageGoalsStore\", function() { return _ManageGoals_ManageGoals_store__WEBPACK_IMPORTED_MODULE_2__[\"default\"]; });\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n*/\n\n\n\n\n//# sourceURL=webpack://Goals/./plugins/Goals/vue/src/index.ts?");
+
+/***/ }),
+
+/***/ "CoreHome":
+/*!***************************!*\
+  !*** external "CoreHome" ***!
+  \***************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = __WEBPACK_EXTERNAL_MODULE_CoreHome__;\n\n//# sourceURL=webpack://Goals/external_%22CoreHome%22?");
+
+/***/ }),
+
+/***/ "CorePluginsAdmin":
+/*!***********************************!*\
+  !*** external "CorePluginsAdmin" ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = __WEBPACK_EXTERNAL_MODULE_CorePluginsAdmin__;\n\n//# sourceURL=webpack://Goals/external_%22CorePluginsAdmin%22?");
+
+/***/ }),
+
+/***/ "vue":
+/*!******************************************************************!*\
+  !*** external {"commonjs":"vue","commonjs2":"vue","root":"Vue"} ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = __WEBPACK_EXTERNAL_MODULE_vue__;\n\n//# sourceURL=webpack://Goals/external_%7B%22commonjs%22:%22vue%22,%22commonjs2%22:%22vue%22,%22root%22:%22Vue%22%7D?");
 
 /***/ })
 
 /******/ });
 });
-//# sourceMappingURL=Goals.umd.js.map

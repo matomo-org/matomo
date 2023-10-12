@@ -116,6 +116,7 @@ import {
   ActivityIndicator,
   MatomoUrl,
   NotificationsStore,
+  externalLink,
 } from 'CoreHome';
 import { SaveButton } from 'CorePluginsAdmin';
 import DefaultLicenseKeyFields from './DefaultLicenseKeyFields.vue';
@@ -222,14 +223,14 @@ export default defineComponent({
     noLicenseKeyIntroText() {
       return translate(
         'Marketplace_PaidPluginsNoLicenseKeyIntro',
-        '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/recommends/premium-plugins/">',
+        externalLink('href="https://matomo.org/recommends/premium-plugins/'),
         '</a>',
       );
     },
     noLicenseKeyIntroNoSuperUserAccessText() {
       return translate(
         'Marketplace_PaidPluginsNoLicenseKeyIntroNoSuperUserAccess',
-        '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/recommends/premium-plugins/">',
+        externalLink('https://matomo.org/recommends/premium-plugins/'),
         '</a>',
       );
     },
