@@ -1,0 +1,81 @@
+.pluginPromo {
+  background-color: white;
+  font-size: 16px;
+
+  .promo-columns {
+    display: grid;
+    grid-gap: 50px;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+
+    margin-top: 30px;
+  }
+
+  .promo-content {
+    div {
+      margin-bottom: 20px;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+
+      li {
+        padding-left: 20px;
+        margin-bottom: 16px;
+        margin-left: 10px;
+      }
+    }
+
+    .promo-icon {
+      display: inline-block;
+      margin: 2px 10px 10px -30px;
+      font-size: 20px;
+      float: left;
+    }
+
+    .icon-ok {
+      color: @color-green-piwik;
+    }
+  }
+
+  .promo-image {
+    display: none;
+
+    @media only screen and (min-width: 993px) {
+      display: block;
+    }
+
+    img {
+      max-width: 100%;
+    }
+  }
+
+  .promo-actions {
+    width: 100%;
+
+    a {
+      margin-right: 20px;
+      color: green;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      @media only screen and (max-width: 660px) {
+        display: block;
+        text-align: center;
+        width: 100%;
+        margin-bottom: 20px;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+
+    a.learn-more {
+      color: @color-green-piwik;
+      text-decoration: none;
+    }
+  }
+}

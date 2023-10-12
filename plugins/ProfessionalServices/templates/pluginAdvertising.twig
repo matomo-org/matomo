@@ -1,0 +1,40 @@
+{% extends 'admin.twig' %}
+
+{% block content %}
+    <div
+        class="pluginPromo"
+        piwik-content-block
+        content-title="{{ title }}"
+        help-url="{{ helpUrl|default('') }}"
+    >
+        <div class="promo-columns">
+            <div class="promo-column">
+                <div class="promo-content">
+                    {% if listOfFeatures|length %}
+                        <div class="promo-features">
+                            <ul>
+                                {% for feature in listOfFeatures %}
+                                    <li><span class="promo-icon icon-ok"></span>{{ feature|raw }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+
+                    {% if legalInfo %}
+                        <div class="promo-legal">
+                            <p>{{ legalInfo|raw }}</p>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="promo-actions">
+                    <a class="btn" href="#">Start free trial</a>
+                    <a class="learn-more" href="#">Learn more</a>
+                </div>
+            </div>
+            {% if imageName %}
+            <div class="promo-column promo-image">
+                <img src="plugins/ProfessionalServices/images/{{ imageName }}" alt="{{ imageAlt|default(title) }}">
+            </div>
+            {% endif %}
+    </div>
+{% endblock %}
