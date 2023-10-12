@@ -65,7 +65,7 @@
     setCustomVariable, getCustomVariable, deleteCustomVariable, storeCustomVariablesInCookie, setCustomDimension, getCustomDimension,
     deleteCustomVariables, deleteCustomDimension, setDownloadExtensions, addDownloadExtensions, removeDownloadExtensions,
     setDomains, setIgnoreClasses, setRequestMethod, setRequestContentType, setGenerationTimeMs, setPagePerformanceTiming,
-    setReferrerUrl, setCustomUrl, setAPIUrl, setDocumentTitle, setPageViewId, getPiwikUrl, getMatomoUrl, getCurrentUrl,
+    setReferrerUrl, setCustomUrl, setAPIUrl, setDocumentTitle, setPageViewId, getPageViewId, getPiwikUrl, getMatomoUrl, getCurrentUrl,
     setExcludedReferrers, getExcludedReferrers,
     setDownloadClasses, setLinkClasses,
     setCampaignNameKey, setCampaignKeywordKey,
@@ -5998,6 +5998,17 @@ if (typeof window.Matomo !== 'object') {
             this.setPageViewId = function (pageView) {
                 configIdPageView = pageView;
                 configIdPageViewSetManually = true;
+            };
+
+            /**
+             * Returns the PageView id. If the id was manually set using setPageViewId(), that id will be returned.
+             * If the id was not set manually, the id that was automatically generated in last trackPageView() will be
+             * returned. If there was no last page view, this will be undefined.
+             * 
+             * @returns {string}
+             */
+            this.getPageViewId = function () {
+               return configIdPageView;
             };
 
             /**
