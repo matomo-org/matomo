@@ -199,13 +199,39 @@ class Translator
         $clientSideTranslations = array();
         foreach ($this->getClientSideTranslationKeys() as $id) {
             [$plugin, $key] = explode('_', $id, 2);
-            $clientSideTranslations[$id] = $this->getTranslation($id, $this->currentLanguage, $plugin, $key);
+            $clientSideTranslations[$id] = $this->decodeEntitiesSafeForHTML($this->getTranslation($id, $this->currentLanguage, $plugin, $key));
         }
 
         $js = 'var translations = ' . json_encode($clientSideTranslations) . ';';
         $js .= "\n" . 'if (typeof(piwik_translations) == \'undefined\') { var piwik_translations = new Object; }' .
             'for(var i in translations) { piwik_translations[i] = translations[i];} ';
         return $js;
+    }
+
+    /**
+     * Decodes all entities in the given string except of &gt; and &lt;
+     *
+     * @param string $text
+     * @return string
+     */
+    private function decodeEntitiesSafeForHTML(string $text): string
+    {
+        // replace encoded html tag entities, as they need to remain encoded
+        $text = str_replace(
+            ['&gt;', '&lt;'],
+            ['###gt###', '###lt###'],
+            $text
+        );
+
+        // decode all remaining entities
+        $text = html_entity_decode($text);
+
+        // recover encoded html tag entities
+        return str_replace(
+            ['###gt###', '###lt###'],
+            ['&gt;', '&lt;'],
+            $text
+        );
     }
 
     /**
