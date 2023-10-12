@@ -14,6 +14,7 @@ use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\Contents\Dimensions;
 use Piwik\Report\ReportWidgetFactory;
+use Piwik\Url;
 use Piwik\Widget\WidgetsList;
 
 abstract class Base extends Report
@@ -22,7 +23,7 @@ abstract class Base extends Report
     {
         $this->categoryId = 'General_Actions';
         $this->subcategoryId = 'Contents_Contents';
-        $this->onlineGuideUrl = 'https://matomo.org/docs/content-tracking/';
+        $this->onlineGuideUrl = Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/content-tracking/');
     }
 
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)

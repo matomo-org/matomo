@@ -14,6 +14,7 @@ use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\Events\API;
 use Piwik\Plugins\Events\Columns\Metrics\AverageEventValue;
 use Piwik\Report\ReportWidgetFactory;
+use Piwik\Url;
 use Piwik\Widget\WidgetsList;
 
 abstract class Base extends \Piwik\Plugin\Report
@@ -22,7 +23,7 @@ abstract class Base extends \Piwik\Plugin\Report
     {
         $this->categoryId = 'General_Actions';
         $this->subcategoryId = 'Events_Events';
-        $this->onlineGuideUrl = 'https://matomo.org/docs/event-tracking/';
+        $this->onlineGuideUrl = Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/event-tracking/');
 
         $this->processedMetrics = array(
             new AverageEventValue()

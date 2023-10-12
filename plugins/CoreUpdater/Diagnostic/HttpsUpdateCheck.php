@@ -13,6 +13,7 @@ use Piwik\Http;
 use Piwik\Plugins\Diagnostics\Diagnostic\Diagnostic;
 use Piwik\Plugins\Diagnostics\Diagnostic\DiagnosticResult;
 use Piwik\Translation\Translator;
+use Piwik\Url;
 
 /**
  * Check if an update via HTTPS is possible
@@ -32,7 +33,7 @@ class HttpsUpdateCheck implements Diagnostic
     public function execute()
     {
         $faqLink = [
-          '<a href="https://matomo.org/faq/faq-how-to-disable-https-for-matomo-org-and-api-matomo-org-requests" rel="noreferrer noopener" target="_blank">',
+          '<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/faq-how-to-disable-https-for-matomo-org-and-api-matomo-org-requests') . '" rel="noreferrer noopener" target="_blank">',
           '</a>'
         ];
         $label = $this->translator->translate('Installation_SystemCheckUpdateHttps');

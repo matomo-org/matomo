@@ -22,7 +22,7 @@ class TarteAuCitron extends ConsentManagerDetectionAbstract
 
     public static function getInstructionUrl(): ?string
     {
-        return 'https://matomo.org/faq/how-to/using-tarte-au-citron-consent-manager-with-matomo';
+        return Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to/using-tarte-au-citron-consent-manager-with-matomo');
     }
 
     public function isDetected(?string $data = null, ?array $headers = null): bool

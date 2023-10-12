@@ -12,6 +12,7 @@ use Piwik\EventDispatcher;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\Referrers\Columns\Campaign;
+use Piwik\Url;
 
 class GetCampaigns extends Base
 {
@@ -21,7 +22,7 @@ class GetCampaigns extends Base
         $this->dimension     = new Campaign();
         $this->name          = Piwik::translate('Referrers_Campaigns');
         $this->documentation = Piwik::translate('Referrers_CampaignsReportDocumentation');
-        $this->onlineGuideUrl = 'https://matomo.org/docs/tracking-campaigns/';
+        $this->onlineGuideUrl = Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/tracking-campaigns/');
         $this->actionToLoadSubTables = 'getKeywordsFromCampaignId';
         $this->hasGoalMetrics = true;
         $this->order = 9;

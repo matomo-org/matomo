@@ -12,6 +12,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\Plugins\UserId\Columns\UserId;
+use Piwik\Url;
 
 /**
  * A report showing all unique user IDs and some aggregated information about them. It also allows
@@ -60,7 +61,7 @@ class GetUsers extends Base
         $view->config->show_pivot_by_subtable = false;
         $view->config->no_data_message = Piwik::translate('CoreHome_ThereIsNoDataForThisReport') . '<br><br>'
           . sprintf(Piwik::translate('UserId_ThereIsNoDataForThisReportHelp'),
-            "<a target='_blank' rel='noreferrer noopener' href='https://matomo.org/docs/user-id/'>", "</a>");
+            "<a target='_blank' rel='noreferrer noopener' href='" . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/user-id/') . "'>", "</a>");
 
         if ($view->isViewDataTableId(HtmlTable::ID)) {
             $view->config->disable_row_evolution = false;

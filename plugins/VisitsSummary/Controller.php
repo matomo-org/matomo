@@ -17,6 +17,7 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Translation\Translator;
+use Piwik\Url;
 
 /**
  *
@@ -77,7 +78,7 @@ class Controller extends \Piwik\Plugin\Controller
             . $this->translator->translate('General_ColumnNbActionsDocumentation') . '<br />'
 
             . '<b>' . $this->translator->translate('General_ColumnNbUsers') . ':</b> '
-            . $this->translator->translate('General_ColumnNbUsersDocumentation') . ' (<a rel="noreferrer noopener" target="_blank" href="https://matomo.org/docs/user-id/">User ID</a>)<br />'
+            . $this->translator->translate('General_ColumnNbUsersDocumentation') . ' (<a rel="noreferrer noopener" target="_blank" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/user-id/') . '">User ID</a>)<br />'
 
             . '<b>' . $this->translator->translate('General_ColumnActionsPerVisit') . ':</b> '
             . $this->translator->translate('General_ColumnActionsPerVisitDocumentation');

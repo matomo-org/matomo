@@ -20,6 +20,7 @@ use Piwik\Settings\Setting;
 use Piwik\Settings\FieldConfig;
 use Piwik\Plugins\SitesManager;
 use Exception;
+use Piwik\Url;
 use Piwik\UrlHelper;
 
 /**
@@ -407,7 +408,7 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
                 . '<br />'
                 . Piwik::translate(
                     'SitesManager_PiwikOffersEcommerceAnalytics',
-                    ["<a href='https://matomo.org/docs/ecommerce-analytics/' target='_blank'>", '</a>']
+                    ["<a href='" . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/ecommerce-analytics/') . "' target='_blank'>", '</a>']
                 );
             $field->uiControl = FieldConfig::UI_CONTROL_SINGLE_SELECT;
             $field->availableValues = [

@@ -12,6 +12,7 @@ namespace Piwik\Plugins\SitesManager\SiteContentDetection;
 
 use Piwik\Piwik;
 use Piwik\SiteContentDetector;
+use Piwik\Url;
 
 class ReactJs extends SiteContentDetectionAbstract
 {
@@ -32,7 +33,7 @@ class ReactJs extends SiteContentDetectionAbstract
 
     public static function getInstructionUrl(): ?string
     {
-        return 'https://matomo.org/faq/new-to-piwik/how-do-i-start-tracking-data-with-matomo-on-websites-that-use-react/';
+        return Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/new-to-piwik/how-do-i-start-tracking-data-with-matomo-on-websites-that-use-react/');
     }
 
     public static function getPriority(): int
@@ -76,9 +77,9 @@ class ReactJs extends SiteContentDetectionAbstract
             Piwik::translate(
                 'SitesManager_SiteWithoutDataReactDescription',
                 [
-                    '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/guide/tag-manager/">',
+                    '<a target="_blank" rel="noreferrer noopener" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/guide/tag-manager/') . '">',
                     '</a>',
-                    '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-start-tracking-data-with-matomo-on-websites-that-use-react/">',
+                    '<a target="_blank" rel="noreferrer noopener" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/new-to-piwik/how-do-i-start-tracking-data-with-matomo-on-websites-that-use-react/') . '">',
                     '</a>',
                 ]
             )

@@ -10,6 +10,8 @@
 
 namespace Piwik\Plugins\SitesManager\SiteContentDetection;
 
+use Piwik\Url;
+
 class Joomla extends SiteContentDetectionAbstract
 {
     public static function getName(): string
@@ -24,7 +26,7 @@ class Joomla extends SiteContentDetectionAbstract
 
     public static function getInstructionUrl(): ?string
     {
-        return 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-joomla/';
+        return Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-joomla/');
     }
 
     public function isDetected(?string $data = null, ?array $headers = null): bool

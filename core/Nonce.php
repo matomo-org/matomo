@@ -103,7 +103,7 @@ class Nonce
         if (Url::isSecureConnectionAssumedByPiwikButNotForcedYet()) {
             $additionalErrors =  '<br/><br/>' . Piwik::translate('Login_InvalidNonceSSLMisconfigured',
                 array(
-                  '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/how-to/faq_91/">',
+                  '<a target="_blank" rel="noreferrer noopener" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to/faq_91/') . '">',
                   '</a>',
                   'config/config.ini.php',
                   '<pre>force_ssl=1</pre>',
@@ -123,7 +123,7 @@ class Nonce
             // Allow the instance host by default, if no allowedReferrerHost is specified.
             if (empty($allowedReferrerHost) && !Url::isLocalUrl($referrer)) {
                 return Piwik::translate('Login_InvalidNonceReferrer', array(
-                        '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/how-to-install/faq_98">',
+                        '<a target="_blank" rel="noreferrer noopener" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to-install/faq_98') . '">',
                         '</a>'
                     )) . $additionalErrors;
             }

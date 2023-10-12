@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Tour\Engagement;
 
 use Piwik\Piwik;
+use Piwik\Url;
 
 class ChallengeAddedAnnotation extends Challenge
 {
@@ -29,7 +30,7 @@ class ChallengeAddedAnnotation extends Challenge
 
     public function getUrl()
     {
-        return 'https://matomo.org/docs/annotations/';
+        return Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/annotations/');
     }
 
 

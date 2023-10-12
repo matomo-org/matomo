@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\CoreHome\Widgets;
 
+use Piwik\Url;
 use Piwik\Widget\Widget;
 use Piwik\Widget\WidgetConfig;
 use Piwik\Translation\Translator;
@@ -37,7 +38,7 @@ class GetPromoVideo extends Widget
         $view = new View('@CoreHome/getPromoVideo');
         $view->shareText     = $this->translator->translate('CoreHome_SharePiwikShort');
         $view->shareTextLong = $this->translator->translate('CoreHome_SharePiwikLong');
-        $view->promoVideoUrl = 'https://matomo.org/docs/videos/';
+        $view->promoVideoUrl = Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/videos/');
 
         return $view->render();
     }

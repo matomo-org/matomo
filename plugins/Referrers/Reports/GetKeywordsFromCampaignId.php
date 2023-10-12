@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Referrers\Reports;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\Referrers\Columns\Keyword;
+use Piwik\Url;
 
 class GetKeywordsFromCampaignId extends Base
 {
@@ -20,7 +21,7 @@ class GetKeywordsFromCampaignId extends Base
         $this->dimension     = new Keyword();
         $this->name          = Piwik::translate('Referrers_Campaigns');
         $this->documentation = Piwik::translate('Referrers_CampaignsReportDocumentation',
-                               array('<br />', '<a href="https://matomo.org/docs/tracking-campaigns/" rel="noreferrer noopener" target="_blank">', '</a>'));
+                               ['<br />', '<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/tracking-campaigns/') . '" rel="noreferrer noopener" target="_blank">', '</a>']);
         $this->isSubtableReport = true;
         $this->order = 10;
     }

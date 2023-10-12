@@ -12,6 +12,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\UserCountry\Columns\Country;
 use Piwik\Plugins\UserCountry\LocationProvider;
+use Piwik\Url;
 
 class GetCountry extends Base
 {
@@ -39,7 +40,7 @@ class GetCountry extends Base
             // if we're using the default location provider, add a note explaining how it works
             $footerMessage = Piwik::translate("General_Note") . ': '
                 . Piwik::translate('UserCountry_DefaultLocationProviderExplanation',
-                    array('<a rel="noreferrer noopener" target="_blank" href="https://matomo.org/docs/geo-locate/">', '</a>'));
+                    ['<a rel="noreferrer noopener" target="_blank" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/geo-locate/') . '">', '</a>']);
 
             $view->config->show_footer_message = $footerMessage;
         }

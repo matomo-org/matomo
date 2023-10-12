@@ -352,7 +352,7 @@ class ServerModule extends GeoIp2
     {
         $comment = Piwik::translate('GeoIp2_GeoIPLocationProviderNotRecommended') . ' ';
         $comment .= Piwik::translate('GeoIp2_LocationProviderDesc_ServerModule2', array(
-            '<a href="https://matomo.org/docs/geo-locate/" rel="noreferrer noopener" target="_blank">', '', '', '</a>'
+            '<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/geo-locate/') . '" rel="noreferrer noopener" target="_blank">', '', '', '</a>'
         ));
 
         return $comment;
