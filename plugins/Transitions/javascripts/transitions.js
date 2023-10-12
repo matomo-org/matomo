@@ -242,7 +242,7 @@ Piwik_Transitions.prototype.showPopover = function (showEmbeddedInReport) {
         $('#transitions_inline_loading').show();
     } else {
         this.popover = Piwik_Popover.showLoading('Transitions', self.actionName, 550);
-        Piwik_Popover.addHelpButton('https://matomo.org/docs/transitions');
+        Piwik_Popover.addHelpButton(_pk_externalRawLink('https://matomo.org/docs/transitions'));
     }
 
     var bothLoaded = function () {

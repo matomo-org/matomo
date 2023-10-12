@@ -1712,7 +1712,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     },
 
     handleSummaryRow: function (domElem) {
-        var details = _pk_translate('General_LearnMore', [' (<a href="https://matomo.org/faq/how-to/faq_54/" rel="noreferrer noopener" target="_blank">', '</a>)']);
+        var details = _pk_translate('General_LearnMore', [' (<a href="'
+        + _pk_externalRawLink('https://matomo.org/faq/how-to/faq_54/') + '" rel="noreferrer noopener" target="_blank">', '</a>)']);
 
         domElem.find('tr.summaryRow').each(function () {
             var labelSpan = $(this).find('.label .value').filter(function(index, elem){
