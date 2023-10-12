@@ -402,7 +402,6 @@ export default defineComponent({
         values,
       ).then((response) => {
         this.editMode = false;
-        this.isSaving = false;
 
         if (!this.theSite.idsite && response && response.value) {
           this.theSite.idsite = `${response.value}`;
@@ -430,6 +429,8 @@ export default defineComponent({
         SiteTypesStore.removeEditSiteIdParameterFromHash();
 
         this.$emit('save', { site: this.theSite, settingValues: values.settingValues, isNew });
+      }).finally(() => {
+        this.isSaving = false;
       });
     },
     cancelEditSite(site: Site) {

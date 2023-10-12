@@ -228,6 +228,11 @@ class Request
 
             // create the response
             $response = new ResponseBuilder($outputFormat, $this->request);
+            // do not send any header when processing a nested API request,
+            // as the headers might remain for to the original response
+            if (!self::isCurrentApiRequestTheRootApiRequest()) {
+                $response->disableSendHeader();
+            }
             if ($disablePostProcessing) {
                 $response->disableDataTablePostProcessor();
             }
@@ -249,8 +254,8 @@ class Request
             // read parameters
             $moduleMethod = Common::getRequestVar('method', null, 'string', $this->request);
 
-            list($module, $method) = $this->extractModuleAndMethod($moduleMethod);
-            list($module, $method) = self::getRenamedModuleAndAction($module, $method);
+            [$module, $method] = $this->extractModuleAndMethod($moduleMethod);
+            [$module, $method] = self::getRenamedModuleAndAction($module, $method);
 
             PluginManager::getInstance()->checkIsPluginActivated($module);
 
@@ -517,11 +522,13 @@ class Request
     }
 
     /**
-     * Returns true if a token_auth parameter was supplied via a POST request and is not present as a URL parameter
+     * Returns true if a token_auth parameter was supplied via a secure mechanism and is not present as a URL parameter
+     * At the moment POST requests are checked, but in future other mechanism such as Authorisation HTTP header
+     * and bearer tokens might be used as well.
      *
-     * @return bool True if token supplied via POST request
+     * @return bool True if token was supplied in a secure way
      */
-    public static function isTokenAuthPosted(): bool
+    public static function isTokenAuthProvidedSecurely(): bool
     {
         return (\Piwik\Request::fromGet()->getStringParameter('token_auth', '') === '' &&
                 \Piwik\Request::fromPost()->getStringParameter('token_auth', '') !== '');
@@ -678,7 +685,7 @@ class Request
         if (empty($this->request['apiAction'])) {
             $this->request['apiAction'] = null;
         }
-        list($this->request['apiModule'], $this->request['apiAction']) = $this->getRenamedModuleAndAction($this->request['apiModule'], $this->request['apiAction']);
+        [$this->request['apiModule'], $this->request['apiAction']] = $this->getRenamedModuleAndAction($this->request['apiModule'], $this->request['apiAction']);
     }
 
     /**

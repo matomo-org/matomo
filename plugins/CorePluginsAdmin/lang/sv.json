@@ -9,7 +9,7 @@
         "AlwaysActivatedPluginsList": "Följande insticksprogram är alltid aktiva och kan inte stängas av: %s",
         "AreThereAnyRisks": "Finns det några risker?",
         "AreThereAnyRisksDetails1": "När du aktiverar Tag Manager kommer användare med admin behörighet kunna skapa skräddarsydda HTML taggar, utlösare och variabler som kan exekvera JavaScript på din webbplats. Dessa anpassade mallar kan missbrukas för att stjäla t ex känslig information från din webbplats besökare (känt som %1$s XSS %2$s).",
-        "AreThereAnyRisksDetails2": "Du kan inaktivera dessa anpassade mallar under \"Administration =&gt; Allmänna Inställningar\" när du har aktiverat Tag Manager. Alternativt kan du också begränsa användningen av dessa mallar till specifika användare eller superanvändare.",
+        "AreThereAnyRisksDetails2": "Du kan inaktivera dessa anpassade mallar under \"Administration → Allmänna inställningar\" när du har aktiverat Tag Manager. Alternativt kan du också begränsa användningen av dessa mallar till specifika användare eller superanvändare.",
         "AuthorHomepage": "Författarens webbplats",
         "ChangeLookByManageThemes": "Du kan ändra utseendet på Matomo genom %1$sHantera teman%2$s.",
         "ChangeSettingsPossible": "Du kan ändra %1$sinställningar%2$s för det här insticksprogrammet.",

@@ -40,7 +40,7 @@
         "ScopeDescriptionVisit": "Benutzerdefinierte Dimensionen im Bereich 'Besuche' können über sämtliche Trackinganfragen gesandt werden und werden im Besuch gespeichert.",
         "ScopeDescriptionVisitMoreInfo": "Wenn Sie innerhalb der Lebenszeit eines Besuchs für eine gegebene Dimension verschiedene Werte setzen, wird der zuletzt gesetzte Wert verwendet.",
         "ScopeTitleAction": "Aktions-Dimensionen",
-        "ScopeTitleVisit": "Dimensionen besuchen",
+        "ScopeTitleVisit": "Besuchs-Dimensionen",
         "UrlQueryStringParameter": "URL-Anfrage-Parameter",
         "XofYLeft": "Es verbleiben %1$s von %2$s Dimensionen"
     }

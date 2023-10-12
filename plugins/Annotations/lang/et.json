@@ -1,19 +1,19 @@
 {
     "Annotations": {
-        "AddAnnotationsFor": "Lisa annotatsioon %s...'le",
+        "AddAnnotationsFor": "Lisa annotatsioon %s'le…",
         "AnnotationOnDate": "%1$s annotatsioon: %2$s",
         "Annotations": "Annotatsioone",
         "ClickToDelete": "Vajuta antud annotatsiooni kustutamiseks.",
         "ClickToEdit": "Vajuta antud annotatsiooni redigeerimiseks.",
         "ClickToEditOrAdd": "Vajuta antud annotatsiooni redigeerimiseks või lisamiseks.",
         "ClickToStarOrUnstar": "Vali et kommentaari hinnata",
-        "CreateNewAnnotation": "Loo uus kommentaar",
-        "EnterAnnotationText": "Sisesta oma märkmed...",
-        "HideAnnotationsFor": "Peida %s kommentaarid..",
+        "CreateNewAnnotation": "Loo uus kommentaar…",
+        "EnterAnnotationText": "Sisesta oma märkmed…",
+        "HideAnnotationsFor": "Peida %s kommentaarid…",
         "IconDesc": "Vaata antud ajavahemiku märkmeid.",
         "IconDescHideNotes": "Peida antud ajavahemiku märkmed.",
         "LoginToAnnotate": "Sisene, et luua kommentaar.",
         "NoAnnotations": "Antud ajavahemiku kohta puuduvad märkmed.",
-        "ViewAndAddAnnotations": "Vaata ja lisa märkmeid %s kohta..."
+        "ViewAndAddAnnotations": "Vaata ja lisa märkmeid %s kohta…"
     }
 }

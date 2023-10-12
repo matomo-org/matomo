@@ -28,8 +28,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             visitorId: testEnvironment.forcedIdVisitor,
             realtimeWindow: 'false'
         };
-        testEnvironment.save();
-
+        testEnvironment.completeNoChallenge = true;
         testEnvironment.pluginsToLoad = ['CustomDirPlugin'];
         testEnvironment.save();
 
@@ -52,6 +51,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     after(function () {
         delete testEnvironment.queryParamOverride;
+        delete testEnvironment.completeNoChallenge;
         testEnvironment.testUseMockAuth = 1;
         testEnvironment.save();
     });
@@ -287,25 +287,6 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             expect(await pageWrap.screenshot()).to.matchImage('visitors_overview_limit');
         });
 
-        // skipped as phantom seems to crash at this test sometimes
-        it.skip('should load visitors > visitor log page correctly', async function () {
-            await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=Live_VisitorLog");
-            await page.waitForNetworkIdle();
-
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('visitors_visitorlog');
-        });
-
-        // this test often fails for unknown reasons?
-        // the visitor log with site search is also currently tested in plugins/Live/tests/UI/expected-ui-screenshots/Live_visitor_log.png
-        it.skip('should load visitors with site search > visitor log page correctly', async function () {
-            await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=Live_VisitorLog&period=day&date=2012-01-11");
-            await page.waitForNetworkIdle();
-
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('visitors_with_site_search_visitorlog');
-        });
-
         it('should load the visitors > devices page correctly', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=DevicesDetection_Devices");
             await page.waitForNetworkIdle();
@@ -531,86 +512,6 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
             pageWrap = await page.$('.pageWrap');
             expect(await pageWrap.screenshot()).to.matchImage('actions_content_piece_name');
-        });
-    });
-
-    describe("ReferrersPages", function () {
-        this.title = parentSuite.title; // to make sure the screenshot prefix is the same
-
-        // referrers pages
-        it('should load the referrers > overview page correctly', async function () {
-            await page.goto("?" + urlBase + "#?" + generalParams + "&category=Referrers_Referrers&subcategory=General_Overview");
-            await page.waitForNetworkIdle();
-
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('referrers_overview');
-        });
-
-        // referrers pages
-        it('should load the referrers > overview page correctly', async function () {
-            await page.goto("?" + urlBase + "#?" + generalParams + "&category=Referrers_Referrers&subcategory=Referrers_WidgetGetAll");
-            await page.waitForNetworkIdle();
-
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('referrers_allreferrers');
-        });
-
-        it('should display metric tooltip correctly', async function () {
-            let elem = await page.jQuery('[data-report="Referrers.getReferrerType"] #nb_visits .thDIV');
-            await elem.hover();
-
-            let tip = await page.jQuery('.columnDocumentation:visible', {waitFor: true});
-
-            // manipulate the styles a bit, as it's otherwise not visible on screenshot
-            await page.evaluate(function () {
-                var style = document.createElement('style');
-                style.innerHTML = '.permadocs { display: block !important;z-index:150!important;margin-top:0!important; } .dataTable thead{ z-index:150 !important; }';
-                $('body').append(style);
-
-                //add index not overlap others
-                $('.columnDocumentation:visible').addClass('permadocs');
-            });
-
-            await page.waitForTimeout(100);
-
-            expect(await tip.screenshot()).to.matchImage({
-              imageName: 'metric_tooltip',
-              comparisonThreshold: 0.008
-            });
-        });
-
-        it('should load the referrers > search engines & keywords page correctly', async function () {
-            await page.goto("?" + urlBase + "#?" + generalParams + "&category=Referrers_Referrers&subcategory=Referrers_SubmenuSearchEngines");
-            await page.waitForNetworkIdle();
-            await page.mouse.move(-10, -10);
-
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('referrers_search_engines_keywords');
-        });
-
-        it('should load the referrers > websites correctly', async function () {
-            await page.goto("?" + urlBase + "#?" + generalParams + "&category=Referrers_Referrers&subcategory=Referrers_SubmenuWebsitesOnly");
-            await page.waitForNetworkIdle();
-            await page.mouse.move(-10, -10);
-
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('referrers_websites');
-        });
-
-        it('should load the referrers > social page correctly', async function () {
-            await page.goto("?" + urlBase + "#?" + generalParams + "&category=Referrers_Referrers&subcategory=Referrers_Socials");
-            await page.waitForNetworkIdle();
-
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('referrers_socials');
-        });
-
-        it('should load the referrers > campaigns page correctly', async function () {
-            await page.goto("?" + urlBase + "#?" + generalParams + "&category=Referrers_Referrers&subcategory=Referrers_Campaigns");
-            await page.waitForNetworkIdle();
-
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('referrers_campaigns');
         });
     });
 

@@ -52,7 +52,7 @@
         "NextDelete": "Následující plánované mazání za",
         "PurgeNow": "Vyprázdnit databázi nyní",
         "PurgeNowConfirm": "Chystáte se natrvalo odstranit data z vaší databáze. Opravdu chcete pokračovat?",
-        "PurgingData": "Promazávání dat...",
+        "PurgingData": "Promazávání dat…",
         "RawDataNeverRemoved": "surová data o návštěvách a akcích se <strong>nikdy</strong> nemažou.",
         "RecommendedForPrivacy": "Doporučeno pro soukromí",
         "ReportsDataSavedEstimate": "Velikost databáze",
@@ -67,6 +67,6 @@
         "UseAnonymizeIp": "Anonymizovat IP adresy návštěvníků",
         "UseAnonymizedIpForVisitEnrichment": "Anonymizované IP adresy použít i při obohacování návštěv.",
         "UseDeleteReports": "Průběžně mazat stará hlášení z databáze",
-        "WhenDoINeedConsent": "When do I need to ask for user consent?"
+        "WhenDoINeedConsent": "Kdy musím žádat o souhlas uživatelů?"
     }
 }

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<nb_conversions>1</nb_conversions>
+	<nb_visits_converted>1</nb_visits_converted>
+	<revenue>1000</revenue>
+	<items>2</items>
+	<avg_order_revenue>1000</avg_order_revenue>
+	<conversion_rate>50%</conversion_rate>
+</result>

@@ -24,7 +24,7 @@
         "DefaultAllVisits": "Todas as visitas",
         "DragDropCondition": "Condição de arrastar e soltar",
         "HideMessageInFuture": "Ocultar esta mensagem no futuro",
-        "LoadingSegmentedDataMayTakeSomeTime": "O processamento dos dados segmentados dos visitantes pode demorar alguns minutos...",
+        "LoadingSegmentedDataMayTakeSomeTime": "O processamento dos dados segmentados dos visitantes pode demorar alguns minutos…",
         "OperatorAND": "E",
         "OperatorOR": "OU",
         "PluginDescription": "Um segmento é um conjunto de critérios utilizados para selecionar apenas uma parte do conjunto completo de visitas. Ao utilizar segmentos, pode injetar contextos arbitrários nos seus relatórios.",

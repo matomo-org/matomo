@@ -15,6 +15,7 @@
         "ConfirmPasswordToContinue": "Confirmeu la vostra contrasenya per continuar",
         "ConfirmationLinkSent": "Obriu l'enllaç de confirmació enviat a la vostra bústia d'entrada de correu electrònic per confirmar el canvi de contrasenya.",
         "ContactAdmin": "Possible motiu: potser el vostre amfitrió hagi desactivat la funció mail(). <br>Contacteu amb el vostre administrador de Matomo.",
+        "CreatePasswordDescription": "Assegureu-vos de recordar aquesta contrasenya i deseu-la en un lloc segur.",
         "CurrentlyBlockedIPs": "IP bloquejades",
         "CurrentlyBlockedIPsUnblockConfirm": "Desbloquejar totes les IP bloquejades?",
         "CurrentlyBlockedIPsUnblockInfo": "Podeu desbloquejar les IP bloquejades per error per permetre que tornin a iniciar sessió.",

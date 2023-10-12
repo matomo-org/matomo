@@ -74,7 +74,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### Usage of authentication tokens
 * By default, new authentication tokens will be restricted to be used in POST requests only. This is recommended for improved security. This option can be unselected when creating a new token. Existing tokens will continue to work with both, POST and GET requests.
-* A new config setting `only_allow_posted_auth_tokens`, defaulting to `0`, has been added. Enabling this option will prevent any use of tokens in GET API requests.
+* A new config setting `only_allow_secure_auth_tokens`, defaulting to `0`, has been added. Enabling this option will prevent any use of tokens in GET API requests.
 
 ## Matomo 4.14.0
 

@@ -178,7 +178,10 @@ DataTable_RowAction.prototype.trigger = function (tr, e, subTableLabel, original
     }
 
     // ascend in action reports
-    if (subtable.closest('div.dataTable').data('table-type') === 'ActionsDataTable') {
+    var $dataTable = subtable.closest('div.dataTable');
+    if ($dataTable.hasClass('dataTableActions')
+      || $dataTable.data('table-type') === 'ActionsDataTable'
+    ) {
         var allClasses = tr.attr('class');
         var matches = allClasses.match(/level[0-9]+/);
         var level = parseInt(matches[0].substring(5, matches[0].length), 10);
@@ -369,8 +372,8 @@ DataTable_RowActions_RowEvolution.prototype.performAction = function (label, tr,
 };
 
 DataTable_RowActions_RowEvolution.prototype.getPrettyLabel = function getPrettyLabel(tr) {
-  if (tr.closest('.dataTableActions').length) {
-    return null; // actions tables don't need to override the pretty label, since they should not have a custom row identifier
+  if (!this.dataTable.props.row_identifier || this.dataTable.props.row_identifier === 'label') {
+    return null; // only necessary if a custom row identifier is provided for the report
   }
 
   var prettyLabel = [];

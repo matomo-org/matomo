@@ -1,6 +1,6 @@
 {
     "Widgetize": {
-        "DirectLink": "&rsaquo; Direkter Link",
+        "DirectLink": "› Direkter Link",
         "DisplayDashboardInIframe": "Sie können auch das komplette Matomo-Dashboard in Ihrer Anwendung oder Webseite in einem IFRAME anzeigen (%1$ssiehe Beispiel%2$s). Der Datumsparameter kann auf ein bestimmtes Kalenderdatum, \"heute\" oder \"gestern\" gesetzt werden. Der Zeitraumsparameter kann auf \"day\", \"week\", \"month\" oder \n \"year\" eingestellt werden. Der Sprachparameter kann auf den Sprachcode einer Übersetzung gesetzt werden, z. B. language=fr. Zum Beispiel können Sie für idSite=1 und date=yesterday schreiben:",
         "DisplayDashboardInIframeAllSites": "Sie können das Dashboard für alle Webseiten auch in einem IFRAME als Widget einrichten (%1$ssiehe Beispiel%2$s)",
         "EmbedIframe": "&rsaquo; Iframe einbetten",

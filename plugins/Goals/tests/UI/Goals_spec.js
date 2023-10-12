@@ -61,6 +61,7 @@ describe("Goals", function () {
         await page.waitForTimeout(100);
         await page.waitForSelector('.dimensionReport .dataTableVizGoals');
         await page.waitForNetworkIdle();
+        await page.mouse.move(-10, -10);
 
         var report = await page.$('.dimensionReport');
         expect(await report.screenshot()).to.matchImage('goals_by_page_titles');
@@ -74,6 +75,7 @@ describe("Goals", function () {
         await page.waitForTimeout(100);
         await page.waitForSelector('.dimensionReport .dataTableVizGoals');
         await page.waitForNetworkIdle();
+        await page.mouse.move(-10, -10);
 
         var report = await page.$('.dimensionReport');
         expect(await report.screenshot()).to.matchImage('goals_by_entry_pages');
@@ -87,6 +89,7 @@ describe("Goals", function () {
         await page.waitForTimeout(100);
         await page.waitForSelector('.dimensionReport .dataTableVizGoals');
         await page.waitForNetworkIdle();
+        await page.mouse.move(-10, -10);
 
         var report = await page.$('.dimensionReport');
         expect(await report.screenshot()).to.matchImage('goals_by_entry_page_titles');

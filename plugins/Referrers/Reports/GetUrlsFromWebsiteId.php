@@ -29,7 +29,6 @@ class GetUrlsFromWebsiteId extends Base
         $view->config->show_search = false;
         $view->config->show_exclude_low_population = false;
         $view->config->tooltip_metadata_name       = 'url';
-        $view->config->addTranslation('label', $this->dimension->getName());
     }
 
 }

@@ -1,23 +1,33 @@
 <template>
-  <div id="javascript-text">
-    <div>
-      <pre v-copy-to-clipboard="{}" class="codeblock" v-text="trackingCode" ref="trackingCode"/>
-    </div>
-  </div>
-  <JsTrackingCodeAdvancedOptions
-    :site="site"
-    :max-custom-variables="maxCustomVariables"
-    :server-side-do-not-track-enabled="serverSideDoNotTrackEnabled"
-    @updateTrackingCode="updateTrackingCode"
-    ref="jsTrackingCodeAdvanceOption"/>
+  <ol class="list-style-decimal">
+    <li>{{ translate('CoreAdminHome_JsTrackingCodeAdvancedOptionsStep') }}
+      <JsTrackingCodeAdvancedOptions
+          :site="site"
+          :max-custom-variables="maxCustomVariables"
+          :server-side-do-not-track-enabled="serverSideDoNotTrackEnabled"
+          @updateTrackingCode="updateTrackingCode"/>
+    </li>
+    <li>
+      <span>{{ getCopyCodeStep }}</span>
+      <div id="javascript-text">
+        <div>
+          <pre v-copy-to-clipboard="{}" class="codeblock" v-text="trackingCode" ref="trackingCode"/>
+        </div>
+      </div>
+    </li>
+    <template v-if="isJsTrackerInstallCheckAvailable">
+      <li><component :is="testComponent" :site="site"></component></li>
+    </template>
+  </ol>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue';
 import {
   SiteRef,
   CopyToClipboard,
+  translate,
+  useExternalPluginComponent,
 } from 'CoreHome';
-
 import JsTrackingCodeAdvancedOptions from './JsTrackingCodeAdvancedOptions.vue';
 
 interface JsTrackingCodeGeneratorSitesWithoutDataState {
@@ -35,6 +45,7 @@ export default defineComponent({
     maxCustomVariables: Number,
     serverSideDoNotTrackEnabled: Boolean,
     jsTag: String,
+    isJsTrackerInstallCheckAvailable: Boolean,
   },
   components: {
     JsTrackingCodeAdvancedOptions,
@@ -67,6 +78,17 @@ export default defineComponent({
           },
         }, 1500);
       }
+    },
+  },
+  computed: {
+    getCopyCodeStep() {
+      return translate('CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead', '</head>');
+    },
+    testComponent() {
+      if (this.isJsTrackerInstallCheckAvailable) {
+        return useExternalPluginComponent('JsTrackerInstallCheck', 'JsTrackerInstallCheck');
+      }
+      return '';
     },
   },
 });

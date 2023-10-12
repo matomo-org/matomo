@@ -15,6 +15,7 @@
         "ConfirmPasswordToContinue": "確認你的密碼以繼續",
         "ConfirmationLinkSent": "請前往你的 Email 信箱並點擊確認連結來確認變更密碼的要求。",
         "ContactAdmin": "可能原因：你的伺服器可能已經停用了 mail() 函式。<br />請聯絡你的 Matomo 管理員。",
+        "CreatePasswordDescription": "請你牢記這個密碼，並保存在安全的地方。",
         "CurrentlyBlockedIPs": "封鎖的 IP",
         "CurrentlyBlockedIPsUnblockConfirm": "解除所有封鎖的 IP？",
         "CurrentlyBlockedIPsUnblockInfo": "您可以解除因錯誤而被封鎖的 IP，以允許它們再次登入。",

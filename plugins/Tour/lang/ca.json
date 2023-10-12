@@ -1,9 +1,9 @@
 {
     "Tour": {
         "AddAnnotation": "Afegiu una anotació",
+        "AddAnotherWebsite": "Afegiu un altre lloc web",
         "AddReport": "Afegiu un informe programat",
         "AddSegment": "Afegiu un segment",
-        "AddWebsite": "Afegiu un lloc web",
         "BecomeMatomoExpert": "Converteix-te en un expert en Matomo",
         "BrowseMarketplace": "Exploreu el mercat",
         "ChallengeCompleted": "Enhorabona, el repte és complet.",

@@ -35,7 +35,7 @@
         "IPurchasedGeoIPDBs": "He comprat bases de dades més precises a %3$sdbip%4$s o %1$sMaxMind%2$s i vull configurar actualitzacions automàtiques.",
         "ISPDatabase": "Base de dades d'ISP",
         "ISPRequiresProviderPlugin": "El seguiment dels proveïdors de serveis d'Internet requereix que el connector del proveïdor estigui instal·lat i activat.",
-        "IWantToDownloadFreeGeoIP": "Vull descarregar la base de dades DBIP gratuïta...",
+        "IWantToDownloadFreeGeoIP": "Vull descarregar la base de dades DBIP gratuïta…",
         "InvalidGeoIPUpdateHost": "L'hoste de l'URL d'actualització de GeoIP %1$s no és de confiança. Per permetre la baixada d'actualitzacions de GeoIP des d'amfitrions diferents de %2$s, ajusteu el paràmetre de %3$s a la configuració.",
         "InvalidGeoIPUpdatePeriod": "Període no vàlid per a l'actualització de GeoIP: %1$s. Els valors vàlids són %2$s.",
         "LocationDatabase": "Base de dades d'ubicació",

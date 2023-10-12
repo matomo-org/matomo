@@ -1,9 +1,9 @@
 {
     "Tour": {
         "AddAnnotation": "Yeni bir not ekleyin",
+        "AddAnotherWebsite": "Başka bir site ekle",
         "AddReport": "Zamanlanmış bir rapor ekleyin",
         "AddSegment": "Yeni bir dilim ekleyin",
-        "AddWebsite": "Bir site ekleyin",
         "BecomeMatomoExpert": "Bir Matomo uzmanı olun",
         "BrowseMarketplace": "Mağazaya göz atın",
         "ChallengeCompleted": "Tebrikler bu eğitimi tamamladınız.",
@@ -13,8 +13,8 @@
         "CompletionTitle": "Tebrikler.",
         "ConfigureGeolocation": "Coğrafi konumu kurun",
         "ConfigureGeolocationDescription": "Ziyaretçilerin konumunun doğru olarak algılandığından emin olun.",
-        "ConnectConsentManager": "%1$s onay yöneticisi ile bağlantı kur",
-        "ConnectConsentManagerIntro": "Sitenizde %1$s onay yöneticisi algılandı. Birlikte çalışmaları için %1$s ile Matomo bağlantısının nasıl kurulacağını öğrenin.",
+        "ConnectConsentManager": "%1$s rıza yöneticisi ile bağlantı kur",
+        "ConnectConsentManagerIntro": "Sitenizde %1$s rıza yöneticisi algılandı. Birlikte çalışmaları için %1$s ile Matomo bağlantısının nasıl kurulacağını öğrenin.",
         "CustomiseDashboard": "Panonuzu kurun",
         "CustomiseDashboardDescription": "Panonuza en önemli ölçümleri görebilmenizi sağlayacak bileşenler ekleyebilirsiniz.",
         "DefineGoal": "Bir hedef ekleyin",

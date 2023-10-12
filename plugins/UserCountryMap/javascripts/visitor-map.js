@@ -1466,7 +1466,9 @@ $.extend(UserCountryMap, {
         "SVN": "region",
         "GBR": "region",
         "ESP": "fips-",
-        "USA": "p", "CAN": "p"
+        "ITA": "p",
+        "USA": "p",
+        "CAN": "p"
     },
 
     // custom country label positions [lon, lat]

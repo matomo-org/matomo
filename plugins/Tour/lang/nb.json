@@ -1,9 +1,9 @@
 {
     "Tour": {
         "AddAnnotation": "Legg til en anmerkning",
+        "AddAnotherWebsite": "Legg til enda en nettside",
         "AddReport": "Legg til en planlagt rapport",
         "AddSegment": "Legg til et segment",
-        "AddWebsite": "Legg til enda en nettside",
         "BecomeMatomoExpert": "Bli Matomo-ekspert",
         "BrowseMarketplace": "Utforsk markedsplass",
         "ChallengeCompleted": "Gratulerer, du har fullført denne utfordringen.",
@@ -24,6 +24,7 @@
         "Engagement": "Engasjement",
         "FlattenActions": "Listevisning av siderapport",
         "FlattenActionsDescription": "Gå til Oppførsel → Sider, og klikk tannhjulsikonet i bunnen av rapporten for listevisning. En rapport endrer da hierarkiet fra å være gruppert.",
+        "InviteUser": "Inviter en brker",
         "MatomoBeginner": "Matomo-begynner",
         "MatomoExpert": "Matomo-ekspert",
         "MatomoIntermediate": "Matomo-viderekommen",

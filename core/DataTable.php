@@ -767,7 +767,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         foreach ($this->rows as $id => $row) {
             $label = $row->getColumn('label');
             if ($label !== false) {
-                $this->rowsIndexByLabel[$label] = $id;
+                $this->rowsIndexByLabel[(string) $label] = $id;
             }
         }
 
@@ -846,7 +846,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         ) {
             $label = $row->getColumn('label');
             if ($label !== false) {
-                $this->rowsIndexByLabel[$label] = count($this->rows) - 1;
+                $this->rowsIndexByLabel[(string) $label] = count($this->rows) - 1;
             }
         }
         return $row;
@@ -2091,6 +2091,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
     public function sumRowWithLabel($label, array $columns, ?array $aggregationOps = null): DataTable\Row
     {
+        $label = $label ?? '';
+
         $tableRow = new DataTable\Row([DataTable\Row::COLUMNS => ['label' => $label] + $columns]);
 
         if ($label === RankingQuery::LABEL_SUMMARY_ROW) {

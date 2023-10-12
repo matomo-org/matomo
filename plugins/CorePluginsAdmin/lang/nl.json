@@ -9,7 +9,7 @@
         "AlwaysActivatedPluginsList": "De volgende plugins zijn altijd geactiveerd en kunnen niet worden uitgeschakeld: %s",
         "AreThereAnyRisks": "Zijn er risico's?",
         "AreThereAnyRisksDetails1": "Wanneer u de Tag Manager activeert, zullen gebruikers met beheerderstoegang de mogelijkheid hebben om aangepaste HTML-tags, triggers en variabelen te maken die Javascript kunnen uitvoeren op uw website. Deze aangepaste sjablonen kunnen misbruikt worden om bijvoorbeeld gevoelige informatie te stelen van uw websitebezoekers (gekend als %1$sXSS%2$s).",
-        "AreThereAnyRisksDetails2": "U kunt deze aangepaste sjablonen uitschakelen onder \"Administratie =&gt; Algemene instellingen\" van zodra u de Tag Manager geactiveerd heeft. Als alternatief kunt u ook het gebruik van deze sjablonen beperken voor specifieke gebruikers of enkel voor Superusers.",
+        "AreThereAnyRisksDetails2": "U kunt deze aangepaste sjablonen uitschakelen onder \"Administratie → Algemene instellingen\" van zodra u de Tag Manager geactiveerd heeft. Als alternatief kunt u ook het gebruik van deze sjablonen beperken voor specifieke gebruikers of enkel voor Superusers.",
         "AuthorHomepage": "Homepagina auteur",
         "ChangeLookByManageThemes": "U kunt het uiterlijk van Matomo wijzigen via %1$sThema's beheren%2$s.",
         "ChangeSettingsPossible": "Je kunt %1$sinstellingen%2$s aanpassen voor deze plugin.",

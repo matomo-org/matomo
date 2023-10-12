@@ -1,0 +1,26 @@
+<h2>{{ 'SitesManager_CmsAndWebsiteBuilders'|translate }}</h2>
+
+{% if instruction %}
+    <p>{{ instruction|raw }}</p>
+
+    {% if 'GoogleTagManager' in trackers %}
+        <p>{{ 'SitesManager_SiteWithoutDataDetectedGtm'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-within-gtm-google-tag-manager">','</a>')|raw }}</p>
+    {% endif %}
+
+    <p>{{ 'SitesManager_SiteWithoutDataOtherIntegrations'|translate }}: {{ 'CoreAdminHome_JSTrackingIntro3a'|translate('<a href="https://matomo.org/integrate/" rel="noreferrer noopener" target="_blank">','</a>')|raw }}</p>
+{% else %}
+    <p>{{ 'SitesManager_InstallationGuidesIntro'|translate }}</p>
+
+    <p>
+    {% for instructionUrl in instructionUrls %}
+        {% if not loop.first %} | {% endif %}<a target="_blank" rel="noreferrer noopener" href='{{ instructionUrl.instructionUrl }}'>{{ instructionUrl.name }}</a>
+    {% endfor %}
+    </p>
+
+    <p>{{ 'CoreAdminHome_JSTrackingIntro3a'|translate('<a href="https://matomo.org/integrate/" rel="noreferrer noopener" target="_blank">','</a>')|raw }}</p>
+    <p>{{ 'CoreAdminHome_JSTrackingIntro3b'|translate|raw }}</p>
+    <br>
+    <p>{{ 'SitesManager_ExtraInformationNeeded'|translate }}</p>
+    <p>Matomo URL: <code vue-directive="CoreHome.CopyToClipboard">{{ matomoUrl }}</code></p>
+    <p>{{ 'SitesManager_EmailInstructionsYourSiteId'|translate('<code vue-directive="CoreHome.CopyToClipboard">' ~ idSite ~ '</code>')|raw }}</p>
+{% endif %}

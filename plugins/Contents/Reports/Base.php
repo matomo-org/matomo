@@ -44,10 +44,6 @@ abstract class Base extends Report
         $view->config->datatable_css_class = 'ContentsDataTable';
         $view->config->show_table_all_columns = false;
 
-        if (!empty($this->dimension)) {
-            $view->config->addTranslations(array('label' => $this->dimension->getName()));
-        }
-
         $view->config->columns_to_display = array_merge(
             array('label'),
             array_keys($this->getMetrics()),

@@ -2,8 +2,8 @@
     "SitesManager": {
         "AddMeasurable": "Tilføj en ny målbar",
         "AddSite": "Tilføj en ny hjemmeside",
-        "AdvancedTimezoneSupportNotFound": "PHP understøtter ikke avancerede tidszoner (understøttes i PHP> = 5.2). Du kan stadig vælge en manuel UTC offset.",
-        "AliasUrlHelp": "Det anbefales, men er ikke nødvendigt at angive de forskellige netadresser, en på hver linje, som besøgende kan komme ind på hjemmesiden. Alias netadresser for et netsted, vises ikke i Henvisning> Hjemmesider rapport. Bemærk, at det ikke er nødvendigt at specificere netadresser med og uden 'www' da Matomo automatisk finder begge.",
+        "AdvancedTimezoneSupportNotFound": "PHP understøtter ikke avancerede tidszoner (understøttes i PHP&gt; = 5.2). Du kan stadig vælge en manuel UTC offset.",
+        "AliasUrlHelp": "Det anbefales, men er ikke nødvendigt at angive de forskellige netadresser, en på hver linje, som besøgende kan komme ind på hjemmesiden. Alias netadresser for et netsted, vises ikke i Henvisning → Hjemmesider rapport. Bemærk, at det ikke er nødvendigt at specificere netadresser med og uden 'www' da Matomo automatisk finder begge.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Ændring af tidszonen har kun virkning fremadrettet og vil ikke blive anvendt med tilbagevirkende kraft.",
         "Currency": "Valuta",
         "CurrencySymbolWillBeUsedForGoals": "Valutasymbolet vises i forbindelse med indtægter fra mål.",
@@ -70,7 +70,6 @@
         "SelectDefaultTimezone": "Du kan vælge en tidszone, der benyttes som standard for nye hjemmesider.",
         "ShowTrackingTag": "Vis sporingskode",
         "SiteSearchUse": "Du kan bruge Matomo til at spore og rapportere hvad besøgende søger efter i hjemmesidens interne søgemaskine.",
-        "SiteWithoutDataTitle": "Ingen data er registreret endnu. Sæt tingene op herunder",
         "Sites": "Hjemmesider",
         "SuperUserAccessCan": "En bruger med superbruger adgang kan også %1$s angive globale indstillinger %2$s for nye hjemmesider.",
         "Timezone": "Tidszone",

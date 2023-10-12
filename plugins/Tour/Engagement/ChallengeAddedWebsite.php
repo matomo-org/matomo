@@ -31,7 +31,7 @@ class ChallengeAddedWebsite extends Challenge
 
     public function getName()
     {
-        return Piwik::translate('Tour_AddWebsite');
+        return Piwik::translate('Tour_AddAnotherWebsite');
     }
 
     public function getDescription()

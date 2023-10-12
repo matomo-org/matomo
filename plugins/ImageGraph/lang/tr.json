@@ -1,6 +1,6 @@
 {
     "ImageGraph": {
         "ColumnOrdinateMissing": "'%1$s' sütunu bu raporda bulunamadı Herhangi bir %2$s deneyin.",
-        "PluginDescription": "Veri raporlarınız için güzel PNG çizelgeleri oluşturur."
+        "PluginDescription": "Veri raporlarınız için güzel PNG çizelge görselleri oluşturur."
     }
 }

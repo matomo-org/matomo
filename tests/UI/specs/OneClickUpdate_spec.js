@@ -96,10 +96,9 @@ describe("OneClickUpdate", function () {
             }
         }
 
-        await page.waitForSelector('.site-without-data', { visible: true });
-        await page.waitForNetworkIdle();
-        const element  = await page.$('.site-without-data');
-        expect(await element.screenshot()).to.matchImage('login');
+        // avoid taking an unnecessary screenshot, as knowing we land on #site-without-data is enough
+        await page.waitForSelector('#site-without-data', { visible: true });
+        await page.evaluate(() => window.stop()); // stop ongoing requests
     });
 
     it('should have a working cron archiving process', async function () {

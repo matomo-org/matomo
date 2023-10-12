@@ -9,6 +9,8 @@
 namespace Piwik\Plugins\Tour\Engagement;
 
 use Piwik\Piwik;
+use Piwik\Plugins\SitesManager\SiteContentDetection\ConsentManagerDetectionAbstract;
+use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
 use Piwik\SiteContentDetector;
 
 
@@ -17,6 +19,11 @@ class ChallengeSetupConsentManager extends Challenge
 
     /** @var SiteContentDetector */
     private $siteContentDetector;
+
+    /**
+     * @var ConsentManagerDetectionAbstract|null
+     */
+    private $detectedContentManager;
 
 
     /**
@@ -27,17 +34,19 @@ class ChallengeSetupConsentManager extends Challenge
     {
         parent::__construct();
         $this->siteContentDetector = $siteContentDetector;
-        $this->siteContentDetector->detectContent([SiteContentDetector::CONSENT_MANAGER], null, $siteData);
+        $this->siteContentDetector->detectContent([SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER], null, $siteData);
+        $contentManagers = $this->siteContentDetector->getDetectsByType(SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER);
+        $this->detectedContentManager = $this->siteContentDetector->getSiteContentDetectionById(reset($contentManagers));
     }
 
     public function getName()
     {
-        return Piwik::translate('Tour_ConnectConsentManager', [$this->siteContentDetector->consentManagerName]);
+        return Piwik::translate('Tour_ConnectConsentManager', [$this->getConsentManagerName()]);
     }
 
     public function getDescription()
     {
-        return Piwik::translate('Tour_ConnectConsentManagerIntro', [$this->siteContentDetector->consentManagerName]);
+        return Piwik::translate('Tour_ConnectConsentManagerIntro', [$this->getConsentManagerName()]);
     }
 
     public function getId()
@@ -47,30 +56,43 @@ class ChallengeSetupConsentManager extends Challenge
 
     public function getConsentManagerId()
     {
-        return $this->siteContentDetector->consentManagerId;
+        if (empty($this->detectedContentManager)) {
+            return null;
+        }
+
+        return $this->detectedContentManager::getId();
+    }
+
+    public function getConsentManagerName()
+    {
+        if (empty($this->detectedContentManager)) {
+            return '';
+        }
+
+        return $this->detectedContentManager::getName();
     }
 
     public function isCompleted(string $login)
     {
-        if (!$this->siteContentDetector->consentManagerId) {
+        if (empty($this->detectedContentManager)) {
             return true;
         }
 
-        return $this->siteContentDetector->isConnected;
+        return in_array($this->detectedContentManager::getId(), $this->siteContentDetector->connectedConsentManagers);
     }
 
     public function isDisabled()
     {
-        return ($this->siteContentDetector->consentManagerId === null);
+        return empty($this->detectedContentManager);
     }
 
     public function getUrl()
     {
-        if ($this->siteContentDetector->consentManagerId === null) {
+        if (empty($this->detectedContentManager)) {
             return '';
         }
 
-        return $this->siteContentDetector->consentManagerUrl;
+        return $this->detectedContentManager::getInstructionUrl();
     }
 
 }

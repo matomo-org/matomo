@@ -175,7 +175,7 @@ export default defineComponent({
       return result;
     },
     siteName(): string {
-      return Matomo.helper.htmlDecode(Matomo.siteName);
+      return Matomo.helper.htmlEntities(Matomo.helper.htmlDecode(Matomo.siteName));
     },
   },
 });

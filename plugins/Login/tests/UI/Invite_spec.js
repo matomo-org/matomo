@@ -45,7 +45,7 @@ describe('Invite', function () {
       $('#login_form_submit').click();
     });
     // should show site without data page
-    await page.waitForNetworkIdle();
-    await page.waitForSelector('.site-without-data');
+    await page.waitForSelector('#site-without-data', {visible: true});
+    await page.evaluate(() => window.stop()); // stop ongoing requests
   });
 });

@@ -87,6 +87,7 @@ class SegmentGeneratorStore {
       return this.state.value.segments;
     }).finally(() => {
       this.privateState.isLoading = false;
+      delete this.loadSegmentsPromise;
     });
   }
 }

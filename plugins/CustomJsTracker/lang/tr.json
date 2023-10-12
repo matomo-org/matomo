@@ -1,8 +1,8 @@
 {
     "CustomJsTracker": {
         "DiagnosticPiwikJsMakeWritable": "Şu komutu kullanarak %1$s dosyasını yazılabilir yapmanız önerilir: %2$s",
-        "DiagnosticPiwikJsNotWritable": "%s Matomo JavaScript izleyici dosyası yazılabilir olmadığından diğer uygulama ekleri JavaScript izleyiciyi kullanamaz. İleride bazı temel özellikler de beklendiği gibi çalışmayabilir.",
+        "DiagnosticPiwikJsNotWritable": "%s Matomo JavaScript izleyici dosyası yazılabilir olmadığından diğer eklentiler JavaScript izleyiciyi kullanamaz. İleride bazı temel özellikler de beklendiği gibi çalışmayabilir.",
         "DiagnosticPiwikJsWritable": "Yazılabilir JavaScript izleyici (%s)",
-        "PluginDescription": "Matomo JavaScript İzleme dosyasına (matomo.js) tüm uygulama eklerinin katkıda bulunmasını sağlayarak yeni özellik ve site ölçüm yetenekleri ekler."
+        "PluginDescription": "Matomo JavaScript İzleme dosyasına (matomo.js) tüm eklentilerin katkıda bulunmasını sağlayarak yeni özellik ve site ölçüm yetenekleri ekler."
     }
 }

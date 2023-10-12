@@ -136,6 +136,7 @@
         "SystemPluginSettings": "System Plugin Settings",
         "TrackAGoal": "Track a goal",
         "TrackingCode": "Tracking Code",
+        "JavaScriptCode": "JavaScript Code",
         "TrackingCodeIntro": "Matomo offers you various ways to embed the tracking code for your website, mobile app, and even for any device or application.",
         "TrackingFailureAuthenticationProblem": "Request was not authenticated but authentication was required.",
         "TrackingFailureAuthenticationSolution": "Set or correct a \"token_auth\" in your tracking request.",
@@ -161,6 +162,8 @@
         "WhatIsNewTitle": "Here's what's new in Matomo",
         "WhatIsNewNoChangesTitle": "No recent changes",
         "WhatIsNewNoChanges": "There's nothing new at the moment",
+        "WhatIsNewDoNotShowAgain": "Don't show again",
+        "WhatIsNewRemindMeLater": "Remind me later",
         "WithOptionalRevenue": "with optional revenue",
         "YouAreNotOptedOut": "You are not opted out.",
         "YouAreOptedOut": "You are currently opted out.",
@@ -183,6 +186,7 @@
         "ShowAdvancedOptions": "Show advanced options",
         "HideAdvancedOptions": "Hide advanced options",
         "JSTrackingDocumentationHelp": "For easy access, the most popular advanced options are available below. For even more options (including how to track goals, custom variables, ecommerce orders and abandoned carts) please check out the %1$sMatomo Javascript Tracking documentation%2$s.",
-        "ReactDescription": "If your website is using React, please see %1$sthis guide%2$s."
+        "ReactDescription": "If your website is using React, please see %1$sthis guide%2$s.",
+        "JsTrackingCodeAdvancedOptionsStep": "Optional: use the advanced options to customise your tracking code."
     }
 }

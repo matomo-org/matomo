@@ -89,8 +89,6 @@ class GetCustomDimension extends Report
 
         if ($view->requestConfig->idSubtable) {
             $view->config->addTranslation('label', Piwik::translate('Actions_ColumnActionURL'));
-        } elseif (!empty($this->dimension)) {
-            $view->config->addTranslation('label', $this->dimension->getName());
         }
 
         $view->requestConfig->request_parameters_to_modify['idDimension'] = $idDimension;

@@ -67,7 +67,7 @@
         "PseudonymizeUserIdNote2": "Nota: reemplazar con un seudónimo no es lo mismo que anonimizar. En términos de GDPR: el seudónimo de ID de usuario todavía cuenta como datos personales. La ID de usuario original aún podría identificarse si cierta información adicional está disponible (a la que solo Matomo y su procesador de datos tienen acceso).",
         "PurgeNow": "Purgar base de datos ahora",
         "PurgeNowConfirm": "Está a punto de borrar información permanentemente de su base de datos. ¿Está seguro que desea continuar?",
-        "PurgingData": "Purgando información...",
+        "PurgingData": "Purgando información…",
         "RecommendedForPrivacy": "Recomendado por privacidad",
         "ReportsDataSavedEstimate": "Tamaño de la base de datos",
         "SaveSettingsBeforePurge": "Ha cambiado la configuración de borrado de información. Por favor, guárdelas antes de iniciar la purga.",

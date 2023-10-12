@@ -42,7 +42,7 @@
         "VisitedPages": "Páginas visitadas",
         "VisitorLog": "Registro de visitas",
         "VisitorLogDocumentation": "Esta tabla muestra las últimas visitas en el rango de fecha seleccionado. Puede ver cuándo fue la última visita de un visitante posicionándose sobre la fecha de la visita. %1$s Si el rango de fecha incluye el día actual, ¡puede ver a sus visitantes en tiempo real! %2$s La información mostrada aquí es siempre en tiempo real, independientemente de si -y con qué frecuencia- está utilizando un cron para archivar.",
-        "VisitorLogNoDataMessagePurged": "Es probable que los datos se hayan borrado porque la eliminación regular de los datos antiguos sin procesar está habilitada y la fecha de este informe tiene más de %s días de antigüedad. Un superusuario puede cambiar esta configuración yendo a Administración => Privacidad.",
+        "VisitorLogNoDataMessagePurged": "Es probable que los datos se hayan borrado porque la eliminación regular de los datos antiguos sin procesar está habilitada y la fecha de este informe tiene más de %s días de antigüedad. Un superusuario puede cambiar esta configuración yendo a Administración → Privacidad.",
         "VisitorProfile": "Perfil de visitante",
         "VisitorsInRealTime": "Visitas en tiempo real",
         "VisitorsLastVisit": "La última visita de este visitante fue hace %s días.",

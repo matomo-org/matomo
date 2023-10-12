@@ -47,7 +47,6 @@ class GetContinent extends Base
         $view->config->show_pagination_control = false;
         $view->config->show_limit_control = false;
         $view->config->documentation = $this->documentation;
-        $view->config->addTranslation('label', $this->dimension->getName());
     }
 
 }

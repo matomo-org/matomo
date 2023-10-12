@@ -151,6 +151,7 @@ class CoreAdminHome extends \Piwik\Plugin
         $translationKeys[] = 'General_OnlyUsedIfUserPwdIsSet';
         $translationKeys[] = 'General_SmtpUsername';
         $translationKeys[] = 'General_OnlyEnterIfRequired';
+        $translationKeys[] = 'General_Plugins';
         $translationKeys[] = 'General_SmtpPassword';
         $translationKeys[] = 'General_SmtpFromAddress';
         $translationKeys[] = 'General_SmtpFromEmailHelp';
@@ -216,5 +217,6 @@ class CoreAdminHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreAdminHome_HideAdvancedOptions';
         $translationKeys[] = 'CoreAdminHome_JSTrackingDocumentationHelp';
         $translationKeys[] = 'CoreAdminHome_ReactDescription';
+        $translationKeys[] = 'CoreAdminHome_JsTrackingCodeAdvancedOptionsStep';
     }
 }

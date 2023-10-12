@@ -45,7 +45,7 @@ class ComparisonRowGenerator
             $this->compareTable($compareMetadata, $tables, $compareTables, $compareTables);
         } else if ($tables instanceof DataTable\Map) {
             $childTablesArray = array_values($tables->getDataTables());
-            $compareTablesArray = isset($compareTables) ? array_values($compareTables->getDataTables()) : [];
+            $compareTablesArray = ($compareTables instanceof DataTable\Map) ? array_values($compareTables->getDataTables()) : [];
 
             $isDatePeriod = $tables->getKeyName() == 'date';
 

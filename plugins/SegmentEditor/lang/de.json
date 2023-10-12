@@ -24,7 +24,7 @@
         "DefaultAllVisits": "Alle Besuche",
         "DragDropCondition": "„Drag &amp; Drop“-Bedingung",
         "HideMessageInFuture": "Diese Meldung nicht mehr anzeigen",
-        "LoadingSegmentedDataMayTakeSomeTime": "Die Verarbeitung der segmentierten Besucherdaten kann einige Minuten dauern...",
+        "LoadingSegmentedDataMayTakeSomeTime": "Die Verarbeitung der segmentierten Besucherdaten kann einige Minuten dauern…",
         "OperatorAND": "UND",
         "OperatorOR": "ODER",
         "PluginDescription": "Ein Segment ist eine Sammlung an Kriterien, um nur einen Teil einer grossen Menge von Besuchen herauszufiltern. In dem Sie Segmente verwenden, können Sie Ihren Berichten praktisch beliebig skalierbar Kontext hinzufügen.",

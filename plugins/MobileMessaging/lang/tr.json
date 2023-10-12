@@ -5,7 +5,7 @@
         "MobileReport_AdditionalPhoneNumbers": "Şuraya erişerek daha fazla telefon numarası ekleyebilirsiniz",
         "MobileReport_MobileMessagingSettingsLink": "Mobil iletişim ayarları sayfası",
         "MobileReport_NoPhoneNumbers": "Şuraya erişerek en az bir telefon numarasını etkinleştirin",
-        "MultiSites_Must_Be_Activated": "Site istatistiklerinizin için SMS iletilerinin gönderilebilmesi için lütfen Matomo MultiSites uygulama ekini etkinleştirin.",
+        "MultiSites_Must_Be_Activated": "Site istatistiklerinizin için SMS iletilerinin gönderilebilmesi için lütfen Matomo MultiSites eklentisini etkinleştirin.",
         "PhoneNumbers": "Telefon numaraları",
         "PluginDescription": "Özel SMS bildirimlerini ekleyip indirerek günlük, haftalık ve aylık bazda cep telefonunuza gönderilmesini sağlayın.",
         "SMS_Content_Too_Long": "[çok uzun]",

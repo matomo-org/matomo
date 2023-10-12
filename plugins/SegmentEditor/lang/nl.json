@@ -24,7 +24,7 @@
         "DefaultAllVisits": "Alle bezoeken",
         "DragDropCondition": "Sleep &amp; verplaats voorwaarde",
         "HideMessageInFuture": "Verberg dit bericht in de toekomst",
-        "LoadingSegmentedDataMayTakeSomeTime": "Verwerking van gesegmenteerde bezoeker gegevens kan enkele minuten duren ...",
+        "LoadingSegmentedDataMayTakeSomeTime": "Verwerking van gesegmenteerde bezoeker gegevens kan enkele minuten duren …",
         "OperatorAND": "AND",
         "OperatorOR": "OR",
         "PluginDescription": "Een segment is een set criteria die wordt gebruikt om slechts een deel van de hele set bezoeken te selecteren. Met behulp van segmenten kan je willekeurige context terug in uw rapporten injecteren.",

@@ -844,6 +844,7 @@ class Row extends \ArrayObject
         $subtable = $this->getSubtable();
         if (empty($subtable)) {
             $subtable = new DataTable();
+            $subtable->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $aggregationOps);
             $this->setSubtable($subtable);
         }
 

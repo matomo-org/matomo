@@ -176,8 +176,14 @@ nav {
       .quick-access {
         width: auto !important;
 
+        input {
+          padding-left: 15px !important;
+        }
+
         .icon-search {
-          left: 30px;
+          position: absolute;
+          left: unset;
+          right: 36px;
         }
       }
     }
@@ -200,6 +206,10 @@ nav {
       .menu-icon {
         padding-right: 13px;
         display: inline;
+      }
+
+      .reporting-menu-sub-icon {
+        padding-left: 10px;
       }
 
       > li {
@@ -403,18 +413,15 @@ nav {
   .top_controls {
     visibility: hidden;
     opacity: 0;
-    z-index: 45;
     padding-left: 16px;
 
     @media screen and (max-width: 600px){
       visibility: hidden;
       opacity: 0;
-      z-index: 45;
       padding-left: 0;
     }
 
     .quick-access {
-      z-index: 1000;
       position: absolute;
       width: 208px;
       margin-left: 0;
@@ -452,6 +459,35 @@ nav {
       margin-bottom: 10px;
     }
   }
+}
+
+.badge-menu-item-container {
+  line-height: inherit;
+  position: relative;
+}
+.badge-menu-item {
+  position: absolute;
+  top: 12px;
+  left: 23px;
+  line-height: 1.25;
+  background-color: rgba(212, 19, 13, 1);
+  color: #fff;
+  border-radius: 8px;
+  padding: 4px 6px;
+  font-size: 9px;
+  font-weight: bold;
+}
+
+.whatisnew-changelist {
+  overflow-y: scroll;
+  max-height: 500px;
+  margin-bottom: 10px;
+  padding-right: 5px;
+}
+
+.whatisnew-btn {
+  float:right;
+  margin-left: 10px;
 }
 
 #root, #standalone {

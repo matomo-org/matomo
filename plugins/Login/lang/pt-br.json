@@ -15,6 +15,7 @@
         "ConfirmPasswordToContinue": "Confirme sua senha para continuar",
         "ConfirmationLinkSent": "Abra o link de confirmação enviado para sua caixa de entrada de e-mail para confirmar a alteração de sua senha.",
         "ContactAdmin": "Possível motivo: seu host pode ter desabilitado a função mail(). <br>Por favor entre em contato com o seu administrador do Matomo.",
+        "CreatePasswordDescription": "Certifique-se de que você irá lembrar desta senha e mantenha-a em lugar seguro.",
         "CurrentlyBlockedIPs": "IPs bloqueados",
         "CurrentlyBlockedIPsUnblockConfirm": "Desbloquear todos os IPs bloqueados?",
         "CurrentlyBlockedIPsUnblockInfo": "Você pode desbloquear IPs bloqueados por engano para permitir que eles façam login novamente.",

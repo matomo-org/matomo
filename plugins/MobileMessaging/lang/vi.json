@@ -7,6 +7,8 @@
         "MultiSites_Must_Be_Activated": "Để tạo ra các văn bản tin nhắn SMS về số liệu thống kê trang web của bạn, vui lòng kích hoạt MultiSites plugin trong Matomo.",
         "PhoneNumbers": "Các số điện thoại của bạn",
         "PluginDescription": "Tạo ra và tải về báo cáo tin nhắn SMS tùy chỉnh và họ đã gửi đến điện thoại của bạn theo hàng ngày, hàng tuần hoặc hàng tháng.",
+        "SMS_Content_Too_Long": "[quá lâu]",
+        "SettingsMenu": "Tin nhắn trên điện thoại di động",
         "Settings_APIKey": "Khóa API",
         "Settings_CountryCode": "Mã quốc gia",
         "Settings_CredentialNotProvided": "Trước khi bạn có thể tạo và quản lý các số điện thoại, hãy kết nối Matomo với tài khoản SMS của bạn ở trên.",
@@ -28,10 +30,8 @@
         "Settings_SuspiciousPhoneNumber": "Nếu bạn không nhận được tin nhắn văn bản, bạn có thể thử ngoài hàng 0 đầu. tức là. %s",
         "Settings_UpdateOrDeleteAccount": "Bạn cũng có thể %1$s cập nhật %2$s hoặc %3$s xóa %4$s tài khoản này.",
         "Settings_ValidatePhoneNumber": "Xác nhận",
-        "SettingsMenu": "Tin nhắn trên điện thoại di động",
-        "SMS_Content_Too_Long": "[quá lâu]",
         "TopLinkTooltip": "Nhận các báo cáo Web Analytics đã được gửi đến hộp thư email của bạn hoặc điện thoại di động của bạn!",
         "TopMenu": "Các báo cáo Email & SMS",
-        "VerificationText": "Mã số là %1$s. Để xác nhận số điện thoại của bạn và nhận được báo cáo SMS Matomo hãy sao chép mã này trong mẫu truy cập thông qua Matomo > %2$s> %3$s."
+        "VerificationText": "Mã số là %1$s. Để xác nhận số điện thoại của bạn và nhận được báo cáo SMS Matomo hãy sao chép mã này trong mẫu truy cập thông qua Matomo → %2$s → %3$s."
     }
 }

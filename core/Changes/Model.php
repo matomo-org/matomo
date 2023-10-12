@@ -31,21 +31,17 @@ class Model
     const CHANGES_EXIST = 1;
     const NEW_CHANGES_EXIST = 2;
 
-    private $pluginManager;
-
     /**
      * @var Db\AdapterInterface
      */
     private $db;
 
-    /**
-     * @param Db\AdapterInterface|null $db
-     * @param PluginManager|null $pluginManager
-     */
-    public function __construct(?Db\AdapterInterface $db = null, ?PluginManager $pluginManager = null)
+    /** @var array */
+    private $changeItems = null;
+
+    public function __construct()
     {
-        $this->db = ($db ?? Db::get());
-        $this->pluginManager = ($pluginManager ?? PluginManager::getInstance());
+        $this->db = Db::get();
     }
 
     /**
@@ -57,9 +53,15 @@ class Model
      */
     public function addChanges(string $pluginName): void
     {
-        if ($this->pluginManager->isValidPluginName($pluginName) && $this->pluginManager->isPluginInFilesystem($pluginName)) {
+        $pluginManager = PluginManager::getInstance();
 
-            $plugin = $this->pluginManager->loadPlugin($pluginName);
+        if ($pluginManager &&
+            $pluginManager->isValidPluginName($pluginName) &&
+            $pluginManager->isPluginInFilesystem($pluginName) &&
+            $pluginManager->isPluginActivated($pluginName))
+        {
+
+            $plugin = $pluginManager->loadPlugin($pluginName);
             if (!$plugin) {
                 return;
             }
@@ -139,11 +141,11 @@ class Model
      */
     public function doChangesExist(?int $newerThanId = null): int
     {
-        $changes = $this->getChangeItems();
+        $changeItems = $this->getChangeItems();
 
         $all = 0;
         $new = 0;
-        foreach ($changes as $c) {
+        foreach ($changeItems as $c) {
             $all++;
             if ($newerThanId === null || (isset($c['idchange']) && $c['idchange'] > $newerThanId)) {
                 $new++;
@@ -160,6 +162,25 @@ class Model
     }
 
     /**
+     * Get count of new changes
+     *
+     * @param int|null $newerThanId     Only count new changes as having a key > than this sequential key
+     *
+     * @return int
+     */
+    public function getNewChangesCount(?int $newerThanId = null): int
+    {
+        $changes = $this->getChangeItems();
+        $new = 0;
+        foreach ($changes as $c) {
+            if ($newerThanId === null || (isset($c['idchange']) && $c['idchange'] > $newerThanId)) {
+                $new++;
+            }
+        }
+        return $new;
+    }
+
+    /**
      * Return an array of change items from the changes table
      *
      * @return array
@@ -167,6 +188,11 @@ class Model
      */
     public function getChangeItems(): array
     {
+
+        if ($this->changeItems !== null) {
+            return $this->changeItems;
+        }
+
         $showAtLeast = 10; // Always show at least this number of changes
         $expireOlderThanDays = 90; // Don't show changes that were added to the table more than x days ago
 
@@ -213,7 +239,9 @@ class Model
          */
         Piwik::postEvent('Changes.filterChanges', array(&$changes));
 
-        return $changes;
+        $this->changeItems = $changes;
+
+        return $this->changeItems;
     }
 
 }

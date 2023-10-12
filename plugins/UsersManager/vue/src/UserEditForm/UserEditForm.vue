@@ -83,7 +83,7 @@
             href=""
             class="entityCancelLink"
           >
-            <span class="icon-arrow-left-2">&nbsp;
+            <span class="icon-arrow-left">&nbsp;
             </span>{{ translate('UsersManager_BackToUser') }}</a>
         </div>
       </div>
@@ -176,7 +176,7 @@
               class="entityCancelLink"
               @click.prevent="onDoneEditing()"
             >
-              <span class="icon icon-arrow-left-2">&nbsp;
+              <span class="icon icon-arrow-left">&nbsp;
               </span>{{ translate('UsersManager_BackToUser') }}</a>
           </div>
         </div>

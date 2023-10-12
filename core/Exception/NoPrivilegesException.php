@@ -8,6 +8,12 @@
  */
 namespace Piwik\Exception;
 
-class NoPrivilegesException extends Exception
+use Piwik\Http\HttpCodeException;
+
+class NoPrivilegesException extends Exception implements HttpCodeException
 {
+    public function __construct($message, $code = 401)
+    {
+        parent::__construct($message, $code);
+    }
 }

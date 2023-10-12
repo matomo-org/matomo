@@ -67,8 +67,6 @@ class GetPageTitlesFollowingSiteSearch extends SiteSearchBase
 
     protected function configureViewForUrlAndTitle(ViewDataTable $view, $title)
     {
-        $view->config->addTranslations(array('label' => $this->dimension->getName()));
-
         $view->config->title = $title;
         $view->config->columns_to_display          = array('label', 'nb_hits_following_search', 'nb_hits');
         $view->config->show_exclude_low_population = false;

@@ -6,23 +6,20 @@ use Piwik\SiteContentDetector;
 
 class FakeSiteContentDetector extends SiteContentDetector
 {
-
-    private $mockData;
-
-    public function __construct($mockData = [])
+    public function __construct($detectedContentDetections = [], $connectedConsentManagers = [])
     {
-        $this->mockData = $mockData;
-        parent::__construct(null);
+        foreach ($detectedContentDetections as $detectedContentDetection) {
+            $class = $this->getSiteContentDetectionById($detectedContentDetection);
+            $this->detectedContent[$class::getContentType()][$detectedContentDetection] = true;
+        }
+
+        $this->connectedConsentManagers  = $connectedConsentManagers;
+        parent::__construct();
     }
 
-    public function detectContent(array $detectContent = [SiteContentDetector::ALL_CONTENT],
+    public function detectContent(array $detectContent = [],
                                   ?int $idSite = null, ?array $siteResponse = null, int $timeOut = 60): void
     {
-        foreach ($this->mockData as $property => $value) {
-            if (property_exists($this, $property)) {
-               $this->{$property} = $value;
-            }
-        }
+        // skip any detections
     }
-
 }

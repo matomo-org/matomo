@@ -146,7 +146,8 @@ class API extends \Piwik\Plugin\API
                  . 'URL: ' . Url::getReferrer() . "\n";
 
         $mail = new Mail();
-        $mail->setFrom(Piwik::getCurrentUserEmail());
+        $mail->setDefaultFromPiwik();
+        $mail->addReplyTo(Piwik::getCurrentUserEmail());
         $mail->addTo($feedbackEmailAddress, 'Matomo Team');
         $mail->setSubject($subject);
         $mail->setBodyText($body);

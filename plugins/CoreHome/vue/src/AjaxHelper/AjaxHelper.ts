@@ -68,7 +68,7 @@ type AnyFunction = (...params:any[]) => any; // eslint-disable-line
  */
 function defaultErrorCallback(deferred: XMLHttpRequest, status: string): void {
   // do not display error message if request was aborted
-  if (status === 'abort') {
+  if (status === 'abort' || !deferred || deferred.status === 0) {
     return;
   }
 
@@ -77,13 +77,10 @@ function defaultErrorCallback(deferred: XMLHttpRequest, status: string): void {
     return;
   }
 
-  const loadingError = $('#loadingError');
   if (Piwik_Popover.isOpen() && deferred && deferred.status === 500) {
-    if (deferred && deferred.status === 500) {
-      $(document.body).html(piwikHelper.escape(deferred.responseText));
-    }
+    $(document.body).html(piwikHelper.escape(deferred.responseText));
   } else {
-    loadingError.show();
+    $('#loadingError').show();
   }
 }
 
@@ -533,7 +530,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
           return;
         }
 
-        if (xhr.statusText === 'abort') {
+        if (xhr.statusText === 'abort' || xhr.status === 0) {
           return;
         }
 

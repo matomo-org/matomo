@@ -1,9 +1,12 @@
 <?php
 
+use Piwik\Container\Container;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\Diagnostics\Diagnostic\FileIntegrityCheck;
 use Piwik\Plugins\Diagnostics\Diagnostic\PhpVersionCheck;
 use Piwik\Plugins\Diagnostics\Diagnostic\RequiredPrivateDirectories;
+use Piwik\SiteContentDetector;
+use Piwik\Tests\Framework\Mock\FakeSiteContentDetector;
 
 return [
 
@@ -44,6 +47,14 @@ return [
         $config->General['trusted_hosts'][] = $config->tests['http_host'];
         $config->General['trusted_hosts'][] = $config->tests['http_host'] . ':' . $config->tests['port'];
         return $config;
+    }),
+
+    // avoid any site content detection checks
+    SiteContentDetector::class  => \Piwik\DI::decorate(function ($previous, Container $c) {
+        $detectedContentDetections = $c->get('test.vars.detectedContentDetections') ?: [];
+        $connectedConsentManagers = $c->get('test.vars.connectedConsentManagers') ?: [];
+
+        return new FakeSiteContentDetector($detectedContentDetections, $connectedConsentManagers);
     }),
 
     'observers.global' => \Piwik\DI::add([

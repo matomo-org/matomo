@@ -122,7 +122,7 @@
         "PluginDescription": "Increase Privacy for your users and make your Matomo instance privacy compliant with your local legislation.",
         "PurgeNow": "Purge DB Now",
         "PurgeNowConfirm": "You are about to permanently delete data from your database. Are you sure you want to continue?",
-        "PurgingData": "Purging data...",
+        "PurgingData": "Purging data…",
         "RecommendedForPrivacy": "Recommended for privacy",
         "ReportsDataSavedEstimate": "Database size",
         "SearchForDataSubject": "Search for a data subject",

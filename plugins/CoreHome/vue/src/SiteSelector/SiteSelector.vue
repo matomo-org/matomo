@@ -27,7 +27,7 @@
       :title="selectorLinkTitle"
     >
       <span
-        class="icon icon-arrow-bottom"
+        class="icon icon-chevron-down"
         :class="{'iconHidden': isLoading, 'collapsed': !showSitesList}"
       />
       <span>

@@ -1,5 +1,6 @@
 {
     "MobileMessaging": {
+        "Available_Credits": "Créditos disponibles: %1$s",
         "Exception_UnknownProvider": "Nombre del proveedor \"%1$s\" desconocido. Intentá con los siguientes: %2$s.",
         "MobileReport_AdditionalPhoneNumbers": "Podés agregar más números telefónicos accediendo",
         "MobileReport_MobileMessagingSettingsLink": "página de configuración de mensajería móvil",
@@ -7,16 +8,17 @@
         "MultiSites_Must_Be_Activated": "Para generar mensajes de texto de las estadísticas de tu sitio web, por favor habilitá el plugin MultiSites en Matomo.",
         "PhoneNumbers": "Números telefónicos",
         "PluginDescription": "Creá informes personalizados y descargalos vía mensajes de texto a su teléfono celular de forma diaria, semanal o mensual.",
+        "SMS_Content_Too_Long": "[demasiado largo]",
+        "SettingsMenu": "Mensajería móvil",
         "Settings_APIKey": "Clave API",
         "Settings_CountryCode": "Código de país",
-        "Settings_SelectCountry": "Seleccionar país",
+        "Settings_CredentialInvalid": "Tu cuenta API de mensajes de texto de %1$s está configurada, pero ocurrió un error al intentar recibir los créditos disponibles.",
         "Settings_CredentialNotProvided": "Antes que puedas crear y administrar números de teléfono, por favor, conectá Matomo a tu cuenta de mensajes de texto arriba.",
         "Settings_CredentialNotProvidedByAdmin": "Antes que puedas crear y administrar números de teléfono, por favor, pedile a tu administrador que conecte Matomo a una cuenta de mensajes de texto.",
         "Settings_CredentialProvided": "¡Tu %s cuenta API SMS está correctamente configurada!",
-        "Settings_CredentialInvalid": "Tu cuenta API de mensajes de texto de %1$s está configurada, pero ocurrió un error al intentar recibir los créditos disponibles.",
-        "Settings_DeleteAccountConfirm": "¿Estás seguro que querés eliminar esta cuenta SMS?",
-        "Settings_DelegatedSmsProviderOnlyAppliesToYou": "El proveedor de mensajes de texto configurado sólo será usado por vos y por ningún otro usuario.",
         "Settings_DelegatedPhoneNumbersOnlyUsedByYou": "Los números de teléfono configurados sólo pueden ser vistos y usados por vos y por ningún otro usuario.",
+        "Settings_DelegatedSmsProviderOnlyAppliesToYou": "El proveedor de mensajes de texto configurado sólo será usado por vos y por ningún otro usuario.",
+        "Settings_DeleteAccountConfirm": "¿Estás seguro que querés eliminar esta cuenta SMS?",
         "Settings_EnterActivationCode": "Ingresar código de activación",
         "Settings_InvalidActivationCode": "El código ingresado no es válido. Por favor, intentalo de nuevo.",
         "Settings_LetUsersManageAPICredential": "Permitir a los usuarios administrar sus propias credenciales API de sus SMS",
@@ -32,17 +34,15 @@
         "Settings_PleaseSignUp": "Para crear informes SMS y recibir mensajes de texto con las estadísticas de sus sitios de Internet en tu teléfono celular, por favor, registrate con la API de SMS e ingresá tu información abajo.",
         "Settings_SMSAPIAccount": "Administrar API de la cuenta SMS",
         "Settings_SMSProvider": "Proveedor SMS",
+        "Settings_SelectCountry": "Seleccionar país",
         "Settings_SuperAdmin": "Configuraciones de súperusuario",
         "Settings_SuspiciousPhoneNumber": "Si no recibís el mensaje de texto, podés intentarlo sin el cero inicial. Por ejemplo: %s",
         "Settings_UpdateOrDeleteAccount": "También podés %1$sactualizar%2$s o %3$seliminar%4$s esta cuenta.",
         "Settings_ValidatePhoneNumber": "Verificar",
         "Settings_VerificationCodeJustSent": "Te acabamos de enviar un mensaje de texto a este número con un código. Por favor, ingresá ese código arriba y hacé clic en \"Validar\".",
-        "SettingsMenu": "Mensajería móvil",
-        "SMS_Content_Too_Long": "[demasiado largo]",
-        "Available_Credits": "Créditos disponibles: %1$s",
         "TopLinkTooltip": "¡Obtené informes de análisis de tu sitio web enviados a tu casilla de correo electrónico o a tu teléfono celular!",
         "TopMenu": "Informes por correo electrónico y mensajes de texto",
         "UserKey": "Clave de usuario",
-        "VerificationText": "El código es: %1$s. Para validar tu número telefónico y recibir informes de Matomo vía mensajes de texto, por favor, copiá este código en el formulario que se encuentra en Matomo > %2$s > %3$s."
+        "VerificationText": "El código es: %1$s. Para validar tu número telefónico y recibir informes de Matomo vía mensajes de texto, por favor, copiá este código en el formulario que se encuentra en Matomo → %2$s → %3$s."
     }
 }

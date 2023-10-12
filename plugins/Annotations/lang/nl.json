@@ -1,22 +1,22 @@
 {
     "Annotations": {
-        "AddAnnotationsFor": "Notities toevoegen voor %s...",
+        "AddAnnotationsFor": "Notities toevoegen voor %s…",
         "AnnotationOnDate": "Notitie op %1$s: %2$s",
         "Annotations": "Notities",
         "ClickToDelete": "Klik om deze notitie te verwijderen.",
         "ClickToEdit": "Klik om deze notitie te bewerken.",
         "ClickToEditOrAdd": "Klik om te bewerken of een nieuwe notitie toe te voegen.",
         "ClickToStarOrUnstar": "Klik om deze notitie te markeren of niet te markeren.",
-        "CreateNewAnnotation": "Nieuwe notitie toevoegen...",
-        "EnterAnnotationText": "Schrijf je notitie...",
-        "HideAnnotationsFor": "Verberg notities voor %s...",
+        "CreateNewAnnotation": "Nieuwe notitie toevoegen…",
+        "EnterAnnotationText": "Schrijf je notitie…",
+        "HideAnnotationsFor": "Verberg notities voor %s…",
         "IconDesc": "Bekijk notities voor dit datumbereik.",
         "IconDescHideNotes": "Verberg notities voor dit datumbereik.",
         "InlineQuickHelp": "U kunt notities aanmaken om speciale gebeurtenissen (zoals een nieuw blogbericht of herontwerp website) te markeren, om gegevensanalyses op te slaan of iets anders dat u belangrijk vindt op te slaan.",
         "LoginToAnnotate": "Log in om een notitie aan te maken.",
         "NoAnnotations": "Er zijn geen notities voor dit datumbereik.",
         "PluginDescription": "Maakt het mogelijk om opmerkingen op verschillende dagen bij te voegen om wijzigingen aan uw website te markeren, analyses die u maakt met betrekking tot uw gegevens op te slaan en uw gedachten met collega's te delen. Door notities bij uw gegevens te plaatsen, zorgt u ervoor dat u weet waarom uw gegevens er op een bepaalde manier uitzien.",
-        "ViewAndAddAnnotations": "Bekijk en voeg notities toe voor %s...",
+        "ViewAndAddAnnotations": "Bekijk en voeg notities toe voor %s…",
         "YouCannotModifyThisNote": "U kunt deze notitie niet aanpassen, omdat u deze niet heeft aangemaakt en u heeft ook geen beheerdersrechten voor deze site."
     }
 }

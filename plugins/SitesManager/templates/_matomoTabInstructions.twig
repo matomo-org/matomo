@@ -1,0 +1,17 @@
+<h2>{{ 'SitesManager_StepByStepGuide'|translate }}</h2>
+
+{% if notificationMessage is defined and notificationMessage %}
+    <p></p><p></p>
+    <div class="system notification notification-info">
+        {{ notificationMessage|raw }}
+    </div>
+{% endif %}
+
+<div
+    vue-entry="CoreAdminHome.JsTrackingCodeGeneratorSitesWithoutData"
+    default-site="{{ defaultSiteDecoded|json_encode }}"
+    max-custom-variables="{{ maxCustomVariables|json_encode }}"
+    server-side-do-not-track-enabled="{{ serverSideDoNotTrackEnabled|json_encode }}"
+    js-tag="{{ jsTag|raw }}"
+    is-js-tracker-install-check-available="{{ isJsTrackerInstallCheckAvailable|json_encode }}"
+></div>

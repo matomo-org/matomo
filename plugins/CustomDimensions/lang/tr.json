@@ -1,6 +1,6 @@
 {
     "CustomDimensions": {
-        "CannotBeDeleted": "Özel Boyutlar silinemez ancak devre dışı bırakılabilir.",
+        "CannotBeDeleted": "Özel Boyutlar silinemez ancak kapatılabilir.",
         "ColumnAvgTimeOnDimension": "Boyut Üzerindeki Ortalama Süre",
         "ColumnUniqueActions": "Tekil İşlemler",
         "ConfigureDimension": "%1$s Özel boyut %2$s yapılandır",

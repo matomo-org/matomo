@@ -234,6 +234,11 @@ abstract class ViewDataTable implements ViewInterface
                 $this->config->addTranslations($processedMetrics);
             }
 
+            $dimension = $report->getDimension();
+            if (!empty($dimension)) {
+                $this->config->addTranslations(['label' => $dimension->getName()]);
+            }
+
             $this->config->title = $report->getName();
 
             $report->configureView($this);

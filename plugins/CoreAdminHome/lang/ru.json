@@ -9,7 +9,7 @@
         "CheckToOptIn": "Установите этот флажок, чтобы подписаться.",
         "ClickHereToOptIn": "Кликните, чтобы вы учитывались в аналитике.",
         "ClickHereToOptOut": "Кликните, чтобы вы не учитывались в аналитике.",
-        "CloudflareDescription": "Если ваш сайт размещен на Cloudflare, пожалуйста смотрите %1$эторуководство%2$s.",
+        "CloudflareDescription": "Если ваш сайт размещен на Cloudflare, пожалуйста смотрите %1$sэторуководство%2$s.",
         "ConfirmDeleteAllTrackingFailures": "Вы уверены, что хотите удалить все ошибки отслеживания?",
         "ConfirmDeleteThisTrackingFailure": "Вы уверены, что хотите удалить эту ошибку отслеживания?",
         "Cors": "Cors",

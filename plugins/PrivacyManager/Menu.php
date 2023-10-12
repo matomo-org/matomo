@@ -17,7 +17,7 @@ class Menu extends \Piwik\Plugin\Menu
     {
         if (Piwik::isUserHasSomeAdminAccess()) {
             $category = 'PrivacyManager_MenuPrivacySettings';
-            $menu->registerMenuIcon($category, 'icon-locked-4');
+            $menu->registerMenuIcon($category, 'icon-locked');
             $menu->addItem($category, null, array(), 2);
 
             if (Piwik::hasUserSuperUserAccess()) {

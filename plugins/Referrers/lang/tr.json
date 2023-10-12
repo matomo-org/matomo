@@ -3,7 +3,7 @@
         "Acquisition": "Veri toplama",
         "AllReferrersReportDocumentation": "Bu rapor, tüm yönlendirenler, siteler, aranan anahtar sözcükler ve ziyaretçilerin siteye gelmesi için kullanılan kampanyaların listesini toplu olarak içerir.",
         "AllReferrersSubcategory1": "Bu bölümde farklı kanal türlerinden ve yönlendiricilerden gelen ziyaretlerin sayısı bulunur. Değişik türlerdeki yönlendirmeleri görüntülemek için artı veya eksi düğmeleri kullanılabilir.",
-        "AllReferrersSubcategory2": "Tabloda ziyaretçi bağlılığı ölçütleri görünümünü etkinleştirerek, her bir trafik kaynağı tarafından gerçekleştirilen işlemlerin sayısını inceleyebilirsiniz.",
+        "AllReferrersSubcategory2": "Tabloda ziyaretçi bağlılığı ölçütleri görünümünü açarak, her bir trafik kaynağı tarafından gerçekleştirilen işlemlerin sayısını inceleyebilirsiniz.",
         "CampaignContent": "Kampanya içeriği",
         "CampaignContentHelp": "Birden çok reklam denenirken sıklıkla bu parametre kullanılır ve tüm reklamların adını görüntüleyerek hangisinin en fazla trafiği sağladığının görülebilmesini sağlar.",
         "CampaignGroup": "Kampanya grubu",

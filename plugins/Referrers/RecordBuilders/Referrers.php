@@ -194,7 +194,7 @@ class Referrers extends RecordBuilder
         while ($row = $query->fetch()) {
             $this->makeReferrerTypeNonEmpty($row);
 
-            $idGoal = $row['idgoal'];
+            $idGoal = (int) $row['idgoal'];
             $columns = [
                 Metrics::INDEX_GOALS => [
                     $idGoal => Metrics::makeGoalColumnsRow($idGoal, $row),

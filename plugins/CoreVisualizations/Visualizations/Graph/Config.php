@@ -39,7 +39,8 @@ class Config extends VisualizationConfig
     public $selectable_columns = false;
 
     /**
-     * Contains the column (if any) of the values used in the Row Picker.
+     * Contains the column or metadata (if any) of the values used in the Row Picker.
+     * The defined column or metadata will be used as identifier for the row, the label column will always be used as value
      *
      * @see self::ROWS_TO_DISPLAY
      *

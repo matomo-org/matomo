@@ -1,0 +1,10 @@
+<h2>{{ 'SitesManager_MoreMethods'|translate }}</h2>
+
+<p>{{ 'SitesManager_OtherWaysTabDescription'|translate }}</p>
+<p>Matomo URL: <code vue-directive="CoreHome.CopyToClipboard">{{ matomoUrl }}</code></p>
+<p>{{ 'SitesManager_EmailInstructionsYourSiteId'|translate('<code vue-directive="CoreHome.CopyToClipboard">' ~ idSite ~ '</code>')|raw }}</p>
+
+{% for othersInstruction in othersInstructions %}
+    <h3>{{ othersInstruction.name }}</h3>
+    <p>{{ othersInstruction.othersInstruction|raw }}</p>
+{% endfor %}
