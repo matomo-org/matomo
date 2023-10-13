@@ -24,7 +24,7 @@ class PromoCustomReports extends Widget
         $promoWidgetApplicable = StaticContainer::get('Piwik\Plugins\ProfessionalServices\PromoWidgetApplicable');
 
         $isEnabled = $promoWidgetApplicable->check('CustomReports');
-        $isEnabled = false;
+        $isEnabled = true;
         $config->setIsEnabled($isEnabled);
     }
 
