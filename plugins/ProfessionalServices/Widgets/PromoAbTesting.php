@@ -24,7 +24,7 @@ class PromoAbTesting extends Widget
         $promoWidgetApplicable = StaticContainer::get('Piwik\Plugins\ProfessionalServices\PromoWidgetApplicable');
 
         $isEnabled = $promoWidgetApplicable->check('AbTesting');
-        $isEnabled = false;
+        $isEnabled = true;
         $config->setIsEnabled($isEnabled);
     }
 
