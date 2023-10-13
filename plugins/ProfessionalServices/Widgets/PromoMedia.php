@@ -24,7 +24,7 @@ class PromoMedia extends Widget
         $promoWidgetApplicable = StaticContainer::get('Piwik\Plugins\ProfessionalServices\PromoWidgetApplicable');
 
         $isEnabled = $promoWidgetApplicable->check('MediaAnalytics');
-        $isEnabled = true;
+        $isEnabled = false;
         $config->setIsEnabled($isEnabled);
     }
 

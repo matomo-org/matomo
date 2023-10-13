@@ -24,7 +24,7 @@ class PromoCrashAnalytics extends Widget
         $promoWidgetApplicable = StaticContainer::get('Piwik\Plugins\ProfessionalServices\PromoWidgetApplicable');
 
         $isEnabled = $promoWidgetApplicable->check('CrashAnalytics');
-        $isEnabled = true;
+        $isEnabled = false;
         $config->setIsEnabled($isEnabled);
     }
 
