@@ -24,7 +24,7 @@ class PromoForms extends Widget
         $promoWidgetApplicable = StaticContainer::get('Piwik\Plugins\ProfessionalServices\PromoWidgetApplicable');
 
         $isEnabled = $promoWidgetApplicable->check('FormAnalytics');
-        $isEnabled = true;
+        $isEnabled = false;
         $config->setIsEnabled($isEnabled);
     }
 
