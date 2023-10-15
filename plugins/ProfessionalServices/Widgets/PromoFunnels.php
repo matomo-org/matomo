@@ -34,9 +34,7 @@ class PromoFunnels extends Widget
         $view = new View('@ProfessionalServices/pluginAdvertising');
 
         $view->title = Piwik::translate('ProfessionalServices_PromoUnlockPowerOf', 'Funnels');
-        $view->helpUrl = 'https://matomo.org/'; // where should this go if anywhere? It's required for the rating.
         $view->imageName = 'ad-funnels.png';
-        $view->imageAlt = $view->title; // adjust if needed per plugin
         $view->listOfFeatures = [
             "Identify and address drop-off points to improve conversion rates.",
             "Analyse user behaviour based on various criteria, and get valuable insights into how different user groups interact with your site.",

@@ -34,9 +34,7 @@ class PromoSessionRecordings extends Widget
         $view = new View('@ProfessionalServices/pluginAdvertising');
 
         $view->title = Piwik::translate('ProfessionalServices_PromoUnlockPowerOf', 'Session Recordings');
-        $view->helpUrl = 'https://matomo.org/'; // where should this go if anywhere? It's required for the rating.
         $view->imageName = 'ad-sessionrecordings.png';
-        $view->imageAlt = $view->title; // adjust if needed per plugin
         $view->listOfFeatures = [
             "See how visitors interact with your site in real-time and uncover valuable insights to improve user experience.",
             "Identify barriers and successful user journeys, leading to higher conversion rates.",

@@ -34,9 +34,7 @@ class PromoMediaAnalytics extends Widget
         $view = new View('@ProfessionalServices/pluginAdvertising');
 
         $view->title = Piwik::translate('ProfessionalServices_PromoUnlockPowerOf', 'Media Analytics');
-        $view->helpUrl = 'https://matomo.org/'; // where should this go if anywhere? It's required for the rating.
         $view->imageName = 'ad-mediaanalytics.png';
-        $view->imageAlt = $view->title; // adjust if needed per plugin
         $view->listOfFeatures = [
             "Get detailed insights into user engagement with audio and video content, to help you understand what resonates with your audience.",
             "Start fine-tuning your content strategy right away, no complex configurations required.",

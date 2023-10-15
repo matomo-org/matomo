@@ -34,9 +34,7 @@ class PromoAbTesting extends Widget
         $view = new View('@ProfessionalServices/pluginAdvertising');
 
         $view->title = Piwik::translate('ProfessionalServices_PromoUnlockPowerOf', 'A/B Tests');
-        $view->helpUrl = 'https://matomo.org/'; // where should this go if anywhere? It's required for the rating.
         $view->imageName = 'ad-abtests.png';
-        $view->imageAlt = $view->title; // adjust if needed per plugin
         $view->listOfFeatures = [
             "Stop guessing, start using data, and compare webpage versions to increase conversions.",
             "Compare various elements, including layout, design, copy, and more, while monitoring performance in real-time.",

@@ -34,9 +34,7 @@ class PromoFormAnalytics extends Widget
         $view = new View('@ProfessionalServices/pluginAdvertising');
 
         $view->title = Piwik::translate('ProfessionalServices_PromoUnlockPowerOf', 'Form Analytics');
-        $view->helpUrl = 'https://matomo.org/'; // where should this go if anywhere? It's required for the rating.
         $view->imageName = 'ad-formanalytics.png';
-        $view->imageAlt = $view->title; // adjust if needed per plugin
         $view->listOfFeatures = [
             "Understand how users engage with your forms to find areas of improvement.",
             "Identify common user errors and validation issues within your forms, to enhance user satisfaction and conversion rates.",
