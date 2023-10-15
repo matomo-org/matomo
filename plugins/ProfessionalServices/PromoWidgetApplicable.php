@@ -11,7 +11,8 @@ namespace Piwik\Plugins\ProfessionalServices;
 use Piwik\Plugin\Manager;
 use Piwik\ProfessionalServices\Advertising;
 
-class PromoWidgetApplicable {
+class PromoWidgetApplicable
+{
 
     /**
      * @var Advertising
@@ -23,12 +24,14 @@ class PromoWidgetApplicable {
      */
     private $manager;
 
-    public function __construct(Advertising $advertising, Manager $manager) {
+    public function __construct(Advertising $advertising, Manager $manager)
+    {
         $this->advertising = $advertising;
         $this->manager = $manager;
     }
 
-    public function check(string $pluginName): bool {
+    public function check(string $pluginName): bool
+    {
         return $this->advertising->areAdsForProfessionalServicesEnabled() &&
             $this->manager->isPluginActivated($pluginName) === false;
     }
