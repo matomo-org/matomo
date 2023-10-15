@@ -1,34 +1,30 @@
-{% extends 'admin.twig' %}
+<div
+    class="pluginPromo"
+    vue-entry="CoreHome.ContentBlock"
+    content-title="{{ title }}"
+    help-url="{{ helpUrl|default('') }}"
+    image-url="plugins/ProfessionalServices/images/{{ imageName }}"
+    image-alt-text="{{ imageAlt|default(title) }}"
+>
+    <div class="promo-content">
+        {% if listOfFeatures|default([])|length %}
+            <div class="promo-features">
+                <ul>
+                    {% for feature in listOfFeatures %}
+                        <li><span class="promo-icon icon-ok"></span>{{ feature|raw }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
 
-{% block content %}
-    <div
-        class="pluginPromo"
-        vue-entry="CoreHome.ContentBlock"
-        content-title="{{ title }}"
-        help-url="{{ helpUrl|default('') }}"
-        image-url="plugins/ProfessionalServices/images/{{ imageName }}"
-        image-alt-text="{{ imageAlt|default(title) }}"
-    >
-        <div class="promo-content">
-            {% if listOfFeatures|default([])|length %}
-                <div class="promo-features">
-                    <ul>
-                        {% for feature in listOfFeatures %}
-                            <li><span class="promo-icon icon-ok"></span>{{ feature|raw }}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            {% endif %}
-
-            {% if legalInfo|default(false) %}
-                <div class="promo-legal">
-                    <p>{{ legalInfo|raw }}</p>
-                </div>
-            {% endif %}
-        </div>
-        <div class="promo-actions">
-            <a class="btn" href="#">Start free trial</a>
-            <a class="learn-more" href="#">Learn more</a>
-        </div>
+        {% if legalInfo|default(false) %}
+            <div class="promo-legal">
+                <p>{{ legalInfo|raw }}</p>
+            </div>
+        {% endif %}
     </div>
-{% endblock %}
+    <div class="promo-actions">
+        <a class="btn" href="#">Start free trial</a>
+        <a class="learn-more" href="#">Learn more</a>
+    </div>
+</div>
