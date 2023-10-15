@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\ProfessionalServices\tests\Unit;
 
 use PHPUnit\Framework\TestCase;
+use Piwik\Config;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\ProfessionalServices\PromoWidgetApplicable;
 use Piwik\ProfessionalServices\Advertising;
@@ -18,13 +19,19 @@ class PromoWidgetApplicableTest extends TestCase
     /**
      * @dataProvider checkDataProvider
      */
-    public function test_check_shouldOnlyReturnTrue_IfAdShouldBeShown(bool $adsForProfessionalServicesEnabled, bool $pluginActivated, bool $expected): void
+    public function test_check_shouldOnlyReturnTrue_IfAdShouldBeShown(bool $adsForProfessionalServicesEnabled, bool $marketplaceEnabled, bool $internetAccessEnabled, bool $pluginActivated, bool $expected): void
     {
         $advertising = $this->createMock(Advertising::class);
         $advertising->method('areAdsForProfessionalServicesEnabled')->willReturn($adsForProfessionalServicesEnabled);
 
         $manager = $this->createMock(Manager::class);
         $manager->method('isPluginActivated')->with('MyPlugin')->willReturn($pluginActivated);
+        $manager->method('isPluginActivated')->with('Marketplace')->willReturn($marketplaceEnabled);
+
+        $config = $this->createMock(Config::class);
+        $config->method('General')->willReturn([
+            'enable_internet_features' => $internetAccessEnabled
+        ]);
 
         $sut = new PromoWidgetApplicable($advertising, $manager);
         $this->assertEquals($expected, $sut->check('MyPlugin'));
@@ -32,9 +39,21 @@ class PromoWidgetApplicableTest extends TestCase
 
     protected function checkDataProvider(): \Generator
     {
-        yield [true, true, false];
-        yield [false, true, false];
-        yield [true, false, true];
-        yield [false, false, false];
+        yield [true, true, true, true, false];
+        yield [true, true, true, false, true];
+        yield [true, true, false, true, false];
+        yield [true, true, false, false, false];
+        yield [true, false, true, true, false];
+        yield [true, false, true, false, false];
+        yield [true, false, false, true, false];
+        yield [true, false, false, false, false];
+        yield [false, true, true, true, false];
+        yield [false, true, true, false, false];
+        yield [false, true, false, true, false];
+        yield [false, true, false, false, false];
+        yield [false, false, true, true, false];
+        yield [false, false, true, false, false];
+        yield [false, false, false, true, false];
+        yield [false, false, false, false, false];
     }
 }
