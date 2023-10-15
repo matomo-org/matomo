@@ -36,7 +36,9 @@ class API extends \Piwik\Plugin\API
         $archive = Archive::build($idSite, $period, $date, $segment);
         $dataTable = $archive->getDataTable(Archiver::USERID_ARCHIVE_RECORD);
 
-        $dataTable->queueFilter('ReplaceColumnNames');
+        $dataTable->filter('ReplaceColumnNames');
+        $dataTable->filter('ColumnDelete', array(array('nb_users', 'nb_uniq_visitors')));
+
         $dataTable->queueFilter('ReplaceSummaryRowLabel');
         $dataTable->queueFilter('AddSegmentByLabel', array('userId'));
 
