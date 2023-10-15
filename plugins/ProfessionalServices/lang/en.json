@@ -12,6 +12,8 @@
         "PromoCustomReports": "Custom Reports",
         "PromoCrashAnalytics": "Crashes",
         "PromoUnlockPowerOf" : "Unlock the Power of %1$s",
-        "AltTextPreviewImageFor": "Preview image for %1$s"
+        "AltTextPreviewImageFor": "Preview image for %1$s",
+        "CTAStartFreeTrial": "Start free trial",
+        "CTALearnMore": "Learn more about %1$s"
     }
 }
