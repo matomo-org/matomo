@@ -17,7 +17,11 @@
         {% endif %}
     </div>
     <div class="promo-actions">
-        <a class="btn" href="#">Start free trial</a>
-        <a class="learn-more" href="#">Learn more</a>
+        <a class="btn" href="{{ linkTo({'module': 'Marketplace', 'action': 'installPlugin', 'pluginName': pluginName, 'nonce': installNonce}) }}">
+            {{ 'ProfessionalServices_CTAStartFreeTrial'|translate }}
+        </a>
+        <a class="learn-more" href="#" vue-directive="CorePluginsAdmin.PluginName" vue-directive-value="{{ { pluginName: pluginName }|json_encode }}" aria-label="{{ 'ProfessionalServices_CTALearnMore'|translate(pluginNameNice) }}">
+            {{ 'CoreAdminHome_LearnMore'|translate }}
+        </a>
     </div>
 </div>
