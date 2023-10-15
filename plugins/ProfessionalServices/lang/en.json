@@ -10,6 +10,7 @@
         "PromoHeatmaps": "Heatmaps",
         "PromoSessionRecording": "Session Recordings",
         "PromoCustomReports": "Custom Reports",
-        "PromoCrashAnalytics": "Crashes"
+        "PromoCrashAnalytics": "Crashes",
+        "PromoUnlockPowerOf" : "Unlock the Power of %1$s"
     }
 }

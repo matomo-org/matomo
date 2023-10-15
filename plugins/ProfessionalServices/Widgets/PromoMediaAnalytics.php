@@ -14,18 +14,18 @@ use Piwik\View;
 use Piwik\Widget\Widget;
 use Piwik\Widget\WidgetConfig;
 
-class PromoCustomReports extends Widget
+class PromoMediaAnalytics extends Widget
 {
     public static function configure(WidgetConfig $config)
     {
-        $config->setCategoryId('ProfessionalServices_PromoCustomReports');
-        $config->setSubcategoryId('ProfessionalServices_PromoManage');
-        $config->setName(Piwik::translate('ProfessionalServices_PromoUnlockPowerOf', 'Custom Reports'));
+        $config->setCategoryId('ProfessionalServices_PromoMedia');
+        $config->setSubcategoryId('ProfessionalServices_PromoOverview');
+        $config->setName(Piwik::translate('ProfessionalServices_PromoUnlockPowerOf', 'Media Analytics'));
         $config->setIsNotWidgetizable();
 
         $promoWidgetApplicable = StaticContainer::get('Piwik\Plugins\ProfessionalServices\PromoWidgetApplicable');
 
-        $isEnabled = $promoWidgetApplicable->check('CustomReports');
+        $isEnabled = $promoWidgetApplicable->check('MediaAnalytics');
         $isEnabled = true; // MK
         $config->setIsEnabled($isEnabled);
     }
@@ -34,14 +34,14 @@ class PromoCustomReports extends Widget
     {
         $view = new View('@ProfessionalServices/pluginAdvertising');
 
-        $view->title = Piwik::translate('ProfessionalServices_PromoUnlockPowerOf', 'Custom Reports');
+        $view->title = Piwik::translate('ProfessionalServices_PromoUnlockPowerOf', 'Media Analytics');
         $view->helpUrl = 'https://matomo.org/'; // where should this go if anywhere? It's required for the rating.
-        $view->imageName = 'ad-customreports.png';
+        $view->imageName = 'ad-mediaanalytics.png';
         $view->imageAlt = $view->title; // adjust if needed per plugin
         $view->listOfFeatures = [
-            "Create analytics reports customised to your specific business goals and KPIs, ensuring they focus on the most relevant data.",
-            "Drill down into specific data for deeper insights into user behaviour and engagement.",
-            "Save time and resources by automating report generation, enabling real-time monitoring, and providing cost-effective analytics solutions without the need for third-party tools.",
+            "Get detailed insights into user engagement with audio and video content, to help you understand what resonates with your audience.",
+            "Start fine-tuning your content strategy right away, no complex configurations required.",
+            "See who, how much, and which parts of your media visitors have consumed and which content contributes the most value to your business.",
         ];
 
         return $view->render();
