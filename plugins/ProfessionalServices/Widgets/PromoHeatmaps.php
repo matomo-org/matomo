@@ -41,9 +41,9 @@ class PromoHeatmaps extends Widget
         $view->title  = Piwik::translate('ProfessionalServices_PromoUnlockPowerOf', 'Heatmaps');
         $view->imageName = 'ad-heatmaps.png';
         $view->listOfFeatures = [
-            "Get visual representations of user interactions on your website, making it easy to understand how visitors engage with your content.",
-            "Get actionable data to optimise your website's layout, content placement, and user experience.",
-            "Identify and address user behaviour patterns, to increase conversion rates and achieve better results from your digital efforts.",
+            Piwik::translate('ProfessionalServices_HeatmapsFeature01'),
+            Piwik::translate('ProfessionalServices_HeatmapsFeature02'),
+            Piwik::translate('ProfessionalServices_HeatmapsFeature03'),
         ];
 
         return $view->render();

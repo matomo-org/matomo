@@ -40,9 +40,9 @@ class PromoAbTesting extends Widget
 
         $view->title  = Piwik::translate('ProfessionalServices_PromoUnlockPowerOf', $pluginInfo['displayName']);
         $view->listOfFeatures = [
-            "Stop guessing, start using data, and compare webpage versions to increase conversions.",
-            "Compare various elements, including layout, design, copy, and more, while monitoring performance in real-time.",
-            "Identify and address user behaviour patterns, so you can increase conversion rates and achieve better results from your digital efforts.",
+            Piwik::translate('ProfessionalServices_AbTestingFeature01'),
+            Piwik::translate('ProfessionalServices_AbTestingFeature02'),
+            Piwik::translate('ProfessionalServices_AbTestingFeature03'),
         ];
 
         return $view->render();

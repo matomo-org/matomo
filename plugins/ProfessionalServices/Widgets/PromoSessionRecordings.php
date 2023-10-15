@@ -41,9 +41,9 @@ class PromoSessionRecordings extends Widget
         $view->title  = Piwik::translate('ProfessionalServices_PromoUnlockPowerOf', 'Session Recordings'); // custom title
         $view->imageName = 'ad-sessionrecordings.png';
         $view->listOfFeatures = [
-            "See how visitors interact with your site in real-time and uncover valuable insights to improve user experience.",
-            "Identify barriers and successful user journeys, leading to higher conversion rates.",
-            "Gain in-depth insights into how users engage with specific content, forms, or elements, to tailor your content and design to better meet user preferences.",
+            Piwik::translate('ProfessionalServices_SessionRecordingsFeature01'),
+            Piwik::translate('ProfessionalServices_SessionRecordingsFeature02'),
+            Piwik::translate('ProfessionalServices_SessionRecordingsFeature03'),
         ];
 
         return $view->render();

@@ -40,9 +40,9 @@ class PromoFormAnalytics extends Widget
 
         $view->title  = Piwik::translate('ProfessionalServices_PromoUnlockPowerOf', $pluginInfo['displayName']);
         $view->listOfFeatures = [
-            "Understand how users engage with your forms to find areas of improvement.",
-            "Identify common user errors and validation issues within your forms, to enhance user satisfaction and conversion rates.",
-            "Gain deeper insights into how different user groups interact with your forms and tailor your strategies accordingly.",
+            Piwik::translate('ProfessionalServices_FormAnalyticsFeature01'),
+            Piwik::translate('ProfessionalServices_FormAnalyticsFeature02'),
+            Piwik::translate('ProfessionalServices_FormAnalyticsFeature03'),
         ];
 
         return $view->render();
