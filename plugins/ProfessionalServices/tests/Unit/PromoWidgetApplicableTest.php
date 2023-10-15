@@ -18,7 +18,7 @@ class PromoWidgetApplicableTest extends TestCase
     /**
      * @dataProvider checkDataProvider
      */
-    public function test_check_shouldReturnBool(bool $adsForProfessionalServicesEnabled, bool $pluginActivated, bool $expected): void
+    public function test_check_shouldOnlyReturnTrue_IfAdShouldBeShown(bool $adsForProfessionalServicesEnabled, bool $pluginActivated, bool $expected): void
     {
         $advertising = $this->createMock(Advertising::class);
         $advertising->method('areAdsForProfessionalServicesEnabled')->willReturn($adsForProfessionalServicesEnabled);
