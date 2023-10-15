@@ -26,7 +26,6 @@ class PromoSessionRecordings extends Widget
         $promoWidgetApplicable = StaticContainer::get('Piwik\Plugins\ProfessionalServices\PromoWidgetApplicable');
 
         $isEnabled = $promoWidgetApplicable->check('HeatmapSessionRecording');
-        $isEnabled = true; // MK
         $config->setIsEnabled($isEnabled);
     }
 

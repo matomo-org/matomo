@@ -26,7 +26,6 @@ class PromoFunnels extends Widget
         $promoWidgetApplicable = StaticContainer::get('Piwik\Plugins\ProfessionalServices\PromoWidgetApplicable');
 
         $isEnabled = $promoWidgetApplicable->check('Funnels');
-        $isEnabled = true; // MK
         $config->setIsEnabled($isEnabled);
     }
 
