@@ -8,10 +8,9 @@
 
 namespace Piwik\Plugins\ProfessionalServices;
 
+use Piwik\Config;
 use Piwik\Plugin\Manager;
-use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\ProfessionalServices\Advertising;
-use Piwik\SettingsPiwik;
 
 class PromoWidgetApplicable
 {
@@ -26,17 +25,32 @@ class PromoWidgetApplicable
      */
     private $manager;
 
-    public function __construct(Advertising $advertising, Manager $manager)
+    /**
+     * @var Config
+     */
+    private $config;
+
+    public function __construct(Advertising $advertising, Manager $manager, Config $config)
     {
         $this->advertising = $advertising;
         $this->manager = $manager;
+        $this->config = $config;
     }
 
     public function check(string $pluginName): bool
     {
-        return $this->advertising->areAdsForProfessionalServicesEnabled() &&
-            Marketplace::isMarketplaceEnabled() &&
-            SettingsPiwik::isInternetEnabled() &&
-            $this->manager->isPluginActivated($pluginName) === false;
+        if ($this->advertising->areAdsForProfessionalServicesEnabled() === false) {
+            return false;
+        }
+
+        if ($this->manager->isPluginActivated('Marketplace') === false) {
+            return false;
+        }
+
+        if ((bool) $this->config->General['enable_internet_features'] === false) {
+            return false;
+        }
+
+        return $this->manager->isPluginActivated($pluginName) === false;
     }
 }
