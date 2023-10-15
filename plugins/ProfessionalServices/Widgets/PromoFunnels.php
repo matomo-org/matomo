@@ -40,9 +40,9 @@ class PromoFunnels extends Widget
 
         $view->title  = Piwik::translate('ProfessionalServices_PromoUnlockPowerOf', $pluginInfo['displayName']);
         $view->listOfFeatures = [
-            "Identify and address drop-off points to improve conversion rates.",
-            "Analyse user behaviour based on various criteria, and get valuable insights into how different user groups interact with your site.",
-            "Make informed decisions by identifying optimisation opportunities, enhancing user engagement, and driving revenue growth through a deeper understanding of user journeys.",
+            Piwik::translate('ProfessionalServices_FunnelsFeature01'),
+            Piwik::translate('ProfessionalServices_FunnelsFeature02'),
+            Piwik::translate('ProfessionalServices_FunnelsFeature03'),
         ];
 
         return $view->render();

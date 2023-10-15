@@ -40,9 +40,9 @@ class PromoMediaAnalytics extends Widget
 
         $view->title  = Piwik::translate('ProfessionalServices_PromoUnlockPowerOf', $pluginInfo['displayName']);
         $view->listOfFeatures = [
-            "Get detailed insights into user engagement with audio and video content, to help you understand what resonates with your audience.",
-            "Start fine-tuning your content strategy right away, no complex configurations required.",
-            "See who, how much, and which parts of your media visitors have consumed and which content contributes the most value to your business.",
+            Piwik::translate('ProfessionalServices_MediaAnalyticsFeature01'),
+            Piwik::translate('ProfessionalServices_MediaAnalyticsFeature02'),
+            Piwik::translate('ProfessionalServices_MediaAnalyticsFeature03'),
         ];
 
         return $view->render();

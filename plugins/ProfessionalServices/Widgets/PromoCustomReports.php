@@ -40,9 +40,9 @@ class PromoCustomReports extends Widget
 
         $view->title  = Piwik::translate('ProfessionalServices_PromoUnlockPowerOf', $pluginInfo['displayName']);
         $view->listOfFeatures = [
-            "Create analytics reports customised to your specific business goals and KPIs, ensuring they focus on the most relevant data.",
-            "Drill down into specific data for deeper insights into user behaviour and engagement.",
-            "Save time and resources by automating report generation, enabling real-time monitoring, and providing cost-effective analytics solutions without the need for third-party tools.",
+            Piwik::translate('ProfessionalServices_CustomReportsFeature01'),
+            Piwik::translate('ProfessionalServices_CustomReportsFeature02'),
+            Piwik::translate('ProfessionalServices_CustomReportsFeature03'),
         ];
 
         return $view->render();

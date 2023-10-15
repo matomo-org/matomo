@@ -40,9 +40,9 @@ class PromoCrashAnalytics extends Widget
 
         $view->title  = Piwik::translate('ProfessionalServices_PromoUnlockPowerOf', $pluginInfo['displayName']);
         $view->listOfFeatures = [
-            "Automatically track website crashes (e.g. broken carts, unresponsive forms, etc.) for swift bug resolution, so you can ensure a seamless and bug-free user experience.",
-            "Resolve crashes efficiently with detailed insights into bug locations, users’ interactions and users’ device information.",
-            "Elevate your websiteʼs performance with real-time crash alerts and scheduled reports to stay informed and ready to resolve bugs quickly.",
+            Piwik::translate('ProfessionalServices_CrashAnalyticsFeature01'),
+            Piwik::translate('ProfessionalServices_CrashAnalyticsFeature02'),
+            Piwik::translate('ProfessionalServices_CrashAnalyticsFeature03'),
         ];
 
         return $view->render();
