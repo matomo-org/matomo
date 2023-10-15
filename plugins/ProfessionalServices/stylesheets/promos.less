@@ -2,19 +2,19 @@
   background-color: white;
   font-size: 16px;
 
-  .promo-columns {
-    display: grid;
-    grid-gap: 50px;
-    grid-auto-flow: column;
-    grid-auto-columns: 1fr;
+  .card {
+    padding: 15px;
 
-    margin-top: 30px;
+    .card-content {
+      .card-title {
+        margin-bottom: 30px;
+        font-family: @theme-fontFamily-base;
+        font-weight: bold;
+      }
+    }
   }
 
   .promo-content {
-    div {
-      margin-bottom: 20px;
-    }
     ul {
       list-style: none;
       padding: 0;
@@ -38,19 +38,8 @@
     }
   }
 
-  .promo-image {
-    display: none;
-
-    @media only screen and (min-width: 993px) {
-      display: block;
-    }
-
-    img {
-      max-width: 100%;
-    }
-  }
-
   .promo-actions {
+    margin-top: 30px;
     width: 100%;
 
     a {
