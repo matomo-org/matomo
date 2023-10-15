@@ -9,7 +9,9 @@
 namespace Piwik\Plugins\ProfessionalServices;
 
 use Piwik\Plugin\Manager;
+use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\ProfessionalServices\Advertising;
+use Piwik\SettingsPiwik;
 
 class PromoWidgetApplicable
 {
@@ -33,6 +35,8 @@ class PromoWidgetApplicable
     public function check(string $pluginName): bool
     {
         return $this->advertising->areAdsForProfessionalServicesEnabled() &&
+            Marketplace::isMarketplaceEnabled() &&
+            SettingsPiwik::isInternetEnabled() &&
             $this->manager->isPluginActivated($pluginName) === false;
     }
 }
