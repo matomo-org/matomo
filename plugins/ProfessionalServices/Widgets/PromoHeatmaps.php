@@ -34,9 +34,7 @@ class PromoHeatmaps extends Widget
         $view = new View('@ProfessionalServices/pluginAdvertising');
 
         $view->title = Piwik::translate('ProfessionalServices_PromoUnlockPowerOf', 'Heatmaps');
-        $view->helpUrl = 'https://matomo.org/'; // where should this go if anywhere? It's required for the rating.
         $view->imageName = 'ad-heatmaps.png';
-        $view->imageAlt = $view->title; // adjust if needed per plugin
         $view->listOfFeatures = [
             "Get visual representations of user interactions on your website, making it easy to understand how visitors engage with your content.",
             "Get actionable data to optimise your website's layout, content placement, and user experience.",

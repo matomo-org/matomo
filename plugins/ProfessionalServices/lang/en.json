@@ -11,6 +11,7 @@
         "PromoSessionRecording": "Session Recordings",
         "PromoCustomReports": "Custom Reports",
         "PromoCrashAnalytics": "Crashes",
-        "PromoUnlockPowerOf" : "Unlock the Power of %1$s"
+        "PromoUnlockPowerOf" : "Unlock the Power of %1$s",
+        "AltTextPreviewImageFor": "Preview image for %1$s"
     }
 }

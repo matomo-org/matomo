@@ -34,9 +34,7 @@ class PromoCrashAnalytics extends Widget
         $view = new View('@ProfessionalServices/pluginAdvertising');
 
         $view->title = Piwik::translate('ProfessionalServices_PromoUnlockPowerOf', 'Crash Analytics');
-        $view->helpUrl = 'https://matomo.org/'; // where should this go if anywhere? It's required for the rating.
         $view->imageName = 'ad-crashanalytics.png';
-        $view->imageAlt = $view->title; // adjust if needed per plugin
         $view->listOfFeatures = [
             "Automatically track website crashes (e.g. broken carts, unresponsive forms, etc.) for swift bug resolution, so you can ensure a seamless and bug-free user experience.",
             "Resolve crashes efficiently with detailed insights into bug locations, users’ interactions and users’ device information.",

@@ -2,9 +2,8 @@
     class="pluginPromo"
     vue-entry="CoreHome.ContentBlock"
     content-title="{{ title }}"
-    help-url="{{ helpUrl|default('') }}"
     image-url="plugins/ProfessionalServices/images/{{ imageName }}"
-    image-alt-text="{{ imageAlt|default(title) }}"
+    image-alt-text="{{ 'ProfessionalServices_AltTextPreviewImageFor'|translate(pluginNameNice) }}"
 >
     <div class="promo-content">
         {% if listOfFeatures|default([])|length %}

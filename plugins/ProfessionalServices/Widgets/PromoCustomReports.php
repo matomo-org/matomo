@@ -34,9 +34,7 @@ class PromoCustomReports extends Widget
         $view = new View('@ProfessionalServices/pluginAdvertising');
 
         $view->title = Piwik::translate('ProfessionalServices_PromoUnlockPowerOf', 'Custom Reports');
-        $view->helpUrl = 'https://matomo.org/'; // where should this go if anywhere? It's required for the rating.
         $view->imageName = 'ad-customreports.png';
-        $view->imageAlt = $view->title; // adjust if needed per plugin
         $view->listOfFeatures = [
             "Create analytics reports customised to your specific business goals and KPIs, ensuring they focus on the most relevant data.",
             "Drill down into specific data for deeper insights into user behaviour and engagement.",
