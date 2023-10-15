@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\ProfessionalServices\Widgets;
 
 use Piwik\Container\StaticContainer;
-use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\View;
 use Piwik\Widget\Widget;
@@ -18,13 +17,11 @@ use Piwik\Widget\WidgetConfig;
 class PromoSessionRecordings extends Widget
 {
     private const PROMO_PLUGIN_NAME = 'HeatmapSessionRecording';
-    private const PROMO_PLUGIN_NAME_NICE = 'Session Recordings';
 
     public static function configure(WidgetConfig $config)
     {
         $config->setCategoryId('ProfessionalServices_PromoSessionRecording');
         $config->setSubcategoryId('ProfessionalServices_PromoManage');
-        $config->setName(Piwik::translate('ProfessionalServices_PromoUnlockPowerOf', self::PROMO_PLUGIN_NAME_NICE));
         $config->setIsNotWidgetizable();
 
         $promoWidgetApplicable = StaticContainer::get('Piwik\Plugins\ProfessionalServices\PromoWidgetApplicable');
@@ -35,19 +32,19 @@ class PromoSessionRecordings extends Widget
 
     public function render()
     {
-        $view = new View('@ProfessionalServices/pluginAdvertising');
+        $marketplacePlugins = StaticContainer::get('Piwik\Plugins\Marketplace\Plugins');
+        $pluginInfo = $marketplacePlugins->getPluginInfo(self::PROMO_PLUGIN_NAME);
 
-        $view->title = Piwik::translate('ProfessionalServices_PromoUnlockPowerOf', self::PROMO_PLUGIN_NAME_NICE);
-        $view->pluginName = self::PROMO_PLUGIN_NAME;
-        $view->pluginNameNice = self::PROMO_PLUGIN_NAME_NICE;
+        $view = new View('@ProfessionalServices/pluginAdvertising');
+        $view->plugin = $pluginInfo;
+
+        $view->title  = Piwik::translate('ProfessionalServices_PromoUnlockPowerOf', 'Session Recordings'); // custom title
         $view->imageName = 'ad-sessionrecordings.png';
         $view->listOfFeatures = [
             "See how visitors interact with your site in real-time and uncover valuable insights to improve user experience.",
             "Identify barriers and successful user journeys, leading to higher conversion rates.",
             "Gain in-depth insights into how users engage with specific content, forms, or elements, to tailor your content and design to better meet user preferences.",
         ];
-
-        $view->installNonce = Nonce::getNonce(\Piwik\Plugins\Marketplace\Controller::INSTALL_NONCE);
 
         return $view->render();
     }
