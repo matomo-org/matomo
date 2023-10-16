@@ -461,7 +461,6 @@ export default defineComponent({
         'UserCountry_MaxMindLinkExplanation',
         externalLink('https://matomo.org/faq/how-to/'
         + 'how-do-i-get-the-geolocation-download-url-for-the-free-maxmind-db/'),
-        `<a href="${link}" rel="noreferrer noopener" target="_blank">`,
         '</a>',
       );
     },
