@@ -8,12 +8,14 @@
 {% endset %}
 
 {% if
-    (isAutoUpdateEnabled and latest_version_available and not isPiwikDemo and hasSomeViewAccess and not isUserIsAnonymous and showUpdateNotificationToUser)
-    or (
-        isSuperUser
-        and (
-            (isManualUpdateCheck is defined and isManualUpdateCheck and lastUpdateCheckFailed is defined and lastUpdateCheckFailed)
-            or (isAdminArea is defined and isAdminArea)
+    isAutoUpdateEnabled and (
+        (latest_version_available and not isPiwikDemo and hasSomeViewAccess and not isUserIsAnonymous and showUpdateNotificationToUser)
+        or (
+            isSuperUser
+            and (
+                (isManualUpdateCheck is defined and isManualUpdateCheck and lastUpdateCheckFailed is defined and lastUpdateCheckFailed)
+                or (isAdminArea is defined and isAdminArea)
+            )
         )
     ) %}
 <div
