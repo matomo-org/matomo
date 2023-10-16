@@ -25,15 +25,20 @@ class PromoWidgetApplicableTest extends TestCase
         $advertising->method('areAdsForProfessionalServicesEnabled')->willReturn($adsForProfessionalServicesEnabled);
 
         $manager = $this->createMock(Manager::class);
-        $manager->method('isPluginActivated')->with('MyPlugin')->willReturn($pluginActivated);
-        $manager->method('isPluginActivated')->with('Marketplace')->willReturn($marketplaceEnabled);
-
+        $manager->method('isPluginActivated')->willReturnMap(
+            [
+                ['MyPlugin', $pluginActivated],
+                ['Marketplace', $marketplaceEnabled],
+            ]
+        );
         $config = $this->createMock(Config::class);
-        $config->method('General')->willReturn([
-            'enable_internet_features' => $internetAccessEnabled
-        ]);
+        $config->method('__get')
+            ->with('General')
+            ->willReturn([
+                'enable_internet_features' => $internetAccessEnabled
+            ]);
 
-        $sut = new PromoWidgetApplicable($advertising, $manager);
+        $sut = new PromoWidgetApplicable($advertising, $manager, $config);
         $this->assertEquals($expected, $sut->check('MyPlugin'));
     }
 
