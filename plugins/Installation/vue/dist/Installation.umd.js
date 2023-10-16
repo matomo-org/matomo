@@ -7,7 +7,7 @@
 		exports["Installation"] = factory(require("CoreHome"), require("vue"));
 	else
 		root["Installation"] = factory(root["CoreHome"], root["Vue"]);
-})((typeof self !== 'undefined' ? self : this), function(__WEBPACK_EXTERNAL_MODULE_CoreHome__, __WEBPACK_EXTERNAL_MODULE_vue__) {
+})((typeof self !== 'undefined' ? self : this), function(__WEBPACK_EXTERNAL_MODULE__19dc__, __WEBPACK_EXTERNAL_MODULE__8bbf__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -91,368 +91,597 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "fae3");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/Installation/vue/src/SystemCheck/DiagnosticTable.vue?vue&type=template&id=08e89765":
-/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Installation/vue/src/SystemCheck/DiagnosticTable.vue?vue&type=template&id=08e89765 ***!
-  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! exports provided: render */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nvar _hoisted_1 = [\"innerHTML\"];\nvar _hoisted_2 = {\n  key: 0\n};\n\nvar _hoisted_3 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n  class: \"icon-error\"\n}, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_4 = [\"innerHTML\"];\nvar _hoisted_5 = {\n  key: 1\n};\n\nvar _hoisted_6 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n  class: \"icon-warning\"\n}, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_7 = [\"innerHTML\"];\nvar _hoisted_8 = {\n  key: 2\n};\n\nvar _hoisted_9 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n  class: \"icon-info\"\n}, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_10 = [\"innerHTML\"];\nvar _hoisted_11 = {\n  key: 3\n};\n\nvar _hoisted_12 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n  class: \"icon-ok\"\n}, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_13 = [\"innerHTML\"];\n\nvar _hoisted_14 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_15 = {\n  key: 0\n};\nvar _hoisted_16 = [\"innerHTML\"];\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  var _component_Passthrough = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"Passthrough\");\n\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(vue__WEBPACK_IMPORTED_MODULE_0__[\"Fragment\"], null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"renderList\"])(_ctx.results, function (result, index) {\n    return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createBlock\"])(_component_Passthrough, {\n      key: index\n    }, {\n      default: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withCtx\"])(function () {\n        return [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"tr\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"td\", {\n          innerHTML: _ctx.$sanitize(result.label)\n        }, null, 8\n        /* PROPS */\n        , _hoisted_1), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"td\", null, [(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(true), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(vue__WEBPACK_IMPORTED_MODULE_0__[\"Fragment\"], null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"renderList\"])(result.items, function (item, index) {\n          return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"span\", {\n            key: index\n          }, [item.status === 'error' ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"span\", _hoisted_2, [_hoisted_3, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n            class: \"err\",\n            innerHTML: _ctx.$sanitize(typeof item.comment !== 'string' ? '' : item.comment)\n          }, null, 8\n          /* PROPS */\n          , _hoisted_4)])) : item.status === 'warning' ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"span\", _hoisted_5, [_hoisted_6, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n            innerHTML: _ctx.$sanitize(typeof item.comment !== 'string' ? '' : item.comment)\n          }, null, 8\n          /* PROPS */\n          , _hoisted_7)])) : item.status === 'informational' ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"span\", _hoisted_8, [_hoisted_9, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n            innerHTML: _ctx.$sanitize(typeof item.comment !== 'string' ? '' : item.comment)\n          }, null, 8\n          /* PROPS */\n          , _hoisted_10)])) : (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"span\", _hoisted_11, [_hoisted_12, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n            innerHTML: _ctx.$sanitize(typeof item.comment !== 'string' ? '' : item.comment)\n          }, null, 8\n          /* PROPS */\n          , _hoisted_13)])), _hoisted_14]);\n        }), 128\n        /* KEYED_FRAGMENT */\n        ))])]), result.longErrorMessage ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"tr\", _hoisted_15, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"td\", {\n          colspan: \"2\",\n          class: \"error\",\n          style: {\n            \"font-size\": \"small\"\n          },\n          innerHTML: _ctx.$sanitize(result.longErrorMessage)\n        }, null, 8\n        /* PROPS */\n        , _hoisted_16)])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true)];\n      }),\n      _: 2\n      /* DYNAMIC */\n\n    }, 1024\n    /* DYNAMIC_SLOTS */\n    );\n  }), 128\n  /* KEYED_FRAGMENT */\n  );\n}\n\n//# sourceURL=webpack://Installation/./plugins/Installation/vue/src/SystemCheck/DiagnosticTable.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
-
-/***/ }),
-
-/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/Installation/vue/src/SystemCheck/SystemCheck.vue?vue&type=template&id=467e3917":
-/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Installation/vue/src/SystemCheck/SystemCheck.vue?vue&type=template&id=467e3917 ***!
-  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! exports provided: render */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nvar _hoisted_1 = {\n  key: 0\n};\n\nvar _hoisted_2 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", {\n  style: {\n    \"clear\": \"both\"\n  }\n}, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_3 = {\n  key: 1\n};\nvar _hoisted_4 = {\n  key: 0\n};\n\nvar _hoisted_5 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n  class: \"icon-export\"\n}, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_6 = {\n  target: \"_blank\",\n  rel: \"noreferrer noopener\",\n  href: \"{{ externalRawLink('https://matomo.org/docs/requirements/') }}\"\n};\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  var _component_SystemCheckLegend = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"SystemCheckLegend\");\n\n  var _component_SystemCheckSection = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"SystemCheckSection\");\n\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", null, [!_ctx.showNextStep ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_1, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_SystemCheckLegend, {\n    url: _ctx.systemCheckLegendUrl\n  }, null, 8\n  /* PROPS */\n  , [\"url\"]), _hoisted_2])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"h2\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Installation_SystemCheck')), 1\n  /* TEXT */\n  ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_SystemCheckSection, {\n    \"error-type\": _ctx.errorType,\n    \"warning-type\": _ctx.warningType,\n    \"informational-type\": _ctx.informationalType,\n    \"system-check-info\": _ctx.systemCheckInfo,\n    \"mandatory-results\": _ctx.mandatoryResults,\n    \"optional-results\": _ctx.optionalResults,\n    \"informational-results\": _ctx.informationalResults,\n    \"is-installation\": _ctx.isInstallation\n  }, null, 8\n  /* PROPS */\n  , [\"error-type\", \"warning-type\", \"informational-type\", \"system-check-info\", \"mandatory-results\", \"optional-results\", \"informational-results\", \"is-installation\"]), !_ctx.showNextStep ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_3, [!_ctx.showNextStep ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"p\", _hoisted_4, [_hoisted_5, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"a\", _hoisted_6, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Installation_Requirements')), 1\n  /* TEXT */\n  )])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_SystemCheckLegend, {\n    url: _ctx.systemCheckLegendUrl\n  }, null, 8\n  /* PROPS */\n  , [\"url\"])])) : Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createCommentVNode\"])(\"v-if\", true)]);\n}\n\n//# sourceURL=webpack://Installation/./plugins/Installation/vue/src/SystemCheck/SystemCheck.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
-
-/***/ }),
-
-/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/Installation/vue/src/SystemCheck/SystemCheckLegend.vue?vue&type=template&id=6229a0f8":
-/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Installation/vue/src/SystemCheck/SystemCheckLegend.vue?vue&type=template&id=6229a0f8 ***!
-  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! exports provided: render */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nvar _hoisted_1 = {\n  class: \"system-check-legend\"\n};\n\nvar _hoisted_2 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n  class: \"icon-ok\"\n}, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_3 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n  class: \"icon-warning\"\n}, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_4 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n  class: \"icon-error\"\n}, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_5 = {\n  class: \"next-step\"\n};\nvar _hoisted_6 = [\"href\"];\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(vue__WEBPACK_IMPORTED_MODULE_0__[\"Fragment\"], null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", _hoisted_1, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"h2\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Installation_Legend')), 1\n  /* TEXT */\n  ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"p\", null, [_hoisted_2, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(\" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_Ok')), 1\n  /* TEXT */\n  )]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"p\", null, [_hoisted_3, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(\" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_Warning')) + \": \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Installation_SystemCheckWarning')), 1\n  /* TEXT */\n  )]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"p\", null, [_hoisted_4, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(\" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_Error')) + \": \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Installation_SystemCheckError')), 1\n  /* TEXT */\n  )])]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"p\", _hoisted_5, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"a\", {\n    href: _ctx.url\n  }, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('General_RefreshPage')) + \" »\", 9\n  /* TEXT, PROPS */\n  , _hoisted_6)])], 64\n  /* STABLE_FRAGMENT */\n  );\n}\n\n//# sourceURL=webpack://Installation/./plugins/Installation/vue/src/SystemCheck/SystemCheckLegend.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
-
-/***/ }),
-
-/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/Installation/vue/src/SystemCheck/SystemCheckPage.vue?vue&type=template&id=5935c8c6":
-/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Installation/vue/src/SystemCheck/SystemCheckPage.vue?vue&type=template&id=5935c8c6 ***!
-  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! exports provided: render */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\nvar _hoisted_1 = {\n  key: 0,\n  class: \"alert alert-danger\"\n};\nvar _hoisted_2 = [\"innerHTML\"];\nvar _hoisted_3 = {\n  key: 1,\n  class: \"alert alert-warning\"\n};\nvar _hoisted_4 = {\n  key: 2,\n  class: \"alert alert-success\"\n};\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  var _component_SystemCheckSection = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"SystemCheckSection\");\n\n  var _component_ContentBlock = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"ContentBlock\");\n\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createBlock\"])(_component_ContentBlock, {\n    \"content-title\": _ctx.translate('Installation_SystemCheck'),\n    feature: \"true\"\n  }, {\n    default: Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withCtx\"])(function () {\n      return [_ctx.hasErrors ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_1, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"span\", {\n        innerHTML: _ctx.$sanitize(_ctx.thereWereErrorsText)\n      }, null, 8\n      /* PROPS */\n      , _hoisted_2), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(\" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Installation_SeeBelowForMoreInfo')), 1\n      /* TEXT */\n      )])) : _ctx.hasWarnings ? (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_3, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Installation_SystemCheckSummaryThereWereWarnings')) + \" \" + Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Installation_SeeBelowForMoreInfo')), 1\n      /* TEXT */\n      )) : (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(\"div\", _hoisted_4, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Installation_SystemCheckSummaryNoProblems')), 1\n      /* TEXT */\n      )), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_SystemCheckSection, {\n        \"error-type\": _ctx.errorType,\n        \"warning-type\": _ctx.warningType,\n        \"informational-type\": _ctx.informationalType,\n        \"system-check-info\": _ctx.systemCheckInfo,\n        \"mandatory-results\": _ctx.mandatoryResults,\n        \"optional-results\": _ctx.optionalResults,\n        \"informational-results\": _ctx.informationalResults,\n        \"is-installation\": _ctx.isInstallation\n      }, null, 8\n      /* PROPS */\n      , [\"error-type\", \"warning-type\", \"informational-type\", \"system-check-info\", \"mandatory-results\", \"optional-results\", \"informational-results\", \"is-installation\"])];\n    }),\n    _: 1\n    /* STABLE */\n\n  }, 8\n  /* PROPS */\n  , [\"content-title\"]);\n}\n\n//# sourceURL=webpack://Installation/./plugins/Installation/vue/src/SystemCheck/SystemCheckPage.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
-
-/***/ }),
-
-/***/ "./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/Installation/vue/src/SystemCheck/SystemCheckSection.vue?vue&type=template&id=18f24904":
-/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Installation/vue/src/SystemCheck/SystemCheckSection.vue?vue&type=template&id=18f24904 ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! exports provided: render */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return render; });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\n\nvar _hoisted_1 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_2 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])();\n\nvar _hoisted_3 = /*#__PURE__*/Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"br\", null, null, -1\n/* HOISTED */\n);\n\nvar _hoisted_4 = [\"innerHTML\"];\nvar _hoisted_5 = {\n  class: \"entityTable system-check\",\n  id: \"systemCheckRequired\"\n};\nvar _hoisted_6 = {\n  class: \"entityTable system-check\",\n  id: \"systemCheckOptional\"\n};\nvar _hoisted_7 = {\n  class: \"entityTable system-check\",\n  id: \"systemCheckInformational\"\n};\nfunction render(_ctx, _cache, $props, $setup, $data, $options) {\n  var _component_DiagnosticTable = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveComponent\"])(\"DiagnosticTable\");\n\n  var _directive_content_table = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"resolveDirective\"])(\"content-table\");\n\n  return Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"openBlock\"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementBlock\"])(vue__WEBPACK_IMPORTED_MODULE_0__[\"Fragment\"], null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"p\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createTextVNode\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Installation_CopyBelowInfoForSupport')) + \" \", 1\n  /* TEXT */\n  ), _hoisted_1, _hoisted_2, _hoisted_3, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"a\", {\n    href: \"\",\n    onClick: _cache[0] || (_cache[0] = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withModifiers\"])(function ($event) {\n      return _ctx.copyInfo();\n    }, [\"prevent\"])),\n    class: \"btn\",\n    style: {\n      \"margin-right\": \"3.5px\"\n    }\n  }, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Installation_CopySystemCheck')), 1\n  /* TEXT */\n  ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"a\", {\n    href: \"\",\n    onClick: _cache[1] || (_cache[1] = Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withModifiers\"])(function ($event) {\n      return _ctx.downloadInfo();\n    }, [\"prevent\"])),\n    class: \"btn\"\n  }, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Installation_DownloadSystemCheck')), 1\n  /* TEXT */\n  )]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"div\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"textarea\", {\n    style: {\n      \"width\": \"100%\",\n      \"height\": \"200px\"\n    },\n    readonly: \"\",\n    id: \"matomo_system_check_info\",\n    ref: \"systemCheckInfo\",\n    innerHTML: _ctx.$sanitize(_ctx.systemCheckInfo)\n  }, null, 8\n  /* PROPS */\n  , _hoisted_4), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"table\", _hoisted_5, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"tbody\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_DiagnosticTable, {\n    results: _ctx.mandatoryResults,\n    \"informational-type\": _ctx.informationalType,\n    \"warning-type\": _ctx.warningType,\n    \"error-type\": _ctx.errorType\n  }, null, 8\n  /* PROPS */\n  , [\"results\", \"informational-type\", \"warning-type\", \"error-type\"])])], 512\n  /* NEED_PATCH */\n  ), [[_directive_content_table, {\n    off: _ctx.isInstallation\n  }]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"h3\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Installation_Optional')), 1\n  /* TEXT */\n  ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"table\", _hoisted_6, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"tbody\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_DiagnosticTable, {\n    results: _ctx.optionalResults,\n    \"informational-type\": _ctx.informationalType,\n    \"warning-type\": _ctx.warningType,\n    \"error-type\": _ctx.errorType\n  }, null, 8\n  /* PROPS */\n  , [\"results\", \"informational-type\", \"warning-type\", \"error-type\"])])], 512\n  /* NEED_PATCH */\n  ), [[_directive_content_table, {\n    off: _ctx.isInstallation\n  }]]), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"h3\", null, Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"toDisplayString\"])(_ctx.translate('Installation_InformationalResults')), 1\n  /* TEXT */\n  ), Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"withDirectives\"])(Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"table\", _hoisted_7, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createElementVNode\"])(\"tbody\", null, [Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"createVNode\"])(_component_DiagnosticTable, {\n    results: _ctx.informationalResults,\n    \"informational-type\": _ctx.informationalType,\n    \"warning-type\": _ctx.warningType,\n    \"error-type\": _ctx.errorType\n  }, null, 8\n  /* PROPS */\n  , [\"results\", \"informational-type\", \"warning-type\", \"error-type\"])])], 512\n  /* NEED_PATCH */\n  ), [[_directive_content_table, {\n    off: _ctx.isInstallation\n  }]])])], 64\n  /* STABLE_FRAGMENT */\n  );\n}\n\n//# sourceURL=webpack://Installation/./plugins/Installation/vue/src/SystemCheck/SystemCheckSection.vue?./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
-
-/***/ }),
-
-/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/Installation/vue/src/SystemCheck/DiagnosticTable.vue?vue&type=script&lang=ts":
-/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Installation/vue/src/SystemCheck/DiagnosticTable.vue?vue&type=script&lang=ts ***!
-  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! CoreHome */ \"CoreHome\");\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(CoreHome__WEBPACK_IMPORTED_MODULE_1__);\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {\n    errorType: {\n      type: String,\n      required: true\n    },\n    warningType: {\n      type: String,\n      required: true\n    },\n    informationalType: {\n      type: String,\n      required: true\n    },\n    results: {\n      type: Array,\n      required: true\n    }\n  },\n  components: {\n    Passthrough: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Passthrough\"]\n  }\n}));\n\n//# sourceURL=webpack://Installation/./plugins/Installation/vue/src/SystemCheck/DiagnosticTable.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
-
-/***/ }),
-
-/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/Installation/vue/src/SystemCheck/SystemCheck.vue?vue&type=script&lang=ts":
-/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Installation/vue/src/SystemCheck/SystemCheck.vue?vue&type=script&lang=ts ***!
-  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _SystemCheckLegend_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SystemCheckLegend.vue */ \"./plugins/Installation/vue/src/SystemCheck/SystemCheckLegend.vue\");\n/* harmony import */ var _SystemCheckSection_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SystemCheckSection.vue */ \"./plugins/Installation/vue/src/SystemCheck/SystemCheckSection.vue\");\n\n\n\nvar _window = window,\n    $ = _window.$;\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {\n    showNextStep: Boolean,\n    systemCheckLegendUrl: {\n      type: String,\n      required: true\n    },\n    errorType: {\n      type: String,\n      required: true\n    },\n    warningType: {\n      type: String,\n      required: true\n    },\n    informationalType: {\n      type: String,\n      required: true\n    },\n    systemCheckInfo: {\n      type: String,\n      required: true\n    },\n    mandatoryResults: {\n      type: Array,\n      required: true\n    },\n    optionalResults: {\n      type: Array,\n      required: true\n    },\n    informationalResults: {\n      type: Array,\n      required: true\n    },\n    isInstallation: Boolean\n  },\n  components: {\n    SystemCheckSection: _SystemCheckSection_vue__WEBPACK_IMPORTED_MODULE_2__[\"default\"],\n    SystemCheckLegend: _SystemCheckLegend_vue__WEBPACK_IMPORTED_MODULE_1__[\"default\"]\n  },\n  mounted: function mounted() {\n    // client-side test for https to handle the case where the server is behind a reverse proxy\n    if (document.location.protocol === 'https:') {\n      var link = $('p.next-step a');\n      link.attr('href', \"\".concat(link.attr('href'), \"&clientProtocol=https\"));\n    }\n  }\n}));\n\n//# sourceURL=webpack://Installation/./plugins/Installation/vue/src/SystemCheck/SystemCheck.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
-
-/***/ }),
-
-/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/Installation/vue/src/SystemCheck/SystemCheckLegend.vue?vue&type=script&lang=ts":
-/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Installation/vue/src/SystemCheck/SystemCheckLegend.vue?vue&type=script&lang=ts ***!
-  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {\n    url: {\n      type: String,\n      required: true\n    }\n  }\n}));\n\n//# sourceURL=webpack://Installation/./plugins/Installation/vue/src/SystemCheck/SystemCheckLegend.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
-
-/***/ }),
-
-/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/Installation/vue/src/SystemCheck/SystemCheckPage.vue?vue&type=script&lang=ts":
-/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Installation/vue/src/SystemCheck/SystemCheckPage.vue?vue&type=script&lang=ts ***!
-  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! CoreHome */ \"CoreHome\");\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(CoreHome__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var _SystemCheckSection_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SystemCheckSection.vue */ \"./plugins/Installation/vue/src/SystemCheck/SystemCheckSection.vue\");\n\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {\n    errorType: {\n      type: String,\n      required: true\n    },\n    warningType: {\n      type: String,\n      required: true\n    },\n    informationalType: {\n      type: String,\n      required: true\n    },\n    systemCheckInfo: {\n      type: String,\n      required: true\n    },\n    mandatoryResults: {\n      type: Array,\n      required: true\n    },\n    optionalResults: {\n      type: Array,\n      required: true\n    },\n    informationalResults: {\n      type: Array,\n      required: true\n    },\n    isInstallation: Boolean,\n    hasErrors: Boolean,\n    hasWarnings: Boolean\n  },\n  components: {\n    ContentBlock: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"ContentBlock\"],\n    SystemCheckSection: _SystemCheckSection_vue__WEBPACK_IMPORTED_MODULE_2__[\"default\"]\n  },\n  computed: {\n    thereWereErrorsText: function thereWereErrorsText() {\n      return Object(CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"translate\"])('Installation_SystemCheckSummaryThereWereErrors', '<strong>', '</strong>', '<strong>', '</strong>');\n    }\n  }\n}));\n\n//# sourceURL=webpack://Installation/./plugins/Installation/vue/src/SystemCheck/SystemCheckPage.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
-
-/***/ }),
-
-/***/ "./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/Installation/vue/src/SystemCheck/SystemCheckSection.vue?vue&type=script&lang=ts":
-/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Installation/vue/src/SystemCheck/SystemCheckSection.vue?vue&type=script&lang=ts ***!
-  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! CoreHome */ \"CoreHome\");\n/* harmony import */ var CoreHome__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(CoreHome__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var _DiagnosticTable_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DiagnosticTable.vue */ \"./plugins/Installation/vue/src/SystemCheck/DiagnosticTable.vue\");\n\n\n\nvar _window = window,\n    $ = _window.$;\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(vue__WEBPACK_IMPORTED_MODULE_0__[\"defineComponent\"])({\n  props: {\n    errorType: {\n      type: String,\n      required: true\n    },\n    warningType: {\n      type: String,\n      required: true\n    },\n    informationalType: {\n      type: String,\n      required: true\n    },\n    systemCheckInfo: {\n      type: String,\n      required: true\n    },\n    mandatoryResults: {\n      type: Array,\n      required: true\n    },\n    optionalResults: {\n      type: Array,\n      required: true\n    },\n    informationalResults: {\n      type: Array,\n      required: true\n    },\n    isInstallation: Boolean\n  },\n  components: {\n    DiagnosticTable: _DiagnosticTable_vue__WEBPACK_IMPORTED_MODULE_2__[\"default\"]\n  },\n  directives: {\n    ContentTable: CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"ContentTable\"]\n  },\n  methods: {\n    copyInfo: function copyInfo() {\n      var textarea = this.$refs.systemCheckInfo;\n      textarea.select();\n      document.execCommand('copy');\n      $(textarea).effect('highlight', {}, 600);\n    },\n    downloadInfo: function downloadInfo() {\n      var textarea = this.$refs.systemCheckInfo;\n      CoreHome__WEBPACK_IMPORTED_MODULE_1__[\"Matomo\"].helper.sendContentAsDownload('matomo_system_check.txt', textarea.innerHTML);\n    }\n  }\n}));\n\n//# sourceURL=webpack://Installation/./plugins/Installation/vue/src/SystemCheck/SystemCheckSection.vue?./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1");
-
-/***/ }),
-
-/***/ "./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js":
-/*!**********************************************************************************!*\
-  !*** ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js ***!
-  \**********************************************************************************/
-/*! exports provided: SystemCheckPage, SystemCheck */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _setPublicPath__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./setPublicPath */ \"./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js\");\n/* harmony import */ var _entry__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~entry */ \"./plugins/Installation/vue/src/index.ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"SystemCheckPage\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"SystemCheckPage\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"SystemCheck\", function() { return _entry__WEBPACK_IMPORTED_MODULE_1__[\"SystemCheck\"]; });\n\n\n\n\n\n//# sourceURL=webpack://Installation/./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js?");
-
-/***/ }),
-
-/***/ "./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js":
-/*!***************************************************************************!*\
-  !*** ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js ***!
-  \***************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n// This file is imported into lib/wc client bundles.\n\nif (typeof window !== 'undefined') {\n  var currentScript = window.document.currentScript\n  if (false) { var getCurrentScript; }\n\n  var src = currentScript && currentScript.src.match(/(.+\\/)[^/]+\\.js(\\?.*)?$/)\n  if (src) {\n    __webpack_require__.p = src[1] // eslint-disable-line\n  }\n}\n\n// Indicate to webpack that this file can be concatenated\n/* harmony default export */ __webpack_exports__[\"default\"] = (null);\n\n\n//# sourceURL=webpack://Installation/./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js?");
-
-/***/ }),
-
-/***/ "./plugins/Installation/vue/src/SystemCheck/DiagnosticTable.vue":
-/*!**********************************************************************!*\
-  !*** ./plugins/Installation/vue/src/SystemCheck/DiagnosticTable.vue ***!
-  \**********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _DiagnosticTable_vue_vue_type_template_id_08e89765__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DiagnosticTable.vue?vue&type=template&id=08e89765 */ \"./plugins/Installation/vue/src/SystemCheck/DiagnosticTable.vue?vue&type=template&id=08e89765\");\n/* harmony import */ var _DiagnosticTable_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DiagnosticTable.vue?vue&type=script&lang=ts */ \"./plugins/Installation/vue/src/SystemCheck/DiagnosticTable.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_DiagnosticTable_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _DiagnosticTable_vue_vue_type_template_id_08e89765__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_DiagnosticTable_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/Installation/vue/src/SystemCheck/DiagnosticTable.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_DiagnosticTable_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://Installation/./plugins/Installation/vue/src/SystemCheck/DiagnosticTable.vue?");
-
-/***/ }),
-
-/***/ "./plugins/Installation/vue/src/SystemCheck/DiagnosticTable.vue?vue&type=script&lang=ts":
-/*!**********************************************************************************************!*\
-  !*** ./plugins/Installation/vue/src/SystemCheck/DiagnosticTable.vue?vue&type=script&lang=ts ***!
-  \**********************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_DiagnosticTable_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./DiagnosticTable.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/Installation/vue/src/SystemCheck/DiagnosticTable.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_DiagnosticTable_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://Installation/./plugins/Installation/vue/src/SystemCheck/DiagnosticTable.vue?");
-
-/***/ }),
-
-/***/ "./plugins/Installation/vue/src/SystemCheck/DiagnosticTable.vue?vue&type=template&id=08e89765":
-/*!****************************************************************************************************!*\
-  !*** ./plugins/Installation/vue/src/SystemCheck/DiagnosticTable.vue?vue&type=template&id=08e89765 ***!
-  \****************************************************************************************************/
-/*! exports provided: render */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_DiagnosticTable_vue_vue_type_template_id_08e89765__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./DiagnosticTable.vue?vue&type=template&id=08e89765 */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/Installation/vue/src/SystemCheck/DiagnosticTable.vue?vue&type=template&id=08e89765\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_DiagnosticTable_vue_vue_type_template_id_08e89765__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://Installation/./plugins/Installation/vue/src/SystemCheck/DiagnosticTable.vue?");
-
-/***/ }),
-
-/***/ "./plugins/Installation/vue/src/SystemCheck/SystemCheck.vue":
-/*!******************************************************************!*\
-  !*** ./plugins/Installation/vue/src/SystemCheck/SystemCheck.vue ***!
-  \******************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _SystemCheck_vue_vue_type_template_id_467e3917__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SystemCheck.vue?vue&type=template&id=467e3917 */ \"./plugins/Installation/vue/src/SystemCheck/SystemCheck.vue?vue&type=template&id=467e3917\");\n/* harmony import */ var _SystemCheck_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SystemCheck.vue?vue&type=script&lang=ts */ \"./plugins/Installation/vue/src/SystemCheck/SystemCheck.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_SystemCheck_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _SystemCheck_vue_vue_type_template_id_467e3917__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_SystemCheck_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/Installation/vue/src/SystemCheck/SystemCheck.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_SystemCheck_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://Installation/./plugins/Installation/vue/src/SystemCheck/SystemCheck.vue?");
-
-/***/ }),
-
-/***/ "./plugins/Installation/vue/src/SystemCheck/SystemCheck.vue?vue&type=script&lang=ts":
-/*!******************************************************************************************!*\
-  !*** ./plugins/Installation/vue/src/SystemCheck/SystemCheck.vue?vue&type=script&lang=ts ***!
-  \******************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_SystemCheck_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./SystemCheck.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/Installation/vue/src/SystemCheck/SystemCheck.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_SystemCheck_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://Installation/./plugins/Installation/vue/src/SystemCheck/SystemCheck.vue?");
-
-/***/ }),
-
-/***/ "./plugins/Installation/vue/src/SystemCheck/SystemCheck.vue?vue&type=template&id=467e3917":
-/*!************************************************************************************************!*\
-  !*** ./plugins/Installation/vue/src/SystemCheck/SystemCheck.vue?vue&type=template&id=467e3917 ***!
-  \************************************************************************************************/
-/*! exports provided: render */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_SystemCheck_vue_vue_type_template_id_467e3917__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./SystemCheck.vue?vue&type=template&id=467e3917 */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/Installation/vue/src/SystemCheck/SystemCheck.vue?vue&type=template&id=467e3917\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_SystemCheck_vue_vue_type_template_id_467e3917__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://Installation/./plugins/Installation/vue/src/SystemCheck/SystemCheck.vue?");
-
-/***/ }),
-
-/***/ "./plugins/Installation/vue/src/SystemCheck/SystemCheckLegend.vue":
-/*!************************************************************************!*\
-  !*** ./plugins/Installation/vue/src/SystemCheck/SystemCheckLegend.vue ***!
-  \************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _SystemCheckLegend_vue_vue_type_template_id_6229a0f8__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SystemCheckLegend.vue?vue&type=template&id=6229a0f8 */ \"./plugins/Installation/vue/src/SystemCheck/SystemCheckLegend.vue?vue&type=template&id=6229a0f8\");\n/* harmony import */ var _SystemCheckLegend_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SystemCheckLegend.vue?vue&type=script&lang=ts */ \"./plugins/Installation/vue/src/SystemCheck/SystemCheckLegend.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_SystemCheckLegend_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _SystemCheckLegend_vue_vue_type_template_id_6229a0f8__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_SystemCheckLegend_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/Installation/vue/src/SystemCheck/SystemCheckLegend.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_SystemCheckLegend_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://Installation/./plugins/Installation/vue/src/SystemCheck/SystemCheckLegend.vue?");
-
-/***/ }),
-
-/***/ "./plugins/Installation/vue/src/SystemCheck/SystemCheckLegend.vue?vue&type=script&lang=ts":
-/*!************************************************************************************************!*\
-  !*** ./plugins/Installation/vue/src/SystemCheck/SystemCheckLegend.vue?vue&type=script&lang=ts ***!
-  \************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_SystemCheckLegend_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./SystemCheckLegend.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/Installation/vue/src/SystemCheck/SystemCheckLegend.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_SystemCheckLegend_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://Installation/./plugins/Installation/vue/src/SystemCheck/SystemCheckLegend.vue?");
-
-/***/ }),
-
-/***/ "./plugins/Installation/vue/src/SystemCheck/SystemCheckLegend.vue?vue&type=template&id=6229a0f8":
-/*!******************************************************************************************************!*\
-  !*** ./plugins/Installation/vue/src/SystemCheck/SystemCheckLegend.vue?vue&type=template&id=6229a0f8 ***!
-  \******************************************************************************************************/
-/*! exports provided: render */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_SystemCheckLegend_vue_vue_type_template_id_6229a0f8__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./SystemCheckLegend.vue?vue&type=template&id=6229a0f8 */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/Installation/vue/src/SystemCheck/SystemCheckLegend.vue?vue&type=template&id=6229a0f8\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_SystemCheckLegend_vue_vue_type_template_id_6229a0f8__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://Installation/./plugins/Installation/vue/src/SystemCheck/SystemCheckLegend.vue?");
-
-/***/ }),
-
-/***/ "./plugins/Installation/vue/src/SystemCheck/SystemCheckPage.vue":
-/*!**********************************************************************!*\
-  !*** ./plugins/Installation/vue/src/SystemCheck/SystemCheckPage.vue ***!
-  \**********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _SystemCheckPage_vue_vue_type_template_id_5935c8c6__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SystemCheckPage.vue?vue&type=template&id=5935c8c6 */ \"./plugins/Installation/vue/src/SystemCheck/SystemCheckPage.vue?vue&type=template&id=5935c8c6\");\n/* harmony import */ var _SystemCheckPage_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SystemCheckPage.vue?vue&type=script&lang=ts */ \"./plugins/Installation/vue/src/SystemCheck/SystemCheckPage.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_SystemCheckPage_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _SystemCheckPage_vue_vue_type_template_id_5935c8c6__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_SystemCheckPage_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/Installation/vue/src/SystemCheck/SystemCheckPage.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_SystemCheckPage_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://Installation/./plugins/Installation/vue/src/SystemCheck/SystemCheckPage.vue?");
-
-/***/ }),
-
-/***/ "./plugins/Installation/vue/src/SystemCheck/SystemCheckPage.vue?vue&type=script&lang=ts":
-/*!**********************************************************************************************!*\
-  !*** ./plugins/Installation/vue/src/SystemCheck/SystemCheckPage.vue?vue&type=script&lang=ts ***!
-  \**********************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_SystemCheckPage_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./SystemCheckPage.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/Installation/vue/src/SystemCheck/SystemCheckPage.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_SystemCheckPage_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://Installation/./plugins/Installation/vue/src/SystemCheck/SystemCheckPage.vue?");
-
-/***/ }),
-
-/***/ "./plugins/Installation/vue/src/SystemCheck/SystemCheckPage.vue?vue&type=template&id=5935c8c6":
-/*!****************************************************************************************************!*\
-  !*** ./plugins/Installation/vue/src/SystemCheck/SystemCheckPage.vue?vue&type=template&id=5935c8c6 ***!
-  \****************************************************************************************************/
-/*! exports provided: render */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_SystemCheckPage_vue_vue_type_template_id_5935c8c6__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./SystemCheckPage.vue?vue&type=template&id=5935c8c6 */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/Installation/vue/src/SystemCheck/SystemCheckPage.vue?vue&type=template&id=5935c8c6\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_SystemCheckPage_vue_vue_type_template_id_5935c8c6__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://Installation/./plugins/Installation/vue/src/SystemCheck/SystemCheckPage.vue?");
-
-/***/ }),
-
-/***/ "./plugins/Installation/vue/src/SystemCheck/SystemCheckSection.vue":
-/*!*************************************************************************!*\
-  !*** ./plugins/Installation/vue/src/SystemCheck/SystemCheckSection.vue ***!
-  \*************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _SystemCheckSection_vue_vue_type_template_id_18f24904__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SystemCheckSection.vue?vue&type=template&id=18f24904 */ \"./plugins/Installation/vue/src/SystemCheck/SystemCheckSection.vue?vue&type=template&id=18f24904\");\n/* harmony import */ var _SystemCheckSection_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SystemCheckSection.vue?vue&type=script&lang=ts */ \"./plugins/Installation/vue/src/SystemCheck/SystemCheckSection.vue?vue&type=script&lang=ts\");\n/* empty/unused harmony star reexport */\n\n\n_SystemCheckSection_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].render = _SystemCheckSection_vue_vue_type_template_id_18f24904__WEBPACK_IMPORTED_MODULE_0__[\"render\"]\n/* hot reload */\nif (false) {}\n\n_SystemCheckSection_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"].__file = \"plugins/Installation/vue/src/SystemCheck/SystemCheckSection.vue\"\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_SystemCheckSection_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://Installation/./plugins/Installation/vue/src/SystemCheck/SystemCheckSection.vue?");
-
-/***/ }),
-
-/***/ "./plugins/Installation/vue/src/SystemCheck/SystemCheckSection.vue?vue&type=script&lang=ts":
-/*!*************************************************************************************************!*\
-  !*** ./plugins/Installation/vue/src/SystemCheck/SystemCheckSection.vue?vue&type=script&lang=ts ***!
-  \*************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_SystemCheckSection_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./SystemCheckSection.vue?vue&type=script&lang=ts */ \"./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader/index.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/Installation/vue/src/SystemCheck/SystemCheckSection.vue?vue&type=script&lang=ts\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _node_modules_vue_cli_plugin_typescript_node_modules_cache_loader_dist_cjs_js_ref_14_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_plugin_typescript_node_modules_ts_loader_index_js_ref_14_2_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_SystemCheckSection_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* empty/unused harmony star reexport */ \n\n//# sourceURL=webpack://Installation/./plugins/Installation/vue/src/SystemCheck/SystemCheckSection.vue?");
-
-/***/ }),
-
-/***/ "./plugins/Installation/vue/src/SystemCheck/SystemCheckSection.vue?vue&type=template&id=18f24904":
-/*!*******************************************************************************************************!*\
-  !*** ./plugins/Installation/vue/src/SystemCheck/SystemCheckSection.vue?vue&type=template&id=18f24904 ***!
-  \*******************************************************************************************************/
-/*! exports provided: render */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_SystemCheckSection_vue_vue_type_template_id_18f24904__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!../../../../../node_modules/babel-loader/lib!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!../../../../../node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!../../../../../node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./SystemCheckSection.vue?vue&type=template&id=18f24904 */ \"./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js?!./node_modules/babel-loader/lib/index.js!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js?!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js?!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/index.js?!./plugins/Installation/vue/src/SystemCheck/SystemCheckSection.vue?vue&type=template&id=18f24904\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"render\", function() { return _node_modules_vue_cli_plugin_babel_node_modules_cache_loader_dist_cjs_js_ref_12_0_node_modules_babel_loader_lib_index_js_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_templateLoader_js_ref_6_node_modules_vue_cli_service_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_v16_dist_index_js_ref_0_1_SystemCheckSection_vue_vue_type_template_id_18f24904__WEBPACK_IMPORTED_MODULE_0__[\"render\"]; });\n\n\n\n//# sourceURL=webpack://Installation/./plugins/Installation/vue/src/SystemCheck/SystemCheckSection.vue?");
-
-/***/ }),
-
-/***/ "./plugins/Installation/vue/src/index.ts":
-/*!***********************************************!*\
-  !*** ./plugins/Installation/vue/src/index.ts ***!
-  \***********************************************/
-/*! exports provided: SystemCheckPage, SystemCheck */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _SystemCheck_SystemCheckPage_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SystemCheck/SystemCheckPage.vue */ \"./plugins/Installation/vue/src/SystemCheck/SystemCheckPage.vue\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"SystemCheckPage\", function() { return _SystemCheck_SystemCheckPage_vue__WEBPACK_IMPORTED_MODULE_0__[\"default\"]; });\n\n/* harmony import */ var _SystemCheck_SystemCheck_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SystemCheck/SystemCheck.vue */ \"./plugins/Installation/vue/src/SystemCheck/SystemCheck.vue\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"SystemCheck\", function() { return _SystemCheck_SystemCheck_vue__WEBPACK_IMPORTED_MODULE_1__[\"default\"]; });\n\n/*!\n * Matomo - free/libre analytics platform\n *\n * @link https://matomo.org\n * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later\n */\n\n\n\n//# sourceURL=webpack://Installation/./plugins/Installation/vue/src/index.ts?");
-
-/***/ }),
-
-/***/ "CoreHome":
-/*!***************************!*\
-  !*** external "CoreHome" ***!
-  \***************************/
-/*! no static exports found */
+/***/ "19dc":
 /***/ (function(module, exports) {
 
-eval("module.exports = __WEBPACK_EXTERNAL_MODULE_CoreHome__;\n\n//# sourceURL=webpack://Installation/external_%22CoreHome%22?");
+module.exports = __WEBPACK_EXTERNAL_MODULE__19dc__;
 
 /***/ }),
 
-/***/ "vue":
-/*!******************************************************************!*\
-  !*** external {"commonjs":"vue","commonjs2":"vue","root":"Vue"} ***!
-  \******************************************************************/
-/*! no static exports found */
+/***/ "8bbf":
 /***/ (function(module, exports) {
 
-eval("module.exports = __WEBPACK_EXTERNAL_MODULE_vue__;\n\n//# sourceURL=webpack://Installation/external_%7B%22commonjs%22:%22vue%22,%22commonjs2%22:%22vue%22,%22root%22:%22Vue%22%7D?");
+module.exports = __WEBPACK_EXTERNAL_MODULE__8bbf__;
+
+/***/ }),
+
+/***/ "fae3":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+// ESM COMPAT FLAG
+__webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "SystemCheckPage", function() { return /* reexport */ SystemCheckPage; });
+__webpack_require__.d(__webpack_exports__, "SystemCheck", function() { return /* reexport */ SystemCheck; });
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
+// This file is imported into lib/wc client bundles.
+
+if (typeof window !== 'undefined') {
+  var currentScript = window.document.currentScript
+  if (false) { var getCurrentScript; }
+
+  var src = currentScript && currentScript.src.match(/(.+\/)[^/]+\.js(\?.*)?$/)
+  if (src) {
+    __webpack_require__.p = src[1] // eslint-disable-line
+  }
+}
+
+// Indicate to webpack that this file can be concatenated
+/* harmony default export */ var setPublicPath = (null);
+
+// EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
+var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Installation/vue/src/SystemCheck/SystemCheckPage.vue?vue&type=template&id=b24bc244
+
+var _hoisted_1 = {
+  key: 0,
+  class: "alert alert-danger"
+};
+var _hoisted_2 = ["innerHTML"];
+var _hoisted_3 = {
+  key: 1,
+  class: "alert alert-warning"
+};
+var _hoisted_4 = {
+  key: 2,
+  class: "alert alert-success"
+};
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_SystemCheckSection = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SystemCheckSection");
+
+  var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
+    "content-title": _ctx.translate('Installation_SystemCheck'),
+    feature: "true"
+  }, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+      return [_ctx.hasErrors ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+        innerHTML: _ctx.$sanitize(_ctx.thereWereErrorsText)
+      }, null, 8, _hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Installation_SeeBelowForMoreInfo')), 1)])) : _ctx.hasWarnings ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Installation_SystemCheckSummaryThereWereWarnings')) + " " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Installation_SeeBelowForMoreInfo')), 1)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Installation_SystemCheckSummaryNoProblems')), 1)), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SystemCheckSection, {
+        "error-type": _ctx.errorType,
+        "warning-type": _ctx.warningType,
+        "informational-type": _ctx.informationalType,
+        "system-check-info": _ctx.systemCheckInfo,
+        "mandatory-results": _ctx.mandatoryResults,
+        "optional-results": _ctx.optionalResults,
+        "informational-results": _ctx.informationalResults,
+        "is-installation": _ctx.isInstallation
+      }, null, 8, ["error-type", "warning-type", "informational-type", "system-check-info", "mandatory-results", "optional-results", "informational-results", "is-installation"])];
+    }),
+    _: 1
+  }, 8, ["content-title"]);
+}
+// CONCATENATED MODULE: ./plugins/Installation/vue/src/SystemCheck/SystemCheckPage.vue?vue&type=template&id=b24bc244
+
+// EXTERNAL MODULE: external "CoreHome"
+var external_CoreHome_ = __webpack_require__("19dc");
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Installation/vue/src/SystemCheck/SystemCheckSection.vue?vue&type=template&id=5d6873c0
+
+
+var SystemCheckSectionvue_type_template_id_5d6873c0_hoisted_1 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+
+var SystemCheckSectionvue_type_template_id_5d6873c0_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])();
+
+var SystemCheckSectionvue_type_template_id_5d6873c0_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+
+var SystemCheckSectionvue_type_template_id_5d6873c0_hoisted_4 = ["innerHTML"];
+var _hoisted_5 = {
+  class: "entityTable system-check",
+  id: "systemCheckRequired"
+};
+var _hoisted_6 = {
+  class: "entityTable system-check",
+  id: "systemCheckOptional"
+};
+var _hoisted_7 = {
+  class: "entityTable system-check",
+  id: "systemCheckInformational"
+};
+function SystemCheckSectionvue_type_template_id_5d6873c0_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_DiagnosticTable = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("DiagnosticTable");
+
+  var _directive_content_table = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-table");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Installation_CopyBelowInfoForSupport')) + " ", 1), SystemCheckSectionvue_type_template_id_5d6873c0_hoisted_1, SystemCheckSectionvue_type_template_id_5d6873c0_hoisted_2, SystemCheckSectionvue_type_template_id_5d6873c0_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+    href: "",
+    onClick: _cache[0] || (_cache[0] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
+      return _ctx.copyInfo();
+    }, ["prevent"])),
+    class: "btn",
+    style: {
+      "margin-right": "3.5px"
+    }
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Installation_CopySystemCheck')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+    href: "",
+    onClick: _cache[1] || (_cache[1] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
+      return _ctx.downloadInfo();
+    }, ["prevent"])),
+    class: "btn"
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Installation_DownloadSystemCheck')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("textarea", {
+    style: {
+      "width": "100%",
+      "height": "200px"
+    },
+    readonly: "",
+    id: "matomo_system_check_info",
+    ref: "systemCheckInfo",
+    innerHTML: _ctx.$sanitize(_ctx.systemCheckInfo)
+  }, null, 8, SystemCheckSectionvue_type_template_id_5d6873c0_hoisted_4), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("table", _hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tbody", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_DiagnosticTable, {
+    results: _ctx.mandatoryResults,
+    "informational-type": _ctx.informationalType,
+    "warning-type": _ctx.warningType,
+    "error-type": _ctx.errorType
+  }, null, 8, ["results", "informational-type", "warning-type", "error-type"])])], 512), [[_directive_content_table, {
+    off: _ctx.isInstallation
+  }]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Installation_Optional')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("table", _hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tbody", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_DiagnosticTable, {
+    results: _ctx.optionalResults,
+    "informational-type": _ctx.informationalType,
+    "warning-type": _ctx.warningType,
+    "error-type": _ctx.errorType
+  }, null, 8, ["results", "informational-type", "warning-type", "error-type"])])], 512), [[_directive_content_table, {
+    off: _ctx.isInstallation
+  }]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Installation_InformationalResults')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("table", _hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tbody", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_DiagnosticTable, {
+    results: _ctx.informationalResults,
+    "informational-type": _ctx.informationalType,
+    "warning-type": _ctx.warningType,
+    "error-type": _ctx.errorType
+  }, null, 8, ["results", "informational-type", "warning-type", "error-type"])])], 512), [[_directive_content_table, {
+    off: _ctx.isInstallation
+  }]])])], 64);
+}
+// CONCATENATED MODULE: ./plugins/Installation/vue/src/SystemCheck/SystemCheckSection.vue?vue&type=template&id=5d6873c0
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Installation/vue/src/SystemCheck/DiagnosticTable.vue?vue&type=template&id=04e619d1
+
+var DiagnosticTablevue_type_template_id_04e619d1_hoisted_1 = ["innerHTML"];
+var DiagnosticTablevue_type_template_id_04e619d1_hoisted_2 = {
+  key: 0
+};
+
+var DiagnosticTablevue_type_template_id_04e619d1_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  class: "icon-error"
+}, null, -1);
+
+var DiagnosticTablevue_type_template_id_04e619d1_hoisted_4 = ["innerHTML"];
+var DiagnosticTablevue_type_template_id_04e619d1_hoisted_5 = {
+  key: 1
+};
+
+var DiagnosticTablevue_type_template_id_04e619d1_hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  class: "icon-warning"
+}, null, -1);
+
+var DiagnosticTablevue_type_template_id_04e619d1_hoisted_7 = ["innerHTML"];
+var _hoisted_8 = {
+  key: 2
+};
+
+var _hoisted_9 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  class: "icon-info"
+}, null, -1);
+
+var _hoisted_10 = ["innerHTML"];
+var _hoisted_11 = {
+  key: 3
+};
+
+var _hoisted_12 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  class: "icon-ok"
+}, null, -1);
+
+var _hoisted_13 = ["innerHTML"];
+
+var _hoisted_14 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+
+var _hoisted_15 = {
+  key: 0
+};
+var _hoisted_16 = ["innerHTML"];
+function DiagnosticTablevue_type_template_id_04e619d1_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_Passthrough = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Passthrough");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.results, function (result, index) {
+    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Passthrough, {
+      key: index
+    }, {
+      default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
+        return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tr", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", {
+          innerHTML: _ctx.$sanitize(result.label)
+        }, null, 8, DiagnosticTablevue_type_template_id_04e619d1_hoisted_1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", null, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(result.items, function (item, index) {
+          return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
+            key: index
+          }, [item.status === 'error' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", DiagnosticTablevue_type_template_id_04e619d1_hoisted_2, [DiagnosticTablevue_type_template_id_04e619d1_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+            class: "err",
+            innerHTML: _ctx.$sanitize(typeof item.comment !== 'string' ? '' : item.comment)
+          }, null, 8, DiagnosticTablevue_type_template_id_04e619d1_hoisted_4)])) : item.status === 'warning' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", DiagnosticTablevue_type_template_id_04e619d1_hoisted_5, [DiagnosticTablevue_type_template_id_04e619d1_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+            innerHTML: _ctx.$sanitize(typeof item.comment !== 'string' ? '' : item.comment)
+          }, null, 8, DiagnosticTablevue_type_template_id_04e619d1_hoisted_7)])) : item.status === 'informational' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", _hoisted_8, [_hoisted_9, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+            innerHTML: _ctx.$sanitize(typeof item.comment !== 'string' ? '' : item.comment)
+          }, null, 8, _hoisted_10)])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", _hoisted_11, [_hoisted_12, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+            innerHTML: _ctx.$sanitize(typeof item.comment !== 'string' ? '' : item.comment)
+          }, null, 8, _hoisted_13)])), _hoisted_14]);
+        }), 128))])]), result.longErrorMessage ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("tr", _hoisted_15, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", {
+          colspan: "2",
+          class: "error",
+          style: {
+            "font-size": "small"
+          },
+          innerHTML: _ctx.$sanitize(result.longErrorMessage)
+        }, null, 8, _hoisted_16)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)];
+      }),
+      _: 2
+    }, 1024);
+  }), 128);
+}
+// CONCATENATED MODULE: ./plugins/Installation/vue/src/SystemCheck/DiagnosticTable.vue?vue&type=template&id=04e619d1
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Installation/vue/src/SystemCheck/DiagnosticTable.vue?vue&type=script&lang=ts
+
+
+/* harmony default export */ var DiagnosticTablevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    errorType: {
+      type: String,
+      required: true
+    },
+    warningType: {
+      type: String,
+      required: true
+    },
+    informationalType: {
+      type: String,
+      required: true
+    },
+    results: {
+      type: Array,
+      required: true
+    }
+  },
+  components: {
+    Passthrough: external_CoreHome_["Passthrough"]
+  }
+}));
+// CONCATENATED MODULE: ./plugins/Installation/vue/src/SystemCheck/DiagnosticTable.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/Installation/vue/src/SystemCheck/DiagnosticTable.vue
+
+
+
+DiagnosticTablevue_type_script_lang_ts.render = DiagnosticTablevue_type_template_id_04e619d1_render
+
+/* harmony default export */ var DiagnosticTable = (DiagnosticTablevue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Installation/vue/src/SystemCheck/SystemCheckSection.vue?vue&type=script&lang=ts
+
+
+
+var _window = window,
+    $ = _window.$;
+/* harmony default export */ var SystemCheckSectionvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    errorType: {
+      type: String,
+      required: true
+    },
+    warningType: {
+      type: String,
+      required: true
+    },
+    informationalType: {
+      type: String,
+      required: true
+    },
+    systemCheckInfo: {
+      type: String,
+      required: true
+    },
+    mandatoryResults: {
+      type: Array,
+      required: true
+    },
+    optionalResults: {
+      type: Array,
+      required: true
+    },
+    informationalResults: {
+      type: Array,
+      required: true
+    },
+    isInstallation: Boolean
+  },
+  components: {
+    DiagnosticTable: DiagnosticTable
+  },
+  directives: {
+    ContentTable: external_CoreHome_["ContentTable"]
+  },
+  methods: {
+    copyInfo: function copyInfo() {
+      var textarea = this.$refs.systemCheckInfo;
+      textarea.select();
+      document.execCommand('copy');
+      $(textarea).effect('highlight', {}, 600);
+    },
+    downloadInfo: function downloadInfo() {
+      var textarea = this.$refs.systemCheckInfo;
+      external_CoreHome_["Matomo"].helper.sendContentAsDownload('matomo_system_check.txt', textarea.innerHTML);
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/Installation/vue/src/SystemCheck/SystemCheckSection.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/Installation/vue/src/SystemCheck/SystemCheckSection.vue
+
+
+
+SystemCheckSectionvue_type_script_lang_ts.render = SystemCheckSectionvue_type_template_id_5d6873c0_render
+
+/* harmony default export */ var SystemCheckSection = (SystemCheckSectionvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Installation/vue/src/SystemCheck/SystemCheckPage.vue?vue&type=script&lang=ts
+
+
+
+/* harmony default export */ var SystemCheckPagevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    errorType: {
+      type: String,
+      required: true
+    },
+    warningType: {
+      type: String,
+      required: true
+    },
+    informationalType: {
+      type: String,
+      required: true
+    },
+    systemCheckInfo: {
+      type: String,
+      required: true
+    },
+    mandatoryResults: {
+      type: Array,
+      required: true
+    },
+    optionalResults: {
+      type: Array,
+      required: true
+    },
+    informationalResults: {
+      type: Array,
+      required: true
+    },
+    isInstallation: Boolean,
+    hasErrors: Boolean,
+    hasWarnings: Boolean
+  },
+  components: {
+    ContentBlock: external_CoreHome_["ContentBlock"],
+    SystemCheckSection: SystemCheckSection
+  },
+  computed: {
+    thereWereErrorsText: function thereWereErrorsText() {
+      return Object(external_CoreHome_["translate"])('Installation_SystemCheckSummaryThereWereErrors', '<strong>', '</strong>', '<strong>', '</strong>');
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/Installation/vue/src/SystemCheck/SystemCheckPage.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/Installation/vue/src/SystemCheck/SystemCheckPage.vue
+
+
+
+SystemCheckPagevue_type_script_lang_ts.render = render
+
+/* harmony default export */ var SystemCheckPage = (SystemCheckPagevue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Installation/vue/src/SystemCheck/SystemCheck.vue?vue&type=template&id=7a499703
+
+var SystemCheckvue_type_template_id_7a499703_hoisted_1 = {
+  key: 0
+};
+
+var SystemCheckvue_type_template_id_7a499703_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", {
+  style: {
+    "clear": "both"
+  }
+}, null, -1);
+
+var SystemCheckvue_type_template_id_7a499703_hoisted_3 = {
+  key: 1
+};
+var SystemCheckvue_type_template_id_7a499703_hoisted_4 = {
+  key: 0
+};
+
+var SystemCheckvue_type_template_id_7a499703_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  class: "icon-export"
+}, null, -1);
+
+var SystemCheckvue_type_template_id_7a499703_hoisted_6 = {
+  target: "_blank",
+  rel: "noreferrer noopener",
+  href: "{{ externalRawLink('https://matomo.org/docs/requirements/') }}"
+};
+function SystemCheckvue_type_template_id_7a499703_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_SystemCheckLegend = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SystemCheckLegend");
+
+  var _component_SystemCheckSection = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SystemCheckSection");
+
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [!_ctx.showNextStep ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SystemCheckvue_type_template_id_7a499703_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SystemCheckLegend, {
+    url: _ctx.systemCheckLegendUrl
+  }, null, 8, ["url"]), SystemCheckvue_type_template_id_7a499703_hoisted_2])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Installation_SystemCheck')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SystemCheckSection, {
+    "error-type": _ctx.errorType,
+    "warning-type": _ctx.warningType,
+    "informational-type": _ctx.informationalType,
+    "system-check-info": _ctx.systemCheckInfo,
+    "mandatory-results": _ctx.mandatoryResults,
+    "optional-results": _ctx.optionalResults,
+    "informational-results": _ctx.informationalResults,
+    "is-installation": _ctx.isInstallation
+  }, null, 8, ["error-type", "warning-type", "informational-type", "system-check-info", "mandatory-results", "optional-results", "informational-results", "is-installation"]), !_ctx.showNextStep ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SystemCheckvue_type_template_id_7a499703_hoisted_3, [!_ctx.showNextStep ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", SystemCheckvue_type_template_id_7a499703_hoisted_4, [SystemCheckvue_type_template_id_7a499703_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", SystemCheckvue_type_template_id_7a499703_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Installation_Requirements')), 1)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SystemCheckLegend, {
+    url: _ctx.systemCheckLegendUrl
+  }, null, 8, ["url"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
+}
+// CONCATENATED MODULE: ./plugins/Installation/vue/src/SystemCheck/SystemCheck.vue?vue&type=template&id=7a499703
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Installation/vue/src/SystemCheck/SystemCheckLegend.vue?vue&type=template&id=77aad6d6
+
+var SystemCheckLegendvue_type_template_id_77aad6d6_hoisted_1 = {
+  class: "system-check-legend"
+};
+
+var SystemCheckLegendvue_type_template_id_77aad6d6_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  class: "icon-ok"
+}, null, -1);
+
+var SystemCheckLegendvue_type_template_id_77aad6d6_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  class: "icon-warning"
+}, null, -1);
+
+var SystemCheckLegendvue_type_template_id_77aad6d6_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  class: "icon-error"
+}, null, -1);
+
+var SystemCheckLegendvue_type_template_id_77aad6d6_hoisted_5 = {
+  class: "next-step"
+};
+var SystemCheckLegendvue_type_template_id_77aad6d6_hoisted_6 = ["href"];
+function SystemCheckLegendvue_type_template_id_77aad6d6_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", SystemCheckLegendvue_type_template_id_77aad6d6_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Installation_Legend')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [SystemCheckLegendvue_type_template_id_77aad6d6_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Ok')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [SystemCheckLegendvue_type_template_id_77aad6d6_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Warning')) + ": " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Installation_SystemCheckWarning')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [SystemCheckLegendvue_type_template_id_77aad6d6_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Error')) + ": " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Installation_SystemCheckError')), 1)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", SystemCheckLegendvue_type_template_id_77aad6d6_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+    href: _ctx.url
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_RefreshPage')) + " »", 9, SystemCheckLegendvue_type_template_id_77aad6d6_hoisted_6)])], 64);
+}
+// CONCATENATED MODULE: ./plugins/Installation/vue/src/SystemCheck/SystemCheckLegend.vue?vue&type=template&id=77aad6d6
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Installation/vue/src/SystemCheck/SystemCheckLegend.vue?vue&type=script&lang=ts
+
+/* harmony default export */ var SystemCheckLegendvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    url: {
+      type: String,
+      required: true
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/Installation/vue/src/SystemCheck/SystemCheckLegend.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/Installation/vue/src/SystemCheck/SystemCheckLegend.vue
+
+
+
+SystemCheckLegendvue_type_script_lang_ts.render = SystemCheckLegendvue_type_template_id_77aad6d6_render
+
+/* harmony default export */ var SystemCheckLegend = (SystemCheckLegendvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Installation/vue/src/SystemCheck/SystemCheck.vue?vue&type=script&lang=ts
+
+
+
+var SystemCheckvue_type_script_lang_ts_window = window,
+    SystemCheckvue_type_script_lang_ts_$ = SystemCheckvue_type_script_lang_ts_window.$;
+/* harmony default export */ var SystemCheckvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    showNextStep: Boolean,
+    systemCheckLegendUrl: {
+      type: String,
+      required: true
+    },
+    errorType: {
+      type: String,
+      required: true
+    },
+    warningType: {
+      type: String,
+      required: true
+    },
+    informationalType: {
+      type: String,
+      required: true
+    },
+    systemCheckInfo: {
+      type: String,
+      required: true
+    },
+    mandatoryResults: {
+      type: Array,
+      required: true
+    },
+    optionalResults: {
+      type: Array,
+      required: true
+    },
+    informationalResults: {
+      type: Array,
+      required: true
+    },
+    isInstallation: Boolean
+  },
+  components: {
+    SystemCheckSection: SystemCheckSection,
+    SystemCheckLegend: SystemCheckLegend
+  },
+  mounted: function mounted() {
+    // client-side test for https to handle the case where the server is behind a reverse proxy
+    if (document.location.protocol === 'https:') {
+      var link = SystemCheckvue_type_script_lang_ts_$('p.next-step a');
+      link.attr('href', "".concat(link.attr('href'), "&clientProtocol=https"));
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/Installation/vue/src/SystemCheck/SystemCheck.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/Installation/vue/src/SystemCheck/SystemCheck.vue
+
+
+
+SystemCheckvue_type_script_lang_ts.render = SystemCheckvue_type_template_id_7a499703_render
+
+/* harmony default export */ var SystemCheck = (SystemCheckvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/Installation/vue/src/index.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js
+
+
+
 
 /***/ })
 
 /******/ });
 });
+//# sourceMappingURL=Installation.umd.js.map
