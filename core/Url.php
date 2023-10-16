@@ -839,10 +839,10 @@ class Url
      * @param string|null $campaign Optional campaign override, defaults to 'Matomo_App'
      * @param string|null $source   Optional campaign source override, defaults to either 'Matomo_App_OnPremise' or
      *                              'Matomo_App_Cloud'
-     * @param string|null $medium   Optional campaign medium, defaults to [module].[action] where module and action are
+     * @param string|null $medium   Optional campaign medium, defaults to App.[module].[action] where module and action are
      *                              taken from the currently viewed application page, eg. 'CoreAdminHome.trackingCodeGenerator'
      *
-     * @return string|null      www.matomo.org/faq/123?mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=CoreAdminHome.trackingCodeGenerator
+     * @return string|null      www.matomo.org/faq/123?mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreAdminHome.trackingCodeGenerator
      */
     public static function addCampaignParametersToMatomoLink(?string $url = null, ?string $campaign = null,
                                                              ?string $source = null, ?string $medium = null): ?string
@@ -871,7 +871,7 @@ class Url
             if (empty($module) || empty($action)) {
                 return $url; // Ignore if no module or action
             }
-            $medium = $module.'.'.$action;
+            $medium = 'App.' . $module.'.'.$action;
         }
         $newParams = [
             'mtm_campaign' => $campaign ?? 'Matomo_App',

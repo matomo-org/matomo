@@ -261,6 +261,7 @@ declare global {
     Cloud: any
 
     _pk_translate(translationStringId: string, values: (string|number|boolean)[]): string;
+    _pk_externalRawLink(url: string, values: (string|null)[]): string;
     require(p: string): any;
     initTopControls(): void;
     vueSanitize(content: string): string;

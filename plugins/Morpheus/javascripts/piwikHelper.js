@@ -48,7 +48,7 @@ function _pk_externalRawLink(url, values) {
       source = sourceOverride;
     }
 
-    const medium = (mediumOverride === null ? module + '.' + action : mediumOverride);
+    const medium = (mediumOverride === null ? 'App.' + module + '.' + action : mediumOverride);
 
     returnURL.searchParams.set('mtm_campaign', campaign);
     returnURL.searchParams.set('mtm_source', source);

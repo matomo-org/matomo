@@ -485,7 +485,7 @@ class UrlTest extends \PHPUnit\Framework\TestCase
             Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/123'));
 
         Config::getInstance()->General['disable_tracking_matomo_app_links'] = 0;
-        $this->assertEquals('https://matomo.org/faq/123?mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=CoreHomeAdmin.trackingCodeGenerator',
+        $this->assertEquals('https://matomo.org/faq/123?mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreHomeAdmin.trackingCodeGenerator',
             Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/123'));
     }
 
@@ -506,49 +506,49 @@ class UrlTest extends \PHPUnit\Framework\TestCase
         return [
             // Matomo url
             ['https://matomo.org/faq/123',
-             'https://matomo.org/faq/123?mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=CoreHomeAdmin.trackingCodeGenerator',
+             'https://matomo.org/faq/123?mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreHomeAdmin.trackingCodeGenerator',
              null, null, null
             ],
 
             // Matomo url, trailing ?
             ['https://matomo.org/faq/123?',
-             'https://matomo.org/faq/123?mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=CoreHomeAdmin.trackingCodeGenerator',
+             'https://matomo.org/faq/123?mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreHomeAdmin.trackingCodeGenerator',
              null, null, null
             ],
 
             // Matomo url, trailing ? and /
             ['https://matomo.org/faq/123/?',
-             'https://matomo.org/faq/123/?mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=CoreHomeAdmin.trackingCodeGenerator',
+             'https://matomo.org/faq/123/?mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreHomeAdmin.trackingCodeGenerator',
              null, null, null
             ],
 
             // Matomo url, anchor
             ['https://matomo.org/faq/123#anchor',
-             'https://matomo.org/faq/123#anchor?mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=CoreHomeAdmin.trackingCodeGenerator',
+             'https://matomo.org/faq/123#anchor?mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreHomeAdmin.trackingCodeGenerator',
              null, null, null
             ],
 
             // Matomo url, anchor and parameter
             ['https://matomo.org/faq/123/#anchor?abc=123',
-             'https://matomo.org/faq/123/#anchor?abc=123&mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=CoreHomeAdmin.trackingCodeGenerator',
+             'https://matomo.org/faq/123/#anchor?abc=123&mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreHomeAdmin.trackingCodeGenerator',
              null, null, null
             ],
 
             // Matomo url, one parameter
             ['https://matomo.org/faq/123?abc=123',
-             'https://matomo.org/faq/123?abc=123&mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=CoreHomeAdmin.trackingCodeGenerator',
+             'https://matomo.org/faq/123?abc=123&mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreHomeAdmin.trackingCodeGenerator',
              null, null, null
             ],
 
             // Matomo url, two parameters
             ['https://matomo.org/faq/123?abc=123&def=456',
-             'https://matomo.org/faq/123?abc=123&def=456&mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=CoreHomeAdmin.trackingCodeGenerator',
+             'https://matomo.org/faq/123?abc=123&def=456&mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreHomeAdmin.trackingCodeGenerator',
              null, null, null
             ],
 
             // Matomo url with www subdomain, anchor and two parameters
             ['https://www.matomo.org/faq/123#anchor?abc=123&def=456',
-             'https://www.matomo.org/faq/123#anchor?abc=123&def=456&mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=CoreHomeAdmin.trackingCodeGenerator',
+             'https://www.matomo.org/faq/123#anchor?abc=123&def=456&mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreHomeAdmin.trackingCodeGenerator',
              null, null, null
             ],
 
