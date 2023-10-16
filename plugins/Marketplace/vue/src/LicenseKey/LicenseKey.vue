@@ -223,7 +223,7 @@ export default defineComponent({
     noLicenseKeyIntroText() {
       return translate(
         'Marketplace_PaidPluginsNoLicenseKeyIntro',
-        externalLink('href="https://matomo.org/recommends/premium-plugins/'),
+        externalLink('https://matomo.org/recommends/premium-plugins/'),
         '</a>',
       );
     },
