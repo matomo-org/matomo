@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Tour\Engagement;
 
 use Piwik\Piwik;
 use Piwik\Plugins\TwoFactorAuth\TwoFactorAuthentication;
+use Piwik\Url;
 
 class ChallengeSetupTwoFa extends Challenge
 {

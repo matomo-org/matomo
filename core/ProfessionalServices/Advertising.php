@@ -70,15 +70,17 @@ class Advertising
      * @param string $campaignName
      * @param string $campaignMedium
      * @param string $campaignContent
+     * @param string $campaignSource
      * @return string
      */
-    public function addPromoCampaignParametersToUrl($url, $campaignName, $campaignMedium, $campaignContent = '')
+    public function addPromoCampaignParametersToUrl($url, $campaignName, $campaignMedium, $campaignContent = '', $campaignSource = null)
     {
         if (empty($url)) {
             return '';
         }
 
-        return Url::addCampaignParametersToMatomoLink(url, $campaignName, null, $campaignMedium);
+        return Url::addCampaignParametersToMatomoLink($url, $campaignName, $campaignSource, $campaignMedium.
+            ($campaignContent !== '' ? '.' . $campaignContent : ''));
     }
 
     /**
