@@ -8,7 +8,7 @@
 {% endset %}
 
 {% if
-    (latest_version_available and not isPiwikDemo and hasSomeViewAccess and not isUserIsAnonymous and showUpdateNotificationToUser)
+    (isAutoUpdateEnabled and latest_version_available and not isPiwikDemo and hasSomeViewAccess and not isUserIsAnonymous and showUpdateNotificationToUser)
     or (
         isSuperUser
         and (
