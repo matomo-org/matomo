@@ -1,5 +1,15 @@
 {
     "ProfessionalServices": {
-        "WidgetPremiumServicesForPiwik": "Premium Features &amp; Services for Matomo"
+        "WidgetPremiumServicesForPiwik": "Premium Features &amp; Services for Matomo",
+        "PromoOverview": "Overview",
+        "PromoManage": "Manage",
+        "PromoFunnels": "Funnels",
+        "PromoForms": "Forms",
+        "PromoMedia": "Media",
+        "PromoAbTesting": "A/B Tests",
+        "PromoHeatmaps": "Heatmaps",
+        "PromoSessionRecording": "Session Recordings",
+        "PromoCustomReports": "Custom Reports",
+        "PromoCrashAnalytics": "Crashes"
     }
 }
