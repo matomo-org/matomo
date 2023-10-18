@@ -198,6 +198,16 @@ class ReportsProvider
         return $result;
     }
 
+    /**
+     * @param string|null $catIdA
+     * @param string|null $subcatIdA
+     * @param int $orderA
+     * @param string|null $catIdB
+     * @param string|null $subcatIdB
+     * @param int $orderB
+     *
+     * @return int
+     */
     public function compareCategories($catIdA, $subcatIdA, $orderA, $catIdB, $subcatIdB, $orderB)
     {
         if (!isset($this->categoryList)) {
@@ -259,7 +269,7 @@ class ReportsProvider
             return $orderA < $orderB ? -1 : 1;
         }
 
-        return strnatcasecmp($catIdA, $catIdB);
+        return strnatcasecmp($catIdA ?? '', $catIdB ?? '');
     }
 
     /**

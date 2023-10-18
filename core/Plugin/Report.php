@@ -82,14 +82,14 @@ class Report
 
     /**
      * The translation key of the category the report belongs to.
-     * @var string
+     * @var string|null
      * @api
      */
     protected $categoryId;
 
     /**
      * The translation key of the subcategory the report belongs to.
-     * @var string
+     * @var string|null
      * @api
      */
     protected $subcategoryId;
@@ -803,7 +803,7 @@ class Report
 
     /**
      * Get the translated name of the category the report belongs to.
-     * @return string
+     * @return string|null
      * @ignore
      */
     public function getCategoryId()
@@ -813,7 +813,7 @@ class Report
 
     /**
      * Get the translated name of the subcategory the report belongs to.
-     * @return string
+     * @return string|null
      * @ignore
      */
     public function getSubcategoryId()

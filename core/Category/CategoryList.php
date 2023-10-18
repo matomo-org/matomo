@@ -39,6 +39,10 @@ class CategoryList
         return $this->categories;
     }
 
+    /**
+     * @param string|null $categoryId
+     * @return bool
+     */
     public function hasCategory($categoryId)
     {
         return isset($this->categories[$categoryId]);
@@ -47,7 +51,7 @@ class CategoryList
     /**
      * Get the category having the given id, if possible.
      *
-     * @param string $categoryId
+     * @param string|null $categoryId
      * @return Category|null
      */
     public function getCategory($categoryId)
@@ -55,6 +59,8 @@ class CategoryList
         if ($this->hasCategory($categoryId)) {
             return $this->categories[$categoryId];
         }
+
+        return null;
     }
 
     /**
