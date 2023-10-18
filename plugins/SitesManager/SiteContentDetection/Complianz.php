@@ -10,6 +10,8 @@
 
 namespace Piwik\Plugins\SitesManager\SiteContentDetection;
 
+use Piwik\Url;
+
 class Complianz extends ConsentManagerDetectionAbstract
 {
     public static function getName(): string

@@ -22,7 +22,7 @@
         <span v-html="$sanitize(jsTrackingIntro5)"></span>
         <br><br/>
         {{ translate('SitesManager_InstallationGuides') }} :
-        <a href="{{ externalRawLink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/', 'abc123', 'def456', 'ghi789') }}"
+        <a href="{{ externalRawLink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/') }}"
            target="_blank" rel="noopener">WordPress</a> |
         <a href="{{ externalRawLink('https://matomo.org/faq/new-to-piwik/how-do-i-integrate-matomo-with-squarespace-website/') }}"
            target="_blank" rel="noopener">Squarespace</a> |
