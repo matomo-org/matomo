@@ -34,7 +34,7 @@ function _pk_externalRawLink(url, values) {
   const mediumOverride = (typeof values != 'undefined' && values.length > 2 && values[2] ? values[2] : null);
 
   const returnURL = new URL(url);
-  const validDomain = returnURL.host.endsWith('matomo.org');
+  const validDomain = returnURL.host === 'matomo.org' || returnURL.host.endsWith('.matomo.org');
   const urlParams = new URLSearchParams(window.location.search);
   const module = urlParams.get('module');
   const action = urlParams.get('action');
