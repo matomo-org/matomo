@@ -134,6 +134,25 @@ class WidgetsListTest extends IntegrationTestCase
         }
     }
 
+    public function testGetWithoutProfessionalServicesPromos()
+    {
+        Fixture::createWebsite('2009-01-04 00:11:42');
+        Manager::getInstance()->deactivatePlugin('ProfessionalServices');
+
+        $_GET['idSite'] = 1;
+
+        $widgets = WidgetsList::get();
+
+        // number of main categories
+        $widgetsPerCategory = $this->getWidgetsPerCategory($widgets);
+        $this->assertEquals(count($widgetsPerCategory), 11);
+
+        // no professional services promos
+        foreach ($widgetsPerCategory as $category => $categoryWidgets) {
+            $this->assertStringStartsNotWith($category, 'ProfessionalServices_Promo');
+        }
+    }
+
     public function testRemove()
     {
         Fixture::createWebsite('2009-01-04 00:11:42', true);
