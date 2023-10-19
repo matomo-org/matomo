@@ -2649,6 +2649,12 @@ function externalRawLink(url) {
   }
 
   var pkArgs = values;
+
+  if (!window._pk_externalRawLink) {
+    // eslint-disable-line
+    return url;
+  }
+
   return window._pk_externalRawLink(url, pkArgs); // eslint-disable-line
 }
 /**
