@@ -46,6 +46,9 @@ return [
         $config->General['trusted_hosts'][] = '127.0.0.1';
         $config->General['trusted_hosts'][] = $config->tests['http_host'];
         $config->General['trusted_hosts'][] = $config->tests['http_host'] . ':' . $config->tests['port'];
+
+        $config->General['piwik_professional_support_ads_enabled'] = '0';
+
         return $config;
     }),
 

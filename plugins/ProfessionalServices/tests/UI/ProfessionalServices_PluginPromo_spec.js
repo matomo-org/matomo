@@ -14,6 +14,7 @@ describe("ProfessionalServices_PluginPromo", function () {
         urlBase = '?module=CoreHome&' + generalParams + '&action=index&';
 
     before(function () {
+        testEnvironment.configOverride.General = {piwik_professional_support_ads_enabled: "1"};
         testEnvironment.pluginsToLoad = ['PrivacyManager', 'Marketplace', 'ProfessionalServices'];
         testEnvironment.save();
     });
