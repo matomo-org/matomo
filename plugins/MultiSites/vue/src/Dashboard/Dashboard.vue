@@ -159,7 +159,7 @@
               <a
                 rel="noreferrer noopener"
                 target="_blank"
-                href="{{ externalLink('https://forum.matomo.org/') }}"
+                href="{{ externalRawLink('https://forum.matomo.org/') }}"
               >{{ translate('Feedback_CommunityHelp') }}</a>
               <span v-show="areAdsForProfessionalServicesEnabled"> &#x2013; </span>
               <a
