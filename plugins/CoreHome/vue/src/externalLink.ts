@@ -18,6 +18,9 @@ export function externalRawLink(
   ...values: (string|null)[]
 ): string {
   const pkArgs = values as (string|null)[];
+  if (!window._pk_externalRawLink) {
+    return url;
+  }
   return window._pk_externalRawLink(url, pkArgs); // eslint-disable-line
 }
 

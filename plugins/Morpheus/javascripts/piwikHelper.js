@@ -43,7 +43,7 @@ function _pk_externalRawLink(url, values) {
   if (validDomain && !window.piwik.disableTrackingMatomoAppLinks
     && ((module && action) || mediumOverride)) {
     const campaign = (campaignOverride === null ? 'Matomo_App' : campaignOverride);
-    let source = (window.Cloud === undefined ? 'OnPremise' : 'Cloud');
+    let source = (window.Cloud === undefined ? 'Matomo_App_OnPremise' : 'Matomo_App_Cloud');
     if (sourceOverride !== null) {
       source = sourceOverride;
     }
