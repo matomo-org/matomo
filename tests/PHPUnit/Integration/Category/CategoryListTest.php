@@ -49,10 +49,10 @@ class CategoryListTest extends IntegrationTestCase
             'ProfessionalServices_PromoAbTesting',
             'ProfessionalServices_PromoCrashAnalytics',
             'ProfessionalServices_PromoCustomReports',
-            'ProfessionalServices_PromoForms',
+            'ProfessionalServices_PromoFormAnalytics',
             'ProfessionalServices_PromoFunnels',
             'ProfessionalServices_PromoHeatmaps',
-            'ProfessionalServices_PromoMedia',
+            'ProfessionalServices_PromoMediaAnalytics',
             'ProfessionalServices_PromoSessionRecording',
             'ExampleUI_UiFramework',
             'CustomVariables_CustomVariables'

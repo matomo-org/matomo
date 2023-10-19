@@ -20,7 +20,7 @@ class PromoFormAnalytics extends Widget
 
     public static function configure(WidgetConfig $config)
     {
-        $config->setCategoryId('ProfessionalServices_PromoForms');
+        $config->setCategoryId('ProfessionalServices_PromoFormAnalytics');
         $config->setSubcategoryId('ProfessionalServices_PromoOverview');
         $config->setIsNotWidgetizable();
 

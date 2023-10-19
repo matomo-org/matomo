@@ -42,7 +42,7 @@ class WidgetsProvider
         $configs = array();
 
         /**
-         * Triggered to add custom widget configs. To filder widgets have a look at the {@hook Widget.filterWidgets}
+         * Triggered to add custom widget configs. To filter widgets have a look at the {@hook Widget.filterWidgets}
          * event.
          *
          * **Example**

@@ -12,7 +12,7 @@ use Piwik\Category\Category;
 
 class PromoFormsCategory extends Category
 {
-    protected $id = 'ProfessionalServices_PromoForms';
+    protected $id = 'ProfessionalServices_PromoFormAnalytics';
     protected $order = 49;
     protected $icon = 'icon-form';
 }

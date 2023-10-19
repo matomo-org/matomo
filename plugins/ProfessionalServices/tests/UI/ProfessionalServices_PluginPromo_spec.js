@@ -46,7 +46,7 @@ describe("ProfessionalServices_PluginPromo", function () {
     });
 
     it('should load Form Analytics plugin promo detail view', async function() {
-        const category = 'ProfessionalServices_PromoForms';
+        const category = 'ProfessionalServices_PromoFormAnalytics';
         const subcategory = 'ProfessionalServices_PromoOverview';
 
         await page.goto(urlBase + 'category=' + category + '&subcategory=' + subcategory);
@@ -73,7 +73,7 @@ describe("ProfessionalServices_PluginPromo", function () {
     });
 
     it('should load Media Analytics plugin promo detail view', async function() {
-        const category = 'ProfessionalServices_PromoMedia';
+        const category = 'ProfessionalServices_PromoMediaAnalytics';
         const subcategory = 'ProfessionalServices_PromoOverview';
 
         await page.goto(urlBase + 'category=' + category + '&subcategory=' + subcategory);
