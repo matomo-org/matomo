@@ -21,7 +21,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class WidgetsListTest extends IntegrationTestCase
 {
-    public function setIp()
+    public function setUp(): void
     {
         parent::setUp();
 
