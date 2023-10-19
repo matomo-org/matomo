@@ -153,7 +153,7 @@
               <a
                 rel="noreferrer noopener"
                 target="_blank"
-                href="{{ externalLink('https://matomo.org/faq/troubleshooting/faq_19489/') }}"
+                href="{{ externalRawLink('https://matomo.org/faq/troubleshooting/faq_19489/') }}"
               >{{ translate('General_Faq') }}</a>
               &#x2013;
               <a
