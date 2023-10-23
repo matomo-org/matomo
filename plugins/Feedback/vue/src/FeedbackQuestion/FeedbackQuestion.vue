@@ -68,7 +68,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import {
-  MatomoDialog, AjaxHelper, setCookie, getCookie, translate,
+  MatomoDialog, AjaxHelper, setCookie, getCookie, translate, externalLink,
 } from 'CoreHome';
 
 const { $ } = window;
@@ -106,7 +106,8 @@ export default defineComponent({
     feedbackPolicy() {
       return translate(
         'Feedback_Policy',
-        '<a rel="nofollow" href="https://matomo.org/privacy-policy/" target="_blank">',
+        /* eslint-disable prefer-template */
+        externalLink('https://matomo.org/privacy-policy/'),
         '</a>',
       );
     },

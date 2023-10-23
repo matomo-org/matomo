@@ -47,7 +47,7 @@
         {% endif %}
         </p>
         <hr />
-        <p class="tourSuperUserNote">{{ 'Tour_OnlyVisibleToSuperUser'|translate('<a href="https://matomo.org/faq/general/faq_35/" target="_blank" rel="noreferrer noopener">', '</a>')|raw }}</p>
+        <p class="tourSuperUserNote">{{ 'Tour_OnlyVisibleToSuperUser'|translate(externallink('https://matomo.org/faq/general/faq_35/'), '</a>')|raw }}</p>
         <script>
             jQuery(window).off('focus.tourEngagement').on('focus.tourEngagement', function () {
                 if (jQuery('#widgetTourgetEngagement').length) {

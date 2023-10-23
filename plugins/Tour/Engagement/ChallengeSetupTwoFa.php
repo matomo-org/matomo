@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Tour\Engagement;
 
 use Piwik\Piwik;
 use Piwik\Plugins\TwoFactorAuth\TwoFactorAuthentication;
+use Piwik\Url;
 
 class ChallengeSetupTwoFa extends Challenge
 {
@@ -35,7 +36,7 @@ class ChallengeSetupTwoFa extends Challenge
 
     public function getUrl()
     {
-        return 'https://matomo.org/faq/general/faq_27245';
+        return Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/general/faq_27245');
     }
 
 

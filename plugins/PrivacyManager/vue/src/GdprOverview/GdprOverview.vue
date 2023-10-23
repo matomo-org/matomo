@@ -101,12 +101,13 @@ import {
   ContentIntro,
   translate,
   MatomoUrl,
+  externalLink,
 } from 'CoreHome';
 
 function externalLinkTranslate(tokenSuffix: string, url: string) {
   return translate(
     `PrivacyManager_${tokenSuffix}`,
-    `<a rel="noreferrer noopener" target="_blank" href="${url}">`,
+    externalLink(url),
     '</a>',
   );
 }

@@ -41,6 +41,7 @@ import {
   ContentBlock,
   translate,
   NotificationsStore,
+  externalLink,
 } from 'CoreHome';
 import { SaveButton, Field } from 'CorePluginsAdmin';
 
@@ -69,7 +70,7 @@ export default defineComponent({
     signupTitleText() {
       return translate(
         'UsersManager_NewsletterSignupMessage',
-        '<a href="https://matomo.org/privacy-policy/" target="_blank">',
+        externalLink('https://matomo.org/privacy-policy/'),
         '</a>',
       );
     },

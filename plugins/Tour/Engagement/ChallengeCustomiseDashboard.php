@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Tour\Engagement;
 
 use Piwik\Piwik;
 use Piwik\Plugins\Tour\Dao\DataFinder;
+use Piwik\Url;
 
 class ChallengeCustomiseDashboard extends Challenge
 {
@@ -53,7 +54,7 @@ class ChallengeCustomiseDashboard extends Challenge
 
     public function getUrl()
     {
-        return 'https://matomo.org/faq/dashboards/create-dashboards-and-customise-widgets-and-layout/';
+        return Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/dashboards/create-dashboards-and-customise-widgets-and-layout/');
     }
 
 

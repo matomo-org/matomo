@@ -13,6 +13,8 @@ namespace Piwik\Plugins\SitesManager\SiteContentDetection;
 // Note: tarte au citron pro is configured server side so we cannot tell if it has been connected by
 // crawling the website, however setup of Matomo with the pro version is automatic, so displaying the guide
 // link for pro isn't necessary. Only the open source version is detected by this definition.
+use Piwik\Url;
+
 class TarteAuCitron extends ConsentManagerDetectionAbstract
 {
     public static function getName(): string
@@ -22,7 +24,7 @@ class TarteAuCitron extends ConsentManagerDetectionAbstract
 
     public static function getInstructionUrl(): ?string
     {
-        return 'https://matomo.org/faq/how-to/using-tarte-au-citron-consent-manager-with-matomo';
+        return Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to/using-tarte-au-citron-consent-manager-with-matomo');
     }
 
     public function isDetected(?string $data = null, ?array $headers = null): bool

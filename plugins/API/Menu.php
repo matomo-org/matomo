@@ -13,6 +13,7 @@ use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
 use DeviceDetector\Parser\OperatingSystem;
+use Piwik\Url;
 
 class Menu extends \Piwik\Plugin\Menu
 {
@@ -55,7 +56,7 @@ class Menu extends \Piwik\Plugin\Menu
         $parsedOS = $ua->parse();
 
         if (!empty($parsedOS['short_name']) && in_array($parsedOS['short_name'], array(self::DD_SHORT_NAME_ANDROID, self::DD_SHORT_NAME_IOS))) {
-            $menu->addItem('Mobile_MatomoMobile', null, 'https://matomo.org/mobile/', 4);
+            $menu->addItem('Mobile_MatomoMobile', null, Url::addCampaignParametersToMatomoLink('https://matomo.org/mobile/'), 4);
         }
     }
 

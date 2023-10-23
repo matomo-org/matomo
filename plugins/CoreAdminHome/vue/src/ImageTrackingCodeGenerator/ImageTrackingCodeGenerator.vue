@@ -95,6 +95,7 @@ import {
   Site,
   CopyToClipboard,
   debounce,
+  externalRawLink,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 
@@ -295,7 +296,7 @@ export default defineComponent({
       return `${first} ${second}`;
     },
     imageTrackingIntro3() {
-      const link = 'https://matomo.org/docs/tracking-api/reference/';
+      const link = externalRawLink('https://matomo.org/docs/tracking-api/reference/');
       return translate(
         'CoreAdminHome_ImageTrackingIntro3',
         `<a href="${link}" rel="noreferrer noopener" target="_blank">`,

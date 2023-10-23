@@ -84,7 +84,7 @@
             </form>
             {% if isCustomLogo %}
                 <p id="piwik">
-                    <i><a href="https://matomo.org/" rel="noreferrer noopener" target="_blank">{{ linkTitle }}</a></i>
+                    <i><a href="{{ 'https://matomo.org/'|trackmatomolink }}" rel="noreferrer noopener" target="_blank">{{ linkTitle }}</a></i>
                 </p>
             {% endif %}
         {% endblock %}

@@ -14,6 +14,8 @@
  * This file must be compatible with PHP 5.3.
  */
 
+use Piwik\Url;
+
 $piwik_errorMessage = '';
 
 // Minimum requirement: stream_resolve_include_path, working json_encode in 5.3.3, namespaces in 5.3
@@ -66,7 +68,7 @@ if ($minimumPhpInvalid) {
                     "<br/>" . $composerInstall .
                     " This will initialize composer for Matomo and download libraries we use in vendor/* directory." .
                     "\n\n<br/><br/>Then reload this page to access your analytics reports." .
-                    "\n\n<br/><br/>For more information check out this FAQ: <a href='https://matomo.org/faq/how-to-install/faq_18271/' rel='noreferrer noopener' target='_blank'>How do I use Matomo from the Git repository?</a>." .
+                    "\n\n<br/><br/>For more information check out this FAQ: <a href='" . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to-install/faq_18271/') . "' rel='noreferrer noopener' target='_blank'>How do I use Matomo from the Git repository?</a>." .
                     "\n\n<br/><br/>Note: if for some reasons you cannot install composer, instead install the latest Matomo release from " .
                     "<a href='https://builds.matomo.org/piwik.zip' rel='noreferrer noopener'>builds.matomo.org</a>.</p>";
     }
@@ -170,11 +172,11 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
 
         if ($optionalLinks) {
             $optionalLinks = '<ul>
-                            <li><a rel="noreferrer noopener" target="_blank" href="https://matomo.org">Matomo.org homepage</a></li>
-                            <li><a rel="noreferrer noopener" target="_blank" href="https://matomo.org/faq/">Frequently Asked Questions</a></li>
-                            <li><a rel="noreferrer noopener" target="_blank" href="https://matomo.org/docs/">User Guides</a></li>
-                            <li><a rel="noreferrer noopener" target="_blank" href="https://forum.matomo.org/">Matomo Forums</a></li>
-                            <li><a rel="noreferrer noopener" target="_blank" href="https://matomo.org/support/?pk_campaign=App_AnErrorOccured&pk_source=Matomo_App&pk_medium=ProfessionalServicesLink">Professional Support for Matomo</a></li>
+                            <li><a rel="noreferrer noopener" target="_blank" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org') . '">Matomo.org homepage</a></li>
+                            <li><a rel="noreferrer noopener" target="_blank" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/') . '">Frequently Asked Questions</a></li>
+                            <li><a rel="noreferrer noopener" target="_blank" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/') . '">User Guides</a></li>
+                            <li><a rel="noreferrer noopener" target="_blank" href="' . Url::addCampaignParametersToMatomoLink('https://forum.matomo.org/') . '">Matomo Forums</a></li>
+                            <li><a rel="noreferrer noopener" target="_blank" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/support/') . '">Professional Support for Matomo</a></li>
                             </ul>';
         }
         if ($optionalLinkBack) {

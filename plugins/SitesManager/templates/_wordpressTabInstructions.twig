@@ -1,12 +1,12 @@
 <h2>{{ 'SitesManager_StepByStepGuide'|translate }}</h2>
 
-<p>{{ 'SitesManager_SiteWithoutDataWordpressIntroductionLine1'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/">', '</a>')|raw }}</p>
-<p>{{ 'SitesManager_SiteWithoutDataWordpressIntroductionLine2'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-manually-insert-the-matomo-tracking-code-on-wordpress/">', '</a>', '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/start-tracking-with-a-wordpress-com-site-that-cannot-use-plugins/">', '</a>')|raw }}</p>
+<p>{{ 'SitesManager_SiteWithoutDataWordpressIntroductionLine1'|translate(externallink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/'), '</a>')|raw }}</p>
+<p>{{ 'SitesManager_SiteWithoutDataWordpressIntroductionLine2'|translate(externallink('https://matomo.org/faq/new-to-piwik/how-do-i-manually-insert-the-matomo-tracking-code-on-wordpress/'), '</a>', externallink('https://matomo.org/faq/new-to-piwik/start-tracking-with-a-wordpress-com-site-that-cannot-use-plugins/'), '</a>')|raw }}</p>
 <br>
 <p class="steps-to-start-tracking-header">{{ 'SitesManager_SiteWithoutDataWordpressFollowStepsIntro'|translate }}</p>
 <ol class="list-style-decimal">
     <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps1'|translate }}</li>
-    <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps2'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-manually-insert-the-matomo-tracking-code-on-wordpress/">','</a>')|raw }}</li>
+    <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps2'|translate(externallink('https://matomo.org/faq/new-to-piwik/how-do-i-manually-insert-the-matomo-tracking-code-on-wordpress/'),'</a>')|raw }}</li>
     <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps3'|translate }}</li>
     <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps4'|translate }}</li>
     <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps5'|translate }}</li>
@@ -16,7 +16,7 @@
     {% if authLink %}
         <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps9'|translate('<a target="_blank" rel="noreferrer noopener" href="'~authLink~'">','</a>','<a target="_blank" rel="noreferrer noopener" href="'~faqLink~'">','</a>')|raw }}</li>
     {% else %}
-        <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps9'|translate('','','<a target="_blank" rel="noreferrer noopener" href="'~faqLink~'">','</a>')|raw }}</li>
+        <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps9'|translate('','',externallink(~faqLink~),'</a>')|raw }}</li>
     {% endif %}
     <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps10'|translate }}</li>
     <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps11'|translate }}</li>

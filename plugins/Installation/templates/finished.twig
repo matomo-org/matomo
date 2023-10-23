@@ -11,8 +11,8 @@
         {{ 'Installation_CollaborativeProject'|translate }}
     </p>
     <p>
-        {{ 'Installation_GetInvolved'|translate('<a rel="noreferrer noopener" target="_blank" href="https://matomo.org/get-involved/">','</a>')|raw }}
-        {{ 'General_HelpTranslatePiwik'|translate("<a rel='noreferrer noopener' target='_blank' href=\'https://matomo.org/translations/\'>","<\/a>")|raw }}
+        {{ 'Installation_GetInvolved'|translate(externallink('https://matomo.org/get-involved/'),'</a>')|raw }}
+        {{ 'General_HelpTranslatePiwik'|translate(externallink('https://matomo.org/translations/'),"<\/a>")|raw }}
     </p>
     <p>{{ 'Installation_WeHopeYouWillEnjoyPiwik'|translate }}</p>
     <p><i>{{ 'Installation_HappyAnalysing'|translate }}</i></p>
@@ -20,16 +20,16 @@
     {% if areAdsForProfessionalServicesEnabled %}
         <h3>{{ 'Installation_ProfessionalServicesAdTitle'|translate }}</h3>
         <p>
-            {{ 'Installation_ProfessionalServicesfessionalServicesAdText'|translate('<a rel="noreferrer noopener" target="_blank" href="https://plugins.matomo.org/premium?pk_campaign=App_ProfessionalServices&pk_medium=App_InstallationFinished&pk_source=Matomo_App">','</a>','<a rel="noreferrer noopener" target="_blank" href="https://matomo.org/support-plans/?pk_campaign=App_ProfessionalServices&pk_medium=App_InstallationFinished&pk_source=Matomo_App">')|raw }}
+            {{ 'Installation_ProfessionalServicesfessionalServicesAdText'|translate(externallink('https://plugins.matomo.org/premium'),'</a>',externallink('https://matomo.org/support-plans/'))|raw }}
         </p>
         <p>
-            {{ 'Installation_ProfessionalServicesfessionalDiscoverHow'|translate('<a rel="noreferrer noopener" target="_blank" href="https://matomo.org/matomo-cloud/?pk_campaign=App_ProfessionalServices&pk_medium=App_InstallationFinished&pk_source=Matomo_App">','</a>')|raw }}
+            {{ 'Installation_ProfessionalServicesfessionalDiscoverHow'|translate(externallink('https://matomo.org/matomo-cloud/'),'</a>')|raw }}
         </p>
     {% endif %}
 
     <h3>Performance Settings</h3>
-    <p>{{ 'Installation_PerformanceSettingsDesc1'|translate('<a href="https://matomo.org/docs/setup-auto-archiving/" rel="noreferrer noopener" target="_blank">', '</a>')|raw }}</p>
-    <p>{{ 'Installation_PerformanceSettingsDesc2'|translate('<a href="https://matomo.org/docs/setup-auto-archiving/" rel="noreferrer noopener" target="_blank">', '</a>')|raw }}</p>
+    <p>{{ 'Installation_PerformanceSettingsDesc1'|translate(externallink('https://matomo.org/docs/setup-auto-archiving/'), '</a>')|raw }}</p>
+    <p>{{ 'Installation_PerformanceSettingsDesc2'|translate(externallink('https://matomo.org/docs/setup-auto-archiving/'), '</a>')|raw }}</p>
 
     <h3>{{ 'Installation_DefaultSettings'|translate }}</h3>
     <p>{{ 'Installation_DefaultSettingsHelp'|translate }}</p>
