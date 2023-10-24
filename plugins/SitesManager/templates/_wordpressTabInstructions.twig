@@ -16,7 +16,7 @@
     {% if authLink %}
         <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps9'|translate('<a target="_blank" rel="noreferrer noopener" href="'~authLink~'">','</a>','<a target="_blank" rel="noreferrer noopener" href="'~faqLink~'">','</a>')|raw }}</li>
     {% else %}
-        <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps9'|translate('','',externallink(~faqLink~),'</a>')|raw }}</li>
+        <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps9'|translate('','',externallink(faqLink),'</a>')|raw }}</li>
     {% endif %}
     <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps10'|translate }}</li>
     <li>{{ 'SitesManager_SiteWithoutDataWordpressFollowSteps11'|translate }}</li>
