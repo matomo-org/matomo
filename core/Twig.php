@@ -11,6 +11,7 @@ namespace Piwik;
 use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Filter\SafeDecodeLabel;
+use Piwik\DataTable\Row;
 use Piwik\Metrics\Formatter;
 use Piwik\Plugin\Manager;
 use Piwik\Tracker\GoalManager;
@@ -34,6 +35,27 @@ function piwik_filter_truncate($string, $size)
         preg_match('/^(&(?:[a-z\d]+|#\d+|#x[a-f\d]+);|.){'.$size.'}/i', $string, $shortenString);
         return reset($shortenString) . "...";
     }
+}
+
+function piwik_format_data_table_column(Row $row, string $column, array $fallback)
+{
+    $formattedColumn = $row->getFormattedColumn($column);
+
+    if (false !== $formattedColumn) {
+        return $formattedColumn;
+    };
+
+    $fallbackType = $fallback[0] ?? null;
+
+    if ('number' !== $fallbackType) {
+        throw new Exception(sprintf('Unknown formatting fallback: %s', $fallbackType));
+    }
+
+    return piwik_format_number(
+        $row->getRawColumn($column),
+        $fallback[1] ?? 0,
+        $fallback[2] ?? 0
+    );
 }
 
 function piwik_format_number($string, $minFractionDigits, $maxFractionDigits)
@@ -128,6 +150,7 @@ class Twig
         $this->addFilterPercentEvolution();
         $this->addFilterPrettyDate();
         $this->addFilterSafeDecodeRaw();
+        $this->addFilterFormatDataTableColumn();
         $this->addFilterNumber();
         $this->addFilterAnonymiseSystemInfo();
         $this->addFilterNonce();
@@ -417,6 +440,18 @@ class Twig
     private function getProfessionalServicesAdvertising()
     {
         return StaticContainer::get('Piwik\ProfessionalServices\Advertising');
+    }
+
+    protected function addFilterFormatDataTableColumn()
+    {
+        $formatter = new TwigFilter(
+            'formatDataTableColumn',
+            function (Row $row, string $column, array $fallback) {
+                return piwik_format_data_table_column($row, $column, $fallback);
+            }
+        );
+
+        $this->twig->addFilter($formatter);
     }
 
     protected function addFilterNumber()

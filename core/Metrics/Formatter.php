@@ -8,14 +8,12 @@
 namespace Piwik\Metrics;
 
 use Piwik\Archive\DataTableFactory;
-use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\NumberFormatter;
 use Piwik\Piwik;
-use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\Metric;
-use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
+use Piwik\Request;
 use Piwik\Site;
 use Piwik\Tracker\GoalManager;
 
@@ -25,7 +23,7 @@ use Piwik\Tracker\GoalManager;
  */
 class Formatter
 {
-    const PROCESSED_METRICS_FORMATTED_FLAG = 'processed_metrics_formatted';
+    public const PROCESSED_METRICS_FORMATTED_FLAG = 'processed_metrics_formatted';
 
     /**
      * Returns a prettified string representation of a number. The result will have
@@ -68,7 +66,7 @@ class Formatter
             $seconds = floor($reminder - $minutes * 60);
             if ($days == 0) {
                 $time    = sprintf("%02s", $hours) . ':' . sprintf("%02s", $minutes) . ':' . sprintf("%02s", $seconds);
-            } else {    
+            } else {
                 $time    = sprintf(Piwik::translate('Intl_NDays'), $days) . " " . sprintf("%02s", $hours) . ':' . sprintf("%02s", $minutes) . ':' . sprintf("%02s", $seconds);
             }
             $centiSeconds = intval($numberOfSeconds * 100) % 100;
@@ -175,20 +173,29 @@ class Formatter
     public function formatMetrics(DataTable $dataTable, Report $report = null, $metricsToFormat = null, $formatAll = false)
     {
         $metrics = $this->getMetricsToFormat($dataTable, $report);
-        if (empty($metrics)
-            || $dataTable->getMetadata(self::PROCESSED_METRICS_FORMATTED_FLAG)
-        ) {
+
+        if ([] === $metrics) {
+            $this->formatMetricsLegacy($dataTable, $formatAll);
+
             return;
         }
 
-        $dataTable->setMetadata(self::PROCESSED_METRICS_FORMATTED_FLAG, true);
+        $formattedColumns = $dataTable->getMetadata(DataTable::FORMATTED_COLUMNS_METADATA_NAME) ?: [];
 
         if ($metricsToFormat !== null) {
             $metricMatchRegex = $this->makeRegexToMatchMetrics($metricsToFormat);
-            $metrics = array_filter($metrics, function ($metric) use ($metricMatchRegex) {
-                /** @var ProcessedMetric|ArchivedMetric $metric */
-                return preg_match($metricMatchRegex, $metric->getName());
+            $metrics = array_filter($metrics, static function ($metric) use ($formattedColumns, $metricMatchRegex) {
+                $metricName = $metric->getName();
+
+                return !in_array($metricName, $formattedColumns, true)
+                    && preg_match($metricMatchRegex, $metricName);
             });
+        }
+
+        if ([] === $metrics) {
+            $this->formatMetricsLegacy($dataTable, $formatAll);
+
+            return;
         }
 
         foreach ($metrics as $name => $metric) {
@@ -197,47 +204,39 @@ class Formatter
             }
 
             foreach ($dataTable->getRows() as $row) {
-                $columnValue = $row->getColumn($name);
-                if ($columnValue !== false) {
-                    $row->setColumn($name, $metric->format($columnValue, $this));
+                $columnValue = $row->getRawColumn($name);
+
+                if (false === $columnValue) {
+                    continue;
                 }
+
+                $formattedValue = $metric->format($columnValue, $this);
+
+                $row->setColumn($name, $formattedValue);
+                $row->setFormattedColumn($name, $formattedValue);
+                $row->setRawColumn($name, $columnValue);
             }
+
+            $formattedColumns[] = $name;
         }
+
+        $dataTable->setMetadata(DataTable::FORMATTED_COLUMNS_METADATA_NAME, $formattedColumns);
 
         foreach ($dataTable->getRows() as $row) {
             $subtable = $row->getSubtable();
-            if (!empty($subtable)) {
+
+            if (false !== $subtable) {
                 $this->formatMetrics($subtable, $report, $metricsToFormat, $formatAll);
             }
+
             $comparisons = $row->getComparisons();
-            if (!empty($comparisons)) {
+
+            if (null !== $comparisons) {
                 $this->formatMetrics($comparisons, $report, $metricsToFormat, $formatAll);
             }
         }
 
-        $idSite = DataTableFactory::getSiteIdFromMetadata($dataTable);
-        if (empty($idSite)) {
-            // possible when using search in visualization
-            $idSite = Common::getRequestVar('idSite', 0, 'int');
-        }
-
-        // @todo for matomo 4, should really use the Metric class to house this kind of logic
-        // format other metrics
-        if ($formatAll) {
-            foreach ($dataTable->getRows() as $row) {
-                foreach ($row->getColumns() as $column => $columnValue) {
-                    if (strpos($column, 'revenue') === false
-                        || !is_numeric($columnValue)
-                    ) {
-                        continue;
-                    }
-
-                    if ($columnValue !== false) {
-                        $row->setColumn($column, $this->getPrettyMoney($columnValue, $idSite));
-                    }
-                }
-            }
-        }
+        $this->formatMetricsLegacy($dataTable, $formatAll);
     }
 
     protected function getPrettySizeFromBytesWithUnit($size, $unit = null, $precision = 1)
@@ -274,6 +273,52 @@ class Formatter
             }
         }
         return '/^' . implode('|', $metricsRegexParts) . '$/';
+    }
+
+    /**
+     * @todo For matomo 4, should really use the Metric class to house this kind of logic
+     */
+    private function formatMetricsLegacy(DataTable $dataTable, bool $formatAll): void
+    {
+        if (!$formatAll || $dataTable->getMetadata(self::PROCESSED_METRICS_FORMATTED_FLAG)) {
+            return;
+        }
+
+        $idSite = (int) DataTableFactory::getSiteIdFromMetadata($dataTable);
+
+        if (0 === $idSite) {
+            $idSite = Request::fromRequest()->getIntegerParameter('idSite', 0);
+        }
+
+        if (0 === $idSite) {
+            return;
+        }
+
+        $formattedColumns = $dataTable->getMetadata(DataTable::FORMATTED_COLUMNS_METADATA_NAME) ?: [];
+
+        foreach ($dataTable->getRows() as $row) {
+            foreach ($row->getColumns() as $name => $columnValue) {
+                if (!str_contains($name, 'revenue')) {
+                    continue;
+                }
+
+                if (false === $columnValue || !is_numeric($columnValue)) {
+                    continue;
+                }
+
+                $formattedColumns[] = $name;
+                $formattedValue = $this->getPrettyMoney($columnValue, $idSite);
+
+                $row->setColumn($name, $formattedValue);
+                $row->setFormattedColumn($name, $formattedValue);
+                $row->setRawColumn($name, $columnValue);
+            }
+        }
+
+        $formattedColumns = array_unique($formattedColumns);
+
+        $dataTable->setMetadata(DataTable::FORMATTED_COLUMNS_METADATA_NAME, $formattedColumns);
+        $dataTable->setMetadata(self::PROCESSED_METRICS_FORMATTED_FLAG, true);
     }
 
     /**

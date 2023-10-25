@@ -221,6 +221,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
     const ROW_IDENTIFIER_METADATA_NAME = 'rowIdentifier';
 
+    public const FORMATTED_COLUMNS_METADATA_NAME = 'formattedColumns';
+
     /**
      * Maximum nesting level.
      */

@@ -46,6 +46,16 @@ class Row extends \ArrayObject
     private $isSubtableLoaded = false;
 
     /**
+     * @var array<string, mixed>
+     */
+    private $formattedColumns = [];
+
+    /**
+     * @var array<string, mixed>
+     */
+    private $rawColumns = [];
+
+    /**
      * @internal
      */
     public $subtableId = null;
@@ -196,6 +206,22 @@ class Row extends \ArrayObject
         }
 
         return $this[$name];
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFormattedColumn(string $name)
+    {
+        return $this->formattedColumns[$name] ?? false;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRawColumn(string $name)
+    {
+        return $this->rawColumns[$name] ?? $this->getColumn($name);
     }
 
     /**
@@ -359,6 +385,22 @@ class Row extends \ArrayObject
     public function setColumn($name, $value)
     {
         $this[$name] = $value;
+    }
+
+    /**
+     * @param mixed $value
+     */
+    public function setFormattedColumn(string $name, $value): void
+    {
+        $this->formattedColumns[$name] = $value;
+    }
+
+    /**
+     * @param mixed $value
+     */
+    public function setRawColumn(string $name, $value): void
+    {
+        $this->rawColumns[$name] = $value;
     }
 
     /**
