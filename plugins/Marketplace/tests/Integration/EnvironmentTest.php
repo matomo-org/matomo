@@ -45,8 +45,8 @@ class EnvironmentTest extends IntegrationTestCase
 
     public function test_getPhpVersion()
     {
-        // this is because the php version contain uname
-        $this->assertTrue(version_compare(phpversion(), $this->environment->getPhpVersion(),'>='));
+        $phpVersion = explode('-', phpversion());
+        $this->assertTrue(version_compare($phpVersion[0], $this->environment->getPhpVersion(),'>='));
     }
 
     public function test_getPiwikVersion()
