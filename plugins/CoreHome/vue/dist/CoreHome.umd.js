@@ -2311,6 +2311,58 @@ function handleZenMode() {
 Matomo_Matomo.on('Matomo.topControlsRendered', function () {
   handleZenMode();
 });
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/externalLink.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+/**
+ * Takes a raw URL and returns an HTML link tag for the URL, if the URL is for a matomo.org
+ * domain then the URL will be modified to include campaign parameters
+ *
+ * @param url     URL to process
+ * @param values  Optional [campaignOverride, sourceOverride, mediumOverride]
+ * @return string
+ */
+function externalRawLink(url) {
+  for (var _len = arguments.length, values = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    values[_key - 1] = arguments[_key];
+  }
+
+  var pkArgs = values;
+
+  if (!window._pk_externalRawLink) {
+    // eslint-disable-line
+    return url;
+  }
+
+  return window._pk_externalRawLink(url, pkArgs); // eslint-disable-line
+}
+/**
+ * Takes a raw URL and returns an HTML link tag for the URL, if the URL is for a matomo.org
+ * domain then the URL will be modified to include campaign parameters
+ *
+ * @param url              URL to process
+ * @param values  Optional [campaignOverride, sourceOverride, mediumOverride]
+ * @return string
+ */
+
+function externalLink(url) {
+  if (!url) {
+    return '';
+  }
+
+  var campaignOverride = (arguments.length <= 1 ? 0 : arguments.length - 1) > 0 && (arguments.length <= 1 ? undefined : arguments[1]) ? arguments.length <= 1 ? undefined : arguments[1] : null;
+  var sourceOverride = (arguments.length <= 1 ? 0 : arguments.length - 1) > 1 && (arguments.length <= 2 ? undefined : arguments[2]) ? arguments.length <= 2 ? undefined : arguments[2] : null;
+  var mediumOverride = (arguments.length <= 1 ? 0 : arguments.length - 1) > 2 && (arguments.length <= 3 ? undefined : arguments[3]) ? arguments.length <= 3 ? undefined : arguments[3] : null;
+  var returnUrl = externalRawLink(url, campaignOverride, sourceOverride, mediumOverride);
+  /* eslint-disable prefer-template */
+
+  return '<a target="_blank" rel="noreferrer noopener" href="' + returnUrl + '">';
+}
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/createVueApp.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -2320,11 +2372,14 @@ Matomo_Matomo.on('Matomo.topControlsRendered', function () {
  */
 
 
+
 function createVueApp() {
   var app = external_commonjs_vue_commonjs2_vue_root_Vue_["createApp"].apply(void 0, arguments);
   app.config.globalProperties.$sanitize = window.vueSanitize;
   app.config.globalProperties.translate = translate;
   app.config.globalProperties.translateOrDefault = translateOrDefault;
+  app.config.globalProperties.externalLink = externalLink;
+  app.config.globalProperties.externalRawLink = externalRawLink;
   return app;
 }
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/importPluginUmd.ts
@@ -2627,58 +2682,6 @@ function ActivityIndicatorvue_type_template_id_7c5fe406_render(_ctx, _cache, $pr
 ActivityIndicatorvue_type_script_lang_ts.render = ActivityIndicatorvue_type_template_id_7c5fe406_render
 
 /* harmony default export */ var ActivityIndicator = (ActivityIndicatorvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/externalLink.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-
-/**
- * Takes a raw URL and returns an HTML link tag for the URL, if the URL is for a matomo.org
- * domain then the URL will be modified to include campaign parameters
- *
- * @param url     URL to process
- * @param values  Optional [campaignOverride, sourceOverride, mediumOverride]
- * @return string
- */
-function externalRawLink(url) {
-  for (var _len = arguments.length, values = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-    values[_key - 1] = arguments[_key];
-  }
-
-  var pkArgs = values;
-
-  if (!window._pk_externalRawLink) {
-    // eslint-disable-line
-    return url;
-  }
-
-  return window._pk_externalRawLink(url, pkArgs); // eslint-disable-line
-}
-/**
- * Takes a raw URL and returns an HTML link tag for the URL, if the URL is for a matomo.org
- * domain then the URL will be modified to include campaign parameters
- *
- * @param url              URL to process
- * @param values  Optional [campaignOverride, sourceOverride, mediumOverride]
- * @return string
- */
-
-function externalLink(url) {
-  if (!url) {
-    return '';
-  }
-
-  var campaignOverride = (arguments.length <= 1 ? 0 : arguments.length - 1) > 0 && (arguments.length <= 1 ? undefined : arguments[1]) ? arguments.length <= 1 ? undefined : arguments[1] : null;
-  var sourceOverride = (arguments.length <= 1 ? 0 : arguments.length - 1) > 1 && (arguments.length <= 2 ? undefined : arguments[2]) ? arguments.length <= 2 ? undefined : arguments[2] : null;
-  var mediumOverride = (arguments.length <= 1 ? 0 : arguments.length - 1) > 2 && (arguments.length <= 3 ? undefined : arguments[3]) ? arguments.length <= 3 ? undefined : arguments[3] : null;
-  var returnUrl = externalRawLink(url, campaignOverride, sourceOverride, mediumOverride);
-  /* eslint-disable prefer-template */
-
-  return '<a target="_blank" rel="noreferrer noopener" href="' + returnUrl + '">';
-}
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=template&id=c3863ae2
 function Alertvue_type_template_id_c3863ae2_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
