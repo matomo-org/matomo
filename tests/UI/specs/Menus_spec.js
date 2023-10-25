@@ -19,6 +19,13 @@ describe("Menus", function () {
         await page.waitForTimeout(250);
     }
 
+    beforeEach(function() {
+        if (testEnvironment.enableProfessionalSupportAdsForUITests) {
+          delete testEnvironment.enableProfessionalSupportAdsForUITests;
+          testEnvironment.save();
+        }
+    });
+
     // main menu tests
     it('should load the main reporting menu correctly', async function() {
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Pages");
@@ -38,14 +45,13 @@ describe("Menus", function () {
 
         const element = await page.jQuery('#secondNavBar');
         expect(await element.screenshot()).to.matchImage('mainmenu_loaded_withpromos');
-
-        delete testEnvironment.enableProfessionalSupportAdsForUITests;
-        await testEnvironment.save();
-
-        await page.reload(); // reload to apply the config changes
     });
 
     it('should change the menu when a upper menu item is clicked in the main menu', async function() {
+        // reload to remove config override set by previous tests
+        await page.reload(); // use URL from the previous test and reload to apply the config changes
+        await page.waitForSelector('#secondNavBar', { visible: true });
+
         await openMenuItem(page, 'Visitors');
 
         const element = await page.jQuery('#secondNavBar');
