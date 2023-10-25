@@ -16,6 +16,7 @@ describe("Menus", function () {
     async function openMenuItem(page, menuItem) {
         const element = await page.jQuery('#secondNavBar .navbar a:contains(' + menuItem + '):first');
         await element.click();
+        await page.mouse.move(-10, -10);
         await page.waitForTimeout(250);
     }
 
@@ -76,7 +77,6 @@ describe("Menus", function () {
 
     it('should toggle the submenu visibility when main item is clicked', async function() {
         await openMenuItem(page, 'Website');
-        await page.mouse.move(0, 0);
         await page.waitForTimeout(500); // wait for animation
 
         const element = await page.jQuery('#secondNavBar');
