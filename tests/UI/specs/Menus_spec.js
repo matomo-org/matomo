@@ -13,6 +13,16 @@ describe("Menus", function () {
     const generalParams = 'idSite=1&period=year&date=2009-01-04',
         urlBase = 'module=CoreHome&action=index&' + generalParams;
 
+    before(function () {
+        testEnvironment.disableProfessionalSupportAds = true;
+        testEnvironment.save();
+    });
+
+    after(function () {
+        delete testEnvironment.disableProfessionalSupportAds;
+        testEnvironment.save();
+    });
+
     async function openMenuItem(page, menuItem) {
         const element = await page.jQuery('#secondNavBar .navbar a:contains(' + menuItem + '):first');
         await element.click();

@@ -41,13 +41,15 @@ return [
         };
     },
 
-    'Piwik\Config' => \Piwik\DI::decorate(function (\Piwik\Config $config) {
+    'Piwik\Config' => \Piwik\DI::decorate(function (\Piwik\Config $config, Container $c) {
         $config->General['cors_domains'][] = '*';
         $config->General['trusted_hosts'][] = '127.0.0.1';
         $config->General['trusted_hosts'][] = $config->tests['http_host'];
         $config->General['trusted_hosts'][] = $config->tests['http_host'] . ':' . $config->tests['port'];
 
-        $config->General['piwik_professional_support_ads_enabled'] = '0';
+        if ($c->get('test.vars.disableProfessionalSupportAds')) {
+            $config->General['piwik_professional_support_ads_enabled'] = '0';
+        }
 
         return $config;
     }),
