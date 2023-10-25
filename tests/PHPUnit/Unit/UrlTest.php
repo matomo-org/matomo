@@ -470,6 +470,103 @@ class UrlTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedUrl, Url::getCurrentUrl());
     }
 
+
+    /**
+     * @group AddCampaignParametersToMatomoLink
+     */
+    public function testAddCampaignParametersToMatomoLink_exceptIfDisabled()
+    {
+        $this->resetGlobalVariables();
+        $_GET['module'] = 'CoreHomeAdmin';
+        $_GET['action'] = 'trackingCodeGenerator';
+
+        Config::getInstance()->General['disable_tracking_matomo_app_links'] = 1;
+        $this->assertEquals('https://matomo.org/faq/123',
+            Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/123'));
+
+        Config::getInstance()->General['disable_tracking_matomo_app_links'] = 0;
+        $this->assertEquals('https://matomo.org/faq/123?mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreHomeAdmin.trackingCodeGenerator',
+            Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/123'));
+    }
+
+    /**
+     * @dataProvider getCampaignParametersToMatomoLink
+     * @group AddCampaignParametersToMatomoLink
+     */
+    public function testAddCampaignParametersToMatomoLink($url, $expected, $campaign, $source, $medium)
+    {
+        $this->resetGlobalVariables();
+        $_GET['module'] = 'CoreHomeAdmin';
+        $_GET['action'] = 'trackingCodeGenerator';
+        $this->assertEquals($expected, Url::addCampaignParametersToMatomoLink($url, $campaign, $source, $medium));
+    }
+
+    public function getCampaignParametersToMatomoLink()
+    {
+        return [
+            // Matomo url
+            ['https://matomo.org/faq/123',
+             'https://matomo.org/faq/123?mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreHomeAdmin.trackingCodeGenerator',
+             null, null, null
+            ],
+
+            // Matomo url, trailing ?
+            ['https://matomo.org/faq/123?',
+             'https://matomo.org/faq/123?mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreHomeAdmin.trackingCodeGenerator',
+             null, null, null
+            ],
+
+            // Matomo url, trailing ? and /
+            ['https://matomo.org/faq/123/?',
+             'https://matomo.org/faq/123/?mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreHomeAdmin.trackingCodeGenerator',
+             null, null, null
+            ],
+
+            // Matomo url, anchor
+            ['https://matomo.org/faq/123#anchor',
+             'https://matomo.org/faq/123#anchor?mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreHomeAdmin.trackingCodeGenerator',
+             null, null, null
+            ],
+
+            // Matomo url, anchor and parameter
+            ['https://matomo.org/faq/123/#anchor?abc=123',
+             'https://matomo.org/faq/123/#anchor?abc=123&mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreHomeAdmin.trackingCodeGenerator',
+             null, null, null
+            ],
+
+            // Matomo url, one parameter
+            ['https://matomo.org/faq/123?abc=123',
+             'https://matomo.org/faq/123?abc=123&mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreHomeAdmin.trackingCodeGenerator',
+             null, null, null
+            ],
+
+            // Matomo url, two parameters
+            ['https://matomo.org/faq/123?abc=123&def=456',
+             'https://matomo.org/faq/123?abc=123&def=456&mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreHomeAdmin.trackingCodeGenerator',
+             null, null, null
+            ],
+
+            // Matomo url with www subdomain, anchor and two parameters
+            ['https://www.matomo.org/faq/123#anchor?abc=123&def=456',
+             'https://www.matomo.org/faq/123#anchor?abc=123&def=456&mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreHomeAdmin.trackingCodeGenerator',
+             null, null, null
+            ],
+
+            // Non-matomo URL, two parameters and anchor - no change expected
+            ['https://example.org/faq/123#anchor?abc=123&def=456',
+             'https://example.org/faq/123#anchor?abc=123&def=456',
+             null, null, null
+            ],
+
+            // Matomo url, two parameters, campaign overrides
+            ['https://matomo.org/faq/123?abc=123&def=456',
+             'https://matomo.org/faq/123?abc=123&def=456&mtm_campaign=SomeCampaign&mtm_source=SomeSource&mtm_medium=SomeMedium',
+             'SomeCampaign', 'SomeSource', 'SomeMedium'
+            ],
+
+        ];
+    }
+
     private function resetGlobalVariables()
     {
         $names = ['PATH_INFO', 'REQUEST_URI', 'SCRIPT_NAME', 'SCRIPT_FILENAME', 'argv', 'HTTPS',

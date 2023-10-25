@@ -10,6 +10,8 @@
 
 namespace Piwik\Plugins\SitesManager\SiteContentDetection;
 
+use Piwik\Url;
+
 class Squarespace extends SiteContentDetectionAbstract
 {
     public static function getName(): string
@@ -24,7 +26,7 @@ class Squarespace extends SiteContentDetectionAbstract
 
     public static function getInstructionUrl(): ?string
     {
-        return 'https://matomo.org/faq/new-to-piwik/how-do-i-integrate-matomo-with-squarespace-website/';
+        return Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/new-to-piwik/how-do-i-integrate-matomo-with-squarespace-website/');
     }
 
     public function isDetected(?string $data = null, ?array $headers = null): bool

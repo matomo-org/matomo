@@ -342,5 +342,16 @@
 		</result>
 	</reportMetadata>
 	<reportTotal>
+		<nb_visits>9</nb_visits>
+		<nb_actions>31</nb_actions>
+		<nb_pageviews>31</nb_pageviews>
+		<revenue>35</revenue>
+		<_metadata>
+			<ts_archived>today-date-removed-in-tests</ts_archived>
+		</_metadata>
+		<visits_evolution_trend>7</visits_evolution_trend>
+		<actions_evolution_trend>7</actions_evolution_trend>
+		<pageviews_evolution_trend>7</pageviews_evolution_trend>
+		<revenue_evolution_trend>6</revenue_evolution_trend>
 	</reportTotal>
 </result>

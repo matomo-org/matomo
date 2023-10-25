@@ -170,6 +170,7 @@ declare global {
     userLogin?: string;
     userHasSomeAdminAccess: boolean;
     requiresPasswordConfirmation: boolean;
+    disableTrackingMatomoAppLinks: boolean;
 
     visitorLogEnabled: boolean;
     updatePeriodParamsFromUrl(): void;
@@ -257,8 +258,10 @@ declare global {
     Piwik_Transitions: TransitionsGlobal;
     SegmentedVisitorLog: SegmentedVisitorLogService;
     DataTable_RowActions_Registry: DataTableRowActionsRegisteryService;
+    Cloud: any
 
     _pk_translate(translationStringId: string, values: (string|number|boolean)[]): string;
+    _pk_externalRawLink(url: string, values: (string|null)[]): string;
     require(p: string): any;
     initTopControls(): void;
     vueSanitize(content: string): string;
@@ -271,5 +274,7 @@ declare module '@vue/runtime-core' {
     translate: (translationStringId: string, ...values: string[]|string[][]) => string;
     translateOrDefault: (translationStringIdOrText: string, ...values: string[]|string[][]) => string;
     $sanitize: Window['vueSanitize'];
+    externalLink: (url: string, ...values:string[]) => string;
+    externalRawLink: (url: string, ...values:string[]) => string;
   }
 }

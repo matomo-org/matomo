@@ -16,6 +16,7 @@ use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\Site;
+use Piwik\Url;
 
 require_once PIWIK_INCLUDE_PATH . '/core/Twig.php';
 
@@ -77,7 +78,7 @@ class Goals extends HtmlTable
             // TODO: should not use query parameter
             $this->config->documentation = Piwik::translate(
                 'Goals_ConversionByTypeReportDocumentation',
-                ['<br />', '<br />', '<a href="https://matomo.org/docs/tracking-goals-web-analytics/" rel="noreferrer noopener" target="_blank">', '</a>']
+                ['<br />', '<br />', '<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/tracking-goals-web-analytics/') . '" rel="noreferrer noopener" target="_blank">', '</a>']
             );
         }
 

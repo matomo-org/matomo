@@ -10,7 +10,7 @@
 <div class='trackingHelp'>
     <p>{{ 'Installation_JSTracking_Intro'|translate }}</p>
 
-    <p>{{ 'CoreAdminHome_JSTrackingIntro3a'|translate('<a href="https://matomo.org/integrate/" rel="noreferrer noopener" target="_blank">','</a>')|raw }} {{ 'CoreAdminHome_JSTrackingIntro3b'|translate|raw }}</p>
+    <p>{{ 'CoreAdminHome_JSTrackingIntro3a'|translate(externallink('https://matomo.org/integrate/'),'</a>')|raw }} {{ 'CoreAdminHome_JSTrackingIntro3b'|translate|raw }}</p>
 
     <h3>{{ 'General_JsTrackingTag'|translate }}</h3>
 
@@ -20,7 +20,7 @@
         <pre vue-directive="CoreHome.CopyToClipboard">{{ jsTag|raw }}</pre>
     </div>
 
-    <p>{{ 'CoreAdminHome_JSTrackingIntro5'|translate('<a rel="noreferrer noopener" target="_blank" href="https://developer.matomo.org/guides/tracking-javascript-guide">','</a>')|raw }}</p>
+    <p>{{ 'CoreAdminHome_JSTrackingIntro5'|translate(externallink('https://developer.matomo.org/guides/tracking-javascript-guide'),'</a>')|raw }}</p>
 
     {% if isInstall is defined %}
         <p>{{ 'Installation_JSTracking_EndNote'|translate('', '')|raw }}</p>
@@ -30,32 +30,32 @@
 
     <h3>{{ 'SitesManager_LogAnalytics'|translate }}</h3>
 
-    <p>{{ 'SitesManager_LogAnalyticsDescription'|translate('<a href="https://matomo.org/log-analytics/" rel="noreferrer noopener" target="_blank">', '</a>')|raw }}</p>
+    <p>{{ 'SitesManager_LogAnalyticsDescription'|translate(externallink('https://matomo.org/log-analytics/'), '</a>')|raw }}</p>
 
     <h3>{{ 'SitesManager_MobileAppsAndSDKs'|translate }}</h3>
 
-    <p>{{ 'SitesManager_MobileAppsAndSDKsDescription'|translate('<a href="https://matomo.org/integrate/#programming-language-platforms-and-frameworks" rel="noreferrer noopener" target="_blank">','</a>')|raw }}</p>
+    <p>{{ 'SitesManager_MobileAppsAndSDKsDescription'|translate(externallink('https://matomo.org/integrate/#programming-language-platforms-and-frameworks'),'</a>')|raw }}</p>
 
     <h3>{{ 'CoreAdminHome_HttpTrackingApi'|translate }}</h3>
-    <p>{{ 'CoreAdminHome_HttpTrackingApiDescription'|translate('<a href="https://developer.matomo.org/api-reference/tracking-api" rel="noreferrer noopener" target="_blank">','</a>')|raw }}</p>
+    <p>{{ 'CoreAdminHome_HttpTrackingApiDescription'|translate(externallink('https://developer.matomo.org/api-reference/tracking-api'),'</a>')|raw }}</p>
 
     <h3>{{ 'SitesManager_SiteWithoutDataSinglePageApplication'|translate }}</h3>
-    <p>{{ 'SitesManager_SiteWithoutDataSinglePageApplicationDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://developer.matomo.org/guides/spa-tracking">','</a>')|raw }}</p>
+    <p>{{ 'SitesManager_SiteWithoutDataSinglePageApplicationDescription'|translate(externallink('https://developer.matomo.org/guides/spa-tracking'),'</a>')|raw }}</p>
 
     <h3>{{ 'SitesManager_SiteWithoutDataGoogleTagManager'|translate }}</h3>
-    <p>{{ 'SitesManager_SiteWithoutDataGoogleTagManagerDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-within-gtm-google-tag-manager/">','</a>')|raw }}</p>
+    <p>{{ 'SitesManager_SiteWithoutDataGoogleTagManagerDescription'|translate(externallink('https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-within-gtm-google-tag-manager/'),'</a>')|raw }}</p>
 
     <h3>WordPress</h3>
-    <p>{{ 'SitesManager_SiteWithoutDataWordpressDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/">','</a>')|raw }}</p>
+    <p>{{ 'SitesManager_SiteWithoutDataWordpressDescription'|translate(externallink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/'),'</a>')|raw }}</p>
 
     <h3>Cloudflare</h3>
-    <p>{{ 'SitesManager_SiteWithoutDataCloudflareDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-cloudflare-setup/">','</a>')|raw }}</p>
+    <p>{{ 'SitesManager_SiteWithoutDataCloudflareDescription'|translate(externallink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-cloudflare-setup/'),'</a>')|raw }}</p>
 
     <h3>Vue.js</h3>
-    <p>{{ 'SitesManager_SiteWithoutDataVueDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://github.com/AmazingDreams/vue-matomo">vue-matomo</a>', '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-websites-that-use-vue-js/">','</a>')|raw }}</p>
+    <p>{{ 'SitesManager_SiteWithoutDataVueDescription'|translate(externallink('https://github.com/AmazingDreams/vue-matomo') ~ 'vue-matomo</a>', externallink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-websites-that-use-vue-js/'),'</a>')|raw }}</p>
 
     <h3>React.js</h3>
-    <p>{{ 'SitesManager_SiteWithoutDataReactDescription'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/guide/tag-manager/">', '</a>', '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-start-tracking-data-with-matomo-on-websites-that-use-react/">','</a>')|raw }}</p>
+    <p>{{ 'SitesManager_SiteWithoutDataReactDescription'|translate(externallink('https://matomo.org/guide/tag-manager/'), '</a>', externallink('https://matomo.org/faq/new-to-piwik/how-do-i-start-tracking-data-with-matomo-on-websites-that-use-react/'),'</a>')|raw }}</p>
 
     <p></p>
     {{ postEvent('Template.endTrackingHelpPage') }}

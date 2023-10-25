@@ -8,7 +8,7 @@
 
 {% block content %}
     <div class="overlay-sidebar-container">
-        <a id="overlayTitle" href="https://matomo.org/docs/page-overlay/" rel="noreferrer noopener" target="_blank">
+        <a id="overlayTitle" href="{{ 'https://matomo.org/docs/page-overlay/'|trackmatomolink }}" rel="noreferrer noopener" target="_blank">
             {{ 'Overlay_Overlay'|translate }}
             <span class="icon-info"></span>
         </a>
@@ -43,7 +43,7 @@
             </p>
 
             <p>
-                <a href="https://matomo.org/faq/reports/troubleshoot-page-overlay-issues/" rel="noreferrer noopener" target="_blank">
+                <a href="{{ 'https://matomo.org/faq/reports/troubleshoot-page-overlay-issues/'|trackmatomolink }}" rel="noreferrer noopener" target="_blank">
                     {{ 'Overlay_ErrorNotLoadingLink'|translate }}
                 </a>
             </p>

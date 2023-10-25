@@ -58,7 +58,7 @@ class CronArchivingLastRunCheck implements Diagnostic
         if (empty($lastRunTime)) {
             $comment = $this->translator->translate('Diagnostics_CronArchivingHasNotRun')
                 . '<br/><br/>' . $this->translator->translate('Diagnostics_CronArchivingRunDetails',
-                    [$coreArchiveShort, $mailto, $commandToRerun, '<a href="https://matomo.org/docs/setup-auto-archiving/" target="_blank" rel="noreferrer noopener">', '</a>']);
+                    [$coreArchiveShort, $mailto, $commandToRerun, '<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/setup-auto-archiving/') . '" target="_blank" rel="noreferrer noopener">', '</a>']);
             return [DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_ERROR, $comment)];
         }
 
@@ -73,7 +73,10 @@ class CronArchivingLastRunCheck implements Diagnostic
             . '<br/><br/>' .
             $this->translator->translate(
                 'Diagnostics_CronArchivingRunDetails',
-                [$coreArchiveShort, $mailto, $commandToRerun, '<a href="https://matomo.org/docs/setup-auto-archiving/" target="_blank" rel="noreferrer noopener">', '</a>']
+                [$coreArchiveShort, $mailto, $commandToRerun,
+                    '<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/setup-auto-archiving/') . '" target="_blank" rel="noreferrer noopener">',
+                    '</a>'
+                ]
             );
 
         // check archiving has been run recently

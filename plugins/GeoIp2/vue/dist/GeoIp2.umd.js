@@ -146,7 +146,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/GeoIp2/vue/src/GeoIp2Updater/GeoIp2Updater.vue?vue&type=template&id=55b13210
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/GeoIp2/vue/src/GeoIp2Updater/GeoIp2Updater.vue?vue&type=template&id=6113ff2c
 
 var _hoisted_1 = {
   key: 0
@@ -338,7 +338,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   }, 8, ["content-title"]);
 }
-// CONCATENATED MODULE: ./plugins/GeoIp2/vue/src/GeoIp2Updater/GeoIp2Updater.vue?vue&type=template&id=55b13210
+// CONCATENATED MODULE: ./plugins/GeoIp2/vue/src/GeoIp2Updater/GeoIp2Updater.vue?vue&type=template&id=6113ff2c
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -566,8 +566,7 @@ var _window = window,
       return "".concat(translation, "<br /><br />");
     },
     maxMindLinkExplanation: function maxMindLinkExplanation() {
-      var link = 'https://matomo.org/faq/how-to/' + 'how-do-i-get-the-geolocation-download-url-for-the-free-maxmind-db/';
-      return Object(external_CoreHome_["translate"])('UserCountry_MaxMindLinkExplanation', "<a href=\"".concat(link, "\" rel=\"noreferrer noopener\" target=\"_blank\">"), '</a>');
+      return Object(external_CoreHome_["translate"])('UserCountry_MaxMindLinkExplanation', Object(external_CoreHome_["externalLink"])('https://matomo.org/faq/how-to/' + 'how-do-i-get-the-geolocation-download-url-for-the-free-maxmind-db/'), '</a>');
     },
     freeProgressbarLabel: function freeProgressbarLabel() {
       return Object(external_CoreHome_["translate"])('GeoIp2_DownloadingDb', "<a href=\"".concat(this.dbipLiteUrl, "\">").concat(this.dbipLiteFilename, "</a>..."));

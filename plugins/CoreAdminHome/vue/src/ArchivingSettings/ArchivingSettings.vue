@@ -100,6 +100,7 @@ import {
   translate,
   NotificationsStore,
   AjaxHelper,
+  externalLink,
 } from 'CoreHome';
 import { SaveButton } from 'CorePluginsAdmin';
 
@@ -137,7 +138,7 @@ export default defineComponent({
 
       result += translate(
         'General_ArchivingTriggerDescription',
-        '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/docs/setup-auto-archiving/">',
+        externalLink('https://matomo.org/docs/setup-auto-archiving/'),
         '</a>',
       );
 
@@ -152,7 +153,7 @@ export default defineComponent({
       result += '<br/>';
       result += translate(
         'General_SeeTheOfficialDocumentationForMoreInformation',
-        '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/docs/setup-auto-archiving/">',
+        externalLink('https://matomo.org/docs/setup-auto-archiving/'),
         '</a>',
       );
       return result;

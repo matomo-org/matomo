@@ -5,6 +5,6 @@
     <div class="alert alert-info">
         {{ metrics|raw }}
         <br />
-        {{ 'General_Note'|translate }}: {{ 'PagePerformance_HelpNote'|translate('<a href="https://matomo.org/faq/how-to/how-do-i-see-page-performance-reports/" rel="noreferrer noopener" target="_blank">', '</a>')|raw }}
+        {{ 'General_Note'|translate }}: {{ 'PagePerformance_HelpNote'|translate(externallink('https://matomo.org/faq/how-to/how-do-i-see-page-performance-reports/'), '</a>')|raw }}
     </div>
 </div>

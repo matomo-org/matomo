@@ -27,7 +27,7 @@ class GetType extends Base
 
     public function configureView(ViewDataTable $view)
     {
-        $view->config->show_search = false;
+        $view->config->show_search = true;
         $view->config->show_exclude_low_population = false;
         $view->config->addTranslation('label', Piwik::translate("DevicesDetection_dataTableLabelTypes"));
     }

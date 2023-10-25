@@ -8,7 +8,7 @@
   <div ref="root">
     <h2 class="card-title">
       <EnrichedHeadline
-        help-url="https://matomo.org/faq/new-to-piwik/all-websites-dashboard/"
+        help-url="{{ externalRawLink('https://matomo.org/faq/new-to-piwik/all-websites-dashboard/') }}"
         :feature-name="translate('General_AllWebsitesDashboard')"
       >
         {{ translate('General_AllWebsitesDashboard') }}
@@ -153,13 +153,13 @@
               <a
                 rel="noreferrer noopener"
                 target="_blank"
-                href="https://matomo.org/faq/troubleshooting/faq_19489/"
+                href="{{ externalRawLink('https://matomo.org/faq/troubleshooting/faq_19489/') }}"
               >{{ translate('General_Faq') }}</a>
               &#x2013;
               <a
                 rel="noreferrer noopener"
                 target="_blank"
-                href="https://forum.matomo.org/"
+                href="{{ externalRawLink('https://forum.matomo.org/') }}"
               >{{ translate('Feedback_CommunityHelp') }}</a>
               <span v-show="areAdsForProfessionalServicesEnabled"> &#x2013; </span>
               <a
@@ -269,6 +269,7 @@ import {
   ActivityIndicator,
   MatomoUrl,
   getFormattedEvolution,
+  externalRawLink,
 } from 'CoreHome';
 import MultisitesSite from '../MultisitesSite/MultisitesSite.vue';
 import DashboardStore from './Dashboard.store';
@@ -395,8 +396,7 @@ export default defineComponent({
       return DashboardStore.numberOfFilteredSites.value;
     },
     professionalHelpUrl() {
-      return 'https://matomo.org/support-plans/?pk_campaign=Help&pk_medium=AjaxError&pk_content='
-        + 'MultiSites&pk_source=Matomo_App';
+      return externalRawLink('https://matomo.org/support-plans/');
     },
     addSiteUrl() {
       return `index.php?module=SitesManager&action=index&showaddsite=1&period=${this.period}&`

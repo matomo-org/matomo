@@ -2,13 +2,13 @@
 <p>{{ 'General_HelloUser'|translate(login) }}</p>
 <p>{{ 'CoreAdminHome_JsTrackingCodeMissingEmail1'|translate(siteName) }}</p>
 <p>{{ 'CoreAdminHome_JsTrackingCodeMissingEmail2'|translate(closingHeadTag)|raw }}</p>
-<p>{{ 'CoreAdminHome_JsTrackingCodeMissingEmail3'|translate('<a href="'~trackingCodeUrl~'">', '</a>', '<a href="https://developer.matomo.org/guides/tracking-javascript-guide">', '</a>')|raw }}</p>
+<p>{{ 'CoreAdminHome_JsTrackingCodeMissingEmail3'|translate('<a href="'~trackingCodeUrl~'">', '</a>', externallink('https://developer.matomo.org/guides/tracking-javascript-guide'), '</a>')|raw }}</p>
 <p>{{ 'SitesManager_InstallationGuides'|translate }} :
-    <a href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/"  target="_blank" rel="noopener">WordPress</a> |
-    <a href="https://matomo.org/faq/new-to-piwik/how-do-i-integrate-matomo-with-squarespace-website/" taret="_blank" rel="noopener">Squarespace</a> |
-    <a href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-wix/" target="_blank" rel="noopener">Wix</a> |
-    <a href="https://matomo.org/faq/how-to-install/faq_19424/" target="_blank" rel="noopener">SharePoint</a>
-    <a href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-joomla/" target="_blank" rel="noopener">Joomla</a> |
-    <a href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-shopify-store/" target="_blank" rel="noopener">Shopify</a> |
-    <a href="https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-within-gtm-google-tag-manager/" target="_blank" rel="noopener">Google Tag Manager</a>
+    <a href="{{ 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/'|trackmatomolink }}"  target="_blank" rel="noopener">WordPress</a> |
+    <a href="{{ 'https://matomo.org/faq/new-to-piwik/how-do-i-integrate-matomo-with-squarespace-website/'|trackmatomolink }}" taret="_blank" rel="noopener">Squarespace</a> |
+    <a href="{{ 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-wix/'|trackmatomolink }}" target="_blank" rel="noopener">Wix</a> |
+    <a href="{{ 'https://matomo.org/faq/how-to-install/faq_19424/'|trackmatomolink }}" target="_blank" rel="noopener">SharePoint</a>
+    <a href="{{ 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-joomla/'|trackmatomolink }}" target="_blank" rel="noopener">Joomla</a> |
+    <a href="{{ 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-shopify-store/'|trackmatomolink }}" target="_blank" rel="noopener">Shopify</a> |
+    <a href="{{ 'https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-within-gtm-google-tag-manager/'|trackmatomolink }}" target="_blank" rel="noopener">Google Tag Manager</a>
 </p>

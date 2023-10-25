@@ -36,7 +36,7 @@ class WordPress extends SiteContentDetectionAbstract
 
     public static function getInstructionUrl(): ?string
     {
-        return 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/';
+        return Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/');
     }
 
     public static function getPriority(): int
@@ -53,7 +53,7 @@ class WordPress extends SiteContentDetectionAbstract
     public function renderInstructionsTab(SiteContentDetector $detector): string
     {
         $view     = new View("@SitesManager/_wordpressTabInstructions");
-        $faqLink  = 'https://matomo.org/faq/general/faq_114/';
+        $faqLink  = Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/general/faq_114/');
         $authLink = '';
         if (Piwik::isUserHasSomeViewAccess()) {
             $request  = \Piwik\Request::fromRequest();
@@ -88,7 +88,7 @@ class WordPress extends SiteContentDetectionAbstract
             Piwik::translate(
                 'SitesManager_SiteWithoutDataWordpressDescription',
                 [
-                    '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/">',
+                    '<a target="_blank" rel="noreferrer noopener" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/') . '">',
                     '</a>',
                 ]
             )

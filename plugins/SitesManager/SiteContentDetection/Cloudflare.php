@@ -13,6 +13,7 @@ namespace Piwik\Plugins\SitesManager\SiteContentDetection;
 use Piwik\Piwik;
 use Piwik\Request;
 use Piwik\SiteContentDetector;
+use Piwik\Url;
 use Piwik\View;
 
 class Cloudflare extends SiteContentDetectionAbstract
@@ -34,7 +35,7 @@ class Cloudflare extends SiteContentDetectionAbstract
 
     public static function getInstructionUrl(): ?string
     {
-        return 'https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-cloudflare-setup/';
+        return Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-cloudflare-setup/');
     }
 
     public static function getPriority(): int
@@ -74,7 +75,7 @@ class Cloudflare extends SiteContentDetectionAbstract
             Piwik::translate(
                 'SitesManager_SiteWithoutDataCloudflareDescription',
                 [
-                    '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-cloudflare-setup/">',
+                    '<a target="_blank" rel="noreferrer noopener" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-cloudflare-setup/') . '">',
                     '</a>'
                 ]
             )

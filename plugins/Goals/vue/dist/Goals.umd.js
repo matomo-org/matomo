@@ -209,7 +209,7 @@ external_CoreHome_["Matomo"].on('Matomo.processDynamicHtml', function ($element)
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=e6b1229c
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=165713e1
 
 var _hoisted_1 = {
   class: "manageGoals"
@@ -620,7 +620,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   }, 8, ["content-title"])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showEditGoal]])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.userCanEditGoals]]), _hoisted_65]);
 }
-// CONCATENATED MODULE: ./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=e6b1229c
+// CONCATENATED MODULE: ./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=165713e1
 
 // EXTERNAL MODULE: external "CorePluginsAdmin"
 var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
@@ -918,14 +918,16 @@ function ambiguousBoolToInt(n) {
   },
   computed: {
     learnMoreAboutGoalTracking: function learnMoreAboutGoalTracking() {
-      return Object(external_CoreHome_["translate"])('Goals_LearnMoreAboutGoalTrackingDocumentation', '<a target="_blank" rel="noreferrer noopener" ' + 'href="https://matomo.org/docs/tracking-goals-web-analytics/">', '</a>');
+      return Object(external_CoreHome_["translate"])('Goals_LearnMoreAboutGoalTrackingDocumentation', Object(external_CoreHome_["externalLink"])('https://matomo.org/docs/tracking-goals-web-analytics/'), '</a>');
     },
     youCanEnableEcommerceReports: function youCanEnableEcommerceReports() {
       var link = external_CoreHome_["MatomoUrl"].stringify(Object.assign(Object.assign({}, external_CoreHome_["MatomoUrl"].urlParsed.value), {}, {
         module: 'SitesManager',
         action: 'index'
       }));
-      var ecommerceReportsText = '<a href="https://matomo.org/docs/ecommerce-analytics/" ' + "rel=\"noreferrer noopener\" target=\"_blank\">".concat(Object(external_CoreHome_["translate"])('Goals_EcommerceReports'), "</a>");
+      /* eslint-disable prefer-template */
+
+      var ecommerceReportsText = Object(external_CoreHome_["externalLink"])('https://matomo.org/docs/ecommerce-analytics/') + Object(external_CoreHome_["translate"])('Goals_EcommerceReports') + '</a>';
       var websiteManageText = "<a href='".concat(link, "'>").concat(Object(external_CoreHome_["translate"])('SitesManager_WebsitesManagement'), "</a>");
       return Object(external_CoreHome_["translate"])('Goals_YouCanEnableEcommerceReports', ecommerceReportsText, websiteManageText);
     },
@@ -933,8 +935,7 @@ function ambiguousBoolToInt(n) {
       return external_CoreHome_["Matomo"].helper.htmlDecode(external_CoreHome_["Matomo"].siteName);
     },
     whereVisitedPageManuallyCallsJsTrackerText: function whereVisitedPageManuallyCallsJsTrackerText() {
-      var link = 'https://developer.matomo.org/guides/tracking-javascript-guide#manually-trigger-goal-conversions';
-      return Object(external_CoreHome_["translate"])('Goals_WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore', "<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"".concat(link, "\">"), '</a>');
+      return Object(external_CoreHome_["translate"])('Goals_WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore', Object(external_CoreHome_["externalLink"])('https://developer.matomo.org/guides/tracking-javascript-guide#manually-trigger-goal-conversions'), '</a>');
     },
     caseSensitiveTitle: function caseSensitiveTitle() {
       return "".concat(Object(external_CoreHome_["translate"])('Goals_CaseSensitive'), " ").concat(Object(external_CoreHome_["translate"])('Goals_Optional'));

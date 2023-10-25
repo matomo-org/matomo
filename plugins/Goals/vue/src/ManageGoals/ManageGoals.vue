@@ -393,6 +393,7 @@ import {
   Alert,
   ReportingMenuStore,
   VueEntryContainer,
+  externalLink,
 } from 'CoreHome';
 import {
   Form,
@@ -700,8 +701,7 @@ export default defineComponent({
     learnMoreAboutGoalTracking() {
       return translate(
         'Goals_LearnMoreAboutGoalTrackingDocumentation',
-        '<a target="_blank" rel="noreferrer noopener" '
-        + 'href="https://matomo.org/docs/tracking-goals-web-analytics/">',
+        externalLink('https://matomo.org/docs/tracking-goals-web-analytics/'),
         '</a>',
       );
     },
@@ -711,9 +711,10 @@ export default defineComponent({
         module: 'SitesManager',
         action: 'index',
       });
-
-      const ecommerceReportsText = '<a href="https://matomo.org/docs/ecommerce-analytics/" '
-        + `rel="noreferrer noopener" target="_blank">${translate('Goals_EcommerceReports')}</a>`;
+      /* eslint-disable prefer-template */
+      const ecommerceReportsText = externalLink('https://matomo.org/docs/ecommerce-analytics/')
+        + translate('Goals_EcommerceReports')
+        + '</a>';
       const websiteManageText = `<a href='${link}'>${translate('SitesManager_WebsitesManagement')}</a>`;
 
       return translate(
@@ -726,10 +727,9 @@ export default defineComponent({
       return Matomo.helper.htmlDecode(Matomo.siteName);
     },
     whereVisitedPageManuallyCallsJsTrackerText() {
-      const link = 'https://developer.matomo.org/guides/tracking-javascript-guide#manually-trigger-goal-conversions';
       return translate(
         'Goals_WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore',
-        `<a target="_blank" rel="noreferrer noopener" href="${link}">`,
+        externalLink('https://developer.matomo.org/guides/tracking-javascript-guide#manually-trigger-goal-conversions'),
         '</a>',
       );
     },

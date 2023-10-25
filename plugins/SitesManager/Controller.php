@@ -289,7 +289,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 'id'                => 'GoogleAnalyticsImporter',
                 'name'              => Piwik::translate('CoreAdminHome_ImportFromGoogleAnalytics'),
                 'type'              => SiteContentDetectionAbstract::TYPE_OTHER,
-                'othersInstruction' => Piwik::translate('CoreAdminHome_ImportFromGoogleAnalyticsDescription', ['<a href="https://plugins.matomo.org/GoogleAnalyticsImporter" rel="noopener noreferrer" target="_blank">', '</a>']),
+                'othersInstruction' => Piwik::translate('CoreAdminHome_ImportFromGoogleAnalyticsDescription',
+                    ['<a href="' . Url::addCampaignParametersToMatomoLink('https://plugins.matomo.org/GoogleAnalyticsImporter') . '" rel="noopener noreferrer" target="_blank">', '</a>']),
             ];
         }
 
@@ -320,25 +321,29 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 'id'                => 'ImageTracking',
                 'name'              => Piwik::translate('CoreAdminHome_ImageTracking'),
                 'type'              => SiteContentDetectionAbstract::TYPE_OTHER,
-                'othersInstruction' => Piwik::translate('SitesManager_ImageTrackingDescription', ['<a href="https://matomo.org/docs/tracking-api/reference/" rel="noreferrer noopener" target="_blank">', '</a>']),
+                'othersInstruction' => Piwik::translate('SitesManager_ImageTrackingDescription',
+                    ['<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/tracking-api/reference/') . '" rel="noreferrer noopener" target="_blank">', '</a>']),
             ],
             [
                 'id'                => 'LogAnalytics',
                 'name'              => Piwik::translate('SitesManager_LogAnalytics'),
                 'type'              => SiteContentDetectionAbstract::TYPE_OTHER,
-                'othersInstruction' => Piwik::translate('SitesManager_LogAnalyticsDescription', ['<a href="https://matomo.org/log-analytics/" rel="noreferrer noopener" target="_blank">', '</a>']),
+                'othersInstruction' => Piwik::translate('SitesManager_LogAnalyticsDescription',
+                    ['<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/log-analytics/') . '" rel="noreferrer noopener" target="_blank">', '</a>']),
             ],
             [
                 'id'                => 'MobileAppsAndSDKs',
                 'name'              => Piwik::translate('SitesManager_MobileAppsAndSDKs'),
                 'type'              => SiteContentDetectionAbstract::TYPE_OTHER,
-                'othersInstruction' => Piwik::translate('SitesManager_MobileAppsAndSDKsDescription', ['<a href="https://matomo.org/integrate/#programming-language-platforms-and-frameworks" rel="noreferrer noopener" target="_blank">', '</a>']),
+                'othersInstruction' => Piwik::translate('SitesManager_MobileAppsAndSDKsDescription',
+                    ['<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/integrate/#programming-language-platforms-and-frameworks') . '" rel="noreferrer noopener" target="_blank">', '</a>']),
             ],
             [
                 'id'                => 'HttpTrackingApi',
                 'name'              => Piwik::translate('CoreAdminHome_HttpTrackingApi'),
                 'type'              => SiteContentDetectionAbstract::TYPE_OTHER,
-                'othersInstruction' => Piwik::translate('CoreAdminHome_HttpTrackingApiDescription', ['<a href="https://developer.matomo.org/api-reference/tracking-api" rel="noreferrer noopener" target="_blank">', '</a>']),
+                'othersInstruction' => Piwik::translate('CoreAdminHome_HttpTrackingApiDescription',
+                    ['<a href="' . Url::addCampaignParametersToMatomoLink('https://developer.matomo.org/api-reference/tracking-api') . '" rel="noreferrer noopener" target="_blank">', '</a>']),
             ]
         );
 
@@ -385,7 +390,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $request = \Piwik\Request::fromRequest();
         $idSite = $request->getIntegerParameter('idSite', 0);
         if (!$idSite || !Piwik::isUserHasAdminAccess($idSite)) {
-            return 'https://matomo.org/faq/general/manage-users/#imanadmin-creating-users';
+            return Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/general/manage-users/#imanadmin-creating-users');
         }
 
         return SettingsPiwik::getPiwikUrl() . 'index.php?' . Url::getQueryStringFromParameters([

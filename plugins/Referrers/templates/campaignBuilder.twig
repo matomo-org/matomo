@@ -1,4 +1,4 @@
 <div class="widgetBody">
-    <p>{{ 'Referrers_URLCampaignBuilderIntro'|translate('<a href="https://matomo.org/docs/tracking-campaigns-url-builder/" rel="noreferrer noopener">', '</a>', '<a href="https://matomo.org/docs/tracking-campaigns/" rel="noreferrer noopener">', '</a>')|raw }}</p>
+    <p>{{ 'Referrers_URLCampaignBuilderIntro'|translate(externallink('https://matomo.org/docs/tracking-campaigns-url-builder/'), '</a>', externallink('https://matomo.org/docs/tracking-campaigns/'), '</a>')|raw }}</p>
     <div vue-entry="Referrers.CampaignBuilder" has-extra-plugin="{{ hasExtraPlugin|json_encode|e('html_attr') }}"></div>
 </div>

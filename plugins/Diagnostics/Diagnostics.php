@@ -13,6 +13,7 @@ use Piwik\Notification;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\Diagnostics\Diagnostic\CronArchivingLastRunCheck;
+use Piwik\Url;
 use Piwik\View;
 
 class Diagnostics extends Plugin
@@ -57,7 +58,7 @@ class Diagnostics extends Plugin
         $lastSuccessfulRun = CronArchivingLastRunCheck::getTimeSinceLastSuccessfulRun();
         if ($lastSuccessfulRun > CronArchivingLastRunCheck::SECONDS_IN_DAY) {
             $content = Piwik::translate('Diagnostics_NoDataForReportArchivingNotRun', [
-                '<a href="https://matomo.org/docs/setup-auto-archiving/" target="_blank" rel="noreferrer noopener">',
+                '<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/setup-auto-archiving/') . '" target="_blank" rel="noreferrer noopener">',
                 '</a>',
             ]);
 
