@@ -14,7 +14,13 @@ describe("ProfessionalServices_PluginPromo", function () {
         urlBase = '?module=CoreHome&' + generalParams + '&action=index&';
 
     before(function () {
+        testEnvironment.enableProfessionalSupportAdsForUITests = true;
         testEnvironment.pluginsToLoad = ['PrivacyManager', 'Marketplace', 'ProfessionalServices'];
+        testEnvironment.save();
+    });
+
+    after(function () {
+        delete testEnvironment.enableProfessionalSupportAdsForUITests;
         testEnvironment.save();
     });
 

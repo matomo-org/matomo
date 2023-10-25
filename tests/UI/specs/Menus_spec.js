@@ -13,16 +13,6 @@ describe("Menus", function () {
     const generalParams = 'idSite=1&period=year&date=2009-01-04',
         urlBase = 'module=CoreHome&action=index&' + generalParams;
 
-    before(function () {
-        testEnvironment.disableProfessionalSupportAds = true;
-        testEnvironment.save();
-    });
-
-    after(function () {
-        delete testEnvironment.disableProfessionalSupportAds;
-        testEnvironment.save();
-    });
-
     async function openMenuItem(page, menuItem) {
         const element = await page.jQuery('#secondNavBar .navbar a:contains(' + menuItem + '):first');
         await element.click();
@@ -36,6 +26,21 @@ describe("Menus", function () {
 
         const element = await page.jQuery('#secondNavBar');
         expect(await element.screenshot()).to.matchImage('mainmenu_loaded');
+    });
+
+    // main menu with plugin promos (reloads the previous test's page with new config)
+    it('should load the main reporting menu with plugin promos correctly', async function() {
+        testEnvironment.enableProfessionalSupportAdsForUITests = true;
+        await testEnvironment.save();
+
+        await page.reload(); // use URL from the previous test
+        await page.waitForSelector('#secondNavBar', { visible: true });
+
+        const element = await page.jQuery('#secondNavBar');
+        expect(await element.screenshot()).to.matchImage('mainmenu_loaded_withpromos');
+
+        delete testEnvironment.enableProfessionalSupportAdsForUITests;
+        await testEnvironment.save();
     });
 
     it('should change the menu when a upper menu item is clicked in the main menu', async function() {

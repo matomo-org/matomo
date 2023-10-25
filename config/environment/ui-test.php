@@ -47,7 +47,10 @@ return [
         $config->General['trusted_hosts'][] = $config->tests['http_host'];
         $config->General['trusted_hosts'][] = $config->tests['http_host'] . ':' . $config->tests['port'];
 
-        if ($c->get('test.vars.disableProfessionalSupportAds')) {
+        // disable plugin promos for UI tests, only enable when explicitly requested
+        if ($c->get('test.vars.enableProfessionalSupportAdsForUITests')) {
+            $config->General['piwik_professional_support_ads_enabled'] = '1';
+        } else {
             $config->General['piwik_professional_support_ads_enabled'] = '0';
         }
 
