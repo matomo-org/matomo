@@ -112,7 +112,7 @@ jobs:
         with:
           ui-test-options: '--num-test-groups=4 --test-group=${{ matrix.parts }}'
           test-type: 'UI'
-          php-version: '7.2'
+          php-version: '8.3'
           node-version: '16'
           redis-service: true
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
