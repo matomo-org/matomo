@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Filter\SafeDecodeLabel;
 use Piwik\DataTable\Row;
+use Piwik\Log\LoggerInterface;
 use Piwik\Metrics\Formatter;
 use Piwik\Plugin\Manager;
 use Piwik\Tracker\GoalManager;
@@ -42,6 +43,8 @@ function piwik_format_data_table_column(Row $row, string $column, array $fallbac
     $formattedColumn = $row->getFormattedColumn($column);
 
     if (false !== $formattedColumn) {
+        StaticContainer::get(LoggerInterface::class)->debug('Column already formatted: ' . $column);
+
         return $formattedColumn;
     };
 
@@ -50,6 +53,8 @@ function piwik_format_data_table_column(Row $row, string $column, array $fallbac
     if ('number' !== $fallbackType) {
         throw new Exception(sprintf('Unknown formatting fallback: %s', $fallbackType));
     }
+
+    StaticContainer::get(LoggerInterface::class)->debug('Column not formatted: ' . $column);
 
     return piwik_format_number(
         $row->getRawColumn($column),
