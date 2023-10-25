@@ -33,7 +33,7 @@ describe("Menus", function () {
         testEnvironment.enableProfessionalSupportAdsForUITests = true;
         await testEnvironment.save();
 
-        await page.reload(); // use URL from the previous test
+        await page.reload(); // use URL from the previous test and reload to apply the config changes
         await page.waitForSelector('#secondNavBar', { visible: true });
 
         const element = await page.jQuery('#secondNavBar');
@@ -41,6 +41,8 @@ describe("Menus", function () {
 
         delete testEnvironment.enableProfessionalSupportAdsForUITests;
         await testEnvironment.save();
+
+        await page.reload(); // reload to apply the config changes
     });
 
     it('should change the menu when a upper menu item is clicked in the main menu', async function() {
