@@ -176,6 +176,7 @@ class Formatter
 
         if ([] === $metrics) {
             $this->formatMetricsLegacy($dataTable, $formatAll);
+            $this->formatTestColumns($dataTable);
 
             return;
         }
@@ -194,6 +195,7 @@ class Formatter
 
         if ([] === $metrics) {
             $this->formatMetricsLegacy($dataTable, $formatAll);
+            $this->formatTestColumns($dataTable);
 
             return;
         }
@@ -237,6 +239,7 @@ class Formatter
         }
 
         $this->formatMetricsLegacy($dataTable, $formatAll);
+        $this->formatTestColumns($dataTable);
     }
 
     protected function getPrettySizeFromBytesWithUnit($size, $unit = null, $precision = 1)
@@ -319,6 +322,33 @@ class Formatter
 
         $dataTable->setMetadata(DataTable::FORMATTED_COLUMNS_METADATA_NAME, $formattedColumns);
         $dataTable->setMetadata(self::PROCESSED_METRICS_FORMATTED_FLAG, true);
+    }
+
+    private function formatTestColumns(DataTable $dataTable): void
+    {
+        $testColumns = ['nb_actions', 'nb_hits', 'nb_visits'];
+        $formattedColumns = $dataTable->getMetadata(DataTable::FORMATTED_COLUMNS_METADATA_NAME) ?: [];
+        $columnsToFormat = array_diff($testColumns, $formattedColumns);
+
+        foreach ($columnsToFormat as $name) {
+            foreach ($dataTable->getRows() as $row) {
+                $columnValue = $row->getRawColumn($name);
+
+                if (false === $columnValue) {
+                    continue;
+                }
+
+                $formattedValue = $this->getPrettyNumber($columnValue);
+
+                $row->setColumn($name, $formattedValue);
+                $row->setFormattedColumn($name, $formattedValue);
+                $row->setRawColumn($name, $columnValue);
+            }
+
+            $formattedColumns[] = $name;
+        }
+
+        $dataTable->setMetadata(DataTable::FORMATTED_COLUMNS_METADATA_NAME, $formattedColumns);
     }
 
     /**
