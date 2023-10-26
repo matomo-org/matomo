@@ -75,7 +75,7 @@
                 'segmentTitlePretty': row.getMetadata('compareSegmentPretty'),
                 'periodTitlePretty': row.getMetadata('comparePeriodPretty')
             } %}
-            <span class="value">{{ row|formatDataTableColumn(column, ['number', 2, 0])|rawSafeDecoded -}}|rawSafeDecoded }}</span>
+            <span class="value">{{ row|formatDataTableColumn(column, ['number', 2, 0])|rawSafeDecoded }}</span>
         </td>
         {% endif %}
         {% endfor %}

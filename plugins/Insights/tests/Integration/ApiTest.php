@@ -66,7 +66,7 @@ class ApiTest extends SystemTestCase
         $insights = $this->requestInsights(array());
         $metadata = $insights->getAllTableMetadata();
 
-        $expectedMetadata = array(
+        $expectedMetadata = [
             'reportName' => 'Page URLs',
             'metricName' => 'Unique Pageviews',
             'date'       => self::$fixture->date1,
@@ -113,8 +113,13 @@ class ApiTest extends SystemTestCase
                 'isNew' => 0,
                 'isMover' => 0,
                 'isMoverAndShaker' => 0,
-            ]
-        );
+            ],
+            'formattedColumns' => [
+                'nb_actions',
+                'nb_hits',
+                'nb_visits',
+            ],
+        ];
 
         self::assertIsArray($metadata['report']);
         $this->assertEquals('Actions', $metadata['report']['module']);

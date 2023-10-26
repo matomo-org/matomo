@@ -127,7 +127,8 @@ class VisitsSummaryTest extends IntegrationTestCase
             'period' => 'day',
             'date'   => $this->date,
             'apiModule' => 'VisitsSummary',
-            'apiAction' => 'get'
+            'apiAction' => 'get',
+            'format_metrics' => 0,
         ));
     }
 
