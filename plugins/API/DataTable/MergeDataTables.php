@@ -50,9 +50,18 @@ class MergeDataTables
         if ($this->copyExtraProcessedMetrics) {
             $extraProcessedMetricsTable1 = $table1->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME) ?: [];
             $extraProcessedMetricsTable2 = $table2->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME) ?: [];
+
             $table1->setMetadata(
                 DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME,
                 array_merge($extraProcessedMetricsTable1, $extraProcessedMetricsTable2)
+            );
+
+            $formattedMetricsTable1 = $table1->getMetadata(DataTable::FORMATTED_COLUMNS_METADATA_NAME) ?: [];
+            $formattedMetricsTable2 = $table2->getMetadata(DataTable::FORMATTED_COLUMNS_METADATA_NAME) ?: [];
+
+            $table1->setMetadata(
+                DataTable::FORMATTED_COLUMNS_METADATA_NAME,
+                array_merge($formattedMetricsTable1, $formattedMetricsTable2)
             );
         }
 
@@ -68,6 +77,8 @@ class MergeDataTables
 
         foreach ($firstRow2->getColumns() as $metric => $value) {
             $firstRow1->setColumn($metric, $value);
+            $firstRow1->setFormattedColumn($metric, $firstRow2->getFormattedColumn($metric));
+            $firstRow1->setRawColumn($metric, $firstRow2->getRawColumn($metric));
         }
     }
 

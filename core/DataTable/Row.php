@@ -270,6 +270,14 @@ class Row extends \ArrayObject
     }
 
     /**
+     * @return array<string, mixed>
+     */
+    public function getRawColumns()
+    {
+        return $this->rawColumns + $this->getArrayCopy();
+    }
+
+    /**
      * Returns the ID of the subDataTable.
      * If there is no such a table, returns null.
      *
