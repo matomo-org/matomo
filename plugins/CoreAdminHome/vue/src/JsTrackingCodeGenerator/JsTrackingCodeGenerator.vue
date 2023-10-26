@@ -219,7 +219,7 @@ export default defineComponent({
     jsTrackingIntro5() {
       return translate(
         'CoreAdminHome_JSTrackingIntro5',
-        externalLink('href="https://developer.matomo.org/guides/tracking-javascript-guide">'),
+        externalLink('https://developer.matomo.org/guides/tracking-javascript-guide'),
         '</a>',
       );
     },
