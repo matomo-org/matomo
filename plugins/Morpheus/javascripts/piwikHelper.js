@@ -33,12 +33,11 @@ function _pk_externalRawLink(url, values) {
   const sourceOverride = (typeof values != 'undefined' && values.length > 1 && values[1] ? values[1] : null);
   const mediumOverride = (typeof values != 'undefined' && values.length > 2 && values[2] ? values[2] : null);
 
-  var returnURL= null;
+  let returnURL = null;
   try {
       returnURL = new URL(url);
   } catch(error) {
       console.log('Error parsing URL: ' + url);
-      return '';
   }
   if (!returnURL) {
     return '';
