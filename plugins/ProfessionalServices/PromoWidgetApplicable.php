@@ -14,12 +14,6 @@ use Piwik\ProfessionalServices\Advertising;
 
 class PromoWidgetApplicable
 {
-
-    /**
-     * @var Advertising
-     */
-    private $advertising;
-
     /**
      * @var Manager
      */
@@ -30,16 +24,15 @@ class PromoWidgetApplicable
      */
     private $config;
 
-    public function __construct(Advertising $advertising, Manager $manager, Config $config)
+    public function __construct(Manager $manager, Config $config)
     {
-        $this->advertising = $advertising;
         $this->manager = $manager;
         $this->config = $config;
     }
 
     public function check(string $pluginName): bool
     {
-        if ($this->advertising->areAdsForProfessionalServicesEnabled() === false) {
+        if (Advertising::isAdsEnabledInConfig($this->config->General) === false) {
             return false;
         }
 

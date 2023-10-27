@@ -9,27 +9,42 @@
 namespace Piwik\Plugins\ProfessionalServices\Widgets;
 
 use Piwik\Container\StaticContainer;
+use Piwik\Piwik;
+use Piwik\View;
 use Piwik\Widget\Widget;
 use Piwik\Widget\WidgetConfig;
 
 class PromoCustomReports extends Widget
 {
+    private const PROMO_PLUGIN_NAME = 'CustomReports';
+
     public static function configure(WidgetConfig $config)
     {
         $config->setCategoryId('ProfessionalServices_PromoCustomReports');
         $config->setSubcategoryId('ProfessionalServices_PromoManage');
-        $config->setName('ProfessionalServices_PromoCustomReportsManage');
         $config->setIsNotWidgetizable();
 
         $promoWidgetApplicable = StaticContainer::get('Piwik\Plugins\ProfessionalServices\PromoWidgetApplicable');
 
-        $isEnabled = $promoWidgetApplicable->check('CustomReports');
-        $isEnabled = false;
+        $isEnabled = $promoWidgetApplicable->check(self::PROMO_PLUGIN_NAME);
         $config->setIsEnabled($isEnabled);
     }
 
     public function render()
     {
-        return 'content';
+        $marketplacePlugins = StaticContainer::get('Piwik\Plugins\Marketplace\Plugins');
+        $pluginInfo = $marketplacePlugins->getPluginInfo(self::PROMO_PLUGIN_NAME);
+
+        $view = new View('@ProfessionalServices/pluginAdvertising');
+        $view->plugin = $pluginInfo;
+
+        $view->title  = Piwik::translate('ProfessionalServices_PromoUnlockPowerOf', $pluginInfo['displayName']);
+        $view->listOfFeatures = [
+            Piwik::translate('ProfessionalServices_CustomReportsFeature01'),
+            Piwik::translate('ProfessionalServices_CustomReportsFeature02'),
+            Piwik::translate('ProfessionalServices_CustomReportsFeature03'),
+        ];
+
+        return $view->render();
     }
 }
