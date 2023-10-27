@@ -38,7 +38,7 @@ return [
         };
     },
 
-    'Piwik\Config' => \DI\decorate(function (\Piwik\Config $config, Container $c) {
+    'Piwik\Config' => \DI\decorate(function (\Piwik\Config $config, \Psr\Container\ContainerInterface $c) {
         $config->General['cors_domains'][] = '*';
         $config->General['trusted_hosts'][] = '127.0.0.1';
         $config->General['trusted_hosts'][] = $config->tests['http_host'];
