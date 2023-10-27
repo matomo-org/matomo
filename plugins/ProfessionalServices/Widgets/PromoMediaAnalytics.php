@@ -14,13 +14,13 @@ use Piwik\View;
 use Piwik\Widget\Widget;
 use Piwik\Widget\WidgetConfig;
 
-class PromoAbTesting extends Widget
+class PromoMediaAnalytics extends Widget
 {
-    private const PROMO_PLUGIN_NAME = 'AbTesting';
+    private const PROMO_PLUGIN_NAME = 'MediaAnalytics';
 
     public static function configure(WidgetConfig $config)
     {
-        $config->setCategoryId('ProfessionalServices_PromoAbTesting');
+        $config->setCategoryId('ProfessionalServices_PromoMediaAnalytics');
         $config->setSubcategoryId('ProfessionalServices_PromoOverview');
         $config->setIsNotWidgetizable();
 
@@ -40,9 +40,9 @@ class PromoAbTesting extends Widget
 
         $view->title  = Piwik::translate('ProfessionalServices_PromoUnlockPowerOf', $pluginInfo['displayName']);
         $view->listOfFeatures = [
-            Piwik::translate('ProfessionalServices_AbTestingFeature01'),
-            Piwik::translate('ProfessionalServices_AbTestingFeature02'),
-            Piwik::translate('ProfessionalServices_AbTestingFeature03'),
+            Piwik::translate('ProfessionalServices_MediaAnalyticsFeature01'),
+            Piwik::translate('ProfessionalServices_MediaAnalyticsFeature02'),
+            Piwik::translate('ProfessionalServices_MediaAnalyticsFeature03'),
         ];
 
         return $view->render();

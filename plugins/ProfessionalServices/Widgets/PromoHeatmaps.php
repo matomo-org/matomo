@@ -14,14 +14,14 @@ use Piwik\View;
 use Piwik\Widget\Widget;
 use Piwik\Widget\WidgetConfig;
 
-class PromoAbTesting extends Widget
+class PromoHeatmaps extends Widget
 {
-    private const PROMO_PLUGIN_NAME = 'AbTesting';
+    private const PROMO_PLUGIN_NAME = 'HeatmapSessionRecording';
 
     public static function configure(WidgetConfig $config)
     {
-        $config->setCategoryId('ProfessionalServices_PromoAbTesting');
-        $config->setSubcategoryId('ProfessionalServices_PromoOverview');
+        $config->setCategoryId('ProfessionalServices_PromoHeatmaps');
+        $config->setSubcategoryId('ProfessionalServices_PromoManage');
         $config->setIsNotWidgetizable();
 
         $promoWidgetApplicable = StaticContainer::get('Piwik\Plugins\ProfessionalServices\PromoWidgetApplicable');
@@ -38,11 +38,12 @@ class PromoAbTesting extends Widget
         $view = new View('@ProfessionalServices/pluginAdvertising');
         $view->plugin = $pluginInfo;
 
-        $view->title  = Piwik::translate('ProfessionalServices_PromoUnlockPowerOf', $pluginInfo['displayName']);
+        $view->title  = Piwik::translate('ProfessionalServices_PromoUnlockPowerOf', 'Heatmaps');
+        $view->imageName = 'ad-heatmaps.png';
         $view->listOfFeatures = [
-            Piwik::translate('ProfessionalServices_AbTestingFeature01'),
-            Piwik::translate('ProfessionalServices_AbTestingFeature02'),
-            Piwik::translate('ProfessionalServices_AbTestingFeature03'),
+            Piwik::translate('ProfessionalServices_HeatmapsFeature01'),
+            Piwik::translate('ProfessionalServices_HeatmapsFeature02'),
+            Piwik::translate('ProfessionalServices_HeatmapsFeature03'),
         ];
 
         return $view->render();

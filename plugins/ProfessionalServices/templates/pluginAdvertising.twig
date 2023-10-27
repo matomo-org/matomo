@@ -1,0 +1,27 @@
+<div
+    class="pluginPromo"
+    vue-entry="CoreHome.ContentBlock"
+    content-title="{{ title }}"
+    image-url="plugins/ProfessionalServices/images/{{ imageName|default('ad-' ~ plugin.name ~ '.png')|lower }}"
+    image-alt-text="{{ 'ProfessionalServices_AltTextPreviewImageFor'|translate(plugin.displayName) }}"
+>
+    <div class="promo-content">
+        {% if listOfFeatures|default([])|length %}
+            <div class="promo-features">
+                <ul>
+                    {% for feature in listOfFeatures %}
+                        <li><span class="promo-icon icon-ok"></span>{{ feature|raw }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+    <div class="promo-actions">
+        <a class="btn" target="_blank" rel="noreferrer noopener" href="{{ plugin.shop.url|default('')|e('html_attr') }}">
+            {{ 'ProfessionalServices_CTAStartFreeTrial'|translate }}
+        </a>
+        <a class="learn-more" href="#" vue-directive="CorePluginsAdmin.PluginName" vue-directive-value="{{ { pluginName: plugin.name }|json_encode }}" aria-label="{{ 'ProfessionalServices_CTALearnMore'|translate(plugin.displayName) }}">
+            {{ 'CoreAdminHome_LearnMore'|translate }}
+        </a>
+    </div>
+</div>
