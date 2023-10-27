@@ -20,7 +20,7 @@ class PromoMediaAnalytics extends Widget
 
     public static function configure(WidgetConfig $config)
     {
-        $config->setCategoryId('ProfessionalServices_PromoMedia');
+        $config->setCategoryId('ProfessionalServices_PromoMediaAnalytics');
         $config->setSubcategoryId('ProfessionalServices_PromoOverview');
         $config->setIsNotWidgetizable();
 

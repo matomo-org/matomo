@@ -14,7 +14,13 @@ describe("ProfessionalServices_PluginPromo", function () {
         urlBase = '?module=CoreHome&' + generalParams + '&action=index&';
 
     before(function () {
+        testEnvironment.enableProfessionalSupportAdsForUITests = true;
         testEnvironment.pluginsToLoad = ['PrivacyManager', 'Marketplace', 'ProfessionalServices'];
+        testEnvironment.save();
+    });
+
+    after(function () {
+        delete testEnvironment.enableProfessionalSupportAdsForUITests;
         testEnvironment.save();
     });
 
@@ -24,7 +30,7 @@ describe("ProfessionalServices_PluginPromo", function () {
 
         await page.goto(urlBase + 'category=' + category + '&subcategory=' + subcategory);
         await page.waitForNetworkIdle();
-        expect(await page.screenshotSelector('.pageWrap, .pluginPromo')).to.matchImage('promo_abtesting');
+        expect(await page.screenshotSelector('.pluginPromo')).to.matchImage('promo_abtesting');
     });
 
     it('should load Crash Analytics plugin promo detail view', async function() {
@@ -33,7 +39,7 @@ describe("ProfessionalServices_PluginPromo", function () {
 
         await page.goto(urlBase + 'category=' + category + '&subcategory=' + subcategory);
         await page.waitForNetworkIdle();
-        expect(await page.screenshotSelector('.pageWrap, .pluginPromo')).to.matchImage('promo_crashanalytics');
+        expect(await page.screenshotSelector('.pluginPromo')).to.matchImage('promo_crashanalytics');
     });
 
     it('should load Custom Reports plugin promo detail view', async function() {
@@ -42,16 +48,16 @@ describe("ProfessionalServices_PluginPromo", function () {
 
         await page.goto(urlBase + 'category=' + category + '&subcategory=' + subcategory);
         await page.waitForNetworkIdle();
-        expect(await page.screenshotSelector('.pageWrap, .pluginPromo')).to.matchImage('promo_customreports');
+        expect(await page.screenshotSelector('.pluginPromo')).to.matchImage('promo_customreports');
     });
 
     it('should load Form Analytics plugin promo detail view', async function() {
-        const category = 'ProfessionalServices_PromoForms';
+        const category = 'ProfessionalServices_PromoFormAnalytics';
         const subcategory = 'ProfessionalServices_PromoOverview';
 
         await page.goto(urlBase + 'category=' + category + '&subcategory=' + subcategory);
         await page.waitForNetworkIdle();
-        expect(await page.screenshotSelector('.pageWrap, .pluginPromo')).to.matchImage('promo_formanalytics');
+        expect(await page.screenshotSelector('.pluginPromo')).to.matchImage('promo_formanalytics');
     });
 
     it('should load Funnels plugin promo detail view', async function() {
@@ -60,7 +66,7 @@ describe("ProfessionalServices_PluginPromo", function () {
 
         await page.goto(urlBase + 'category=' + category + '&subcategory=' + subcategory);
         await page.waitForNetworkIdle();
-        expect(await page.screenshotSelector('.pageWrap, .pluginPromo')).to.matchImage('promo_funnels');
+        expect(await page.screenshotSelector('.pluginPromo')).to.matchImage('promo_funnels');
     });
 
     it('should load Heatmaps plugin promo detail view', async function() {
@@ -69,16 +75,16 @@ describe("ProfessionalServices_PluginPromo", function () {
 
         await page.goto(urlBase + 'category=' + category + '&subcategory=' + subcategory);
         await page.waitForNetworkIdle();
-        expect(await page.screenshotSelector('.pageWrap, .pluginPromo')).to.matchImage('promo_heatmaps');
+        expect(await page.screenshotSelector('.pluginPromo')).to.matchImage('promo_heatmaps');
     });
 
     it('should load Media Analytics plugin promo detail view', async function() {
-        const category = 'ProfessionalServices_PromoMedia';
+        const category = 'ProfessionalServices_PromoMediaAnalytics';
         const subcategory = 'ProfessionalServices_PromoOverview';
 
         await page.goto(urlBase + 'category=' + category + '&subcategory=' + subcategory);
         await page.waitForNetworkIdle();
-        expect(await page.screenshotSelector('.pageWrap, .pluginPromo')).to.matchImage('promo_mediaanalytics');
+        expect(await page.screenshotSelector('.pluginPromo')).to.matchImage('promo_mediaanalytics');
     });
 
     it('should load Session Recordings plugin promo detail view', async function() {
@@ -87,7 +93,7 @@ describe("ProfessionalServices_PluginPromo", function () {
 
         await page.goto(urlBase + 'category=' + category + '&subcategory=' + subcategory);
         await page.waitForNetworkIdle();
-        expect(await page.screenshotSelector('.pageWrap, .pluginPromo')).to.matchImage('promo_sessionrecordings');
+        expect(await page.screenshotSelector('.pluginPromo')).to.matchImage('promo_sessionrecordings');
     });
 
 });
