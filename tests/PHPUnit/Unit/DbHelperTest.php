@@ -74,6 +74,7 @@ class DbHelperTest extends \PHPUnit\Framework\TestCase
             ['SELECT  /*+ MAX_EXECUTION_TIME(1500) */  * FROM table', 'SELECT * FROM table', 1.5],
             ['SELECT  /*+ MAX_EXECUTION_TIME(20000) */  column FROM (SELECT * FROM table)', 'SELECT column FROM (SELECT * FROM table)', 20],
             ['SELECT * FROM table', 'SELECT * FROM table', 0],
+            ['SELECT /*+ MAX_EXECUTION_TIME(1000) */ * FROM table', 'SELECT /*+ MAX_EXECUTION_TIME(1000) */ * FROM table', 3.5], // should not append/change MAX_EXECUTION_TIME hint if already present
             ['UPDATE table SET column = value', 'UPDATE table SET column = value', 150],
         ];
     }
