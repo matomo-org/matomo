@@ -12,7 +12,7 @@ use Piwik\Category\Category;
 
 class PromoMediaCategory extends Category
 {
-    protected $id = 'ProfessionalServices_PromoMedia';
+    protected $id = 'ProfessionalServices_PromoMediaAnalytics';
     protected $order = 50;
     protected $icon = 'icon-folder-charts';
 }

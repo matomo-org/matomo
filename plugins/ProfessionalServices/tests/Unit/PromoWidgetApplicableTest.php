@@ -12,7 +12,6 @@ use PHPUnit\Framework\TestCase;
 use Piwik\Config;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\ProfessionalServices\PromoWidgetApplicable;
-use Piwik\ProfessionalServices\Advertising;
 
 class PromoWidgetApplicableTest extends TestCase
 {
@@ -21,9 +20,6 @@ class PromoWidgetApplicableTest extends TestCase
      */
     public function test_check_shouldOnlyReturnTrue_IfAdShouldBeShown(bool $adsForProfessionalServicesEnabled, bool $marketplaceEnabled, bool $internetAccessEnabled, bool $pluginActivated, bool $expected): void
     {
-        $advertising = $this->createMock(Advertising::class);
-        $advertising->method('areAdsForProfessionalServicesEnabled')->willReturn($adsForProfessionalServicesEnabled);
-
         $manager = $this->createMock(Manager::class);
         $manager->method('isPluginActivated')->willReturnMap(
             [
@@ -35,10 +31,11 @@ class PromoWidgetApplicableTest extends TestCase
         $config->method('__get')
             ->with('General')
             ->willReturn([
-                'enable_internet_features' => $internetAccessEnabled
+                'enable_internet_features' => $internetAccessEnabled,
+                'piwik_professional_support_ads_enabled' => $adsForProfessionalServicesEnabled,
             ]);
 
-        $sut = new PromoWidgetApplicable($advertising, $manager, $config);
+        $sut = new PromoWidgetApplicable($manager, $config);
         $this->assertEquals($expected, $sut->check('MyPlugin'));
     }
 
