@@ -2,7 +2,7 @@
     "MobileMessaging": {
         "Available_Credits": "Διαθέσιμες μονάδες: %1$s",
         "Exception_UnknownProvider": "Άγνωστο όνομα Παρόχου '%1$s'. Εναλλακτικά, δοκιμάστε ένα από τα παρακάτω: %2$s.",
-        "MobileReport_AdditionalPhoneNumbers": "Μπορείτε να προσθέσετε περισσότερους αριθμούς τηλεφώνου με πρόσβαση",
+        "MobileReport_AdditionalPhoneNumbers": "Μπορείτε να προσθέσετε περισσότερους αριθμούς τηλεφώνου από",
         "MobileReport_MobileMessagingSettingsLink": "τη σελίδα ρυθμίσεων Μηνύματα σε Κινητά",
         "MobileReport_NoPhoneNumbers": "Παρακαλούμε ενεργοποιήστε τουλάχιστον έναν αριθμό τηλεφώνου με πρόσβαση",
         "MultiSites_Must_Be_Activated": "Για την παραγωγή SMS με στατιστικά της ιστοσελίδας σας, παρακαλούμε να ενεργοποιήσετε το πρόσθετο MultiSites στο Matomo.",

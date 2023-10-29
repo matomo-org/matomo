@@ -1,7 +1,7 @@
 {
     "Installation": {
         "CannotConnectToDb": "डेटाबेस से कनेक्ट नहीं कर सकते",
-        "CollaborativeProject": "Matomo सभी दुनिया भर से लोगों से प्यार के साथ बनाया गया एक सहयोगी परियोजना है।",
+        "CollaborativeProject": "माटोमो प्रेम से निर्मित एक सहयोगात्मक परियोजना है।",
         "ConfirmDeleteExistingTables": "अपने डेटाबेस से %s: क्या आप तालिकाओं को हटाना चाहते हैं? चेतावनी: इन तालिकाओं से डेटा बरामद नहीं किया जा सकता है!",
         "Congratulations": "बधाई हो",
         "DatabaseAbilities": "डेटाबेस की क्षमताओं",

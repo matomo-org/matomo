@@ -1,7 +1,7 @@
 {
     "ScheduledReports": {
         "AggregateReportsFormat": "Επιλογές εμφάνισης",
-        "AggregateReportsFormat_GraphsOnly": "Προβολή μόνο Διαγραμμάτων (κανένας πίνακας αναφοράς)",
+        "AggregateReportsFormat_GraphsOnly": "Προβολή μόνο Διαγραμμάτων (χωρίς πίνακα αναφορών)",
         "AggregateReportsFormat_TablesAndGraphs": "Προβολή πινάκων Αναφοράς και Διαγραμμάτων για όλες τις αναφορές",
         "AggregateReportsFormat_TablesOnly": "(προεπιλογή) Προβολή Πινάκων Αναφορών (Διαγράμματα μόνο για μετρήσεις κλειδιού)",
         "AlsoSendReportToTheseEmails": "Να αποσταλεί η αναφορά και σε αυτές τις ηλεκτρονικές διευθύνσεις (μία σε κάθε γραμμή):",

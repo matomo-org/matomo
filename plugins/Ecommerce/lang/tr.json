@@ -24,7 +24,7 @@
         "ViewedProductCategory": "Görüntülenen ürün kategorisi",
         "ViewedProductName": "Görüntülenen ürün adı",
         "ViewedProductPrice": "Görüntülenen ürün fiyatı",
-        "ViewedProductSKU": "Görüntülenen ürün SKU kodu",
+        "ViewedProductSKU": "Görüntülenecek ürün stok kodu",
         "VisitorProfileAbandonedCartSummary": "%3$s değerindeki %2$s ögeyi içeren %1$s sepet terk edilmiş.",
         "VisitorProfileItemsAndOrders": "%2$s e-ticaret siparişi ile %1$s öge satın almış.",
         "VisitorProfileLTV": "%1$s tarafından ömür boyunca elde edilen gelir."

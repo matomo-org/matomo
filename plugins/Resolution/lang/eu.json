@@ -3,8 +3,11 @@
         "ColumnConfiguration": "Konfigurazioa",
         "ColumnResolution": "Bereizmena",
         "Configurations": "Konfigurazioak",
+        "PluginDescription": "Zure bisitarien pantailen bereizmenaren berri ematen du.",
         "Resolutions": "Bereizmenak",
         "WidgetGlobalVisitors": "Bisitarien konfigurazioa",
-        "WidgetResolutions": "Pantailaren bereizmenak"
+        "WidgetGlobalVisitorsDocumentation": "Txosten honek erakusten du zein diren zure bisitarien konfigurazio ohikoenak. Konfigurazio bat sistema eragilearen, nabigatzaile-motaren eta pantailaren bereizmenaren konbinazioa da.",
+        "WidgetResolutions": "Pantailaren bereizmenak",
+        "WidgetResolutionsDocumentation": "Txosten honek erakusten du zure bisitariek zer pantaila bereizmen erabili zituzten zure webgunea bisitatzean."
     }
 }
