@@ -134,6 +134,7 @@ class Twig
         $this->addFilterMd5();
         $this->addFilterOnlyDomain();
         $this->addFilterSafelink();
+        $this->addFilterTrackMatomoLink();
         $this->addFilterImplode();
         $this->twig->addFilter(new TwigFilter('ucwords', 'ucwords'));
         $this->twig->addFilter(new TwigFilter('lcfirst', 'lcfirst'));
@@ -142,6 +143,8 @@ class Twig
             return preg_replace($pattern, $replacement, $subject);
         }));
 
+        $this->addFunctionExternalLink();
+        $this->addFunctionExternalRawLink();
         $this->addFunctionIncludeAssets();
         $this->addFunctionLinkTo();
         $this->addFunctionSparkline();
@@ -265,6 +268,33 @@ class Twig
             return 'index.php' . Url::getCurrentQueryStringWithParametersModified($params);
         });
         $this->twig->addFunction($urlFunction);
+    }
+
+    /**
+     * Build an external link for a URL
+     *
+     * Usage:
+     *     externallink(url)
+     *
+     */
+    private function addFunctionExternalLink()
+    {
+        $externalLink = new TwigFunction('externallink', function ($url) {
+            // Add tracking parameters if a matomo.org link
+            $url =  Url::addCampaignParametersToMatomoLink($url);
+
+            return "<a target='_blank' rel='noreferrer noopener' href='" . $url . "'>";
+        });
+        $this->twig->addFunction($externalLink);
+    }
+
+    private function addFunctionExternalRawLink()
+    {
+        $externalRawLink = new TwigFunction('externalrawlink', function ($url) {
+            // Add tracking parameters if a matomo.org link
+            return Url::addCampaignParametersToMatomoLink($url);
+        });
+        $this->twig->addFunction($externalRawLink);
     }
 
     /**
@@ -582,6 +612,31 @@ class Twig
             return $url;
         });
         $this->twig->addFilter($safelink);
+    }
+
+    /**
+     * Modify any links to matomo domains to add campaign tracking parameters
+     *
+     * Typical usage:
+     *
+     * Apply default campaign tracking parameters:
+     * {{ 'https://matomo.org/faq/123'|trackmatomolink }}
+     *
+     * Apply custom campaign tracking parameters:
+     * {{ 'https://matomo.org/faq/123'|trackmatomolink('SomeCampaign', 'SomeSource', 'SomeMedium') }}
+     *
+     */
+    private function addFilterTrackMatomoLink()
+    {
+        $trackLink = new TwigFilter('trackmatomolink', function ($url) {
+            $params = func_get_args();
+            array_shift($params);
+            $campaign = (count($params) > 0 ? $params[0] : null);
+            $source = (count($params) > 1 ? $params[1] : null);
+            $medium = (count($params) > 2 ? $params[2] : null);
+            return Url::addCampaignParametersToMatomoLink($url, $campaign, $source, $medium);
+        });
+        $this->twig->addFilter($trackLink);
     }
 
     private function addFilterImplode()

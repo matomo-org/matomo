@@ -16,6 +16,7 @@ use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Piwik;
 use Piwik\Site;
 use Piwik\Db as PiwikDb;
+use Piwik\Url;
 
 class Failures
 {
@@ -176,12 +177,12 @@ class Failures
                 case self::FAILURE_ID_INVALID_SITE:
                     $failure['problem'] = Piwik::translate('CoreAdminHome_TrackingFailureInvalidSiteProblem');
                     $failure['solution'] = Piwik::translate('CoreAdminHome_TrackingFailureInvalidSiteSolution');
-                    $failure['solution_url'] = 'https://matomo.org/faq/how-to/faq_30838/';
+                    $failure['solution_url'] = Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to/faq_30838/');
                     break;
                 case self::FAILURE_ID_NOT_AUTHENTICATED:
                     $failure['problem'] = Piwik::translate('CoreAdminHome_TrackingFailureAuthenticationProblem');
                     $failure['solution'] = Piwik::translate('CoreAdminHome_TrackingFailureAuthenticationSolution');
-                    $failure['solution_url'] = 'https://matomo.org/faq/how-to/faq_30835/';
+                    $failure['solution_url'] = Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to/faq_30835/');
                     break;
             }
         }

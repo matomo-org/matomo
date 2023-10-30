@@ -26,14 +26,13 @@
             {{ 'General_NeedMoreHelp'|translate }}
 
             {% if showMoreHelp %}
-            <a rel="noreferrer noopener" target="_blank" href="https://matomo.org/faq/troubleshooting/faq_19489/">{{ 'General_Faq'|translate }}</a> –
+            <a rel="noreferrer noopener" target="_blank" href="{{ 'https://matomo.org/faq/troubleshooting/faq_19489/'|trackmatomolink }}">{{ 'General_Faq'|translate }}</a> –
             {% endif %}
-            <a rel="noreferrer noopener" target="_blank" href="https://forum.matomo.org/">{{ 'Feedback_CommunityHelp'|translate }}</a>
+            <a rel="noreferrer noopener" target="_blank" href="{{ 'https://forum.matomo.org/'|trackmatomolink }}">{{ 'Feedback_CommunityHelp'|translate }}</a>
 
             {%- if areAdsForProfessionalServicesEnabled %}
                 –
-                {% set supportUrl = 'https://matomo.org/support-plans/?pk_campaign=Help&pk_medium=AjaxError&pk_content=' ~ currentModule ~ '&pk_source=Matomo_App' %}
-                <a rel="noreferrer noopener" target="_blank" href="{{ supportUrl|e('html_attr') }}">{{ 'Feedback_ProfessionalHelp'|translate }}</a>
+                <a rel="noreferrer noopener" target="_blank" href="{{ 'https://matomo.org/support-plans'|trackmatomolink(null, null, 'AjaxError')}}">{{ 'Feedback_ProfessionalHelp'|translate }}</a>
             {%- endif %}.
         </div>
     </div>
@@ -44,12 +43,11 @@
             <br /><br />
             {{ 'General_NeedMoreHelp'|translate }}
 
-            <a rel="noreferrer noopener" target="_blank" href="https://forum.matomo.org/">{{ 'Feedback_CommunityHelp'|translate }}</a>
+            <a rel="noreferrer noopener" target="_blank" href="{{ 'https://forum.matomo.org/'|trackmatomolink }}">{{ 'Feedback_CommunityHelp'|translate }}</a>
 
             {%- if areAdsForProfessionalServicesEnabled %}
             –
-            {% set supportUrl = 'https://matomo.org/support-plans/?pk_campaign=Help&pk_medium=AjaxError&pk_content=' ~ currentModule ~ '&pk_source=Matomo_App' %}
-            <a rel="noreferrer noopener" target="_blank" href="{{ supportUrl|e('html_attr') }}">{{ 'Feedback_ProfessionalHelp'|translate }}</a>
+            <a rel="noreferrer noopener" target="_blank" href="{{ 'https://matomo.org/support-plans'|trackmatomolink(null, null, 'AjaxError')}}">{{ 'Feedback_ProfessionalHelp'|translate }}</a>
             {%- endif %}.
         </div>
     </div>

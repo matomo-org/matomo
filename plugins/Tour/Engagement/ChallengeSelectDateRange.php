@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Tour\Engagement;
 
 use Piwik\Piwik;
+use Piwik\Url;
 
 class ChallengeSelectDateRange extends Challenge
 {
@@ -29,7 +30,7 @@ class ChallengeSelectDateRange extends Challenge
 
     public function getUrl()
     {
-        return 'https://matomo.org/faq/reports/data-selectors-in-matomo/';
+        return Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/reports/data-selectors-in-matomo/');
     }
 
 

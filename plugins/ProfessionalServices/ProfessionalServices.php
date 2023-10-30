@@ -38,6 +38,7 @@ class ProfessionalServices extends \Piwik\Plugin
 
     public function getStylesheetFiles(&$stylesheets)
     {
+        $stylesheets[] = 'plugins/ProfessionalServices/stylesheets/promos.less';
         $stylesheets[] = 'plugins/ProfessionalServices/stylesheets/widget.less';
     }
 

@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Goals\Categories;
 
 use Piwik\Category\Subcategory;
 use Piwik\Piwik;
+use Piwik\Url;
 
 class ManageGoalsSubcategory extends Subcategory
 {
@@ -20,6 +21,6 @@ class ManageGoalsSubcategory extends Subcategory
     public function getHelp()
     {
         return '<p>' . Piwik::translate('Goals_ManageGoalsSubcategoryHelp1') . '</p>'
-            . '<p><a href="https://matomo.org/docs/tracking-goals-web-analytics/?mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_keyword=UserGuides" rel="noreferrer noopener" target="_blank">' . Piwik::translate('Goals_ManageGoalsSubcategoryHelp2') . '</a></p>';
+            . '<p><a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/tracking-goals-web-analytics/') . '" rel="noreferrer noopener" target="_blank">' . Piwik::translate('Goals_ManageGoalsSubcategoryHelp2') . '</a></p>';
     }
 }

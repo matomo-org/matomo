@@ -225,6 +225,8 @@ import {
   SiteRef,
   debounce,
   Matomo,
+  externalRawLink,
+  externalLink,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 
@@ -494,7 +496,8 @@ export default defineComponent({
       );
     },
     learnMoreText() {
-      const subdomainsLink = 'https://developer.matomo.org/guides/tracking-javascript-guide'
+      /* eslint-disable prefer-template */
+      const subdomainsLink = externalRawLink('https://developer.matomo.org/guides/tracking-javascript-guide')
         + '#measuring-domains-andor-sub-domains';
       return translate(
         'General_LearnMore',
@@ -505,14 +508,14 @@ export default defineComponent({
     jsTrackCampaignParamsInlineHelp() {
       return translate(
         'CoreAdminHome_JSTracking_CustomCampaignQueryParamDesc',
-        '<a href="https://matomo.org/faq/general/faq_119" rel="noreferrer noopener" target="_blank">',
+        externalLink('https://matomo.org/faq/general/faq_119'),
         '</a>',
       );
     },
     trackingDocumentationHelp() {
       return translate(
         'CoreAdminHome_JSTrackingDocumentationHelp',
-        '<a rel="noreferrer noopener" target="_blank" href="https://developer.matomo.org/guides/tracking-javascript-guide">',
+        externalLink('https://developer.matomo.org/guides/tracking-javascript-guide'),
         '</a>',
       );
     },

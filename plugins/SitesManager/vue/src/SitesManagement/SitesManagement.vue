@@ -12,7 +12,7 @@
           v-show="availableTypes.length"
         >
           <EnrichedHeadline
-            :help-url="'https://matomo.org/docs/manage-websites/'"
+            :help-url="externalRawLink('https://matomo.org/docs/manage-websites/')"
             :feature-name="translate('SitesManager_WebsitesManagement')"
           >
             {{ headlineText }}

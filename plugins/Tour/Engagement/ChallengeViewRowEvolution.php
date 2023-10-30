@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Tour\Engagement;
 
 use Piwik\Piwik;
+use Piwik\Url;
 
 class ChallengeViewRowEvolution extends Challenge
 {
@@ -29,7 +30,7 @@ class ChallengeViewRowEvolution extends Challenge
 
     public function getUrl()
     {
-        return 'https://matomo.org/docs/row-evolution/';
+        return Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/row-evolution/');
     }
 
 

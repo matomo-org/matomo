@@ -1,5 +1,6 @@
 {
     "VisitFrequency": {
+        "ColumnActionsByNewVisits": "नई विज़िट द्वारा कार्रवाई",
         "ColumnActionsByReturningVisits": "रिटर्निंग दौरा द्वारा कार्रवाई",
         "ColumnAverageVisitDurationForReturningVisitors": "औसत। एक रिटर्निंग भेंट की अवधि (सेकंड में)",
         "ColumnAvgActionsPerReturningVisit": "औसत। रिटर्निंग भेंट प्रति क्रियाएं",
@@ -7,10 +8,10 @@
         "ColumnBounceRateForReturningVisits": "दौरा लौटने के लिए बाउंस दर",
         "ColumnMaxActionsInReturningVisit": "एक ओर लौटने की यात्रा में अधिकतम कार्यों",
         "ColumnNbReturningVisitsConverted": "परिवर्तित लौटने यात्राओं की संख्या",
+        "ColumnReturningUsers": "रिटर्निंग दौरा",
         "ColumnReturningVisits": "रिटर्निंग दौरा",
         "ColumnSumVisitLengthReturning": "(सेकंड में) लौट आगंतुकों द्वारा खर्च किए गए कुल समय",
         "ColumnUniqueReturningVisitors": "अनोखा लौट आगंतुकों",
-        "ColumnReturningUsers": "रिटर्निंग दौरा",
         "ReturningVisitsDocumentation": "इस लौटने यात्राओं का एक सिंहावलोकन है।"
     }
 }

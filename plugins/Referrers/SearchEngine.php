@@ -15,6 +15,7 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\SettingsPiwik;
 use Piwik\Singleton;
+use Piwik\Url;
 use Piwik\UrlHelper;
 
 /**
@@ -487,7 +488,7 @@ class SearchEngine extends Singleton
     public function getBackLinkFromUrlAndKeyword($url, $keyword)
     {
         if ($keyword === API::LABEL_KEYWORD_NOT_DEFINED) {
-            return 'https://matomo.org/faq/general/faq_144';
+            return Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/general/faq_144');
         }
         $keyword = urlencode($keyword);
         $keyword = str_replace(urlencode('+'), urlencode(' '), $keyword);

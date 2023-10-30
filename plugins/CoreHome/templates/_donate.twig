@@ -5,7 +5,7 @@
         {% else %}
             <p>{{ 'CoreHome_DonateCall1'|translate }}</p>
             <p><strong>{{ 'CoreHome_DonateCall2'|translate }}</strong></p>
-            <p>{{ 'CoreHome_DonateCall3'|translate('<strong>','</strong>', '<a target="_blank" rel="nofollow" href="https://matomo.org/recommends/premium-plugins/"><strong>', '</strong></a>')|raw }}</p>
+            <p>{{ 'CoreHome_DonateCall3'|translate('<strong>','</strong>', externallink('https://matomo.org/recommends/premium-plugins/') ~ '<strong>', '</strong></a>')|raw }}</p>
         {% endif %}
     </div>
 

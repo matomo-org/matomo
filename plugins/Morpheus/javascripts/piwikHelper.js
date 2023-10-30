@@ -23,6 +23,51 @@ function _pk_translate(translationStringId, values) {
     return "The string "+translationStringId+" was not loaded in javascript. Make sure it is added in the Translate.getClientSideTranslationKeys hook.";
 }
 
+function _pk_externalRawLink(url, values) {
+
+  if (!url) {
+    return '';
+  }
+
+  const campaignOverride = (typeof values != 'undefined' && values.length > 0 && values[0] ? values[0] : null);
+  const sourceOverride = (typeof values != 'undefined' && values.length > 1 && values[1] ? values[1] : null);
+  const mediumOverride = (typeof values != 'undefined' && values.length > 2 && values[2] ? values[2] : null);
+
+  let returnURL = null;
+  try {
+      returnURL = new URL(url);
+  } catch(error) {
+      console.log('Error parsing URL: ' + url);
+  }
+  if (!returnURL) {
+    return '';
+  }
+
+  const validDomain = returnURL.host === 'matomo.org' || returnURL.host.endsWith('.matomo.org');
+  const urlParams = new URLSearchParams(window.location.search);
+  const module = urlParams.get('module');
+  const action = urlParams.get('action');
+
+  // Apply campaign parameters if domain is ok, config is not disabled and a value for medium exists
+  if (validDomain && !window.piwik.disableTrackingMatomoAppLinks
+    && ((module && action) || mediumOverride)) {
+    const campaign = (campaignOverride === null ? 'Matomo_App' : campaignOverride);
+    let source = (window.Cloud === undefined ? 'Matomo_App_OnPremise' : 'Matomo_App_Cloud');
+    if (sourceOverride !== null) {
+      source = sourceOverride;
+    }
+
+    const medium = (mediumOverride === null ? 'App.' + module + '.' + action : mediumOverride);
+
+    returnURL.searchParams.set('mtm_campaign', campaign);
+    returnURL.searchParams.set('mtm_source', source);
+    returnURL.searchParams.set('mtm_medium', medium);
+  }
+
+  return returnURL.toString();
+}
+
+
 window.piwikHelper = {
 
     htmlDecode: function(value)

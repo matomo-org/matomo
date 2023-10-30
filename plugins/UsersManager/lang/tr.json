@@ -127,6 +127,7 @@
         "InviteNewUser": "Yeni bir kullanıcı çağır",
         "InviteSuccess": "Çağrı gönderildi.",
         "InviteSuccessNotification": "Çağrılan kullanıcıya çağrıyı kabul etmesi için bir e-posta gönderilir. Bu çağrı %1$s gün boyunca geçerlidir. Ayrıca kullanıcı yönetimi sayfasından çağrıyı yeniden gönderebilir ya da silebilirsiniz.",
+        "InviteTeamMember": "Takım üyesi çağır",
         "InviteUser": "Kullanıcı çağır",
         "LastSeen": "Son görülme",
         "LastUsed": "Son kullanılma",

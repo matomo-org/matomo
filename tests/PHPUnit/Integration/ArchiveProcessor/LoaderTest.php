@@ -32,6 +32,10 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugins\SegmentEditor\API as SegmentApi;
 use Piwik\ArchiveProcessor\Rules;
 
+/**
+ * @group ArchiveProcessor
+ * @group ArchiveProcessorLoader
+ */
 class LoaderTest extends IntegrationTestCase
 {
     protected static function beforeTableDataCached()
@@ -1131,6 +1135,7 @@ class LoaderTest extends IntegrationTestCase
             'archiveExists' => false,
             'doneFlagValue' => false,
             'tsArchived' => false,
+            'existingRecords' => null,
         ], $archiveInfo);
     }
 

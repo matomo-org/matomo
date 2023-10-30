@@ -1,5 +1,9 @@
 {
     "UserLanguage": {
-        "LanguageCode": "Hizkuntza-kodea"
+        "BrowserLanguage": "Web-nabigatzailearen hizkuntza",
+        "LanguageCode": "Hizkuntza-kodea",
+        "PluginDescription": "Zure bisitarien web-nabigatzaileko hizkuntza nagusiaren berri ematen du.",
+        "getLanguageCodeDocumentation": "Bisitarien nabigatzaileak zein hizkuntza-kode zehatzetara konfiguratuta dauden erakusten du. (Adibidez, \"Alemana — Austria (de-at)\")",
+        "getLanguageDocumentation": "Bisitarien nabigatzaileak zein hizkuntza erabiltzen duen erakusten du. (Adibidez, \"frantsesa\")"
     }
 }

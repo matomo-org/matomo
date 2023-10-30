@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Tour\Engagement;
 
 use Piwik\Piwik;
+use Piwik\Url;
 
 class ChallengeViewVisitsLog extends Challenge
 {
@@ -29,7 +30,7 @@ class ChallengeViewVisitsLog extends Challenge
 
     public function getUrl()
     {
-        return 'https://matomo.org/faq/reports/the-visits-log-report/';
+        return Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/reports/the-visits-log-report/');
     }
 
 

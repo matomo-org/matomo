@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Tour\Engagement;
 
 use Piwik\Piwik;
+use Piwik\Url;
 
 class ChallengeFlattenActions extends Challenge
 {
@@ -29,7 +30,7 @@ class ChallengeFlattenActions extends Challenge
 
     public function getUrl()
     {
-        return 'https://matomo.org/faq/reports/graphs-and-visualisations-in-matomo/#flattening-reports';
+        return Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/reports/graphs-and-visualisations-in-matomo/#flattening-reports');
     }
 
 

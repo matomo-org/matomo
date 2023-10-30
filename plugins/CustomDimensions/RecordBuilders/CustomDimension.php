@@ -137,6 +137,11 @@ class CustomDimension extends RecordBuilder
             $value = $this->cleanCustomDimensionValue($row[$valueField]);
             unset($row[$valueField]);
 
+            if ($value === RankingQuery::LABEL_SUMMARY_ROW) {
+                // skip summary row
+                continue;
+            }
+
             $idGoal = (int) $row['idgoal'];
             $columns = [
                 Metrics::INDEX_GOALS => [

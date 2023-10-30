@@ -17,6 +17,10 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Period;
 
+/**
+ * @group ArchiveProcessor
+ * @group ArchiveProcessorParameters
+ */
 class ParametersTest extends IntegrationTestCase
 {
     public function setUp(): void

@@ -10,6 +10,8 @@
 
 namespace Piwik\Plugins\SitesManager\SiteContentDetection;
 
+use Piwik\Url;
+
 class Osano extends ConsentManagerDetectionAbstract
 {
     public static function getName(): string
@@ -19,7 +21,7 @@ class Osano extends ConsentManagerDetectionAbstract
 
     public static function getInstructionUrl(): ?string
     {
-        return 'https://matomo.org/faq/how-to/using-osano-consent-manager-with-matomo';
+        return Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to/using-osano-consent-manager-with-matomo');
     }
 
     public function isDetected(?string $data = null, ?array $headers = null): bool

@@ -10,6 +10,8 @@
 
 namespace Piwik\Plugins\SitesManager\SiteContentDetection;
 
+use Piwik\Url;
+
 class Complianz extends ConsentManagerDetectionAbstract
 {
     public static function getName(): string
@@ -19,7 +21,7 @@ class Complianz extends ConsentManagerDetectionAbstract
 
     public static function getInstructionUrl(): ?string
     {
-        return 'https://matomo.org/faq/how-to/using-complianz-for-wordpress-consent-manager-with-matomo';
+        return Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to/using-complianz-for-wordpress-consent-manager-with-matomo');
     }
 
     public function isDetected(?string $data = null, ?array $headers = null): bool

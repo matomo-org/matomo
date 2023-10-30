@@ -1,5 +1,13 @@
 {
     "ProfessionalServices": {
+        "PromoAbTesting": "A/B sınamaları",
+        "PromoCrashAnalytics": "Çökmeler",
+        "PromoCustomReports": "Özel raporlar",
+        "PromoFunnels": "Huniler",
+        "PromoHeatmaps": "Sıcaklık haritaları",
+        "PromoManage": "Yönetim",
+        "PromoOverview": "Özet",
+        "PromoSessionRecording": "Oturum kayıtları",
         "WidgetPremiumServicesForPiwik": "Premium Matomo Özellikleri ve Hizmetleri"
     }
 }

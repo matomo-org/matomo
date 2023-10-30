@@ -1,7 +1,7 @@
 {% if userCanEditGoals %}
     {% set addNewGoalIntro %}
         <p>{{ 'Goals_NewGoalIntro'|translate }}</p>
-        <p>{{ 'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate("<a target='_blank' rel='noreferrer noopener' href='https://matomo.org/docs/tracking-goals-web-analytics/'>","</a>")|raw }}</p>
+        <p>{{ 'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate(externallink("https://matomo.org/docs/tracking-goals-web-analytics/"),"</a>")|raw }}</p>
     {% endset %}
 
     {% include "@Goals/_addEditGoal.twig" %}
@@ -14,7 +14,7 @@
             {{ 'Goals_NoGoalsNeedAccess2'|translate|raw }}
         </p>
         <p>
-            {{ 'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate("<a target='_blank' rel='noreferrer noopener' href='https://matomo.org/docs/tracking-goals-web-analytics/'>","</a>")|raw }}
+            {{ 'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate(externallink("https://matomo.org/docs/tracking-goals-web-analytics/"),"</a>")|raw }}
         </p>
     </div>
     {{ postEvent("Template.afterGoalCannotAddNewGoal") }}
