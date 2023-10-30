@@ -9,17 +9,10 @@
 namespace Piwik\Plugins\Marketplace\Categories;
 
 use Piwik\Category\Category;
-use Piwik\Piwik;
 
 class MarketplaceCategory extends Category
 {
     protected $id = 'Marketplace_Marketplace';
     protected $widget = 'Marketplace.RichMenuButton';
     protected $order = 200;
-    protected $icon = ' icon-open-source';
-
-    public function getDisplayName()
-    {
-        return Piwik::translate('Marketplace_Marketplace');
-    }
 }
