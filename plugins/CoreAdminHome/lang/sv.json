@@ -76,6 +76,7 @@
         "JSTracking_TrackNoScript": "Spåra användare utan JavaScript",
         "JSTracking_VisitorCustomVars": "Spåra anpassade variabler för denna besökare",
         "JSTracking_VisitorCustomVarsDesc": "Till exempel med varierande namn \"sort\" och värde \"kund\".",
+        "JavaScriptCode": "Javascript-kod",
         "JavaScriptTracking": "Spårning med JavaScript",
         "JsTrackingCodeAdvancedOptionsStep": "Valfritt: Använd de avancerade inställningarna för att skräddarsy din spårningskod.",
         "JsTrackingCodeMissingEmail1": "För några dagar sedan lade du till webbsidan '1%s' till Matomo Analytics. Vi kontrollerade precis och din Matomo ser inte ut att ha någon trafik registrerad för webbsidan.",

@@ -1,5 +1,7 @@
 {
     "ProfessionalServices": {
+        "PromoCrashAnalytics": "Abstürze",
+        "PromoOverview": "Übersicht",
         "WidgetPremiumServicesForPiwik": "Premium-Funktionen &amp; Dienstleistungen für Matomo"
     }
 }

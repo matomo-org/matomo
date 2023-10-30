@@ -1,11 +1,11 @@
 {
     "SEO": {
         "Bing_IndexedPages": "Σελίδες σε ευρετήριο Bing",
-        "DomainAge": "Ηλικία Domain",
+        "DomainAge": "Ηλικία Τομέα",
         "Google_IndexedPages": "Σελίδες σε ευρετήριο Google",
         "PluginDescription": "Το πρόσθετο εξάγει και εμφανίζει μετρικές SEO: Google Pagerank, αριθμός σελίδων στο ευρετήριο και σύνδεσμοι του επιλεγμένου ιστοτόπου.",
-        "Rank": "Βαθμολόγηση",
-        "SEORankingsFor": "Βαθμολόγηση BMA για %s",
-        "SeoRankings": "Βαθμολόγηση BMA"
+        "Rank": "Κατάταξη",
+        "SEORankingsFor": "Κατάταξη SEO για %s",
+        "SeoRankings": "Βαθμολόγηση SEO"
     }
 }

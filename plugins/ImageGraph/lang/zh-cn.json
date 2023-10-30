@@ -1,6 +1,6 @@
 {
     "ImageGraph": {
-        "ColumnOrdinateMissing": "报表中没有 '%1$s' 栏，请试试 %2$s",
+        "ColumnOrdinateMissing": "报表中没有 '%1$s' 列，请试试 %2$s",
         "PluginDescription": "在你的数据报告中生成精美的静态PNG的图。"
     }
 }

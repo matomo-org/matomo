@@ -1,5 +1,6 @@
 {
     "PagePerformance": {
+        "ColumnAveragePageLoadTime": "औसत पेज लोड समय",
         "ColumnTimeServer": "सर्वर समय"
     }
 }

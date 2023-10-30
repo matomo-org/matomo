@@ -1,12 +1,15 @@
 {
     "Actions": {
-        "ColumnClicks": "Klikak",
+        "ColumnActionURL": "Ekintzaren URLa",
+        "ColumnClicks": "Klik kopurua",
+        "ColumnClicksDocumentation": "Zenbat aldiz egin den klik esteka honetan.",
         "ColumnDownloadURL": "Deskargaren URLa",
+        "ColumnDownloadURLs": "Deskargaren URLak",
         "ColumnPageName": "Orriaren izena",
         "ColumnPageURL": "Orriaren URLa",
         "ColumnUniqueClicks": "Klik desberdinak",
         "ColumnUniqueDownloads": "Deskarga desberdinak",
-        "SubmenuPageTitles": "Orrien izenburuak",
-        "PagesSubcategoryHelp3": "Erabili ezkerreko plus eta minus ikonoak nabigatzeko."
+        "PagesSubcategoryHelp3": "Erabili ezkerreko plus eta minus ikonoak nabigatzeko.",
+        "SubmenuPageTitles": "Orrien izenburuak"
     }
 }

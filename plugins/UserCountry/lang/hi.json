@@ -1,6 +1,6 @@
 {
     "UserCountry": {
-        "CannotLocalizeLocalIP": "आईपी पते %s में एक स्थानीय पता है और भू स्थित नहीं किया जा सकता.",
+        "CannotLocalizeLocalIP": "आईपी पता \"%s\" स्थानीय है, इसलिए इसे जियोलोकेट नहीं किया जा सकता।",
         "City": "शहर",
         "Continent": "महाद्वीप",
         "Country": "देश",
