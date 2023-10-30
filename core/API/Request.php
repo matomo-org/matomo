@@ -491,9 +491,11 @@ class Request
             //
             // NOTE: this does not apply if the [General] enable_framed_allow_write_admin_token_auth INI
             // option is set.
-            throw new \Exception(Piwik::translate('Widgetize_ViewAccessRequired',
+            $ex = new \Piwik\Exception\Exception(Piwik::translate('Widgetize_ViewAccessRequired',
                 ['<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/troubleshooting/faq_147/') .
                     '" rel="noreferrer noopener">https://matomo.org/faq/troubleshooting/faq_147/</a>']));
+            $ex->setIsHtmlMessage();
+            throw $ex;
         }
     }
 
