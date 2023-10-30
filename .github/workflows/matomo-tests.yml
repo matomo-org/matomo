@@ -115,3 +115,7 @@ jobs:
           redis-service: true
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
           upload-artifacts: true
+    run:
+      - env:
+          TESTOMATIO: "${{ secrets.TESTOMATIO }}"
+          TESTOMATIO_RUN: "${{ github.event.inputs.run }}"
