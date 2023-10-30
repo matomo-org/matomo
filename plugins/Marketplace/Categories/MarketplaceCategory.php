@@ -14,6 +14,7 @@ use Piwik\Piwik;
 class MarketplaceCategory extends Category
 {
     protected $id = 'Marketplace_Marketplace';
+    protected $widget = 'Marketplace.RichMenuButton';
     protected $order = 200;
     protected $icon = ' icon-open-source';
 
