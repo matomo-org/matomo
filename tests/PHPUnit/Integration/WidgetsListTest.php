@@ -21,7 +21,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class WidgetsListTest extends IntegrationTestCase
 {
-    public function setIp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -51,6 +51,16 @@ class WidgetsListTest extends IntegrationTestCase
             'Referrers_Referrers' => 10,
             'About Matomo' => 11,
             'Marketplace_Marketplace' => 3,
+
+            // widgets provided by Professional Services plugin for plugin promos
+            'ProfessionalServices_PromoAbTesting' => 1,
+            'ProfessionalServices_PromoCrashAnalytics' => 1,
+            'ProfessionalServices_PromoCustomReports' => 1,
+            'ProfessionalServices_PromoFormAnalytics' => 1,
+            'ProfessionalServices_PromoFunnels' => 1,
+            'ProfessionalServices_PromoHeatmaps' => 1,
+            'ProfessionalServices_PromoMediaAnalytics' => 1,
+            'ProfessionalServices_PromoSessionRecording' => 1,
         );
 
         if (Manager::getInstance()->isPluginActivated('CustomVariables')) {
@@ -97,7 +107,7 @@ class WidgetsListTest extends IntegrationTestCase
         $perCategory = $this->getWidgetsPerCategory(WidgetsList::get());
 
         // number of main categories
-        $this->assertEquals(11, count($perCategory));
+        $this->assertEquals(19, count($perCategory));
         $this->assertEquals($initialGoalsWidgets + 2, count($perCategory['Goals_Goals'])); // make sure widgets for that goal were added
     }
 
@@ -111,7 +121,7 @@ class WidgetsListTest extends IntegrationTestCase
         $perCategory = $this->getWidgetsPerCategory(WidgetsList::get());
 
         // number of main categories
-        $this->assertEquals(12, count($perCategory));
+        $this->assertEquals(20, count($perCategory));
 
         // check if each category has the right number of widgets
         $numberOfWidgets = array(
@@ -124,6 +134,25 @@ class WidgetsListTest extends IntegrationTestCase
         }
     }
 
+    public function testGetWithoutProfessionalServicesPromos()
+    {
+        Fixture::createWebsite('2009-01-04 00:11:42');
+        Manager::getInstance()->deactivatePlugin('ProfessionalServices');
+
+        $_GET['idSite'] = 1;
+
+        $widgets = WidgetsList::get();
+
+        // number of main categories
+        $widgetsPerCategory = $this->getWidgetsPerCategory($widgets);
+        $this->assertEquals(count($widgetsPerCategory), 11);
+
+        // no professional services promos
+        foreach ($widgetsPerCategory as $category => $categoryWidgets) {
+            $this->assertStringStartsNotWith($category, 'ProfessionalServices_Promo');
+        }
+    }
+
     public function testRemove()
     {
         Fixture::createWebsite('2009-01-04 00:11:42', true);
@@ -133,12 +162,12 @@ class WidgetsListTest extends IntegrationTestCase
 
         $list = WidgetsList::get();
 
-        $this->assertCount(12, $this->getWidgetsPerCategory($list));
+        $this->assertCount(20, $this->getWidgetsPerCategory($list));
 
         $list->remove('SEO', 'NoTeXiStInG');
 
         $perCategory = $this->getWidgetsPerCategory($list);
-        $this->assertCount(12, $perCategory);
+        $this->assertCount(20, $perCategory);
 
         $this->assertArrayHasKey('SEO', $perCategory);
         $this->assertCount(1, $perCategory['SEO']);

@@ -14,7 +14,7 @@
         class="item"
         target="_blank"
         rel="noreferrer noopener"
-        href="https://matomo.org/translations/"
+        href="{{ externalRawLink('https://matomo.org/translations/') }}"
       >
         {{ translate('LanguagesManager_AboutPiwikTranslations') }}
       </a>

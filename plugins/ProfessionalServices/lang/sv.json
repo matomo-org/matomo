@@ -1,5 +1,13 @@
 {
     "ProfessionalServices": {
+        "PromoAbTesting": "A/B-tester",
+        "PromoCrashAnalytics": "Krascher",
+        "PromoCustomReports": "Anpassade rapporter",
+        "PromoFunnels": "Omvandlingskanal",
+        "PromoHeatmaps": "Värmekartor",
+        "PromoManage": "Hantera",
+        "PromoOverview": "Översikt",
+        "PromoSessionRecording": "Sessionsinspelningar",
         "WidgetPremiumServicesForPiwik": "Premiumfunktioner &amp; -tjänster för Matomo"
     }
 }

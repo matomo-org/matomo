@@ -46,8 +46,16 @@ class CategoryListTest extends IntegrationTestCase
             'UserCountry_VisitLocation',
             'Live!',
             'Marketplace_Marketplace',
+            'ProfessionalServices_PromoAbTesting',
+            'ProfessionalServices_PromoCrashAnalytics',
+            'ProfessionalServices_PromoCustomReports',
+            'ProfessionalServices_PromoFormAnalytics',
+            'ProfessionalServices_PromoFunnels',
+            'ProfessionalServices_PromoHeatmaps',
+            'ProfessionalServices_PromoMediaAnalytics',
+            'ProfessionalServices_PromoSessionRecording',
             'ExampleUI_UiFramework',
-            'CustomVariables_CustomVariables',
+            'CustomVariables_CustomVariables'
         ), array_keys($list->getCategories()));
     }
 

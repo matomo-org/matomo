@@ -1,6 +1,6 @@
 {
     "Live": {
-        "AveragePageGenerationTime": "प्रत्येक पृष्ठ इस आगंतुक के लिए लोड करने के लिए औसत %1$s पर ले लिया।",
+        "AveragePageGenerationTime": "इस विज़िटर के लिए प्रत्येक पृष्ठ को लोड होने में औसतन %1$s लगे।",
         "CalculatedOverNPageViews": "इस आगंतुक के अंतिम %1$s पृष्ठ विचार उपयोग कर की गणना।",
         "ClickToViewMoreAboutVisit": "इस यात्रा के बारे में अधिक जानकारी देखने के लिए क्लिक करें",
         "ConvertedNGoals": "लक्ष्य %s बदल दिया गया है",
@@ -16,7 +16,7 @@
         "NbVisitor": "1 आगंतुक",
         "NbVisitors": "%s आगंतुकों",
         "NextVisitor": "अगले आगंतुक",
-        "PageRefreshed": "यह पृष्ठ देखा गया था \/ एक पंक्ति में रिफ्रेश की संख्या।",
+        "PageRefreshed": "यह पृष्ठ देखा गया था / एक पंक्ति में रिफ्रेश की संख्या।",
         "RealTimeVisitorCount": "रीयल टाइम आगंतुक गणना",
         "Referrer_URL": "संदर्भ URL",
         "ShowMap": "नक्शा दिखाना",

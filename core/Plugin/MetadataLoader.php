@@ -10,6 +10,7 @@ namespace Piwik\Plugin;
 
 use Exception;
 use Piwik\Piwik;
+use Piwik\Url;
 use Piwik\Version;
 
 /**
@@ -79,15 +80,15 @@ class MetadataLoader
     private function getDefaultPluginInformation()
     {
         $descriptionKey = $this->pluginName . '_PluginDescription';
-        return array(
+        return [
             'description'      => $descriptionKey,
-            'homepage'         => 'https://matomo.org/',
-            'authors'          => array(array('name' => 'Matomo', 'homepage'  => 'https://matomo.org/')),
+            'homepage'         => Url::addCampaignParametersToMatomoLink('https://matomo.org/'),
+            'authors'          => [['name' => 'Matomo', 'homepage' => Url::addCampaignParametersToMatomoLink('https://matomo.org/')]],
             'license'          => 'GPL v3+',
             'version'          => Version::VERSION,
             'theme'            => false,
-            'require'          => array()
-        );
+            'require'          => []
+        ];
     }
 
     /**

@@ -18,7 +18,12 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { ContentIntro, EnrichedHeadline, translate } from 'CoreHome';
+import {
+  ContentIntro,
+  EnrichedHeadline,
+  translate,
+  externalRawLink,
+} from 'CoreHome';
 
 export default defineComponent({
   props: {
@@ -35,7 +40,7 @@ export default defineComponent({
   },
   computed: {
     learnMoreText() {
-      const link = 'https://matomo.org/docs/setup-auto-archiving/';
+      const link = externalRawLink('https://matomo.org/docs/setup-auto-archiving/');
       return translate(
         'DBStats_LearnMore',
         `<a target="_blank" rel="noreferrer noopener" href="${link}">Matomo Auto Archiving</a>`,

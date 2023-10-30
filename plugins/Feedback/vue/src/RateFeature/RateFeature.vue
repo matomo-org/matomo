@@ -148,8 +148,7 @@
                     :class="{'has-error':errorMessage}"
                     v-model="feedbackMessage"/>
           <p v-if="likeReason || dislikeReason"
-            v-html="$sanitize(translate('Feedback_Policy',`
-            <a rel='nofollow' href='https://matomo.org/privacy-policy/' target='_blank'>`,'</a>'))">
+            v-html="$sanitize(translate('Feedback_Policy', externalLink('https://matomo.org/privacy-policy/'),'</a>'))">
           </p>
         </div>
 

@@ -8,7 +8,7 @@
   <ContentBlock
     v-if="!isWidget"
     :help-text="translate('Transitions_FeatureDescription')"
-    help-url="https://matomo.org/docs/transitions/"
+    help-url="{{ externalRawLink('https://matomo.org/docs/transitions/') }}"
     :content-title="translate('Transitions_Transitions')"
   >
     <TransitionSwitcher

@@ -1,7 +1,7 @@
 {# untrusted host warning #}
 {% if (isValidHost is defined and invalidHostMessage is defined and isValidHost == false) %}
     {% set invalidHostText %}
-        <a class="btn btn-link" style="float:right;" href="https://matomo.org/faq/troubleshooting/faq_171" rel="noreferrer noopener" target="_blank">
+        <a class="btn btn-link" style="float:right;" href="{{ 'https://matomo.org/faq/troubleshooting/faq_171'|trackmatomolink }}" rel="noreferrer noopener" target="_blank">
             <span class="icon-help"></span>
             {{ 'General_Help'|translate }}
         </a>

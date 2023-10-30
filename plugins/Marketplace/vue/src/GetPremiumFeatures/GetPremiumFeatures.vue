@@ -51,7 +51,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { MatomoUrl, translate } from 'CoreHome';
+import { MatomoUrl, translate, externalRawLink } from 'CoreHome';
 import { PluginName } from 'CorePluginsAdmin';
 
 export default defineComponent({
@@ -66,7 +66,7 @@ export default defineComponent({
   },
   computed: {
     trialHintsText() {
-      const link = 'https://shop.matomo.org/free-trial/';
+      const link = externalRawLink('https://shop.matomo.org/free-trial/');
       const linkStyle = 'color:#5bb75b;text-decoration: underline;';
       return translate(
         'Marketplace_TrialHints',

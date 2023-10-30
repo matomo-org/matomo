@@ -1,5 +1,6 @@
 {
     "Actions": {
+        "AvgGenerationTimeTooltip": "%3$s और %4$s के बीच %1$s हिट(ओं) %2$s पर आधारित औसत",
         "ColumnClicks": "क्लिकों",
         "ColumnClicksDocumentation": "इस लिंक पर इतनी बार क्लिक किया गया था",
         "ColumnDownloadURL": "यू.आर.एल डाउनलोड करें",

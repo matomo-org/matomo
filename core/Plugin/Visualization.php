@@ -18,6 +18,7 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
+use Piwik\DataTable\DataTableInterface;
 use Piwik\Date;
 use Piwik\Http\BadRequestException;
 use Piwik\Log;
@@ -223,7 +224,7 @@ class Visualization extends ViewDataTable
         $view->visualizationCssClass = $this->getDefaultDataTableCssClass();
         $view->reportMetdadata = $this->getReportMetadata();
 
-        if (null === $this->dataTable) {
+        if (!($this->dataTable instanceof DataTableInterface)) {
             $view->dataTable = null;
             $view->dataTableHasNoData = true;
         } else {
@@ -329,7 +330,7 @@ class Visualization extends ViewDataTable
         $module = $this->requestConfig->getApiModuleToRequest();
         $method = $this->requestConfig->getApiMethodToRequest();
 
-        list($module, $method) = Request::getRenamedModuleAndAction($module, $method);
+        [$module, $method] = Request::getRenamedModuleAndAction($module, $method);
 
         PluginManager::getInstance()->checkIsPluginActivated($module);
 

@@ -127,6 +127,7 @@
         "InviteNewUser": "Bjud in en ny användare",
         "InviteSuccess": "Inbjudan skickad.",
         "InviteSuccessNotification": "Den inbjudna användaren kommer att få ett epostmeddelande för att acceptera sin inbjudan. Inbjudan är giltig i %1$s dagar. Du kan också skicka inbjudan på nytt och radera inbjudan på sidan för användarhantering.",
+        "InviteTeamMember": "Bjud in teammedlem",
         "InviteUser": "Bjud in användare",
         "LastSeen": "Senast sedd",
         "LastUsed": "Senast använd",

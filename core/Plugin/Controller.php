@@ -722,6 +722,7 @@ abstract class Controller
         $view->hasSomeViewAccess  = Piwik::isUserHasSomeViewAccess();
         $view->isUserIsAnonymous  = Piwik::isUserIsAnonymous();
         $view->hasSuperUserAccess = Piwik::hasUserSuperUserAccess();
+        $view->disableTrackingMatomoAppLinks = PiwikConfig::getInstance()->General['disable_tracking_matomo_app_links'];
 
         if (!Piwik::isUserIsAnonymous()) {
             $this->showWhatIsNew($view);

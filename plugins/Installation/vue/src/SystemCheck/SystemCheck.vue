@@ -30,7 +30,7 @@
     <div v-if="!showNextStep">
       <p v-if="!showNextStep">
         <span class="icon-export"></span>
-        <a target="_blank" rel="noreferrer noopener" href="https://matomo.org/docs/requirements/">
+        <a target="_blank" rel="noreferrer noopener" href="{{ externalRawLink('https://matomo.org/docs/requirements/') }}">
           {{ translate('Installation_Requirements') }}
         </a>
       </p>

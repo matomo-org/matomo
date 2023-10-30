@@ -18,6 +18,7 @@ use Piwik\Piwik;
 use Piwik\Config;
 use Piwik\Segment;
 use Piwik\Cache;
+use Piwik\Url;
 
 /**
  * The SegmentEditor API lets you add, update, delete custom Segments, and list saved segments.
@@ -122,7 +123,7 @@ class API extends \Piwik\Plugin\API
             if (Rules::isBrowserTriggerEnabled()) {
                 $message = "Pre-processed segments can only be created if browser triggered archiving is disabled.";
                 if (Piwik::hasUserSuperUserAccess()) {
-                    $message .= " To disable browser archiving follow the instructions here: https://matomo.org/docs/setup-auto-archiving/.";
+                    $message .= " To disable browser archiving follow the instructions here: " . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/setup-auto-archiving/');
                 }
                 throw new Exception($message);
             }

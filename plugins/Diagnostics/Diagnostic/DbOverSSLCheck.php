@@ -5,6 +5,7 @@ namespace Piwik\Plugins\Diagnostics\Diagnostic;
 use Piwik\Config;
 use Piwik\Db;
 use Piwik\Translation\Translator;
+use Piwik\Url;
 
 /**
  * Check if Piwik is connected with database through ssl.
@@ -54,7 +55,7 @@ class DbOverSSLCheck implements Diagnostic
             }
         }
 
-        $comment .= '<br />' . '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/"> FAQ on matomo.org</a>';
+        $comment .= '<br />' . '<a target="_blank" rel="noreferrer noopener" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/') . '"> FAQ on matomo.org</a>';
 
         return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, $comment));
     }

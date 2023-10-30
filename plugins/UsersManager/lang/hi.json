@@ -1,5 +1,6 @@
 {
     "UsersManager": {
+        "2FA": "२एफए",
         "AllWebsites": "सभी वेबसाइटों",
         "AnonymousUser": "बेनामी उपयोगकर्ता",
         "AnonymousUserHasViewAccess2": "आपकी Analytics रिपोर्ट और अपने दर्शकों के बारे में जानकारी सार्वजनिक रूप से देखा जा सकता है।",

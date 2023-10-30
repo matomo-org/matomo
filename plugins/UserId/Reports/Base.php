@@ -9,12 +9,13 @@
 namespace Piwik\Plugins\UserId\Reports;
 
 use Piwik\Plugin\Report;
+use Piwik\Url;
 
 abstract class Base extends Report
 {
     protected function init()
     {
         $this->categoryId = 'General_Visitors';
-        $this->onlineGuideUrl = 'https://matomo.org/docs/user-id/';
+        $this->onlineGuideUrl = Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/user-id/');
     }
 }

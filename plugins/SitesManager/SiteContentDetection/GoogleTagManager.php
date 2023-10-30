@@ -35,7 +35,7 @@ class GoogleTagManager extends SiteContentDetectionAbstract
 
     public static function getInstructionUrl(): ?string
     {
-        return 'https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-within-gtm-google-tag-manager/';
+        return Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-within-gtm-google-tag-manager/');
     }
 
     public static function getPriority(): int
@@ -93,7 +93,7 @@ class GoogleTagManager extends SiteContentDetectionAbstract
             Piwik::translate(
                 'SitesManager_SiteWithoutDataGoogleTagManagerDescription',
                 [
-                    '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-within-gtm-google-tag-manager">',
+                    '<a target="_blank" rel="noreferrer noopener" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-within-gtm-google-tag-manager') . '">',
                     '</a>'
                 ]
             )

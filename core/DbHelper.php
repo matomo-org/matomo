@@ -300,7 +300,8 @@ class DbHelper
 
         $sql = trim($sql);
         $pos = stripos($sql, 'SELECT');
-        if ($pos !== false) {
+        $isMaxExecutionTimeoutAlreadyPresent = (stripos($sql, 'MAX_EXECUTION_TIME(') !== false);
+        if ($pos !== false && !$isMaxExecutionTimeoutAlreadyPresent) {
 
             $timeInMs = $limit * 1000;
             $timeInMs = (int) $timeInMs;
