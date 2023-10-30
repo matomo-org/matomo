@@ -33,7 +33,16 @@ function _pk_externalRawLink(url, values) {
   const sourceOverride = (typeof values != 'undefined' && values.length > 1 && values[1] ? values[1] : null);
   const mediumOverride = (typeof values != 'undefined' && values.length > 2 && values[2] ? values[2] : null);
 
-  const returnURL = new URL(url);
+  let returnURL = null;
+  try {
+      returnURL = new URL(url);
+  } catch(error) {
+      console.log('Error parsing URL: ' + url);
+  }
+  if (!returnURL) {
+    return '';
+  }
+
   const validDomain = returnURL.host === 'matomo.org' || returnURL.host.endsWith('.matomo.org');
   const urlParams = new URLSearchParams(window.location.search);
   const module = urlParams.get('module');
