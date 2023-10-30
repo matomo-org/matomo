@@ -44,6 +44,13 @@ class Category
     protected $icon = '';
 
     /**
+     * Optional widget spec to replace the category, e.g. Marketplace.RichMenuButton
+     *
+     * @var string|null
+     */
+    protected $widget = null;
+
+    /**
      * @param int $order
      * @return static
      */
@@ -119,6 +126,17 @@ class Category
     public function getIcon()
     {
         return $this->icon;
+    }
+
+    public function setWidget($widget)
+    {
+        $this->widget = $widget;
+        return $this;
+    }
+
+    public function getWidget()
+    {
+        return $this->widget;
     }
 
     /**

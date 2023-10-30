@@ -187,11 +187,12 @@ class WidgetMetadata
         }
 
         return array(
-            'id'    => (string) $category->getId(),
-            'name'  => $category->getDisplayName(),
-            'order' => $category->getOrder(),
-            'icon' => $category->getIcon(),
-            'help' => Piwik::translate($category->getHelp()),
+            'id'     => (string) $category->getId(),
+            'name'   => $category->getDisplayName(),
+            'order'  => $category->getOrder(),
+            'icon'   => $category->getIcon(),
+            'help'   => Piwik::translate($category->getHelp()),
+            'widget' => $category->getWidget(),
         );
     }
 
