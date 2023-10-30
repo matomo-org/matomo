@@ -148,11 +148,15 @@ class TwoFactorAuth extends \Piwik\Plugin
                 // we only return an error when the login/password combo was correct. otherwise you could brute force
                 // auth tokens
                 if (!$authCode) {
-                    http_response_code(401);
+                    if (!headers_sent()) {
+                        http_response_code(401);
+                    }
                     throw new Exception(Piwik::translate('TwoFactorAuth_MissingAuthCodeAPI'));
                 }
                 if (!$twoFa->validateAuthCode($login, $authCode)) {
-                    http_response_code(401);
+                    if (!headers_sent()) {
+                        http_response_code(401);
+                    }
                     throw new Exception(Piwik::translate('TwoFactorAuth_InvalidAuthCode'));
                 }
             } else if ($twoFa->isUserRequiredToHaveTwoFactorEnabled()
