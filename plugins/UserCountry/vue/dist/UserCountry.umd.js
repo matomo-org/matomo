@@ -194,9 +194,7 @@ var _hoisted_15 = {
 var _hoisted_16 = {
   key: 0
 };
-
 var _hoisted_17 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_18 = {
   style: {
     "position": "absolute"
@@ -225,11 +223,8 @@ var _hoisted_27 = {
 var _hoisted_28 = ["innerHTML"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
-
   var _component_Notification = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Notification");
-
   var _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_1, [!_ctx.isThereWorkingProvider ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
     key: 0,
     innerHTML: _ctx.$sanitize(_ctx.setUpGuides || '')
@@ -299,17 +294,11 @@ var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UserCountry/vue/src/LocationProviderSelection/LocationProviderSelection.vue?vue&type=script&lang=ts
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 
 
 
@@ -350,9 +339,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       selectedProvider: this.currentProviderId,
       providerLocations: Object.fromEntries(Object.entries(this.locationProviders).map(function (_ref) {
         var _ref2 = _slicedToArray(_ref, 2),
-            k = _ref2[0],
-            p = _ref2[1];
-
+          k = _ref2[0],
+          p = _ref2[1];
         return [k, p.location];
       }))
     };
@@ -360,7 +348,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   methods: {
     refreshProviderInfo: function refreshProviderInfo(providerId) {
       var _this = this;
-
       // this should not be in a controller... ideally we fetch this data always from client side
       // and do not prefill it server side
       this.updateLoading[providerId] = true;
@@ -380,11 +367,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     },
     save: function save() {
       var _this2 = this;
-
       if (!this.selectedProvider) {
         return;
       }
-
       this.isLoading = true;
       external_CoreHome_["AjaxHelper"].fetch({
         method: 'UserCountry.setLocationProvider',
@@ -409,18 +394,15 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     visibleLocationProviders: function visibleLocationProviders() {
       return Object.fromEntries(Object.entries(this.locationProviders).filter(function (_ref3) {
         var _ref4 = _slicedToArray(_ref3, 2),
-            p = _ref4[1];
-
+          p = _ref4[1];
         return p.isVisible;
       }));
     },
     locationProvidersNotDefaultOrDisabled: function locationProvidersNotDefaultOrDisabled() {
       var _this3 = this;
-
       return Object.fromEntries(Object.entries(this.locationProviders).filter(function (_ref5) {
         var _ref6 = _slicedToArray(_ref5, 2),
-            p = _ref6[1];
-
+          p = _ref6[1];
         return p.id !== _this3.defaultProviderId && p.id !== _this3.disabledProviderId;
       }));
     },
@@ -442,13 +424,9 @@ LocationProviderSelectionvue_type_script_lang_ts.render = render
 
 function AdminPagevue_type_template_id_3e475741_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_EnrichedHeadline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("EnrichedHeadline");
-
   var _component_LocationProviderSelection = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("LocationProviderSelection");
-
   var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
-
   var _directive_content_intro = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-intro");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_EnrichedHeadline, {
     "help-url": "{{ externalRawLink('https://matomo.org/docs/geo-locate/') }}",
     id: "location-providers"
@@ -530,18 +508,14 @@ var GetDistinctCountriesvue_type_template_id_0efb6e2a_hoisted_1 = {
   class: "sparkline"
 };
 var GetDistinctCountriesvue_type_template_id_0efb6e2a_hoisted_2 = ["innerHTML"];
-
 var GetDistinctCountriesvue_type_template_id_0efb6e2a_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", {
   style: {
     "clear": "left"
   }
 }, null, -1);
-
 function GetDistinctCountriesvue_type_template_id_0efb6e2a_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Sparkline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Sparkline");
-
   var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, null, {
     default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
       return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", GetDistinctCountriesvue_type_template_id_0efb6e2a_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Sparkline, {

@@ -146,13 +146,9 @@ var external_CoreHome_ = __webpack_require__("19dc");
 
 // CONCATENATED MODULE: ./plugins/Dashboard/vue/src/Dashboard/Dashboard.store.ts
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -161,28 +157,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  */
 
 
-
 var Dashboard_store_DashboardStore = /*#__PURE__*/function () {
   function DashboardStore() {
     var _this = this;
-
     _classCallCheck(this, DashboardStore);
-
     _defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
       dashboards: []
     }));
-
     _defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_this.privateState);
     }));
-
     _defineProperty(this, "dashboards", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       return _this.state.value.dashboards;
     }));
-
     _defineProperty(this, "dashboardsPromise", null);
   }
-
   _createClass(DashboardStore, [{
     key: "getDashboard",
     value: function getDashboard(dashboardId) {
@@ -213,7 +202,6 @@ var Dashboard_store_DashboardStore = /*#__PURE__*/function () {
     key: "getAllDashboards",
     value: function getAllDashboards() {
       var _this2 = this;
-
       if (!this.dashboardsPromise) {
         this.dashboardsPromise = external_CoreHome_["AjaxHelper"].fetch({
           method: 'Dashboard.getDashboards',
@@ -222,32 +210,22 @@ var Dashboard_store_DashboardStore = /*#__PURE__*/function () {
           if (response) {
             _this2.privateState.dashboards = response;
           }
-
           return _this2.dashboards.value;
         });
       }
-
       return this.dashboardsPromise;
     }
   }]);
-
   return DashboardStore;
 }();
-
 /* harmony default export */ var Dashboard_store = (new Dashboard_store_DashboardStore());
 // CONCATENATED MODULE: ./plugins/Dashboard/vue/src/Dashboard/Dashboard.ts
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -258,21 +236,19 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var _window = window,
-    $ = _window.$;
-
+  $ = _window.$;
 function renderDashboard(dashboardId, dashboard, layout) {
   var $settings = $('.dashboardSettings');
   $settings.show();
-  window.initTopControls(); // Embed dashboard / exported as widget
-
+  window.initTopControls();
+  // Embed dashboard / exported as widget
   if (!$('#topBars').length) {
     $settings.after($('#Dashboard'));
     $('#Dashboard ul li').removeClass('active');
     $("#Dashboard_embeddedIndex_".concat(dashboardId)).addClass('active');
   }
-
-  window.widgetsHelper.getAvailableWidgets(); // eslint-disable-next-line @typescript-eslint/no-explicit-any
-
+  window.widgetsHelper.getAvailableWidgets();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   $('#dashboardWidgetsArea').off('dashboardempty', window.showEmptyDashboardNotification).on('dashboardempty', window.showEmptyDashboardNotification).dashboard({
     idDashboard: dashboardId,
     layout: layout,
@@ -292,24 +268,22 @@ function renderDashboard(dashboardId, dashboard, layout) {
     $(this).addClass('choosen');
   });
 }
-
 function fetchDashboard(dashboardId) {
   return new Promise(function (resolve) {
     return setTimeout(resolve);
   }).then(function () {
     return Promise.resolve(window.widgetsHelper.firstGetAvailableWidgetsCall);
   }).then(function () {
-    window.globalAjaxQueue.abort(); // eslint-disable-next-line @typescript-eslint/no-explicit-any
-
+    window.globalAjaxQueue.abort();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     var dashboardElement = $('#dashboardWidgetsArea');
     dashboardElement.dashboard('destroyWidgets');
     dashboardElement.empty();
     return Promise.all([Dashboard_store.getDashboard(dashboardId), Dashboard_store.getDashboardLayout(dashboardId)]);
   }).then(function (_ref) {
     var _ref2 = _slicedToArray(_ref, 2),
-        dashboard = _ref2[0],
-        layout = _ref2[1];
-
+      dashboard = _ref2[0],
+      layout = _ref2[1];
     return new Promise(function (resolve) {
       $(function () {
         renderDashboard(dashboardId, dashboard, layout);
@@ -318,24 +292,20 @@ function fetchDashboard(dashboardId) {
     });
   });
 }
-
 function clearDashboard() {
-  $('.top_controls .dashboard-manager').hide(); // eslint-disable-next-line @typescript-eslint/no-explicit-any
-
+  $('.top_controls .dashboard-manager').hide();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   $('#dashboardWidgetsArea').dashboard('destroy');
 }
-
 function onLocationChange(parsed) {
   if (parsed.module !== 'Widgetize' && parsed.category !== 'Dashboard_Dashboard') {
     // we remove the dashboard only if we no longer show a dashboard.
     clearDashboard();
   }
 }
-
 function onLoadDashboard(idDashboard) {
   fetchDashboard(idDashboard);
 }
-
 /* harmony default export */ var Dashboard = ({
   mounted: function mounted(el, binding) {
     fetchDashboard(binding.value.idDashboard);
@@ -354,11 +324,9 @@ function onLoadDashboard(idDashboard) {
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=template&id=043c430e
 
 var _hoisted_1 = ["title"];
-
 var _hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon icon-chevron-down"
 }, null, -1);
-
 var _hoisted_3 = {
   class: "dropdown positionInViewport"
 };
@@ -368,30 +336,23 @@ var _hoisted_4 = {
 var _hoisted_5 = {
   class: "addWidget"
 };
-
 var _hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", {
   class: "widgetpreview-categorylist"
 }, null, -1);
-
 var _hoisted_7 = {
   class: "manageDashboard"
 };
 var _hoisted_8 = ["onClick", "disabled", "title", "data-action"];
 var _hoisted_9 = ["onClick", "disabled", "title", "data-action"];
-
 var _hoisted_10 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", {
   class: "widgetpreview-widgetlist"
 }, null, -1);
-
 var _hoisted_11 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
   class: "widgetpreview-preview"
 }, null, -1);
-
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _directive_expand_on_click = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("expand-on-click");
-
   var _directive_tooltips = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("tooltips");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
     ref: "root",
     class: "dashboard-manager piwikSelector borderedControl piwikTopControl dashboardSettings",
@@ -437,23 +398,19 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 
 var DashboardSettingsvue_type_script_lang_ts_window = window,
-    DashboardSettingsvue_type_script_lang_ts_$ = DashboardSettingsvue_type_script_lang_ts_window.$;
-
+  DashboardSettingsvue_type_script_lang_ts_$ = DashboardSettingsvue_type_script_lang_ts_window.$;
 function isWidgetAvailable(widgetUniqueId) {
   return !DashboardSettingsvue_type_script_lang_ts_$('#dashboardWidgetsArea').find("[widgetId=\"".concat(widgetUniqueId, "\"]")).length;
 }
-
 function widgetSelected(widget) {
   // for UI tests (see DashboardManager_spec.js)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if (window.MATOMO_DASHBOARD_SETTINGS_WIDGET_SELECTED_NOOP) {
     return;
-  } // eslint-disable-next-line @typescript-eslint/no-explicit-any
-
-
+  }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   DashboardSettingsvue_type_script_lang_ts_$('#dashboardWidgetsArea').dashboard('addWidget', widget.uniqueId, 1, widget.parameters, true, false);
 }
-
 /* harmony default export */ var DashboardSettingsvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   directives: {
     ExpandOnClick: external_CoreHome_["ExpandOnClick"],
@@ -479,7 +436,6 @@ function widgetSelected(widget) {
         onSelect: function onSelect(widgetUniqueId) {
           window.widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId, function (widget) {
             root.value.click(); // close selector
-
             widgetSelected(widget);
           });
         },
@@ -487,6 +443,7 @@ function widgetSelected(widget) {
       });
       rootJQuery.value.hide(); // hide dashboard-manager initially (shown manually by Dashboard.ts)
     });
+
     return {
       root: root,
       rootJQuery: rootJQuery
@@ -507,29 +464,23 @@ function widgetSelected(widget) {
         resetDashboard: 'Dashboard_ResetDashboard',
         showChangeDashboardLayoutDialog: 'Dashboard_ChangeDashboardLayout'
       };
-
       if (this.isUserNotAnonymous) {
         result.renameDashboard = 'Dashboard_RenameDashboard';
         result.removeDashboard = 'Dashboard_RemoveDashboard';
       }
-
       if (this.isSuperUser) {
         result.setAsDefaultWidgets = 'Dashboard_SetAsDefaultWidgets';
       }
-
       if (this.isUserHasSomeAdminAccess) {
         result.copyDashboardToUser = 'Dashboard_CopyDashboardToUser';
       }
-
       return result;
     },
     generalActions: function generalActions() {
       var result = {};
-
       if (this.isUserNotAnonymous) {
         result.createDashboard = 'Dashboard_CreateNewDashboard';
       }
-
       return result;
     }
   },
@@ -538,7 +489,6 @@ function widgetSelected(widget) {
       if (event.target.getAttribute('disabled')) {
         return;
       }
-
       window[action]();
     },
     onOpen: function onOpen() {

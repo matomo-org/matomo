@@ -160,13 +160,9 @@ var external_CoreHome_ = __webpack_require__("19dc");
 
 // CONCATENATED MODULE: ./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.store.ts
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -175,50 +171,37 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  */
 
 
-
 var SegmentGenerator_store_SegmentGeneratorStore = /*#__PURE__*/function () {
   function SegmentGeneratorStore() {
     var _this = this;
-
     _classCallCheck(this, SegmentGeneratorStore);
-
     _defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
       isLoading: false,
       segments: []
     }));
-
     _defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_this.privateState);
     }));
-
     _defineProperty(this, "loadSegmentsAbort", void 0);
-
     _defineProperty(this, "loadSegmentsPromise", void 0);
-
     _defineProperty(this, "fetchedSiteId", void 0);
   }
-
   _createClass(SegmentGeneratorStore, [{
     key: "loadSegments",
     value: function loadSegments(siteId, visitSegmentsOnly) {
       var _this2 = this;
-
       if (this.loadSegmentsAbort) {
         this.loadSegmentsAbort.abort();
         this.loadSegmentsAbort = undefined;
       }
-
       this.privateState.isLoading = true;
-
       if (this.fetchedSiteId !== siteId) {
         this.loadSegmentsAbort = undefined;
         this.fetchedSiteId = siteId;
       }
-
       if (!this.loadSegmentsPromise) {
         var idSites = undefined;
         var idSite = undefined;
-
         if (siteId === 'all' || !siteId) {
           idSites = 'all';
           idSite = 'all';
@@ -226,7 +209,6 @@ var SegmentGenerator_store_SegmentGeneratorStore = /*#__PURE__*/function () {
           idSites = siteId;
           idSite = siteId;
         }
-
         this.loadSegmentsAbort = new AbortController();
         this.loadSegmentsPromise = external_CoreHome_["AjaxHelper"].fetch({
           method: 'API.getSegmentsMetadata',
@@ -236,10 +218,8 @@ var SegmentGenerator_store_SegmentGeneratorStore = /*#__PURE__*/function () {
           idSite: idSite
         });
       }
-
       return this.loadSegmentsPromise.then(function (response) {
         _this2.privateState.isLoading = false;
-
         if (response) {
           if (visitSegmentsOnly) {
             _this2.privateState.segments = response.filter(function (s) {
@@ -249,7 +229,6 @@ var SegmentGenerator_store_SegmentGeneratorStore = /*#__PURE__*/function () {
             _this2.privateState.segments = response;
           }
         }
-
         return _this2.state.value.segments;
       }).finally(function () {
         _this2.privateState.isLoading = false;
@@ -257,10 +236,8 @@ var SegmentGenerator_store_SegmentGeneratorStore = /*#__PURE__*/function () {
       });
     }
   }]);
-
   return SegmentGeneratorStore;
 }();
-
 /* harmony default export */ var SegmentGenerator_store = (new SegmentGenerator_store_SegmentGeneratorStore());
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/SegmentEditor/vue/src/SegmentGenerator/SegmentGenerator.vue?vue&type=template&id=452cbe04
 
@@ -310,17 +287,14 @@ var _hoisted_12 = {
 var _hoisted_13 = {
   class: "input-field col s12"
 };
-
 var _hoisted_14 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   role: "status",
   "aria-live": "polite",
   class: "ui-helper-hidden-accessible"
 }, null, -1);
-
 var _hoisted_15 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
   class: "clear"
 }, null, -1);
-
 var _hoisted_16 = {
   class: "segment-or"
 };
@@ -332,13 +306,9 @@ var _hoisted_19 = {
 var _hoisted_20 = ["innerHTML"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _this = this;
-
   var _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
-
   var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
   var _component_ValueInput = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ValueInput");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
     loading: _ctx.isLoading
   }, null, 8, ["loading"]), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.conditions, function (condition, conditionIndex) {
@@ -347,7 +317,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: conditionIndex
     }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_2, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(condition.orConditions, function (orCondition, orConditionIndex) {
       var _ctx$segments$orCondi, _ctx$segments$orCondi2;
-
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
         class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])("orCondId".concat(orCondition.id)),
         key: orConditionIndex
@@ -362,9 +331,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "model-value": orCondition.segment,
         "onUpdate:modelValue": function onUpdateModelValue($event) {
           orCondition.segment = $event;
-
           _ctx.updateAutocomplete(orCondition);
-
           _ctx.computeSegmentDefinition();
         },
         title: (_ctx$segments$orCondi = _ctx.segments[orCondition.segment]) === null || _ctx$segments$orCondi === void 0 ? void 0 : _ctx$segments$orCondi.name,
@@ -376,7 +343,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "model-value": orCondition.matches,
         "onUpdate:modelValue": function onUpdateModelValue($event) {
           orCondition.matches = $event;
-
           _ctx.computeSegmentDefinition();
         },
         "full-width": true,
@@ -384,8 +350,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, null, 8, ["model-value", "onUpdate:modelValue", "options"])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_11, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_12, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_13, [_hoisted_14, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ValueInput, {
         value: orCondition.value,
         onUpdate: function onUpdate($event) {
-          orCondition.value = $event; // deep watch doesn't catch this change
-
+          orCondition.value = $event;
+          // deep watch doesn't catch this change
           _this.computeSegmentDefinition();
         }
       }, null, 8, ["value", "onUpdate"])])])]), _hoisted_15])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_16, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('SegmentEditor_OperatorOR')), 1)], 2);
@@ -464,7 +430,6 @@ ValueInputvue_type_script_lang_ts.render = ValueInputvue_type_template_id_8c48d0
 
 
 
-
 function initialMatches() {
   return {
     metric: [{
@@ -507,18 +472,14 @@ function initialMatches() {
     }]
   };
 }
-
 function generateUniqueId() {
   var id = '';
   var chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-
   for (var i = 1; i <= 10; i += 1) {
     id += chars.charAt(Math.floor(Math.random() * chars.length));
   }
-
   return id;
 }
-
 function findAndExplodeByMatch(metric) {
   var matches = ['==', '!=', '<=', '>=', '=@', '!@', '<', '>', '=^', '=$'];
   var newMetric = {};
@@ -526,22 +487,18 @@ function findAndExplodeByMatch(metric) {
   var match;
   var index;
   var singleChar = false;
-
   for (var key = 0; key < matches.length; key += 1) {
     match = matches[key];
     index = metric.indexOf(match);
-
     if (index !== -1) {
       if (index < minPos) {
         minPos = index;
-
         if (match.length === 1) {
           singleChar = true;
         }
       }
     }
   }
-
   if (minPos < metric.length) {
     // sth found - explode
     if (singleChar === true) {
@@ -552,29 +509,25 @@ function findAndExplodeByMatch(metric) {
       newMetric.segment = metric.slice(0, minPos);
       newMetric.matches = metric.slice(minPos, minPos + 2);
       newMetric.value = decodeURIComponent(metric.slice(minPos + 2));
-    } // if value is only '' -> change to empty string
-
-
+    }
+    // if value is only '' -> change to empty string
     if (newMetric.value === '""') {
       newMetric.value = '';
     }
   }
-
   try {
     // Decode again to deal with double-encoded segments in database
     newMetric.value = decodeURIComponent(newMetric.value);
-  } catch (e) {// Expected if the segment was not double-encoded
+  } catch (e) {
+    // Expected if the segment was not double-encoded
   }
-
   return newMetric;
 }
-
 function stripTags(text) {
   return text ? "".concat(text).replace(/(<([^>]+)>)/ig, '') : text;
 }
-
 var _window = window,
-    $ = _window.$;
+  $ = _window.$;
 /* harmony default export */ var SegmentGeneratorvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     addInitialCondition: Boolean,
@@ -635,14 +588,12 @@ var _window = window,
   methods: {
     reloadSegments: function reloadSegments(idsite, visitSegmentsOnly) {
       var _this = this;
-
       SegmentGenerator_store.loadSegments(idsite, visitSegmentsOnly).then(function (segments) {
         _this.queriedSegments = segments.map(function (s) {
           return Object.assign(Object.assign({}, s), {}, {
             category: s.category || 'Others'
           });
         });
-
         if (_this.addInitialCondition && _this.conditions.length === 0) {
           _this.addNewAndCondition();
         }
@@ -661,7 +612,6 @@ var _window = window,
     },
     addOrCondition: function addOrCondition(condition, orCondition) {
       var _this2 = this;
-
       this.conditionValuesLoading[orCondition.id] = false;
       orCondition.id = generateUniqueId();
       condition.orConditions.push(orCondition);
@@ -671,7 +621,6 @@ var _window = window,
     },
     updateAutocomplete: function updateAutocomplete(orCondition) {
       var _this3 = this;
-
       this.conditionValuesLoading[orCondition.id] = true;
       $(".orCondId".concat(orCondition.id, " .metricValueBlock input"), this.$refs.root).autocomplete({
         source: [],
@@ -688,13 +637,11 @@ var _window = window,
         _this3.conditionValuesLoading[orCondition.id] = false;
         resolved = true;
         var autocompleteValues = response;
-
         if (Array.isArray(autocompleteValues)) {
           autocompleteValues = autocompleteValues.map(function (v) {
             return "".concat(v);
           });
         }
-
         var inputElement = $(".orCondId".concat(orCondition.id, " .metricValueBlock input")).autocomplete({
           source: autocompleteValues,
           minLength: 0,
@@ -702,10 +649,7 @@ var _window = window,
           select: function select(event, ui) {
             event.preventDefault();
             orCondition.value = ui.item.value;
-
             _this3.computeSegmentDefinition(); // deep watch doesn't catch this change
-
-
             _this3.$forceUpdate();
           }
         }).off('click').click(function () {
@@ -727,14 +671,11 @@ var _window = window,
     },
     removeOrCondition: function removeOrCondition(condition, orCondition) {
       var index = condition.orConditions.indexOf(orCondition);
-
       if (index > -1) {
         condition.orConditions.splice(index, 1);
       }
-
       if (condition.orConditions.length === 0) {
         var andCondIndex = this.conditions.indexOf(condition);
-
         if (index > -1) {
           this.conditions.splice(andCondIndex, 1);
         }
@@ -742,13 +683,10 @@ var _window = window,
     },
     setSegmentString: function setSegmentString(segmentStr) {
       var _this4 = this;
-
       this.conditions = [];
-
       if (!segmentStr) {
         return;
       }
-
       var blocks = segmentStr.split(';').map(function (b) {
         return b.split(',');
       });
@@ -758,7 +696,6 @@ var _window = window,
         };
         block.forEach(function (innerBlock) {
           var orCondition = findAndExplodeByMatch(innerBlock);
-
           _this4.addOrCondition(condition, orCondition);
         });
         return condition;
@@ -781,22 +718,18 @@ var _window = window,
         if (!condition.orConditions.length) {
           return;
         }
-
         var subSegmentStr = '';
         condition.orConditions.forEach(function (orCondition) {
           if (!orCondition.value && !orCondition.segment && !orCondition.matches) {
             return;
           }
-
           if (subSegmentStr !== '') {
             subSegmentStr += ','; // OR operator
-          } // one encode for urldecode on value, one encode for urldecode on condition
-
-
+          }
+          // one encode for urldecode on value, one encode for urldecode on condition
           var value = encodeURIComponent(encodeURIComponent(orCondition.value));
           subSegmentStr += "".concat(orCondition.segment).concat(orCondition.matches).concat(value);
         });
-
         if (segmentStr !== '') {
           segmentStr += ';'; // add AND operator between segment blocks
         }
@@ -812,15 +745,12 @@ var _window = window,
     },
     firstMatch: function firstMatch() {
       var segment = this.queriedSegments[0];
-
       if (!segment) {
         return null;
       }
-
       if (segment.type && this.matches[segment.type]) {
         return this.matches[segment.type][0].key;
       }
-
       return this.matches[''][0].key;
     },
     segments: function segments() {

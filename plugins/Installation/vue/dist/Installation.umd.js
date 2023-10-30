@@ -157,9 +157,7 @@ var _hoisted_4 = {
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_SystemCheckSection = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SystemCheckSection");
-
   var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
     "content-title": _ctx.translate('Installation_SystemCheck'),
     feature: "true"
@@ -188,13 +186,9 @@ var external_CoreHome_ = __webpack_require__("19dc");
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Installation/vue/src/SystemCheck/SystemCheckSection.vue?vue&type=template&id=5d6873c0
 
-
 var SystemCheckSectionvue_type_template_id_5d6873c0_hoisted_1 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var SystemCheckSectionvue_type_template_id_5d6873c0_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])();
-
 var SystemCheckSectionvue_type_template_id_5d6873c0_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var SystemCheckSectionvue_type_template_id_5d6873c0_hoisted_4 = ["innerHTML"];
 var _hoisted_5 = {
   class: "entityTable system-check",
@@ -210,9 +204,7 @@ var _hoisted_7 = {
 };
 function SystemCheckSectionvue_type_template_id_5d6873c0_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_DiagnosticTable = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("DiagnosticTable");
-
   var _directive_content_table = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-table");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Installation_CopyBelowInfoForSupport')) + " ", 1), SystemCheckSectionvue_type_template_id_5d6873c0_hoisted_1, SystemCheckSectionvue_type_template_id_5d6873c0_hoisted_2, SystemCheckSectionvue_type_template_id_5d6873c0_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     href: "",
     onClick: _cache[0] || (_cache[0] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(function ($event) {
@@ -268,49 +260,38 @@ var DiagnosticTablevue_type_template_id_04e619d1_hoisted_1 = ["innerHTML"];
 var DiagnosticTablevue_type_template_id_04e619d1_hoisted_2 = {
   key: 0
 };
-
 var DiagnosticTablevue_type_template_id_04e619d1_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-error"
 }, null, -1);
-
 var DiagnosticTablevue_type_template_id_04e619d1_hoisted_4 = ["innerHTML"];
 var DiagnosticTablevue_type_template_id_04e619d1_hoisted_5 = {
   key: 1
 };
-
 var DiagnosticTablevue_type_template_id_04e619d1_hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-warning"
 }, null, -1);
-
 var DiagnosticTablevue_type_template_id_04e619d1_hoisted_7 = ["innerHTML"];
 var _hoisted_8 = {
   key: 2
 };
-
 var _hoisted_9 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-info"
 }, null, -1);
-
 var _hoisted_10 = ["innerHTML"];
 var _hoisted_11 = {
   key: 3
 };
-
 var _hoisted_12 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-ok"
 }, null, -1);
-
 var _hoisted_13 = ["innerHTML"];
-
 var _hoisted_14 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_15 = {
   key: 0
 };
 var _hoisted_16 = ["innerHTML"];
 function DiagnosticTablevue_type_template_id_04e619d1_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Passthrough = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Passthrough");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.results, function (result, index) {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Passthrough, {
       key: index
@@ -386,7 +367,7 @@ DiagnosticTablevue_type_script_lang_ts.render = DiagnosticTablevue_type_template
 
 
 var _window = window,
-    $ = _window.$;
+  $ = _window.$;
 /* harmony default export */ var SystemCheckSectionvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     errorType: {
@@ -509,24 +490,20 @@ SystemCheckPagevue_type_script_lang_ts.render = render
 var SystemCheckvue_type_template_id_7a499703_hoisted_1 = {
   key: 0
 };
-
 var SystemCheckvue_type_template_id_7a499703_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", {
   style: {
     "clear": "both"
   }
 }, null, -1);
-
 var SystemCheckvue_type_template_id_7a499703_hoisted_3 = {
   key: 1
 };
 var SystemCheckvue_type_template_id_7a499703_hoisted_4 = {
   key: 0
 };
-
 var SystemCheckvue_type_template_id_7a499703_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-export"
 }, null, -1);
-
 var SystemCheckvue_type_template_id_7a499703_hoisted_6 = {
   target: "_blank",
   rel: "noreferrer noopener",
@@ -534,9 +511,7 @@ var SystemCheckvue_type_template_id_7a499703_hoisted_6 = {
 };
 function SystemCheckvue_type_template_id_7a499703_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_SystemCheckLegend = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SystemCheckLegend");
-
   var _component_SystemCheckSection = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SystemCheckSection");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [!_ctx.showNextStep ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SystemCheckvue_type_template_id_7a499703_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SystemCheckLegend, {
     url: _ctx.systemCheckLegendUrl
   }, null, 8, ["url"]), SystemCheckvue_type_template_id_7a499703_hoisted_2])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Installation_SystemCheck')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SystemCheckSection, {
@@ -559,19 +534,15 @@ function SystemCheckvue_type_template_id_7a499703_render(_ctx, _cache, $props, $
 var SystemCheckLegendvue_type_template_id_77aad6d6_hoisted_1 = {
   class: "system-check-legend"
 };
-
 var SystemCheckLegendvue_type_template_id_77aad6d6_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-ok"
 }, null, -1);
-
 var SystemCheckLegendvue_type_template_id_77aad6d6_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-warning"
 }, null, -1);
-
 var SystemCheckLegendvue_type_template_id_77aad6d6_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-error"
 }, null, -1);
-
 var SystemCheckLegendvue_type_template_id_77aad6d6_hoisted_5 = {
   class: "next-step"
 };
@@ -607,7 +578,7 @@ SystemCheckLegendvue_type_script_lang_ts.render = SystemCheckLegendvue_type_temp
 
 
 var SystemCheckvue_type_script_lang_ts_window = window,
-    SystemCheckvue_type_script_lang_ts_$ = SystemCheckvue_type_script_lang_ts_window.$;
+  SystemCheckvue_type_script_lang_ts_$ = SystemCheckvue_type_script_lang_ts_window.$;
 /* harmony default export */ var SystemCheckvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     showNextStep: Boolean,

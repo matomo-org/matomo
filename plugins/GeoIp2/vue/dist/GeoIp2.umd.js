@@ -164,9 +164,7 @@ var _hoisted_4 = {
 var _hoisted_5 = {
   class: "geoipdb-column-1 col s6"
 };
-
 var _hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("sup", null, [/*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("small", null, "*")], -1);
-
 var _hoisted_7 = {
   class: "geoipdb-column-2 col s6"
 };
@@ -182,9 +180,7 @@ var _hoisted_12 = ["value"];
 var _hoisted_13 = {
   class: "row"
 };
-
 var _hoisted_14 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("* ");
-
 var _hoisted_15 = ["innerHTML"];
 var _hoisted_16 = {
   id: "geoipdb-screen2-download"
@@ -194,18 +190,12 @@ var _hoisted_17 = {
   id: "geoipdb-update-info"
 };
 var _hoisted_18 = ["innerHTML"];
-
 var _hoisted_19 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_20 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_21 = ["innerHTML"];
 var _hoisted_22 = ["innerHTML"];
-
 var _hoisted_23 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_24 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_25 = {
   id: "locationProviderUpdatePeriodInlineHelp",
   class: "inline-help-node",
@@ -215,22 +205,16 @@ var _hoisted_26 = ["innerHTML"];
 var _hoisted_27 = {
   key: 1
 };
-
 var _hoisted_28 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_29 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_30 = ["innerHTML"];
 var _hoisted_31 = ["value"];
-
 var _hoisted_32 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
   id: "done-updating-updater"
 }, null, -1);
-
 var _hoisted_33 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
   id: "geoipdb-update-info-error"
 }, null, -1);
-
 var _hoisted_34 = ["innerHTML"];
 var _hoisted_35 = {
   key: 1
@@ -240,11 +224,8 @@ var _hoisted_36 = {
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Progressbar = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Progressbar");
-
   var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
   var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
     "content-title": _ctx.contentTitle,
     id: "geoip-db-mangement"
@@ -351,7 +332,7 @@ var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
 
 
 var _window = window,
-    $ = _window.$;
+  $ = _window.$;
 /* harmony default export */ var GeoIp2Updatervue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     geoipDatabaseStartedInstalled: Boolean,
@@ -405,11 +386,9 @@ var _window = window,
   methods: {
     startDownloadFreeGeoIp: function startDownloadFreeGeoIp() {
       var _this = this;
-
       this.showFreeDownload = true;
       this.showPiwikNotManagingInfo = false;
       this.progressFreeDownload = 0; // start download of free dbs
-
       this.downloadNextChunk('downloadFreeDBIPLiteDB', function (v) {
         _this.progressFreeDownload = v;
       }, false, {}).then(function () {
@@ -428,7 +407,6 @@ var _window = window,
     },
     saveGeoIpLinks: function saveGeoIpLinks() {
       var _this2 = this;
-
       return external_CoreHome_["AjaxHelper"].post({
         period: this.updatePeriod,
         module: 'GeoIp2',
@@ -476,13 +454,11 @@ var _window = window,
     },
     downloadNextFileIfNeeded: function downloadNextFileIfNeeded(response, currentDownloading) {
       var _this3 = this;
-
       if (response !== null && response !== void 0 && response.to_download) {
         var continuing = currentDownloading === response.to_download;
         this.progressUpdateDownload = 0;
         this.progressUpdateLabel = response.to_download_label;
         this.isUpdatingGeoIpDatabase = true; // start/continue download
-
         return this.downloadNextChunk('downloadMissingGeoIpDb', function (v) {
           _this3.progressUpdateDownload = v;
         }, continuing, {
@@ -491,12 +467,10 @@ var _window = window,
           return _this3.downloadNextFileIfNeeded(r, response.to_download);
         });
       }
-
       return Promise.resolve(response);
     },
     downloadNextChunk: function downloadNextChunk(action, progressBarSet, cont, extraData) {
       var _this4 = this;
-
       var data = Object.assign({}, extraData);
       return external_CoreHome_["AjaxHelper"].post({
         module: 'GeoIp2',
@@ -509,17 +483,14 @@ var _window = window,
       }).then(function (response) {
         if (response.error) {
           throw new Error(response.error);
-        } // update progress bar
-
-
-        var newProgressVal = Math.floor(response.current_size / response.expected_file_size * 100); // if incomplete, download next chunk, otherwise, show updater manager
-
+        }
+        // update progress bar
+        var newProgressVal = Math.floor(response.current_size / response.expected_file_size * 100);
+        // if incomplete, download next chunk, otherwise, show updater manager
         progressBarSet(Math.min(newProgressVal, 100));
-
         if (newProgressVal < 100) {
           return _this4.downloadNextChunk(action, progressBarSet, true, extraData);
         }
-
         return response;
       });
     }
@@ -529,22 +500,18 @@ var _window = window,
       if (this.nextRunTimePrettyUpdated) {
         return this.nextRunTimePrettyUpdated;
       }
-
       if (!this.nextRunTime) {
         return Object(external_CoreHome_["translate"])('GeoIp2_UpdaterIsNotScheduledToRun');
       }
-
       if (this.nextRunTime * 1000 < Date.now()) {
         return Object(external_CoreHome_["translate"])('GeoIp2_UpdaterScheduledForNextRun');
       }
-
       return Object(external_CoreHome_["translate"])('GeoIp2_UpdaterWillRunNext', "<strong>".concat(this.nextRunTimePretty, "</strong>"));
     },
     providerPluginHelp: function providerPluginHelp() {
       if (this.isProviderPluginActive) {
         return undefined;
       }
-
       var text = Object(external_CoreHome_["translate"])('GeoIp2_ISPRequiresProviderPlugin');
       return "<div style=\"margin:0\" class='alert alert-warning'>".concat(text, "</div>");
     },

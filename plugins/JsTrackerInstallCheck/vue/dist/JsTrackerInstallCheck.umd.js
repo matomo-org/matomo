@@ -164,27 +164,20 @@ var _hoisted_5 = ["disabled", "value"];
 var _hoisted_6 = {
   class: "system-success success-message"
 };
-
 var _hoisted_7 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-ok"
 }, null, -1);
-
 var _hoisted_8 = {
   class: "system-errors test-error"
 };
-
 var _hoisted_9 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-warning"
 }, null, -1);
-
 var _hoisted_10 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("  ");
-
 var _hoisted_11 = ["innerHTML"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
   var _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('JsTrackerInstallCheck_TestInstallationDescription')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     uicontrol: "url",
     name: "baseUrl",
@@ -269,7 +262,6 @@ var TIME_BETWEEN_API_CALLS = 1000;
     },
     initiateTrackerTest: function initiateTrackerTest() {
       var _this = this;
-
       this.isTesting = true;
       this.isTestComplete = false;
       this.isTestSuccess = false;
@@ -279,27 +271,22 @@ var TIME_BETWEEN_API_CALLS = 1000;
         idSite: siteRef.id,
         url: ''
       };
-
       if (this.baseUrl) {
         postParams.url = this.baseUrl;
       }
-
       external_CoreHome_["AjaxHelper"].post({
         module: 'API',
         method: 'JsTrackerInstallCheck.initiateJsTrackerInstallTest'
       }, postParams).then(function (response) {
         var isSuccess = response && response.url && response.nonce;
-
         if (isSuccess) {
           _this.checkNonce = response.nonce;
           var windowRef = window.open(response.url);
-
           _this.setCheckInTime();
-
           setTimeout(function () {
             if (windowRef && !windowRef.closed) {
-              windowRef.close(); // Set the timeout to the max since we've already waited too long
-
+              windowRef.close();
+              // Set the timeout to the max since we've already waited too long
               _this.testTimeoutCount = MAX_NUM_API_CALLS;
             }
           }, MAX_NUM_API_CALLS * TIME_BETWEEN_API_CALLS);
@@ -313,17 +300,14 @@ var TIME_BETWEEN_API_CALLS = 1000;
     },
     checkWhetherSuccessWasRecorded: function checkWhetherSuccessWasRecorded() {
       var _this2 = this;
-
       var siteRef = this.site;
       var postParams = {
         idSite: siteRef.id,
         nonce: ''
       };
-
       if (this.checkNonce) {
         postParams.nonce = this.checkNonce;
       }
-
       external_CoreHome_["AjaxHelper"].post({
         module: 'API',
         method: 'JsTrackerInstallCheck.wasJsTrackerInstallTestSuccessful'
@@ -331,17 +315,13 @@ var TIME_BETWEEN_API_CALLS = 1000;
         if (response && response.mainUrl && !_this2.baseUrl) {
           _this2.baseUrl = response.mainUrl;
         }
-
-        _this2.isTestSuccess = response && response.isSuccess; // If the test isn't successful but hasn't exceeded the timeout count, wait and check again
-
+        _this2.isTestSuccess = response && response.isSuccess;
+        // If the test isn't successful but hasn't exceeded the timeout count, wait and check again
         if (_this2.checkNonce && !_this2.isTestSuccess && _this2.testTimeoutCount < MAX_NUM_API_CALLS) {
           _this2.testTimeoutCount += 1;
-
           _this2.setCheckInTime();
-
           return;
         }
-
         _this2.isTestComplete = !!_this2.checkNonce;
         _this2.isTesting = false;
       }).catch(function () {
@@ -353,11 +333,9 @@ var TIME_BETWEEN_API_CALLS = 1000;
     getTestFailureMessage: function getTestFailureMessage() {
       var learnMoreLink = Object(external_CoreHome_["externalLink"])('https://matomo.org/faq/troubleshooting/faq_58/');
       var closingTag = '</a>';
-
       if (!this.isWordpress) {
         return Object(external_CoreHome_["translate"])('JsTrackerInstallCheck_JsTrackingCodeInstallCheckFailureMessage', learnMoreLink, closingTag);
       }
-
       return Object(external_CoreHome_["translate"])('JsTrackerInstallCheck_JsTrackingCodeInstallCheckFailureMessageWordpress', '<a target="_blank" rel="noreferrer noopener" href="https://wordpress.org/plugins/wp-piwik/">WP-Matomo Integration (WP-Piwik)</a>', learnMoreLink, closingTag);
     }
   }

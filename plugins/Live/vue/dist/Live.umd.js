@@ -152,12 +152,12 @@ var external_CoreHome_ = __webpack_require__("19dc");
  */
 
 var _window = window,
-    $ = _window.$;
+  $ = _window.$;
 /* harmony default export */ var LiveWidgetRefresh = ({
   mounted: function mounted(el, binding) {
     setTimeout(function () {
-      var segment = external_CoreHome_["MatomoUrl"].parsed.value.segment; // eslint-disable-next-line @typescript-eslint/no-explicit-any
-
+      var segment = external_CoreHome_["MatomoUrl"].parsed.value.segment;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       $(el).find('#visitsLive').liveWidget({
         interval: binding.value.liveRefreshAfterMs,
         onUpdate: function onUpdate() {
@@ -282,16 +282,13 @@ var LivePagevue_type_template_id_0cf01080_hoisted_1 = {
   class: "visitsLiveFooter"
 };
 var LivePagevue_type_template_id_0cf01080_hoisted_2 = ["title"];
-
 var LivePagevue_type_template_id_0cf01080_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
   id: "pauseImage",
   border: "0",
   src: "plugins/Live/images/pause.png"
 }, null, -1);
-
 var LivePagevue_type_template_id_0cf01080_hoisted_4 = [LivePagevue_type_template_id_0cf01080_hoisted_3];
 var LivePagevue_type_template_id_0cf01080_hoisted_5 = ["title"];
-
 var LivePagevue_type_template_id_0cf01080_hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
   id: "playImage",
   style: {
@@ -300,20 +297,15 @@ var LivePagevue_type_template_id_0cf01080_hoisted_6 = /*#__PURE__*/Object(extern
   border: "0",
   src: "plugins/Live/images/play.png"
 }, null, -1);
-
 var LivePagevue_type_template_id_0cf01080_hoisted_7 = [LivePagevue_type_template_id_0cf01080_hoisted_6];
 var LivePagevue_type_template_id_0cf01080_hoisted_8 = {
   key: 0
 };
-
 var LivePagevue_type_template_id_0cf01080_hoisted_9 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("   ");
-
 var LivePagevue_type_template_id_0cf01080_hoisted_10 = ["href"];
 function LivePagevue_type_template_id_0cf01080_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_VueEntryContainer = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("VueEntryContainer");
-
   var _directive_live_widget_refresh = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("live-widget-refresh");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDynamicComponent"])(!_ctx.isWidgetized ? 'ContentBlock' : 'Passthrough'), {
     "content-title": !_ctx.isWidgetized ? _ctx.translate('Live_VisitorsInRealTime') : undefined
   }, {
@@ -396,9 +388,7 @@ LivePagevue_type_script_lang_ts.render = LivePagevue_type_template_id_0cf01080_r
 
 function IndexHeadervue_type_template_id_a1b05140_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_EnrichedHeadline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("EnrichedHeadline");
-
   var _directive_content_intro = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-intro");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_EnrichedHeadline, null, {
     default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
       return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Live_VisitorLog')), 1)];
@@ -436,7 +426,7 @@ IndexHeadervue_type_script_lang_ts.render = IndexHeadervue_type_template_id_a1b0
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 var LastVisits_window = window,
-    LastVisits_$ = LastVisits_window.$;
+  LastVisits_$ = LastVisits_window.$;
 /* harmony default export */ var LastVisits = ({
   mounted: function mounted(el) {
     LastVisits_$(el).on('click', '.visits-live-launch-visitor-profile', function onClickLaunchProfile(e) {

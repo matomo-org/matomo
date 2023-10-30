@@ -162,13 +162,10 @@ var _hoisted_7 = {
   readonly: "true",
   id: "directLinkEmbed"
 };
-
 var _hoisted_8 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" - ");
-
 var _hoisted_9 = ["href"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _directive_select_on_focus = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("select-on-focus");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", {
     for: "embedThisWidgetIframeInput",
     innerHTML: _ctx.$sanitize(_ctx.translate('Widgetize_EmbedIframe'))
@@ -228,14 +225,13 @@ function WidgetPreviewvue_type_template_id_73d2ef45_render(_ctx, _cache, $props,
 
 
 var _window = window,
-    $ = _window.$,
-    widgetsHelper = _window.widgetsHelper;
+  $ = _window.$,
+  widgetsHelper = _window.widgetsHelper;
 /* harmony default export */ var WidgetPreviewvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   mounted: function mounted() {
     var _this = this;
-
-    var element = this.$refs.root; // eslint-disable-next-line @typescript-eslint/no-explicit-any
-
+    var element = this.$refs.root;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     $(element).widgetPreview({
       onPreviewLoaded: function onPreviewLoaded(widgetUniqueId, loadedWidgetElement) {
         _this.callbackAddExportButtonsUnderWidget(widgetUniqueId, loadedWidgetElement);
@@ -245,13 +241,10 @@ var _window = window,
   methods: {
     callbackAddExportButtonsUnderWidget: function callbackAddExportButtonsUnderWidget(widgetUniqueId, loadedWidgetElement) {
       var _this2 = this;
-
       widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId, function (widget) {
         var widgetParameters = widget.parameters;
         var exportButtonsElement = $('<div id="exportButtons">');
-
         var urlIframe = _this2.getEmbedUrl(widgetParameters, 'iframe');
-
         var widgetIframeHtml = '<div id="widgetIframe"><iframe width="100%" height="350" ' + "src=\"".concat(urlIframe, "\" scrolling=\"yes\" frameborder=\"0\" marginheight=\"0\" marginwidth=\"0\">") + '</iframe></div>';
         var previewIframe = $('<div>').attr('vue-entry', 'Widgetize.WidgetPreviewIframe').attr('widget-iframe-html', JSON.stringify(widgetIframeHtml)).attr('url-iframe', JSON.stringify(urlIframe));
         $(exportButtonsElement).append(previewIframe);
@@ -272,8 +265,8 @@ var _window = window,
         widget: 1
       });
       var _window$location = window.location,
-          protocol = _window$location.protocol,
-          hostname = _window$location.hostname;
+        protocol = _window$location.protocol,
+        hostname = _window$location.hostname;
       var port = window.location.port === '' ? '' : ":".concat(window.location.port);
       var path = window.location.pathname;
       var query = external_CoreHome_["MatomoUrl"].stringify(finalParams);
@@ -298,34 +291,21 @@ var ExportWidgetvue_type_template_id_b53faffa_hoisted_1 = {
 var ExportWidgetvue_type_template_id_b53faffa_hoisted_2 = ["innerHTML"];
 var ExportWidgetvue_type_template_id_b53faffa_hoisted_3 = ["innerHTML"];
 var ExportWidgetvue_type_template_id_b53faffa_hoisted_4 = ["innerHTML"];
-
 var ExportWidgetvue_type_template_id_b53faffa_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var ExportWidgetvue_type_template_id_b53faffa_hoisted_6 = ["textContent"];
-
 var ExportWidgetvue_type_template_id_b53faffa_hoisted_7 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var ExportWidgetvue_type_template_id_b53faffa_hoisted_8 = ["innerHTML"];
-
 var ExportWidgetvue_type_template_id_b53faffa_hoisted_9 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_10 = ["textContent"];
-
 var _hoisted_11 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", {
   class: "clearfix"
 }, null, -1);
-
 function ExportWidgetvue_type_template_id_b53faffa_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_EnrichedHeadline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("EnrichedHeadline");
-
   var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
-
   var _component_WidgetPreview = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("WidgetPreview");
-
   var _directive_content_intro = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-intro");
-
   var _directive_select_on_focus = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("select-on-focus");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ExportWidgetvue_type_template_id_b53faffa_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_EnrichedHeadline, null, {
     default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
       return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.title), 1)];
@@ -372,12 +352,10 @@ function ExportWidgetvue_type_template_id_b53faffa_render(_ctx, _cache, $props, 
 
 
 
-
 function getIframeCode(iframeUrl) {
   var url = iframeUrl.replace(/"/g, '&quot;');
   return "<iframe src=\"".concat(url, "\" frameborder=\"0\" marginheight=\"0\" marginwidth=\"0\" width=\"100%\" ") + 'height="100%"></iframe>';
 }
-
 /* harmony default export */ var ExportWidgetvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     title: {

@@ -148,18 +148,13 @@ var _hoisted_2 = {
   action: "",
   method: "POST"
 };
-
 var _hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_4 = {
   key: 0,
   class: "checkbox-container usech"
 };
-
 var _hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_7 = ["value"];
 var _hoisted_8 = {
   key: 0
@@ -170,47 +165,29 @@ var _hoisted_9 = {
 var _hoisted_10 = {
   class: "detection"
 };
-
 var _hoisted_11 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" (");
-
 var _hoisted_12 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(") ");
-
 var _hoisted_13 = ["src"];
-
 var _hoisted_14 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" (");
-
 var _hoisted_15 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(") ");
-
 var _hoisted_16 = ["src"];
 var _hoisted_17 = {
   class: "detection"
 };
-
 var _hoisted_18 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" (");
-
 var _hoisted_19 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(") ");
-
 var _hoisted_20 = ["src"];
-
 var _hoisted_21 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" (");
-
 var _hoisted_22 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(") ");
-
 var _hoisted_23 = ["src"];
 var _hoisted_24 = {
   class: "detection"
 };
-
 var _hoisted_25 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" (");
-
 var _hoisted_26 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(") ");
-
 var _hoisted_27 = ["src"];
-
 var _hoisted_28 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" (");
-
 var _hoisted_29 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(") ");
-
 var _hoisted_30 = ["src"];
 var _hoisted_31 = {
   class: "ui-confirm",
@@ -221,9 +198,7 @@ var _hoisted_32 = ["innerHTML"];
 var _hoisted_33 = ["value"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
-
   var _directive_content_table = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-table");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
     "content-title": _ctx.translate('DevicesDetection_DeviceDetection')
   }, {
@@ -332,47 +307,37 @@ var external_CoreHome_ = __webpack_require__("19dc");
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/DevicesDetection/vue/src/DetectionPage/DetectionPage.vue?vue&type=script&lang=ts
 
 
-
 function _isClientHintsSupported() {
   var nav = navigator; // eslint-disable-line @typescript-eslint/no-explicit-any
-
   return nav.userAgentData && typeof nav.userAgentData.getHighEntropyValues === 'function';
 }
-
 var clientHints = null;
-
 function getDefaultClientHints() {
   var nav = navigator; // eslint-disable-line @typescript-eslint/no-explicit-any
-
   if (!_isClientHintsSupported()) {
     return Promise.resolve(null);
   }
-
   if (clientHints) {
     return Promise.resolve(clientHints);
-  } // Initialize with low entropy values that are always available
-
-
+  }
+  // Initialize with low entropy values that are always available
   clientHints = {
     brands: nav.userAgentData.brands,
     platform: nav.userAgentData.platform
-  }; // try to gather high entropy values
+  };
+  // try to gather high entropy values
   // currently this methods simply returns the requested values through a Promise
   // In later versions it might require a user permission
-
   return nav.userAgentData.getHighEntropyValues(['brands', 'model', 'platform', 'platformVersion', 'uaFullVersion', 'fullVersionList']).then(function (ua) {
     clientHints = Object.assign({}, ua);
-
     if (clientHints.fullVersionList) {
       // if fullVersionList is available, brands and uaFullVersion isn't needed
       delete clientHints.brands;
       delete clientHints.uaFullVersion;
     }
-
     return clientHints;
   });
 }
-
 /* harmony default export */ var DetectionPagevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     userAgent: {
@@ -405,10 +370,8 @@ function getDefaultClientHints() {
   },
   created: function created() {
     var _this = this;
-
     getDefaultClientHints().then(function (hints) {
       _this.defaultClientHints = hints;
-
       _this.toggleClientHints();
     });
   },
@@ -424,7 +387,6 @@ function getDefaultClientHints() {
   methods: {
     showList: function showList(type) {
       var _this2 = this;
-
       external_CoreHome_["AjaxHelper"].fetch({
         module: 'DevicesDetection',
         action: 'showList',

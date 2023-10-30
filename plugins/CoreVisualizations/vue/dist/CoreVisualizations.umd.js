@@ -205,7 +205,6 @@ var external_CoreHome_ = __webpack_require__("19dc");
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreVisualizations/vue/src/SeriesPicker/SeriesPicker.vue?vue&type=script&lang=ts
 
 
-
 function getInitialOptionStates(allOptions, selectedOptions) {
   var states = {};
   allOptions.forEach(function (columnConfig) {
@@ -217,29 +216,24 @@ function getInitialOptionStates(allOptions, selectedOptions) {
   });
   return states;
 }
-
 function arrayEqual(lhs, rhs) {
   if (lhs.length !== rhs.length) {
     return false;
   }
-
   return lhs.filter(function (element) {
     return rhs.indexOf(element) === -1;
   }).length === 0;
 }
-
 function unselectOptions(optionStates) {
   Object.keys(optionStates).forEach(function (optionName) {
     optionStates[optionName] = false;
   });
 }
-
 function getSelected(optionStates) {
   return Object.keys(optionStates).filter(function (optionName) {
     return !!optionStates[optionName];
   });
 }
-
 /* harmony default export */ var SeriesPickervue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     multiselect: Boolean,
@@ -285,13 +279,11 @@ function getSelected(optionStates) {
         unselectOptions(this.columnStates);
         unselectOptions(this.rowStates);
       }
-
       optionStates[optionValue] = !optionStates[optionValue];
       this.triggerOnSelectAndClose();
     },
     onLeavePopup: function onLeavePopup() {
       this.isPopupVisible = false;
-
       if (this.optionsChanged()) {
         this.triggerOnSelectAndClose();
       }
@@ -329,7 +321,6 @@ var SingleMetricViewvue_type_template_id_2e2e889f_hoisted_3 = ["title"];
 var SingleMetricViewvue_type_template_id_2e2e889f_hoisted_4 = ["title"];
 function SingleMetricViewvue_type_template_id_2e2e889f_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Sparkline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Sparkline");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["singleMetricView", {
       'loading': _ctx.isLoading
@@ -354,31 +345,22 @@ function SingleMetricViewvue_type_template_id_2e2e889f_render(_ctx, _cache, $pro
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreVisualizations/vue/src/SingleMetricView/SingleMetricView.vue?vue&type=script&lang=ts
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-
 
 
 
 function getPastPeriodStr() {
   var _Range$getLastNRange = external_CoreHome_["Range"].getLastNRange(external_CoreHome_["Matomo"].period, 2, external_CoreHome_["Matomo"].currentDateString),
-      startDate = _Range$getLastNRange.startDate;
-
+    startDate = _Range$getLastNRange.startDate;
   var dateRange = external_CoreHome_["Periods"].get(external_CoreHome_["Matomo"].period).parse(startDate).getDateRange();
   return "".concat(Object(external_CoreHome_["format"])(dateRange[0]), ",").concat(Object(external_CoreHome_["format"])(dateRange[1]));
 }
-
 var _window = window,
-    $ = _window.$;
+  $ = _window.$;
 /* harmony default export */ var SingleMetricViewvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     metric: {
@@ -411,27 +393,22 @@ var _window = window,
     });
     var metricValueUnformatted = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       var _responses$value;
-
       if (!((_responses$value = responses.value) !== null && _responses$value !== void 0 && _responses$value[1])) {
         return null;
       }
-
       return responses.value[1][actualMetric.value];
     });
     var pastValueUnformatted = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       var _responses$value2;
-
       if (!((_responses$value2 = responses.value) !== null && _responses$value2 !== void 0 && _responses$value2[2])) {
         return null;
       }
-
       return responses.value[2][actualMetric.value] || 0;
     });
     var metricChangePercent = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       if (!metricValueUnformatted.value) {
         return null;
       }
-
       var currentValue = typeof metricValueUnformatted.value === 'string' ? parseInt(metricValueUnformatted.value, 10) : metricValueUnformatted.value;
       var pastValue = typeof pastValueUnformatted.value === 'string' ? parseInt(pastValueUnformatted.value, 10) : pastValueUnformatted.value;
       var evolution = external_CoreHome_["Matomo"].helper.calculateEvolution(currentValue, pastValue);
@@ -439,73 +416,59 @@ var _window = window,
     });
     var pastValue = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       var _responses$value3;
-
       if (!((_responses$value3 = responses.value) !== null && _responses$value3 !== void 0 && _responses$value3[3])) {
         return null;
       }
-
       var pastDataFormatted = responses.value[3];
       return pastDataFormatted[actualMetric.value] || 0;
     });
     var metricValue = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       var _responses$value4;
-
       if (!((_responses$value4 = responses.value) !== null && _responses$value4 !== void 0 && _responses$value4[0])) {
         return null;
       }
-
       var currentData = responses.value[0];
       return currentData[actualMetric.value] || 0;
     });
     var metricTranslation = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       var _props$metricTranslat;
-
       if (!((_props$metricTranslat = props.metricTranslations) !== null && _props$metricTranslat !== void 0 && _props$metricTranslat[actualMetric.value])) {
         return '';
       }
-
       return props.metricTranslations[actualMetric.value];
     });
     var metricDocumentation = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       var _props$metricDocument;
-
       if (!((_props$metricDocument = props.metricDocumentations) !== null && _props$metricDocument !== void 0 && _props$metricDocument[actualMetric.value])) {
         return '';
       }
-
       return props.metricDocumentations[actualMetric.value];
     });
     var currentPeriod = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       if (external_CoreHome_["Matomo"].startDateString === external_CoreHome_["Matomo"].endDateString) {
         return external_CoreHome_["Matomo"].endDateString;
       }
-
       return "".concat(external_CoreHome_["Matomo"].startDateString, ", ").concat(external_CoreHome_["Matomo"].endDateString);
     });
-
     function isIdGoalSet() {
       return actualIdGoal.value || actualIdGoal.value === 0;
     }
-
     var sparklineParams = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       var params = {
         module: 'API',
         action: 'get',
         columns: actualMetric.value
       };
-
       if (isIdGoalSet()) {
         params.idGoal = actualIdGoal.value;
         params.module = 'Goals';
       }
-
       return params;
     });
     var pastPeriod = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       if (external_CoreHome_["Matomo"].period === 'range') {
         return undefined;
       }
-
       return getPastPeriodStr();
     });
     var selectableColumns = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
@@ -526,32 +489,25 @@ var _window = window,
       });
       return result;
     });
-
     function setWidgetTitle() {
       var title = metricTranslation.value;
-
       if (isIdGoalSet()) {
         var _props$goals$actualId;
-
         var goalName = ((_props$goals$actualId = props.goals[actualIdGoal.value]) === null || _props$goals$actualId === void 0 ? void 0 : _props$goals$actualId.name) || Object(external_CoreHome_["translate"])('General_Unknown');
         title = "".concat(goalName, " - ").concat(title);
       }
-
       $(root.value).closest('div.widget').find('.widgetTop > .widgetName > span').text(title);
     }
-
     function getLastPeriodDate() {
       var range = external_CoreHome_["Range"].getLastNRange(external_CoreHome_["Matomo"].period, 2, external_CoreHome_["Matomo"].currentDateString);
       return Object(external_CoreHome_["format"])(range.startDate);
     }
-
     function fetchData() {
       isLoading.value = true;
       var promises = [];
       var apiModule = 'API';
       var apiAction = 'get';
       var extraParams = {};
-
       if (isIdGoalSet()) {
         // the conversion rate added by the AddColumnsProcessedMetrics filter conflicts w/
         // the goals one, so don't run it
@@ -560,70 +516,59 @@ var _window = window,
         apiModule = 'Goals';
         apiAction = 'get';
       }
-
-      var method = "".concat(apiModule, ".").concat(apiAction); // first request for formatted data
-
+      var method = "".concat(apiModule, ".").concat(apiAction);
+      // first request for formatted data
       promises.push(external_CoreHome_["AjaxHelper"].fetch(Object.assign({
         method: method,
         format_metrics: 'all'
       }, extraParams)));
-
       if (external_CoreHome_["Matomo"].period !== 'range') {
         // second request for unformatted data so we can calculate evolution
         promises.push(external_CoreHome_["AjaxHelper"].fetch(Object.assign({
           method: method,
           format_metrics: '0'
-        }, extraParams))); // third request for past data (unformatted)
-
+        }, extraParams)));
+        // third request for past data (unformatted)
         promises.push(external_CoreHome_["AjaxHelper"].fetch(Object.assign({
           method: method,
           date: getLastPeriodDate(),
           format_metrics: '0'
-        }, extraParams))); // fourth request for past data (formatted for tooltip display)
-
+        }, extraParams)));
+        // fourth request for past data (formatted for tooltip display)
         promises.push(external_CoreHome_["AjaxHelper"].fetch(Object.assign({
           method: method,
           date: getLastPeriodDate(),
           format_metrics: 'all'
         }, extraParams)));
       }
-
       return Promise.all(promises).then(function (r) {
         responses.value = r;
         isLoading.value = false;
       });
     }
-
     function onMetricChanged(newMetric) {
       actualMetric.value = newMetric;
       fetchData().then(setWidgetTitle); // notify widget of parameter change so it is replaced
-
       $(root.value).closest('[widgetId]').trigger('setParameters', {
         column: actualMetric.value,
         idGoal: actualIdGoal.value
       });
     }
-
     function setMetric(newColumn) {
       var idGoal = undefined;
       var actualColumn = newColumn;
       var m = newColumn.match(/^goal([0-9]+)_(.*)/);
-
       if (m) {
         idGoal = +m[1];
-
         var _m = _slicedToArray(m, 3);
-
         actualColumn = _m[2];
       }
-
       if (actualMetric.value !== actualColumn || idGoal !== actualIdGoal.value) {
         actualMetric.value = actualColumn;
         actualIdGoal.value = idGoal;
         onMetricChanged(actualColumn);
       }
     }
-
     function createSeriesPicker() {
       var element = $(root.value);
       var $widgetName = element.closest('div.widget').find('.widgetTop > .widgetName');
@@ -647,7 +592,6 @@ var _window = window,
       app.mount($seriesPickerElem.children()[0]);
       return app;
     }
-
     var seriesPickerApp;
     Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onMounted"])(function () {
       seriesPickerApp = createSeriesPicker();

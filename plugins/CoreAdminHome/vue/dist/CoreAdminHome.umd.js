@@ -200,18 +200,12 @@ var _hoisted_15 = {
 var _hoisted_16 = {
   key: 0
 };
-
 var _hoisted_17 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_18 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_19 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
-
   var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
     "content-title": _ctx.translate('CoreAdminHome_ArchivingSettings'),
     anchor: "archivingSettings",
@@ -304,11 +298,9 @@ var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
     archivingTriggerDesc: function archivingTriggerDesc() {
       var result = '';
       result += Object(external_CoreHome_["translate"])('General_ArchivingTriggerDescription', Object(external_CoreHome_["externalLink"])('https://matomo.org/docs/setup-auto-archiving/'), '</a>');
-
       if (this.showSegmentArchiveTriggerInfo) {
         result += Object(external_CoreHome_["translate"])('General_ArchivingTriggerSegment');
       }
-
       return result;
     },
     archivingInlineHelp: function archivingInlineHelp() {
@@ -321,7 +313,6 @@ var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
   methods: {
     save: function save() {
       var _this = this;
-
       this.isLoading = true;
       external_CoreHome_["AjaxHelper"].post({
         module: 'API',
@@ -369,13 +360,11 @@ var BrandingSettingsvue_type_template_id_1802cbc6_hoisted_3 = {
   key: 0
 };
 var BrandingSettingsvue_type_template_id_1802cbc6_hoisted_4 = ["value"];
-
 var BrandingSettingsvue_type_template_id_1802cbc6_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
   type: "hidden",
   name: "force_api_session",
   value: "1"
 }, null, -1);
-
 var BrandingSettingsvue_type_template_id_1802cbc6_hoisted_6 = {
   key: 0
 };
@@ -409,13 +398,9 @@ var BrandingSettingsvue_type_template_id_1802cbc6_hoisted_17 = {
 };
 function BrandingSettingsvue_type_template_id_1802cbc6_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
   var _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
-
   var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
-
   var _directive_form = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("form");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
     "content-title": _ctx.translate('CoreAdminHome_BrandingSettings'),
     anchor: "brandingSettings"
@@ -492,7 +477,7 @@ function BrandingSettingsvue_type_template_id_1802cbc6_render(_ctx, _cache, $pro
 
 
 var _window = window,
-    BrandingSettingsvue_type_script_lang_ts_$ = _window.$;
+  BrandingSettingsvue_type_script_lang_ts_$ = _window.$;
 /* harmony default export */ var BrandingSettingsvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     fileUploadEnabled: {
@@ -572,7 +557,6 @@ var _window = window,
       if (!this.isPluginsAdminEnabled) {
         return undefined;
       }
-
       var giveUsFeedbackText = "\"".concat(Object(external_CoreHome_["translate"])('General_GiveUsYourFeedback'), "\"");
       var linkStart = '<a href="?module=CorePluginsAdmin&action=plugins" ' + 'rel="noreferrer noopener" target="_blank">';
       return Object(external_CoreHome_["translate"])('CoreAdminHome_CustomLogoFeedbackInfo', giveUsFeedbackText, linkStart, '</a>');
@@ -581,14 +565,12 @@ var _window = window,
       if (this.currentLogoSrcExists && this.pathUserLogo) {
         return "".concat(this.pathUserLogo, "?").concat(this.currentLogoCacheBuster);
       }
-
       return '';
     },
     pathUserFaviconWithBuster: function pathUserFaviconWithBuster() {
       if (this.currentFaviconSrcExists && this.pathUserFavicon) {
         return "".concat(this.pathUserFavicon, "?").concat(this.currentFaviconCacheBuster);
       }
-
       return '';
     }
   },
@@ -606,7 +588,6 @@ var _window = window,
     },
     save: function save() {
       var _this = this;
-
       this.isLoading = true;
       external_CoreHome_["AjaxHelper"].post({
         module: 'API',
@@ -627,14 +608,11 @@ var _window = window,
     },
     updateLogo: function updateLogo() {
       var _this2 = this;
-
       var isSubmittingLogo = !!this.customLogo;
       var isSubmittingFavicon = !!this.customFavicon;
-
       if (!isSubmittingLogo && !isSubmittingFavicon) {
         return;
       }
-
       this.showUploadError = false;
       var frameName = "upload".concat(new Date().getTime());
       var uploadFrame = BrandingSettingsvue_type_script_lang_ts_$("<iframe name=\"".concat(frameName, "\" />"));
@@ -642,7 +620,6 @@ var _window = window,
       uploadFrame.on('load', function () {
         setTimeout(function () {
           var frameContent = (BrandingSettingsvue_type_script_lang_ts_$(uploadFrame.contents()).find('body').html() || '').trim();
-
           if (frameContent === '0') {
             _this2.showUploadError = true;
           } else {
@@ -689,13 +666,9 @@ var SmtpSettingsvue_type_template_id_14e9a186_hoisted_1 = {
 };
 function SmtpSettingsvue_type_template_id_14e9a186_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
   var _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
-
   var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
-
   var _directive_form = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("form");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
     "content-title": _ctx.translate('CoreAdminHome_EmailServerSettings'),
     anchor: "mailSettings"
@@ -855,11 +828,9 @@ function SmtpSettingsvue_type_template_id_14e9a186_render(_ctx, _cache, $props, 
   methods: {
     onUpdateMailHost: function onUpdateMailHost(newValue) {
       this.mailHost = newValue;
-
       if (this.passwordChanged) {
         return;
       }
-
       this.mailPassword = '';
       this.passwordChanged = true;
     },
@@ -869,7 +840,6 @@ function SmtpSettingsvue_type_template_id_14e9a186_render(_ctx, _cache, $props, 
     },
     save: function save() {
       var _this = this;
-
       this.isLoading = true;
       var mailSettings = {
         mailUseSmtp: this.enabled ? '1' : '0',
@@ -881,11 +851,9 @@ function SmtpSettingsvue_type_template_id_14e9a186_render(_ctx, _cache, $props, 
         mailFromName: this.mailFromName,
         mailEncryption: this.mailEncryption
       };
-
       if (this.passwordChanged) {
         mailSettings.mailPassword = this.mailPassword;
       }
-
       external_CoreHome_["AjaxHelper"].post({
         module: 'CoreAdminHome',
         action: 'setMailSettings'
@@ -919,84 +887,59 @@ SmtpSettingsvue_type_script_lang_ts.render = SmtpSettingsvue_type_template_id_14
 var JsTrackingCodeGeneratorvue_type_template_id_884df06e_hoisted_1 = {
   id: "js-code-options"
 };
-
 var JsTrackingCodeGeneratorvue_type_template_id_884df06e_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var JsTrackingCodeGeneratorvue_type_template_id_884df06e_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var JsTrackingCodeGeneratorvue_type_template_id_884df06e_hoisted_4 = ["innerHTML"];
 var JsTrackingCodeGeneratorvue_type_template_id_884df06e_hoisted_5 = ["innerHTML"];
-
 var JsTrackingCodeGeneratorvue_type_template_id_884df06e_hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var JsTrackingCodeGeneratorvue_type_template_id_884df06e_hoisted_7 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var JsTrackingCodeGeneratorvue_type_template_id_884df06e_hoisted_8 = ["innerHTML"];
-
 var JsTrackingCodeGeneratorvue_type_template_id_884df06e_hoisted_9 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var JsTrackingCodeGeneratorvue_type_template_id_884df06e_hoisted_10 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var JsTrackingCodeGeneratorvue_type_template_id_884df06e_hoisted_11 = ["innerHTML"];
-
 var JsTrackingCodeGeneratorvue_type_template_id_884df06e_hoisted_12 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var JsTrackingCodeGeneratorvue_type_template_id_884df06e_hoisted_13 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var JsTrackingCodeGeneratorvue_type_template_id_884df06e_hoisted_14 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
   href: "{{ externalRawLink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/') }}",
   target: "_blank",
   rel: "noopener"
 }, "WordPress", -1);
-
 var JsTrackingCodeGeneratorvue_type_template_id_884df06e_hoisted_15 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" | ");
-
 var JsTrackingCodeGeneratorvue_type_template_id_884df06e_hoisted_16 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
   href: "{{ externalRawLink('https://matomo.org/faq/new-to-piwik/how-do-i-integrate-matomo-with-squarespace-website/') }}",
   target: "_blank",
   rel: "noopener"
 }, "Squarespace", -1);
-
 var JsTrackingCodeGeneratorvue_type_template_id_884df06e_hoisted_17 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" | ");
-
 var JsTrackingCodeGeneratorvue_type_template_id_884df06e_hoisted_18 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
   href: "{{ externalRawLink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-wix/') }}",
   target: "_blank",
   rel: "noopener"
 }, "Wix", -1);
-
 var JsTrackingCodeGeneratorvue_type_template_id_884df06e_hoisted_19 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" | ");
-
 var _hoisted_20 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
   href: "{{ externalRawLink('https://matomo.org/faq/how-to-install/faq_19424/') }}",
   target: "_blank",
   rel: "noopener"
 }, "SharePoint", -1);
-
 var _hoisted_21 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" | ");
-
 var _hoisted_22 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
   href: "{{ externalRawLink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-joomla/') }}",
   target: "_blank",
   rel: "noopener"
 }, "Joomla", -1);
-
 var _hoisted_23 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" | ");
-
 var _hoisted_24 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
   href: "{{ externalRawLink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-shopify-store/') }}",
   target: "_blank",
   rel: "noopener"
 }, "Shopify", -1);
-
 var _hoisted_25 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" | ");
-
 var _hoisted_26 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
   href: "{{ externalRawLink('https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-within-gtm-google-tag-manager/') }}",
   target: "_blank",
   rel: "noopener"
 }, "Google Tag Manager", -1);
-
 var _hoisted_27 = {
   id: "javascript-output-section"
 };
@@ -1012,13 +955,9 @@ var _hoisted_30 = {
 var _hoisted_31 = ["textContent"];
 function JsTrackingCodeGeneratorvue_type_template_id_884df06e_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
   var _component_JsTrackingCodeAdvancedOptions = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("JsTrackingCodeAdvancedOptions");
-
   var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
-
   var _directive_copy_to_clipboard = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("copy-to-clipboard");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
     anchor: "javaScriptTracking",
     "content-title": _ctx.translate('CoreAdminHome_JavaScriptTracking')
@@ -1072,15 +1011,12 @@ var JsTrackingCodeAdvancedOptionsvue_type_template_id_18fd4cca_hoisted_1 = {
 var JsTrackingCodeAdvancedOptionsvue_type_template_id_18fd4cca_hoisted_2 = {
   class: "advance-option"
 };
-
 var JsTrackingCodeAdvancedOptionsvue_type_template_id_18fd4cca_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-chevron-down"
 }, null, -1);
-
 var JsTrackingCodeAdvancedOptionsvue_type_template_id_18fd4cca_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-chevron-up"
 }, null, -1);
-
 var JsTrackingCodeAdvancedOptionsvue_type_template_id_18fd4cca_hoisted_5 = {
   id: "javascript-advanced-options"
 };
@@ -1128,18 +1064,14 @@ var JsTrackingCodeAdvancedOptionsvue_type_template_id_18fd4cca_hoisted_21 = {
 var JsTrackingCodeAdvancedOptionsvue_type_template_id_18fd4cca_hoisted_22 = {
   class: "col s12"
 };
-
 var JsTrackingCodeAdvancedOptionsvue_type_template_id_18fd4cca_hoisted_23 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-add"
 }, null, -1);
-
 var JsTrackingCodeAdvancedOptionsvue_type_template_id_18fd4cca_hoisted_24 = {
   id: "jsCrossDomain",
   class: "inline-help-node"
 };
-
 var JsTrackingCodeAdvancedOptionsvue_type_template_id_18fd4cca_hoisted_25 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var JsTrackingCodeAdvancedOptionsvue_type_template_id_18fd4cca_hoisted_26 = {
   id: "jsDoNotTrackInlineHelp",
   class: "inline-help-node"
@@ -1147,9 +1079,7 @@ var JsTrackingCodeAdvancedOptionsvue_type_template_id_18fd4cca_hoisted_26 = {
 var JsTrackingCodeAdvancedOptionsvue_type_template_id_18fd4cca_hoisted_27 = {
   key: 0
 };
-
 var JsTrackingCodeAdvancedOptionsvue_type_template_id_18fd4cca_hoisted_28 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var JsTrackingCodeAdvancedOptionsvue_type_template_id_18fd4cca_hoisted_29 = ["innerHTML"];
 var JsTrackingCodeAdvancedOptionsvue_type_template_id_18fd4cca_hoisted_30 = {
   id: "js-campaign-query-param-extra"
@@ -1168,7 +1098,6 @@ var _hoisted_34 = {
 };
 function JsTrackingCodeAdvancedOptionsvue_type_template_id_18fd4cca_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", JsTrackingCodeAdvancedOptionsvue_type_template_id_18fd4cca_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", JsTrackingCodeAdvancedOptionsvue_type_template_id_18fd4cca_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, [!_ctx.showAdvanced ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
     key: 0,
     href: "javascript:;",
@@ -1193,7 +1122,6 @@ function JsTrackingCodeAdvancedOptionsvue_type_template_id_18fd4cca_render(_ctx,
     "model-value": _ctx.trackAllSubdomains,
     "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
       _ctx.trackAllSubdomains = $event;
-
       _ctx.updateTrackingCode();
     }),
     disabled: _ctx.isLoading,
@@ -1205,7 +1133,6 @@ function JsTrackingCodeAdvancedOptionsvue_type_template_id_18fd4cca_render(_ctx,
     "model-value": _ctx.groupByDomain,
     "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
       _ctx.groupByDomain = $event;
-
       _ctx.updateTrackingCode();
     }),
     disabled: _ctx.isLoading,
@@ -1217,7 +1144,6 @@ function JsTrackingCodeAdvancedOptionsvue_type_template_id_18fd4cca_render(_ctx,
     "model-value": _ctx.trackAllAliases,
     "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
       _ctx.trackAllAliases = $event;
-
       _ctx.updateTrackingCode();
     }),
     disabled: _ctx.isLoading,
@@ -1229,7 +1155,6 @@ function JsTrackingCodeAdvancedOptionsvue_type_template_id_18fd4cca_render(_ctx,
     "model-value": _ctx.trackNoScript,
     "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
       _ctx.trackNoScript = $event;
-
       _ctx.updateTrackingCode();
     }),
     disabled: _ctx.isLoading,
@@ -1240,7 +1165,6 @@ function JsTrackingCodeAdvancedOptionsvue_type_template_id_18fd4cca_render(_ctx,
     "model-value": _ctx.trackCustomVars,
     "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
       _ctx.trackCustomVars = $event;
-
       _ctx.updateTrackingCode();
     }),
     disabled: _ctx.isLoading,
@@ -1277,9 +1201,7 @@ function JsTrackingCodeAdvancedOptionsvue_type_template_id_18fd4cca_render(_ctx,
     "model-value": _ctx.crossDomain,
     "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
       _ctx.crossDomain = $event;
-
       _ctx.updateTrackingCode();
-
       _ctx.onCrossDomainToggle();
     }),
     disabled: _ctx.isLoading || !_ctx.hasManySiteUrls,
@@ -1291,7 +1213,6 @@ function JsTrackingCodeAdvancedOptionsvue_type_template_id_18fd4cca_render(_ctx,
     "model-value": _ctx.doNotTrack,
     "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
       _ctx.doNotTrack = $event;
-
       _ctx.updateTrackingCode();
     }),
     disabled: _ctx.isLoading,
@@ -1303,7 +1224,6 @@ function JsTrackingCodeAdvancedOptionsvue_type_template_id_18fd4cca_render(_ctx,
     "model-value": _ctx.disableCookies,
     "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
       _ctx.disableCookies = $event;
-
       _ctx.updateTrackingCode();
     }),
     disabled: _ctx.isLoading,
@@ -1319,7 +1239,6 @@ function JsTrackingCodeAdvancedOptionsvue_type_template_id_18fd4cca_render(_ctx,
     "model-value": _ctx.useCustomCampaignParams,
     "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
       _ctx.useCustomCampaignParams = $event;
-
       _ctx.updateTrackingCode();
     }),
     disabled: _ctx.isLoading,
@@ -1331,7 +1250,6 @@ function JsTrackingCodeAdvancedOptionsvue_type_template_id_18fd4cca_render(_ctx,
     "model-value": _ctx.customCampaignName,
     "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
       _ctx.customCampaignName = $event;
-
       _ctx.updateTrackingCode();
     }),
     disabled: _ctx.isLoading,
@@ -1342,7 +1260,6 @@ function JsTrackingCodeAdvancedOptionsvue_type_template_id_18fd4cca_render(_ctx,
     "model-value": _ctx.customCampaignKeyword,
     "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
       _ctx.customCampaignKeyword = $event;
-
       _ctx.updateTrackingCode();
     }),
     disabled: _ctx.isLoading,
@@ -1355,12 +1272,10 @@ function JsTrackingCodeAdvancedOptionsvue_type_template_id_18fd4cca_render(_ctx,
 
 
 
-
 function getHostNameFromUrl(url) {
   var urlObj = new URL(url);
   return urlObj.hostname;
 }
-
 function getCustomVarArray(cvars) {
   return cvars.filter(function (cv) {
     return !!cv.name;
@@ -1368,7 +1283,6 @@ function getCustomVarArray(cvars) {
     return [cv.name, cv.value];
   });
 }
-
 var piwikHost = window.location.host;
 var piwikPath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
 /* harmony default export */ var JsTrackingCodeAdvancedOptionsvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
@@ -1411,7 +1325,6 @@ var piwikPath = window.location.pathname.substring(0, window.location.pathname.l
     if (this.site && this.site.id) {
       this.onSiteChanged(this.site);
     }
-
     this.onCustomVarNameKeydown = Object(external_CoreHome_["debounce"])(this.onCustomVarNameKeydown, 100);
     this.onCustomVarValueKeydown = Object(external_CoreHome_["debounce"])(this.onCustomVarValueKeydown, 100);
     this.addCustomVar();
@@ -1424,10 +1337,8 @@ var piwikPath = window.location.pathname.substring(0, window.location.pathname.l
   methods: {
     onSiteChanged: function onSiteChanged(newValue) {
       var _this = this;
-
       var idSite = newValue.id;
       var promises = [];
-
       if (!this.siteUrls[idSite]) {
         this.isLoading = true;
         promises.push(external_CoreHome_["AjaxHelper"].fetch({
@@ -1439,7 +1350,6 @@ var piwikPath = window.location.pathname.substring(0, window.location.pathname.l
           _this.siteUrls[idSite] = data || [];
         }));
       }
-
       if (!this.siteExcludedQueryParams[idSite]) {
         this.isLoading = true;
         promises.push(external_CoreHome_["AjaxHelper"].fetch({
@@ -1451,7 +1361,6 @@ var piwikPath = window.location.pathname.substring(0, window.location.pathname.l
           _this.siteExcludedQueryParams[idSite] = data || [];
         }));
       }
-
       if (!this.siteExcludedReferrers[idSite]) {
         this.isLoading = true;
         promises.push(external_CoreHome_["AjaxHelper"].fetch({
@@ -1466,12 +1375,9 @@ var piwikPath = window.location.pathname.substring(0, window.location.pathname.l
           });
         }));
       }
-
       Promise.all(promises).then(function () {
         _this.isLoading = false;
-
         _this.updateCurrentSiteInfo();
-
         _this.updateTrackingCode();
       });
     },
@@ -1488,7 +1394,6 @@ var piwikPath = window.location.pathname.substring(0, window.location.pathname.l
     },
     updateTrackingCode: function updateTrackingCode() {
       var _this2 = this;
-
       // get params used to generate JS code
       var params = {
         piwikUrl: "".concat(piwikHost).concat(piwikPath),
@@ -1504,25 +1409,20 @@ var piwikPath = window.location.pathname.substring(0, window.location.pathname.l
         trackNoScript: this.trackNoScript ? 1 : 0,
         forceMatomoEndpoint: 1
       };
-
       if (this.siteExcludedQueryParams[this.site.id]) {
         params.excludedQueryParams = this.siteExcludedQueryParams[this.site.id];
       }
-
       if (this.siteExcludedReferrers[this.site.id]) {
         params.excludedReferrers = this.siteExcludedReferrers[this.site.id];
       }
-
       if (this.useCustomCampaignParams) {
         params.customCampaignNameQueryParam = this.customCampaignName;
         params.customCampaignKeywordParam = this.customCampaignKeyword;
       }
-
       if (this.trackingCodeAbortController) {
         this.trackingCodeAbortController.abort();
         this.trackingCodeAbortController = null;
       }
-
       this.trackingCodeAbortController = new AbortController();
       external_CoreHome_["AjaxHelper"].post({
         module: 'API',
@@ -1533,7 +1433,6 @@ var piwikPath = window.location.pathname.substring(0, window.location.pathname.l
         abortController: this.trackingCodeAbortController
       }).then(function (response) {
         _this2.trackingCodeAbortController = null;
-
         _this2.$emit('updateTrackingCode', response.value);
       });
     },
@@ -1544,24 +1443,19 @@ var piwikPath = window.location.pathname.substring(0, window.location.pathname.l
           value: ''
         });
       }
-
       this.canAddMoreCustomVariables = !!this.maxCustomVariables && this.maxCustomVariables > this.customVars.length;
     },
     onCustomVarNameKeydown: function onCustomVarNameKeydown(event, index) {
       var _this3 = this;
-
       setTimeout(function () {
         _this3.customVars[index].name = event.target.value;
-
         _this3.updateTrackingCode();
       });
     },
     onCustomVarValueKeydown: function onCustomVarValueKeydown(event, index) {
       var _this4 = this;
-
       setTimeout(function () {
         _this4.customVars[index].value = event.target.value;
-
         _this4.updateTrackingCode();
       });
     }
@@ -1573,18 +1467,14 @@ var piwikPath = window.location.pathname.substring(0, window.location.pathname.l
     },
     currentSiteHost: function currentSiteHost() {
       var _this$siteUrls$this$s;
-
       var siteUrl = (_this$siteUrls$this$s = this.siteUrls[this.site.id]) === null || _this$siteUrls$this$s === void 0 ? void 0 : _this$siteUrls$this$s[0];
-
       if (!siteUrl) {
         return '';
       }
-
       return getHostNameFromUrl(siteUrl);
     },
     currentSiteAlias: function currentSiteAlias() {
       var _this$siteUrls$this$s2;
-
       var defaultAliasUrl = "x.".concat(this.currentSiteHost);
       var alias = (_this$siteUrls$this$s2 = this.siteUrls[this.site.id]) === null || _this$siteUrls$this$s2 === void 0 ? void 0 : _this$siteUrls$this$s2[1];
       return alias || defaultAliasUrl;
@@ -1662,10 +1552,8 @@ JsTrackingCodeAdvancedOptionsvue_type_script_lang_ts.render = JsTrackingCodeAdva
   methods: {
     updateTrackingCode: function updateTrackingCode(code) {
       var _this = this;
-
       this.trackingCode = code;
       var jsCodeTextarea = $(this.$refs.trackingCode);
-
       if (jsCodeTextarea && !this.isHighlighting) {
         this.isHighlighting = true;
         jsCodeTextarea.effect('highlight', {
@@ -1677,7 +1565,6 @@ JsTrackingCodeAdvancedOptionsvue_type_script_lang_ts.render = JsTrackingCodeAdva
     },
     onSiteChanged: function onSiteChanged(newValue) {
       var _this2 = this;
-
       var idSite = newValue.id;
       external_CoreHome_["AjaxHelper"].fetch({
         module: 'API',
@@ -1689,11 +1576,9 @@ JsTrackingCodeAdvancedOptionsvue_type_script_lang_ts.render = JsTrackingCodeAdva
         if (Object.prototype.hasOwnProperty.call(response, 'name')) {
           _this2.consentManagerName = response.name;
         }
-
         if (Object.prototype.hasOwnProperty.call(response, 'url')) {
           _this2.consentManagerUrl = response.url;
         }
-
         _this2.consentManagerIsConnected = response.isConnected;
       });
     },
@@ -1703,15 +1588,12 @@ JsTrackingCodeAdvancedOptionsvue_type_script_lang_ts.render = JsTrackingCodeAdva
       var trackingCode = this.trackingCode;
       trackingCode = trackingCode.replace(/<[^>]+>/g, '');
       var bodyText = "".concat(Object(external_CoreHome_["translate"])('SitesManager_JsTrackingTagHelp'), ". ").concat(Object(external_CoreHome_["translate"])('CoreAdminHome_JSTracking_CodeNoteBeforeClosingHeadEmail', '\'head'), "\n").concat(trackingCode);
-
       if (this.consentManagerName !== '' && this.consentManagerUrl !== '') {
         bodyText += Object(external_CoreHome_["translate"])('CoreAdminHome_JSTracking_ConsentManagerDetected', this.consentManagerName, this.consentManagerUrl);
-
         if (this.consentManagerIsConnected) {
           bodyText += "\n".concat(Object(external_CoreHome_["translate"])('CoreAdminHome_JSTracking_ConsentManagerConnected', this.consentManagerName));
         }
       }
-
       bodyText = encodeURIComponent(bodyText);
       var linkText = "mailto:?subject=".concat(subjectLine, "&body=").concat(bodyText);
       window.location.href = linkText;
@@ -1755,9 +1637,7 @@ var JsTrackingCodeGeneratorSitesWithoutDatavue_type_template_id_06b9935e_hoisted
 };
 function JsTrackingCodeGeneratorSitesWithoutDatavue_type_template_id_06b9935e_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_JsTrackingCodeAdvancedOptions = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("JsTrackingCodeAdvancedOptions");
-
   var _directive_copy_to_clipboard = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("copy-to-clipboard");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("ol", JsTrackingCodeGeneratorSitesWithoutDatavue_type_template_id_06b9935e_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreAdminHome_JsTrackingCodeAdvancedOptionsStep')) + " ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_JsTrackingCodeAdvancedOptions, {
     site: _ctx.site,
     "max-custom-variables": _ctx.maxCustomVariables,
@@ -1809,10 +1689,8 @@ function JsTrackingCodeGeneratorSitesWithoutDatavue_type_template_id_06b9935e_re
   methods: {
     updateTrackingCode: function updateTrackingCode(code) {
       var _this = this;
-
       this.trackingCode = code;
       var jsCodeTextarea = $(this.$refs.trackingCode);
-
       if (jsCodeTextarea && !this.isHighlighting) {
         this.isHighlighting = true;
         jsCodeTextarea.effect('highlight', {
@@ -1831,7 +1709,6 @@ function JsTrackingCodeGeneratorSitesWithoutDatavue_type_template_id_06b9935e_re
       if (this.isJsTrackerInstallCheckAvailable) {
         return Object(external_CoreHome_["useExternalPluginComponent"])('JsTrackerInstallCheck', 'JsTrackerInstallCheck');
       }
-
       return '';
     }
   }
@@ -1847,11 +1724,9 @@ JsTrackingCodeGeneratorSitesWithoutDatavue_type_script_lang_ts.render = JsTracki
 /* harmony default export */ var JsTrackingCodeGeneratorSitesWithoutData = (JsTrackingCodeGeneratorSitesWithoutDatavue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/ImageTrackingCodeGenerator/ImageTrackingCodeGenerator.vue?vue&type=template&id=19514d9e
 
-
 var ImageTrackingCodeGeneratorvue_type_template_id_19514d9e_hoisted_1 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
   name: "image-tracking-link"
 }, null, -1);
-
 var ImageTrackingCodeGeneratorvue_type_template_id_19514d9e_hoisted_2 = {
   id: "image-tracking-code-options"
 };
@@ -1878,11 +1753,8 @@ var ImageTrackingCodeGeneratorvue_type_template_id_19514d9e_hoisted_10 = {
 var ImageTrackingCodeGeneratorvue_type_template_id_19514d9e_hoisted_11 = ["textContent"];
 function ImageTrackingCodeGeneratorvue_type_template_id_19514d9e_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
   var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
-
   var _directive_copy_to_clipboard = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("copy-to-clipboard");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
     "content-title": _ctx.translate('CoreAdminHome_ImageTracking'),
     anchor: "imageTracking"
@@ -1906,7 +1778,6 @@ function ImageTrackingCodeGeneratorvue_type_template_id_19514d9e_render(_ctx, _c
         "model-value": _ctx.pageName,
         "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
           _ctx.pageName = $event;
-
           _ctx.updateTrackingCode();
         }),
         disabled: _ctx.isLoading,
@@ -1918,7 +1789,6 @@ function ImageTrackingCodeGeneratorvue_type_template_id_19514d9e_render(_ctx, _c
         "model-value": _ctx.trackGoal,
         "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
           _ctx.trackGoal = $event;
-
           _ctx.updateTrackingCode();
         }),
         disabled: _ctx.isLoading,
@@ -1931,7 +1801,6 @@ function ImageTrackingCodeGeneratorvue_type_template_id_19514d9e_render(_ctx, _c
         "model-value": _ctx.trackIdGoal,
         "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
           _ctx.trackIdGoal = $event;
-
           _ctx.updateTrackingCode();
         })
       }, null, 8, ["options", "disabled", "model-value"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ImageTrackingCodeGeneratorvue_type_template_id_19514d9e_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
@@ -1940,7 +1809,6 @@ function ImageTrackingCodeGeneratorvue_type_template_id_19514d9e_render(_ctx, _c
         "model-value": _ctx.revenue,
         "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
           _ctx.revenue = $event;
-
           _ctx.updateTrackingCode();
         }),
         disabled: _ctx.isLoading,
@@ -1958,23 +1826,17 @@ function ImageTrackingCodeGeneratorvue_type_template_id_19514d9e_render(_ctx, _c
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/ImageTrackingCodeGenerator/ImageTrackingCodeGenerator.vue?vue&type=script&lang=ts
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 
 
 
 var currencySymbols = null;
 var ImageTrackingCodeGeneratorvue_type_script_lang_ts_window = window,
-    ImageTrackingCodeGeneratorvue_type_script_lang_ts_$ = ImageTrackingCodeGeneratorvue_type_script_lang_ts_window.$;
+  ImageTrackingCodeGeneratorvue_type_script_lang_ts_$ = ImageTrackingCodeGeneratorvue_type_script_lang_ts_window.$;
 var ImageTrackingCodeGeneratorvue_type_script_lang_ts_piwikHost = window.location.host;
 var ImageTrackingCodeGeneratorvue_type_script_lang_ts_piwikPath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
 /* harmony default export */ var ImageTrackingCodeGeneratorvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
@@ -2008,7 +1870,6 @@ var ImageTrackingCodeGeneratorvue_type_script_lang_ts_piwikPath = window.locatio
   },
   created: function created() {
     this.updateTrackingCode = Object(external_CoreHome_["debounce"])(this.updateTrackingCode);
-
     if (this.site && this.site.id) {
       this.onSiteChanged(this.site);
     }
@@ -2021,10 +1882,8 @@ var ImageTrackingCodeGeneratorvue_type_script_lang_ts_piwikPath = window.locatio
   methods: {
     onSiteChanged: function onSiteChanged(newValue) {
       var _this = this;
-
       this.trackIdGoal = null;
       var currencyPromise;
-
       if (currencySymbols) {
         currencyPromise = Promise.resolve(currencySymbols);
       } else {
@@ -2034,9 +1893,7 @@ var ImageTrackingCodeGeneratorvue_type_script_lang_ts_piwikPath = window.locatio
           filter_limit: '-1'
         });
       }
-
       var sitePromise;
-
       if (this.sites[newValue.id]) {
         sitePromise = Promise.resolve(this.sites[newValue.id]);
       } else {
@@ -2047,9 +1904,7 @@ var ImageTrackingCodeGeneratorvue_type_script_lang_ts_piwikPath = window.locatio
           idSite: newValue.id
         });
       }
-
       var goalPromise;
-
       if (this.goals[newValue.id]) {
         goalPromise = Promise.resolve(this.goals[newValue.id]);
       } else {
@@ -2061,41 +1916,34 @@ var ImageTrackingCodeGeneratorvue_type_script_lang_ts_piwikPath = window.locatio
           idSite: newValue.id
         });
       }
-
       return Promise.all([currencyPromise, sitePromise, goalPromise]).then(function (_ref) {
         var _ref2 = _slicedToArray(_ref, 3),
-            currencyResponse = _ref2[0],
-            site = _ref2[1],
-            goalsResponse = _ref2[2];
-
+          currencyResponse = _ref2[0],
+          site = _ref2[1],
+          goalsResponse = _ref2[2];
         _this.isLoading = false;
         currencySymbols = currencyResponse;
         _this.sites[newValue.id] = site;
         _this.goals[newValue.id] = goalsResponse;
-
         _this.updateTrackingCode();
       });
     },
     updateTrackingCode: function updateTrackingCode() {
       var _this2 = this;
-
       // get data used to generate the link
       var postParams = {
         piwikUrl: "".concat(ImageTrackingCodeGeneratorvue_type_script_lang_ts_piwikHost).concat(ImageTrackingCodeGeneratorvue_type_script_lang_ts_piwikPath),
         actionName: this.pageName,
         forceMatomoEndpoint: 1
       };
-
       if (this.trackGoal && this.trackIdGoal) {
         postParams.idGoal = this.trackIdGoal;
         postParams.revenue = this.revenue;
       }
-
       if (this.trackingCodeAbortController) {
         this.trackingCodeAbortController.abort();
         this.trackingCodeAbortController = null;
       }
-
       this.trackingCodeAbortController = new AbortController();
       external_CoreHome_["AjaxHelper"].post({
         module: 'API',
@@ -2108,7 +1956,6 @@ var ImageTrackingCodeGeneratorvue_type_script_lang_ts_piwikPath = window.locatio
         _this2.trackingCodeAbortController = null;
         _this2.trackingCode = response.value;
         var imageCodeTextarea = ImageTrackingCodeGeneratorvue_type_script_lang_ts_$(_this2.$refs.trackingCode);
-
         if (imageCodeTextarea && !_this2.isHighlighting) {
           _this2.isHighlighting = true;
           imageCodeTextarea.effect('highlight', {
@@ -2125,7 +1972,6 @@ var ImageTrackingCodeGeneratorvue_type_script_lang_ts_piwikPath = window.locatio
       if (!currencySymbols) {
         return '';
       }
-
       return currencySymbols[(this.sites[this.site.id].currency || '').toUpperCase()];
     },
     siteGoals: function siteGoals() {
@@ -2162,11 +2008,8 @@ ImageTrackingCodeGeneratorvue_type_script_lang_ts.render = ImageTrackingCodeGene
 /* harmony default export */ var ImageTrackingCodeGenerator = (ImageTrackingCodeGeneratorvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/TrackingFailures/TrackingFailures.vue?vue&type=template&id=209e7186
 
-
 var TrackingFailuresvue_type_template_id_209e7186_hoisted_1 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var TrackingFailuresvue_type_template_id_209e7186_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var TrackingFailuresvue_type_template_id_209e7186_hoisted_3 = ["value"];
 var TrackingFailuresvue_type_template_id_209e7186_hoisted_4 = {
   class: "action"
@@ -2174,11 +2017,9 @@ var TrackingFailuresvue_type_template_id_209e7186_hoisted_4 = {
 var TrackingFailuresvue_type_template_id_209e7186_hoisted_5 = {
   colspan: "7"
 };
-
 var TrackingFailuresvue_type_template_id_209e7186_hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-ok"
 }, null, -1);
-
 var TrackingFailuresvue_type_template_id_209e7186_hoisted_7 = {
   class: "ui-confirm",
   id: "confirmDeleteAllTrackingFailures"
@@ -2193,13 +2034,9 @@ var TrackingFailuresvue_type_template_id_209e7186_hoisted_11 = ["value"];
 var TrackingFailuresvue_type_template_id_209e7186_hoisted_12 = ["value"];
 function TrackingFailuresvue_type_template_id_209e7186_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
-
   var _component_FailureRow = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("FailureRow");
-
   var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
-
   var _directive_content_table = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-table");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
     class: "matomoTrackingFailures",
     "content-title": _ctx.translate('CoreAdminHome_TrackingFailures')
@@ -2337,17 +2174,11 @@ FailureRowvue_type_script_lang_ts.render = FailureRowvue_type_template_id_62acb1
 /* harmony default export */ var FailureRow = (FailureRowvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreAdminHome/vue/src/TrackingFailures/TrackingFailures.vue?vue&type=script&lang=ts
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || TrackingFailuresvue_type_script_lang_ts_unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
 function TrackingFailuresvue_type_script_lang_ts_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return TrackingFailuresvue_type_script_lang_ts_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return TrackingFailuresvue_type_script_lang_ts_arrayLikeToArray(o, minLen); }
-
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return TrackingFailuresvue_type_script_lang_ts_arrayLikeToArray(arr); }
-
 function TrackingFailuresvue_type_script_lang_ts_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 
 
 
@@ -2381,7 +2212,6 @@ function TrackingFailuresvue_type_script_lang_ts_arrayLikeToArray(arr, len) { if
     },
     fetchAll: function fetchAll() {
       var _this = this;
-
       this.failures = [];
       this.isLoading = true;
       external_CoreHome_["AjaxHelper"].fetch({
@@ -2396,7 +2226,6 @@ function TrackingFailuresvue_type_script_lang_ts_arrayLikeToArray(arr, len) { if
     },
     deleteAll: function deleteAll() {
       var _this2 = this;
-
       external_CoreHome_["Matomo"].helper.modalConfirm('#confirmDeleteAllTrackingFailures', {
         yes: function yes() {
           _this2.failures = [];
@@ -2410,7 +2239,6 @@ function TrackingFailuresvue_type_script_lang_ts_arrayLikeToArray(arr, len) { if
     },
     deleteFailure: function deleteFailure(idSite, idFailure) {
       var _this3 = this;
-
       external_CoreHome_["Matomo"].helper.modalConfirm('#confirmDeleteThisTrackingFailure', {
         yes: function yes() {
           _this3.failures = [];
@@ -2428,19 +2256,15 @@ function TrackingFailuresvue_type_script_lang_ts_arrayLikeToArray(arr, len) { if
   computed: {
     sortedFailures: function sortedFailures() {
       var sortColumn = this.sortColumn;
-
       var sorted = _toConsumableArray(this.failures);
-
       if (this.sortReverse) {
         sorted.sort(function (lhs, rhs) {
           if (lhs[sortColumn] > rhs[sortColumn]) {
             return -1;
           }
-
           if (lhs[sortColumn] < rhs[sortColumn]) {
             return 1;
           }
-
           return 0;
         });
       } else {
@@ -2448,15 +2272,12 @@ function TrackingFailuresvue_type_script_lang_ts_arrayLikeToArray(arr, len) { if
           if (lhs[sortColumn] < rhs[sortColumn]) {
             return -1;
           }
-
           if (lhs[sortColumn] > rhs[sortColumn]) {
             return 1;
           }
-
           return 0;
         });
       }
-
       return sorted;
     }
   }

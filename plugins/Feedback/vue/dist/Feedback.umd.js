@@ -146,9 +146,7 @@ var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 var _hoisted_1 = {
   class: "requestReview"
 };
-
 var _hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createStaticVNode"])("<br><br><div class=\"review-links\"><div class=\"review-link\"><a href=\"https://www.softwarereviews.com/6g24l\" target=\"_blank\"><div class=\"image\"><img loading=\"lazy\" src=\"plugins/Feedback/images/softwarereviews.svg\"></div><div class=\"link\">Software Reviews</div></a></div><div class=\"review-link\"><a href=\"https://www.capterra.com/p/182627/Matomo-Analytics/\" target=\"_blank\"><div class=\"image\"><img loading=\"lazy\" src=\"plugins/Feedback/images/capterra.svg\"></div><div class=\"link\">Capterra</div></a></div><div class=\"review-link\"><a href=\"https://www.g2crowd.com/products/matomo-formerly-piwik/details\" target=\"_blank\"><div class=\"image\"><img loading=\"lazy\" src=\"plugins/Feedback/images/g2crowd.svg\"></div><div class=\"link\">G2 Crowd</div></a></div><div class=\"review-link\"><a href=\"https://www.producthunt.com/posts/matomo-2\" target=\"_blank\"><div class=\"image\"><img loading=\"lazy\" src=\"plugins/Feedback/images/producthunt.svg\"></div><div class=\"link\">Product Hunt</div></a></div><div class=\"review-link\"><a href=\"https://www.saasworthy.com/product/matomo\" target=\"_blank\"><div class=\"image\"><img loading=\"lazy\" src=\"plugins/Feedback/images/saasworthy.png\"></div><div class=\"link\">SaaSworthy</div></a></div><div class=\"review-link\"><a href=\"https://www.trustradius.com/products/matomo/reviews\" target=\"_blank\"><div class=\"image\"><img loading=\"lazy\" src=\"plugins/Feedback/images/trustradius.svg\"></div><div class=\"link\">TrustRadius</div></a></div></div>", 3);
-
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Feedback_PleaseLeaveExternalReviewForMatomo')), 1), _hoisted_2]);
 }
@@ -181,9 +179,7 @@ var _hoisted_4 = {
 var _hoisted_5 = {
   key: 1
 };
-
 var _hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_7 = {
   class: "row"
 };
@@ -197,23 +193,17 @@ var _hoisted_9 = {
   for: "useful",
   class: "ratelabel"
 };
-
 var _hoisted_10 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_11 = {
   for: "easy",
   class: "ratelabel"
 };
-
 var _hoisted_12 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_13 = {
   for: "configurable",
   class: "ratelabel"
 };
-
 var _hoisted_14 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_15 = {
   for: "likeother",
   class: "ratelabel"
@@ -227,9 +217,7 @@ var _hoisted_17 = {
 var _hoisted_18 = {
   key: 1
 };
-
 var _hoisted_19 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_20 = {
   class: "row"
 };
@@ -242,37 +230,27 @@ var _hoisted_22 = {
   for: "missingfeatures",
   class: "ratelabel"
 };
-
 var _hoisted_23 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_24 = {
   for: "makeeasier",
   class: "ratelabel"
 };
-
 var _hoisted_25 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_26 = {
   for: "speedup",
   class: "ratelabel"
 };
-
 var _hoisted_27 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_28 = {
   for: "fixbugs",
   class: "ratelabel"
 };
-
 var _hoisted_29 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_30 = {
   for: "dislikeother",
   class: "ratelabel"
 };
-
 var _hoisted_31 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_32 = {
   key: 2,
   class: "messageContainer",
@@ -327,9 +305,7 @@ var _hoisted_49 = {
 var _hoisted_50 = ["value"];
 function RateFeaturevue_type_template_id_294a1186_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_MatomoDialog = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MatomoDialog");
-
   var _component_ReviewLinks = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ReviewLinks");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
     title: _ctx.translate('Feedback_RateFeatureTitle', _ctx.htmlEntities(_ctx.title)),
     class: "ratefeature"
@@ -535,7 +511,6 @@ var external_CoreHome_ = __webpack_require__("19dc");
     },
     doFocusInput: function doFocusInput() {
       var _this = this;
-
       this.$nextTick(function () {
         _this.focusInput();
       });
@@ -547,7 +522,6 @@ var external_CoreHome_ = __webpack_require__("19dc");
     },
     sendFeedback: function sendFeedback() {
       var _this2 = this;
-
       this.errorMessage = null;
       external_CoreHome_["AjaxHelper"].fetch({
         method: 'Feedback.sendFeedbackForFeature',
@@ -585,15 +559,12 @@ var FeedbackQuestionvue_type_template_id_3d94a8b6_hoisted_1 = {
   key: 0,
   class: "bannerHeader"
 };
-
 var FeedbackQuestionvue_type_template_id_3d94a8b6_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("i", {
   class: "icon-heart red-text"
 }, null, -1);
-
 var FeedbackQuestionvue_type_template_id_3d94a8b6_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("i", {
   class: "icon-close white-text"
 }, null, -1);
-
 var FeedbackQuestionvue_type_template_id_3d94a8b6_hoisted_4 = [FeedbackQuestionvue_type_template_id_3d94a8b6_hoisted_3];
 var FeedbackQuestionvue_type_template_id_3d94a8b6_hoisted_5 = {
   class: "ratefeature"
@@ -602,9 +573,7 @@ var FeedbackQuestionvue_type_template_id_3d94a8b6_hoisted_6 = {
   class: "ui-confirm ratefeatureDialog"
 };
 var FeedbackQuestionvue_type_template_id_3d94a8b6_hoisted_7 = ["innerHTML"];
-
 var FeedbackQuestionvue_type_template_id_3d94a8b6_hoisted_8 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var FeedbackQuestionvue_type_template_id_3d94a8b6_hoisted_9 = {
   class: "messageContainer"
 };
@@ -612,9 +581,7 @@ var FeedbackQuestionvue_type_template_id_3d94a8b6_hoisted_10 = {
   key: 0,
   class: "error-text"
 };
-
 var FeedbackQuestionvue_type_template_id_3d94a8b6_hoisted_11 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var FeedbackQuestionvue_type_template_id_3d94a8b6_hoisted_12 = ["innerHTML"];
 var FeedbackQuestionvue_type_template_id_3d94a8b6_hoisted_13 = ["value"];
 var FeedbackQuestionvue_type_template_id_3d94a8b6_hoisted_14 = ["value"];
@@ -625,7 +592,6 @@ var FeedbackQuestionvue_type_template_id_3d94a8b6_hoisted_16 = ["innerHTML"];
 var FeedbackQuestionvue_type_template_id_3d94a8b6_hoisted_17 = ["value"];
 function FeedbackQuestionvue_type_template_id_3d94a8b6_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_MatomoDialog = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MatomoDialog");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [!_ctx.isHidden ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", FeedbackQuestionvue_type_template_id_3d94a8b6_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate("Feedback_FeedbackTitle")) + " ", 1), FeedbackQuestionvue_type_template_id_3d94a8b6_hoisted_2]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     onClick: _cache[0] || (_cache[0] = function () {
       return _ctx.showQuestion && _ctx.showQuestion.apply(_ctx, arguments);
@@ -693,7 +659,7 @@ function FeedbackQuestionvue_type_template_id_3d94a8b6_render(_ctx, _cache, $pro
 
 
 var _window = window,
-    $ = _window.$;
+  $ = _window.$;
 var cookieName = 'feedback-question';
 /* harmony default export */ var FeedbackQuestionvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
@@ -707,12 +673,10 @@ var cookieName = 'feedback-question';
       if (!this.showQuestionBanner) {
         return true;
       }
-
       return !!this.hide;
     },
     feedbackPolicy: function feedbackPolicy() {
-      return Object(external_CoreHome_["translate"])('Feedback_Policy',
-      /* eslint-disable prefer-template */
+      return Object(external_CoreHome_["translate"])('Feedback_Policy', /* eslint-disable prefer-template */
       Object(external_CoreHome_["externalLink"])('https://matomo.org/privacy-policy/'), '</a>');
     }
   },
@@ -732,7 +696,6 @@ var cookieName = 'feedback-question';
     showFeedbackForm: function showFeedbackForm(val) {
       // eslint-disable-next-line no-underscore-dangle
       this.questionText = Object(external_CoreHome_["translate"])("Feedback_Question".concat(this.question));
-
       if (val) {
         setInterval(function () {
           $('#message').focus();
@@ -753,15 +716,14 @@ var cookieName = 'feedback-question';
         // eslint-disable-next-line radix
         this.question = parseInt(Object(external_CoreHome_["getCookie"])(cookieName));
       }
-
       var nextQuestion = (this.question + 1) % 4;
       var sevenDays = 7 * 60 * 60 * 24 * 1000;
       Object(external_CoreHome_["setCookie"])(cookieName, "".concat(nextQuestion), sevenDays);
     },
     getRandomIntBetween: function getRandomIntBetween(min, max) {
       // eslint-disable-next-line no-param-reassign
-      min = Math.ceil(min); // eslint-disable-next-line no-param-reassign
-
+      min = Math.ceil(min);
+      // eslint-disable-next-line no-param-reassign
       max = Math.floor(max);
       return Math.floor(Math.random() * (max - min + 1) + min);
     },
@@ -777,7 +739,6 @@ var cookieName = 'feedback-question';
     },
     sendFeedback: function sendFeedback() {
       var _this = this;
-
       this.errorMessage = null;
       external_CoreHome_["AjaxHelper"].fetch({
         method: 'Feedback.sendFeedbackForSurvey',

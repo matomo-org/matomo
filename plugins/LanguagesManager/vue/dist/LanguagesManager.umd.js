@@ -144,39 +144,30 @@ var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearch.vue?vue&type=template&id=023343d4
 
-
 var _hoisted_1 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [/*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" This page helps you to find existing translations that you can reuse in your Plugin. If you want to know more about translations have a look at our "), /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
   href: "{{ externalRawLink('https://developer.matomo.org/guides/internationalization') }}",
   rel: "noreferrer noopener",
   target: "_blank"
 }, "Internationalization guide"), /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(". Enter a search term to find translations and their corresponding keys: ")], -1);
-
 var _hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_4 = {
   style: {
     "word-break": "break-all"
   }
 };
-
 var _hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", {
   style: {
     "width": "250px"
   }
 }, "Key", -1);
-
 var _hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, "English translation", -1);
-
 var _hoisted_7 = {
   key: 0
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
   var _directive_content_table = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-table");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [_hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     uicontrol: "text",
     name: "alias",
@@ -193,7 +184,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "model-value": _ctx.compareLanguage,
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       _ctx.compareLanguage = $event;
-
       _ctx.doCompareLanguage();
     }),
     options: _ctx.languages
@@ -210,9 +200,9 @@ var external_CoreHome_ = __webpack_require__("19dc");
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/LanguagesManager/vue/src/TranslationSearch/TranslationSearch.vue?vue&type=script&lang=ts
 
- // loading a component this way since during Installation we don't want to load CorePluginsAdmin
-// just for the language selector directive
 
+// loading a component this way since during Installation we don't want to load CorePluginsAdmin
+// just for the language selector directive
 var Field = Object(external_CoreHome_["useExternalPluginComponent"])('CorePluginsAdmin', 'Field');
 /* harmony default export */ var TranslationSearchvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   components: {
@@ -237,7 +227,6 @@ var Field = Object(external_CoreHome_["useExternalPluginComponent"])('CorePlugin
   methods: {
     fetchTranslations: function fetchTranslations(languageCode) {
       var _this = this;
-
       external_CoreHome_["AjaxHelper"].fetch({
         method: 'LanguagesManager.getTranslationsForLanguage',
         filter_limit: -1,
@@ -246,7 +235,6 @@ var Field = Object(external_CoreHome_["useExternalPluginComponent"])('CorePlugin
         if (!response) {
           return;
         }
-
         if (languageCode === 'en') {
           _this.existingTranslations = response;
         } else {
@@ -259,7 +247,6 @@ var Field = Object(external_CoreHome_["useExternalPluginComponent"])('CorePlugin
     },
     fetchLanguages: function fetchLanguages() {
       var _this2 = this;
-
       external_CoreHome_["AjaxHelper"].fetch({
         method: 'LanguagesManager.getAvailableLanguagesInfo',
         filter_limit: -1
@@ -268,13 +255,11 @@ var Field = Object(external_CoreHome_["useExternalPluginComponent"])('CorePlugin
           key: '',
           value: 'None'
         }];
-
         if (languages) {
           languages.forEach(function (language) {
             if (language.code === 'en') {
               return;
             }
-
             _this2.languages.push({
               key: language.code,
               value: language.name
@@ -293,7 +278,6 @@ var Field = Object(external_CoreHome_["useExternalPluginComponent"])('CorePlugin
   computed: {
     filteredTranslations: function filteredTranslations() {
       var _this3 = this;
-
       var filtered = this.existingTranslations.filter(function (t) {
         return t.label.includes(_this3.searchTerm) || t.value.includes(_this3.searchTerm);
       });
@@ -315,9 +299,7 @@ TranslationSearchvue_type_script_lang_ts.render = render
 
 function TranslationSearchPagevue_type_template_id_d4a5b52e_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_TranslationSearch = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("TranslationSearch");
-
   var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
     "content-title": _ctx.translate('LanguagesManager_TranslationSearch'),
     feature: "true"
@@ -357,16 +339,13 @@ TranslationSearchPagevue_type_script_lang_ts.render = TranslationSearchPagevue_t
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 var _window = window,
-    $ = _window.$;
-
+  $ = _window.$;
 function postLanguageChange(element, event) {
   var value = $(event.target).attr('value');
-
   if (value) {
     $(element).find('#language').val(value).parents('form').submit();
   }
 }
-
 /* harmony default export */ var LanguageSelector = ({
   mounted: function mounted(el, binding) {
     binding.value.onClick = postLanguageChange.bind(null, el);
@@ -398,7 +377,6 @@ var LanguagesDropdownvue_type_template_id_495b2c7b_hoisted_6 = ["value"];
 var LanguagesDropdownvue_type_template_id_495b2c7b_hoisted_7 = ["value"];
 function LanguagesDropdownvue_type_template_id_495b2c7b_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_MenuItemsDropdown = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MenuItemsDropdown");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", LanguagesDropdownvue_type_template_id_495b2c7b_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MenuItemsDropdown, {
     "menu-title": _ctx.currentLanguageName,
     onAfterSelect: _cache[0] || (_cache[0] = function ($event) {
@@ -469,7 +447,6 @@ function LanguagesDropdownvue_type_template_id_495b2c7b_render(_ctx, _cache, $pr
   methods: {
     onSelect: function onSelect(selected) {
       var _this = this;
-
       this.selectedLanguage = selected.getAttribute('value');
       Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])().then(function () {
         _this.$refs.form.submit();

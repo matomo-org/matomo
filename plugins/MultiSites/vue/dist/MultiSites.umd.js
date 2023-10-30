@@ -152,11 +152,9 @@ var _hoisted_3 = {
   key: 0
 };
 var _hoisted_4 = ["href", "title"];
-
 var _hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon icon-outlink"
 }, null, -1);
-
 var _hoisted_6 = [_hoisted_5];
 var _hoisted_7 = {
   key: 1,
@@ -189,37 +187,29 @@ var _hoisted_16 = {
   key: 0,
   class: "visits value"
 };
-
 var _hoisted_17 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
   class: "multisites_icon",
   src: "plugins/MultiSites/images/arrow_up.png",
   alt: ""
 }, null, -1);
-
 var _hoisted_18 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])();
-
 var _hoisted_19 = {
   style: {
     "color": "green"
   }
 };
-
 var _hoisted_20 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
   class: "multisites_icon",
   src: "plugins/MultiSites/images/stop.png",
   alt: ""
 }, null, -1);
-
 var _hoisted_21 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])();
-
 var _hoisted_22 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
   class: "multisites_icon",
   src: "plugins/MultiSites/images/arrow_down.png",
   alt: ""
 }, null, -1);
-
 var _hoisted_23 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])();
-
 var _hoisted_24 = {
   style: {
     "color": "red"
@@ -313,24 +303,19 @@ var external_CoreHome_ = __webpack_require__("19dc");
     },
     sparklineImage: function sparklineImage(website) {
       var metric = this.metric;
-
       switch (this.evolutionMetric) {
         case 'visits_evolution':
           metric = 'nb_visits';
           break;
-
         case 'pageviews_evolution':
           metric = 'nb_pageviews';
           break;
-
         case 'revenue_evolution':
           metric = 'revenue';
           break;
-
         default:
           break;
       }
-
       return "index.php?module=MultiSites&action=getEvolutionGraph&period=".concat(this.period, "&date=") + "".concat(this.dateSparkline, "&evolutionBy=").concat(metric, "&columns=").concat(metric, "&idSite=").concat(website.idsite) + "&idsite=".concat(website.idsite, "&viewDataTable=sparkline").concat(this.tokenParam, "&colors=") + "".concat(encodeURIComponent(JSON.stringify(external_CoreHome_["Matomo"].getSparklineColors())));
     }
   },
@@ -361,13 +346,9 @@ MultisitesSitevue_type_script_lang_ts.render = render
 /* harmony default export */ var MultisitesSite = (MultisitesSitevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/MultiSites/vue/src/Dashboard/Dashboard.store.ts
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -377,14 +358,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 var _window = window,
-    NumberFormatter = _window.NumberFormatter;
-
+  NumberFormatter = _window.NumberFormatter;
 var Dashboard_store_DashboardStore = /*#__PURE__*/function () {
   function DashboardStore() {
     var _this = this;
-
     _classCallCheck(this, DashboardStore);
-
     _defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
       sites: [],
       isLoading: false,
@@ -404,43 +382,32 @@ var Dashboard_store_DashboardStore = /*#__PURE__*/function () {
       refreshInterval: 0,
       errorLoadingSites: false
     }));
-
     _defineProperty(this, "refreshTimeout", null);
-
     _defineProperty(this, "fetchAbort", null);
-
     _defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_this.privateState);
     }));
-
     _defineProperty(this, "numberOfFilteredSites", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       return _this.state.value.numberOfSites;
     }));
-
     _defineProperty(this, "numberOfPages", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       return Math.ceil(_this.numberOfFilteredSites.value / _this.state.value.pageSize - 1);
     }));
-
     _defineProperty(this, "currentPagingOffset", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       return Math.ceil(_this.state.value.currentPage * _this.state.value.pageSize);
     }));
-
     _defineProperty(this, "paginationLowerBound", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       return _this.currentPagingOffset.value + 1;
     }));
-
     _defineProperty(this, "paginationUpperBound", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       var end = _this.currentPagingOffset.value + _this.state.value.pageSize;
       var max = _this.numberOfFilteredSites.value;
-
       if (end > max) {
         end = max;
       }
-
       return end;
     }));
   }
-
   _createClass(DashboardStore, [{
     key: "cancelRefereshInterval",
     value: function cancelRefereshInterval() {
@@ -453,12 +420,10 @@ var Dashboard_store_DashboardStore = /*#__PURE__*/function () {
     key: "updateWebsitesList",
     value: function updateWebsitesList(report) {
       var _this2 = this;
-
       if (!report) {
         this.onError();
         return;
       }
-
       var allSites = report.sites;
       allSites.forEach(function (site) {
         if (site.ratio !== 1 && site.ratio !== '1') {
@@ -468,7 +433,6 @@ var Dashboard_store_DashboardStore = /*#__PURE__*/function () {
           var currentTotal = '0';
           var evolution = '0';
           var previousTotalAdjusted = '0';
-
           if (_this2.state.value.sortColumn === 'nb_visits' || _this2.state.value.sortColumn === 'visits_evolution') {
             previousTotal = NumberFormatter.formatNumber(site.previous_nb_visits);
             currentTotal = NumberFormatter.formatNumber(site.nb_visits);
@@ -476,7 +440,6 @@ var Dashboard_store_DashboardStore = /*#__PURE__*/function () {
             metricName = Object(external_CoreHome_["translate"])('General_ColumnNbVisits');
             previousTotalAdjusted = NumberFormatter.formatNumber(Math.round(parseInt(site.previous_nb_visits, 10) * parseInt(site.ratio, 10)));
           }
-
           if (_this2.state.value.sortColumn === 'pageviews_evolution') {
             previousTotal = "".concat(site.previous_Actions_nb_pageviews);
             currentTotal = "".concat(site.nb_pageviews);
@@ -484,7 +447,6 @@ var Dashboard_store_DashboardStore = /*#__PURE__*/function () {
             metricName = Object(external_CoreHome_["translate"])('General_ColumnPageviews');
             previousTotalAdjusted = NumberFormatter.formatNumber(Math.round(parseInt(site.previous_Actions_nb_pageviews, 10) * parseInt(site.ratio, 10)));
           }
-
           if (_this2.state.value.sortColumn === 'revenue_evolution') {
             previousTotal = NumberFormatter.formatCurrency(site.previous_Goal_revenue, site.currencySymbol);
             currentTotal = NumberFormatter.formatCurrency(site.revenue, site.currencySymbol);
@@ -492,28 +454,22 @@ var Dashboard_store_DashboardStore = /*#__PURE__*/function () {
             metricName = Object(external_CoreHome_["translate"])('General_ColumnRevenue');
             previousTotalAdjusted = NumberFormatter.formatCurrency(Math.round(parseInt(site.previous_Goal_revenue, 10) * parseInt(site.ratio, 10)), site.currencySymbol);
           }
-
           if (metricName) {
             site.tooltip = "".concat(Object(external_CoreHome_["translate"])('MultiSites_EvolutionComparisonIncomplete', [percent]), "\n");
             site.tooltip += "".concat(Object(external_CoreHome_["translate"])('MultiSites_EvolutionComparisonProportional', [percent, "".concat(previousTotalAdjusted), metricName, "".concat(previousTotal)]), "\n");
-
             switch (site.periodName) {
               case 'day':
                 site.tooltip += Object(external_CoreHome_["translate"])('MultiSites_EvolutionComparisonDay', ["".concat(currentTotal), metricName, "".concat(previousTotalAdjusted), site.previousRange, "".concat(evolution)]);
                 break;
-
               case 'week':
                 site.tooltip += Object(external_CoreHome_["translate"])('MultiSites_EvolutionComparisonWeek', ["".concat(currentTotal), metricName, "".concat(previousTotalAdjusted), site.previousRange, "".concat(evolution)]);
                 break;
-
               case 'month':
                 site.tooltip += Object(external_CoreHome_["translate"])('MultiSites_EvolutionComparisonMonth', ["".concat(currentTotal), metricName, "".concat(previousTotalAdjusted), site.previousRange, "".concat(evolution)]);
                 break;
-
               case 'year':
                 site.tooltip += Object(external_CoreHome_["translate"])('MultiSites_EvolutionComparisonYear', ["".concat(currentTotal), metricName, "".concat(previousTotalAdjusted), site.previousRange, "".concat(evolution)]);
                 break;
-
               default:
                 break;
             }
@@ -535,7 +491,6 @@ var Dashboard_store_DashboardStore = /*#__PURE__*/function () {
       if (this.state.value.sortColumn === metric) {
         this.privateState.reverse = !this.state.value.reverse;
       }
-
       this.privateState.sortColumn = metric;
       this.fetchAllSites();
     }
@@ -562,13 +517,11 @@ var Dashboard_store_DashboardStore = /*#__PURE__*/function () {
     key: "fetchAllSites",
     value: function fetchAllSites() {
       var _this3 = this;
-
       if (this.fetchAbort) {
         this.fetchAbort.abort();
         this.fetchAbort = null;
         this.cancelRefereshInterval();
       }
-
       this.privateState.isLoading = true;
       this.privateState.errorLoadingSites = false;
       var params = {
@@ -579,19 +532,15 @@ var Dashboard_store_DashboardStore = /*#__PURE__*/function () {
         filter_offset: this.currentPagingOffset.value,
         showColumns: ['label', 'nb_visits', 'nb_pageviews', 'visits_evolution', 'visits_evolution_trend', 'pageviews_evolution', 'pageviews_evolution_trend', 'revenue_evolution', 'revenue_evolution_trend', 'nb_actions,revenue'].join(',')
       };
-
       if (this.privateState.searchTerm) {
         params.pattern = this.privateState.searchTerm;
       }
-
       if (this.privateState.sortColumn) {
         params.filter_sort_column = this.privateState.sortColumn;
       }
-
       if (this.privateState.reverse) {
         params.filter_sort_order = 'desc';
       }
-
       this.fetchAbort = new AbortController();
       return external_CoreHome_["AjaxHelper"].fetch(params, {
         abortController: this.fetchAbort
@@ -602,13 +551,10 @@ var Dashboard_store_DashboardStore = /*#__PURE__*/function () {
       }).finally(function () {
         _this3.privateState.isLoading = false;
         _this3.fetchAbort = null;
-
         if (_this3.state.value.refreshInterval && _this3.state.value.refreshInterval > 0) {
           _this3.cancelRefereshInterval();
-
           _this3.refreshTimeout = setTimeout(function () {
             _this3.refreshTimeout = null;
-
             _this3.fetchAllSites();
           }, _this3.state.value.refreshInterval * 1000);
         }
@@ -631,10 +577,8 @@ var Dashboard_store_DashboardStore = /*#__PURE__*/function () {
       this.privateState.pageSize = pageSize;
     }
   }]);
-
   return DashboardStore;
 }();
-
 /* harmony default export */ var Dashboard_store = (new Dashboard_store_DashboardStore());
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/MultiSites/vue/src/Dashboard/Dashboard.vue?vue&type=template&id=20d55176
 
@@ -693,28 +637,21 @@ var Dashboardvue_type_template_id_20d55176_hoisted_18 = {
 var Dashboardvue_type_template_id_20d55176_hoisted_19 = {
   class: "notification system notification-error"
 };
-
 var Dashboardvue_type_template_id_20d55176_hoisted_20 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var Dashboardvue_type_template_id_20d55176_hoisted_21 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var Dashboardvue_type_template_id_20d55176_hoisted_22 = {
   rel: "noreferrer noopener",
   target: "_blank",
   href: "{{ externalRawLink('https://matomo.org/faq/troubleshooting/faq_19489/') }}"
 };
-
 var Dashboardvue_type_template_id_20d55176_hoisted_23 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" – ");
-
 var Dashboardvue_type_template_id_20d55176_hoisted_24 = {
   rel: "noreferrer noopener",
   target: "_blank",
   href: "{{ externalRawLink('https://forum.matomo.org/') }}"
 };
 var Dashboardvue_type_template_id_20d55176_hoisted_25 = ["href"];
-
 var Dashboardvue_type_template_id_20d55176_hoisted_26 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(". ");
-
 var Dashboardvue_type_template_id_20d55176_hoisted_27 = {
   colspan: "8",
   class: "paging"
@@ -726,11 +663,9 @@ var _hoisted_29 = {
   class: "col s3 add_new_site"
 };
 var _hoisted_30 = ["href"];
-
 var _hoisted_31 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-add"
 }, null, -1);
-
 var _hoisted_32 = {
   class: "col s6"
 };
@@ -751,11 +686,9 @@ var _hoisted_36 = {
   },
   class: "pointer"
 };
-
 var _hoisted_37 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
   class: "col s3"
 }, " ", -1);
-
 var _hoisted_38 = {
   row_id: "last"
 };
@@ -773,13 +706,9 @@ var _hoisted_42 = ["placeholder"];
 var _hoisted_43 = ["title"];
 function Dashboardvue_type_template_id_20d55176_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _this = this;
-
   var _component_EnrichedHeadline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("EnrichedHeadline");
-
   var _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
-
   var _component_MultisitesSite = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MultisitesSite");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Dashboardvue_type_template_id_20d55176_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", Dashboardvue_type_template_id_20d55176_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_EnrichedHeadline, {
     "help-url": "{{ externalRawLink('https://matomo.org/faq/new-to-piwik/all-websites-dashboard/') }}",
     "feature-name": _ctx.translate('General_AllWebsitesDashboard')
@@ -885,7 +814,6 @@ function Dashboardvue_type_template_id_20d55176_render(_ctx, _cache, $props, $se
     value: _ctx.evolutionSelector,
     onChange: _cache[5] || (_cache[5] = function ($event) {
       _ctx.evolutionSelector = $event.target.value;
-
       _ctx.sortBy(_ctx.evolutionSelector);
     })
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("option", Dashboardvue_type_template_id_20d55176_hoisted_11, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ColumnNbVisits')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("option", Dashboardvue_type_template_id_20d55176_hoisted_12, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ColumnPageviews')), 1), _ctx.displayRevenueColumn ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("option", Dashboardvue_type_template_id_20d55176_hoisted_13, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ColumnRevenue')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 40, Dashboardvue_type_template_id_20d55176_hoisted_10)], 10, Dashboardvue_type_template_id_20d55176_hoisted_9)])]), _ctx.isLoading ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("tbody", Dashboardvue_type_template_id_20d55176_hoisted_14, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tr", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", Dashboardvue_type_template_id_20d55176_hoisted_15, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
@@ -967,7 +895,6 @@ function Dashboardvue_type_template_id_20d55176_render(_ctx, _cache, $props, $se
     if (this.pageSize) {
       Dashboard_store.setPageSize(this.pageSize);
     }
-
     this.refresh(this.autoRefreshTodayReport);
   },
   methods: {

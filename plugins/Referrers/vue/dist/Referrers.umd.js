@@ -157,11 +157,8 @@ var _hoisted_2 = {
 var _hoisted_3 = ["textContent"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
   var _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
-
   var _directive_copy_to_clipboard = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("copy-to-clipboard");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("form", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     uicontrol: "text",
     name: "websiteurl",
@@ -276,7 +273,7 @@ var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
 
 
 var _window = window,
-    $ = _window.$;
+  $ = _window.$;
 /* harmony default export */ var CampaignBuildervue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     hasExtraPlugin: {
@@ -328,61 +325,46 @@ var _window = window,
     },
     generateUrl: function generateUrl() {
       var generatedUrl = String(this.websiteUrl);
-
       if (generatedUrl.indexOf('http') !== 0) {
         generatedUrl = "https://".concat(generatedUrl.trim());
       }
-
       var urlHashPos = generatedUrl.indexOf('#');
       var urlHash = '';
-
       if (urlHashPos >= 0) {
         urlHash = generatedUrl.slice(urlHashPos);
         generatedUrl = generatedUrl.slice(0, urlHashPos);
       }
-
       if (generatedUrl.indexOf('/', 10) < 0 && generatedUrl.indexOf('?') < 0) {
         generatedUrl += '/';
       }
-
       var campaignName = encodeURIComponent(this.campaignName.trim());
-
       if (generatedUrl.indexOf('?') > 0 || generatedUrl.indexOf('#') > 0) {
         generatedUrl += '&';
       } else {
         generatedUrl += '?';
       }
-
       generatedUrl += "mtm_campaign=".concat(campaignName);
-
       if (this.campaignKeyword) {
         generatedUrl += "&mtm_kwd=".concat(encodeURIComponent(this.campaignKeyword.trim()));
       }
-
       if (this.campaignSource) {
         generatedUrl += "&mtm_source=".concat(encodeURIComponent(this.campaignSource.trim()));
       }
-
       if (this.campaignMedium) {
         generatedUrl += "&mtm_medium=".concat(encodeURIComponent(this.campaignMedium.trim()));
       }
-
       if (this.campaignContent) {
         generatedUrl += "&mtm_content=".concat(encodeURIComponent(this.campaignContent.trim()));
       }
-
       if (this.campaignId) {
         generatedUrl += "&mtm_cid=".concat(encodeURIComponent(this.campaignId.trim()));
       }
-
       if (this.campaignGroup) {
         generatedUrl += "&mtm_group=".concat(encodeURIComponent(this.campaignGroup.trim()));
       }
-
       if (this.campaignPlacement) {
         generatedUrl += "&mtm_placement=".concat(encodeURIComponent(this.campaignPlacement.trim()));
       }
-
       generatedUrl += urlHash;
       this.generatedUrl = generatedUrl;
     }

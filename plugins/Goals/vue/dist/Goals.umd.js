@@ -157,14 +157,13 @@ var external_CoreHome_ = __webpack_require__("19dc");
  */
 
 var _window = window,
-    $ = _window.$; // usage v-goal-page-link="{ idGoal: 5 }"
-
+  $ = _window.$;
+// usage v-goal-page-link="{ idGoal: 5 }"
 var GoalPageLink = {
   mounted: function mounted(el, binding) {
     if (!external_CoreHome_["Matomo"].helper.isReportingPage()) {
       return;
     }
-
     var title = $(el).text();
     var link = $('<a></a>');
     link.text(title);
@@ -179,18 +178,16 @@ var GoalPageLink = {
     $(el).html(link[0]);
   }
 };
-/* harmony default export */ var GoalPageLink_GoalPageLink = (GoalPageLink); // manually handle occurrence of goal-page-link on datatable html attributes since dataTable.js is
+/* harmony default export */ var GoalPageLink_GoalPageLink = (GoalPageLink);
+// manually handle occurrence of goal-page-link on datatable html attributes since dataTable.js is
 // not managed by vue.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-
 external_CoreHome_["Matomo"].on('Matomo.processDynamicHtml', function ($element) {
   $element.find('[goal-page-link]').each(function (i, e) {
     if ($(e).attr('goal-page-link-handled')) {
       return;
     }
-
     var idGoal = $(e).attr('goal-page-link');
-
     if (idGoal) {
       GoalPageLink.mounted(e, {
         instance: null,
@@ -202,7 +199,6 @@ external_CoreHome_["Matomo"].on('Matomo.processDynamicHtml', function ($element)
         dir: {}
       });
     }
-
     $(e).attr('goal-page-link-handled', '1');
   });
 });
@@ -226,11 +222,8 @@ var _hoisted_4 = ["innerHTML"];
 var _hoisted_5 = {
   key: 0
 };
-
 var _hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_7 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_8 = ["innerHTML"];
 var _hoisted_9 = {
   class: "first"
@@ -247,13 +240,9 @@ var _hoisted_12 = {
 var _hoisted_13 = {
   colspan: "8"
 };
-
 var _hoisted_14 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_15 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_16 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_17 = ["id"];
 var _hoisted_18 = {
   class: "first"
@@ -267,9 +256,7 @@ var _hoisted_20 = {
 var _hoisted_21 = {
   key: 1
 };
-
 var _hoisted_22 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_23 = ["innerHTML"];
 var _hoisted_24 = {
   key: 1,
@@ -278,11 +265,9 @@ var _hoisted_24 = {
   }
 };
 var _hoisted_25 = ["onClick", "title"];
-
 var _hoisted_26 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-edit"
 }, null, -1);
-
 var _hoisted_27 = [_hoisted_26];
 var _hoisted_28 = {
   key: 2,
@@ -291,21 +276,17 @@ var _hoisted_28 = {
   }
 };
 var _hoisted_29 = ["onClick", "title"];
-
 var _hoisted_30 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-delete"
 }, null, -1);
-
 var _hoisted_31 = [_hoisted_30];
 var _hoisted_32 = {
   key: 0,
   class: "tableActionBar"
 };
-
 var _hoisted_33 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-add"
 }, null, -1);
-
 var _hoisted_34 = {
   class: "ui-confirm",
   ref: "confirm"
@@ -359,61 +340,39 @@ var _hoisted_52 = {
   id: "examples_pattern",
   class: "col s12"
 };
-
 var _hoisted_53 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_54 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_55 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_56 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_57 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_58 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_59 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_60 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_61 = {
   ref: "endedittable"
 };
-
 var _hoisted_62 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
   type: "hidden",
   name: "goalIdUpdate",
   value: ""
 }, null, -1);
-
 var _hoisted_63 = {
   key: 0
 };
 var _hoisted_64 = ["innerHTML"];
-
 var _hoisted_65 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
   id: "bottom"
 }, null, -1);
-
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _ctx$goalToDelete;
-
   var _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
-
   var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
-
   var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
   var _component_Alert = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Alert");
-
   var _component_VueEntryContainer = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("VueEntryContainer");
-
   var _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
-
   var _directive_content_table = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-table");
-
   var _directive_form = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("form");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
     "content-title": _ctx.translate('Goals_ManageGoals')
   }, {
@@ -494,7 +453,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "model-value": _ctx.triggerType,
         "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
           _ctx.triggerType = $event;
-
           _ctx.changedTriggerType();
         }),
         "full-width": true,
@@ -515,7 +473,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "model-value": _ctx.goal.match_attribute,
         "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
           _ctx.goal.match_attribute = $event;
-
           _ctx.initPatternType();
         }),
         options: _ctx.goalMatchAttributeOptions
@@ -627,13 +584,9 @@ var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
 
 // CONCATENATED MODULE: ./plugins/Goals/vue/src/ManageGoals/ManageGoals.store.ts
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -641,33 +594,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-
 var ManageGoals_store_ManageGoalsStore = /*#__PURE__*/function () {
   function ManageGoalsStore() {
     var _this = this;
-
     _classCallCheck(this, ManageGoalsStore);
-
     _defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({}));
-
     _defineProperty(this, "idGoal", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       return _this.privateState.idGoal;
     }));
   }
-
   _createClass(ManageGoalsStore, [{
     key: "setIdGoalShown",
     value: function setIdGoalShown(idGoal) {
       this.privateState.idGoal = idGoal;
     }
   }]);
-
   return ManageGoalsStore;
 }();
-
 /* harmony default export */ var ManageGoals_store = (new ManageGoals_store_ManageGoalsStore());
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=script&lang=ts
-
 
 
 
@@ -675,7 +620,6 @@ var ManageGoals_store_ManageGoalsStore = /*#__PURE__*/function () {
 function ambiguousBoolToInt(n) {
   return !!n && n !== '0' ? 1 : 0;
 }
-
 /* harmony default export */ var ManageGoalsvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   inheritAttrs: false,
   props: {
@@ -753,21 +697,18 @@ function ambiguousBoolToInt(n) {
       this.goal.name = goalName;
       this.goal.description = description;
       var actualMatchAttribute = matchAttribute;
-
       if (actualMatchAttribute === 'manually') {
         this.triggerType = 'manually';
         actualMatchAttribute = 'url';
       } else {
         this.triggerType = 'visitors';
       }
-
       if (actualMatchAttribute.indexOf('event') === 0) {
         this.eventType = actualMatchAttribute;
         actualMatchAttribute = 'event';
       } else {
         this.eventType = 'event_category';
       }
-
       this.goal.match_attribute = actualMatchAttribute;
       this.goal.allow_multiple = allowMultiple;
       this.goal.pattern_type = patternType;
@@ -793,11 +734,9 @@ function ambiguousBoolToInt(n) {
         isAllowed: true
       };
       external_CoreHome_["Matomo"].postEvent('Goals.initAddGoal', parameters);
-
       if (parameters && !parameters.isAllowed) {
         return;
       }
-
       this.showAddEditForm();
       this.initGoalForm('Goals.addGoal', Object(external_CoreHome_["translate"])('Goals_AddGoal'), '', '', 'url', '', 'contains', false, 0, false, false, 0);
       this.scrollToTop();
@@ -810,7 +749,6 @@ function ambiguousBoolToInt(n) {
     },
     deleteGoal: function deleteGoal(goalId) {
       var _this = this;
-
       this.goalToDelete = this.goals["".concat(goalId)];
       external_CoreHome_["Matomo"].helper.modalConfirm(this.$refs.confirm, {
         yes: function yes() {
@@ -828,12 +766,10 @@ function ambiguousBoolToInt(n) {
     },
     save: function save() {
       var _this2 = this;
-
-      var parameters = {}; // TODO: test removal of encoding, should be handled by ajax request
-
+      var parameters = {};
+      // TODO: test removal of encoding, should be handled by ajax request
       parameters.name = this.goal.name;
       parameters.description = this.goal.description;
-
       if (this.isManuallyTriggered) {
         parameters.matchAttribute = 'manually';
         parameters.patternType = 'regex';
@@ -841,17 +777,14 @@ function ambiguousBoolToInt(n) {
         parameters.caseSensitive = 0;
       } else {
         parameters.matchAttribute = this.goal.match_attribute;
-
         if (parameters.matchAttribute === 'event') {
           parameters.matchAttribute = this.eventType;
           parameters.useEventValueAsRevenue = ambiguousBoolToInt(this.goal.event_value_as_revenue);
         }
-
         parameters.patternType = this.goal.pattern_type;
         parameters.pattern = this.goal.pattern;
         parameters.caseSensitive = ambiguousBoolToInt(this.goal.case_sensitive);
       }
-
       parameters.revenue = this.goal.revenue || 0;
       parameters.allowMultipleConversionsPerVisit = ambiguousBoolToInt(this.goal.allow_multiple);
       parameters.idGoal = this.goal.idgoal;
@@ -859,7 +792,6 @@ function ambiguousBoolToInt(n) {
       var isCreate = parameters.method === 'Goals.addGoal';
       var isUpdate = parameters.method === 'Goals.updateGoal';
       var options = {};
-
       if (isUpdate) {
         external_CoreHome_["Matomo"].postEvent('Goals.beforeUpdateGoal', {
           parameters: parameters,
@@ -871,15 +803,12 @@ function ambiguousBoolToInt(n) {
           options: options
         });
       }
-
       if (parameters !== null && parameters !== void 0 && parameters.cancelRequest) {
         return;
       }
-
       this.isLoading = true;
       external_CoreHome_["AjaxHelper"].fetch(parameters, options).then(function () {
         var subcategory = external_CoreHome_["MatomoUrl"].parsed.value.subcategory;
-
         if (subcategory === 'Goals_AddNewGoal' && external_CoreHome_["Matomo"].helper.isReportingPage()) {
           // when adding a goal for the first time we need to load manage goals page afterwards
           external_CoreHome_["ReportingMenuStore"].reloadMenuItems().then(function () {
@@ -893,7 +822,6 @@ function ambiguousBoolToInt(n) {
         }
       }).catch(function () {
         _this2.scrollToTop();
-
         _this2.isLoading = false;
       });
     },
@@ -926,7 +854,6 @@ function ambiguousBoolToInt(n) {
         action: 'index'
       }));
       /* eslint-disable prefer-template */
-
       var ecommerceReportsText = Object(external_CoreHome_["externalLink"])('https://matomo.org/docs/ecommerce-analytics/') + Object(external_CoreHome_["translate"])('Goals_EcommerceReports') + '</a>';
       var websiteManageText = "<a href='".concat(link, "'>").concat(Object(external_CoreHome_["translate"])('SitesManager_WebsitesManagement'), "</a>");
       return Object(external_CoreHome_["translate"])('Goals_YouCanEnableEcommerceReports', ecommerceReportsText, websiteManageText);
@@ -967,19 +894,15 @@ function ambiguousBoolToInt(n) {
     },
     beforeGoalListActionsBodyComponent: function beforeGoalListActionsBodyComponent() {
       var _this3 = this;
-
       if (!this.beforeGoalListActionsBody) {
         return {};
       }
-
       var componentsByIdGoal = {};
       Object.values(this.goals).forEach(function (g) {
         var template = _this3.beforeGoalListActionsBody[g.idgoal];
-
         if (!template) {
           return;
         }
-
         componentsByIdGoal[g.idgoal] = {
           template: template
         };
@@ -990,7 +913,6 @@ function ambiguousBoolToInt(n) {
       if (!this.beforeGoalListActionsHead) {
         return null;
       }
-
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["markRaw"])({
         template: this.beforeGoalListActionsHead
       });

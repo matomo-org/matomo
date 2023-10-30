@@ -142,15 +142,11 @@ var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Diagnostics/vue/src/ConfigFile/ConfigFile.vue?vue&type=template&id=1680ea44
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-
 var _hoisted_1 = ["innerHTML"];
 var _hoisted_2 = ["innerHTML"];
 var _hoisted_3 = ["href"];
-
 var _hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-
 var _hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, null, -1);
-
 var _hoisted_6 = {
   class: "diagnostics configfile"
 };
@@ -175,11 +171,8 @@ var _hoisted_14 = {
 var _hoisted_15 = ["innerHTML"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Passthrough = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Passthrough");
-
   var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
-
   var _directive_content_table = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-table");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
     "content-title": _ctx.translate('Diagnostics_ConfigFileTitle'),
     feature: "true"
@@ -246,7 +239,6 @@ var external_CoreHome_ = __webpack_require__("19dc");
 function ConfigFilevue_type_script_lang_ts_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { ConfigFilevue_type_script_lang_ts_typeof = function _typeof(obj) { return typeof obj; }; } else { ConfigFilevue_type_script_lang_ts_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return ConfigFilevue_type_script_lang_ts_typeof(obj); }
 
 
-
 /* harmony default export */ var ConfigFilevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     allConfigValues: {
@@ -271,34 +263,27 @@ function ConfigFilevue_type_script_lang_ts_typeof(obj) { "@babel/helpers - typeo
       if (value === false) {
         return 'false';
       }
-
       if (value === true) {
         return 'true';
       }
-
       if (value === null) {
         return '';
       }
-
       if (value === '') {
         return '\'\'';
       }
-
       if (ConfigFilevue_type_script_lang_ts_typeof(value) === 'object' && Object.keys(value).length === 0) {
         return '[]';
       }
-
       if (ConfigFilevue_type_script_lang_ts_typeof(value) === 'object' && Object.keys(value).length > 0) {
         return "<div class=\"pre\">".concat(JSON.stringify(value, null, 4), "</div>");
       }
-
       return "".concat(value);
     },
     onHideUnchanged: function onHideUnchanged(event) {
       if (event.target.tagName !== 'A') {
         return;
       }
-
       this.hideGlobalConfigValues = !this.hideGlobalConfigValues;
     }
   },

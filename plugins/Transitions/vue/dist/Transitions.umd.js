@@ -172,7 +172,6 @@ var _hoisted_5 = {
 var _hoisted_6 = ["href"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     uicontrol: "radio",
     name: "exportFormat",
@@ -206,12 +205,10 @@ var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
 
 var actionType = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])('');
 var actionName = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])('');
-
 var onDataChanged = function onDataChanged(params) {
   actionType.value = params.actionType;
   actionName.value = params.actionName;
 };
-
 external_CoreHome_["Matomo"].on('Transitions.dataChanged', onDataChanged);
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Transitions/vue/src/TransitionExporter/TransitionExporterPopover.vue?vue&type=script&lang=ts
@@ -276,7 +273,7 @@ TransitionExporterPopovervue_type_script_lang_ts.render = render
 
 
 var _window = window,
-    Piwik_Popover = _window.Piwik_Popover;
+  Piwik_Popover = _window.Piwik_Popover;
 /* harmony default export */ var TransitionExporter = ({
   mounted: function mounted(element) {
     element.addEventListener('click', function (e) {
@@ -335,12 +332,10 @@ var TransitionSwitchervue_type_template_id_3282161c_hoisted_6 = {
   },
   id: "transitions_inline_loading"
 };
-
 var _hoisted_7 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
   src: "plugins/Morpheus/images/loading-blue.gif",
   alt: ""
 }, null, -1);
-
 var _hoisted_8 = {
   class: "popoverContainer"
 };
@@ -365,11 +360,9 @@ var _hoisted_14 = {
 var _hoisted_15 = {
   class: "dataTableAction"
 };
-
 var _hoisted_16 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-export"
 }, null, -1);
-
 var _hoisted_17 = [_hoisted_16];
 var _hoisted_18 = {
   class: "alert alert-info"
@@ -377,11 +370,8 @@ var _hoisted_18 = {
 var _hoisted_19 = ["innerHTML"];
 function TransitionSwitchervue_type_template_id_3282161c_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
   var _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
-
   var _directive_transition_exporter = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("transition-exporter");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])({
       widgetBody: _ctx.isWidget
@@ -418,17 +408,11 @@ function TransitionSwitchervue_type_template_id_3282161c_render(_ctx, _cache, $p
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Transitions/vue/src/TransitionSwitcher/TransitionSwitcher.vue?vue&type=script&lang=ts
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 
 
 
@@ -464,18 +448,15 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   setup: function setup() {
     var transitionsInstance = null;
     var transitionsUrl = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])();
-
     var onSwitchTransitionsUrl = function onSwitchTransitionsUrl(params) {
       if (params !== null && params !== void 0 && params.url) {
         transitionsUrl.value = params.url;
       }
     };
-
     external_CoreHome_["Matomo"].on('Transitions.switchTransitionsUrl', onSwitchTransitionsUrl);
     Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onBeforeUnmount"])(function () {
       external_CoreHome_["Matomo"].off('Transitions.switchTransitionsUrl', onSwitchTransitionsUrl);
     });
-
     var createTransitionsInstance = function createTransitionsInstance(type, actionName) {
       if (!transitionsInstance) {
         transitionsInstance = new window.Piwik_Transitions(type, actionName, null, '');
@@ -483,11 +464,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         transitionsInstance.reset(type, actionName, '');
       }
     };
-
     var getTransitionsInstance = function getTransitionsInstance() {
       return transitionsInstance;
     };
-
     return {
       transitionsUrl: transitionsUrl,
       createTransitionsInstance: createTransitionsInstance,
@@ -497,25 +476,19 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   watch: {
     transitionsUrl: function transitionsUrl(newValue) {
       var _this = this;
-
       var url = newValue;
-
       if (this.isUrlReport) {
         url = url.replace('https://', '').replace('http://', '');
       }
-
       var found = this.actionNameOptions.find(function (option) {
         var optionUrl = option.url;
-
         if (optionUrl && _this.isUrlReport) {
           optionUrl = String(optionUrl).replace('https://', '').replace('http://', '');
         } else {
           optionUrl = undefined;
         }
-
         return option.key === url || url === optionUrl && optionUrl;
       });
-
       if (found) {
         this.actionName = found.key;
       } else {
@@ -532,7 +505,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       if (newValue === null || newValue === this.noDataKey) {
         return;
       }
-
       var type = this.isUrlReport ? 'url' : 'title';
       this.createTransitionsInstance(type, newValue);
       this.getTransitionsInstance().showPopover(true);
@@ -547,29 +519,23 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   methods: {
     detectActionName: function detectActionName(reports) {
       var _this2 = this;
-
       var othersLabel = Object(external_CoreHome_["translate"])('General_Others');
       reports.forEach(function (report) {
         if (!report) {
           return;
         }
-
         if (report.label === othersLabel) {
           return;
         }
-
         var key = _this2.isUrlReport ? report.url : report.label;
-
         if (key) {
           var pageviews = Object(external_CoreHome_["translate"])('Transitions_NumPageviews', report.nb_hits);
           var label = "".concat(report.label, " (").concat(pageviews, ")");
-
           _this2.actionNameOptions.push({
             key: key,
             value: label,
             url: report.url
           });
-
           if (!_this2.actionName) {
             _this2.actionName = key;
           }
@@ -578,7 +544,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     },
     fetch: function fetch(type) {
       var _this3 = this;
-
       this.isLoading = true;
       this.actionNameOptions = [];
       this.actionName = null;
@@ -593,17 +558,13 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         _this3.isLoading = false;
         _this3.actionNameOptions = [];
         _this3.actionName = null;
-
         if (report !== null && report !== void 0 && report.length) {
           _this3.isEnabled = true;
-
           _this3.detectActionName(report);
         }
-
         if (_this3.actionName === null || _this3.actionNameOptions.length === 0) {
           _this3.isEnabled = false;
           _this3.actionName = _this3.noDataKey;
-
           _this3.actionNameOptions.push({
             key: _this3.noDataKey,
             value: Object(external_CoreHome_["translate"])('CoreHome_ThereIsNoDataForThisReport')
@@ -637,9 +598,7 @@ TransitionSwitchervue_type_script_lang_ts.render = TransitionSwitchervue_type_te
 
 function TransitionsPagevue_type_template_id_62175296_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_TransitionSwitcher = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("TransitionSwitcher");
-
   var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
-
   return !_ctx.isWidget ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
     key: 0,
     "help-text": _ctx.translate('Transitions_FeatureDescription'),
@@ -686,15 +645,12 @@ TransitionsPagevue_type_script_lang_ts.render = TransitionsPagevue_type_template
 var TransitionExporterLinkvue_type_template_id_12d2f936_hoisted_1 = {
   class: "dataTableAction"
 };
-
 var TransitionExporterLinkvue_type_template_id_12d2f936_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-export"
 }, null, -1);
-
 var TransitionExporterLinkvue_type_template_id_12d2f936_hoisted_3 = [TransitionExporterLinkvue_type_template_id_12d2f936_hoisted_2];
 function TransitionExporterLinkvue_type_template_id_12d2f936_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _directive_transition_exporter = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("transition-exporter");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", TransitionExporterLinkvue_type_template_id_12d2f936_hoisted_1, TransitionExporterLinkvue_type_template_id_12d2f936_hoisted_3, 512)), [[_directive_transition_exporter]]);
 }
 // CONCATENATED MODULE: ./plugins/Transitions/vue/src/TransitionExporter/TransitionExporterLink.vue?vue&type=template&id=12d2f936

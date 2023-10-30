@@ -101,6 +101,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 "use strict";
 
+
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -108,7 +109,6 @@ return /******/ (function(modules) { // webpackBootstrap
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 // see https://github.com/matomo-org/matomo/issues/5094 used to detect an ad blocker
-
 window.hasBlockedContent = false;
 
 /***/ }),
@@ -241,46 +241,37 @@ function translate(translationStringId) {
   if (!translationStringId) {
     return '';
   }
-
   for (var _len = arguments.length, values = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
     values[_key - 1] = arguments[_key];
   }
-
-  var pkArgs = values; // handle variadic args AND single array of values (to match _pk_translate signature)
-
+  var pkArgs = values;
+  // handle variadic args AND single array of values (to match _pk_translate signature)
   if (values.length === 1 && values[0] && Array.isArray(values[0])) {
     pkArgs = values[0];
   }
-
   return window._pk_translate(translationStringId, pkArgs); // eslint-disable-line
 }
+
 function translateOrDefault(translationStringIdOrText) {
   if (!translationStringIdOrText || !window.piwik_translations[translationStringIdOrText]) {
     return translationStringIdOrText;
   }
-
   for (var _len2 = arguments.length, values = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
     values[_key2 - 1] = arguments[_key2];
   }
-
   return translate.apply(void 0, [translationStringIdOrText].concat(values));
 }
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Periods.ts
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 /*!
  * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-
 /**
  * Matomo period management service for the frontend.
  *
@@ -320,19 +311,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var Periods = /*#__PURE__*/function () {
   function Periods() {
     _classCallCheck(this, Periods);
-
     _defineProperty(this, "periods", {});
-
     _defineProperty(this, "periodOrder", []);
   }
-
   _createClass(Periods, [{
     key: "addCustomPeriod",
     value: function addCustomPeriod(name, periodClass) {
       if (this.periods[name]) {
         throw new Error("The \"".concat(name, "\" period already exists! It cannot be overridden."));
       }
-
       this.periods[name] = periodClass;
       this.periodOrder.push(name);
     }
@@ -345,11 +332,9 @@ var Periods = /*#__PURE__*/function () {
     key: "get",
     value: function get(strPeriod) {
       var periodClass = this.periods[strPeriod];
-
       if (!periodClass) {
         throw new Error("Invalid period label: ".concat(strPeriod));
       }
-
       return periodClass;
     }
   }, {
@@ -363,10 +348,8 @@ var Periods = /*#__PURE__*/function () {
       return !!this.periods[strPeriod];
     }
   }]);
-
   return Periods;
 }();
-
 /* harmony default export */ var Periods_Periods = (new Periods());
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/utilities.ts
 /*!
@@ -379,12 +362,12 @@ function format(date) {
   return $.datepicker.formatDate('yy-mm-dd', date);
 }
 function getToday() {
-  var date = new Date(Date.now()); // undo browser timezone
-
-  date.setTime(date.getTime() + date.getTimezoneOffset() * 60 * 1000); // apply Matomo site timezone (if it exists)
-
-  date.setHours(date.getHours() + (window.piwik.timezoneOffset || 0) / 3600); // get rid of hours/minutes/seconds/etc.
-
+  var date = new Date(Date.now());
+  // undo browser timezone
+  date.setTime(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
+  // apply Matomo site timezone (if it exists)
+  date.setHours(date.getHours() + (window.piwik.timezoneOffset || 0) / 3600);
+  // get rid of hours/minutes/seconds/etc.
   date.setHours(0);
   date.setMinutes(0);
   date.setSeconds(0);
@@ -395,65 +378,52 @@ function parseDate(date) {
   if (date instanceof Date) {
     return date;
   }
-
   var strDate = decodeURIComponent(date).trim();
-
   if (strDate === '') {
     throw new Error('Invalid date, empty string.');
   }
-
   if (strDate === 'today' || strDate === 'now') {
     return getToday();
   }
-
-  if (strDate === 'yesterday' // note: ignoring the 'same time' part since the frontend doesn't care about the time
+  if (strDate === 'yesterday'
+  // note: ignoring the 'same time' part since the frontend doesn't care about the time
   || strDate === 'yesterdaySameTime') {
     var yesterday = getToday();
     yesterday.setDate(yesterday.getDate() - 1);
     return yesterday;
   }
-
   if (strDate.match(/last[ -]?week/i)) {
     var lastWeek = getToday();
     lastWeek.setDate(lastWeek.getDate() - 7);
     return lastWeek;
   }
-
   if (strDate.match(/last[ -]?month/i)) {
     var lastMonth = getToday();
     lastMonth.setDate(1);
     lastMonth.setMonth(lastMonth.getMonth() - 1);
     return lastMonth;
   }
-
   if (strDate.match(/last[ -]?year/i)) {
     var lastYear = getToday();
     lastYear.setFullYear(lastYear.getFullYear() - 1);
     return lastYear;
   }
-
   return $.datepicker.parseDate('yy-mm-dd', strDate);
 }
 function todayIsInRange(dateRange) {
   if (dateRange.length !== 2) {
     return false;
   }
-
   if (getToday() >= dateRange[0] && getToday() <= dateRange[1]) {
     return true;
   }
-
   return false;
 }
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Day.ts
 function Day_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 function Day_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
 function Day_createClass(Constructor, protoProps, staticProps) { if (protoProps) Day_defineProperties(Constructor.prototype, protoProps); if (staticProps) Day_defineProperties(Constructor, staticProps); return Constructor; }
-
 function Day_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -463,16 +433,12 @@ function Day_defineProperty(obj, key, value) { if (key in obj) { Object.definePr
 
 
 
-
 var Day_DayPeriod = /*#__PURE__*/function () {
   function DayPeriod(dateInPeriod) {
     Day_classCallCheck(this, DayPeriod);
-
     Day_defineProperty(this, "dateInPeriod", void 0);
-
     this.dateInPeriod = dateInPeriod;
   }
-
   Day_createClass(DayPeriod, [{
     key: "getPrettyString",
     value: function getPrettyString() {
@@ -499,21 +465,15 @@ var Day_DayPeriod = /*#__PURE__*/function () {
       return translate('Intl_PeriodDay');
     }
   }]);
-
   return DayPeriod;
 }();
-
 
 Periods_Periods.addCustomPeriod('day', Day_DayPeriod);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Week.ts
 function Week_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 function Week_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
 function Week_createClass(Constructor, protoProps, staticProps) { if (protoProps) Week_defineProperties(Constructor.prototype, protoProps); if (staticProps) Week_defineProperties(Constructor, staticProps); return Constructor; }
-
 function Week_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -523,16 +483,12 @@ function Week_defineProperty(obj, key, value) { if (key in obj) { Object.defineP
 
 
 
-
 var Week_WeekPeriod = /*#__PURE__*/function () {
   function WeekPeriod(dateInPeriod) {
     Week_classCallCheck(this, WeekPeriod);
-
     Week_defineProperty(this, "dateInPeriod", void 0);
-
     this.dateInPeriod = dateInPeriod;
   }
-
   Week_createClass(WeekPeriod, [{
     key: "getPrettyString",
     value: function getPrettyString() {
@@ -567,21 +523,15 @@ var Week_WeekPeriod = /*#__PURE__*/function () {
       return translate('Intl_PeriodWeek');
     }
   }]);
-
   return WeekPeriod;
 }();
-
 
 Periods_Periods.addCustomPeriod('week', Week_WeekPeriod);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Month.ts
 function Month_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 function Month_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
 function Month_createClass(Constructor, protoProps, staticProps) { if (protoProps) Month_defineProperties(Constructor.prototype, protoProps); if (staticProps) Month_defineProperties(Constructor, staticProps); return Constructor; }
-
 function Month_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -591,16 +541,12 @@ function Month_defineProperty(obj, key, value) { if (key in obj) { Object.define
 
 
 
-
 var Month_MonthPeriod = /*#__PURE__*/function () {
   function MonthPeriod(dateInPeriod) {
     Month_classCallCheck(this, MonthPeriod);
-
     Month_defineProperty(this, "dateInPeriod", void 0);
-
     this.dateInPeriod = dateInPeriod;
   }
-
   Month_createClass(MonthPeriod, [{
     key: "getPrettyString",
     value: function getPrettyString() {
@@ -634,21 +580,15 @@ var Month_MonthPeriod = /*#__PURE__*/function () {
       return translate('Intl_PeriodMonth');
     }
   }]);
-
   return MonthPeriod;
 }();
-
 
 Periods_Periods.addCustomPeriod('month', Month_MonthPeriod);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Year.ts
 function Year_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 function Year_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
 function Year_createClass(Constructor, protoProps, staticProps) { if (protoProps) Year_defineProperties(Constructor.prototype, protoProps); if (staticProps) Year_defineProperties(Constructor, staticProps); return Constructor; }
-
 function Year_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -658,16 +598,12 @@ function Year_defineProperty(obj, key, value) { if (key in obj) { Object.defineP
 
 
 
-
 var Year_YearPeriod = /*#__PURE__*/function () {
   function YearPeriod(dateInPeriod) {
     Year_classCallCheck(this, YearPeriod);
-
     Year_defineProperty(this, "dateInPeriod", void 0);
-
     this.dateInPeriod = dateInPeriod;
   }
-
   Year_createClass(YearPeriod, [{
     key: "getPrettyString",
     value: function getPrettyString() {
@@ -700,33 +636,21 @@ var Year_YearPeriod = /*#__PURE__*/function () {
       return translate('Intl_PeriodYear');
     }
   }]);
-
   return YearPeriod;
 }();
-
 
 Periods_Periods.addCustomPeriod('year', Year_YearPeriod);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/Range.ts
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 function Range_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 function Range_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
 function Range_createClass(Constructor, protoProps, staticProps) { if (protoProps) Range_defineProperties(Constructor.prototype, protoProps); if (staticProps) Range_defineProperties(Constructor, staticProps); return Constructor; }
-
 function Range_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -736,17 +660,12 @@ function Range_defineProperty(obj, key, value) { if (key in obj) { Object.define
 
 
 
-
 var Range_RangePeriod = /*#__PURE__*/function () {
   function RangePeriod(startDate, endDate, childPeriodType) {
     Range_classCallCheck(this, RangePeriod);
-
     Range_defineProperty(this, "startDate", void 0);
-
     Range_defineProperty(this, "endDate", void 0);
-
     Range_defineProperty(this, "childPeriodType", void 0);
-
     this.startDate = startDate;
     this.endDate = endDate;
     this.childPeriodType = childPeriodType;
@@ -754,8 +673,6 @@ var Range_RangePeriod = /*#__PURE__*/function () {
   /**
    * Returns a range representing the last N childPeriodType periods, including the current one.
    */
-
-
   Range_createClass(RangePeriod, [{
     key: "getPrettyString",
     value: function getPrettyString() {
@@ -782,14 +699,11 @@ var Range_RangePeriod = /*#__PURE__*/function () {
     key: "getLastNRange",
     value: function getLastNRange(childPeriodType, strAmount, strEndDate) {
       var nAmount = Math.max(parseInt(strAmount.toString(), 10) - 1, 0);
-
       if (Number.isNaN(nAmount)) {
         throw new Error('Invalid range strAmount');
       }
-
       var endDate = strEndDate ? parseDate(strEndDate) : getToday();
       var startDate = new Date(endDate.getTime());
-
       if (childPeriodType === 'day') {
         startDate.setDate(startDate.getDate() - nAmount);
       } else if (childPeriodType === 'week') {
@@ -802,47 +716,34 @@ var Range_RangePeriod = /*#__PURE__*/function () {
       } else {
         throw new Error("Unknown period type '".concat(childPeriodType, "'."));
       }
-
       if (childPeriodType !== 'day') {
         var startPeriod = Periods_Periods.periods[childPeriodType].parse(startDate);
         var endPeriod = Periods_Periods.periods[childPeriodType].parse(endDate);
-
         var _startPeriod$getDateR = startPeriod.getDateRange();
-
         var _startPeriod$getDateR2 = _slicedToArray(_startPeriod$getDateR, 1);
-
         startDate = _startPeriod$getDateR2[0];
-
         var _endPeriod$getDateRan = endPeriod.getDateRange();
-
         var _endPeriod$getDateRan2 = _slicedToArray(_endPeriod$getDateRan, 2);
-
         endDate = _endPeriod$getDateRan2[1];
       }
-
       var firstWebsiteDate = new Date(1991, 7, 6);
-
       if (startDate.getTime() - firstWebsiteDate.getTime() < 0) {
         switch (childPeriodType) {
           case 'year':
             startDate = new Date(1992, 0, 1);
             break;
-
           case 'month':
             startDate = new Date(1991, 8, 1);
             break;
-
           case 'week':
             startDate = new Date(1991, 8, 12);
             break;
-
           case 'day':
           default:
             startDate = firstWebsiteDate;
             break;
         }
       }
-
       return new RangePeriod(startDate, endDate, childPeriodType);
     }
     /**
@@ -853,14 +754,12 @@ var Range_RangePeriod = /*#__PURE__*/function () {
      * @param countBack Return only the child date range for this specific period number
      * @returns {RangePeriod}
      */
-
   }, {
     key: "getLastNRangeChild",
     value: function getLastNRangeChild(childPeriodType, rangeEndDate, countBack) {
       var ed = rangeEndDate ? parseDate(rangeEndDate) : getToday();
       var startDate = new Date(ed.getTime());
       var endDate = new Date(ed.getTime());
-
       if (childPeriodType === 'day') {
         startDate.setDate(startDate.getDate() - countBack);
         endDate.setDate(endDate.getDate() - countBack);
@@ -878,63 +777,47 @@ var Range_RangePeriod = /*#__PURE__*/function () {
       } else {
         throw new Error("Unknown period type '".concat(childPeriodType, "'."));
       }
-
       if (childPeriodType !== 'day') {
         var startPeriod = Periods_Periods.periods[childPeriodType].parse(startDate);
         var endPeriod = Periods_Periods.periods[childPeriodType].parse(endDate);
-
         var _startPeriod$getDateR3 = startPeriod.getDateRange();
-
         var _startPeriod$getDateR4 = _slicedToArray(_startPeriod$getDateR3, 1);
-
         startDate = _startPeriod$getDateR4[0];
-
         var _endPeriod$getDateRan3 = endPeriod.getDateRange();
-
         var _endPeriod$getDateRan4 = _slicedToArray(_endPeriod$getDateRan3, 2);
-
         endDate = _endPeriod$getDateRan4[1];
       }
-
       var firstWebsiteDate = new Date(1991, 7, 6);
-
       if (startDate.getTime() - firstWebsiteDate.getTime() < 0) {
         switch (childPeriodType) {
           case 'year':
             startDate = new Date(1992, 0, 1);
             break;
-
           case 'month':
             startDate = new Date(1991, 8, 1);
             break;
-
           case 'week':
             startDate = new Date(1991, 8, 12);
             break;
-
           case 'day':
           default:
             startDate = firstWebsiteDate;
             break;
         }
       }
-
       return new RangePeriod(startDate, endDate, childPeriodType);
     }
   }, {
     key: "parse",
     value: function parse(strDate) {
       var childPeriodType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'day';
-
       if (/^previous/.test(strDate)) {
         var endDate = RangePeriod.getLastNRange(childPeriodType, '2').startDate;
         return RangePeriod.getLastNRange(childPeriodType, strDate.substring(8), endDate);
       }
-
       if (/^last/.test(strDate)) {
         return RangePeriod.getLastNRange(childPeriodType, strDate.substring(4));
       }
-
       var parts = decodeURIComponent(strDate).split(',');
       return new RangePeriod(parseDate(parts[0]), parseDate(parts[1]), childPeriodType);
     }
@@ -944,10 +827,8 @@ var Range_RangePeriod = /*#__PURE__*/function () {
       return translate('General_DateRangeInPeriodList');
     }
   }]);
-
   return RangePeriod;
 }();
-
 
 Periods_Periods.addCustomPeriod('range', Range_RangePeriod);
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
@@ -955,17 +836,11 @@ var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Matomo/Matomo.ts
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || Matomo_unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
 function Matomo_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return Matomo_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Matomo_arrayLikeToArray(o, minLen); }
-
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return Matomo_arrayLikeToArray(arr); }
-
 function Matomo_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -975,30 +850,25 @@ function Matomo_arrayLikeToArray(arr, len) { if (len == null || len > arr.length
 
 var originalTitle;
 var _window = window,
-    piwik = _window.piwik,
-    Matomo_broadcast = _window.broadcast,
-    Matomo_piwikHelper = _window.piwikHelper;
+  piwik = _window.piwik,
+  Matomo_broadcast = _window.broadcast,
+  Matomo_piwikHelper = _window.piwikHelper;
 piwik.helper = Matomo_piwikHelper;
 piwik.broadcast = Matomo_broadcast;
-
 piwik.updateDateInTitle = function updateDateInTitle(date, period) {
   if (!$('.top_controls #periodString').length) {
     return;
-  } // Cache server-rendered page title
-
-
+  }
+  // Cache server-rendered page title
   originalTitle = originalTitle || document.title;
-
   if (originalTitle.indexOf(piwik.siteName) === 0) {
     var dateString = " - ".concat(Periods_Periods.parse(period, date).getPrettyString(), " ");
     document.title = "".concat(piwik.siteName).concat(dateString).concat(originalTitle.slice(piwik.siteName.length));
   }
 };
-
 piwik.hasUserCapability = function hasUserCapability(capability) {
   return Array.isArray(piwik.userCapabilities) && piwik.userCapabilities.indexOf(capability) !== -1;
 };
-
 piwik.on = function addMatomoEventListener(eventName, listener) {
   function listenerWrapper(evt) {
     listener.apply(void 0, _toConsumableArray(evt.detail)); // eslint-disable-line
@@ -1007,24 +877,20 @@ piwik.on = function addMatomoEventListener(eventName, listener) {
   listener.wrapper = listenerWrapper;
   window.addEventListener(eventName, listenerWrapper);
 };
-
 piwik.off = function removeMatomoEventListener(eventName, listener) {
   if (listener.wrapper) {
     window.removeEventListener(eventName, listener.wrapper);
   }
 };
-
 piwik.postEvent = function postMatomoEvent(eventName) {
   for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
     args[_key - 1] = arguments[_key];
   }
-
   var event = new CustomEvent(eventName, {
     detail: args
   });
   window.dispatchEvent(event);
 };
-
 var Matomo = piwik;
 /* harmony default export */ var Matomo_Matomo = (Matomo);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Periods/index.ts
@@ -1043,25 +909,15 @@ var Matomo = piwik;
 
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoUrl/MatomoUrl.ts
 function MatomoUrl_slicedToArray(arr, i) { return MatomoUrl_arrayWithHoles(arr) || MatomoUrl_iterableToArrayLimit(arr, i) || MatomoUrl_unsupportedIterableToArray(arr, i) || MatomoUrl_nonIterableRest(); }
-
 function MatomoUrl_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
 function MatomoUrl_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return MatomoUrl_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return MatomoUrl_arrayLikeToArray(o, minLen); }
-
 function MatomoUrl_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 function MatomoUrl_iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
 function MatomoUrl_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 function MatomoUrl_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 function MatomoUrl_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
 function MatomoUrl_createClass(Constructor, protoProps, staticProps) { if (protoProps) MatomoUrl_defineProperties(Constructor.prototype, protoProps); if (staticProps) MatomoUrl_defineProperties(Constructor, staticProps); return Constructor; }
-
 function MatomoUrl_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -1071,11 +927,9 @@ function MatomoUrl_defineProperty(obj, key, value) { if (key in obj) { Object.de
 
 
  // important to load all periods here
-
 var MatomoUrl_window = window,
-    MatomoUrl_piwik = MatomoUrl_window.piwik,
-    MatomoUrl_broadcast = MatomoUrl_window.broadcast;
-
+  MatomoUrl_piwik = MatomoUrl_window.piwik,
+  MatomoUrl_broadcast = MatomoUrl_window.broadcast;
 function isValidPeriod(periodStr, dateStr) {
   try {
     Periods_Periods.parse(periodStr, dateStr);
@@ -1087,50 +941,37 @@ function isValidPeriod(periodStr, dateStr) {
 /**
  * URL store and helper functions.
  */
-
-
 var MatomoUrl_MatomoUrl = /*#__PURE__*/function () {
   function MatomoUrl() {
     var _this = this;
-
     MatomoUrl_classCallCheck(this, MatomoUrl);
-
     MatomoUrl_defineProperty(this, "url", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null));
-
     MatomoUrl_defineProperty(this, "urlQuery", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       return _this.url.value ? _this.url.value.search.replace(/^\?/, '') : '';
     }));
-
     MatomoUrl_defineProperty(this, "hashQuery", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       return _this.url.value ? _this.url.value.hash.replace(/^[#/?]+/, '') : '';
     }));
-
     MatomoUrl_defineProperty(this, "urlParsed", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_this.parse(_this.urlQuery.value));
     }));
-
     MatomoUrl_defineProperty(this, "hashParsed", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_this.parse(_this.hashQuery.value));
     }));
-
     MatomoUrl_defineProperty(this, "parsed", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(Object.assign(Object.assign({}, _this.urlParsed.value), _this.hashParsed.value));
     }));
-
     this.url.value = new URL(window.location.href);
     window.addEventListener('hashchange', function (event) {
       _this.url.value = new URL(event.newURL);
-
       _this.updatePeriodParamsFromUrl();
     });
     this.updatePeriodParamsFromUrl();
   }
-
   MatomoUrl_createClass(MatomoUrl, [{
     key: "updateHashToUrl",
     value: function updateHashToUrl(urlWithoutLeadingHash) {
       var wholeHash = "#".concat(urlWithoutLeadingHash);
-
       if (window.location.hash === wholeHash) {
         // trigger event manually since the url is the same
         window.dispatchEvent(new HashChangeEvent('hashchange', {
@@ -1156,11 +997,9 @@ var MatomoUrl_MatomoUrl = /*#__PURE__*/function () {
       var modifiedHashParams = Object.keys(hashParams).length ? this.getFinalHashParams(hashParams, params) : {};
       var serializedHashParams = this.stringify(modifiedHashParams);
       var url = "?".concat(serializedParams);
-
       if (serializedHashParams.length) {
         url = "".concat(url, "#?").concat(serializedHashParams);
       }
-
       window.broadcast.propagateNewPage('', undefined, undefined, undefined, url);
     }
   }, {
@@ -1175,8 +1014,8 @@ var MatomoUrl_MatomoUrl = /*#__PURE__*/function () {
         date: urlParamsObj.date || this.parsed.value.date,
         segment: urlParamsObj.segment || this.parsed.value.segment
       }, paramsObj);
-    } // if we're in an embedded context, loads an entire new URL, otherwise updates the hash
-
+    }
+    // if we're in an embedded context, loads an entire new URL, otherwise updates the hash
   }, {
     key: "updateLocation",
     value: function updateLocation(params) {
@@ -1184,7 +1023,6 @@ var MatomoUrl_MatomoUrl = /*#__PURE__*/function () {
         this.updateHash(params);
         return;
       }
-
       this.updateUrl(params);
     }
   }, {
@@ -1192,15 +1030,13 @@ var MatomoUrl_MatomoUrl = /*#__PURE__*/function () {
     value: function getSearchParam(paramName) {
       var hash = window.location.href.split('#');
       var regex = new RegExp("".concat(paramName, "(\\[]|=)"));
-
       if (hash && hash[1] && regex.test(decodeURIComponent(hash[1]))) {
-        var valueFromHash = window.broadcast.getValueFromHash(paramName, window.location.href); // for date, period and idsite fall back to parameter from url, if non in hash was provided
-
+        var valueFromHash = window.broadcast.getValueFromHash(paramName, window.location.href);
+        // for date, period and idsite fall back to parameter from url, if non in hash was provided
         if (valueFromHash || paramName !== 'date' && paramName !== 'period' && paramName !== 'idSite') {
           return valueFromHash;
         }
       }
-
       return window.broadcast.getValueFromUrl(paramName, window.location.search);
     }
   }, {
@@ -1213,14 +1049,15 @@ var MatomoUrl_MatomoUrl = /*#__PURE__*/function () {
     value: function stringify(search) {
       var searchWithoutEmpty = Object.fromEntries(Object.entries(search).filter(function (_ref) {
         var _ref2 = MatomoUrl_slicedToArray(_ref, 2),
-            value = _ref2[1];
-
+          value = _ref2[1];
         return value !== '' && value !== null && value !== undefined;
-      })); // using jQuery since URLSearchParams does not handle array params the way Matomo uses them
-
-      return $.param(searchWithoutEmpty).replace(/%5B%5D/g, '[]') // some browsers treat URLs w/ date=a,b differently from date=a%2Cb, causing multiple
+      }));
+      // using jQuery since URLSearchParams does not handle array params the way Matomo uses them
+      return $.param(searchWithoutEmpty).replace(/%5B%5D/g, '[]')
+      // some browsers treat URLs w/ date=a,b differently from date=a%2Cb, causing multiple
       // entries to show up in the browser history.
-      .replace(/%2C/g, ',') // jquery seems to encode space characters as '+', but certain parts of matomo won't
+      .replace(/%2C/g, ',')
+      // jquery seems to encode space characters as '+', but certain parts of matomo won't
       // decode it correctly, so we make sure to use %20 instead
       .replace(/\+/g, '%20');
     }
@@ -1229,81 +1066,54 @@ var MatomoUrl_MatomoUrl = /*#__PURE__*/function () {
     value: function updatePeriodParamsFromUrl() {
       var date = this.getSearchParam('date');
       var period = this.getSearchParam('period');
-
       if (!isValidPeriod(period, date)) {
         // invalid data in URL
         return;
       }
-
       if (MatomoUrl_piwik.period === period && MatomoUrl_piwik.currentDateString === date) {
         // this period / date is already loaded
         return;
       }
-
       MatomoUrl_piwik.period = period;
       var dateRange = Periods_Periods.parse(period, date).getDateRange();
       MatomoUrl_piwik.startDateString = format(dateRange[0]);
       MatomoUrl_piwik.endDateString = format(dateRange[1]);
-      MatomoUrl_piwik.updateDateInTitle(date, period); // do not set anything to previousN/lastN, as it's more useful to plugins
+      MatomoUrl_piwik.updateDateInTitle(date, period);
+      // do not set anything to previousN/lastN, as it's more useful to plugins
       // to have the dates than previousN/lastN.
-
       if (MatomoUrl_piwik.period === 'range') {
         date = "".concat(MatomoUrl_piwik.startDateString, ",").concat(MatomoUrl_piwik.endDateString);
       }
-
       MatomoUrl_piwik.currentDateString = date;
     }
   }]);
-
   return MatomoUrl;
 }();
-
 var instance = new MatomoUrl_MatomoUrl();
 /* harmony default export */ var src_MatomoUrl_MatomoUrl = (instance);
 MatomoUrl_piwik.updatePeriodParamsFromUrl = instance.updatePeriodParamsFromUrl.bind(instance);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.ts
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
 function AjaxHelper_toConsumableArray(arr) { return AjaxHelper_arrayWithoutHoles(arr) || AjaxHelper_iterableToArray(arr) || AjaxHelper_unsupportedIterableToArray(arr) || AjaxHelper_nonIterableSpread(); }
-
 function AjaxHelper_nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
 function AjaxHelper_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return AjaxHelper_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return AjaxHelper_arrayLikeToArray(o, minLen); }
-
 function AjaxHelper_iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
 function AjaxHelper_arrayWithoutHoles(arr) { if (Array.isArray(arr)) return AjaxHelper_arrayLikeToArray(arr); }
-
 function AjaxHelper_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 function AjaxHelper_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
 function AjaxHelper_createClass(Constructor, protoProps, staticProps) { if (protoProps) AjaxHelper_defineProperties(Constructor.prototype, protoProps); if (staticProps) AjaxHelper_defineProperties(Constructor, staticProps); return Constructor; }
-
 function AjaxHelper_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function AjaxHelper_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _wrapNativeSuper(Class) { var _cache = typeof Map === "function" ? new Map() : undefined; _wrapNativeSuper = function _wrapNativeSuper(Class) { if (Class === null || !_isNativeFunction(Class)) return Class; if (typeof Class !== "function") { throw new TypeError("Super expression must either be null or a function"); } if (typeof _cache !== "undefined") { if (_cache.has(Class)) return _cache.get(Class); _cache.set(Class, Wrapper); } function Wrapper() { return _construct(Class, arguments, _getPrototypeOf(this).constructor); } Wrapper.prototype = Object.create(Class.prototype, { constructor: { value: Wrapper, enumerable: false, writable: true, configurable: true } }); return _setPrototypeOf(Wrapper, Class); }; return _wrapNativeSuper(Class); }
-
 function _construct(Parent, args, Class) { if (_isNativeReflectConstruct()) { _construct = Reflect.construct; } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
-
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
 function _isNativeFunction(fn) { return Function.toString.call(fn).indexOf("[native code]") !== -1; }
-
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -1313,10 +1123,9 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 var AjaxHelper_window = window,
-    AjaxHelper_$ = AjaxHelper_window.$;
+  AjaxHelper_$ = AjaxHelper_window.$;
 window.globalAjaxQueue = [];
 window.globalAjaxQueue.active = 0;
-
 window.globalAjaxQueue.clean = function globalAjaxQueueClean() {
   for (var i = this.length; i >= 0; i -= 1) {
     if (!this[i] || this[i].readyState === 4) {
@@ -1324,112 +1133,78 @@ window.globalAjaxQueue.clean = function globalAjaxQueueClean() {
     }
   }
 };
-
 window.globalAjaxQueue.push = function globalAjaxQueuePush() {
   var _Array$prototype$push;
-
   for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
     args[_key] = arguments[_key];
   }
-
-  this.active += args.length; // cleanup ajax queue
-
-  this.clean(); // call original array push
-
+  this.active += args.length;
+  // cleanup ajax queue
+  this.clean();
+  // call original array push
   return (_Array$prototype$push = Array.prototype.push).call.apply(_Array$prototype$push, [this].concat(args));
 };
-
 window.globalAjaxQueue.abort = function globalAjaxQueueAbort() {
   // abort all queued requests if possible
   this.forEach(function (x) {
     return x && x.abort && x.abort();
-  }); // remove all elements from array
-
+  });
+  // remove all elements from array
   this.splice(0, this.length);
   this.active = 0;
 };
 /**
  * error callback to use by default
  */
-
-
 function defaultErrorCallback(deferred, status) {
   // do not display error message if request was aborted
   if (status === 'abort' || !deferred || deferred.status === 0) {
     return;
   }
-
   if (typeof Piwik_Popover === 'undefined') {
     console.log("Request failed: ".concat(deferred.responseText)); // mostly for tests
-
     return;
   }
-
   if (Piwik_Popover.isOpen() && deferred && deferred.status === 500) {
     AjaxHelper_$(document.body).html(piwikHelper.escape(deferred.responseText));
   } else {
     AjaxHelper_$('#loadingError').show();
   }
 }
-
 var ApiResponseError = /*#__PURE__*/function (_Error) {
   _inherits(ApiResponseError, _Error);
-
   var _super = _createSuper(ApiResponseError);
-
   function ApiResponseError() {
     AjaxHelper_classCallCheck(this, ApiResponseError);
-
     return _super.apply(this, arguments);
   }
-
   return ApiResponseError;
 }( /*#__PURE__*/_wrapNativeSuper(Error));
 /**
  * Global ajax helper to handle requests within Matomo
  */
-
-
 var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
   function AjaxHelper() {
     AjaxHelper_classCallCheck(this, AjaxHelper);
-
     AjaxHelper_defineProperty(this, "format", 'json');
-
     AjaxHelper_defineProperty(this, "timeout", null);
-
     AjaxHelper_defineProperty(this, "callback", null);
-
     AjaxHelper_defineProperty(this, "useRegularCallbackInCaseOfError", false);
-
     AjaxHelper_defineProperty(this, "errorCallback", void 0);
-
     AjaxHelper_defineProperty(this, "withToken", false);
-
     AjaxHelper_defineProperty(this, "completeCallback", void 0);
-
     AjaxHelper_defineProperty(this, "getParams", {});
-
     AjaxHelper_defineProperty(this, "getUrl", '?');
-
     AjaxHelper_defineProperty(this, "postParams", {});
-
     AjaxHelper_defineProperty(this, "loadingElement", null);
-
     AjaxHelper_defineProperty(this, "errorElement", '#ajaxError');
-
     AjaxHelper_defineProperty(this, "headers", {
       'X-Requested-With': 'XMLHttpRequest'
     });
-
     AjaxHelper_defineProperty(this, "requestHandle", null);
-
     AjaxHelper_defineProperty(this, "abortController", null);
-
     AjaxHelper_defineProperty(this, "defaultParams", ['idSite', 'period', 'date', 'segment']);
-
     AjaxHelper_defineProperty(this, "resolveWithHelper", false);
-
     this.errorCallback = defaultErrorCallback;
   }
   /**
@@ -1440,26 +1215,20 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
    * @param  type  type of given parameters (POST or GET)
    * @return {void}
    */
-
-
   AjaxHelper_createClass(AjaxHelper, [{
     key: "addParams",
     value: function addParams(initialParams, type) {
       var _this = this;
-
       var params = typeof initialParams === 'string' ? window.broadcast.getValuesFromUrl(initialParams) : initialParams;
       var arrayParams = ['compareSegments', 'comparePeriods', 'compareDates'];
       Object.keys(params).forEach(function (key) {
         var value = params[key];
-
         if (arrayParams.indexOf(key) !== -1 && !value) {
           return;
         }
-
         if (typeof value === 'boolean') {
           value = value ? 1 : 0;
         }
-
         if (type.toLowerCase() === 'get') {
           _this.getParams[key] = value;
         } else if (type.toLowerCase() === 'post') {
@@ -1475,7 +1244,6 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
     /**
      * Sets the base URL to use in the AJAX request.
      */
-
   }, {
     key: "setUrl",
     value: function setUrl(url) {
@@ -1485,14 +1253,12 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
      * Gets this helper instance ready to send a bulk request. Each argument to this
      * function is a single request to use.
      */
-
   }, {
     key: "setBulkRequests",
     value: function setBulkRequests() {
       for (var _len2 = arguments.length, urls = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
         urls[_key2] = arguments[_key2];
       }
-
       var urlsProcessed = urls.map(function (u) {
         return typeof u === 'string' ? u : AjaxHelper_$.param(u);
       });
@@ -1508,7 +1274,6 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
      *
      * @param timeout  Timeout in milliseconds
      */
-
   }, {
     key: "setTimeout",
     value: function setTimeout(timeout) {
@@ -1520,7 +1285,6 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
      * @param callback  Callback function
      * @deprecated use the jquery promise API
      */
-
   }, {
     key: "setCallback",
     value: function setCallback(callback) {
@@ -1530,7 +1294,6 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
      * Set that the callback passed to setCallback() should be used if an application error (i.e. an
      * Exception in PHP) is returned.
      */
-
   }, {
     key: "useCallbackInCaseOfError",
     value: function useCallbackInCaseOfError() {
@@ -1543,7 +1306,6 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
      * @param [params] to modify in redirect url
      * @return {void}
      */
-
   }, {
     key: "redirectOnSuccess",
     value: function redirectOnSuccess(params) {
@@ -1556,7 +1318,6 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
      *
      * @deprecated use the jquery promise API
      */
-
   }, {
     key: "setErrorCallback",
     value: function setErrorCallback(callback) {
@@ -1567,7 +1328,6 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
      *
      * @deprecated use the jquery promise API
      */
-
   }, {
     key: "setCompleteCallback",
     value: function setCompleteCallback(callback) {
@@ -1578,7 +1338,6 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
      *
      * @param format  response format (e.g. json, html, ...)
      */
-
   }, {
     key: "setFormat",
     value: function setFormat(format) {
@@ -1589,7 +1348,6 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
      *
      * @param [element]  selector for the loading element
      */
-
   }, {
     key: "setLoadingElement",
     value: function setLoadingElement(element) {
@@ -1600,20 +1358,17 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
      *
      * @param element  selector for the error element
      */
-
   }, {
     key: "setErrorElement",
     value: function setErrorElement(element) {
       if (!element) {
         return;
       }
-
       this.errorElement = element;
     }
     /**
      * Detect whether are allowed to use the given default parameter or not
      */
-
   }, {
     key: "useGETDefaultParameter",
     value: function useGETDefaultParameter(parameter) {
@@ -1624,7 +1379,6 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
           }
         }
       }
-
       return false;
     }
     /**
@@ -1632,7 +1386,6 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
      *
      * @param parameter  A name such as "period", "date", "segment".
      */
-
   }, {
     key: "removeDefaultParameter",
     value: function removeDefaultParameter(parameter) {
@@ -1647,23 +1400,18 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
     /**
      * Send the request
      */
-
   }, {
     key: "send",
     value: function send() {
       var _this2 = this;
-
       if (AjaxHelper_$(this.errorElement).length) {
         AjaxHelper_$(this.errorElement).hide();
       }
-
       if (this.loadingElement) {
         AjaxHelper_$(this.loadingElement).fadeIn();
       }
-
       this.requestHandle = this.buildAjaxCall();
       window.globalAjaxQueue.push(this.requestHandle);
-
       if (this.abortController) {
         this.abortController.signal.addEventListener('abort', function () {
           if (_this2.requestHandle) {
@@ -1671,7 +1419,6 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
           }
         });
       }
-
       var result = new Promise(function (resolve, reject) {
         _this2.requestHandle.then(function (data) {
           if (_this2.resolveWithHelper) {
@@ -1687,11 +1434,9 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
             reject(xhr);
             return;
           }
-
           if (xhr.statusText === 'abort' || xhr.status === 0) {
             return;
           }
-
           console.log("Warning: the ".concat(AjaxHelper_$.param(_this2.getParams), " request failed!"));
           reject(xhr);
         });
@@ -1701,7 +1446,6 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
     /**
      * Aborts the current request if it is (still) running
      */
-
   }, {
     key: "abort",
     value: function abort() {
@@ -1713,32 +1457,26 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
     /**
      * Builds and sends the ajax requests
      */
-
   }, {
     key: "buildAjaxCall",
     value: function buildAjaxCall() {
       var _this3 = this;
-
       var self = this;
       var parameters = this.mixinDefaultGetParams(this.getParams);
       var url = this.getUrl;
-
       if (url[url.length - 1] !== '?') {
         url += '&';
-      } // we took care of encoding &segment properly already, so we don't use $.param for it ($.param
+      }
+      // we took care of encoding &segment properly already, so we don't use $.param for it ($.param
       // URL encodes the values)
-
-
       if (parameters.segment) {
         url = "".concat(url, "segment=").concat(parameters.segment, "&");
         delete parameters.segment;
       }
-
       if (parameters.date) {
         url = "".concat(url, "date=").concat(decodeURIComponent(parameters.date.toString()), "&");
         delete parameters.date;
       }
-
       url += AjaxHelper_$.param(parameters);
       var ajaxCall = {
         type: 'POST',
@@ -1749,12 +1487,10 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
         headers: this.headers ? this.headers : undefined,
         error: function errorCallback() {
           window.globalAjaxQueue.active -= 1;
-
           if (self.errorCallback) {
             for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
               args[_key3] = arguments[_key3];
             }
-
             self.errorCallback.apply(this, args);
           }
         },
@@ -1762,7 +1498,6 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
           if (_this3.loadingElement) {
             AjaxHelper_$(_this3.loadingElement).hide();
           }
-
           var results = _this3.postParams.method === 'API.getBulkRequest' && Array.isArray(response) ? response : [response];
           var errors = results.filter(function (r) {
             return r.result === 'error';
@@ -1770,20 +1505,19 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
             return r.message;
           }).filter(function (e) {
             return e.length;
-          }) // count occurrences of error messages
+          })
+          // count occurrences of error messages
           .reduce(function (acc, e) {
             acc[e] = (acc[e] || 0) + 1;
             return acc;
           }, {});
-
           if (errors && Object.keys(errors).length && !_this3.useRegularCallbackInCaseOfError) {
             var errorMessage = '';
             Object.keys(errors).forEach(function (error) {
               if (errorMessage.length) {
                 errorMessage += '<br />';
-              } // append error count if it occured more than once
-
-
+              }
+              // append error count if it occured more than once
               if (errors[error] > 1) {
                 errorMessage += "".concat(error, " (").concat(errors[error], "x)");
               } else {
@@ -1792,18 +1526,14 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
             });
             var placeAt = null;
             var type = 'toast';
-
             if (AjaxHelper_$(_this3.errorElement).length && errorMessage.length) {
               AjaxHelper_$(_this3.errorElement).show();
               placeAt = _this3.errorElement;
               type = null;
             }
-
             var isLoggedIn = !document.querySelector('#login_form');
-
             if (errorMessage && isLoggedIn) {
               var UI = window['require']('piwik/UI'); // eslint-disable-line
-
               var notification = new UI.Notification();
               notification.show(errorMessage, {
                 placeat: placeAt,
@@ -1816,9 +1546,7 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
           } else if (_this3.callback) {
             _this3.callback(response, status, request);
           }
-
           window.globalAjaxQueue.active -= 1;
-
           if (Matomo_Matomo.ajaxRequestFinished) {
             Matomo_Matomo.ajaxRequestFinished();
           }
@@ -1849,7 +1577,6 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
           force_api_session: broadcast.isWidgetizeRequestWithoutSession() ? 0 : 1
         };
       }
-
       return {};
     }
     /**
@@ -1857,7 +1584,6 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
      *
      * @param params   parameter object
      */
-
   }, {
     key: "mixinDefaultPostParams",
     value: function mixinDefaultPostParams(params) {
@@ -1870,35 +1596,31 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
      *
      * @param   params   parameter object
      */
-
   }, {
     key: "mixinDefaultGetParams",
     value: function mixinDefaultGetParams(originalParams) {
       var _this4 = this;
-
       var segment = src_MatomoUrl_MatomoUrl.getSearchParam('segment');
       var defaultParams = {
         idSite: Matomo_Matomo.idSite ? Matomo_Matomo.idSite.toString() : broadcast.getValueFromUrl('idSite'),
         period: Matomo_Matomo.period || broadcast.getValueFromUrl('period'),
         segment: segment
       };
-      var params = originalParams; // never append token_auth to url
-
+      var params = originalParams;
+      // never append token_auth to url
       if (params.token_auth) {
         params.token_auth = null;
         delete params.token_auth;
       }
-
       Object.keys(defaultParams).forEach(function (key) {
         if (_this4.useGETDefaultParameter(key) && (params[key] === null || typeof params[key] === 'undefined' || params[key] === '') && (_this4.postParams[key] === null || typeof _this4.postParams[key] === 'undefined' || _this4.postParams[key] === '') && defaultParams[key]) {
           params[key] = defaultParams[key];
         }
-      }); // handle default date & period if not already set
-
+      });
+      // handle default date & period if not already set
       if (this.useGETDefaultParameter('date') && !params.date && !this.postParams.date) {
         params.date = Matomo_Matomo.currentDateString;
       }
-
       return params;
     }
   }, {
@@ -1973,26 +1695,23 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
     /**
      * Handle for current request
      */
+
     // helper method entry point
-    function fetch( // eslint-disable-line
+    function fetch(
+    // eslint-disable-line
     params) {
       var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
       var helper = new AjaxHelper();
-
       if (options.withTokenInUrl) {
         helper.withTokenInUrl();
       }
-
       if (options.errorElement) {
         helper.setErrorElement(options.errorElement);
       }
-
       if (options.redirectOnSuccess) {
         helper.redirectOnSuccess(options.redirectOnSuccess !== true ? options.redirectOnSuccess : undefined);
       }
-
       helper.setFormat(options.format || 'json');
-
       if (Array.isArray(params)) {
         helper.setBulkRequests.apply(helper, AjaxHelper_toConsumableArray(params));
       } else {
@@ -2015,67 +1734,54 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
           segment: params.segment ? encodeURIComponent(params.segment) : undefined
         }), 'get');
       }
-
       if (options.postParams) {
         helper.addParams(options.postParams, 'post');
       }
-
       if (options.headers) {
         helper.headers = Object.assign(Object.assign({}, helper.headers), options.headers);
       }
-
       var createErrorNotification = true;
-
       if (typeof options.createErrorNotification !== 'undefined' && !options.createErrorNotification) {
         helper.useCallbackInCaseOfError();
         helper.setErrorCallback(null);
         createErrorNotification = false;
       }
-
       if (options.abortController) {
         helper.abortController = options.abortController;
       }
-
       if (options.returnResponseObject) {
         helper.resolveWithHelper = true;
       }
-
       return helper.send().then(function (result) {
-        var data = result instanceof AjaxHelper ? result.requestHandle.responseJSON : result; // check for error if not using default notification behavior
-
+        var data = result instanceof AjaxHelper ? result.requestHandle.responseJSON : result;
+        // check for error if not using default notification behavior
         var results = helper.postParams.method === 'API.getBulkRequest' && Array.isArray(data) ? data : [data];
         var errors = results.filter(function (r) {
           return r.result === 'error';
         }).map(function (r) {
           return r.message;
         });
-
         if (errors.length) {
           throw new ApiResponseError(errors.filter(function (e) {
             return e.length;
           }).join('\n'));
         }
-
         return result;
       }).catch(function (xhr) {
         if (createErrorNotification || xhr instanceof ApiResponseError) {
           throw xhr;
         }
-
         var message = 'Something went wrong';
-
         if (xhr.status === 504) {
           message = 'Request was possibly aborted';
         }
-
         if (xhr.status === 429) {
           message = 'Rate Limit was exceed';
         }
-
         throw new Error(message);
       });
-    } // eslint-disable-next-line @typescript-eslint/no-explicit-any
-
+    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   }, {
     key: "post",
     value: function post(params) {
@@ -2084,8 +1790,8 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
       return AjaxHelper.fetch(params, Object.assign(Object.assign({}, options), {}, {
         postParams: postParams
       }));
-    } // eslint-disable-next-line @typescript-eslint/no-explicit-any
-
+    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   }, {
     key: "oneAtATime",
     value: function oneAtATime(method, options) {
@@ -2094,7 +1800,6 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
         if (abortController) {
           abortController.abort();
         }
-
         abortController = new AbortController();
         return AjaxHelper.post(Object.assign(Object.assign({}, params), {}, {
           method: method
@@ -2106,21 +1811,16 @@ var AjaxHelper_AjaxHelper = /*#__PURE__*/function () {
       };
     }
   }]);
-
   return AjaxHelper;
 }();
-
 
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.adapter.ts
 
 window.ajaxHelper = AjaxHelper_AjaxHelper;
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PopoverHandler/PopoverHandler.ts
 function PopoverHandler_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 function PopoverHandler_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
 function PopoverHandler_createClass(Constructor, protoProps, staticProps) { if (protoProps) PopoverHandler_defineProperties(Constructor.prototype, protoProps); if (staticProps) PopoverHandler_defineProperties(Constructor, staticProps); return Constructor; }
-
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -2130,37 +1830,31 @@ function PopoverHandler_createClass(Constructor, protoProps, staticProps) { if (
 
 
 var PopoverHandler_window = window,
-    PopoverHandler_$ = PopoverHandler_window.$;
-
+  PopoverHandler_$ = PopoverHandler_window.$;
 var PopoverHandler_PopoverHandler = /*#__PURE__*/function () {
   function PopoverHandler() {
     PopoverHandler_classCallCheck(this, PopoverHandler);
-
     this.setup();
   }
-
   PopoverHandler_createClass(PopoverHandler, [{
     key: "setup",
     value: function setup() {
       var _this = this;
-
       Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(function () {
         return src_MatomoUrl_MatomoUrl.parsed.value.popover;
       }, function () {
         return _this.onPopoverParamChanged();
       });
-
       if (src_MatomoUrl_MatomoUrl.parsed.value.popover) {
         this.onPopoverParamChangedInitial();
       }
-    } // don't initiate the handler until the page had a chance to render,
+    }
+    // don't initiate the handler until the page had a chance to render,
     // since some rowactions depend on what's been loaded.
-
   }, {
     key: "onPopoverParamChangedInitial",
     value: function onPopoverParamChangedInitial() {
       var _this2 = this;
-
       PopoverHandler_$(function () {
         setTimeout(function () {
           _this2.openOrClose();
@@ -2171,7 +1865,6 @@ var PopoverHandler_PopoverHandler = /*#__PURE__*/function () {
     key: "onPopoverParamChanged",
     value: function onPopoverParamChanged() {
       var _this3 = this;
-
       // make sure all popover handles were registered
       PopoverHandler_$(function () {
         _this3.openOrClose();
@@ -2180,10 +1873,9 @@ var PopoverHandler_PopoverHandler = /*#__PURE__*/function () {
   }, {
     key: "openOrClose",
     value: function openOrClose() {
-      this.close(); // should be rather done by routing
-
+      this.close();
+      // should be rather done by routing
       var popoverParam = src_MatomoUrl_MatomoUrl.parsed.value.popover;
-
       if (popoverParam) {
         this.open(popoverParam);
       } else {
@@ -2201,24 +1893,21 @@ var PopoverHandler_PopoverHandler = /*#__PURE__*/function () {
     key: "open",
     value: function open(thePopoverParam) {
       // in case the $ was encoded (e.g. when using copy&paste on urls in some browsers)
-      var popoverParam = decodeURIComponent(thePopoverParam); // revert special encoding from broadcast.propagateNewPopoverParameter()
-
+      var popoverParam = decodeURIComponent(thePopoverParam);
+      // revert special encoding from broadcast.propagateNewPopoverParameter()
       popoverParam = popoverParam.replace(/\$/g, '%');
       popoverParam = decodeURIComponent(popoverParam);
       var popoverParamParts = popoverParam.split(':');
       var handlerName = popoverParamParts[0];
       popoverParamParts.shift();
       var param = popoverParamParts.join(':');
-
       if (typeof window.broadcast.popoverHandlers[handlerName] !== 'undefined' && !window.broadcast.isLoginPage()) {
         window.broadcast.popoverHandlers[handlerName](param);
       }
     }
   }]);
-
   return PopoverHandler;
 }();
-
 /* harmony default export */ var src_PopoverHandler_PopoverHandler = (new PopoverHandler_PopoverHandler());
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/CookieHelper/CookieHelper.ts
 /*
@@ -2226,42 +1915,39 @@ var PopoverHandler_PopoverHandler = /*#__PURE__*/function () {
  */
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 function setCookie(name, val, seconds) {
-  var date = new Date(); // set default day to 3 days
-
+  var date = new Date();
+  // set default day to 3 days
   if (!seconds) {
     // eslint-disable-next-line no-param-reassign
     seconds = 3 * 24 * 60 * 1000;
-  } // Set it expire in n days
-
-
-  date.setTime(date.getTime() + seconds); // Set it
-
+  }
+  // Set it expire in n days
+  date.setTime(date.getTime() + seconds);
+  // Set it
   document.cookie = "".concat(name, "=").concat(val, "; expires=").concat(date.toUTCString(), "; path=/");
-} // eslint-disable-next-line consistent-return,@typescript-eslint/explicit-module-boundary-types
-
+}
+// eslint-disable-next-line consistent-return,@typescript-eslint/explicit-module-boundary-types
 function getCookie(name) {
   var value = "; ".concat(document.cookie);
-  var parts = value.split("; ".concat(name, "=")); // if cookie not exist return null
+  var parts = value.split("; ".concat(name, "="));
+  // if cookie not exist return null
   // eslint-disable-next-line eqeqeq
-
   if (parts.length == 2) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     var data = parts.pop().split(';').shift();
-
     if (typeof data !== 'undefined') {
       return data;
     }
   }
-
   return null;
-} // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-
+}
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 function deleteCookie(name) {
-  var date = new Date(); // Set it expire in -1 days
-
-  date.setTime(date.getTime() + -1 * 24 * 60 * 60 * 1000); // Set it
-
+  var date = new Date();
+  // Set it expire in -1 days
+  date.setTime(date.getTime() + -1 * 24 * 60 * 60 * 1000);
+  // Set it
   document.cookie = "".concat(name, "=; expires=").concat(date.toUTCString(), "; path=/");
 }
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/zenMode.ts
@@ -2275,12 +1961,10 @@ function deleteCookie(name) {
 
 
 var zenMode_window = window,
-    zenMode_$ = zenMode_window.$;
-
+  zenMode_$ = zenMode_window.$;
 function handleZenMode() {
   var zenMode = !!parseInt(getCookie('zenMode'), 10);
   var iconSwitcher = zenMode_$('.top_controls .icon-arrowup');
-
   function updateZenMode() {
     if (zenMode) {
       zenMode_$('body').addClass('zenMode');
@@ -2292,12 +1976,10 @@ function handleZenMode() {
       iconSwitcher.prop('title', translate('CoreHome_EnterZenMode'));
     }
   }
-
   Matomo_Matomo.helper.registerShortcut('z', translate('CoreHome_ShortcutZenMode'), function (event) {
     if (event.altKey) {
       return;
     }
-
     zenMode = !zenMode;
     setCookie('zenMode', zenMode ? '1' : '0');
     updateZenMode();
@@ -2307,7 +1989,6 @@ function handleZenMode() {
   });
   updateZenMode();
 }
-
 Matomo_Matomo.on('Matomo.topControlsRendered', function () {
   handleZenMode();
 });
@@ -2318,7 +1999,6 @@ Matomo_Matomo.on('Matomo.topControlsRendered', function () {
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-
 /**
  * Takes a raw URL and returns an HTML link tag for the URL, if the URL is for a matomo.org
  * domain then the URL will be modified to include campaign parameters
@@ -2331,14 +2011,11 @@ function externalRawLink(url) {
   for (var _len = arguments.length, values = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
     values[_key - 1] = arguments[_key];
   }
-
   var pkArgs = values;
-
   if (!window._pk_externalRawLink) {
     // eslint-disable-line
     return url;
   }
-
   return window._pk_externalRawLink(url, pkArgs); // eslint-disable-line
 }
 /**
@@ -2349,18 +2026,15 @@ function externalRawLink(url) {
  * @param values  Optional [campaignOverride, sourceOverride, mediumOverride]
  * @return string
  */
-
 function externalLink(url) {
   if (!url) {
     return '';
   }
-
   var campaignOverride = (arguments.length <= 1 ? 0 : arguments.length - 1) > 0 && (arguments.length <= 1 ? undefined : arguments[1]) ? arguments.length <= 1 ? undefined : arguments[1] : null;
   var sourceOverride = (arguments.length <= 1 ? 0 : arguments.length - 1) > 1 && (arguments.length <= 2 ? undefined : arguments[2]) ? arguments.length <= 2 ? undefined : arguments[2] : null;
   var mediumOverride = (arguments.length <= 1 ? 0 : arguments.length - 1) > 2 && (arguments.length <= 3 ? undefined : arguments[3]) ? arguments.length <= 3 ? undefined : arguments[3] : null;
   var returnUrl = externalRawLink(url, campaignOverride, sourceOverride, mediumOverride);
   /* eslint-disable prefer-template */
-
   return '<a target="_blank" rel="noreferrer noopener" href="' + returnUrl + '">';
 }
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/createVueApp.ts
@@ -2389,23 +2063,20 @@ function createVueApp() {
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
 var pluginLoadingPromises = {};
 var PLUGIN_LOAD_TIMEOUT = 120;
 var POLL_INTERVAL = 50;
-var POLL_LIMIT = 1000; // code based off webpack's generated code for import()
+var POLL_LIMIT = 1000;
+// code based off webpack's generated code for import()
 // currently does not load styles on demand
-
 function importPluginUmd(plugin) {
   if (pluginLoadingPromises[plugin]) {
     return pluginLoadingPromises[plugin];
   }
-
   if (window[plugin]) {
     return Promise.resolve(window[plugin]);
   }
-
   var pluginUmdPath = "?module=Proxy&action=getPluginUmdJs&plugin=".concat(plugin);
   var promiseReject;
   var promiseResolve;
@@ -2413,27 +2084,24 @@ function importPluginUmd(plugin) {
   script.charset = 'utf-8';
   script.timeout = PLUGIN_LOAD_TIMEOUT;
   script.src = pluginUmdPath;
-  var timeout; // create error before stack unwound to get useful stacktrace later
-
+  var timeout;
+  // create error before stack unwound to get useful stacktrace later
   var error = new Error();
-
   var onScriptComplete = function onScriptComplete(event) {
     // avoid mem leaks in IE.
     script.onerror = null;
     script.onload = null;
-    clearTimeout(timeout); // the script may not load entirely at the time onload is called, so we poll for a small
+    clearTimeout(timeout);
+    // the script may not load entirely at the time onload is called, so we poll for a small
     // amount of time until the window.PluginName object appears
-
     var pollProgress = 0;
-
     function checkPluginInWindow() {
-      pollProgress += POLL_INTERVAL; // promise was already handled
-
+      pollProgress += POLL_INTERVAL;
+      // promise was already handled
       if (!promiseReject || !promiseResolve) {
         return;
-      } // promise was not resolved, and window object exists
-
-
+      }
+      // promise was not resolved, and window object exists
       if (window[plugin] && promiseResolve) {
         try {
           promiseResolve(window[plugin]);
@@ -2441,12 +2109,10 @@ function importPluginUmd(plugin) {
           promiseReject = undefined;
           promiseResolve = undefined;
         }
-
         return;
-      } // script took too long to execute or failed to execute, and no plugin object appeared in
+      }
+      // script took too long to execute or failed to execute, and no plugin object appeared in
       // window, so we report an error
-
-
       if (pollProgress > POLL_LIMIT) {
         try {
           var errorType = event && (event.type === 'load' ? 'missing' : event.type);
@@ -2460,16 +2126,12 @@ function importPluginUmd(plugin) {
           promiseReject = undefined;
           promiseResolve = undefined;
         }
-
         return;
       }
-
       setTimeout(checkPluginInWindow, POLL_INTERVAL);
     }
-
     setTimeout(checkPluginInWindow, POLL_INTERVAL);
   };
-
   timeout = setTimeout(function () {
     onScriptComplete({
       type: 'timeout',
@@ -2491,9 +2153,7 @@ function importPluginUmd(plugin) {
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
 
@@ -2519,10 +2179,8 @@ function useExternalPluginComponent(plugin, component) {
  */
 function getRef(expander, binding) {
   var _binding$instance;
-
   return expander instanceof HTMLElement ? expander : (_binding$instance = binding.instance) === null || _binding$instance === void 0 ? void 0 : _binding$instance.$refs[expander];
 }
-
 /* harmony default export */ var directiveUtilities = ({
   getRef: getRef
 });
@@ -2533,15 +2191,12 @@ function debounce(fn) {
   var timeout;
   return function wrapper() {
     var _this = this;
-
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     if (timeout) {
       clearTimeout(timeout);
     }
-
     timeout = setTimeout(function () {
       fn.call.apply(fn, [_this].concat(args));
     }, delayInMs);
@@ -2555,12 +2210,10 @@ function debounce(fn) {
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-
 function calculateEvolution(currentValue, pastValue) {
   var pastValueParsed = parseInt(pastValue, 10);
   var currentValueParsed = parseInt(currentValue, 10) - pastValueParsed;
   var evolution;
-
   if (currentValueParsed === 0 || Number.isNaN(currentValueParsed)) {
     evolution = 0;
   } else if (pastValueParsed === 0 || Number.isNaN(pastValueParsed)) {
@@ -2568,14 +2221,11 @@ function calculateEvolution(currentValue, pastValue) {
   } else {
     evolution = currentValueParsed / pastValueParsed * 100;
   }
-
   return evolution;
 }
-
 function formatEvolution(evolution) {
   return "".concat(evolution > 0 ? Matomo_Matomo.numbers.symbolPlus : '').concat(Math.round(evolution), "}%");
 }
-
 function getFormattedEvolution(currentValue, pastValue) {
   var evolution = calculateEvolution(currentValue, pastValue);
   return formatEvolution(evolution);
@@ -2591,7 +2241,6 @@ function clone(p) {
   if (typeof p === 'undefined') {
     return p;
   }
-
   return JSON.parse(JSON.stringify(p));
 }
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/VueEntryContainer/VueEntryContainer.vue?vue&type=template&id=54e7e876
@@ -2624,7 +2273,6 @@ function VueEntryContainervue_type_template_id_54e7e876_render(_ctx, _cache, $pr
       if (!this.html) {
         return null;
       }
-
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["markRaw"])({
         template: this.html
       });
@@ -2645,12 +2293,10 @@ VueEntryContainervue_type_script_lang_ts.render = VueEntryContainervue_type_temp
 var ActivityIndicatorvue_type_template_id_7c5fe406_hoisted_1 = {
   class: "loadingPiwik"
 };
-
 var _hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
   src: "plugins/Morpheus/images/loading-blue.gif",
   alt: ""
 }, null, -1);
-
 function ActivityIndicatorvue_type_template_id_7c5fe406_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ActivityIndicatorvue_type_template_id_7c5fe406_hoisted_1, [_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.loadingMessage), 1)], 512)), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.loading]]);
 }
@@ -2684,7 +2330,6 @@ ActivityIndicatorvue_type_script_lang_ts.render = ActivityIndicatorvue_type_temp
 /* harmony default export */ var ActivityIndicator = (ActivityIndicatorvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/Alert/Alert.vue?vue&type=template&id=c3863ae2
 function Alertvue_type_template_id_c3863ae2_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 
 function Alertvue_type_template_id_c3863ae2_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
@@ -2741,25 +2386,21 @@ Alertvue_type_script_lang_ts.render = Alertvue_type_template_id_c3863ae2_render
  *     </li>
  * </ul>
  */
-
 /* harmony default export */ var DropdownMenu = ({
   mounted: function mounted(element, binding) {
     var options = {};
     $(element).addClass('matomo-dropdown-menu');
     var isSubmenu = !!$(element).parent().closest('.dropdown-content').length;
-
     if (isSubmenu) {
       var _binding$value;
-
       options = {
         hover: true
       };
       $(element).addClass('submenu');
-      $(((_binding$value = binding.value) === null || _binding$value === void 0 ? void 0 : _binding$value.activates) || $(element).data('target')).addClass('submenu-dropdown-content'); // if a submenu is used, the dropdown will never scroll
-
+      $(((_binding$value = binding.value) === null || _binding$value === void 0 ? void 0 : _binding$value.activates) || $(element).data('target')).addClass('submenu-dropdown-content');
+      // if a submenu is used, the dropdown will never scroll
       $(element).parents('.dropdown-content').addClass('submenu-container');
     }
-
     $(element).dropdown(options);
   },
   updated: function updated(element) {
@@ -2782,40 +2423,33 @@ function onClickOutsideElement(element, binding, event) {
   var hadUsedScrollbar = binding.value.isMouseDown && binding.value.hasScrolled;
   binding.value.isMouseDown = false;
   binding.value.hasScrolled = false;
-
   if (hadUsedScrollbar) {
     return;
   }
-
   if (!element.contains(event.target)) {
     if (binding.value) {
       binding.value.blur();
     }
   }
 }
-
 function onScroll(element, binding) {
   binding.value.hasScrolled = true;
 }
-
 function onMouseDown(element, binding) {
   binding.value.isMouseDown = true;
   binding.value.hasScrolled = false;
 }
-
 function onEscapeHandler(element, binding, event) {
   if (event.which === 27) {
     setTimeout(function () {
       binding.value.isMouseDown = false;
       binding.value.hasScrolled = false;
-
       if (binding.value.blur) {
         binding.value.blur();
       }
     }, 0);
   }
 }
-
 var doc = document.documentElement;
 /**
  * Usage (in a component):
@@ -2827,7 +2461,6 @@ var doc = document.documentElement;
  *
  * Note: the binding data needs to be static, changes will not be handled.
  */
-
 /* harmony default export */ var FocusAnywhereButHere = ({
   mounted: function mounted(el, binding) {
     binding.value.isMouseDown = false;
@@ -2857,18 +2490,15 @@ var doc = document.documentElement;
  */
 function doFocusIf(el, binding) {
   var _binding$value, _binding$oldValue;
-
   if ((_binding$value = binding.value) !== null && _binding$value !== void 0 && _binding$value.focused && !((_binding$oldValue = binding.oldValue) !== null && _binding$oldValue !== void 0 && _binding$oldValue.focused)) {
     setTimeout(function () {
       el.focus();
-
       if (binding.value.afterFocus) {
         binding.value.afterFocus();
       }
     }, 5);
   }
 }
-
 /* harmony default export */ var FocusIf = ({
   mounted: function mounted(el, binding) {
     doFocusIf(el, binding);
@@ -2885,16 +2515,13 @@ function doFocusIf(el, binding) {
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 var Tooltips_window = window,
-    Tooltips_$ = Tooltips_window.$;
-
+  Tooltips_$ = Tooltips_window.$;
 function defaultContentTransform() {
   var title = Tooltips_$(this).attr('title') || '';
   return window.vueSanitize(title.replace(/\n/g, '<br />'));
 }
-
 function setupTooltips(el, binding) {
   var _binding$value, _binding$value2, _binding$value3, _binding$value4, _binding$value5, _binding$value6;
-
   Tooltips_$(el).tooltip({
     track: true,
     content: ((_binding$value = binding.value) === null || _binding$value === void 0 ? void 0 : _binding$value.content) || defaultContentTransform,
@@ -2906,7 +2533,6 @@ function setupTooltips(el, binding) {
     tooltipClass: (_binding$value6 = binding.value) === null || _binding$value6 === void 0 ? void 0 : _binding$value6.tooltipClass
   });
 }
-
 /* harmony default export */ var Tooltips = ({
   mounted: function mounted(el, binding) {
     setTimeout(function () {
@@ -2921,7 +2547,8 @@ function setupTooltips(el, binding) {
   beforeUnmount: function beforeUnmount(el) {
     try {
       window.$(el).tooltip('destroy');
-    } catch (e) {// ignore
+    } catch (e) {
+      // ignore
     }
   }
 });
@@ -2955,7 +2582,6 @@ function MatomoDialogvue_type_template_id_239b8b1e_render(_ctx, _cache, $props, 
   watch: {
     modelValue: function modelValue(newValue, oldValue) {
       var _this = this;
-
       if (newValue) {
         var slotElement = this.$refs.root.firstElementChild;
         Matomo_Matomo.helper.modalConfirm(slotElement, {
@@ -2972,9 +2598,7 @@ function MatomoDialogvue_type_template_id_239b8b1e_render(_ctx, _cache, $props, 
           onCloseEnd: function onCloseEnd() {
             // materialize removes the child element, so we move it back to the slot
             _this.$refs.root.appendChild(slotElement);
-
             _this.$emit('update:modelValue', false);
-
             _this.$emit('closeEnd');
           }
         });
@@ -3004,45 +2628,35 @@ MatomoDialogvue_type_script_lang_ts.render = MatomoDialogvue_type_template_id_23
  */
 
 
-
 function onExpand(element) {
   element.classList.toggle('expanded');
   var positionElement = element.querySelector('.dropdown.positionInViewport');
-
   if (positionElement) {
     Matomo_Matomo.helper.setMarginLeftToBeInViewport(positionElement);
   }
 }
-
 function ExpandOnClick_onClickOutsideElement(element, binding, event) {
   var hadUsedScrollbar = binding.value.isMouseDown && binding.value.hasScrolled;
   binding.value.isMouseDown = false;
   binding.value.hasScrolled = false;
-
   if (hadUsedScrollbar) {
     return;
   }
-
   if (!element.contains(event.target)) {
     var _binding$value;
-
     element.classList.remove('expanded');
-
     if ((_binding$value = binding.value) !== null && _binding$value !== void 0 && _binding$value.onClosed) {
       binding.value.onClosed();
     }
   }
 }
-
 function ExpandOnClick_onScroll(binding) {
   binding.value.hasScrolled = true;
 }
-
 function ExpandOnClick_onMouseDown(binding) {
   binding.value.isMouseDown = true;
   binding.value.hasScrolled = false;
 }
-
 function ExpandOnClick_onEscapeHandler(element, binding, event) {
   if (event.which === 27) {
     binding.value.isMouseDown = false;
@@ -3050,10 +2664,9 @@ function ExpandOnClick_onEscapeHandler(element, binding, event) {
     element.classList.remove('expanded');
   }
 }
-
 var ExpandOnClick_doc = document.documentElement;
 var ExpandOnClick_window = window,
-    ExpandOnClick_$ = ExpandOnClick_window.$;
+  ExpandOnClick_$ = ExpandOnClick_window.$;
 /**
  * Usage (in a component):
  *
@@ -3062,7 +2675,6 @@ var ExpandOnClick_window = window,
  *                                   // in this directive
  * }
  */
-
 /* harmony default export */ var ExpandOnClick = ({
   mounted: function mounted(el, binding) {
     binding.value.isMouseDown = false;
@@ -3074,7 +2686,6 @@ var ExpandOnClick_window = window,
     binding.value.onScroll = ExpandOnClick_onScroll.bind(null, binding);
     setTimeout(function () {
       var expander = directiveUtilities.getRef(binding.value.expander, binding);
-
       if (expander) {
         ExpandOnClick_$(expander).on('click', binding.value.onExpand);
       }
@@ -3086,11 +2697,9 @@ var ExpandOnClick_window = window,
   },
   unmounted: function unmounted(el, binding) {
     var expander = directiveUtilities.getRef(binding.value.expander, binding);
-
     if (expander) {
       ExpandOnClick_$(expander).off('click', binding.value.onExpand);
     }
-
     ExpandOnClick_doc.removeEventListener('keyup', binding.value.onEscapeHandler);
     ExpandOnClick_doc.removeEventListener('mousedown', binding.value.onMouseDown);
     ExpandOnClick_doc.removeEventListener('mouseup', binding.value.onClickOutsideElement);
@@ -3106,32 +2715,26 @@ var ExpandOnClick_window = window,
  */
 
 
-
 function onMouseEnter(element) {
   element.classList.add('expanded');
   var positionElement = element.querySelector('.dropdown.positionInViewport');
-
   if (positionElement) {
     Matomo_Matomo.helper.setMarginLeftToBeInViewport(positionElement);
   }
 }
-
 function onMouseLeave(element) {
   element.classList.remove('expanded');
 }
-
 function ExpandOnHover_onClickOutsideElement(element, event) {
   if (!element.contains(event.target)) {
     element.classList.remove('expanded');
   }
 }
-
 function ExpandOnHover_onEscapeHandler(element, event) {
   if (event.which === 27) {
     element.classList.remove('expanded');
   }
 }
-
 var ExpandOnHover_doc = document.documentElement;
 /**
  * Usage (in a component):
@@ -3141,7 +2744,6 @@ var ExpandOnHover_doc = document.documentElement;
  *                                   // in this directive
  * }
  */
-
 /* harmony default export */ var ExpandOnHover = ({
   mounted: function mounted(el, binding) {
     binding.value.onMouseEnter = onMouseEnter.bind(null, el);
@@ -3150,7 +2752,6 @@ var ExpandOnHover_doc = document.documentElement;
     binding.value.onEscapeHandler = ExpandOnHover_onEscapeHandler.bind(null, el);
     setTimeout(function () {
       var expander = directiveUtilities.getRef(binding.value.expander, binding);
-
       if (expander) {
         expander.addEventListener('mouseenter', binding.value.onMouseEnter);
       }
@@ -3161,11 +2762,9 @@ var ExpandOnHover_doc = document.documentElement;
   },
   unmounted: function unmounted(el, binding) {
     var expander = directiveUtilities.getRef(binding.value.expander, binding);
-
     if (expander) {
       expander.removeEventListener('mouseenter', binding.value.onMouseEnter);
     }
-
     el.removeEventListener('mouseleave', binding.value.onMouseLeave);
     document.removeEventListener('keyup', binding.value.onEscapeHandler);
     document.removeEventListener('mouseup', binding.value.onClickOutsideElement);
@@ -3180,7 +2779,7 @@ var ExpandOnHover_doc = document.documentElement;
  */
 
 var ShowSensitiveData_window = window,
-    ShowSensitiveData_$ = ShowSensitiveData_window.$;
+  ShowSensitiveData_$ = ShowSensitiveData_window.$;
 /**
  * Handles visibility of sensitive data. By default data will be shown replaced with stars (*)
  * On click on the element the full data will be shown
@@ -3193,7 +2792,6 @@ var ShowSensitiveData_window = window,
  * Example:
  * <div v-show-sensitive-date="some text"></div>
  */
-
 /* harmony default export */ var ShowSensitiveData = ({
   mounted: function mounted(el, binding) {
     var element = ShowSensitiveData_$(el);
@@ -3201,14 +2799,11 @@ var ShowSensitiveData_window = window,
     var showCharacters = binding.value.showCharacters || 6;
     var clickElement = binding.value.clickElementSelector || element;
     var protectedData = '';
-
     if (showCharacters > 0) {
       protectedData += sensitiveData.slice(0, showCharacters);
     }
-
     protectedData += sensitiveData.slice(showCharacters).replace(/./g, '*');
     element.html(protectedData);
-
     function onClickHandler() {
       element.html(sensitiveData);
       ShowSensitiveData_$(clickElement).css({
@@ -3216,7 +2811,6 @@ var ShowSensitiveData_window = window,
       });
       ShowSensitiveData_$(clickElement).tooltip('destroy');
     }
-
     ShowSensitiveData_$(clickElement).tooltip({
       content: translate('CoreHome_ClickToSeeFullInformation'),
       items: '*',
@@ -3236,17 +2830,15 @@ var ShowSensitiveData_window = window,
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 var DropdownButton_window = window,
-    DropdownButton_$ = DropdownButton_window.$;
+  DropdownButton_$ = DropdownButton_window.$;
 /* harmony default export */ var DropdownButton = ({
   mounted: function mounted(el) {
-    var element = DropdownButton_$(el); // BC for materializecss 0.97 => 1.0
-
+    var element = DropdownButton_$(el);
+    // BC for materializecss 0.97 => 1.0
     if (!element.attr('data-target') && element.attr('data-activates')) {
       element.attr('data-target', element.attr('data-activates'));
     }
-
     var target = element.attr('data-target');
-
     if (target && DropdownButton_$("#".concat(target)).length) {
       element.dropdown({
         inDuration: 300,
@@ -3254,7 +2846,6 @@ var DropdownButton_window = window,
         constrainWidth: false,
         //  hover: true, // Activate on hover
         belowOrigin: true // Displays dropdown below the button
-
       });
     }
   }
@@ -3267,39 +2858,32 @@ var DropdownButton_window = window,
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 var SelectOnFocus_window = window,
-    SelectOnFocus_$ = SelectOnFocus_window.$;
-
+  SelectOnFocus_$ = SelectOnFocus_window.$;
 function onFocusHandler(binding, event) {
   if (binding.value.focusedElement !== event.target) {
     binding.value.focusedElement = event.target;
     SelectOnFocus_$(event.target).select();
   }
 }
-
 function SelectOnFocus_onClickHandler(event) {
   // .select() + focus and blur seems to not work on pre elements
   var range = document.createRange();
   range.selectNode(event.target);
   var selection = window.getSelection();
-
   if (selection && selection.rangeCount > 0) {
     selection.removeAllRanges();
   }
-
   if (selection) {
     selection.addRange(range);
   }
 }
-
 function onBlurHandler(binding) {
   delete binding.value.focusedElement;
 }
-
 /* harmony default export */ var SelectOnFocus = ({
   mounted: function mounted(el, binding) {
     var tagName = el.tagName.toLowerCase();
     binding.value.elementSupportsSelect = tagName === 'textarea';
-
     if (binding.value.elementSupportsSelect) {
       binding.value.onFocusHandler = onFocusHandler.bind(null, binding);
       binding.value.onBlurHandler = onBlurHandler.bind(null, binding);
@@ -3327,7 +2911,6 @@ function onBlurHandler(binding) {
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-
 function CopyToClipboard_onClickHandler(pre) {
   if (pre) {
     var textarea = document.createElement('textarea');
@@ -3340,17 +2923,13 @@ function CopyToClipboard_onClickHandler(pre) {
     document.execCommand('copy');
     document.body.removeChild(textarea);
     var btn = pre.parentElement;
-
     if (btn) {
       var icon = btn.getElementsByTagName('i')[0];
-
       if (icon) {
         icon.classList.remove('copyToClipboardIcon');
         icon.classList.add('copyToClipboardIconCheck');
       }
-
       var copied = btn.getElementsByClassName('copyToClipboardCopiedDiv')[0];
-
       if (copied) {
         copied.style.display = 'inline-block';
         setTimeout(function () {
@@ -3360,30 +2939,24 @@ function CopyToClipboard_onClickHandler(pre) {
     }
   }
 }
-
 function onTransitionEndHandler(el, binding) {
   if (binding.value.transitionOpen) {
     var btn = el.parentElement;
-
     if (btn) {
       var icon = btn.getElementsByTagName('i')[0];
-
       if (icon) {
         icon.classList.remove('copyToClipboardIconCheck');
         icon.classList.add('copyToClipboardIcon');
       }
     }
-
     binding.value.transitionOpen = false;
   } else {
     binding.value.transitionOpen = true;
   }
 }
-
 /* harmony default export */ var CopyToClipboard = ({
   mounted: function mounted(el, binding) {
     var tagName = el.tagName.toLowerCase();
-
     if (tagName === 'pre') {
       var btn = document.createElement('button');
       btn.setAttribute('type', 'button');
@@ -3403,12 +2976,10 @@ function onTransitionEndHandler(el, binding) {
       cdiv.innerHTML = translate('General_CopiedToClipboard');
       positionDiv.appendChild(cdiv);
       var pe = el.parentElement;
-
       if (pe) {
         pe.classList.add('copyToClipboardWrapper');
         pe.appendChild(positionDiv);
       }
-
       binding.value.onClickHandler = CopyToClipboard_onClickHandler.bind(null, el);
       btn.addEventListener('click', binding.value.onClickHandler);
       binding.value.onTransitionEndHandler = onTransitionEndHandler.bind(null, el, binding);
@@ -3437,28 +3008,24 @@ function onTransitionEndHandler(el, binding) {
  * Example:
  * <div class="collapsible" v-side-nav="nav .activateLeftMenu">...</div>
  */
-
 /* harmony default export */ var SideNav = ({
   mounted: function mounted(el, binding) {
     if (!binding.value.activator) {
       return;
     }
-
     setTimeout(function () {
       if (!binding.value.initialized) {
         binding.value.initialized = true;
         var sideNavActivator = directiveUtilities.getRef(binding.value.activator, binding);
-
         if (sideNavActivator) {
           window.$(sideNavActivator).show();
-          var targetSelector = sideNavActivator.getAttribute('data-target'); // @ts-ignore
-
+          var targetSelector = sideNavActivator.getAttribute('data-target');
+          // @ts-ignore
           window.$("#".concat(targetSelector)).sidenav({
             closeOnClick: true
           });
         }
       }
-
       if (el.classList.contains('collapsible')) {
         window.$(el).collapsible();
       }
@@ -3477,18 +3044,14 @@ var _hoisted_3 = {
   class: "iconsBar"
 };
 var _hoisted_4 = ["href", "title"];
-
 var _hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-help"
 }, null, -1);
-
 var _hoisted_6 = [_hoisted_5];
 var _hoisted_7 = ["title"];
-
 var _hoisted_8 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-info"
 }, null, -1);
-
 var _hoisted_9 = [_hoisted_8];
 var _hoisted_10 = {
   class: "ratingIcons"
@@ -3501,7 +3064,6 @@ var _hoisted_13 = ["innerHTML"];
 var _hoisted_14 = ["href"];
 function EnrichedHeadlinevue_type_template_id_0945105a_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_RateFeature = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("RateFeature");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
     class: "enrichedHeadline",
     onMouseenter: _cache[1] || (_cache[1] = function ($event) {
@@ -3554,9 +3116,9 @@ function EnrichedHeadlinevue_type_template_id_0945105a_render(_ctx, _cache, $pro
 
 
 
- // working around a cycle in dependencies (CoreHome depends on Feedback, Feedback depends on
-// CoreHome)
 
+// working around a cycle in dependencies (CoreHome depends on Feedback, Feedback depends on
+// CoreHome)
 var RateFeature = useExternalPluginComponent('Feedback', 'RateFeature');
 /**
  * Usage:
@@ -3589,7 +3151,6 @@ var RateFeature = useExternalPluginComponent('Feedback', 'RateFeature');
  * activated by hover
  * -> the tooltip shows the value of the attribute
  */
-
 /* harmony default export */ var EnrichedHeadlinevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     helpUrl: {
@@ -3625,25 +3186,19 @@ var RateFeature = useExternalPluginComponent('Feedback', 'RateFeature');
   },
   mounted: function mounted() {
     var root = this.$refs.root;
-
     if (!this.actualInlineHelp) {
       var _root$parentElement;
-
       var helpNode = root.querySelector('.title .inlineHelp');
-
       if (!helpNode && (_root$parentElement = root.parentElement) !== null && _root$parentElement !== void 0 && _root$parentElement.nextElementSibling) {
         // hack for reports :(
         helpNode = root.parentElement.nextElementSibling.querySelector('.reportDocumentation');
       }
-
       if (helpNode) {
         var _helpNode$getAttribut;
-
         // hackish solution to get binded html of p tag within the help node
         // at this point the ng-bind-html is not yet converted into html when report is not
         // initially loaded. Using $compile doesn't work. So get and set it manually
         var helpDocs = (_helpNode$getAttribut = helpNode.getAttribute('data-content')) === null || _helpNode$getAttribut === void 0 ? void 0 : _helpNode$getAttribut.trim();
-
         if (helpDocs && helpDocs.length) {
           this.actualInlineHelp = "<p>".concat(helpDocs, "</p>");
           setTimeout(function () {
@@ -3652,16 +3207,12 @@ var RateFeature = useExternalPluginComponent('Feedback', 'RateFeature');
         }
       }
     }
-
     if (!this.actualFeatureName) {
       var _root$querySelector;
-
       this.actualFeatureName = (_root$querySelector = root.querySelector('.title')) === null || _root$querySelector === void 0 ? void 0 : _root$querySelector.textContent;
     }
-
     if (Matomo_Matomo.period && Matomo_Matomo.currentDateString) {
       var currentPeriod = Periods_Periods.parse(Matomo_Matomo.period, Matomo_Matomo.currentDateString);
-
       if (this.reportGenerated && currentPeriod.containsToday()) {
         window.$(root.querySelector('.report-generated')).tooltip({
           track: true,
@@ -3711,7 +3262,6 @@ var ContentBlockvue_type_template_id_a32a48ea_hoisted_5 = {
 var ContentBlockvue_type_template_id_a32a48ea_hoisted_6 = ["src", "alt"];
 function ContentBlockvue_type_template_id_a32a48ea_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_EnrichedHeadline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("EnrichedHeadline");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])({
       card: true,
@@ -3740,7 +3290,7 @@ function ContentBlockvue_type_template_id_a32a48ea_render(_ctx, _cache, $props, 
 
 var adminContent = null;
 var ContentBlockvue_type_script_lang_ts_window = window,
-    ContentBlockvue_type_script_lang_ts_$ = ContentBlockvue_type_script_lang_ts_window.$;
+  ContentBlockvue_type_script_lang_ts_$ = ContentBlockvue_type_script_lang_ts_window.$;
 /* harmony default export */ var ContentBlockvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     contentTitle: String,
@@ -3771,47 +3321,37 @@ var ContentBlockvue_type_script_lang_ts_window = window,
   },
   mounted: function mounted() {
     var _this = this;
-
     var root = this.$refs.root;
     var content = this.$refs.content;
-
     if (this.anchor && root && root.parentElement) {
       var anchorElement = document.createElement('a');
       anchorElement.id = this.anchor;
       ContentBlockvue_type_script_lang_ts_$(root.parentElement).prepend(anchorElement);
     }
-
     setTimeout(function () {
       var inlineHelp = content.querySelector('.contentHelp');
-
       if (inlineHelp) {
         _this.actualHelpText = inlineHelp.innerHTML;
         inlineHelp.remove();
       }
     }, 0);
-
     if (this.actualFeature && this.actualFeature === 'true') {
       this.actualFeature = this.contentTitle;
     }
-
     if (adminContent === null) {
       // cache admin node for further content blocks
       adminContent = document.querySelector('#content.admin');
     }
-
     var contentTopPosition = null;
-
     if (adminContent) {
       contentTopPosition = adminContent.offsetTop;
     }
-
     if (contentTopPosition || contentTopPosition === 0) {
-      var parents = root.closest('.widgetLoader'); // when shown within the widget loader, we need to get the offset of that element
+      var parents = root.closest('.widgetLoader');
+      // when shown within the widget loader, we need to get the offset of that element
       // as the widget loader might be still shown. Would otherwise not position correctly
       // the widgets on the admin home page
-
       var topThis = parents ? parents.offsetTop : root.offsetTop;
-
       if (topThis - contentTopPosition < 17) {
         // we make sure to display the first card with no margin-top to have it on same as line as
         // navigation
@@ -3861,7 +3401,6 @@ var Comparisonsvue_type_template_id_39ac6c4e_hoisted_9 = {
 var Comparisonsvue_type_template_id_39ac6c4e_hoisted_10 = ["alt"];
 function Comparisonsvue_type_template_id_39ac6c4e_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _directive_tooltips = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("tooltips");
-
   return _ctx.isComparing ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Comparisonsvue_type_template_id_39ac6c4e_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h3", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Comparisons')), 1), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.segmentComparisons, function (comparison, $index) {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
       class: "comparison card",
@@ -3906,13 +3445,9 @@ function Comparisonsvue_type_template_id_39ac6c4e_render(_ctx, _cache, $props, $
 
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Segmentation/Segments.store.ts
 function Segments_store_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 function Segments_store_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
 function Segments_store_createClass(Constructor, protoProps, staticProps) { if (protoProps) Segments_store_defineProperties(Constructor.prototype, protoProps); if (staticProps) Segments_store_defineProperties(Constructor, staticProps); return Constructor; }
-
 function Segments_store_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -3921,22 +3456,17 @@ function Segments_store_defineProperty(obj, key, value) { if (key in obj) { Obje
  */
 
 
-
 var Segments_store_SegmentsStore = /*#__PURE__*/function () {
   function SegmentsStore() {
     var _this = this;
-
     Segments_store_classCallCheck(this, SegmentsStore);
-
     Segments_store_defineProperty(this, "segmentState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
       availableSegments: []
     }));
-
     Matomo_Matomo.on('piwikSegmentationInited', function () {
       return _this.setSegmentState();
     });
   }
-
   Segments_store_createClass(SegmentsStore, [{
     key: "state",
     get: function get() {
@@ -3948,36 +3478,25 @@ var Segments_store_SegmentsStore = /*#__PURE__*/function () {
       try {
         var uiControlObject = $('.segmentEditorPanel').data('uiControlObject');
         this.segmentState.availableSegments = uiControlObject.impl.availableSegments || [];
-      } catch (e) {// segment editor is not initialized yet
+      } catch (e) {
+        // segment editor is not initialized yet
       }
     }
   }]);
-
   return SegmentsStore;
 }();
-
 /* harmony default export */ var Segments_store = (new Segments_store_SegmentsStore());
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Comparisons/Comparisons.store.ts
 function Comparisons_store_toConsumableArray(arr) { return Comparisons_store_arrayWithoutHoles(arr) || Comparisons_store_iterableToArray(arr) || Comparisons_store_unsupportedIterableToArray(arr) || Comparisons_store_nonIterableSpread(); }
-
 function Comparisons_store_nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
 function Comparisons_store_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return Comparisons_store_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Comparisons_store_arrayLikeToArray(o, minLen); }
-
 function Comparisons_store_iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
 function Comparisons_store_arrayWithoutHoles(arr) { if (Array.isArray(arr)) return Comparisons_store_arrayLikeToArray(arr); }
-
 function Comparisons_store_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 function Comparisons_store_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 function Comparisons_store_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
 function Comparisons_store_createClass(Constructor, protoProps, staticProps) { if (protoProps) Comparisons_store_defineProperties(Constructor.prototype, protoProps); if (staticProps) Comparisons_store_defineProperties(Constructor, staticProps); return Constructor; }
-
 function Comparisons_store_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -3993,42 +3512,32 @@ function Comparisons_store_defineProperty(obj, key, value) { if (key in obj) { O
 
 var SERIES_COLOR_COUNT = 8;
 var SERIES_SHADE_COUNT = 3;
-
 function wrapArray(values) {
   if (!values) {
     return [];
   }
-
   return Array.isArray(values) ? values : [values];
 }
-
 var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
   // for tests
+
   function ComparisonsStore() {
     var _this = this;
-
     Comparisons_store_classCallCheck(this, ComparisonsStore);
-
     Comparisons_store_defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
       comparisonsDisabledFor: []
     }));
-
     Comparisons_store_defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(this.privateState));
-
     Comparisons_store_defineProperty(this, "colors", {});
-
     Comparisons_store_defineProperty(this, "segmentComparisons", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       return _this.parseSegmentComparisons();
     }));
-
     Comparisons_store_defineProperty(this, "periodComparisons", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       return _this.parsePeriodComparisons();
     }));
-
     Comparisons_store_defineProperty(this, "isEnabled", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       return _this.checkEnabledForCurrentPage();
     }));
-
     if (document.readyState === 'complete' || document.readyState === 'interactive') {
       this.loadComparisonsDisabledFor();
     } else {
@@ -4036,7 +3545,6 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
         _this.loadComparisonsDisabledFor();
       });
     }
-
     $(function () {
       _this.colors = _this.getAllSeriesColors();
     });
@@ -4048,7 +3556,6 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
       deep: true
     });
   }
-
   Comparisons_store_createClass(ComparisonsStore, [{
     key: "getComparisons",
     value: function getComparisons() {
@@ -4057,7 +3564,8 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
   }, {
     key: "isComparing",
     value: function isComparing() {
-      return this.isComparisonEnabled() // first two in each array are for the currently selected segment/period
+      return this.isComparisonEnabled()
+      // first two in each array are for the currently selected segment/period
       && (this.segmentComparisons.value.length > 1 || this.periodComparisons.value.length > 1);
     }
   }, {
@@ -4071,7 +3579,6 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
       if (!this.isComparisonEnabled()) {
         return [];
       }
-
       return this.segmentComparisons.value;
     }
   }, {
@@ -4080,7 +3587,6 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
       if (!this.isComparisonEnabled()) {
         return [];
       }
-
       return this.periodComparisons.value;
     }
   }, {
@@ -4088,11 +3594,9 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
     value: function getSeriesColor(segmentComparison, periodComparison) {
       var metricIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
       var seriesIndex = this.getComparisonSeriesIndex(periodComparison.index, segmentComparison.index) % SERIES_COLOR_COUNT;
-
       if (metricIndex === 0) {
         return this.colors["series".concat(seriesIndex)];
       }
-
       var shadeIndex = metricIndex % SERIES_SHADE_COUNT;
       return this.colors["series".concat(seriesIndex, "-shade").concat(shadeIndex)];
     }
@@ -4100,11 +3604,9 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
     key: "getSeriesColorName",
     value: function getSeriesColorName(seriesIndex, metricIndex) {
       var colorName = "series".concat(seriesIndex % SERIES_COLOR_COUNT);
-
       if (metricIndex > 0) {
         colorName += "-shade".concat(metricIndex % SERIES_SHADE_COUNT);
       }
-
       return colorName;
     }
   }, {
@@ -4133,7 +3635,6 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
     key: "getAllComparisonSeries",
     value: function getAllComparisonSeries() {
       var _this2 = this;
-
       var seriesInfo = [];
       var seriesIndex = 0;
       this.getPeriodComparisons().forEach(function (periodComp) {
@@ -4154,16 +3655,12 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
       if (!this.isComparisonEnabled()) {
         throw new Error('Comparison disabled.');
       }
-
       var newComparisons = Comparisons_store_toConsumableArray(this.segmentComparisons.value);
-
       newComparisons.splice(index, 1);
       var extraParams = {};
-
       if (index === 0) {
         extraParams.segment = newComparisons[0].params.segment;
       }
-
       this.updateQueryParamsFromComparisons(newComparisons, this.periodComparisons.value, extraParams);
     }
   }, {
@@ -4172,7 +3669,6 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
       if (!this.isComparisonEnabled()) {
         throw new Error('Comparison disabled.');
       }
-
       var newComparisons = this.segmentComparisons.value.concat([{
         params: params,
         index: -1,
@@ -4214,8 +3710,8 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
         compareSegments: Object.keys(compareSegments),
         comparePeriods: comparePeriods,
         compareDates: compareDates
-      }; // change the page w/ these new param values
-
+      };
+      // change the page w/ these new param values
       var baseParams = Matomo_Matomo.helper.isReportingPage() ? src_MatomoUrl_MatomoUrl.hashParsed.value : src_MatomoUrl_MatomoUrl.urlParsed.value;
       src_MatomoUrl_MatomoUrl.updateLocation(Object.assign(Object.assign(Object.assign({}, baseParams), compareParams), extraParams));
     }
@@ -4223,35 +3719,28 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
     key: "getAllSeriesColors",
     value: function getAllSeriesColors() {
       var ColorManager = Matomo_Matomo.ColorManager;
-
       if (!ColorManager) {
         return [];
       }
-
       var seriesColorNames = [];
-
       for (var i = 0; i < SERIES_COLOR_COUNT; i += 1) {
         seriesColorNames.push("series".concat(i));
-
         for (var j = 0; j < SERIES_SHADE_COUNT; j += 1) {
           seriesColorNames.push("series".concat(i, "-shade").concat(j));
         }
       }
-
       return ColorManager.getColors('comparison-series-color', seriesColorNames);
     }
   }, {
     key: "loadComparisonsDisabledFor",
     value: function loadComparisonsDisabledFor() {
       var _this3 = this;
-
-      var matomoModule = src_MatomoUrl_MatomoUrl.parsed.value.module; // Skip while installing, updating or logging in
-
+      var matomoModule = src_MatomoUrl_MatomoUrl.parsed.value.module;
+      // Skip while installing, updating or logging in
       if (matomoModule === 'CoreUpdater' || matomoModule === 'Installation' || matomoModule === 'Overlay' || window.piwik.isPagesComparisonApiDisabled || window.piwik.installation || window.broadcast.isLoginPage()) {
         this.privateState.comparisonsDisabledFor = [];
         return;
       }
-
       AjaxHelper_AjaxHelper.fetch({
         module: 'API',
         method: 'API.getPagesComparisonsDisabledFor'
@@ -4263,10 +3752,8 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
     key: "parseSegmentComparisons",
     value: function parseSegmentComparisons() {
       var availableSegments = Segments_store.state.availableSegments;
-
-      var compareSegments = Comparisons_store_toConsumableArray(wrapArray(src_MatomoUrl_MatomoUrl.parsed.value.compareSegments)); // add base comparisons
-
-
+      var compareSegments = Comparisons_store_toConsumableArray(wrapArray(src_MatomoUrl_MatomoUrl.parsed.value.compareSegments));
+      // add base comparisons
       compareSegments.unshift(src_MatomoUrl_MatomoUrl.parsed.value.segment || '');
       var newSegmentComparisons = [];
       compareSegments.forEach(function (segment, idx) {
@@ -4277,11 +3764,9 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
           }
         });
         var segmentTitle = storedSegment ? storedSegment.name : translate('General_Unknown');
-
         if (segment.trim() === '') {
           segmentTitle = translate('SegmentEditor_DefaultAllVisits');
         }
-
         newSegmentComparisons.push({
           params: {
             segment: segment
@@ -4296,22 +3781,17 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
     key: "parsePeriodComparisons",
     value: function parsePeriodComparisons() {
       var comparePeriods = Comparisons_store_toConsumableArray(wrapArray(src_MatomoUrl_MatomoUrl.parsed.value.comparePeriods));
-
       var compareDates = Comparisons_store_toConsumableArray(wrapArray(src_MatomoUrl_MatomoUrl.parsed.value.compareDates));
-
       comparePeriods.unshift(src_MatomoUrl_MatomoUrl.parsed.value.period);
       compareDates.unshift(src_MatomoUrl_MatomoUrl.parsed.value.date);
       var newPeriodComparisons = [];
-
       for (var i = 0; i < Math.min(compareDates.length, comparePeriods.length); i += 1) {
         var title = void 0;
-
         try {
           title = Periods_Periods.parse(comparePeriods[i], compareDates[i]).getPrettyString();
         } catch (e) {
           title = translate('General_Error');
         }
-
         newPeriodComparisons.push({
           params: {
             date: compareDates[i],
@@ -4321,7 +3801,6 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
           index: i
         });
       }
-
       return newPeriodComparisons;
     }
   }, {
@@ -4336,10 +3815,8 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
       return isEnabled;
     }
   }]);
-
   return ComparisonsStore;
 }();
-
 
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Comparisons/Comparisons.store.instance.ts
 
@@ -4375,17 +3852,13 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
       return Comparisons_store_instance.getPeriodComparisons();
     });
     var getSeriesColor = Comparisons_store_instance.getSeriesColor.bind(Comparisons_store_instance);
-
     function transformTooltipContent() {
       var title = window.$(this).attr('title');
-
       if (!title) {
         return title;
       }
-
       return window.vueSanitize(title.replace(/\n/g, '<br />'));
     }
-
     return {
       isComparing: isComparing,
       segmentComparisons: segmentComparisons,
@@ -4405,11 +3878,9 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
     },
     getComparisonPeriodType: function getComparisonPeriodType(comparison) {
       var period = comparison.params.period;
-
       if (period === 'range') {
         return translate('CoreHome_PeriodRange');
       }
-
       var periodStr = translate("Intl_Period".concat(period.substring(0, 1).toUpperCase()).concat(period.substring(1)));
       return periodStr.substring(0, 1).toUpperCase() + periodStr.substring(1);
     },
@@ -4417,7 +3888,6 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
       if (!this.comparisonTooltips || !Object.keys(this.comparisonTooltips).length) {
         return undefined;
       }
-
       return (this.comparisonTooltips[periodComparison.index] || {})[segmentComparison.index];
     },
     getUrlToSegment: function getUrlToSegment(segment) {
@@ -4430,13 +3900,10 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
     },
     onComparisonsChanged: function onComparisonsChanged() {
       var _this = this;
-
       this.comparisonTooltips = null;
-
       if (!Comparisons_store_instance.isComparing()) {
         return;
       }
-
       var periodComparisons = Comparisons_store_instance.getPeriodComparisons();
       var segmentComparisons = Comparisons_store_instance.getSegmentComparisons();
       AjaxHelper_AjaxHelper.fetch({
@@ -4454,7 +3921,6 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
           _this.comparisonTooltips[periodComp.index] = {};
           segmentComparisons.forEach(function (segmentComp) {
             var tooltip = _this.generateComparisonTooltip(report, periodComp, segmentComp);
-
             _this.comparisonTooltips[periodComp.index][segmentComp.index] = tooltip;
           });
         });
@@ -4465,7 +3931,6 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
         // sanity check
         return '';
       }
-
       var firstRowIndex = Comparisons_store_instance.getComparisonSeriesIndex(periodComp.index, 0);
       var firstRow = visitsSummary.reportData.comparisons[firstRowIndex];
       var comparisonRowIndex = Comparisons_store_instance.getComparisonSeriesIndex(periodComp.index, segmentComp.index);
@@ -4475,19 +3940,16 @@ var Comparisons_store_ComparisonsStore = /*#__PURE__*/function () {
       var visitsPercent = (comparisonRow.nb_visits / firstRow.nb_visits * 100).toFixed(2);
       visitsPercent = "".concat(visitsPercent, "%");
       tooltip += translate('General_ComparisonCardTooltip1', ["'".concat(comparisonRow.compareSegmentPretty, "'"), comparisonRow.comparePeriodPretty, visitsPercent, comparisonRow.nb_visits.toString(), firstRow.nb_visits.toString()]);
-
       if (periodComp.index > 0) {
         tooltip += '<br/><br/>';
         tooltip += translate('General_ComparisonCardTooltip2', [comparisonRow.nb_visits_change.toString(), firstPeriodRow.compareSegmentPretty, firstPeriodRow.comparePeriodPretty]);
       }
-
       tooltip += '</div>';
       return tooltip;
     }
   },
   mounted: function mounted() {
     var _this2 = this;
-
     Matomo_Matomo.on('piwikComparisonsChanged', function () {
       _this2.onComparisonsChanged();
     });
@@ -4511,11 +3973,9 @@ var MenuItemsDropdownvue_type_template_id_3418188f_hoisted_1 = {
 };
 var MenuItemsDropdownvue_type_template_id_3418188f_hoisted_2 = ["title"];
 var MenuItemsDropdownvue_type_template_id_3418188f_hoisted_3 = ["innerHTML"];
-
 var MenuItemsDropdownvue_type_template_id_3418188f_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-chevron-down reporting-menu-sub-icon"
 }, null, -1);
-
 var MenuItemsDropdownvue_type_template_id_3418188f_hoisted_5 = {
   class: "items"
 };
@@ -4528,9 +3988,7 @@ var MenuItemsDropdownvue_type_template_id_3418188f_hoisted_8 = ["title"];
 var MenuItemsDropdownvue_type_template_id_3418188f_hoisted_9 = ["title"];
 function MenuItemsDropdownvue_type_template_id_3418188f_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _directive_focus_if = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("focus-if");
-
   var _directive_focus_anywhere_but_here = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("focus-anywhere-but-here");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", MenuItemsDropdownvue_type_template_id_3418188f_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     class: "title",
     onClick: _cache[0] || (_cache[0] = function ($event) {
@@ -4556,7 +4014,6 @@ function MenuItemsDropdownvue_type_template_id_3418188f_render(_ctx, _cache, $pr
   }, null, 8, MenuItemsDropdownvue_type_template_id_3418188f_hoisted_8), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !_ctx.searchTerm]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
     onClick: _cache[3] || (_cache[3] = function ($event) {
       _ctx.searchTerm = '';
-
       _ctx.searchItems('');
     }),
     class: "reset icon-close",
@@ -4576,7 +4033,7 @@ function MenuItemsDropdownvue_type_template_id_3418188f_render(_ctx, _cache, $pr
 
 
 var MenuItemsDropdownvue_type_script_lang_ts_window = window,
-    MenuItemsDropdownvue_type_script_lang_ts_$ = MenuItemsDropdownvue_type_script_lang_ts_window.$;
+  MenuItemsDropdownvue_type_script_lang_ts_$ = MenuItemsDropdownvue_type_script_lang_ts_window.$;
 /* harmony default export */ var MenuItemsDropdownvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     menuTitle: String,
@@ -4607,11 +4064,9 @@ var MenuItemsDropdownvue_type_script_lang_ts_window = window,
     },
     selectItem: function selectItem(event) {
       var targetClasses = event.target.classList;
-
       if (!targetClasses.contains('item') || targetClasses.contains('disabled') || targetClasses.contains('separator')) {
         return;
       }
-
       if (this.menuTitleChangeOnClick) {
         this.actualMenuTitle = (event.target.textContent || '').replace(/[\u0000-\u2666]/g, function (c) {
           return "&#".concat(c.charCodeAt(0), ";");
@@ -4625,7 +4080,6 @@ var MenuItemsDropdownvue_type_script_lang_ts_window = window,
     },
     onSearchTermKeydown: function onSearchTermKeydown() {
       var _this = this;
-
       setTimeout(function () {
         _this.searchItems(_this.searchTerm);
       });
@@ -4634,7 +4088,6 @@ var MenuItemsDropdownvue_type_script_lang_ts_window = window,
       var searchTerm = unprocessedSearchTerm.toLowerCase();
       MenuItemsDropdownvue_type_script_lang_ts_$(this.$refs.root).find('.item').each(function (index, node) {
         var $node = MenuItemsDropdownvue_type_script_lang_ts_$(node);
-
         if ($node.text().toLowerCase().indexOf(searchTerm) === -1) {
           $node.hide();
         } else {
@@ -4669,7 +4122,7 @@ function DatePickervue_type_template_id_589729fc_render(_ctx, _cache, $props, $s
 
 var DEFAULT_STEP_MONTHS = 1;
 var DatePickervue_type_script_lang_ts_window = window,
-    DatePickervue_type_script_lang_ts_$ = DatePickervue_type_script_lang_ts_window.$;
+  DatePickervue_type_script_lang_ts_$ = DatePickervue_type_script_lang_ts_window.$;
 /* harmony default export */ var DatePickervue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     selectedDateStart: Date,
@@ -4684,16 +4137,13 @@ var DatePickervue_type_script_lang_ts_window = window,
   emits: ['cellHover', 'cellHoverLeave', 'dateSelect'],
   setup: function setup(props, context) {
     var root = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
-
     function setDateCellColor($dateCell, dateValue) {
       var $dateCellLink = $dateCell.children('a');
-
       if (props.selectedDateStart && props.selectedDateEnd && dateValue >= props.selectedDateStart && dateValue <= props.selectedDateEnd) {
         $dateCell.addClass('ui-datepicker-current-period');
       } else {
         $dateCell.removeClass('ui-datepicker-current-period');
       }
-
       if (props.highlightedDateStart && props.highlightedDateEnd && dateValue >= props.highlightedDateStart && dateValue <= props.highlightedDateEnd) {
         // other-month cells don't have links, so the <td> must have the ui-state-hover class
         var elementToAddClassTo = $dateCellLink.length ? $dateCellLink : $dateCell;
@@ -4703,7 +4153,6 @@ var DatePickervue_type_script_lang_ts_window = window,
         $dateCellLink.removeClass('ui-state-hover');
       }
     }
-
     function getCellDate($dateCell, month, year) {
       if ($dateCell.hasClass('ui-datepicker-other-month')) {
         return getOtherMonthDate($dateCell, month, year); // eslint-disable-line
@@ -4712,26 +4161,23 @@ var DatePickervue_type_script_lang_ts_window = window,
       var day = parseInt($dateCell.children('a,span').text(), 10);
       return new Date(year, month, day);
     }
-
     function getOtherMonthDate($dateCell, month, year) {
       var date;
       var $row = $dateCell.parent();
-      var $rowCells = $row.children('td'); // if in the first row, the date cell is before the current month
-
+      var $rowCells = $row.children('td');
+      // if in the first row, the date cell is before the current month
       if ($row.is(':first-child')) {
         var $firstDateInMonth = $row.children('td:not(.ui-datepicker-other-month)').first();
         date = getCellDate($firstDateInMonth, month, year);
         date.setDate($rowCells.index($dateCell) - $rowCells.index($firstDateInMonth) + 1);
         return date;
-      } // the date cell is after the current month
-
-
+      }
+      // the date cell is after the current month
       var $lastDateInMonth = $row.children('td:not(.ui-datepicker-other-month)').last();
       date = getCellDate($lastDateInMonth, month, year);
       date.setDate(date.getDate() + $rowCells.index($dateCell) - $rowCells.index($lastDateInMonth));
       return date;
     }
-
     function getMonthYearDisplayed() {
       var element = DatePickervue_type_script_lang_ts_$(root.value);
       var $firstCellWithMonth = element.find('td[data-month]');
@@ -4739,13 +4185,12 @@ var DatePickervue_type_script_lang_ts_window = window,
       var year = parseInt($firstCellWithMonth.attr('data-year'), 10);
       return [month, year];
     }
-
     function setDatePickerCellColors() {
       var element = DatePickervue_type_script_lang_ts_$(root.value);
       var $calendarTable = element.find('.ui-datepicker-calendar');
-      var monthYear = getMonthYearDisplayed(); // highlight the rest of the cells by first getting the date for the first cell
+      var monthYear = getMonthYearDisplayed();
+      // highlight the rest of the cells by first getting the date for the first cell
       // in the calendar, then just incrementing by one for the rest of the cells.
-
       var $cells = $calendarTable.find('td');
       var $firstDateCell = $cells.first();
       var currentDate = getCellDate($firstDateCell, monthYear[0], monthYear[1]);
@@ -4754,14 +4199,11 @@ var DatePickervue_type_script_lang_ts_window = window,
         currentDate.setDate(currentDate.getDate() + 1);
       });
     }
-
     function viewDateChanged() {
       if (!props.viewDate) {
         return false;
       }
-
       var date;
-
       if (typeof props.viewDate === 'string') {
         try {
           date = parseDate(props.viewDate);
@@ -4771,65 +4213,53 @@ var DatePickervue_type_script_lang_ts_window = window,
       } else {
         date = props.viewDate;
       }
-
-      var element = DatePickervue_type_script_lang_ts_$(root.value); // only change the datepicker date if the date is outside of the current month/year.
+      var element = DatePickervue_type_script_lang_ts_$(root.value);
+      // only change the datepicker date if the date is outside of the current month/year.
       // this avoids a re-render in other cases.
-
       var monthYear = getMonthYearDisplayed();
-
       if (monthYear[0] !== date.getMonth() || monthYear[1] !== date.getFullYear()) {
         element.datepicker('setDate', date);
         return true;
       }
-
       return false;
-    } // remove the ui-state-active class & click handlers for every cell. we bypass
+    }
+    // remove the ui-state-active class & click handlers for every cell. we bypass
     // the datepicker's date selection logic for smoother browser rendering.
-
-
     function onJqueryUiRenderedPicker() {
       var element = DatePickervue_type_script_lang_ts_$(root.value);
       element.find('td[data-event]').off('click');
       element.find('.ui-state-active').removeClass('ui-state-active');
-      element.find('.ui-datepicker-current-day').removeClass('ui-datepicker-current-day'); // add href to left/right nav in calendar so they can be accessed via keyboard
-
+      element.find('.ui-datepicker-current-day').removeClass('ui-datepicker-current-day');
+      // add href to left/right nav in calendar so they can be accessed via keyboard
       element.find('.ui-datepicker-prev,.ui-datepicker-next').attr('href', '');
     }
-
     function stepMonthsChanged() {
       var element = DatePickervue_type_script_lang_ts_$(root.value);
       var stepMonths = props.stepMonths || DEFAULT_STEP_MONTHS;
-
       if (element.datepicker('option', 'stepMonths') === stepMonths) {
         return false;
-      } // setting stepMonths will change the month in view back to the selected date. to avoid
+      }
+      // setting stepMonths will change the month in view back to the selected date. to avoid
       // we set the selected date to the month in view.
-
-
       var currentMonth = DatePickervue_type_script_lang_ts_$('.ui-datepicker-month', element).val();
       var currentYear = DatePickervue_type_script_lang_ts_$('.ui-datepicker-year', element).val();
       element.datepicker('option', 'stepMonths', stepMonths).datepicker('setDate', new Date(currentYear, currentMonth));
       onJqueryUiRenderedPicker();
       return true;
     }
-
     function enableDisableMonthDropdown() {
       var element = DatePickervue_type_script_lang_ts_$(root.value);
       var monthPicker = element.find('.ui-datepicker-month')[0];
-
       if (monthPicker) {
         monthPicker.disabled = props.disableMonthDropdown;
       }
     }
-
     function handleOtherMonthClick() {
       if (!DatePickervue_type_script_lang_ts_$(this).hasClass('ui-state-hover')) {
         return;
       }
-
       var $row = DatePickervue_type_script_lang_ts_$(this).parent();
       var $tbody = $row.parent();
-
       if ($row.is(':first-child')) {
         // click on first of the month
         $tbody.find('a').first().click();
@@ -4838,18 +4268,16 @@ var DatePickervue_type_script_lang_ts_window = window,
         $tbody.find('a').last().click();
       }
     }
-
     function onCalendarViewChange() {
       // clicking left/right re-enables the month dropdown, so we disable it again
       enableDisableMonthDropdown();
       setDatePickerCellColors();
-    } // on a prop change (NOTE: we can't watch just `props`, since then newProps and oldProps will
+    }
+    // on a prop change (NOTE: we can't watch just `props`, since then newProps and oldProps will
     // have the same values (since it is a proxy object). Using a copy doesn't quite work, the
     // object it returns will always be different, BUT, since we check what changes it works
     // for our purposes. The only downside is that it runs on every tick basically, but since
     // that is within the context of the date picker component, it's bearable.
-
-
     Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(function () {
       return Object.assign({}, props);
     }, function (newProps, oldProps) {
@@ -4866,36 +4294,28 @@ var DatePickervue_type_script_lang_ts_window = window,
         if (redraw) {
           return;
         }
-
         var newProp = selector(newProps);
         var oldProp = selector(oldProps);
-
         if (!newProp && oldProp) {
           redraw = true;
         }
-
         if (newProp && !oldProp) {
           redraw = true;
         }
-
         if (newProp && oldProp && newProp.getTime() !== oldProp.getTime()) {
           redraw = true;
         }
       });
-
       if (newProps.viewDate !== oldProps.viewDate && viewDateChanged()) {
         redraw = true;
       }
-
       if (newProps.stepMonths !== oldProps.stepMonths) {
         stepMonthsChanged();
       }
-
       if (newProps.disableMonthDropdown !== oldProps.disableMonthDropdown) {
         enableDisableMonthDropdown();
-      } // redraw when selected/highlighted dates change
-
-
+      }
+      // redraw when selected/highlighted dates change
       if (redraw) {
         setDatePickerCellColors();
       }
@@ -4920,8 +4340,8 @@ var DatePickervue_type_script_lang_ts_window = window,
         if (event.originalEvent) {
           setDatePickerCellColors();
         }
-      }); // on hover cell, execute scope.cellHover()
-
+      });
+      // on hover cell, execute scope.cellHover()
       element.on('mouseenter', 'tbody td', function onMouseEnter() {
         var monthYear = getMonthYearDisplayed();
         var $dateCell = DatePickervue_type_script_lang_ts_$(this);
@@ -4930,33 +4350,31 @@ var DatePickervue_type_script_lang_ts_window = window,
           date: dateValue,
           $cell: $dateCell
         });
-      }); // overrides jquery UI handler that unhighlights a cell when the mouse leaves it
-
+      });
+      // overrides jquery UI handler that unhighlights a cell when the mouse leaves it
       element.on('mouseout', 'tbody td a', function () {
         setDatePickerCellColors();
-      }); // call scope.cellHoverLeave() when mouse leaves table body (can't do event on tbody, for
+      });
+      // call scope.cellHoverLeave() when mouse leaves table body (can't do event on tbody, for
       // some reason that fails, so we do two events, one on the table & one on thead)
-
       element.on('mouseleave', 'table', function () {
         return context.emit('cellHoverLeave');
       }).on('mouseenter', 'thead', function () {
         return context.emit('cellHoverLeave');
-      }); // make sure whitespace is clickable when the period makes it appropriate
-
-      element.on('click', 'tbody td.ui-datepicker-other-month', handleOtherMonthClick); // NOTE: using a selector w/ .on() doesn't seem to work for some reason...
-
+      });
+      // make sure whitespace is clickable when the period makes it appropriate
+      element.on('click', 'tbody td.ui-datepicker-other-month', handleOtherMonthClick);
+      // NOTE: using a selector w/ .on() doesn't seem to work for some reason...
       element.on('click', function (e) {
         e.preventDefault();
         var $target = DatePickervue_type_script_lang_ts_$(e.target).closest('a');
-
         if (!$target.is('.ui-datepicker-next') && !$target.is('.ui-datepicker-prev')) {
           return;
         }
-
         onCalendarViewChange();
-      }); // when a cell is clicked, invoke the onDateSelected function. this, in conjunction
+      });
+      // when a cell is clicked, invoke the onDateSelected function. this, in conjunction
       // with onJqueryUiRenderedPicker(), overrides the date picker's click behavior.
-
       element.on('click', 'td[data-month]', function (event) {
         var $cell = DatePickervue_type_script_lang_ts_$(event.target).closest('td');
         var month = parseInt($cell.attr('data-month'), 10);
@@ -4969,11 +4387,9 @@ var DatePickervue_type_script_lang_ts_window = window,
       var renderPostProcessed = stepMonthsChanged();
       viewDateChanged();
       enableDisableMonthDropdown();
-
       if (!renderPostProcessed) {
         onJqueryUiRenderedPicker();
       }
-
       setDatePickerCellColors();
     });
     return {
@@ -5003,7 +4419,6 @@ var DateRangePickervue_type_template_id_67755d44_hoisted_3 = {
 };
 function DateRangePickervue_type_template_id_67755d44_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_DatePicker = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("DatePicker");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", DateRangePickervue_type_template_id_67755d44_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", DateRangePickervue_type_template_id_67755d44_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h6", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_DateRangeFrom')) + " ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
     type: "text",
     id: "inputCalendarFrom",
@@ -5083,23 +4498,21 @@ var DATE_FORMAT = 'YYYY-MM-DD';
   },
   data: function data() {
     var startDate = null;
-
     try {
       if (this.startDate) {
         startDate = parseDate(this.startDate);
       }
-    } catch (e) {// ignore
+    } catch (e) {
+      // ignore
     }
-
     var endDate = null;
-
     try {
       if (this.endDate) {
         endDate = parseDate(this.endDate);
       }
-    } catch (e) {// ignore
+    } catch (e) {
+      // ignore
     }
-
     return {
       fromPickerSelectedDates: [startDate, startDate],
       toPickerSelectedDates: [endDate, endDate],
@@ -5125,6 +4538,7 @@ var DATE_FORMAT = 'YYYY-MM-DD';
   mounted: function mounted() {
     this.rangeChanged(); // emit with initial range pair
   },
+
   methods: {
     setStartRangeDate: function setStartRangeDate(date) {
       this.fromPickerSelectedDates = [date, date];
@@ -5136,7 +4550,6 @@ var DATE_FORMAT = 'YYYY-MM-DD';
     },
     onRangeInputChanged: function onRangeInputChanged(source, event) {
       var _this = this;
-
       setTimeout(function () {
         if (source === 'from') {
           _this.setStartRangeDateFromStr(event.target.value);
@@ -5149,14 +4562,12 @@ var DATE_FORMAT = 'YYYY-MM-DD';
       if ($cell.hasClass('ui-datepicker-unselectable')) {
         return null;
       }
-
       return [date, date];
     },
     handleEnterPress: function handleEnterPress($event) {
       if ($event.keyCode !== 13) {
         return;
       }
-
       this.$emit('submit', {
         start: this.startDate,
         end: this.endDate
@@ -5165,14 +4576,13 @@ var DATE_FORMAT = 'YYYY-MM-DD';
     setStartRangeDateFromStr: function setStartRangeDateFromStr(dateStr) {
       this.startDateInvalid = true;
       var startDateParsed = null;
-
       try {
         if (dateStr && dateStr.length === DATE_FORMAT.length) {
           startDateParsed = parseDate(dateStr);
         }
-      } catch (e) {// ignore
+      } catch (e) {
+        // ignore
       }
-
       if (startDateParsed) {
         this.fromPickerSelectedDates = [startDateParsed, startDateParsed];
         this.startDateInvalid = false;
@@ -5182,14 +4592,13 @@ var DATE_FORMAT = 'YYYY-MM-DD';
     setEndRangeDateFromStr: function setEndRangeDateFromStr(dateStr) {
       this.endDateInvalid = true;
       var endDateParsed = null;
-
       try {
         if (dateStr && dateStr.length === DATE_FORMAT.length) {
           endDateParsed = parseDate(dateStr);
         }
-      } catch (e) {// ignore
+      } catch (e) {
+        // ignore
       }
-
       if (endDateParsed) {
         this.toPickerSelectedDates = [endDateParsed, endDateParsed];
         this.endDateInvalid = false;
@@ -5217,7 +4626,6 @@ DateRangePickervue_type_script_lang_ts.render = DateRangePickervue_type_template
 
 function PeriodDatePickervue_type_template_id_6d1fa14c_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_DatePicker = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("DatePicker");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_DatePicker, {
     "selected-date-start": _ctx.selectedDates[0],
     "selected-date-end": _ctx.selectedDates[1],
@@ -5262,50 +4670,41 @@ var piwikMaxDate = new Date(Matomo_Matomo.maxDateYear, Matomo_Matomo.maxDateMont
     var viewDate = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(props.date);
     var selectedDates = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])([null, null]);
     var highlightedDates = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])([null, null]);
-
     function getBoundedDateRange(date) {
-      var dates = Periods_Periods.get(props.period).parse(date).getDateRange(); // make sure highlighted date range is within min/max date range
-
+      var dates = Periods_Periods.get(props.period).parse(date).getDateRange();
+      // make sure highlighted date range is within min/max date range
       dates[0] = PeriodDatePickervue_type_script_lang_ts_piwikMinDate < dates[0] ? dates[0] : PeriodDatePickervue_type_script_lang_ts_piwikMinDate;
       dates[1] = piwikMaxDate > dates[1] ? dates[1] : piwikMaxDate;
       return dates;
     }
-
     function onHoverNormalCell(cellDate, $cell) {
-      var isOutOfMinMaxDateRange = cellDate < PeriodDatePickervue_type_script_lang_ts_piwikMinDate || cellDate > piwikMaxDate; // don't highlight anything if the period is month or day, and we're hovering over calendar
+      var isOutOfMinMaxDateRange = cellDate < PeriodDatePickervue_type_script_lang_ts_piwikMinDate || cellDate > piwikMaxDate;
+      // don't highlight anything if the period is month or day, and we're hovering over calendar
       // whitespace. since there are no dates, it's doesn't make sense what you're selecting.
-
       var shouldNotHighlightFromWhitespace = $cell.hasClass('ui-datepicker-other-month') && (props.period === 'month' || props.period === 'day');
-
       if (isOutOfMinMaxDateRange || shouldNotHighlightFromWhitespace) {
         highlightedDates.value = [null, null];
         return;
       }
-
       highlightedDates.value = getBoundedDateRange(cellDate);
     }
-
     function onHoverLeaveNormalCells() {
       highlightedDates.value = [null, null];
     }
-
     function onDateSelected(date) {
       context.emit('select', {
         date: date
       });
     }
-
     function onChanges() {
       if (!props.period || !props.date) {
         selectedDates.value = [null, null];
         viewDate.value = null;
         return;
       }
-
       selectedDates.value = getBoundedDateRange(props.date);
       viewDate.value = parseDate(props.date);
     }
-
     Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(props, onChanges);
     onChanges();
     return {
@@ -5394,7 +4793,7 @@ function Notificationvue_type_template_id_897c6e1a_render(_ctx, _cache, $props, 
 
 
 var Notificationvue_type_script_lang_ts_window = window,
-    Notificationvue_type_script_lang_ts_$ = Notificationvue_type_script_lang_ts_window.$;
+  Notificationvue_type_script_lang_ts_$ = Notificationvue_type_script_lang_ts_window.$;
 /* harmony default export */ var Notificationvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     notificationId: String,
@@ -5417,15 +4816,12 @@ var Notificationvue_type_script_lang_ts_window = window,
   computed: {
     cssClasses: function cssClasses() {
       var result = {};
-
       if (this.context) {
         result["notification-".concat(this.context)] = true;
       }
-
       if (this.cssClass) {
         result[this.cssClass] = true;
       }
-
       return result;
     },
     canClose: function canClose() {
@@ -5433,7 +4829,6 @@ var Notificationvue_type_script_lang_ts_window = window,
         // otherwise it is never possible to dismiss the notification
         return true;
       }
-
       return !this.noclear;
     }
   },
@@ -5445,17 +4840,14 @@ var Notificationvue_type_script_lang_ts_window = window,
   },
   mounted: function mounted() {
     var _this = this;
-
     var addToastEvent = function addToastEvent() {
       setTimeout(function () {
         _this.deleted = true;
       }, _this.toastLength);
     };
-
     if (this.type === 'toast') {
       addToastEvent();
     }
-
     if (this.style) {
       Notificationvue_type_script_lang_ts_$(this.$refs.root).css(this.style);
     }
@@ -5463,28 +4855,24 @@ var Notificationvue_type_script_lang_ts_window = window,
   methods: {
     toastClosed: function toastClosed() {
       var _this2 = this;
-
       Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(function () {
         _this2.$emit('closed');
       });
     },
     closeNotification: function closeNotification(event) {
       var _this3 = this;
-
       if (this.canClose && event && event.target) {
         this.deleted = true;
         Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(function () {
           _this3.$emit('closed');
         });
       }
-
       this.markNotificationAsRead();
     },
     markNotificationAsRead: function markNotificationAsRead() {
       if (!this.notificationId) {
         return;
       }
-
       AjaxHelper_AjaxHelper.post({
         module: 'CoreHome',
         action: 'markNotificationAsRead'
@@ -5513,7 +4901,6 @@ var NotificationGroupvue_type_template_id_672051da_hoisted_1 = {
 var NotificationGroupvue_type_template_id_672051da_hoisted_2 = ["innerHTML"];
 function NotificationGroupvue_type_template_id_672051da_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Notification = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Notification");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", NotificationGroupvue_type_template_id_672051da_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.notifications, function (notification, index) {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Notification, {
       key: notification.id || "no-id-".concat(index),
@@ -5545,13 +4932,9 @@ function NotificationGroupvue_type_template_id_672051da_render(_ctx, _cache, $pr
 
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Notification/Notifications.store.ts
 function Notifications_store_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 function Notifications_store_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
 function Notifications_store_createClass(Constructor, protoProps, staticProps) { if (protoProps) Notifications_store_defineProperties(Constructor.prototype, protoProps); if (staticProps) Notifications_store_defineProperties(Constructor, staticProps); return Constructor; }
-
 function Notifications_store_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -5563,19 +4946,15 @@ function Notifications_store_defineProperty(obj, key, value) { if (key in obj) {
 
 
 var Notifications_store_window = window,
-    Notifications_store_$ = Notifications_store_window.$;
-
+  Notifications_store_$ = Notifications_store_window.$;
 var Notifications_store_NotificationsStore = /*#__PURE__*/function () {
   function NotificationsStore() {
     Notifications_store_classCallCheck(this, NotificationsStore);
-
     Notifications_store_defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
       notifications: []
     }));
-
     Notifications_store_defineProperty(this, "nextNotificationId", 0);
   }
-
   Notifications_store_createClass(NotificationsStore, [{
     key: "state",
     get: function get() {
@@ -5584,29 +4963,26 @@ var Notifications_store_NotificationsStore = /*#__PURE__*/function () {
   }, {
     key: "appendNotification",
     value: function appendNotification(notification) {
-      this.checkMessage(notification.message); // remove existing notification before adding
-
+      this.checkMessage(notification.message);
+      // remove existing notification before adding
       if (notification.id) {
         this.remove(notification.id);
       }
-
       this.privateState.notifications.push(notification);
     }
   }, {
     key: "prependNotification",
     value: function prependNotification(notification) {
-      this.checkMessage(notification.message); // remove existing notification before adding
-
+      this.checkMessage(notification.message);
+      // remove existing notification before adding
       if (notification.id) {
         this.remove(notification.id);
       }
-
       this.privateState.notifications.unshift(notification);
     }
     /**
      * Removes a previously shown notification having the given notification id.
      */
-
   }, {
     key: "remove",
     value: function remove(id) {
@@ -5618,21 +4994,18 @@ var Notifications_store_NotificationsStore = /*#__PURE__*/function () {
     key: "parseNotificationDivs",
     value: function parseNotificationDivs() {
       var _this = this;
-
       var $notificationNodes = Notifications_store_$('[data-role="notification"]');
       var notificationsToShow = [];
       $notificationNodes.each(function (index, notificationNode) {
         var $notificationNode = Notifications_store_$(notificationNode);
         var attributes = $notificationNode.data();
         var message = $notificationNode.html();
-
         if (message) {
           notificationsToShow.push(Object.assign(Object.assign({}, attributes), {}, {
             message: message,
             animate: false
           }));
         }
-
         $notificationNodes.remove();
       });
       notificationsToShow.forEach(function (n) {
@@ -5649,14 +5022,12 @@ var Notifications_store_NotificationsStore = /*#__PURE__*/function () {
     /**
      * Creates a notification and shows it to the user.
      */
-
   }, {
     key: "show",
     value: function show(notification) {
       this.checkMessage(notification.message);
       var addMethod = notification.prepend ? this.prependNotification : this.appendNotification;
       var notificationPosition = '#notificationContainer';
-
       if (notification.placeat) {
         notificationPosition = notification.placeat;
       } else {
@@ -5664,17 +5035,14 @@ var Notifications_store_NotificationsStore = /*#__PURE__*/function () {
         // show it within the opened modal
         var modalSelector = '.modal.open .modal-content';
         var modal = document.querySelector(modalSelector);
-
         if (modal) {
           if (!modal.querySelector('#modalNotificationContainer')) {
             Notifications_store_$(modal).prepend('<div id="modalNotificationContainer"/>');
           }
-
           notificationPosition = "".concat(modalSelector, " #modalNotificationContainer");
           addMethod = this.prependNotification;
         }
       }
-
       var group = notification.group || (notificationPosition ? notificationPosition.toString() : '');
       this.initializeNotificationContainer(notificationPosition, group);
       var notificationInstanceId = (this.nextNotificationId += 1).toString();
@@ -5692,7 +5060,6 @@ var Notifications_store_NotificationsStore = /*#__PURE__*/function () {
     value: function scrollToNotification(notificationInstanceId) {
       setTimeout(function () {
         var element = document.querySelector("[data-notification-instance-id='".concat(notificationInstanceId, "']"));
-
         if (element) {
           Matomo_Matomo.helper.lazyScrollTo(element, 250);
         }
@@ -5701,17 +5068,14 @@ var Notifications_store_NotificationsStore = /*#__PURE__*/function () {
     /**
      * Shows a notification at a certain point with a quick upwards animation.
      */
-
   }, {
     key: "toast",
     value: function toast(notification) {
       this.checkMessage(notification.message);
       var $placeat = notification.placeat ? Notifications_store_$(notification.placeat) : undefined;
-
       if (!$placeat || !$placeat.length) {
         throw new Error('A valid selector is required for the placeat option when using Notification.toast().');
       }
-
       var toastElement = document.createElement('div');
       toastElement.style.position = 'absolute';
       toastElement.style.top = "".concat($placeat.offset().top, "px");
@@ -5737,17 +5101,13 @@ var Notifications_store_NotificationsStore = /*#__PURE__*/function () {
       if (!notificationPosition) {
         return;
       }
-
       var $container = Notifications_store_$(notificationPosition);
-
       if ($container.children('.notification-group').length) {
         return;
-      } // avoiding a dependency cycle. won't need to do this when NotificationGroup's do not need
+      }
+      // avoiding a dependency cycle. won't need to do this when NotificationGroup's do not need
       // to be dynamically initialized.
-
-
       var NotificationGroup = window.CoreHome.NotificationGroup; // eslint-disable-line
-
       var app = createVueApp({
         template: '<NotificationGroup :group="group"></NotificationGroup>',
         data: function data() {
@@ -5767,13 +5127,11 @@ var Notifications_store_NotificationsStore = /*#__PURE__*/function () {
       }
     }
   }]);
-
   return NotificationsStore;
 }();
-
 var Notifications_store_instance = new Notifications_store_NotificationsStore();
-/* harmony default export */ var Notifications_store = (Notifications_store_instance); // parse notifications on dom load
-
+/* harmony default export */ var Notifications_store = (Notifications_store_instance);
+// parse notifications on dom load
 Notifications_store_$(function () {
   return Notifications_store_instance.parseNotificationDivs();
 });
@@ -5791,12 +5149,10 @@ Notifications_store_$(function () {
   computed: {
     notifications: function notifications() {
       var _this = this;
-
       return Notifications_store.state.notifications.filter(function (n) {
         if (_this.group) {
           return _this.group === n.group;
         }
-
         return !n.group;
       });
     }
@@ -5828,11 +5184,9 @@ NotificationGroupvue_type_script_lang_ts.render = NotificationGroupvue_type_temp
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ShowHelpLink/ShowHelpLink.vue?vue&type=template&id=19288664
 
-
 var ShowHelpLinkvue_type_template_id_19288664_hoisted_1 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-help"
 }, null, -1);
-
 var ShowHelpLinkvue_type_template_id_19288664_hoisted_2 = [ShowHelpLinkvue_type_template_id_19288664_hoisted_1];
 function ShowHelpLinkvue_type_template_id_19288664_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
@@ -5873,7 +5227,6 @@ var REPORTING_HELP_NOTIFICATION_ID = 'reportingMenu-help';
         this.currentName = '';
         return;
       }
-
       Notifications_store.show({
         context: 'info',
         id: REPORTING_HELP_NOTIFICATION_ID,
@@ -5884,7 +5237,6 @@ var REPORTING_HELP_NOTIFICATION_ID = 'reportingMenu-help';
         placeat: '#notificationContainer',
         prepend: true
       });
-
       if (this.name !== '') {
         this.currentName = this.name;
       }
@@ -5902,13 +5254,9 @@ ShowHelpLinkvue_type_script_lang_ts.render = ShowHelpLinkvue_type_template_id_19
 /* harmony default export */ var ShowHelpLink = (ShowHelpLinkvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/SiteSelector/SitesStore.ts
 function SitesStore_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 function SitesStore_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
 function SitesStore_createClass(Constructor, protoProps, staticProps) { if (protoProps) SitesStore_defineProperties(Constructor.prototype, protoProps); if (staticProps) SitesStore_defineProperties(Constructor, staticProps); return Constructor; }
-
 function SitesStore_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -5918,80 +5266,62 @@ function SitesStore_defineProperty(obj, key, value) { if (key in obj) { Object.d
 
 
 
-
 var SitesStore_SitesStore = /*#__PURE__*/function () {
   function SitesStore() {
     var _this = this;
-
     SitesStore_classCallCheck(this, SitesStore);
-
     SitesStore_defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
       initialSites: [],
       isInitialized: false
     }));
-
     SitesStore_defineProperty(this, "stateFiltered", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
       initialSites: [],
       isInitialized: false,
       excludedSites: []
     }));
-
     SitesStore_defineProperty(this, "currentRequestAbort", null);
-
     SitesStore_defineProperty(this, "limitRequest", void 0);
-
     SitesStore_defineProperty(this, "initialSites", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_this.state.initialSites);
     }));
-
     SitesStore_defineProperty(this, "initialSitesFiltered", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_this.stateFiltered.initialSites);
     }));
   }
-
   SitesStore_createClass(SitesStore, [{
     key: "loadInitialSites",
     value: function loadInitialSites() {
       var _this2 = this;
-
       var onlySitesWithAdminAccess = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
       var sitesToExclude = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-
       if (this.state.isInitialized && sitesToExclude.length === 0) {
         return Promise.resolve(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(this.state.initialSites));
-      } // If the filtered state has already been initialized with the same sites, return that.
-
-
+      }
+      // If the filtered state has already been initialized with the same sites, return that.
       if (this.stateFiltered.isInitialized && sitesToExclude.length === this.stateFiltered.excludedSites.length && sitesToExclude.every(function (val, index) {
         return val === _this2.stateFiltered.excludedSites[index];
       })) {
         return Promise.resolve(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(this.stateFiltered.initialSites));
-      } // If we want to exclude certain sites, perform the search for that.
-
-
+      }
+      // If we want to exclude certain sites, perform the search for that.
       if (sitesToExclude.length > 0) {
         this.searchSite('%', onlySitesWithAdminAccess, sitesToExclude).then(function (sites) {
           _this2.stateFiltered.isInitialized = true;
           _this2.stateFiltered.excludedSites = sitesToExclude;
-
           if (sites !== null) {
             _this2.stateFiltered.initialSites = sites;
           }
         });
-      } // If the main state has already been initialized, no need to continue.
-
-
+      }
+      // If the main state has already been initialized, no need to continue.
       if (this.state.isInitialized) {
         return Promise.resolve(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(this.state.initialSites));
       }
-
       return this.searchSite('%', onlySitesWithAdminAccess, sitesToExclude).then(function (sites) {
         _this2.state.isInitialized = true;
-
         if (sites !== null) {
           _this2.state.initialSites = sites;
         }
-
         return sites;
       });
     }
@@ -6019,32 +5349,25 @@ var SitesStore_SitesStore = /*#__PURE__*/function () {
     key: "searchSite",
     value: function searchSite(term) {
       var _this3 = this;
-
       var onlySitesWithAdminAccess = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
       var sitesToExclude = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
-
       if (!term) {
         return this.loadInitialSites(onlySitesWithAdminAccess, sitesToExclude);
       }
-
       if (this.currentRequestAbort) {
         this.currentRequestAbort.abort();
       }
-
       if (!this.limitRequest) {
         this.limitRequest = AjaxHelper_AjaxHelper.fetch({
           method: 'SitesManager.getNumWebsitesToDisplayPerPage'
         });
       }
-
       return this.limitRequest.then(function (response) {
         var limit = response.value;
         var methodToCall = 'SitesManager.getPatternMatchSites';
-
         if (onlySitesWithAdminAccess) {
           methodToCall = 'SitesManager.getSitesWithAdminAccess';
         }
-
         _this3.currentRequestAbort = new AbortController();
         return AjaxHelper_AjaxHelper.fetch({
           method: methodToCall,
@@ -6058,7 +5381,6 @@ var SitesStore_SitesStore = /*#__PURE__*/function () {
         if (response) {
           return _this3.processWebsitesList(response);
         }
-
         return null;
       }).finally(function () {
         _this3.currentRequestAbort = null;
@@ -6068,11 +5390,9 @@ var SitesStore_SitesStore = /*#__PURE__*/function () {
     key: "processWebsitesList",
     value: function processWebsitesList(response) {
       var sites = response;
-
       if (!sites || !sites.length) {
         return [];
       }
-
       sites = sites.map(function (s) {
         return Object.assign(Object.assign({}, s), {}, {
           name: s.group ? "[".concat(s.group, "] ").concat(s.name) : s.name
@@ -6082,16 +5402,13 @@ var SitesStore_SitesStore = /*#__PURE__*/function () {
         if (lhs.name.toLowerCase() < rhs.name.toLowerCase()) {
           return -1;
         }
-
         return lhs.name.toLowerCase() > rhs.name.toLowerCase() ? 1 : 0;
       });
       return sites;
     }
   }]);
-
   return SitesStore;
 }();
-
 /* harmony default export */ var SiteSelector_SitesStore = (new SitesStore_SitesStore());
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/SiteSelector/SiteSelector.vue?vue&type=template&id=1dc4e0ef
 
@@ -6128,13 +5445,9 @@ var SiteSelectorvue_type_template_id_1dc4e0ef_hoisted_14 = {
 };
 function SiteSelectorvue_type_template_id_1dc4e0ef_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _ctx$displayedModelVa, _ctx$displayedModelVa2, _ctx$displayedModelVa3, _ctx$displayedModelVa4;
-
   var _component_AllSitesLink = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("AllSitesLink");
-
   var _directive_focus_if = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("focus-if");
-
   var _directive_focus_anywhere_but_here = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("focus-anywhere-but-here");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["siteSelector piwikSelector borderedControl", {
       'expanded': _ctx.showSitesList,
@@ -6171,7 +5484,6 @@ function SiteSelectorvue_type_template_id_1dc4e0ef_render(_ctx, _cache, $props, 
     type: "text",
     onClick: _cache[2] || (_cache[2] = function ($event) {
       _ctx.searchTerm = '';
-
       _ctx.loadInitialSites();
     }),
     "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
@@ -6186,7 +5498,6 @@ function SiteSelectorvue_type_template_id_1dc4e0ef_render(_ctx, _cache, $props, 
     title: "Clear",
     onClick: _cache[4] || (_cache[4] = function ($event) {
       _ctx.searchTerm = '';
-
       _ctx.loadInitialSites();
     }),
     class: "reset",
@@ -6236,7 +5547,6 @@ function SiteSelectorvue_type_template_id_1dc4e0ef_render(_ctx, _cache, $props, 
 var AllSitesLinkvue_type_template_id_45607d28_hoisted_1 = ["innerHTML", "href"];
 function AllSitesLinkvue_type_template_id_45607d28_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _this = this;
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
     onClick: _cache[1] || (_cache[1] = function ($event) {
       return _this.onClick($event);
@@ -6351,7 +5661,6 @@ AllSitesLinkvue_type_script_lang_ts.render = AllSitesLinkvue_type_template_id_45
   },
   created: function created() {
     this.searchSite = debounce(this.searchSite);
-
     if (!this.modelValue && Matomo_Matomo.idSite) {
       this.$emit('update:modelValue', {
         id: Matomo_Matomo.idSite,
@@ -6361,7 +5670,6 @@ AllSitesLinkvue_type_script_lang_ts.render = AllSitesLinkvue_type_template_id_45
   },
   mounted: function mounted() {
     var _this = this;
-
     window.initTopControls();
     this.loadInitialSites().then(function () {
       if (_this.shouldDefaultToFirstSite) {
@@ -6376,7 +5684,6 @@ AllSitesLinkvue_type_script_lang_ts.render = AllSitesLinkvue_type_template_id_45
       if (event.altKey) {
         return;
       }
-
       if (event.preventDefault) {
         event.preventDefault();
       } else {
@@ -6384,7 +5691,6 @@ AllSitesLinkvue_type_script_lang_ts.render = AllSitesLinkvue_type_template_id_45
       }
 
       var selectorLink = _this.$refs.selectorLink;
-
       if (selectorLink) {
         selectorLink.click();
         selectorLink.focus();
@@ -6397,7 +5703,6 @@ AllSitesLinkvue_type_script_lang_ts.render = AllSitesLinkvue_type_template_id_45
     },
     selectorLinkTitle: function selectorLinkTitle() {
       var _this$modelValue;
-
       return this.hasMultipleSites ? translate('CoreHome_ChangeCurrentWebsite', ((_this$modelValue = this.modelValue) === null || _this$modelValue === void 0 ? void 0 : _this$modelValue.name) || this.firstSiteName) : '';
     },
     hasMultipleSites: function hasMultipleSites() {
@@ -6419,7 +5724,6 @@ AllSitesLinkvue_type_script_lang_ts.render = AllSitesLinkvue_type_template_id_45
     },
     shouldDefaultToFirstSite: function shouldDefaultToFirstSite() {
       var _this$modelValue2;
-
       return !((_this$modelValue2 = this.modelValue) !== null && _this$modelValue2 !== void 0 && _this$modelValue2.id) && (!this.hasMultipleSites || this.defaultToFirstSite) && this.sites[0];
     },
     // using an extra computed property in case SiteSelector is used directly
@@ -6429,21 +5733,18 @@ AllSitesLinkvue_type_script_lang_ts.render = AllSitesLinkvue_type_template_id_45
       if (this.modelValue) {
         return this.modelValue;
       }
-
       if (Matomo_Matomo.idSite) {
         return {
           id: Matomo_Matomo.idSite,
           name: Matomo_Matomo.helper.htmlDecode(Matomo_Matomo.siteName)
         };
       }
-
       if (this.shouldDefaultToFirstSite) {
         return {
           id: this.sites[0].idsite,
           name: this.sites[0].name
         };
       }
-
       return null;
     }
   },
@@ -6467,21 +5768,17 @@ AllSitesLinkvue_type_script_lang_ts.render = AllSitesLinkvue_type_template_id_45
     switchSite: function switchSite(site, event) {
       // for Mac OS cmd key needs to be pressed, ctrl key on other systems
       var controlKey = navigator.userAgent.indexOf('Mac OS X') !== -1 ? event.metaKey : event.ctrlKey;
-
       if (event && controlKey && event.target && event.target.href) {
         window.open(event.target.href, '_blank');
         return;
       }
-
       this.$emit('update:modelValue', {
         id: site.id,
         name: site.name
       });
-
       if (!this.switchSiteOnSelect || this.activeSiteId === site.id) {
         return;
       }
-
       SiteSelector_SitesStore.loadSite(site.id);
     },
     onBlur: function onBlur() {
@@ -6491,7 +5788,6 @@ AllSitesLinkvue_type_script_lang_ts.render = AllSitesLinkvue_type_template_id_45
     onClickSelector: function onClickSelector() {
       if (this.hasMultipleSites) {
         this.showSitesList = !this.showSitesList;
-
         if (!this.isLoading && !this.searchTerm) {
           this.loadInitialSites();
         }
@@ -6501,36 +5797,30 @@ AllSitesLinkvue_type_script_lang_ts.render = AllSitesLinkvue_type_template_id_45
       if (event.key !== 'Enter') {
         return;
       }
-
       event.preventDefault();
       this.showSitesList = !this.showSitesList;
-
       if (this.showSitesList && !this.isLoading) {
         this.loadInitialSites();
       }
     },
     getMatchedSiteName: function getMatchedSiteName(siteName) {
       var index = siteName.toUpperCase().indexOf(this.searchTerm.toUpperCase());
-
       if (index === -1 || this.isLoading // only highlight when we know the displayed results are for a search
       ) {
         return Matomo_Matomo.helper.htmlEntities(siteName);
       }
-
       var previousPart = Matomo_Matomo.helper.htmlEntities(siteName.substring(0, index));
       var lastPart = Matomo_Matomo.helper.htmlEntities(siteName.substring(index + this.searchTerm.length));
       return "".concat(previousPart, "<span class=\"autocompleteMatched\">").concat(this.searchTerm, "</span>").concat(lastPart);
     },
     loadInitialSites: function loadInitialSites() {
       var _this2 = this;
-
       return SiteSelector_SitesStore.loadInitialSites(this.onlySitesWithAdminAccess, this.sitesToExclude ? this.sitesToExclude : []).then(function (sites) {
         _this2.sites = sites || [];
       });
     },
     searchSite: function searchSite(term) {
       var _this3 = this;
-
       this.isLoading = true;
       SiteSelector_SitesStore.searchSite(term, this.onlySitesWithAdminAccess, this.sitesToExclude ? this.sitesToExclude : []).then(function (sites) {
         if (term !== _this3.searchTerm) {
@@ -6592,9 +5882,7 @@ var QuickAccessvue_type_template_id_bd42bc70_hoisted_10 = {
 var QuickAccessvue_type_template_id_bd42bc70_hoisted_11 = ["href"];
 function QuickAccessvue_type_template_id_bd42bc70_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _directive_focus_if = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("focus-if");
-
   var _directive_focus_anywhere_but_here = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("focus-anywhere-but-here");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", QuickAccessvue_type_template_id_bd42bc70_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     class: "icon-search",
     onMouseenter: _cache[0] || (_cache[0] = function ($event) {
@@ -6625,7 +5913,6 @@ function QuickAccessvue_type_template_id_bd42bc70_render(_ctx, _cache, $props, $
       class: "quick-access-category",
       onClick: function onClick($event) {
         _ctx.searchTerm = subcategory.title;
-
         _ctx.searchMenu(_ctx.searchTerm);
       }
     }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(subcategory.title), 9, QuickAccessvue_type_template_id_bd42bc70_hoisted_5), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(subcategory.items, function (submenuEntry) {
@@ -6686,21 +5973,18 @@ function QuickAccessvue_type_template_id_bd42bc70_render(_ctx, _cache, $props, $
 
 
 var QuickAccessvue_type_script_lang_ts_window = window,
-    ListingFormatter = QuickAccessvue_type_script_lang_ts_window.ListingFormatter;
-
+  ListingFormatter = QuickAccessvue_type_script_lang_ts_window.ListingFormatter;
 function isElementInViewport(element) {
   var rect = element.getBoundingClientRect();
   var $window = window.$(window);
   return rect.top >= 0 && rect.left >= 0 && rect.bottom <= $window.height() && rect.right <= $window.width();
 }
-
 function scrollFirstElementIntoView(element) {
   if (element && element.scrollIntoView) {
     // make sure search is visible
     element.scrollIntoView();
   }
 }
-
 /* harmony default export */ var QuickAccessvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   directives: {
     FocusAnywhereButHere: FocusAnywhereButHere,
@@ -6709,11 +5993,9 @@ function scrollFirstElementIntoView(element) {
   watch: {
     searchActive: function searchActive(newValue) {
       var root = this.$refs.root;
-
       if (!root || !root.parentElement) {
         return;
       }
-
       var classes = root.parentElement.classList;
       classes.toggle('active', newValue);
       classes.toggle('expanded', newValue);
@@ -6721,28 +6003,23 @@ function scrollFirstElementIntoView(element) {
   },
   mounted: function mounted() {
     var _this = this;
-
-    var root = this.$refs.root; // this is currently needed since vue-entry code will render a div, then vue will render a div
+    var root = this.$refs.root;
+    // this is currently needed since vue-entry code will render a div, then vue will render a div
     // within it, but the top controls and CSS expect to have certain CSS classes in the root
     // element.
     // same applies to above watch for searchActive()
-
     if (root && root.parentElement) {
       root.parentElement.classList.add('quick-access', 'piwikSelector');
     }
-
     if (typeof window.initTopControls !== 'undefined' && window.initTopControls) {
       window.initTopControls();
     }
-
     Matomo_Matomo.helper.registerShortcut('f', translate('CoreHome_ShortcutSearch'), function (event) {
       if (event.altKey) {
         return;
       }
-
       event.preventDefault();
       scrollFirstElementIntoView(_this.$refs.root);
-
       _this.activateSearch();
     });
   },
@@ -6772,15 +6049,12 @@ function scrollFirstElementIntoView(element) {
     },
     quickAccessTitle: function quickAccessTitle() {
       var searchAreas = [translate('CoreHome_MenuEntries')];
-
       if (this.hasSegmentSelector) {
         searchAreas.push(translate('CoreHome_Segments'));
       }
-
       if (this.hasSitesSelector) {
         searchAreas.push(translate('SitesManager_Sites'));
       }
-
       return translate('CoreHome_QuickAccessTitle', ListingFormatter.formatAnd(searchAreas));
     }
   },
@@ -6788,11 +6062,9 @@ function scrollFirstElementIntoView(element) {
   methods: {
     onKeypress: function onKeypress(event) {
       var _this2 = this;
-
       var areSearchResultsDisplayed = this.searchTerm && this.searchActive;
       var isTabKey = event.which === 9;
       var isEscKey = event.which === 27;
-
       if (event.which === 38) {
         this.highlightPreviousItem();
         event.preventDefault();
@@ -6808,7 +6080,6 @@ function scrollFirstElementIntoView(element) {
       } else {
         setTimeout(function () {
           _this2.searchActive = true;
-
           _this2.searchMenu(_this2.searchTerm);
         });
       }
@@ -6819,29 +6090,23 @@ function scrollFirstElementIntoView(element) {
       } else {
         this.searchIndex -= 1;
       }
-
       this.makeSureSelectedItemIsInViewport();
     },
     highlightNextItem: function highlightNextItem() {
       var numTotal = this.$refs.root.querySelectorAll('li.result').length;
-
       if (numTotal <= this.searchIndex + 1) {
         this.searchIndex = numTotal - 1;
       } else {
         this.searchIndex += 1;
       }
-
       this.makeSureSelectedItemIsInViewport();
     },
     clickQuickAccessMenuItem: function clickQuickAccessMenuItem() {
       var _this3 = this;
-
       var selectedMenuElement = this.getCurrentlySelectedElement();
-
       if (selectedMenuElement) {
         setTimeout(function () {
           selectedMenuElement.click();
-
           _this3.$emit('itemSelected', selectedMenuElement);
         }, 20);
       }
@@ -6849,43 +6114,36 @@ function scrollFirstElementIntoView(element) {
     deactivateSearch: function deactivateSearch() {
       this.searchTerm = '';
       this.searchActive = false;
-
       if (this.$refs.input) {
         this.$refs.input.blur();
       }
     },
     makeSureSelectedItemIsInViewport: function makeSureSelectedItemIsInViewport() {
       var element = this.getCurrentlySelectedElement();
-
       if (element && !isElementInViewport(element)) {
         scrollFirstElementIntoView(element);
       }
     },
     getCurrentlySelectedElement: function getCurrentlySelectedElement() {
       var results = this.$refs.root.querySelectorAll('li.result');
-
       if (results && results.length && results.item(this.searchIndex)) {
         return results.item(this.searchIndex);
       }
-
       return undefined;
     },
     searchMenu: function searchMenu(unprocessedSearchTerm) {
       var _this4 = this;
-
       var searchTerm = unprocessedSearchTerm.toLowerCase();
       var index = -1;
       var menuItemsIndex = {};
       var menuItems = [];
-
       var moveToCategory = function moveToCategory(theSubmenuItem) {
         // force rerender of element to prevent weird side effects
-        var submenuItem = Object.assign({}, theSubmenuItem); // needed for proper highlighting with arrow keys
-
+        var submenuItem = Object.assign({}, theSubmenuItem);
+        // needed for proper highlighting with arrow keys
         index += 1;
         submenuItem.menuIndex = index;
         var category = submenuItem.category;
-
         if (!(category in menuItemsIndex)) {
           menuItems.push({
             title: category,
@@ -6893,13 +6151,10 @@ function scrollFirstElementIntoView(element) {
           });
           menuItemsIndex[category] = menuItems.length - 1;
         }
-
         var indexOfCategory = menuItemsIndex[category];
         menuItems[indexOfCategory].items.push(submenuItem);
       };
-
       this.resetSearchIndex();
-
       if (this.hasSitesSelector) {
         this.isLoading = true;
         SiteSelector_SitesStore.searchSite(searchTerm).then(function (sites) {
@@ -6910,25 +6165,20 @@ function scrollFirstElementIntoView(element) {
           _this4.isLoading = false;
         });
       }
-
       var menuItemMatches = function menuItemMatches(i) {
         return i.name.toLowerCase().indexOf(searchTerm) !== -1 || i.category.toLowerCase().indexOf(searchTerm) !== -1;
-      }; // get the menu items on first search since this component can be mounted
+      };
+      // get the menu items on first search since this component can be mounted
       // before the menus are
-
-
       if (this.topMenuItems === null) {
         this.topMenuItems = this.getTopMenuItems();
       }
-
       if (this.leftMenuItems === null) {
         this.leftMenuItems = this.getLeftMenuItems();
       }
-
       if (this.segmentItems === null) {
         this.segmentItems = this.getSegmentItems();
       }
-
       var topMenuItems = this.topMenuItems.filter(menuItemMatches);
       var leftMenuItems = this.leftMenuItems.filter(menuItemMatches);
       var segmentItems = this.segmentItems.filter(menuItemMatches);
@@ -6947,11 +6197,9 @@ function scrollFirstElementIntoView(element) {
     },
     selectMenuItem: function selectMenuItem(index) {
       var target = document.querySelector("[quick_access='".concat(index, "']"));
-
       if (target) {
         this.deactivateSearch();
         var href = target.getAttribute('href');
-
         if (href && href.length > 10 && target && target.click) {
           try {
             target.click();
@@ -6973,17 +6221,13 @@ function scrollFirstElementIntoView(element) {
     },
     getTopMenuItems: function getTopMenuItems() {
       var _this5 = this;
-
       var category = translate('CoreHome_Menu');
       var topMenuItems = [];
       document.querySelectorAll('nav .sidenav li > a, nav .sidenav li > div > a').forEach(function (element) {
         var _element$textContent;
-
         var text = (_element$textContent = element.textContent) === null || _element$textContent === void 0 ? void 0 : _element$textContent.trim();
-
         if (!text || element.parentElement != null && element.parentElement.tagName != null && element.parentElement.tagName === 'DIV') {
           var _element$getAttribute;
-
           text = (_element$getAttribute = element.getAttribute('title')) === null || _element$getAttribute === void 0 ? void 0 : _element$getAttribute.trim(); // possibly a icon, use title instead
         }
 
@@ -7000,24 +6244,18 @@ function scrollFirstElementIntoView(element) {
     },
     getLeftMenuItems: function getLeftMenuItems() {
       var _this6 = this;
-
       var leftMenuItems = [];
       document.querySelectorAll('#secondNavBar .menuTab').forEach(function (element) {
         var _categoryElement$;
-
         var categoryElement = window.$(element).find('> .item');
         var category = ((_categoryElement$ = categoryElement[0]) === null || _categoryElement$ === void 0 ? void 0 : _categoryElement$.innerText.trim()) || '';
-
         if (category && category.lastIndexOf('\n') !== -1) {
           // remove "\n\nMenu"
           category = category.slice(0, category.lastIndexOf('\n')).trim();
         }
-
         window.$(element).find('li .item').each(function (i, subElement) {
           var _subElement$textConte;
-
           var text = (_subElement$textConte = subElement.textContent) === null || _subElement$textConte === void 0 ? void 0 : _subElement$textConte.trim();
-
           if (text) {
             leftMenuItems.push({
               name: text,
@@ -7032,18 +6270,14 @@ function scrollFirstElementIntoView(element) {
     },
     getSegmentItems: function getSegmentItems() {
       var _this7 = this;
-
       if (!this.hasSegmentSelector) {
         return [];
       }
-
       var category = translate('CoreHome_Segments');
       var segmentItems = [];
       document.querySelectorAll('.segmentList [data-idsegment]').forEach(function (element) {
         var _element$querySelecto, _element$querySelecto2;
-
         var text = (_element$querySelecto = element.querySelector('.segname')) === null || _element$querySelecto === void 0 ? void 0 : (_element$querySelecto2 = _element$querySelecto.textContent) === null || _element$querySelecto2 === void 0 ? void 0 : _element$querySelecto2.trim();
-
         if (text) {
           segmentItems.push({
             name: text,
@@ -7069,7 +6303,6 @@ QuickAccessvue_type_script_lang_ts.render = QuickAccessvue_type_template_id_bd42
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/FieldArray/FieldArray.vue?vue&type=template&id=7ec28fd8
 function FieldArrayvue_type_template_id_7ec28fd8_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-
 var FieldArrayvue_type_template_id_7ec28fd8_hoisted_1 = {
   class: "fieldArray form-group"
 };
@@ -7080,7 +6313,6 @@ var FieldArrayvue_type_template_id_7ec28fd8_hoisted_2 = {
 var FieldArrayvue_type_template_id_7ec28fd8_hoisted_3 = ["onClick", "title"];
 function FieldArrayvue_type_template_id_7ec28fd8_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", FieldArrayvue_type_template_id_7ec28fd8_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.modelValue, function (item, index) {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
       class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["fieldArrayTable multiple valign-wrapper", FieldArrayvue_type_template_id_7ec28fd8_defineProperty({}, "fieldArrayTable".concat(index), true)]),
@@ -7112,20 +6344,14 @@ function FieldArrayvue_type_template_id_7ec28fd8_render(_ctx, _cache, $props, $s
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/FieldArray/FieldArray.vue?vue&type=script&lang=ts
 function FieldArrayvue_type_script_lang_ts_toConsumableArray(arr) { return FieldArrayvue_type_script_lang_ts_arrayWithoutHoles(arr) || FieldArrayvue_type_script_lang_ts_iterableToArray(arr) || FieldArrayvue_type_script_lang_ts_unsupportedIterableToArray(arr) || FieldArrayvue_type_script_lang_ts_nonIterableSpread(); }
-
 function FieldArrayvue_type_script_lang_ts_nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
 function FieldArrayvue_type_script_lang_ts_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return FieldArrayvue_type_script_lang_ts_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return FieldArrayvue_type_script_lang_ts_arrayLikeToArray(o, minLen); }
-
 function FieldArrayvue_type_script_lang_ts_iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
 function FieldArrayvue_type_script_lang_ts_arrayWithoutHoles(arr) { if (Array.isArray(arr)) return FieldArrayvue_type_script_lang_ts_arrayLikeToArray(arr); }
-
 function FieldArrayvue_type_script_lang_ts_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 
- // async since this is a a recursive component
-
+// async since this is a a recursive component
 var Field = useExternalPluginComponent('CorePluginsAdmin', 'Field');
 /* harmony default export */ var FieldArrayvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
@@ -7155,7 +6381,6 @@ var Field = useExternalPluginComponent('CorePluginsAdmin', 'Field');
     },
     onEntryChange: function onEntryChange(newValue, index) {
       var newArrayValue = FieldArrayvue_type_script_lang_ts_toConsumableArray(this.modelValue || []);
-
       newArrayValue[index] = newValue;
       this.$emit('update:modelValue', newArrayValue);
     },
@@ -7181,7 +6406,6 @@ FieldArrayvue_type_script_lang_ts.render = FieldArrayvue_type_template_id_7ec28f
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/MultiPairField/MultiPairField.vue?vue&type=template&id=1599cf40
 function MultiPairFieldvue_type_template_id_1599cf40_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-
 var MultiPairFieldvue_type_template_id_1599cf40_hoisted_1 = {
   class: "multiPairField form-group"
 };
@@ -7200,10 +6424,8 @@ var MultiPairFieldvue_type_template_id_1599cf40_hoisted_4 = {
 var MultiPairFieldvue_type_template_id_1599cf40_hoisted_5 = ["onClick", "title"];
 function MultiPairFieldvue_type_template_id_1599cf40_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", MultiPairFieldvue_type_template_id_1599cf40_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.modelValue, function (item, index) {
     var _ref;
-
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
       class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["multiPairFieldTable multiple valign-wrapper", (_ref = {}, MultiPairFieldvue_type_template_id_1599cf40_defineProperty(_ref, "multiPairFieldTable".concat(index), true), MultiPairFieldvue_type_template_id_1599cf40_defineProperty(_ref, "has".concat(_ctx.fieldCount, "Fields"), true), _ref)]),
       key: index
@@ -7279,22 +6501,15 @@ function MultiPairFieldvue_type_template_id_1599cf40_render(_ctx, _cache, $props
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/MultiPairField/MultiPairField.vue?vue&type=script&lang=ts
 function MultiPairFieldvue_type_script_lang_ts_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function MultiPairFieldvue_type_script_lang_ts_toConsumableArray(arr) { return MultiPairFieldvue_type_script_lang_ts_arrayWithoutHoles(arr) || MultiPairFieldvue_type_script_lang_ts_iterableToArray(arr) || MultiPairFieldvue_type_script_lang_ts_unsupportedIterableToArray(arr) || MultiPairFieldvue_type_script_lang_ts_nonIterableSpread(); }
-
 function MultiPairFieldvue_type_script_lang_ts_nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
 function MultiPairFieldvue_type_script_lang_ts_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return MultiPairFieldvue_type_script_lang_ts_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return MultiPairFieldvue_type_script_lang_ts_arrayLikeToArray(o, minLen); }
-
 function MultiPairFieldvue_type_script_lang_ts_iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
 function MultiPairFieldvue_type_script_lang_ts_arrayWithoutHoles(arr) { if (Array.isArray(arr)) return MultiPairFieldvue_type_script_lang_ts_arrayLikeToArray(arr); }
-
 function MultiPairFieldvue_type_script_lang_ts_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 
- // async since this is a recursive component
-
+// async since this is a recursive component
 var MultiPairFieldvue_type_script_lang_ts_Field = useExternalPluginComponent('CorePluginsAdmin', 'Field');
 /* harmony default export */ var MultiPairFieldvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
@@ -7314,19 +6529,15 @@ var MultiPairFieldvue_type_script_lang_ts_Field = useExternalPluginComponent('Co
       if (this.field1 && this.field2 && this.field3 && this.field4) {
         return 4;
       }
-
       if (this.field1 && this.field2 && this.field3) {
         return 3;
       }
-
       if (this.field1 && this.field2) {
         return 2;
       }
-
       if (this.field1) {
         return 1;
       }
-
       return 0;
     }
   },
@@ -7348,7 +6559,6 @@ var MultiPairFieldvue_type_script_lang_ts_Field = useExternalPluginComponent('Co
     },
     onEntryChange: function onEntryChange(index, key, newValue) {
       var newWholeValue = MultiPairFieldvue_type_script_lang_ts_toConsumableArray(this.modelValue);
-
       newWholeValue[index] = Object.assign(Object.assign({}, newWholeValue[index]), {}, MultiPairFieldvue_type_script_lang_ts_defineProperty({}, key, newValue));
       this.$emit('update:modelValue', newWholeValue);
     },
@@ -7362,7 +6572,6 @@ var MultiPairFieldvue_type_script_lang_ts_Field = useExternalPluginComponent('Co
     },
     isEmptyValue: function isEmptyValue(value) {
       var fieldCount = this.fieldCount;
-
       if (fieldCount === 4) {
         if (!value[this.field1.key] && !value[this.field2.key] && !value[this.field3.key] && !value[this.field4.key]) {
           return false;
@@ -7380,28 +6589,22 @@ var MultiPairFieldvue_type_script_lang_ts_Field = useExternalPluginComponent('Co
           return false;
         }
       }
-
       return true;
     },
     makeEmptyValue: function makeEmptyValue() {
       var result = {};
-
       if (this.field1 && this.field1.key) {
         result[this.field1.key] = '';
       }
-
       if (this.field2 && this.field2.key) {
         result[this.field2.key] = '';
       }
-
       if (this.field3 && this.field3.key) {
         result[this.field3.key] = '';
       }
-
       if (this.field4 && this.field4.key) {
         result[this.field4.key] = '';
       }
-
       return result;
     }
   }
@@ -7422,11 +6625,9 @@ var PeriodSelectorvue_type_template_id_20c87378_hoisted_1 = {
   class: "periodSelector piwikSelector"
 };
 var PeriodSelectorvue_type_template_id_20c87378_hoisted_2 = ["title"];
-
 var PeriodSelectorvue_type_template_id_20c87378_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon icon-calendar"
 }, null, -1);
-
 var PeriodSelectorvue_type_template_id_20c87378_hoisted_4 = {
   id: "periodMore",
   class: "dropdown"
@@ -7460,11 +6661,9 @@ var PeriodSelectorvue_type_template_id_20c87378_hoisted_13 = {
 var PeriodSelectorvue_type_template_id_20c87378_hoisted_14 = {
   id: "comparePeriodStartDate"
 };
-
 var _hoisted_15 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "compare-dates-separator"
 }, null, -1);
-
 var _hoisted_16 = {
   id: "comparePeriodEndDate"
 };
@@ -7481,15 +6680,10 @@ var _hoisted_20 = {
 };
 function PeriodSelectorvue_type_template_id_20c87378_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_DateRangePicker = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("DateRangePicker");
-
   var _component_PeriodDatePicker = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("PeriodDatePicker");
-
   var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
   var _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
-
   var _directive_expand_on_click = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("expand-on-click");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PeriodSelectorvue_type_template_id_20c87378_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     ref: "title",
     id: "date",
@@ -7597,17 +6791,11 @@ function PeriodSelectorvue_type_template_id_20c87378_render(_ctx, _cache, $props
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/PeriodSelector/PeriodSelector.vue?vue&type=script&lang=ts
 function PeriodSelectorvue_type_script_lang_ts_slicedToArray(arr, i) { return PeriodSelectorvue_type_script_lang_ts_arrayWithHoles(arr) || PeriodSelectorvue_type_script_lang_ts_iterableToArrayLimit(arr, i) || PeriodSelectorvue_type_script_lang_ts_unsupportedIterableToArray(arr, i) || PeriodSelectorvue_type_script_lang_ts_nonIterableRest(); }
-
 function PeriodSelectorvue_type_script_lang_ts_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
 function PeriodSelectorvue_type_script_lang_ts_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return PeriodSelectorvue_type_script_lang_ts_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return PeriodSelectorvue_type_script_lang_ts_arrayLikeToArray(o, minLen); }
-
 function PeriodSelectorvue_type_script_lang_ts_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 function PeriodSelectorvue_type_script_lang_ts_iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
 function PeriodSelectorvue_type_script_lang_ts_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 
 
 
@@ -7634,15 +6822,12 @@ var COMPARE_PERIOD_OPTIONS = [{
 }];
 var PeriodSelectorvue_type_script_lang_ts_piwikMinDate = new Date(Matomo_Matomo.minDateYear, Matomo_Matomo.minDateMonth - 1, Matomo_Matomo.minDateDay);
 var PeriodSelectorvue_type_script_lang_ts_piwikMaxDate = new Date(Matomo_Matomo.maxDateYear, Matomo_Matomo.maxDateMonth - 1, Matomo_Matomo.maxDateDay);
-
 function isValidDate(d) {
   if (Object.prototype.toString.call(d) !== '[object Date]') {
     return false;
   }
-
   return !Number.isNaN(d.getTime());
 }
-
 /* harmony default export */ var PeriodSelectorvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     periods: Array
@@ -7675,12 +6860,11 @@ function isValidDate(d) {
   },
   mounted: function mounted() {
     var _this = this;
-
     Matomo_Matomo.on('hidePeriodSelector', function () {
       window.$(_this.$refs.root).parent('#periodString').hide();
-    }); // some widgets might hide the period selector using the event above, so ensure it's
+    });
+    // some widgets might hide the period selector using the event above, so ensure it's
     // shown again when switching the page
-
     Matomo_Matomo.on('matomoPageChange', function () {
       window.$(_this.$refs.root).parent('#periodString').show();
     });
@@ -7699,27 +6883,22 @@ function isValidDate(d) {
       return Comparisons_store_instance.getPeriodComparisons();
     }, this.updateComparisonValuesFromStore);
     window.initTopControls(); // must be called when a top control changes width
-
     this.handleZIndexPositionRelativeCompareDropdownIssue();
   },
   computed: {
     currentlyViewingText: function currentlyViewingText() {
       var date;
-
       if (this.periodValue === 'range') {
         if (!this.startRangeDate || !this.endRangeDate) {
           return translate('General_Error');
         }
-
         date = "".concat(this.startRangeDate, ",").concat(this.endRangeDate);
       } else {
         if (!this.dateValue) {
           return translate('General_Error');
         }
-
         date = format(this.dateValue);
       }
-
       try {
         return Periods_Periods.parse(this.periodValue, date).getPrettyString();
       } catch (e) {
@@ -7738,7 +6917,6 @@ function isValidDate(d) {
       if (!this.isComparing) {
         return {};
       }
-
       if (this.comparePeriodType === 'custom') {
         return {
           comparePeriods: ['range'],
@@ -7746,7 +6924,6 @@ function isValidDate(d) {
           compareDates: ["".concat(this.compareStartDate, ",").concat(this.compareEndDate)]
         };
       }
-
       if (this.comparePeriodType === 'previousPeriod') {
         return {
           comparePeriods: [this.selectedPeriod],
@@ -7754,13 +6931,11 @@ function isValidDate(d) {
           compareDates: [this.previousPeriodDateToSelectedPeriod]
         };
       }
-
       if (this.comparePeriodType === 'previousYear') {
         var dateStr = this.selectedPeriod === 'range' ? "".concat(this.startRangeDate, ",").concat(this.endRangeDate) : format(this.dateValue);
         var currentDateRange = Periods_Periods.parse(this.selectedPeriod, dateStr).getDateRange();
         currentDateRange[0].setFullYear(currentDateRange[0].getFullYear() - 1);
         currentDateRange[1].setFullYear(currentDateRange[1].getFullYear() - 1);
-
         if (this.selectedPeriod === 'range') {
           return {
             comparePeriods: ['range'],
@@ -7768,14 +6943,12 @@ function isValidDate(d) {
             compareDates: ["".concat(format(currentDateRange[0]), ",").concat(format(currentDateRange[1]))]
           };
         }
-
         return {
           comparePeriods: [this.selectedPeriod],
           comparePeriodType: 'previousYear',
           compareDates: [format(currentDateRange[0])]
         };
       }
-
       console.warn("Unknown compare period type: ".concat(this.comparePeriodType));
       return {};
     },
@@ -7788,7 +6961,6 @@ function isValidDate(d) {
         var newRange = Range_RangePeriod.getLastNRange('day', 1 + rangeSize, newEndDate);
         return "".concat(format(newRange.startDate), ",").concat(format(newRange.endDate));
       }
-
       var newStartDate = Range_RangePeriod.getLastNRange(this.selectedPeriod, 2, this.dateValue).startDate;
       return format(newStartDate);
     },
@@ -7798,17 +6970,14 @@ function isValidDate(d) {
         var dateTo = this.endRangeDate;
         var oDateFrom = parseDate(dateFrom);
         var oDateTo = parseDate(dateTo);
-
         if (!isValidDate(oDateFrom) || !isValidDate(oDateTo) || oDateFrom > oDateTo) {
           // TODO: use a notification instead?
           window.$('#alert').find('h2').text(translate('General_InvalidDateRange'));
           Matomo_Matomo.helper.modalConfirm('#alert', {});
           return null;
         }
-
         return "".concat(dateFrom, ",").concat(dateTo);
       }
-
       return format(this.dateValue);
     }
   },
@@ -7825,13 +6994,11 @@ function isValidDate(d) {
       // only change period if it's different from what's being shown currently
       if (period === this.periodValue) {
         return;
-      } // can't just change to a range period, w/o setting two new dates
-
-
+      }
+      // can't just change to a range period, w/o setting two new dates
       if (period === 'range') {
         return;
       }
-
       this.setPiwikPeriodAndDate(period, this.dateValue);
     },
     setPiwikPeriodAndDate: function setPiwikPeriodAndDate(period, date) {
@@ -7846,16 +7013,14 @@ function isValidDate(d) {
     propagateNewUrlParams: function propagateNewUrlParams(date, period) {
       var compareParams = this.selectedComparisonParams;
       var baseParams;
-
       if (Matomo_Matomo.helper.isReportingPage()) {
         this.closePeriodSelector();
         baseParams = src_MatomoUrl_MatomoUrl.hashParsed.value;
       } else {
         this.isLoadingNewPage = true;
         baseParams = src_MatomoUrl_MatomoUrl.parsed.value;
-      } // get params without comparePeriods/compareSegments/compareDates
-
-
+      }
+      // get params without comparePeriods/compareSegments/compareDates
       var paramsWithoutCompare = Object.assign({}, baseParams);
       delete paramsWithoutCompare.comparePeriods;
       delete paramsWithoutCompare.comparePeriodType;
@@ -7868,54 +7033,42 @@ function isValidDate(d) {
     onApplyClicked: function onApplyClicked() {
       if (this.selectedPeriod === 'range') {
         var dateString = this.selectedDateString;
-
         if (!dateString) {
           return;
         }
-
         this.periodValue = 'range';
         this.propagateNewUrlParams(dateString, 'range');
         return;
       }
-
       this.setPiwikPeriodAndDate(this.selectedPeriod, this.dateValue);
     },
     updateComparisonValuesFromStore: function updateComparisonValuesFromStore() {
       this.comparePeriodType = 'previousPeriod';
       this.compareStartDate = '';
-      this.compareEndDate = ''; // first is selected period, second is period to compare to
-
+      this.compareEndDate = '';
+      // first is selected period, second is period to compare to
       var comparePeriods = Comparisons_store_instance.getPeriodComparisons();
-
       if (comparePeriods.length < 2) {
         return;
       }
-
       var comparePeriodType = src_MatomoUrl_MatomoUrl.parsed.value.comparePeriodType;
-
       if (!COMPARE_PERIOD_TYPES.includes(comparePeriodType)) {
         return;
       }
-
       this.comparePeriodType = comparePeriodType;
-
       if (this.comparePeriodType !== 'custom' || comparePeriods[1].params.period !== 'range') {
         return;
       }
-
       var periodObj;
-
       try {
         periodObj = Periods_Periods.parse(comparePeriods[1].params.period, comparePeriods[1].params.date);
       } catch (_unused) {
         return;
       }
-
       var _periodObj$getDateRan = periodObj.getDateRange(),
-          _periodObj$getDateRan2 = PeriodSelectorvue_type_script_lang_ts_slicedToArray(_periodObj$getDateRan, 2),
-          startDate = _periodObj$getDateRan2[0],
-          endDate = _periodObj$getDateRan2[1];
-
+        _periodObj$getDateRan2 = PeriodSelectorvue_type_script_lang_ts_slicedToArray(_periodObj$getDateRan, 2),
+        startDate = _periodObj$getDateRan2[0],
+        endDate = _periodObj$getDateRan2[1];
       this.compareStartDate = format(startDate);
       this.compareEndDate = format(endDate);
     },
@@ -7927,21 +7080,17 @@ function isValidDate(d) {
       this.dateValue = null;
       this.startRangeDate = null;
       this.endRangeDate = null;
-
       try {
         Periods_Periods.parse(period, date);
       } catch (e) {
         return;
       }
-
       if (period === 'range') {
         var periodObj = Periods_Periods.get(period).parse(date);
-
         var _periodObj$getDateRan3 = periodObj.getDateRange(),
-            _periodObj$getDateRan4 = PeriodSelectorvue_type_script_lang_ts_slicedToArray(_periodObj$getDateRan3, 2),
-            startDate = _periodObj$getDateRan4[0],
-            endDate = _periodObj$getDateRan4[1];
-
+          _periodObj$getDateRan4 = PeriodSelectorvue_type_script_lang_ts_slicedToArray(_periodObj$getDateRan3, 2),
+          startDate = _periodObj$getDateRan4[0],
+          endDate = _periodObj$getDateRan4[1];
         this.dateValue = startDate;
         this.startRangeDate = format(startDate);
         this.endRangeDate = format(endDate);
@@ -7963,7 +7112,6 @@ function isValidDate(d) {
         this.isRangeValid = false;
         return;
       }
-
       this.isRangeValid = true;
       this.startRangeDate = start;
       this.endRangeDate = end;
@@ -7972,11 +7120,9 @@ function isValidDate(d) {
       if (this.selectedPeriod === 'range' && !this.isRangeValid) {
         return false;
       }
-
       if (this.isComparing && this.comparePeriodType === 'custom' && !this.isCompareRangeValid()) {
         return false;
       }
-
       return true;
     },
     closePeriodSelector: function closePeriodSelector() {
@@ -7988,13 +7134,11 @@ function isValidDate(d) {
       } catch (e) {
         return false;
       }
-
       try {
         parseDate(this.compareEndDate);
       } catch (e) {
         return false;
       }
-
       return true;
     }
   }
@@ -8024,11 +7168,9 @@ var ReportingMenuvue_type_template_id_025fd338_hoisted_5 = {
 var ReportingMenuvue_type_template_id_025fd338_hoisted_6 = ["href", "onClick", "title"];
 var ReportingMenuvue_type_template_id_025fd338_hoisted_7 = ["href", "onClick"];
 var ReportingMenuvue_type_template_id_025fd338_hoisted_8 = ["onClick"];
-
 var ReportingMenuvue_type_template_id_025fd338_hoisted_9 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-help"
 }, null, -1);
-
 var ReportingMenuvue_type_template_id_025fd338_hoisted_10 = [ReportingMenuvue_type_template_id_025fd338_hoisted_9];
 var ReportingMenuvue_type_template_id_025fd338_hoisted_11 = {
   id: "mobile-left-menu",
@@ -8047,9 +7189,7 @@ var ReportingMenuvue_type_template_id_025fd338_hoisted_15 = ["onClick", "href"];
 var ReportingMenuvue_type_template_id_025fd338_hoisted_16 = ["onClick", "href"];
 function ReportingMenuvue_type_template_id_025fd338_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_MenuItemsDropdown = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MenuItemsDropdown");
-
   var _directive_side_nav = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("side-nav");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ReportingMenuvue_type_template_id_025fd338_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", {
     class: "navbar hide-on-med-and-down",
     role: "menu",
@@ -8153,13 +7293,9 @@ function ReportingMenuvue_type_template_id_025fd338_render(_ctx, _cache, $props,
 
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ReportingPages/ReportingPages.store.ts
 function ReportingPages_store_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 function ReportingPages_store_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
 function ReportingPages_store_createClass(Constructor, protoProps, staticProps) { if (protoProps) ReportingPages_store_defineProperties(Constructor.prototype, protoProps); if (staticProps) ReportingPages_store_defineProperties(Constructor, staticProps); return Constructor; }
-
 function ReportingPages_store_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -8171,24 +7307,18 @@ function ReportingPages_store_defineProperty(obj, key, value) { if (key in obj) 
 var ReportingPages_store_ReportingPagesStore = /*#__PURE__*/function () {
   function ReportingPagesStore() {
     var _this = this;
-
     ReportingPages_store_classCallCheck(this, ReportingPagesStore);
-
     ReportingPages_store_defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
       pages: []
     }));
-
     ReportingPages_store_defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_this.privateState);
     }));
-
     ReportingPages_store_defineProperty(this, "fetchAllPagesPromise", void 0);
-
     ReportingPages_store_defineProperty(this, "pages", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       return _this.state.value.pages;
     }));
   }
-
   ReportingPages_store_createClass(ReportingPagesStore, [{
     key: "findPageInCategory",
     value: function findPageInCategory(categoryId) {
@@ -8215,7 +7345,6 @@ var ReportingPages_store_ReportingPagesStore = /*#__PURE__*/function () {
     key: "getAllPages",
     value: function getAllPages() {
       var _this2 = this;
-
       if (!this.fetchAllPagesPromise) {
         this.fetchAllPagesPromise = AjaxHelper_AjaxHelper.fetch({
           method: 'API.getReportPagesMetadata',
@@ -8225,29 +7354,21 @@ var ReportingPages_store_ReportingPagesStore = /*#__PURE__*/function () {
           return _this2.pages.value;
         });
       }
-
       return this.fetchAllPagesPromise.then(function () {
         return _this2.pages.value;
       });
     }
   }]);
-
   return ReportingPagesStore;
 }();
 /* harmony default export */ var ReportingPages_store = (new ReportingPages_store_ReportingPagesStore());
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Orderable.ts
 function Orderable_toConsumableArray(arr) { return Orderable_arrayWithoutHoles(arr) || Orderable_iterableToArray(arr) || Orderable_unsupportedIterableToArray(arr) || Orderable_nonIterableSpread(); }
-
 function Orderable_nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
 function Orderable_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return Orderable_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Orderable_arrayLikeToArray(o, minLen); }
-
 function Orderable_iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
 function Orderable_arrayWithoutHoles(arr) { if (Array.isArray(arr)) return Orderable_arrayLikeToArray(arr); }
-
 function Orderable_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -8256,16 +7377,13 @@ function Orderable_arrayLikeToArray(arr, len) { if (len == null || len > arr.len
  */
 function sortOrderables(menu) {
   var result = Orderable_toConsumableArray(menu || []);
-
   result.sort(function (lhs, rhs) {
     if (lhs.order < rhs.order) {
       return -1;
     }
-
     if (lhs.order > rhs.order) {
       return 1;
     }
-
     return 0;
   });
   return result;
@@ -8279,11 +7397,9 @@ function sortOrderables(menu) {
  */
 function getCategoryChildren(category) {
   var container = category;
-
   if (container.subcategories) {
     return container.subcategories;
   }
-
   return [];
 }
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ReportingMenu/Subcategory.ts
@@ -8295,22 +7411,16 @@ function getCategoryChildren(category) {
  */
 function getSubcategoryChildren(subcategory) {
   var container = subcategory;
-
   if (container.subcategories) {
     return container.subcategories;
   }
-
   return [];
 }
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ReportingMenu/ReportingMenu.store.ts
 function ReportingMenu_store_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 function ReportingMenu_store_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
 function ReportingMenu_store_createClass(Constructor, protoProps, staticProps) { if (protoProps) ReportingMenu_store_defineProperties(Constructor.prototype, protoProps); if (staticProps) ReportingMenu_store_defineProperties(Constructor, staticProps); return Constructor; }
-
 function ReportingMenu_store_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -8324,62 +7434,47 @@ function ReportingMenu_store_defineProperty(obj, key, value) { if (key in obj) {
 
 
 
-
 function isNumeric(text) {
   var n = parseFloat(text);
   return !Number.isNaN(n) && Number.isFinite(n);
 }
-
 var ReportingMenu_store_ReportingMenuStore = /*#__PURE__*/function () {
   function ReportingMenuStore() {
     var _this = this;
-
     ReportingMenu_store_classCallCheck(this, ReportingMenuStore);
-
     ReportingMenu_store_defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
       activeSubcategoryId: null,
       activeSubsubcategoryId: null
     }));
-
     ReportingMenu_store_defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_this.privateState);
     }));
-
     ReportingMenu_store_defineProperty(this, "activeCategory", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       return typeof _this.state.value.activeCategoryId !== 'undefined' ? _this.state.value.activeCategoryId : src_MatomoUrl_MatomoUrl.parsed.value.category;
     }));
-
     ReportingMenu_store_defineProperty(this, "activeSubcategory", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       return _this.state.value.activeSubcategoryId || src_MatomoUrl_MatomoUrl.parsed.value.subcategory;
     }));
-
     ReportingMenu_store_defineProperty(this, "activeSubsubcategory", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       var manuallySetId = _this.state.value.activeSubsubcategoryId;
-
       if (manuallySetId) {
         return manuallySetId;
-      } // default to activeSubcategory if the activeSubcategory is part of a group
-
-
+      }
+      // default to activeSubcategory if the activeSubcategory is part of a group
       var foundCategory = _this.findSubcategory(_this.activeCategory.value, _this.activeSubcategory.value);
-
       if (foundCategory.subsubcategory && foundCategory.subsubcategory.id === _this.activeSubcategory.value) {
         return foundCategory.subsubcategory.id;
       }
-
       return null;
     }));
-
     ReportingMenu_store_defineProperty(this, "menu", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       return _this.buildMenuFromPages();
     }));
   }
-
   ReportingMenu_store_createClass(ReportingMenuStore, [{
     key: "fetchMenuItems",
     value: function fetchMenuItems() {
       var _this2 = this;
-
       return ReportingPages_store.getAllPages().then(function () {
         return _this2.menu.value;
       });
@@ -8388,7 +7483,6 @@ var ReportingMenu_store_ReportingMenuStore = /*#__PURE__*/function () {
     key: "reloadMenuItems",
     value: function reloadMenuItems() {
       var _this3 = this;
-
       return ReportingPages_store.reloadAllPages().then(function () {
         return _this3.menu.value;
       });
@@ -8403,13 +7497,11 @@ var ReportingMenu_store_ReportingMenuStore = /*#__PURE__*/function () {
         if (category.id !== categoryId) {
           return;
         }
-
         (getCategoryChildren(category) || []).forEach(function (subcategory) {
           if (subcategory.id === subcategoryId) {
             foundCategory = category;
             foundSubcategory = subcategory;
           }
-
           if (subcategory.isGroup) {
             (getSubcategoryChildren(subcategory) || []).forEach(function (subcat) {
               if (subcat.id === subcategoryId) {
@@ -8439,11 +7531,9 @@ var ReportingMenu_store_ReportingMenuStore = /*#__PURE__*/function () {
         var category = Object.assign({}, page.category);
         var categoryId = category.id;
         var isCategoryDisplayed = categoryId === displayedCategory;
-
         if (categoriesHandled[categoryId]) {
           return;
         }
-
         categoriesHandled[categoryId] = true;
         category.subcategories = [];
         var categoryGroups = null;
@@ -8453,7 +7543,6 @@ var ReportingMenu_store_ReportingMenuStore = /*#__PURE__*/function () {
         pagesWithCategory.forEach(function (p) {
           var subcategory = Object.assign({}, p.subcategory);
           var isSubcategoryDisplayed = subcategory.id === displayedSubcategory && isCategoryDisplayed;
-
           if (p.widgets && p.widgets[0] && isNumeric(p.subcategory.id)) {
             // we handle a goal or something like it
             if (!categoryGroups) {
@@ -8463,20 +7552,16 @@ var ReportingMenu_store_ReportingMenuStore = /*#__PURE__*/function () {
               categoryGroups.subcategories = [];
               categoryGroups.order = 10;
             }
-
             if (isSubcategoryDisplayed) {
               categoryGroups.name = subcategory.name;
             }
-
             var entityId = subcategory.id;
             subcategory.tooltip = "".concat(subcategory.name, " (id = ").concat(entityId, ")");
             categoryGroups.subcategories.push(subcategory);
             return;
           }
-
           category.subcategories.push(subcategory);
         });
-
         if (categoryGroups && categoryGroups.subcategories && categoryGroups.subcategories.length <= 5) {
           categoryGroups.subcategories.forEach(function (sub) {
             return category.subcategories.push(sub);
@@ -8484,7 +7569,6 @@ var ReportingMenu_store_ReportingMenuStore = /*#__PURE__*/function () {
         } else if (categoryGroups) {
           category.subcategories.push(categoryGroups);
         }
-
         category.subcategories = sortOrderables(getCategoryChildren(category));
         menu.push(category);
       });
@@ -8495,12 +7579,10 @@ var ReportingMenu_store_ReportingMenuStore = /*#__PURE__*/function () {
     value: function toggleCategory(category) {
       this.privateState.activeSubcategoryId = null;
       this.privateState.activeSubsubcategoryId = null;
-
       if (this.activeCategory.value === category.id) {
         this.privateState.activeCategoryId = null;
         return false;
       }
-
       this.privateState.activeCategoryId = category.id;
       return true;
     }
@@ -8510,30 +7592,22 @@ var ReportingMenu_store_ReportingMenuStore = /*#__PURE__*/function () {
       if (!category || !subcategory) {
         return;
       }
-
       this.privateState.activeCategoryId = category.id;
       this.privateState.activeSubcategoryId = subcategory.id;
-
       if (subsubcategory) {
         this.privateState.activeSubsubcategoryId = subsubcategory.id;
       }
     }
   }]);
-
   return ReportingMenuStore;
 }();
 /* harmony default export */ var ReportingMenu_store = (new ReportingMenu_store_ReportingMenuStore());
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/Widget/Widgets.store.ts
 function Widgets_store_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { Widgets_store_typeof = function _typeof(obj) { return typeof obj; }; } else { Widgets_store_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return Widgets_store_typeof(obj); }
-
 function Widgets_store_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 function Widgets_store_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
 function Widgets_store_createClass(Constructor, protoProps, staticProps) { if (protoProps) Widgets_store_defineProperties(Constructor.prototype, protoProps); if (staticProps) Widgets_store_defineProperties(Constructor, staticProps); return Constructor; }
-
 function Widgets_store_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -8544,50 +7618,39 @@ function Widgets_store_defineProperty(obj, key, value) { if (key in obj) { Objec
 
 function getWidgetChildren(widget) {
   var container = widget;
-
   if (container.widgets) {
     return container.widgets;
   }
-
   return [];
 }
-
 var Widgets_store_WidgetsStore = /*#__PURE__*/function () {
   function WidgetsStore() {
     var _this = this;
-
     Widgets_store_classCallCheck(this, WidgetsStore);
-
     Widgets_store_defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
       isFetchedFirstTime: false,
       categorizedWidgets: {}
     }));
-
     Widgets_store_defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       if (!_this.privateState.isFetchedFirstTime) {
         // initiating a side effect in a computed property seems wrong, but it needs to be
         // executed after knowing a user's logged in and it will succeed.
         _this.fetchAvailableWidgets();
       }
-
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_this.privateState);
     }));
-
     Widgets_store_defineProperty(this, "widgets", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       return _this.state.value.categorizedWidgets;
     }));
   }
-
   Widgets_store_createClass(WidgetsStore, [{
     key: "fetchAvailableWidgets",
     value: function fetchAvailableWidgets() {
       var _this2 = this;
-
       // if there's no idSite, don't make the request since it will just fail
       if (!src_MatomoUrl_MatomoUrl.parsed.value.idSite) {
         return Promise.resolve(this.widgets.value);
       }
-
       this.privateState.isFetchedFirstTime = true;
       return new Promise(function (resolve, reject) {
         try {
@@ -8609,14 +7672,11 @@ var Widgets_store_WidgetsStore = /*#__PURE__*/function () {
         // dashboard selector immediately
         delete window.widgetsHelper.availableWidgets;
       }
-
       return this.fetchAvailableWidgets();
     }
   }]);
-
   return WidgetsStore;
 }();
-
 /* harmony default export */ var Widgets_store = (new Widgets_store_WidgetsStore());
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ReportingMenu/ReportingMenu.vue?vue&type=script&lang=ts
 
@@ -8669,14 +7729,12 @@ var ReportingMenuvue_type_script_lang_ts_REPORTING_HELP_NOTIFICATION_ID = 'repor
   },
   created: function created() {
     var _this = this;
-
     ReportingMenu_store.fetchMenuItems().then(function (menu) {
       if (!src_MatomoUrl_MatomoUrl.parsed.value.subcategory) {
         var categoryToLoad = menu[0];
-        var subcategoryToLoad = categoryToLoad.subcategories[0]; // load first, initial page if no subcategory is present
-
+        var subcategoryToLoad = categoryToLoad.subcategories[0];
+        // load first, initial page if no subcategory is present
         ReportingMenu_store.enterSubcategory(categoryToLoad, subcategoryToLoad);
-
         _this.propagateUrlChange(categoryToLoad, subcategoryToLoad);
       }
     });
@@ -8690,26 +7748,21 @@ var ReportingMenuvue_type_script_lang_ts_REPORTING_HELP_NOTIFICATION_ID = 'repor
       if (!_this.initialLoad) {
         window.globalAjaxQueue.abort();
       }
-
       _this.helpShownCategory = null;
-
       if (_this.showSubcategoryHelpOnLoad) {
         _this.showHelp(_this.showSubcategoryHelpOnLoad.category, _this.showSubcategoryHelpOnLoad.subcategory);
-
         _this.showSubcategoryHelpOnLoad = null;
       }
-
       window.$('#loadingError,#loadingRateLimitError').hide();
       _this.initialLoad = false;
     });
     Matomo_Matomo.on('updateReportingMenu', function () {
       ReportingMenu_store.reloadMenuItems().then(function () {
         var category = src_MatomoUrl_MatomoUrl.parsed.value.category;
-        var subcategory = src_MatomoUrl_MatomoUrl.parsed.value.subcategory; // we need to make sure to select same categories again
-
+        var subcategory = src_MatomoUrl_MatomoUrl.parsed.value.subcategory;
+        // we need to make sure to select same categories again
         if (category && subcategory) {
           var found = ReportingMenu_store.findSubcategory(category, subcategory);
-
           if (found.category) {
             ReportingMenu_store.enterSubcategory(found.category, found.subcategory, found.subsubcategory);
           }
@@ -8721,7 +7774,6 @@ var ReportingMenuvue_type_script_lang_ts_REPORTING_HELP_NOTIFICATION_ID = 'repor
   methods: {
     propagateUrlChange: function propagateUrlChange(category, subcategory) {
       var queryParams = src_MatomoUrl_MatomoUrl.parsed.value;
-
       if (queryParams.category === category.id && queryParams.subcategory === subcategory.id) {
         // we need to manually trigger change as URL would not change and therefore page would not
         // be reloaded
@@ -8736,7 +7788,6 @@ var ReportingMenuvue_type_script_lang_ts_REPORTING_HELP_NOTIFICATION_ID = 'repor
     loadCategory: function loadCategory(category) {
       Notifications_store.remove(ReportingMenuvue_type_script_lang_ts_REPORTING_HELP_NOTIFICATION_ID);
       var isActive = ReportingMenu_store.toggleCategory(category);
-
       if (isActive && category.subcategories && category.subcategories.length === 1) {
         this.helpShownCategory = null;
         var subcategory = category.subcategories[0];
@@ -8747,13 +7798,11 @@ var ReportingMenuvue_type_script_lang_ts_REPORTING_HELP_NOTIFICATION_ID = 'repor
       if (event && (event.shiftKey || event.ctrlKey || event.metaKey)) {
         return;
       }
-
       Notifications_store.remove(ReportingMenuvue_type_script_lang_ts_REPORTING_HELP_NOTIFICATION_ID);
-
       if (subcategory && subcategory.id === src_MatomoUrl_MatomoUrl.parsed.value.subcategory && category.id === src_MatomoUrl_MatomoUrl.parsed.value.category) {
-        this.helpShownCategory = null; // this menu item is already active, a location change success would not be triggered,
+        this.helpShownCategory = null;
+        // this menu item is already active, a location change success would not be triggered,
         // instead trigger an event (after the URL changes)
-
         setTimeout(function () {
           Matomo_Matomo.postEvent('loadPage', category.id, subcategory.id);
         });
@@ -8761,13 +7810,13 @@ var ReportingMenuvue_type_script_lang_ts_REPORTING_HELP_NOTIFICATION_ID = 'repor
     },
     makeUrl: function makeUrl(category, subcategory) {
       var _MatomoUrl$parsed$val = src_MatomoUrl_MatomoUrl.parsed.value,
-          idSite = _MatomoUrl$parsed$val.idSite,
-          period = _MatomoUrl$parsed$val.period,
-          date = _MatomoUrl$parsed$val.date,
-          segment = _MatomoUrl$parsed$val.segment,
-          comparePeriods = _MatomoUrl$parsed$val.comparePeriods,
-          compareDates = _MatomoUrl$parsed$val.compareDates,
-          compareSegments = _MatomoUrl$parsed$val.compareSegments;
+        idSite = _MatomoUrl$parsed$val.idSite,
+        period = _MatomoUrl$parsed$val.period,
+        date = _MatomoUrl$parsed$val.date,
+        segment = _MatomoUrl$parsed$val.segment,
+        comparePeriods = _MatomoUrl$parsed$val.comparePeriods,
+        compareDates = _MatomoUrl$parsed$val.compareDates,
+        compareSegments = _MatomoUrl$parsed$val.compareSegments;
       return src_MatomoUrl_MatomoUrl.stringify({
         idSite: idSite,
         period: period,
@@ -8787,7 +7836,6 @@ var ReportingMenuvue_type_script_lang_ts_REPORTING_HELP_NOTIFICATION_ID = 'repor
       var parsedUrl = src_MatomoUrl_MatomoUrl.parsed.value;
       var currentCategory = parsedUrl.category;
       var currentSubcategory = parsedUrl.subcategory;
-
       if ((currentCategory !== category.id || currentSubcategory !== subcategory.id) && event) {
         this.showSubcategoryHelpOnLoad = {
           category: category,
@@ -8799,13 +7847,11 @@ var ReportingMenuvue_type_script_lang_ts_REPORTING_HELP_NOTIFICATION_ID = 'repor
         }));
         return;
       }
-
       if (this.helpShownCategory && category.id === this.helpShownCategory.category && subcategory.id === this.helpShownCategory.subcategory) {
         Notifications_store.remove(ReportingMenuvue_type_script_lang_ts_REPORTING_HELP_NOTIFICATION_ID);
         this.helpShownCategory = null;
         return;
       }
-
       var prefixText = translate('CoreHome_ReportingCategoryHelpPrefix', category.name, subcategory.name);
       var prefix = "<strong>".concat(prefixText, "</strong><br/>");
       Notifications_store.show({
@@ -8836,13 +7882,9 @@ ReportingMenuvue_type_script_lang_ts.render = ReportingMenuvue_type_template_id_
 /* harmony default export */ var ReportingMenu = (ReportingMenuvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ReportMetadata/ReportMetadata.store.ts
 function ReportMetadata_store_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 function ReportMetadata_store_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
 function ReportMetadata_store_createClass(Constructor, protoProps, staticProps) { if (protoProps) ReportMetadata_store_defineProperties(Constructor.prototype, protoProps); if (staticProps) ReportMetadata_store_defineProperties(Constructor, staticProps); return Constructor; }
-
 function ReportMetadata_store_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -8856,25 +7898,20 @@ function ReportMetadata_store_defineProperty(obj, key, value) { if (key in obj) 
 var ReportMetadata_store_ReportMetadataStore = /*#__PURE__*/function () {
   function ReportMetadataStore() {
     var _this = this;
-
     ReportMetadata_store_classCallCheck(this, ReportMetadataStore);
-
     ReportMetadata_store_defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
       reports: []
     }));
-
     ReportMetadata_store_defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(this.privateState));
-
     ReportMetadata_store_defineProperty(this, "reports", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       return _this.state.reports;
     }));
-
     ReportMetadata_store_defineProperty(this, "reportsPromise", void 0);
   }
-
   ReportMetadata_store_createClass(ReportMetadataStore, [{
     key: "findReport",
-    value: // TODO: it used to return an empty array when nothing was found, will that be an issue?
+    value:
+    // TODO: it used to return an empty array when nothing was found, will that be an issue?
     function findReport(reportModule, reportAction) {
       return this.reports.value.find(function (r) {
         return r.module === reportModule && r.action === reportAction;
@@ -8884,7 +7921,6 @@ var ReportMetadata_store_ReportMetadataStore = /*#__PURE__*/function () {
     key: "fetchReportMetadata",
     value: function fetchReportMetadata() {
       var _this2 = this;
-
       if (!this.reportsPromise) {
         this.reportsPromise = AjaxHelper_AjaxHelper.fetch({
           method: 'API.getReportMetadata',
@@ -8895,13 +7931,11 @@ var ReportMetadata_store_ReportMetadataStore = /*#__PURE__*/function () {
           return response;
         });
       }
-
       return this.reportsPromise.then(function () {
         return _this2.reports.value;
       });
     }
   }]);
-
   return ReportMetadataStore;
 }();
 /* harmony default export */ var ReportMetadata_store = (new ReportMetadata_store_ReportMetadataStore());
@@ -8933,7 +7967,6 @@ var WidgetLoadervue_type_template_id_7c7047b0_hoisted_6 = {
 };
 function WidgetLoadervue_type_template_id_7c7047b0_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", WidgetLoadervue_type_template_id_7c7047b0_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
     "loading-message": _ctx.finalLoadingMessage,
     loading: _ctx.loading
@@ -8962,7 +7995,6 @@ function WidgetLoadervue_type_template_id_7c7047b0_render(_ctx, _cache, $props, 
  * Example:
  * <WidgetLoader :widget-params="{module: '', action: '', ...}"/>
  */
-
 /* harmony default export */ var WidgetLoadervue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     widgetParams: Object,
@@ -8993,11 +8025,9 @@ function WidgetLoadervue_type_template_id_7c7047b0_render(_ctx, _cache, $props, 
       if (this.loadingMessage) {
         return this.loadingMessage;
       }
-
       if (!this.widgetName) {
         return translate('General_LoadingData');
       }
-
       return translate('General_LoadingPopover', this.widgetName);
     },
     hasErrorFaqLink: function hasErrorFaqLink() {
@@ -9024,7 +8054,6 @@ function WidgetLoadervue_type_template_id_7c7047b0_render(_ctx, _cache, $props, 
     cleanupLastWidgetContent: function cleanupLastWidgetContent() {
       var widgetContent = this.$refs.widgetContent;
       Matomo_Matomo.helper.destroyVueComponent(widgetContent);
-
       if (widgetContent) {
         widgetContent.innerHTML = '';
       }
@@ -9043,12 +8072,10 @@ function WidgetLoadervue_type_template_id_7c7047b0_render(_ctx, _cache, $props, 
         if (key === 'category' || key === 'subcategory') {
           return;
         }
-
         if (!(key in fullParameters)) {
           fullParameters[key] = urlParams[key];
         }
       });
-
       if (Comparisons_store_instance.isComparisonEnabled()) {
         fullParameters = Object.assign(Object.assign({}, fullParameters), {}, {
           comparePeriods: urlParams.comparePeriods,
@@ -9056,25 +8083,20 @@ function WidgetLoadervue_type_template_id_7c7047b0_render(_ctx, _cache, $props, 
           compareSegments: urlParams.compareSegments
         });
       }
-
       if (!parameters || !('showtitle' in parameters)) {
         fullParameters.showtitle = '1';
       }
-
       if (Matomo_Matomo.shouldPropagateTokenAuth && urlParams.token_auth) {
         if (!Matomo_Matomo.broadcast.isWidgetizeRequestWithoutSession()) {
           fullParameters.force_api_session = '1';
         }
-
         fullParameters.token_auth = urlParams.token_auth;
       }
-
       fullParameters.random = Math.floor(Math.random() * 10000);
       return fullParameters;
     },
     loadWidgetUrl: function loadWidgetUrl(parameters, thisChangeId) {
       var _this = this;
-
       this.loading = true;
       this.abortHttpRequestIfNeeded();
       this.cleanupLastWidgetContent();
@@ -9087,28 +8109,23 @@ function WidgetLoadervue_type_template_id_7c7047b0_render(_ctx, _cache, $props, 
           // another widget was requested meanwhile, ignore this response
           return;
         }
-
         _this.lastWidgetAbortController = null;
         _this.loading = false;
         _this.loadingFailed = false;
         var widgetContent = _this.$refs.widgetContent;
         window.$(widgetContent).html(response);
         var $content = window.$(widgetContent).children();
-
         if (_this.widgetName) {
           // we need to respect the widget title, which overwrites a possibly set report title
           var $title = $content.find('> .card-content .card-title');
-
           if (!$title.length) {
             $title = $content.find('> h2');
           }
-
           if ($title.length) {
             // required to use htmlEntities since it also escapes '{{' format items
             $title.html(Matomo_Matomo.helper.htmlEntities(_this.widgetName));
           }
         }
-
         Matomo_Matomo.helper.compileVueEntryComponents($content);
         Notifications_store.parseNotificationDivs();
         setTimeout(function () {
@@ -9122,21 +8139,15 @@ function WidgetLoadervue_type_template_id_7c7047b0_render(_ctx, _cache, $props, 
           // another widget was requested meanwhile, ignore this response
           return;
         }
-
         _this.lastWidgetAbortController = null;
-
         _this.cleanupLastWidgetContent();
-
         _this.loading = false;
-
         if (response.xhrStatus === 'abort') {
           return;
         }
-
         if (response.status === 429) {
           _this.loadingFailedRateLimit = true;
         }
-
         _this.loadingFailed = true;
       });
     }
@@ -9158,7 +8169,6 @@ var WidgetContainervue_type_template_id_24121adc_hoisted_1 = {
 };
 function WidgetContainervue_type_template_id_24121adc_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Widget = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Widget");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", WidgetContainervue_type_template_id_24121adc_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.actualContainer, function (widget, index) {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
       key: index
@@ -9172,28 +8182,18 @@ function WidgetContainervue_type_template_id_24121adc_render(_ctx, _cache, $prop
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/WidgetContainer/WidgetContainer.vue?vue&type=script&lang=ts
 function WidgetContainervue_type_script_lang_ts_toConsumableArray(arr) { return WidgetContainervue_type_script_lang_ts_arrayWithoutHoles(arr) || WidgetContainervue_type_script_lang_ts_iterableToArray(arr) || WidgetContainervue_type_script_lang_ts_unsupportedIterableToArray(arr) || WidgetContainervue_type_script_lang_ts_nonIterableSpread(); }
-
 function WidgetContainervue_type_script_lang_ts_nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
 function WidgetContainervue_type_script_lang_ts_iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
 function WidgetContainervue_type_script_lang_ts_arrayWithoutHoles(arr) { if (Array.isArray(arr)) return WidgetContainervue_type_script_lang_ts_arrayLikeToArray(arr); }
-
 function WidgetContainervue_type_script_lang_ts_slicedToArray(arr, i) { return WidgetContainervue_type_script_lang_ts_arrayWithHoles(arr) || WidgetContainervue_type_script_lang_ts_iterableToArrayLimit(arr, i) || WidgetContainervue_type_script_lang_ts_unsupportedIterableToArray(arr, i) || WidgetContainervue_type_script_lang_ts_nonIterableRest(); }
-
 function WidgetContainervue_type_script_lang_ts_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
 function WidgetContainervue_type_script_lang_ts_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return WidgetContainervue_type_script_lang_ts_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return WidgetContainervue_type_script_lang_ts_arrayLikeToArray(o, minLen); }
-
 function WidgetContainervue_type_script_lang_ts_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 function WidgetContainervue_type_script_lang_ts_iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
 function WidgetContainervue_type_script_lang_ts_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
- // since we're recursing, don't import the plugin directly
-
+// since we're recursing, don't import the plugin directly
 var Widget = useExternalPluginComponent('CoreHome', 'Widget');
 /* harmony default export */ var WidgetContainervue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
@@ -9208,19 +8208,15 @@ var Widget = useExternalPluginComponent('CoreHome', 'Widget');
   computed: {
     actualContainer: function actualContainer() {
       var _container$, _widget$parameters, _widget$parameters2;
-
       var container = this.container;
-
       if (!(container !== null && container !== void 0 && (_container$ = container[0]) !== null && _container$ !== void 0 && _container$.parameters)) {
         return container;
       }
-
       var _container = WidgetContainervue_type_script_lang_ts_slicedToArray(container, 1),
-          widget = _container[0];
-
+        widget = _container[0];
       var isWidgetized = ((_widget$parameters = widget.parameters) === null || _widget$parameters === void 0 ? void 0 : _widget$parameters.widget) === '1' || ((_widget$parameters2 = widget.parameters) === null || _widget$parameters2 === void 0 ? void 0 : _widget$parameters2.widget) === 1;
-      var isGraphEvolution = isWidgetized && widget.viewDataTable === 'graphEvolution'; // we hide the first title for Visits Overview with Graph and Goal Overview
-
+      var isGraphEvolution = isWidgetized && widget.viewDataTable === 'graphEvolution';
+      // we hide the first title for Visits Overview with Graph and Goal Overview
       var firstWidget = isGraphEvolution ? Object.assign(Object.assign({}, widget), {}, {
         parameters: Object.assign(Object.assign({}, widget.parameters), {}, {
           showtitle: '0'
@@ -9257,14 +8253,11 @@ var WidgetByDimensionContainervue_type_template_id_3681f928_hoisted_5 = {
 var WidgetByDimensionContainervue_type_template_id_3681f928_hoisted_6 = {
   class: "reportContainer"
 };
-
 var WidgetByDimensionContainervue_type_template_id_3681f928_hoisted_7 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
   class: "clear"
 }, null, -1);
-
 function WidgetByDimensionContainervue_type_template_id_3681f928_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_WidgetLoader = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("WidgetLoader");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", WidgetByDimensionContainervue_type_template_id_3681f928_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", WidgetByDimensionContainervue_type_template_id_3681f928_hoisted_2, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.widgetsByCategory, function (category) {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
       class: "dimensionCategory",
@@ -9290,17 +8283,11 @@ function WidgetByDimensionContainervue_type_template_id_3681f928_render(_ctx, _c
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/WidgetByDimensionContainer/WidgetByDimensionContainer.vue?vue&type=script&lang=ts
 function WidgetByDimensionContainervue_type_script_lang_ts_slicedToArray(arr, i) { return WidgetByDimensionContainervue_type_script_lang_ts_arrayWithHoles(arr) || WidgetByDimensionContainervue_type_script_lang_ts_iterableToArrayLimit(arr, i) || WidgetByDimensionContainervue_type_script_lang_ts_unsupportedIterableToArray(arr, i) || WidgetByDimensionContainervue_type_script_lang_ts_nonIterableRest(); }
-
 function WidgetByDimensionContainervue_type_script_lang_ts_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
 function WidgetByDimensionContainervue_type_script_lang_ts_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return WidgetByDimensionContainervue_type_script_lang_ts_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return WidgetByDimensionContainervue_type_script_lang_ts_arrayLikeToArray(o, minLen); }
-
 function WidgetByDimensionContainervue_type_script_lang_ts_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 function WidgetByDimensionContainervue_type_script_lang_ts_iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
 function WidgetByDimensionContainervue_type_script_lang_ts_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 
 
 
@@ -9318,7 +8305,6 @@ function WidgetByDimensionContainervue_type_script_lang_ts_arrayWithHoles(arr) {
   },
   created: function created() {
     var _this$widgetsSorted = WidgetByDimensionContainervue_type_script_lang_ts_slicedToArray(this.widgetsSorted, 1);
-
     this.selectedWidget = _this$widgetsSorted[0];
   },
   computed: {
@@ -9329,13 +8315,10 @@ function WidgetByDimensionContainervue_type_script_lang_ts_arrayWithHoles(arr) {
       var byCategory = {};
       this.widgetsSorted.forEach(function (widget) {
         var _widget$subcategory;
-
         var category = (_widget$subcategory = widget.subcategory) === null || _widget$subcategory === void 0 ? void 0 : _widget$subcategory.name;
-
         if (!category) {
           return;
         }
-
         if (!byCategory[category]) {
           byCategory[category] = {
             name: category,
@@ -9343,7 +8326,6 @@ function WidgetByDimensionContainervue_type_script_lang_ts_arrayWithHoles(arr) {
             widgets: []
           };
         }
-
         byCategory[category].widgets.push(widget);
       });
       return sortOrderables(Object.values(byCategory));
@@ -9376,13 +8358,9 @@ var Widgetvue_type_template_id_adfeebbe_hoisted_3 = {
 };
 function Widgetvue_type_template_id_adfeebbe_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_WidgetLoader = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("WidgetLoader");
-
   var _component_WidgetContainer = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("WidgetContainer");
-
   var _component_WidgetByDimensionContainer = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("WidgetByDimensionContainer");
-
   var _directive_tooltips = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("tooltips");
-
   return _ctx.actualWidget && _ctx.showWidget ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
     key: 0,
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["matomo-widget", {
@@ -9412,13 +8390,11 @@ function Widgetvue_type_template_id_adfeebbe_render(_ctx, _cache, $props, $setup
 
 
 
-
 function findContainer(widgetsByCategory, containerId) {
   var widget = undefined;
   Object.values(widgetsByCategory || {}).some(function (widgets) {
     widget = widgets.find(function (w) {
       var _w$parameters;
-
       return w && w.isContainer && ((_w$parameters = w.parameters) === null || _w$parameters === void 0 ? void 0 : _w$parameters.containerId) === containerId;
     });
     return widget;
@@ -9451,8 +8427,6 @@ function findContainer(widgetsByCategory, containerId) {
  * // disables rating feature, no initial headline
  * <Widget :widget="widget" :widetized="true"></Widget>
  */
-
-
 /* harmony default export */ var Widgetvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     widget: Object,
@@ -9476,25 +8450,20 @@ function findContainer(widgetsByCategory, containerId) {
   setup: function setup() {
     function tooltipContent() {
       var $this = window.$(this);
-
       if ($this.hasClass('matomo-form-field')) {
         // do not show it for form fields
         return '';
       }
-
       var title = window.$(this).attr('title') || '';
       return window.vueSanitize(title.replace(/\n/g, '<br />'));
     }
-
     return {
       tooltipContent: tooltipContent
     };
   },
   created: function created() {
     var _this = this;
-
     var actualWidget = this.actualWidget;
-
     if (actualWidget && actualWidget.middlewareParameters) {
       var params = actualWidget.middlewareParameters;
       AjaxHelper_AjaxHelper.fetch(params).then(function (response) {
@@ -9510,36 +8479,27 @@ function findContainer(widgetsByCategory, containerId) {
     },
     actualWidget: function actualWidget() {
       var _this2 = this;
-
       var widget = this.widget;
-
       if (widget) {
         var result = Object.assign({}, widget);
-
         if (widget && widget.isReport && !widget.documentation) {
           var report = ReportMetadata_store.findReport(widget.module, widget.action);
-
           if (report && report.documentation) {
             result.documentation = report.documentation;
           }
         }
-
         return widget;
       }
-
       if (this.containerid) {
         var containerWidget = findContainer(this.allWidgets, this.containerid);
-
         if (containerWidget) {
           var _result = Object.assign({}, containerWidget);
-
           if (this.widgetized) {
             _result.isFirstInPage = true;
             _result.parameters = Object.assign(Object.assign({}, _result.parameters), {}, {
               widget: '1'
             });
             var widgets = getWidgetChildren(_result);
-
             if (widgets) {
               _result.widgets = widgets.map(function (w) {
                 return Object.assign(Object.assign({}, w), {}, {
@@ -9551,11 +8511,9 @@ function findContainer(widgetsByCategory, containerId) {
               });
             }
           }
-
           return _result;
         }
       }
-
       return null;
     }
   }
@@ -9584,9 +8542,7 @@ var ReportingPagevue_type_template_id_e7476c22_hoisted_3 = {
 };
 function ReportingPagevue_type_template_id_e7476c22_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
-
   var _component_Widget = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Widget");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ReportingPagevue_type_template_id_e7476c22_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
     loading: _ctx.loading
   }, null, 8, ["loading"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('CoreHome_NoSuchPage')), 513), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.hasNoPage]]), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.widgets, function (widget) {
@@ -9614,25 +8570,15 @@ function ReportingPagevue_type_template_id_e7476c22_render(_ctx, _cache, $props,
 
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ReportingPage/ReportingPage.store.ts
 function ReportingPage_store_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 function ReportingPage_store_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
 function ReportingPage_store_createClass(Constructor, protoProps, staticProps) { if (protoProps) ReportingPage_store_defineProperties(Constructor.prototype, protoProps); if (staticProps) ReportingPage_store_defineProperties(Constructor, staticProps); return Constructor; }
-
 function ReportingPage_store_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function ReportingPage_store_toConsumableArray(arr) { return ReportingPage_store_arrayWithoutHoles(arr) || ReportingPage_store_iterableToArray(arr) || ReportingPage_store_unsupportedIterableToArray(arr) || ReportingPage_store_nonIterableSpread(); }
-
 function ReportingPage_store_nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
 function ReportingPage_store_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return ReportingPage_store_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return ReportingPage_store_arrayLikeToArray(o, minLen); }
-
 function ReportingPage_store_iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
 function ReportingPage_store_arrayWithoutHoles(arr) { if (Array.isArray(arr)) return ReportingPage_store_arrayLikeToArray(arr); }
-
 function ReportingPage_store_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -9644,26 +8590,20 @@ function ReportingPage_store_arrayLikeToArray(arr, len) { if (len == null || len
 
 
 
-
 function shouldBeRenderedWithFullWidth(widget) {
   // rather controller logic
   if (widget.isContainer && widget.layout && widget.layout === 'ByDimension' || widget.viewDataTable === 'bydimension') {
     return true;
   }
-
   if (widget.isWide) {
     return true;
   }
-
   return widget.viewDataTable && (widget.viewDataTable === 'tableAllColumns' || widget.viewDataTable === 'sparklines' || widget.viewDataTable === 'graphEvolution');
 }
-
 function markWidgetsInFirstRowOfPage(widgets) {
   if (widgets && widgets[0]) {
     var newWidgets = ReportingPage_store_toConsumableArray(widgets);
-
     var groupedWidgets = widgets[0];
-
     if (groupedWidgets.group) {
       newWidgets[0] = Object.assign(Object.assign({}, newWidgets[0]), {}, {
         left: markWidgetsInFirstRowOfPage(groupedWidgets.left || []),
@@ -9674,79 +8614,58 @@ function markWidgetsInFirstRowOfPage(widgets) {
         isFirstInPage: true
       });
     }
-
     return newWidgets;
   }
-
   return widgets;
 }
-
 var ReportingPage_store_ReportingPageStore = /*#__PURE__*/function () {
   function ReportingPageStore() {
     var _this = this;
-
     ReportingPage_store_classCallCheck(this, ReportingPageStore);
-
     ReportingPage_store_defineProperty(this, "privateState", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({}));
-
     ReportingPage_store_defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(_this.privateState);
     }));
-
     ReportingPage_store_defineProperty(this, "page", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       return _this.state.value.page;
     }));
-
     ReportingPage_store_defineProperty(this, "widgets", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       var page = _this.page.value;
-
       if (!page) {
         return [];
       }
-
       var widgets = [];
       var reportsToIgnore = {};
-
       var isIgnoredReport = function isIgnoredReport(widget) {
         return widget.isReport && reportsToIgnore["".concat(widget.module, ".").concat(widget.action)];
       };
-
       var getRelatedReports = function getRelatedReports(widget) {
         if (!widget.isReport) {
           return [];
         }
-
         var report = ReportMetadata_store.findReport(widget.module, widget.action);
-
         if (!report || !report.relatedReports) {
           return [];
         }
-
         return report.relatedReports;
       };
-
       (page.widgets || []).forEach(function (widget) {
         if (isIgnoredReport(widget)) {
           return;
         }
-
         getRelatedReports(widget).forEach(function (report) {
           reportsToIgnore["".concat(report.module, ".").concat(report.action)] = true;
         });
         widgets.push(widget);
       });
       widgets = sortOrderables(widgets);
-
       if (widgets.length === 1) {
         // if there is only one widget, we always display it full width
         return markWidgetsInFirstRowOfPage(widgets);
       }
-
       var groupedWidgets = [];
-
       for (var i = 0; i < widgets.length; i += 1) {
         var widget = widgets[i];
-
         if (shouldBeRenderedWithFullWidth(widget) || widgets[i + 1] && shouldBeRenderedWithFullWidth(widgets[i + 1])) {
           groupedWidgets.push(Object.assign(Object.assign({}, widget), {}, {
             widgets: sortOrderables(getWidgetChildren(widget))
@@ -9755,18 +8674,15 @@ var ReportingPage_store_ReportingPageStore = /*#__PURE__*/function () {
           var counter = 0;
           var left = [widget];
           var right = [];
-
           while (widgets[i + 1] && !shouldBeRenderedWithFullWidth(widgets[i + 1])) {
             i += 1;
             counter += 1;
-
             if (counter % 2 === 0) {
               left.push(widgets[i]);
             } else {
               right.push(widgets[i]);
             }
           }
-
           groupedWidgets.push({
             group: true,
             left: left,
@@ -9774,17 +8690,14 @@ var ReportingPage_store_ReportingPageStore = /*#__PURE__*/function () {
           });
         }
       }
-
       var sortedWidgets = markWidgetsInFirstRowOfPage(groupedWidgets);
       return sortedWidgets;
     }));
   }
-
   ReportingPage_store_createClass(ReportingPageStore, [{
     key: "fetchPage",
     value: function fetchPage(category, subcategory) {
       var _this2 = this;
-
       this.resetPage();
       return Promise.all([ReportingPages_store.getAllPages(), ReportMetadata_store.fetchReportMetadata()]).then(function () {
         _this2.privateState.page = ReportingPages_store.findPage(category, subcategory);
@@ -9797,12 +8710,10 @@ var ReportingPage_store_ReportingPageStore = /*#__PURE__*/function () {
       this.privateState.page = undefined;
     }
   }]);
-
   return ReportingPageStore;
 }();
 /* harmony default export */ var ReportingPage_store = (new ReportingPage_store_ReportingPageStore());
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ReportingPage/ReportingPage.vue?vue&type=script&lang=ts
-
 
 
 
@@ -9825,11 +8736,9 @@ function showOnlyRawDataNotification() {
     type: 'transient'
   });
 }
-
 function hideOnlyRawDataNoticifation() {
   Notifications_store.remove('onlyRawData');
 }
-
 /* harmony default export */ var ReportingPagevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   components: {
     ActivityIndicator: ActivityIndicator,
@@ -9846,10 +8755,8 @@ function hideOnlyRawDataNoticifation() {
   },
   created: function created() {
     var _this = this;
-
     ReportingPage_store.resetPage();
     this.loading = true; // we only set loading on initial load
-
     this.renderInitialPage();
     Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(function () {
       return src_MatomoUrl_MatomoUrl.parsed.value;
@@ -9858,14 +8765,12 @@ function hideOnlyRawDataNoticifation() {
         // this page is already loaded
         return;
       }
-
       if (newValue.date !== oldValue.date || newValue.period !== oldValue.period) {
         hideOnlyRawDataNoticifation();
         _this.dateLastChecked = null;
         _this.hasRawData = false;
         _this.hasNoVisits = false;
       }
-
       _this.renderPage(newValue.category, newValue.subcategory);
     });
     Matomo_Matomo.on('loadPage', function (category, subcategory) {
@@ -9880,17 +8785,14 @@ function hideOnlyRawDataNoticifation() {
   methods: {
     renderPage: function renderPage(category, subcategory) {
       var _this2 = this;
-
       if (!category || !subcategory) {
         ReportingPage_store.resetPage();
         this.loading = false;
         return;
       }
-
       var parsedUrl = src_MatomoUrl_MatomoUrl.parsed.value;
       var currentPeriod = parsedUrl.period;
       var currentDate = parsedUrl.date;
-
       try {
         Periods_Periods.parse(currentPeriod, currentDate);
       } catch (e) {
@@ -9905,21 +8807,17 @@ function hideOnlyRawDataNoticifation() {
         this.loading = false;
         return;
       }
-
       Notifications_store.remove('invalidDate');
       Matomo_Matomo.postEvent('matomoPageChange', {});
       Notifications_store.clearTransientNotifications();
-
       if (Periods_Periods.parse(currentPeriod, currentDate).containsToday()) {
         this.showOnlyRawDataMessageIfRequired();
       }
-
       var params = {
         category: category,
         subcategory: subcategory
       };
       Matomo_Matomo.postEvent('ReportingPage.loadPage', params);
-
       if (params.promise) {
         this.loading = true;
         Promise.resolve(params.promise).finally(function () {
@@ -9927,13 +8825,10 @@ function hideOnlyRawDataNoticifation() {
         });
         return;
       }
-
       ReportingPage_store.fetchPage(category, subcategory).then(function () {
         var hasNoPage = !ReportingPage_store.page.value;
-
         if (hasNoPage) {
           var page = ReportingPages_store.findPageInCategory(category);
-
           if (page && page.subcategory) {
             src_MatomoUrl_MatomoUrl.updateHash(Object.assign(Object.assign({}, src_MatomoUrl_MatomoUrl.hashParsed.value), {}, {
               subcategory: page.subcategory.id
@@ -9941,7 +8836,6 @@ function hideOnlyRawDataNoticifation() {
             return;
           }
         }
-
         _this2.hasNoPage = hasNoPage;
         _this2.loading = false;
       });
@@ -9952,57 +8846,44 @@ function hideOnlyRawDataNoticifation() {
     },
     showOnlyRawDataMessageIfRequired: function showOnlyRawDataMessageIfRequired() {
       var _this3 = this;
-
       if (!Matomo_Matomo.visitorLogEnabled) {
         return;
       }
-
       if (this.hasRawData && this.hasNoVisits) {
         showOnlyRawDataNotification();
       }
-
       var parsedUrl = src_MatomoUrl_MatomoUrl.parsed.value;
       var segment = parsedUrl.segment;
-
       if (segment) {
         hideOnlyRawDataNoticifation();
         return;
       }
-
       var subcategoryExceptions = ['Live_VisitorLog', 'General_RealTime', 'UserCountryMap_RealTimeMap', 'MediaAnalytics_TypeAudienceLog', 'MediaAnalytics_TypeRealTime', 'FormAnalytics_TypeRealTime', 'Goals_AddNewGoal'];
       var categoryExceptions = ['HeatmapSessionRecording_Heatmaps', 'HeatmapSessionRecording_SessionRecordings', 'Marketplace_Marketplace'];
       var subcategory = parsedUrl.subcategory;
       var category = parsedUrl.category;
-
       if (subcategoryExceptions.indexOf(subcategory) !== -1 || categoryExceptions.indexOf(category) !== -1 || subcategory.toLowerCase().indexOf('manage') !== -1) {
         hideOnlyRawDataNoticifation();
         return;
       }
-
       var minuteInMilliseconds = 60000;
-
       if (this.dateLastChecked && new Date().valueOf() - this.dateLastChecked.valueOf() < minuteInMilliseconds) {
         return;
       }
-
       AjaxHelper_AjaxHelper.fetch({
         method: 'VisitsSummary.getVisits'
       }).then(function (json) {
         _this3.dateLastChecked = new Date();
-
         if (json.value > 0) {
           _this3.hasNoVisits = false;
           hideOnlyRawDataNoticifation();
           return undefined;
         }
-
         _this3.hasNoVisits = true;
-
         if (_this3.hasRawData) {
           showOnlyRawDataNotification();
           return undefined;
         }
-
         return AjaxHelper_AjaxHelper.fetch({
           method: 'Live.getLastVisitsDetails',
           filter_limit: 1,
@@ -10013,7 +8894,6 @@ function hideOnlyRawDataNoticifation() {
             hideOnlyRawDataNoticifation();
             return;
           }
-
           _this3.hasRawData = true;
           showOnlyRawDataNotification();
         });
@@ -10075,9 +8955,7 @@ var ReportExportPopovervue_type_template_id_e19feaec_hoisted_13 = {
   class: "col l12"
 };
 var ReportExportPopovervue_type_template_id_e19feaec_hoisted_14 = ["value"];
-
 var ReportExportPopovervue_type_template_id_e19feaec_hoisted_15 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("\n      ");
-
 var ReportExportPopovervue_type_template_id_e19feaec_hoisted_16 = [ReportExportPopovervue_type_template_id_e19feaec_hoisted_15];
 var ReportExportPopovervue_type_template_id_e19feaec_hoisted_17 = ["innerHTML"];
 var ReportExportPopovervue_type_template_id_e19feaec_hoisted_18 = {
@@ -10086,9 +8964,7 @@ var ReportExportPopovervue_type_template_id_e19feaec_hoisted_18 = {
 var ReportExportPopovervue_type_template_id_e19feaec_hoisted_19 = ["href", "title"];
 function ReportExportPopovervue_type_template_id_e19feaec_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
-
   var _directive_select_on_focus = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("select-on-focus");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ReportExportPopovervue_type_template_id_e19feaec_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportExportPopovervue_type_template_id_e19feaec_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportExportPopovervue_type_template_id_e19feaec_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     uicontrol: 'radio',
     name: 'format',
@@ -10188,19 +9064,12 @@ function ReportExportPopovervue_type_template_id_e19feaec_render(_ctx, _cache, $
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/ReportExport/ReportExportPopover.vue?vue&type=script&lang=ts
 function ReportExportPopovervue_type_script_lang_ts_slicedToArray(arr, i) { return ReportExportPopovervue_type_script_lang_ts_arrayWithHoles(arr) || ReportExportPopovervue_type_script_lang_ts_iterableToArrayLimit(arr, i) || ReportExportPopovervue_type_script_lang_ts_unsupportedIterableToArray(arr, i) || ReportExportPopovervue_type_script_lang_ts_nonIterableRest(); }
-
 function ReportExportPopovervue_type_script_lang_ts_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
 function ReportExportPopovervue_type_script_lang_ts_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return ReportExportPopovervue_type_script_lang_ts_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return ReportExportPopovervue_type_script_lang_ts_arrayLikeToArray(o, minLen); }
-
 function ReportExportPopovervue_type_script_lang_ts_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 function ReportExportPopovervue_type_script_lang_ts_iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
 function ReportExportPopovervue_type_script_lang_ts_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 function ReportExportPopovervue_type_script_lang_ts_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { ReportExportPopovervue_type_script_lang_ts_typeof = function _typeof(obj) { return typeof obj; }; } else { ReportExportPopovervue_type_script_lang_ts_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return ReportExportPopovervue_type_script_lang_ts_typeof(obj); }
-
 
 
 
@@ -10303,52 +9172,42 @@ var ReportExportPopovervue_type_script_lang_ts_Field = useExternalPluginComponen
     getExportLink: function getExportLink() {
       var withToken = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
       var reportFormat = this.reportFormat,
-          apiMethod = this.apiMethod,
-          reportType = this.reportType;
+        apiMethod = this.apiMethod,
+        reportType = this.reportType;
       var dataTable = this.dataTable;
-
       if (!reportFormat) {
         return undefined;
       }
-
       var requestParams = {};
       var limit = this.reportLimitAll === 'yes' ? -1 : this.reportLimit;
-
       if (this.requestParams && typeof this.requestParams === 'string') {
         requestParams = JSON.parse(this.requestParams);
       } else if (this.requestParams && ReportExportPopovervue_type_script_lang_ts_typeof(this.requestParams) === 'object') {
         requestParams = this.requestParams;
       }
-
       var _dataTable$param = dataTable.param,
-          segment = _dataTable$param.segment,
-          label = _dataTable$param.label,
-          idGoal = _dataTable$param.idGoal,
-          idDimension = _dataTable$param.idDimension,
-          idSite = _dataTable$param.idSite;
+        segment = _dataTable$param.segment,
+        label = _dataTable$param.label,
+        idGoal = _dataTable$param.idGoal,
+        idDimension = _dataTable$param.idDimension,
+        idSite = _dataTable$param.idSite;
       var _dataTable$param2 = dataTable.param,
-          date = _dataTable$param2.date,
-          period = _dataTable$param2.period;
-
+        date = _dataTable$param2.date,
+        period = _dataTable$param2.period;
       if (reportFormat === 'RSS') {
         date = 'last10';
       }
-
       if (typeof dataTable.param.dateUsedInGraph !== 'undefined') {
         date = dataTable.param.dateUsedInGraph;
       }
-
       var formatsUseDayNotRange = Matomo_Matomo.config.datatable_export_range_as_day.toLowerCase();
-
       if (formatsUseDayNotRange.indexOf(reportFormat.toLowerCase()) !== -1 && dataTable.param.period === 'range') {
         period = 'day';
-      } // Below evolution graph, show daily exports
-
-
+      }
+      // Below evolution graph, show daily exports
       if (dataTable.param.period === 'range' && dataTable.param.viewDataTable === 'graphEvolution') {
         period = 'day';
       }
-
       var exportUrlParams = {
         module: 'API',
         format: reportFormat,
@@ -10356,124 +9215,95 @@ var ReportExportPopovervue_type_script_lang_ts_Field = useExternalPluginComponen
         period: period,
         date: date
       };
-
       if (reportType === 'processed') {
         exportUrlParams.method = 'API.getProcessedReport';
-
         var _apiMethod$split = apiMethod.split('.');
-
         var _apiMethod$split2 = ReportExportPopovervue_type_script_lang_ts_slicedToArray(_apiMethod$split, 2);
-
         exportUrlParams.apiModule = _apiMethod$split2[0];
         exportUrlParams.apiAction = _apiMethod$split2[1];
       } else {
         exportUrlParams.method = apiMethod;
       }
-
       if (dataTable.param.compareDates && dataTable.param.compareDates.length) {
         exportUrlParams.compareDates = dataTable.param.compareDates;
         exportUrlParams.compare = '1';
       }
-
       if (dataTable.param.comparePeriods && dataTable.param.comparePeriods.length) {
         exportUrlParams.comparePeriods = dataTable.param.comparePeriods;
         exportUrlParams.compare = '1';
       }
-
       if (dataTable.param.compareSegments && dataTable.param.compareSegments.length) {
         exportUrlParams.compareSegments = dataTable.param.compareSegments;
         exportUrlParams.compare = '1';
       }
-
       if (typeof dataTable.param.filter_pattern !== 'undefined') {
         exportUrlParams.filter_pattern = dataTable.param.filter_pattern;
       }
-
       if (typeof dataTable.param.filter_pattern_recursive !== 'undefined') {
         exportUrlParams.filter_pattern_recursive = dataTable.param.filter_pattern_recursive;
       }
-
       if (window.$.isPlainObject(requestParams)) {
         Object.entries(requestParams).forEach(function (_ref) {
           var _ref2 = ReportExportPopovervue_type_script_lang_ts_slicedToArray(_ref, 2),
-              index = _ref2[0],
-              param = _ref2[1];
-
+            index = _ref2[0],
+            param = _ref2[1];
           var value = param;
-
           if (value === true) {
             value = 1;
           } else if (value === false) {
             value = 0;
           }
-
           exportUrlParams[index] = value;
         });
       }
-
       if (this.optionFlat) {
         exportUrlParams.flat = 1;
-
         if (typeof dataTable.param.include_aggregate_rows !== 'undefined' && dataTable.param.include_aggregate_rows === '1') {
           exportUrlParams.include_aggregate_rows = 1;
         }
       }
-
       if (!this.optionFlat && this.optionExpanded) {
         exportUrlParams.expanded = 1;
       }
-
       if (this.optionFormatMetrics) {
         exportUrlParams.format_metrics = 1;
       }
-
       if (dataTable.param.pivotBy) {
         exportUrlParams.pivotBy = dataTable.param.pivotBy;
         exportUrlParams.pivotByColumnLimit = 20;
-
         if (dataTable.props.pivot_by_column) {
           exportUrlParams.pivotByColumn = dataTable.props.pivot_by_column;
         }
       }
-
       if (reportFormat === 'CSV' || reportFormat === 'TSV' || reportFormat === 'RSS') {
         exportUrlParams.translateColumnNames = 1;
         exportUrlParams.language = Matomo_Matomo.language;
       }
-
       if (typeof segment !== 'undefined') {
         exportUrlParams.segment = decodeURIComponent(segment);
-      } // Export Goals specific reports
-
-
+      }
+      // Export Goals specific reports
       if (typeof idGoal !== 'undefined' && idGoal !== '-1') {
         exportUrlParams.idGoal = idGoal;
-      } // Export Dimension specific reports
-
-
+      }
+      // Export Dimension specific reports
       if (typeof idDimension !== 'undefined' && idDimension !== '-1') {
         exportUrlParams.idDimension = idDimension;
       }
-
       if (label) {
         var labelParts = label.split(',');
-
         if (labelParts.length > 1) {
           exportUrlParams.label = labelParts;
         } else {
           var _labelParts = ReportExportPopovervue_type_script_lang_ts_slicedToArray(labelParts, 1);
-
           exportUrlParams.label = _labelParts[0];
         }
       }
-
       exportUrlParams.token_auth = 'ENTER_YOUR_TOKEN_AUTH_HERE';
-
       if (withToken === true) {
         exportUrlParams.token_auth = Matomo_Matomo.token_auth;
         exportUrlParams.force_api_session = 1;
       }
-
       exportUrlParams.filter_limit = limit;
       var prefix = window.location.href.split('?')[0];
       return "".concat(prefix, "?").concat(src_MatomoUrl_MatomoUrl.stringify(exportUrlParams));
@@ -10502,7 +9332,7 @@ ReportExportPopovervue_type_script_lang_ts.render = ReportExportPopovervue_type_
 
 
 var ReportExport_window = window,
-    ReportExport_$ = ReportExport_window.$;
+  ReportExport_$ = ReportExport_window.$;
 /* harmony default export */ var ReportExport = ({
   mounted: function mounted(el, binding) {
     el.addEventListener('click', function () {
@@ -10511,11 +9341,9 @@ var ReportExport_window = window,
       var popover = window.Piwik_Popover.showLoading('Export');
       var formats = binding.value.reportFormats;
       var reportLimit = dataTable.param.filter_limit;
-
       if (binding.value.maxFilterLimit > 0) {
         reportLimit = Math.min(reportLimit, binding.value.maxFilterLimit);
       }
-
       var optionFlat = dataTable.param.flat === true || dataTable.param.flat === 1 || dataTable.param.flat === '1';
       var props = {
         initialReportType: 'default',
@@ -10561,13 +9389,11 @@ var ReportExport_window = window,
       window.Piwik_Popover.setContent(mountPoint);
       window.Piwik_Popover.onClose(function () {
         app.unmount();
-
         if (popoverParamBackup !== '') {
           setTimeout(function () {
             src_MatomoUrl_MatomoUrl.updateHash(Object.assign(Object.assign({}, src_MatomoUrl_MatomoUrl.hashParsed.value), {}, {
               popover: popoverParamBackup
             }));
-
             if (binding.value.onClose) {
               binding.value.onClose();
             }
@@ -10608,7 +9434,6 @@ function Sparklinevue_type_script_lang_ts_typeof(obj) { "@babel/helpers - typeof
 
 
 
-
 /* harmony default export */ var Sparklinevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     seriesIndices: Array,
@@ -10627,15 +9452,13 @@ function Sparklinevue_type_script_lang_ts_typeof(obj) { "@babel/helpers - typeof
   computed: {
     sparklineUrl: function sparklineUrl() {
       var seriesIndices = this.seriesIndices,
-          params = this.params;
+        params = this.params;
       var sparklineColors = Matomo_Matomo.getSparklineColors();
-
       if (seriesIndices) {
         sparklineColors.lineColor = sparklineColors.lineColor.filter(function (c, index) {
           return seriesIndices.indexOf(index) !== -1;
         });
       }
-
       var colors = JSON.stringify(sparklineColors);
       var defaultParams = {
         forceView: '1',
@@ -10652,28 +9475,23 @@ function Sparklinevue_type_script_lang_ts_typeof(obj) { "@babel/helpers - typeof
       };
       var givenParams = Sparklinevue_type_script_lang_ts_typeof(params) === 'object' ? params : src_MatomoUrl_MatomoUrl.parse(params.substring(params.indexOf('?') + 1));
       var helper = new AjaxHelper_AjaxHelper();
-      var urlParams = helper.mixinDefaultGetParams(Object.assign(Object.assign({}, defaultParams), givenParams)); // Append the token_auth to the URL if it was set (eg. embed dashboard)
-
+      var urlParams = helper.mixinDefaultGetParams(Object.assign(Object.assign({}, defaultParams), givenParams));
+      // Append the token_auth to the URL if it was set (eg. embed dashboard)
       var token_auth = src_MatomoUrl_MatomoUrl.parsed.value.token_auth;
-
       if (token_auth && token_auth.length && Matomo_Matomo.shouldPropagateTokenAuth) {
         urlParams.token_auth = token_auth;
       }
-
       return "?".concat(src_MatomoUrl_MatomoUrl.stringify(urlParams));
     },
     defaultDate: function defaultDate() {
       if (Matomo_Matomo.period === 'range') {
         return "".concat(Matomo_Matomo.startDateString, ",").concat(Matomo_Matomo.endDateString);
       }
-
       var dateRange = Range_RangePeriod.getLastNRange(Matomo_Matomo.period, 30, Matomo_Matomo.currentDateString).getDateRange();
       var piwikMinDate = new Date(Matomo_Matomo.minDateYear, Matomo_Matomo.minDateMonth - 1, Matomo_Matomo.minDateDay);
-
       if (dateRange[0] < piwikMinDate) {
         dateRange[0] = piwikMinDate;
       }
-
       var startDateStr = format(dateRange[0]);
       var endDateStr = format(dateRange[1]);
       return "".concat(startDateStr, ",").concat(endDateStr);
@@ -10697,14 +9515,12 @@ var Progressbarvue_type_template_id_0048ddd7_hoisted_1 = {
 var Progressbarvue_type_template_id_0048ddd7_hoisted_2 = {
   class: "progress"
 };
-
 var Progressbarvue_type_template_id_0048ddd7_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("img", {
   src: "plugins/Morpheus/images/loading-blue.gif",
   style: {
     "margin-right": "3.5px"
   }
 }, null, -1);
-
 var Progressbarvue_type_template_id_0048ddd7_hoisted_4 = ["innerHTML"];
 function Progressbarvue_type_template_id_0048ddd7_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", Progressbarvue_type_template_id_0048ddd7_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", Progressbarvue_type_template_id_0048ddd7_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
@@ -10736,11 +9552,9 @@ function Progressbarvue_type_template_id_0048ddd7_render(_ctx, _cache, $props, $
       if (this.progress > 100) {
         return 100;
       }
-
       if (this.progress < 0) {
         return 0;
       }
-
       return this.progress;
     }
   }
@@ -10786,23 +9600,19 @@ Progressbarvue_type_script_lang_ts.render = Progressbarvue_type_template_id_0048
 /* harmony default export */ var ContentTable = ({
   mounted: function mounted(el, binding) {
     var _binding$value;
-
     if (binding !== null && binding !== void 0 && (_binding$value = binding.value) !== null && _binding$value !== void 0 && _binding$value.off) {
       return;
     }
-
     el.classList.add('card', 'card-table', 'entityTable');
   },
   updated: function updated(el, binding) {
     var _binding$value2;
-
     if (binding !== null && binding !== void 0 && (_binding$value2 = binding.value) !== null && _binding$value2 !== void 0 && _binding$value2.off) {
       return;
-    } // classes can be overwritten when elements bind to :class, nextTick + using
+    }
+    // classes can be overwritten when elements bind to :class, nextTick + using
     // updated avoids this problem (and doing in both mounted and updated avoids a temporary
     // state where the classes aren't added)
-
-
     Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(function () {
       el.classList.add('card', 'card-table', 'entityTable');
     });
@@ -10834,7 +9644,7 @@ function AjaxFormvue_type_template_id_00d5220c_render(_ctx, _cache, $props, $set
 
 
 var AjaxFormvue_type_script_lang_ts_window = window,
-    AjaxFormvue_type_script_lang_ts_$ = AjaxFormvue_type_script_lang_ts_window.$;
+  AjaxFormvue_type_script_lang_ts_$ = AjaxFormvue_type_script_lang_ts_window.$;
 /**
  * Example usage:
  *
@@ -10848,7 +9658,6 @@ var AjaxFormvue_type_script_lang_ts_window = window,
  * Data does not flow upwards in any way. :form-data is used for submitForm(), and the
  * containing component binds to properties of the object in controls to fill the object.
  */
-
 /* harmony default export */ var AjaxFormvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     formData: {
@@ -10873,7 +9682,6 @@ var AjaxFormvue_type_script_lang_ts_window = window,
   emits: ['update:modelValue'],
   mounted: function mounted() {
     var _this = this;
-
     // on submit call controller submit method
     AjaxFormvue_type_script_lang_ts_$(this.$refs.root).on('click', 'input[type=submit]', function () {
       _this.submitForm();
@@ -10882,17 +9690,14 @@ var AjaxFormvue_type_script_lang_ts_window = window,
   methods: {
     submitForm: function submitForm() {
       var _this2 = this;
-
       this.successfulPostResponse = null;
       this.errorPostResponse = null;
       var postParams = this.formData;
-
       if (this.sendJsonPayload) {
         postParams = {
           data: JSON.stringify(this.formData)
         };
       }
-
       this.isSubmitting = true;
       AjaxHelper_AjaxHelper.post({
         module: 'API',
@@ -10901,7 +9706,6 @@ var AjaxFormvue_type_script_lang_ts_window = window,
         createErrorNotification: !this.noErrorNotification
       }).then(function (response) {
         _this2.successfulPostResponse = response;
-
         if (!_this2.noSuccessNotification) {
           var notificationInstanceId = Notifications_store.show({
             message: translate('General_YourChangesHaveBeenSaved'),
@@ -10953,11 +9757,9 @@ var DataTableActionsvue_type_template_id_7884c39d_hoisted_1 = {
   key: 0
 };
 var DataTableActionsvue_type_template_id_7884c39d_hoisted_2 = ["data-target"];
-
 var DataTableActionsvue_type_template_id_7884c39d_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-configure"
 }, null, -1);
-
 var DataTableActionsvue_type_template_id_7884c39d_hoisted_4 = [DataTableActionsvue_type_template_id_7884c39d_hoisted_3];
 var DataTableActionsvue_type_template_id_7884c39d_hoisted_5 = ["data-target"];
 var DataTableActionsvue_type_template_id_7884c39d_hoisted_6 = ["title"];
@@ -10969,43 +9771,32 @@ var DataTableActionsvue_type_template_id_7884c39d_hoisted_11 = ["title", "src"];
 var DataTableActionsvue_type_template_id_7884c39d_hoisted_12 = {
   key: 2
 };
-
 var DataTableActionsvue_type_template_id_7884c39d_hoisted_13 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
   class: "divider"
 }, null, -1);
-
 var DataTableActionsvue_type_template_id_7884c39d_hoisted_14 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
   class: "divider"
 }, null, -1);
-
 var DataTableActionsvue_type_template_id_7884c39d_hoisted_15 = ["title"];
-
 var DataTableActionsvue_type_template_id_7884c39d_hoisted_16 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-export"
 }, null, -1);
-
 var DataTableActionsvue_type_template_id_7884c39d_hoisted_17 = [DataTableActionsvue_type_template_id_7884c39d_hoisted_16];
 var DataTableActionsvue_type_template_id_7884c39d_hoisted_18 = ["title"];
-
 var DataTableActionsvue_type_template_id_7884c39d_hoisted_19 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-image"
 }, null, -1);
-
 var DataTableActionsvue_type_template_id_7884c39d_hoisted_20 = [DataTableActionsvue_type_template_id_7884c39d_hoisted_19];
 var _hoisted_21 = ["title"];
-
 var _hoisted_22 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-annotation"
 }, null, -1);
-
 var _hoisted_23 = [_hoisted_22];
 var _hoisted_24 = ["title"];
-
 var _hoisted_25 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-search",
   draggable: "false"
 }, null, -1);
-
 var _hoisted_26 = ["title"];
 var _hoisted_27 = ["id", "title"];
 var _hoisted_28 = ["title"];
@@ -11036,11 +9827,9 @@ var _hoisted_41 = {
 };
 var _hoisted_42 = ["innerHTML"];
 var _hoisted_43 = ["title", "data-target"];
-
 var _hoisted_44 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-calendar"
 }, null, -1);
-
 var _hoisted_45 = {
   class: "periodName"
 };
@@ -11048,11 +9837,8 @@ var _hoisted_46 = ["id"];
 var _hoisted_47 = ["data-period"];
 function DataTableActionsvue_type_template_id_7884c39d_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Passthrough = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Passthrough");
-
   var _directive_dropdown_button = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("dropdown-button");
-
   var _directive_report_export = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("report-export");
-
   return _ctx.showFooter && _ctx.showFooterIcons ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", DataTableActionsvue_type_template_id_7884c39d_hoisted_1, [_ctx.hasConfigItems && (_ctx.isAnyConfigureIconHighlighted || _ctx.isTableView) ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
     key: 0,
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["dropdown-button dropdownConfigureIcon dataTableAction", {
@@ -11241,58 +10027,42 @@ function DataTableActionsvue_type_template_id_7884c39d_render(_ctx, _cache, $pro
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/DataTable/DataTableActions.vue?vue&type=script&lang=ts
 function DataTableActionsvue_type_script_lang_ts_toConsumableArray(arr) { return DataTableActionsvue_type_script_lang_ts_arrayWithoutHoles(arr) || DataTableActionsvue_type_script_lang_ts_iterableToArray(arr) || DataTableActionsvue_type_script_lang_ts_unsupportedIterableToArray(arr) || DataTableActionsvue_type_script_lang_ts_nonIterableSpread(); }
-
 function DataTableActionsvue_type_script_lang_ts_nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
 function DataTableActionsvue_type_script_lang_ts_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return DataTableActionsvue_type_script_lang_ts_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return DataTableActionsvue_type_script_lang_ts_arrayLikeToArray(o, minLen); }
-
 function DataTableActionsvue_type_script_lang_ts_iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
 function DataTableActionsvue_type_script_lang_ts_arrayWithoutHoles(arr) { if (Array.isArray(arr)) return DataTableActionsvue_type_script_lang_ts_arrayLikeToArray(arr); }
-
 function DataTableActionsvue_type_script_lang_ts_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 
 
 
 
-
 var DataTableActionsvue_type_script_lang_ts_window = window,
-    DataTableActionsvue_type_script_lang_ts_$ = DataTableActionsvue_type_script_lang_ts_window.$;
-
+  DataTableActionsvue_type_script_lang_ts_$ = DataTableActionsvue_type_script_lang_ts_window.$;
 function getSingleStateIconText(text, addDefault, replacement) {
   if (/(%(.\$)?s+)/g.test(translate(text))) {
     var values = ['<br /><span class="action">'];
-
     if (replacement) {
       values.push(replacement);
     }
-
     var result = translate.apply(void 0, [text].concat(values));
-
     if (addDefault) {
       result += " (".concat(translate('CoreHome_Default'), ")");
     }
-
     result += '</span>';
     return result;
   }
-
   return translate(text);
 }
-
 function getToggledIconText(toggled, textToggled, textUntoggled) {
   if (toggled) {
     return getSingleStateIconText(textToggled, true);
   }
-
   return getSingleStateIconText(textUntoggled);
 }
-
 function isBooleanLikeSet(value) {
   return !!value && value !== '0';
 }
-
 /* harmony default export */ var DataTableActionsvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     showPeriods: Boolean,
@@ -11372,16 +10142,13 @@ function isBooleanLikeSet(value) {
     },
     activeFooterIcons: function activeFooterIcons() {
       var _this = this;
-
       var params = this.clientSideParameters;
       var result = [this.viewDataTable];
-
       if (params.abandonedCarts === 0 || params.abandonedCarts === '0') {
         result.push('ecommerceOrder');
       } else if (params.abandonedCarts === 1 || params.abandonedCarts === '1') {
         result.push('ecommerceAbandonedCart');
       }
-
       return result.map(function (id) {
         return _this.allFooterIcons.find(function (button) {
           return button.id === id;
@@ -11392,7 +10159,6 @@ function isBooleanLikeSet(value) {
     },
     activeFooterIcon: function activeFooterIcon() {
       var _this$activeFooterIco;
-
       return (_this$activeFooterIco = this.activeFooterIcons[0]) === null || _this$activeFooterIco === void 0 ? void 0 : _this$activeFooterIco.icon;
     },
     activeFooterIconIds: function activeFooterIconIds() {
@@ -11447,11 +10213,9 @@ function isBooleanLikeSet(value) {
     },
     pivotByText: function pivotByText() {
       var params = this.clientSideParameters;
-
       if (isBooleanLikeSet(params.pivotBy)) {
         return getSingleStateIconText('CoreHome_UndoPivotBySubtable', true);
       }
-
       return getSingleStateIconText('CoreHome_PivotBySubtable', false, this.pivotDimensionName);
     },
     excludeLowPopText: function excludeLowPopText() {
@@ -11486,11 +10250,9 @@ var VersionInfoHeaderMessagevue_type_template_id_74b531b2_hoisted_1 = {
   },
   ref: "expander"
 };
-
 var VersionInfoHeaderMessagevue_type_template_id_74b531b2_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-warning"
 }, null, -1);
-
 var VersionInfoHeaderMessagevue_type_template_id_74b531b2_hoisted_3 = {
   key: 1,
   class: "title",
@@ -11500,11 +10262,9 @@ var VersionInfoHeaderMessagevue_type_template_id_74b531b2_hoisted_3 = {
   },
   ref: "expander"
 };
-
 var VersionInfoHeaderMessagevue_type_template_id_74b531b2_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-warning"
 }, null, -1);
-
 var VersionInfoHeaderMessagevue_type_template_id_74b531b2_hoisted_5 = ["innerHTML"];
 var VersionInfoHeaderMessagevue_type_template_id_74b531b2_hoisted_6 = {
   key: 1,
@@ -11523,9 +10283,7 @@ var VersionInfoHeaderMessagevue_type_template_id_74b531b2_hoisted_9 = ["innerHTM
 var VersionInfoHeaderMessagevue_type_template_id_74b531b2_hoisted_10 = ["innerHTML"];
 function VersionInfoHeaderMessagevue_type_template_id_74b531b2_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Passthrough = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Passthrough");
-
   var _directive_expand_on_hover = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("expand-on-hover");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
     id: "header_message",
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["piwikSelector", {
@@ -11592,20 +10350,17 @@ function VersionInfoHeaderMessagevue_type_template_id_74b531b2_render(_ctx, _cac
   computed: {
     updateNowText: function updateNowText() {
       var text = '';
-
       if (this.isMultiServerEnvironment) {
         var link = externalRawLink("https://builds.matomo.org/piwik-".concat(this.latestVersionAvailable, ".zip"));
         text = translate('CoreHome_OneClickUpdateNotPossibleAsMultiServerEnvironment', "<a rel=\"noreferrer noopener\" href=\"".concat(link, "\">builds.matomo.org</a>"));
       } else {
         text = translate('General_PiwikXIsAvailablePleaseUpdateNow', this.latestVersionAvailable || '', '<br /><a href="index.php?module=CoreUpdater&amp;action=newVersionAvailable">', '</a>', externalLink('https://matomo.org/changelog/'), '</a>');
       }
-
       return "".concat(text, "<br/>");
     },
     updateAvailableText: function updateAvailableText() {
       var updateSubject = translate('General_NewUpdatePiwikX', this.latestVersionAvailable || '');
       /* eslint-disable prefer-template */
-
       var matomoLink = externalLink('https://matomo.org/') + 'Matomo</a>';
       var changelogLinkStart = externalLink('https://matomo.org/changelog/');
       var text = translate('General_PiwikXIsAvailablePleaseNotifyPiwikAdmin', "".concat(matomoLink, " ").concat(changelogLinkStart).concat(this.latestVersionAvailable, "</a>"), "<a href=\"mailto:".concat(this.contactEmail, "?subject=").concat(encodeURIComponent(updateSubject), "\">"), '</a>');
@@ -11624,17 +10379,11 @@ VersionInfoHeaderMessagevue_type_script_lang_ts.render = VersionInfoHeaderMessag
 /* harmony default export */ var VersionInfoHeaderMessage = (VersionInfoHeaderMessagevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/MobileLeftMenu/MobileLeftMenu.vue?vue&type=template&id=727d7002
 function MobileLeftMenuvue_type_template_id_727d7002_slicedToArray(arr, i) { return MobileLeftMenuvue_type_template_id_727d7002_arrayWithHoles(arr) || MobileLeftMenuvue_type_template_id_727d7002_iterableToArrayLimit(arr, i) || MobileLeftMenuvue_type_template_id_727d7002_unsupportedIterableToArray(arr, i) || MobileLeftMenuvue_type_template_id_727d7002_nonIterableRest(); }
-
 function MobileLeftMenuvue_type_template_id_727d7002_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
 function MobileLeftMenuvue_type_template_id_727d7002_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return MobileLeftMenuvue_type_template_id_727d7002_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return MobileLeftMenuvue_type_template_id_727d7002_arrayLikeToArray(o, minLen); }
-
 function MobileLeftMenuvue_type_template_id_727d7002_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 function MobileLeftMenuvue_type_template_id_727d7002_iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
 function MobileLeftMenuvue_type_template_id_727d7002_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 
 var MobileLeftMenuvue_type_template_id_727d7002_hoisted_1 = {
   id: "mobile-left-menu",
@@ -11652,7 +10401,6 @@ var MobileLeftMenuvue_type_template_id_727d7002_hoisted_4 = {
 var MobileLeftMenuvue_type_template_id_727d7002_hoisted_5 = ["title", "href"];
 function MobileLeftMenuvue_type_template_id_727d7002_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _directive_side_nav = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("side-nav");
-
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("ul", MobileLeftMenuvue_type_template_id_727d7002_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.menuWithSubmenuItems, function (level2, level1) {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
       class: "no-padding",
@@ -11661,14 +10409,12 @@ function MobileLeftMenuvue_type_template_id_727d7002_render(_ctx, _cache, $props
       class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(level2._icon || 'icon-chevron-down')
     }, null, 2)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MobileLeftMenuvue_type_template_id_727d7002_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", null, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(Object.entries(level2).filter(function (_ref) {
       var _ref2 = MobileLeftMenuvue_type_template_id_727d7002_slicedToArray(_ref, 1),
-          n = _ref2[0];
-
+        n = _ref2[0];
       return n[0] !== '_';
     }), function (_ref3) {
       var _ref4 = MobileLeftMenuvue_type_template_id_727d7002_slicedToArray(_ref3, 2),
-          name = _ref4[0],
-          params = _ref4[1];
-
+        name = _ref4[0],
+        params = _ref4[1];
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
         key: name
       }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
@@ -11685,23 +10431,17 @@ function MobileLeftMenuvue_type_template_id_727d7002_render(_ctx, _cache, $props
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/CoreHome/vue/src/MobileLeftMenu/MobileLeftMenu.vue?vue&type=script&lang=ts
 function MobileLeftMenuvue_type_script_lang_ts_slicedToArray(arr, i) { return MobileLeftMenuvue_type_script_lang_ts_arrayWithHoles(arr) || MobileLeftMenuvue_type_script_lang_ts_iterableToArrayLimit(arr, i) || MobileLeftMenuvue_type_script_lang_ts_unsupportedIterableToArray(arr, i) || MobileLeftMenuvue_type_script_lang_ts_nonIterableRest(); }
-
 function MobileLeftMenuvue_type_script_lang_ts_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
 function MobileLeftMenuvue_type_script_lang_ts_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return MobileLeftMenuvue_type_script_lang_ts_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return MobileLeftMenuvue_type_script_lang_ts_arrayLikeToArray(o, minLen); }
-
 function MobileLeftMenuvue_type_script_lang_ts_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 function MobileLeftMenuvue_type_script_lang_ts_iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
 function MobileLeftMenuvue_type_script_lang_ts_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
 
-
 var MobileLeftMenuvue_type_script_lang_ts_window = window,
-    MobileLeftMenuvue_type_script_lang_ts_$ = MobileLeftMenuvue_type_script_lang_ts_window.$;
+  MobileLeftMenuvue_type_script_lang_ts_$ = MobileLeftMenuvue_type_script_lang_ts_window.$;
 /* harmony default export */ var MobileLeftMenuvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     menu: {
@@ -11720,22 +10460,20 @@ var MobileLeftMenuvue_type_script_lang_ts_window = window,
       if (name.includes('_')) {
         return translate(name);
       }
-
       return name;
     }
   },
   computed: {
     menuWithSubmenuItems: function menuWithSubmenuItems() {
       var menu = this.menu || {};
-      return Object.fromEntries(Object.entries(menu) // remove submenus that have no items that do not start w/ '_'
+      return Object.fromEntries(Object.entries(menu)
+      // remove submenus that have no items that do not start w/ '_'
       .filter(function (_ref) {
         var _ref2 = MobileLeftMenuvue_type_script_lang_ts_slicedToArray(_ref, 2),
-            level2 = _ref2[1];
-
+          level2 = _ref2[1];
         var itemsWithoutUnderscore = Object.entries(level2).filter(function (_ref3) {
           var _ref4 = MobileLeftMenuvue_type_script_lang_ts_slicedToArray(_ref3, 1),
-              name = _ref4[0];
-
+            name = _ref4[0];
           return name[0] !== '_';
         });
         return Object.keys(itemsWithoutUnderscore).length;
@@ -11765,79 +10503,63 @@ MobileLeftMenuvue_type_script_lang_ts.render = MobileLeftMenuvue_type_template_i
 
 
 var scrollToAnchorInUrl_window = window,
-    scrollToAnchorInUrl_$ = scrollToAnchorInUrl_window.$;
-
+  scrollToAnchorInUrl_$ = scrollToAnchorInUrl_window.$;
 function scrollToAnchorNode($node) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   scrollToAnchorInUrl_$.scrollTo($node, 20);
 }
-
 function preventDefaultIfEventExists(event) {
   if (event) {
     event.preventDefault();
   }
 }
-
 function scrollToAnchorIfPossible(hash, event) {
   var _$node, _$node2;
-
   if (!hash) {
     return;
   }
-
   if (hash.indexOf('&') !== -1) {
     return;
   }
-
   var $node = null;
-
   try {
     $node = scrollToAnchorInUrl_$("#".concat(hash));
   } catch (err) {
     // on jquery syntax error, ignore so nothing is logged to the console
     return;
   }
-
   if ((_$node = $node) !== null && _$node !== void 0 && _$node.length) {
     scrollToAnchorNode($node);
     preventDefaultIfEventExists(event);
     return;
   }
-
   $node = scrollToAnchorInUrl_$("a[name=".concat(hash, "]"));
-
   if ((_$node2 = $node) !== null && _$node2 !== void 0 && _$node2.length) {
     scrollToAnchorNode($node);
     preventDefaultIfEventExists(event);
   }
 }
-
 function isLinkWithinSamePage(location, newUrl) {
   if (location && location.origin && newUrl.indexOf(location.origin) === -1) {
     // link to different domain
     return false;
   }
-
   if (location && location.pathname && newUrl.indexOf(location.pathname) === -1) {
     // link to different path
     return false;
   }
-
   if (location && location.search && newUrl.indexOf(location.search) === -1) {
     // link with different search
     return false;
   }
-
   return true;
 }
-
 function handleScrollToAnchorIfPresentOnPageLoad() {
   if (window.location.hash.slice(0, 2) === '#/') {
     var hash = window.location.hash.slice(2);
     scrollToAnchorIfPossible(hash, null);
   }
 }
-
 function handleScrollToAnchorAfterPageLoad() {
   Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(function () {
     return src_MatomoUrl_MatomoUrl.url.value;
@@ -11845,22 +10567,17 @@ function handleScrollToAnchorAfterPageLoad() {
     if (!newUrl) {
       return;
     }
-
     var hashPos = newUrl.href.indexOf('#/');
-
     if (hashPos === -1) {
       return;
     }
-
     if (oldUrl && !isLinkWithinSamePage(oldUrl, newUrl.href)) {
       return;
     }
-
     var hash = newUrl.href.slice(hashPos + 2);
     scrollToAnchorIfPossible(hash, null);
   });
 }
-
 handleScrollToAnchorAfterPageLoad();
 scrollToAnchorInUrl_$(handleScrollToAnchorIfPresentOnPageLoad);
 function scrollToAnchorInUrl() {
