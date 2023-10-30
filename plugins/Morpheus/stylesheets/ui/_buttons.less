@@ -75,3 +75,17 @@ fieldset[disabled] .btn {
 .btn, .btn-large, .btn-small, .btn-flat {
   padding: 0 2rem;
 }
+
+.btn.btn-outline {
+  background: none;
+  color: @theme-color-brand !important;
+  border: 1px solid @theme-color-brand;
+
+  &:hover,
+  &:focus {
+    color: @theme-color-brand-contrast !important;
+    background: @theme-color-brand;
+    text-decoration: none;
+  }
+}
+
