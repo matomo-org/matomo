@@ -175,7 +175,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         it('should load the notifications page correctly', async function() {
             await page.goto("?" + generalParams + "&module=ExampleUI&action=notifications&idSite=1&period=day&date=yesterday");
             await page.evaluate(function () {
-                $('#header').hide();
+                $('#secondNavBar').css('visibility', 'hidden'); // hide navbar so shadow isn't shown
             });
 
             const pageWrap = await page.$('.pageWrap');
