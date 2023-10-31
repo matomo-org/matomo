@@ -56,6 +56,18 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         testEnvironment.save();
     });
 
+    async function screenshotPageWrap() {
+        await page.evaluate(function () {
+          $('#secondNavBar').css('visibility', 'hidden'); // hide navbar so shadow isn't shown on screenshot
+        });
+        const pageWrap = await page.$('.pageWrap');
+        const screenshot = await pageWrap.screenshot();
+        await page.evaluate(function () {
+          $('#secondNavBar').css('visibility', 'visible'); // show navbar again
+        });
+        return screenshot;
+    }
+
     describe("misc", function () {
         this.title = parentSuite.title; // to make sure the screenshot prefix is the same
 
@@ -66,8 +78,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         it("should load the page of a plugin located in a custom directory", async function () {
             await page.goto("?module=CustomDirPlugin&action=index&idSite=1&period=day&date=yesterday");
 
-            const pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('customdirplugin');
+            expect(await screenshotPageWrap()).to.matchImage('customdirplugin');
         });
 
         // shortcuts help
@@ -112,12 +123,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         // Notifications
         it('should load the notifications page correctly', async function() {
             await page.goto("?" + generalParams + "&module=ExampleUI&action=notifications&idSite=1&period=day&date=yesterday");
-            await page.evaluate(function () {
-                $('#secondNavBar').css('visibility', 'hidden'); // hide navbar so shadow isn't shown
-            });
-
-            const pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('notifications');
+            expect(await screenshotPageWrap).to.matchImage('notifications');
         });
 
         // Fatal error safemode
@@ -189,8 +195,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
               $('.dataTableScroller').css('overflow-x', 'scroll');
             });
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('visitors_overview_columns');
+            expect(await screenshotPageWrap()).to.matchImage('visitors_overview_columns');
         });
 
         it('should reload the visitors > overview page when clicking on the visitors overview page element again', async function () {
@@ -198,8 +203,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.waitForNetworkIdle();
             await page.waitForSelector('.piwik-graph');
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('visitors_overview');
+            expect(await screenshotPageWrap()).to.matchImage('visitors_overview');
         });
 
         it('should be possible to change the limit of evolution chart', async function () {
@@ -211,8 +215,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.mouse.move(0, 0);
             await page.waitForNetworkIdle();
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('visitors_overview_limit');
+            expect(await screenshotPageWrap()).to.matchImage('visitors_overview_limit');
         });
 
         it('should keep the limit when reload the page', async function () {
@@ -221,16 +224,14 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             delete testEnvironment.ignoreClearAllViewDataTableParameters;
             testEnvironment.save();
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('visitors_overview_limit');
+            expect(await screenshotPageWrap()).to.matchImage('visitors_overview_limit');
         });
 
         it('should load the visitors > devices page correctly', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=DevicesDetection_Devices");
             await page.waitForNetworkIdle();
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('visitors_devices');
+            expect(await screenshotPageWrap()).to.matchImage('visitors_devices');
         });
 
         it('should load visitors > locations & provider page correctly', async function () {
@@ -238,40 +239,35 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.waitForNetworkIdle();
             await page.waitForTimeout(500); // wait for map widget to render
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('visitors_locations_provider');
+            expect(await screenshotPageWrap()).to.matchImage('visitors_locations_provider');
         });
 
         it('should load the visitors > software page correctly', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=DevicesDetection_Software");
             await page.waitForNetworkIdle();
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('visitors_software');
+            expect(await screenshotPageWrap()).to.matchImage('visitors_software');
         });
 
         it('should load the visitors > times page correctly', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=VisitTime_SubmenuTimes");
             await page.waitForNetworkIdle();
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('visitors_times');
+            expect(await screenshotPageWrap()).to.matchImage('visitors_times');
         });
 
         it('should load the visitors > engagement page correctly', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=VisitorInterest_Engagement");
             await page.waitForNetworkIdle();
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('visitors_engagement');
+            expect(await screenshotPageWrap()).to.matchImage('visitors_engagement');
         });
 
         it('should load the visitors > custom variables page correctly', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=CustomVariables_CustomVariables");
             await page.waitForNetworkIdle();
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('visitors_custom_vars');
+            expect(await screenshotPageWrap()).to.matchImage('visitors_custom_vars');
         });
 
         it('should load the visitors > real-time map page correctly', async function () {
@@ -318,8 +314,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.mouse.move(-10, -10);
             await page.waitForNetworkIdle();
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('actions_pages');
+            expect(await screenshotPageWrap()).to.matchImage('actions_pages');
         });
 
         // actions pages
@@ -335,48 +330,42 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             });
             await page.mouse.move(-10, -10);
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('actions_pages_tooltip_help');
+            expect(await screenshotPageWrap()).to.matchImage('actions_pages_tooltip_help');
         });
 
         it('should load the actions > entry pages page correctly', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Actions_SubmenuPagesEntry");
             await page.waitForNetworkIdle();
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('actions_entry_pages');
+            expect(await screenshotPageWrap()).to.matchImage('actions_entry_pages');
         });
 
         it('should load the actions > exit pages page correctly', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Actions_SubmenuPagesExit");
             await page.waitForNetworkIdle();
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('actions_exit_pages');
+            expect(await screenshotPageWrap()).to.matchImage('actions_exit_pages');
         });
 
         it('should load the actions > page titles page correctly', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Actions_SubmenuPageTitles");
             await page.waitForNetworkIdle();
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('actions_page_titles');
+            expect(await screenshotPageWrap()).to.matchImage('actions_page_titles');
         });
 
         it('should load the actions > site search page correctly', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Actions_SubmenuSitesearch");
             await page.waitForNetworkIdle();
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('actions_site_search');
+            expect(await screenshotPageWrap()).to.matchImage('actions_site_search');
         });
 
         it('should load the actions > outlinks page correctly', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Outlinks");
             await page.waitForNetworkIdle();
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('actions_outlinks');
+            expect(await screenshotPageWrap()).to.matchImage('actions_outlinks');
         });
 
         it('should load the segmented vlog correctly for outlink containing a &', async function () {
@@ -403,16 +392,14 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.waitForTimeout(500);
             await page.waitForNetworkIdle();
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('actions_downloads');
+            expect(await screenshotPageWrap()).to.matchImage('actions_downloads');
         });
 
         it('should load the actions > contents page correctly', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Contents_Contents&period=day&date=2012-01-01");
             await page.waitForNetworkIdle();
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('actions_contents');
+            expect(await screenshotPageWrap()).to.matchImage('actions_contents');
         });
 
         it("should show all corresponding content pieces when clicking on a content name", async function () {
@@ -425,8 +412,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             });
             await page.mouse.move(-10, -10);
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('actions_content_name_piece');
+            expect(await screenshotPageWrap()).to.matchImage('actions_content_name_piece');
         });
 
         it("should show all tracked content pieces when clicking on the table", async function () {
@@ -434,8 +420,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await elem.click();
             await page.waitForNetworkIdle();
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('actions_content_piece');
+            expect(await screenshotPageWrap()).to.matchImage('actions_content_piece');
         });
 
         it("should show all corresponding content names when clicking on a content piece", async function () {
@@ -448,8 +433,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             });
             await page.mouse.move(-10, -10);
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('actions_content_piece_name');
+            expect(await screenshotPageWrap()).to.matchImage('actions_content_piece_name');
         });
     });
 
@@ -473,43 +457,37 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=ExampleUI_UiFramework&subcategory=ExampleUI_GetTemperaturesDataTable");
             await page.mouse.move(-10, -10);
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('exampleui_dataTables');
+            expect(await screenshotPageWrap()).to.matchImage('exampleui_dataTables');
         });
 
         it('should load the example ui > barGraph page correctly', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=ExampleUI_UiFramework&subcategory=Bar%20graph");
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('exampleui_barGraph');
+            expect(await screenshotPageWrap()).to.matchImage('exampleui_barGraph');
         });
 
         it('should load the example ui > pieGraph page correctly', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=ExampleUI_UiFramework&subcategory=Pie%20graph");
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('exampleui_pieGraph');
+            expect(await screenshotPageWrap()).to.matchImage('exampleui_pieGraph');
         });
 
         it('should load the example ui > tagClouds page correctly', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=ExampleUI_UiFramework&subcategory=Tag%20clouds");
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('exampleui_tagClouds');
+            expect(await screenshotPageWrap()).to.matchImage('exampleui_tagClouds');
         });
 
         it('should load the example ui > sparklines page correctly', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=ExampleUI_UiFramework&subcategory=Sparklines");
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('exampleui_sparklines');
+            expect(await screenshotPageWrap()).to.matchImage('exampleui_sparklines');
         });
 
         it('should load the example ui > evolution graph page correctly', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=ExampleUI_UiFramework&subcategory=Evolution%20Graph");
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('exampleui_evolutionGraph');
+            expect(await screenshotPageWrap()).to.matchImage('exampleui_evolutionGraph');
         });
 
         it('should load the example ui > treemap page correctly', async function () {
@@ -517,8 +495,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.waitForNetworkIdle();
             await page.waitForTimeout(500);
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('exampleui_treemap');
+            expect(await screenshotPageWrap()).to.matchImage('exampleui_treemap');
         });
 
         it('should load sparklines view correctly even when there is no matching row', async function () {
@@ -587,15 +564,13 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         it('should load the ecommerce log page', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=Goals_Ecommerce&subcategory=Goals_EcommerceLog");
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('ecommerce_log');
+            expect(await screenshotPageWrap()).to.matchImage('ecommerce_log');
         });
 
         it('should load the ecommerce log page with segment', async function () {
             await page.goto("?" + urlBase + "&segment=countryCode%3D%3DCN#?" + generalParams + "&category=Goals_Ecommerce&subcategory=Goals_EcommerceLog&segment=countryCode%3D%3DCN");
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('ecommerce_log_segmented');
+            expect(await screenshotPageWrap()).to.matchImage('ecommerce_log_segmented');
         });
 
         it('should load the ecommerce products page', async function () {
@@ -623,8 +598,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         it('should load the Admin home page correct', async function () {
             await page.goto("?" + generalParams + "&module=CoreAdminHome&action=home");
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('admin_home');
+            expect(await screenshotPageWrap).to.matchImage('admin_home');
         });
 
         // Admin user settings (plugins not displayed)
@@ -634,8 +608,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
                 $('.form-help:contains(UTC time is)').hide();
             });
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('admin_manage_websites');
+            expect(await screenshotPageWrap()).to.matchImage('admin_manage_websites');
         });
 
         it('should load the Settings > General Settings admin page correctly', async function () {
@@ -647,8 +620,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             });
             await page.waitForTimeout(750);
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('admin_settings_general');
+            expect(await screenshotPageWrap()).to.matchImage('admin_settings_general');
         });
 
         it('should load the Privacy Opt out iframe correctly', async function () {
@@ -662,8 +634,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.goto("?" + generalParams + "&module=MobileMessaging&action=index");
             await page.waitForNetworkIdle();
 
-            const pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('admin_settings_mobilemessaging');
+            expect(await screenshotPageWrap()).to.matchImage('admin_settings_mobilemessaging');
         })
 
         it('should switch the SMS provider correctly', async function () {
@@ -674,22 +645,19 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.waitForNetworkIdle();
             await page.waitForTimeout(200);
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('admin_settings_mobilemessaging_provider');
+            expect(await screenshotPageWrap()).to.matchImage('admin_settings_mobilemessaging_provider');
         });
 
         it('should load the themes admin page correctly', async function () {
             await page.goto("?" + generalParams + "&module=CorePluginsAdmin&action=themes");
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('admin_themes');
+            expect(await screenshotPageWrap()).to.matchImage('admin_themes');
         });
 
         it('should load the plugins admin page correctly', async function () {
             await page.goto("?" + generalParams + "&module=CorePluginsAdmin&action=plugins");
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('admin_plugins');
+            expect(await screenshotPageWrap()).to.matchImage('admin_plugins');
         });
 
         it('should load the plugins admin page correctly when internet disabled', async function () {
@@ -700,15 +668,13 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
             await page.goto("?" + generalParams + "&module=CorePluginsAdmin&action=plugins");
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('admin_plugins_no_internet');
+            expect(await screenshotPageWrap()).to.matchImage('admin_plugins_no_internet');
         });
 
         it('should load the config file page correctly', async function () {
             await page.goto("?" + generalParams + "&module=Diagnostics&action=configfile");
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('admin_diagnostics_configfile');
+            expect(await screenshotPageWrap()).to.matchImage('admin_diagnostics_configfile');
         });
 
         it('should load the Settings > Visitor Generator admin page correctly', async function () {
@@ -718,8 +684,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
                 $p.text($p.text().replace(/\(change .*\)/g, ''));
             });
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('admin_visitor_generator');
+            expect(await screenshotPageWrap()).to.matchImage('admin_visitor_generator');
         });
     });
 
@@ -729,8 +694,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         it('should load the glossary correctly', async function () {
             await page.goto("?" + generalParams + "&module=API&action=glossary");
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('glossary');
+            expect(await screenshotPageWrap()).to.matchImage('glossary');
         });
 
         it('should load the glossary correctly widgetized', async function () {
@@ -781,15 +745,13 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
                 });
             });
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('widgets_listing');
+            expect(await screenshotPageWrap()).to.matchImage('widgets_listing');
         });
 
         it('should load the API listing page correctly', async function () {
             await page.goto("?" + generalParams + "&module=API&action=listAllAPI");
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('api_listing');
+            expect(await screenshotPageWrap()).to.matchImage('api_listing');
         });
 
         it('should load the email reports page correctly', async function () {
@@ -798,8 +760,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
                 $('#header').hide();
             });
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('email_reports');
+            expect(await screenshotPageWrap()).to.matchImage('email_reports');
         });
 
         it('should show the generated report when clicking the download button', async function () {
@@ -816,8 +777,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.goto("?" + generalParams + "&module=ScheduledReports&action=index");
             await page.click('.entityTable tr:nth-child(4) button[title="Edit"]');
 
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('email_reports_editor');
+            expect(await screenshotPageWrap()).to.matchImage('email_reports_editor');
         });
 
         // date range clicked
@@ -941,8 +901,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
                 $('.visitor-profile-widget-link > span').text('{REPLACED_ID}');
             });
 
-            const pageWrap = await page.$('#Piwik_Popover');
-            expect(await pageWrap.screenshot()).to.matchImage('visitor_profile_not_segmented');
+            const popover = await page.$('#Piwik_Popover');
+            expect(await popover.screenshot()).to.matchImage('visitor_profile_not_segmented');
         });
 
         it('should display API errors properly without showing them as notifications', async function () {
