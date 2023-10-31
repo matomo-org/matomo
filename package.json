@@ -48,6 +48,7 @@
     "vue": "^3.2.6"
   },
   "devDependencies": {
+    "@testomatio/reporter": "^1.0.16",
     "@types/dotdotdot": "^1.6.36",
     "@types/jest": "^26.0.24",
     "@types/materialize-css": "^1.0.11",
