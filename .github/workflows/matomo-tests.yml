@@ -110,6 +110,7 @@ jobs:
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
+          testomatio: ${{ secrets.TESTOMATIO }}
           ui-test-options: '--num-test-groups=4 --test-group=${{ matrix.parts }}'
           test-type: 'UI'
           php-version: '7.2'
@@ -117,7 +118,3 @@ jobs:
           redis-service: true
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
           upload-artifacts: true
-    run:
-      - env:
-          TESTOMATIO: "${{ secrets.TESTOMATIO }}"
-          TESTOMATIO_RUN: "${{ github.event.inputs.run }}"
