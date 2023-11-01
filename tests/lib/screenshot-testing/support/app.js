@@ -296,10 +296,14 @@ Application.prototype.runTests = function (mocha) {
 };
 
 Application.prototype.doRunTests = function (mocha) {
+    const { EVENT_RUN_END } = Mocha.Runner.constants;
+    let failures;
+  
     testEnvironment.reload();
-
+  
     // run tests
-    this.runner = mocha.run(function (failures) {
+    this.runner = mocha.run(function (f) {
+        failures = f;
         // remove symlinks
         if (!options['keep-symlinks']) {
             var symlinks = ['libs', 'plugins', 'tests', 'misc', 'node_modules', 'piwik.js', 'matomo.js'];
@@ -311,10 +315,13 @@ Application.prototype.doRunTests = function (mocha) {
                 }
             });
         }
-
-        process.exit(failures);
     });
 
+  
+    this.runner.on(EVENT_RUN_END, function() {
+      process.exit(failures);
+    })
+  
     this.runner.on('suite', function() {
         page.webpage.mouse.move(-10, -10);
     });
