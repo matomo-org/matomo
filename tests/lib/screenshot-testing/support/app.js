@@ -319,7 +319,9 @@ Application.prototype.doRunTests = function (mocha) {
 
   
     this.runner.on(EVENT_RUN_END, function() {
-      process.exit(failures);
+      // we are terminating but we are waiting for all other events to finish
+      setTimeout(() => process.exit(failures), 10000);
+      
     })
   
     this.runner.on('suite', function() {
