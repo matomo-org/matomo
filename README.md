@@ -52,6 +52,12 @@ See https://matomo.org/docs/installation/.
 
 (When using Matomo for development you need to [install Matomo from the Git repository](https://matomo.org/faq/how-to-install/faq_18271/)).
 
+## Deploy Matomo
+
+Deploy Matomo to Dome in [one-click](https://app.trydome.io/signup?package=matomo):
+
+[![Deploy to Dome](https://trydome.io/button.svg)](https://app.trydome.io/signup?package=matomo)
+
 ## Free trial 
 
 If you do not have a server or don't want to host yourself you can use our Matomo Cloud partner service (21 day free trial): https://matomo.org/start-free-analytics-trial/
