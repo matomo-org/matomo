@@ -10,7 +10,7 @@
       <div v-content-intro>
         <h2>
           <EnrichedHeadline
-            help-url="{{ externalRawLink('https://matomo.org/docs/manage-users/') }}"
+            :help-url="externalRawLink('https://matomo.org/docs/manage-users/')"
             feature-name="Users Management"
           >
             {{ translate('UsersManager_ManageUsers') }}
