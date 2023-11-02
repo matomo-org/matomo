@@ -110,7 +110,7 @@ jobs:
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
-          testomatio: ${{ secrets.TESTOMATIO }}
+          testomatio: ${{ secrets.TESTOMATIO }} #adding testomat environment secret
           ui-test-options: '--num-test-groups=4 --test-group=${{ matrix.parts }}'
           test-type: 'UI'
           php-version: '7.2'
