@@ -222,7 +222,7 @@ describe("Dashboard", function () {
         await button.click();
         await page.waitForFunction("$('.ui-confirm :contains(\"Current dashboard successfully copied to selected user.\").length > 0')");
 
-        await page.goto(url.replace("idDashboard=5", "idDashboard=6"));
+        await page.goto(url.replace("idDashboard=1", "idDashboard=6"));
         await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
 
