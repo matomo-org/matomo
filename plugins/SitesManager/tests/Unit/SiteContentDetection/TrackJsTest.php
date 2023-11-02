@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\SitesManager\tests\Unit\SiteContentDetection;
 
 use PHPUnit\Framework\TestCase;
-use Piwik\Plugins\SitesManager\SiteContentDetection\BugSnag;
 use Piwik\Plugins\SitesManager\SiteContentDetection\TrackJs;
 
 /**
