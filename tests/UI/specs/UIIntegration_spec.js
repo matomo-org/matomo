@@ -61,7 +61,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         this.title = parentSuite.title; // to make sure the screenshot prefix is the same
 
         it("should load dashboard1 correctly", async function () {
-            await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=1");
+            await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=2");
             await page.waitForNetworkIdle();
             await page.evaluate(function () {
                 // Prevent random sizing error eg. http://builds-artifacts.matomo.org/ui-tests.master/2301.1/screenshot-diffs/diffviewer.html
@@ -73,7 +73,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         });
 
         it("should load dashboard2 correctly", async function () {
-            await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=2");
+            await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=3");
             await page.waitForNetworkIdle();
             await page.waitForSelector('.widget');
             await page.waitForNetworkIdle();
@@ -83,7 +83,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         });
 
         it("should load dashboard3 correctly", async function () {
-            await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=3");
+            await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=4");
             await page.waitForNetworkIdle();
             await page.waitForSelector('.widget');
             await page.waitForNetworkIdle();
@@ -96,7 +96,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         });
 
         it("should load dashboard4 correctly", async function () {
-            await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=4");
+            await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=5");
             await page.waitForNetworkIdle();
             await page.waitForSelector('.widget');
             await page.waitForNetworkIdle();
@@ -110,7 +110,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
                 width: 480,
                 height: 320
             });
-            await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=5");
+            await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=1");
             await page.waitForNetworkIdle();
 
             expect(await page.screenshot({ fullPage: true })).to.matchImage('dashboard5_mobile');

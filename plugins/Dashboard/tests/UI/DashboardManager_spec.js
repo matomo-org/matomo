@@ -11,7 +11,7 @@ describe("DashboardManager", function () {
     const selectorToCapture = '.dashboard-manager,.dashboard-manager .dropdown';
 
     const generalParams = 'idSite=1&period=day&date=2012-01-01';
-    const url = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=Dashboard_Dashboard&subcategory=5';
+    const url = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=Dashboard_Dashboard&subcategory=1';
 
     it("should load correctly", async function() {
         await page.goto(url);

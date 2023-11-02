@@ -11,7 +11,7 @@ describe("Dashboard", function () {
     this.timeout(0);
 
     var url = "?module=Widgetize&action=iframe&idSite=1&period=year&date=2012-08-09&moduleToWidgetize=Dashboard&"
-            + "actionToWidgetize=index&idDashboard=5";
+            + "actionToWidgetize=index&idDashboard=1";
 
     var removeAllExtraDashboards = async function() {
         var dashboards = await testEnvironment.callController("Dashboard.getAllDashboards", {});
@@ -40,7 +40,7 @@ describe("Dashboard", function () {
         testEnvironment.testUseMockAuth = 1;
         testEnvironment.save();
 
-        // save empty layout for dashboard ID = 5
+        // save empty layout for dashboard ID = 1
         var layout = [
             [
                 {
@@ -52,7 +52,7 @@ describe("Dashboard", function () {
             []
         ];
 
-        await testEnvironment.callController("Dashboard.saveLayout", {name: 'D4', layout: JSON.stringify(layout), idDashboard: 5, idSite: 2});
+        await testEnvironment.callController("Dashboard.saveLayout", {name: 'D4', layout: JSON.stringify(layout), idDashboard: 1, idSite: 2});
         await testEnvironment.callController("Dashboard.saveLayoutAsDefault", {layout: 0});
         await removeAllExtraDashboards();
     };
