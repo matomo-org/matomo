@@ -633,9 +633,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 TransitionSwitchervue_type_script_lang_ts.render = TransitionSwitchervue_type_template_id_3282161c_render
 
 /* harmony default export */ var TransitionSwitcher = (TransitionSwitchervue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Transitions/vue/src/TransitionsPage/TransitionsPage.vue?vue&type=template&id=62175296
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Transitions/vue/src/TransitionsPage/TransitionsPage.vue?vue&type=template&id=51b6ca1a
 
-function TransitionsPagevue_type_template_id_62175296_render(_ctx, _cache, $props, $setup, $data, $options) {
+function TransitionsPagevue_type_template_id_51b6ca1a_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_TransitionSwitcher = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("TransitionSwitcher");
 
   var _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
@@ -643,7 +643,7 @@ function TransitionsPagevue_type_template_id_62175296_render(_ctx, _cache, $prop
   return !_ctx.isWidget ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
     key: 0,
     "help-text": _ctx.translate('Transitions_FeatureDescription'),
-    "help-url": "{{ externalRawLink('https://matomo.org/docs/transitions/') }}",
+    "help-url": _ctx.externalRawLink('https://matomo.org/docs/transitions/'),
     "content-title": _ctx.translate('Transitions_Transitions')
   }, {
     default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
@@ -652,12 +652,12 @@ function TransitionsPagevue_type_template_id_62175296_render(_ctx, _cache, $prop
       }, null, 8, ["is-widget"])];
     }),
     _: 1
-  }, 8, ["help-text", "content-title"])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_TransitionSwitcher, {
+  }, 8, ["help-text", "help-url", "content-title"])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_TransitionSwitcher, {
     key: 1,
     "is-widget": _ctx.isWidget
   }, null, 8, ["is-widget"]));
 }
-// CONCATENATED MODULE: ./plugins/Transitions/vue/src/TransitionsPage/TransitionsPage.vue?vue&type=template&id=62175296
+// CONCATENATED MODULE: ./plugins/Transitions/vue/src/TransitionsPage/TransitionsPage.vue?vue&type=template&id=51b6ca1a
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Transitions/vue/src/TransitionsPage/TransitionsPage.vue?vue&type=script&lang=ts
 
@@ -678,7 +678,7 @@ function TransitionsPagevue_type_template_id_62175296_render(_ctx, _cache, $prop
 
 
 
-TransitionsPagevue_type_script_lang_ts.render = TransitionsPagevue_type_template_id_62175296_render
+TransitionsPagevue_type_script_lang_ts.render = TransitionsPagevue_type_template_id_51b6ca1a_render
 
 /* harmony default export */ var TransitionsPage = (TransitionsPagevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Transitions/vue/src/TransitionExporter/TransitionExporterLink.vue?vue&type=template&id=12d2f936

@@ -331,7 +331,7 @@ class RawLogDao
     private function createTempTableForStoringUsedActions()
     {
         $sql = "CREATE TEMPORARY TABLE " . Common::prefixTable(self::DELETE_UNUSED_ACTIONS_TEMP_TABLE_NAME) . " (
-					idaction INT(11),
+					idaction INTEGER(10) UNSIGNED NOT NULL,
 					PRIMARY KEY (idaction)
 				)";
         Db::query($sql);
