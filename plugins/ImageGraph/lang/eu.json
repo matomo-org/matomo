@@ -1,1 +1,6 @@
-{}
+{
+    "ImageGraph": {
+        "ColumnOrdinateMissing": "Ezin izan da \"%1$s\" zutabea aurkitu txosten honetan. Saiatu hauetako edozein: %2$s.",
+        "PluginDescription": "Sortu zure edozein datu-txostenen diagramen PNG irudi estatiko ederrak."
+    }
+}
