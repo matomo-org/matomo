@@ -170,7 +170,7 @@ class TimetableTest extends \PHPUnit\Framework\TestCase
 
     private static function stubPiwikOption($timetable)
     {
-        self::getReflectedPiwikOptionInstance()->setValue(new PiwikOption($timetable));
+        self::getReflectedPiwikOptionInstance()->setStaticPropertyValue(new PiwikOption($timetable));
     }
 
     private static function resetPiwikOption()

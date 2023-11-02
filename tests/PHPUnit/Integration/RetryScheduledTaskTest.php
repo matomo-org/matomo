@@ -61,7 +61,7 @@ class RetryScheduledTaskTest extends IntegrationTestCase
         $now = time() - 60;
         $taskName = 'Piwik\Tests\Integration\RetryScheduledTaskTest.exceptionalTask';
         $timetableData = serialize([$taskName => $now]);
-        self::getReflectedPiwikOptionInstance()->setValue(new PiwikOption($timetableData));
+        self::getReflectedPiwikOptionInstance()->setStaticPropertyValue(new PiwikOption($timetableData));
 
         // Create task
         $dailySchedule = $this->createPartialMock('Piwik\Scheduler\Schedule\Daily', array('getTime'));
@@ -95,7 +95,7 @@ class RetryScheduledTaskTest extends IntegrationTestCase
         $now = time() - 60;
         $taskName = 'Piwik\Tests\Integration\RetryScheduledTaskTest.normalExceptionTask';
         $timetableData = serialize([$taskName => $now]);
-        self::getReflectedPiwikOptionInstance()->setValue(new PiwikOption($timetableData));
+        self::getReflectedPiwikOptionInstance()->setStaticPropertyValue(new PiwikOption($timetableData));
 
         // Create task
         $specificSchedule = $this->createPartialMock('Piwik\Scheduler\Schedule\SpecificTime', array('getTime'));
