@@ -17,25 +17,25 @@ exports.piwikUrl = "http://localhost/";
  * the values in your phpunit.xml file.
  */
 exports.phpServer = {
-    HTTP_HOST: "localhost",
-    REQUEST_URI: "/",
-    REMOTE_ADDR: "127.0.0.1"
+    HTTP_HOST: 'localhost',
+    REQUEST_URI: '/',
+    REMOTE_ADDR: '127.0.0.1'
 };
 
 /**
  * The path to the PHP executable to execute when setting up & tearing down the database.
  */
-exports.php = "php";
+exports.php = 'php';
 
 /**
  * The folder in tests/lib that holds mocha.
  */
-exports.mocha = "mocha-3.1.2";
+exports.mocha = 'mocha-3.1.2';
 
 /**
  * The folder in tests/lib that holds chai.
  */
-exports.chai = "chai-1.9.0";
+exports.chai = 'chai-1.9.0';
 
 /**
  * The mocha reporter to use.
