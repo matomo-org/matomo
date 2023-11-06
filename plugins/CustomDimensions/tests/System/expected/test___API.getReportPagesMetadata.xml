@@ -185,7 +185,7 @@
 			<id>Transitions_Transitions</id>
 			<name>Transitions</name>
 			<order>46</order>
-			<help>&lt;p&gt;Transitions is a report showing the things your visitors did directly before and after viewing a given page. This page explains how to access, understand, and use the powerful &quot;Transitions&quot; report.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://matomo.org/docs/transitions/&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;More details&lt;/a&gt;&lt;/p&gt;</help>
+			<help>&lt;p&gt;Transitions is a report showing the things your visitors did directly before and after viewing a given page. This page explains how to access, understand, and use the powerful &quot;Transitions&quot; report.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://matomo.org/docs/transitions/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=Transitions.getTransitions&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;More details&lt;/a&gt;&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>
@@ -435,7 +435,7 @@
 			<id>Actions_SubmenuSitesearch</id>
 			<name>Site Search</name>
 			<order>25</order>
-			<help>&lt;p&gt;The Site Search section shows which keywords visitors use when searching your website. It also displays which pages users view after performing a search and which on-site search keywords return no results at all.&lt;/p&gt;&lt;p&gt;These reports can give you ideas about missing content on your site, insight into what your visitors are looking for but can’t find easily, and more.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://matomo.org/docs/site-search/&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Learn more in the Site Search guide.&lt;/a&gt;&lt;/p&gt;</help>
+			<help>&lt;p&gt;The Site Search section shows which keywords visitors use when searching your website. It also displays which pages users view after performing a search and which on-site search keywords return no results at all.&lt;/p&gt;&lt;p&gt;These reports can give you ideas about missing content on your site, insight into what your visitors are looking for but can’t find easily, and more.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://matomo.org/docs/site-search/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=Actions.getSiteSearchCategories&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Learn more in the Site Search guide.&lt;/a&gt;&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>
@@ -523,7 +523,7 @@
 			<id>Events_Events</id>
 			<name>Events</name>
 			<order>40</order>
-			<help>&lt;p&gt;The Events section offers reports on the custom events associated with your site. Events typically require custom configuration. Once configured you can review reports broken down by category, action and name.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://matomo.org/docs/event-tracking/&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Learn more about event tracking here.&lt;/a&gt;&lt;/p&gt;</help>
+			<help>&lt;p&gt;The Events section offers reports on the custom events associated with your site. Events typically require custom configuration. Once configured you can review reports broken down by category, action and name.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://matomo.org/docs/event-tracking/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=Events.getCategory&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Learn more about event tracking here.&lt;/a&gt;&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>
@@ -642,7 +642,7 @@
 			<id>Contents_Contents</id>
 			<name>Contents</name>
 			<order>45</order>
-			<help>&lt;p&gt;Content tracking helps you determine the popularity of specific pieces of content on any page of your website or app. This section reports the number of impressions and interactions the various pieces of content on your site receive.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://matomo.org/docs/content-tracking&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Learn more in the Content Tracking guide.&lt;/a&gt;&lt;/p&gt;</help>
+			<help>&lt;p&gt;Content tracking helps you determine the popularity of specific pieces of content on any page of your website or app. This section reports the number of impressions and interactions the various pieces of content on your site receive.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://matomo.org/docs/content-tracking?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=Contents.getContentNames&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Learn more in the Content Tracking guide.&lt;/a&gt;&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>
@@ -1445,7 +1445,7 @@
 			<id>Live_VisitorLog</id>
 			<name>Visits Log</name>
 			<order>5</order>
-			<help>&lt;p&gt;The visits log shows you every visit your website receives in detail. Find out which actions each visitor has performed, how they got to your site, a bit about who they are, and more (while still complying with your local privacy regulations).&lt;/p&gt;&lt;p&gt;While other reports in Matomo show how your visitors behave at an aggregate level, the visits log provides granular detail. You can also use segments to narrow it down to specific types of visits to understand your visitors better.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://matomo.org/docs/real-time/&quot; target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot;&gt;Learn more in the visit-log guide.&lt;/a&gt;&lt;/p&gt;</help>
+			<help>&lt;p&gt;The visits log shows you every visit your website receives in detail. Find out which actions each visitor has performed, how they got to your site, a bit about who they are, and more (while still complying with your local privacy regulations).&lt;/p&gt;&lt;p&gt;While other reports in Matomo show how your visitors behave at an aggregate level, the visits log provides granular detail. You can also use segments to narrow it down to specific types of visits to understand your visitors better.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://matomo.org/docs/real-time/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=Live.getLastVisitsDetails&quot; target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot;&gt;Learn more in the visit-log guide.&lt;/a&gt;&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>
@@ -1480,7 +1480,7 @@
 			<id>UserId_UserReportTitle</id>
 			<name>User IDs</name>
 			<order>40</order>
-			<help>&lt;p&gt;The user ID report shows visits associated with all your registered and logged in users. Understand website usage by its specific users and find out who your most and least active users are.&lt;/p&gt;&lt;p&gt;&lt;a target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; href=&quot;https://matomo.org/docs/user-id&quot;&gt;&lt;span class=&quot;icon-info&quot;&gt;&lt;/span&gt; Learn more&lt;/a&gt;&lt;/p&gt;</help>
+			<help>&lt;p&gt;The user ID report shows visits associated with all your registered and logged in users. Understand website usage by its specific users and find out who your most and least active users are.&lt;/p&gt;&lt;p&gt;&lt;a target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; href=&quot;https://matomo.org/docs/user-id?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=UserId.getUsers&quot;&gt;&lt;span class=&quot;icon-info&quot;&gt;&lt;/span&gt; Learn more&lt;/a&gt;&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>
