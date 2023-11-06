@@ -2,6 +2,7 @@
 
 use Piwik\Container\Container;
 use Piwik\Container\StaticContainer;
+use Piwik\Filesystem;
 use Piwik\Plugins\Diagnostics\Diagnostic\FileIntegrityCheck;
 use Piwik\Plugins\Diagnostics\Diagnostic\PhpVersionCheck;
 use Piwik\Plugins\Diagnostics\Diagnostic\RequiredPrivateDirectories;
@@ -107,6 +108,32 @@ return [
 
         ['Controller.RssWidget.rssPiwik.end', Piwik\DI::value(function (&$result, $parameters) {
             $result = '';
+        })],
+
+        /**
+         * Cache (external) requests to matomo services (e.g. marketplace, api, ...) in files during UI tests, so each request is only performed once
+         */
+        ['Http.sendHttpRequest', Piwik\DI::value(function ($aUrl, $httpEventParams, &$response, &$status, &$headers) {
+            $directory = PIWIK_INCLUDE_PATH. '/tmp/request-cache/';
+            Filesystem::mkdir($directory);
+            $filename = $directory . md5($aUrl) . '_' . md5(http_build_query($httpEventParams));
+
+            if (file_exists($filename)) {
+                $response = file_get_contents($filename);
+                $status = 200;
+            }
+        })],
+
+        ['Http.sendHttpRequest.end', Piwik\DI::value(function ($aUrl, $httpEventParams, &$response, &$status, &$headers) {
+            $directory = PIWIK_INCLUDE_PATH. '/tmp/request-cache/';
+            Filesystem::mkdir($directory);
+            $filename = $directory . md5($aUrl) . '_' . md5(http_build_query($httpEventParams));
+
+            if ((strpos($aUrl, '.matomo.org/') === false && strpos($aUrl, '.piwik.org/') === false) || file_exists($filename)) {
+                return;
+            }
+
+            file_put_contents($filename, $response);
         })],
 
         \Piwik\Tests\Framework\XssTesting::getJavaScriptAddEvent(),
