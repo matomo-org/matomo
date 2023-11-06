@@ -9,13 +9,14 @@
 namespace Piwik\Tests\Unit\Scheduler;
 
 use Piwik\Date;
+use Piwik\Option;
 use Piwik\Plugin;
 use Piwik\Scheduler\Scheduler;
 use Piwik\Scheduler\Task;
 use Piwik\Scheduler\Timetable;
 use Piwik\Tests\Framework\Mock\PiwikOption;
 use Piwik\Log\NullLogger;
-use ReflectionProperty;
+use ReflectionClass;
 
 /**
  * @group Scheduler
@@ -232,18 +233,16 @@ class SchedulerTest extends \PHPUnit\Framework\TestCase
 
     private static function stubPiwikOption($timetable)
     {
-        self::getReflectedPiwikOptionInstance()->setValue(null, new PiwikOption($timetable));
+        self::getReflectedPiwikOptionInstance()->setStaticPropertyValue('instance', new PiwikOption($timetable));
     }
 
     private static function resetPiwikOption()
     {
-        self::getReflectedPiwikOptionInstance()->setValue(null, null);
+        self::getReflectedPiwikOptionInstance()->setStaticPropertyValue('instance', null);
     }
 
-    private static function getReflectedPiwikOptionInstance()
+    private static function getReflectedPiwikOptionInstance(): ReflectionClass
     {
-        $piwikOptionInstance = new ReflectionProperty('Piwik\Option', 'instance');
-        $piwikOptionInstance->setAccessible(true);
-        return $piwikOptionInstance;
+        return new ReflectionClass(Option::class);
     }
 }
