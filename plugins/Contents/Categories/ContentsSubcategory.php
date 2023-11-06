@@ -21,7 +21,7 @@ class ContentsSubcategory extends Subcategory
     public function getHelp()
     {
         return '<p>' . Piwik::translate('Contents_ContentsSubcategoryHelp1') . '</p>'
-            . '<p><a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/content-tracking', null, null, 'Contents.getContentNames')
+            . '<p><a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/content-tracking', null, null, 'App.Contents.getContentNames')
             . '" rel="noreferrer noopener" target="_blank">' . Piwik::translate('Contents_ContentsSubcategoryHelp2') . '</a></p>';
     }
 }
