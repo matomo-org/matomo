@@ -8,7 +8,7 @@
   <div>
     <div v-content-intro>
       <h2>
-        <EnrichedHeadline help-url="{{ externalRawLink('https://matomo.org/docs/privacy/') }}">
+        <EnrichedHeadline :help-url="externalRawLink('https://matomo.org/docs/privacy/')">
           {{ translate('PrivacyManager_AnonymizeData') }}
         </EnrichedHeadline>
       </h2>
