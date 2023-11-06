@@ -13,7 +13,7 @@ describe("ReportExporting", function () {
         visitsSummaryGetUrl = baseUrl + "&moduleToWidgetize=VisitsSummary&actionToWidgetize=get&forceView=1&viewDataTable=graphEvolution";
 
     function normalReportTest(format) {
-        it("should export a normal report correctly when the " + format + " export is chosen", async function () {
+        it(`should export a normal report correctly when the ${format} export is chosen`, async function () {
             if (await page.url() !== referrersGetWebsitesUrl) {
                 await page.goto(referrersGetWebsitesUrl);
                 await page.click('.activateExportSelection');
@@ -39,7 +39,7 @@ describe("ReportExporting", function () {
     }
 
     function evolutionReportTest(format) {
-        it("should export an evolution graph report correctly when the " + format + " export is chosen", async function () {
+        it(`should export an evolution graph report correctly when the ${format} export is chosen`, async function () {
             if (await page.url() !== visitsSummaryGetUrl) {
                 await page.goto(visitsSummaryGetUrl);
                 await page.click('.activateExportSelection');
@@ -65,7 +65,7 @@ describe("ReportExporting", function () {
     }
 
     function rowEvolutionReportTest(format) {
-        it("should export an row evolution graph report correctly when the " + format + " export link is clicked", async function () {
+        it(`should export an row evolution graph report correctly when the ${format} export link is clicked`, async function () {
             if (!page.url() || page.url().indexOf('popover') === -1) {
                 await page.goto(referrersGetWebsitesUrl);
 
