@@ -102,7 +102,7 @@
             {{ plugin.info.description.replaceAll('\n', '<br/>') }}
 
             <span
-              v-if="plugin.info?.homepage && matomoUrls.indexOf(plugin.info?.homepage) === -1"
+              v-if="plugin.info?.homepage && !isMatomoUrl(plugin.info?.homepage)"
               class="plugin-homepage"
             >
               <a
@@ -379,6 +379,15 @@ export default defineComponent({
         nonce: this.activateNonce,
         redirectTo: 'referrer',
       })}`;
+    },
+    isMatomoUrl(url: string) {
+      let isMatomoUrl = false;
+      this.matomoUrls.forEach((matomoUrl: string) => {
+        if (url.indexOf(matomoUrl) !== -1) {
+          isMatomoUrl = true;
+        }
+      });
+      return isMatomoUrl;
     },
   },
   computed: {
