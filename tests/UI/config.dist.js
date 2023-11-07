@@ -38,7 +38,7 @@ exports.mocha = 'mocha-3.1.2';
 exports.chai = 'chai-1.9.0';
 
 /**
- * The mocha reporter to use.
+ * The multiple mocha reporters to use.
  */
 exports.reporter = 'spec, @testomatio/reporter/lib/adapter/mocha.js';
 
