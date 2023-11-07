@@ -438,9 +438,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 LocationProviderSelectionvue_type_script_lang_ts.render = render
 
 /* harmony default export */ var LocationProviderSelection = (LocationProviderSelectionvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UserCountry/vue/src/AdminPage/AdminPage.vue?vue&type=template&id=3e475741
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UserCountry/vue/src/AdminPage/AdminPage.vue?vue&type=template&id=11d79fda
 
-function AdminPagevue_type_template_id_3e475741_render(_ctx, _cache, $props, $setup, $data, $options) {
+function AdminPagevue_type_template_id_11d79fda_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_EnrichedHeadline = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("EnrichedHeadline");
 
   var _component_LocationProviderSelection = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("LocationProviderSelection");
@@ -450,14 +450,14 @@ function AdminPagevue_type_template_id_3e475741_render(_ctx, _cache, $props, $se
   var _directive_content_intro = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("content-intro");
 
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_EnrichedHeadline, {
-    "help-url": "{{ externalRawLink('https://matomo.org/docs/geo-locate/') }}",
+    "help-url": _ctx.externalRawLink('https://matomo.org/docs/geo-locate/'),
     id: "location-providers"
   }, {
     default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
       return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UserCountry_Geolocation')), 1)];
     }),
     _: 1
-  })]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UserCountry_GeolocationPageDesc')), 1)], 512), [[_directive_content_intro]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
+  }, 8, ["help-url"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UserCountry_GeolocationPageDesc')), 1)], 512), [[_directive_content_intro]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ContentBlock, {
     "content-title": _ctx.translate('UserCountry_LocationProvider')
   }, {
     default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
@@ -474,7 +474,7 @@ function AdminPagevue_type_template_id_3e475741_render(_ctx, _cache, $props, $se
     _: 1
   }, 8, ["content-title"])], 64);
 }
-// CONCATENATED MODULE: ./plugins/UserCountry/vue/src/AdminPage/AdminPage.vue?vue&type=template&id=3e475741
+// CONCATENATED MODULE: ./plugins/UserCountry/vue/src/AdminPage/AdminPage.vue?vue&type=template&id=11d79fda
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UserCountry/vue/src/AdminPage/AdminPage.vue?vue&type=script&lang=ts
 
@@ -521,7 +521,7 @@ function AdminPagevue_type_template_id_3e475741_render(_ctx, _cache, $props, $se
 
 
 
-AdminPagevue_type_script_lang_ts.render = AdminPagevue_type_template_id_3e475741_render
+AdminPagevue_type_script_lang_ts.render = AdminPagevue_type_template_id_11d79fda_render
 
 /* harmony default export */ var AdminPage = (AdminPagevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/UserCountry/vue/src/GetDistinctCountries/GetDistinctCountries.vue?vue&type=template&id=0efb6e2a

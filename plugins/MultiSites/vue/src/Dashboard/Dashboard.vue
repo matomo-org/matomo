@@ -8,7 +8,7 @@
   <div ref="root">
     <h2 class="card-title">
       <EnrichedHeadline
-        help-url="{{ externalRawLink('https://matomo.org/faq/new-to-piwik/all-websites-dashboard/') }}"
+        :help-url="externalRawLink('https://matomo.org/faq/new-to-piwik/all-websites-dashboard/')"
         :feature-name="translate('General_AllWebsitesDashboard')"
       >
         {{ translate('General_AllWebsitesDashboard') }}

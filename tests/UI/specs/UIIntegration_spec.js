@@ -167,7 +167,11 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=General_Overview&segment=" + segment);
 
-            expect(await page.screenshotSelector('.pageWrap,.top_controls')).to.matchImage('visitors_overview_segment');
+            // check that segment is selected in selector
+            const segmentTitle = await page.evaluate(() => $('.segmentationTitle').text());
+            expect(segmentTitle).to.match(/<script>_x\(\d+\)<\/script>/);
+
+            expect(await page.screenshotSelector('#content')).to.matchImage('visitors_overview_segment');
         });
 
 
@@ -175,7 +179,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         it('should load the notifications page correctly', async function() {
             await page.goto("?" + generalParams + "&module=ExampleUI&action=notifications&idSite=1&period=day&date=yesterday");
             await page.evaluate(function () {
-                $('#header').hide();
+                $('#secondNavBar').css('visibility', 'hidden'); // hide navbar so shadow isn't shown
             });
 
             const pageWrap = await page.$('.pageWrap');

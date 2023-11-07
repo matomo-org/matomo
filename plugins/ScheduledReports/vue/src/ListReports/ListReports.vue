@@ -8,7 +8,7 @@
   <ContentBlock
     id="entityEditContainer"
     class="entityTableContainer"
-    help-url="{{ externalRawLink('https://matomo.org/docs/email-reports/') }}"
+    :help-url="externalRawLink('https://matomo.org/docs/email-reports/')"
     :feature="'true'"
     :content-title="contentTitle"
   >

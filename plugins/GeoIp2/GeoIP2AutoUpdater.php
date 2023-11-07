@@ -81,7 +81,7 @@ class GeoIP2AutoUpdater extends Task
             case self::SCHEDULE_PERIOD_MONTHLY:
             default:
                 $schedulePeriod = new Monthly();
-                $schedulePeriod->setDayOfWeek(3, 0);
+                $schedulePeriod->setDay(3);
                 break;
         }
 
