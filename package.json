@@ -42,6 +42,7 @@
     "jquery.scrollto": "^2.1.2",
     "mathjs": "^10.6.4",
     "mousetrap": "^1.6.5",
+    "nyc": "^15.1.0",
     "qrcodejs2": "0.0.2",
     "sprintf-js": "^1.1.2",
     "visibilityjs": "^2.0.2",
