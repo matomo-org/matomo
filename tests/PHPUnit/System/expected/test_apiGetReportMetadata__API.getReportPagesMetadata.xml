@@ -6085,14 +6085,14 @@
 			<id>Marketplace_Marketplace</id>
 			<name>Marketplace</name>
 			<order>200</order>
-			<icon> icon-open-source</icon>
+			<icon />
 			<help />
-			<widget />
+			<widget>Marketplace.RichMenuButton</widget>
 		</category>
 		<subcategory>
 			<id>Marketplace_PaidPlugins</id>
 			<name>Premium Features</name>
-			<order>10</order>
+			<order>99</order>
 			<help />
 		</subcategory>
 		<widgets>
