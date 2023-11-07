@@ -6080,6 +6080,37 @@
 		</widgets>
 	</row>
 	<row>
+		<uniqueId>Marketplace_Marketplace.Marketplace_PaidPlugins</uniqueId>
+		<category>
+			<id>Marketplace_Marketplace</id>
+			<name>Marketplace</name>
+			<order>200</order>
+			<icon> icon-open-source</icon>
+			<help />
+			<widget />
+		</category>
+		<subcategory>
+			<id>Marketplace_PaidPlugins</id>
+			<name>Premium Features</name>
+			<order>10</order>
+			<help />
+		</subcategory>
+		<widgets>
+			<row>
+				<name>Premium Features</name>
+				<module>Marketplace</module>
+				<action>getPremiumFeatures</action>
+				<order>20</order>
+				<parameters>
+					<module>Marketplace</module>
+					<action>getPremiumFeatures</action>
+				</parameters>
+				<uniqueId>widgetMarketplacegetPremiumFeatures</uniqueId>
+				<isWide>0</isWide>
+			</row>
+		</widgets>
+	</row>
+	<row>
 		<uniqueId>ProfessionalServices_PromoAbTesting.ProfessionalServices_PromoOverview</uniqueId>
 		<category>
 			<id>ProfessionalServices_PromoAbTesting</id>

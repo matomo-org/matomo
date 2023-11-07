@@ -4107,4 +4107,30 @@
 		<uniqueId>widgetMarketplacegetNewPlugins</uniqueId>
 		<isWide>0</isWide>
 	</row>
+	<row>
+		<name>Premium Features</name>
+		<category>
+			<id>Marketplace_Marketplace</id>
+			<name>Marketplace</name>
+			<order>200</order>
+			<icon> icon-open-source</icon>
+			<help />
+			<widget />
+		</category>
+		<subcategory>
+			<id>Marketplace_PaidPlugins</id>
+			<name>Premium Features</name>
+			<order>10</order>
+			<help />
+		</subcategory>
+		<module>Marketplace</module>
+		<action>getPremiumFeatures</action>
+		<order>20</order>
+		<parameters>
+			<module>Marketplace</module>
+			<action>getPremiumFeatures</action>
+		</parameters>
+		<uniqueId>widgetMarketplacegetPremiumFeatures</uniqueId>
+		<isWide>0</isWide>
+	</row>
 </result>
