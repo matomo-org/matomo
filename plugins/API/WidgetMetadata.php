@@ -192,7 +192,7 @@ class WidgetMetadata
             'order'  => $category->getOrder(),
             'icon'   => $category->getIcon(),
             'help'   => Piwik::translate($category->getHelp()),
-            'widget' => $category->getWidget(),
+            'widget' => $category->getWidget() ?: null,
         );
     }
 
