@@ -12,10 +12,12 @@
       :aria-label="translate('CoreHome_MainNavigation')"
     >
       <li
+        class="menuTab"
         role="menuitem"
         v-for="category in menu"
-        :class="`menuTab ${category.id === activeCategory ? 'active' : null} ${category.id}`"
+        :class="{ 'active': category.id === activeCategory }"
         :key="category.id"
+        :data-category-id="category.id"
       >
         <component
           v-if="category.component"
@@ -101,9 +103,10 @@
       class="sidenav sidenav--reporting-menu-mobile hide-on-large-only"
     >
       <li
-        :class="`no-padding ${category.id}`"
+        class="no-padding"
         v-for="category in menu"
         :key="category.id"
+        :data-category-id="category.id"
       >
         <component
           v-if="category.component"
