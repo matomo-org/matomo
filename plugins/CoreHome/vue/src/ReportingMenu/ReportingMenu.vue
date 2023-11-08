@@ -307,10 +307,13 @@ export default defineComponent({
       NotificationsStore.remove(REPORTING_HELP_NOTIFICATION_ID);
 
       const isActive = ReportingMenuStoreInstance.toggleCategory(category);
-      if (isActive
-        && (category as SubcategoryContainer).subcategories
-        && (category as SubcategoryContainer).subcategories.length === 1
-      ) {
+
+      // one subcategory or a widget and some subcategories to allow to load the category
+      const { subcategories } = category as SubcategoryContainer;
+      const categoryCanLoad = (subcategories && subcategories.length === 1)
+        || (category.widget && subcategories && subcategories.length);
+
+      if (isActive && categoryCanLoad) {
         this.helpShownCategory = null;
 
         const subcategory = (category as SubcategoryContainer).subcategories[0];
