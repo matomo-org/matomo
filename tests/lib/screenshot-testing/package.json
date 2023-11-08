@@ -16,6 +16,7 @@
     "url-parse": "^1.5.3"
   },
   "devDependencies": {
-    "@testomatio/reporter": "^1.0.9"
+    "@testomatio/reporter": "^1.0.9",
+    "mocha-multi-reporters": "^1.5.1"
   }
 }
