@@ -10,7 +10,7 @@
       This page helps you to find existing translations that you can reuse in your Plugin.
       If you want to know more about translations have a look at our
       <a
-        href="{{ externalRawLink('https://developer.matomo.org/guides/internationalization') }}"
+        :href="externalRawLink('https://developer.matomo.org/guides/internationalization')"
         rel="noreferrer noopener"
         target="_blank"
       >Internationalization guide</a>.

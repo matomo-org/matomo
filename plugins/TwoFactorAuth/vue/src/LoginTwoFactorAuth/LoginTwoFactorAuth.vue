@@ -75,7 +75,7 @@
       <br /><br />
       <strong>{{ translate('TwoFactorAuth_DontHaveYourMobileDevice') }}</strong>
       <br />
-      <a href="{{ externalRawLink('https://matomo.org/faq/how-to/faq_27248') }}" rel="noreferrer noopener" target="_blank">
+      <a :href="externalRawLink('https://matomo.org/faq/how-to/faq_27248')" rel="noreferrer noopener" target="_blank">
         {{ translate('TwoFactorAuth_EnterRecoveryCodeInstead') }}
       </a>
       <br />
