@@ -1,6 +1,9 @@
 <p style="margin-top:3em" class=" alert-info alert">Did you know?
     <br/>Using Events you can measure any user interaction and gain amazing insights into your audience. <a target="_blank" rel="noreferrer noopener" href="{{ 'https://matomo.org/docs/event-tracking/'|trackmatomolink }}">Learn more</a>.
-    <br/> To measure blocks of content such as image galleries, listings or ads: use <a target="_blank" rel="noreferrer noopener" href="https://developer.matomo.org/guides/content-tracking">Content Tracking</a> and see exactly which content is viewed and clicked.
+    <br/> To measure blocks of content such as image galleries, listings or ads: use <a target="_blank" rel="noreferrer noopener" href="{{ 'https://developer.matomo.org/guides/content-tracking'|trackmatomolink }}">Content Tracking</a> and see exactly which content is viewed and clicked.
+    {% if displayCrashAnalyticsAd %}
+        <br/>You can get advanced insights into how many errors are happening on your website using the <a target="_blank" rel="noreferrer noopener" href="{{ 'https://plugins.matomo.org/CrashAnalytics'|trackmatomolink }}">Crash Analytics</a> premium feature.
+    {% endif %}
     {% if displayMediaAnalyticsAd %}
         <br/>When you publish videos or audios, <a target="_blank" rel="noreferrer noopener" href="{{ 'https://matomo.org/recommends/media-analytics-website'|trackmatomolink }}">Media Analytics gives deep insights into your audience</a> and how they watch your videos or listens to your music.
     {% endif %}
