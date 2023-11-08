@@ -13,10 +13,10 @@
     "puppeteer": "^8.0.0",
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
+    "mocha-multi-reporters": "^1.5.1",
     "url-parse": "^1.5.3"
   },
   "devDependencies": {
-    "@testomatio/reporter": "^1.0.9",
-    "mocha-multi-reporters": "^1.5.1"
+    "@testomatio/reporter": "^1.0.9"
   }
 }

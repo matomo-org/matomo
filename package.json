@@ -72,7 +72,6 @@
     "husky": "^8.0.2",
     "less": "^4.1.2",
     "less-loader": "^7.3.0",
-    "mocha-multi-reporters": "^1.5.1",
     "nock": "^13.1.4",
     "postcss-less": "^6.0.0",
     "stylelint": "^15.9.0",
