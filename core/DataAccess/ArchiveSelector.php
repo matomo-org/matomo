@@ -623,7 +623,7 @@ class ArchiveSelector
                                     AND SUBSTRING(name, $nameEndAppendix, 1) <= '9')";
 
             $whereNameIs = "(name = ? OR (name LIKE ? AND ( $checkForChunkBlob OR $checkForSubtableId ) ))";
-            $bind = array($name, str_replace("_", "\_", $name) . '%');
+            $bind = array($name, addcslashes($name, '%_') . '%');
 
             if ($orderBySubtableId && count($recordNames) == 1) {
                 $idSubtableAsInt = self::getExtractIdSubtableFromBlobNameSql($chunk, $name);
