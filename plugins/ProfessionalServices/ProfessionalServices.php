@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\ProfessionalServices;
 
 use Piwik\Common;
+use Piwik\DataTable;
 use Piwik\View;
 use Piwik\Plugin;
 
@@ -102,15 +103,21 @@ class ProfessionalServices extends \Piwik\Plugin
         }
     }
 
-    public function getEventsPromo(&$out)
+    public function getEventsPromo(&$out, DataTable $dataTable)
     {
         if ($this->isRequestForDashboardWidget()) {
             return;
         }
 
-        $view = new View('@ProfessionalServices/promoBelowEvents');
-        $view->displayMediaAnalyticsAd = !$this->isPluginActivated('MediaAnalytics');
-        $out .= $view->render();
+        $promoView = new View('@ProfessionalServices/promoBelowEvents');
+        $promoView->displayMediaAnalyticsAd = !$this->isPluginActivated('MediaAnalytics');
+        $promoView->displayCrashAnalyticsAd = !$this->isPluginActivated('CrashAnalytics') && $this->hasErrorEventCategory($dataTable);
+        $out .= $promoView->render();
+    }
+
+    private function hasErrorEventCategory(DataTable $dataTable): bool
+    {
+        return $dataTable->getRowIdFromLabel('JavaScript Errors') !== false;
     }
 
     public function getCampaignsPromo(&$out)
