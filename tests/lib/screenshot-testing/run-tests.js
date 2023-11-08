@@ -44,7 +44,8 @@ async function main() {
     mocha = new Mocha({
         ui: 'bdd',
         bail: false,
-        reporter: 'node_modules/@testomatio/reporter/lib/adapter/mocha',
+        reporter: config.reporter,
+        reporterOptions: config.reporterOptions,
         useColors: true,
         timeout: options.timeout || 240000,
     });

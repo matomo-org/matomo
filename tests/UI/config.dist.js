@@ -40,7 +40,13 @@ exports.chai = 'chai-1.9.0';
 /**
  * Mocha reporters to use (can be multiple delimited by a comma).
  */
-exports.reporter = 'spec, @testomatio/reporter';
+exports.reporter = 'mocha-multi-reporter';
+exports.reporterOptions = {
+  reporterEnabled: 'spec, @testomatio/reporter/lib/adapter/mocha.js',
+  testomatioReporterLibAdapterMochaJsReporterOptions: {
+    apiKey: process.env.TESTOMATIO
+  }
+};
 
 /**
  * The directory that stores expected screenshots. Relative to the UI repo's root directory.
