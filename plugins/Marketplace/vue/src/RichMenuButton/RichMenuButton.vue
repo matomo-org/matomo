@@ -9,7 +9,7 @@
     <hr />
     <p class="intro">{{ translate('Marketplace_RichMenuIntro') }}</p>
     <p class="cta">
-      <a class="btn btn-outline" @click.prevent="$emit('action')">
+      <a tabindex="5" class="btn btn-outline" @click.prevent="$emit('action')">
         <span class="icon-heart">&nbsp;</span>
         {{ translate('Marketplace_Marketplace') }}
       </a>
