@@ -381,13 +381,14 @@ export default defineComponent({
       })}`;
     },
     isMatomoUrl(url: string) {
-      let isMatomoUrl = false;
-      this.matomoUrls.forEach((matomoUrl: string) => {
-        if (url.indexOf(matomoUrl) !== -1) {
-          isMatomoUrl = true;
-        }
-      });
-      return isMatomoUrl;
+      try {
+        const pluginHost = (new URL(url)).host;
+
+        return this.matomoHosts.indexOf(pluginHost) !== -1;
+      } catch (error) {
+        // the plugin may provide a broken/invalid url
+        return false;
+      }
     },
   },
   computed: {
@@ -414,24 +415,12 @@ export default defineComponent({
         action: 'generalSettings',
       })}`;
     },
-    matomoUrls() {
+    matomoHosts() {
       return [
-        'http://piwik.org',
-        'http://www.piwik.org',
-        'http://piwik.org/',
-        'http://www.piwik.org/',
-        'https://piwik.org',
-        'https://www.piwik.org',
-        'https://piwik.org/',
-        'https://www.piwik.org/',
-        'http://matomo.org',
-        'http://www.matomo.org',
-        'http://matomo.org/',
-        'http://www.matomo.org/',
-        'https://matomo.org',
-        'https://www.matomo.org',
-        'https://matomo.org/',
-        'https://www.matomo.org/',
+        'piwik.org',
+        'www.piwik.org',
+        'matomo.org',
+        'www.matomo.org',
       ];
     },
     themeOverviewLink() {
