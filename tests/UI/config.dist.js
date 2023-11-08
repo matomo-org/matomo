@@ -40,7 +40,7 @@ exports.chai = 'chai-1.9.0';
 /**
  * Mocha reporters to use (can be multiple delimited by a comma).
  */
-exports.reporter = 'mocha-multi-reporter';
+exports.reporter = 'mocha-multi-reporters';
 exports.reporterOptions = {
   reporterEnabled: 'spec, @testomatio/reporter/lib/adapter/mocha.js',
   testomatioReporterLibAdapterMochaJsReporterOptions: {
