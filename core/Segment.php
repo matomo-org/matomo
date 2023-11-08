@@ -433,7 +433,7 @@ class Segment
         // This is required to ensure segments like actionUrl!@value really do not include any visit having an action containing `value`
         if ($this->doesSegmentNeedSubquery($matchType, $name)) {
             $operator = $this->getInvertedOperatorForSubQuery($matchType);
-            $stringSegment = $name . $operator . $value;
+            $stringSegment = $name . $operator . preg_replace('/((?<!\\\)[,;])/', '\\\$1', $value);
             $segmentObj = new Segment($stringSegment, $this->idSites, $this->startDate, $this->endDate);
 
             $select = 'log_visit.idvisit';
