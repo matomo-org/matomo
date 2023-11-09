@@ -169,7 +169,7 @@ class Range extends Period
         return $out;
     }
 
-    protected function getMaxN($lastN)
+    protected function getMaxN(int $lastN): int
     {
         switch ($this->strPeriod) {
             case 'day':
@@ -244,7 +244,7 @@ class Range extends Period
                 }
             }
 
-            $lastN = (int) $this->getMaxN($lastN);
+            $lastN = $this->getMaxN((int) $lastN);
 
             // last1 means only one result ; last2 means 2 results so we remove only 1 to the days/weeks/etc
             $lastN--;
