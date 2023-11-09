@@ -46,7 +46,6 @@ async function main() {
         bail: false,
         reporter: config.reporter,
         reporterOptions: config.reporterOptions,
-        useColors: true,
         color: 1,
         timeout: options.timeout || 240000,
     });
