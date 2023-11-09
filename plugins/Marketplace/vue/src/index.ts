@@ -13,3 +13,4 @@ export { default as GetPremiumFeatures } from './GetPremiumFeatures/GetPremiumFe
 export { default as MissingReqsNotice } from './MissingReqsNotice/MissingReqsNotice.vue';
 export { default as OverviewIntro } from './OverviewIntro/OverviewIntro.vue';
 export { default as SubscriptionOverview } from './SubscriptionOverview/SubscriptionOverview.vue';
+export { default as RichMenuButton } from './RichMenuButton/RichMenuButton.vue';
