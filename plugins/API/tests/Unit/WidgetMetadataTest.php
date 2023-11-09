@@ -48,6 +48,7 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
                 'order' => 99,
                 'icon' => '',
                 'help' => '',
+                'widget' => null,
             ),
             'subcategory' => array(
                 'id' => 'SubcategoryId',
@@ -89,6 +90,7 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
             'order' => 99,
             'icon' => '',
             'help' => '',
+            'widget' => null,
         ), $metadata['category']);
         $this->assertNull($metadata['subcategory']);
     }
@@ -143,6 +145,7 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
                 'order' => 99,
                 'icon' => '',
                 'help' => '',
+                'widget' => null,
             ),
             'subcategory' => array (
                 'id' => 'NestedSubcategory1',
@@ -168,6 +171,7 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
                 'order' => 99,
                 'icon' => '',
                 'help' => '',
+                'widget' => null,
             ),
             'subcategory' => array (
                 'id' => 'NestedSubcategory2',
@@ -209,6 +213,7 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
                 'order' => 99,
                 'icon' => '',
                 'help' => '',
+                'widget' => null,
             ],
             'subcategory' => [
                 'id' => 'Subcategory2',
@@ -251,6 +256,7 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
                 'order' => 99,
                 'icon' => '',
                 'help' => '',
+                'widget' => null,
             ),
             'subcategory' => array (
                 'id' => 'NestedSubcategory1',

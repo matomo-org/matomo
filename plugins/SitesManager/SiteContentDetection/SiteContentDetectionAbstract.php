@@ -19,6 +19,7 @@ abstract class SiteContentDetectionAbstract
     public const TYPE_CMS = 2;
     public const TYPE_JS_FRAMEWORK = 3;
     public const TYPE_CONSENT_MANAGER = 4;
+    public const TYPE_JS_CRASH_ANALYTICS = 5;
     public const TYPE_OTHER = 99;
 
     public function __construct()

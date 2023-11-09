@@ -102,7 +102,7 @@
             {{ plugin.info.description.replaceAll('\n', '<br/>') }}
 
             <span
-              v-if="plugin.info?.homepage && matomoUrls.indexOf(plugin.info?.homepage) === -1"
+              v-if="plugin.info?.homepage && !isMatomoUrl(plugin.info?.homepage)"
               class="plugin-homepage"
             >
               <a
@@ -380,6 +380,16 @@ export default defineComponent({
         redirectTo: 'referrer',
       })}`;
     },
+    isMatomoUrl(url: string) {
+      try {
+        const pluginHost = (new URL(url)).host;
+
+        return this.matomoHosts.indexOf(pluginHost) !== -1;
+      } catch (error) {
+        // the plugin may provide a broken/invalid url
+        return false;
+      }
+    },
   },
   computed: {
     pluginsToDisplay() {
@@ -405,24 +415,12 @@ export default defineComponent({
         action: 'generalSettings',
       })}`;
     },
-    matomoUrls() {
+    matomoHosts() {
       return [
-        'http://piwik.org',
-        'http://www.piwik.org',
-        'http://piwik.org/',
-        'http://www.piwik.org/',
-        'https://piwik.org',
-        'https://www.piwik.org',
-        'https://piwik.org/',
-        'https://www.piwik.org/',
-        'http://matomo.org',
-        'http://www.matomo.org',
-        'http://matomo.org/',
-        'http://www.matomo.org/',
-        'https://matomo.org',
-        'https://www.matomo.org',
-        'https://matomo.org/',
-        'https://www.matomo.org/',
+        'piwik.org',
+        'www.piwik.org',
+        'matomo.org',
+        'www.matomo.org',
       ];
     },
     themeOverviewLink() {
