@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Events\Reports;
 
+use Piwik\DataTable;
 use Piwik\EventDispatcher;
 use Piwik\Common;
 use Piwik\Plugin\ViewDataTable;
@@ -66,9 +67,11 @@ abstract class Base extends \Piwik\Plugin\Report
             return;
         }
 
-        $out = '';
-        EventDispatcher::getInstance()->postEvent('Template.afterEventsReport', array(&$out));
-        $view->config->show_footer_message = $out;
+        $view->config->filters[] = function(DataTable $dataTable) use ($view) {
+            $out = '';
+            EventDispatcher::getInstance()->postEvent('Template.afterEventsReport', [&$out, $dataTable]);
+            $view->config->show_footer_message = $out;
+        };
     }
 
 
