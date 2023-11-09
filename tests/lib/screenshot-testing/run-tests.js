@@ -41,13 +41,13 @@ async function main() {
 
     setUpGlobals(config, webpage, originalUserAgent);
 
-    process.env.MOCHA_COLORS = 1;
     mocha = new Mocha({
         ui: 'bdd',
         bail: false,
         reporter: config.reporter,
         reporterOptions: config.reporterOptions,
         useColors: true,
+        color: 1,
         timeout: options.timeout || 240000,
     });
 
