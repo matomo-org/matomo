@@ -12,7 +12,6 @@ use Piwik\Date;
 use Piwik\Scheduler\Task;
 use Piwik\Scheduler\Timetable;
 use Piwik\Tests\Framework\Mock\PiwikOption;
-use ReflectionClass;
 use Piwik\Option;
 
 /**
@@ -171,16 +170,11 @@ class TimetableTest extends \PHPUnit\Framework\TestCase
 
     private static function stubPiwikOption($timetable)
     {
-        self::getReflectedPiwikOptionInstance()->setStaticPropertyValue('instance', new PiwikOption($timetable));
+        Option::setSingletonInstance(new PiwikOption($timetable));
     }
 
     private static function resetPiwikOption()
     {
-        self::getReflectedPiwikOptionInstance()->setStaticPropertyValue('instance', null);
-    }
-
-    private static function getReflectedPiwikOptionInstance(): ReflectionClass
-    {
-        return new ReflectionClass(Option::class);
+        Option::setSingletonInstance(null);
     }
 }
