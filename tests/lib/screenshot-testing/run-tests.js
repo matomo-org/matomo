@@ -41,6 +41,7 @@ async function main() {
 
     setUpGlobals(config, webpage, originalUserAgent);
 
+    process.env.MOCHA_COLORS = 1;
     mocha = new Mocha({
         ui: 'bdd',
         bail: false,
