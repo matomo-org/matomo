@@ -21,6 +21,7 @@ class TransitionsSubcategory extends Subcategory
     public function getHelp()
     {
         return '<p>' . Piwik::translate('Transitions_TransitionsSubcategoryHelp1') . '</p>'
-            . '<p><a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/transitions/') . '" rel="noreferrer noopener" target="_blank">' . Piwik::translate('Transitions_TransitionsSubcategoryHelp2') . '</a></p>';
+            . '<p><a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/transitions/', null, null, 'App.Transitions.getTransitions')
+            . '" rel="noreferrer noopener" target="_blank">' . Piwik::translate('Transitions_TransitionsSubcategoryHelp2') . '</a></p>';
     }
 }

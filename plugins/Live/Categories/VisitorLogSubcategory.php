@@ -22,7 +22,8 @@ class VisitorLogSubcategory extends Subcategory
     {
         $help = '<p>' . Piwik::translate('Live_VisitorLogSubcategoryHelp1') . '</p>';
         $help .= '<p>' . Piwik::translate('Live_VisitorLogSubcategoryHelp2') . '</p>';
-        $help .= '<p><a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/real-time/') . '" target="_blank" rel="noreferrer noopener">' . Piwik::translate('Live_VisitorLogSubcategoryHelp3') . '</a></p>';
+        $help .= '<p><a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/real-time/', null, null, 'App.Live.getLastVisitsDetails')
+            . '" target="_blank" rel="noreferrer noopener">' . Piwik::translate('Live_VisitorLogSubcategoryHelp3') . '</a></p>';
         return $help;
     }
 }
