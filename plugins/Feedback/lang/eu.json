@@ -1,1 +1,15 @@
-{}
+{
+    "Feedback": {
+        "FrequentlyAskedQuestions": "Maiz egindako galderak",
+        "IWantTo": "Hau nahi dut:",
+        "RateFeatureConfigurable": "Konfiguragarria",
+        "RateFeatureDislikeAddMissingFeatures": "Gehitu falta diren ezaugarriak",
+        "RateFeatureDislikeFixBugs": "Konpondu arazoak",
+        "RateFeatureDislikeMakeEasier": "Egin erabilerrazagoa",
+        "RateFeatureDislikeSpeedUp": "Hobetu abiadura",
+        "RateFeatureEasyToUse": "Erabiltzen erraza",
+        "RateFeatureLeaveMessageDislikeNamedFeature": "Nola hobetu dezakegu %1$s?",
+        "RateFeatureOtherReason": "Beste arrazoi bat",
+        "RateFeatureUsefulInfo": "Informazio erabilgarria"
+    }
+}
