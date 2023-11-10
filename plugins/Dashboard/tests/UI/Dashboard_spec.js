@@ -81,10 +81,5 @@ describe("Dashboard", function () {
     await page.waitForNetworkIdle();
 
     expect(await page.screenshot({ fullPage: true })).to.matchImage('dashboard1_mobile');
-
-    await page.webpage.setViewport({
-      width: 1350,
-      height: 768
-    });
   });
 });
