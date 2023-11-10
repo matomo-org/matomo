@@ -1,7 +1,7 @@
 # Matomo Release Action
-# 
+#
 # Required GitHub secrets:
-# 
+#
 # RELEASE_PASSWORD  |  password that needs to be provided to start the action
 # GPG_CERTIFICATE  |  ASCII armored or Base64 encoded GPG certificate that is used to create the signatures for the archives
 # GPG_CERTIFICATE_PASS  |  Passphrase of the GPG key
@@ -45,7 +45,7 @@ jobs:
           script: |
               core.setFailed('Release password didn\'t match.')
       - name: "Check if user is allowed"
-        if: ${{ github.actor != 'mattab' && github.actor != 'tsteur' && github.actor != 'sgiehl' && github.actor != 'bx80' && github.actor != 'michalkleiner' }}
+        if: ${{ github.actor != 'mattab' && github.actor != 'tsteur' && github.actor != 'sgiehl' && github.actor != 'bx80' && github.actor != 'michalkleiner' && github.actor != 'caddoo' }}
         uses: actions/github-script@v6
         with:
           script: |
