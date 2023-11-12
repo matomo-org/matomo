@@ -22,6 +22,7 @@ class SiteSearchSubcategory extends Subcategory
     {
         return '<p>' . Piwik::translate('Actions_SiteSearchSubcategoryHelp1') . '</p>'
             . '<p>' . Piwik::translate('Actions_SiteSearchSubcategoryHelp2') . '</p>'
-            . '<p><a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/site-search/') . '" rel="noreferrer noopener" target="_blank">' . Piwik::translate('Actions_SiteSearchSubcategoryHelp3') . '</a></p>';
+            . '<p><a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/site-search/', null, null, 'App.Actions.getSiteSearchCategories')
+            . '" rel="noreferrer noopener" target="_blank">' . Piwik::translate('Actions_SiteSearchSubcategoryHelp3') . '</a></p>';
     }
 }

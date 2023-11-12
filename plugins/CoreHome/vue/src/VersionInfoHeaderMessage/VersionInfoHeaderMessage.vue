@@ -39,7 +39,7 @@
       <a
         v-else
         class="title"
-        href="{{ externalRawLink('https://matomo.org/changelog/') }}"
+        :href="externalRawLink('https://matomo.org/changelog/')"
         target="_blank"
         rel="noreferrer noopener"
       >
