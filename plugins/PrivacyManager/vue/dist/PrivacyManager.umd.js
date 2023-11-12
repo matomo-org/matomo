@@ -1854,41 +1854,37 @@ var ReportDeletionSettings_store_ReportDeletionSettingsStore = /*#__PURE__*/func
 }();
 
 /* harmony default export */ var ReportDeletionSettings_store = (new ReportDeletionSettings_store_ReportDeletionSettingsStore());
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/PrivacyManager/vue/src/DeleteOldLogs/DeleteOldLogs.vue?vue&type=template&id=461cc62c
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/PrivacyManager/vue/src/DeleteOldLogs/DeleteOldLogs.vue?vue&type=template&id=0d802ee4
 
-var DeleteOldLogsvue_type_template_id_461cc62c_hoisted_1 = {
+var DeleteOldLogsvue_type_template_id_0d802ee4_hoisted_1 = {
   id: "formDeleteSettings"
 };
-var DeleteOldLogsvue_type_template_id_461cc62c_hoisted_2 = {
+var DeleteOldLogsvue_type_template_id_0d802ee4_hoisted_2 = {
   id: "deleteLogSettingEnabled"
 };
-var DeleteOldLogsvue_type_template_id_461cc62c_hoisted_3 = {
+var DeleteOldLogsvue_type_template_id_0d802ee4_hoisted_3 = {
   class: "alert alert-warning deleteOldLogsWarning",
   style: {
     "width": "50%"
   }
 };
-var DeleteOldLogsvue_type_template_id_461cc62c_hoisted_4 = {
-  href: "{{ externalRawLink('https://matomo.org/faq/general/faq_125') }}",
-  rel: "noreferrer noopener",
-  target: "_blank"
-};
-var DeleteOldLogsvue_type_template_id_461cc62c_hoisted_5 = {
+var DeleteOldLogsvue_type_template_id_0d802ee4_hoisted_4 = ["href"];
+var DeleteOldLogsvue_type_template_id_0d802ee4_hoisted_5 = {
   id: "deleteLogSettings"
 };
-var DeleteOldLogsvue_type_template_id_461cc62c_hoisted_6 = {
+var DeleteOldLogsvue_type_template_id_0d802ee4_hoisted_6 = {
   key: 0
 };
-var DeleteOldLogsvue_type_template_id_461cc62c_hoisted_7 = {
+var DeleteOldLogsvue_type_template_id_0d802ee4_hoisted_7 = {
   key: 1
 };
-var DeleteOldLogsvue_type_template_id_461cc62c_hoisted_8 = {
+var DeleteOldLogsvue_type_template_id_0d802ee4_hoisted_8 = {
   key: 2
 };
-var DeleteOldLogsvue_type_template_id_461cc62c_hoisted_9 = {
+var DeleteOldLogsvue_type_template_id_0d802ee4_hoisted_9 = {
   key: 3
 };
-function DeleteOldLogsvue_type_template_id_461cc62c_render(_ctx, _cache, $props, $setup, $data, $options) {
+function DeleteOldLogsvue_type_template_id_0d802ee4_render(_ctx, _cache, $props, $setup, $data, $options) {
   var _this = this;
 
   var _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
@@ -1899,7 +1895,7 @@ function DeleteOldLogsvue_type_template_id_461cc62c_render(_ctx, _cache, $props,
 
   var _directive_form = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("form");
 
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", DeleteOldLogsvue_type_template_id_461cc62c_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", DeleteOldLogsvue_type_template_id_461cc62c_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", DeleteOldLogsvue_type_template_id_0d802ee4_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", DeleteOldLogsvue_type_template_id_0d802ee4_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     uicontrol: "checkbox",
     name: "deleteEnable",
     "model-value": _ctx.enabled,
@@ -1910,7 +1906,11 @@ function DeleteOldLogsvue_type_template_id_461cc62c_render(_ctx, _cache, $props,
     }),
     title: _ctx.translate('PrivacyManager_UseDeleteLog'),
     "inline-help": _ctx.translate('PrivacyManager_DeleteRawDataInfo')
-  }, null, 8, ["model-value", "title", "inline-help"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", DeleteOldLogsvue_type_template_id_461cc62c_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", DeleteOldLogsvue_type_template_id_461cc62c_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ClickHere')), 1)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.enabled]])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", DeleteOldLogsvue_type_template_id_461cc62c_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+  }, null, 8, ["model-value", "title", "inline-help"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", DeleteOldLogsvue_type_template_id_0d802ee4_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+    href: _ctx.externalRawLink('https://matomo.org/faq/general/faq_125'),
+    rel: "noreferrer noopener",
+    target: "_blank"
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ClickHere')), 9, DeleteOldLogsvue_type_template_id_0d802ee4_hoisted_4)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.enabled]])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", DeleteOldLogsvue_type_template_id_0d802ee4_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     uicontrol: "text",
     name: "deleteOlderThan",
     "model-value": _ctx.deleteOlderThan,
@@ -1934,12 +1934,12 @@ function DeleteOldLogsvue_type_template_id_461cc62c_render(_ctx, _cache, $props,
     onConfirmed: _ctx.saveSettings
   }, {
     default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(function () {
-      return [_ctx.enabled && !_ctx.enableDeleteReports ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h2", DeleteOldLogsvue_type_template_id_461cc62c_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_DeleteLogsConfirm')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.enabled && _ctx.enableDeleteReports ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h2", DeleteOldLogsvue_type_template_id_461cc62c_hoisted_7, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_DeleteBothConfirm')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.enabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", DeleteOldLogsvue_type_template_id_461cc62c_hoisted_8, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_ConfirmWithPassword')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.enabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h2", DeleteOldLogsvue_type_template_id_461cc62c_hoisted_9, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_ConfirmWithPassword')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)];
+      return [_ctx.enabled && !_ctx.enableDeleteReports ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h2", DeleteOldLogsvue_type_template_id_0d802ee4_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_DeleteLogsConfirm')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.enabled && _ctx.enableDeleteReports ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h2", DeleteOldLogsvue_type_template_id_0d802ee4_hoisted_7, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('PrivacyManager_DeleteBothConfirm')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.enabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", DeleteOldLogsvue_type_template_id_0d802ee4_hoisted_8, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_ConfirmWithPassword')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.enabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h2", DeleteOldLogsvue_type_template_id_0d802ee4_hoisted_9, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_ConfirmWithPassword')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)];
     }),
     _: 1
   }, 8, ["modelValue", "onConfirmed"])], 512)), [[_directive_form]]);
 }
-// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/DeleteOldLogs/DeleteOldLogs.vue?vue&type=template&id=461cc62c
+// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/DeleteOldLogs/DeleteOldLogs.vue?vue&type=template&id=0d802ee4
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--14-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/PrivacyManager/vue/src/DeleteOldLogs/DeleteOldLogs.vue?vue&type=script&lang=ts
 
@@ -2016,7 +2016,7 @@ function DeleteOldLogsvue_type_template_id_461cc62c_render(_ctx, _cache, $props,
 
 
 
-DeleteOldLogsvue_type_script_lang_ts.render = DeleteOldLogsvue_type_template_id_461cc62c_render
+DeleteOldLogsvue_type_script_lang_ts.render = DeleteOldLogsvue_type_template_id_0d802ee4_render
 
 /* harmony default export */ var DeleteOldLogs = (DeleteOldLogsvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/PrivacyManager/vue/src/DeleteOldReports/DeleteOldReports.vue?vue&type=template&id=55144633

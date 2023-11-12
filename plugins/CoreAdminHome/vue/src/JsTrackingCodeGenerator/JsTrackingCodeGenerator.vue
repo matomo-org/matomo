@@ -22,19 +22,19 @@
         <span v-html="$sanitize(jsTrackingIntro5)"></span>
         <br><br/>
         {{ translate('SitesManager_InstallationGuides') }} :
-        <a href="{{ externalRawLink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/') }}"
+        <a :href="externalRawLink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/')"
            target="_blank" rel="noopener">WordPress</a> |
-        <a href="{{ externalRawLink('https://matomo.org/faq/new-to-piwik/how-do-i-integrate-matomo-with-squarespace-website/') }}"
+        <a :href="externalRawLink('https://matomo.org/faq/new-to-piwik/how-do-i-integrate-matomo-with-squarespace-website/')"
            target="_blank" rel="noopener">Squarespace</a> |
-        <a href="{{ externalRawLink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-wix/') }}"
+        <a :href="externalRawLink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-wix/')"
            target="_blank" rel="noopener">Wix</a> |
-        <a href="{{ externalRawLink('https://matomo.org/faq/how-to-install/faq_19424/') }}"
+        <a :href="externalRawLink('https://matomo.org/faq/how-to-install/faq_19424/')"
            target="_blank" rel="noopener">SharePoint</a> |
-        <a href="{{ externalRawLink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-joomla/') }}"
+        <a :href="externalRawLink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-joomla/')"
            target="_blank" rel="noopener">Joomla</a> |
-        <a href="{{ externalRawLink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-shopify-store/') }}"
+        <a :href="externalRawLink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-shopify-store/')"
            target="_blank" rel="noopener">Shopify</a> |
-        <a href="{{ externalRawLink('https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-within-gtm-google-tag-manager/') }}"
+        <a :href="externalRawLink('https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-within-gtm-google-tag-manager/')"
            target="_blank" rel="noopener">Google Tag Manager</a>
       </p>
 
