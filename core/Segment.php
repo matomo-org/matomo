@@ -712,7 +712,7 @@ class Segment
     private function escapeSegmentValue(string $value): string
     {
         $delimiterPattern = SegmentExpression::AND_DELIMITER . SegmentExpression::OR_DELIMITER;
-        $pattern = '/((?<!\\\)[' . $delimiterPattern . '])/';
+        $pattern = '/((?<!\\\)[' . preg_quote($delimiterPattern) . '])/';
 
         return preg_replace($pattern, '\\\$1', $value);
     }
