@@ -50,6 +50,7 @@ if (process.env.TESTOMATIO) {
   };
 } else {
   exports.reporter = 'spec';
+  exports.reporterOptions = {};
 }
 
 /**
