@@ -413,7 +413,7 @@ class API extends \Piwik\Plugin\API
     {
         $sites = [];
         if (!empty($idSite)) {
-            $sites = [$idSite];
+            $sites = is_array($idSite) ? $idSite : [$idSite];
         }
 
         foreach ($segments as $k => $segment) {
