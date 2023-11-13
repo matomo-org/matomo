@@ -13,7 +13,7 @@
          @click.prevent="$emit('action')"
          @keyup.enter="$emit('action')"
       >
-        <span class="icon-heart">&nbsp;</span>
+        <span class="icon-marketplace">&nbsp;</span>
         {{ translate('Marketplace_Marketplace') }}
       </a>
     </p>
