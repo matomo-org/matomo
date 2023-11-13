@@ -43,9 +43,10 @@ async function main() {
 
     mocha = new Mocha({
         ui: 'bdd',
-        reporter: config.reporter,
         bail: false,
-        useColors: true,
+        reporter: config.reporter,
+        reporterOptions: config.reporterOptions,
+        color: 1,
         timeout: options.timeout || 240000,
     });
 

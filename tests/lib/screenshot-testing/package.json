@@ -9,10 +9,12 @@
     "chai-files": "^1.4.0",
     "chai-image-assert": "^1.2.0",
     "fs-extra": "^7.0.1",
-    "mocha": "^5.2.0",
+    "mocha": "^8.2.0",
     "puppeteer": "^8.0.0",
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
-    "url-parse": "^1.5.3"
+    "url-parse": "^1.5.3",
+    "@testomatio/reporter": "^1.0.9",
+    "mocha-multi-reporters": "^1.5.1"
   }
 }
