@@ -395,7 +395,7 @@ class Segment
         // This is required to ensure segments like actionUrl!@value really do not include any visit having an action containing `value`
         if ($this->doesSegmentNeedSubquery($matchType, $name)) {
             $operator = $this->getInvertedOperatorForSubQuery($matchType);
-            $stringSegment = $name . $operator . $value;
+            $stringSegment = $name . $operator . $this->escapeSegmentValue($value);
             $segmentObj = new Segment($stringSegment, $this->idSites, $this->startDate, $this->endDate);
 
             $select = 'log_visit.idvisit';
@@ -660,5 +660,16 @@ class Segment
     public function getOriginalString()
     {
         return $this->originalString;
+    }
+
+    /**
+     * Escapes segment expression delimiters in a segment value with a backslash if not already done.
+     */
+    private function escapeSegmentValue(string $value): string
+    {
+        $delimiterPattern = SegmentExpression::AND_DELIMITER . SegmentExpression::OR_DELIMITER;
+        $pattern = '/((?<!\\\)[' . preg_quote($delimiterPattern) . '])/';
+
+        return preg_replace($pattern, '\\\$1', $value);
     }
 }

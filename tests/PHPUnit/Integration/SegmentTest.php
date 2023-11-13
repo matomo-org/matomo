@@ -173,6 +173,143 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals(32, strlen($segment->getHash()));
     }
 
+    /**
+     * @return iterable<string, array{string, string, array{where: string, bind: string}}>
+     */
+    public function getCommonSubqueryTestData(): iterable
+    {
+        $encodedValueOr = urlencode(urlencode('a,b'));
+        $encodedValueAnd = urlencode(urlencode('a;b'));
+        $escapedValueOr = urlencode(urlencode('a\,b'));
+        $escapedValueAnd = urlencode(urlencode('a\;b'));
+
+        $segmentFrom = '2020-02-02 02:00:00';
+
+        $whereSingle = '(log_visit.idvisit NOT IN(SELECT log_visit.idvisit FROM log_visit AS log_visit LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit WHERE(log_visit.visit_last_action_time >= ?)AND(log_link_visit_action.idaction_name = ?)))';
+        $whereMultiAnd = '(log_visit.idvisit NOT IN(SELECT log_visit.idvisit FROM log_visit AS log_visit LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit WHERE(log_visit.visit_last_action_time >= ?)AND(log_link_visit_action.idaction_name = ?)))AND(log_visit.idvisit NOT IN(SELECT log_visit.idvisit FROM log_visit AS log_visit LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit WHERE(log_visit.visit_last_action_time >= ?)AND(log_link_visit_action.idaction_name = ?)))';
+        $whereMultiOr = '((log_visit.idvisit NOT IN(SELECT log_visit.idvisit FROM log_visit AS log_visit LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit WHERE(log_visit.visit_last_action_time >= ?)AND(log_link_visit_action.idaction_name = ?)))OR(log_visit.idvisit NOT IN(SELECT log_visit.idvisit FROM log_visit AS log_visit LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit WHERE(log_visit.visit_last_action_time >= ?)AND(log_link_visit_action.idaction_name = ?))))';
+
+        yield 'normal segment' => [
+            'pageTitle!=a',
+            $segmentFrom,
+            [
+                'where' => $whereSingle,
+                'bind' => [$segmentFrom, '1'],
+            ],
+        ];
+
+        yield 'segment with AND in value' => [
+            'pageTitle!=' . $encodedValueAnd,
+            $segmentFrom,
+            [
+                'where' => $whereSingle,
+                'bind' => [$segmentFrom, '3'],
+            ],
+        ];
+
+        yield 'segment with AND in value, already escaped' => [
+            'pageTitle!=' . $escapedValueAnd,
+            $segmentFrom,
+            [
+                'where' => $whereSingle,
+                'bind' => [$segmentFrom, '3'],
+            ],
+        ];
+
+        yield 'segment with OR in value' => [
+            'pageTitle!=' . $encodedValueOr,
+            $segmentFrom,
+            [
+                'where' => $whereSingle,
+                'bind' => [$segmentFrom, '4'],
+            ],
+        ];
+
+        yield 'segment with OR in value, already escaped' => [
+            'pageTitle!=' . $escapedValueOr,
+            $segmentFrom,
+            [
+                'where' => $whereSingle,
+                'bind' => [$segmentFrom, '4'],
+            ],
+        ];
+
+        yield 'segment with two values, AND operator' => [
+            'pageTitle!=a;pageTitle!=b',
+            $segmentFrom,
+            [
+                'where' => $whereMultiAnd,
+                'bind' => [$segmentFrom, '1', $segmentFrom, '2'],
+            ],
+        ];
+
+        yield 'segment with two values, OR operator' => [
+            'pageTitle!=a,pageTitle!=b',
+            $segmentFrom,
+            [
+                'where' => $whereMultiOr,
+                'bind' => [$segmentFrom, '1', $segmentFrom, '2'],
+            ],
+        ];
+
+        yield 'mixed operator in value and two segments' => [
+            'pageTitle!=' . $encodedValueAnd . ';pageTitle!=' . $encodedValueOr,
+            $segmentFrom,
+            [
+                'where' => $whereMultiAnd,
+                'bind' => [$segmentFrom, '3', $segmentFrom, '4'],
+            ],
+        ];
+
+        yield 'mixed operator in value and two segments, already escaped' => [
+            'pageTitle!=' . $escapedValueAnd . ',pageTitle!=' . $escapedValueOr,
+            $segmentFrom,
+            [
+                'where' => $whereMultiOr,
+                'bind' => [$segmentFrom, '3', $segmentFrom, '4'],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider getCommonSubqueryTestData
+     *
+     * @param array{where: string, bind: string} $expected
+     */
+    public function testCommonSubquery(string $segment, string $segmentFrom, array $expected): void
+    {
+        $this->insertPageUrlAsAction('a', 'idaction_name', Action::TYPE_PAGE_TITLE);
+        $this->insertPageUrlAsAction('b', 'idaction_name', Action::TYPE_PAGE_TITLE);
+        $this->insertPageUrlAsAction('a;b', 'idaction_name', Action::TYPE_PAGE_TITLE);
+        $this->insertPageUrlAsAction('a,b', 'idaction_name', Action::TYPE_PAGE_TITLE);
+
+        $select = 'log_visit.idvisit';
+        $from = 'log_visit';
+
+        $expected = array(
+            'sql'  => '
+                SELECT
+                    log_visit.idvisit
+                FROM
+                    ' . Common::prefixTable('log_visit') . ' AS log_visit
+                WHERE
+                    ' . $expected['where'],
+            'bind' => $expected['bind']
+        );
+
+        $segment = new Segment($segment, $idSites = array(), Date::factory($segmentFrom));
+        $sql = $segment->getSelectQuery($select, $from, false);
+        $this->assertQueryDoesNotFail($sql);
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($sql));
+
+        // calling twice should give same results
+        $sql = $segment->getSelectQuery($select, array($from));
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($sql));
+
+        $this->assertEquals(32, strlen($segment->getHash()));
+    }
+
     public function test_getSelectQuery_whenNoJoin()
     {
         $select = '*';
