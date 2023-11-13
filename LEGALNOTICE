@@ -298,6 +298,10 @@ THIRD-PARTY CONTENT
     Link: https://pictogrammers.com/
     License: Apache License Version 2.0
 
+    Name: Feather icons ("icon-marketplace") in plugins/Morpheus/fonts
+    Link: https://feathericons.com/
+    License: MIT (Expat)
+
 Notes:
 - the "New BSD" license refers to either the "Modified BSD" and "Simplified BSD"
   licenses (2- or 3-clause), which are GPL compatible.
