@@ -131,7 +131,7 @@ module.exports = function makeChaiImageAssert(comparisonCommand = 'compare') {
                 `the '${comparisonCommand}' command was not found, ('compare' is provided by imagemagick)`);
 
             const allOutput = result.stdout.toString() + result.stderr.toString();
-            const pixelError = parseInt(allOutput);
+            const pixelError = (new Number(allOutput)).valueOf();
 
             chai.assert(!isNaN(pixelError),
                 `the '${comparisonCommand}' command output could not be parsed, should be` +
