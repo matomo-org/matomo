@@ -1980,10 +1980,10 @@ SQL;
      * @return string
      * @throws Exception
      */
-    private function insertPageUrlAsAction($pageUrlFoundInDb)
+    private function insertPageUrlAsAction($pageUrlFoundInDb, $idActionColumn = 'idaction_url', $idActionType = Action::TYPE_PAGE_URL)
     {
         TableLogAction::loadIdsAction(array(
-            'idaction_url' => array($pageUrlFoundInDb, Action::TYPE_PAGE_URL)
+            $idActionColumn => array($pageUrlFoundInDb, $idActionType)
         ));
 
         $actionIdFoundInDb = Db::fetchOne("SELECT idaction from " . Common::prefixTable('log_action') . " WHERE name = ?", $pageUrlFoundInDb);
