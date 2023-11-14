@@ -1,6 +1,7 @@
 .periodSelector {
   display: inline-block;
 
+
   &.compare-dropdown-open {
     label[for=comparePeriodEndDate] {
       visibility: hidden;
@@ -102,22 +103,30 @@
   .flex {
     display: flex;
   }
-
-
 }
-
 
 .period-increment {
   font-weight: 900;
   font-size: 18px;
   cursor: default;
   color: #1976d2;
-  }
+  background-color: transparent;
+  border: none;
+  display: inline-block;
 
-  .grey-arrow {
+  &:focus {
+    background-color: transparent;
+  }
+  &:disabled {
     color: rgb(165, 165, 165);
   }
+}
 
-  #decrement-period-arrow:hover, #increment-period-arrow:hover {
-    cursor: pointer;
+//Needed too many changes to make this work on narrow sreens, so just not display it
+@media (max-width: 600px) {
+    .period-increment  {
+      display: none;
   }
+}
+
+
