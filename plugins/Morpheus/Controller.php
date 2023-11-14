@@ -817,7 +817,7 @@ export default defineComponent({
                 'admin-platform',
                 'admin-development',
                 'admin-settings',
-
+                'marketplace',
 
             ],
         ];

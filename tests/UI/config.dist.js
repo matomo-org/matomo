@@ -38,12 +38,23 @@ exports.mocha = 'mocha-3.1.2';
 exports.chai = 'chai-1.9.0';
 
 /**
- * The mocha reporter to use.
+ * Mocha reporters to use (can be multiple delimited by a comma).
  */
-exports.reporter = "spec";
+if (process.env.TESTOMATIO) {
+  exports.reporter = 'mocha-multi-reporters';
+  exports.reporterOptions = {
+    reporterEnabled: 'spec, @testomatio/reporter/lib/adapter/mocha.js',
+    testomatioReporterLibAdapterMochaJsReporterOptions: {
+      apiKey: process.env.TESTOMATIO
+    }
+  };
+} else {
+  exports.reporter = 'spec';
+  exports.reporterOptions = {};
+}
 
 /**
- * The directory that stores expected screenshots. Relative to the UI repo's root directoriy.
+ * The directory that stores expected screenshots. Relative to the UI repo's root directory.
  */
 exports.expectedScreenshotsDir = ["./expected-screenshots", "./expected-ui-screenshots"];
 
