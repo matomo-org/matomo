@@ -275,6 +275,8 @@ message', $response);
 
         $response = $this->builder->renderDataTable($dataTable);
 
+        $isPHP82orNewer = version_compare(PHP_VERSION, 8.2, '>=');
+
         $stdClass = version_compare(PHP_VERSION, 7.3, '>=') ?
             "(object) array(\n  )," :
             "stdClass::__set_state(array(\n  )),";
@@ -293,12 +295,12 @@ message', $response);
 		<td>6</td>
 		<td>\'processedRows\' =&gt; array (
   0 =&gt; 
-  Piwik\Plugins\CoreHome\Columns\Metrics\AverageTimeOnSite::__set_state(array(
+  ' . ($isPHP82orNewer ? '\\' : '') . 'Piwik\Plugins\CoreHome\Columns\Metrics\AverageTimeOnSite::__set_state(array(
   )),
   1 =&gt; 
   ' . $stdClass . '
   2 =&gt; 
-  Piwik\Date::__set_state(array(
+  ' . ($isPHP82orNewer ? '\\' : '') . 'Piwik\Date::__set_state(array(
      \'timestamp\' =&gt; 1451606400,
      \'timezone\' =&gt; \'UTC\',
   )),
