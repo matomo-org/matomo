@@ -6,7 +6,6 @@
 
 <template>
    <button
-      id="decrement-period-arrow"
       class="period-increment"
       @click="incrementPeriod(-1)"
       :disabled="setIncrementDisabled(-1)"
@@ -167,7 +166,6 @@
     </div>
   </div>
   <button
-     id="increment-period-arrow"
       class="period-increment"
       @click="incrementPeriod(1)"
       :disabled="setIncrementDisabled(1)"
