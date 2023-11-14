@@ -205,6 +205,8 @@ class TrackerTest extends \PHPUnit\Framework\TestCase
 
 class TestTracker extends Tracker
 {
+    private $record;
+
     public function __construct()
     {
         parent::__construct();

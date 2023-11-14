@@ -14,5 +14,8 @@ namespace Piwik\Plugins\PrivacyManager\tests\Framework\Mock;
  */
 class Config
 {
-
-} 
+    /**
+     * @var bool
+     */
+    public $doNotTrackEnabled;
+}
