@@ -5,17 +5,20 @@
 -->
 
 <template>
-  <span
-    id="decrement-period-arrow"
-    :class="setIncrementClass(-1)"
-    @click="incrementPeriod(-1)">
-    &nbsp;&#11160;
-  </span>
+   <button
+      id="decrement-period-arrow"
+      class="period-increment"
+      @click="incrementPeriod(-1)"
+      :disabled="setIncrementDisabled(-1)"
+    >
+      &#11160;
+    </button>
   <div
     ref="root"
     class="periodSelector piwikSelector"
     v-expand-on-click="{ expander: 'title' }"
   >
+
     <a
       ref="title"
       id="date"
@@ -26,6 +29,7 @@
       <span class="icon icon-calendar" />
       {{ currentlyViewingText }}
     </a>
+
     <div
       id="periodMore"
       class="dropdown"
@@ -162,12 +166,14 @@
       </div>
     </div>
   </div>
-  <span
-  id="increment-period-arrow"
-    :class="setIncrementClass(1)"
-    @click="incrementPeriod(1)">
-    &#11162;&nbsp;
-  </span>
+  <button
+     id="increment-period-arrow"
+      class="period-increment"
+      @click="incrementPeriod(1)"
+      :disabled="setIncrementDisabled(1)"
+      >
+      &#11162;
+    </button>
 </template>
 
 <script lang="ts">
@@ -437,7 +443,6 @@ export default defineComponent({
     setPiwikPeriodAndDate(period: string, date: Date) {
       this.periodValue = period;
       this.selectedPeriod = period;
-      // selected date cannot be in the future
       this.dateValue = date;
 
       const currentDateString = format(date);
@@ -474,7 +479,6 @@ export default defineComponent({
     },
     onApplyClicked() {
       if (this.selectedPeriod === 'range') {
-      //  document.getElementById('left-arrow').classList.add('grey-arrow ');
         const dateString = this.selectedDateString;
         if (!dateString) {
           return;
@@ -614,6 +618,7 @@ export default defineComponent({
       if (!this.canIncrementPeriod(amt)) {
         return;
       }
+
       if (this.dateValue != null) {
         newDate = this.dateValue;
       }
@@ -634,57 +639,86 @@ export default defineComponent({
         default:
           break;
       }
-      // this.dateValue = newDate;
-      // selected date cannot be in the future
-      this.dateValue = newDate > new Date() ? new Date() : newDate;
+
+      // Ensure date is not out of Piwik Min and Max date range
+      if (this.dateValue < piwikMinDate) {
+        this.dateValue = piwikMinDate;
+      }
+
+      if (this.dateValue > piwikMaxDate) {
+        this.dateValue = piwikMaxDate;
+      }
       this.onApplyClicked();
     },
-    setIncrementClass(amt: number) {
-      // "Disable" the increment-decrement arrows for range by turning them grey.
-      // No action is taken in incrementPeriod for the range period
-      if (amt === -1 || this.dateValue === null) {
-        return this.periodValue === 'range' ? 'period-increment grey-arrow' : 'period-increment';
+    setIncrementDisabled(amt: number) {
+      if (this.dateValue === null) {
+        return this.periodValue === 'range';
       }
-      return this.periodValue === 'range' || !this.canIncrementPeriod(amt) ? 'period-increment grey-arrow' : 'period-increment';
+      return this.periodValue === 'range' || !this.canIncrementPeriod(amt);
     },
     canIncrementPeriod(amt: number) {
-      // always allow decrement
-      if (amt === -1) {
-        return true;
-      }
-
-      const today = new Date();
-
       // atBoundary means we are on the current day, week, month or year
-      // and cannot increment selected date period to the future
+      // and another increment would take us to the future.
       let atBoundary = false;
-      switch (this.periodValue) {
-        case 'day':
-          atBoundary = this.dateValue.getFullYear() === today.getFullYear()
-                     && this.dateValue.getMonth() === today.getMonth()
-                     && this.dateValue.getDay() === today.getDay();
-          break;
-        case 'week':
-          atBoundary = this.dateValue.getFullYear() === today.getFullYear()
-                        && this.getWeek(this.dateValue) === this.getWeek(today);
-          break;
-        case 'month':
-          atBoundary = this.dateValue.getFullYear() === today.getFullYear()
-                     && this.dateValue.getMonth() === today.getMonth();
-          break;
-        case 'year':
-          atBoundary = this.dateValue.getFullYear() === today.getFullYear();
-          break;
-        default:
-          break;
+
+      if (amt === -1) {
+        switch (this.periodValue) {
+          case 'day':
+            atBoundary = this.dateValue.getFullYear() === piwikMinDate.getFullYear()
+                      && this.dateValue.getMonth() === piwikMinDate.getMonth()
+                      && this.dateValue.getDate() === piwikMinDate.getDate();
+            break;
+          case 'week':
+            atBoundary = this.dateValue.getFullYear() === piwikMinDate.getFullYear()
+                          && this.getWeek(this.dateValue) === this.getWeek(piwikMinDate);
+            break;
+          case 'month':
+            atBoundary = this.dateValue.getFullYear() === piwikMinDate.getFullYear()
+                      && this.dateValue.getMonth() === piwikMinDate.getMonth();
+            break;
+          case 'year':
+            atBoundary = this.dateValue.getFullYear() === piwikMinDate.getFullYear();
+            break;
+          default:
+            break;
+        }
+      } else {
+        switch (this.periodValue) {
+          case 'day':
+            atBoundary = this.dateValue.getFullYear() === piwikMaxDate.getFullYear()
+                      && this.dateValue.getMonth() === piwikMaxDate.getMonth()
+                      && this.dateValue.getDate() === piwikMaxDate.getDate();
+            break;
+          case 'week':
+            atBoundary = this.dateValue.getFullYear() === piwikMaxDate.getFullYear()
+                          && this.getWeek(this.dateValue) === this.getWeek(piwikMaxDate);
+            break;
+          case 'month':
+            atBoundary = this.dateValue.getFullYear() === piwikMaxDate.getFullYear()
+                      && this.dateValue.getMonth() === piwikMaxDate.getMonth();
+            break;
+          case 'year':
+            atBoundary = this.dateValue.getFullYear() === piwikMaxDate.getFullYear();
+            break;
+          default:
+            break;
+        }
       }
 
       return !atBoundary;
     },
     getWeek(dt: Date) {
-      const year = new Date(dt.getFullYear(), 0, 1);
-      const days = Math.floor((dt - year) / (24 * 60 * 60 * 1000));
-      return Math.ceil((dt.getDay() + 1 + days) / 7);
+      // Algorith derived from https://www.w3resource.com/javascript-exercises/javascript-date-exercise-24.php
+      const tdt = new Date(dt.valueOf());
+      const dayn = (dt.getDay() + 6) % 7;
+      tdt.setDate(tdt.getDate() - dayn + 3);
+      const firstThursday = tdt.valueOf();
+      tdt.setMonth(0, 1);
+      if (tdt.getDay() !== 4) {
+        const days = ((4 - tdt.getDay()) + 7) % 7;
+        tdt.setMonth(0, 1 + days);
+      }
+      return 1 + Math.ceil((firstThursday - tdt.valueOf()) / 604800000);
     },
   },
 });
