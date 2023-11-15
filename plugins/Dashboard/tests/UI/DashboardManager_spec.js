@@ -11,10 +11,11 @@ describe("DashboardManager", function () {
     const selectorToCapture = '.dashboard-manager,.dashboard-manager .dropdown';
 
     const generalParams = 'idSite=1&period=day&date=2012-01-01';
-    const url = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=Dashboard_Dashboard&subcategory=5';
+    const url = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=Dashboard_Dashboard&subcategory=1';
 
     it("should load correctly", async function() {
         await page.goto(url);
+        await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector(selectorToCapture)).to.matchImage('loaded');
     });
@@ -62,6 +63,11 @@ describe("DashboardManager", function () {
     });
 
     it("should create new dashboard with new default widget selection when create dashboard process completed", async function() {
+        // check that widget count on currently loaded dashboard is correct, so we are able to say if
+        // number of widgets has changed after creating and loading the new one
+        const widgetsCountBefore = await page.evaluate(() => $('#dashboardWidgetsArea .widget').length);
+        expect(widgetsCountBefore).to.equal(1);
+
         await page.click('.dashboard-manager .title');
         await page.click('li[data-action="createDashboard"]');
         await page.waitForSelector('#createDashboardName', { visible: true });
@@ -97,7 +103,12 @@ describe("DashboardManager", function () {
         await page.waitForNetworkIdle();
         await page.waitForTimeout(100); // wait for widgets to render fully
 
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('create_new');
+        // check new dashboard was loaded, which should have 10 widgets
+        const widgetsCount = await page.evaluate(() => $('#dashboardWidgetsArea .widget').length);
+        expect(widgetsCount).to.equal(10);
+
+        // check dashboard has been added to menu, causing menu to switch from listing to selector
+        expect(await page.screenshotSelector('#secondNavBar .menuTab.active')).to.matchImage('create_new');
     });
 
 
@@ -120,6 +131,11 @@ describe("DashboardManager", function () {
         await page.waitForSelector('.widget');
         await page.waitForNetworkIdle();
 
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('removed');
+        // check initial dashboard was loaded again, which should have 1 widget only
+        const widgetsCount = await page.evaluate(() => $('#dashboardWidgetsArea .widget').length);
+        expect(widgetsCount).to.equal(1);
+
+        // check dashboard has been removed from menu, causing menu to switch from selector to listing
+        expect(await page.screenshotSelector('#secondNavBar .menuTab.active')).to.matchImage('removed');
     });
 });

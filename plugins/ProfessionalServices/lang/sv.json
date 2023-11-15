@@ -1,11 +1,17 @@
 {
     "ProfessionalServices": {
+        "AltTextPreviewImageFor": "Förhandsgranska bilden för %1$s",
+        "CTALearnMore": "Lär dig mer om %1$s",
+        "CTAStartFreeTrial": "Påbörja en gratis provperiod",
+        "FormAnalyticsFeature01": "Förstå hur besökare interagerar med dina formulär för att hitta områden att förbättra.",
         "PromoAbTesting": "A/B-tester",
         "PromoCrashAnalytics": "Krascher",
         "PromoCustomReports": "Anpassade rapporter",
+        "PromoFormAnalytics": "Formulär",
         "PromoFunnels": "Omvandlingskanal",
         "PromoHeatmaps": "Värmekartor",
         "PromoManage": "Hantera",
+        "PromoMediaAnalytics": "Media",
         "PromoOverview": "Översikt",
         "PromoSessionRecording": "Sessionsinspelningar",
         "WidgetPremiumServicesForPiwik": "Premiumfunktioner &amp; -tjänster för Matomo"

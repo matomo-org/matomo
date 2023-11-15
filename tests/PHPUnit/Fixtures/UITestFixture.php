@@ -368,6 +368,33 @@ class UITestFixture extends SqlDump
     /** Creates two dashboards that split the widgets up into different groups. */
     public function setupDashboards()
     {
+        $oldGet = $_GET;
+
+        $_GET['idSite'] = 1;
+        $_GET['token_auth'] = \Piwik\Piwik::getCurrentUserTokenAuth();
+
+        // create almost empty dashboard first, as this will be loaded as default quite often
+        $dashboard = [
+            [
+                [
+                    'uniqueId' => "widgetVisitsSummarygetEvolutionGraphforceView1viewDataTablegraphEvolution",
+                    'parameters' => [
+                        'module' => 'VisitsSummary',
+                        'action' => 'getEvolutionGraph',
+                        'forceView' => '1',
+                        'viewDataTable' => 'graphEvolution'
+                    ]
+                ]
+            ],
+            [],
+            []
+        ];
+
+        $_GET['name'] = 'D4';
+        $_GET['layout'] = json_encode($dashboard);
+        $_GET['idDashboard'] = 1;
+        FrontController::getInstance()->fetchDispatch('Dashboard', 'saveLayout');
+
         $dashboardColumnCount = 3;
         $dashboardCount = 4;
 
@@ -380,10 +407,6 @@ class UITestFixture extends SqlDump
         for ($i = 0; $i != $dashboardCount; ++$i) {
             $dashboards[] = $layout;
         }
-
-        $oldGet = $_GET;
-        $_GET['idSite'] = 1;
-        $_GET['token_auth'] = \Piwik\Piwik::getCurrentUserTokenAuth();
 
         // collect widgets & sort them so widget order is not important
         $allWidgets = Request::processRequest('API.getWidgetMetadata', [
@@ -459,32 +482,9 @@ class UITestFixture extends SqlDump
                 $_GET['name'] = 'dashboard name' . $id;
             }
             $_GET['layout'] = json_encode($layout);
-            $_GET['idDashboard'] = $id + 1;
+            $_GET['idDashboard'] = $id + 2;
             FrontController::getInstance()->fetchDispatch('Dashboard', 'saveLayout');
         }
-
-        // create empty dashboard
-        $dashboard = [
-            [
-                [
-                    'uniqueId' => "widgetVisitsSummarygetEvolutionGraphforceView1viewDataTablegraphEvolution",
-                    'parameters' => [
-                        'module' => 'VisitsSummary',
-                        'action' => 'getEvolutionGraph',
-                        'forceView' => '1',
-                        'viewDataTable' => 'graphEvolution'
-                    ]
-                ]
-            ],
-            [],
-            []
-        ];
-
-        $_GET['name'] = 'D4';
-        $_GET['layout'] = json_encode($dashboard);
-        $_GET['idDashboard'] = 5;
-        $_GET['idSite'] = 2;
-        FrontController::getInstance()->fetchDispatch('Dashboard', 'saveLayout');
 
         $_GET = $oldGet;
     }
@@ -620,7 +620,6 @@ class XssReport extends Report
         $this->processedMetrics = [new XssProcessedMetric($type)];
         $this->module = 'ExampleAPI';
         $this->action = 'xssReport' . $type;
-        $this->id = 'ExampleAPI.xssReport' . $type;
     }
 }
 

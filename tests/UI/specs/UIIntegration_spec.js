@@ -56,72 +56,6 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         testEnvironment.save();
     });
 
-    // dashboard tests
-    describe("dashboard", function () {
-        this.title = parentSuite.title; // to make sure the screenshot prefix is the same
-
-        it("should load dashboard1 correctly", async function () {
-            await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=1");
-            await page.waitForNetworkIdle();
-            await page.evaluate(function () {
-                // Prevent random sizing error eg. http://builds-artifacts.matomo.org/ui-tests.master/2301.1/screenshot-diffs/diffviewer.html
-                $("[widgetid=widgetActionsgetOutlinks] .widgetContent").text('Displays different at random -> hidden');
-            });
-
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('dashboard1');
-        });
-
-        it("should load dashboard2 correctly", async function () {
-            await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=2");
-            await page.waitForNetworkIdle();
-            await page.waitForSelector('.widget');
-            await page.waitForNetworkIdle();
-
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('dashboard2');
-        });
-
-        it("should load dashboard3 correctly", async function () {
-            await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=3");
-            await page.waitForNetworkIdle();
-            await page.waitForSelector('.widget');
-            await page.waitForNetworkIdle();
-            await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
-              $('.dataTableScroller').css('overflow-x', 'scroll');
-            });
-            await page.waitForTimeout(500);
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('dashboard3');
-        });
-
-        it("should load dashboard4 correctly", async function () {
-            await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=4");
-            await page.waitForNetworkIdle();
-            await page.waitForSelector('.widget');
-            await page.waitForNetworkIdle();
-
-            pageWrap = await page.$('.pageWrap');
-            expect(await pageWrap.screenshot()).to.matchImage('dashboard4');
-        });
-
-        it("should display dashboard correctly on a mobile phone", async function () {
-            await page.webpage.setViewport({
-                width: 480,
-                height: 320
-            });
-            await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=5");
-            await page.waitForNetworkIdle();
-
-            expect(await page.screenshot({ fullPage: true })).to.matchImage('dashboard5_mobile');
-
-            await page.webpage.setViewport({
-                width: 1350,
-                height: 768
-            });
-        });
-    });
-
     describe("misc", function () {
         this.title = parentSuite.title; // to make sure the screenshot prefix is the same
 
@@ -167,7 +101,11 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=General_Overview&segment=" + segment);
 
-            expect(await page.screenshotSelector('.pageWrap,.top_controls')).to.matchImage('visitors_overview_segment');
+            // check that segment is selected in selector
+            const segmentTitle = await page.evaluate(() => $('.segmentationTitle').text());
+            expect(segmentTitle).to.match(/<script>_x\(\d+\)<\/script>/);
+
+            expect(await page.screenshotSelector('#content')).to.matchImage('visitors_overview_segment');
         });
 
 
@@ -175,7 +113,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         it('should load the notifications page correctly', async function() {
             await page.goto("?" + generalParams + "&module=ExampleUI&action=notifications&idSite=1&period=day&date=yesterday");
             await page.evaluate(function () {
-                $('#header').hide();
+                $('#secondNavBar').css('visibility', 'hidden'); // hide navbar so shadow isn't shown
             });
 
             const pageWrap = await page.$('.pageWrap');

@@ -43,6 +43,7 @@ class SiteContentDetector
         SiteContentDetectionAbstract::TYPE_CMS => [],
         SiteContentDetectionAbstract::TYPE_JS_FRAMEWORK => [],
         SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER => [],
+        SiteContentDetectionAbstract::TYPE_JS_CRASH_ANALYTICS => [],
         SiteContentDetectionAbstract::TYPE_OTHER => [],
     ];
 
@@ -120,6 +121,7 @@ class SiteContentDetector
             SiteContentDetectionAbstract::TYPE_CMS => [],
             SiteContentDetectionAbstract::TYPE_JS_FRAMEWORK => [],
             SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER => [],
+            SiteContentDetectionAbstract::TYPE_JS_CRASH_ANALYTICS => [],
             SiteContentDetectionAbstract::TYPE_OTHER => [],
         ];
         $this->connectedConsentManagers = [];

@@ -1,6 +1,6 @@
 name: Bug Report
 description: Open a bug report
-title: "[Bug]: "
+title: "[Bug] "
 labels: ["Potential Bug", "To Triage"]
 body:
   - type: markdown
@@ -21,7 +21,7 @@ body:
     attributes:
       label: What should happen?
       description: Please tell us what should happen. How has this issue affected you? What are you trying to accomplish?
-      placeholder: Tell us what you expected to see, e.g. "I should see Visits Over Time and Visits Overview"
+      placeholder: Tell us what you expect to see, e.g. "I should see Visits Over Time and Visits Overview"
     validations:
       required: true
   - type: textarea
@@ -29,13 +29,13 @@ body:
     attributes:
       label: How can this be reproduced?
       description: For UI bugs, please try to reproduce that on our Demo (https://demo.matomo.cloud). If possible, please include the URLs and steps how to reproduce it there. For other bugs or UI bugs that can't be reproduced on Demo, please include any relevant URLs or commands you are using that may help us to reproduce the bug.
-      placeholder: Steps to Reproduce, e.g. "Go to [Matomo-URL] > Click on Visitors > Click Overview"
+      placeholder: Steps to reproduce, e.g. "Go to [Matomo-URL] > Click on Visitors > Click Overview"
     validations:
       required: true
   - type: dropdown
     id: version
     attributes:
-      label: Matomo Version
+      label: Matomo major version
       description: What version of Matomo are you running?
       options:
         - Matomo 3
@@ -47,22 +47,22 @@ body:
   - type: input
     id: matomo-minor-patch
     attributes:
-      label: Matomo Patch or Minor Version
-      description: What patch or minor version of Matomo's release above are you running?
+      label: Matomo minor or patch Version
+      description: What minor and patch version of Matomo's release above are you running?
     validations:
       required: true
   - type: input
     id: php-version
     attributes:
-      label: PHP Version
+      label: PHP version
       description: What version of PHP are you running?
     validations:
       required: true
   - type: input
     id: server-os
     attributes:
-      label: Server Operating System
-      description: What Server Operating System are you using?
+      label: Server operating system
+      description: What server operating system are you using?
     validations:
       required: true
   - type: dropdown
@@ -80,8 +80,8 @@ body:
   - type: input
     id: machine-os
     attributes:
-      label: Computer Operating System
-      description: What Operating System are you using on your computer?
+      label: Computer operating system
+      description: What operating system are you using on your computer?
     validations:
       required: true
   - type: textarea
@@ -94,7 +94,7 @@ body:
     id: code
     attributes:
       label: Validations
-      description: Before submitting the issue, please make sure you do the following
+      description: "Before submitting the issue, please make sure you do the following:"
       options:
         - label: Read our [Contributing Guidelines](https://github.com/matomo-org/matomo/blob/5.x-dev/CONTRIBUTING.md).
           required: true

@@ -8,7 +8,7 @@
   <div ref="root">
     <h2 class="card-title">
       <EnrichedHeadline
-        help-url="{{ externalRawLink('https://matomo.org/faq/new-to-piwik/all-websites-dashboard/') }}"
+        :help-url="externalRawLink('https://matomo.org/faq/new-to-piwik/all-websites-dashboard/')"
         :feature-name="translate('General_AllWebsitesDashboard')"
       >
         {{ translate('General_AllWebsitesDashboard') }}
@@ -153,13 +153,13 @@
               <a
                 rel="noreferrer noopener"
                 target="_blank"
-                href="{{ externalRawLink('https://matomo.org/faq/troubleshooting/faq_19489/') }}"
+                :href="externalRawLink('https://matomo.org/faq/troubleshooting/faq_19489/')"
               >{{ translate('General_Faq') }}</a>
               &#x2013;
               <a
                 rel="noreferrer noopener"
                 target="_blank"
-                href="{{ externalRawLink('https://forum.matomo.org/') }}"
+                :href="externalRawLink('https://forum.matomo.org/')"
               >{{ translate('Feedback_CommunityHelp') }}</a>
               <span v-show="areAdsForProfessionalServicesEnabled"> &#x2013; </span>
               <a
