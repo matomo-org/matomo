@@ -323,24 +323,7 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
 
     private static function getRelativePluginDirectory($plugin)
     {
-        $result = self::getPluginDirectory($plugin);
-
-        $matomoPath = rtrim(PIWIK_INCLUDE_PATH, '/') . '/';
-        $webroots = array_merge(
-            Manager::getAlternativeWebRootDirectories(),
-            [$matomoPath => '/']
-        );
-
-        foreach ($webroots as $webrootAbsolute => $webrootRelative) {
-            if (strpos($result, $webrootAbsolute) === 0) {
-                $result = str_replace($webrootAbsolute, $webrootRelative, $result);
-                break;
-            }
-        }
-
-        $result = ltrim($result, '/');
-
-        return $result;
+        return Manager::getRelativePluginDirectory($plugin);
     }
 
     private static function getPluginDirectory($plugin)
