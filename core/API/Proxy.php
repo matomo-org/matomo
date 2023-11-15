@@ -357,7 +357,7 @@ class Proxy
      */
     public function isDeprecatedMethod($class, $methodName)
     {
-        return $this->metadataArray[$class][$methodName]['isDeprecated'];
+        return $this->metadataArray[$class][$methodName]['isDeprecated'] ?? false;
     }
 
     /**
