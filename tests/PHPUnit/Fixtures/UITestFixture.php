@@ -620,7 +620,6 @@ class XssReport extends Report
         $this->processedMetrics = [new XssProcessedMetric($type)];
         $this->module = 'ExampleAPI';
         $this->action = 'xssReport' . $type;
-        $this->id = 'ExampleAPI.xssReport' . $type;
     }
 }
 
