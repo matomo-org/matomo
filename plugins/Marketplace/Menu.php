@@ -23,6 +23,12 @@ class Menu extends \Piwik\Plugin\Menu
                 $this->urlForAction('overview', array('activated' => '', 'mode' => 'admin', 'type' => '', 'show' => '')),
                 $order = 5);
         }
+
+        if (Piwik::hasUserSuperUserAccess()) {
+            $menu->addSystemItem(Piwik::translate('General_PluginSubscriptions'),
+                $this->urlForAction('subscriptionOverview'),
+                $order = 21);
+        }
     }
 
 }

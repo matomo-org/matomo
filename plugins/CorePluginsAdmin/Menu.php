@@ -45,13 +45,13 @@ class Menu extends \Piwik\Plugin\Menu
 
     public function configureAdminMenu(MenuAdmin $menu)
     {
-        $hasSuperUserAcess    = Piwik::hasUserSuperUserAccess();
+        $hasSuperUserAccess    = Piwik::hasUserSuperUserAccess();
         $isAnonymous          = Piwik::isUserIsAnonymous();
         $isMarketplaceEnabled = Marketplace::isMarketplaceEnabled();
 
         $pluginsUpdateMessage = '';
 
-        if ($hasSuperUserAcess && $isMarketplaceEnabled && $this->marketplacePlugins) {
+        if ($hasSuperUserAccess && $isMarketplaceEnabled && $this->marketplacePlugins) {
             $pluginsHavingUpdate = $this->marketplacePlugins->getPluginsHavingUpdate();
 
             if (!empty($pluginsHavingUpdate)) {
@@ -63,8 +63,8 @@ class Menu extends \Piwik\Plugin\Menu
             $menu->addPlatformItem(null, "", $order = 7);
         }
 
-        if ($hasSuperUserAcess) {
-            $menu->addSystemItem(Piwik::translate('General_Plugins') . $pluginsUpdateMessage,
+        if ($hasSuperUserAccess) {
+            $menu->addSystemItem(Piwik::translate('General_ManagePlugins') . $pluginsUpdateMessage,
                 $this->urlForAction('plugins', array('activated' => '')),
                 $order = 20);
         }
