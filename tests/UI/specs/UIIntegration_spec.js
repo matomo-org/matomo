@@ -123,7 +123,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         // Notifications
         it('should load the notifications page correctly', async function() {
             await page.goto("?" + generalParams + "&module=ExampleUI&action=notifications&idSite=1&period=day&date=yesterday");
-            expect(await screenshotPageWrap).to.matchImage('notifications');
+            expect(await screenshotPageWrap()).to.matchImage('notifications');
         });
 
         // Fatal error safemode
@@ -296,12 +296,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             //await page.click('#pauseImage'); // prevent refreshes breaking the tests
             await page.waitForTimeout(100);
 
-            pageWrap = await page.$('#root');
-            await page.evaluate(function() {
-              // hide navBar to skip random failed
-              $('#secondNavBar').hide();
-            });
-            expect(await pageWrap.screenshot()).to.matchImage('visitors_realtime_visits');
+            expect(await screenshotPageWrap()).to.matchImage('visitors_realtime_visits');
         });
     });
 
@@ -598,7 +593,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         it('should load the Admin home page correct', async function () {
             await page.goto("?" + generalParams + "&module=CoreAdminHome&action=home");
 
-            expect(await screenshotPageWrap).to.matchImage('admin_home');
+            expect(await screenshotPageWrap()).to.matchImage('admin_home');
         });
 
         // Admin user settings (plugins not displayed)
