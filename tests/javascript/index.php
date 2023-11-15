@@ -5066,7 +5066,7 @@ if ($mysql) {
             strictEqual(tracker.hasRememberedConsent(), true, "rememberConsentGiven, sets cookie to remember consent" );
             var rememberedConsent = tracker.getRememberedConsent();
             strictEqual(String(rememberedConsent).length, 13, "getRememberedConsent, returns the data in milliseconds eg '1522200406749'" );
-            strictEqual(String(rememberedConsent).slice(0, 2), '16', "getRememberedConsent, starts with correct data" );
+            strictEqual(String(rememberedConsent).slice(0, 2), '17', "getRememberedConsent, starts with correct data" );
 
             tracker.requireConsent();
             strictEqual(tracker.hasConsent(), true, "when requiring consent, and we remembered consent, consent should be given" );
