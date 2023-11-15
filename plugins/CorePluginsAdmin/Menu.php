@@ -45,7 +45,7 @@ class Menu extends \Piwik\Plugin\Menu
 
     public function configureAdminMenu(MenuAdmin $menu)
     {
-        $hasSuperUserAccess    = Piwik::hasUserSuperUserAccess();
+        $hasSuperUserAccess   = Piwik::hasUserSuperUserAccess();
         $isAnonymous          = Piwik::isUserIsAnonymous();
         $isMarketplaceEnabled = Marketplace::isMarketplaceEnabled();
 
