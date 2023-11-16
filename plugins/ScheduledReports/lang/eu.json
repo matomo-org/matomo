@@ -1,1 +1,21 @@
-{}
+{
+    "ScheduledReports": {
+        "AggregateReportsFormat": "Bistaratzeko aukerak",
+        "AggregateReportsFormat_GraphsOnly": "Bistaratu grafikoak soilik (txostenen taularik ez)",
+        "AggregateReportsFormat_TablesAndGraphs": "Bistaratu txosten guztien taulak eta grafikoak",
+        "AggregateReportsFormat_TablesOnly": "(lehenetsia) Bistaratu txostenen taulak (grafikoak soilik metrika nagusientzat)",
+        "CreateAndScheduleReport": "Sortu eta programatu txostena",
+        "CreateReport": "Sortu txostena",
+        "DisplayFormat_TablesOnly": "Bistaratu taulak soilik (grafikorik ez)",
+        "EmailHello": "Kaixo,",
+        "PiwikReports": "Matomo txostenak",
+        "ReportSent": "Txostena bidalita",
+        "ReportType": "Bidali txostena honela",
+        "ReportUpdated": "Txostena eguneratuta",
+        "ReportsIncluded": "Estatistikak barne",
+        "SentToMe": "Bidali niri",
+        "TableOfContent": "Txosten zerrenda",
+        "TopOfReport": "Itzuli gora",
+        "UpdateReport": "Eguneratu txostena"
+    }
+}

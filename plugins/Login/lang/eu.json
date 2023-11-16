@@ -1,11 +1,32 @@
 {
     "Login": {
+        "Accept": "Onartu",
+        "ChangeYourPassword": "Aldatu pasahitza",
+        "ConfirmPasswordReset": "Berrezarri pasahitza",
+        "ConfirmPasswordToContinue": "Berretsi pasahitza jarraitzeko",
+        "CurrentlyBlockedIPs": "Blokeatutako IPak",
+        "CurrentlyBlockedIPsUnblockConfirm": "Blokeatutako IP guztiak desblokeatu?",
+        "DeclineInvitationInfo": "Zure gonbidapena baztertu da.",
+        "IPsAlwaysBlocked": "IP hauek blokeatuak izan dira",
         "InvalidOrExpiredToken": "Tokena baliogabea da edo iraungi egin da",
+        "InvalidOrExpiredTokenV2": "Pasahitza dagoeneko ezarri da edo esteka iraungi da.",
         "InvalidUsernameEmail": "Erabiltzaile-izen edo helbide elektroniko baliogabea",
+        "InvitationDeclineBody": "Gonbidapen hau baztertu?",
+        "InvitationDeclineTitle": "Baztertu gonbidapena",
+        "InvitationHints": "(orritik irten zaitezke ekintza hau bertan behera uzteko)",
+        "InvitationTitle": "Onartu gonbidapena",
         "LogIn": "Hasi saioa",
-        "LoginPasswordNotCorrect": "Erabiltzaile-izena eta pasahitza ez datoz bat",
+        "LoginOrEmail": "Erabiltzaile-izena edo e-posta",
+        "LoginPasswordNotCorrect": "Erabiltzaile-izen edota pasahitz okerra",
         "LostYourPassword": "Pasahitza galdu duzu?",
+        "NewPassword": "Pasahitz berria",
+        "NewPasswordRepeat": "Pasahitz berria (errepikatu)",
         "PasswordRepeat": "Pasahitza (errepikatu)",
-        "PasswordsDoNotMatch": "Pasahitzak ez datoz bat."
+        "PasswordRequired": "Mesedez idatzi zure pasahitza jarraitzeko",
+        "PasswordsDoNotMatch": "Pasahitzak ez datoz bat.",
+        "RememberMe": "Gogora nazazu",
+        "SuspiciousLoginAttemptsInLastHourEmail2": "Egin hau:",
+        "UnblockAllIPs": "Desblokeatu blokeatutako IP guztiak",
+        "WrongPasswordEntered": "Mesedez idatzi zure pasahitza."
     }
 }
