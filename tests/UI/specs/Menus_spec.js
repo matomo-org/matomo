@@ -14,7 +14,7 @@ describe("Menus", function () {
         urlBase = 'module=CoreHome&action=index&' + generalParams;
 
     async function openMenuItem(page, menuItem) {
-        const element = await page.jQuery('#secondNavBar .navbar a:contains(' + menuItem + '):first');
+        const element = await page.jQuery('#secondNavBar .navbar a:contains(' + menuItem + '):visible:first');
         await element.click();
         await page.mouse.move(-10, -10);
         await page.waitForTimeout(250);
