@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>Direct Entry</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>3</nb_visits>
+		<nb_actions>13</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>6</max_actions>
+		<sum_visit_length>5403</sum_visit_length>
+		<bounce_count>0</bounce_count>
+		<nb_visits_converted>2</nb_visits_converted>
+		<goals>
+			<row idgoal='ecommerceAbandonedCart'>
+				<nb_conversions>2</nb_conversions>
+				<nb_visits_converted>2</nb_visits_converted>
+				<revenue>5020.22</revenue>
+				<items>8</items>
+			</row>
+			<row idgoal='ecommerceOrder'>
+				<nb_conversions>2</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>3111.11</revenue>
+				<revenue_subtotal>2500</revenue_subtotal>
+				<revenue_tax>511</revenue_tax>
+				<revenue_shipping>100.11</revenue_shipping>
+				<revenue_discount>666</revenue_discount>
+				<items>10</items>
+			</row>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+		</goals>
+		<nb_conversions>3</nb_conversions>
+		<revenue>3121.11</revenue>
+		<conversion_rate>66.67%</conversion_rate>
+		<nb_actions_per_visit>4.3</nb_actions_per_visit>
+		<avg_time_on_site>1801</avg_time_on_site>
+		<bounce_rate>0%</bounce_rate>
+		<revenue_per_visit>3.33</revenue_per_visit>
+		<goal_ecommerceOrder_conversion_rate>66.67%</goal_ecommerceOrder_conversion_rate>
+		<goal_ecommerceOrder_nb_conversions>2</goal_ecommerceOrder_nb_conversions>
+		<goal_ecommerceOrder_revenue_per_visit>1037.04</goal_ecommerceOrder_revenue_per_visit>
+		<goal_ecommerceOrder_revenue>3111.11</goal_ecommerceOrder_revenue>
+		<goal_ecommerceOrder_avg_order_revenue>1555.56</goal_ecommerceOrder_avg_order_revenue>
+		<goal_ecommerceOrder_items>10</goal_ecommerceOrder_items>
+		<segment>referrerType==direct</segment>
+		<referrer_type>1</referrer_type>
+	</row>
+</result>
