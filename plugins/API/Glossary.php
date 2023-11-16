@@ -13,8 +13,6 @@ use Piwik\Metrics;
 
 class Glossary
 {
-    protected $metadata = array();
-
     public function __construct(API $api)
     {
         $this->api = $api;
