@@ -28,7 +28,7 @@ describe("MeasurableManager", function () {
     });
 
     it("should use measurable wording in menu", async function () {
-        const element = await page.jQuery('#secondNavBar li:contains(Manage):visible:first');
+        const element = await page.jQuery('#secondNavBar li:contains(Tracking Code):first');
         expect(await element.screenshot()).to.matchImage('measurable_menu_item');
     });
 
