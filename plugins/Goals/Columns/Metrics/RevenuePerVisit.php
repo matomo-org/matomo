@@ -50,14 +50,15 @@ class RevenuePerVisit extends ProcessedMetric
 
         $revenue = 0;
         foreach ($goals as $goalId => $goalMetrics) {
-            if ($goalId == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
+            if (is_numeric($goalId) && $goalId < GoalManager::IDGOAL_ORDER) {
                 continue;
             }
-            if ($goalId >= GoalManager::IDGOAL_ORDER
-                || $goalId == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER
-            ) {
-                $revenue += (int) $this->getMetric($goalMetrics, 'revenue', $mappingFromNameToIdGoal);
+
+            if (!is_numeric($goalId) && $goalId != Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
+                continue;
             }
+
+            $revenue += (int) $this->getMetric($goalMetrics, 'revenue', $mappingFromNameToIdGoal);
         }
 
         if ($revenue == 0) {
