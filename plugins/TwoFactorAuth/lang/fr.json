@@ -17,7 +17,7 @@
         "NotPossibleToLogIn": "Impossible de s'identifier auprès de Matomo",
         "RecoveryCodes": "Codes de récupération",
         "RecoveryCodesAllUsed": "Tous les codes de récupération ont été utilisé, il est vivement recommandé d'en générer de nouveaux.",
-        "RecoveryCodesExplanation": "Vous pouvez utiliser des codes de récupération pour accéder à votre comptre quand vous ne pouvez pas recevoir de codes d'authentification, par exemple quand vous n'avez pas votre périphérique mobile avec vous.",
+        "RecoveryCodesExplanation": "Vous pouvez utiliser des codes de récupération pour accéder à votre compte quand vous ne pouvez pas recevoir de codes d'authentification, par exemple quand vous n'avez pas votre périphérique mobile avec vous.",
         "RecoveryCodesRegenerated": "Les cods de récupération ont été généré. Assurez-vous de télécharger et d'imprimer les nouveaux codes générés.",
         "RecoveryCodesSecurity": "Veuillez traiter les codes de récupération avec le même niveau de sécurité que vous le feriez pour un mot de passe s'il-vous-plait !",
         "RequireTwoFAForAll": "Exiger une authentification à deux facteurs pour tout le monde",

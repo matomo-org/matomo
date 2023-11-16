@@ -1,6 +1,7 @@
 {
     "API": {
+        "EvolutionMetricName": "%s bilakaera",
         "Glossary": "Glosarioa",
-        "LoadedAPIs": "%s APIak kargatu dira"
+        "LoadedAPIs": "%s API kargatu dira"
     }
 }
