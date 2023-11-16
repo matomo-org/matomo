@@ -45,7 +45,7 @@
         :class="{ 'active': showInlineHelp }"
         :title="translate(reportGenerated ? 'General_HelpReport' : 'General_Help')"
       ><span class="icon-info" /></a>
-      <div class="ratingIcons">
+      <div class="ratingIcons" v-show="showRateFeature">
         <RateFeature
           :title="actualFeatureName"
         />
@@ -83,6 +83,7 @@ const RateFeature = useExternalPluginComponent('Feedback', 'RateFeature');
 interface EnrichedHeadlineData {
   showIcons: boolean;
   showInlineHelp: boolean;
+  showRateFeature: boolean;
   actualFeatureName?: string | null;
   actualInlineHelp?: string | null,
 }
@@ -139,6 +140,7 @@ export default defineComponent({
     return {
       showIcons: false,
       showInlineHelp: false,
+      showRateFeature: true,
       actualFeatureName: this.featureName,
       actualInlineHelp: this.inlineHelp,
     };
@@ -176,6 +178,11 @@ export default defineComponent({
 
     if (!this.actualFeatureName) {
       this.actualFeatureName = root.querySelector('.title')?.textContent;
+    }
+
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+    if (!(window as any).Feedback) {
+      this.showRateFeature = false;
     }
 
     if (Matomo.period && Matomo.currentDateString) {
