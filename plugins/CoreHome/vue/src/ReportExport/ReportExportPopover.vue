@@ -141,7 +141,8 @@
       </a>
     </div>
 
-    <div v-if="additionalContent" v-html="$sanitize(additionalContent)"></div>
+    <div class="col l12 report-export-popover-footer"
+         v-if="additionalContent" v-html="$sanitize(additionalContent)"></div>
 
   </div>
 </template>
