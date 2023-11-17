@@ -15,6 +15,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\CorePluginsAdmin\Model\TagManagerTeaser;
 use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Plugins\Marketplace\Plugins;
+use Piwik\Config;
 
 class Menu extends \Piwik\Plugin\Menu
 {
@@ -51,7 +52,8 @@ class Menu extends \Piwik\Plugin\Menu
 
         $pluginsUpdateMessage = '';
 
-        if ($hasSuperUserAccess && $isMarketplaceEnabled && $this->marketplacePlugins) {
+        $skipPluginUpdateCheck = Config::getInstance()->Development['disable_plugin_update_checks'];
+        if (!$skipPluginUpdateCheck && $hasSuperUserAccess && $isMarketplaceEnabled && $this->marketplacePlugins) {
             $pluginsHavingUpdate = $this->marketplacePlugins->getPluginsHavingUpdate();
 
             if (!empty($pluginsHavingUpdate)) {
