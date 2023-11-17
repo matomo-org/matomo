@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>/index.htm</label>
+		<nb_visits>3</nb_visits>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_hits>13</nb_hits>
+		<sum_time_spent>2880</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<entry_nb_uniq_visitors>1</entry_nb_uniq_visitors>
+		<entry_nb_visits>3</entry_nb_visits>
+		<entry_nb_actions>13</entry_nb_actions>
+		<entry_sum_visit_length>5403</entry_sum_visit_length>
+		<entry_bounce_count>0</entry_bounce_count>
+		<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
+		<exit_nb_visits>3</exit_nb_visits>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				<revenue>10</revenue>
+				<nb_conv_pages_before>1</nb_conv_pages_before>
+				<nb_conversions_attrib>1</nb_conversions_attrib>
+				<nb_conversions_page_rate>1</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>1</nb_conversions_page_uniq>
+				<revenue_attrib>10</revenue_attrib>
+				<revenue_entry>10</revenue_entry>
+				<nb_conversions_entry_rate>0.333</nb_conversions_entry_rate>
+				<revenue_per_entry>3.333</revenue_per_entry>
+				<nb_conversions_entry>1</nb_conversions_entry>
+			</row>
+			<row idgoal='ecommerceAbandonedCart'>
+				<nb_conversions>9</nb_conversions>
+				<revenue>22590.99</revenue>
+				<nb_conv_pages_before>6</nb_conv_pages_before>
+				<nb_conversions_attrib>2.0001</nb_conversions_attrib>
+				<nb_conversions_page_rate>1</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>9</nb_conversions_page_uniq>
+				<revenue_attrib>5020.22</revenue_attrib>
+			</row>
+			<row idgoal='ecommerceOrder'>
+				<nb_conversions>6</nb_conversions>
+				<revenue>9333.33</revenue>
+				<nb_conv_pages_before>6</nb_conv_pages_before>
+				<nb_conversions_attrib>1.0002</nb_conversions_attrib>
+				<nb_conversions_page_rate>1</nb_conversions_page_rate>
+				<nb_conversions_page_uniq>6</nb_conversions_page_uniq>
+				<revenue_attrib>1555.55</revenue_attrib>
+				<revenue_entry>3111.11</revenue_entry>
+				<nb_conversions_entry_rate>0.667</nb_conversions_entry_rate>
+				<revenue_per_entry>1037.037</revenue_per_entry>
+				<nb_conversions_entry>2</nb_conversions_entry>
+			</row>
+		</goals>
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_page_load_time>0</avg_page_load_time>
+		<conversion_rate>0%</conversion_rate>
+		<nb_actions_per_visit>0</nb_actions_per_visit>
+		<avg_time_on_site>0</avg_time_on_site>
+		<bounce_rate>0%</bounce_rate>
+		<revenue_per_visit>3114.33</revenue_per_visit>
+		<goal_ecommerceOrder_conversion_rate>200%</goal_ecommerceOrder_conversion_rate>
+		<goal_ecommerceOrder_nb_conversions>6</goal_ecommerceOrder_nb_conversions>
+		<goal_ecommerceOrder_revenue_per_visit>3111.11</goal_ecommerceOrder_revenue_per_visit>
+		<goal_ecommerceOrder_revenue>9333.33</goal_ecommerceOrder_revenue>
+		<goal_ecommerceOrder_avg_order_revenue>1555.56</goal_ecommerceOrder_avg_order_revenue>
+		<goal_ecommerceOrder_items>0</goal_ecommerceOrder_items>
+		<avg_time_on_page>222</avg_time_on_page>
+		<exit_rate>100%</exit_rate>
+		<url>http://example.org/index.htm</url>
+		<segment>pageUrl==http%253A%252F%252Fexample.org%252Findex.htm</segment>
+	</row>
+</result>
