@@ -267,6 +267,13 @@ class   Config
     public $show_all_views_icons = true;
 
     /**
+     * Array property that contains the names of columns that can be selected in the Series Picker.
+     *
+     * Default value: false
+     */
+    public $selectable_columns = false;
+
+    /**
      * Related reports are listed below a datatable view. When clicked, the original report will
      * change to the clicked report and the list will change so the original report can be
      * navigated back to.
