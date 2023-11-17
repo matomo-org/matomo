@@ -45,7 +45,7 @@
         :class="{ 'active': showInlineHelp }"
         :title="translate(reportGenerated ? 'General_HelpReport' : 'General_Help')"
       ><span class="icon-info" /></a>
-      <div class="ratingIcons" v-show="showRateFeature">
+      <div class="ratingIcons" v-if="showRateFeature">
         <RateFeature
           :title="actualFeatureName"
         />
