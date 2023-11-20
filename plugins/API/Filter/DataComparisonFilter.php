@@ -617,8 +617,9 @@ class DataComparisonFilter
 
         [$periodIndex, $segmentIndex] = self::getIndividualComparisonRowIndices(null, $labelSeriesIndex, count($compareSegments));
 
-        $segmentObj = new Segment($compareSegments[$segmentIndex], []);
-        $prettySegment = $segmentObj->getStoredSegmentName(false);
+        $idSite = \Piwik\Request::fromRequest()->getStringParameter('idSite');
+        $segmentObj = new Segment($compareSegments[$segmentIndex], [$idSite]);
+        $prettySegment = $segmentObj->getStoredSegmentName($idSite);
 
         $prettyPeriod = Factory::build($comparePeriods[$periodIndex], $compareDates[$periodIndex])->getLocalizedLongString();
         $prettyPeriod = ucfirst($prettyPeriod);
