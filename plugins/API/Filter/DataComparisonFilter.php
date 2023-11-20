@@ -389,8 +389,10 @@ class DataComparisonFilter
 
         $metadata['compareSegment'] = $segment;
 
-        $segmentObj = new Segment($segment, []);
-        $metadata['compareSegmentPretty'] = $segmentObj->getStoredSegmentName(false);
+        $idSite = $modifiedParams['idSite'] ??  Common::getRequestVar('idSite', null, 'string', $this->request);
+
+        $segmentObj = new Segment($segment, [$idSite]);
+        $metadata['compareSegmentPretty'] = $segmentObj->getStoredSegmentName($idSite);
 
         $metadata['comparePeriod'] = $period;
         $metadata['compareDate'] = $date;
