@@ -131,7 +131,7 @@ class DataComparisonFilter
 
     public function __construct($request, Report $report = null)
     {
-        $this->request = $request;
+        $this->request = new \Piwik\Request($request);
 
         $generalConfig = Config::getInstance()->General;
         $this->segmentCompareLimit = (int) $generalConfig['data_comparison_segment_limit'];
@@ -173,7 +173,7 @@ class DataComparisonFilter
             $this->comparePeriodIndices[$period][$date] = $index;
         }
 
-        $this->invertCompareChangeCompute = Common::getRequestVar('invert_compare_change_compute', $default = 0, $type = 'int', $request) == 1;
+        $this->invertCompareChangeCompute = $this->request->getIntegerParameter('invert_compare_change_compute', 0) === 1;
         if ($this->invertCompareChangeCompute && count($this->comparePeriods) != 2) {
             throw new \Exception("invert_compare_change_compute=1 can only be used when comparing two periods.");
         }
@@ -200,8 +200,8 @@ class DataComparisonFilter
             return;
         }
 
-        $method = Common::getRequestVar('method', $default = null, $type = 'string', $this->request);
-        if ($method == 'Live') {
+        $method = $this->request->getStringParameter('method');
+        if ($method === 'Live') {
             throw new \Exception("Data comparison is not enabled for the Live API.");
         }
 
@@ -295,31 +295,31 @@ class DataComparisonFilter
                 'disable_queued_filters' => 1,
                 'format_metrics' => 0,
                 'label' => '',
-                'flat' => Common::getRequestVar('flat', 0, 'int', $this->request),
-                'filter_add_columns_when_show_all_columns' => Common::getRequestVar('filter_add_columns_when_show_all_columns', '', 'string', $this->request),
-                'filter_update_columns_when_show_all_goals' => Common::getRequestVar('filter_update_columns_when_show_all_goals', '', 'string', $this->request),
-                'filter_show_goal_columns_process_goals' => Common::getRequestVar('filter_show_goal_columns_process_goals', '', 'string', $this->request),
-                'idGoal' => Common::getRequestVar('idGoal', '', 'string', $this->request),
+                'flat' => $this->request->getIntegerParameter('flat', 0),
+                'filter_add_columns_when_show_all_columns' => $this->request->getStringParameter('filter_add_columns_when_show_all_columns', ''),
+                'filter_update_columns_when_show_all_goals' => $this->request->getStringParameter('filter_update_columns_when_show_all_goals', ''),
+                'filter_show_goal_columns_process_goals' => $this->request->getStringParameter('filter_show_goal_columns_process_goals', ''),
+                'idGoal' => $this->request->getStringParameter('idGoal', ''),
             ],
             $paramsToModify
         );
 
-        $params['keep_totals_row'] = Common::getRequestVar('keep_totals_row', 0, 'int', $this->request);
-        $params['keep_totals_row_label'] = Common::getRequestVar('keep_totals_row_label', '', 'string', $this->request);
+        $params['keep_totals_row'] = $this->request->getIntegerParameter('keep_totals_row', 0);
+        $params['keep_totals_row_label'] = $this->request->getStringParameter('keep_totals_row_label', '');
 
         if (!isset($params['idSite'])) {
-            $params['idSite'] = Common::getRequestVar('idSite', null, 'string', $this->request);
+            $params['idSite'] = $this->request->getStringParameter('idSite');
         }
         if (!isset($params['period'])) {
-            $params['period'] = Common::getRequestVar('period', null, 'string', $this->request);
+            $params['period'] = $this->request->getStringParameter('period');
         }
         if (!isset($params['date'])) {
-            $params['date'] = Common::getRequestVar('date', null, 'string', $this->request);
+            $params['date'] = $this->request->getStringParameter('date');
         }
 
-        $idSubtable = Common::getRequestVar('idSubtable', 0, 'int', $this->request);
+        $idSubtable = $this->request->getIntegerParameter('idSubtable', 0);
         if ($idSubtable > 0) {
-            $comparisonIdSubtables = Common::getRequestVar('comparisonIdSubtables', $default = false, 'json', $this->request);
+            $comparisonIdSubtables = $this->request->getJsonParameter('comparisonIdSubtables', false);
             if (empty($comparisonIdSubtables)) {
                 throw new \Exception("Comparing segments/periods with subtables only works when the comparison idSubtables are supplied as well.");
             }
@@ -389,7 +389,7 @@ class DataComparisonFilter
 
         $metadata['compareSegment'] = $segment;
 
-        $idSite = $modifiedParams['idSite'] ??  Common::getRequestVar('idSite', null, 'string', $this->request);
+        $idSite = $modifiedParams['idSite'] ?? $this->request->getStringParameter('idSite');
 
         $segmentObj = new Segment($segment, [$idSite]);
         $metadata['compareSegmentPretty'] = $segmentObj->getStoredSegmentName($idSite);
@@ -459,8 +459,8 @@ class DataComparisonFilter
     private function isRequestMultiplePeriod()
     {
         if ($this->isRequestMultiplePeriod === null) {
-            $period = Common::getRequestVar('period', $default = null, 'string', $this->request);
-            $date = Common::getRequestVar('date', $default = null, 'string', $this->request);
+            $period = $this->request->getStringParameter('period');
+            $date = $this->request->getStringParameter('date');
 
             $this->isRequestMultiplePeriod = Period::isMultiplePeriod($date, $period);
         }
@@ -601,7 +601,7 @@ class DataComparisonFilter
      */
     private function shouldIncludeTrendValues(): bool
     {
-        return (bool) Common::getRequestVar('include_trends', 0, 'int', $this->request);
+        return $this->request->getBoolParameter('include_trends', false);
     }
 
     /**
