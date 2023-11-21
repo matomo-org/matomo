@@ -16,6 +16,7 @@ use Piwik\Period\PeriodValidator;
 use Piwik\Piwik;
 use Piwik\Plugins\ImageGraph\ImageGraph;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
+use Piwik\Plugins\SegmentEditor\SegmentEditor;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\View;
 
@@ -116,8 +117,8 @@ class Controller extends \Piwik\Plugin\Controller
             $savedSegmentsById = array(
                 '' => Piwik::translate('SegmentEditor_DefaultAllVisits')
             );
-            $response = Request::processRequest("SegmentEditor.getAll", ['idSite' => $this->idSite], $defaultRequest = []);
-            foreach ($response as $savedSegment) {
+            $allSegments = SegmentEditor::getAllSegmentsForSite($this->idSite);
+            foreach ($allSegments as $savedSegment) {
                 $savedSegmentsById[$savedSegment['idsegment']] = $savedSegment['name'];
             }
             $view->savedSegmentsById = $savedSegmentsById;
