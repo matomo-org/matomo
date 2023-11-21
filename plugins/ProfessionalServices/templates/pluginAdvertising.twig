@@ -23,5 +23,10 @@
         <a class="learn-more" href="#" vue-directive="CorePluginsAdmin.PluginName" vue-directive-value="{{ { pluginName: plugin.name }|json_encode }}" aria-label="{{ 'ProfessionalServices_CTALearnMore'|translate(plugin.displayName) }}">
             {{ 'CoreAdminHome_LearnMore'|translate }}
         </a>
+        <br>
+        <!-- Todo: nice html / css -->
+        <a class="dismiss" href="{{ linkTo({'module': 'ProfessionalServices', 'action': 'dismissPromotion', 'pluginName': plugin.name}) }}">
+            Say bye bye
+        </a>
     </div>
 </div>

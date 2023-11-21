@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\ProfessionalServices;
 
 use Piwik\Config;
+use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\ProfessionalServices\Advertising;
 
@@ -41,6 +42,10 @@ class PromoWidgetApplicable
         }
 
         if ((bool) $this->config->General['enable_internet_features'] === false) {
+            return false;
+        }
+
+        if (DismissOption::hasUserDismissedPluginPromotion($pluginName, Piwik::getCurrentUserLogin())) {
             return false;
         }
 
