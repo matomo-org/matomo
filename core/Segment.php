@@ -404,6 +404,11 @@ class Segment
         }
 
         $segmentObject = $segmentsList->getSegment($name);
+
+        if (empty($segmentObject)) {
+            throw new Exception("Segment '$name' is not a supported segment.");
+        }
+
         $sqlName = $segmentObject->getSqlSegment();
 
         $joinTable = null;
