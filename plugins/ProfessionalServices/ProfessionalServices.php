@@ -10,15 +10,11 @@ namespace Piwik\Plugins\ProfessionalServices;
 
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\Option;
-use Piwik\Piwik;
 use Piwik\View;
 use Piwik\Plugin;
 
 class ProfessionalServices extends \Piwik\Plugin
 {
-    private const DISMISSED_WIDGET_OPTION_NAME = 'ProfessionalServices.DismissedWidget.%s.%s';
-
     /**
      * @see \Piwik\Plugin::registerEvents
      */
@@ -174,20 +170,5 @@ class ProfessionalServices extends \Piwik\Plugin
             $view = new View('@ProfessionalServices/promoSEOWebVitals');
             $out .= $view->render();
         }
-    }
-
-    public static function dismissPromoWidget(string $widgetName): void
-    {
-        Option::set(self::getDismissedWidgetOptionName($widgetName), time());
-    }
-
-    public static function isPromoWidgetDismissed(string $widgetName): bool
-    {
-        return Option::get(self::getDismissedWidgetOptionName($widgetName)) > 0;
-    }
-
-    private static function getDismissedWidgetOptionName(string $widgetName): string
-    {
-        return sprintf(self::DISMISSED_WIDGET_OPTION_NAME, $widgetName, Piwik::getCurrentUserLogin());
     }
 }

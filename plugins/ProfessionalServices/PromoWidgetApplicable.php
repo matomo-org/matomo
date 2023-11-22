@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\ProfessionalServices;
 
 use Piwik\Config;
-use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\ProfessionalServices\Advertising;
 
@@ -25,10 +24,16 @@ class PromoWidgetApplicable
      */
     private $config;
 
-    public function __construct(Manager $manager, Config $config)
+    /**
+     * @var PromoWidgetDismissal
+     */
+    private $promoWidgetDismissal;
+
+    public function __construct(Manager $manager, Config $config, PromoWidgetDismissal $promoWidgetDismissal)
     {
         $this->manager = $manager;
         $this->config = $config;
+        $this->promoWidgetDismissal = $promoWidgetDismissal;
     }
 
     public function check(string $pluginName, string $widgetName): bool
@@ -47,9 +52,7 @@ class PromoWidgetApplicable
             return false;
         }
 
-        $currentUser = Piwik::getCurrentUserLogin();
-
-        if (!empty($currentUser) && ProfessionalServices::isPromoWidgetDismissed($widgetName)) {
+        if ($this->promoWidgetDismissal->isPromoWidgetDismissedForCurrentUser($widgetName)) {
             return false;
         }
 
