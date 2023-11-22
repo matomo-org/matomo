@@ -50,17 +50,7 @@ class WidgetsListTest extends IntegrationTestCase
             'ExampleUI_UiFramework' => 8,
             'Referrers_Referrers' => 10,
             'About Matomo' => 11,
-            'Marketplace_Marketplace' => 3,
-
-            // widgets provided by Professional Services plugin for plugin promos
-            'ProfessionalServices_PromoAbTesting' => 1,
-            'ProfessionalServices_PromoCrashAnalytics' => 1,
-            'ProfessionalServices_PromoCustomReports' => 1,
-            'ProfessionalServices_PromoFormAnalytics' => 1,
-            'ProfessionalServices_PromoFunnels' => 1,
-            'ProfessionalServices_PromoHeatmaps' => 1,
-            'ProfessionalServices_PromoMediaAnalytics' => 1,
-            'ProfessionalServices_PromoSessionRecording' => 1,
+            'Marketplace_Marketplace' => 3
         );
 
         if (Manager::getInstance()->isPluginActivated('CustomVariables')) {
@@ -107,7 +97,7 @@ class WidgetsListTest extends IntegrationTestCase
         $perCategory = $this->getWidgetsPerCategory(WidgetsList::get());
 
         // number of main categories
-        $this->assertEquals(19, count($perCategory));
+        $this->assertEquals(11, count($perCategory));
         $this->assertEquals($initialGoalsWidgets + 2, count($perCategory['Goals_Goals'])); // make sure widgets for that goal were added
     }
 
@@ -121,7 +111,7 @@ class WidgetsListTest extends IntegrationTestCase
         $perCategory = $this->getWidgetsPerCategory(WidgetsList::get());
 
         // number of main categories
-        $this->assertEquals(20, count($perCategory));
+        $this->assertEquals(12, count($perCategory));
 
         // check if each category has the right number of widgets
         $numberOfWidgets = array(
@@ -162,12 +152,12 @@ class WidgetsListTest extends IntegrationTestCase
 
         $list = WidgetsList::get();
 
-        $this->assertCount(20, $this->getWidgetsPerCategory($list));
+        $this->assertCount(12, $this->getWidgetsPerCategory($list));
 
         $list->remove('SEO', 'NoTeXiStInG');
 
         $perCategory = $this->getWidgetsPerCategory($list);
-        $this->assertCount(20, $perCategory);
+        $this->assertCount(12, $perCategory);
 
         $this->assertArrayHasKey('SEO', $perCategory);
         $this->assertCount(1, $perCategory['SEO']);
