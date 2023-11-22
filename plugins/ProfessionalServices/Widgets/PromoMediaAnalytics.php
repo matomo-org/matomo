@@ -37,6 +37,7 @@ class PromoMediaAnalytics extends DismissibleWidget
         $view = new View('@ProfessionalServices/pluginAdvertising');
         $view->plugin = $pluginInfo;
         $view->widgetName = self::getDismissibleWidgetName();
+        $view->userCanDismiss = Piwik::isUserIsAnonymous() === false;
 
         $view->title  = Piwik::translate('ProfessionalServices_PromoUnlockPowerOf', $pluginInfo['displayName']);
         $view->listOfFeatures = [
