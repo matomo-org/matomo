@@ -17,6 +17,16 @@ use Piwik\Request;
 class API extends \Piwik\Plugin\API
 {
     /**
+     * @var PromoWidgetDismissal
+     */
+    private $promoWidgetDismissal;
+
+    public function __construct(PromoWidgetDismissal $promoWidgetDismissal)
+    {
+        $this->promoWidgetDismissal = $promoWidgetDismissal;
+    }
+
+    /**
      * Dismisses a promo widget to no longer be shown in the menu
      *
      * @internal
@@ -34,7 +44,7 @@ class API extends \Piwik\Plugin\API
             throw new \Exception('Can\'t dismiss unknown widget ' . $widgetName);
         }
 
-        ProfessionalServices::dismissPromoWidget($widgetName);
+        $this->promoWidgetDismissal->dismissPromoWidget($widgetName);
 
         return true;
     }

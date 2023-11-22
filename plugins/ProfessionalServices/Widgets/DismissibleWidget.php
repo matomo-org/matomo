@@ -8,6 +8,8 @@
  */
 namespace Piwik\Plugins\ProfessionalServices\Widgets;
 
+use Piwik\Widget\Widget;
+
 abstract class DismissibleWidget extends Widget
 {
     public static function getDismissibleWidgetName(): string
