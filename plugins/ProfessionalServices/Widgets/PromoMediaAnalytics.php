@@ -14,7 +14,7 @@ use Piwik\View;
 use Piwik\Widget\Widget;
 use Piwik\Widget\WidgetConfig;
 
-class PromoMediaAnalytics extends Widget
+class PromoMediaAnalytics extends DismissibleWidget
 {
     private const PROMO_PLUGIN_NAME = 'MediaAnalytics';
 
@@ -26,7 +26,7 @@ class PromoMediaAnalytics extends Widget
 
         $promoWidgetApplicable = StaticContainer::get('Piwik\Plugins\ProfessionalServices\PromoWidgetApplicable');
 
-        $isEnabled = $promoWidgetApplicable->check(self::PROMO_PLUGIN_NAME);
+        $isEnabled = $promoWidgetApplicable->check(self::PROMO_PLUGIN_NAME, self::getDismissibleWidgetName());
         $config->setIsEnabled($isEnabled);
     }
 
@@ -37,6 +37,7 @@ class PromoMediaAnalytics extends Widget
 
         $view = new View('@ProfessionalServices/pluginAdvertising');
         $view->plugin = $pluginInfo;
+        $view->widgetName = self::getDismissibleWidgetName();
 
         $view->title  = Piwik::translate('ProfessionalServices_PromoUnlockPowerOf', $pluginInfo['displayName']);
         $view->listOfFeatures = [

@@ -10,11 +10,15 @@ namespace Piwik\Plugins\ProfessionalServices;
 
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\Option;
+use Piwik\Piwik;
 use Piwik\View;
 use Piwik\Plugin;
 
 class ProfessionalServices extends \Piwik\Plugin
 {
+    private const DISMISSED_WIDGET_OPTION_NAME = 'ProfessionalServices.DismissedWidget.%s.%s';
+
     /**
      * @see \Piwik\Plugin::registerEvents
      */
@@ -34,6 +38,7 @@ class ProfessionalServices extends \Piwik\Plugin
             'Template.afterVisitorProfileOverview' => 'getSessionRecordingPromo',
             'Template.afterPagePerformanceReport' => 'getSeoWebVitalsPromo',
             'Template.afterSearchEngines' => 'getSeoWebVitalsPromo',
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
         );
     }
 
@@ -41,6 +46,19 @@ class ProfessionalServices extends \Piwik\Plugin
     {
         $stylesheets[] = 'plugins/ProfessionalServices/stylesheets/promos.less';
         $stylesheets[] = 'plugins/ProfessionalServices/stylesheets/widget.less';
+    }
+
+    public function getClientSideTranslationKeys(&$translationKeys)
+    {
+        $translationKeys[] = 'ProfessionalServices_DismissedNotification';
+        $translationKeys[] = 'ProfessionalServices_PromoFunnels';
+        $translationKeys[] = 'ProfessionalServices_PromoFormAnalytics';
+        $translationKeys[] = 'ProfessionalServices_PromoMediaAnalytics';
+        $translationKeys[] = 'ProfessionalServices_PromoAbTesting';
+        $translationKeys[] = 'ProfessionalServices_PromoHeatmaps';
+        $translationKeys[] = 'ProfessionalServices_PromoSessionRecording';
+        $translationKeys[] = 'ProfessionalServices_PromoCustomReports';
+        $translationKeys[] = 'ProfessionalServices_PromoCrashAnalytics';
     }
 
     public function isRequestForDashboardWidget()
@@ -158,4 +176,18 @@ class ProfessionalServices extends \Piwik\Plugin
         }
     }
 
+    public static function dismissPromoWidget(string $widgetName): void
+    {
+        Option::set(self::getDismissedWidgetOptionName($widgetName), time());
+    }
+
+    public static function isPromoWidgetDismissed(string $widgetName): bool
+    {
+        return Option::get(self::getDismissedWidgetOptionName($widgetName)) > 0;
+    }
+
+    private static function getDismissedWidgetOptionName(string $widgetName): string
+    {
+        return sprintf(self::DISMISSED_WIDGET_OPTION_NAME, $widgetName, Piwik::getCurrentUserLogin());
+    }
 }
