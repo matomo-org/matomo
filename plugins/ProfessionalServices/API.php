@@ -14,9 +14,6 @@ use Piwik\Piwik;
 use Piwik\Plugins\ProfessionalServices\Widgets\DismissibleWidget;
 use Piwik\Request;
 
-/**
- *
- */
 class API extends \Piwik\Plugin\API
 {
     /**

@@ -169,8 +169,6 @@ function onClickDismissPromoWidgetLink(binding, event) {
   });
 }
 
-var _window = window,
-    $ = _window.$;
 /* harmony default export */ var DismissPromoWidget = ({
   mounted: function mounted(element, binding) {
     var widgetName = binding.value.widgetName;
@@ -180,10 +178,10 @@ var _window = window,
     }
 
     binding.value.onClickHandler = onClickDismissPromoWidgetLink.bind(null, binding);
-    $(element).on('click', binding.value.onClickHandler);
+    element.addEventListener('click', binding.value.onClickHandler);
   },
   unmounted: function unmounted(element, binding) {
-    $(element).off('click', binding.value.onClickHandler);
+    element.removeEventListener('click', binding.value.onClickHandler);
   }
 });
 // CONCATENATED MODULE: ./plugins/ProfessionalServices/vue/src/index.ts

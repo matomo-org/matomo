@@ -14,16 +14,15 @@ import {
   ReportingMenuStore,
   translate,
 } from 'CoreHome';
-import ClickEvent = JQuery.ClickEvent;
 
 interface DismissPromoWidgetDirectiveValue {
   widgetName: string;
-  onClickHandler?: (event: ClickEvent) => void;
+  onClickHandler?: (event: Event) => void;
 }
 
 function onClickDismissPromoWidgetLink(
   binding: DirectiveBinding<DismissPromoWidgetDirectiveValue>,
-  event: ClickEvent,
+  event: Event,
 ) {
   const { widgetName } = binding.value;
   const currentCategory = ReportingMenuStore.activeCategory.value as string;
@@ -55,8 +54,6 @@ function onClickDismissPromoWidgetLink(
   });
 }
 
-const { $ } = window;
-
 export default {
   mounted(element: HTMLElement, binding: DirectiveBinding<DismissPromoWidgetDirectiveValue>): void {
     const { widgetName } = binding.value;
@@ -65,12 +62,12 @@ export default {
     }
 
     binding.value.onClickHandler = onClickDismissPromoWidgetLink.bind(null, binding);
-    $(element).on('click', binding.value.onClickHandler!);
+    element.addEventListener('click', binding.value.onClickHandler!);
   },
   unmounted(
     element: HTMLElement,
     binding: DirectiveBinding<DismissPromoWidgetDirectiveValue>,
   ): void {
-    $(element).off('click', binding.value.onClickHandler!);
+    element.removeEventListener('click', binding.value.onClickHandler!);
   },
 };

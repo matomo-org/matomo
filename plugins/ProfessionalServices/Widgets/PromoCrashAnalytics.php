@@ -11,7 +11,6 @@ namespace Piwik\Plugins\ProfessionalServices\Widgets;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\View;
-use Piwik\Widget\Widget;
 use Piwik\Widget\WidgetConfig;
 
 class PromoCrashAnalytics extends DismissibleWidget
