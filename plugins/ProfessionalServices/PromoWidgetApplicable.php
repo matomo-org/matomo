@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\ProfessionalServices;
 
 use Piwik\Config;
+use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\ProfessionalServices\Advertising;
 
@@ -30,7 +31,7 @@ class PromoWidgetApplicable
         $this->config = $config;
     }
 
-    public function check(string $pluginName): bool
+    public function check(string $pluginName, string $widgetName): bool
     {
         if (Advertising::isAdsEnabledInConfig($this->config->General) === false) {
             return false;
@@ -41,6 +42,12 @@ class PromoWidgetApplicable
         }
 
         if ((bool) $this->config->General['enable_internet_features'] === false) {
+            return false;
+        }
+
+        $currentUser = Piwik::getCurrentUserLogin();
+
+        if (!empty($currentUser) && ProfessionalServices::isPromoWidgetDismissed($widgetName)) {
             return false;
         }
 
