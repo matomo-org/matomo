@@ -38,7 +38,7 @@ class PromoWidgetApplicableTest extends TestCase
             ]);
 
         $sut = new PromoWidgetApplicable($manager, $config);
-        $this->assertEquals($expected, $sut->check('MyPlugin'));
+        $this->assertEquals($expected, $sut->check('MyPlugin', 'Any'));
     }
 
     protected function checkDataProvider(): \Generator
