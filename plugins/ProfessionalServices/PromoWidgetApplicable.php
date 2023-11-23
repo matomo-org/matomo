@@ -38,8 +38,6 @@ class PromoWidgetApplicable
 
     public function check(string $pluginName, string $widgetName): bool
     {
-        return false;
-
         if (Advertising::isAdsEnabledInConfig($this->config->General) === false) {
             return false;
         }

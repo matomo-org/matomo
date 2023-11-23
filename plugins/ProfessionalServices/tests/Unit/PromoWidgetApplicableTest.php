@@ -21,8 +21,6 @@ class PromoWidgetApplicableTest extends TestCase
      */
     public function test_check_shouldOnlyReturnTrue_IfAdShouldBeShown(bool $adsForProfessionalServicesEnabled, bool $marketplaceEnabled, bool $internetAccessEnabled, bool $pluginActivated, bool $isDismissed, bool $expected): void
     {
-        $this->markTestSkipped('Feature disabled for now');
-
         $manager = $this->createMock(Manager::class);
         $manager->method('isPluginActivated')->willReturnMap(
             [
