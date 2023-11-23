@@ -11,22 +11,22 @@ namespace Piwik\Plugins\ProfessionalServices\Widgets;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\View;
-use Piwik\Widget\Widget;
 use Piwik\Widget\WidgetConfig;
 
-class PromoAbTesting extends Widget
+class PromoAbTesting extends DismissibleWidget
 {
     private const PROMO_PLUGIN_NAME = 'AbTesting';
 
     public static function configure(WidgetConfig $config)
     {
+        parent::configure($config);
         $config->setCategoryId('ProfessionalServices_PromoAbTesting');
         $config->setSubcategoryId('ProfessionalServices_PromoOverview');
         $config->setIsNotWidgetizable();
 
         $promoWidgetApplicable = StaticContainer::get('Piwik\Plugins\ProfessionalServices\PromoWidgetApplicable');
 
-        $isEnabled = $promoWidgetApplicable->check(self::PROMO_PLUGIN_NAME);
+        $isEnabled = $promoWidgetApplicable->check(self::PROMO_PLUGIN_NAME, self::getDismissibleWidgetName());
         $config->setIsEnabled($isEnabled);
     }
 
@@ -37,6 +37,8 @@ class PromoAbTesting extends Widget
 
         $view = new View('@ProfessionalServices/pluginAdvertising');
         $view->plugin = $pluginInfo;
+        $view->widgetName = self::getDismissibleWidgetName();
+        $view->userCanDismiss = Piwik::isUserIsAnonymous() === false;
 
         $view->title  = Piwik::translate('ProfessionalServices_PromoUnlockPowerOf', $pluginInfo['displayName']);
         $view->listOfFeatures = [

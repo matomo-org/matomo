@@ -91,6 +91,8 @@ declare global {
     sendContentAsDownload(filename: string, content: any, mimeType?: string): void;
     showVisitorProfilePopup(visitorId: string, idSite: string|number): void;
     hideAjaxError(): void;
+    showAjaxLoading(loadingDivID?: string): void;
+    hideAjaxLoading(loadingDivID?: string): void;
     refreshAfter(timeoutPeriod: number): void;
   }
 
