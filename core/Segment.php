@@ -147,11 +147,14 @@ class Segment
         // can usually be parsed successfully. To pick the right one, we try both and pick the one w/ more
         // successfully parsed subexpressions.
         $subexpressionsDecoded = 0;
-        try {
-            $this->initializeSegment(urldecode($segmentCondition), $idSites);
-            $subexpressionsDecoded = $this->segmentExpression->getSubExpressionCount();
-        } catch (Exception $e) {
-            // ignore
+
+        if (urldecode($segmentCondition) !== $segmentCondition) {
+            try {
+                $this->initializeSegment(urldecode($segmentCondition), $idSites);
+                $subexpressionsDecoded = $this->segmentExpression->getSubExpressionCount();
+            } catch (Exception $e) {
+                // ignore
+            }
         }
 
         $subexpressionsRaw = 0;
@@ -163,7 +166,7 @@ class Segment
         }
 
         if ($subexpressionsRaw > $subexpressionsDecoded) {
-            $this->initializeSegment($segmentCondition, $idSites);
+            // segment initialized above
             $this->isSegmentEncoded = false;
         } else {
             $this->initializeSegment(urldecode($segmentCondition), $idSites);
