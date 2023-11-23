@@ -1,5 +1,6 @@
 {
     "ProfessionalServices": {
+        "AbTestingFeature01": "Sluta gissa, börja använd data och jämför webbplatsversioner för att öka konverteringarna.",
         "AltTextPreviewImageFor": "Förhandsgranska bilden för %1$s",
         "CTALearnMore": "Lär dig mer om %1$s",
         "CTAStartFreeTrial": "Påbörja en gratis provperiod",
@@ -14,6 +15,7 @@
         "PromoMediaAnalytics": "Media",
         "PromoOverview": "Översikt",
         "PromoSessionRecording": "Sessionsinspelningar",
+        "PromoUnlockPowerOf": "Lås upp styrkan med %1$s",
         "WidgetPremiumServicesForPiwik": "Premiumfunktioner &amp; -tjänster för Matomo"
     }
 }

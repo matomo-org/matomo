@@ -1,5 +1,14 @@
 {
     "Insights": {
-        "Filter": "Filtroa"
+        "ControlComparedToDescription": "Hazkuntza",
+        "DayComparedToPreviousDay": "aurreko egunarekiko",
+        "DayComparedToPreviousWeek": "aurreko asteko egun berdinarekiko",
+        "DayComparedToPreviousYear": "aurreko urteko egun berdinarekiko",
+        "Filter": "Iragazkia",
+        "FilterOnlyNew": "Berriak soilik",
+        "MonthComparedToPreviousMonth": "aurreko hilabetearekiko",
+        "MonthComparedToPreviousYear": "aurreko urteko hilabete berdinarekiko",
+        "WeekComparedToPreviousWeek": "aurreko astearekiko",
+        "YearComparedToPreviousYear": "aurreko urtearekiko"
     }
 }
