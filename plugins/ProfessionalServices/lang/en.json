@@ -12,6 +12,8 @@
         "PromoCustomReports": "Custom Reports",
         "PromoCrashAnalytics": "Crashes",
         "PromoUnlockPowerOf" : "Unlock the Power of %1$s",
+        "DismissPromoWidget": "If this feature is not relevant to your goals, you can %1$shide this section%2$s.",
+        "DismissedNotification": "The %1$s menu will no longer be shown, unless the plugin is installed on your Matomo instance.",
         "AltTextPreviewImageFor": "Preview image for %1$s",
         "CTAStartFreeTrial": "Start free trial",
         "CTALearnMore": "Learn more about %1$s",

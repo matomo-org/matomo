@@ -96,4 +96,20 @@ describe("ProfessionalServices_PluginPromo", function () {
         expect(await page.screenshotSelector('.pluginPromo')).to.matchImage('promo_sessionrecordings');
     });
 
+    it('can dismiss a promo and no longer see it in menu', async function() {
+        const category = 'ProfessionalServices_PromoFormAnalytics';
+        const subcategory = 'ProfessionalServices_PromoOverview';
+
+        await page.goto(urlBase + 'category=' + category + '&subcategory=' + subcategory);
+        await page.waitForNetworkIdle();
+
+        let promoSessionRecordingMenuItemCount = await page.evaluate(() => $('li.menuTab[data-category-id=ProfessionalServices_PromoFormAnalytics]').length);
+        expect(promoSessionRecordingMenuItemCount).to.equal(1);
+
+        await page.click('.promo-dismiss a');
+        await page.waitForNetworkIdle();
+
+        promoSessionRecordingMenuItemCount = await page.evaluate(() => $('li.menuTab[data-category-id=ProfessionalServices_PromoFormAnalytics]').length);
+        expect(promoSessionRecordingMenuItemCount).to.equal(0);
+    });
 });
