@@ -199,11 +199,6 @@ enabled = 0
 ; Note that for quick debugging, instead of using below setting, you can add `&disable_merged_assets=1` to the Matomo URL
 disable_merged_assets = 0
 
-; if set to 1, marketplace plugin update checks will not be performed. This prevents slow peformance in development mode
-; as normally plugin update check results would only be performed once and then cached, but in development mode caching
-; is disabled so API calls are made to plugins.matomo.org to check for new plugin version on every page load
-disable_plugin_update_checks = 0
-
 [General]
 ; the following settings control whether Unique Visitors `nb_uniq_visitors` and Unique users `nb_users` will be processed for different period types.
 ; year and range periods are disabled by default, to ensure optimal performance for high traffic Matomo instances

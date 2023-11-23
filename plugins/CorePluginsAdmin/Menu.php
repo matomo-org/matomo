@@ -52,7 +52,7 @@ class Menu extends \Piwik\Plugin\Menu
 
         $pluginsUpdateMessage = '';
 
-        $skipPluginUpdateCheck = Config::getInstance()->Development['disable_plugin_update_checks'];
+        $skipPluginUpdateCheck = StaticContainer::get('dev.disable_plugin_update_checks');
         if (!$skipPluginUpdateCheck && $hasSuperUserAccess && $isMarketplaceEnabled && $this->marketplacePlugins) {
             $pluginsHavingUpdate = $this->marketplacePlugins->getPluginsHavingUpdate();
 
