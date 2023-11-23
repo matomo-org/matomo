@@ -89,9 +89,6 @@ class UITestFixture extends SqlDump
             }
         }
 
-        // Clear dismissed promo widgets
-        Db::get()->exec("DELETE FROM ".Common::prefixTable('option')." WHERE option_name LIKE 'ProfessionalServices.DismissedWidget%'");
-
         self::resetPluginsInstalledConfig($plugins);
 
         self::updateDatabase();
