@@ -46,9 +46,7 @@
         :title="translate(reportGenerated ? 'General_HelpReport' : 'General_Help')"
       ><span class="icon-info" /></a>
       <div class="ratingIcons" v-if="showRateFeature">
-        <RateFeature
-          :title="actualFeatureName"
-        />
+        <component :title="actualFeatureName" :is="rateFeature"></component>
       </div>
     </span>
     <div
@@ -76,14 +74,9 @@ import Matomo from '../Matomo/Matomo';
 import Periods from '../Periods/Periods';
 import useExternalPluginComponent from '../useExternalPluginComponent';
 
-// working around a cycle in dependencies (CoreHome depends on Feedback, Feedback depends on
-// CoreHome)
-const RateFeature = useExternalPluginComponent('Feedback', 'RateFeature');
-
 interface EnrichedHeadlineData {
   showIcons: boolean;
   showInlineHelp: boolean;
-  showRateFeature: boolean;
   actualFeatureName?: string | null;
   actualInlineHelp?: string | null,
 }
@@ -133,14 +126,10 @@ export default defineComponent({
     featureName: String,
     inlineHelp: String,
   },
-  components: {
-    RateFeature,
-  },
   data(): EnrichedHeadlineData {
     return {
       showIcons: false,
       showInlineHelp: false,
-      showRateFeature: true,
       actualFeatureName: this.featureName,
       actualInlineHelp: this.inlineHelp,
     };
@@ -180,11 +169,6 @@ export default defineComponent({
       this.actualFeatureName = root.querySelector('.title')?.textContent;
     }
 
-    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-    if (!(window as any).Feedback) {
-      this.showRateFeature = false;
-    }
-
     if (Matomo.period && Matomo.currentDateString) {
       const currentPeriod = Periods.parse(
         Matomo.period as string,
@@ -207,6 +191,18 @@ export default defineComponent({
   methods: {
     htmlEntities(v: string) {
       return Matomo.helper.htmlEntities(v);
+    },
+  },
+  computed: {
+    showRateFeature() {
+      // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+      return (window as any).translations.Feedback_SendFeedback;
+    },
+    rateFeature() {
+      if (this.showRateFeature) {
+        return useExternalPluginComponent('Feedback', 'RateFeature');
+      }
+      return '';
     },
   },
 });
