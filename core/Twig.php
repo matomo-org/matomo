@@ -56,10 +56,12 @@ function piwik_format_data_table_column(Row $row, string $column, array $fallbac
 
     StaticContainer::get(LoggerInterface::class)->debug('Column not formatted: ' . $column);
 
-    return piwik_format_number(
-        $row->getRawColumn($column),
-        $fallback[1] ?? 0,
-        $fallback[2] ?? 0
+    return piwik_safe_decode_raw(
+        piwik_format_number(
+            $row->getRawColumn($column),
+            $fallback[1] ?? 0,
+            $fallback[2] ?? 0
+        )
     );
 }
 
@@ -87,6 +89,22 @@ function piwik_format_money($amount, $idSite)
     $currencySymbol = Site::getCurrencySymbolFor($idSite);
     $numberFormatter = NumberFormatter::getInstance();
     return $numberFormatter->formatCurrency($amount, $currencySymbol, GoalManager::REVENUE_PRECISION);
+}
+
+function piwik_safe_decode_raw($string)
+{
+    if (null === $string) {
+        return '';
+    }
+
+    if (!is_string($string)) {
+        return $string;
+    }
+
+    $string = str_replace('+', '%2B', $string);
+    $string = str_replace('&nbsp;', html_entity_decode('&nbsp;', ENT_COMPAT | ENT_HTML401, 'UTF-8'), $string);
+
+    return SafeDecodeLabel::decodeLabelSafe($string);
 }
 
 /**
@@ -391,18 +409,7 @@ class Twig
     protected function addFilterSafeDecodeRaw()
     {
         $rawSafeDecoded = new TwigFilter('rawSafeDecoded', function ($string) {
-
-            if ($string === null) {
-                return '';
-            }
-
-            $string = str_replace('+', '%2B', $string);
-            $string = str_replace('&nbsp;', html_entity_decode('&nbsp;', ENT_COMPAT | ENT_HTML401, 'UTF-8'), $string);
-
-            $string = SafeDecodeLabel::decodeLabelSafe($string);
-
-            return $string;
-
+            return piwik_safe_decode_raw($string);
         }, array('is_safe' => array('all')));
         $this->twig->addFilter($rawSafeDecoded);
     }
