@@ -1,5 +1,37 @@
 {
     "Transitions": {
-        "TransitionsSubcategoryHelp2": "Xehetasun gehiago"
+        "BouncesInline": "%s errebote",
+        "DirectEntries": "Sarrera zuzenak",
+        "ErrorBack": "Itzuli aurreko ekintzara",
+        "ExitsInline": "%s irteera",
+        "FromCampaigns": "Kanpainetatik",
+        "FromPreviousPages": "Barne-orrietatik",
+        "FromPreviousPagesInline": "%s barne-orrietatik",
+        "FromPreviousSiteSearches": "Barne bilaketatik",
+        "FromPreviousSiteSearchesInline": "%s barne bilaketetatik",
+        "FromSearchEngines": "Bilatzaileetatik",
+        "FromSocialNetworks": "Sare sozialetatik",
+        "FromWebsites": "Webguneetatik",
+        "IncomingTraffic": "Sarrerako trafikoa",
+        "LoopsInline": "%s orri birkargatze",
+        "NoDataForAction": "Daturik ez %s(r)entzat",
+        "NoDataForActionDetails": "Ekintzak ez du orri-ikustaldirik tarte horretan edo baliogabea da.",
+        "NumDownloads": "%s deskarga",
+        "NumOutlinks": "%s kanpo esteka",
+        "NumPageviews": "%s orri-ikustaldi",
+        "OutgoingTraffic": "Kanporako trafikoa",
+        "PageURLTransitions": "Orrien URLen trantsizioak",
+        "PeriodNotAllowed": "Hautatu baliozko denbora-tartea",
+        "PeriodNotAllowedDetails": "Saiatu egun gutxiago dituen tartea hautatzen ezaugarri honentzat.",
+        "ShareOfAllPageviews": "Orri honek %1$s ikustaldi izan ditu (orri-ikustaldi guztien %2$s)",
+        "ToFollowingPages": "Barne orrietara",
+        "ToFollowingPagesInline": "%s barne orrietara",
+        "ToFollowingSiteSearches": "Barne bilaketak",
+        "ToFollowingSiteSearchesInline": "%s barne bilaketa",
+        "TopX": "%s etiketa gorenak",
+        "Transitions": "Trantsizioak",
+        "TransitionsSubcategoryHelp2": "Xehetasun gehiago",
+        "XOfAllPageviews": "Orri honen ikustaldi guztien %s",
+        "XOutOfYVisits": "%1$s (guztira %2$s)"
     }
 }

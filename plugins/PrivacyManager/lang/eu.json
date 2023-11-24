@@ -1,1 +1,7 @@
-{}
+{
+    "PrivacyManager": {
+        "CurrentDBSize": "Datu-basearen uneko tamaina",
+        "DeleteDataInterval": "Ezabatu datu zaharrak maiztasun honekin:",
+        "DeleteOldVisitorLogs": "Ezabatu bisitarien egunkari zaharrak"
+    }
+}
