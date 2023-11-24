@@ -16,6 +16,9 @@ return [
     'tests.ui.url_normalizer_blacklist.api' => [],
     'tests.ui.url_normalizer_blacklist.controller' => [],
 
+    // disable check for plugin updates during UI tests
+    'dev.disable_plugin_update_checks' => true,
+
     'twig.cache' => function (\Piwik\Container\Container $container) {
         $templatesPath = $container->get('path.tmp.templates');
         return new class($templatesPath) extends \Twig\Cache\FilesystemCache {
