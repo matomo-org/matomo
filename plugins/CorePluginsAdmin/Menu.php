@@ -51,7 +51,8 @@ class Menu extends \Piwik\Plugin\Menu
 
         $pluginsUpdateMessage = '';
 
-        if ($hasSuperUserAccess && $isMarketplaceEnabled && $this->marketplacePlugins) {
+        $skipPluginUpdateCheck = StaticContainer::get('dev.disable_plugin_update_checks');
+        if (!$skipPluginUpdateCheck && $hasSuperUserAccess && $isMarketplaceEnabled && $this->marketplacePlugins) {
             $pluginsHavingUpdate = $this->marketplacePlugins->getPluginsHavingUpdate();
 
             if (!empty($pluginsHavingUpdate)) {
