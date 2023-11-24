@@ -45,10 +45,8 @@
         :class="{ 'active': showInlineHelp }"
         :title="translate(reportGenerated ? 'General_HelpReport' : 'General_Help')"
       ><span class="icon-info" /></a>
-      <div class="ratingIcons">
-        <RateFeature
-          :title="actualFeatureName"
-        />
+      <div class="ratingIcons" v-if="showRateFeature">
+        <component :title="actualFeatureName" :is="rateFeature"></component>
       </div>
     </span>
     <div
@@ -74,11 +72,8 @@
 import { defineComponent } from 'vue';
 import Matomo from '../Matomo/Matomo';
 import Periods from '../Periods/Periods';
+import { translateOrDefault } from '../translate';
 import useExternalPluginComponent from '../useExternalPluginComponent';
-
-// working around a cycle in dependencies (CoreHome depends on Feedback, Feedback depends on
-// CoreHome)
-const RateFeature = useExternalPluginComponent('Feedback', 'RateFeature');
 
 interface EnrichedHeadlineData {
   showIcons: boolean;
@@ -131,9 +126,6 @@ export default defineComponent({
     reportGenerated: String,
     featureName: String,
     inlineHelp: String,
-  },
-  components: {
-    RateFeature,
   },
   data(): EnrichedHeadlineData {
     return {
@@ -200,6 +192,17 @@ export default defineComponent({
   methods: {
     htmlEntities(v: string) {
       return Matomo.helper.htmlEntities(v);
+    },
+  },
+  computed: {
+    showRateFeature() {
+      return translateOrDefault('Feedback_SendFeedback') !== 'Feedback_SendFeedback';
+    },
+    rateFeature() {
+      if (this.showRateFeature) {
+        return useExternalPluginComponent('Feedback', 'RateFeature');
+      }
+      return '';
     },
   },
 });
