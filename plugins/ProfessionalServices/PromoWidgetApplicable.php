@@ -24,13 +24,19 @@ class PromoWidgetApplicable
      */
     private $config;
 
-    public function __construct(Manager $manager, Config $config)
+    /**
+     * @var PromoWidgetDismissal
+     */
+    private $promoWidgetDismissal;
+
+    public function __construct(Manager $manager, Config $config, PromoWidgetDismissal $promoWidgetDismissal)
     {
         $this->manager = $manager;
         $this->config = $config;
+        $this->promoWidgetDismissal = $promoWidgetDismissal;
     }
 
-    public function check(string $pluginName): bool
+    public function check(string $pluginName, string $widgetName): bool
     {
         if (Advertising::isAdsEnabledInConfig($this->config->General) === false) {
             return false;
@@ -41,6 +47,10 @@ class PromoWidgetApplicable
         }
 
         if ((bool) $this->config->General['enable_internet_features'] === false) {
+            return false;
+        }
+
+        if ($this->promoWidgetDismissal->isPromoWidgetDismissedForCurrentUser($widgetName)) {
             return false;
         }
 

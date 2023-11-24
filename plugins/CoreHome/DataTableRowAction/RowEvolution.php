@@ -221,7 +221,8 @@ class RowEvolution
         // at this point the report data will reference the comparison series labels for the changed compare periods/dates. We don't
         // want to show this to users because they will not recognize the changed periods, so we have to replace them.
         if ($isComparing) {
-            $modifiedSeriesLabels = reset($report['reportData']->getDataTables())->getMetadata('comparisonSeries');
+            $dataTables = $report['reportData']->getDataTables();
+            $modifiedSeriesLabels = reset($dataTables)->getMetadata('comparisonSeries');
             $seriesMap = array_combine($modifiedSeriesLabels, $unmodifiedSeriesLabels);
 
             foreach ($report['metadata']['metrics'] as $key => $metricInfo) {

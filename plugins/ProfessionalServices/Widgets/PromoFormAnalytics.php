@@ -11,10 +11,9 @@ namespace Piwik\Plugins\ProfessionalServices\Widgets;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\View;
-use Piwik\Widget\Widget;
 use Piwik\Widget\WidgetConfig;
 
-class PromoFormAnalytics extends Widget
+class PromoFormAnalytics extends DismissibleWidget
 {
     private const PROMO_PLUGIN_NAME = 'FormAnalytics';
 
@@ -26,7 +25,7 @@ class PromoFormAnalytics extends Widget
 
         $promoWidgetApplicable = StaticContainer::get('Piwik\Plugins\ProfessionalServices\PromoWidgetApplicable');
 
-        $isEnabled = $promoWidgetApplicable->check(self::PROMO_PLUGIN_NAME);
+        $isEnabled = $promoWidgetApplicable->check(self::PROMO_PLUGIN_NAME, self::getDismissibleWidgetName());
         $config->setIsEnabled($isEnabled);
     }
 
@@ -37,6 +36,8 @@ class PromoFormAnalytics extends Widget
 
         $view = new View('@ProfessionalServices/pluginAdvertising');
         $view->plugin = $pluginInfo;
+        $view->widgetName = self::getDismissibleWidgetName();
+        $view->userCanDismiss = Piwik::isUserIsAnonymous() === false;
 
         $view->title  = Piwik::translate('ProfessionalServices_PromoUnlockPowerOf', $pluginInfo['displayName']);
         $view->listOfFeatures = [

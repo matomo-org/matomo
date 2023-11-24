@@ -34,6 +34,7 @@ class ProfessionalServices extends \Piwik\Plugin
             'Template.afterVisitorProfileOverview' => 'getSessionRecordingPromo',
             'Template.afterPagePerformanceReport' => 'getSeoWebVitalsPromo',
             'Template.afterSearchEngines' => 'getSeoWebVitalsPromo',
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
         );
     }
 
@@ -41,6 +42,19 @@ class ProfessionalServices extends \Piwik\Plugin
     {
         $stylesheets[] = 'plugins/ProfessionalServices/stylesheets/promos.less';
         $stylesheets[] = 'plugins/ProfessionalServices/stylesheets/widget.less';
+    }
+
+    public function getClientSideTranslationKeys(&$translationKeys)
+    {
+        $translationKeys[] = 'ProfessionalServices_DismissedNotification';
+        $translationKeys[] = 'ProfessionalServices_PromoFunnels';
+        $translationKeys[] = 'ProfessionalServices_PromoFormAnalytics';
+        $translationKeys[] = 'ProfessionalServices_PromoMediaAnalytics';
+        $translationKeys[] = 'ProfessionalServices_PromoAbTesting';
+        $translationKeys[] = 'ProfessionalServices_PromoHeatmaps';
+        $translationKeys[] = 'ProfessionalServices_PromoSessionRecording';
+        $translationKeys[] = 'ProfessionalServices_PromoCustomReports';
+        $translationKeys[] = 'ProfessionalServices_PromoCrashAnalytics';
     }
 
     public function isRequestForDashboardWidget()
@@ -157,5 +171,4 @@ class ProfessionalServices extends \Piwik\Plugin
             $out .= $view->render();
         }
     }
-
 }
