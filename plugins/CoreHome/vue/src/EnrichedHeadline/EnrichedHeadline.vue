@@ -72,6 +72,7 @@
 import { defineComponent } from 'vue';
 import Matomo from '../Matomo/Matomo';
 import Periods from '../Periods/Periods';
+import { translateOrDefault } from '../translate';
 import useExternalPluginComponent from '../useExternalPluginComponent';
 
 interface EnrichedHeadlineData {
@@ -195,8 +196,7 @@ export default defineComponent({
   },
   computed: {
     showRateFeature() {
-      // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-      return (window as any).translations.Feedback_SendFeedback;
+      return translateOrDefault('Feedback_SendFeedback') !== 'Feedback_SendFeedback';
     },
     rateFeature() {
       if (this.showRateFeature) {
