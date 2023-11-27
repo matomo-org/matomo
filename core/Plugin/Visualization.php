@@ -916,11 +916,13 @@ class Visualization extends ViewDataTable
      * subsequently apply formatting without needed to reload the dataset or reapply other filters. This method may
      * be removed in the future.
      *
+     * @param bool $forceFormatting if set to true, all metrics will be formatted and request parameter will be ignored
+     *
      * @internal
      */
-    protected function applyMetricsFormatting()
+    protected function applyMetricsFormatting(bool $forceFormatting = false)
     {
         $postProcessor = $this->makeDataTablePostProcessor(); // must be created after requestConfig is final
-        $this->dataTable = $postProcessor->applyMetricsFormatting($this->dataTable);
+        $this->dataTable = $postProcessor->applyMetricsFormatting($this->dataTable, $forceFormatting);
     }
 }
