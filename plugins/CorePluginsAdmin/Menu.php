@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,6 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\CorePluginsAdmin;
 
 use Piwik\Container\StaticContainer;
@@ -61,13 +63,15 @@ class Menu extends \Piwik\Plugin\Menu
         }
 
         if (!$isAnonymous) {
-            $menu->addPlatformItem(null, "", $order = 7);
+            $menu->addPlatformItem('', [], 7);
         }
 
         if ($hasSuperUserAccess) {
-            $menu->addSystemItem(Piwik::translate('General_ManagePlugins') . $pluginsUpdateMessage,
-                $this->urlForAction('plugins', array('activated' => '')),
-                $order = 20);
+            $menu->addPluginItem(
+                Piwik::translate('General_ManagePlugins') . $pluginsUpdateMessage,
+                $this->urlForAction('plugins', ['activated' => '']),
+                10
+            );
         }
     }
 

@@ -376,7 +376,7 @@
         "PleaseUpgradeYourPhpVersionSoYourPiwikDataStaysSecure": "Please upgrade your PHP version to at least PHP %s so your Matomo analytics data stays secure.",
         "Plugin": "Plugin",
         "Plugins": "Plugins",
-        "PluginSubscriptions": "Plugin Subscriptions",
+        "ManageSubscriptions": "Manage Subscriptions",
         "PoweredBy": "Powered by",
         "Previous": "Previous",
         "PreviousDays": "Previous %s days (not including today)",
