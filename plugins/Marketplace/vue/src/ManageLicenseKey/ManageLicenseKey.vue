@@ -11,28 +11,27 @@
   >
     <div class="manage-license-key-intro" v-html="$sanitize(manageLicenseKeyIntro)"></div>
 
-    <div class="valign licenseKeyText">
+    <div class="manage-license-key-input">
       <Field
         uicontrol="text"
         name="license_key"
         v-model="licenseKey"
         :placeholder="licenseKeyPlaceholder"
+        full-width="true"
       ></Field>
     </div>
     <SaveButton
-      class="valign"
       @confirm="updateLicense()"
       :value="saveButtonText"
       :disabled="!licenseKey || isUpdating"
       id="submit_license_key"
     />
     <SaveButton
-      v-if="hasLicenseKey"
-      class="valign"
+      v-if="hasValidLicense"
       id="remove_license_key"
       @confirm="removeLicense()"
       :disabled="isUpdating"
-      :value="translate('Marketplace_RemoveLicenseKey')"
+      :value="translate('General_Remove')"
     />
     <ActivityIndicator :loading="isUpdating" />
   </ContentBlock>
@@ -61,13 +60,13 @@ import { Field, SaveButton } from 'CorePluginsAdmin';
 
 interface LicenseKeyState {
   licenseKey: string;
+  hasValidLicense: boolean;
   isUpdating: boolean;
 }
 
 export default defineComponent({
   props: {
-    hasLicenseKey: Boolean,
-    isValidConsumer: Boolean,
+    hasValidLicenseKey: Boolean,
   },
   components: {
     Field,
@@ -78,11 +77,13 @@ export default defineComponent({
   data(): LicenseKeyState {
     return {
       licenseKey: '',
+      hasValidLicense: this.hasValidLicenseKey,
       isUpdating: false,
     };
   },
   methods: {
     updateLicenseKey(action: string, licenseKey: string, onSuccessMessage: string) {
+      NotificationsStore.remove('ManageLicenseKeySuccess');
       AjaxHelper.post(
         {
           module: 'API',
@@ -98,11 +99,13 @@ export default defineComponent({
 
         if (response && response.value) {
           NotificationsStore.show({
+            id: 'ManageLicenseKeySuccess',
             message: onSuccessMessage,
             context: 'success',
-            type: 'transient',
+            type: 'toast',
           });
-          Matomo.helper.redirect();
+          this.hasValidLicense = action !== 'deleteLicenseKey';
+          this.licenseKey = '';
         }
       }, () => {
         this.isUpdating = false;
@@ -147,12 +150,12 @@ export default defineComponent({
       );
     },
     licenseKeyPlaceholder() {
-      return this.isValidConsumer
+      return this.hasValidLicense
         ? translate('Marketplace_LicenseKeyIsValidShort')
         : translate('Marketplace_LicenseKey');
     },
     saveButtonText() {
-      return this.hasLicenseKey
+      return this.hasValidLicense
         ? translate('CoreUpdater_UpdateTitle')
         : translate('Marketplace_ActivateLicenseKey');
     },

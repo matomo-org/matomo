@@ -140,8 +140,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         Piwik::checkUserHasSuperUserAccess();
 
         return $this->renderTemplate('@Marketplace/manageLicenseKey', array(
-            'hasLicenseKey' => $this->licenseKey->has(),
-            'isValidConsumer' => $this->consumer->isValidConsumer(),
+            'hasValidLicenseKey' => $this->licenseKey->has() && $this->consumer->isValidConsumer(),
         ));
     }
 
