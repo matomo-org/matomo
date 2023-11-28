@@ -6,8 +6,7 @@
 
 <div
         vue-entry="Marketplace.ManageLicenseKey"
-        has-license-key="{{ hasLicenseKey|default(false)|json_encode }}"
-        is-valid-consumer="{{ isValidConsumer|default(false)|json_encode }}"
+        has-valid-license-key="{{ hasValidLicenseKey|default(false)|json_encode }}"
 ></div>
 
 {% endblock %}
