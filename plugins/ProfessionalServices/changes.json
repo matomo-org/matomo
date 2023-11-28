@@ -1,7 +1,7 @@
 [
   {
     "title": "Premium Features Available in the Left-menu Navigation Bar",
-    "description":"The left-menu navigation now highlights some of our amazing premium features. Thousands of customers already find them powerful and the revenue from them helps us maintain and improve Matomo, ensuring that we can continue our commitment to high-quality open-source analytics for everyone. We have made it easy to customise by hiding or disabling them, so you can still navigate fast to the tools you need.",
+    "description":"The left-menu navigation now highlights some of our amazing premium features.<br><br>Thousands of customers already find them powerful and the revenue from them helps us maintain and improve Matomo, ensuring that we can continue our commitment to high-quality open-source analytics for everyone.<br><br>We have made it easy to customise by hiding or disabling them, so you can still navigate fast to the tools you need.",
     "version": "4.16.0-rc2",
     "link_name": "Read more",
     "link": "https://matomo.org/blog/2023/11/discovering-our-premium-on-premise-features?mtm_campaign=in-app-on-prem-premium-features-notification&mtm_kwd=on-prem-features&mtm_source=in-app&mtm_medium=notification&mtm_content=on-prem-features&mtm_group=in-app"
