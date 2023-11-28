@@ -20,8 +20,14 @@ class Menu extends \Piwik\Plugin\Menu
     {
         if (!Piwik::isUserIsAnonymous()) {
             $menu->addPlatformItem('Marketplace_Marketplace',
-                $this->urlForAction('overview', array('activated' => '', 'mode' => 'admin', 'type' => '', 'show' => '')),
-                $order = 5);
+                $this->urlForAction('overview', ['activated' => '', 'mode' => 'admin', 'type' => '', 'show' => '']),
+                5);
+        }
+
+        if (Piwik::hasUserSuperUserAccess()) {
+            $menu->addPluginItem(Piwik::translate('General_ManageSubscriptions'),
+                $this->urlForAction('subscriptionOverview'),
+                20);
         }
     }
 

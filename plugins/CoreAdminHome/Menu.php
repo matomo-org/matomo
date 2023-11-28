@@ -19,12 +19,13 @@ class Menu extends \Piwik\Plugin\Menu
 {
     public function configureAdminMenu(MenuAdmin $menu)
     {
-        $menu->addPersonalItem(null, array(), 1, false);
-        $menu->addSystemItem(null, array(), 2, false);
-        $menu->addMeasurableItem(null, array(), $order = 3);
-        $menu->addPlatformItem(null, array(), 4, false);
-        $menu->addDiagnosticItem(null, array(), $order = 5);
-        $menu->addDevelopmentItem(null, array(), $order = 40);
+        $menu->addPersonalItem('', [], 1);
+        $menu->addSystemItem('', [], 2);
+        $menu->addPluginItem('', [], 3);
+        $menu->addMeasurableItem('', [], 4);
+        $menu->addPlatformItem('', [], 5);
+        $menu->addDiagnosticItem('', [], 6);
+        $menu->addDevelopmentItem('', [], 40);
 
         if (Piwik::hasUserSuperUserAccess()) {
             $menu->addSystemItem('General_GeneralSettings',
