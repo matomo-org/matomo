@@ -134,6 +134,17 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         ));
     }
 
+
+    public function manageLicenseKey()
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        return $this->renderTemplate('@Marketplace/manageLicenseKey', array(
+            'hasLicenseKey' => $this->licenseKey->has(),
+            'isValidConsumer' => $this->consumer->isValidConsumer(),
+        ));
+    }
+
     private function getPrettyLongDate($date)
     {
         if (empty($date)) {
