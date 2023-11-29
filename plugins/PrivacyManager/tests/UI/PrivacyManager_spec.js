@@ -118,7 +118,15 @@ describe("PrivacyManager", function () {
 
     async function capturePage(screenshotName) {
         await page.waitForNetworkIdle();
-        expect(await page.screenshotSelector('.pageWrap,#notificationContainer,.modal.open')).to.matchImage(screenshotName);
+        await page.evaluate(function () {
+            $('#secondNavBar').css('visibility', 'hidden'); // hide navbar so shadow isn't shown on screenshot
+        });
+        const pageWrap = await page.$('.pageWrap,#notificationContainer,.modal.open');
+        const screenshot = await pageWrap.screenshot();
+        await page.evaluate(function () {
+            $('#secondNavBar').css('visibility', 'visible'); // show navbar again
+        });
+        expect(screenshot).to.matchImage(screenshotName);
     }
 
     async function captureAnonymizeLogData(screenshotName) {
