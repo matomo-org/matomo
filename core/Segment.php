@@ -406,7 +406,8 @@ class Segment
         $sqlName = $segmentObject->getSqlSegment();
 
         $joinTable = null;
-        if ($segmentObject->dimension
+        if ($segmentObject
+            && $segmentObject->dimension
             && $segmentObject->dimension->getDbColumnJoin()
         ) {
             $join = $segmentObject->dimension->getDbColumnJoin();
