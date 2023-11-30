@@ -387,23 +387,12 @@ class Segment
         $matchType = $expression[SegmentExpression::INDEX_OPERAND_OPERATOR];
         $value     = $expression[SegmentExpression::INDEX_OPERAND_VALUE];
 
-        $segment = $this->getSegmentByName($name);
-
-        if (empty($this->idSites)) {
-            $segmentsList = SegmentsList::get();
-        } else {
-            $segmentsList = Context::changeIdSite(implode(',', $this->idSites), function () {
-                return SegmentsList::get();
-            });
-        }
-
+        $segmentsList = Context::changeIdSite(implode(',', $this->idSites ?: []), function () {
+            return SegmentsList::get();
+        });
         $segmentObject = $segmentsList->getSegment($name);
 
-        if (empty($segmentObject)) {
-            throw new Exception("Segment '$name' is not a supported segment.");
-        }
-
-        $sqlName = $segmentObject->getSqlSegment();
+        $sqlName = $segmentObject ? $segmentObject->getSqlSegment() : null;
 
         $joinTable = null;
         if ($segmentObject
@@ -429,13 +418,8 @@ class Segment
             }
         }
 
-        // Build subqueries for segments that are not on log_visit table but use !@ or != as operator
-        // This is required to ensure segments like actionUrl!@value really do not include any visit having an action containing `value`
-        if ($this->doesSegmentNeedSubquery($matchType, $name) &&
-            $matchType == SegmentExpression::MATCH_IDVISIT_NOT_IN) {
-            $operator = $this->getInvertedOperatorForSubQuery($matchType);
-            $stringSegment = $name . $operator . $this->escapeSegmentValue($value);
-            $segmentObj = new Segment($stringSegment, $this->idSites, $this->startDate, $this->endDate);
+        if ($matchType == SegmentExpression::MATCH_IDVISIT_NOT_IN) {
+            $segmentObj = new Segment($value, $this->idSites, $this->startDate, $this->endDate);
 
             $select = 'log_visit.idvisit';
             $from = 'log_visit';
@@ -462,6 +446,10 @@ class Segment
             $logQueryBuilder->forceInnerGroupBySubselect($forceGroupByBackup);
 
             return ['log_visit.idvisit', SegmentExpression::MATCH_ACTIONS_NOT_CONTAINS, $query, null, null];
+        }
+
+        if (empty($segmentObject)) {
+            throw new Exception("Segment '$name' is not a supported segment.");
         }
 
         $segment = $this->getSegmentByName($name);
