@@ -569,7 +569,7 @@ function rowEvolutionGetMetricNameFromRow(tr)
             if (
               axis.tickOptions
               && axis.tickOptions.formatString
-              && axis.tickOptions.formatString.substring(2, 3) == '%'
+              && axis.tickOptions.formatString.endsWith('%')
               && maxCrossDataSets > 100
             ) {
                 maxCrossDataSets = 100;
