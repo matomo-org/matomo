@@ -910,8 +910,10 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.goto(adminUrl);
             await page.waitForSelector('#notificationContainer');
 
-            const pageWrap = await page.$('.pageWrap, #notificationContainer');
-            expect(await pageWrap.screenshot()).to.matchImage('api_error');
+            const notificationContent = await page.evaluate(() => $('#notificationContainer').text().trim());
+
+            // ensure no notification is being displayed
+            expect(notificationContent).to.be.empty;
         });
     });
 
