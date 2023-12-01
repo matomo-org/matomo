@@ -182,8 +182,8 @@ class SegmentTest extends IntegrationTestCase
         $segmentFrom = '2020-02-02 02:00:00';
 
         $whereSingle = '(log_visit.idvisit NOT IN(SELECT log_visit.idvisit FROM log_visit AS log_visit LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit WHERE(log_visit.visit_last_action_time >= ?)AND(log_link_visit_action.idaction_name = ?)))';
-        $whereMultiAnd = '(log_visit.idvisit NOT IN(SELECT log_visit.idvisit FROM log_visit AS log_visit LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit WHERE(log_visit.visit_last_action_time >= ?)AND(log_link_visit_action.idaction_name = ?)))AND(log_visit.idvisit NOT IN(SELECT log_visit.idvisit FROM log_visit AS log_visit LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit WHERE(log_visit.visit_last_action_time >= ?)AND(log_link_visit_action.idaction_name = ?)))';
-        $whereMultiOr = '((log_visit.idvisit NOT IN(SELECT log_visit.idvisit FROM log_visit AS log_visit LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit WHERE(log_visit.visit_last_action_time >= ?)AND(log_link_visit_action.idaction_name = ?)))OR(log_visit.idvisit NOT IN(SELECT log_visit.idvisit FROM log_visit AS log_visit LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit WHERE(log_visit.visit_last_action_time >= ?)AND(log_link_visit_action.idaction_name = ?))))';
+        $whereMultiAnd = '(log_visit.idvisit NOT IN(SELECT log_visit.idvisit FROM log_visit AS log_visit LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit WHERE(log_visit.visit_last_action_time >= ?)AND((log_link_visit_action.idaction_name = ? OR log_link_visit_action.idaction_name = ?))))';
+        $whereMultiOr = '(log_visit.idvisit NOT IN(SELECT log_visit.idvisit FROM log_visit AS log_visit LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit WHERE(log_visit.visit_last_action_time >= ?)AND(log_link_visit_action.idaction_name = ? AND log_link_visit_action.idaction_name = ?)))';
 
         yield 'normal segment' => [
             'pageTitle!=a',
@@ -235,7 +235,7 @@ class SegmentTest extends IntegrationTestCase
             $segmentFrom,
             [
                 'where' => $whereMultiAnd,
-                'bind' => [$segmentFrom, '1', $segmentFrom, '2'],
+                'bind' => [$segmentFrom, '1', '2'],
             ],
         ];
 
@@ -244,7 +244,7 @@ class SegmentTest extends IntegrationTestCase
             $segmentFrom,
             [
                 'where' => $whereMultiOr,
-                'bind' => [$segmentFrom, '1', $segmentFrom, '2'],
+                'bind' => [$segmentFrom, '1', '2'],
             ],
         ];
 
@@ -253,7 +253,7 @@ class SegmentTest extends IntegrationTestCase
             $segmentFrom,
             [
                 'where' => $whereMultiAnd,
-                'bind' => [$segmentFrom, '3', $segmentFrom, '4'],
+                'bind' => [$segmentFrom, '3', '4'],
             ],
         ];
 
@@ -262,7 +262,7 @@ class SegmentTest extends IntegrationTestCase
             $segmentFrom,
             [
                 'where' => $whereMultiOr,
-                'bind' => [$segmentFrom, '3', $segmentFrom, '4'],
+                'bind' => [$segmentFrom, '3', '4'],
             ],
         ];
     }
