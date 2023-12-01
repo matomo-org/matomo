@@ -54,7 +54,6 @@ import {
   ContentBlock,
   MatomoUrl,
   NotificationsStore,
-  externalLink,
 } from 'CoreHome';
 import { Field, SaveButton } from 'CorePluginsAdmin';
 
@@ -145,7 +144,7 @@ export default defineComponent({
         'Marketplace_ManageLicenseKeyIntro',
         `<a href="${marketplaceLink}">`,
         '</a>',
-        externalLink('https://shop.matomo.org/my-account'),
+        '<a href="https://shop.matomo.org/my-account" target="_blank" rel="noreferrer noopener">',
         '</a>',
       );
     },
