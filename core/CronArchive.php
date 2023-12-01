@@ -277,7 +277,7 @@ class CronArchive
                 $self->runScheduledTasks();
                 $self->end();
             } catch (StopArchiverException $e) {
-                $this->logger->info("Archiving stopped by stop archiver exception");
+                $this->logger->info("Archiving stopped by stop archiver exception" . $e->getMessage());
             }
         });
     }
