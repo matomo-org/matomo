@@ -754,7 +754,7 @@ class Segment
             // if the segment is pageTitle!=def, then NOT IN sql will have to be idvisit NOT IN (... WHERE pageTitle == def),
             // so we must invert the operator before we create a MATCH_IDVISIT_NOT_IN operand below
             $operator = $this->getInvertedOperatorForSubQuery($matchType);
-            $idvisitNotInExpressions[] = $name . $operator . $value;
+            $idvisitNotInExpressions[] = $name . $operator . $this->escapeSegmentValue($value);
         }
 
         if (!empty($idvisitNotInExpressions)) {
