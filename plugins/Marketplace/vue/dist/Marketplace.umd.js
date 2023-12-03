@@ -155,7 +155,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/Marketplace/Marketplace.vue?vue&type=template&id=1547a42f
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/Marketplace/Marketplace.vue?vue&type=template&id=6d6f7526
 
 var _hoisted_1 = {
   class: "row marketplaceActions",
@@ -222,7 +222,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   })], 8, _hoisted_5)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 512);
 }
-// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/Marketplace/Marketplace.vue?vue&type=template&id=1547a42f
+// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/Marketplace/Marketplace.vue?vue&type=template&id=6d6f7526
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -239,8 +239,6 @@ var lcfirst = function lcfirst(s) {
   return "".concat(s[0].toLowerCase()).concat(s.substring(1));
 };
 
-var _window = window,
-    $ = _window.$;
 /* harmony default export */ var Marketplacevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     pluginType: {
@@ -290,88 +288,6 @@ var _window = window,
   unmounted: function unmounted() {
     external_CoreHome_["Matomo"].postEvent('Marketplace.Marketplace.unmounted', {
       element: this.$refs.root
-    });
-  },
-  created: function created() {
-    function syncMaxHeight2(selector) {
-      if (!selector) {
-        return;
-      }
-
-      var $nodes = $(selector);
-
-      if (!$nodes || !$nodes.length) {
-        return;
-      }
-
-      var maxh3 = undefined;
-      var maxMeta = undefined;
-      var maxFooter = undefined;
-      var nodesToUpdate = [];
-      var lastTop = 0;
-      $nodes.each(function (index, node) {
-        var $node = $(node);
-
-        var _$node$offset = $node.offset(),
-            top = _$node$offset.top;
-
-        if (lastTop !== top) {
-          nodesToUpdate = [];
-          lastTop = top;
-          maxh3 = undefined;
-          maxMeta = undefined;
-          maxFooter = undefined;
-        }
-
-        nodesToUpdate.push($node);
-        var heightH3 = $node.find('h3').height();
-        var heightMeta = $node.find('.metadata').height();
-        var heightFooter = $node.find('.footer').height();
-
-        if (!maxh3) {
-          maxh3 = heightH3;
-        } else if (maxh3 < heightH3) {
-          maxh3 = heightH3;
-        }
-
-        if (!maxMeta) {
-          maxMeta = heightMeta;
-        } else if (maxMeta < heightMeta) {
-          maxMeta = heightMeta;
-        }
-
-        if (!maxFooter) {
-          maxFooter = heightFooter;
-        } else if (maxFooter < heightFooter) {
-          maxFooter = heightFooter;
-        }
-
-        $.each(nodesToUpdate, function (i, $nodeToUpdate) {
-          if (maxh3) {
-            $nodeToUpdate.find('h3').height("".concat(maxh3, "px"));
-          }
-
-          if (maxMeta) {
-            $nodeToUpdate.find('.metadata').height("".concat(maxMeta, "px"));
-          }
-
-          if (maxFooter) {
-            $nodeToUpdate.find('.footer').height("".concat(maxFooter, "px"));
-          }
-        });
-      });
-    }
-
-    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(function () {
-      // Keeps the plugin descriptions the same height
-      var descriptions = $('.marketplace .plugin .description');
-      descriptions.dotdotdot({
-        after: 'a.more',
-        watch: 'window'
-      });
-      external_CoreHome_["Matomo"].helper.compileVueDirectives(descriptions); // have to recompile any vue directives
-
-      syncMaxHeight2('.marketplace .plugin');
     });
   },
   methods: {
@@ -1044,11 +960,11 @@ function GetNewPluginsAdminvue_type_template_id_3ba8e55b_render(_ctx, _cache, $p
 
 
 
-var GetNewPluginsAdminvue_type_script_lang_ts_window = window,
-    GetNewPluginsAdminvue_type_script_lang_ts_$ = GetNewPluginsAdminvue_type_script_lang_ts_window.$;
+var _window = window,
+    $ = _window.$;
 
 function applyDotdotdot(root) {
-  GetNewPluginsAdminvue_type_script_lang_ts_$('.col .description', root).dotdotdot({
+  $('.col .description', root).dotdotdot({
     watch: 'window'
   });
 }

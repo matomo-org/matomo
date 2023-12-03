@@ -58,7 +58,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, nextTick } from 'vue';
+import { defineComponent } from 'vue';
 import { translate, MatomoUrl, Matomo } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 
@@ -69,8 +69,6 @@ interface MarketplaceState {
 }
 
 const lcfirst = (s: string) => `${s[0].toLowerCase()}${s.substring(1)}`;
-
-const { $ } = window;
 
 export default defineComponent({
   props: {
@@ -118,85 +116,6 @@ export default defineComponent({
   },
   unmounted() {
     Matomo.postEvent('Marketplace.Marketplace.unmounted', { element: this.$refs.root });
-  },
-  created() {
-    function syncMaxHeight2(selector: string) {
-      if (!selector) {
-        return;
-      }
-
-      const $nodes = $(selector);
-      if (!$nodes || !$nodes.length) {
-        return;
-      }
-
-      let maxh3: number|undefined = undefined;
-      let maxMeta: number|undefined = undefined;
-      let maxFooter: number|undefined = undefined;
-      let nodesToUpdate: JQuery[] = [];
-      let lastTop = 0;
-      $nodes.each((index, node) => {
-        const $node = $(node);
-        const { top } = $node.offset()!;
-
-        if (lastTop !== top) {
-          nodesToUpdate = [];
-          lastTop = top;
-          maxh3 = undefined;
-          maxMeta = undefined;
-          maxFooter = undefined;
-        }
-
-        nodesToUpdate.push($node);
-
-        const heightH3 = $node.find('h3').height()!;
-        const heightMeta = $node.find('.metadata').height()!;
-        const heightFooter = $node.find('.footer').height()!;
-
-        if (!maxh3) {
-          maxh3 = heightH3;
-        } else if (maxh3 < heightH3) {
-          maxh3 = heightH3;
-        }
-
-        if (!maxMeta) {
-          maxMeta = heightMeta;
-        } else if (maxMeta < heightMeta) {
-          maxMeta = heightMeta;
-        }
-
-        if (!maxFooter) {
-          maxFooter = heightFooter;
-        } else if (maxFooter < heightFooter) {
-          maxFooter = heightFooter;
-        }
-
-        $.each(nodesToUpdate, (i, $nodeToUpdate) => {
-          if (maxh3) {
-            $nodeToUpdate.find('h3').height(`${maxh3}px`);
-          }
-          if (maxMeta) {
-            $nodeToUpdate.find('.metadata').height(`${maxMeta}px`);
-          }
-          if (maxFooter) {
-            $nodeToUpdate.find('.footer').height(`${maxFooter}px`);
-          }
-        });
-      });
-    }
-
-    nextTick(() => {
-      // Keeps the plugin descriptions the same height
-      const descriptions = $('.marketplace .plugin .description');
-      descriptions.dotdotdot({
-        after: 'a.more',
-        watch: 'window',
-      });
-
-      Matomo.helper.compileVueDirectives(descriptions); // have to recompile any vue directives
-
-      syncMaxHeight2('.marketplace .plugin');
-    });
   },
   methods: {
     changePluginSort() {
