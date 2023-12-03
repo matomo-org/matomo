@@ -9,11 +9,13 @@
 namespace Piwik\Plugins\Marketplace;
 
 use Piwik\Date;
+use Piwik\Plugin\Manager;
 use Piwik\ProfessionalServices\Advertising;
 use Piwik\Plugin\Dependency as PluginDependency;
 use Piwik\Plugin;
 use Piwik\Plugins\Marketplace\Input\PurchaseType;
 use Piwik\Plugins\Marketplace\Input\Sort;
+use Piwik\SettingsPiwik;
 
 /**
  *
@@ -247,7 +249,8 @@ class Plugins
         $plugin['isActivated']  = $this->isPluginActivated($plugin['name']);
         $plugin['isInvalid']    = $this->pluginManager->isPluginThirdPartyAndBogus($plugin['name']);
         $plugin['canBeUpdated'] = $plugin['isInstalled'] && $this->hasPluginUpdate($plugin);
-        $plugin['lastUpdated'] = $this->toShortDate($plugin['lastUpdated']);
+        $plugin['lastUpdated']  = $this->toShortDate($plugin['lastUpdated']);
+        $plugin['canBePurchased'] = !$plugin['isDownloadable'] && $plugin['shop'] && ($plugin['shop']['url'] ?? false);
 
         if ($plugin['isInstalled']) {
             $plugin = $this->enrichLicenseInformation($plugin);
@@ -283,7 +286,10 @@ class Plugins
             }
         }
 
-        $plugin = $this->addMissingRequirements($plugin);
+        $this->addMissingRequirements($plugin);
+        $this->addPriceFrom($plugin);
+        $this->addPluginPreviewImage($plugin);
+        $this->prettifyNumberOfDownloads($plugin);
 
         return $plugin;
     }
@@ -320,27 +326,83 @@ class Plugins
     }
 
     /**
-     * @param $plugin
+     * Determine if there are any missing requirements/dependencies for the plugin
      */
-    private function addMissingRequirements($plugin)
+    private function addMissingRequirements(&$plugin): void
     {
-        $plugin['missingRequirements'] = array();
+        $plugin['missingRequirements'] = [];
 
         if (empty($plugin['versions']) || !is_array($plugin['versions'])) {
-            return $plugin;
+            return;
         }
 
         $latestVersion = $plugin['versions'][count($plugin['versions']) - 1];
 
         if (empty($latestVersion['requires'])) {
-            return $plugin;
+            return;
         }
 
         $requires = $latestVersion['requires'];
 
         $dependency = new PluginDependency();
         $plugin['missingRequirements'] = $dependency->getMissingDependencies($requires);
+    }
 
-        return $plugin;
+    /**
+     * Find the cheapest shop variant, and if none is found specified, return the first variant.
+     */
+    private function addPriceFrom(&$plugin): void
+    {
+        $variations = $plugin['shop']['variations'] ?? [];
+
+        if (!count($variations)) {
+            $plugin['priceFrom'] = null;
+            return;
+        }
+
+        $plugin['priceFrom'] = array_shift($variations); // use first as the default
+
+        foreach ($variations as $variation) {
+            if ($variation['cheapest']) {
+                $plugin['priceFrom'] = $variation;
+                return;
+            }
+        }
+    }
+
+    /**
+     * If plugin is by Matomo, check if we have a specific image, otherwise fallback to default Matomo image.
+     * If plugin is not by Matomo, use generic preview image for now (until plugin categories are introduced).
+     */
+    private function addPluginPreviewImage(&$plugin): void
+    {
+        $previewImage = 'generic-plugin';
+
+        if (in_array(strtolower($plugin['owner']), ['piwik', 'matomo-org'])) {
+            if (file_exists(sprintf('%s/images/previews/Matomo/%s.png', Manager::getPluginDirectory('Marketplace'), $plugin['name']))) {
+                $previewImage = 'Matomo/' . $plugin['name'];
+            } else {
+                $previewImage = 'matomo-plugin';
+            }
+        }
+
+        $plugin['previewImage'] = SettingsPiwik::getPiwikUrl() . 'plugins/Marketplace/images/previews/' . $previewImage . '.png';
+    }
+
+    private function prettifyNumberOfDownloads(&$plugin): void
+    {
+        $num = $nice = $plugin['numDownloads'] ?? 0;
+
+        if (($num >= 1000) && ($num < 100000)) {
+            $nice = round($num / 1000, 1, PHP_ROUND_HALF_DOWN) . 'k';
+        }
+        elseif (($num >= 100000) && ($num < 1000000)) {
+            $nice = floor($num / 100000) . 'k';
+        }
+        elseif ($num >= 1000000) {
+            $nice = floor($num / 1000000) . 'm';
+        }
+
+        $plugin['numDownloadsPretty'] = $nice;
     }
 }
