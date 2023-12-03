@@ -545,6 +545,22 @@ PageRenderer.prototype.getWholeCurrentUrl = function () {
     return this.webpage.evaluate(() => window.location.href);
 };
 
+PageRenderer.prototype.screenshotPageWrapWithHiddenNav = async function (selector) {
+  if (typeof selector !== 'string') {
+    selector = '.pageWrap';
+  }
+
+  await this.webpage.evaluate(function () {
+    $('#secondNavBar').css('visibility', 'hidden'); // hide navbar so shadow isn't shown on screenshot
+  });
+  const pageWrap = await this.webpage.$(selector);
+  const screenshot = await pageWrap.screenshot();
+  await this.webpage.evaluate(function () {
+    $('#secondNavBar').css('visibility', 'visible'); // show navbar again
+  });
+  return screenshot;
+};
+
 
 
 exports.PageRenderer = PageRenderer;
