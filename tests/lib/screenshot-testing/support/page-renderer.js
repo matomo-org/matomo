@@ -545,9 +545,17 @@ PageRenderer.prototype.getWholeCurrentUrl = function () {
     return this.webpage.evaluate(() => window.location.href);
 };
 
-PageRenderer.prototype.screenshotPageWrapWithHiddenNav = async function (selector) {
-  if (typeof selector !== 'string') {
-    selector = '.pageWrap';
+/**
+ * Screenshot .pageWrap container with hidden #secondNavBar.
+ * Optionally allow for page wrap selector to be customised for plugins.
+ *
+ * @param args
+ * @returns {Promise<*>}
+ */
+PageRenderer.prototype.screenshotPageWrap = async function (...args) {
+  let selector = '.pageWrap';
+  if (args.length && typeof args[0] === 'string') {
+    selector = args[0];
   }
 
   await this.webpage.evaluate(function () {
