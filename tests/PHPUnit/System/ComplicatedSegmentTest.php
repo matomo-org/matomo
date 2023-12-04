@@ -44,8 +44,11 @@ class ComplicatedSegmentTest extends SystemTestCase
         $idSite = self::$idSite;
         $dateTime = self::$dateTime;
 
+        // Note: Creating a segment in the UI would generate double url encoded values
+        // But as segments might also be created through API, or provided as URL parameter, this might not always be the case
+        // Therefor some values are urlencoded twice, some aren't
         $segmentWithManyActions = 'contentTarget=@' . urlencode(urlencode('place.com'))
-            . ',contentName==' . urlencode(urlencode('my video'))
+            . ',contentName==my\,video' // the backslash should escape the "," as part of the value
             . ';contentInteraction!@maximise'
             . ';contentPiece=@' . urlencode(urlencode('/to/'))
             . ',entryPageTitle!@exit'
@@ -57,7 +60,7 @@ class ComplicatedSegmentTest extends SystemTestCase
             . ',downloadUrl==' . urlencode(urlencode('http://piwik.net/fileout.zip'))
             . ';actionUrl!@absent'
             . ';productViewSku!@DEF'
-            . ';productCategory==' . urlencode(urlencode('product\category'))
+            . ';productCategory==product\category'
             . ';productSku=@ABC'
             . ',productName=@plugin'
             . ';productViewCategory!@thing'
@@ -101,7 +104,7 @@ class ComplicatedSegmentTest extends SystemTestCase
 
         // content tracking
         Fixture::checkResponse($t->doTrackContentImpression('test content name', '/path/to/image.png', 'http://place.com/landingpage'));
-        Fixture::checkResponse($t->doTrackContentInteraction('expand', 'my video', '/path/to/myvideo.mp3'));
+        Fixture::checkResponse($t->doTrackContentInteraction('expand', 'my,video', '/path/to/myvideo.mp3'));
 
         // download
         $t->setForceVisitDateTime(Date::factory(self::$dateTime)->addHour(0.15));

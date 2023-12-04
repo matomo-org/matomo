@@ -55,7 +55,7 @@
 				
 				
 				<pageId>3</pageId>
-				<contentName>my video</contentName>
+				<contentName>my,video</contentName>
 				<contentPiece>/path/to/myvideo.mp3</contentPiece>
 				<contentTarget />
 				<contentInteraction>expand</contentInteraction>
@@ -64,7 +64,7 @@
 				<icon>plugins/Morpheus/images/contentinteraction.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentinteraction.svg</iconSVG>
 				<title>Content Interaction (expand)</title>
-				<subtitle>my video - /path/to/myvideo.mp3</subtitle>
+				<subtitle>my,video - /path/to/myvideo.mp3</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
