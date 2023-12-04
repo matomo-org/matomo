@@ -69,7 +69,18 @@ class ComplicatedSegmentTest extends SystemTestCase
 
         return [
             [
+                // This should use a live query (without temporary segment table)
                 'Live.getLastVisitsDetails',
+                [
+                    'idSite'                 => $idSite,
+                    'date'                   => $dateTime,
+                    'periods'                => ['day'],
+                    'segment'                => $segmentWithManyActions,
+                    'testSuffix'             => '_SegmentWithManyActions',
+                ],
+            ], [
+                // This should trigger archiving (using temporary segment table)
+                'VisitsSummary.get',
                 [
                     'idSite'                 => $idSite,
                     'date'                   => $dateTime,
