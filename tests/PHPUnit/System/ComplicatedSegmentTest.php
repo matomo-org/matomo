@@ -57,7 +57,7 @@ class ComplicatedSegmentTest extends SystemTestCase
             . ',downloadUrl==' . urlencode(urlencode('http://piwik.net/fileout.zip'))
             . ';actionUrl!@absent'
             . ';productViewSku!@DEF'
-            . ';productCategory==' . urlencode(urlencode('product category'))
+            . ';productCategory==' . urlencode(urlencode('product\category'))
             . ';productSku=@ABC'
             . ',productName=@plugin'
             . ';productViewCategory!@thing'
@@ -112,12 +112,12 @@ class ComplicatedSegmentTest extends SystemTestCase
 
         // ecommerce
         $t->setForceVisitDateTime(Date::factory(self::$dateTime)->addHour(0.2)->getTimestamp());
-        $t->setEcommerceView($sku = 'ABCSKU123', $name = 'special plugin', $cat = 'product category', $price = 888);
+        $t->setEcommerceView($sku = 'ABCSKU123', $name = 'special plugin', $cat = 'product\category', $price = 888);
         $t->setUrl('http://piwik.net/product');
         Fixture::checkResponse($t->doTrackPageView('product page')); // view
 
         $t->setForceVisitDateTime(Date::factory(self::$dateTime)->addHour(0.22)->getTimestamp());
-        $t->addEcommerceItem($sku = 'ABCSKU123', $name = 'special plugin', $cat = 'product category', $price = 888, $quantity = 2);
+        $t->addEcommerceItem($sku = 'ABCSKU123', $name = 'special plugin', $cat = 'product\category', $price = 888, $quantity = 2);
         $t->setUrl('http://piwik.net/order');
         Fixture::checkResponse($t->doTrackPageView('order page'));
         $discount = 50;
