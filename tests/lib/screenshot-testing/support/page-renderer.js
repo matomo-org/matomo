@@ -547,21 +547,12 @@ PageRenderer.prototype.getWholeCurrentUrl = function () {
 
 /**
  * Screenshot .pageWrap container with hidden #secondNavBar.
- * Optionally allow for page wrap selector to be customised for plugins.
- *
- * @param args
- * @returns {Promise<*>}
  */
-PageRenderer.prototype.screenshotPageWrap = async function (...args) {
-  let selector = '.pageWrap';
-  if (args.length && typeof args[0] === 'string') {
-    selector = args[0];
-  }
-
+PageRenderer.prototype.screenshotPageWrap = async function () {
   await this.webpage.evaluate(function () {
     $('#secondNavBar').css('visibility', 'hidden'); // hide navbar so shadow isn't shown on screenshot
   });
-  const pageWrap = await this.webpage.$(selector);
+  const pageWrap = await this.webpage.$('.pageWrap');
   const screenshot = await pageWrap.screenshot();
   await this.webpage.evaluate(function () {
     $('#secondNavBar').css('visibility', 'visible'); // show navbar again
