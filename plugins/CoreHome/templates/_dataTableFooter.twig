@@ -29,7 +29,7 @@
         {% if (properties.related_reports is not empty) and properties.show_related_reports %}
             <div class="row datatableRelatedReports">
                 {{ properties.related_reports_title|raw }}
-                <ul style="list-style:none;{% if properties.related_reports|length == 1 %}display:inline-block;{% endif %}}">
+                <ul style="list-style:none;{% if properties.related_reports|length == 1 %}display:inline-block;{% endif %}">
                     <li><span href="{{ properties.self_url }}" style="display:none;">{{ properties.title }}</span></li>
 
                     {% for reportUrl,reportTitle in properties.related_reports %}
