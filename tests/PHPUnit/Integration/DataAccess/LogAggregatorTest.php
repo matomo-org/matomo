@@ -341,6 +341,71 @@ class LogAggregatorTest extends IntegrationTestCase
         $this->assertEquals('logtmpsegmentcc2efa0acbd5f209', $this->logAggregator->getSegmentTmpTableName());
     }
 
+    public function test_getSegmentTableSql_ShouldAddJoinHintAsCommentIfEnabled()
+    {
+        Config::getInstance()->General['enable_segment_first_table_join_prefix'] = '1';
+
+        $query = $this->getSegmentSql();
+        $expected = [
+            'sql' => "SELECT /*+ JOIN_PREFIX(log_visit) */
+				distinct log_visit.idvisit as idvisit
+			FROM
+				log_visit AS log_visit
+			WHERE
+				( log_visit.visit_last_action_time >= ?
+				AND log_visit.visit_last_action_time <= ?
+				AND log_visit.idsite IN (?) )
+                AND
+                ( log_visit.user_id = ? )
+			ORDER BY
+				log_visit.idvisit ASC",
+            'bind' => [
+                '2010-03-01 00:00:00',
+                '2010-03-31 23:59:59',
+                1,
+                '1'
+            ]
+        ];
+        $this->assertSame($expected, $query);
+    }
+
+    public function test_getSegmentTableSql_ShouldNotAddJoinHintAsCommentIfDisabled()
+    {
+        Config::getInstance()->General['enable_segment_first_table_join_prefix'] = '0';
+        $query = $this->getSegmentSql();
+
+        $expected = [
+            'sql' => "
+			SELECT
+				distinct log_visit.idvisit as idvisit
+			FROM
+				log_visit AS log_visit
+			WHERE
+				( log_visit.visit_last_action_time >= ?
+				AND log_visit.visit_last_action_time <= ?
+				AND log_visit.idsite IN (?) )
+                AND
+                ( log_visit.user_id = ? )
+			ORDER BY
+				log_visit.idvisit ASC",
+            'bind' => [
+                '2010-03-01 00:00:00',
+                '2010-03-31 23:59:59',
+                1,
+                '1'
+            ]
+        ];
+        $this->assertSame($expected, $query);
+    }
+
+    private function getSegmentSql()
+    {
+        $segment = new Segment('userId==1', [$this->site->getId()]);
+        $params = new Parameters($this->site, $this->period, $segment);
+        $this->logAggregator = new LogAggregator($params);
+        return $this->logAggregator->getSegmentTableSql();
+    }
+
     public function test_generateQuery_WithQueryHint_ShouldAddQueryHintAsComment()
     {
         $this->logAggregator->setQueryOriginHint('MyPluginName');
@@ -348,6 +413,30 @@ class LogAggregatorTest extends IntegrationTestCase
 
         $expected = array(
             'sql' => 'SELECT /* sites 1 */ /* 2010-03-01,2010-03-31 */ /* MyPluginName */
+				test, test2
+			FROM
+				log_visit AS log_visit
+			WHERE
+				1=1
+			ORDER BY
+				5',
+            'bind' => array (
+                0 => '2010-03-01 00:00:00',
+                1 => '2010-03-31 23:59:59',
+                2 => 1
+            )
+        );
+        $this->assertSame($expected, $query);
+    }
+
+    public function test_generateQuery_ShouldAddJoinQueryHintAsCommentIfEnabled()
+    {
+        Config::getInstance()->General['enable_first_table_join_prefix'] = '1';
+        $this->logAggregator->setQueryOriginHint('MyPluginName');
+        $query = $this->logAggregator->generateQuery('test, test2', 'log_visit', '1=1', false, '5');
+
+        $expected = array(
+            'sql' => 'SELECT /*+ JOIN_PREFIX(log_visit) */ /* sites 1 */ /* 2010-03-01,2010-03-31 */ /* MyPluginName */
 				test, test2
 			FROM
 				log_visit AS log_visit

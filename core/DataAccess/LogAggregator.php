@@ -385,6 +385,12 @@ class LogAggregator
 
         if (is_array($query) && array_key_exists('sql', $query)) {
             $query['sql'] = DbHelper::addOriginHintToQuery($query['sql'], $this->queryOriginHint, $this->dateStart, $this->dateEnd, $this->sites, $this->segment);
+
+            $generalConfig = Config::getInstance()->General;
+            if (!empty($generalConfig['enable_first_table_join_prefix']) && $generalConfig['enable_first_table_join_prefix'] == "1")
+            {
+                $query['sql'] = DbHelper::addJoinPrefixHintToQuery($query['sql'], (is_array($from) ? reset($from) : $from));
+            }
         }
 
         return $query;
@@ -401,6 +407,22 @@ class LogAggregator
     private function createSegmentTable(): string
     {
         $segmentTable = $this->getSegmentTmpTableName();
+        $segmentSql = $this->getSegmentTableSql();
+
+        $this->createTemporaryTable($segmentTable, $segmentSql['sql'], $segmentSql['bind']);
+
+        return $segmentTable;
+    }
+
+    /**
+     * Return the SQL query used to populate the segment temporary table
+     *
+     * @return array
+     * @throws \Piwik\Exception\DI\DependencyException
+     * @throws \Piwik\Exception\DI\NotFoundException
+     */
+    public function getSegmentTableSql(): array
+    {
         $segmentWhere = $this->getWhereStatement('log_visit', 'visit_last_action_time');
         $segmentBind = $this->getGeneralQueryBindParams();
 
@@ -410,16 +432,16 @@ class LogAggregator
         $segmentSql = $this->segment->getSelectQuery('distinct log_visit.idvisit as idvisit', 'log_visit', $segmentWhere, $segmentBind, 'log_visit.idvisit ASC');
 
         if (is_array($segmentSql) && array_key_exists('sql', $segmentSql)) {
-            $segmentSql['sql'] = DbHelper::addJoinPrefixHintToQuery($segmentSql['sql'], 'log_visit');
+            $generalConfig = Config::getInstance()->General;
+            if (!empty($generalConfig['enable_segment_first_table_join_prefix']) && $generalConfig['enable_segment_first_table_join_prefix'] == "1") {
+                $segmentSql['sql'] = DbHelper::addJoinPrefixHintToQuery($segmentSql['sql'], 'log_visit');
+            }
         }
 
         $logQueryBuilder->forceInnerGroupBySubselect($forceGroupByBackup);
 
-        $this->createTemporaryTable($segmentTable, $segmentSql['sql'], $segmentSql['bind']);
-
-        return $segmentTable;
+        return $segmentSql;
     }
-
 
     protected function getVisitsMetricFields()
     {

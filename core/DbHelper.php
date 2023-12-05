@@ -364,15 +364,12 @@ class DbHelper
      */
     public static function addJoinPrefixHintToQuery(string $sql, string $prefix): string
     {
-        $generalConfig = Config::getInstance()->General;
-        if (empty($generalConfig['enable_segment_first_table_join_prefix']) || $generalConfig['enable_segment_first_table_join_prefix'] != "1") {
-            return $sql;
-        }
-
-        $select = 'SELECT';
-        if (0 === strpos(trim($sql), $select)) {
-            $sql = trim($sql);
-            $sql = 'SELECT /*+ JOIN_PREFIX(' . $prefix . ') */' . substr($sql, strlen($select));
+        if (strpos(trim($sql), '/*+ JOIN_PREFIX(') === false) {
+            $select = 'SELECT';
+            if (0 === strpos(trim($sql), $select)) {
+                $sql = trim($sql);
+                $sql = 'SELECT /*+ JOIN_PREFIX('.$prefix.') */'.substr($sql, strlen($select));
+            }
         }
 
         return $sql;

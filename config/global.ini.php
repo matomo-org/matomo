@@ -877,9 +877,12 @@ enable_referrer_definition_syncs = 1
 ; so it can be disabled here if necessary.
 disable_tracking_matomo_app_links = 0
 
-; Force the order of the first table when building segment queries in MySQL. This can be used to override sub-optimal
-; choices by the MYSQL optimizer and always ensure the query plan starts with the first table in the query.
+; Add a query hint for the order of joined tables when building segment queries in MySQL. This can be used to override
+; sub-optimal choices by the MYSQL optimizer and always ensure the query plan starts with the first table in the query.
 enable_segment_first_table_join_prefix = 0
+
+; Add a query hint for the order of the first table for all log table queries in MySQL.
+enable_first_table_join_prefix = 0
 
 [Tracker]
 
