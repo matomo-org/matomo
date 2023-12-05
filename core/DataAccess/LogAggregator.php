@@ -408,6 +408,11 @@ class LogAggregator
         $forceGroupByBackup = $logQueryBuilder->getForcedInnerGroupBySubselect();
         $logQueryBuilder->forceInnerGroupBySubselect(LogQueryBuilder::FORCE_INNER_GROUP_BY_NO_SUBSELECT);
         $segmentSql = $this->segment->getSelectQuery('distinct log_visit.idvisit as idvisit', 'log_visit', $segmentWhere, $segmentBind, 'log_visit.idvisit ASC');
+
+        if (is_array($segmentSql) && array_key_exists('sql', $segmentSql)) {
+            $segmentSql['sql'] = DbHelper::addJoinPrefixHintToQuery($segmentSql['sql'], 'log_visit');
+        }
+
         $logQueryBuilder->forceInnerGroupBySubselect($forceGroupByBackup);
 
         $this->createTemporaryTable($segmentTable, $segmentSql['sql'], $segmentSql['bind']);
