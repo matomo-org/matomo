@@ -377,7 +377,6 @@
         "PleaseUpdatePiwik": "Por favor actualice su Matomo",
         "PleaseUpgradeYourPhpVersionSoYourPiwikDataStaysSecure": "Por favor actualice su versión de PHP a por lo menos %s así sus datos de analíticas Matomo permanecen seguros.",
         "Plugin": "Complemento",
-        "PluginSubscriptions": "Suscripciones a plugins",
         "Plugins": "Complementos",
         "PoweredBy": "Impulsado por",
         "Previous": "Anterior",

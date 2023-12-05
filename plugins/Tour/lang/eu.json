@@ -1,1 +1,36 @@
-{}
+{
+    "Tour": {
+        "AddAnnotation": "Gehitu ohar bat",
+        "AddAnotherWebsite": "Gehitu beste webgune bat",
+        "AddReport": "Gehitu programatutako txosten bat",
+        "AddSegment": "Gehitu segmentu bat",
+        "BecomeMatomoExpert": "Bihurtu Matomo aditua",
+        "BrowseMarketplace": "Arakatu Merkatua",
+        "ChallengeCompleted": "Zorionak, erronka osatuta dago.",
+        "ChangeVisualisation": "Aldatu bisualizazio bat",
+        "ChangeVisualisationDescription": "Arakatu txosten bat eta hautatu txostenaren beheko aldeko bisualizazioaren ikonoa bere bisualizazioa aldatzeko.",
+        "ConfigureGeolocation": "Konfiguratu geolokalizazioa",
+        "ConnectConsentManager": "Konektatu %1$s onarpen-kudeatzailea",
+        "CustomiseDashboard": "Konfiguratu zure panela",
+        "CustomiseDashboardDescription": "Gehitu widget-ak zure panelean, metrika garrantzitsuenen berri ematen duela ziurtatzeko.",
+        "DefineGoal": "Gehitu helburu bat",
+        "EmbedTrackingCode": "Kapsulatu jarraipen-kode bat",
+        "FlattenActions": "Tolestu txosten-orri bat",
+        "InviteUser": "Gonbidatu erabiltzaile bat",
+        "MatomoBeginner": "Matomo hasiberria",
+        "MatomoExpert": "Matomo aditua",
+        "MatomoIntermediate": "Matomo ertaina",
+        "MatomoProfessional": "Matomo profesionala",
+        "MatomoTalent": "Matomo talentua",
+        "NextChallenges": "Hurrengo erronkak",
+        "PreviousChallenges": "Aurreko erronkak",
+        "RowEvolution": "Errenkadaren bilakaera",
+        "SelectDateRange": "Hautatu data-tartea",
+        "SetupX": "Konfiguratu %s",
+        "ShareYourAchievementOn": "Partekatu zure lorpena %1$s(e)n.",
+        "SkipThisChallenge": "Saltatu erronka hau",
+        "UploadLogo": "Igo zure logoa",
+        "ViewX": "Ikusi %s",
+        "YouCanCallYourselfExpert": "Benetako %1$sMatomo aditua%2$s zarela esan dezakezu orain."
+    }
+}
