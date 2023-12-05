@@ -11,6 +11,7 @@ namespace Piwik\DataAccess;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Config\DatabaseConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\DataArray;
 use Piwik\Date;
@@ -385,9 +386,7 @@ class LogAggregator
 
         if (is_array($query) && array_key_exists('sql', $query)) {
             $query['sql'] = DbHelper::addOriginHintToQuery($query['sql'], $this->queryOriginHint, $this->dateStart, $this->dateEnd, $this->sites, $this->segment);
-
-            $generalConfig = Config::getInstance()->General;
-            if (!empty($generalConfig['enable_first_table_join_prefix']) && $generalConfig['enable_first_table_join_prefix'] == "1")
+            if (DatabaseConfig::getConfigValue('enable_first_table_join_prefix'))
             {
                 $query['sql'] = DbHelper::addJoinPrefixHintToQuery($query['sql'], (is_array($from) ? reset($from) : $from));
             }
@@ -432,8 +431,7 @@ class LogAggregator
         $segmentSql = $this->segment->getSelectQuery('distinct log_visit.idvisit as idvisit', 'log_visit', $segmentWhere, $segmentBind, 'log_visit.idvisit ASC');
 
         if (is_array($segmentSql) && array_key_exists('sql', $segmentSql)) {
-            $generalConfig = Config::getInstance()->General;
-            if (!empty($generalConfig['enable_segment_first_table_join_prefix']) && $generalConfig['enable_segment_first_table_join_prefix'] == "1") {
+            if (DatabaseConfig::getConfigValue('enable_segment_first_table_join_prefix')) {
                 $segmentSql['sql'] = DbHelper::addJoinPrefixHintToQuery($segmentSql['sql'], 'log_visit');
             }
         }
@@ -580,9 +578,34 @@ class LogAggregator
      *                                   ranking query SQL will be immediately executed and the results returned.
      * @api
      */
-    public function queryVisitsByDimension(array $dimensions = array(), $where = false, array $additionalSelects = array(),
+    public function queryVisitsByDimension(array $dimensions = [], $where = false, array $additionalSelects = [],
                                            $metrics = false, $rankingQuery = false, $orderBy = false, $timeLimitInMs = -1,
                                            $rankingQueryGenerate = false)
+    {
+
+        $query = $this->getQueryByDimensionSql($dimensions, $where, $additionalSelects, $metrics, $rankingQuery, $orderBy,
+            $timeLimitInMs, $rankingQueryGenerate);
+        return $this->getDb()->query($query['sql'], $query['bind']);
+    }
+
+    /**
+     * Build the sql query used to query dimension data
+     *
+     * @param array                     $dimensions
+     * @param bool|string               $where
+     * @param array                     $additionalSelects
+     * @param bool|array                $metrics
+     * @param bool|\Piwik\RankingQuery  $rankingQuery
+     * @param bool|string               $orderBy
+     * @param int                       $timeLimitInMs
+     * @param bool                      $rankingQueryGenerate
+     *
+     * @return array
+     * @throws \Piwik\Exception\DI\DependencyException
+     * @throws \Piwik\Exception\DI\NotFoundException
+     */
+    public function getQueryByDimensionSql(array $dimensions, $where, array $additionalSelects, $metrics, $rankingQuery,
+                                            $orderBy, $timeLimitInMs, $rankingQueryGenerate): array
     {
         $tableName = self::LOG_VISIT_TABLE;
         $availableMetrics = $this->getVisitsMetricFields();
@@ -627,7 +650,7 @@ class LogAggregator
 
         $query['sql'] = DbHelper::addMaxExecutionTimeHintToQuery($query['sql'], $timeLimitInMs);
 
-        return $this->getDb()->query($query['sql'], $query['bind']);
+        return $query;
     }
 
     protected function getSelectsMetrics($metricsAvailable, $metricsRequested = false)

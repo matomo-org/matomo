@@ -435,7 +435,7 @@ class LogAggregatorTest extends IntegrationTestCase
         $this->logAggregator->setQueryOriginHint('MyPluginName');
         $query = $this->logAggregator->generateQuery('test, test2', 'log_visit', '1=1', false, '5');
 
-        $expected = array(
+        $expected = [
             'sql' => 'SELECT /*+ JOIN_PREFIX(log_visit) */ /* sites 1 */ /* 2010-03-01,2010-03-31 */ /* MyPluginName */
 				test, test2
 			FROM
@@ -444,12 +444,54 @@ class LogAggregatorTest extends IntegrationTestCase
 				1=1
 			ORDER BY
 				5',
-            'bind' => array (
+            'bind' => [
                 0 => '2010-03-01 00:00:00',
                 1 => '2010-03-31 23:59:59',
                 2 => 1
-            )
-        );
+            ]
+        ];
+        $this->assertSame($expected, $query);
+    }
+
+    public function test_queryVisitsByDimension_ShouldAddJoinQueryHintOriginHintMaxExecutionTimeHintIfEnabled()
+    {
+        $dimensions = [
+            'CASE WHEN HOUR(log_visit.visit_first_action_time) <= 11 THEN \'l\'' .
+            'ELSE \'r\'' .
+            'END AS label',
+        ];
+
+        Config::getInstance()->General['enable_first_table_join_prefix'] = '1';
+        $this->logAggregator->setQueryOriginHint('MyPluginName');
+
+        $query = $this->logAggregator->getQueryByDimensionSql($dimensions, false, [], false, false,
+            false, 5, false);
+
+        $expected = [
+            'sql' => "SELECT  /*+ MAX_EXECUTION_TIME(5000) */  /*+ JOIN_PREFIX(log_visit) */ /* sites 1 */ /* 2010-03-01,2010-03-31 */ /* MyPluginName */
+				CASE WHEN HOUR(log_visit.visit_first_action_time) <= 11 THEN 'l'ELSE 'r'END AS label, 
+			count(distinct log_visit.idvisitor) AS `1`, 
+			count(*) AS `2`, 
+			sum(log_visit.visit_total_actions) AS `3`, 
+			max(log_visit.visit_total_actions) AS `4`, 
+			sum(log_visit.visit_total_time) AS `5`, 
+			sum(case log_visit.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) AS `6`, 
+			sum(case log_visit.visit_goal_converted when 1 then 1 else 0 end) AS `7`, 
+			count(distinct log_visit.user_id) AS `39`
+			FROM
+				log_visit AS log_visit
+			WHERE
+				log_visit.visit_last_action_time >= ?
+				AND log_visit.visit_last_action_time <= ?
+				AND log_visit.idsite IN (?)
+			GROUP BY
+				label",
+            'bind' => [
+                0 => '2010-03-01 00:00:00',
+                1 => '2010-03-31 23:59:59',
+                2 => 1
+            ]
+        ];
         $this->assertSame($expected, $query);
     }
 

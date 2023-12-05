@@ -49,6 +49,13 @@ charset = utf8
 ;
 ;ignore_error_codes[] = 1105
 
+; Add a query hint for the order of joined tables when building segment queries in MySQL. This can be used to override
+; sub-optimal choices by the MYSQL optimizer and always ensure the query plan starts with the first table in the query.
+enable_segment_first_table_join_prefix = 0
+
+; Add a query hint for the order of the first table for all log table queries in MySQL.
+enable_first_table_join_prefix = 0
+
 ; If configured, the following queries will be executed on the reader instead of the writer.
 ; * archiving queries that hit a log table
 ; * live queries that hit a log table
@@ -876,13 +883,6 @@ enable_referrer_definition_syncs = 1
 ; the link url could be used by third parties monitoring network requests to identify that the Matomo app is being used,
 ; so it can be disabled here if necessary.
 disable_tracking_matomo_app_links = 0
-
-; Add a query hint for the order of joined tables when building segment queries in MySQL. This can be used to override
-; sub-optimal choices by the MYSQL optimizer and always ensure the query plan starts with the first table in the query.
-enable_segment_first_table_join_prefix = 0
-
-; Add a query hint for the order of the first table for all log table queries in MySQL.
-enable_first_table_join_prefix = 0
 
 [Tracker]
 
