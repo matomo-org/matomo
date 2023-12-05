@@ -32,7 +32,7 @@ if (!process.env.MATOMO_CURRENT_PLUGIN) {
   console.log("The MATOMO_CURRENT_PLUGIN environment variable is not set!");
 }
 
-const pluginPath = process.env.MATOMO_CURRENT_PLUGIN;
+const pluginPath = process.env.MATOMO_CURRENT_PLUGIN || '';
 const pluginName = path.basename(pluginPath);
 
 const srcPath = `${pluginPath}/vue/src/`;
