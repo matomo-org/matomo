@@ -54,7 +54,7 @@ class Build extends ConsoleCommand
         $watch = $input->getOption('watch');
 
         $allPluginNames = $this->getAllPlugins();
-        $allPluginNames = $this->filterPluginsWithoutVueLibrary($allPluginNames);
+        $allPluginNames = $this->filterPluginsWithoutVueLibrary($allPluginNames, true);
 
         $plugins = $input->getArgument('plugins');
         if (empty($plugins)) {
@@ -298,7 +298,7 @@ class Build extends ConsoleCommand
     private function getAllPlugins(): array
     {
         $pluginDirectories = array_merge(
-            $GLOBALS['MATOMO_PLUGIN_DIRS'],
+            $GLOBALS['MATOMO_PLUGIN_DIRS'] ?? [],
             [
                 [
                     'pluginsPathAbsolute' => PIWIK_INCLUDE_PATH . '/plugins',
