@@ -66,23 +66,27 @@
                                                             <span style="white-space:nowrap">({{ marketplaceMacro.helpLink(plugin)|trim|raw }}{{ _self.downloadButton(true, plugin, isAutoUpdatePossible)|raw }})</span>
                                                         </div>
                                                     {% elseif plugin.isInstalled %}
-                                                        {{ 'General_Installed'|translate }}
-                                                        {{ _self.downloadButton(false, plugin, isAutoUpdatePossible, true)|raw }}
+                                                        <div class="alert alert-success alert-no-background">
+                                                            {{ 'General_Installed'|translate }}
+                                                            {{ _self.downloadButton(false, plugin, isAutoUpdatePossible, true)|raw }}
+                                                        </div>
                                                     {% elseif not plugin.isDownloadable %}
                                                         {{ marketplaceMacro.pluginActionButton(plugin)|raw }}
                                                     {% else %}
-                                                        {{ 'Marketplace_CannotInstall'|translate }}
-                                                        <span style="white-space:nowrap">({{ marketplaceMacro.helpLink(plugin)|trim|raw }}{{ _self.downloadButton(true, plugin, isAutoUpdatePossible)|raw }})</span>
+                                                        <div class="alert alert-warning">
+                                                            {{ 'Marketplace_CannotInstall'|translate }}
+                                                            <span style="white-space:nowrap">({{ marketplaceMacro.helpLink(plugin)|trim|raw }}{{ _self.downloadButton(true, plugin, isAutoUpdatePossible)|raw }})</span>
+                                                        </div>
                                                     {% endif %}
 
                                                 {% elseif plugin.isInstalled %}
 
                                                     <div class="alert alert-success alert-no-background">
-                                                    {{ 'General_Installed'|translate }}
+                                                        {{ 'General_Installed'|translate }}
 
-                                                    {% if not plugin.isInvalid and not isMultiServerEnvironment and isPluginsAdminEnabled %}
-                                                        ({{ pluginsMacro.pluginActivateDeactivateAction(plugin.name, plugin.isActivated, plugin.missingRequirements, deactivateNonce, activateNonce) }})
-                                                    {% endif %}
+                                                        {% if not plugin.isInvalid and not isMultiServerEnvironment and isPluginsAdminEnabled %}
+                                                            ({{ pluginsMacro.pluginActivateDeactivateAction(plugin.name, plugin.isActivated, plugin.missingRequirements, deactivateNonce, activateNonce) }})
+                                                        {% endif %}
                                                     </div>
 
                                                 {% elseif plugin.isPaid and not plugin.isDownloadable %}
