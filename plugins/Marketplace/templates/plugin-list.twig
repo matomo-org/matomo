@@ -35,14 +35,14 @@
                                                     <div class="alert alert-danger" >
                                                         {{ 'Marketplace_LicenseMissing'|translate }}
 
-                                                        <span style="white-space:nowrap">(<a tabindex="7" class="plugin-details" href="#" vue-directive="CorePluginsAdmin.PluginName"  vue-directive-value="{{ { pluginName: plugin.name }|json_encode }}" title="{{ 'General_MoreDetails'|translate }}">{{ 'General_Help'|translate }}</a>)</span>
+                                                        <span style="white-space:nowrap">({{ marketplaceMacro.helpLink(plugin)|trim|raw }})</span>
                                                     </div>
 
                                                 {% elseif plugin.hasExceededLicense is defined and plugin.hasExceededLicense %}
                                                     <div class="alert alert-danger">
                                                         {{ 'Marketplace_LicenseExceeded'|translate }}
 
-                                                        <span style="white-space:nowrap">(<a tabindex="7" class="plugin-details" href="#" vue-directive="CorePluginsAdmin.PluginName" vue-directive-value="{{ { pluginName: plugin.name }|json_encode }}" title="{{ 'General_MoreDetails'|translate }}">{{ 'General_Help'|translate }}</a>)</span>
+                                                        <span style="white-space:nowrap">({{ marketplaceMacro.helpLink(plugin)|trim|raw }})</span>
                                                     </div>
 
                                                 {% elseif plugin.canBeUpdated and 0 == plugin.missingRequirements|length and isAutoUpdatePossible %}
@@ -61,7 +61,7 @@
                                                     {% if plugin.canBeUpdated and 0 == plugin.missingRequirements|length %}
                                                         <div class="alert alert-warning">
                                                             {{ 'Marketplace_CannotUpdate'|translate }}
-                                                            <span style="white-space:nowrap">(<a tabindex="7" class="plugin-details" href="#" vue-directive="CorePluginsAdmin.PluginName"  vue-directive-value="{{ { pluginName: plugin.name }|json_encode }}" title="{{ 'General_MoreDetails'|translate }}">{{ 'General_Help'|translate }}</a>{{ _self.downloadButton(true, plugin, isAutoUpdatePossible)|raw }})</span>
+                                                            <span style="white-space:nowrap">({{ marketplaceMacro.helpLink(plugin)|trim|raw }}{{ _self.downloadButton(true, plugin, isAutoUpdatePossible)|raw }})</span>
                                                         </div>
                                                     {% elseif plugin.isInstalled %}
                                                         {{ 'General_Installed'|translate }}
@@ -71,7 +71,7 @@
                                                     {% else %}
                                                         {{ 'Marketplace_CannotInstall'|translate }}
 
-                                                        <span style="white-space:nowrap">(<a tabindex="7" class="plugin-details" href="#" vue-directive="CorePluginsAdmin.PluginName"  vue-directive-value="{{ { pluginName: plugin.name }|json_encode }}" title="{{ 'General_MoreDetails'|translate }}">{{ 'General_Help'|translate }}</a>{{ _self.downloadButton(true, plugin, isAutoUpdatePossible)|raw }})</span>
+                                                        <span style="white-space:nowrap">({{ marketplaceMacro.helpLink(plugin)|trim|raw }}{{ _self.downloadButton(true, plugin, isAutoUpdatePossible)|raw }})</span>
                                                     {% endif %}
 
                                                 {% elseif plugin.isInstalled %}
