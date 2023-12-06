@@ -373,8 +373,8 @@ class LogAggregatorTest extends IntegrationTestCase
     public function test_getSegmentTableSql_ShouldNotAddJoinHintAsCommentIfDisabled()
     {
         DatabaseConfig::setConfigValue('enable_segment_first_table_join_prefix', '0');
-        $query = $this->getSegmentSql();
 
+        $query = $this->getSegmentSql();
         $expected = [
             'sql' => "
 			SELECT
