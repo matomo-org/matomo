@@ -10,6 +10,7 @@ namespace Piwik\Tests\Integration\DataAccess;
 
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\Config;
+use Piwik\Config\DatabaseConfig;
 use Piwik\Common;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\Date;
@@ -343,7 +344,7 @@ class LogAggregatorTest extends IntegrationTestCase
 
     public function test_getSegmentTableSql_ShouldAddJoinHintAsCommentIfEnabled()
     {
-        Config::getInstance()->General['enable_segment_first_table_join_prefix'] = '1';
+        DatabaseConfig::setConfigValue('enable_segment_first_table_join_prefix', '1');
 
         $query = $this->getSegmentSql();
         $expected = [
@@ -371,7 +372,7 @@ class LogAggregatorTest extends IntegrationTestCase
 
     public function test_getSegmentTableSql_ShouldNotAddJoinHintAsCommentIfDisabled()
     {
-        Config::getInstance()->General['enable_segment_first_table_join_prefix'] = '0';
+        DatabaseConfig::setConfigValue('enable_segment_first_table_join_prefix', '0');
         $query = $this->getSegmentSql();
 
         $expected = [
@@ -431,7 +432,7 @@ class LogAggregatorTest extends IntegrationTestCase
 
     public function test_generateQuery_ShouldAddJoinQueryHintAsCommentIfEnabled()
     {
-        Config::getInstance()->General['enable_first_table_join_prefix'] = '1';
+        DatabaseConfig::setConfigValue('enable_first_table_join_prefix','1');
         $this->logAggregator->setQueryOriginHint('MyPluginName');
         $query = $this->logAggregator->generateQuery('test, test2', 'log_visit', '1=1', false, '5');
 
@@ -461,7 +462,7 @@ class LogAggregatorTest extends IntegrationTestCase
             'END AS label',
         ];
 
-        Config::getInstance()->General['enable_first_table_join_prefix'] = '1';
+        DatabaseConfig::setConfigValue('enable_first_table_join_prefix','1');
         $this->logAggregator->setQueryOriginHint('MyPluginName');
 
         $query = $this->logAggregator->getQueryByDimensionSql($dimensions, false, [], false, false,
