@@ -582,9 +582,14 @@ class LogAggregator
                                            $metrics = false, $rankingQuery = false, $orderBy = false, $timeLimitInMs = -1,
                                            $rankingQueryGenerate = false)
     {
-
         $query = $this->getQueryByDimensionSql($dimensions, $where, $additionalSelects, $metrics, $rankingQuery, $orderBy,
             $timeLimitInMs, $rankingQueryGenerate);
+
+        // Ranking queries will return the data directly
+        if ($rankingQuery && !$rankingQueryGenerate) {
+            return $query;
+        }
+
         return $this->getDb()->query($query['sql'], $query['bind']);
     }
 
