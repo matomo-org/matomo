@@ -8,12 +8,12 @@
  */
 namespace Piwik\Config;
 
-class GeneralConfig extends SectionConfig
+class DatabaseConfig extends SectionConfig
 {
 
     public static function getSectionName(): string
     {
-        return 'General';
+        return 'database';
     }
 
 }
