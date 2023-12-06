@@ -432,7 +432,7 @@ class LogAggregatorTest extends IntegrationTestCase
 
     public function test_generateQuery_ShouldAddJoinQueryHintAsCommentIfEnabled()
     {
-        DatabaseConfig::setConfigValue('enable_first_table_join_prefix','1');
+        DatabaseConfig::setConfigValue('enable_first_table_join_prefix', '1');
         $this->logAggregator->setQueryOriginHint('MyPluginName');
         $query = $this->logAggregator->generateQuery('test, test2', 'log_visit', '1=1', false, '5');
 
