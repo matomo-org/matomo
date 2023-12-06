@@ -16,7 +16,7 @@
         "CannotInstall": "Installation nicht möglich",
         "CannotUpdate": "Aktualisierung nicht möglich",
         "ClickToCompletePurchase": "Klicken Sie um den Kauf abzuschließen.",
-        "ConfirmRemoveLicense": "Siend Sie sicher, dass Sie diesen Lizenzschlüssel entfernen wollen? Sie werden für keines Ihrer gekauften Plugins mehr Updates erhalten.",
+        "ConfirmRemoveLicense": "Sind Sie sicher, dass Sie diesen Lizenzschlüssel entfernen wollen? Sie werden für keines Ihrer gekauften Plugins mehr Updates erhalten.",
         "CurrentNumPiwikUsers": "In Ihrem Matomo sind derzeit %1$s Benutzer registriert.",
         "Developer": "Entwickler",
         "DevelopersLearnHowToDevelopPlugins": "Für Entwickler: Lernen Sie wie Sie Matomo erweitern und personalisieren können, in dem Sie %1$sPlugins oder Themes entwickeln%2$s.",
