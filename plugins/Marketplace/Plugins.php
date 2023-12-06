@@ -386,7 +386,7 @@ class Plugins
             }
         }
 
-        $plugin['previewImage'] = SettingsPiwik::getPiwikUrl() . 'plugins/Marketplace/images/previews/' . $previewImage . '.png';
+        $plugin['previewImage'] = 'plugins/Marketplace/images/previews/' . $previewImage . '.png';
     }
 
     private function prettifyNumberOfDownloads(&$plugin): void
