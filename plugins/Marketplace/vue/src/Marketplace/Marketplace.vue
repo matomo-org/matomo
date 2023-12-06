@@ -58,8 +58,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { translate, MatomoUrl, Matomo } from 'CoreHome';
+import { defineComponent, nextTick } from 'vue';
+import {
+  debounce, translate, MatomoUrl, Matomo,
+} from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 
 interface MarketplaceState {
@@ -69,6 +71,8 @@ interface MarketplaceState {
 }
 
 const lcfirst = (s: string) => `${s[0].toLowerCase()}${s.substring(1)}`;
+
+const { $ } = window;
 
 export default defineComponent({
   props: {
@@ -116,6 +120,72 @@ export default defineComponent({
   },
   unmounted() {
     Matomo.postEvent('Marketplace.Marketplace.unmounted', { element: this.$refs.root });
+  },
+  created() {
+    const addCardClickHandler = (selector: string) => {
+      const $nodes = $(selector);
+      if (!$nodes || !$nodes.length) {
+        return;
+      }
+
+      $nodes.each((index, node) => {
+        const $card = $(node);
+
+        $card.off('click.cardClick');
+        $card.on('click.cardClick', (event) => {
+          // check if the target is a link or is a descendant of a link
+          // to skip direct clicks on links within the card, we want those honoured
+          if ($(event.target).closest('a').length) {
+            return;
+          }
+
+          const $titleLink = $card.find('a.card-title-link');
+          if ($titleLink) {
+            event.stopPropagation();
+            $titleLink.trigger('click');
+          }
+        });
+      });
+    };
+
+    const shrinkDescriptionIfMultilineTitle = debounce((selector: string) => {
+      const $nodes = $(selector);
+      if (!$nodes || !$nodes.length) {
+        return;
+      }
+
+      $nodes.each((index, node) => {
+        const $card = $(node);
+        const $titleText = $card.find('.card-title');
+
+        if ($titleText) {
+          let lines = 1;
+          const elHeight = +$titleText.height()!;
+          const lineHeight = +$titleText.css('line-height').replace('px', '');
+          if (lineHeight) {
+            lines = Math.ceil(elHeight / lineHeight) ?? 1;
+          }
+
+          const $cardDescription = $card.find('.card-description');
+          if (lines > 1) {
+            $cardDescription.addClass('card-description-2lines');
+          } else {
+            $cardDescription.removeClass('card-description-2lines');
+          }
+        }
+      });
+    }, 100);
+
+    nextTick(() => {
+      const cardSelector = '.marketplace .card-holder';
+
+      addCardClickHandler(cardSelector);
+      shrinkDescriptionIfMultilineTitle(cardSelector);
+
+      $(window).resize(() => {
+        shrinkDescriptionIfMultilineTitle(cardSelector);
+      });
+    });
   },
   methods: {
     changePluginSort() {

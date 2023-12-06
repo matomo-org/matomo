@@ -155,7 +155,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/Marketplace/Marketplace.vue?vue&type=template&id=6d6f7526
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/Marketplace/Marketplace.vue?vue&type=template&id=688ac5d5
 
 var _hoisted_1 = {
   class: "row marketplaceActions",
@@ -222,7 +222,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   })], 8, _hoisted_5)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 512);
 }
-// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/Marketplace/Marketplace.vue?vue&type=template&id=6d6f7526
+// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/Marketplace/Marketplace.vue?vue&type=template&id=688ac5d5
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -239,6 +239,8 @@ var lcfirst = function lcfirst(s) {
   return "".concat(s[0].toLowerCase()).concat(s.substring(1));
 };
 
+var _window = window,
+    $ = _window.$;
 /* harmony default export */ var Marketplacevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     pluginType: {
@@ -288,6 +290,75 @@ var lcfirst = function lcfirst(s) {
   unmounted: function unmounted() {
     external_CoreHome_["Matomo"].postEvent('Marketplace.Marketplace.unmounted', {
       element: this.$refs.root
+    });
+  },
+  created: function created() {
+    var addCardClickHandler = function addCardClickHandler(selector) {
+      var $nodes = $(selector);
+
+      if (!$nodes || !$nodes.length) {
+        return;
+      }
+
+      $nodes.each(function (index, node) {
+        var $card = $(node);
+        $card.off('click.cardClick');
+        $card.on('click.cardClick', function (event) {
+          // check if the target is a link or is a descendant of a link
+          // to skip direct clicks on links within the card, we want those honoured
+          if ($(event.target).closest('a').length) {
+            return;
+          }
+
+          var $titleLink = $card.find('a.card-title-link');
+
+          if ($titleLink) {
+            event.stopPropagation();
+            $titleLink.trigger('click');
+          }
+        });
+      });
+    };
+
+    var shrinkDescriptionIfMultilineTitle = Object(external_CoreHome_["debounce"])(function (selector) {
+      var $nodes = $(selector);
+
+      if (!$nodes || !$nodes.length) {
+        return;
+      }
+
+      $nodes.each(function (index, node) {
+        var $card = $(node);
+        var $titleText = $card.find('.card-title');
+
+        if ($titleText) {
+          var lines = 1;
+          var elHeight = +$titleText.height();
+          var lineHeight = +$titleText.css('line-height').replace('px', '');
+
+          if (lineHeight) {
+            var _Math$ceil;
+
+            lines = (_Math$ceil = Math.ceil(elHeight / lineHeight)) !== null && _Math$ceil !== void 0 ? _Math$ceil : 1;
+          }
+
+          var $cardDescription = $card.find('.card-description');
+
+          if (lines > 1) {
+            $cardDescription.addClass('card-description-2lines');
+          } else {
+            $cardDescription.removeClass('card-description-2lines');
+          }
+        }
+      });
+    }, 100);
+    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(function () {
+      var cardSelector = '.marketplace .card-holder';
+      addCardClickHandler(cardSelector);
+      shrinkDescriptionIfMultilineTitle(cardSelector);
+      $(window).resize(function () {
+        shrinkDescriptionIfMultilineTitle(cardSelector);
+      });
     });
   },
   methods: {
@@ -960,11 +1031,11 @@ function GetNewPluginsAdminvue_type_template_id_3ba8e55b_render(_ctx, _cache, $p
 
 
 
-var _window = window,
-    $ = _window.$;
+var GetNewPluginsAdminvue_type_script_lang_ts_window = window,
+    GetNewPluginsAdminvue_type_script_lang_ts_$ = GetNewPluginsAdminvue_type_script_lang_ts_window.$;
 
 function applyDotdotdot(root) {
-  $('.col .description', root).dotdotdot({
+  GetNewPluginsAdminvue_type_script_lang_ts_$('.col .description', root).dotdotdot({
     watch: 'window'
   });
 }
