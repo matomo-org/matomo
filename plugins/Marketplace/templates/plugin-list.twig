@@ -75,7 +75,7 @@
                                                     {% endif %}
 
                                                 {% elseif plugin.isInstalled %}
-                                                    <div class="alert alert-success">
+                                                    <div class="alert alert-success alert-no-background">
                                                     {{ 'General_Installed'|translate }}
 
                                                     {% if not plugin.isInvalid and not isMultiServerEnvironment and isPluginsAdminEnabled %}
