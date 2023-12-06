@@ -15,7 +15,6 @@ use Piwik\Plugin\Dependency as PluginDependency;
 use Piwik\Plugin;
 use Piwik\Plugins\Marketplace\Input\PurchaseType;
 use Piwik\Plugins\Marketplace\Input\Sort;
-use Piwik\SettingsPiwik;
 
 /**
  *
@@ -363,7 +362,7 @@ class Plugins
         $plugin['priceFrom'] = array_shift($variations); // use first as the default
 
         foreach ($variations as $variation) {
-            if ($variation['cheapest']) {
+            if ($variation['cheapest'] ?? false) {
                 $plugin['priceFrom'] = $variation;
                 return;
             }
