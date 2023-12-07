@@ -333,8 +333,11 @@ class Plugins
 
     /**
      * Determine if there are any missing requirements/dependencies for the plugin
+     *
+     * @param $plugin
+     * @return array
      */
-    private function addMissingRequirements($plugin)
+    private function addMissingRequirements($plugin): array
     {
         $plugin['missingRequirements'] = [];
 
@@ -358,6 +361,9 @@ class Plugins
 
     /**
      * Find the cheapest shop variant, and if none is found specified, return the first variant.
+     *
+     * @param $plugin
+     * @return void
      */
     private function addPriceFrom(&$plugin): void
     {
@@ -381,6 +387,9 @@ class Plugins
     /**
      * If plugin is by Matomo, check if we have a specific image, otherwise fallback to default Matomo image.
      * If plugin is not by Matomo, use generic preview image for now (until plugin categories are introduced).
+     *
+     * @param $plugin
+     * @return void
      */
     private function addPluginPreviewImage(&$plugin): void
     {
@@ -397,6 +406,12 @@ class Plugins
         $plugin['previewImage'] = 'plugins/Marketplace/images/previews/' . $previewImage . '.png';
     }
 
+    /**
+     * Add prettified number of downloads to plugin info to shorten large numbers to 1k or 1m format.
+     *
+     * @param $plugin
+     * @return void
+     */
     private function prettifyNumberOfDownloads(&$plugin): void
     {
         $num = $nice = $plugin['numDownloads'] ?? 0;
