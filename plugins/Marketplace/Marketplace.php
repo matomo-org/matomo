@@ -122,6 +122,7 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'CorePluginsAdmin_MissingRequirementsNotice';
         $translationKeys[] = 'Marketplace_Marketplace';
         $translationKeys[] = 'Marketplace_RichMenuIntro';
+        $translationKeys[] = 'Marketplace_ManageLicenseKeyIntro';
     }
 
     /**
