@@ -222,18 +222,19 @@ class Controller extends Plugin\ControllerAdmin
         $view->isMarketplaceEnabled = Marketplace::isMarketplaceEnabled();
         $view->isPluginsAdminEnabled = CorePluginsAdmin::isPluginsAdminEnabled();
 
-        $view->pluginsHavingUpdate    = [];
         $view->marketplacePluginNames = [];
+        $view->pluginsHavingUpdate    = [];
+        $view->pluginUpdateNonces     = [];
 
         $skipPluginUpdateCheck = StaticContainer::get('dev.disable_plugin_update_checks');
-        if (!$skipPluginUpdateCheck && Marketplace::isMarketplaceEnabled() && $this->marketplacePlugins) {
+        if (Marketplace::isMarketplaceEnabled() && $this->marketplacePlugins) {
             try {
                 $view->marketplacePluginNames = $this->marketplacePlugins->getAvailablePluginNames($themesOnly);
-                $view->pluginsHavingUpdate    = $this->marketplacePlugins->getPluginsHavingUpdate();
-
-                $view->pluginUpdateNonces = [];
-                foreach ($view->pluginsHavingUpdate as $name => $plugin) {
-                    $view->pluginUpdateNonces[$name] = Nonce::getNonce($plugin['name']);
+                if (!$skipPluginUpdateCheck) {
+                    $view->pluginsHavingUpdate = $this->marketplacePlugins->getPluginsHavingUpdate();
+                    foreach ($view->pluginsHavingUpdate as $name => $plugin) {
+                        $view->pluginUpdateNonces[$name] = Nonce::getNonce($plugin['name']);
+                    }
                 }
             } catch(Exception $e) {
                 // curl exec connection error (ie. server not connected to internet)
