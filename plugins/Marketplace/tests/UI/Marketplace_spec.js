@@ -76,7 +76,7 @@ describe("Marketplace", function () {
         testEnvironment.save();
     }
 
-    function setEnvironment(mode, consumer)
+    function setEnvironment(mode, consumer, forceEnableUpdateChecks)
     {
         if (mode === 'user') {
             testEnvironment.idSitesViewAccess = [1];
@@ -97,6 +97,7 @@ describe("Marketplace", function () {
 
         testEnvironment.consumer = consumer;
         testEnvironment.mockMarketplaceApiService = 1;
+        testEnvironment.forceEnablePluginUpdateChecks = forceEnableUpdateChecks ? 1 : 0;
         testEnvironment.save();
     }
 
@@ -104,7 +105,7 @@ describe("Marketplace", function () {
 
         if (mode !== 'user') {
             it('should show available updates in plugins page', async function() {
-                setEnvironment(mode, noLicense);
+                setEnvironment(mode, noLicense, true);
 
                 await page.goto('?module=CorePluginsAdmin&action=plugins&idSite=1&period=day&date=yesterday&activated=');
 
