@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Marketplace;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Plugin\Manager;
 use Piwik\ProfessionalServices\Advertising;
@@ -177,6 +178,11 @@ class Plugins
      */
     public function getPluginsHavingUpdate(): array
     {
+        $skipPluginUpdateCheck = StaticContainer::get('dev.disable_plugin_update_checks');
+        if ($skipPluginUpdateCheck) {
+            return [];
+        }
+
         $this->pluginManager->loadAllPluginsAndGetTheirInfo();
         $loadedPlugins = $this->pluginManager->getLoadedPlugins();
 

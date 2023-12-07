@@ -225,7 +225,8 @@ class Controller extends Plugin\ControllerAdmin
         $view->pluginsHavingUpdate    = [];
         $view->marketplacePluginNames = [];
 
-        if (Marketplace::isMarketplaceEnabled() && $this->marketplacePlugins) {
+        $skipPluginUpdateCheck = StaticContainer::get('dev.disable_plugin_update_checks');
+        if (!$skipPluginUpdateCheck && Marketplace::isMarketplaceEnabled() && $this->marketplacePlugins) {
             try {
                 $view->marketplacePluginNames = $this->marketplacePlugins->getAvailablePluginNames($themesOnly);
                 $view->pluginsHavingUpdate    = $this->marketplacePlugins->getPluginsHavingUpdate();
