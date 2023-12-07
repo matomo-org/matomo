@@ -36,6 +36,7 @@
         "LastUpdated": "Last Updated",
         "License": "License",
         "LicenseKey": "License key",
+        "ManageLicenseKeyIntro": "You can extend Matomo's capabilities using our premium plugins. To install premium plugins, you need a valid license key, which can be obtained in two ways: you can start a trial for your selected plugin in the %1$smarketplace%2$s, or purchase a plugin subscription on %3$sour website%4$s. Starting a trial in the marketplace will automatically create a license key and add it to this instance. If you purchase a subscription on the website, you will receive a license key that you can add it in the field below. After your license key is added, you can update or remove it if needed.",
         "LicenseKeyActivatedSuccess": "License key successfully activated!",
         "LicenseKeyDeletedSuccess": "License key successfully deleted.",
         "Exceeded": "Exceeded",
