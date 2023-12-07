@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	
+	<hasMoreVisits>0</hasMoreVisits>
+	<totalVisits>3</totalVisits>
+	<totalVisitDuration>0</totalVisitDuration>
+	<totalActions>3</totalActions>
+	<totalOutlinks>0</totalOutlinks>
+	<totalDownloads>0</totalDownloads>
+	<totalSearches>0</totalSearches>
+	<totalPageViews>3</totalPageViews>
+	<totalUniquePageViews>3</totalUniquePageViews>
+	<totalRevisitedPages>0</totalRevisitedPages>
+	<totalPageViewsWithTiming>0</totalPageViewsWithTiming>
+	<totalPageViewsWithLoadTime>0</totalPageViewsWithLoadTime>
+	<searches>
+	</searches>
+	<totalGoalConversions>0</totalGoalConversions>
+	<totalConversionsByGoal>
+	</totalConversionsByGoal>
+	<totalEvents>0</totalEvents>
+	<hasLatLong>0</hasLatLong>
+	<lastVisits>
+		<row>
+			<idSite>2</idSite>
+			<idVisit>6</idVisit>
+			<visitIp>156.5.3.2</visitIp>
+			
+			<fingerprint>9557b29885c9cee8</fingerprint>
+			<actionDetails>
+				<row>
+					<type>action</type>
+					<url>http://example.org/time/offset/1</url>
+					<pageTitle>incredible title 1</pageTitle>
+					<pageIdAction>6</pageIdAction>
+					
+					<serverTimePretty>Feb 1, 2010 06:00:00</serverTimePretty>
+					<pageId>6</pageId>
+					<bandwidth />
+					<timeSpent>0</timeSpent>
+					<timeSpentPretty>0s</timeSpentPretty>
+					<pageviewPosition>1</pageviewPosition>
+					<title>incredible title 1</title>
+					<subtitle>http://example.org/time/offset/1</subtitle>
+					<icon />
+					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
+					<timestamp>1265004000</timestamp>
+					<bandwidth_pretty>0 M</bandwidth_pretty>
+				</row>
+			</actionDetails>
+			<goalConversions>0</goalConversions>
+			<siteCurrency>USD</siteCurrency>
+			<siteCurrencySymbol>$</siteCurrencySymbol>
+			<serverDate>2010-01-31</serverDate>
+			<visitServerHour>16</visitServerHour>
+			<lastActionTimestamp>1264953600</lastActionTimestamp>
+			<lastActionDateTime>2010-01-31 16:00:00</lastActionDateTime>
+			<siteName>Piwik test</siteName>
+			<serverTimestamp>1264953600</serverTimestamp>
+			<firstActionTimestamp>1264953600</firstActionTimestamp>
+			<serverTimePretty>06:00:00</serverTimePretty>
+			<serverDatePretty>Monday, February 1, 2010</serverDatePretty>
+			<serverDatePrettyFirstAction>Monday, February 1, 2010</serverDatePrettyFirstAction>
+			<serverTimePrettyFirstAction>06:00:00</serverTimePrettyFirstAction>
+			<userId />
+			<visitorType>returning</visitorType>
+			<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
+			<visitConverted>0</visitConverted>
+			<visitConvertedIcon />
+			<visitCount>3</visitCount>
+			<visitEcommerceStatus>none</visitEcommerceStatus>
+			<visitEcommerceStatusIcon />
+			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<secondsSinceFirstVisit>43200</secondsSinceFirstVisit>
+			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<secondsSinceLastEcommerceOrder />
+			<visitDuration>0</visitDuration>
+			<visitDurationPretty>0s</visitDurationPretty>
+			<searches>0</searches>
+			<actions>1</actions>
+			<interactions>1</interactions>
+			<referrerType>direct</referrerType>
+			<referrerTypeName>Direct Entry</referrerTypeName>
+			<referrerName />
+			<referrerKeyword />
+			<referrerKeywordPosition />
+			<referrerUrl />
+			<referrerSearchEngineUrl />
+			<referrerSearchEngineIcon />
+			<referrerSocialNetworkUrl />
+			<referrerSocialNetworkIcon />
+			<languageCode />
+			<language>Unknown</language>
+			<deviceType>Unknown</deviceType>
+			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
+			<deviceBrand>Unknown</deviceBrand>
+			<deviceModel>Unknown</deviceModel>
+			<operatingSystem>Unknown</operatingSystem>
+			<operatingSystemName>Unknown</operatingSystemName>
+			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
+			<operatingSystemCode>UNK</operatingSystemCode>
+			<operatingSystemVersion>UNK</operatingSystemVersion>
+			<browserFamily />
+			<browserFamilyDescription>Unknown</browserFamilyDescription>
+			<browser>Unknown</browser>
+			<browserName>Unknown</browserName>
+			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
+			<browserCode>UNK</browserCode>
+			<browserVersion />
+			<events>0</events>
+			<continent>Unknown</continent>
+			<continentCode>unk</continentCode>
+			<country>Unknown</country>
+			<countryCode>xx</countryCode>
+			<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
+			<region />
+			<regionCode />
+			<city />
+			<location>Unknown</location>
+			<latitude />
+			<longitude />
+			<visitLocalTime>06:00:00</visitLocalTime>
+			<visitLocalHour>6</visitLocalHour>
+			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<secondsSinceLastVisit>21600</secondsSinceLastVisit>
+			<resolution>1024x768</resolution>
+			<plugins>cookie, flash, java</plugins>
+			<pluginsIcons>
+				<row>
+					<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+					<pluginName>cookie</pluginName>
+				</row>
+				<row>
+					<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
+					<pluginName>flash</pluginName>
+				</row>
+				<row>
+					<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
+					<pluginName>java</pluginName>
+				</row>
+			</pluginsIcons>
+			<customVariables>
+			</customVariables>
+		</row>
+		<row>
+			<idSite>2</idSite>
+			<idVisit>5</idVisit>
+			<visitIp>156.5.3.2</visitIp>
+			
+			<fingerprint>9557b29885c9cee8</fingerprint>
+			<actionDetails>
+				<row>
+					<type>action</type>
+					<url>http://example.org/time/offset/0</url>
+					<pageTitle>incredible title 0</pageTitle>
+					<pageIdAction>4</pageIdAction>
+					
+					<serverTimePretty>Feb 1, 2010 00:00:00</serverTimePretty>
+					<pageId>5</pageId>
+					<bandwidth />
+					<timeSpent>0</timeSpent>
+					<timeSpentPretty>0s</timeSpentPretty>
+					<pageviewPosition>1</pageviewPosition>
+					<title>incredible title 0</title>
+					<subtitle>http://example.org/time/offset/0</subtitle>
+					<icon />
+					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
+					<timestamp>1264982400</timestamp>
+					<bandwidth_pretty>0 M</bandwidth_pretty>
+				</row>
+			</actionDetails>
+			<goalConversions>0</goalConversions>
+			<siteCurrency>USD</siteCurrency>
+			<siteCurrencySymbol>$</siteCurrencySymbol>
+			<serverDate>2010-01-31</serverDate>
+			<visitServerHour>10</visitServerHour>
+			<lastActionTimestamp>1264932000</lastActionTimestamp>
+			<lastActionDateTime>2010-01-31 10:00:00</lastActionDateTime>
+			<siteName>Piwik test</siteName>
+			<serverTimestamp>1264932000</serverTimestamp>
+			<firstActionTimestamp>1264932000</firstActionTimestamp>
+			<serverTimePretty>00:00:00</serverTimePretty>
+			<serverDatePretty>Monday, February 1, 2010</serverDatePretty>
+			<serverDatePrettyFirstAction>Monday, February 1, 2010</serverDatePrettyFirstAction>
+			<serverTimePrettyFirstAction>00:00:00</serverTimePrettyFirstAction>
+			<userId />
+			<visitorType>returning</visitorType>
+			<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
+			<visitConverted>0</visitConverted>
+			<visitConvertedIcon />
+			<visitCount>2</visitCount>
+			<visitEcommerceStatus>none</visitEcommerceStatus>
+			<visitEcommerceStatusIcon />
+			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<secondsSinceFirstVisit>21600</secondsSinceFirstVisit>
+			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<secondsSinceLastEcommerceOrder />
+			<visitDuration>0</visitDuration>
+			<visitDurationPretty>0s</visitDurationPretty>
+			<searches>0</searches>
+			<actions>1</actions>
+			<interactions>1</interactions>
+			<referrerType>direct</referrerType>
+			<referrerTypeName>Direct Entry</referrerTypeName>
+			<referrerName />
+			<referrerKeyword />
+			<referrerKeywordPosition />
+			<referrerUrl />
+			<referrerSearchEngineUrl />
+			<referrerSearchEngineIcon />
+			<referrerSocialNetworkUrl />
+			<referrerSocialNetworkIcon />
+			<languageCode />
+			<language>Unknown</language>
+			<deviceType>Unknown</deviceType>
+			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
+			<deviceBrand>Unknown</deviceBrand>
+			<deviceModel>Unknown</deviceModel>
+			<operatingSystem>Unknown</operatingSystem>
+			<operatingSystemName>Unknown</operatingSystemName>
+			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
+			<operatingSystemCode>UNK</operatingSystemCode>
+			<operatingSystemVersion>UNK</operatingSystemVersion>
+			<browserFamily />
+			<browserFamilyDescription>Unknown</browserFamilyDescription>
+			<browser>Unknown</browser>
+			<browserName>Unknown</browserName>
+			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
+			<browserCode>UNK</browserCode>
+			<browserVersion />
+			<events>0</events>
+			<continent>Unknown</continent>
+			<continentCode>unk</continentCode>
+			<country>Unknown</country>
+			<countryCode>xx</countryCode>
+			<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
+			<region />
+			<regionCode />
+			<city />
+			<location>Unknown</location>
+			<latitude />
+			<longitude />
+			<visitLocalTime>00:00:00</visitLocalTime>
+			<visitLocalHour>0</visitLocalHour>
+			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<secondsSinceLastVisit>21600</secondsSinceLastVisit>
+			<resolution>1024x768</resolution>
+			<plugins>cookie, flash, java</plugins>
+			<pluginsIcons>
+				<row>
+					<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+					<pluginName>cookie</pluginName>
+				</row>
+				<row>
+					<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
+					<pluginName>flash</pluginName>
+				</row>
+				<row>
+					<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
+					<pluginName>java</pluginName>
+				</row>
+			</pluginsIcons>
+			<customVariables>
+			</customVariables>
+		</row>
+		<row>
+			<idSite>2</idSite>
+			<idVisit>4</idVisit>
+			<visitIp>156.5.3.2</visitIp>
+			
+			<fingerprint>d58a483a3cfef87b</fingerprint>
+			<actionDetails>
+				<row>
+					<type>action</type>
+					<url>http://example.org/time/offset/-1</url>
+					<pageTitle>incredible title -1</pageTitle>
+					<pageIdAction>2</pageIdAction>
+					
+					<serverTimePretty>Jan 31, 2010 18:00:00</serverTimePretty>
+					<pageId>4</pageId>
+					<bandwidth />
+					<timeSpent>0</timeSpent>
+					<timeSpentPretty>0s</timeSpentPretty>
+					<pageviewPosition>1</pageviewPosition>
+					<title>incredible title -1</title>
+					<subtitle>http://example.org/time/offset/-1</subtitle>
+					<icon />
+					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
+					<timestamp>1264960800</timestamp>
+					<bandwidth_pretty>0 M</bandwidth_pretty>
+				</row>
+			</actionDetails>
+			<goalConversions>0</goalConversions>
+			<siteCurrency>USD</siteCurrency>
+			<siteCurrencySymbol>$</siteCurrencySymbol>
+			<serverDate>2010-01-31</serverDate>
+			<visitServerHour>4</visitServerHour>
+			<lastActionTimestamp>1264910400</lastActionTimestamp>
+			<lastActionDateTime>2010-01-31 04:00:00</lastActionDateTime>
+			<siteName>Piwik test</siteName>
+			<serverTimestamp>1264910400</serverTimestamp>
+			<firstActionTimestamp>1264910400</firstActionTimestamp>
+			<serverTimePretty>18:00:00</serverTimePretty>
+			<serverDatePretty>Sunday, January 31, 2010</serverDatePretty>
+			<serverDatePrettyFirstAction>Sunday, January 31, 2010</serverDatePrettyFirstAction>
+			<serverTimePrettyFirstAction>18:00:00</serverTimePrettyFirstAction>
+			<userId />
+			<visitorType>new</visitorType>
+			<visitorTypeIcon />
+			<visitConverted>0</visitConverted>
+			<visitConvertedIcon />
+			<visitCount>1</visitCount>
+			<visitEcommerceStatus>none</visitEcommerceStatus>
+			<visitEcommerceStatusIcon />
+			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
+			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<secondsSinceLastEcommerceOrder />
+			<visitDuration>0</visitDuration>
+			<visitDurationPretty>0s</visitDurationPretty>
+			<searches>0</searches>
+			<actions>1</actions>
+			<interactions>1</interactions>
+			<referrerType>direct</referrerType>
+			<referrerTypeName>Direct Entry</referrerTypeName>
+			<referrerName />
+			<referrerKeyword />
+			<referrerKeywordPosition />
+			<referrerUrl />
+			<referrerSearchEngineUrl />
+			<referrerSearchEngineIcon />
+			<referrerSocialNetworkUrl />
+			<referrerSocialNetworkIcon />
+			<languageCode>fr</languageCode>
+			<language>French</language>
+			<deviceType>Desktop</deviceType>
+			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
+			<deviceBrand>Unknown</deviceBrand>
+			<deviceModel>Generic Desktop</deviceModel>
+			<operatingSystem>Windows XP</operatingSystem>
+			<operatingSystemName>Windows</operatingSystemName>
+			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
+			<operatingSystemCode>WIN</operatingSystemCode>
+			<operatingSystemVersion>XP</operatingSystemVersion>
+			<browserFamily>Gecko</browserFamily>
+			<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+			<browser>Firefox 3.6</browser>
+			<browserName>Firefox</browserName>
+			<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
+			<browserCode>FF</browserCode>
+			<browserVersion>3.6</browserVersion>
+			<events>0</events>
+			<continent>Europe</continent>
+			<continentCode>eur</continentCode>
+			<country>France</country>
+			<countryCode>fr</countryCode>
+			<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
+			<region />
+			<regionCode />
+			<city />
+			<location>France</location>
+			<latitude />
+			<longitude />
+			<visitLocalTime>18:00:00</visitLocalTime>
+			<visitLocalHour>18</visitLocalHour>
+			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<secondsSinceLastVisit>0</secondsSinceLastVisit>
+			<resolution>1024x768</resolution>
+			<plugins>cookie, flash, java</plugins>
+			<pluginsIcons>
+				<row>
+					<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+					<pluginName>cookie</pluginName>
+				</row>
+				<row>
+					<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
+					<pluginName>flash</pluginName>
+				</row>
+				<row>
+					<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
+					<pluginName>java</pluginName>
+				</row>
+			</pluginsIcons>
+			<customVariables>
+			</customVariables>
+		</row>
+	</lastVisits>
+	
+	
+	<totalVisitDurationPretty>0s</totalVisitDurationPretty>
+	<userId>0</userId>
+	<firstVisit>
+		<date>1264910400</date>
+		<prettyDate>Sunday, January 31, 2010</prettyDate>
+		
+		<referrerType>direct</referrerType>
+		<referrerUrl />
+		<referralSummary>Direct Entry</referralSummary>
+	</firstVisit>
+	<lastVisit>
+		<date>1264953600</date>
+		<prettyDate>Sunday, January 31, 2010</prettyDate>
+		
+		<referrerType>direct</referrerType>
+		<referrerUrl />
+		<referralSummary>Direct Entry</referralSummary>
+	</lastVisit>
+	<visitsAggregated>3</visitsAggregated>
+	<visitedPages>
+		<row>
+			<url>http://example.org/time/offset/-1</url>
+			<count>1</count>
+		</row>
+		<row>
+			<url>http://example.org/time/offset/0</url>
+			<count>1</count>
+		</row>
+		<row>
+			<url>http://example.org/time/offset/1</url>
+			<count>1</count>
+		</row>
+	</visitedPages>
+	<devices>
+		<row>
+			<type>Unknown</type>
+			<count>2</count>
+			<icon>plugins/Morpheus/icons/dist/devices/unknown.png</icon>
+			<devices>
+				<row>
+					<name>Unknown</name>
+					<count>2</count>
+				</row>
+			</devices>
+		</row>
+		<row>
+			<type>Desktop</type>
+			<count>1</count>
+			<icon>plugins/Morpheus/icons/dist/devices/desktop.png</icon>
+			<devices>
+				<row>
+					<name>Generic Desktop</name>
+					<count>1</count>
+				</row>
+			</devices>
+		</row>
+	</devices>
+	<continents>
+		<row>
+			<continent>eur</continent>
+			<nb_visits>1</nb_visits>
+			<prettyName>Europe</prettyName>
+		</row>
+		<row>
+			<continent>unk</continent>
+			<nb_visits>2</nb_visits>
+			<prettyName>Unknown</prettyName>
+		</row>
+	</continents>
+	<countries>
+		<row>
+			<country>fr</country>
+			<nb_visits>1</nb_visits>
+			<flag>plugins/Morpheus/icons/dist/flags/fr.png</flag>
+			<prettyName>France</prettyName>
+		</row>
+		<row>
+			<country>xx</country>
+			<nb_visits>2</nb_visits>
+			<flag>plugins/Morpheus/icons/dist/flags/xx.png</flag>
+			<prettyName>Unknown</prettyName>
+		</row>
+	</countries>
+</result>
