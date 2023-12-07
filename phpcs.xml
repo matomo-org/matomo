@@ -106,7 +106,6 @@
         <exclude name="Squiz.WhiteSpace.ControlStructureSpacing.SpacingBeforeClose" />
         <exclude name="Squiz.WhiteSpace.ScopeClosingBrace.ContentBefore" />
         <exclude name="Squiz.WhiteSpace.ScopeClosingBrace.Indent" />
-        <exclude name="Squiz.WhiteSpace.ScopeKeywordSpacing.Incorrect" />
         <exclude name="Squiz.WhiteSpace.SuperfluousWhitespace.EndLine" />
     </rule>
 
