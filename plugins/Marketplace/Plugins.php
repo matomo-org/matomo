@@ -285,7 +285,8 @@ class Plugins
             }
         }
 
-        $this->addMissingRequirements($plugin);
+        $plugin = $this->addMissingRequirements($plugin);
+
         $this->addPriceFrom($plugin);
         $this->addPluginPreviewImage($plugin);
         $this->prettifyNumberOfDownloads($plugin);
@@ -327,24 +328,26 @@ class Plugins
     /**
      * Determine if there are any missing requirements/dependencies for the plugin
      */
-    private function addMissingRequirements(&$plugin): void
+    private function addMissingRequirements($plugin)
     {
         $plugin['missingRequirements'] = [];
 
         if (empty($plugin['versions']) || !is_array($plugin['versions'])) {
-            return;
+            return $plugin;
         }
 
         $latestVersion = $plugin['versions'][count($plugin['versions']) - 1];
 
         if (empty($latestVersion['requires'])) {
-            return;
+            return $plugin;
         }
 
         $requires = $latestVersion['requires'];
 
         $dependency = new PluginDependency();
         $plugin['missingRequirements'] = $dependency->getMissingDependencies($requires);
+
+        return $plugin;
     }
 
     /**
