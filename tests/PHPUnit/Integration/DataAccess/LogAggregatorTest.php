@@ -248,6 +248,43 @@ class LogAggregatorTest extends IntegrationTestCase
         $this->assertSame($expected, $query);
     }
 
+    public function test_generateQuery_withSegment_visitLogRightJoinShouldKeepWhereCondition()
+    {
+        $segment = new Segment('userId==1', [$this->site->getId()]);
+
+        $params = new Parameters($this->site, $this->period, $segment);
+        $this->logAggregator = new LogAggregator($params);
+        $this->logAggregator->allowUsageSegmentCache();
+
+        $select = "MINUTE(log_link_visit_action.server_time) AS 'CoreHome.ServerMinute', max(log_link_visit_action.pageview_position) AS 'max_actions_pageviewposition'";
+        $from = ['log_link_visit_action', ['table' => 'log_visit', 'join' => 'RIGHT JOIN']];
+        $where = 'log_visit.visit_last_action_time >= ?
+				AND log_visit.visit_last_action_time <= ?
+				AND log_visit.idsite IN (?)';
+        $orderBy = 'max_actions_pageviewposition';
+        
+        $query = $this->logAggregator->generateQuery($select, $from, $where, false, $orderBy);
+
+        $expected = [
+            'sql' => "SELECT /* segmenthash 4eaf469650796451c610972d0ca1e9e8 */ /* sites 1 */ /* 2010-03-01,2010-03-31 */
+				MINUTE(log_link_visit_action.server_time) AS 'CoreHome.ServerMinute', max(log_link_visit_action.pageview_position) AS 'max_actions_pageviewposition'
+			FROM
+				logtmpsegment0e053be69df974017fba4276a0d4347d AS logtmpsegment0e053be69df974017fba4276a0d4347d INNER JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = logtmpsegment0e053be69df974017fba4276a0d4347d.idvisit RIGHT JOIN log_visit AS log_visit ON log_visit.idvisit = logtmpsegment0e053be69df974017fba4276a0d4347d.idvisit
+			WHERE
+				log_visit.visit_last_action_time >= ?
+				AND log_visit.visit_last_action_time <= ?
+				AND log_visit.idsite IN (?)
+			ORDER BY
+				max_actions_pageviewposition",
+            'bind' => [
+                '2010-03-01 00:00:00',
+                '2010-03-31 23:59:59',
+                1,
+            ]
+        ];
+        $this->assertSame($expected, $query);
+    }
+
     public function testSetMaxExecutionTimeOfArchivingQueries()
     {
         if (SystemTestCase::isMysqli()) {

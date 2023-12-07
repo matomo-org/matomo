@@ -365,6 +365,18 @@ class LogAggregator
             }
 
             foreach ($logTablesProvider->getAllLogTables() as $logTable) {
+
+                // In cases where the log_visit table is right joined to the segment temporary table it is better for
+                // performance to allow the where condition to be applied, otherwise without a range limit the entire
+                // log_visit table will used
+                if ($logTable->getName() === 'log_visit') {
+                    foreach ($from as $fromJoin) {
+                        if (is_array($fromJoin) && array_key_exists('join', $fromJoin) && $fromJoin['join'] == 'RIGHT JOIN') {
+                            continue 2;
+                        }
+                    }
+                }
+
                 if ($logTable->getDateTimeColumn()) {
                     $whereTest = $this->getWhereStatement($logTable->getName(), $logTable->getDateTimeColumn());
                     if (strpos($where, $whereTest) === 0) {
