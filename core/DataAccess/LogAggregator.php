@@ -366,15 +366,13 @@ class LogAggregator
 
             foreach ($logTablesProvider->getAllLogTables() as $logTable) {
 
-                // In cases where the log_visit table is right joined to the segment temporary table it is better for
+                // In cases where log tables are right joined to the segment temporary table it is better for
                 // performance to allow the where condition to be applied, otherwise without a range limit the entire
-                // log_visit table will be used
-                if ($logTable->getName() === 'log_visit') {
-                    foreach ($from as $fromJoin) {
-                        if (!empty($fromJoin['table']) && $fromJoin['table'] === 'log_visit' &&
-                            !empty($fromJoin['join']) && strtoupper($fromJoin['join']) === 'RIGHT JOIN') {
-                            continue 2;
-                        }
+                // log table will be used
+                foreach ($from as $fromJoin) {
+                    if (!empty($fromJoin['table']) && $fromJoin['table'] === $logTable->getName() &&
+                        !empty($fromJoin['join']) && strtoupper($fromJoin['join']) === 'RIGHT JOIN') {
+                        continue 2;
                     }
                 }
 
