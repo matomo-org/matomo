@@ -75,7 +75,7 @@
                                                     {% elseif not plugin.isDownloadable %}
                                                         {{ marketplaceMacro.pluginActionButton(plugin)|raw }}
                                                     {% else %}
-                                                        <div class="alert alert-warning">
+                                                        <div class="alert alert-warning alert-no-background">
                                                             {{ 'Marketplace_CannotInstall'|translate }}
                                                             <span style="white-space:nowrap">({{ marketplaceMacro.helpLink(plugin)|trim|raw }}{{ _self.downloadButton(true, plugin, isAutoUpdatePossible)|raw }})</span>
                                                         </div>
