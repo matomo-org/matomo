@@ -176,25 +176,42 @@
 }
 
 .manage-license-key {
+    .manage-license-key-intro {
+        margin-bottom: 20px;
+    }
+
     .manage-license-key-input {
         width: 50%;
         display: inline-block;
         vertical-align: middle;
+        padding-right: 24px;
+
+        @media only screen and (max-width: 1024px) {
+            width: 40%;
+        }
+
+        @media only screen and (max-width: 768px) {
+            width: 100%;
+            padding-right: 0;
+        }
+
+        .form-group {
+            margin: 0;
+        }
 
         .row .col {
-            padding-left: 0;
+            padding: 0;
         }
     }
 
     .loadingPiwik,
-    #submit_license_key {
+    #submit_license_key,
+    #remove_license_key {
         display: inline-block;
+        margin-right: 24px;
     }
 
     #remove_license_key {
-        display: inline-block;
-        margin-left: 3.5px;
-
         .btn {
             background-color: @color-red-matomo;
         }
