@@ -17,7 +17,7 @@
         name="license_key"
         v-model="licenseKey"
         :placeholder="licenseKeyPlaceholder"
-        full-width="true"
+        :full-width="true"
       ></Field>
     </div>
     <SaveButton
