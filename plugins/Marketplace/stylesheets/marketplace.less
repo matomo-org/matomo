@@ -104,7 +104,7 @@
             flex-direction: column;
             flex-grow: 0;
             position: relative;
-            height: 640px;
+            height: 620px;
             border: 1px solid #ccc;
             border-radius: 4px;
             overflow: visible;
@@ -114,7 +114,10 @@
             color: #000;
 
             @media (max-width: 480px) {
-                height: 380px;
+                height: 400px; // as there's no image
+            }
+            @media (min-width: 601px) and (max-width: 767px), (min-width: 992px) and (max-width: 1200px) {
+                height: 530px;
             }
 
             .preview-image {
@@ -251,7 +254,7 @@
         width: 64px;
         height: 40px;
 
-        @media (max-width: 480px) {
+        @media (max-width: 480px), (min-width: 601px) and (max-width: 767px), (min-width: 992px) and (max-width: 1200px) {
             width: 48px;
             height: 32px;
         }
@@ -264,6 +267,9 @@
 
         @media (max-width: 480px) {
             display: none;
+        }
+        @media (max-width: 480px), (min-width: 601px) and (max-width: 767px), (min-width: 992px) and (max-width: 1200px) {
+            bottom: 12px;
         }
     }
 
