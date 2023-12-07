@@ -168,9 +168,9 @@ export default defineComponent({
 
           const $cardDescription = $card.find('.card-description');
           if (lines > 1) {
-            $cardDescription.addClass('card-description-2lines');
+            $cardDescription.addClass('card-description-clamped');
           } else {
-            $cardDescription.removeClass('card-description-2lines');
+            $cardDescription.removeClass('card-description-clamped');
           }
         }
       });
