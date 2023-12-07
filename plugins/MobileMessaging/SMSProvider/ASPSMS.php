@@ -12,6 +12,7 @@ namespace Piwik\Plugins\MobileMessaging\SMSProvider;
 use Exception;
 use Piwik\Http;
 use Piwik\Piwik;
+use Piwik\Config;
 use Piwik\Plugins\MobileMessaging\APIException;
 use Piwik\Plugins\MobileMessaging\SMSProvider;
 
@@ -36,22 +37,16 @@ class ASPSMS extends SMSProvider
         return 'ASPSMS';
     }
 
+    public function getAffiliateID()
+    {
+        $general = Config::getInstance()->General;
+        return $general['aspsms_affiliate_id'];
+    }
+
     public function getDescription()
     {
-        return 'You can use <a target="_blank" rel="noreferrer noopener" href="http://www.aspsms.com/en/?REF=227830"><img src="plugins/MobileMessaging/images/ASPSMS.png"/></a> to send SMS Reports from Piwik.<br/>
-			<ul>
-			<li> First, <a target="_blank" rel="noreferrer noopener" href="http://www.aspsms.com/en/registration/?REF=227830">get an Account at ASPSMS</a> (Signup is free!)
-			</li><li> Enter your ASPSMS credentials on this page. </li>
-			</ul>
-			<br/>About ASPSMS.com: <ul>
-			<li>ASPSMS provides fast and reliable high quality worldwide SMS delivery, over 900 networks in every corner of the globe.
-			</li><li>Cost per SMS message depends on the target country and starts from ~0.06USD (0.04EUR).
-			</li><li>Most countries and networks are supported but we suggest you check the latest position on their supported networks list <a href="http://www.aspsms.com/en/networks/?REF=227830" target="_blank" rel="noreferrer noopener">here</a>.
-			</li><li>For sending an SMS, you need so-called ASPSMS credits, which are purchased in advance. The ASPSMS credits do not expire. 
-			</li><li><a target="_blank" rel="noreferrer noopener" href="https://www.aspsms.com/instruction/payment.asp?REF=227830">Payment</a> by bank transfer, various credit cards such as Eurocard/Mastercard, Visa, American Express or Diners Club, PayPal or Swiss Postcard.
-			</li>
-			</ul>
-			';
+
+        return Piwik::translate('MobileMessaging_ASPSMS',$this->getAffiliateID());
     }
 
     public function getCredentialFields()
@@ -73,12 +68,13 @@ class ASPSMS extends SMSProvider
     public function verifyCredential($credentials)
     {
         $this->getCreditLeft($credentials);
-
         return true;
     }
 
     public function sendSMS($credentials, $smsText, $phoneNumber, $from)
     {
+        $general = Config::getInstance()->General;
+
         $from = substr($from, 0, self::MAXIMUM_FROM_LENGTH);
 
         $smsText = self::truncate($smsText, self::MAXIMUM_CONCATENATED_SMS);
@@ -87,7 +83,7 @@ class ASPSMS extends SMSProvider
             'Recipients'  => array($phoneNumber),
             'MessageText' => $smsText,
             'Originator'  => $from,
-            'AffiliateID' => '227830',
+            'AffiliateID' => $this->getAffiliateID(),
         );
 
         $this->issueApiCall(
@@ -137,7 +133,7 @@ class ASPSMS extends SMSProvider
 
         if (!$result || $result['StatusCode'] != 1) {
             throw new APIException(
-                'ASPSMS API returned the following error message : ' . $result['StatusInfo']
+                'ASPSMS API error message: ' . $result['StatusInfo']
             );
         }
 

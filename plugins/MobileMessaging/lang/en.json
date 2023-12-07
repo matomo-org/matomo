@@ -36,6 +36,7 @@
         "Settings_SuspiciousPhoneNumber": "If you don't receive the text message, you may try without the leading zero. ie. %s",
         "Settings_UpdateOrDeleteAccount": "You can also %1$supdate%2$s or %3$sdelete%4$s this account.",
         "Settings_ValidatePhoneNumber": "Validate",
+        
         "Settings_VerificationCodeJustSent": "We just sent an SMS to this number with a code: please enter this code above and click \"Validate\".",
         "SettingsMenu": "Mobile Messaging",
         "SMS_Content_Too_Long": "[too long]",
@@ -43,6 +44,6 @@
         "TopLinkTooltip": "Get Web Analytics Reports delivered to your email inbox or your mobile phone.",
         "TopMenu": "Email &amp; SMS Reports",
         "UserKey": "Userkey",
-        "VerificationText": "Code is %1$s. To validate your phone number and receive Matomo SMS reports please copy this code in the form accessible via Matomo → %2$s → %3$s."
-    }
+        "VerificationText": "Code is %1$s. To validate your phone number and receive Matomo SMS reports please copy this code in the form accessible via Matomo → %2$s → %3$s.",
+        "ASPSMS" : "You can use <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"http://www.aspsms.com/de/?REF=%1$s\"><img src=\"plugins/MobileMessaging/images/ASPSMS.png\"/></a> to send SMS reports from Trustlytics.<br/><br/><ul><li><a target=\"_blank\" rel=\"noreferrer noopener\" href=\"http://www.aspsms.com/de/registration/?REF=%1$s\">First create an account with ASPSMS</a> (Registration is free!)</li><li>Enter your ASPSMS login details on this page.</li></ul><br/>About ASPSMS.com: <ul><li>ASPSMS is based in Switzerland and offers fast and reliable worldwide SMS delivery in high quality, via 900 networks in every corner of the world.</li><li>The cost per SMS message depends on the destination country and starts at 0.06 CHF (approx. 0.06 EUR).</li><li>Most countries and networks are supported, but we recommend that you check the <a href=\"http://www.aspsms.com/de/networks/?REF=%1$s\" target=\"_blank\" rel=\"noreferrer noopener\">current list of supported networks</a>.</li><li>To send an SMS, you need so-called ASPSMS Credits, which are purchased in advance. The ASPSMS credits do not expire.</li><li><a target=\"_blank\" rel=\"noreferrer noopener\" href=\"https://www.aspsms.com/de/instruction/payment/?REF=%1$s\">Payment</a> by bank transfer, various credit cards such as Mastercard, Visa, American Express or Diners Club, PayPal and, in Switzerland only, PostFinance and Twint.</li></ul>"    }
 }
