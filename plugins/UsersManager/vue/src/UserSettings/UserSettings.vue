@@ -8,7 +8,7 @@
   <div>
     <PersonalSettings
       :is-users-admin-enabled="isUsersAdminEnabled"
-      :title="title"
+      :title="translate('UsersManager_PersonalSettings')"
       :user-login="userLogin"
       :user-email="userEmail"
       :current-language-code="currentLanguageCode"
@@ -54,10 +54,6 @@ export default defineComponent({
   props: {
     isUsersAdminEnabled: {
       type: Boolean,
-      required: true,
-    },
-    title: {
-      type: String,
       required: true,
     },
     userLogin: {

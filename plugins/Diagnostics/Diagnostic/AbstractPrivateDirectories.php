@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Diagnostics\Diagnostic;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Http;
+use Piwik\Piwik;
 use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
 
@@ -139,8 +140,15 @@ abstract class AbstractPrivateDirectories implements Diagnostic
             }
         } catch (\Exception $e) {
             $error = $e->getMessage();
-            $result->addItem(new DiagnosticResultItem(DiagnosticResult::STATUS_WARNING, 'Unable to execute check for '
-                . Common::sanitizeInputValue($testUrl) . ': ' . Common::sanitizeInputValue($error)));
+            $result->addItem(
+                new DiagnosticResultItem(
+                    DiagnosticResult::STATUS_WARNING,
+                    Piwik::translate(
+                        'Diagnostics_PrivateDirectoryCantCheckUrl',
+                        [Common::sanitizeInputValue($testUrl), Common::sanitizeInputValue($error)]
+                    )
+                )
+            );
         }
         return false;
     }

@@ -377,7 +377,6 @@
         "PleaseUpdatePiwik": "Lütfen Matomo sürümünüzü güncelleyin",
         "PleaseUpgradeYourPhpVersionSoYourPiwikDataStaysSecure": "Matomo istatistik verllerinizin güvende kalması için en az PHP %s sürümüne yükseltin.",
         "Plugin": "Eklenti",
-        "PluginSubscriptions": "Eklenti abonelikleri",
         "Plugins": "Eklentiler",
         "PoweredBy": "Alt yapıyı sağlayan",
         "Previous": "Önceki",

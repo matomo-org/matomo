@@ -44,8 +44,11 @@ class ComplicatedSegmentTest extends SystemTestCase
         $idSite = self::$idSite;
         $dateTime = self::$dateTime;
 
+        // Note: Creating a segment in the UI would generate double url encoded values
+        // But as segments might also be created through API, or provided as URL parameter, this might not always be the case
+        // Therefor some values are urlencoded twice, some aren't
         $segmentWithManyActions = 'contentTarget=@' . urlencode(urlencode('place.com'))
-            . ',contentName==' . urlencode(urlencode('my video'))
+            . ',contentName==my\,video' // the backslash should escape the "," as part of the value
             . ';contentInteraction!@maximise'
             . ';contentPiece=@' . urlencode(urlencode('/to/'))
             . ',entryPageTitle!@exit'
@@ -57,7 +60,7 @@ class ComplicatedSegmentTest extends SystemTestCase
             . ',downloadUrl==' . urlencode(urlencode('http://piwik.net/fileout.zip'))
             . ';actionUrl!@absent'
             . ';productViewSku!@DEF'
-            . ';productCategory==' . urlencode(urlencode('product category'))
+            . ';productCategory==product\category'
             . ';productSku=@ABC'
             . ',productName=@plugin'
             . ';productViewCategory!@thing'
@@ -69,7 +72,18 @@ class ComplicatedSegmentTest extends SystemTestCase
 
         return [
             [
+                // This should use a live query (without temporary segment table)
                 'Live.getLastVisitsDetails',
+                [
+                    'idSite'                 => $idSite,
+                    'date'                   => $dateTime,
+                    'periods'                => ['day'],
+                    'segment'                => $segmentWithManyActions,
+                    'testSuffix'             => '_SegmentWithManyActions',
+                ],
+            ], [
+                // This should trigger archiving (using temporary segment table)
+                'VisitsSummary.get',
                 [
                     'idSite'                 => $idSite,
                     'date'                   => $dateTime,
@@ -90,7 +104,7 @@ class ComplicatedSegmentTest extends SystemTestCase
 
         // content tracking
         Fixture::checkResponse($t->doTrackContentImpression('test content name', '/path/to/image.png', 'http://place.com/landingpage'));
-        Fixture::checkResponse($t->doTrackContentInteraction('expand', 'my video', '/path/to/myvideo.mp3'));
+        Fixture::checkResponse($t->doTrackContentInteraction('expand', 'my,video', '/path/to/myvideo.mp3'));
 
         // download
         $t->setForceVisitDateTime(Date::factory(self::$dateTime)->addHour(0.15));
@@ -101,12 +115,12 @@ class ComplicatedSegmentTest extends SystemTestCase
 
         // ecommerce
         $t->setForceVisitDateTime(Date::factory(self::$dateTime)->addHour(0.2)->getTimestamp());
-        $t->setEcommerceView($sku = 'ABCSKU123', $name = 'special plugin', $cat = 'product category', $price = 888);
+        $t->setEcommerceView($sku = 'ABCSKU123', $name = 'special plugin', $cat = 'product\category', $price = 888);
         $t->setUrl('http://piwik.net/product');
         Fixture::checkResponse($t->doTrackPageView('product page')); // view
 
         $t->setForceVisitDateTime(Date::factory(self::$dateTime)->addHour(0.22)->getTimestamp());
-        $t->addEcommerceItem($sku = 'ABCSKU123', $name = 'special plugin', $cat = 'product category', $price = 888, $quantity = 2);
+        $t->addEcommerceItem($sku = 'ABCSKU123', $name = 'special plugin', $cat = 'product\category', $price = 888, $quantity = 2);
         $t->setUrl('http://piwik.net/order');
         Fixture::checkResponse($t->doTrackPageView('order page'));
         $discount = 50;

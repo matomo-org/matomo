@@ -353,6 +353,29 @@ class DbHelper
     }
 
     /**
+     * Add an optimizer hint to the query to set the first table used by the MySQL join execution plan
+     *
+     * https://dev.mysql.com/doc/refman/8.0/en/optimizer-hints.html#optimizer-hints-join-order
+     *
+     * @param string $sql       SQL query string
+     * @param string $prefix    Table prefix to be used as the first table in the plan
+     *
+     * @return string           Modified query string with hint added
+     */
+    public static function addJoinPrefixHintToQuery(string $sql, string $prefix): string
+    {
+        if (strpos(trim($sql), '/*+ JOIN_PREFIX(') === false) {
+            $select = 'SELECT';
+            if (0 === strpos(trim($sql), $select)) {
+                $sql = trim($sql);
+                $sql = 'SELECT /*+ JOIN_PREFIX('.$prefix.') */'.substr($sql, strlen($select));
+            }
+        }
+
+        return $sql;
+    }
+
+    /**
      * Returns true if the string is a valid database name for MySQL. MySQL allows + in the database names.
      * Database names that start with a-Z or 0-9 and contain a-Z, 0-9, underscore(_), dash(-), plus(+), and dot(.) will be accepted.
      * File names beginning with anything but a-Z or 0-9 will be rejected (including .htaccess for example).

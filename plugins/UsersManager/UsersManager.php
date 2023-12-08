@@ -352,6 +352,7 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_PasswordChangeTerminatesOtherSessions';
         $translationKeys[] = 'UsersManager_Pending';
         $translationKeys[] = 'UsersManager_Permissions';
+        $translationKeys[] = 'UsersManager_PersonalSettings';
         $translationKeys[] = 'UsersManager_PleaseStoreToken';
         $translationKeys[] = 'UsersManager_PrivAdmin';
         $translationKeys[] = 'UsersManager_PrivNone';
