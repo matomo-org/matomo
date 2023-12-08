@@ -294,7 +294,7 @@ class LogAggregatorTest extends IntegrationTestCase
         $this->logAggregator->allowUsageSegmentCache();
 
         $select = "log_link_visit_action.server_time AS 'CoreHome.ServerMinute', log_visit.visit_total_searches AS 'total_searches', log_conversion.items AS 'items'";
-        $from = ['log_link_visit_action', 'log_visit', ['table' => 'log_conversion', 'join' => 'RIGHT JOIN']];
+        $from = ['log_link_visit_action', 'log_visit', ['table' => 'log_conversion', 'join' => 'right join']];
         $where = 'log_conversion.server_time >= ?
 				AND log_conversion.server_time <= ?
 				AND log_conversion.idsite IN (?)';
