@@ -213,19 +213,21 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     public function finalizeProfile($visits, &$profile)
     {
-        $formatter                           = new Formatter();
+        $site = new Site($this->getIdSite());
+        $formatter = new Formatter();
+
         $profile['totalVisitDurationPretty'] = $formatter->getPrettyTimeFromSeconds($profile['totalVisitDuration'], true);
 
-        $rows                        = $visits->getRows();
-
+        $rows = $visits->getRows();
         $firstVisit = $profile['visit_first'];
+
         if (count($rows) >= Config::getInstance()->General['live_visitor_profile_max_visits_to_aggregate']) {
             $firstVisit = $this->fetchFirstVisit();
         }
 
         $profile['userId']           = $visits->getLastRow()->getColumn('userId');
-        $profile['firstVisit']       = $this->getVisitorProfileVisitSummary($firstVisit);
-        $profile['lastVisit']        = $this->getVisitorProfileVisitSummary($profile['visit_last']);
+        $profile['firstVisit']       = $this->getVisitorProfileVisitSummary($firstVisit, $site);
+        $profile['lastVisit']        = $this->getVisitorProfileVisitSummary($profile['visit_last'], $site);
         $profile['visitsAggregated'] = count($rows);
     }
 
@@ -250,15 +252,16 @@ class VisitorDetails extends VisitorDetailsAbstract
      * @param DataTable\Row $visit
      * @return array
      */
-    private function getVisitorProfileVisitSummary($visit)
+    private function getVisitorProfileVisitSummary($visit, Site $site): array
     {
-        $today = Date::today();
+        $today = Date::factory('today', $site->getTimezone());
+        $firstActionTimestamp = $visit->getColumn('firstActionTimestamp');
+        $firstActionDate = Date::factory($firstActionTimestamp, $site->getTimezone());
 
-        $serverDate = $visit->getColumn('firstActionTimestamp');
         return [
-            'date'            => $serverDate,
-            'prettyDate'      => Date::factory($serverDate)->getLocalized(Date::DATE_FORMAT_LONG),
-            'daysAgo'         => (int)Date::secondsToDays($today->getTimestamp() - Date::factory($serverDate)->getTimestamp()),
+            'date'            => $firstActionTimestamp,
+            'prettyDate'      => $firstActionDate->getLocalized(Date::DATE_FORMAT_LONG),
+            'daysAgo'         => (int) Date::secondsToDays($today->getTimestamp() - $firstActionDate->getTimestamp()),
             'referrerType'    => $visit->getColumn('referrerType'),
             'referrerUrl'     => $visit->getColumn('referrerUrl') ?: '',
             'referralSummary' => self::getReferrerSummaryForVisit($visit),

@@ -1,0 +1,12 @@
+{% extends "admin.twig" %}
+
+{% set title %}{{ 'Marketplace_LicenseKey'|translate }}{% endset %}
+
+{% block content %}
+
+<div
+        vue-entry="Marketplace.ManageLicenseKey"
+        has-valid-license-key="{{ hasValidLicenseKey|default(false)|json_encode }}"
+></div>
+
+{% endblock %}
