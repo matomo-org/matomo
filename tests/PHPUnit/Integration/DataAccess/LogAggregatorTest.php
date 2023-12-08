@@ -306,7 +306,7 @@ class LogAggregatorTest extends IntegrationTestCase
             'sql' => "SELECT /* segmenthash 4eaf469650796451c610972d0ca1e9e8 */ /* sites 1 */ /* 2010-03-01,2010-03-31 */
 				log_link_visit_action.server_time AS 'CoreHome.ServerMinute', log_visit.visit_total_searches AS 'total_searches', log_conversion.items AS 'items'
 			FROM
-				logtmpsegment0e053be69df974017fba4276a0d4347d AS logtmpsegment0e053be69df974017fba4276a0d4347d INNER JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = logtmpsegment0e053be69df974017fba4276a0d4347d.idvisit LEFT JOIN log_visit AS log_visit ON log_visit.idvisit = logtmpsegment0e053be69df974017fba4276a0d4347d.idvisit RIGHT JOIN log_conversion AS log_conversion ON log_conversion.idvisit = logtmpsegment0e053be69df974017fba4276a0d4347d.idvisit
+				logtmpsegment0e053be69df974017fba4276a0d4347d AS logtmpsegment0e053be69df974017fba4276a0d4347d INNER JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = logtmpsegment0e053be69df974017fba4276a0d4347d.idvisit LEFT JOIN log_visit AS log_visit ON log_visit.idvisit = logtmpsegment0e053be69df974017fba4276a0d4347d.idvisit right join log_conversion AS log_conversion ON log_conversion.idvisit = logtmpsegment0e053be69df974017fba4276a0d4347d.idvisit
 			WHERE
 				log_conversion.server_time >= ?
 				AND log_conversion.server_time <= ?
