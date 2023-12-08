@@ -33,6 +33,7 @@
 /*global unescape */
 /*global ActiveXObject */
 /*global Blob */
+/* NOTE: If you add a new config setting to the tracker, like disableCookies, please add it to plugins/TagManager/Template/Tag/MatomoTag.web.js as well */
 /*members Piwik, Matomo, encodeURIComponent, decodeURIComponent, getElementsByTagName,
     shift, unshift, piwikAsyncInit, matomoAsyncInit, matomoPluginAsyncInit , frameElement, self, hasFocus,
     createElement, appendChild, characterSet, charset, all, piwik_log, AnalyticsTracker,
@@ -6004,7 +6005,7 @@ if (typeof window.Matomo !== 'object') {
              * Returns the PageView id. If the id was manually set using setPageViewId(), that id will be returned.
              * If the id was not set manually, the id that was automatically generated in last trackPageView() will be
              * returned. If there was no last page view, this will be undefined.
-             * 
+             *
              * @returns {string}
              */
             this.getPageViewId = function () {
