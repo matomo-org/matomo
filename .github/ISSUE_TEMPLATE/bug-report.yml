@@ -32,23 +32,11 @@ body:
       placeholder: Steps to Reproduce, e.g. "Go to [Matomo-URL] > Click on Visitors > Click Overview"
     validations:
       required: true
-  - type: dropdown
+  - type: input
     id: version
     attributes:
       label: Matomo Version
-      description: What version of Matomo are you running?
-      options:
-        - Matomo 3
-        - Matomo 4
-        - Matomo 5
-      default: 0
-    validations:
-      required: true
-  - type: input
-    id: matomo-minor-patch
-    attributes:
-      label: Matomo Patch or Minor Version
-      description: What patch or minor version of Matomo's release above are you running?
+      description: What version of Matomo are you running? e.g. Matomo 4 Version 1.1
     validations:
       required: true
   - type: input
@@ -57,14 +45,14 @@ body:
       label: PHP Version
       description: What version of PHP are you running?
     validations:
-      required: true
+      required: false
   - type: input
     id: server-os
     attributes:
       label: Server Operating System
       description: What Server Operating System are you using?
     validations:
-      required: true
+      required: false
   - type: dropdown
     id: browsers
     attributes:
@@ -83,7 +71,7 @@ body:
       label: Computer Operating System
       description: What Operating System are you using on your computer?
     validations:
-      required: true
+      required: false
   - type: textarea
     id: logs
     attributes:
