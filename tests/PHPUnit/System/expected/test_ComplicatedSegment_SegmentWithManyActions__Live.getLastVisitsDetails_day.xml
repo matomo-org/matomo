@@ -55,7 +55,7 @@
 				
 				
 				<pageId>3</pageId>
-				<contentName>my video</contentName>
+				<contentName>my,video</contentName>
 				<contentPiece>/path/to/myvideo.mp3</contentPiece>
 				<contentTarget />
 				<contentInteraction>expand</contentInteraction>
@@ -64,7 +64,7 @@
 				<icon>plugins/Morpheus/images/contentinteraction.png</icon>
 				<iconSVG>plugins/Morpheus/images/contentinteraction.svg</iconSVG>
 				<title>Content Interaction (expand)</title>
-				<subtitle>my video - /path/to/myvideo.mp3</subtitle>
+				<subtitle>my,video - /path/to/myvideo.mp3</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -89,7 +89,7 @@
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<productViewCategories>
-				<row>product category</row>
+				<row>product\category</row>
 				</productViewCategories>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -108,11 +108,11 @@
 					<row>
 						<itemSKU>ABCSKU123</itemSKU>
 						<itemName>special plugin</itemName>
-						<itemCategory>product category</itemCategory>
+						<itemCategory>product\category</itemCategory>
 						<price>888</price>
 						<quantity>2</quantity>
 						<categories>
-						<row>product category</row>
+						<row>product\category</row>
 						</categories>
 					</row>
 				</itemDetails>

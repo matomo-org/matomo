@@ -17,6 +17,7 @@ use Piwik\Plugins\Marketplace\UpdateCommunication as PluginUpdateCommunication;
 use Piwik\Settings\Setting;
 use Piwik\Settings\FieldConfig;
 use Piwik\SettingsPiwik;
+use Piwik\Url;
 
 /**
  * Defines Settings for CoreUpdater.
@@ -98,8 +99,8 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             $field->inlineHelp = Piwik::translate('CoreAdminHome_DevelopmentProcess')
                             . '<br/>'
                             . Piwik::translate('CoreAdminHome_StableReleases',
-                                               array("<a target='_blank' rel='noreferrer noopener' href='https://developer.matomo.org/guides/core-team-workflow#influencing-piwik-development'>",
-                                                     "</a>"))
+                                               ["<a target='_blank' rel='noreferrer noopener' href='" . Url::addCampaignParametersToMatomoLink('https://developer.matomo.org/guides/core-team-workflow#influencing-piwik-development') . "'>",
+                                                     "</a>"])
                             . '<br/>'
                             . Piwik::translate('CoreAdminHome_LtsReleases');
         });
@@ -125,7 +126,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             $field->inlineHelp = Piwik::translate('CoreUpdater_Utf8mb4ConversionHelp', [
                 '�',
                 '<code>' . PIWIK_INCLUDE_PATH . '/console core:convert-to-utf8mb4</code>',
-                '<a href="https://matomo.org/faq/how-to-update/how-to-convert-the-database-to-utf8mb4-charset/" rel="noreferrer noopener" target="_blank">',
+                '<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to-update/how-to-convert-the-database-to-utf8mb4-charset/') . '" rel="noreferrer noopener" target="_blank">',
                 '</a>'
             ]);
         });

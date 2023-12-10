@@ -27,10 +27,10 @@
             {% endfor %}
 
             <h4>{{ 'Feedback_MatomoHelpCentre'|translate }}</h4>
-            <p> &bull; <a target="_blank" rel="noreferrer noopener" href="https://matomo.org/guides/?mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_keyword=docs">{{ 'Feedback_KnowledgeBase'|translate }}</a> - {{ 'Feedback_KnowledgeBaseDescription'|translate }}</p>
-            <p> &bull; <a target="_blank" rel="noreferrer noopener" href="https://matomo.org/web-analytics-training/?mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_keyword=docs">{{ 'Feedback_MatomoVideoTraining'|translate }}</a> - {{ 'Feedback_MatomoVideoTrainingDescription'|translate }}</p>
-            <p> &bull; <a target="_blank" rel="noreferrer noopener" href="https://matomo.org/tag-manager-training/?mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_keyword=docs">{{ 'Feedback_MtmVideoTraining'|translate }}</a> - {{ 'Feedback_MtmVideoTrainingDescription'|translate }}</p>
-            <p> &bull; <a target="_blank" rel="noreferrer noopener" href="https://forum.matomo.org/">{{ 'Feedback_CommunityForum'|translate }}</a> - {{ 'Feedback_CommunityForumDescription'|translate }}</p>
+            <p> &bull; <a target="_blank" rel="noreferrer noopener" href="{{ 'https://matomo.org/guides/'|trackmatomolink }}">{{ 'Feedback_KnowledgeBase'|translate }}</a> - {{ 'Feedback_KnowledgeBaseDescription'|translate }}</p>
+            <p> &bull; <a target="_blank" rel="noreferrer noopener" href="{{ 'https://matomo.org/web-analytics-training'|trackmatomolink}}">{{ 'Feedback_MatomoVideoTraining'|translate }}</a> - {{ 'Feedback_MatomoVideoTrainingDescription'|translate }}</p>
+            <p> &bull; <a target="_blank" rel="noreferrer noopener" href="{{ 'https://matomo.org/tag-manager-training/'|trackmatomolink }}">{{ 'Feedback_MtmVideoTraining'|translate }}</a> - {{ 'Feedback_MtmVideoTrainingDescription'|translate }}</p>
+            <p> &bull; <a target="_blank" rel="noreferrer noopener" href="{{ 'https://forum.matomo.org/'|trackmatomolink }}">{{ 'Feedback_CommunityForum'|translate }}</a> - {{ 'Feedback_CommunityForumDescription'|translate }}</p>
             <p> &bull; <a target="_blank" rel="noreferrer noopener" href="{{ linkTo({'module':"API",'action':"glossary"}) }}&mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_keyword=glossary">{{ 'API_Glossary'|translate }}</a> - {{ 'Feedback_GlossaryDescription'|translate }}</p>
 
             <h4>{{ 'Feedback_ProfessionalHelp'|translate }}</h4>
@@ -43,10 +43,7 @@
             <p> &bull; {{ 'Feedback_ProfessionalServicesSupport'|translate }}</p>
             <p> &bull; {{ 'Feedback_ProfessionalServicesEmailAlerts'|translate }}</p>
 
-            <form target="_blank" action="https://matomo.org/support-plans/">
-                <input type="hidden" name="pk_campaign" value="App_Help">
-                <input type="hidden" name="pk_source" value="Matomo_App">
-                <input type="hidden" name="pk_medium" value="App_ContactUs_button">
+            <form target="_blank" action="{{ 'https://matomo.org/support-plans/'|trackmatomolink(null, null, 'App_ContactUs_button') }}">
                 <br />
                 <input type="submit" class="btn" value="{{ 'General_MoreDetails'|translate }}">
             </form>
@@ -56,13 +53,13 @@
              content-title="{{ headline }}"
              feature="{{ 'General_Help'|translate }}">
             <p>{{ 'General_MatomoIsACollaborativeProjectYouCanContributeAndDonateNextRelease'|translate(
-                    "<a target='_blank' rel='noreferrer noopener' href='https://matomo.org'>",
+                    externallink("https://matomo.org"),
                     "</a>",
-                    "<a target='_blank' rel='noreferrer noopener' href='https://matomo.org/get-involved/'>",
+                    externallink("https://matomo.org/get-involved/"),
                     "</a>",
                     "<a href='" ~ linkTo({'module':'CoreAdminHome', 'action': 'home'})~"'>",
                     "</a>",
-                    "<a target='_blank' rel='noreferrer noopener' href='https://matomo.org/team/'>",
+                    externallink("https://matomo.org/team/"),
                     "</a>"
                 )|raw }}
             </p>
@@ -70,27 +67,27 @@
 
         <div vue-entry="CoreHome.ContentBlock" content-title="Premium products">
             <p>Grow your business, understand your audience better and increase your sales and conversions with a premium plugin:
-            <p> &bull;  <a rel='noreferrer noopener' target='_blank' href='https://matomo.org/recommends/users-flow/?mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_keyword=UserGuides'>Users Flow</a>: a visual representation of the most popular paths your users take through your website or app.</p>
-            <p> &bull;  <a rel='noreferrer noopener' target='_blank' href='https://matomo.org/recommends/ab-testing-learn-more/?mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_keyword=UserGuides'>A/B Testing</a>: compare different versions of your websites or apps and detect the winning variation.</p>
-            <p> &bull;  <a rel='noreferrer noopener' target='_blank' href='https://matomo.org/recommends/conversion-funnels?mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_keyword=UserGuides'>Funnels</a>: identify and understand where your visitors drop off in your conversion funnels.</p>
-            <p> &bull;  <a rel='noreferrer noopener' target='_blank' href='https://matomo.org/recommends/form-analytics/?mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_keyword=UserGuides'>Form Analytics</a>: increase conversions and get better leads from your website forms.</p>
-            <p> &bull;  <a rel='noreferrer noopener' target='_blank' href='https://matomo.org/recommends/media-analytics-website/?mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_keyword=UserGuides'>Video and Audio Analytics</a>: powerful insights into how your audience watches your videos and listens to your audio.</p>
-            <p> &bull;  <a rel='noreferrer noopener' target='_blank' href='https://matomo.org/recommends/roll-up-reporting/?mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_keyword=UserGuides'>Roll-Up Reporting</a>: aggregate data from multiple websites, apps and shops into a Roll-Up site to gain new insights.</p>
-            <p> &bull;  <a rel='noreferrer noopener' target='_blank' href='https://matomo.org/recommends/search-keywords-performance/?mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_keyword=UserGuides'>Search Keywords Performance</a>: all keywords searched by your users on Google+Bing+Yahoo into your Matomo reports.</p>
-            <p> &bull;  <a rel='noreferrer noopener' target='_blank' href='https://matomo.org/recommends/activity-log/?mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_keyword=UserGuides'>Audit log</a>: better security and problem diagnostic with a detailed audit log of Matomo user activities.</p>
-            <p> &bull;  <a rel='noreferrer noopener' target='_blank' href='https://matomo.org/recommends/white-label/?mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_keyword=UserGuides'>White Label</a>: give your clients access to their analytics reports where all Matomo-branded widgets are removed.</p>
-            <p> &bull;  <strong><a rel='noreferrer noopener' target='_blank' href='https://matomo.org/recommends/premium-plugins?mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_keyword=UserGuides'>All premium plugins.</a></strong></p>
+            <p> &bull;  <a rel='noreferrer noopener' target='_blank' href='{{ "https://matomo.org/recommends/users-flow/"|trackmatomolink }}'>Users Flow</a>: a visual representation of the most popular paths your users take through your website or app.</p>
+            <p> &bull;  <a rel='noreferrer noopener' target='_blank' href='{{ "https://matomo.org/recommends/ab-testing-learn-more/"|trackmatomolink }}'>A/B Testing</a>: compare different versions of your websites or apps and detect the winning variation.</p>
+            <p> &bull;  <a rel='noreferrer noopener' target='_blank' href='{{ "https://matomo.org/recommends/conversion-funnels"|trackmatomolink }}'>Funnels</a>: identify and understand where your visitors drop off in your conversion funnels.</p>
+            <p> &bull;  <a rel='noreferrer noopener' target='_blank' href='{{ "https://matomo.org/recommends/form-analytics/"|trackmatomolink }}'>Form Analytics</a>: increase conversions and get better leads from your website forms.</p>
+            <p> &bull;  <a rel='noreferrer noopener' target='_blank' href='{{ "https://matomo.org/recommends/media-analytics-website/"|trackmatomolink }}'>Video and Audio Analytics</a>: powerful insights into how your audience watches your videos and listens to your audio.</p>
+            <p> &bull;  <a rel='noreferrer noopener' target='_blank' href='{{ "https://matomo.org/recommends/roll-up-reporting/"|trackmatomolink }}'>Roll-Up Reporting</a>: aggregate data from multiple websites, apps and shops into a Roll-Up site to gain new insights.</p>
+            <p> &bull;  <a rel='noreferrer noopener' target='_blank' href='{{ "https://matomo.org/recommends/search-keywords-performance/"|trackmatomolink }}'>Search Keywords Performance</a>: all keywords searched by your users on Google+Bing+Yahoo into your Matomo reports.</p>
+            <p> &bull;  <a rel='noreferrer noopener' target='_blank' href='{{ "https://matomo.org/recommends/activity-log/"|trackmatomolink }}'>Audit log</a>: better security and problem diagnostic with a detailed audit log of Matomo user activities.</p>
+            <p> &bull;  <a rel='noreferrer noopener' target='_blank' href='{{ "https://matomo.org/recommends/white-label/"|trackmatomolink }}'>White Label</a>: give your clients access to their analytics reports where all Matomo-branded widgets are removed.</p>
+            <p> &bull;  <strong><a rel='noreferrer noopener' target='_blank' href='{{ "https://matomo.org/recommends/premium-plugins"|trackmatomolink }}'>All premium plugins.</a></strong></p>
         </div>
 
         <div vue-entry="CoreHome.ContentBlock" content-title="{{ 'Feedback_DoYouHaveBugReportOrFeatureRequest'|translate }}">
             <p>{{ 'Feedback_HowToCreateTicket'|translate(
-            "<a target='_blank' rel='noreferrer noopener' href='https://developer.matomo.org/guides/core-team-workflow#submitting-a-bug-report'>",
+            externallink("https://developer.matomo.org/guides/core-team-workflow#submitting-a-bug-report"),
             "</a>",
-            "<a target='_blank' rel='noreferrer noopener' href='https://developer.matomo.org/guides/core-team-workflow#submitting-a-feature-request'>",
+            externallink("https://developer.matomo.org/guides/core-team-workflow#submitting-a-feature-request"),
             "</a>",
-            "<a target='_blank' rel='noreferrer noopener' href='https://github.com/matomo-org/matomo/issues'>",
+            externallink("https://github.com/matomo-org/matomo/issues"),
             "</a>",
-            "<a target='_blank' rel='noreferrer noopener' href='https://github.com/matomo-org/matomo/issues/new'>",
+            externallink("https://github.com/matomo-org/matomo/issues/new"),
             "</a>"
             )|raw }}</p>
         </div>
@@ -98,8 +95,8 @@
         <div class="footer">
             <ul class="social">
                 <li>
-                    <a target="_blank" rel="noreferrer noopener" href="https://matomo.org/newsletter/"><img class="icon" src="plugins/Feedback/images/newsletter.svg"></a>
-                    <a target="_blank" rel="noreferrer noopener" href="https://matomo.org/newsletter/">Newsletter</a>
+                    <a target="_blank" rel="noreferrer noopener" href="{{ 'https://matomo.org/newsletter/'|trackmatomolink }}"><img class="icon" src="plugins/Feedback/images/newsletter.svg"></a>
+                    <a target="_blank" rel="noreferrer noopener" href="{{ 'https://matomo.org/newsletter/'|trackmatomolink }}">Newsletter</a>
                 </li>
                 <li>
                     <a target="_blank" rel="noreferrer noopener" href="https://www.facebook.com/Matomo.org"><img class="icon" src="plugins/Morpheus/icons/dist/socials/facebook.com.png"></a>
@@ -119,14 +116,14 @@
                 </li>
             </ul>
             <ul class="menu">
-                <li><a target="_blank" rel="noreferrer noopener" href="https://matomo.org/blog/">Blog</a></li>
-                <li><a target="_blank" rel="noreferrer noopener" href="https://matomo.org/get-involved/">Get involved</a></li>
-                <li><a target="_blank" rel="noreferrer noopener" href="https://developer.matomo.org">Developers</a></li>
-                <li><a target="_blank" rel="noreferrer noopener" href="https://plugins.matomo.org">Marketplace</a></li>
-                <li><a target="_blank" rel="noreferrer noopener" href="https://matomo.org/thank-you-all/">Credits</a></li>
+                <li><a target="_blank" rel="noreferrer noopener" href="{{ 'https://matomo.org/blog/'|trackmatomolink }}">Blog</a></li>
+                <li><a target="_blank" rel="noreferrer noopener" href="{{ 'https://matomo.org/get-involved/'|trackmatomolink }}">Get involved</a></li>
+                <li><a target="_blank" rel="noreferrer noopener" href="{{ 'https://developer.matomo.org'|trackmatomolink }}">Developers</a></li>
+                <li><a target="_blank" rel="noreferrer noopener" href="{{ 'https://plugins.matomo.org'|trackmatomolink }}">Marketplace</a></li>
+                <li><a target="_blank" rel="noreferrer noopener" href="{{ 'https://matomo.org/thank-you-all/'|trackmatomolink }}">Credits</a></li>
             </ul>
             <p class="claim"><small>{{ 'Feedback_PrivacyClaim'|translate(
-                    "<a target='_blank' rel='noreferrer noopener' href='https://matomo.org/privacy/'>",
+                    externallink("https://matomo.org/privacy/"),
                     "</a>"
                 )|raw}}</small></p>
         </div>

@@ -3,7 +3,7 @@
 
 button.btn,
 input[type="submit"].btn,
- .btn {
+.btn {
   display: inline-block;
   .border-radius(3px);
 
@@ -18,7 +18,7 @@ input[type="submit"].btn,
   border: 0;
 
   &:hover,
- &:focus {
+  &:focus {
     color: @theme-color-brand-contrast;
     background: @theme-color-brand;
     text-decoration: none;
@@ -54,14 +54,15 @@ input[type="submit"].btn,
 }
 
 .btn.disabled,
- .btn[disabled],
- fieldset[disabled] .btn {
+.btn[disabled],
+fieldset[disabled] .btn {
   pointer-events: none;
   cursor: not-allowed;
   filter: alpha(opacity=65);
   opacity: 0.65;
   color: white !important;
 }
+
 // See http://getbootstrap.com/css/#buttons-options
 .btn.btn-noop {
   background: transparent;
@@ -72,5 +73,19 @@ input[type="submit"].btn,
 }
 
 .btn, .btn-large, .btn-small, .btn-flat {
-    padding: 0 2rem;
+  padding: 0 2rem;
 }
+
+.btn.btn-outline {
+  background: none;
+  color: @theme-color-brand !important;
+  border: 1px solid @theme-color-brand;
+
+  &:hover,
+  &:focus {
+    color: @theme-color-brand-contrast !important;
+    background: @theme-color-brand;
+    text-decoration: none;
+  }
+}
+

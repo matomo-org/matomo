@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Live\Categories;
 
 use Piwik\Category\Subcategory;
 use Piwik\Piwik;
+use Piwik\Url;
 
 class VisitorLogSubcategory extends Subcategory
 {
@@ -21,7 +22,8 @@ class VisitorLogSubcategory extends Subcategory
     {
         $help = '<p>' . Piwik::translate('Live_VisitorLogSubcategoryHelp1') . '</p>';
         $help .= '<p>' . Piwik::translate('Live_VisitorLogSubcategoryHelp2') . '</p>';
-        $help .= '<p><a href="https://matomo.org/docs/real-time/?mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_keyword=UserGuides" target="_blank" rel="noreferrer noopener">' . Piwik::translate('Live_VisitorLogSubcategoryHelp3') . '</a></p>';
+        $help .= '<p><a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/real-time/', null, null, 'App.Live.getLastVisitsDetails')
+            . '" target="_blank" rel="noreferrer noopener">' . Piwik::translate('Live_VisitorLogSubcategoryHelp3') . '</a></p>';
         return $help;
     }
 }

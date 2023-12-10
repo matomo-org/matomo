@@ -12,7 +12,7 @@ use Piwik\Date;
 use Piwik\Scheduler\Task;
 use Piwik\Scheduler\Timetable;
 use Piwik\Tests\Framework\Mock\PiwikOption;
-use ReflectionProperty;
+use Piwik\Option;
 
 /**
  * @group Scheduler
@@ -170,18 +170,11 @@ class TimetableTest extends \PHPUnit\Framework\TestCase
 
     private static function stubPiwikOption($timetable)
     {
-        self::getReflectedPiwikOptionInstance()->setValue(new PiwikOption($timetable));
+        Option::setSingletonInstance(new PiwikOption($timetable));
     }
 
     private static function resetPiwikOption()
     {
-        self::getReflectedPiwikOptionInstance()->setValue(null);
-    }
-
-    private static function getReflectedPiwikOptionInstance()
-    {
-        $piwikOptionInstance = new ReflectionProperty('Piwik\Option', 'instance');
-        $piwikOptionInstance->setAccessible(true);
-        return $piwikOptionInstance;
+        Option::setSingletonInstance(null);
     }
 }

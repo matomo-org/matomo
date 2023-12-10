@@ -13,6 +13,7 @@ use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\SettingsPiwik;
+use Piwik\Url;
 
 /**
  * VisitsSummary API lets you access the core web analytics metrics (visits, unique visitors,
@@ -135,7 +136,7 @@ class API extends \Piwik\Plugin\API
         if (!SettingsPiwik::isUniqueVisitorsEnabled($period)) {
             throw new \Exception(
                 "The metric " . $metric . " is not enabled for the requested period. " .
-                "Please see this FAQ: https://matomo.org/faq/how-to/faq_113/"
+                "Please see this FAQ: " . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to/faq_113/')
             );
         }
     }

@@ -107,6 +107,10 @@ var Piwik_Popover = (function () {
         if (container !== false) {
             $('.ui-dialog').css({margin: '0 0'});
             container.dialog("option", "position", {my: 'center', at: 'center', of: '.ui-widget-overlay', collision: 'fit'});
+            // in some cases jQuery UI fails to place the dialog correctly and set the top values to something negative
+            if ($('.ui-dialog').position().top < 0) {
+                $('.ui-dialog').css('top', '0');
+            }
             $('.ui-dialog').css({margin: '15px 0'});
         }
     };

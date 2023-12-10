@@ -10,6 +10,7 @@ namespace Piwik\Access\Role;
 
 use Piwik\Access\Role;
 use Piwik\Piwik;
+use Piwik\Url;
 
 class Admin extends Role
 {
@@ -34,7 +35,7 @@ class Admin extends Role
 
     public function getHelpUrl(): string
     {
-        return 'https://matomo.org/faq/general/faq_69/';
+        return Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/general/faq_69/');
     }
 
 }

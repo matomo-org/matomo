@@ -17,7 +17,7 @@
         <a
           rel="noreferrer noopener"
           target="_blank"
-          href="https://matomo.org/faq/troubleshooting/faq_19489/"
+          :href="externalRawLink('https://matomo.org/faq/troubleshooting/faq_19489/')"
           v-if="hasErrorFaqLink"
         >
           {{ translate('General_ErrorRequestFaqLink') }}

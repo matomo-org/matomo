@@ -300,7 +300,8 @@ class DbHelper
 
         $sql = trim($sql);
         $pos = stripos($sql, 'SELECT');
-        if ($pos !== false) {
+        $isMaxExecutionTimeoutAlreadyPresent = (stripos($sql, 'MAX_EXECUTION_TIME(') !== false);
+        if ($pos !== false && !$isMaxExecutionTimeoutAlreadyPresent) {
 
             $timeInMs = $limit * 1000;
             $timeInMs = (int) $timeInMs;
@@ -346,6 +347,29 @@ class DbHelper
         if ($segment && !$segment->isEmpty() && 0 === strpos(trim($sql), $select)) {
             $sql = trim($sql);
             $sql = 'SELECT /* ' . 'segmenthash ' . $segment->getHash(). ' */' . substr($sql, strlen($select));
+        }
+
+        return $sql;
+    }
+
+    /**
+     * Add an optimizer hint to the query to set the first table used by the MySQL join execution plan
+     *
+     * https://dev.mysql.com/doc/refman/8.0/en/optimizer-hints.html#optimizer-hints-join-order
+     *
+     * @param string $sql       SQL query string
+     * @param string $prefix    Table prefix to be used as the first table in the plan
+     *
+     * @return string           Modified query string with hint added
+     */
+    public static function addJoinPrefixHintToQuery(string $sql, string $prefix): string
+    {
+        if (strpos(trim($sql), '/*+ JOIN_PREFIX(') === false) {
+            $select = 'SELECT';
+            if (0 === strpos(trim($sql), $select)) {
+                $sql = trim($sql);
+                $sql = 'SELECT /*+ JOIN_PREFIX('.$prefix.') */'.substr($sql, strlen($select));
+            }
         }
 
         return $sql;

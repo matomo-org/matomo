@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
 use Piwik\Common;
 use Piwik\SettingsPiwik;
+use Piwik\Url;
 
 /**
  * Checks whether certain directories in Matomo that should be private are accessible through the internet.
@@ -29,7 +30,7 @@ class RequiredPrivateDirectories extends AbstractPrivateDirectories
         if ($this->configIniAccessible) {
             $pathIsAccessible .= '<br/><br/>' . $this->translator->translate('Diagnostics_ConfigIniAccessible');
         }
-        $pathIsAccessible .= '<br/><br/><a href="https://matomo.org/faq/troubleshooting/how-do-i-fix-the-error-private-directories-are-accessible/" target="_blank" rel="noopener noreferrer">' . $this->translator->translate('General_ReadThisToLearnMore', ['', '']) . '</a>';
+        $pathIsAccessible .= '<br/><br/><a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/troubleshooting/how-do-i-fix-the-error-private-directories-are-accessible/') . '" target="_blank" rel="noopener noreferrer">' . $this->translator->translate('General_ReadThisToLearnMore', ['', '']) . '</a>';
         $result->setLongErrorMessage($pathIsAccessible);
     }
 

@@ -474,7 +474,8 @@ class Request
         }
 
         if (Access::getInstance()->hasSuperUserAccess()) {
-            $ex = new \Piwik\Exception\Exception(Piwik::translate('Widgetize_TooHighAccessLevel', ['<a href="https://matomo.org/faq/troubleshooting/faq_147/" rel="noreferrer noopener">', '</a>']));
+            $ex = new \Piwik\Exception\Exception(Piwik::translate('Widgetize_TooHighAccessLevel',
+                ['<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/troubleshooting/faq_147/') . '" rel="noreferrer noopener">', '</a>']));
             $ex->setIsHtmlMessage();
             throw $ex;
         }
@@ -490,7 +491,11 @@ class Request
             //
             // NOTE: this does not apply if the [General] enable_framed_allow_write_admin_token_auth INI
             // option is set.
-            throw new \Exception(Piwik::translate('Widgetize_ViewAccessRequired', ['https://matomo.org/faq/troubleshooting/faq_147/']));
+            $ex = new \Piwik\Exception\Exception(Piwik::translate('Widgetize_ViewAccessRequired',
+                ['<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/troubleshooting/faq_147/') .
+                    '" rel="noreferrer noopener">https://matomo.org/faq/troubleshooting/faq_147/</a>']));
+            $ex->setIsHtmlMessage();
+            throw $ex;
         }
     }
 

@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'matomo';
   src:
-          url('plugins/Morpheus/fonts/matomo.woff2?alz7inm') format('woff2'),
-          url('plugins/Morpheus/fonts/matomo.woff?alz7inm') format('woff'),
-          url('plugins/Morpheus/fonts/matomo.ttf?alz7inm') format('truetype'),
-          url('plugins/Morpheus/fonts/matomo.svg?alz7inm#matomo') format('svg');
+          url('plugins/Morpheus/fonts/matomo.woff2?m6crfo') format('woff2'),
+          url('plugins/Morpheus/fonts/matomo.woff?m6crfo') format('woff'),
+          url('plugins/Morpheus/fonts/matomo.ttf?m6crfo') format('truetype'),
+          url('plugins/Morpheus/fonts/matomo.svg?m6crfo#matomo') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -432,4 +432,16 @@
 }
 .icon-drop-crossed:before {
   content: "\e90b";
+}
+.icon-marketplace:before {
+  content: "\e90c";
+}
+.icon-plugin:before {
+  content: "\e90d";
+}
+.icon-add1:before {
+  content: "\e62e";
+}
+.icon-remove:before {
+  content: "\e643";
 }

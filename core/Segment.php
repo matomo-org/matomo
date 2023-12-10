@@ -147,11 +147,14 @@ class Segment
         // can usually be parsed successfully. To pick the right one, we try both and pick the one w/ more
         // successfully parsed subexpressions.
         $subexpressionsDecoded = 0;
-        try {
-            $this->initializeSegment(urldecode($segmentCondition), $idSites);
-            $subexpressionsDecoded = $this->segmentExpression->getSubExpressionCount();
-        } catch (Exception $e) {
-            // ignore
+
+        if (urldecode($segmentCondition) !== $segmentCondition) {
+            try {
+                $this->initializeSegment(urldecode($segmentCondition), $idSites);
+                $subexpressionsDecoded = $this->segmentExpression->getSubExpressionCount();
+            } catch (Exception $e) {
+                // ignore
+            }
         }
 
         $subexpressionsRaw = 0;
@@ -163,7 +166,7 @@ class Segment
         }
 
         if ($subexpressionsRaw > $subexpressionsDecoded) {
-            $this->initializeSegment($segmentCondition, $idSites);
+            // segment initialized above
             $this->isSegmentEncoded = false;
         } else {
             $this->initializeSegment(urldecode($segmentCondition), $idSites);
@@ -404,6 +407,11 @@ class Segment
         }
 
         $segmentObject = $segmentsList->getSegment($name);
+
+        if (empty($segmentObject)) {
+            throw new Exception("Segment '$name' is not a supported segment.");
+        }
+
         $sqlName = $segmentObject->getSqlSegment();
 
         $joinTable = null;
@@ -433,7 +441,7 @@ class Segment
         // This is required to ensure segments like actionUrl!@value really do not include any visit having an action containing `value`
         if ($this->doesSegmentNeedSubquery($matchType, $name)) {
             $operator = $this->getInvertedOperatorForSubQuery($matchType);
-            $stringSegment = $name . $operator . $value;
+            $stringSegment = $name . $operator . $this->escapeSegmentValue($value);
             $segmentObj = new Segment($stringSegment, $this->idSites, $this->startDate, $this->endDate);
 
             $select = 'log_visit.idvisit';
@@ -704,5 +712,16 @@ class Segment
     public function getOriginalString()
     {
         return $this->originalString;
+    }
+
+    /**
+     * Escapes segment expression delimiters in a segment value with a backslash if not already done.
+     */
+    private function escapeSegmentValue(string $value): string
+    {
+        $delimiterPattern = SegmentExpression::AND_DELIMITER . SegmentExpression::OR_DELIMITER;
+        $pattern = '/((?<!\\\)[' . preg_quote($delimiterPattern) . '])/';
+
+        return preg_replace($pattern, '\\\$1', $value);
     }
 }

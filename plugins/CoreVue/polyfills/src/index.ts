@@ -43,7 +43,5 @@ DOMPurify.addHook('afterSanitizeAttributes', (node: Element) => {
 });
 
 window.vueSanitize = function vueSanitize(val: unknown): string {
-  let result = DOMPurify.sanitize(val, { ADD_ATTR: ['target'] });
-  result = result.replace(/{{/g, '{&#8291;{');
-  return result;
+  return DOMPurify.sanitize(val, { ADD_ATTR: ['target'] });
 };

@@ -16,6 +16,9 @@ return [
     'tests.ui.url_normalizer_blacklist.api' => [],
     'tests.ui.url_normalizer_blacklist.controller' => [],
 
+    // disable check for plugin updates during UI tests
+    'dev.disable_plugin_update_checks' => true,
+
     'twig.cache' => function (\Piwik\Container\Container $container) {
         $templatesPath = $container->get('path.tmp.templates');
         return new class($templatesPath) extends \Twig\Cache\FilesystemCache {
@@ -41,11 +44,19 @@ return [
         };
     },
 
-    'Piwik\Config' => \Piwik\DI::decorate(function (\Piwik\Config $config) {
+    'Piwik\Config' => \Piwik\DI::decorate(function (\Piwik\Config $config, Container $c) {
         $config->General['cors_domains'][] = '*';
         $config->General['trusted_hosts'][] = '127.0.0.1';
         $config->General['trusted_hosts'][] = $config->tests['http_host'];
         $config->General['trusted_hosts'][] = $config->tests['http_host'] . ':' . $config->tests['port'];
+
+        // disable plugin promos for UI tests, only enable when explicitly requested
+        if ($c->get('test.vars.enableProfessionalSupportAdsForUITests')) {
+            $config->General['piwik_professional_support_ads_enabled'] = '1';
+        } else {
+            $config->General['piwik_professional_support_ads_enabled'] = '0';
+        }
+
         return $config;
     }),
 

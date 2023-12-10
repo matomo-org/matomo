@@ -395,18 +395,19 @@ class DataTablePostProcessor
 
     /**
      * @param DataTableInterface $dataTable
+     * @param bool $forceFormatting if set to true, all metrics will be formatted and request parameter will be ignored
      * @return DataTableInterface
      */
-    public function applyMetricsFormatting($dataTable)
+    public function applyMetricsFormatting($dataTable, bool $forceFormatting = false)
     {
         $formatMetrics = Common::getRequestVar('format_metrics', 0, 'string', $this->request);
-        if ($formatMetrics == '0') {
+        if ($formatMetrics == '0' && $forceFormatting === false) {
             return $dataTable;
         }
 
         // in Piwik 2.X & below, metrics are not formatted in API responses except for percents.
         // this code implements this inconsistency
-        $onlyFormatPercents = $formatMetrics === 'bc';
+        $onlyFormatPercents = $forceFormatting === false && $formatMetrics === 'bc';
 
         $metricsToFormat = null;
         if ($onlyFormatPercents) {
@@ -415,9 +416,9 @@ class DataTablePostProcessor
 
         // 'all' is a special value that indicates we should format non-processed metrics that are identified
         // by string, like 'revenue'. this should be removed when all metrics are using the `Metric` class.
-        $formatAll = $formatMetrics === 'all';
+        $formatAll = $forceFormatting === true || $formatMetrics === 'all';
 
-        $dataTable->filter(array($this->formatter, 'formatMetrics'), array($this->report, $metricsToFormat, $formatAll));
+        $dataTable->filter([$this->formatter, 'formatMetrics'], [$this->report, $metricsToFormat, $formatAll]);
         return $dataTable;
     }
 

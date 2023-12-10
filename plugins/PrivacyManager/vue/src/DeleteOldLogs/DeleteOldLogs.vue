@@ -27,7 +27,7 @@
         v-show="enabled"
       >
         <a
-          href="https://matomo.org/faq/general/faq_125"
+          :href="externalRawLink('https://matomo.org/faq/general/faq_125')"
           rel="noreferrer noopener"
           target="_blank"
         >

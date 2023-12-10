@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\ProfessionalServices;
 
 use Piwik\Common;
+use Piwik\DataTable;
 use Piwik\View;
 use Piwik\Plugin;
 
@@ -33,12 +34,27 @@ class ProfessionalServices extends \Piwik\Plugin
             'Template.afterVisitorProfileOverview' => 'getSessionRecordingPromo',
             'Template.afterPagePerformanceReport' => 'getSeoWebVitalsPromo',
             'Template.afterSearchEngines' => 'getSeoWebVitalsPromo',
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
         );
     }
 
     public function getStylesheetFiles(&$stylesheets)
     {
+        $stylesheets[] = 'plugins/ProfessionalServices/stylesheets/promos.less';
         $stylesheets[] = 'plugins/ProfessionalServices/stylesheets/widget.less';
+    }
+
+    public function getClientSideTranslationKeys(&$translationKeys)
+    {
+        $translationKeys[] = 'ProfessionalServices_DismissedNotification';
+        $translationKeys[] = 'ProfessionalServices_PromoFunnels';
+        $translationKeys[] = 'ProfessionalServices_PromoFormAnalytics';
+        $translationKeys[] = 'ProfessionalServices_PromoMediaAnalytics';
+        $translationKeys[] = 'ProfessionalServices_PromoAbTesting';
+        $translationKeys[] = 'ProfessionalServices_PromoHeatmaps';
+        $translationKeys[] = 'ProfessionalServices_PromoSessionRecording';
+        $translationKeys[] = 'ProfessionalServices_PromoCustomReports';
+        $translationKeys[] = 'ProfessionalServices_PromoCrashAnalytics';
     }
 
     public function isRequestForDashboardWidget()
@@ -101,15 +117,21 @@ class ProfessionalServices extends \Piwik\Plugin
         }
     }
 
-    public function getEventsPromo(&$out)
+    public function getEventsPromo(&$out, DataTable $dataTable)
     {
         if ($this->isRequestForDashboardWidget()) {
             return;
         }
 
-        $view = new View('@ProfessionalServices/promoBelowEvents');
-        $view->displayMediaAnalyticsAd = !$this->isPluginActivated('MediaAnalytics');
-        $out .= $view->render();
+        $promoView = new View('@ProfessionalServices/promoBelowEvents');
+        $promoView->displayMediaAnalyticsAd = !$this->isPluginActivated('MediaAnalytics');
+        $promoView->displayCrashAnalyticsAd = !$this->isPluginActivated('CrashAnalytics') && $this->hasErrorEventCategory($dataTable);
+        $out .= $promoView->render();
+    }
+
+    private function hasErrorEventCategory(DataTable $dataTable): bool
+    {
+        return $dataTable->getRowIdFromLabel('JavaScript Errors') !== false;
     }
 
     public function getCampaignsPromo(&$out)
@@ -149,5 +171,4 @@ class ProfessionalServices extends \Piwik\Plugin
             $out .= $view->render();
         }
     }
-
 }

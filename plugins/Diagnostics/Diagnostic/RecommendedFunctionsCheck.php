@@ -8,6 +8,7 @@
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
 use Piwik\Translation\Translator;
+use Piwik\Url;
 
 /**
  * Check the PHP functions that are not required but recommended.
@@ -73,7 +74,7 @@ class RecommendedFunctionsCheck implements Diagnostic
         );
 
         $translation_params = array(
-            'shell_exec'     => ["<a href='https://matomo.org/faq/troubleshooting/how-to-make-the-diagnostic-managing-processes-via-cli-to-display-ok/' rel='noopener' target='_blank'>", "</a>"]
+            'shell_exec'     => ["<a href='" . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/troubleshooting/how-to-make-the-diagnostic-managing-processes-via-cli-to-display-ok/') . "' rel='noopener' target='_blank'>", "</a>"]
         );
 
         return $this->translator->translate($messages[$function], $translation_params[$function] ?? []);

@@ -107,9 +107,11 @@ export default defineComponent({
   mounted() {
     const root = this.$refs.root as HTMLElement;
 
-    $('.scrollspy', root).scrollSpy();
-    $('.pushpin', root).pushpin({ top: $('.pushpin', root).offset()!.top });
-    $('.tabs', root).tabs();
+    setTimeout(() => {
+      $('.scrollspy', root).scrollSpy();
+      $('.pushpin', root).pushpin({ top: $('.pushpin', root).offset()!.top });
+      $('.tabs', root).tabs();
+    });
   },
   methods: {
     entriesByLetter(entries: GlossaryItemEntry[]) {

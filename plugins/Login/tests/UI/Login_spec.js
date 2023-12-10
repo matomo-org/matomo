@@ -235,7 +235,7 @@ describe("Login", function () {
 
         await page.goto(bruteForceLogUrl);
 
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('bruteforcelog_noentries');
+        expect(await page.screenshotSelector('#content')).to.matchImage('bruteforcelog_noentries');
     });
 
     it("should show brute force log url when there are entries", async function () {
@@ -247,7 +247,7 @@ describe("Login", function () {
 
         await page.goto(bruteForceLogUrl);
 
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('bruteforcelog_withentries');
+        expect(await page.screenshotSelector('#content')).to.matchImage('bruteforcelog_withentries');
     });
 
     it("should show error when trying to attempt a log in through API", async function () {

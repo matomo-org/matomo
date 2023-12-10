@@ -16,6 +16,7 @@ use Piwik\Plugins\PagePerformance\Metrics;
 use Piwik\Plugins\PagePerformance\Visualizations\JqplotGraph\StackedBarEvolution;
 use Piwik\Plugins\PagePerformance\Visualizations\PerformanceColumns;
 use Piwik\Report\ReportWidgetFactory;
+use Piwik\Url;
 use Piwik\Widget\WidgetsList;
 
 class Get extends \Piwik\Plugin\Report
@@ -31,7 +32,7 @@ class Get extends \Piwik\Plugin\Report
 
         $this->name = Piwik::translate('PagePerformance_Overview');
         $this->documentation = Piwik::translate('PagePerformance_OverviewDocumentation');
-        $this->onlineGuideUrl = 'https://matomo.org/faq/how-to/how-do-i-see-page-performance-reports/';
+        $this->onlineGuideUrl = Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to/how-do-i-see-page-performance-reports/');
         $this->processedMetrics = Metrics::getAllPagePerformanceMetrics();
         $this->metrics = Metrics::getAllPagePerformanceMetrics();
     }

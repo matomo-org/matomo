@@ -388,9 +388,6 @@ class SegmentEditor extends \Piwik\Plugin
         $segments = $cache->fetch($cacheKey);
         if (!is_array($segments)) {
             $segments = Request::processRequest('SegmentEditor.getAll', ['idSite' => $idSite], $default = []);
-            usort($segments, function ($lhs, $rhs) {
-                return strcmp($lhs['name'], $rhs['name']);
-            });
             $cache->save($cacheKey, $segments);
         }
         return $segments;

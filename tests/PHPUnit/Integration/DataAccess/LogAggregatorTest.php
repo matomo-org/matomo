@@ -10,6 +10,7 @@ namespace Piwik\Tests\Integration\DataAccess;
 
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\Config;
+use Piwik\Config\DatabaseConfig;
 use Piwik\Common;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\Date;
@@ -247,6 +248,80 @@ class LogAggregatorTest extends IntegrationTestCase
         $this->assertSame($expected, $query);
     }
 
+    public function test_generateQuery_withSegment_visitLogRightJoinShouldKeepWhereCondition()
+    {
+        $segment = new Segment('userId==1', [$this->site->getId()]);
+
+        $params = new Parameters($this->site, $this->period, $segment);
+        $this->logAggregator = new LogAggregator($params);
+        $this->logAggregator->allowUsageSegmentCache();
+
+        $select = "MINUTE(log_link_visit_action.server_time) AS 'CoreHome.ServerMinute', max(log_link_visit_action.pageview_position) AS 'max_actions_pageviewposition'";
+        $from = ['log_link_visit_action', ['table' => 'log_visit', 'join' => 'RIGHT JOIN']];
+        $where = 'log_visit.visit_last_action_time >= ?
+				AND log_visit.visit_last_action_time <= ?
+				AND log_visit.idsite IN (?)';
+        $orderBy = 'max_actions_pageviewposition';
+        
+        $query = $this->logAggregator->generateQuery($select, $from, $where, false, $orderBy);
+
+        $expected = [
+            'sql' => "SELECT /* segmenthash 4eaf469650796451c610972d0ca1e9e8 */ /* sites 1 */ /* 2010-03-01,2010-03-31 */
+				MINUTE(log_link_visit_action.server_time) AS 'CoreHome.ServerMinute', max(log_link_visit_action.pageview_position) AS 'max_actions_pageviewposition'
+			FROM
+				logtmpsegment0e053be69df974017fba4276a0d4347d AS logtmpsegment0e053be69df974017fba4276a0d4347d INNER JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = logtmpsegment0e053be69df974017fba4276a0d4347d.idvisit RIGHT JOIN log_visit AS log_visit ON log_visit.idvisit = logtmpsegment0e053be69df974017fba4276a0d4347d.idvisit
+			WHERE
+				log_visit.visit_last_action_time >= ?
+				AND log_visit.visit_last_action_time <= ?
+				AND log_visit.idsite IN (?)
+			ORDER BY
+				max_actions_pageviewposition",
+            'bind' => [
+                '2010-03-01 00:00:00',
+                '2010-03-31 23:59:59',
+                1,
+            ]
+        ];
+        $this->assertSame($expected, $query);
+    }
+
+    public function test_generateQuery_withSegment_visitLogJoinRightJoinOnOtherTableShouldKeepWhereCondition()
+    {
+        $segment = new Segment('userId==1', [$this->site->getId()]);
+
+        $params = new Parameters($this->site, $this->period, $segment);
+        $this->logAggregator = new LogAggregator($params);
+        $this->logAggregator->allowUsageSegmentCache();
+
+        $select = "log_link_visit_action.server_time AS 'CoreHome.ServerMinute', log_visit.visit_total_searches AS 'total_searches', log_conversion.items AS 'items'";
+        $from = ['log_link_visit_action', 'log_visit', ['table' => 'log_conversion', 'join' => 'right join']];
+        $where = 'log_conversion.server_time >= ?
+				AND log_conversion.server_time <= ?
+				AND log_conversion.idsite IN (?)';
+        $orderBy = 'max_actions_pageviewposition';
+
+        $query = $this->logAggregator->generateQuery($select, $from, $where, false, $orderBy);
+
+        $expected = [
+            'sql' => "SELECT /* segmenthash 4eaf469650796451c610972d0ca1e9e8 */ /* sites 1 */ /* 2010-03-01,2010-03-31 */
+				log_link_visit_action.server_time AS 'CoreHome.ServerMinute', log_visit.visit_total_searches AS 'total_searches', log_conversion.items AS 'items'
+			FROM
+				logtmpsegment0e053be69df974017fba4276a0d4347d AS logtmpsegment0e053be69df974017fba4276a0d4347d INNER JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = logtmpsegment0e053be69df974017fba4276a0d4347d.idvisit LEFT JOIN log_visit AS log_visit ON log_visit.idvisit = logtmpsegment0e053be69df974017fba4276a0d4347d.idvisit right join log_conversion AS log_conversion ON log_conversion.idvisit = logtmpsegment0e053be69df974017fba4276a0d4347d.idvisit
+			WHERE
+				log_conversion.server_time >= ?
+				AND log_conversion.server_time <= ?
+				AND log_conversion.idsite IN (?)
+			ORDER BY
+				max_actions_pageviewposition",
+            'bind' => [
+                '2010-03-01 00:00:00',
+                '2010-03-31 23:59:59',
+                1,
+            ]
+        ];
+        $this->assertSame($expected, $query);
+    }
+
     public function testSetMaxExecutionTimeOfArchivingQueries()
     {
         if (SystemTestCase::isMysqli()) {
@@ -341,6 +416,71 @@ class LogAggregatorTest extends IntegrationTestCase
         $this->assertEquals('logtmpsegmentcc2efa0acbd5f209', $this->logAggregator->getSegmentTmpTableName());
     }
 
+    public function test_getSegmentTableSql_ShouldAddJoinHintAsCommentIfEnabled()
+    {
+        DatabaseConfig::setConfigValue('enable_segment_first_table_join_prefix', '1');
+
+        $query = $this->getSegmentSql();
+        $expected = [
+            'sql' => "SELECT /*+ JOIN_PREFIX(log_visit) */
+				distinct log_visit.idvisit as idvisit
+			FROM
+				log_visit AS log_visit
+			WHERE
+				( log_visit.visit_last_action_time >= ?
+				AND log_visit.visit_last_action_time <= ?
+				AND log_visit.idsite IN (?) )
+                AND
+                ( log_visit.user_id = ? )
+			ORDER BY
+				log_visit.idvisit ASC",
+            'bind' => [
+                '2010-03-01 00:00:00',
+                '2010-03-31 23:59:59',
+                1,
+                '1'
+            ]
+        ];
+        $this->assertSame($expected, $query);
+    }
+
+    public function test_getSegmentTableSql_ShouldNotAddJoinHintAsCommentIfDisabled()
+    {
+        DatabaseConfig::setConfigValue('enable_segment_first_table_join_prefix', '0');
+
+        $query = $this->getSegmentSql();
+        $expected = [
+            'sql' => "
+			SELECT
+				distinct log_visit.idvisit as idvisit
+			FROM
+				log_visit AS log_visit
+			WHERE
+				( log_visit.visit_last_action_time >= ?
+				AND log_visit.visit_last_action_time <= ?
+				AND log_visit.idsite IN (?) )
+                AND
+                ( log_visit.user_id = ? )
+			ORDER BY
+				log_visit.idvisit ASC",
+            'bind' => [
+                '2010-03-01 00:00:00',
+                '2010-03-31 23:59:59',
+                1,
+                '1'
+            ]
+        ];
+        $this->assertSame($expected, $query);
+    }
+
+    private function getSegmentSql()
+    {
+        $segment = new Segment('userId==1', [$this->site->getId()]);
+        $params = new Parameters($this->site, $this->period, $segment);
+        $this->logAggregator = new LogAggregator($params);
+        return $this->logAggregator->getSegmentTableSql();
+    }
+
     public function test_generateQuery_WithQueryHint_ShouldAddQueryHintAsComment()
     {
         $this->logAggregator->setQueryOriginHint('MyPluginName');
@@ -361,6 +501,72 @@ class LogAggregatorTest extends IntegrationTestCase
                 2 => 1
             )
         );
+        $this->assertSame($expected, $query);
+    }
+
+    public function test_generateQuery_ShouldAddJoinQueryHintAsCommentIfEnabled()
+    {
+        DatabaseConfig::setConfigValue('enable_first_table_join_prefix', '1');
+        $this->logAggregator->setQueryOriginHint('MyPluginName');
+        $query = $this->logAggregator->generateQuery('test, test2', 'log_visit', '1=1', false, '5');
+
+        $expected = [
+            'sql' => 'SELECT /*+ JOIN_PREFIX(log_visit) */ /* sites 1 */ /* 2010-03-01,2010-03-31 */ /* MyPluginName */
+				test, test2
+			FROM
+				log_visit AS log_visit
+			WHERE
+				1=1
+			ORDER BY
+				5',
+            'bind' => [
+                0 => '2010-03-01 00:00:00',
+                1 => '2010-03-31 23:59:59',
+                2 => 1
+            ]
+        ];
+        $this->assertSame($expected, $query);
+    }
+
+    public function test_queryVisitsByDimension_ShouldAddJoinQueryHintOriginHintMaxExecutionTimeHintIfEnabled()
+    {
+        $dimensions = [
+            'CASE WHEN HOUR(log_visit.visit_first_action_time) <= 11 THEN \'l\'' .
+            'ELSE \'r\'' .
+            'END AS label',
+        ];
+
+        DatabaseConfig::setConfigValue('enable_first_table_join_prefix','1');
+        $this->logAggregator->setQueryOriginHint('MyPluginName');
+
+        $query = $this->logAggregator->getQueryByDimensionSql($dimensions, false, [], false, false,
+            false, 5, false);
+
+        $expected = [
+            'sql' => "SELECT  /*+ MAX_EXECUTION_TIME(5000) */  /*+ JOIN_PREFIX(log_visit) */ /* sites 1 */ /* 2010-03-01,2010-03-31 */ /* MyPluginName */
+				CASE WHEN HOUR(log_visit.visit_first_action_time) <= 11 THEN 'l'ELSE 'r'END AS label, 
+			count(distinct log_visit.idvisitor) AS `1`, 
+			count(*) AS `2`, 
+			sum(log_visit.visit_total_actions) AS `3`, 
+			max(log_visit.visit_total_actions) AS `4`, 
+			sum(log_visit.visit_total_time) AS `5`, 
+			sum(case log_visit.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) AS `6`, 
+			sum(case log_visit.visit_goal_converted when 1 then 1 else 0 end) AS `7`, 
+			count(distinct log_visit.user_id) AS `39`
+			FROM
+				log_visit AS log_visit
+			WHERE
+				log_visit.visit_last_action_time >= ?
+				AND log_visit.visit_last_action_time <= ?
+				AND log_visit.idsite IN (?)
+			GROUP BY
+				label",
+            'bind' => [
+                0 => '2010-03-01 00:00:00',
+                1 => '2010-03-31 23:59:59',
+                2 => 1
+            ]
+        ];
         $this->assertSame($expected, $query);
     }
 

@@ -31,7 +31,8 @@
       </div>
 
       <div id="languageHelp" class="inline-help-node">
-        <a target="_blank" rel="noreferrer noopener" href="https://matomo.org/translations/">
+        <a target="_blank" rel="noreferrer noopener"
+           :href="externalRawLink('https://matomo.org/translations/')">
           {{ translate('LanguagesManager_AboutPiwikTranslations') }}</a>
       </div>
 

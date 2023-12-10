@@ -1,5 +1,10 @@
 {
     "DevicePlugins": {
-        "WidgetPlugins": "Pluginen zerrenda"
+        "BrowserWithNoPluginsEnabled": "%1$s pluginik gaitu gabe",
+        "BrowserWithPluginsEnabled": "%1$s %2$s plugin gaituta",
+        "PluginDescription": "Bisitarien nabigatzaileek onartzen dituzten pluginen berri ematen du.",
+        "PluginDetectionDoesNotWorkInIE": "Oharra: Pluginen detekzioak ez du funtzionatzen Internet Explorer-en 11 bertsioa arte. Txosten hau IE ez diren nabigatzaileetan eta IEren bertsio berriagoetan oinarritzen da soilik.",
+        "WidgetPlugins": "Nabigatzaile-pluginak",
+        "WidgetPluginsDocumentation": "Txosten honek erakusten du zure bisitariek zein nabigatzaile-plugin zituzten gaituta. Informazio hau garrantzitsua izan daiteke zure edukia banatzeko modu egokia aurkitzeko."
     }
 }

@@ -78,6 +78,20 @@ class MenuAdmin extends MenuAbstract
     }
 
     /**
+     * See {@link add()}. Adds a new menu item to the plugins section of the admin menu.
+     * @param string $menuName
+     * @param array $url
+     * @param int $order
+     * @param bool|string $tooltip
+     * @api
+     * @since 5.0.0
+     */
+    public function addPluginItem(string $menuName, array $url, int $order = 50, $tooltip = false)
+    {
+        $this->addItem('General_Plugins', $menuName, $url, $order, $tooltip);
+    }
+
+    /**
      * See {@link add()}. Adds a new menu item to the measurable section of the admin menu.
      * @param string $menuName
      * @param array $url

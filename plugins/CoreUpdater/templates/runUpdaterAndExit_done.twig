@@ -1,6 +1,6 @@
 {% extends '@CoreUpdater/layout.twig' %}
 {% set helpMessage %}
-    {{ 'CoreUpdater_HelpMessageContent'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/">','</a>','</li><li>')|raw }}
+    {{ 'CoreUpdater_HelpMessageContent'|translate(externallink('https://matomo.org/faq/'),'</a>','</li><li>')|raw }}
 {% endset %}
 
 {% block content %}
@@ -24,7 +24,7 @@
         <ul>
             <li>{{ 'CoreUpdater_ErrorDIYHelp_1'|translate }}</li>
             <li>{{ 'CoreUpdater_ErrorDIYHelp_2'|translate }}</li>
-            <li>{{ 'CoreUpdater_ErrorDIYHelp_3'|translate }} <a href='https://matomo.org/faq/how-to-update/faq_179' rel='noreferrer noopener' target='_blank'>(see FAQ)</a></li>
+            <li>{{ 'CoreUpdater_ErrorDIYHelp_3'|translate }} <a href='{{ 'https://matomo.org/faq/how-to-update/faq_179'|trackmatomolink }}' rel='noreferrer noopener' target='_blank'>(see FAQ)</a></li>
             <li>{{ 'CoreUpdater_ErrorDIYHelp_4'|translate }}</li>
             <li>{{ 'CoreUpdater_ErrorDIYHelp_5'|translate }}</li>
         </ul>

@@ -272,6 +272,7 @@ class View implements ViewInterface
             $this->isMultiServerEnvironment = SettingsPiwik::isMultiServerEnvironment();
             $this->isInternetEnabled = SettingsPiwik::isInternetEnabled();
             $this->shouldPropagateTokenAuth = $this->shouldPropagateTokenAuthInAjaxRequests();
+            $this->isAutoUpdateEnabled = SettingsPiwik::isAutoUpdateEnabled();
 
             $piwikAds = StaticContainer::get('Piwik\ProfessionalServices\Advertising');
             $this->areAdsForProfessionalServicesEnabled = $piwikAds->areAdsForProfessionalServicesEnabled();

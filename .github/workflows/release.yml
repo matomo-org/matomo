@@ -45,7 +45,7 @@ jobs:
           script: |
               core.setFailed('Release password didn\'t match.')
       - name: "Check if user is allowed"
-        if: ${{ github.actor != 'mattab' && github.actor != 'tsteur' && github.actor != 'sgiehl' && github.actor != 'bx80' }}
+        if: ${{ github.actor != 'mattab' && github.actor != 'tsteur' && github.actor != 'sgiehl' && github.actor != 'bx80' && github.actor != 'michalkleiner' && github.actor != 'caddoo'}}
         uses: actions/github-script@v6
         with:
           script: |

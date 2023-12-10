@@ -8,41 +8,12 @@
  */
 namespace Piwik\Config;
 
-use Piwik\Config;
-
-class GeneralConfig
+class GeneralConfig extends SectionConfig
 {
-    /**
-     * Update Archive config
-     *
-     * @param string $name Setting name
-     * @param mixed $value Value
-     */
-    public static function setConfigValue($name, $value)
+
+    public static function getSectionName(): string
     {
-        $section = self::getConfig();
-        $section[$name] = $value;
-        Config::getInstance()->General = $section;
+        return 'General';
     }
 
-    public static function getConfigValue($name, $idSite = null)
-    {
-        $config = self::getConfig();
-        if (!empty($idSite)) {
-            $siteSpecificConfig = self::getSiteSpecificConfig($idSite);
-            $config = array_merge($config, $siteSpecificConfig);
-        }
-        return $config[$name] ?? null;
-    }
-
-    private static function getConfig()
-    {
-        return Config::getInstance()->General;
-    }
-
-    private static function getSiteSpecificConfig($idSite)
-    {
-        $key = 'General_' . $idSite;
-        return Config::getInstance()->$key;
-    }
 }

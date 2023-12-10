@@ -53,6 +53,8 @@ import {
   ContentBlock,
   ContentIntro,
   translate,
+  externalLink,
+  externalRawLink,
 } from 'CoreHome';
 
 export default defineComponent({
@@ -84,39 +86,38 @@ export default defineComponent({
     whenConsentIsNeeded1() {
       return translate(
         'PrivacyManager_WhenConsentIsNeededPart1',
-        '<a href="https://matomo.org/faq/new-to-piwik/what-is-gdpr/" target="_blank" rel="noreferrer noopener">',
+        externalLink('https://matomo.org/faq/new-to-piwik/what-is-gdpr/'),
         '</a>',
       );
     },
     whenConsentIsNeeded2() {
       const blogLink = 'https://matomo.org/blog/2018/04/lawful-basis-for-processing-personal-data-under-gdpr-with-matomo/';
-
       return translate(
         'PrivacyManager_WhenConsentIsNeededPart2',
-        `<a href="${blogLink}" target="_blank" rel="noreferrer noopener">`,
+        externalLink(blogLink),
         '</a>',
       );
     },
     whenConsentIsNeeded3() {
       return translate(
         'PrivacyManager_WhenConsentIsNeededPart3',
-        '<a href="https://matomo.org/faq/how-to/faq_35661/" target="_blank" rel="noreferrer noopener">',
+        externalLink('https://matomo.org/faq/how-to/faq_35661/'),
         '</a>',
       );
     },
     howDoIAskForConsentOthers() {
-      const link = 'https://developer.matomo.org/guides/tracking-consent';
       return translate(
         'PrivacyManager_HowDoIAskForConsentOutro',
-        `<a href="${link}" target="_blank" rel="noreferrer noopener">`,
+        externalLink('https://developer.matomo.org/guides/tracking-consent'),
         '</a>',
       );
     },
     consentManagersList() {
       let list = '';
       Object.entries(this.consentManagers).forEach(([name, url]) => {
+        const u = externalRawLink(url);
         list += '<li>'
-          + `  <a href="${url}"`
+          + `  <a href="${u}"`
           + '     target="_blank" rel="noreferrer noopener">'
           + `    ${name} ${translate('PrivacyManager_ConsentManager')}`
           + '  </a>'

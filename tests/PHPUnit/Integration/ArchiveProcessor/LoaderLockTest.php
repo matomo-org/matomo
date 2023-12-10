@@ -13,6 +13,10 @@ use Piwik\ArchiveProcessor\LoaderLock;
 use Piwik\Common;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
+/**
+ * @group ArchiveProcessor
+ * @group ArchiveProcessorLoaderLock
+ */
 class LoaderLockTest extends IntegrationTestCase
 {
 

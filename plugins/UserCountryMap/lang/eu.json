@@ -1,1 +1,25 @@
-{}
+{
+    "UserCountryMap": {
+        "AndNOthers": "eta beste %s",
+        "Cities": "Hiriak",
+        "Countries": "Herrialdeak",
+        "DaysAgo": "Duela %s egun",
+        "GoalConversions": "%s helburu bihurketa",
+        "HoursAgo": "Duela %s ordu",
+        "MinutesAgo": "Duela %s minutu",
+        "NoVisit": "Bisitarik ez",
+        "NoVisitsInfo": "Ez da bisitarik bistaratzen, tarte honetako bisitek ez dutelako geolokalizazio (latitude eta longitudea) informazio zuzenik.",
+        "NoVisitsInfo2": "Konpondu arazo hau hirien GeoIP datu-basea duen GeoIP geolokalizazio-hornitzaile bat erabiliz. (Hala ere gutxi batzuetan) IP helbideak ezin izango dira geolokalizatu.",
+        "None": "Bat ere ez",
+        "PluginDescription": "\"Bisitarien mapa\" eta \"Denbora errealeko mapa\" widget-ak eskaintzen ditu. \"UserCountry\" plugina behar du.",
+        "RealTimeMap": "Denbora errealeko mapa",
+        "Regions": "Eskualdeak",
+        "Searches": "%s bilaketa",
+        "SecondsAgo": "Duela %s segundo",
+        "VisitorMap": "Bisitarien mapa",
+        "WithUnknownCity": "%s hiri ezezagunetatik",
+        "WithUnknownRegion": "%s eskualde ezezagunetatik",
+        "WorldWide": "Mundu osoa",
+        "map": "mapa"
+    }
+}

@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\CoreVisualizations;
 
 use Exception;
-use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
@@ -35,8 +34,6 @@ class JqplotDataGenerator
     protected $graphType;
 
     protected $isComparing;
-
-    private $availableSegments;
 
     /**
      * @var JqplotGraph
@@ -78,8 +75,6 @@ class JqplotDataGenerator
         $this->graphType = $graphType;
         $this->isComparing = $graph->isComparing();
         $this->graph = $graph;
-
-        $this->availableSegments = Request::processRequest('SegmentEditor.getAll', $override = [], $default = []);
     }
 
     /**
@@ -115,9 +110,9 @@ class JqplotDataGenerator
 
         $seriesMetadata = null;
         if ($this->isComparing) {
-            list($yLabels, $serieses, $seriesMetadata) = $this->getComparisonTableSerieses($dataTable, $columnsToDisplay);
+            [$yLabels, $serieses, $seriesMetadata] = $this->getComparisonTableSerieses($dataTable, $columnsToDisplay);
         } else {
-            list($yLabels, $serieses) = $this->getMainTableSerieses($dataTable, $columnsToDisplay);
+            [$yLabels, $serieses] = $this->getMainTableSerieses($dataTable, $columnsToDisplay);
         }
 
         $visualization->properties = $this->properties;

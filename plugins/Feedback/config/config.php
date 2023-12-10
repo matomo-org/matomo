@@ -1,4 +1,5 @@
 <?php
+
 return [
     'popularHelpTopics' => [
         ['title' => 'Feedback_NotTrackingVisits', 'url' => 'https://matomo.org/faq/troubleshooting/faq_58/'],

@@ -8,7 +8,7 @@
   <div v-content-intro>
     <h2>
       <EnrichedHeadline
-        help-url="https://matomo.org/docs/geo-locate/"
+        :help-url="externalRawLink('https://matomo.org/docs/geo-locate/')"
         id="location-providers"
       >
         {{ translate('UserCountry_Geolocation') }}

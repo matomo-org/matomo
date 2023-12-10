@@ -1,1 +1,11 @@
-{}
+{
+    "SEO": {
+        "Bing_IndexedPages": "Bing-ek indexatutako orriak",
+        "DomainAge": "Domeinuaren adina",
+        "Google_IndexedPages": "Google-k indexatutako orriak",
+        "PluginDescription": "Plugin honek SEO metrikak erauzi eta bistaratzen ditu: hautatutako webgunearen Google Pagerank-a, eta indexatutako orri eta atzeraesteka kopuruak.",
+        "Rank": "Maila",
+        "SEORankingsFor": "%s(r)en SEO sailkapenak",
+        "SeoRankings": "SEO sailkapenak"
+    }
+}

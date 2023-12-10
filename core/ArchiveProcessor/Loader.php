@@ -359,6 +359,7 @@ class Loader
                 'archiveExists' => false,
                 'tsArchived' => false,
                 'doneFlagValue' => false,
+                'existingRecords' => null,
             ];
         }
 

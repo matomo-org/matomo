@@ -58,6 +58,7 @@ import {
   ContentBlock,
   SelectOnFocus,
   MatomoUrl,
+  externalLink,
 } from 'CoreHome';
 import WidgetPreview from '../WidgetPreview/WidgetPreview.vue';
 
@@ -124,11 +125,7 @@ export default defineComponent({
     intro() {
       return translate(
         'Widgetize_Intro',
-        `<a
-          rel="noreferrer noopener"
-          target="_blank"
-          href="https://matomo.org/docs/embed-piwik-report/"
-        >`,
+        externalLink('https://matomo.org/docs/embed-piwik-report/'),
         '</a>',
       );
     },

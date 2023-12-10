@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Tour\Engagement;
 
 use Piwik\Piwik;
 use Piwik\Plugins\Tour\Dao\DataFinder;
+use Piwik\Url;
 
 class ChallengeAddedSegment extends Challenge
 {
@@ -53,7 +54,7 @@ class ChallengeAddedSegment extends Challenge
 
     public function getUrl()
     {
-        return 'https://matomo.org/docs/segmentation/';
+        return Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/segmentation/');
     }
 
 

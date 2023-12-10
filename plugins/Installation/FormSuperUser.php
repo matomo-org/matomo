@@ -16,6 +16,7 @@ use HTML_QuickForm2_Rule;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\QuickForm2;
+use Piwik\Url;
 
 /**
  * phpcs:ignoreFile PSR1.Classes.ClassDeclaration.MultipleClasses
@@ -60,10 +61,11 @@ class FormSuperUser extends QuickForm2
             ));
 
         $professionalServicesNewsletter = Piwik::translate('Installation_ProfessionalServicesNewsletter',
-            array("<a href='https://matomo.org/support/?pk_medium=App_Newsletter_link&pk_source=Matomo_App&pk_campaign=App_Installation' style='color:#444;' rel='noreferrer noopener' target='_blank'>", "</a>")
+            ["<a href='" . Url::addCampaignParametersToMatomoLink('https://matomo.org/support/') . "' style='color:#444;' rel='noreferrer noopener' target='_blank'>", "</a>"]
+
         );
 
-        $privacyNoticeLink = '<a href="https://matomo.org/privacy-policy/" target="_blank" rel="noreferrer noopener">';
+        $privacyNoticeLink = '<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/privacy-policy/') . '" target="_blank" rel="noreferrer noopener">';
         $privacyNotice = '<div class="form-help email-privacy-notice">' . Piwik::translate('Installation_EmailPrivacyNotice', [$privacyNoticeLink, '</a>'])
             . '</div>';
 

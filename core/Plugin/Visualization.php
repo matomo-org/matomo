@@ -18,6 +18,7 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
+use Piwik\DataTable\DataTableInterface;
 use Piwik\Date;
 use Piwik\Http\BadRequestException;
 use Piwik\Log;
@@ -223,7 +224,7 @@ class Visualization extends ViewDataTable
         $view->visualizationCssClass = $this->getDefaultDataTableCssClass();
         $view->reportMetdadata = $this->getReportMetadata();
 
-        if (null === $this->dataTable) {
+        if (!($this->dataTable instanceof DataTableInterface)) {
             $view->dataTable = null;
             $view->dataTableHasNoData = true;
         } else {
@@ -329,7 +330,7 @@ class Visualization extends ViewDataTable
         $module = $this->requestConfig->getApiModuleToRequest();
         $method = $this->requestConfig->getApiMethodToRequest();
 
-        list($module, $method) = Request::getRenamedModuleAndAction($module, $method);
+        [$module, $method] = Request::getRenamedModuleAndAction($module, $method);
 
         PluginManager::getInstance()->checkIsPluginActivated($module);
 
@@ -915,11 +916,13 @@ class Visualization extends ViewDataTable
      * subsequently apply formatting without needed to reload the dataset or reapply other filters. This method may
      * be removed in the future.
      *
+     * @param bool $forceFormatting if set to true, all metrics will be formatted and request parameter will be ignored
+     *
      * @internal
      */
-    protected function applyMetricsFormatting()
+    protected function applyMetricsFormatting(bool $forceFormatting = false)
     {
         $postProcessor = $this->makeDataTablePostProcessor(); // must be created after requestConfig is final
-        $this->dataTable = $postProcessor->applyMetricsFormatting($this->dataTable);
+        $this->dataTable = $postProcessor->applyMetricsFormatting($this->dataTable, $forceFormatting);
     }
 }

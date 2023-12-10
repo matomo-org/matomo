@@ -1,1 +1,21 @@
-{}
+{
+    "Annotations": {
+        "AddAnnotationsFor": "Gehitu oharrak %s(r)entzat…",
+        "AnnotationOnDate": "%1$s(r)i buruzko oharra: %2$s",
+        "Annotations": "Oharrak",
+        "ClickToDelete": "Egin klik ohar hau ezabatzeko.",
+        "ClickToEdit": "Egin klik ohar hau editatzeko.",
+        "ClickToEditOrAdd": "Egin klik ohar berria gehitu edo editatzeko.",
+        "ClickToStarOrUnstar": "Egin klik ohar hau gogoko egin edo gogokoa kentzeko.",
+        "CreateNewAnnotation": "Sortu ohar berria…",
+        "EnterAnnotationText": "Idatzi oharra…",
+        "HideAnnotationsFor": "Ezkutatu %s(r)en oharrak…",
+        "IconDesc": "Ikusi data-tarte honetako oharrak.",
+        "IconDescHideNotes": "Ezkutatu data-tarte honetako oharrak.",
+        "InlineQuickHelp": "Oharrak sortu ditzakezu gertaera bereziak markatzeko (blog bidalketa berria edo webgunearen diseinua berritzea), datu-analisiak gordetzeko edo garrantzitsua iruditzen zaizun edozein gauza gordetzeko.",
+        "LoginToAnnotate": "Hasi saioa oharra sortzeko.",
+        "NoAnnotations": "Ez dago oharrik data-tarte honetarako.",
+        "ViewAndAddAnnotations": "Ikusi eta gehitu oharrak %s(r)entzat…",
+        "YouCannotModifyThisNote": "Ezin duzu ohar hau aldatu, ez duzulako zuk sortu eta ez duzulako gune honetara administratzaile sarbiderik ere."
+    }
+}

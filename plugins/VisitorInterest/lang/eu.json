@@ -1,9 +1,13 @@
 {
     "VisitorInterest": {
+        "BetweenXYMinutes": "%1$s–%2$s min",
+        "BetweenXYSeconds": "%1$s–%2$ss",
         "ColumnPagesPerVisit": "Orriak bisitako",
         "ColumnVisitDuration": "Bisitaren iraupena",
         "NPages": "%s orri",
         "OnePage": "orri bat",
+        "PluginDescription": "Bisitarien interesa: ikusitako orri kopurua, webgunean igarotako denbora, egunak azken bisitatik, eta gehiago.",
+        "VisitsByDaysSinceLast": "Bisitak azken bisitatik igarotako eguneko",
         "VisitsPerDuration": "Bisitak bisitaren iraupeneko",
         "VisitsPerNbOfPages": "Bisitak orri kopuruko",
         "WidgetLengths": "Bisiten iraupena",

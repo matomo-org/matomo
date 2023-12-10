@@ -1,8 +1,20 @@
 {
     "VisitFrequency": {
+        "ColumnActionsByNewVisits": "Bisita berrien ekintzak",
         "ColumnActionsByReturningVisits": "Itzulerako bisiten ekintzak",
+        "ColumnAverageVisitDurationForNewVisitors": "Bisita berrien batez besteko iraupena(seg)",
+        "ColumnAvgActionsPerNewVisit": "Batez besteko ekintzak bisita berriko",
+        "ColumnBounceRateForNewVisits": "Bisita berrien errebote-tasa",
         "ColumnBounceRateForReturningVisits": "Itzulerako bisiten errebotatze-tasa",
+        "ColumnNewUsers": "Erabiltzaile berriak",
+        "ColumnNewVisits": "Bisita berriak",
         "ColumnReturningVisits": "Itzulerako bisitak",
+        "ColumnUniqueNewVisitors": "Bisitari berri desberdinak",
+        "NewActions": "bisita berrien ekintza",
+        "NewAverageVisitDuration": "bisitari berrien bisiten batez besteko iraupena",
+        "NewAvgActions": "ekintza bisita berriko",
+        "NewBounceRate": "bisita berri errebotatuta (webgunea utzi dute orri bakarra ikusi ondoren)",
+        "NewVisits": "bisita berri",
         "SubmenuFrequency": "Maiztasuna",
         "WidgetGraphReturning": "Itzulerako bisiten grafikoa",
         "WidgetOverview": "Maiztasunaren ikuspegi orokorra"

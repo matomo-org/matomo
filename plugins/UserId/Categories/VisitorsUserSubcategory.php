@@ -10,6 +10,7 @@ namespace Piwik\Plugins\UserId\Categories;
 
 use Piwik\Category\Subcategory;
 use Piwik\Piwik;
+use Piwik\Url;
 
 class VisitorsUserSubcategory extends Subcategory
 {
@@ -20,8 +21,9 @@ class VisitorsUserSubcategory extends Subcategory
 
     public function getHelp()
     {
-        return '<p>' . Piwik::translate('UserId_VisitorsUserSubcategoryHelp') . '</p>'.
-            '<p><a target="_blank" rel="noopener noreferrer" href="https://matomo.org/docs/user-id/?mtm_campaign=App_Help&mtm_source=Matomo_App&mtm_keyword=UserGuides"><span class="icon-info"></span> ' . Piwik::translate('CoreAdminHome_LearnMore') . '</a></p>';
-        ;
+        return '<p>' . Piwik::translate('UserId_VisitorsUserSubcategoryHelp') . '</p>'
+            . '<p><a target="_blank" rel="noopener noreferrer" href="'
+            . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/user-id', null, null, 'App.UserId.getUsers')
+            . '"><span class="icon-info"></span> ' . Piwik::translate('CoreAdminHome_LearnMore') . '</a></p>';
     }
 }

@@ -1,9 +1,30 @@
 {
     "VisitsSummary": {
+        "AverageGenerationTime": "औसत पीढ़ीका समय",
+        "AverageVisitDuration": "औसत विज़िट अवधि",
         "GenerateQueries": "%s के प्रश्नों को मार डाला",
         "GenerateTime": "%s सेकेंडों पेज उत्पन्न करने के लिए",
+        "MaxNbActions": "एक विज़िट में अधिकतम कार्रवाइयां",
         "NbActionsDescription": "%s कार्रवाई",
-        "PluginDescription": "रिपोर्ट सामान्य विश्लेषिकी मेट्रिक्स: यात्राओं, अद्वितीय आगंतुकों, कार्यों की संख्या, उछाल दर, आदि",
-        "VisitsSummary": "दौरा सारांश"
+        "NbActionsPerVisit": "प्रति विज़िट क्रियाएँ (पृष्ठ दृश्य, डाउनलोड, आउटलिंक और आंतरिक साइट खोज",
+        "NbDownloadsDescription": "डाउनलोडस",
+        "NbKeywordsDescription": "अद्वितीय कीवर्डस",
+        "NbOutlinksDescription": "आउटलिंकस",
+        "NbPageviewsDescription": "पृष्ठ-अवलोकन",
+        "NbSearchesDescription": "आपकी वेबसाइट पर कुल खोजें",
+        "NbUniqueDownloadsDescription": "अद्वितीय डाउनलोड",
+        "NbUniqueOutlinksDescription": "अद्वितीय आउटलिंकस",
+        "NbUniquePageviewsDescription": "अद्वितीय पृष्ठदृश्ये",
+        "NbUniqueVisitors": "अद्वितीय आगंतुको",
+        "NbUsersDescription": "उपयोगकर्ताओं",
+        "NbVisitsBounced": "विज़िट बाउंस हो गई हैं (एक पृष्ठ के बाद वेबसाइट छोड़ दी गई)",
+        "NbVisitsDescription": "दौरे",
+        "PluginDescription": "रिपोर्ट सामान्य विश्लेषण मेट्रिक्स: विज़िट, अद्वितीय विज़िटर, कार्यों की संख्या, बाउंस दर, आदि।",
+        "VisitsSummary": "दौरा सारांश",
+        "VisitsSummaryDocumentation": "यह यात्रा विकास का एक सिंहावलोकन है।",
+        "VisitsSummaryReportDocumentation": "यह रिपोर्ट आपके आगंतुकों के व्यवहार का एक बहुत ही सामान्य अवलोकन प्रदान करती है।",
+        "WidgetLastVisits": "समय के साथ दौरे",
+        "WidgetOverviewGraph": "विज़िट अवलोकन (ग्राफ़ के साथ)",
+        "WidgetVisits": "दौरे का अवलोकन"
     }
 }

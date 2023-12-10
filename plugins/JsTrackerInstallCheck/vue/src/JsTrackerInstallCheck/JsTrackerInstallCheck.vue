@@ -39,6 +39,7 @@ import {
   AjaxHelper,
   SiteRef,
   translate,
+  externalLink,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 
@@ -157,7 +158,7 @@ export default defineComponent({
   },
   computed: {
     getTestFailureMessage() {
-      const learnMoreLink = '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/troubleshooting/faq_58/">';
+      const learnMoreLink = externalLink('https://matomo.org/faq/troubleshooting/faq_58/');
       const closingTag = '</a>';
       if (!this.isWordpress) {
         return translate('JsTrackerInstallCheck_JsTrackingCodeInstallCheckFailureMessage', learnMoreLink, closingTag);

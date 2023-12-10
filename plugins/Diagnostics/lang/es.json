@@ -1,8 +1,10 @@
 {
     "Diagnostics": {
+        "AllPrivateDirectoriesAreInaccessible": "Todos los directorios privados son inaccesibles desde Internet.",
         "BrowserTriggeredArchivingEnabled": "Para un rendimiento óptimo y un Matomo veloz, se recomienda configurar un crontab para archivar automáticamente sus informes y deshabilitar la activación del navegador en la configuración de Matomo. %1$sAprender más.%2$s",
         "ConfigFileIntroduction": "Aquí puede ver la configuración de Matomo. Si está ejecutando Matomo en un ambiente balanceado puede que la página sea diferente sea por el servidor que la esté cargando. Las filas con un color de fondo diferente son valores de configuración modificados que son especificados por ejemplo en el archivo %1$s.",
         "ConfigFileTitle": "Archivo de configuración",
+        "ConfigIniAccessible": "También descubrimos que el directorio config de Matomo es de acceso público. Mientras que los atacantes no pueden leer la configuración ahora, si su servidor web deja de ejecutar archivos PHP por alguna razón, sus credenciales MySQL y otra información estará disponible para cualquiera. Por favor, comprueba la configuración de tu servidor web y deniega el acceso a este directorio.",
         "CronArchivingHasNotRun": "El archivado aún no se ha ejecutado correctamente.",
         "CronArchivingHasNotRunInAWhile": "El último archivado se ejecutó exitosamente en %1$s el cual es %2$s.",
         "CronArchivingLastRunCheck": "Ultimo archivado completado exitosamente.",
@@ -10,11 +12,17 @@
         "CronArchivingRunDetails": "Verifique que haya configurado un crontab llamando al comando %1$s de la consola, y que haya configurado un %2$s para recibir los errores por correo electrónico si falla el archivado. También puede intentar ejecutar el comando de la consola para archivar sus informes manualmente: %3$s. %4$sPara saber más.%5$s",
         "DatabaseReaderConnection": "Conexión con el lector de la base de datos",
         "HideUnchanged": "Si desea ver solo los valores modificados puede %1$socultar todos los valores no modificados%2$s.",
+        "HtaccessWarningNginx": "Para garantizar que no se pueda acceder directamente a los archivos sensibles, se recomienda configurar el servidor web para restringir el acceso a determinados directorios. Para más información, consulte la %1$s configuración oficial del servidor nginx %2$s",
         "MysqlMaxPacketSize": "Tamaño máximo del paquete",
         "MysqlMaxPacketSizeWarning": "Es recomendable configurar un tamaño de al menos %3$sen '%1$smax_allowed_packet%2$s' en su base de datos MySQL. Actualmente está configurada en %4$s.",
         "MysqlTemporaryTablesWarning": "Se necesita el permiso de MySQL CREATE TEMPORARY TABLES para que Matomo funcione correctamente.",
         "MysqlTransactionLevel": "No se puede cambiar el nivel de aislamiento de la transacción. El archivado funcionará, pero puede ser más lento, y se recomienda cambiar por ejemplo de `binlog_format` a `row` si es posible.",
         "NoDataForReportArchivingNotRun": "El archivado de sus informes no se han ejecutado ultimamente, %1$ssepa más cómo generar sus informes.%2$s",
-        "Sections": "Secciones"
+        "PHPFPMWarningApache": "PHP FPM ignorará las reglas .htaccess para archivos .php. Para asegurar que los archivos sensibles no puedan ser accedidos directamente se recomienda excluir ciertos directorios de ser manejados por PHP FPM agregando la línea %1$s a la sección %2$s en la configuración de su host virtual apache justo arriba de la línea %3$s.",
+        "PHPFPMWarningGeneric": "PHP FPM puede ignorar las reglas .htaccess para archivos .php. Para asegurar que los archivos sensibles no puedan ser accedidos directamente se recomienda configurar su servidor web para excluir el directorio /config de ser manejado por PHP FPM.",
+        "PHPFPMWarningNginx": "PHP FPM ignorará las reglas .htaccess para archivos .php. Para asegurar que archivos sensibles no puedan ser accedidos directamente se recomienda excluir ciertos directorios de ser manejados por PHP FPM. Para más información por favor vea la %1$s configuración oficial del servidor nginx %2$s",
+        "PrivateDirectoryCantCheckUrl": "Error al comprobar la URL %1$s: %2$s",
+        "Sections": "Secciones",
+        "UrlsAccessibleViaBrowser": "Hemos comprobado que las URL anteriores son accesibles a través del navegador, pero recomendamos que no lo sean. Si es posible, restrinja el acceso a las mismas."
     }
 }

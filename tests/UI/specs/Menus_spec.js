@@ -14,10 +14,18 @@ describe("Menus", function () {
         urlBase = 'module=CoreHome&action=index&' + generalParams;
 
     async function openMenuItem(page, menuItem) {
-        const element = await page.jQuery('#secondNavBar .navbar a:contains(' + menuItem + '):first');
+        const element = await page.jQuery('#secondNavBar .navbar a:contains(' + menuItem + '):visible:first');
         await element.click();
+        await page.mouse.move(-10, -10);
         await page.waitForTimeout(250);
     }
+
+    beforeEach(function() {
+        if (testEnvironment.enableProfessionalSupportAdsForUITests) {
+          delete testEnvironment.enableProfessionalSupportAdsForUITests;
+          testEnvironment.save();
+        }
+    });
 
     // main menu tests
     it('should load the main reporting menu correctly', async function() {
@@ -28,7 +36,23 @@ describe("Menus", function () {
         expect(await element.screenshot()).to.matchImage('mainmenu_loaded');
     });
 
+    // main menu with plugin promos (reloads the previous test's page with new config)
+    it('should load the main reporting menu with plugin promos correctly', async function() {
+        testEnvironment.enableProfessionalSupportAdsForUITests = true;
+        await testEnvironment.save();
+
+        await page.reload(); // use URL from the previous test and reload to apply the config changes
+        await page.waitForSelector('#secondNavBar', { visible: true });
+
+        const element = await page.jQuery('#secondNavBar');
+        expect(await element.screenshot()).to.matchImage('mainmenu_loaded_withpromos');
+    });
+
     it('should change the menu when a upper menu item is clicked in the main menu', async function() {
+        // reload to remove config override set by previous tests
+        await page.reload(); // use URL from the previous test and reload to apply the config changes
+        await page.waitForSelector('#secondNavBar', { visible: true });
+
         await openMenuItem(page, 'Visitors');
 
         const element = await page.jQuery('#secondNavBar');
@@ -53,7 +77,6 @@ describe("Menus", function () {
 
     it('should toggle the submenu visibility when main item is clicked', async function() {
         await openMenuItem(page, 'Website');
-        await page.mouse.move(0, 0);
         await page.waitForTimeout(500); // wait for animation
 
         const element = await page.jQuery('#secondNavBar');

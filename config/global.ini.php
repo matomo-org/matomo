@@ -49,6 +49,13 @@ charset = utf8
 ;
 ;ignore_error_codes[] = 1105
 
+; Add a query hint for the order of joined tables when building segment queries in MySQL. This can be used to override
+; sub-optimal choices by the MySQL optimizer and always ensure the query plan starts with the first table in the query.
+enable_segment_first_table_join_prefix = 0
+
+; Add a query hint for the order of joined tables for all log table queries in MySQL.
+enable_first_table_join_prefix = 0
+
 ; If configured, the following queries will be executed on the reader instead of the writer.
 ; * archiving queries that hit a log table
 ; * live queries that hit a log table
@@ -870,6 +877,13 @@ enable_required_directories_diagnostic = 1
 ; When set to 0, the definitions will be loaded from the local definitions (updated with core).
 enable_referrer_definition_syncs = 1
 
+; If set to 1, then links to matomo.org shown in the Matomo app will not include campaign tracking parameters which
+; describe where in the application the link originated. This information is used to improve the quality and relevance
+; of inline help links on matomo.org and contains no identifying information. Presence of the campaign parameters in
+; the link url could be used by third parties monitoring network requests to identify that the Matomo app is being used,
+; so it can be disabled here if necessary.
+disable_tracking_matomo_app_links = 0
+
 [Tracker]
 
 ; When enabled and a userId is set, then the visitorId will be automatically set based on the userId. This allows to
@@ -944,7 +958,7 @@ default_time_one_page_visit = 0
 
 ; Comma separated list of URL query string variable names that will be removed from your tracked URLs
 ; By default, Matomo will remove the most common parameters which are known to change often (eg. session ID parameters)
-url_query_parameter_to_exclude_from_url = "gclid,fbclid,msclkid,yclid,fb_xd_fragment,fb_comment_id,phpsessid,jsessionid,sessionid,aspsessionid,doing_wp_cron,sid,pk_vid"
+url_query_parameter_to_exclude_from_url = "gclid,fbclid,msclkid,twclid,wbraid,gbraid,yclid,fb_xd_fragment,fb_comment_id,phpsessid,jsessionid,sessionid,aspsessionid,doing_wp_cron,sid,pk_vid"
 
 ; If set to 1, Matomo will use the default provider if no other provider is configured.
 ; In addition the default provider will be used as a fallback when the configure provider does not return any results.

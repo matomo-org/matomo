@@ -79,7 +79,14 @@ DataTable_RowActions_Transitions.prototype.doOpenPopover = function (link) {
 
     var i = 0;
     while (i < parts.length) {
-        var paramName = decodeURIComponent(parts[i]);
+        var paramName = '';
+
+        try {
+            paramName = decodeURIComponent(parts[i]);
+        } catch (e) {
+            // invalid parameter
+        }
+
         if (ALLOWED_OVERRIDE_PARAMS.indexOf(paramName) === -1) {
             i += 1;
             continue;
@@ -242,7 +249,7 @@ Piwik_Transitions.prototype.showPopover = function (showEmbeddedInReport) {
         $('#transitions_inline_loading').show();
     } else {
         this.popover = Piwik_Popover.showLoading('Transitions', self.actionName, 550);
-        Piwik_Popover.addHelpButton('https://matomo.org/docs/transitions');
+        Piwik_Popover.addHelpButton(_pk_externalRawLink('https://matomo.org/docs/transitions'));
     }
 
     var bothLoaded = function () {

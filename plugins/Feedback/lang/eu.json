@@ -1,1 +1,24 @@
-{}
+{
+    "Feedback": {
+        "DoYouHaveBugReportOrFeatureRequest": "Errore baten berri eman nahi duzu edo ezaugarri bat eskatu?",
+        "FrequentlyAskedQuestions": "Maiz egindako galderak",
+        "HowToCreateTicket": "Mesedez irakurri %1$serrore-txosten%2$s edo %3$sezaugarri eskaera%4$s txukun bat idazteko gomendioak. Ondoren erregistratu edo hasi saioa %5$sgure arazoen jarraipenerako tresnan%6$s eta %7$seman arazoaren berri%8$s.",
+        "IWantTo": "Hau nahi dut:",
+        "LearnWaysToParticipate": "Ikasi %1$sparte hartzeko%2$s aukera guztiak zein diren",
+        "ManuallySendEmailTo": "Mesedez bidali mezua eskuz honi:",
+        "PluginDescription": "Bidali zure iritzia Matomo taldeari. Partekatu zure ideiak eta iradokizunak, Matomo munduko analitika plataforma onena bihurtzeko!",
+        "PrivacyClaim": "Matomok zure %1$spribatutasuna%2$s errespetatzen du eta zure datuen gaineko kontrol osoa ematen dizu.",
+        "RateFeatureConfigurable": "Konfiguragarria",
+        "RateFeatureDislikeAddMissingFeatures": "Gehitu falta diren ezaugarriak",
+        "RateFeatureDislikeFixBugs": "Konpondu arazoak",
+        "RateFeatureDislikeMakeEasier": "Egin erabilerrazagoa",
+        "RateFeatureDislikeSpeedUp": "Hobetu abiadura",
+        "RateFeatureEasyToUse": "Erabiltzen erraza",
+        "RateFeatureLeaveMessageDislike": "Nola hobetu dezakegu ezaugarri hau?",
+        "RateFeatureLeaveMessageDislikeExtra": "Mesedez esaguzu zer egin dezakegun Matomo hobetzeko.",
+        "RateFeatureLeaveMessageDislikeExtraBugs": "Sentitzen dugu arazoak eduki izana, mesedez emaguzu informazio gehiago funtzionatu ez duenaren inguruan.",
+        "RateFeatureLeaveMessageDislikeNamedFeature": "Nola hobetu dezakegu %1$s?",
+        "RateFeatureOtherReason": "Beste arrazoi bat",
+        "RateFeatureUsefulInfo": "Informazio erabilgarria"
+    }
+}

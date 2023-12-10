@@ -50,6 +50,7 @@ class Marketplace extends \Piwik\Plugin
         $stylesheets[] = "plugins/Marketplace/stylesheets/marketplace.less";
         $stylesheets[] = "plugins/Marketplace/stylesheets/plugin-details.less";
         $stylesheets[] = "plugins/Marketplace/stylesheets/marketplace-widget.less";
+        $stylesheets[] = "plugins/Marketplace/stylesheets/rich-menu-button.less";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -120,6 +121,8 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_OverviewPluginSubscriptionsMissingLicense';
         $translationKeys[] = 'CorePluginsAdmin_MissingRequirementsNotice';
         $translationKeys[] = 'Marketplace_Marketplace';
+        $translationKeys[] = 'Marketplace_RichMenuIntro';
+        $translationKeys[] = 'Marketplace_ManageLicenseKeyIntro';
     }
 
     /**

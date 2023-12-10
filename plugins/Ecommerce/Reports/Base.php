@@ -12,6 +12,7 @@ use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Site;
+use Piwik\Url;
 
 abstract class Base extends Report
 {
@@ -19,7 +20,7 @@ abstract class Base extends Report
     {
         $this->module   = 'Goals';
         $this->categoryId = 'Goals_Ecommerce';
-        $this->onlineGuideUrl = 'https://matomo.org/docs/ecommerce-analytics/';
+        $this->onlineGuideUrl = Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/ecommerce-analytics/');
     }
 
     public function isEnabled()
