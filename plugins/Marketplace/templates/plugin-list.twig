@@ -34,14 +34,14 @@
                                             {% if isSuperUser %}
                                                 {% if plugin.isMissingLicense is defined and plugin.isMissingLicense %}
 
-                                                    <div class="alert alert-danger" >
+                                                    <div class="alert alert-danger alert-no-background">
                                                         {{ 'Marketplace_LicenseMissing'|translate }}
                                                         <span style="white-space:nowrap">({{ marketplaceMacro.helpLink(plugin)|trim|raw }})</span>
                                                     </div>
 
                                                 {% elseif plugin.hasExceededLicense is defined and plugin.hasExceededLicense %}
 
-                                                    <div class="alert alert-danger">
+                                                    <div class="alert alert-danger alert-no-background">
                                                         {{ 'Marketplace_LicenseExceeded'|translate }}
                                                         <span style="white-space:nowrap">({{ marketplaceMacro.helpLink(plugin)|trim|raw }})</span>
                                                     </div>
@@ -63,7 +63,7 @@
                                                     {%- endmacro %}
 
                                                     {% if plugin.canBeUpdated and 0 == plugin.missingRequirements|length %}
-                                                        <div class="alert alert-warning">
+                                                        <div class="alert alert-warning alert-no-background">
                                                             {{ 'Marketplace_CannotUpdate'|translate }}
                                                             <span style="white-space:nowrap">({{ marketplaceMacro.helpLink(plugin)|trim|raw }}{{ _self.downloadButton(true, plugin, isAutoUpdatePossible)|raw }})</span>
                                                         </div>

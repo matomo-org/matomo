@@ -104,7 +104,7 @@
             flex-direction: column;
             flex-grow: 0;
             position: relative;
-            height: 620px;
+            height: 550px;
             border: 1px solid #ccc;
             border-radius: 4px;
             overflow: visible;
@@ -114,15 +114,21 @@
             color: #000;
 
             @media (max-width: 480px) {
-                height: 400px; // as there's no image
+                height: 380px; // as there's no image
             }
             @media (min-width: 601px) and (max-width: 767px), (min-width: 992px) and (max-width: 1200px) {
-                height: 530px;
+                height: 520px;
+            }
+            @media (min-width: 1700px) {
+                height: 580px;
+            }
+            @media (min-width: 1900px) {
+                height: 600px;
             }
 
             .preview-image {
                 width: 100%;
-                max-width: 440px;
+                max-width: 550px;
                 height: auto;
                 margin: 0 auto 16px;
 
@@ -192,10 +198,10 @@
 
                 .card-title {
                     margin: 20px 0 16px;
-                    font-size: 32px;
+                    font-size: 24px;
                     font-style: normal;
                     font-weight: 700;
-                    line-height: 40px;
+                    line-height: 32px;
                 }
 
                 .card-focus {
@@ -209,6 +215,7 @@
                     border-radius: 4px;
                     visibility: hidden;
                     content: "";
+                    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
                 }
 
                 .card-title-chevron {
@@ -252,13 +259,10 @@
     .matomo-badge-bottom {
         display: block;
         right: -5px;
-        bottom: 8px;
+        bottom: -1px;
 
         @media (max-width: 480px) {
             display: none;
-        }
-        @media (max-width: 480px), (min-width: 601px) and (max-width: 767px), (min-width: 992px) and (max-width: 1200px) {
-            bottom: 12px;
         }
     }
 
@@ -267,8 +271,8 @@
 
         @media (max-width: 480px) {
             display: block;
-            top: 16px;
-            right: 16px;
+            top: 20px;
+            right: 20px;
         }
     }
 
@@ -282,16 +286,12 @@
         }
 
         .btn.btn-block {
-            transition: background-color 0.3s ease;
-            margin: 10px 0;
-            padding: 0;
-
-            &:hover {
+            &:hover,
+            &:focus {
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
             }
 
             &:focus {
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
                 outline: thin dotted;
             }
         }
@@ -301,13 +301,6 @@
         }
 
         .alert {
-            margin: 0;
-            padding: 16px 16px 16px 48px;
-
-            &:before {
-                left: 14px;
-            }
-
             a:hover,
             a:focus {
                 text-decoration: underline;
@@ -316,9 +309,12 @@
             }
 
             &.alert-no-background {
+                margin: 0;
                 border: 0;
                 background: none;
-                padding: 18px 0 18px 30px;
+                padding: 8px 0 8px 30px;
+                font-size: 14px;
+                line-height: 20px;
 
                 &:before {
                     left: 0;
