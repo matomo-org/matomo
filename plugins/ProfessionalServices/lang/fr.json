@@ -1,5 +1,8 @@
 {
     "ProfessionalServices": {
+        "PromoFormAnalytics": "Formulaires",
+        "PromoHeatmaps": "Cartes de chaleur",
+        "PromoOverview": "Aperçu",
         "WidgetPremiumServicesForPiwik": "Fonctionnalités Premium &amp; Services pour Matomo"
     }
 }
