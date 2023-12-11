@@ -22,7 +22,7 @@ return [
             return false;
         }
 
-        return !!$previous;
+        return true;
     }),
 
     'twig.cache' => function (\Piwik\Container\Container $container) {
