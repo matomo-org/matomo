@@ -451,9 +451,16 @@ class SegmentExpression
     }
 
     /**
-     * Given a filter string,
-     * will parse it into an array where each row contains the boolean operator applied to it,
-     * and the operand
+     * Given a segment string, will parse it into a multi-level array with the first level representing AND groups
+     * and the second level containing OR operands
+     *
+     * eg. the segment string 'A,B;C,D,E;F' will return:
+     *
+     * [
+     * 0 => [0 => 'A', 1 => 'B'],            // First AND group containing A and B OR conditions
+     * 1 => [0 => 'C', 1 => 'D', 2 => 'E',   // Second AND group containing C, D & E
+     * 2 => [0 => 'F']                       // Third AND group containing just F
+     * ]
      *
      * @return array
      */
@@ -464,20 +471,48 @@ class SegmentExpression
             return [];
         }
 
-        // handle backslashes by urlencoding the characters
-        $segmentStr = preg_replace_callback('/\\\\./', function ($matches) {
-            $char = substr($matches[0], 1);
-            return urlencode($char);
-        }, $segmentStr);
+        $tree = [];
+        $i = 0;
+        $length = strlen($segmentStr);
+        $isBackslash = false;
+        $operand = '';
+        $groupIndex = 0;
+        while ($i <= $length) {
+            $char = $segmentStr[$i];
 
-        $bothDelimeters = preg_quote(self::AND_DELIMITER . self::OR_DELIMITER);
+            $isAND = ($char == self::AND_DELIMITER);
+            $isOR = ($char == self::OR_DELIMITER);
+            $isEnd = ($length == $i + 1);
 
-        $andExpressions = preg_split('/' . self::AND_DELIMITER . '(?![' . $bothDelimeters . ']|$)/', $segmentStr);
-        $andExpressions = array_map(function ($subexpr) use ($bothDelimeters) {
-            $orExpressions = preg_split('/' . self::OR_DELIMITER . '(?![' . $bothDelimeters . ']|$)/', $subexpr);
-            return $orExpressions;
-        }, $andExpressions);
-        return $andExpressions;
+            if ($isEnd) {
+
+                // End of string
+                if ($isBackslash && ($isAND || $isOR)) {
+                    $operand = substr($operand, 0, -1);
+                }
+                $operand .= $char;
+                $tree[$groupIndex][] = $operand;
+                break;
+            }
+            if ($isAND && !$isBackslash) {
+                $tree[$groupIndex][] = $operand;
+                $groupIndex++; // start new group
+                $operand = '';
+            } elseif ($isOR && !$isBackslash) {
+                $tree[$groupIndex][] = $operand;
+                $operand = '';
+            } else {
+                // Remove backslash
+                if ($isBackslash && ($isAND || $isOR)) {
+                    $operand = substr($operand, 0, -1);
+                }
+                $operand .= $char;
+            }
+
+            $isBackslash = ($char == "\\");
+            $i++;
+        }
+        return $tree;
     }
 
     /**
