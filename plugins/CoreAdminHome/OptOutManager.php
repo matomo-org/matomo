@@ -235,7 +235,7 @@ class OptOutManager
 
         $styleSheet = $this->optOutStyling($fontSize, $fontColor, $fontFamily, $backgroundColor, true);
 
-$code = <<<HTML
+        $code = <<<HTML
 <div id="matomo-opt-out" style=""></div>
 <script>    
     var settings = {};         

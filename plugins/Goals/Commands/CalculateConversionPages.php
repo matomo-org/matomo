@@ -253,9 +253,9 @@ class CalculateConversionPages extends ConsoleCommand
                     ";
 
             $where = '';
-             if (!$forceRecalc) {
-                 $where .= " AND c.pageviews_before IS NULL";
-             }
+            if (!$forceRecalc) {
+                $where .= " AND c.pageviews_before IS NULL";
+            }
 
             $bind = [];
             if ($idGoal !== null) {

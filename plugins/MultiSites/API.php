@@ -343,9 +343,9 @@ class API extends \Piwik\Plugin\API
                 'ColumnCallbackDeleteRow',
                 array(
                      self::NB_VISITS_METRIC,
-                     function ($value) {
-                         return $value == 0;
-                     }
+                        function ($value) {
+                            return $value == 0;
+                        }
                 )
             );
         }

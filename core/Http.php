@@ -318,19 +318,19 @@ class Http
              * described below
              * @ignore
              */
-                    Piwik::postEvent('Http.sendHttpRequest.end', array($aUrl, $httpEventParams, &$response, &$status, &$headers));
+            Piwik::postEvent('Http.sendHttpRequest.end', array($aUrl, $httpEventParams, &$response, &$status, &$headers));
 
-                    if ($destinationPath && file_exists($destinationPath)) {
-                        return true;
-                    }
-                    if ($getExtendedInfo) {
-                        return array(
-                            'status'  => $status,
-                            'headers' => $headers,
-                            'data'    => $response
-                        );
+            if ($destinationPath && file_exists($destinationPath)) {
+                return true;
+            }
+            if ($getExtendedInfo) {
+                return array(
+                    'status'  => $status,
+                    'headers' => $headers,
+                    'data'    => $response
+                );
             } else {
-                        return trim($response);
+                return trim($response);
             }
         }
 

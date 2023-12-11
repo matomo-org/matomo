@@ -13,6 +13,6 @@ class RecoveryCodeRandomGenerator
 {
     public function generateCode()
     {
-       return Common::getRandomString(16);
+        return Common::getRandomString(16);
     }
 }

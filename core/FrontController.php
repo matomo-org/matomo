@@ -526,9 +526,9 @@ class FrontController extends Singleton
         $trackMessage = '';
 
         if ($recordStatistics) {
-          $trackMessage = 'Your analytics data will continue to be tracked as normal.';
+            $trackMessage = 'Your analytics data will continue to be tracked as normal.';
         } else {
-          $trackMessage = 'While the maintenance mode is active, data tracking is disabled.';
+            $trackMessage = 'While the maintenance mode is active, data tracking is disabled.';
         }
 
         $page = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Morpheus/templates/maintenance.tpl');
@@ -703,7 +703,7 @@ class FrontController extends Singleton
 
         if (Common::getRequestVar('token_auth', '', 'string') !== '' && !Common::getRequestVar('force_api_session', 0)) {
              return null;
-         }
+        }
 
         $module = Common::getRequestVar('module', self::DEFAULT_MODULE, 'string');
         $action = Common::getRequestVar('action', false);

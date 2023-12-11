@@ -27,7 +27,7 @@ class CalculateConversionPagesCommandTest extends ConsoleCommandTestCase
 
     public function test_CommandSuccessfullyCalculates_ForDateRange()
     {
-       $this->unsetPageviewsBefore();
+        $this->unsetPageviewsBefore();
 
         $this->applicationTester->setInputs(["N\n"]);
         $result = $this->applicationTester->run([

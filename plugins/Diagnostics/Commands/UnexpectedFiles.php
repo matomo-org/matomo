@@ -43,16 +43,16 @@ class UnexpectedFiles extends ConsoleCommand
 
         // Prevent running in development mode
         if (Development::isEnabled()) {
-           $output->writeln("Aborting - this command cannot be used in development mode as it requires a release manifest file");
-           return 1;
+            $output->writeln("Aborting - this command cannot be used in development mode as it requires a release manifest file");
+            return 1;
         }
 
         // Prevent running if there is no release manifest file
         $manifest = PIWIK_INCLUDE_PATH . '/config/manifest.inc.php';
         if (!file_exists($manifest)) {
-           $output->writeln("Release manifest file '".$manifest."' not found.");
-           $output->writeln("Aborting - this command can only be used when a release manifest file is present.");
-           return 1;
+            $output->writeln("Release manifest file '".$manifest."' not found.");
+            $output->writeln("Aborting - this command can only be used when a release manifest file is present.");
+            return 1;
         }
 
 

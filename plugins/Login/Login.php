@@ -179,7 +179,7 @@ class Login extends \Piwik\Plugin
         $jsFiles[] = "plugins/Login/javascripts/bruteforcelog.js";
     }
 
-   public function getStylesheetFiles(&$stylesheetFiles)
+    public function getStylesheetFiles(&$stylesheetFiles)
     {
         $stylesheetFiles[] = "plugins/Login/stylesheets/login.less";
         $stylesheetFiles[] = "plugins/Login/stylesheets/variables.less";

@@ -701,7 +701,7 @@ class API extends \Piwik\Plugin\API
             $range = new Period\Range($period, $date);
             $rangeDays = $range->getDayCount();
 
-             switch ($maxPeriodAllowed) {
+            switch ($maxPeriodAllowed) {
                 case 'day':
                     return $rangeDays == 1;
                 case 'week':

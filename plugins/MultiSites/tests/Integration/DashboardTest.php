@@ -124,7 +124,7 @@ class DashboardTest extends IntegrationTestCase
                 'revenue_evolution_trend' => 0,
                 'nb_conversions_evolution_trend' => 0,
                 'currencySymbol' => '$',
-    ),
+        ),
             array (
                 'label' => 'Site 3',
                 'nb_visits' => '0',

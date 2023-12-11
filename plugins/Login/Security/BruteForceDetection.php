@@ -206,7 +206,7 @@ class BruteForceDetection {
                 StaticContainer::get(LoggerInterface::class)->info(
                     'Error when sending ' . SuspiciousLoginAttemptsInLastHourEmail::class . ' email. User exists but encountered {exception}', [
                     'exception' => $ex,
-                ]);
+                    ]);
             }
         }
     }

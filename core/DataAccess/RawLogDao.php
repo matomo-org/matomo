@@ -374,21 +374,21 @@ class RawLogDao
                 $keepValues = [];
                 foreach ($result as $row) {
                      $keepValues = array_merge($keepValues, array_filter(array_values($row), "is_numeric"));
-                     if (count($keepValues) >= 1000) {
+                    if (count($keepValues) >= 1000) {
                         $insert = 'INSERT IGNORE INTO ' . $tempTableName .' VALUES (';
                         $insert .= implode('),(', $keepValues);
                         $insert .= ')';
 
                         Db::exec($insert);
                         $keepValues = [];
-                     }
+                    }
                 }
 
-               $insert = 'INSERT IGNORE INTO ' . $tempTableName .' VALUES (';
-               $insert .= implode('),(', $keepValues);
-               $insert .= ')';
+                $insert = 'INSERT IGNORE INTO ' . $tempTableName .' VALUES (';
+                $insert .= implode('),(', $keepValues);
+                $insert .= ')';
 
-               Db::exec($insert);
+                Db::exec($insert);
             }
         }
     }

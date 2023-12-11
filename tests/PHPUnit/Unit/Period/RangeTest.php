@@ -302,7 +302,7 @@ class RangeTest extends BasePeriodTest
                 9  => '2007-10-01',
                 10 => '2007-11-01',
                 11 => '2007-12-01',
-            )),
+                )),
         );
         $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
         $this->assertEquals($correct, $range->toString());

@@ -223,7 +223,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
                             });
                         }
                     })
-                ]])
+                    ]])
             ];
         }
 

@@ -75,7 +75,7 @@ class RequestCommand extends ConsoleCommand
         require_once PIWIK_INCLUDE_PATH . $indexFile;
 
         while (ob_get_level()) {
-           echo ob_get_clean();
+            echo ob_get_clean();
         }
         
         if (!empty($process)) {

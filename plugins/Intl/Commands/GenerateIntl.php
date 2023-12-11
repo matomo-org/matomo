@@ -161,7 +161,7 @@ class GenerateIntl extends ConsoleCommand
             foreach ($region as $regionCurrencies) {
                 foreach ($regionCurrencies as $currencyCode => $validity) {
                     if (!isset($validity['_to']) && !isset($validity['_tender'])) {
-                       $cldrCurrencies[] = $currencyCode;
+                        $cldrCurrencies[] = $currencyCode;
                     }
                 }
             }

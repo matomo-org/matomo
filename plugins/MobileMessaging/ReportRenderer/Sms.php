@@ -73,15 +73,15 @@ class Sms extends ReportRenderer
             'ColumnCallbackReplace',
             array(
                  array_merge(array_keys($multiSitesAPIMetrics), $evolutionMetrics),
-                 function ($value) use ($floatRegex) {
-                     return preg_replace_callback(
+                    function ($value) use ($floatRegex) {
+                        return preg_replace_callback(
                          $floatRegex,
-                         function ($matches) {
-                             return round((float) $matches[0]);
-                         },
+                            function ($matches) {
+                                return round((float) $matches[0]);
+                            },
                          $value
-                     );
-                 }
+                        );
+                    }
             )
         );
 
@@ -92,10 +92,10 @@ class Sms extends ReportRenderer
             'ColumnCallbackReplace',
             array(
                  $evolutionMetrics,
-                 function ($value) use ($floatRegex) {
-                     $matched = preg_match($floatRegex, $value, $matches);
-                     return $matched ? (float) $matches[0] : $value;
-                 }
+                    function ($value) use ($floatRegex) {
+                        $matched = preg_match($floatRegex, $value, $matches);
+                        return $matched ? (float) $matches[0] : $value;
+                    }
             )
         );
 

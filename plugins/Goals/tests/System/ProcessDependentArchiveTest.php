@@ -34,7 +34,7 @@ class ProcessDependentArchiveTest extends SystemTestCase
         parent::tearDown();
     }
 
-   public function test_numArchivesCreated_day()
+    public function test_numArchivesCreated_day()
     {
         API::getInstance()->getMetrics(self::$fixture->idSite, 'day', '2009-01-04');
         $this->assertNumRangeArchives(5, 1); // days;
