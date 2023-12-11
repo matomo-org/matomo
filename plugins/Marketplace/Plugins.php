@@ -255,7 +255,7 @@ class Plugins
         $plugin['isInvalid']    = $this->pluginManager->isPluginThirdPartyAndBogus($plugin['name']);
         $plugin['canBeUpdated'] = $plugin['isInstalled'] && $this->hasPluginUpdate($plugin);
         $plugin['lastUpdated']  = $this->toShortDate($plugin['lastUpdated']);
-        $plugin['canBePurchased'] = !$plugin['isDownloadable'] && $plugin['shop'] && ($plugin['shop']['url'] ?? false);
+        $plugin['canBePurchased'] = !$plugin['isDownloadable'] && !empty($plugin['shop']['url']);
 
         if ($plugin['isInstalled']) {
             $plugin = $this->enrichLicenseInformation($plugin);

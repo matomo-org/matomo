@@ -18,11 +18,7 @@ return [
 
     // disable check for plugin updates during UI tests, allow for override
     'dev.disable_plugin_update_checks' => Piwik\DI::decorate(function ($previous, Container $c) {
-        if ($c->get('test.vars.forceEnablePluginUpdateChecks')) {
-            return false;
-        }
-
-        return true;
+        return !$c->get('test.vars.forceEnablePluginUpdateChecks');
     }),
 
     'twig.cache' => function (\Piwik\Container\Container $container) {
