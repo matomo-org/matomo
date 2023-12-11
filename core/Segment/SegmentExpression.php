@@ -471,48 +471,21 @@ class SegmentExpression
             return [];
         }
 
-        $tree = [];
-        $i = 0;
-        $length = strlen($segmentStr);
-        $isBackslash = false;
-        $operand = '';
-        $groupIndex = 0;
-        while ($i <= $length) {
-            $char = $segmentStr[$i];
+        // split on ; only when there's no end of string after and only when there's no backslash before it
+        $ands = array_filter(preg_split('/' . self::AND_DELIMITER . '(?!$)(?<!\\\\' . self::AND_DELIMITER . ')/', $segmentStr));
+        return array_map(function($and) {
+            // split on , only when there's no end of string after and only when there's no backslash before it
+            $ors = preg_split('/' . self::OR_DELIMITER . '(?!$)(?<!\\\\' . self::OR_DELIMITER . ')/', $and);
 
-            $isAND = ($char == self::AND_DELIMITER);
-            $isOR = ($char == self::OR_DELIMITER);
-            $isEnd = ($length == $i + 1);
-
-            if ($isEnd) {
-
-                // End of string
-                if ($isBackslash && ($isAND || $isOR)) {
-                    $operand = substr($operand, 0, -1);
-                }
-                $operand .= $char;
-                $tree[$groupIndex][] = $operand;
-                break;
-            }
-            if ($isAND && !$isBackslash) {
-                $tree[$groupIndex][] = $operand;
-                $groupIndex++; // start new group
-                $operand = '';
-            } elseif ($isOR && !$isBackslash) {
-                $tree[$groupIndex][] = $operand;
-                $operand = '';
-            } else {
-                // Remove backslash
-                if ($isBackslash && ($isAND || $isOR)) {
-                    $operand = substr($operand, 0, -1);
-                }
-                $operand .= $char;
-            }
-
-            $isBackslash = ($char == "\\");
-            $i++;
-        }
-        return $tree;
+            // remove backslash from in front of ; and ,
+            return array_map(function($or) {
+                return str_replace(
+                    ['\\' . self::AND_DELIMITER, '\\' . self::OR_DELIMITER],
+                    [self::AND_DELIMITER, self::OR_DELIMITER],
+                    $or
+                );
+            }, $ors);
+        }, $ands);
     }
 
     /**
