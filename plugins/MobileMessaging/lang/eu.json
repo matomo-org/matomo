@@ -1,1 +1,18 @@
-{}
+{
+    "MobileMessaging": {
+        "PhoneNumbers": "Telefono zenbakiak",
+        "SMS_Content_Too_Long": "[luzeegia]",
+        "Settings_APIKey": "API gakoa",
+        "Settings_CountryCode": "Herrialde kodea",
+        "Settings_EnterActivationCode": "Sartu aktibazio kodea",
+        "Settings_InvalidActivationCode": "Sartutako kodea ez da baliozkoa, saiatu berriro.",
+        "Settings_ManagePhoneNumbers": "Kudeatu telefono zenbakiak",
+        "Settings_PhoneNumber": "Telefono zenbakia",
+        "Settings_PhoneNumbers_Add": "Gehitu telefono zenbaki berria",
+        "Settings_SMSAPIAccount": "Kudeatu SMS API kontua",
+        "Settings_SMSProvider": "SMS hornitzailea",
+        "Settings_SelectCountry": "Hautatu herrialdea",
+        "Settings_SuperAdmin": "Super erabiltzailearen ezarpenak",
+        "UserKey": "Erabiltzaile-gakoa"
+    }
+}

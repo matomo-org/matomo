@@ -50,6 +50,7 @@
         "LicenseMissing": "Falta la llicència",
         "LicenseMissingDeactivatedDescription": "Els connectors següents s'han desactivat perquè els feieu servir sense llicència: %1$s. %2$sPer resoldre aquest problema, actualitzeu la vostra clau de llicència, %3$s obteniu una subscripció ara%4$s o desactiveu el connector.",
         "LicenseRenewsNextPaymentDate": "Es renova a la propera data de pagament",
+        "ManageLicenseKeyIntro": "Podeu ampliar les capacitats de Matomo mitjançant els nostres connectors premium. Per instal·lar connectors premium necessiteu una clau de llicència vàlida, que es pot obtenir de dues maneres: podeu iniciar una prova del connector seleccionat al %1$smercat%2$s o comprar una subscripció al connector al %3$snostre lloc web%4$s. Iniciar una prova al mercat crearà automàticament una clau de llicència i l'afegirà a aquesta instància. Si compreu una subscripció al lloc web, rebreu una clau de llicència que podreu afegir al camp següent. Després d'afegir la clau de llicència podeu actualitzar-la o eliminar-la si cal.",
         "Marketplace": "Mercat",
         "MultiServerEnvironmentWarning": "No podeu instal·lar ni actualitzar el connector directament, ja que feu servir Matomo a diversos servidors. El connector només s'instal·laria en un servidor. En lloc d'això, descarregueu el connector i desplegueu-lo manualment a tots els vostres servidors.",
         "NewVersion": "nova versió",
