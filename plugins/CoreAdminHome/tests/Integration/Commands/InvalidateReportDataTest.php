@@ -9,7 +9,9 @@
 namespace Piwik\Plugins\CoreAdminHome\tests\Integration\Commands;
 
 use Monolog\Handler\AbstractProcessingHandler;
-use Piwik\Plugins\SegmentEditor\API;
+use Piwik\Plugins\CustomDimensions\CustomDimensions;
+use Piwik\Plugins\CustomDimensions\API as CustomDimensionsAPI;
+use Piwik\Plugins\SegmentEditor\API as SegmentEditorAPI;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;
 
@@ -29,7 +31,15 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         Fixture::createWebsite('2012-01-01 00:00:00');
         Fixture::createWebsite('2012-01-01 00:00:00');
 
-        API::getInstance()->add('test segment', 'browserCode==IE', $idSite);
+        CustomDimensionsAPI::getInstance()->configureNewCustomDimension(
+            $idSite,
+            'test',
+            CustomDimensions::SCOPE_VISIT,
+            true
+        );
+
+        SegmentEditorAPI::getInstance()->add('test segment', 'browserCode==IE', $idSite);
+        SegmentEditorAPI::getInstance()->add('custom dimension', 'dimension1==test', $idSite);
     }
 
     public function setUp(): void
@@ -136,6 +146,40 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
 
         $this->assertNotEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
         self::assertStringContainsString("The segment condition 'ablksdjfdslkjf' is not valid", $this->getLogOutput());
+    }
+
+    public function test_Command_FailsWhenACustomDimensionSegmentIsNotSupportedByAllSites()
+    {
+        $code = $this->applicationTester->run([
+            'command' => 'core:invalidate-report-data',
+            '--dates' => '2012-01-01',
+            '--periods' => 'day',
+            '--sites' => '1,2',
+            '--segment' => ['custom dimension'],
+            '--dry-run' => true,
+            '-vvv' => true,
+        ]);
+
+        $this->assertNotEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
+        self::assertStringContainsString("Segment 'dimension1' is not a supported segment", $this->getLogOutput());
+    }
+
+
+    public function test_Command_FailsWhenACustomDimensionSegmentIsNotValidForAnySite()
+    {
+        $code = $this->applicationTester->run([
+            'command' => 'core:invalidate-report-data',
+            '--dates' => '2012-01-01',
+            '--periods' => 'day',
+            '--sites' => '2,3',
+            '--segment' => ['custom dimension'],
+            '--dry-run' => true,
+            '-vvv' => true,
+        ]);
+
+        $this->assertNotEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
+        self::assertStringContainsString("'custom dimension' did not match any stored segment, but invalidating it anyway", $this->getLogOutput());
+        self::assertStringContainsString("The segment condition 'custom dimension' is not valid", $this->getLogOutput());
     }
 
     /**
@@ -424,6 +468,30 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
             null,
             [
                 '[Dry-run] invalidating archives for site = [ 1 ], dates = [ 2015-05-04 ], period = [ day ], segment = [ browserCode==IE ], cascade = [ 0 ]',
+            ],
+        ];
+
+        yield 'match custom dimension segment by name' => [
+            ['2015-05-04'],
+            'day',
+            '1',
+            false,
+            ['custom dimension'],
+            null,
+            [
+                '[Dry-run] invalidating archives for site = [ 1 ], dates = [ 2015-05-04 ], period = [ day ], segment = [ dimension1==test ], cascade = [ 0 ]',
+            ],
+        ];
+
+        yield 'match custom dimension segment by definition' => [
+            ['2015-05-04'],
+            'day',
+            '1',
+            false,
+            ['dimension1==test'],
+            null,
+            [
+                '[Dry-run] invalidating archives for site = [ 1 ], dates = [ 2015-05-04 ], period = [ day ], segment = [ dimension1==test ], cascade = [ 0 ]',
             ],
         ];
     }
