@@ -269,7 +269,7 @@ class QueueConsumer
                 $this->addInvalidationToExclude($invalidatedArchive);
                 if ($alreadyInProgressId < $invalidatedArchive['idinvalidation']) {
                     $this->logger->debug("Skipping invalidated archive {$invalidatedArchive['idinvalidation']}, invalidation already in progress. Since in progress is older, not removing invalidation.");
-               } else if ($alreadyInProgressId > $invalidatedArchive['idinvalidation']) {
+                } else if ($alreadyInProgressId > $invalidatedArchive['idinvalidation']) {
                     $this->logger->debug("Skipping invalidated archive {$invalidatedArchive['idinvalidation']}, invalidation already in progress. Since in progress is newer, will remove invalidation.");
                     $this->model->deleteInvalidations([$invalidatedArchive]);
                 }

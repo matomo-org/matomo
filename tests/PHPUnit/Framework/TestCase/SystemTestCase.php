@@ -722,7 +722,7 @@ abstract class SystemTestCase extends TestCase
 
     protected function getTestRequestsCollection($api, $testConfig, $apiToCall)
     {
-       return new Collection($api, $testConfig, $apiToCall);
+        return new Collection($api, $testConfig, $apiToCall);
     }
 
     private function printComparisonFailures()

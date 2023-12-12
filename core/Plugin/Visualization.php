@@ -480,7 +480,7 @@ class Visualization extends ViewDataTable
                     ) {
                         $metadata = $itemMetaData;
                     }
-               }
+                }
             }
         }
 

@@ -201,11 +201,11 @@ class ArchivingHelper
     {
         $rowsProcessed = 0;
 
-         while ($row = $resultSet->fetch()) {
-             if (self::updateActionsTableRowWithGoals($row, $isPages)) {
-                 $rowsProcessed++;
-             }
-         }
+        while ($row = $resultSet->fetch()) {
+            if (self::updateActionsTableRowWithGoals($row, $isPages)) {
+                $rowsProcessed++;
+            }
+        }
          return $rowsProcessed;
     }
 

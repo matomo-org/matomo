@@ -341,12 +341,12 @@ class API extends \Piwik\Plugin\API
         ) {
             $dataTable->filter(
                 'ColumnCallbackDeleteRow',
-                array(
-                     self::NB_VISITS_METRIC,
-                     function ($value) {
-                         return $value == 0;
-                     }
-                )
+                [
+                    self::NB_VISITS_METRIC,
+                    function ($value) {
+                        return $value == 0;
+                    }
+                ]
             );
         }
 

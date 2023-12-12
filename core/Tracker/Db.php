@@ -264,7 +264,7 @@ abstract class Db
         $className = 'Piwik\Tracker\Db\\' . str_replace(' ', '\\', ucwords(str_replace(array('_', '\\'), ' ', strtolower($configDb['adapter']))));
 
         if (!class_exists($className)) {
-           throw new Exception('Unsupported database adapter ' . $configDb['adapter']);
+            throw new Exception('Unsupported database adapter ' . $configDb['adapter']);
         }
 
         return new $className($configDb);

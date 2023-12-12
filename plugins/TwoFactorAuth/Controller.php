@@ -103,7 +103,7 @@ class Controller extends \Piwik\Plugin\Controller
                         }
                     } catch (Exception $e) {
                         // ignore error eg if login plugin is disabled
-                     }
+                    }
                 }
             }
         }

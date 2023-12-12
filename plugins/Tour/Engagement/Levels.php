@@ -72,7 +72,7 @@ class Levels
 
         foreach ($this->getLevels() as $threshold => $level) {
             if ($completed < $threshold) {
-               return $level;
+                return $level;
             }
         }
     }
