@@ -62,7 +62,7 @@ class CacheTest extends UnitTestCase
                 $this->methodsCalled[] = 'flushAll';
             });
         $mockLazyCache->method('delete')->willReturnCallback(function ($key) {
-                $this->methodsCalled[] = 'delete.' . $key;
+            $this->methodsCalled[] = 'delete.' . $key;
         });
         $mockLazyCache->method('save')->willReturnCallback(function ($id, $data) {
             $this->methodsCalled[] = 'save.' . $id . $data;

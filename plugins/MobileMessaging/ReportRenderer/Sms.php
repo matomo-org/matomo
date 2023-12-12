@@ -61,7 +61,7 @@ class Sms extends ReportRenderer
         $prettyDate = $processedReport['prettyDate'];
         $reportData = $processedReport['reportData'];
 
-        $evolutionMetrics = array();
+        $evolutionMetrics = [];
         $multiSitesAPIMetrics = API::getApiMetrics($enhanced = true);
         foreach ($multiSitesAPIMetrics as $metricSettings) {
             $evolutionMetrics[] = $metricSettings[API::METRIC_EVOLUTION_COL_NAME_KEY];
@@ -71,18 +71,21 @@ class Sms extends ReportRenderer
         // no decimal for all metrics to shorten SMS content (keeps the monetary sign for revenue metrics)
         $reportData->filter(
             'ColumnCallbackReplace',
-            array(
-                 array_merge(array_keys($multiSitesAPIMetrics), $evolutionMetrics),
-                    function ($value) use ($floatRegex) {
-                        return preg_replace_callback(
-                         $floatRegex,
-                            function ($matches) {
-                                return round((float) $matches[0]);
-                            },
-                         $value
-                        );
-                    }
-            )
+            [
+                array_merge(
+                    array_keys($multiSitesAPIMetrics),
+                    $evolutionMetrics
+                ),
+                function ($value) use ($floatRegex) {
+                    return preg_replace_callback(
+                        $floatRegex,
+                        function ($matches) {
+                            return round((float)$matches[0]);
+                        },
+                        $value
+                    );
+                }
+            ]
         );
 
         // evolution metrics formatting :
@@ -90,20 +93,20 @@ class Sms extends ReportRenderer
         //    (this is also needed to be able to test $value != 0 and see if there is an evolution at all in SMSReport.twig)
         $reportData->filter(
             'ColumnCallbackReplace',
-            array(
-                 $evolutionMetrics,
-                    function ($value) use ($floatRegex) {
-                        $matched = preg_match($floatRegex, $value, $matches);
-                        return $matched ? (float) $matches[0] : $value;
-                    }
-            )
+            [
+                $evolutionMetrics,
+                function ($value) use ($floatRegex) {
+                    $matched = preg_match($floatRegex, $value, $matches);
+                    return $matched ? (float)$matches[0] : $value;
+                }
+            ]
         );
 
         $dataRows = $reportData->getRows();
         $reportMetadata = $processedReport['reportMetadata'];
         $reportRowsMetadata = $reportMetadata->getRows();
 
-        $siteHasECommerce = array();
+        $siteHasECommerce = [];
         foreach ($reportRowsMetadata as $rowMetadata) {
             $idSite = $rowMetadata->getColumn('idsite');
             $siteHasECommerce[$idSite] = Site::isEcommerceEnabledFor($idSite);
@@ -138,6 +141,6 @@ class Sms extends ReportRenderer
      */
     public function getAttachments($report, $processedReports, $prettyDate)
     {
-        return array();
+        return [];
     }
 }

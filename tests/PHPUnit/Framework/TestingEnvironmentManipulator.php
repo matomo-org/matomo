@@ -208,22 +208,25 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
         if (!empty($this->vars->multiplicateTableResults)) {
             $diConfigs[] = [
                 'observers.global' => \Piwik\DI::add([
-                    ['API.Request.dispatch.end', \Piwik\DI::value(function($returnedValue) {
-                        if ($returnedValue instanceof DataTableInterface) {
-                            $returnedValue->filter(function(DataTable $dataTable) {
-                                foreach ($dataTable->getRows() as $row) {
-                                    $columns = $row->getColumns();
-                                    foreach($columns as $name => &$value) {
-                                        if ($name !== 'label' && is_numeric($value)) {
-                                            $value *= $this->vars->multiplicateTableResults;
+                    [
+                        'API.Request.dispatch.end',
+                        \Piwik\DI::value(function ($returnedValue) {
+                            if ($returnedValue instanceof DataTableInterface) {
+                                $returnedValue->filter(function (DataTable $dataTable) {
+                                    foreach ($dataTable->getRows() as $row) {
+                                        $columns = $row->getColumns();
+                                        foreach ($columns as $name => &$value) {
+                                            if ($name !== 'label' && is_numeric($value)) {
+                                                $value *= $this->vars->multiplicateTableResults;
+                                            }
                                         }
+                                        $row->setColumns($columns);
                                     }
-                                    $row->setColumns($columns);
-                                }
-                            });
-                        }
-                    })
-                    ]])
+                                });
+                            }
+                        })
+                    ]
+                ])
             ];
         }
 

@@ -204,9 +204,9 @@ class BruteForceDetection {
             // log if error is not that we can't find a user
             if (strpos($ex->getMessage(), 'unable to find user to send') === false) {
                 StaticContainer::get(LoggerInterface::class)->info(
-                    'Error when sending ' . SuspiciousLoginAttemptsInLastHourEmail::class . ' email. User exists but encountered {exception}', [
-                    'exception' => $ex,
-                    ]);
+                    'Error when sending ' . SuspiciousLoginAttemptsInLastHourEmail::class . ' email. User exists but encountered {exception}',
+                    ['exception' => $ex]
+                );
             }
         }
     }
