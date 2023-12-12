@@ -405,20 +405,17 @@ class API extends \Piwik\Plugin\API
      * Filter out any segments which cannot be initialized due to disable plugins or features
      *
      * @param array $segments
-     * @param       $idSite
+     * @param bool|int $idSite
      *
      * @return array
      */
     private function filterSegmentsWithDisabledElements(array $segments, $idSite = false): array
     {
-        $sites = [];
-        if (!empty($idSite)) {
-            $sites = is_array($idSite) ? $idSite : [$idSite];
-        }
+        $idSites = false === $idSite ? [] : [$idSite];
 
         foreach ($segments as $k => $segment) {
             try {
-                new Segment($segment['definition'], $sites);
+                new Segment($segment['definition'], $idSites);
             } catch (Exception $e) {
                 unset($segments[$k]);
             }
