@@ -233,18 +233,17 @@ class InvalidateReportData extends ConsoleCommand
     private function getSegmentsToInvalidateFor($idSites)
     {
         $input = $this->getInput();
-        $output = $this->getOutput();
         $segments = $input->getOption('segment');
         $segments = array_map('trim', $segments);
         $segments = array_unique($segments);
 
         if (empty($segments)) {
-            return array(null);
+            return [null];
         }
 
-        $result = array();
+        $result = [];
         foreach ($segments as $segmentOptionValue) {
-            $segmentDefinition = $this->findSegment($segmentOptionValue, $idSites, $input, $output);
+            $segmentDefinition = $this->findSegment($segmentOptionValue, $idSites);
             if (empty($segmentDefinition)) {
                 continue;
             }
