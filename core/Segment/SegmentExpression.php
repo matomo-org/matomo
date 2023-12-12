@@ -10,6 +10,7 @@
 namespace Piwik\Segment;
 
 use Exception;
+use Piwik\Config\DatabaseConfig;
 
 /**
  *
@@ -64,8 +65,16 @@ class SegmentExpression
     protected $tree = [];
     protected $parsedSubExpressions = [];
 
+    //=== m21016
+    const INDEX_BOOL_OPERATOR = 0;
+    const INDEX_OPERAND = 1;
+    private $optimizeNotIn;
+
     public function __construct($string)
     {
+        //=== m21016
+        $this->optimizeNotIn = DatabaseConfig::getConfigValue('enable_optimize_segment_not_in');
+
         $this->string = $string;
         $this->tree = $this->parseTree();
     }
@@ -83,16 +92,25 @@ class SegmentExpression
 
     public function getSubExpressionCount()
     {
-        $count = 0;
-        foreach ($this->parsedSubExpressions as $orExpressions) {
-            foreach ($orExpressions as $operand) {
-                $isExpressionColumnPresent = !empty($operand[self::INDEX_OPERAND_NAME]);
-                if ($isExpressionColumnPresent) {
-                    ++$count;
+        //=== m21016
+        if ($this->optimizeNotIn) {
+            $count = 0;
+            foreach ($this->parsedSubExpressions as $orExpressions) {
+                foreach ($orExpressions as $operand) {
+                    $isExpressionColumnPresent = !empty($operand[self::INDEX_OPERAND_NAME]);
+                    if ($isExpressionColumnPresent) {
+                        ++$count;
+                    }
                 }
             }
+            return $count;
+        } else {
+            $cleaned = array_filter($this->parsedSubExpressions, function ($part) {
+                $isExpressionColumnPresent = !empty($part[1][0]);
+                return $isExpressionColumnPresent;
+            });
+            return count($cleaned);
         }
-        return $count;
     }
 
     /**
@@ -105,12 +123,64 @@ class SegmentExpression
      */
     public function parseSubExpressions()
     {
-        $parsedSubExpressions = array_map(function (array $orExpressions) {
-            return array_map(function (string $operand) {
-                return $this->parseOperand($operand);
-            }, $orExpressions);
-        }, $this->tree);
-        $this->parsedSubExpressions = $parsedSubExpressions;
+        //=== m21016
+        if ($this->optimizeNotIn) {
+            $parsedSubExpressions = array_map(function (array $orExpressions) {
+                return array_map(function (string $operand) {
+                    return $this->parseOperand($operand);
+                }, $orExpressions);
+            }, $this->tree);
+            $this->parsedSubExpressions = $parsedSubExpressions;
+        } else {
+            $parsedSubExpressions = array();
+            foreach ($this->tree as $leaf) {
+                $operand = $leaf[self::INDEX_OPERAND];
+
+                $operand = urldecode($operand);
+
+                $operator = $leaf[self::INDEX_BOOL_OPERATOR];
+                $pattern = '/^(.+?)(' . self::MATCH_EQUAL . '|'
+                    . self::MATCH_NOT_EQUAL . '|'
+                    . self::MATCH_GREATER_OR_EQUAL . '|'
+                    . self::MATCH_GREATER . '|'
+                    . self::MATCH_LESS_OR_EQUAL . '|'
+                    . self::MATCH_LESS . '|'
+                    . self::MATCH_CONTAINS . '|'
+                    . self::MATCH_DOES_NOT_CONTAIN . '|'
+                    . preg_quote(self::MATCH_STARTS_WITH) . '|'
+                    . preg_quote(self::MATCH_ENDS_WITH)
+                    . '){1}(.*)/';
+                $match = preg_match($pattern, $operand, $matches);
+                if ($match == 0) {
+                    throw new Exception('The segment condition \'' . $operand . '\' is not valid.');
+                }
+
+                $leftMember = $matches[1];
+                $operation  = $matches[2];
+                $valueRightMember = urldecode($matches[3]);
+
+                // is null / is not null
+                if ($valueRightMember === '') {
+                    if ($operation == self::MATCH_NOT_EQUAL) {
+                        $operation = self::MATCH_IS_NOT_NULL_NOR_EMPTY;
+                    } elseif ($operation == self::MATCH_EQUAL) {
+                        $operation = self::MATCH_IS_NULL_OR_EMPTY;
+                    } else {
+                        throw new Exception('The segment \'' . $operand . '\' has no value specified. You can leave this value empty ' .
+                            'only when you use the operators: ' . self::MATCH_NOT_EQUAL . ' (is not) or ' . self::MATCH_EQUAL . ' (is)');
+                    }
+                }
+
+                $parsedSubExpressions[] = array(
+                    self::INDEX_BOOL_OPERATOR => $operator,
+                    self::INDEX_OPERAND       => array(
+                        self::INDEX_OPERAND_NAME => $leftMember,
+                        self::INDEX_OPERAND_OPERATOR => $operation,
+                        self::INDEX_OPERAND_VALUE => $valueRightMember,
+                    ));
+            }
+            $this->parsedSubExpressions = $parsedSubExpressions;
+        }
         return $parsedSubExpressions;
     }
 
@@ -173,8 +243,33 @@ class SegmentExpression
     {
         $this->valuesBind = [];
 
-        $sqlSubExpressions = array_map(function (array $orExpressions) use (&$availableTables) {
-            return array_map(function (array $operandDefinition) use (&$availableTables) {
+        //=== m21016
+        if ($this->optimizeNotIn) {
+
+            $sqlSubExpressions = array_map(function (array $orExpressions) use (&$availableTables) {
+                return array_map(function (array $operandDefinition) use (&$availableTables) {
+                    $operand = $this->getSqlMatchFromDefinition($operandDefinition, $availableTables);
+
+                    if ($operand[self::INDEX_OPERAND_OPERATOR] !== null) {
+                        if (is_array($operand[self::INDEX_OPERAND_OPERATOR])) {
+                            $this->valuesBind = array_merge($this->valuesBind, $operand[self::INDEX_OPERAND_OPERATOR]);
+                        } else {
+                            $this->valuesBind[] = $operand[self::INDEX_OPERAND_OPERATOR];
+                        }
+                    }
+
+                    $operand = $operand[self::INDEX_OPERAND_NAME];
+                    return $operand;
+                }, $orExpressions);
+            }, $this->parsedSubExpressions);
+
+        } else {
+            $sqlSubExpressions = array();
+
+            foreach ($this->parsedSubExpressions as $leaf) {
+                $operator = $leaf[self::INDEX_BOOL_OPERATOR];
+                $operandDefinition = $leaf[self::INDEX_OPERAND];
+
                 $operand = $this->getSqlMatchFromDefinition($operandDefinition, $availableTables);
 
                 if ($operand[self::INDEX_OPERAND_OPERATOR] !== null) {
@@ -186,9 +281,13 @@ class SegmentExpression
                 }
 
                 $operand = $operand[self::INDEX_OPERAND_NAME];
-                return $operand;
-            }, $orExpressions);
-        }, $this->parsedSubExpressions);
+
+                $sqlSubExpressions[] = array(
+                    self::INDEX_BOOL_OPERATOR => $operator,
+                    self::INDEX_OPERAND       => $operand,
+                );
+            }
+        }
 
         $this->tree = $sqlSubExpressions;
     }
@@ -466,51 +565,98 @@ class SegmentExpression
      */
     protected function parseTree()
     {
-        $segmentStr = trim($this->string);
-        if (empty($segmentStr)) {
-            return [];
-        }
+        //=== m21016
+        if ($this->optimizeNotIn) {
 
-        $tree = [];
-        $i = 0;
-        $length = strlen($segmentStr);
-        $isBackslash = false;
-        $operand = '';
-        $groupIndex = 0;
-        while ($i <= $length) {
-            $char = $segmentStr[$i];
-
-            $isAND = ($char == self::AND_DELIMITER);
-            $isOR = ($char == self::OR_DELIMITER);
-            $isEnd = ($length == $i + 1);
-
-            if ($isEnd) {
-
-                // End of string
-                if ($isBackslash && ($isAND || $isOR)) {
-                    $operand = substr($operand, 0, -1);
-                }
-                $operand .= $char;
-                $tree[$groupIndex][] = $operand;
-                break;
-            }
-            if ($isAND && !$isBackslash) {
-                $tree[$groupIndex][] = $operand;
-                $groupIndex++; // start new group
-                $operand = '';
-            } elseif ($isOR && !$isBackslash) {
-                $tree[$groupIndex][] = $operand;
-                $operand = '';
-            } else {
-                // Remove backslash
-                if ($isBackslash && ($isAND || $isOR)) {
-                    $operand = substr($operand, 0, -1);
-                }
-                $operand .= $char;
+            $segmentStr = trim($this->string);
+            if (empty($segmentStr)) {
+                return [];
             }
 
-            $isBackslash = ($char == "\\");
-            $i++;
+            $tree = [];
+            $i = 0;
+            $length = strlen($segmentStr);
+            $isBackslash = false;
+            $operand = '';
+            $groupIndex = 0;
+            while ($i <= $length) {
+                $char = $segmentStr[$i];
+
+                $isAND = ($char == self::AND_DELIMITER);
+                $isOR = ($char == self::OR_DELIMITER);
+                $isEnd = ($length == $i + 1);
+
+                if ($isEnd) {
+
+                    // End of string
+                    if ($isBackslash && ($isAND || $isOR)) {
+                        $operand = substr($operand, 0, -1);
+                    }
+                    $operand .= $char;
+                    $tree[$groupIndex][] = $operand;
+                    break;
+                }
+                if ($isAND && !$isBackslash) {
+                    $tree[$groupIndex][] = $operand;
+                    $groupIndex++; // start new group
+                    $operand = '';
+                } elseif ($isOR && !$isBackslash) {
+                    $tree[$groupIndex][] = $operand;
+                    $operand = '';
+                } else {
+                    // Remove backslash
+                    if ($isBackslash && ($isAND || $isOR)) {
+                        $operand = substr($operand, 0, -1);
+                    }
+                    $operand .= $char;
+                }
+
+                $isBackslash = ($char == "\\");
+                $i++;
+            }
+
+        } else {
+            $string = $this->string;
+            if (empty($string)) {
+                return array();
+            }
+            $tree = array();
+            $i = 0;
+            $length = strlen($string);
+            $isBackslash = false;
+            $operand = '';
+            while ($i <= $length) {
+                $char = $string[$i];
+
+                $isAND = ($char == self::AND_DELIMITER);
+                $isOR = ($char == self::OR_DELIMITER);
+                $isEnd = ($length == $i + 1);
+
+                if ($isEnd) {
+                    if ($isBackslash && ($isAND || $isOR)) {
+                        $operand = substr($operand, 0, -1);
+                    }
+                    $operand .= $char;
+                    $tree[] = array(self::INDEX_BOOL_OPERATOR => self::BOOL_OPERATOR_END, self::INDEX_OPERAND => $operand);
+                    break;
+                }
+
+                if ($isAND && !$isBackslash) {
+                    $tree[] = array(self::INDEX_BOOL_OPERATOR => self::BOOL_OPERATOR_AND, self::INDEX_OPERAND => $operand);
+                    $operand = '';
+                } elseif ($isOR && !$isBackslash) {
+                    $tree[] = array(self::INDEX_BOOL_OPERATOR => self::BOOL_OPERATOR_OR, self::INDEX_OPERAND => $operand);
+                    $operand = '';
+                } else {
+                    if ($isBackslash && ($isAND || $isOR)) {
+                        $operand = substr($operand, 0, -1);
+                    }
+                    $operand .= $char;
+                }
+                $isBackslash = ($char == "\\");
+                $i++;
+            }
+
         }
         return $tree;
     }
@@ -528,16 +674,49 @@ class SegmentExpression
             throw new Exception("Invalid segment, please specify a valid segment.");
         }
 
-        $andExpressions = $this->tree;
-        $andExpressions = array_map(function ($orExpressions) {
-            if (count($orExpressions) == 1) {
-                return $orExpressions[0];
+        //=== m21016
+        if ($this->optimizeNotIn) {
+            $andExpressions = $this->tree;
+            $andExpressions = array_map(function ($orExpressions) {
+                if (count($orExpressions) == 1) {
+                    return $orExpressions[0];
+                }
+
+                return '( '.implode(' OR ', $orExpressions).')';
+            }, $andExpressions);
+
+            $sql = implode(' AND ', $andExpressions);
+        } else {
+            $sql = '';
+            $subExpression = false;
+            foreach ($this->tree as $expression) {
+                $operator = $expression[self::INDEX_BOOL_OPERATOR];
+                $operand = $expression[self::INDEX_OPERAND];
+
+                if ($operator == self::BOOL_OPERATOR_OR
+                    && !$subExpression
+                ) {
+                    $sql .= ' (';
+                    $subExpression = true;
+                } else {
+                    $sql .= ' ';
+                }
+
+                $sql .= $operand;
+
+                if ($operator == self::BOOL_OPERATOR_AND
+                    && $subExpression
+                ) {
+                    $sql .= ')';
+                    $subExpression = false;
+                }
+
+                $sql .= " $operator";
             }
-
-            return '( ' . implode(' OR ', $orExpressions) . ')';
-        }, $andExpressions);
-
-        $sql = implode(' AND ', $andExpressions);
+            if ($subExpression) {
+                $sql .= ')';
+            }
+        }
 
         return array(
             'where' => $sql,
