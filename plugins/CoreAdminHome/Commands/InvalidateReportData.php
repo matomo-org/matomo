@@ -29,6 +29,9 @@ class InvalidateReportData extends ConsoleCommand
 {
     const ALL_OPTION_VALUE = 'all';
 
+    /**
+     * @var null|array<Segment>
+     */
     private $allSegments = null;
 
     protected function configure()
@@ -230,7 +233,12 @@ class InvalidateReportData extends ConsoleCommand
         return $result;
     }
 
-    private function getSegmentsToInvalidateFor($idSites)
+    /**
+     * @param array<int> $idSites
+     *
+     * @return array<Segment>
+     */
+    private function getSegmentsToInvalidateFor(array $idSites): array
     {
         $input = $this->getInput();
         $segments = $input->getOption('segment');
@@ -242,22 +250,28 @@ class InvalidateReportData extends ConsoleCommand
         }
 
         $result = [];
+
         foreach ($segments as $segmentOptionValue) {
             $segmentDefinition = $this->findSegment($segmentOptionValue, $idSites);
+
             if (empty($segmentDefinition)) {
                 continue;
             }
 
             $result[] = new Segment($segmentDefinition, $idSites);
         }
+
         return $result;
     }
 
-    private function findSegment($segmentOptionValue, $idSites)
+    /**
+     * @param array<int> $idSites
+     */
+    private function findSegment(string $segmentOptionValue, array $idSites)
     {
         $logger = StaticContainer::get(LoggerInterface::class);
+        $allSegments = $this->getAllSegments($idSites);
 
-        $allSegments = $this->getAllSegments();
         foreach ($allSegments as $segment) {
             if (!empty($segment['enable_only_idsite'])
                 && !in_array($segment['enable_only_idsite'], $idSites)
@@ -287,11 +301,37 @@ class InvalidateReportData extends ConsoleCommand
         return $segmentOptionValue;
     }
 
-    private function getAllSegments()
+    /**
+     * @param array<int> $idSites
+     *
+     * @return array<Segment>
+     */
+    private function getAllSegments(array $idSites): array
     {
         if ($this->allSegments === null) {
-            $this->allSegments = API::getInstance()->getAll();
+            $segmentsByDefinition = [];
+
+            if ([] === $idSites) {
+                $idSites = [false];
+            }
+
+            foreach ($idSites as $idSite) {
+                $siteSegments = API::getInstance()->getAll($idSite);
+
+                $siteSegmentsByDefinition = array_combine(
+                    array_column($siteSegments, 'definition'),
+                    $siteSegments
+                );
+
+                $segmentsByDefinition = array_merge(
+                    $segmentsByDefinition,
+                    $siteSegmentsByDefinition
+                );
+            }
+
+            $this->allSegments = array_values($segmentsByDefinition);
         }
+
         return $this->allSegments;
     }
 }
