@@ -106,7 +106,7 @@ class ReportTotalsCalculator extends DataTableManipulator
         $totalRow = null;
         foreach ($firstLevelTable->getRows() as $row) {
             if (!isset($totalRow)) {
-                $columns = $row->getColumns();
+                $columns = $row->getRawColumns();
                 $columns['label'] = DataTable::LABEL_TOTALS_ROW;
                 $totalRow = new DataTable\Row(array(DataTable\Row::COLUMNS => $columns));
             } else {
@@ -128,7 +128,7 @@ class ReportTotalsCalculator extends DataTableManipulator
 
         $totalRowUnformatted = null;
         foreach ($clone->getRows() as $row) {
-            /** * @var DataTable\Row $row */ 
+            /** @var DataTable\Row $row */
             if ($row->getColumn('label') === DataTable::LABEL_TOTALS_ROW) {
                 $totalRowUnformatted = $row->getColumns();
                 break;
@@ -138,7 +138,7 @@ class ReportTotalsCalculator extends DataTableManipulator
 
         $totalRow = null;
         foreach ($clone->getRows() as $row) {
-            /** * @var DataTable\Row $row */
+            /** @var DataTable\Row $row */
             if ($row->getColumn('label') === DataTable::LABEL_TOTALS_ROW) {
                 $totalRow = $row;
                 break;

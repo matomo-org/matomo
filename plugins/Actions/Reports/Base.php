@@ -114,7 +114,7 @@ abstract class Base extends \Piwik\Plugin\Report
             $view->requestConfig->filter_excludelowpop_value = function () {
                 // computing minimum value to exclude (2 percent of the total number of actions)
                 $visitsInfo = \Piwik\Plugins\VisitsSummary\Controller::getVisitsSummary()->getFirstRow();
-                $nbActions = $visitsInfo->getColumn('nb_actions');
+                $nbActions = $visitsInfo->getRawColumn('nb_actions');
                 $nbActionsLowPopulationThreshold = floor(0.02 * $nbActions);
 
                 // we remove 1 to make sure some actions/downloads are displayed in the case we have a very few of them

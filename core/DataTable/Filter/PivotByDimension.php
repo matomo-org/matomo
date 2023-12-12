@@ -411,12 +411,12 @@ class PivotByDimension extends BaseFilter
      */
     private function getColumnValue(Row $columnRow, $pivotColumn)
     {
-        $value = $columnRow->getColumn($pivotColumn);
-        if (empty($value)
-            && !empty($this->metricIndexValue)
-        ) {
-            $value = $columnRow->getColumn($this->metricIndexValue);
+        $value = $columnRow->getRawColumn($pivotColumn);
+
+        if (empty($value) && !empty($this->metricIndexValue)) {
+            $value = $columnRow->getRawColumn($this->metricIndexValue);
         }
+
         return $value;
     }
 

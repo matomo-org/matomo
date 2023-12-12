@@ -11,6 +11,8 @@ namespace Piwik;
 use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Filter\SafeDecodeLabel;
+use Piwik\DataTable\Row;
+use Piwik\Log\LoggerInterface;
 use Piwik\Metrics\Formatter;
 use Piwik\Plugin\Manager;
 use Piwik\Tracker\GoalManager;
@@ -34,6 +36,33 @@ function piwik_filter_truncate($string, $size)
         preg_match('/^(&(?:[a-z\d]+|#\d+|#x[a-f\d]+);|.){'.$size.'}/i', $string, $shortenString);
         return reset($shortenString) . "...";
     }
+}
+
+function piwik_format_data_table_column(Row $row, string $column, array $fallback)
+{
+    $formattedColumn = $row->getFormattedColumn($column);
+
+    if (false !== $formattedColumn) {
+        StaticContainer::get(LoggerInterface::class)->debug('Column already formatted: ' . $column);
+
+        return $formattedColumn;
+    };
+
+    $fallbackType = $fallback[0] ?? null;
+
+    if ('number' !== $fallbackType) {
+        throw new Exception(sprintf('Unknown formatting fallback: %s', $fallbackType));
+    }
+
+    StaticContainer::get(LoggerInterface::class)->debug('Column not formatted: ' . $column);
+
+    return piwik_safe_decode_raw(
+        piwik_format_number(
+            $row->getRawColumn($column),
+            $fallback[1] ?? 0,
+            $fallback[2] ?? 0
+        )
+    );
 }
 
 function piwik_format_number($string, $minFractionDigits, $maxFractionDigits)
@@ -60,6 +89,22 @@ function piwik_format_money($amount, $idSite)
     $currencySymbol = Site::getCurrencySymbolFor($idSite);
     $numberFormatter = NumberFormatter::getInstance();
     return $numberFormatter->formatCurrency($amount, $currencySymbol, GoalManager::REVENUE_PRECISION);
+}
+
+function piwik_safe_decode_raw($string)
+{
+    if (null === $string) {
+        return '';
+    }
+
+    if (!is_string($string)) {
+        return $string;
+    }
+
+    $string = str_replace('+', '%2B', $string);
+    $string = str_replace('&nbsp;', html_entity_decode('&nbsp;', ENT_COMPAT | ENT_HTML401, 'UTF-8'), $string);
+
+    return SafeDecodeLabel::decodeLabelSafe($string);
 }
 
 /**
@@ -128,6 +173,7 @@ class Twig
         $this->addFilterPercentEvolution();
         $this->addFilterPrettyDate();
         $this->addFilterSafeDecodeRaw();
+        $this->addFilterFormatDataTableColumn();
         $this->addFilterNumber();
         $this->addFilterAnonymiseSystemInfo();
         $this->addFilterNonce();
@@ -363,18 +409,7 @@ class Twig
     protected function addFilterSafeDecodeRaw()
     {
         $rawSafeDecoded = new TwigFilter('rawSafeDecoded', function ($string) {
-
-            if ($string === null) {
-                return '';
-            }
-
-            $string = str_replace('+', '%2B', $string);
-            $string = str_replace('&nbsp;', html_entity_decode('&nbsp;', ENT_COMPAT | ENT_HTML401, 'UTF-8'), $string);
-
-            $string = SafeDecodeLabel::decodeLabelSafe($string);
-
-            return $string;
-
+            return piwik_safe_decode_raw($string);
         }, array('is_safe' => array('all')));
         $this->twig->addFilter($rawSafeDecoded);
     }
@@ -417,6 +452,18 @@ class Twig
     private function getProfessionalServicesAdvertising()
     {
         return StaticContainer::get('Piwik\ProfessionalServices\Advertising');
+    }
+
+    protected function addFilterFormatDataTableColumn()
+    {
+        $formatter = new TwigFilter(
+            'formatDataTableColumn',
+            function (Row $row, string $column, array $fallback) {
+                return piwik_format_data_table_column($row, $column, $fallback);
+            }
+        );
+
+        $this->twig->addFilter($formatter);
     }
 
     protected function addFilterNumber()
