@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\SegmentEditor;
 
 use Exception;
+use Piwik\Config\DatabaseConfig;
 use Piwik\Piwik;
 use Piwik\Segment;
 use Piwik\Segment\SegmentExpression;
@@ -21,6 +22,9 @@ class SegmentFormatter
      * @var Segment\SegmentsList
      */
     private $segmentList;
+
+    //=== m21016
+    private $optimizeNotIn;
 
     private $matchesMetric = array(
         SegmentExpression::MATCH_EQUAL => 'General_OperationEquals',
@@ -48,6 +52,9 @@ class SegmentFormatter
 
     public function __construct(Segment\SegmentsList $segmentList)
     {
+        //=== m21016
+        $this->optimizeNotIn = DatabaseConfig::getConfigValue('enable_optimize_segment_not_in');
+
         $this->segmentList = $segmentList;
     }
 
@@ -66,21 +73,49 @@ class SegmentFormatter
         }
 
         $readable = '';
-        foreach ($expressions as $expression) {
-            $operator = $expression[SegmentExpression::INDEX_BOOL_OPERATOR];
-            $operand  = $expression[SegmentExpression::INDEX_OPERAND];
-            $name     = $operand[SegmentExpression::INDEX_OPERAND_NAME];
 
-            $segment = $this->segmentList->getSegment($name);
+        //=== m21016
+        if ($this->optimizeNotIn) {
+            foreach ($expressions as $andIndex => $orExpressions) {
+                foreach ($orExpressions as $orIndex => $operand) {
+                    $name = $operand[SegmentExpression::INDEX_OPERAND_NAME];
 
-            if (empty($segment)) {
-                throw new Exception(sprintf("The segment '%s' does not exist.", $name));
+                    $segment = $this->segmentList->getSegment($name);
+
+                    if (empty($segment)) {
+                        throw new Exception(sprintf("The segment '%s' does not exist.", $name));
+                    }
+
+                    $readable .= Piwik::translate($segment->getName()).' ';
+                    $readable .= $this->getTranslationForComparison($operand, $segment->getType()).' ';
+                    $readable .= $this->getFormattedValue($operand);
+
+                    if ($orIndex !== count($orExpressions) - 1) {
+                        $readable .= $this->getTranslationForBoolOperator(SegmentExpression::BOOL_OPERATOR_OR).' ';
+                    }
+                }
+
+                if ($andIndex !== count($expressions) - 1) {
+                    $readable .= $this->getTranslationForBoolOperator(SegmentExpression::BOOL_OPERATOR_AND).' ';
+                }
             }
+        } else {
+            foreach ($expressions as $expression) {
+                $operator = $expression[SegmentExpression::INDEX_BOOL_OPERATOR];
+                $operand  = $expression[SegmentExpression::INDEX_OPERAND];
+                $name     = $operand[SegmentExpression::INDEX_OPERAND_NAME];
 
-            $readable .= Piwik::translate($segment->getName()) . ' ';
-            $readable .= $this->getTranslationForComparison($operand, $segment->getType()) . ' ';
-            $readable .= $this->getFormattedValue($operand);
-            $readable .= $this->getTranslationForBoolOperator($operator) . ' ';
+                $segment = $this->segmentList->getSegment($name);
+
+                if (empty($segment)) {
+                    throw new Exception(sprintf("The segment '%s' does not exist.", $name));
+                }
+
+                $readable .= Piwik::translate($segment->getName()) . ' ';
+                $readable .= $this->getTranslationForComparison($operand, $segment->getType()) . ' ';
+                $readable .= $this->getFormattedValue($operand);
+                $readable .= $this->getTranslationForBoolOperator($operator) . ' ';
+            }
         }
 
         $readable = trim($readable);

@@ -10,6 +10,7 @@
 namespace Piwik\Segment;
 
 use Exception;
+use Piwik\Config\DatabaseConfig;
 
 /**
  *
@@ -44,8 +45,11 @@ class SegmentExpression
     const MATCH_ACTIONS_CONTAINS = 'IN';
     const MATCH_ACTIONS_NOT_CONTAINS = 'NOTIN';
 
-    const INDEX_BOOL_OPERATOR = 0;
-    const INDEX_OPERAND = 1;
+    /**
+     * A special match type for segments that require rejecting a visit if any action/conversion/etc. in the visit matches a condition.
+     * These operands result in `idvisit NOT IN (...)` subqueries.
+     */
+    const MATCH_IDVISIT_NOT_IN = 'IDVISIT_NOTIN';
 
     const INDEX_OPERAND_NAME = 0;
     const INDEX_OPERAND_OPERATOR = 1;
@@ -61,8 +65,16 @@ class SegmentExpression
     protected $tree = [];
     protected $parsedSubExpressions = [];
 
+    //=== m21016
+    const INDEX_BOOL_OPERATOR = 0;
+    const INDEX_OPERAND = 1;
+    private $optimizeNotIn;
+
     public function __construct($string)
     {
+        //=== m21016
+        $this->optimizeNotIn = DatabaseConfig::getConfigValue('enable_optimize_segment_not_in');
+
         $this->string = $string;
         $this->tree = $this->parseTree();
     }
@@ -80,11 +92,25 @@ class SegmentExpression
 
     public function getSubExpressionCount()
     {
-        $cleaned = array_filter($this->parsedSubExpressions, function ($part) {
-            $isExpressionColumnPresent = !empty($part[1][0]);
-            return $isExpressionColumnPresent;
-        });
-        return count($cleaned);
+        //=== m21016
+        if ($this->optimizeNotIn) {
+            $count = 0;
+            foreach ($this->parsedSubExpressions as $orExpressions) {
+                foreach ($orExpressions as $operand) {
+                    $isExpressionColumnPresent = !empty($operand[self::INDEX_OPERAND_NAME]);
+                    if ($isExpressionColumnPresent) {
+                        ++$count;
+                    }
+                }
+            }
+            return $count;
+        } else {
+            $cleaned = array_filter($this->parsedSubExpressions, function ($part) {
+                $isExpressionColumnPresent = !empty($part[1][0]);
+                return $isExpressionColumnPresent;
+            });
+            return count($cleaned);
+        }
     }
 
     /**
@@ -97,55 +123,108 @@ class SegmentExpression
      */
     public function parseSubExpressions()
     {
-        $parsedSubExpressions = array();
-        foreach ($this->tree as $leaf) {
-            $operand = $leaf[self::INDEX_OPERAND];
+        //=== m21016
+        if ($this->optimizeNotIn) {
+            $parsedSubExpressions = array_map(function (array $orExpressions) {
+                return array_map(function (string $operand) {
+                    return $this->parseOperand($operand);
+                }, $orExpressions);
+            }, $this->tree);
+            $this->parsedSubExpressions = $parsedSubExpressions;
+        } else {
+            $parsedSubExpressions = array();
+            foreach ($this->tree as $leaf) {
+                $operand = $leaf[self::INDEX_OPERAND];
 
-            $operand = urldecode($operand);
+                $operand = urldecode($operand);
 
-            $operator = $leaf[self::INDEX_BOOL_OPERATOR];
-            $pattern = '/^(.+?)(' . self::MATCH_EQUAL . '|'
-                . self::MATCH_NOT_EQUAL . '|'
-                . self::MATCH_GREATER_OR_EQUAL . '|'
-                . self::MATCH_GREATER . '|'
-                . self::MATCH_LESS_OR_EQUAL . '|'
-                . self::MATCH_LESS . '|'
-                . self::MATCH_CONTAINS . '|'
-                . self::MATCH_DOES_NOT_CONTAIN . '|'
-                . preg_quote(self::MATCH_STARTS_WITH) . '|'
-                . preg_quote(self::MATCH_ENDS_WITH)
-                . '){1}(.*)/';
-            $match = preg_match($pattern, $operand, $matches);
-            if ($match == 0) {
-                throw new Exception('The segment condition \'' . $operand . '\' is not valid.');
-            }
-
-            $leftMember = $matches[1];
-            $operation  = $matches[2];
-            $valueRightMember = urldecode($matches[3]);
-
-            // is null / is not null
-            if ($valueRightMember === '') {
-                if ($operation == self::MATCH_NOT_EQUAL) {
-                    $operation = self::MATCH_IS_NOT_NULL_NOR_EMPTY;
-                } elseif ($operation == self::MATCH_EQUAL) {
-                    $operation = self::MATCH_IS_NULL_OR_EMPTY;
-                } else {
-                    throw new Exception('The segment \'' . $operand . '\' has no value specified. You can leave this value empty ' .
-                        'only when you use the operators: ' . self::MATCH_NOT_EQUAL . ' (is not) or ' . self::MATCH_EQUAL . ' (is)');
+                $operator = $leaf[self::INDEX_BOOL_OPERATOR];
+                $pattern = '/^(.+?)(' . self::MATCH_EQUAL . '|'
+                    . self::MATCH_NOT_EQUAL . '|'
+                    . self::MATCH_GREATER_OR_EQUAL . '|'
+                    . self::MATCH_GREATER . '|'
+                    . self::MATCH_LESS_OR_EQUAL . '|'
+                    . self::MATCH_LESS . '|'
+                    . self::MATCH_CONTAINS . '|'
+                    . self::MATCH_DOES_NOT_CONTAIN . '|'
+                    . preg_quote(self::MATCH_STARTS_WITH) . '|'
+                    . preg_quote(self::MATCH_ENDS_WITH)
+                    . '){1}(.*)/';
+                $match = preg_match($pattern, $operand, $matches);
+                if ($match == 0) {
+                    throw new Exception('The segment condition \'' . $operand . '\' is not valid.');
                 }
-            }
 
-            $parsedSubExpressions[] = array(
-                self::INDEX_BOOL_OPERATOR => $operator,
-                self::INDEX_OPERAND       => array(
-                    self::INDEX_OPERAND_NAME => $leftMember,
-                    self::INDEX_OPERAND_OPERATOR => $operation,
-                    self::INDEX_OPERAND_VALUE => $valueRightMember,
-                ));
+                $leftMember = $matches[1];
+                $operation  = $matches[2];
+                $valueRightMember = urldecode($matches[3]);
+
+                // is null / is not null
+                if ($valueRightMember === '') {
+                    if ($operation == self::MATCH_NOT_EQUAL) {
+                        $operation = self::MATCH_IS_NOT_NULL_NOR_EMPTY;
+                    } elseif ($operation == self::MATCH_EQUAL) {
+                        $operation = self::MATCH_IS_NULL_OR_EMPTY;
+                    } else {
+                        throw new Exception('The segment \'' . $operand . '\' has no value specified. You can leave this value empty ' .
+                            'only when you use the operators: ' . self::MATCH_NOT_EQUAL . ' (is not) or ' . self::MATCH_EQUAL . ' (is)');
+                    }
+                }
+
+                $parsedSubExpressions[] = array(
+                    self::INDEX_BOOL_OPERATOR => $operator,
+                    self::INDEX_OPERAND       => array(
+                        self::INDEX_OPERAND_NAME => $leftMember,
+                        self::INDEX_OPERAND_OPERATOR => $operation,
+                        self::INDEX_OPERAND_VALUE => $valueRightMember,
+                    ));
+            }
+            $this->parsedSubExpressions = $parsedSubExpressions;
         }
-        $this->parsedSubExpressions = $parsedSubExpressions;
         return $parsedSubExpressions;
+    }
+
+    private function parseOperand(string $operand): array
+    {
+        $operand = urldecode($operand);
+
+        $pattern = '/^(.+?)(' . self::MATCH_EQUAL . '|'
+            . self::MATCH_NOT_EQUAL . '|'
+            . self::MATCH_GREATER_OR_EQUAL . '|'
+            . self::MATCH_GREATER . '|'
+            . self::MATCH_LESS_OR_EQUAL . '|'
+            . self::MATCH_LESS . '|'
+            . self::MATCH_CONTAINS . '|'
+            . self::MATCH_DOES_NOT_CONTAIN . '|'
+            . preg_quote(self::MATCH_STARTS_WITH) . '|'
+            . preg_quote(self::MATCH_ENDS_WITH)
+            . '){1}(.*)/';
+        $match = preg_match($pattern, $operand, $matches);
+        if ($match == 0) {
+            throw new Exception('The segment condition \'' . $operand . '\' is not valid.');
+        }
+
+        $leftMember = $matches[1];
+        $operation = $matches[2];
+        $valueRightMember = urldecode($matches[3]);
+
+        // is null / is not null
+        if ($valueRightMember === '') {
+            if ($operation == self::MATCH_NOT_EQUAL) {
+                $operation = self::MATCH_IS_NOT_NULL_NOR_EMPTY;
+            } elseif ($operation == self::MATCH_EQUAL) {
+                $operation = self::MATCH_IS_NULL_OR_EMPTY;
+            } else {
+                throw new Exception('The segment \'' . $operand . '\' has no value specified. You can leave this value empty ' .
+                    'only when you use the operators: ' . self::MATCH_NOT_EQUAL . ' (is not) or ' . self::MATCH_EQUAL . ' (is)');
+            }
+        }
+
+        return [
+            self::INDEX_OPERAND_NAME => $leftMember,
+            self::INDEX_OPERAND_OPERATOR => $operation,
+            self::INDEX_OPERAND_VALUE => $valueRightMember,
+        ];
     }
 
     /**
@@ -162,29 +241,52 @@ class SegmentExpression
      */
     public function parseSubExpressionsIntoSqlExpressions(&$availableTables = array())
     {
-        $sqlSubExpressions = array();
-        $this->valuesBind = array();
+        $this->valuesBind = [];
 
-        foreach ($this->parsedSubExpressions as $leaf) {
-            $operator = $leaf[self::INDEX_BOOL_OPERATOR];
-            $operandDefinition = $leaf[self::INDEX_OPERAND];
+        //=== m21016
+        if ($this->optimizeNotIn) {
 
-            $operand = $this->getSqlMatchFromDefinition($operandDefinition, $availableTables);
+            $sqlSubExpressions = array_map(function (array $orExpressions) use (&$availableTables) {
+                return array_map(function (array $operandDefinition) use (&$availableTables) {
+                    $operand = $this->getSqlMatchFromDefinition($operandDefinition, $availableTables);
 
-            if ($operand[self::INDEX_OPERAND_OPERATOR] !== null) {
-                if (is_array($operand[self::INDEX_OPERAND_OPERATOR])) {
-                    $this->valuesBind = array_merge($this->valuesBind, $operand[self::INDEX_OPERAND_OPERATOR]);
-                } else {
-                    $this->valuesBind[] = $operand[self::INDEX_OPERAND_OPERATOR];
+                    if ($operand[self::INDEX_OPERAND_OPERATOR] !== null) {
+                        if (is_array($operand[self::INDEX_OPERAND_OPERATOR])) {
+                            $this->valuesBind = array_merge($this->valuesBind, $operand[self::INDEX_OPERAND_OPERATOR]);
+                        } else {
+                            $this->valuesBind[] = $operand[self::INDEX_OPERAND_OPERATOR];
+                        }
+                    }
+
+                    $operand = $operand[self::INDEX_OPERAND_NAME];
+                    return $operand;
+                }, $orExpressions);
+            }, $this->parsedSubExpressions);
+
+        } else {
+            $sqlSubExpressions = array();
+
+            foreach ($this->parsedSubExpressions as $leaf) {
+                $operator = $leaf[self::INDEX_BOOL_OPERATOR];
+                $operandDefinition = $leaf[self::INDEX_OPERAND];
+
+                $operand = $this->getSqlMatchFromDefinition($operandDefinition, $availableTables);
+
+                if ($operand[self::INDEX_OPERAND_OPERATOR] !== null) {
+                    if (is_array($operand[self::INDEX_OPERAND_OPERATOR])) {
+                        $this->valuesBind = array_merge($this->valuesBind, $operand[self::INDEX_OPERAND_OPERATOR]);
+                    } else {
+                        $this->valuesBind[] = $operand[self::INDEX_OPERAND_OPERATOR];
+                    }
                 }
+
+                $operand = $operand[self::INDEX_OPERAND_NAME];
+
+                $sqlSubExpressions[] = array(
+                    self::INDEX_BOOL_OPERATOR => $operator,
+                    self::INDEX_OPERAND       => $operand,
+                );
             }
-
-            $operand = $operand[self::INDEX_OPERAND_NAME];
-
-            $sqlSubExpressions[] = array(
-                self::INDEX_BOOL_OPERATOR => $operator,
-                self::INDEX_OPERAND       => $operand,
-            );
         }
 
         $this->tree = $sqlSubExpressions;
@@ -448,53 +550,87 @@ class SegmentExpression
     }
 
     /**
-     * Given a filter string,
-     * will parse it into an array where each row contains the boolean operator applied to it,
-     * and the operand
+     * Given a segment string, will parse it into a multi-level array with the first level representing AND groups
+     * and the second level containing OR operands
+     *
+     * eg. the segment string 'A,B;C,D,E;F' will return:
+     *
+     * [
+     * 0 => [0 => 'A', 1 => 'B'],            // First AND group containing A and B OR conditions
+     * 1 => [0 => 'C', 1 => 'D', 2 => 'E',   // Second AND group containing C, D & E
+     * 2 => [0 => 'F']                       // Third AND group containing just F
+     * ]
      *
      * @return array
      */
     protected function parseTree()
     {
-        $string = $this->string;
-        if (empty($string)) {
-            return array();
-        }
-        $tree = array();
-        $i = 0;
-        $length = strlen($string);
-        $isBackslash = false;
-        $operand = '';
-        while ($i <= $length) {
-            $char = $string[$i];
+        //=== m21016
+        if ($this->optimizeNotIn) {
 
-            $isAND = ($char == self::AND_DELIMITER);
-            $isOR = ($char == self::OR_DELIMITER);
-            $isEnd = ($length == $i + 1);
-
-            if ($isEnd) {
-                if ($isBackslash && ($isAND || $isOR)) {
-                    $operand = substr($operand, 0, -1);
-                }
-                $operand .= $char;
-                $tree[] = array(self::INDEX_BOOL_OPERATOR => self::BOOL_OPERATOR_END, self::INDEX_OPERAND => $operand);
-                break;
+            $segmentStr = trim($this->string);
+            if (empty($segmentStr)) {
+                return [];
             }
 
-            if ($isAND && !$isBackslash) {
-                $tree[] = array(self::INDEX_BOOL_OPERATOR => self::BOOL_OPERATOR_AND, self::INDEX_OPERAND => $operand);
-                $operand = '';
-            } elseif ($isOR && !$isBackslash) {
-                $tree[] = array(self::INDEX_BOOL_OPERATOR => self::BOOL_OPERATOR_OR, self::INDEX_OPERAND => $operand);
-                $operand = '';
-            } else {
-                if ($isBackslash && ($isAND || $isOR)) {
-                    $operand = substr($operand, 0, -1);
-                }
-                $operand .= $char;
+            // split on ; only when there's no end of string after and only when there's no backslash before it
+            $ands = array_filter(preg_split('/' . self::AND_DELIMITER . '(?!$)(?<!\\\\' . self::AND_DELIMITER . ')/', $segmentStr));
+            $tree = array_map(function($and) {
+                // split on , only when there's no end of string after and only when there's no backslash before it
+                $ors = preg_split('/' . self::OR_DELIMITER . '(?!$)(?<!\\\\' . self::OR_DELIMITER . ')/', $and);
+
+                // remove backslash from in front of ; and ,
+                return array_map(function($or) {
+                    return str_replace(
+                        ['\\' . self::AND_DELIMITER, '\\' . self::OR_DELIMITER],
+                        [self::AND_DELIMITER, self::OR_DELIMITER],
+                        $or
+                    );
+                }, $ors);
+            }, $ands);
+
+        } else {
+            $string = $this->string;
+            if (empty($string)) {
+                return array();
             }
-            $isBackslash = ($char == "\\");
-            $i++;
+            $tree = array();
+            $i = 0;
+            $length = strlen($string);
+            $isBackslash = false;
+            $operand = '';
+            while ($i <= $length) {
+                $char = $string[$i];
+
+                $isAND = ($char == self::AND_DELIMITER);
+                $isOR = ($char == self::OR_DELIMITER);
+                $isEnd = ($length == $i + 1);
+
+                if ($isEnd) {
+                    if ($isBackslash && ($isAND || $isOR)) {
+                        $operand = substr($operand, 0, -1);
+                    }
+                    $operand .= $char;
+                    $tree[] = array(self::INDEX_BOOL_OPERATOR => self::BOOL_OPERATOR_END, self::INDEX_OPERAND => $operand);
+                    break;
+                }
+
+                if ($isAND && !$isBackslash) {
+                    $tree[] = array(self::INDEX_BOOL_OPERATOR => self::BOOL_OPERATOR_AND, self::INDEX_OPERAND => $operand);
+                    $operand = '';
+                } elseif ($isOR && !$isBackslash) {
+                    $tree[] = array(self::INDEX_BOOL_OPERATOR => self::BOOL_OPERATOR_OR, self::INDEX_OPERAND => $operand);
+                    $operand = '';
+                } else {
+                    if ($isBackslash && ($isAND || $isOR)) {
+                        $operand = substr($operand, 0, -1);
+                    }
+                    $operand .= $char;
+                }
+                $isBackslash = ($char == "\\");
+                $i++;
+            }
+
         }
         return $tree;
     }
@@ -511,34 +647,49 @@ class SegmentExpression
         if ($this->isEmpty()) {
             throw new Exception("Invalid segment, please specify a valid segment.");
         }
-        $sql = '';
-        $subExpression = false;
-        foreach ($this->tree as $expression) {
-            $operator = $expression[self::INDEX_BOOL_OPERATOR];
-            $operand = $expression[self::INDEX_OPERAND];
 
-            if ($operator == self::BOOL_OPERATOR_OR
-                && !$subExpression
-            ) {
-                $sql .= ' (';
-                $subExpression = true;
-            } else {
-                $sql .= ' ';
+        //=== m21016
+        if ($this->optimizeNotIn) {
+            $andExpressions = $this->tree;
+            $andExpressions = array_map(function ($orExpressions) {
+                if (count($orExpressions) == 1) {
+                    return $orExpressions[0];
+                }
+
+                return '( '.implode(' OR ', $orExpressions).')';
+            }, $andExpressions);
+
+            $sql = implode(' AND ', $andExpressions);
+        } else {
+            $sql = '';
+            $subExpression = false;
+            foreach ($this->tree as $expression) {
+                $operator = $expression[self::INDEX_BOOL_OPERATOR];
+                $operand = $expression[self::INDEX_OPERAND];
+
+                if ($operator == self::BOOL_OPERATOR_OR
+                    && !$subExpression
+                ) {
+                    $sql .= ' (';
+                    $subExpression = true;
+                } else {
+                    $sql .= ' ';
+                }
+
+                $sql .= $operand;
+
+                if ($operator == self::BOOL_OPERATOR_AND
+                    && $subExpression
+                ) {
+                    $sql .= ')';
+                    $subExpression = false;
+                }
+
+                $sql .= " $operator";
             }
-
-            $sql .= $operand;
-
-            if ($operator == self::BOOL_OPERATOR_AND
-                && $subExpression
-            ) {
+            if ($subExpression) {
                 $sql .= ')';
-                $subExpression = false;
             }
-
-            $sql .= " $operator";
-        }
-        if ($subExpression) {
-            $sql .= ')';
         }
 
         return array(
