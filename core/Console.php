@@ -166,7 +166,7 @@ class Console extends Application
             Log::warning(sprintf('Cannot add command %s, class does not extend Piwik\Plugin\ConsoleCommand', $command));
         } else {
             /** @var Command $commandInstance */
-            $commandInstance = new $command;
+            $commandInstance = new $command();
 
             // do not add the command if it already exists; this way we can add the command ourselves in tests
             if (!$this->has($commandInstance->getName())) {

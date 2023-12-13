@@ -39,7 +39,7 @@ class AddSummaryRowTest extends \PHPUnit\Framework\TestCase
      */
     protected function getDataTableCount5()
     {
-        $table = new DataTable;
+        $table = new DataTable();
         $table->addRow($this->getRow0());
         $table->addRow($this->getRow1());
         $table->addRow($this->getRow2());

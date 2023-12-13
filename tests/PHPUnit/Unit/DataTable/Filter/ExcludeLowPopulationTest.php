@@ -19,7 +19,7 @@ class ExcludeLowPopulationTest extends \PHPUnit\Framework\TestCase
 {
     protected function getTestDataTable()
     {
-        $table = new DataTable;
+        $table = new DataTable();
         $table->addRowsFromArray(
             array(
                  array(Row::COLUMNS => array('label' => 'zero', 'count' => 0)),

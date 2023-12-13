@@ -518,7 +518,7 @@ class Map implements DataTableInterface
      */
     public function getEmptyClone()
     {
-        $dataTableMap = new Map;
+        $dataTableMap = new Map();
         $dataTableMap->setKeyName($this->getKeyName());
         return $dataTableMap;
     }

@@ -67,7 +67,7 @@ class API extends \Piwik\Plugin\API
         $url = PageUrl::excludeQueryParametersFromUrl($url, $idSite);
         // we don't unsanitize $url here. it will be done in the Transitions plugin.
 
-        $resultDataTable = new DataTable;
+        $resultDataTable = new DataTable();
 
         try {
             $limitBeforeGrouping = Config::getInstance()->General['overlay_following_pages_limit'];

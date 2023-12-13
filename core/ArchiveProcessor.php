@@ -706,7 +706,7 @@ class ArchiveProcessor
 
         $rowMetrics = $results->getFirstRow();
         if ($rowMetrics === false) {
-            $rowMetrics = new Row;
+            $rowMetrics = new Row();
         }
         $this->enrichWithUniqueVisitorsMetric($rowMetrics);
         $this->renameColumnsAfterAggregation($results, self::$columnsToRenameAfterAggregation);

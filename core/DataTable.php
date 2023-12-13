@@ -747,7 +747,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function getEmptyClone($keepFilters = true)
     {
-        $clone = new DataTable;
+        $clone = new DataTable();
         if ($keepFilters) {
             $clone->queuedFilters = $this->queuedFilters;
         }
@@ -2040,7 +2040,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         }
         $thisRow = $this->getFirstRow();
         if ($thisRow === false) {
-            $thisRow = new Row;
+            $thisRow = new Row();
             $this->addRow($thisRow);
         }
         $thisRow->sumRow($row, $copyMeta = true, $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME));

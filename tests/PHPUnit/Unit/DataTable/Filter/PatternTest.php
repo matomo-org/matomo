@@ -40,7 +40,7 @@ class PatternTest extends \PHPUnit\Framework\TestCase
      */
     public function testFilterPattern($pattern, $expectedRows)
     {
-        $table = new DataTable;
+        $table = new DataTable();
 
         $idcol = Row::COLUMNS;
 

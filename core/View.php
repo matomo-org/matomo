@@ -337,7 +337,7 @@ class View implements ViewInterface
             $output = $this->applyFilterCacheBuster($output);
         }
 
-        $helper = new Theme;
+        $helper = new Theme();
         $output = $helper->rewriteAssetsPathToTheme($output);
         return $output;
     }

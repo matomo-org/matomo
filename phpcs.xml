@@ -35,7 +35,6 @@
         <exclude name="Generic.Functions.FunctionCallArgumentSpacing.TooMuchSpaceAfterComma" />
         <exclude name="Generic.PHP.LowerCaseConstant.Found" />
         <exclude name="Generic.PHP.LowerCaseKeyword.Found" />
-        <exclude name="PSR12.Classes.ClassInstantiation.MissingParentheses" />
         <exclude name="PSR12.Classes.OpeningBraceSpace.Found" />
         <exclude name="PSR12.ControlStructures.BooleanOperatorPlacement.FoundMixed" />
         <exclude name="PSR12.ControlStructures.ControlStructureSpacing.CloseParenthesisIndent" />
