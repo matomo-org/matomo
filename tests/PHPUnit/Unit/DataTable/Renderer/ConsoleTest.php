@@ -33,17 +33,17 @@ class ConsoleTest extends \PHPUnit\Framework\TestCase
      */
     public function testConsole2SubLevelAnd2Different()
     {
-        $table = new DataTable;
+        $table = new DataTable();
         $table->addRowFromArray(array(Row::COLUMNS  => array('visits' => 245, 'visitors' => 245),
                                       Row::METADATA => array('logo' => 'test.png'),)
 
         );
 
-        $subsubtable = new DataTable;
+        $subsubtable = new DataTable();
         $idsubsubtable = $subsubtable->getId();
         $subsubtable->addRowFromArray(array(Row::COLUMNS => array('visits' => 2)));
 
-        $subtable = new DataTable;
+        $subtable = new DataTable();
         $idsubtable1 = $subtable->getId();
         $subtable->addRowFromArray(array(Row::COLUMNS              => array('visits' => 1),
                                          Row::DATATABLE_ASSOCIATED => $subsubtable));
@@ -52,7 +52,7 @@ class ConsoleTest extends \PHPUnit\Framework\TestCase
                                       Row::DATATABLE_ASSOCIATED => $subtable)
         );
 
-        $subtable2 = new DataTable;
+        $subtable2 = new DataTable();
         $idsubtable2 = $subtable2->getId();
         $subtable2->addRowFromArray(array(Row::COLUMNS => array('visits' => 5),));
 
@@ -77,7 +77,7 @@ class ConsoleTest extends \PHPUnit\Framework\TestCase
      */
     public function testConsoleSimple()
     {
-        $table = new DataTable;
+        $table = new DataTable();
         $table->addRowFromArray(array(Row::COLUMNS  => array('visits' => 245, 'visitors' => 245),
                                       Row::METADATA => array('logo' => 'test.png'),)
 

@@ -107,7 +107,7 @@ class SegmentsList
             return $cache->fetch($cacheKey);
         }
 
-        $list = new static;
+        $list = new static();
 
         /**
          * Triggered to add custom segment definitions.

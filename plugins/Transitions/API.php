@@ -479,7 +479,7 @@ class API extends \Piwik\Plugin\API
 
         $loops = 0;
         $nbPageviews = 0;
-        $previousPagesDataTable = new DataTable;
+        $previousPagesDataTable = new DataTable();
         if (isset($data['result'][$keyIsPageUrlAction])) {
             foreach ($data['result'][$keyIsPageUrlAction] as &$page) {
                 $nbActions = intval($page[Metrics::INDEX_NB_ACTIONS]);
@@ -493,7 +493,7 @@ class API extends \Piwik\Plugin\API
             }
         }
 
-        $previousSearchesDataTable = new DataTable;
+        $previousSearchesDataTable = new DataTable();
         if (isset($data['result'][$keyIsSiteSearchAction])) {
             foreach ($data['result'][$keyIsSiteSearchAction] as &$search) {
                 $nbActions = intval($search[Metrics::INDEX_NB_ACTIONS]);
@@ -646,7 +646,7 @@ class API extends \Piwik\Plugin\API
         $this->totalTransitionsToFollowingPages = 0;
         $dataTables = array();
         foreach ($types as $type => $recordName) {
-            $dataTable = new DataTable;
+            $dataTable = new DataTable();
             if (isset($data[$type])) {
                 foreach ($data[$type] as &$record) {
                     $actions = intval($record[Metrics::INDEX_NB_ACTIONS]);

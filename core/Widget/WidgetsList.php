@@ -172,7 +172,7 @@ class WidgetsList
      */
     public static function get()
     {
-        $list = new static;
+        $list = new static();
 
         $widgets = StaticContainer::get('Piwik\Plugin\WidgetsProvider');
 

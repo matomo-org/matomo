@@ -38,7 +38,7 @@ abstract class BaseFactory
             throw new Exception(static::getInvalidClassIdExceptionMessage($classId));
         }
 
-        return new $className;
+        return new $className();
     }
 
     private static function sendPlainHeader()

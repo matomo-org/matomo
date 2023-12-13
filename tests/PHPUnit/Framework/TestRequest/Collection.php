@@ -193,7 +193,7 @@ class Collection
         $originalDate = $parametersToSet['date'];
 
         $requestUrls = array();
-        $apiMetadata = new DocumentationGenerator;
+        $apiMetadata = new DocumentationGenerator();
 
         // Get the URLs to query against the API for all functions starting with get*
         foreach ($this->getAllApiMethods() as $apiMethodInfo) {

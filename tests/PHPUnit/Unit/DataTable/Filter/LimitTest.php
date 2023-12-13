@@ -24,7 +24,7 @@ class LimitTest extends \PHPUnit\Framework\TestCase
      */
     protected function getDataTableCount10()
     {
-        $table = new DataTable;
+        $table = new DataTable();
         $idcol = Row::COLUMNS;
         $rows = array(
             array($idcol => array('label' => 'google', 'idRow' => 0)),
@@ -186,7 +186,7 @@ class LimitTest extends \PHPUnit\Framework\TestCase
      */
     public function testFilterOffsetLimit()
     {
-        $table = new DataTable;
+        $table = new DataTable();
 
         $idcol = Row::COLUMNS;
 
@@ -218,7 +218,7 @@ class LimitTest extends \PHPUnit\Framework\TestCase
      */
     public function testFilterOffsetLimitOffbound()
     {
-        $table = new DataTable;
+        $table = new DataTable();
 
         $idcol = Row::COLUMNS;
 
@@ -250,7 +250,7 @@ class LimitTest extends \PHPUnit\Framework\TestCase
      */
     public function testFilterOffsetLimit2()
     {
-        $table = new DataTable;
+        $table = new DataTable();
 
         $idcol = Row::COLUMNS;
 
@@ -281,7 +281,7 @@ class LimitTest extends \PHPUnit\Framework\TestCase
      */
     public function testFilterOffsetLimit3()
     {
-        $table = new DataTable;
+        $table = new DataTable();
 
         $idcol = Row::COLUMNS;
 
@@ -297,7 +297,7 @@ class LimitTest extends \PHPUnit\Framework\TestCase
 
         $table->addRowsFromArray($rows);
 
-        $expectedtable = new DataTable;
+        $expectedtable = new DataTable();
 
         $filter = new Limit($table, 8, 15);
         $filter->filter($table);

@@ -71,7 +71,7 @@ abstract class Db
      */
     protected function initProfiler()
     {
-        return new Timer;
+        return new Timer();
     }
 
     /**

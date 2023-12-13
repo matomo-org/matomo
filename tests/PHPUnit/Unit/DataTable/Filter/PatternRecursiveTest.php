@@ -35,7 +35,7 @@ class PatternRecursiveTest extends \PHPUnit\Framework\TestCase
                                             array(Row::COLUMNS => array('label' => 'index.html')),
                                        ));
 
-        $table = new DataTable;
+        $table = new DataTable();
         $rows = array(
             array(Row::COLUMNS              => array('label' => 'http://www.ask.com'),
                   Row::DATATABLE_ASSOCIATED => $subtableAsk),

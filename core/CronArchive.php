@@ -344,7 +344,7 @@ class CronArchive
     {
         $pid = Common::getProcessId();
 
-        $timer = new Timer;
+        $timer = new Timer();
 
         $this->logSection("START");
         $this->logger->info("Starting Matomo reports archiving...");

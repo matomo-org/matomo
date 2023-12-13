@@ -1263,7 +1263,7 @@ class Manager
         if (!class_exists($namespacedClass, false)) {
             throw new \Exception("The class $pluginClassName couldn't be found in the file '$path'");
         }
-        $newPlugin = new $namespacedClass;
+        $newPlugin = new $namespacedClass();
 
         if (!($newPlugin instanceof Plugin)) {
             throw new \Exception("The plugin $pluginClassName in the file $path must inherit from Plugin.");
