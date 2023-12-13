@@ -102,7 +102,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
         }
         $archiveWriter = new ArchiveWriter($params);
         $logAggregator = new LogAggregator($params);
-        $archiveProcessor = new class($params, $archiveWriter, $logAggregator) extends ArchiveProcessor {
+        $archiveProcessor = new class ($params, $archiveWriter, $logAggregator) extends ArchiveProcessor {
             private $captureInserts = false;
             private $capturedInserts = [];
 
