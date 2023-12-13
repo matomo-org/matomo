@@ -2696,7 +2696,7 @@ SQL;
         ');
 
         // add logtable classes
-        $logThings = new class() extends LogTable {
+        $logThings = new class () extends LogTable {
             public function getName()
             {
                 return 'log_thing';
@@ -2718,7 +2718,7 @@ SQL;
             }
         };
 
-        $logThingEvents = new class() extends LogTable {
+        $logThingEvents = new class () extends LogTable {
             public function getname()
             {
                 return 'log_thing_event';
@@ -2751,7 +2751,7 @@ SQL;
         });
 
         // add Dimension classes
-        $thingEventIdDimension = new class() extends Dimension {
+        $thingEventIdDimension = new class () extends Dimension {
             protected $nameSingular = 'CustomReports_ThingEvent';
             protected $namePlural = 'CustomReports_ThingEvents';
             protected $segmentName = 'thingEventId';
@@ -2772,7 +2772,7 @@ SQL;
             }
         };
 
-        $thingValueDimension = new class() extends Dimension {
+        $thingValueDimension = new class () extends Dimension {
             protected $nameSingular = 'CustomReports_ThingValue';
             protected $namePlural = 'CustomReports_ThingValues';
             protected $segmentName = 'thingValue';
@@ -2801,7 +2801,7 @@ SQL;
             }
         };
 
-        $thingNameDimension = new class() extends Dimension {
+        $thingNameDimension = new class () extends Dimension {
             protected $nameSingular = 'CustomReports_ThingName';
             protected $namePlural = 'CustomReports_ThingNames';
             protected $segmentName = 'thingName';
@@ -2816,7 +2816,7 @@ SQL;
             }
         };
 
-        $thingCategoryDimension = new class() extends Dimension {
+        $thingCategoryDimension = new class () extends Dimension {
             protected $nameSingular = 'CustomReports_ThingCategory';
             protected $namePlural = 'CustomReports_ThingCategories';
             protected $segmentName = 'thingCategory';

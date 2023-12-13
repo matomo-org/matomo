@@ -67,7 +67,7 @@ class MailTest extends UnitTestCase
 
     protected function provideContainerConfig()
     {
-        $mockTransport = new class($this) extends Mail\Transport {
+        $mockTransport = new class ($this) extends Mail\Transport {
             private $testCase;
 
             public function __construct(MailTest $mailTest)
