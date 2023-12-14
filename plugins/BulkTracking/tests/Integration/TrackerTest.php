@@ -17,7 +17,6 @@ use Piwik\Tracker;
 use Piwik\Tests\Framework\Mock\Tracker\RequestSet;
 
 class TestIntegrationTracker extends Tracker {
-
     protected function loadTrackerPlugins()
     {
         // if we reload the plugins we would lose the injected data :(

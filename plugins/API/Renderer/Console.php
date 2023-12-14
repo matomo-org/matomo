@@ -13,7 +13,6 @@ use Piwik\Common;
 
 class Console extends ApiRenderer
 {
-
     /**
      * @param $message
      * @param \Exception|\Throwable $exception

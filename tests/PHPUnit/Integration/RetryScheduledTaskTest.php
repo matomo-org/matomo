@@ -22,7 +22,6 @@ use Piwik\Log\NullLogger;
  */
 class RetryScheduledTaskTest extends IntegrationTestCase
 {
-
     public function testRetryCount()
     {
         $timetable = new Timetable();

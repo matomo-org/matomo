@@ -4,7 +4,6 @@ namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
 class RequiredPhpSetting implements \JsonSerializable
 {
-    
     /** @var string */
     private $setting;
     

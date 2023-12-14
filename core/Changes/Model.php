@@ -26,7 +26,6 @@ use Piwik\Plugin\Manager as PluginManager;
  */
 class Model
 {
-
     const NO_CHANGES_EXIST = 0;
     const CHANGES_EXIST = 1;
     const NEW_CHANGES_EXIST = 2;

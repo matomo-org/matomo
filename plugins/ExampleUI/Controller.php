@@ -15,7 +15,6 @@ use Piwik\View;
  */
 class Controller extends \Piwik\Plugin\Controller
 {
-
     public function notifications()
     {
         $notification = new Notification('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');

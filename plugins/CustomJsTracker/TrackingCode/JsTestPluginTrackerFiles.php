@@ -12,7 +12,6 @@ namespace Piwik\Plugins\CustomJsTracker\TrackingCode;
  */
 class JsTestPluginTrackerFiles extends PluginTrackerFiles
 {
-
     public function __construct()
     {
         parent::__construct();

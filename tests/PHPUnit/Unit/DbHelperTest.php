@@ -18,7 +18,6 @@ use Piwik\DbHelper;
  */
 class DbHelperTest extends \PHPUnit\Framework\TestCase
 {
-
     /**
      * @dataProvider getVariousDbNames
      * @param string $dbName

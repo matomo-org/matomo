@@ -17,7 +17,6 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class SimpleTest extends IntegrationTestCase
 {
-
     public function setUp(): void
     {
         parent::setUp();

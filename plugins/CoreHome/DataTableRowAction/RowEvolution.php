@@ -32,7 +32,6 @@ use Piwik\ViewDataTable\Manager as ViewDataTableManager;
  */
 class RowEvolution
 {
-
     /** The current site id */
     protected $idSite;
 

@@ -12,5 +12,4 @@ namespace Piwik\Exception;
 
 class FailedCopyException extends Exception
 {
-
 }

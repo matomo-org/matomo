@@ -21,7 +21,6 @@ class CustomPasswordVerifier extends PasswordVerifier {
 
 class PasswordVerifierTest extends IntegrationTestCase
 {
-
     /**
      * @var CustomPasswordVerifier
      */

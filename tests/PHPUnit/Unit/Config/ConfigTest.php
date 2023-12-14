@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 
 class ConfigTest extends TestCase
 {
-
     private $config;
 
     protected function setUp(): void

@@ -12,7 +12,6 @@ use Piwik\Config;
 
 class CliPhp
 {
-
     public function findPhpBinary()
     {
         $general = Config::getInstance()->General;

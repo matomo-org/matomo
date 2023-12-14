@@ -17,7 +17,6 @@ use Piwik\Plugins\UsersManager\Model as UsersModel;
  */
 class UserChanges
 {
-
     private $user;
     private $changesModel;
 

@@ -13,7 +13,6 @@ use Piwik\SettingsPiwik;
 
 class LoaderLock
 {
-
     const MAX_LEN_LOCK_NAME = 64;
     const MAX_LOCK_TIME = 60; //in seconds
     protected $id;

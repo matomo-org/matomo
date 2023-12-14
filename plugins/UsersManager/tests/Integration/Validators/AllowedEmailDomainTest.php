@@ -21,7 +21,6 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class AllowedEmailDomainTest extends IntegrationTestCase
 {
-
     /**
      * @var AllowedEmailDomain
      */

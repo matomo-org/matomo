@@ -13,8 +13,6 @@ use Piwik\Plugins\CustomJsTracker\TrackingCode\PluginTrackerFiles;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class CustomPluginTrackerFiles extends PluginTrackerFiles {
-
-
     protected function getDirectoriesToLook() {
         return array(
             'CustomJsTracker' => PIWIK_DOCUMENT_ROOT . '/plugins/CustomJsTracker/tests/resources/'

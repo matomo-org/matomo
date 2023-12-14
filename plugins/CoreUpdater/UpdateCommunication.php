@@ -24,7 +24,6 @@ use Piwik\View;
  */
 class UpdateCommunication
 {
-
     /**
      * Checks whether update communication in general is enabled or not.
      *

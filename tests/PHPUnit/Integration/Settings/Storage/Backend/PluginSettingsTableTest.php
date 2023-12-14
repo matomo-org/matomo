@@ -18,7 +18,6 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class PluginSettingsTableTest extends IntegrationTestCase
 {
-
     /**
      * @var PluginSettingsTable
      */

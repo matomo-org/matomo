@@ -17,5 +17,4 @@ use Piwik\Mail;
  */
 class ScheduledReportEmail extends Mail
 {
-
 }

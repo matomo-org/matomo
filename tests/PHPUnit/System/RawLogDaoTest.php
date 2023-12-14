@@ -13,7 +13,6 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 class CustomRawLogDao extends RawLogDao {
-
     public function getTableIdColumns()
     {
         return parent::getTableIdColumns();

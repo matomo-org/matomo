@@ -14,7 +14,6 @@ use Piwik\Piwik;
 
 class TranslationHelper
 {
-
     public function translateGoalMetricCategory($category)
     {
         // Return either "Goals by %s" or "Goals %s", depending on the category

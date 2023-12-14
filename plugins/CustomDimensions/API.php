@@ -33,7 +33,6 @@ use Piwik\Tracker\Cache;
  */
 class API extends \Piwik\Plugin\API
 {
-
     /**
      * Fetch a report for the given idDimension. Only reports for active dimensions can be fetched. Requires at least
      * view access.

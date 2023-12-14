@@ -143,7 +143,6 @@ class TestLogFoo extends LogTable
 
 class MultipleSitesMultipleVisitsFixture extends Fixture
 {
-
     private static $countryCode = array(
         'CA', 'CN', 'DE', 'ES', 'FR', 'IE', 'IN', 'IT', 'MX', 'PT', 'RU', 'GB', 'US'
     );

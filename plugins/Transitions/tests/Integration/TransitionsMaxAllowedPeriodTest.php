@@ -21,7 +21,6 @@ use Piwik\Plugins\Transitions\API;
  */
 class TransitionsMaxAllowedPeriodTest extends IntegrationTestCase
 {
-
     public $api;
 
     protected static function configureFixture($fixture)

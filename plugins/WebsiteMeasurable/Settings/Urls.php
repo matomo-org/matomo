@@ -15,7 +15,6 @@ use Piwik\UrlHelper;
 
 class Urls extends \Piwik\Settings\Measurable\MeasurableProperty
 {
-
     public function __construct($idSite)
     {
         $name = 'urls';

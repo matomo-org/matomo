@@ -16,7 +16,6 @@ use Piwik\ViewDataTable\Config as VisualizationConfig;
  */
 class Config extends VisualizationConfig
 {
-
     /**
      * Whether to display the logo assocatied with a DataTable row (stored as 'logo' row metadata)
      * instead of the label in Tag Clouds.

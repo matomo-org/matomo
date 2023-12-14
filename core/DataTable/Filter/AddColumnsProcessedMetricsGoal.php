@@ -65,7 +65,6 @@ use Piwik\Plugins\Goals\Columns\Metrics\RevenuePerVisit;
  */
 class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
 {
-
     /**
      * Process metrics for entry page views, with ECommerce
      */

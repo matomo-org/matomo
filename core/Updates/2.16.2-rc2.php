@@ -17,7 +17,6 @@ use Piwik\Updates as PiwikUpdates;
  */
 class Updates_2_16_2_rc2 extends PiwikUpdates
 {
-
     public function doUpdate(Updater $updater)
     {
         try {

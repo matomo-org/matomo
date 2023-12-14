@@ -19,7 +19,6 @@ use Piwik\Plugins\Tour\Engagement\Challenges;
  */
 class API extends \Piwik\Plugin\API
 {
-
     /**
      * @var Challenges
      */

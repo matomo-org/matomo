@@ -19,7 +19,6 @@ use Piwik\ViewDataTable\RequestConfig as VisualizationRequestConfig;
  */
 class RequestConfig extends VisualizationRequestConfig
 {
-
     /**
      * Controls whether the summary row is displayed on every page of the datatable view or not.
      * If false, the summary row will be treated as the last row of the dataset and will only visible

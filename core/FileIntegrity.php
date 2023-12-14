@@ -15,7 +15,6 @@ use Piwik\Plugins\CustomJsTracker\TrackerUpdater;
 
 class FileIntegrity
 {
-
     /**
      * Get file integrity information
      *

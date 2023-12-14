@@ -16,7 +16,6 @@ use Piwik\Container\StaticContainer;
  */
 class PluginListTest extends \PHPUnit\Framework\TestCase
 {
-
     /**
      * @var PluginList
      */

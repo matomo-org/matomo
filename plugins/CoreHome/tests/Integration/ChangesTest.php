@@ -19,7 +19,6 @@ use Piwik\Changes\Model as ChangesModel;
  */
 class ChangesTest extends IntegrationTestCase
 {
-
     /**
      * @var CreateChanges
      */

@@ -20,7 +20,6 @@ use Piwik\Session;
  */
 class Development extends SMSProvider
 {
-
     public function getId()
     {
         return 'Development';

@@ -12,7 +12,6 @@ use Piwik\Plugins\CustomJsTracker\File;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class CustomTestFile extends File {
-
 }
 
 /**

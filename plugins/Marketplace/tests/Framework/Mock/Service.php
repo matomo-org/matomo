@@ -11,7 +11,6 @@ namespace Piwik\Plugins\Marketplace\tests\Framework\Mock;
 use Piwik\Filesystem;
 
 class Service extends \Piwik\Plugins\Marketplace\Api\Service {
-
     public $action;
     public $params;
 

@@ -14,7 +14,6 @@ use Piwik\Piwik;
 use Piwik\Tracker\LogTable;
 
 class LogTablesProvider {
-
     /**
      * @var Manager
      */

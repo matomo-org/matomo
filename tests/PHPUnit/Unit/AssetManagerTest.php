@@ -15,7 +15,6 @@ use Piwik\Config;
  */
 class AssetManagerTest extends \PHPUnit\Framework\TestCase
 {
-
     public function testIsMergedAssetsDisabled()
     {
         $manager = new AssetManager();

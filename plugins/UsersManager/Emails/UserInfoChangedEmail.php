@@ -10,7 +10,6 @@ use Piwik\View;
 
 class UserInfoChangedEmail extends Mail
 {
-
     /**
      * @var string
      */
