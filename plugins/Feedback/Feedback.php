@@ -152,7 +152,7 @@ class Feedback extends \Piwik\Plugin
             }
 
             // Otherwise we set the date to somewhen within the next 6 months
-            $nextReminder = Date::now()->getStartOfDay()->addDay(Common::getRandomInt(1, 6*30))->toString('Y-m-d');
+            $nextReminder = Date::now()->getStartOfDay()->addDay(Common::getRandomInt(1, 6 * 30))->toString('Y-m-d');
             $feedbackReminder->setUserOption($nextReminder);
             return false;
         }

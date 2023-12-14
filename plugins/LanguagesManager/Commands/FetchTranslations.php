@@ -41,7 +41,7 @@ class FetchTranslations extends TranslationBase
         $plugin = $input->getOption('plugin');
         $slug = $input->getOption('slug');
 
-        $resource = $plugin ? 'plugin-'.strtolower($plugin) : 'matomo-base';
+        $resource = $plugin ? 'plugin-' . strtolower($plugin) : 'matomo-base';
 
         $weblateApi = new API($apiToken, $slug);
 

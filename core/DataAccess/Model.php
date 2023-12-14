@@ -489,7 +489,7 @@ class Model
     public function getInstalledArchiveTables()
     {
         $allArchiveNumeric = Db::get()->fetchCol("SHOW TABLES LIKE '" . Common::prefixTable('archive_numeric%') . "'");
-        $allArchiveBlob    = Db::get()->fetchCol("SHOW TABLES LIKE '" . Common::prefixTable('archive_blob%') ."'");
+        $allArchiveBlob    = Db::get()->fetchCol("SHOW TABLES LIKE '" . Common::prefixTable('archive_blob%') . "'");
 
         return array_merge($allArchiveBlob, $allArchiveNumeric);
     }
@@ -587,7 +587,7 @@ class Model
         $deletedSites = array_values($deletedSites);
         $deletedSites = array_map('intval', $deletedSites);
 
-        $sql = "SELECT DISTINCT idarchive FROM " . $archiveTableName . " WHERE idsite IN (".implode(',',$deletedSites).")";
+        $sql = "SELECT DISTINCT idarchive FROM " . $archiveTableName . " WHERE idsite IN (" . implode(',',$deletedSites) . ")";
 
         $rows = Db::getReader()->fetchAll($sql, array());
 

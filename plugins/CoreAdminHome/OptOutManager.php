@@ -198,7 +198,7 @@ class OptOutManager
                                          string $fontSize, string $fontFamily, bool $applyStyling, bool $showIntro): string
     {
         return '<div id="matomo-opt-out"></div>
-<script src="'.rtrim($matomoUrl, '/').'/index.php?module=CoreAdminHome&action=optOutJS&divId=matomo-opt-out&language='.$language.($applyStyling ? '&backgroundColor='.$backgroundColor.'&fontColor='.$fontColor.'&fontSize='.$fontSize.'&fontFamily='.$fontFamily : '').'&showIntro='.($showIntro ? '1' : '0').'"></script>';
+<script src="' . rtrim($matomoUrl, '/') . '/index.php?module=CoreAdminHome&action=optOutJS&divId=matomo-opt-out&language=' . $language . ($applyStyling ? '&backgroundColor=' . $backgroundColor . '&fontColor=' . $fontColor . '&fontSize=' . $fontSize . '&fontFamily=' . $fontFamily : '') . '&showIntro=' . ($showIntro ? '1' : '0') . '"></script>';
     }
 
     /**
@@ -231,7 +231,7 @@ class OptOutManager
 
         // Self contained code translations are static and always use the language of the user who generated the embed code
         $settings = array_merge($settings, $this->getTranslations());
-        $settingsString = 'var settings = '.json_encode($settings).';';
+        $settingsString = 'var settings = ' . json_encode($settings) . ';';
 
         $styleSheet = $this->optOutStyling($fontSize, $fontColor, $fontFamily, $backgroundColor, true);
 
@@ -248,7 +248,7 @@ class OptOutManager
 </script>
 HTML;
         return str_replace('window.MatomoConsent = {  };', $this->getOptOutCommonJS(),
-               str_replace('style=""', ($applyStyling ? 'style="'.$styleSheet.'"' : ''),
+               str_replace('style=""', ($applyStyling ? 'style="' . $styleSheet . '"' : ''),
                str_replace("var settings = {};", $settingsString, $code)));
     }
 
@@ -303,7 +303,7 @@ HTML;
         $translations = $this->getTranslations($language);
         $translations['OptOutErrorNoTracker'] = Piwik::translate('CoreAdminHome_OptOutErrorNoTracker', [], $language);
         $settings = array_merge($settings, $translations);
-        $settingsString = 'var settings = '.json_encode($settings).';';
+        $settingsString = 'var settings = ' . json_encode($settings) . ';';
 
         $styleSheet = $this->optOutStyling(null, null, null, null, true);
 

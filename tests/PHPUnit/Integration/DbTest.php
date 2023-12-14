@@ -38,7 +38,7 @@ class DbTest extends IntegrationTestCase
     // this test is for PDO which will fail if execute() is called w/ a null param value
     public function test_insertWithNull()
     {
-        $GLOBALS['abc']=1;
+        $GLOBALS['abc'] = 1;
         $table = Common::prefixTable('testtable');
         Db::exec("CREATE TABLE `$table` (
                       testid BIGINT NOT NULL AUTO_INCREMENT,

@@ -133,7 +133,7 @@ class UpdateCommunicationTest extends IntegrationTestCase
 
 <p>
 CoreUpdater_NotificationClickToUpdatePlugins<br/>
-<a href=\"".twig_escape_filter($twig->getTwigEnvironment(), $rootUrl, 'html_attr')."index.php?module=CorePluginsAdmin&action=plugins\">{$rootUrl}index.php?module=CorePluginsAdmin&action=plugins</a>
+<a href=\"" . twig_escape_filter($twig->getTwigEnvironment(), $rootUrl, 'html_attr') . "index.php?module=CorePluginsAdmin&action=plugins\">{$rootUrl}index.php?module=CorePluginsAdmin&action=plugins</a>
 </p>
 
 <p>

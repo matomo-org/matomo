@@ -1611,7 +1611,7 @@ class API extends \Piwik\Plugin\API
          */
         Piwik::postEvent('UsersManager.inviteUser.generateInviteLinkToken', [$userLogin, $user['email']]);
 
-        return SettingsPiwik::getPiwikUrl().'index.php?'.Url::getQueryStringFromParameters([
+        return SettingsPiwik::getPiwikUrl() . 'index.php?' . Url::getQueryStringFromParameters([
                 'module' => Piwik::getLoginPluginName(),
                 'action' => 'acceptInvitation',
                 'token'  => $token,

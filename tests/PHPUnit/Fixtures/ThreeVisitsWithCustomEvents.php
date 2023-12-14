@@ -200,7 +200,7 @@ class ThreeVisitsWithCustomEvents extends Fixture
         $append .= " ---> SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED <---         ";
         $this->moveTimeForward($vis, 280);
         $this->setMovieEventCustomVar($vis);
-        self::checkResponse($vis->doTrackEvent('event category ' . $append, 'event action '.$append, 'event name '.$append, 9.66));
+        self::checkResponse($vis->doTrackEvent('event category ' . $append, 'event action ' . $append, 'event name ' . $append, 9.66));
 
         $this->moveTimeForward($vis, 352);
         self::checkResponse($vis->doTrackEvent('Movie', 'Search'));

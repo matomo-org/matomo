@@ -40,7 +40,7 @@ class TrackGoalsOneConversionPerVisitTest extends SystemTestCase
                 'periods'      => array('day'))),
             array($apiToCall, array(
                 'otherRequestParameters' => array(
-                    'showAllGoalSpecificMetrics' =>1
+                    'showAllGoalSpecificMetrics' => 1
                 ),
                 'testSuffix' => 'showAllGoalSpecificMetrics',
                 'idSite'       => self::$fixture->idSite,
@@ -48,7 +48,7 @@ class TrackGoalsOneConversionPerVisitTest extends SystemTestCase
                 'periods'      => array('day'))),
             array($apiToCall, array(
                 'otherRequestParameters' => array(
-                    'showAllGoalSpecificMetrics' =>1,
+                    'showAllGoalSpecificMetrics' => 1,
                     'columns' => 'goal_1_conversion_rate'
                 ),
                 'testSuffix' => 'showAllGoalSpecificMetrics_requestedColumns',

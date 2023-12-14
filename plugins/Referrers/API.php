@@ -89,7 +89,7 @@ class API extends \Piwik\Plugin\API
      */
     protected function getDataTable($name, $idSite, $period, $date, $segment, $expanded = false, $idSubtable = null)
     {
-        $dataTable = Archive::createDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded, $flat=false, $idSubtable);
+        $dataTable = Archive::createDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded, $flat = false, $idSubtable);
         return $dataTable;
     }
 
@@ -296,7 +296,7 @@ class API extends \Piwik\Plugin\API
 
         $dataTable->filter('Piwik\Plugins\Referrers\DataTable\Filter\SearchEnginesFromKeywordId', array($keywords, $idSubtable));
         $dataTable->filter('AddSegmentByLabel', array('referrerName'));
-        $dataTable->queueFilter('PrependSegment', array('referrerKeyword=='.$keyword.';referrerType==search;'));
+        $dataTable->queueFilter('PrependSegment', array('referrerKeyword==' . $keyword . ';referrerType==search;'));
 
         return $dataTable;
     }
@@ -363,7 +363,7 @@ class API extends \Piwik\Plugin\API
 
         $dataTable = $this->getDataTable(Archiver::CAMPAIGNS_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
         $dataTable->filter('AddSegmentByLabel', array('referrerKeyword'));
-        $dataTable->queueFilter('PrependSegment', array('referrerName=='.$campaign.';referrerType==campaign;'));
+        $dataTable->queueFilter('PrependSegment', array('referrerName==' . $campaign . ';referrerType==campaign;'));
         return $dataTable;
     }
 

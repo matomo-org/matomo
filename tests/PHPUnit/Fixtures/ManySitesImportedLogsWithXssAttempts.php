@@ -171,7 +171,7 @@ class ManySitesImportedLogsWithXssAttempts extends ManySitesImportedLogs
 
             $dateTime = $baseDay->addDay($index);
 
-            $t = self::getTracker($this->idSite, $dateTime, $defaultInit= true);
+            $t = self::getTracker($this->idSite, $dateTime, $defaultInit = true);
             $t->setUrl('http://example.org/' . urlencode($urlXss));
             $t->setUrlReferrer($referrerUrlXss);
             $t->setCustomDimension('1', $xssTesting->$type('customdimension'));

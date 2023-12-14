@@ -336,9 +336,9 @@ class Controller extends \Piwik\Plugin\Controller
         $title = $this->settings->twoFactorAuthTitle->getValue();
         $descr = Piwik::getCurrentUserLogin();
 
-        $url = 'otpauth://totp/'.urlencode($descr).'?secret='.$secret;
+        $url = 'otpauth://totp/' . urlencode($descr) . '?secret=' . $secret;
         if(isset($title)) {
-            $url .= '&issuer='.urlencode($title);
+            $url .= '&issuer=' . urlencode($title);
         }
 
         return $url;

@@ -472,7 +472,7 @@ class GeoIP2AutoUpdater extends Task
         $host = $parsedUrl['host'] ?? '';
 
         if (empty($schema) || empty($host) || !in_array(mb_strtolower($schema), ['http', 'https'])) {
-            throw new Exception(Piwik::translate('GeoIp2_MalFormedUpdateUrl', '<i>'.Common::sanitizeInputValue($url).'</i>'));
+            throw new Exception(Piwik::translate('GeoIp2_MalFormedUpdateUrl', '<i>' . Common::sanitizeInputValue($url) . '</i>'));
         }
 
         $validHosts = Config::getInstance()->General['geolocation_download_from_trusted_hosts'];
@@ -487,7 +487,7 @@ class GeoIP2AutoUpdater extends Task
 
         if (true !== $isValidHost) {
             throw new Exception(Piwik::translate('GeoIp2_InvalidGeoIPUpdateHost', [
-                '<i>'.$url.'</i>', '<i>'.implode(', ', $validHosts).'</i>', '<i>geolocation_download_from_trusted_hosts</i>'
+                '<i>' . $url . '</i>', '<i>' . implode(', ', $validHosts) . '</i>', '<i>geolocation_download_from_trusted_hosts</i>'
             ]));
         }
     }

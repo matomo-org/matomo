@@ -118,8 +118,8 @@ class Model
             $params[] = $change['link'];
         }
 
-        $insertSql = 'INSERT IGNORE INTO ' . $table . ' ('.implode(',', $fields).') 
-                      VALUES ('.Common::getSqlStringFieldsArray($params).')';
+        $insertSql = 'INSERT IGNORE INTO ' . $table . ' (' . implode(',', $fields) . ') 
+                      VALUES (' . Common::getSqlStringFieldsArray($params) . ')';
 
         try {
             $this->db->query($insertSql, $params);

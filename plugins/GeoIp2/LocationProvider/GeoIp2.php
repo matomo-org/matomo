@@ -141,7 +141,7 @@ abstract class GeoIp2 extends LocationProvider
     {
         foreach (self::$dbNames as $key => $names) {
             foreach ($names as $name) {
-                if ($name === $filename || preg_match('/'.$name.'/', $filename)) {
+                if ($name === $filename || preg_match('/' . $name . '/', $filename)) {
                     return $key;
                 }
             }

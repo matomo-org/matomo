@@ -104,7 +104,7 @@ class Segment
     const SEGMENT_TRUNCATE_LIMIT = 8192;
 
     const CACHE_KEY = 'segmenthashes';
-    const SEGMENT_HAS_BUILT_CACHE_KEY ='segmenthashbuilt';
+    const SEGMENT_HAS_BUILT_CACHE_KEY = 'segmenthashbuilt';
 
     /**
      * Constructor.
@@ -193,7 +193,7 @@ class Segment
         $cache = PiwikCache::getTransientCache();
 
         //covert cache id
-        $cacheId = 'API.getSegmentsMetadata.'.SettingsPiwik::getPiwikInstanceId() . '.' . implode(",", $this->idSites);
+        $cacheId = 'API.getSegmentsMetadata.' . SettingsPiwik::getPiwikInstanceId() . '.' . implode(",", $this->idSites);
 
         //fetch cache lockId
         $availableSegments = $cache->fetch($cacheId);
@@ -433,7 +433,7 @@ class Segment
             ];
 
             if ($dbDiscriminator) {
-                $joinTable['discriminator'] = $tableAlias . '.'. $dbDiscriminator->getColumn() . ' = \''.  $dbDiscriminator->getValue() . '\'';
+                $joinTable['discriminator'] = $tableAlias . '.' . $dbDiscriminator->getColumn() . ' = \'' .  $dbDiscriminator->getValue() . '\'';
             }
         }
 

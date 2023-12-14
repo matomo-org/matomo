@@ -54,7 +54,7 @@ class ProcessDependentArchiveTest extends SystemTestCase
 
     private function assertNumRangeArchives($expectedArchives,$period = 5)
     {
-        $archives = Db::fetchAll('SELECT `name` from ' . Common::prefixTable($this->archiveTable) . ' WHERE period = '.$period.' and `name` like "done%"');
+        $archives = Db::fetchAll('SELECT `name` from ' . Common::prefixTable($this->archiveTable) . ' WHERE period = ' . $period . ' and `name` like "done%"');
         $numArchives = count($archives);
         $message = sprintf('Expected archives: %s, got: %s. These were the archives %s', $expectedArchives, $numArchives, json_encode($archives));
         $this->assertEquals($expectedArchives, $numArchives, $message);

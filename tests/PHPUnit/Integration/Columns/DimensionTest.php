@@ -403,7 +403,7 @@ class ColumnDimensionTest extends IntegrationTestCase
             }
 
             if (!in_array(get_class($dimension), self::$availableColumnDimensions)) {
-                $this->fail("New dimension found: ".get_class($dimension)."\nPlease update list of available column dimensions");
+                $this->fail("New dimension found: " . get_class($dimension) . "\nPlease update list of available column dimensions");
             }
         }
     }

@@ -59,17 +59,17 @@ class ChunksTest extends IntegrationTestCase
         $archiveRows = $this->getAllRowsFromArchiveBlobTable('name');
         $expectedArchiveNames = array(
             $recordName,
-            $recordName. '_chunk_0_99',
-            $recordName. '_chunk_1000_1099',
-            $recordName. '_chunk_100_199',
-            $recordName. '_chunk_200_299',
-            $recordName. '_chunk_300_399',
-            $recordName. '_chunk_400_499',
-            $recordName. '_chunk_500_599',
-            $recordName. '_chunk_600_699',
-            $recordName. '_chunk_700_799',
-            $recordName. '_chunk_800_899',
-            $recordName. '_chunk_900_999',
+            $recordName . '_chunk_0_99',
+            $recordName . '_chunk_1000_1099',
+            $recordName . '_chunk_100_199',
+            $recordName . '_chunk_200_299',
+            $recordName . '_chunk_300_399',
+            $recordName . '_chunk_400_499',
+            $recordName . '_chunk_500_599',
+            $recordName . '_chunk_600_699',
+            $recordName . '_chunk_700_799',
+            $recordName . '_chunk_800_899',
+            $recordName . '_chunk_900_999',
         );
 
         $this->assertEquals($expectedArchiveNames, array_column($archiveRows, 'name'));

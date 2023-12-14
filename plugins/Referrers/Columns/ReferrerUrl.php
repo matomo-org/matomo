@@ -26,7 +26,7 @@ class ReferrerUrl extends Base
 
     public function __construct()
     {
-        $this->columnType = 'VARCHAR('.self::MAX_LEN.') NULL';
+        $this->columnType = 'VARCHAR(' . self::MAX_LEN . ') NULL';
     }
 
     /**

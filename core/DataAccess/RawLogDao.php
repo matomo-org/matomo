@@ -278,7 +278,7 @@ class RawLogDao
 
                 $bind = array_merge($bind, $value);
             } else {
-                $parts[]= "$column $operator ?";
+                $parts[] = "$column $operator ?";
 
                 $bind[] = $value;
             }
@@ -375,7 +375,7 @@ class RawLogDao
                 foreach ($result as $row) {
                      $keepValues = array_merge($keepValues, array_filter(array_values($row), "is_numeric"));
                     if (count($keepValues) >= 1000) {
-                        $insert = 'INSERT IGNORE INTO ' . $tempTableName .' VALUES (';
+                        $insert = 'INSERT IGNORE INTO ' . $tempTableName . ' VALUES (';
                         $insert .= implode('),(', $keepValues);
                         $insert .= ')';
 
@@ -384,7 +384,7 @@ class RawLogDao
                     }
                 }
 
-                $insert = 'INSERT IGNORE INTO ' . $tempTableName .' VALUES (';
+                $insert = 'INSERT IGNORE INTO ' . $tempTableName . ' VALUES (';
                 $insert .= implode('),(', $keepValues);
                 $insert .= ')';
 

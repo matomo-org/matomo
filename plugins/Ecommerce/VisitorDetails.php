@@ -59,11 +59,11 @@ class VisitorDetails extends VisitorDetailsAbstract
 
         $categories = [];
         for($i = 1; $i <= ProductCategory::PRODUCT_CATEGORY_COUNT; $i++) {
-            if (!empty($action['productViewCategory'.$i])) {
-                $categories[] = $action['productViewCategory'.$i];
+            if (!empty($action['productViewCategory' . $i])) {
+                $categories[] = $action['productViewCategory' . $i];
             }
 
-            unset($action['productViewCategory'.$i]);
+            unset($action['productViewCategory' . $i]);
         }
         if (!empty($categories)) {
             $action['productViewCategories'] = $categories;

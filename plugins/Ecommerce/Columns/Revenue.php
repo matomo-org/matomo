@@ -92,7 +92,7 @@ class Revenue extends BaseConversion
         $sql = " SELECT idvisit from {$table} WHERE (idgoal = {$idGoal} and revenue {$matchType} ?) ";
         return [
           'SQL'  => $sql,
-          'bind' =>(float)$valueToMatch,
+          'bind' => (float)$valueToMatch,
         ];
     }
 

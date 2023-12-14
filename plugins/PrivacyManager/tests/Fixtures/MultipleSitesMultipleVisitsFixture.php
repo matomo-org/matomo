@@ -492,7 +492,7 @@ class MultipleSitesMultipleVisitsFixture extends Fixture
             $this->tracker->setUrl('http://www.helloworld.com/hello/world' . $userId . '/' . $j);
 
             $numPerformanceTimes = count(self::$performanceTimes);
-            call_user_func_array([$this->tracker, 'setPerformanceTimings'], self::$performanceTimes[($userId+$j) % $numPerformanceTimes]);
+            call_user_func_array([$this->tracker, 'setPerformanceTimings'], self::$performanceTimes[($userId + $j) % $numPerformanceTimes]);
 
             $this->tracker->doTrackPageView('Hello World ' . $j);
         }

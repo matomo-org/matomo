@@ -51,7 +51,7 @@ class ModelTest extends IntegrationTestCase
     public function test_getStandAndEndDate_usesNowWhenEndDateOutOfRange()
     {
         $model = new Model();
-        list($dateStart, $dateEnd) = $model->getStartAndEndDate($idSite = 1, 'year', date('Y').'-01-01');
+        list($dateStart, $dateEnd) = $model->getStartAndEndDate($idSite = 1, 'year', date('Y') . '-01-01');
 
         $validDates = $this->getValidNowDates();
 

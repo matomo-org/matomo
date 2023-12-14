@@ -68,7 +68,7 @@ class CalculateConversionPages extends ConsoleCommand
 
         $output->writeln(sprintf(
             "<info>Preparing to calculate the pages before metric for %s conversions belonging to %s %sfor %s.</info>",
-            $lastN ? "the last ".$lastN : 'all',
+            $lastN ? "the last " . $lastN : 'all',
             $idSite ? "website $idSite" : "ALL websites",
                     !empty($dates) ? "between " . $from . " and " . $to . " " : '',
                     $idGoal ? "goal id $idGoal" : "ALL goals"
@@ -267,7 +267,7 @@ class CalculateConversionPages extends ConsoleCommand
             }
 
             if ($where !== '') {
-                $sql .= ' WHERE '.ltrim($where, 'AND ');
+                $sql .= ' WHERE ' . ltrim($where, 'AND ');
             }
 
             $sql .= " ORDER BY c.server_time DESC LIMIT " . $lastN . ") AS s";
@@ -294,7 +294,7 @@ class CalculateConversionPages extends ConsoleCommand
 
             if ($idGoal === null) {
                 // All goals
-                $gids = Db::fetchAll("SELECT idgoal FROM " . Common::prefixTable('goal'). "
+                $gids = Db::fetchAll("SELECT idgoal FROM " . Common::prefixTable('goal') . "
                                         WHERE idsite = ? AND deleted = 0", [$site]);
                 $goals = array_column($gids, 'idgoal');
 

@@ -278,9 +278,9 @@ class Common
         }
 
         $result = "\0";
-        $stringA^= $stringB;
+        $stringA ^= $stringB;
         for ($i = 0; $i < strlen($stringA); $i++) {
-            $result|= $stringA[$i];
+            $result |= $stringA[$i];
         }
 
         return $result === "\0";

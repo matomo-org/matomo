@@ -242,7 +242,7 @@ class ComputeJsAssetSize extends ConsoleCommand
         $data = ProxyHttp::gzencode($data);
 
         if (false === $data) {
-            throw new \Exception('compressing file '.$path.' failed');
+            throw new \Exception('compressing file ' . $path . ' failed');
         }
 
         $compressedPath = dirname($path) . '/' . basename($path) . '.gz';

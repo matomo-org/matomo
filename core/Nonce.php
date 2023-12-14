@@ -203,7 +203,7 @@ class Nonce
                 'https://' . $host,
             );
             if ($port != 443) {
-                $origins[] = 'http://' . $host .':' . $port;
+                $origins[] = 'http://' . $host . ':' . $port;
             }
             $origins[] = 'https://' . $host . ':' . $port;
         } elseif (Config::getInstance()->General['force_ssl']) {

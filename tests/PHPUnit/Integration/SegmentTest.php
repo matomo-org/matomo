@@ -477,7 +477,7 @@ class SegmentTest extends IntegrationTestCase
         $this->assertQueryDoesNotFail($query);
 
         $expected = [
-            'sql'=> '
+            'sql' => '
                 SELECT
                     *
                 FROM ' . Common::prefixTable('log_conversion') . ' AS log_conversion
@@ -2065,7 +2065,7 @@ log_visit.visit_total_actions
          * pageUrl!@not-found                        -- matches all
          * pageUrl!@found                            -- Matches none
          */
-        $segment = 'visitServerHour==12,pageUrl==xyz;pageUrl!=abcdefg,pageUrl=@does-not-exist,pageUrl=@found-in-db,pageUrl=='.urlencode($pageUrlFoundInDb).',pageUrl!@not-found,pageUrl!@found';
+        $segment = 'visitServerHour==12,pageUrl==xyz;pageUrl!=abcdefg,pageUrl=@does-not-exist,pageUrl=@found-in-db,pageUrl==' . urlencode($pageUrlFoundInDb) . ',pageUrl!@not-found,pageUrl!@found';
         $segment = new Segment($segment, $idSites = array(), Date::factory('2020-02-02 02:00:00'));
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
@@ -2575,7 +2575,7 @@ SQL;
             // urlencoding test
             [urlencode('browserCode==ff;visitCount>1'), ';', 'visitCount>1', urlencode('browserCode==ff;visitCount>1')],
             ['browserCode==ff;visitCount>1', ';', urlencode('visitCount>1'), 'browserCode==ff;visitCount>1'],
-            ['browserCode==ff;'.urlencode('visitCount>1'), ';', 'visitCount>1', 'browserCode==ff;'.urlencode('visitCount>1')],
+            ['browserCode==ff;' . urlencode('visitCount>1'), ';', 'visitCount>1', 'browserCode==ff;' . urlencode('visitCount>1')],
         ];
     }
 

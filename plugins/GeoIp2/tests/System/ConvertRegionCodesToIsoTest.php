@@ -48,7 +48,7 @@ class ConvertRegionCodesToIsoTest extends IntegrationTestCase
         $t->setVisitorId('fed33392d3a48ab2');
         $t->setForceVisitDateTime('2017-05-10 12:36:00');
         $t->setTokenAuth(Fixture::getTokenAuth());
-        $t->setIp(rand(1, 256).'.'.rand(1, 256).'.'.rand(1, 256).'.'.rand(1, 256));
+        $t->setIp(rand(1, 256) . '.' . rand(1, 256) . '.' . rand(1, 256) . '.' . rand(1, 256));
         $t->setUserId('userid.email@example.org');
         $t->setCountry($country);
         $t->setRegion($region);
@@ -68,7 +68,7 @@ class ConvertRegionCodesToIsoTest extends IntegrationTestCase
         $t->setVisitorId('fed33392d3a48ab2');
         $t->setForceVisitDateTime('2017-05-15 12:36:00');
         $t->setTokenAuth(Fixture::getTokenAuth());
-        $t->setIp(rand(1, 256).'.'.rand(1, 256).'.'.rand(1, 256).'.'.rand(1, 256));
+        $t->setIp(rand(1, 256) . '.' . rand(1, 256) . '.' . rand(1, 256) . '.' . rand(1, 256));
         $t->setUserId('userid.email@example.org');
         $t->setCountry($country);
         $t->setRegion($region);

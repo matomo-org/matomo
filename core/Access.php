@@ -616,7 +616,7 @@ class Access
 
         foreach ($idSites as $idsite) {
             if (!in_array($idsite, $idSitesAccessible)) {
-                $this->throwNoAccessException(Piwik::translate('General_ExceptionCapabilityAccessWebsite', array("'" . $capability ."'", $idsite)));
+                $this->throwNoAccessException(Piwik::translate('General_ExceptionCapabilityAccessWebsite', array("'" . $capability . "'", $idsite)));
             }
         }
 

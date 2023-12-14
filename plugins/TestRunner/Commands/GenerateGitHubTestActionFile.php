@@ -87,7 +87,7 @@ class GenerateGitHubTestActionFile extends ConsoleCommand
 
         // remove patch version
         if (substr_count($minimalPHPVersion, '.') > 1) {
-            $minimalPHPVersion = substr($minimalPHPVersion, 0, strpos($minimalPHPVersion, '.', strpos($minimalPHPVersion, '.')+1));
+            $minimalPHPVersion = substr($minimalPHPVersion, 0, strpos($minimalPHPVersion, '.', strpos($minimalPHPVersion, '.') + 1));
         }
 
         if (empty($this->phpVersions)) {

@@ -50,7 +50,7 @@ class UnexpectedFiles extends ConsoleCommand
         // Prevent running if there is no release manifest file
         $manifest = PIWIK_INCLUDE_PATH . '/config/manifest.inc.php';
         if (!file_exists($manifest)) {
-            $output->writeln("Release manifest file '".$manifest."' not found.");
+            $output->writeln("Release manifest file '" . $manifest . "' not found.");
             $output->writeln("Aborting - this command can only be used when a release manifest file is present.");
             return 1;
         }
@@ -108,9 +108,9 @@ class UnexpectedFiles extends ConsoleCommand
 
             if ($delete) {
                 if (Filesystem::deleteFileIfExists($fileName)) {
-                    $output->writeln("Deleted unexpected file '".$fileName);
+                    $output->writeln("Deleted unexpected file '" . $fileName);
                 } else {
-                    $output->writeln("Failed to delete unexpected file '".$fileName);
+                    $output->writeln("Failed to delete unexpected file '" . $fileName);
                     $fails++;
                 }
             } else {
@@ -118,7 +118,7 @@ class UnexpectedFiles extends ConsoleCommand
             }
         }
         if ($delete && $fails) {
-            $output->writeln("Failed to delete ".$fails." unexpected files");
+            $output->writeln("Failed to delete " . $fails . " unexpected files");
             return 1;
         }
         return 0;

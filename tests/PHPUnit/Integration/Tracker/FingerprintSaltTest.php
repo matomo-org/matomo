@@ -52,7 +52,7 @@ class FingerprintSaltTest extends IntegrationTestCase
     public function test_getDateString_doubleCheckingWeAreGeneratingRightString()
     {
         for ($i = 0; $i <= 23; $i++) {
-            $d  = '2020-05-05 ' . $i.':04:05';
+            $d  = '2020-05-05 ' . $i . ':04:05';
             $date = Date::factory($d);
             // double checking using the logic used in CoreHome::VisitRequestProcesser::wasLastActionNotToday where we detect midnight
             // in timezone just to double check we return the correct date string for the given timezone. Should anything change and test not pass

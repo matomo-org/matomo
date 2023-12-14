@@ -92,12 +92,12 @@ class ManySitesImportedLogs extends Fixture
                                             'autoArchive'     => false,
                                             'enabledAllUsers' => true),
 
-            'segmentPreArchived' => array('definition'=> self::SEGMENT_PRE_ARCHIVED,
+            'segmentPreArchived' => array('definition' => self::SEGMENT_PRE_ARCHIVED,
                                                   'idSite'          => 1,
                                                   'autoArchive'     => true,
                                                   'enabledAllUsers' => true),
 
-            'segmentPreArchivedWithUrlEncoding' => array('definition'=> self::SEGMENT_PRE_ARCHIVED_CONTAINS_ENCODED,
+            'segmentPreArchivedWithUrlEncoding' => array('definition' => self::SEGMENT_PRE_ARCHIVED_CONTAINS_ENCODED,
                                                   'idSite'          => 1,
                                                   'autoArchive'     => true,
                                                   'enabledAllUsers' => true),

@@ -70,7 +70,7 @@ class HtmlReportEmailHeaderView extends View
         $view->themeStyles = $themeStyles;
         $view->emailStyles = $emailStyles;
 
-        $view->fontStyle = 'color:' . $themeStyles->colorText . ';font-family:' . $themeStyles->fontFamilyBase.';';
+        $view->fontStyle = 'color:' . $themeStyles->colorText . ';font-family:' . $themeStyles->fontFamilyBase . ';';
         $view->styleParagraphText = 'font-size:15px;line-height:24px;';
         $view->styleParagraph = $view->styleParagraphText . 'margin:0 0 16px;';
 

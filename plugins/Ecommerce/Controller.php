@@ -169,12 +169,12 @@ class Controller extends \Piwik\Plugins\Goals\Controller
                 }
                 $trend = CalculateEvolutionFilter::calculate($value, $pastValue, $precision = 1);
 
-                $return[$columnName.'_trend'] = ($pastValue - $value > 0 ? -1 : ($pastValue - $value < 0 ? 1 : 0));
-                $return[$columnName.'_trend_percent'] = $trend;
-                $return[$columnName.'_tooltip'] = Piwik::translate('General_EvolutionSummaryGeneric', array(
-                    $currentValueFormatted.' '.Piwik::translate($metricTranslationKey),
+                $return[$columnName . '_trend'] = ($pastValue - $value > 0 ? -1 : ($pastValue - $value < 0 ? 1 : 0));
+                $return[$columnName . '_trend_percent'] = $trend;
+                $return[$columnName . '_tooltip'] = Piwik::translate('General_EvolutionSummaryGeneric', array(
+                    $currentValueFormatted . ' ' . Piwik::translate($metricTranslationKey),
                     $currentPrettyDate,
-                    $pastValueFormatted.' '.Piwik::translate($metricTranslationKey),
+                    $pastValueFormatted . ' ' . Piwik::translate($metricTranslationKey),
                     $lastPrettyDate,
                     $trend));
             }

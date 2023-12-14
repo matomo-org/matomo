@@ -100,7 +100,7 @@ class SetTranslations extends TranslationBase
             unset($filteredData[EmptyTranslations::class]);
 
             if (!empty($filteredData)) {
-                $content = "Filtered File: ".($plugin??'Base')." / ". $languageCode ."\n";
+                $content = "Filtered File: " . ($plugin ?? 'Base') . " / " . $languageCode . "\n";
                 foreach ($filteredData as $filter => $data) {
                     $content .= "- Filtered by: $filter\n";
                     $content .= json_encode($data, JSON_PRETTY_PRINT);

@@ -82,8 +82,8 @@ class PasswordResetEmail extends Mail
             Piwik::translate('Login_MailPasswordChangeBody2',
                 [Common::sanitizeInputValue($this->login),
                  Common::sanitizeInputValue($this->ip),
-                '<p style="word-break: break-all"><a href="'.Common::sanitizeInputValue($this->resetUrl).'">'.
-                Common::sanitizeInputValue($this->resetUrl).'</a></p>'])
+                '<p style="word-break: break-all"><a href="' . Common::sanitizeInputValue($this->resetUrl) . '">' .
+                Common::sanitizeInputValue($this->resetUrl) . '</a></p>'])
         ) . "</p>";
     }
 }

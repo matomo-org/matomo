@@ -22,7 +22,7 @@ class GetKeywords extends Base
         $this->dimension     = new Keyword();
         $this->name          = Piwik::translate('Referrers_Keywords');
         $this->documentation = Piwik::translate('Referrers_KeywordsReportDocumentation', '<br /><br />') .
-                               '<br /><br />'. Piwik::translate('Referrers_KeywordsReportDocumentationNote');
+                               '<br /><br />' . Piwik::translate('Referrers_KeywordsReportDocumentationNote');
         $this->actionToLoadSubTables = 'getSearchEnginesFromKeywordId';
         $this->hasGoalMetrics = true;
         $this->order = 3;

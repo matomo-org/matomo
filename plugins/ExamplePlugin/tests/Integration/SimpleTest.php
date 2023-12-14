@@ -36,7 +36,7 @@ class SimpleTest extends IntegrationTestCase
      */
     public function testSimpleAddition()
     {
-        $this->assertEquals(2, 1+1);
+        $this->assertEquals(2, 1 + 1);
     }
 
 }

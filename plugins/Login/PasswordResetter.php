@@ -480,7 +480,7 @@ class PasswordResetter
         if ($existingResetInfo) {
             $existingResetInfo = json_decode($existingResetInfo, true);
 
-            if (isset($existingResetInfo['timestamp']) && $existingResetInfo['timestamp'] > time()-3600) {
+            if (isset($existingResetInfo['timestamp']) && $existingResetInfo['timestamp'] > time() - 3600) {
                 $time = $existingResetInfo['timestamp'];
                 $count = !empty($existingResetInfo['requests']) ? $existingResetInfo['requests'] : $count;
 
@@ -495,7 +495,7 @@ class PasswordResetter
             'hash' => $this->passwordHelper->hash(UsersManager::getPasswordHash($newPassword)),
             'keySuffix' => $keySuffix,
             'timestamp' => $time,
-            'requests' => $count+1
+            'requests' => $count + 1
         ];
         $optionData = json_encode($optionData);
 

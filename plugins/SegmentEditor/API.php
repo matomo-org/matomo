@@ -105,7 +105,7 @@ class API extends \Piwik\Plugin\API
         if (empty($idSite) && $autoArchive) {
             if (!Piwik::hasUserSuperUserAccess()) {
                 throw new Exception(
-                    "Please contact Support to make these changes on your behalf. ".
+                    "Please contact Support to make these changes on your behalf. " .
                     " To modify a pre-processed segment for all websites, a user must have super user access. "
                 );
             }

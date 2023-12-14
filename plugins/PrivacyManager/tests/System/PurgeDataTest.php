@@ -168,7 +168,7 @@ class PurgeDataTest extends SystemTestCase
         $url = 'method=VisitsSummary.getVisits'
              . '&idSite=' . self::$fixture->idSite
              . '&date=' . self::$fixture->dateTime
-             . '&period='. $period
+             . '&period=' . $period
              . '&format=original';
         $api   = new Request($url);
         $table = $api->process();
@@ -194,7 +194,7 @@ class PurgeDataTest extends SystemTestCase
         return 'method=Actions.getDownloads'
              . '&idSite=' . self::$fixture->idSite
              . '&date=' . self::$fixture->dateTime
-             . '&period='. $period
+             . '&period=' . $period
              . '&format=original';
     }
 

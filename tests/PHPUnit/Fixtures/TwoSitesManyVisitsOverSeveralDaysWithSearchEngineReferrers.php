@@ -85,7 +85,7 @@ class TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers extends Fixture
             $t->setUrlReferrer('http://www.referrer' . ($daysIntoPast % 5) . '.com/theReferrerPage' . ($daysIntoPast % 2) . '.html');
             $t->setUrl('http://example.org/my/dir/page' . ($daysIntoPast % 4) . '?foo=bar&baz=bar');
             $t->setForceVisitDateTime($visitDateTime);
-            $t->setPerformanceTimings(35+$daysIntoPast, 125+$daysIntoPast, 356+$daysIntoPast, 255+$daysIntoPast, 351+$daysIntoPast, 66+$daysIntoPast);
+            $t->setPerformanceTimings(35 + $daysIntoPast, 125 + $daysIntoPast, 356 + $daysIntoPast, 255 + $daysIntoPast, 351 + $daysIntoPast, 66 + $daysIntoPast);
             self::assertTrue($t->doTrackPageView('incredible title ' . ($daysIntoPast % 3)));
 
             // Trigger goal n°1 once
@@ -99,7 +99,7 @@ class TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers extends Fixture
             // VISIT 2: search engine
             $t->setForceVisitDateTime(Date::factory($visitDateTime)->addHour(3)->getDatetime());
             $t->setUrlReferrer('http://google.com/search?q=' . urlencode($this->keywords[$daysIntoPast % 3]));
-            $t->setPerformanceTimings(28+$daysIntoPast, 215+$daysIntoPast, 288+$daysIntoPast, 155+$daysIntoPast, 236+$daysIntoPast, 50+$daysIntoPast);
+            $t->setPerformanceTimings(28 + $daysIntoPast, 215 + $daysIntoPast, 288 + $daysIntoPast, 155 + $daysIntoPast, 236 + $daysIntoPast, 50 + $daysIntoPast);
             self::assertTrue($t->doTrackPageView('not an incredible title '));
 
             // VISIT 1 for idSite = 2
@@ -109,7 +109,7 @@ class TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers extends Fixture
 
             $t->setForceVisitDateTime($visitDateTime);
             $t->setUrl('http://example.org/');
-            $t->setPerformanceTimings(0, 157+$daysIntoPast, 215+$daysIntoPast, 322+$daysIntoPast, 199+$daysIntoPast, 99+$daysIntoPast);
+            $t->setPerformanceTimings(0, 157 + $daysIntoPast, 215 + $daysIntoPast, 322 + $daysIntoPast, 199 + $daysIntoPast, 99 + $daysIntoPast);
             self::assertTrue($t->doTrackPageView('so-so page title'));
         }
         self::checkBulkTrackingResponse($t->doBulkTrack());
