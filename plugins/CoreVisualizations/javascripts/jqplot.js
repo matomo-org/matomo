@@ -1632,10 +1632,17 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
                 if (this.renderer.smooth) {
                     gd = this.gridData;
                 }
-                for (i=0; i<gd.length; i++) {
-                    if (gd[i][0] != null && gd[i][1] != null) {
-                        this.markerRenderer.draw(gd[i][0], gd[i][1], ctx, opts.markerOptions);
+                for (i = 0; i < gd.length; i++) {
+                    if (gd[i][0] === null || gd[i][1] === null) {
+                        continue;
                     }
+
+                    const markerOptions = opts.markerOptions || {};
+
+                    markerOptions.isIncomplete = opts.incompleteDataPoints.includes(i);
+                    markerOptions.incompleteFillColor = plot.grid.background;
+
+                    this.markerRenderer.draw(gd[i][0], gd[i][1], ctx, markerOptions);
                 }
             }
         }
@@ -1670,15 +1677,28 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
 
         if (isarc) {
             ctx.arc(points[0], points[1], points[2], points[3], points[4], true);
+
             if (closePath) {
                 ctx.closePath();
             }
+
             if (fill) {
                 ctx.fill();
             }
             else {
                 ctx.stroke();
             }
+
+            if (opts.isIncomplete && opts.incompleteFillColor) {
+                // graph lines reach into the point
+                // render inner point filled with background color to avoid showing them
+                ctx.beginPath();
+                ctx.arc(points[0], points[1], points[2] / 8, points[3], points[4], true);
+                ctx.strokeStyle = opts.incompleteFillColor;
+                ctx.stroke();
+                ctx.closePath();
+            }
+
             ctx.restore();
             return;
         }
