@@ -77,7 +77,7 @@
             JqplotGraphDataTablePrototype._bindEvents.call(this);
 
             const self = this;
-            const RangePeriod = window.CoreHome.Range;
+            const hasIncompleteDataPoints = !!this.jqplotParams['incompleteDataPoints'];
 
             let tickCount = 0;
 
@@ -97,16 +97,6 @@
             }
 
             const lastTick = tickCount - 1;
-
-            let graphDateRangeEnd = null;
-
-            if (this.param.dateUsedInGraph) {
-                const graphDateRangeParts = this.param.dateUsedInGraph.split(',');
-
-                if (2 === graphDateRangeParts.length) {
-                    graphDateRangeEnd = graphDateRangeParts[1];
-                }
-            }
 
             $('#' + this.targetDivId)
                 .on('jqplotMouseLeave', function (e, s, i, d) {
@@ -133,18 +123,6 @@
                 })
                 .on('jqplotPiwikTickOver', function (e, tick) {
                     const dataByAxis = {};
-
-                    let isTickIncomplete = false;
-
-                    if (tick === lastTick && graphDateRangeEnd) {
-                          const hoverDateRange = RangePeriod.getLastNRangeChild(
-                              self.param.period,
-                              graphDateRangeEnd,
-                              lastTick - tick
-                          );
-
-                          isTickIncomplete = hoverDateRange.containsToday();
-                    }
 
                     for (let d = 0; d < self.data.length; ++d) {
                         const valueUnformatted = self.data[d][tick];
@@ -207,7 +185,7 @@
                         `;
                     }
 
-                    if (isTickIncomplete) {
+                    if (tick === lastTick && hasIncompleteDataPoints) {
                         content += `<br />(${self._lang.incompletePeriod})`;
                     }
 
