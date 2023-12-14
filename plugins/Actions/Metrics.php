@@ -18,7 +18,6 @@ use Piwik\Tracker\Action;
  */
 class Metrics
 {
-
     public static $actionTypes = array(
         Action::TYPE_PAGE_URL,
         Action::TYPE_OUTLINK,

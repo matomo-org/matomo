@@ -17,7 +17,6 @@ use Piwik\Settings\Storage\Backend\NullBackend;
  */
 class NullTest extends \PHPUnit\Framework\TestCase
 {
-
     /**
      * @var Null
      */

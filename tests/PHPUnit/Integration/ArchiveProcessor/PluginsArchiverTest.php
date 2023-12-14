@@ -20,7 +20,6 @@ use Piwik\Tracker\Db\DbException;
 
 class CustomArchiver extends Archiver
 {
-
     public function aggregateDayReport()
     {
         throw new DbException('Failed query foo bar', 42);
@@ -51,7 +50,6 @@ class CustomPluginsArchiver extends PluginsArchiver
  */
 class PluginsArchiverTest extends IntegrationTestCase
 {
-
     /**
      * @var PluginsArchiver
      */

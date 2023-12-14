@@ -17,7 +17,6 @@ use Piwik\DataTable\Row;
  */
 class TruncateTest extends \PHPUnit\Framework\TestCase
 {
-
     public function testUnrelatedDataTableNotFiltered()
     {
         // remark: this unit test would become invalid and would need to be rewritten if

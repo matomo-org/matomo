@@ -16,7 +16,6 @@ use Piwik\Tests\Framework\Mock\Tracker;
 use Exception;
 
 class TestResponse extends Response {
-
     protected function logExceptionToErrorLog($e)
     {
         // prevent console from outputting the error_log message

@@ -24,7 +24,6 @@ use Piwik\Plugins\SitesManager\API as APISitesManager;
  */
 class SegmentUnavailableTest extends IntegrationTestCase
 {
-
     protected $idSite = 1;
 
     public function setUp(): void

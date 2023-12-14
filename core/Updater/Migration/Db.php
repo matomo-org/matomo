@@ -16,7 +16,6 @@ use Piwik\Updater\Migration;
  */
 abstract class Db extends Migration
 {
-
     /**
      * Table '%s' already exists
      */

@@ -19,7 +19,6 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class CacheTest extends IntegrationTestCase
 {
-
     /**
      * @var FakeBackend
      */

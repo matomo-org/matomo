@@ -22,7 +22,6 @@ use Piwik\Plugins\PagePerformance\Columns\TimeTransfer;
 
 class PerformanceTotals extends RecordBuilder
 {
-
     public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
     {
         return [

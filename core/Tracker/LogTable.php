@@ -13,7 +13,6 @@ namespace Piwik\Tracker;
  * log table.
  */
 abstract class LogTable {
-
     /**
      * Get the unprefixed database table name. For example 'log_visit' or 'log_action'.
      * @return string

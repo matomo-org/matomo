@@ -12,7 +12,6 @@ use Piwik\Common;
 
 class DataFinder
 {
-
     public function hasTrackedData()
     {
         $sql = sprintf('SELECT idsite FROM %s LIMIT 1', Common::prefixTable('log_visit'));

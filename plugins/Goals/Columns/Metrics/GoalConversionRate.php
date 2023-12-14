@@ -23,7 +23,6 @@ use Piwik\Tracker\GoalManager;
  */
 class GoalConversionRate extends GoalSpecificProcessedMetric
 {
-
     public function getName()
     {
         return Goals::makeGoalColumn($this->idGoal, 'conversion_rate');

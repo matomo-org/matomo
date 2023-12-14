@@ -13,7 +13,6 @@ namespace Piwik\Settings\Storage\Backend;
  */
 interface BackendInterface
 {
-
     /**
      * Get an id that identifies the current storage. Eg `Plugin_$pluginName_Settings` could be a storage id
      * for plugin settings. It's kind of like a cache key and the value will be actually used for this by a cache

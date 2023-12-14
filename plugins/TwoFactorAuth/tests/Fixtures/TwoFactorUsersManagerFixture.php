@@ -10,5 +10,4 @@ namespace Piwik\Plugins\TwoFactorAuth\tests\Fixtures;
 // exists so the DB gets reset when executing the ui test
 class TwoFactorUsersManagerFixture extends TwoFactorFixture
 {
-
 }

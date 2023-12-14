@@ -9,5 +9,4 @@
 namespace Piwik\Http;
 
 interface HttpCodeException extends \Throwable{
-
 }

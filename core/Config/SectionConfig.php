@@ -12,7 +12,6 @@ use Piwik\Config;
 
 abstract class SectionConfig
 {
-
     public abstract static function getSectionName(): string;
 
     /**

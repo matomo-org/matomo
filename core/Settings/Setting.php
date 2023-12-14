@@ -21,7 +21,6 @@ use Piwik\Validators\BaseValidator;
  */
 class Setting
 {
-
     /**
      * The name of the setting
      * @var string

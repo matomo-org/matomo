@@ -18,7 +18,6 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class MeasurableSettingsTableTest extends IntegrationTestCase
 {
-
     /**
      * @var MeasurableSettingsTable
      */

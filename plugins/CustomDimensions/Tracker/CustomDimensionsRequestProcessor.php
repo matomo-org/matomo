@@ -24,7 +24,6 @@ use Piwik\Tracker\Visit\VisitProperties;
  */
 class CustomDimensionsRequestProcessor extends RequestProcessor
 {
-
     public function recordLogs(VisitProperties $visitProperties, Request $request)
     {
         if (!self::hasActionCustomDimensionConfiguredInSite($request)) {

@@ -19,7 +19,6 @@ use Piwik\DataTable\Row;
  */
 class SortTest extends \PHPUnit\Framework\TestCase
 {
-
     public function testNormalSortDescending()
     {
         $table = new DataTable();

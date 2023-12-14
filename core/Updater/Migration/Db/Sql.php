@@ -19,7 +19,6 @@ use Piwik\Updater\Migration\Db as DbMigration;
  */
 class Sql extends DbMigration
 {
-
     /**
      * @var string
      */

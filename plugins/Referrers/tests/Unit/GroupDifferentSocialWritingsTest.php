@@ -20,7 +20,6 @@ use Piwik\Plugins\Referrers\DataTable\Filter\GroupDifferentSocialWritings;
  */
 class GroupDifferentSocialWritingsTest extends \PHPUnit\Framework\TestCase
 {
-
     public function testRowsAreGrouped()
     {
         $table = new DataTable();

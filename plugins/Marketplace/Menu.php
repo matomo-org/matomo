@@ -16,7 +16,6 @@ use Piwik\Piwik;
  */
 class Menu extends \Piwik\Plugin\Menu
 {
-
     public function configureAdminMenu(MenuAdmin $menu)
     {
         if (!Piwik::isUserIsAnonymous()) {

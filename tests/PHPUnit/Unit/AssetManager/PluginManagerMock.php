@@ -14,7 +14,6 @@ use Piwik\Theme;
 
 class PluginManagerMock extends Manager
 {
-
     /**
      * @var Plugin[]
      */

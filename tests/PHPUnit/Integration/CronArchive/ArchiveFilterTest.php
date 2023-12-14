@@ -21,7 +21,6 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class ArchiveFilterTest extends IntegrationTestCase
 {
-
     public function test_archiveFilter_filtersOutArchivesWhenForceReportIsSpecified()
     {
         $filter = new ArchiveFilter();

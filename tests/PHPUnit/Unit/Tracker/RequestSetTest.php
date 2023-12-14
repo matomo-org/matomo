@@ -391,7 +391,6 @@ class RequestSetTest extends UnitTestCase
 
 class TestRequestSet extends RequestSet
 {
-
     public function getAllSiteIdsWithinRequest()
     {
         return parent::getAllSiteIdsWithinRequest();

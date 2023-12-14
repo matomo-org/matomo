@@ -12,7 +12,6 @@ use \Piwik\Plugins\Marketplace\Consumer as ActualConsumer;
 use Piwik\Plugins\Marketplace\Input\PurchaseType;
 
 class Consumer {
-
     public static function build($service)
     {
         $client = Client::build($service);

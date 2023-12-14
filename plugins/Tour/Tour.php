@@ -27,7 +27,6 @@ use Piwik\Plugins\Tour\Engagement\ChallengeViewVisitsLog;
 
 class Tour extends \Piwik\Plugin
 {
-
     public function registerEvents()
     {
         return array(

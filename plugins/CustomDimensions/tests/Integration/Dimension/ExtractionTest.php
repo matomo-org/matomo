@@ -24,7 +24,6 @@ use Piwik\Tracker\Request;
  */
 class ExtractionTest extends IntegrationTestCase
 {
-
     public function setUp(): void
     {
         parent::setUp();

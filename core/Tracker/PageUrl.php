@@ -20,7 +20,6 @@ use Piwik\UrlHelper;
 
 class PageUrl
 {
-
     /**
      * Map URL prefixes to integers.
      * @see self::normalizeUrl(), self::reconstructNormalizedUrl()

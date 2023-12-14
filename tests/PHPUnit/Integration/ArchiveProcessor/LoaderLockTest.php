@@ -19,7 +19,6 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class LoaderLockTest extends IntegrationTestCase
 {
-
     public function test_lockerIdShort()
     {
         $lockId = Common::getRandomString(60);

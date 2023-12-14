@@ -10,7 +10,6 @@ namespace Piwik\Config;
 
 class GeneralConfig extends SectionConfig
 {
-
     public static function getSectionName(): string
     {
         return 'General';

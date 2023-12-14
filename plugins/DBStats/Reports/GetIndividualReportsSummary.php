@@ -20,7 +20,6 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
  */
 class GetIndividualReportsSummary extends Base
 {
-
     protected function init()
     {
         $this->name = Piwik::translate('General_Reports');

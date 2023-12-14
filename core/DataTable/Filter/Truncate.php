@@ -34,7 +34,6 @@ use Piwik\Piwik;
  */
 class Truncate extends BaseFilter
 {
-
     /**
      * @var int
      */

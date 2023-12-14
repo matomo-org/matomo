@@ -14,7 +14,6 @@ use Piwik\ProxyHttp;
 
 class Csv extends ApiRenderer
 {
-
     public function renderSuccess($message)
     {
         Common::sendHeader("Content-Disposition: attachment; filename=piwik-report-export.csv");

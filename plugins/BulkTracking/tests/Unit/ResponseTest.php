@@ -14,7 +14,6 @@ use Piwik\Tests\Framework\TestCase\UnitTestCase;
 use Exception;
 
 class TestResponse extends Response {
-
     protected function logExceptionToErrorLog($e)
     {
         // prevent console from outputting the error_log message

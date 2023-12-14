@@ -26,7 +26,6 @@ use Piwik\Updater\Migration\Factory as MigrationFactory;
  */
 class CalculateConversionPages extends ConsoleCommand
 {
-
     protected function configure()
     {
         $this->setName('core:calculate-conversion-pages');

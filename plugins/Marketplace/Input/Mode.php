@@ -14,7 +14,6 @@ use Piwik\Common;
  */
 class Mode
 {
-
     public function getMode()
     {
         $mode = Common::getRequestVar('mode', 'admin', 'string');

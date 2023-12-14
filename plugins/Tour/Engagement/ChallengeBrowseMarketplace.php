@@ -13,7 +13,6 @@ use Piwik\Url;
 
 class ChallengeBrowseMarketplace extends Challenge
 {
-
     public function getName()
     {
         return Piwik::translate('Tour_BrowseMarketplace');

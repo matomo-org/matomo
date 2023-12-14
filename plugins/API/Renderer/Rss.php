@@ -13,7 +13,6 @@ use Piwik\Common;
 
 class Rss extends ApiRenderer
 {
-
     /**
      * @param $message
      * @param \Exception|\Throwable $exception

@@ -19,7 +19,6 @@ use Piwik\Updater;
 use Piwik\Log\LoggerInterface;
 
 class BruteForceDetection {
-
     const OVERALL_LOGIN_LOCKOUT_THRESHOLD_MIN = 10;
     const TABLE_NAME = 'brute_force_log';
 

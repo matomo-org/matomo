@@ -21,7 +21,6 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
  */
 class ConsentManagerDetectionTest extends SystemTestCase
 {
-
     public function setUp(): void
     {
         parent::setUp();

@@ -16,7 +16,6 @@ use Piwik\ViewDataTable\Config as VisualizationConfig;
  */
 class Config extends VisualizationConfig
 {
-
     /**
      * Whether the series picker should allow picking more than one series or not.
      *

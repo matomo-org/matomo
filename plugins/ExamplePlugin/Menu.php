@@ -18,7 +18,6 @@ use Piwik\Menu\MenuTop;
  */
 class Menu extends \Piwik\Plugin\Menu
 {
-
     public function configureTopMenu(MenuTop $menu)
     {
         // $menu->addItem('ExamplePlugin_MyTopItem', null, $this->urlForDefaultAction(), $orderId = 30);
