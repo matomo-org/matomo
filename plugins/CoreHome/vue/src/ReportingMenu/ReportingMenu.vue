@@ -7,7 +7,7 @@
 <template>
   <div class="reportingMenu">
     <ul
-      class="navbar hide-on-med-and-down"
+      class="navbar hide-on-med-and-down collapsible"
       role="menu"
       :aria-label="translate('CoreHome_MainNavigation')"
     >
