@@ -89,7 +89,7 @@ abstract class LogTable {
     {
         return '';
     }
-    
+
     /**
      * Returns the name of a log table that allows to join on a visit. Eg if there is a table "action", and it is not
      * joinable with "visit" table, it can return "log_link_visit_action" to be able to join the action table on visit

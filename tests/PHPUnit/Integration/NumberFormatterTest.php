@@ -160,12 +160,12 @@ class NumberFormatterTest extends \PHPUnit\Framework\TestCase
     {
         $this->translator->setCurrentLanguage('en');
         $numberFormatter = new NumberFormatter($this->translator);
-      
+
         $this->assertEquals('5,000.1', $numberFormatter->formatNumber(5000.1, 1));
         $this->assertEquals('50.1%', $numberFormatter->formatPercent(50.1, 1));
         $this->assertEquals('+50%', $numberFormatter->formatPercentEvolution(50));
         $this->assertEquals('$5,000.10', $numberFormatter->formatCurrency(5000.1, '$'));
-      
+
         $this->translator->setCurrentLanguage('de');
         $this->assertEquals('5.000,1', $numberFormatter->formatNumber(5000.1, 1));
         $this->assertEquals('50,1 %', $numberFormatter->formatPercent(50.1, 1));

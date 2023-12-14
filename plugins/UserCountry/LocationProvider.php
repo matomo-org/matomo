@@ -406,7 +406,7 @@ abstract class LocationProvider
                 return $provider;
             }
         }
-        
+
         return null;
     }
 

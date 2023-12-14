@@ -58,7 +58,7 @@ class ImageGraph extends \Piwik\Plugin
         if (empty($idSite) || !is_numeric($idSite)) {
             return;
         }
-        
+
         // in case API.getReportMetadata was not called with date/period we use sane defaults
         if (empty($info['period'])) {
             $info['period'] = 'day';

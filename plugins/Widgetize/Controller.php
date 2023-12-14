@@ -49,7 +49,7 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         if ($controllerName == 'CoreHome' && $actionName == 'index') {
-            $message = 'CoreHome cannot be widgetized. '  . 
+            $message = 'CoreHome cannot be widgetized. '  .
                 'You can enable it to be embedded directly into an iframe (passing module=CoreHome instead of module=Widgetize) ' .
                 'instead by enabling the \'enable_framed_pages\' setting in your config. ' .
                 'See ' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to/faq_193/') . ' for more info.';

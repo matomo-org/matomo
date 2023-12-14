@@ -49,7 +49,7 @@ class Updates_1_5_b1 extends Updates
                 'visitor_days_since_order' => 'SMALLINT(5) UNSIGNED NOT NULL',
                 'visit_goal_buyer' => 'TINYINT(1) NOT NULL'
             )),
-            
+
             $this->migration->db->addColumn('log_conversion', 'visitor_days_since_order', 'SMALLINT(5) UNSIGNED NOT NULL'),
             $this->migration->db->addColumns('log_conversion', array(
                 'idorder' => 'varchar(100) default NULL',

@@ -209,8 +209,8 @@ class SessionAuth implements Auth
         // we update the session cookie to make sure expired session cookies are not available client side...
         $sessionCookieLifetime = Config::getInstance()->General['login_cookie_expire'];
         Session::writeCookie(
-            session_name(), 
-            session_id(), 
+            session_name(),
+            session_id(),
             time() + $sessionCookieLifetime,
             $sessionParams['path'],
             $sessionParams['domain'],

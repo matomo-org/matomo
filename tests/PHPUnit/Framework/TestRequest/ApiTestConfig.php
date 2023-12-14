@@ -120,7 +120,7 @@ class ApiTestConfig
      * returns the super table of the API method being tested. If set, TestRequest\Collection will look for the
      * first valid idSubtable value to use in the test request. Since these values are assigned dynamically,
      * there's no other way to set idSubtable.
-     * 
+     *
      * @var string|bool eg, `"Referrers.getWebsites"`
      */
     public $supertableApi = false;

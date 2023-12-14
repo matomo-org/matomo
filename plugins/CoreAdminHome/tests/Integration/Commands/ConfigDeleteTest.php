@@ -554,7 +554,7 @@ class ConfigDeleteTest extends ConsoleCommandTestCase
         yield 'Section 2, Setting 2.6 - mail address with extension'    => [self::TEST_SECTION_2_NAME, self::TEST_SETTING_2_6_NAME, self::TEST_SETTING_2_6_VALUE_0];
         yield 'Section 2, Setting 2.7 - comma separated list'           => [self::TEST_SECTION_2_NAME, self::TEST_SETTING_2_7_NAME, self::TEST_SETTING_2_7_VALUE_0];
     }
-    
+
     public function getArraySettingDataProvider2()
     {
         yield 'Section 2, Setting 2.1'                                  => [self::TEST_SECTION_2_NAME, self::TEST_SETTING_2_1_NAME, self::TEST_SETTING_2_1_VALUE_1];

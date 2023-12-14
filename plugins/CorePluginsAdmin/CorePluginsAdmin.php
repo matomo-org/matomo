@@ -67,7 +67,7 @@ class CorePluginsAdmin extends Plugin
     public function onPluginActivated($pluginName)
     {
         if ($pluginName === 'TagManager') {
-            // make sure once activated once, it won't appear when disabling Tag Manager later 
+            // make sure once activated once, it won't appear when disabling Tag Manager later
             $tagManagerTeaser = new TagManagerTeaser(Piwik::getCurrentUserLogin());
             $tagManagerTeaser->disableGlobally();
         }

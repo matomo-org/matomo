@@ -28,7 +28,7 @@ class APITest extends IntegrationTestCase
      * @var API
      */
     private $api;
-    
+
     public function setUp(): void
     {
         parent::setUp();

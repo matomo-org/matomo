@@ -303,7 +303,7 @@ class API extends \Piwik\Plugin\API
             }
         }
 
-        // move the site id to a metadata column 
+        // move the site id to a metadata column
         $dataTable->queueFilter('MetadataCallbackAddMetadata', array('idsite', 'group', function($idSite) {
             if ($idSite == '-1') { // Others row might occur when `filter_truncate` API parameter is used
                 return '';

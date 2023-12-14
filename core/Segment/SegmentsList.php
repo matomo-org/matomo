@@ -145,7 +145,7 @@ class SegmentsList
          * @param SegmentsList $list An instance of the SegmentsList.
          */
         Piwik::postEvent('Segment.filterSegments', array($list));
-        
+
         $cache->save($cacheKey, $list);
 
         return $list;

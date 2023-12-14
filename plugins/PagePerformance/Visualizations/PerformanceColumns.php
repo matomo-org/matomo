@@ -55,7 +55,7 @@ class PerformanceColumns extends HtmlTable
     public function beforeGenericFiltersAreAppliedToLoadedDataTable()
     {
         $this->config->datatable_css_class = 'dataTableVizAllColumns';
-        
+
         $properties = $this->config;
 
         $this->dataTable->filter(function (DataTable $dataTable) use ($properties) {

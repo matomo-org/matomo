@@ -405,7 +405,7 @@ class PluginsTest extends IntegrationTestCase
             }
         }
     }
-    
+
     public function testGetAllPaidPluginsShouldFetchOnlyPaidPlugins()
     {
         $this->plugins->getAllPaidPlugins();

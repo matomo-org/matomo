@@ -86,7 +86,7 @@ class ComputedMetricTest extends IntegrationTestCase
 
         $metric = $this->makeMetric('bounces', 'nb_visits', ComputedMetric::AGGREGATION_RATE);
         $this->assertSame('bounces_visits_rate', $metric->getName());
-        
+
         $metric = $this->makeMetric('bounces', 'nb_uniq_visits', ComputedMetric::AGGREGATION_RATE);
         $this->assertSame('bounces_uniq_visits_rate', $metric->getName());
 

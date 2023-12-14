@@ -9,7 +9,7 @@
 namespace Piwik\Plugins\Marketplace;
 
 /**
- * A consumer is a user having specified a license key in the Marketplace. 
+ * A consumer is a user having specified a license key in the Marketplace.
  */
 class Consumer
 {

@@ -65,7 +65,7 @@ class SegmentsCacheTest extends IntegrationTestCase
         $segment2 = $model->getSegment($idSegment2);
         $segment3 = $model->getSegment($idSegment3);
         $tests = [];
-        
+
         $tests[$segment1['hash']] = [
             Segment::CACHE_KEY . md5($segment1['definition']),
             Segment::CACHE_KEY . md5(urldecode($segment1['definition'])),
@@ -81,7 +81,7 @@ class SegmentsCacheTest extends IntegrationTestCase
             Segment::CACHE_KEY . md5(urldecode($segment3['definition'])),
             Segment::CACHE_KEY . md5(urlencode($segment3['definition'])),
         ];
-        
+
         Segment::getSegmentHash('dummy');
 
         foreach ($tests as $hash => $keys) {

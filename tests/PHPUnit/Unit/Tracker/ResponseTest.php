@@ -171,11 +171,11 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     {
         // Base64 sample image string (4x4px red PNG made in GIMP)
         $base64Image = 'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAIAAAACDbGyAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAB3RJTUUH5QgLFiABlwQnpwAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAAUSURBVAjXY/wjLMyABJgYUAGpfABbJQEsALGyNgAAAABJRU5ErkJggg==';
-        
+
         // Initialise the custom_image setting
         $config = Config::getInstance();
         $trackerSettings = $config->Tracker;
-        $trackerSettings['custom_image'] = $base64Image; 
+        $trackerSettings['custom_image'] = $base64Image;
         $config->Tracker = $trackerSettings;
 
         // Get the response

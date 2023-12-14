@@ -42,7 +42,7 @@ class RssPiwik extends \Piwik\Widget\Widget
             return $this->getFeed('https://matomo.org/feed/');
         } catch (\Exception $e) {
             return $this->error($e);
-        }  
+        }
     }
 
     /**
