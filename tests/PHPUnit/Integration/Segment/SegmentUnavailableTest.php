@@ -41,7 +41,7 @@ class SegmentUnavailableTest extends IntegrationTestCase
         Option::set(Rules::OPTION_BROWSER_TRIGGER_ARCHIVING, 0);
     }
 
-    public function tearDown() : void
+    public function tearDown(): void
     {
         parent::tearDown();
         Option::set(Rules::OPTION_BROWSER_TRIGGER_ARCHIVING, 1);

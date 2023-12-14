@@ -225,7 +225,7 @@ class Timetable
      *
      * @return int
      */
-    public function getRetryCount(string $taskName) : int
+    public function getRetryCount(string $taskName): int
     {
         $this->readRetryList();
 

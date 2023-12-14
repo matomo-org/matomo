@@ -566,7 +566,7 @@ class Filesystem
      *
      * @return bool
      */
-    public static function isFileSystemCaseInsensitive() : bool
+    public static function isFileSystemCaseInsensitive(): bool
     {
         $testFileName = 'caseSensitivityTest.txt';
         $pathTmp = StaticContainer::get('path.tmp');
