@@ -97,7 +97,6 @@
         <exclude name="Squiz.WhiteSpace.ControlStructureSpacing.SpacingBeforeClose" />
         <exclude name="Squiz.WhiteSpace.ScopeClosingBrace.ContentBefore" />
         <exclude name="Squiz.WhiteSpace.ScopeClosingBrace.Indent" />
-        <exclude name="Squiz.WhiteSpace.SuperfluousWhitespace.EndLine" />
     </rule>
 
     <rule ref="Squiz.Classes.ValidClassName.NotCamelCaps">
