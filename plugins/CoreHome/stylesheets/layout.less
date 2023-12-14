@@ -119,16 +119,16 @@ nav {
  // end #secondNavBar fadeInLeft animation
 
 #root {
+  .page {
+    display: flex;
+  }
 
   .pageWrap {
+    width: 100%;
     padding-left: 9px;
     padding-right: 9px;
     margin-left: 9px;
     margin-right: 9px;
-  }
-
-  #secondNavBar + .pageWrap {
-    margin-left: 233px;
   }
 
   &>.top_controls {
@@ -149,14 +149,7 @@ nav {
     }
   }
 
-  @media all and (max-width: 992px) {
-    .pageWrap {
-      margin-left: 9px !important;
-    }
-  }
-
   @media all and (max-width: 600px) {
-
     .top_controls {
       height: auto;
 
@@ -553,10 +546,6 @@ nav {
   }
 
   #root{
-    #secondNavBar + .pageWrap {
-      margin-left: 9px;
-    }
-
     .top_controls{
       .quick-access {
       display: none !important;
