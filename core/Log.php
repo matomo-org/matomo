@@ -237,8 +237,8 @@ class Log extends Singleton
     public static function getMonologLevelIfValid($level)
     {
         $level = strtoupper($level);
-        if (!empty($level) && defined('Piwik\Log::'.strtoupper($level))) {
-            return self::getMonologLevel(constant('Piwik\Log::'.strtoupper($level)));
+        if (!empty($level) && defined('Piwik\Log::' . strtoupper($level))) {
+            return self::getMonologLevel(constant('Piwik\Log::' . strtoupper($level)));
         }
         return null;
     }

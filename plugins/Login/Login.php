@@ -59,23 +59,23 @@ class Login extends \Piwik\Plugin
             'Controller.Login.acceptInvitation' => 'beforeLoginCheckBruteForce',
             'Controller.Login.declineInvitation' => 'beforeLoginCheckBruteForce',
             'Login.authenticate.successful'    => 'beforeLoginCheckBruteForce',
-            'Login.beforeLoginCheckAllowed'  => 'beforeLoginCheckBruteForce',
-            'Login.recordFailedLoginAttempt'  => 'onFailedLoginRecordAttempt', // record any failed attempt in UI
+            'Login.beforeLoginCheckAllowed'    => 'beforeLoginCheckBruteForce',
+            'Login.recordFailedLoginAttempt'   => 'onFailedLoginRecordAttempt', // record any failed attempt in UI
             'Login.authenticate.failed'        => 'onFailedLoginRecordAttempt', // record any failed attempt in UI
-            'API.Request.authenticate.failed' => 'onFailedAPILogin', // record any failed attempt in Reporting API
+            'API.Request.authenticate.failed'  => 'onFailedAPILogin', // record any failed attempt in Reporting API
             'Tracker.Request.authenticate.failed' => 'onFailedLoginRecordAttempt', // record any failed attempt in Tracker API
         );
 
         $loginPlugin = Piwik::getLoginPluginName();
 
         if ($loginPlugin && $loginPlugin !== 'Login') {
-            $hooks['Controller.'.$loginPlugin.'.logme']           = 'beforeLoginCheckBruteForce';
-            $hooks['Controller.'.$loginPlugin. '.']               = 'beforeLoginCheckBruteForce';
-            $hooks['Controller.'.$loginPlugin.'.index']           = 'beforeLoginCheckBruteForce';
-            $hooks['Controller.'.$loginPlugin.'.confirmResetPassword'] = 'beforeLoginCheckBruteForce';
-            $hooks['Controller.'.$loginPlugin.'.confirmPassword'] = 'beforeLoginCheckBruteForce';
-            $hooks['Controller.'.$loginPlugin.'.resetPassword']   = 'beforeLoginCheckBruteForce';
-            $hooks['Controller.'.$loginPlugin.'.login']           = 'beforeLoginCheckBruteForce';
+            $hooks['Controller.' . $loginPlugin . '.logme']           = 'beforeLoginCheckBruteForce';
+            $hooks['Controller.' . $loginPlugin . '.']                = 'beforeLoginCheckBruteForce';
+            $hooks['Controller.' . $loginPlugin . '.index']           = 'beforeLoginCheckBruteForce';
+            $hooks['Controller.' . $loginPlugin . '.confirmResetPassword'] = 'beforeLoginCheckBruteForce';
+            $hooks['Controller.' . $loginPlugin . '.confirmPassword'] = 'beforeLoginCheckBruteForce';
+            $hooks['Controller.' . $loginPlugin . '.resetPassword']   = 'beforeLoginCheckBruteForce';
+            $hooks['Controller.' . $loginPlugin . '.login']           = 'beforeLoginCheckBruteForce';
         }
 
         return $hooks;

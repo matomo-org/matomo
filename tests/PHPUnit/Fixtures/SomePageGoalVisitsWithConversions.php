@@ -67,10 +67,10 @@ class SomePageGoalVisitsWithConversions extends Fixture
 
     private function doPageVisit($t, string $pageLetter, ?string $subPage = null)
     {
-        $pageUrl = 'http://example.org/page_'.$pageLetter.($subPage ? '/'.$subPage : '');
+        $pageUrl = 'http://example.org/page_' . $pageLetter . ($subPage ? '/' . $subPage : '');
         $t->setUrl($pageUrl);
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour((($this->ticks += 0.1)))->getDatetime());
-        self::checkResponse($t->doTrackPageView('Page '.$pageLetter.($subPage ? ' - '.$subPage : '')));
+        self::checkResponse($t->doTrackPageView('Page ' . $pageLetter . ($subPage ? ' - ' . $subPage : '')));
     }
 
     private function doConversion($t, int $idGoal)
@@ -89,7 +89,7 @@ class SomePageGoalVisitsWithConversions extends Fixture
     {
         $t->setVisitorId($id);
         $t->setCountry($countryCode);
-        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour((($this->ticks++)*2))->getDatetime());
+        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour((($this->ticks++) * 2))->getDatetime());
         $t->setTokenAuth($this->getTokenAuth());
         $t->setForceNewVisit();
     }

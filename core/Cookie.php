@@ -408,7 +408,7 @@ class Cookie
     public function __toString()
     {
         $str  = 'COOKIE ' . $this->name . ', rows count: ' . count($this->value) . ', cookie size = ' . strlen($this->generateContentString()) . " bytes, ";
-        $str .= 'path: ' . $this->path. ', expire: ' . $this->expire . "\n";
+        $str .= 'path: ' . $this->path . ', expire: ' . $this->expire . "\n";
         $str .= var_export($this->value, $return = true);
 
         return $str;

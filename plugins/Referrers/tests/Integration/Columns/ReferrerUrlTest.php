@@ -56,7 +56,7 @@ class ReferrerUrlTest extends IntegrationTestCase
     public function test_onNewVisit_shouldTrimReferUrl()
     {
         Config::getInstance()->Tracker['page_maximum_length'] = ReferrerUrl::MAX_LEN + 100;
-        $refUrl = 'http://example.org/foo/bar'. str_pad('r', ReferrerUrl::MAX_LEN, 'r');
+        $refUrl = 'http://example.org/foo/bar' . str_pad('r', ReferrerUrl::MAX_LEN, 'r');
         $this->assertGreaterThan(ReferrerUrl::MAX_LEN, strlen($refUrl));
         $request = $this->getRequest(['idsite' => $this->idSite1, 'url' => 'http://piwik.org/foo/bar', 'urlref' => $refUrl]);
         $detectedUrl = $this->referrerUrl->onNewVisit($request, $this->getNewVisitor(), $action = null);

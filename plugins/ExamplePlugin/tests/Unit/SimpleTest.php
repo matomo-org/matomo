@@ -30,7 +30,7 @@ class SimpleTest extends \PHPUnit\Framework\TestCase
      */
     public function testSimpleAddition()
     {
-        $this->assertEquals(2, 1+1);
+        $this->assertEquals(2, 1 + 1);
     }
 
 }

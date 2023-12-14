@@ -110,7 +110,7 @@ class Metrics
         foreach($performanceDimensions as $dimension) {
             $id = $dimension->getColumnName();
             $column = $table . '.' . $id;
-            $metricsConfig['sum_'.$id] = [
+            $metricsConfig['sum_' . $id] = [
                 'aggregation' => 'sum',
                 'query' => "sum(
                     case when " . $column . " is null
@@ -119,7 +119,7 @@ class Metrics
                     end
                 ) / 1000"
             ];
-            $metricsConfig['nb_hits_with_'.$id] = [
+            $metricsConfig['nb_hits_with_' . $id] = [
                 'aggregation' => 'sum',
                 'query' => "sum(
                     case when " . $column . " is null
@@ -128,11 +128,11 @@ class Metrics
                     end
                 )"
             ];
-            $metricsConfig['min_'.$id] = [
+            $metricsConfig['min_' . $id] = [
                 'aggregation' => 'min',
                 'query' => "min(" . $column . ") / 1000"
             ];
-            $metricsConfig['max_'.$id] = [
+            $metricsConfig['max_' . $id] = [
                 'aggregation' => 'max',
                 'query' => "max(" . $column . ") / 1000"
             ];

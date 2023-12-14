@@ -74,7 +74,7 @@ class Filechecks
         // Also give the chown since the chmod is only 755
         if (!SettingsServer::isWindows()) {
             $realpath = Filesystem::realpath(PIWIK_INCLUDE_PATH . '/');
-            $directoryList = "<code>chown -R ". self::getUserAndGroup() ." " . $realpath . "</code><br />" . $directoryList;
+            $directoryList = "<code>chown -R " . self::getUserAndGroup() . " " . $realpath . "</code><br />" . $directoryList;
         }
 
         if (function_exists('shell_exec')) {
@@ -135,7 +135,7 @@ class Filechecks
             $message .= "For example, on a GNU/Linux server if your Apache httpd user is "
                         . Common::sanitizeInputValue(self::getUser())
                         . ", you can try to execute:<br />\n"
-                        . "<code>chown -R ". Common::sanitizeInputValue(self::getUserAndGroup()) ." " . Common::sanitizeInputValue($path) . "</code><br />";
+                        . "<code>chown -R " . Common::sanitizeInputValue(self::getUserAndGroup()) . " " . Common::sanitizeInputValue($path) . "</code><br />";
         }
 
         $message .= self::getMakeWritableCommand($path);
@@ -150,7 +150,7 @@ class Filechecks
             return $user . ':' . $user;
         }
 
-        $group = trim(shell_exec('groups '. $user .' | cut -f3 -d" "'));
+        $group = trim(shell_exec('groups ' . $user . ' | cut -f3 -d" "'));
 
         if (empty($group) && function_exists('posix_getegid') && function_exists('posix_getgrgid')) {
             $currentGroupId = posix_getegid();

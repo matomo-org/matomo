@@ -85,7 +85,7 @@ class Configuration
 
     public function getCustomDimensionsHavingIndex($scope, $index)
     {
-        $query= "SELECT * FROM " . $this->tableNamePrefixed . " WHERE `index` = ? and scope = ?";
+        $query = "SELECT * FROM " . $this->tableNamePrefixed . " WHERE `index` = ? and scope = ?";
         return $this->fetchAllDimensionsEnriched($query, array($index, $scope));
     }
 

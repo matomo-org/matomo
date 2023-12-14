@@ -159,10 +159,10 @@ class ManyVisitsWithGeoIP extends Fixture
         $date = Date::factory($this->dateTime)->addDay($visitorCounter);
         $t->setForceVisitDateTime($date->getDatetime());
         $t->setUrl("http://piwik.net/grue/lair");
-        $t->setCustomVariable(1, 'Cvar 1 name', 'Cvar1 value is ' .$visitorCounter , 'visit');
-        $t->setCustomVariable(5, 'Cvar 5 name', 'Cvar5 value is ' .$visitorCounter , 'visit');
-        $t->setCustomVariable(2, 'Cvar 2 PAGE name', 'Cvar2 PAGE value is ' .$visitorCounter, 'page');
-        $t->setCustomVariable(5, 'Cvar 5 PAGE name', 'Cvar5 PAGE value is ' .$visitorCounter, 'page');
+        $t->setCustomVariable(1, 'Cvar 1 name', 'Cvar1 value is ' . $visitorCounter , 'visit');
+        $t->setCustomVariable(5, 'Cvar 5 name', 'Cvar5 value is ' . $visitorCounter , 'visit');
+        $t->setCustomVariable(2, 'Cvar 2 PAGE name', 'Cvar2 PAGE value is ' . $visitorCounter, 'page');
+        $t->setCustomVariable(5, 'Cvar 5 PAGE name', 'Cvar5 PAGE value is ' . $visitorCounter, 'page');
 
         $r = $t->doTrackPageView('It\'s <script> pitch black...');
         if (!$doBulk) {
@@ -194,7 +194,7 @@ class ManyVisitsWithGeoIP extends Fixture
         $date = $date->addHour(0.1);
         $t->setForceVisitDateTime($date->getDatetime());
         if( ($visitorCounter % 2) == 0) {
-            $r = $t->doTrackSiteSearch('Bring on the party', 'CAT', $visitorCounter*6);
+            $r = $t->doTrackSiteSearch('Bring on the party', 'CAT', $visitorCounter * 6);
         }
 
         if (!$doBulk) {

@@ -280,7 +280,7 @@ class Visitor implements VisitorInterface
 
         foreach ($actionDetails as $actionIdx => &$actionDetail) {
             $actionDetail =& $actionDetails[$actionIdx];
-            $nextAction = isset($actionDetails[$actionIdx+1]) ? $actionDetails[$actionIdx+1] : null;
+            $nextAction = isset($actionDetails[$actionIdx + 1]) ? $actionDetails[$actionIdx + 1] : null;
 
             foreach ($visitorDetailsManipulators as $instance) {
                 $instance->extendActionDetails($actionDetail, $nextAction, $visitorDetailsArray);

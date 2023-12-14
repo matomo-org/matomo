@@ -157,9 +157,9 @@ class Get extends \Piwik\Plugin\Report
                         'pastValue' => $pastValue,
                         'isLowerValueBetter' => Metrics::isLowerValueBetter($columnName),
                         'tooltip' => Piwik::translate('General_EvolutionSummaryGeneric', [
-                            $currentValueFormatted.' '.$columnTranslation,
+                            $currentValueFormatted . ' ' . $columnTranslation,
                             $currentPrettyDate,
-                            $pastValueFormatted.' '.$columnTranslation,
+                            $pastValueFormatted . ' ' . $columnTranslation,
                             $lastPrettyDate,
                             CalculateEvolutionFilter::calculate($value, $pastValue, $precision = 1)])
                     ];

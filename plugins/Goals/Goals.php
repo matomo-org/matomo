@@ -61,7 +61,7 @@ class Goals extends \Piwik\Plugin
             $idGoal = (int) $idGoal;
         }
 
-        return 'goal_'. $idGoal . '_' . $column;
+        return 'goal_' . $idGoal . '_' . $column;
     }
 
     public static function getGoalColumns($idGoal)
@@ -152,7 +152,7 @@ class Goals extends \Piwik\Plugin
         $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
 
         foreach ($goals as $goal) {
-            $custom = new GoalDimension($goal, 'idgoal', 'Conversions goal "' . $goal['name'] . '" (ID ' . $goal['idgoal'] .' )');
+            $custom = new GoalDimension($goal, 'idgoal', 'Conversions goal "' . $goal['name'] . '" (ID ' . $goal['idgoal'] . ' )');
             $custom->setType(Dimension::TYPE_NUMBER);
             $custom->setSqlSegment('count(distinct log_conversion.idvisit, log_conversion.buster)');
 
@@ -164,7 +164,7 @@ class Goals extends \Piwik\Plugin
             $metric->setName('goal_' . $goal['idgoal'] . '_conversion');
             $metricsList->addMetric($metric);
 
-            $custom = new GoalDimension($goal, 'revenue', 'Revenue goal "' . $goal['name'] . '" (ID ' . $goal['idgoal'] .' )');
+            $custom = new GoalDimension($goal, 'revenue', 'Revenue goal "' . $goal['name'] . '" (ID ' . $goal['idgoal'] . ' )');
             $custom->setType(Dimension::TYPE_MONEY);
             $metric = new ArchivedMetric($custom, ArchivedMetric::AGGREGATION_SUM);
             $metric->setTranslatedName($custom->getName());
@@ -173,7 +173,7 @@ class Goals extends \Piwik\Plugin
             $metric->setCategory($custom->getCategoryId());
             $metricsList->addMetric($metric);
 
-            $custom = new GoalDimension($goal, 'visitor_seconds_since_first', 'Days to conversion goal "' . $goal['name'] . '" (ID ' . $goal['idgoal'] .' )');
+            $custom = new GoalDimension($goal, 'visitor_seconds_since_first', 'Days to conversion goal "' . $goal['name'] . '" (ID ' . $goal['idgoal'] . ' )');
             $custom->setType(Dimension::TYPE_NUMBER);
             $metric = new ArchivedMetric($custom, ArchivedMetric::AGGREGATION_SUM);
             $metric->setTranslatedName($custom->getName());
@@ -183,7 +183,7 @@ class Goals extends \Piwik\Plugin
             $metric->setQuery('sum(floor(log_visit.visitor_seconds_since_first / 86400))');
             $metricsList->addMetric($metric);
 
-            $custom = new GoalDimension($goal, 'visitor_count_visits', 'Visits to conversion goal "' . $goal['name'] . '" (ID ' . $goal['idgoal'] .' )');
+            $custom = new GoalDimension($goal, 'visitor_count_visits', 'Visits to conversion goal "' . $goal['name'] . '" (ID ' . $goal['idgoal'] . ' )');
             $custom->setType(Dimension::TYPE_NUMBER);
             $metric = new ArchivedMetric($custom, ArchivedMetric::AGGREGATION_SUM);
             $metric->setTranslatedName($custom->getName());

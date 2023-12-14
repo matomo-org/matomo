@@ -245,7 +245,7 @@ class AnnotationsTest extends SystemTestCase
         FakeAccess::$idSitesAdmin = $hasAdminAccess ? array(self::$fixture->idSite1) : array();
         FakeAccess::$idSitesView = $hasViewAccess ? array(self::$fixture->idSite1) : array();
 
-        $request = new Request($request.'&format=original');
+        $request = new Request($request . '&format=original');
         $request->process();
     }
 

@@ -40,7 +40,7 @@ class ModelTest extends IntegrationTestCase
 
     private $login = 'userLogin';
     private $login2 = 'userLogin2';
-    private $login3 ='pendingLogin3';
+    private $login3 = 'pendingLogin3';
 
     public function setUp(): void
     {

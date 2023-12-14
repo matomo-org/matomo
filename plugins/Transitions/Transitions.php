@@ -71,7 +71,7 @@ class Transitions extends \Piwik\Plugin
         $idSite = Common::getRequestVar('idSite', 1, 'int');
         $maxPeriodAllowed = self::getPeriodAllowedConfig($idSite);
 
-        $out .= '    piwik.transitionsMaxPeriodAllowed = "'.($maxPeriodAllowed ? $maxPeriodAllowed : 'all').'"'."\n";
+        $out .= '    piwik.transitionsMaxPeriodAllowed = "' . ($maxPeriodAllowed ? $maxPeriodAllowed : 'all') . '"' . "\n";
     }
 
     /**
@@ -84,11 +84,11 @@ class Transitions extends \Piwik\Plugin
     public static function getPeriodAllowedConfig($idSite) : string
     {
         $transitionsGeneralConfig = Config::getInstance()->Transitions;
-        $generalMaxPeriodAllowed = ($transitionsGeneralConfig && !empty($transitionsGeneralConfig['max_period_allowed']) ? $transitionsGeneralConfig['max_period_allowed']: null);
+        $generalMaxPeriodAllowed = ($transitionsGeneralConfig && !empty($transitionsGeneralConfig['max_period_allowed']) ? $transitionsGeneralConfig['max_period_allowed'] : null);
 
         $siteMaxPeriodAllowed = null;
         if ($idSite) {
-            $sectionName = 'Transitions_'.$idSite;
+            $sectionName = 'Transitions_' . $idSite;
             $transitionsSiteConfig = Config::getInstance()->$sectionName;
             $siteMaxPeriodAllowed = ($transitionsSiteConfig && !empty($transitionsSiteConfig['max_period_allowed']) ? $transitionsSiteConfig['max_period_allowed'] : null);
         }

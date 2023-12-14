@@ -124,8 +124,8 @@ return array(
     'log.level' => Piwik\DI::factory(function (Container $c) {
         if ($c->has('ini.log.log_level')) {
             $level = strtoupper($c->get('ini.log.log_level'));
-            if (!empty($level) && defined('Piwik\Log::'.strtoupper($level))) {
-                return Log::getMonologLevel(constant('Piwik\Log::'.strtoupper($level)));
+            if (!empty($level) && defined('Piwik\Log::' . strtoupper($level))) {
+                return Log::getMonologLevel(constant('Piwik\Log::' . strtoupper($level)));
             }
         }
 

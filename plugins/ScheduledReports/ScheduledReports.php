@@ -426,7 +426,7 @@ class ScheduledReports extends \Piwik\Plugin
 
             if ($textContent) {
                 $link = SettingsPiwik::getPiwikUrl() . 'index.php?module=ScheduledReports&action=unsubscribe&token=' . $tokens[$email];
-                $mail->setBodyText($textContent . "\n\n".Piwik::translate('ScheduledReports_UnsubscribeFooter', [$link]));
+                $mail->setBodyText($textContent . "\n\n" . Piwik::translate('ScheduledReports_UnsubscribeFooter', [$link]));
             }
 
             try {

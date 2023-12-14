@@ -278,7 +278,7 @@ class Http
 
         $httpAuth = '';
         if ($httpAuthIsUsed) {
-            $httpAuth = 'Authorization: Basic ' . base64_encode($httpUsername.':'.$httpPassword) . "\r\n";
+            $httpAuth = 'Authorization: Basic ' . base64_encode($httpUsername . ':' . $httpPassword) . "\r\n";
         }
 
         $httpEventParams = array(

@@ -673,7 +673,7 @@ if (!class_exists('Piwik\Plugin')) {
          */
         public function getChanges()
         {
-            $file = Manager::getPluginDirectory($this->pluginName).'/changes.json';
+            $file = Manager::getPluginDirectory($this->pluginName) . '/changes.json';
             if (file_exists($file)) {
                 $json = file_get_contents($file);
                 if ($json) {

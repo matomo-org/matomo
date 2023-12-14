@@ -139,7 +139,7 @@ class API extends \Piwik\Plugin\API
 
         if (!$isSecondaryDimensionValid) {
             throw new \Exception(
-                "Secondary dimension '$secondaryDimension' is not valid for the API $apiMethod. ".
+                "Secondary dimension '$secondaryDimension' is not valid for the API $apiMethod. " .
                 "Use one of: " . implode(", ", $this->getSecondaryDimensions($apiMethod))
             );
         }

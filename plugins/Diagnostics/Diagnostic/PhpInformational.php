@@ -52,7 +52,7 @@ class PhpInformational implements Diagnostic
         if (strpos(strtolower(php_sapi_name()), 'fpm-fcgi') !== false && $isGlobalConfigIniAccessible && !$disableFileAccessCheck) {
 
             // Using PHP-FPM and private files are accessible
-            $comment = php_sapi_name()."<br><br>";
+            $comment = php_sapi_name() . "<br><br>";
 
             if (!empty($_SERVER['SERVER_SOFTWARE'])) {
                 if (strpos(strtolower($_SERVER['SERVER_SOFTWARE']), 'apache') !== false) {

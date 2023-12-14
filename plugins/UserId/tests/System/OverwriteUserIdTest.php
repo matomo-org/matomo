@@ -36,7 +36,7 @@ class OverwriteUserIdTest extends SystemTestCase
     {
         $api = 'UserId.getUsers';
         $startDate = substr(self::$fixture->dateTime, 0, 10);
-        $endDate = date('Y-m-d', strtotime($startDate) + 3600*24*365);
+        $endDate = date('Y-m-d', strtotime($startDate) + 3600 * 24 * 365);
 
         $apiToTest   = array();
         $apiToTest[] = array(

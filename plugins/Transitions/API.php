@@ -309,7 +309,7 @@ class API extends \Piwik\Plugin\API
         $types[Action::TYPE_OUTLINK] = 'outlinks';
         $types[Action::TYPE_DOWNLOAD] = 'downloads';
 
-        $rankingQuery = new RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping: $this->limitBeforeGrouping);
+        $rankingQuery = new RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping : $this->limitBeforeGrouping);
         $rankingQuery->setOthersLabel('Others');
         $rankingQuery->addLabelColumn(array('name', 'url_prefix'));
         $rankingQuery->partitionResultIntoMultipleGroups('type', array_keys($types));
@@ -428,7 +428,7 @@ class API extends \Piwik\Plugin\API
         $keyIsPageUrlAction = 1;
         $keyIsSiteSearchAction = 2;
 
-        $rankingQuery = new RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping: $this->limitBeforeGrouping);
+        $rankingQuery = new RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping : $this->limitBeforeGrouping);
         $rankingQuery->setOthersLabel('Others');
         $rankingQuery->addLabelColumn(array('name', 'url_prefix'));
         $rankingQuery->setColumnToMarkExcludedRows('is_self');
@@ -449,7 +449,7 @@ class API extends \Piwik\Plugin\API
             'CASE WHEN log_link_visit_action.idaction_' . $type . '_ref = ' . intval($idaction) . ' THEN 1 ELSE 0 END AS `is_self`',
             'CASE
                 WHEN log_action.type = ' . $mainActionType . ' THEN ' . $keyIsPageUrlAction . '
-                        WHEN log_action.type = ' . Action::TYPE_SITE_SEARCH . ' THEN ' . $keyIsSiteSearchAction .'
+                        WHEN log_action.type = ' . Action::TYPE_SITE_SEARCH . ' THEN ' . $keyIsSiteSearchAction . '
                         ELSE ' . $keyIsOther . '
                     END AS `action_partition`'
         );

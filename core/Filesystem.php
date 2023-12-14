@@ -570,8 +570,8 @@ class Filesystem
     {
         $testFileName = 'caseSensitivityTest.txt';
         $pathTmp = StaticContainer::get('path.tmp');
-        @file_put_contents($pathTmp.'/'.$testFileName, 'Nothing to see here.');
-        if (\file_exists($pathTmp.'/'.strtolower($testFileName))) {
+        @file_put_contents($pathTmp . '/' . $testFileName, 'Nothing to see here.');
+        if (\file_exists($pathTmp . '/' . strtolower($testFileName))) {
              // Wrote caseSensitivityTest.txt but casesensitivitytest.txt exists, so case insensitive
             return true;
         }

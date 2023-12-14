@@ -631,7 +631,7 @@ class AccessTest extends IntegrationTestCase
 
     public function test_APIPermissionResponseCode()
     {
-        $url = Fixture::getTestRootUrl().'?'.http_build_query([
+        $url = Fixture::getTestRootUrl() . '?' . http_build_query([
                 'module'     => 'API',
                 'method'     => 'API.getMatomoVersion',
                 'token_auth' => 'DOES_NOT_EXIST',

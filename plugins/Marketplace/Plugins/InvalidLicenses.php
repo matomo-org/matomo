@@ -118,7 +118,7 @@ class InvalidLicenses
             $loginUrlEnd = '</a>';
         }
 
-        $message = $this->translator->translate('Marketplace_LicenseMissingDeactivatedDescription', array($plugins, '<br/>', "<strong>" . $loginUrl, $loginUrlEnd. "</strong>"));
+        $message = $this->translator->translate('Marketplace_LicenseMissingDeactivatedDescription', array($plugins, '<br/>', "<strong>" . $loginUrl, $loginUrlEnd . "</strong>"));
 
         if (Piwik::hasUserSuperUserAccess()) {
             $message .= ' ' . $this->getSubscritionSummaryMessage();

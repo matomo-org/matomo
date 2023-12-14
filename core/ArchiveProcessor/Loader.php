@@ -206,7 +206,7 @@ class Loader
         $doneFlag = Rules::getDoneStringFlagFor([$this->params->getSite()->getId()], $this->params->getSegment(),
           $this->params->getPeriod()->getLabel(), $this->params->getRequestedPlugin());
 
-        return $this->params->getPeriod()->getDateStart()->toString() . $this->params->getPeriod()->getDateEnd()->toString() .'.'. $doneFlag;
+        return $this->params->getPeriod()->getDateStart()->toString() . $this->params->getPeriod()->getDateEnd()->toString() . '.' . $doneFlag;
 
     }
 
@@ -516,7 +516,7 @@ class Loader
 
         $segmentArchiveStartDate = $segmentArchiving->getReArchiveSegmentStartDate($segmentInfo);
 
-        if ($segmentArchiveStartDate !==null && $segmentArchiveStartDate->isLater($params->getPeriod()->getDateEnd()->getEndOfDay())) {
+        if ($segmentArchiveStartDate !== null && $segmentArchiveStartDate->isLater($params->getPeriod()->getDateEnd()->getEndOfDay())) {
             $doneFlag = Rules::getDoneStringFlagFor(
                 [$params->getSite()->getId()],
                 $params->getSegment(),

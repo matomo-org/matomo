@@ -134,7 +134,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
 
         foreach ($submodules as $submodule) {
             $submodule = trim(trim($submodule), './');
-            $pluginLfsFiles = shell_exec('cd ' . PIWIK_DOCUMENT_ROOT.'/'.$submodule . ' && git lfs ls-files');
+            $pluginLfsFiles = shell_exec('cd ' . PIWIK_DOCUMENT_ROOT . '/' . $submodule . ' && git lfs ls-files');
             if (!empty($pluginLfsFiles)) {
                 $pluginLfsFiles = explode("\n", $pluginLfsFiles);
                 $pluginLfsFiles = array_map($cleanRevision, $pluginLfsFiles);
@@ -395,7 +395,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             $valid = array('777', '775', '755');
             $command = "find $pluginsPath -type d -exec chmod 755 {} +";
             $this->assertTrue(in_array($chmod, $valid),
-                    "Some directories within plugins/ are not chmod 755 \n\nGot: $chmod for : $pathToTest \n\n".
+                    "Some directories within plugins/ are not chmod 755 \n\nGot: $chmod for : $pathToTest \n\n" .
                     "Run this command to set all directories to 755: \n$command\n");;
         }
     }
@@ -434,7 +434,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
 
             $this->assertTrue( $enabled + $disabled === 1,
                 "Plugin $pluginName should be either enabled (in global.ini.php) or disabled (in Piwik\\Application\\Kernel\\PluginList).
-                It is currently (enabled=".(int)$enabled. ", disabled=" . (int)$disabled . ")"
+                It is currently (enabled=" . (int)$enabled . ", disabled=" . (int)$disabled . ")"
             );
             $count++;
         }
@@ -497,7 +497,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
 
     public function test_piwikJs_minified_isUpToDate()
     {
-        shell_exec("sed '/<DEBUG>/,/<\/DEBUG>/d' < ". PIWIK_DOCUMENT_ROOT ."/js/piwik.js | sed 's/eval/replacedEvilString/' | java -jar ". PIWIK_DOCUMENT_ROOT ."/tests/resources/yuicompressor/yuicompressor-2.4.8.jar --type js --line-break 1000 | sed 's/replacedEvilString/eval/' | sed 's/^[/][*]/\/*!/' > " . PIWIK_DOCUMENT_ROOT ."/piwik-minified.js");
+        shell_exec("sed '/<DEBUG>/,/<\/DEBUG>/d' < " . PIWIK_DOCUMENT_ROOT . "/js/piwik.js | sed 's/eval/replacedEvilString/' | java -jar " . PIWIK_DOCUMENT_ROOT . "/tests/resources/yuicompressor/yuicompressor-2.4.8.jar --type js --line-break 1000 | sed 's/replacedEvilString/eval/' | sed 's/^[/][*]/\/*!/' > " . PIWIK_DOCUMENT_ROOT . "/piwik-minified.js");
 
         $this->assertFileEquals(PIWIK_DOCUMENT_ROOT . '/piwik-minified.js',
             PIWIK_DOCUMENT_ROOT . '/piwik.js',
@@ -811,7 +811,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
     private function isFilePathFoundInArray($file, $filesToMatchAgainst)
     {
         foreach ($filesToMatchAgainst as $fileToMatchAgainst) {
-            if (strpos($file, $fileToMatchAgainst) !== false || fnmatch(PIWIK_INCLUDE_PATH.'/'.$fileToMatchAgainst, $file)) {
+            if (strpos($file, $fileToMatchAgainst) !== false || fnmatch(PIWIK_INCLUDE_PATH . '/' . $fileToMatchAgainst, $file)) {
                 return true;
             }
         }

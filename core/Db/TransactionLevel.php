@@ -86,7 +86,7 @@ class TransactionLevel
 
             $value = str_replace('-', ' ', $value);
             if (in_array($value, array('REPEATABLE READ', 'READ COMMITTED', 'SERIALIZABLE'))) {
-                $this->db->query('SET SESSION TRANSACTION ISOLATION LEVEL '.$value);
+                $this->db->query('SET SESSION TRANSACTION ISOLATION LEVEL ' . $value);
             } elseif ($value !== 'READ UNCOMMITTED') {
                 $this->db->query('SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ');
             }

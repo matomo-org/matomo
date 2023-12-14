@@ -119,7 +119,7 @@ class LogDataAnonymizations
                     $entry['sites'][] = Site::getNameFor($idSite);
                 } catch (\Exception$e) {
                     // site might be deleted
-                    $entry['sites'][] = 'Site ID: '. $idSite;
+                    $entry['sites'][] = 'Site ID: ' . $idSite;
                 }
             }
         } else {

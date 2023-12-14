@@ -68,7 +68,7 @@ class ColumnDeleteTest extends \PHPUnit\Framework\TestCase
 
     protected function assertSameDataTable(DataTable $table1, DataTable $table2)
     {
-        $this->assertTrue(DataTable::isEqual($table1, $table2), var_export($table1->getRows(), true) .' different from ' . var_export($table2, true));
+        $this->assertTrue(DataTable::isEqual($table1, $table2), var_export($table1->getRows(), true) . ' different from ' . var_export($table2, true));
     }
 
     public function test_filter_DataTable_removeNonExistingColumn()

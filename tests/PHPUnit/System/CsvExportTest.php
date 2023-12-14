@@ -54,7 +54,7 @@ class CsvExportTest extends SystemTestCase
                                     'testSuffix'             => '_xp1_inner1_trans-de')),
 
             array($apiToCall, array('idSite'                 => $idSite,
-                                    'date'                   => Date::factory($dateTime)->toString() .','. Date::factory($dateTime)->addDay(21)->toString(),
+                                    'date'                   => Date::factory($dateTime)->toString() . ',' . Date::factory($dateTime)->addDay(21)->toString(),
                                     'period'                 => 'week',
                                     'format'                 => 'csv',
                                     'testSuffix'             => '_multi')),

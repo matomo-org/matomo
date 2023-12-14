@@ -37,7 +37,7 @@ It’s now our job to ensure you get the best possible Matomo experience without
 <br>
 <strong>1. Speed up your Matomo by generating your reports in the background</strong><br>
 This is a common problem for first time users that can easily be fixed in a few minutes. What you’ll need to do is set up auto-archiving of your reports. I have provided you with a link of step-by-step instructions on how to do this below:<br>
-<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/setup-auto-archiving/') .'">&gt;&gt; Set up auto-archiving of your reports</a><br><br>
+<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/setup-auto-archiving/') . '">&gt;&gt; Set up auto-archiving of your reports</a><br><br>
 <strong>2. Get the server size right for your traffic</strong><br>
 Matomo is a platform designed to be fast, no matter the size of your database and how many visits you’re tracking. Here we can recommend the best infrastructure to host your Matomo.<br>
 <a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/requirements/#recommended-servers-sizing-cpu-ram-disks') . '">&gt;&gt; Learn the recommended server configuration and sizing to run Matomo with speed</a><br>

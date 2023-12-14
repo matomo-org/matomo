@@ -82,7 +82,7 @@ class ArchiveWriterTest extends \PHPUnit\Framework\TestCase
         for ($i = 0; $i < $numberOfEntries; $i++) {
             $subtableId = $startIndex + $i;
             // we need to append something to make sure it actually moves the correct blob into the correct chunk
-            $blobs[$subtableId] = $this->getSerializedBlob('_'. $subtableId);
+            $blobs[$subtableId] = $this->getSerializedBlob('_' . $subtableId);
         }
 
         return $blobs;

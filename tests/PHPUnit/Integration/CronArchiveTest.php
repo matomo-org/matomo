@@ -475,7 +475,7 @@ class CronArchiveTest extends IntegrationTestCase
             1, 1,2, '2020-03-30', '2020-04-05', 'done', ArchiveWriter::DONE_OK, $tsArchived
         ]);
 
-        $actual =$archiver->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params);
+        $actual = $archiver->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params);
         $this->assertTrue($actual);
     }
 
@@ -498,7 +498,7 @@ class CronArchiveTest extends IntegrationTestCase
             1, 1,2, '2020-03-30', '2020-04-05', 'done', ArchiveWriter::DONE_INVALIDATED, $tsArchived
         ]);
 
-        $actual =$archiver->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params);
+        $actual = $archiver->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params);
         $this->assertTrue($actual);
     }
 
@@ -544,7 +544,7 @@ class CronArchiveTest extends IntegrationTestCase
             1, 1, 1, '2020-04-04', '2020-04-04', 'done', ArchiveWriter::DONE_OK, $tsArchived
         ]);
 
-        $actual =$archiver->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params);
+        $actual = $archiver->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params);
         $this->assertFalse($actual);
     }
 

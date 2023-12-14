@@ -75,7 +75,7 @@ class DependencyTest extends IntegrationTestCase
 
         $this->assertMissingDependency(array('php' => '!=' . $this->formatPhpVersion(), 'piwik' => '<>' . Version::VERSION), array(
             $this->missingPhp('!=' . $this->formatPhpVersion()),
-            $this->missingPiwik('<>' . Version::VERSION . ',<' . (Version::MAJOR_VERSION+1) . '.0.0-b1', '<>' . Version::VERSION),
+            $this->missingPiwik('<>' . Version::VERSION . ',<' . (Version::MAJOR_VERSION + 1) . '.0.0-b1', '<>' . Version::VERSION),
         ));
     }
 
@@ -105,7 +105,7 @@ class DependencyTest extends IntegrationTestCase
         $this->assertMissingDependency(array('piwik' => '>=2.1,<9.0.0'), array());
         $this->assertMissingDependency(array('piwik' => '>=' . Version::VERSION), array());
         $this->assertMissingDependency(array('piwik' => '>' . Version::VERSION), array(
-            $this->missingPiwik('>' . Version::VERSION.',<' . (Version::MAJOR_VERSION+1) . '.0.0-b1', '>' . Version::VERSION)
+            $this->missingPiwik('>' . Version::VERSION . ',<' . (Version::MAJOR_VERSION + 1) . '.0.0-b1', '>' . Version::VERSION)
         ));
         $this->assertMissingDependency(array('piwik' => '>=9.2'), array(
             $this->missingPiwik('>=9.2,<10.0.0-b1', '>=9.2')

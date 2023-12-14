@@ -169,7 +169,7 @@ class Update extends ConsoleCommand
         $migrationQueries = $this->getMigrationQueriesToExecute($updater);
 
         if(empty($migrationQueries)) {
-            $output->writeln(array("    *** ".Piwik::translate('CoreUpdater_ConsoleUpdateNoSqlQueries')." ***", ""));
+            $output->writeln(array("    *** " . Piwik::translate('CoreUpdater_ConsoleUpdateNoSqlQueries') . " ***", ""));
             return;
         }
 
@@ -181,7 +181,7 @@ class Update extends ConsoleCommand
             ));
         }
 
-        $output->writeln(array("    *** ".Piwik::translate('CoreUpdater_DryRun')." ***", ""));
+        $output->writeln(array("    *** " . Piwik::translate('CoreUpdater_DryRun') . " ***", ""));
 
         foreach ($migrationQueries as $query) {
             $result = $query->__toString();

@@ -35,7 +35,7 @@ class SomeVisitsLastYearAndThisYear extends Fixture
     private function setUpWebsites()
     {
         if (!self::siteCreated($idSite = 1)) {
-            $dt = Date::factory($this->year.'-01-01')->subYear(1);
+            $dt = Date::factory($this->year . '-01-01')->subYear(1);
             self::createWebsite($dt);
         }
     }
@@ -45,7 +45,7 @@ class SomeVisitsLastYearAndThisYear extends Fixture
 
         // This year, 5 visits
         for ($i = 0;$i < 5;$i++) {
-            $dateTime = Date::factory($this->year.'-01-01')->toString();
+            $dateTime = Date::factory($this->year . '-01-01')->toString();
             $t = self::getTracker($this->idSite, $dateTime, $defaultInit = true);
 
             $t->setUrl('http://example.org/index.htm');
@@ -54,7 +54,7 @@ class SomeVisitsLastYearAndThisYear extends Fixture
 
         // Last Year
         for ($i = 0;$i < 5;$i++) {
-            $dateTime = Date::factory($this->year.'-01-01')->subYear(1)->toString();
+            $dateTime = Date::factory($this->year . '-01-01')->subYear(1)->toString();
             $t = self::getTracker($this->idSite, $dateTime, $defaultInit = true);
 
             $t->setUrl('http://example.org/index.htm');

@@ -120,7 +120,7 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
         $expectedActionsBlobsWhenFlattened = $expectedActionsBlobs + 1;
 
         $tests = array(
-            'archive_blob_2010_12'    => ( ($expectedActionsBlobs+1) /*Actions*/
+            'archive_blob_2010_12'    => ( ($expectedActionsBlobs + 1) /*Actions*/
                     + 1 /* Resolution */
                     + 1 /* VisitTime */) * 3,
 

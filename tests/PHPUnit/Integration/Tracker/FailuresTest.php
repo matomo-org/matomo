@@ -153,7 +153,7 @@ class FailuresTest extends IntegrationTestCase
 
     public function test_logFailure_anonymizesTokenWhenMd5SimilarValueUsed()
     {
-        $this->logFailure(1, array('foo' => md5('foo') .'ff'));
+        $this->logFailure(1, array('foo' => md5('foo') . 'ff'));
         $failures = $this->failures->getAllFailures();
         $this->assertEquals('foo=__TOKEN_AUTH__&rec=1&idsite=1', $failures[0]['request_url']);
     }
