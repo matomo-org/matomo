@@ -125,10 +125,15 @@ nav {
 
   .pageWrap {
     width: 100%;
+    height: fit-content;
     padding-left: 9px;
     padding-right: 9px;
     margin-left: 9px;
     margin-right: 9px;
+  }
+
+  #secondNavBar + .pageWrap {
+    width: calc(~'100% - 224px - 18px');  // 100% - menu width - pageWrap margin
   }
 
   &>.top_controls {
@@ -146,6 +151,16 @@ nav {
   @media only screen and (min-width: 993px) {
     ~ .drag-target {
       display: none !important;
+    }
+  }
+
+  @media all and (max-width: 992px) {
+    #secondNavBar {
+      width: 0 !important;
+    }
+
+    .pageWrap {
+      width: 100% !important;
     }
   }
 
@@ -190,7 +205,7 @@ nav {
 
   #secondNavBar {
     width: 224px;
-    float:left;
+    height: fit-content;
     background-color: @theme-color-menu-contrast-background;
     box-shadow: none !important;
 
@@ -546,6 +561,10 @@ nav {
   }
 
   #root{
+    #secondNavBar + .pageWrap {
+      width: 100% !important;
+    }
+
     .top_controls{
       .quick-access {
       display: none !important;
