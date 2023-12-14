@@ -8,7 +8,7 @@
 
 namespace Piwik\Plugins\Marketplace\tests\Framework\Mock;
 
-use \Piwik\Plugins\Marketplace\Consumer as ActualConsumer;
+use Piwik\Plugins\Marketplace\Consumer as ActualConsumer;
 use Piwik\Plugins\Marketplace\Input\PurchaseType;
 
 class Consumer {

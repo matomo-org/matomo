@@ -43,7 +43,6 @@
         <exclude name="PSR12.ControlStructures.ControlStructureSpacing.SpaceBeforeCloseBrace" />
         <exclude name="PSR12.ControlStructures.ControlStructureSpacing.SpacingAfterOpenBrace" />
         <exclude name="PSR12.Files.FileHeader" />
-        <exclude name="PSR12.Files.ImportStatement.LeadingSlash" />
         <exclude name="PSR12.Functions.ReturnTypeDeclaration.SpaceBeforeColon" />
         <exclude name="PSR12.Keywords.ShortFormTypeKeywords.LongFound" />
         <exclude name="PSR12.Properties.ConstantVisibility" />

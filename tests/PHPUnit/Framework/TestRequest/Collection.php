@@ -14,7 +14,7 @@ use Piwik\API\Request;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Url;
 use Piwik\UrlHelper;
-use \Exception;
+use Exception;
 
 /**
  * Utility class used to generate a set of API requests given API methods to call, API

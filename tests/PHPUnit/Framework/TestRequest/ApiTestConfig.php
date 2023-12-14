@@ -8,7 +8,7 @@
 
 namespace Piwik\Tests\Framework\TestRequest;
 
-use \Exception;
+use Exception;
 
 /**
  * Holds the specification for a set of API tests.

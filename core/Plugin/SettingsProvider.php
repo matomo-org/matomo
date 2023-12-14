@@ -13,8 +13,8 @@ use Piwik\Container\StaticContainer;
 use Piwik\Plugin;
 use Piwik\Cache as PiwikCache;
 use Piwik\Settings\Measurable\MeasurableSettings;
-use \Piwik\Settings\Plugin\UserSettings;
-use \Piwik\Settings\Plugin\SystemSettings;
+use Piwik\Settings\Plugin\UserSettings;
+use Piwik\Settings\Plugin\SystemSettings;
 
 /**
  * Base class of all plugin settings providers. Plugins that define their own configuration settings
