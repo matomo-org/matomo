@@ -1743,7 +1743,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      * @param bool|string $name The metadata name (omit to delete all metadata)
      * @return bool True if the requested metadata was deleted
      */
-    public function deleteMetadata($name = false) : bool
+    public function deleteMetadata($name = false): bool
     {
         if ($name === false) {
             $this->metadata = [];

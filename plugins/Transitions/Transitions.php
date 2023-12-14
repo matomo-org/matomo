@@ -81,7 +81,7 @@ class Transitions extends \Piwik\Plugin
      *
      * @return string
      */
-    public static function getPeriodAllowedConfig($idSite) : string
+    public static function getPeriodAllowedConfig($idSite): string
     {
         $transitionsGeneralConfig = Config::getInstance()->Transitions;
         $generalMaxPeriodAllowed = ($transitionsGeneralConfig && !empty($transitionsGeneralConfig['max_period_allowed']) ? $transitionsGeneralConfig['max_period_allowed'] : null);

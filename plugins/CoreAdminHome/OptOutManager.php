@@ -271,7 +271,7 @@ HTML;
      *
      * @return string
      */
-    public function getOptOutJS() : string
+    public function getOptOutJS(): string
     {
 
         $language = Common::getRequestVar('language', 'auto', 'string');
@@ -384,7 +384,7 @@ JS;
      *
      * @return string
      */
-    private function getOptOutCommonJS() : string
+    private function getOptOutCommonJS(): string
     {
         /** @lang JavaScript */
         return <<<JS
@@ -503,7 +503,7 @@ JS;
      *
      * @return array
      */
-    private function getTranslations(string $language = null) : array
+    private function getTranslations(string $language = null): array
     {
         return [
             'OptOutComplete'        => Piwik::translate('CoreAdminHome_OptOutComplete', [], $language),
