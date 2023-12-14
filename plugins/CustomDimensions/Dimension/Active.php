@@ -9,7 +9,7 @@
 
 namespace Piwik\Plugins\CustomDimensions\Dimension;
 
-use \Exception;
+use Exception;
 
 class Active
 {

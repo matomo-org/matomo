@@ -1,7 +1,7 @@
 <?php
 
-use \Piwik\Tracker\Request;
-use \Piwik\Tracker\Failures;
+use Piwik\Tracker\Request;
+use Piwik\Tracker\Failures;
 
 return array(
 
