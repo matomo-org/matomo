@@ -77,26 +77,6 @@
             JqplotGraphDataTablePrototype._bindEvents.call(this);
 
             const self = this;
-            const hasIncompleteDataPoints = !!this.jqplotParams['incompleteDataPoints'];
-
-            let tickCount = 0;
-
-            switch (this.param.period) {
-                case 'day':
-                    tickCount = this.param.evolution_day_last_n;
-                    break;
-                case 'week':
-                    tickCount = this.param.evolution_week_last_n;
-                    break;
-                case 'month':
-                    tickCount = this.param.evolution_month_last_n;
-                    break;
-                case 'year':
-                    tickCount = this.param.evolution_year_last_n;
-                    break;
-            }
-
-            const lastTick = tickCount - 1;
 
             $('#' + this.targetDivId)
                 .on('jqplotMouseLeave', function (e, s, i, d) {
@@ -185,7 +165,7 @@
                         `;
                     }
 
-                    if (tick === lastTick && hasIncompleteDataPoints) {
+                    if (self.jqplotParams.incompleteDataPoints.includes(tick)) {
                         content += `<br />(${self._lang.incompletePeriod})`;
                     }
 
