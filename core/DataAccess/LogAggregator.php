@@ -942,7 +942,6 @@ class LogAggregator
                     )
                 )
             ),
-
             // FROM ...
             array(
                 "log_conversion_item",
@@ -951,7 +950,6 @@ class LogAggregator
                     "joinOn" => sprintf("log_conversion_item.%s = log_action.idaction", $dimension)
                 )
             ),
-
             // WHERE ... AND ...
             implode(
                 ' AND ',
@@ -962,13 +960,11 @@ class LogAggregator
                     'log_conversion_item.deleted = 0'
                 )
             ),
-
             // GROUP BY ...
             sprintf(
                 "ecommerceType, log_conversion_item.%s",
                 $dimension
             ),
-
             // ORDER ...
             false
         );
