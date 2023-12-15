@@ -139,7 +139,12 @@ class API extends \Piwik\Plugin\API
 
         $dataTable = $this->getMetricDataSummary();
 
-        $dataTable->filter('GroupBy', array('label', function($tableName) { return $this->getArchiveTableYear($tableName); }));
+        $dataTable->filter('GroupBy', array(
+            'label',
+            function ($tableName) {
+                return $this->getArchiveTableYear($tableName);
+            }
+        ));
 
         return $dataTable;
     }
@@ -168,7 +173,12 @@ class API extends \Piwik\Plugin\API
 
         $dataTable = $this->getReportDataSummary();
 
-        $dataTable->filter('GroupBy', array('label', function($tableName) { return $this->getArchiveTableYear($tableName); }));
+        $dataTable->filter('GroupBy', array(
+            'label',
+            function ($tableName) {
+                return $this->getArchiveTableYear($tableName);
+            }
+        ));
 
         return $dataTable;
     }

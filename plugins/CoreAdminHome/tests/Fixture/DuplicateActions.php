@@ -163,7 +163,9 @@ class DuplicateActions extends Fixture
                 $row['idvisitor'] = pack("H*", $row['idvisitor']);
             }
 
-            $placeholders = array_map(function () { return "?"; }, $row);
+            $placeholders = array_map(function () {
+                return "?";
+            }, $row);
             $sql = "INSERT INTO $table (" . implode(',', array_keys($row)) . ") VALUES (" . implode(',', $placeholders) . ")";
             Db::query($sql, array_values($row));
         }

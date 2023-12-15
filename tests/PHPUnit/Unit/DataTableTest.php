@@ -1037,7 +1037,9 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         ];
 
         $actualRows = $table1->getRows();
-        $actualRows = array_map(function (Row $r) { return $r->getColumns(); }, $actualRows);
+        $actualRows = array_map(function (Row $r) {
+            return $r->getColumns();
+        }, $actualRows);
 
         $this->assertEquals($expectedRows, $actualRows);
     }
@@ -1077,7 +1079,9 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         ];
 
         $actualRows = $table1->getRows();
-        $actualRows = array_map(function (Row $r) { return $r->getColumns(); }, $actualRows);
+        $actualRows = array_map(function (Row $r) {
+            return $r->getColumns();
+        }, $actualRows);
 
         $this->assertEquals($expectedRows, $actualRows);
     }
@@ -1208,7 +1212,9 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         ];
 
         $actualRows = $dataTable->getRows();
-        $actualRows = array_map(function (Row $r) { return $r->getColumns(); }, $actualRows);
+        $actualRows = array_map(function (Row $r) {
+            return $r->getColumns();
+        }, $actualRows);
 
         $this->assertEquals($expectedRows, $actualRows);
     }
@@ -1231,7 +1237,8 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         ];
 
         $actualRows = $dataTable->getRows();
-        $actualRows = array_map(function (Row $r) { return $r->getColumns(); }, $actualRows);
+        $actualRows = array_map(function (Row $r) { return $r->getColumns();
+        }, $actualRows);
 
         $this->assertEquals($expectedRows, $actualRows);
     }
@@ -1256,7 +1263,9 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         ];
 
         $actualRows = $dataTable->getRows();
-        $actualRows = array_map(function (Row $r) { return $r->getColumns(); }, $actualRows);
+        $actualRows = array_map(function (Row $r) {
+            return $r->getColumns();
+        }, $actualRows);
 
         $this->assertEquals($expectedRows, $actualRows);
     }
@@ -1280,7 +1289,9 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         ];
 
         $actualRows = $dataTable->getRows();
-        $actualRows = array_map(function (Row $r) { return $r->getColumns(); }, $actualRows);
+        $actualRows = array_map(function (Row $r) {
+            return $r->getColumns();
+        }, $actualRows);
 
         $this->assertEquals($expectedRows, $actualRows);
     }
@@ -1303,7 +1314,9 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         ];
 
         $actualRows = $dataTable->getRows();
-        $actualRows = array_map(function (Row $r) { return $r->getColumns(); }, $actualRows);
+        $actualRows = array_map(function (Row $r) {
+            return $r->getColumns();
+        }, $actualRows);
 
         $this->assertEquals($expectedRows, $actualRows);
     }

@@ -130,7 +130,7 @@ class Controller extends \Piwik\Plugins\Goals\Controller
         }
 
         if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
-            $abandonedCart = Piwik::translate('Goals_AbandonedCart');;
+            $abandonedCart = Piwik::translate('Goals_AbandonedCart');
             $metrics['nb_conversions'] = Piwik::translate('General_VisitsWith', $abandonedCart);
             $metrics['conversion_rate'] = Piwik::translate('General_VisitsWith', $abandonedCart);
             $metrics['revenue'] = Piwik::translate('Ecommerce_RevenueLeftInCart', Piwik::translate('General_ColumnRevenue'));

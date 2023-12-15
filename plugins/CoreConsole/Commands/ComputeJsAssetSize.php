@@ -169,7 +169,9 @@ class ComputeJsAssetSize extends ConsoleCommand
         $expectedPluginsLoadedAndActivated = array_unique($expectedPluginsLoadedAndActivated);
 
         $pluginsLoadedAndActivated = Manager::getInstance()->getPluginsLoadedAndActivated();
-        $pluginsLoadedAndActivated = array_map(function (Plugin $p) { return $p->getPluginName(); }, $pluginsLoadedAndActivated);
+        $pluginsLoadedAndActivated = array_map(function (Plugin $p) {
+            return $p->getPluginName();
+        }, $pluginsLoadedAndActivated);
 
         $missingPlugins = array_diff($expectedPluginsLoadedAndActivated, $pluginsLoadedAndActivated);
         if (!empty($missingPlugins)) {
@@ -271,7 +273,9 @@ class ComputeJsAssetSize extends ConsoleCommand
     private function makeUmdFetcher()
     {
         $plugins = Manager::getInstance()->getPluginsLoadedAndActivated();
-        $pluginNames = array_map(function ($p) { return $p->getPluginName(); }, $plugins);
+        $pluginNames = array_map(function ($p) {
+            return $p->getPluginName();
+        }, $plugins);
 
         $theme = Manager::getInstance()->getThemeEnabled();
         if (!empty($theme)) {

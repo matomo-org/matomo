@@ -356,7 +356,7 @@ class RawLogDao
 
             if ($olderThan) {
                // Why start on zero? When running for a couple of months, this will generate about 10000+ queries with zero result. Use the lowest value instead.... saves a LOT of waiting time!
-                $start = (int) Db::fetchOne("SELECT MIN($idCol) FROM " . Common::prefixTable($table));;
+                $start = (int) Db::fetchOne("SELECT MIN($idCol) FROM " . Common::prefixTable($table));
                 $finish = $maxIds[$table];
             } else {
                 $start = $maxIds[$table];
