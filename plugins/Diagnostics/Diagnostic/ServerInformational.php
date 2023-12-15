@@ -33,7 +33,7 @@ class ServerInformational implements Diagnostic
         if (!empty($_SERVER['SERVER_SOFTWARE'])) {
 
             $isGlobalConfigIniAccessible = true; // Assume true if not installed yet
-            
+
             // Only attempt to check file accessibility if the config setting allows it
             $disableFileAccessCheck = (GeneralConfig::getConfigValue('enable_required_directories_diagnostic') == 0);
 

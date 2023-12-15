@@ -196,7 +196,7 @@ class RawLogDao
 
         $this->dropTempTableForStoringUsedActions();
     }
-    
+
     /**
      * Returns the list of the website IDs that received some visits between the specified timestamp. The
      * start date and the end date is included in the time frame.

@@ -279,17 +279,17 @@ class VisitRequestProcessor extends RequestProcessor
     protected function lastUserIdWasSetAndDoesMatch(VisitProperties $visitProperties, Request $request)
     {
         $lastUserId = $visitProperties->getProperty('user_id');
-        
+
         if(empty($lastUserId)) {
             return true;
         }
-        
+
         $currentUserId = $request->getForcedUserId();
-        
+
         if(empty($currentUserId)) {
             return true;
         }
-        
+
         return $lastUserId === $currentUserId;
     }
 }

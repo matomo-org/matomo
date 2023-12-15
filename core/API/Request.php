@@ -286,7 +286,7 @@ class Request
             if (empty($response)) {
                 $response = new ResponseBuilder('console', $this->request);
             }
-            
+
             $toReturn = $response->getResponseException($e);
         } finally {
             --self::$nestedApiInvocationCount;

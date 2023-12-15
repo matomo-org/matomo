@@ -19,7 +19,7 @@ class SimpleTest extends \PHPUnit\Framework\TestCase
     {
         // set up here if needed
     }
-    
+
     public function tearDown(): void
     {
         // tear down here if needed

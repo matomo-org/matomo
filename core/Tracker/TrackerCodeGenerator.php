@@ -274,7 +274,7 @@ class TrackerCodeGenerator
             if (empty($site_url)) {
                 continue;
             }
-            
+
             $referrerParsed = parse_url($site_url);
 
             if (!isset($firstHost) && isset($referrerParsed['host'])) {
@@ -289,7 +289,7 @@ class TrackerCodeGenerator
             if (!empty($referrerParsed['path'])) {
                 $url .= $referrerParsed['path'];
             }
-            
+
             if (!empty($url)) {
                 $websiteHosts[] = $url;
             }

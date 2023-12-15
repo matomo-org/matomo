@@ -216,7 +216,7 @@ abstract class ViewDataTable implements ViewInterface
                     if (!$relatedReport) {
                         continue;
                     }
-                    
+
                     $relatedReportName = $relatedReport->getName();
 
                     $this->config->addRelatedReport($relatedReport->getModule() . '.' . $relatedReport->getAction(),

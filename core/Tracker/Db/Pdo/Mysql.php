@@ -32,7 +32,7 @@ class Mysql extends Db
 
     protected $mysqlOptions = array();
 
-    
+
     protected $activeTransaction = false;
 
     /**

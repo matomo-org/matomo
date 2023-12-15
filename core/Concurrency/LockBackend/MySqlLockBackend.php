@@ -46,14 +46,14 @@ class MySqlLockBackend implements LockBackend
         if ($this->get($key)) {
             return false; // a value is set, won't be possible to insert
         }
-        
+
         $tablePrefixed = self::getTableName();
 
         // remove any existing but expired lock
         // todo: we could combine get() and keyExists() in one query!
         if ($this->keyExists($key)) {
             // most of the time an expired key should not exist... we don't want to lock the row unnecessarily therefore we check first
-            // if value exists... 
+            // if value exists...
             $sql = sprintf('DELETE FROM %s WHERE `key` = ? and not (%s)', $tablePrefixed, $this->getQueryPartExpiryTime());
             Db::query($sql, array($key));
         }

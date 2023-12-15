@@ -23,7 +23,7 @@ class GetDatabaseUsageSummary extends Base
     {
         $this->name = Piwik::translate('General_Overview');
     }
-    
+
     public function getDefaultTypeViewDataTable()
     {
         return Pie::ID;

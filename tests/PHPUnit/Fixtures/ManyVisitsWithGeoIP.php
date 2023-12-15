@@ -131,7 +131,7 @@ class ManyVisitsWithGeoIP extends Fixture
     /**
      * Insert a new visit into the database.
      * @param \MatomoTracker $t          The tracker to record the visits on
-     * @param int $fixtureCounter       Number of times this fixture has been run 
+     * @param int $fixtureCounter       Number of times this fixture has been run
      * @param int $visitorCounter       Visitor counter within this execution of the fixture
      * @param boolean $doBulk           Should this visit be left for bulk insert later, or processed now?
      * @param array $params             Other params as required to set up the visit
@@ -224,9 +224,9 @@ class ManyVisitsWithGeoIP extends Fixture
 
         $date = $date->addHour(0.05);
         $t->setForceVisitDateTime($date->getDatetime());
-        $r = $t->doTrackEvent('Cat' . $visitorCounter, 
-            'Action' . $visitorCounter, 
-            'Name' . $visitorCounter, 
+        $r = $t->doTrackEvent('Cat' . $visitorCounter,
+            'Action' . $visitorCounter,
+            'Name' . $visitorCounter,
             345.678 + $visitorCounter
         );
         if (!$doBulk) {

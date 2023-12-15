@@ -18,17 +18,17 @@ class Locale
         if(!is_array($locale)){
             $locale = array($locale);
         }
-        
+
         $newLocale = array();
         foreach($locale as $localePart){
             $newLocale[] = $localePart;
-            
+
             $localeVariant = str_replace('UTF-8', 'UTF8', $localePart);
             if($localeVariant != $localePart){
                 $newLocale[] = $localeVariant;
             }
         }
-        
+
         setlocale(LC_ALL, $newLocale);
         setlocale(LC_CTYPE, '');
         // Always use english for numbers. otherwise the decimal separator might get localized when casting a float to string

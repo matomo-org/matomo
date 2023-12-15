@@ -62,7 +62,7 @@ class ExtractionTest extends IntegrationTestCase
 
         $this->assertSame('fooBarBaz', $value);
     }
-    
+
     public function test_toArray()
     {
         $extraction = $this->buildExtraction('url', '.com/(.+)/index');

@@ -28,7 +28,7 @@ class VisitsWithAllActionsAndDevices extends Fixture
         }
 
         GoalsApi::getInstance()->addGoal(1, 'Successfully used Search', 'manually', '', 'contains');
-        
+
         CustomDimensionsApi::getInstance()->configureNewCustomDimension(1, 'age', 'visit', 1);
         CustomDimensionsApi::getInstance()->configureNewCustomDimension(1, 'currency', 'action', 1);
 

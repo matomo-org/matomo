@@ -36,7 +36,7 @@ class UpdateCommunication
         if($isEnabled === true && SettingsPiwik::isInternetEnabled() === true){
             return true;
         }
-        
+
         return false;
     }
 

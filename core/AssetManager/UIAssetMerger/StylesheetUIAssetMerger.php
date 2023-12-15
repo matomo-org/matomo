@@ -65,7 +65,7 @@ class StylesheetUIAssetMerger extends UIAssetMerger
 
         return $compiled;
     }
-    
+
     private function getCssStatementForReplacement($path)
     {
         return ".nonExistingSelectorOnlyForReplacementOfCssFiles {\n  display: \"" . $path . "\";\n}";
@@ -106,7 +106,7 @@ class StylesheetUIAssetMerger extends UIAssetMerger
 
         $this->mergedContent = $concatenatedContent;
     }
-    
+
     /**
      * @return lessc
      * @throws Exception

@@ -101,7 +101,7 @@ class VisitsWithUserIdAndCustomData extends Fixture
         $customLog->addUserInformation('user3', 'admin', 'women');
         $customLog->addUserInformation('user4', '', 'men');
     }
-    
+
     private function insertCustomGroupLogData()
     {
         $customGroup = new CustomGroupLog();

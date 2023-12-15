@@ -103,7 +103,7 @@ return array(
     'Piwik\Plugins\Monolog\Handler\FileHandler' => Piwik\DI::create()
         ->constructor(Piwik\DI::get('log.file.filename'), Piwik\DI::get('log.level.file'))
         ->method('setFormatter', Piwik\DI::get('log.lineMessageFormatter.file')),
-    
+
     '\Monolog\Handler\ErrorLogHandler' => Piwik\DI::autowire()
         ->constructorParameter('level', Piwik\DI::get('log.level.errorlog'))
         ->method('setFormatter', Piwik\DI::get('log.lineMessageFormatter.file')),
@@ -207,7 +207,7 @@ return array(
 
         return $logPath;
     }),
-    
+
     'log.syslog.ident' => Piwik\DI::factory(function (Container $c) {
         $ident = $c->get('ini.log.logger_syslog_ident');
         if (empty($ident)) {

@@ -743,7 +743,7 @@ class GoalManager
             $this->insertNewConversion($conversion, $visitProperties->getProperties(), $request, $action, $convertedGoal);
         }
     }
-    
+
     private function makeRandomMySqlUnsignedInt($length)
     {
         // mysql int unsgined max value is 4294967295 so we want to allow max 39999...

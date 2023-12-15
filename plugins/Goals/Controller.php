@@ -152,7 +152,7 @@ class Controller extends \Piwik\Plugin\Controller
                 foreach ($view->goals as $goal) {
                     $str = '';
                     Piwik::postEvent('Template.beforeGoalListActionsBody', [&$str, $goal]);
-    
+
                     $beforeGoalListActionsBody[$goal['idgoal']] = $str;
                 }
             }

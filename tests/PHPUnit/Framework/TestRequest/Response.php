@@ -216,7 +216,7 @@ class Response
         if (!is_array($fieldsToRemove)) {
             $fieldsToRemove = array();
         }
-        
+
         foreach ($fieldsToRemove as $xml) {
             $input = $this->removeXmlElement($input, $xml);
         }

@@ -262,7 +262,7 @@ class LogAggregatorTest extends IntegrationTestCase
 				AND log_visit.visit_last_action_time <= ?
 				AND log_visit.idsite IN (?)';
         $orderBy = 'max_actions_pageviewposition';
-        
+
         $query = $this->logAggregator->generateQuery($select, $from, $where, false, $orderBy);
 
         $expected = [
