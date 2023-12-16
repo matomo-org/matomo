@@ -81,12 +81,10 @@ class Cache
 
         switch ($type) {
             case 'file':
-
                 $options = array('directory' => StaticContainer::get('path.cache'));
                 break;
 
             case 'chained':
-
                 foreach ($options['backends'] as $backend) {
                     $options[$backend] = self::getOptions($backend);
                 }
@@ -94,7 +92,6 @@ class Cache
                 break;
 
             case 'redis':
-
                 if (!empty($options['timeout'])) {
                     $options['timeout'] = (float)Common::forceDotAsSeparatorForDecimalPoint($options['timeout']);
                 }
