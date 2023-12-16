@@ -50,7 +50,6 @@
         <exclude name="PSR2.Classes.PropertyDeclaration.ScopeMissing" />
         <exclude name="PSR2.Classes.PropertyDeclaration.Underscore" />
         <exclude name="PSR2.ControlStructures.ElseIfDeclaration.NotAllowed" />
-        <exclude name="PSR2.ControlStructures.SwitchDeclaration.BodyOnNextLineCASE" />
         <exclude name="PSR2.ControlStructures.SwitchDeclaration.WrongOpenercase" />
         <exclude name="PSR2.Methods.FunctionCallSignature.CloseBracketLine" />
         <exclude name="PSR2.Methods.FunctionCallSignature.ContentAfterOpenBracket" />
