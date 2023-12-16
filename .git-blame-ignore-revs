@@ -41,3 +41,13 @@ e30646531986050ffdd3bfea4ac1dcfe74ee33e2
 1903b100fa47d4f702ce9a6eb05d4e64c0fa7daa
 # [Coding Style] Enable rules PSR12.Operators.OperatorSpacing.NoSpaceBefore and PSR12.Operators.OperatorSpacing.NoSpaceAfter (#21690)
 cc2a090a29878cac4f31b68b6917862e765c2d0d
+# [Coding Style] Enable rule PSR12.Files.ImportStatement.LeadingSlash (#21692)
+b5729c235c84ab76680ddf0736ecb543f5c283c2
+# [Coding Style] Enable rule PSR12.Functions.ReturnTypeDeclaration.SpaceBeforeColon (#21693)
+40ba1b12db9016d37942832397674d20cddf1218
+# [Coding Style] Enable rule Squiz.WhiteSpace.SuperfluousWhitespace.EndLine (#21696)
+b9c6430c0569308350c3b33231646016d19924ea
+# [Coding Style] Enable rule PSR2.Methods.FunctionCallSignature.EmptyLine (#21699)
+6fa0f5bb8bd0cb06c44db97e226612af9f844a81
+# [Coding Style] Enable rule Generic.Formatting.DisallowMultipleStatements.SameLine (#21700)
+942300387c974a8313b2bd5ecdb486957cca02c4
