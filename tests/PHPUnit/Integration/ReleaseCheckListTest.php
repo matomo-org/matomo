@@ -67,10 +67,14 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.ico');
 
         // filter favicon.ico as it may not be in PNG format which is fine
-        $files = array_filter($files, function($value) { return !preg_match('/favicon.ico/', $value); });
+        $files = array_filter($files, function ($value) {
+            return !preg_match('/favicon.ico/', $value);
+        });
 
         // filter source files for icon creation as they can be favicons
-        $files = array_filter($files, function($value) { return !preg_match('~icons/src~', $value); });
+        $files = array_filter($files, function ($value) {
+            return !preg_match('~icons/src~', $value);
+        });
 
         $this->checkFilesAreInPngFormat($files);
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/core', '*.ico');
@@ -396,7 +400,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             $command = "find $pluginsPath -type d -exec chmod 755 {} +";
             $this->assertTrue(in_array($chmod, $valid),
                     "Some directories within plugins/ are not chmod 755 \n\nGot: $chmod for : $pathToTest \n\n" .
-                    "Run this command to set all directories to 755: \n$command\n");;
+                    "Run this command to set all directories to 755: \n$command\n");
         }
     }
 

@@ -203,7 +203,9 @@ class API extends \Piwik\Plugin\API
     public function getConfiguredCustomDimensionsHavingScope($idSite, $scope)
     {
         $result = $this->getConfiguredCustomDimensions($idSite);
-        $result = array_filter($result, function ($row) use ($scope) { return $row['scope'] == $scope; });
+        $result = array_filter($result, function ($row) use ($scope) {
+            return $row['scope'] == $scope;
+        });
         $result = array_values($result);
         return $result;
     }

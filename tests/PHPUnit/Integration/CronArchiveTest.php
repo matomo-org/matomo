@@ -884,11 +884,21 @@ LOG;
     private function cleanOutput($output)
     {
         $output = explode("\n", $output);
-        $output = array_filter($output, function ($l) { return strpos($l, 'Skipping invalidated archive') === false; });
-        $output = array_filter($output, function ($l) { return strpos($l, 'Found archive with intersecting period') === false; });
-        $output = array_filter($output, function ($l) { return strpos($l, 'Found duplicate invalidated archive') === false; });
-        $output = array_filter($output, function ($l) { return strpos($l, 'No usable archive exists') === false; });
-        $output = array_filter($output, function ($l) { return strpos($l, 'Found invalidated archive we can skip (no visits)') === false; });
+        $output = array_filter($output, function ($l) {
+            return strpos($l, 'Skipping invalidated archive') === false;
+        });
+        $output = array_filter($output, function ($l) {
+            return strpos($l, 'Found archive with intersecting period') === false;
+        });
+        $output = array_filter($output, function ($l) {
+            return strpos($l, 'Found duplicate invalidated archive') === false;
+        });
+        $output = array_filter($output, function ($l) {
+            return strpos($l, 'No usable archive exists') === false;
+        });
+        $output = array_filter($output, function ($l) {
+            return strpos($l, 'Found invalidated archive we can skip (no visits)') === false;
+        });
         $output = implode("\n", $output);
         return $output;
     }

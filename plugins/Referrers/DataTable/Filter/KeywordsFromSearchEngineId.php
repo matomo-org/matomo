@@ -47,7 +47,14 @@ class KeywordsFromSearchEngineId extends BaseFilter
 
         if (!empty($subTableRow)) {
             $searchEngineUrl = $subTableRow->getMetadata('url');
-            $table->queueFilter('ColumnCallbackAddMetadata', array('label', 'url',  function ($keyword, $url) { return SearchEngine::getInstance()->getBackLinkFromUrlAndKeyword($url, $keyword); }, array($searchEngineUrl)));
+            $table->queueFilter('ColumnCallbackAddMetadata', array(
+                'label',
+                'url',
+                function ($keyword, $url) {
+                    return SearchEngine::getInstance()->getBackLinkFromUrlAndKeyword($url, $keyword);
+                },
+                array($searchEngineUrl)
+            ));
             $table->queueFilter(function (DataTable $table) {
                 $row = $table->getRowFromId(DataTable::ID_SUMMARY_ROW);
                 if ($row) {
