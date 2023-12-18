@@ -166,7 +166,7 @@ class CalculateConversionPages extends ConsoleCommand
             return null;
         }
 
-        $sites = explode(',',  $idSite);
+        $sites = explode(',', $idSite);
         foreach ($sites as $id) {
             // validate the site ID
             try {
@@ -198,7 +198,7 @@ class CalculateConversionPages extends ConsoleCommand
             throw new \InvalidArgumentException("The goals parameter can only be used when a single website is specified using the idsite parameter", $code = 0);
         }
 
-        $goals = explode(',',  $idGoal);
+        $goals = explode(',', $idGoal);
         $goalsModel = new GoalsModel();
 
         foreach ($goals as $id) {

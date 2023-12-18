@@ -116,13 +116,13 @@ class SomePageGoalVisitsWithConversions extends Fixture
         $this->doConversion($t, 1);
 
         // Visit 3: A > D > No conversion
-        $this->doNewVisitor($t,  'a13b7c5a62f72dea', 'fr');
+        $this->doNewVisitor($t, 'a13b7c5a62f72dea', 'fr');
         $this->doPageVisit($t, 'A', 'index.html');
         $this->doPageVisit($t, 'D');
 
         // Visit 4: A > C > Conversion 1
         //          A > B > C > Conversion 2
-        $this->doNewVisitor($t,  '39f72e3961e18b4e','fr');
+        $this->doNewVisitor($t, '39f72e3961e18b4e','fr');
         $this->doPageVisit($t, 'A', 'index.html');
         $this->doPageVisit($t, 'C');
         $this->doConversion($t, 1);

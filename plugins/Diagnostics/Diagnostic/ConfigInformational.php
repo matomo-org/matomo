@@ -34,7 +34,7 @@ class ConfigInformational implements Diagnostic
         $results = [];
 
         if (SettingsPiwik::isMatomoInstalled()) {
-            $results[] = DiagnosticResult::informationalResult('Browser Segment Archiving Enabled',  Rules::isBrowserArchivingAvailableForSegments());
+            $results[] = DiagnosticResult::informationalResult('Browser Segment Archiving Enabled', Rules::isBrowserArchivingAvailableForSegments());
             $results[] = DiagnosticResult::informationalResult('Development Mode Enabled', Development::isEnabled());
             $results[] = DiagnosticResult::informationalResult('Internet Enabled',SettingsPiwik::isInternetEnabled());
             $results[] = DiagnosticResult::informationalResult('Multi Server Environment', SettingsPiwik::isMultiServerEnvironment());
