@@ -32,7 +32,7 @@
         "PluginDescription": "Créez des rapports personnalisés et planifiez de les envoyer par courriel quotidiennement, hebdomadairement ou mensuellement à une ou plusieurs personnes. Plusieurs formats de rapports sont supportés (html, pdf, csv, images).",
         "ReportFormat": "Format du rapport",
         "ReportHour": "Envoyer le rapport à %s",
-        "ReportHourWithUTC": "%s pile UTC",
+        "ReportHourWithUTC": "%s heure UTC",
         "ReportIncludeNWebsites": "Le rapport inclura les métriques principales pour tous les sites web qui ont au moins une visite (depuis les %s sites web actuellement disponibles).",
         "ReportPeriod": "Période du rapport",
         "ReportPeriodHelp": "La période couverte par ce rapport. Par défaut, il s'agit de la même planification que les courriels, donc si le rapport est envoyé chaque semaine, il contiendra des informations concernant la dernière semaine.",
