@@ -3,6 +3,7 @@
         "AddUserIdToSearch": "Cliquez pour ajouter cet ID utilisateur à la recherche",
         "AddVisitorIPToSearch": "Cliquez pour ajouter ce visiteurIP à la recherche",
         "AddVisitorIdToSearch": "Cliquez pour ajouter ce visiteurID à la recherche",
+        "Anonymize": "Anonymiser",
         "AnonymizeData": "Anonymiser les données",
         "AnonymizeDataConfirm": "Voulez-vous vraiment anonymiser les données du ou des sites Web et de la période sélectionnés ? Cette action ne peut pas être annulée, les données peuvent être supprimées comme demandé et ce processus peut prendre beaucoup de temps.",
         "AnonymizeDataNow": "Anonymiser les données passées pour le site et l'heure sélectionnés",
