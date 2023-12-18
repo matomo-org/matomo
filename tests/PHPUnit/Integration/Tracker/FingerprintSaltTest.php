@@ -45,8 +45,8 @@ class FingerprintSaltTest extends IntegrationTestCase
     public function test_getDateString()
     {
         $date = Date::factory('2020-05-05 14:04:05');
-        $this->assertSame('2020-05-06',$this->fingerprintSalt->getDateString($date, 'Pacific/Auckland'));
-        $this->assertSame('2020-05-05',$this->fingerprintSalt->getDateString($date, 'Europe/Berlin'));
+        $this->assertSame('2020-05-06', $this->fingerprintSalt->getDateString($date, 'Pacific/Auckland'));
+        $this->assertSame('2020-05-05', $this->fingerprintSalt->getDateString($date, 'Europe/Berlin'));
     }
 
     public function test_getDateString_doubleCheckingWeAreGeneratingRightString()

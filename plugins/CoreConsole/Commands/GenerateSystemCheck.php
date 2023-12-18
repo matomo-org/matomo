@@ -28,7 +28,7 @@ class GenerateSystemCheck extends GeneratePluginBase
         $this->checkAndUpdateRequiredPiwikVersion($pluginName);
 
         $checkName = $this->getSystemCheckName();
-        $className = ucfirst(str_replace(' ' , '', $checkName));
+        $className = ucfirst(str_replace(' ', '', $checkName));
         if (!Common::stringEndsWith($className, 'check') && !Common::stringEndsWith($className, 'Check'))  {
             $className .= 'Check';
         }

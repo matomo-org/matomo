@@ -43,7 +43,7 @@ class Revenue extends BaseConversion
         $segment->setSegment('revenueOrder');
         $segment->setSqlSegment('log_conversion.idvisit');
         $segment->setSqlFilter(function ($valueToMatch, $sqlField, $matchType) {
-            return $this->getRevenueQuery($valueToMatch, $sqlField , $matchType, 0);
+            return $this->getRevenueQuery($valueToMatch, $sqlField, $matchType, 0);
         });
         $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
 
@@ -54,7 +54,7 @@ class Revenue extends BaseConversion
         $segment->setSegment('revenueAbandonedCart');
         $segment->setSqlSegment('log_conversion.idvisit');
         $segment->setSqlFilter(function ($valueToMatch, $sqlField , $matchType) {
-            return $this->getRevenueQuery($valueToMatch, $sqlField , $matchType,-1);
+            return $this->getRevenueQuery($valueToMatch, $sqlField, $matchType, -1);
         });
         $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
 

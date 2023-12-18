@@ -75,7 +75,7 @@ class IndexTest extends IntegrationTestCase
 
         $idSite = 1;
 
-        foreach (range(1,5) as $index) {
+        foreach (range(1, 5) as $index) {
             $this->createIndex($idSite, CustomDimensions::SCOPE_ACTION, $index);
             // all indexes are in use after this
         }

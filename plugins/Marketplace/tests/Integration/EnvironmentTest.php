@@ -46,7 +46,7 @@ class EnvironmentTest extends IntegrationTestCase
     public function test_getPhpVersion()
     {
         $phpVersion = explode('-', phpversion()); // cater for pre-release versions like 8.3.0-dev
-        $this->assertTrue(version_compare($phpVersion[0], $this->environment->getPhpVersion(),'>='));
+        $this->assertTrue(version_compare($phpVersion[0], $this->environment->getPhpVersion(), '>='));
     }
 
     public function test_getPiwikVersion()

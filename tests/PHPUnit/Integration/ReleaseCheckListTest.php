@@ -43,7 +43,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
     {
         // refs https://github.com/matomo-org/matomo/pull/16615 ensures setGroups method still exists in phpunit
         // checking this way as it is not an official API
-        $this->assertTrue(method_exists(TestCase::class,'setGroups'));
+        $this->assertTrue(method_exists(TestCase::class, 'setGroups'));
     }
 
     public function test_minimumPHPVersion_isEnforced()

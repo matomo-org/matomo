@@ -352,7 +352,7 @@ class RawLogDao
         foreach ($this->dimensionMetadataProvider->getActionReferenceColumnsByTable() as $table => $columns) {
             $idCol = $idColumns[$table];
             // Create select query for requesting ALL needed fields at once
-            $sql = "SELECT " . implode(',' ,$columns) . " FROM " . Common::prefixTable($table) . " WHERE $idCol >= ? AND $idCol < ?";
+            $sql = "SELECT " . implode(',', $columns) . " FROM " . Common::prefixTable($table) . " WHERE $idCol >= ? AND $idCol < ?";
 
             if ($olderThan) {
                // Why start on zero? When running for a couple of months, this will generate about 10000+ queries with zero result. Use the lowest value instead.... saves a LOT of waiting time!

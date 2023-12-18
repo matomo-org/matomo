@@ -587,7 +587,7 @@ class Model
         $deletedSites = array_values($deletedSites);
         $deletedSites = array_map('intval', $deletedSites);
 
-        $sql = "SELECT DISTINCT idarchive FROM " . $archiveTableName . " WHERE idsite IN (" . implode(',',$deletedSites) . ")";
+        $sql = "SELECT DISTINCT idarchive FROM " . $archiveTableName . " WHERE idsite IN (" . implode(',', $deletedSites) . ")";
 
         $rows = Db::getReader()->fetchAll($sql, array());
 

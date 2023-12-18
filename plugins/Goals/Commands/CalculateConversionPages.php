@@ -34,7 +34,7 @@ class CalculateConversionPages extends ConsoleCommand
         $this->addOptionalValueOption('last-n', null, 'Calculate just the last n conversions', 0);
         $this->addOptionalValueOption('idsite', null,
             'Calculate for conversions belonging to the site with this ID. Comma separated list of website id. Eg, 1, 2, 3, etc. By default conversions from all sites are calculated.', null);
-        $this->addOptionalValueOption('idgoal', null,'Calculate conversions for this goal. A comma separated list of goal ids can be used only if a single site is specified. Eg, 1, 2, 3, etc. By default conversions for all goals are calculated.', null);
+        $this->addOptionalValueOption('idgoal', null, 'Calculate conversions for this goal. A comma separated list of goal ids can be used only if a single site is specified. Eg, 1, 2, 3, etc. By default conversions for all goals are calculated.', null);
         $this->addOptionalValueOption('force-recalc', null, 'Recalculate for conversions which already have a pages before value', 0);
     }
 

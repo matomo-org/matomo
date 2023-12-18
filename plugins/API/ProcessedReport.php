@@ -370,7 +370,7 @@ class ProcessedReport
             $parameters['segment'] = $segment;
         }
 
-        $actionsIdGoalOverride = $this->getIdGoalToUseForActionsReports($idGoal,$apiModule . '.' . $apiAction);
+        $actionsIdGoalOverride = $this->getIdGoalToUseForActionsReports($idGoal, $apiModule . '.' . $apiAction);
         if ($actionsIdGoalOverride) {
             $parameters['idGoal'] = $actionsIdGoalOverride;
         }

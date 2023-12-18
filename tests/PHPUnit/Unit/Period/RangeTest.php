@@ -265,7 +265,7 @@ class RangeTest extends BasePeriodTest
         $this->assertEquals(count($correct), $range2->getNumberOfSubperiods());
         $this->assertEquals($correct, $range->toString());
         $this->assertEquals($correct, $range2->toString());
-        $this->assertEquals('2007-12-17,2008-01-06' , $range2->getRangeString());
+        $this->assertEquals('2007-12-17,2008-01-06', $range2->getRangeString());
     }
 
     // test range date1,date2

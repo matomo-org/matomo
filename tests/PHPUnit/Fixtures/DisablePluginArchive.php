@@ -153,14 +153,14 @@ class DisablePluginArchive extends Fixture
     private function setUpConfig()
     {
         $testEnvironment = $this->getTestEnvironment();
-        $testEnvironment->overrideConfig('General','disable_archiving_segment_for_plugins','Referrers');
+        $testEnvironment->overrideConfig('General', 'disable_archiving_segment_for_plugins', 'Referrers');
         $testEnvironment->save();
     }
 
     private function removeConfig()
     {
         $testEnvironment = $this->getTestEnvironment();
-        $testEnvironment->overrideConfig('General','disable_archiving_segment_for_plugins','');
+        $testEnvironment->overrideConfig('General', 'disable_archiving_segment_for_plugins', '');
         $testEnvironment->save();
     }
 }

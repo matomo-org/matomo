@@ -48,7 +48,7 @@ class ProcessDependentArchiveTest extends SystemTestCase
 
     public function test_numArchivesCreatedWithSegment()
     {
-        API::getInstance()->get(self::$fixture->idSite, 'range', $this->requestRange,'userId!@%2540matomo.org;userId!=hello%2540matomo.org');
+        API::getInstance()->get(self::$fixture->idSite, 'range', $this->requestRange, 'userId!@%2540matomo.org;userId!=hello%2540matomo.org');
         $this->assertNumRangeArchives(6);
     }
 

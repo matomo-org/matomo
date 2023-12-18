@@ -98,7 +98,7 @@ class ConvertRegionCodesToIsoTest extends IntegrationTestCase
 
     public function testExecute_ShouldConvertRegionCodes()
     {
-        Option::set(GeoIp2::SWITCH_TO_ISO_REGIONS_OPTION_NAME, mktime(0,0,0,5,12,2017));
+        Option::set(GeoIp2::SWITCH_TO_ISO_REGIONS_OPTION_NAME, mktime(0, 0, 0, 5, 12, 2017));
 
         self::trackVisit('gr', '14'); // should become A
         self::trackVisit('ir', '03'); // should become 08

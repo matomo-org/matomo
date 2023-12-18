@@ -74,7 +74,7 @@ class ConsoleCommand extends SymfonyCommand
         $this->getOutput()->writeln('');
 
         foreach ($messages as $message) {
-            $this->getOutput()->writeln(self::wrapInTag('comment' , $message ));
+            $this->getOutput()->writeln(self::wrapInTag('comment', $message ));
         }
 
         $this->getOutput()->writeln('');

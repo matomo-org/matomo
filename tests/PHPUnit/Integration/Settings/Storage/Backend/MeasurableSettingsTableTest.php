@@ -261,6 +261,6 @@ class MeasurableSettingsTableTest extends IntegrationTestCase
 
     private function getExampleValues()
     {
-        return array('Mysetting3' => 'value3', 'Mysetting4' . rand(4,99) => 'val' . rand(0, 10));
+        return array('Mysetting3' => 'value3', 'Mysetting4' . rand(4, 99) => 'val' . rand(0, 10));
     }
 }

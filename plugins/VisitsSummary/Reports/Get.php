@@ -263,7 +263,7 @@ class Get extends \Piwik\Plugin\Report
             $view->config->addSparklineMetric(array('nb_actions_per_visit'), 71);
             $view->config->addSparklineMetric(array('nb_outlinks', 'nb_uniq_outlinks'), 72);
 
-            if (version_compare(DbHelper::getInstallVersion(),'4.0.0-b1', '<')) {
+            if (version_compare(DbHelper::getInstallVersion(), '4.0.0-b1', '<')) {
                 $view->config->addSparklineMetric(array('avg_time_generation'), 73);
             }
 

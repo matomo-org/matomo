@@ -244,7 +244,7 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
         );
 
         $category = $this->createCategory('NestedCategory1');
-        $subcategory = $this->createSubcategory('NestedCategory1' ,'NestedSubcategory1');
+        $subcategory = $this->createSubcategory('NestedCategory1', 'NestedSubcategory1');
 
         $metadata = $this->metadata->buildPageMetadata($category, $subcategory, $widgets);
 
