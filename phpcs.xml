@@ -31,7 +31,6 @@
         <exclude name="Generic.Files.LineLength" />
         <exclude name="Generic.Functions.FunctionCallArgumentSpacing.NoSpaceAfterComma" />
         <exclude name="Generic.Functions.FunctionCallArgumentSpacing.SpaceBeforeComma" />
-        <exclude name="Generic.Functions.FunctionCallArgumentSpacing.TooMuchSpaceAfterComma" />
         <exclude name="Generic.PHP.LowerCaseConstant.Found" />
         <exclude name="Generic.PHP.LowerCaseKeyword.Found" />
         <exclude name="PSR12.ControlStructures.BooleanOperatorPlacement.FoundMixed" />
