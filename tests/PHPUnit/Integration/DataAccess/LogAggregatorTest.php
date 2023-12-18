@@ -536,7 +536,7 @@ class LogAggregatorTest extends IntegrationTestCase
             'END AS label',
         ];
 
-        DatabaseConfig::setConfigValue('enable_first_table_join_prefix','1');
+        DatabaseConfig::setConfigValue('enable_first_table_join_prefix', '1');
         $this->logAggregator->setQueryOriginHint('MyPluginName');
 
         $query = $this->logAggregator->getQueryByDimensionSql($dimensions, false, [], false, false,

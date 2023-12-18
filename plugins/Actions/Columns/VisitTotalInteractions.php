@@ -25,7 +25,7 @@ class VisitTotalInteractions extends VisitDimension
     public function __construct()
     {
         $this->suggestedValuesCallback = function ($idSite, $maxValuesToReturn) {
-            $positions = range(1,50);
+            $positions = range(1, 50);
 
             return array_slice($positions, 0, $maxValuesToReturn);
         };

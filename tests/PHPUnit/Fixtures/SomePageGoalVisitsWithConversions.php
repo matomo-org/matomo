@@ -111,7 +111,7 @@ class SomePageGoalVisitsWithConversions extends Fixture
         // Visit 2: A > A/Z > C > Conversion 1
         $this->doNewVisitor($t, 'f66bc315f2a01a79', 'fr');
         $this->doPageVisit($t, 'A', 'index.html');
-        $this->doPageVisit($t, 'A','Z');
+        $this->doPageVisit($t, 'A', 'Z');
         $this->doPageVisit($t, 'C');
         $this->doConversion($t, 1);
 
@@ -122,7 +122,7 @@ class SomePageGoalVisitsWithConversions extends Fixture
 
         // Visit 4: A > C > Conversion 1
         //          A > B > C > Conversion 2
-        $this->doNewVisitor($t, '39f72e3961e18b4e','fr');
+        $this->doNewVisitor($t, '39f72e3961e18b4e', 'fr');
         $this->doPageVisit($t, 'A', 'index.html');
         $this->doPageVisit($t, 'C');
         $this->doConversion($t, 1);
@@ -139,8 +139,8 @@ class SomePageGoalVisitsWithConversions extends Fixture
         //          A > B > C > Conversion 2
         $this->doNewVisitor($t, '5f3756ae8b4cceba', 'fr');
         $this->doPageVisit($t, 'A', 'index.html');
-        $this->doPageVisit($t, 'A','Z');
-        $this->doPageVisit($t, 'A','Y');
+        $this->doPageVisit($t, 'A', 'Z');
+        $this->doPageVisit($t, 'A', 'Y');
         $this->doPageVisit($t, 'C');
         $this->doConversion($t, 1);
         $this->doPageVisit($t, 'A', 'index.html');

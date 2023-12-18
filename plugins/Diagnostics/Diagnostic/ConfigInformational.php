@@ -36,7 +36,7 @@ class ConfigInformational implements Diagnostic
         if (SettingsPiwik::isMatomoInstalled()) {
             $results[] = DiagnosticResult::informationalResult('Browser Segment Archiving Enabled', Rules::isBrowserArchivingAvailableForSegments());
             $results[] = DiagnosticResult::informationalResult('Development Mode Enabled', Development::isEnabled());
-            $results[] = DiagnosticResult::informationalResult('Internet Enabled',SettingsPiwik::isInternetEnabled());
+            $results[] = DiagnosticResult::informationalResult('Internet Enabled', SettingsPiwik::isInternetEnabled());
             $results[] = DiagnosticResult::informationalResult('Multi Server Environment', SettingsPiwik::isMultiServerEnvironment());
             $results[] = DiagnosticResult::informationalResult('Auto Update Enabled', SettingsPiwik::isAutoUpdateEnabled());
             $results[] = DiagnosticResult::informationalResult('Custom User Path', PIWIK_USER_PATH != PIWIK_DOCUMENT_ROOT);

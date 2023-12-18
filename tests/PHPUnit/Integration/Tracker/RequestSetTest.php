@@ -45,7 +45,7 @@ class RequestSetTest extends IntegrationTestCase
         Fixture::createWebsite('2014-01-01 00:00:00');
         Fixture::createWebsite('2014-01-01 00:00:00', 0, false, 'http://www.example.com');
 
-        foreach (range(3,10) as $idSite) {
+        foreach (range(3, 10) as $idSite) {
             Fixture::createWebsite('2014-01-01 00:00:00');
         }
     }

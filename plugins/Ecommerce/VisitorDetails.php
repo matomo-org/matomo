@@ -146,7 +146,7 @@ class VisitorDetails extends VisitorDetailsAbstract
             $idgoal = $statRow['idgoal'];
             $carry[$idgoal] = array_merge($carry[$idgoal], $statRow);
             return $carry;
-        },$defaultStats);
+        }, $defaultStats);
 
         $ecommerceOrders = $lifeTimeStatsByGoal[GoalManager::IDGOAL_ORDER];
         $abandonedCarts = $lifeTimeStatsByGoal[GoalManager::IDGOAL_CART];

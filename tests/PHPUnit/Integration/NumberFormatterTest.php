@@ -43,7 +43,7 @@ class NumberFormatterTest extends \PHPUnit\Framework\TestCase
     {
         $this->translator->setCurrentLanguage($language);
         $numberFormatter = new NumberFormatter($this->translator);
-        $this->assertEquals($expected, $numberFormatter->format($value, $maximumFractionDigits,$minimumFractionDigits));
+        $this->assertEquals($expected, $numberFormatter->format($value, $maximumFractionDigits, $minimumFractionDigits));
     }
 
     public function getFormatMethodTestData()

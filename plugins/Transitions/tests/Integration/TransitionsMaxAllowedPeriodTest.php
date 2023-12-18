@@ -102,7 +102,7 @@ class TransitionsMaxAllowedPeriodTest extends IntegrationTestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('PeriodNotAllowed');
         $this->api->getTransitionsForAction('http://example.org/page/one.html', 'url', 1,
-            'range','2012-08-09,2012-08-10');
+            'range', '2012-08-09,2012-08-10');
     }
 
     public function test_ShouldThrowException_IfRangeDayCountIsLargerThanWeekPeriod()
@@ -111,7 +111,7 @@ class TransitionsMaxAllowedPeriodTest extends IntegrationTestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('PeriodNotAllowed');
         $this->api->getTransitionsForAction('http://example.org/page/one.html', 'url', 1,
-            'range','2012-08-09,2012-08-17');
+            'range', '2012-08-09,2012-08-17');
     }
 
     public function test_ShouldThrowException_IfRangeDayCountIsLargerThanMonthPeriod()
@@ -120,7 +120,7 @@ class TransitionsMaxAllowedPeriodTest extends IntegrationTestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('PeriodNotAllowed');
         $this->api->getTransitionsForAction('http://example.org/page/one.html', 'url', 1,
-            'range','2012-08-09,2012-09-10');
+            'range', '2012-08-09,2012-09-10');
     }
 
     public function test_ShouldThrowException_IfRangeDayCountIsLargerThanYearPeriod()
@@ -129,7 +129,7 @@ class TransitionsMaxAllowedPeriodTest extends IntegrationTestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('PeriodNotAllowed');
         $this->api->getTransitionsForAction('http://example.org/page/one.html', 'url', 1,
-            'range','2012-08-09,2013-08-10');
+            'range', '2012-08-09,2013-08-10');
     }
 
     public function test_ShouldUseSiteConfigInsteadOfGeneral_IfSiteConfigExists()

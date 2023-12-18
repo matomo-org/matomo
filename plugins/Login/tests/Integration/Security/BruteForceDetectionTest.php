@@ -123,7 +123,7 @@ class BruteForceDetectionTest extends IntegrationTestCase
     public function test_unblockIp_onlyRemovesRecentEntriesOfIp()
     {
         $now = $this->detection->getNow();
-        $this->addFailedLoginInPast('127.0.0.1',1);
+        $this->addFailedLoginInPast('127.0.0.1', 1);
         $this->addFailedLoginInPast('10.1.2.3', 2); // should be deleted
         $this->addFailedLoginInPast('10.1.2.3', 3); // should be deleted
 

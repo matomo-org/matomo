@@ -64,7 +64,7 @@ class PerformanceColumns extends HtmlTable
                 'nb_visits',
             ], array_keys(Metrics::getAllPagePerformanceMetrics()));
 
-            if (version_compare(DbHelper::getInstallVersion(),'4.0.0-b1', '<')) {
+            if (version_compare(DbHelper::getInstallVersion(), '4.0.0-b1', '<')) {
                 $properties->columns_to_display[] = 'avg_time_generation';
             }
         });

@@ -628,7 +628,7 @@ JS;
             'backgroundColor' => $cssbackgroundcolor
         );
         foreach ($hexstrings as $key => $testcase) {
-            if ($testcase && !(ctype_xdigit($testcase) && in_array(strlen($testcase),array(3,6), true))) {
+            if ($testcase && !(ctype_xdigit($testcase) && in_array(strlen($testcase), array(3,6), true))) {
                 throw new \Exception("The URL parameter $key value of '$testcase' is not valid. Expected value is for example 'ffffff' or 'fff'.\n");
             }
         }

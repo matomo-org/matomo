@@ -97,12 +97,12 @@ class AllowedEmailDomainTest extends IntegrationTestCase
     public function test_getEmailDomainsInUse_usersAddedAndInvited()
     {
         $userApi = API::getInstance();
-        $userApi->addUser('foo1','foo' . time(), 'foobar@matomo.org');
-        $userApi->addUser('foo2','foo' . time(), 'foobar2@matomo.org');
+        $userApi->addUser('foo1', 'foo' . time(), 'foobar@matomo.org');
+        $userApi->addUser('foo2', 'foo' . time(), 'foobar2@matomo.org');
         $userApi->inviteUser('foo3', 'foobar@matomo.com', 1);
         $userApi->inviteUser('foo4', 'foobar3@matomo.org', 1);
         $userApi->inviteUser('foo5', 'foobar@example.com', 1);
-        $userApi->addUser('foo6','foo' . time(), 'foobar2@example.org');
+        $userApi->addUser('foo6', 'foo' . time(), 'foobar2@example.org');
 
         $this->assertEquals([
             'matomo.org', 'matomo.com', 'example.com', 'example.org'
