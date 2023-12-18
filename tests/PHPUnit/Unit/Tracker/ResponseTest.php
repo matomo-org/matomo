@@ -185,7 +185,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
         $response = $this->response->getOutput();
 
         // Encode the response back into base64 and compare with the original
-        $this->assertSame($base64Image,  base64_encode($response));
+        $this->assertSame($base64Image, base64_encode($response));
 
     }
 
@@ -211,7 +211,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
         $md5Response = md5($response);
 
         // Compare the hash of the response with the file hash
-        $this->assertSame($md5Response,  $md5File);
+        $this->assertSame($md5Response, $md5File);
 
     }
 

@@ -597,7 +597,7 @@ class Controller extends ControllerAdmin
         $notification = new Notification(Piwik::translate('CoreAdminHome_SettingsSaveSuccess'));
         $notification->context = Notification::CONTEXT_SUCCESS;
         Notification\Manager::notify('successpass', $notification);
-        $this->redirectToIndex('UsersManager',  'userSecurity');
+        $this->redirectToIndex('UsersManager', 'userSecurity');
     }
 
     private function noAdminAccessToWebsite($idSiteSelected, $defaultReportSiteName, $message)

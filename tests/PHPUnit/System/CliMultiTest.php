@@ -211,7 +211,7 @@ class CliMultiTest extends SystemTestCase
     {
         $actualResponse = $this->cliMulti->request($urls);
 
-        self::assertIsArray($actualResponse,  '$actualResponse is not an array');
+        self::assertIsArray($actualResponse, '$actualResponse is not an array');
         $this->assertCount(count($expectedResponseIds), $actualResponse);
 
         $expected = array();
