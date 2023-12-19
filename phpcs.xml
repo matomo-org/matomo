@@ -83,7 +83,6 @@
         <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.NewlineBeforeOpenBrace" />
         <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.OneParamPerLine" />
         <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.SpaceAfterFunction" />
-        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.SpaceBeforeBrace" />
         <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.SpaceBeforeOpenParen" />
         <exclude name="Squiz.Scope.MethodScope.Missing" />
         <exclude name="Squiz.WhiteSpace.ControlStructureSpacing.SpacingAfterOpen" />
