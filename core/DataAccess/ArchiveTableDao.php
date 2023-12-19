@@ -134,7 +134,6 @@ class ArchiveTableDao
             $d['Started'] = $i['ts_started'];
             $d['Processing'] = $processing;
             $d['Status'] = ($i['status'] == 1 ? 'Processing' : 'Queued');
-            ['Invalidation', 'Site', 'Period', 'Date', 'Time Queued', 'Waiting', 'Started', 'Status'];
             $data[] = $d;
         }
         return $data;

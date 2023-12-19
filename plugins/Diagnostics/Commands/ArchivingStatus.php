@@ -84,6 +84,7 @@ class ArchivingStatus extends ConsoleCommand
                 $output->writeln("Archiving diagnostic email successfully sent to " . $address);
             } catch (\Exception $e) {
                 $output->writeln("Failed to send email to " . $address . ", error: " . $e->getMessage());
+                return self::FAILURE;
             }
         }
 
