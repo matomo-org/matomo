@@ -134,6 +134,6 @@ class DomainAge implements MetricsProvider
 
     private function getHttpResponse($url)
     {
-        return str_replace('&nbsp;', ' ', Http::sendHttpRequest($url, $timeout = 10, @$_SERVER['HTTP_USER_AGENT']));
+        return str_replace('&nbsp;', ' ', Http::sendHttpRequestAsProxy($url, $timeout = 10));
     }
 }

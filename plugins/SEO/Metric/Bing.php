@@ -35,7 +35,7 @@ class Bing implements MetricsProvider
         $url = self::URL . urlencode($domain ?? '');
         $suffix = '';
         try {
-            $response = str_replace('&nbsp;', ' ', Http::sendHttpRequest($url, $timeout = 10, @$_SERVER['HTTP_USER_AGENT']));
+            $response = str_replace('&nbsp;', ' ', Http::sendHttpRequestAsProxy($url, $timeout = 10));
             $response = str_replace('&#160;', '', $response); // number uses nbsp as thousand separator
 
             if (preg_match('#([0-9,\.]+) results#i', $response, $p)) {

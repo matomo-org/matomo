@@ -41,7 +41,7 @@ class Google implements MetricsProvider
         $url = self::SEARCH_URL . urlencode($domain ?? '');
         $suffix = '';
         try {
-            $response = str_replace('&nbsp;', ' ', Http::sendHttpRequest($url, $timeout = 10, @$_SERVER['HTTP_USER_AGENT']));
+            $response = str_replace('&nbsp;', ' ', Http::sendHttpRequestAsProxy($url, $timeout = 10));
 
             if (preg_match('#([0-9,\.]+) results#i', $response, $p)) {
                 $pageCount = NumberFormatter::getInstance()->formatNumber((int)str_replace(array(',', '.'), '', $p[1]));

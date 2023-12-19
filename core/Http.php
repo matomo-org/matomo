@@ -107,6 +107,80 @@ class Http
             $httpUsername, $httpPassword, null, [], null, $checkHostIsAllowed);
     }
 
+    /**
+     * Sends an HTTP request using best available transport method, while adding a X-Forwarded-For header with the current requests IP
+     *
+     * @param string $aUrl The target URL.
+     * @param int $timeout The number of seconds to wait before aborting the HTTP request.
+     * @param string|null $userAgent The user agent to use. Defaults to the user agent of the current request (if any)
+     * @param string|null $destinationPath If supplied, the HTTP response will be saved to the file specified by
+     *                                     this path.
+     * @param int|null $followDepth Internal redirect count. Should always pass `null` for this parameter.
+     * @param bool $acceptLanguage The value to use for the `'Accept-Language'` HTTP request header.
+     * @param array|bool $byteRange For `Range:` header. Should be two element array of bytes, eg, `array(0, 1024)`
+     *                              Doesn't work w/ `fopen` transport method.
+     * @param bool $getExtendedInfo If true returns the status code, headers & response, if false just the response.
+     * @param string $httpMethod The HTTP method to use. Defaults to `'GET'`.
+     * @param string $httpUsername HTTP Auth username
+     * @param string $httpPassword HTTP Auth password
+     * @param bool $checkHostIsAllowed whether we should check if the target host is allowed or not. This should only
+     *                                 be set to false when using a hardcoded URL.
+     *
+     * @throws Exception if the response cannot be saved to `$destinationPath`, if the HTTP response cannot be sent,
+     *                   if there are more than 5 redirects or if the request times out.
+     * @return bool|string If `$destinationPath` is not specified the HTTP response is returned on success. `false`
+     *                     is returned on failure.
+     *                     If `$getExtendedInfo` is `true` and `$destinationPath` is not specified an array with
+     *                     the following information is returned on success:
+     *
+     *                     - **status**: the HTTP status code
+     *                     - **headers**: the HTTP headers
+     *                     - **data**: the HTTP response data
+     *
+     *                     `false` is still returned on failure.
+     * @api
+     * @since 5.0.1
+     */
+    public static function sendHttpRequestAsProxy(
+        $aUrl,
+        $timeout,
+        $userAgent = null,
+        $destinationPath = null,
+        $followDepth = 0,
+        $acceptLanguage = false,
+        $byteRange = false,
+        $getExtendedInfo = false,
+        $httpMethod = 'GET',
+        $httpUsername = null,
+        $httpPassword = null,
+        $checkHostIsAllowed = true
+    ) {
+        // create output file
+        $file = self::ensureDestinationDirectoryExists($destinationPath);
+
+        $acceptLanguage = $acceptLanguage ? 'Accept-Language: ' . $acceptLanguage : '';
+        return self::sendHttpRequestBy(
+            self::getTransportMethod(),
+            $aUrl,
+            $timeout,
+            $userAgent ?: $_SERVER['HTTP_USER_AGENT'],
+            $destinationPath,
+            $file,
+            $followDepth,
+            $acceptLanguage,
+            false,
+            $byteRange,
+            $getExtendedInfo,
+            $httpMethod,
+            $httpUsername,
+            $httpPassword,
+            null,
+            ['X-Forwarded-For: ' . (!empty($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] . ',' : '') . IP::getIpFromHeader()],
+            null,
+            $checkHostIsAllowed
+        );
+    }
+
     public static function ensureDestinationDirectoryExists($destinationPath)
     {
         if ($destinationPath) {
