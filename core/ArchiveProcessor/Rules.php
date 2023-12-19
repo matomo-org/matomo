@@ -372,7 +372,7 @@ class Rules
 
         if (is_string($pluginArchivingSetting)) {
             $pluginArchivingSetting = explode(",", $pluginArchivingSetting);
-            $pluginArchivingSetting = array_filter($pluginArchivingSetting, function($plugin){
+            $pluginArchivingSetting = array_filter($pluginArchivingSetting, function($plugin) {
                 return Manager::getInstance()->isValidPluginName($plugin);
             });
         }
