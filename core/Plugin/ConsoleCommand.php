@@ -323,6 +323,16 @@ class ConsoleCommand extends SymfonyCommand
     }
 
     /**
+     * @param OutputInterface $ouput
+     *
+     * @return void
+     */
+    protected function setOutput(OutputInterface $output): void
+    {
+        $this->output = $output;
+    }
+
+    /**
      * @return InputInterface
      */
     protected function getInput(): InputInterface

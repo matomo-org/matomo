@@ -9,7 +9,9 @@
 namespace Piwik\DataAccess;
 
 use Piwik\Common;
+use Piwik\Date;
 use Piwik\Db;
+use Piwik\Metrics\Formatter;
 
 /**
  * Data Access class for querying numeric & blob archive tables.
@@ -85,5 +87,56 @@ class ArchiveTableDao
         }
 
         return $result;
+    }
+
+    /**
+     * Return invalidation queue table data
+     *
+     * @param bool $prettyTime
+     *
+     * @return array
+     * @throws \Exception
+     */
+    public function getInvalidationQueueData(bool $prettyTime = false): array
+    {
+        $invalidationsTable = Common::prefixTable("archive_invalidations");
+        $sql = "
+            SELECT 
+                *                
+            FROM `$invalidationsTable` 
+            ORDER BY ts_invalidated, idinvalidation asc";
+        $invalidations = Db::fetchAll($sql);
+
+        $metricsFormatter = new Formatter();
+
+        $data = [];
+        foreach ($invalidations as $i) {
+
+            $waiting = Date::now()->getTimestampUTC() - Date::factory($i['ts_invalidated'])->getTimestampUTC();
+            $processing = $i['ts_started'] ? Date::now()->getTimestampUTC() - (int) $i['ts_started'] : '';
+
+            if ($prettyTime) {
+                $waiting = $metricsFormatter->getPrettyTimeFromSeconds($waiting, true);
+                if ($processing != '') {
+                    $processing = $metricsFormatter->getPrettyTimeFromSeconds($processing, true);
+                }
+            }
+
+            $d = [];
+            $d['Invalidation'] = $i['idinvalidation'];
+            $d['Site'] = $i['idsite'];
+            $d['Period'] = ($i['period'] == 1 ? 'Day' : ($i['period'] == 2 ? 'Week' : ($i['period'] == 3 ? 'Month' :
+                ($i['period'] == 4 ? 'Year' : 'Range'))));
+            $d['Date'] = ($i['period'] == 1 ? $i['date1'] : ($i['period'] == 3 ? substr($i['date1'],0,7) :
+                ($i['period'] == 4 ? substr($i['date1'],0,4) : $i['date1'] . ' - ' . $i['date2'])));
+            $d['TimeQueued'] = $i['ts_invalidated'];
+            $d['Waiting'] = $waiting;
+            $d['Started'] = $i['ts_started'];
+            $d['Processing'] = $processing;
+            $d['Status'] = ($i['status'] == 1 ? 'Processing' : 'Queued');
+            ['Invalidation', 'Site', 'Period', 'Date', 'Time Queued', 'Waiting', 'Started', 'Status'];
+            $data[] = $d;
+        }
+        return $data;
     }
 }
