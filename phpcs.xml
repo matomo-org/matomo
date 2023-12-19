@@ -43,7 +43,6 @@
         <exclude name="PSR12.Properties.ConstantVisibility" />
         <exclude name="PSR2.Classes.ClassDeclaration.CloseBraceAfterBody" />
         <exclude name="PSR2.Classes.ClassDeclaration.OpenBraceNewLine" />
-        <exclude name="PSR2.Classes.ClassDeclaration.SpaceAfterKeyword" />
         <exclude name="PSR2.Classes.PropertyDeclaration.ScopeMissing" />
         <exclude name="PSR2.Classes.PropertyDeclaration.Underscore" />
         <exclude name="PSR2.ControlStructures.ElseIfDeclaration.NotAllowed" />
