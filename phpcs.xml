@@ -78,7 +78,6 @@
         <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.BraceIndent" />
         <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.BraceOnSameLine" />
         <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.CloseBracketLine" />
-        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.ContentAfterBrace" />
         <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.FirstParamSpacing" />
         <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.Indent" />
         <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.NewlineBeforeOpenBrace" />
