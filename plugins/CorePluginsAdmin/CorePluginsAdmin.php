@@ -17,7 +17,7 @@ use Piwik\Plugins\CorePluginsAdmin\Model\TagManagerTeaser;
 use Piwik\Changes\Model as ChangesModel;
 
 class CorePluginsAdmin extends Plugin
-{  
+{
     /**
      * @see Plugin::registerEvents
      */
@@ -41,7 +41,7 @@ class CorePluginsAdmin extends Plugin
      */
     public function addPluginChanges(string $pluginName)
     {
-        $this->getChangesModel()->addChanges($pluginName);;
+        $this->getChangesModel()->addChanges($pluginName);
     }
 
     /**
@@ -66,7 +66,7 @@ class CorePluginsAdmin extends Plugin
 
     public function onPluginActivated($pluginName)
     {
-        if ($pluginName==='TagManager') {
+        if ($pluginName === 'TagManager') {
             // make sure once activated once, it won't appear when disabling Tag Manager later
             $tagManagerTeaser = new TagManagerTeaser(Piwik::getCurrentUserLogin());
             $tagManagerTeaser->disableGlobally();
@@ -75,7 +75,8 @@ class CorePluginsAdmin extends Plugin
         $this->addPluginChanges($pluginName);
     }
 
-    public function addSystemSummaryItems(&$systemSummary) {
+    public function addSystemSummaryItems(&$systemSummary)
+    {
         $numPlugins = Plugin\Manager::getInstance()->getNumberOfActivatedPluginsExcludingAlwaysActivated();
         $systemSummary[] = new SystemSummary\Item($key = 'plugins', Piwik::translate('CoreHome_SystemSummaryNActivatedPlugins', $numPlugins), $value = null, $url = array('module' => 'CorePluginsAdmin', 'action' => 'plugins'), $icon = '', $order = 11);
     }
@@ -159,7 +160,7 @@ class CorePluginsAdmin extends Plugin
         $translations[] = 'CorePluginsAdmin_PluginsManagement';
         $translations[] = 'CorePluginsAdmin_ThemesDescription';
         $translations[] = 'CorePluginsAdmin_TeaserExtendPiwikByTheme';
-        $translations[]='CorePluginsAdmin_InfoThemeIsUsedByOtherUsersAsWell';;
+        $translations[] = 'CorePluginsAdmin_InfoThemeIsUsedByOtherUsersAsWell';
         $translations[] = 'CorePluginsAdmin_ThemesManagement';
         $translations[] = 'CorePluginsAdmin_NUpdatesAvailable';
     }
