@@ -2,7 +2,7 @@
     <div class="pluginListContainer row">
         {% for plugin in pluginsToShow %}
             <div class="col s12 m6 l4">
-                <div class="card-holder">
+                <div class="card-holder{% if plugin.numDownloads is defined and plugin.numDownloads > 0 %} card-with-downloads{% endif %}">
                     {% embed 'contentBlock.twig' with {'title': ''} %}
                         {% block content %}
                             {% import '@Marketplace/macros.twig' as marketplaceMacro %}
@@ -26,9 +26,9 @@
                                         <div class="card-description">{{ plugin.description }}</div>
                                     </div>
                                     <div class="card-content-bottom">
-                                        {%  if plugin.numDownloads is defined and plugin.numDownloads > 0 %}
+                                        {% if plugin.numDownloads is defined and plugin.numDownloads > 0 %}
                                             <div class="downloads">{{ plugin.numDownloadsPretty }} {{ 'General_Downloads'|translate|lower }}</div>
-                                        {%  endif %}
+                                        {% endif %}
                                         <div class="cta-container">
 
                                             {% if isSuperUser %}
