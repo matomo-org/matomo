@@ -155,7 +155,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/Marketplace/Marketplace.vue?vue&type=template&id=6be795c6
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./plugins/Marketplace/vue/src/Marketplace/Marketplace.vue?vue&type=template&id=0045167c
 
 var _hoisted_1 = {
   class: "row marketplaceActions",
@@ -222,7 +222,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   })], 8, _hoisted_5)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 512);
 }
-// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/Marketplace/Marketplace.vue?vue&type=template&id=6be795c6
+// CONCATENATED MODULE: ./plugins/Marketplace/vue/src/Marketplace/Marketplace.vue?vue&type=template&id=0045167c
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -330,24 +330,65 @@ var _window = window,
       $nodes.each(function (index, node) {
         var $card = $(node);
         var $titleText = $card.find('.card-title');
+        var $alertText = $card.find('.card-content-bottom .alert');
+        var hasDownloads = $card.hasClass('card-with-downloads');
+        var titleLines = 1;
 
-        if ($titleText) {
-          var lines = 1;
+        if ($titleText.length) {
           var elHeight = +$titleText.height();
           var lineHeight = +$titleText.css('line-height').replace('px', '');
 
           if (lineHeight) {
             var _Math$ceil;
 
-            lines = (_Math$ceil = Math.ceil(elHeight / lineHeight)) !== null && _Math$ceil !== void 0 ? _Math$ceil : 1;
+            titleLines = (_Math$ceil = Math.ceil(elHeight / lineHeight)) !== null && _Math$ceil !== void 0 ? _Math$ceil : 1;
+          }
+        }
+
+        var alertLines = 0;
+
+        if ($alertText.length) {
+          var _elHeight = +$alertText.height();
+
+          var _lineHeight = +$alertText.css('line-height').replace('px', '');
+
+          if (_lineHeight) {
+            var _Math$ceil2;
+
+            alertLines = (_Math$ceil2 = Math.ceil(_elHeight / _lineHeight)) !== null && _Math$ceil2 !== void 0 ? _Math$ceil2 : 1;
+          }
+        }
+
+        var $cardDescription = $card.find('.card-description');
+
+        if ($cardDescription.length) {
+          var cardDescription = $cardDescription[0];
+          var clampedLines = 0; // a bit convoluted logic, but this is what's been arrived at with a designer
+          // and via testing in browser
+          //
+          // a) visible downloads count
+          //    -> clamp to 2 lines if title is 2 lines or more or alert is 2 lines or more
+          //       or together are more than 3 lines
+          //    -> clamp to 1 line if title is over 2 lines and alert is over 2 lines simultaneously
+          // b) no downloads count (i.e. a premium plugin)
+          //    -> clamp to 2 lines if sum of lines for title and notification is over 4
+
+          if (hasDownloads) {
+            if (titleLines >= 2 || alertLines >= 2 || titleLines + alertLines > 3) {
+              clampedLines = 2;
+            }
+
+            if (titleLines + alertLines > 3) {
+              clampedLines = 1;
+            }
+          } else if (titleLines + alertLines > 4) {
+            clampedLines = 2;
           }
 
-          var $cardDescription = $card.find('.card-description');
-
-          if (lines > 1) {
-            $cardDescription.addClass('card-description-clamped');
+          if (clampedLines) {
+            cardDescription.setAttribute('data-clamp', "".concat(clampedLines));
           } else {
-            $cardDescription.removeClass('card-description-clamped');
+            cardDescription.removeAttribute('data-clamp');
           }
         }
       });

@@ -157,20 +157,55 @@ export default defineComponent({
       $nodes.each((index, node) => {
         const $card = $(node);
         const $titleText = $card.find('.card-title');
+        const $alertText = $card.find('.card-content-bottom .alert');
+        const hasDownloads = $card.hasClass('card-with-downloads');
 
-        if ($titleText) {
-          let lines = 1;
+        let titleLines = 1;
+        if ($titleText.length) {
           const elHeight = +$titleText.height()!;
           const lineHeight = +$titleText.css('line-height').replace('px', '');
           if (lineHeight) {
-            lines = Math.ceil(elHeight / lineHeight) ?? 1;
+            titleLines = Math.ceil(elHeight / lineHeight) ?? 1;
+          }
+        }
+
+        let alertLines = 0;
+        if ($alertText.length) {
+          const elHeight = +$alertText.height()!;
+          const lineHeight = +$alertText.css('line-height').replace('px', '');
+          if (lineHeight) {
+            alertLines = Math.ceil(elHeight / lineHeight) ?? 1;
+          }
+        }
+
+        const $cardDescription = $card.find('.card-description');
+        if ($cardDescription.length) {
+          const cardDescription = $cardDescription[0] as HTMLElement;
+          let clampedLines = 0;
+          // a bit convoluted logic, but this is what's been arrived at with a designer
+          // and via testing in browser
+          //
+          // a) visible downloads count
+          //    -> clamp to 2 lines if title is 2 lines or more or alert is 2 lines or more
+          //       or together are more than 3 lines
+          //    -> clamp to 1 line if title is over 2 lines and alert is over 2 lines simultaneously
+          // b) no downloads count (i.e. a premium plugin)
+          //    -> clamp to 2 lines if sum of lines for title and notification is over 4
+          if (hasDownloads) {
+            if ((titleLines >= 2 || alertLines >= 2) || (titleLines + alertLines > 3)) {
+              clampedLines = 2;
+            }
+            if (titleLines + alertLines > 3) {
+              clampedLines = 1;
+            }
+          } else if (titleLines + alertLines > 4) {
+            clampedLines = 2;
           }
 
-          const $cardDescription = $card.find('.card-description');
-          if (lines > 1) {
-            $cardDescription.addClass('card-description-clamped');
+          if (clampedLines) {
+            cardDescription.setAttribute('data-clamp', `${clampedLines}`);
           } else {
-            $cardDescription.removeClass('card-description-clamped');
+            cardDescription.removeAttribute('data-clamp');
           }
         }
       });
