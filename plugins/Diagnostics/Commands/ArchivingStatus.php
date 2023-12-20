@@ -45,7 +45,7 @@ class ArchivingStatus extends ConsoleCommand
         // Queue
         $this->outputSectionHeader($output, 'Invalidation Queue');
         $archiveTableDao = StaticContainer::get('Piwik\DataAccess\ArchiveTableDao');
-        $headers = ['Invalidation', 'Site', 'Period', 'Date', 'Time Queued', 'Waiting', 'Started', 'Processing', 'Status'];
+        $headers = ['Invalidation', 'Segment', 'Site', 'Period', 'Date', 'Time Queued', 'Waiting', 'Started', 'Processing', 'Status'];
         $queue = $archiveTableDao->getInvalidationQueueData(true);
         $this->renderTable($headers, $queue);
 

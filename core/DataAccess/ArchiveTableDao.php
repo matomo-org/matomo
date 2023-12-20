@@ -100,11 +100,13 @@ class ArchiveTableDao
     public function getInvalidationQueueData(bool $prettyTime = false): array
     {
         $invalidationsTable = Common::prefixTable("archive_invalidations");
+        $segmentsTable = Common::prefixTable("segment");
         $sql = "
-            SELECT 
-                *                
-            FROM `$invalidationsTable` 
-            ORDER BY ts_invalidated, idinvalidation asc";
+            SELECT ai.*, s.definition               
+            FROM `$invalidationsTable` ai 
+            LEFT JOIN `$segmentsTable` s ON SUBSTRING(ai.name, 5) = s.hash
+            GROUP BY ai.idinvalidation
+            ORDER BY ts_invalidated, idinvalidation ASC";
         $invalidations = Db::fetchAll($sql);
 
         $metricsFormatter = new Formatter();
@@ -124,6 +126,7 @@ class ArchiveTableDao
 
             $d = [];
             $d['Invalidation'] = $i['idinvalidation'];
+            $d['Segment'] = $i['definition'];
             $d['Site'] = $i['idsite'];
             $d['Period'] = ($i['period'] == 1 ? 'Day' : ($i['period'] == 2 ? 'Week' : ($i['period'] == 3 ? 'Month' :
                 ($i['period'] == 4 ? 'Year' : 'Range'))));
