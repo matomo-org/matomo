@@ -233,7 +233,6 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
     {
         return (bool) Db::fetchOne("SHOW TABLES LIKE '$table'");
     }
-
 }
 
 OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest::$fixture = new VisitsOverSeveralDays();

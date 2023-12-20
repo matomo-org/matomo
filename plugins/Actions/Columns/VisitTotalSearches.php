@@ -60,5 +60,4 @@ class VisitTotalSearches extends VisitDimension
     {
         return ($action && $action->getActionType() == Action::TYPE_SITE_SEARCH);
     }
-
 }

@@ -71,5 +71,4 @@ abstract class Base extends Report
 
         return $site->isEcommerceEnabled();
     }
-
 }

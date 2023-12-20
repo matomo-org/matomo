@@ -112,5 +112,4 @@ class FingerprintSaltTest extends IntegrationTestCase
         // executing it again wont delete anything
         $this->assertSame(array(), $this->fingerprintSalt->deleteOldSalts());
     }
-
 }

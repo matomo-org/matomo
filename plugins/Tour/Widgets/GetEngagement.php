@@ -82,5 +82,4 @@ class GetEngagement extends Widget
             'level' => $level
         ));
     }
-
 }

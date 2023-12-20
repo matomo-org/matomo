@@ -59,5 +59,4 @@ class ServerInformational implements Diagnostic
 
         return $results;
     }
-
 }

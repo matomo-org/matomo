@@ -59,6 +59,5 @@ class ProcessDependentArchiveTest extends SystemTestCase
         $message = sprintf('Expected archives: %s, got: %s. These were the archives %s', $expectedArchives, $numArchives, json_encode($archives));
         $this->assertEquals($expectedArchives, $numArchives, $message);
     }
-
 }
 ProcessDependentArchiveTest::$fixture = new ThreeGoalsOnePageview();

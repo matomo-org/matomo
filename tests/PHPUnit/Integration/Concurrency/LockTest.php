@@ -193,5 +193,4 @@ class LockTest extends IntegrationTestCase
     {
         return Db::fetchOne("SELECT expiry_time FROM `" . Common::prefixTable('locks') . "`");
     }
-
 }

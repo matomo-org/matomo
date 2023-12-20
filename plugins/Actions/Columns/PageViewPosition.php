@@ -44,5 +44,4 @@ class PageViewPosition extends ActionDimension
 
         return false;
     }
-
 }

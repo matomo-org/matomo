@@ -105,5 +105,4 @@ class TwoFactorFixture extends Fixture
         $t->setUrl('http://example.com/');
         self::checkResponse($t->doTrackPageView('Viewing homepage'));
     }
-
 }

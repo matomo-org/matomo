@@ -59,5 +59,4 @@ class Menu extends \Piwik\Plugin\Menu
             $menu->addItem('Mobile_MatomoMobile', null, Url::addCampaignParametersToMatomoLink('https://matomo.org/mobile/'), 4);
         }
     }
-
 }

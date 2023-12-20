@@ -167,5 +167,4 @@ class SomePageGoalVisitsWithConversions extends Fixture
 
 
     }
-
 }

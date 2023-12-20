@@ -54,5 +54,4 @@ class CaseSensitiveTest extends \PHPUnit\Framework\TestCase
     {
         return new CaseSensitive($caseSensitive);
     }
-
 }

@@ -54,6 +54,4 @@ class GetKeywords extends Base
         EventDispatcher::getInstance()->postEvent('Template.afterReferrersKeywordsReport', array(&$out));
         $view->config->show_footer_message = $out;
     }
-
-
 }

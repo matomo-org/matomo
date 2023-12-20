@@ -15,7 +15,8 @@ use Piwik\Tracker\Response;
 use Piwik\Tests\Framework\Mock\Tracker;
 use Exception;
 
-class TestResponse extends Response {
+class TestResponse extends Response
+{
     protected function logExceptionToErrorLog($e)
     {
         // prevent console from outputting the error_log message
@@ -221,5 +222,4 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
         $tracker->setCountOfLoggedRequests(5);
         return $tracker;
     }
-
 }

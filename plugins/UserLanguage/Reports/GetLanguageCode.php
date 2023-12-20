@@ -29,5 +29,4 @@ class GetLanguageCode extends GetLanguage
             ReportsProvider::factory('UserLanguage', 'getLanguage'),
         );
     }
-
 }

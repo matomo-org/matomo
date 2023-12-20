@@ -101,6 +101,4 @@ class TagManagerTeaserTest extends IntegrationTestCase
         // should have been disabled automatically
         $this->assertFalse($this->teaser->isEnabledGlobally());
     }
-
-
 }

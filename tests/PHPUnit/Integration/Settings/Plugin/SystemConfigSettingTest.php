@@ -173,5 +173,4 @@ class SystemConfigSettingTest extends IntegrationTestCase
 
         return $systemSetting;
     }
-
 }

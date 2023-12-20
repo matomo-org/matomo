@@ -13,7 +13,8 @@ use Piwik\DataAccess\LogTableTemporary;
 use Piwik\Piwik;
 use Piwik\Tracker\LogTable;
 
-class LogTablesProvider {
+class LogTablesProvider
+{
     /**
      * @var Manager
      */
@@ -118,5 +119,4 @@ class LogTablesProvider {
 
         return $this->tablesCache;
     }
-
 }

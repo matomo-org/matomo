@@ -17,7 +17,8 @@ use Piwik\Plugins\Login\SystemSettings;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
-class CustomBruteForceDetection extends BruteForceDetection {
+class CustomBruteForceDetection extends BruteForceDetection
+{
     /**
      * @var Date
      */
@@ -333,5 +334,4 @@ class BruteForceDetectionTest extends IntegrationTestCase
 
         $this->addFailedLoginInPast('10.99.88.1', 75, 'theuser');
     }
-
 }

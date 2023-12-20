@@ -40,5 +40,4 @@ class GetVisitorProfilePopup extends \Piwik\Widget\Widget
     {
 
     }
-
 }

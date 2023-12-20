@@ -198,5 +198,4 @@ class GeneratePlugin extends GeneratePluginBase
 
         return $version;
     }
-
 }

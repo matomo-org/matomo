@@ -73,5 +73,4 @@ class Widget
 
         return $view->render();
     }
-
 }

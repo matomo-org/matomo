@@ -34,5 +34,4 @@ class EventUrl extends ActionDimension
     {
         return new Discriminator('log_action', 'type', Action::TYPE_EVENT);
     }
-
 }

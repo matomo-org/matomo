@@ -6,5 +6,4 @@ use Piwik\Tracker\Request;
 class RequestAuthenticated extends Request
 {
     protected $isAuthenticated = true;
-
 }

@@ -33,6 +33,4 @@ class ChallengeInvitedUser extends Challenge
     {
         return 'index.php' . Url::getCurrentQueryStringWithParametersModified(array('module' => 'UsersManager', 'action' => 'index', 'widget' => false));
     }
-
-
 }

@@ -412,6 +412,4 @@ class Mysql extends Db
             $this->connection->exec($sql);
         }
     }
-
-
 }

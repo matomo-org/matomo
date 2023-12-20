@@ -311,5 +311,4 @@ class Visitor implements VisitorInterface
 
         return $actions;
     }
-
 }

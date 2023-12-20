@@ -72,6 +72,4 @@ class SqlTest extends IntegrationTestCase
     {
         return new Sql($query, $errorCode);
     }
-
-
 }

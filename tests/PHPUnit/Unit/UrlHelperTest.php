@@ -359,5 +359,4 @@ class UrlHelperTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertEquals($expected, UrlHelper::getQueryStringWithExcludedParameters($queryParameters, $parametersToExclude));
     }
-
 }

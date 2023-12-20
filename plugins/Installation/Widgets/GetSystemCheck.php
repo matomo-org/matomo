@@ -78,5 +78,4 @@ class GetSystemCheck extends Widget
 
         return $reports;
     }
-
 }

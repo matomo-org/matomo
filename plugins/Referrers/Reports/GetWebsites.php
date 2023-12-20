@@ -50,5 +50,4 @@ class GetWebsites extends Base
 
         $view->config->show_pivot_by_subtable = false;
     }
-
 }

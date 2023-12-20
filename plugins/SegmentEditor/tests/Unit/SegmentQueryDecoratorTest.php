@@ -93,5 +93,4 @@ class SegmentQueryDecoratorTest extends \PHPUnit\Framework\TestCase
         $mock->expects($this->any())->method('getAllSegmentsAndIgnoreVisibility')->willReturn(self::$storedSegments);
         return $mock;
     }
-
 }

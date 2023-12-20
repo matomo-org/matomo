@@ -270,5 +270,4 @@ class ApiTest extends IntegrationTestCase
         FakeAccess::clearAccess();
         FakeAccess::$identity = 'anonymous';
     }
-
 }

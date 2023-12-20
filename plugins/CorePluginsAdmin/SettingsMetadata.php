@@ -134,5 +134,4 @@ class SettingsMetadata
 
         return $result;
     }
-
 }

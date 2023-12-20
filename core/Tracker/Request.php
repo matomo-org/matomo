@@ -935,5 +935,4 @@ class Request
         }
         return false;
     }
-
 }

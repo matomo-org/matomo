@@ -16,5 +16,4 @@ use Piwik\Plugin\Dimension\VisitDimension;
 class UserId extends VisitDimension
 {
     protected $nameSingular = 'UserId_UserId';
-
 }

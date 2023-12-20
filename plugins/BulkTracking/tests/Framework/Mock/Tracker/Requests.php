@@ -37,5 +37,4 @@ class Requests extends \Piwik\Plugins\BulkTracking\Tracker\Requests
     {
         return $this->requiresAuth;
     }
-
 }

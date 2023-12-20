@@ -312,5 +312,4 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
     {
         return Manager::getInstance()->isPluginActivated('CustomVariables');
     }
-
 }

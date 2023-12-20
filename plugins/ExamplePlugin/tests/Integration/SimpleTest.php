@@ -38,5 +38,4 @@ class SimpleTest extends IntegrationTestCase
     {
         $this->assertEquals(2, 1 + 1);
     }
-
 }

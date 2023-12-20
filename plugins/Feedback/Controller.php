@@ -29,5 +29,4 @@ class Controller extends \Piwik\Plugin\Controller
         $view->piwikVersion = Version::VERSION;
         return $view->render();
     }
-
 }

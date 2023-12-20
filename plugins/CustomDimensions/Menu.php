@@ -30,5 +30,4 @@ class Menu extends \Piwik\Plugin\Menu
             $menu->addMeasurableItem('CustomDimensions_CustomDimensions', $this->urlForAction('manage'), $orderId = 41);
         }
     }
-
 }

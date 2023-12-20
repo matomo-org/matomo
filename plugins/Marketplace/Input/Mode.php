@@ -24,5 +24,4 @@ class Mode
 
         return $mode;
     }
-
 }

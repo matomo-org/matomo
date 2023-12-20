@@ -77,5 +77,4 @@ class ActionType extends ActionDimension
     {
         // do not generate any metric for this
     }
-
 }

@@ -131,5 +131,4 @@ class ComputedMetricTest extends IntegrationTestCase
         $metric->setCategory('123');
         $this->assertSame('123', $metric->getCategoryId());
     }
-
 }

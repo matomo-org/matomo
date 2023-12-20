@@ -53,5 +53,4 @@ class GenerateScheduledTask extends GeneratePluginBase
 
         return $this->askPluginNameAndValidate($pluginNames, $invalidName);
     }
-
 }

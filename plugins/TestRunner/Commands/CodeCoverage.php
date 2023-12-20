@@ -86,5 +86,4 @@ class CodeCoverage extends ConsoleCommand
 
         return self::SUCCESS;
     }
-
 }

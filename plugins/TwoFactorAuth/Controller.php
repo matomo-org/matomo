@@ -348,5 +348,4 @@ class Controller extends \Piwik\Plugin\Controller
     {
         return sprintf('index.php?module=TwoFactorAuth&action=showQrCode&cb=%s&title=%s&descr=%s', Common::getRandomString(8), urlencode($title), urlencode($description));
     }
-
 }

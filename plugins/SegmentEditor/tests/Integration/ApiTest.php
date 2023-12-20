@@ -219,5 +219,4 @@ class ApiTest extends IntegrationTestCase
         }
         return $segmentNames;
     }
-
 }

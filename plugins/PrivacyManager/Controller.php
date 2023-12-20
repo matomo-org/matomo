@@ -418,5 +418,4 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         return $deleteDataInfos;
     }
-
 }

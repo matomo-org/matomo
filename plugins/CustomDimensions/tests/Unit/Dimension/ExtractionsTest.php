@@ -79,5 +79,4 @@ class ExtractionsTest extends \PHPUnit\Framework\TestCase
     {
         return new Extractions($extractions);
     }
-
 }

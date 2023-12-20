@@ -23,5 +23,4 @@ class GetItemsSku extends BaseItem
 
         $this->subcategoryId = 'Goals_Products';
     }
-
 }

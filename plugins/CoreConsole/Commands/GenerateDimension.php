@@ -262,5 +262,4 @@ class GenerateDimension extends GeneratePluginBase
 
         return $this->askPluginNameAndValidate($pluginNames, $invalidName);
     }
-
 }

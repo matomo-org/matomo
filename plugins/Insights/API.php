@@ -337,5 +337,4 @@ class API extends \Piwik\Plugin\API
 
         return ApiRequest::processRequest('Insights.' . $method, $params, $default = []);
     }
-
 }

@@ -15,5 +15,4 @@ abstract class Base extends \Piwik\Plugin\Report
         $this->categoryId = 'General_Actions';
         $this->subcategoryId = 'VisitorInterest_Engagement';
     }
-
 }

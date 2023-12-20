@@ -77,5 +77,4 @@ class ConfigInformational implements Diagnostic
 
         return $results;
     }
-
 }

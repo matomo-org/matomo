@@ -47,6 +47,4 @@ class PluginNameTest extends IntegrationTestCase
     {
         $_GET['pluginName'] = $name;
     }
-
-
 }

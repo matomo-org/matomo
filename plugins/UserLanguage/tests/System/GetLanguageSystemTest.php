@@ -17,7 +17,8 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
  * @group Plugins
  * @group UserLanguage
  */
-class GetLanguageSystemTest extends SystemTestCase {
+class GetLanguageSystemTest extends SystemTestCase
+{
     public static $fixture = null;
 
     public static function getOutputPrefix()

@@ -17,5 +17,4 @@ class ProductQuantity extends Dimension
     protected $columnName = 'quantity';
     protected $nameSingular = 'Goals_ProductQuantity';
     protected $category = 'Goals_Ecommerce';
-
 }

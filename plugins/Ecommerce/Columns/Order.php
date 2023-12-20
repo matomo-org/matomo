@@ -34,5 +34,4 @@ class Order extends BaseConversion
     {
         return new Discriminator($this->dbTableName, 'idgoal', GoalManager::IDGOAL_ORDER);
     }
-
 }

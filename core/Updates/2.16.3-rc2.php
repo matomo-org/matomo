@@ -19,5 +19,4 @@ class Updates_2_16_3_rc2 extends PiwikUpdates
     {
         return true;
     }
-
 }

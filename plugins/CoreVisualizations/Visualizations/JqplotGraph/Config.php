@@ -61,5 +61,4 @@ class Config extends GraphConfig
 
         $this->addPropertiesThatCanBeOverwrittenByQueryParams(array('x_axis_step_size'));
     }
-
 }

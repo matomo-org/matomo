@@ -12,7 +12,8 @@ use Piwik\Date;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugins\Login\PasswordVerifier;
 
-class CustomPasswordVerifier extends PasswordVerifier {
+class CustomPasswordVerifier extends PasswordVerifier
+{
     public function hasBeenVerifiedAndHalfTimeValid()
     {
         return parent::hasBeenVerifiedAndHalfTimeValid();
@@ -129,5 +130,4 @@ class PasswordVerifierTest extends IntegrationTestCase
     {
         return $this->verifier->requirePasswordVerifiedRecently(array('module' => 'Login', 'action' => 'test'));
     }
-
 }

@@ -20,5 +20,4 @@ class Menu extends \Piwik\Plugin\Menu
 
         $menu->addPlatformItem('General_Widgets', $urlParams, 6, $tooltip);
     }
-
 }

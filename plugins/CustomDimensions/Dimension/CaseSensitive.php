@@ -27,5 +27,4 @@ class CaseSensitive
             throw new Exception("Invalid value '$caseSensitive' for 'caseSensitive' specified. Allowed values: '0' or '1'");
         }
     }
-
 }

@@ -44,5 +44,4 @@ class GetCountry extends Base
             $view->config->show_footer_message = $footerMessage;
         }
     }
-
 }

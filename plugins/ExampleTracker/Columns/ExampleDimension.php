@@ -22,5 +22,4 @@ class ExampleDimension extends Dimension
      * @return string
      */
     protected $nameSingular = 'ExampleTracker_DimensionName';
-
 }

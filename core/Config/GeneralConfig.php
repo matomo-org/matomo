@@ -14,5 +14,4 @@ class GeneralConfig extends SectionConfig
     {
         return 'General';
     }
-
 }

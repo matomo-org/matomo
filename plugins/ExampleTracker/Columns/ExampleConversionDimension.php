@@ -126,5 +126,4 @@ class ExampleConversionDimension extends ConversionDimension
 
         return false;
     }
-
 }

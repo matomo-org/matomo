@@ -64,5 +64,4 @@ class Consumer
 
         return $this->isValid;
     }
-
 }

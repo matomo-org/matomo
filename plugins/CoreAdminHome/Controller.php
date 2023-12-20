@@ -351,5 +351,4 @@ class Controller extends ControllerAdmin
             throw new \Exception('Unable to getUser() when attempting to show whatIsNew');
         }
     }
-
 }

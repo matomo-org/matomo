@@ -235,5 +235,4 @@ class LogTableTest extends IntegrationTestCase
             array(false, 5),
         );
     }
-
 }

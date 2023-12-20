@@ -69,5 +69,4 @@ var myArray = [];
     {
         return new PiwikJsManipulator($this->content, new PluginTrackerFilesMock($files));
     }
-
 }

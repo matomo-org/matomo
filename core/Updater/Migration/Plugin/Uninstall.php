@@ -53,5 +53,4 @@ class Uninstall extends Migration
         $this->pluginManager->unloadPlugins();
         $this->pluginManager->loadActivatedPlugins();
     }
-
 }

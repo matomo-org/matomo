@@ -92,5 +92,4 @@ class APITest extends IntegrationTestCase
         $access->reloadAccess(StaticContainer::get('Piwik\Auth'));
         Request::reloadAuthUsingTokenAuth(array('token_auth' => 'anonymous'));
     }
-
 }

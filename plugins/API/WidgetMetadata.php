@@ -318,5 +318,4 @@ class WidgetMetadata
 
         return $ca;
     }
-
 }

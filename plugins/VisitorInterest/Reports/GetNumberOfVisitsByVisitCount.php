@@ -55,5 +55,4 @@ class GetNumberOfVisitsByVisitCount extends Base
         $view->config->show_table_all_columns  = false;
         $view->config->show_all_views_icons    = false;
     }
-
 }

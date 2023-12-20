@@ -30,5 +30,4 @@ class QuickLinks extends Widget
             'hasSitesAdmin' => $hasSitesAdmin,
         ));
     }
-
 }

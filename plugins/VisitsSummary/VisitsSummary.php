@@ -69,5 +69,4 @@ class VisitsSummary extends \Piwik\Plugin
     {
         $stylesheets[] = "plugins/VisitsSummary/stylesheets/datatable.less";
     }
-
 }

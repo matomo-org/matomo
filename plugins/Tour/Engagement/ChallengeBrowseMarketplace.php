@@ -32,7 +32,4 @@ class ChallengeBrowseMarketplace extends Challenge
     {
         return 'index.php' . Url::getCurrentQueryStringWithParametersModified(array('module' => 'Marketplace', 'action' => 'overview', 'widget' => false));
     }
-
-
-
 }

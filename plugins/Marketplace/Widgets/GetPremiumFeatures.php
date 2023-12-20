@@ -58,5 +58,4 @@ class GetPremiumFeatures extends Widget
             'plugins' => $plugins
         ));
     }
-
 }

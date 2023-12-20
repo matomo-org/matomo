@@ -60,7 +60,6 @@ class SimpleSystemTest extends SystemTestCase
     {
         return dirname(__FILE__);
     }
-
 }
 
 SimpleSystemTest::$fixture = new SimpleFixtureTrackFewVisits();

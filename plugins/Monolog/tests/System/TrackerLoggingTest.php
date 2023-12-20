@@ -99,5 +99,4 @@ class TrackerLoggingTest extends SystemTestCase
             'Tests.log.allowAllHandlers' => true,
         );
     }
-
 }

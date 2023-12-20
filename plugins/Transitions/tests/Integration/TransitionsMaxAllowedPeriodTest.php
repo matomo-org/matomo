@@ -143,5 +143,4 @@ class TransitionsMaxAllowedPeriodTest extends IntegrationTestCase
         $maxAllowedPeriod = Transitions::getPeriodAllowedConfig(1);
         $this->assertEquals('week', $maxAllowedPeriod);
     }
-
 }

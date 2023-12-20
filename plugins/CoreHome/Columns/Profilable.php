@@ -51,5 +51,4 @@ class Profilable extends VisitDimension
 
         return $this->onNewVisit($request, $visitor, $action);
     }
-
 }

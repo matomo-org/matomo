@@ -42,5 +42,4 @@ class GetTransitions extends Widget
             'isWidget' => $isWidgetized
         ));
     }
-
 }

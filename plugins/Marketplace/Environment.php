@@ -99,6 +99,4 @@ class Environment
 
         return $this->mySqlCache;
     }
-
-
 }

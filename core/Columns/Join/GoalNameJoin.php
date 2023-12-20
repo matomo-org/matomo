@@ -20,5 +20,4 @@ class GoalNameJoin extends Columns\Join
     {
         parent::__construct('goal', 'idgoal', 'name');
     }
-
 }

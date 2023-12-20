@@ -154,5 +154,4 @@ class Service
     {
         return $this->domain;
     }
-
 }

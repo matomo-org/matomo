@@ -85,5 +85,4 @@ class MultiPair
             'availableValues' => $this->availableValues,
         );
     }
-
 }

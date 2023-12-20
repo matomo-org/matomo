@@ -193,5 +193,4 @@ class Configuration
 
         return $extractions;
     }
-
 }

@@ -53,5 +53,4 @@ class GenerateController extends GeneratePluginBase
 
         return $this->askPluginNameAndValidate($pluginNames, $invalidName);
     }
-
 }
