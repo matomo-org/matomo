@@ -171,13 +171,21 @@
                     @media (max-width: 480px) {
                         -webkit-line-clamp: 5;
                     }
-                }
 
-                .card-description-clamped {
-                    -webkit-line-clamp: 2;
+                    &[data-clamp="2"] {
+                        -webkit-line-clamp: 2;
 
-                    @media (max-width: 480px) {
-                        -webkit-line-clamp: 4;
+                        @media (max-width: 480px) {
+                            -webkit-line-clamp: 4;
+                        }
+                    }
+
+                    &[data-clamp="1"] {
+                        -webkit-line-clamp: 1;
+
+                        @media (max-width: 480px) {
+                            -webkit-line-clamp: 3;
+                        }
                     }
                 }
 
