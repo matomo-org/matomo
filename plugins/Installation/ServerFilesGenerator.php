@@ -341,5 +341,4 @@ HTACCESS_ALLOW;
             }
         }
     }
-
 }

@@ -56,5 +56,4 @@ class DataFinder
 
         return $result > 0;
     }
-
 }

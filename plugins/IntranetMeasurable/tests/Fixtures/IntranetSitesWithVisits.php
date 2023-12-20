@@ -90,5 +90,4 @@ class IntranetSitesWithVisits extends Fixture
         $t->setUrl('http://example.com/?search=this is a site search query');
         self::checkResponse($t->doTrackPageView('Site search query'));
     }
-
 }

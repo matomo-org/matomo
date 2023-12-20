@@ -122,5 +122,4 @@ class Sort extends BaseFilter
             }
         }
     }
-
 }

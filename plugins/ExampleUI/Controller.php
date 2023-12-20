@@ -41,5 +41,4 @@ class Controller extends \Piwik\Plugin\Controller
         $this->setGeneralVariablesView($view);
         return $view->render();
     }
-
 }

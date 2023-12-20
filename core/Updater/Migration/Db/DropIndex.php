@@ -23,5 +23,4 @@ class DropIndex extends Sql
 
         parent::__construct($sql, array(static::ERROR_CODE_COLUMN_NOT_EXISTS));
     }
-
 }

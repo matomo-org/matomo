@@ -17,5 +17,4 @@ class Tsv extends Csv
         Common::sendHeader("Content-Disposition: attachment; filename=piwik-report-export.csv");
         return "message\t" . $message;
     }
-
 }

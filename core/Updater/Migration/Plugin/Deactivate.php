@@ -51,5 +51,4 @@ class Deactivate extends Migration
             $this->pluginManager->deactivatePlugin($this->pluginName);
         }
     }
-
 }

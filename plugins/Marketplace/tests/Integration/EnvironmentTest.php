@@ -84,5 +84,4 @@ class EnvironmentTest extends IntegrationTestCase
     {
         $this->assertTrue($this->environment->doesPreferStable());
     }
-
 }

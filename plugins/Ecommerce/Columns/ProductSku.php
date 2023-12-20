@@ -34,5 +34,4 @@ class ProductSku extends Dimension
     {
         return new Discriminator('log_action', 'type', Action::TYPE_ECOMMERCE_ITEM_SKU);
     }
-
 }

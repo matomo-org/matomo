@@ -236,5 +236,4 @@ class Timetable
 
         return $this->retryList[$taskName];
     }
-
 }

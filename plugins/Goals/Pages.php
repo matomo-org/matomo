@@ -348,5 +348,4 @@ class Pages
             return $factory->createWidget();
         }
     }
-
 }

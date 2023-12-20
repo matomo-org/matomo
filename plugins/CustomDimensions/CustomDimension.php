@@ -43,5 +43,4 @@ class CustomDimension extends Dimension
             $this->dbTableName = 'log_visit';
         }
     }
-
 }

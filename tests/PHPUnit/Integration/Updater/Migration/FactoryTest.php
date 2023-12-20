@@ -47,5 +47,4 @@ class FactoryTest extends IntegrationTestCase
     {
         $this->assertTrue($this->factory->config instanceof ConfigFactory);
     }
-
 }

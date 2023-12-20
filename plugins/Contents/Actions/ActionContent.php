@@ -38,5 +38,4 @@ class ActionContent extends Action
             'idaction_url' => array($this->getActionUrl(), $this->getActionType())
         );
     }
-
 }

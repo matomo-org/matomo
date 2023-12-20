@@ -20,5 +20,4 @@ class SiteNameJoin extends Columns\Join
     {
         parent::__construct('site', 'idsite', 'name');
     }
-
 }

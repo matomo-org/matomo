@@ -41,5 +41,4 @@ class VisitFirstActionMinute extends VisitDimension
     {
         return $value;
     }
-
 }

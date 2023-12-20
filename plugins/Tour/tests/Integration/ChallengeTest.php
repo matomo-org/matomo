@@ -11,7 +11,8 @@ namespace Piwik\Plugins\Tour\tests\Integration;
 use Piwik\Plugins\Tour\Engagement\Challenge;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
-class CustomTestChallenge extends Challenge {
+class CustomTestChallenge extends Challenge
+{
     public function getId()
     {
         return 'test_challenge';
@@ -22,7 +23,8 @@ class CustomTestChallenge extends Challenge {
     }
 }
 
-class CustomTest2Challenge extends Challenge {
+class CustomTest2Challenge extends Challenge
+{
     public function getId()
     {
         return 'test_challenge2';
@@ -97,5 +99,4 @@ class ChallengeTest extends IntegrationTestCase
         $this->assertFalse($this->challenge->isCompleted('barbaz'));
         $this->assertFalse($this->challenge2->isCompleted($login));
     }
-
 }

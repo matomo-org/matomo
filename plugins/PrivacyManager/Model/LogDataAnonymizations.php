@@ -301,5 +301,4 @@ class LogDataAnonymizations
 
         $this->updateEntry($idLogData, 'job_finish_date', Date::now()->getDatetime());
     }
-
 }

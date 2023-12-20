@@ -685,7 +685,6 @@ if (!class_exists('Piwik\Plugin')) {
             }
             return [];
         }
-
     }
 
 }

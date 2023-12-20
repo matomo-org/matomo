@@ -19,5 +19,4 @@ class Manager extends \Piwik\Plugin\Manager
     {
         return in_array($pluginName, $this->pluginsToActivate);
     }
-
 }

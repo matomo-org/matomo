@@ -57,5 +57,4 @@ class Join
     {
         return $this->targetColumn;
     }
-
 }

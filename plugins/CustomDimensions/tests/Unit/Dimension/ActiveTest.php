@@ -57,5 +57,4 @@ class ActiveTest extends \PHPUnit\Framework\TestCase
     {
         return new Active($active);
     }
-
 }

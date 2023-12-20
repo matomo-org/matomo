@@ -107,5 +107,4 @@ class UserCountry extends \Piwik\Plugin
     {
         return (bool) Config::getInstance()->General['enable_geolocation_admin'];
     }
-
 }

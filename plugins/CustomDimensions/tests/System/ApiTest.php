@@ -295,7 +295,6 @@ class ApiTest extends SystemTestCase
     {
         return dirname(__FILE__);
     }
-
 }
 
 ApiTest::$fixture = new TrackVisitsWithCustomDimensionsFixture();

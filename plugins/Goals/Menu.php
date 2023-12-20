@@ -30,5 +30,4 @@ class Menu extends \Piwik\Plugin\Menu
         $idSite = Common::getRequestVar('idSite', $default, 'int');
         return $idSite;
     }
-
 }

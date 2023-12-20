@@ -74,7 +74,6 @@ class TwoFactorAuthTest extends SystemTestCase
     {
         return dirname(__FILE__);
     }
-
 }
 
 TwoFactorAuthTest::$fixture = new SimpleFixtureTrackFewVisits();

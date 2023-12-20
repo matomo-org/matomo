@@ -93,5 +93,4 @@ class ChallengeSetupConsentManager extends Challenge
 
         return $this->detectedContentManager::getInstructionUrl();
     }
-
 }

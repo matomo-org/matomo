@@ -68,5 +68,4 @@ class DatabaseInformational implements Diagnostic
 
         return count($results);
     }
-
 }

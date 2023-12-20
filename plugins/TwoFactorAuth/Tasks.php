@@ -28,5 +28,4 @@ class Tasks extends \Piwik\Plugin\Tasks
     {
         $this->twoFa->cleanupTwoFaCodesUsedRecently();
     }
-
 }

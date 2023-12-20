@@ -32,6 +32,4 @@ class ChallengeCreatedGoal extends Challenge
     {
         return 'index.php' . Url::getCurrentQueryStringWithParametersModified(array('module' => 'Goals', 'action' => 'manage', 'widget' => false));
     }
-
-
 }

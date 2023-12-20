@@ -88,5 +88,4 @@ class GetTemperatures extends Base
             $view->config->metrics_documentation = array('value' => 'Documentation for temperature metric');
         }
     }
-
 }

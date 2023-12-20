@@ -44,5 +44,4 @@ class Updates_1_14 extends Updates
     {
         $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
     }
-
 }

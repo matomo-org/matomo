@@ -73,5 +73,4 @@ class Menu extends \Piwik\Plugin\Menu
             }
         }
     }
-
 }

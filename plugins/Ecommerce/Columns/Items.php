@@ -14,5 +14,4 @@ class Items extends BaseConversion
     protected $type = self::TYPE_NUMBER;
     protected $category = 'Goals_Ecommerce';
     protected $nameSingular = 'Ecommerce_NumberOfItems';
-
 }

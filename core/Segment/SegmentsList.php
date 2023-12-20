@@ -150,5 +150,4 @@ class SegmentsList
 
         return $list;
     }
-
 }

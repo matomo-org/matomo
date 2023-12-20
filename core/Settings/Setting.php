@@ -341,5 +341,4 @@ class Setting
             throw new Exception('Type does not exist');
         }
     }
-
 }

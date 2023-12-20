@@ -37,5 +37,4 @@ class UserInformational implements Diagnostic
 
         return $results;
     }
-
 }

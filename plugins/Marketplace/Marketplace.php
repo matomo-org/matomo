@@ -147,5 +147,4 @@ class Marketplace extends \Piwik\Plugin
     {
         return Plugin\Manager::getInstance();
     }
-
 }

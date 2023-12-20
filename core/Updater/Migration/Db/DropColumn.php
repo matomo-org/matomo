@@ -19,5 +19,4 @@ class DropColumn extends Sql
 
         parent::__construct($sql, static::ERROR_CODE_COLUMN_NOT_EXISTS);
     }
-
 }

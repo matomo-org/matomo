@@ -90,5 +90,4 @@ class Controller extends \Piwik\Plugin\Controller
 
         return $view->render();
     }
-
 }

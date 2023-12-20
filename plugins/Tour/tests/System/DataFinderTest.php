@@ -91,7 +91,6 @@ class DataFinderTest extends SystemTestCase
     {
         return dirname(__FILE__);
     }
-
 }
 
 DataFinderTest::$fixture = new SimpleFixtureTrackFewVisits();

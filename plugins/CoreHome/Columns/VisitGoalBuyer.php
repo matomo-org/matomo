@@ -138,5 +138,4 @@ class VisitGoalBuyer extends VisitDimension
 
         return self::TYPE_BUYER_OPEN_CART;
     }
-
 }

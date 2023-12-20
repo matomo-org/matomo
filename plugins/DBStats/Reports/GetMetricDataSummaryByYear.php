@@ -38,5 +38,4 @@ class GetMetricDataSummaryByYear extends Base
             ReportsProvider::factory('DBStats', 'getMetricDataSummary'),
         );
     }
-
 }

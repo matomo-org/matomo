@@ -38,5 +38,4 @@ class SystemSettingsTest extends BaseSettingsTestCase
 
         $this->assertTrue($setting instanceof SystemSetting);
     }
-
 }

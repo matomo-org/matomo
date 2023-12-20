@@ -218,5 +218,4 @@ class CustomDimensionsRequestProcessor extends RequestProcessor
 
         return $cache['custom_dimensions'];
     }
-
 }

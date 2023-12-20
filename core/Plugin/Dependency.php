@@ -195,6 +195,4 @@ class Dependency
 
         return '';
     }
-
-
 }

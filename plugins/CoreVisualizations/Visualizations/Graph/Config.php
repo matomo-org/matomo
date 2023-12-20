@@ -118,5 +118,4 @@ class Config extends VisualizationConfig
             'show_series_picker'
         ));
     }
-
 }

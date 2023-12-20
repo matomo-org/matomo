@@ -38,5 +38,4 @@ class Xml extends ApiRenderer
     {
         Common::sendHeader('Content-Type: text/xml; charset=utf-8');
     }
-
 }

@@ -49,5 +49,4 @@ class RequiredPrivateDirectories extends AbstractPrivateDirectories
         }
         return $this->isAccessible(new DiagnosticResult(''), $baseUrl . 'config/global.ini.php', ';', 'trusted_hosts[]');
     }
-
 }

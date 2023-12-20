@@ -230,5 +230,4 @@ class Flattener extends DataTableManipulator
 
         return $request;
     }
-
 }

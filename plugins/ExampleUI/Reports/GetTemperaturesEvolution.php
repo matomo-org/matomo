@@ -88,5 +88,4 @@ class GetTemperaturesEvolution extends Base
             $view->config->show_goals = false;
         }
     }
-
 }

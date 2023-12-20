@@ -92,5 +92,4 @@ class MeasurableSettingTest extends IntegrationTestCase
 
         return $userSetting;
     }
-
 }

@@ -58,5 +58,4 @@ class RemoveUserIfNeededTest extends IntegrationTestCase
 
         return $dataTable->getColumn(Metrics::INDEX_NB_USERS);
     }
-
 }

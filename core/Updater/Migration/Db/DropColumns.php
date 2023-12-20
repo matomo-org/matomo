@@ -38,5 +38,4 @@ class DropColumns extends Sql
         }
 
     }
-
 }

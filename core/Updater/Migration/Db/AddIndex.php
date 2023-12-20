@@ -48,5 +48,4 @@ class AddIndex extends Sql
 
         parent::__construct($sql, array(static::ERROR_CODE_DUPLICATE_KEY, static::ERROR_CODE_KEY_COLUMN_NOT_EXISTS));
     }
-
 }

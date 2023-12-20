@@ -170,5 +170,4 @@ class Feedback extends \Piwik\Plugin
     {
         return defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE && !Common::getRequestVar('forceFeedbackTest', false);
     }
-
 }

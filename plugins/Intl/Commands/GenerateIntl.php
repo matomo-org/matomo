@@ -664,5 +664,4 @@ class GenerateIntl extends ConsoleCommand
     {
         return str_replace('{0}', $replacement, $string);
     }
-
 }

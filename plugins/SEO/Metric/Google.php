@@ -60,6 +60,4 @@ class Google implements MetricsProvider
             new Metric('google-index', 'SEO_Google_IndexedPages', $pageCount, $logo, null, null, $suffix),
         );
     }
-
-
 }

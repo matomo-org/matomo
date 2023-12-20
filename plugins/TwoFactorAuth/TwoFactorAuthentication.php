@@ -198,5 +198,4 @@ class TwoFactorAuthentication
     {
         return new \TwoFactorAuthenticator();
     }
-
 }

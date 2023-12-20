@@ -59,5 +59,4 @@ class Language extends VisitDimension
         $languageCode = Common::extractLanguageAndRegionCodeFromBrowserLanguage($acceptLanguagesString);
         return $languageCode;
     }
-
 }

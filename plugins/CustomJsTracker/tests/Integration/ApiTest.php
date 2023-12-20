@@ -78,5 +78,4 @@ class ApiTest extends IntegrationTestCase
             'Piwik\Access' => new FakeAccess()
         );
     }
-
 }

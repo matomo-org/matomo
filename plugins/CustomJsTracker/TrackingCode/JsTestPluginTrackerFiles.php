@@ -44,5 +44,4 @@ class JsTestPluginTrackerFiles extends PluginTrackerFiles
     {
         return true;
     }
-
 }

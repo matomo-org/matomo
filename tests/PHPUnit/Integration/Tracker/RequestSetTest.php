@@ -14,14 +14,14 @@ use Piwik\Tracker\Request;
 use Piwik\Tracker\RequestSet;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
-class TestRequestSet extends RequestSet {
+class TestRequestSet extends RequestSet
+{
     private $redirectUrl = '';
 
     public function getAllSiteIdsWithinRequest()
     {
         return parent::getAllSiteIdsWithinRequest();
     }
-
 }
 /**
  * @group RequestSetTest

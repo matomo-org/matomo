@@ -368,5 +368,4 @@ class CalculateConversionPages extends ConsoleCommand
 
         return $queries;
     }
-
 }

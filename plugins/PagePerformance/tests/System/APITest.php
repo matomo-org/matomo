@@ -61,7 +61,6 @@ class APITest extends SystemTestCase
     {
         return dirname(__FILE__);
     }
-
 }
 
 APITest::$fixture = new VisitsWithPagePerformanceMetrics();

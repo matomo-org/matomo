@@ -214,7 +214,6 @@ class ApiTest extends SystemTestCase
     {
         return dirname(__FILE__);
     }
-
 }
 
 ApiTest::$fixture = new ManyUsers(1, 1, false);

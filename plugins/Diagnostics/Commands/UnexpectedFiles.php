@@ -140,5 +140,4 @@ class UnexpectedFiles extends ConsoleCommand
             false
         );
     }
-
 }

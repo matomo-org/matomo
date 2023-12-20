@@ -24,5 +24,4 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'title' => Piwik::translate('CustomDimensions_CustomDimensions'
         )));
     }
-
 }

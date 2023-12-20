@@ -481,5 +481,4 @@ class FileIntegrity
         }
         return null;
     }
-
 }

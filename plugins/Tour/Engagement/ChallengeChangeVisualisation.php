@@ -32,6 +32,4 @@ class ChallengeChangeVisualisation extends Challenge
     {
         return Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/reports/graphs-and-visualisations-in-matomo/');
     }
-
-
 }

@@ -337,5 +337,4 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
         $category->setId($categoryId);
         return $category;
     }
-
 }

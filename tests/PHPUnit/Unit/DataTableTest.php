@@ -1369,5 +1369,4 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         );
         return $rows;
     }
-
 }

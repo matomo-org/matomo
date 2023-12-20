@@ -175,5 +175,4 @@ class ReferrerNameTest extends IntegrationTestCase
     {
         return new Visitor(new VisitProperties());
     }
-
 }

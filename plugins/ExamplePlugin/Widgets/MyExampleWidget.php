@@ -74,5 +74,4 @@ class MyExampleWidget extends Widget
 
         return '<div class="widgetBody">My Widget Text</div>';
     }
-
 }

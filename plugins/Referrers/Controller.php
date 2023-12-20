@@ -163,5 +163,4 @@ class Controller extends \Piwik\Plugin\Controller
         $label = getReferrerTypeLabel($typeReferrer);
         return Piwik::translate($label);
     }
-
 }

@@ -86,5 +86,4 @@ class FilterMinGrowthTest extends BaseUnitTest
         $filter = new MinGrowth($this->table, 'growth', $minGrowthPercentPositive, $minGrowthPercentNegative);
         $filter->filter($this->table);
     }
-
 }

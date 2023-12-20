@@ -157,5 +157,4 @@ class ColumnDeleteTest extends \PHPUnit\Framework\TestCase
             array('label' => 'row3', 'visits' => 3),
         );
     }
-
 }

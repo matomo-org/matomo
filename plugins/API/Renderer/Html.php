@@ -54,5 +54,4 @@ class Html extends ApiRenderer
     {
         Common::sendHeader('Content-Type: text/html; charset=utf-8', true);
     }
-
 }

@@ -60,5 +60,4 @@ class LoaderLock
         return (bool)Db::fetchOne('SELECT IS_FREE_LOCK(?)', [$key]);
 
     }
-
 }

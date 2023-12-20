@@ -236,5 +236,4 @@ class ManagerTest extends \PHPUnit\Framework\TestCase
 
         return $tables;
     }
-
 }

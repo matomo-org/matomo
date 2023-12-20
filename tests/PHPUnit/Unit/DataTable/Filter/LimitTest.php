@@ -304,5 +304,4 @@ class LimitTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(array_values($expectedtable->getRows()), array_values($table->getRows()));
     }
-
 }

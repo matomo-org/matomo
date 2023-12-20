@@ -110,5 +110,4 @@ class VisitTotalInteractions extends VisitDimension
 
         return false;
     }
-
 }

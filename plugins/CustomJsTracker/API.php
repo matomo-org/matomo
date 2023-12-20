@@ -38,5 +38,4 @@ class API extends \Piwik\Plugin\API
             return false;
         }
     }
-
 }

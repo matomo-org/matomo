@@ -33,5 +33,4 @@ class GroupDifferentSocialWritingsTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['Instagram', 'Facebook'], $table->getColumn('label'));
         $this->assertEquals([110, 5], $table->getColumn('count'));
     }
-
 }

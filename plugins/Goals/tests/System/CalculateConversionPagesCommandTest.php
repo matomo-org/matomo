@@ -102,7 +102,6 @@ class CalculateConversionPagesCommandTest extends ConsoleCommandTestCase
             }
         }
     }
-
 }
 
 CalculateConversionPagesCommandTest::$fixture = new SomePageGoalVisitsWithConversions();

@@ -118,5 +118,4 @@ class EvolutionPeriodSelector
 
         return $periodToUse;
     }
-
 }

@@ -485,5 +485,4 @@ class Config extends \Piwik\ViewDataTable\Config
 
         return $paramsToSet;
     }
-
 }

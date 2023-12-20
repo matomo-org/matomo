@@ -67,5 +67,4 @@ class ReleaseChannelTest extends IntegrationTestCase
     {
         $this->assertTrue($this->channel->doesPreferStable());
     }
-
 }

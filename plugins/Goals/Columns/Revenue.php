@@ -16,5 +16,4 @@ class Revenue extends ConversionDimension
     protected $type = self::TYPE_MONEY;
     protected $category = 'Goals_Goals';
     protected $nameSingular = 'Goals_ColumnOverallRevenue';
-
 }

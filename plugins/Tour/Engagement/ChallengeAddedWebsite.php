@@ -56,6 +56,4 @@ class ChallengeAddedWebsite extends Challenge
     {
         return 'index.php' . Url::getCurrentQueryStringWithParametersModified(array('module' => 'SitesManager', 'action' => 'index', 'widget' => false));
     }
-
-
 }

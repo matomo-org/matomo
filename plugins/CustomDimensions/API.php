@@ -290,5 +290,4 @@ class API extends \Piwik\Plugin\API
     {
         return new Configuration();
     }
-
 }

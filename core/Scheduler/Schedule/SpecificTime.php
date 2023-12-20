@@ -35,5 +35,4 @@ class SpecificTime extends Schedule
     {
         $this->scheduledTime = $scheduledTime;
     }
-
 }

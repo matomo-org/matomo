@@ -76,6 +76,4 @@ class DropColumnsTest extends IntegrationTestCase
     {
         return new DropColumns(Common::prefixTable($this->tableName), $columnNames);
     }
-
-
 }

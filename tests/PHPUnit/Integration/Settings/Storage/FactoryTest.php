@@ -153,5 +153,4 @@ class FactoryTest extends IntegrationTestCase
 
         $this->assertSame($backend, $storage->getBackend());
     }
-
 }

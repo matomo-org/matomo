@@ -40,5 +40,4 @@ class SystemSettingsTest extends IntegrationTestCase
     {
         $this->assertEquals('Analytics - ' . Url::getCurrentHost(), $this->settings->twoFactorAuthTitle->getValue());
     }
-
 }

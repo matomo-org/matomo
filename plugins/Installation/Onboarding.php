@@ -73,6 +73,4 @@ Matomo Founder<br>
             // Mail might not be configured yet and it won't work...
         }
     }
-
-
 }
