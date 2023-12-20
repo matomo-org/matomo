@@ -214,7 +214,6 @@ OUTPUT;
 
         $this->assertStringMatchesFormat($expected, $actual);
     }
-
 }
 
 ArchivingStatusTest::$fixture = new OneVisitorTwoVisits();

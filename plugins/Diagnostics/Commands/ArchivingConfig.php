@@ -109,5 +109,4 @@ class ArchivingConfig extends ConsoleCommand
         }
         return $data;
     }
-
 }

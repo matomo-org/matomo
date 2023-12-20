@@ -70,7 +70,6 @@ OUTPUT;
 
         $this->assertStringMatchesFormat($expected, $actual);
     }
-
 }
 
 ArchivingQueueTest::$fixture = new OneVisitorTwoVisits();

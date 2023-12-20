@@ -42,5 +42,4 @@ class ArchivingQueue extends ConsoleCommand
 
         return self::SUCCESS;
     }
-
 }

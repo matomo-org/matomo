@@ -65,5 +65,4 @@ class ArchivingMetrics extends ConsoleCommand
         }
         return $metrics;
     }
-
 }

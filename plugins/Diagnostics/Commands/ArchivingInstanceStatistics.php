@@ -70,5 +70,4 @@ class ArchivingInstanceStatistics extends ConsoleCommand
         ];
         return $stats;
     }
-
 }
