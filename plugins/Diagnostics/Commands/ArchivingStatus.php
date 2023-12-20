@@ -11,9 +11,8 @@ namespace Piwik\Plugins\Diagnostics\Commands;
 use Piwik\Container\StaticContainer;
 use Piwik\Mail;
 use Piwik\Plugin\ConsoleCommand;
-use Symfony\Component\Console\Output\BufferedOutput;
-use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Console\Output\OutputInterface;
+use Piwik\Plugin\ConsoleCommand\ConsoleCommandConsoleOutput;
+use Piwik\Plugin\ConsoleCommand\ConsoleCommandBufferedOutput;
 
 /**
  * Diagnostic command that returns consolidated information about the status of archiving
@@ -36,7 +35,7 @@ class ArchivingStatus extends ConsoleCommand
 
         // If using email option then buffer output
         if ($input->getOption('email')) {
-            $output = new BufferedOutput();
+            $output = new ConsoleCommandBufferedOutput();
             $this->setOutput($output);
         } else {
             $output = $this->getOutput();
@@ -77,7 +76,7 @@ class ArchivingStatus extends ConsoleCommand
             $mail->addTo($address);
             $mail->setSubject('Matomo Archiving Diagnostics');
             $mail->setWrappedHtmlBody($content);
-            $output = new ConsoleOutput();
+            $output = new ConsoleCommandConsoleOutput();
             $this->setOutput($output);
             try {
                 $mail->send();
@@ -94,12 +93,12 @@ class ArchivingStatus extends ConsoleCommand
     /**
      * Output a styled header string
      *
-     * @param OutputInterface $output
-     * @param string          $title
+     * @param mixed     $output
+     * @param string    $title
      *
      * @return void
      */
-    private function outputSectionHeader(OutputInterface $output, string $title): void
+    private function outputSectionHeader($output, string $title): void
     {
         $output->writeln("\n<info>" . $title . "</info>");
     }
