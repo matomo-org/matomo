@@ -31,7 +31,6 @@
         <exclude name="Generic.Files.LineLength" />
         <exclude name="Generic.PHP.LowerCaseConstant.Found" />
         <exclude name="Generic.PHP.LowerCaseKeyword.Found" />
-        <exclude name="PSR12.ControlStructures.BooleanOperatorPlacement.FoundMixed" />
         <exclude name="PSR12.ControlStructures.ControlStructureSpacing.CloseParenthesisIndent" />
         <exclude name="PSR12.ControlStructures.ControlStructureSpacing.CloseParenthesisLine" />
         <exclude name="PSR12.ControlStructures.ControlStructureSpacing.FirstExpressionLine" />
