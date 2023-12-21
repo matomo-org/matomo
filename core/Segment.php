@@ -12,7 +12,6 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Cache as PiwikCache;
-use Piwik\Config\DatabaseConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\LogQueryBuilder;
 use Piwik\Plugins\SegmentEditor\SegmentEditor;
@@ -412,12 +411,12 @@ class Segment
             // we append alias since an archive query may add the table with a different join. we could eg add $table_$segmentName but
             // then we would join an extra table per segment when we ideally want to join each table only once. However, we still need
             // to see which table/column it joins to join it accurately each table extra if the same table is joined with different columns;
-            $tableAlias = $join->getTable().'_segment_'.str_replace('.', '', $sqlName ?: '');
+            $tableAlias = $join->getTable() . '_segment_' . str_replace('.', '', $sqlName ?: '');
             $joinTable = [
                 'table' => $join->getTable(),
                 'tableAlias' => $tableAlias,
-                'field' => $tableAlias.'.'.$join->getTargetColumn(),
-                'joinOn' => $sqlName.' = '.$tableAlias.'.'.$join->getColumn(),
+                'field' => $tableAlias . '.' . $join->getTargetColumn(),
+                'joinOn' => $sqlName . ' = ' . $tableAlias . '.' . $join->getColumn(),
             ];
 
             if ($dbDiscriminator) {
@@ -434,7 +433,7 @@ class Segment
             $where = [];
             $bind = [];
             if (!empty($this->idSites)) {
-                $where[] = "$from.idsite IN (".Common::getSqlStringFieldsArray($this->idSites).")";
+                $where[] = "$from.idsite IN (" . Common::getSqlStringFieldsArray($this->idSites) . ")";
                 $bind = $this->idSites;
             }
             if ($this->startDate instanceof Date) {
@@ -789,5 +788,4 @@ class Segment
 
         return preg_replace($pattern, '\\\$1', $value);
     }
-
 }

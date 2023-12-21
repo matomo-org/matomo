@@ -10,7 +10,6 @@
 namespace Piwik\Segment;
 
 use Exception;
-use Piwik\Config\DatabaseConfig;
 
 /**
  *
@@ -510,7 +509,7 @@ class SegmentExpression
                 return $orExpressions[0];
             }
 
-            return '( '.implode(' OR ', $orExpressions).')';
+            return '( ' . implode(' OR ', $orExpressions) . ')';
         }, $andExpressions);
 
         $sql = implode(' AND ', $andExpressions);
