@@ -39,7 +39,6 @@
         <exclude name="PSR12.ControlStructures.ControlStructureSpacing.SpaceBeforeCloseBrace" />
         <exclude name="PSR12.ControlStructures.ControlStructureSpacing.SpacingAfterOpenBrace" />
         <exclude name="PSR12.Files.FileHeader" />
-        <exclude name="PSR12.Keywords.ShortFormTypeKeywords.LongFound" />
         <exclude name="PSR12.Properties.ConstantVisibility" />
         <exclude name="PSR2.Classes.PropertyDeclaration.ScopeMissing" />
         <exclude name="PSR2.Classes.PropertyDeclaration.Underscore" />
