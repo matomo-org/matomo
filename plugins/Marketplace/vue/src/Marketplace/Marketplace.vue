@@ -192,13 +192,13 @@ export default defineComponent({
           // b) no downloads count (i.e. a premium plugin)
           //    -> clamp to 2 lines if sum of lines for title and notification is over 4
           if (hasDownloads) {
-            if ((titleLines >= 2 || alertLines >= 2) || (titleLines + alertLines > 3)) {
+            if ((titleLines >= 2 || alertLines > 2) || (titleLines + alertLines >= 4)) {
               clampedLines = 2;
             }
-            if (titleLines + alertLines > 3) {
+            if (titleLines + alertLines >= 5) {
               clampedLines = 1;
             }
-          } else if (titleLines + alertLines > 4) {
+          } else if (titleLines + alertLines >= 5) {
             clampedLines = 2;
           }
 
