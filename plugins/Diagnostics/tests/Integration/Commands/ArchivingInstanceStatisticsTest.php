@@ -68,7 +68,7 @@ OUTPUT;
 
     public function test_CommandOutput_withJsonOption_IsAsExpected()
     {
-        $expected = '[["Site Count","3"],["Segment Count","1"],["Database Version","mysql-version-redacted"],["Last full Month Hits","8"],["Last 12 Month Hits","8"]]';
+        $expected = '[["Site Count",3],["Segment Count",1],["Database Version","mysql-version-redacted"],["Last full Month Hits",8],["Last 12 Month Hits",8]]';
         $this->applicationTester->run([
             'command' => 'diagnostics:archiving-instance-statistics',
             '--json' => true

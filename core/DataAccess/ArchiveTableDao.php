@@ -114,8 +114,8 @@ class ArchiveTableDao
         $data = [];
         foreach ($invalidations as $i) {
 
-            $waiting = Date::now()->getTimestampUTC() - Date::factory($i['ts_invalidated'])->getTimestampUTC();
-            $processing = $i['ts_started'] ? Date::now()->getTimestampUTC() - (int) $i['ts_started'] : '';
+            $waiting = (int) Date::now()->getTimestampUTC() - Date::factory($i['ts_invalidated'])->getTimestampUTC();
+            $processing = (int) $i['ts_started'] ? Date::now()->getTimestampUTC() - (int) $i['ts_started'] : '';
 
             if ($prettyTime) {
                 $waiting = $metricsFormatter->getPrettyTimeFromSeconds($waiting, true);
@@ -125,9 +125,9 @@ class ArchiveTableDao
             }
 
             $d = [];
-            $d['Invalidation'] = $i['idinvalidation'];
+            $d['Invalidation'] = (int) $i['idinvalidation'];
             $d['Segment'] = $i['definition'];
-            $d['Site'] = $i['idsite'];
+            $d['Site'] = (int) $i['idsite'];
             $d['Period'] = ($i['period'] == 1 ? 'Day' : ($i['period'] == 2 ? 'Week' : ($i['period'] == 3 ? 'Month' :
                 ($i['period'] == 4 ? 'Year' : 'Range'))));
             $d['Date'] = ($i['period'] == 1 ? $i['date1'] : ($i['period'] == 3 ? substr($i['date1'], 0, 7) :
