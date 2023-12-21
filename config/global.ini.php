@@ -56,9 +56,6 @@ enable_segment_first_table_join_prefix = 0
 ; Add a query hint for the order of joined tables for all log table queries in MySQL.
 enable_first_table_join_prefix = 0
 
-; Optimize the grouping of segment conditions that use NOT IN
-enable_optimize_segment_not_in = 0
-
 ; If configured, the following queries will be executed on the reader instead of the writer.
 ; * archiving queries that hit a log table
 ; * live queries that hit a log table
