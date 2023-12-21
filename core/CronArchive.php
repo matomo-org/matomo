@@ -1406,13 +1406,13 @@ class CronArchive
             foreach ($processes as $process) {
                 if (strpos($process, ' core:archive') !== false &&
                     strpos($process, 'console ') !== false &&
-                    (!$instanceId
-                        || strpos($process, '--matomo-domain=' . $instanceId) !== false
-                        || strpos($process, '--matomo-domain="' . $instanceId . '"') !== false
-                        || strpos($process, '--matomo-domain=\'' . $instanceId . "'") !== false
-                        || strpos($process, '--piwik-domain=' . $instanceId) !== false
-                        || strpos($process, '--piwik-domain="' . $instanceId . '"') !== false
-                        || strpos($process, '--piwik-domain=\'' . $instanceId . "'") !== false)) {
+                    (!$instanceId ||
+                        strpos($process, '--matomo-domain=' . $instanceId) !== false ||
+                        strpos($process, '--matomo-domain="' . $instanceId . '"') !== false ||
+                        strpos($process, '--matomo-domain=\'' . $instanceId . "'") !== false ||
+                        strpos($process, '--piwik-domain=' . $instanceId) !== false ||
+                        strpos($process, '--piwik-domain="' . $instanceId . '"') !== false ||
+                        strpos($process, '--piwik-domain=\'' . $instanceId . "'") !== false)) {
                     $numRunning++;
                 }
             }
