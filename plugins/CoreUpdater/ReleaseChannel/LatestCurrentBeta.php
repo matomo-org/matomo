@@ -18,7 +18,7 @@ class LatestCurrentBeta extends ReleaseChannel
     {
         // NOTE: using Version::VERSION instead of Version::MAJOR_VERSION  since MAJOR_VERSION may not exist when
         // updating from pre 4.x to 4.x.
-        return 'latest_'. ((int) Version::VERSION) . 'x_beta';
+        return 'latest_' . ((int) Version::VERSION) . 'x_beta';
     }
 
     public function getName()

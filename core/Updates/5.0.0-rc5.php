@@ -42,7 +42,7 @@ class Updates_5_0_0_rc5 extends PiwikUpdates
         $migrations = [];
 
         // add column to track the last time changes were shown to a user
-        $migrations[] = $this->migration->db->addColumn('user', 'ts_changes_shown','TIMESTAMP NULL');
+        $migrations[] = $this->migration->db->addColumn('user', 'ts_changes_shown', 'TIMESTAMP NULL');
 
         return $migrations;
     }
@@ -51,5 +51,4 @@ class Updates_5_0_0_rc5 extends PiwikUpdates
     {
         $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
     }
-
 }

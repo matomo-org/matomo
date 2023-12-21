@@ -56,7 +56,13 @@ class API extends \Piwik\Plugin\API
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getFlagFromCode'));
         $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\countryTranslate'));
 
-        $dataTable->queueFilter('ColumnCallbackAddMetadata', array(array(), 'logoHeight', function () { return 16; }));
+        $dataTable->queueFilter('ColumnCallbackAddMetadata', array(
+            array(),
+            'logoHeight',
+            function () {
+                return 16;
+            }
+        ));
 
         return $dataTable;
     }
@@ -323,7 +329,7 @@ class API extends \Piwik\Plugin\API
         $countryCodeList = $regionDataProvider->getCountryList();
 
         array_walk($countryCodeList, function(&$item, $key) {
-            $item = Piwik::translate('Intl_Country_'.strtoupper($key));
+            $item = Piwik::translate('Intl_Country_' . strtoupper($key));
         });
 
         return $countryCodeList;

@@ -31,7 +31,7 @@ class AllColumns extends HtmlTable
     public function beforeGenericFiltersAreAppliedToLoadedDataTable()
     {
         $this->config->datatable_css_class = 'dataTableVizAllColumns';
-        
+
         $this->dataTable->filter('AddColumnsProcessedMetrics');
 
         $properties = $this->config;

@@ -111,7 +111,7 @@ class Request
         }
 
         if (is_array($value)) {
-            array_walk_recursive ($value, function(&$value, $key){
+            array_walk_recursive ($value, function(&$value, $key) {
                 $value = $this->replaceUnsupportedUtf8Chars($value, $key);
             });
         }
@@ -246,13 +246,13 @@ class Request
 
         if (!empty($excludedRequests)) {
             $excludedRequests = explode(',', $excludedRequests);
-            $pattern = '/^(.+?)('.SegmentExpression::MATCH_EQUAL.'|'
-                .SegmentExpression::MATCH_NOT_EQUAL.'|'
-                .SegmentExpression::MATCH_CONTAINS.'|'
-                .SegmentExpression::MATCH_DOES_NOT_CONTAIN.'|'
-                .preg_quote(SegmentExpression::MATCH_STARTS_WITH).'|'
-                .preg_quote(SegmentExpression::MATCH_ENDS_WITH)
-                .'){1}(.*)/';
+            $pattern = '/^(.+?)(' . SegmentExpression::MATCH_EQUAL . '|'
+                . SegmentExpression::MATCH_NOT_EQUAL . '|'
+                . SegmentExpression::MATCH_CONTAINS . '|'
+                . SegmentExpression::MATCH_DOES_NOT_CONTAIN . '|'
+                . preg_quote(SegmentExpression::MATCH_STARTS_WITH) . '|'
+                . preg_quote(SegmentExpression::MATCH_ENDS_WITH)
+                . '){1}(.*)/';
             foreach ($excludedRequests as $excludedRequest) {
                 $match = preg_match($pattern, $excludedRequest, $matches);
 
@@ -538,7 +538,7 @@ class Request
         if (!empty($cache['delete_logs_enable']) && !empty($cache['delete_logs_older_than'])) {
             $scheduleInterval = $cache['delete_logs_schedule_lowest_interval'];
             $maxLogAge = $cache['delete_logs_older_than'];
-            $logEntryCutoff = time() - (($maxLogAge + $scheduleInterval) * 60*60*24);
+            $logEntryCutoff = time() - (($maxLogAge + $scheduleInterval) * 60 * 60 * 24);
             if ($cdt < $logEntryCutoff) {
                 $message = "Custom timestamp is older than the configured 'deleted old raw data' value of $maxLogAge days";
                 Common::printDebug($message);
@@ -935,5 +935,4 @@ class Request
         }
         return false;
     }
-
 }

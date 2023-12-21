@@ -141,5 +141,4 @@ class BulkTrackingTest extends BulkTrackingTestCase
 
         $this->assertCount(2, $requestSet->getRequests());
     }
-
 }

@@ -420,7 +420,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
     {
         //Updated for change to allow for multiple transactions to invalidate the same report without deadlock.
         $key = 'report_to_invalidate_2_2014-04-05' . '_' . getmypid();
-        $this->assertEmpty(Option::getLike('%'. $key . '%'));
+        $this->assertEmpty(Option::getLike('%' . $key . '%'));
 
         $keyStored = $this->rememberReport(2, '2014-04-05');
 

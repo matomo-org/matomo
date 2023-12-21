@@ -853,6 +853,4 @@ abstract class Dimension
     {
         return $this->columnType;
     }
-
-
 }

@@ -20,7 +20,6 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class ModelTest extends IntegrationTestCase
 {
-
     /**
      * @var Model
      */

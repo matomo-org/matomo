@@ -56,7 +56,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function ajaxTotalVisitors()
     {
         Piwik::checkUserHasViewAccess($this->idSite);
-        
+
         $view = new View('@Live/ajaxTotalVisitors');
         $view = $this->setCounters($view);
         $view->idSite = $this->idSite;
@@ -87,7 +87,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         return $this->renderReport('getLastVisitsDetails');
     }
-    
+
     public function getLastVisitsStart()
     {
         Piwik::checkUserHasViewAccess($this->idSite);
@@ -210,7 +210,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $this->checkSitePermission();
         Piwik::checkUserHasViewAccess($this->idSite);
-        
+
         $filterLimit = Common::getRequestVar('filter_offset', 0, 'int');
         $startCounter = Common::getRequestVar('start_number', 0, 'int');
         $limit = Config::getInstance()->General['live_visitor_profile_max_visits_to_aggregate'];

@@ -118,5 +118,4 @@ class Handler
     {
         return $this->response;
     }
-
 }

@@ -12,8 +12,8 @@ namespace Piwik\Tracker;
  * Base class for LogTables. You need to create a log table eg if you want to be able to create a segment for a custom
  * log table.
  */
-abstract class LogTable {
-
+abstract class LogTable
+{
     /**
      * Get the unprefixed database table name. For example 'log_visit' or 'log_action'.
      * @return string
@@ -90,7 +90,7 @@ abstract class LogTable {
     {
         return '';
     }
-    
+
     /**
      * Returns the name of a log table that allows to join on a visit. Eg if there is a table "action", and it is not
      * joinable with "visit" table, it can return "log_link_visit_action" to be able to join the action table on visit

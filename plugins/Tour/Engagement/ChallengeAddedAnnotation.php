@@ -32,6 +32,4 @@ class ChallengeAddedAnnotation extends Challenge
     {
         return Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/annotations/');
     }
-
-
 }

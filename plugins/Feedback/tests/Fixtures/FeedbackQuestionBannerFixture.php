@@ -21,5 +21,4 @@ class FeedbackQuestionBannerFixture extends UITestFixture
         parent::tearDown();
         Option::delete('Feedback.nextFeedbackReminder.superUserLogin');
     }
-
 }

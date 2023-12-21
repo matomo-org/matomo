@@ -159,7 +159,7 @@ class PeriodTest extends \PHPUnit\Framework\TestCase
 
         Period::checkDateFormat($invalidDatesBeforeFirstWebsite);
     }
-    
+
     public function getInvalidDatesBeforeFirstWebsite()
     {
         return array(

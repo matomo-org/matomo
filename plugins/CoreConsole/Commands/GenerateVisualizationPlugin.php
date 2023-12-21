@@ -87,5 +87,4 @@ class GenerateVisualizationPlugin extends GeneratePlugin
 
         return $visualizationName;
     }
-
 }

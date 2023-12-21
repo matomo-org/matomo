@@ -128,5 +128,4 @@ class ArchivingDbAdapter
             throw $e;
         }
     }
-
 }

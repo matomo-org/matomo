@@ -159,5 +159,4 @@ class SettingsProviderTest extends IntegrationTestCase
             $this->assertTrue($setting instanceof MeasurableSettings);
         }
     }
-
 }

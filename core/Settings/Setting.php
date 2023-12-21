@@ -21,7 +21,6 @@ use Piwik\Validators\BaseValidator;
  */
 class Setting
 {
-
     /**
      * The name of the setting
      * @var string
@@ -342,5 +341,4 @@ class Setting
             throw new Exception('Type does not exist');
         }
     }
-
 }

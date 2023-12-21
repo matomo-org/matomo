@@ -122,5 +122,4 @@ class LicenseKeyTest extends IntegrationTestCase
     {
         return new LicenseKey();
     }
-
 }

@@ -37,5 +37,4 @@ class Sort
 
         return in_array($sortMethod, $valid, $strict = true);
     }
-
 }

@@ -22,7 +22,6 @@ use Piwik\Tests\Integration\Settings\IntegrationTestCase;
  */
 class MeasurablePropertyTest extends IntegrationTestCase
 {
-
     public function setUp(): void
     {
         parent::setUp();
@@ -54,6 +53,4 @@ class MeasurablePropertyTest extends IntegrationTestCase
 
         new MeasurableProperty('name', $default = 5, FieldConfig::TYPE_INT, 'MyPlugin', $idSite = 1);
     }
-
-
 }

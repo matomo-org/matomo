@@ -76,5 +76,4 @@ class UserSettings extends \Piwik\Settings\Plugin\UserSettings
             $field->availableValues = array('red' => 'Red', 'blue' => 'Blue', 'green' => 'Green');
         });
     }
-
 }

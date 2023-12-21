@@ -247,7 +247,9 @@ abstract class Graph extends Visualization
         /** @var ProcessedMetric[] $extraProcessedMetrics */
         $extraProcessedMetrics = $dataTable->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
         if (!empty($extraProcessedMetrics)) {
-            $extraProcessedMetricNames = array_map(function (Metric $m) { return $m->getName(); }, $extraProcessedMetrics);
+            $extraProcessedMetricNames = array_map(function (Metric $m) {
+                return $m->getName();
+            }, $extraProcessedMetrics);
             $allColumns = array_merge($allColumns, $extraProcessedMetricNames);
         }
 

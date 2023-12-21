@@ -33,7 +33,7 @@ class ServerInformational implements Diagnostic
         if (!empty($_SERVER['SERVER_SOFTWARE'])) {
 
             $isGlobalConfigIniAccessible = true; // Assume true if not installed yet
-            
+
             // Only attempt to check file accessibility if the config setting allows it
             $disableFileAccessCheck = (GeneralConfig::getConfigValue('enable_required_directories_diagnostic') == 0);
 
@@ -46,7 +46,7 @@ class ServerInformational implements Diagnostic
 
             if (strpos(strtolower($_SERVER['SERVER_SOFTWARE']), 'nginx') !== false && $isGlobalConfigIniAccessible && !$disableFileAccessCheck) {
 
-                $comment = $_SERVER['SERVER_SOFTWARE']."<br><br>";
+                $comment = $_SERVER['SERVER_SOFTWARE'] . "<br><br>";
                 $comment .= $this->translator->translate('Diagnostics_HtaccessWarningNginx', [
                         '<a href="https://github.com/matomo-org/matomo-nginx#readme" target="_blank">', '</a>']);
 
@@ -59,5 +59,4 @@ class ServerInformational implements Diagnostic
 
         return $results;
     }
-
 }

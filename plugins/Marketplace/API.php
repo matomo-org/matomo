@@ -102,5 +102,4 @@ class API extends \Piwik\Plugin\API
         $this->marketplaceClient->clearAllCacheEntries();
         $this->expired->clearCache();
     }
-
 }

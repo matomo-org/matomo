@@ -11,7 +11,6 @@ namespace Piwik\Validators;
 
 abstract class BaseValidator
 {
-
     /**
      * The method to validate a value. If the value has not an expected format, an instance of
      * {@link Piwik\Validators\Exception} should be thrown.

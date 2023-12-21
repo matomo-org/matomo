@@ -76,7 +76,7 @@ class SiteContentDetector
         $classes = self::getAllSiteContentDetectionClasses();
 
         foreach ($classes as $className) {
-           $instancesByType[$className::getContentType()][] = StaticContainer::get($className);
+            $instancesByType[$className::getContentType()][] = StaticContainer::get($className);
         }
 
         return $instancesByType;
@@ -304,9 +304,9 @@ class SiteContentDetector
                 $cacheData['detectedContent'][$type] = [];
             }
             foreach ($detections as $detectionId => $wasDetected)
-                if (null !== $wasDetected) {
-                    $cacheData['detectedContent'][$type][$detectionId] = $wasDetected;
-                }
+            if (null !== $wasDetected) {
+                $cacheData['detectedContent'][$type][$detectionId] = $wasDetected;
+            }
         }
 
         $cacheData['connectedConsentManagers'] = array_merge($cacheData['connectedConsentManagers'], $this->connectedConsentManagers);

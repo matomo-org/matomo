@@ -376,7 +376,8 @@ class SegmentExpression
     {
         preg_match_all('/[^@a-zA-Z0-9_]?`?([@a-zA-Z_][@a-zA-Z0-9_]*`?\.`?[a-zA-Z0-9_`]+)`?\b/', $field, $matches);
         $result = isset($matches[1]) ? $matches[1] : [];
-        $result = array_filter($result, function ($value) { // remove uses of session vars
+        // remove uses of session vars
+        $result = array_filter($result, function ($value) {
             return strpos($value, '@') === false;
         });
         $result = array_map(function ($item) {

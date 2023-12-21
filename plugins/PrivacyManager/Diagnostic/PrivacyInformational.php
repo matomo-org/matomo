@@ -41,6 +41,4 @@ class PrivacyInformational implements Diagnostic
 
         return $results;
     }
-
-
 }

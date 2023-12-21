@@ -231,6 +231,4 @@ class Sorter
 
         return $sortFlags;
     }
-
-
 }

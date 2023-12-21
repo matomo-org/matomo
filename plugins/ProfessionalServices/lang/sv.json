@@ -1,9 +1,14 @@
 {
     "ProfessionalServices": {
         "AbTestingFeature01": "Sluta gissa, börja använd data och jämför webbplatsversioner för att öka konverteringarna.",
+        "AbTestingFeature02": "Jämför olika element, inklusive layout, design, kopiering och mer, samtidigt som du övervakar prestandan i realtid.",
+        "AbTestingFeature03": "Identifiera och ta itu med besökarnas beteendemönster, så att du kan öka konverteringsfrekvensen och uppnå bättre resultat av dina digitala insatser.",
         "AltTextPreviewImageFor": "Förhandsgranska bilden för %1$s",
         "CTALearnMore": "Lär dig mer om %1$s",
         "CTAStartFreeTrial": "Påbörja en gratis provperiod",
+        "CrashAnalyticsFeature02": "Spåra automatiskt webbplatskrascher (t.ex. trasiga kundvagnar, formulär som inte svarar, etc.) för snabb fellösning, så att du kan säkerställa en sömlös och felfri besöksupplevelse.",
+        "DismissPromoWidget": "Om den här funktionen inte är relevant för dina mål, kan du%1$sdölja den här sektionen%2$s.",
+        "DismissedNotification": "Menyn %1$s kommer inte längre att visas, om inte plugin-programmet är installerat på din Matomo-instans.",
         "FormAnalyticsFeature01": "Förstå hur besökare interagerar med dina formulär för att hitta områden att förbättra.",
         "PromoAbTesting": "A/B-tester",
         "PromoCrashAnalytics": "Krascher",

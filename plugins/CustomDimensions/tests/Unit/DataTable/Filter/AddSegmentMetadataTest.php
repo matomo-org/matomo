@@ -43,5 +43,4 @@ class AddSegmentMetadataTest extends \PHPUnit\Framework\TestCase
         );
         $this->assertSame($expected, $metadata);
     }
-
 }

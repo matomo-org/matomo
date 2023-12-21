@@ -24,5 +24,4 @@ class FakeConfig extends Config
     {
          $this->configValues[$name] = $value;
     }
-
 }

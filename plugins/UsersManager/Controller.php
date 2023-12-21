@@ -286,7 +286,7 @@ class Controller extends ControllerAdmin
         Piwik::checkUserIsNotAnonymous();
 
         $tokens = $this->userModel->getAllNonSystemTokensForLogin(Piwik::getCurrentUserLogin());
-        $tokens = array_map(function ($token){
+        $tokens = array_map(function ($token) {
             foreach (['date_created', 'last_used', 'date_expired'] as $key) {
                 if (!empty($token[$key])) {
                     $token[$key] = Date::factory($token[$key])->getLocalized(Date::DATE_FORMAT_LONG);
@@ -597,7 +597,7 @@ class Controller extends ControllerAdmin
         $notification = new Notification(Piwik::translate('CoreAdminHome_SettingsSaveSuccess'));
         $notification->context = Notification::CONTEXT_SUCCESS;
         Notification\Manager::notify('successpass', $notification);
-        $this->redirectToIndex('UsersManager',  'userSecurity');
+        $this->redirectToIndex('UsersManager', 'userSecurity');
     }
 
     private function noAdminAccessToWebsite($idSiteSelected, $defaultReportSiteName, $message)

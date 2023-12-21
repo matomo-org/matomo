@@ -11,6 +11,6 @@ class TwoFaSecretStaticGenerator extends TwoFaSecretRandomGenerator
 {
     public function generateSecret()
     {
-       return str_pad('1', 16, '1');
+        return str_pad('1', 16, '1');
     }
 }

@@ -11,5 +11,4 @@ namespace Piwik\Validators;
 
 class Exception extends \InvalidArgumentException
 {
-
 }

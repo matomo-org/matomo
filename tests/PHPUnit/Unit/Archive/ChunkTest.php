@@ -126,5 +126,4 @@ class ChunkTest extends \PHPUnit\Framework\TestCase
             array('chunk_9999', 'chunk_9999'),
         );
     }
-
 }

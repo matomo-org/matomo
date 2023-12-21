@@ -265,7 +265,7 @@ class RangeTest extends BasePeriodTest
         $this->assertEquals(count($correct), $range2->getNumberOfSubperiods());
         $this->assertEquals($correct, $range->toString());
         $this->assertEquals($correct, $range2->toString());
-        $this->assertEquals('2007-12-17,2008-01-06' , $range2->getRangeString());
+        $this->assertEquals('2007-12-17,2008-01-06', $range2->getRangeString());
     }
 
     // test range date1,date2
@@ -273,37 +273,36 @@ class RangeTest extends BasePeriodTest
     {
         $range = new Range('year', '2006-12-22,2007-01-03');
 
-        $correct = array(
-            implode(',', array(
-                0  => '2006-01-01',
-                1  => '2006-02-01',
-                2  => '2006-03-01',
-                3  => '2006-04-01',
-                4  => '2006-05-01',
-                5  => '2006-06-01',
-                6  => '2006-07-01',
-                7  => '2006-08-01',
-                8  => '2006-09-01',
-                9  => '2006-10-01',
+        $correct = [
+            implode(',', [
+                0 => '2006-01-01',
+                1 => '2006-02-01',
+                2 => '2006-03-01',
+                3 => '2006-04-01',
+                4 => '2006-05-01',
+                5 => '2006-06-01',
+                6 => '2006-07-01',
+                7 => '2006-08-01',
+                8 => '2006-09-01',
+                9 => '2006-10-01',
                 10 => '2006-11-01',
                 11 => '2006-12-01',
-            )),
-            1 =>
-                implode(',', array(
-                0  => '2007-01-01',
-                1  => '2007-02-01',
-                2  => '2007-03-01',
-                3  => '2007-04-01',
-                4  => '2007-05-01',
-                5  => '2007-06-01',
-                6  => '2007-07-01',
-                7  => '2007-08-01',
-                8  => '2007-09-01',
-                9  => '2007-10-01',
+            ]),
+            1 => implode(',', [
+                0 => '2007-01-01',
+                1 => '2007-02-01',
+                2 => '2007-03-01',
+                3 => '2007-04-01',
+                4 => '2007-05-01',
+                5 => '2007-06-01',
+                6 => '2007-07-01',
+                7 => '2007-08-01',
+                8 => '2007-09-01',
+                9 => '2007-10-01',
                 10 => '2007-11-01',
                 11 => '2007-12-01',
-            )),
-        );
+            ]),
+        ];
         $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
         $this->assertEquals($correct, $range->toString());
         $this->assertEquals('2006-01-01,2007-12-31', $range->getRangeString());

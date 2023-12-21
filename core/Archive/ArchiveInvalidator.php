@@ -798,5 +798,4 @@ class ArchiveInvalidator
         $this->allIdSitesCache = $model->getSitesId();
         return $this->allIdSitesCache;
     }
-
 }

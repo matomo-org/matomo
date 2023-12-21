@@ -308,5 +308,4 @@ class CustomLogo
     {
         return file_exists(Filesystem::getPathToPiwikRoot() . '/' . $relativePath);
     }
-
 }

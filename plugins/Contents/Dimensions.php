@@ -29,5 +29,4 @@ class Dimensions
 
         return $labelToMethod[$apiMethod];
     }
-
 }

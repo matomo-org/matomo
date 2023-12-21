@@ -58,7 +58,7 @@ class RequestProcessorTest extends IntegrationTestCase
 
     public function test_onNewVisit_anonymiseReferrer_byDefaultNothingAnonymised()
     {
-        $visit =$this->makeReferrerVisitProperties(Common::REFERRER_TYPE_WEBSITE, 'https://www.foo.com/path/?bar=baz', 'foo.com', 'barbaz');
+        $visit = $this->makeReferrerVisitProperties(Common::REFERRER_TYPE_WEBSITE, 'https://www.foo.com/path/?bar=baz', 'foo.com', 'barbaz');
         $request = $this->makeRequest([]);
         $this->requestProcessor->onNewVisit($visit, $request);
 
@@ -68,7 +68,7 @@ class RequestProcessorTest extends IntegrationTestCase
     public function test_onNewVisit_anonymiseReferrer_byPath()
     {
         $this->config->anonymizeReferrer = ReferrerAnonymizer::EXCLUDE_PATH;
-        $visit =$this->makeReferrerVisitProperties(Common::REFERRER_TYPE_WEBSITE, 'https://www.foo.com/path/?bar=baz', 'barbaz', 'foo.com');
+        $visit = $this->makeReferrerVisitProperties(Common::REFERRER_TYPE_WEBSITE, 'https://www.foo.com/path/?bar=baz', 'barbaz', 'foo.com');
         $request = $this->makeRequest([]);
         $this->requestProcessor->onNewVisit($visit, $request);
 
@@ -78,7 +78,7 @@ class RequestProcessorTest extends IntegrationTestCase
     public function test_onNewVisit_anonymiseReferrer_website_excludeAll()
     {
         $this->config->anonymizeReferrer = ReferrerAnonymizer::EXCLUDE_ALL;
-        $visit =$this->makeReferrerVisitProperties(Common::REFERRER_TYPE_WEBSITE, 'https://www.foo.com/path/?bar=baz', 'foo.com', 'barbaz');
+        $visit = $this->makeReferrerVisitProperties(Common::REFERRER_TYPE_WEBSITE, 'https://www.foo.com/path/?bar=baz', 'foo.com', 'barbaz');
         $request = $this->makeRequest([]);
         $this->requestProcessor->onNewVisit($visit, $request);
 
@@ -88,7 +88,7 @@ class RequestProcessorTest extends IntegrationTestCase
     public function test_onNewVisit_anonymiseReferrer_search_ExcludeAll()
     {
         $this->config->anonymizeReferrer = ReferrerAnonymizer::EXCLUDE_ALL;
-        $visit =$this->makeReferrerVisitProperties(Common::REFERRER_TYPE_SEARCH_ENGINE, 'https://www.foo.com/path/?bar=baz', 'foo.com', 'barbaz');
+        $visit = $this->makeReferrerVisitProperties(Common::REFERRER_TYPE_SEARCH_ENGINE, 'https://www.foo.com/path/?bar=baz', 'foo.com', 'barbaz');
         $request = $this->makeRequest([]);
         $this->requestProcessor->onNewVisit($visit, $request);
 
@@ -109,7 +109,7 @@ class RequestProcessorTest extends IntegrationTestCase
     public function test_onExistingVisit_anonymiseReferrer_byPath()
     {
         $this->config->anonymizeReferrer = ReferrerAnonymizer::EXCLUDE_PATH;
-        $visit =$this->makeReferrerVisitProperties(Common::REFERRER_TYPE_WEBSITE, 'https://www.foo.com/path/?bar=baz', 'barbaz', 'foo.com');
+        $visit = $this->makeReferrerVisitProperties(Common::REFERRER_TYPE_WEBSITE, 'https://www.foo.com/path/?bar=baz', 'barbaz', 'foo.com');
         $request = $this->makeRequest([]);
         $update = $visit->getProperties();
         $this->requestProcessor->onExistingVisit($update, $visit, $request);
@@ -120,7 +120,7 @@ class RequestProcessorTest extends IntegrationTestCase
     public function test_onExistingVisit_anonymiseReferrer_website_excludeAll()
     {
         $this->config->anonymizeReferrer = ReferrerAnonymizer::EXCLUDE_ALL;
-        $visit =$this->makeReferrerVisitProperties(Common::REFERRER_TYPE_WEBSITE, 'https://www.foo.com/path/?bar=baz', 'foo.com', 'barbaz');
+        $visit = $this->makeReferrerVisitProperties(Common::REFERRER_TYPE_WEBSITE, 'https://www.foo.com/path/?bar=baz', 'foo.com', 'barbaz');
         $request = $this->makeRequest([]);
         $update = $visit->getProperties();
         $this->requestProcessor->onExistingVisit($update, $visit, $request);
@@ -131,7 +131,7 @@ class RequestProcessorTest extends IntegrationTestCase
     public function test_onExistingVisit_anonymiseReferrer_search_ExcludeAll()
     {
         $this->config->anonymizeReferrer = ReferrerAnonymizer::EXCLUDE_ALL;
-        $visit =$this->makeReferrerVisitProperties(Common::REFERRER_TYPE_SEARCH_ENGINE, 'https://www.foo.com/path/?bar=baz', 'foo.com', 'barbaz');
+        $visit = $this->makeReferrerVisitProperties(Common::REFERRER_TYPE_SEARCH_ENGINE, 'https://www.foo.com/path/?bar=baz', 'foo.com', 'barbaz');
         $request = $this->makeRequest([]);
         $update = $visit->getProperties();
         $this->requestProcessor->onExistingVisit($update, $visit, $request);

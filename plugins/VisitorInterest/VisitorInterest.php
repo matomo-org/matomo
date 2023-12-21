@@ -18,7 +18,7 @@ class VisitorInterest extends \Piwik\Plugin
         Piwik::addAction('Template.footerVisitsFrequency', array('Piwik\Plugins\VisitorInterest\VisitorInterest', 'footerVisitsFrequency'));
     }
 
-   public static function footerVisitsFrequency(&$out)
+    public static function footerVisitsFrequency(&$out)
     {
         $out .= FrontController::getInstance()->fetchDispatch('VisitorInterest', 'index');
     }

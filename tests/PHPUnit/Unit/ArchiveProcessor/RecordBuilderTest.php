@@ -52,7 +52,7 @@ class RecordBuilderTest extends TestCase
 
     public function test_buildFromLogs_doesNothingIfRecordBuilderNotEnabled()
     {
-        $recordBuilder = new class() extends ArchiveProcessor\RecordBuilder {
+        $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
             public function isEnabled(ArchiveProcessor $archiveProcessor): bool
             {
                 return false;
@@ -84,7 +84,7 @@ class RecordBuilderTest extends TestCase
 
     public function test_buildFromLogs_insertsDataReturnedByAggregate()
     {
-        $recordBuilder = new class() extends ArchiveProcessor\RecordBuilder {
+        $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
             public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
             {
                 return [
@@ -122,7 +122,7 @@ class RecordBuilderTest extends TestCase
 
     public function test_buildFromLogs_ignoresData_ifAssociatedRecordMetadataDoesNotExist()
     {
-        $recordBuilder = new class() extends ArchiveProcessor\RecordBuilder {
+        $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
             public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
             {
                 return [];
@@ -146,7 +146,7 @@ class RecordBuilderTest extends TestCase
 
     public function test_buildFromLogs_ignoresData_ifRecordMetadataValueExistsButIsInvalid()
     {
-        $recordBuilder = new class() extends ArchiveProcessor\RecordBuilder {
+        $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
             public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
             {
                 return [
@@ -173,7 +173,7 @@ class RecordBuilderTest extends TestCase
 
     public function test_buildFromLogs_usesRecordSpecificLimitAndSort_whenSpecifiedInRecordMetadata()
     {
-        $recordBuilder = new class() extends ArchiveProcessor\RecordBuilder {
+        $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
             public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
             {
                 return [
@@ -212,7 +212,7 @@ class RecordBuilderTest extends TestCase
 
     public function test_buildForNonDayPeriod_doesNothingIfRecordBuilderNotEnabled()
     {
-        $recordBuilder = new class() extends ArchiveProcessor\RecordBuilder {
+        $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
             public function isEnabled(ArchiveProcessor $archiveProcessor): bool
             {
                 return false;
@@ -248,7 +248,7 @@ class RecordBuilderTest extends TestCase
 
     public function test_buildForNonDayPeriod_aggregatesAllChildReports_ifNoRequestedReportsAreSpecified()
     {
-        $recordBuilder = new class() extends ArchiveProcessor\RecordBuilder {
+        $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
             public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
             {
                 return [
@@ -300,7 +300,7 @@ class RecordBuilderTest extends TestCase
 
     public function test_buildForNonDayPeriod_aggregatesOnlyRequestedReports_ifRequestedReportsSpecified_andNoneAlreadyExist()
     {
-        $recordBuilder = new class() extends ArchiveProcessor\RecordBuilder {
+        $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
             public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
             {
                 return [
@@ -342,7 +342,7 @@ class RecordBuilderTest extends TestCase
 
     public function test_buildForNonDayPeriod_aggregatesOnlyRequestedReportsThatDoNotExist_ifSomeRequestedReportsAlreadyExist()
     {
-        $recordBuilder = new class() extends ArchiveProcessor\RecordBuilder {
+        $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
             public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
             {
                 return [
@@ -388,7 +388,7 @@ class RecordBuilderTest extends TestCase
 
     public function test_buildForNonDayPeriod_usesCustomBlobSerializationProperties_ifSpecifiedInRecordMetadata()
     {
-        $recordBuilder = new class() extends ArchiveProcessor\RecordBuilder {
+        $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
             public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
             {
                 return [
@@ -442,7 +442,7 @@ class RecordBuilderTest extends TestCase
 
     public function test_buildForNonDayPeriod_correctlyAggregatesMetricsForMetricsThatAreRowCountsOfRecords()
     {
-        $recordBuilder = new class() extends ArchiveProcessor\RecordBuilder {
+        $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
             public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
             {
                 return [
@@ -496,7 +496,7 @@ class RecordBuilderTest extends TestCase
 
     public function test_buildForNonDayPeriod_correctlyAggregatesMetricsForMetricsThatAreRowCountsOfRecords_whenTheDependentRecordIsNotRequested()
     {
-        $recordBuilder = new class() extends ArchiveProcessor\RecordBuilder {
+        $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
             public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
             {
                 return [
@@ -550,7 +550,7 @@ class RecordBuilderTest extends TestCase
 
     public function test_buildForNonDayPeriod_correctlyAggregatesMetricsForMetricsThatAreRowCountsOfRecords_whenTheDependentRecordIsRequestedAndFound()
     {
-        $recordBuilder = new class() extends ArchiveProcessor\RecordBuilder {
+        $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
             public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
             {
                 return [
@@ -608,7 +608,7 @@ class RecordBuilderTest extends TestCase
 
     public function test_buildForNonDayPeriod_correctlyAggregatesMetricsForMetricsThatAreRecursiveRowCountsOfRecords()
     {
-        $recordBuilder = new class() extends ArchiveProcessor\RecordBuilder {
+        $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
             public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
             {
                 return [
@@ -690,7 +690,7 @@ class RecordBuilderTest extends TestCase
 
     public function test_isBuilderForAtLeastOneOf_returnsTrue_ifTheRecordBuilderHasMetadataForAtLeastOneRequestedRecord()
     {
-        $recordBuilder = new class() extends ArchiveProcessor\RecordBuilder {
+        $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
             public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
             {
                 return [
@@ -716,7 +716,7 @@ class RecordBuilderTest extends TestCase
 
     public function test_isBuilderForAtLeastOneOf_returnsFalse_ifTheRecordBuilderDoesNotHaveMetadataForAnyRequestedReport()
     {
-        $recordBuilder = new class() extends ArchiveProcessor\RecordBuilder {
+        $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
             public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
             {
                 return [
@@ -753,21 +753,21 @@ class RecordBuilderTest extends TestCase
             $params->setFoundRequestedReports($foundRequestedReports);
         }
 
-        $archiveWriter = new class() extends ArchiveWriter {
+        $archiveWriter = new class () extends ArchiveWriter {
             public function __construct()
             {
                 // disable original constructor
             }
         };
 
-        $logAggregator = new class() extends LogAggregator {
+        $logAggregator = new class () extends LogAggregator {
             public function __construct()
             {
                 // disable original constructor
             }
         };
 
-        return new class($this, $addSubtablesToAggregatedTables, $params, $archiveWriter, $logAggregator) extends ArchiveProcessor {
+        return new class ($this, $addSubtablesToAggregatedTables, $params, $archiveWriter, $logAggregator) extends ArchiveProcessor {
             /**
              * @var RecordBuilderTest
              */

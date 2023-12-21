@@ -31,7 +31,7 @@ function piwik_filter_truncate($string, $size)
     if (mb_strlen(html_entity_decode($string)) <= $size) {
         return $string;
     } else {
-        preg_match('/^(&(?:[a-z\d]+|#\d+|#x[a-f\d]+);|.){'.$size.'}/i', $string, $shortenString);
+        preg_match('/^(&(?:[a-z\d]+|#\d+|#x[a-f\d]+);|.){' . $size . '}/i', $string, $shortenString);
         return reset($shortenString) . "...";
     }
 }
@@ -303,7 +303,7 @@ class Twig
     private function getDefaultThemeLoader()
     {
         $themeDir = Manager::getPluginDirectory(\Piwik\Plugin\Manager::DEFAULT_THEME) . '/templates/';
-        $themeLoader = new FilesystemLoader(array($themeDir), PIWIK_DOCUMENT_ROOT.DIRECTORY_SEPARATOR);
+        $themeLoader = new FilesystemLoader(array($themeDir), PIWIK_DOCUMENT_ROOT . DIRECTORY_SEPARATOR);
 
         return $themeLoader;
     }
@@ -321,7 +321,7 @@ class Twig
         if (!file_exists($themeDir)) {
             return false;
         }
-        $themeLoader = new FilesystemLoader(array($themeDir), PIWIK_DOCUMENT_ROOT.DIRECTORY_SEPARATOR);
+        $themeLoader = new FilesystemLoader(array($themeDir), PIWIK_DOCUMENT_ROOT . DIRECTORY_SEPARATOR);
 
         return $themeLoader;
     }

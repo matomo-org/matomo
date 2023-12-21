@@ -264,5 +264,4 @@ class LogDataAnonymizerTest extends IntegrationTestCase
 
         $this->assertJsonStringEqualsJsonFile($fileExpected, $result);
     }
-
 }

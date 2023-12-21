@@ -229,12 +229,11 @@ class ManagerTest extends \PHPUnit\Framework\TestCase
         $table  = $this->createTestDataTable();
         $tables = array();
 
-        for ($i = 0; $i<$numTables; $i++) {
+        for ($i = 0; $i < $numTables; $i++) {
             $id = $this->manager->addTable($table);
             $tables[$id] = $table;
         }
 
         return $tables;
     }
-
 }

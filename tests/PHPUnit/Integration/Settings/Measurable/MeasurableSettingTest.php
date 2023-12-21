@@ -22,7 +22,6 @@ use Piwik\Tests\Integration\Settings\IntegrationTestCase;
  */
 class MeasurableSettingTest extends IntegrationTestCase
 {
-
     public function setUp(): void
     {
         parent::setUp();
@@ -93,5 +92,4 @@ class MeasurableSettingTest extends IntegrationTestCase
 
         return $userSetting;
     }
-
 }

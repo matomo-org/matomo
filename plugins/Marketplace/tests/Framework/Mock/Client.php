@@ -12,8 +12,8 @@ use Matomo\Cache\Backend\NullCache;
 use Matomo\Cache\Lazy;
 use Piwik\Log\NullLogger;
 
-class Client {
-
+class Client
+{
     public static function build($service)
     {
         $environment = new Environment();

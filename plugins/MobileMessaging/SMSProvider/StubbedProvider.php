@@ -17,7 +17,6 @@ use Piwik\Plugins\MobileMessaging\SMSProvider;
  */
 class StubbedProvider extends SMSProvider
 {
-
     public function getId()
     {
         return 'StubbedProvider';

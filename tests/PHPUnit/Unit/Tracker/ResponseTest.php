@@ -15,8 +15,8 @@ use Piwik\Tracker\Response;
 use Piwik\Tests\Framework\Mock\Tracker;
 use Exception;
 
-class TestResponse extends Response {
-
+class TestResponse extends Response
+{
     protected function logExceptionToErrorLog($e)
     {
         // prevent console from outputting the error_log message
@@ -172,11 +172,11 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
     {
         // Base64 sample image string (4x4px red PNG made in GIMP)
         $base64Image = 'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAIAAAACDbGyAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAB3RJTUUH5QgLFiABlwQnpwAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAAUSURBVAjXY/wjLMyABJgYUAGpfABbJQEsALGyNgAAAABJRU5ErkJggg==';
-        
+
         // Initialise the custom_image setting
         $config = Config::getInstance();
         $trackerSettings = $config->Tracker;
-        $trackerSettings['custom_image'] = $base64Image; 
+        $trackerSettings['custom_image'] = $base64Image;
         $config->Tracker = $trackerSettings;
 
         // Get the response
@@ -186,7 +186,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
         $response = $this->response->getOutput();
 
         // Encode the response back into base64 and compare with the original
-        $this->assertSame($base64Image,  base64_encode($response));
+        $this->assertSame($base64Image, base64_encode($response));
 
     }
 
@@ -212,7 +212,7 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
         $md5Response = md5($response);
 
         // Compare the hash of the response with the file hash
-        $this->assertSame($md5Response,  $md5File);
+        $this->assertSame($md5Response, $md5File);
 
     }
 
@@ -222,5 +222,4 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
         $tracker->setCountOfLoggedRequests(5);
         return $tracker;
     }
-
 }

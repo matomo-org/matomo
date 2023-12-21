@@ -46,5 +46,4 @@ class FactoryTest extends IntegrationTestCase
 
         $this->assertSame('./console plugin:activate "MyTestPluginName"', '' . $migration);
     }
-
 }

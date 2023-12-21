@@ -20,6 +20,6 @@ class AllReferrersSubcategory extends Subcategory
     public function getHelp()
     {
         return '<p>' . Piwik::translate('Referrers_AllReferrersSubcategory1') . '</p>'
-            . '<p>' . Piwik::translate('Referrers_AllReferrersSubcategory2') . '</p>';;
+            . '<p>' . Piwik::translate('Referrers_AllReferrersSubcategory2') . '</p>';
     }
 }

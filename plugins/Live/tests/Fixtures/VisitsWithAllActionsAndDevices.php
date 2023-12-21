@@ -19,7 +19,7 @@ class VisitsWithAllActionsAndDevices extends Fixture
 {
     public $dateTime = '2010-02-01 11:22:33';
     public $idSite = 1;
-    private $specialChars = "sc_'_".'"'.'_%27_%22';
+    private $specialChars = "sc_'_" . '"' . '_%27_%22';
 
     public function setUp(): void
     {
@@ -28,7 +28,7 @@ class VisitsWithAllActionsAndDevices extends Fixture
         }
 
         GoalsApi::getInstance()->addGoal(1, 'Successfully used Search', 'manually', '', 'contains');
-        
+
         CustomDimensionsApi::getInstance()->configureNewCustomDimension(1, 'age', 'visit', 1);
         CustomDimensionsApi::getInstance()->configureNewCustomDimension(1, 'currency', 'action', 1);
 
@@ -152,7 +152,7 @@ class VisitsWithAllActionsAndDevices extends Fixture
         self::checkResponse($t->doTrackPageView('cart'));
 
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.5)->getDatetime());
-        self::checkResponse($t->doTrackAction('http://vendor.site/'.$this->specialChars.'.html', 'link'));
+        self::checkResponse($t->doTrackAction('http://vendor.site/' . $this->specialChars . '.html', 'link'));
     }
 
     private function trackVisitTablet(\MatomoTracker $t, $dateTime)
@@ -160,8 +160,8 @@ class VisitsWithAllActionsAndDevices extends Fixture
         $t->setForceVisitDateTime($dateTime);
         $t->setUserAgent('Mozilla/5.0 (Linux; U; en-us; KFAPWI Build/JDQ39) AppleWebKit/535.19 (KHTML, like Gecko) Silk/3.8 Safari/535.19 Silk-Accelerated=true');
 
-        $t->setUrlReferrer('http://www.google.com/search?q=product%2042'.$this->specialChars);
-        $t->setUrl('http://example.org/product42&name='.$this->specialChars);
+        $t->setUrlReferrer('http://www.google.com/search?q=product%2042' . $this->specialChars);
+        $t->setUrl('http://example.org/product42&name=' . $this->specialChars);
         $t->setPerformanceTimings(55, 348, 256, 299, 165, 144);
         $t->setDebugStringAppend('bw_bytes=6851');
         $t->setCustomVariable(1, 'custom', 'variable', 'page');
@@ -254,7 +254,7 @@ class VisitsWithAllActionsAndDevices extends Fixture
         $t->setForceVisitDateTime($dateTime);
         $t->setUserAgent('Mozilla/5.0 (iPod; U; CPU iPhone OS 4_2_1 like Mac OS X; ja-jp) AppleWebKit/533.17.9 (KHTML, like Gecko) Mobile/8C148');
 
-        $t->setUrl('http://example.org?pk_campaign='.$this->specialChars);
+        $t->setUrl('http://example.org?pk_campaign=' . $this->specialChars);
         self::checkResponse($t->doTrackPageView('home'));
     }
 }

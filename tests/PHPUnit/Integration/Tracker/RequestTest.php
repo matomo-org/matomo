@@ -39,7 +39,7 @@ class RequestTest extends IntegrationTestCase
 
         Fixture::createWebsite('2014-01-01 00:00:00');
         Fixture::createWebsite('2014-01-01 00:00:00');
-        foreach (range(3,14) as $idSite) {
+        foreach (range(3, 14) as $idSite) {
             Fixture::createWebsite('2014-01-01 00:00:00');
         }
     }

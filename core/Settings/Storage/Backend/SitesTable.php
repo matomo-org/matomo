@@ -119,5 +119,4 @@ class SitesTable implements BackendInterface
     public function delete()
     {
     }
-
 }

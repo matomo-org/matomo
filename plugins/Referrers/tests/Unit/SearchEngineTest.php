@@ -26,7 +26,7 @@ class SearchEngineTest extends \PHPUnit\Framework\TestCase
 
     public function getSearchEngineUrls()
     {
-        return Spyc::YAMLLoad(PIWIK_PATH_TEST_TO_ROOT .'/tests/resources/extractSearchEngineInformationFromUrlTests.yml');
+        return Spyc::YAMLLoad(PIWIK_PATH_TEST_TO_ROOT . '/tests/resources/extractSearchEngineInformationFromUrlTests.yml');
     }
 
     /**

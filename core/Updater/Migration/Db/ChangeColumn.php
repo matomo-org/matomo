@@ -19,5 +19,4 @@ class ChangeColumn extends Sql
         parent::__construct($sql, array(static::ERROR_CODE_DUPLICATE_COLUMN,
                                         static::ERROR_CODE_UNKNOWN_COLUMN));
     }
-
 }

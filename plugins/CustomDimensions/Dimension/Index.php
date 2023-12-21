@@ -9,7 +9,7 @@
 
 namespace Piwik\Plugins\CustomDimensions\Dimension;
 
-use \Exception;
+use Exception;
 use Piwik\API\Request;
 use Piwik\Plugins\CustomDimensions\Dao\Configuration;
 use Piwik\Plugins\CustomDimensions\Dao\LogTable;

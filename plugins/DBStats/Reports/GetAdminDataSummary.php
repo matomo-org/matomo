@@ -20,7 +20,6 @@ use Piwik\Plugin\ViewDataTable;
  */
 class GetAdminDataSummary extends Base
 {
-
     protected function init()
     {
         $this->name = Piwik::translate('DBStats_OtherTables');

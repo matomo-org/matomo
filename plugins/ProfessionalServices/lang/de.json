@@ -1,7 +1,13 @@
 {
     "ProfessionalServices": {
+        "DismissPromoWidget": "Wenn dieses Feature nicht relevant für deine Ziele ist, kannst du diesen Abschnitt %1$sverbergen%2$s.",
+        "PromoAbTesting": "A/B-Tests",
         "PromoCrashAnalytics": "Abstürze",
+        "PromoCustomReports": "Benutzerdefinierte Berichte",
+        "PromoHeatmaps": "Heatmaps",
+        "PromoManage": "Verwalten",
         "PromoOverview": "Übersicht",
+        "PromoSessionRecording": "Sitzungsaufzeichnungen",
         "WidgetPremiumServicesForPiwik": "Premium-Funktionen &amp; Dienstleistungen für Matomo"
     }
 }

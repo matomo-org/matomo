@@ -14,7 +14,6 @@ use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 
 class Tasks extends \Piwik\Plugin\Tasks
 {
-
     /**
      * @var LogDataAnonymizations
      */

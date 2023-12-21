@@ -70,5 +70,4 @@ class GetPlanetRatios extends Base
 
         }
     }
-
 }

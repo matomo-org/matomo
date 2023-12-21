@@ -646,5 +646,4 @@ class Controller extends Plugin\ControllerAdmin
         $this->pluginManager->deactivatePlugin($pluginName);
         $this->redirectAfterModification($redirectAfter);
     }
-
 }

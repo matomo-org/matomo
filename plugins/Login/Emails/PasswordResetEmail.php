@@ -63,7 +63,7 @@ class PasswordResetEmail extends Mail
      *
      * @return string
      */
-    private function getDefaultBodyText() : string
+    private function getDefaultBodyText(): string
     {
         return Piwik::translate('Login_MailPasswordChangeBody2',
             [Common::sanitizeInputValue($this->login), Common::sanitizeInputValue($this->ip), Common::sanitizeInputValue($this->resetUrl)]);
@@ -74,7 +74,7 @@ class PasswordResetEmail extends Mail
      *
      * @return string
      */
-    private function getHTMLBody() : string
+    private function getHTMLBody(): string
     {
         return '<p>' . str_replace(
             "\n\n",
@@ -82,8 +82,8 @@ class PasswordResetEmail extends Mail
             Piwik::translate('Login_MailPasswordChangeBody2',
                 [Common::sanitizeInputValue($this->login),
                  Common::sanitizeInputValue($this->ip),
-                '<p style="word-break: break-all"><a href="'.Common::sanitizeInputValue($this->resetUrl).'">'.
-                Common::sanitizeInputValue($this->resetUrl).'</a></p>'])
+                '<p style="word-break: break-all"><a href="' . Common::sanitizeInputValue($this->resetUrl) . '">' .
+                Common::sanitizeInputValue($this->resetUrl) . '</a></p>'])
         ) . "</p>";
     }
 }

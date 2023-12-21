@@ -49,7 +49,7 @@ class SiteAccessFilter
 
     public function getJoins($accessTable)
     {
-        $result = "RIGHT JOIN ". Common::prefixTable('site') . " s ON s.idsite = $accessTable.idsite AND a.login = ?";
+        $result = "RIGHT JOIN " . Common::prefixTable('site') . " s ON s.idsite = $accessTable.idsite AND a.login = ?";
         $bind = [$this->userLogin];
 
         return [$result, $bind];

@@ -51,5 +51,4 @@ class Activate extends Migration
             $this->pluginManager->activatePlugin($this->pluginName);
         }
     }
-
 }

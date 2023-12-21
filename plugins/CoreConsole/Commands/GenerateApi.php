@@ -53,5 +53,4 @@ class GenerateApi extends GeneratePluginBase
 
         return $this->askPluginNameAndValidate($pluginNames, $invalidName);
     }
-
 }

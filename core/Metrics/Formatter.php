@@ -68,7 +68,7 @@ class Formatter
             $seconds = floor($reminder - $minutes * 60);
             if ($days == 0) {
                 $time    = sprintf("%02s", $hours) . ':' . sprintf("%02s", $minutes) . ':' . sprintf("%02s", $seconds);
-            } else {    
+            } else {
                 $time    = sprintf(Piwik::translate('Intl_NDays'), $days) . " " . sprintf("%02s", $hours) . ':' . sprintf("%02s", $minutes) . ':' . sprintf("%02s", $seconds);
             }
             $centiSeconds = intval($numberOfSeconds * 100) % 100;

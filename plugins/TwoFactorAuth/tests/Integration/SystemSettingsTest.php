@@ -38,7 +38,6 @@ class SystemSettingsTest extends IntegrationTestCase
 
     public function test_twoFactorAuthTitle_defaultTitle()
     {
-        $this->assertEquals('Analytics - '. Url::getCurrentHost(), $this->settings->twoFactorAuthTitle->getValue());
+        $this->assertEquals('Analytics - ' . Url::getCurrentHost(), $this->settings->twoFactorAuthTitle->getValue());
     }
-
 }

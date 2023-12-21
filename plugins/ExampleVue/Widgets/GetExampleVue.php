@@ -25,5 +25,4 @@ class GetExampleVue extends Widget
     {
         return '<div vue-entry="ExampleVue.ExampleComponent"></div>';
     }
-
 }

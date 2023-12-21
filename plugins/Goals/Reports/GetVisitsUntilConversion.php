@@ -63,5 +63,4 @@ class GetVisitsUntilConversion extends Base
             return $goal['name'] . ' - ' . $name;
         });
     }
-
 }

@@ -13,7 +13,6 @@ namespace Piwik\Exception;
  */
 interface IRedirectException
 {
-
     public function getRedirectionUrl(): string;
 
     public function getCountdown(): int;

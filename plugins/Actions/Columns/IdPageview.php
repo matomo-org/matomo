@@ -39,5 +39,4 @@ class IdPageview extends ActionDimension
     {
         // metrics for idpageview do not really make any sense
     }
-
 }

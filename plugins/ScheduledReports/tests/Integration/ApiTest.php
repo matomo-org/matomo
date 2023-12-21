@@ -83,7 +83,7 @@ class ApiTest extends IntegrationTestCase
 
         Piwik::addAction(APIScheduledReports::GET_RENDERER_INSTANCE_EVENT, function (&$reportRenderer, $reportType, $outputType, $report) {
             if ($reportType == 'dummyrepor') { // apparently this gets cut off
-                $reportRenderer = new class() extends ReportRenderer {
+                $reportRenderer = new class () extends ReportRenderer {
                     public function setLocale($locale) {}
                     public function sendToDisk($filename) {
                         $path = PIWIK_INCLUDE_PATH . '/tmp/' . $filename;

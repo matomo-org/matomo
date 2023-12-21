@@ -219,5 +219,4 @@ class UserSettingTest extends IntegrationTestCase
 
         return $userSetting;
     }
-
 }

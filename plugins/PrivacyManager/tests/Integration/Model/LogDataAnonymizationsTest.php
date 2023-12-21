@@ -314,5 +314,4 @@ Number of unset log_link_visit_action table entries: 0
     {
         return $this->dao->scheduleEntry($requester, $idSites, $dateString, $anonymizeIp, $anonymizeLocation, $anonymizeUserId, $unsetVisitColumns, $unsetLinkVisitActionColumns, $start = true);
     }
-
 }

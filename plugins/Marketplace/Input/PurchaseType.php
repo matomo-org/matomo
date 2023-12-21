@@ -16,5 +16,4 @@ class PurchaseType
     const TYPE_FREE = 'free';
     const TYPE_PAID = 'paid';
     const TYPE_ALL  = '';
-
 }

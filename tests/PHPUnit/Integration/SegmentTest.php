@@ -485,7 +485,7 @@ class SegmentTest extends IntegrationTestCase
         $this->assertQueryDoesNotFail($query);
 
         $expected = [
-            'sql'=> '
+            'sql' => '
                 SELECT
                     *
                 FROM ' . Common::prefixTable('log_conversion') . ' AS log_conversion
@@ -2022,7 +2022,7 @@ log_visit.visit_total_actions
          * pageUrl!@not-found                        -- matches all
          * pageUrl!@found                            -- Matches none
          */
-        $segment = 'visitServerHour==12,pageUrl==xyz;pageUrl!=abcdefg,pageUrl=@does-not-exist,pageUrl=@found-in-db,pageUrl=='.urlencode($pageUrlFoundInDb).',pageUrl!@not-found,pageUrl!@found';
+        $segment = 'visitServerHour==12,pageUrl==xyz;pageUrl!=abcdefg,pageUrl=@does-not-exist,pageUrl=@found-in-db,pageUrl==' . urlencode($pageUrlFoundInDb) . ',pageUrl!@not-found,pageUrl!@found';
         $segment = new Segment($segment, $idSites = array(), Date::factory('2020-02-02 02:00:00'));
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
@@ -2500,7 +2500,7 @@ SQL;
             // urlencoding test
             [urlencode('browserCode==ff;visitCount>1'), ';', 'visitCount>1', urlencode('browserCode==ff;visitCount>1')],
             ['browserCode==ff;visitCount>1', ';', urlencode('visitCount>1'), 'browserCode==ff;visitCount>1'],
-            ['browserCode==ff;'.urlencode('visitCount>1'), ';', 'visitCount>1', 'browserCode==ff;'.urlencode('visitCount>1')],
+            ['browserCode==ff;' . urlencode('visitCount>1'), ';', 'visitCount>1', 'browserCode==ff;' . urlencode('visitCount>1')],
         ];
     }
 
@@ -2621,7 +2621,7 @@ SQL;
         ');
 
         // add logtable classes
-        $logThings = new class() extends LogTable {
+        $logThings = new class () extends LogTable {
             public function getName()
             {
                 return 'log_thing';
@@ -2643,7 +2643,7 @@ SQL;
             }
         };
 
-        $logThingEvents = new class() extends LogTable {
+        $logThingEvents = new class () extends LogTable {
             public function getname()
             {
                 return 'log_thing_event';
@@ -2676,7 +2676,7 @@ SQL;
         });
 
         // add Dimension classes
-        $thingEventIdDimension = new class() extends Dimension {
+        $thingEventIdDimension = new class () extends Dimension {
             protected $nameSingular = 'CustomReports_ThingEvent';
             protected $namePlural = 'CustomReports_ThingEvents';
             protected $segmentName = 'thingEventId';
@@ -2697,7 +2697,7 @@ SQL;
             }
         };
 
-        $thingValueDimension = new class() extends Dimension {
+        $thingValueDimension = new class () extends Dimension {
             protected $nameSingular = 'CustomReports_ThingValue';
             protected $namePlural = 'CustomReports_ThingValues';
             protected $segmentName = 'thingValue';
@@ -2726,7 +2726,7 @@ SQL;
             }
         };
 
-        $thingNameDimension = new class() extends Dimension {
+        $thingNameDimension = new class () extends Dimension {
             protected $nameSingular = 'CustomReports_ThingName';
             protected $namePlural = 'CustomReports_ThingNames';
             protected $segmentName = 'thingName';
@@ -2741,7 +2741,7 @@ SQL;
             }
         };
 
-        $thingCategoryDimension = new class() extends Dimension {
+        $thingCategoryDimension = new class () extends Dimension {
             protected $nameSingular = 'CustomReports_ThingCategory';
             protected $namePlural = 'CustomReports_ThingCategories';
             protected $segmentName = 'thingCategory';

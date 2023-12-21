@@ -197,7 +197,7 @@ class DbHelper
      */
     public static function tableHasIndex($table, $indexName)
     {
-        $result = Db::get()->fetchOne('SHOW INDEX FROM '.$table.' WHERE Key_name = ?', [$indexName]);
+        $result = Db::get()->fetchOne('SHOW INDEX FROM ' . $table . ' WHERE Key_name = ?', [$indexName]);
         return !empty($result);
     }
 
@@ -305,7 +305,7 @@ class DbHelper
 
             $timeInMs = $limit * 1000;
             $timeInMs = (int) $timeInMs;
-            $maxExecutionTimeHint = ' /*+ MAX_EXECUTION_TIME('.$timeInMs.') */ ';
+            $maxExecutionTimeHint = ' /*+ MAX_EXECUTION_TIME(' . $timeInMs . ') */ ';
 
             $sql = substr_replace($sql, 'SELECT ' . $maxExecutionTimeHint, $pos, strlen('SELECT'));
         }
@@ -346,7 +346,7 @@ class DbHelper
 
         if ($segment && !$segment->isEmpty() && 0 === strpos(trim($sql), $select)) {
             $sql = trim($sql);
-            $sql = 'SELECT /* ' . 'segmenthash ' . $segment->getHash(). ' */' . substr($sql, strlen($select));
+            $sql = 'SELECT /* ' . 'segmenthash ' . $segment->getHash() . ' */' . substr($sql, strlen($select));
         }
 
         return $sql;
@@ -368,7 +368,7 @@ class DbHelper
             $select = 'SELECT';
             if (0 === strpos(trim($sql), $select)) {
                 $sql = trim($sql);
-                $sql = 'SELECT /*+ JOIN_PREFIX('.$prefix.') */'.substr($sql, strlen($select));
+                $sql = 'SELECT /*+ JOIN_PREFIX(' . $prefix . ') */' . substr($sql, strlen($select));
             }
         }
 
@@ -388,5 +388,4 @@ class DbHelper
     {
         return (0 !== preg_match('/(^[a-zA-Z0-9]+([a-zA-Z0-9\_\.\-\+]*))$/D', $dbname));
     }
-
 }

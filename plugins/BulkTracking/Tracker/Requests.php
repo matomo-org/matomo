@@ -15,7 +15,6 @@ use Piwik\Tracker\TrackerConfig;
 
 class Requests
 {
-
     public function requiresAuthentication()
     {
         $requiresAuth = TrackerConfig::getConfigValue('bulk_requests_require_authentication');

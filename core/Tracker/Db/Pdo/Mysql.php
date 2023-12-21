@@ -32,7 +32,7 @@ class Mysql extends Db
 
     protected $mysqlOptions = array();
 
-    
+
     protected $activeTransaction = false;
 
     /**
@@ -408,10 +408,8 @@ class Mysql extends Db
          * see ZF-7428 and http://bugs.php.net/bug.php?id=47224
          */
         if (!empty($this->charset)) {
-            $sql = "SET NAMES '".$this->charset."'";
+            $sql = "SET NAMES '" . $this->charset . "'";
             $this->connection->exec($sql);
         }
     }
-
-
 }

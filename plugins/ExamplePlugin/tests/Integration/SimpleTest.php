@@ -17,7 +17,6 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class SimpleTest extends IntegrationTestCase
 {
-
     public function setUp(): void
     {
         parent::setUp();
@@ -37,7 +36,6 @@ class SimpleTest extends IntegrationTestCase
      */
     public function testSimpleAddition()
     {
-        $this->assertEquals(2, 1+1);
+        $this->assertEquals(2, 1 + 1);
     }
-
 }

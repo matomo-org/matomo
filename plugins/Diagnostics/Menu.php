@@ -24,5 +24,4 @@ class Menu extends \Piwik\Plugin\Menu
             $menu->addDiagnosticItem('Diagnostics_ConfigFileTitle', $this->urlForAction('configfile'), $orderId = 30);
         }
     }
-
 }

@@ -30,7 +30,7 @@ class ReferrerSpamFilterTest extends IntegrationTestCase
         parent::setUp();
 
         Cache::flushAll();
-        $this->filter = new ReferrerSpamFilter;
+        $this->filter = new ReferrerSpamFilter();
     }
 
     public function tearDown(): void

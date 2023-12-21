@@ -357,5 +357,4 @@ class PluginInstaller
             return StaticContainer::get(Environment::class);
         }
     }
-
 }

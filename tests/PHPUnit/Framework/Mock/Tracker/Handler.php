@@ -66,5 +66,4 @@ class Handler extends \Piwik\Tracker\Handler
 
         return $this->output;
     }
-
 }

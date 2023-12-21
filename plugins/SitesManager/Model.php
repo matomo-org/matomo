@@ -120,7 +120,6 @@ class Model
             'UNION
                 SELECT idsite FROM ' . $siteUrlTable . '
                     WHERE url IN ( ' . Common::getSqlStringFieldsArray($urls) . ') ',
-
             // Bind
             array_merge( $urls, $urls)
         );
@@ -151,7 +150,6 @@ class Model
                 FROM ' . $siteUrlTable . '
                     WHERE url IN ( ' . Common::getSqlStringFieldsArray($urls) . ')' .
             'AND idsite IN (' . $sqlAccessSite . ')',
-
             // Bind
             array_merge(    $urls,
                             array( $login ),

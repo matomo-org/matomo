@@ -20,7 +20,6 @@ use Piwik\Plugins\Insights\DataTable\Filter\MinGrowth;
  */
 class FilterMinGrowthTest extends BaseUnitTest
 {
-
     public function setUp(): void
     {
         $this->table = new DataTable();
@@ -87,5 +86,4 @@ class FilterMinGrowthTest extends BaseUnitTest
         $filter = new MinGrowth($this->table, 'growth', $minGrowthPercentPositive, $minGrowthPercentNegative);
         $filter->filter($this->table);
     }
-
 }

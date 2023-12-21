@@ -56,6 +56,4 @@ class ChallengeScheduledReport extends Challenge
     {
         return 'index.php' . Url::getCurrentQueryStringWithParametersModified(array('module' => 'ScheduledReports', 'action' => 'index', 'widget' => false));
     }
-
-
 }

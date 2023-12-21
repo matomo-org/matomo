@@ -48,7 +48,7 @@ class ConvertRegionCodesToIsoTest extends IntegrationTestCase
         $t->setVisitorId('fed33392d3a48ab2');
         $t->setForceVisitDateTime('2017-05-10 12:36:00');
         $t->setTokenAuth(Fixture::getTokenAuth());
-        $t->setIp(rand(1, 256).'.'.rand(1, 256).'.'.rand(1, 256).'.'.rand(1, 256));
+        $t->setIp(rand(1, 256) . '.' . rand(1, 256) . '.' . rand(1, 256) . '.' . rand(1, 256));
         $t->setUserId('userid.email@example.org');
         $t->setCountry($country);
         $t->setRegion($region);
@@ -68,7 +68,7 @@ class ConvertRegionCodesToIsoTest extends IntegrationTestCase
         $t->setVisitorId('fed33392d3a48ab2');
         $t->setForceVisitDateTime('2017-05-15 12:36:00');
         $t->setTokenAuth(Fixture::getTokenAuth());
-        $t->setIp(rand(1, 256).'.'.rand(1, 256).'.'.rand(1, 256).'.'.rand(1, 256));
+        $t->setIp(rand(1, 256) . '.' . rand(1, 256) . '.' . rand(1, 256) . '.' . rand(1, 256));
         $t->setUserId('userid.email@example.org');
         $t->setCountry($country);
         $t->setRegion($region);
@@ -98,7 +98,7 @@ class ConvertRegionCodesToIsoTest extends IntegrationTestCase
 
     public function testExecute_ShouldConvertRegionCodes()
     {
-        Option::set(GeoIp2::SWITCH_TO_ISO_REGIONS_OPTION_NAME, mktime(0,0,0,5,12,2017));
+        Option::set(GeoIp2::SWITCH_TO_ISO_REGIONS_OPTION_NAME, mktime(0, 0, 0, 5, 12, 2017));
 
         self::trackVisit('gr', '14'); // should become A
         self::trackVisit('ir', '03'); // should become 08

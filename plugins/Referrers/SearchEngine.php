@@ -316,10 +316,10 @@ class SearchEngine extends Singleton
 
             $pathWithQueryAndFragment = $referrerPath;
             if (!empty($query)) {
-                $pathWithQueryAndFragment .= '?'.$query;
+                $pathWithQueryAndFragment .= '?' . $query;
             }
             if (!empty($referrerParsed['fragment'])) {
-                $pathWithQueryAndFragment .= '#'.$referrerParsed['fragment'];
+                $pathWithQueryAndFragment .= '#' . $referrerParsed['fragment'];
             }
 
             foreach ($keywordsHiddenFor as $path) {

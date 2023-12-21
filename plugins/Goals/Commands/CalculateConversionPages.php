@@ -26,7 +26,6 @@ use Piwik\Updater\Migration\Factory as MigrationFactory;
  */
 class CalculateConversionPages extends ConsoleCommand
 {
-
     protected function configure()
     {
         $this->setName('core:calculate-conversion-pages');
@@ -35,7 +34,7 @@ class CalculateConversionPages extends ConsoleCommand
         $this->addOptionalValueOption('last-n', null, 'Calculate just the last n conversions', 0);
         $this->addOptionalValueOption('idsite', null,
             'Calculate for conversions belonging to the site with this ID. Comma separated list of website id. Eg, 1, 2, 3, etc. By default conversions from all sites are calculated.', null);
-        $this->addOptionalValueOption('idgoal', null,'Calculate conversions for this goal. A comma separated list of goal ids can be used only if a single site is specified. Eg, 1, 2, 3, etc. By default conversions for all goals are calculated.', null);
+        $this->addOptionalValueOption('idgoal', null, 'Calculate conversions for this goal. A comma separated list of goal ids can be used only if a single site is specified. Eg, 1, 2, 3, etc. By default conversions for all goals are calculated.', null);
         $this->addOptionalValueOption('force-recalc', null, 'Recalculate for conversions which already have a pages before value', 0);
     }
 
@@ -69,7 +68,7 @@ class CalculateConversionPages extends ConsoleCommand
 
         $output->writeln(sprintf(
             "<info>Preparing to calculate the pages before metric for %s conversions belonging to %s %sfor %s.</info>",
-            $lastN ? "the last ".$lastN : 'all',
+            $lastN ? "the last " . $lastN : 'all',
             $idSite ? "website $idSite" : "ALL websites",
                     !empty($dates) ? "between " . $from . " and " . $to . " " : '',
                     $idGoal ? "goal id $idGoal" : "ALL goals"
@@ -167,7 +166,7 @@ class CalculateConversionPages extends ConsoleCommand
             return null;
         }
 
-        $sites = explode(',',  $idSite);
+        $sites = explode(',', $idSite);
         foreach ($sites as $id) {
             // validate the site ID
             try {
@@ -199,7 +198,7 @@ class CalculateConversionPages extends ConsoleCommand
             throw new \InvalidArgumentException("The goals parameter can only be used when a single website is specified using the idsite parameter", $code = 0);
         }
 
-        $goals = explode(',',  $idGoal);
+        $goals = explode(',', $idGoal);
         $goalsModel = new GoalsModel();
 
         foreach ($goals as $id) {
@@ -253,9 +252,9 @@ class CalculateConversionPages extends ConsoleCommand
                     ";
 
             $where = '';
-             if (!$forceRecalc) {
-                 $where .= " AND c.pageviews_before IS NULL";
-             }
+            if (!$forceRecalc) {
+                $where .= " AND c.pageviews_before IS NULL";
+            }
 
             $bind = [];
             if ($idGoal !== null) {
@@ -268,7 +267,7 @@ class CalculateConversionPages extends ConsoleCommand
             }
 
             if ($where !== '') {
-                $sql .= ' WHERE '.ltrim($where, 'AND ');
+                $sql .= ' WHERE ' . ltrim($where, 'AND ');
             }
 
             $sql .= " ORDER BY c.server_time DESC LIMIT " . $lastN . ") AS s";
@@ -295,7 +294,7 @@ class CalculateConversionPages extends ConsoleCommand
 
             if ($idGoal === null) {
                 // All goals
-                $gids = Db::fetchAll("SELECT idgoal FROM " . Common::prefixTable('goal'). "
+                $gids = Db::fetchAll("SELECT idgoal FROM " . Common::prefixTable('goal') . "
                                         WHERE idsite = ? AND deleted = 0", [$site]);
                 $goals = array_column($gids, 'idgoal');
 
@@ -369,5 +368,4 @@ class CalculateConversionPages extends ConsoleCommand
 
         return $queries;
     }
-
 }

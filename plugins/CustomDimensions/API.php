@@ -33,7 +33,6 @@ use Piwik\Tracker\Cache;
  */
 class API extends \Piwik\Plugin\API
 {
-
     /**
      * Fetch a report for the given idDimension. Only reports for active dimensions can be fetched. Requires at least
      * view access.
@@ -204,7 +203,9 @@ class API extends \Piwik\Plugin\API
     public function getConfiguredCustomDimensionsHavingScope($idSite, $scope)
     {
         $result = $this->getConfiguredCustomDimensions($idSite);
-        $result = array_filter($result, function ($row) use ($scope) { return $row['scope'] == $scope; });
+        $result = array_filter($result, function ($row) use ($scope) {
+            return $row['scope'] == $scope;
+        });
         $result = array_values($result);
         return $result;
     }
@@ -289,5 +290,4 @@ class API extends \Piwik\Plugin\API
     {
         return new Configuration();
     }
-
 }

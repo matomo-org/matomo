@@ -150,5 +150,4 @@ class VisitorRecognizerTest extends IntegrationTestCase
 
         $this->assertEquals(array(), $result);
     }
-
 }

@@ -46,7 +46,7 @@ class TokenSecureOnlyTest extends IntegrationTestCase
      */
     public function test_secureOnlyToken_accessDeniedIfGet()
     {
-        $url = Fixture::getTestRootUrl().'?'.http_build_query([
+        $url = Fixture::getTestRootUrl() . '?' . http_build_query([
                 'module' => 'API',
                 'method' => 'API.getMatomoVersion',
                 'token_auth' => self::$tokenSecureOnly,
@@ -68,7 +68,7 @@ class TokenSecureOnlyTest extends IntegrationTestCase
      */
     public function test_secureOnlyToken_accessGrantedIfPost()
     {
-        $url = Fixture::getTestRootUrl().'?'.http_build_query([
+        $url = Fixture::getTestRootUrl() . '?' . http_build_query([
                 'module' => 'API',
                 'method' => 'API.getMatomoVersion'
             ]);
@@ -83,5 +83,4 @@ class TokenSecureOnlyTest extends IntegrationTestCase
 
         $this->assertEquals(200, $responseInfo["http_code"]);
     }
-
 }

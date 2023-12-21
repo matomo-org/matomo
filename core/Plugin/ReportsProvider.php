@@ -42,7 +42,7 @@ class ReportsProvider
 
         $klassName = $listApiToReport[$api];
 
-        return new $klassName;
+        return new $klassName();
     }
 
     private static function getMapOfModuleActionsToReport()

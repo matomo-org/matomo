@@ -70,7 +70,7 @@ class Updates_2_10_0_b5 extends Updates
 
         $reportTable = Common::prefixTable('report');
         foreach ($reportsToReplace as $old => $new) {
-            $migrations[] = $this->migration->db->sql("UPDATE $reportTable SET reports = REPLACE(reports, '".$old."', '".$new."')");
+            $migrations[] = $this->migration->db->sql("UPDATE $reportTable SET reports = REPLACE(reports, '" . $old . "', '" . $new . "')");
         }
 
         // update dashboard to use new widgets

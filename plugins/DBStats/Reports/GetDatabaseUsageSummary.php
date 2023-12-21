@@ -19,12 +19,11 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Pie;
  */
 class GetDatabaseUsageSummary extends Base
 {
-
     protected function init()
     {
         $this->name = Piwik::translate('General_Overview');
     }
-    
+
     public function getDefaultTypeViewDataTable()
     {
         return Pie::ID;
@@ -58,5 +57,4 @@ class GetDatabaseUsageSummary extends Base
 
         $view->config->filters[] = array('ColumnCallbackReplace', array('label', $translateSummaryLabel), $isPriority = true);
     }
-
 }

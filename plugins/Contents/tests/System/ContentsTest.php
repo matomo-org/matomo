@@ -77,7 +77,7 @@ class ContentsTest extends SystemTestCase
                 'idSite'       => $idSite1,
                 'date'         => $dateTime,
                 'periods'      => $dayPeriod,
-                'segment'      => "contentName==ImageAd,contentPiece==".urlencode('Click to download Piwik now'),
+                'segment'      => "contentName==ImageAd,contentPiece==" . urlencode('Click to download Piwik now'),
                 'setDateLastN' => false,
                 'testSuffix'   => 'contentNameOrPieceMatch')
             ),
@@ -86,7 +86,7 @@ class ContentsTest extends SystemTestCase
                 'idSite'       => $idSite1,
                 'date'         => $dateTime,
                 'periods'      => $dayPeriod,
-                'segment'      => "contentTarget==".urlencode('http://www.example.com'),
+                'segment'      => "contentTarget==" . urlencode('http://www.example.com'),
                 'setDateLastN' => false,
                 'testSuffix'   => '_contentTargetMatch')
             ),

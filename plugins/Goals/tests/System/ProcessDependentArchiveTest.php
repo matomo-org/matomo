@@ -34,7 +34,7 @@ class ProcessDependentArchiveTest extends SystemTestCase
         parent::tearDown();
     }
 
-   public function test_numArchivesCreated_day()
+    public function test_numArchivesCreated_day()
     {
         API::getInstance()->getMetrics(self::$fixture->idSite, 'day', '2009-01-04');
         $this->assertNumRangeArchives(5, 1); // days;
@@ -48,17 +48,16 @@ class ProcessDependentArchiveTest extends SystemTestCase
 
     public function test_numArchivesCreatedWithSegment()
     {
-        API::getInstance()->get(self::$fixture->idSite, 'range', $this->requestRange,'userId!@%2540matomo.org;userId!=hello%2540matomo.org');
+        API::getInstance()->get(self::$fixture->idSite, 'range', $this->requestRange, 'userId!@%2540matomo.org;userId!=hello%2540matomo.org');
         $this->assertNumRangeArchives(6);
     }
 
     private function assertNumRangeArchives($expectedArchives,$period = 5)
     {
-        $archives = Db::fetchAll('SELECT `name` from ' . Common::prefixTable($this->archiveTable) . ' WHERE period = '.$period.' and `name` like "done%"');
+        $archives = Db::fetchAll('SELECT `name` from ' . Common::prefixTable($this->archiveTable) . ' WHERE period = ' . $period . ' and `name` like "done%"');
         $numArchives = count($archives);
         $message = sprintf('Expected archives: %s, got: %s. These were the archives %s', $expectedArchives, $numArchives, json_encode($archives));
         $this->assertEquals($expectedArchives, $numArchives, $message);
     }
-
 }
 ProcessDependentArchiveTest::$fixture = new ThreeGoalsOnePageview();

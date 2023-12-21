@@ -31,6 +31,8 @@ class FilesTest extends \PHPUnit\Framework\TestCase
         $filesPlugins = glob(PIWIK_DOCUMENT_ROOT . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . '*.json');
 
         $allFiles = array_merge($filesBase, $filesPlugins);
-        return array_map(function($val) { return [$val]; }, $allFiles);
+        return array_map(function ($val) {
+            return [$val];
+        }, $allFiles);
     }
 }

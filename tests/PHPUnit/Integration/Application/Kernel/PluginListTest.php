@@ -16,7 +16,6 @@ use Piwik\Container\StaticContainer;
  */
 class PluginListTest extends \PHPUnit\Framework\TestCase
 {
-
     /**
      * @var PluginList
      */
@@ -108,5 +107,4 @@ class PluginListTest extends \PHPUnit\Framework\TestCase
         $globalSettingsProvider->setSection('Plugins', $section);
         return new PluginList($globalSettingsProvider);
     }
-
 }

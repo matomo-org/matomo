@@ -17,11 +17,9 @@ use Piwik\Columns\Dimension;
  */
 class ExampleDimension extends Dimension
 {
-
     /**
      * The name of the dimension which will be visible for instance in the UI of a related report and in the mobile app.
      * @return string
      */
     protected $nameSingular = 'ExampleTracker_DimensionName';
-
 }

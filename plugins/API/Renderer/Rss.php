@@ -13,7 +13,6 @@ use Piwik\Common;
 
 class Rss extends ApiRenderer
 {
-
     /**
      * @param $message
      * @param \Exception|\Throwable $exception
@@ -49,6 +48,4 @@ class Rss extends ApiRenderer
     {
         Common::sendHeader('Content-Type: text/' . $type . '; charset=utf-8');
     }
-
-
 }

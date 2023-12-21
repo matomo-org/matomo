@@ -57,7 +57,6 @@ class TrackingFailuresTest extends SystemTestCase
     {
         return dirname(__FILE__);
     }
-
 }
 
 TrackingFailuresTest::$fixture = new TrackingFailures();

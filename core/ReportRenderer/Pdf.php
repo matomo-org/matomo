@@ -179,7 +179,7 @@ class Pdf extends ReportRenderer
 
         // footer
         $this->TCPDF->SetFooterFont(array($this->reportFont, $this->reportFontStyle, $this->reportSimpleFontSize));
-        $this->TCPDF->SetFooterContent((strlen($reportTitle) > 64 ? substr($reportTitle,0, 61) . "..." : $reportTitle) . " | " . $dateRange . " | ");
+        $this->TCPDF->SetFooterContent((strlen($reportTitle) > 64 ? substr($reportTitle, 0, 61) . "..." : $reportTitle) . " | " . $dateRange . " | ");
 
         // add first page
         $this->TCPDF->setPrintHeader(false);

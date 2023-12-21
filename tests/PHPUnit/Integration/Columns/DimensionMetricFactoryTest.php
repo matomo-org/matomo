@@ -152,6 +152,4 @@ class DimensionMetricFactoryTest extends IntegrationTestCase
         $this->assertSame('UserCountry_VisitLocation', $metric->getCategoryId());
         $this->assertCount(2, $metric->getDependentMetrics());
     }
-
-
 }

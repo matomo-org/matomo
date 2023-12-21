@@ -309,7 +309,7 @@ class API extends \Piwik\Plugin\API
         $types[Action::TYPE_OUTLINK] = 'outlinks';
         $types[Action::TYPE_DOWNLOAD] = 'downloads';
 
-        $rankingQuery = new RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping: $this->limitBeforeGrouping);
+        $rankingQuery = new RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping : $this->limitBeforeGrouping);
         $rankingQuery->setOthersLabel('Others');
         $rankingQuery->addLabelColumn(array('name', 'url_prefix'));
         $rankingQuery->partitionResultIntoMultipleGroups('type', array_keys($types));
@@ -428,7 +428,7 @@ class API extends \Piwik\Plugin\API
         $keyIsPageUrlAction = 1;
         $keyIsSiteSearchAction = 2;
 
-        $rankingQuery = new RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping: $this->limitBeforeGrouping);
+        $rankingQuery = new RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping : $this->limitBeforeGrouping);
         $rankingQuery->setOthersLabel('Others');
         $rankingQuery->addLabelColumn(array('name', 'url_prefix'));
         $rankingQuery->setColumnToMarkExcludedRows('is_self');
@@ -449,7 +449,7 @@ class API extends \Piwik\Plugin\API
             'CASE WHEN log_link_visit_action.idaction_' . $type . '_ref = ' . intval($idaction) . ' THEN 1 ELSE 0 END AS `is_self`',
             'CASE
                 WHEN log_action.type = ' . $mainActionType . ' THEN ' . $keyIsPageUrlAction . '
-                        WHEN log_action.type = ' . Action::TYPE_SITE_SEARCH . ' THEN ' . $keyIsSiteSearchAction .'
+                        WHEN log_action.type = ' . Action::TYPE_SITE_SEARCH . ' THEN ' . $keyIsSiteSearchAction . '
                         ELSE ' . $keyIsOther . '
                     END AS `action_partition`'
         );
@@ -479,7 +479,7 @@ class API extends \Piwik\Plugin\API
 
         $loops = 0;
         $nbPageviews = 0;
-        $previousPagesDataTable = new DataTable;
+        $previousPagesDataTable = new DataTable();
         if (isset($data['result'][$keyIsPageUrlAction])) {
             foreach ($data['result'][$keyIsPageUrlAction] as &$page) {
                 $nbActions = intval($page[Metrics::INDEX_NB_ACTIONS]);
@@ -493,7 +493,7 @@ class API extends \Piwik\Plugin\API
             }
         }
 
-        $previousSearchesDataTable = new DataTable;
+        $previousSearchesDataTable = new DataTable();
         if (isset($data['result'][$keyIsSiteSearchAction])) {
             foreach ($data['result'][$keyIsSiteSearchAction] as &$search) {
                 $nbActions = intval($search[Metrics::INDEX_NB_ACTIONS]);
@@ -646,7 +646,7 @@ class API extends \Piwik\Plugin\API
         $this->totalTransitionsToFollowingPages = 0;
         $dataTables = array();
         foreach ($types as $type => $recordName) {
-            $dataTable = new DataTable;
+            $dataTable = new DataTable();
             if (isset($data[$type])) {
                 foreach ($data[$type] as &$record) {
                     $actions = intval($record[Metrics::INDEX_NB_ACTIONS]);
@@ -688,7 +688,7 @@ class API extends \Piwik\Plugin\API
      *
      * @return bool
      */
-    public function isPeriodAllowed($idSite, $period, $date) : bool
+    public function isPeriodAllowed($idSite, $period, $date): bool
     {
         $maxPeriodAllowed = Transitions::getPeriodAllowedConfig($idSite);
         if ($maxPeriodAllowed === 'all') {
@@ -701,7 +701,7 @@ class API extends \Piwik\Plugin\API
             $range = new Period\Range($period, $date);
             $rangeDays = $range->getDayCount();
 
-             switch ($maxPeriodAllowed) {
+            switch ($maxPeriodAllowed) {
                 case 'day':
                     return $rangeDays == 1;
                 case 'week':

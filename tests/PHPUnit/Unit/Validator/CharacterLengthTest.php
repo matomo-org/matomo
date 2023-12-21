@@ -54,5 +54,4 @@ class CharacterLengthTest extends \PHPUnit\Framework\TestCase
         $validator = new CharacterLength($min, $max);
         $validator->validate($value);
     }
-
 }

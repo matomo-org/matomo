@@ -11,8 +11,8 @@ namespace Piwik\Plugins\CustomJsTracker\tests\Integration;
 use Piwik\Plugins\CustomJsTracker\File;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
-class CustomTestFile extends File {
-
+class CustomTestFile extends File
+{
 }
 
 /**
@@ -207,5 +207,4 @@ class FileTest extends IntegrationTestCase
         $this->assertTrue($notExistingFile->hasReadAccess());
         $this->assertTrue($notExistingFile->hasWriteAccess());
     }
-
 }

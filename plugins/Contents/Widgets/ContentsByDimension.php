@@ -17,5 +17,4 @@ class ContentsByDimension extends WidgetContainerConfig
     protected $id = 'Contents';
     protected $categoryId = 'General_Actions';
     protected $subcategoryId = 'Contents_Contents';
-
 }

@@ -436,5 +436,4 @@ class TrackerTest extends IntegrationTestCase
             'Tests.log.allowAllHandlers' => true,
         );
     }
-
 }

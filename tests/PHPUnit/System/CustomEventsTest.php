@@ -73,7 +73,7 @@ class CustomEventsTest extends SystemTestCase
                 'idSite'       => $idSite1,
                 'date'         => $dateTime,
                 'periods'      => $dayPeriod,
-                'segment'      => "eventCategory==Movie,eventName==".urlencode('La fiancée de l\'eau'),
+                'segment'      => "eventCategory==Movie,eventName==" . urlencode('La fiancée de l\'eau'),
                 'setDateLastN' => false,
                 'testSuffix'   => '_eventCategoryOrNameMatch')
             ),

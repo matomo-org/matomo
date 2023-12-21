@@ -283,5 +283,4 @@ class FieldConfig
      * @var BaseValidator[]
      */
     public $validators = [];
-
 }

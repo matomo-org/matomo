@@ -20,7 +20,7 @@ class Bar extends JqplotGraph
     const ID = 'graphVerticalBar';
     const FOOTER_ICON       = 'icon-chart-bar';
     const FOOTER_ICON_TITLE = 'General_VBarGraph';
-    
+
     public function beforeLoadDataTable()
     {
         parent::beforeLoadDataTable();

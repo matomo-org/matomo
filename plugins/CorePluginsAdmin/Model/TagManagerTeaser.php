@@ -81,5 +81,4 @@ class TagManagerTeaser
     {
         return new PluginSettingsTable('CorePluginsAdmin', $this->login);
     }
-
 }

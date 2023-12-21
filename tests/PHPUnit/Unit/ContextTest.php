@@ -14,7 +14,6 @@ use Piwik\Tracker;
 
 class ContextTest extends \PHPUnit\Framework\TestCase
 {
-
     /**
      * @dataProvider getTestDataForOverwriteIdSiteForCache
      */

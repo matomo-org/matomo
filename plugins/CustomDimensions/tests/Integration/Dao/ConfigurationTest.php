@@ -369,5 +369,4 @@ class ConfigurationTest extends IntegrationTestCase
 
         return $cases;
     }
-
 }

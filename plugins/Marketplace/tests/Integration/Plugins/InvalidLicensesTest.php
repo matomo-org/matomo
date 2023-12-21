@@ -18,7 +18,8 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Consumer as ConsumerBuilder;
 
-class CustomInvalidLicenses extends InvalidLicenses {
+class CustomInvalidLicenses extends InvalidLicenses
+{
     private $isActivated = true;
 
     public function setPluginIsActivated($isActivated)
@@ -286,5 +287,4 @@ class InvalidLicensesTest extends IntegrationTestCase
         $licenses->clearCache();
         return $licenses;
     }
-
 }

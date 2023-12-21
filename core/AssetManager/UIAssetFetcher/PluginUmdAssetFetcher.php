@@ -212,7 +212,7 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
 
         // either loadFilesIndividually = true, or being called w/ disable_merged_assets=1
         $this->addUmdFilesIfDetected($this->getPluginsWithUmdsToUse());
-   }
+    }
 
     private function addUmdFilesIfDetected($plugins)
     {

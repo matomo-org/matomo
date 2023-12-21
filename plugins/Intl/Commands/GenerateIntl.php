@@ -57,7 +57,7 @@ class GenerateIntl extends ConsoleCommand
         }
 
         preg_match_all("~^(.)(.*)$~u", $str, $arr);
-        return mb_strtoupper($arr[1][0]).$arr[2][0];
+        return mb_strtoupper($arr[1][0]) . $arr[2][0];
     }
 
     protected function doExecute(): int
@@ -122,12 +122,12 @@ class GenerateIntl extends ConsoleCommand
             if (empty($translations['Intl']['OriginalLanguageName']) && strpos($transformedLangCode, '-')) {
                 [$language, $territory] = explode('-', $transformedLangCode);
 
-                if (!empty($translations['Intl']['Language_'.$language])) {
+                if (!empty($translations['Intl']['Language_' . $language])) {
 
-                    $originalName = $this->transform($translations['Intl']['Language_'.$language]);
+                    $originalName = $this->transform($translations['Intl']['Language_' . $language]);
 
-                    if (!empty($translations['Intl']['Country_'.$territory])) {
-                        $originalName .= ' (' . $translations['Intl']['Country_'.$territory] . ')';
+                    if (!empty($translations['Intl']['Country_' . $territory])) {
+                        $originalName .= ' (' . $translations['Intl']['Country_' . $territory] . ')';
                     } else {
                         $originalName .= ' (' . strtoupper($language) . ')';
                     }
@@ -161,7 +161,7 @@ class GenerateIntl extends ConsoleCommand
             foreach ($region as $regionCurrencies) {
                 foreach ($regionCurrencies as $currencyCode => $validity) {
                     if (!isset($validity['_to']) && !isset($validity['_tender'])) {
-                       $cldrCurrencies[] = $currencyCode;
+                        $cldrCurrencies[] = $currencyCode;
                     }
                 }
             }
@@ -219,12 +219,12 @@ class GenerateIntl extends ConsoleCommand
                     $territoryData = $territoryData['main']['en']['localeDisplayNames']['territories'] ?? [];
 
                     if (array_key_exists($territory, $territoryData)) {
-                        $englishName .= ' ('.$territoryData[$territory].')';
+                        $englishName .= ' (' . $territoryData[$territory] . ')';
                     } else {
-                        $englishName .= ' ('.strtoupper($language).')';
+                        $englishName .= ' (' . strtoupper($language) . ')';
                     }
                 } catch (\Exception $e) {
-                    $englishName .= ' ('.strtoupper($language).')';
+                    $englishName .= ' (' . strtoupper($language) . ')';
                 }
 
                 return $englishName;
@@ -664,5 +664,4 @@ class GenerateIntl extends ConsoleCommand
     {
         return str_replace('{0}', $replacement, $string);
     }
-
 }

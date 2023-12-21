@@ -107,7 +107,7 @@ class ReferrerNameTest extends IntegrationTestCase
             ['test',                   $this->idSite1, $url . '?pk_campaign=test', $referrer],
             ['testfoobar',             $this->idSite2, $url . '?pk_campaign=testfoobar', $referrer],
             ['test',                   $this->idSite3, $url . '?pk_campaign=test', $referrer],
-            [$longString,              $this->idSite3, $url . '?pk_campaign='.$longString, $referrer],
+            [$longString,              $this->idSite3, $url . '?pk_campaign=' . $longString, $referrer],
 
             ['Google',                 $this->idSite3, $url, 'http://google.com/search?q=piwik'],
 
@@ -175,5 +175,4 @@ class ReferrerNameTest extends IntegrationTestCase
     {
         return new Visitor(new VisitProperties());
     }
-
 }

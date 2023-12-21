@@ -19,7 +19,6 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class LoaderLockTest extends IntegrationTestCase
 {
-
     public function test_lockerIdShort()
     {
         $lockId = Common::getRandomString(60);
@@ -31,7 +30,7 @@ class LoaderLockTest extends IntegrationTestCase
     public function test_lockerIdMaxLength()
     {
         $lockId = str_pad('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 128, '5');
-        $this->assertEquals(strlen($lockId),128);
+        $this->assertEquals(strlen($lockId), 128);
 
         $lock = new LoaderLock($lockId);
         $this->assertSame('0123456789abcdefghijklmnopqrstuvbafb96951317fae753ab8ec1b2dad6e6', $lock->getId());

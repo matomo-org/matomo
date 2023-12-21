@@ -1,6 +1,6 @@
 All Websites dashboard
 label	nb_visits	nb_actions	nb_pageviews	revenue	nb_conversions	orders	ecommerce_revenue	visits_evolution	actions_evolution	pageviews_evolution	revenue_evolution	nb_conversions_evolution	orders_evolution	ecommerce_revenue_evolution
-A very long name for a very tiny test site, that also reaches the 90 character limit fully	5	16	16	$13,361.11	5	4	$13,351.11	100%	100%	100%	100%	100%	100%	100%
+"A very long name for a very tiny test site, that also reaches the 90 character limit fully"	5	16	16	"$13,361.11"	5	4	"$13,351.11"	100%	100%	100%	100%	100%	100%	100%
 Piwik test	2	1	1	$0	0	0	$0	100%	100%	100%	0%	0%	0	0
 
 Visits Summary
@@ -9,16 +9,16 @@ nb_uniq_visitors	nb_visits	nb_actions	max_actions	nb_actions_per_visit	avg_time_
 
 Country
 label	nb_visits	nb_actions	revenue	nb_actions_per_visit	avg_time_on_site	bounce_rate
-Poland	4	12	$13,351.11	3	00:25:32	25%
+Poland	4	12	"$13,351.11"	3	00:25:32	25%
 France	1	4	$10	4	00:12:01	0%
 
 Continent
 label	nb_visits	nb_actions	revenue	nb_actions_per_visit	avg_time_on_site	bounce_rate
-Europe	5	16	$13,361.11	3.2	00:22:49	20%
+Europe	5	16	"$13,361.11"	3.2	00:22:49	20%
 
 Region
 label	nb_visits	nb_actions	revenue	nb_actions_per_visit	avg_time_on_site	bounce_rate
-Unknown	5	16	$13,361.11	3.2	00:22:49	20%
+Unknown	5	16	"$13,361.11"	3.2	00:22:49	20%
 
 Web-browser language
 label	nb_visits	nb_actions	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
@@ -27,7 +27,7 @@ French	1	4	100%	4	00:12:01	0%
 
 City
 label	nb_visits	nb_actions	revenue	nb_actions_per_visit	avg_time_on_site	bounce_rate
-Unknown	5	16	$13,361.11	3.2	00:22:49	20%
+Unknown	5	16	"$13,361.11"	3.2	00:22:49	20%
 
 Language code
 label	nb_visits	nb_actions	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
@@ -36,15 +36,15 @@ French (fr)	1	4	100%	4	00:12:01	0%
 
 Device type
 label	nb_visits	nb_actions	revenue	nb_actions_per_visit	avg_time_on_site	bounce_rate
-Desktop	5	16	$13,361.11	3.2	00:22:49	20%
+Desktop	5	16	"$13,361.11"	3.2	00:22:49	20%
 
 Device model
 label	nb_visits	nb_actions	revenue	nb_actions_per_visit	avg_time_on_site	bounce_rate
-Generic Desktop	5	16	$13,361.11	3.2	00:22:49	20%
+Generic Desktop	5	16	"$13,361.11"	3.2	00:22:49	20%
 
 Device brand
 label	nb_visits	nb_actions	revenue	nb_actions_per_visit	avg_time_on_site	bounce_rate
-Unknown	5	16	$13,361.11	3.2	00:22:49	20%
+Unknown	5	16	"$13,361.11"	3.2	00:22:49	20%
 
 Screen Resolution
 label	nb_visits	nb_actions	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
@@ -56,7 +56,7 @@ Windows XP	5	16	80%	3.2	00:22:49	20%
 
 Browsers
 label	nb_visits	nb_actions	revenue	nb_actions_per_visit	avg_time_on_site	bounce_rate
-Firefox	5	16	$13,361.11	3.2	00:22:49	20%
+Firefox	5	16	"$13,361.11"	3.2	00:22:49	20%
 
 Browser version
 label	nb_visits	nb_actions	conversion_rate	nb_actions_per_visit	avg_time_on_site	bounce_rate
@@ -116,11 +116,11 @@ Visits per hour in the site's timezone
 label	nb_visits	nb_actions	revenue	nb_actions_per_visit	avg_time_on_site	bounce_rate
 00	1	4	$10	4	00:12:01	0%
 01	1	6	$0	6	01:06:01	0%
-02	1	3	$3,111.11	3	00:18:01	0%
+02	1	3	"$3,111.11"	3	00:18:01	0%
 03	0	0	$0	0	00:00:00	0%
 04	0	0	$0	0	00:00:00	0%
 05	0	0	$0	0	00:00:00	0%
-06	1	0	$10,240	0	00:06:03	100%
+06	1	0	"$10,240"	0	00:06:03	100%
 07	1	3	$0	3	00:12:01	0%
 08	0	0	$0	0	00:00:00	0%
 09	0	0	$0	0	00:00:00	0%
@@ -154,9 +154,9 @@ No data available
 
 Custom Variables
 label	nb_visits	nb_actions	revenue	nb_actions_per_visit	avg_time_on_site	bounce_rate
-ValueIsZero - 0	5	16	$13,361.11	3.2	00:22:49	20%
-VisitorType - NewLoggedOut	5	16	$13,361.11	3.2	00:22:49	20%
-VisitorName - Great name!	4	12	$13,351.11	3	00:25:32	25%
+ValueIsZero - 0	5	16	"$13,361.11"	3.2	00:22:49	20%
+VisitorType - NewLoggedOut	5	16	"$13,361.11"	3.2	00:22:49	20%
+VisitorName - Great name!	4	12	"$13,351.11"	3	00:25:32	25%
 
 Actions - Main metrics
 nb_pageviews	nb_uniq_pageviews	nb_downloads	nb_uniq_downloads	nb_outlinks	nb_uniq_outlinks	nb_searches	nb_keywords
@@ -311,7 +311,7 @@ Referrers_visitorsFromSearchEngines	Referrers_visitorsFromSocialNetworks	Referre
 
 Channel Type
 label	nb_visits	nb_actions	revenue	nb_actions_per_visit	avg_time_on_site	bounce_rate
-Direct Entry	5	16	$13,361.11	3.2	00:22:49	20%
+Direct Entry	5	16	"$13,361.11"	3.2	00:22:49	20%
 
 All Channels
 No data available
@@ -333,7 +333,7 @@ No data available
 
 Ecommerce Orders
 nb_conversions	nb_visits_converted	revenue	revenue_subtotal	revenue_tax	revenue_shipping	revenue_discount	items	avg_order_revenue	conversion_rate
-4	2	$13,351.11	$2,700	$531	$120.11	$686	12	$3,337.78	40%
+4	2	"$13,351.11"	"$2,700"	$531	$120.11	$686	12	"$3,337.78"	40%
 
 Ecommerce Orders - Visits to Conversion
 label	nb_conversions
@@ -370,7 +370,7 @@ label	nb_conversions
 
 Abandoned Carts
 nb_conversions	revenue	items	avg_order_revenue	conversion_rate
-3	$7,530.33	12	$2,510.11	60%
+3	"$7,530.33"	12	"$2,510.11"	60%
 
 Abandoned Carts - Visits to Conversion
 label	nb_conversions
@@ -407,28 +407,28 @@ label	nb_conversions
 
 Product Name
 label	revenue	quantity	orders	avg_price	avg_quantity	conversion_rate	nb_visits
-Canon SLR	$1,500	1	1	$1,500	1	0%	0
-PRODUCT name	$1,011.22	3	2	$255.61	1.5	100%	2
+Canon SLR	"$1,500"	1	1	"$1,500"	1	0%	0
+PRODUCT name	"$1,011.22"	3	2	$255.61	1.5	100%	2
 PRODUCT name BIS	$600	6	1	$100	6	0%	0
 TRIPOD - bought day after	$200	2	1	$100	2	0%	0
-PRODUCT THREE LEFT in cart	$0	0	0	$1,332	0	0%	3
+PRODUCT THREE LEFT in cart	$0	0	0	"$1,332"	0	0%	3
 PRODUCT TWO LEFT in cart	$0	0	0	$0	0	0%	3
 
 Product SKU
 label	revenue	quantity	orders	nb_visits	avg_price	avg_quantity	conversion_rate
-SKU2	$1,500	1	1	1	$1,500	1	100%
-SKU VERY nice indeed	$1,011.22	3	2	4	$255.61	1.5	50%
+SKU2	"$1,500"	1	1	1	"$1,500"	1	100%
+SKU VERY nice indeed	"$1,011.22"	3	2	4	$255.61	1.5	50%
 ANOTHER SKU HERE	$600	6	1	0	$100	6	0%
 TRIPOD SKU	$200	2	1	0	$100	2	0%
 SKU IN ABANDONED CART TWO	$0	0	0	3	$0	0	0%
 
 Product Category
 label	revenue	quantity	orders	nb_visits	avg_price	avg_quantity	conversion_rate
-Electronics & Cameras	$2,500	3	2	3	$1,000	1.5	66.67%
-Multiple Category 1	$1,000	2	1	1	$500	2	100%
-Multiple Category 2	$1,000	2	1	1	$500	2	100%
-Multiple Category 4	$1,000	2	1	1	$500	2	100%
-Multiple Category 5	$1,000	2	1	1	$500	2	100%
+Electronics & Cameras	"$2,500"	3	2	3	"$1,000"	1.5	66.67%
+Multiple Category 1	"$1,000"	2	1	1	$500	2	100%
+Multiple Category 2	"$1,000"	2	1	1	$500	2	100%
+Multiple Category 4	"$1,000"	2	1	1	$500	2	100%
+Multiple Category 5	"$1,000"	2	1	1	$500	2	100%
 Product Category not defined	$611.22	7	2	4	$55.61	3.5	50%
 Tools	$200	2	1	0	$100	2	0%
 Category TWO LEFT in cart	$0	0	0	3	$0	0	0%
@@ -436,7 +436,7 @@ second category	$0	0	0	3	$0	0	0%
 
 Goals
 nb_conversions	nb_visits_converted	revenue	conversion_rate
-5	4	$13,361.11	80%
+5	4	"$13,361.11"	80%
 
 Visits to Conversion
 label	nb_conversions	revenue
@@ -473,7 +473,7 @@ label	nb_conversions	revenue
 
 Goals Overview
 nb_conversions	nb_visits_converted	revenue	conversion_rate
-4	2	$13,351.11	40%
+4	2	"$13,351.11"	40%
 
 Goals Overview - Visits to Conversion
 label	nb_conversions

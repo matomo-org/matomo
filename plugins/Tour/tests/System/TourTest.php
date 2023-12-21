@@ -78,7 +78,6 @@ class TourTest extends SystemTestCase
     {
         return dirname(__FILE__);
     }
-
 }
 
 TourTest::$fixture = new SimpleFixtureTrackFewVisits();

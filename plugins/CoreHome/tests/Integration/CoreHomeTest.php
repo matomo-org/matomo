@@ -34,5 +34,4 @@ class CoreHomeTest extends IntegrationTestCase
 
         $this->assertEquals('//# ', $content);
     }
-
 }
