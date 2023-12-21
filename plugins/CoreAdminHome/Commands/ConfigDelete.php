@@ -16,7 +16,6 @@ use Piwik\Settings\Plugin\SystemConfigSetting;
 
 class ConfigDelete extends ConsoleCommand
 {
-
     // Message output if no matching setting is found.
     private const MSG_NOTHING_FOUND = 'Nothing found';
     // Message output on success.

@@ -18,8 +18,8 @@ use Piwik\Plugins\Login\SystemSettings;
 use Piwik\Updater;
 use Piwik\Log\LoggerInterface;
 
-class BruteForceDetection {
-
+class BruteForceDetection
+{
     const OVERALL_LOGIN_LOCKOUT_THRESHOLD_MIN = 10;
     const TABLE_NAME = 'brute_force_log';
 
@@ -88,7 +88,7 @@ class BruteForceDetection {
         $db = Db::get();
 
         $startTime = $this->getStartTimeRange();
-        $sql = 'SELECT count(*) as numLogins FROM '.$this->tablePrefixed.' WHERE ip_address = ? AND attempted_at > ?';
+        $sql = 'SELECT count(*) as numLogins FROM ' . $this->tablePrefixed . ' WHERE ip_address = ? AND attempted_at > ?';
         $numLogins = $db->fetchOne($sql, array($ipAddress, $startTime));
 
         return empty($numLogins) || $numLogins <= $this->maxLogAttempts;
@@ -117,7 +117,7 @@ class BruteForceDetection {
     public function unblockIp($ip)
     {
         // we only delete where attempted_at was recent and keep other IPs for history purposes
-        Db::get()->query('DELETE FROM '.$this->tablePrefixed.' WHERE ip_address = ? and attempted_at > ?', array($ip, $this->getStartTimeRange()));
+        Db::get()->query('DELETE FROM ' . $this->tablePrefixed . ' WHERE ip_address = ? and attempted_at > ?', array($ip, $this->getStartTimeRange()));
     }
 
     public function cleanupOldEntries()
@@ -127,7 +127,7 @@ class BruteForceDetection {
 
         $minutes = max($minutesAutoDelete, $this->minutesTimeRange);
         $deleteOlderDate = $this->getDateTimeSubMinutes($minutes);
-        Db::get()->query('DELETE FROM '.$this->tablePrefixed.' WHERE attempted_at < ?', array($deleteOlderDate));
+        Db::get()->query('DELETE FROM ' . $this->tablePrefixed . ' WHERE attempted_at < ?', array($deleteOlderDate));
     }
 
     /**
@@ -204,9 +204,9 @@ class BruteForceDetection {
             // log if error is not that we can't find a user
             if (strpos($ex->getMessage(), 'unable to find user to send') === false) {
                 StaticContainer::get(LoggerInterface::class)->info(
-                    'Error when sending ' . SuspiciousLoginAttemptsInLastHourEmail::class . ' email. User exists but encountered {exception}', [
-                    'exception' => $ex,
-                ]);
+                    'Error when sending ' . SuspiciousLoginAttemptsInLastHourEmail::class . ' email. User exists but encountered {exception}',
+                    ['exception' => $ex]
+                );
             }
         }
     }

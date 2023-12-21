@@ -370,7 +370,7 @@ class ProcessedReport
             $parameters['segment'] = $segment;
         }
 
-        $actionsIdGoalOverride = $this->getIdGoalToUseForActionsReports($idGoal,$apiModule . '.' . $apiAction);
+        $actionsIdGoalOverride = $this->getIdGoalToUseForActionsReports($idGoal, $apiModule . '.' . $apiAction);
         if ($actionsIdGoalOverride) {
             $parameters['idGoal'] = $actionsIdGoalOverride;
         }
@@ -872,7 +872,7 @@ class ProcessedReport
         // Display time in human readable
         if (strpos($columnName, 'time_generation') !== false) {
             return $formatter->getPrettyTimeFromSeconds($value, true);
-        } 
+        }
         if (strpos($columnName, 'time') !== false) {
             return $formatter->getPrettyTimeFromSeconds($value);
         }

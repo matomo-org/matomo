@@ -40,5 +40,4 @@ class GetPlanetRatiosWithLogos extends Base
         $view->config->columns_to_display = array('label', 'value');
         $view->config->addTranslation('value', 'times the diameter of Earth');
     }
-
 }

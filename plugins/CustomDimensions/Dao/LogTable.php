@@ -196,5 +196,4 @@ class LogTable
             Db::exec($sql);
         }
     }
-
 }

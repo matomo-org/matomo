@@ -85,8 +85,8 @@ class PeriodIsRangeDateIsLastNMetadataAndNormalAPITest extends SystemTestCase
                                                     'otherRequestParameters' => array(
                                                         'lastMinutes' => 60 * 24 * 2,
                                                         'visitorId' => $visitorId,
-                                                        'hideColumns' => 'serverDate,lastActionTimestamp,lastActionDateTime,serverTimestamp,'.
-                                                                         'firstActionTimestamp,serverTimePretty,serverDatePretty,'.
+                                                        'hideColumns' => 'serverDate,lastActionTimestamp,lastActionDateTime,serverTimestamp,' .
+                                                                         'firstActionTimestamp,serverTimePretty,serverDatePretty,' .
                                                                          'serverDatePrettyFirstAction,serverTimePrettyFirstAction'
                                                     )));
             }

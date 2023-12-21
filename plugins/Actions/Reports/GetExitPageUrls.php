@@ -97,5 +97,4 @@ class GetExitPageUrls extends Base
             ReportsProvider::factory('Actions', 'getExitPageTitles'),
         );
     }
-
 }

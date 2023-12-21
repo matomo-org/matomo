@@ -70,9 +70,9 @@ class ConvertRegionCodesToIso extends ConsoleCommand
                     continue; // nothing needs to be changed, so ignore the mapping
                 }
 
-                Db::query('INSERT INTO `'.Common::prefixTable(self::MAPPING_TABLE_NAME).'` VALUES (?, ?, ?)', [$country, $fips, $iso]);
+                Db::query('INSERT INTO `' . Common::prefixTable(self::MAPPING_TABLE_NAME) . '` VALUES (?, ?, ?)', [$country, $fips, $iso]);
                 $counter++;
-                if ($counter%50 == 0) {
+                if ($counter % 50 == 0) {
                     $output->write('.');
                 }
             }

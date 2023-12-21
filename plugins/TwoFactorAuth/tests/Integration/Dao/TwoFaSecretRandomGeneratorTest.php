@@ -39,5 +39,4 @@ class TwoFaSecretRandomGeneratorTest extends IntegrationTestCase
     {
         $this->assertNotEquals($this->generator->generateSecret(), $this->generator->generateSecret());
     }
-
 }

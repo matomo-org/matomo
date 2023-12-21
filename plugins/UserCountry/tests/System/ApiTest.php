@@ -40,7 +40,7 @@ class ApiTest extends SystemTestCase
             'UserCountry.getCity',
         ];
         $startDate = substr(self::$fixture->dateTime, 0, 10);
-        $endDate = date('Y-m-d', strtotime($startDate) + 3600*24*2);
+        $endDate = date('Y-m-d', strtotime($startDate) + 3600 * 24 * 2);
 
         $apiToTest   = array();
         // single period
@@ -96,7 +96,6 @@ class ApiTest extends SystemTestCase
     {
         return dirname(__FILE__);
     }
-
 }
 
 ApiTest::$fixture = new ManySitesManyVisitsWithGeoIp();

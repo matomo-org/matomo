@@ -778,9 +778,9 @@ class API extends \Piwik\Plugin\API
         UsersManager::dieIfUsersAdminIsDisabled();
 
         // check password confirmation only when using session auth
-       if (Common::getRequestVar('force_api_session', 0)) {
-           $this->confirmCurrentUserPassword($passwordConfirmation);
-       }
+        if (Common::getRequestVar('force_api_session', 0)) {
+            $this->confirmCurrentUserPassword($passwordConfirmation);
+        }
 
         if (empty($expiryInDays)) {
             $expiryInDays = Config\GeneralConfig::getConfigValue('default_invite_user_token_expiry_days');
@@ -1611,11 +1611,10 @@ class API extends \Piwik\Plugin\API
          */
         Piwik::postEvent('UsersManager.inviteUser.generateInviteLinkToken', [$userLogin, $user['email']]);
 
-        return SettingsPiwik::getPiwikUrl().'index.php?'.Url::getQueryStringFromParameters([
+        return SettingsPiwik::getPiwikUrl() . 'index.php?' . Url::getQueryStringFromParameters([
                 'module' => Piwik::getLoginPluginName(),
                 'action' => 'acceptInvitation',
                 'token'  => $token,
             ]);
     }
-
 }

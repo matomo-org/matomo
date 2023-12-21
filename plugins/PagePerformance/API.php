@@ -51,15 +51,20 @@ class API extends \Piwik\Plugin\API
 
         $precision = 2;
 
-        $dataTable->filter('ColumnCallbackReplace', [[
-                                                         Archiver::PAGEPERFORMANCE_TOTAL_NETWORK_TIME,
-                                                         Archiver::PAGEPERFORMANCE_TOTAL_SERVER_TIME,
-                                                         Archiver::PAGEPERFORMANCE_TOTAL_TRANSFER_TIME,
-                                                         Archiver::PAGEPERFORMANCE_TOTAL_DOMPROCESSING_TIME,
-                                                         Archiver::PAGEPERFORMANCE_TOTAL_DOMCOMPLETION_TIME,
-                                                         Archiver::PAGEPERFORMANCE_TOTAL_ONLOAD_TIME,
-                                                         Archiver::PAGEPERFORMANCE_TOTAL_PAGE_LOAD_TIME,
-        ], function($value) { return $value / 1000; }]);
+        $dataTable->filter('ColumnCallbackReplace', [
+            [
+                Archiver::PAGEPERFORMANCE_TOTAL_NETWORK_TIME,
+                Archiver::PAGEPERFORMANCE_TOTAL_SERVER_TIME,
+                Archiver::PAGEPERFORMANCE_TOTAL_TRANSFER_TIME,
+                Archiver::PAGEPERFORMANCE_TOTAL_DOMPROCESSING_TIME,
+                Archiver::PAGEPERFORMANCE_TOTAL_DOMCOMPLETION_TIME,
+                Archiver::PAGEPERFORMANCE_TOTAL_ONLOAD_TIME,
+                Archiver::PAGEPERFORMANCE_TOTAL_PAGE_LOAD_TIME,
+            ],
+            function ($value) {
+                return $value / 1000;
+            }
+        ]);
 
         $dataTable->filter('ColumnCallbackAddColumnQuotient', array(
             $this->getMetricColumn(AverageTimeNetwork::class),

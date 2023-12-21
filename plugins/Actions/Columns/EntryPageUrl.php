@@ -78,5 +78,4 @@ class EntryPageUrl extends VisitDimension
 
         return false;
     }
-
 }

@@ -35,5 +35,4 @@ class GetEcommerceLog extends \Piwik\Widget\Widget
             $config->disable();
         }
     }
-
 }

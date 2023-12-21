@@ -18,7 +18,6 @@ use Piwik\Updates;
  */
 class Updates_2_15_0_b20 extends Updates
 {
-
     /**
      * Perform the incremental version update.
      *

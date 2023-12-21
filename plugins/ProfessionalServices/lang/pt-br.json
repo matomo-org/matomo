@@ -1,5 +1,21 @@
 {
     "ProfessionalServices": {
+        "AltTextPreviewImageFor": "Visualizar imagem de %1$s",
+        "CTALearnMore": "Saiba mais sobre %1$s",
+        "CTAStartFreeTrial": "Iniciar teste gratuito",
+        "DismissPromoWidget": "Se esta funcionalidade não é relevante para suas metas, você pode %1$socultar essa sessão%2$s.",
+        "DismissedNotification": "O menu %1$s não será mais mostrado, a menos que o plugin esteja instalado na sua instância do Matomo.",
+        "PromoAbTesting": "Testes A/B",
+        "PromoCrashAnalytics": "Quebras",
+        "PromoCustomReports": "Relatórios personalizados",
+        "PromoFormAnalytics": "Formulários",
+        "PromoFunnels": "Funis",
+        "PromoHeatmaps": "Mapas de calor",
+        "PromoManage": "Gerenciar",
+        "PromoMediaAnalytics": "Mídia",
+        "PromoOverview": "Visão geral",
+        "PromoSessionRecording": "Gravações de sessões",
+        "PromoUnlockPowerOf": "Destravar o poder de %1$s",
         "WidgetPremiumServicesForPiwik": "Recursos e Serviços Premium para Matomo"
     }
 }

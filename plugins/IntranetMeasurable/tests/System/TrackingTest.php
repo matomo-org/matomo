@@ -67,7 +67,6 @@ class TrackingTest extends SystemTestCase
     {
         return dirname(__FILE__);
     }
-
 }
 
 TrackingTest::$fixture = new IntranetSitesWithVisits();

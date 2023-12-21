@@ -15,5 +15,4 @@ class Exception extends \Exception
 {
     const HTTP_ERROR = 100;
     const API_ERROR  = 101;
-
 }

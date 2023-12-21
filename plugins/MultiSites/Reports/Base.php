@@ -33,5 +33,4 @@ abstract class Base extends \Piwik\Plugin\Report
         $this->metrics = array_keys($metadataMetrics);
         $this->processedMetrics = array_keys($processedMetricsMetadata);
     }
-
 }

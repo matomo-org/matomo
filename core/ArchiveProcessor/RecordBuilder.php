@@ -140,8 +140,12 @@ abstract class RecordBuilder
 
         $recordsBuilt = $this->getRecordMetadata($archiveProcessor);
 
-        $numericRecords = array_filter($recordsBuilt, function (Record $r) { return $r->getType() == Record::TYPE_NUMERIC; });
-        $blobRecords = array_filter($recordsBuilt, function (Record $r) { return $r->getType() == Record::TYPE_BLOB; });
+        $numericRecords = array_filter($recordsBuilt, function (Record $r) {
+            return $r->getType() == Record::TYPE_NUMERIC;
+        });
+        $blobRecords = array_filter($recordsBuilt, function (Record $r) {
+            return $r->getType() == Record::TYPE_BLOB;
+        });
 
         $aggregatedCounts = [];
 
@@ -206,8 +210,12 @@ abstract class RecordBuilder
 
         if (!empty($numericRecords)) {
             // handle metrics that are aggregated using metric values from child periods
-            $autoAggregateMetrics = array_filter($numericRecords, function (Record $r) { return empty($r->getCountOfRecordName()); });
-            $autoAggregateMetrics = array_map(function (Record $r) { return $r->getName(); }, $autoAggregateMetrics);
+            $autoAggregateMetrics = array_filter($numericRecords, function (Record $r) {
+                return empty($r->getCountOfRecordName());
+            });
+            $autoAggregateMetrics = array_map(function (Record $r) {
+                return $r->getName();
+            }, $autoAggregateMetrics);
 
             if (!empty($requestedReports)) {
                 $autoAggregateMetrics = array_filter($autoAggregateMetrics, function ($name) use ($requestedReports, $foundRequestedReports) {
@@ -224,7 +232,9 @@ abstract class RecordBuilder
             // handle metrics that are set to counts of blob records
             $recordCountMetricValues = [];
 
-            $recordCountMetrics = array_filter($numericRecords, function (Record $r) { return !empty($r->getCountOfRecordName()); });
+            $recordCountMetrics = array_filter($numericRecords, function (Record $r) {
+                return !empty($r->getCountOfRecordName());
+            });
             foreach ($recordCountMetrics as $record) {
                 $dependentRecordName = $record->getCountOfRecordName();
                 if (empty($aggregatedCounts[$dependentRecordName])) {

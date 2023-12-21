@@ -416,6 +416,4 @@ class FactoryTest extends IntegrationTestCase
         $values = array(array('val1'));
         return $this->factory->batchInsert($this->testTable, $columns, $values, $throwException = true, $charset = 'utf8');
     }
-
-
 }

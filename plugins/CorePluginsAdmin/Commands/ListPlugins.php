@@ -90,5 +90,4 @@ class ListPlugins extends ConsoleCommand
 
         return self::SUCCESS;
     }
-
 }

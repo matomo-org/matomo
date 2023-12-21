@@ -299,5 +299,4 @@ class TwoFactorAuth extends \Piwik\Plugin
         // auth code using API
         return str_replace($token, md5('') . '2fareplaced', $output);
     }
-
 }

@@ -40,7 +40,7 @@ class ModelTest extends IntegrationTestCase
 
     private $login = 'userLogin';
     private $login2 = 'userLogin2';
-    private $login3 ='pendingLogin3';
+    private $login3 = 'pendingLogin3';
 
     public function setUp(): void
     {
@@ -330,19 +330,19 @@ class ModelTest extends IntegrationTestCase
     public function test_setTokenAuthWasUsed()
     {
         $this->model->addTokenAuth($this->login, 'token2', 'MyDescription', '2020-01-02 03:04:05');
-        $this->model->setTokenAuthWasUsed('token2',  '2025-01-02 03:04:05');
+        $this->model->setTokenAuthWasUsed('token2', '2025-01-02 03:04:05');
 
         $tokens = $this->model->getAllNonSystemTokensForLogin($this->login);
         $this->assertSame('2025-01-02 03:04:05', $tokens[0]['last_used']);
 
         // this should not update the token usage again, as it's within 10 minutes
-        $this->model->setTokenAuthWasUsed('token2',  '2025-01-02 03:08:05');
+        $this->model->setTokenAuthWasUsed('token2', '2025-01-02 03:08:05');
 
         $tokens = $this->model->getAllNonSystemTokensForLogin($this->login);
         $this->assertSame('2025-01-02 03:04:05', $tokens[0]['last_used']);
 
         // this should update the token usage again, as it's after 10 minutes
-        $this->model->setTokenAuthWasUsed('token2',  '2025-01-02 03:15:05');
+        $this->model->setTokenAuthWasUsed('token2', '2025-01-02 03:15:05');
 
         $tokens = $this->model->getAllNonSystemTokensForLogin($this->login);
         $this->assertSame('2025-01-02 03:15:05', $tokens[0]['last_used']);
@@ -351,7 +351,7 @@ class ModelTest extends IntegrationTestCase
     public function test_setTokenAuthWasUsed_doesNotFailWhenTokenNotExists()
     {
         $this->expectNotToPerformAssertions();
-        $this->model->setTokenAuthWasUsed('tokenFooBar',  '2025-01-02 03:04:05');
+        $this->model->setTokenAuthWasUsed('tokenFooBar', '2025-01-02 03:04:05');
     }
 
     public function test_deleteExpiredTokens()
@@ -380,6 +380,4 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals($id5, $tokens[1]['idusertokenauth']);
         $this->assertCount(2, $tokens);
     }
-
-
 }

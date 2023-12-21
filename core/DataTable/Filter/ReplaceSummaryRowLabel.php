@@ -29,7 +29,6 @@ use Piwik\Piwik;
  */
 class ReplaceSummaryRowLabel extends BaseFilter
 {
-
     /**
      * @var string|null
      */
@@ -70,8 +69,8 @@ class ReplaceSummaryRowLabel extends BaseFilter
                 $this->filter($subTable);
             }
         }
-        
-       
+
+
         $summaryRow = $table->getRowFromId(DataTable::ID_SUMMARY_ROW);
         if (!empty($summaryRow)) {
             $subTable = $summaryRow->getSubtable();

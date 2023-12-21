@@ -45,7 +45,6 @@ use Zend_Db_Adapter_Exception;
  */
 class Controller extends \Piwik\Plugin\ControllerAdmin
 {
-
     public function __construct()
     {
         parent::__construct();

@@ -51,5 +51,4 @@ class ComputedMetricFactory
 
         return $metric;
     }
-
 }

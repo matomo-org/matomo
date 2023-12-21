@@ -237,5 +237,4 @@ abstract class SMSProvider
             $maxCharsInOneUniqueSMS :
             $maxCharsInOneConcatenatedSMS * $maximumNumberOfConcatenatedSMS;
     }
-
 }

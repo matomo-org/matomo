@@ -49,7 +49,6 @@ class NonUnicodeTest extends SystemTestCase
     {
         return 'NonUnicode';
     }
-
 }
 
 NonUnicodeTest::$fixture = new SomeVisitsWithNonUnicodePageTitles();

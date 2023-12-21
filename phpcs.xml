@@ -29,17 +29,8 @@
 
         <exclude name="Generic.ControlStructures.InlineControlStructure.NotAllowed" />
         <exclude name="Generic.Files.LineLength" />
-        <exclude name="Generic.Formatting.DisallowMultipleStatements.SameLine" />
-        <exclude name="Generic.Functions.FunctionCallArgumentSpacing.NoSpaceAfterComma" />
-        <exclude name="Generic.Functions.FunctionCallArgumentSpacing.SpaceBeforeComma" />
-        <exclude name="Generic.Functions.FunctionCallArgumentSpacing.TooMuchSpaceAfterComma" />
         <exclude name="Generic.PHP.LowerCaseConstant.Found" />
         <exclude name="Generic.PHP.LowerCaseKeyword.Found" />
-        <exclude name="Generic.WhiteSpace.ScopeIndent.Incorrect" />
-        <exclude name="Generic.WhiteSpace.ScopeIndent.IncorrectExact" />
-        <exclude name="PSR12.Classes.AnonClassDeclaration.SpaceAfterKeyword" />
-        <exclude name="PSR12.Classes.ClassInstantiation.MissingParentheses" />
-        <exclude name="PSR12.Classes.OpeningBraceSpace.Found" />
         <exclude name="PSR12.ControlStructures.BooleanOperatorPlacement.FoundMixed" />
         <exclude name="PSR12.ControlStructures.ControlStructureSpacing.CloseParenthesisIndent" />
         <exclude name="PSR12.ControlStructures.ControlStructureSpacing.CloseParenthesisLine" />
@@ -48,23 +39,14 @@
         <exclude name="PSR12.ControlStructures.ControlStructureSpacing.SpaceBeforeCloseBrace" />
         <exclude name="PSR12.ControlStructures.ControlStructureSpacing.SpacingAfterOpenBrace" />
         <exclude name="PSR12.Files.FileHeader" />
-        <exclude name="PSR12.Files.ImportStatement.LeadingSlash" />
-        <exclude name="PSR12.Functions.ReturnTypeDeclaration.SpaceBeforeColon" />
         <exclude name="PSR12.Keywords.ShortFormTypeKeywords.LongFound" />
-        <exclude name="PSR12.Operators.OperatorSpacing.NoSpaceAfter" />
-        <exclude name="PSR12.Operators.OperatorSpacing.NoSpaceBefore" />
         <exclude name="PSR12.Properties.ConstantVisibility" />
-        <exclude name="PSR2.Classes.ClassDeclaration.CloseBraceAfterBody" />
-        <exclude name="PSR2.Classes.ClassDeclaration.OpenBraceNewLine" />
-        <exclude name="PSR2.Classes.ClassDeclaration.SpaceAfterKeyword" />
         <exclude name="PSR2.Classes.PropertyDeclaration.ScopeMissing" />
         <exclude name="PSR2.Classes.PropertyDeclaration.Underscore" />
         <exclude name="PSR2.ControlStructures.ElseIfDeclaration.NotAllowed" />
-        <exclude name="PSR2.ControlStructures.SwitchDeclaration.BodyOnNextLineCASE" />
         <exclude name="PSR2.ControlStructures.SwitchDeclaration.WrongOpenercase" />
         <exclude name="PSR2.Methods.FunctionCallSignature.CloseBracketLine" />
         <exclude name="PSR2.Methods.FunctionCallSignature.ContentAfterOpenBracket" />
-        <exclude name="PSR2.Methods.FunctionCallSignature.EmptyLine" />
         <exclude name="PSR2.Methods.FunctionCallSignature.Indent" />
         <exclude name="PSR2.Methods.FunctionCallSignature.MultipleArguments" />
         <exclude name="PSR2.Methods.FunctionCallSignature.SpaceAfterOpenBracket" />
@@ -93,20 +75,17 @@
         <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.BraceIndent" />
         <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.BraceOnSameLine" />
         <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.CloseBracketLine" />
-        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.ContentAfterBrace" />
         <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.FirstParamSpacing" />
         <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.Indent" />
         <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.NewlineBeforeOpenBrace" />
         <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.OneParamPerLine" />
         <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.SpaceAfterFunction" />
-        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.SpaceBeforeBrace" />
         <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.SpaceBeforeOpenParen" />
         <exclude name="Squiz.Scope.MethodScope.Missing" />
         <exclude name="Squiz.WhiteSpace.ControlStructureSpacing.SpacingAfterOpen" />
         <exclude name="Squiz.WhiteSpace.ControlStructureSpacing.SpacingBeforeClose" />
         <exclude name="Squiz.WhiteSpace.ScopeClosingBrace.ContentBefore" />
         <exclude name="Squiz.WhiteSpace.ScopeClosingBrace.Indent" />
-        <exclude name="Squiz.WhiteSpace.SuperfluousWhitespace.EndLine" />
     </rule>
 
     <rule ref="Squiz.Classes.ValidClassName.NotCamelCaps">

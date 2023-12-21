@@ -79,7 +79,7 @@ class Advertising
             return '';
         }
 
-        return Url::addCampaignParametersToMatomoLink($url, $campaignName, $campaignSource, $campaignMedium.
+        return Url::addCampaignParametersToMatomoLink($url, $campaignName, $campaignSource, $campaignMedium .
             ($campaignContent !== '' ? '.' . $campaignContent : ''));
     }
 

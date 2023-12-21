@@ -52,5 +52,4 @@ class GetPlugin extends Base
         $view->requestConfig->filter_limit       = count(DevicePlugins::getAllPluginColumns());
         $view->requestConfig->totals             = 0;
     }
-
 }

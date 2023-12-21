@@ -71,7 +71,7 @@ function setupRootContainer($enable = false) {
         $vars = new TestingEnvironmentVariables();
         $vars->delete();
 
-    Environment::setGlobalEnvironmentManipulator(new TestingEnvironmentManipulator($vars));
+        Environment::setGlobalEnvironmentManipulator(new TestingEnvironmentManipulator($vars));
     }
 
     $rootTestEnvironment = new \Piwik\Application\Environment(null);

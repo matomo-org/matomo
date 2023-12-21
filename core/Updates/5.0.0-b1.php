@@ -73,7 +73,7 @@ class Updates_5_0_0_b1 extends PiwikUpdates
         $tables = ArchiveTableCreator::getTablesArchivesInstalled('numeric');
         foreach ($tables as $table) {
             $migrations[] = $this->migration->db->sql(sprintf('DELETE FROM `%s` WHERE ts_archived is null', $table));
-            
+
             $hasPrefix = strpos($table, 'archive') !== 0;
             if ($hasPrefix) {
                 $table = Common::unprefixTable($table);

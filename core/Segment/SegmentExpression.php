@@ -10,6 +10,7 @@
 namespace Piwik\Segment;
 
 use Exception;
+use Piwik\Config\DatabaseConfig;
 
 /**
  *
@@ -111,6 +112,7 @@ class SegmentExpression
             }, $orExpressions);
         }, $this->tree);
         $this->parsedSubExpressions = $parsedSubExpressions;
+
         return $parsedSubExpressions;
     }
 
@@ -374,7 +376,8 @@ class SegmentExpression
     {
         preg_match_all('/[^@a-zA-Z0-9_]?`?([@a-zA-Z_][@a-zA-Z0-9_]*`?\.`?[a-zA-Z0-9_`]+)`?\b/', $field, $matches);
         $result = isset($matches[1]) ? $matches[1] : [];
-        $result = array_filter($result, function ($value) { // remove uses of session vars
+        // remove uses of session vars
+        $result = array_filter($result, function ($value) {
             return strpos($value, '@') === false;
         });
         $result = array_map(function ($item) {
@@ -507,7 +510,7 @@ class SegmentExpression
                 return $orExpressions[0];
             }
 
-            return '( ' . implode(' OR ', $orExpressions) . ')';
+            return '( '.implode(' OR ', $orExpressions).')';
         }, $andExpressions);
 
         $sql = implode(' AND ', $andExpressions);

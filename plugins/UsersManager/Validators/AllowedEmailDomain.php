@@ -66,5 +66,4 @@ class AllowedEmailDomain extends BaseValidator
             throw new Exception($message);
         }
     }
-
 }

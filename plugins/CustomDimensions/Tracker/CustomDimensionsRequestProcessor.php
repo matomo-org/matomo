@@ -24,7 +24,6 @@ use Piwik\Tracker\Visit\VisitProperties;
  */
 class CustomDimensionsRequestProcessor extends RequestProcessor
 {
-
     public function recordLogs(VisitProperties $visitProperties, Request $request)
     {
         if (!self::hasActionCustomDimensionConfiguredInSite($request)) {
@@ -102,7 +101,7 @@ class CustomDimensionsRequestProcessor extends RequestProcessor
         if (!empty($action) && $action->getIdLinkVisitAction() && self::hasActionCustomDimensionConfiguredInSite($request)) {
             // when it is an existing visit, then we first create the action before recording the visit. This allows us
             // to update last_idlink_va in the regular visit update
-            $request->setMetadata('CustomDimensions','previous_idlink_va', $visitProperties->getProperty('last_idlink_va'));
+            $request->setMetadata('CustomDimensions', 'previous_idlink_va', $visitProperties->getProperty('last_idlink_va'));
             $valuesToUpdate['last_idlink_va'] = $action->getIdLinkVisitAction();
         }
     }
@@ -219,5 +218,4 @@ class CustomDimensionsRequestProcessor extends RequestProcessor
 
         return $cache['custom_dimensions'];
     }
-
 }

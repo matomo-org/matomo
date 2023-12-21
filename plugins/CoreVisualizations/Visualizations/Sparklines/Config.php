@@ -254,7 +254,7 @@ class Config extends \Piwik\ViewDataTable\Config
                 }
             } else {
                 $msg  = 'The number of values and descriptions need to be the same to add a sparkline. ';
-                $msg .= 'Values: ' . implode(', ', $values). ' Descriptions: ' . implode(', ', $description);
+                $msg .= 'Values: ' . implode(', ', $values) . ' Descriptions: ' . implode(', ', $description);
                 throw new \Exception($msg);
             }
         }
@@ -336,7 +336,7 @@ class Config extends \Piwik\ViewDataTable\Config
                 if (!empty($params['compareDates'])) {
                     foreach ($params['compareDates'] as $index => $comparisonDate) {
                         $comparePeriod = Period\Factory::build('day', $comparisonDate);
-                        $tooltip .= ' ' . Piwik::translate('General_Period') . ' '.($index+2).': ' . $comparePeriod->getLocalizedShortString() . '.';
+                        $tooltip .= ' ' . Piwik::translate('General_Period') . ' ' . ($index + 2) . ': ' . $comparePeriod->getLocalizedShortString() . '.';
                     }
                 }
             }
@@ -485,5 +485,4 @@ class Config extends \Piwik\ViewDataTable\Config
 
         return $paramsToSet;
     }
-
 }

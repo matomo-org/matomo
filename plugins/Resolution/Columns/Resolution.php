@@ -39,5 +39,4 @@ class Resolution extends VisitDimension
 
         return $resolution;
     }
-
 }

@@ -132,7 +132,7 @@ class Social extends Singleton
     {
         foreach ($this->getDefinitions() as $domain => $name) {
 
-            if (preg_match('/(^|[\.\/])'.$domain.'([\.\/]|$)/', $url) && ($socialName === false || $name == $socialName)) {
+            if (preg_match('/(^|[\.\/])' . $domain . '([\.\/]|$)/', $url) && ($socialName === false || $name == $socialName)) {
 
                 return true;
             }
@@ -152,7 +152,7 @@ class Social extends Singleton
     {
         foreach ($this->getDefinitions() as $domain => $name) {
 
-            if (preg_match('/(^|[\.\/])'.$domain.'([\.\/]|$)/', $url)) {
+            if (preg_match('/(^|[\.\/])' . $domain . '([\.\/]|$)/', $url)) {
 
                 return $name;
             }

@@ -325,5 +325,4 @@ class Controller extends \Piwik\Plugin\Controller
 
         ViewDataTableManager::saveViewDataTableParameters($login, $reportId, $parameters, $containerId);
     }
-
 }

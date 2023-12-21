@@ -39,12 +39,12 @@ class RssChangelog extends \Piwik\Widget\Widget
     }
 
     public function render()
-    {   
+    {
         try {
             return $this->getFeed('https://matomo.org/changelog/feed/');
         } catch (\Exception $e) {
             return $this->error($e);
-        }  
+        }
     }
 
     /**

@@ -135,7 +135,7 @@ class EnvironmentValidationTest extends SystemTestCase
 
     private function assertInstallationProcessStarted($output)
     {
-        self::assertStringContainsString('<title>Matomo '. Version::VERSION .' &rsaquo; Installation</title>', $output);
+        self::assertStringContainsString('<title>Matomo ' . Version::VERSION . ' &rsaquo; Installation</title>', $output);
     }
 
     private function simulateAbsentConfigFile($fileName)

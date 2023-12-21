@@ -55,7 +55,7 @@ class Controller extends ControllerAdmin
     public function home()
     {
         $isInternetEnabled = SettingsPiwik::isInternetEnabled();
-        
+
         $isMarketplaceEnabled = Marketplace::isMarketplaceEnabled();
         $isFeedbackEnabled = Plugin\Manager::getInstance()->isPluginLoaded('Feedback');
         $widgetsList = WidgetsList::get();
@@ -206,7 +206,7 @@ class Controller extends ControllerAdmin
     public function trackingCodeGenerator()
     {
         Piwik::checkUserHasSomeViewAccess();
-        
+
         $view = new View('@CoreAdminHome/trackingCodeGenerator');
         $this->setBasicVariablesView($view);
         $view->topMenu  = MenuTop::getInstance()->getMenu();
@@ -351,5 +351,4 @@ class Controller extends ControllerAdmin
             throw new \Exception('Unable to getUser() when attempting to show whatIsNew');
         }
     }
-
 }

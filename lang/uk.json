@@ -282,6 +282,8 @@
         "Locale": "uk_UA.UTF-8",
         "Logout": "Вийти",
         "MainMetrics": "Основні показники",
+        "ManagePlugins": "Керувати плагінами",
+        "ManageSubscriptions": "Керувати підписками",
         "Matches": "Збігів",
         "MatomoIsACollaborativeProjectYouCanContributeAndDonateNextRelease": "%1$sMatomo%2$s, раніше відомий як Piwik - це спільний проєкт, запропонований вам учасниками %7$sкоманди Matomo%8$s, а також багатьма іншими учасниками по всьому світу. <br> Якщо ви шанувальник Matomo, ви можете допомогти: дізнатися, %3$sяк взяти участь в Matomo%4$s, чи %5$sпожертвувати зараз%6$s, щоб допомогти фінансувати наступний чудовий випуск Matomo!",
         "MaximumNumberOfPeriodsComparedIs": "Максимальна кількість періодів, які можна порівняти одночасно: %s.",

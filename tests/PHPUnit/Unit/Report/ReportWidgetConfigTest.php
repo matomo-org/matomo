@@ -259,5 +259,4 @@ class ReportWidgetConfigTest extends \PHPUnit\Framework\TestCase
         $this->config->setModule('CoreHome');
         $this->config->setAction('renderMe');
     }
-
 }

@@ -23,7 +23,6 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class EvolutionMetricTest extends IntegrationTestCase
 {
-
     public function setUp(): void
     {
         parent::setUp();

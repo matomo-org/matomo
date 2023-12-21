@@ -38,7 +38,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
             $allowedEmailDomains = new AllowedEmailDomain($this);
             $domainsInUse = $allowedEmailDomains->getEmailDomainsInUse();
-            $field->inlineHelp .= '<br><strong>'.Piwik::translate('UsersManager_SettingRestrictLoginEmailDomainsHelpInUse').'</strong>';
+            $field->inlineHelp .= '<br><strong>' . Piwik::translate('UsersManager_SettingRestrictLoginEmailDomainsHelpInUse') . '</strong>';
             $field->inlineHelp .= '<br>' . implode('<br>', $domainsInUse);
 
             $field->validate = function ($value) use ($field, $allowedEmailDomains) {
@@ -82,5 +82,4 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             };
         });
     }
-
 }

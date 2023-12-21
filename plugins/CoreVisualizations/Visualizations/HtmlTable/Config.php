@@ -161,5 +161,4 @@ class Config extends VisualizationConfig
             'show_dimensions',
         ));
     }
-
 }

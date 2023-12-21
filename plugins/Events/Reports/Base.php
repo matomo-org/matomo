@@ -74,6 +74,4 @@ abstract class Base extends \Piwik\Plugin\Report
             $view->config->show_footer_message = $out;
         };
     }
-
-
 }

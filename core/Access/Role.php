@@ -18,5 +18,4 @@ abstract class Role
     {
         return '';
     }
-
 }

@@ -86,5 +86,4 @@ class ReportWidgetConfig extends WidgetConfig
 
         return $defaultParams + $parameters;
     }
-
 }

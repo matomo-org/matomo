@@ -57,6 +57,4 @@ class MobileMessagingInformational implements Diagnostic
         }
         return [];
     }
-
-
 }

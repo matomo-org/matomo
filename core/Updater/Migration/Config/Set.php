@@ -52,5 +52,4 @@ class Set extends Migration
         $config->{$this->section}[$this->key] = $this->value;
         $config->forceSave();
     }
-
 }

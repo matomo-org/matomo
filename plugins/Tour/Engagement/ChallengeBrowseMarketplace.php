@@ -13,7 +13,6 @@ use Piwik\Url;
 
 class ChallengeBrowseMarketplace extends Challenge
 {
-
     public function getName()
     {
         return Piwik::translate('Tour_BrowseMarketplace');
@@ -33,7 +32,4 @@ class ChallengeBrowseMarketplace extends Challenge
     {
         return 'index.php' . Url::getCurrentQueryStringWithParametersModified(array('module' => 'Marketplace', 'action' => 'overview', 'widget' => false));
     }
-
-
-
 }

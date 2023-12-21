@@ -75,5 +75,4 @@ class ArrayField
             'availableValues' => $this->availableValues,
         );
     }
-
 }

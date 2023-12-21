@@ -163,7 +163,7 @@ class LogTest extends IntegrationTestCase
     {
         $this->recreateLogSingleton($backend);
 
-        LoggerWrapper::doLog(" \n   ".self::TESTMESSAGE."\n\n\n   \n");
+        LoggerWrapper::doLog(" \n   " . self::TESTMESSAGE . "\n\n\n   \n");
 
         $this->checkBackend($backend, self::TESTMESSAGE, $formatMessage = true, 'Monolog');
     }

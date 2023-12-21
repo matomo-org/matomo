@@ -36,5 +36,4 @@ class ActionUrl extends ActionDimension
 
         $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
     }
-
 }

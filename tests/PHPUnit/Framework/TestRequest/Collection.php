@@ -14,7 +14,7 @@ use Piwik\API\Request;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Url;
 use Piwik\UrlHelper;
-use \Exception;
+use Exception;
 
 /**
  * Utility class used to generate a set of API requests given API methods to call, API
@@ -193,7 +193,7 @@ class Collection
         $originalDate = $parametersToSet['date'];
 
         $requestUrls = array();
-        $apiMetadata = new DocumentationGenerator;
+        $apiMetadata = new DocumentationGenerator();
 
         // Get the URLs to query against the API for all functions starting with get*
         foreach ($this->getAllApiMethods() as $apiMethodInfo) {

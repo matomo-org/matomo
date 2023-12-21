@@ -124,7 +124,9 @@ class TasksTest extends IntegrationTestCase
         $this->tasks->schedule();
 
         $tasks = $this->tasks->getScheduledTasks();
-        $tasks = array_map(function (Task $task) { return $task->getMethodName() . '.' . $task->getMethodParameter(); }, $tasks);
+        $tasks = array_map(function (Task $task) {
+            return $task->getMethodName() . '.' . $task->getMethodParameter();
+        }, $tasks);
 
         $expected = [
             'invalidateOutdatedArchives.',

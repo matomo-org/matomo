@@ -197,7 +197,13 @@ class HtmlTable extends Visualization
 
                 # replace original label column with first dimension
                 $firstDimension = array_shift($dimensions);
-                $this->dataTable->filter('ColumnCallbackAddMetadata', array('label', 'combinedLabel', function ($label) { return $label; }));
+                $this->dataTable->filter('ColumnCallbackAddMetadata', array(
+                    'label',
+                    'combinedLabel',
+                    function ($label) {
+                        return $label;
+                    }
+                ));
                 $this->dataTable->filter('ColumnDelete', array('label'));
                 $this->dataTable->filter('ReplaceColumnNames', array(array($firstDimension => 'label')));
             }

@@ -300,8 +300,8 @@ class UrlHelperTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('add=foo', UrlHelper::getQueryFromUrl('/', array('add' => 'foo')));
         $this->assertEquals('add[]=foo&add[]=test', UrlHelper::getQueryFromUrl('/', array('add' => array('foo', 'test'))));
     }
-    
-    
+
+
     /**
      * Dataprovider for testGetQueryStringWithExcludedParameters
      */
@@ -310,47 +310,47 @@ class UrlHelperTest extends \PHPUnit\Framework\TestCase
         return array(
             array(
                 'p1=v1&p2=v2',                      //expected
-                array('p1'=>'v1', 'p2'=>'v2'),      //queryParameters
+                array('p1' => 'v1', 'p2' => 'v2'),      //queryParameters
                 array()                             //parametersToExclude
             ),
             array(
-                'p2=v2', 
-                array('p1'=>'v1', 'p2'=>'v2'),
+                'p2=v2',
+                array('p1' => 'v1', 'p2' => 'v2'),
                 array('p1')
             ),
             array(
-                'p1=v1&p2=v2', 
-                array('p1'=>'v1', 'p2'=>'v2', 'sessionId'=>'HHSJHERTG'),
+                'p1=v1&p2=v2',
+                array('p1' => 'v1', 'p2' => 'v2', 'sessionId' => 'HHSJHERTG'),
                 array('sessionId')
             ),
             array(
-                'p1=v1&p2=v2', 
-                array('p1'=>'v1', 'p2'=>'v2', 'sessionId'=>'HHSJHERTG'),
+                'p1=v1&p2=v2',
+                array('p1' => 'v1', 'p2' => 'v2', 'sessionId' => 'HHSJHERTG'),
                 array('/session/')
             ),
             array(
-                'p1=v1&p2=v2', 
-                array('p1'=>'v1', 'sessionId'=>'HHSJHERTG', 'p2'=>'v2', 'token'=>'RYUN36HSAO'),
+                'p1=v1&p2=v2',
+                array('p1' => 'v1', 'sessionId' => 'HHSJHERTG', 'p2' => 'v2', 'token' => 'RYUN36HSAO'),
                 array('/[session|token]/')
             ),
             array(
-                '', 
-                array('p1'=>'v1', 'p2'=>'v2', 'sessionId'=>'HHSJHERTG', 'token'=>'RYUN36HSAO'),
+                '',
+                array('p1' => 'v1', 'p2' => 'v2', 'sessionId' => 'HHSJHERTG', 'token' => 'RYUN36HSAO'),
                 array('/.*/')
             ),
             array(
-                'p2=v2&p4=v4', 
-                array('p1'=>'v1', 'p2'=>'v2', 'p3'=>'v3', 'p4'=>'v4'),
+                'p2=v2&p4=v4',
+                array('p1' => 'v1', 'p2' => 'v2', 'p3' => 'v3', 'p4' => 'v4'),
                 array('/p[1|3]/')
             ),
             array(
-                'p2=v2&p4=v4', 
-                array('p1'=>'v1', 'p2'=>'v2', 'p3'=>'v3', 'p4'=>'v4', 'utm_source'=>'gekko', 'utm_medium'=>'email', 'utm_campaign'=>'daily'),
+                'p2=v2&p4=v4',
+                array('p1' => 'v1', 'p2' => 'v2', 'p3' => 'v3', 'p4' => 'v4', 'utm_source' => 'gekko', 'utm_medium' => 'email', 'utm_campaign' => 'daily'),
                 array('/p[1|3]/', '/utm_/')
             )
         );
     }
-    
+
     /**
      * @dataProvider getQueryParameters
      * @group Core
@@ -359,5 +359,4 @@ class UrlHelperTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertEquals($expected, UrlHelper::getQueryStringWithExcludedParameters($queryParameters, $parametersToExclude));
     }
-    
 }

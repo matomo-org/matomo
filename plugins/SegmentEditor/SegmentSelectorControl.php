@@ -150,5 +150,4 @@ class SegmentSelectorControl extends UIControl
 
         return (bool) Config::getInstance()->General['enable_create_realtime_segments'];
     }
-
 }

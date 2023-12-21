@@ -1582,7 +1582,7 @@ class LoaderTest extends IntegrationTestCase
     public function test_canSkipArchiveForSegment_returnTrueIfPluginIsDisabledBySiteId()
     {
         Rules::setBrowserTriggerArchiving(false);
-        Config::setSetting('General_1','disable_archiving_segment_for_plugins','testPlugin');
+        Config::setSetting('General_1', 'disable_archiving_segment_for_plugins', 'testPlugin');
         $date = '2010-04-23';
         $definition = 'browserCode==ch';
         $segment = new Segment($definition, [1]);

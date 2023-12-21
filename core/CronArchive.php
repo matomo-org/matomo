@@ -344,7 +344,7 @@ class CronArchive
     {
         $pid = Common::getProcessId();
 
-        $timer = new Timer;
+        $timer = new Timer();
 
         $this->logSection("START");
         $this->logger->info("Starting Matomo reports archiving...");
@@ -586,7 +586,7 @@ class CronArchive
 
         $message = $wasSkipped ? "Skipped Archiving website" : "Archived website";
 
-        $this->logger->info($message." id {$params['idSite']}, period = {$params['period']}, date = "
+        $this->logger->info($message . " id {$params['idSite']}, period = {$params['period']}, date = "
             . "{$params['date']}, segment = '" . (isset($params['segment']) ? urldecode(urldecode($params['segment'])) : '') . "', "
             . ($plugin ? "plugin = $plugin, " : "") . ($report ? "report = $report, " : "") . "$visits visits found. $timer");
     }

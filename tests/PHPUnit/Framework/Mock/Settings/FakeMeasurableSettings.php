@@ -9,7 +9,8 @@
 namespace Piwik\Tests\Framework\Mock\Settings;
 
 
-class FakeMeasurableSettings extends \Piwik\Plugins\ExampleSettingsPlugin\MeasurableSettings {
+class FakeMeasurableSettings extends \Piwik\Plugins\ExampleSettingsPlugin\MeasurableSettings
+{
     protected $pluginName = 'ExampleSettingsPlugin';
 
     public function init()
@@ -26,5 +27,4 @@ class FakeMeasurableSettings extends \Piwik\Plugins\ExampleSettingsPlugin\Measur
     {
         return parent::makeProperty($name, $defaultValue, $type, $configureCallback);
     }
-
 }

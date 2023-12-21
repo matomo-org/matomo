@@ -16,7 +16,6 @@ use Piwik\Plugin\ReportsProvider;
 
 class GetVisitInformationPerLocalTime extends Base
 {
-
     protected $defaultSortColumn = '';
 
     protected function init()

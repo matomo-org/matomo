@@ -19,7 +19,6 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class SitesTableTest extends IntegrationTestCase
 {
-
     /**
      * @var SitesTable
      */

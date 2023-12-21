@@ -107,7 +107,7 @@ class Actions extends BaseFilter
                 // remove the default action name 'index' in the end of flattened urls and prepend $actionDelimiter
                 if ($isFlattening) {
                     $label = $row->getColumn('label');
-                    $stringToSearch = $actionDelimiter.$defaultActionName;
+                    $stringToSearch = $actionDelimiter . $defaultActionName;
                     if (substr($label, -strlen($stringToSearch)) == $stringToSearch) {
                         $label = substr($label, 0, -strlen($defaultActionName));
                         $label = rtrim($label, $actionDelimiter) . $actionDelimiter;

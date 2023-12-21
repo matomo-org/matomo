@@ -139,6 +139,4 @@ class FeedbackTest extends IntegrationTestCase
         $this->assertEquals("success", $result);
 
     }
-
-
 }

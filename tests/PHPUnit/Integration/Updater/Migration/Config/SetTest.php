@@ -53,6 +53,4 @@ class SetTest extends IntegrationTestCase
     {
         return new Set($section, $key, $value);
     }
-
-
 }

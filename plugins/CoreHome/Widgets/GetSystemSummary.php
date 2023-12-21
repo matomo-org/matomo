@@ -127,5 +127,4 @@ class GetSystemSummary extends Widget
 
         return phpversion();
     }
-
 }

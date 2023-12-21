@@ -124,7 +124,7 @@ class Update extends TranslationBase
             $output->writeln('');
         }
 
-        $output->writeln("Finished in " . round(microtime(true)-$start, 3) . "s");
+        $output->writeln("Finished in " . round(microtime(true) - $start, 3) . "s");
 
         return self::SUCCESS;
     }

@@ -13,7 +13,6 @@ use Piwik\Tests\Framework\Fixture;
 
 class CreateChanges extends Fixture
 {
-
     private $idSite = 1;
 
     public function setUp(): void
@@ -68,5 +67,4 @@ class CreateChanges extends Fixture
         $t->setUrl('http://example.org/index.htm');
         self::checkResponse($t->doTrackPageView('0'));
     }
-
 }

@@ -131,7 +131,7 @@ class ManyVisitsWithGeoIP extends Fixture
     /**
      * Insert a new visit into the database.
      * @param \MatomoTracker $t          The tracker to record the visits on
-     * @param int $fixtureCounter       Number of times this fixture has been run 
+     * @param int $fixtureCounter       Number of times this fixture has been run
      * @param int $visitorCounter       Visitor counter within this execution of the fixture
      * @param boolean $doBulk           Should this visit be left for bulk insert later, or processed now?
      * @param array $params             Other params as required to set up the visit
@@ -159,10 +159,10 @@ class ManyVisitsWithGeoIP extends Fixture
         $date = Date::factory($this->dateTime)->addDay($visitorCounter);
         $t->setForceVisitDateTime($date->getDatetime());
         $t->setUrl("http://piwik.net/grue/lair");
-        $t->setCustomVariable(1, 'Cvar 1 name', 'Cvar1 value is ' .$visitorCounter , 'visit');
-        $t->setCustomVariable(5, 'Cvar 5 name', 'Cvar5 value is ' .$visitorCounter , 'visit');
-        $t->setCustomVariable(2, 'Cvar 2 PAGE name', 'Cvar2 PAGE value is ' .$visitorCounter, 'page');
-        $t->setCustomVariable(5, 'Cvar 5 PAGE name', 'Cvar5 PAGE value is ' .$visitorCounter, 'page');
+        $t->setCustomVariable(1, 'Cvar 1 name', 'Cvar1 value is ' . $visitorCounter, 'visit');
+        $t->setCustomVariable(5, 'Cvar 5 name', 'Cvar5 value is ' . $visitorCounter, 'visit');
+        $t->setCustomVariable(2, 'Cvar 2 PAGE name', 'Cvar2 PAGE value is ' . $visitorCounter, 'page');
+        $t->setCustomVariable(5, 'Cvar 5 PAGE name', 'Cvar5 PAGE value is ' . $visitorCounter, 'page');
 
         $r = $t->doTrackPageView('It\'s <script> pitch black...');
         if (!$doBulk) {
@@ -194,7 +194,7 @@ class ManyVisitsWithGeoIP extends Fixture
         $date = $date->addHour(0.1);
         $t->setForceVisitDateTime($date->getDatetime());
         if( ($visitorCounter % 2) == 0) {
-            $r = $t->doTrackSiteSearch('Bring on the party', 'CAT', $visitorCounter*6);
+            $r = $t->doTrackSiteSearch('Bring on the party', 'CAT', $visitorCounter * 6);
         }
 
         if (!$doBulk) {
@@ -224,9 +224,9 @@ class ManyVisitsWithGeoIP extends Fixture
 
         $date = $date->addHour(0.05);
         $t->setForceVisitDateTime($date->getDatetime());
-        $r = $t->doTrackEvent('Cat' . $visitorCounter, 
-            'Action' . $visitorCounter, 
-            'Name' . $visitorCounter, 
+        $r = $t->doTrackEvent('Cat' . $visitorCounter,
+            'Action' . $visitorCounter,
+            'Name' . $visitorCounter,
             345.678 + $visitorCounter
         );
         if (!$doBulk) {

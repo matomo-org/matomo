@@ -43,5 +43,4 @@ class GetCampaignUrlBuilder extends \Piwik\Widget\Widget
             'hasExtraPlugin' => $hasExtraPlugin,
         ));
     }
-
 }

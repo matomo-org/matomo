@@ -24,7 +24,6 @@ use Piwik\View;
  */
 class UpdateCommunication
 {
-
     /**
      * Checks whether update communication in general is enabled or not.
      *
@@ -37,7 +36,7 @@ class UpdateCommunication
         if($isEnabled === true && SettingsPiwik::isInternetEnabled() === true){
             return true;
         }
-        
+
         return false;
     }
 

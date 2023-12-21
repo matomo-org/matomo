@@ -181,7 +181,7 @@ class TimezonesTest extends SystemTestCase
                     'testSuffix' => '_today' . $appendix,
                 ],
             ];
-           $testcases[] = [
+            $testcases[] = [
                 'VisitsSummary.get',
                 [
                     'idSite'     => $idSite,
@@ -191,7 +191,7 @@ class TimezonesTest extends SystemTestCase
                     'testSuffix' => '_today' . $appendix, // using same suffix as results are the same
                 ],
             ];
-           $testcases[] = [
+            $testcases[] = [
                 'VisitsSummary.get',
                 [
                     'idSite'     => $idSite,

@@ -24,7 +24,6 @@ use Piwik\Updater\Migration;
  */
 abstract class Updates
 {
-
     /**
      * Return migrations to be executed in this update.
      *

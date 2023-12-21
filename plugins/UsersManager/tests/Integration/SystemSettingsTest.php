@@ -82,6 +82,4 @@ class SystemSettingsTest extends IntegrationTestCase
         Fixture::createSuperUser();
         $this->settings->allowedEmailDomains->setValue(['maToMo.org', 'matomo.org', '', 'examPle.CoM']);
     }
-
-
 }

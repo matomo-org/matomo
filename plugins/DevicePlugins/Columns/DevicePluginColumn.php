@@ -31,7 +31,7 @@ abstract class DevicePluginColumn extends VisitDimension
     {
         $name = Piwik::translate('General_VisitsWith', [$this->getName()]);
 
-        $metric = $dimensionMetricFactory->createCustomMetric('nb_visits_with_'.$this->getMetricId(), $name, 'sum(%s)');
+        $metric = $dimensionMetricFactory->createCustomMetric('nb_visits_with_' . $this->getMetricId(), $name, 'sum(%s)');
         $metric->setType(Dimension::TYPE_NUMBER);
         $metricsList->addMetric($metric);
     }

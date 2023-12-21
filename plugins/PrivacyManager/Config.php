@@ -113,5 +113,4 @@ class Config
 
         return $cacheContent;
     }
-
 }

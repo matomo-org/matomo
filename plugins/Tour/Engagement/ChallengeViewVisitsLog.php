@@ -32,6 +32,4 @@ class ChallengeViewVisitsLog extends Challenge
     {
         return Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/reports/the-visits-log-report/');
     }
-
-
 }

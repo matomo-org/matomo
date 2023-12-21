@@ -25,7 +25,7 @@ class SettingsServerTest extends \PHPUnit\Framework\TestCase
             ['8M', 8],
             ['10 m', 10],
             ['2g', 2048],
-            ['1K', 1/1024],
+            ['1K', 1 / 1024],
             ['1048576', 1],
             ['garbl', false],
             ['17sdfsdf', false],

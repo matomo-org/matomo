@@ -15,10 +15,8 @@ use Piwik\Updates as PiwikUpdates;
  */
 class Updates_2_16_3_rc2 extends PiwikUpdates
 {
-
     public static function isMajorUpdate()
     {
         return true;
     }
-
 }

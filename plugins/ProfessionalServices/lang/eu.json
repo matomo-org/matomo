@@ -1,1 +1,15 @@
-{}
+{
+    "ProfessionalServices": {
+        "CTAStartFreeTrial": "Hasi doako proba",
+        "PromoAbTesting": "A/B probak",
+        "PromoCrashAnalytics": "Hutsegiteak",
+        "PromoCustomReports": "Txosten pertsonalizatuak",
+        "PromoFormAnalytics": "Formularioak",
+        "PromoFunnels": "Inbutuak",
+        "PromoManage": "Kudeatu",
+        "PromoMediaAnalytics": "Multimedia",
+        "PromoOverview": "Ikuspegi orokorra",
+        "PromoSessionRecording": "Saioen grabazioak",
+        "PromoUnlockPowerOf": "Askatu %1$s(r)en ahalmena"
+    }
+}

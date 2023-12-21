@@ -12,7 +12,6 @@ use Piwik\API\Request;
 
 class Conversions
 {
-
     public function getConversionForGoal($idGoal, $idSite, $period, $date)
     {
         if (!$period || !$date || !$idSite) {

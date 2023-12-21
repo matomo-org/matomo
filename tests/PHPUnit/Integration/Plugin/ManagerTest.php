@@ -175,7 +175,7 @@ class ManagerTest extends IntegrationTestCase
             array(true, 'a0'),
             array(true, 'pluginNameTest'),
             array(true, 'PluginNameTest'),
-            array(true, 'PluginNameTest'.Common::getRandomString()),
+            array(true, 'PluginNameTest' . Common::getRandomString()),
             array(true, 'a_ererer'),
             array(true, 'a_'),
             array(false, ''),
@@ -186,8 +186,8 @@ class ManagerTest extends IntegrationTestCase
             array(false, 'a-ererer'),
             array(false, '..'),
             array(false, '/'),
-            array(true, 'a'.Common::getRandomString(59)),
-            array(false, 'a'.Common::getRandomString(60)),
+            array(true, 'a' . Common::getRandomString(59)),
+            array(false, 'a' . Common::getRandomString(60)),
         );
     }
 

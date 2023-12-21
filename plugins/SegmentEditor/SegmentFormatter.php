@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\SegmentEditor;
 
 use Exception;
+use Piwik\Config\DatabaseConfig;
 use Piwik\Piwik;
 use Piwik\Segment;
 use Piwik\Segment\SegmentExpression;
@@ -66,6 +67,7 @@ class SegmentFormatter
         }
 
         $readable = '';
+
         foreach ($expressions as $andIndex => $orExpressions) {
             foreach ($orExpressions as $orIndex => $operand) {
                 $name = $operand[SegmentExpression::INDEX_OPERAND_NAME];
@@ -76,17 +78,17 @@ class SegmentFormatter
                     throw new Exception(sprintf("The segment '%s' does not exist.", $name));
                 }
 
-                $readable .= Piwik::translate($segment->getName()) . ' ';
-                $readable .= $this->getTranslationForComparison($operand, $segment->getType()) . ' ';
+                $readable .= Piwik::translate($segment->getName()).' ';
+                $readable .= $this->getTranslationForComparison($operand, $segment->getType()).' ';
                 $readable .= $this->getFormattedValue($operand);
 
                 if ($orIndex !== count($orExpressions) - 1) {
-                    $readable .= $this->getTranslationForBoolOperator(SegmentExpression::BOOL_OPERATOR_OR) . ' ';
+                    $readable .= $this->getTranslationForBoolOperator(SegmentExpression::BOOL_OPERATOR_OR).' ';
                 }
             }
 
             if ($andIndex !== count($expressions) - 1) {
-                $readable .= $this->getTranslationForBoolOperator(SegmentExpression::BOOL_OPERATOR_AND) . ' ';
+                $readable .= $this->getTranslationForBoolOperator(SegmentExpression::BOOL_OPERATOR_AND).' ';
             }
         }
 

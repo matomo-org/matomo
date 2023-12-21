@@ -132,7 +132,7 @@ abstract class RequestProcessor
      * to change what gets inserted into `log_visit`.
      *
      * Only implement this method if you cannot use a Dimension for the same thing.
-     * 
+     *
      * Please note that the `onNewAction` hook in an action dimension is executed after this method.
      *
      * @param VisitProperties $visitProperties

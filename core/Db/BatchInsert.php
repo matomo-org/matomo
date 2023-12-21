@@ -103,7 +103,7 @@ class BatchInsert
                     'escape'           => '\\\\', // chr(92)
                     'escapespecial_cb' => function ($str) {
                             return str_replace(array(chr(92), chr(34)), array(chr(92) . chr(92), chr(92) . chr(34)), $str);
-                        },
+                    },
                     'eol'              => "\r\n",
                     'null'             => 'NULL',
                     'charset'          => $charset

@@ -119,5 +119,4 @@ abstract class Settings
             $setting->save();
         }
     }
-
 }

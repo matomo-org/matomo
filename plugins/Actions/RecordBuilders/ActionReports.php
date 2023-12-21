@@ -140,7 +140,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             Archiver::METRIC_PAGEVIEWS_RECORD_NAME => $nbPageviews,
             Archiver::METRIC_UNIQ_PAGEVIEWS_RECORD_NAME => $nbUniqPageviews,
             Archiver::METRIC_SUM_TIME_RECORD_NAME => $nbSumTimeGeneration,
-            Archiver::METRIC_HITS_TIMED_RECORD_NAME =>$nbHitsWithTimeGeneration,
+            Archiver::METRIC_HITS_TIMED_RECORD_NAME => $nbHitsWithTimeGeneration,
 
             Archiver::METRIC_DOWNLOADS_RECORD_NAME => $nbDownloads,
             Archiver::METRIC_UNIQ_DOWNLOADS_RECORD_NAME => $nbUniqDownloads,

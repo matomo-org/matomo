@@ -17,7 +17,8 @@ use Piwik\Plugins\Login\SystemSettings;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
-class CustomBruteForceDetection extends BruteForceDetection {
+class CustomBruteForceDetection extends BruteForceDetection
+{
     /**
      * @var Date
      */
@@ -123,7 +124,7 @@ class BruteForceDetectionTest extends IntegrationTestCase
     public function test_unblockIp_onlyRemovesRecentEntriesOfIp()
     {
         $now = $this->detection->getNow();
-        $this->addFailedLoginInPast('127.0.0.1',1);
+        $this->addFailedLoginInPast('127.0.0.1', 1);
         $this->addFailedLoginInPast('10.1.2.3', 2); // should be deleted
         $this->addFailedLoginInPast('10.1.2.3', 3); // should be deleted
 
@@ -333,5 +334,4 @@ class BruteForceDetectionTest extends IntegrationTestCase
 
         $this->addFailedLoginInPast('10.99.88.1', 75, 'theuser');
     }
-
 }

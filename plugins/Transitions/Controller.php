@@ -55,16 +55,16 @@ class Controller extends \Piwik\Plugin\Controller
      * Translations that are added to JS
      */
     private static $jsTranslations = array(
-        'XOfY'                   => 'Transitions_XOutOfYVisits',
-        'XOfAllPageviews'        => 'Transitions_XOfAllPageviews',
-        'NoDataForAction'        => 'Transitions_NoDataForAction',
-        'NoDataForActionDetails' => 'Transitions_NoDataForActionDetails',
-        'NoDataForActionBack'    => 'Transitions_ErrorBack',
-        'PeriodNotAllowed'       => 'Transitions_PeriodNotAllowed',
-        'PeriodNotAllowedDetails'=> 'Transitions_PeriodNotAllowedDetails',
-        'PeriodNotAllowedBack'   => 'Transitions_ErrorBack',
-        'ShareOfAllPageviews'    => 'Transitions_ShareOfAllPageviews',
-        'DateRange'              => 'General_DateRange'
+        'XOfY'                    => 'Transitions_XOutOfYVisits',
+        'XOfAllPageviews'         => 'Transitions_XOfAllPageviews',
+        'NoDataForAction'         => 'Transitions_NoDataForAction',
+        'NoDataForActionDetails'  => 'Transitions_NoDataForActionDetails',
+        'NoDataForActionBack'     => 'Transitions_ErrorBack',
+        'PeriodNotAllowed'        => 'Transitions_PeriodNotAllowed',
+        'PeriodNotAllowedDetails' => 'Transitions_PeriodNotAllowedDetails',
+        'PeriodNotAllowedBack'    => 'Transitions_ErrorBack',
+        'ShareOfAllPageviews'     => 'Transitions_ShareOfAllPageviews',
+        'DateRange'               => 'General_DateRange'
     );
 
     public static function getTranslation($key)

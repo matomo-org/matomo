@@ -33,7 +33,7 @@ class RequestSet
     {
         $this->requests = array();
 
-        if (empty($requests)|| !is_array($requests)) {
+        if (empty($requests) || !is_array($requests)) {
             return;
         }
 

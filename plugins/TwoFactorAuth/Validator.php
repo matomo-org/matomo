@@ -91,5 +91,4 @@ class Validator
     {
         return new SessionFingerprint();
     }
-
 }

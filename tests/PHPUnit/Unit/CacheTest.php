@@ -80,5 +80,4 @@ class CacheTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($cache2->contains('test2'));
         $this->assertFalse($cache3->contains('test3'));
     }
-
 }

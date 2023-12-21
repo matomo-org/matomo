@@ -17,7 +17,6 @@ use Piwik\Settings\Storage\Backend\NullBackend;
  */
 class NullTest extends \PHPUnit\Framework\TestCase
 {
-
     /**
      * @var Null
      */
@@ -41,5 +40,4 @@ class NullTest extends \PHPUnit\Framework\TestCase
         $this->backend->save(array('foo' => 'bar'));
         $this->assertSame(array(), $this->backend->load());
     }
-
 }

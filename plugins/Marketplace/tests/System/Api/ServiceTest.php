@@ -151,6 +151,4 @@ class ServiceTest extends SystemTestCase
     {
         return new Service($this->domain);
     }
-
-
 }

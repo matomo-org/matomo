@@ -32,6 +32,4 @@ class ChallengeSelectDateRange extends Challenge
     {
         return Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/reports/data-selectors-in-matomo/');
     }
-
-
 }

@@ -88,5 +88,4 @@ class OrderBy extends BaseFilter
 
         return null;
     }
-
 }

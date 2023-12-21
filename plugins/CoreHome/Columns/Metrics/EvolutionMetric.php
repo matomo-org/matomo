@@ -143,7 +143,7 @@ class EvolutionMetric extends ProcessedMetric
         $period = $this->pastData->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
         $row->setMetadata('ratio', $ratio);
         $row->setMetadata('currencySymbol', $row['label'] !== DataTable::ID_SUMMARY_ROW && $row['label'] !== DataTable::LABEL_TOTALS_ROW ? Site::getCurrencySymbolFor($row['label']) : API::getInstance()->getDefaultCurrency());
-        $row->setMetadata('previous_'.$columnName, $pastValue);
+        $row->setMetadata('previous_' . $columnName, $pastValue);
         $row->setMetadata('periodName', $period->getLabel());
         $row->setMetadata('previousRange', $period->getLocalizedShortString());
         $pastValue = ($pastValue * $ratio);

@@ -13,7 +13,6 @@ use Piwik\Url;
 
 class ChallengeCreatedGoal extends Challenge
 {
-
     public function getName()
     {
         return Piwik::translate('Tour_DefineGoal');
@@ -33,6 +32,4 @@ class ChallengeCreatedGoal extends Challenge
     {
         return 'index.php' . Url::getCurrentQueryStringWithParametersModified(array('module' => 'Goals', 'action' => 'manage', 'widget' => false));
     }
-
-
 }

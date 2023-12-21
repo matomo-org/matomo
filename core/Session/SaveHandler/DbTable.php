@@ -210,5 +210,4 @@ class DbTable implements Zend_Session_SaveHandler_Interface
             }
         }
     }
-
 }

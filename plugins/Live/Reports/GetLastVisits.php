@@ -18,5 +18,4 @@ class GetLastVisits extends Base
     {
         // do not add this report as metadata
     }
-
 }

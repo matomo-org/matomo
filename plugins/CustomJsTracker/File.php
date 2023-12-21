@@ -95,6 +95,4 @@ class File
     {
         return file_exists($this->file) && is_readable($this->file);
     }
-
-
 }

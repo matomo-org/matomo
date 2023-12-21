@@ -15,5 +15,4 @@ class Type extends \Piwik\Measurable\Type
     protected $namePlural = 'SitesManager_Sites'; // translated into more languages
     protected $description = 'WebsiteMeasurable_WebsiteDescription';
     protected $howToSetupUrl = '?module=CoreAdminHome&action=trackingCodeGenerator';
-
 }

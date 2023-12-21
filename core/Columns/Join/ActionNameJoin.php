@@ -20,5 +20,4 @@ class ActionNameJoin extends Columns\Join
     {
         parent::__construct('log_action', 'idaction', 'name');
     }
-
 }

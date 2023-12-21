@@ -50,7 +50,7 @@ class DoNotTrackHeaderChecker
             // this is an optional supplement to the site's tracking status resource at:
             //     /.well-known/dnt
             // per Tracking Preference Expression
-            
+
             //Tracking Preference Expression has been updated to require Tk: N rather than Tk: 1
             Common::sendHeader('Tk: N');
         }

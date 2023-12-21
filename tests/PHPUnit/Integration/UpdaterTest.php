@@ -113,5 +113,4 @@ class UpdaterTest extends IntegrationTestCase
     {
         return new Updater();
     }
-
 }

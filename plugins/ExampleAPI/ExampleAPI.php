@@ -14,5 +14,4 @@ namespace Piwik\Plugins\ExampleAPI;
  */
 class ExampleAPI extends \Piwik\Plugin
 {
-
 }

@@ -14,5 +14,4 @@ class IntranetMeasurable extends \Piwik\Plugin
     {
         return true;
     }
-
 }

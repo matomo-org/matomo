@@ -29,7 +29,7 @@ class PluginsWithTranslations extends TranslationBase
         foreach (Manager::getPluginsDirectories() as $pluginsDir) {
             $pluginFiles = array_merge($pluginsDir, glob(sprintf('%s*/lang/en.json', $pluginsDir)));
         }
-        $pluginFiles = array_map(function($elem){
+        $pluginFiles = array_map(function($elem) {
             $replace = Manager::getPluginsDirectories();
             $replace[] = '/lang/en.json';
             return str_replace($replace, '', $elem);

@@ -12,6 +12,7 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Cache as PiwikCache;
+use Piwik\Config\DatabaseConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\LogQueryBuilder;
 use Piwik\Plugins\SegmentEditor\SegmentEditor;
@@ -104,7 +105,7 @@ class Segment
     const SEGMENT_TRUNCATE_LIMIT = 8192;
 
     const CACHE_KEY = 'segmenthashes';
-    const SEGMENT_HAS_BUILT_CACHE_KEY ='segmenthashbuilt';
+    const SEGMENT_HAS_BUILT_CACHE_KEY = 'segmenthashbuilt';
 
     /**
      * Constructor.
@@ -124,6 +125,7 @@ class Segment
      */
     public function __construct($segmentCondition, $idSites, Date $startDate = null, Date $endDate = null)
     {
+
         $this->segmentQueryBuilder = StaticContainer::get('Piwik\DataAccess\LogQueryBuilder');
 
         $segmentCondition = trim($segmentCondition ?: '');
@@ -193,7 +195,7 @@ class Segment
         $cache = PiwikCache::getTransientCache();
 
         //covert cache id
-        $cacheId = 'API.getSegmentsMetadata.'.SettingsPiwik::getPiwikInstanceId() . '.' . implode(",", $this->idSites);
+        $cacheId = 'API.getSegmentsMetadata.' . SettingsPiwik::getPiwikInstanceId() . '.' . implode(",", $this->idSites);
 
         //fetch cache lockId
         $availableSegments = $cache->fetch($cacheId);
@@ -267,6 +269,7 @@ class Segment
         // convert segments name to sql segment
         // check that user is allowed to view this segment
         // and apply a filter to the value to match if necessary (to map DB fields format)
+
         $cleanedExpressions = array_map(function (array $orExpressions) {
             return array_map(function (array $operand) {
                 return $this->getCleanedExpression($operand);
@@ -281,7 +284,7 @@ class Segment
         $expressionsWithUnions = array_map(function ($orExpressions) {
             $mappedOrExpressions = [];
             foreach ($orExpressions as $operand) {
-                $name    = $operand[SegmentExpression::INDEX_OPERAND_NAME];
+                $name = $operand[SegmentExpression::INDEX_OPERAND_NAME];
 
                 $availableSegment = $this->getSegmentByName($name);
 
@@ -409,16 +412,16 @@ class Segment
             // we append alias since an archive query may add the table with a different join. we could eg add $table_$segmentName but
             // then we would join an extra table per segment when we ideally want to join each table only once. However, we still need
             // to see which table/column it joins to join it accurately each table extra if the same table is joined with different columns;
-            $tableAlias = $join->getTable() . '_segment_' . str_replace('.', '', $sqlName ?: '');
+            $tableAlias = $join->getTable().'_segment_'.str_replace('.', '', $sqlName ?: '');
             $joinTable = [
                 'table' => $join->getTable(),
                 'tableAlias' => $tableAlias,
-                'field' => $tableAlias . '.' . $join->getTargetColumn(),
-                'joinOn' => $sqlName . ' = ' . $tableAlias . '.' . $join->getColumn(),
+                'field' => $tableAlias.'.'.$join->getTargetColumn(),
+                'joinOn' => $sqlName.' = '.$tableAlias.'.'.$join->getColumn(),
             ];
 
             if ($dbDiscriminator) {
-                $joinTable['discriminator'] = $tableAlias . '.'. $dbDiscriminator->getColumn() . ' = \''.  $dbDiscriminator->getValue() . '\'';
+                $joinTable['discriminator'] = $tableAlias . '.' . $dbDiscriminator->getColumn() . ' = \'' .  $dbDiscriminator->getValue() . '\'';
             }
         }
 
@@ -431,8 +434,8 @@ class Segment
             $where = [];
             $bind = [];
             if (!empty($this->idSites)) {
-                $where[] = "$from.idsite IN (" . Common::getSqlStringFieldsArray($this->idSites) . ")";
-                $bind  = $this->idSites;
+                $where[] = "$from.idsite IN (".Common::getSqlStringFieldsArray($this->idSites).")";
+                $bind = $this->idSites;
             }
             if ($this->startDate instanceof Date) {
                 $where[] = "$from.$datetimeField >= ?";
@@ -457,6 +460,7 @@ class Segment
         }
 
         $segment = $this->getSegmentByName($name);
+
         if ($matchType != SegmentExpression::MATCH_IS_NOT_NULL_NOR_EMPTY
             && $matchType != SegmentExpression::MATCH_IS_NULL_OR_EMPTY) {
 

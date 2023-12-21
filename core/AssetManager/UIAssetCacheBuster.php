@@ -54,7 +54,7 @@ class UIAssetCacheBuster extends Singleton
 
             $cachedCacheBuster = $cacheBuster;
         }
-        
+
         return $cachedCacheBuster;
     }
 

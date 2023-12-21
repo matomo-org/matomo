@@ -56,6 +56,4 @@ class ChallengeAddedSegment extends Challenge
     {
         return Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/segmentation/');
     }
-
-
 }

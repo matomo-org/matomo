@@ -9,7 +9,7 @@
 
 namespace Piwik\Plugins\CustomDimensions\Dimension;
 
-use \Exception;
+use Exception;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomDimensions\Dao\Configuration;
 
@@ -73,5 +73,4 @@ class Dimension
     {
         return new Configuration();
     }
-
 }

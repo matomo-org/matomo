@@ -60,7 +60,7 @@ class CSVTest extends \PHPUnit\Framework\TestCase
     {
         $array = array('max_actions' => 14.0, 'nb_uniq_visitors' => 57.0, 'nb_visits' => 66.0, 'nb_actions' => 151.0, 'sum_visit_length' => 5118.0, 'bounce_count' => 44.0,);
 
-        $table = new Simple;
+        $table = new Simple();
         $table->addRowsFromArray($array);
         return $table;
     }
@@ -69,21 +69,21 @@ class CSVTest extends \PHPUnit\Framework\TestCase
     {
         $array = array('nb_visits' => 14.0);
 
-        $table = new Simple;
+        $table = new Simple();
         $table->addRowsFromArray($array);
         return $table;
     }
 
     protected function _getDataTableEmpty()
     {
-        $table = new DataTable;
+        $table = new DataTable();
         return $table;
     }
 
     protected function _getDataTableSimpleOneZeroRowTest()
     {
         $array = array('nb_visits' => 0);
-        $table = new Simple;
+        $table = new Simple();
         $table->addRowsFromArray($array);
         return $table;
     }
@@ -91,7 +91,7 @@ class CSVTest extends \PHPUnit\Framework\TestCase
     protected function _getDataTableSimpleOneFalseRowTest()
     {
         $array = array('is_excluded' => false);
-        $table = new Simple;
+        $table = new Simple();
         $table->addRowsFromArray($array);
         return $table;
     }
@@ -194,10 +194,12 @@ class CSVTest extends \PHPUnit\Framework\TestCase
         $dataTable = $this->_getDataTableSimpleWithCommasInCells();
         $render = new Csv();
         $render->setTable($dataTable);
+        $render->setSeparator('#');
         $render->convertToUnicode = false;
 
-        $expected = '"col,1","col,2"
-"val""1","val"",2"';
+        $expected = '"col,1"#"col;2"
+"val""1"#"val"",2"
+val#"val#2"';
         $actual = $render->render();
         $this->assertEquals($expected, $actual);
     }
@@ -263,14 +265,14 @@ sub6,3,,renderrrrrr";
     protected function _getDataTableSimpleMapTest()
     {
         $array1 = array('max_actions' => 14.0, 'nb_uniq_visitors' => 57.0,);
-        $table1 = new Simple;
+        $table1 = new Simple();
         $table1->addRowsFromArray($array1);
 
         $array2 = array('max_actions' => 140.0, 'nb_uniq_visitors' => 570.0,);
-        $table2 = new Simple;
+        $table2 = new Simple();
         $table2->addRowsFromArray($array2);
 
-        $table3 = new Simple;
+        $table3 = new Simple();
 
         $table = new DataTable\Map();
         $table->setKeyName('testKey');
@@ -284,13 +286,13 @@ sub6,3,,renderrrrrr";
     protected function _getDataTableSimpleOneRowMapTest()
     {
         $array1 = array('nb_visits' => 14.0);
-        $table1 = new Simple;
+        $table1 = new Simple();
         $table1->addRowsFromArray($array1);
         $array2 = array('nb_visits' => 15.0);
-        $table2 = new Simple;
+        $table2 = new Simple();
         $table2->addRowsFromArray($array2);
 
-        $table3 = new Simple;
+        $table3 = new Simple();
 
         $table = new DataTable\Map();
         $table->setKeyName('testKey');
@@ -468,7 +470,8 @@ b,d,f,g';
     {
         $table = new DataTable();
         $table->addRowsFromSimpleArray(array(
-            array("col,1" => "val\"1", "col,2" => "val\",2")
+            array("col,1" => "val\"1", "col;2" => "val\",2"),
+            array("col,1" => "val", "col;2" => "val#2")
         ));
         return $table;
     }

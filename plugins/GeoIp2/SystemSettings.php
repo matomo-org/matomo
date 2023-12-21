@@ -45,7 +45,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
     private function createGeoIp2ServerVarSetting($name, $defaultValue)
     {
-        return $this->makeSetting('geoip2var_'.$name, $default = $defaultValue, FieldConfig::TYPE_STRING, function (FieldConfig $field) use ($name) {
+        return $this->makeSetting('geoip2var_' . $name, $default = $defaultValue, FieldConfig::TYPE_STRING, function (FieldConfig $field) use ($name) {
             $field->title = Piwik::translate('GeoIp2_ServerVariableFor', '<strong>' . str_replace('_', ' ', $name) . '</strong>');
             $field->uiControl = FieldConfig::UI_CONTROL_TEXT;
             $field->condition = 'geoip2usecustom==1';

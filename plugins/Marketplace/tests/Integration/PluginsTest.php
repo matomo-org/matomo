@@ -215,49 +215,49 @@ class PluginsTest extends IntegrationTestCase
                             'key' => 'docs',
                             'value' => 'https://barometer.org/docs/',
                             'type' => 'url',
-                        ],
+                         ],
                          [
                             'name' => 'Wiki',
                             'key' => 'wiki',
                             'value' => 'https://github.com/barometer/piwik/wiki',
                             'type' => 'url',
-                        ],
+                         ],
                          [
                             'name' => 'Forum',
                             'key' => 'forum',
                             'value' => 'https://baromter.forum.org',
                             'type' => 'url',
-                        ],
+                         ],
                          [
                             'name' => 'Email',
                             'key' => 'email',
                             'value' => 'barometer@example.com',
                             'type' => 'email',
-                        ],
+                         ],
                          [
                             'name' => 'IRC',
                             'key' => 'irc',
                             'value' => 'irc://freenode/baromter',
                             'type' => 'text',
-                        ],
+                         ],
                          [
                             'name' => 'Issues / Bugs',
                             'key' => 'issues',
                             'value' => 'https://github.com/barometer/issues',
                             'type' => 'url',
-                        ],
+                         ],
                          [
                             'name' => 'Source',
                             'key' => 'source',
                             'value' => 'https://github.com/barometer/piwik/',
                             'type' => 'url',
-                        ],
+                         ],
                          [
                             'name' => 'RSS',
                             'key' => 'rss',
                             'value' => 'https://barometer.org/feed/',
                             'type' => 'url',
-                        ],
+                         ],
                 ],
             'isTheme' => false,
             'keywords' =>  ['barometer','live',],
@@ -267,7 +267,7 @@ class PluginsTest extends IntegrationTestCase
                     'name' => 'Fabian Becker',
                     'email' => 'test8@example.com',
                     'homepage' => 'http://geekproject.eu',
-                ],],
+                 ],],
             'repositoryUrl' => 'https://github.com/halfdan/piwik-barometer-plugin',
             'lastUpdated' => 'Intl_4or41Intl_Time_AMt_357Intl_Time_AMt_S12ort',
             'latestVersion' => '0.5.0',
@@ -282,7 +282,7 @@ class PluginsTest extends IntegrationTestCase
                     'type' => 'demo',
                     'provider' => 'link',
                     'url' => 'https://demo.piwik.org',
-                ],],
+                 ],],
             'activity' =>
                  [
                     'numCommits' => '31',
@@ -405,7 +405,7 @@ class PluginsTest extends IntegrationTestCase
             }
         }
     }
-    
+
     public function testGetAllPaidPluginsShouldFetchOnlyPaidPlugins()
     {
         $this->plugins->getAllPaidPlugins();

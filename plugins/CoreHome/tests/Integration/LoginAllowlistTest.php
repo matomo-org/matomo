@@ -15,8 +15,8 @@ use Piwik\Plugins\CoreHome\LoginAllowlist;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
-class CustomLoginAllowlist extends LoginAllowlist {
-
+class CustomLoginAllowlist extends LoginAllowlist
+{
     public function getAllowlistedLoginIps()
     {
         return parent::getAllowlistedLoginIps();

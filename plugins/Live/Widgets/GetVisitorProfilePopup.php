@@ -15,7 +15,6 @@ use Piwik\Widget\WidgetConfig;
 
 class GetVisitorProfilePopup extends \Piwik\Widget\Widget
 {
-
     public static function configure(WidgetConfig $config)
     {
         $config->setCategoryId('General_Visitors');
@@ -41,5 +40,4 @@ class GetVisitorProfilePopup extends \Piwik\Widget\Widget
     {
 
     }
-
 }
