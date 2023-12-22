@@ -13,9 +13,9 @@
                                     <div class="card-content-top">
                                         {{ marketplaceMacro.matomoPluginBadge(plugin.owner, 'matomo-badge-top') }}
                                         <div class="price">
-                                            {% if plugin.canBePurchased and plugin.priceFrom %}
+                                            {% if plugin.priceFrom %}
                                                 {{ 'Marketplace_PriceFromPerPeriod'|translate(plugin.priceFrom.prettyPrice, plugin.priceFrom.period) }}
-                                            {% else %}
+                                            {% elseif plugin.isFree %}
                                                 {{ 'Marketplace_Free'|translate }}
                                             {% endif %}
                                         </div>
