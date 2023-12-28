@@ -15,6 +15,7 @@
     <a tabindex="7" class="btn btn-block {% if plugin.canBePurchased %}purchaseable{% endif %}" href="#" vue-directive="CorePluginsAdmin.PluginName"  vue-directive-value="{{ { pluginName: plugin.name }|json_encode }}" title="{{ 'General_MoreDetails'|translate }}">
         {% if plugin.priceFrom %}
             {{ 'Marketplace_StartFreeTrial'|translate }}
+        {% else %}
             {{ 'General_MoreDetails'|translate }}
         {% endif %}
     </a>
