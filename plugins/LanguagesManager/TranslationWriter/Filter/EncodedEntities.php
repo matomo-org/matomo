@@ -49,7 +49,6 @@ class EncodedEntities extends FilterAbstract
                     $translations[$pluginName][$key] = $decoded;
                     continue;
                 }
-
             }
         }
 

@@ -116,7 +116,6 @@ class Updates_1_8_3_b1 extends Updates
             }
 
             $updater->executeMigration(__FILE__, $this->migration->db->dropTable('pdf'));
-
         } catch (\Exception $e) {
         }
     }

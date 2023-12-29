@@ -317,7 +317,6 @@ class Config extends \Piwik\ViewDataTable\Config
                     'trend' => $evolution['currentValue'] - $evolution['pastValue'],
                 );
             }
-
         }
 
         $this->sparklines[] = $sparkline;

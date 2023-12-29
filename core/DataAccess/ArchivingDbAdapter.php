@@ -123,7 +123,6 @@ class ArchivingDbAdapter
             {
                 $this->logger->warning('Archiver query exceeded maximum execution time: {details}',
                     ['details' => json_encode($args, true)]);
-
             }
             throw $e;
         }

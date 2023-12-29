@@ -332,7 +332,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 try {
 
                     $this->pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
-
                 } catch (\Exception $e) {
 
                     $notification          = new Notification($e->getMessage());
@@ -449,7 +448,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
             try {
                 $this->pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
-
             } catch (\Exception $e) {
 
                 $notification = new Notification($e->getMessage());

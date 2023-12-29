@@ -103,7 +103,6 @@ class ConvertToUtf8mb4 extends ConsoleCommand
             }
 
             $this->writeSuccessMessage(array('Conversion to utf8mb4 successful.'));
-
         } else {
             $this->writeSuccessMessage(array('Database conversion skipped.'));
         }

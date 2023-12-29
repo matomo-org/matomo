@@ -77,7 +77,6 @@ class PluginInstaller
                     $plugin->reloadPluginInformation();
                 }
             }
-
         } catch (\Exception $e) {
 
             if (!empty($tmpPluginZip)) {
@@ -113,7 +112,6 @@ class PluginInstaller
             $this->copyPluginToDestination($tmpPluginFolder);
 
             Filesystem::deleteAllCacheOnUpdate($this->pluginName);
-
         } catch (\Exception $e) {
 
             $this->removeFileIfExists($pathToZip);
@@ -152,7 +150,6 @@ class PluginInstaller
             try {
                 $downloadUrl = $this->marketplaceClient->getDownloadUrl($this->pluginName);
                 $errorMessage = sprintf('Failed to download plugin from %s: %s', $downloadUrl, $e->getMessage());
-
             } catch (\Exception $ex) {
                 $errorMessage = sprintf('Failed to download plugin: %s', $e->getMessage());
             }
@@ -211,7 +208,6 @@ class PluginInstaller
                     $params   = array(ucfirst($dep['requirement']), $dep['actualVersion'], $dep['requiredVersion']);
                     $message .= Piwik::translate('CorePluginsAdmin_MissingRequirementsNotice', $params);
                 }
-
             }
 
             throw new PluginInstallerException($message);

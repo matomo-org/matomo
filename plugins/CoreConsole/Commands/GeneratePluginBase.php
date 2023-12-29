@@ -326,7 +326,6 @@ abstract class GeneratePluginBase extends ConsoleCommand
 
                 $this->createFileWithinPluginIfNotExists($pluginName, $fileNamePlugin, $template);
             }
-
         }
     }
 
@@ -355,7 +354,6 @@ abstract class GeneratePluginBase extends ConsoleCommand
                     $pluginNames[] = basename($pluginDir);
                 }
             }
-
         }
         return $pluginNames;
     }

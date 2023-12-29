@@ -119,7 +119,6 @@ class MeasurableSettingsTable extends BaseSettingsTable
             } else {
                 throw $e;
             }
-
         }
 
         $flat = array();

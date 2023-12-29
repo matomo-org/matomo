@@ -96,7 +96,6 @@ class ApiTest extends SystemTestCase
                     )
                 );
             }
-
         }
 
         $apiToTest[] = array($api, array(

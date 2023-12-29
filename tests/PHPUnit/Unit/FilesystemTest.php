@@ -212,7 +212,6 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
             // will cause the target file to be unlinked after the copy which will result in a missing file.
 
             $this->assertEquals(array(), $result);
-
         } else {
 
             // Case sensitive filesystem:
@@ -235,7 +234,6 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
                  '/CoreHome/vue/src/MenuItemsDropdown/index.htm',
                  '/CoreHome/vue/src/MenuItemsDropdown/index.php',
             ), $result);
-
         }
     }
 

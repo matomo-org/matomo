@@ -130,7 +130,6 @@ class DataTableGenericFilter
                     if (is_callable($callback)) {
                         $filters[$index][1]['filter_sort_column_secondary'] = $callback;
                     }
-
                 }
             }
         }
