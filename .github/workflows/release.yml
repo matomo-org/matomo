@@ -122,12 +122,12 @@ jobs:
             echo "prerelease=true" >> $GITHUB_OUTPUT
             body="## Matomo ${version} (Pre-release)
 
-            We recommend to read [this FAQ](http://matomo.org/faq/how-to-update/faq_159/) before using a pre-release in a production environment.
+            We recommend to read [this FAQ](https://matomo.org/faq/how-to-update/faq_159/) before using a pre-release in a production environment.
 
             Please use the attached archives for installing or updating Matomo.
             The source code download is only meant for developers and will require extra work to install it.
              - Latest stable production release can be found at https://matomo.org/download/ ([learn more](https://matomo.org/docs/installation/)) (recommended)
-             - Beta and Release Candidates releases can be found at https://builds.matomo.org/ ([learn more](http://matomo.org/faq/how-to-update/faq_159/))"
+             - Beta and Release Candidate releases can be found at https://builds.matomo.org/ ([learn more](https://matomo.org/faq/how-to-update/faq_159/))"
           else
             echo "prerelease=false" >> $GITHUB_OUTPUT
             body="## [Matomo ${version} Changelog](https://matomo.org/changelog/matomo-${version//./-}/)
@@ -135,7 +135,7 @@ jobs:
             Please use the attached archives for installing or updating Matomo.
             The source code download is only meant for developers and will require extra work to install it.
              - Latest stable production release can be found at https://matomo.org/download/ ([learn more](https://matomo.org/docs/installation/)) (recommended)
-             - Beta and Release Candidates releases can be found at https://builds.matomo.org/ ([learn more](http://matomo.org/faq/how-to-update/faq_159/))"
+             - Beta and Release Candidate releases can be found at https://builds.matomo.org/ ([learn more](https://matomo.org/faq/how-to-update/faq_159/))"
           fi
           
           echo "version=$version" >> $GITHUB_OUTPUT
