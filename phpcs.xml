@@ -31,7 +31,6 @@
         <exclude name="Generic.Files.LineLength" />
         <exclude name="Generic.PHP.LowerCaseConstant.Found" />
         <exclude name="Generic.PHP.LowerCaseKeyword.Found" />
-        <exclude name="PSR12.ControlStructures.BooleanOperatorPlacement.FoundMixed" />
         <exclude name="PSR12.ControlStructures.ControlStructureSpacing.CloseParenthesisIndent" />
         <exclude name="PSR12.ControlStructures.ControlStructureSpacing.CloseParenthesisLine" />
         <exclude name="PSR12.ControlStructures.ControlStructureSpacing.FirstExpressionLine" />
@@ -43,7 +42,6 @@
         <exclude name="PSR2.Classes.PropertyDeclaration.ScopeMissing" />
         <exclude name="PSR2.Classes.PropertyDeclaration.Underscore" />
         <exclude name="PSR2.ControlStructures.ElseIfDeclaration.NotAllowed" />
-        <exclude name="PSR2.ControlStructures.SwitchDeclaration.WrongOpenercase" />
         <exclude name="PSR2.Methods.FunctionCallSignature.CloseBracketLine" />
         <exclude name="PSR2.Methods.FunctionCallSignature.ContentAfterOpenBracket" />
         <exclude name="PSR2.Methods.FunctionCallSignature.Indent" />

@@ -727,8 +727,8 @@ class Visualization extends ViewDataTable
 
         if ($this->dataTable &&
             // Set doesn't have the method
-            !($this->dataTable instanceof DataTable\Map)
-            && empty($javascriptVariablesToSet['totalRows'])
+            !($this->dataTable instanceof DataTable\Map) &&
+            empty($javascriptVariablesToSet['totalRows'])
         ) {
             $javascriptVariablesToSet['totalRows'] =
                 $this->dataTable->getMetadata(DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME) ?: $this->dataTable->getRowsCount();
