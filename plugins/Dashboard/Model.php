@@ -41,10 +41,10 @@ class Model
         return $layouts;
     }
 
-    public function getAllDashboardsForUser($login)
+    public function getAllDashboardsForUser($login, $idSite)
     {
         $dashboards = Db::fetchAll('SELECT iddashboard, name, layout FROM ' . $this->table .
-                                   ' WHERE login = ? ORDER BY iddashboard', array($login));
+                                   ' WHERE login = ? and (idSite = ? OR idSite=0) ORDER BY iddashboard', array($login,$idSite));
 
         return $dashboards;
     }
@@ -81,12 +81,12 @@ class Model
      * Creates a new dashboard for the current user
      * User needs to be logged in
      */
-    public function createNewDashboardForUser($login, $name, $layout)
+    public function createNewDashboardForUser($login, $name, $layout,$idSite)
     {
         $nextId = $this->getNextIdDashboard($login);
 
-        $query = sprintf('INSERT INTO %s (login, iddashboard, name, layout) VALUES (?, ?, ?, ?)', $this->table);
-        $bind  = array($login, $nextId, $name, $layout);
+        $query = sprintf('INSERT INTO %s (login, iddashboard, name, layout, idSite) VALUES (?, ?, ?, ?,?)', $this->table);
+        $bind  = array($login, $nextId, $name, $layout,$idSite);
         Db::query($query, $bind);
 
         return $nextId;
@@ -133,10 +133,11 @@ class Model
     public static function install()
     {
         $dashboard = "login VARCHAR( 100 ) NOT NULL ,
-					  iddashboard INT NOT NULL ,
-					  name VARCHAR( 100 ) NULL DEFAULT NULL ,
-					  layout TEXT NOT NULL,
-					  PRIMARY KEY ( login , iddashboard )";
+                      iddashboard INT NOT NULL ,
+                      name VARCHAR( 100 ) NULL DEFAULT NULL ,
+                      layout TEXT NOT NULL,
+                      idsite int(11) NOT NULL ,
+                      PRIMARY KEY ( login , iddashboard )";
 
         DbHelper::createTable(self::$rawPrefix, $dashboard);
     }
