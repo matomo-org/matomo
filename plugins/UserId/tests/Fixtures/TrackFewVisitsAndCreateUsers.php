@@ -55,7 +55,6 @@ class TrackFewVisitsAndCreateUsers extends Fixture
                     $t->setForceVisitDateTime($visitDateTime);
                     self::assertTrue($t->doTrackEvent('Event action', 'event cat'));
                 }
-
             }
         }
 

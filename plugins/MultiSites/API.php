@@ -139,7 +139,6 @@ class API extends \Piwik\Plugin\API
             } else {
                 APISitesManager::getInstance()->getSitesWithAtLeastViewAccess($limit = false, $_restrictSitesToLogin);
             }
-
         } else {
             $sites = Request::processRequest('SitesManager.getPatternMatchSites',
                 array('pattern'   => $pattern,

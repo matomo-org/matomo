@@ -63,7 +63,6 @@ class Sorter
             }
 
             array_multisort($valuesToSort, $this->config->primarySortOrder, $this->config->primarySortFlags, $secondaryValues, $this->config->secondarySortOrder, $this->config->secondarySortFlags, $rowsWithValues);
-
         } else {
             array_multisort($valuesToSort, $this->config->primarySortOrder, $this->config->primarySortFlags, $rowsWithValues);
         }

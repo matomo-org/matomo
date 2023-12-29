@@ -100,7 +100,6 @@ class Glossary
                         // it will be set in another one
                         continue;
                     }
-
                 }
 
                 $metrics[$metricKey] = array(

@@ -284,7 +284,6 @@ class Model
                 // endless loop in case there is some bug somewhere
                 throw new \Exception('Failed to generate token');
             }
-
         } while ($this->getUserByInviteToken($token));
 
         return $token;
@@ -303,7 +302,6 @@ class Model
                 // endless loop in case there is some bug somewhere
                 throw new \Exception('Failed to generate token');
             }
-
         } while ($this->getUserByTokenAuth($token));
 
         return $token;

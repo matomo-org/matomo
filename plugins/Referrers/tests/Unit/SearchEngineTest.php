@@ -65,7 +65,6 @@ class SearchEngineTest extends \PHPUnit\Framework\TestCase
                 if (is_string($info['charsets'])) {
                     $this->assertTrue(trim($info['charsets']) !== '', $host . ' charsets cannot be an empty string');
                     $this->assertTrue(strpos($info['charsets'], ' ') === false, $host . ' charsets cannot contain spaces');
-
                 }
 
                 if (is_array($info['charsets'])) {

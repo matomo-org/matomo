@@ -229,7 +229,6 @@ class GenerateIntl extends ConsoleCommand
 
                 return $englishName;
             }
-
         } catch (\Exception $e) {
         }
 

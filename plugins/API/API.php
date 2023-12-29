@@ -597,7 +597,6 @@ class API extends \Piwik\Plugin\API
             if (empty($values)) {
                 throw new \Exception("There was no data to suggest for $segmentName");
             }
-
         } else {
             $values = $this->getSuggestedValuesForSegmentName($idSite, $segment, $maxSuggestionsToReturn);
         }

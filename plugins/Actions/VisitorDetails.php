@@ -96,7 +96,6 @@ class VisitorDetails extends VisitorDetailsAbstract
                 if ($this->isPageView($nextAction)) {
                     break;
                 }
-
             } while (isset($actionDetails[$nextActionId]));
 
             if (isset($action['timeSpent'])) {

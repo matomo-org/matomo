@@ -430,7 +430,6 @@ class Csv extends Renderer
                     } else {
                         $csvRow[$name] = $value;
                     }
-
                 }
             }
 

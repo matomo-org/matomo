@@ -141,7 +141,6 @@ class TrackerUpdater
                  */
                 Piwik::postEvent('CustomJsTracker.trackerJsChanged', [$savedFile]);
             }
-
         }
 
         // we need to make sure to sync matomo.js / piwik.js
