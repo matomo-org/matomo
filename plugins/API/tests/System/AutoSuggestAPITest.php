@@ -218,7 +218,6 @@ class AutoSuggestAPITest extends SystemTestCase
         } else {
             self::$skipped[] = $params['segmentToComplete'];
         }
-
     }
 
     public function getAnotherApiForTesting()

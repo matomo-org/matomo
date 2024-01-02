@@ -427,7 +427,6 @@ class SegmentExpression
         } else {
             $availableTables[] = $table;
         }
-
     }
 
     /**

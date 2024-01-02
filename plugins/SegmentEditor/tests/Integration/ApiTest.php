@@ -172,7 +172,6 @@ class ApiTest extends IntegrationTestCase
         $this->setAnotherSuperUser();
         $this->api->add('segment 9', 'countryCode!=fr', $idSite = false, $autoArchive = false, $enableAllUsers = true);
         Rules::setBrowserTriggerArchiving(true);
-
     }
 
     protected function setSuperUser($userName = 'superUserLogin')

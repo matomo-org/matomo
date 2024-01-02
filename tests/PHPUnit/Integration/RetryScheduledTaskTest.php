@@ -49,7 +49,6 @@ class RetryScheduledTaskTest extends IntegrationTestCase
         $this->assertEquals(2, $timetable->getRetryCount($task2));
         $timetable->clearRetryCount($task2);
         $this->assertEquals(0, $timetable->getRetryCount($task1));
-
     }
 
     public function testTaskIsRetriedIfRetryableExcetionIsThrown()

@@ -187,7 +187,6 @@ class UrlHelperTest extends \PHPUnit\Framework\TestCase
         // Add parameters with existing params, preserve anchor
         $this->assertEquals('test/index.php#anchor?abc=123&def=456',
             UrlHelper::getPathAndQueryFromUrl('http://piwik.org/test/index.php#anchor', ['abc' => '123', 'def' => '456'], true));
-
     }
 
     /**
@@ -259,7 +258,6 @@ class UrlHelperTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('localhost', UrlHelper::getHostFromUrl('//localhost/path?test=test2'));
         $this->assertEquals('example.org', UrlHelper::getHostFromUrl('//example.org/path'));
         $this->assertEquals('example.org', UrlHelper::getHostFromUrl('//example.org/path?test=test2'));
-
     }
 
     /**

@@ -355,7 +355,6 @@ class Twig
             $template .= '</div>';
 
             return $template;
-
         }, array('is_safe' => array('html')));
         $this->twig->addFilter($notificationFunction);
     }
@@ -374,7 +373,6 @@ class Twig
             $string = SafeDecodeLabel::decodeLabelSafe($string);
 
             return $string;
-
         }, array('is_safe' => array('all')));
         $this->twig->addFilter($rawSafeDecoded);
     }

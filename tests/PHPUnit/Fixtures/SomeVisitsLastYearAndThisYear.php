@@ -60,6 +60,5 @@ class SomeVisitsLastYearAndThisYear extends Fixture
             $t->setUrl('http://example.org/index.htm');
             self::checkResponse($t->doTrackPageView('0'));
         }
-
     }
 }

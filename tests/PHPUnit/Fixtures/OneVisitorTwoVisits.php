@@ -57,7 +57,6 @@ class OneVisitorTwoVisits extends Fixture
         // overflow in log_link_visit_action
         $table = Common::prefixTable('log_link_visit_action');
         Db::query("INSERT INTO $table (idlink_va) VALUES ($overflow)");
-
     }
 
     private function setUpWebsitesAndGoals()

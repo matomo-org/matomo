@@ -228,7 +228,6 @@ class Events extends \Piwik\Plugin
                 array('secondaryDimension' => $dimension)
             );
         }
-
     }
 
     private function addTooltipEventValue(ViewDataTable $view)

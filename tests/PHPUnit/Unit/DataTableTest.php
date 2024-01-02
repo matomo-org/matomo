@@ -299,7 +299,6 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($columns, $row->getColumns());
         $this->assertEquals($metadata, $row->getMetadata());
         $this->assertNull($row->getIdSubDataTable());
-
     }
 
     /**

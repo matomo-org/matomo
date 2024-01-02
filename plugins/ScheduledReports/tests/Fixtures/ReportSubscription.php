@@ -38,6 +38,5 @@ class ReportSubscription extends Fixture
         API::getInstance()->addReport($this->idSite, 'description', 'day', 3, $reportType, $reportFormat, $reports, $parameters);
 
         Db::query("INSERT INTO " . Common::prefixTable('report_subscriptions') . "(idreport, token, email) VALUES (1, 'mycustomtoken', 'any@matomo.org')");
-
     }
 }

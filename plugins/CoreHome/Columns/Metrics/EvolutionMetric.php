@@ -267,7 +267,6 @@ class EvolutionMetric extends ProcessedMetric
         }
 
         return round($ratio, 3);
-
     }
 
     public function getSemanticType(): ?string

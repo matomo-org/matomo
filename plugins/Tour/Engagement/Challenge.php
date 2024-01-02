@@ -28,7 +28,6 @@ abstract class Challenge
 
     public function __construct()
     {
-
     }
 
     /**

@@ -103,7 +103,6 @@ class Model
     {
         return (int) Db::fetchOne("SELECT count(*) FROM " . $this->table . "
                                 WHERE deleted = 0");
-
     }
 
     private function getDb()

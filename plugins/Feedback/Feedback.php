@@ -162,7 +162,6 @@ class Feedback extends \Piwik\Plugin
             return false;
         }
         return true;
-
     }
 
     // needs to be protected not private for testing purpose

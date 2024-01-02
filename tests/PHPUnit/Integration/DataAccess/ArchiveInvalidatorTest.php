@@ -2081,7 +2081,6 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->invalidator->applyScheduledReArchiving();
         // should not end up having twice the amount of invalidations but delete existing
         $this->assertEquals($numInvalidations, $this->getNumInvalidations());
-
     }
     public function test_reArchiveReport_createsCorrectInvalidationEntries_ifNoReportSpecified()
     {

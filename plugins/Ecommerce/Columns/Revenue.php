@@ -57,7 +57,6 @@ class Revenue extends BaseConversion
             return $this->getRevenueQuery($valueToMatch, $sqlField, $matchType, -1);
         });
         $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
-
     }
 
     /**

@@ -29,6 +29,5 @@ class DateTime extends BaseValidator
         } catch (\Exception $e) {
             throw new Exception($e->getMessage(), $e->getCode(), $e);
         }
-
     }
 }

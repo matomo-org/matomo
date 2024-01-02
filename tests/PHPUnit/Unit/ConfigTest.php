@@ -77,7 +77,6 @@ class ConfigTest extends TestCase
         $expectedArray = array('value1', 'value2');
         $array = $config->TestArrayOnlyInGlobalFile;
         $this->assertEquals($expectedArray, $array['my_array']);
-
     }
 
     public function test_CommonConfig_Overrides()
@@ -91,7 +90,6 @@ class ConfigTest extends TestCase
         $this->assertEquals("valueCommon", $config->Category['key2'], var_export($config->Category['key2'], true));
         $this->assertEquals("test", $config->GeneralSection['password']);
         $this->assertEquals("commonValue", $config->TestOnlyInCommon['value']);
-
     }
 
     public function testWritingConfigWithSpecialCharacters()
@@ -459,7 +457,6 @@ class ConfigTest extends TestCase
               )
             ),
         );
-
     }
 
     /**

@@ -490,6 +490,5 @@ class Cookie
             $expireTime->modify("+2 years");
         }
         return $expireTime->format(DateTime::COOKIE);
-
     }
 }

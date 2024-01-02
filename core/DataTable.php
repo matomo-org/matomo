@@ -1040,7 +1040,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         if (!is_null($this->totalsRow)) {
             $this->totalsRow->deleteMetadata($name);
         }
-
     }
 
     /**

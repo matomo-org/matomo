@@ -70,7 +70,6 @@ class DbTest extends IntegrationTestCase
 
         $this->assertGreaterThan(3000, $ms);
         $this->assertLessThan(5000, $ms);
-
     }
     public function test_rowCount_whenUpdating_returnsAllMatchedRowsNotOnlyUpdatedRows()
     {

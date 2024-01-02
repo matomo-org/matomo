@@ -81,7 +81,6 @@ class Mysql extends Db
                 $this->mysqlOptions[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = false;
             }
         }
-
     }
 
     public function __destruct()

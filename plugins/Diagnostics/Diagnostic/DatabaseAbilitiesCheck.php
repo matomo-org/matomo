@@ -162,7 +162,6 @@ class DatabaseAbilitiesCheck implements Diagnostic
         }
 
         return new DiagnosticResultItem($status, $comment);
-
     }
 
     protected function checkTransactionLevel()
@@ -179,6 +178,5 @@ class DatabaseAbilitiesCheck implements Diagnostic
         }
 
         return new DiagnosticResultItem($status, $comment);
-
     }
 }

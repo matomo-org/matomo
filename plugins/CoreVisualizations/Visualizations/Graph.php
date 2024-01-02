@@ -160,7 +160,6 @@ abstract class Graph extends Visualization
         $this->addTranslations();
 
         $this->config->selectable_rows = array_values($this->selectableRows);
-
     }
 
     protected function addTranslations(): void

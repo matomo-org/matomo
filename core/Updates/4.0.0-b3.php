@@ -54,6 +54,5 @@ class Updates_4_0_0_b3 extends PiwikUpdates
             $config->General = $general;
             $config->forceSave();
         }
-
     }
 }

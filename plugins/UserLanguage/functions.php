@@ -67,7 +67,6 @@ function languageTranslateWithCode($label)
     } else {
         return sprintf("%s (%s)", $lang, $ex[0]);
     }
-
 }
 
 /**

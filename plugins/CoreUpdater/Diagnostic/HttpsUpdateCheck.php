@@ -52,6 +52,5 @@ class HttpsUpdateCheck implements Diagnostic
 
         // Success, https is available
         return [DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK)];
-
     }
 }

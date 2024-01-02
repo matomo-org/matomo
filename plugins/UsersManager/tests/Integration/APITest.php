@@ -887,7 +887,6 @@ class APITest extends IntegrationTestCase
         $access = $this->api->getSitesAccessForUser('userLoginCapabilities', null, 1, null, 'view');
 
         $this->assertEquals(['tagmanager_write'], $access[0]['capabilities']);
-
     }
 
     public function testGetSitesAccessForUserShouldIgnoreOffsetIfLimitNotSupplied()

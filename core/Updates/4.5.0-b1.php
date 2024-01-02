@@ -31,7 +31,6 @@ class Updates_4_5_0_b1 extends PiwikUpdates
         $migrations[] = $this->migration->db->changeColumnType('session', 'data', 'MEDIUMTEXT');
 
         return $migrations;
-
     }
 
     public function doUpdate(Updater $updater)

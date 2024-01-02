@@ -251,7 +251,6 @@ class EvolutionPeriodSelectorTest extends IntegrationTestCase
             'period' => 'week','date' => $year->getRangeString(),
             'comparePeriods' => ['week', 'week'], 'compareDates' => [$largeRangePrevious->getRangeString(), $mediumRangePrevious->getRangeString()]
         ], $year, [$largeRangePrevious, $mediumRangePrevious]);
-
     }
 
     private function assertHighestPeriodInCommon($expected, $originalPeriod, $comparePeriods)

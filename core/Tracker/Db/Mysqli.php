@@ -83,7 +83,6 @@ class Mysqli extends Db
         if(!empty($dbInfo['ssl_no_verify'])){
             $this->ssl_no_verify = $dbInfo['ssl_no_verify'];
         }
-
     }
 
     /**

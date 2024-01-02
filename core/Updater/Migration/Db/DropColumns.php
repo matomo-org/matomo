@@ -36,6 +36,5 @@ class DropColumns extends Sql
             $sql = sprintf("ALTER TABLE `%s` %s", $tableName, implode(', ', $dropColumns));
             parent::__construct($sql, static::ERROR_CODE_COLUMN_NOT_EXISTS);
         }
-
     }
 }

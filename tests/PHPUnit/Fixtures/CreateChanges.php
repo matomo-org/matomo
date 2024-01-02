@@ -56,7 +56,6 @@ class CreateChanges extends Fixture
         foreach ($changes as $change) {
             $changesModel->addChange('CoreHome', $change);
         }
-
     }
 
     private function trackVisits()

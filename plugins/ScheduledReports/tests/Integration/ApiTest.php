@@ -452,7 +452,6 @@ class ApiTest extends IntegrationTestCase
         $this->assertEquals($expectedTasks, $tasks);
 
         \Piwik\Plugins\ScheduledReports\API::unsetInstance();
-
     }
 
     /**

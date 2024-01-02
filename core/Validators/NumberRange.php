@@ -52,6 +52,5 @@ class NumberRange extends BaseValidator
         if (isset($this->max) && $this->max < $value) {
             throw new Exception(Piwik::translate('General_ValidatorErrorNumberTooHigh', array($value, $this->max)));
         }
-
     }
 }
