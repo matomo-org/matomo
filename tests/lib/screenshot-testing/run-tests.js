@@ -63,5 +63,5 @@ async function main() {
     // headless.
     mocha.addFile(path.join(__dirname, 'mocha-super-suite.js'));
 
-    app.runTests(mocha)
+    mocha.run();
 }
