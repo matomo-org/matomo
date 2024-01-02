@@ -48,7 +48,6 @@ class InsightReport
             $minGrowthPercentNegative = -70;         // min -70%
             $minDisappearedPercent = 8;              // min 12
             $minNewPercent = min(($totalEvolution / 100) * 3, 10);    // min 6% = min 10 of total visits up to max 10%
-
         } elseif ($totalEvolution >= 0) {
             // eg change from 50 to 75 = 50%
             $minGrowthPercentPositive = $totalEvolution + 20;  // min 70%

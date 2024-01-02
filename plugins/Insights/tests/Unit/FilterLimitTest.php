@@ -91,5 +91,4 @@ class FilterLimitTest extends BaseUnitTest
         $filter = new Limit($this->table, 'growth', $limitIncrease, $limitDecrease);
         $filter->filter($this->table);
     }
-
 }

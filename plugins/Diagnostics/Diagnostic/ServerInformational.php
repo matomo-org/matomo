@@ -51,7 +51,6 @@ class ServerInformational implements Diagnostic
                         '<a href="https://github.com/matomo-org/matomo-nginx#readme" target="_blank">', '</a>']);
 
                 $results[] = DiagnosticResult::singleResult('Server Info', DiagnosticResult::STATUS_WARNING, $comment);
-
             } else {
                 $results[] = DiagnosticResult::informationalResult('Server Info', $_SERVER['SERVER_SOFTWARE']);
             }
@@ -59,5 +58,4 @@ class ServerInformational implements Diagnostic
 
         return $results;
     }
-
 }

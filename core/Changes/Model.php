@@ -242,5 +242,4 @@ class Model
 
         return $this->changeItems;
     }
-
 }

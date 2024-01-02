@@ -116,7 +116,6 @@ class VisitsOverSeveralDays extends Fixture
             // Here we force the visitor ID cookie value sent to piwik.php, to create a "unique visitor" for all visits in fixture
             // we do not use setVisitorId(), because we want shouldLookupOneVisitorFieldOnly() to return false for this particular test case
             $debugStringAppend .= '&_id=2f4f673d4732e11d';
-
         }
         $tracker->setDebugStringAppend($debugStringAppend);
         return $tracker;

@@ -464,5 +464,4 @@ class CustomDimensionsRequestProcessorTest extends IntegrationTestCase
         $configuration->configureNewDimension($idSite = 1, 'MyName5', CustomDimensions::SCOPE_ACTION, 3, $active = true, $extractions = array(), $caseSensitive = true);
         $configuration->configureNewDimension($idSite = 1, 'MyName6', CustomDimensions::SCOPE_VISIT, 4, $active = true, $extractions = array(), $caseSensitive = true);
     }
-
 }

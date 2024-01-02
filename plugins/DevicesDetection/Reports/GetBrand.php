@@ -31,5 +31,4 @@ class GetBrand extends Base
         $view->config->show_exclude_low_population = false;
         $view->config->addTranslation('label', Piwik::translate("DevicesDetection_dataTableLabelBrands"));
     }
-
 }

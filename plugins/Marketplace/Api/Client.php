@@ -348,5 +348,4 @@ class Client
 
         return $url;
     }
-
 }

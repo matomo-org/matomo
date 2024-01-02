@@ -176,7 +176,6 @@ class Cloud extends Visualization
             foreach ($keys as $value) {
                 $this->wordsArray[$value] = $tmpArray[$value];
             }
-
         }
     }
 

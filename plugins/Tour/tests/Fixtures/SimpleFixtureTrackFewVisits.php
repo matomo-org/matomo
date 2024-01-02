@@ -56,5 +56,4 @@ class SimpleFixtureTrackFewVisits extends Fixture
         $t->addEcommerceItem($sku = 'SKU_ID', $name = 'Test item!', $category = 'Test & Category', $price = 777, $quantity = 33);
         self::checkResponse($t->doTrackEcommerceOrder('TestingOrder', $grandTotal = 33 * 77));
     }
-
 }

@@ -33,5 +33,4 @@ class Continent extends Dimension
     {
         return \Piwik\Plugins\UserCountry\continentTranslate($value);
     }
-
 }

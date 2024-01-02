@@ -29,5 +29,4 @@ class GetKeywordsFromSearchEngineId extends Base
         $view->config->show_search = false;
         $view->config->show_exclude_low_population = false;
     }
-
 }

@@ -62,5 +62,4 @@ class RolesProvider
             throw new Exception(Piwik::translate("UsersManager_ExceptionAccessValues", [implode(", ", $roles), $roleId]));
         }
     }
-
 }

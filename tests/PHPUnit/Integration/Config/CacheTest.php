@@ -113,5 +113,4 @@ class CacheTest extends IntegrationTestCase
         $this->assertFalse($this->cache->isValidHost(array('General' => array('trusted_hosts' => array()))));
         $this->assertFalse($this->cache->isValidHost(array()));
     }
-
 }

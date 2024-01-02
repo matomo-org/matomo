@@ -67,5 +67,4 @@ class UserSetting extends Setting
 
         return $this->hasWritePermission;
     }
-
 }

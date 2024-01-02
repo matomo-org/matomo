@@ -303,7 +303,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 );
                 Onboarding::sendSysAdminMail($email);
                 $this->redirectToNextStep(__FUNCTION__);
-
             } catch (Exception $e) {
                 $view->errorMessage = $e->getMessage();
             }

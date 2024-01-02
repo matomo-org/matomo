@@ -222,5 +222,4 @@ class FilterInsightTest extends BaseUnitTest
     {
         $this->applyInsight($considerMovers = true, $considerNew = true, $considerDisappeared = true);
     }
-
 }

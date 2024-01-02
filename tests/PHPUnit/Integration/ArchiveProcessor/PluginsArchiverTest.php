@@ -29,7 +29,6 @@ class CustomArchiver extends Archiver
     {
         throw new DbException('Failed query foo bar baz', 43);
     }
-
 }
 
 class CustomPluginsArchiver extends PluginsArchiver
@@ -40,7 +39,6 @@ class CustomPluginsArchiver extends PluginsArchiver
             'MyPluginName' => 'Piwik\Tests\Integration\Archive\CustomArchiver'
         );
     }
-
 }
 
 /**

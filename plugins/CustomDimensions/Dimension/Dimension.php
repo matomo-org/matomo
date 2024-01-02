@@ -73,5 +73,4 @@ class Dimension
     {
         return new Configuration();
     }
-
 }

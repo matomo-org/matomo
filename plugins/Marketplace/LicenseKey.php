@@ -40,5 +40,4 @@ class LicenseKey
     {
         Option::delete('marketplace_license_key');
     }
-
 }

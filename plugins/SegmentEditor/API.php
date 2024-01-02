@@ -356,7 +356,6 @@ class API extends \Piwik\Plugin\API
             if (!$segment['enable_all_users']) {
                 Piwik::checkUserHasSuperUserAccessOrIsTheUser($segment['login']);
             }
-
         } catch (Exception $e) {
             throw new Exception($this->getMessageCannotEditSegmentCreatedBySuperUser());
         }

@@ -194,5 +194,4 @@ class SystemSettingTest extends IntegrationTestCase
 
         return $systemSetting;
     }
-
 }

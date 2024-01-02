@@ -82,5 +82,4 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             };
         });
     }
-
 }

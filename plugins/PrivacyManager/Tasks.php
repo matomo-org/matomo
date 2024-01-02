@@ -53,7 +53,6 @@ class Tasks extends \Piwik\Plugin\Tasks
             if (!empty($id)) {
                 $this->logDataAnonymizations->executeScheduledEntry($id);
             }
-
         } while (!empty($id) && $loop < 100);
     }
 

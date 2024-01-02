@@ -302,7 +302,6 @@ class ArchivingHelper
                     $row[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY] = (float) $row[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY];
                 }
             }
-
         }
 
         // Get goals column

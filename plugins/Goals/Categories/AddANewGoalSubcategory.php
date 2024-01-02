@@ -15,5 +15,4 @@ class AddANewGoalSubcategory extends Subcategory
     protected $categoryId = 'Goals_Goals';
     protected $id = 'Goals_AddNewGoal';
     protected $order = 9999;
-
 }

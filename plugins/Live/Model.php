@@ -692,7 +692,6 @@ class Model
         if (!empty($startDate)) {
             $where[] = "log_visit.visit_last_action_time >= ?";
             $whereBind[] = $startDate->toString('Y-m-d H:i:s');
-
         }
 
         if (!empty($endDate)) {

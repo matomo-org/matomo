@@ -50,7 +50,6 @@ class GetTemperatures extends Base
                         ->setSubcategoryId('Treemap')
                         ->forceViewDataTable('infoviz-treemap')
             );
-
         }
     }
 
@@ -63,14 +62,12 @@ class GetTemperatures extends Base
             $view->config->translations['value'] = "Temperature";
             $view->config->selectable_columns = array("value");
             $view->config->max_graph_elements = 24;
-
         } elseif ($view->isViewDataTableId('infoviz-treemap')) {
 
             $view->config->translations['value'] = "Temperature";
             $view->config->columns_to_display = array("label", "value");
             $view->config->selectable_columns = array("value");
             $view->config->show_evolution_values = 0;
-
         } else {
             // for default view datatable, eg HtmlTable
 
@@ -88,5 +85,4 @@ class GetTemperatures extends Base
             $view->config->metrics_documentation = array('value' => 'Documentation for temperature metric');
         }
     }
-
 }

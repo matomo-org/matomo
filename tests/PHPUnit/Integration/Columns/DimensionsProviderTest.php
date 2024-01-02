@@ -34,5 +34,4 @@ class DimensionsProviderTest extends IntegrationTestCase
         $dimension = $this->provider->factory("ExampleTracker.ExampleDimension");
         $this->assertInstanceOf('Piwik\Plugins\ExampleTracker\Columns\ExampleDimension', $dimension);
     }
-
 }

@@ -25,5 +25,4 @@ abstract class Capability
     {
         return \in_array($idRole, $this->getIncludedInRoles(), true);
     }
-
 }

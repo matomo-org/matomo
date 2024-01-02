@@ -30,5 +30,4 @@ class Config extends VisualizationConfig
 
         $this->addPropertiesThatCanBeOverwrittenByQueryParams(array('display_logo_instead_of_label'));
     }
-
 }

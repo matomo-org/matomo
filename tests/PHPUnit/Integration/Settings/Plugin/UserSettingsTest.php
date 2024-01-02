@@ -44,5 +44,4 @@ class UserSettingsTest extends BaseSettingsTestCase
 
         $this->assertTrue($setting instanceof UserSetting);
     }
-
 }

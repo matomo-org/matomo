@@ -237,7 +237,6 @@ class Mysql extends Db
                 $message = $e->getMessage() . " In query: $query Parameters: " . var_export($parameters, true);
                 throw new DbException("Error query: " . $message, (int) $e->getCode());
             }
-
         }
     }
 
@@ -412,6 +411,4 @@ class Mysql extends Db
             $this->connection->exec($sql);
         }
     }
-
-
 }

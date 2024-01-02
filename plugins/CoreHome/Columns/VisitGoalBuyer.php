@@ -46,7 +46,7 @@ class VisitGoalBuyer extends VisitDimension
     public function formatValue($value, $idSite, Formatter $formatter)
     {
         switch ($value) {
-            case 'none';
+            case 'none':
             case '0':
             case self::TYPE_BUYER_NONE:
                 return Piwik::translate('UserCountryMap_None');
@@ -138,5 +138,4 @@ class VisitGoalBuyer extends VisitDimension
 
         return self::TYPE_BUYER_OPEN_CART;
     }
-
 }

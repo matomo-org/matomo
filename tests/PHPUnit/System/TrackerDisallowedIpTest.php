@@ -71,5 +71,4 @@ class TrackerDisallowedIpTest extends IntegrationTestCase
             }),
         ];
     }
-
 }

@@ -37,5 +37,4 @@ class GoalDimension extends Dimension
     {
         return new Discriminator('log_conversion', 'idgoal', $this->goal['idgoal']);
     }
-
 }

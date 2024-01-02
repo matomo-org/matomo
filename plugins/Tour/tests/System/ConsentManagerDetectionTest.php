@@ -55,5 +55,4 @@ class ConsentManagerDetectionTest extends SystemTestCase
     {
         return ['data' => $data, 'headers' => $headers, 'status' => 200];
     }
-
 }

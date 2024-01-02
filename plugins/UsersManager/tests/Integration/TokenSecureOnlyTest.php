@@ -83,5 +83,4 @@ class TokenSecureOnlyTest extends IntegrationTestCase
 
         $this->assertEquals(200, $responseInfo["http_code"]);
     }
-
 }

@@ -111,5 +111,4 @@ class CacheTest extends IntegrationTestCase
     {
         return Cache::buildCache();
     }
-
 }

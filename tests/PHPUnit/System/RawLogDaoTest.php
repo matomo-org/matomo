@@ -12,7 +12,8 @@ use Piwik\DataAccess\RawLogDao;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
-class CustomRawLogDao extends RawLogDao {
+class CustomRawLogDao extends RawLogDao
+{
     public function getTableIdColumns()
     {
         return parent::getTableIdColumns();
@@ -120,5 +121,4 @@ class RawLogDaoTest extends SystemTestCase
             array($from = '2015-01-25 05:35:28', $to = '2015-01-27 05:35:27', $this->idSite, $hasVisits = false),  // time of visit is earlier
         );
     }
-
 }

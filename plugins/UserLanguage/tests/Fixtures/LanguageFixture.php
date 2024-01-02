@@ -68,5 +68,4 @@ class LanguageFixture extends Fixture
         }
 
     }
-
 }

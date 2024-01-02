@@ -231,5 +231,4 @@ class InvalidLicenses
 
         return is_array($this->activatedPluginNames) && in_array($pluginName, $this->activatedPluginNames);
     }
-
 }

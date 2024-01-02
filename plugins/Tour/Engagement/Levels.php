@@ -144,6 +144,4 @@ class Levels
 
         return $levels;
     }
-
-
 }

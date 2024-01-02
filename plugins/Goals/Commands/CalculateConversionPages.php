@@ -362,11 +362,9 @@ class CalculateConversionPages extends ConsoleCommand
                 " . $where;
 
                 $queries[] = ['sql' => $sql, 'bind' => $bind];
-
             }
         }
 
         return $queries;
     }
-
 }

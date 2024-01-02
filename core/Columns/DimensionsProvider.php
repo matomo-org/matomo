@@ -58,5 +58,4 @@ class DimensionsProvider
     {
         return Dimension::getAllDimensions();
     }
-
 }

@@ -249,5 +249,4 @@ class GetCustomDimension extends Report
 
         return $idSite;
     }
-
 }

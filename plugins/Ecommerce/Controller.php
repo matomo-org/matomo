@@ -95,7 +95,6 @@ class Controller extends \Piwik\Plugins\Goals\Controller
             $previousDataRow = $previousData->getFirstRow();
 
             $return = $this->addSparklineEvolutionValues($return, $idGoal, $date, $lastPeriodDate, $dataRow, $previousDataRow);
-
         }
         return $return;
     }

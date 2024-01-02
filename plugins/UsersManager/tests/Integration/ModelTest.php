@@ -380,6 +380,4 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals($id5, $tokens[1]['idusertokenauth']);
         $this->assertCount(2, $tokens);
     }
-
-
 }

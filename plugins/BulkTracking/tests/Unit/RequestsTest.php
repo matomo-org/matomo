@@ -167,5 +167,4 @@ class RequestsTest extends \PHPUnit\Framework\TestCase
 
         return json_encode($params);
     }
-
 }

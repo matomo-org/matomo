@@ -132,7 +132,6 @@ abstract class AbstractPrivateDirectories implements Diagnostic
                 }
                 // in other cases we assume it's not publicly accessible because we didn't get any expected output in the response
                 // so it seems like they redirect eg to the homepage or another page
-
             } else {
                 // we assume the file is accessible publicly
                 $result->addItem(new DiagnosticResultItem(DiagnosticResult::STATUS_ERROR, $testUrl));

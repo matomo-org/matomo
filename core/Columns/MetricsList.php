@@ -187,5 +187,4 @@ class MetricsList
 
         return $list;
     }
-
 }

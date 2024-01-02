@@ -158,5 +158,4 @@ class AttachedFileReportEmailGeneratorTest extends IntegrationTestCase
             ]),
         ];
     }
-
 }

@@ -256,9 +256,9 @@ class Pdf extends ReportRenderer
         $rowCount = $reportHasData ? $this->report->getRowsCount() + self::TABLE_HEADER_ROW_COUNT : self::NO_DATA_ROW_COUNT;
 
         // Only a page break before if the current report has some data
-        if ($reportHasData &&
+        if ($reportHasData
             // and
-            (
+            && (
                 // it is the first report
                 $this->currentPage == 0
                 // or, it is a graph-only report and it is the first of a series of self::MAX_GRAPH_REPORTS

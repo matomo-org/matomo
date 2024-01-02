@@ -79,5 +79,4 @@ class Ecommerce extends \Piwik\Plugin
             }
         }
     }
-
 }

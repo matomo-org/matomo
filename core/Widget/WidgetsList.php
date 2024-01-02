@@ -244,5 +244,4 @@ class WidgetsList
 
         return $widgetUniqueId;
     }
-
 }

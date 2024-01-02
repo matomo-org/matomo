@@ -78,5 +78,4 @@ class TrackerJsCheck implements Diagnostic
     {
         return '"/' . implode('" & "/', $files) . '"';
     }
-
 }

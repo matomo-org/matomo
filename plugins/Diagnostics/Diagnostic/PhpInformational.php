@@ -109,5 +109,4 @@ class PhpInformational implements Diagnostic
 
         return $results;
     }
-
 }

@@ -140,5 +140,4 @@ class Metrics
 
         return $metricsConfig;
     }
-
 }

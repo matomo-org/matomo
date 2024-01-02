@@ -32,6 +32,4 @@ class ChallengeViewVisitorProfile extends Challenge
     {
         return Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/user-profile/');
     }
-
-
 }

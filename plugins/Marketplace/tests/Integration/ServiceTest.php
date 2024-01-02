@@ -60,5 +60,4 @@ class ServiceTest extends IntegrationTestCase
         $this->assertTrue(is_array($consumer));
         $this->assertNotEmpty($consumer);
     }
-
 }

@@ -140,7 +140,7 @@ jobs:
             else
               cd $GITHUB_WORKSPACE
               git add plugins/*/vue/dist/*.js plugins/*/vue/dist/*.json
-              git commit -m "built vue files"
+              git commit -m "Build vue files"
               git push
             fi
           fi

@@ -46,5 +46,4 @@ class AutoSuggest
 
         return $labels;
     }
-
 }

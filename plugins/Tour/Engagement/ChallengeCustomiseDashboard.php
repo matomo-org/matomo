@@ -56,6 +56,4 @@ class ChallengeCustomiseDashboard extends Challenge
     {
         return Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/dashboards/create-dashboards-and-customise-widgets-and-layout/');
     }
-
-
 }

@@ -253,6 +253,4 @@ class Login extends \Piwik\Plugin
 
         return $login;
     }
-
-
 }

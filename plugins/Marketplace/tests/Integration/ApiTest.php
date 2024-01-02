@@ -188,5 +188,4 @@ class ApiTest extends IntegrationTestCase
     {
         $this->assertFalse($this->buildLicenseKey()->has());
     }
-
 }

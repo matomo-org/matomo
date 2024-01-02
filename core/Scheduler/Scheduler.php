@@ -163,7 +163,6 @@ class Scheduler
 
                             $this->logger->warning("Scheduler: '{task}' has already been retried three times, giving up",
                                 ['task' => $task->getName()]);
-
                         } else {
 
                             $readFromOption = true;

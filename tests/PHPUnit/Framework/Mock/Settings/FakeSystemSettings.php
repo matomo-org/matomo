@@ -9,7 +9,8 @@
 namespace Piwik\Tests\Framework\Mock\Settings;
 
 
-class FakeSystemSettings extends \Piwik\Plugins\ExampleSettingsPlugin\SystemSettings {
+class FakeSystemSettings extends \Piwik\Plugins\ExampleSettingsPlugin\SystemSettings
+{
     protected $pluginName = 'ExampleSettingsPlugin';
 
     public function init()
@@ -26,5 +27,4 @@ class FakeSystemSettings extends \Piwik\Plugins\ExampleSettingsPlugin\SystemSett
     {
         return parent::makeSetting($name, $defaultValue, $type, $configureCallback);
     }
-
 }

@@ -56,5 +56,4 @@ class MatomoInformational implements Diagnostic
             return $e->getMessage();
         }
     }
-
 }

@@ -12,7 +12,8 @@ use Piwik\Piwik;
 use Piwik\Plugins\CustomJsTracker\TrackingCode\PluginTrackerFiles;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
-class CustomPluginTrackerFiles extends PluginTrackerFiles {
+class CustomPluginTrackerFiles extends PluginTrackerFiles
+{
     protected function getDirectoriesToLook() {
         return array(
             'CustomJsTracker' => PIWIK_DOCUMENT_ROOT . '/plugins/CustomJsTracker/tests/resources/'
@@ -64,5 +65,4 @@ class PluginTrackerFilesTest extends IntegrationTestCase
         $foundFiles = $trackerFiles->find();
         $this->assertCount(0, $foundFiles);
     }
-
 }

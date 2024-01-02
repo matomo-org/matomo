@@ -39,5 +39,4 @@ class GetOsFamilies extends Base
             ReportsProvider::factory('DevicesDetection', 'getOsVersions'),
         );
     }
-
 }

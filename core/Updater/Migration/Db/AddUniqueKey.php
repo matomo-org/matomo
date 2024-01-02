@@ -26,5 +26,4 @@ class AddUniqueKey extends AddIndex
     {
         parent::__construct($table, $columnNames, $indexName);
     }
-
 }

@@ -44,5 +44,4 @@ class Config extends JqplotGraphConfig
             $this->show_periods = true;
         }
     }
-
 }

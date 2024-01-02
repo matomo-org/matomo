@@ -83,7 +83,6 @@ class OverwriteUserIdTest extends SystemTestCase
     {
         return dirname(__FILE__);
     }
-
 }
 
 OverwriteUserIdTest::$fixture = new OverwriteUserIdFixture();

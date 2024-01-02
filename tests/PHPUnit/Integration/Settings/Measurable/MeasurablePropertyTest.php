@@ -53,6 +53,4 @@ class MeasurablePropertyTest extends IntegrationTestCase
 
         new MeasurableProperty('name', $default = 5, FieldConfig::TYPE_INT, 'MyPlugin', $idSite = 1);
     }
-
-
 }

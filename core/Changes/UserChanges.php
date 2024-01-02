@@ -111,5 +111,4 @@ class UserChanges
             $usersModel->updateUserFields($this->user['login'], ['idchange_last_viewed' => $maxId]);
         }
     }
-
 }

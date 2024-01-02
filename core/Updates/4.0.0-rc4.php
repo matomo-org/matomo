@@ -63,5 +63,4 @@ class Updates_4_0_0_rc4 extends PiwikUpdates
     {
         $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
     }
-
 }

@@ -390,7 +390,6 @@ class LogAggregator
                     }
                 }
             }
-
         }
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy, $limit, $offset);

@@ -1151,5 +1151,4 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
     {
         return preg_match('~Morpheus/icons/(?!dist)~', $file);
     }
-
 }

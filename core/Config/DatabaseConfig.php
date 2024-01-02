@@ -14,5 +14,4 @@ class DatabaseConfig extends SectionConfig
     {
         return 'database';
     }
-
 }

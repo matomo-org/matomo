@@ -122,5 +122,4 @@ class SegmentMetadata
 
         return $compare;
     }
-
 }

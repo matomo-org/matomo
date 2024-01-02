@@ -53,5 +53,4 @@ class GenerateMenu extends GeneratePluginBase
 
         return $this->askPluginNameAndValidate($pluginNames, $invalidName);
     }
-
 }

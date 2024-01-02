@@ -46,5 +46,4 @@ class ScopeTest extends \PHPUnit\Framework\TestCase
     {
         return new Scope($scope);
     }
-
 }

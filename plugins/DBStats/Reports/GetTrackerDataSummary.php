@@ -31,5 +31,4 @@ class GetTrackerDataSummary extends Base
         $view->config->show_offset_information  = false;
         $view->config->show_pagination_control  = false;
     }
-
 }

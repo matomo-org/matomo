@@ -43,7 +43,6 @@ class ChangesTest extends IntegrationTestCase
         unset($r['created_time']);
         $this->assertEquals($json, json_encode($r, true));
     }
-
 }
 
 ChangesTest::$fixture = new CreateChanges();

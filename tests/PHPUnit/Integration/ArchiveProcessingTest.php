@@ -295,7 +295,6 @@ class ArchiveProcessingTest extends IntegrationTestCase
                 array('idsite', 'url'),
                 $data,
                 $throwException = true, 'utf8');
-
         } catch (Exception $e) {
             $didWeUseBulk = $e->getMessage();
         }

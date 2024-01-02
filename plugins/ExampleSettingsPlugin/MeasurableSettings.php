@@ -61,5 +61,4 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
             $field->uiControl = FieldConfig::UI_CONTROL_TEXTAREA;
         });
     }
-
 }

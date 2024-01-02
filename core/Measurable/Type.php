@@ -54,5 +54,4 @@ class Type
     {
         return $this->howToSetupUrl;
     }
-
 }

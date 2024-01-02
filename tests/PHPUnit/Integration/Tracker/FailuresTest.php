@@ -325,5 +325,4 @@ class FailuresTest extends IntegrationTestCase
         $this->failures->logFailure($idFailure, $request);
         $this->failures->setNow($this->now);
     }
-
 }

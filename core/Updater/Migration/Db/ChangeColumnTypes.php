@@ -24,5 +24,4 @@ class ChangeColumnTypes extends Sql
 
         parent::__construct($sql, static::ERROR_CODE_UNKNOWN_COLUMN);
     }
-
 }

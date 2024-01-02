@@ -95,5 +95,4 @@ abstract class Db extends Migration
      * MySQL server has gone away
      */
     const ERROR_CODE_MYSQL_SERVER_HAS_GONE_AWAY = 2006;
-
 }

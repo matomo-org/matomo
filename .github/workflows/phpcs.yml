@@ -30,5 +30,9 @@ jobs:
         with:
           php-version: '7.2'
           tools: cs2pr
-      - name: Run phpcs
-        run: ./vendor/bin/phpcs -q --report=checkstyle | cs2pr
+      - name: Check PHP code styles
+        id: phpcs
+        run: ./vendor/bin/phpcs --report-full --report-checkstyle=./phpcs-report.xml
+      - name: Show PHPCS results in PR
+        if: ${{ always() && steps.phpcs.outcome == 'failure' }}
+        run: cs2pr ./phpcs-report.xml

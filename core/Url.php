@@ -883,5 +883,4 @@ class Url
         $pathAndQueryString = UrlHelper::getPathAndQueryFromUrl($url, $newParams, true);
         return 'https://' . $domain . '/' . $pathAndQueryString;
     }
-
 }

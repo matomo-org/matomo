@@ -173,5 +173,4 @@ class WidgetsListTest extends \PHPUnit\Framework\TestCase
 
         return $config;
     }
-
 }

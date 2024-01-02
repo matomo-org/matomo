@@ -27,5 +27,4 @@ class Active
             throw new Exception("Invalid value '$active' for 'active' specified. Allowed values: '0' or '1'");
         }
     }
-
 }

@@ -48,5 +48,4 @@ class GetContinent extends Base
         $view->config->show_limit_control = false;
         $view->config->documentation = $this->documentation;
     }
-
 }

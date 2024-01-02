@@ -51,7 +51,6 @@ class GeneratePlugin extends GeneratePluginBase
                 '3.0.0-b1'           => Version::VERSION
             );
             $whitelistFiles = array();
-
         } else {
 
             $exampleFolder = Plugin\Manager::getPluginDirectory('ExamplePlugin');
@@ -198,5 +197,4 @@ class GeneratePlugin extends GeneratePluginBase
 
         return $version;
     }
-
 }

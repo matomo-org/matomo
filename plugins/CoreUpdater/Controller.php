@@ -439,5 +439,4 @@ class Controller extends \Piwik\Plugin\Controller
     {
         return PluginManager::getInstance()->getIncompatiblePlugins($piwikVersion);
     }
-
 }

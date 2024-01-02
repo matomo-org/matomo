@@ -358,5 +358,4 @@ class MonthTest extends BasePeriodTest
         $shouldBe = '2024-10';
         $this->assertEquals($shouldBe, $month->getPrettyString());
     }
-
 }

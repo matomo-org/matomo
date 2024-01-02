@@ -120,7 +120,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             if ($daysLeft > 0) {
                 $rawDataRetention .= $daysLeft . ' ' . Piwik::translate($daysLeft > 1 ? 'Intl_PeriodDays' : 'Intl_PeriodDay');
             }
-
         } elseif ($purgeDataSettings['delete_logs_older_than'] > 0) {
             $days = $purgeDataSettings['delete_logs_older_than'];
             $rawDataRetention .= $days . ' ' . Piwik::translate($days > 1 ? 'Intl_PeriodDays' : 'Intl_PeriodDay');
@@ -418,5 +417,4 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         return $deleteDataInfos;
     }
-
 }

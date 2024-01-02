@@ -140,5 +140,4 @@ class SystemSettingsTest extends IntegrationTestCase
     {
         $this->assertFalse($this->settings->isBlacklistedIp('127.0.0.1'));
     }
-
 }

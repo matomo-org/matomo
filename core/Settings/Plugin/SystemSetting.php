@@ -93,5 +93,4 @@ class SystemSetting extends Setting
             return $config[$this->name];
         }
     }
-
 }

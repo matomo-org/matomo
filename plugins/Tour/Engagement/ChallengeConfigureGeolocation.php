@@ -50,6 +50,4 @@ class ChallengeConfigureGeolocation extends Challenge
     {
         return 'index.php' . Url::getCurrentQueryStringWithParametersModified(array('module' => 'UserCountry', 'action' => 'adminIndex', 'widget' => false));
     }
-
-
 }

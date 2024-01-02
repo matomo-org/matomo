@@ -29,5 +29,4 @@ class Console extends ApiRenderer
     {
         Common::sendHeader('Content-Type: text/plain; charset=utf-8');
     }
-
 }

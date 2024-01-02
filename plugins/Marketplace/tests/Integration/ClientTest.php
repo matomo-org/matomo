@@ -67,5 +67,4 @@ class ClientTest extends IntegrationTestCase
     {
         return ClientBuilder::build($this->service);
     }
-
 }

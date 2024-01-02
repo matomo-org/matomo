@@ -20,5 +20,4 @@ class Config
     public $secondarySortFlags;
 
     public $isSecondaryColumnSortEnabled = true;
-
 }

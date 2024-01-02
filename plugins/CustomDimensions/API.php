@@ -66,7 +66,6 @@ class API extends \Piwik\Plugin\API
                 $parentValue = $row->getColumn('label');
                 $dataTable->filter('Piwik\Plugins\CustomDimensions\DataTable\Filter\AddSubtableSegmentMetadata', array($idDimension, $parentValue));
             }
-
         } else {
             $dataTable->filter('Piwik\Plugins\CustomDimensions\DataTable\Filter\AddSegmentMetadata', array($idDimension));
         }
@@ -290,5 +289,4 @@ class API extends \Piwik\Plugin\API
     {
         return new Configuration();
     }
-
 }

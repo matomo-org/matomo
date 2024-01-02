@@ -793,7 +793,6 @@ class Date
         foreach ($tokens AS $token) {
             if (is_array($token)) {
                 $out .= $this->formatToken(array_shift($token));
-
             } else {
                 $out .= $token;
             }
@@ -908,7 +907,6 @@ class Date
             case "Z":
             case "v":
                 return ''; // time zone
-
         }
 
         return '';

@@ -67,5 +67,4 @@ class RequestConfig extends VisualizationRequestConfig
             'show_dimensions',
         ));
     }
-
 }

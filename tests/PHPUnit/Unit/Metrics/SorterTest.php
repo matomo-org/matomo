@@ -401,5 +401,4 @@ class SorterTest extends UnitTestCase
     {
         return new Row(array(Row::COLUMNS => $columns));
     }
-
 }

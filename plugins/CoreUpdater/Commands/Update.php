@@ -80,8 +80,6 @@ class Update extends ConsoleCommand
                 }
 
                 $this->writeAlertMessageWhenCommandExecutedWithUnexpectedUser();
-
-
             } catch (NoUpdatesFoundException $e) {
                 // Do not fail if no updates were found
                 $this->writeSuccessMessage(array($e->getMessage()));

@@ -59,5 +59,4 @@ class TransactionLevelTest extends IntegrationTestCase
         $value = $this->db->fetchOne('SELECT ' . $isolation);
         $this->assertSame('REPEATABLE-READ', $value);
     }
-
 }

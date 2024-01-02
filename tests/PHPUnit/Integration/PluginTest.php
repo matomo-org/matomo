@@ -89,5 +89,4 @@ class PluginTest extends IntegrationTestCase
         $date = $item['startDate'];
         return Date::factory($date)->getDatetime();
     }
-
 }

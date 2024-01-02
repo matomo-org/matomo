@@ -31,5 +31,4 @@ class Tasks extends \Piwik\Plugin\Tasks
     {
         $this->bruteForceDetection->cleanupOldEntries();
     }
-
 }

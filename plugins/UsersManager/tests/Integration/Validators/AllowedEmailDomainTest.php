@@ -130,5 +130,4 @@ class AllowedEmailDomainTest extends IntegrationTestCase
         $this->settings->allowedEmailDomains->setValue(['matomo.org', 'example.com']);
         $this->validator->validate('foobar@matomo.com');
     }
-
 }

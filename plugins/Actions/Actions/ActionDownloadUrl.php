@@ -37,5 +37,4 @@ class ActionDownloadUrl extends Action
             'idaction_url' => array($this->getActionUrl(), $this->getActionType())
         );
     }
-
 }

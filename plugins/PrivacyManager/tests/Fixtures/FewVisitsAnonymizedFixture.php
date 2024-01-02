@@ -152,5 +152,4 @@ class FewVisitsAnonymizedFixture extends Fixture
         $t->setUrl('http://example.com/exclude_query_social?mtm_kwd=campaignkeyword&mtm_campaign=campaign');
         self::checkResponse($t->doTrackPageView('Exclude query social'));
     }
-
 }

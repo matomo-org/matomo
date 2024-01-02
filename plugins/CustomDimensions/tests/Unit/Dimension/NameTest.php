@@ -90,5 +90,4 @@ class NameTest extends \PHPUnit\Framework\TestCase
     {
         return new Name($name);
     }
-
 }

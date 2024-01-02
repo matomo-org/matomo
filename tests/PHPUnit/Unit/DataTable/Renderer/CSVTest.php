@@ -194,10 +194,12 @@ class CSVTest extends \PHPUnit\Framework\TestCase
         $dataTable = $this->_getDataTableSimpleWithCommasInCells();
         $render = new Csv();
         $render->setTable($dataTable);
+        $render->setSeparator('#');
         $render->convertToUnicode = false;
 
-        $expected = '"col,1","col,2"
-"val""1","val"",2"';
+        $expected = '"col,1"#"col;2"
+"val""1"#"val"",2"
+val#"val#2"';
         $actual = $render->render();
         $this->assertEquals($expected, $actual);
     }
@@ -468,7 +470,8 @@ b,d,f,g';
     {
         $table = new DataTable();
         $table->addRowsFromSimpleArray(array(
-            array("col,1" => "val\"1", "col,2" => "val\",2")
+            array("col,1" => "val\"1", "col;2" => "val\",2"),
+            array("col,1" => "val", "col;2" => "val#2")
         ));
         return $table;
     }

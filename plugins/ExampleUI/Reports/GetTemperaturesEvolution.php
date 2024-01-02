@@ -66,7 +66,6 @@ class GetTemperaturesEvolution extends Base
             $view->config->addSparklineMetric(array('server2'));
             $view->config->addTranslations(array('server1' => 'Evolution of temperature for server piwik.org'));
             $view->config->addTranslations(array('server2' => 'Evolution of temperature for server dev.piwik.org'));
-
         } elseif ($view->isViewDataTableId(Evolution::ID)) {
 
             /** @var Evolution $view */
@@ -88,5 +87,4 @@ class GetTemperaturesEvolution extends Base
             $view->config->show_goals = false;
         }
     }
-
 }

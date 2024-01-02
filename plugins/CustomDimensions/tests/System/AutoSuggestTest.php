@@ -101,7 +101,6 @@ class AutoSuggestTest extends SystemTestCase
     {
         return dirname(__FILE__);
     }
-
 }
 
 AutoSuggestTest::$fixture = new TrackVisitsWithCustomDimensionsFixture();

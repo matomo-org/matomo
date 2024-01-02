@@ -211,5 +211,4 @@ class SettingsProvider
 
         return $plugin;
     }
-
 }

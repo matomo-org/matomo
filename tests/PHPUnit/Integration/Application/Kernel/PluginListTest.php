@@ -107,5 +107,4 @@ class PluginListTest extends \PHPUnit\Framework\TestCase
         $globalSettingsProvider->setSection('Plugins', $section);
         return new PluginList($globalSettingsProvider);
     }
-
 }

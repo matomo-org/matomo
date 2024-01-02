@@ -34,7 +34,6 @@ class SettingsMetadata
                     }
                 }
             }
-
         } catch (Exception $e) {
             $message = $e->getMessage();
 
@@ -134,5 +133,4 @@ class SettingsMetadata
 
         return $result;
     }
-
 }

@@ -137,7 +137,6 @@ class TestLogFoo extends LogTable
     {
         return 'idlogfoo';
     }
-
 }
 
 
@@ -566,6 +565,4 @@ class MultipleSitesMultipleVisitsFixture extends Fixture
 
         return $result;
     }
-
-
 }

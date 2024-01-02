@@ -92,7 +92,7 @@ jobs:
           then
             cd $GITHUB_WORKSPACE
             git add piwik.js matomo.js js/piwik.min.js
-            git commit -m "rebuilt piwik.js"
+            git commit -m "Build tracker JS files"
             git push
           fi
       if: steps.vars.outputs.branch != ''

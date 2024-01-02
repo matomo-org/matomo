@@ -269,9 +269,9 @@ class Updates_4_0_0_b1 extends PiwikUpdates
                 $pluginDir = Manager::getPluginDirectory($plugin);
 
                 if (is_dir($pluginDir) &&
-                    file_exists($pluginDir . '/' . $plugin . '.php')
-                    && !file_exists($pluginDir . '/plugin.json')
-                    && is_writable($pluginDir)) {
+                    file_exists($pluginDir . '/' . $plugin . '.php') &&
+                    !file_exists($pluginDir . '/plugin.json') &&
+                    is_writable($pluginDir)) {
                     file_put_contents($pluginDir . '/plugin.json', '{
   "name": "' . $plugin . '",
   "description": "' . $plugin . '",

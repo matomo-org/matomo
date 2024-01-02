@@ -133,5 +133,4 @@ class VisitProperties
     {
         return $this->visitInfoImmutableProperties;
     }
-
 }

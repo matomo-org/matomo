@@ -104,7 +104,6 @@ class JoinGenerator
                             throw new Exception($message);
                         }
                     }
-
                 }
             }
         }

@@ -32,5 +32,4 @@ class Insights extends \Piwik\Plugin
     {
         $jsFiles[] = "plugins/Insights/javascripts/insightsDataTable.js";
     }
-
 }

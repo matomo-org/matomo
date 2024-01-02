@@ -89,5 +89,4 @@ class MergeDataTables
             throw new \Exception("Unknown datatable type: " . get_class($subTable2));
         }
     }
-
 }

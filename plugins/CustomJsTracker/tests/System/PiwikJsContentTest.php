@@ -35,5 +35,4 @@ class PiwikJsContentTest extends SystemTestCase
 
         self::assertStringContainsString(PiwikJsManipulator::HOOK, $content);
     }
-
 }

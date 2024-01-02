@@ -1617,5 +1617,4 @@ class API extends \Piwik\Plugin\API
                 'token'  => $token,
             ]);
     }
-
 }
