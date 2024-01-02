@@ -151,6 +151,6 @@ class Updates_5_0_0_b1 extends PiwikUpdates
         $sql = "SHOW TABLE STATUS WHERE NAME='{$this->tableName}'";
         $result = Db::fetchRow($sql);
 
-        return strtolower($result['Engine']) === 'innodb';
+        return strtolower($result['Engine'] ?? '') === 'innodb';
     }
 }
