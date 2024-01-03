@@ -207,7 +207,6 @@ class Loader
           $this->params->getPeriod()->getLabel(), $this->params->getRequestedPlugin());
 
         return $this->params->getPeriod()->getDateStart()->toString() . $this->params->getPeriod()->getDateEnd()->toString() . '.' . $doneFlag;
-
     }
 
     /**

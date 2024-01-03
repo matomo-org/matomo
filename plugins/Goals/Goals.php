@@ -386,7 +386,6 @@ class Goals extends \Piwik\Plugin
                 }
             }
         }
-
     }
 
     private static function getAllReportsWithGoalMetrics()

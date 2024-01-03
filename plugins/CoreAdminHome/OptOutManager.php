@@ -376,7 +376,6 @@ JS;
         return str_replace('window.MatomoConsent = {  };', $this->getOptOutCommonJS(),
             str_replace('stylecss', $styleSheet,
             str_replace("var settings = {};", $settingsString, $code)));
-
     }
 
     /**
@@ -493,7 +492,6 @@ JS;
             }
         };           
 JS;
-
     }
 
     /**

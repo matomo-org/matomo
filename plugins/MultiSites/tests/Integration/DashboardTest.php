@@ -563,6 +563,5 @@ class DashboardTest extends IntegrationTestCase
         }
 
         return $sites;
-
     }
 }

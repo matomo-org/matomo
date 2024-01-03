@@ -24,11 +24,9 @@ class PurgeDataTest extends SystemTestCase
 
     public static function setUpBeforeClass(): void
     {
-
     }
     public static function tearDownBeforeClass()
     {
-
     }
 
     public function setUp(): void

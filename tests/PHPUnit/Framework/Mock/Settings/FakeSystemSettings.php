@@ -15,7 +15,6 @@ class FakeSystemSettings extends \Piwik\Plugins\ExampleSettingsPlugin\SystemSett
 
     public function init()
     {
-
     }
 
     public function setTitle($title)

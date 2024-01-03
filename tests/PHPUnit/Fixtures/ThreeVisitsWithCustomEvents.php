@@ -79,7 +79,6 @@ class ThreeVisitsWithCustomEvents extends Fixture
         $this->trackMusicPlaying($vis3);
         $this->trackMusicRatings($vis3);
         $this->trackMovieWatchingIncludingInterval($vis3);
-
     }
 
     private function moveTimeForward(MatomoTracker $vis, $minutes)

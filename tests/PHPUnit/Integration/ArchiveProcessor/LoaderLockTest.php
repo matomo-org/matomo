@@ -73,7 +73,6 @@ class LoaderLockTest extends IntegrationTestCase
         $this->assertFalse($lockTwoStatus);
 
         $lockTwo->unLock();
-
     }
 
     public function test_callUnlockWhenThereIsNoLock()

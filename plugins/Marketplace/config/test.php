@@ -69,7 +69,6 @@ return array(
         }
 
         return $previous;
-
     }),
     'Piwik\Plugins\Marketplace\Api\Service' => Piwik\DI::decorate(function ($previous, Container $c) {
         if (!$c->get('test.vars.mockMarketplaceApiService')) {

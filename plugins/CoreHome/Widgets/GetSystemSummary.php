@@ -116,7 +116,6 @@ class GetSystemSummary extends Widget
 
         $db = Db::get();
         return $db->getServerVersion();
-
     }
 
     private function getPHPVersion()

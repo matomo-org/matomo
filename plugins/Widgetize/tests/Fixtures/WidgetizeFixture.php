@@ -51,6 +51,5 @@ class WidgetizeFixture extends Fixture
         foreach ($this->goals as $goal) {
             $api->addGoal($this->idSite, $goal['name'], $goal['match'], $goal['pattern'], $goal['patternType'], $caseSensitive = false, $goal['revenue'], $allowMultipleConversionsPerVisit = false);
         }
-
     }
 }

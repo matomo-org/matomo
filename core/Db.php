@@ -471,7 +471,6 @@ class Db
         }
 
         return $success;
-
     }
 
     private static function getTableStatus()

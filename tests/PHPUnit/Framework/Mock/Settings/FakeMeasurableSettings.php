@@ -15,7 +15,6 @@ class FakeMeasurableSettings extends \Piwik\Plugins\ExampleSettingsPlugin\Measur
 
     public function init()
     {
-
     }
 
     public function makeSetting($name, $defaultValue, $type, $fieldConfigCallback)

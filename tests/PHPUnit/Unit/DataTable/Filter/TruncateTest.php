@@ -152,7 +152,6 @@ class TruncateTest extends \PHPUnit\Framework\TestCase
 
         $table1->addDataTable($table2);
         $this->assertTrue(DataTable::isEqual($expectedTable, $table1));
-
     }
 
 

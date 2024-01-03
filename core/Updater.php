@@ -504,7 +504,6 @@ class Updater
                         }
                     }
                 }
-
             });
         }
 

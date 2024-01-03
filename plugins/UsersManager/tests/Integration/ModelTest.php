@@ -57,7 +57,6 @@ class ModelTest extends IntegrationTestCase
         Fixture::createWebsite('2014-01-01 00:00:00');
         $this->api->addUser($this->login, 'password', 'userlogin@password.de');
         $this->api->addUser($this->login2, 'password2', 'userlogin2@password.de');
-
     }
 
     public function test_getSitesAccessFromUser_noAccess()

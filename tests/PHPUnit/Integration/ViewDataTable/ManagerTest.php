@@ -113,7 +113,6 @@ class ManagerTest extends IntegrationTestCase
         // check the invalid list is fetched without the overridable parameter
         $processed = ViewDataTableManager::getViewDataTableParameters($login, $controllerAction);
         $this->assertEquals($paramsExpectedWhenFetched, $processed);
-
     }
 
     public function test_clearAllViewDataTableParameters_shouldRemoveAllPersistedParameters()

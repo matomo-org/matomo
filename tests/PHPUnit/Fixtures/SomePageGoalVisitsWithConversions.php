@@ -56,7 +56,6 @@ class SomePageGoalVisitsWithConversions extends Fixture
             APIGoals::getInstance()->addGoal($this->idSite, 'Goal "<2~$%+"', 'event_action', 'press',
                 'contains', false, 10);
         }
-
     }
 
     private function setUpSegment()
@@ -164,7 +163,5 @@ class SomePageGoalVisitsWithConversions extends Fixture
         $this->doPageVisit($t, 'B');
         $this->doPageVisit($t, 'A', 'Z');
         $this->doConversion($t, 2);
-
-
     }
 }

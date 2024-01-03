@@ -48,7 +48,6 @@ class GetTemperaturesEvolution extends Base
                     ->forceViewDataTable(Evolution::ID)
                     ->setParameters(array('columns' => array('server1', 'server2')))
         );
-
     }
 
     /**

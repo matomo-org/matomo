@@ -100,7 +100,6 @@ class ModelTest extends IntegrationTestCase
         $entryCount = Db::fetchOne('SELECT COUNT(*) FROM ' . Common::prefixTable('user_language'));
 
         $this->assertEquals($count, $entryCount);
-
     }
 
     private function assertContainTables($expectedTables)

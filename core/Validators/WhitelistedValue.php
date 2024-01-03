@@ -31,6 +31,5 @@ class WhitelistedValue extends BaseValidator
         if (!in_array($value, $this->whitelisted, true)) {
             throw new Exception(Piwik::translate('General_ValidatorErrorXNotWhitelisted', array($value, implode(', ', $this->whitelisted))));
         }
-
     }
 }

@@ -89,7 +89,6 @@ class FewVisitsAnonymizedFixture extends Fixture
         $t->setUrlReferrer('https://www.foo.com/bar/?baz=exclude_all');
         $t->setUrl('http://example.com/exclude_all');
         self::checkResponse($t->doTrackPageView('Exclude all referrer website'));
-
     }
 
     protected function trackAnonymizedReferrerExcludePathWebsite()
@@ -102,7 +101,6 @@ class FewVisitsAnonymizedFixture extends Fixture
         $t->setUrlReferrer('https://www.foo.com/bar/?baz=exclude_path_website');
         $t->setUrl('http://example.com/exclude_path_website');
         self::checkResponse($t->doTrackPageView('Exclude path website'));
-
     }
 
     protected function trackAnonymizedReferrerExcludeAllSearch()

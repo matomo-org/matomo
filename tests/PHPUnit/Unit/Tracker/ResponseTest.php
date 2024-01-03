@@ -187,7 +187,6 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
 
         // Encode the response back into base64 and compare with the original
         $this->assertSame($base64Image, base64_encode($response));
-
     }
 
     public function test_outputResponse_shouldOuputCustomImage_IfCustomImageFileSet()
@@ -213,7 +212,6 @@ class ResponseTest extends \PHPUnit\Framework\TestCase
 
         // Compare the hash of the response with the file hash
         $this->assertSame($md5Response, $md5File);
-
     }
 
     private function getTracker()

@@ -15,7 +15,6 @@ class FakeUserSettings extends \Piwik\Plugins\ExampleSettingsPlugin\UserSettings
 
     public function init()
     {
-
     }
 
     public function makeSetting($name, $defaultValue, $type, $configureCallback)

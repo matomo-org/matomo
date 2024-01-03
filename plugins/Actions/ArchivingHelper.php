@@ -421,7 +421,6 @@ class ArchivingHelper
             $limit = 100000;
         }
         return $limit;
-
     }
 
     /**

@@ -76,6 +76,5 @@ class CloudflareTest extends \PHPUnit\Framework\TestCase
             "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script><script>console.log('abc');</script></head><body>A site</body></html>",
             ['CF-RAY' => 'test'],
         ];
-
     }
 }

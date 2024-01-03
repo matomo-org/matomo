@@ -120,7 +120,6 @@ class API extends \Piwik\Plugin\API
         $feedbackReminder->setUserOption($nextReminder);
 
         return 'success';
-
     }
 
     public function updateFeedbackReminderDate()

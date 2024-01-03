@@ -208,7 +208,6 @@ class Get extends \Piwik\Plugin\Report
             'nb_uniq_pageviews' => 'NbUniquePageviewsDescription',
             'bounce_rate' => 'NbVisitsBounced',
         );
-
     }
 
     private function getSparklineTranslations()

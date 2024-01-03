@@ -75,6 +75,5 @@ class OneVisitWithAbnormalPageviewUrls extends Fixture
         $t->setUrl('https://example.org/foo/bar4.html');
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.6)->getDatetime());
         self::checkResponse($t->doTrackPageView('incredible.title/'));
-
     }
 }

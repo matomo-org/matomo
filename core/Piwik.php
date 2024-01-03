@@ -369,7 +369,6 @@ class Piwik
 
             return $token[$reason];
         }
-
     }
 
     /**

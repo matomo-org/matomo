@@ -40,7 +40,6 @@ class ArchiveWebTest extends SystemTestCase
         } else {
             Option::delete('piwikUrl');
         }
-
     }
 
     public function test_WebArchiveScriptCanBeRun_WithPhpCgi_AndWithoutTokenAuth()

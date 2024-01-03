@@ -125,7 +125,6 @@ class Login extends \Piwik\Plugin
             // if eg API is called etc.
             $this->hasAddedFailedAttempt = true;
         }
-
     }
 
     public function onFailedAPILogin()
@@ -142,7 +141,6 @@ class Login extends \Piwik\Plugin
                 throw new NoAccessException('Unable to authenticate with the provided token. It is either invalid, expired or is required to be sent as a POST parameter.');
             }
         }
-
     }
 
     public function beforeLoginCheckBruteForce()

@@ -68,7 +68,6 @@ class ApiInvalidParameterTypeTest extends IntegrationTestCase
         ]);
 
         $this->assertEquals(1, $urls->getRowsCount());
-
     }
 
     protected static function configureFixture($fixture)

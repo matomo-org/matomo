@@ -38,6 +38,5 @@ class GetVisitorProfilePopup extends \Piwik\Widget\Widget
 
     public function render()
     {
-
     }
 }

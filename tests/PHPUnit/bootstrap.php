@@ -160,7 +160,6 @@ remote_addr = \"127.0.0.1\"
 Try again.";
         exit(1);
     }
-
 }
 
 function printTestDoxHint()
