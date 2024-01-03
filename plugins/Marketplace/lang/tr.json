@@ -50,6 +50,7 @@
         "LicenseMissing": "Lisans bulunamadı",
         "LicenseMissingDeactivatedDescription": "Geçerli bir lisansınız olmadığı için şu eklentiler etkisizleştirilmiş: %1$s. %2$sBu sorunu çözmek için lisans anahtarınızı güncelleyin, %3$sbir abonelik satın alın%4$s ya da eklentiyi etkisizleştirin.",
         "LicenseRenewsNextPaymentDate": "Sonraki ödeme tarihinde yenilenecek",
+        "ManageLicenseKeyIntro": "Ücretli eklentilerimizi kullanarak Matomo yeteneklerini artırabilirsiniz. Ücretli eklentileri kurmak için geçerli bir lisans anahtarı gereklidir ve bu lisans anahtarı iki şekilde elde edilebilir: %1$smarketplace%2$s içinden seçtiğiniz eklenti için deneme sürümünü başlatabilir ya da %3$ssitemizden%4$s bir eklenti aboneliği satın alabilirsiniz. Mağazada bir deneme başlattığınızda otomatik olarak bir lisans anahtarı oluşturulur ve bu kopyaya eklenir Siteden bir abonelik satın alırsanız, aşağıdaki alana ekleyebileceğiniz bir lisans anahtarı alırsınız. Lisans anahtarınızı ekledikten sonra gerektiğinde güncelleyebilir ya da kaldırabilirsiniz.",
         "Marketplace": "Mağaza",
         "MultiServerEnvironmentWarning": "Matomo uygulamasını birden çok sunucu üzerinde kullandığınızdan eklentiyi doğrudan kuramaz ya da güncelleyemezsiniz. Eklenti yalnızca bir sunucu üzerine kurulmalıdır. Bu nedenle eklentiyi indirin ve tüm sunucularınıza el ile dağıtın.",
         "NewVersion": "yeni sürüm",
