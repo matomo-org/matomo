@@ -116,7 +116,7 @@ describe("Menus", function () {
         });
         await page.waitForTimeout(250);
         await (await page.jQuery('#mobile-left-menu>li>ul:contains(Goals)')).click();
-        await page.waitForTimeout(250);
+        await page.waitForTimeout(300);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('mobile_left');
     });
