@@ -27,7 +27,7 @@ abstract class Base extends ActionDimension
     private function getConfigValueCap()
     {
         try {
-            $valueCap = Config::getInstance()->PagePerformance[$this->columnName . '_cap_' . $this->type];
+            $valueCap = Config::getInstance()->PagePerformance[$this->columnName . '_cap_' . $this->type] ?? 0;
         } catch (Exception $ex) {
             // 0 disables cap
             return 0;
