@@ -1,1 +1,35 @@
-{}
+{
+    "Insights": {
+        "ControlComparedToDescription": "ની સરખામણીમાં વૃદ્ધિ",
+        "ControlFilterByDescription": "બધા બતાવો, ફક્ત મૂવર્સ, ફક્ત નવા અથવા ફક્ત અદ્રશ્ય",
+        "DatePeriodCombinationNotSupported": "આ તારીખ અને સમયગાળાના સંયોજન માટે આંતરદૃષ્ટિ જનરેટ કરવી શક્ય નથી.",
+        "DayComparedToPreviousDay": "આગલા દિવસે",
+        "DayComparedToPreviousWeek": "પાછલા અઠવાડિયામાં એ જ દિવસે",
+        "DayComparedToPreviousYear": "પાછલા વર્ષમાં તે જ દિવસે",
+        "Filter": "ફિલ્ટર",
+        "FilterIncreaserAndDecreaser": "વધારનાર &amp; ઘટાડનાર",
+        "FilterOnlyDecreaser": "માત્ર ઘટાડનાર",
+        "FilterOnlyDisappeared": "માત્ર ગાયબ",
+        "FilterOnlyIncreaser": "માત્ર વધારનાર",
+        "FilterOnlyMovers": "માત્ર મૂવર્સ",
+        "FilterOnlyNew": "માત્ર નવા",
+        "IgnoredChanges": "%s કરતાં ઓછી મુલાકાતોને અસર કરતા ફેરફારો અવગણવામાં આવ્યા હતા.",
+        "MonthComparedToPreviousMonth": "પાછલા મહિને",
+        "MonthComparedToPreviousYear": "પાછલા વર્ષના સમાન મહિનામાં",
+        "MoversAndShakersWidgetTitle": "મૂવર્સ અને શેકર્સ",
+        "NoResultMatchesCriteria": "કોઈ પંક્તિઓ માપદંડ સાથે મેળ ખાતી નથી",
+        "OverviewWidgetTitle": "આંતરદૃષ્ટિની ઝાંખી",
+        "PluginDescription": "તમારા ટ્રાફિક વિશે આંતરદૃષ્ટિ પ્રદાન કરે છે. આંતરદૃષ્ટિ ડેશબોર્ડ વિજેટ્સ તેમજ રિપોર્ટ્સમાં એક નવા આઇકન તરીકે ઉપલબ્ધ છે, જે તમને તમારા ડેટામાં સૌથી મહત્વપૂર્ણ વલણો જોવા દે છે.",
+        "TitleConsideredInsightsChanges": "પંક્તિઓમાં ઓછામાં ઓછી %1$s મુલાકાતો વધી અથવા ઘટી (%3$s કુલ મુલાકાતોમાંથી %2$s%%).",
+        "TitleConsideredInsightsGrowth": "નીચેની પંક્તિઓમાં %2$s ની સરખામણીમાં ઓછામાં ઓછી %1$s%% વૃદ્ધિ છે.",
+        "TitleConsideredMoversAndShakersChanges": "જો તેઓ %1$s%% મુલાકાતોથી વધુ વધ્યા હોય અથવા %2$s%% મુલાકાતોથી ઓછા સંકોચાઈ ગયા હોય તો જ મૂવર્સ ગણવામાં આવે છે, જો તેઓ %3$s%% મુલાકાતો (%4$s) કરતા વધુ વધી હોય તો જ નવી એન્ટ્રીઓ ), અને જો પંક્તિઓ %5$s%% મુલાકાતો (%6$s) કરતાં ઓછી સંકોચાઈ હોય તો અદ્રશ્ય થઈ જાય છે.",
+        "TitleConsideredMoversAndShakersGrowth": "%4$s ની સરખામણીમાં %1$s %2$s થી %3$s માં બદલાઈ. આના આધારે %5$s%% ની દરેક પંક્તિની ઉત્ક્રાંતિ અપેક્ષિત છે.",
+        "TitleRowChangeDetails": "'%1$s' %2$s (%3$s) થી %4$s (%5$s) %6$s માં બદલાઈ.",
+        "TitleRowDisappearedDetails": "%4$s ની સરખામણીમાં '%1$s' %2$s ઘટ્યું અને %3$s માં અદૃશ્ય થઈ ગઈ.",
+        "TitleRowMoverAndShaker": "આ પંક્તિની સરેરાશ કરતાં વધુ અસર હતી.",
+        "TitleRowNewDetails": "'%1$s' %2$s વધી અને %3$s ની સરખામણીમાં નવું છે.",
+        "WeekComparedToPreviousWeek": "પાછલા અઠવાડિયે",
+        "WidgetCategory": "આંતરદૃષ્ટિ",
+        "YearComparedToPreviousYear": "ગત વર્ષ"
+    }
+}

@@ -1,1 +1,8 @@
-{}
+{
+    "CustomJsTracker": {
+        "DiagnosticPiwikJsMakeWritable": "અમે આ કમાન્ડ %2$s ચલાવીને %1$s ને લખવા યોગ્ય બનાવવાની ભલામણ કરીએ છીએ",
+        "DiagnosticPiwikJsNotWritable": "Matomo JavaScript ટ્રેકર ફાઈલ %s લખી શકાય તેવી નથી જેનો અર્થ છે કે અન્ય પ્લગઈનો JavaScript ટ્રેકરને વિસ્તારી શકતા નથી. ભવિષ્યમાં પણ કેટલીક મુખ્ય સુવિધાઓ અપેક્ષા મુજબ કામ કરશે નહીં.",
+        "DiagnosticPiwikJsWritable": "લખી શકાય તેવું JavaScript ટ્રેકર (%s)",
+        "PluginDescription": "કોઈપણ પ્લગઇનને Matomo JavaScript ટ્રેકિંગ ફાઇલ (matomo.js) ને વિસ્તારવા અને નવી કાર્યક્ષમતા અને વેબસાઇટ માપન ક્ષમતાઓ ઉમેરવાની મંજૂરી આપો."
+    }
+}

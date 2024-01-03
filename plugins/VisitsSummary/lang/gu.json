@@ -1,1 +1,30 @@
-{}
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "સરેરાશ ઉત્પાદન સમય",
+        "AverageVisitDuration": "સરેરાશ મુલાકાત અવધિ",
+        "GenerateQueries": "%s ક્વેરીઝ ચલાવવામાં આવી",
+        "GenerateTime": "પૃષ્ઠ જનરેટ કરવા માટે %s સેકન્ડ",
+        "MaxNbActions": "એક મુલાકાતમાં મહત્તમ ક્રિયાઓ",
+        "NbActionsDescription": "%s ક્રિયાઓ",
+        "NbActionsPerVisit": "મુલાકાત દીઠ ક્રિયાઓ (પૃષ્ઠ દૃશ્યો, ડાઉનલોડ્સ, આઉટલિંક અને આંતરિક સાઇટ શોધ)",
+        "NbDownloadsDescription": "ડાઉનલોડ",
+        "NbKeywordsDescription": "અનન્ય કીવર્ડ્સ",
+        "NbOutlinksDescription": "આઉટલિંક",
+        "NbPageviewsDescription": "પૃષ્ઠ દૃશ્યો",
+        "NbSearchesDescription": "તમારી વેબસાઇટ પર કુલ શોધ",
+        "NbUniqueDownloadsDescription": "અનન્ય ડાઉનલોડ્સ",
+        "NbUniqueOutlinksDescription": "અનન્ય આઉટલિંક્સ",
+        "NbUniquePageviewsDescription": "અનન્ય પૃષ્ઠ દૃશ્યો",
+        "NbUniqueVisitors": "અનન્ય મુલાકાતીઓ",
+        "NbUsersDescription": "વપરાશકર્તાઓ",
+        "NbVisitsBounced": "મુલાકાતો બાઉન્સ થઈ છે (એક પૃષ્ઠ પછી વેબસાઇટ છોડી દીધી)",
+        "NbVisitsDescription": "મુલાકાતો",
+        "PluginDescription": "સામાન્ય એનાલિટિક્સ મેટ્રિક્સની જાણ કરે છે: મુલાકાતો, અનન્ય મુલાકાતીઓ, ક્રિયાઓની સંખ્યા, બાઉન્સ દર, વગેરે.",
+        "VisitsSummary": "મુલાકાતોનો સારાંશ",
+        "VisitsSummaryDocumentation": "આ મુલાકાત ઉત્ક્રાંતિની ઝાંખી છે.",
+        "VisitsSummaryReportDocumentation": "આ રિપોર્ટ તમારા મુલાકાતીઓ કેવી રીતે વર્તે છે તેની સામાન્ય ઝાંખી આપે છે.",
+        "WidgetLastVisits": "સમય જતાં મુલાકાતો",
+        "WidgetOverviewGraph": "મુલાકાતોની ઝાંખી (ગ્રાફ સાથે)",
+        "WidgetVisits": "મુલાકાત વિહંગાવલોકન"
+    }
+}
