@@ -1,7 +1,18 @@
 {
     "API": {
+        "ChangeTokenHint": "Token hau aldatu nahi baduzu, joan zure %1$sezarpen pertsonalen orrira%2$s.",
         "EvolutionMetricName": "%s bilakaera",
+        "GenerateVisits": "Gaurko daturik ez badaukazu, batzuk sortu ditzakezu %1$s plugina erabiliz. Horretarako erabili Matomoren administrazioko 'Garapena → Bisitari sortzailea'.",
         "Glossary": "Glosarioa",
-        "LoadedAPIs": "%s API kargatu dira"
+        "KeepTokenSecret": "token_auth hau zure erabiltzaile-izen eta pasahitza bezain sekretua da, %1$s ez partekatu%2$s!",
+        "LearnAboutCommonlyUsedTerms2": "Ikasi maiz erabiltzen diren hitzen berri Matomo analitikak ahalik eta gehien aprobetxatzeko.",
+        "LoadedAPIs": "%s API kargatu dira",
+        "MainMetricsReportDocumentation": "Txosten honek kategoria eta plugin guztien metrika garrantzitsuenen ikuspegi orokorra ematen du.",
+        "MoreInformation": "Matomoren APIari buruzko informazio gehiagorako: %1$sMatomoren APIrako sarrera%2$s eta %3$sMatomoren APIaren erreferentzia%4$s.",
+        "PluginDescription": "Matomoko datu guztiak API sinpleen bidez erabilgarri dago. Plugin hau web-zerbitzuaren sarbidea da, eta web analitika datuak hainbat formatutan eskuratzeko erabil dezakezu: XML, JSON, PHP, CSV...",
+        "ReportingApiReference": "Txostenen API erreferentzia",
+        "TopLinkTooltip": "Atzitu zure web analitika datuak programazio bidez API sinple bat erabiliz formatu hauetan: JSON, XML...",
+        "UserAuthentication": "Erabiltzailearen autentifikazioa",
+        "UsingTokenAuth": "%1$sScript, crontab... bidez datuak eskuratu%2$s nahi badituzu, '%3$s' URL parametroa gehitu behar diozu autentifikazioa behar duten API deien URLei."
     }
 }

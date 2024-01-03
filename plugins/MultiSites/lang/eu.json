@@ -1,6 +1,16 @@
 {
     "MultiSites": {
+        "AllWebsitesDashboardDocumentation": "Txosten honek zure webguneetako bakoitzaren informazioaren ikuspegi orokorra ematen dizu. Zure bisitariei buruzko metrika orokorrenak ditu.",
         "Evolution": "Bilakaera",
-        "LoadingWebsites": "Webguneak kargatzen"
+        "EvolutionComparisonDay": "%1$s %2$s egun honetan, aurreko epe partzialeko (%4$s) honekin konparatuta: %3$s %2$s. Bilakaera: %5$s",
+        "EvolutionComparisonIncomplete": "Unean hautatutako denbora-epea %1$s osatu da.",
+        "EvolutionComparisonMonth": "%1$s %2$s hilabete honetan, aurreko epe partzialeko (%4$s) honekin konparatuta: %3$s %2$s. Bilakaera: %5$s",
+        "EvolutionComparisonProportional": "Aurreko epea ere %1$s osatuta zegoenean, %2$s %3$s izan zitezkeen\n(aurreko epeko %4$s %3$s guztizkotik).",
+        "EvolutionComparisonWeek": "%1$s %2$s aste honetan, aurreko epe partzialeko (%4$s) honekin konparatuta: %3$s %2$s. Bilakaera: %5$s",
+        "EvolutionComparisonYear": "%1$s %2$s urte honetan, aurreko epe partzialeko (%4$s) honekin konparatuta: %3$s %2$s. Bilakaera: %5$s",
+        "LoadingWebsites": "Webguneak kargatzen",
+        "PluginDescription": "Ikusi eta konparatu zure webgune eta aplikazio guztiak 'Webgune guztiak' panel erabilgarri honetan.",
+        "SingleWebsitesDashboardDocumentation": "Txosten honek webgune zehatz baten informazioaren ikuspegi orokorra ematen dizu. Zure bisitariei buruzko metrika orokorrenak ditu.",
+        "TopLinkTooltip": "Konparatu zure webgune guztien web-analitikak."
     }
 }

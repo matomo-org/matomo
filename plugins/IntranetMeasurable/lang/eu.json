@@ -1,6 +1,7 @@
 {
     "IntranetMeasurable": {
         "Intranet": "Intraneteko webgunea",
+        "IntranetDescription": "Intraneteko neurgarri bat webgune bat bezala da, baina barneko sareko batean ostatatua.",
         "Intranets": "Intraneteko webguneak"
     }
 }

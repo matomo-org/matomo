@@ -1,5 +1,24 @@
 {
     "Contents": {
-        "Contents": "Edukiak"
+        "ContentImpression": "Edukiaren inpresioa",
+        "ContentInteraction": "Edukiaren interakzioa",
+        "ContentInteractions": "Edukiaren interakzioak",
+        "ContentName": "Edukiaren izena",
+        "ContentNameReportDocumentation": "Txosten honek zure bisitariek ikusitako eta interakzioak izandako edukiaren izenak erakusten ditu.",
+        "ContentNames": "Edukien izenak",
+        "ContentPiece": "Eduki zatia",
+        "ContentPieceReportDocumentation": "Txosten honek zure bisitariek ikusitako eta interakzioak izandako eduki zatiak erakusten ditu.",
+        "ContentPieces": "Eduki zatiak",
+        "ContentTarget": "Edukiaren helburua",
+        "ContentTargets": "Edukien helburuak",
+        "Contents": "Edukiak",
+        "ContentsSubcategoryHelp1": "Edukien jarraipenak zure webgune edo aplikazioko edozein orritako eduki zati zehatzen arrakasta neurtzen laguntzen dizu. Txosten honek erakusten dizu zure guneko eduki zatiek zenbat inpresio eta interakzio izan dituzten.",
+        "ContentsSubcategoryHelp2": "Ikasi gehiago Edukiaren jarraipenari buruzko gidan.",
+        "Impressions": "Inpresioak",
+        "ImpressionsMetricDocumentation": "Eduki bloke bat, adibidez banner edo iragarki bat, zenbat aldiz bistaratu den orri batean.",
+        "InteractionRate": "Interakzio tasa",
+        "InteractionRateMetricDocumentation": "Inpresio eta interakzioen arteko proportzioa.",
+        "InteractionsMetricDocumentation": "Eduki bloke batek zenbat interakzio izan dituen. Adibidez, banner edo iragarki batean klik egitea.",
+        "PluginDescription": "Eduki eta bannerren jarraipenak aukera ematen dizu zure orrietako edozein zatiren (banner iragarkiak, irudiak, edozein elementu) errendimendua neurtzeko (ikustaldiak, klikak, CTR)."
     }
 }

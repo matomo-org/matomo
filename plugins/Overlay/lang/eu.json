@@ -1,9 +1,22 @@
 {
     "Overlay": {
         "Clicks": "%s klik",
+        "ClicksFromXLinks": "%1$s klik %2$s esteketako batetik",
         "Domain": "Domeinua",
+        "ErrorNoSiteUrls": "ABISUA: Webgune honek ez dauka gunearen URLrik definituta Matomon. Horren eraginez gainjartzeak eta beste ezaugarri batzuk ez dute funtzionatuko edo portaera arraroak izango dituzte. Konpontzeko, gehitu URL bat Matomoren administrazio ataleko webgune honen ezarpenetan.",
+        "ErrorNotLoading": "Orria gainjartzeko saioa ezin izan da abiarazi oraindik.",
+        "ErrorNotLoadingDetails": "Behar bada eskuinean kargatutako orriak ez dauka Matomoren jarraipen-kodea. Hala bada, saiatu gainjartzea orrien txosteneko beste orri batentzat abiarazten.",
+        "ErrorNotLoadingDetailsSSL": "Matomo https bidez erabiltzen ari zarenez, arrazoirik probableena zure webguneak SSL ez onartzea da. Saiatu Matomo http bidez erabiltzen.",
+        "ErrorNotLoadingLink": "Egin klik hemen arazoak konpontzeko aholku gehiago jasotzeko",
         "Link": "Esteka",
         "Location": "Kokagunea",
-        "OneClick": "Klik 1"
+        "NoData": "Ez dago daturik orri honentzat hautatutako eperako.",
+        "OneClick": "Klik 1",
+        "OpenFullScreen": "Pantaila osoa (alboko barrarik ez)",
+        "Overlay": "Orria gainjartzea",
+        "PluginDescription": "Ikusi zure datu analitikoak benetako webgunean gainjarrita. Ikusi zure erabiltzaileek zenbat aldiz egin duten klik esteka bakoitzean. Oharra: Trantsizioak plugina gaituta egotea eskatzen du.",
+        "RedirectUrlError": "Orria gainjartzea URL honetan erabili nahian zabiltza: \"%1$s\". %2$s Matomoren ezarpenetako domeinuetako bat bera ere ez dator bat estekarekin.",
+        "RedirectUrlErrorAdmin": "Domeinua URL gehigarri bezala gehitu dezakezu %1$sezarpenetan%2$s.",
+        "RedirectUrlErrorUser": "Eskatu zure administratzaileari domeinu hau URL gehigarri bezala gehitzeko."
     }
 }

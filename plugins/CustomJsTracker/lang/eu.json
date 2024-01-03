@@ -1,1 +1,8 @@
-{}
+{
+    "CustomJsTracker": {
+        "DiagnosticPiwikJsMakeWritable": "%1$s idazgarri bihurtzeko komando hau exekutatzea gomendatzen dugu: %2$s",
+        "DiagnosticPiwikJsNotWritable": "Matomoren JavaScript aztarnariaren %s fitxategian ezin da idatzi. Horrek esan nahi du beste pluginek ezin dutela hedatu JavaScript aztarnaria. Etorkizunean oinarrizko ezaugarri batzuk ere ez dute espero bezala funtzionatuko.",
+        "DiagnosticPiwikJsWritable": "Idatzi daitekeen JavaScript aztarnaria (%s)",
+        "PluginDescription": "Baimena ematen dio edozein plugini Matomoren JavaScript jarraipen fitxategia (matomo.js) hedatzeko, eta funtzionalitate berria eta webguneak neurtzeko gaitasunak gehitzeko."
+    }
+}

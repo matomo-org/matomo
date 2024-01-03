@@ -4,13 +4,21 @@
         "BetweenXYSeconds": "%1$s–%2$ss",
         "ColumnPagesPerVisit": "Orriak bisitako",
         "ColumnVisitDuration": "Bisitaren iraupena",
+        "Engagement": "Atxikimendua",
         "NPages": "%s orri",
         "OnePage": "orri bat",
         "PluginDescription": "Bisitarien interesa: ikusitako orri kopurua, webgunean igarotako denbora, egunak azken bisitatik, eta gehiago.",
+        "VisitNum": "Bisita zenbakia",
         "VisitsByDaysSinceLast": "Bisitak azken bisitatik igarotako eguneko",
         "VisitsPerDuration": "Bisitak bisitaren iraupeneko",
         "VisitsPerNbOfPages": "Bisitak orri kopuruko",
         "WidgetLengths": "Bisiten iraupena",
-        "WidgetPages": "Orriak bisitako"
+        "WidgetLengthsDocumentation": "Zenbat bisitak duten guztizko iraupen jakin bat. Hasieran txostena etiketa-hodei bezala erakusten da, non iraupen ohikoenek letra-tipo handiagoa duten.",
+        "WidgetPages": "Orriak bisitako",
+        "WidgetPagesDocumentation": "Zenbat bisitetan egon den orri-ikustaldi kopuru jakin bat. Hasieran txostena etiketa-hodei bezala erakusten da, non orri-kopuru ohikoenek letra-tipo handiagoa duten.",
+        "WidgetVisitsByDaysSinceLast": "Bisitak eguneko azken bisitatik",
+        "WidgetVisitsByDaysSinceLastDocumentation": "Zenbat bisita diren itzultzen diren bisitarienak, non azken bisita duela egun kopuru jakin bat izan zen.",
+        "WidgetVisitsByNumDocumentation": "Enegarren bisitara iristen diren bisitarien kopurua. Hau da, Zure webgunean bisita kopuru bat edo gehiago egin dute bisitarien guztizko kopurua.",
+        "visitsByVisitCount": "Bisitak bisita zenbakiaren arabera"
     }
 }
