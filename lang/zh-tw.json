@@ -282,6 +282,8 @@
         "Locale": "zh_TW.UTF-8",
         "Logout": "登出",
         "MainMetrics": "主要數據",
+        "ManagePlugins": "管理外掛",
+        "ManageSubscriptions": "管理訂閲",
         "Matches": "符合",
         "MatomoIsACollaborativeProjectYouCanContributeAndDonateNextRelease": "%1$sMatomo%2$s，先前為 Piwik，是一個共同協作的專案，由 %7$sMatomo 團隊%8$s成員以及全世界其他貢獻者提供給你。<br>如果你是 Matomo 的粉絲，你可以協助：查看%3$s如何參與 Matomo%4$s 或是%5$s立即捐助%6$s以資助開發下一個更棒的 Matomo 版本！",
         "MaximumNumberOfPeriodsComparedIs": "最多僅能同時比較 %s 個期間。",
