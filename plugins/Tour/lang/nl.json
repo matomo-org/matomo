@@ -1,6 +1,7 @@
 {
     "Tour": {
         "AddAnnotation": "Voeg een annotatie toe",
+        "AddAnotherWebsite": "Voeg een andere website toe",
         "AddReport": "Voeg een gepland rapport toe",
         "AddSegment": "Voeg een segment toe",
         "BecomeMatomoExpert": "Word een Matomo-expert",
@@ -23,6 +24,7 @@
         "Engagement": "Betrokkenheid",
         "FlattenActions": "Maak een pagina rapport vlak",
         "FlattenActionsDescription": "Ga naar Gedrag → Pagina's en klik onderaan het rapport op het tandwiel pictogram om het rapport vlak te maken. Een vlak rapport verandert de hiërarchie van een gegroepeerd rapport in een lijst.",
+        "InviteUser": "Nodig een gebruiker uit",
         "MatomoBeginner": "Matomo-beginner",
         "MatomoExpert": "Matomo-expert",
         "MatomoIntermediate": "Matomo-gemiddeld",

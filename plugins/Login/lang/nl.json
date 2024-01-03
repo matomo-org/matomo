@@ -15,6 +15,7 @@
         "ConfirmPasswordToContinue": "Bevestig je wachtwoord om door te gaan",
         "ConfirmationLinkSent": "Open de bevestigingslink die u ontvangen heeft in uw mailbox, om de wijziging van uw wachtwoord te bevestigen.",
         "ContactAdmin": "Mogelijke oorzaak: uw host heeft de mail() functie uitgeschakeld. <br>Contacteer uw Matomo-beheerder.",
+        "CreatePasswordDescription": "Zorg ervoor dat u dit wachtwoord kan onthouden en bewaar het op een veilige manier.",
         "CurrentlyBlockedIPs": "Geblokkeerde IP's",
         "CurrentlyBlockedIPsUnblockConfirm": "Alle IP's deblokkeren?",
         "CurrentlyBlockedIPsUnblockInfo": "U kan per ongeluk geblokkeerde IP's deblokkeren zodat ze weer kunnen inloggen.",
