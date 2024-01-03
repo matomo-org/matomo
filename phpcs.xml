@@ -59,7 +59,6 @@
         <exclude name="Squiz.ControlStructures.ForLoopDeclaration.NoSpaceAfterFirst" />
         <exclude name="Squiz.ControlStructures.ForLoopDeclaration.NoSpaceAfterSecond" />
         <exclude name="Squiz.Functions.FunctionDeclaration.Found" />
-        <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.NoSpaceBeforeArg" />
         <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpaceAfterEquals" />
         <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpaceBeforeComma" />
         <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpaceBeforeEquals" />

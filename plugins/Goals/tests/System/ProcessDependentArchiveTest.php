@@ -52,7 +52,7 @@ class ProcessDependentArchiveTest extends SystemTestCase
         $this->assertNumRangeArchives(6);
     }
 
-    private function assertNumRangeArchives($expectedArchives,$period = 5)
+    private function assertNumRangeArchives($expectedArchives, $period = 5)
     {
         $archives = Db::fetchAll('SELECT `name` from ' . Common::prefixTable($this->archiveTable) . ' WHERE period = ' . $period . ' and `name` like "done%"');
         $numArchives = count($archives);
