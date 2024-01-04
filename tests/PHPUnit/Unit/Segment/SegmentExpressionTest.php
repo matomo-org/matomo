@@ -22,28 +22,28 @@ class SegmentExpressionTest extends \PHPUnit\Framework\TestCase
      */
     public function getSimpleSegmentExpressions()
     {
-        return array(
+        return [
             // classic expressions
-            array('A', " A "),
-            array('A,B', " (A OR B )"),
-            array('A;B', " A AND B "),
-            array('A;B;C', " A AND B AND C "),
-            array('A,B;C,D;E,F,G', " (A OR B) AND (C OR D) AND (E OR F OR G )"),
+            ['A', "A"],
+            ['A,B', "( A OR B)"],
+            ['A;B', "A AND B"],
+            ['A;B;C', "A AND B AND C"],
+            ['A,B;C,D;E,F,G', "( A OR B) AND ( C OR D) AND ( E OR F OR G)"],
 
             // unescape the backslash
-            array('A\,B\,C,D', " (A,B,C OR D )"),
-            array('\,A', ' ,A '),
+            ['A\,B\,C,D', "( A,B,C OR D)"],
+            ['\,A', ',A'],
             // unescape only when it was escaping a known delimiter
-            array('\\\A', ' \\\A '),
+            ['\\\A', '\\\A'],
             // unescape at the end
-            array('\,\;\A\B,\,C,D\;E\,', ' (,;\A\B OR ,C OR D;E, )'),
+            ['\,\;\A\B,\,C,D\;E\,', '( ,;\A\B OR ,C OR D;E,)'],
 
             // only replace when a following expression is detected
-            array('A,', ' A, '),
-            array('A;', ' A; '),
-            array('A;B;', ' A AND B; '),
-            array('A,B,', ' (A OR B, )'),
-        );
+            ['A,', 'A,'],
+            ['A;', 'A;'],
+            ['A;B;', 'A AND B;'],
+            ['A,B,', '( A OR B,)'],
+        ];
     }
 
     /**
@@ -53,7 +53,7 @@ class SegmentExpressionTest extends \PHPUnit\Framework\TestCase
     public function testSegmentSqlSimpleNoOperation($expression, $expectedSql)
     {
         $segment = new SegmentExpression($expression);
-        $expected = array('where' => $expectedSql, 'bind' => array());
+        $expected = ['where' => $expectedSql, 'bind' => []];
         $processed = $segment->getSql();
         $this->assertEquals($expected, $processed);
     }
@@ -65,34 +65,34 @@ class SegmentExpressionTest extends \PHPUnit\Framework\TestCase
     public function getOperationSegmentExpressions()
     {
         // Filter expression => SQL string + Bind values
-        return array(
-            array('A==B%', array('where' => " A = ? ", 'bind' => array('B%'))),
-            array('ABCDEF====B===', array('where' => " ABCDEF = ? ", 'bind' => array('==B==='))),
-            array('A===B;CDEF!=C!=', array('where' => " A = ? AND ( CDEF IS NULL OR CDEF <> ? ) ", 'bind' => array('=B', 'C!='))),
-            array('A==B,C==D', array('where' => " (A = ? OR C = ? )", 'bind' => array('B', 'D'))),
-            array('A!=B;C==D', array('where' => " ( A IS NULL OR A <> ? ) AND C = ? ", 'bind' => array('B', 'D'))),
-            array('A!=B;C==D,E!=Hello World!=', array('where' => " ( A IS NULL OR A <> ? ) AND (C = ? OR ( E IS NULL OR E <> ? ) )", 'bind' => array('B', 'D', 'Hello World!='))),
-            array('A=@B;C=$D', array('where' => " A LIKE ? AND C LIKE ? ", 'bind' => array('%B%', '%D'))),
+        return [
+            ['A==B%', ['where' => "A = ?", 'bind' => ['B%']]],
+            ['ABCDEF====B===', ['where' => "ABCDEF = ?", 'bind' => ['==B===']]],
+            ['A===B;CDEF!=C!=', ['where' => "A = ? AND ( CDEF IS NULL OR CDEF <> ? )", 'bind' => ['=B', 'C!=']]],
+            ['A==B,C==D', ['where' => "( A = ? OR C = ?)", 'bind' => ['B', 'D']]],
+            ['A!=B;C==D', ['where' => "( A IS NULL OR A <> ? ) AND C = ?", 'bind' => ['B', 'D']]],
+            ['A!=B;C==D,E!=Hello World!=', ['where' => "( A IS NULL OR A <> ? ) AND ( C = ? OR ( E IS NULL OR E <> ? ))", 'bind' => ['B', 'D', 'Hello World!=']]],
+            ['A=@B;C=$D', ['where' => "A LIKE ? AND C LIKE ?", 'bind' => ['%B%', '%D']]],
 
-            array('A>B', array('where' => " A > ? ", 'bind' => array('B'))),
-            array('A<B', array('where' => " A < ? ", 'bind' => array('B'))),
-            array('A<=B', array('where' => " A <= ? ", 'bind' => array('B'))),
-            array('A>=B', array('where' => " A >= ? ", 'bind' => array('B'))),
-            array('ABCDEF>=>=>=B===', array('where' => " ABCDEF >= ? ", 'bind' => array('>=>=B==='))),
-            array('A>=<=B;CDEF>G;H>=I;J<K;L<=M', array('where' => " A >= ? AND CDEF > ? AND H >= ? AND J < ? AND L <= ? ", 'bind' => array('<=B', 'G', 'I', 'K', 'M'))),
-            array('A>=B;C>=D,E<w_ow great!', array('where' => " A >= ? AND (C >= ? OR E < ? )", 'bind' => array('B', 'D', 'w_ow great!'))),
+            ['A>B', ['where' => "A > ?", 'bind' => ['B']]],
+            ['A<B', ['where' => "A < ?", 'bind' => ['B']]],
+            ['A<=B', ['where' => "A <= ?", 'bind' => ['B']]],
+            ['A>=B', ['where' => "A >= ?", 'bind' => ['B']]],
+            ['ABCDEF>=>=>=B===', ['where' => "ABCDEF >= ?", 'bind' => ['>=>=B===']]],
+            ['A>=<=B;CDEF>G;H>=I;J<K;L<=M', ['where' => "A >= ? AND CDEF > ? AND H >= ? AND J < ? AND L <= ?", 'bind' => ['<=B', 'G', 'I', 'K', 'M']]],
+            ['A>=B;C>=D,E<w_ow great!', ['where' => "A >= ? AND ( C >= ? OR E < ?)", 'bind' => ['B', 'D', 'w_ow great!']]],
 
-            array('A=@B_', array('where' => " A LIKE ? ", 'bind' => array('%B\_%'))),
-            array('A!@B%', array('where' => " ( A IS NULL OR A NOT LIKE ? ) ", 'bind' => array('%B\%%'))),
-            array('A=$B%', array('where' => " A LIKE ? ", 'bind' => array('%B\%'))),
-            array('A=^B%', array('where' => " A LIKE ? ", 'bind' => array('B\%%'))),
+            ['A=@B_', ['where' => "A LIKE ?", 'bind' => ['%B\_%']]],
+            ['A!@B%', ['where' => "( A IS NULL OR A NOT LIKE ? )", 'bind' => ['%B\%%']]],
+            ['A=$B%', ['where' => "A LIKE ?", 'bind' => ['%B\%']]],
+            ['A=^B%', ['where' => "A LIKE ?", 'bind' => ['B\%%']]],
 
-            array('log_visit.A==3', ['where' => ' log_visit.A = ? ', 'bind' => ['3']], [], ['log_visit']),
-            array('log_visit.A==3;log_conversion.B>4', ['where' => ' log_visit.A = ? AND log_conversion.B > ? ', 'bind' => ['3', '4']], [], ['log_visit', 'log_conversion']),
-            array('(UNIX_TIMESTAMP(log_visit.A)-log_visit.B)==3', ['where' => ' (UNIX_TIMESTAMP(log_visit.A)-log_visit.B) = ? ', 'bind' => ['3']], ['log_conversion'], ['log_conversion', 'log_visit']),
-            array('(UNIX_TIMESTAMP(`log_visit`.A)-log_visit.`B`)==3', ['where' => ' (UNIX_TIMESTAMP(`log_visit`.A)-log_visit.`B`) = ? ', 'bind' => ['3']], ['log_conversion'], ['log_conversion', 'log_visit']),
-            array('(UNIX_TIMESTAMP(`log_visit.A`)-`log_visit`.`B`)==3', ['where' => ' (UNIX_TIMESTAMP(`log_visit.A`)-`log_visit`.`B`) = ? ', 'bind' => ['3']], ['log_conversion'], ['log_conversion', 'log_visit']),
-        );
+            ['log_visit.A==3', ['where' => 'log_visit.A = ?', 'bind' => ['3']], [], ['log_visit']],
+            ['log_visit.A==3;log_conversion.B>4', ['where' => 'log_visit.A = ? AND log_conversion.B > ?', 'bind' => ['3', '4']], [], ['log_visit', 'log_conversion']],
+            ['(UNIX_TIMESTAMP(log_visit.A)-log_visit.B)==3', ['where' => '(UNIX_TIMESTAMP(log_visit.A)-log_visit.B) = ?', 'bind' => ['3']], ['log_conversion'], ['log_conversion', 'log_visit']],
+            ['(UNIX_TIMESTAMP(`log_visit`.A)-log_visit.`B`)==3', ['where' => '(UNIX_TIMESTAMP(`log_visit`.A)-log_visit.`B`) = ?', 'bind' => ['3']], ['log_conversion'], ['log_conversion', 'log_visit']],
+            ['(UNIX_TIMESTAMP(`log_visit.A`)-`log_visit`.`B`)==3', ['where' => '(UNIX_TIMESTAMP(`log_visit.A`)-`log_visit`.`B`) = ?', 'bind' => ['3']], ['log_conversion'], ['log_conversion', 'log_visit']],
+        ];
     }
 
     /**
@@ -115,16 +115,16 @@ class SegmentExpressionTest extends \PHPUnit\Framework\TestCase
      */
     public function getBogusFilters()
     {
-        return array(
-            array('A=B'),
-            array('C!D'),
-            array(''),
-            array('      '),
-            array(',;,'),
-            array(','),
-            array(',,'),
-            array('!='),
-        );
+        return [
+            ['A=B'],
+            ['C!D'],
+            [''],
+            ['      '],
+            [',;,'],
+            [','],
+            [',,'],
+            ['!='],
+        ];
     }
 
     /**

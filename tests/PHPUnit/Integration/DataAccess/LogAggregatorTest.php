@@ -207,7 +207,7 @@ class LogAggregatorTest extends IntegrationTestCase
 			WHERE
 				( 1=1 )
                 AND
-                ( log_visit.user_id = ? )
+                (log_visit.user_id = ?)
 			ORDER BY
 				5',
             'bind' => array (
@@ -431,7 +431,7 @@ class LogAggregatorTest extends IntegrationTestCase
 				AND log_visit.visit_last_action_time <= ?
 				AND log_visit.idsite IN (?) )
                 AND
-                ( log_visit.user_id = ? )
+                (log_visit.user_id = ?)
 			ORDER BY
 				log_visit.idvisit ASC",
             'bind' => [
@@ -460,7 +460,7 @@ class LogAggregatorTest extends IntegrationTestCase
 				AND log_visit.visit_last_action_time <= ?
 				AND log_visit.idsite IN (?) )
                 AND
-                ( log_visit.user_id = ? )
+                (log_visit.user_id = ?)
 			ORDER BY
 				log_visit.idvisit ASC",
             'bind' => [
