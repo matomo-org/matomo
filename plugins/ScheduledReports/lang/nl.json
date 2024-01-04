@@ -10,7 +10,7 @@
         "CreateAndScheduleReport": "Aanmaken en een rapport inplannen",
         "CreateReport": "Rapport aanmaken",
         "CustomVisitorSegment": "Aangepast bezoekers segment:",
-        "DescriptionOnFirstPage": "Het rapport beschrijving wordt weergegeven op de eerste pagina van het rapport.",
+        "DescriptionOnFirstPage": "De rapportbeschrijving zal weergegeven worden in het e-mailbericht, en tevens op de eerste pagina van het rapport.",
         "DisplayFormat_TablesOnly": "Alleen tabellen tonen (geen grafieken)",
         "EmailHello": "Hallo,",
         "EmailReports": "E-mailrapporten",

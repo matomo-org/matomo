@@ -1,9 +1,12 @@
 {
     "Transitions": {
+        "AvailableInOtherReports": "Bazenekien? Trantsizioak errenkadako ekintza bezala ere erabilgarri daude ondorengo txostenetan:",
+        "AvailableInOtherReports2": "Abiarazi trantsizioak sagua txosten horietako errenkada baten gainean jarri eta bere ikonoan (%s) klik eginez.",
         "BouncesInline": "%s errebote",
         "DirectEntries": "Sarrera zuzenak",
         "ErrorBack": "Itzuli aurreko ekintzara",
         "ExitsInline": "%s irteera",
+        "FeatureDescription": "Trantsizioak txostenean ikus dezakezu zer egin duten bisitariek orri jakin bat ikusi aurretik eta ondoren. Orri honetan azaltzen da nola atzitu, ulertu eta erabili \"Trantsizioak\" txosten ahaltsua.",
         "FromCampaigns": "Kanpainetatik",
         "FromPreviousPages": "Barne-orrietatik",
         "FromPreviousPagesInline": "%s barne-orrietatik",
@@ -23,6 +26,7 @@
         "PageURLTransitions": "Orrien URLen trantsizioak",
         "PeriodNotAllowed": "Hautatu baliozko denbora-tartea",
         "PeriodNotAllowedDetails": "Saiatu egun gutxiago dituen tartea hautatzen ezaugarri honentzat.",
+        "PluginDescription": "Aurreko eta ondorengo ekintzen berri ematen du orri URL bakoitzarentzat, \"Trantsizioak\" txosten berrian, \"Ekintzak\" txostenetan ere erabilgarri dago ikono berria erabiliz.",
         "ShareOfAllPageviews": "Orri honek %1$s ikustaldi izan ditu (orri-ikustaldi guztien %2$s)",
         "ToFollowingPages": "Barne orrietara",
         "ToFollowingPagesInline": "%s barne orrietara",
@@ -30,6 +34,7 @@
         "ToFollowingSiteSearchesInline": "%s barne bilaketa",
         "TopX": "%s etiketa gorenak",
         "Transitions": "Trantsizioak",
+        "TransitionsSubcategoryHelp1": "Trantsizioak txostenean ikus dezakezu zer egin duten bisitariek orri jakin bat ikusi aurretik eta ondoren. Orri honetan azaltzen da nola atzitu, ulertu eta erabili \"Trantsizioak\" txosten ahaltsua.",
         "TransitionsSubcategoryHelp2": "Xehetasun gehiago",
         "XOfAllPageviews": "Orri honen ikustaldi guztien %s",
         "XOutOfYVisits": "%1$s (guztira %2$s)"

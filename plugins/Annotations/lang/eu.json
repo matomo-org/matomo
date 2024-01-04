@@ -15,6 +15,7 @@
         "InlineQuickHelp": "Oharrak sortu ditzakezu gertaera bereziak markatzeko (blog bidalketa berria edo webgunearen diseinua berritzea), datu-analisiak gordetzeko edo garrantzitsua iruditzen zaizun edozein gauza gordetzeko.",
         "LoginToAnnotate": "Hasi saioa oharra sortzeko.",
         "NoAnnotations": "Ez dago oharrik data-tarte honetarako.",
+        "PluginDescription": "Aukera ematen dizu webgunean aldaketak zein egunetan egin diren ohar bidez adierazteko, zure datuei buruzko analisiak gordetzeko eta zure lankideekin ideiak partekatzeko. Zure datuei oharrak gehituz ziurtatu dezakezu gogoratuko duzula zergatik diren zure datuak diruditen bezalakoak.",
         "ViewAndAddAnnotations": "Ikusi eta gehitu oharrak %s(r)entzat…",
         "YouCannotModifyThisNote": "Ezin duzu ohar hau aldatu, ez duzulako zuk sortu eta ez duzulako gune honetara administratzaile sarbiderik ere."
     }

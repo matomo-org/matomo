@@ -1,1 +1,7 @@
-{}
+{
+    "MobileAppMeasurable": {
+        "MobileApp": "મોબાઈલ એપ",
+        "MobileAppDescription": "iOS, Android અથવા અન્ય કોઈપણ મોબાઈલ ઓપરેટિંગ સિસ્ટમ માટે મૂળ મોબાઈલ એપ્લિકેશન.",
+        "MobileApps": "મોબાઈલ એપ્સ"
+    }
+}

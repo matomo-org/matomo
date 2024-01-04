@@ -1,1 +1,13 @@
-{}
+{
+    "Resolution": {
+        "ColumnConfiguration": "કન્ફિગરેશન",
+        "ColumnResolution": "રિઝોલ્યુશન",
+        "Configurations": "કન્ફિગરેશન્સ",
+        "PluginDescription": "તમારા મુલાકાતીઓના સ્ક્રીન રીઝોલ્યુશનની જાણ કરે છે.",
+        "Resolutions": "રિઝોલ્યુશન્સ",
+        "WidgetGlobalVisitors": "મુલાકાતી કન્ફિગરેશન",
+        "WidgetGlobalVisitorsDocumentation": "આ રિપોર્ટ તમારા મુલાકાતીઓની સૌથી સામાન્ય એકંદર કન્ફિગરેશન દર્શાવે છે. કન્ફિગરેશન એ ઓપરેટિંગ સિસ્ટમ, બ્રાઉઝર પ્રકાર અને સ્ક્રીન રીઝોલ્યુશનનું સંયોજન છે.",
+        "WidgetResolutions": "સ્ક્રીન રીઝોલ્યુશન",
+        "WidgetResolutionsDocumentation": "આ રિપોર્ટ તમારી વેબસાઇટ જોતી વખતે તમારા મુલાકાતીઓ દ્વારા ઉપયોગમાં લેવાતા સ્ક્રીન રીઝોલ્યુશન બતાવે છે."
+    }
+}

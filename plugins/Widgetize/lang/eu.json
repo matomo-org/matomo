@@ -1,9 +1,17 @@
 {
     "Widgetize": {
         "DirectLink": "› Esteka zuzena",
+        "DisplayDashboardInIframe": "Matomoren arbel osoa ere bistaratu dezakezu zure aplikazioan edo webgunean IFRAME batean(%1$sikusi adibidea%2$s). Data parametroan egutegiko data zehatz bat ezarri daiteke, \"today\" edo \"yesterday\". Epearen parametroan \"day\", \"week\", \"month\" edo\n\"year\" ezarri daiteke. Hizkuntzaren parametroan itzulpen baten hizkuntza-kodea ezarri daiteke, esaterako language=fr. Adibidez, idSite=1 eta date=yesterday parametroentzat idatz dezakezu:",
+        "DisplayDashboardInIframeAllSites": "Webgune guztien arbela ere widget bihurtu dezakezu IFRAME batean (%1$sikusi adibidea%2$s)",
         "EmbedIframe": "› Kapsulatu iframe-a",
+        "Intro": "Matomorekin %1$szure web analitika txostenak esportatu%2$s ditzakezu zure blogera, webgunera, edo intraneteko arbelera... klik bakarrean.",
         "OpenInNewWindow": "Ireki leiho berrian",
         "PluginDescription": "Bistaratu Matomoko edozein txosten zure webgunean edo aplikazioan \"kapsulatzeko\" HTML etiketa sinple batekin.",
-        "Reports": "Bihurtu txostenak widget"
+        "Reports": "Bihurtu txostenak widget",
+        "SelectAReport": "Hautatu txosten bat. Ondoren kopiatu eta itsatsi zure orrian widget-aren azpiko kapsulatzeko kodea:",
+        "TooHighAccessLevel": "Erabiltzaile honek super erabiltzaile sarbidea dauka. Ez da onartzen super erabiltzaile token autentifikazioa duten widget-ak kapsulatzea. %1$sIkusi MEGa informazio gehiagorako.%2$s",
+        "TopLinkTooltip": "Esportatu Matomoko txostenak widget bezala eta kapsulatu arbela zure aplikazioetan iframe bezala.",
+        "ViewAccessRequired": "Erabiltzaile honek gutxienez zenbait idazteko baimen ditu. Ikusteko baimena soilik duten erabiltzaileen tokenak soilik erabili daitezke. Ikusi %1$s informazio gehiagorako.",
+        "ViewableAnonymously": "Zure widget-ak edonork ikusi ahal izatea nahi baduzu, lehenik erabiltzaile anonimoari 'ikusi' baimenak eman behar dizkiozu %1$sErabiltzaileen kudeaketa atalean%2$s. <br>Bestela, pasahitzez babestutako edo orri pribatu batean argitaratuko badituzu widget-ak, ez da beharrezkoa erabiltzaile anonimoek zure txostenak ikustea baimentzea. Kasu horretan, <code>token_auth</code> parametro sekretua gehitu dezakezu widget-aren URLan. Zure baimen-tokenak %3$sSegurtasuna orrian%4$s kudeatu ditzakezu."
     }
 }

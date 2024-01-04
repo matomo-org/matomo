@@ -1,5 +1,32 @@
 {
     "Ecommerce": {
-        "Sales": "Salmentak"
+        "EcommerceLogSubcategoryHelp1": "Merkataritza elektronikoaren egunkariak saio mailako datu xeheak eskaintzen ditu. Erosketa bat egin duen edo saskia utzi duen erabiltzaile bakoitzaren saio osoa ikus dezakezu. Erabiltzaileek erosketa burutu aurretik eta ondoren zer egiten duten ulertzen lagun zaitzake honek, optimizaziorako aukerak bistaratuz.",
+        "EcommerceLogSubcategoryHelp2": "Orri honetako datuak denbora errealean eguneratzen dira.",
+        "EcommerceOverviewSubcategoryHelp1": "Merkataritza elektronikoaren ikuspegi orokorra zure online dendaren errendimenduaren laburpena ikusteko atalik egokiena da. Begiratu batean jakin dezakezu zenbat salmenta egiten ari zaren, zenbateko diru-sarrerak dituzun, eta zure webgunearen bihurketa-tasa zein den.",
+        "EcommerceOverviewSubcategoryHelp2": "Egin klik sparkline grafikoko metrika bakoitzean bertan fokua ezartzeko tamaina osoko bilakaera grafikoaren barruan.",
+        "EcommerceOverviewSubcategoryHelp3": "Ikasi gehiago gure merkataritza elektronikoko gidan hemen.",
+        "LifeTimeValue": "Merkataritza elektronikoko bizialdiaren balioa",
+        "LifeTimeValueDescription": "Erosle honek bere bisita guztietan zehar pilatutako merkataritza elektronikoko diru-sarrera osoa: %s bisitari IDaren merkataritza elektronikoko eskaera guztien diru-sarreren batura.",
+        "NumberOfItems": "Elementu kopurua saskian",
+        "Order": "Eskaera",
+        "OrderId": "Eskaera IDa",
+        "OrderRevenue": "Eskaeraren diru-sarrera",
+        "OrderValue": "Eskaeraren balioa",
+        "Orders": "Eskaerak",
+        "PluginDescription": "Erabiltzaileek saskira produktuak noiz gehitzen dituzten eta merkataritza elektronikoko bihurketa bat noiz egiten duten erregistratzeko aukera ematen du Ecommerce pluginak. Horretaz gain, produktuen, produktu kategorien ikustaldien eta utzitako saskien jarraipena ere egin daiteke.",
+        "ProductSubcategoryHelp": "Besteek baino hobeto edo okerrago funtzionatzen duten produktuak eta kategoriak identifika ditzakezu Produktuak ikuspegian, zure produktuen hautapenarekin eta dendaren orriekin erlazionatutako joerak eta aukerak bistaratuz.",
+        "RevenueLeftInCart": "Saskian utzitako diru-sarrera",
+        "Sales": "Salmentak",
+        "SalesAdjective": "Salmentak %s",
+        "SalesBy": "Salmentak honen arabera: %s",
+        "SalesSubcategoryHelp1": "Salmentetara bideratzen duten baldintza ohikoenak aztertzeko txosten bilduma zabala aurkituko duzu atal honetan, esaterako, trafiko eta kanpaina iturburuak, erabiltzaileen orduak, kokapena eta webgunera sartzeko erabiltzen dituzten gailuak.",
+        "SalesSubcategoryHelp2": "Diru-sarrerak dimentsio bakoitzarekin nola erlazionatzen diren ere zehaztasunez jakin dezakezu, adibidez, trafiko-mota zehatzak edo jarraitutako kanpainak.",
+        "ViewedProductCategory": "Ikusitako produktuaren kategoria",
+        "ViewedProductName": "Ikusitako produktuaren izena",
+        "ViewedProductPrice": "Ikusitako produktuaren balioa",
+        "ViewedProductSKU": "Ikusitako produktuaren erreferentzia",
+        "VisitorProfileAbandonedCartSummary": "%1$s saski utzi ditu, %2$s elementu barne eta balioa guztira: %3$s.",
+        "VisitorProfileItemsAndOrders": "%1$s elementu erosi ditu merkataritza elektronikoko %2$s eskaeretan.",
+        "VisitorProfileLTV": "Sortutako bizialdi osoko diru-sarrera: %1$s."
     }
 }

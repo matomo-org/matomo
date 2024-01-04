@@ -50,7 +50,7 @@
         "ServerBasedVariablesConfiguration": "Configuratie voor servervariabelen die worden gebruikt door GeoIP 2-servermodules",
         "ServerVariableFor": "Server variabele voor %s",
         "SetupAutomaticUpdatesOfGeoIP": "Automatische updates van geolocatie-databases instellen",
-        "ShowCustomServerVariablesConfig": "Ik gebruik de Geoip2 server module (Nginx, Apache...) en wil servervariabelen configureren",
+        "ShowCustomServerVariablesConfig": "Ik gebruik de Geoip2 server module (Nginx, Apache…) en wil servervariabelen configureren",
         "ThisUrlIsNotAValidGeoIPDB": "Het gedownloade bestand is geen geldige geolocatie-database. Controleer de URL opnieuw of download het bestand handmatig.",
         "UnsupportedArchiveType": "Niet ondersteund archieftype aangetroffen %1$s.",
         "UpdaterHasNotBeenRun": "De updater is nog niet eerder uitgevoerd.",
