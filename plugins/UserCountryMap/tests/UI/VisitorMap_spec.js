@@ -32,7 +32,7 @@ describe("VisitorMap", function () {
             $('.userCountryMapSelectMetrics').val('avg_time_on_site').trigger('change');
         });
         await page.mouse.move(900, 140);
-        await page.waitForTimeout(100); // wait for tooltip
+        await page.waitForTimeout(250); // wait for tooltip
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('avg_time_on_site');
     });
