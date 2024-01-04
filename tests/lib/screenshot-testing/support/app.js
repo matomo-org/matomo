@@ -311,8 +311,6 @@ Application.prototype.doRunTests = function (mocha) {
                 }
             });
         }
-
-        process.exit(failures);
     });
 
     this.runner.on('suite', function() {
@@ -322,10 +320,11 @@ Application.prototype.doRunTests = function (mocha) {
     this.runner.on('test', function () {
         page._reset();
     });
-};
 
-Application.prototype.finish = function () {
-    process.exit(this.runner ? this.runner.failures : -1);
+    this.runner.on('end', function() {
+      // we are terminating but we are waiting for all other events to finish
+      setTimeout(() => process.exit(this.failures), 10000);
+    })
 };
 
 Application.prototype.appendMissingExpected = function (screenName) {
