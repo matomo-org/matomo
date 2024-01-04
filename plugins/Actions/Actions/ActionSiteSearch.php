@@ -133,7 +133,7 @@ class ActionSiteSearch extends Action
             $fragmentBeforeQuery = '';
         }
 
-        $parametersRaw = UrlHelper::getArrayFromQueryString($queryString.$separator.$fragmentQuery);
+        $parametersRaw = UrlHelper::getArrayFromQueryString($queryString . $separator . $fragmentQuery);
 
         // strtolower the parameter names for smooth site search detection
         $parameters = array();
@@ -185,7 +185,7 @@ class ActionSiteSearch extends Action
                 $parsedUrl['fragment'] = UrlHelper::getQueryStringWithExcludedParameters(UrlHelper::getArrayFromQueryString($fragmentQuery), $parametersToExclude);
                 if ($fragmentBeforeQuery) {
                     if ($parsedUrl['fragment']) {
-                        $parsedUrl['fragment'] = $fragmentBeforeQuery.'?'.$parsedUrl['fragment'];
+                        $parsedUrl['fragment'] = $fragmentBeforeQuery . '?' . $parsedUrl['fragment'];
                     } else {
                         $parsedUrl['fragment'] = $fragmentBeforeQuery;
                     }

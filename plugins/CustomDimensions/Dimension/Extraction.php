@@ -40,7 +40,7 @@ class Extraction
             $dimensions = implode(', ', array_keys($dimensions));
             throw new Exception("Invald dimension '$this->dimension' used in an extraction. Available dimensions are: " . $dimensions);
         }
-        
+
         //Count the number of non-capturing groups in order to omit them from being counted as capturing groups
         $ncgCount = substr_count($this->pattern, '(?');
         if (!empty($this->pattern) && $this->dimension !== 'urlparam') {

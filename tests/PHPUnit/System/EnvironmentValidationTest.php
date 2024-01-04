@@ -49,7 +49,6 @@ class EnvironmentValidationTest extends SystemTestCase
         $output = $this->triggerPiwikFrom($entryPoint);
 
         $this->assertOutputContainsConfigFileMissingError('global.ini.php', $output);
-
     }
 
     public function test_NoLocalConfigFile_TriggersError_inTracker()
@@ -135,7 +134,7 @@ class EnvironmentValidationTest extends SystemTestCase
 
     private function assertInstallationProcessStarted($output)
     {
-        self::assertStringContainsString('<title>Matomo '. Version::VERSION .' &rsaquo; Installation</title>', $output);
+        self::assertStringContainsString('<title>Matomo ' . Version::VERSION . ' &rsaquo; Installation</title>', $output);
     }
 
     private function simulateAbsentConfigFile($fileName)

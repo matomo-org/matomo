@@ -9,6 +9,12 @@
     <ContentBlock
       :content-title="translate('PrivacyManager_TrackingOptOut')"
     >
+      <component
+        v-for="(preface, index) in prefaceComponentsResolved"
+        :key="index"
+        :is="preface"
+      ></component>
+
       <OptOutCustomizer
         :matomo-url="matomoUrl"
         :language="language"
@@ -45,10 +51,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { Alert, ContentBlock } from 'CoreHome';
+import { defineComponent, markRaw } from 'vue';
+import {
+  Alert,
+  ContentBlock,
+  useExternalPluginComponent,
+  Matomo,
+} from 'CoreHome';
 import DoNotTrackPreference from '../DoNotTrackPreference/DoNotTrackPreference.vue';
 import OptOutCustomizer from '../OptOutCustomizer/OptOutCustomizer.vue';
+
+interface UsersOptOutState {
+  prefaceComponents: { plugin: string, component: string }[];
+}
 
 export default defineComponent({
   props: {
@@ -73,6 +88,23 @@ export default defineComponent({
     ContentBlock,
     DoNotTrackPreference,
     OptOutCustomizer,
+  },
+  data(): UsersOptOutState {
+    return {
+      prefaceComponents: [],
+    };
+  },
+  computed: {
+    prefaceComponentsResolved() {
+      return markRaw(this.prefaceComponents.map(
+        (c) => markRaw(useExternalPluginComponent(c.plugin, c.component)),
+      ));
+    },
+  },
+  created() {
+    const components: { plugin: string, component: string }[] = [];
+    Matomo.postEvent('PrivacyManager.UsersOptOut.preface', components);
+    this.prefaceComponents = components;
   },
 });
 </script>

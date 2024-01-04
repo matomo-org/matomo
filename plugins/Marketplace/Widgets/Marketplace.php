@@ -26,6 +26,4 @@ class Marketplace extends Widget
         $config->setOrder(19);
         $config->setIsEnabled(!Piwik::isUserIsAnonymous());
     }
-
-
 }

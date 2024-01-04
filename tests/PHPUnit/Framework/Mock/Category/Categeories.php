@@ -59,5 +59,4 @@ class Categories extends Plugin\Categories
 
         return parent::getAllSubcategories();
     }
-
 }

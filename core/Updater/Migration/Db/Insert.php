@@ -28,5 +28,4 @@ class Insert extends BoundSql
 
         parent::__construct($sql, $bind, static::ERROR_CODE_DUPLICATE_ENTRY);
     }
-
 }

@@ -104,7 +104,7 @@ class Segment
     const SEGMENT_TRUNCATE_LIMIT = 8192;
 
     const CACHE_KEY = 'segmenthashes';
-    const SEGMENT_HAS_BUILT_CACHE_KEY ='segmenthashbuilt';
+    const SEGMENT_HAS_BUILT_CACHE_KEY = 'segmenthashbuilt';
 
     /**
      * Constructor.
@@ -147,11 +147,14 @@ class Segment
         // can usually be parsed successfully. To pick the right one, we try both and pick the one w/ more
         // successfully parsed subexpressions.
         $subexpressionsDecoded = 0;
-        try {
-            $this->initializeSegment(urldecode($segmentCondition), $idSites);
-            $subexpressionsDecoded = $this->segmentExpression->getSubExpressionCount();
-        } catch (Exception $e) {
-            // ignore
+
+        if (urldecode($segmentCondition) !== $segmentCondition) {
+            try {
+                $this->initializeSegment(urldecode($segmentCondition), $idSites);
+                $subexpressionsDecoded = $this->segmentExpression->getSubExpressionCount();
+            } catch (Exception $e) {
+                // ignore
+            }
         }
 
         $subexpressionsRaw = 0;
@@ -163,7 +166,7 @@ class Segment
         }
 
         if ($subexpressionsRaw > $subexpressionsDecoded) {
-            $this->initializeSegment($segmentCondition, $idSites);
+            // segment initialized above
             $this->isSegmentEncoded = false;
         } else {
             $this->initializeSegment(urldecode($segmentCondition), $idSites);
@@ -190,7 +193,7 @@ class Segment
         $cache = PiwikCache::getTransientCache();
 
         //covert cache id
-        $cacheId = 'API.getSegmentsMetadata.'.SettingsPiwik::getPiwikInstanceId() . '.' . implode(",", $this->idSites);
+        $cacheId = 'API.getSegmentsMetadata.' . SettingsPiwik::getPiwikInstanceId() . '.' . implode(",", $this->idSites);
 
         //fetch cache lockId
         $availableSegments = $cache->fetch($cacheId);
@@ -404,6 +407,11 @@ class Segment
         }
 
         $segmentObject = $segmentsList->getSegment($name);
+
+        if (empty($segmentObject)) {
+            throw new Exception("Segment '$name' is not a supported segment.");
+        }
+
         $sqlName = $segmentObject->getSqlSegment();
 
         $joinTable = null;
@@ -425,7 +433,7 @@ class Segment
             ];
 
             if ($dbDiscriminator) {
-                $joinTable['discriminator'] = $tableAlias . '.'. $dbDiscriminator->getColumn() . ' = \''.  $dbDiscriminator->getValue() . '\'';
+                $joinTable['discriminator'] = $tableAlias . '.' . $dbDiscriminator->getColumn() . ' = \'' .  $dbDiscriminator->getValue() . '\'';
             }
         }
 

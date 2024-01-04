@@ -75,7 +75,7 @@ jobs:
       shell: bash
     - name: Push changes
       run: |
-          git commit -m "updates composer dependencies"
+          git commit -m "Update composer dependencies"
           git push --set-upstream origin composer-update
       shell: bash
       if: steps.update.outputs.message

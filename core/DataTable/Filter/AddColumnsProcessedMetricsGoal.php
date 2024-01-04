@@ -65,7 +65,6 @@ use Piwik\Plugins\Goals\Columns\Metrics\RevenuePerVisit;
  */
 class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
 {
-
     /**
      * Process metrics for entry page views, with ECommerce
      */
@@ -176,7 +175,7 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
                 // When the table is displayed by clicking on the flag icon, we only display the columns
                 // Visits, Conversions, Per goal conversion rate, Revenue
                 if ($this->processOnlyIdGoal == self::GOALS_OVERVIEW) {
-                   continue;
+                    continue;
                 }
 
                 $extraProcessedMetrics[] = new Conversions($idSite, $idGoal); // PerGoal\Conversions or GoalSpecific\

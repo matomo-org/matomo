@@ -60,5 +60,4 @@ class GetRank extends \Piwik\Widget\Widget
             'ranks' => json_decode($renderer->render(), true)
         ));
     }
-
 }

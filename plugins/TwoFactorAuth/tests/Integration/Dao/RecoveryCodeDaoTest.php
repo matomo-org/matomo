@@ -71,7 +71,6 @@ class RecoveryCodeDaoTest extends IntegrationTestCase
         $this->assertEquals([], $this->dao->getAllRecoveryCodesForLogin('login2'));
 
         $this->assertEquals(0, $this->dao->deleteRecoveryCode('login2', '654321')); // cannot be deleted again
-
     }
 
     public function test_deleteAllRecoveryCodesForLogin()

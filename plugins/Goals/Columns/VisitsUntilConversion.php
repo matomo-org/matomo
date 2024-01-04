@@ -14,5 +14,4 @@ class VisitsUntilConversion extends Dimension
 {
     protected $type = self::TYPE_NUMBER;
     protected $nameSingular = 'Goals_VisitsUntilConv';
-
 }

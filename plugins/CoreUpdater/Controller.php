@@ -178,7 +178,6 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         $view->feedbackMessages = $messages;
-        $this->addCustomLogoInfo($view);
         $result = $view->render();
 
         return $result;
@@ -440,5 +439,4 @@ class Controller extends \Piwik\Plugin\Controller
     {
         return PluginManager::getInstance()->getIncompatiblePlugins($piwikVersion);
     }
-
 }

@@ -7,7 +7,7 @@
               {% elseif counts.count == 1 %}title="{{ 'Annotations_AnnotationOnDate'|translate(date,
                   (counts.note|e('html_attr')))|raw }}
 {{ 'Annotations_ClickToEditOrAdd'|translate }}"
-              {% else %}}title="{{ 'Annotations_ViewAndAddAnnotations'|translate(date) }}"{% endif %}>
+              {% else %}title="{{ 'Annotations_ViewAndAddAnnotations'|translate(date) }}"{% endif %}>
             <span class="icon-annotation {% if counts.starred > 0 %}starred{% endif %}"></span>
         </span>
     {% endfor %}

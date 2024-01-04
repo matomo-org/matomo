@@ -201,11 +201,11 @@ class ArchivingHelper
     {
         $rowsProcessed = 0;
 
-         while ($row = $resultSet->fetch()) {
-             if (self::updateActionsTableRowWithGoals($row, $isPages)) {
-                 $rowsProcessed++;
-             }
-         }
+        while ($row = $resultSet->fetch()) {
+            if (self::updateActionsTableRowWithGoals($row, $isPages)) {
+                $rowsProcessed++;
+            }
+        }
          return $rowsProcessed;
     }
 
@@ -302,7 +302,6 @@ class ArchivingHelper
                     $row[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY] = (float) $row[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY];
                 }
             }
-
         }
 
         // Get goals column
@@ -422,7 +421,6 @@ class ArchivingHelper
             $limit = 100000;
         }
         return $limit;
-
     }
 
     /**

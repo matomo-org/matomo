@@ -73,7 +73,7 @@ class Updates_5_0_0_b1 extends PiwikUpdates
         $tables = ArchiveTableCreator::getTablesArchivesInstalled('numeric');
         foreach ($tables as $table) {
             $migrations[] = $this->migration->db->sql(sprintf('DELETE FROM `%s` WHERE ts_archived is null', $table));
-            
+
             $hasPrefix = strpos($table, 'archive') !== 0;
             if ($hasPrefix) {
                 $table = Common::unprefixTable($table);
@@ -100,10 +100,19 @@ class Updates_5_0_0_b1 extends PiwikUpdates
         }
 
         // create the new index if it does not yet exist and drop the old one
-        $migrations[] = $this->migration->db->sql(
-            "ALTER TABLE `{$this->tableName}` ADD INDEX `{$this->newIndexName}` (`idsite`, `idvisitor`, `visit_last_action_time` DESC)",
-            [DbAlias::ERROR_CODE_DUPLICATE_KEY, DbAlias::ERROR_CODE_KEY_COLUMN_NOT_EXISTS]
-        );
+        if ($this->isTableInnoDb()) {
+            // Only InnoDB does support descending indexes as of MySQL 8
+            $migrations[] = $this->migration->db->sql(
+                "ALTER TABLE `{$this->tableName}` ADD INDEX `{$this->newIndexName}` (`idsite`, `idvisitor`, `visit_last_action_time` DESC)",
+                [DbAlias::ERROR_CODE_DUPLICATE_KEY, DbAlias::ERROR_CODE_KEY_COLUMN_NOT_EXISTS]
+            );
+        } else {
+            $migrations[] = $this->migration->db->sql(
+                "ALTER TABLE `{$this->tableName}` ADD INDEX `{$this->newIndexName}` (`idsite`, `idvisitor`, `visit_last_action_time`)",
+                [DbAlias::ERROR_CODE_DUPLICATE_KEY, DbAlias::ERROR_CODE_KEY_COLUMN_NOT_EXISTS]
+            );
+        }
+
         $migrations[] = $this->migration->db->dropIndex('log_visit', $this->indexName);
 
         return $migrations;
@@ -135,5 +144,13 @@ class Updates_5_0_0_b1 extends PiwikUpdates
     private function hasNewIndex(): bool
     {
         return DbHelper::tableHasIndex($this->tableName, $this->newIndexName);
+    }
+
+    private function isTableInnoDb(): bool
+    {
+        $sql = "SHOW TABLE STATUS WHERE NAME='{$this->tableName}'";
+        $result = Db::fetchRow($sql);
+
+        return strtolower($result['Engine'] ?? '') === 'innodb';
     }
 }

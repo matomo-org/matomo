@@ -42,6 +42,7 @@ class Cloud extends Visualization
 
     public function beforeLoadDataTable()
     {
+        // request metrics unformatted, so we can calculate with them, formatting is applied manually before rendering
         $this->requestConfig->request_parameters_to_modify['format_metrics'] = 0;
         $this->checkRequestIsNotForMultiplePeriods();
     }
@@ -68,9 +69,8 @@ class Cloud extends Visualization
         $this->config->show_offset_information     = false;
         $this->config->show_limit_control          = false;
 
-        // Second pass: enable metric formatting, reapply the filters and then generate the tag cloud data
-        $this->requestConfig->request_parameters_to_modify['format_metrics'] = 1;
-        $this->applyMetricsFormatting();
+        // manually apply metric formatting
+        $this->applyMetricsFormatting(true);
         $this->generateCloudData();
     }
 
@@ -176,7 +176,6 @@ class Cloud extends Visualization
             foreach ($keys as $value) {
                 $this->wordsArray[$value] = $tmpArray[$value];
             }
-
         }
     }
 

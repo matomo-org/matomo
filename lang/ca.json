@@ -282,6 +282,7 @@
         "Locale": "ca_ES.UTF-8",
         "Logout": "Surt",
         "MainMetrics": "Mètriques principals",
+        "ManagePlugins": "Gestioneu els connectors",
         "Matches": "Coincidències",
         "MatomoIsACollaborativeProjectYouCanContributeAndDonateNextRelease": "%1$sMatomo%2$s, abans conegut com Piwik, és un projecte col·laboratiu creat pels membres de l'equip de %7$sMatomo%8$s així com per molts altres col·laboradors d'arreu del món. <br> Si ets fan de Matomo, pots ajudar: esbrina %3$sCom participar a Matomo%4$s, o %5$sdona ara%6$s per ajudar a finançar el proper gran llançament de Matomo !",
         "MaximumNumberOfPeriodsComparedIs": "El nombre màxim de períodes que es poden comparar simultàniament és %s.",

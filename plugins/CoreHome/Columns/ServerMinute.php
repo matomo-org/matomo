@@ -31,5 +31,4 @@ class ServerMinute extends ActionDimension
     {
         return $value;
     }
-
 }

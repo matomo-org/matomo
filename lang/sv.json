@@ -282,6 +282,7 @@
         "Locale": "sv_SE.UTF-8",
         "Logout": "Logga ut",
         "MainMetrics": "Huvudvariabler",
+        "ManagePlugins": "Matomo-tillägg",
         "Matches": "Matchningar",
         "MatomoIsACollaborativeProjectYouCanContributeAndDonateNextRelease": "%1$sMatomo%2$s, tidigare känt som Piwik, är ett samarbetsprojekt som drivs av %7$sMatomo-teamet%8$s medlemmar och många andra bidragsgivare runt om i världen. <br> Om du gillar Matomo kan du hjälpa till: ta reda på %3$shur du kan delta i Matomo%4$s, eller %5$sdonera nu%6$s för att hjälpa till att finansiera nästa stora Matomo-utgåva!",
         "MaximumNumberOfPeriodsComparedIs": "Max %s perioder kan jämföras samtidigt.",

@@ -41,7 +41,7 @@ class JoinGenerator
         $this->tables = $tables;
         $this->addMissingTablesNeededForJoins();
     }
-    
+
     private function addMissingTablesNeededForJoins()
     {
         foreach ($this->tables as $index => $table) {
@@ -104,7 +104,6 @@ class JoinGenerator
                             throw new Exception($message);
                         }
                     }
-
                 }
             }
         }

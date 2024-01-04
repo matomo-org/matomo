@@ -61,7 +61,6 @@ class EnvironmentValidator
 
         // Start the installation when config file not found
         $this->checkConfigFileExists($this->settingsProvider->getPathLocal(), $startInstaller);
-
     }
 
     /**

@@ -85,7 +85,7 @@ use Piwik\Plugin\ReportsProvider;
  *
  * @api
  */
-class   Config
+class Config
 {
     /**
      * The list of ViewDataTable properties that are 'Client Side Properties'.
@@ -265,6 +265,13 @@ class   Config
      * Controls whether graph and non core viewDataTable footer icons are shown or not.
      */
     public $show_all_views_icons = true;
+
+    /**
+     * Array property that contains the names of columns that can be selected in the Series Picker.
+     *
+     * Default value: false
+     */
+    public $selectable_columns = false;
 
     /**
      * Related reports are listed below a datatable view. When clicked, the original report will

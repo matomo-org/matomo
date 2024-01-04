@@ -269,5 +269,4 @@ class LogDataAnonymizer
         }
         return $idSites;
     }
-
 }

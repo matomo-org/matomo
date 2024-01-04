@@ -275,7 +275,6 @@ class API extends \Piwik\Plugin\API
             switch ($graphType) {
                 case StaticGraph::GRAPH_TYPE_3D_PIE:
                 case StaticGraph::GRAPH_TYPE_BASIC_PIE:
-
                     if (count($ordinateColumns) > 1) {
                         // CpChart doesn't support multiple series on pie charts
                         throw new Exception("Pie charts do not currently support multiple series");
@@ -287,7 +286,6 @@ class API extends \Piwik\Plugin\API
 
                 case StaticGraph::GRAPH_TYPE_VERTICAL_BAR:
                 case StaticGraph::GRAPH_TYPE_BASIC_LINE:
-
                     if (!$isMultiplePeriod && !$constantRowsCount) {
                         $this->setFilterTruncate($defaultFilterTruncate);
                     }

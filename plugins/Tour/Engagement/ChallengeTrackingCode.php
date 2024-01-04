@@ -56,6 +56,4 @@ class ChallengeTrackingCode extends Challenge
     {
         return 'index.php' . Url::getCurrentQueryStringWithParametersModified(array('module' => 'CoreAdminHome', 'action' => 'trackingCodeGenerator', 'widget' => false));
     }
-
-
 }

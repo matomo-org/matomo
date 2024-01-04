@@ -147,7 +147,7 @@ class DatabaseAbilitiesCheck implements Diagnostic
             // insert an entry into the new temporary table
             Db::exec('INSERT INTO `piwik_test_table_temp` (`id`, `val`) VALUES ("1", "val1");');
 
-            for ($i=0; $i < 5; $i++) {
+            for ($i = 0; $i < 5; $i++) {
                 // try reading the entry a few times to ensure it doesn't fail, which might be possible when using load balanced databases
                 $result = Db::fetchRow('SELECT * FROM `piwik_test_table_temp` WHERE `id` = 1');
 
@@ -162,7 +162,6 @@ class DatabaseAbilitiesCheck implements Diagnostic
         }
 
         return new DiagnosticResultItem($status, $comment);
-
     }
 
     protected function checkTransactionLevel()
@@ -179,6 +178,5 @@ class DatabaseAbilitiesCheck implements Diagnostic
         }
 
         return new DiagnosticResultItem($status, $comment);
-
     }
 }

@@ -26,5 +26,4 @@ class LogTablesProvider extends \Piwik\Plugin\LogTablesProvider
             new OtherCustomUserLogTable()
         );
     }
-
 }

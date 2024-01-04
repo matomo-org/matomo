@@ -56,8 +56,6 @@ class CronArchiveInvalidSegmentTest extends IntegrationTestCase
         Fixture::checkResponse($tracker->doTrackPageView('abcdefg4'));
 
         $this->logger = new FakeLogger();
-
-
     }
 
     public function test_output_invalidSegment()

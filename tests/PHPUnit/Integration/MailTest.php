@@ -56,7 +56,9 @@ class MailTest extends UnitTestCase
         $this->assertTrue($result);
         $this->assertCount(1, $this->sentMails);
 
-        Piwik::addAction('Mail.shouldSend', function (&$shouldSend, $mail) { $shouldSend = false; });
+        Piwik::addAction('Mail.shouldSend', function (&$shouldSend, $mail) {
+            $shouldSend = false;
+        });
 
         $mail2 = new Mail();
         $result = $mail2->send();
@@ -67,7 +69,7 @@ class MailTest extends UnitTestCase
 
     protected function provideContainerConfig()
     {
-        $mockTransport = new class($this) extends Mail\Transport {
+        $mockTransport = new class ($this) extends Mail\Transport {
             private $testCase;
 
             public function __construct(MailTest $mailTest)

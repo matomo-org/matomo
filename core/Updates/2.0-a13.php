@@ -68,6 +68,5 @@ class Updates_2_0_a13 extends Updates
         $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
 
         // old plugins deleted in 2.0-a17 update file
-
     }
 }

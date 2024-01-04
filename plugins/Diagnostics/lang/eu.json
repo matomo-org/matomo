@@ -1,1 +1,7 @@
-{}
+{
+    "Diagnostics": {
+        "ConfigFileTitle": "Konfigurazio-fitxategia",
+        "DatabaseReaderConnection": "Datu-basearen irakurgailuaren konexioa",
+        "MysqlTemporaryTablesWarning": "Matomok MySQLren CREATE TEMPORARY TABLES baimena behar du behar bezala funtzionatzeko."
+    }
+}

@@ -21,7 +21,6 @@ use Piwik\Plugin\ReportsProvider;
  */
 class Flattener extends DataTableManipulator
 {
-
     private $includeAggregateRows = false;
 
     /**
@@ -231,5 +230,4 @@ class Flattener extends DataTableManipulator
 
         return $request;
     }
-
 }

@@ -277,7 +277,7 @@ class CronArchive
                 $self->runScheduledTasks();
                 $self->end();
             } catch (StopArchiverException $e) {
-                $this->logger->info("Archiving stopped by stop archiver exception");
+                $this->logger->info("Archiving stopped by stop archiver exception" . $e->getMessage());
             }
         });
     }
@@ -344,7 +344,7 @@ class CronArchive
     {
         $pid = Common::getProcessId();
 
-        $timer = new Timer;
+        $timer = new Timer();
 
         $this->logSection("START");
         $this->logger->info("Starting Matomo reports archiving...");
@@ -586,7 +586,7 @@ class CronArchive
 
         $message = $wasSkipped ? "Skipped Archiving website" : "Archived website";
 
-        $this->logger->info($message." id {$params['idSite']}, period = {$params['period']}, date = "
+        $this->logger->info($message . " id {$params['idSite']}, period = {$params['period']}, date = "
             . "{$params['date']}, segment = '" . (isset($params['segment']) ? urldecode(urldecode($params['segment'])) : '') . "', "
             . ($plugin ? "plugin = $plugin, " : "") . ($report ? "report = $report, " : "") . "$visits visits found. $timer");
     }
@@ -1406,13 +1406,13 @@ class CronArchive
             foreach ($processes as $process) {
                 if (strpos($process, ' core:archive') !== false &&
                     strpos($process, 'console ') !== false &&
-                    (!$instanceId
-                        || strpos($process, '--matomo-domain=' . $instanceId) !== false
-                        || strpos($process, '--matomo-domain="' . $instanceId . '"') !== false
-                        || strpos($process, '--matomo-domain=\'' . $instanceId . "'") !== false
-                        || strpos($process, '--piwik-domain=' . $instanceId) !== false
-                        || strpos($process, '--piwik-domain="' . $instanceId . '"') !== false
-                        || strpos($process, '--piwik-domain=\'' . $instanceId . "'") !== false)) {
+                    (!$instanceId ||
+                        strpos($process, '--matomo-domain=' . $instanceId) !== false ||
+                        strpos($process, '--matomo-domain="' . $instanceId . '"') !== false ||
+                        strpos($process, '--matomo-domain=\'' . $instanceId . "'") !== false ||
+                        strpos($process, '--piwik-domain=' . $instanceId) !== false ||
+                        strpos($process, '--piwik-domain="' . $instanceId . '"') !== false ||
+                        strpos($process, '--piwik-domain=\'' . $instanceId . "'") !== false)) {
                     $numRunning++;
                 }
             }

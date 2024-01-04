@@ -103,7 +103,7 @@ class Controller extends \Piwik\Plugin\Controller
                         }
                     } catch (Exception $e) {
                         // ignore error eg if login plugin is disabled
-                     }
+                    }
                 }
             }
         }
@@ -336,9 +336,9 @@ class Controller extends \Piwik\Plugin\Controller
         $title = $this->settings->twoFactorAuthTitle->getValue();
         $descr = Piwik::getCurrentUserLogin();
 
-        $url = 'otpauth://totp/'.urlencode($descr).'?secret='.$secret;
+        $url = 'otpauth://totp/' . urlencode($descr) . '?secret=' . $secret;
         if(isset($title)) {
-            $url .= '&issuer='.urlencode($title);
+            $url .= '&issuer=' . urlencode($title);
         }
 
         return $url;
@@ -348,5 +348,4 @@ class Controller extends \Piwik\Plugin\Controller
     {
         return sprintf('index.php?module=TwoFactorAuth&action=showQrCode&cb=%s&title=%s&descr=%s', Common::getRandomString(8), urlencode($title), urlencode($description));
     }
-
 }

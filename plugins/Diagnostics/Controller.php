@@ -61,5 +61,4 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         return $configValues;
     }
-
 }

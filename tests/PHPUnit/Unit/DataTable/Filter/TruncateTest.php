@@ -17,7 +17,6 @@ use Piwik\DataTable\Row;
  */
 class TruncateTest extends \PHPUnit\Framework\TestCase
 {
-
     public function testUnrelatedDataTableNotFiltered()
     {
         // remark: this unit test would become invalid and would need to be rewritten if
@@ -121,7 +120,7 @@ class TruncateTest extends \PHPUnit\Framework\TestCase
         $filter->filter($table2);
 
         // we expect row0+row0, row1+row1, row2, rowSummary1+rowSummary2
-        $expectedTable = new DataTable;
+        $expectedTable = new DataTable();
         $expectedTable->addRow(new Row(array(Row::COLUMNS => array('label' => 'amazon', 'nb' => 20000))));
         $expectedTable->addRow(new Row(array(Row::COLUMNS => array('label' => 'yahoo', 'nb' => 2000))));
         $expectedTable->addRow(new Row(array(Row::COLUMNS => array('label' => 'piwik', 'nb' => 100))));
@@ -143,7 +142,7 @@ class TruncateTest extends \PHPUnit\Framework\TestCase
         $table2 = $this->getDataTableCount5();
 
         // we expect row0+row0, row1+row1, row2+row2, row3, row4, rowSummary1
-        $expectedTable = new DataTable;
+        $expectedTable = new DataTable();
         $expectedTable->addRow(new Row(array(Row::COLUMNS => array('label' => 'amazon', 'nb' => 20000))));
         $expectedTable->addRow(new Row(array(Row::COLUMNS => array('label' => 'yahoo', 'nb' => 2000))));
         $expectedTable->addRow(new Row(array(Row::COLUMNS => array('label' => 'piwik', 'nb' => 200))));
@@ -153,13 +152,12 @@ class TruncateTest extends \PHPUnit\Framework\TestCase
 
         $table1->addDataTable($table2);
         $this->assertTrue(DataTable::isEqual($expectedTable, $table1));
-
     }
 
 
     public function testWhenRowsInRandomOrderButSortSpecifiedShouldComputeSummaryRowAfterSort()
     {
-        $table = new DataTable;
+        $table = new DataTable();
         $table->addRow($this->getRow3());
         $table->addRow($this->getRow2());
         $table->addRow($this->getRow4());
@@ -180,7 +178,7 @@ class TruncateTest extends \PHPUnit\Framework\TestCase
      */
     protected function getDataTableCount5()
     {
-        $table = new DataTable;
+        $table = new DataTable();
         $table->addRow($this->getRow0());
         $table->addRow($this->getRow1());
         $table->addRow($this->getRow2());

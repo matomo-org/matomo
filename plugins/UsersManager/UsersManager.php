@@ -109,7 +109,7 @@ class UsersManager extends \Piwik\Plugin
 
     public static function hashTrackingToken($tokenAuth, $idSite)
     {
-        return sha1($idSite.$tokenAuth.SettingsPiwik::getSalt());
+        return sha1($idSite . $tokenAuth . SettingsPiwik::getSalt());
     }
 
     /**
@@ -117,7 +117,7 @@ class UsersManager extends \Piwik\Plugin
      */
     public function deleteSite($idSite)
     {
-        Option::deleteLike('%\_'.API::PREFERENCE_DEFAULT_REPORT, $idSite);
+        Option::deleteLike('%\_' . API::PREFERENCE_DEFAULT_REPORT, $idSite);
     }
 
     /**
@@ -352,6 +352,7 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_PasswordChangeTerminatesOtherSessions';
         $translationKeys[] = 'UsersManager_Pending';
         $translationKeys[] = 'UsersManager_Permissions';
+        $translationKeys[] = 'UsersManager_PersonalSettings';
         $translationKeys[] = 'UsersManager_PleaseStoreToken';
         $translationKeys[] = 'UsersManager_PrivAdmin';
         $translationKeys[] = 'UsersManager_PrivNone';

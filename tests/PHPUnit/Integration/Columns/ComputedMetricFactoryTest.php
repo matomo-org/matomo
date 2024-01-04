@@ -58,5 +58,4 @@ class ComputedMetricFactoryTest extends IntegrationTestCase
         $this->assertSame('The ratio of "Actions In Visit" out of all "Visits".', $metric->getDocumentation());
         $this->assertSame('General_Visitors', $metric->getCategoryId());
     }
-
 }

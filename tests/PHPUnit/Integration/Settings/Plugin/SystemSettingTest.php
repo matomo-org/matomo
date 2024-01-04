@@ -20,7 +20,6 @@ use Piwik\Tests\Integration\Settings\IntegrationTestCase;
  */
 class SystemSettingTest extends IntegrationTestCase
 {
-
     public function tearDown(): void
     {
         Config::getInstance()->MyPluginName = array();
@@ -195,5 +194,4 @@ class SystemSettingTest extends IntegrationTestCase
 
         return $systemSetting;
     }
-
 }

@@ -95,5 +95,4 @@ class ReleaseChannelsTest extends IntegrationTestCase
             array('latest_stable', 'latest'), // if invalid id configured should return default (the one with lowest order)
         );
     }
-
 }

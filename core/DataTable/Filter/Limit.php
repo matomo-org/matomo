@@ -23,7 +23,6 @@ use Piwik\DataTable\BaseFilter;
  */
 class Limit extends BaseFilter
 {
-
     /**
      * @var int
      */

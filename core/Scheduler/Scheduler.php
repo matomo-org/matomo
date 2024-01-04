@@ -117,10 +117,10 @@ class Scheduler
                 if ($task->getPriority() != $priority) {
                     continue;
                 }
-                
+
                 if ($readFromOption) {
                     // because other jobs might execute the scheduled tasks as well we have to read the up to date time table to not handle the same task twice
-                    // ideally we would read from option every time but using $readFromOption as a minor performance tweak. There can be easily 100 tasks 
+                    // ideally we would read from option every time but using $readFromOption as a minor performance tweak. There can be easily 100 tasks
                     // of which we only execute very few and it's unlikely that the timetable changes too much in between while iterating over the loop and triggering the event.
                     // this way we only read from option when we actually execute or reschedule a task as this can take a few seconds.
                     $this->timetable->readFromOption();
@@ -163,7 +163,6 @@ class Scheduler
 
                             $this->logger->warning("Scheduler: '{task}' has already been retried three times, giving up",
                                 ['task' => $task->getName()]);
-
                         } else {
 
                             $readFromOption = true;

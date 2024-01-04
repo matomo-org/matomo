@@ -52,6 +52,5 @@ class CharacterLength extends BaseValidator
         if (isset($this->max) && $this->max < $lenValue) {
             throw new Exception(Piwik::translate('General_ValidatorErrorCharacterTooLong', array($lenValue, $this->max)));
         }
-
     }
 }

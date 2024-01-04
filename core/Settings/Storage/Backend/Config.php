@@ -72,5 +72,4 @@ class Config implements BackendInterface
     {
         $this->getConfig()->{$this->section} = array();
     }
-
 }

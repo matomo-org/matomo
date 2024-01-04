@@ -24,9 +24,9 @@ function languageTranslate($label)
         return Piwik::translate('General_Unknown');
     }
 
-    $language = Piwik::translate('Intl_Language_'.$label);
+    $language = Piwik::translate('Intl_Language_' . $label);
 
-    if ($language != 'Intl_Language_'.$label) {
+    if ($language != 'Intl_Language_' . $label) {
         return $language;
     }
 
@@ -53,9 +53,9 @@ function languageTranslateWithCode($label)
 
     if (count($ex) == 2 && $ex[0] != $ex[1]) {
         $countryKey = 'UserCountry_country_' . $ex[1];
-        $country = Piwik::translate('Intl_Country_'.strtoupper($ex[1]));
+        $country = Piwik::translate('Intl_Country_' . strtoupper($ex[1]));
 
-        if ($country == 'Intl_Country_'.strtoupper($ex[1])) {
+        if ($country == 'Intl_Country_' . strtoupper($ex[1])) {
             $country = Piwik::translate($countryKey);
         }
 
@@ -64,11 +64,9 @@ function languageTranslateWithCode($label)
         }
 
         return sprintf("%s - %s (%s)", $lang, $country, $label);
-
     } else {
         return sprintf("%s (%s)", $lang, $ex[0]);
     }
-
 }
 
 /**

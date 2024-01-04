@@ -22,5 +22,4 @@ class GetOne extends Base
         $this->constantRowsCount = false;
         $this->order = 5;
     }
-
 }

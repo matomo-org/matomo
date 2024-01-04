@@ -74,7 +74,6 @@ class FewVisitsWithSetVisitorId extends Fixture
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.1)->getDatetime());
         $t->setUrl('http://example.org/index3.htm');
         self::checkResponse($t->doTrackPageView('incredible title!'));
-
     }
 
     private function trackVisits_setUserId()
@@ -91,7 +90,7 @@ class FewVisitsWithSetVisitorId extends Fixture
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(1.9)->getDatetime());
         $t->setVisitorId('6be121d126d93581');
         $t->setUrl('http://example.org/no-user-id-set-but-should-appear-in-user-id-visit');
-        self::checkResponse($t->doTrackPageView('no User Id set but it should appear in '. $userId .'!'));
+        self::checkResponse($t->doTrackPageView('no User Id set but it should appear in ' . $userId . '!'));
 
         // A NEW VISIT
         // Setting both Visitor ID and User ID
@@ -166,7 +165,6 @@ class FewVisitsWithSetVisitorId extends Fixture
         $t->setUrl('http://nsa.gov/buy/prism');
         $t->addEcommerceItem('sku-007-PRISM', 'My secret spy tech', 'Surveillance', '10000000000');
         $t->doTrackEcommerceCartUpdate(10000000000 + 500 /* add some for shipping PRISM */);
-
     }
 
     private function trackVisits_oneWeekLater_setUserId()
@@ -189,7 +187,6 @@ class FewVisitsWithSetVisitorId extends Fixture
         $t->setVisitorId('6ccebef4faef4969'); // this should not be ignored
         self::checkResponse($t->doTrackPageView('A page view by ' . $userId));
         $t->setForceVisitDateTime($oneWeekLater->addHour(0.8)->getDatetime());
-
     }
 
     private function settingInvalidVisitorIdShouldThrow(MatomoTracker $t)

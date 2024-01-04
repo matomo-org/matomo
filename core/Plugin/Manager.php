@@ -509,6 +509,34 @@ class Manager
     }
 
     /**
+     * Returns the plugin directory path relative to Matomo's root directory.
+     *
+     * @param string $pluginName
+     * @return string
+     */
+    public static function getRelativePluginDirectory(string $pluginName): string
+    {
+        $result = self::getPluginDirectory($pluginName);
+
+        $matomoPath = rtrim(PIWIK_INCLUDE_PATH, '/') . '/';
+        $webroots = array_merge(
+            Manager::getAlternativeWebRootDirectories(),
+            [$matomoPath => '/']
+        );
+
+        foreach ($webroots as $webrootAbsolute => $webrootRelative) {
+            if (strpos($result, $webrootAbsolute) === 0) {
+                $result = str_replace($webrootAbsolute, $webrootRelative, $result);
+                break;
+            }
+        }
+
+        $result = ltrim($result, '/');
+
+        return $result;
+    }
+
+    /**
      * Returns the path to the directory where core plugins are located. Please note since Matomo 3.9
      * plugins may also be located in other directories and therefore this method has been deprecated.
      * @internal since Matomo 3.9.0 use {@link (getPluginsDirectories())} or {@link getPluginDirectory($pluginName)} instead
@@ -1235,7 +1263,7 @@ class Manager
         if (!class_exists($namespacedClass, false)) {
             throw new \Exception("The class $pluginClassName couldn't be found in the file '$path'");
         }
-        $newPlugin = new $namespacedClass;
+        $newPlugin = new $namespacedClass();
 
         if (!($newPlugin instanceof Plugin)) {
             throw new \Exception("The plugin $pluginClassName in the file $path must inherit from Plugin.");

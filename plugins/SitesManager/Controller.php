@@ -312,7 +312,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->matomoUrl = Url::getCurrentUrlWithoutFileName();
         return $view->render();
     }
-    
+
     private function renderOthersTab($othersInstructions): string
     {
         array_unshift(

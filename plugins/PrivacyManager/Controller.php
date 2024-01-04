@@ -101,11 +101,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $reportRetention = '';
 
         if ($purgeDataSettings['delete_reports_older_than'] > 12) {
-            $years = floor($purgeDataSettings['delete_reports_older_than']/12);
+            $years = floor($purgeDataSettings['delete_reports_older_than'] / 12);
             $reportRetention .=  $years . ' ' . Piwik::translate($years > 1 ? 'Intl_PeriodYears' : 'Intl_PeriodYear') . ' ';
         }
         if ($purgeDataSettings['delete_reports_older_than'] % 12 > 0) {
-            $months = floor($purgeDataSettings['delete_reports_older_than']%12);
+            $months = floor($purgeDataSettings['delete_reports_older_than'] % 12);
             $reportRetention .= $months . ' ' . Piwik::translate($months > 1 ? 'Intl_PeriodMonths' : 'Intl_PeriodMonth');
         }
 
@@ -113,14 +113,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         if ($purgeDataSettings['delete_logs_older_than'] > 90) {
             // only show months when it is more than 90 days...
-            $months = floor($purgeDataSettings['delete_logs_older_than']/30.4);
+            $months = floor($purgeDataSettings['delete_logs_older_than'] / 30.4);
             $daysLeft = round($purgeDataSettings['delete_logs_older_than'] - ($months * 30.4));
             $rawDataRetention .= $months . ' ' . Piwik::translate($months > 1 ? 'Intl_PeriodMonths' : 'Intl_PeriodMonth') . ' ';
 
             if ($daysLeft > 0) {
                 $rawDataRetention .= $daysLeft . ' ' . Piwik::translate($daysLeft > 1 ? 'Intl_PeriodDays' : 'Intl_PeriodDay');
             }
-
         } elseif ($purgeDataSettings['delete_logs_older_than'] > 0) {
             $days = $purgeDataSettings['delete_logs_older_than'];
             $rawDataRetention .= $days . ' ' . Piwik::translate($days > 1 ? 'Intl_PeriodDays' : 'Intl_PeriodDay');
@@ -418,5 +417,4 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         return $deleteDataInfos;
     }
-
 }

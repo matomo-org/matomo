@@ -128,7 +128,7 @@ class ReportTotalsCalculator extends DataTableManipulator
 
         $totalRowUnformatted = null;
         foreach ($clone->getRows() as $row) {
-            /** * @var DataTable\Row $row */ 
+            /** * @var DataTable\Row $row */
             if ($row->getColumn('label') === DataTable::LABEL_TOTALS_ROW) {
                 $totalRowUnformatted = $row->getColumns();
                 break;

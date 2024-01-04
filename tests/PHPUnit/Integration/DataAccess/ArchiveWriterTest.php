@@ -23,7 +23,8 @@ use Piwik\Site;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
-class TestArchiveWriter extends ArchiveWriter {
+class TestArchiveWriter extends ArchiveWriter
+{
     public function flushSpools()
     {
         parent::flushSpools();

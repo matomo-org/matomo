@@ -35,7 +35,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
 
     protected function _getSimpleTestDataTable()
     {
-        $table = new DataTable;
+        $table = new DataTable();
         $table->addRowsFromArray(
             array(
                  array(Row::COLUMNS => array('label' => 'ten', 'count' => 10)),
@@ -50,7 +50,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
 
     protected function _getSimpleTestDataTable2()
     {
-        $table = new DataTable;
+        $table = new DataTable();
         $table->addRowsFromArray(
             array(
                 array(Row::COLUMNS => array('label' => 'ten', 'count' => 10)),
@@ -182,7 +182,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
 
     public function test_clone_shouldIncreasesTableId()
     {
-        $table = new DataTable;
+        $table = new DataTable();
         $rows = array(
             array(Row::COLUMNS => array('label' => 'google')),
         );
@@ -200,7 +200,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
     public function testCountRowsSimple()
     {
 
-        $table = new DataTable;
+        $table = new DataTable();
         $idcol = Row::COLUMNS;
         $rows = array(
             array($idcol => array('label' => 'google')),
@@ -232,7 +232,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         $idsubtable = Row::DATATABLE_ASSOCIATED;
 
         // table to go in the SUB table of RoW1
-        $tableSubOfSubOfRow1 = new DataTable;
+        $tableSubOfSubOfRow1 = new DataTable();
         $rows1sub = array(
             array($idcol => array('label' => 'google')),
             array($idcol => array('label' => 'google78')),
@@ -245,7 +245,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         $tableSubOfSubOfRow1->addRowsFromArray($rows1sub);
 
         // table to go in row1
-        $tableSubOfRow1 = new DataTable;
+        $tableSubOfRow1 = new DataTable();
         $rows1 = array(
             array($idcol => array('label' => 'google'), $idsubtable => $tableSubOfSubOfRow1),
             array($idcol => array('label' => 'ask')),
@@ -254,7 +254,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         $tableSubOfRow1->addRowsFromArray($rows1);
 
         // table to go in row2
-        $tableSubOfRow2 = new DataTable;
+        $tableSubOfRow2 = new DataTable();
         $rows2 = array(
             array($idcol => array('label' => 'google')),
             array($idcol => array('label' => 'ask')),
@@ -265,7 +265,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         $tableSubOfRow2->addRowsFromArray($rows2);
 
         // main parent table
-        $table = new DataTable;
+        $table = new DataTable();
         $rows = array(
             array($idcol => array('label' => 'row1')),
             array($idcol      => array('label' => 'row2'),
@@ -285,7 +285,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
     public function testRow()
     {
         $columns = array('test_column' => 145,
-                         92582495     => new Timer,
+                         92582495     => new Timer(),
                          'super'       => array('this column has an array value, amazing'));
         $metadata = array('logo'  => 'piwik.png',
                           'super' => array('this column has an array value, amazing'));
@@ -299,7 +299,6 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($columns, $row->getColumns());
         $this->assertEquals($metadata, $row->getMetadata());
         $this->assertNull($row->getIdSubDataTable());
-
     }
 
     /**
@@ -485,7 +484,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(\Exception::class);
 
-        $table = new DataTable;
+        $table = new DataTable();
         $table->addRowFromArray(array(Row::COLUMNS => array('visits' => 245, 'visitors' => 245),
                                       Row::DATATABLE_ASSOCIATED => $table));
 
@@ -494,12 +493,12 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
 
     public function test_getSerialized_SerializesSubtablesOfSummaryRows()
     {
-        $table = new DataTable;
+        $table = new DataTable();
         $table->addRowFromArray(array(Row::COLUMNS => array('label' => 'dimval1', 'visits' => 245)));
 
         $summaryRow = new Row([Row::COLUMNS => ['label' => 'others', 'visits' => 500]]);
 
-        $summaryRowSubtable = new DataTable;
+        $summaryRowSubtable = new DataTable();
         $summaryRowSubtable->addRow(new Row([Row::COLUMNS => ['label' => 'subtabledimension', 'visits' => 100]]));
         $summaryRow->setSubtable($summaryRowSubtable);
 
@@ -528,7 +527,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
     {
         $idcol = Row::COLUMNS;
 
-        $table = new DataTable;
+        $table = new DataTable();
         $rows = array(
             array($idcol => array('label' => 'google')), //0
             array($idcol => array('label' => 'tsk')), //1
@@ -536,7 +535,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         );
         $table->addRowsFromArray($rows);
 
-        $expectedtable = new DataTable;
+        $expectedtable = new DataTable();
         $rows = array(
             array($idcol => array('label' => 'google')), //0
             array($idcol => array('label' => 'Q*(%&*("$&%*(&"$*")"))')), //2
@@ -544,7 +543,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         );
         $expectedtable->addRowsFromArray($rows);
 
-        $expectedtableReverse = new DataTable;
+        $expectedtableReverse = new DataTable();
         $expectedtableReverse->addRowsFromArray(array_reverse($rows));
 
         $tableCopy = clone $table;
@@ -592,8 +591,8 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         /*
          * MAIN TABLE
          */
-        $table = new DataTable;
-        $subtable = new DataTable;
+        $table = new DataTable();
+        $subtable = new DataTable();
         $idtable = $table->getId();
 
         /*
@@ -640,7 +639,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         /*
          * SUB SUB TABLE
          */
-        $subsubtable = new DataTable;
+        $subsubtable = new DataTable();
         $subsubtable->addRowFromArray(array(Row::COLUMNS  => array(245),
                                             Row::METADATA => array('yes' => 'subsubmetadata1'),)
         );
@@ -680,12 +679,12 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
             $expectedTableRows[] = $expectedTableRow;
         }
 
-        $tableAfter = new DataTable;
+        $tableAfter = new DataTable();
         $tableAfter->addRowsFromSerializedArray($serialized[0]);
 
         $this->assertEquals($expectedTableRows, $tableAfter->getRows());
 
-        $subsubtableAfter = new DataTable;
+        $subsubtableAfter = new DataTable();
         $subsubtableAfter->addRowsFromSerializedArray($serialized[$consecutiveSubtableId = 2]);
         $this->assertEquals($subsubtable->getRows(), $subsubtableAfter->getRows());
         $this->assertEquals($subsubtable->getRows(), DataTable::fromSerializedArray($serialized[$consecutiveSubtableId = 2])->getRows());
@@ -836,7 +835,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
     public function testAddSimpleNoRowTable2()
     {
         $table = $this->_getDataTable1ForTest();
-        $tableEmpty = new DataTable;
+        $tableEmpty = new DataTable();
         $tableAfter = clone $table;
         $tableAfter->addDataTable($tableEmpty);
         $this->assertTrue(DataTable::isEqual($table, $tableAfter));
@@ -848,7 +847,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
     public function testAddSimpleNoRowTable1()
     {
         $table = $this->_getDataTable1ForTest();
-        $tableEmpty = new DataTable;
+        $tableEmpty = new DataTable();
         $tableEmpty->addDataTable($table);
         $this->assertTrue(DataTable::isEqual($tableEmpty, $table));
     }
@@ -864,7 +863,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         $table1->addDataTable($table2);
 
         $rowsExpected = array_merge($this->_getRowsDataTable1ForTest(), $this->_getRowsDataTable2ForTest());
-        $tableExpected = new DataTable;
+        $tableExpected = new DataTable();
         $tableExpected->addRowsFromArray($rowsExpected);
 
         $this->assertTrue(DataTable::isEqual($table1, $tableExpected));
@@ -884,7 +883,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
             array($idcol => array('label' => '123', 'visits' => 2)),
             DataTable::ID_SUMMARY_ROW => array($idcol => array('label' => DataTable::LABEL_SUMMARY_ROW, 'visits' => 7))
         );
-        $table = new DataTable;
+        $table = new DataTable();
         $table->addRowsFromArray($rows);
 
         $rows2 = array(
@@ -893,7 +892,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
             array($idcol => array('label' => ' google ', 'visits' => 5)),
             array($idcol => array('label' => '123', 'visits' => 2)),
         );
-        $table2 = new DataTable;
+        $table2 = new DataTable();
         $table2->addRowsFromArray($rows2);
 
         $table->addDataTable($table2);
@@ -906,7 +905,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
             array($idcol => array('label' => ' google ', 'visits' => 5)),
             DataTable::ID_SUMMARY_ROW => array($idcol => array('label' => DataTable::LABEL_SUMMARY_ROW, 'visits' => 7))
         );
-        $tableExpected = new DataTable;
+        $tableExpected = new DataTable();
         $tableExpected->addRowsFromArray($rowsExpected);
 
         $this->assertTrue(DataTable::isEqual($table, $tableExpected));
@@ -925,7 +924,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
             array($idcol => array('label' => '123', 'visits' => 2)),
             DataTable::ID_SUMMARY_ROW => array($idcol => array('label' => DataTable::LABEL_SUMMARY_ROW, 'visits' => 7))
         );
-        $table = new DataTable;
+        $table = new DataTable();
         $table->addRowsFromArray($rows);
 
         $rows2 = array(
@@ -934,7 +933,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
             array($idcol => array('label' => '123', 'visits' => 1.5)),
             DataTable::ID_SUMMARY_ROW => array($idcol => array('label' => DataTable::LABEL_SUMMARY_ROW, 'visits' => 8))
         );
-        $table2 = new DataTable;
+        $table2 = new DataTable();
         $table2->addRowsFromArray($rows2);
 
         $table->addDataTable($table2);
@@ -945,7 +944,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
             array($idcol => array('label' => '123', 'visits' => 3.5)),
             DataTable::ID_SUMMARY_ROW => array($idcol => array('label' => DataTable::LABEL_SUMMARY_ROW, 'visits' => 15))
         );
-        $tableExpected = new DataTable;
+        $tableExpected = new DataTable();
         $tableExpected->addRowsFromArray($rowsExpected);
 
         $this->assertTrue(DataTable::isEqual($table, $tableExpected));
@@ -964,7 +963,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
             array($idcol => array('label' => '123', 'visits' => 2)),
             DataTable::ID_SUMMARY_ROW => array($idcol => array('label' => DataTable::LABEL_SUMMARY_ROW, 'visits' => 1))
         );
-        $table = new DataTable;
+        $table = new DataTable();
         $table->addRowsFromArray($rows);
 
         $rows2 = array(
@@ -972,7 +971,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
             array($idcol => array('label' => 'ask', 'visits' => 100)),
             array($idcol => array('label' => '123456', 'visits' => 1.5)),
         );
-        $table2 = new DataTable;
+        $table2 = new DataTable();
         $table2->addRowsFromArray($rows2);
 
         $rows3 = array(
@@ -981,7 +980,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
             array($idcol => array('label' => '123ab', 'visits' => 1.5)),
             DataTable::ID_SUMMARY_ROW => array($idcol => array('label' => DataTable::LABEL_SUMMARY_ROW, 'visits' => 3))
         );
-        $table3 = new DataTable;
+        $table3 = new DataTable();
         $table3->addRowsFromArray($rows3);
 
         // add the 2 tables
@@ -997,7 +996,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
             array($idcol => array('label' => '123ab', 'visits' => 1.5)),
             DataTable::ID_SUMMARY_ROW => array($idcol => array('label' => DataTable::LABEL_SUMMARY_ROW, 'visits' => 4))
         );
-        $tableExpected = new DataTable;
+        $tableExpected = new DataTable();
         $tableExpected->addRowsFromArray($rowsExpected);
 
         $this->assertTrue(DataTable::isEqual($table, $tableExpected));
@@ -1037,7 +1036,9 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         ];
 
         $actualRows = $table1->getRows();
-        $actualRows = array_map(function (Row $r) { return $r->getColumns(); }, $actualRows);
+        $actualRows = array_map(function (Row $r) {
+            return $r->getColumns();
+        }, $actualRows);
 
         $this->assertEquals($expectedRows, $actualRows);
     }
@@ -1077,7 +1078,9 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         ];
 
         $actualRows = $table1->getRows();
-        $actualRows = array_map(function (Row $r) { return $r->getColumns(); }, $actualRows);
+        $actualRows = array_map(function (Row $r) {
+            return $r->getColumns();
+        }, $actualRows);
 
         $this->assertEquals($expectedRows, $actualRows);
     }
@@ -1208,7 +1211,9 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         ];
 
         $actualRows = $dataTable->getRows();
-        $actualRows = array_map(function (Row $r) { return $r->getColumns(); }, $actualRows);
+        $actualRows = array_map(function (Row $r) {
+            return $r->getColumns();
+        }, $actualRows);
 
         $this->assertEquals($expectedRows, $actualRows);
     }
@@ -1231,7 +1236,9 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         ];
 
         $actualRows = $dataTable->getRows();
-        $actualRows = array_map(function (Row $r) { return $r->getColumns(); }, $actualRows);
+        $actualRows = array_map(function (Row $r) {
+            return $r->getColumns();
+        }, $actualRows);
 
         $this->assertEquals($expectedRows, $actualRows);
     }
@@ -1256,7 +1263,9 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         ];
 
         $actualRows = $dataTable->getRows();
-        $actualRows = array_map(function (Row $r) { return $r->getColumns(); }, $actualRows);
+        $actualRows = array_map(function (Row $r) {
+            return $r->getColumns();
+        }, $actualRows);
 
         $this->assertEquals($expectedRows, $actualRows);
     }
@@ -1280,7 +1289,9 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         ];
 
         $actualRows = $dataTable->getRows();
-        $actualRows = array_map(function (Row $r) { return $r->getColumns(); }, $actualRows);
+        $actualRows = array_map(function (Row $r) {
+            return $r->getColumns();
+        }, $actualRows);
 
         $this->assertEquals($expectedRows, $actualRows);
     }
@@ -1303,14 +1314,16 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         ];
 
         $actualRows = $dataTable->getRows();
-        $actualRows = array_map(function (Row $r) { return $r->getColumns(); }, $actualRows);
+        $actualRows = array_map(function (Row $r) {
+            return $r->getColumns();
+        }, $actualRows);
 
         $this->assertEquals($expectedRows, $actualRows);
     }
 
     private function createDataTable($rows)
     {
-        $useless1 = new DataTable;
+        $useless1 = new DataTable();
         foreach ($rows as $row) {
             $useless1->addRowFromArray(array(Row::COLUMNS => $row));
         }
@@ -1321,7 +1334,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
     protected function _getDataTable1ForTest()
     {
         $rows = $this->_getRowsDataTable1ForTest();
-        $table = new DataTable;
+        $table = new DataTable();
         $table->addRowsFromArray($rows);
         return $table;
     }
@@ -1329,7 +1342,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
     protected function _getDataTable2ForTest()
     {
         $rows = $this->_getRowsDataTable2ForTest();
-        $table = new DataTable;
+        $table = new DataTable();
         $table->addRowsFromArray($rows);
         return $table;
     }
@@ -1355,5 +1368,4 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         );
         return $rows;
     }
-
 }

@@ -149,5 +149,4 @@ class StorageTest extends IntegrationTestCase
     {
         return $this->backend->load();
     }
-
 }

@@ -12,6 +12,8 @@
         "CustomReportsFeature01": "Creeu informes d'anàlisi personalitzats segons els vostres objectius empresarials i KPI específics, assegurant-vos que se centren en les dades més rellevants.",
         "CustomReportsFeature02": "Aprofundiu en dades específiques per obtenir informació més profunda sobre el comportament i la implicació dels visitants.",
         "CustomReportsFeature03": "Estalvieu temps i recursos automatitzant la generació d'informes, permetent la supervisió en temps real i proporcionant solucions d'anàlisi rendibles sense necessitat d'eines de tercers.",
+        "DismissPromoWidget": "Si aquesta funció no és rellevant per als vostres objectius, podeu %1$samagar aquesta secció%2$s.",
+        "DismissedNotification": "El menú %1$s ja no es mostrarà, tret que el connector estigui instal·lat a la vostra instància de Matomo.",
         "FormAnalyticsFeature01": "Compreneu com interactuen els visitants amb els vostres formularis per trobar àrees de millora.",
         "FormAnalyticsFeature02": "Identifiqueu els errors habituals dels visitants i els problemes de validació als vostres formularis per millorar la satisfacció dels visitants i les taxes de conversió.",
         "FormAnalyticsFeature03": "Obteniu informació més detallada sobre com interactuen els diferents grups de visitants amb els vostres formularis i adapteu les vostres estratègies en conseqüència.",

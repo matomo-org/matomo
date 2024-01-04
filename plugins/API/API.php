@@ -554,7 +554,7 @@ class API extends \Piwik\Plugin\API
                     );
                     // we don't look at row columns since this could include rows that won't work eg Other summary rows. etc
                     // and it is generally not reliable.
-                    if (!empty($segment) && preg_match('/^' . implode('|',$remove) . '/', $segment)) {
+                    if (!empty($segment) && preg_match('/^' . implode('|', $remove) . '/', $segment)) {
                         $values[] = urldecode(urldecode(str_replace($remove, '', $segment)));
                     }
                 }
@@ -597,7 +597,6 @@ class API extends \Piwik\Plugin\API
             if (empty($values)) {
                 throw new \Exception("There was no data to suggest for $segmentName");
             }
-
         } else {
             $values = $this->getSuggestedValuesForSegmentName($idSite, $segment, $maxSuggestionsToReturn);
         }
@@ -848,7 +847,7 @@ class Plugin extends \Piwik\Plugin
             $out .= "piwik.isPagesComparisonApiDisabled = true;\n";
         }
     }
-    
+
     public function getClientSideTranslationKeys(&$translations)
     {
         $translations[] = 'API_Glossary';

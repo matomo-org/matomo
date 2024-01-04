@@ -37,7 +37,6 @@ class SubscriptionModelTest extends IntegrationTestCase
 
         $subscriptions = $model->getReportSubscriptions(1);
         $this->assertSubscriptionEmails($subscriptions, $emails);
-
     }
 
     /**

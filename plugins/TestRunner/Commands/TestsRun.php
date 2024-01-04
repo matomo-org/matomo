@@ -60,7 +60,7 @@ class TestsRun extends ConsoleCommand
             if($this->isXdebugCodeCoverageEnabled()) {
                 $message .= ' (if you need xdebug, speed up tests by setting xdebug.coverage_enable=0)</comment>';
             }
-            $output->writeln('<comment>' . $message .'</comment>');
+            $output->writeln('<comment>' . $message . '</comment>');
         }
 
         // force xdebug usage for coverage options

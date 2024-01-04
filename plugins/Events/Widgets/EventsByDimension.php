@@ -17,5 +17,4 @@ class EventsByDimension extends WidgetContainerConfig
     protected $id = 'Events';
     protected $categoryId = 'General_Actions';
     protected $subcategoryId = 'Events_Events';
-
 }

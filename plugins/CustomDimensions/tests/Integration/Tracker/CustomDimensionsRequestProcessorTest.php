@@ -75,10 +75,10 @@ class CustomDimensionsRequestProcessorTest extends IntegrationTestCase
         $logTable->removeCustomDimension(1);
 
         $indexes = Processor::getCachedCustomDimensionIndexes(CustomDimensions::SCOPE_VISIT);
-        $this->assertSame(range(1,5), $indexes);
+        $this->assertSame(range(1, 5), $indexes);
 
         $indexes = Processor::getCachedCustomDimensionIndexes(CustomDimensions::SCOPE_ACTION);
-        $this->assertSame(range(2,5), $indexes);
+        $this->assertSame(range(2, 5), $indexes);
     }
 
     public function test_getCachedCustomDimensions_shouldReturnDimensionsForSiteButOnlyActiveOnes()
@@ -464,5 +464,4 @@ class CustomDimensionsRequestProcessorTest extends IntegrationTestCase
         $configuration->configureNewDimension($idSite = 1, 'MyName5', CustomDimensions::SCOPE_ACTION, 3, $active = true, $extractions = array(), $caseSensitive = true);
         $configuration->configureNewDimension($idSite = 1, 'MyName6', CustomDimensions::SCOPE_VISIT, 4, $active = true, $extractions = array(), $caseSensitive = true);
     }
-
 }

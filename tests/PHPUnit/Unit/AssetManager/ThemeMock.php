@@ -13,7 +13,6 @@ use Piwik\Theme;
 
 class ThemeMock extends Theme
 {
-
     /**
      * @var string[]
      */

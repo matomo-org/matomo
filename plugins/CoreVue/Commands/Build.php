@@ -13,6 +13,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Log\LoggerInterface;
+use Piwik\Plugin\Manager;
 
 class Build extends ConsoleCommand
 {
@@ -52,17 +53,21 @@ class Build extends ConsoleCommand
         $printBuildCommand = $input->getOption('print-build-command');
         $watch = $input->getOption('watch');
 
+        $allPluginNames = $this->getAllPlugins();
+        $allPluginNames = $this->filterPluginsWithoutVueLibrary($allPluginNames, true);
+
         $plugins = $input->getArgument('plugins');
         if (empty($plugins)) {
-            $plugins = $this->getAllPluginsWithVueLibrary();
+            $plugins = $allPluginNames;
             $output->writeln("<info>Going to build all plugins with Vue libraries: "
                 . implode(', ', $plugins));
         } else {
             $plugins = $this->filterPluginsWithoutVueLibrary($plugins);
-            if (empty($plugins)) {
-                $output->writeln("<error>No plugins to build!</error>");
-                return self::FAILURE;
-            }
+        }
+
+        if (empty($plugins)) {
+            $output->writeln("<error>No plugins to build!</error>");
+            return self::FAILURE;
         }
 
         $plugins = $this->ensureUntranspiledPluginDependenciesArePresent($plugins);
@@ -73,11 +78,11 @@ class Build extends ConsoleCommand
 
         $bail = $input->getOption('bail');
 
-        $failed = $this->build($plugins, $printBuildCommand, $watch, $bail);
+        $failed = $this->build($plugins, $printBuildCommand, $allPluginNames, $watch, $bail);
         return $failed > 0 ? self::FAILURE : self::SUCCESS;
     }
 
-    private function ensureUntranspiledPluginDependenciesArePresent($plugins)
+    private function ensureUntranspiledPluginDependenciesArePresent(array $plugins): array
     {
         $pluginDependenciesToAdd = [];
         foreach ($plugins as $plugin) {
@@ -91,23 +96,23 @@ class Build extends ConsoleCommand
         return array_unique(array_merge($plugins, $pluginDependenciesToAdd));
     }
 
-    private function isTypeOutputPresent($dependency)
+    private function isTypeOutputPresent(string $dependency): bool
     {
         $typeDirectory = PIWIK_INCLUDE_PATH . '/@types/' . $dependency . '/index.d.ts';
         return is_file($typeDirectory);
     }
 
-    private function build($plugins, $printBuildCommand, $watch = false, $bail = false)
+    private function build(array $plugins, bool $printBuildCommand, array $allPluginNames, bool $watch = false, bool $bail = false): int
     {
         if ($watch) {
-            $this->watch($plugins, $printBuildCommand);
+            $this->watch($plugins, $printBuildCommand, $allPluginNames);
             return 0;
         }
 
         $failed = 0;
 
         foreach ($plugins as $plugin) {
-            $buildFailed = (int) $this->buildFiles($plugin, $printBuildCommand);
+            $buildFailed = (int) $this->buildFiles($plugin, $printBuildCommand, $allPluginNames);
             if ($buildFailed && $bail) {
                 $this->getOutput()->writeln("<error>Build failed, bailing.</error>");
                 return $failed;
@@ -119,15 +124,18 @@ class Build extends ConsoleCommand
         return $failed;
     }
 
-    private function watch($plugins, $printBuildCommand)
+    private function watch(array $plugins, bool $printBuildCommand, array $allPluginNames): void
     {
-        $commandSingle = "BROWSERSLIST_IGNORE_OLD_DATA=1 FORCE_COLOR=1 MATOMO_CURRENT_PLUGIN=%1\$s "
+        $commandSingle = 'cd ' . PIWIK_INCLUDE_PATH . ' && '
+            . "BROWSERSLIST_IGNORE_OLD_DATA=1 FORCE_COLOR=1 MATOMO_CURRENT_PLUGIN=%2\$s "
+            . 'MATOMO_ALL_PLUGINS=' . implode(',', $allPluginNames) . ' '
             . 'node ' . self::getVueCliServiceProxyBin() . ' build --mode=development --target lib --name '
-            . "%1\$s --filename=%1\$s.development --no-clean ./plugins/%1\$s/vue/src/index.ts --dest ./plugins/%1\$s/vue/dist --watch &";
+            . "%1\$s --filename=%1\$s.development --no-clean %2\$s/vue/src/index.ts --dest %2\$s/vue/dist --watch &";
 
         $command = '';
         foreach ($plugins as $plugin) {
-            $command .= sprintf($commandSingle, $plugin) . ' ';
+            $pluginDirPath = Manager::getRelativePluginDirectory($plugin);
+            $command .= sprintf($commandSingle, $plugin, $pluginDirPath) . ' ';
         }
 
         if ($printBuildCommand) {
@@ -138,12 +146,16 @@ class Build extends ConsoleCommand
         passthru($command);
     }
 
-    private function buildFiles($plugin, $printBuildCommand)
+    private function buildFiles(string $plugin, bool $printBuildCommand, array $allPluginNames): int
     {
         $output = $this->getOutput();
-        $command = "BROWSERSLIST_IGNORE_OLD_DATA=1 FORCE_COLOR=1 MATOMO_CURRENT_PLUGIN=$plugin "
+        $pluginDirPath = Manager::getRelativePluginDirectory($plugin);
+
+        $command = 'cd ' . PIWIK_INCLUDE_PATH . ' && '
+            . "BROWSERSLIST_IGNORE_OLD_DATA=1 FORCE_COLOR=1 MATOMO_CURRENT_PLUGIN=$pluginDirPath "
+            . 'MATOMO_ALL_PLUGINS=' . implode(',', $allPluginNames) . ' '
             . 'node ' . self::getVueCliServiceProxyBin() . ' build --target lib --name ' . $plugin
-            . " ./plugins/$plugin/vue/src/index.ts --dest ./plugins/$plugin/vue/dist";
+            . " $pluginDirPath/vue/src/index.ts --dest $pluginDirPath/vue/dist";
 
         if ($printBuildCommand) {
             $output->writeln("<comment>$command</comment>");
@@ -154,7 +166,7 @@ class Build extends ConsoleCommand
 
         $output->writeln("<comment>Building $plugin...</comment>");
         if ($output->isVerbose()) {
-            passthru($command);
+            passthru($command, $returnCode);
         } else {
             $attempts = 0;
             while ($attempts < self::RETRY_COUNT) {
@@ -181,34 +193,24 @@ class Build extends ConsoleCommand
             }
         }
 
-        @unlink(PIWIK_INCLUDE_PATH . "/plugins/$plugin/vue/dist/$plugin.common.js");
-        @unlink(PIWIK_INCLUDE_PATH . "/plugins/$plugin/vue/dist/$plugin.common.js.map");
-        @unlink(PIWIK_INCLUDE_PATH . "/plugins/$plugin/vue/dist/demo.html");
+        @unlink("$pluginDirPath/vue/dist/$plugin.common.js");
+        @unlink("$pluginDirPath/vue/dist/$plugin.common.js.map");
+        @unlink("$pluginDirPath/vue/dist/demo.html");
 
         // delete cjs webpack chunks
-        shell_exec("rm " . PIWIK_INCLUDE_PATH . "/plugins/$plugin/vue/dist/$plugin.common.*.js* 2> /dev/null");
+        shell_exec("rm " . "$pluginDirPath/vue/dist/$plugin.common.*.js* 2> /dev/null");
 
         return $returnCode != 0;
     }
 
-    private function getAllPluginsWithVueLibrary()
+    private function filterPluginsWithoutVueLibrary(array $plugins, bool $isAll = false): array
     {
-        $pluginsDir = PIWIK_INCLUDE_PATH . '/plugins';
-
-        $plugins = scandir($pluginsDir);
-        return $this->filterPluginsWithoutVueLibrary($plugins, $isAll = true);
-    }
-
-    private function filterPluginsWithoutVueLibrary($plugins, $isAll = false)
-    {
-        $pluginsDir = PIWIK_INCLUDE_PATH . '/plugins';
-
         $pluginsWithVue = [];
 
         $logger = StaticContainer::get(LoggerInterface::class);
 
         foreach ($plugins as $plugin) {
-            $pluginDirPath = $pluginsDir . '/' . $plugin;
+            $pluginDirPath = Manager::getPluginDirectory($plugin);
             $vueDir = $pluginDirPath . '/vue';
             if (!is_dir($vueDir)) {
                 if (!$isAll) {
@@ -229,17 +231,17 @@ class Build extends ConsoleCommand
         return $pluginsWithVue;
     }
 
-    public static function getVueCliServiceBin()
+    public static function getVueCliServiceBin(): string
     {
         return PIWIK_INCLUDE_PATH . "/node_modules/@vue/cli-service/bin/vue-cli-service.js";
     }
 
-    public static function getVueCliServiceProxyBin()
+    public static function getVueCliServiceProxyBin(): string
     {
         return PIWIK_INCLUDE_PATH . "/plugins/CoreVue/scripts/cli-service-proxy.js";
     }
 
-    public static function checkVueCliServiceAvailable()
+    public static function checkVueCliServiceAvailable(): void
     {
         $vueCliBin = self::getVueCliServiceBin();
         if (!is_file($vueCliBin)) {
@@ -247,19 +249,19 @@ class Build extends ConsoleCommand
         }
     }
 
-    private function clearWebpackCache()
+    private function clearWebpackCache(): void
     {
         $path = PIWIK_INCLUDE_PATH . '/node_modules/.cache';
         Filesystem::unlinkRecursive($path, true);
     }
 
-    private function clearPluginTypes($plugin)
+    private function clearPluginTypes($plugin): void
     {
         $path = PIWIK_INCLUDE_PATH . '/@types/' . $plugin;
         Filesystem::unlinkRecursive($path, true);
     }
 
-    private function checkNodeJsVersion()
+    private function checkNodeJsVersion(): void
     {
         $output = $this->getOutput();
         $nodeVersion = ltrim(trim(`node -v`), 'v');
@@ -281,15 +283,45 @@ class Build extends ConsoleCommand
         }
     }
 
-    private function isTypeScriptRaceConditionInOutput($plugin, $concattedOutput)
+    private function isTypeScriptRaceConditionInOutput(string $plugin, string $concattedOutput): bool
     {
         if (!preg_match('/^TS2307: Cannot find module \'([^\']+)\' or its corresponding type declarations./', $concattedOutput, $matches)) {
             return false;
         }
 
         $file = $matches[1];
-        $filePath = PIWIK_INCLUDE_PATH . '/plugins/' . $plugin . '/vue/src/' . $file;
+        $filePath = Manager::getPluginDirectory($plugin) . '/vue/src/' . $file;
         $isTypeScriptCompilerBug = file_exists($filePath);
         return $isTypeScriptCompilerBug;
+    }
+
+    private function getAllPlugins(): array
+    {
+        $pluginDirectories = array_merge(
+            $GLOBALS['MATOMO_PLUGIN_DIRS'] ?? [],
+            [
+                [
+                    'pluginsPathAbsolute' => PIWIK_INCLUDE_PATH . '/plugins',
+                    'webrootDirRelativeToMatomo' => '.',
+                ],
+            ]
+        );
+
+        $allPlugins = [];
+
+        foreach ($pluginDirectories as $pluginDirectoryInfo) {
+            $absolutePath = $pluginDirectoryInfo['pluginsPathAbsolute'];
+            foreach (scandir($absolutePath) as $subdirectory) {
+                $wholePath = $absolutePath . DIRECTORY_SEPARATOR . $subdirectory;
+                if (is_dir($wholePath)
+                    && $subdirectory !== '.'
+                    && $subdirectory !== '..'
+                ) {
+                    $allPlugins[] = $subdirectory;
+                }
+            }
+        }
+
+        return $allPlugins;
     }
 }

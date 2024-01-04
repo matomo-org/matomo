@@ -9,17 +9,16 @@
 namespace Piwik\Tests\Framework\Mock\Settings;
 
 
-class FakeUserSettings extends \Piwik\Plugins\ExampleSettingsPlugin\UserSettings {
+class FakeUserSettings extends \Piwik\Plugins\ExampleSettingsPlugin\UserSettings
+{
     protected $pluginName = 'ExampleSettingsPlugin';
 
     public function init()
     {
-
     }
 
     public function makeSetting($name, $defaultValue, $type, $configureCallback)
     {
         return parent::makeSetting($name, $defaultValue, $type, $configureCallback);
     }
-
 }

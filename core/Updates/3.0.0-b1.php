@@ -166,7 +166,7 @@ class Updates_3_0_0_b1 extends Updates
 
         // we cannot migrate existing settings as we do not know the related plugin name, but this feature
         // (measurablesettings) was not used anyway. also see https://github.com/piwik/piwik/issues/10703
-        // we make sure to recreate the table as it might not have existed for some users instead of just 
+        // we make sure to recreate the table as it might not have existed for some users instead of just
         // deleting the content of it
         $queries[] = $this->migration->db->dropTable($table);
         $queries[] = $this->migration->db->createTable($table, array(

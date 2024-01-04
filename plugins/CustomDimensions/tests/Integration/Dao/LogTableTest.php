@@ -131,13 +131,13 @@ class LogTableTest extends IntegrationTestCase
         $this->logAction->addManyCustomDimensions(1);
 
         $this->assertSame($expected, $this->logVisit->getInstalledIndexes());
-        $this->assertSame(range(1,6), $this->logAction->getInstalledIndexes());
+        $this->assertSame(range(1, 6), $this->logAction->getInstalledIndexes());
         $this->assertSame($expected, $this->logConverison->getInstalledIndexes());
 
         $this->logVisit->removeCustomDimension(2);
 
         $this->assertSame(array(1,3,4,5), $this->logVisit->getInstalledIndexes());
-        $this->assertSame(range(1,6), $this->logAction->getInstalledIndexes());
+        $this->assertSame(range(1, 6), $this->logAction->getInstalledIndexes());
         $this->assertSame($expected, $this->logConverison->getInstalledIndexes());
     }
 
@@ -200,10 +200,10 @@ class LogTableTest extends IntegrationTestCase
         $this->assertSame(range(1, 5), $this->logVisit->getInstalledIndexes());
 
         $this->logVisit->addManyCustomDimensions(1);
-        $this->assertSame(range(1,6), $this->logVisit->getInstalledIndexes());
+        $this->assertSame(range(1, 6), $this->logVisit->getInstalledIndexes());
 
         $this->logVisit->addManyCustomDimensions(4);
-        $this->assertSame(range(1,10), $this->logVisit->getInstalledIndexes());
+        $this->assertSame(range(1, 10), $this->logVisit->getInstalledIndexes());
 
         // should automatically add after highest index if some indexes are missing in between
         $this->logVisit->removeCustomDimension('8');
@@ -235,5 +235,4 @@ class LogTableTest extends IntegrationTestCase
             array(false, 5),
         );
     }
-
 }

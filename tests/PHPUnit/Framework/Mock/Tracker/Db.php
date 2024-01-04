@@ -59,5 +59,4 @@ class Db extends Mysql
     {
         $this->rollbackTransactionId = $xid;
     }
-
 }

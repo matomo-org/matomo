@@ -90,7 +90,7 @@ class Auth implements \Piwik\Auth
 
                 $this->userModel->updateUser($login, $newPasswordHash, $user['email']);
             }
-            $this->token_auth = null; // make sure to generate a random token 
+            $this->token_auth = null; // make sure to generate a random token
 
             return $this->authenticationSuccess($user);
         }

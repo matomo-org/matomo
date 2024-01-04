@@ -34,7 +34,7 @@ class GetSystemCheck extends Widget
         $config->setName('Installation_SystemCheck');
         $config->setOrder(16);
 
-        $config->setIsEnabled(Piwik::hasUserSuperUserAccess() 
+        $config->setIsEnabled(Piwik::hasUserSuperUserAccess()
             && Manager::getInstance()->isPluginActivated('Diagnostics')
         );
     }
@@ -78,5 +78,4 @@ class GetSystemCheck extends Widget
 
         return $reports;
     }
-
 }

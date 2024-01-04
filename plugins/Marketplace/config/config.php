@@ -11,10 +11,10 @@ return array(
         $domain = 'plugins.matomo.org';
 
         if (GeneralConfig::getConfigValue('force_matomo_http_request') == 1) {
-            return 'http://'.$domain;
+            return 'http://' . $domain;
         }
 
-        return 'https://'.$domain;
+        return 'https://' . $domain;
     },
     'Piwik\Plugins\Marketplace\Api\Service' => function (Container $c) {
         /** @var Service $previous */

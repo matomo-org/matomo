@@ -76,7 +76,7 @@ class UpdateCommunicationTest extends IntegrationTestCase
 <p>CoreUpdater_ThereIsNewVersionAvailableForUpdate</p>
 
 <p>CoreUpdater_YouCanUpgradeAutomaticallyOrDownloadPackage<br/>
-<a href=\"".$rootUrlEscaped."index.php?module=CoreUpdater&action=newVersionAvailable\">".$rootUrl."index.php?module=CoreUpdater&action=newVersionAvailable</a>
+<a href=\"" . $rootUrlEscaped . "index.php?module=CoreUpdater&action=newVersionAvailable\">" . $rootUrl . "index.php?module=CoreUpdater&action=newVersionAvailable</a>
 </p>
 
 <p>
@@ -101,7 +101,7 @@ class UpdateCommunicationTest extends IntegrationTestCase
 <p>CoreUpdater_ThereIsNewVersionAvailableForUpdate</p>
 
 <p>CoreUpdater_YouCanUpgradeAutomaticallyOrDownloadPackage<br/>
-<a href=\"".$rootUrlEscaped."index.php?module=CoreUpdater&action=newVersionAvailable\">".$rootUrl."index.php?module=CoreUpdater&action=newVersionAvailable</a>
+<a href=\"" . $rootUrlEscaped . "index.php?module=CoreUpdater&action=newVersionAvailable\">" . $rootUrl . "index.php?module=CoreUpdater&action=newVersionAvailable</a>
 </p>
 
 

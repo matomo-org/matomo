@@ -35,5 +35,4 @@ class Config extends VisualizationConfig
             'disable_row_actions',
         ));
     }
-
 }

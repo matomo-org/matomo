@@ -35,5 +35,4 @@ class PageUrl extends ActionDimension
     {
         return new Discriminator('log_action', 'type', Action::TYPE_PAGE_URL);
     }
-
 }

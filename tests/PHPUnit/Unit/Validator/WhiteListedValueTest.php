@@ -60,5 +60,4 @@ class WhiteListedValueTest extends \PHPUnit\Framework\TestCase
         $validator = new WhitelistedValue(array('foo', 'bar', 'baz', 'lorem'));
         $validator->validate($value);
     }
-
 }

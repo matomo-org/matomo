@@ -160,7 +160,6 @@ abstract class Graph extends Visualization
         $this->addTranslations();
 
         $this->config->selectable_rows = array_values($this->selectableRows);
-
     }
 
     protected function addTranslations(): void
@@ -247,7 +246,9 @@ abstract class Graph extends Visualization
         /** @var ProcessedMetric[] $extraProcessedMetrics */
         $extraProcessedMetrics = $dataTable->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
         if (!empty($extraProcessedMetrics)) {
-            $extraProcessedMetricNames = array_map(function (Metric $m) { return $m->getName(); }, $extraProcessedMetrics);
+            $extraProcessedMetricNames = array_map(function (Metric $m) {
+                return $m->getName();
+            }, $extraProcessedMetrics);
             $allColumns = array_merge($allColumns, $extraProcessedMetricNames);
         }
 

@@ -1551,7 +1551,6 @@ class ApiTest extends IntegrationTestCase
         API::getInstance()->setGlobalExcludedReferrers('http://example.com/path');
         $excludedReferrers = Option::get('SitesManager_ExcludedReferrersGlobal');
         $this->assertEquals('http://example.com/path', $excludedReferrers);
-
     }
 
 

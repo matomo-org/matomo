@@ -37,5 +37,4 @@ class Admin extends Role
     {
         return Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/general/faq_69/');
     }
-
 }

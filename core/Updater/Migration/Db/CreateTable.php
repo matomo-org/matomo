@@ -40,5 +40,4 @@ class CreateTable extends Sql
 
         parent::__construct($sql, static::ERROR_CODE_TABLE_EXISTS);
     }
-
 }

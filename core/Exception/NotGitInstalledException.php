@@ -12,5 +12,4 @@ namespace Piwik\Exception;
 
 class NotGitInstalledException extends Exception
 {
-
 }

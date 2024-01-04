@@ -109,7 +109,7 @@ class MetricsList
             return $cache->fetch($cacheKey);
         }
 
-        $list = new static;
+        $list = new static();
 
         /**
          * Triggered to add new metrics that cannot be picked up automatically by the platform.
@@ -187,5 +187,4 @@ class MetricsList
 
         return $list;
     }
-
 }

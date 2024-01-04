@@ -206,10 +206,10 @@ class Model
         $selector = "a.access";
         if ($access) {
             $selector = 'b.access';
-            $joins .= " LEFT JOIN ". Common::prefixTable('access') ." b on a.idsite = b.idsite AND a.login = b.login";
+            $joins .= " LEFT JOIN " . Common::prefixTable('access') . " b on a.idsite = b.idsite AND a.login = b.login";
         }
 
-        $sql = 'SELECT SQL_CALC_FOUND_ROWS s.idsite as idsite, s.name as site_name, GROUP_CONCAT('.$selector.' SEPARATOR "|") as access
+        $sql = 'SELECT SQL_CALC_FOUND_ROWS s.idsite as idsite, s.name as site_name, GROUP_CONCAT(' . $selector . ' SEPARATOR "|") as access
                   FROM ' . Common::prefixTable('access') . " a
                 $joins
                 $where
@@ -284,7 +284,6 @@ class Model
                 // endless loop in case there is some bug somewhere
                 throw new \Exception('Failed to generate token');
             }
-
         } while ($this->getUserByInviteToken($token));
 
         return $token;
@@ -303,7 +302,6 @@ class Model
                 // endless loop in case there is some bug somewhere
                 throw new \Exception('Failed to generate token');
             }
-
         } while ($this->getUserByTokenAuth($token));
 
         return $token;

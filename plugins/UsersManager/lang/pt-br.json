@@ -127,6 +127,7 @@
         "InviteNewUser": "Convidar um novo usuário",
         "InviteSuccess": "Convite enviado.",
         "InviteSuccessNotification": "O usuário convidado receberá um e-mail para aceitar o convite. Este convite é válido por %1$s dias. Você também pode reenviar e excluir o convite na página de gerenciamento de usuários.",
+        "InviteTeamMember": "Convidar membro da equipe",
         "InviteUser": "Convidar usuário",
         "LastSeen": "Visto por último",
         "LastUsed": "Usado por último",

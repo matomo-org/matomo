@@ -358,7 +358,7 @@ abstract class VisitDimension extends Dimension
      *
      * @return array    An array of values from the source array sorted by most occurrences, descending
      */
-    public function sortStaticListByUsage(array $array, DataTable $table, string $keyColumn, int $maxValuesToReturn) : array
+    public function sortStaticListByUsage(array $array, DataTable $table, string $keyColumn, int $maxValuesToReturn): array
     {
         // Convert to multi-dimensional array and count the number of visits for each browser name
         foreach ($array as $k => $v) {

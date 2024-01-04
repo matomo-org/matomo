@@ -35,5 +35,4 @@ class GetCity extends Base
 
         $this->checkIfNoDataForGeoIpReport($view);
     }
-
 }

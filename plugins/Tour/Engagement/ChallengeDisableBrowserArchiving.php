@@ -33,6 +33,4 @@ class ChallengeDisableBrowserArchiving extends Challenge
     {
         return Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/setup-auto-archiving/');
     }
-
-
 }

@@ -145,7 +145,6 @@ class SubscriptionModel
                 $this->getDb()->insert($this->table, $subscription);
             }
         }
-
     }
 
     private function removeSubscription($token)

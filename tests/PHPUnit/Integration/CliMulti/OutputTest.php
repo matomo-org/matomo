@@ -39,7 +39,7 @@ class OutputTest extends \PHPUnit\Framework\TestCase
         if(is_object($this->output)){
             $this->output->destroy();
         }
-        
+
         File::reset();
 
         parent::tearDown();

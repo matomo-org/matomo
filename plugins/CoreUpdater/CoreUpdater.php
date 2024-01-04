@@ -74,7 +74,6 @@ class CoreUpdater extends \Piwik\Plugin
                 echo $response->getResponseException($e);
                 Common::sendResponseCode(503);
                 exit;
-
             } else {
                 Piwik::redirectToModule('CoreUpdater');
             }

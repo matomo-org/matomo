@@ -168,11 +168,10 @@ class ApiTest extends IntegrationTestCase
 
         $this->setAnotherAdminUser();
         $this->api->add('segment 8', 'visitCount<2', $idSite = 1, $autoArchive = true, $enableAllUsers = false);
-        
+
         $this->setAnotherSuperUser();
         $this->api->add('segment 9', 'countryCode!=fr', $idSite = false, $autoArchive = false, $enableAllUsers = true);
         Rules::setBrowserTriggerArchiving(true);
-
     }
 
     protected function setSuperUser($userName = 'superUserLogin')
@@ -219,5 +218,4 @@ class ApiTest extends IntegrationTestCase
         }
         return $segmentNames;
     }
-
 }

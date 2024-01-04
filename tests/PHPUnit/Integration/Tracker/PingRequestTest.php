@@ -173,7 +173,7 @@ class PingRequestTest extends IntegrationTestCase
         $this->assertVisitCount(1);
         $this->assertActionCount(1);
         $this->assertGoalConversionCount(1);
-        $this->assertEquals(0, $this->getVisitTotalTime($idVisit= 1));
+        $this->assertEquals(0, $this->getVisitTotalTime($idVisit = 1));
 
         $this->assertVisitPropertiesAreUnchanged($idVisit = 1);
     }

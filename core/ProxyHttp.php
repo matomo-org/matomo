@@ -302,7 +302,7 @@ class ProxyHttp
         }
 
         if (false === $data) {
-            throw new \Exception('compressing file '.$fileToCompress.' failed');
+            throw new \Exception('compressing file ' . $fileToCompress . ' failed');
         }
 
         file_put_contents($compressedFilePath, $data);

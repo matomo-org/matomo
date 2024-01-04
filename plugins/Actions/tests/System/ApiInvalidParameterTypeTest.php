@@ -41,7 +41,6 @@ class ApiInvalidParameterTypeTest extends IntegrationTestCase
             ]);
 
             $this->fail('Exception was not thrown');
-
         } catch (\Throwable $e) {
             $this->assertStringStartsWith('idSubtable needs to be a number', $e->getMessage());
         }
@@ -69,7 +68,6 @@ class ApiInvalidParameterTypeTest extends IntegrationTestCase
         ]);
 
         $this->assertEquals(1, $urls->getRowsCount());
-
     }
 
     protected static function configureFixture($fixture)

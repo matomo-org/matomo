@@ -73,5 +73,4 @@ class Menu extends \Piwik\Plugin\Menu
 
         return self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
     }
-
 }

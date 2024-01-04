@@ -16,7 +16,6 @@ use Exception;
 
 class SettingsMetadata
 {
-
     /**
      * @param Settings[]  $settingsInstances
      * @param array $settingValues   array('pluginName' => array('settingName' => 'settingValue'))
@@ -35,7 +34,6 @@ class SettingsMetadata
                     }
                 }
             }
-
         } catch (Exception $e) {
             $message = $e->getMessage();
 
@@ -135,5 +133,4 @@ class SettingsMetadata
 
         return $result;
     }
-
 }

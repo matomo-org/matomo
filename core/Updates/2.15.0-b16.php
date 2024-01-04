@@ -15,7 +15,6 @@ use Piwik\Updates;
 
 class Updates_2_15_0_b16 extends Updates
 {
-
     public function doUpdate(Updater $updater)
     {
         $this->uninstallPlugin('LeftMenu');

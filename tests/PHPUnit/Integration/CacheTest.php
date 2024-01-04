@@ -28,7 +28,10 @@ class CacheTest extends IntegrationTestCase
         $backend = StaticContainer::get('Matomo\Cache\Backend');
         $this->assertFalse($backend->doContains($storageId));
 
-        $result = ''; $module = 'CoreHome'; $action = 'index'; $params = array();
+        $result = '';
+        $module = 'CoreHome';
+        $action = 'index';
+        $params = array();
         Piwik::postEvent('Request.dispatch.end', array(&$result, $module, $action, $params)); // should trigger save
 
         $this->assertTrue($backend->doContains($storageId));

@@ -38,5 +38,4 @@ class SimpleFixtureTrackFewVisits extends Fixture
             $this->assertSame($this->idSite, $idSite);
         }
     }
-
 }

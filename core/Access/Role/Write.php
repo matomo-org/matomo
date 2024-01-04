@@ -34,5 +34,4 @@ class Write extends Role
     {
         return 'https://matomo.org/faq/general/faq_26910';
     }
-
 }

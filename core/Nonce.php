@@ -137,8 +137,8 @@ class Nonce
         // validate origin
         $origin = self::getOrigin();
         if (!empty($origin) &&
-          ($origin == 'null'
-            || !in_array($origin, self::getAcceptableOrigins()))
+          ($origin == 'null' ||
+            !in_array($origin, self::getAcceptableOrigins()))
         ) {
             return Piwik::translate('Login_InvalidNonceOrigin') . $additionalErrors;
         }
@@ -203,7 +203,7 @@ class Nonce
                 'https://' . $host,
             );
             if ($port != 443) {
-                $origins[] = 'http://' . $host .':' . $port;
+                $origins[] = 'http://' . $host . ':' . $port;
             }
             $origins[] = 'https://' . $host . ':' . $port;
         } elseif (Config::getInstance()->General['force_ssl']) {

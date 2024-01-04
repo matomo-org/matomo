@@ -1,12 +1,21 @@
 {
     "DBStats": {
-        "DatabaseUsage": "Datu-basearen erabilera",
+        "DBSize": "Datu-basearen tamaina",
         "DataSize": "Datuen tamaina",
+        "DatabaseUsage": "Datu-basearen erabilera",
+        "EstimatedSize": "Estimatutako tamaina",
         "IndexSize": "Indizearen tamaina",
-        "LearnMore": "Matomo datuak nola prozesatzen dituen eta Matomo trafiko ertain eta handikjo webguneetarako nola moldatu jakiteko, emaiozu begirada dokumentazioari: %s.",
-        "MainDescription": "Zure web analitiken datu guztiak MySQL datu-basean biltegiratzen ari da Matomo. Une honetan Matomo-en taulek tamaina hau hartzen dute: %s.",
+        "LearnMore": "Matomok datuak nola prozesatzen dituen, eta Matomo trafiko ertain eta handiko webguneetarako nola moldatu jakiteko, emaiozu begirada dokumentazioari: %s.",
+        "MainDescription": "Zure web analitiken datu guztiak MySQL datu-basean biltegiratzen ari da Matomo. Une honetan Matomoren taulek tamaina hau hartzen dute: %s.",
+        "MetricDataByYear": "Metrika taulak urteko",
+        "MetricTables": "Metrika taulak",
+        "OtherTables": "Beste taulak",
+        "PluginDescription": "MySQL datu-basearen erabilera-txosten xehatuak eskaintzen ditu. Super erabiltzaileek erabilgarri dute Diagnostikoak atalean.",
+        "ReportDataByYear": "Txosten taulak urteko",
+        "ReportTables": "Txosten taulak",
         "RowCount": "Errenkada kopurua",
         "Table": "Taula",
-        "TotalSize": "Tamaina osoa"
+        "TotalSize": "Tamaina osoa",
+        "TrackerTables": "Jarraipen taulak"
     }
 }

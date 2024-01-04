@@ -72,5 +72,4 @@ class DateTimeTest extends \PHPUnit\Framework\TestCase
         $validator = new DateTime();
         $validator->validate($value);
     }
-
 }

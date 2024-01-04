@@ -15,7 +15,6 @@ use Piwik\Plugins\CustomJsTracker\TrackerUpdater;
 
 class FileIntegrity
 {
-
     /**
      * Get file integrity information
      *
@@ -120,7 +119,6 @@ class FileIntegrity
                 . '<br/>'
                 . implode('<br />', $deleteAllAtOnce)
                 . '<br/><br/>';
-
         }
 
         return $messages;
@@ -170,7 +168,6 @@ class FileIntegrity
                 . '<br/><br/>';
 
             return $messages;
-
         }
         return $messages;
     }
@@ -413,7 +410,6 @@ class FileIntegrity
                 } catch (AccessDeniedException $e) {
                     return false;
                 }
-
             }
         }
 
@@ -482,5 +478,4 @@ class FileIntegrity
         }
         return null;
     }
-
 }

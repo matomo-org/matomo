@@ -31,5 +31,4 @@ class GetUrlsForSocial extends Base
 
         $view->requestConfig->filter_limit = 10;
     }
-
 }

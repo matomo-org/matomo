@@ -109,7 +109,7 @@ class DbHelperTest extends IntegrationTestCase
         $expected = 'SELECT /* segmenthash 37d1b27c81afefbcf0961472b9abdb0f */ /* sites 1 */ /* 2022-01-01,2022-01-02 */ /* origin test */ idvisit FROM log_visit WHERE idvisit > 1 LIMIT 1';
 
         $segment = new Segment('countryCode==fr', [1]);
-        $sql = "SELECT idvisit FROM ".Common::prefixTable('log_visit')." WHERE idvisit > 1 LIMIT 1";
+        $sql = "SELECT idvisit FROM " . Common::prefixTable('log_visit') . " WHERE idvisit > 1 LIMIT 1";
         $startDate = Date::factory('2022-01-01 00:00:00');
         $endDate = Date::factory('2022-01-02 23:59:59');
         $sites = [1];

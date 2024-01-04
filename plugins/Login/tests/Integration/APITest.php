@@ -9,7 +9,7 @@
 namespace Piwik\Plugins\Login\tests\Integration;
 
 use Piwik\Container\StaticContainer;
-use \Piwik\Plugins\Login\API;
+use Piwik\Plugins\Login\API;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 

@@ -103,7 +103,6 @@ class Model
     {
         return (int) Db::fetchOne("SELECT count(*) FROM " . $this->table . "
                                 WHERE deleted = 0");
-
     }
 
     private function getDb()
@@ -124,5 +123,4 @@ class Model
         return (bool) Db::fetchOne("SELECT COUNT(*) FROM " . $this->table . "
                                 WHERE deleted = 0 AND idsite = ? AND idgoal = ?", [$idSite, $idGoal]);
     }
-
 }

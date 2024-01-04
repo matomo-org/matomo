@@ -109,7 +109,7 @@ class GetReferrerType extends Base
         if ($view->isViewDataTableId(HtmlTable::ID)) {
             $view->config->disable_subtable_when_show_goals = true;
         }
-        
+
         $this->configureFooterMessage($view);
     }
 

@@ -117,6 +117,7 @@ class TrackerResponseTest extends SystemTestCase
     {
         $url = $this->tracker->getUrlTrackPageView('Test');
         $url .= '&token_auth=' . Fixture::getTokenAuth();
+        $url .= '&ua=' . urlencode('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36');
         $url .= '&cid=' . str_pad('1', 16, '1');
 
         $response = $this->sendHttpRequest($url);

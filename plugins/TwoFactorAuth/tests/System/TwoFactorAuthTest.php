@@ -59,8 +59,8 @@ class TwoFactorAuthTest extends SystemTestCase
     public function test_onRequestDispatchEnd_notRequired()
     {
         $this->settings->twoFactorAuthRequired->setValue(true);
-        $html = '<html>'.Piwik::getCurrentUserTokenAuth().'</html>';
-        $expected = '<html>'.Piwik::getCurrentUserTokenAuth().'</html>';
+        $html = '<html>' . Piwik::getCurrentUserTokenAuth() . '</html>';
+        $expected = '<html>' . Piwik::getCurrentUserTokenAuth() . '</html>';
         Piwik::postEvent('Request.dispatch.end', array(&$html, 'module', 'action', array()));
         $this->assertSame($expected, $html);
     }
@@ -74,7 +74,6 @@ class TwoFactorAuthTest extends SystemTestCase
     {
         return dirname(__FILE__);
     }
-
 }
 
 TwoFactorAuthTest::$fixture = new SimpleFixtureTrackFewVisits();

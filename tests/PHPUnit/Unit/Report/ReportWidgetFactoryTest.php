@@ -105,6 +105,4 @@ class ReportWidgetFactoryTest extends \PHPUnit\Framework\TestCase
             'idGoal' => '1'
         ), $config->getParameters());
     }
-
-
 }

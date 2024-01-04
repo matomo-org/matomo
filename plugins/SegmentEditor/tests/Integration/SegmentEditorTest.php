@@ -286,7 +286,9 @@ class SegmentEditorTest extends IntegrationTestCase
     {
         $list = new ReArchiveList();
         $items = $list->getAll();
-        $items = array_map(function ($s) { return json_decode($s, true); }, $items);
+        $items = array_map(function ($s) {
+            return json_decode($s, true);
+        }, $items);
 
         $this->assertEquals($expected, $items);
     }

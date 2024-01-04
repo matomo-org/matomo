@@ -17,8 +17,8 @@ use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
-class TestCustomCap extends Access\Capability {
-
+class TestCustomCap extends Access\Capability
+{
     const ID = 'testcustomcap';
     public function getId(): string {
         return self::ID;
@@ -35,7 +35,6 @@ class TestCustomCap extends Access\Capability {
     public function getIncludedInRoles(): array {
         return array(Access\Role\Admin::ID);
     }
-
 }
 
 /**
@@ -632,7 +631,7 @@ class AccessTest extends IntegrationTestCase
 
     public function test_APIPermissionResponseCode()
     {
-        $url = Fixture::getTestRootUrl().'?'.http_build_query([
+        $url = Fixture::getTestRootUrl() . '?' . http_build_query([
                 'module'     => 'API',
                 'method'     => 'API.getMatomoVersion',
                 'token_auth' => 'DOES_NOT_EXIST',
@@ -743,5 +742,4 @@ class AccessTest extends IntegrationTestCase
 
         return $mock;
     }
-
 }

@@ -61,7 +61,7 @@
 
             <select class="userCountryMapSelectMetrics browser-default" style="float:right;margin-right:25px;margin-bottom:10px;max-width: 10em;font-size:10px;height: auto;">
                 {% for metric in metrics %}
-                    <option value="{{ metric[0] }}" {% if metric[0] == defaultMetric %}selected="selected"{% endif %}}>{{ metric[1] }}</option>
+                    <option value="{{ metric[0] }}" {% if metric[0] == defaultMetric %}selected="selected"{% endif %}>{{ metric[1] }}</option>
                 {% endfor %}
             </select>
             <select class="userCountryMapSelectCountry browser-default" style="height: auto;">

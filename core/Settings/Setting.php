@@ -21,7 +21,6 @@ use Piwik\Validators\BaseValidator;
  */
 class Setting
 {
-
     /**
      * The name of the setting
      * @var string
@@ -277,7 +276,6 @@ class Setting
                                              array(strip_tags($config->title), $this->pluginName));
                 throw new \Exception($errorMsg);
             }
-
         } elseif ($this->type === FieldConfig::TYPE_BOOL) {
 
             if (!in_array($value, array(true, false, '0', '1', 0, 1), true)) {
@@ -342,5 +340,4 @@ class Setting
             throw new Exception('Type does not exist');
         }
     }
-
 }

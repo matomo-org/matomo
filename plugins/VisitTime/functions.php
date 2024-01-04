@@ -15,6 +15,10 @@ use Piwik\Piwik;
 
 function getTimeLabel($label)
 {
+    if (!is_numeric($label)) {
+        return Piwik::translate('General_Unknown');
+    }
+
     $time = mktime($label);
     if (empty($time)) {
         return Piwik::translate('General_Unknown');

@@ -681,7 +681,9 @@ class Report
         $report['processedMetrics']     = $this->getProcessedMetrics();
 
         $report['metricTypes'] = $this->getMetricSemanticTypes();
-        $report['metricTypes'] = array_map(function ($t) { return $t ?: 'unspecified'; }, $report['metricTypes']);
+        $report['metricTypes'] = array_map(function ($t) {
+            return $t ?: 'unspecified';
+        }, $report['metricTypes']);
 
         if (!empty($this->actionToLoadSubTables)) {
             $report['actionToLoadSubTables'] = $this->actionToLoadSubTables;

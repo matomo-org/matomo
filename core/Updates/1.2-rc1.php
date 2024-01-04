@@ -74,7 +74,7 @@ class Updates_1_2_rc1 extends Updates
 
             $this->migration->db->addColumn('log_link_visit_action', 'server_time', 'DATETIME', 'idsite'),
             $this->migration->db->addIndex('log_link_visit_action', array('idsite', 'server_time'), 'index_idsite_servertime'),
-            
+
             $this->migration->db->sql('ALTER TABLE `' . Common::prefixTable('log_conversion') . '`
                 DROP `referer_idvisit`,
                 ADD `idvisitor` BINARY(8) NOT NULL AFTER `idsite`

@@ -19,7 +19,7 @@ class SimpleTest extends \PHPUnit\Framework\TestCase
     {
         // set up here if needed
     }
-    
+
     public function tearDown(): void
     {
         // tear down here if needed
@@ -30,7 +30,6 @@ class SimpleTest extends \PHPUnit\Framework\TestCase
      */
     public function testSimpleAddition()
     {
-        $this->assertEquals(2, 1+1);
+        $this->assertEquals(2, 1 + 1);
     }
-
 }

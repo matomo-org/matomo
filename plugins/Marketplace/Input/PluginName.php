@@ -38,5 +38,4 @@ class PluginName
             throw new Exception('Invalid plugin name given');
         }
     }
-
 }

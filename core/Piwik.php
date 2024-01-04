@@ -75,7 +75,7 @@ class Piwik
 
         $message = str_replace("\n", "<br/>", $message);
 
-        $output = "<html><body>".
+        $output = "<html><body>" .
             "<style>a{color:red;}</style>\n" .
             "<div style='color:red;font-size:120%; width:100%;margin: 30px;'>" .
             " <div style='width: 50px; float: left;'><img src='plugins/Morpheus/images/error_medium.png' /></div>" .
@@ -83,7 +83,7 @@ class Piwik
             $message .
             "  </div>" .
             " </div>" .
-            "</div>".
+            "</div>" .
             "</body></html>";
         print($output);
         exit;
@@ -369,7 +369,6 @@ class Piwik
 
             return $token[$reason];
         }
-
     }
 
     /**

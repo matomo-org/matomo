@@ -28,7 +28,7 @@ class Type
         $id = static::ID;
 
         if (empty($id)) {
-            $message = 'Type %s does not define an ID. Set the ID constant to fix this issue';;
+            $message = 'Type %s does not define an ID. Set the ID constant to fix this issue';
             throw new \Exception(sprintf($message, get_called_class()));
         }
 
@@ -54,5 +54,4 @@ class Type
     {
         return $this->howToSetupUrl;
     }
-
 }

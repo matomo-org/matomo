@@ -23,7 +23,6 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class PerformanceDataProcessorTest extends IntegrationTestCase
 {
-
     /**
      * @var PerformanceDataProcessor
      */

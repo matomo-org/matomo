@@ -110,7 +110,7 @@ class VisitsSummaryTest extends IntegrationTestCase
     {
         $table = $response['reportData'];
         $this->assertEquals(array(false), $table->getColumn($this->column));
-        
+
         $numVisits = $table->getColumn('nb_visits');
         $numVisits = array_shift($numVisits);
         $this->assertGreaterThanOrEqual(2, $numVisits);

@@ -60,7 +60,7 @@ class UpdateCommunication
         if($isEnabled === true && Marketplace::isMarketplaceEnabled() === true && SettingsPiwik::isInternetEnabled() === true){
             return true;
         }
-        
+
         return false;
     }
 

@@ -53,7 +53,7 @@ class API extends \Piwik\Plugin\API
         $body = sprintf("Feature: %s\nLike: %s\n", $featureName, $likeText);
 
         if (!empty($choice) && $choice !== 'undefined') {
-            $body .= "Choice: ".$choice."\n";
+            $body .= "Choice: " . $choice . "\n";
         }
 
         $body .= sprintf("Feedback:\n%s\n", trim($message));
@@ -71,7 +71,7 @@ class API extends \Piwik\Plugin\API
         } else {
             $source = 'On-Premise';
         }
-        $body .= "Source: ".$source."\n";
+        $body .= "Source: " . $source . "\n";
 
         $this->sendMail($subject, $body);
 
@@ -120,7 +120,6 @@ class API extends \Piwik\Plugin\API
         $feedbackReminder->setUserOption($nextReminder);
 
         return 'success';
-
     }
 
     public function updateFeedbackReminderDate()

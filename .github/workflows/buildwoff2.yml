@@ -107,7 +107,7 @@ jobs:
             else
               cd $GITHUB_WORKSPACE
               git add plugins/Morpheus/fonts/matomo.woff2
-              git commit -m "built woff2 file"
+              git commit -m "Build woff2 file"
               git push
             fi
           fi

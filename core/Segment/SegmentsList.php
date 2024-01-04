@@ -107,7 +107,7 @@ class SegmentsList
             return $cache->fetch($cacheKey);
         }
 
-        $list = new static;
+        $list = new static();
 
         /**
          * Triggered to add custom segment definitions.
@@ -145,10 +145,9 @@ class SegmentsList
          * @param SegmentsList $list An instance of the SegmentsList.
          */
         Piwik::postEvent('Segment.filterSegments', array($list));
-        
+
         $cache->save($cacheKey, $list);
 
         return $list;
     }
-
 }

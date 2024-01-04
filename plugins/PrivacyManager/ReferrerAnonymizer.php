@@ -108,5 +108,4 @@ class ReferrerAnonymizer
 
         return $url;
     }
-
 }

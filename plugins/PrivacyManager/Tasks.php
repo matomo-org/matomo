@@ -14,7 +14,6 @@ use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 
 class Tasks extends \Piwik\Plugin\Tasks
 {
-
     /**
      * @var LogDataAnonymizations
      */
@@ -54,7 +53,6 @@ class Tasks extends \Piwik\Plugin\Tasks
             if (!empty($id)) {
                 $this->logDataAnonymizations->executeScheduledEntry($id);
             }
-
         } while (!empty($id) && $loop < 100);
     }
 

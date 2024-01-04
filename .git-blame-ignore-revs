@@ -27,3 +27,27 @@ d3de8d64f477d14bf10d5cd1d17521f0c19950ed
 aa2674a8241d5e4e55a2f7fbb74292e06eab8780
 # [PHPCS] disallow using tabs for intending
 d40e11f6decbe84834ed5f33406189055e6989b8
+# [Coding Style] Enable rule PSR12.Files.OpenTag.NotAlone (#21649)
+50d3b2a93bdb01eb1cfad5f6a91bae00cdcb30ae
+# [Coding Style] Enable rule Squiz.WhiteSpace.ScopeKeywordSpacing.Incorrect (#21656)
+1ae6df0f08783e8614c9fb14fc4bf7553537ce53
+# [Coding style] Enable rule Generic.WhiteSpace.ScopeIndent.Incorrect(Exact) (#21671)
+67c67f3149728fdad7a1ac1c9a5d95b04db0264f
+# [Coding Style] Enable rule PSR12.Classes.AnonClassDeclaration.SpaceAfterKeyword (#21680)
+5979482c4d14067952a04da279072f211f427ba2
+# [Coding Style] Enable rule PSR12.Classes.ClassInstantiation.MissingParentheses (#21681)
+e30646531986050ffdd3bfea4ac1dcfe74ee33e2
+# [Coding Style] Enable rule PSR12.Classes.OpeningBraceSpace.Found (#21688)
+1903b100fa47d4f702ce9a6eb05d4e64c0fa7daa
+# [Coding Style] Enable rules PSR12.Operators.OperatorSpacing.NoSpaceBefore and PSR12.Operators.OperatorSpacing.NoSpaceAfter (#21690)
+cc2a090a29878cac4f31b68b6917862e765c2d0d
+# [Coding Style] Enable rule PSR12.Files.ImportStatement.LeadingSlash (#21692)
+b5729c235c84ab76680ddf0736ecb543f5c283c2
+# [Coding Style] Enable rule PSR12.Functions.ReturnTypeDeclaration.SpaceBeforeColon (#21693)
+40ba1b12db9016d37942832397674d20cddf1218
+# [Coding Style] Enable rule Squiz.WhiteSpace.SuperfluousWhitespace.EndLine (#21696)
+b9c6430c0569308350c3b33231646016d19924ea
+# [Coding Style] Enable rule PSR2.Methods.FunctionCallSignature.EmptyLine (#21699)
+6fa0f5bb8bd0cb06c44db97e226612af9f844a81
+# [Coding Style] Enable rule Generic.Formatting.DisallowMultipleStatements.SameLine (#21700)
+942300387c974a8313b2bd5ecdb486957cca02c4

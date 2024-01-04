@@ -84,5 +84,4 @@ class SubcategoryTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertSame('', $this->subcategory->getId());
     }
-
 }

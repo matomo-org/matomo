@@ -137,8 +137,5 @@ class FeedbackTest extends IntegrationTestCase
         //test pass with like is null
         $result = $api->sendFeedbackForFeature('test', null, null, "dislike this test");
         $this->assertEquals("success", $result);
-
     }
-
-
 }

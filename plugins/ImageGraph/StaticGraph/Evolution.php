@@ -13,7 +13,6 @@ namespace Piwik\Plugins\ImageGraph\StaticGraph;
  */
 class Evolution extends GridGraph
 {
-
     public function renderGraph()
     {
         $this->initGridChart(

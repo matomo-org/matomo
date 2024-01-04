@@ -71,7 +71,7 @@ function setupRootContainer($enable = false) {
         $vars = new TestingEnvironmentVariables();
         $vars->delete();
 
-    Environment::setGlobalEnvironmentManipulator(new TestingEnvironmentManipulator($vars));
+        Environment::setGlobalEnvironmentManipulator(new TestingEnvironmentManipulator($vars));
     }
 
     $rootTestEnvironment = new \Piwik\Application\Environment(null);
@@ -160,7 +160,6 @@ remote_addr = \"127.0.0.1\"
 Try again.";
         exit(1);
     }
-
 }
 
 function printTestDoxHint()

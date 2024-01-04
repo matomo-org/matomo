@@ -32,6 +32,4 @@ class ChallengeViewRowEvolution extends Challenge
     {
         return Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/row-evolution/');
     }
-
-
 }

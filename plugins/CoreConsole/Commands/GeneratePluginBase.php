@@ -137,7 +137,7 @@ abstract class GeneratePluginBase extends ConsoleCommand
             // see https://github.com/composer/composer/issues/4080 we need to specify -stable otherwise it would match
             // $piwikVersion-dev meaning it would also match all pre-released. However, we only want to match a stable
             // release
-            $piwikVersion.= '-stable';
+            $piwikVersion .= '-stable';
         }
 
         $newRequiredVersion = sprintf('>=%s,<%d.0.0-b1', $piwikVersion, $nextMajorVersion);
@@ -326,7 +326,6 @@ abstract class GeneratePluginBase extends ConsoleCommand
 
                 $this->createFileWithinPluginIfNotExists($pluginName, $fileNamePlugin, $template);
             }
-
         }
     }
 
@@ -355,7 +354,6 @@ abstract class GeneratePluginBase extends ConsoleCommand
                     $pluginNames[] = basename($pluginDir);
                 }
             }
-
         }
         return $pluginNames;
     }

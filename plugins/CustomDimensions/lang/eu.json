@@ -1,1 +1,15 @@
-{}
+{
+    "CustomDimensions": {
+        "ColumnUniqueActions": "Ekintza desberdinak",
+        "ConfigureDimension": "Konfiguratu %1$s Dimentsio pertsonalizatua %2$s",
+        "ConfigureNewDimension": "Konfiguratu dimentsio berria",
+        "CustomDimensionId": "Dimentsio pertsonalizatuak (Id %d)",
+        "CustomDimensions": "Dimentsio pertsonalizatuak",
+        "DimensionCreated": "Dimentsio pertsonalizatua sortu da",
+        "DimensionUpdated": "Dimentsio pertsonalizatua eguneratu da",
+        "EmptyValue": "balio hutsa",
+        "ExtractValue": "Erauzi balioa",
+        "Extractions": "Erauzketak",
+        "NoValue": "baliorik ez"
+    }
+}

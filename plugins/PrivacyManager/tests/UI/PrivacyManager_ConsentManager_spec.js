@@ -31,7 +31,9 @@ describe("PrivacyManager_ConsentManager", function () {
     it('should load privacy asking for consent page', async function() {
         await page.goto(urlBase + 'consent');
         await page.waitForNetworkIdle();
-      expect(await page.screenshotSelector('.pageWrap,#notificationContainer,.modal.open')).to.matchImage('consent_default');
+        await page.evaluate(function () {
+            $('#secondNavBar').css('visibility', 'hidden'); // hide navbar so shadow isn't shown on screenshot
+        });
+        expect(await page.screenshotSelector('.pageWrap,#notificationContainer,.modal.open')).to.matchImage('consent_default');
     });
-
 });

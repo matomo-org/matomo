@@ -20,12 +20,66 @@
 
     <config name="installed_paths" value="../../slevomat/coding-standard"/>
 
-    <!-- Use PSR standard as default -->
+    <!-- Use PSR 12 standard as default -->
     <!-- Some rules are currently excluded/restricted, but those restrictions should be removed in the future -->
 
-    <rule ref="PSR1">
+    <rule ref="PSR12">
         <!-- can't use this as long as we have functions.php files that need to be required manually -->
         <exclude name="PSR1.Files.SideEffects.FoundWithSymbols" />
+
+        <exclude name="Generic.ControlStructures.InlineControlStructure.NotAllowed" />
+        <exclude name="Generic.Files.LineLength" />
+        <exclude name="Generic.PHP.LowerCaseConstant.Found" />
+        <exclude name="Generic.PHP.LowerCaseKeyword.Found" />
+        <exclude name="PSR12.ControlStructures.ControlStructureSpacing.CloseParenthesisIndent" />
+        <exclude name="PSR12.ControlStructures.ControlStructureSpacing.CloseParenthesisLine" />
+        <exclude name="PSR12.ControlStructures.ControlStructureSpacing.FirstExpressionLine" />
+        <exclude name="PSR12.ControlStructures.ControlStructureSpacing.LineIndent" />
+        <exclude name="PSR12.ControlStructures.ControlStructureSpacing.SpaceBeforeCloseBrace" />
+        <exclude name="PSR12.ControlStructures.ControlStructureSpacing.SpacingAfterOpenBrace" />
+        <exclude name="PSR12.Files.FileHeader" />
+        <exclude name="PSR12.Properties.ConstantVisibility" />
+        <exclude name="PSR2.Classes.PropertyDeclaration.ScopeMissing" />
+        <exclude name="PSR2.Classes.PropertyDeclaration.Underscore" />
+        <exclude name="PSR2.ControlStructures.ElseIfDeclaration.NotAllowed" />
+        <exclude name="PSR2.Methods.FunctionCallSignature.CloseBracketLine" />
+        <exclude name="PSR2.Methods.FunctionCallSignature.ContentAfterOpenBracket" />
+        <exclude name="PSR2.Methods.FunctionCallSignature.Indent" />
+        <exclude name="PSR2.Methods.FunctionCallSignature.MultipleArguments" />
+        <exclude name="PSR2.Methods.FunctionCallSignature.SpaceAfterOpenBracket" />
+        <exclude name="PSR2.Methods.FunctionCallSignature.SpaceBeforeCloseBracket" />
+        <exclude name="PSR2.Methods.FunctionCallSignature.SpaceBeforeOpenBracket" />
+        <exclude name="PSR2.Methods.MethodDeclaration.AbstractAfterVisibility" />
+        <exclude name="PSR2.Methods.MethodDeclaration.StaticBeforeVisibility" />
+        <exclude name="PSR2.Methods.MethodDeclaration.Underscore" />
+        <exclude name="Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace" />
+        <exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterCloseBrace" />
+        <exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterCloseParenthesis" />
+        <exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterKeyword" />
+        <exclude name="Squiz.ControlStructures.ForLoopDeclaration.NoSpaceAfterFirst" />
+        <exclude name="Squiz.ControlStructures.ForLoopDeclaration.NoSpaceAfterSecond" />
+        <exclude name="Squiz.Functions.FunctionDeclaration.Found" />
+        <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpaceAfterEquals" />
+        <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpaceBeforeComma" />
+        <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpaceBeforeEquals" />
+        <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpacingAfterHint" />
+        <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpacingAfterReference" />
+        <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpacingBeforeArg" />
+        <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpacingBeforeHint" />
+        <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpacingBetween" />
+        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.BraceIndent" />
+        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.BraceOnSameLine" />
+        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.CloseBracketLine" />
+        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.FirstParamSpacing" />
+        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.Indent" />
+        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.NewlineBeforeOpenBrace" />
+        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.OneParamPerLine" />
+        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.SpaceAfterFunction" />
+        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.SpaceBeforeOpenParen" />
+        <exclude name="Squiz.Scope.MethodScope.Missing" />
+        <exclude name="Squiz.WhiteSpace.ControlStructureSpacing.SpacingAfterOpen" />
+        <exclude name="Squiz.WhiteSpace.ScopeClosingBrace.ContentBefore" />
+        <exclude name="Squiz.WhiteSpace.ScopeClosingBrace.Indent" />
     </rule>
 
     <rule ref="Squiz.Classes.ValidClassName.NotCamelCaps">
@@ -48,12 +102,6 @@
 
 
     <!-- Additional rules that are not covered by PSR above -->
-
-    <!-- Disallow using tabs for indenting -->
-    <rule ref="Generic.WhiteSpace.DisallowTabIndent"/>
-
-    <!-- Expect a file to end with a new line -->
-    <rule ref="PSR2.Files.EndFileNewline"/>
 
     <!-- Forbid unused use statements -->
     <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses">

@@ -38,7 +38,7 @@ class Updates_4_0_0_rc4 extends PiwikUpdates
         $migrations = [];
 
         $migrations[] = $this->migration->plugin->deactivate('ExampleTheme');
-      
+
         $channel = StaticContainer::get(ReleaseChannels::class)->getActiveReleaseChannel()->getId();
         $isBeta = stripos($channel, 'beta') !== false;
 
@@ -63,5 +63,4 @@ class Updates_4_0_0_rc4 extends PiwikUpdates
     {
         $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
     }
-
 }

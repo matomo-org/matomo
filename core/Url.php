@@ -871,7 +871,7 @@ class Url
             if (empty($module) || empty($action)) {
                 return $url; // Ignore if no module or action
             }
-            $medium = 'App.' . $module.'.'.$action;
+            $medium = 'App.' . $module . '.' . $action;
         }
         $newParams = [
             'mtm_campaign' => $campaign ?? 'Matomo_App',
@@ -883,5 +883,4 @@ class Url
         $pathAndQueryString = UrlHelper::getPathAndQueryFromUrl($url, $newParams, true);
         return 'https://' . $domain . '/' . $pathAndQueryString;
     }
-
 }

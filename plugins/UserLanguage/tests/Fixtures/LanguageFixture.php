@@ -26,7 +26,6 @@ class LanguageFixture extends Fixture
 
     public function tearDown(): void
     {
-
     }
 
     private function setUpWebsite()
@@ -66,7 +65,5 @@ class LanguageFixture extends Fixture
 
             self::checkResponse($tracker->doTrackPageView("Viewing homepage"));
         }
-
     }
-
-} 
+}

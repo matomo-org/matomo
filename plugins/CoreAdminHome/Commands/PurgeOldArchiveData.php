@@ -39,7 +39,7 @@ class PurgeOldArchiveData extends ConsoleCommand
     public function __construct(ArchivePurger $archivePurger = null)
     {
         parent::__construct();
-        
+
         $this->archivePurger = $archivePurger;
     }
 
@@ -64,7 +64,6 @@ class PurgeOldArchiveData extends ConsoleCommand
         $this->setHelp("By default old and invalidated archives are purged. Custom ranges are also purged with outdated archives.\n\n"
                      . "Note: archive purging is done during scheduled task execution, so under normal circumstances, you should not need to "
                      . "run this command manually.");
-
     }
 
     protected function doExecute(): int

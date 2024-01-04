@@ -87,6 +87,5 @@ class SetGetReferrerTypeSubtables extends DataTable\BaseFilter
                 }
             }
         }
-
     }
 }

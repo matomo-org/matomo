@@ -109,7 +109,6 @@ class AutoSuggestAPITest extends SystemTestCase
                     'date' => '1998-07-12,today',
                     'period' => 'range',
                     'otherRequestParameters' => array('filter_limit' => 1000)));
-
         }
         return $apiForTesting;
     }
@@ -219,7 +218,6 @@ class AutoSuggestAPITest extends SystemTestCase
         } else {
             self::$skipped[] = $params['segmentToComplete'];
         }
-
     }
 
     public function getAnotherApiForTesting()

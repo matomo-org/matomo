@@ -61,6 +61,4 @@ class BoundSqlTest extends IntegrationTestCase
     {
         return new BoundSql($query, $bind, $errorCode);
     }
-
-
 }

@@ -19,5 +19,4 @@ class MeasurableSettings extends \Piwik\Plugins\WebsiteMeasurable\MeasurableSett
     {
         return $type === Type::ID;
     }
-
 }

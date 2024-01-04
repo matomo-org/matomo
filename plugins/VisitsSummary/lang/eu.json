@@ -1,10 +1,30 @@
 {
     "VisitsSummary": {
-        "GenerateQueries": "%s galdera exekutatuta",
+        "AverageGenerationTime": "batez besteko sortze denbora",
+        "AverageVisitDuration": "bisiten batez besteko iraupena",
+        "GenerateQueries": "%s kontsulta exekutatuta",
         "GenerateTime": "%s segundo orria sortzeko",
+        "MaxNbActions": "gehienezko ekintzak bisita batean",
+        "NbActionsDescription": "%s ekintza",
+        "NbActionsPerVisit": "ekintzak (orri ikustaldiak, deskargak, kanpo estekak eta gune barneko bilaketak) bisitako",
+        "NbDownloadsDescription": "deskargak",
+        "NbKeywordsDescription": "gako-hitz desberdinak",
+        "NbOutlinksDescription": "kanpo estekak",
+        "NbPageviewsDescription": "orri-ikustaldiak",
+        "NbSearchesDescription": "bilaketak guztira zure webgunean",
+        "NbUniqueDownloadsDescription": "deskarga desberdinak",
+        "NbUniqueOutlinksDescription": "kanpo esteka desberdinak",
+        "NbUniquePageviewsDescription": "orri-ikustaldi desberdinak",
+        "NbUniqueVisitors": "bisitari desberdinak",
+        "NbUsersDescription": "erabiltzaileak",
+        "NbVisitsBounced": "errebotatutako bisitak (orri bat ikusi ondoren webgunea utzi dutenak)",
+        "NbVisitsDescription": "bisitak",
+        "PluginDescription": "Neurri analitiko orokorren berri ematen du: bisitak, bisitari desberdinak, ekintza kopurua, errebote-tasa eta abar.",
         "VisitsSummary": "Bisiten laburpena",
-        "WidgetLastVisits": "Azken bisiten grafikoa",
-        "WidgetOverviewGraph": "Ikuspegi orokorra grafikoarekin",
+        "VisitsSummaryDocumentation": "Hau bisiten bilakaeraren ikuspegi orokorra da.",
+        "VisitsSummaryReportDocumentation": "Txosten honek zure bisitarien portaeraren ikuspegi oso orokorra eskaintzen du.",
+        "WidgetLastVisits": "Bisitak denboran zehar",
+        "WidgetOverviewGraph": "Bisiten ikuspegi orokorra (grafikoarekin)",
         "WidgetVisits": "Bisiten ikuspegi orokorra"
     }
 }

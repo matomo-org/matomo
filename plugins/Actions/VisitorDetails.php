@@ -96,7 +96,6 @@ class VisitorDetails extends VisitorDetailsAbstract
                 if ($this->isPageView($nextAction)) {
                     break;
                 }
-
             } while (isset($actionDetails[$nextActionId]));
 
             if (isset($action['timeSpent'])) {
@@ -212,7 +211,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 
                 $itemNames = implode(', ', array_column($action['itemDetails'], 'itemName'));
                 $action['subtitle'] = Piwik::translate('Goals_NRevenue', $formatter->getPrettyMoney($action['revenue'], $visitorDetails['idSite']));
-                $action['subtitle'] .= ' - ' .  Piwik::translate('Goals_NItems', $action['items']) . ': ' . $itemNames .')';
+                $action['subtitle'] .= ' - ' .  Piwik::translate('Goals_NItems', $action['items']) . ': ' . $itemNames . ')';
                 break;
             case Action::TYPE_CONTENT:
                 if (!empty($action['contentInteraction'])) {

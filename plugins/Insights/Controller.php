@@ -18,7 +18,6 @@ use Piwik\View;
  */
 class Controller extends \Piwik\Plugin\Controller
 {
-
     public function __construct()
     {
         parent::__construct();

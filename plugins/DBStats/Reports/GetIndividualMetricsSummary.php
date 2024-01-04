@@ -19,7 +19,6 @@ use Piwik\Plugin\ViewDataTable;
  */
 class GetIndividualMetricsSummary extends Base
 {
-
     protected function init()
     {
         $this->name = Piwik::translate('General_Metrics');
@@ -36,5 +35,4 @@ class GetIndividualMetricsSummary extends Base
 
         $this->setIndividualSummaryFooterMessage($view);
     }
-
 }

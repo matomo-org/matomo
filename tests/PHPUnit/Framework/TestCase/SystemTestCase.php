@@ -722,7 +722,7 @@ abstract class SystemTestCase extends TestCase
 
     protected function getTestRequestsCollection($api, $testConfig, $apiToCall)
     {
-       return new Collection($api, $testConfig, $apiToCall);
+        return new Collection($api, $testConfig, $apiToCall);
     }
 
     private function printComparisonFailures()
@@ -848,9 +848,7 @@ abstract class SystemTestCase extends TestCase
                 } catch( Exception $e) {
                     throw new Exception("error while inserting $sql into $table the data. SQl data: " . var_export($sql, true) . ", Bind array: " . var_export($bind, true) . ". Erorr was -> " . $e->getMessage());
                 }
-
             }
-
         }
     }
 

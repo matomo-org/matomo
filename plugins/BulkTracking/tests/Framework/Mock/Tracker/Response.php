@@ -15,5 +15,4 @@ class Response extends \Piwik\Plugins\BulkTracking\Tracker\Response
     {
         // prevent from writing to console in tests
     }
-
 }

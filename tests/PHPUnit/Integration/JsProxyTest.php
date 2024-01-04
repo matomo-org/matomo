@@ -72,7 +72,6 @@ class JsProxyTest extends IntegrationTestCase
             $processed,
             'checking for image content' . "\n\n\n\nRaw content: \n\n\n" . $fullResponse
         );
-
     }
 
     /**

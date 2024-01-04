@@ -103,7 +103,7 @@ jobs:
           then
             cd $GITHUB_WORKSPACE
             git add plugins/Intl/lang/*.json
-            git commit -m "Updates Intl data from CLDR ${{ steps.cldr.outputs.cldr-version }}"
+            git commit -m "Update Intl data from CLDR ${{ steps.cldr.outputs.cldr-version }}"
             git push --set-upstream origin update-intl
             echo "updated=1" >> $GITHUB_OUTPUT
           fi

@@ -106,7 +106,7 @@ class ProcessTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->process->isRunning());
         $this->assertFalse($this->process->hasFinished());
 
-        $this->process->writePidFileContent(str_pad('1', 505,'1'));
+        $this->process->writePidFileContent(str_pad('1', 505, '1'));
 
         $this->assertFalse($this->process->isRunning());
         $this->assertTrue($this->process->hasFinished());

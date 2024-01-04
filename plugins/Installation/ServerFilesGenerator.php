@@ -77,7 +77,7 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
         // deny access to these folders
         $directoriesToProtect = array(
             PIWIK_USER_PATH . '/config' => $denyAll,
-            PIWIK_INCLUDE_PATH. '/core' => $denyAll,
+            PIWIK_INCLUDE_PATH . '/core' => $denyAll,
             PIWIK_INCLUDE_PATH . '/lang' => $denyAll,
             StaticContainer::get('path.tmp') => $denyAll,
         );
@@ -341,5 +341,4 @@ HTACCESS_ALLOW;
             }
         }
     }
-
 }

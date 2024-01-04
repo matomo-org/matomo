@@ -282,10 +282,9 @@ class CookieTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($years >= 1);
 
         // assert timestamp
-        $checkTime = $this->cookie->formatExpireTime(time()+(86400 * 365 * 3));
+        $checkTime = $this->cookie->formatExpireTime(time() + (86400 * 365 * 3));
         $years = $this->diffInYears($checkTime);
         $this->assertTrue($years >= 2);
-
     }
 
     private function diffInYears($checkTime)

@@ -1,5 +1,10 @@
 {
     "UserId": {
-        "UserReportTitle": "Erabiltzaileak"
+        "PluginDescription": "Erabiltzaileen txostenak erakusten ditu",
+        "ThereIsNoDataForThisReportHelp": "%1$sIrakurri erabiltzaile gida txosten honetarako datuak nola sortu ikasteko.%2$s",
+        "UserId": "ErabiltzaileId",
+        "UserReportDocumentation": "Erabiltzaile ID bakoitzaren bisita eta metrika orokorrak erakusten ditu.",
+        "UserReportTitle": "Erabiltzaile IDak",
+        "VisitorsUserSubcategoryHelp": "Erabiltzaile ID txostenak erregistratutako eta saioa hasitako erabiltzaile guztien bisitak erakusten ditu. Erabiltzaile zehatz bakoitzak webgunea nola erabiltzen duen ulertu, eta aktibitate gehien eta gutxien duten erabiltzaileak aurkitu ditzakezu."
     }
 }

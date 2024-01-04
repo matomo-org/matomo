@@ -52,5 +52,4 @@ class MeasurableSettingsTest extends BaseSettingsTestCase
 
         $this->assertTrue($setting instanceof MeasurableSetting);
     }
-
 }

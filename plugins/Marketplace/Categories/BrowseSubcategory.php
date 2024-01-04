@@ -15,5 +15,4 @@ class BrowseSubcategory extends Subcategory
     protected $categoryId = 'Marketplace_Marketplace';
     protected $id = 'Marketplace_Browse';
     protected $order = 5;
-
 }

@@ -70,6 +70,20 @@ class ImportLogsTest extends SystemTestCase
                                              'date'       => '2012-08-09',
                                              'periods'    => 'month',
                                              'testSuffix' => '_siteIdTwo_TrackedUsingLogReplay')),
+
+            [
+                ['Live.getLastVisitsDetails', 'VisitsSummary.get'],
+                [
+                    'idSite'                 => self::$fixture->idSite,
+                    'date'                   => '2012-08-09',
+                    'periods'                => 'month',
+                    'segment'                => 'pageUrl=@/docs/,pageUrl=@/blog;pageUrl!@/docs/manage',
+                    'otherRequestParameters' => [
+                        'filter_limit' => 5,
+                    ],
+                    'testSuffix'             => '_complexActionSegment',
+                ],
+            ],
         );
 
         // Running a few interesting tests for Log Replay use case

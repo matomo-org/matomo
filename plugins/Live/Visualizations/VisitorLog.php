@@ -57,7 +57,7 @@ class VisitorLog extends Visualization
             $this->requestConfig->filter_limit = 10;
         }
 
-        $this->requestConfig->request_parameters_to_modify['filter_limit'] = $this->requestConfig->filter_limit+1; // request one more record, to check if a next page is available
+        $this->requestConfig->request_parameters_to_modify['filter_limit'] = $this->requestConfig->filter_limit + 1; // request one more record, to check if a next page is available
         $this->requestConfig->disable_generic_filters = true;
         $this->requestConfig->filter_sort_column      = false;
 

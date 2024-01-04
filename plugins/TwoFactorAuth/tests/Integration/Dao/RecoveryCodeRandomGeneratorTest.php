@@ -39,5 +39,4 @@ class RecoveryCodeRandomGeneratorTest extends IntegrationTestCase
     {
         $this->assertNotEquals($this->generator->generateCode(), $this->generator->generateCode());
     }
-
 }

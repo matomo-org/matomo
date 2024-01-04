@@ -16,7 +16,6 @@ use Piwik\Plugins\CustomDimensions\Archiver;
 
 class AutoSuggest
 {
-
     /**
      * @param array $dimension
      * @param int $idSite
@@ -47,5 +46,4 @@ class AutoSuggest
 
         return $labels;
     }
-
 }

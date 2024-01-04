@@ -152,7 +152,7 @@ class FakeAccess extends Access
             }
         }
 
-        throw new NoAccessException("checkUserHasCapability " . $capability ." Fake exception // string not to be tested");
+        throw new NoAccessException("checkUserHasCapability " . $capability . " Fake exception // string not to be tested");
     }
 
     //means at least view access

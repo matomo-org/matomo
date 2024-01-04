@@ -32,7 +32,7 @@ class Mysql extends Db
 
     protected $mysqlOptions = array();
 
-    
+
     protected $activeTransaction = false;
 
     /**
@@ -81,7 +81,6 @@ class Mysql extends Db
                 $this->mysqlOptions[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = false;
             }
         }
-
     }
 
     public function __destruct()
@@ -237,7 +236,6 @@ class Mysql extends Db
                 $message = $e->getMessage() . " In query: $query Parameters: " . var_export($parameters, true);
                 throw new DbException("Error query: " . $message, (int) $e->getCode());
             }
-
         }
     }
 
@@ -408,10 +406,8 @@ class Mysql extends Db
          * see ZF-7428 and http://bugs.php.net/bug.php?id=47224
          */
         if (!empty($this->charset)) {
-            $sql = "SET NAMES '".$this->charset."'";
+            $sql = "SET NAMES '" . $this->charset . "'";
             $this->connection->exec($sql);
         }
     }
-
-
 }

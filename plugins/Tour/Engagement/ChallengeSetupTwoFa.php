@@ -38,6 +38,4 @@ class ChallengeSetupTwoFa extends Challenge
     {
         return Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/general/faq_27245');
     }
-
-
 }

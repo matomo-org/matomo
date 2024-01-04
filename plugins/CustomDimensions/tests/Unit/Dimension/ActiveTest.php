@@ -17,7 +17,6 @@ use Piwik\Plugins\CustomDimensions\Dimension\Active;
  */
 class ActiveTest extends \PHPUnit\Framework\TestCase
 {
-
     public function test_check_shouldFailWhenActiveIsEmpty()
     {
         $this->expectException(\Exception::class);
@@ -58,5 +57,4 @@ class ActiveTest extends \PHPUnit\Framework\TestCase
     {
         return new Active($active);
     }
-
 }

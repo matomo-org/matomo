@@ -58,5 +58,4 @@ class GetNewPlugins extends Widget
             'plugins' => array_splice($plugins, 0, 3)
         ));
     }
-
 }

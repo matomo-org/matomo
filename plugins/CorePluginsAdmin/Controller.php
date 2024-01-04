@@ -480,7 +480,6 @@ class Controller extends Plugin\ControllerAdmin
 
                 $this->redirectToIndex('CorePluginsAdmin', $actionToRedirect);
             }
-
         }
     }
 
@@ -646,5 +645,4 @@ class Controller extends Plugin\ControllerAdmin
         $this->pluginManager->deactivatePlugin($pluginName);
         $this->redirectAfterModification($redirectAfter);
     }
-
 }

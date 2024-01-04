@@ -31,6 +31,4 @@ class PluginTrackerFilesMock extends PluginTrackerFiles
         }
         return $files;
     }
-
-
 }

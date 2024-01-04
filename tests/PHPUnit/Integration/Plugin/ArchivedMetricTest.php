@@ -123,6 +123,4 @@ class ArchivedMetricTest extends IntegrationTestCase
         $this->metric->setCategory('General_Visitors');
         $this->assertSame('General_Visitors', $this->metric->getCategoryId());
     }
-
-
 }

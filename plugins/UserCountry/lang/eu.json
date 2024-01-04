@@ -1,8 +1,29 @@
 {
     "UserCountry": {
+        "CannotLocalizeLocalIP": "\"%s\" IP helbidea lokala da, ondorioz ezin da geolokalizatu.",
+        "City": "Hiria",
+        "CityAndCountry": "%1$s, %2$s",
         "Continent": "Kontinentea",
+        "Continents": "Kontinenteak",
         "Country": "Herrialdea",
+        "CountryCode": "Herrialde-kodea",
+        "DisabledLocationProvider": "Geolokalizazioa desaktibatzen du.",
         "DistinctCountries": "%s herrialde desberdin",
-        "SubmenuLocations": "Kokalekuak"
+        "FromDifferentCities": "hiri desberdinak",
+        "Geolocation": "Geolokalizazioa",
+        "Latitude": "Latitudea",
+        "Latitudes": "Latitudeak",
+        "Location": "Kokapena",
+        "LocationProvider": "Kokapen-hornitzailea",
+        "Longitude": "Longitudea",
+        "Longitudes": "Longitudeak",
+        "Region": "Eskualdea",
+        "SubmenuLocations": "Kokalekuak",
+        "VisitLocation": "Bisitariaren kokapena",
+        "WidgetLocation": "Bisitariaren kokapena",
+        "country_a1": "Proxy anonimoa",
+        "country_a2": "Satelite-hornitzailea",
+        "country_cat": "Katalanez hitz egiten duten komunitateak",
+        "country_o1": "Beste herrialde bat"
     }
 }

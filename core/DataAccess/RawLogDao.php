@@ -196,7 +196,7 @@ class RawLogDao
 
         $this->dropTempTableForStoringUsedActions();
     }
-    
+
     /**
      * Returns the list of the website IDs that received some visits between the specified timestamp. The
      * start date and the end date is included in the time frame.
@@ -278,7 +278,7 @@ class RawLogDao
 
                 $bind = array_merge($bind, $value);
             } else {
-                $parts[]= "$column $operator ?";
+                $parts[] = "$column $operator ?";
 
                 $bind[] = $value;
             }
@@ -352,11 +352,11 @@ class RawLogDao
         foreach ($this->dimensionMetadataProvider->getActionReferenceColumnsByTable() as $table => $columns) {
             $idCol = $idColumns[$table];
             // Create select query for requesting ALL needed fields at once
-            $sql = "SELECT " . implode(',' ,$columns) . " FROM " . Common::prefixTable($table) . " WHERE $idCol >= ? AND $idCol < ?";
+            $sql = "SELECT " . implode(',', $columns) . " FROM " . Common::prefixTable($table) . " WHERE $idCol >= ? AND $idCol < ?";
 
             if ($olderThan) {
                // Why start on zero? When running for a couple of months, this will generate about 10000+ queries with zero result. Use the lowest value instead.... saves a LOT of waiting time!
-                $start = (int) Db::fetchOne("SELECT MIN($idCol) FROM " . Common::prefixTable($table));;
+                $start = (int) Db::fetchOne("SELECT MIN($idCol) FROM " . Common::prefixTable($table));
                 $finish = $maxIds[$table];
             } else {
                 $start = $maxIds[$table];
@@ -374,21 +374,21 @@ class RawLogDao
                 $keepValues = [];
                 foreach ($result as $row) {
                      $keepValues = array_merge($keepValues, array_filter(array_values($row), "is_numeric"));
-                     if (count($keepValues) >= 1000) {
-                        $insert = 'INSERT IGNORE INTO ' . $tempTableName .' VALUES (';
+                    if (count($keepValues) >= 1000) {
+                        $insert = 'INSERT IGNORE INTO ' . $tempTableName . ' VALUES (';
                         $insert .= implode('),(', $keepValues);
                         $insert .= ')';
 
                         Db::exec($insert);
                         $keepValues = [];
-                     }
+                    }
                 }
 
-               $insert = 'INSERT IGNORE INTO ' . $tempTableName .' VALUES (';
-               $insert .= implode('),(', $keepValues);
-               $insert .= ')';
+                $insert = 'INSERT IGNORE INTO ' . $tempTableName . ' VALUES (';
+                $insert .= implode('),(', $keepValues);
+                $insert .= ')';
 
-               Db::exec($insert);
+                Db::exec($insert);
             }
         }
     }

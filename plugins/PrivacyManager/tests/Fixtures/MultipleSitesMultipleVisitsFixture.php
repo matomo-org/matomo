@@ -137,13 +137,11 @@ class TestLogFoo extends LogTable
     {
         return 'idlogfoo';
     }
-
 }
 
 
 class MultipleSitesMultipleVisitsFixture extends Fixture
 {
-
     private static $countryCode = array(
         'CA', 'CN', 'DE', 'ES', 'FR', 'IE', 'IN', 'IT', 'MX', 'PT', 'RU', 'GB', 'US'
     );
@@ -493,7 +491,7 @@ class MultipleSitesMultipleVisitsFixture extends Fixture
             $this->tracker->setUrl('http://www.helloworld.com/hello/world' . $userId . '/' . $j);
 
             $numPerformanceTimes = count(self::$performanceTimes);
-            call_user_func_array([$this->tracker, 'setPerformanceTimings'], self::$performanceTimes[($userId+$j) % $numPerformanceTimes]);
+            call_user_func_array([$this->tracker, 'setPerformanceTimings'], self::$performanceTimes[($userId + $j) % $numPerformanceTimes]);
 
             $this->tracker->doTrackPageView('Hello World ' . $j);
         }
@@ -520,7 +518,7 @@ class MultipleSitesMultipleVisitsFixture extends Fixture
         if ($userId % 4 === 0) {
             $this->tracker->doTrackContentImpression('Product 1', '/path/product1.jpg', 'http://product1.example.com');
             $this->tracker->doTrackContentImpression('Product 1', 'Buy Product 1 Now!', 'http://product1.example.com');
-            $this->tracker->doTrackContentImpression('Product 2', '/path/product2.jpg',  'http://product' . $userId . '.example.com');
+            $this->tracker->doTrackContentImpression('Product 2', '/path/product2.jpg', 'http://product' . $userId . '.example.com');
             $this->tracker->doTrackContentImpression('Product 3', 'Product 3 on sale', 'http://product3.example.com');
             $this->tracker->doTrackContentImpression('Product 4');
             $this->tracker->doTrackContentInteraction('click', 'Product 3', 'Product 3 on sale', 'http://product3.example.com');
@@ -567,6 +565,4 @@ class MultipleSitesMultipleVisitsFixture extends Fixture
 
         return $result;
     }
-
-
 }

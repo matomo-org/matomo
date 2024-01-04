@@ -278,7 +278,7 @@ class Http
 
         $httpAuth = '';
         if ($httpAuthIsUsed) {
-            $httpAuth = 'Authorization: Basic ' . base64_encode($httpUsername.':'.$httpPassword) . "\r\n";
+            $httpAuth = 'Authorization: Basic ' . base64_encode($httpUsername . ':' . $httpPassword) . "\r\n";
         }
 
         $httpEventParams = array(
@@ -318,19 +318,19 @@ class Http
              * described below
              * @ignore
              */
-                    Piwik::postEvent('Http.sendHttpRequest.end', array($aUrl, $httpEventParams, &$response, &$status, &$headers));
+            Piwik::postEvent('Http.sendHttpRequest.end', array($aUrl, $httpEventParams, &$response, &$status, &$headers));
 
-                    if ($destinationPath && file_exists($destinationPath)) {
-                        return true;
-                    }
-                    if ($getExtendedInfo) {
-                        return array(
-                            'status'  => $status,
-                            'headers' => $headers,
-                            'data'    => $response
-                        );
+            if ($destinationPath && file_exists($destinationPath)) {
+                return true;
+            }
+            if ($getExtendedInfo) {
+                return array(
+                    'status'  => $status,
+                    'headers' => $headers,
+                    'data'    => $response
+                );
             } else {
-                        return trim($response);
+                return trim($response);
             }
         }
 
@@ -452,7 +452,7 @@ class Http
                         throw new Exception('Expected server response code.  Got ' . rtrim($line, "\r\n"));
                     }
 
-                    $status = (integer)$m[2];
+                    $status = (int)$m[2];
 
                     // Informational 1xx or Client Error 4xx
                     if ($status < 200 || $status >= 400) {
@@ -503,7 +503,7 @@ class Http
 
                 // save expected content length for later verification
                 if (preg_match('/^Content-Length:\s*(\d+)/', $line, $m)) {
-                    $contentLength = (integer)$m[1];
+                    $contentLength = (int)$m[1];
                 }
 
                 self::parseHeaderLine($headers, $line);

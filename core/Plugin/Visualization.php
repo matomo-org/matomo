@@ -480,7 +480,7 @@ class Visualization extends ViewDataTable
                     ) {
                         $metadata = $itemMetaData;
                     }
-               }
+                }
             }
         }
 
@@ -727,8 +727,8 @@ class Visualization extends ViewDataTable
 
         if ($this->dataTable &&
             // Set doesn't have the method
-            !($this->dataTable instanceof DataTable\Map)
-            && empty($javascriptVariablesToSet['totalRows'])
+            !($this->dataTable instanceof DataTable\Map) &&
+            empty($javascriptVariablesToSet['totalRows'])
         ) {
             $javascriptVariablesToSet['totalRows'] =
                 $this->dataTable->getMetadata(DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME) ?: $this->dataTable->getRowsCount();
@@ -916,11 +916,13 @@ class Visualization extends ViewDataTable
      * subsequently apply formatting without needed to reload the dataset or reapply other filters. This method may
      * be removed in the future.
      *
+     * @param bool $forceFormatting if set to true, all metrics will be formatted and request parameter will be ignored
+     *
      * @internal
      */
-    protected function applyMetricsFormatting()
+    protected function applyMetricsFormatting(bool $forceFormatting = false)
     {
         $postProcessor = $this->makeDataTablePostProcessor(); // must be created after requestConfig is final
-        $this->dataTable = $postProcessor->applyMetricsFormatting($this->dataTable);
+        $this->dataTable = $postProcessor->applyMetricsFormatting($this->dataTable, $forceFormatting);
     }
 }

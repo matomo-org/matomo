@@ -13,7 +13,6 @@ use Piwik\Plugins\Ecommerce\Columns\ProductSku;
 
 class GetItemsSku extends BaseItem
 {
-
     protected function init()
     {
         parent::init();
@@ -24,5 +23,4 @@ class GetItemsSku extends BaseItem
 
         $this->subcategoryId = 'Goals_Products';
     }
-
 }

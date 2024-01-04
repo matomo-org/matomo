@@ -26,7 +26,6 @@ use Piwik\Plugin\Manager as PluginManager;
  */
 class Model
 {
-
     const NO_CHANGES_EXIST = 0;
     const CHANGES_EXIST = 1;
     const NEW_CHANGES_EXIST = 2;
@@ -119,8 +118,8 @@ class Model
             $params[] = $change['link'];
         }
 
-        $insertSql = 'INSERT IGNORE INTO ' . $table . ' ('.implode(',', $fields).') 
-                      VALUES ('.Common::getSqlStringFieldsArray($params).')';
+        $insertSql = 'INSERT IGNORE INTO ' . $table . ' (' . implode(',', $fields) . ') 
+                      VALUES (' . Common::getSqlStringFieldsArray($params) . ')';
 
         try {
             $this->db->query($insertSql, $params);
@@ -243,5 +242,4 @@ class Model
 
         return $this->changeItems;
     }
-
 }

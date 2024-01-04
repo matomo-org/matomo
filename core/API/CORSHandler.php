@@ -28,19 +28,19 @@ class CORSHandler
         if (empty($this->domains)) {
             return;
         }
-        
+
         Common::sendHeader('Vary: Origin');
-        
+
         // allow Piwik to serve data to all domains
         if (in_array("*", $this->domains)) {
-            
+
             Common::sendHeader('Access-Control-Allow-Credentials: true');
-            
+
             if (!empty($_SERVER['HTTP_ORIGIN'])) {
                 Common::sendHeader('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
                 return;
             }
-            
+
             Common::sendHeader('Access-Control-Allow-Origin: *');
             return;
         }

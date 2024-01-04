@@ -13,7 +13,6 @@ use Piwik\Common;
 
 class Console extends ApiRenderer
 {
-
     /**
      * @param $message
      * @param \Exception|\Throwable $exception
@@ -30,5 +29,4 @@ class Console extends ApiRenderer
     {
         Common::sendHeader('Content-Type: text/plain; charset=utf-8');
     }
-
 }

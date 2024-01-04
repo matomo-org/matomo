@@ -19,7 +19,6 @@ use Piwik\Plugins\Marketplace\tests\Framework\Mock\Service as TestService;
  */
 class ServiceTest extends IntegrationTestCase
 {
-
     /**
      * @var TestService
      */
@@ -61,5 +60,4 @@ class ServiceTest extends IntegrationTestCase
         $this->assertTrue(is_array($consumer));
         $this->assertNotEmpty($consumer);
     }
-
 }

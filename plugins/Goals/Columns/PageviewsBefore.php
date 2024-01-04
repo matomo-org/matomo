@@ -60,5 +60,4 @@ class PageviewsBefore extends ConversionDimension
 
         return $visitPageviews;
     }
-
 }

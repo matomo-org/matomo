@@ -18,7 +18,6 @@ use Piwik\Updater\Migration\Factory as MigrationFactory;
  */
 class Updates_0_1_2 extends PiwikUpdates
 {
-
     /**
      * @var MigrationFactory
      */

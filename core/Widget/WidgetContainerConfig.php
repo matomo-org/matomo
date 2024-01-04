@@ -137,5 +137,4 @@ class WidgetContainerConfig extends WidgetConfig
         $params['containerId'] = $this->getId();
         return $params;
     }
-
 }

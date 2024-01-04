@@ -179,7 +179,7 @@ class Pdf extends ReportRenderer
 
         // footer
         $this->TCPDF->SetFooterFont(array($this->reportFont, $this->reportFontStyle, $this->reportSimpleFontSize));
-        $this->TCPDF->SetFooterContent((strlen($reportTitle) > 64 ? substr($reportTitle,0, 61) . "..." : $reportTitle) . " | " . $dateRange . " | ");
+        $this->TCPDF->SetFooterContent((strlen($reportTitle) > 64 ? substr($reportTitle, 0, 61) . "..." : $reportTitle) . " | " . $dateRange . " | ");
 
         // add first page
         $this->TCPDF->setPrintHeader(false);
@@ -256,9 +256,9 @@ class Pdf extends ReportRenderer
         $rowCount = $reportHasData ? $this->report->getRowsCount() + self::TABLE_HEADER_ROW_COUNT : self::NO_DATA_ROW_COUNT;
 
         // Only a page break before if the current report has some data
-        if ($reportHasData &&
+        if ($reportHasData
             // and
-            (
+            && (
                 // it is the first report
                 $this->currentPage == 0
                 // or, it is a graph-only report and it is the first of a series of self::MAX_GRAPH_REPORTS

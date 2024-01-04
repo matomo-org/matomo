@@ -54,7 +54,7 @@ class ScheduledReportsTest extends IntegrationTestCase
         $this->assertHasReport('userlogin', 4);
         $this->assertHasReport('otherUser', 1);
         $this->assertHasReport('anotherUser', 2);
-        
+
         $this->reports->deleteUserReportForSites('', array(1, 2, 3, 4));
 
         $this->assertHasReport('userlogin', 1);

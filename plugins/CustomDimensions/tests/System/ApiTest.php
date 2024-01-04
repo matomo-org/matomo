@@ -96,7 +96,6 @@ class ApiTest extends SystemTestCase
                     )
                 );
             }
-
         }
 
         $apiToTest[] = array($api, array(
@@ -269,7 +268,7 @@ class ApiTest extends SystemTestCase
             $this->markTestSkipped("Skipping test for scheduled reports, as system settings don't match.");
         }
         // Context change is needed, as otherwise the customdimension reports are not available
-        Context::changeIdSite(1, function(){
+        Context::changeIdSite(1, function() {
             $this->runApiTests(['ScheduledReports.generateReport'], [
                 'idSite'                 => 1,
                 'date'                   => self::$fixture->dateTime,
@@ -295,7 +294,6 @@ class ApiTest extends SystemTestCase
     {
         return dirname(__FILE__);
     }
-
 }
 
 ApiTest::$fixture = new TrackVisitsWithCustomDimensionsFixture();

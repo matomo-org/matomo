@@ -320,7 +320,6 @@ class Updater
             } catch (UpdaterErrorException $e) {
                 $this->executeListenerHook('onError', array($componentName, $fileVersion, $e));
                 throw $e;
-
             } catch (\Exception $e) {
                 $warningMessages[] = $e->getMessage();
 
@@ -505,7 +504,6 @@ class Updater
                         }
                     }
                 }
-
             });
         }
 
@@ -590,7 +588,6 @@ class Updater
             $this->executeListenerHook('onStartExecutingMigration', array($file, $migration));
 
             $migration->exec();
-
         } catch (\Exception $e) {
             if (!$migration->shouldIgnoreError($e)) {
                 $message = sprintf("%s:\nError trying to execute the migration '%s'.\nThe error was: %s",

@@ -66,7 +66,7 @@ class Mysql implements SchemaInterface
             'user_token_auth' => "CREATE TABLE {$prefixTables}user_token_auth (
                           idusertokenauth BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
                           login VARCHAR(100) NOT NULL,
-                          description VARCHAR(".Model::MAX_LENGTH_TOKEN_DESCRIPTION.") NOT NULL,
+                          description VARCHAR(" . Model::MAX_LENGTH_TOKEN_DESCRIPTION . ") NOT NULL,
                           password VARCHAR(191) NOT NULL,
                           hash_algo VARCHAR(30) NOT NULL,
                           system_token TINYINT(1) NOT NULL DEFAULT 0,
@@ -363,7 +363,7 @@ class Mysql implements SchemaInterface
                                   ) ENGINE=$engine DEFAULT CHARSET=$charset
             ",
             'locks'                   => "CREATE TABLE `{$prefixTables}locks` (
-                                      `key` VARCHAR(".Lock::MAX_KEY_LEN.") NOT NULL,
+                                      `key` VARCHAR(" . Lock::MAX_KEY_LEN . ") NOT NULL,
                                       `value` VARCHAR(255) NULL DEFAULT NULL,
                                       `expiry_time` BIGINT UNSIGNED DEFAULT 9999999999,
                                       PRIMARY KEY (`key`)
@@ -523,7 +523,7 @@ class Mysql implements SchemaInterface
         $dbName = str_replace('`', '', $dbName);
         $charset    = DbHelper::getDefaultCharset();
 
-        Db::exec("CREATE DATABASE IF NOT EXISTS `" . $dbName . "` DEFAULT CHARACTER SET ".$charset);
+        Db::exec("CREATE DATABASE IF NOT EXISTS `" . $dbName . "` DEFAULT CHARACTER SET " . $charset);
     }
 
     /**

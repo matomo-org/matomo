@@ -83,7 +83,7 @@ jobs:
       shell: bash
     - name: Push changes
       run: |
-          git commit -m "updates all submodules"
+          git commit -m "Update all submodules"
           git push --set-upstream origin submodules
       shell: bash
       if: steps.changes.outputs.message

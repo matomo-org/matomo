@@ -17,5 +17,4 @@ class ChangeColumnType extends ChangeColumn
     {
         parent::__construct($table, $columnName, $columnName, $columnType);
     }
-
 }

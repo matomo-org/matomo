@@ -57,5 +57,4 @@ class DevelopmentEnable extends ConsoleCommand
 
         return self::SUCCESS;
     }
-
 }

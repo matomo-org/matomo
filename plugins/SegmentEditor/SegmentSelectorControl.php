@@ -68,7 +68,7 @@ class SegmentSelectorControl extends UIControl
         $this->nameOfCurrentSegment = '';
         $this->isSegmentNotAppliedBecauseBrowserArchivingIsDisabled = 0;
 
-        $this->availableSegments = Request::processRequest("SegmentEditor.getAll", ['idSite' => $this->idSite], $defaultRequest = []);
+        $this->availableSegments = SegmentEditor::getAllSegmentsForSite($this->idSite);
         foreach ($this->availableSegments as &$savedSegment) {
             $savedSegment['name'] = Common::sanitizeInputValue($savedSegment['name']);
 
@@ -150,5 +150,4 @@ class SegmentSelectorControl extends UIControl
 
         return (bool) Config::getInstance()->General['enable_create_realtime_segments'];
     }
-
 }

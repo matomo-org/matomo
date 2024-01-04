@@ -107,5 +107,4 @@ class SegmentFormatterTest extends IntegrationTestCase
         $invalidOperator = '=!';
         $this->formatter->getHumanReadable($segment = 'pageUrl' . $invalidOperator . '1.0', $this->idSite);
     }
-
 }

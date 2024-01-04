@@ -13,7 +13,6 @@ use Piwik\Common;
 
 class Xml extends ApiRenderer
 {
-
     public function renderSuccess($message)
     {
         return "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n" .
@@ -39,5 +38,4 @@ class Xml extends ApiRenderer
     {
         Common::sendHeader('Content-Type: text/xml; charset=utf-8');
     }
-
 }

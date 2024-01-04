@@ -37,5 +37,4 @@ abstract class BaseSettingsTable implements BackendInterface
             $this->db = Db::get();
         }
     }
-
 }

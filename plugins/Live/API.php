@@ -164,7 +164,7 @@ class API extends \Piwik\Plugin\API
                     return Live::isVisitorLogEnabled($idSite);
                 });
                 if (empty($filteredSites)) {
-                    throw new Exception('Visits log is deactivated for all given websites (idSite='.$idSite.').');
+                    throw new Exception('Visits log is deactivated for all given websites (idSite=' . $idSite . ').');
                 }
             } else {
                 Live::checkIsVisitorLogEnabled($idSites);

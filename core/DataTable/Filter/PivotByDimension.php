@@ -484,7 +484,9 @@ class PivotByDimension extends BaseFilter
         }
 
         // remove column sums from array so it can be used as a default row
-        $columnSet = array_map(function () { return false; }, $columnSet);
+        $columnSet = array_map(function () {
+            return false;
+        }, $columnSet);
 
         // make sure label column is first
         $columnSet = array('label' => false) + $columnSet;

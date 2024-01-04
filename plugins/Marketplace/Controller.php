@@ -134,6 +134,16 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         ));
     }
 
+
+    public function manageLicenseKey()
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        return $this->renderTemplate('@Marketplace/manageLicenseKey', array(
+            'hasValidLicenseKey' => $this->licenseKey->has() && $this->consumer->isValidConsumer(),
+        ));
+    }
+
     private function getPrettyLongDate($date)
     {
         if (empty($date)) {
@@ -322,7 +332,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 try {
 
                     $this->pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
-
                 } catch (\Exception $e) {
 
                     $notification          = new Notification($e->getMessage());
@@ -439,7 +448,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
             try {
                 $this->pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
-
             } catch (\Exception $e) {
 
                 $notification = new Notification($e->getMessage());
@@ -521,5 +529,4 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         return $view;
     }
-
 }

@@ -40,13 +40,13 @@ class OverwriteUserIdFixture extends Fixture
         foreach (array('user1', 'user2', 'user3') as $key => $userId) {
             for ($numVisits = 0; $numVisits < 2; $numVisits++) {
                 $t->setUserId($userId);
-                $t->setIp('10.10.10.' . ($key+1) . $numVisits);
+                $t->setIp('10.10.10.' . ($key + 1) . $numVisits);
                 // each time we have a different visitorId and it should create many unique visitors and not just a unique
                 // visitor per user. We don't force a new visit so this should create multiple visits each time even though
                 // visitorId is always the same
                 // If userId was to overwrite the visitorId then we would only see 1 visit for each visitor, but here we see
                 // multiple visits since the visitorId always changes even though userId stays the same
-                $t->setVisitorId(substr(md5($numVisits.$key.$userId), 0, 16));
+                $t->setVisitorId(substr(md5($numVisits . $key . $userId), 0, 16));
                 $t->setUrl('http://example.org/my/dir/page' . $numVisits);
 
                 $visitDateTime = Date::factory($this->dateTime)->addPeriod($numVisits, 'minute')->getDatetime();

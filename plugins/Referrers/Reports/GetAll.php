@@ -57,5 +57,4 @@ class GetAll extends Base
 
         $view->config->filters[] = array('MetadataCallbackAddMetadata', array('referer_type', 'html_label_prefix', $setGetAllHtmlPrefix));
     }
-
 }

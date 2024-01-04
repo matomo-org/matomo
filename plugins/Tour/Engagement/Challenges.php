@@ -115,6 +115,4 @@ class Challenges
 
         return $challenges;
     }
-
-
 }

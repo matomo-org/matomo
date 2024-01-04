@@ -29,7 +29,7 @@ class PhpSettingsCheck implements Diagnostic
         $label = $this->translator->translate('Installation_SystemCheckSettings');
 
         $result = new DiagnosticResult($label);
-        
+
         foreach ($this->getRequiredSettings() as $setting) {
             if (!$setting->check()) {
                 $status = $setting->getErrorResult();
@@ -56,7 +56,7 @@ class PhpSettingsCheck implements Diagnostic
     private function getRequiredSettings()
     {
         $requiredSettings[] = new RequiredPhpSetting('session.auto_start', 0);
-    
+
         $maxExecutionTime = new RequiredPhpSetting('max_execution_time', 0);
         $maxExecutionTime->addRequiredValue(-1, '=');
         $maxExecutionTime->addRequiredValue(30, '>=');

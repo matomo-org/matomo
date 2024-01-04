@@ -17,7 +17,6 @@ use Spyc;
 
 class ConfigGet extends ConsoleCommand
 {
-
     //SystemConfigSetting throws an error if the setting name is empty, so use a fake one that is unlikely to actually exist, which we will check for later.
     private const NO_SETTING_NAME_FOUND_PLACEHOLDER = 'ConfigGet_FAKE_SETTING_NAME';
     // Valid output formats.

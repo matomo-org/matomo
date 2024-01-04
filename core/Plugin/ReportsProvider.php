@@ -42,7 +42,7 @@ class ReportsProvider
 
         $klassName = $listApiToReport[$api];
 
-        return new $klassName;
+        return new $klassName();
     }
 
     private static function getMapOfModuleActionsToReport()
@@ -238,7 +238,6 @@ class ReportsProvider
                     }
 
                     return $subcatA->getOrder() < $subcatB->getOrder() ? -1 : 1;
-
                 } elseif ($subcatA) {
                     return 1;
                 } elseif ($subcatB) {
@@ -253,7 +252,6 @@ class ReportsProvider
             }
 
             return $catA->getOrder() < $catB->getOrder() ? -1 : 1;
-
         } elseif (isset($catA)) {
             return -1;
         } elseif (isset($catB)) {

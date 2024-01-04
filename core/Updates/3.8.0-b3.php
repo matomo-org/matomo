@@ -58,6 +58,5 @@ class Updates_3_8_0_b3 extends PiwikUpdates
                 }
             }
         }
-
     }
 }
