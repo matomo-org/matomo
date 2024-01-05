@@ -1155,6 +1155,7 @@ Languages[] = eu
 Languages[] = fa
 Languages[] = fi
 Languages[] = fr
+Languages[] = gu
 Languages[] = gl
 Languages[] = he
 Languages[] = hi
