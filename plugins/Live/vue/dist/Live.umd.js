@@ -439,7 +439,7 @@ var LastVisits_window = window,
     LastVisits_$ = LastVisits_window.$;
 /* harmony default export */ var LastVisits = ({
   mounted: function mounted(el) {
-    LastVisits_$(el).on('click', '.visits-live-launch-visitor-profile', function onClickLaunchProfile(e) {
+    LastVisits_$(el).off('click').on('click', '.visits-live-launch-visitor-profile', function onClickLaunchProfile(e) {
       e.preventDefault();
       window.broadcast.propagateNewPopoverParameter('visitorProfile', LastVisits_$(this).attr('data-visitor-id'));
       return false;
