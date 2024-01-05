@@ -408,16 +408,16 @@
         },
         {
             "name": "matomo/device-detector",
-            "version": "6.2.0",
+            "version": "6.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/device-detector.git",
-                "reference": "3577abbfea71eaf88d4cd432274428c39601754f"
+                "reference": "19138b0c4b9ddf4ffd8e423d6af3764b7317cb0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/3577abbfea71eaf88d4cd432274428c39601754f",
-                "reference": "3577abbfea71eaf88d4cd432274428c39601754f",
+                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/19138b0c4b9ddf4ffd8e423d6af3764b7317cb0b",
+                "reference": "19138b0c4b9ddf4ffd8e423d6af3764b7317cb0b",
                 "shasum": ""
             },
             "require": {
@@ -429,8 +429,8 @@
             },
             "require-dev": {
                 "matthiasmullie/scrapbook": "^1.4.7",
-                "mayflower/mo4-coding-standard": "^v8.0.0",
-                "phpstan/phpstan": "^0.12.52",
+                "mayflower/mo4-coding-standard": "^v9.0.0",
+                "phpstan/phpstan": "^1.10.44",
                 "phpunit/phpunit": "^8.5.8",
                 "psr/cache": "^1.0.1",
                 "psr/simple-cache": "^1.0.1",
@@ -473,7 +473,7 @@
                 "source": "https://github.com/matomo-org/matomo",
                 "wiki": "https://dev.matomo.org/"
             },
-            "time": "2023-11-15T09:44:42+00:00"
+            "time": "2024-01-05T09:03:21+00:00"
         },
         {
             "name": "matomo/doctrine-cache-fork",
