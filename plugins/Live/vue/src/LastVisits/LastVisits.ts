@@ -9,7 +9,7 @@ const { $ } = window;
 
 export default {
   mounted(el: HTMLElement): void {
-    $(el).on(
+    $(el).off('click').on(
       'click',
       '.visits-live-launch-visitor-profile',
       function onClickLaunchProfile(this: HTMLElement, e: Event) {
