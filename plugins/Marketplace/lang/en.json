@@ -44,7 +44,7 @@
         "LicenseMissingDeactivatedDescription": "%2$sRenew your license to keep using %1$s, or %3$sget a new license%4$s.",
         "PluginLicenseMissingDescription": "Renew your license or get a new one to download this plugin.",
         "LicenseExceeded": "License exceeded",
-        "LicenseExceededDescription": "%3$sUpgrade your license%4$s or remove users to keep using %1$s. %2$sThen you can also get new versions.",
+        "LicenseExceededDescription": "%3$sUpgrade your license%4$s or remove users to keep using %1$s.%2$sThen you can also get new versions.",
         "PluginLicenseExceededDescription": "Upgrade your license or remove users to keep using this plugin.",
         "LicenseExpired": "License expired",
         "LicenseExpiredDescription": "%3$sRenew your license%4$s to get new versions of %1$s.",
