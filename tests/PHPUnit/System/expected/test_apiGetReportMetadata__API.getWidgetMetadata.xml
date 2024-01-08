@@ -4045,27 +4045,6 @@
 		<isWide>0</isWide>
 	</row>
 	<row>
-		<name>SEO Rankings</name>
-		<category>
-			<id>SEO</id>
-			<name>SEO</name>
-			<order>99</order>
-			<icon />
-			<help />
-			<widget />
-		</category>
-		<subcategory />
-		<module>SEO</module>
-		<action>getRank</action>
-		<order>99</order>
-		<parameters>
-			<module>SEO</module>
-			<action>getRank</action>
-		</parameters>
-		<uniqueId>widgetSEOgetRank</uniqueId>
-		<isWide>0</isWide>
-	</row>
-	<row>
 		<name>Become a Matomo expert</name>
 		<category>
 			<id>About Matomo</id>

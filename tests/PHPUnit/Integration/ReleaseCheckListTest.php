@@ -225,8 +225,6 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             PIWIK_INCLUDE_PATH . '/plugins/CoreUpdater/templates/layout.twig',
             PIWIK_INCLUDE_PATH . '/plugins/Installation/templates/layout.twig',
             PIWIK_INCLUDE_PATH . '/plugins/Login/templates/loginLayout.twig',
-            PIWIK_INCLUDE_PATH . '/plugins/SEO/tests/resources/whois_response.html',
-            PIWIK_INCLUDE_PATH . '/plugins/SEO/tests/resources/whoiscom_response.html',
             PIWIK_INCLUDE_PATH . '/tests/UI/screenshot-diffs/singlediff.html',
 
             // Note: entries below are paths and any file within these paths will be automatically allowed

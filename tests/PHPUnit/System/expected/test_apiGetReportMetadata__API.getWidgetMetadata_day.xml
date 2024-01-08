@@ -1900,23 +1900,6 @@
 		<uniqueId>widgetExamplePluginmyExampleWidget</uniqueId>
 	</row>
 	<row>
-		<name>SEO Rankings</name>
-		<category>
-			<name>SEO</name>
-			<order>99</order>
-			<id>SEO</id>
-		</category>
-		<subcategory />
-		<module>SEO</module>
-		<action>getRank</action>
-		<order>99</order>
-		<parameters>
-			<module>SEO</module>
-			<action>getRank</action>
-		</parameters>
-		<uniqueId>widgetSEOgetRank</uniqueId>
-	</row>
-	<row>
 		<name>Piwik.org Blog</name>
 		<category>
 			<name>Example Widgets</name>
