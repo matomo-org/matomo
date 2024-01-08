@@ -369,7 +369,15 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             return '';
         }
 
-        $detectedCms = $this->siteContentDetector->getSiteContentDetectionById(reset($detectedCMSes));
+        $detectedCms = null;
+
+        foreach ($detectedCMSes as $detected) {
+            $detectedCms = $this->siteContentDetector->getSiteContentDetectionById($detected);
+
+            if (null !== $detectedCms && !empty($detectedCms::getInstructionUrl())) {
+                break;
+            }
+        }
 
         if (null === $detectedCms || empty($detectedCms::getInstructionUrl())) {
             return '';
