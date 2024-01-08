@@ -444,7 +444,8 @@
         "SmtpPort": "SMTP પોર્ટ",
         "SmtpServerAddress": "SMTP સર્વર સરનામું",
         "SmtpUsername": "SMTP વપરાશકર્તા નામ",
-        "Source": "સ્ત્રોત"
+        "Source": "સ્ત્રોત",
+        "TranslatorName": "Kalpesh Mahida"
     },
     "Mobile": {
         "ChooseSegment": "અંશ પસંદ કરો"
