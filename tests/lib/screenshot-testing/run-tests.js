@@ -20,17 +20,17 @@ require('./support/fs-extras');
 main();
 
 async function main() {
-    const browser = await puppeteer.launch({ args: ['--no-sandbox', '--ignore-certificate-errors'] });
-    const webpage = await browser.newPage();
-    await webpage._client.send('Animation.setPlaybackRate', { playbackRate: 50 }); // make animations run 50 times faster, so we don't have to wait as much
-
-    // required modules
+    // require config and local config overrides
     let config = require("./../../UI/config.dist");
     try {
         config = Object.assign({}, config, require("./../../UI/config"));
     } catch (e) {
         // ignore
     }
+
+    const browser = await puppeteer.launch(config.browserConfig);
+    const webpage = await browser.newPage();
+    await webpage._client.send('Animation.setPlaybackRate', { playbackRate: 50 }); // make animations run 50 times faster, so we don't have to wait as much
 
     // assume the URI points to a folder and make sure Piwik won't cut off the last path segment
     if (config.phpServer.REQUEST_URI.slice(-1) !== '/') {
