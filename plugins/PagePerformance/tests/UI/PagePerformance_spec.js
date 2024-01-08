@@ -79,6 +79,34 @@ describe("PagePerformance", function () {
         expect(await pageWrap.screenshot()).to.matchImage('pageurl_overlay');
     });
 
+    it("should work with flattened report", async function () {
+        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Pages");
+
+        // make report flattened
+        await page.click('.dropdownConfigureIcon');
+        await page.click('.dataTableFlatten');
+        await page.waitForNetworkIdle();
+
+        // click page performance icon
+        const row = await page.waitForSelector('.dataTable tbody tr:first-child');
+        await row.hover();
+
+        const icon = await page.waitForSelector('.dataTable tbody tr:first-child a.actionPagePerformance');
+        await icon.click();
+
+        await page.waitForNetworkIdle();
+
+        const pageWrap = await page.waitForSelector('.ui-dialog');
+
+        await page.hover('.piwik-graph');
+        await page.waitForSelector('.ui-tooltip', { visible: true });
+
+        await ensureTooltipIsVisibleInScreenshot();
+        await page.waitForTimeout(100);
+
+        expect(await pageWrap.screenshot()).to.matchImage('pageurl_overlay_flattened');
+    });
+
     it("should show new table with performance metrics visualization in selection", async function () {
         await page.goto("?module=Widgetize&action=iframe&disableLink=0&widget=1&moduleToWidgetize=Actions&actionToWidgetize=getPageUrls&" + generalParams);
 
