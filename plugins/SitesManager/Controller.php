@@ -371,7 +371,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $detectedCms = $this->siteContentDetector->getSiteContentDetectionById(reset($detectedCMSes));
 
-        if (null === $detectedCms) {
+        if (null === $detectedCms || empty($detectedCms::getInstructionUrl())) {
             return '';
         }
 
