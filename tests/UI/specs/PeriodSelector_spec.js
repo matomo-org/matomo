@@ -140,7 +140,7 @@ describe("PeriodSelector", function () {
         };
 
         it('should select "previous period" from URL', async function () {
-          await page.goto(url + '&comparePeriods[]=day&comparePeriodType=previousPeriod&compareDates[]=2011-31-12');
+          await page.goto(url + '&comparePeriods[]=day&comparePeriodType=previousPeriod&compareDates[]=2011-12-31');
           await page.waitForNetworkIdle();
 
           expect(await getSelectedPeriodType()).to.match(/Period/);
