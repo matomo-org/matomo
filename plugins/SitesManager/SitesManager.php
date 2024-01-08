@@ -452,7 +452,6 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = 'SitesManager_ShowTrackingTag';
         $translationKeys[] = 'SitesManager_SiteSearchUse';
         $translationKeys[] = 'SitesManager_SiteWithoutDataChooseTrackingMethod';
-        $translationKeys[] = 'SitesManager_SiteWithoutDataCloudflareDescription';
         $translationKeys[] = 'SitesManager_SiteWithoutDataGoogleTagManager';
         $translationKeys[] = 'SitesManager_SiteWithoutDataGoogleTagManagerDescription';
         $translationKeys[] = 'SitesManager_SiteWithoutDataHidePageForHour';
