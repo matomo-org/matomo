@@ -82,7 +82,6 @@
         "ShowTrackingTag": "View Tracking code",
         "Sites": "Websites",
         "SiteSearchUse": "You can use Matomo to track and report what visitors are searching in your website's internal search engine.",
-        "SiteWithoutDataCloudflareIntro": "If you use Cloudflare, you can start tracking data in Matomo seamlessly using the Matomo App available in Cloudflare.",
         "SiteWithoutDataCloudflareFollowStepsIntro": "Follow these steps to set it up:",
         "SiteWithoutDataOtherWays": "Other ways",
         "SiteWithoutDataOtherIntegrations": "Other integrations",
