@@ -131,17 +131,17 @@ describe("EmptySite", function () {
     testEnvironment.connectedConsentManagers = [];
     testEnvironment.save();
 
-    await page.goto(urlToTest + "#?" + generalParams + "&activeTab=cloudflare");
+    await page.goto(urlToTest + "#?" + generalParams + "&activeTab=integrations");
     await page.waitForSelector('#start-tracking-details'); // wait till details ar shown
     await makeTrackingCodeStatic();
 
     const pageElement = await page.$('.page');
-    expect(await pageElement.screenshot()).to.matchImage('cloudflare');
+    expect(await pageElement.screenshot()).to.matchImage('integrations');
   });
 
   // take one full screenshot when a detected method is shown
-  it('should suggest cloudflare method when detected, other detections should be shown first', async function () {
-    testEnvironment.detectedContentDetections = ['Cloudflare', 'VueJs'];
+  it('should suggest wordpress method when detected, other detections should be shown first', async function () {
+    testEnvironment.detectedContentDetections = ['WordPress', 'VueJs'];
     testEnvironment.connectedConsentManagers = [];
     testEnvironment.save();
 
@@ -150,12 +150,12 @@ describe("EmptySite", function () {
     await page.waitForSelector('#start-tracking-method-list'); // wait till list is shown
 
     const pageElement = await page.$('.page');
-    expect(await pageElement.screenshot()).to.matchImage('detected_cloudflare');
+    expect(await pageElement.screenshot()).to.matchImage('detected_wordpress');
   });
 
   // only take shots from recommended method for other detections
   it('should prefer gtm method over others when detected', async function () {
-    testEnvironment.detectedContentDetections = ['GoogleTagManager', 'WordPress', 'Cloudflare'];
+    testEnvironment.detectedContentDetections = ['GoogleTagManager', 'WordPress', 'VueJs'];
     testEnvironment.connectedConsentManagers = [];
     testEnvironment.save();
 
@@ -166,20 +166,6 @@ describe("EmptySite", function () {
     const pageElement = await page.$('#start-tracking-detection');
     expect(await pageElement.screenshot()).to.matchImage('detected_gtm');
   });
-
-  it('should prefer wordpress method over cloudflare when detected', async function () {
-    testEnvironment.detectedContentDetections = ['WordPress', 'Cloudflare'];
-    testEnvironment.connectedConsentManagers = [];
-    testEnvironment.save();
-
-    await page.goto('about:blank');
-    await page.goto(urlToTest);
-    await page.waitForSelector('#start-tracking-method-list'); // wait till list is shown
-
-    const pageElement = await page.$('#start-tracking-detection');
-    expect(await pageElement.screenshot()).to.matchImage('detected_wordpress');
-  });
-
 
   it('should should show a notification on the tracking code screen when a consent manager is detected', async function () {
     testEnvironment.detectedContentDetections = ['Osano'];

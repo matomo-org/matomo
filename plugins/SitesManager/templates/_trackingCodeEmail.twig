@@ -14,10 +14,6 @@
 {{ 'SitesManager_GTMDetectedEmail'|translate(externalrawlink('https://matomo.org/faq/tag-manager/migrating-from-google-tag-manager/'))|raw }}
 
 {% endif %}
-{% if 'Cloudflare' in cms %}
-{{ 'SitesManager_CloudflareDetectedEmail'|translate(externalrawlink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-my-cloudflare-setup/'))|raw }}
-
-{% endif %}
 
 {% if 'VueJs' in jsFrameworks %}
     {{ 'SitesManager_VueDetectedEmail'|translate('vue-matomo', externalrawlink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-websites-that-use-vue-js/'))|raw }}
