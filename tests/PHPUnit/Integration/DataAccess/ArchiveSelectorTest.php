@@ -25,6 +25,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 /**
  * @group Core
  * @group Integration
+ * @group ArchiveSelectorTest
  */
 class ArchiveSelectorTest extends IntegrationTestCase
 {
@@ -61,24 +62,47 @@ class ArchiveSelectorTest extends IntegrationTestCase
 
         $this->insertArchiveData($archiveRows);
 
-        $archiveIds = ArchiveSelector::getArchiveIds([1], [Factory::build('day', '2020-03-01')], new Segment('', [1]), ['Funnels'],
-            true, true);
+        [$archiveIds, $archiveStates] = ArchiveSelector::getArchiveIdsAndStates(
+            [1],
+            [Factory::build('day', '2020-03-01')],
+            new Segment('', [1]),
+            ['Funnels'],
+            true,
+            true
+        );
 
-        $expected = [
+        $expectedArchiveIds = [
             'done.Funnels' => [
-                '2020-03-01,2020-03-01' => [
-                    '16',
+                '2020-03-01,2020-03-01' => ['16'],
+            ],
+        ];
+
+        $expectedArchiveStates = [
+            1 => [
+                'done.Funnels' => [
+                    '2020-03-01,2020-03-01' => [
+                        16 => 5,
+                    ],
                 ],
             ],
         ];
-        $this->assertEquals($expected, $archiveIds);
+
+        $this->assertEquals($expectedArchiveIds, $archiveIds);
+        $this->assertEquals($expectedArchiveStates, $archiveStates);
     }
 
     /**
      * @dataProvider getTestDataForGetArchiveIds
      */
-    public function test_getArchiveIds_returnsCorrectResult($archiveRows, $siteIds, $periods, $segment, $plugins, $expected)
-    {
+    public function test_getArchiveIds_returnsCorrectResult(
+        $archiveRows,
+        $siteIds,
+        $periods,
+        $segment,
+        $plugins,
+        $expectedArchiveIds,
+        $expectedArchiveStates
+    ) {
         Fixture::createWebsite('2010-02-02 00:00:00');
         Fixture::createWebsite('2010-02-02 00:00:00');
 
@@ -88,9 +112,24 @@ class ArchiveSelectorTest extends IntegrationTestCase
 
         $this->insertArchiveData($archiveRows);
 
-        $archiveIds = ArchiveSelector::getArchiveIds($siteIds, $periods, new Segment($segment, $siteIds), $plugins);
+        [$archiveIds, $archiveStates] = ArchiveSelector::getArchiveIdsAndStates(
+            $siteIds,
+            $periods,
+            new Segment($segment, $siteIds),
+            $plugins
+        );
 
-        $this->assertEquals($expected, $archiveIds);
+        $this->assertEquals($expectedArchiveIds, $archiveIds);
+        $this->assertEquals($expectedArchiveStates, $archiveStates);
+
+        $archiveIds = ArchiveSelector::getArchiveIds(
+            $siteIds,
+            $periods,
+            new Segment($segment, $siteIds),
+            $plugins
+        );
+
+        $this->assertEquals($expectedArchiveIds, $archiveIds);
     }
 
     public function getTestDataForGetArchiveIds()
@@ -117,8 +156,56 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 [],
                 [
                     'done' => [
-                        '2020-03-01,2020-03-01' => [1],
-                        '2020-03-02,2020-03-08' => [2],
+                        '2020-03-01,2020-03-01' => ['1'],
+                        '2020-03-02,2020-03-08' => ['2'],
+                    ],
+                ],
+                [
+                    1 => [
+                        'done' => [
+                            '2020-03-01,2020-03-01' => [
+                                1 => 1,
+                            ],
+                            '2020-03-02,2020-03-08' => [
+                                2 => 4,
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+
+            // two sites with results
+            [
+                [
+                    ['idarchive' => 1, 'idsite' => 1, 'period' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-01', 'name' => 'done', 'value' => 1],
+                    ['idarchive' => 2, 'idsite' => 2, 'period' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-01', 'name' => 'done', 'value' => 1],
+                ],
+                [1, 2],
+                [
+                    ['day', '2020-03-01'],
+                    ['week', '2020-03-02'],
+                ],
+                '',
+                [],
+                [
+                    'done' => [
+                        '2020-03-01,2020-03-01' => ['1', '2'],
+                    ],
+                ],
+                [
+                    1 => [
+                        'done' => [
+                            '2020-03-01,2020-03-01' => [
+                                1 => 1,
+                            ],
+                        ],
+                    ],
+                    2 => [
+                        'done' => [
+                            '2020-03-01,2020-03-01' => [
+                                2 => 1,
+                            ],
+                        ],
                     ],
                 ],
             ],
@@ -147,10 +234,27 @@ class ArchiveSelectorTest extends IntegrationTestCase
                 ['Funnels'],
                 [
                     'done' => [
-                        '2020-03-01,2020-03-01' => [10,4],
+                        '2020-03-01,2020-03-01' => ['10', '4'],
                     ],
                     'done.Funnels' => [
-                        '2020-03-01,2020-03-01' => [7,6,5],
+                        '2020-03-01,2020-03-01' => ['7', '6', '5'],
+                    ],
+                ],
+                [
+                    1 => [
+                        'done' => [
+                            '2020-03-01,2020-03-01' => [
+                                10 => '5',
+                                4 => '1',
+                            ],
+                        ],
+                        'done.Funnels' => [
+                            '2020-03-01,2020-03-01' => [
+                                7 => 5,
+                                6 => 5,
+                                5 => 5,
+                            ],
+                        ],
                     ],
                 ],
             ],
