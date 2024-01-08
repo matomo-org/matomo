@@ -8,7 +8,7 @@
  */
 
 /**
- * The root Piwik URL to test against.
+ * The root Matomo URL to test against.
  */
 exports.piwikUrl = "http://localhost/";
 
@@ -67,3 +67,10 @@ exports.processedScreenshotsDir = "./processed-ui-screenshots";
  * The directory that stores screenshot diffs. Relative to the UI repo's root directory.
  */
 exports.screenshotDiffDir = "./screenshot-diffs";
+
+/**
+ * The config object passed to the headless browser used by Puppeteer
+ */
+exports.browserConfig = {
+    args: ['--no-sandbox', '--ignore-certificate-errors']
+};
