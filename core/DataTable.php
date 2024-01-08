@@ -168,6 +168,9 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 {
     const MAX_DEPTH_DEFAULT = 15;
 
+    /** Name for metadata that describes the archiving state of a report */
+    const ARCHIVE_STATE_METADATA_NAME = 'archive_state';
+
     /** Name for metadata that describes when a report was archived. */
     const ARCHIVED_DATE_METADATA_NAME = 'ts_archived';
 
@@ -220,6 +223,9 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     const EXTRA_PROCESSED_METRICS_METADATA_NAME = 'extra_processed_metrics';
 
     const ROW_IDENTIFIER_METADATA_NAME = 'rowIdentifier';
+
+    const ID_ARCHIVE_STATE_COMPLETE = 'complete';
+    const ID_ARCHIVE_STATE_INCOMPLETE = 'incomplete';
 
     /**
      * Maximum nesting level.

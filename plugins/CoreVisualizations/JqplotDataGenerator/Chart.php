@@ -20,9 +20,14 @@ class Chart
 {
     // the data kept here conforms to the jqplot data layout
     // @see http://www.jqplot.com/docs/files/jqPlotOptions-txt.html
-    protected $series = array();
-    protected $data = array();
-    protected $axes = array();
+    protected $series = [];
+    protected $data = [];
+    protected $axes = [];
+
+    /**
+     * @var array<string>
+     */
+    protected $archiveStates = [];
 
     // temporary
     public $properties;
@@ -145,13 +150,14 @@ class Chart
         ProxyHttp::overrideCacheControlHeaders();
 
         // See http://www.jqplot.com/docs/files/jqPlotOptions-txt.html
-        $data = array(
-            'params' => array(
-                'axes'   => &$this->axes,
-                'series' => &$this->series
-            ),
-            'data'   => &$this->data
-        );
+        $data = [
+            'params' => [
+                'axes' => &$this->axes,
+                'series' => &$this->series,
+            ],
+            'data' => &$this->data,
+            'archiveStates' => &$this->archiveStates,
+        ];
 
         return $data;
     }
@@ -169,6 +175,14 @@ class Chart
             // to the jqplot config
             $this->series[$seriesIndex]['_xaxis'] = $axisName;
         }
+    }
+
+    /**
+     * @param array<string> $archiveStates
+     */
+    public function setArchiveStates(array $archiveStates): void
+    {
+        $this->archiveStates = $archiveStates;
     }
 
     private function getXAxis($index)

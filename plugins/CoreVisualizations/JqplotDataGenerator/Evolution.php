@@ -73,7 +73,7 @@ class Evolution extends JqplotDataGenerator
 
         $columnsToDisplay = array_values($this->properties['columns_to_display']);
 
-        list($seriesMetadata, $seriesUnits, $seriesLabels, $seriesToXAxis) =
+        [$seriesMetadata, $seriesUnits, $seriesLabels, $seriesToXAxis] =
             $this->getSeriesMetadata($rowsToDisplay, $columnsToDisplay, $units, $dataTables);
 
         // collect series data to show. each row-to-display/column-to-display permutation creates a series.
@@ -139,6 +139,8 @@ class Evolution extends JqplotDataGenerator
             }
             $visualization->setAxisXOnClick($axisXOnClick);
         }
+
+        $this->setArchiveStates($visualization, $dataTables);
     }
 
     private function getSeriesData($rowLabel, $columnName, DataTable\Map $dataTable)
@@ -311,7 +313,7 @@ class Evolution extends JqplotDataGenerator
 
                         $seriesUnits[$wholeSeriesLabel] = $units[$columnName];
 
-                        list($periodIndex, $segmentIndex) = DataComparisonFilter::getIndividualComparisonRowIndices($table, $seriesIndex);
+                        [$periodIndex, $segmentIndex] = DataComparisonFilter::getIndividualComparisonRowIndices($table, $seriesIndex);
                         $seriesToXAxis[] = $periodIndex;
                     }
                 } else {
@@ -322,5 +324,25 @@ class Evolution extends JqplotDataGenerator
         }
 
         return [$seriesMetadata, $seriesUnits, $seriesLabels, $seriesToXAxis];
+    }
+
+    /**
+     * @param array<DataTable> $dataTables
+     */
+    private function setArchiveStates(Chart $visualization, array $dataTables): void
+    {
+        $archiveStates = [];
+
+        foreach (array_values($dataTables) as $index => $dataTable) {
+            $state = $dataTable->getMetadata(DataTable::ARCHIVE_STATE_METADATA_NAME);
+
+            if (false === $state) {
+                $state = DataTable::ID_ARCHIVE_STATE_COMPLETE;
+            }
+
+            $archiveStates[$index] = $state;
+        }
+
+        $visualization->setArchiveStates($archiveStates);
     }
 }

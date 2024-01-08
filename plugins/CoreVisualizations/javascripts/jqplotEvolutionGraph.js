@@ -165,8 +165,10 @@
                         `;
                     }
 
-                    if (self.jqplotParams.incompleteDataPoints.includes(tick)) {
-                        content += `<br />(${self._lang.incompletePeriod})`;
+                    switch (self.jqplotParams.archiveStates[tick]) {
+                        case 'incomplete':
+                            content += `<br />(${self._lang.incompletePeriod})`;
+                            break;
                     }
 
                     $(this).tooltip({

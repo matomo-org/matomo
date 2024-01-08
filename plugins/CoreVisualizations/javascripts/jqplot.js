@@ -73,7 +73,7 @@ function rowEvolutionGetMetricNameFromRow(tr)
 
             this.data = graphData.data;
             this._setJqplotParameters(graphData.params);
-            this._setIncompleteDataPoints(graphData.incompleteDataPoints);
+            this._setArchiveStates(graphData.archiveStates);
 
             if (this.props.display_percentage_in_tooltip) {
                 this._setTooltipPercentages();
@@ -95,11 +95,11 @@ function rowEvolutionGetMetricNameFromRow(tr)
             setTimeout(function () { self.render(); }, 1);
         },
 
-        _setIncompleteDataPoints: function (incompleteDataPoints) {
-            this.jqplotParams.incompleteDataPoints = [];
+        _setArchiveStates: function (archiveStates) {
+            this.jqplotParams.archiveStates = [];
 
-            if (Array.isArray(incompleteDataPoints)) {
-                this.jqplotParams.incompleteDataPoints = incompleteDataPoints;
+            if (Array.isArray(archiveStates)) {
+                this.jqplotParams.archiveStates = archiveStates;
             }
 
             let tickCount = 0;
@@ -137,7 +137,7 @@ function rowEvolutionGetMetricNameFromRow(tr)
 
             try {
                 if (piwikPeriods.parse(period, this.param.date).containsToday()) {
-                    this.jqplotParams.incompleteDataPoints.push(tickCount - 1);
+                    this.jqplotParams.archiveStates[tickCount - 1] = 'incomplete';
                 }
             } catch (e) {
                 // ignore period parsing error
@@ -1419,12 +1419,12 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         var xmin, ymin, xmax, ymax;
 
         // Only change in this overridden method, to pass the option to the renderers
-        if (plot.options.hasOwnProperty('incompleteDataPoints')) {
-            opts.incompleteDataPoints = plot.options.incompleteDataPoints;
+        if (plot.options.hasOwnProperty('archiveStates')) {
+            opts.archiveStates = plot.options.archiveStates;
         }
 
-        if (!Array.isArray(opts.incompleteDataPoints)) {
-            opts.incompleteDataPoints = [];
+        if (!Array.isArray(opts.archiveStates)) {
+            opts.archiveStates = [];
         }
 
         ctx.save();
@@ -1639,7 +1639,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
 
                     const markerOptions = opts.markerOptions || {};
 
-                    markerOptions.isIncomplete = opts.incompleteDataPoints.includes(i);
+                    markerOptions.isIncomplete = opts.archiveStates[i] && opts.archiveStates[i] !== 'complete';
                     markerOptions.incompleteFillColor = plot.grid.background;
 
                     this.markerRenderer.draw(gd[i][0], gd[i][1], ctx, markerOptions);
@@ -1668,11 +1668,11 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         ctx.fillStyle = opts.fillStyle || this.fillStyle;
         ctx.beginPath();
 
-        let incompleteDataPoints = [];
+        let archiveStates = [];
 
-        if (!closePath && !fill && Array.isArray(opts.incompleteDataPoints)) {
+        if (!closePath && !fill && Array.isArray(opts.archiveStates)) {
             // only do the incomplete visualization for line charts
-            incompleteDataPoints = opts.incompleteDataPoints;
+            archiveStates = opts.archiveStates;
         }
 
         if (isarc) {
@@ -1738,7 +1738,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
             }
 
             // draw line to current point or skip if incomplete data point
-            if (incompleteDataPoints.includes(i)) {
+            if (archiveStates[i] && 'complete' !== archiveStates[i]) {
                 ctxPattern.moveTo(points[i][0], points[i][1]);
             } else {
                 ctxPattern.lineTo(points[i][0], points[i][1]);
@@ -1775,7 +1775,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
             }
 
             // draw dashed line to current point or skip if not incomplete data point
-            if (!incompleteDataPoints.includes(i)) {
+            if (!archiveStates[i] || 'complete' === archiveStates[i]) {
                 ctxPattern.moveTo(points[i][0], points[i][1]);
             } else {
                 ctxPattern.lineTo(points[i][0], points[i][1]);
@@ -1805,11 +1805,11 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         ctx.strokeStyle = opts.strokeStyle || this.strokeStyle || 'rgba(0,0,0,'+alpha+')';
         ctx.fillStyle = opts.fillStyle || this.fillStyle || 'rgba(0,0,0,'+alpha+')';
 
-        let incompleteDataPoints = [];
+        let archiveStates = [];
 
-        if (!closePath && !fill && Array.isArray(opts.incompleteDataPoints)) {
+        if (!closePath && !fill && Array.isArray(opts.archiveStates)) {
             // only do the incomplete visualization for line charts
-            incompleteDataPoints = opts.incompleteDataPoints;
+            archiveStates = opts.archiveStates;
         }
 
         for (let j= 0; j < depth; j++) {
@@ -1841,7 +1841,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
                     }
 
                     // draw shadow line to current point or skip if incomplete data point
-                    if (incompleteDataPoints.includes(i)) {
+                    if (archiveStates[i] && 'complete' !== archiveStates[i]) {
                         ctxPattern.moveTo(points[i][0], points[i][1]);
                     } else {
                         ctxPattern.lineTo(points[i][0], points[i][1]);
