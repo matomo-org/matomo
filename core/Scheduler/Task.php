@@ -63,6 +63,17 @@ class Task
     private $priority;
 
     /**
+     * This time is used as TTL when acquiring a lock for running the task.
+     * The same task can't won't be executed again, while a lock for this task is acquired.
+     * Setting the TTL to -1 will disable acquiring a lock and the same task can run in parallel.
+     * If a process running a certain task is killed, without the lock being released, the task won't run again
+     * before the ttl is expired.
+     * It's recommended to set the ttl to the maximum expected run time of the task.
+     * Note: If a task runs through correctly, the lock will be released immediately.
+     */
+    private $ttlInSeconds;
+
+    /**
      * @param mixed $objectInstance The object or class that contains the method to execute regularly.
      *                              Usually this will be a {@link Plugin} instance.
      * @param string $methodName The name of the method that will be regularly executed.
@@ -72,10 +83,11 @@ class Task
      *                                          should be executed and how long before the next execution.
      * @param int $priority The priority of the task. Tasks with a higher priority will be executed first.
      *                      Tasks with low priority will be executed last.
+     * @param int $ttlInSeconds TTL to use for this task. Defauts to 3600. See {@link self::$ttlInSeconds}
      * @throws Exception
      */
     public function __construct($objectInstance, $methodName, $methodParameter, $scheduledTime,
-                                $priority = self::NORMAL_PRIORITY)
+                                $priority = self::NORMAL_PRIORITY, int $ttlInSeconds = null)
     {
         $this->className = $this->getClassNameFromInstance($objectInstance);
 
@@ -83,11 +95,19 @@ class Task
             throw new Exception("Invalid priority for ScheduledTask '$this->className.$methodName': $priority");
         }
 
+        $ttlInSeconds = $ttlInSeconds ?? 3600;
+
+        // only allow TTLs between 1 second and 1 week
+        if ($ttlInSeconds !== -1 && ($ttlInSeconds < 1 || $ttlInSeconds > 604800)) {
+            throw new Exception("Invalid ttl for ScheduledTask '$this->className.$methodName': $ttlInSeconds. The TTL must be -1 or between 1 and 604800.");
+        }
+
         $this->objectInstance = $objectInstance;
         $this->methodName = $methodName;
         $this->scheduledTime = $scheduledTime;
         $this->methodParameter = $methodParameter;
         $this->priority = $priority;
+        $this->ttlInSeconds = $ttlInSeconds;
     }
 
     protected function getClassNameFromInstance($_objectInstance)
@@ -173,6 +193,17 @@ class Task
     public function getPriority()
     {
         return $this->priority;
+    }
+
+    /**
+     * Returns the TTL for this task.
+     * See {@link self::$ttlInSeconds}
+     *
+     * @return int
+     */
+    public function getTTL()
+    {
+        return $this->ttlInSeconds;
     }
 
     /**

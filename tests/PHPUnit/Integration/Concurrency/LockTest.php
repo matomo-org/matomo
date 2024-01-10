@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -7,7 +8,6 @@
  */
 
 namespace Piwik\Tests\Integration\Concurrency;
-
 
 use Piwik\Common;
 use Piwik\Concurrency\Lock;
@@ -84,21 +84,21 @@ class LockTest extends IntegrationTestCase
         $this->assertTrue($this->lock->acquireLock(2));
     }
 
-    public function test_expireLock_ShouldReturnTrueOnSuccess()
+    public function test_extendLock_ShouldReturnTrueOnSuccess()
     {
         $this->lock->acquireLock(0);
-        $this->assertTrue($this->lock->expireLock(2));
+        $this->assertTrue($this->lock->extendLock(2));
     }
 
-    public function test_expireLock_ShouldReturnFalseIfNoTimeoutGiven()
+    public function test_extendLock_ShouldReturnFalseIfNoTimeoutGiven()
     {
         $this->lock->acquireLock(0);
-        $this->assertFalse($this->lock->expireLock(0));
+        $this->assertFalse($this->lock->extendLock(0));
     }
 
-    public function test_expireLock_ShouldReturnFalseIfNotLocked()
+    public function test_extendLock_ShouldReturnFalseIfNotLocked()
     {
-        $this->assertFalse($this->lock->expireLock(2));
+        $this->assertFalse($this->lock->extendLock(2));
     }
 
     public function test_getNumberOfAcquiredLocks_shouldReturnNumberOfLocks()
@@ -118,20 +118,20 @@ class LockTest extends IntegrationTestCase
 
     public function test_getAllAcquiredLockKeys_shouldReturnUsedKeysThatAreLocked()
     {
-        $this->assertSame(array(), $this->lock->getAllAcquiredLockKeys());
+        $this->assertSame([], $this->lock->getAllAcquiredLockKeys());
 
         $this->lock->acquireLock(0);
-        $this->assertSame(array('TestLock0'), $this->lock->getAllAcquiredLockKeys());
+        $this->assertSame(['TestLock0'], $this->lock->getAllAcquiredLockKeys());
 
         $this->lock->acquireLock(4);
         $this->lock->acquireLock(5);
 
         $locks = $this->lock->getAllAcquiredLockKeys();
         sort($locks);
-        $this->assertSame(array('TestLock0', 'TestLock4', 'TestLock5'), $locks);
+        $this->assertSame(['TestLock0', 'TestLock4', 'TestLock5'], $locks);
     }
 
-    public function test_rexpire_onlyRexpiresWhenCloseToOriginalExpirationTime()
+    public function test_reacquire_onlyReacquiresWhenCloseToOriginalExpirationTime()
     {
         Date::$now = strtotime('2015-03-04 03:04:05');
 
@@ -140,7 +140,7 @@ class LockTest extends IntegrationTestCase
         $expireTime = $this->getLockExpirationTime();
 
         sleep(1);
-        $this->lock->reexpireLock();
+        $this->lock->reacquireLock();
         $newExpireTime = $this->getLockExpirationTime();
         $this->assertEquals($expireTime, $newExpireTime);
 
@@ -148,7 +148,7 @@ class LockTest extends IntegrationTestCase
         Date::$now = strtotime('2015-03-04 03:04:35');
 
         sleep(1);
-        $this->lock->reexpireLock();
+        $this->lock->reacquireLock();
         $newExpireTime = $this->getLockExpirationTime();
         $this->assertEquals($expireTime, $newExpireTime);
 
@@ -156,7 +156,7 @@ class LockTest extends IntegrationTestCase
         Date::$now = strtotime('2015-03-04 03:04:55');
 
         sleep(1);
-        $this->lock->reexpireLock();
+        $this->lock->reacquireLock();
         $newExpireTime = $this->getLockExpirationTime();
         $this->assertNotEquals($expireTime, $newExpireTime);
 
@@ -166,7 +166,7 @@ class LockTest extends IntegrationTestCase
         Date::$now = strtotime('2015-03-04 03:05:05');
 
         sleep(1);
-        $this->lock->reexpireLock();
+        $this->lock->reacquireLock();
         $newExpireTime = $this->getLockExpirationTime();
         $this->assertEquals($expireTime, $newExpireTime);
 
@@ -174,7 +174,7 @@ class LockTest extends IntegrationTestCase
         Date::$now = strtotime('2015-03-04 03:05:55');
 
         sleep(1);
-        $this->lock->reexpireLock();
+        $this->lock->reacquireLock();
         $newExpireTime = $this->getLockExpirationTime();
         $this->assertNotEquals($expireTime, $newExpireTime);
     }

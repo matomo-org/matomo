@@ -8,6 +8,9 @@
 
 namespace Piwik\Scheduler;
 
+use Piwik\Concurrency\Lock;
+use Piwik\Concurrency\LockBackend;
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Timer;
 use Piwik\Log\LoggerInterface;
@@ -105,6 +108,8 @@ class Scheduler
 
         $this->logger->info("Starting Scheduled tasks... ");
 
+        $lock = new Lock(StaticContainer::get(LockBackend::class), 'ScheduledTask', 3600);
+
         // for every priority level, starting with the highest and concluding with the lowest
         $executionResults = array();
         $readFromOption = true;
@@ -118,6 +123,14 @@ class Scheduler
                     continue;
                 }
 
+                $taskName = $task->getName();
+
+                if (-1 !== $task->getTTL() && !$lock->acquireLock($taskName, $task->getTTL())) {
+                    $this->logger->debug("Scheduler: '{task}' is currently executed by another process",
+                        ['task' => $task->getName()]);
+                    continue;
+                }
+
                 if ($readFromOption) {
                     // because other jobs might execute the scheduled tasks as well we have to read the up to date time table to not handle the same task twice
                     // ideally we would read from option every time but using $readFromOption as a minor performance tweak. There can be easily 100 tasks
@@ -127,7 +140,6 @@ class Scheduler
                     $readFromOption = false;
                 }
 
-                $taskName = $task->getName();
                 $shouldExecuteTask = $this->timetable->shouldExecuteTask($taskName);
 
                 if ($this->timetable->taskShouldBeRescheduled($taskName)) {
@@ -156,30 +168,34 @@ class Scheduler
                     // Task has thrown an exception and should be scheduled for a retry
                     if ($this->scheduleRetry) {
 
-                        if($this->timetable->getRetryCount($task->getName()) == 3) {
+                        if($this->timetable->getRetryCount($taskName) == 3) {
 
                             // Task has already been retried three times, give up
-                            $this->timetable->clearRetryCount($task->getName());
+                            $this->timetable->clearRetryCount($taskName);
 
                             $this->logger->warning("Scheduler: '{task}' has already been retried three times, giving up",
-                                ['task' => $task->getName()]);
+                                ['task' => $taskName]);
                         } else {
 
                             $readFromOption = true;
                             $rescheduledDate = $this->timetable->rescheduleTaskAndRunInOneHour($task);
-                            $this->timetable->incrementRetryCount($task->getName());
+                            $this->timetable->incrementRetryCount($taskName);
 
                             $this->logger->info("Scheduler: '{task}' retry scheduled for {date}",
-                                ['task' => $task->getName(), 'date' => $rescheduledDate]);
+                                ['task' => $taskName, 'date' => $rescheduledDate]);
                         }
                         $this->scheduleRetry = false;
                     } else {
-                        if ($this->timetable->getRetryCount($task->getName()) > 0) {
-                            $this->timetable->clearRetryCount($task->getName());
+                        if ($this->timetable->getRetryCount($taskName) > 0) {
+                            $this->timetable->clearRetryCount($taskName);
                         }
                     }
 
                     $executionResults[] = array('task' => $taskName, 'output' => $message);
+                }
+
+                if (-1 !== $task->getTTL()) {
+                    $lock->unlock();
                 }
             }
         }
