@@ -66,5 +66,6 @@ class CoreVisualizations extends \Piwik\Plugin
         $translationKeys[] = 'General_NoDataForGraph';
         $translationKeys[] = 'General_EvolutionSummaryGeneric';
         $translationKeys[] = 'General_IncompletePeriod';
+        $translationKeys[] = 'General_InvalidatedPeriod';
     }
 }

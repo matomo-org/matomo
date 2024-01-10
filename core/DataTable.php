@@ -226,6 +226,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
     const ID_ARCHIVE_STATE_COMPLETE = 'complete';
     const ID_ARCHIVE_STATE_INCOMPLETE = 'incomplete';
+    const ID_ARCHIVE_STATE_INVALIDATED = 'invalidated';
 
     /**
      * Maximum nesting level.

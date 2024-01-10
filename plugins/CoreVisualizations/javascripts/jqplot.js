@@ -57,7 +57,8 @@ function rowEvolutionGetMetricNameFromRow(tr)
                 metricsToPlot: _pk_translate('General_MetricsToPlot'),
                 metricToPlot: _pk_translate('General_MetricToPlot'),
                 recordsToPlot: _pk_translate('General_RecordsToPlot'),
-                incompletePeriod: _pk_translate('General_IncompletePeriod')
+                incompletePeriod: _pk_translate('General_IncompletePeriod'),
+                invalidatedPeriod: _pk_translate('General_InvalidatedPeriod')
             };
 
             // set a unique ID for the graph element (required by jqPlot)

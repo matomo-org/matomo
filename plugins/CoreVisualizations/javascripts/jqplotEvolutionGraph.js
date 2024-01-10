@@ -169,6 +169,10 @@
                         case 'incomplete':
                             content += `<br />(${self._lang.incompletePeriod})`;
                             break;
+
+                        case 'invalidated':
+                            content += `<br />(${self._lang.invalidatedPeriod})`;
+                            break;
                     }
 
                     $(this).tooltip({
