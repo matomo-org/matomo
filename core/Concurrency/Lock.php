@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -6,6 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Concurrency;
 
 use Piwik\Common;
@@ -26,7 +28,7 @@ class Lock
     private $lockKey   = null;
     private $lockValue = null;
     private $defaultTtl = null;
-    private $lastExpireTime = null;
+    private $lastAcquireTime = null;
 
     public function __construct(LockBackend $backend, $lockKeyStart, $defaultTtl = null)
     {
@@ -36,13 +38,25 @@ class Lock
         $this->defaultTtl = $defaultTtl ?: self::DEFAULT_TTL;
     }
 
+    /**
+     * For BC only
+     *
+     * @todo remove in Matomo 6.0
+     * @deprecated use reacquireLock() instead.
+     * @return void
+     */
     public function reexpireLock()
+    {
+        $this->reacquireLock();
+    }
+
+    public function reacquireLock()
     {
         $timeBetweenReexpires = $this->defaultTtl - ($this->defaultTtl / 4);
 
         $now = Date::getNowTimestamp();
-        if (!empty($this->lastExpireTime) &&
-            $now <= $this->lastExpireTime + $timeBetweenReexpires
+        if (!empty($this->lastAcquireTime) &&
+            $now <= $this->lastAcquireTime + $timeBetweenReexpires
         ) {
             return false;
         }
@@ -92,7 +106,7 @@ class Lock
         $locked    = $this->backend->setIfNotExists($this->lockKey, $lockValue, $ttlInSeconds);
         if ($locked) {
             $this->lockValue = $lockValue;
-            $this->lastExpireTime = Date::getNowTimestamp();
+            $this->lastAcquireTime = Date::getNowTimestamp();
         }
 
         return $locked;
@@ -115,7 +129,19 @@ class Lock
         }
     }
 
+    /**
+     * For BC only
+     *
+     * @deprecated use extendLock() instead.
+     * @todo remove in Matomo 6.0
+     * @return void
+     */
     public function expireLock($ttlInSeconds)
+    {
+        $this->extendLock($ttlInSeconds);
+    }
+
+    public function extendLock($ttlInSeconds)
     {
         if ($ttlInSeconds > 0) {
             if ($this->lockValue) {
@@ -137,7 +163,7 @@ class Lock
                     return false;
                 }
 
-                $this->lastExpireTime = Date::getNowTimestamp();
+                $this->lastAcquireTime = Date::getNowTimestamp();
 
                 return true;
             } else {
