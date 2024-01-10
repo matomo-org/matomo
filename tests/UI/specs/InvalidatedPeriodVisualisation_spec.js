@@ -8,7 +8,7 @@
  */
 
 describe('InvalidatedPeriodVisualisation', function () {
-    const url = '?module=Widgetize&action=iframe&idSite=1&period=day&date=2012-01-31&evolution_day_last_n=30'
+    const url = '?module=Widgetize&action=iframe&idSite=1&evolution_day_last_n=30'
               + '&moduleToWidgetize=UserCountry&actionToWidgetize=getCountry&viewDataTable=graphEvolution'
               + '&isFooterExpandedInDashboard=1';
 
@@ -30,7 +30,7 @@ describe('InvalidatedPeriodVisualisation', function () {
     });
 
     it('should show invalidated data points', async function () {
-        await page.goto(url);
+        await page.goto(url + '&period=day&date=2012-01-31');
         await page.waitForNetworkIdle();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('graph');
@@ -48,5 +48,12 @@ describe('InvalidatedPeriodVisualisation', function () {
         const tooltipContent = await page.evaluate(() => $('.ui-tooltip').text().trim());
 
         expect(tooltipContent).to.contain('Invalidated Period');
+    });
+
+    it('should show invalidated data points', async function () {
+        await page.goto(url + '&period=range&date=2012-01-01,2012-01-31&comparePeriods[]=range&compareDates[]=2011-12-01,2011-12-31');
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('comparison');
     });
 });

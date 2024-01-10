@@ -19,6 +19,7 @@ use Piwik\Period;
 use Piwik\Period\Factory;
 use Piwik\Plugins\API\Filter\DataComparisonFilter;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
+use Piwik\Site;
 use Piwik\Url;
 
 /**
@@ -331,18 +332,35 @@ class Evolution extends JqplotDataGenerator
      */
     private function setArchiveStates(Chart $visualization, array $dataTables): void
     {
-        $archiveStates = [];
+        if (0 === count($dataTables)) {
+            return;
+        }
 
-        foreach (array_values($dataTables) as $index => $dataTable) {
-            $state = $dataTable->getMetadata(DataTable::ARCHIVE_STATE_METADATA_NAME);
+        $dataTableDates = array_keys($dataTables);
+        $mostRecentDate = end($dataTableDates);
+
+        /** @var Site $site */
+        $site = $dataTables[$mostRecentDate]->getMetadata(DataTableFactory::TABLE_METADATA_SITE_INDEX);
+
+        $archiveStates = [];
+        $siteToday = Date::factoryInTimezone('today', $site->getTimezone())->getTimestamp();
+
+        foreach ($dataTableDates as $dataTableDate) {
+            /** @var Period $period */
+            $period = $dataTables[$dataTableDate]->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
+            $state = $dataTables[$dataTableDate]->getMetadata(DataTable::ARCHIVE_STATE_METADATA_NAME);
 
             if (false === $state) {
                 $state = DataTable::ID_ARCHIVE_STATE_COMPLETE;
             }
 
-            $archiveStates[$index] = $state;
+            if ($siteToday <= $period->getDateEnd()->getTimestamp()) {
+                $state = DataTable::ID_ARCHIVE_STATE_INCOMPLETE;
+            }
+
+            $archiveStates[$dataTableDate] = $state;
         }
 
-        $visualization->setArchiveStates($archiveStates);
+        $visualization->setArchiveStates(array_values($archiveStates));
     }
 }

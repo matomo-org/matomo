@@ -102,47 +102,6 @@ function rowEvolutionGetMetricNameFromRow(tr)
             if (Array.isArray(archiveStates)) {
                 this.jqplotParams.archiveStates = archiveStates;
             }
-
-            let tickCount = 0;
-
-            if (this.param.period) {
-                // Fetch evolution graph tick count
-                switch (this.param.period) {
-                    case 'day':
-                        tickCount = this.param.evolution_day_last_n;
-                        break;
-                    case 'week':
-                        tickCount = this.param.evolution_week_last_n;
-                        break;
-                    case 'month':
-                        tickCount = this.param.evolution_month_last_n;
-                        break;
-                    case 'year':
-                        tickCount = this.param.evolution_year_last_n;
-                        break;
-                }
-            }
-
-            if (0 >= tickCount) {
-                return;
-            }
-
-            // Mark today, if included in graph, as incomplete
-            const piwikPeriods = window.CoreHome.Periods;
-            let period = this.param.period;
-
-            if (period === 'day' && this.param.date.indexOf(',') !== -1) {
-                // If date is actually a range then adjust the period type for the containsToday check
-                period = 'range';
-            }
-
-            try {
-                if (piwikPeriods.parse(period, this.param.date).containsToday()) {
-                    this.jqplotParams.archiveStates[tickCount - 1] = 'incomplete';
-                }
-            } catch (e) {
-                // ignore period parsing error
-            }
         },
 
         _setJqplotParameters: function (params) {
