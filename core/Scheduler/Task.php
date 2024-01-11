@@ -64,7 +64,7 @@ class Task
 
     /**
      * This time is used as TTL when acquiring a lock for running the task.
-     * The same task can't won't be executed again, while a lock for this task is acquired.
+     * The same task won't be executed again, while a lock for this task is acquired.
      * Setting the TTL to -1 will disable acquiring a lock and the same task can run in parallel.
      * If a process running a certain task is killed, without the lock being released, the task won't run again
      * before the ttl is expired.
@@ -201,7 +201,7 @@ class Task
      *
      * @return int
      */
-    public function getTTL()
+    public function getTTL(): int
     {
         return $this->ttlInSeconds;
     }

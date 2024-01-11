@@ -23,18 +23,28 @@ class Lock
      */
     private $backend;
 
-    private $lockKeyStart;
+    private $namespace;
 
     private $lockKey   = null;
     private $lockValue = null;
     private $defaultTtl = null;
     private $lastAcquireTime = null;
 
-    public function __construct(LockBackend $backend, $lockKeyStart, $defaultTtl = null)
+    /**
+     * @param LockBackend $backend
+     * @param string $namespace
+     * @param int|null $defaultTtl defaults to {@link self::DEFAULT_TTL}
+     */
+    public function __construct(LockBackend $backend, $namespace, $defaultTtl = null)
     {
+        if (mb_strlen($namespace) > self::MAX_KEY_LEN - 32) {
+            // A longer namespace could be cut off for too long ids, so we don't support it
+            throw new \Exception('Lock namespace must be shorter than ' . (self::MAX_KEY_LEN - 32) . ' chars');
+        }
+
         $this->backend = $backend;
-        $this->lockKeyStart = $lockKeyStart;
-        $this->lockKey = $this->lockKeyStart;
+        $this->namespace = $namespace;
+        $this->lockKey = $this->namespace;
         $this->defaultTtl = $defaultTtl ?: self::DEFAULT_TTL;
     }
 
@@ -42,15 +52,20 @@ class Lock
      * For BC only
      *
      * @todo remove in Matomo 6.0
-     * @deprecated use reacquireLock() instead.
-     * @return void
+     * @deprecated use {@link reacquireLock()} instead.
+     * @return bool
      */
-    public function reexpireLock()
+    public function reexpireLock(): bool
     {
-        $this->reacquireLock();
+        return $this->reacquireLock();
     }
 
-    public function reacquireLock()
+    /**
+     * Reacquires the current lock. The TTL will be extended if 1/4 of the TTL already passed by.
+     *
+     * @return bool
+     */
+    public function reacquireLock(): bool
     {
         $timeBetweenReexpires = $this->defaultTtl - ($this->defaultTtl / 4);
 
@@ -64,16 +79,30 @@ class Lock
         return $this->expireLock($this->defaultTtl);
     }
 
-    public function getNumberOfAcquiredLocks()
+    public function getNumberOfAcquiredLocks(): int
     {
         return count($this->getAllAcquiredLockKeys());
     }
 
-    public function getAllAcquiredLockKeys()
+    /**
+     * Returns all acquired lock keys for the iniatially set namespace.
+     *
+     * @return string[]
+     */
+    public function getAllAcquiredLockKeys(): array
     {
-        return $this->backend->getKeysMatchingPattern($this->lockKeyStart . '*');
+        return $this->backend->getKeysMatchingPattern($this->namespace . '*');
     }
 
+    /**
+     * Executes and returns the result of the provided callback if a lock with given id can be acquired
+     * The method will automatically retry to acquire the lock up to 5 minutes.
+     *
+     * @param string $id
+     * @param callable $callback
+     * @return mixed
+     * @throws \Exception if lock couldn't be acquired within 5 minutes
+     */
     public function execute($id, $callback)
     {
         $i = 0;
@@ -91,9 +120,16 @@ class Lock
         }
     }
 
+    /**
+     * Acquires a lock with the given id using the provided TTL
+     *
+     * @param string $id
+     * @param int $ttlInSeconds
+     * @return bool
+     */
     public function acquireLock($id, $ttlInSeconds = 60)
     {
-        $this->lockKey = $this->lockKeyStart . $id;
+        $this->lockKey = $this->namespace . $id;
 
         if (mb_strlen($this->lockKey) > self::MAX_KEY_LEN) {
             // Lock key might be too long for DB column, so we hash it but leave the start of the original as well
@@ -109,10 +145,15 @@ class Lock
             $this->lastAcquireTime = Date::getNowTimestamp();
         }
 
-        return $locked;
+        return !!$locked;
     }
 
-    public function isLocked()
+    /**
+     * Return if the acquired lock is being locked
+     *
+     * @return bool
+     */
+    public function isLocked(): bool
     {
         if (!$this->lockValue) {
             return false;
@@ -121,7 +162,12 @@ class Lock
         return $this->lockValue === $this->backend->get($this->lockKey);
     }
 
-    public function unlock()
+    /**
+     * Releases the acquired lock
+     *
+     * @return void
+     */
+    public function unlock(): void
     {
         if ($this->lockValue) {
             $this->backend->deleteIfKeyHasValue($this->lockKey, $this->lockValue);
@@ -132,16 +178,16 @@ class Lock
     /**
      * For BC only
      *
-     * @deprecated use extendLock() instead.
+     * @deprecated use {@link extendLock()} instead.
      * @todo remove in Matomo 6.0
-     * @return void
+     * @return bool
      */
-    public function expireLock($ttlInSeconds)
+    public function expireLock($ttlInSeconds): bool
     {
-        $this->extendLock($ttlInSeconds);
+        return $this->extendLock($ttlInSeconds);
     }
 
-    public function extendLock($ttlInSeconds)
+    public function extendLock($ttlInSeconds): bool
     {
         if ($ttlInSeconds > 0) {
             if ($this->lockValue) {

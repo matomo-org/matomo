@@ -39,7 +39,14 @@ class LockTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function test_acquireLock_ShouldLockInCaseItIsNotLockedYet()
+    public function testTooLongNamespaceIsNotSupported()
+    {
+        $this->expectException(\Exception::class);
+
+        new Lock(new MySqlLockBackend(), 'aLongStringWithOver38CharactersIsNotSupported');
+    }
+
+    public function testAcquireLockShouldLockInCaseItIsNotLockedYet()
     {
         $this->assertTrue($this->lock->acquireLock(0));
         $this->assertFalse($this->lock->acquireLock(0));
@@ -50,7 +57,7 @@ class LockTest extends IntegrationTestCase
         $this->assertFalse($this->lock->acquireLock(0));
     }
 
-    public function test_acquireLock_ShouldBeAbleToLockMany()
+    public function testAcquireLockShouldBeAbleToLockMany()
     {
         $this->assertTrue($this->lock->acquireLock(0));
         $this->assertFalse($this->lock->acquireLock(0));
@@ -59,7 +66,7 @@ class LockTest extends IntegrationTestCase
         $this->assertFalse($this->lock->acquireLock(1));
     }
 
-    public function test_isLocked_ShouldDetermineWhetherALockIsLocked()
+    public function testIsLockedShouldDetermineWhetherALockIsLocked()
     {
         $this->assertFalse($this->lock->isLocked());
         $this->lock->acquireLock(0);
@@ -71,7 +78,7 @@ class LockTest extends IntegrationTestCase
         $this->assertFalse($this->lock->isLocked());
     }
 
-    public function test_unlock_OnlyUnlocksTheLastOne()
+    public function testUnlockOnlyUnlocksTheLastOne()
     {
         $this->assertTrue($this->lock->acquireLock(0));
         $this->assertTrue($this->lock->acquireLock(1));
@@ -84,24 +91,24 @@ class LockTest extends IntegrationTestCase
         $this->assertTrue($this->lock->acquireLock(2));
     }
 
-    public function test_extendLock_ShouldReturnTrueOnSuccess()
+    public function testExtendLockShouldReturnTrueOnSuccess()
     {
         $this->lock->acquireLock(0);
         $this->assertTrue($this->lock->extendLock(2));
     }
 
-    public function test_extendLock_ShouldReturnFalseIfNoTimeoutGiven()
+    public function testExtendLockShouldReturnFalseIfNoTimeoutGiven()
     {
         $this->lock->acquireLock(0);
         $this->assertFalse($this->lock->extendLock(0));
     }
 
-    public function test_extendLock_ShouldReturnFalseIfNotLocked()
+    public function testExtendLockShouldReturnFalseIfNotLocked()
     {
         $this->assertFalse($this->lock->extendLock(2));
     }
 
-    public function test_getNumberOfAcquiredLocks_shouldReturnNumberOfLocks()
+    public function testGetNumberOfAcquiredLocksShouldReturnNumberOfLocks()
     {
         $this->assertNumberOfLocksEquals(0);
 
@@ -116,7 +123,7 @@ class LockTest extends IntegrationTestCase
         $this->assertNumberOfLocksEquals(2);
     }
 
-    public function test_getAllAcquiredLockKeys_shouldReturnUsedKeysThatAreLocked()
+    public function testGetAllAcquiredLockKeysShouldReturnUsedKeysThatAreLocked()
     {
         $this->assertSame([], $this->lock->getAllAcquiredLockKeys());
 
@@ -131,7 +138,7 @@ class LockTest extends IntegrationTestCase
         $this->assertSame(['TestLock0', 'TestLock5', 'TestLockveryverylongidthatwillgetshorc93f8252040e73dacbeaaf93ae9c19d2'], $locks);
     }
 
-    public function test_reacquire_onlyReacquiresWhenCloseToOriginalExpirationTime()
+    public function testReacquireOnlyReacquiresWhenCloseToOriginalExpirationTime()
     {
         Date::$now = strtotime('2015-03-04 03:04:05');
 
