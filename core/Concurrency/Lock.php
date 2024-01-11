@@ -99,7 +99,7 @@ class Lock
             // Lock key might be too long for DB column, so we hash it but leave the start of the original as well
             // to make it more readable
             $md5Len = 32;
-            $this->lockKey = mb_substr($id, 0, self::MAX_KEY_LEN - $md5Len - 1) . md5($id);
+            $this->lockKey = mb_substr($this->lockKey, 0, self::MAX_KEY_LEN - $md5Len - 1) . md5($id);
         }
 
         $lockValue = substr(Common::generateUniqId(), 0, 12);

@@ -123,12 +123,12 @@ class LockTest extends IntegrationTestCase
         $this->lock->acquireLock(0);
         $this->assertSame(['TestLock0'], $this->lock->getAllAcquiredLockKeys());
 
-        $this->lock->acquireLock(4);
+        $this->lock->acquireLock('veryverylongidthatwillgetshortenedasthereisamaximumof70charsinthedatabase');
         $this->lock->acquireLock(5);
 
         $locks = $this->lock->getAllAcquiredLockKeys();
         sort($locks);
-        $this->assertSame(['TestLock0', 'TestLock4', 'TestLock5'], $locks);
+        $this->assertSame(['TestLock0', 'TestLock5', 'TestLockveryverylongidthatwillgetshorc93f8252040e73dacbeaaf93ae9c19d2'], $locks);
     }
 
     public function test_reacquire_onlyReacquiresWhenCloseToOriginalExpirationTime()
