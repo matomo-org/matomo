@@ -77,11 +77,20 @@ class Scheduler
      */
     private $logger;
 
+    /**
+     * @var Lock|null
+     */
+    private $lock = null;
+
     public function __construct(TaskLoader $loader, LoggerInterface $logger)
     {
         $this->timetable = new Timetable();
         $this->loader = $loader;
         $this->logger = $logger;
+        $this->lock = StaticContainer::getContainer()->make(
+            Lock::class,
+            ['namespace' => 'ScheduledTask', 'detaultTtl' => 3600]
+        );
     }
 
     /**
@@ -108,8 +117,6 @@ class Scheduler
 
         $this->logger->info("Starting Scheduled tasks... ");
 
-        $lock = new Lock(StaticContainer::get(LockBackend::class), 'ScheduledTask', 3600);
-
         // for every priority level, starting with the highest and concluding with the lowest
         $executionResults = array();
         $readFromOption = true;
@@ -125,7 +132,7 @@ class Scheduler
 
                 $taskName = $task->getName();
 
-                if (-1 !== $task->getTTL() && !$lock->acquireLock($taskName, $task->getTTL())) {
+                if (!$this->acquireLockForTask($taskName, $task->getTTL())) {
                     $this->logger->debug("Scheduler: '{task}' is currently executed by another process",
                         ['task' => $task->getName()]);
                     continue;
@@ -194,9 +201,7 @@ class Scheduler
                     $executionResults[] = array('task' => $taskName, 'output' => $message);
                 }
 
-                if (-1 !== $task->getTTL()) {
-                    $lock->unlock();
-                }
+                $this->releaseLock();
             }
         }
 
@@ -217,7 +222,15 @@ class Scheduler
 
         foreach ($tasks as $task) {
             if ($task->getName() === $taskName) {
-                return $this->executeTask($task);
+                if (!$this->acquireLockForTask($taskName, $task->getTTL())) {
+                    return 'Execution skipped. Another process is currently executing this task.';
+                }
+
+                $result = $this->executeTask($task);
+
+                $this->releaseLock();
+
+                return $result;
             }
         }
 
@@ -294,6 +307,22 @@ class Scheduler
         return array_map(function (Task $task) {
             return $task->getName();
         }, $tasks);
+    }
+
+    private function acquireLockForTask(string $taskName, int $ttlInSeconds): bool
+    {
+        if (-1 === $ttlInSeconds) {
+            // lock disabled, so don't try to acquire one
+            $this->lock = null;
+            return true;
+        }
+
+        return $this->lock->acquireLock($taskName, $ttlInSeconds);
+    }
+
+    private function releaseLock()
+    {
+        $this->lock->unlock();
     }
 
     /**
