@@ -9,8 +9,6 @@
 namespace Piwik\Scheduler;
 
 use Piwik\Concurrency\Lock;
-use Piwik\Concurrency\LockBackend;
-use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Timer;
 use Piwik\Log\LoggerInterface;
@@ -78,9 +76,9 @@ class Scheduler
     private $logger;
 
     /**
-     * @var Lock|null
+     * @var Lock
      */
-    private $lock = null;
+    private $lock;
 
     public function __construct(TaskLoader $loader, LoggerInterface $logger, ScheduledTaskLock $lock)
     {
@@ -310,7 +308,6 @@ class Scheduler
     {
         if (-1 === $ttlInSeconds) {
             // lock disabled, so don't try to acquire one
-            $this->lock = null;
             return true;
         }
 

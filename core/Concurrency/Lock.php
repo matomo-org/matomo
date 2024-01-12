@@ -133,7 +133,7 @@ class Lock
 
         if (mb_strlen($this->lockKey) > self::MAX_KEY_LEN) {
             // Lock key might be too long for DB column, so we hash it but leave the start of the original as well
-            // to make it more readable
+            // to make it more readable and to ensure the namespaceis still containe
             $md5Len = 32;
             $this->lockKey = mb_substr($this->lockKey, 0, self::MAX_KEY_LEN - $md5Len - 1) . md5($id);
         }
