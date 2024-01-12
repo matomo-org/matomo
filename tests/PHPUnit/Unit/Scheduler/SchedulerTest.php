@@ -324,6 +324,45 @@ class SchedulerTest extends \PHPUnit\Framework\TestCase
         self::resetPiwikOption();
     }
 
+    public function testTaskWithOutTTLShouldNotTryToAcquireLock()
+    {
+        // Mock timetable
+        $now = time() - 60;
+        $taskName = 'Piwik\Tests\Unit\Scheduler\SchedulerTest.randomTask';
+        $timetableData = serialize([$taskName => $now]);
+
+        self::stubPiwikOption($timetableData);
+
+        // Create task
+        $dailySchedule = $this->createPartialMock('Piwik\Scheduler\Schedule\Daily', array('getTime'));
+        $dailySchedule->expects($this->any())
+            ->method('getTime')
+            ->will($this->returnValue($now));
+
+        // Setup scheduler
+        $tasks = [new Task($this, 'randomTask', null, $dailySchedule, Task::HIGHEST_PRIORITY, -1)];
+        $taskLoader = $this->createMock('Piwik\Scheduler\TaskLoader');
+        $taskLoader->expects($this->atLeastOnce())
+            ->method('loadTasks')
+            ->willReturn($tasks);
+
+        $lock = new ScheduledTaskLock(new InMemoryLockBackend());
+
+        $scheduler = new Scheduler($taskLoader, new NullLogger(), $lock);
+
+        // acquire the lock to prove the lock isn't checked
+        $lock->acquireLock($taskName, 3600);
+
+        $scheduler->runTaskNow($taskName);
+
+        // Task should directly run, as the already acquired lock should be ignored due to TTL of -1 for task
+        self::assertEquals(true, $this->randomTaskHasRun);
+
+        $lock->unlock();
+
+        self::resetPiwikOption();
+    }
+
     public function randomTask()
     {
         $this->randomTaskHasRun = true;
