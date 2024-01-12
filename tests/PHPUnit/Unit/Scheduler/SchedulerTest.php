@@ -9,13 +9,15 @@
 namespace Piwik\Tests\Unit\Scheduler;
 
 use Piwik\Date;
+use Piwik\Log\NullLogger;
 use Piwik\Option;
 use Piwik\Plugin;
+use Piwik\Scheduler\ScheduledTaskLock;
 use Piwik\Scheduler\Scheduler;
 use Piwik\Scheduler\Task;
 use Piwik\Scheduler\Timetable;
+use Piwik\Tests\Framework\Mock\Concurrency\LockBackend\InMemoryLockBackend;
 use Piwik\Tests\Framework\Mock\PiwikOption;
-use Piwik\Log\NullLogger;
 
 /**
  * @group Scheduler
@@ -52,7 +54,7 @@ class SchedulerTest extends \PHPUnit\Framework\TestCase
         self::stubPiwikOption($timetable);
 
         $taskLoader = $this->createMock('Piwik\Scheduler\TaskLoader');
-        $scheduler = new Scheduler($taskLoader, new NullLogger());
+        $scheduler = new Scheduler($taskLoader, new NullLogger(), new ScheduledTaskLock(new InMemoryLockBackend()));
 
         $this->assertEquals($expectedTime, $scheduler->getScheduledTimeForMethod($className, $methodName, $methodParameter));
 
@@ -70,7 +72,7 @@ class SchedulerTest extends \PHPUnit\Framework\TestCase
         $taskLoader = $this->getMockBuilder('Piwik\Scheduler\TaskLoader')
             ->disableOriginalConstructor()
             ->getMock();
-        $scheduler = new Scheduler($taskLoader, new NullLogger());
+        $scheduler = new Scheduler($taskLoader, new NullLogger(), new ScheduledTaskLock(new InMemoryLockBackend()));
 
         $scheduler->rescheduleTaskAndRunTomorrow($task);
 
@@ -179,7 +181,7 @@ class SchedulerTest extends \PHPUnit\Framework\TestCase
         // stub the piwik option object to control the returned option value
         self::stubPiwikOption(serialize($timetableBeforeTaskExecution));
 
-        $scheduler = new Scheduler($taskLoader, new NullLogger());
+        $scheduler = new Scheduler($taskLoader, new NullLogger(), new ScheduledTaskLock(new InMemoryLockBackend()));
 
         // execute tasks
         $executionResults = $scheduler->run();
@@ -215,7 +217,7 @@ class SchedulerTest extends \PHPUnit\Framework\TestCase
         $timetable = new Timetable();
         $initialTimetable = $timetable->getTimetable();
 
-        $scheduler = new Scheduler($taskLoader, new NullLogger());
+        $scheduler = new Scheduler($taskLoader, new NullLogger(), new ScheduledTaskLock(new InMemoryLockBackend()));
 
         foreach ($configuredTasks as $task) {
             /** @var Task $task */

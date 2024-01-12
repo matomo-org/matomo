@@ -82,15 +82,12 @@ class Scheduler
      */
     private $lock = null;
 
-    public function __construct(TaskLoader $loader, LoggerInterface $logger)
+    public function __construct(TaskLoader $loader, LoggerInterface $logger, ScheduledTaskLock $lock)
     {
         $this->timetable = new Timetable();
         $this->loader = $loader;
         $this->logger = $logger;
-        $this->lock = StaticContainer::getContainer()->make(
-            Lock::class,
-            ['namespace' => 'ScheduledTask', 'detaultTtl' => 3600]
-        );
+        $this->lock = $lock;
     }
 
     /**
