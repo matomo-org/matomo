@@ -579,7 +579,8 @@ class LogAggregator
      *                                   A pre-configured ranking query instance that will be used to limit the result.
      *                                   If set, the return value is the array returned by {@link \Piwik\RankingQuery::execute()}.
      * @param bool|string $orderBy       Order By clause to add (e.g. user_id ASC)
-     * @param int $timeLimitInMs         Adds a MAX_EXECUTION_TIME query hint to the query if $timeLimitInMs > 0
+     * @param int $timeLimit             Adds a MAX_EXECUTION_TIME query hint to the query if $timeLimit > 0
+     *                                   for more details see {@link DbHelper::addMaxExecutionTimeHintToQuery}
      *
      * @return mixed A Zend_Db_Statement if `$rankingQuery` isn't supplied, otherwise the result of
      *               {@link \Piwik\RankingQuery::execute()}. Read {@link queryVisitsByDimension() this}
@@ -589,11 +590,11 @@ class LogAggregator
      * @api
      */
     public function queryVisitsByDimension(array $dimensions = [], $where = false, array $additionalSelects = [],
-                                           $metrics = false, $rankingQuery = false, $orderBy = false, $timeLimitInMs = -1,
+                                           $metrics = false, $rankingQuery = false, $orderBy = false, $timeLimit = -1,
                                            $rankingQueryGenerate = false)
     {
         $query = $this->getQueryByDimensionSql($dimensions, $where, $additionalSelects, $metrics, $rankingQuery, $orderBy,
-            $timeLimitInMs, $rankingQueryGenerate);
+            $timeLimit, $rankingQueryGenerate);
 
         // Ranking queries will return the data directly
         if ($rankingQuery && !$rankingQueryGenerate) {
@@ -612,7 +613,7 @@ class LogAggregator
      * @param bool|array                $metrics
      * @param bool|\Piwik\RankingQuery  $rankingQuery
      * @param bool|string               $orderBy
-     * @param int                       $timeLimitInMs
+     * @param int                       $timeLimit
      * @param bool                      $rankingQueryGenerate
      *
      * @return array
@@ -620,7 +621,7 @@ class LogAggregator
      * @throws \Piwik\Exception\DI\NotFoundException
      */
     public function getQueryByDimensionSql(array $dimensions, $where, array $additionalSelects, $metrics, $rankingQuery,
-                                            $orderBy, $timeLimitInMs, $rankingQueryGenerate): array
+                                            $orderBy, $timeLimit, $rankingQueryGenerate): array
     {
         $tableName = self::LOG_VISIT_TABLE;
         $availableMetrics = $this->getVisitsMetricFields();
@@ -659,11 +660,11 @@ class LogAggregator
             if ($rankingQueryGenerate) {
                 $query['sql'] = $rankingQuery->generateRankingQuery($query['sql']);
             } else {
-                return $rankingQuery->execute($query['sql'], $query['bind'], $timeLimitInMs);
+                return $rankingQuery->execute($query['sql'], $query['bind'], $timeLimit);
             }
         }
 
-        $query['sql'] = DbHelper::addMaxExecutionTimeHintToQuery($query['sql'], $timeLimitInMs);
+        $query['sql'] = DbHelper::addMaxExecutionTimeHintToQuery($query['sql'], $timeLimit);
 
         return $query;
     }
@@ -1014,7 +1015,8 @@ class LogAggregator
      *                                           If a string is used for this parameter, the table alias is not
      *                                           suffixed (since there is only one column).
      * @param string $secondaryOrderBy      A secondary order by clause for the ranking query
-     * @param int $timeLimitInMs                Adds a MAX_EXECUTION_TIME hint to the query if $timeLimitInMs > 0
+     * @param int $timeLimit                Adds a MAX_EXECUTION_TIME hint to the query if $timeLimit > 0
+     *                                      for more details see {@link DbHelper::addMaxExecutionTimeHintToQuery}
      * @return mixed A Zend_Db_Statement if `$rankingQuery` isn't supplied, otherwise the result of
      *               {@link Piwik\RankingQuery::execute()}. Read [this](#queryEcommerceItems-result-set)
      *               to see what aggregate data is calculated by the query.
@@ -1028,7 +1030,7 @@ class LogAggregator
         $rankingQuery = null,
         $joinLogActionOnColumn = false,
         $secondaryOrderBy = null,
-        $timeLimitInMs = -1
+        $timeLimit = -1
     ) {
         $tableName = self::LOG_ACTIONS_TABLE;
         $availableMetrics = $this->getActionsMetricFields();
@@ -1080,10 +1082,10 @@ class LogAggregator
 
             $rankingQuery->addColumn($sumColumns, 'sum');
 
-            return $rankingQuery->execute($query['sql'], $query['bind'], $timeLimitInMs);
+            return $rankingQuery->execute($query['sql'], $query['bind'], $timeLimit);
         }
 
-        $query['sql'] = DbHelper::addMaxExecutionTimeHintToQuery($query['sql'], $timeLimitInMs);
+        $query['sql'] = DbHelper::addMaxExecutionTimeHintToQuery($query['sql'], $timeLimit);
 
         return $this->getDb()->query($query['sql'], $query['bind']);
     }
