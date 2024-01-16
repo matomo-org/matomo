@@ -362,11 +362,14 @@ class API extends \Piwik\Plugin\API
                 return [];
             }
 
+            $users = [];
             $user = $this->model->getUser($this->access->getLogin());
-            $user['role'] = $this->access->getRoleForSite($idSite);
-            $user['capabilities'] = $this->access->getCapabilitiesForSite($idSite);
-            $users = [$user];
-            $totalResults = 1;
+            if ($user) {
+                $user['role'] = $this->access->getRoleForSite($idSite);
+                $user['capabilities'] = $this->access->getCapabilitiesForSite($idSite);
+                $users = [$user];
+            }
+            $totalResults = count($users);
         } else {
             // if the current user is not the superuser, only select users that have access to a site this user
             // has admin access to
