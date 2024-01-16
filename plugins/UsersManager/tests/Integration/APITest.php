@@ -506,6 +506,15 @@ class APITest extends IntegrationTestCase
         $this->assertEquals($expected, $access);
     }
 
+    public function testGetUsersPlusRoleShouldReturnNothingForAnonymousUser()
+    {
+        $this->addUserWithAccess('userLogin2', 'view', 1);
+        $this->setCurrentUser('anonymous', 'view', 1);
+
+        $users = $this->api->getUsersPlusRole(1);
+        $this->assertEquals([], $users);
+    }
+
     public function testGetUsersPlusRoleShouldReturnSelfIfUserDoesNotHaveAdminAccessToSite()
     {
         $this->addUserWithAccess('userLogin2', 'view', 1);
