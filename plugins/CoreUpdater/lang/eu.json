@@ -79,7 +79,7 @@
         "UpdateAutomatically": "Eguneratu automatikoki",
         "UpdateErrorTitle": "Errorea eguneratzean",
         "UpdateHasBeenCancelledExplanation": "Matomoren klik bakarreko eguneratzea bertan behera utzi da. Goiko errore-mezua ezin baduzu konpondu, Matomo eskuz eguneratzea gomendatzen da. %1$s Emaiozu begirada bat %2$seguneratzeen dokumentazioari%3$s konponbidea bilatzeko!",
-        "UpdateLog": "Eguneratzeen egunkaria",
+        "UpdateLog": "Eguneratzearen egunkaria",
         "UpdateSuccessTitle": "Matomo behar bezala eguneratu da!",
         "UpdateTitle": "Eguneratu",
         "UpdateUsingHttpsFailed": "Huts egin du Matomoren azken bertsioa HTTPS konexio segurua erabiliz deskargatzeak, errore honengatik:",

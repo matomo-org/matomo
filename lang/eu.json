@@ -119,7 +119,7 @@
         "ConfigFileIsNotWritable": "Matomo konfigurazio fitxategia %1$s ezin da idatzi, baliteke zure aldaketa batzuk ez gordetzea. %2$s Mesedez, aldatu konfigurazio fitxategiaren baimenak idatzi ahal izateko.",
         "Confirm": "Berretsi",
         "Continue": "Jarraitu",
-        "ContinueToPiwik": "Jarraitu Matomora",
+        "ContinueToPiwik": "Joan Matomora",
         "CopiedToClipboard": "Arbelean kopiatuta",
         "Copy": "Kopiatu",
         "Create": "Sortu",
