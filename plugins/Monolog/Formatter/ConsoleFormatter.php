@@ -8,7 +8,7 @@
 
 namespace Piwik\Plugins\Monolog\Formatter;
 
-use Symfony\Bridge\Monolog\Formatter\ConsoleFormatter AS SymfonyConsoleFormatter;
+use Symfony\Bridge\Monolog\Formatter\ConsoleFormatter as SymfonyConsoleFormatter;
 
 class ConsoleFormatter extends SymfonyConsoleFormatter
 {

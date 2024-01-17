@@ -8,7 +8,7 @@
 
 namespace Piwik\Container;
 
-use DI\Container AS DIContainer;
+use DI\Container as DIContainer;
 use DI\Definition\Source\MutableDefinitionSource;
 use DI\Proxy\ProxyFactory;
 use Piwik\Exception\DI\DependencyException;

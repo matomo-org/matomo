@@ -17,7 +17,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\API\API as APIMetadata;
 use Piwik\Plugins\Live\Live;
-use Piwik\Plugins\UsersManager\API AS UsersManagerAPI;
+use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\View\UIControl;
 use Piwik\Plugins\SegmentEditor\API as SegmentEditorAPI;
 

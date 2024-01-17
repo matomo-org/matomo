@@ -790,7 +790,7 @@ class Date
 
         $out = '';
 
-        foreach ($tokens AS $token) {
+        foreach ($tokens as $token) {
             if (is_array($token)) {
                 $out .= $this->formatToken(array_shift($token));
             } else {

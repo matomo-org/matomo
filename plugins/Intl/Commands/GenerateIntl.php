@@ -80,7 +80,7 @@ class GenerateIntl extends ConsoleCommand
 
         $this->checkCurrencies();
 
-        foreach ($matomoLanguages AS $langCode) {
+        foreach ($matomoLanguages as $langCode) {
 
             if ($langCode == 'dev') {
                 continue;
@@ -250,7 +250,7 @@ class GenerateIntl extends ConsoleCommand
                 throw new \Exception();
             }
 
-            foreach ($languageCodes AS $code) {
+            foreach ($languageCodes as $code) {
                 if (!empty($languageData[$code]) && $languageData[$code] != $code) {
                     $translations['Intl']['Language_' . $code] = $this->transform($languageData[$code]);
                 }
@@ -321,7 +321,7 @@ class GenerateIntl extends ConsoleCommand
                 throw new \Exception();
             }
 
-            foreach ($countryCodes AS $code) {
+            foreach ($countryCodes as $code) {
                 if (!empty($territoryData[$code]) && $territoryData[$code] != $code) {
                     $translations['Intl']['Country_' . $code] = $this->transform($territoryData[$code]);
                 }
@@ -369,7 +369,7 @@ class GenerateIntl extends ConsoleCommand
                 7 => 'sun'
             );
 
-            foreach ($days AS $nr => $day) {
+            foreach ($days as $nr => $day) {
                 $translations['Intl']['Day_Min_' . $nr] = $calendarData['days']['format']['short'][$day];
                 $translations['Intl']['Day_Short_' . $nr] = $calendarData['days']['format']['abbreviated'][$day];
                 $translations['Intl']['Day_Long_' . $nr] = $calendarData['days']['format']['wide'][$day];
