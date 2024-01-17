@@ -170,10 +170,10 @@ class GoalManager
 
         // if the attribute to match is not the type of the current action
         if ((($attribute == 'url' || $attribute == 'title') && $actionType != Action::TYPE_PAGE_URL)
-          || ($attribute == 'file' && $actionType != Action::TYPE_DOWNLOAD)
-          || ($attribute == 'external_website' && $actionType != Action::TYPE_OUTLINK)
-          || ($attribute == 'manually')
-          || self::isEventMatchingGoal($goal) && $actionType != Action::TYPE_EVENT
+            || ($attribute == 'file' && $actionType != Action::TYPE_DOWNLOAD)
+            || ($attribute == 'external_website' && $actionType != Action::TYPE_OUTLINK)
+            || ($attribute == 'manually')
+            || self::isEventMatchingGoal($goal) && $actionType != Action::TYPE_EVENT
         ) {
             return null;
         }
