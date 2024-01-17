@@ -121,7 +121,7 @@ class UserAccessFilter
     public function filterUser($user)
     {
         if ($this->access->hasSuperUserAccess()
-          || (!empty($user['login']) && $this->isNonSuperUserAllowedToSeeThisLogin($user['login']))
+            || (!empty($user['login']) && $this->isNonSuperUserAllowedToSeeThisLogin($user['login']))
         ) {
             return $user;
         }

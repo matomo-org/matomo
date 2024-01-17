@@ -125,7 +125,7 @@ class Loader
         // invalidate existing archives before we start archiving in case data was tracked in the past. if the archive is
         // made invalid, we will correctly re-archive below.
         if ($this->invalidateBeforeArchiving
-          && Rules::isBrowserTriggerEnabled()
+            && Rules::isBrowserTriggerEnabled()
         ) {
             $this->invalidatedReportsIfNeeded();
         }

@@ -117,7 +117,7 @@ class Controller extends Plugin\ControllerAdmin
         if (!$this->passwordVerify->isPasswordCorrect(
             Piwik::getCurrentUserLogin(),
             \Piwik\Request::fromRequest()->getStringParameter('confirmPassword')
-        )) {
+            )) {
             throw new \Exception($this->translator->translate('Login_LoginPasswordNotCorrect'));
         }
 

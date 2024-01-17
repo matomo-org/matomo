@@ -51,3 +51,29 @@ b9c6430c0569308350c3b33231646016d19924ea
 6fa0f5bb8bd0cb06c44db97e226612af9f844a81
 # [Coding Style] Enable rule Generic.Formatting.DisallowMultipleStatements.SameLine (#21700)
 942300387c974a8313b2bd5ecdb486957cca02c4
+# [Coding Style] Enable rule PSR2.ControlStructures.SwitchDeclaration.BodyOnNextLineCASE (#21702)
+f5719461b8342b2fcefe148c8c7174cdc72a89a7
+# [Coding Style] Enable rule Generic.Functions.FunctionCallArgumentSpacing.TooMuchSpaceAfterComma (#21707)
+01c30b930db2e8f96b0c146c21f895832e26fab0
+# [Coding Style] Enable rules Generic.Functions.FunctionCallArgumentSpacing.* (#21710)
+22162916d36389c7c7f3380ab3467890a0c2ef6e
+# [Coding Style] Enable rule Squiz.Functions.MultiLineFunctionDeclaration.ContentAfterBrace (#21716)
+4bf4190287d599d4ae6a67ba4bec1366d5cc541c
+# Enable rule Squiz.Functions.MultiLineFunctionDeclaration.SpaceBeforeBrace (#21717)
+2cb62b61716129dca0b5d9fa2f8a5b3ac1eebac4
+# [Coding Style] Enable rule PSR2.Classes.ClassDeclaration.SpaceAfterKeyword (#21720)
+d6742943fe234d9f80727ae49ffebfb1539a3e67
+# [Coding Style] Enable rules PSR2.Classes.ClassDeclaration.* (#21727)
+8bfe2c7465a25081d8e5a23fcfa9b2f888272d41
+# [Coding Style] Enable rule PSR12.Keywords.ShortFormTypeKeywords.LongFound (#21728)
+04f8ed7c3406afbb155ba3af765169e6579eb3e4
+# [Coding Style] Enable rule PSR2.ControlStructures.SwitchDeclaration.WrongOpenercase (#21731)
+8f6e92f4b5c0e813fb09f2bae2fb91f7ade024d1
+# [Coding Style] Enable rule PSR12.ControlStructures.BooleanOperatorPlacement.FoundMixed (#21730)
+2e3c5156818f5c3b986243870d02ff99c3319f2f
+# [Coding Style] Enable rule Squiz.WhiteSpace.ControlStructureSpacing.SpacingBeforeClose (#21742)
+16f8db6d5c6e5cf1e79344877749077ead1361bf
+# [Coding Style] Enable rule PSR2.Methods.FunctionClosingBrace.SpacingBeforeClose (#21747)
+d209158e6ee34dc4b7c50df98c078954a750979f
+# [Coding Style] Enable rule Squiz.Functions.FunctionDeclarationArgumentSpacing.NoSpaceBeforeArg (#21754)
+7ccae042b39c80b26243f18f93b1c8042de178ca

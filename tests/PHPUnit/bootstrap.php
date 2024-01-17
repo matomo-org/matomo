@@ -145,7 +145,7 @@ printTestDoxHint();
 function checkPiwikSetupForTests()
 {
     if (empty($_SERVER['REQUEST_URI'])
-      || $_SERVER['REQUEST_URI'] == '@REQUEST_URI@'
+        || $_SERVER['REQUEST_URI'] == '@REQUEST_URI@'
     ) {
         echo "WARNING: for tests to pass, you must first:
 1) Install webserver on localhost, eg. apache

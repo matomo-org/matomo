@@ -761,7 +761,7 @@ class Row extends \ArrayObject
         // or both have a value
         if (!(is_null($row1->getIdSubDataTable())
             && is_null($row2->getIdSubDataTable())
-        )
+            )
         ) {
             $subtable1 = $row1->getSubtable();
             $subtable2 = $row2->getSubtable();
