@@ -70,7 +70,7 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($segmentInfo['hash'], $hash);
     }
 
-    static public function removeExtraWhiteSpaces($valueToFilter)
+    public static function removeExtraWhiteSpaces($valueToFilter)
     {
         if (is_array($valueToFilter)) {
             return array_map([self::class, 'removeExtraWhiteSpaces'], $valueToFilter);
