@@ -267,7 +267,7 @@ abstract class RecordBuilder
      *
      * @return Record[]
      */
-    public abstract function getRecordMetadata(ArchiveProcessor $archiveProcessor): array;
+    abstract public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array;
 
     /**
      * Derived classes should define this method to aggregate log data for a single day and return the records
@@ -275,7 +275,7 @@ abstract class RecordBuilder
      *
      * @return (DataTable|int|float|string)[] Record values indexed by their record name, eg, `['MyPlugin_MyRecord' => new DataTable()]`
      */
-    protected abstract function aggregate(ArchiveProcessor $archiveProcessor): array;
+    abstract protected function aggregate(ArchiveProcessor $archiveProcessor): array;
 
     protected function insertBlobRecord(ArchiveProcessor $archiveProcessor, string $recordName, DataTable $record,
                                         ?int $maxRowsInTable, ?int $maxRowsInSubtable, ?string $columnToSortByBeforeTruncation): void

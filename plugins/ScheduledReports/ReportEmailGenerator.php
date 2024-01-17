@@ -37,5 +37,5 @@ abstract class ReportEmailGenerator
         return $mail;
     }
 
-    protected abstract function configureEmail(Mail $mail, GeneratedReport $report);
+    abstract protected function configureEmail(Mail $mail, GeneratedReport $report);
 }

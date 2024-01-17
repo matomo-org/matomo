@@ -12,7 +12,7 @@ use Piwik\Config;
 
 abstract class SectionConfig
 {
-    public abstract static function getSectionName(): string;
+    abstract public static function getSectionName(): string;
 
     /**
      * Set the value for a setting
