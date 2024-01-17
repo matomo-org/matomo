@@ -636,8 +636,6 @@ class Http
             }
 
             $curl_options = array(
-                // internal to ext/curl
-                CURLOPT_BINARYTRANSFER => is_resource($file),
 
                 // curl options (sorted oldest to newest)
                 CURLOPT_URL            => $aUrl,
