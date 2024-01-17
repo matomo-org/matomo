@@ -49,7 +49,6 @@
         <exclude name="PSR2.Methods.FunctionCallSignature.SpaceAfterOpenBracket" />
         <exclude name="PSR2.Methods.FunctionCallSignature.SpaceBeforeCloseBracket" />
         <exclude name="PSR2.Methods.FunctionCallSignature.SpaceBeforeOpenBracket" />
-        <exclude name="PSR2.Methods.MethodDeclaration.AbstractAfterVisibility" />
         <exclude name="PSR2.Methods.MethodDeclaration.StaticBeforeVisibility" />
         <exclude name="PSR2.Methods.MethodDeclaration.Underscore" />
         <exclude name="Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace" />
