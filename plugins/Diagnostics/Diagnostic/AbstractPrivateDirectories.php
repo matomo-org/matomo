@@ -163,5 +163,5 @@ abstract class AbstractPrivateDirectories implements Diagnostic
         return $atLeastOneIsAccessible;
     }
 
-    protected abstract function addError(DiagnosticResult &$result);
+    abstract protected function addError(DiagnosticResult &$result);
 }

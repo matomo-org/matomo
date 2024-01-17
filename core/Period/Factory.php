@@ -46,7 +46,7 @@ abstract class Factory
      *
      * @return bool
      */
-    public abstract function shouldHandle($strPeriod, $strDate);
+    abstract public function shouldHandle($strPeriod, $strDate);
 
     /**
      * Creates a period using the value of the 'date' query parameter.
@@ -56,7 +56,7 @@ abstract class Factory
      * @param string $timezone
      * @return Period
      */
-    public abstract function make($strPeriod, $date, $timezone);
+    abstract public function make($strPeriod, $date, $timezone);
 
     /**
      * Creates a new Period instance with a period ID and {@link Date} instance.
