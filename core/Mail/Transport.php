@@ -9,7 +9,7 @@
 
 namespace Piwik\Mail;
 
-use PHPMailer\PHPMailer\Exception AS PHPMailerException;
+use PHPMailer\PHPMailer\Exception as PHPMailerException;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use Piwik\Config;

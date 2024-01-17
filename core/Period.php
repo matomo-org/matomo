@@ -430,7 +430,7 @@ abstract class Period
         $cleanedFormat = preg_replace_callback('/(\'[^\']+\')/', array($this, 'replaceWithStars'), $format);
 
         // search for first duplicate date field
-        foreach ($intervalTokens AS $tokens) {
+        foreach ($intervalTokens as $tokens) {
             if (preg_match_all('/[' . implode('|', $tokens) . ']+/', $cleanedFormat, $matches, PREG_OFFSET_CAPTURE) &&
                 count($matches[0]) > 1 && $offset > $matches[0][1][1]
             ) {

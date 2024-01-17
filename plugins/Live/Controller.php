@@ -197,7 +197,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $summary = '';
 
-        foreach ($summaryEntries AS $summaryEntry) {
+        foreach ($summaryEntries as $summaryEntry) {
             $summary .= $summaryEntry[1];
         }
 

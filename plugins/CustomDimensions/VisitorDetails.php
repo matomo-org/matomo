@@ -235,7 +235,7 @@ class VisitorDetails extends VisitorDetailsAbstract
                 continue;
             }
 
-            foreach ($dimensions AS $name => &$values) {
+            foreach ($dimensions as $name => &$values) {
                 arsort($values);
             }
         }

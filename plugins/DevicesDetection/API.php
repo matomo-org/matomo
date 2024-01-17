@@ -14,7 +14,7 @@ use Piwik\Archive;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Piwik;
-use DeviceDetector\Parser\Client\Browser AS BrowserParser;
+use DeviceDetector\Parser\Client\Browser as BrowserParser;
 
 /**
  * The DevicesDetection API lets you access reports on your visitors devices, brands, models, Operating system, Browsers.

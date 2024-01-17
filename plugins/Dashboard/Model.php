@@ -177,7 +177,7 @@ class Model
 
             foreach ($column as $widget) {
 
-                foreach ($oldWidgets AS $pos => $oldWidgetData) {
+                foreach ($oldWidgets as $pos => $oldWidgetData) {
 
                     $oldWidgetId = WidgetsList::getWidgetUniqueId($oldWidgetData['module'], $oldWidgetData['action'], $oldWidgetData['params']);
 
