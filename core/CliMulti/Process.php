@@ -310,7 +310,7 @@ class Process
      * @return int[] The ids of the currently running processes
      */
     public static function getRunningProcesses()
-     {
+    {
         $ids = explode("\n", trim(shell_exec(self::PS_COMMAND . ' 2>/dev/null | ' . self::AWK_COMMAND . ' 2>/dev/null')));
 
         $ids = array_map('intval', $ids);

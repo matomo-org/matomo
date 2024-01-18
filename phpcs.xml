@@ -63,7 +63,6 @@
         <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpacingBeforeArg" />
         <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpacingBeforeHint" />
         <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpacingBetween" />
-        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.BraceIndent" />
         <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.BraceOnSameLine" />
         <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.CloseBracketLine" />
         <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.FirstParamSpacing" />
