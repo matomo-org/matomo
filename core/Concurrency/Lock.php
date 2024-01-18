@@ -149,7 +149,7 @@ class Lock
     }
 
     /**
-     * Return if the acquired lock is being locked
+     * Return if the acquired lock is currently locked
      *
      * @return bool
      */
