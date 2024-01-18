@@ -39,7 +39,7 @@ class Lock
     {
         if (mb_strlen($namespace) > self::MAX_KEY_LEN - 32) {
             // A longer namespace could be cut off for too long ids, so we don't support it
-            throw new \Exception('Lock namespace must be shorter than ' . (self::MAX_KEY_LEN - 32) . ' chars');
+            throw new \InvalidArgumentException('Lock namespace must be shorter than ' . (self::MAX_KEY_LEN - 32) . ' chars');
         }
 
         $this->backend = $backend;
