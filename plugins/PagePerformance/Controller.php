@@ -75,7 +75,7 @@ class Controller extends PluginController
      * @return string|void
      * @throws \Exception
      */
-    public function getRowEvolutionGraph($dataTable=null)
+    public function getRowEvolutionGraph($dataTable = null)
     {
         $this->checkSitePermission();
 

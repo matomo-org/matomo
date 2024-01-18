@@ -87,7 +87,7 @@ class API extends \Piwik\Plugin\API
      * @throws \Piwik\NoAccessException
      * @throws \Exception
      */
-    public function sendFeedbackForSurvey($question,  $message = false)
+    public function sendFeedbackForSurvey($question, $message = false)
     {
         Piwik::checkUserIsNotAnonymous();
         Piwik::checkUserHasSomeViewAccess();

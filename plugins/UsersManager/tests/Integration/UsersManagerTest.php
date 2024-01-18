@@ -320,8 +320,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->api->addUser('userLogin2', 'password', 'userlogin2@email.com');
     }
 
-    public function test_addUser_shouldNotAllowAdminUsersToCreateUsersWithAccessToSite_ThatAdminUserDoesNotHaveAccessTo(
-    )
+    public function test_addUser_shouldNotAllowAdminUsersToCreateUsersWithAccessToSite_ThatAdminUserDoesNotHaveAccessTo()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('checkUserHasAdminAccess Fake exception');

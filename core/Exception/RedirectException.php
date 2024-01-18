@@ -23,7 +23,7 @@ class RedirectException extends \Piwik\Exception\Exception implements IRedirectE
      * @param string $redirectTo
      * @param int $countdown
      */
-    public function __construct($message, $redirectTo, $countdown=5)
+    public function __construct($message, $redirectTo, $countdown = 5)
     {
         $this->redirectTo = $redirectTo;
         $this->countdown = $countdown;

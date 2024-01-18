@@ -197,7 +197,7 @@ class ArchivingHelper
      * @return int  Number of rows processed
      * @throws \Exception
      */
-    public static function updateActionsTableWithGoals($resultSet,  bool $isPages): int
+    public static function updateActionsTableWithGoals($resultSet, bool $isPages): int
     {
         $rowsProcessed = 0;
 

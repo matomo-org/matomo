@@ -53,7 +53,7 @@ class Revenue extends BaseConversion
         $segment->setName(Piwik::translate('Ecommerce_RevenueLeftInCart'));
         $segment->setSegment('revenueAbandonedCart');
         $segment->setSqlSegment('log_conversion.idvisit');
-        $segment->setSqlFilter(function ($valueToMatch, $sqlField , $matchType) {
+        $segment->setSqlFilter(function ($valueToMatch, $sqlField, $matchType) {
             return $this->getRevenueQuery($valueToMatch, $sqlField, $matchType, -1);
         });
         $segmentsList->addSegment($dimensionSegmentFactory->createSegment($segment));
@@ -67,7 +67,7 @@ class Revenue extends BaseConversion
      * @param false $cart
      * @return array
      */
-    private function getRevenueQuery($valueToMatch, $sqlField , $matchType, $idGoal)
+    private function getRevenueQuery($valueToMatch, $sqlField, $matchType, $idGoal)
     {
         //supported operator type
         $supportType = [

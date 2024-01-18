@@ -92,7 +92,7 @@ class API extends \Piwik\Plugin\API
      * @param int $idDashboard id of the dashboard to be removed
      * @param string $login  Login of the dashboard user [defaults to current user]
      */
-    public function removeDashboard($idDashboard, $login='')
+    public function removeDashboard($idDashboard, $login = '')
     {
         $login = $login ? $login : Piwik::getCurrentUserLogin();
 
@@ -150,7 +150,7 @@ class API extends \Piwik\Plugin\API
      * @param string $login user the dashboard belongs
      *
      */
-    public function resetDashboardLayout($idDashboard, $login='')
+    public function resetDashboardLayout($idDashboard, $login = '')
     {
         $login = $login ?: Piwik::getCurrentUserLogin();
 

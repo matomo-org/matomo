@@ -96,7 +96,7 @@ class Request
             $this->getIdSiteIfExists());
     }
 
-    protected function replaceUnsupportedUtf8Chars($value, $key=false)
+    protected function replaceUnsupportedUtf8Chars($value, $key = false)
     {
         $dbSettings   = new \Piwik\Db\Settings();
         $charset      = $dbSettings->getUsedCharset();

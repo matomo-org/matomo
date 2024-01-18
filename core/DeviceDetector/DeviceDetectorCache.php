@@ -61,7 +61,7 @@ class DeviceDetectorCache implements \DeviceDetector\Cache\CacheInterface
      * @throws \Exception
      * @return bool  True if the entry was successfully stored
      */
-    public function save($id, $content, $ttl=0): bool
+    public function save($id, $content, $ttl = 0): bool
     {
         if (empty($id)) {
             return false;
