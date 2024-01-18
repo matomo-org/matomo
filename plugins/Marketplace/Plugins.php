@@ -10,7 +10,6 @@ namespace Piwik\Plugins\Marketplace;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
-use Piwik\Plugin\Manager;
 use Piwik\ProfessionalServices\Advertising;
 use Piwik\Plugin\Dependency as PluginDependency;
 use Piwik\Plugin;
