@@ -385,7 +385,7 @@ class Plugins
     }
 
     /**
-     * If plugin is by Matomo, check if we have a specific image, otherwise fallback to default Matomo image.
+     * If plugin is by Matomo, use a Matomo image, until plugins can provide their preview image via the marketplace.
      * If plugin is not by Matomo, use generic preview image for now (until plugin categories are introduced).
      *
      * @param $plugin
@@ -396,11 +396,7 @@ class Plugins
         $previewImage = 'generic-plugin';
 
         if (in_array(strtolower($plugin['owner']), ['piwik', 'matomo-org'])) {
-            if (file_exists(sprintf('%s/images/previews/Matomo/%s.png', Manager::getPluginDirectory('Marketplace'), $plugin['name']))) {
-                $previewImage = 'Matomo/' . $plugin['name'];
-            } else {
-                $previewImage = 'matomo-plugin';
-            }
+            $previewImage = 'matomo-plugin';
         }
 
         $plugin['previewImage'] = 'plugins/Marketplace/images/previews/' . $previewImage . '.png';
