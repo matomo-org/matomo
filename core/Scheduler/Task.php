@@ -99,7 +99,7 @@ class Task
 
         // only allow TTLs between 1 second and 1 week
         if ($ttlInSeconds !== -1 && ($ttlInSeconds < 1 || $ttlInSeconds > 604800)) {
-            throw new Exception("Invalid ttl for ScheduledTask '$this->className.$methodName': $ttlInSeconds. The TTL must be -1 or between 1 and 604800.");
+            throw new Exception("Invalid TTL for ScheduledTask '$this->className.$methodName': $ttlInSeconds. The TTL must be -1 or between 1 and 604800 (1 second to 1 week).");
         }
 
         $this->objectInstance = $objectInstance;
