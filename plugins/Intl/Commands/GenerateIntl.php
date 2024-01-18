@@ -496,7 +496,7 @@ class GenerateIntl extends ConsoleCommand
         }
     }
 
-    protected function transformDateFormat($dateFormat, $changes=array())
+    protected function transformDateFormat($dateFormat, $changes = array())
     {
         if(!empty($changes)) {
             $dateFormat = str_replace(array_keys($changes), array_values($changes), $dateFormat);

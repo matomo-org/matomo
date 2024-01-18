@@ -82,7 +82,7 @@ class DateTimeFormatProvider
      *
      * @return string
      */
-    public function getRangeFormatPattern($short=false, $maxDifference='Y')
+    public function getRangeFormatPattern($short = false, $maxDifference = 'Y')
     {
         if ($short) {
             return 'MMM d, y – MMM d, y';

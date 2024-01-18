@@ -127,7 +127,7 @@ abstract class Action
      * @return bool
      * @throws Exception
      */
-    public static function isCustomActionRequest(Request  $request)
+    public static function isCustomActionRequest(Request $request)
     {
         return $request->hasParam('ca') && $request->getParam('ca');
     }

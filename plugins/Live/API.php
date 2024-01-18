@@ -380,7 +380,7 @@ class API extends \Piwik\Plugin\API
      * @return DataTable
      * @throws Exception
      */
-    private function makeVisitorTableFromArray($data, $hasMoreVisits=null)
+    private function makeVisitorTableFromArray($data, $hasMoreVisits = null)
     {
         $dataTable = new DataTable();
 

@@ -94,7 +94,7 @@ class DateTimeFormatProvider extends \Piwik\Intl\Data\Provider\DateTimeFormatPro
      *
      * @return string
      */
-    public function getRangeFormatPattern($short=false, $maxDifference='Y')
+    public function getRangeFormatPattern($short = false, $maxDifference = 'Y')
     {
         return $this->translator->translate(
             sprintf(

@@ -504,7 +504,7 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals(array('2012-02-19 04:01:00 2012-02-20 04:01:00', '2012-02-12 04:01:00 2012-02-19 04:00:59', '2012-01-13 04:01:00 2012-02-12 04:00:59', '2011-01-01 04:01:00 2012-01-13 04:00:59', ' 2011-01-01 04:00:59'), $dates);
     }
 
-    private function splitDatesIntoMultipleQueries($startDate, $endDate, $limit, $offset, $order='desc')
+    private function splitDatesIntoMultipleQueries($startDate, $endDate, $limit, $offset, $order = 'desc')
     {
         if ($startDate) {
             $startDate = Date::factory($startDate);

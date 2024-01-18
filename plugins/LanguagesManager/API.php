@@ -102,7 +102,7 @@ class API extends \Piwik\Plugin\API
      *
      * @return array Array of arrays
      */
-    public function getAvailableLanguagesInfo($excludeNonCorePlugins=true, $_ignoreConfig = false)
+    public function getAvailableLanguagesInfo($excludeNonCorePlugins = true, $_ignoreConfig = false)
     {
         $data = file_get_contents(PIWIK_INCLUDE_PATH . '/lang/en.json');
         $englishTranslation = json_decode($data, true);
