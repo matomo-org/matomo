@@ -55,14 +55,6 @@
         <exclude name="Squiz.ControlStructures.ForLoopDeclaration.NoSpaceAfterFirst" />
         <exclude name="Squiz.ControlStructures.ForLoopDeclaration.NoSpaceAfterSecond" />
         <exclude name="Squiz.Functions.FunctionDeclaration.Found" />
-        <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpaceAfterEquals" />
-        <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpaceBeforeComma" />
-        <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpaceBeforeEquals" />
-        <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpacingAfterHint" />
-        <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpacingAfterReference" />
-        <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpacingBeforeArg" />
-        <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpacingBeforeHint" />
-        <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpacingBetween" />
         <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.BraceIndent" />
         <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.BraceOnSameLine" />
         <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.CloseBracketLine" />
