@@ -613,7 +613,8 @@ class Controller extends Plugin\ControllerAdmin
         // error again
         try {
             Filesystem::deleteAllCacheOnUpdate();
-        } catch (Exception $e) {}
+        } catch (Exception $e) {
+        }
     }
 
     /**

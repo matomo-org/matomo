@@ -214,7 +214,8 @@ class SettingTest extends \PHPUnit\Framework\TestCase
 
     public function test_isWritableByCurrentUser_shouldNotBeWritableByDefault()
     {
-        $setting = new Setting($name = 'test', $default = 0, $type = FieldConfig::TYPE_INT, function () {});
+        $setting = new Setting($name = 'test', $default = 0, $type = FieldConfig::TYPE_INT, function () {
+        });
         $this->assertFalse($setting->isWritableByCurrentUser());
     }
 
