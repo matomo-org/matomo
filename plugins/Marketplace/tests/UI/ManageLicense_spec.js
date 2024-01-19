@@ -16,9 +16,6 @@ describe("ManageLicense", function () {
 
   async function captureSelector(screenshotName, selector)
   {
-    await page.evaluate(function () {
-      $('#secondNavBar').css('visibility', 'hidden'); // hide navbar so shadow isn't shown on screenshot
-    });
     await page.waitForNetworkIdle();
     expect(await page.screenshotSelector(selector)).to.matchImage(screenshotName);
   }

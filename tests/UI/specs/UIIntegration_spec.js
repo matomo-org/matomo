@@ -57,14 +57,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     async function screenshotPageWrap() {
-        await page.evaluate(function () {
-          $('#secondNavBar').css('visibility', 'hidden'); // hide navbar so shadow isn't shown on screenshot
-        });
         const pageWrap = await page.$('.pageWrap');
         const screenshot = await pageWrap.screenshot();
-        await page.evaluate(function () {
-          $('#secondNavBar').css('visibility', 'visible'); // show navbar again
-        });
         return screenshot;
     }
 
