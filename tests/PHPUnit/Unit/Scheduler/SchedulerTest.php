@@ -9,19 +9,29 @@
 namespace Piwik\Tests\Unit\Scheduler;
 
 use Piwik\Date;
+use Piwik\Log\NullLogger;
 use Piwik\Option;
 use Piwik\Plugin;
+use Piwik\Scheduler\ScheduledTaskLock;
 use Piwik\Scheduler\Scheduler;
 use Piwik\Scheduler\Task;
 use Piwik\Scheduler\Timetable;
+use Piwik\Tests\Framework\Mock\Concurrency\LockBackend\InMemoryLockBackend;
 use Piwik\Tests\Framework\Mock\PiwikOption;
-use Piwik\Log\NullLogger;
 
 /**
  * @group Scheduler
  */
 class SchedulerTest extends \PHPUnit\Framework\TestCase
 {
+    private $randomTaskHasRun = false;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->randomTaskHasRun = false;
+    }
+
     private static function getTestTimetable()
     {
         return array(
@@ -52,7 +62,7 @@ class SchedulerTest extends \PHPUnit\Framework\TestCase
         self::stubPiwikOption($timetable);
 
         $taskLoader = $this->createMock('Piwik\Scheduler\TaskLoader');
-        $scheduler = new Scheduler($taskLoader, new NullLogger());
+        $scheduler = new Scheduler($taskLoader, new NullLogger(), new ScheduledTaskLock(new InMemoryLockBackend()));
 
         $this->assertEquals($expectedTime, $scheduler->getScheduledTimeForMethod($className, $methodName, $methodParameter));
 
@@ -70,7 +80,7 @@ class SchedulerTest extends \PHPUnit\Framework\TestCase
         $taskLoader = $this->getMockBuilder('Piwik\Scheduler\TaskLoader')
             ->disableOriginalConstructor()
             ->getMock();
-        $scheduler = new Scheduler($taskLoader, new NullLogger());
+        $scheduler = new Scheduler($taskLoader, new NullLogger(), new ScheduledTaskLock(new InMemoryLockBackend()));
 
         $scheduler->rescheduleTaskAndRunTomorrow($task);
 
@@ -179,7 +189,7 @@ class SchedulerTest extends \PHPUnit\Framework\TestCase
         // stub the piwik option object to control the returned option value
         self::stubPiwikOption(serialize($timetableBeforeTaskExecution));
 
-        $scheduler = new Scheduler($taskLoader, new NullLogger());
+        $scheduler = new Scheduler($taskLoader, new NullLogger(), new ScheduledTaskLock(new InMemoryLockBackend()));
 
         // execute tasks
         $executionResults = $scheduler->run();
@@ -215,7 +225,7 @@ class SchedulerTest extends \PHPUnit\Framework\TestCase
         $timetable = new Timetable();
         $initialTimetable = $timetable->getTimetable();
 
-        $scheduler = new Scheduler($taskLoader, new NullLogger());
+        $scheduler = new Scheduler($taskLoader, new NullLogger(), new ScheduledTaskLock(new InMemoryLockBackend()));
 
         foreach ($configuredTasks as $task) {
             /** @var Task $task */
@@ -228,6 +238,134 @@ class SchedulerTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($initialTimetable, $timetable->getTimetable());
 
         self::resetPiwikOption();
+    }
+
+    public function testSchedulerShouldNotRunTaskIfLocked()
+    {
+        // Mock timetable
+        $now = time() - 60;
+        $taskName = 'Piwik\Tests\Unit\Scheduler\SchedulerTest.randomTask';
+        $timetableData = serialize([$taskName => $now]);
+
+        self::stubPiwikOption($timetableData);
+
+        // Create task
+        $dailySchedule = $this->createPartialMock('Piwik\Scheduler\Schedule\Daily', array('getTime'));
+        $dailySchedule->expects($this->any())
+            ->method('getTime')
+            ->will($this->returnValue($now));
+
+        // Setup scheduler
+        $tasks = [new Task($this, 'randomTask', null, $dailySchedule)];
+        $taskLoader = $this->createMock('Piwik\Scheduler\TaskLoader');
+        $taskLoader->expects($this->atLeastOnce())
+            ->method('loadTasks')
+            ->willReturn($tasks);
+
+        $lock = new ScheduledTaskLock(new InMemoryLockBackend());
+
+        $scheduler = new Scheduler($taskLoader, new NullLogger(), $lock);
+
+        // simulate that task is running in another process by acquiring the lock
+        $lock->acquireLock($taskName, 3600);
+
+        $scheduler->run();
+
+        self::assertEquals(false, $this->randomTaskHasRun);
+
+        $lock->unlock();
+
+        $scheduler->run();
+
+        self::assertEquals(true, $this->randomTaskHasRun);
+
+        self::resetPiwikOption();
+    }
+
+    public function testRunTaskNowShouldNotRunTaskIfLocked()
+    {
+        // Mock timetable
+        $now = time() - 60;
+        $taskName = 'Piwik\Tests\Unit\Scheduler\SchedulerTest.randomTask';
+        $timetableData = serialize([$taskName => $now]);
+
+        self::stubPiwikOption($timetableData);
+
+        // Create task
+        $dailySchedule = $this->createPartialMock('Piwik\Scheduler\Schedule\Daily', array('getTime'));
+        $dailySchedule->expects($this->any())
+            ->method('getTime')
+            ->will($this->returnValue($now));
+
+        // Setup scheduler
+        $tasks = [new Task($this, 'randomTask', null, $dailySchedule)];
+        $taskLoader = $this->createMock('Piwik\Scheduler\TaskLoader');
+        $taskLoader->expects($this->atLeastOnce())
+            ->method('loadTasks')
+            ->willReturn($tasks);
+
+        $lock = new ScheduledTaskLock(new InMemoryLockBackend());
+
+        $scheduler = new Scheduler($taskLoader, new NullLogger(), $lock);
+
+        // simulate that task is running in another process by acquiring the lock
+        $lock->acquireLock($taskName, 3600);
+
+        $scheduler->runTaskNow($taskName);
+
+        self::assertEquals(false, $this->randomTaskHasRun);
+
+        $lock->unlock();
+
+        $scheduler->runTaskNow($taskName);
+
+        self::assertEquals(true, $this->randomTaskHasRun);
+
+        self::resetPiwikOption();
+    }
+
+    public function testTaskWithOutTTLShouldNotTryToAcquireLock()
+    {
+        // Mock timetable
+        $now = time() - 60;
+        $taskName = 'Piwik\Tests\Unit\Scheduler\SchedulerTest.randomTask';
+        $timetableData = serialize([$taskName => $now]);
+
+        self::stubPiwikOption($timetableData);
+
+        // Create task
+        $dailySchedule = $this->createPartialMock('Piwik\Scheduler\Schedule\Daily', array('getTime'));
+        $dailySchedule->expects($this->any())
+            ->method('getTime')
+            ->will($this->returnValue($now));
+
+        // Setup scheduler
+        $tasks = [new Task($this, 'randomTask', null, $dailySchedule, Task::HIGHEST_PRIORITY, -1)];
+        $taskLoader = $this->createMock('Piwik\Scheduler\TaskLoader');
+        $taskLoader->expects($this->atLeastOnce())
+            ->method('loadTasks')
+            ->willReturn($tasks);
+
+        $lock = new ScheduledTaskLock(new InMemoryLockBackend());
+
+        $scheduler = new Scheduler($taskLoader, new NullLogger(), $lock);
+
+        // acquire the lock to prove the lock isn't checked
+        $lock->acquireLock($taskName, 3600);
+
+        $scheduler->runTaskNow($taskName);
+
+        // Task should directly run, as the already acquired lock should be ignored due to TTL of -1 for task
+        self::assertEquals(true, $this->randomTaskHasRun);
+
+        $lock->unlock();
+
+        self::resetPiwikOption();
+    }
+
+    public function randomTask()
+    {
+        $this->randomTaskHasRun = true;
     }
 
     private static function stubPiwikOption($timetable)

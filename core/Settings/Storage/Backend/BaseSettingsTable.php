@@ -26,7 +26,7 @@ abstract class BaseSettingsTable implements BackendInterface
     {
         $this->lock = StaticContainer::getContainer()->make(
             Lock::class,
-            array ('lockKeyStart' => 'PluginSettingsTable')
+            array ('namespace' => 'PluginSettingsTable')
         );
     }
 

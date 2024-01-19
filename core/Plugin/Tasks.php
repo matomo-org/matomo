@@ -63,9 +63,9 @@ class Tasks
      * @return Schedule
      * @api
      */
-    protected function hourly($methodName, $methodParameter = null, $priority = self::NORMAL_PRIORITY)
+    protected function hourly($methodName, $methodParameter = null, $priority = self::NORMAL_PRIORITY, int $ttlInSeconds = null)
     {
-        return $this->custom($this, $methodName, $methodParameter, 'hourly', $priority);
+        return $this->custom($this, $methodName, $methodParameter, 'hourly', $priority, $ttlInSeconds);
     }
 
     /**
@@ -74,9 +74,9 @@ class Tasks
      * See {@link hourly()}
      * @api
      */
-    protected function daily($methodName, $methodParameter = null, $priority = self::NORMAL_PRIORITY)
+    protected function daily($methodName, $methodParameter = null, $priority = self::NORMAL_PRIORITY, int $ttlInSeconds = null)
     {
-        return $this->custom($this, $methodName, $methodParameter, 'daily', $priority);
+        return $this->custom($this, $methodName, $methodParameter, 'daily', $priority, $ttlInSeconds);
     }
 
     /**
@@ -85,9 +85,9 @@ class Tasks
      * See {@link hourly()}
      * @api
      */
-    protected function weekly($methodName, $methodParameter = null, $priority = self::NORMAL_PRIORITY)
+    protected function weekly($methodName, $methodParameter = null, $priority = self::NORMAL_PRIORITY, int $ttlInSeconds = null)
     {
-        return $this->custom($this, $methodName, $methodParameter, 'weekly', $priority);
+        return $this->custom($this, $methodName, $methodParameter, 'weekly', $priority, $ttlInSeconds);
     }
 
     /**
@@ -96,9 +96,9 @@ class Tasks
      * See {@link hourly()}
      * @api
      */
-    protected function monthly($methodName, $methodParameter = null, $priority = self::NORMAL_PRIORITY)
+    protected function monthly($methodName, $methodParameter = null, $priority = self::NORMAL_PRIORITY, int $ttlInSeconds = null)
     {
-        return $this->custom($this, $methodName, $methodParameter, 'monthly', $priority);
+        return $this->custom($this, $methodName, $methodParameter, 'monthly', $priority, $ttlInSeconds);
     }
 
     /**
@@ -119,7 +119,7 @@ class Tasks
      *
      * @api
      */
-    protected function custom($objectOrClassName, $methodName, $methodParameter, $time, $priority = self::NORMAL_PRIORITY)
+    protected function custom($objectOrClassName, $methodName, $methodParameter, $time, $priority = self::NORMAL_PRIORITY, int $ttlInSeconds = null)
     {
         $this->checkIsValidTask($objectOrClassName, $methodName);
 
@@ -131,7 +131,7 @@ class Tasks
             throw new \Exception('$time should be an instance of Schedule');
         }
 
-        $this->scheduleTask(new Task($objectOrClassName, $methodName, $methodParameter, $time, $priority));
+        $this->scheduleTask(new Task($objectOrClassName, $methodName, $methodParameter, $time, $priority, $ttlInSeconds));
 
         return $time;
     }
