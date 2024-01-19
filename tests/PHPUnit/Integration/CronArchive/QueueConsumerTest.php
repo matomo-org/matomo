@@ -983,6 +983,55 @@ class QueueConsumerTest extends IntegrationTestCase
         $this->assertEquals([true, '2020-04-04 23:58:20'], $result);
     }
 
+    public function testUsableArchiveExistsReturnsTrueIfDateRangeHasVisitsAndPeriodIncludesTodayAndExistingPluginArchiveIsRecent()
+    {
+        $idSite = Fixture::createWebsite('2015-02-03');
+
+        Date::$now = strtotime('2020-04-05');
+
+        $t = Fixture::getTracker($idSite, '2020-04-05 10:34:00');
+        $t->setUrl('http://whatever.com');
+        Fixture::checkResponse($t->doTrackPageView('test title'));
+
+        $cronArchive = new CronArchive();
+
+        $archiveFilter = $this->makeTestArchiveFilter();
+
+        $queueConsumer = new QueueConsumer(
+            StaticContainer::get(LoggerInterface::class),
+            new FixedSiteIds([1]),
+            3,
+            24,
+            new Model(),
+            new SegmentArchiving(),
+            $cronArchive,
+            new RequestParser(true),
+            $archiveFilter
+        );
+
+        $segmentHash = (new Segment('browserCode==IE', [1]))->getHash();
+
+        $invalidation = [
+            'idsite' => 1,
+            'period' => 2,
+            'date1' => '2020-03-30',
+            'date2' => '2020-04-05',
+            'name' => 'done' . $segmentHash . '.ExamplePlugin',
+            'segment' => 'browserCode==IE',
+            'plugin' => 'ExamplePlugin'
+        ];
+
+        $tsArchived = Date::factory('now')->subSeconds(100)->getDatetime();
+
+        $archiveTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-03-30'));
+        Db::query("INSERT INTO $archiveTable (idarchive, idsite, period, date1, date2, name, value, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
+            1, 1,2, '2020-03-30', '2020-04-05', 'done' . $segmentHash . '.ExamplePlugin', ArchiveWriter::DONE_PARTIAL, $tsArchived
+        ]);
+
+        $result = $queueConsumer->usableArchiveExists($invalidation);
+        $this->assertEquals([true, '2020-04-04 23:58:20'], $result);
+    }
+
     public function test_canSkipArchiveBecauseNoPoint_returnsFalseIfDateRangeHasVisits_AndPeriodIncludesToday_AndOnlyExistingArchiveIsRecentButPartial()
     {
         $idSite = Fixture::createWebsite('2015-02-03');
@@ -1027,6 +1076,51 @@ class QueueConsumerTest extends IntegrationTestCase
 
         $result = $queueConsumer->canSkipArchiveBecauseNoPoint($invalidation);
         $this->assertFalse($result);
+    }
+
+    public function testCanSkipArchiveBecauseNoPointReturnsTrueSegmentArchivingForPluginIsDisabled()
+    {
+        $idSite = Fixture::createWebsite('2015-02-03');
+
+        Date::$now = strtotime('2020-04-05');
+
+        $t = Fixture::getTracker($idSite, '2020-04-05 10:34:00');
+        $t->setUrl('http://whatever.com');
+        Fixture::checkResponse($t->doTrackPageView('test title'));
+
+        $cronArchive = new CronArchive();
+
+        $archiveFilter = $this->makeTestArchiveFilter();
+
+        $queueConsumer = new QueueConsumer(
+            StaticContainer::get(LoggerInterface::class),
+            new FixedSiteIds([1]),
+            3,
+            24,
+            new Model(),
+            new SegmentArchiving(),
+            $cronArchive,
+            new RequestParser(true),
+            $archiveFilter
+        );
+
+        $segmentHash = (new Segment('browserCode==IE', [1]))->getHash();
+
+        $invalidation = [
+            'idsite' => 1,
+            'period' => 2,
+            'date1' => '2020-03-30',
+            'date2' => '2020-04-05',
+            'name' => 'done' . $segmentHash . '.ExamplePlugin',
+            'segment' => 'browserCode==IE',
+            'plugin' => 'ExamplePlugin'
+        ];
+
+        $this->assertFalse($queueConsumer->canSkipArchiveBecauseNoPoint($invalidation));
+
+        Config::getInstance()->General['disable_archiving_segment_for_plugins'] = 'ExamplePlugin';
+
+        $this->assertTrue($queueConsumer->canSkipArchiveBecauseNoPoint($invalidation));
     }
 
     /**
