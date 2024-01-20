@@ -31,8 +31,8 @@ namespace Piwik\Tests\Framework\Mock;
 
 class File
 {
-    static $filesize = null;
-    static $fileExists = null;
+    private static $filesize = null;
+    private static $fileExists = null;
 
     public static function getFileSize()
     {

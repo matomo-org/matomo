@@ -37,7 +37,6 @@
         <exclude name="PSR12.ControlStructures.ControlStructureSpacing.SpacingAfterOpenBrace" />
         <exclude name="PSR12.Files.FileHeader" />
         <exclude name="PSR12.Properties.ConstantVisibility" />
-        <exclude name="PSR2.Classes.PropertyDeclaration.ScopeMissing" />
         <exclude name="PSR2.Classes.PropertyDeclaration.Underscore" />
         <exclude name="PSR2.ControlStructures.ElseIfDeclaration.NotAllowed" />
         <exclude name="PSR2.Methods.FunctionCallSignature.CloseBracketLine" />
