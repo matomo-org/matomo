@@ -114,9 +114,9 @@ return [
         })],
 
         ['Visualization.beforeRender', Piwik\DI::value(function (Visualization $visualization) {
-            $archiveStates = StaticContainer::get('test.vars.forceArchiveStates');
+            $dataStates = StaticContainer::get('test.vars.forceDataStates');
 
-            if (!is_array($archiveStates) || [] === $archiveStates) {
+            if (!is_array($dataStates) || [] === $dataStates) {
                 return;
             }
 
@@ -127,13 +127,13 @@ return [
             }
 
             foreach ($dataTable->getDataTables() as $date => $subTable) {
-                if (!isset($archiveStates[$date])) {
+                if (!isset($dataStates[$date])) {
                     continue;
                 }
 
                 $subTable->setMetadata(
                     DataTable::ARCHIVE_STATE_METADATA_NAME,
-                    $archiveStates[$date]
+                    $dataStates[$date]
                 );
             }
         })],

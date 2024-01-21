@@ -141,7 +141,7 @@ class Evolution extends JqplotDataGenerator
             $visualization->setAxisXOnClick($axisXOnClick);
         }
 
-        $this->setArchiveStates($visualization, $dataTables);
+        $this->setDataStates($visualization, $dataTables);
     }
 
     private function getSeriesData($rowLabel, $columnName, DataTable\Map $dataTable)
@@ -330,7 +330,7 @@ class Evolution extends JqplotDataGenerator
     /**
      * @param array<DataTable> $dataTables
      */
-    private function setArchiveStates(Chart $visualization, array $dataTables): void
+    private function setDataStates(Chart $visualization, array $dataTables): void
     {
         if (0 === count($dataTables)) {
             return;
@@ -342,7 +342,7 @@ class Evolution extends JqplotDataGenerator
         /** @var Site $site */
         $site = $dataTables[$mostRecentDate]->getMetadata(DataTableFactory::TABLE_METADATA_SITE_INDEX);
 
-        $archiveStates = [];
+        $dataStates = [];
         $siteToday = Date::factoryInTimezone('today', $site->getTimezone())->getTimestamp();
 
         foreach ($dataTableDates as $dataTableDate) {
@@ -358,9 +358,9 @@ class Evolution extends JqplotDataGenerator
                 $state = DataTable::ID_ARCHIVE_STATE_INCOMPLETE;
             }
 
-            $archiveStates[$dataTableDate] = $state;
+            $dataStates[$dataTableDate] = $state;
         }
 
-        $visualization->setArchiveStates(array_values($archiveStates));
+        $visualization->setDataStates(array_values($dataStates));
     }
 }

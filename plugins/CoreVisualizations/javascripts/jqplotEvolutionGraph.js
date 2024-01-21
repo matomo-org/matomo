@@ -165,7 +165,7 @@
                         `;
                     }
 
-                    switch (self.jqplotParams.archiveStates[tick]) {
+                    switch (self.jqplotParams.dataStates[tick]) {
                         case 'incomplete':
                             content += `<br />(${self._lang.incompletePeriod})`;
                             break;

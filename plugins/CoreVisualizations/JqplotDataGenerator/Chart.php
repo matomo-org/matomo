@@ -27,7 +27,7 @@ class Chart
     /**
      * @var array<string>
      */
-    protected $archiveStates = [];
+    protected $dataStates = [];
 
     // temporary
     public $properties;
@@ -156,7 +156,7 @@ class Chart
                 'series' => &$this->series,
             ],
             'data' => &$this->data,
-            'archiveStates' => &$this->archiveStates,
+            'dataStates' => &$this->dataStates,
         ];
 
         return $data;
@@ -178,11 +178,15 @@ class Chart
     }
 
     /**
-     * @param array<string> $archiveStates
+     * Set state information ("complete", "incomplete", ...) for the data points.
+     *
+     * Each entry is associated with all values of all series having the same index (stored in $data).
+     *
+     * @param array<string> $dataStates
      */
-    public function setArchiveStates(array $archiveStates): void
+    public function setDataStates(array $dataStates): void
     {
-        $this->archiveStates = $archiveStates;
+        $this->dataStates = $dataStates;
     }
 
     private function getXAxis($index)

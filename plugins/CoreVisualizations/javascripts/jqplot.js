@@ -74,7 +74,7 @@ function rowEvolutionGetMetricNameFromRow(tr)
 
             this.data = graphData.data;
             this._setJqplotParameters(graphData.params);
-            this._setArchiveStates(graphData.archiveStates);
+            this._setDataStates(graphData.dataStates);
 
             if (this.props.display_percentage_in_tooltip) {
                 this._setTooltipPercentages();
@@ -96,11 +96,11 @@ function rowEvolutionGetMetricNameFromRow(tr)
             setTimeout(function () { self.render(); }, 1);
         },
 
-        _setArchiveStates: function (archiveStates) {
-            this.jqplotParams.archiveStates = [];
+        _setDataStates: function (dataStates) {
+            this.jqplotParams.dataStates = [];
 
-            if (Array.isArray(archiveStates)) {
-                this.jqplotParams.archiveStates = archiveStates;
+            if (Array.isArray(dataStates)) {
+                this.jqplotParams.dataStates = dataStates;
             }
         },
 
@@ -1379,12 +1379,12 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         var xmin, ymin, xmax, ymax;
 
         // Only change in this overridden method, to pass the option to the renderers
-        if (plot.options.hasOwnProperty('archiveStates')) {
-            opts.archiveStates = plot.options.archiveStates;
+        if (plot.options.hasOwnProperty('dataStates')) {
+            opts.dataStates = plot.options.dataStates;
         }
 
-        if (!Array.isArray(opts.archiveStates)) {
-            opts.archiveStates = [];
+        if (!Array.isArray(opts.dataStates)) {
+            opts.dataStates = [];
         }
 
         ctx.save();
@@ -1599,7 +1599,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
 
                     const markerOptions = opts.markerOptions || {};
 
-                    markerOptions.isIncomplete = opts.archiveStates[i] && opts.archiveStates[i] !== 'complete';
+                    markerOptions.isIncomplete = opts.dataStates[i] && opts.dataStates[i] !== 'complete';
                     markerOptions.incompleteFillColor = plot.grid.background;
 
                     this.markerRenderer.draw(gd[i][0], gd[i][1], ctx, markerOptions);
@@ -1628,11 +1628,11 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         ctx.fillStyle = opts.fillStyle || this.fillStyle;
         ctx.beginPath();
 
-        let archiveStates = [];
+        let dataStates = [];
 
-        if (!closePath && !fill && Array.isArray(opts.archiveStates)) {
+        if (!closePath && !fill && Array.isArray(opts.dataStates)) {
             // only do the incomplete visualization for line charts
-            archiveStates = opts.archiveStates;
+            dataStates = opts.dataStates;
         }
 
         if (isarc) {
@@ -1698,7 +1698,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
             }
 
             // draw line to current point or skip if incomplete data point
-            if (archiveStates[i] && 'complete' !== archiveStates[i]) {
+            if (dataStates[i] && 'complete' !== dataStates[i]) {
                 ctxPattern.moveTo(points[i][0], points[i][1]);
             } else {
                 ctxPattern.lineTo(points[i][0], points[i][1]);
@@ -1735,7 +1735,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
             }
 
             // draw dashed line to current point or skip if not incomplete data point
-            if (!archiveStates[i] || 'complete' === archiveStates[i]) {
+            if (!dataStates[i] || 'complete' === dataStates[i]) {
                 ctxPattern.moveTo(points[i][0], points[i][1]);
             } else {
                 ctxPattern.lineTo(points[i][0], points[i][1]);
@@ -1765,11 +1765,11 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         ctx.strokeStyle = opts.strokeStyle || this.strokeStyle || 'rgba(0,0,0,'+alpha+')';
         ctx.fillStyle = opts.fillStyle || this.fillStyle || 'rgba(0,0,0,'+alpha+')';
 
-        let archiveStates = [];
+        let dataStates = [];
 
-        if (!closePath && !fill && Array.isArray(opts.archiveStates)) {
+        if (!closePath && !fill && Array.isArray(opts.dataStates)) {
             // only do the incomplete visualization for line charts
-            archiveStates = opts.archiveStates;
+            dataStates = opts.dataStates;
         }
 
         for (let j= 0; j < depth; j++) {
@@ -1801,7 +1801,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
                     }
 
                     // draw shadow line to current point or skip if incomplete data point
-                    if (archiveStates[i] && 'complete' !== archiveStates[i]) {
+                    if (dataStates[i] && 'complete' !== dataStates[i]) {
                         ctxPattern.moveTo(points[i][0], points[i][1]);
                     } else {
                         ctxPattern.lineTo(points[i][0], points[i][1]);

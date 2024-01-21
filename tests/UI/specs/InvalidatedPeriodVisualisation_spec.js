@@ -13,7 +13,7 @@ describe('InvalidatedPeriodVisualisation', function () {
               + '&isFooterExpandedInDashboard=1';
 
     before(() => {
-        testEnvironment.forceArchiveStates = {
+        testEnvironment.forceDataStates = {
           '2012-01-08': 'invalidated',
           '2012-01-09': 'invalidated',
           '2012-01-10': 'invalidated',
@@ -25,7 +25,7 @@ describe('InvalidatedPeriodVisualisation', function () {
     });
 
     after(() => {
-        delete testEnvironment.forceArchiveStates;
+        delete testEnvironment.forceDataStates;
         testEnvironment.save();
     });
 
