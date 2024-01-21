@@ -9,6 +9,7 @@ namespace Piwik\Plugins\TestRunner\Commands;
 
 use Piwik\AssetManager;
 use Piwik\Config;
+use Piwik\Filesystem;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Tests\Framework\Fixture;
 
@@ -31,6 +32,7 @@ class TestsRunUI extends ConsoleCommand
         $this->addRequiredValueOption('plugin', null, "Execute all tests for a plugin.");
         $this->addNoValueOption('core', null, "Execute only tests for Piwik core & core plugins.");
         $this->addNoValueOption('skip-delete-assets', null, "Skip deleting of merged assets (will speed up a test run, but not by a lot).");
+        $this->addNoValueOption('skip-delete-request-cache', null, "Skip deleting of cached requests. Can be used to speed up tests accross multiple runs.");
         $this->addNoValueOption('screenshot-repo', null, "For tests");
         $this->addNoValueOption('store-in-ui-tests-repo', null, "For tests");
         $this->addNoValueOption('debug', null, "Enables node inspector");
@@ -51,6 +53,7 @@ class TestsRunUI extends ConsoleCommand
         $assumeArtifacts = $input->getOption('assume-artifacts');
         $plugin = $input->getOption('plugin');
         $skipDeleteAssets = $input->getOption('skip-delete-assets');
+        $skipDeleteRequestCache = $input->getOption('skip-delete-request-cache');
         $core = $input->getOption('core');
         $extraOptions = $input->getOption('extra-options');
         $storeInUiTestsRepo = $input->getOption('store-in-ui-tests-repo');
@@ -137,6 +140,11 @@ class TestsRunUI extends ConsoleCommand
         $output->writeln('');
 
         passthru($cmd, $returnCode);
+
+        if (!$skipDeleteRequestCache) {
+            // remove cached request files. @see config/environment/ui-test.php
+            Filesystem::unlinkRecursive(PIWIK_INCLUDE_PATH . '/tmp/request-cache/', false);
+        }
 
         return $returnCode;
     }
