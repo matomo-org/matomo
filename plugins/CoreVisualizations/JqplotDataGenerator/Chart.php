@@ -8,16 +8,18 @@
  */
 namespace Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 
+use Exception;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\Log\LoggerInterface;
 use Piwik\NumberFormatter;
 use Piwik\ProxyHttp;
 
-/**
- *
- */
 class Chart
 {
+    // temporary
+    public $properties;
+
     // the data kept here conforms to the jqplot data layout
     // @see http://www.jqplot.com/docs/files/jqPlotOptions-txt.html
     protected $series = [];
@@ -29,8 +31,15 @@ class Chart
      */
     protected $dataStates = [];
 
-    // temporary
-    public $properties;
+    /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
+    public function __construct(LoggerInterface $logger = null)
+    {
+        $this->logger = $logger ?? StaticContainer::get(LoggerInterface::class);
+    }
 
     public function setAxisXLabels($xLabels, $xTicks = null, $index = 0)
     {
@@ -149,6 +158,8 @@ class Chart
     {
         ProxyHttp::overrideCacheControlHeaders();
 
+        $this->checkDataAmountConsistency();
+
         // See http://www.jqplot.com/docs/files/jqPlotOptions-txt.html
         $data = [
             'params' => [
@@ -196,5 +207,29 @@ class Chart
             $axisName = 'x' . ($index + 1) . 'axis';
         }
         return $axisName;
+    }
+
+    private function checkDataAmountConsistency(): void
+    {
+        if ([] === $this->data && [] === $this->dataStates) {
+            return;
+        }
+
+        $dataCounts = array_map('count', $this->data);
+        $uniqueCounts = array_unique($dataCounts);
+
+        if (1 < count($uniqueCounts)) {
+            $ex = new Exception('Chart rendered with different data point count per series');
+            $this->logger->warning("{exception}", ['exception' => $ex]);
+
+            return;
+        }
+
+        if ([] === $this->dataStates || count($this->dataStates) === count($this->data[0] ?? [])) {
+            return;
+        }
+
+        $ex = new Exception('Count of data states does not match count of data points');
+        $this->logger->warning("{exception}", ['exception' => $ex]);
     }
 }
