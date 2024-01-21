@@ -2,151 +2,115 @@
     <div class="pluginListContainer row">
         {% for plugin in pluginsToShow %}
             <div class="col s12 m6 l4">
-                {% embed 'contentBlock.twig' with {'title': ''} %}
-                    {% block content %}
-                        {% import '@Marketplace/macros.twig' as marketplaceMacro %}
-                        {% import '@CorePluginsAdmin/macros.twig' as pluginsMacro %}
-                        <div class="plugin">
-                            <h3 class="card-title" title="{{ 'General_MoreDetails'|translate }}">
-                                <a href="#" vue-directive="CorePluginsAdmin.PluginName"  vue-directive-value="{{ { pluginName: plugin.name }|json_encode }}">{{ plugin.displayName }}</a>
-                            </h3>
+                <div class="card-holder{% if plugin.numDownloads is defined and plugin.numDownloads > 0 %} card-with-downloads{% endif %}">
+                    {% embed 'contentBlock.twig' with {'title': ''} %}
+                        {% block content %}
+                            {% import '@Marketplace/macros.twig' as marketplaceMacro %}
+                            {% import '@CorePluginsAdmin/macros.twig' as pluginsMacro %}
 
-                            <p class="description">
-                                {{ plugin.description }}
-                                <a class="more" href="#" vue-directive="CorePluginsAdmin.PluginName"  vue-directive-value="{{ { pluginName: plugin.name }|json_encode }}" title="{{ 'General_MoreDetails'|translate }}">
-                                    &rsaquo; {{ 'General_MoreLowerCase'|translate }}</a>
-                            </p>
-
-                            {% if showThemes %}
-                                {# Screenshot for themes #}
-                                <a class="more" href="#" vue-directive="CorePluginsAdmin.PluginName"  vue-directive-value="{{ { pluginName: plugin.name }|json_encode }}">
-                                    <img title="{{ 'General_MoreDetails'|translate }}"
-                                         class="preview" src="{{ plugin.screenshots|first }}?w=250&h=150"/></a>
-                            {% endif %}
-
-                            <ul class="metadata">
-                                {% if plugin.isBundle is not defined or not plugin.isBundle %}
-                                    <li>
-                                        {% if plugin.latestVersion %}
-                                            {{ 'CorePluginsAdmin_Version'|translate }}: {{ plugin.latestVersion }}
-                                        {% endif %}
-
-                                        {% if plugin.canBeUpdated %}
-                                            <a class="update-available"
-                                                {% if plugin.changelog is defined and plugin.changelog and plugin.changelog.url is defined and plugin.changelog.url %}
-                                                    target="_blank" href="{{ plugin.changelog.url }}"
-                                                {% else %}
-                                                    href="#" vue-directive="CorePluginsAdmin.PluginName"  vue-directive-value="{{ { pluginName: plugin.name }|json_encode }}"
-                                                {% endif %}
-                                               title="{{ 'Marketplace_PluginUpdateAvailable'|translate(plugin.currentVersion, plugin.latestVersion) }}">
-                                                {{ 'Marketplace_NewVersion'|translate }}</a>
-                                        {% endif %}
-                                    </li>
-                                    {% if plugin.lastUpdated %}
-                                        <li>{{ 'Marketplace_Updated'|translate }}: {{ plugin.lastUpdated }}</li>
-                                    {% endif %}
-                                    {% if plugin.numDownloads %}
-                                        <li>{{ 'General_Downloads'|translate }}: {{ plugin.numDownloads }}</li>
-                                    {% endif %}
-                                    <li>{{ 'Marketplace_Developer'|translate }}: {{ marketplaceMacro.pluginDeveloper(plugin.owner) }}</li>
-                                {% endif %}
-                            </ul>
-
-                            {% macro moreDetailsLink(plugin) %}
-                                {% set canBePurchased = not plugin.isDownloadable and plugin.shop is defined and plugin.shop and plugin.shop.url %}
-                                <a class="btn btn-block plugin-details {% if canBePurchased %}purchaseable{% endif %}" href="#" vue-directive="CorePluginsAdmin.PluginName"  vue-directive-value="{{ { pluginName: plugin.name }|json_encode }}" title="{{ 'General_MoreDetails'|translate }}">
-
-                                    {% if canBePurchased and plugin.shop.variations %}
-                                        {% set foundCheapest = 0 %}
-                                        {% for variation in plugin.shop.variations %}
-                                            {% if not foundCheapest and variation.cheapest is defined and variation.cheapest %}
-                                                {% set foundCheapest = 1 %}
-                                                {{ 'Marketplace_PriceFromPerPeriod'|translate(variation.prettyPrice, variation.period) }}
+                                <img src="{{ plugin.previewImage }}" alt="" class="preview-image">
+                                <div class="content-container">
+                                    <div class="card-content-top">
+                                        {{ marketplaceMacro.matomoPluginBadge(plugin.owner, 'matomo-badge-top') }}
+                                        <div class="price">
+                                            {% if plugin.priceFrom %}
+                                                {{ 'Marketplace_PriceFromPerPeriod'|translate(plugin.priceFrom.prettyPrice, plugin.priceFrom.period) }}
+                                            {% elseif plugin.isFree %}
+                                                {{ 'Marketplace_Free'|translate }}
                                             {% endif %}
-                                        {% endfor %}
-                                        {% if not foundCheapest %}
-                                            {{ 'Marketplace_PriceFromPerPeriod'|translate(plugin.shop.variations.0.prettyPrice, plugin.shop.variations.0.period) }}
-                                        {% endif %}
-                                    {% else %}
-                                        {{ 'General_MoreDetails'|translate }}
-                                    {% endif %}
-                                    <span style="white-space: nowrap;">({{ 'Marketplace_FreeTrialLabel'|translate }})</span>
-                                </a>
-                            {% endmacro %}
-
-
-                            {% if isSuperUser %}
-                                <div class="footer">
-                                    {% if plugin.isMissingLicense is defined and plugin.isMissingLicense %}
-
-                                        <div class="alert alert-danger" >
-                                            {{ 'Marketplace_LicenseMissing'|translate }}
-
-                                            <span style="white-space:nowrap">(<a class="plugin-details" href="#" vue-directive="CorePluginsAdmin.PluginName"  vue-directive-value="{{ { pluginName: plugin.name }|json_encode }}" title="{{ 'General_MoreDetails'|translate }}">{{ 'General_Help'|translate }}</a>)</span>
                                         </div>
+                                        <a class="card-title-link" href="#" tabindex="7" vue-directive="CorePluginsAdmin.PluginName" vue-directive-value="{{ { pluginName: plugin.name }|json_encode }}">
+                                            <div class="card-focus"></div>
+                                            <h2 class="card-title">{{ plugin.displayName -}}<span class="card-title-chevron">&nbsp;›</span></h2>
+                                        </a>
+                                        <div class="card-description">{{ plugin.description }}</div>
+                                    </div>
+                                    <div class="card-content-bottom">
+                                        {% if plugin.numDownloads is defined and plugin.numDownloads > 0 %}
+                                            <div class="downloads">{{ plugin.numDownloadsPretty }} {{ 'General_Downloads'|translate|lower }}</div>
+                                        {% endif %}
+                                        <div class="cta-container">
 
-                                    {% elseif plugin.hasExceededLicense is defined and plugin.hasExceededLicense %}
-                                        <div class="alert alert-danger">
-                                            {{ 'Marketplace_LicenseExceeded'|translate }}
+                                            {% if isSuperUser %}
+                                                {% if plugin.isMissingLicense is defined and plugin.isMissingLicense %}
 
-                                            <span style="white-space:nowrap">(<a class="plugin-details" href="#" vue-directive="CorePluginsAdmin.PluginName"  vue-directive-value="{{ { pluginName: plugin.name }|json_encode }}" title="{{ 'General_MoreDetails'|translate }}">{{ 'General_Help'|translate }}</a>)</span>
+                                                    <div class="alert alert-danger alert-no-background">
+                                                        {{ 'Marketplace_LicenseMissing'|translate }}
+                                                        <span style="white-space:nowrap">({{ marketplaceMacro.helpLink(plugin)|trim|raw }})</span>
+                                                    </div>
+
+                                                {% elseif plugin.hasExceededLicense is defined and plugin.hasExceededLicense %}
+
+                                                    <div class="alert alert-danger alert-no-background">
+                                                        {{ 'Marketplace_LicenseExceeded'|translate }}
+                                                        <span style="white-space:nowrap">({{ marketplaceMacro.helpLink(plugin)|trim|raw }})</span>
+                                                    </div>
+
+                                                {% elseif plugin.canBeUpdated and 0 == plugin.missingRequirements|length and isAutoUpdatePossible %}
+
+                                                    <a tabindex="7" class="btn btn-block" href="{{ linkTo({'module': 'Marketplace', 'action':'updatePlugin', 'pluginName': plugin.name, 'nonce': updateNonce}) }}">
+                                                        {{ 'CoreUpdater_UpdateTitle'|translate }}
+                                                    </a>
+
+                                                {% elseif plugin.missingRequirements|length > 0 or not isAutoUpdatePossible %}
+
+                                                    {% macro downloadButton(showOr, plugin, isAutoUpdatePossible, showBrackets = false) -%}
+                                                        {%- if plugin.missingRequirements|length == 0 and plugin.isDownloadable and not isAutoUpdatePossible -%}
+                                                            {% if showBrackets %}({% endif %}<span onclick="$(this).css('display', 'none')">
+                                                            {%- if showOr %} {{ 'General_Or'|translate }} {% endif -%}
+                                                            <a tabindex="7" class="plugin-details download" href="{{ linkTo({'module': 'Marketplace', 'action': 'download', 'pluginName': plugin.name, 'nonce': (plugin.name|nonce)}) }}">{{ 'General_Download'|translate }}</a></span>{% if showBrackets %}){% endif %}
+                                                        {%- endif -%}
+                                                    {%- endmacro %}
+
+                                                    {% if plugin.canBeUpdated and 0 == plugin.missingRequirements|length %}
+                                                        <div class="alert alert-warning alert-no-background">
+                                                            {{ 'Marketplace_CannotUpdate'|translate }}
+                                                            <span style="white-space:nowrap">({{ marketplaceMacro.helpLink(plugin)|trim|raw }}{{ _self.downloadButton(true, plugin, isAutoUpdatePossible)|raw }})</span>
+                                                        </div>
+                                                    {% elseif plugin.isInstalled %}
+                                                        <div class="alert alert-success alert-no-background">
+                                                            {{ 'General_Installed'|translate }}
+                                                            {{ _self.downloadButton(false, plugin, isAutoUpdatePossible, true)|raw }}
+                                                        </div>
+                                                    {% elseif not plugin.isDownloadable %}
+                                                        {{ marketplaceMacro.pluginActionButton(plugin)|raw }}
+                                                    {% else %}
+                                                        <div class="alert alert-warning alert-no-background">
+                                                            {{ 'Marketplace_CannotInstall'|translate }}
+                                                            <span style="white-space:nowrap">({{ marketplaceMacro.helpLink(plugin)|trim|raw }}{{ _self.downloadButton(true, plugin, isAutoUpdatePossible)|raw }})</span>
+                                                        </div>
+                                                    {% endif %}
+
+                                                {% elseif plugin.isInstalled %}
+
+                                                    <div class="alert alert-success alert-no-background">
+                                                        {{ 'General_Installed'|translate }}
+
+                                                        {% if not plugin.isInvalid and not isMultiServerEnvironment and isPluginsAdminEnabled %}
+                                                            ({{ pluginsMacro.pluginActivateDeactivateAction(plugin.name, plugin.isActivated, plugin.missingRequirements, deactivateNonce, activateNonce) }})
+                                                        {% endif %}
+                                                    </div>
+
+                                                {% elseif plugin.isPaid and not plugin.isDownloadable %}
+                                                    {{ marketplaceMacro.pluginActionButton(plugin)|raw }}
+                                                {% else %}
+                                                    <a tabindex="7" href="{{ linkTo({'module': 'Marketplace', 'action': 'installPlugin', 'pluginName': plugin.name, 'nonce': installNonce}) }}" class="btn btn-block">
+                                                        {{ 'Marketplace_ActionInstall'|translate }}
+                                                    </a>
+                                                {% endif %}
+
+                                            {% else %}
+                                                {{ marketplaceMacro.pluginActionButton(plugin)|raw }}
+                                            {% endif %}
+
+
                                         </div>
-
-                                    {% elseif plugin.canBeUpdated and 0 == plugin.missingRequirements|length and isAutoUpdatePossible %}
-                                        <a class="btn btn-block"
-                                           href="{{ linkTo({'module': 'Marketplace', 'action':'updatePlugin', 'pluginName': plugin.name, 'nonce': updateNonce}) }}">
-                                            {{ 'CoreUpdater_UpdateTitle'|translate }}
-                                        </a>
-                                    {% elseif plugin.missingRequirements|length > 0 or not isAutoUpdatePossible %}
-                                        {% macro downloadButton(showOr, plugin, isAutoUpdatePossible, showBrackets = false) -%}
-                                            {%- if plugin.missingRequirements|length == 0 and plugin.isDownloadable and not isAutoUpdatePossible -%}
-                                                {% if showBrackets %}({% endif %}<span onclick="$(this).css('display', 'none')">
-                                                {%- if showOr %} {{ 'General_Or'|translate }} {% endif -%}
-                                                <a class="plugin-details download"
-                                                   href="{{ linkTo({'module': 'Marketplace', 'action': 'download', 'pluginName': plugin.name, 'nonce': (plugin.name|nonce)}) }}"
-                                                >{{ 'General_Download'|translate }}</a></span>{% if showBrackets %}){% endif %}
-                                            {%- endif -%}
-                                        {%- endmacro %}
-
-                                        {% if plugin.canBeUpdated and 0 == plugin.missingRequirements|length %}
-                                            {{ 'Marketplace_CannotUpdate'|translate }}
-                                            <span style="white-space:nowrap">(<a class="plugin-details" href="#" vue-directive="CorePluginsAdmin.PluginName"  vue-directive-value="{{ { pluginName: plugin.name }|json_encode }}" title="{{ 'General_MoreDetails'|translate }}">{{ 'General_Help'|translate }}</a>{{ _self.downloadButton(true, plugin, isAutoUpdatePossible)|raw }})</span>
-                                        {% elseif plugin.isInstalled %}
-                                            {{ 'General_Installed'|translate }}
-                                            {{ _self.downloadButton(false, plugin, isAutoUpdatePossible, true)|raw }}
-                                        {% elseif not plugin.isDownloadable %}
-                                            {{ _self.moreDetailsLink(plugin)|raw }}
-                                        {% else %}
-                                            {{ 'Marketplace_CannotInstall'|translate }}
-
-                                            <span style="white-space:nowrap">(<a class="plugin-details" href="#" vue-directive="CorePluginsAdmin.PluginName"  vue-directive-value="{{ { pluginName: plugin.name }|json_encode }}" title="{{ 'General_MoreDetails'|translate }}">{{ 'General_Help'|translate }}</a>{{ _self.downloadButton(true, plugin, isAutoUpdatePossible)|raw }})</span>
-                                        {% endif %}
-
-                                    {% elseif plugin.isInstalled %}
-                                        {{ 'General_Installed'|translate }}
-
-                                        {% if not plugin.isInvalid and not isMultiServerEnvironment and isPluginsAdminEnabled %}
-                                            ({{ pluginsMacro.pluginActivateDeactivateAction(plugin.name, plugin.isActivated, plugin.missingRequirements, deactivateNonce, activateNonce) }})
-                                        {% endif %}
-
-                                    {% elseif plugin.isPaid and not plugin.isDownloadable %}
-                                        {{ _self.moreDetailsLink(plugin)|raw }}
-                                    {% else %}
-                                        <a href="{{ linkTo({'module': 'Marketplace', 'action': 'installPlugin', 'pluginName': plugin.name, 'nonce': installNonce}) }}"
-                                           class="btn">
-                                            {{ 'Marketplace_ActionInstall'|translate }}
-                                        </a>
-                                    {% endif %}
+                                        {{ marketplaceMacro.matomoPluginBadge(plugin.owner, 'matomo-badge-bottom') }}
+                                    </div>
                                 </div>
-                            {% else %}
-                                <div class="footer">
-                                    {{ _self.moreDetailsLink(plugin)|raw }}
-                                </div>
-                            {% endif %}
-
-                        </div>
-                    {% endblock %}
-                {% endembed %}
+                        {% endblock %}
+                    {% endembed %}
+                </div>
             </div>
         {% endfor %}
     </div>

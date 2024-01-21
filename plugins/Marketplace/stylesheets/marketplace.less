@@ -20,14 +20,21 @@
 .marketplace-paid-intro {
     .licenseKeyText {
         min-width: 210px;
-        .form-group {
+        .form-group,
+        .form-group > .input-field {
             margin-top: 0;
+            margin-bottom: 0;
         }
     }
 
     .licenseToolbar {
+        flex-wrap: wrap;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+
         > a, > div {
             margin-right: 16px;
+            margin-bottom: 1rem;
         }
 
         > a, > div:not(.licenseKeyText) {
@@ -75,91 +82,268 @@
             font-size: 16px;
             cursor: pointer;
         }
-
     }
 
-    .plugin {
-        h3 {
-            word-wrap: break-word;
+    .card-holder {
+        text-decoration: none;
+        display: block;
+        border-radius: 4px;
 
-            a {
-                text-decoration: none;
+        &:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
 
-                &:hover {
-                    text-decoration: none;
+            .card {
+                .card-title-link {
+                    .card-title {
+                        color: #1976d2 !important;
+                    }
+
+                    .card-title-chevron {
+                        visibility: visible;
+                    }
                 }
             }
         }
-        text-align: center;
-        .description {
-            @line-height: 18px;
-            line-height: @line-height;
-            height: @line-height * 3; // 3 lines of text
-            padding-bottom: 0;
-            margin-bottom: 10px;
-            .more {
-                color: @theme-color-link;
-                white-space: nowrap;
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 0;
+            position: relative;
+            height: 550px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            overflow: visible;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+            text-decoration: none;
+            color: #000;
+
+            @media (max-width: 480px) {
+                height: 380px; // as there's no image
+            }
+            @media (min-width: 601px) and (max-width: 767px), (min-width: 992px) and (max-width: 1200px) {
+                height: 520px;
+            }
+            @media (min-width: 1700px) {
+                height: 580px;
+            }
+            @media (min-width: 1900px) {
+                height: 610px;
+            }
+
+            .preview-image {
+                width: 100%;
+                max-width: 550px;
+                height: auto;
+                margin: 0 auto 16px;
+
+                @media (max-width: 480px) {
+                    display: none;
+                }
+            }
+
+            .card-content {
+                padding: 24px;
+                display: flex;
+                flex-direction: column;
+                flex-grow: 1;
+
+                .content-container {
+                    flex-grow: 1;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                }
+
+                .card-content-bottom {
+                    position: relative;
+                }
+
+                .card-description {
+                    margin: 0;
+
+                    font-size: 16px;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: 24px; /* 150% */
+                    letter-spacing: 0.08px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 4;
+
+                    @media (max-width: 480px) {
+                        -webkit-line-clamp: 5;
+                    }
+
+                    @media (max-width: 600px) {
+                        -webkit-line-clamp: 2;
+                    }
+
+                    &[data-clamp="2"] {
+                        -webkit-line-clamp: 2;
+
+                        @media (max-width: 480px) {
+                            -webkit-line-clamp: 4;
+                        }
+                    }
+
+                    &[data-clamp="1"] {
+                        -webkit-line-clamp: 1;
+
+                        @media (max-width: 480px) {
+                            -webkit-line-clamp: 3;
+                        }
+                    }
+                }
+
+                .card-title-link {
+                    text-decoration: none;
+
+                    &:focus {
+                        .card-title {
+                            color: #1976d2 !important;
+                        }
+                        .card-title-chevron,
+                        .card-focus {
+                            visibility: visible;
+                            cursor: pointer;
+                        }
+                    }
+                }
+
+                .card-title {
+                    margin: 20px 0 16px;
+                    font-size: 24px;
+                    font-style: normal;
+                    font-weight: 700;
+                    line-height: 32px;
+                }
+
+                .card-focus {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    top: 0;
+                    left: 0;
+                    outline: thin dashed;
+                    outline-offset: 1px;
+                    border-radius: 4px;
+                    visibility: hidden;
+                    content: "";
+                    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+                }
+
+                .card-title-chevron {
+                    visibility: hidden;
+                }
+
+                .price {
+                    color: #f18332;
+
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 700;
+                    line-height: 21px; /* 150% */
+                }
+
+                .downloads {
+                    color: #686868;
+
+                    font-size: 16px;
+                    font-style: normal;
+                    font-weight: 700;
+                    line-height: 24px; /* 150% */
+
+                    margin-bottom: 16px;
+                }
             }
         }
-        img.preview {
-            max-width: 250px;
-            width: 100%;
+    }
+
+    .matomo-badge {
+        position: absolute;
+        width: 64px;
+        height: 40px;
+
+        @media (max-width: 480px), (min-width: 601px) and (max-width: 767px), (min-width: 992px) and (max-width: 1200px) {
+            width: 48px;
+            height: 32px;
         }
-        .metadata {
-            color: @color-silver-l50;
-            font-size: 95%;
-            margin: 15px 15px 10px;
-            list-style: none;
-            a {
-                color: @theme-color-link;
+    }
+
+    .matomo-badge-bottom {
+        display: block;
+        right: -5px;
+        bottom: -1px;
+
+        @media (max-width: 480px) {
+            display: none;
+        }
+    }
+
+    .matomo-badge-top {
+        display: none;
+
+        @media (max-width: 480px) {
+            display: block;
+            top: 20px;
+            right: 20px;
+        }
+    }
+
+    .cta-container {
+        width: 70%;
+        margin: 0;
+        position: relative;
+
+        @media (max-width: 480px) {
+            width: auto;
+        }
+
+        .btn.btn-block {
+            &:hover,
+            &:focus {
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            }
+
+            &:focus {
+                outline: thin dotted;
+            }
+        }
+
+        .btn.purchaseable {
+            background: #3E7ECF;
+        }
+
+        .alert {
+            a:hover,
+            a:focus {
                 text-decoration: underline;
-                cursor: pointer;
-            }
-            li {
-                text-overflow: ellipsis;
-                overflow: hidden;
-                white-space: nowrap;
-                line-height: 18px;
-                font-size: 13px;
-            }
-            .update-available {
-                // Code taken from Bootstrap's labels
-                font-weight: bold;
-                background-color: #f0ad4e;
-                display: inline;
-                padding: .2em .6em .3em;
-                font-size: 76%;
-                line-height: 1;
-                color: #fff;
-                text-align: center;
-                white-space: nowrap;
-                vertical-align: baseline;
-                border-radius: 0.25em;
-                text-decoration: none;
-            }
-        }
-        .footer {
-            padding: 12px 40px;
-
-            .download.plugin-details {
-                padding-left: 0;
-                padding-right: 0;
+                text-decoration-thickness: 2px;
+                color: #1976d2 !important;
             }
 
-            .btn-link.plugin-details {
-                padding-left: 0;
-                padding-right: 0;
-            }
+            &.alert-no-background {
+                margin: 0;
+                border: 0;
+                background: none;
+                padding: 8px 0 8px 30px;
+                font-size: 14px;
+                line-height: 20px;
 
-            .purchaseable {
-                background-color: #1e93d1;
+                &:before {
+                    left: 0;
+                }
             }
         }
     }
 
     .footer-message {
-        margin-top:30px;
+        margin-top: 30px;
     }
 }
 

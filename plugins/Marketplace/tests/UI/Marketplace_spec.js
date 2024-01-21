@@ -97,6 +97,7 @@ describe("Marketplace", function () {
 
         testEnvironment.consumer = consumer;
         testEnvironment.mockMarketplaceApiService = 1;
+        testEnvironment.forceEnablePluginUpdateChecks = 1;
         testEnvironment.save();
     }
 

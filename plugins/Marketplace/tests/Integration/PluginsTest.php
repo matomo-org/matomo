@@ -305,7 +305,11 @@ class PluginsTest extends IntegrationTestCase
             'isMissingLicense' => false,
             'changelog' => [
                 'url' => 'http://plugins.piwik.org/Barometer/changelog'
-            ]
+            ],
+            'canBePurchased' => false,
+            'priceFrom' => null,
+            'previewImage' => 'plugins/Marketplace/images/previews/generic-plugin.png',
+            'numDownloadsPretty' => 0,
         ];
         $this->assertEquals($expected, $plugin);
     }

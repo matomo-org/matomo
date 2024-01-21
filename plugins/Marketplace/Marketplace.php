@@ -123,6 +123,8 @@ class Marketplace extends \Piwik\Plugin
         $translationKeys[] = 'Marketplace_Marketplace';
         $translationKeys[] = 'Marketplace_RichMenuIntro';
         $translationKeys[] = 'Marketplace_ManageLicenseKeyIntro';
+        $translationKeys[] = 'Marketplace_Free';
+        $translationKeys[] = 'Marketplace_StartFreeTrial';
     }
 
     /**
