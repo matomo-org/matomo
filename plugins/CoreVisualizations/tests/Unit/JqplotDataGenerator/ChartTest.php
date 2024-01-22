@@ -20,11 +20,11 @@ use Piwik\Tests\Framework\Mock\FakeLogger;
 class ChartTest extends TestCase
 {
     /**
-     * @dataProvider dataConsistentAmounts
+     * @dataProvider dataSpanFullGraphLength
      *
      * @param array<int> $dataCounts
      */
-    public function testItDoesNotLogIfDataAmountIsConsistent(array $dataCounts, int $stateCount): void
+    public function testItDoesNotLogIfDataStatesSpanFullGraphLength(array $dataCounts, int $stateCount): void
     {
         $logger = new FakeLogger();
         $chart = $this->createChart($logger, $dataCounts, $stateCount);
@@ -37,7 +37,7 @@ class ChartTest extends TestCase
     /**
      * @return iterable<string, array{array<int>, int}>
      */
-    public function dataConsistentAmounts(): iterable
+    public function dataSpanFullGraphLength(): iterable
     {
         yield 'empty chart' => [
             [],
@@ -54,65 +54,62 @@ class ChartTest extends TestCase
             0,
         ];
 
-        yield 'single series, with state' => [
+        yield 'single series, matching state' => [
             [3],
             3,
         ];
 
-        yield 'multiple series, with state' => [
+        yield 'multiple series, matching state' => [
             [5, 5, 5],
             5,
+        ];
+
+        yield 'multiple series, matching longest series' => [
+            [5, 9, 5],
+            9,
         ];
     }
 
     /**
-     * @dataProvider dataInconsistentAmounts
+     * @dataProvider dataSpanNotMatchingGraphLength
      *
      * @param array<int> $dataCounts
      */
-    public function testItLogsIfDataAmountIsInconsistent(
-        array $dataCounts,
-        int $stateCount,
-        string $expectedMessage
-    ): void {
+    public function testIfLogsIfDataStateCountDoesMatchFullGraphLength(array $dataCounts, int $stateCount): void
+    {
         $logger = new FakeLogger();
         $chart = $this->createChart($logger, $dataCounts, $stateCount);
 
         $chart->render();
 
-        self::assertStringContainsString($expectedMessage, $logger->output);
+        self::assertStringContainsString(
+            sprintf(
+                'Data state information does not span graph length (%u ticks, %u states)',
+                [] === $dataCounts ? 0 : max(...$dataCounts),
+                $stateCount
+            ),
+            $logger->output
+        );
     }
 
     /**
-     * @return iterable<string, array{array<int>, int, string}>
+     * @return iterable<string, array{array<int>, int}>
      */
-    public function dataInconsistentAmounts(): iterable
+    public function dataSpanNotMatchingGraphLength(): iterable
     {
-        $messageDataInconsistency = 'Chart rendered with different data point count per series';
-        $messageStateInconsistency = 'Count of data states does not match count of data points';
-
-        yield 'inconsistent series, no state' => [
-            [3, 5],
-            0,
-            $messageDataInconsistency,
-        ];
-
-        yield 'inconsistent series, state not checked' => [
-            [3, 5],
-            7,
-            $messageDataInconsistency,
-        ];
-
-        yield 'no data, only state' => [
+        yield 'only state' => [
             [],
             1,
-            $messageStateInconsistency,
         ];
 
-        yield 'consistent series, inconsistent state' => [
-            [3, 3, 3],
-            5,
-            $messageStateInconsistency,
+        yield 'too many state points' => [
+            [3, 5],
+            7,
+        ];
+
+        yield 'not enough state points' => [
+            [5, 9],
+            7,
         ];
     }
 

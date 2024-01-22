@@ -158,7 +158,7 @@ class Chart
     {
         ProxyHttp::overrideCacheControlHeaders();
 
-        $this->checkDataAmountConsistency();
+        $this->checkDataStateAvailableForAllTicks();
 
         // See http://www.jqplot.com/docs/files/jqPlotOptions-txt.html
         $data = [
@@ -209,27 +209,31 @@ class Chart
         return $axisName;
     }
 
-    private function checkDataAmountConsistency(): void
+    private function checkDataStateAvailableForAllTicks(): void
     {
-        if ([] === $this->data && [] === $this->dataStates) {
+        if ([] === $this->dataStates) {
             return;
         }
 
-        $dataCounts = array_map('count', $this->data);
-        $uniqueCounts = array_unique($dataCounts);
+        $maxTickCount = 0;
+        $stateCount = count($this->dataStates);
 
-        if (1 < count($uniqueCounts)) {
-            $ex = new Exception('Chart rendered with different data point count per series');
-            $this->logger->warning("{exception}", ['exception' => $ex]);
+        if ([] !== $this->data) {
+            $dataCounts = array_map('count', $this->data);
+            $uniqueCounts = array_unique($dataCounts);
+            $maxTickCount = max($uniqueCounts);
+        }
 
+        if ($stateCount === $maxTickCount) {
             return;
         }
 
-        if ([] === $this->dataStates || count($this->dataStates) === count($this->data[0] ?? [])) {
-            return;
-        }
+        $ex = new Exception(sprintf(
+            'Data state information does not span graph length (%u ticks, %u states)',
+            $maxTickCount,
+            $stateCount
+        ));
 
-        $ex = new Exception('Count of data states does not match count of data points');
-        $this->logger->warning("{exception}", ['exception' => $ex]);
+        $this->logger->info('{exception}', ['exception' => $ex]);
     }
 }
