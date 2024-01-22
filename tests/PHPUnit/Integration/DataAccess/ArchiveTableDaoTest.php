@@ -176,9 +176,15 @@ class ArchiveTableDaoTest extends IntegrationTestCase
         $this->assertEquals($expectedStats, $actualStats);
     }
 
-    private function insertArchive($tableMonth, $idSite, $period, $date1, $date2, $segment = false,
-                                   $doneValue = ArchiveWriter::DONE_OK)
-    {
+    private function insertArchive(
+        $tableMonth,
+        $idSite,
+        $period,
+        $date1,
+        $date2,
+        $segment = false,
+        $doneValue = ArchiveWriter::DONE_OK
+    ) {
         $this->insertNumericArchive($tableMonth, $idSite, $period, $date1, $date2, $segment, $doneValue);
         $this->insertBlobArchive($tableMonth, $idSite, $period, $date1, $date2, $segment);
     }

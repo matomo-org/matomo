@@ -39,8 +39,12 @@ class NumberFormatterTest extends \PHPUnit\Framework\TestCase
      * @dataProvider getFormatMethodTestData
      */
     public function test_format_CorrectlyFormatsValueAsNumberOrPercent(
-        $language, $value, $maximumFractionDigits, $minimumFractionDigits, $expected)
-    {
+        $language,
+        $value,
+        $maximumFractionDigits,
+        $minimumFractionDigits,
+        $expected
+    ) {
         $this->translator->setCurrentLanguage($language);
         $numberFormatter = new NumberFormatter($this->translator);
         $this->assertEquals($expected, $numberFormatter->format($value, $maximumFractionDigits, $minimumFractionDigits));

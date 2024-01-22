@@ -80,9 +80,13 @@ class VisitRequestProcessor extends RequestProcessor
      */
     private $trackerAlwaysNewVisitor;
 
-    public function __construct(EventDispatcher $eventDispatcher, VisitorRecognizer $visitorRecognizer, Settings $userSettings,
-                                $visitStandardLength, $trackerAlwaysNewVisitor)
-    {
+    public function __construct(
+        EventDispatcher $eventDispatcher,
+        VisitorRecognizer $visitorRecognizer,
+        Settings $userSettings,
+        $visitStandardLength,
+        $trackerAlwaysNewVisitor
+    ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->visitorRecognizer = $visitorRecognizer;
         $this->userSettings = $userSettings;

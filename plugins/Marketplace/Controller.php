@@ -75,13 +75,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     private $passwordVerify;
 
-    public function __construct(LicenseKey $licenseKey,
-                                Plugins $plugins,
-                                Api\Client $marketplaceApi,
-                                Consumer $consumer,
-                                PluginInstaller $pluginInstaller,
-                                Environment $environment,
-                                PasswordVerifier $passwordVerify
+    public function __construct(
+        LicenseKey $licenseKey,
+        Plugins $plugins,
+        Api\Client $marketplaceApi,
+        Consumer $consumer,
+        PluginInstaller $pluginInstaller,
+        Environment $environment,
+        PasswordVerifier $passwordVerify
     ) {
         $this->licenseKey = $licenseKey;
         $this->plugins = $plugins;

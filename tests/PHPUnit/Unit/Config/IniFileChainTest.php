@@ -321,8 +321,11 @@ class IniFileChainTest extends TestCase
      * @dataProvider getTestDataForDumpTest
      */
     public function test_dump_CorrectlyGeneratesIniString_ForAllCurrentSettings(
-        $defaultSettingsFiles, $userSettingsFile, $header, $expectedDump)
-    {
+        $defaultSettingsFiles,
+        $userSettingsFile,
+        $header,
+        $expectedDump
+    ) {
         $fileChain = new IniFileChain($defaultSettingsFiles, $userSettingsFile);
 
         $actualOutput = $fileChain->dump($header);
@@ -333,8 +336,12 @@ class IniFileChainTest extends TestCase
      * @dataProvider getTestDataForDumpTest
      */
     public function test_dumpChanges_CorrectlyGeneratesMinimalUserSettingsIniString(
-        $defaultSettingsFiles, $userSettingsFile, $header, $expectedDump, $expectedDumpChanges)
-    {
+        $defaultSettingsFiles,
+        $userSettingsFile,
+        $header,
+        $expectedDump,
+        $expectedDumpChanges
+    ) {
         $fileChain = new IniFileChain($defaultSettingsFiles, $userSettingsFile);
 
         $actualOutput = $fileChain->dumpChanges($header);
@@ -368,8 +375,12 @@ class IniFileChainTest extends TestCase
      * @dataProvider getTestDataForDumpSortTest
      */
     public function test_dumpChanges_CorrectlySortsSections_ByWhenTheyAppearInConfigFiles(
-        $defaultSettingsFiles, $userSettingsFile, $changesToApply, $header, $expectedDumpChanges)
-    {
+        $defaultSettingsFiles,
+        $userSettingsFile,
+        $changesToApply,
+        $header,
+        $expectedDumpChanges
+    ) {
         $fileChain = new IniFileChain($defaultSettingsFiles, $userSettingsFile);
 
         foreach ($changesToApply as $sectionName => $section) {

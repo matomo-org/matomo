@@ -526,11 +526,17 @@ class RowEvolution
     }
 
     /** Get row evolution for a multiple labels */
-    private function getMultiRowEvolution(DataTable\Map $dataTable, $metadata, $apiModule, $apiAction, $labels, $column,
-                                          $legendAppendMetric = true,
-                                          $labelUseAbsoluteUrl = true,
-                                          $labelSeries = '')
-    {
+    private function getMultiRowEvolution(
+        DataTable\Map $dataTable,
+        $metadata,
+        $apiModule,
+        $apiAction,
+        $labels,
+        $column,
+        $legendAppendMetric = true,
+        $labelUseAbsoluteUrl = true,
+        $labelSeries = ''
+    ) {
         $labelSeries = explode(',', $labelSeries);
         $labelSeries = array_filter($labelSeries, 'strlen');
         $labelSeries = array_map('intval', $labelSeries);

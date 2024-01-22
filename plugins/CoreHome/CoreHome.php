@@ -401,7 +401,7 @@ class CoreHome extends \Piwik\Plugin
             && Common::getRequestVar('module', '') != 'CoreUpdater'
             && Piwik::isUserHasSomeViewAccess()
         ) {
-            Access::doAsSuperUser(function() use (&$translationKeys) {
+            Access::doAsSuperUser(function () use (&$translationKeys) {
                 $menu = MenuAdmin::getInstance()->getMenu();
                 foreach ($menu as $level1 => $level2) {
                     $translationKeys[] = $level1;

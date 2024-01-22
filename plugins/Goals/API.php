@@ -144,9 +144,18 @@ class API extends \Piwik\Plugin\API
      *
      * @return int ID of the new goal
      */
-    public function addGoal($idSite, $name, $matchAttribute, $pattern, $patternType, $caseSensitive = false, $revenue = false, $allowMultipleConversionsPerVisit = false, $description = '',
-                            $useEventValueAsRevenue = false)
-    {
+    public function addGoal(
+        $idSite,
+        $name,
+        $matchAttribute,
+        $pattern,
+        $patternType,
+        $caseSensitive = false,
+        $revenue = false,
+        $allowMultipleConversionsPerVisit = false,
+        $description = '',
+        $useEventValueAsRevenue = false
+    ) {
         Piwik::checkUserHasWriteAccess($idSite);
 
         $patternType = Common::unsanitizeInputValue($patternType);
@@ -203,9 +212,19 @@ class API extends \Piwik\Plugin\API
      * @return void
      * @see addGoal() for parameters description
      */
-    public function updateGoal($idSite, $idGoal, $name, $matchAttribute, $pattern, $patternType, $caseSensitive = false, $revenue = false, $allowMultipleConversionsPerVisit = false, $description = '',
-                               $useEventValueAsRevenue = false)
-    {
+    public function updateGoal(
+        $idSite,
+        $idGoal,
+        $name,
+        $matchAttribute,
+        $pattern,
+        $patternType,
+        $caseSensitive = false,
+        $revenue = false,
+        $allowMultipleConversionsPerVisit = false,
+        $description = '',
+        $useEventValueAsRevenue = false
+    ) {
         Piwik::checkUserHasWriteAccess($idSite);
 
         $patternType = Common::unsanitizeInputValue($patternType);

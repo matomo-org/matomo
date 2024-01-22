@@ -82,9 +82,13 @@ class EvolutionMetric extends ProcessedMetric
      * @param DataTable|null $currentData The current datatable, optional but required to calculate the proportionate
      *                                    evolution values
      */
-    public function __construct($wrapped, ?DataTable $pastData = null, $evolutionMetricName = false, $quotientPrecision = 0,
-                                ?DataTable $currentData = null)
-    {
+    public function __construct(
+        $wrapped,
+        ?DataTable $pastData = null,
+        $evolutionMetricName = false,
+        $quotientPrecision = 0,
+        ?DataTable $currentData = null
+    ) {
         $this->wrapped = $wrapped;
         $this->isLowerBetter = Metrics::isLowerValueBetter($this->wrapped);
         $this->pastData = $pastData;

@@ -225,8 +225,11 @@ class VisitorGeolocatorTest extends IntegrationTestCase
      * @dataProvider getDataForAttributeExistingVisitTests
      */
     public function test_attributeExistingVisit_CorrectlySetsLocationProperties_AndReturnsCorrectResult(
-        $mockLocation, $expectedVisitProperties, $visitProperties = array(), $expectedUpdateValues = null)
-    {
+        $mockLocation,
+        $expectedVisitProperties,
+        $visitProperties = array(),
+        $expectedUpdateValues = null
+    ) {
         $mockLocationProvider = $this->getProviderMockThatGeolocates($mockLocation);
 
         $visit = $this->insertVisit($visitProperties);

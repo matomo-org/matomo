@@ -68,9 +68,13 @@ class VisitorRecognizer
      */
     private $visitRow;
 
-    public function __construct($trustCookiesOnly, $visitStandardLength, $lookbackNSecondsCustom,
-                                Model $model, EventDispatcher $eventDispatcher)
-    {
+    public function __construct(
+        $trustCookiesOnly,
+        $visitStandardLength,
+        $lookbackNSecondsCustom,
+        Model $model,
+        EventDispatcher $eventDispatcher
+    ) {
         $this->trustCookiesOnly = $trustCookiesOnly;
         $this->visitStandardLength = $visitStandardLength;
         $this->lookBackNSecondsCustom = $lookbackNSecondsCustom;

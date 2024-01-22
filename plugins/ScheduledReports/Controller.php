@@ -149,7 +149,7 @@ class Controller extends \Piwik\Plugin\Controller
             return $view->render();
         }
 
-        $report = Access::doAsSuperUser(function() use ($subscription) {
+        $report = Access::doAsSuperUser(function () use ($subscription) {
             $reports = Request::processRequest('ScheduledReports.getReports', [
                 'idReport'    => $subscription['idreport'],
             ]);

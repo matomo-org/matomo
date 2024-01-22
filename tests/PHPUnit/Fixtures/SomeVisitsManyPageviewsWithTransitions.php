@@ -130,9 +130,15 @@ class SomeVisitsManyPageviewsWithTransitions extends Fixture
         self::checkBulkTrackingResponse($tracker->doBulkTrack());
     }
 
-    private function trackPageView($visit, $timeOffset, $path, $dateTime = null, $pageViewType = 'normal',
-                                     $searchKeyword = null, $searchCategory = null)
-    {
+    private function trackPageView(
+        $visit,
+        $timeOffset,
+        $path,
+        $dateTime = null,
+        $pageViewType = 'normal',
+        $searchKeyword = null,
+        $searchCategory = null
+    ) {
         if ($dateTime === null) {
             $dateTime = $this->dateTime;
         }

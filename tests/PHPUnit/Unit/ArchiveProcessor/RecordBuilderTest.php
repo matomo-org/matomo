@@ -739,9 +739,12 @@ class RecordBuilderTest extends TestCase
         $this->assertFalse($recordBuilder->isBuilderForAtLeastOneOf($archiveProcessor, ['AnotherPlugin_anotherReport2', 'AThirdPlugin_anotherReport3']));
     }
 
-    public function getMockArchiveProcessor(string $period = 'day', array $requestedReports = null, array $foundRequestedReports = null,
-                                            bool $addSubtablesToAggregatedTables = false): ArchiveProcessor
-    {
+    public function getMockArchiveProcessor(
+        string $period = 'day',
+        array $requestedReports = null,
+        array $foundRequestedReports = null,
+        bool $addSubtablesToAggregatedTables = false
+    ): ArchiveProcessor {
         Site::setSiteFromArray(1, ['idsite' => 1, 'ecommerce' => 0, 'sitesearch' => 0, 'exclude_unknown_urls' => 0, 'keep_url_fragment' => 0]);
         $params = new Parameters(new Site(1), PeriodFactory::build($period, '2020-03-04'), new Segment('', [1]));
 
@@ -778,9 +781,13 @@ class RecordBuilderTest extends TestCase
              */
             private $addSubtablesToAggregatedTables;
 
-            public function __construct(RecordBuilderTest $test, bool $addSubtablesToAggregatedTables, Parameters $params,
-                                        ArchiveWriter $archiveWriter, LogAggregator $logAggregator)
-            {
+            public function __construct(
+                RecordBuilderTest $test,
+                bool $addSubtablesToAggregatedTables,
+                Parameters $params,
+                ArchiveWriter $archiveWriter,
+                LogAggregator $logAggregator
+            ) {
                 parent::__construct($params, $archiveWriter, $logAggregator);
 
                 $this->test = $test;

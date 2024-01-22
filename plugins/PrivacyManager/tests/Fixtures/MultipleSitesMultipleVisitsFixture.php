@@ -549,7 +549,7 @@ class MultipleSitesMultipleVisitsFixture extends Fixture
         }
     }
 
-    public static function  cleanResult($result)
+    public static function cleanResult($result)
     {
         if (!empty($result) && is_array($result)) {
             foreach ($result as $key => $value) {

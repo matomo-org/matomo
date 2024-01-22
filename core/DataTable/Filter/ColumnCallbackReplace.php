@@ -51,9 +51,13 @@ class ColumnCallbackReplace extends BaseFilter
      * @param array $extraColumnParameters Extra column values that should be passed to the callback, but
      *                                     shouldn't be replaced.
      */
-    public function __construct($table, $columnsToFilter, $functionToApply, $functionParameters = null,
-                                $extraColumnParameters = array())
-    {
+    public function __construct(
+        $table,
+        $columnsToFilter,
+        $functionToApply,
+        $functionParameters = null,
+        $extraColumnParameters = array()
+    ) {
         parent::__construct($table);
         $this->functionToApply    = $functionToApply;
         $this->functionParameters = $functionParameters;

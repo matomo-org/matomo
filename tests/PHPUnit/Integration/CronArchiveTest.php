@@ -38,9 +38,11 @@ class CronArchiveTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForRepairInvalidationsIfNeeded
      */
-    public function test_repairInvalidationsIfNeeded_insertsProperInvalidations($existingInvalidations, $archive,
-                                                                                $expectedInvalidations)
-    {
+    public function test_repairInvalidationsIfNeeded_insertsProperInvalidations(
+        $existingInvalidations,
+        $archive,
+        $expectedInvalidations
+    ) {
         $this->insertInvalidations($existingInvalidations);
 
         $cronArchive = new CronArchive();
@@ -337,9 +339,11 @@ class CronArchiveTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForInvalidateRecentDate
      */
-    public function test_invalidateRecentDate_invalidatesCorrectPeriodsAndSegments($dateStr, $segments,
-                                                                                   $expectedInvalidationCalls)
-    {
+    public function test_invalidateRecentDate_invalidatesCorrectPeriodsAndSegments(
+        $dateStr,
+        $segments,
+        $expectedInvalidationCalls
+    ) {
         $idSite = Fixture::createWebsite('2019-04-04 03:45:45', 0, false, false, 1, null, null, 'Australia/Sydney');
 
         Rules::setBrowserTriggerArchiving(false);

@@ -254,12 +254,14 @@ class ArchiveWriterTest extends IntegrationTestCase
         $this->assertEquals($expected, $row['value']);
     }
 
-    private function assertNumericArchiveNotExists($periodId, $date, $name) {
+    private function assertNumericArchiveNotExists($periodId, $date, $name)
+    {
         $row = $this->getRowFromArchive($periodId, $date, $name);
         $this->assertEmpty($row);
     }
 
-    private function assertBlobArchiveNotExists($periodId, $date, $name) {
+    private function assertBlobArchiveNotExists($periodId, $date, $name)
+    {
         $row = $this->getRowFromArchive($periodId, $date, $name, false);
         $this->assertEmpty($row);
     }

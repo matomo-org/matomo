@@ -206,7 +206,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
         }
 
-        usort($trackingMethods, function($a, $b) {
+        usort($trackingMethods, function ($a, $b) {
             if ($a['isRecommended'] === $b['isRecommended']) {
                 return $a['priority'] === $b['priority'] ? 0 : ($a['priority'] < $b['priority'] ? -1 : 1);
             }
@@ -214,11 +214,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             return $a['isRecommended'] ? -1 : 1;
         });
 
-        usort($othersInstructions, function($a, $b) {
+        usort($othersInstructions, function ($a, $b) {
             return strnatcmp($a['name'], $b['name']);
         });
 
-        usort($instructionUrls, function($a, $b) {
+        usort($instructionUrls, function ($a, $b) {
             return strnatcmp($a['name'], $b['name']);
         });
 

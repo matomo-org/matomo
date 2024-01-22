@@ -37,7 +37,8 @@ class SecurityPolicy
     /**
      * Constructor.
      */
-    public function __construct(Config $config) {
+    public function __construct(Config $config)
+    {
         $this->policies['default-src'] = self::RULE_DEFAULT;
         $this->policies['img-src'] = self::RULE_IMG_DEFAULT;
 
@@ -51,7 +52,8 @@ class SecurityPolicy
      *
      * @api
      */
-    public function addPolicy($directive, $value) {
+    public function addPolicy($directive, $value)
+    {
         if (isset($this->policies[$directive])) {
             $this->policies[$directive] .= ' ' . $value;
         } else {
@@ -64,7 +66,8 @@ class SecurityPolicy
      *
      * @api
      */
-    public function removeDirective($directive) {
+    public function removeDirective($directive)
+    {
         if (isset($this->policies[$directive])) {
             unset($this->policies[$directive]);
         }
@@ -75,7 +78,8 @@ class SecurityPolicy
      *
      * @api
      */
-    public function overridePolicy($directive, $value) {
+    public function overridePolicy($directive, $value)
+    {
         $this->policies[$directive] = $value;
     }
 
@@ -84,7 +88,8 @@ class SecurityPolicy
      *
      * @api
      */
-    public function disable() {
+    public function disable()
+    {
         $this->cspEnabled = false;
     }
 
@@ -93,7 +98,8 @@ class SecurityPolicy
      *
      * @return string
      */
-    public function createHeaderString() {
+    public function createHeaderString()
+    {
         if (!$this->cspEnabled) {
             return '';
         }
@@ -116,7 +122,8 @@ class SecurityPolicy
      *
      * @api
      */
-    public function allowEmbedPage() {
+    public function allowEmbedPage()
+    {
         $this->overridePolicy('default-src', self::RULE_EMBEDDED_FRAME);
         $this->overridePolicy('img-src', self::RULE_EMBEDDED_FRAME);
         $this->addPolicy('script-src', self::RULE_DEFAULT);

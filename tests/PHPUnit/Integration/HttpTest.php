@@ -479,7 +479,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
      */
     public function test_blocked_hosts($url, $isValid, $message = '')
     {
-        EventDispatcher::getInstance()->addObserver('Http.sendHttpRequest', function($aUrl, $httpEventParams, &$response, &$status, &$headers) {
+        EventDispatcher::getInstance()->addObserver('Http.sendHttpRequest', function ($aUrl, $httpEventParams, &$response, &$status, &$headers) {
             $response = 'prevented request';
         });
 

@@ -84,7 +84,7 @@ class TrackVisitsWithCustomDimensionsFixture extends Fixture
     protected function configureScheduledReport()
     {
         // Context change is needed, as adding the custom dimensions reports looks for the idSite in the request params
-        Context::changeIdSite(1, function() {
+        Context::changeIdSite(1, function () {
             APIScheduledReports::getInstance()->addReport(
                 $idSite = 1,
                 'ScheduledReport',

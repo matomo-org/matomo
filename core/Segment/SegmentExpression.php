@@ -474,12 +474,12 @@ class SegmentExpression
 
         // split on ; only when there's no end of string after and only when there's no backslash before it
         $ands = array_filter(preg_split('/' . self::AND_DELIMITER . '(?!$)(?<!\\\\' . self::AND_DELIMITER . ')/', $segmentStr));
-        return array_map(function($and) {
+        return array_map(function ($and) {
             // split on , only when there's no end of string after and only when there's no backslash before it
             $ors = preg_split('/' . self::OR_DELIMITER . '(?!$)(?<!\\\\' . self::OR_DELIMITER . ')/', $and);
 
             // remove backslash from in front of ; and ,
-            return array_map(function($or) {
+            return array_map(function ($or) {
                 return str_replace(
                     ['\\' . self::AND_DELIMITER, '\\' . self::OR_DELIMITER],
                     [self::AND_DELIMITER, self::OR_DELIMITER],

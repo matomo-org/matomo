@@ -121,7 +121,8 @@ class Extraction
     }
 
     // format pattern to matomo format
-    private function formatPattern () {
+    private function formatPattern()
+    {
 
         $pattern = $this->pattern;
         if ($this->dimension === 'urlparam') {

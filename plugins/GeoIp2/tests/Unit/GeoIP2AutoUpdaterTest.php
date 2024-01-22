@@ -23,7 +23,8 @@ class PublicGeoIP2AutoUpdater extends GeoIP2AutoUpdater
         return parent::fetchPaidDbIpUrl($url);
     }
 
-    public static function checkGeoIPUpdateUrl($url) {
+    public static function checkGeoIPUpdateUrl($url)
+    {
         return parent::checkGeoIPUpdateUrl($url);
     }
 }

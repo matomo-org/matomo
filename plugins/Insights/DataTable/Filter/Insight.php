@@ -17,9 +17,15 @@ class Insight extends DataTable\Filter\CalculateEvolutionFilter
     private $considerDisappeared;
     private $currentDataTable;
 
-    public function __construct($table, $currentDataTable, $pastDataTable, $columnToRead,
-                                $considerMovers, $considerNew, $considerDisappeared)
-    {
+    public function __construct(
+        $table,
+        $currentDataTable,
+        $pastDataTable,
+        $columnToRead,
+        $considerMovers,
+        $considerNew,
+        $considerDisappeared
+    ) {
         parent::__construct($table, $pastDataTable, 'growth', $columnToRead, $quotientPrecision = 1);
 
         $this->currentDataTable = $currentDataTable;

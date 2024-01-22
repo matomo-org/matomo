@@ -63,9 +63,12 @@ class SessionInitializer
      * @param int|null $authCookieValidTime
      * @param string|null $authCookiePath
      */
-    public function __construct($usersManagerAPI = null, $authCookieName = null, $authCookieValidTime = null,
-                                $authCookiePath = null)
-    {
+    public function __construct(
+        $usersManagerAPI = null,
+        $authCookieName = null,
+        $authCookieValidTime = null,
+        $authCookiePath = null
+    ) {
         if (empty($usersManagerAPI)) {
             $usersManagerAPI = UsersManagerAPI::getInstance();
         }

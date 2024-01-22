@@ -49,9 +49,16 @@ class LogQueryBuilder
         return $this->forcedInnerGroupBy;
     }
 
-    public function getSelectQueryString(SegmentExpression $segmentExpression, $select, $from, $where, $bind, $groupBy,
-                                         $orderBy, $limitAndOffset)
-    {
+    public function getSelectQueryString(
+        SegmentExpression $segmentExpression,
+        $select,
+        $from,
+        $where,
+        $bind,
+        $groupBy,
+        $orderBy,
+        $limitAndOffset
+    ) {
         if (!is_array($from)) {
             $from = array($from);
         }

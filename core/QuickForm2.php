@@ -67,9 +67,12 @@ abstract class QuickForm2 extends HTML_QuickForm2
      * @throws   HTML_QuickForm2_InvalidArgumentException
      * @throws   HTML_QuickForm2_NotFoundException
      */
-    public function addElement($elementOrType, $name = null, $attributes = null,
-                               array $data = array())
-    {
+    public function addElement(
+        $elementOrType,
+        $name = null,
+        $attributes = null,
+        array $data = array()
+    ) {
         if ($name != 'submit') {
             $this->a_formElements[] = $name;
         }

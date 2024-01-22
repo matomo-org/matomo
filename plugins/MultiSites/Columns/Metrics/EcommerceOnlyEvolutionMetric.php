@@ -22,9 +22,13 @@ class EcommerceOnlyEvolutionMetric extends EvolutionMetric
 {
     private $isRevenueEvolution;
 
-    public function __construct($wrapped, DataTable $pastData, $evolutionMetricName = false, $quotientPrecision = 0,
-                                ?DataTable $currentData = null)
-    {
+    public function __construct(
+        $wrapped,
+        DataTable $pastData,
+        $evolutionMetricName = false,
+        $quotientPrecision = 0,
+        ?DataTable $currentData = null
+    ) {
         parent::__construct($wrapped, $pastData, $evolutionMetricName, $quotientPrecision, $currentData);
 
         $this->isRevenueEvolution = $this->getName() == 'revenue_evolution';

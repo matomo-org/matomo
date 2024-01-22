@@ -30,7 +30,8 @@ class RssChangelog extends \Piwik\Widget\Widget
         $config->setName(self::getName());
     }
 
-    private function getFeed($URL) {
+    private function getFeed($URL)
+    {
         $rss = new RssRenderer($URL);
         $rss->setCountPosts(1);
         $rss->showDescription(true);

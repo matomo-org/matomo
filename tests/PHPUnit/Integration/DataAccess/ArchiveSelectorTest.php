@@ -667,9 +667,14 @@ class ArchiveSelectorTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForGetArchiveData
      */
-    public function test_getArchiveData_returnsCorrectData($archiveRows, $dataType, $idArchives, $recordNames, $idSubtable,
-                                                           $expectedData)
-    {
+    public function test_getArchiveData_returnsCorrectData(
+        $archiveRows,
+        $dataType,
+        $idArchives,
+        $recordNames,
+        $idSubtable,
+        $expectedData
+    ) {
         Fixture::createWebsite('2010-02-02 00:00:00');
 
         $this->insertArchiveData($archiveRows);

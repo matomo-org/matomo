@@ -64,9 +64,14 @@ class ProxyHttp
      *                               file should be sent as a different filename to the client you can specify
      *                               a custom filename here.
      */
-    public static function serverStaticFile($file, $contentType, $expireFarFutureDays = 100, $byteStart = false,
-                                            $byteEnd = false, $filename = false)
-    {
+    public static function serverStaticFile(
+        $file,
+        $contentType,
+        $expireFarFutureDays = 100,
+        $byteStart = false,
+        $byteEnd = false,
+        $filename = false
+    ) {
         // if the file cannot be found return HTTP status code '404'
         if (empty($file) || !file_exists($file)) {
             Common::sendResponseCode(404);
@@ -289,9 +294,13 @@ class ProxyHttp
         return !file_exists($compressedFilePath) || ($toCompressLastModified > $compressedLastModified);
     }
 
-    private static function compressFile($fileToCompress, $compressedFilePath, $compressionEncoding, $byteStart,
-                                         $byteEnd)
-    {
+    private static function compressFile(
+        $fileToCompress,
+        $compressedFilePath,
+        $compressionEncoding,
+        $byteStart,
+        $byteEnd
+    ) {
         $data = file_get_contents($fileToCompress);
         $data = substr($data, $byteStart, $byteEnd - $byteStart);
 

@@ -194,9 +194,16 @@ class OptOutManager
      *
      * @return string
      */
-    public function getOptOutJSEmbedCode(string $matomoUrl, string $language, string $backgroundColor, string $fontColor,
-                                         string $fontSize, string $fontFamily, bool $applyStyling, bool $showIntro): string
-    {
+    public function getOptOutJSEmbedCode(
+        string $matomoUrl,
+        string $language,
+        string $backgroundColor,
+        string $fontColor,
+        string $fontSize,
+        string $fontFamily,
+        bool $applyStyling,
+        bool $showIntro
+    ): string {
         return '<div id="matomo-opt-out"></div>
 <script src="' . rtrim($matomoUrl, '/') . '/index.php?module=CoreAdminHome&action=optOutJS&divId=matomo-opt-out&language=' . $language . ($applyStyling ? '&backgroundColor=' . $backgroundColor . '&fontColor=' . $fontColor . '&fontSize=' . $fontSize . '&fontFamily=' . $fontFamily : '') . '&showIntro=' . ($showIntro ? '1' : '0') . '"></script>';
     }
@@ -213,9 +220,14 @@ class OptOutManager
      *
      * @return string
      */
-    public function getOptOutSelfContainedEmbedCode(string $backgroundColor, string $fontColor, string $fontSize,
-                                                    string $fontFamily, bool $applyStyling, bool $showIntro): string
-    {
+    public function getOptOutSelfContainedEmbedCode(
+        string $backgroundColor,
+        string $fontColor,
+        string $fontSize,
+        string $fontFamily,
+        bool $applyStyling,
+        bool $showIntro
+    ): string {
 
         $cookiePath = Common::getRequestVar('cookiePath', '', 'string');
         $cookieDomain = Common::getRequestVar('cookieDomain', '', 'string');
@@ -607,9 +619,13 @@ JS;
      * @return string
      * @throws \Exception
      */
-    private function optOutStyling(?string $fontSize = null, ?string $fontColor = null, ?string $fontFamily = null,
-                                   ?string $backgroundColor = null, bool $noBody = false): string
-    {
+    private function optOutStyling(
+        ?string $fontSize = null,
+        ?string $fontColor = null,
+        ?string $fontFamily = null,
+        ?string $backgroundColor = null,
+        bool $noBody = false
+    ): string {
         $cssfontsize = ($fontSize ? : Request::fromRequest()->getStringParameter('fontSize', ''));
         $cssfontcolour = ($fontColor ? : Request::fromRequest()->getStringParameter('fontColor', ''));
         $cssfontfamily = ($fontFamily ? : Request::fromRequest()->getStringParameter('fontFamily', ''));

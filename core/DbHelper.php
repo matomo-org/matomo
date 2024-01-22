@@ -325,9 +325,14 @@ class DbHelper
      *
      * @return string   Modified SQL query string with hint added
      */
-    public static function addOriginHintToQuery(string $sql, string $origin, ?Date $dateStart = null, ?Date $dateEnd = null,
-                                          ?array $sites = null, ?Segment $segment = null): string
-    {
+    public static function addOriginHintToQuery(
+        string $sql,
+        string $origin,
+        ?Date $dateStart = null,
+        ?Date $dateEnd = null,
+        ?array $sites = null,
+        ?Segment $segment = null
+    ): string {
         $select = 'SELECT';
         if ($origin && 0 === strpos(trim($sql), $select)) {
             $sql = trim($sql);
