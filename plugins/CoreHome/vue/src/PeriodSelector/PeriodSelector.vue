@@ -8,11 +8,11 @@
   <div
     ref="root"
     class="periodSelector piwikSelector"
-    :class="{'periodSelector-withPrevNext': !isRangeSelection}"
+    :class="{'periodSelector-withPrevNext': canShowMovePeriod}"
     v-expand-on-click="{ expander: 'title' }"
   >
     <button
-      v-if="!isRangeSelection"
+      v-if="canShowMovePeriod"
       class="move-period move-period-prev"
       @click="movePeriod(-1)"
       :disabled="isPeriodMoveDisabled(-1)"
@@ -167,7 +167,7 @@
       </div>
     </div>
     <button
-      v-if="!isRangeSelection"
+      v-if="canShowMovePeriod"
       class="move-period move-period-next"
       @click="movePeriod(1)"
       :disabled="isPeriodMoveDisabled(1)"
@@ -420,8 +420,14 @@ export default defineComponent({
 
       return format(this.dateValue!);
     },
+    isErrorDisplayed() {
+      return this.currentlyViewingText === translate('General_Error');
+    },
     isRangeSelection() {
       return this.periodValue === 'range';
+    },
+    canShowMovePeriod() {
+      return !this.isRangeSelection && !this.isErrorDisplayed;
     },
   },
   methods: {
